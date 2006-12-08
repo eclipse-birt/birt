@@ -90,6 +90,10 @@ public class TaskSelectType extends SimpleTask implements
 	private transient Composite cmpType = null;
 
 	private transient Composite cmpMisc = null;
+	
+	private transient Composite cmpRight = null;
+	
+	private transient Composite cmpLeft = null;
 
 	private transient Composite cmpTypeButtons = null;
 
@@ -159,8 +163,8 @@ public class TaskSelectType extends SimpleTask implements
 		if ( topControl == null || topControl.isDisposed( ) )
 		{
 			topControl = new Composite( parent, SWT.NONE );
-			GridLayout gridLayout = new GridLayout( );
-			gridLayout.marginWidth = 100;
+			GridLayout gridLayout = new GridLayout( 2, false );
+			gridLayout.marginWidth = 80;
 			topControl.setLayout( gridLayout );
 			topControl.setLayoutData( new GridData( GridData.GRAB_HORIZONTAL
 					| GridData.GRAB_VERTICAL ) );
@@ -191,7 +195,6 @@ public class TaskSelectType extends SimpleTask implements
 	{
 		createPreviewArea( );
 		createTypeArea( );
-		createMiscArea( );
 		setDefaultTypeSelection( );
 
 		refreshChart( );
@@ -213,7 +216,8 @@ public class TaskSelectType extends SimpleTask implements
 		cmpPreview.setLayout( new GridLayout( ) );
 
 		GridData gridData = new GridData( GridData.FILL_BOTH );
-		gridData.heightHint = 250;
+		gridData.horizontalSpan = 2;
+		gridData.heightHint = 270;
 		cmpPreview.setLayoutData( gridData );
 
 		Label label = new Label( cmpPreview, SWT.NONE );
@@ -233,15 +237,24 @@ public class TaskSelectType extends SimpleTask implements
 		cmpType = new Composite( topControl, SWT.NONE );
 		cmpType.setLayout( new GridLayout( 2, false ) );
 		cmpType.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		createHeader( );
-		createTable( );
+		createTypeTable( );
 		addChartTypes( );
+		
+		createDetails( );
+	}
+	
+	private void createDetails( )
+	{
+		cmpRight = new Composite( cmpType, SWT.NONE );
+		cmpRight.setLayout( new GridLayout(  ) );
+		cmpRight.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		createComposite( new Vector( ) );
+		createMiscArea( );
 	}
 
 	private void createMiscArea( )
 	{
-		cmpMisc = new Composite( topControl, SWT.NONE );
+		cmpMisc = new Composite( cmpRight, SWT.NONE );
 		cmpMisc.setLayout( new GridLayout( 4, false ) );
 		cmpMisc.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
@@ -259,7 +272,7 @@ public class TaskSelectType extends SimpleTask implements
 		lblOutput = new Label( cmpMisc, SWT.NONE );
 		{
 			gridData = new GridData( );
-			gridData.horizontalIndent = 50;
+			gridData.horizontalIndent = 10;
 			lblOutput.setLayoutData( gridData );
 			lblOutput.setText( Messages.getString( "TaskSelectType.Label.OutputFormat" ) ); //$NON-NLS-1$
 		}
@@ -290,7 +303,7 @@ public class TaskSelectType extends SimpleTask implements
 		lblSeriesType = new Label( cmpMisc, SWT.NONE );
 		{
 			gridData = new GridData( );
-			gridData.horizontalIndent = 50;
+			gridData.horizontalIndent = 10;
 			lblSeriesType.setLayoutData( gridData );
 			lblSeriesType.setText( Messages.getString( "TaskSelectType.Label.SeriesType" ) ); //$NON-NLS-1$
 			lblSeriesType.setEnabled( false );
@@ -319,31 +332,24 @@ public class TaskSelectType extends SimpleTask implements
 		populateLists( );
 	}
 
-	private void createHeader( )
-	{
-		Label lblTypes = new Label( cmpType, SWT.NO_FOCUS );
-		{
-			lblTypes.setText( Messages.getString( "TaskSelectType.Label.SelectChartType" ) ); //$NON-NLS-1$
-		}
-
-		Label lblSubtypes = new Label( cmpType, SWT.NO_FOCUS );
-		{
-			lblSubtypes.setText( Messages.getString( "TaskSelectType.Label.SelectSubtype" ) ); //$NON-NLS-1$
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.horizontalIndent = 5;
-			lblSubtypes.setLayoutData( gd );
-		}
-	}
-
 	/**
 	 * This method initializes table
 	 * 
 	 */
-	private void createTable( )
+	private void createTypeTable( )
 	{
-		table = new Table( cmpType, SWT.BORDER );
+		cmpLeft = new Composite( cmpType, SWT.NONE );
+		cmpLeft.setLayout( new GridLayout(  ) );
+		cmpLeft.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		
+		Label lblTypes = new Label( cmpLeft, SWT.NO_FOCUS );
+		{
+			lblTypes.setText( Messages.getString( "TaskSelectType.Label.SelectChartType" ) ); //$NON-NLS-1$
+		}
+		
+		table = new Table( cmpLeft, SWT.BORDER );
 		GridData gdTable = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
-		gdTable.heightHint = 120;
+		gdTable.heightHint = 165;
 		table.setLayoutData( gdTable );
 		table.setToolTipText( Messages.getString( "TaskSelectType.Label.ChartTypes" ) ); //$NON-NLS-1$
 		table.addSelectionListener( this );
@@ -393,9 +399,17 @@ public class TaskSelectType extends SimpleTask implements
 	 */
 	private void createComposite( Vector vSubTypes )
 	{
+		Label lblSubtypes = new Label( cmpRight, SWT.NO_FOCUS );
+		{
+			lblSubtypes.setText( Messages.getString( "TaskSelectType.Label.SelectSubtype" ) ); //$NON-NLS-1$
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.horizontalIndent = 5;
+			lblSubtypes.setLayoutData( gd );
+		}
+		
 		GridData gdTypes = new GridData( GridData.FILL_HORIZONTAL
 				| GridData.VERTICAL_ALIGN_FILL );
-		cmpSubTypes = new Composite( cmpType, SWT.NONE );
+		cmpSubTypes = new Composite( cmpRight, SWT.NONE );
 		createGroups( vSubTypes );
 		cmpSubTypes.setLayoutData( gdTypes );
 		cmpSubTypes.setToolTipText( Messages.getString( "TaskSelectType.Label.ChartSubtypes" ) ); //$NON-NLS-1$
@@ -486,8 +500,8 @@ public class TaskSelectType extends SimpleTask implements
 		return new String[0];
 	}
 
-	private void populateSeriesTypes( String[] allSeriesTypes, Series series )
-			throws ChartException
+	private void populateSeriesTypes( String[] allSeriesTypes, Series series,
+			Orientation orientation, String dimension ) throws ChartException
 	{
 		for ( int i = 0; i < allSeriesTypes.length; i++ )
 		{
@@ -615,8 +629,6 @@ public class TaskSelectType extends SimpleTask implements
 				createAndDisplayTypesSheet( sType );
 				setDefaultSubtypeSelection( );
 
-				// Pack to display enough space for different chart
-				container.packWizard( );
 				cmpMisc.layout( );
 
 				needUpdateModel = true;
@@ -868,7 +880,7 @@ public class TaskSelectType extends SimpleTask implements
 			try
 			{
 				populateSeriesTypes( PluginSettings.instance( )
-						.getRegisteredSeries( ), series );
+						.getRegisteredSeries( ), series, this.orientation, this.sDimension );
 			}
 			catch ( ChartException e )
 			{
@@ -965,7 +977,7 @@ public class TaskSelectType extends SimpleTask implements
 		{
 			this.cbOrientation.setSelection( false );
 		}
-		cmpType.layout( );
+		cmpRight.layout( );
 	}
 
 	private void setDefaultSubtypeSelection( )

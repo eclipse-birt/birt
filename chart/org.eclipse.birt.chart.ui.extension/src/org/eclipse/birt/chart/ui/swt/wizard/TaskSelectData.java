@@ -181,14 +181,7 @@ public class TaskSelectData extends SimpleTask implements
 			createDataPreviewButtonArea( topControl );
 
 			new Label( topControl, SWT.NONE );
-			Label description = new Label( topControl, SWT.WRAP );
-			{
-				GridData gd = new GridData( );
-				gd.widthHint = CENTER_WIDTH_HINT;
-				description.setLayoutData( gd );
-				description.setText( Messages.getString( "TaskSelectData.Label.ToBindADataColumn" ) ); //$NON-NLS-1$
-			}
-			new Label( topControl, SWT.NONE );
+			
 		}
 		finally
 		{
@@ -307,6 +300,13 @@ public class TaskSelectData extends SimpleTask implements
 		{
 			label.setText( Messages.getString( "TaskSelectData.Label.DataPreview" ) ); //$NON-NLS-1$
 			label.setFont( JFaceResources.getBannerFont( ) );
+		}
+		Label description = new Label( composite, SWT.WRAP );
+		{
+			GridData gd = new GridData( );
+			gd.widthHint = CENTER_WIDTH_HINT;
+			description.setLayoutData( gd );
+			description.setText( Messages.getString( "TaskSelectData.Label.ToBindADataColumn" ) ); //$NON-NLS-1$
 		}
 
 		tablePreview = new CustomPreviewTable( composite, SWT.SINGLE
