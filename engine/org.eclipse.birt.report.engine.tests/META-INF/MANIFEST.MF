@@ -1,11 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Report Engine Tests Plug-in
-Bundle-SymbolicName: org.eclipse.birt.report.engine.tests
+Bundle-SymbolicName: org.eclipse.birt.report.engine.tests; singleton:=true
 Bundle-Version: 2.2.0.qualifier
-Bundle-Activator: org.eclipse.birt.report.engine.tests.Activator
-Import-Package: org.osgi.framework;version="1.3.0"
-Eclipse-LazyStart: true
+Bundle-Localization: plugin
+Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.birt.report.engine,
  org.eclipse.birt.data
 Bundle-ClassPath: reportenginetests.jar
