@@ -227,6 +227,10 @@
 				name="BIRT_VIEWER_LOG_LEVEL"
 				value="WARNING"/>
 			
+			<context-param 
+				name="BIRT_VIEWER_CONFIG_FILE"
+				value="/WEB-INF/viewer.properties"/>
+			
 			<listener class="org.eclipse.birt.report.listener.ViewerServletContextListener"/>
 			<listener class="org.eclipse.birt.report.listener.ViewerHttpSessionListener"/>
 			
