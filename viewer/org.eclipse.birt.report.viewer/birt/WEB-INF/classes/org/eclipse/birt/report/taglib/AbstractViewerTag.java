@@ -83,7 +83,7 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 			throw new JspTagException( BirtResources
 					.getMessage( ResourceConstants.TAGLIB_INVALID_VIEWER_ID ) );
 		}
-		
+
 		// validate the viewer id if unique
 		if ( pageContext.findAttribute( viewer.getId( ) ) != null )
 		{
@@ -120,7 +120,7 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 		Matcher m = p.matcher( viewer.getId( ) );
 		return m.find( );
 	}
-	
+
 	/**
 	 * Handle event before doEndTag
 	 */
@@ -128,7 +128,7 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 	{
 		super.__beforeEndTag( );
 		viewer.setParameters( parameters );
-		
+
 		// Save viewer id
 		pageContext.setAttribute( viewer.getId( ), viewer.getId( ) );
 	}
@@ -250,7 +250,7 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 	{
 		// create IFrame object
 		String iframe = "<iframe name=\"" + viewer.getId( ) //$NON-NLS-1$
-				+ "\" frameborder=\"" + viewer.getBorder( ) + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+				+ "\" frameborder=\"" + viewer.getFrameborder( ) + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
 
 		if ( viewer.getScrolling( ) != null )
 			iframe += " scrolling = \"" + viewer.getScrolling( ) + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
@@ -409,12 +409,12 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 	}
 
 	/**
-	 * @param border
-	 *            the border to set
+	 * @param frameborder
+	 *            the frameborder to set
 	 */
-	public void setBorder( String border )
+	public void setFrameborder( String frameborder )
 	{
-		viewer.setBorder( Integer.parseInt( border ) );
+		viewer.setFrameborder( frameborder );
 	}
 
 	/**

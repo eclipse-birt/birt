@@ -165,7 +165,7 @@ public class RequesterTag extends AbstractBaseTag
 		iframe += " src=\"" + src + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
 
 		// border
-		iframe += " frameborder=\"" + viewer.getBorder( ) + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
+		iframe += " frameborder=\"" + viewer.getFrameborder( ) + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
 
 		// scrolling
 		if ( viewer.getScrolling( ) != null )
@@ -227,9 +227,6 @@ public class RequesterTag extends AbstractBaseTag
 		if ( viewer.getPosition( ) != null )
 			style += "position:" + viewer.getPosition( ) + ";"; //$NON-NLS-1$//$NON-NLS-2$
 
-		// border
-		if ( viewer.getBorder( ) > 0 )
-			style += "border-style:solid;border-width:" + viewer.getBorder( ) + "px;"; //$NON-NLS-1$//$NON-NLS-2$
 		// height
 		if ( viewer.getHeight( ) >= 0 )
 			style += "height:" + viewer.getHeight( ) + "px;"; //$NON-NLS-1$//$NON-NLS-2$
@@ -375,12 +372,12 @@ public class RequesterTag extends AbstractBaseTag
 	}
 
 	/**
-	 * @param border
-	 *            the border to set
+	 * @param frameborder
+	 *            the frameborder to set
 	 */
-	public void setBorder( String border )
+	public void setFrameborder( String frameborder )
 	{
-		viewer.setBorder( Integer.parseInt( border ) );
+		viewer.setFrameborder( frameborder );
 	}
 
 	/**

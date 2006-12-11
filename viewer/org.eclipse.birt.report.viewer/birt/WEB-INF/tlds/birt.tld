@@ -144,12 +144,12 @@
         </attribute>
 
         <attribute>
-            <name>border</name>
+            <name>frameborder</name>
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
             <description>
- 				Sets the border of report container in pixels.
- 				If isHostPage is true, ignore this attribute.
+ 				Specifies whether displays the iframe border.( Yes | No )
+ 				Default to no.
             </description>
         </attribute>
                         
@@ -443,12 +443,12 @@
         </attribute>
 
         <attribute>
-            <name>border</name>
+            <name>frameborder</name>
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
             <description>
- 				Sets the border of report container in pixels.
- 				If isHostPage is true, ignore this attribute.
+ 				Specifies whether displays the iframe border.( Yes | No )
+ 				Default to no.
             </description>
         </attribute>
 
@@ -745,11 +745,12 @@
         </attribute>
 
         <attribute>
-            <name>border</name>
+            <name>frameborder</name>
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
             <description>
- 				Sets the border of requester container in pixels.
+ 				Specifies whether displays the iframe border.( Yes | No )
+ 				Default to no.
             </description>
         </attribute>
                         

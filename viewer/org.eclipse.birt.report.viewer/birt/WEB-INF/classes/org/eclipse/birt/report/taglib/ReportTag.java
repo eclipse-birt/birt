@@ -186,9 +186,6 @@ public class ReportTag extends AbstractViewerTag
 		if ( viewer.getPosition( ) != null )
 			style += "position:" + viewer.getPosition( ) + ";"; //$NON-NLS-1$//$NON-NLS-2$
 
-		// border
-		if ( viewer.getBorder( ) > 0 )
-			style += "border-style:solid;border-width:" + viewer.getBorder( ) + "px;"; //$NON-NLS-1$//$NON-NLS-2$
 		// height
 		if ( viewer.getHeight( ) >= 0 )
 			style += "height:" + viewer.getHeight( ) + "px;"; //$NON-NLS-1$//$NON-NLS-2$

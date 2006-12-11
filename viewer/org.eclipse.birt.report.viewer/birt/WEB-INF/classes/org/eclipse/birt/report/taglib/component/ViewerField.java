@@ -35,7 +35,7 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
  * <li>width</li>
  * <li>left</li>
  * <li>top</li>
- * <li>border</li>
+ * <li>frameborder</li>
  * <li>reportDesign</li>
  * <li>reportDocument</li>
  * <li>reportletId</li>
@@ -78,7 +78,7 @@ public class ViewerField implements Serializable, Cloneable
 	private int width = -1;
 	private int left = -1;
 	private int top = -1;
-	private int border = 0;
+	private String frameborder = "no"; //$NON-NLS-1$
 
 	private String reportDesign;
 	private String reportDocument;
@@ -469,20 +469,20 @@ public class ViewerField implements Serializable, Cloneable
 	}
 
 	/**
-	 * @return the border
+	 * @return the frameborder
 	 */
-	public int getBorder( )
+	public String getFrameborder( )
 	{
-		return border;
+		return frameborder;
 	}
 
 	/**
-	 * @param border
-	 *            the border to set
+	 * @param frameborder
+	 *            the frameborder to set
 	 */
-	public void setBorder( int border )
+	public void setFrameborder( String frameborder )
 	{
-		this.border = border;
+		this.frameborder = frameborder;
 	}
 
 	/**
