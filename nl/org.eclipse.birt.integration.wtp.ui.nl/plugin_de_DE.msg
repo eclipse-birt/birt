@@ -1,16 +1,16 @@
-birt.web.category.name=Business Intelligence and Reporting Tools
-birt.web.project.name=BIRT Web Project 
-birt.web.project.description=Create a web project containing BIRT runtime Component
-birt.web.actionsets.description=Actions for BIRT Web Project
-create.birt.web.module=Create a BIRT Web Module
+birt.web.category.name=Business Intelligence & Reporting Tools
+birt.web.project.name=BIRT-Webprojekt 
+birt.web.project.description=Ein Webprojekt mit der BIRT Runtime-Komponente erstellen
+birt.web.actionsets.description=Aktionen für BIRT-Webprojekt
+create.birt.web.module=BIRT-Webmodul erstellen
 
-BIRT_FACET_LABEL=BIRT Reporting Runtime Component
-BIRT_FACET_DESCRIPTION=BIRT Reporting Runtime Component
-BIRT_FACET_TEMPLATE_LABEL=BIRT Reporting Web Project
+BIRT_FACET_LABEL=BIRT Reporting-Runtime-Komponente
+BIRT_FACET_DESCRIPTION=BIRT Reporting-Runtime-Komponente
+BIRT_FACET_TEMPLATE_LABEL=BIRT Reporting-Webprojekt
 
-JSP_New_context_type_Extension_Element.name=New JSP With BIRT Tag
-JSP_Tag_context_type_Extension_Element.name=New BIRT JSP Tag
+JSP_New_context_type_Extension_Element.name=Neue JSP mit BIRT-Tag
+JSP_Tag_context_type_Extension_Element.name=Neuer BIRT-JSP-Tag
 
-BirtResourcesDefinition= BIRT Web Application Resources Definition
+BirtResourcesDefinition= Ressourcendefinition für BIRT-Webanwendung
 
-birt.action.importruntime.name=Import BIRT runtime component...
+birt.action.importruntime.name=BIRT Runtime-Komponente importieren...

@@ -12,62 +12,62 @@
 ###############################################################################
 # BIRT Wizard Configuration Page
 ###############################################################################
-BIRTProjectCreationWizard_title=New BIRT Web Project
+BIRTProjectCreationWizard_title=새 BIRT 웹 프로젝트
 
-BIRTProjectConfigurationPage_title=BIRT Configuration
-BIRTProjectConfigurationPage_desc=Configure BIRT Deployment Settings defined in web.xml
+BIRTProjectConfigurationPage_title=BIRT 구성
+BIRTProjectConfigurationPage_desc=web.xml에서 정의된 BIRT 배포 설정 구성
 
 ###############################################################################
 # BIRT Configuration Dialog
 ###############################################################################
-BIRTConfigurationDialog_title=Configurate BIRT deployment settings
+BIRTConfigurationDialog_title=BIRT 배포 설정 구성
 
 ###############################################################################
 # BIRT Configuration Components
 ###############################################################################
-BIRTConfiguration_group_paths=Deployment Folder Settings
-BIRTConfiguration_group_others=Other settings
-BIRTConfiguration_folder_button_text=&Select Folder...
+BIRTConfiguration_group_paths=배포 폴더 설정
+BIRTConfiguration_group_others=기타 설정
+BIRTConfiguration_folder_button_text=폴더 선택(&S)...
 
-BIRTConfiguration_resource_label=&Resource Folder:
-BIRTConfiguration_resource_dialog_title=Browse For Resource Folder
-BIRTConfiguration_resource_dialog_message=Please select the default resource folder:
+BIRTConfiguration_resource_label=리소스 폴더(&R):
+BIRTConfiguration_resource_dialog_title=리소스 폴더 찾아보기
+BIRTConfiguration_resource_dialog_message=기본 리소스 폴더를 선택하십시오.
 
-BIRTConfiguration_document_label=&Document Folder:
-BIRTConfiguration_document_dialog_title=Browse For Document Folder
-BIRTConfiguration_document_dialog_message=Please select the default document folder:
+BIRTConfiguration_document_label=문서 폴더(&D):
+BIRTConfiguration_document_dialog_title=문서 폴더 찾아보기
+BIRTConfiguration_document_dialog_message=기본 문서 폴더를 선택하십시오.
 
-BIRTConfiguration_image_label=&Image Folder:
-BIRTConfiguration_image_dialog_title=Browse For Image Folder
-BIRTConfiguration_image_dialog_message=Please select the default image folder:
+BIRTConfiguration_image_label=이미지 폴더(&I):
+BIRTConfiguration_image_dialog_title=이미지 폴더 찾아보기
+BIRTConfiguration_image_dialog_message=기본 이미지 폴더를 선택하십시오.
 
-BIRTConfiguration_scriptlib_label=&ScriptLib Folder:
-BIRTConfiguration_scriptlib_dialog_title=Browse For ScriptLib Folder
-BIRTConfiguration_scriptlib_dialog_message=Please select the default scriptlib folder:
+BIRTConfiguration_scriptlib_label=ScriptLib 폴더(&S):
+BIRTConfiguration_scriptlib_dialog_title=ScriptLib 폴더 찾아보기
+BIRTConfiguration_scriptlib_dialog_message=기본 scriptlib 폴더를 선택하십시오.
 
-BIRTConfiguration_log_label=&Log Folder:
-BIRTConfiguration_log_dialog_title=Browse For Log Folder
-BIRTConfiguration_log_dialog_message=Please select the default log folder:
+BIRTConfiguration_log_label=로그 폴더(&L):
+BIRTConfiguration_log_dialog_title=로그 폴더 찾아보기
+BIRTConfiguration_log_dialog_message=기본 로그 폴더를 선택하십시오.
 
-BIRTConfiguration_document_access_message=&Only access the report and document under document folder
-BIRTConfiguration_overwrite_message=&Always overwrite the generated document file
+BIRTConfiguration_document_access_message=문서 폴더의 보고서 및 문서에만 액세스(&O)
+BIRTConfiguration_overwrite_message=생성된 문서 파일 항상 덮어쓰기(&A) 
 
-BIRTConfiguration_maxrows_label=&DataSet Max Rows:
-BIRTConfiguration_loglevel_label=&Select Log Level:
+BIRTConfiguration_maxrows_label=데이터 집합 최대 행(&D):
+BIRTConfiguration_loglevel_label=로그 수준 선택(&S):
 
-BIRTConfiguration_import_clear_message=&Clear the old BIRT runtime files.
+BIRTConfiguration_import_clear_message=오래된 BIRT 런타임 파일 지우기(&C)
 
 ###############################################################################
 # Overwrite Query Dialog
 ###############################################################################
-BIRTOverwriteQuery_title=Overwrite Dialog
-BIRTOverwriteQuery_message=Do you want to overwrite {0}?
+BIRTOverwriteQuery_title=대화 상자 덮어쓰기 
+BIRTOverwriteQuery_message={0}을(를) 덮어쓰시겠습니까?
 
-BIRTOverwriteQuery_webartifact_title=Deployment Descriptor Overwrite Dialog
-BIRTOverwriteQuery_webartifact_message={0} existed in web.xml.Do you want to overwrite it?
+BIRTOverwriteQuery_webartifact_title=배포 설명자 덮어쓰기 대화 상자
+BIRTOverwriteQuery_webartifact_message={0}이(가) web.xml에 존재합니다. 덮어쓰시겠습니까?
 
 ###############################################################################
 # Error Message
 ###############################################################################
-BIRTErrors_miss_source=Importing terminated.Can not get correct source zip file.
-BIRTErrors_wrong_webcontent=Can not get correct web content folder.
+BIRTErrors_miss_source=가져오기가 중단되었습니다. 올바른 원본 ZIP 파일을 가져올 수 없습니다.
+BIRTErrors_wrong_webcontent=올바른 웹 컨텐츠 폴더를 가져올 수 없습니다.

@@ -1,16 +1,16 @@
-birt.web.category.name=Business Intelligence and Reporting Tools
-birt.web.project.name=BIRT Web Project 
-birt.web.project.description=Create a web project containing BIRT runtime Component
-birt.web.actionsets.description=Actions for BIRT Web Project
-create.birt.web.module=Create a BIRT Web Module
+birt.web.category.name=业务智能和报告工具
+birt.web.project.name=BIRT Web 项目 
+birt.web.project.description=创建包含 BIRT 运行时组件的 web 项目
+birt.web.actionsets.description=对 BIRT Web 项目的操作
+create.birt.web.module=创建 BIRT Web 模块
 
-BIRT_FACET_LABEL=BIRT Reporting Runtime Component
-BIRT_FACET_DESCRIPTION=BIRT Reporting Runtime Component
-BIRT_FACET_TEMPLATE_LABEL=BIRT Reporting Web Project
+BIRT_FACET_LABEL=BIRT 报告运行时组件
+BIRT_FACET_DESCRIPTION=BIRT 报告运行时组件
+BIRT_FACET_TEMPLATE_LABEL=BIRT 报告 Web 项目
 
-JSP_New_context_type_Extension_Element.name=New JSP With BIRT Tag
-JSP_Tag_context_type_Extension_Element.name=New BIRT JSP Tag
+JSP_New_context_type_Extension_Element.name=新建具有 BIRT 标记的 JSP
+JSP_Tag_context_type_Extension_Element.name=新建 BIRT JSP 标记
 
-BirtResourcesDefinition= BIRT Web Application Resources Definition
+BirtResourcesDefinition= BIRT Web 应用程序资源定义
 
-birt.action.importruntime.name=Import BIRT runtime component...
+birt.action.importruntime.name=导入 BIRT 运行时组件...

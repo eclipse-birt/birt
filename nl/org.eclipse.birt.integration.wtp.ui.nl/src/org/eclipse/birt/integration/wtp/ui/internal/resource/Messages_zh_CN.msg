@@ -12,62 +12,62 @@
 ###############################################################################
 # BIRT Wizard Configuration Page
 ###############################################################################
-BIRTProjectCreationWizard_title=New BIRT Web Project
+BIRTProjectCreationWizard_title=新建 BIRT Web 项目
 
-BIRTProjectConfigurationPage_title=BIRT Configuration
-BIRTProjectConfigurationPage_desc=Configure BIRT Deployment Settings defined in web.xml
+BIRTProjectConfigurationPage_title=BIRT 配置
+BIRTProjectConfigurationPage_desc=配置 web.xml 中定义的 BIRT 部署设置
 
 ###############################################################################
 # BIRT Configuration Dialog
 ###############################################################################
-BIRTConfigurationDialog_title=Configurate BIRT deployment settings
+BIRTConfigurationDialog_title=配置 BIRT 部署设置
 
 ###############################################################################
 # BIRT Configuration Components
 ###############################################################################
-BIRTConfiguration_group_paths=Deployment Folder Settings
-BIRTConfiguration_group_others=Other settings
-BIRTConfiguration_folder_button_text=&Select Folder...
+BIRTConfiguration_group_paths=部署文件夹设置
+BIRTConfiguration_group_others=其它设置
+BIRTConfiguration_folder_button_text=选择文件夹(&S)...
 
-BIRTConfiguration_resource_label=&Resource Folder:
-BIRTConfiguration_resource_dialog_title=Browse For Resource Folder
-BIRTConfiguration_resource_dialog_message=Please select the default resource folder:
+BIRTConfiguration_resource_label=资源文件夹(&R):
+BIRTConfiguration_resource_dialog_title=浏览资源文件夹
+BIRTConfiguration_resource_dialog_message=请选择默认资源文件夹:
 
-BIRTConfiguration_document_label=&Document Folder:
-BIRTConfiguration_document_dialog_title=Browse For Document Folder
-BIRTConfiguration_document_dialog_message=Please select the default document folder:
+BIRTConfiguration_document_label=文档文件夹(&D):
+BIRTConfiguration_document_dialog_title=浏览文档文件夹
+BIRTConfiguration_document_dialog_message=请选择默认文档文件夹:
 
-BIRTConfiguration_image_label=&Image Folder:
-BIRTConfiguration_image_dialog_title=Browse For Image Folder
-BIRTConfiguration_image_dialog_message=Please select the default image folder:
+BIRTConfiguration_image_label=图像文件夹(&I):
+BIRTConfiguration_image_dialog_title=浏览图像文件夹
+BIRTConfiguration_image_dialog_message=请选择默认图像文件夹:
 
-BIRTConfiguration_scriptlib_label=&ScriptLib Folder:
-BIRTConfiguration_scriptlib_dialog_title=Browse For ScriptLib Folder
-BIRTConfiguration_scriptlib_dialog_message=Please select the default scriptlib folder:
+BIRTConfiguration_scriptlib_label=脚本库文件夹(&S):
+BIRTConfiguration_scriptlib_dialog_title=浏览脚本库文件夹
+BIRTConfiguration_scriptlib_dialog_message=请选择默认脚本库文件夹:
 
-BIRTConfiguration_log_label=&Log Folder:
-BIRTConfiguration_log_dialog_title=Browse For Log Folder
-BIRTConfiguration_log_dialog_message=Please select the default log folder:
+BIRTConfiguration_log_label=日志文件夹(&L):
+BIRTConfiguration_log_dialog_title=浏览日志文件夹
+BIRTConfiguration_log_dialog_message=请选择默认日志文件夹:
 
-BIRTConfiguration_document_access_message=&Only access the report and document under document folder
-BIRTConfiguration_overwrite_message=&Always overwrite the generated document file
+BIRTConfiguration_document_access_message=仅访问文档文件夹下的报表和文档(&O)
+BIRTConfiguration_overwrite_message=始终覆盖生成的文档文件(&A)
 
-BIRTConfiguration_maxrows_label=&DataSet Max Rows:
-BIRTConfiguration_loglevel_label=&Select Log Level:
+BIRTConfiguration_maxrows_label=数据集最大行数(&D):
+BIRTConfiguration_loglevel_label=选择日志级别(&S):
 
-BIRTConfiguration_import_clear_message=&Clear the old BIRT runtime files.
+BIRTConfiguration_import_clear_message=清除旧的 BIRT 运行时文件(&C)。
 
 ###############################################################################
 # Overwrite Query Dialog
 ###############################################################################
-BIRTOverwriteQuery_title=Overwrite Dialog
-BIRTOverwriteQuery_message=Do you want to overwrite {0}?
+BIRTOverwriteQuery_title=覆盖对话框
+BIRTOverwriteQuery_message=要覆盖 {0} 吗?
 
-BIRTOverwriteQuery_webartifact_title=Deployment Descriptor Overwrite Dialog
-BIRTOverwriteQuery_webartifact_message={0} existed in web.xml.Do you want to overwrite it?
+BIRTOverwriteQuery_webartifact_title=部署描述符覆盖对话框
+BIRTOverwriteQuery_webartifact_message=web.xml 中存在 {0}。要覆盖吗?
 
 ###############################################################################
 # Error Message
 ###############################################################################
-BIRTErrors_miss_source=Importing terminated.Can not get correct source zip file.
-BIRTErrors_wrong_webcontent=Can not get correct web content folder.
+BIRTErrors_miss_source=导入终止。无法获得正确的源 zip 文件。
+BIRTErrors_wrong_webcontent=无法获得正确的 web 内容文件夹。

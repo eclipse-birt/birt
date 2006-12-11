@@ -1,16 +1,16 @@
-birt.web.category.name=Business Intelligence and Reporting Tools
-birt.web.project.name=BIRT Web Project 
-birt.web.project.description=Create a web project containing BIRT runtime Component
-birt.web.actionsets.description=Actions for BIRT Web Project
-create.birt.web.module=Create a BIRT Web Module
+birt.web.category.name=Outils de reporting et de Business Intelligence
+birt.web.project.name=Projet Web BIRT 
+birt.web.project.description=Créer un projet Web contenant le composant d'exécution BIRT
+birt.web.actionsets.description=Actions pour le projet Web BIRT
+create.birt.web.module=Créer un module Web BIRT
 
-BIRT_FACET_LABEL=BIRT Reporting Runtime Component
-BIRT_FACET_DESCRIPTION=BIRT Reporting Runtime Component
-BIRT_FACET_TEMPLATE_LABEL=BIRT Reporting Web Project
+BIRT_FACET_LABEL=Composant d'exécution de reporting BIRT
+BIRT_FACET_DESCRIPTION=Composant d'exécution de reporting BIRT
+BIRT_FACET_TEMPLATE_LABEL=Projet Web de reporting BIRT
 
-JSP_New_context_type_Extension_Element.name=New JSP With BIRT Tag
-JSP_Tag_context_type_Extension_Element.name=New BIRT JSP Tag
+JSP_New_context_type_Extension_Element.name=Nouveau JSP avec balise BIRT
+JSP_Tag_context_type_Extension_Element.name=Nouvelle balise JSP BIRT
 
-BirtResourcesDefinition= BIRT Web Application Resources Definition
+BirtResourcesDefinition= Définition des ressources d'application Web BIRT
 
-birt.action.importruntime.name=Import BIRT runtime component...
+birt.action.importruntime.name=Importer le composant d'exécution BIRT...

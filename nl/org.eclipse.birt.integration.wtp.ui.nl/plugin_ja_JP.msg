@@ -1,16 +1,16 @@
-birt.web.category.name=Business Intelligence and Reporting Tools
-birt.web.project.name=BIRT Web Project 
-birt.web.project.description=Create a web project containing BIRT runtime Component
-birt.web.actionsets.description=Actions for BIRT Web Project
-create.birt.web.module=Create a BIRT Web Module
+birt.web.category.name=ビジネスインテリジェンスとレポート作成ツール
+birt.web.project.name=BIRT Web プロジェクト 
+birt.web.project.description=BIRT ランタイムコンポーネントを含む Web プロジェクトを作成します。
+birt.web.actionsets.description=BIRT Web プロジェクトでの操作
+create.birt.web.module=BIRT Web モジュールの作成
 
-BIRT_FACET_LABEL=BIRT Reporting Runtime Component
-BIRT_FACET_DESCRIPTION=BIRT Reporting Runtime Component
-BIRT_FACET_TEMPLATE_LABEL=BIRT Reporting Web Project
+BIRT_FACET_LABEL=BIRT レポート作成ランタイムコンポーネント
+BIRT_FACET_DESCRIPTION=BIRT レポート作成ランタイムコンポーネント
+BIRT_FACET_TEMPLATE_LABEL=BIRT レポート作成 Web プロジェクト
 
-JSP_New_context_type_Extension_Element.name=New JSP With BIRT Tag
-JSP_Tag_context_type_Extension_Element.name=New BIRT JSP Tag
+JSP_New_context_type_Extension_Element.name=新規 JSP (BIRT タグを使用)
+JSP_Tag_context_type_Extension_Element.name=新規 BIRT JSP タグ
 
-BirtResourcesDefinition= BIRT Web Application Resources Definition
+BirtResourcesDefinition= BIRT Web アプリケーションリソースの定義
 
-birt.action.importruntime.name=Import BIRT runtime component...
+birt.action.importruntime.name=BIRT ランタイムコンポーネントのインポート...

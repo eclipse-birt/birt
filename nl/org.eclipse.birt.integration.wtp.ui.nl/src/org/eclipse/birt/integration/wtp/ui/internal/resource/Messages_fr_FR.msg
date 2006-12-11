@@ -12,62 +12,62 @@
 ###############################################################################
 # BIRT Wizard Configuration Page
 ###############################################################################
-BIRTProjectCreationWizard_title=New BIRT Web Project
+BIRTProjectCreationWizard_title=Nouveau projet Web BIRT
 
-BIRTProjectConfigurationPage_title=BIRT Configuration
-BIRTProjectConfigurationPage_desc=Configure BIRT Deployment Settings defined in web.xml
+BIRTProjectConfigurationPage_title=Configuration BIRT
+BIRTProjectConfigurationPage_desc=Configurer les paramètres de déploiement BIRT définis dans web.xml
 
 ###############################################################################
 # BIRT Configuration Dialog
 ###############################################################################
-BIRTConfigurationDialog_title=Configurate BIRT deployment settings
+BIRTConfigurationDialog_title=Configurer les paramètres de déploiement BIRT
 
 ###############################################################################
 # BIRT Configuration Components
 ###############################################################################
-BIRTConfiguration_group_paths=Deployment Folder Settings
-BIRTConfiguration_group_others=Other settings
-BIRTConfiguration_folder_button_text=&Select Folder...
+BIRTConfiguration_group_paths=Paramètres du dossier de déploiement
+BIRTConfiguration_group_others=Autres paramètres
+BIRTConfiguration_folder_button_text=&Sélectionner un dossier...
 
-BIRTConfiguration_resource_label=&Resource Folder:
-BIRTConfiguration_resource_dialog_title=Browse For Resource Folder
-BIRTConfiguration_resource_dialog_message=Please select the default resource folder:
+BIRTConfiguration_resource_label=Dossier de &ressources :
+BIRTConfiguration_resource_dialog_title=Parcourir le dossier de ressources
+BIRTConfiguration_resource_dialog_message=Sélectionnez le dossier de ressources par défaut :
 
-BIRTConfiguration_document_label=&Document Folder:
-BIRTConfiguration_document_dialog_title=Browse For Document Folder
-BIRTConfiguration_document_dialog_message=Please select the default document folder:
+BIRTConfiguration_document_label=&Dossier de documents :
+BIRTConfiguration_document_dialog_title=Parcourir le dossier de documents
+BIRTConfiguration_document_dialog_message=Sélectionnez le dossier de documents par défaut :
 
-BIRTConfiguration_image_label=&Image Folder:
-BIRTConfiguration_image_dialog_title=Browse For Image Folder
-BIRTConfiguration_image_dialog_message=Please select the default image folder:
+BIRTConfiguration_image_label=&Dossier d'images :
+BIRTConfiguration_image_dialog_title=Parcourir le dossier d'images
+BIRTConfiguration_image_dialog_message=Sélectionnez le dossier d'images par défaut :
 
-BIRTConfiguration_scriptlib_label=&ScriptLib Folder:
-BIRTConfiguration_scriptlib_dialog_title=Browse For ScriptLib Folder
-BIRTConfiguration_scriptlib_dialog_message=Please select the default scriptlib folder:
+BIRTConfiguration_scriptlib_label=Dossier &ScriptLib :
+BIRTConfiguration_scriptlib_dialog_title=Parcourir le dossier ScriptLib
+BIRTConfiguration_scriptlib_dialog_message=Sélectionnez le dossier ScriptLib par défaut :
 
-BIRTConfiguration_log_label=&Log Folder:
-BIRTConfiguration_log_dialog_title=Browse For Log Folder
-BIRTConfiguration_log_dialog_message=Please select the default log folder:
+BIRTConfiguration_log_label=Dossier du journa&l :
+BIRTConfiguration_log_dialog_title=Parcourir le dossier du journal
+BIRTConfiguration_log_dialog_message=Sélectionnez le dossier du journal par défaut :
 
-BIRTConfiguration_document_access_message=&Only access the report and document under document folder
-BIRTConfiguration_overwrite_message=&Always overwrite the generated document file
+BIRTConfiguration_document_access_message=Accéder uniquement aux états et d&ocuments du dossier de documents
+BIRTConfiguration_overwrite_message=Toujours écr&aser le document généré
 
-BIRTConfiguration_maxrows_label=&DataSet Max Rows:
-BIRTConfiguration_loglevel_label=&Select Log Level:
+BIRTConfiguration_maxrows_label=Lignes max. de jeux de &données :
+BIRTConfiguration_loglevel_label=&Sélectionnez le niveau de journalisation :
 
-BIRTConfiguration_import_clear_message=&Clear the old BIRT runtime files.
+BIRTConfiguration_import_clear_message=&Effacer les anciens fichiers d'exécution BIRT.
 
 ###############################################################################
 # Overwrite Query Dialog
 ###############################################################################
-BIRTOverwriteQuery_title=Overwrite Dialog
-BIRTOverwriteQuery_message=Do you want to overwrite {0}?
+BIRTOverwriteQuery_title=Boîte de dialogue Ecrasement
+BIRTOverwriteQuery_message=Voulez-vous écraser {0} ?
 
-BIRTOverwriteQuery_webartifact_title=Deployment Descriptor Overwrite Dialog
-BIRTOverwriteQuery_webartifact_message={0} existed in web.xml.Do you want to overwrite it?
+BIRTOverwriteQuery_webartifact_title=Boîte de dialogue Ecraser le descripteur de déploiement
+BIRTOverwriteQuery_webartifact_message={0} existe dans web.xml. Souhaitez-vous l'écraser ?
 
 ###############################################################################
 # Error Message
 ###############################################################################
-BIRTErrors_miss_source=Importing terminated.Can not get correct source zip file.
-BIRTErrors_wrong_webcontent=Can not get correct web content folder.
+BIRTErrors_miss_source=Importation terminée. Impossible d'obtenir le fichier zip source correct.
+BIRTErrors_wrong_webcontent=Impossible d'obtenir le contenu Web correct.
