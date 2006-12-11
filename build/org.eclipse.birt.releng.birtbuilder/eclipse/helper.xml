@@ -571,7 +571,15 @@
 				<include name="**/org.apache.commons.codec*/**"/>
 			</fileset>
 		</delete>
-
+		<!-- clean last unit test reports -->
+		<delete failonerror="false">
+			<fileset dir="${test.dir}/unitTestReport">
+				<include name="**/*.xml"/>
+				<include name="**/*.html"/>
+			</fileset>
+		</delete>
+		<!-- prepare unit test components -->
+		
 		<exec executable="unzip" dir="${postingDirectory}/${buildLabel}">
 			<arg line="-o -q birt-report-framework-2_2_0.zip -d ${test.dir}" />
 		</exec>
@@ -639,7 +647,8 @@
 		<!-- XSLT trasform-->
 		<exec executable="${test.dir}/unitTestReport/processXML.sh"/>
 		<ant dir="${test.dir}/unitTestReport" antfile="build.xml"/>
-		<copy todir="${postingDirectory}/unitTestReport/html" overwrite="true">
+		<mkdir dir="${postingDirectory}/unitTestReport/${buildId}"/>
+		<copy todir="${postingDirectory}/unitTestReport/${buildId}" overwrite="true">
 			<fileset dir="${test.dir}/unitTestReport/html">
 				<include name="*.html"/>
 			</fileset>
