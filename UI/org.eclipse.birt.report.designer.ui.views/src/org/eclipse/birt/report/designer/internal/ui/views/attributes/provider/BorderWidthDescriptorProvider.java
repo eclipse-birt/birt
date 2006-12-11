@@ -5,6 +5,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
@@ -93,12 +94,18 @@ public class BorderWidthDescriptorProvider extends StyleComboProvider
 
 		IChoice[] choices = choiceSet.getChoices( );
 
-		String[] strChoices = new String[choices.length];
+		String[] strChoices = new String[choices.length + 10];
 
 		for ( int i = 0; i < choices.length; i++ )
 		{
 			strChoices[i] = choices[i].getName( );
 		}
+
+		for ( int i = choices.length; i < choices.length + 10; i++ )
+		{
+			strChoices[i] = ( i+1-choices.length ) + DesignChoiceConstants.UNITS_PX;
+		}
+
 		return strChoices;
 	}
 
