@@ -44,4 +44,10 @@
          </describer>
       </content-type>
    </extension>
+   <extension
+         point="org.eclipse.ui.elementFactories">
+      <factory
+            class="org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInputFactory"
+            id="org.eclipse.birt.report.designer.ui.ReportEditorInputFactory"/>
+   </extension>
 </plugin>

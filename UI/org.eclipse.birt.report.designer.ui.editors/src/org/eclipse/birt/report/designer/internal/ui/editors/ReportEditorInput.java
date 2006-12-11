@@ -16,7 +16,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-import org.eclipse.birt.report.designer.internal.ui.editors.IStorageEditorInput;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.runtime.CoreException;
@@ -24,6 +23,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IPathEditorInput;
 import org.eclipse.ui.IPersistableElement;
 
@@ -31,13 +31,17 @@ import org.eclipse.ui.IPersistableElement;
  * Editor input wrapper for report input is not in workspace.
  */
 
-public class ReportEditorInput implements IStorageEditorInput, IPathEditorInput
+public class ReportEditorInput implements
+		IStorageEditorInput,
+		IPathEditorInput,
+		IPersistableElement
 {
 
 	private File file = null;
 
 	/**
 	 * Constructor
+	 * 
 	 * @param input
 	 */
 	public ReportEditorInput( IPathEditorInput input )
@@ -47,6 +51,7 @@ public class ReportEditorInput implements IStorageEditorInput, IPathEditorInput
 
 	/**
 	 * Constructor
+	 * 
 	 * @param file
 	 */
 	public ReportEditorInput( File file )
@@ -54,7 +59,9 @@ public class ReportEditorInput implements IStorageEditorInput, IPathEditorInput
 		this.file = file;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.IStorageEditorInput#getStorage()
 	 */
 	public IStorage getStorage( ) throws CoreException
@@ -62,7 +69,9 @@ public class ReportEditorInput implements IStorageEditorInput, IPathEditorInput
 		return new ReportStorage( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.IEditorInput#exists()
 	 */
 	public boolean exists( )
@@ -70,7 +79,9 @@ public class ReportEditorInput implements IStorageEditorInput, IPathEditorInput
 		return file.exists( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.IEditorInput#getImageDescriptor()
 	 */
 	public ImageDescriptor getImageDescriptor( )
@@ -78,7 +89,9 @@ public class ReportEditorInput implements IStorageEditorInput, IPathEditorInput
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.IEditorInput#getName()
 	 */
 	public String getName( )
@@ -86,15 +99,19 @@ public class ReportEditorInput implements IStorageEditorInput, IPathEditorInput
 		return file.getName( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.IEditorInput#getPersistable()
 	 */
 	public IPersistableElement getPersistable( )
 	{
-		return null;
+		return this;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.IEditorInput#getToolTipText()
 	 */
 	public String getToolTipText( )
@@ -102,7 +119,9 @@ public class ReportEditorInput implements IStorageEditorInput, IPathEditorInput
 		return file.getAbsolutePath( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 	 */
 	public Object getAdapter( Class adapter )
@@ -110,7 +129,9 @@ public class ReportEditorInput implements IStorageEditorInput, IPathEditorInput
 		return Platform.getAdapterManager( ).getAdapter( this, adapter );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.IPathEditorInput#getPath()
 	 */
 	public IPath getPath( )
@@ -179,5 +200,25 @@ public class ReportEditorInput implements IStorageEditorInput, IPathEditorInput
 			return ReportEditorInput.this.getAdapter( adapter );
 		}
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.IPersistableElement#getFactoryId()
+	 */
+	public String getFactoryId( )
+	{
+		return ReportEditorInputFactory.ID;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.IPersistable#saveState(org.eclipse.ui.IMemento)
+	 */
+	public void saveState( IMemento memento )
+	{
+		ReportEditorInputFactory.saveState( memento, this );
 	}
 }
