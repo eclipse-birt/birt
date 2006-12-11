@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Testhelper Fragment
 Bundle-SymbolicName: org.eclipse.birt.report.model.testhelper
-Bundle-Version: 1.0.0
+Bundle-Version: 2.2.0.qualifier
 Fragment-Host: org.eclipse.birt.report.model;bundle-version="2.2.0"
 Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.report.model.activity;x-friends:="org.eclipse.birt.report.model.tests",
@@ -11,3 +11,4 @@ Export-Package: org.eclipse.birt.report.model.activity;x-friends:="org.eclipse.b
  org.eclipse.birt.report.model.metadata;x-friends:="org.eclipse.birt.report.model.tests",
  org.eclipse.birt.report.model.script;x-friends:="org.eclipse.birt.report.model.tests"
 Bundle-ClassPath: tests.jar
+Bundle-Vendor: Eclipse.org
