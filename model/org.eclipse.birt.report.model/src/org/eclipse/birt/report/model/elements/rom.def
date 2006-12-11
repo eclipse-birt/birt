@@ -2482,8 +2482,8 @@
       </Property>
       <Property detailType="StringFormatValue" displayNameID="Element.Style.format.string" isStyleProperty="true" name="stringFormat" since="1.0" type="structure"/>
     </PropertyGroup>
-    <Property displayNameID="Element.Style.canShrink" isStyleProperty="true" name="canShrink" since="reserved" type="boolean">
-      <Default>true</Default>
+    <Property displayNameID="Element.Style.canShrink" isStyleProperty="true" name="canShrink" since="2.2" type="boolean">
+      <Default>false</Default>
     </Property>
     <Property detailType="MapRule" displayNameID="Element.Style.map.rules" isList="true" isStyleProperty="true" name="mapRules" since="1.0" type="structure"/>
     <Property canInherit="false" detailType="HighlightRule" displayNameID="Element.Style.highlight.rules" isList="true" isStyleProperty="true" name="highlightRules" since="1.0" type="structure"/>

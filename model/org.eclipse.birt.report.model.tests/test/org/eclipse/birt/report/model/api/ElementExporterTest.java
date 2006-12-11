@@ -297,9 +297,14 @@ public class ElementExporterTest extends BaseTestCase
 		LabelHandle labelHandle = (LabelHandle) designHandle
 				.findElement( "labelInMasterPage" ); //$NON-NLS-1$
 
-		String libraryFile = getTempFolder( ) + OUTPUT_FOLDER
+		String libraryDir = getTempFolder( ) + OUTPUT_FOLDER;
+		File file = new File( libraryDir );
+		if ( !file.exists( ) )
+			file.mkdirs( );
+
+		String libraryFile = libraryDir
 				+ "ElementExporterTestLibrary_out_10.xml"; //$NON-NLS-1$
-		File file = new File( libraryFile );
+		file = new File( libraryFile );
 		if ( file.exists( ) )
 			file.delete( );
 
@@ -525,8 +530,13 @@ public class ElementExporterTest extends BaseTestCase
 			String outputFile ) throws Exception
 	{
 		openDesign( inputFile, ULocale.ENGLISH );
-		String libraryFile = getTempFolder( ) + OUTPUT_FOLDER + outputFile;
-		File file = new File( libraryFile );
+		String libraryDir = getTempFolder( ) + OUTPUT_FOLDER;
+		File file = new File( libraryDir );
+		if ( !file.exists( ) )
+			file.mkdirs( );
+		
+		String libraryFile = libraryDir + outputFile;
+		file = new File( libraryFile );
 		if ( file.exists( ) )
 			file.delete( );
 
@@ -656,9 +666,10 @@ public class ElementExporterTest extends BaseTestCase
 
 	/**
 	 * Tests exportDesign method
+	 * 
 	 * @throws Exception
 	 */
-	
+
 	public void testExportDesign( ) throws Exception
 	{
 		openDesign( "ElementExporterTest_6.xml" ); //$NON-NLS-1$
@@ -670,11 +681,11 @@ public class ElementExporterTest extends BaseTestCase
 
 		ElementExportUtil
 				.exportDesign( designHandle, libraryHandle, true, true );
-		
-		itemHandle =(DataItemHandle)libraryHandle.findElement( "NewData1" );//$NON-NLS-1$
-		assertEquals( 1, itemHandle.getListProperty( "boundDataColumns" ).size( ) );//$NON-NLS-1$
-		itemHandle =(DataItemHandle)libraryHandle.findElement( "NewData" );//$NON-NLS-1$
-		
-		
+
+		itemHandle = (DataItemHandle) libraryHandle.findElement( "NewData1" );//$NON-NLS-1$
+		assertEquals( 1, itemHandle
+				.getListProperty( "boundDataColumns" ).size( ) );//$NON-NLS-1$
+		itemHandle = (DataItemHandle) libraryHandle.findElement( "NewData" );//$NON-NLS-1$
+
 	}
 }

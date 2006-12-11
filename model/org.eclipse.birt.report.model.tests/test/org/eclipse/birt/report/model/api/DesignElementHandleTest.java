@@ -906,7 +906,7 @@ public class DesignElementHandleTest extends BaseTestCase
 
 		// the default value is true.
 
-		assertTrue( styleHandle.getBooleanProperty( Style.CAN_SHRINK_PROP ) );
+		assertFalse( styleHandle.getBooleanProperty( Style.CAN_SHRINK_PROP ) );
 
 		DimensionHandle dimensionHandle = handle
 				.getDimensionProperty( Label.X_PROP );
