@@ -626,9 +626,9 @@
 			</fileset>
 		</copy>
 		<delete dir="${tomcat.install.dir}/viewerprepare" failonerror="false"/>
-		<!-- chmod for report directory under WebViewerExample -->
+		<!-- chmod for report directory under WebViewerExample recursively-->
 		<exec executable="chmod">
-			<arg line=" 777 ${tomcat.install.dir}/webapps/${buildId}/report" />
+			<arg line=" -R 777 ${tomcat.install.dir}/webapps/${buildId}" />
 		</exec>
 	</target>
 	
