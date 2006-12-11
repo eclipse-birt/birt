@@ -14,12 +14,15 @@
 		<antcall target="org.eclipse.birt.report.model.adapter.oda.tests"/>
         <antcall target="org.eclipse.birt.data.tests"/>
         <antcall target="org.eclipse.birt.report.data.oda.jdbc.tests"/>
-        <antcall target="org.eclipse.birt.chart.tests"/>
-		<antcall target="org.eclipse.birt.report.tests.engine"/>
+        <antcall target="org.eclipse.birt.chart.tests"/>				
+		<antcall target="org.eclipse.birt.report.engine.tests"/>		
+		
+		<!-- Clean model test plugin -->
+		<antcall target="cleanModelTestPlugin"/>
 		<antcall target="org.eclipse.birt.tests.data"/>
-		<antcall target="org.eclipse.birt.report.tests.chart"/>
-		<antcall target="org.eclipse.birt.report.engine.tests"/>
+		<antcall target="org.eclipse.birt.report.tests.engine"/>
 		<antcall target="org.eclipse.birt.report.tests.model"/>
+		<antcall target="org.eclipse.birt.report.tests.chart"/>
 		<antcall target="org.eclipse.birt.report.tests.viewer"/>
 		<!--
 		<antcall target="org.eclipse.birt.report.designer.tests"/>
@@ -28,6 +31,13 @@
 	
 	<target name="init">
 		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
+	</target>
+	
+	<target name="cleanModelTestPlugin">
+		<delete dir="${working.dir}" includeEmptyDirs="true" failonerror="false" >
+			<include name="**/org.eclipse.birt.report.modelextension.tests*/**"/>
+			<include name="**/org.eclipse.birt.report.model.tests*/**"/>
+		</delete>
 	</target>
 	
 	<target name="org.eclipse.birt.core.tests" depends="init">
