@@ -1549,7 +1549,7 @@ GroupDialog.Label.IncludeHeader=&Gruppenkopfzeile einschließen
 GroupDialog.Label.Interval=&Intervall:
 GroupDialog.PageBreakBefore=Vorher:
 GroupDialog.PageBreakAfter=Nachher:
-GroupDialog.PageBreakInside=Inside:
+GroupDialog.PageBreakInside=Innen:
 GroupDialog.Label.IntervalBase=&Festen Basiswert für Intervall verwenden:
 GroupDialog.Label.Name=&Name:
 GroupDialog.Label.Range=&Bereich:
@@ -2308,9 +2308,9 @@ NewResourceFileDialog.ErrorMessageInvalid=Ungültiger Dateiname
 ###########################################################
 #ProjectFileDialog properties
 
-ProjectFileDialog.ErrorMessage=File must be a file , not a directory.
-ProjectFileDialog.Title=Select Project File
-ProjectFileDialog.Message=Select a file in the current project.
+ProjectFileDialog.ErrorMessage=Datei muss eine Datei sein, kein Verzeichnis.
+ProjectFileDialog.Title=Projektdatei wählen
+ProjectFileDialog.Message=Wählen Sie eine Datei im aktuellen Projekt.
 
 ###########################################################
 #NewSectionDialog properties

@@ -1549,7 +1549,7 @@ GroupDialog.Label.IncludeHeader=그룹 머리글 포함(&H)
 GroupDialog.Label.Interval=간격(&I):
 GroupDialog.PageBreakBefore=다음 이전:
 GroupDialog.PageBreakAfter=다음 이후:
-GroupDialog.PageBreakInside=Inside:
+GroupDialog.PageBreakInside=안쪽:
 GroupDialog.Label.IntervalBase=간격에 고정된 기본 값 사용(&U):
 GroupDialog.Label.Name=이름(&N):
 GroupDialog.Label.Range=범위(&R):
@@ -2308,9 +2308,9 @@ NewResourceFileDialog.ErrorMessageInvalid=잘못된 파일 이름
 ###########################################################
 #ProjectFileDialog properties
 
-ProjectFileDialog.ErrorMessage=File must be a file , not a directory.
-ProjectFileDialog.Title=Select Project File
-ProjectFileDialog.Message=Select a file in the current project.
+ProjectFileDialog.ErrorMessage=파일은 디렉터리가 아닌 파일이어야 합니다.
+ProjectFileDialog.Title=프로젝트 파일 선택
+ProjectFileDialog.Message=현재 프로젝트에서 파일을 선택합니다.
 
 ###########################################################
 #NewSectionDialog properties

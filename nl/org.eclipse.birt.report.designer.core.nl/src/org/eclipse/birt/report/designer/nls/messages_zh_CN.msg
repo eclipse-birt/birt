@@ -1549,7 +1549,7 @@ GroupDialog.Label.IncludeHeader=包含组页眉(&H)
 GroupDialog.Label.Interval=间隔(&I):
 GroupDialog.PageBreakBefore=之前:
 GroupDialog.PageBreakAfter=之后:
-GroupDialog.PageBreakInside=Inside:
+GroupDialog.PageBreakInside=内部:
 GroupDialog.Label.IntervalBase=对间隔使用固定基值(&U):
 GroupDialog.Label.Name=名称(&N):
 GroupDialog.Label.Range=区域(&R):
@@ -2308,9 +2308,9 @@ NewResourceFileDialog.ErrorMessageInvalid=文件名无效
 ###########################################################
 #ProjectFileDialog properties
 
-ProjectFileDialog.ErrorMessage=File must be a file , not a directory.
-ProjectFileDialog.Title=Select Project File
-ProjectFileDialog.Message=Select a file in the current project.
+ProjectFileDialog.ErrorMessage=文件必须是文件，而不是目录。
+ProjectFileDialog.Title=选择项目文件
+ProjectFileDialog.Message=选择当前项目中的文件。
 
 ###########################################################
 #NewSectionDialog properties

@@ -1549,7 +1549,7 @@ GroupDialog.Label.IncludeHeader=Incluir &encabezado de grupo
 GroupDialog.Label.Interval=&Intervalo:
 GroupDialog.PageBreakBefore=Antes:
 GroupDialog.PageBreakAfter=Después de:
-GroupDialog.PageBreakInside=Inside:
+GroupDialog.PageBreakInside=Interior:
 GroupDialog.Label.IntervalBase=&Utilizar un valor de base fijo para el intervalo:
 GroupDialog.Label.Name=&Nombre:
 GroupDialog.Label.Range=&Rango:
@@ -2308,9 +2308,9 @@ NewResourceFileDialog.ErrorMessageInvalid=El nombre de archivo no es válido.
 ###########################################################
 #ProjectFileDialog properties
 
-ProjectFileDialog.ErrorMessage=File must be a file , not a directory.
-ProjectFileDialog.Title=Select Project File
-ProjectFileDialog.Message=Select a file in the current project.
+ProjectFileDialog.ErrorMessage=El archivo debe ser un archivo, no un directorio.
+ProjectFileDialog.Title=Seleccionar archivo de proyecto
+ProjectFileDialog.Message=Seleccione un archivo del proyecto actual.
 
 ###########################################################
 #NewSectionDialog properties
