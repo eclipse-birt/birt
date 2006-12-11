@@ -13,6 +13,8 @@ package org.eclipse.birt.data.engine.executor.transform;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
@@ -45,6 +47,9 @@ public class CachedResultSet implements IResultIterator
 
 	private ResultSetPopulator resultSetPopulator;
 	private IEventHandler handler;
+	private ResultSet resultSet;
+	private static String className = CachedResultSet.class.getName( );
+	private static Logger logger = Logger.getLogger( className ); 
 	
 	/**
 	 * Nothing, only for new an instance, needs to be used with care. Currently
@@ -247,6 +252,20 @@ public class CachedResultSet implements IResultIterator
 		this.resultSetPopulator.getCache( ).close( );
 
 		resultSetPopulator = null;
+		
+		try
+		{
+			if ( resultSet != null )
+				resultSet.close( );
+		}
+		catch ( DataException e )
+		{
+			logger.logp( Level.FINE,
+					className,
+					"closeOdaResultSet",
+					"Exception at CachedResultSet.close()",
+					e );
+		}
 	}
 	
 	/*
@@ -377,6 +396,16 @@ public class CachedResultSet implements IResultIterator
 			return this.handler.getExecutorHelper( );
 		else
 			return null;
+	}
+	
+	/**
+	 * Set Oda ResultSet so that it could be closed when closing IResultIterator
+	 * 
+	 * @param resultSet
+	 */
+	public void setOdaResultSet( ResultSet resultSet )
+	{
+		this.resultSet = resultSet;
 	}
 
 }

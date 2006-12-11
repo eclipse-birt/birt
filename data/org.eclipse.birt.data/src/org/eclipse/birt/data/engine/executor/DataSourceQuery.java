@@ -36,6 +36,8 @@ import org.eclipse.birt.data.engine.odi.IParameterMetaData;
 import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
+import org.eclipse.datatools.connectivity.oda.IBlob;
+import org.eclipse.datatools.connectivity.oda.IClob;
 
 /**
  *	Structure to hold info of a custom field. 
@@ -327,9 +329,12 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
                     paramHintDataType = parameterHint.getEffectiveDataType( 
                                             dataSource.getDriverName(), queryType );
                 
-				Object inputValue = convertToValue( 
-						parameterHint.getDefaultInputValue( ), 
-                        paramHintDataType );
+				Object inputValue = parameterHint.getDefaultInputValue( );
+				// neither IBlob nor IClob will be converted
+				if ( paramHintDataType != IBlob.class
+						&& paramHintDataType != IClob.class )
+					inputValue = convertToValue( parameterHint.getDefaultInputValue( ),
+							paramHintDataType );
 				if ( isParameterPositionValid(parameterHint.getPosition( )) )
 					this.setInputParamValue( parameterHint.getPosition( ),
 							inputValue );
@@ -482,6 +487,8 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 			throws DataException
 	{
     	assert odaStatement != null;
+    	
+    	IResultIterator ri = null;
 
     	this.setInputParameterBinding();
 		// Execute the prepared statement
@@ -501,24 +508,29 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 		if ( session.getDataSetCacheManager( ).doesSaveToCache( ) == false )
 		{
 			if ( !hasOutputParams( ) )
-				return new CachedResultSet( this,
+				ri = new CachedResultSet( this,
 						resultMetadata,
 						rs,
 						eventHandler, session );
 			else
 			{
 				IDataSetPopulator populator = new OdaResultSet( rs );
-				return new CachedResultSet( this,
+				ri = new CachedResultSet( this,
 						resultMetadata,
 						populator,
 						eventHandler, session );
 			}
 		}
 		else
-			return new CachedResultSet( this,
+			ri = new CachedResultSet( this,
 					resultMetadata,
 					new DataSetResultCache( rs, resultMetadata, session ),
 					eventHandler, session );
+		
+		if ( ri != null && ri instanceof CachedResultSet )
+			( (CachedResultSet) ri ).setOdaResultSet( rs );
+
+		return ri;
     }
    
     /**
