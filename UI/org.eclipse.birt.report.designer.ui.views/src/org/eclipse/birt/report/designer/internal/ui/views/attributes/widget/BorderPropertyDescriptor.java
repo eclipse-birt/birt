@@ -31,6 +31,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 
 public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
@@ -79,10 +80,10 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 					style,
 					(IComboProvider) styleProvider );
 		}
-		styleCombo.setItems( ( (IComboProvider) styleProvider ).getItems( ) );
 		data = new GridData( );
 		data.widthHint = 200;
 		styleCombo.setLayoutData( data );
+		styleCombo.setItems( ( (IComboProvider) styleProvider ).getItems( ) );
 
 		Label colorLabel = FormWidgetFactory.getInstance( )
 				.createLabel( choices, SWT.LEFT, isFormStyle );
@@ -113,11 +114,11 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 					style,
 					(IComboProvider) widthProvider );
 		}
-		widthCombo.setItems( ( (IComboProvider) widthProvider ).getItems( ) );
 		widthProvider.setIndex( widthProvider.getItems( )[1].toString( ) );
 		data = new GridData( );
 		data.widthHint = 200;
 		widthCombo.setLayoutData( data );
+		widthCombo.setItems( ( (IComboProvider) widthProvider ).getItems( ) );
 
 		Composite composite = new Composite( choices, SWT.NONE );
 		layout = new GridLayout( );
