@@ -375,16 +375,7 @@ AbstractParameterDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		var temp = Event.element( event );
 		var oInput = temp.parentNode.getElementsByTagName( "input" );
 		var oSelect = temp.parentNode.getElementsByTagName( "select" );
-		
-		// check if current parameter is cascading parameter
-		var oCascadeFlag = "";
-		if ( oInput && oInput.length > 0 )
-		{
-			var oLastInput = oInput[oInput.length - 1];
-			if ( oLastInput.name == "isCascade" )
-				oCascadeFlag = oLastInput.value;
-		}
-			
+					
 		for( var i = 0; i < oInput.length; i++ )
 		{
 			if( oInput[i].id == temp.id )
@@ -394,17 +385,11 @@ AbstractParameterDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 				if( oInput[i+1] && ( oInput[i+1].type == "text" || oInput[i+1].type == "password" ) )
 				{
 					oInput[i+1].disabled = false;
-					// if cascading parameter, clear value
-					if( oCascadeFlag == "true" )
-						oInput[i+1].value = "";
 					oInput[i+1].focus( );
 				}
 				else if( oSelect[0] )
 				{
 					oSelect[0].disabled = false;
-					// if cascading parameter, clear value
-					if( oCascadeFlag == "true" )
-						oSelect[0].selectedIndex = -1;
 					oSelect[0].focus( );
 				}
 			}
