@@ -4,7 +4,8 @@
       label="Eclipse BIRT ISV Doc"
       version="2.2.0.qualifier"
       provider-name="Eclipse.org"
-      plugin="org.eclipse.birt.doc.isv">
+      plugin="org.eclipse.birt.doc.isv"
+      image="eclipse_update_120.jpg">
 
    <description url="http://www.eclipse.org/birt">
       %description

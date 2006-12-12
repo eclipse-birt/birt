@@ -3,7 +3,8 @@
       id="org.eclipse.birt.nl"
       label="%featureName"
       version="2.2.0.qualifier"
-      provider-name="%providerName">
+      provider-name="%providerName"
+      image="eclipse_update_120.jpg">
 
    <description url="http://www.eclipse.org/birt">
       %description
