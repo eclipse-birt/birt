@@ -1247,10 +1247,12 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 		super.initialize( );
 
 		Marker sm = MarkerImpl.create( MarkerType.NABLA_LITERAL, 4 );
+		sm.setVisible( false );
 		setStartMarker( sm );
 
 		Marker em = MarkerImpl.create( MarkerType.NABLA_LITERAL, 4 );
 		setEndMarker( em );
+		em.setVisible( false );
 
 		setStartMarkerPosition( Position.BELOW_LITERAL );
 		setEndMarkerPosition( Position.ABOVE_LITERAL );
@@ -1259,13 +1261,14 @@ public class GanttSeriesImpl extends SeriesImpl implements GanttSeries
 		
 		LineAttributes la = LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
 				LineStyle.SOLID_LITERAL,
-				1 );
+				8 );
+		this.setPaletteLineColor( true );
 		setConnectionLine( la );
 
 		la = LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
 				LineStyle.SOLID_LITERAL,
 				1 );
-		la.setVisible( false );
+		la.setVisible( true );
 		setOutline( la );
 
 		Label lb = LabelImpl.create( );

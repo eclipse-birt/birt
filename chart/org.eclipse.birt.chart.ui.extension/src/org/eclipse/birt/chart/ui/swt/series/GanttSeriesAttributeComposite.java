@@ -186,11 +186,11 @@ public class GanttSeriesAttributeComposite extends Composite implements
 
 		Composite cmpFill = new Composite( this, SWT.NONE );
 		cmpFill.setLayout( new GridLayout( ) );
-		GridData gdFill = new GridData( GridData.FILL_BOTH );
+		GridData gdFill = new GridData( GridData.FILL_BOTH | GridData.VERTICAL_ALIGN_BEGINNING);
 		gdFill.horizontalSpan = 2;
-		cmpMarker.setLayoutData( gdFill );
+		cmpFill.setLayoutData( gdFill );
 
-		Label lblFill = new Label( cmpFill, SWT.NONE );
+		/*Label lblFill = new Label( cmpFill, SWT.NONE );
 		GridData gdLBLFill = new GridData( );
 		lblFill.setLayoutData( gdLBLFill );
 		lblFill.setText( Messages.getString( "GanttSeriesAttributeComposite.Lbl.OutlineFill" ) ); //$NON-NLS-1$
@@ -202,7 +202,7 @@ public class GanttSeriesAttributeComposite extends Composite implements
 				false,
 				false );
 		fccFill.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		fccFill.addListener( this );
+		fccFill.addListener( this );*/
 
 		btnDecoration = new Button( cmpFill, SWT.CHECK );
 		{
