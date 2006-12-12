@@ -1402,6 +1402,8 @@ public class ParameterDialog extends BaseDialog
 
 		// createLabel( composite, null );
 		createDefaultEditor( );
+		createLabel( valueArea, null );
+		createPromptLine( valueArea );
 		listLimit.setEditable( true );
 	}
 
@@ -1812,6 +1814,23 @@ public class ParameterDialog extends BaseDialog
 				&& inputParameter.getModuleHandle( ).findParameter( name ) != null )
 		{
 			return ERROR_MSG_DUPLICATED_NAME;
+		}
+		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
+		{
+			if ( defaultValueEditor != null
+					&& ( !defaultValueEditor.isDisposed( ) ) 
+					&& defaultValueEditor.getText( ).length( ) != 0)
+			{
+				try
+				{
+					getValue( defaultValueEditor.getText( ));
+				}
+				catch ( BirtException e )
+				{
+					return ERROR_MSG_MISMATCH_DATA_TYPE;
+				}
+			}
+
 		}
 		return null;
 	}
