@@ -158,7 +158,7 @@ public class APICompatibleTest extends BaseTestCase
 		textData.setValueExpr( "row[\"New Column\"]" ); //$NON-NLS-1$
 
 		save( );
-		assertTrue( compareFile( "CompatibleExpression_golden.xml") ); //$NON-NLS-1$
+		assertTrue( compareFile( "CompatibleExpression_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -192,7 +192,7 @@ public class APICompatibleTest extends BaseTestCase
 		table.getPropertyHandle( ListHandle.FILTER_PROP ).addItem( filter );
 
 		save( );
-		assertTrue( compareFile( "CompatibleExpression_golden_1.xml") ); //$NON-NLS-1$
+		assertTrue( compareFile( "CompatibleExpression_golden_1.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -234,7 +234,7 @@ public class APICompatibleTest extends BaseTestCase
 				data );
 
 		save( );
-		assertTrue( compareFile( "CompatibleExpression_golden_2.xml") ); //$NON-NLS-1$		
+		assertTrue( compareFile( "CompatibleExpression_golden_2.xml" ) ); //$NON-NLS-1$		
 	}
 
 	/**
@@ -265,5 +265,27 @@ public class APICompatibleTest extends BaseTestCase
 
 			ph.addItem( rsc );
 		}
+	}
+
+	/**
+	 * Backward TOC expression. Change toc expression to toc structure. since
+	 * 3.2.10
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testTOCExpression( ) throws Exception
+	{
+		createDesign( );
+
+		LabelHandle labelHandle = designHandle.getElementFactory( ).newLabel(
+				"label1" ); //$NON-NLS-1$
+		designHandle.getBody( ).add( labelHandle );
+
+		labelHandle.setTocExpression( "toc1" ); //$NON-NLS-1$
+		assertEquals( "toc1", labelHandle.getTocExpression( ) ); //$NON-NLS-1$
+
+		labelHandle.setTocExpression( "toc2" ); //$NON-NLS-1$
+		assertEquals( "toc2", labelHandle.getTocExpression( ) ); //$NON-NLS-1$
 	}
 }

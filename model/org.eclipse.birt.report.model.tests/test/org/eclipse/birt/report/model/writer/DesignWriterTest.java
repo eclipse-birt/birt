@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.writer;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
@@ -27,7 +28,12 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
+import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
+import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 import org.eclipse.birt.report.model.util.XMLParserException;
 
@@ -237,5 +243,70 @@ public class DesignWriterTest extends BaseTestCase
 		// the design name can be empty
 
 		openDesign( outputFileName, is );
+	}
+
+	/**
+	 * Test item in structure contain another structure. for example: report
+	 * item has toc structure, and toc can contain other structure such as
+	 * DateTimeFormat , StringFormat.
+	 * 
+	 * @throws Exception
+	 */
+	
+	public void testStructContainStrucut( ) throws Exception
+	{
+		// toc
+
+		createDesign( );
+		ElementFactory elemFactory = new ElementFactory( design );
+		LabelHandle labelHandle = elemFactory.newLabel( "label1" );//$NON-NLS-1$
+		designHandle.getBody( ).add(  labelHandle );
+		TOC toc = StructureFactory.createTOC( "toc" );//$NON-NLS-1$\
+		FormatValue formatValueToSet = new DateTimeFormatValue( );
+		formatValueToSet.setCategory( "Short Date" );//$NON-NLS-1$
+		formatValueToSet.setPattern( "yyyy/mm/dd" );//$NON-NLS-1$
+		toc.setProperty( TOC.DATE_TIME_FORMAT_MEMBER, formatValueToSet );
+		
+		labelHandle.addTOC( toc );
+
+		save( );
+		
+		// save successfully and no assert error.
+		compareFile( "DesignWriterTest_1_golden.xml" );//$NON-NLS-1$
+		
+		
+	}
+
+	/**
+	 * Test item in structure list contain another structure. for example: style
+	 * has highlightrule list. and each highlightrule can contain other
+	 * structure such as DateTimeFormat, StringFormat.
+	 * 
+	 * @throws Exception
+	 */
+	
+	public void testStructListContainStruct( ) throws Exception
+	{
+		// hightlightrule
+		
+		createDesign( );
+		ElementFactory elemFactory = new ElementFactory( design );
+		StyleHandle styleHandle = elemFactory.newStyle( "style1" );//$NON-NLS-1$
+		designHandle.getStyles( ).add( styleHandle );
+		
+		HighlightRule rule = StructureFactory.createHighlightRule( );
+		FormatValue formatValueToSet = new DateTimeFormatValue( );
+		formatValueToSet.setCategory( "Short Date" );//$NON-NLS-1$
+		formatValueToSet.setPattern( "yyyy/mm/dd" );//$NON-NLS-1$
+		rule.setProperty( TOC.DATE_TIME_FORMAT_MEMBER, formatValueToSet );
+
+		List list = new ArrayList( );
+		list.add( rule );
+		styleHandle.getElement().setProperty( IStyleModel.HIGHLIGHT_RULES_PROP, list );
+
+		save( );
+		
+		// save successfully and no assert error.
+		compareFile( "DesignWriterTest_2_golden.xml" );//$NON-NLS-1$
 	}
 }

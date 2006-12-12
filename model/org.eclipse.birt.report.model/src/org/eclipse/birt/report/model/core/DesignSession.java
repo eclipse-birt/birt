@@ -22,7 +22,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DefaultResourceLocator;
-import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.IAbsoluteFontSizeValueProvider;
 import org.eclipse.birt.report.model.api.IResourceLocator;

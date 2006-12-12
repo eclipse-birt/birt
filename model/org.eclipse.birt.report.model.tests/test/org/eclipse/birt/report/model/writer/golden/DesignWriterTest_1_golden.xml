@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.10" id="1">
+    <body>
+        <label name="label1" id="2">
+        	<structure name="toc">
+        		<expression name="expressionValue">toc</expression>
+        		<structure name="dateTimeFormat">
+                     <property name="category">Short Date</property>
+                     <property name="pattern">yyyy/mm/dd</property>
+                </structure>
+        	</structure>
+        </label>
+    </body>
+</report>

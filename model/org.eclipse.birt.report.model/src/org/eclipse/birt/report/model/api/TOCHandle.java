@@ -12,7 +12,12 @@
 package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
+import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.Style;
@@ -115,7 +120,7 @@ public class TOCHandle extends StructureHandle
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Returns a handle to work with the style properties of toc element. Use a
 	 * style handle to work with the specific getter/setter methods for each
@@ -137,12 +142,12 @@ public class TOCHandle extends StructureHandle
 		return new PrivateStyleHandle( getModule( ), getElement( ) );
 	}
 
-/**
+	/**
 	 * Gets border-top-style property.
 	 * 
 	 * @return border-top-style property
 	 */
-	
+
 	public String getBorderTopStyle( )
 	{
 		Object value = getProperty( TOC.BORDER_TOP_STYLE_MEMBER );
@@ -166,7 +171,7 @@ public class TOCHandle extends StructureHandle
 	 * 
 	 * @return border-top-width property
 	 */
-	
+
 	public DimensionHandle getBorderTopWidth( )
 	{
 		Object value = getProperty( TOC.BORDER_TOP_WIDTH_MEMBER );
@@ -182,7 +187,35 @@ public class TOCHandle extends StructureHandle
 				return style.getBorderTopWidth( );
 			}
 		}
-		return (DimensionHandle) value;
+		return doGetDimensionHandle( TOC.BORDER_TOP_WIDTH_MEMBER );
+	}
+
+	/**
+	 * Returns a dimension handle for a member.
+	 * 
+	 * @param memberName
+	 *            the member name.
+	 * @return A DimensionHandle for the given member.
+	 */
+
+	private DimensionHandle doGetDimensionHandle( String memberName )
+	{
+		MemberRef memberRef = new CachedMemberRef( structRef, memberName );
+		return new DimensionHandle( getElementHandle( ), memberRef );
+	}
+
+	/**
+	 * Returns a color handle for a given member.
+	 * 
+	 * @param memberName
+	 *            the member name
+	 * @return a ColorHandle for the given member
+	 */
+
+	private ColorHandle doGetColorHandle( String memberName )
+	{
+		MemberRef memberRef = new CachedMemberRef( structRef, memberName );
+		return new ColorHandle( getElementHandle( ), memberRef );
 	}
 
 	/**
@@ -190,7 +223,7 @@ public class TOCHandle extends StructureHandle
 	 * 
 	 * @return border-top-color property
 	 */
-	
+
 	public ColorHandle getBorderTopColor( )
 	{
 		Object value = getProperty( TOC.BORDER_TOP_COLOR_MEMBER );
@@ -206,7 +239,7 @@ public class TOCHandle extends StructureHandle
 				return style.getBorderTopColor( );
 			}
 		}
-		return (ColorHandle) value;
+		return doGetColorHandle( TOC.BORDER_TOP_COLOR_MEMBER );
 	}
 
 	/**
@@ -254,7 +287,7 @@ public class TOCHandle extends StructureHandle
 				return style.getBorderLeftWidth( );
 			}
 		}
-		return (DimensionHandle) value;
+		return doGetDimensionHandle( TOC.BORDER_LEFT_WIDTH_MEMBER );
 	}
 
 	/**
@@ -278,13 +311,26 @@ public class TOCHandle extends StructureHandle
 				return style.getBorderLeftColor( );
 			}
 		}
-		return (ColorHandle) value;
+		return doGetColorHandle( TOC.BORDER_LEFT_COLOR_MEMBER );
 	}
 
 	/**
-	 * Gets border-bottom-style property.
+	 * Returns the style of the border bottom line. The return value is one of
+	 * the CSS (pre-defined) values see <code>DesignChoiceConstants</code>.
+	 * They are:
+	 * <ul>
+	 * <li><code>LINE_STYLE_NONE</code>
+	 * <li><code>LINE_STYLE_SOLID</code>
+	 * <li><code>LINE_STYLE_DOTTED</code>
+	 * <li><code>LINE_STYLE_DASHED</code>
+	 * <li><code>LINE_STYLE_DOUBLE</code>
+	 * <li><code>LINE_STYLE_GROOVE</code>
+	 * <li><code>LINE_STYLE_RIDGE</code>
+	 * <li><code>LINE_STYLE_INSET</code>
+	 * <li><code>LINE_STYLE_OUTSET</code>
+	 * </ul>
 	 * 
-	 * @return border-bottom-style property
+	 * @return the border bottom style
 	 */
 
 	public String getBorderBottomStyle( )
@@ -327,7 +373,7 @@ public class TOCHandle extends StructureHandle
 				return style.getBorderBottomWidth( );
 			}
 		}
-		return (DimensionHandle) value;
+		return doGetDimensionHandle( TOC.BORDER_BOTTOM_WIDTH_MEMBER );
 	}
 
 	/**
@@ -351,7 +397,7 @@ public class TOCHandle extends StructureHandle
 				return style.getBorderBottomColor( );
 			}
 		}
-		return (ColorHandle) value;
+		return doGetColorHandle( TOC.BORDER_BOTTOM_COLOR_MEMBER );
 	}
 
 	/**
@@ -399,7 +445,7 @@ public class TOCHandle extends StructureHandle
 				return style.getBorderRightWidth( );
 			}
 		}
-		return (DimensionHandle) value;
+		return doGetDimensionHandle( TOC.BORDER_RIGHT_WIDTH_MEMBER );
 	}
 
 	/**
@@ -423,7 +469,7 @@ public class TOCHandle extends StructureHandle
 				return style.getBorderRightColor( );
 			}
 		}
-		return (ColorHandle) value;
+		return doGetColorHandle( TOC.BORDER_RIGHT_COLOR_MEMBER );
 	}
 
 	/**
@@ -447,7 +493,7 @@ public class TOCHandle extends StructureHandle
 				return style.getBackgroundColor( );
 			}
 		}
-		return (ColorHandle) value;
+		return doGetColorHandle( TOC.BACKGROUND_COLOR_MEMBER );
 	}
 
 	/**
@@ -471,7 +517,34 @@ public class TOCHandle extends StructureHandle
 				return style.getDateTimeFormat( );
 			}
 		}
-		return (String) value;
+		return ( (DateTimeFormatValue) value ).getPattern( );
+	}
+
+	/**
+	 * Gets date time format category property.
+	 * 
+	 * @return date time format category property
+	 */
+
+	public String getDateTimeFormatCategory( )
+	{
+		Object value = getProperty( TOC.DATE_TIME_FORMAT_MEMBER );
+		if ( value == null )
+		{
+			StyleHandle style = getStyle( );
+			if ( style == null )
+			{
+				return null;
+			}
+			else
+			{
+				return style.getDateTimeFormatCategory( );
+			}
+		}
+
+		assert value instanceof DateTimeFormatValue;
+
+		return ( (DateTimeFormatValue) value ).getCategory( );
 	}
 
 	/**
@@ -495,7 +568,35 @@ public class TOCHandle extends StructureHandle
 				return style.getNumberFormat( );
 			}
 		}
-		return (String) value;
+		assert value instanceof NumberFormatValue;
+
+		return ( (NumberFormatValue) value ).getPattern( );
+	}
+
+	/**
+	 * Gets number format category property.
+	 * 
+	 * @return number format category property
+	 */
+
+	public String getNumberFormatCategory( )
+	{
+		Object value = getProperty( TOC.NUMBER_FORMAT_MEMBER );
+		if ( value == null )
+		{
+			StyleHandle style = getStyle( );
+			if ( style == null )
+			{
+				return null;
+			}
+			else
+			{
+				return style.getNumberFormatCategory( );
+			}
+		}
+		assert value instanceof NumberFormatValue;
+
+		return ( (NumberFormatValue) value ).getCategory( );
 	}
 
 	/**
@@ -516,7 +617,7 @@ public class TOCHandle extends StructureHandle
 			}
 			else
 			{
-				// TODO no related method in style
+				return style.getVerticalAlign( );
 			}
 		}
 		return (String) value;
@@ -543,7 +644,37 @@ public class TOCHandle extends StructureHandle
 				return style.getStringFormat( );
 			}
 		}
-		return (String) value;
+
+		assert value instanceof StringFormatValue;
+
+		return ( (StringFormatValue) value ).getPattern( );
+	}
+
+	/**
+	 * Returns the category of a string format for a toc.
+	 * 
+	 * @return the category of a string format
+	 */
+
+	public String getStringFormatCategory( )
+	{
+
+		Object value = getProperty( TOC.STRING_FORMAT_MEMBER );
+		if ( value == null )
+		{
+			StyleHandle style = getStyle( );
+			if ( style == null )
+			{
+				return null;
+			}
+			else
+			{
+				return style.getStringFormatCategory( );
+			}
+		}
+		assert value instanceof StringFormatValue;
+
+		return ( (StringFormatValue) value ).getCategory( );
 	}
 
 	/**
@@ -567,7 +698,21 @@ public class TOCHandle extends StructureHandle
 				return style.getFontFamilyHandle( );
 			}
 		}
-		return (FontHandle) value;
+		return doGetFontHandle( TOC.FONT_FAMILY_MEMBER );
+	}
+
+	/**
+	 * Returns a font family handle for a member.
+	 * 
+	 * @param memberName
+	 *            the member name.
+	 * @return A FontHandle for the given member.
+	 */
+
+	private FontHandle doGetFontHandle( String memberName )
+	{
+		MemberRef memberRef = new CachedMemberRef( structRef, memberName );
+		return new FontHandle( getElementHandle( ), memberRef );
 	}
 
 	/**
@@ -591,13 +736,19 @@ public class TOCHandle extends StructureHandle
 				return style.getFontSize( );
 			}
 		}
-		return (DimensionHandle) value;
+		return doGetDimensionHandle( TOC.FONT_SIZE_MEMBER );
 	}
 
 	/**
-	 * Gets font style property.
+	 * Returns the font style handle for the style. The return value is defined
+	 * in <code>DesignChoiceConstants</code> and can be one of:
+	 * <ul>
+	 * <li><code>FONT_STYLE_NORMAL</code>
+	 * <li><code>FONT_STYLE_ITALIC</code>
+	 * <li><code>FONT_STYLE_OBLIQUE</code>
+	 * </ul>
 	 * 
-	 * @return font style property
+	 * @return the font style in string.
 	 */
 
 	public String getFontStyle( )
@@ -619,9 +770,25 @@ public class TOCHandle extends StructureHandle
 	}
 
 	/**
-	 * Gets font weight property.
+	 * Returns the font weight of the highlight rule. The return value is
+	 * defined in <code>DesignChoiceConstants</code> and can be one of:
+	 * <ul>
+	 * <li><code>FONT_WEIGHT_NORMAL</code>
+	 * <li><code>FONT_WEIGHT_BOLD</code>
+	 * <li><code>FONT_WEIGHT_BOLDER</code>
+	 * <li><code>FONT_WEIGHT_LIGHTER</code>
+	 * <li><code>FONT_WEIGHT_100</code>
+	 * <li><code>FONT_WEIGHT_200</code>
+	 * <li><code>FONT_WEIGHT_300</code>
+	 * <li><code>FONT_WEIGHT_400</code>
+	 * <li><code>FONT_WEIGHT_500</code>
+	 * <li><code>FONT_WEIGHT_600</code>
+	 * <li><code>FONT_WEIGHT_700</code>
+	 * <li><code>FONT_WEIGHT_800</code>
+	 * <li><code>FONT_WEIGHT_900</code>
+	 * </ul>
 	 * 
-	 * @return font weight property
+	 * @return the font weight in string.
 	 */
 
 	public String getFontWeight( )
@@ -643,9 +810,14 @@ public class TOCHandle extends StructureHandle
 	}
 
 	/**
-	 * Gets font Variant property.
+	 * Returns the font variant in a string. The return value is defined in
+	 * <code>DesignChoiceConstants</code> and can be one of:
+	 * <ul>
+	 * <li><code>FONT_VARIANT_NORMAL</code>
+	 * <li><code>FONT_VARIANT_SMALL_CAPS</code>
+	 * </ul>
 	 * 
-	 * @return font Variant property
+	 * @return the font variant in a string.
 	 */
 
 	public String getFontVariant( )
@@ -687,13 +859,18 @@ public class TOCHandle extends StructureHandle
 				return style.getColor( );
 			}
 		}
-		return (ColorHandle) value;
+		return doGetColorHandle( TOC.COLOR_MEMBER );
 	}
 
 	/**
-	 * Gets Text Underline property.
+	 * Returns the value of the underline property. The returned value is
+	 * defined in <code>DesignChoiceConstants</code> and can be one of:
+	 * <ul>
+	 * <li><code>TEXT_UNDERLINE_NONE</code>
+	 * <li><code>TEXT_UNDERLINE_UNDERLINE</code>
+	 * </ul>
 	 * 
-	 * @return Text Underline property
+	 * @return the value of the underline property
 	 */
 
 	public String getTextUnderline( )
@@ -715,11 +892,16 @@ public class TOCHandle extends StructureHandle
 	}
 
 	/**
-	 * Gets Text Overline property.
+	 * Returns the value of the overline property. The returned value is defined
+	 * in <code>DesignChoiceConstants</code> and can be one of:
+	 * <ul>
+	 * <li><code>TEXT_OVERLINE_NONE</code>
+	 * <li><code>TEXT_OVERLINE_OVERLINE</code>
+	 * </ul>
 	 * 
-	 * @return Text Overline property
+	 * @return the value of the overline property
 	 */
-
+	
 	public String getTextOverline( )
 	{
 		Object value = getProperty( TOC.TEXT_OVERLINE_MEMBER );
@@ -739,9 +921,14 @@ public class TOCHandle extends StructureHandle
 	}
 
 	/**
-	 * Gets Text Line Through property.
+	 * Returns the value of the line through property. The returned value is
+	 * defined in <code>DesignChoiceConstants</code> and can be one of:
+	 * <ul>
+	 * <li><code>TEXT_LINE_THROUGH_NONE</code>
+	 * <li><code>TEXT_LINE_THROUGH_LINE_THROUGH</code>
+	 * </ul>
 	 * 
-	 * @return Text Line Through property
+	 * @return the text line through
 	 */
 
 	public String getTextLineThrough( )
@@ -763,9 +950,16 @@ public class TOCHandle extends StructureHandle
 	}
 
 	/**
-	 * Gets text align property.
+	 * Returns the value of text align property. The return value is defined in
+	 * <code>DesignChoiceConstants</code> and can be one of:
+	 * <ul>
+	 * <li><code>TEXT_ALIGN_LEFT</code>
+	 * <li><code>TEXT_ALIGN_CENTER</code>
+	 * <li><code>TEXT_ALIGN_RIGHT</code>
+	 * <li><code>TEXT_ALIGN_JUSTIFY</code>
+	 * </ul>
 	 * 
-	 * @return text align property
+	 * @return the value of text align property
 	 */
 
 	public String getTextAlign( )
@@ -807,13 +1001,20 @@ public class TOCHandle extends StructureHandle
 				return style.getTextIndent( );
 			}
 		}
-		return (DimensionHandle) value;
+		return doGetDimensionHandle( TOC.TEXT_INDENT_MEMBER );
 	}
 
 	/**
-	 * Gets text transform property.
+	 * Returns the value of the text transform property. The return value is
+	 * defined in <code>DesignChoiceConstants</code> and can be one of:
+	 * <ul>
+	 * <li><code>TRANSFORM_CAPITALIZE</code>
+	 * <li><code>TRANSFORM_UPPERCASE</code>
+	 * <li><code>TRANSFORM_LOWERCASE</code>
+	 * <li><code>TRANSFORM_NONE</code>
+	 * </ul>
 	 * 
-	 * @return text transform property
+	 * @return the value of the transform property
 	 */
 
 	public String getTextTransform( )
@@ -833,4 +1034,5 @@ public class TOCHandle extends StructureHandle
 		}
 		return (String) value;
 	}
+
 }

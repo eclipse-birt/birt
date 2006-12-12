@@ -19,12 +19,18 @@ import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.MemberHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.StructureHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TOCHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
+import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
+import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
@@ -120,9 +126,9 @@ public class ReportItemParseTest extends BaseTestCase
 				.getEventHandlerClass( ) );
 
 		// check zIndex properties.
-		
+
 		assertEquals( 2, labelHandle.getZIndex( ) );
-		
+
 		// checks on-prepare, on-create and on-render values
 
 		assertEquals( "hello, show me on create.", labelHandle.getOnCreate( ) ); //$NON-NLS-1$
@@ -177,13 +183,13 @@ public class ReportItemParseTest extends BaseTestCase
 
 		assertEquals( "birt.js.dataHandler", dataHandle //$NON-NLS-1$
 				.getEventHandlerClass( ) );
-		
+
 		// checks on-prepare, on-create and on-render values
 
 		assertEquals( "hello, show data on prepare.", dataHandle.getOnPrepare( ) ); //$NON-NLS-1$	
 		assertEquals( "hello, show data on render.", dataHandle.getOnRender( ) ); //$NON-NLS-1$
 
-		assertEquals( null, dataHandle.getOnCreate( ) ); 
+		assertEquals( null, dataHandle.getOnCreate( ) );
 
 		rules = dataHandle.visibilityRulesIterator( );
 		structHandle = (StructureHandle) rules.next( );
@@ -242,10 +248,10 @@ public class ReportItemParseTest extends BaseTestCase
 		FreeFormHandle form = (FreeFormHandle) designHandle
 				.findElement( "free form" ); //$NON-NLS-1$	
 		assertEquals( "\"This Section\"", form.getTocExpression( ) ); //$NON-NLS-1$	
-		
+
 		TOCHandle tocHandle = dataHandle.getTOC( );
-		
-		assertEquals( "2005 Statistics" , tocHandle.getExpression( ) ); //$NON-NLS-1$
+
+		assertEquals( "2005 Statistics", tocHandle.getExpression( ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -280,7 +286,7 @@ public class ReportItemParseTest extends BaseTestCase
 		// visibility rule now support user defined format, no exception
 
 		memberHandle.setValue( "userDefinedformat" ); //$NON-NLS-1$
-		
+
 		memberHandle = structHandle.getMember( HideRule.VALUE_EXPR_MEMBER );
 		memberHandle.setValue( "10*20" ); //$NON-NLS-1$
 
@@ -335,20 +341,166 @@ public class ReportItemParseTest extends BaseTestCase
 
 		dataHandle.setTocExpression( null );
 
-		save(); 
-		assertTrue( compareFile( "ReportItemParseTest_golden.xml") ); //$NON-NLS-1$
-		
+		save( );
+		assertTrue( compareFile( "ReportItemParseTest_golden.xml" ) ); //$NON-NLS-1$
+
 		dataHandle.addTOC( "toc1" );//$NON-NLS-1$
 		TOCHandle tocHandle = dataHandle.getTOC( );
 		assertNotNull( tocHandle );
-		
-		dataHandle.addTOC( (String)null );
-		
-		TOC toc = StructureFactory.createTOC("toc2");//$NON-NLS-1$
+
+		dataHandle.addTOC( (String) null );
+
+		TOC toc = StructureFactory.createTOC( "toc2" );//$NON-NLS-1$
 		dataHandle.addTOC( toc );
-		
-		save();
-		assertTrue( compareFile( "ReportItemParseTest_2_golden.xml"));//$NON-NLS-1$
+
+		save( );
+		assertTrue( compareFile( "ReportItemParseTest_2_golden.xml" ) );//$NON-NLS-1$
+
 	}
 
+	/**
+	 * Test translate TOC expression to TOC structure.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testOpenTOCStructure( ) throws Exception
+	{
+		openDesign( "ReportItemParseTest_2.xml" );//$NON-NLS-1$
+		DataItemHandle dataHandle = (DataItemHandle)designHandle.getBody( ).get( 0 );
+		TOCHandle tocHandle = dataHandle.getTOC( );
+		assertNotNull( tocHandle );
+		assertEquals( "2005 Statistics" , tocHandle.getExpression( ) );//$NON-NLS-1$
+		
+		assertEquals( "NewStyle" , tocHandle.getStyleName( ));//$NON-NLS-1$
+		
+		assertEquals( "double" , tocHandle.getBorderTopStyle( ) );//$NON-NLS-1$
+		assertEquals( "thick" , tocHandle.getBorderTopWidth( ).getStringValue() );//$NON-NLS-1$
+		assertEquals( "gray" , tocHandle.getBorderTopColor( ).getStringValue() );//$NON-NLS-1$
+		
+		assertEquals( "double" , tocHandle.getBorderLeftStyle( ) );//$NON-NLS-1$
+		assertEquals( "thick" , tocHandle.getBorderLeftWidth( ).getStringValue() );//$NON-NLS-1$
+		assertEquals( "blue" , tocHandle.getBorderLeftColor( ).getStringValue() );//$NON-NLS-1$
+		
+		assertEquals( "double" , tocHandle.getBorderBottomStyle( ) );//$NON-NLS-1$
+		assertEquals( "thick" , tocHandle.getBorderBottomWidth( ).getStringValue() );//$NON-NLS-1$
+		assertEquals( "red" , tocHandle.getBorderBottomColor( ).getStringValue() );//$NON-NLS-1$
+		
+		assertEquals( "double" , tocHandle.getBorderRightStyle( ) );//$NON-NLS-1$
+		assertEquals( "thick" , tocHandle.getBorderRightWidth( ).getStringValue() );//$NON-NLS-1$
+		assertEquals( "yellow" , tocHandle.getBorderRightColor( ).getStringValue() );//$NON-NLS-1$
+	
+		assertEquals( "center" , tocHandle.getNumberAlign( ));//$NON-NLS-1$
+		assertEquals( "cursive" , tocHandle.getFontFamily( ).getValue( ));//$NON-NLS-1$
+		assertEquals( "10pc" , tocHandle.getFontSize( ).getStringValue( ));//$NON-NLS-1$
+		assertEquals( "italic" , tocHandle.getFontStyle( ));//$NON-NLS-1$
+		assertEquals( "bold" , tocHandle.getFontWeight( ));//$NON-NLS-1$
+		assertEquals( "normal" , tocHandle.getFontVariant( ));//$NON-NLS-1$
+		assertEquals( "#000000" , tocHandle.getColor( ).getStringValue( ));//$NON-NLS-1$
+		assertEquals( "underline" , tocHandle.getTextUnderline( ));//$NON-NLS-1$
+		assertEquals( "overline" , tocHandle.getTextOverline( ));//$NON-NLS-1$
+		assertEquals( "line-through" , tocHandle.getTextLineThrough( ));//$NON-NLS-1$
+		assertEquals( "right" , tocHandle.getTextAlign( ));//$NON-NLS-1$
+		assertEquals( "4in" , tocHandle.getTextIndent( ).getStringValue( ));//$NON-NLS-1$
+		assertEquals( "lowercase" , tocHandle.getTextTransform( ));//$NON-NLS-1$
+		
+		assertEquals( "yyyy/mm/dd" , tocHandle.getDateTimeFormat( ));//$NON-NLS-1$
+		assertEquals( "#.00" , tocHandle.getNumberFormat( ));//$NON-NLS-1$
+		assertEquals( "string-format" , tocHandle.getStringFormat( ));//$NON-NLS-1$
+		
+		assertEquals( "Short Date" , tocHandle.getDateTimeFormatCategory( ));//$NON-NLS-1$
+		assertEquals( "Currency" , tocHandle.getNumberFormatCategory( ));//$NON-NLS-1$
+		assertEquals( "<" , tocHandle.getStringFormatCategory( ));//$NON-NLS-1$
+		
+		StyleHandle styleHandle = (StyleHandle)designHandle.getStyles( ).get( 0 );
+		styleHandle.setProperty( IStyleModel.BORDER_TOP_COLOR_PROP , "red" );//$NON-NLS-1$
+		
+		styleHandle.setProperty( IStyleModel.BORDER_LEFT_COLOR_PROP , "yellow" );//$NON-NLS-1$
+		tocHandle.setProperty( TOC.BORDER_LEFT_COLOR_MEMBER , null );
+		
+		tocHandle.setProperty( TOC.BORDER_BOTTOM_WIDTH_MEMBER , null );
+		tocHandle.setProperty( TOC.BORDER_RIGHT_COLOR_MEMBER , "white" );//$NON-NLS-1$
+		
+		assertEquals( "gray" , tocHandle.getBorderTopColor( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals( "medium" , tocHandle.getBorderBottomWidth( ).getStringValue( )  );//$NON-NLS-1$
+		
+		assertEquals( "white" , tocHandle.getBorderRightColor( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals( "yellow" , tocHandle.getBorderLeftColor( ).getStringValue( ) );//$NON-NLS-1$
+					
+		save( );
+		assertTrue( compareFile( "ReportItemParseTest_3_golden.xml" ) );//$NON-NLS-1$
+	}
+	
+	
+	/**
+	 * Test write a TOC structure.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testWriteTOCStructure( ) throws Exception
+	{
+		createDesign();
+		
+		DataItemHandle dataHandle = designHandle.getElementFactory( ).newDataItem( "bodyData" );//$NON-NLS-1$
+		designHandle.getBody( ).add( dataHandle );
+		
+		TOC toc = StructureFactory.createTOC( "2005 Statistics"  );//$NON-NLS-1$
+		
+		
+		TOCHandle tocHandle = dataHandle.addTOC( toc );
+		assertNotNull( tocHandle );
+		assertEquals( "2005 Statistics" , tocHandle.getExpression( ) );//$NON-NLS-1$
+		
+		tocHandle.setStyleName( "NewStyle" );//$NON-NLS-1$
+		
+		tocHandle.setProperty( TOC.BORDER_TOP_STYLE_MEMBER, "double" );//$NON-NLS-1$
+		tocHandle.setProperty( TOC.BORDER_TOP_COLOR_MEMBER, "gray" );//$NON-NLS-1$
+		tocHandle.setProperty( TOC.BORDER_TOP_WIDTH_MEMBER, "thick" );//$NON-NLS-1$
+		
+		tocHandle.setProperty( TOC.BORDER_BOTTOM_STYLE_MEMBER , "double" );//$NON-NLS-1$
+		tocHandle.setProperty( TOC.BORDER_BOTTOM_COLOR_MEMBER, "red" );//$NON-NLS-1$
+		tocHandle.setProperty( TOC.BORDER_BOTTOM_WIDTH_MEMBER, "thick" );//$NON-NLS-1$
+		
+		tocHandle.setProperty( TOC.BORDER_LEFT_STYLE_MEMBER , "double" );//$NON-NLS-1$
+		tocHandle.setProperty( TOC.BORDER_LEFT_COLOR_MEMBER, "blue" );//$NON-NLS-1$
+		tocHandle.setProperty( TOC.BORDER_LEFT_WIDTH_MEMBER, "thick" );//$NON-NLS-1$
+		
+		tocHandle.setProperty( TOC.BORDER_RIGHT_STYLE_MEMBER , "double" );//$NON-NLS-1$
+		tocHandle.setProperty( TOC.BORDER_RIGHT_COLOR_MEMBER, "yellow" );//$NON-NLS-1$
+		tocHandle.setProperty( TOC.BORDER_RIGHT_WIDTH_MEMBER, "thick" );//$NON-NLS-1$
+		
+		tocHandle.setProperty( TOC.BACKGROUND_COLOR_MEMBER , "#808080" );//$NON-NLS-1$
+		tocHandle.setProperty( TOC.NUMBER_ALIGN_MEMBER, "center" );//$NON-NLS-1$
+		tocHandle.setProperty( TOC.FONT_FAMILY_MEMBER, "cursive" );//$NON-NLS-1$
+		tocHandle.setProperty( TOC.FONT_SIZE_MEMBER, "10pc" );//$NON-NLS-1$
+		tocHandle.setProperty( TOC.FONT_STYLE_MEMBER , "italic" );//$NON-NLS-1$
+		tocHandle.setProperty( TOC.FONT_WEIGHT_MEMBER, "bold" );//$NON-NLS-1$
+		tocHandle.setProperty( TOC.FONT_VARIANT_MEMBER, "normal" );//$NON-NLS-1$
+		tocHandle.setProperty( TOC.COLOR_MEMBER , "#000000" );//$NON-NLS-1$
+		tocHandle.setProperty( TOC.TEXT_UNDERLINE_MEMBER, "underline" );//$NON-NLS-1$
+		tocHandle.setProperty( TOC.TEXT_OVERLINE_MEMBER, "overline" );//$NON-NLS-1$
+		tocHandle.setProperty( TOC.TEXT_LINE_THROUGH_MEMBER , "line-through" );//$NON-NLS-1$
+		tocHandle.setProperty( TOC.TEXT_ALIGN_MEMBER, "right" );//$NON-NLS-1$
+		tocHandle.setProperty( TOC.TEXT_INDENT_MEMBER, "4in" );//$NON-NLS-1$
+		tocHandle.setProperty( TOC.TEXT_TRANSFORM_MEMBER , "lowercase" );//$NON-NLS-1$
+		
+		FormatValue value = new DateTimeFormatValue( );
+		value.setPattern( "yyyy/mm/dd" );//$NON-NLS-1$
+		value.setCategory( "Short Date" );//$NON-NLS-1$
+		tocHandle.setProperty( TOC.DATE_TIME_FORMAT_MEMBER, value );
+		
+		value = new StringFormatValue();
+		value.setPattern( "string-format" );//$NON-NLS-1$
+		value.setCategory( "<" );//$NON-NLS-1$
+		tocHandle.setProperty( TOC.STRING_FORMAT_MEMBER, value );
+		
+		value = new NumberFormatValue();
+		value.setPattern( "#.00" );//$NON-NLS-1$
+		value.setCategory( "Currency" );//$NON-NLS-1$
+		tocHandle.setProperty( TOC.NUMBER_FORMAT_MEMBER, value );
+					
+		save( );
+		assertTrue( compareFile( "ReportItemParseTest_4_golden.xml" ) );//$NON-NLS-1$
+	}
 }

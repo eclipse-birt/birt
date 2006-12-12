@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.elements.structures.SearchKey;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
+import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.extension.ICompatibleReportItem;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -81,12 +82,13 @@ public abstract class BoundColumnsMgr
 	protected void dealReportItem( ReportItem element, Module module )
 	{
 		dealStyle( element, module );
-		String value = (String) element.getLocalProperty( module,
-				IReportItemModel.TOC_PROP );
-		if ( value != null )
-			handleBoundsForValue( element, module, value );
 
-		value = (String) element.getLocalProperty( module,
+		TOC toc = (TOC) element.getLocalProperty( module,
+				IReportItemModel.TOC_PROP );
+		if( toc != null )
+			handleBoundsForValue( element, module, toc.getExpression( ) );
+
+		String value = (String) element.getLocalProperty( module,
 				IReportItemModel.BOOKMARK_PROP );
 		if ( value != null )
 			handleBoundsForValue( element, module, value );

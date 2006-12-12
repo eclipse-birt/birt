@@ -852,10 +852,39 @@ public abstract class ModuleWriter extends ElementVisitor
 		{
 			StructPropertyDefn strcutPropDefn = (StructPropertyDefn) iter
 					.next( );
-			property( struct, strcutPropDefn.getName( ) );
+
+			// for example: TOC structure contains StringFormat,DateTimeFormat
+			// structure.
+
+			writeMember( struct, strcutPropDefn );
 		}
 
 		writer.endElement( );
+	}
+
+	/**
+	 * Write property or structure according to definition.
+	 * 
+	 * @param struct
+	 *            parent structure.
+	 * @param propDefn
+	 *            property definition.
+	 */
+
+	private void writeMember( IStructure struct, PropertyDefn propDefn )
+	{
+		// the member of the structure list may be the
+		// structure/structure list again.
+
+		if ( propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
+		{
+			if ( propDefn.isList( ) )
+				writeStructureList( struct, propDefn.getName( ) );
+			else
+				writeStructure( struct, propDefn.getName( ) );
+		}
+		else
+			property( struct, propDefn.getName( ) );
 	}
 
 	/**
@@ -906,7 +935,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	 *            the name of the list property
 	 */
 
-	protected void writeStructure( IStructure struct, String memberName )
+	private void writeStructure( IStructure struct, String memberName )
 	{
 		IStructureDefn structDefn = struct.getDefn( ).getMember( memberName )
 				.getStructDefn( );
@@ -929,7 +958,10 @@ public abstract class ModuleWriter extends ElementVisitor
 			StructPropertyDefn strcutPropDefn = (StructPropertyDefn) iter
 					.next( );
 
-			property( memberStruct, strcutPropDefn.getName( ) );
+			// for example: TOC structure contains StringFormat,DateTimeFormat
+			// structure.
+
+			writeMember( memberStruct, strcutPropDefn );
 		}
 
 		writer.endElement( );
@@ -972,18 +1004,11 @@ public abstract class ModuleWriter extends ElementVisitor
 			{
 				PropertyDefn memberDefn = (PropertyDefn) memberIter.next( );
 
-				// the member of the structure list may be the
-				// structure/structure list again.
-				
-				if ( memberDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
-				{
-					if ( memberDefn.isList( ) )
-						writeStructureList( struct, memberDefn.getName( ) );
-					else
-						writeStructure( struct, memberDefn.getName( ) );
-				}
-				else
-					property( struct, memberDefn.getName( ) );
+				// for example: highlightrule structure contains
+				// StringFormat,DateTimeFormat
+				// structure.
+
+				writeMember( struct, memberDefn );
 			}
 			writer.endElement( );
 		}
@@ -1001,7 +1026,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	 *            the name of the structure list property to write
 	 */
 
-	protected void writeStructureList( IStructure obj, String memberName )
+	private void writeStructureList( IStructure obj, String memberName )
 	{
 		PropertyDefn prop = (PropertyDefn) obj.getDefn( )
 				.getMember( memberName );
@@ -1029,7 +1054,12 @@ public abstract class ModuleWriter extends ElementVisitor
 			while ( memberIter.hasNext( ) )
 			{
 				PropertyDefn memberDefn = (PropertyDefn) memberIter.next( );
-				property( struct, memberDefn.getName( ) );
+
+				// for example: highlightrule structure contains
+				// StringFormat,DateTimeFormat
+				// structure.
+
+				writeMember( struct, memberDefn );
 			}
 			writer.endElement( );
 		}
