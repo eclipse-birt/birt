@@ -17,6 +17,7 @@ import java.sql.Clob;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
@@ -29,10 +30,6 @@ import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.eclipse.birt.core.i18n.ResourceHandle;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 
-import com.ibm.icu.text.DateFormat;
-import com.ibm.icu.text.SimpleDateFormat;
-import com.ibm.icu.util.Calendar;
-import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -53,42 +50,13 @@ public final class DataTypeUtil
 	// cache DateFormatter of ICU
 	private static Map dfMap = DateFormatUtil.getAllDateFormatter();
 
-	//all SimpleDateFormatter of ICU
-	private static SimpleDateFormat[] simpleDateFormatter = null;
-
 	// resource bundle for exception messages 
 	public static ResourceBundle resourceBundle = ( new ResourceHandle( ULocale.getDefault( ) ) ).getResourceBundle( );
 
 	public static long count = 0;
 	private final static String pluginId = "org.eclipse.birt.core";
 
-	static
-	{
-		// date format pattern defined in ISO8601
-		// notice the order is significant.
-		String[] dateFormatPattern = {
-				"yyyy-MM-dd HH:mm:ss.S z",
-				"yyyy-MM-dd HH:mm:ss.Sz",
-				"yyyy-MM-dd HH:mm:ss.S",
-				"yyyy-MM-dd HH:mm:ss z",
-				"yyyy-MM-dd HH:mm:ssz",
-				"yyyy-MM-dd HH:mm:ss",
-				"yyyy-MM-dd HH:mm z",
-				"yyyy-MM-dd HH:mmz",
-				"yyyy-MM-dd HH:mm",
-				"yyyy-MM-dd",
-				"yyyy-MM",
-				"yyyy"	
-		};
-		simpleDateFormatter = new SimpleDateFormat[dateFormatPattern.length];
-		for ( int i = 0; i < dateFormatPattern.length; i++ )
-		{
-			simpleDateFormatter[i] = new SimpleDateFormat( dateFormatPattern[i] );
-//			simpleDateFormatter[i].setCalendar( Calendar.getInstance( TimeZone.getTimeZone( "GMT" ) ) );
-			simpleDateFormatter[i].setLenient( false );
-		}
-	}
-
+	
 	/**
 	 * convert an object to given type
 	 * Types supported:
@@ -453,11 +421,18 @@ public final class DataTypeUtil
             try
             {
                 return new Time( toDate((String) source).getTime() );
+                
             }
-            catch( IllegalArgumentException e )
+            catch( Exception e )
             {
-                // let fall thru to throw BirtException
-                e.printStackTrace();
+            	try
+                {
+                	return Time.valueOf( (String)source );
+                }
+                catch ( Exception e1 )
+                {
+                	
+                }
             }
         }
 
@@ -510,7 +485,7 @@ public final class DataTypeUtil
 		{
 			for ( int j = DEFAULT_DATE_STYLE; j <= DateFormat.SHORT; j++ )
 			{
-				dateFormat = DateFormatHolder.getDateTimeInstance( i, j, locale );
+				dateFormat = DateFormatFactory.getDateTimeInstance( i, j, locale );
 				try
 				{
 					resultDate = dateFormat.parse( source );
@@ -524,7 +499,7 @@ public final class DataTypeUtil
 			// only Date, no Time 
 			if ( !existTime )
 			{
-				dateFormat = DateFormatHolder.getDateInstance( i, locale );
+				dateFormat = DateFormatFactory.getDateInstance( i, locale );
 				try
 				{
 					resultDate = dateFormat.parse( source );
@@ -584,7 +559,7 @@ public final class DataTypeUtil
 	public static Date toDateWithCheck( String source, ULocale locale )
 			throws BirtException
 	{
-		DateFormat dateFormat = DateFormatHolder.getDateInstance( DateFormat.SHORT,
+		DateFormat dateFormat = DateFormatFactory.getDateInstance( DateFormat.SHORT,
 				locale );
 		Date resultDate = null;
 		try
@@ -982,33 +957,12 @@ public final class DataTypeUtil
 	{
 		Date resultDate = null;
 
-		source = cleanDate( source );
-		
-		for ( int i = 0; i < simpleDateFormatter.length - 1; i++ )
+		try
 		{
-			try
-			{
-				resultDate = simpleDateFormatter[i].parse( source );
-				return resultDate;
-			}
-			catch ( ParseException e1 )
-			{
-			}
+			resultDate = DateFormatISO8601.parse( source );
+			return resultDate;
 		}
-		//Only string matching "[0-9]+" can be applied to simpleDateFormatter.
-		if ( source.length( ) <= 4 && source.matches( "[0-9]+" ) )
-		{
-			try
-			{
-				resultDate = simpleDateFormatter[simpleDateFormatter.length - 1].parse( source );
-				return resultDate;
-			}
-			catch ( ParseException e1 )
-			{
-			}
-		}
-		// for the String can not be parsed, throws a BirtException
-		if ( resultDate == null )
+		catch ( ParseException e1 )
 		{
 			throw new BirtException( pluginId,
 					ResourceConstants.CONVERT_FAILS,
@@ -1017,31 +971,9 @@ public final class DataTypeUtil
 					},
 					resourceBundle );
 		}
-
-		// never access here
-		return resultDate;
+		
 	}
 	
-	/**
-	 * 
-	 * @param s
-	 * @return
-	 */
-	private static String cleanDate( String s )
-	{
-		s = s.trim( );
-		if ( s.indexOf( 'T' ) < 12 )
-		{
-			s = s.replaceFirst( "T", " " );
-		}
-		int zoneIndex = s.indexOf( 'Z' );
-		if ( zoneIndex == s.length( ) - 1 )
-		{
-			return s.substring( 0, zoneIndex );
-		}
-		
-		return s;
-	}
 
 	/**
 	 * Call org.eclipse.birt.core.format.DateFormatter
@@ -1200,85 +1132,3 @@ public final class DataTypeUtil
 	}
 }
 
-/**
- * 
- *
- */
-class DateFormatHolder
-{
-	//
-	private static Map dateTimeFormatholder = DateFormatUtil.getAllDateTimeFormat( );
-	private static Map dateFormatHolder = DateFormatUtil.getAllDateFormat( );
-
-	/**
-	 * 
-	 *
-	 */
-	private DateFormatHolder( )
-	{
-	}
-
-	/**
-	 * 
-	 * @param dateStyle
-	 * @param timeStyle
-	 * @param locale
-	 * @return
-	 */
-	public static DateFormat getDateTimeInstance( int dateStyle, int timeStyle,
-			ULocale locale )
-	{
-		//DateFormatIdentifier key = new DateFormatIdentifier(dateStyle,timeStyle,locale) ;
-		String key = String.valueOf( dateStyle )
-				+ ":" + String.valueOf( timeStyle ) + ":" + locale.getName( );
-		DateFormat result = (DateFormat) dateTimeFormatholder.get( key );
-		
-		//This code block is added to solve the problem that the uncached datetimeformatter being used	
-		if ( result == null )
-		{
-			synchronized ( dateTimeFormatholder )
-			{
-				result = (DateFormat) dateTimeFormatholder.get( key );
-				if ( result == null )
-				{
-					result = DateFormat.getDateTimeInstance( dateStyle,
-							timeStyle,
-							locale );
-					result.setLenient( false );
-					dateTimeFormatholder.put( key, result );
-				}
-			}
-		}
-		
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param dateStyle
-	 * @param locale
-	 * @return
-	 */
-	public static DateFormat getDateInstance( int dateStyle, ULocale locale )
-	{
-		String key = String.valueOf( dateStyle ) + ":" + locale.getName( );
-		//DateFormatIdentifier key = new DateFormatIdentifier(dateStyle,0,locale) ;
-		DateFormat result = (DateFormat) dateFormatHolder.get( key );
-		
-		//This code block is added to solve the problem that the uncached datetimeformatter being used	
-		if ( result == null )
-		{
-			synchronized ( dateTimeFormatholder )
-			{
-				result = (DateFormat)dateFormatHolder.get( key );
-				if ( result == null )
-				{
-					result = DateFormat.getDateInstance( dateStyle, locale );
-					result.setLenient( false );
-					dateFormatHolder.put( key, result );
-				}
-			}
-		}
-		return result;
-	}
-}
