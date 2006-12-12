@@ -108,7 +108,7 @@
 		<property file="META-INF/MANIFEST.MF" />
 		<property name="plugin.package" value="${module.name}_${Bundle-Version}" />
 	  <copy todir="${export.dir}/${plugin.package}">
-	    <fileset dir="." includes="plugin.xml,.project,META-INF/MANIFEST.MF,*Toc.xml,doc.zip,about.html,notices.html,about.ini,eclipse32.gif"/>
+	    <fileset dir="." includes="plugin.xml,.project,META-INF/MANIFEST.MF,*Toc.xml,doc.zip,about.html,notices.html,about.ini,eclipse32.png"/>
 	  </copy>
 		<tstamp>
 			<format property="TODAY" pattern="yyyyMMddHHmm" />
