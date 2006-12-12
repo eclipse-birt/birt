@@ -23,6 +23,7 @@ import org.eclipse.birt.report.engine.layout.area.IArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.content.BlockStackingExecutor;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
+import org.w3c.dom.css.CSSValue;
 
 /**
  * represents block stacking layout manager
@@ -161,13 +162,48 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 		}
 		
 		// FIXME currently do not consider a spcial case...
-		root
-				.setHeight( getCurrentBP( )
-						+ getOffsetY( )
-						+ getDimensionValue( areaStyle
-								.getProperty( StyleConstants.STYLE_PADDING_BOTTOM ) )
-						+ getDimensionValue( areaStyle
-								.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH )) );
+		int height = getCurrentBP( )
+				+ getOffsetY( )
+				+ getDimensionValue( areaStyle
+						.getProperty( StyleConstants.STYLE_PADDING_BOTTOM ) )
+				+ getDimensionValue( areaStyle
+						.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ) );
+		if ( isFirst && isLast )
+		{
+			calculateSpecifiedHeight( );
+			if ( specifiedHeight > height )
+			{
+				CSSValue verticalAlign = areaStyle
+						.getProperty( IStyle.STYLE_VERTICAL_ALIGN );
+				if ( IStyle.BOTTOM_VALUE.equals( verticalAlign )
+						|| IStyle.MIDDLE_VALUE.equals( verticalAlign ) )
+				{
+					int offset = specifiedHeight - height;
+					if ( IStyle.BOTTOM_VALUE.equals( verticalAlign ) )
+					{
+						Iterator iter = root.getChildren( );
+						while ( iter.hasNext( ) )
+						{
+							AbstractArea child = (AbstractArea) iter.next( );
+							child.setAllocatedPosition( child.getAllocatedX( ),
+									child.getAllocatedY( ) + offset );
+						}
+					}
+					else if ( IStyle.MIDDLE_VALUE.equals( verticalAlign ) )
+					{
+						Iterator iter = root.getChildren( );
+						while ( iter.hasNext( ) )
+						{
+							AbstractArea child = (AbstractArea) iter.next( );
+							child.setAllocatedPosition( child.getAllocatedX( ),
+									child.getAllocatedY( ) + offset / 2 );
+						}
+					}
+				}
+				height = specifiedHeight;
+			}
+		}
+		root.setHeight( height );
 	}
 
 	public boolean addArea( IArea area, boolean keepWithPrevious, boolean keepWithNext )

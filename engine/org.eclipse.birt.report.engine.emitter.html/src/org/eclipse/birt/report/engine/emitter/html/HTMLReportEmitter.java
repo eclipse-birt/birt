@@ -148,7 +148,7 @@ import com.ibm.icu.util.ULocale;
  * </tr>
  * </table>
  * 
- * @version $Revision: 1.148 $ $Date: 2006/11/10 08:15:01 $
+ * @version $Revision: 1.149 $ $Date: 2006/11/13 05:27:40 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -1700,9 +1700,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		handleStyle( text, styleBuffer, false );
 
+		String verticalAlign = null;
+		String canShrink = "false";
+		if(mergedStyle!=null)
+		{
+			verticalAlign = mergedStyle.getVerticalAlign( );
+			canShrink = mergedStyle.getCanShrink( );
+		}
 		
-		String verticalAlign = mergedStyle.getVerticalAlign( );
-		if ( !"baseline".equals( verticalAlign ) && height != null )
+		if ( !"baseline".equals( verticalAlign ) && height != null && !"true".equalsIgnoreCase(  canShrink ) )
 		{
 			// implement vertical align.
 			writer.openTag( HTMLTags.TAG_TABLE );
@@ -1712,7 +1718,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 			StringBuffer textStyleBuffer = new StringBuffer( );
 			textStyleBuffer.append( " vertical-align:" );
-			textStyleBuffer.append( verticalAlign );
+			textStyleBuffer.append( verticalAlign==null? "top":verticalAlign );
 			textStyleBuffer.append( ";" );
 			writer.attribute( HTMLTags.ATTR_STYLE, textStyleBuffer );
 
@@ -2403,8 +2409,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	protected boolean handleShrink( int type, IStyle style,
 			DimensionType height, DimensionType width, StringBuffer styleBuffer )
 	{
-		boolean canShrink = style == null
-				|| !"false".equalsIgnoreCase( style.getCanShrink( ) ); //$NON-NLS-1$
+		boolean canShrink = style != null
+				&& "true".equalsIgnoreCase( style.getCanShrink( ) ); //$NON-NLS-1$
 
 		if ( ( type & DISPLAY_BLOCK ) > 0 )
 		{
