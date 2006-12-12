@@ -57,6 +57,7 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.Color;
@@ -186,10 +187,8 @@ public class GroupDialog extends BaseDialog
 	private Combo pagebreakAfterCombo;
 
 	private Combo pagebreakBeforeCombo;
-	
-	private Combo pagebreakInsideCombo;
 
-	private FocusListener focusListener;
+	private Combo pagebreakInsideCombo;
 
 	/**
 	 * Constructor.
@@ -348,27 +347,39 @@ public class GroupDialog extends BaseDialog
 			}
 
 		} );
+		keyChooser.addSelectionListener( new SelectionListener( ) {
 
-		if ( getTitle( ).equals( GroupDialog.GROUP_DLG_TITLE_NEW ) )
-		{
-			focusListener = new FocusAdapter( ) {
-
-				public void focusLost( FocusEvent e )
+			public void widgetSelected( SelectionEvent e )
+			{
+				if ( keyChooser.getSelectionIndex( ) != -1 )
 				{
-					if ( UIUtil.convertToModelString( keyChooser.getText( ),
-							true ) != null
-							&& UIUtil.convertToModelString( tocEditor.getText( ),
-									true ) == null )
+					tocEditor.setText( DEUtil.getExpression( columnList.get( keyChooser.getSelectionIndex( ) ) ) );
+				}
+			}
+
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+
+			}
+		} );
+
+		keyChooser.addFocusListener( new FocusAdapter( ) {
+
+			public void focusLost( FocusEvent e )
+			{
+				String key = UIUtil.convertToModelString( keyChooser.getText( ),
+						true );
+				if ( key != null && keyChooser.indexOf( key ) != -1 )
+				{
+					String tocExp = DEUtil.getExpression( columnList.get( keyChooser.indexOf( key ) ) );
+					if ( !tocEditor.getText( ).equals( tocExp ) )
 					{
-						tocEditor.setText( getKeyExpression( ) );
-						keyChooser.removeFocusListener( focusListener );
-						focusListener = null;
+						tocEditor.setText( tocExp );
+						return;
 					}
 				}
-
-			};
-			keyChooser.addFocusListener( focusListener );
-		}
+			}
+		} );
 
 		Button exprButton = new Button( keyArea, SWT.PUSH );
 		exprButton.setText( "..." ); //$NON-NLS-1$
@@ -538,7 +549,7 @@ public class GroupDialog extends BaseDialog
 		{
 			pagebreakBeforeCombo.add( pagebreakBeforeChoicesAll[i].getDisplayName( ) );
 		}
-		pagebreakBeforeCombo.setLayoutData( new GridData(GridData.FILL_HORIZONTAL) );
+		pagebreakBeforeCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		WidgetUtil.createGridPlaceholder( pagebreakGroup, 1, true );
 		pagebreakBeforeCombo.setData( pagebreakBeforeChoicesAll );
 
@@ -550,9 +561,9 @@ public class GroupDialog extends BaseDialog
 			pagebreakAfterCombo.add( pagebreakAfterChoicesAll[i].getDisplayName( ) );
 		}
 		pagebreakAfterCombo.setData( pagebreakAfterChoicesAll );
-		pagebreakAfterCombo.setLayoutData( new GridData(GridData.FILL_HORIZONTAL) );
+		pagebreakAfterCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		WidgetUtil.createGridPlaceholder( pagebreakGroup, 1, true );
-		
+
 		new Label( pagebreakGroup, SWT.NONE ).setText( Messages.getString( "GroupDialog.PageBreakInside" ) ); //$NON-NLS-1$
 		pagebreakInsideCombo = new Combo( pagebreakGroup, SWT.READ_ONLY
 				| SWT.DROP_DOWN );
@@ -561,7 +572,7 @@ public class GroupDialog extends BaseDialog
 			pagebreakInsideCombo.add( pagebreakInsideChoicesAll[i].getDisplayName( ) );
 		}
 		pagebreakInsideCombo.setData( pagebreakInsideChoicesAll );
-		pagebreakInsideCombo.setLayoutData( new GridData(GridData.FILL_HORIZONTAL) );
+		pagebreakInsideCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		WidgetUtil.createGridPlaceholder( pagebreakGroup, 1, true );
 
 		repeatHeaderButton = new Button( pagebreakGroup, SWT.CHECK );
@@ -714,7 +725,7 @@ public class GroupDialog extends BaseDialog
 		{
 			pagebreakAfterCombo.select( index );
 		}
-		
+
 		index = getPagebreakInsideIndex( inputGroup.getPageBreakInside( ) );
 
 		if ( index < 0 || index >= pagebreakInsideCombo.getItemCount( ) )
@@ -725,7 +736,6 @@ public class GroupDialog extends BaseDialog
 		{
 			pagebreakInsideCombo.select( index );
 		}
-		
 
 		if ( inputGroup.repeatHeader( ) )
 		{
@@ -771,13 +781,14 @@ public class GroupDialog extends BaseDialog
 		}
 		return index;
 	}
-	
+
 	private int getPagebreakInsideIndex( String pageBreakInside )
 	{
 		int index = 0;
 		for ( int i = 0; i < pagebreakInsideChoicesAll.length; i++ )
 		{
-			if ( pagebreakInsideChoicesAll[i].getName( ).equals( pageBreakInside ) )
+			if ( pagebreakInsideChoicesAll[i].getName( )
+					.equals( pageBreakInside ) )
 			{
 				index = i;
 				break;
@@ -831,38 +842,27 @@ public class GroupDialog extends BaseDialog
 		try
 		{
 			inputGroup.setName( nameEditor.getText( ) );
-			
-			if ( focusListener!=null && UIUtil.convertToModelString( keyChooser.getText( ),
-					true ) != null
-					&& UIUtil.convertToModelString( tocEditor.getText( ),
-							true ) == null )
-			{
-				tocEditor.setText( getKeyExpression( ) );
-			}
-			
 
 			String newToc = UIUtil.convertToModelString( tocEditor.getText( ),
 					true );
-			// if ( newToc != inputGroup.getTocExpression( ) )
-			// {
-			// if ( newToc == null
-			// || !newToc.equals( inputGroup.getTocExpression( ) ) )
-			// {
-			// inputGroup.setTocExpression( newToc );
-			// }
-			// }inputGroup
-			if ( newToc== null || !newToc.equals( inputGroup.getTocExpression( ) ) )
+			if ( newToc == null
+					|| !newToc.equals( inputGroup.getTocExpression( ) ) )
 			{
 				inputGroup.setTocExpression( newToc );
 			}
 
 			int index = keyChooser.getSelectionIndex( );
+			if ( index == -1 )
+			{
+				index = keyChooser.indexOf( UIUtil.convertToModelString( keyChooser.getText( ),
+						true ) );
+			}
 			String oldKeyExpr = inputGroup.getKeyExpr( );
 			String newKeyExpr = getKeyExpression( );
 			inputGroup.setKeyExpr( newKeyExpr );
 			if ( newKeyExpr != null
 					&& newKeyExpr.length( ) != 0
-					&& !newKeyExpr.equals( oldKeyExpr )
+					&& !newKeyExpr.equals( oldKeyExpr ) 
 					&& index != -1 )
 			{
 				SlotHandle slotHandle = null;
@@ -1166,9 +1166,15 @@ public class GroupDialog extends BaseDialog
 	private String getKeyExpression( )
 	{
 		String exp = null;
+		String keyText = UIUtil.convertToModelString( keyChooser.getText( ),
+				true );
 		if ( keyChooser.getSelectionIndex( ) != -1 )
 		{
 			exp = DEUtil.getExpression( columnList.get( keyChooser.getSelectionIndex( ) ) );
+		}
+		else if ( keyChooser.indexOf( keyText ) != -1 )
+		{
+			exp = DEUtil.getExpression( columnList.get( keyChooser.indexOf( keyText ) ) );
 		}
 		else
 		{
