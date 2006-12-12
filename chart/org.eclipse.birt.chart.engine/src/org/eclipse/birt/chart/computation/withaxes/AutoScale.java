@@ -2690,8 +2690,10 @@ public final class AutoScale extends Methods implements Cloneable
 			dTickGap = dLength / ( nTicks - 1 ) * iDirection;
 		}
 
-		// Do not render too many ticks. It will cause useless overhead.
-		if ( nTicks > TICKS_MAX )
+		// Do not render too many ticks for datetime value. It may be caused by
+		// improper step or unit.
+		if ( nTicks > TICKS_MAX
+				&& !bCategoryScale && ( iType & DATE_TIME ) == DATE_TIME )
 		{
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.GENERATION,
