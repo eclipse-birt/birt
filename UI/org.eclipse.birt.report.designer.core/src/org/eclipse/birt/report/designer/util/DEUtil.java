@@ -870,8 +870,9 @@ public class DEUtil
 	{
 		if ( model instanceof ParameterHandle )
 		{
-//			return IReportElementConstants.PARAMETER_PREFIX
-//					+ "[\"" + escape( ( (ParameterHandle) model ).getQualifiedName( ) ) + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
+			// return IReportElementConstants.PARAMETER_PREFIX
+			// + "[\"" + escape( ( (ParameterHandle) model ).getQualifiedName( )
+			// ) + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
 			return ExpressionUtil.createJSParameterExpression( ( (ParameterHandle) model ).getQualifiedName( ) );
 		}
 		if ( model instanceof DataSetItemModel )
@@ -1416,9 +1417,13 @@ public class DEUtil
 	 */
 	public static boolean isParameterGroup( Object transferSource )
 	{
-		return ( transferSource instanceof IDesignElement && ( (IDesignElement) transferSource ).getDefn( )
+		// CascadingParameterGroup is extended from ParameterGroup, so it also
+		// is ParameterGroup
+		return ( transferSource instanceof IDesignElement && ( ( (IDesignElement) transferSource ).getDefn( )
 				.getName( )
-				.equals( ReportDesignConstants.PARAMETER_GROUP_ELEMENT ) );
+				.equals( ReportDesignConstants.PARAMETER_GROUP_ELEMENT ) || ( (IDesignElement) transferSource ).getDefn( )
+				.getName( )
+				.equals( ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT ) ) );
 	}
 
 	/**
@@ -1502,8 +1507,9 @@ public class DEUtil
 		{
 			return null;
 		}
-//		return IReportElementConstants.BINDING_COLUMN_PREFIX
-//				+ "[\"" + DEUtil.escape( columnName ) + "\"]";//$NON-NLS-1$ //$NON-NLS-2$
+		// return IReportElementConstants.BINDING_COLUMN_PREFIX
+		// + "[\"" + DEUtil.escape( columnName ) + "\"]";//$NON-NLS-1$
+		// //$NON-NLS-2$
 		return ExpressionUtil.createJSRowExpression( columnName );
 	}
 
@@ -1521,8 +1527,9 @@ public class DEUtil
 		{
 			return null;
 		}
-//		return IReportElementConstants.RESULTSET_COLUMN_PREFIX
-//				+ "[\"" + DEUtil.escape( columnName ) + "\"]";//$NON-NLS-1$ //$NON-NLS-2$
+		// return IReportElementConstants.RESULTSET_COLUMN_PREFIX
+		// + "[\"" + DEUtil.escape( columnName ) + "\"]";//$NON-NLS-1$
+		// //$NON-NLS-2$
 		return ExpressionUtil.createJSDataSetRowExpression( columnName );
 	}
 
@@ -2331,65 +2338,80 @@ public class DEUtil
 		DateFormatter formater = new DateFormatter( pattern );
 		return formater.parse( xmlString );
 	}
-	
-	
 
-	public static int getInputSize(Object input){
+	public static int getInputSize( Object input )
+	{
 		if ( input instanceof GroupElementHandle )
 		{
-			return  ( (GroupElementHandle) input ).getElements( ).size( );
+			return ( (GroupElementHandle) input ).getElements( ).size( );
 		}
-		else if( input instanceof List ){
-			return  ( getMultiSelectionHandle((List)input )).getElements( ).size( );
+		else if ( input instanceof List )
+		{
+			return ( getMultiSelectionHandle( (List) input ) ).getElements( )
+					.size( );
 		}
 		return -1;
 	}
-	
-	public static Object getInputFirstElement(Object input){
+
+	public static Object getInputFirstElement( Object input )
+	{
 		if ( input instanceof GroupElementHandle )
 		{
-			return  ( (GroupElementHandle) input ).getElements( ).get( 0 );
+			return ( (GroupElementHandle) input ).getElements( ).get( 0 );
 		}
-		else if( input instanceof List ){
-			return  ((List)input).get( 0 );
+		else if ( input instanceof List )
+		{
+			return ( (List) input ).get( 0 );
 		}
-		else return input;
+		else
+			return input;
 	}
-	
-	public static Object getInputFirstElement(Object input,boolean notSame){
+
+	public static Object getInputFirstElement( Object input, boolean notSame )
+	{
 		if ( input instanceof GroupElementHandle )
 		{
-			if(notSame && ( (GroupElementHandle) input ).isSameType( ) ) return null;
-			return  ( (GroupElementHandle) input ).getElements( ).get( 0 );
+			if ( notSame && ( (GroupElementHandle) input ).isSameType( ) )
+				return null;
+			return ( (GroupElementHandle) input ).getElements( ).get( 0 );
 		}
-		else if( input instanceof List ){
-			GroupElementHandle group = DEUtil.getGroupElementHandle( (List)input );
-			if(notSame && group!=null && group.isSameType( ) ) return null;
-			return  ((List)input).get( 0 );
+		else if ( input instanceof List )
+		{
+			GroupElementHandle group = DEUtil.getGroupElementHandle( (List) input );
+			if ( notSame && group != null && group.isSameType( ) )
+				return null;
+			return ( (List) input ).get( 0 );
 		}
-		else return input;
+		else
+			return input;
 	}
-	
-	public static Object getInputElement(Object input,int index){
+
+	public static Object getInputElement( Object input, int index )
+	{
 		if ( input instanceof GroupElementHandle )
 		{
-			return  ( (GroupElementHandle) input ).getElements( ).get( index );
+			return ( (GroupElementHandle) input ).getElements( ).get( index );
 		}
-		else if( input instanceof List ){
-			return  ((List)input).get( index );
+		else if ( input instanceof List )
+		{
+			return ( (List) input ).get( index );
 		}
-		else return input;
+		else
+			return input;
 	}
-	
-	public static List getInputElements(Object input){
+
+	public static List getInputElements( Object input )
+	{
 		if ( input instanceof GroupElementHandle )
 		{
-			return  ( (GroupElementHandle) input ).getElements( );
+			return ( (GroupElementHandle) input ).getElements( );
 		}
-		else if( input instanceof List ){
-			return  (List)input;
+		else if ( input instanceof List )
+		{
+			return (List) input;
 		}
-		else return Collections.EMPTY_LIST;
+		else
+			return Collections.EMPTY_LIST;
 	}
 
 }
