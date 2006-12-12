@@ -237,11 +237,11 @@ public class IGetParameterDefinitionTaskTest extends EngineCase
 
 		IParameterSelectionChoice se = (IParameterSelectionChoice) selist
 				.get( 0 );
-		assertEquals( "Tue May 11 00:00:00 GMT+08:00 2004", se
+		assertEquals( "Tue May 11 00:00:00 CST 2004", se
 				.getValue( )
 				.toString( ) );
 		se = (IParameterSelectionChoice) selist.get( 1 );
-		assertEquals( "Tue May 18 00:00:00 GMT+08:00 2004", se
+		assertEquals( "Tue May 18 00:00:00 CST 2004", se
 				.getValue( )
 				.toString( ) );
 
