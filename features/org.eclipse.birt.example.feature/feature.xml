@@ -4,7 +4,8 @@
       label="%featureName"
       version="2.1.2.qualifier"
       provider-name="Eclipse.org"
-      plugin="org.eclipse.birt.example">
+      plugin="org.eclipse.birt.example"
+      image="eclipse_update_120.jpg">
 
    <description url="http://www.eclipse.org/birt">
       %description
