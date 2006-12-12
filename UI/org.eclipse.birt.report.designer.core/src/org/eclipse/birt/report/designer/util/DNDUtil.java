@@ -309,6 +309,7 @@ public class DNDUtil
 	protected static void addCommandToCompound( Object transferData,
 			Object targetObj, int position, String commandName,
 			String commandType, CompoundCommand commands )
+			throws SemanticException
 	{
 		if ( transferData instanceof SlotHandle )
 		{
@@ -354,8 +355,8 @@ public class DNDUtil
 				|| transferData instanceof IDesignElement )
 		{
 			if ( // targetObj instanceof ReportElementModel
-				//	||
-					targetObj instanceof DesignElementHandle
+			// ||
+			targetObj instanceof DesignElementHandle
 					|| targetObj instanceof SlotHandle )
 			{
 				commands.add( getNewCommand( commandType,
@@ -392,6 +393,7 @@ public class DNDUtil
 	 */
 	protected static Command getNewCommand( String commandType,
 			Object transferSource, Object newContainer, int position )
+			throws SemanticException
 	{
 		boolean isCut = TYPE_CUT.equals( commandType );
 
@@ -420,6 +422,7 @@ public class DNDUtil
 
 	protected static Command pasteParameterGroup( String commandType,
 			Object childGroup, ParameterGroupHandle targetGroup )
+			throws SemanticException
 	{
 		CompoundCommand commands = new CompoundCommand( );
 		ParameterGroupHandle childHandle = null;
@@ -444,6 +447,11 @@ public class DNDUtil
 						targetGroup,
 						-1 ) );
 			}
+		}
+		if ( commandType.equals( TYPE_CUT ) )
+		{
+			// Drops parameter group handle if the operation is cut
+			childHandle.drop( );
 		}
 		return commands;
 	}
@@ -516,10 +524,11 @@ public class DNDUtil
 			}
 			return true;
 		}
-//		if ( selection instanceof ReportElementModel )
-//		{
-//			return handleValidateDragInOutline( ( (ReportElementModel) selection ).getSlotHandle( ) );
-//		}
+		// if ( selection instanceof ReportElementModel )
+		// {
+		// return handleValidateDragInOutline( ( (ReportElementModel) selection
+		// ).getSlotHandle( ) );
+		// }
 		if ( selection instanceof SlotHandle )
 		{
 			SlotHandle slot = (SlotHandle) selection;
@@ -698,10 +707,10 @@ public class DNDUtil
 	 */
 	public static Object unwrapToModel( Object obj )
 	{
-//		if ( obj instanceof ReportElementModel )
-//		{
-//			return ( (ReportElementModel) obj ).getSlotHandle( );
-//		}
+		// if ( obj instanceof ReportElementModel )
+		// {
+		// return ( (ReportElementModel) obj ).getSlotHandle( );
+		// }
 		if ( obj instanceof ListBandProxy )
 		{
 			return ( (ListBandProxy) obj ).getSlotHandle( );
@@ -1084,11 +1093,11 @@ public class DNDUtil
 		if ( targetObj instanceof SlotHandle )
 		{
 			SlotHandle targetHandle = (SlotHandle) targetObj;
-//			if ( targetHandle.getElementHandle( ) instanceof LibraryHandle
-//					&& childHandle instanceof ThemeHandle )
-//			{
-//				return CONTAIN_NO;
-//			}
+			// if ( targetHandle.getElementHandle( ) instanceof LibraryHandle
+			// && childHandle instanceof ThemeHandle )
+			// {
+			// return CONTAIN_NO;
+			// }
 			return targetHandle.getElementHandle( )
 					.canContain( targetHandle.getSlotID( ), childHandle ) ? CONTAIN_THIS
 					: CONTAIN_NO;
