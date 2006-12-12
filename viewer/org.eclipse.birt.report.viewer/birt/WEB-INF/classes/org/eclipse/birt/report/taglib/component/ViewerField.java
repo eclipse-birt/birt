@@ -222,7 +222,7 @@ public class ViewerField implements Serializable, Cloneable
 
 		// append parameter prompting setting
 		if ( forceParameterPrompting != null )
-			uri += "&" + ParameterAccessor.PARAM_PARAMETER_PROMPTING + urlParamValueEncode( forceParameterPrompting ); //$NON-NLS-1$
+			uri += "&" + ParameterAccessor.PARAM_PARAMETER_PROMPTING + "=" + urlParamValueEncode( forceParameterPrompting ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// append show toolbar setting
 		if ( showToolBar != null )
