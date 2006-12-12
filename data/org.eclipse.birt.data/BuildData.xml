@@ -97,7 +97,6 @@
 	<property name="oda.flatfile.dir" location="../org.eclipse.birt.report.data.oda.flatfile" />
 	<property name="dtp.oda-flatfile.dir" location="${dtp.home}/org.eclipse.datatools.connectivity.oda.flatfile" />
 	<property name="dtp.oda.adapter.dir" location="../org.eclipse.birt.data.oda.adapter.dtp" />
-	<property name="birt.oda.dir" location="../org.eclipse.birt.data.oda" />
 	<property name="dtp.home" location="../" />
 	<property name="bin" value="bin" />
 	<property name="doc" value="doc" />
@@ -118,7 +117,6 @@
 	<property name="dtp.oda.adapter.jar" value="oda-adapter.jar" />
 	<property name="oda.jdbc.jar" value="oda-jdbc.jar" />
 	<property name="oda.flatfile.jar" value="oda-flatfile.jar" />
-	<property name="birt.oda.jar" value="oda.jar" />
 	
 	<path id="class.path">
 		<pathelement path="${bin}" />
@@ -137,10 +135,7 @@
 		<fileset dir="${dtp.oda.consumer.dir}">
 			<include name="odaconsumer-helper.jar"/>
 		</fileset>
--->		<fileset dir="${birt.oda.dir}">
-			<include name="oda.jar"/>
-		</fileset>	
-		<fileset dir="${derby.dir}">
+-->		<fileset dir="${derby.dir}">
 			<include name="derby.jar"/>
 		</fileset>
 		<fileset dir="${js.dir}/lib">
@@ -466,15 +461,6 @@
 -->	</target>
 	
 	<target name="testDependency">
-		<echo message="${module.name} start call Jar task in ${birt.oda.dir}"/>		
-		<ant dir="${birt.oda.dir}" antfile="BuildOda.xml" target="Jar" inheritall="false">
-		 	<property name="eclipse.home" value="${eclipse.home}" />
-			<property name="dtp.home" value="${dtp.home}" />
-		</ant>
-		<echo message="${module.name} end call Jar task in ${birt.oda.dir}"/>
-		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.data.oda/${birt.oda.jar}" file="${birt.oda.dir}/${birt.oda.jar}"/>
-		<copy overwrite="true" tofile="${test.src}/plugins/org.eclipse.birt.data.oda/plugin.xml" file="${birt.oda.dir}/plugin.xml"/>
-		
 		<echo message="${module.name} start call Jar task in ${dtp.oda.adapter.dir}"/>		
 		<ant dir="${dtp.oda.adapter.dir}" antfile="BuildDtpOdaAdapter.xml" target="Jar" inheritall="false">
 		 	<property name="eclipse.home" value="${eclipse.home}" />
