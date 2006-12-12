@@ -4,3 +4,4 @@ Bundle-Name: BIRT Resources Plug-in
 Bundle-SymbolicName: org.eclipse.birt.resources
 Bundle-Version: 2.1.1.qualifier
 Bundle-Localization: plugin
+Bundle-Vendor: Eclipse.org
