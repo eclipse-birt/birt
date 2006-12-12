@@ -391,10 +391,16 @@ public class JDBCDataSourceUtil
 	public static String getURL( )
 	{
 		String url = System.getProperty( "DTETest.url" );
-		if ( url != null )
-			return url;
-		else
-			return "jdbc:derby:" + System.getProperty("java.io.tmpdir")+File.separator+ "DTETest";
+		if ( url == null )
+			url = "jdbc:derby:" + System.getProperty("java.io.tmpdir")+File.separator+ "DTETest";
+		
+		try{
+			new File( System.getProperty("java.io.tmpdir")+File.separator + "HELLO.txt").createNewFile( );
+		}catch(Exception e)
+		{
+			
+		}
+		throw new NullPointerException( url +"                " +  System.getProperty("java.io.tmpdir"));
 	}
 	
 	/**

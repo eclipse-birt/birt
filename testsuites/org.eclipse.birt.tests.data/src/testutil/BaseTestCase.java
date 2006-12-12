@@ -138,32 +138,32 @@ abstract public class BaseTestCase extends TestCase
 	{
 		InputStream result = this.getClass( ).getResourceAsStream(
 				INPUT_FOLDER + "/" + dataFileName );
-		if ( result == null )
-		{
-			try
-			{
-
-				FileWriter writter = new FileWriter(
-						new File( "C:\\abcddd.txt" ) );
-				writter.write( String.valueOf( System.currentTimeMillis( ) ) );
-				writter.write( INPUT_FOLDER + File.separator + dataFileName );
-				writter.close( );
-				System.out.println( "Hello" );
-
-			}
-			catch ( FileNotFoundException e )
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace( );
-			}
-			// (this.getClass().getResource( INPUT_FOLDER + File.separator +
-			// dataFileName ).toString(
-			catch ( IOException e )
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace( );
-			}
-		}
+//		if ( result == null )
+//		{
+//			try
+//			{
+//
+//				FileWriter writter = new FileWriter(
+//						new File( "C:\\abcddd.txt" ) );
+//				writter.write( String.valueOf( System.currentTimeMillis( ) ) );
+//				writter.write( INPUT_FOLDER + File.separator + dataFileName );
+//				writter.close( );
+//				System.out.println( "Hello" );
+//
+//			}
+//			catch ( FileNotFoundException e )
+//			{
+//				// TODO Auto-generated catch block
+//				e.printStackTrace( );
+//			}
+//			// (this.getClass().getResource( INPUT_FOLDER + File.separator +
+//			// dataFileName ).toString(
+//			catch ( IOException e )
+//			{
+//				// TODO Auto-generated catch block
+//				e.printStackTrace( );
+//			}
+//		}
 
 		return result;
 
