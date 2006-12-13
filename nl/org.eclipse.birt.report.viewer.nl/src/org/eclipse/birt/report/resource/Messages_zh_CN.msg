@@ -137,6 +137,7 @@ birt.viewer.componentProcessorException.MISSING_OPERATOR=´íÎó: È±ÉÙÔËËã·û!!!
 # Exception dialog
 ###############################################################################
 birt.viewer.exceptionDialog.stackTrace=¶ÑÕ»¸ú×Ù:
+birt.viewer.exceptionDialog.showStackTrace=Show Exception Stack Trace
 
 ###############################################################################
 # Birt Viewer JSP Taglib
