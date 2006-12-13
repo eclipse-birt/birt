@@ -413,7 +413,7 @@ public class DataTypeUtilTest extends TestCase
 		calendar.set(1997,6,16,19,20,30);
 		resultDates[4] = calendar.getTime( );
 		calendar.set(1997,6,16,19,20,30);
-		calendar.set( Calendar.MILLISECOND, 450 );
+		calendar.set( Calendar.MILLISECOND, 45 );
 		resultDates[5] = calendar.getTime( );
 		calendar.set(1997,6,16,19,20,0);
 		calendar.set( Calendar.MILLISECOND, 0 );
@@ -421,7 +421,7 @@ public class DataTypeUtilTest extends TestCase
 		calendar.set(1997,6,16,19,20,30);
 		resultDates[7] = calendar.getTime( );
 		calendar.set(1997,6,16,19,20,30);
-		calendar.set( Calendar.MILLISECOND, 450 );
+		calendar.set( Calendar.MILLISECOND, 45 );
 		resultDates[8] = calendar.getTime( );
 		resultDates[9] = resultDates[8];
 		

@@ -15,7 +15,7 @@ import java.text.ParseException;
 
 import junit.framework.TestCase;
 
-import com.ibm.icu.text.DateFormat;
+import java.text.DateFormat;
 import com.ibm.icu.util.ULocale;
 
 
@@ -37,7 +37,7 @@ public class DateUtilTest extends TestCase
 		// ------------test of Locale.UK
 		locale = ULocale.UK; //dd/MM/yy
 		
-		df = DateFormat.getDateInstance( DateFormat.SHORT, locale );		
+		df = DateFormat.getDateInstance( DateFormat.SHORT, locale.toLocale( ) );		
 		dateStr = "25/11/16 ";
 		try
 		{
@@ -76,7 +76,7 @@ public class DateUtilTest extends TestCase
 		
 		// ------------test of Locale.US
 		locale = ULocale.US; //MM/dd/yy
-		df = DateFormat.getDateInstance( DateFormat.SHORT, locale );		
+		df = DateFormat.getDateInstance( DateFormat.SHORT, locale.toLocale( ) );		
 		dateStr = "11/25/16";
 		try
 		{
@@ -163,7 +163,7 @@ public class DateUtilTest extends TestCase
 		
 		// ------------test of Locale.CHINA
 		locale = ULocale.CHINA; //yy-M-d
-		df = DateFormat.getDateInstance( DateFormat.SHORT, locale );		
+		df = DateFormat.getDateInstance( DateFormat.SHORT, locale.toLocale( ) );		
 		dateStr = "2005-3-3";
 		try
 		{
