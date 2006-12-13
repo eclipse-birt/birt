@@ -125,10 +125,10 @@ public class MultiPass_SortTest extends APITestCase
 				+ getTestTableName( );
 		( (OdaDataSetDesign) this.dataSet ).setQueryText( sqlStatement );
 
-		IBaseExpression[] expressions = new IBaseExpression[]{
-				new ScriptExpression( "row.COUNTRY", 0 ),
-				new ScriptExpression( "row>AMOUNT", 2 )};
-		GroupDefinition[] groupDefn = new GroupDefinition[]{new GroupDefinition( ),};
+//		IBaseExpression[] expressions = new IBaseExpression[]{
+//				new ScriptExpression( "row.COUNTRY", 0 ),
+//				new ScriptExpression( "row>AMOUNT", 2 )};
+//		GroupDefinition[] groupDefn = new GroupDefinition[]{new GroupDefinition( ),};
 
 	}
 }

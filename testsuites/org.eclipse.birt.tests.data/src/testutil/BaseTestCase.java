@@ -13,10 +13,8 @@ package testutil;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -30,8 +28,6 @@ import junit.framework.TestCase;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.Scriptable;
-
-import com.ibm.icu.util.TimeZone;
 
 /**
  * Common base class for all Dte test cases
@@ -52,7 +48,7 @@ abstract public class BaseTestCase extends TestCase
 	private static final String TEST_FOLDER = "src";
 
 	private String classFolder;
-    private TimeZone defaultZone ;
+    //private TimeZone defaultZone ;
 	
 	/*
 	 * @see junit.framework.TestCase#setUp()

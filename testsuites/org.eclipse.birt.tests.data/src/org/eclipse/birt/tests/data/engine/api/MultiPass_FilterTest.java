@@ -13,7 +13,6 @@ import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
-import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 
 import testutil.APITestCase;
@@ -60,13 +59,13 @@ public class MultiPass_FilterTest extends APITestCase
 		bindingExprRow[4] = new ScriptExpression( "dataSetRow.SALE_DATE" );
 		bindingExprRow[5] = new ScriptExpression( "dataSetRow.AMOUNT" );
 		// --- end binding
-		GroupDefinition[] groupDefn = null;
-		SortDefinition[] sortDefn = null;
+//		GroupDefinition[] groupDefn = null;
+//		SortDefinition[] sortDefn = null;
 
-		String[] bindingNameFilter1 = new String[1];
-		bindingNameFilter[0] = "FILTER_AMOUNT";
-		IBaseExpression[] bindingExprFilter1 = new IBaseExpression[1];
-		bindingExprFilter[0] = new ScriptExpression( "dataSetRow.AMOUNT" );
+//		String[] bindingNameFilter1 = new String[1];
+//		bindingNameFilter[0] = "FILTER_AMOUNT";
+//		IBaseExpression[] bindingExprFilter1 = new IBaseExpression[1];
+//		bindingExprFilter[0] = new ScriptExpression( "dataSetRow.AMOUNT" );
 
 		FilterDefinition[] filters = new FilterDefinition[]{new FilterDefinition(
 				new ConditionalExpression(
@@ -119,13 +118,13 @@ public class MultiPass_FilterTest extends APITestCase
 		bindingExprRow[4] = new ScriptExpression( "dataSetRow.SALE_DATE" );
 		bindingExprRow[5] = new ScriptExpression( "dataSetRow.AMOUNT" );
 		// --- end binding
-		GroupDefinition[] groupDefn = null;
-		SortDefinition[] sortDefn = null;
-
-		String[] bindingNameFilter1 = new String[1];
-		bindingNameFilter[0] = "FILTER_AMOUNT";
-		IBaseExpression[] bindingExprFilter1 = new IBaseExpression[1];
-		bindingExprFilter[0] = new ScriptExpression( "dataSetRow.AMOUNT" );
+//		GroupDefinition[] groupDefn = null;
+//		SortDefinition[] sortDefn = null;
+//
+//		String[] bindingNameFilter1 = new String[1];
+//		bindingNameFilter[0] = "FILTER_AMOUNT";
+//		IBaseExpression[] bindingExprFilter1 = new IBaseExpression[1];
+//		bindingExprFilter[0] = new ScriptExpression( "dataSetRow.AMOUNT" );
 
 		FilterDefinition[] filters = new FilterDefinition[]{new FilterDefinition(
 				new ConditionalExpression(
