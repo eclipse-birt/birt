@@ -631,7 +631,7 @@ public class ReportTag extends AbstractViewerTag
 		// check if document file path is valid
 		boolean isValidDocument = ParameterAccessor
 				.isValidFilePath( documentFile );
-		if ( isValidDocument )
+		if ( documentFile != null && isValidDocument )
 		{
 			// open the document instance
 			IReportDocument reportDocumentInstance = ReportEngineService
@@ -684,7 +684,7 @@ public class ReportTag extends AbstractViewerTag
 					URL url = null;
 					try
 					{
-						String reportPath = designFile;
+						String reportPath = viewer.getReportDesign( );
 						if ( !reportPath.startsWith( "/" ) ) //$NON-NLS-1$
 							reportPath = "/" + reportPath; //$NON-NLS-1$
 
