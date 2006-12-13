@@ -68,7 +68,7 @@ public class Query implements IQuery
 		if ( queryText == null )
 			throw new org.eclipse.datatools.connectivity.oda.OdaException( Messages.getString("Query.InvalidQueryText") ); //$NON-NLS-1$
 	
-		String[] temp = queryText.split(QUERYTEXT_TABLE_NAME_DEFN_DELIMITER);
+		String[] temp = queryText.trim().split(QUERYTEXT_TABLE_NAME_DEFN_DELIMITER);
 		assert temp.length == 2;
 		
 		if ( temp.length != 2 )
