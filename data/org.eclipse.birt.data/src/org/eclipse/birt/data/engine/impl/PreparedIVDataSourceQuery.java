@@ -301,12 +301,14 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 		{
 			for ( int i = 1; i <= meta.getFieldCount( ); i++ )
 			{
-				projectedColumns.add( new ResultFieldMetadata( i,
+				ResultFieldMetadata rfm = new ResultFieldMetadata( i,
 						meta.getFieldName( i ),
 						meta.getFieldName( i ),
 						meta.getFieldValueClass( i ),
 						meta.getFieldNativeTypeName( i ),
-						false ) );
+						false );
+				rfm.setAlias( meta.getFieldAlias(i) );
+				projectedColumns.add( rfm );
 			}
 		}
 	}
