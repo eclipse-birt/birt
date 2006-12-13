@@ -270,7 +270,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 		{
 			SharedStyleHandle handle = (SharedStyleHandle) iterator.next( );
 
-			if ( handle.getName( ).equals( trimName ) )
+		if ( handle.getName( ).equals( trimName ) && (handle != model))
 			{
 				if ( showError )
 				{
