@@ -21,9 +21,9 @@ public class AllTests
 	public static Test suite( )
 	{
 		TestSuite test = new TestSuite( );
-//		test.addTest( AllRegressionTests.suite( ) );
+		test.addTest( AllRegressionTests.suite( ) );
 //		test.addTest( AllCompatibilityTests.suite( ) );
-//		test.addTest( AllSmokeTests.suite( ) );
+		test.addTest( AllSmokeTests.suite( ) );
 		test.addTest( AllApiTests.suite( ) );
 		return test;
 	}
