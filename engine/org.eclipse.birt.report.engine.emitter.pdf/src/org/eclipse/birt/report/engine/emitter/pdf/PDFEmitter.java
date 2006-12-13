@@ -1989,14 +1989,7 @@ public class PDFEmitter implements IContentEmitter
 				}
 				else
 				{
-					if(type==IHyperlinkAction.ACTION_HYPERLINK)
-					{
-						return PdfAction.gotoRemotePage(hyperlink, bookmark, false, false);
-					}
-					else
-					{
-						return new PdfAction(hyperlink);
-					}
+					return PdfAction.gotoRemotePage(hyperlink, bookmark, false, false);
 				}
 			}
 		}
