@@ -148,7 +148,7 @@ import com.ibm.icu.util.ULocale;
  * </tr>
  * </table>
  * 
- * @version $Revision: 1.149 $ $Date: 2006/11/13 05:27:40 $
+ * @version $Revision: 1.150 $ $Date: 2006/12/12 06:07:15 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -1945,9 +1945,17 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				}
 				if ( node.getNodeType( ) == Node.TEXT_NODE )
 				{
-				//	bug132213 in text item should only deal with the escape special characters: < > &
-				//  old code:	writer.text( node.getNodeValue( ), false, true );
-					writer.textForHtmlItem( node.getNodeValue( ) );
+					if ( isScriptText( node ) )
+					{
+						textForScript( node.getNodeValue( ) );
+					}
+					else
+					{
+						// bug132213 in text item should only deal with the
+						// escape special characters: < > &
+						// writer.text( node.getNodeValue( ), false, true );
+						writer.textForHtmlItem( node.getNodeValue( ) );
+					}
 				}
 				else
 				{
@@ -1959,7 +1967,37 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				}
 			}
 		}
+	}
+	
+	/**
+	 * test if the text node is in the script
+	 * @param node text node
+	 * @return true if the text is a script, otherwise, false.
+	 */
+	private boolean isScriptText( Node node )
+	{
+		Node parent = node.getParentNode( );
+		if ( parent != null )
+		{
+			if ( parent.getNodeType( ) == Node.ELEMENT_NODE )
+			{
+				String tag = parent.getNodeName( );
+				if ( HTMLTags.TAG_SCRIPT.equalsIgnoreCase( tag ) )
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
+	/**
+	 * the script is output directly.
+	 * @param text
+	 */
+	private void textForScript( String text )
+	{
+		writer.text( text, false, false );
 	}
 
 	public void startNode( Node node, HashMap cssStyles )
