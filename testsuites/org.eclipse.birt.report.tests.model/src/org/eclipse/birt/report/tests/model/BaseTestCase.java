@@ -95,7 +95,7 @@ public abstract class BaseTestCase extends TestCase
 	protected ReportDesignHandle designHandle = null;
 
 	/**
-	 * The session handle.
+	 * The library handle.
 	 */
 
 	protected LibraryHandle libraryHandle = null;
@@ -163,7 +163,9 @@ public abstract class BaseTestCase extends TestCase
 		super( name );
 	}
 
-	
+	/*(non-Javadoc)
+	 * @see junit.framework.TestCase#setUp()
+	 */
 	
 	protected void setUp( ) throws Exception
 	{
@@ -269,53 +271,41 @@ public abstract class BaseTestCase extends TestCase
 
 		}
 	}
-/*
-	protected void copyResource( String src, String tgt, String folder )
+
+	/**
+	 * Locates the temporary path that to save the resource folder and output folder
+	 * 
+	 * @return tempDir
+	 *                testing temporary path.
+	 */
+	public String tempFolder( )
 	{
-
-		String className = getFullQualifiedClassName( );
-		tgt = className + "/" + folder + "/" + tgt;
-		className = className.replace( '.', '/' );
-
-		src = className + "/" + folder + "/" + src;
-
-		File parent = new File( tgt ).getParentFile( );
-
-		if ( parent != null )
-		{
-			parent.mkdirs( );
-		}
-
-		InputStream in = getClass( ).getClassLoader( )
-				.getResourceAsStream( src );
-		assertTrue( in != null );
-
-		try
-		{
-
-			int size = in.available( );
-			byte[] buffer = new byte[size];
-			in.read( buffer );
-			OutputStream out = new FileOutputStream( tgt );
-			out.write( buffer );
-			out.close( );
-			in.close( );
-
-		}
-		catch ( Exception ex )
-		{
-			ex.printStackTrace( );
-			fail( );
-		}
+		String tempDir = System.getProperty( "java.io.tmpdir" );
+		if ( !tempDir.endsWith( File.separator ) )
+			tempDir += File.separator;
+		return tempDir;
 	}
-*/
+	public String getInputResourceFolder( )
+	{
+		String resourceFolder = this.tempFolder( ) + PLUGIN_NAME + ".RESOURCE";
+		return resourceFolder;
+	}
+	
+	public String getOutputResourceFolder( )
+	{
+		String outputFolder = this.tempFolder( ) + PLUGIN_NAME + ".OUTPUT";
+		return outputFolder;
+	}
+	
 	protected void copyResource( String src, String tgt, String folder )
 	{
 
 		String className = getFullQualifiedClassName( );
-		tgt = className + "/" + folder + "/" + tgt;
+		tgt = this.getInputResourceFolder( ) + File.separator + className + "/"
+				+ folder + "/" + tgt;
 		className = className.replace( '.', '/' );
 
+		// String inputPath =
 		src = className + "/" + folder + "/" + src;
 
 		File parent = new File( tgt ).getParentFile( );
@@ -326,7 +316,7 @@ public abstract class BaseTestCase extends TestCase
 		}
 
 		InputStream in = getClass( ).getClassLoader( )
-				.getResourceAsStream( src );
+		.getResourceAsStream( src );
 		assertTrue( in != null );
 		try
 		{
@@ -347,6 +337,8 @@ public abstract class BaseTestCase extends TestCase
 			fail( );
 		}
 	}
+
+
 
 	protected void copyResource_INPUT( String input_resource, String input )
 	{
@@ -387,6 +379,134 @@ public abstract class BaseTestCase extends TestCase
 	}
 
 	/**
+	 * Copies the file to the temporary folder.
+	 * 
+	 * @param resourceName
+	 *            the resource name. Based on the class folder.
+	 * @return the file path on the disk
+	 * @throws Exception
+	 */
+
+	protected String copyInputToFile( String resourceName ) throws Exception
+	{
+		URL url = getResource( resourceName );
+		InputStream is = url.openStream( );
+		//InputStream is = getResourceAStream( resourceName );
+		
+		String folder = getTempFolder( );
+
+		int index = resourceName.lastIndexOf( INPUT_FOLDER );
+		if ( index > 0 )
+		{
+			String relateDir = resourceName.substring( 0, index - 1 );
+			folder = folder + "/" + relateDir; //$NON-NLS-1$
+		}
+
+		folder = folder + "/" + INPUT_FOLDER + "/"; //$NON-NLS-1$
+
+		File tmpFolder = new File( folder );
+		if ( !tmpFolder.exists( ) )
+			tmpFolder.mkdirs( );
+
+		String filename = ""; //$NON-NLS-1$
+		int lastSlash = resourceName.lastIndexOf( "/" ); //$NON-NLS-1$
+		if ( lastSlash != -1 )
+		{
+			filename = resourceName.substring( lastSlash + 1 );
+		}
+		
+
+		FileOutputStream fos = new FileOutputStream( folder + filename );
+		byte[] fileData = new byte[5120];
+		int readCount = -1;
+		while ( ( readCount = is.read( fileData ) ) != -1 )
+		{
+			fos.write( fileData, 0, readCount );
+		}
+
+		fos.close( );
+		is.close( );
+
+		return folder + filename;
+	}
+	
+	/**
+	 * Copies the file to the temporary folder.
+	 * 
+	 * @param resourceName
+	 *            the resource name. Based on the class folder.
+	 * @return the file path on the disk
+	 * @throws Exception
+	 */
+
+	protected String copyGoldenToFile( String resourceName ) throws Exception
+	{
+		URL url = getResource( resourceName );
+		InputStream is = url.openStream( );
+		
+		String folder = getTempFolder( );
+//
+		/* TODO - delete -this code create extra [GoldenFileFolder]/golden, but why not happen with input
+		 * int index = resourceName.lastIndexOf( GOLDEN_FOLDER );
+		if ( index > 0 )
+		{
+		String relateDir = resourceName.substring( 0, index - 1 );
+			folder = folder + "/" + relateDir; //$NON-NLS-1$
+		}*/
+
+		folder = folder + "/" + GOLDEN_FOLDER + "/"; //$NON-NLS-1$
+
+		File tmpFolder = new File( folder );
+		if ( !tmpFolder.exists( ) )
+			tmpFolder.mkdirs( );
+
+		String filename = ""; //$NON-NLS-1$
+		int lastSlash = resourceName.lastIndexOf( "/" ); //$NON-NLS-1$
+		if ( lastSlash != -1 )
+		{
+			filename = resourceName.substring( lastSlash + 1 );
+		}
+//
+	/*
+		String filename = "/" + resourceName;
+		File tmpFolder = new File( folder+filename );
+		if ( !tmpFolder.exists( ) )
+			tmpFolder.mkdirs( );
+	*/
+		
+
+		FileOutputStream fos = new FileOutputStream( folder + filename );
+		
+		byte[] fileData = new byte[5120];
+		int readCount = -1;
+		while ( ( readCount = is.read( fileData ) ) != -1 )
+		{
+			fos.write( fileData, 0, readCount );
+		}
+        
+		fos.close( );
+		is.close( );
+
+		return folder + filename;
+		
+	}
+	
+
+
+	/**
+	 * gets the url of the resource.
+	 * 
+	 * @param name
+	 *            name of the resource
+	 * @return the url of the resource
+	 */
+
+	protected URL getResource( String name )
+	{
+		return this.getClass( ).getResource( name );
+	}
+
+	/**
 	 * Remove a given file or directory recursively.
 	 * 
 	 * @param file
@@ -403,6 +523,7 @@ public abstract class BaseTestCase extends TestCase
 		removeFile( className );
 	}
 
+	 
 	
 	/**
 	 * Creates a new report.
@@ -434,103 +555,35 @@ public abstract class BaseTestCase extends TestCase
 	}
 
 	/**
-	 * Opens design file with default locale.
+	 * Creates a new library with default locale.
 	 * 
-	 * @param fileName
-	 *            design file name
-	 * @throws DesignFileException
-	 *             if any exception
+	 * @return the handle for new library
 	 */
 
-	protected void openDesign( String fileName ) throws DesignFileException
+	protected LibraryHandle createLibrary( )
 	{
-		openDesign( fileName, ULocale.getDefault( ) );
+		return createLibrary( null );
 	}
 
 	/**
-	 * Opens design file providing the file name and the locale.
+	 * Creates library with given locale.
 	 * 
-	 * @param fileName
-	 *            the design file to be opened
 	 * @param locale
 	 *            the user locale
-	 * @throws DesignFileException
-	 *             if any exception.
+	 * @return the handle for new library
 	 */
 
-	protected void openDesign( String fileName, ULocale locale )
-			throws DesignFileException
+	protected LibraryHandle createLibrary( ULocale locale )
 	{
-
-		fileName = this.getFullQualifiedClassName() + "/"+ INPUT_FOLDER + "/"+ fileName;
 		sessionHandle = new DesignEngine( new DesignConfig( ) )
 				.newSessionHandle( locale );
-		assertNotNull( sessionHandle );
+		libraryHandle = sessionHandle.createLibrary( );
 
-		designHandle = sessionHandle.openDesign( fileName );
-		design = (ReportDesign) designHandle.getModule( );
+		return libraryHandle;
 	}
-
-	/**
-	 * Opens design file as resource with default locale.
-	 * 
-	 * @param fileName
-	 *            the file name without path
-	 * @throws DesignFileException
-	 *             if any exception.
-	 */
-	protected void openLibrary( String fileName ) throws DesignFileException
-	{
-		openLibrary( fileName, ULocale.getDefault( ) );
-	}
-
-	/**
-	 * Opens library file with given file name and locale.
-	 * 
-	 * @param fileName
-	 *            the library file name
-	 * @param locale
-	 *            the user locale
-	 * @throws DesignFileException
-	 *             if any exception
-	 */
-
-	protected void openLibrary( String fileName, ULocale locale )
-			throws DesignFileException
-	{
-		fileName = this.getFullQualifiedClassName() + "/" + INPUT_FOLDER + "/" + fileName;
-		sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( locale );
-		assertNotNull( sessionHandle );
-
-		libraryHandle = sessionHandle.openLibrary( fileName );
-	}
-
-	/**
-	 * Opens library file with given file name and locale.
-	 * 
-	 * @param fileName
-	 *            the library file name
-	 * @param locale
-	 *            the user locale
-	 * @throws DesignFileException
-	 *             if any exception
-	 */
-
-	protected void openLibrary( URL systemId, InputStream is )
-			throws DesignFileException
-	{
-		sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( ULocale.ENGLISH );
-		assertNotNull( sessionHandle );
-		libraryHandle = sessionHandle.openLibrary( systemId, is );
-	}
-
-	protected void openDesignAsResource( Class theClass, String fileName )
-			throws DesignFileException
-	{
-		openDesignAsResource( theClass, fileName, ULocale.getDefault( ) );
-	}
+	
+	
+	
 
 	/**
 	 * Opens design file as resource with the given locale.
@@ -555,6 +608,171 @@ public abstract class BaseTestCase extends TestCase
 		InputStream stream = theClass.getResourceAsStream( fileName );
 		designHandle = sessionHandle.openDesign( fileName, stream );
 		design = (ReportDesign) designHandle.getModule( );
+	}
+	
+	/**
+	 * Opens design file with default locale.
+	 * 
+	 * @param fileName
+	 *            design file name
+	 * @throws DesignFileException
+	 *             if any exception
+	 */
+
+	protected void openDesign( String fileName ) throws DesignFileException
+	{
+		openDesign( fileName, true );
+	}
+
+	/**
+	 * Opens design file with default locale.
+	 * 
+	 * @param fileName
+	 *            design file name
+	 * @param inSingleJarMode
+	 *            <code>true</code> if open the design that is in the single
+	 *            jar. Otherwise <code>false</code>.
+	 * @throws DesignFileException
+	 *             if any exception
+	 */
+
+	protected void openDesign( String fileName, boolean inSingleJarMode )
+			throws DesignFileException
+	{
+		openDesign( fileName, ULocale.getDefault( ), inSingleJarMode );
+	}
+
+	/**
+	 * Opens design file providing the file name and the locale.
+	 * 
+	 * @param fileName
+	 *            the design file to be opened
+	 * @param locale
+	 *            the user locale
+	 * @param inSingleJarMode
+	 *            <code>true</code> if open the design that is in the single
+	 *            jar. Otherwise <code>false</code>.
+	 * @throws DesignFileException
+	 *             if any exception.
+	 */
+
+	protected void openDesign( String fileName, ULocale locale,
+			boolean inSingleJarMode ) throws DesignFileException
+	{
+		if ( inSingleJarMode )
+			fileName = INPUT_FOLDER + "/" + fileName;
+
+		sessionHandle = new DesignEngine( new DesignConfig( ) )
+				.newSessionHandle( locale );
+		assertNotNull( sessionHandle );
+
+		if ( inSingleJarMode )
+			designHandle = sessionHandle.openDesign( getResource( fileName )
+					.toString( ) );
+		else
+			designHandle = sessionHandle.openDesign( fileName );
+
+		design = (ReportDesign) designHandle.getModule( );
+	}
+
+	/**
+	 * Opens design file providing the file name and the locale.
+	 * 
+	 * @param fileName
+	 *            the design file to be opened
+	 * @param locale
+	 *            the user locale
+	 * @param inSingleJarMode
+	 *            <code>true</code> if open the design that is in the single
+	 *            jar. Otherwise <code>false</code>.
+	 * @throws DesignFileException
+	 *             if any exception.
+	 */
+
+	protected void openDesign( String fileName, ULocale locale )
+			throws DesignFileException
+	{
+		openDesign( fileName, locale, true );
+	}
+
+	/**
+	 * Opens library file with given file name.
+	 * 
+	 * @param fileName
+	 *            the library file name
+	 * @throws DesignFileException
+	 *             if any exception
+	 */
+
+	protected void openLibrary( String fileName ) throws DesignFileException
+	{
+		openLibrary( fileName, true );
+	}
+
+	/**
+	 * Opens library file with given file name.
+	 * 
+	 * @param fileName
+	 *            the library file name
+	 * @param inSingleJarMode
+	 *            <code>true</code> if open the design that is in the single
+	 *            jar. Otherwise <code>false</code>.
+	 * @throws DesignFileException
+	 *             if any exception
+	 */
+
+	protected void openLibrary( String fileName, boolean inSingleJarMode )
+			throws DesignFileException
+	{
+		openLibrary( fileName, ULocale.getDefault( ), inSingleJarMode );
+	}
+
+	/**
+	 * Opens library file with given file name and locale.
+	 * 
+	 * @param fileName
+	 *            the library file name
+	 * @param locale
+	 *            the user locale
+	 * @throws DesignFileException
+	 *             if any exception
+	 */
+
+	protected void openLibrary( String fileName, ULocale locale )
+			throws DesignFileException
+	{
+		openLibrary( fileName, locale, true );
+	}
+
+	/**
+	 * Opens library file with given file name and locale.
+	 * 
+	 * @param fileName
+	 *            the library file name
+	 * @param locale
+	 *            the user locale
+	 * @param inSingleJarMode
+	 *            <code>true</code> if open the design that is in the single
+	 *            jar. Otherwise <code>false</code>.
+	 * @throws DesignFileException
+	 *             if any exception
+	 */
+
+	protected void openLibrary( String fileName, ULocale locale,
+			boolean inSingleJarMode ) throws DesignFileException
+	{
+		if ( inSingleJarMode )
+			fileName = INPUT_FOLDER + fileName;
+
+		sessionHandle = new DesignEngine( new DesignConfig( ) )
+				.newSessionHandle( locale );
+		assertNotNull( sessionHandle );
+
+		if ( inSingleJarMode )
+			libraryHandle = sessionHandle.openLibrary( getResource( fileName ),
+					getResourceAStream( fileName ) );
+		else
+			libraryHandle = sessionHandle.openLibrary( fileName );
 	}
 
 	/**
@@ -590,7 +808,7 @@ public abstract class BaseTestCase extends TestCase
 			throws DesignFileException
 	{
 		sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( ULocale.ENGLISH );
+				.newSessionHandle( locale );
 		designHandle = sessionHandle.openDesign( fileName, is );
 		design = (ReportDesign) designHandle.getModule( );
 	}
@@ -607,8 +825,8 @@ public abstract class BaseTestCase extends TestCase
 		if ( !tempDir.endsWith( File.separator ) )
 			tempDir += File.separator;
 
-		String outputPath = tempDir + "org.eclipse.birt.report.model" //$NON-NLS-1$
-				+ getFullQualifiedClassName( );
+		String outputPath = tempDir + "org.eclipse.birt.report.tests.model" //$NON-NLS-1$
+				+ "/"+ getFullQualifiedClassName( );
 		return outputPath;
 	}
 
@@ -720,8 +938,8 @@ public abstract class BaseTestCase extends TestCase
 
 		try
 		{
-			goldenFileName = GOLDEN_FOLDER + goldenFileName;
-			outputFileName = getTempFolder( ) + OUTPUT_FOLDER + outputFileName;
+			goldenFileName = GOLDEN_FOLDER + "/"+ goldenFileName;
+			outputFileName = getTempFolder( ) + "/"+ OUTPUT_FOLDER + "/" + outputFileName;
 
 			readerA = new InputStreamReader(
 					getResourceAStream( goldenFileName ) );
@@ -771,7 +989,7 @@ public abstract class BaseTestCase extends TestCase
 	 */
 	protected boolean compareFile( String goldenFileName ) throws Exception
 	{
-		goldenFileName = GOLDEN_FOLDER + goldenFileName;
+		goldenFileName = GOLDEN_FOLDER + "/" + goldenFileName;
 
 		InputStream streamA = getResourceAStream( goldenFileName );
 		if ( os == null )
@@ -803,9 +1021,15 @@ public abstract class BaseTestCase extends TestCase
 
 		try
 		{
-			goldenFileName = getClassFolder( ) + java.io.File.separator + GOLDEN_FOLDER + java.io.File.separator + goldenFileName;
+			String resourceName = GOLDEN_FOLDER + java.io.File.separator + goldenFileName;
+			String folder = getTempFolder( );
+			
+			goldenFileName = folder + "/" + resourceName ;
+			
+			
+			
 			outputFileName = this.genOutputFile(outputFileName);
-
+			
 			readerA = new FileReader( goldenFileName );
 			readerB = new FileReader( outputFileName );
 
@@ -874,8 +1098,8 @@ public abstract class BaseTestCase extends TestCase
 
 			outputFileName = tempDir
 					+ "org.eclipse.birt.report.model" //$NON-NLS-1$
-					+ getFullQualifiedClassName( ) + OUTPUT_FOLDER
-					+ outputFileName;
+					+ getFullQualifiedClassName( ) + "/"+ OUTPUT_FOLDER
+					+ "/"+ outputFileName;
 
 			readerA = new InputStreamReader( goldenStream );
 			readerB = new FileReader( outputFileName );
@@ -1241,7 +1465,7 @@ public abstract class BaseTestCase extends TestCase
 		if ( moduleHandle == null )
 			return;
 
-		makeOutputDir( );
+		//makeOutputDir( );
 		moduleHandle.saveAs( this.genOutputFile(filename));
 	}
 
@@ -1368,22 +1592,13 @@ public abstract class BaseTestCase extends TestCase
 	 * @return the full qualified class name
 	 */
 
-/*
- * 	protected String getFullQualifiedClassName( )
+
+  	protected String getFullQualifiedClassName( )
 	{
 		String className = this.getClass( ).getName( );
 		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
 		className = className.substring( 0, lastDotIndex );
 		className = "/" + className.replace( '.', '/' ); //$NON-NLS-1$
-
-		return className;
-	}
-*/
-	protected String getFullQualifiedClassName( )
-	{
-		String className = this.getClass( ).getName( );
-		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
-		className = className.substring( 0, lastDotIndex );
 
 		return className;
 	}
