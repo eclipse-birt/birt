@@ -91,12 +91,13 @@ public class ReportTag extends AbstractViewerTag
 		// output format
 		outputFormat = BirtTagUtil.getFormat( viewer.getFormat( ) );
 
-		// if output format isn't html or allowParameterPrompting is
-		// true, use IFrame to load report.
+		// if output format isn't html,allowParameterPrompting is
+		// true or set forceIFrame as true, use IFrame to load report.
 		if ( !outputFormat
 				.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_HTML )
 				|| BirtTagUtil.convertToBoolean( viewer
-						.getForceParameterPrompting( ) ) )
+						.getForceParameterPrompting( ) )
+				|| viewer.isForceIFrame( ) )
 		{
 			__handleIFrame( viewer.createURI( IBirtConstants.VIEWER_PREVIEW ),
 					viewer.getId( ) );
@@ -740,4 +741,12 @@ public class ReportTag extends AbstractViewerTag
 		return options;
 	}
 
+	/**
+	 * @param forceIFrame
+	 *            the forceIFrame to set
+	 */
+	public void setForceIFrame( String forceIFrame )
+	{
+		viewer.setForceIFrame( Boolean.valueOf( forceIFrame ).booleanValue( ) );
+	}
 }

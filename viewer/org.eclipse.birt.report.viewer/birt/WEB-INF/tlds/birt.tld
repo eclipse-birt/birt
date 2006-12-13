@@ -563,6 +563,16 @@
 				Default to false.
 			</description>			
 		</attribute>
+		
+		<attribute>
+			<name>forceIFrame</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Specifies whether forces to use IFrame as report container.
+				Default to false.
+			</description>			
+		</attribute>
 		        
     </tag>	
     

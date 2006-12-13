@@ -55,6 +55,7 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
  * <li>showTitle</li>
  * <li>showToolBar</li>
  * <li>showNavigationBar</li>
+ * <li>forceIFrame</li>
  * </ol>
  */
 public class ViewerField implements Serializable, Cloneable
@@ -102,6 +103,8 @@ public class ViewerField implements Serializable, Cloneable
 	private String showTitle;
 	private String showToolBar;
 	private String showNavigationBar;
+
+	private boolean forceIFrame = false;
 
 	/**
 	 * Report parameters
@@ -806,6 +809,23 @@ public class ViewerField implements Serializable, Cloneable
 	public void setShowNavigationBar( String showNavigationBar )
 	{
 		this.showNavigationBar = showNavigationBar;
+	}
+
+	/**
+	 * @return the forceIFrame
+	 */
+	public boolean isForceIFrame( )
+	{
+		return forceIFrame;
+	}
+
+	/**
+	 * @param forceIFrame
+	 *            the forceIFrame to set
+	 */
+	public void setForceIFrame( boolean forceIFrame )
+	{
+		this.forceIFrame = forceIFrame;
 	}
 
 	/**
