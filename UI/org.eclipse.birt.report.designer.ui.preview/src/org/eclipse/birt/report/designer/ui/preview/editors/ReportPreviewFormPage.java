@@ -22,7 +22,6 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.InputParameterHtmlDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
-import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.model.api.ConfigVariableHandle;
@@ -291,6 +290,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 	 */
 	public boolean canLeaveThePage( )
 	{
+		handleLeaveThePage( );
 		return true;
 	}
 
