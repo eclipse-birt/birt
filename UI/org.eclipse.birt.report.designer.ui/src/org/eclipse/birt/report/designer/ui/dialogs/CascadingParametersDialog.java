@@ -1693,7 +1693,7 @@ public class CascadingParametersDialog extends BaseDialog
 			ResultSetColumnHandle columnHandle )
 	{
 		String type = handle.getDataType( );
-		if ( handle == selectedParameter )
+		if ( handle == selectedParameter && dataTypeChooser.isEnabled( ))
 		{
 			type = getSelectedDataType( );
 		}
