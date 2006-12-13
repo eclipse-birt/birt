@@ -53,6 +53,7 @@ public interface ResourceConstants
 	
 	// stack trace title
 	public static final String EXCEPTION_DIALOG_STACK_TRACE = "birt.viewer.exceptionDialog.stackTrace"; //$NON-NLS-1$
+	public static final String EXCEPTION_DIALOG_SHOW_STACK_TRACE = "birt.viewer.exceptionDialog.showStackTrace"; //$NON-NLS-1$
 	
 	// viewer taglib excepton
 	public static final String TAGLIB_NO_VIEWER_ID = "birt.viewer.taglib.NO_VIEWER_ID"; //$NON-NLS-1$

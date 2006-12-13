@@ -24,35 +24,48 @@
 -----------------------------------------------------------------------------%>
 <TABLE CELLSPACING="2" CELLPADDING="2" CLASS="birtviewer_dialog_body">
 	<TR>
-		<TD style="border-style:solid;border-color:#cccccc;background-color:#ffffef;border-width:1px">
+		<TD CLASS="birtviewer_exception_dialog">
 			<TABLE CELLSPACING="2" CELLPADDING="2">
 				<TR>
 					<TD VALIGN="top"><IMG SRC="birt/images/Error.gif" /></TD>
 					
 					<TD>
 					
-						<TABLE CELLSPACING="2" CELLPADDING="4" style="border-left-style:solid;border-left-width:1px;border-left-color:#cccccc" >
+						<TABLE CELLSPACING="2" CELLPADDING="4" CLASS="birtviewer_exception_dialog_container" >
 							<TR>
 								<TD>
 									<B><SPAN ID='faultstring'></SPAN><B>
 								</TD>
 							</TR>
-						<!--	
 							<TR>
 								<TD>
-									<%= 
-										BirtResources.getMessage( ResourceConstants.EXCEPTION_DIALOG_STACK_TRACE )
-									%><BR>
+									<LABEL ID="exceptionTraceLabel" CLASS="birtviewer_exception_dialog_label">
+										<%= BirtResources.getMessage( ResourceConstants.EXCEPTION_DIALOG_SHOW_STACK_TRACE ) %> 
+									</LABEL>																				
 								</TD>
 							</TR>
 							<TR>
 								<TD>
-									<DIV style="padding:2px;width:100%;overflow:auto;height:150px;border-top-color:#cccccc;border-top-style:solid;border-top-width:1px;font-size:8pt">
-										<SPAN ID='faultdetail'></SPAN>
+									<DIV ID="exceptionTraceContainer" STYLE="display:none">
+										<TABLE WIDTH="100%">
+											<TR>
+												<TD>
+													<%= 
+														BirtResources.getMessage( ResourceConstants.EXCEPTION_DIALOG_STACK_TRACE )
+													%><BR>
+												</TD>
+											</TR>
+											<TR>
+												<TD>
+													<DIV CLASS="birtviewer_exception_dialog_detail">
+														<SPAN ID='faultdetail'></SPAN>
+													</DIV>
+												</TD>
+											</TR>											
+										</TABLE>
 									</DIV>
 								</TD>
-							</TR>
-						-->
+							</TR>	
 						</TABLE>
 					
 					</TD>

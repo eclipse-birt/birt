@@ -59,6 +59,46 @@
 /******************************************************************************
  * Birt export data dialog.
  *****************************************************************************/
+.birtviewer_exception_dialog
+{
+	border-style:solid;
+	border-color:#cccccc;
+	background-color:#ffffef;
+	border-width:1px;
+} 
+
+.birtviewer_exception_dialog_container
+{
+	border-left-style:solid;
+	border-left-width:1px;
+	border-left-color:#cccccc;
+} 
+
+.birtviewer_exception_dialog_label
+{
+	cursor: pointer;
+	font-size: 8pt;
+	color: gray;
+	font-weight: bold;
+	border-style:solid;
+	border-width:0px 0px 1px;
+}
+
+.birtviewer_exception_dialog_detail
+{
+	padding:2px;
+	width:100%;
+	overflow:auto;
+	height:150px;
+	border-top-color:#cccccc;
+	border-top-style:solid;
+	border-top-width:1px;
+	font-size:8pt;
+}
+
+/******************************************************************************
+ * Birt export data dialog.
+ *****************************************************************************/
  
 .birtviewer_exportdata_dialog_single_select
 {

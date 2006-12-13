@@ -17,6 +17,16 @@ BirtExceptionDialog = Class.create( );
 BirtExceptionDialog.prototype = Object.extend( new AbstractExceptionDialog( ),
 {
 	/**
+	 * indicate whether exception detail is show or not.
+	 */
+	__isShow: false,
+	
+	/**
+	 * Event handler closures.
+	 */
+	__neh_click_input_closurre : null,
+	
+	/**
 	 *	Initialization routine required by "ProtoType" lib.
 	 *
 	 *	@return, void
@@ -25,8 +35,32 @@ BirtExceptionDialog.prototype = Object.extend( new AbstractExceptionDialog( ),
 	{
 		this.__initBase( id, "600px" );
 		this.__z_index = 300;
+		
+		// click event on input control
+		this.__neh_click_input_closure = this.__neh_click_input.bindAsEventListener( this );
+		Event.observe( $('exceptionTraceLabel'), 'click', this.__neh_click_input_closure, false );				
 	},
-	
+
+	/**
+	*	Handle clicking on input control.
+	* 
+	* 	@return, void
+	*/
+	__neh_click_input: function( event )
+	{
+		var container = $('exceptionTraceContainer');
+		if( !this.__isShow )
+		{
+			container.style.display = "block";
+		}
+		else
+		{
+			container.style.display = "none";
+		}
+		
+		this.__isShow = !this.__isShow;
+	},
+		
 	/**
 	*	Handle clicking on ok.
 	* 
@@ -47,6 +81,11 @@ BirtExceptionDialog.prototype = Object.extend( new AbstractExceptionDialog( ),
 		
 		// disable the Navigation Bar buttons
 		birtUtility.setButtonsDisabled ( "navigationBar", true );
+		
+		// close the exception stack trace
+		var container = $('exceptionTraceContainer');
+		container.style.display = 'none';
+		this.__isShow = false;
 	},
 	
 	/**
