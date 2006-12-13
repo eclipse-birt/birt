@@ -226,24 +226,29 @@ public class ModelOdaAdapter
 
 		List resultRetColumns = new ResultSetsAdapter( ).newROMResultSets(
 				setDesign, setHandle, null );
-		List columns = new ArrayList( );
-		List hints = new ArrayList( );
 
-		ResultSetColumnInfo.updateResultSetColumnList( resultRetColumns,
-				columns, hints );
+		List columns = null;
+		List hints = null;
 
-		// create unique column names if native names is null or empty.
+		// if the return value is null, do not create an empty list.
 
-		createUniqueResultSetColumnNames( columns );
-		PropertyValueValidationUtil.validateProperty( setHandle,
-				OdaDataSetHandle.RESULT_SET_PROP, columns );
-		setHandle.getElement( ).setProperty( OdaDataSetHandle.RESULT_SET_PROP,
-				columns );
+		if ( resultRetColumns != null )
+		{
+			columns = new ArrayList( );
+			hints = new ArrayList( );
 
-		PropertyValueValidationUtil.validateProperty( setHandle,
-				OdaDataSetHandle.COLUMN_HINTS_PROP, hints );
+			ResultSetColumnInfo.updateResultSetColumnList( resultRetColumns,
+					columns, hints );
+
+			PropertyValueValidationUtil.validateProperty( setHandle,
+					OdaDataSetHandle.RESULT_SET_PROP, columns );
+			PropertyValueValidationUtil.validateProperty( setHandle,
+					OdaDataSetHandle.COLUMN_HINTS_PROP, hints );
+		}
 		setHandle.getElement( ).setProperty(
 				OdaDataSetHandle.COLUMN_HINTS_PROP, hints );
+		setHandle.getElement( ).setProperty( OdaDataSetHandle.RESULT_SET_PROP,
+				columns );
 
 		// set the query text.
 
@@ -975,23 +980,25 @@ public class ModelOdaAdapter
 
 		PropertyHandle propHandle = setHandle
 				.getPropertyHandle( OdaDataSetHandle.RESULT_SET_PROP );
-
-		propHandle.setValue( new ArrayList() );
+		propHandle.setValue( null );
 
 		if ( !columns.isEmpty( ) )
 		{
 			createUniqueResultSetColumnNames( columns );
 
+			propHandle.setValue( new ArrayList( ) );
 			for ( int i = 0; i < columns.size( ); i++ )
 				propHandle.addItem( columns.get( i ) );
 		}
 
 		propHandle = setHandle
 				.getPropertyHandle( OdaDataSetHandle.COLUMN_HINTS_PROP );
-		propHandle.setValue( new ArrayList() );
-		
+		propHandle.setValue( null );
+
 		if ( !hints.isEmpty( ) )
 		{
+			propHandle.setValue( new ArrayList( ) );
+
 			for ( int i = 0; i < hints.size( ); i++ )
 			{
 				ColumnHint hint = (ColumnHint) hints.get( i );
