@@ -576,6 +576,7 @@
 			<fileset dir="${test.dir}/unitTestReport">
 				<include name="**/*.xml"/>
 				<include name="**/*.html"/>
+				<exclude name="**/build.xml"/>
 			</fileset>
 		</delete>
 		<!-- prepare unit test components -->
