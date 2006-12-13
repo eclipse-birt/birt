@@ -144,7 +144,6 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.report.engine.ir.DataItemTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.ir.DimensionTypeTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.ir.DrillThroughActionDesignTest.class );
-		suite.addTestSuite( org.eclipse.birt.report.engine.ir.ExpressionTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.ir.FreeFormItemTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.ir.GraphicMasterPageTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.ir.GridItemTest.class );

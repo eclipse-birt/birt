@@ -31,11 +31,6 @@ public class ActionContent implements IHyperlinkAction
 	 * action type
 	 */
 	protected int type = -1;
-	
-	/**
-	 * Flag indicating if this is a bookmark. False means this is a TOC.
-	 */
-	protected boolean isBookmark;
 
 	/**
 	 * bookmark string
@@ -264,11 +259,6 @@ public class ActionContent implements IHyperlinkAction
 				IOUtil.writeBool( out, drillThrough.isBookmark( ) );
 			}
 		}
-		else if ( isBookmark )
-		{
-			IOUtil.writeInt( out, FIELD_ISBOOKMARK );
-			IOUtil.writeBool( out, isBookmark );
-		}
 		if ( hyperlink != null )
 		{
 			IOUtil.writeInt( out, FIELD_HYPERLINK );
@@ -371,10 +361,6 @@ public class ActionContent implements IHyperlinkAction
 				{					
 					drillThrough.setBookmarkType( IOUtil.readBool( in ) );
 				}
-				else
-				{	
-					isBookmark = IOUtil.readBool( in );
-				}
 				break;
 		}
 	}
@@ -413,10 +399,6 @@ public class ActionContent implements IHyperlinkAction
 		{
 			drillThrough.setBookmarkType( isBookmark );
 		}
-		else
-		{	
-			this.isBookmark = isBookmark;
-		}
 	}
 
 	public boolean isBookmark( )
@@ -425,10 +407,7 @@ public class ActionContent implements IHyperlinkAction
 		{
 			return drillThrough.isBookmark( );
 		}
-		else
-		{	
-			return isBookmark;
-		}		
+		return false;
 	}
 	
 	public IDrillThroughAction getDrillThrough( )

@@ -155,7 +155,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.133 $ $Date: 2006/11/16 06:22:35 $
+ * @version $Revision: 1.134 $ $Date: 2006/11/24 07:15:45 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1062,13 +1062,7 @@ class EngineIRVisitor extends DesignVisitor
 		if ( item instanceof DataItemDesign )
 		{
 			DataItemDesign data = (DataItemDesign) item;
-			String value = data.getValue( );
-			if ( value != null && keyExpression.equals( value.trim( ) ))
-			{
-				return true;
-			}
-			String columnBinding = getColumnBinding( tableHandle,
-					value );
+			String columnBinding = data.getBindingColumn( );
 			if ( columnBinding != null && columnBindingExpression != null
 					&& columnBindingExpression.equals( columnBinding ) )
 			{
@@ -1779,8 +1773,6 @@ class EngineIRVisitor extends DesignVisitor
 		{
 			action
 					.setBookmark( createExpression( handle.getTargetBookmark( ) ) );
-			action.setBookmarkType( !DesignChoiceConstants.ACTION_BOOKMARK_TYPE_TOC
-					.equals( handle.getTargetBookmarkType( ) ) );
 		}
 		else if ( EngineIRConstants.ACTION_LINK_TYPE_DRILL_THROUGH
 				.equals( linkType ) )

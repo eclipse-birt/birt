@@ -18,6 +18,7 @@ import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
@@ -574,7 +575,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 	 * It visits the report design, add the element id and design object into
 	 * the hash map.
 	 * 
-	 * @version $Revision: 1.10.2.2 $ $Date: 2006/09/07 12:56:59 $
+	 * @version $Revision: 1.12 $ $Date: 2006/09/07 13:35:20 $
 	 */
 	protected class GenerateIDMapVisitor extends DefaultReportItemVisitorImpl
 	{
@@ -778,7 +779,9 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 			DataContent data = (DataContent) content;
 			if ( design.getMap( ) == null )
 			{
-				String valueExpr = design.getValue( );
+				String column = design.getBindingColumn( );
+				String valueExpr = ExpressionUtil.createJSRowExpression( column );
+				
 				if ( valueExpr != null )
 				{
 					Object value = context.evaluate( valueExpr );

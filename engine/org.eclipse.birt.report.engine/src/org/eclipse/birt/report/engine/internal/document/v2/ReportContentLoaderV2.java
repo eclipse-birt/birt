@@ -17,6 +17,7 @@ import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
@@ -894,7 +895,8 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 				DataItemDesign design = (DataItemDesign) data.getGenerateBy( );
 				if ( design.getMap( ) == null )
 				{
-					String valueExpr = design.getValue( );
+					String column = design.getBindingColumn( );
+					String valueExpr = ExpressionUtil.createJSRowExpression( column );;
 					if ( valueExpr != null )
 					{
 						Object dataValue = context.evaluate( valueExpr );

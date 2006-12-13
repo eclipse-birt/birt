@@ -37,7 +37,6 @@ public class DataDesignTest extends AbstractDesignTestCase
 		assertEquals( 3, data.getY( ).getMeasure( ), Double.MIN_VALUE );
 		assertEquals( "myData", data.getName( ) );
 		assertEquals( "data help", data.getHelpText( ) );
-		assertEquals( "row[\"COLUMN_19\"]", data.getValue( ) );
 		assertEquals( "http://www.msn.com", data.getAction( ).getHyperlink( ) );
 	}
 

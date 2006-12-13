@@ -18,7 +18,6 @@ import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
-import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 
 /**
@@ -38,11 +37,6 @@ public class ScriptExecutor
 	protected static Logger log = Logger.getLogger( ScriptExecutor.class
 			.getName( ) );
 
-	protected static JSScriptStatus handleJS( Object scope, Expression js,
-			ExecutionContext context )
-	{
-		return handleJSInternal( scope, js, context );
-	}
 
 	protected static JSScriptStatus handleJS( Object scope, String js,
 			ExecutionContext context )
@@ -55,7 +49,7 @@ public class ScriptExecutor
 	{
 		if ( js != null )
 		{
-			if ( !( js instanceof String || js instanceof Expression ) )
+			if ( !( js instanceof String ) )
 				return JSScriptStatus.NO_RUN;
 			try
 			{
@@ -64,8 +58,6 @@ public class ScriptExecutor
 				Object result = null;
 				if ( js instanceof String )
 					result = context.evaluate( ( String ) js );
-				else if ( js instanceof Expression )
-					result = context.evaluate( ( ( Expression ) js ).getExpression( ) );
 				return new JSScriptStatus( true, result );
 			} finally
 			{

@@ -23,15 +23,32 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 
+/**
+ * Write the engine tansfered IR report.
+ * The Writing sequence of report root:
+ *    1. Version. Version id stored in IR, to remember the document changes.
+ *    2. Report Version.
+ *    3. Base path.
+ *    4. Styles and rootStyle
+ *    5. Master pages.
+ *       Write report item designs in master page.
+ *    6. Report body
+ *       Write report item designs in body.
+ * Write design:
+ *    1. Write design type
+ *    2. Write report item design.
+ *    3. Write the current design's fields( field type and field value ).
+ *    4. Write the current design's children.
+ */
 public class EngineIRWriter implements IOConstants
-{
-
+{	
+	
 	public void write( OutputStream out, Report design ) throws IOException
 	{
 		DataOutputStream dos = new DataOutputStream( out );
 
 		// stream version number
-		IOUtil.writeLong( dos, 0L );
+		IOUtil.writeLong( dos, 1L );
 
 		// design version number
 		IOUtil.writeString( dos, DesignSchemaConstants.REPORT_VERSION );
@@ -1488,8 +1505,6 @@ public class EngineIRWriter implements IOConstants
 				IOUtil.writeString( out, hyperlink );
 				break;
 		}
-		boolean isBookmark = action.isBookmark( );
-		IOUtil.writeBool( out, isBookmark );
 		String targetWindow = action.getTargetWindow( );
 		IOUtil.writeString( out, targetWindow );
 	}

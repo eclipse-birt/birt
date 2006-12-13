@@ -51,7 +51,7 @@ import org.eclipse.birt.report.engine.toc.TOCEntry;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.42 $ $Date: 2006/11/02 02:34:28 $
+ * @version $Revision: 1.43 $ $Date: 2006/11/09 09:48:31 $
  */
 public abstract class ReportItemExecutor implements IReportItemExecutor
 {
@@ -301,7 +301,6 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 					{
 						IHyperlinkAction obj = report.createActionContent( );
 						obj.setBookmark( value.toString( ) );
-						obj.setBookmarkType( action.isBookmark( ) );
 						itemContent.setHyperlinkAction( obj );
 					}
 					else

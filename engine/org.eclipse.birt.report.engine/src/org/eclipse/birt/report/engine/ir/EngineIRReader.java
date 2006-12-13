@@ -25,10 +25,32 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 
+/**
+ * Read the tansfered engine IR designs wrote in EngineIRWriter.
+ * The reading sequence of report root:
+ *    1. Version. Version id stored in IR, to remember the document changes.
+ *    2. Report Version.
+ *    3. Base path.
+ *    4. Styles and rootStyle
+ *    5. Master pages.
+ *       Read report item designs in master page.
+ *    6. Report body
+ *       Read report item designs in body.
+ * readDesign:
+ *    1. Read design type
+ *    2. Read report item design according design type.
+ *    3. Read the current design's fields.
+ *    4. Read the current design's children.
+ */
 public class EngineIRReader implements IOConstants
 {
 
 	protected Report reportDesign;
+	
+	/**
+	 * The version wrote in EngineIRWriter.
+	 */
+	protected long version;
 
 	public EngineIRReader( )
 	{
@@ -39,8 +61,8 @@ public class EngineIRReader implements IOConstants
 		DataInputStream dis = new DataInputStream( in );
 
 		// read the version
-		long version = IOUtil.readLong( dis );
-		if ( version != 0L )
+		version = IOUtil.readLong( dis );
+		if ( version != 0L || version != 1L )
 		{
 			throw new IOException( "unsupported version:" + version ); //$NON-NLS-1$
 		}
@@ -90,7 +112,7 @@ public class EngineIRReader implements IOConstants
 			pageSetup.addMasterPage( masterPage );
 		}
 
-		// write the body conent
+		// read the body conent
 		int count = IOUtil.readInt( dis );
 		for ( int i = 0; i < count; i++ )
 		{
@@ -1329,10 +1351,13 @@ public class EngineIRReader implements IOConstants
 			default :
 				throw new IOException( "invalid action type:" + actionType ); //$NON-NLS-1$
 		}
-		boolean isBookmark = IOUtil.readBool( in );
+		if ( version == 0L )
+		{
+			// We remove isBookmark of ActionDesign from version 1.
+			IOUtil.readBool( in );
+		}
 		String targetWindow = IOUtil.readString( in );
 
-		action.setBookmarkType( isBookmark );
 		action.setTargetWindow( targetWindow );
 		return action;
 	}

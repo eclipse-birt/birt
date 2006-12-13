@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * DataItem test
  * 
- * @version $Revision: 1.2 $ $Date: 2006/10/19 22:35:34 $
+ * @version $Revision: 1.2 $ $Date: 2006/10/31 07:43:27 $
  */
 public class DataItemTest extends ReportItemTestCase
 {
@@ -44,7 +44,6 @@ public class DataItemTest extends ReportItemTestCase
 
 		//Get
 		assertEquals( dataItem.getAction( ), action );
-		assertEquals( "row[\"field\"]", dataItem.getValue( ) );
 		assertEquals( exp, dataItem.getBindingColumn( ) );
 	}
 }

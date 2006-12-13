@@ -63,7 +63,7 @@ import com.ibm.icu.text.DecimalFormat;
 /**
  * visitor used to write the IR.
  * 
- * @version $Revision: 1.16.6.1 $ $Date: 2006/09/07 12:56:56 $
+ * @version $Revision: 1.17 $ $Date: 2006/09/07 13:35:20 $
  */
 public class ReportDesignWriter
 {
@@ -139,7 +139,6 @@ public class ReportDesignWriter
 				return;
 			pushTag( "action" ); //$NON-NLS-1$
 			attribute( "target-window", action.getTargetWindow( ) );
-			attribute( "bookmark-type", action.isBookmark( ) );
 			switch ( action.getActionType( ) )
 			{
 				case ActionDesign.ACTION_BOOKMARK :
@@ -436,7 +435,7 @@ public class ReportDesignWriter
 			attribute( "supress-duplicate", data.getSuppressDuplicate( ) );
 			attribute( "help-text", data.getHelpText( ) );
 			attribute( "help-text-key", data.getHelpTextKey( ) );
-			text( data.getValue( ) );
+			text( data.getBindingColumn( ) );
 			popTag( );
 			return value;
 		}
