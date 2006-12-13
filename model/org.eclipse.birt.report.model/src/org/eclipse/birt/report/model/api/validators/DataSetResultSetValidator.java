@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
  * <h3>Applicability</h3>
  * This validator is only applied to <code>DataSet</code>.
  *  
+ * @deprecated since birt 2.2
  */
 
 public class DataSetResultSetValidator extends AbstractElementValidator

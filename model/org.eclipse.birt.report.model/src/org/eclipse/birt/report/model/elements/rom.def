@@ -1591,7 +1591,6 @@
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.CellOverlappingValidator" modules="design, library" name="CellOverlappingValidator"/>
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.DataSetNameRequiredValidator" modules="design, library" name="DataSetNameRequiredValidator"/>
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.DataSetRequiredValidator" modules="design" name="DataSetRequiredValidator"/>
-	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.DataSetResultSetValidator" modules="design, library" name="DataSetResultSetValidator"/>
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ElementReferenceValidator" modules="design, library" name="ElementReferenceValidator"/>
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ExtensionValidator" modules="design, library" name="ExtensionValidator"/>
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.GroupNameValidator" modules="design, library" name="GroupNameValidator"/>
@@ -2200,9 +2199,7 @@
   </Element>
   <Element canExtend="true" displayNameID="Element.OdaDataSet" extends="SimpleDataSet" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.OdaDataSet" name="OdaDataSet" since="1.0" xmlName="oda-data-set">	  
 	<Property detailType="OdaDataSetParam" displayNameID="Element.OdaDataSet.parameters" isList="true" name="parameters" since="2.1.1" type="structure"/> 	  	  
-    <Property detailType="OdaResultSetColumn" displayNameID="Element.OdaDataSet.resultSet" isList="true" name="resultSet" since="1.0" type="structure">
-	  <Trigger validator="DataSetResultSetValidator"/>
-	</Property>	 	
+    <Property detailType="OdaResultSetColumn" displayNameID="Element.OdaDataSet.resultSet" isList="true" name="resultSet" since="1.0" type="structure" />
     <Property displayNameID="Element.OdaDataSet.extensionID" isIntrinsic="true" name="extensionID" since="1.0" type="string"/>
     <Property displayNameID="Element.OdaDataSet.queryText" name="queryText" since="1.0" type="literalString"/>
     <Property displayNameID="Element.OdaDataSet.resultSetName" name="resultSetName" since="reserved" type="string"/>
@@ -2215,9 +2212,7 @@
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.JointDataSet" extends="DataSet" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.JointDataSet" name="JointDataSet" since="2.1" xmlName="joint-data-set">
     <Property detailType="DataSetParam" displayNameID="Element.JointDataSet.parameters" isList="true" name="parameters" since="1.0" type="structure"/>	  	  
-    <Property detailType="ResultSetColumn" displayNameID="Element.JointDataSet.resultSet" isList="true" name="resultSet" since="1.0" type="structure">
-	  <Trigger validator="DataSetResultSetValidator"/>
-	</Property>	  
+    <Property detailType="ResultSetColumn" displayNameID="Element.JointDataSet.resultSet" isList="true" name="resultSet" since="1.0" type="structure" />
     <Property subType="element" detailType="DataSet" displayNameID="Element.JointDataSet.dataSets" name="dataSets" runtimeSettable="true" since="2.1" type="list"/>
     <Property detailType="JoinCondition" displayNameID="Element.JointDataSet.joinConditions" isList="true" name="joinConditions" runtimeSettable="true" since="2.1" type="structure"/>
   </Element>
