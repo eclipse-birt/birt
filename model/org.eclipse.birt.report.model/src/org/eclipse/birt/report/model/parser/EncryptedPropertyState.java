@@ -69,7 +69,8 @@ public class EncryptedPropertyState extends PropertyState
 
 		if ( propDefn == null )
 		{
-			DesignParserException e = new DesignParserException( new String[]{name},
+			DesignParserException e = new DesignParserException(
+					new String[]{name},
 					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY );
 			RecoverableError.dealUndefinedProperty( handler, e );
 
@@ -97,8 +98,8 @@ public class EncryptedPropertyState extends PropertyState
 
 		if ( struct != null )
 		{
-			doSetMember( propDefn.getName( ), (StructPropertyDefn) propDefn,
-					valueToSet );
+			doSetMember( struct, propDefn.getName( ),
+					(StructPropertyDefn) propDefn, valueToSet );
 			return;
 		}
 

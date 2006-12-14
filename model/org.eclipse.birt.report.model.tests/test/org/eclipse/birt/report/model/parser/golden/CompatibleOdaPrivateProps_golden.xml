@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.10" id="1">
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.datatools.enablement.oda.xml" name="myDataSource" id="2">
+            <property name="FILELIST">D:\Develop\Report\CustomerOffer.xml</property>
+            <property name="SCHEMAFILELIST">D:\Develop\Report\CustomerOffer.xsd</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.datatools.enablement.oda.xml.dataSet" name="myDataSet" id="3">
+            <property name="rowFetchLimit">1</property>
+            <property name="dataSource">myDataSource</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">name1</property>
+                    <property name="nativeName">name1</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">name</property>
+                    <property name="nativeName">name</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">name3</property>
+                    <property name="nativeName">name3</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">name2</property>
+                    <property name="nativeName">name2</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+            </list-property>
+            <property name="queryText">table0#-TNAME-#table0#:#[/root/country]#:#{name1;String;/city[2]/@name},{name;String;/@name},{name3;String;/@name},{name2;String;/@name}</property>
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>MAX_ROW</name>
+                    <value>1</value>
+                </ex-property>
+                <ex-property>
+                    <name>XML_FILE</name>
+                    <value>D:\BookStore.xml</value>
+                </ex-property>
+            </list-property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page" id="4">
+            <property name="columns">1</property>
+            <property name="columnSpacing">0.25mm</property>
+        </graphic-master-page>
+    </page-setup>
+</report>

@@ -45,8 +45,9 @@ import org.xml.sax.Attributes;
 /**
  * Parses the abstract property. The XML file is like:
  * 
- * <pre>        
- *             &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
+ * <pre>
+ *         
+ *              &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
  * </pre>
  * 
  * The supported tags are:
@@ -197,11 +198,11 @@ public class AbstractPropertyState extends AbstractParseState
 			valueToSet = helper.decrypt( valueToSet );
 		}
 
-		doSetMember( propName, memberDefn, valueToSet );
+		doSetMember( struct, propName, memberDefn, valueToSet );
 	}
 
-	protected void doSetMember( String propName, StructPropertyDefn memberDefn,
-			String valueToSet )
+	protected void doSetMember( IStructure struct, String propName,
+			StructPropertyDefn memberDefn, String valueToSet )
 	{
 		// Validate the value.
 
@@ -384,10 +385,10 @@ public class AbstractPropertyState extends AbstractParseState
 
 			if ( IStyleModel.PAGE_BREAK_AFTER_PROP.equalsIgnoreCase( propDefn
 					.getName( ) )
-					|| IStyleModel.PAGE_BREAK_BEFORE_PROP.equalsIgnoreCase( propDefn
-							.getName( ) )
-					|| IStyleModel.PAGE_BREAK_INSIDE_PROP.equalsIgnoreCase( propDefn
-							.getName( ) ) )
+					|| IStyleModel.PAGE_BREAK_BEFORE_PROP
+							.equalsIgnoreCase( propDefn.getName( ) )
+					|| IStyleModel.PAGE_BREAK_INSIDE_PROP
+							.equalsIgnoreCase( propDefn.getName( ) ) )
 				return true;
 
 			ObjectDefn objDefn = ( (PropertyDefn) propDefn ).definedBy( );

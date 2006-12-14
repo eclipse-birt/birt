@@ -16,9 +16,14 @@
                 <property name="version">2.1</property>
                 <property name="stateContentAsBlob">bmV3IGNvbnRlbnQgYXMgYmxvYg==</property>
             </structure>
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>odaDataSource</name>
+                    <value>Data Source</value>
+                </ex-property>
+            </list-property>            
             <property name="odaDriverClass">New Driver Class</property>
             <property name="odaURL">New URL</property>
-            <property name="odaDataSource">Data Source</property>
             <property name="odaUser">New User</property>
             <encrypted-property name="odaPassword">TmV3IFBhc3N3b3Jk</encrypted-property>
         </oda-data-source>

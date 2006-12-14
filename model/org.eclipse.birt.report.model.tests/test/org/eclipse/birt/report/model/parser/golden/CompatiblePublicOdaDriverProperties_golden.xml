@@ -8,9 +8,14 @@
             <method name="afterClose"><![CDATA[script_afterclose]]></method>
         </oda-data-source>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="myDataSource1" id="3">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>odaDataSource</name>
+                    <value>Data Source</value>
+                </ex-property>
+            </list-property>
             <property name="odaDriverClass">Driver Class</property>
             <property name="odaURL">URL</property>
-            <property name="odaDataSource">Data Source</property>
             <property name="odaUser">User</property>
             <encrypted-property name="odaPassword">UGFzc3dvcmQ=</encrypted-property>
         </oda-data-source>

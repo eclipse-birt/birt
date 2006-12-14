@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -33,6 +35,8 @@ import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListingElement;
+import org.eclipse.birt.report.model.elements.OdaDataSet;
+import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
@@ -40,12 +44,14 @@ import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
+import org.eclipse.birt.report.model.metadata.ODAExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.VersionUtil;
@@ -320,29 +326,57 @@ class PropertyState extends AbstractPropertyState
 
 	protected AbstractParseState versionConditionalJumpTo( )
 	{
-		
-		if( handler.versionNumber < VersionUtil.VERSION_3_2_10 )
+
+		if ( handler.versionNumber <= VersionUtil.VERSION_3_2_10
+				&& propDefn == null
+				&& element instanceof IOdaExtendableElementModel )
 		{
-			if( element instanceof ReportItem )
+			ODAExtensionElementDefn elementDefn = null;
+
+			if ( element instanceof OdaDataSet )
+				elementDefn = (ODAExtensionElementDefn) ( (OdaDataSet) element )
+						.getExtDefn( );
+			else if ( element instanceof OdaDataSource )
+				elementDefn = (ODAExtensionElementDefn) ( (OdaDataSource) element )
+						.getExtDefn( );
+
+			if ( elementDefn != null )
 			{
-				if( IReportItemModel.TOC_PROP.equalsIgnoreCase(  name ) )
+				List privatePropDefns = elementDefn.getODAPrivateDriverPropertyNames( );
+				if ( privatePropDefns.contains( name ) )
 				{
-					CompatibleTOCPropertyState state = new CompatibleTOCPropertyState( handler , element );
+					CompatibleODAPrivatePropertyState state = new CompatibleODAPrivatePropertyState(
+							handler, element );
+					state.setName( name );
+					return state;
+				}
+			}
+		}
+
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_10 )
+		{
+			if ( element instanceof ReportItem )
+			{
+				if ( IReportItemModel.TOC_PROP.equalsIgnoreCase( name ) )
+				{
+					CompatibleTOCPropertyState state = new CompatibleTOCPropertyState(
+							handler, element );
 					state.setName( IReportItemModel.TOC_PROP );
 					return state;
 				}
 			}
-			if( element instanceof GroupElement )
+			if ( element instanceof GroupElement )
 			{
-				if( IGroupElementModel.TOC_PROP.equalsIgnoreCase(  name ) )
+				if ( IGroupElementModel.TOC_PROP.equalsIgnoreCase( name ) )
 				{
-					CompatibleTOCPropertyState state = new CompatibleTOCPropertyState( handler , element );
+					CompatibleTOCPropertyState state = new CompatibleTOCPropertyState(
+							handler, element );
 					state.setName( IGroupElementModel.TOC_PROP );
 					return state;
 				}
 			}
 		}
-		
+
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_2
 				&& ( DesignChoiceConstants.CHOICE_VERTICAL_ALIGN.equals( name ) ) )
 		{
@@ -354,7 +388,8 @@ class PropertyState extends AbstractPropertyState
 
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_4
 				&& ( element instanceof ScalarParameter )
-				&& ( IScalarParameterModel.DEFAULT_VALUE_PROP.equalsIgnoreCase( name ) ) )
+				&& ( IScalarParameterModel.DEFAULT_VALUE_PROP
+						.equalsIgnoreCase( name ) ) )
 		{
 			CompatiblePropertyTypeState state = new CompatiblePropertyTypeState(
 					handler, element );
@@ -400,10 +435,11 @@ class PropertyState extends AbstractPropertyState
 			state.setName( DataSetParameter.DATA_TYPE_MEMBER );
 			return state;
 		}
-		
+
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_9
 				&& element instanceof ScalarParameter
-				&& IScalarParameterModel.MUCH_MATCH_PROP.equalsIgnoreCase( name ) )
+				&& IScalarParameterModel.MUCH_MATCH_PROP
+						.equalsIgnoreCase( name ) )
 		{
 			CompatibleMustMatchState state = new CompatibleMustMatchState(
 					handler, element );

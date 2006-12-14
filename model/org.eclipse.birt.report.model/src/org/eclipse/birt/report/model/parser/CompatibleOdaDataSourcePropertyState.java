@@ -14,6 +14,8 @@ package org.eclipse.birt.report.model.parser;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
+import org.eclipse.birt.report.model.util.XMLParserException;
+import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 /**
@@ -23,46 +25,46 @@ import org.xml.sax.SAXException;
  * <p>
  * 
  * <pre>
- * 
- *  
- *   
- *   Old design file:
- *   
- *          &lt;oda-data-source extensionName=&quot;jdbc&quot; name=&quot;myDataSource1&quot;&gt;
- *            &lt;property name=&quot;ODA:driver-class&quot;&gt;Driver Class&lt;/property&gt;
- *            &lt;property name=&quot;ODA:url&quot;&gt;URL&lt;/property&gt;
- *            &lt;property name=&quot;ODA:data-source&quot;&gt;Data Source&lt;/property&gt;
- *            &lt;property name=&quot;ODA:user&quot;&gt;User&lt;/property&gt;
- *            &lt;property name=&quot;ODA:password&quot;&gt;Password&lt;/property&gt;
- *          &lt;/oda-data-source&gt;
- *         
- *          &lt;oda-data-source extensionName=&quot;jdbc&quot; name=&quot;myDataSource1&quot;&gt;
- *            &lt;property name=&quot;odaDriverClass&quot;&gt;Driver Class&lt;/property&gt;
- *            &lt;property name=&quot;odaURL&quot;&gt;URL&lt;/property&gt;
- *            &lt;property name=&quot;odaDataSource&quot;&gt;Data Source&lt;/property&gt;
- *            &lt;property name=&quot;odaUser&quot;&gt;User&lt;/property&gt;
- *            &lt;property name=&quot;odaPassword&quot;&gt;Password&lt;/property&gt;
- *          &lt;/oda-data-source&gt;
- *          
- *          &lt;oda-data-source name=&quot;myDataSource1&quot;&gt;
- *            &lt;property name=&quot;driverName&quot;&gt;jdbc&lt;/property&gt;
- *          &lt;/oda-data-source&gt;
- *   
- *   New design file:
- *   
- *          &lt;oda-data-source extensionID=&quot;org.eclipse.birt.report.data.oda.jdbc&quot; name=&quot;myDataSource1&quot;&gt;
- *            &lt;property name=&quot;odaDriverClass&quot;&gt;Driver Class&lt;/property&gt;
- *            &lt;property name=&quot;odaURL&quot;&gt;URL&lt;/property&gt;
- *            &lt;property name=&quot;odaDataSource&quot;&gt;Data Source&lt;/property&gt;
- *            &lt;property name=&quot;odaUser&quot;&gt;User&lt;/property&gt;
- *            &lt;property name=&quot;odaPassword&quot;&gt;Password&lt;/property&gt;
- *          &lt;/oda-data-source&gt;
- *   
- *  
+ *      
+ *       
+ *        
+ *        Old design file:
+ *        
+ *               &lt;oda-data-source extensionName=&quot;jdbc&quot; name=&quot;myDataSource1&quot;&gt;
+ *                 &lt;property name=&quot;ODA:driver-class&quot;&gt;Driver Class&lt;/property&gt;
+ *                 &lt;property name=&quot;ODA:url&quot;&gt;URL&lt;/property&gt;
+ *                 &lt;property name=&quot;ODA:data-source&quot;&gt;Data Source&lt;/property&gt;
+ *                 &lt;property name=&quot;ODA:user&quot;&gt;User&lt;/property&gt;
+ *                 &lt;property name=&quot;ODA:password&quot;&gt;Password&lt;/property&gt;
+ *               &lt;/oda-data-source&gt;
+ *              
+ *               &lt;oda-data-source extensionName=&quot;jdbc&quot; name=&quot;myDataSource1&quot;&gt;
+ *                 &lt;property name=&quot;odaDriverClass&quot;&gt;Driver Class&lt;/property&gt;
+ *                 &lt;property name=&quot;odaURL&quot;&gt;URL&lt;/property&gt;
+ *                 &lt;property name=&quot;odaDataSource&quot;&gt;Data Source&lt;/property&gt;
+ *                 &lt;property name=&quot;odaUser&quot;&gt;User&lt;/property&gt;
+ *                 &lt;property name=&quot;odaPassword&quot;&gt;Password&lt;/property&gt;
+ *               &lt;/oda-data-source&gt;
+ *               
+ *               &lt;oda-data-source name=&quot;myDataSource1&quot;&gt;
+ *                 &lt;property name=&quot;driverName&quot;&gt;jdbc&lt;/property&gt;
+ *               &lt;/oda-data-source&gt;
+ *        
+ *        New design file:
+ *        
+ *               &lt;oda-data-source extensionID=&quot;org.eclipse.birt.report.data.oda.jdbc&quot; name=&quot;myDataSource1&quot;&gt;
+ *                 &lt;property name=&quot;odaDriverClass&quot;&gt;Driver Class&lt;/property&gt;
+ *                 &lt;property name=&quot;odaURL&quot;&gt;URL&lt;/property&gt;
+ *                 &lt;property name=&quot;odaDataSource&quot;&gt;Data Source&lt;/property&gt;
+ *                 &lt;property name=&quot;odaUser&quot;&gt;User&lt;/property&gt;
+ *                 &lt;property name=&quot;odaPassword&quot;&gt;Password&lt;/property&gt;
+ *               &lt;/oda-data-source&gt;
+ *        
+ *       
  * </pre>
  */
 
-public class CompatibleOdaDataSourcePropertyState extends CompatiblePropertyState
+public class CompatibleOdaDataSourcePropertyState extends PropertyState
 {
 
 	final static String JDBC_EXTENSION_ID = "org.eclipse.birt.report.data.oda.jdbc"; //$NON-NLS-1$
@@ -77,36 +79,30 @@ public class CompatibleOdaDataSourcePropertyState extends CompatiblePropertyStat
 		assert element instanceof OdaDataSource;
 	}
 
-
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
-	 
+
 	public void end( ) throws SAXException
 	{
 		if ( isOldOdaDriverProperty( name ) || isOdaDriverModelProperty( name ) )
 		{
-			setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP,
-					"org.eclipse.birt.report.data.oda.jdbc" ); //$NON-NLS-1$
-
-			String newPropertyName = CompatibleOdaDataSourcePropertyState
-			.getNewOdaDriverProperty( name );
-			
 			// The extension ID is set, but the given property is not
 			// converted.
 
-			setProperty( newPropertyName, text.toString( ) );
-			
+			setProperty( name, text.toString( ) );
+
 			return;
 		}
 		else if ( "extensionName".equals( name ) || "driverName".equals( name ) ) //$NON-NLS-1$ //$NON-NLS-2$
 		{
-			String convertedValue = convertToExtensionID( text.toString() );
+			String convertedValue = convertToExtensionID( text.toString( ) );
 
-			setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP, convertedValue );
-			
+			setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP,
+					convertedValue );
+
 			return;
 		}
 
@@ -169,5 +165,24 @@ public class CompatibleOdaDataSourcePropertyState extends CompatiblePropertyStat
 
 		return false;
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#parseAttrs(org.xml.sax.Attributes)
+	 */
+
+	public void parseAttrs( Attributes attrs ) throws XMLParserException
+	{
+		super.parseAttrs( attrs );
+
+		if ( isOldOdaDriverProperty( name ) || isOdaDriverModelProperty( name ) )
+		{
+			setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP,
+					"org.eclipse.birt.report.data.oda.jdbc" ); //$NON-NLS-1$
+
+			name = getNewOdaDriverProperty( name );
+		}
 	}
 }
