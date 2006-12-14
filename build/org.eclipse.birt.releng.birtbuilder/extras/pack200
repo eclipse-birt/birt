@@ -1,0 +1,12 @@
+#!/bin/sh
+
+@pack200@ -E4 -J-Xmx512m $*
+
+pack200retCode=$?
+
+if [ $pack200retCode != 0 ]
+then
+        echo "Build failed (error code $retCode)."
+        exit -1
+fi
+
