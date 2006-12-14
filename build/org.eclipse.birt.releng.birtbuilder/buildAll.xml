@@ -161,7 +161,7 @@
 		<exec executable="dos2unix" dir="${eclipse.build.configs}/../../extras">
 			<arg line=" pack200" />
 		</exec>
-		<java jar="${base.builder}/startup.jar"
+		<java jar="${buildDirectory}/../eclipse/startup.jar"
 				fork="true"
 				timeout="10800000"
 				jvm="${jvm15_home}/bin/java"
@@ -174,7 +174,7 @@
 		</java>
 		
 		<!-- create Pack200 update jars -->
-		<java jar="${base.builder}/startup.jar"
+		<java jar="${buildDirectory}/../eclipse/startup.jar"
 				fork="true"
 				timeout="10800000"
 				jvm="${jvm15_home}/bin/java"
