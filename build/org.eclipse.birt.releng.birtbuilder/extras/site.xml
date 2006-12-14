@@ -1,4 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<site> <description url="index.html">The Eclipse Update Site contains feature 
-and plug-in versions for Eclipse project releases. </description>
+<site pack200="true">         
+		<feature url="features/com.lowagie.itext_@FEATURE.ITEXT@.jar" id="com.lowagie.itext" version="@FEATURE.ITEXT@">
+	            <category name="BIRT" />
+        </feature>
+        <feature url="features/org.apache.commons.codec_@FEATURE.CODEC@.jar" id="org.apache.commons.codec" version="@FEATURE.CODEC@">
+                <category name="BIRT" />
+        </feature>
+        <feature url="features/org.mozilla.rhino_@FEATURE.MOZILLA@.jar" id="org.mozilla.rhino" version="@FEATURE.MOZILLA@">
+                <category name="BIRT" />
+        </feature>
+        <feature url="features/org.w3c.sac_@FEATURE.W3C@.jar" id="org.w3c.sac" version="@FEATURE.W3C@">
+                <category name="BIRT" />
+        </feature>
+        <feature url="features/org.apache.batik_@FEATURE.BATIK@.jar" id="org.apache.batik" version="@FEATURE.BATIK@">
+                <category name="BIRT" />
+        </feature>
+        <feature url="features/org.apache.batik.pdf_@FEATURE.BATIK.PDF@" id="org.apache.batik.pdf" version="@FEATURE.BATIK.PDF@">
+                <category name="BIRT" />
+        </feature>
+        <feature url="features/org.apache.derby.core_10.1.2.1.jar" id="org.apache.derby.core" version="10.1.2.1">
+                <category name="BIRT" />
+        </feature>
+        <feature url="features/org.eclipse.birt_@FEATURE.BIRT@.jar" id="org.eclipse.birt" version="@FEATURE.BIRT@">
+                <category name="BIRT" />
+        </feature>
+        <feature url="features/org.eclipse.birt.sdk_@FEATURE.BIRT.SDK@.jar" id="org.eclipse.birt.sdk" version="@FEATURE.BIRT.SDK@">
+                <category name="BIRT" />
+        </feature>
+        <category-def label="BIRT - BIRT Team Provider" name="BIRT">
+        </category-def>
 </site>
