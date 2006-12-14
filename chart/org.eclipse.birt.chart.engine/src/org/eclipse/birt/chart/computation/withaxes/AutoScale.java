@@ -926,7 +926,10 @@ public final class AutoScale extends Methods implements Cloneable
 						"exception.unsupported.step.number", //$NON-NLS-1$
 						Messages.getResourceBundle( rtc.getULocale( ) ) ) );
 			}
-			return this.oStepNumber.intValue( );
+			else
+			{
+				return this.oStepNumber.intValue( );
+			}
 		}
 		
 		int nTicks = 2;

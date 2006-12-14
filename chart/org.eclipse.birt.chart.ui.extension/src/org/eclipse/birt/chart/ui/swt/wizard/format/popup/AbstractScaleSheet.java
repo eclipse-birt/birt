@@ -123,15 +123,12 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 			gd.horizontalSpan = 4;
 			btnStepAuto.setLayoutData( gd );
 			btnStepAuto.setText( Messages.getString( "AbstractScaleSheet.Label.Auto" ) ); //$NON-NLS-1$
-			btnStepAuto.setSelection( !getScale( ).isSetStep( )
-					&& ( !getScale( ).isSetStepNumber( ) || getValueType( ) != TextEditorComposite.TYPE_NUMBERIC ) );
 			btnStepAuto.addListener( SWT.Selection, this );
 		}
 
 		btnStepSize = new Button( grpScale, SWT.RADIO );
 		{
 			btnStepSize.setText( Messages.getString( "AbstractScaleSheet.Label.StepSize" ) ); //$NON-NLS-1$
-			btnStepSize.setSelection( getScale( ).isSetStep( ) );
 			btnStepSize.addListener( SWT.Selection, this );
 		}
 
@@ -172,7 +169,6 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 		btnStepNumber = new Button( grpScale, SWT.RADIO );
 		{
 			btnStepNumber.setText( Messages.getString( "AbstractScaleSheet.Label.StepNumber" ) ); //$NON-NLS-1$
-			btnStepNumber.setSelection( getScale( ).isSetStepNumber( ) );
 			btnStepNumber.addListener( SWT.Selection, this );
 		}
 
@@ -221,6 +217,23 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 			txtScaleMax.setText( getValue( getScale( ).getMax( ) ) );
 			txtScaleMax.addListener( this );
 			txtScaleMax.setDefaultValue( "" ); //$NON-NLS-1$
+		}
+		
+		// Set checkbox selection. 
+		btnStepSize.setSelection( getScale( ).isSetStep( ) );
+		if ( !btnStepSize.getSelection( ) )
+		{
+			if ( getValueType( ) != TextEditorComposite.TYPE_NUMBERIC )
+			{
+				btnStepAuto.setSelection( true );
+			}
+			else
+			{
+				// Only numeric value support step number
+				btnStepNumber.setSelection( getScale( ).isSetStepNumber( ) );
+				btnStepAuto.setSelection( !getScale( ).isSetStep( )
+						&& !getScale( ).isSetStepNumber( ) );				
+			}
 		}
 
 		setState( );
