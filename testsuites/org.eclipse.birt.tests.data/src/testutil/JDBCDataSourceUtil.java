@@ -394,13 +394,14 @@ public class JDBCDataSourceUtil
 		if ( url == null )
 			url = "jdbc:derby:" + System.getProperty("java.io.tmpdir")+File.separator+ "DTETest";
 		
-		try{
-			new File( System.getProperty("java.io.tmpdir")+File.separator + "HELLO.txt").createNewFile( );
-		}catch(Exception e)
-		{
-			
-		}
-		throw new NullPointerException( url +"                " +  System.getProperty("java.io.tmpdir"));
+		return url;
+//		try{
+//			new File( System.getProperty("java.io.tmpdir")+File.separator + "HELLO.txt").createNewFile( );
+//		}catch(Exception e)
+//		{
+//			
+//		}
+//		throw new NullPointerException( url +"                " +  System.getProperty("java.io.tmpdir"));
 	}
 	
 	/**
