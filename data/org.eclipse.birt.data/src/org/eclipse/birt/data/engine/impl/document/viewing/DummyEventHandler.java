@@ -80,8 +80,13 @@ public class DummyEventHandler implements IEventHandler
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.odi.IEventHandler#getExprs()
 	 */
-	public Map getColumnMappings( )
+	public Map getColumnBindings( )
 	{
+		return null;
+	}
+
+	public Map getAllColumnBindings() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 	

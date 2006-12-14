@@ -94,6 +94,7 @@ public class ViewingTest2 extends RDTestCase
 	private boolean usesDetails = true;
 	
 	private TimeZone currentTimeZone = TimeZone.getDefault( );
+	private boolean USE_DATE_IN_SUBQUERY;
 	
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
@@ -147,6 +148,7 @@ public class ViewingTest2 extends RDTestCase
 		// dataSetRow.COUNTRY
 		this.UPDATE_add_subquery = 0;
 		
+		this.USE_DATE_IN_SUBQUERY = false;
 		// 0: row.AMOUNT_1>200
 		// 1: row.AMOUNT_1>50 && row.AMOUNT_1<7000
 		// 2: row.AMOUNT_1>50 && row.AMOUNT_1<700
@@ -1217,6 +1219,43 @@ public class ViewingTest2 extends RDTestCase
 
 		this.checkOutputFile();
 	}
+	
+	/**
+	 * @throws Exception
+	 */
+	public void testSubQuery7( ) throws Exception
+	{
+		this.GEN_add_filter = true;
+		this.GEN_add_group = true;
+		this.GEN_add_subquery = true;
+		this.USE_DATE_IN_COLUMNBINDING = false;
+		this.USE_DATE_IN_SUBQUERY = true;
+		this.genBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName,
+				fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+		
+		this.UPDATE_add_filter = 0;
+		this.UPDATE_add_sort = true;
+		this.UPDATE_add_same_group = true;
+		this.UPDATE_add_subquery = 1;
+		this.updatePreBasicIV( );
+		this.closeArchiveReader( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext3 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext3 );
+
+		this.PRE_execute_query = false;
+		this.preBasicIV( );
+
+		this.checkOutputFile( );
+	}
+	
 		
 	
 	/**
@@ -2366,6 +2405,9 @@ public class ViewingTest2 extends RDTestCase
 					{
 						abc += subRi.getValue( subRowExprName1[i] ) + "  ";
 					}
+					
+					if ( this.USE_DATE_IN_SUBQUERY )
+						abc += subRi.getValue( "sub4" );
 				}
 				subRi.close( );
 			}
@@ -2446,6 +2488,8 @@ public class ViewingTest2 extends RDTestCase
 				for ( int i = 0; i < subRowExprName1.length; i++ )
 					subqueryDefn.addResultSetExpression( subRowExprName1[i],
 							exprs[i] );
+				if( this.USE_DATE_IN_SUBQUERY )
+					subqueryDefn.addResultSetExpression("sub4", new ScriptExpression("dataSetRow.SALE_DATE"));
 				subqueryDefn.setApplyOnGroupFlag( true );
 
 				gd.addSubquery( subqueryDefn );
@@ -2557,6 +2601,10 @@ public class ViewingTest2 extends RDTestCase
 					abc = "      ";
 					for ( int i = 0; i < subRowExprName1.length; i++ )
 						abc += subRi.getValue( subRowExprName1[i] ) + "  ";
+					
+					if ( this.USE_DATE_IN_SUBQUERY )
+						abc += subRi.getValue( "sub4" );
+					
 					this.testPrintln( abc );
 				}
 			}
@@ -2723,6 +2771,9 @@ public class ViewingTest2 extends RDTestCase
 				for ( int i = 0; i < subRowExprName1.length; i++ )
 					subqueryDefn.addResultSetExpression( subRowExprName1[i],
 							exprs[i] );
+				if( this.USE_DATE_IN_SUBQUERY )
+					subqueryDefn.addResultSetExpression("sub4", new ScriptExpression("dataSetRow.SALE_DATE"));
+			
 				subqueryDefn.setApplyOnGroupFlag( true );
 
 				gd.addSubquery( subqueryDefn );
