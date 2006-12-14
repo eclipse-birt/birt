@@ -32,12 +32,14 @@ import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Spinner;
 
 import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.text.SimpleDateFormat;
@@ -63,13 +65,23 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 
 	protected transient TextEditorComposite txtScaleMax = null;
 
-	protected transient Label lblStep = null;
+	protected transient Button btnStepSize = null;
 
-	protected transient TextEditorComposite txtScaleStep = null;
+	protected transient Button btnStepNumber = null;
+	
+	protected transient Button btnStepAuto = null;
+
+	protected transient TextEditorComposite txtStepSize = null;
 
 	protected transient Label lblUnit = null;
-	
+
 	protected transient Combo cmbScaleUnit = null;
+
+	protected transient Label lblStepNumber = null;
+
+	protected transient Spinner spnStepNumber = null;
+
+//	protected transient Button btnShowOutside = null;
 
 	public AbstractScaleSheet( String title, ChartWizardContext context )
 	{
@@ -80,14 +92,15 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_AXIS_SCALE );
 
-		GridLayout glContent = new GridLayout( 2, true );
-		glContent.marginHeight = 7;
-		glContent.marginWidth = 7;
-		glContent.horizontalSpacing = 2;
-		glContent.verticalSpacing = 5;
-
 		Composite cmpContent = new Composite( parent, SWT.NONE );
-		cmpContent.setLayout( glContent );
+		{
+			GridLayout glContent = new GridLayout( 4, false );
+			glContent.marginHeight = 10;
+			glContent.marginWidth = 10;
+			glContent.horizontalSpacing = 5;
+			glContent.verticalSpacing = 10;
+			cmpContent.setLayout( glContent );
+		}
 
 		Group grpScale = new Group( cmpContent, SWT.NONE );
 		{
@@ -101,67 +114,51 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 			glScale.marginHeight = 2;
 			glScale.marginWidth = 7;
 			grpScale.setLayout( glScale );
-			grpScale.setText( Messages.getString( "BaseAxisDataSheetImpl.Lbl.Scale" ) ); //$NON-NLS-1$
+			grpScale.setText( Messages.getString( "AbstractScaleSheet.Label.Step" ) ); //$NON-NLS-1$
 		}
-
-		lblMin = new Label( grpScale, SWT.NONE );
-		GridData gdLBLMin = new GridData( );
-		lblMin.setLayoutData( gdLBLMin );
-		lblMin.setText( Messages.getString( "BaseAxisDataSheetImpl.Lbl.Minimum" ) ); //$NON-NLS-1$
-
-		txtScaleMin = new TextEditorComposite( grpScale, SWT.BORDER
-				| SWT.SINGLE, getValueType( ) );
+		
+		btnStepAuto = new Button( grpScale, SWT.RADIO );
 		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.widthHint = 100;
-			txtScaleMin.setLayoutData( gd );
-			txtScaleMin.setText( getValue( getScale( ).getMin( ) ) );
-			txtScaleMin.addListener( this );
-			txtScaleMin.setDefaultValue( "" ); //$NON-NLS-1$
+			GridData gd = new GridData( );
+			gd.horizontalSpan = 4;
+			btnStepAuto.setLayoutData( gd );
+			btnStepAuto.setText( Messages.getString( "AbstractScaleSheet.Label.Auto" ) ); //$NON-NLS-1$
+			btnStepAuto.setSelection( !getScale( ).isSetStep( )
+					&& ( !getScale( ).isSetStepNumber( ) || getValueType( ) != TextEditorComposite.TYPE_NUMBERIC ) );
+			btnStepAuto.addListener( SWT.Selection, this );
 		}
 
-		lblMax = new Label( grpScale, SWT.NONE );
-		lblMax.setText( Messages.getString( "BaseAxisDataSheetImpl.Lbl.Maximum" ) ); //$NON-NLS-1$
-
-		txtScaleMax = new TextEditorComposite( grpScale, SWT.BORDER
-				| SWT.SINGLE, getValueType( ) );
+		btnStepSize = new Button( grpScale, SWT.RADIO );
 		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.widthHint = 100;
-			txtScaleMax.setLayoutData( gd );
-			txtScaleMax.setText( getValue( getScale( ).getMax( ) ) );
-			txtScaleMax.addListener( this );
-			txtScaleMax.setDefaultValue( "" ); //$NON-NLS-1$
+			btnStepSize.setText( Messages.getString( "AbstractScaleSheet.Label.StepSize" ) ); //$NON-NLS-1$
+			btnStepSize.setSelection( getScale( ).isSetStep( ) );
+			btnStepSize.addListener( SWT.Selection, this );
 		}
 
-		lblStep = new Label( grpScale, SWT.NONE );
-		lblStep.setText( Messages.getString( "BaseAxisDataSheetImpl.Lbl.Step" ) ); //$NON-NLS-1$
-
-		txtScaleStep = new TextEditorComposite( grpScale, SWT.BORDER
+		txtStepSize = new TextEditorComposite( grpScale, SWT.BORDER
 				| SWT.SINGLE, TextEditorComposite.TYPE_NUMBERIC );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.widthHint = 100;
-			txtScaleStep.setLayoutData( gd );
+			txtStepSize.setLayoutData( gd );
 			String str = ""; //$NON-NLS-1$
-			if ( getScale( ).eIsSet( ComponentPackage.eINSTANCE.getScale_Step( ) ) )
+			if ( getScale( ).isSetStep( ) )
 			{
 				str = String.valueOf( getScale( ).getStep( ) );
 			}
-			txtScaleStep.setText( str );
-			txtScaleStep.addListener( this );
-			txtScaleStep.setDefaultValue( "" ); //$NON-NLS-1$
+			txtStepSize.setText( str );
+			txtStepSize.addListener( this );
+			txtStepSize.addListener( SWT.Modify, this );
+			txtStepSize.setDefaultValue( "" ); //$NON-NLS-1$
 		}
 
-		//Use the type of input box to indicate the axis type.
-		if ( getValueType( ) == TextEditorComposite.TYPE_DATETIME )
+		lblUnit = new Label( grpScale, SWT.NONE );
 		{
-			lblUnit = new Label( grpScale, SWT.NONE );
-			GridData gdLBLUnit = new GridData( );
-			lblUnit.setLayoutData( gdLBLUnit );
 			lblUnit.setText( Messages.getString( "BaseAxisDataSheetImpl.Lbl.Unit" ) ); //$NON-NLS-1$
+		}
 
-			cmbScaleUnit = new Combo( grpScale, SWT.DROP_DOWN | SWT.READ_ONLY );
+		cmbScaleUnit = new Combo( grpScale, SWT.DROP_DOWN | SWT.READ_ONLY );
+		{
 			GridData gdCMBScaleUnit = new GridData( GridData.FILL_HORIZONTAL );
 			cmbScaleUnit.setLayoutData( gdCMBScaleUnit );
 			cmbScaleUnit.addListener( SWT.Selection, this );
@@ -172,7 +169,94 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 					.getName( ) ) );
 		}
 
+		btnStepNumber = new Button( grpScale, SWT.RADIO );
+		{
+			btnStepNumber.setText( Messages.getString( "AbstractScaleSheet.Label.StepNumber" ) ); //$NON-NLS-1$
+			btnStepNumber.setSelection( getScale( ).isSetStepNumber( ) );
+			btnStepNumber.addListener( SWT.Selection, this );
+		}
+
+		spnStepNumber = new Spinner( grpScale, SWT.BORDER );
+		{
+			spnStepNumber.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			spnStepNumber.setMinimum( 2 );
+			spnStepNumber.setMaximum( 100 );
+			spnStepNumber.setSelection( getScale( ).getStepNumber( ) );
+			spnStepNumber.addListener( SWT.Selection, this );
+		}
+
+		new Label( grpScale, SWT.NONE );
+		new Label( grpScale, SWT.NONE );
+
+		lblMin = new Label( cmpContent, SWT.NONE );
+		lblMin.setText( Messages.getString( "BaseAxisDataSheetImpl.Lbl.Minimum" ) ); //$NON-NLS-1$
+
+		txtScaleMin = new TextEditorComposite( cmpContent, SWT.BORDER
+				| SWT.SINGLE, getValueType( ) );
+		{
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.widthHint = 80;
+			txtScaleMin.setLayoutData( gd );
+			txtScaleMin.setText( getValue( getScale( ).getMin( ) ) );
+			txtScaleMin.addListener( this );
+			txtScaleMin.setDefaultValue( "" ); //$NON-NLS-1$
+		}
+
+//		btnShowOutside = new Button( cmpContent, SWT.CHECK );
+//		{
+//			btnShowOutside.setText( Messages.getString( "AbstractScaleSheet.Label.ShowValuesOutside" ) ); //$NON-NLS-1$
+//			btnShowOutside.setSelection( getScale( ).isShowOutside( ) );
+//			btnShowOutside.addListener( SWT.Selection, this );
+//		}
+
+		lblMax = new Label( cmpContent, SWT.NONE );
+		lblMax.setText( Messages.getString( "BaseAxisDataSheetImpl.Lbl.Maximum" ) ); //$NON-NLS-1$
+
+		txtScaleMax = new TextEditorComposite( cmpContent, SWT.BORDER
+				| SWT.SINGLE, getValueType( ) );
+		{
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.widthHint = 80;
+			txtScaleMax.setLayoutData( gd );
+			txtScaleMax.setText( getValue( getScale( ).getMax( ) ) );
+			txtScaleMax.addListener( this );
+			txtScaleMax.setDefaultValue( "" ); //$NON-NLS-1$
+		}
+
+		setState( );
+
 		return cmpContent;
+	}
+
+	protected void setState( boolean bEnabled )
+	{
+		btnStepSize.setEnabled( bEnabled );
+		txtStepSize.setEnabled( bEnabled && btnStepSize.getSelection( ) );
+
+		btnStepNumber.setEnabled( bEnabled
+				&& getValueType( ) == TextEditorComposite.TYPE_NUMBERIC );
+		spnStepNumber.setEnabled( bEnabled
+				&& btnStepNumber.getSelection( )
+				&& getValueType( ) == TextEditorComposite.TYPE_NUMBERIC );
+
+		lblMin.setEnabled( bEnabled );
+		txtScaleMin.setEnabled( bEnabled );
+		lblMax.setEnabled( bEnabled );
+		txtScaleMax.setEnabled( bEnabled );
+//		btnShowOutside.setEnabled( bEnabled );
+
+		lblUnit.setEnabled( bEnabled
+				&& btnStepSize.getSelection( )
+				&& getValueType( ) == TextEditorComposite.TYPE_DATETIME );
+		cmbScaleUnit.setEnabled( bEnabled
+				&& btnStepSize.getSelection( )
+				&& getValueType( ) == TextEditorComposite.TYPE_DATETIME );
+	}
+
+	protected void setState( )
+	{
+		// Could be overriden if needed
+		setState( true );
 	}
 
 	/*
@@ -212,17 +296,17 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 				}
 			}
 		}
-		else if ( event.widget.equals( txtScaleStep ) )
+		else if ( event.widget.equals( txtStepSize ) )
 		{
 			try
 			{
-				if ( txtScaleStep.getText( ).length( ) == 0 )
+				if ( txtStepSize.getText( ).length( ) == 0 )
 				{
 					getScale( ).eUnset( ComponentPackage.eINSTANCE.getScale_Step( ) );
 				}
 				else
 				{
-					double dbl = Double.valueOf( txtScaleStep.getText( ) )
+					double dbl = Double.valueOf( txtStepSize.getText( ) )
 							.doubleValue( );
 					if ( dbl == 0 )
 					{
@@ -236,12 +320,39 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 			}
 			catch ( NumberFormatException e1 )
 			{
-				txtScaleStep.setText( String.valueOf( getScale( ).getStep( ) ) );
+				txtStepSize.setText( String.valueOf( getScale( ).getStep( ) ) );
 			}
 		}
 		else if ( event.widget.equals( cmbScaleUnit ) )
 		{
 			getScale( ).setUnit( ScaleUnitType.getByName( LiteralHelper.scaleUnitTypeSet.getNameByDisplayName( cmbScaleUnit.getText( ) ) ) );
+		}
+		else if ( event.widget.equals( btnStepAuto ) )
+		{
+			getScale( ).unsetStepNumber( );
+			getScale( ).unsetStep( );
+			setState( );			
+		}
+		else if ( event.widget.equals( btnStepSize ) )
+		{
+			getScale( ).unsetStepNumber( );
+			// Set step size by notification
+			txtStepSize.notifyListeners( SWT.Modify, null );
+			setState( );			
+		}
+		else if ( event.widget.equals( btnStepNumber ) )
+		{
+			getScale( ).unsetStep( );
+			getScale( ).setStepNumber( spnStepNumber.getSelection( ) );
+			setState( );			
+		}
+//		else if ( event.widget.equals( btnShowOutside ) )
+//		{
+//			getScale( ).setShowOutside( btnShowOutside.getSelection( ) );
+//		}
+		else if ( event.widget.equals( spnStepNumber ) )
+		{
+			getScale( ).setStepNumber( spnStepNumber.getSelection( ) );
 		}
 	}
 

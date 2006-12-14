@@ -57,6 +57,8 @@ public final class AutoScale extends Methods implements Cloneable
 	private Object oMaximum;
 
 	private Object oStep;
+	
+	private Integer oStepNumber;
 
 	private Object oUnit;
 
@@ -184,33 +186,13 @@ public final class AutoScale extends Methods implements Cloneable
 	 * @param _oMaximum
 	 * @param _oStep
 	 */
-	public AutoScale( int _iType, Object _oMinimum, Object _oMaximum,
-			Object _oStep )
+	public AutoScale( int _iType, Object _oMinimum, Object _oMaximum )
 	{
-		oMinimum = _oMinimum;
-		oMaximum = _oMaximum;
-		oStep = _oStep;
 		iType = _iType;
+		oMinimum = _oMinimum;
+		oMaximum = _oMaximum;		
 	}
 
-	/**
-	 * The constructor.
-	 * 
-	 * @param _iType
-	 * @param _oMinimum
-	 * @param _oMaximum
-	 * @param _oUnit
-	 * @param _oStep
-	 */
-	AutoScale( int _iType, Object _oMinimum, Object _oMaximum, Object _oUnit,
-			Object _oStep )
-	{
-		oMinimum = _oMinimum;
-		oMaximum = _oMaximum;
-		oUnit = _oUnit;
-		oStep = _oStep;
-		iType = _iType;
-	}
 
 	final void setFixed( boolean _bMinimum, boolean _bMaximum, boolean _bStep )
 	{
@@ -246,7 +228,9 @@ public final class AutoScale extends Methods implements Cloneable
 	 */
 	public final Object clone( )
 	{
-		final AutoScale sc = new AutoScale( iType, oMinimum, oMaximum, oStep );
+		final AutoScale sc = new AutoScale( iType, oMinimum, oMaximum );
+		sc.oStep = oStep;
+		sc.oStepNumber = this.oStepNumber;
 		sc.dStart = dStart;
 		sc.dEnd = dEnd;
 		sc.daTickCoordinates = daTickCoordinates;
@@ -583,23 +567,16 @@ public final class AutoScale extends Methods implements Cloneable
 	public final String getNumericPattern( double dValue )
 	{
 
-		if ( dValue - (int) dValue == 0 ) // IF MANTISSA IS INSIGNIFICANT,
-		// SHOW
-		// LABELS AS INTEGERS
+		if ( dValue - (int) dValue == 0 )
 		{
+			// IF MANTISSA IS INSIGNIFICANT, SHOW LABELS AS INTEGERS
 			return sNumericPattern;
 		}
 
 		final DecimalFormatSymbols dfs = new DecimalFormatSymbols( );
 		final String sMinimum = String.valueOf( dValue );
-		final int iDecimalPosition = sMinimum.indexOf( dfs.getDecimalSeparator( ) ); // THIS
-		// RELIES
-		// ON
-		// THE
-		// FACT
-		// THAT
-		// IN
-		// ANY LOCALE, DECIMAL IS A DOT
+		final int iDecimalPosition = sMinimum.indexOf( dfs.getDecimalSeparator( ) );
+		// THIS RELIES ON THE FACT THAT IN ANY LOCALE, DECIMAL IS A DOT
 		if ( iDecimalPosition >= 0 )
 		{
 			int n = sMinimum.length( );
@@ -933,11 +910,25 @@ public final class AutoScale extends Methods implements Cloneable
 	}
 
 	/**
+	 * Computes tick count
 	 * 
-	 * @return
+	 * @return tick count
 	 */
-	public final int getTickCount( )
+	public final int getTickCount( ) throws ChartException
 	{
+		if ( this.oStepNumber != null )
+		{
+			if ( bCategoryScale || ( iType & NUMERICAL ) != NUMERICAL )
+			{
+				// Log the exception to notify only numeric value is supported
+				logger.log( new ChartException( ChartEnginePlugin.ID,
+						ChartException.GENERATION,
+						"exception.unsupported.step.number", //$NON-NLS-1$
+						Messages.getResourceBundle( rtc.getULocale( ) ) ) );
+			}
+			return this.oStepNumber.intValue( );
+		}
+		
 		int nTicks = 2;
 		if ( ( iType & TEXT ) == TEXT || bCategoryScale )
 		{
@@ -997,6 +988,13 @@ public final class AutoScale extends Methods implements Cloneable
 				nTicks = 2;
 			}
 		}
+		else
+		{
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.GENERATION,
+					"exception.unknown.axis.type.tick.computations", //$NON-NLS-1$
+					Messages.getResourceBundle( rtc.getULocale( ) ) );
+		}
 		return nTicks;
 	}
 
@@ -1053,7 +1051,7 @@ public final class AutoScale extends Methods implements Cloneable
 
 	/**
 	 * 
-	 * @return
+	 * @return step size
 	 */
 	public final Object getStep( )
 	{
@@ -1067,33 +1065,19 @@ public final class AutoScale extends Methods implements Cloneable
 	{
 		this.oStep = o;
 	}
-
+	
 	/**
 	 * 
-	 * @param dValueMin
-	 * @param dValueMax
+	 * @return step number
 	 */
-	final void adjustAxisMinMax( CDateTime cdtMinValue, CDateTime cdtMaxValue )
+	public final Integer getStepNumber( )
 	{
-		int iUnit = asInteger( oUnit );
-		int iStep = asInteger( oStep );
+		return oStepNumber;
+	}
 
-		if ( !bMinimumFixed )
-		{
-			oMinimum = cdtMinValue.backward( iUnit, iStep );
-		}
-
-		if ( !bMaximumFixed )
-		{
-			oMaximum = cdtMaxValue.forward( iUnit, iStep );
-		}
-		( (CDateTime) oMinimum ).clearBelow( iUnit );
-		( (CDateTime) oMaximum ).clearBelow( iUnit );
-		/*
-		 * SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
-		 * String sMin = sdf.format(((CDateTime) oMinimum).getTime()); String
-		 * sMax = sdf.format(((CDateTime) oMaximum).getTime());
-		 */
+	public final void setStepNumber( Integer o )
+	{
+		this.oStepNumber = o;
 	}
 
 	/**
@@ -1173,9 +1157,12 @@ public final class AutoScale extends Methods implements Cloneable
 	}
 
 	/**
+	 * Computes min, max value, step size and step number of the Axis
 	 * 
 	 * @param oMinValue
+	 *            min value in data points. Double or CDateTime type.
 	 * @param oMaxValue
+	 *            max value in data points. Double or CDateTime type.
 	 */
 	public final void updateAxisMinMax( Object oMinValue, Object oMaxValue )
 	{
@@ -1232,79 +1219,100 @@ public final class AutoScale extends Methods implements Cloneable
 		}
 		else
 		{
-			final double dMinValue = asDouble( oMinValue ).doubleValue( );
-			final double dMaxValue = asDouble( oMaxValue ).doubleValue( );
-			final double dAbsMax = Math.abs( dMaxValue );
-			final double dAbsMin = Math.abs( dMinValue );
-			final double dStep = asDouble( oStep ).doubleValue( );
-
-			double dMinAxis = ( dStep > 1 ) ? Math.floor( dAbsMin / dStep )
-					: Math.round( dAbsMin / dStep );
-			dMinAxis *= dStep;
-			if ( dMinAxis == dAbsMin )
+			// Linear axis type
+			final double dMinValue = bMinimumFixed
+					? ( (Double) oMinimum ).doubleValue( )
+					: asDouble( oMinValue ).doubleValue( );
+			final double dMaxValue = bMaximumFixed
+					? ( (Double) oMaximum ).doubleValue( )
+					: asDouble( oMaxValue ).doubleValue( );
+			final double dStep;
+			double dMinAxis = dMinValue;
+			double dMaxAxis = dMaxValue;
+			
+			if ( bStepFixed && oStepNumber != null )
 			{
-				dMinAxis += dStep;
-				if ( dMinValue < 0 )
-				{
-					dMinAxis = -dMinAxis;
-				}
-				else if ( dMinValue == 0 )
-				{
-					dMinAxis = 0;
-				}
+				// Compute step size
+				oStep = new Double( Math.abs( dMaxValue - dMinValue )
+						/ ( oStepNumber.intValue( ) - 1 ) );
+				dStep = asDouble( oStep ).doubleValue( );
 			}
 			else
 			{
-				if ( dMinValue < 0 )
+				dStep = asDouble( oStep ).doubleValue( );
+				// Auto adjust min and max by step if step number is not fixed
+				final double dAbsMax = Math.abs( dMaxValue );
+				final double dAbsMin = Math.abs( dMinValue );
+				
+				dMinAxis = ( ( dStep > 1 ) ? Math.floor( dAbsMin / dStep )
+						: Math.round( dAbsMin / dStep ) )
+						* dStep;			
+				if ( dMinAxis == dAbsMin )
 				{
-					dMinAxis = -( dMinAxis + dStep );
-				}
-				else if ( dMinAxis >= dMinValue && dMinAxis != 0 )
-				{
-					dMinAxis -= dStep;
-				}
-			}
-
-			double dMaxAxis = ( dStep > 1 ) ? Math.floor( dAbsMax / dStep )
-					: Math.round( dAbsMax / dStep );
-			dMaxAxis *= dStep;
-			if ( dMaxAxis == dAbsMax )
-			{
-				dMaxAxis += dStep;
-				if ( dMaxValue == 0 )
-				{
-					dMaxAxis = 0;
-				}
-			}
-			else if ( dMinAxis != dMaxValue )
-			{
-				if ( dMaxValue < 0 )
-				{
-					dMaxAxis = -( dMaxAxis - dStep );
-				}
-				else if ( dMaxValue > 0 )
-				{
-					if ( dMaxAxis < dMaxValue )
+					dMinAxis += dStep;
+					if ( dMinValue < 0 )
 					{
-						dMaxAxis += dStep;
+						dMinAxis = -dMinAxis;
+					}
+					else if ( dMinValue == 0 )
+					{
+						dMinAxis = 0;
+					}
+				}
+				else
+				{
+					if ( dMinValue < 0 )
+					{
+						dMinAxis = -( dMinAxis + dStep );
+					}
+					else if ( dMinAxis >= dMinValue && dMinAxis != 0 )
+					{
+						dMinAxis -= dStep;
+					}
+				}
+
+				dMaxAxis = ( ( dStep > 1 ) ? Math.floor( dAbsMax / dStep )
+						: Math.round( dAbsMax / dStep ) )
+						* dStep;			
+				if ( dMaxAxis == dAbsMax )
+				{
+					dMaxAxis += dStep;
+					if ( dMaxValue == 0 )
+					{
+						dMaxAxis = 0;
+					}
+				}
+				else if ( dMinAxis != dMaxValue )
+				{
+					if ( dMaxValue < 0 )
+					{
+						dMaxAxis = -( dMaxAxis - dStep );
+					}
+					else if ( dMaxValue > 0 )
+					{
+						if ( dMaxAxis < dMaxValue )
+						{
+							dMaxAxis += dStep;
+						}
+					}
+				}
+
+				if ( dMinValue < 0 && dMaxValue < 0 )
+				{
+					if ( dMaxAxis <= dMaxValue - dStep )
+					{
+						dMaxAxis += 2 * dStep;
+					}
+				}
+				if ( dMinValue > 0 && dMaxValue > 0 )
+				{
+					if ( dMinAxis >= dMinValue + dStep )
+					{
+						dMinAxis -= 2 * dStep;
 					}
 				}
 			}
-
-			if ( dMinValue < 0 && dMaxValue < 0 )
-			{
-				if ( dMaxAxis <= dMaxValue - dStep )
-				{
-					dMaxAxis += 2 * dStep;
-				}
-			}
-			if ( dMinValue > 0 && dMaxValue > 0 )
-			{
-				if ( dMinAxis >= dMinValue + dStep )
-				{
-					dMinAxis -= 2 * dStep;
-				}
-			}
+			
 			// handle special case for min/max are both zero
 			if ( dMinValue == 0 && dMaxValue == 0 )
 			{
@@ -1961,7 +1969,7 @@ public final class AutoScale extends Methods implements Cloneable
 	 * @param dStart
 	 * @param dEnd
 	 * 
-	 * @return
+	 * @return AutoScale
 	 */
 	static final AutoScale computeScale( IDisplayServer xs, OneAxis ax,
 			DataSetIterator dsi, int iType, double dStart, double dEnd,
@@ -1971,13 +1979,16 @@ public final class AutoScale extends Methods implements Cloneable
 		final Label la = ax.getLabel( );
 		final int iLabelLocation = ax.getLabelPosition( );
 		final int iOrientation = ax.getOrientation( );
-		DataElement oMinimum = scModel.getMin( );
-		DataElement oMaximum = scModel.getMax( );
-		Double oStep = scModel.isSetStep( ) ? new Double( scModel.getStep( ) )
-				: null;		
+		final DataElement oMinimum = scModel.getMin( );
+		final DataElement oMaximum = scModel.getMax( );
+		final Double oStep = scModel.isSetStep( ) ? new Double( scModel.getStep( ) )
+				: null;	
+		final Integer oStepNumber = scModel.isSetStepNumber( )
+				? new Integer( scModel.getStepNumber( ) ) : null;
 
 		AutoScale sc = null;
 		AutoScale scCloned = null;
+		final Object oMinValue, oMaxValue;
 
 		if ( ( iType & TEXT ) == TEXT || ax.isCategoryScale( ) )
 		{
@@ -1998,6 +2009,10 @@ public final class AutoScale extends Methods implements Cloneable
 					dEnd,
 					false,
 					null );
+			
+			// To initialize final fields
+			oMinValue = null;
+			oMaxValue = null;
 		}
 		else if ( ( iType & LINEAR ) == LINEAR )
 		{
@@ -2039,8 +2054,9 @@ public final class AutoScale extends Methods implements Cloneable
 
 			sc = new AutoScale( iType,
 					new Double( 0 ),
-					new Double( 0 ),
-					new Double( dStep ) );
+					new Double( 0 ) );
+			sc.oStep = new Double( dStep );
+			sc.oStepNumber = oStepNumber;
 			sc.setData( dsi );
 			sc.setDirection( direction );
 			sc.fs = fs; // FORMAT SPECIFIER
@@ -2103,23 +2119,7 @@ public final class AutoScale extends Methods implements Cloneable
 			}
 
 			// OVERRIDE STEP IF SPECIFIED
-			if ( oStep != null )
-			{
-				sc.oStep = oStep;
-				sc.bStepFixed = true;
-
-				// VALIDATE OVERRIDDEN STEP
-				if ( ( (Double) sc.oStep ).doubleValue( ) <= 0 )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.GENERATION,
-							"exception.invalid.step.value", //$NON-NLS-1$
-							new Object[]{
-								oStep
-							},
-							Messages.getResourceBundle( rtc.getULocale( ) ) );
-				}
-			}
+			checkStep( sc, oStep, oStepNumber, rtc );
 
 			// VALIDATE OVERRIDDEN MIN/MAX
 			if ( sc.bMaximumFixed && sc.bMinimumFixed )
@@ -2136,75 +2136,9 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 			}
 
-			final Object oMinValue = new Double( dMinValue );
-			final Object oMaxValue = new Double( dMaxValue );
+			oMinValue = new Double( dMinValue );
+			oMaxValue = new Double( dMaxValue );
 			sc.updateAxisMinMax( oMinValue, oMaxValue );
-
-			sc.computeTicks( xs,
-					ax.getLabel( ),
-					iLabelLocation,
-					iOrientation,
-					dStart,
-					dEnd,
-					false,
-					null );
-			dStart = sc.dStart;
-			dEnd = sc.dEnd;
-
-			boolean bFirstFit = sc.checkFit( xs, la, iLabelLocation );
-			boolean bFits = bFirstFit;
-			boolean bZoomSuccess = false;
-
-			// THE AUTO ZOOM LOOP
-			while ( bFits == bFirstFit )
-			{
-				bZoomSuccess = true;
-				scCloned = (AutoScale) sc.clone( );
-				if ( sc.bStepFixed ) // DO NOT AUTO ZOOM IF STEP IS FIXED
-				{
-					break;
-				}
-				if ( bFirstFit )
-				{
-					if ( !bFits )
-					{
-						break;
-					}
-					bZoomSuccess = sc.zoomIn( );
-				}
-				else
-				{
-					if ( !bFits && sc.getTickCordinates( ).length == 2 )
-					{
-						break;
-					}
-					bZoomSuccess = sc.zoomOut( );
-				}
-				if ( !bZoomSuccess )
-					break;
-
-				sc.updateAxisMinMax( oMinValue, oMaxValue );
-				sc.computeTicks( xs,
-						ax.getLabel( ),
-						iLabelLocation,
-						iOrientation,
-						dStart,
-						dEnd,
-						false,
-						null );
-				bFits = sc.checkFit( xs, la, iLabelLocation );
-				if ( !bFits && sc.getTickCordinates( ).length == 2 )
-				{
-					sc = scCloned;
-					break;
-				}
-			}
-
-			// RESTORE TO LAST SCALE BEFORE ZOOM
-			if ( scCloned != null && bFirstFit && bZoomSuccess )
-			{
-				sc = scCloned;
-			}
 		}
 
 		else if ( ( iType & LOGARITHMIC ) == LOGARITHMIC )
@@ -2233,13 +2167,14 @@ public final class AutoScale extends Methods implements Cloneable
 						dMaxValue = dValue;
 				}
 			}
-			final Object oMinValue = new Double( dMinValue );
-			final Object oMaxValue = new Double( dMaxValue );
+			oMinValue = new Double( dMinValue );
+			oMaxValue = new Double( dMaxValue );
 
 			sc = new AutoScale( iType,
 					new Double( 0 ),
-					new Double( 0 ),
-					new Double( 10 ) );
+					new Double( 0 ) );
+			sc.oStep = new Double(10);
+			sc.oStepNumber = oStepNumber;
 			sc.fs = fs; // FORMAT SPECIFIER
 			sc.rtc = rtc; // LOCALE
 			sc.bAxisLabelStaggered = ax.isAxisLabelStaggered( );
@@ -2248,61 +2183,13 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.setData( dsi );
 			sc.setDirection( direction );
 			sc.updateAxisMinMax( oMinValue, oMaxValue );
+			
 			if ( ( iType & PERCENT ) == PERCENT )
 			{
 				sc.bStepFixed = true;
 				sc.bMaximumFixed = true;
 				sc.bMinimumFixed = true;
-			}
-			sc.computeTicks( xs,
-					ax.getLabel( ),
-					iLabelLocation,
-					iOrientation,
-					dStart,
-					dEnd,
-					false,
-					null );
-			if ( ( iType & PERCENT ) == PERCENT )
-			{
-				return sc;
-			}
-
-			dStart = sc.dStart;
-			dEnd = sc.dEnd;
-
-			boolean bFirstFit = sc.checkFit( xs, la, iLabelLocation );
-			boolean bFits = bFirstFit;
-			boolean bZoomSuccess = false;
-			// sc.oDebug = String.valueOf(bFirstFit);
-
-			while ( bFits == bFirstFit )
-			{
-				bZoomSuccess = true;
-				scCloned = (AutoScale) sc.clone( );
-				if ( sc.bStepFixed ) // DO NOT AUTO ZOOM IF STEP IS FIXED
-				{
-					break;
-				}
-				if ( bFirstFit )
-				{
-					if ( !bFits )
-					{
-						break;
-					}
-					bZoomSuccess = sc.zoomIn( );
-				}
-				else
-				{
-					if ( !bFits && sc.getTickCordinates( ).length == 2 )
-					{
-						break;
-					}
-					bZoomSuccess = sc.zoomOut( );
-				}
-				if ( !bZoomSuccess )
-					break;
-
-				sc.updateAxisMinMax( oMinValue, oMaxValue );
+				
 				sc.computeTicks( xs,
 						ax.getLabel( ),
 						iLabelLocation,
@@ -2311,20 +2198,8 @@ public final class AutoScale extends Methods implements Cloneable
 						dEnd,
 						false,
 						null );
-
-				bFits = sc.checkFit( xs, la, iLabelLocation );
-				if ( !bFits && sc.getTickCordinates( ).length == 2 )
-				{
-					sc = scCloned;
-					break;
-				}
-			}
-
-			// RESTORE TO LAST SCALE BEFORE ZOOM
-			if ( scCloned != null && bFirstFit && bZoomSuccess )
-			{
-				sc = scCloned;
-			}
+				return sc;
+			}	
 		}
 		else if ( ( iType & DATE_TIME ) == DATE_TIME )
 		{
@@ -2352,32 +2227,33 @@ public final class AutoScale extends Methods implements Cloneable
 					caMax = cValue;
 			}
 
-			CDateTime cdtMinValue = new CDateTime( caMin );
-			CDateTime cdtMaxValue = new CDateTime( caMax );
+			oMinValue = new CDateTime( caMin );
+			oMaxValue = new CDateTime( caMax );
 			int iUnit;
-			if ( oStep != null )
+			if ( oStep != null || oStepNumber != null )
 			{
 				iUnit = ChartUtil.convertUnitTypeToCalendarConstant( scModel.getUnit( ) );
 			}
 			else
 			{
-				iUnit = CDateTime.getDifference( cdtMinValue, cdtMaxValue );
+				iUnit = CDateTime.getDifference( (CDateTime)oMinValue, (CDateTime)oMaxValue );
 			}
 
 			// Can't detect a difference, assume ms
 			if ( iUnit == 0 )
 				iUnit = CDateTime.SECOND;
 
-			CDateTime cdtMinAxis = cdtMinValue.backward( iUnit, 1 );
-			CDateTime cdtMaxAxis = cdtMaxValue.forward( iUnit, 1 );
+			CDateTime cdtMinAxis = ((CDateTime)oMinValue).backward( iUnit, 1 );
+			CDateTime cdtMaxAxis = ((CDateTime)oMaxValue).forward( iUnit, 1 );
 			cdtMinAxis.clearBelow( iUnit );
 			cdtMaxAxis.clearBelow( iUnit );
 
 			sc = new AutoScale( DATE_TIME,
 					cdtMinAxis,
-					cdtMaxAxis,
-					new Integer( iUnit ),
-					new Integer( 1 ) );
+					cdtMaxAxis );
+			sc.oStep = new Integer( 1 );
+			sc.oStepNumber = oStepNumber;
+			sc.oUnit = new Integer( iUnit );
 			sc.setDirection( direction );
 			sc.fs = fs; // FORMAT SPECIFIER
 			sc.rtc = rtc; // LOCALE
@@ -2428,22 +2304,7 @@ public final class AutoScale extends Methods implements Cloneable
 			}
 
 			// OVERRIDE STEP IF SPECIFIED
-			if ( oStep != null )
-			{
-				sc.oStep = oStep;
-				sc.bStepFixed = true;
-				// VALIDATE OVERRIDDEN STEP
-				if ( ( (Double) sc.oStep ).doubleValue( ) <= 0 )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.GENERATION,
-							"exception.invalid.step.value", //$NON-NLS-1$
-							new Object[]{
-								oStep
-							},
-							Messages.getResourceBundle( rtc.getULocale( ) ) );
-				}
-			}
+			checkStep( sc, oStep, oStepNumber, rtc );
 
 			// VALIDATE OVERRIDDEN MIN/MAX
 			if ( sc.bMaximumFixed && sc.bMinimumFixed )
@@ -2458,8 +2319,18 @@ public final class AutoScale extends Methods implements Cloneable
 							},
 							Messages.getResourceBundle( rtc.getULocale( ) ) );
 				}
-			}
-			
+			}	
+		}
+		else
+		{
+			// To initialize final fields for other axis types
+			oMinValue = null;
+			oMaxValue = null;
+		}
+		
+		// Compute the scale of non-category axis
+		if ( ( iType & TEXT ) != TEXT && !ax.isCategoryScale( ) )
+		{
 			sc.computeTicks( xs,
 					la,
 					iLabelLocation,
@@ -2469,10 +2340,11 @@ public final class AutoScale extends Methods implements Cloneable
 					false,
 					null );
 			dStart = sc.dStart;
-			dEnd = sc.dEnd;
-
+			dEnd = sc.dEnd;		
+			
 			boolean bFirstFit = sc.checkFit( xs, la, iLabelLocation );
-			boolean bFits = bFirstFit, bZoomSuccess = false;
+			boolean bFits = bFirstFit;
+			boolean bZoomSuccess = false;
 
 			while ( bFits == bFirstFit )
 			{
@@ -2501,8 +2373,7 @@ public final class AutoScale extends Methods implements Cloneable
 				if ( !bZoomSuccess )
 					break;
 
-				sc.adjustAxisMinMax( cdtMinValue, cdtMaxValue );
-
+				sc.updateAxisMinMax( oMinValue, oMaxValue );				
 				sc.computeTicks( xs,
 						la,
 						iLabelLocation,
@@ -2620,7 +2491,6 @@ public final class AutoScale extends Methods implements Cloneable
 		int iDirection = ( iScaleDirection == AUTO ) ? ( ( iOrientation == HORIZONTAL ) ? FORWARD
 				: BACKWARD )
 				: iScaleDirection;
-		DataSetIterator dsi = getData( );
 
 		if ( bConsiderStartLabel || bConsiderEndLabel )
 		{
@@ -2639,39 +2509,13 @@ public final class AutoScale extends Methods implements Cloneable
 				dEnd += dEndShift * -iDirection;
 			}
 		}
+		
+		// Update member variables
+		this.dStart = dStart;
+		this.dEnd = dEnd;
 
-		if ( ( iType & TEXT ) == TEXT || bCategoryScale )
-		{
-			nTicks = dsi.size( ) + 1;
-			dLength = Math.abs( dStart - dEnd );
-		}
-		else if ( ( iType & NUMERICAL ) == NUMERICAL )
-		{
-			nTicks = getTickCount( );
-			dLength = Math.abs( dStart - dEnd );
-		}
-		else if ( ( iType & DATE_TIME ) == DATE_TIME )
-		{
-			final CDateTime cdt1 = (CDateTime) oMinimum;
-			final CDateTime cdt2 = (CDateTime) oMaximum;
-			final double dNumberOfSteps = Math.ceil( CDateTime.computeDifference( cdt2,
-					cdt1,
-					asInteger( oUnit ) ) );
-			nTicks = (int) ( dNumberOfSteps / asInteger( oStep ) ) + 1;
-			if ( nTicks == 1 )
-			{
-				// Keep at least two ticks
-				nTicks = 2;
-			}
-			dLength = Math.abs( dStart - dEnd );
-		}
-		else
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.GENERATION,
-					"exception.unknown.axis.type.tick.computations", //$NON-NLS-1$
-					Messages.getResourceBundle( rtc.getULocale( ) ) );
-		}
+		nTicks = getTickCount( );
+		dLength = Math.abs( dStart - dEnd );
 
 		if ( !bCategoryScale
 				&& ( iType & NUMERICAL ) == NUMERICAL
@@ -2679,18 +2523,27 @@ public final class AutoScale extends Methods implements Cloneable
 		{
 			double dMax = asDouble( oMaximum ).doubleValue( );
 			double dMin = asDouble( oMinimum ).doubleValue( );
-			double dStep = asDouble( oStep ).doubleValue( );
-
-			dTickGap = Math.min( Math.abs( dStep / ( dMax - dMin ) * dLength ),
-					dLength )
-					* iDirection;
+			
+			if ( bStepFixed && oStepNumber != null )
+			{
+				// Use step number
+				dTickGap = dLength
+						/ ( oStepNumber.intValue( ) - 1 ) * iDirection;
+			}
+			else
+			{
+				double dStepSize = asDouble( oStep ).doubleValue( );
+				dTickGap = Math.min( Math.abs( dStepSize
+						/ ( dMax - dMin ) * dLength ), dLength )
+						* iDirection;
+			}
 		}
 		else
 		{
 			dTickGap = dLength / ( nTicks - 1 ) * iDirection;
 		}
 
-		// Do not render too many ticks for datetime value. It may be caused by
+		// Do not render too many grids for datetime value. It may be caused by
 		// improper step or unit.
 		if ( nTicks > TICKS_MAX
 				&& !bCategoryScale && ( iType & DATE_TIME ) == DATE_TIME )
@@ -2700,6 +2553,7 @@ public final class AutoScale extends Methods implements Cloneable
 					"exception.scale.tick.max", //$NON-NLS-1$
 					Messages.getResourceBundle( rtc.getULocale( ) ) );
 		}
+		
 		double d = dStart + dTickGap;
 		final double[] da = new double[nTicks];
 
@@ -3973,4 +3827,55 @@ public final class AutoScale extends Methods implements Cloneable
 	{
 		this.rtc = context;
 	}
+	
+	/**
+	 * Updates AutoScale by checking step size and step number
+	 * 
+	 * @param sc
+	 * @param oStep
+	 * @param oStepNumber
+	 * @param rtc
+	 * @throws ChartException
+	 */
+	public static void checkStep( AutoScale sc, Object oStep, Integer oStepNumber,
+			RunTimeContext rtc ) throws ChartException
+	{
+		// OVERRIDE STEP IF SPECIFIED
+		if ( oStep != null )
+		{
+			sc.oStep = oStep;
+			sc.bStepFixed = true;
+
+			// VALIDATE OVERRIDDEN STEP
+			if ( ( (Double) sc.oStep ).doubleValue( ) <= 0 )
+			{
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.GENERATION,
+						"exception.invalid.step.size", //$NON-NLS-1$
+						new Object[]{
+							oStep
+						},
+						Messages.getResourceBundle( rtc.getULocale( ) ) );
+			}
+		}
+		
+		if ( oStepNumber != null )
+		{
+			sc.oStepNumber = oStepNumber;
+			sc.bStepFixed = true;
+
+			// VALIDATE OVERRIDDEN STEP
+			if ( sc.oStepNumber.intValue( ) < 2 )
+			{
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.GENERATION,
+						"exception.invalid.step.number", //$NON-NLS-1$
+						new Object[]{
+							oStepNumber
+						},
+						Messages.getResourceBundle( rtc.getULocale( ) ) );
+			}
+		}
+	}
+	
 }

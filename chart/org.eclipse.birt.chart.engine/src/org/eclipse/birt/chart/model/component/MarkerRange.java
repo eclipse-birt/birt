@@ -270,7 +270,7 @@ public interface MarkerRange extends EObject
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Triggers</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerRange_Triggers()
-	 * @model type="org.eclipse.birt.chart.model.data.Trigger" containment="true" resolveProxies="false"
+	 * @model type="org.eclipse.birt.chart.model.data.Trigger" containment="true"
 	 *        extendedMetaData="kind='element' name='Triggers'"
 	 * @generated
 	 */

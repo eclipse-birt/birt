@@ -52,7 +52,7 @@ public interface CurveFitting extends EObject
 	 * @return the value of the '<em>Line Attributes</em>' containment reference.
 	 * @see #setLineAttributes(LineAttributes)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getCurveFitting_LineAttributes()
-	 * @model containment="true" resolveProxies="false" required="true"
+	 * @model containment="true" required="true"
 	 *        extendedMetaData="kind='element' name='LineAttributes'"
 	 * @generated
 	 */
@@ -79,7 +79,7 @@ public interface CurveFitting extends EObject
 	 * @return the value of the '<em>Label</em>' containment reference.
 	 * @see #setLabel(Label)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getCurveFitting_Label()
-	 * @model containment="true" resolveProxies="false" required="true"
+	 * @model containment="true" required="true"
 	 *        extendedMetaData="kind='element' name='Label'"
 	 * @generated
 	 */

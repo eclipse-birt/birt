@@ -32,6 +32,8 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.birt.chart.model.component.Scale#getStep <em>Step</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Scale#getUnit <em>Unit</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Scale#getMinorGridsPerUnit <em>Minor Grids Per Unit</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Scale#getStepNumber <em>Step Number</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Scale#isShowOutside <em>Show Outside</em>}</li>
  * </ul>
  * </p>
  *
@@ -244,5 +246,111 @@ public interface Scale extends EObject
 	 * @generated
 	 */
 	boolean isSetMinorGridsPerUnit( );
+
+	/**
+	 * Returns the value of the '<em><b>Step Number</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Number of steps in the values shown on the axis.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Step Number</em>' attribute.
+	 * @see #isSetStepNumber()
+	 * @see #unsetStepNumber()
+	 * @see #setStepNumber(int)
+	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getScale_StepNumber()
+	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
+	 *        extendedMetaData="kind='element' name='StepNumber'"
+	 * @generated
+	 */
+	int getStepNumber( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getStepNumber <em>Step Number</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Step Number</em>' attribute.
+	 * @see #isSetStepNumber()
+	 * @see #unsetStepNumber()
+	 * @see #getStepNumber()
+	 * @generated
+	 */
+	void setStepNumber( int value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getStepNumber <em>Step Number</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetStepNumber()
+	 * @see #getStepNumber()
+	 * @see #setStepNumber(int)
+	 * @generated
+	 */
+	void unsetStepNumber( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Scale#getStepNumber <em>Step Number</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Step Number</em>' attribute is set.
+	 * @see #unsetStepNumber()
+	 * @see #getStepNumber()
+	 * @see #setStepNumber(int)
+	 * @generated
+	 */
+	boolean isSetStepNumber( );
+
+	/**
+	 * Returns the value of the '<em><b>Show Outside</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Indicates if it shows values outside Axis range.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Show Outside</em>' attribute.
+	 * @see #isSetShowOutside()
+	 * @see #unsetShowOutside()
+	 * @see #setShowOutside(boolean)
+	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getScale_ShowOutside()
+	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+	 *        extendedMetaData="kind='element' name='ShowOutside'"
+	 * @generated
+	 */
+	boolean isShowOutside( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#isShowOutside <em>Show Outside</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Show Outside</em>' attribute.
+	 * @see #isSetShowOutside()
+	 * @see #unsetShowOutside()
+	 * @see #isShowOutside()
+	 * @generated
+	 */
+	void setShowOutside( boolean value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#isShowOutside <em>Show Outside</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetShowOutside()
+	 * @see #isShowOutside()
+	 * @see #setShowOutside(boolean)
+	 * @generated
+	 */
+	void unsetShowOutside( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Scale#isShowOutside <em>Show Outside</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Show Outside</em>' attribute is set.
+	 * @see #unsetShowOutside()
+	 * @see #isShowOutside()
+	 * @see #setShowOutside(boolean)
+	 * @generated
+	 */
+	boolean isSetShowOutside( );
 
 } // Scale

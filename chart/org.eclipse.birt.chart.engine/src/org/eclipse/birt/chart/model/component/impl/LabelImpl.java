@@ -40,24 +40,23 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getCaption <em>Caption</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getBackground <em>Background</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getOutline <em>Outline</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getShadowColor <em>Shadow Color</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getInsets <em>Insets</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#isVisible <em>Visible</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getCaption <em>Caption</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getBackground <em>Background</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getOutline <em>Outline</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getShadowColor <em>Shadow Color</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getInsets <em>Insets</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#isVisible <em>Visible</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class LabelImpl extends EObjectImpl implements Label
 {
 
 	/**
-	 * The cached value of the '{@link #getCaption() <em>Caption</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getCaption() <em>Caption</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getCaption()
 	 * @generated
 	 * @ordered
@@ -65,9 +64,8 @@ public class LabelImpl extends EObjectImpl implements Label
 	protected Text caption = null;
 
 	/**
-	 * The cached value of the '{@link #getBackground() <em>Background</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getBackground() <em>Background</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getBackground()
 	 * @generated
 	 * @ordered
@@ -75,9 +73,8 @@ public class LabelImpl extends EObjectImpl implements Label
 	protected Fill background = null;
 
 	/**
-	 * The cached value of the '{@link #getOutline() <em>Outline</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getOutline() <em>Outline</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getOutline()
 	 * @generated
 	 * @ordered
@@ -85,9 +82,8 @@ public class LabelImpl extends EObjectImpl implements Label
 	protected LineAttributes outline = null;
 
 	/**
-	 * The cached value of the '{@link #getShadowColor() <em>Shadow Color</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getShadowColor() <em>Shadow Color</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getShadowColor()
 	 * @generated
 	 * @ordered
@@ -95,9 +91,8 @@ public class LabelImpl extends EObjectImpl implements Label
 	protected ColorDefinition shadowColor = null;
 
 	/**
-	 * The cached value of the '{@link #getInsets() <em>Insets</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getInsets() <em>Insets</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getInsets()
 	 * @generated
 	 * @ordered
@@ -105,9 +100,8 @@ public class LabelImpl extends EObjectImpl implements Label
 	protected Insets insets = null;
 
 	/**
-	 * The default value of the '{@link #isVisible() <em>Visible</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #isVisible() <em>Visible</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isVisible()
 	 * @generated
 	 * @ordered
@@ -115,9 +109,8 @@ public class LabelImpl extends EObjectImpl implements Label
 	protected static final boolean VISIBLE_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isVisible() <em>Visible</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #isVisible() <em>Visible</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isVisible()
 	 * @generated
 	 * @ordered
@@ -125,9 +118,9 @@ public class LabelImpl extends EObjectImpl implements Label
 	protected boolean visible = VISIBLE_EDEFAULT;
 
 	/**
-	 * This is true if the Visible attribute has been set. <!-- begin-user-doc
+	 * This is true if the Visible attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -135,7 +128,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected LabelImpl( )
@@ -145,7 +137,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -155,7 +146,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Text getCaption( )
@@ -165,7 +155,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetCaption( Text newCaption,
@@ -190,7 +179,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setCaption( Text newCaption )
@@ -224,7 +212,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Fill getBackground( )
@@ -234,7 +221,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetBackground( Fill newBackground,
@@ -259,7 +245,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setBackground( Fill newBackground )
@@ -293,7 +278,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public LineAttributes getOutline( )
@@ -303,7 +287,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetOutline( LineAttributes newOutline,
@@ -328,7 +311,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setOutline( LineAttributes newOutline )
@@ -362,7 +344,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public ColorDefinition getShadowColor( )
@@ -372,7 +353,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetShadowColor(
@@ -397,7 +377,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setShadowColor( ColorDefinition newShadowColor )
@@ -431,7 +410,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Insets getInsets( )
@@ -441,7 +419,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetInsets( Insets newInsets,
@@ -466,7 +443,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setInsets( Insets newInsets )
@@ -498,7 +474,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isVisible( )
@@ -508,7 +483,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setVisible( boolean newVisible )
@@ -528,7 +502,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetVisible( )
@@ -548,7 +521,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetVisible( )
@@ -558,7 +530,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -582,7 +553,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
@@ -607,7 +577,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( int featureID, Object newValue )
@@ -638,7 +607,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( int featureID )
@@ -669,7 +637,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( int featureID )
@@ -694,7 +661,6 @@ public class LabelImpl extends EObjectImpl implements Label
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )

@@ -284,7 +284,7 @@ public interface Axis extends EObject
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Ancillary Axes</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis_AncillaryAxes()
-	 * @model type="org.eclipse.birt.chart.model.component.Axis" containment="true" resolveProxies="false"
+	 * @model type="org.eclipse.birt.chart.model.component.Axis" containment="true"
 	 *        extendedMetaData="kind='element' name='AncillaryAxes'"
 	 * @generated
 	 */
@@ -669,7 +669,7 @@ public interface Axis extends EObject
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Marker Lines</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis_MarkerLines()
-	 * @model type="org.eclipse.birt.chart.model.component.MarkerLine" containment="true" resolveProxies="false"
+	 * @model type="org.eclipse.birt.chart.model.component.MarkerLine" containment="true"
 	 *        extendedMetaData="kind='element' name='MarkerLines'"
 	 * @generated
 	 */
@@ -704,7 +704,7 @@ public interface Axis extends EObject
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Triggers</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis_Triggers()
-	 * @model type="org.eclipse.birt.chart.model.data.Trigger" containment="true" resolveProxies="false"
+	 * @model type="org.eclipse.birt.chart.model.data.Trigger" containment="true"
 	 *        extendedMetaData="kind='element' name='Triggers'"
 	 * @generated
 	 */

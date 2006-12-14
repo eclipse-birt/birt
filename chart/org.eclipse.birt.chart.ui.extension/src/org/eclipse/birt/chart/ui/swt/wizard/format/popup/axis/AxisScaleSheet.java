@@ -17,7 +17,6 @@ import org.eclipse.birt.chart.model.component.Scale;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractScaleSheet;
-import org.eclipse.swt.widgets.Composite;
 
 /**
  * 
@@ -32,26 +31,6 @@ public class AxisScaleSheet extends AbstractScaleSheet
 	{
 		super( title, context );
 		this.axis = axis;
-	}
-
-	private void setState( AxisType sType )
-	{
-		// Bugzilla#103961 Marker line and range only work for non-category
-		// style X-axis,
-		boolean bEnabled = !( getAxisForProcessing( ).isCategoryAxis( ) || sType == AxisType.TEXT_LITERAL );
-		lblMin.setEnabled( bEnabled );
-		txtScaleMin.setEnabled( bEnabled );
-		lblMax.setEnabled( bEnabled );
-		txtScaleMax.setEnabled( bEnabled );
-		lblStep.setEnabled( bEnabled );
-		txtScaleStep.setEnabled( bEnabled );
-
-		// Unit is only valid in DateTime type
-		if ( sType == AxisType.DATE_TIME_LITERAL )
-		{
-			lblUnit.setEnabled( bEnabled );
-			cmbScaleUnit.setEnabled( bEnabled );
-		}
 	}
 
 	private Axis getAxisForProcessing( )
@@ -77,11 +56,12 @@ public class AxisScaleSheet extends AbstractScaleSheet
 		return TextEditorComposite.TYPE_NUMBERIC;
 	}
 
-	protected Composite getComponent( Composite parent )
+	protected void setState( )
 	{
-		Composite composite = super.getComponent( parent );
-		setState( getAxisForProcessing( ).getType( ) );
-		return composite;
+		// Bugzilla#103961 Marker line and range only work for non-category
+		// style X-axis,
+		boolean bEnabled = !( getAxisForProcessing( ).isCategoryAxis( ) || getAxisForProcessing( ).getType( ) == AxisType.TEXT_LITERAL );
+		setState( bEnabled );
 	}
 
 }

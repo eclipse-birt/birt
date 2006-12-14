@@ -224,7 +224,7 @@ public interface Dial extends EObject
 	 * @return the value of the '<em>Line Attributes</em>' containment reference.
 	 * @see #setLineAttributes(LineAttributes)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getDial_LineAttributes()
-	 * @model containment="true" resolveProxies="false" required="true"
+	 * @model containment="true" required="true"
 	 *        extendedMetaData="kind='element' name='LineAttributes'"
 	 * @generated
 	 */
@@ -250,7 +250,7 @@ public interface Dial extends EObject
 	 * @return the value of the '<em>Fill</em>' containment reference.
 	 * @see #setFill(Fill)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getDial_Fill()
-	 * @model containment="true" resolveProxies="false"
+	 * @model containment="true"
 	 *        extendedMetaData="kind='element' name='Fill'"
 	 * @generated
 	 */
@@ -277,7 +277,7 @@ public interface Dial extends EObject
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Dial Regions</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getDial_DialRegions()
-	 * @model type="org.eclipse.birt.chart.model.component.DialRegion" containment="true" resolveProxies="false"
+	 * @model type="org.eclipse.birt.chart.model.component.DialRegion" containment="true"
 	 *        extendedMetaData="kind='element' name='DialRegions'"
 	 * @generated
 	 */
@@ -293,7 +293,7 @@ public interface Dial extends EObject
 	 * @return the value of the '<em>Major Grid</em>' containment reference.
 	 * @see #setMajorGrid(Grid)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getDial_MajorGrid()
-	 * @model containment="true" resolveProxies="false" required="true"
+	 * @model containment="true" required="true"
 	 *        extendedMetaData="kind='element' name='MajorGrid'"
 	 * @generated
 	 */
@@ -319,7 +319,7 @@ public interface Dial extends EObject
 	 * @return the value of the '<em>Minor Grid</em>' containment reference.
 	 * @see #setMinorGrid(Grid)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getDial_MinorGrid()
-	 * @model containment="true" resolveProxies="false" required="true"
+	 * @model containment="true" required="true"
 	 *        extendedMetaData="kind='element' name='MinorGrid'"
 	 * @generated
 	 */
@@ -345,7 +345,7 @@ public interface Dial extends EObject
 	 * @return the value of the '<em>Scale</em>' containment reference.
 	 * @see #setScale(Scale)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getDial_Scale()
-	 * @model containment="true" resolveProxies="false" required="true"
+	 * @model containment="true" required="true"
 	 *        extendedMetaData="kind='element' name='Scale'"
 	 * @generated
 	 */
@@ -425,7 +425,7 @@ public interface Dial extends EObject
 	 * @return the value of the '<em>Label</em>' containment reference.
 	 * @see #setLabel(Label)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getDial_Label()
-	 * @model containment="true" resolveProxies="false" required="true"
+	 * @model containment="true" required="true"
 	 *        extendedMetaData="kind='element' name='Label'"
 	 * @generated
 	 */
@@ -451,7 +451,7 @@ public interface Dial extends EObject
 	 * @return the value of the '<em>Format Specifier</em>' containment reference.
 	 * @see #setFormatSpecifier(FormatSpecifier)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getDial_FormatSpecifier()
-	 * @model containment="true" resolveProxies="false"
+	 * @model containment="true"
 	 *        extendedMetaData="kind='element' name='FormatSpecifier'"
 	 * @generated
 	 */

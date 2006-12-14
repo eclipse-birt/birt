@@ -479,10 +479,19 @@ public final class AxesRenderHelper
 		{
 			dAxisValue = Methods.asDouble( sc.getMinimum( ) ).doubleValue( );
 			dAxisStep = Methods.asDouble( sc.getStep( ) ).doubleValue( );
-			dAxisValue = Methods.asDouble( sc.getMinimum( ) ).doubleValue( ); // RESET
 			if ( fs == null )
 			{
-				df = new DecimalFormat( sc.getNumericPattern( dAxisValue ) );
+				// Use a more precise pattern
+				String valuePattern = sc.getNumericPattern( dAxisValue );
+				String stepPattern = sc.getNumericPattern( dAxisStep );
+				if ( valuePattern.length( ) < stepPattern.length( ) )
+				{
+					df = new DecimalFormat( stepPattern );
+				}
+				else
+				{
+					df = new DecimalFormat( valuePattern );
+				}
 			}
 		}
 
@@ -535,7 +544,6 @@ public final class AxesRenderHelper
 		{
 			dAxisValue = Methods.asDouble( sc.getMinimum( ) ).doubleValue( );
 			dAxisStep = Methods.asDouble( sc.getStep( ) ).doubleValue( );
-			dAxisValue = Methods.asDouble( sc.getMinimum( ) ).doubleValue( ); // RESET
 		}
 
 	}

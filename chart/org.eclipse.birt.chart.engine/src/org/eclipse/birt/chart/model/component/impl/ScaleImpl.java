@@ -33,6 +33,8 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getStep <em>Step</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getUnit <em>Unit</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getMinorGridsPerUnit <em>Minor Grids Per Unit</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getStepNumber <em>Step Number</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#isShowOutside <em>Show Outside</em>}</li>
  * </ul>
  * </p>
  *
@@ -139,6 +141,64 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	 * @ordered
 	 */
 	protected boolean minorGridsPerUnitESet = false;
+
+	/**
+	 * The default value of the '{@link #getStepNumber() <em>Step Number</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getStepNumber()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int STEP_NUMBER_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getStepNumber() <em>Step Number</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getStepNumber()
+	 * @generated
+	 * @ordered
+	 */
+	protected int stepNumber = STEP_NUMBER_EDEFAULT;
+
+	/**
+	 * This is true if the Step Number attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean stepNumberESet = false;
+
+	/**
+	 * The default value of the '{@link #isShowOutside() <em>Show Outside</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isShowOutside()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean SHOW_OUTSIDE_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isShowOutside() <em>Show Outside</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isShowOutside()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean showOutside = SHOW_OUTSIDE_EDEFAULT;
+
+	/**
+	 * This is true if the Show Outside attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean showOutsideESet = false;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -459,6 +519,126 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public int getStepNumber( )
+	{
+		return stepNumber;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setStepNumber( int newStepNumber )
+	{
+		int oldStepNumber = stepNumber;
+		stepNumber = newStepNumber;
+		boolean oldStepNumberESet = stepNumberESet;
+		stepNumberESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					ComponentPackage.SCALE__STEP_NUMBER,
+					oldStepNumber,
+					stepNumber,
+					!oldStepNumberESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetStepNumber( )
+	{
+		int oldStepNumber = stepNumber;
+		boolean oldStepNumberESet = stepNumberESet;
+		stepNumber = STEP_NUMBER_EDEFAULT;
+		stepNumberESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					ComponentPackage.SCALE__STEP_NUMBER,
+					oldStepNumber,
+					STEP_NUMBER_EDEFAULT,
+					oldStepNumberESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetStepNumber( )
+	{
+		return stepNumberESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isShowOutside( )
+	{
+		return showOutside;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setShowOutside( boolean newShowOutside )
+	{
+		boolean oldShowOutside = showOutside;
+		showOutside = newShowOutside;
+		boolean oldShowOutsideESet = showOutsideESet;
+		showOutsideESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					ComponentPackage.SCALE__SHOW_OUTSIDE,
+					oldShowOutside,
+					showOutside,
+					!oldShowOutsideESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetShowOutside( )
+	{
+		boolean oldShowOutside = showOutside;
+		boolean oldShowOutsideESet = showOutsideESet;
+		showOutside = SHOW_OUTSIDE_EDEFAULT;
+		showOutsideESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					ComponentPackage.SCALE__SHOW_OUTSIDE,
+					oldShowOutside,
+					SHOW_OUTSIDE_EDEFAULT,
+					oldShowOutsideESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetShowOutside( )
+	{
+		return showOutsideESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -491,6 +671,10 @@ public class ScaleImpl extends EObjectImpl implements Scale
 				return getUnit( );
 			case ComponentPackage.SCALE__MINOR_GRIDS_PER_UNIT :
 				return new Integer( getMinorGridsPerUnit( ) );
+			case ComponentPackage.SCALE__STEP_NUMBER :
+				return new Integer( getStepNumber( ) );
+			case ComponentPackage.SCALE__SHOW_OUTSIDE :
+				return isShowOutside( ) ? Boolean.TRUE : Boolean.FALSE;
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -518,6 +702,12 @@ public class ScaleImpl extends EObjectImpl implements Scale
 				return;
 			case ComponentPackage.SCALE__MINOR_GRIDS_PER_UNIT :
 				setMinorGridsPerUnit( ( (Integer) newValue ).intValue( ) );
+				return;
+			case ComponentPackage.SCALE__STEP_NUMBER :
+				setStepNumber( ( (Integer) newValue ).intValue( ) );
+				return;
+			case ComponentPackage.SCALE__SHOW_OUTSIDE :
+				setShowOutside( ( (Boolean) newValue ).booleanValue( ) );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -547,6 +737,12 @@ public class ScaleImpl extends EObjectImpl implements Scale
 			case ComponentPackage.SCALE__MINOR_GRIDS_PER_UNIT :
 				unsetMinorGridsPerUnit( );
 				return;
+			case ComponentPackage.SCALE__STEP_NUMBER :
+				unsetStepNumber( );
+				return;
+			case ComponentPackage.SCALE__SHOW_OUTSIDE :
+				unsetShowOutside( );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -570,6 +766,10 @@ public class ScaleImpl extends EObjectImpl implements Scale
 				return isSetUnit( );
 			case ComponentPackage.SCALE__MINOR_GRIDS_PER_UNIT :
 				return isSetMinorGridsPerUnit( );
+			case ComponentPackage.SCALE__STEP_NUMBER :
+				return isSetStepNumber( );
+			case ComponentPackage.SCALE__SHOW_OUTSIDE :
+				return isSetShowOutside( );
 		}
 		return super.eIsSet( featureID );
 	}
@@ -597,6 +797,16 @@ public class ScaleImpl extends EObjectImpl implements Scale
 		result.append( ", minorGridsPerUnit: " ); //$NON-NLS-1$
 		if ( minorGridsPerUnitESet )
 			result.append( minorGridsPerUnit );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", stepNumber: " ); //$NON-NLS-1$
+		if ( stepNumberESet )
+			result.append( stepNumber );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", showOutside: " ); //$NON-NLS-1$
+		if ( showOutsideESet )
+			result.append( showOutside );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );

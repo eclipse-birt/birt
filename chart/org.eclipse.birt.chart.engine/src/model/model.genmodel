@@ -8,7 +8,7 @@
     editorPluginClass="org.eclipse.birt.chart.model.data.presentation.ModelEditorPlugin"
     nonNLSMarkers="true" featureMapWrapperInterface="" featureMapWrapperInternalInterface=""
     codeFormatting="true" importerID="org.eclipse.xsd.ecore.importer">
-  <foreignModel>../../xsd/attribute.xsd</foreignModel>
+  <foreignModel>../../xsd/component.xsd</foreignModel>
   <genPackages prefix="Component" basePackage="org.eclipse.birt.chart.model" resource="XML"
       ecorePackage="org.eclipse.birt.chart.model.component.ecore#/">
     <genClasses ecoreClass="org.eclipse.birt.chart.model.component.ecore#//Axis">
@@ -112,6 +112,8 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.component.ecore#//Scale/step"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.component.ecore#//Scale/unit"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.component.ecore#//Scale/minorGridsPerUnit"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.component.ecore#//Scale/stepNumber"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.component.ecore#//Scale/showOutside"/>
     </genClasses>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.component.ecore#//Series">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.component.ecore#//Series/visible"/>

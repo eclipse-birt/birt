@@ -1015,12 +1015,30 @@ public interface ComponentPackage extends EPackage
 	int SCALE__MINOR_GRIDS_PER_UNIT = 4;
 
 	/**
+	 * The feature id for the '<em><b>Step Number</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCALE__STEP_NUMBER = 5;
+
+	/**
+	 * The feature id for the '<em><b>Show Outside</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCALE__SHOW_OUTSIDE = 6;
+
+	/**
 	 * The number of structural features of the '<em>Scale</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCALE_FEATURE_COUNT = 5;
+	int SCALE_FEATURE_COUNT = 7;
 
 	/**
 	 * The feature id for the '<em><b>Visible</b></em>' attribute. <!--
@@ -2015,6 +2033,28 @@ public interface ComponentPackage extends EPackage
 	EAttribute getScale_MinorGridsPerUnit( );
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Scale#getStepNumber <em>Step Number</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Step Number</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Scale#getStepNumber()
+	 * @see #getScale()
+	 * @generated
+	 */
+	EAttribute getScale_StepNumber( );
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Scale#isShowOutside <em>Show Outside</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Show Outside</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Scale#isShowOutside()
+	 * @see #getScale()
+	 * @generated
+	 */
+	EAttribute getScale_ShowOutside( );
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.component.Series <em>Series</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Series</em>'.
@@ -2143,7 +2183,7 @@ public interface ComponentPackage extends EPackage
 	 * @see java.util.Map.Entry
 	 * @model keyType="java.lang.String" keyUnique="false" keyDataType="org.eclipse.emf.ecore.xml.type.String" keyRequired="true"
 	 *        keyExtendedMetaData="kind='element' name='Key'"
-	 *        valueType="org.eclipse.birt.chart.model.data.DataSet" valueContainment="true" valueResolveProxies="false" valueRequired="true"
+	 *        valueType="org.eclipse.birt.chart.model.data.DataSet" valueContainment="true" valueRequired="true"
 	 *        valueExtendedMetaData="kind='element' name='Value'"
 	 *        extendedMetaData="name='EStringToDataSetMapEntry' kind='elementOnly'"
 	 * @generated
@@ -2913,6 +2953,22 @@ public interface ComponentPackage extends EPackage
 		 * @generated
 		 */
 		EAttribute SCALE__MINOR_GRIDS_PER_UNIT = eINSTANCE.getScale_MinorGridsPerUnit( );
+
+		/**
+		 * The meta object literal for the '<em><b>Step Number</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SCALE__STEP_NUMBER = eINSTANCE.getScale_StepNumber( );
+
+		/**
+		 * The meta object literal for the '<em><b>Show Outside</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SCALE__SHOW_OUTSIDE = eINSTANCE.getScale_ShowOutside( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl <em>Series</em>}' class.
