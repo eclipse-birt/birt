@@ -48,6 +48,7 @@
 				<ant antfile="${eclipse.build.configs}/../helper.xml" target="verifyCompile" />
 			</sequential>
 			<sequential>
+				<antcall target="CreateUpdateSite"/>
 				<antcall target="buildBirtNLFeature"/>
 			</sequential>
 		</parallel>
@@ -133,6 +134,76 @@
 		
 		<!-- Send build ready mail to QA -->
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="InformQA"/>
+	</target>
+	
+	<target name="CreateUpdateSite">
+        <property name="updateJarWorkingDir" value="${buildDirectory}/updateJars" />
+        <mkdir dir="${updateJarWorkingDir}" />
+		<mkdir dir="${updateJarWorkingDir}/site" />
+		
+		<exec executable="unzip" dir="${buildDirectory}/${buildLabel}">
+			<arg line="-o -q birt-report-framework-sdk-2_2_0.bak.zip -d ${updateJarWorkingDir}" />
+		</exec>
+		<exec executable="unzip" dir="${buildDirectory}/${buildLabel}">
+			<arg line="-o -q birt-third-party-2_2_0.bak.zip -d ${updateJarWorkingDir}" />
+		</exec>
+        <delete includeemptydirs="true">
+                <fileset dir="${updateJarWorkingDir}/eclipse/features" includes="*.thirdparty*/**" />
+                <fileset dir="${updateJarWorkingDir}/eclipse/plugins" includes="*.thirdparty*/**" />
+        </delete>
+		
+		<!-- TODO:sign update jars -->
+		
+		<!-- repack update jar -->
+        <replace file="${eclipse.build.configs}/../../extras/pack200" token="@pack200@" value="${jvm15_home}/bin/pack200"/>
+		<chmod file="${eclipse.build.configs}/../../extras/pack200" perm="755"/>
+
+        <java jar="${base.builder}/startup.jar"
+                fork="true"
+                timeout="10800000"
+                jvm="${jvm15_home}/bin/java"
+                failonerror="true"
+                maxmemory="512m"
+                dir="${buildDirectory}/${buildLabel}">
+                <jvmarg value="-Dorg.eclipse.update.jarprocessor.pack200=${eclipse.build.configs}/../../extras"/>
+                <arg line="-application org.eclipse.update.core.siteOptimizer"/>
+                <arg line="-jarProcessor -outputDir ${updateJarWorkingDir}/site -processAll -repack updateJars"/>
+        </java>
+		
+		<!-- create Pack200 update jars -->
+        <java jar="${base.builder}/startup.jar"
+                fork="true"
+                timeout="10800000"
+                jvm="${jvm15_home}/bin/java"
+                failonerror="true"
+                maxmemory="512m"
+                dir="${buildDirectory}/${buildLabel}">
+                <jvmarg value="-Dorg.eclipse.update.jarprocessor.pack200=${eclipse.build.configs}/../../extras"/>
+                <arg line="-application org.eclipse.update.core.siteOptimizer"/>
+                <arg line="-jarProcessor -outputDir ${updateJarWorkingDir}/site -processAll -pack updateJars"/>
+        </java>
+		
+		<!-- generate site.xml -->
+		<property file="${buildDirectory}/finalFeaturesVersions.properties"/>
+		<copy file="${eclipse.build.configs}/../../extras/site.xml" tofile="${updateJarWorkingDir}/site/site.xml"/>
+		<!-- replace the feature version in site.xml -->
+		<replace file="${updateJarWorkingDir}/site/site.xml" value="${com.lowagie.itext}" token="@FEATURE.ITEXT@"/>
+		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.apache.commons.codec}" token="@FEATURE.CODEC@"/>
+		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.mozilla.rhino}" token="@FEATURE.MOZILLA@"/>
+		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.w3c.sac}" token="@FEATURE.W3C@"/>
+		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.apache.batik}" token="@FEATURE.BATIK@"/>
+		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.apache.batik.pdf}" token="@FEATURE.BATIK.PDF@"/>
+		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt}" token="@FEATURE.BIRT@"/>
+		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.sdk}" token="@FEATURE.BIRT.SDK@"/>
+		
+		<!-- push update site to output directory -->
+		<mkdir dir="${postingDirectory}/${buildLabel}/UpdateSite"/>
+		<copy todir="${postingDirectory}/${buildLabel}/UpdateSite">
+			<fileset dir="${updateJarWorkingDir}/site">
+				<include name="**"/>
+			</fileset>
+		</copy>
+		
 	</target>
 	
 	<target name="runBirtTest">
