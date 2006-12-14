@@ -45,8 +45,8 @@ public class Regression_142948and141927 extends BaseTestCase
 		removeResource( );
 		
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( filename , filename );
-		
+		//copyResource_INPUT( filename , filename );
+		copyInputToFile ( INPUT_FOLDER + "/" + filename );
 	}
 	/**
 	 * @throws DesignFileException

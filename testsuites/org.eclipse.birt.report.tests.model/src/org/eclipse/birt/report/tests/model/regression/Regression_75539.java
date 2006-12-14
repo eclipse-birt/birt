@@ -38,19 +38,18 @@ public class Regression_75539 extends BaseTestCase
 	 * 
 	 */
 	
-	public void setup( ) throws Exception
+	public void setUp( ) throws Exception
 	{
 		super.setUp();
 		removeResource();
-		copyResource_GOLDEN( GOLDEN, GOLDEN );
-		//copyResource_INPUT( INPUT2, INPUT2 );
+		copyGoldenToFile ( GOLDEN_FOLDER + "/" + GOLDEN );
 	}
 
-	public void tearDown( )
+  /*public void tearDown( )
 	{
 		removeResource( );
 	}
-
+  */
 	public void test_regression_75539( ) throws Exception
 	{
 		sessionHandle = new DesignEngine( new DesignConfig( ) )
@@ -66,10 +65,13 @@ public class Regression_75539 extends BaseTestCase
 		dsourceHandle.setProperty( "odaURL", "jdbc:classicmodels:sampledb" ); //$NON-NLS-1$//$NON-NLS-2$
 		dsourceHandle.setProperty( "odaUser", "ClassicModels" ); //$NON-NLS-1$//$NON-NLS-2$
 
+		makeOutputDir();
 		designHandle.getDataSources( ).add( dsourceHandle );
-		saveAs( "Reg_75539.out" ); //$NON-NLS-1$
-       // save();
-        
+		
+		//saveAs( OUTPUT ); //$NON-NLS-1$    
+		//assertTrue( compareTextFile( GOLDEN, this.getFullQualifiedClassName()+"/"+OUTPUT_FOLDER+"/"+OUTPUT ) );
+		String TempFile=this.genOutputFile(OUTPUT);
+		designHandle.saveAs( TempFile );
 		assertTrue( compareTextFile( GOLDEN, OUTPUT ) );
 	}
 

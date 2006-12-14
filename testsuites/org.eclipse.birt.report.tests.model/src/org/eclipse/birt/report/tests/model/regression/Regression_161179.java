@@ -50,8 +50,10 @@ public class Regression_161179 extends BaseTestCase
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( REPORT , REPORT );
-		copyResource_INPUT( REPORT1 , REPORT1 );
+		//copyResource_INPUT( REPORT , REPORT );
+		//copyResource_INPUT( REPORT1 , REPORT1 );
+		copyInputToFile ( INPUT_FOLDER + "/" + REPORT );
+		copyGoldenToFile ( INPUT_FOLDER + "/" + REPORT1 );
 	}
 	
 	public void tearDown( )

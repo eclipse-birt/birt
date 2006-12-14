@@ -57,8 +57,8 @@ public class Regression_91673 extends BaseTestCase
 	{
 		super.setUp();
 		removeResource();
-		copyResource_INPUT( INPUT, INPUT );
-		copyResource_INPUT( INPUT2, INPUT2 );
+		copyInputToFile ( INPUT_FOLDER + "/" + INPUT );
+		copyInputToFile ( INPUT_FOLDER + "/" + INPUT2 );
 	}
 
 	public void tearDown( )
@@ -68,9 +68,9 @@ public class Regression_91673 extends BaseTestCase
 	
 	public void test_regression_91673( ) throws DesignFileException
 	{
-		String f1 = this.getFullQualifiedClassName( ) + "/"+INPUT_FOLDER+"/" + INPUT;
-		//System.out.println(f1 );
-		String f2 = this.getFullQualifiedClassName( ) + "/"+INPUT_FOLDER+"/" + INPUT2;
+		String f1 = getTempFolder()+ "/"+INPUT_FOLDER+"/" + INPUT;
+		
+		String f2 = getTempFolder() + "/"+INPUT_FOLDER+"/" + INPUT2;
 
 		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
 		SessionHandle sessionHandle = engine.newSessionHandle( ULocale.ENGLISH );

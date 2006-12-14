@@ -65,9 +65,13 @@ public class Regression_161383 extends BaseTestCase
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( REPORT , REPORT );
-		copyResource_INPUT( REPORT1 , REPORT1 );
-		copyResource_INPUT( REPORT2 , REPORT2 );
+		//copyResource_INPUT( REPORT , REPORT );
+		//copyResource_INPUT( REPORT1 , REPORT1 );
+		//copyResource_INPUT( REPORT2 , REPORT2 );
+		copyInputToFile ( INPUT_FOLDER + "/" + REPORT );
+		copyInputToFile ( INPUT_FOLDER + "/" + REPORT1 );
+		copyInputToFile ( INPUT_FOLDER + "/" + REPORT2 );
+		
 	}
 	
 	public void tearDown( )

@@ -34,8 +34,10 @@ public class Regression_149618 extends BaseTestCase
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( filename , filename );
-		copyResource_GOLDEN( goldenfile , goldenfile );
+		//copyResource_INPUT( filename , filename );
+		//copyResource_GOLDEN( goldenfile , goldenfile );
+		copyInputToFile ( INPUT_FOLDER + "/" + filename );
+		copyGoldenToFile ( GOLDEN_FOLDER + "/" + goldenfile );
 	}
 	
 	public void tearDown( )
@@ -52,8 +54,11 @@ public class Regression_149618 extends BaseTestCase
 		saveAs( outfile );
 
 		// No change between input file and parsed file
-		assertTrue( compareTextFile( goldenfile, outfile ) );
+		//assertTrue( compareTextFile( goldenfile, outfile ) );
 
+		String TempFile=this.genOutputFile(outfile);
+		designHandle.saveAs( TempFile );
+		assertTrue( compareTextFile( goldenfile, outfile ) );
 	}
 
 }

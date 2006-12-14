@@ -43,6 +43,18 @@ import com.ibm.icu.util.ULocale;
 public class Regression_116983 extends BaseTestCase
 {
 
+	
+	protected void setUp() throws Exception
+	{
+		super.setUp();
+		
+	}
+	
+	protected void tearDown() throws Exception
+	{
+		super.tearDown();
+		
+	}
 	/**
 	 * @throws SemanticException
 	 * @throws IOException
@@ -72,7 +84,7 @@ public class Regression_116983 extends BaseTestCase
 		// save the template
 		
 		//cannot create BaseTestCases.makeOutputDir
-		//makeOutputDir( );
-		template.saveAs( getClassFolder( ) + "/" + OUTPUT_FOLDER + "/" + "regression_116983_template.out" ); //$NON-NLS-1$
+		makeOutputDir( );
+		template.saveAs(getFullQualifiedClassName() + "/" + OUTPUT_FOLDER+"/"+"regression_116983_template.out" ); //$NON-NLS-1$
 	}
 }

@@ -74,7 +74,8 @@ public class Regression_149922 extends BaseTestCase
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( GOLDEN , GOLDEN );
+		copyGoldenToFile ( GOLDEN_FOLDER + "/" + GOLDEN );
+		
 	}
 	
 	public void tearDown( )
@@ -101,7 +102,10 @@ public class Regression_149922 extends BaseTestCase
 		image2.setURL( "\"http://www.google.com/intl/en/images/logo.gif\"" ); //$NON-NLS-1$
 		designHandle.getBody( ).add( image2 );
 
-		saveAs( OUTPUT );
-		assertTrue( this.compareTextFile( GOLDEN, OUTPUT ) );
+		
+		String TempFile=this.genOutputFile(OUTPUT);
+		designHandle.saveAs( TempFile );
+		assertTrue( compareTextFile( GOLDEN, OUTPUT ) );
+
 	}
 }

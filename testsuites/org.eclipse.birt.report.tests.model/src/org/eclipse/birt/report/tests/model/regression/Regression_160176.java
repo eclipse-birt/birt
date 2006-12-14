@@ -40,7 +40,8 @@ public class Regression_160176 extends BaseTestCase
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( REPORT , REPORT );
+		
+		copyInputToFile ( INPUT_FOLDER + "/" + REPORT );
 	}
 	
 	public void tearDown( )
@@ -56,7 +57,7 @@ public class Regression_160176 extends BaseTestCase
 		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
 		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
 		ReportDesignHandle designHandle = session
-				.createDesignFromTemplate( this.getFullQualifiedClassName( ) + "/"
+				.createDesignFromTemplate( getTempFolder() + "/"
 						+ INPUT_FOLDER + "/" + REPORT );
 		assertNotNull( designHandle );
 	}

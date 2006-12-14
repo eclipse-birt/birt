@@ -63,7 +63,8 @@ public class Regression_148761 extends BaseTestCase
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( TEMPLATE , TEMPLATE );
+		//copyResource_INPUT( TEMPLATE , TEMPLATE );
+		copyInputToFile ( INPUT_FOLDER + "/" + TEMPLATE );
 	}
 	
 	public void tearDown( )
@@ -77,8 +78,8 @@ public class Regression_148761 extends BaseTestCase
 		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
 		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
 
-		ReportDesignHandle template = session.openDesign( this.getFullQualifiedClassName( ) + "/"
-				+ INPUT_FOLDER + "/" + TEMPLATE );
+		String inputPath = getTempFolder()+"/"+INPUT_FOLDER+"/";
+		ReportDesignHandle template = session.openDesign(inputPath + TEMPLATE );
 		
 		//System.out.println (template);
 		

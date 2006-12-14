@@ -59,7 +59,7 @@ public class Regression_152686 extends BaseTestCase
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( INPUT , INPUT );
+		copyInputToFile ( INPUT_FOLDER + "/" + INPUT );
 	}
 	
 	public void tearDown( )
@@ -75,7 +75,7 @@ public class Regression_152686 extends BaseTestCase
 
 	public void test_regression_152686( ) throws Exception
 	{
-		copyFile( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + INPUT, this.genOutputFile( INPUT ) );
+		copyFile( getTempFolder() + "/" + INPUT_FOLDER + "/" + INPUT, this.genOutputFile( INPUT ) );
 
 		String fileName = "file" //$NON-NLS-1$
 				+ ":" + this.genOutputFile( INPUT ); //$NON-NLS-1$

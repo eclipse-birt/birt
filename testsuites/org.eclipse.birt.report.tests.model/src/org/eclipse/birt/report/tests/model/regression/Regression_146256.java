@@ -40,7 +40,9 @@ public class Regression_146256 extends BaseTestCase
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( "testRead.jar" , "testRead.jar" );
+		//copyResource_INPUT( "testRead.jar" , "testRead.jar" );
+
+		copyInputToFile ( INPUT_FOLDER + "/" + "testRead.jar" );
 	}
 	
 	public void tearDown( )
@@ -52,7 +54,10 @@ public class Regression_146256 extends BaseTestCase
 	{
 
 		DefaultResourceLocator rl = new DefaultResourceLocator( );
-		String resource = "jar:file:" + this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + "testRead.jar!/test/testRead.rptdesign"; //$NON-NLS-1$
+		//String resource = "jar:file:" + this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + "testRead.jar!/test/testRead.rptdesign"; //$NON-NLS-1$
+		String resource = "jar:file:" + getTempFolder() + "/" + INPUT_FOLDER + "/" + "testRead.jar!/test/testRead.rptdesign"; //$NON-NLS-1$
+		
+		
 		URL url = rl.findResource( null, resource, IResourceLocator.IMAGE );
 		assertNotNull( url );
 

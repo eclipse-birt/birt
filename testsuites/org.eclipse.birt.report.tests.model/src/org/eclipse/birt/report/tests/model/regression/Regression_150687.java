@@ -36,11 +36,14 @@ import com.ibm.icu.util.ULocale;
 public class Regression_150687 extends BaseTestCase
 {
 
+	private static String jarfile ="test.jar" ;
+	
 	public void setUp( ) throws Exception
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( "test.jar" , "test.jar" );
+		//copyResource_INPUT( "test.jar" , "test.jar" );
+		copyInputToFile ( INPUT_FOLDER + "/" + jarfile );
 	}
 	
 	public void tearDown( )
@@ -58,11 +61,11 @@ public class Regression_150687 extends BaseTestCase
 		ReportDesignHandle designHandle = session.createDesign( );
 
 		ScriptLib lib1 = StructureFactory.createScriptLib( );
-		lib1.setName( "input/test.jar" ); //$NON-NLS-1$
+		lib1.setName( "test.jar" ); //$NON-NLS-1$
 
 		designHandle.addScriptLib( lib1 );
 
-		session.setResourceFolder( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER );
+		session.setResourceFolder( getTempFolder() + "/" + INPUT_FOLDER );
 		URL url = session.getResourceLocator( ).findResource( designHandle,
 				"test.jar", IResourceLocator.JAR_FILE ); //$NON-NLS-1$
 		assertNotNull( url );

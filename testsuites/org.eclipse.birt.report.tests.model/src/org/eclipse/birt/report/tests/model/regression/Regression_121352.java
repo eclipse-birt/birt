@@ -53,8 +53,8 @@ public class Regression_121352 extends BaseTestCase
 		removeResource( );
 		
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( filename , filename );
-		copyResource_GOLDEN(goldenfile, goldenfile);
+		copyInputToFile ( INPUT_FOLDER + "/" + filename );
+		copyGoldenToFile ( GOLDEN_FOLDER + "/" + goldenfile );
 	}
 	/**
 	 * @throws Exception
@@ -102,9 +102,12 @@ public class Regression_121352 extends BaseTestCase
 		copyHandle = copy.handle( );
 		assertNotNull( copyHandle );
 
+		//makeOutputDir();
 		//saveAs( copyHandle, outfile );
-		save( copyHandle );
-		assertTrue( compareTextFile( goldenfile, outfile) );
+		//assertTrue( compareTextFile( goldenfile, outfile) );
 
+		String TempFile=this.genOutputFile(outfile);
+		designHandle.saveAs( TempFile );
+		assertTrue( compareTextFile( goldenfile, outfile ) );
 	}
 }

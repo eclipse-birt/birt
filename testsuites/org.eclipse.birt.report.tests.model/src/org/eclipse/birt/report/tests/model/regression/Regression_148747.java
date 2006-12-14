@@ -64,8 +64,10 @@ public class Regression_148747 extends BaseTestCase
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( REPORT , REPORT );
-		copyResource_INPUT( LIB , LIB );
+		//copyResource_INPUT( REPORT , REPORT );
+		//copyResource_INPUT( LIB , LIB );
+		copyInputToFile ( INPUT_FOLDER + "/" + REPORT );
+		copyInputToFile ( INPUT_FOLDER + "/" + LIB );
 	}
 	
 	public void tearDown( )
@@ -83,14 +85,15 @@ public class Regression_148747 extends BaseTestCase
 		if ( !tempDir.endsWith( File.separator ) )
 			tempDir += File.separator;
 		String outputFolder = tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
-				+ File.separator + OUTPUT_FOLDER;
-
+				+ File.separator + OUTPUT_FOLDER+ File.separator ;
+		
+		String inputFolder =  getTempFolder() + File.separator + INPUT_FOLDER + File.separator;
+		
 //		String outputFolder = getTempFolder()  + File.separator + OUTPUT_FOLDER;
 		
-		copyFile( this.getFullQualifiedClassName( ) + "/"+ INPUT_FOLDER +"/" + REPORT, outputFolder + "/"
-				 + REPORT );
+		copyFile(  inputFolder + REPORT, outputFolder + REPORT );
 
-		copyFile( this.getFullQualifiedClassName( ) +"/"+ INPUT_FOLDER + "/" + LIB, outputFolder + "/" + LIB );
+		copyFile(  inputFolder + LIB, outputFolder + LIB );
 
 		SessionHandle session = new DesignEngine( new DesignConfig( ) )
 				.newSessionHandle( null );

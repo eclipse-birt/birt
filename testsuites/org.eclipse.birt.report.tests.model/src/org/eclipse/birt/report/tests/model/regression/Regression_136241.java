@@ -61,6 +61,17 @@ public class Regression_136241 extends BaseTestCase
 
 	private final static String OUTPUT = "regression_136241.out"; //$NON-NLS-1$
 
+	protected void setUp() throws Exception
+	{
+		super.setUp();
+		removeResource();
+	}
+	
+	protected void tearDown() throws Exception
+	{
+		super.tearDown();
+		
+	}
 	/**
 	 * @throws SemanticException
 	 * @throws FileNotFoundException
@@ -85,7 +96,7 @@ public class Regression_136241 extends BaseTestCase
 
 		// serialize the report.
 
-		//makeOutputDir( );
+		makeOutputDir( );
 		DocumentUtil.serialize( designHandle, new FileOutputStream( new File(
 				this.getFullQualifiedClassName( ) + "/"+ OUTPUT_FOLDER + "/"+ OUTPUT ) ) );
 

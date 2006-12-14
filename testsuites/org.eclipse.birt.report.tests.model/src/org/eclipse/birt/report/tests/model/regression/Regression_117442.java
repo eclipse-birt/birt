@@ -62,6 +62,7 @@ public class Regression_117442 extends BaseTestCase
 	{
 		openDesign( INPUT );
 		//String output = this.getClassFolder( ) + "/" +OUTPUT_FOLDER
+		makeOutputDir();
 		String output = this.getFullQualifiedClassName( ) + "/" +OUTPUT_FOLDER
 				+ "/" + "regression_117442.out"; //$NON-NLS-1$
 		

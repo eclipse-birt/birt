@@ -33,7 +33,7 @@ public class Regression_145658 extends BaseTestCase
 {
 
 	private final static String REPORT = "regression_145658.xml"; //$NON-NLS-1$
-
+	private final static String LIBRARY = "regression_145658_lib.xml";
 	/**
 	 * @throws DesignFileException
 	 * @throws ExtendsException
@@ -43,8 +43,9 @@ public class Regression_145658 extends BaseTestCase
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( REPORT , REPORT );
-		copyResource_INPUT( "regression_145658_lib" , "regression_145658_lib" );
+		
+		copyInputToFile ( INPUT_FOLDER + "/" + REPORT );
+		copyInputToFile ( INPUT_FOLDER + "/" + LIBRARY );
 	}
 	
 	public void tearDown( )

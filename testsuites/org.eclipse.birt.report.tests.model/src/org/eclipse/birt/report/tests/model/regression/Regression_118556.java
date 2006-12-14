@@ -48,6 +48,16 @@ import com.ibm.icu.util.ULocale;
 public class Regression_118556 extends BaseTestCase
 {
 
+	protected void setUp() throws Exception
+	{
+		super.setUp();
+		removeResource();
+	}
+   /* protected void tearDown() throws Exception
+	 {
+		 removeResource();	 
+	 }
+	*/ 
 	/**
 	 * @throws SemanticException
 	 * @throws IOException
@@ -67,7 +77,8 @@ public class Regression_118556 extends BaseTestCase
 		label.setText( "Sample Label" ); //$NON-NLS-1$
 
 		designHandle.getBody( ).add( label );
-
+		
+        makeOutputDir();
 		String lib = this.getFullQualifiedClassName( ) + "/" + OUTPUT_FOLDER
 				+ "/" + "regression_118556_lib.out"; //$NON-NLS-1$
 		LabelHandle labelHandle = (LabelHandle) designHandle

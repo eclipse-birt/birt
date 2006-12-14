@@ -35,8 +35,9 @@ public class Regression_149621 extends BaseTestCase
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( filename , filename );
-		copyResource_INPUT( filename1 , filename1 );
+		
+		copyInputToFile ( INPUT_FOLDER + "/" + filename );
+		copyInputToFile ( INPUT_FOLDER + "/" + filename1 );
 	}
 	
 	public void tearDown( )
@@ -50,12 +51,15 @@ public class Regression_149621 extends BaseTestCase
 	public void test_regression_149621( ) throws Exception
 	{
 		openDesign( filename );
-		saveAs( outfile );
-
-		String input = this.genOutputFile( outfile );
-		String output = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER
-				+ "/" + filename1; //$NON-NLS-1$
-		copyFile( input, output );
+		
+		String TempFile=this.genOutputFile(outfile);
+		designHandle.saveAs( TempFile );
+		
+		//saveAs( outfile );
+		//String input = this.genOutputFile( outfile );
+		//String output = getTempFolder() + "/" + INPUT_FOLDER
+		//		+ "/" + filename1; //$NON-NLS-1$
+		//copyFile( input, output );
 
 		openDesign( filename1 ); //$NON-NLS-1$
 		TableHandle outtable = (TableHandle) designHandle.findElement( "outer" ); //$NON-NLS-1$
