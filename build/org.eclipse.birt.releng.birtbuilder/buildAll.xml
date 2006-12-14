@@ -147,6 +147,7 @@
 		<exec executable="unzip" dir="${buildDirectory}/${buildLabel}">
 			<arg line="-o -q birt-third-party-2_2_0.bak.zip -d ${updateJarWorkingDir}" />
 		</exec>
+
 		<delete includeemptydirs="true">
 			<fileset dir="${updateJarWorkingDir}/eclipse/features" includes="*.thirdparty*/**" />
 			<fileset dir="${updateJarWorkingDir}/eclipse/plugins" includes="*.thirdparty*/**" />
@@ -157,17 +158,19 @@
 		<!-- repack update jar -->
 		<replace file="${eclipse.build.configs}/../../extras/pack200" token="@pack200@" value="${jvm15_home}/bin/pack200"/>
 		<chmod file="${eclipse.build.configs}/../../extras/pack200" perm="755"/>
-
+		<exec executable="dos2unix" dir="${eclipse.build.configs}/../../extras">
+			<arg line=" pack200" />
+		</exec>
 		<java jar="${base.builder}/startup.jar"
 				fork="true"
 				timeout="10800000"
 				jvm="${jvm15_home}/bin/java"
 				failonerror="true"
 				maxmemory="512m"
-				dir="${buildDirectory}/${buildLabel}">
+				dir="${buildDirectory}">
 			<jvmarg value="-Dorg.eclipse.update.jarprocessor.pack200=${eclipse.build.configs}/../../extras"/>
 			<arg line="-application org.eclipse.update.core.siteOptimizer"/>
-			<arg line="-jarProcessor -outputDir ${updateJarWorkingDir}/site -processAll -repack updateJars"/>
+			<arg line="-jarProcessor -outputDir ${updateJarWorkingDir}/site -processAll -repack updateJars/eclipse"/>
 		</java>
 		
 		<!-- create Pack200 update jars -->
@@ -177,10 +180,10 @@
 				jvm="${jvm15_home}/bin/java"
 				failonerror="true"
 				maxmemory="512m"
-				dir="${buildDirectory}/${buildLabel}">
+				dir="${buildDirectory}">
 			<jvmarg value="-Dorg.eclipse.update.jarprocessor.pack200=${eclipse.build.configs}/../../extras"/>
 			<arg line="-application org.eclipse.update.core.siteOptimizer"/>
-			<arg line="-jarProcessor -outputDir ${updateJarWorkingDir}/site -processAll -pack updateJars"/>
+			<arg line="-jarProcessor -outputDir ${updateJarWorkingDir}/site -processAll -pack updateJars/eclipse"/>
 		</java>
 		
 		<!-- generate site.xml -->
@@ -203,7 +206,18 @@
 				<include name="**"/>
 			</fileset>
 		</copy>
-		
+		<!-- copy to internal update site -->
+		<copy todir="${postingDirectory}/../../UpdateSite/plugins" overwrite="true">
+			<fileset dir="${updateJarWorkingDir}/site/plugins">
+				<include name="**"/>
+			</fileset>
+		</copy>
+		<copy todir="${postingDirectory}/../../UpdateSite/features" overwrite="true">
+			<fileset dir="${updateJarWorkingDir}/site/features/">
+				<include name="**"/>
+			</fileset>
+		</copy>
+		<copy tofile="${postingDirectory}/../../UpdateSite/site.xml" file="${updateJarWorkingDir}/site/site.xml" overwrite="true"/>
 	</target>
 	
 	<target name="runBirtTest">
