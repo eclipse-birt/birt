@@ -191,7 +191,7 @@ public class ReportDocumentTest extends EngineCase
 			// check report document name
 			String name = report_document.substring( report_document.indexOf( "org" ), report_document.length( ) );
 			name = name.replace( '/', '\\' );
-			assertEquals( "return wrong report document name", name, reportDoc.getName( ).substring( reportDoc.getName( ).indexOf( "org" ), reportDoc.getName( ).length( ) ).replace( '\\', '/' ) );
+			assertEquals( "return wrong report document name", name.replace( '\\', '/' ), reportDoc.getName( ).substring( reportDoc.getName( ).indexOf( "org" ), reportDoc.getName( ).length( ) ).replace( '\\', '/' ) );
 
 			// check reportrunnable
 			IReportRunnable report = reportDoc.getReportRunnable( );

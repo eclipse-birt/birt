@@ -221,7 +221,7 @@ public class ReportEngineTest extends EngineCase
 				assertEquals(
 						"org.eclipse.birt.report.tests.engine.emitter.html",
 						emitters[i].getNamespace( ) );
-				assertEquals( "paper-break-pagination", emitters[i]
+				assertEquals( "page-break-pagination", emitters[i]
 						.getPagination( ) );
 				break;
 			}
