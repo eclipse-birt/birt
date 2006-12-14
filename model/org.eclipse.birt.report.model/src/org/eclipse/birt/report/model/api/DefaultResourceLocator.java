@@ -21,6 +21,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.core.BundleHelper;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 import com.ibm.icu.util.ULocale;
 
@@ -286,7 +287,7 @@ public class DefaultResourceLocator implements IResourceLocator
 	{
 		File f = null;
 
-		String tmpFilePath = toUniversalFileFormat( filePath );
+		String tmpFilePath = ModelUtil.toUniversalFileFormat( filePath );
 		if ( StringUtil.isBlank( fileDir ) )
 			f = new File( tmpFilePath );
 		else
@@ -304,25 +305,5 @@ public class DefaultResourceLocator implements IResourceLocator
 
 		return null;
 	}
-
-	/**
-	 * Formats the file path into the format of unix. Unix file path is
-	 * compatible on the windows platforms. If the <code>filePath</code>
-	 * contains '\' characters, these characters are replaced by '/'.
-	 * 
-	 * @param filePath
-	 *            the file path
-	 * @return the file path only containing '/'
-	 */
-
-	private static String toUniversalFileFormat( String filePath )
-	{
-		if ( StringUtil.isBlank( filePath ) )
-			return filePath;
-
-		if ( filePath.indexOf( '\\' ) == -1 )
-			return filePath;
-
-		return filePath.replace( '\\', '/' );
-	}
+	
 }

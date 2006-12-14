@@ -1376,4 +1376,25 @@ public class ModelUtil
 
 		return null;
 	}
+	
+	/**
+	 * Formats the file path into the format of unix. Unix file path is
+	 * compatible on the windows platforms. If the <code>filePath</code>
+	 * contains '\' characters, these characters are replaced by '/'.
+	 * 
+	 * @param filePath
+	 *            the file path
+	 * @return the file path only containing '/'
+	 */
+
+	public static String toUniversalFileFormat( String filePath )
+	{
+		if ( StringUtil.isBlank( filePath ) )
+			return filePath;
+
+		if ( filePath.indexOf( '\\' ) == -1 )
+			return filePath;
+
+		return filePath.replace( '\\', '/' );
+	}
 }

@@ -18,6 +18,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+import org.eclipse.birt.report.model.util.ModelUtil;
+
 /**
  * Utility class to handle URI.
  */
@@ -232,10 +234,9 @@ public class URIUtil
 		String path = filePath;
 
 		// convert non-URL style file separators
-
-		if ( File.separatorChar != '/' )
-			path = path.replace( File.separatorChar, '/' );
-
+		
+		path = ModelUtil.toUniversalFileFormat( path );
+	
 		// copy, converting URL special characters as we go
 
 		for ( int i = 0; i < path.length( ); i++ )
