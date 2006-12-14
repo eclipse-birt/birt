@@ -76,7 +76,18 @@ public interface IEventHandler
 	 */
 	IBaseExpression getBaseExpr( String name );
 	
-	Map getColumnMappings();
+	/**
+	 * Get column mapping of current query defintion, inc. its subqueries.
+	 * @return
+	 */
+	Map getAllColumnBindings();
+	
+	/**
+	 * Get column mapping of current query definition. 
+	 * 
+	 * @return
+	 */
+	Map getColumnBindings();
 	
 	/**
 	 * Get the ExecutorHelper instance bound to this IEventHandler.

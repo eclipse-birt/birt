@@ -264,7 +264,7 @@ public class PassManager
 	{
 		IExpressionProcessor ep = populator.getExpressionProcessor();
 
-		Map results = populator.getEventHandler( ).getColumnMappings( );
+		Map results = populator.getEventHandler( ).getColumnBindings( );
 	
 		DummyICCState iccState = new DummyICCState( results );
 

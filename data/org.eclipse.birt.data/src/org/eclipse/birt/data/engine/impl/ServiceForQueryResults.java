@@ -20,6 +20,8 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+
+import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
@@ -51,7 +53,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 	private ExprManager					exprManager;
 	
 	private Scriptable 					scope;
-	private int 						nestedLevel;
+	private int 						nestedLevel; 
 	
 	/**
 	 * @param reportQuery
@@ -274,11 +276,74 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 			this.helper = helper;
 		}
 
+		
 		/*
 		 * (non-Javadoc)
 		 * @see org.eclipse.birt.data.engine.odi.IEventHandler#getColumnMappings()
 		 */
-		public Map getColumnMappings( )
+		public Map getAllColumnBindings( )
+		{
+			return  getColumnBindings(ServiceForQueryResults.this.queryDefn);
+		}
+		
+		/**
+		 * Get column bindings of certain query.
+		 * 
+		 * @param defn
+		 * @return
+		 */
+		private Map getColumnBindings(IBaseQueryDefinition defn) 
+		{
+			Map result = defn.getResultSetExpressions();
+		
+			//Put all column bindings in subquery definitions in group
+			result.putAll(populateGroupColumnBindings(defn.getGroups()
+					.iterator()));
+			
+			//Put all column bindings in subquery definition.
+			result.putAll(populateSubQueryColumnBindings(defn.getSubqueries()
+					.iterator()));
+
+			return result;
+		}
+
+		/**
+		 * 
+		 * @param groups
+		 * @return
+		 */
+		private Map populateGroupColumnBindings(Iterator groups) 
+		{
+			Map result = new HashMap();
+		
+			while (groups.hasNext()) 
+			{
+				IGroupDefinition gd = (IGroupDefinition) groups.next();
+			
+				result.putAll(populateSubQueryColumnBindings(gd.getSubqueries()
+						.iterator()));
+			}
+			return result;
+		}
+
+		/**
+		 * 
+		 * @param subs
+		 * @return
+		 */
+		private Map populateSubQueryColumnBindings(Iterator subs) 
+		{
+			Map result = new HashMap();
+		
+			while (subs.hasNext()) {
+				IBaseQueryDefinition defn1 = (IBaseQueryDefinition) subs.next();
+				result.putAll(getColumnBindings(defn1));
+			}
+			
+			return result;
+		}
+
+		public Map getColumnBindings() 
 		{
 			Map result = new HashMap();
 			List groupBindingColumns = exprManager.getBindingExprs( );

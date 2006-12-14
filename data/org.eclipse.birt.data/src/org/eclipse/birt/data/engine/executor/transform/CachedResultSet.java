@@ -223,13 +223,13 @@ public class CachedResultSet implements IResultIterator
 				&& streamsWrapper.getStreamForResultClass( ) != null )
 		{
 			( (ResultClass) this.resultSetPopulator.getResultSetMetadata( ) ).doSave( streamsWrapper.getStreamForResultClass( ),
-					resultSetPopulator.getEventHandler( ).getColumnMappings( ) );
+					resultSetPopulator.getEventHandler( ).getAllColumnBindings( ) );
 		}
 
 		if ( streamsWrapper.getStreamForDataSet( ) != null )
 		{
 			this.resultSetPopulator.getCache( )
-					.doSave( streamsWrapper.getStreamForDataSet( ), resultSetPopulator.getEventHandler( ).getColumnMappings( )  );
+					.doSave( streamsWrapper.getStreamForDataSet( ), resultSetPopulator.getEventHandler( ).getAllColumnBindings( )  );
 		}
 	}
 	
