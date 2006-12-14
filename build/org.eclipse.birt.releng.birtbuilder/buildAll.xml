@@ -207,17 +207,17 @@
 			</fileset>
 		</copy>
 		<!-- copy to internal update site -->
-		<copy todir="${postingDirectory}/../../UpdateSite/plugins" overwrite="true">
+		<copy todir="${postingDirectory}/../../../UpdateSite/plugins" overwrite="true">
 			<fileset dir="${updateJarWorkingDir}/site/plugins">
 				<include name="**"/>
 			</fileset>
 		</copy>
-		<copy todir="${postingDirectory}/../../UpdateSite/features" overwrite="true">
+		<copy todir="${postingDirectory}/../../../UpdateSite/features" overwrite="true">
 			<fileset dir="${updateJarWorkingDir}/site/features/">
 				<include name="**"/>
 			</fileset>
 		</copy>
-		<copy tofile="${postingDirectory}/../../UpdateSite/site.xml" file="${updateJarWorkingDir}/site/site.xml" overwrite="true"/>
+		<copy tofile="${postingDirectory}/../../../UpdateSite/site.xml" file="${updateJarWorkingDir}/site/site.xml" overwrite="true"/>
 	</target>
 	
 	<target name="runBirtTest">
