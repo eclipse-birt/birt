@@ -65,7 +65,13 @@ public class HighlightRuleHandleTest extends BaseTestCase
 				.getStringValue( ) );
 		assertNull( style2Highlight
 				.getProperty( IStyleModel.HIGHLIGHT_RULES_PROP ) );
-
+		
+		
+		//should have no NPE.
+		
+		assertNull( style2Highlight
+				.getProperty( HighlightRule.VALUE2_MEMBER ) );
+		
 		StyleHandle style1 = designHandle.findStyle( "My Style1" ); //$NON-NLS-1$
 		List refs = ( (ReferenceableElement) style1.getElement( ) )
 				.getClientList( );
@@ -126,10 +132,11 @@ public class HighlightRuleHandleTest extends BaseTestCase
 
 		Iterator style3HighlightRules = style3.highlightRulesIterator( );
 		assertTrue( style3HighlightRules.hasNext( ) );
-
+		
 		HighlightRuleHandle style3Highlight = (HighlightRuleHandle) style3HighlightRules
 				.next( );
 
+		
 		try
 		{
 			style3Highlight.setStyleName( "My Style2" ); //$NON-NLS-1$

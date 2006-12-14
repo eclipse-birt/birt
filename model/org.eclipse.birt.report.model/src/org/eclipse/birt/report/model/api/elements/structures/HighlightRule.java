@@ -207,7 +207,7 @@ public class HighlightRule extends StyleRule
 		{
 			ElementPropertyDefn newPropDefn = styleElement
 					.getPropertyDefn( propDefn.getName( ) );
-			if ( newPropDefn.isStyleProperty( ) )
+			if ( newPropDefn != null && newPropDefn.isStyleProperty( ) )
 				value = styleElement.getLocalProperty( module, newPropDefn );
 		}
 

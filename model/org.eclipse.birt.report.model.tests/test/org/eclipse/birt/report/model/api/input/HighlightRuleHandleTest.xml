@@ -46,7 +46,6 @@
             <list-property name="highlightRules">
                 <structure>                         
                     <expression name="value1">"10"</expression>
-                    <expression name="value2">"20"</expression>
                     <property name="style">My Style1</property>
                     <property name="color">red</property>
                 </structure>
