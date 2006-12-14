@@ -17,7 +17,8 @@ exception.scale.null.location=无法按刻度 {0} 定位空值的坐标轴
 exception.illegal.icon.palette.type.for.marker=''{0}'' 不是标记图标的有效图像类型。
 exception.illegal.filltype.crosshair.marker=无法在标记 CROSSHAIR 上将调色板颜色设置为 {0}
 exception.illegal.filltype.cross.marker=无法在标记 CROSS 上将调色板颜色设置为 {0}
-exception.invalid.step.value=为轴刻度指定的 ''step({0}) <= 0'' 无效
+exception.invalid.step.size =Invalid ''step size({0}) <= 0'' specified for axis scale
+exception.invalid.step.number =Invalid ''step number({0}) < 2'' specified for axis scale
 exception.curve.line.visibility.not.defined=未正确定义曲线的可见性属性。
 exception.min.largerthan.max=为轴刻度指定的条目 ''min({0}) > max({1})'' 无效
 exception.combination.axis.label.position=不应出现 axis={0} 与 labelposition={1} 的组合
@@ -33,6 +34,7 @@ exception.unsupported.internal.fill=无法通过事件对 {0} 进行内部填充
 exception.unsupported.chart.model=无法计算模型 [{0}] 定义的图表
 exception.unsupported.bounds=无法计算事件 {0} 的边界
 exception.unsupported.copy=无法创建事件 {0} 的副本
+exception.unsupported.step.number=Step number is not supported for non-numeric value.
 exception.undefined.data.point=未定义与系列定义关联的数据点值
 exception.unit.size.failure=由于未定义刻度轴，因此无法计算单位大小
 exception.process.content.type=无法为类型 {1} 处理指定为 {0} 的数据集内容
@@ -97,7 +99,7 @@ exception.base.orthogonal.null.datapoint=给定的数据点包含无效的空值。
 exception.base.orthogonal.null.datadefinition=给定的数据定义表达式无效。.
 exception.dataset.non.numerical.to.numerical=在数据集中发现了意外的非数值数据类型{0}; 无法转换成数值。
 exception.dataset.non.datetime=受 X 轴约束的数据类型不是 DateTime 格式
-exception.scale.tick.max=Unable to render too many ticks. Please adjust the scale step or unit.
+exception.scale.tick.max=Unable to render too many grids. Please adjust the scale step or unit.
 exception.unknown.axis.type.tick.computations=无法确定用于计算刻度线的轴类型
 exception.unsupported.compare.unknown.objects=为比较 DE1={0} 和 DE2={1}，提供了不支持的数据元素
 exception.unsupported.compare.different.objects=为比较 DE1={0} 和 DE2={1} 提供了混合的数据元素

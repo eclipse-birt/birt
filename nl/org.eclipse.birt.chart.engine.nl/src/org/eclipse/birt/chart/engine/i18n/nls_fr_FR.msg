@@ -17,7 +17,8 @@ exception.scale.null.location=Impossible de situer les coordonnées pour la valeu
 exception.illegal.icon.palette.type.for.marker="{0}" n''est pas un type d''image correct pour l''icône de repère.
 exception.illegal.filltype.crosshair.marker=Impossible de régler une couleur de palette sur un repère CROSSHAIR à {0}
 exception.illegal.filltype.cross.marker=Impossible de régler une couleur de palette sur un repère CROSS à {0}
-exception.invalid.step.value=''step({0}) <= 0'' indiqué pour l''échelle de l''axe non valide
+exception.invalid.step.size =Invalid ''step size({0}) <= 0'' specified for axis scale
+exception.invalid.step.number =Invalid ''step number({0}) < 2'' specified for axis scale
 exception.curve.line.visibility.not.defined=La propriété de visibilité de la courbe n'est pas correctement définie.
 exception.min.largerthan.max=Entrées ''min({0}) > max({1})'' indiquées pour l''échelle de l''axe non valides
 exception.combination.axis.label.position=Combinaison de l''axe={0} et de la position de l''étiquette={1} inattendue
@@ -33,6 +34,7 @@ exception.unsupported.internal.fill=Impossible de remplir {0} en interne via l''
 exception.unsupported.chart.model=Impossible de calculer le graphique défini par le modèle [{0}]
 exception.unsupported.bounds=Les limites ne peuvent pas être calculées pour l''événement {0}
 exception.unsupported.copy=Impossible de créer une copie pour l''événement {0}
+exception.unsupported.step.number=Step number is not supported for non-numeric value.
 exception.undefined.data.point=La valeur DataPoint associée à la définition de série n'est pas définie
 exception.unit.size.failure=Impossible de calculer la taille de l'unité car les coordonnées de repères ne sont pas définies
 exception.process.content.type=Impossible de traiter le contenu du jeu de données indiqué comme {0} pour le type {1}
@@ -97,7 +99,7 @@ exception.base.orthogonal.null.datapoint=Les points de données spécifiés contien
 exception.base.orthogonal.null.datadefinition=L'expression de définition de données spécifiée est incorrecte..
 exception.dataset.non.numerical.to.numerical=Type de données non numérique {0} inattendu détecté dans le jeu de données ; conversion en valeur numérique impossible.
 exception.dataset.non.datetime=Le type de données lié à l'axe horizontal ne correspond pas au format date/heure
-exception.scale.tick.max=Unable to render too many ticks. Please adjust the scale step or unit.
+exception.scale.tick.max=Unable to render too many grids. Please adjust the scale step or unit.
 exception.unknown.axis.type.tick.computations=Impossible de déterminer le type d'axe nécessaire pour calculer les repères
 exception.unsupported.compare.unknown.objects=Eléments de données non pris en charge fournis pour la comparaison de DE1={0} et DE2={1}
 exception.unsupported.compare.different.objects=Eléments de données mélangés fournis pour la comparaison de DE1={0} et DE2={1}
