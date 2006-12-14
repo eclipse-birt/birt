@@ -594,7 +594,7 @@ public final class LegendBuilder implements IConstants
 		while ( dsiBase.hasNext( ) )
 		{
 			Object obj = dsiBase.next( );
-			
+
 			// Skip invalid data
 			while ( obj == null && dsiBase.hasNext( ) )
 			{
@@ -995,9 +995,47 @@ public final class LegendBuilder implements IConstants
 						seLabel.getCaption( ).setValue( valueText );
 						itm.reuse( seLabel );
 
+						BoundingBox bbV = null;
+						try
+						{
+							bbV = Methods.computeBox( xs,
+									IConstants.ABOVE,
+									seLabel,
+									0,
+									0 );
+						}
+						catch ( IllegalArgumentException uiex )
+						{
+							throw new ChartException( ChartEnginePlugin.ID,
+									ChartException.RENDERING,
+									uiex );
+						}
+						double dWV = bbV.getWidth( );
+
+						double dFHeightV = bbV.getHeight( );
+
+						double dExceedingSpaceV = dExtraWidth
+								+ dWV
+								+ legendData.dHorizonalReservedSpace
+								- legendData.dAvailableWidth
+								- legendData.dSafeSpacing;
+						newMetrics = checkEllipsisText( dExceedingSpaceV,
+								dWV,
+								xs,
+								itm,
+								seLabel,
+								legendData.dEllipsisWidth,
+								legendData.maxWrappingSize );
+						if ( newMetrics != null )
+						{
+							dW = newMetrics[0];
+							dFHeightV = newMetrics[1];
+						}
+						
 						dW = Math.max( dW, itm.getFullWidth( ) );
 
-						dExtraHeight = itm.getFullHeight( );
+						dExtraHeight = Math.max( itm.getFullHeight( ),
+								dFHeightV );
 						extraText = seLabel.getCaption( ).getValue( );
 
 						dDeltaHeight += dExtraHeight + 2 * legendData.dScale;
@@ -1224,13 +1262,13 @@ public final class LegendBuilder implements IConstants
 					if ( dsiBase.hasNext( ) )
 					{
 						obj = dsiBase.next( );
-						
+
 						// Skip invalid data
 						while ( obj == null && dsiBase.hasNext( ) )
 						{
 							obj = dsiBase.next( );
 						}
-		
+
 						String valueText = String.valueOf( obj );
 						if ( fs != null )
 						{
@@ -1621,7 +1659,7 @@ public final class LegendBuilder implements IConstants
 		dWidth = Math.max( dWidth, dRealWidth );
 
 		return new double[]{
-				dHeight, dWidth
+				dWidth, dHeight
 		};
 
 	}
@@ -1722,14 +1760,13 @@ public final class LegendBuilder implements IConstants
 					if ( dsiBase.hasNext( ) )
 					{
 						obj = dsiBase.next( );
-						
+
 						// Skip invalid data
 						while ( obj == null && dsiBase.hasNext( ) )
 						{
 							obj = dsiBase.next( );
 						}
 
-						
 						String valueText = String.valueOf( obj );
 						if ( fs != null )
 						{
@@ -1844,7 +1881,7 @@ public final class LegendBuilder implements IConstants
 		dWidth = Math.max( dRealWidth, dWidth );
 
 		return new double[]{
-				dHeight, dWidth
+				dWidth, dHeight
 		};
 	}
 
@@ -1944,7 +1981,7 @@ public final class LegendBuilder implements IConstants
 					if ( dsiBase.hasNext( ) )
 					{
 						obj = dsiBase.next( );
-						
+
 						// Skip invalid data
 						while ( obj == null && dsiBase.hasNext( ) )
 						{
@@ -2056,7 +2093,7 @@ public final class LegendBuilder implements IConstants
 		dWidth = Math.max( dRealWidth, dWidth );
 
 		return new double[]{
-				dHeight, dWidth
+				dWidth, dHeight
 		};
 
 	}
