@@ -369,8 +369,8 @@ public class HyperlinkBuilder extends BaseDialog
 	{
 		this( UIUtil.getDefaultShell( ) );
 	}
-	
-	public HyperlinkBuilder( Shell parentShell ,boolean isIDE)
+
+	public HyperlinkBuilder( Shell parentShell, boolean isIDE )
 	{
 		super( parentShell, TITLE );
 		this.isIDE = isIDE;
@@ -681,7 +681,7 @@ public class HyperlinkBuilder extends BaseDialog
 				updateButtons( );
 			}
 
-		} );		
+		} );
 	}
 
 	private void createDrillthroughCreateLinkExpression( Composite container )
@@ -743,7 +743,8 @@ public class HyperlinkBuilder extends BaseDialog
 
 				public void widgetSelected( SelectionEvent e )
 				{
-					if ( tocButton.getSelection( ) && targetReportHandle instanceof IReportDocument )
+					if ( tocButton.getSelection( )
+							&& targetReportHandle instanceof IReportDocument )
 					{
 						initAnchorChooser( targetReportHandle, true );
 					}
@@ -853,7 +854,7 @@ public class HyperlinkBuilder extends BaseDialog
 		} );
 
 	}
-	
+
 	/**
 	 * Configures the expression builder which is to be opened in the hyper-link
 	 * builder
@@ -904,13 +905,17 @@ public class HyperlinkBuilder extends BaseDialog
 						dialog.setFilterExtensions( fileExt );
 					}
 					filename = dialog.open( );
-				}else{
+				}
+				else
+				{
 					ProjectFileDialog dialog;
 					if ( needFilter )
 					{
-						dialog = new ProjectFileDialog( getProjectFolder( ),fileExt );
+						dialog = new ProjectFileDialog( getProjectFolder( ),
+								fileExt );
 					}
-					else dialog = new ProjectFileDialog( getProjectFolder( ) );
+					else
+						dialog = new ProjectFileDialog( getProjectFolder( ) );
 					if ( dialog.open( ) == Window.OK )
 					{
 						filename = dialog.getPath( );
@@ -940,11 +945,9 @@ public class HyperlinkBuilder extends BaseDialog
 							return;
 						}
 
-						if ( needFilter )
-						{
-							filename = URIUtil.getRelativePath( getBasePath( ),
-									filename );
-						}
+						filename = URIUtil.getRelativePath( getBasePath( ),
+								filename );
+
 						filename = new Path( filename ).toString( );
 						if ( needQuote )
 						{
@@ -1055,7 +1058,8 @@ public class HyperlinkBuilder extends BaseDialog
 					inputHandle.setReportName( documentEditor.getText( ).trim( ) );
 				}
 
-				if ( !StringUtil.isBlank( bookmarkEditor.getText( ) ) && !bookmarkEditor.getText( ).equals( "---" ) )
+				if ( !StringUtil.isBlank( bookmarkEditor.getText( ) )
+						&& !bookmarkEditor.getText( ).equals( "---" ) )
 				{
 					inputHandle.setTargetBookmark( bookmarkEditor.getText( )
 							.trim( ) );
@@ -1255,7 +1259,7 @@ public class HyperlinkBuilder extends BaseDialog
 			else
 			{
 				bookmarkEditor.setText( "---" );
-			}			
+			}
 
 			if ( DesignChoiceConstants.TARGET_NAMES_TYPE_BLANK.equals( inputHandle.getTargetWindow( ) ) )
 			{
@@ -1370,17 +1374,19 @@ public class HyperlinkBuilder extends BaseDialog
 			if ( isToc )
 			{
 				List chooserItems = ( (ReportDesignHandle) handle ).getAllTocs( );
-				chooserItems.add( 0, (Object)new String("---") );
-//				anchorChooser.setItems( (String[]) ( (ReportDesignHandle) handle ).getAllTocs( )
-//						.toArray( new String[0] ) );
+				chooserItems.add( 0, (Object) new String( "---" ) );
+				// anchorChooser.setItems( (String[]) ( (ReportDesignHandle)
+				// handle ).getAllTocs( )
+				// .toArray( new String[0] ) );
 				anchorChooser.setItems( (String[]) chooserItems.toArray( new String[0] ) );
 			}
 			else
 			{
 				List chooserItems = ( (ReportDesignHandle) handle ).getAllBookmarks( );
-				chooserItems.add( 0, (Object)new String("---") );
-//				anchorChooser.setItems( (String[]) ( (ReportDesignHandle) handle ).getAllBookmarks( )
-//						.toArray( new String[0] ) );
+				chooserItems.add( 0, (Object) new String( "---" ) );
+				// anchorChooser.setItems( (String[]) ( (ReportDesignHandle)
+				// handle ).getAllBookmarks( )
+				// .toArray( new String[0] ) );
 				anchorChooser.setItems( (String[]) chooserItems.toArray( new String[0] ) );
 			}
 		}
@@ -1405,8 +1411,9 @@ public class HyperlinkBuilder extends BaseDialog
 				// TOCNode rootTocNode = ( (IReportDocument) handle ).findTOC(
 				// null );
 				List chooserItems = getAllTocDisplayString( rootTocNode );
-				chooserItems.add( 0, (Object)new String("---") );
-				// anchorChooser.setItems( (String[]) getAllTocDisplayString( rootTocNode ).toArray( new String[0] ) );
+				chooserItems.add( 0, (Object) new String( "---" ) );
+				// anchorChooser.setItems( (String[]) getAllTocDisplayString(
+				// rootTocNode ).toArray( new String[0] ) );
 				anchorChooser.setItems( (String[]) chooserItems.toArray( new String[0] ) );
 			}
 			else
@@ -1416,7 +1423,7 @@ public class HyperlinkBuilder extends BaseDialog
 		}
 
 		bookmarkEditor.setText( "" ); //$NON-NLS-1$
-		
+
 		String bookmark = inputHandle.getTargetBookmark( );
 		String[] chooserValues = anchorChooser.getItems( );
 		if ( bookmark != null && chooserValues != null )
@@ -1431,14 +1438,14 @@ public class HyperlinkBuilder extends BaseDialog
 				}
 			}
 		}
-		
+
 		anchorChooser.setEnabled( anchorChooser.getItemCount( ) > 0 );
 	}
 
 	private String[] getDocumentBookmarks( IReportDocument rdoc )
 	{
 		List bookmarks = rdoc.getBookmarks( );
-		String[] bookmarkArray = new String[bookmarks.size( )+1];
+		String[] bookmarkArray = new String[bookmarks.size( ) + 1];
 		bookmarkArray[0] = "---";
 		int i = 1;
 		for ( Iterator iter = bookmarks.iterator( ); iter.hasNext( ); )
