@@ -119,6 +119,7 @@ public final class ODAExtensionElementDefn extends ExtensionElementDefn
 
 			hidePrivateProps.add( getProperty( propName ) );
 			cachedProperties.remove( propName );
+			properties.remove( propName );
 		}
 	}
 
