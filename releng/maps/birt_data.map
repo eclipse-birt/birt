@@ -6,7 +6,7 @@ plugin@org.eclipse.birt.report.data.oda.jdbc.ui=I20061215,:pserver:anonymous@dev
 plugin@org.eclipse.birt.report.data.oda.sampledb=I20061215,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.sampledb
 plugin@org.eclipse.birt.report.data.oda.sampledb.ui=I20061215,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.sampledb.ui
 plugin@org.eclipse.birt.report.data.oda.xml=I20061215,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.xml
-plugin@org.eclipse.birt.report.data.oda.xml.ui=I20061215,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.xml.ui
+plugin@org.eclipse.birt.report.data.oda.xml.ui=v20061215-1618,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.xml.ui
 
 !**************** data test  *******************
 plugin@org.eclipse.birt.data.tests=v20061215,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data.tests
