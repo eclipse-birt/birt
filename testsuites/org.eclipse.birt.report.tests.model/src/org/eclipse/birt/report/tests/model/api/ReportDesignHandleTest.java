@@ -140,10 +140,15 @@ public class ReportDesignHandleTest extends BaseTestCase
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( "ReportDesignHandleTest.xml" , "ReportDesignHandleTest.xml" );
-		copyResource_INPUT( "ReportDesignHandleTest1.xml" , "ReportDesignHandleTest1.xml" );
-		copyResource_INPUT( "ReportDesignHandleTest2.xml" , "ReportDesignHandleTest2.xml" );
-		copyResource_INPUT( "EmbeddedImageTest.xml" , "EmbeddedImageTest.xml" );
+		//copyResource_INPUT( "ReportDesignHandleTest.xml" , "ReportDesignHandleTest.xml" );
+		//copyResource_INPUT( "ReportDesignHandleTest1.xml" , "ReportDesignHandleTest1.xml" );
+		//copyResource_INPUT( "ReportDesignHandleTest2.xml" , "ReportDesignHandleTest2.xml" );
+		//copyResource_INPUT( "EmbeddedImageTest.xml" , "EmbeddedImageTest.xml" );
+		copyInputToFile ( INPUT_FOLDER + "/" + "ReportDesignHandleTest.xml"  );
+		copyInputToFile ( INPUT_FOLDER + "/" + "ReportDesignHandleTest1.xml"  );
+		copyInputToFile ( INPUT_FOLDER + "/" + "ReportDesignHandleTest2.xml"  );
+		copyInputToFile ( INPUT_FOLDER + "/" + "EmbeddedImageTest.xml"  );
+		
 		openDesign( "ReportDesignHandleTest.xml" ); //$NON-NLS-1$
 	}
 
@@ -313,8 +318,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 		// get properties.
 
 		assertEquals( "c:\\", designHandle.getBase( ) ); //$NON-NLS-1$
-		assertEquals( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER
-				+ "/" + "ReportDesignHandleTest.xml", designHandle.getFileName( ) ); //$NON-NLS-1$
+		assertEquals( "bundleresource://208/org/eclipse/birt/report/tests/model/api/input/ReportDesignHandleTest.xml", designHandle.getFileName( ) ); //$NON-NLS-1$
 
 		// sets properties.
 
@@ -403,7 +407,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 		// if add File.separator the testNeedsSave() will fail with"cannot create  output folder
 		//String outputPath = getTempFolder( ) + File.separator + OUTPUT_FOLDER;
 		
-		String outputPath = getTempFolder( ) + OUTPUT_FOLDER;
+		String outputPath = getTempFolder( ) + "/"+ OUTPUT_FOLDER;
 		
 		File outputFolder = new File( outputPath );
 		if ( !outputFolder.exists( ) && !outputFolder.mkdir( ) )
@@ -451,7 +455,9 @@ public class ReportDesignHandleTest extends BaseTestCase
 		ElementFactory factory = new ElementFactory( design );
 		LabelHandle label = factory.newLabel( "Label1" ); //$NON-NLS-1$
 
-		designHandle.save( );
+		//designHandle.save( );
+		String TempFile=this.genOutputFile( "DesignWithLable1" );
+		designHandle.saveAs( TempFile );
 		
 		SlotHandle slotHandle = designHandle.getBody( );
 		slotHandle.add( label );
@@ -652,7 +658,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 		// uses the file path to find, file exists
 
-		String filePath = getClassFolder( ) + "/" + INPUT_FOLDER
+		String filePath = getTempFolder( ) + "/" + INPUT_FOLDER
 				+ "/" + "ReportDesignHandleTest.xml"; //$NON-NLS-1$
 
 		designHandle.getModule( ).setSystemId( null );
@@ -669,7 +675,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 		// resources with relative uri file path
 
-		designHandle.setFileName(  this.getFullQualifiedClassName( ) + "/"
+		designHandle.setFileName(  getTempFolder() + "/"
 				+ INPUT_FOLDER + "/" + "NoExistedDesign.xml" ); //$NON-NLS-1$
 
 		url = designHandle.findResource( "ReportDesignHandleTest.xml", //$NON-NLS-1$

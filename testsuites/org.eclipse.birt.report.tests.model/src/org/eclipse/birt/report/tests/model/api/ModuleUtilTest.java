@@ -33,11 +33,14 @@ public class ModuleUtilTest extends BaseTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource( );
-		copyResource_INPUT( reportName , reportName );
-		copyResource_INPUT( libraryName , libraryName );
-		copyResource_INPUT( invalidreportName , invalidreportName );
-		copyResource_INPUT( invalidlibraryName , invalidlibraryName );
-			
+		//copyResource_INPUT( reportName , reportName );
+		//copyResource_INPUT( libraryName , libraryName );
+		//copyResource_INPUT( invalidreportName , invalidreportName );
+		//copyResource_INPUT( invalidlibraryName , invalidlibraryName );
+		copyInputToFile ( INPUT_FOLDER + "/" + reportName );
+		copyInputToFile ( INPUT_FOLDER + "/" + libraryName );
+		copyInputToFile ( INPUT_FOLDER + "/" + invalidreportName );
+		copyInputToFile ( INPUT_FOLDER + "/" + invalidlibraryName );
 	}
 	public void tearDown( )
 	{
@@ -48,14 +51,14 @@ public class ModuleUtilTest extends BaseTestCase {
 		//test a valid report design
 		
 		openDesign( reportName );
-		File file = new File(this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + reportName );
+		File file = new File(getTempFolder( ) + "/" + INPUT_FOLDER + "/" + reportName );
 		InputStream is = new FileInputStream( file );
 		SessionHandle session = DesignEngine.newSession( ULocale.ENGLISH );
 		designHandle = session.openDesign( file.toString() );
 		assertTrue(ModuleUtil.isValidDesign(session,reportName,is));
 		
 		//test a invalid report design
-		File file2 = new File(this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + invalidreportName );
+		File file2 = new File(getTempFolder( ) + "/" + INPUT_FOLDER + "/" + invalidreportName );
 		InputStream is2 = new FileInputStream( file2 );
 		SessionHandle session2 = DesignEngine.newSession( ULocale.ENGLISH );
 		assertFalse(ModuleUtil.isValidDesign(session2,invalidreportName,is2));
@@ -65,14 +68,14 @@ public class ModuleUtilTest extends BaseTestCase {
 	{
 		//test a valid library 
 		openDesign( libraryName );
-		File file = new File(this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + libraryName );
+		File file = new File(getTempFolder( ) + "/" + INPUT_FOLDER + "/" + libraryName );
 		InputStream is = new FileInputStream( file );
 		SessionHandle session = DesignEngine.newSession( ULocale.ENGLISH );
 		designHandle = session.openDesign(file.toString());
 		assertTrue(ModuleUtil.isValidDesign(session,libraryName,is));
 		
 		//test a invalid library
-		File file2 = new File(this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + invalidlibraryName );
+		File file2 = new File(getTempFolder( ) + "/" + INPUT_FOLDER + "/" + invalidlibraryName );
 		InputStream is2 = new FileInputStream( file2 );
 		SessionHandle session2 = DesignEngine.newSession( ULocale.ENGLISH );
 		assertFalse(ModuleUtil.isValidDesign(session2,invalidlibraryName,is2));

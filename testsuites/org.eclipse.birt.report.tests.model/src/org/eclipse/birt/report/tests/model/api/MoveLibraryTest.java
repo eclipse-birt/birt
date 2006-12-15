@@ -18,19 +18,12 @@ public class MoveLibraryTest extends BaseTestCase
 {
 	String fileName = "BlankReport.xml";
 	
-//	protected static final String PLUGIN_PATH =System.getProperty("user.dir")+ "\\plugins\\"+BaseTestCase.PLUGINLOC.substring(BaseTestCase.PLUGINLOC.indexOf("/")+1) + "bin/";
-	private String LibA = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + "LibA.xml";
-//	private String LibB = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + "LibB.xml";
-//	private String LibC = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + "LibC.xml";
-	private String LibD = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + "LibD.xml";
+	private String LibA = "LibA.xml";
+	private String LibB = "LibB.xml";
+	private String LibC = "LibC.xml";
 	
-//	private String outLibA = getClassFolder() + GOLDEN_FOLDER + "LibA.xml";
-//	private String outLibB = getClassFolder() + GOLDEN_FOLDER + "LibB.xml";
-//	private String outLibC = getClassFolder() + GOLDEN_FOLDER + "LibC.xml";
-	private String outLibA = "LibA.xml";
-	private String outLibB = "LibB.xml";
-	private String outLibC = "LibB.xml";
-	private String outLibD = "LibD.xml";
+	private String LibD = "LibA.xml";
+	
 	
 	public MoveLibraryTest(String name) 
 	{	
@@ -46,10 +39,11 @@ public class MoveLibraryTest extends BaseTestCase
 		super.setUp( );
 		removeResource( );
 		copyResource_INPUT( fileName, fileName );
-		copyResource_INPUT( outLibA, outLibA );
-		copyResource_INPUT( outLibB, outLibB );
-		copyResource_INPUT( outLibC, outLibC );
-		copyResource_INPUT( outLibD, outLibD );
+		
+		copyInputToFile ( INPUT_FOLDER + "/" + LibA );
+		copyInputToFile ( INPUT_FOLDER + "/" + LibB );
+		copyInputToFile ( INPUT_FOLDER + "/" + LibC );
+		
 	}
 	public void tearDown( )
 	{
@@ -61,9 +55,10 @@ public class MoveLibraryTest extends BaseTestCase
 		sessionHandle = DesignEngine.newSession( ULocale.ENGLISH );
 		assertNotNull( sessionHandle );
 
-		libraryHandle = sessionHandle.openLibrary( LibA);
+		libraryHandle = sessionHandle.openLibrary( getTempFolder() + "/" + INPUT_FOLDER+"/" + LibA);
 		assertNotNull(libraryHandle);
-		super.saveLibraryAs(outLibD);
+		super.saveLibraryAs(LibD);
+		
 	}
 	public void testMoveLibrary( ) throws Exception
 	{
@@ -93,7 +88,7 @@ public class MoveLibraryTest extends BaseTestCase
 		
 		File deleteLibD = new File(LibD);
 		deleteLibD.delete();
-		designHandle.saveAs(this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + "SavedReport.xml");
+		designHandle.saveAs(getTempFolder( ) + "/" + INPUT_FOLDER + "/" + "SavedReport.xml");
 		
 		openDesign("SavedReport.xml");
 		assertNotNull((TextItemHandle)designHandle.findElement("text1"));

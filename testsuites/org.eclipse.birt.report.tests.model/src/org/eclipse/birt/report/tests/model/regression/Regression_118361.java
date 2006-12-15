@@ -52,6 +52,7 @@ import com.ibm.icu.util.ULocale;
 public class Regression_118361 extends BaseTestCase
 {
 
+	private final static String outFileName = "regression_118361.out";
 	/**
 	 * @throws ContentException
 	 * @throws NameException
@@ -74,8 +75,10 @@ public class Regression_118361 extends BaseTestCase
 			pageHandle.setName( "newName" ); //$NON-NLS-1$
 
 			//makeOutputDir( );
-			designHandle.saveAs( this.getFullQualifiedClassName( ) + "/" + OUTPUT_FOLDER
-					+ "/" + "regression_118361.out" ); //$NON-NLS-1$
+			//designHandle.saveAs( this.getFullQualifiedClassName( ) + "/" + OUTPUT_FOLDER
+			//		+ "/" + "regression_118361.out" ); //$NON-NLS-1$
+			String TempFile=this.genOutputFile(outFileName);
+			designHandle.saveAs( TempFile );
 		}
 		catch ( Exception e )
 		{

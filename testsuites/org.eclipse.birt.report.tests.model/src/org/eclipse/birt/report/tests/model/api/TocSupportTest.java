@@ -25,8 +25,10 @@ public class TocSupportTest extends BaseTestCase
 		{
 			super.setUp( );
 			removeResource( );
-			copyResource_INPUT( fileName , fileName );
-			copyResource_INPUT( fileName1 , fileName1 );
+			
+			copyInputToFile ( INPUT_FOLDER + "/" + fileName1 );
+			copyInputToFile ( INPUT_FOLDER + "/" + fileName1 );
+			
 		}
 		public void tearDown( )
 		{

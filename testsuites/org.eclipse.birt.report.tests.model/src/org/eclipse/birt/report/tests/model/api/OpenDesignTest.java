@@ -16,7 +16,7 @@ public class OpenDesignTest extends BaseTestCase
 
 	private String nofileName = "NoExisting.xml"; //$NON-NLS-1$
 	
-	String noexistingFileName= this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + nofileName;
+	String noexistingFileName= getTempFolder() + "/" + INPUT_FOLDER + "/" + nofileName;
 
 	
 	public OpenDesignTest(String name) 
@@ -32,7 +32,7 @@ public class OpenDesignTest extends BaseTestCase
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( fileName, fileName );
+		copyInputToFile( INPUT_FOLDER +"/"+ fileName );
 	}
 	public void tearDown( )
 	{
@@ -43,12 +43,12 @@ public class OpenDesignTest extends BaseTestCase
 	public void testOpendesign1( ) throws Exception 
 	{
 		openDesign( fileName );
-		File file = new File(this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + fileName );
+		File file = new File(getTempFolder()+ "/" + INPUT_FOLDER + "/" + fileName );
 		
 		InputStream is = new FileInputStream( file );
 		assertTrue( is != null );
 		
-		String s1 = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + fileName;
+		String s1 = getTempFolder() + "/" + INPUT_FOLDER + "/" + fileName;
 		sessionHandle.openDesign( s1, is );
 	}
 	
@@ -60,7 +60,7 @@ public class OpenDesignTest extends BaseTestCase
 	public void testOpendesign2( ) throws Exception 
 	{
 		openDesign( fileName );
-		File file = new File( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + fileName );
+		File file = new File( getTempFolder() + "/" + INPUT_FOLDER + "/" + fileName );
 		
 		InputStream is = new FileInputStream( file );
 		assertTrue( is != null );
@@ -76,11 +76,11 @@ public class OpenDesignTest extends BaseTestCase
 	public void testOpendesign3( ) throws Exception 
 	{
 		openDesign( fileName );
-		File file = new File( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + fileName );
+		File file = new File( getTempFolder() + "/" + INPUT_FOLDER + "/" + fileName );
 		
 		InputStream is = new FileInputStream( file );
 		assertTrue( is != null );
-		String s3 = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + fileName; //$NON-NLS-1$
+		String s3 = getTempFolder() + "/" + INPUT_FOLDER + "/" + fileName; //$NON-NLS-1$
 		openDesign( s3 , is );
 	}
 	
@@ -93,12 +93,12 @@ public class OpenDesignTest extends BaseTestCase
 	public void testOpendesign4( ) throws Exception 
 	{
 		openDesign( fileName );
-		File file = new File( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + fileName );
+		File file = new File( getTempFolder()+ "/" + INPUT_FOLDER + "/" + fileName );
 		
 		InputStream is = new FileInputStream( file );
 		assertTrue( is != null );
 		
-		String s4 = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + noexistingFileName;
+		String s4 = getTempFolder() + "/" + INPUT_FOLDER + "/" + noexistingFileName;
 		try
 		{
 			openDesign( s4 , is );
@@ -116,7 +116,7 @@ public class OpenDesignTest extends BaseTestCase
 	public void testOpendesign5( ) throws Exception 
 	{
 		openDesign( fileName );
-		File file = new File( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + fileName );
+		File file = new File( getTempFolder() + "/" + INPUT_FOLDER + "/" + fileName );
 		
 		InputStream is = new FileInputStream( file );
 		assertTrue( is != null );
@@ -143,12 +143,12 @@ public class OpenDesignTest extends BaseTestCase
 	public void testOpendesign6( ) throws Exception 
 	{
 		openDesign( fileName );
-		File file = new File( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + fileName );
+		File file = new File( getTempFolder() + "/" + INPUT_FOLDER + "/" + fileName );
 		
 		InputStream is = new FileInputStream( file );
 		assertTrue( is != null );
 		
-		String s6 = "file:///" + this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + noexistingFileName; //$NON-NLS-1$
+		String s6 = "file:///" + getTempFolder() + "/" + INPUT_FOLDER + "/" + noexistingFileName; //$NON-NLS-1$
 		try
 		{
 			openDesign( s6 , is );
@@ -169,12 +169,12 @@ public class OpenDesignTest extends BaseTestCase
 	public void testOpendesign7() throws Exception 
 	{
 		openDesign( fileName );
-		File file = new File ( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + fileName );
+		File file = new File ( getTempFolder() + "/" + INPUT_FOLDER + "/" + fileName );
 		
 		InputStream is = new FileInputStream( file );
 		assertTrue( is != null );
 		
-		String s7 = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER;
+		String s7 = getTempFolder() + "/" + INPUT_FOLDER;
 		openDesign( s7 , is );
 	}
 	
@@ -187,12 +187,12 @@ public class OpenDesignTest extends BaseTestCase
 	public void testOpendesign8() throws Exception 
 	{
 		openDesign( fileName );
-		File file = new File ( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + fileName );
+		File file = new File ( getTempFolder() + "/" + INPUT_FOLDER + "/" + fileName );
 		
 		InputStream is = new FileInputStream( file );
 		assertTrue( is != null );
 		
-		String s8 = "file:///" + this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + INPUT_FOLDER; //$NON-NLS-1$
+		String s8 = "file:///" + getTempFolder() + "/" + INPUT_FOLDER + "/" + INPUT_FOLDER; //$NON-NLS-1$
 		openDesign( s8 , is );
 	}
 	
@@ -205,7 +205,7 @@ public class OpenDesignTest extends BaseTestCase
 	public void testOpendesign9() throws Exception 
 	{
 		openDesign( fileName );
-		File file = new File ( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + fileName );
+		File file = new File ( getTempFolder() + "/" + INPUT_FOLDER + "/" + fileName );
 		
 		InputStream is = new FileInputStream( file );
 		assertTrue( is != null );

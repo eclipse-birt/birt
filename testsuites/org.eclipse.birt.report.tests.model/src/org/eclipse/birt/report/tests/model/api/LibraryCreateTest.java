@@ -20,11 +20,26 @@ import com.ibm.icu.util.ULocale;
 
 public class LibraryCreateTest extends BaseTestCase
 {
-	private String fileName = "Library_Creat_test.xml";
-	private String outFileName = "Library_Creat_Lib.xml"; 
-	private String goldenFileName = "LibraryCreatLib_golden.xml"; 
+	private static String fileName = "Library_Creat_test.xml";
+	private static String outFileName = "LibraryCreatLib.xml"; 
+	private static String goldenFileName = "LibraryCreatLib_golden.xml"; 
 
-	
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		
+		copyInputToFile ( INPUT_FOLDER + "/" + fileName );
+		copyInputToFile ( INPUT_FOLDER + "/" + outFileName );
+		copyGoldenToFile ( GOLDEN_FOLDER + "/" + goldenFileName );
+		
+		
+		openDesign(fileName);
+	}
+	public void tearDown( )
+	{
+		removeResource( );
+	}
 	public LibraryCreateTest(String name) 
 	{	
 		super(name);
@@ -34,21 +49,10 @@ public class LibraryCreateTest extends BaseTestCase
 		
 		return new TestSuite(LibraryCreateTest.class);
 	}
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		copyResource_INPUT( fileName, fileName );
-		copyResource_OUTPUT (outFileName, outFileName);
-		copyResource_GOLDEN( goldenFileName, goldenFileName );
-	}
-	public void tearDown( )
-	{
-		removeResource( );
-	}
+	
 	public void testCreatLibrary( ) throws Exception
 	{
-		openDesign(fileName);
+		//openDesign(fileName);
 		
 //		"Find the element in Design
 		DataSourceHandle dataSourceHandle = (DataSourceHandle)designHandle.findDataSource( "db2d" );
@@ -84,7 +88,11 @@ public class LibraryCreateTest extends BaseTestCase
 		ElementExportUtil.exportElement( parameterHandle, libraryHandle, false );
 		ElementExportUtil.exportElement( imageHandle, libraryHandle, false );
 		ElementExportUtil.exportElement( dataHandle, libraryHandle, false );
-	  	super.saveLibraryAs(outFileName);
+		
+	  	//super.saveLibraryAs(outFileName);
+	  
+		String TempFile=this.genOutputFile(outFileName);
+		libraryHandle.saveAs(TempFile);
 		assertTrue( compareTextFile( goldenFileName, outFileName ) );
 		
 	}
@@ -93,7 +101,7 @@ public class LibraryCreateTest extends BaseTestCase
 	
 	public void testNoNameText( ) throws Exception
 	{
-		openDesign(fileName);
+		//openDesign(fileName);
 		
 //		Creat the Element without name		
 		TextItemHandle textHandle = (TextItemHandle)designHandle.getElementFactory().newTextItem("");
@@ -118,7 +126,7 @@ public class LibraryCreateTest extends BaseTestCase
 	
 	public void testNoNameLabel( ) throws Exception
 	{
-		openDesign(fileName);
+		//openDesign(fileName);
 		
 		LabelHandle labelHandle = (LabelHandle)designHandle.getElementFactory().newLabel("");
 		designHandle.getBody().add( labelHandle );
@@ -141,7 +149,7 @@ public class LibraryCreateTest extends BaseTestCase
 	
 	public void testNoNameTable( ) throws Exception
 	{
-		openDesign(fileName);
+		//openDesign(fileName);
 		
 		TableHandle tableHandle = (TableHandle)designHandle.getElementFactory().newTableItem("");
 		designHandle.getBody().add( tableHandle );
@@ -164,7 +172,7 @@ public class LibraryCreateTest extends BaseTestCase
 	
 	public void testNoNameStyle( ) throws Exception
 	{
-		openDesign(fileName);
+		//openDesign(fileName);
 		
 		StyleHandle styleHandle = (StyleHandle)designHandle.getElementFactory().newStyle("");
 		designHandle.getStyles().add( styleHandle );
@@ -186,7 +194,7 @@ public class LibraryCreateTest extends BaseTestCase
 	
 	public void testNoNameDataItem( ) throws Exception
 	{
-		openDesign(fileName);
+		//openDesign(fileName);
 		
 		DataItemHandle dataHandle = (DataItemHandle)designHandle.getElementFactory().newDataItem("");
 		designHandle.getBody().add( dataHandle );
@@ -209,7 +217,7 @@ public class LibraryCreateTest extends BaseTestCase
 	
 	public void testNoNameImage( ) throws Exception
 	{
-		openDesign(fileName);
+		//openDesign(fileName);
 		
 		ImageHandle imageHandle = (ImageHandle)designHandle.getElementFactory().newImage("");
 		designHandle.getBody().add( imageHandle );
@@ -232,7 +240,7 @@ public class LibraryCreateTest extends BaseTestCase
 //		Check Duplicate Name of Library
 	public void testDuplicateLibrary( ) throws Exception
 	{
-		openDesign(fileName);
+		//openDesign(fileName);
 		LabelHandle labelHandle = (LabelHandle)designHandle.getElementFactory().newLabel("label1");
 		designHandle.getBody().add( labelHandle );
 		

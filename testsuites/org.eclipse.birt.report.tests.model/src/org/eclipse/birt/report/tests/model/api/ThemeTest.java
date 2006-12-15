@@ -34,6 +34,7 @@ public class ThemeTest extends BaseTestCase
    private String LibB=  "LibraryBIncludeTheme.xml";
    private String LibC="LibraryCIncludeTheme.xml";
    private String LibC1 ="LibraryCIncludeTheme_1.xml";
+   private String LibCInclTheme = "LibraryCIncludeTheme.xml";
    
 	public ThemeTest(String name) {
 		super(name);
@@ -49,13 +50,15 @@ public class ThemeTest extends BaseTestCase
 	{
 		super.setUp();
 		removeResource( );
-		copyResource_INPUT( LibA , LibA );
-		copyResource_INPUT( LibB , LibB );
-		copyResource_INPUT( LibC , LibC );
-		copyResource_INPUT( LibC1 , LibC1 );
-		copyResource_INPUT( "ThemeTest1.xml" , "ThemeTest1.xml" );
-		copyResource_INPUT( "ThemeTest2.xml" , "ThemeTest2.xml" );
-		copyResource_INPUT( "ThemeTest2.xml" , "ThemeTest2_1.xml" );
+	
+		copyInputToFile ( INPUT_FOLDER + "/" + LibA );
+		copyInputToFile ( INPUT_FOLDER + "/" + LibB );
+		copyInputToFile ( INPUT_FOLDER + "/" + LibC );
+		copyInputToFile ( INPUT_FOLDER + "/" + LibC1 );
+		copyInputToFile ( INPUT_FOLDER + "/" + "ThemeTest1.xml" );
+		copyInputToFile ( INPUT_FOLDER + "/" + "ThemeTest2.xml" );
+		copyInputToFile ( INPUT_FOLDER + "/" + "ThemeTest2_1.xml" );
+		copyInputToFile ( INPUT_FOLDER + "/" + LibCInclTheme );
 		//System.out.println("ThemeTest1.xml");
 	}
 	
@@ -138,8 +141,8 @@ public class ThemeTest extends BaseTestCase
 	       //LibC has a theme with four styles:
 			  //custom styles: mytable, mylabel
 			  //selector styles: table, label
-		       openLibrary("LibraryCIncludeTheme.xml");
-		       libraryHandle.saveAs(this.getFullQualifiedClassName( )+"/"+INPUT_FOLDER+"/"+LibC1);
+		       openLibrary(LibCInclTheme);
+		       libraryHandle.saveAs(getTempFolder( )+"/"+INPUT_FOLDER+"/"+LibC1);
 		       StyleHandle LCS1 = libraryHandle.findTheme("theme1").findStyle("mytable");
 		       StyleHandle LCS2 = libraryHandle.findTheme("theme1").findStyle("mylabel");
 		       StyleHandle LSS1 = libraryHandle.findTheme("theme1").findStyle("table");

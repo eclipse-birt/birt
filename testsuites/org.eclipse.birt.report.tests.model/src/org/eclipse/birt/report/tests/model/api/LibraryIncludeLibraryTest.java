@@ -18,14 +18,14 @@ public class LibraryIncludeLibraryTest extends BaseTestCase
 {
 
 	private String inputLibraryName1 = "Library_ElementID_Lib.xml"; //$NON-NLS-1$
+	
 	private String inputLibraryName2 = "LibraryCreatLib.xml"; //$NON-NLS-1$
-	private String outputFileName = "Library_IncludeLibrary_Lib.xml"; //$NON-NLS-1$
+	
+//	private String goldenFileName = "LibraryCreatLib_golden.xml"; //$NON-NLS-1$
 	private String goldenFileName = "Library_IncludeLibrary_Lib_golden.xml"; //$NON-NLS-1$
 
-//	String LibFile1 = PLUGIN_PATH + getClassFolder( ) + INPUT_FOLDER
-//			+ inputLibraryName1;
-//	String LibFile2 = PLUGIN_PATH + getClassFolder( ) + INPUT_FOLDER
-//			+ inputLibraryName2;
+	private String outputFileName = "Library_IncludeLibrary_Lib.xml"; //$NON-NLS-1$
+	
 
 	/**
 	 * @param name
@@ -48,10 +48,11 @@ public class LibraryIncludeLibraryTest extends BaseTestCase
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( inputLibraryName1, inputLibraryName1 );
-		copyResource_INPUT( inputLibraryName2, inputLibraryName2 );
-		copyResource_OUTPUT( outputFileName, outputFileName );
-		copyResource_GOLDEN( goldenFileName, goldenFileName );
+		
+		copyInputToFile ( INPUT_FOLDER + "/" + inputLibraryName1 );
+		copyInputToFile ( INPUT_FOLDER + "/" + inputLibraryName2 );
+		copyGoldenToFile ( GOLDEN_FOLDER + "/" + goldenFileName );
+
 	}
 	
 	public void tearDown( )
@@ -92,7 +93,11 @@ public class LibraryIncludeLibraryTest extends BaseTestCase
 		libraryHandle.getDataSets( ).add( dataSetHandle );
 
 		assertNotNull( libraryHandle );
-		super.saveLibraryAs( outputFileName );
+		
+		//super.saveLibraryAs( outputFileName );
+		String TempFile=this.genOutputFile(outputFileName);
+		libraryHandle.saveAs( TempFile );
+		
 		assertTrue( compareTextFile( goldenFileName, outputFileName ) );
 	}
 }

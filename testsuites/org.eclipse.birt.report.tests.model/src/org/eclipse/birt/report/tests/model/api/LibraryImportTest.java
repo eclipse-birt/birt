@@ -50,9 +50,11 @@ public class LibraryImportTest extends BaseTestCase
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( fileName, fileName );
-		copyResource_INPUT( inputLibraryName, inputLibraryName );
-		copyResource_GOLDEN( goldenFileName, goldenFileName );
+		
+		copyInputToFile ( INPUT_FOLDER + "/" + fileName );
+		copyInputToFile ( INPUT_FOLDER + "/" + inputLibraryName );
+		copyGoldenToFile ( GOLDEN_FOLDER + "/" + goldenFileName );
+		
 	}
 	
 	public void tearDown( )
@@ -131,7 +133,9 @@ public class LibraryImportTest extends BaseTestCase
 		designHandle.getBody( ).add( tableHandle );
 		designHandle.getBody( ).add( imageHandle );
 		assertNotNull( designHandle );
-		super.saveAs( outputFileName );
+		//super.saveAs( outputFileName );
+		String TempFile=this.genOutputFile(outputFileName);
+		designHandle.saveAs( TempFile );
 		assertTrue( compareTextFile( goldenFileName, outputFileName ) );
 
 	}
