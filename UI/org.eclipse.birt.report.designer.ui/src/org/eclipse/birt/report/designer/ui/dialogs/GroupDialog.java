@@ -852,6 +852,8 @@ public class GroupDialog extends BaseDialog
 			}
 
 			int index = keyChooser.getSelectionIndex( );
+//			if ( index == -1
+//					&& UIUtil.convertToModelString( keyChooser.getText( ), true ) != null )
 			if ( index == -1 )
 			{
 				index = keyChooser.indexOf( UIUtil.convertToModelString( keyChooser.getText( ),
@@ -862,7 +864,7 @@ public class GroupDialog extends BaseDialog
 			inputGroup.setKeyExpr( newKeyExpr );
 			if ( newKeyExpr != null
 					&& newKeyExpr.length( ) != 0
-					&& !newKeyExpr.equals( oldKeyExpr ) 
+					&& !newKeyExpr.equals( oldKeyExpr )
 					&& index != -1 )
 			{
 				SlotHandle slotHandle = null;
