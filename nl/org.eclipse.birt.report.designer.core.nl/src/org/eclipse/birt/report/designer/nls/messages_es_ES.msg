@@ -192,6 +192,8 @@ BordersPage.Tooltip.None=Ninguno
 BordersPage.Tooltip.Right=Borde derecho
 BordersPage.Tooltip.Top=Borde superior
 BordersPage.text.Preview=Preview:
+BordersPage.Trans.SelectBorder=Select Border
+BordersPage.Trans.SelectAllborders=Select all borders
 
 ###########################################################
 #BoxPreferencePage properties

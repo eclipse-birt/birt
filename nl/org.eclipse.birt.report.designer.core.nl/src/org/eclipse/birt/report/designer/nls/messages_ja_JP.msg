@@ -192,6 +192,8 @@ BordersPage.Tooltip.None=‚È‚µ
 BordersPage.Tooltip.Right=‰EŒrü
 BordersPage.Tooltip.Top=ãŒrü
 BordersPage.text.Preview=Preview:
+BordersPage.Trans.SelectBorder=Select Border
+BordersPage.Trans.SelectAllborders=Select all borders
 
 ###########################################################
 #BoxPreferencePage properties

@@ -192,6 +192,8 @@ BordersPage.Tooltip.None=无
 BordersPage.Tooltip.Right=右框线
 BordersPage.Tooltip.Top=上框线
 BordersPage.text.Preview=Preview:
+BordersPage.Trans.SelectBorder=Select Border
+BordersPage.Trans.SelectAllborders=Select all borders
 
 ###########################################################
 #BoxPreferencePage properties
