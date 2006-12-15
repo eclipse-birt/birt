@@ -57,7 +57,7 @@
 }
 
 /******************************************************************************
- * Birt export data dialog.
+ * Birt Exception dialog.
  *****************************************************************************/
 .birtviewer_exception_dialog
 {
@@ -298,8 +298,6 @@
 	position:absolute;
 	border-style:inset;
 	border-width:1px;
-	overflow-x:visible;
-	overflow-y:visible;
 }
 
 /******************************************************************************

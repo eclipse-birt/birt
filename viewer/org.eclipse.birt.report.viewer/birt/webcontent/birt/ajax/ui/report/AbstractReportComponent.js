@@ -74,6 +74,13 @@ AbstractReportComponent.prototype =
 			        window.execScript( scripts[i].innerHTML );
 		    }
 		}
+		
+		// workaround for bug 165750, overflow-x and overflow-y only used in IE
+		if( BrowserUtility.__isIE( ) )
+		{
+			oDiv.style.overflowX = "visible";
+			oDiv.style.overflowY = "visible";
+		}
 	},
 	
 	/**
