@@ -13,7 +13,7 @@ package org.eclipse.birt.report.engine.api.script.element;
 
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 
-public interface IGroup extends IReportElement
+public interface IGroup extends IDesignElement
 {
 
 	/**
@@ -248,39 +248,5 @@ public interface IGroup extends IReportElement
 	 */
 
 	void setSortType( String sortType ) throws ScriptException;
-
-	/**
-	 * Gets all high light rules.
-	 * 
-	 * @return all high light rules
-	 */
-
-	IHighlightRule[] getHighlightRules( );
-
-	/**
-	 * Adds high light rule.
-	 * 
-	 * @param rule
-	 * @exception ScriptException
-	 */
-
-	void addHighlightRule( IHighlightRule rule ) throws ScriptException;
-
-	/**
-	 * Removes all high light rules.
-	 * 
-	 * @exception ScriptException
-	 */
-
-	void removeHighlightRules( ) throws ScriptException;
-
-	/**
-	 * Removes high light rule.
-	 * 
-	 * @param rule
-	 * @exception ScriptException
-	 */
-
-	void removeHighlightRule( IHighlightRule rule ) throws ScriptException;
 
 }

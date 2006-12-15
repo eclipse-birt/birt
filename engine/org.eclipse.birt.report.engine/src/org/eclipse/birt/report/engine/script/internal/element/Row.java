@@ -25,12 +25,12 @@ import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 
-public class Row extends ReportElement implements IRow
+public class Row extends DesignElement implements IRow
 {
 
-	public Row( RowHandle row )
+	public Row( RowHandle handle )
 	{
-		super( row );
+		super( handle );
 	}
 
 	/*
@@ -41,7 +41,7 @@ public class Row extends ReportElement implements IRow
 
 	public String getHeight( )
 	{
-		DimensionHandle height = ( (RowHandle) handle ).getHeight( );
+		DimensionHandle height = ((RowHandle)handle).getHeight( );
 		return ( height == null ? null : height.getStringValue( ) );
 	}
 
@@ -53,7 +53,7 @@ public class Row extends ReportElement implements IRow
 
 	public String getBookmark( )
 	{
-		return ( (RowHandle) handle ).getBookmark( );
+		return ((RowHandle)handle).getBookmark( );
 	}
 
 	/*
@@ -66,7 +66,7 @@ public class Row extends ReportElement implements IRow
 	{
 		try
 		{
-			( (RowHandle) handle ).setBookmark( value );
+			((RowHandle)handle).setBookmark( value );
 		}
 		catch ( SemanticException e )
 		{
@@ -150,4 +150,5 @@ public class Row extends ReportElement implements IRow
 		}
 
 	}
+	
 }

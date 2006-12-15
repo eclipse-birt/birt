@@ -16,9 +16,8 @@ import org.eclipse.birt.report.engine.api.script.element.ICell;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
-public class Cell extends ReportElement implements ICell
+public class Cell extends DesignElement implements ICell
 {
-
 	public Cell( CellHandle handle )
 	{
 		super( handle );

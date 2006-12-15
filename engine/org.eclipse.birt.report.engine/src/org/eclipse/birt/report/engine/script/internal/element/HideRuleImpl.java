@@ -30,6 +30,18 @@ public class HideRuleImpl implements IHideRule
 	 * 
 	 * @param ruleHandle
 	 */
+	
+	public HideRuleImpl( )
+	{
+		rule = createHideRule( );
+	}
+	
+	/**
+	 * Constructor
+	 * 
+	 * @param ruleHandle
+	 */
+	
 	public HideRuleImpl( HideRuleHandle ruleHandle )
 	{
 

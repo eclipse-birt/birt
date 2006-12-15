@@ -14,11 +14,11 @@ package org.eclipse.birt.report.engine.script.internal.element;
 import org.eclipse.birt.report.engine.api.script.element.IHighlightRule;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
 import org.eclipse.birt.report.model.api.core.IStructure;
-import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 
 /**
  * Implements of HighLightRule.
@@ -29,6 +29,17 @@ public class HighlightRuleImpl implements IHighlightRule
 {
 
 	private HighlightRule rule;
+
+	/**
+	 * Constructor
+	 * 
+	 * @param ruleHandle
+	 */
+
+	public HighlightRuleImpl( )
+	{
+		rule = createHighlightRule( );
+	}
 
 	/**
 	 * Constructor
@@ -78,12 +89,14 @@ public class HighlightRuleImpl implements IHighlightRule
 	public String getColor( )
 	{
 		Object obj = rule.getProperty( null, HighlightRule.COLOR_MEMBER );
+		
 		if ( obj == null )
 			return null;
 
-		if ( obj instanceof CustomColor )
+		if ( obj instanceof Integer )
 		{
-			return ( (CustomColor) obj ).getColor( );
+			return StringUtil.toRgbText( ( (Integer) obj ).intValue( ) )
+					.toUpperCase( );
 		}
 		else
 		{
@@ -97,6 +110,8 @@ public class HighlightRuleImpl implements IHighlightRule
 				HighlightRule.DATE_TIME_FORMAT_MEMBER );
 		if ( value == null )
 			return null;
+		
+		assert value instanceof DateTimeFormatValue;
 
 		return ( (DateTimeFormatValue) value ).getPattern( );
 	}
@@ -119,6 +134,9 @@ public class HighlightRuleImpl implements IHighlightRule
 				HighlightRule.STRING_FORMAT_MEMBER );
 		if ( value == null )
 			return null;
+		
+		assert value instanceof StringFormatValue;
+		
 		return ( (StringFormatValue) value ).getPattern( );
 	}
 
@@ -134,10 +152,22 @@ public class HighlightRuleImpl implements IHighlightRule
 
 	public void setDateTimeFormat( String format )
 	{
-		FormatValue formatValueToSet = new DateTimeFormatValue( );
-		formatValueToSet.setPattern( format );
-		rule.setProperty( HighlightRule.DATE_TIME_FORMAT_MEMBER,
-				formatValueToSet );
+
+		Object value = rule.getProperty( null,
+				HighlightRule.DATE_TIME_FORMAT_MEMBER );
+		if ( value == null )
+		{
+			FormatValue formatValueToSet = new DateTimeFormatValue( );
+			formatValueToSet.setPattern( format );
+			rule.setProperty( HighlightRule.DATE_TIME_FORMAT_MEMBER,
+					formatValueToSet );
+		}
+		else
+		{
+			assert value instanceof DateTimeFormatValue;
+
+			( (DateTimeFormatValue) value ).setPattern( format );
+		}
 
 	}
 
@@ -153,10 +183,21 @@ public class HighlightRuleImpl implements IHighlightRule
 
 	public void setStringFormat( String format )
 	{
-		FormatValue formatValueToSet = new StringFormatValue( );
-		formatValueToSet.setPattern( format );
-		rule.setProperty( HighlightRule.STRING_FORMAT_MEMBER, formatValueToSet );
+		Object value = rule.getProperty( null,
+				HighlightRule.STRING_FORMAT_MEMBER );
+		if ( value == null )
+		{
+			FormatValue formatValueToSet = new StringFormatValue( );
+			formatValueToSet.setPattern( format );
+			rule.setProperty( HighlightRule.STRING_FORMAT_MEMBER,
+					formatValueToSet );
+		}
+		else
+		{
+			assert value instanceof StringFormatValue;
 
+			( (StringFormatValue) value ).setPattern( format );
+		}
 	}
 
 	public void setTestExpression( String expression )
@@ -191,8 +232,21 @@ public class HighlightRuleImpl implements IHighlightRule
 
 	public String getBackGroudnColor( )
 	{
-		return (String) rule.getProperty( null,
+		Object obj = rule.getProperty( null,
 				HighlightRule.BACKGROUND_COLOR_MEMBER );
+
+		if ( obj == null )
+			return null;
+
+		if ( obj instanceof Integer )
+		{
+			return StringUtil.toRgbText( ( (Integer) obj ).intValue( ) )
+					.toUpperCase( );
+		}
+		else
+		{
+			return obj.toString( );
+		}
 	}
 
 	public String getOperator( )

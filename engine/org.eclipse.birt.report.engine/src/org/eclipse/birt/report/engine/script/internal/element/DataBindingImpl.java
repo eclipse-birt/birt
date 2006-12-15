@@ -25,6 +25,17 @@ public class DataBindingImpl implements IDataBinding
 {
 
 	private ComputedColumn column;
+	
+	/**
+	 * Constructor
+	 * 
+	 * @param columnHandle
+	 */
+
+	public DataBindingImpl( )
+	{
+		column = createComputedColumn( );
+	}
 
 	/**
 	 * Constructor

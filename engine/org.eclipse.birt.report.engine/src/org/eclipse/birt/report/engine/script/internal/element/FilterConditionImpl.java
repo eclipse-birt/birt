@@ -25,12 +25,24 @@ public class FilterConditionImpl implements IFilterCondition
 {
 
 	private FilterCondition condition;
+	
+	/**
+	 * Constructor
+	 * 
+	 * @param condition
+	 */
+	
+	public FilterConditionImpl( )
+	{	
+		condition = createFilterCondition( );
+	}
 
 	/**
 	 * Constructor
 	 * 
 	 * @param condition
 	 */
+	
 	public FilterConditionImpl( FilterCondition condition )
 	{
 		if ( condition == null )
@@ -49,6 +61,7 @@ public class FilterConditionImpl implements IFilterCondition
 	 * 
 	 * @param conditionHandle
 	 */
+	
 	public FilterConditionImpl( FilterConditionHandle conditionHandle )
 	{
 		if ( conditionHandle == null )

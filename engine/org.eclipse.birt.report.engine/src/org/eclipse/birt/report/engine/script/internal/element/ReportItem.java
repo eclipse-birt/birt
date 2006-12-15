@@ -20,7 +20,6 @@ import org.eclipse.birt.report.engine.api.script.element.IDataBinding;
 import org.eclipse.birt.report.engine.api.script.element.IHideRule;
 import org.eclipse.birt.report.engine.api.script.element.IHighlightRule;
 import org.eclipse.birt.report.engine.api.script.element.IReportItem;
-import org.eclipse.birt.report.engine.api.script.element.StructureScriptAPIFactory;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
@@ -29,7 +28,6 @@ import org.eclipse.birt.report.model.api.HighlightRuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 

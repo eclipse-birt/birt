@@ -29,6 +29,17 @@ public class SortConditionImpl implements ISortCondition
 	 * Constructor
 	 * @param sortHandle
 	 */
+	
+	public SortConditionImpl( )
+	{
+		sort = createSortCondition();
+	}
+	
+	/**
+	 * Constructor
+	 * @param sortHandle
+	 */
+	
 	public SortConditionImpl( SortKeyHandle sortHandle )
 	{
 		if( sortHandle == null )

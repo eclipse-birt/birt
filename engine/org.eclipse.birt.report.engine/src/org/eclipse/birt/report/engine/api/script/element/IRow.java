@@ -16,7 +16,7 @@ import org.eclipse.birt.report.engine.api.script.ScriptException;
 /**
  * Represents a row in the scripting environment
  */
-public interface IRow extends IReportElement
+public interface IRow extends IDesignElement
 {
 
 	/**

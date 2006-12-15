@@ -6,7 +6,7 @@ import org.eclipse.birt.report.engine.api.script.ScriptException;
  * Represents a the design of a Cell in the scripting environment
  * 
  */
-public interface ICell extends IReportElement
+public interface ICell extends IDesignElement
 {
 	/**
 	 * Returns the cell's column span. This is the number of table or grid
