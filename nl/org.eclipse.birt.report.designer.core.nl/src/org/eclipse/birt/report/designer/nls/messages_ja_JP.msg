@@ -191,7 +191,7 @@ BordersPage.Tooltip.Left=左罫線
 BordersPage.Tooltip.None=なし
 BordersPage.Tooltip.Right=右罫線
 BordersPage.Tooltip.Top=上罫線
-BordersPage.text.Preview=Preview:
+BordersPage.text.Preview=プレビュー :
 BordersPage.Trans.SelectBorder=Select Border
 BordersPage.Trans.SelectAllborders=Select all borders
 
@@ -1500,10 +1500,10 @@ GeneralInsertMenuAction.text.Text=テキスト(&T)
 #GeneralPreferencePage properties
 
 GeneralPreferencePage.errorMsg.duplicate.styleName=スタイル名が重複しています。
-GeneralPreferencePage.label.styleNameDuplicate=はすでに使用されています。別の名前を付けてください。
+GeneralPreferencePage.label.styleNameDuplicate=スタイル名 "{0}" はすでに存在します。別の名前を付けてください。
 GeneralPreferencePage.label.customStyle=ユーザ設定のスタイル(&C)...
 GeneralPreferencePage.label.predefinedStyle=設定済みのスタイル(&P)...
-GeneralPreferencePage.label.nameEmpty=スタイル名
+GeneralPreferencePage.label.nameEmpty=スタイル名を空白にすることはできません。 
 
 ###########################################################
 #GridEditPart properties
@@ -1620,8 +1620,8 @@ HighlightRuleBuilderDialog.tooltip.Bold=太字
 HighlightRuleBuilderDialog.tooltip.Italic=斜体
 HighlightRuleBuilderDialog.tooltip.Underline=下線
 HighlightRuleBuilderDialog.tooltip.Text_Line_Through=テキストの取り消し線
-HighlightRuleBuilderDialog.text.applyStyle=Use the formatting from style:
-HighlightRuleBuilderDialog.displayText.None=None
+HighlightRuleBuilderDialog.text.applyStyle=スタイルの書式設定を使用する :
+HighlightRuleBuilderDialog.displayText.None=なし
 
 ###########################################################
 #HighlightsPage properties

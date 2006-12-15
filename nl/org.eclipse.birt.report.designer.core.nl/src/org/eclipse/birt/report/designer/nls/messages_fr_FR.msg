@@ -191,7 +191,7 @@ BordersPage.Tooltip.Left=Bordure de gauche
 BordersPage.Tooltip.None=Aucun
 BordersPage.Tooltip.Right=Bordure de droite
 BordersPage.Tooltip.Top=Bordure supérieure
-BordersPage.text.Preview=Preview:
+BordersPage.text.Preview=Aperçu :
 BordersPage.Trans.SelectBorder=Select Border
 BordersPage.Trans.SelectAllborders=Select all borders
 
@@ -1500,10 +1500,10 @@ GeneralInsertMenuAction.text.Text=&Texte
 #GeneralPreferencePage properties
 
 GeneralPreferencePage.errorMsg.duplicate.styleName=Nom de style en double
-GeneralPreferencePage.label.styleNameDuplicate=existe déjà. Veuillez choisir un autre nom.
+GeneralPreferencePage.label.styleNameDuplicate=Le nom de style "{0}" existe déjà, choisissez un autre nom.
 GeneralPreferencePage.label.customStyle=&Style personnalisé
 GeneralPreferencePage.label.predefinedStyle=Style &prédéfini
-GeneralPreferencePage.label.nameEmpty=Nom de style
+GeneralPreferencePage.label.nameEmpty=Nom de style vide non autorisé. 
 
 ###########################################################
 #GridEditPart properties
@@ -1620,8 +1620,8 @@ HighlightRuleBuilderDialog.tooltip.Bold=Gras
 HighlightRuleBuilderDialog.tooltip.Italic=Italique
 HighlightRuleBuilderDialog.tooltip.Underline=Texte souligné
 HighlightRuleBuilderDialog.tooltip.Text_Line_Through=Ligne de texte barré
-HighlightRuleBuilderDialog.text.applyStyle=Use the formatting from style:
-HighlightRuleBuilderDialog.displayText.None=None
+HighlightRuleBuilderDialog.text.applyStyle=Utiliser le formatage à partir du style :
+HighlightRuleBuilderDialog.displayText.None=Aucun
 
 ###########################################################
 #HighlightsPage properties

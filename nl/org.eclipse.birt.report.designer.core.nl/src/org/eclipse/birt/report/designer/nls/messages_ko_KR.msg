@@ -191,7 +191,7 @@ BordersPage.Tooltip.Left=왼쪽 테두리
 BordersPage.Tooltip.None=없음
 BordersPage.Tooltip.Right=오른쪽 테두리
 BordersPage.Tooltip.Top=위쪽 테두리
-BordersPage.text.Preview=Preview:
+BordersPage.text.Preview=미리 보기:
 BordersPage.Trans.SelectBorder=Select Border
 BordersPage.Trans.SelectAllborders=Select all borders
 
@@ -1500,10 +1500,10 @@ GeneralInsertMenuAction.text.Text=텍스트(&T)
 #GeneralPreferencePage properties
 
 GeneralPreferencePage.errorMsg.duplicate.styleName=중복된 스타일 이름입니다.
-GeneralPreferencePage.label.styleNameDuplicate=이미 있습니다. 다른 이름을 선택하십시오.
+GeneralPreferencePage.label.styleNameDuplicate=스타일 이름 "{0}"은(는) 이미 있습니다. 다른 이름을 선택하십시오.
 GeneralPreferencePage.label.customStyle=사용자 지정 스타일(&C)
 GeneralPreferencePage.label.predefinedStyle=미리 정의된 스타일(&P)
-GeneralPreferencePage.label.nameEmpty=스타일 이름
+GeneralPreferencePage.label.nameEmpty=스타일 이름은 필수 입력 항목입니다. 
 
 ###########################################################
 #GridEditPart properties
@@ -1620,8 +1620,8 @@ HighlightRuleBuilderDialog.tooltip.Bold=굵게
 HighlightRuleBuilderDialog.tooltip.Italic=기울임꼴
 HighlightRuleBuilderDialog.tooltip.Underline=밑줄
 HighlightRuleBuilderDialog.tooltip.Text_Line_Through=텍스트 가운데 선 긋기
-HighlightRuleBuilderDialog.text.applyStyle=Use the formatting from style:
-HighlightRuleBuilderDialog.displayText.None=None
+HighlightRuleBuilderDialog.text.applyStyle=스타일에서 서식 지정을 사용하십시오:
+HighlightRuleBuilderDialog.displayText.None=없음
 
 ###########################################################
 #HighlightsPage properties

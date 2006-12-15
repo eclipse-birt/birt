@@ -89,9 +89,9 @@ birt.viewer.dialog.exportdata.resultsets=可用结果集
 birt.viewer.dialog.exportdata.availablecolumn=可用列
 birt.viewer.dialog.exportdata.selectedcolumn=选择的列
 birt.viewer.dialog.exportdata.format=数据将以 csv 格式导出。
-birt.viewer.dialog.exportdata.encoding=Output encoding:
-birt.viewer.dialog.exportdata.encoding.other=Other
-birt.viewer.dialog.exportdata.encoding.comment=(If blank,use the local encoding)
+birt.viewer.dialog.exportdata.encoding=输出编码:
+birt.viewer.dialog.exportdata.encoding.other=其它
+birt.viewer.dialog.exportdata.encoding.comment=(如果为空白，使用本地编码)
 birt.viewer.dialog.exportdata.addall=全部添加
 birt.viewer.dialog.exportdata.add=添加
 birt.viewer.dialog.exportdata.removeall=全部删除
@@ -142,9 +142,9 @@ birt.viewer.exceptionDialog.showStackTrace=Show Exception Stack Trace
 ###############################################################################
 # Birt Viewer JSP Taglib
 ###############################################################################
-birt.viewer.taglib.NO_VIEWER_ID=Attribute id must be specified.
-birt.viewer.taglib.INVALID_VIEWER_ID=Attribute id contains invalid characters.
-birt.viewer.taglib.VIEWER_ID_DUPLICATE=Attribute id must be unique.
+birt.viewer.taglib.NO_VIEWER_ID=必须指定属性 ID。
+birt.viewer.taglib.INVALID_VIEWER_ID=属性 ID 包含无效字符。
+birt.viewer.taglib.VIEWER_ID_DUPLICATE=属性 ID 必须唯一。
 birt.viewer.taglib.NO_REPORT_SOURCE=应指定报表设计或文档文件。
 birt.viewer.taglib.NO_REPORT_DOCUMENT=reportlet 需要报表文档文件。
 birt.viewer.taglib.NO_REQUESTER_NAME=必须指定请求者名称。

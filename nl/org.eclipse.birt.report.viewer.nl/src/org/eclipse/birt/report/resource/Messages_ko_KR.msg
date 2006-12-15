@@ -89,9 +89,9 @@ birt.viewer.dialog.exportdata.resultsets=사용 가능한 결과 집합
 birt.viewer.dialog.exportdata.availablecolumn=사용 가능한 열
 birt.viewer.dialog.exportdata.selectedcolumn=선택한 열
 birt.viewer.dialog.exportdata.format=데이터가 csv 형식으로 내보내집니다.
-birt.viewer.dialog.exportdata.encoding=Output encoding:
-birt.viewer.dialog.exportdata.encoding.other=Other
-birt.viewer.dialog.exportdata.encoding.comment=(If blank,use the local encoding)
+birt.viewer.dialog.exportdata.encoding=출력 인코딩 :
+birt.viewer.dialog.exportdata.encoding.other=기타
+birt.viewer.dialog.exportdata.encoding.comment=(비어 있다면 로컬 인코딩을 사용하십시오)
 birt.viewer.dialog.exportdata.addall=모두 추가
 birt.viewer.dialog.exportdata.add=추가
 birt.viewer.dialog.exportdata.removeall=모두 제거
@@ -142,9 +142,9 @@ birt.viewer.exceptionDialog.showStackTrace=Show Exception Stack Trace
 ###############################################################################
 # Birt Viewer JSP Taglib
 ###############################################################################
-birt.viewer.taglib.NO_VIEWER_ID=Attribute id must be specified.
-birt.viewer.taglib.INVALID_VIEWER_ID=Attribute id contains invalid characters.
-birt.viewer.taglib.VIEWER_ID_DUPLICATE=Attribute id must be unique.
+birt.viewer.taglib.NO_VIEWER_ID=특성 ID를 지정해야 합니다.
+birt.viewer.taglib.INVALID_VIEWER_ID=특성 ID에 잘못된 문자가 포함되어 있습니다.
+birt.viewer.taglib.VIEWER_ID_DUPLICATE=특성 ID는 고유해야 합니다.
 birt.viewer.taglib.NO_REPORT_SOURCE=보고서 디자인 또는 문서 파일을 지정해야 합니다.
 birt.viewer.taglib.NO_REPORT_DOCUMENT=리포틀릿은 보고서 문서 파일이 필요합니다.
 birt.viewer.taglib.NO_REQUESTER_NAME=요청자 이름을 지정해야 합니다.

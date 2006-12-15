@@ -89,9 +89,9 @@ birt.viewer.dialog.exportdata.resultsets=使用可能な結果セット
 birt.viewer.dialog.exportdata.availablecolumn=使用可能な列
 birt.viewer.dialog.exportdata.selectedcolumn=選択済みの列
 birt.viewer.dialog.exportdata.format=データは CSV 形式でエクスポートされます。
-birt.viewer.dialog.exportdata.encoding=Output encoding:
-birt.viewer.dialog.exportdata.encoding.other=Other
-birt.viewer.dialog.exportdata.encoding.comment=(If blank,use the local encoding)
+birt.viewer.dialog.exportdata.encoding=出力エンコード :
+birt.viewer.dialog.exportdata.encoding.other=その他
+birt.viewer.dialog.exportdata.encoding.comment=(空白の場合は PC の地域設定のエンコードを使用)
 birt.viewer.dialog.exportdata.addall=すべて追加
 birt.viewer.dialog.exportdata.add=追加
 birt.viewer.dialog.exportdata.removeall=すべて削除
@@ -142,9 +142,9 @@ birt.viewer.exceptionDialog.showStackTrace=Show Exception Stack Trace
 ###############################################################################
 # Birt Viewer JSP Taglib
 ###############################################################################
-birt.viewer.taglib.NO_VIEWER_ID=Attribute id must be specified.
-birt.viewer.taglib.INVALID_VIEWER_ID=Attribute id contains invalid characters.
-birt.viewer.taglib.VIEWER_ID_DUPLICATE=Attribute id must be unique.
+birt.viewer.taglib.NO_VIEWER_ID=属性 ID を指定してください。
+birt.viewer.taglib.INVALID_VIEWER_ID=属性 ID に無効な文字が指定されています。
+birt.viewer.taglib.VIEWER_ID_DUPLICATE=属性 ID には、他で使われていないものを指定してください。
 birt.viewer.taglib.NO_REPORT_SOURCE=レポートデザインまたは文書ファイルを指定してください。
 birt.viewer.taglib.NO_REPORT_DOCUMENT=Reportlet ではレポート文書ファイルが必要です。
 birt.viewer.taglib.NO_REQUESTER_NAME=リクエスタの名前を指定してください。

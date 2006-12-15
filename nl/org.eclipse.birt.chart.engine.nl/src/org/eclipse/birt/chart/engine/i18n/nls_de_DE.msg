@@ -99,7 +99,7 @@ exception.base.orthogonal.null.datapoint=Die angegebenen Datenpunkte enthalten e
 exception.base.orthogonal.null.datadefinition=Der angegebene Datendefinitionsausdruck ist ungültig..
 exception.dataset.non.numerical.to.numerical=Unerwarteter nicht numerischer Datentyp {0} in Datensatz gefunden; Umwandlung in numerischen Wert nicht möglich.
 exception.dataset.non.datetime=Der an die X-Achse gebundene Datentyp hat nicht das Format "Datum/Uhrzeit"
-exception.scale.tick.max=Unable to render too many grids. Please adjust the scale step or unit.
+exception.scale.tick.max=Rendern von zu vielen Häkchen nicht möglich. Passen Sie den Skalenschritt oder die Einheit an.
 exception.unknown.axis.type.tick.computations=Achsentyp zur Berechnung der Skalenunterteilung kann nicht bestimmt werden
 exception.unsupported.compare.unknown.objects=Nicht unterstützte Datenelemente für Vergleich DE1={0} und DE2={1} angegeben
 exception.unsupported.compare.different.objects=Gemischte Datenelemente für Vergleich DE1={0} und DE2={1} angegeben

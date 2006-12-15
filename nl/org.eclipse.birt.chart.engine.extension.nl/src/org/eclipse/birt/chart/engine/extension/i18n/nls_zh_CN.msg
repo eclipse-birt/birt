@@ -51,8 +51,8 @@ exception.legend.graphic.unknown.riser=无法为未知的上升器类型 {0} 绘制图例图形
 exception.unspecified.visible.series.title=未为可见的系列标题指定系列标题位置
 exception.unspecified.riser.type=指定了未知的上升器类型 {0}
 exception.invalid.data.point.position.scatter=当在散点图系列上进行绘制时，不支持数据点标签位置 {0}。允许的值为 ABOVE、BELOW、LEFT 和 RIGHT。
-exception.invalid.data.point.position.bubble=Data point label position {0} is not supported when rendering on a bubble series. Allowed values are ABOVE, BELOW, LEFT and RIGHT.
-exception.invalid.data.point.outbound.bubble=No bubble is in the range of plot area. Please check the axis scale.
+exception.invalid.data.point.position.bubble=在气泡图系列上进行绘制时，不支持数据点标签位置 {0}。允许的值为 ABOVE、BELOW、LEFT 和 RIGHT。
+exception.invalid.data.point.outbound.bubble=绘图区域的范围内没有气泡。请检查轴刻度。
 exception.illegal.pie.series.title.position=为系列标题位置 = {0} 指定的值无效
 exception.illegal.datapoint.position.bar=当在条形图系列上进行绘制时，不支持数据点标签位置 {0}。允许的值为 OUTSIDE 和 INSIDE。
 exception.illegal.datapoint.position.line=当在线条系列上进行绘制时，不支持数据点标签位置 {0}。允许的值为 ABOVE、BELOW、LEFT 和 RIGHT。

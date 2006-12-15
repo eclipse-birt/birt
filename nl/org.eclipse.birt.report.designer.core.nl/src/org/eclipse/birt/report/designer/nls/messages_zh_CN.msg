@@ -191,7 +191,7 @@ BordersPage.Tooltip.Left=左框线
 BordersPage.Tooltip.None=无
 BordersPage.Tooltip.Right=右框线
 BordersPage.Tooltip.Top=上框线
-BordersPage.text.Preview=Preview:
+BordersPage.text.Preview=预览:
 BordersPage.Trans.SelectBorder=Select Border
 BordersPage.Trans.SelectAllborders=Select all borders
 
@@ -1500,10 +1500,10 @@ GeneralInsertMenuAction.text.Text=文本(&T)
 #GeneralPreferencePage properties
 
 GeneralPreferencePage.errorMsg.duplicate.styleName=重复的样式名称。
-GeneralPreferencePage.label.styleNameDuplicate=已存在，请选择另一个名称
+GeneralPreferencePage.label.styleNameDuplicate=样式名称“{0}”已存在，请选择另一个名称
 GeneralPreferencePage.label.customStyle=自定义样式(&C)
 GeneralPreferencePage.label.predefinedStyle=预定义样式(&P)
-GeneralPreferencePage.label.nameEmpty=样式名称
+GeneralPreferencePage.label.nameEmpty=不允许空样式名称。 
 
 ###########################################################
 #GridEditPart properties
@@ -1620,8 +1620,8 @@ HighlightRuleBuilderDialog.tooltip.Bold=粗体
 HighlightRuleBuilderDialog.tooltip.Italic=斜体
 HighlightRuleBuilderDialog.tooltip.Underline=下划线
 HighlightRuleBuilderDialog.tooltip.Text_Line_Through=文本删除线
-HighlightRuleBuilderDialog.text.applyStyle=Use the formatting from style:
-HighlightRuleBuilderDialog.displayText.None=None
+HighlightRuleBuilderDialog.text.applyStyle=使用样式中的格式:
+HighlightRuleBuilderDialog.displayText.None=无
 
 ###########################################################
 #HighlightsPage properties

@@ -51,8 +51,8 @@ exception.legend.graphic.unknown.riser=Legendengrafik für unbekannten Anstiegsty
 exception.unspecified.visible.series.title=Die Titelposition der Datenreihe wurde für einen sichtbaren Datenreihentitel nicht festgelegt
 exception.unspecified.riser.type=Unbekannter Anstiegstyp {0} festgelegt.
 exception.invalid.data.point.position.scatter=Datenpunkt-Beschriftungsposition {0} wird beim Rendern von Punktdatenreihen nicht unterstützt. Gültige Werte sind ABOVE, BELOW, LEFT und RIGHT.
-exception.invalid.data.point.position.bubble=Data point label position {0} is not supported when rendering on a bubble series. Allowed values are ABOVE, BELOW, LEFT and RIGHT.
-exception.invalid.data.point.outbound.bubble=No bubble is in the range of plot area. Please check the axis scale.
+exception.invalid.data.point.position.bubble=Datenpunkt-Beschriftungsposition {0} wird beim Rendern von Blasen-Reihen nicht unterstützt. Gültige Werte sind ABOVE, BELOW, LEFT und RIGHT.
+exception.invalid.data.point.outbound.bubble=Es befindet sich keine Blase im Bereich der Diagrammfläche. Überprüfen Sie die Achsenskala.
 exception.illegal.pie.series.title.position=Ungültiger Wert für Titelposition = {0} der Datenreihe festgelegt
 exception.illegal.datapoint.position.bar=Datenpunkt-Beschriftungsposition {0} wird beim Rendern von Balkendatenreihen nicht unterstützt. Gültige Werte sind OUTSIDE und INSIDE.
 exception.illegal.datapoint.position.line=Datenpunkt-Beschriftungsposition {0} wird beim Rendern von Liniendatenreihen nicht unterstützt. Gültige Werte sind ABOVE, BELOW, LEFT und RIGHT

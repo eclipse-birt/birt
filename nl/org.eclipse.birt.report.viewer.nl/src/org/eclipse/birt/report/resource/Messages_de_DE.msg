@@ -89,9 +89,9 @@ birt.viewer.dialog.exportdata.resultsets=Verfügbare Ergebnisse
 birt.viewer.dialog.exportdata.availablecolumn=Verfügbare Spalten
 birt.viewer.dialog.exportdata.selectedcolumn=Ausgewählte Spalten
 birt.viewer.dialog.exportdata.format=Die Daten werden im CSV-Format exportiert.
-birt.viewer.dialog.exportdata.encoding=Output encoding:
-birt.viewer.dialog.exportdata.encoding.other=Other
-birt.viewer.dialog.exportdata.encoding.comment=(If blank,use the local encoding)
+birt.viewer.dialog.exportdata.encoding=Ausgabecodierung:
+birt.viewer.dialog.exportdata.encoding.other=Andere
+birt.viewer.dialog.exportdata.encoding.comment=(Wenn leer, lokale Codierung verwenden)
 birt.viewer.dialog.exportdata.addall=Alle hinzufügen
 birt.viewer.dialog.exportdata.add=Hinzuf
 birt.viewer.dialog.exportdata.removeall=Alles entfernen
@@ -142,9 +142,9 @@ birt.viewer.exceptionDialog.showStackTrace=Show Exception Stack Trace
 ###############################################################################
 # Birt Viewer JSP Taglib
 ###############################################################################
-birt.viewer.taglib.NO_VIEWER_ID=Attribute id must be specified.
-birt.viewer.taglib.INVALID_VIEWER_ID=Attribute id contains invalid characters.
-birt.viewer.taglib.VIEWER_ID_DUPLICATE=Attribute id must be unique.
+birt.viewer.taglib.NO_VIEWER_ID=Attribut-ID muss angegeben werden.
+birt.viewer.taglib.INVALID_VIEWER_ID=Attribut-ID enthält ungültige Zeichen.
+birt.viewer.taglib.VIEWER_ID_DUPLICATE=Attribut-ID muss eindeutig sein.
 birt.viewer.taglib.NO_REPORT_SOURCE=Berichtdesign oder Dokumentdatei muss angegeben werden.
 birt.viewer.taglib.NO_REPORT_DOCUMENT=Reportlet benötigt Berichtsdokument.
 birt.viewer.taglib.NO_REQUESTER_NAME=Requester-Name muss angegeben werden..

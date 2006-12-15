@@ -51,8 +51,8 @@ exception.legend.graphic.unknown.riser=No es posible procesar un gráfico de leye
 exception.unspecified.visible.series.title=No se ha especificado la posición del título de la serie para un título de serie visible
 exception.unspecified.riser.type=Se ha especificado un tipo de ganancia desconocido {0}.
 exception.invalid.data.point.position.scatter=La posición de la etiqueta del punto de datos {0} no se admite al procesarse en una serie de dispersión. Los valores permitidos son ARRIBA, ABAJO, IZQUIERDA y DERECHA.
-exception.invalid.data.point.position.bubble=Data point label position {0} is not supported when rendering on a bubble series. Allowed values are ABOVE, BELOW, LEFT and RIGHT.
-exception.invalid.data.point.outbound.bubble=No bubble is in the range of plot area. Please check the axis scale.
+exception.invalid.data.point.position.bubble=La posición de la etiqueta del punto de datos {0} no se admite al procesarse en una serie de burbujas. Los valores permitidos son ABOVE, BELOW, LEFT y RIGHT.
+exception.invalid.data.point.outbound.bubble=No hay ninguna burbuja en el intervalo del área de dibujo. Compruebe la escala del eje.
 exception.illegal.pie.series.title.position=Se ha especificado un valor no válido para la posición del título de serie = {0}
 exception.illegal.datapoint.position.bar=La posición de la etiqueta de punto de datos {0} no se admite al procesarse en una serie de barras. Los valores permitidos son EXTERIOR e INTERIOR.
 exception.illegal.datapoint.position.line=La posición de la etiqueta del punto de datos {0} no se admite al procesarse en una serie de líneas. Los valores permitidos son ARRIBA, ABAJO, IZQUIERDA y DERECHA.

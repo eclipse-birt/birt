@@ -51,8 +51,8 @@ exception.legend.graphic.unknown.riser=알 수 없는 계단 형식 {0}에 대한 범례 그래
 exception.unspecified.visible.series.title=표시되는 계열 제목에 대한 계열 제목 위치가 지정되지 않았습니다.
 exception.unspecified.riser.type=알 수 없는 계단 형식 {0}이(가) 지정되었습니다.
 exception.invalid.data.point.position.scatter=분산형 계열에서 렌더링할 때는 데이터 요소 레이블 위치 {0}이(가) 지원되지 않습니다. 허용되는 값은 ABOVE, BELOW, LEFT 및 RIGHT입니다.
-exception.invalid.data.point.position.bubble=Data point label position {0} is not supported when rendering on a bubble series. Allowed values are ABOVE, BELOW, LEFT and RIGHT.
-exception.invalid.data.point.outbound.bubble=No bubble is in the range of plot area. Please check the axis scale.
+exception.invalid.data.point.position.bubble=거품형 계열에서 렌더링할 때는 데이터 요소 레이블 위치 {0}이(가) 지원되지 않습니다. 허용되는 값은 ABOVE, BELOW, LEFT 및 RIGHT입니다.
+exception.invalid.data.point.outbound.bubble=어떤 거품도 플롯 영역에 있지 않습니다. 축 배율을 확인하십시오.
 exception.illegal.pie.series.title.position=계열 제목 위치 = {0}에 잘못된 값이 지정되었습니다.
 exception.illegal.datapoint.position.bar=막대형 계열에서 렌더링할 때는 데이터 요소 레이블 위치 {0}이(가) 지원되지 않습니다. 허용되는 값은 OUTSIDE 및 INSIDE입니다.
 exception.illegal.datapoint.position.line=선형 계열에서 렌더링할 때는 데이터 요소 레이블 위치 {0}이(가) 지원되지 않습니다. 허용되는 값은 ABOVE, BELOW, LEFT 및 RIGHT입니다.

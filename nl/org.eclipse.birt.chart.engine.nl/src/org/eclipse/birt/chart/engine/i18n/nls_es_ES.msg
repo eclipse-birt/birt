@@ -99,7 +99,7 @@ exception.base.orthogonal.null.datapoint=Los datapoints indicados contienen un v
 exception.base.orthogonal.null.datadefinition=La expresión de definición de datos indicada no es válida..
 exception.dataset.non.numerical.to.numerical=Se ha encontrado un tipo de datos no numérico inesperado {0} en el conjunto de datos; no se puede convertir a un valor numérico
 exception.dataset.non.datetime=El tipo de datos enlazado al eje X no tiene un formato de fecha/hora
-exception.scale.tick.max=Unable to render too many grids. Please adjust the scale step or unit.
+exception.scale.tick.max=No es posible procesar demasiadas marcas. Ajuste la unidad o paso de escala.
 exception.unknown.axis.type.tick.computations=No es posible determinar un tipo de eje necesario para procesar las marcas
 exception.unsupported.compare.unknown.objects=Se han proporcionado elementos de datos no admitidos para comparar DE1={0} y DE2={1}
 exception.unsupported.compare.different.objects=Se han proporcionado elementos de datos mezclados para comparar DE1={0} y DE2={1}
