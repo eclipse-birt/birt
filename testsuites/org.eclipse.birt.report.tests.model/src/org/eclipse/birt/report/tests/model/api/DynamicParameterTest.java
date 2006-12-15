@@ -16,6 +16,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 public class DynamicParameterTest extends BaseTestCase
 {
 	static final String INPUT_FILE_NAME = "DynamicParameterTest.xml"; //$NON-NLS-1$
+	static final String INPUT_FILE_NAME1 ="DynamicParameterTest1.xml";
 	static final String OUTPUT_FILE_NAME = "DynamicParameterTest_out.xml"; //$NON-NLS-1$
 	static final String GOLDEN_FILE_NAME = "DynamicParameterTest_golden.xml";
 	
@@ -34,9 +35,12 @@ public class DynamicParameterTest extends BaseTestCase
 			super.setUp( );
 			removeResource( );
 			
-			copyResource_INPUT( INPUT_FILE_NAME , INPUT_FILE_NAME );
-			copyResource_GOLDEN (GOLDEN_FILE_NAME, GOLDEN_FILE_NAME);
-			
+			//copyResource_INPUT( INPUT_FILE_NAME , INPUT_FILE_NAME );
+			//copyResource_GOLDEN (GOLDEN_FILE_NAME, GOLDEN_FILE_NAME);
+			//copyInputToFile ( INPUT_FOLDER + "/" + INPUT_FILE_NAME1 );
+			copyInputToFile ( INPUT_FOLDER + "/" + INPUT_FILE_NAME );
+			copyInputToFile ( INPUT_FOLDER + "/" + INPUT_FILE_NAME1 );
+			copyGoldenToFile ( GOLDEN_FOLDER + "/" + GOLDEN_FILE_NAME );
 			openDesign( INPUT_FILE_NAME ); //$NON-NLS-1$
 		}
 		
@@ -101,14 +105,16 @@ public class DynamicParameterTest extends BaseTestCase
 			
 			//test on params on duplicated name
 			try{
-				openDesign( "DynamicParamterTest1.xml" );
+				openDesign( INPUT_FILE_NAME1 );
 			   }
 			catch (DesignFileException e)
 			{}
 			
-			super.saveAs(OUTPUT_FILE_NAME);
-			assertTrue( compareTextFile( GOLDEN_FILE_NAME, OUTPUT_FILE_NAME ));
-			
+			//super.saveAs(OUTPUT_FILE_NAME);
+			//assertTrue( compareTextFile( GOLDEN_FILE_NAME, OUTPUT_FILE_NAME ));
+			String TempFile=this.genOutputFile(OUTPUT_FILE_NAME);
+			designHandle.saveAs( TempFile );
+			assertTrue( compareTextFile( GOLDEN_FILE_NAME, OUTPUT_FILE_NAME ) );
 
 		}
 }

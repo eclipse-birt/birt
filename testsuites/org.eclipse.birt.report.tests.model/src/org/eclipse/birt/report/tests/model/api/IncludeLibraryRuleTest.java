@@ -13,7 +13,7 @@ public class IncludeLibraryRuleTest extends BaseTestCase
 {
 
 	String fileName = "BlankReport.xml";
-
+	String libfileName = "DesignIncludeLibraryTest.xml";
 	private String outputFileName = "IncludeLibraryRuleTest10.xml";
 
 	private String LibA = "LibA.xml";
@@ -38,10 +38,12 @@ public class IncludeLibraryRuleTest extends BaseTestCase
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( fileName , fileName );
-		copyResource_INPUT( LibA , LibA );
-		copyResource_INPUT( LibB , LibB );
-		copyResource_INPUT( LibC , LibC );
+		
+		copyInputToFile ( INPUT_FOLDER + "/" + fileName );
+		copyInputToFile ( INPUT_FOLDER + "/" + libfileName );
+		copyInputToFile ( INPUT_FOLDER + "/" + LibA );
+		copyInputToFile ( INPUT_FOLDER + "/" + LibB );
+		copyInputToFile ( INPUT_FOLDER + "/" + LibC );
 	}
 
 	public void tearDown( )
@@ -157,9 +159,9 @@ public class IncludeLibraryRuleTest extends BaseTestCase
 
 	public void testIncludeLibraryRule10( ) throws Exception
 	{
-		String fileName = "DesignIncludeLibraryTest.xml";
-		copyResource_INPUT (fileName, fileName);
-		openDesign( fileName );
+		//String fileName = "DesignIncludeLibraryTest.xml";
+		//copyResource_INPUT (libfileName, libfileName);
+		openDesign( libfileName );
 		designHandle.includeLibrary( LibA, "LibA" );
 		designHandle.includeLibrary( LibB, "LibB" );
 
@@ -176,7 +178,7 @@ public class IncludeLibraryRuleTest extends BaseTestCase
 		styleDesignHandle.drop( );
 
 		super.saveAs( outputFileName );
-
+		
 		TextItemHandle text2DesignHandle = (TextItemHandle) designHandle
 				.findElement( "text1" );
 		assertNotNull( "Text should not be null", text2DesignHandle );

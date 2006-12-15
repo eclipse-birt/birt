@@ -48,7 +48,7 @@ public class ExternalCssStyleSheet1Test extends BaseTestCase
 		super.setUp( );
 		removeResource( );
 		
-		copyResource_INPUT( fileName , fileName );
+		copyInputToFile( INPUT_FOLDER + "/" + fileName );
 		
 	//	Platform.initialize( null );
 		SessionHandle designSession = DesignEngine.newSession( ULocale.ENGLISH );
@@ -63,7 +63,7 @@ public class ExternalCssStyleSheet1Test extends BaseTestCase
 	private CssStyleSheetHandle loadStyleSheet( String fileName ) throws Exception
     {
 		fileName = INPUT_FOLDER + "/" + fileName;
-		InputStream is = ExternalCssStyleSheetTest1.class.getResourceAsStream( fileName );
+		InputStream is = ExternalCssStyleSheet1Test.class.getResourceAsStream( fileName );
 		return designHandle.openCssStyleSheet( is );
     }
 

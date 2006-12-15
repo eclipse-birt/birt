@@ -34,7 +34,7 @@ public class EmbeddedImageHandleTest extends BaseTestCase
 			removeResource( );
 			
 			// retrieve two input files from tests-model.jar file
-			copyResource_INPUT( filename , filename );
+			copyInputToFile( INPUT_FOLDER+ "/"+ filename  );
 		
 			
 		}
@@ -43,7 +43,7 @@ public class EmbeddedImageHandleTest extends BaseTestCase
 		{
 	
 			SessionHandle sessionHandle = DesignEngine.newSession( ULocale.ENGLISH );
-			ReportDesignHandle designHandle = sessionHandle.openDesign(this.getFullQualifiedClassName() + "/" + INPUT_FOLDER+ "/" +filename);
+			ReportDesignHandle designHandle = sessionHandle.openDesign(getTempFolder() + "/" +INPUT_FOLDER+ "/" + filename);
 			
 			SimpleValueHandle propHandle = (SimpleValueHandle)designHandle.getPropertyHandle( ReportDesign.IMAGES_PROP );
 			

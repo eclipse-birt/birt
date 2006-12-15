@@ -14,7 +14,8 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 public class LibraryAddTest extends BaseTestCase
 {	
-	String fileName = "Library_Addin_test.xml";
+	private String fileName = "Library_Addin_test.xml";
+	private String LibImpFile = "Library_Import_test.xml";
 	private String inputLibraryName = "LibraryCreatLib.xml";
 	private String  libname = "LibA.xml";
     private String outFileName = "Library_Addin_Test_out.xml"; 
@@ -22,6 +23,29 @@ public class LibraryAddTest extends BaseTestCase
 	String LibFile= inputLibraryName;
 	String LibFileError1 = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + "LibY.xml";
 
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+		//copyResource_INPUT( fileName, fileName );
+		//copyResource_INPUT( inputLibraryName, inputLibraryName );
+		//copyResource_INPUT( libname, libname );
+		//copyResource_INPUT( LibImpFile, LibImpFile );
+		//copyResource_GOLDEN( goldenFileName, goldenFileName );
+		
+		copyInputToFile ( INPUT_FOLDER + "/" + fileName );
+		copyInputToFile ( INPUT_FOLDER + "/" + inputLibraryName );
+		copyInputToFile ( INPUT_FOLDER + "/" + libname );
+		copyInputToFile ( INPUT_FOLDER + "/" + LibImpFile );
+		
+		copyGoldenToFile ( GOLDEN_FOLDER + "/" + goldenFileName );
+
+		
+	}
+	public void tearDown( )
+	{
+		removeResource( );
+	}
 	public LibraryAddTest(String name) 
 	{	
 		super(name);
@@ -31,27 +55,19 @@ public class LibraryAddTest extends BaseTestCase
 		
 		return new TestSuite(LibraryAddTest.class);
 	}
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		copyResource_INPUT( fileName, fileName );
-		copyResource_INPUT( inputLibraryName, inputLibraryName );
-		copyResource_INPUT( libname, libname );
-		copyResource_GOLDEN( goldenFileName, goldenFileName );
-		copyResource_INPUT( "Library_Import_test.xml", "Library_Import_test.xml");
-	}
-	public void tearDown( )
-	{
-		removeResource( );
-	}
+	
 	public void testAddinLibrary( ) throws Exception
 	{
-		openDesign( "Library_Import_test.xml" );
+		openDesign( LibImpFile );
 		designHandle.includeLibrary( LibFile, "LibB" );
 		designHandle.includeLibrary( libname , "");
-		saveAs( outFileName );
-	    assertTrue( compareTextFile( goldenFileName, outFileName ) );
+		//saveAs( outFileName );
+	    //assertTrue( compareTextFile( goldenFileName, outFileName ) );
+		String TempFile=this.genOutputFile(outFileName);
+		designHandle.saveAs( TempFile );
+		assertTrue( compareTextFile( goldenFileName, outFileName ) );
+
+		
 	    
 	    try
 	    {
@@ -91,7 +107,7 @@ public class LibraryAddTest extends BaseTestCase
 	    	}
 	public void testRemoveLibrary( ) throws Exception
 	{
-		openDesign( "Library_Import_test.xml" );
+		openDesign( LibImpFile );
 		designHandle.includeLibrary( LibFile, "LibB" );
 		designHandle.includeLibrary( "../input/LibA.xml" , "");
 		LibraryHandle lib1 = designHandle.findLibrary( "LibraryCreatLib.xml" );
