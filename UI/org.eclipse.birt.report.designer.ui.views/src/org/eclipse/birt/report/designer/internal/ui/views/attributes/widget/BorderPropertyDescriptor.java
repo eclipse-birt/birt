@@ -1,6 +1,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
@@ -31,7 +32,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 
 public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
@@ -39,7 +39,8 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 
 	private boolean isFormStyle;
 
-	private Button restoreButton;
+	private BorderInfomation restoreInfo;
+
 	public BorderPropertyDescriptor( boolean isFormStyle )
 	{
 		this.isFormStyle = isFormStyle;
@@ -142,6 +143,9 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 
 				public void widgetSelected( SelectionEvent e )
 				{
+					SessionHandleAdapter.getInstance( )
+							.getCommandStack( )
+							.startTrans( "Select border" );
 					if ( ( (Button) e.widget ).getSelection( ) )
 					{
 						BorderInfomation information = new BorderInfomation( );
@@ -151,9 +155,9 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 						information.setStyle( (String) styleCombo.getSelectedItem( ) );
 						information.setWidth( (String) widthCombo.getSelectedItem( ) );
 						previewCanvas.setBorderInfomation( information );
+						restoreInfo = information;
 						try
 						{
-							restoreButton = (Button) e.widget;
 							provider.save( information );
 						}
 						catch ( Exception e1 )
@@ -164,20 +168,48 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 					}
 					else
 					{
-						previewCanvas.removeBorderInfomation( provider.getPosition( ) );
-						if ( allButton.getSelection( ) )
-							allButton.setSelection( false );
-						try
+						BorderInfomation oldInfo = (BorderInfomation) provider.load( );
+						if ( !( oldInfo.getStyle( ).equals( (String) styleCombo.getSelectedItem( ) ) )
+								|| !( oldInfo.getColor( ).equals( builder.getRGB( ) ) )
+								|| !( oldInfo.getWidth( ).equals( (String) widthCombo.getSelectedItem( ) ) ) )
 						{
-							if((Button) e.widget == restoreButton)restoreButton = null;
-							provider.reset( );
+							BorderInfomation information = new BorderInfomation( );
+
+							information.setPosition( provider.getPosition( ) );
+							information.setColor( builder.getRGB( ) );
+							information.setStyle( (String) styleCombo.getSelectedItem( ) );
+							information.setWidth( (String) widthCombo.getSelectedItem( ) );
+							previewCanvas.setBorderInfomation( information );
+							restoreInfo = information;
+							try
+							{
+								provider.save( information );
+							}
+							catch ( Exception e1 )
+							{
+								ExceptionHandler.handle( e1 );
+							}
+							( (Button) e.widget ).setSelection( true );
 						}
-						catch ( Exception e1 )
+						else
 						{
-							ExceptionHandler.handle( e1 );
+							previewCanvas.removeBorderInfomation( provider.getPosition( ) );
+							if ( allButton.getSelection( ) )
+								allButton.setSelection( false );
+							try
+							{
+								provider.reset( );
+							}
+							catch ( Exception e1 )
+							{
+								ExceptionHandler.handle( e1 );
+							}
 						}
 					}
 					previewCanvas.redraw( );
+					SessionHandleAdapter.getInstance( )
+							.getCommandStack( )
+							.commit( );
 				}
 
 			} );
@@ -191,6 +223,9 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 
 			public void widgetSelected( SelectionEvent e )
 			{
+				SessionHandleAdapter.getInstance( )
+						.getCommandStack( )
+						.startTrans( "Select all borders" );
 				if ( ( (Button) e.widget ).getSelection( ) )
 				{
 					for ( int i = 0; i < toggleProviders.length; i++ )
@@ -200,8 +235,8 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 						information.setColor( builder.getRGB( ) );
 						information.setStyle( (String) styleCombo.getSelectedItem( ) );
 						information.setWidth( (String) widthCombo.getSelectedItem( ) );
-						previewCanvas.setBorderInfomation( information );
 						toggles[i].setSelection( true );
+						previewCanvas.setBorderInfomation( information );
 						try
 						{
 							toggleProviders[i].save( information );
@@ -211,28 +246,65 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 							ExceptionHandler.handle( e1 );
 						}
 					}
-					restoreButton = toggles[toggleProviders.length-1];
+					restoreInfo = (BorderInfomation) toggleProviders[toggleProviders.length - 1].load( );
 				}
 				else
 				{
+					boolean reset = true;
 					for ( int i = 0; i < toggleProviders.length; i++ )
 					{
-						previewCanvas.removeBorderInfomation( toggleProviders[i].getPosition( ) );
-						toggles[i].setSelection( false );
-						try
+						BorderInfomation info = (BorderInfomation) toggleProviders[i].load( );
+						if ( !( info.getStyle( ).equals( (String) styleCombo.getSelectedItem( ) ) )
+								|| !( info.getColor( ).equals( builder.getRGB( ) ) )
+								|| !( info.getWidth( ).equals( (String) widthCombo.getSelectedItem( ) ) ) )
 						{
-							toggleProviders[i].reset( );
-						}
-						catch ( Exception e1 )
-						{
-							ExceptionHandler.handle( e1 );
+							reset = false;
+							break;
 						}
 					}
-					restoreButton = null;
+					if ( reset )
+					{
+						for ( int i = 0; i < toggleProviders.length; i++ )
+						{
+							previewCanvas.removeBorderInfomation( toggleProviders[i].getPosition( ) );
+							toggles[i].setSelection( false );
+							try
+							{
+								toggleProviders[i].reset( );
+							}
+							catch ( Exception e1 )
+							{
+								ExceptionHandler.handle( e1 );
+							}
+						}
+					}
+					else
+					{
+						for ( int i = 0; i < toggleProviders.length; i++ )
+						{
+							BorderInfomation information = new BorderInfomation( );
+
+							information.setPosition( toggleProviders[i].getPosition( ) );
+							information.setColor( builder.getRGB( ) );
+							information.setStyle( (String) styleCombo.getSelectedItem( ) );
+							information.setWidth( (String) widthCombo.getSelectedItem( ) );
+							previewCanvas.setBorderInfomation( information );
+							restoreInfo = information;
+							try
+							{
+								toggleProviders[i].save( information );
+							}
+							catch ( Exception e1 )
+							{
+								ExceptionHandler.handle( e1 );
+							}
+						}
+						( (Button) e.widget ).setSelection( true );
+					}
 				}
 				previewCanvas.redraw( );
+				SessionHandleAdapter.getInstance( ).getCommandStack( ).commit( );
 			}
-
 		} );
 
 		Composite previewContainer = new Composite( content, SWT.NONE );
@@ -301,27 +373,22 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 
 	public void load( )
 	{
-		boolean init = false;
-		for ( int i = toggleProviders.length - 1; i >= 0; i-- )
+		// for ( int i = toggleProviders.length - 1; i >= 0; i-- )
+		for ( int i = 0; i < toggleProviders.length; i++  )
 		{
 			BorderInfomation info = (BorderInfomation) toggleProviders[i].load( );
 			previewCanvas.setBorderInfomation( info );
 			if ( !info.getStyle( ).equals( "" ) )
 			{
 				toggles[i].setSelection( true );
-				if ( (!init && restoreButton == null) || toggles[i] == restoreButton)
-				{
-					refreshStyle( info.getStyle( ) );
-					refreshWidth( info.getWidth( ) );
-					refreshColor( info.getColor( ) );
-					init = true;
-				}
 			}
 			else
+			{
 				toggles[i].setSelection( false );
+			}
 		}
 		previewCanvas.redraw( );
-		if ( !init )
+		if ( restoreInfo == null )
 		{
 			if ( styleCombo.getSelectedItem( ) == null )
 			{
@@ -338,6 +405,12 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 				String borderColor = colorProvider.load( ).toString( );
 				refreshColor( borderColor );
 			}
+		}
+		else
+		{
+			refreshStyle( restoreInfo.getStyle( ) );
+			refreshWidth( restoreInfo.getWidth( ) );
+			refreshColor( restoreInfo.getColor( ) );
 		}
 		checkToggleButtons( );
 	}
@@ -443,10 +516,24 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 	{
 		PropertyEvent event = (PropertyEvent) ev;
 		String propertyName = event.getPropertyName( );
-		if ( propertyName.equals( StyleHandle.BORDER_TOP_WIDTH_PROP )
+		if ( propertyName.equals( StyleHandle.BORDER_BOTTOM_WIDTH_PROP )
+				|| propertyName.equals( StyleHandle.BORDER_TOP_WIDTH_PROP )
 				|| propertyName.equals( StyleHandle.BORDER_LEFT_WIDTH_PROP )
-				|| propertyName.equals( StyleHandle.BORDER_BOTTOM_WIDTH_PROP )
 				|| propertyName.equals( StyleHandle.BORDER_RIGHT_WIDTH_PROP ) )
+		{
+			load( );
+		}
+		else if ( propertyName.equals( StyleHandle.BORDER_BOTTOM_STYLE_PROP )
+				|| propertyName.equals( StyleHandle.BORDER_TOP_STYLE_PROP )
+				|| propertyName.equals( StyleHandle.BORDER_LEFT_STYLE_PROP )
+				|| propertyName.equals( StyleHandle.BORDER_RIGHT_STYLE_PROP ) )
+		{
+			load( );
+		}
+		else if ( propertyName.equals( StyleHandle.BORDER_BOTTOM_COLOR_PROP )
+				|| propertyName.equals( StyleHandle.BORDER_LEFT_COLOR_PROP )
+				|| propertyName.equals( StyleHandle.BORDER_RIGHT_COLOR_PROP )
+				|| propertyName.equals( StyleHandle.BORDER_TOP_COLOR_PROP ) )
 		{
 			load( );
 		}
