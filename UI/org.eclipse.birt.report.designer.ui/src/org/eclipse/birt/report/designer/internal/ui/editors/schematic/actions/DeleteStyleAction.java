@@ -43,11 +43,11 @@ public class DeleteStyleAction extends DynamicItemAction
 		{
 			setText( ( (ThemeHandle) handle.getContainerSlotHandle( )
 					.getElementHandle( ) ).getName( ) + "." //$NON-NLS-1$
-					+ DEUtil.getEscapedMenuItemText( handle.getDisplayLabel( ) ) );
+					+ DEUtil.getEscapedMenuItemText( DEUtil.getDisplayLabel( handle, false ) ) );
 		}
 		else
 		{
-			setText( DEUtil.getEscapedMenuItemText( handle.getDisplayLabel( ) ) );
+			setText( DEUtil.getEscapedMenuItemText( DEUtil.getDisplayLabel( handle, false ) ) );
 		}
 		action = new DeleteAction(handle);
 	}

@@ -59,12 +59,15 @@ public class ApplyStyleAction extends DynamicItemAction
 			if ( handle.getContainerSlotHandle( ).getElementHandle( ) instanceof ThemeHandle )
 			{
 				setText( ( (ThemeHandle) handle.getContainerSlotHandle( )
-						.getElementHandle( ) ).getName( ) + "." //$NON-NLS-1$
-						+ DEUtil.getEscapedMenuItemText( handle.getDisplayLabel( ) ) );
+						.getElementHandle( ) ).getName( )
+						+ "." //$NON-NLS-1$
+						+ DEUtil.getEscapedMenuItemText( DEUtil.getDisplayLabel( handle,
+								false ) ) );
 			}
 			else
 			{
-				setText( DEUtil.getEscapedMenuItemText( handle.getDisplayLabel( ) ) );
+				setText( DEUtil.getEscapedMenuItemText( DEUtil.getDisplayLabel( handle,
+						false ) ) );
 			}
 		}
 	}
@@ -78,14 +81,14 @@ public class ApplyStyleAction extends DynamicItemAction
 		if ( handles.isEmpty( ) )
 			return false;
 		for ( int i = 0; i < handles.size( ); i++ )
-		{			
+		{
 			if ( !( handles.get( i ) instanceof DesignElementHandle ) )
 			{
 				return false;
 			}
-			
-			DesignElementHandle handle = (DesignElementHandle)handles.get( i );
-			if(handle != null && handle.getDefn( ).hasStyle( ) == false)
+
+			DesignElementHandle handle = (DesignElementHandle) handles.get( i );
+			if ( handle != null && handle.getDefn( ).hasStyle( ) == false )
 			{
 				return false;
 			}

@@ -41,27 +41,32 @@ public class EditStyleAction extends DynamicItemAction
 		if ( handle.getContainerSlotHandle( ).getElementHandle( ) instanceof ThemeHandle )
 		{
 			setText( ( (ThemeHandle) handle.getContainerSlotHandle( )
-					.getElementHandle( ) ).getName( ) + "."
-					+ DEUtil.getEscapedMenuItemText( handle.getDisplayLabel( ) ) );
+					.getElementHandle( ) ).getName( )
+					+ "."
+					+ DEUtil.getEscapedMenuItemText( DEUtil.getDisplayLabel( handle,
+							false ) ) );
 		}
 		else
 		{
-			setText( DEUtil.getEscapedMenuItemText( handle.getDisplayLabel( ) ) );
+			setText( DEUtil.getEscapedMenuItemText( DEUtil.getDisplayLabel( handle,
+					false ) ) );
 		}
 	}
 
 	/*
 	 * (non-Javadoc) Method declared on IAction.
 	 */
-	public boolean isEnabled() {
-		if(handle.canEdit( ))
+	public boolean isEnabled( )
+	{
+		if ( handle.canEdit( ) )
 		{
-			return true;	
-		}else
+			return true;
+		}
+		else
 		{
 			return false;
 		}
-		
+
 	}
 
 	/*
