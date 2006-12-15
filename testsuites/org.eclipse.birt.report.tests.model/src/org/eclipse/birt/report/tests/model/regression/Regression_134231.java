@@ -59,9 +59,10 @@ public class Regression_134231 extends BaseTestCase {
 		removeResource();
 
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT(INPUT, INPUT);
-		copyResource_INPUT(LIBRARY, LIBRARY);
-
+		//copyResource_INPUT(INPUT, INPUT);
+		//copyResource_INPUT(LIBRARY, LIBRARY);
+		copyInputToFile ( INPUT_FOLDER + "/" + INPUT );
+		copyInputToFile ( INPUT_FOLDER + "/" + LIBRARY );
 	}
 
 	/**
@@ -78,8 +79,7 @@ public class Regression_134231 extends BaseTestCase {
 		// test case, the backed-up one will be copied back when case finished.
 
 		//makeOutputDir();
-		// the following code may not work when test plugin is packaged as jar
-		// "getFullQualifiedClassName( )" is recommend to replace "this.getClassFolder()"
+		
 		//copyFile(this.getClassFolder() + "/" + INPUT_FOLDER + "/" + LIBRARY,
 		//		this.getClassFolder() + "/" + OUTPUT_FOLDER + "/" + LIBRARY);
 
@@ -101,17 +101,19 @@ public class Regression_134231 extends BaseTestCase {
 
 		
 		//TODO delete it. See if this piece of code is continue to work after packaging
-		String className = getFullQualifiedClassName( );
-		String tgt = className +  "/" + INPUT_FOLDER + "/"
+		
+		
+		String tgt = getTempFolder() +  "/" + INPUT_FOLDER + "/"
 		+ LIBRARY;
 		
+		//String src = className +  "/" + OUTPUT_FOLDER + "/"
+		//+ LIBRARY;
 		//className = className.replace( '.', '/' );
 		//String src = className + "/" + folder + "/" + src;
 		
 		libraryHandle.saveAs( tgt );
 		
-		//copyResource_INPUT(this.getClassFolder() + "/" + INPUT_FOLDER + "/"
-		//		+ LIBRARY, LIBRARY);
+		
 		// refresh the libraries, make sure the style property is refreshed in
 		// the child text
 
@@ -120,8 +122,7 @@ public class Regression_134231 extends BaseTestCase {
 		assertEquals("blue", text.getStringProperty(StyleHandle.COLOR_PROP)); //$NON-NLS-1$
 
 		// we recover the library file, copied back from backup.
-
-		copyFile(this.getFullQualifiedClassName() + "/" + OUTPUT_FOLDER + "/" + LIBRARY,
-				this.getFullQualifiedClassName() + "/" + INPUT_FOLDER + "/" + LIBRARY);
+		
+		copyFile(getTempFolder()+"/"+ INPUT_FOLDER+"/" + LIBRARY, getTempFolder()+"/"+ OUTPUT_FOLDER+"/" +LIBRARY);
 	}
 }

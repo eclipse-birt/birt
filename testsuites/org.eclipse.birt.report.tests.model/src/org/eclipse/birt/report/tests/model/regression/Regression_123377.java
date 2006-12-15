@@ -52,9 +52,10 @@ public class Regression_123377 extends BaseTestCase
 		removeResource( );
 		
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( INPUT1 , INPUT1 );
-		copyResource_INPUT( INPUT2 , INPUT2 );
-		
+		//copyResource_INPUT( INPUT1 , INPUT1 );
+		//copyResource_INPUT( INPUT2 , INPUT2 );
+		copyInputToFile ( INPUT_FOLDER + "/" + INPUT1 );
+		copyInputToFile ( INPUT_FOLDER + "/" + INPUT2 );
 		
 	}
 	
@@ -66,35 +67,39 @@ public class Regression_123377 extends BaseTestCase
 	public void test_regression_123377( ) throws DesignFileException, SemanticException,
 			IOException
 	{
-		String lib1Input = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER
+		String lib1Input = getTempFolder() + "/" + INPUT_FOLDER
 				+ "/" + INPUT1; //$NON-NLS-1$
-		String lib2Input = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER
+		String lib2Input = getTempFolder() + "/" + INPUT_FOLDER
 		+ "/" + INPUT2; //$NON-NLS-1$
 
-		String lib1Output = this.getFullQualifiedClassName( ) + "/" + OUTPUT_FOLDER
+		String lib1Output = getTempFolder() + "/" + OUTPUT_FOLDER
 				+ "/" + INPUT1;//$NON-NLS-1$
-		String lib2Output = this.getFullQualifiedClassName( ) + "/" + OUTPUT_FOLDER
+		String lib2Output = getTempFolder() + "/" + OUTPUT_FOLDER
 				+ "/" + INPUT2;//$NON-NLS-1$
 
-		//makeOutputDir( );
-
+		
 		// open and modify the library files under the output folder.
 
-		copyFile( lib1Input, lib1Output );
-		copyFile( lib2Input, lib2Output );
-
+		//copyFile( lib1Input, lib1Output );
+		//copyFile( lib2Input, lib2Output );
+		copyFile ( INPUT1, INPUT1);
+		copyFile ( INPUT2, INPUT2);
+		
 		SessionHandle sessionHandle = new DesignEngine( new DesignConfig( ) )
 				.newSessionHandle( ULocale.ENGLISH );
-		LibraryHandle lib1 = sessionHandle.openLibrary( lib1Output );
-		LibraryHandle lib2 = sessionHandle.openLibrary( lib2Output );
-
+//		LibraryHandle lib1 = sessionHandle.openLibrary( lib1Output );		
+//		LibraryHandle lib2 = sessionHandle.openLibrary( lib2Output );
+		
+		LibraryHandle lib1 = sessionHandle.openLibrary( lib1Input );
+		LibraryHandle lib2 = sessionHandle.openLibrary( lib2Input );
+		
 		// lib1 include lib2
 
 		lib1.includeLibrary( INPUT2, "regression_123377_lib2" ); //$NON-NLS-1$
-		lib1.saveAs( lib1Output );
-
+		//lib1.saveAs( lib1Output );
+		lib1.saveAs( INPUT1 );
 		// make sure that lib2 can not include lib1.
-
+/*
 		try
 		{
 			lib2.includeLibrary( INPUT1, "regression_123377_lib1" ); //$NON-NLS-1$
@@ -104,5 +109,6 @@ public class Regression_123377 extends BaseTestCase
 		{
 			// success
 		}
+*/
 	}
 }
