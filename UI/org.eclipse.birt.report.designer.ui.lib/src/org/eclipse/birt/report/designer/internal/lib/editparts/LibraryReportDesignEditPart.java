@@ -205,7 +205,7 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 			if ( obj instanceof DesignElementHandle )
 			{
 				DesignElementHandle handle = (DesignElementHandle) obj;
-				if ( handle.getRoot( ) == null )
+				if ( handle.getRoot( ) == null && (!getChildren( ).isEmpty( ) && ((EditPart)getChildren( ).get( 0 )).getModel( ).equals(  handle)))
 				{
 					return false;
 				}
