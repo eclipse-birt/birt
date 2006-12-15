@@ -110,6 +110,7 @@ public abstract class MultiPageEditorActionBarContributor extends
 		public void updateActionBars( )
 		{
 			subActionBar.updateActionBars( );
+			subActionBar.getToolBarManager( ).update( true );
 		}
 
 		public void dispose( )
@@ -142,7 +143,9 @@ public abstract class MultiPageEditorActionBarContributor extends
 		{
 			return;
 		}
+		getActionBars( ).getToolBarManager( ).update( true );
 		getActionBars( ).updateActionBars( );
+		
 	}
 
 	public void setActivePage( IFormPage page )
@@ -158,11 +161,14 @@ public abstract class MultiPageEditorActionBarContributor extends
 		if ( currentActionBarDef != null )
 		{
 			currentActionBarDef.deactivate( );
+			currentActionBarDef.dispose( );
+			currentActionBarDef = null;
 		}
 		IActionBars rootBar = getActionBars( );
 		if ( page != null )
 		{
-			currentActionBarDef = (SubActionBarDef) subBarMap.get( page.getId( ) );
+			// currentActionBarDef = (SubActionBarDef) subBarMap.get(
+			// page.getId( ) );
 			if ( currentActionBarDef == null )
 			{
 				FormEditor editor = page.getEditor( );
@@ -179,7 +185,8 @@ public abstract class MultiPageEditorActionBarContributor extends
 							currentActionBarDef = new SubActionBarDef( rootBar,
 									pageDef.actionBarContributor );
 							currentActionBarDef.init( getPage( ) );
-							subBarMap.put( page.getId( ), currentActionBarDef );
+							// subBarMap.put( page.getId( ), currentActionBarDef
+							// );
 						}
 					}
 				}
@@ -204,7 +211,10 @@ public abstract class MultiPageEditorActionBarContributor extends
 			currentActionBarDef.activate( );
 			currentActionBarDef.updateActionBars( );
 		}
+		
+		rootBar.getToolBarManager( ).update( true );
 		rootBar.updateActionBars( );
+		
 	}
 
 	public void dispose( )

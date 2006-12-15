@@ -282,13 +282,24 @@ public class DesignerActionBarContributor extends
 	 */
 	public void contributeToToolBar( IToolBarManager tbm )
 	{
+
 		tbm.add( new Separator( ) );
 		String[] zoomStrings = new String[]{
 				ZoomManager.FIT_ALL,
 				ZoomManager.FIT_HEIGHT,
 				ZoomManager.FIT_WIDTH
 		};
-		tbm.add( new ZoomComboContributionItem( getPage( ), zoomStrings ) );
+		ZoomComboContributionItem zoomComboContributionItem = new ZoomComboContributionItem( getPage( ),
+				zoomStrings );
+		if ( getPage( ) != null && getPage( ).getActivePart( ) != null )
+		{
+			zoomComboContributionItem.setZoomManager( (ZoomManager) getPage( ).getActivePart( )
+					.getAdapter( ZoomManager.class ) );
+		}
+		
+		zoomComboContributionItem.setVisible( true );
+		tbm.add( zoomComboContributionItem );			
+		
 	}
 
 	/*
@@ -372,7 +383,8 @@ public class DesignerActionBarContributor extends
 		//$NON-NLS-1$
 		contributeActionsToMenu( editGroupMenu, parameterActions );
 
-		//================ Experimental, use nodeprovider to contribute menu ====================//
+		// ================ Experimental, use nodeprovider to contribute menu
+		// ====================//
 		// ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
 		// .getReportDesignHandle( );
 		//
