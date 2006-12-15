@@ -131,7 +131,8 @@
 			<property name="OutputDir" value="${postingDirectory}/${buildLabel}" />
 			<property name="deposit" value="${buildDirectory}/${buildLabel}" />
 		</ant>
-		
+		<!-- copy directory.txt to output directory -->
+		<copy tofile="${postingDirectory}/${buildLabel}/directory.txt" file="${buildDirectory}/directory.txt"/>
 		<!-- Send build ready mail to QA -->
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="InformQA"/>
 	</target>
@@ -174,6 +175,7 @@
 		</java>
 		
 		<!-- create Pack200 update jars -->
+		<!--
 		<java jar="${buildDirectory}/../eclipse/startup.jar"
 				fork="true"
 				timeout="10800000"
@@ -185,7 +187,7 @@
 			<arg line="-application org.eclipse.update.core.siteOptimizer"/>
 			<arg line="-jarProcessor -outputDir ${updateJarWorkingDir}/site -processAll -pack updateJars/eclipse"/>
 		</java>
-		
+		-->
 		<!-- generate site.xml -->
 		<property file="${buildDirectory}/finalFeaturesVersions.properties"/>
 		<copy file="${eclipse.build.configs}/../../extras/site.xml" tofile="${updateJarWorkingDir}/site/site.xml"/>
