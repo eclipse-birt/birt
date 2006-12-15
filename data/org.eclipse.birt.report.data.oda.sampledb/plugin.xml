@@ -41,6 +41,7 @@
                      defaultDisplayName="Password"
                      name="odaPassword"/>
             </propertyGroup>
+            <propertyVisibility name="odaDataSource" visibility="hide"/>
          </properties>
       </dataSource>   
       <dataSet
