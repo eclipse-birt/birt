@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.util.PluginSettings;
@@ -61,20 +62,21 @@ import org.eclipse.swt.widgets.ScrollBar;
  * of fill definitions. Entries may be updated, new entries added at the end or
  * the existing fill entries may be removed.
  */
-public final class PaletteEditorComposite extends Composite implements
-		PaintListener,
-		ControlListener,
-		DisposeListener,
-		SelectionListener,
-		MouseListener,
-		Listener,
-		KeyListener
+public final class PaletteEditorComposite extends Composite
+		implements
+			PaintListener,
+			ControlListener,
+			DisposeListener,
+			SelectionListener,
+			MouseListener,
+			Listener,
+			KeyListener
 {
 
 	/**
 	 * An internally maintained list of fills directly referenced into a palette
 	 */
-	private final EList elPaletteEntries;
+	private final EList elPaletteEntries1;
 
 	/**
 	 * Miscellaneous variables used in
@@ -131,6 +133,8 @@ public final class PaletteEditorComposite extends Composite implements
 
 	private ChartWizardContext wizardContext;
 
+	private SeriesDefinition[] vSeriesDefns = null;
+
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.composites" ); //$NON-NLS-1$
 
 	/**
@@ -144,10 +148,12 @@ public final class PaletteEditorComposite extends Composite implements
 	 * @param alFills
 	 */
 	public PaletteEditorComposite( Composite coParent,
-			ChartWizardContext wizardContext, Palette pa )
+			ChartWizardContext wizardContext, Palette pa1,
+			SeriesDefinition[] vSeriesDefns )
 	{
 		super( coParent, SWT.NONE );
 		this.wizardContext = wizardContext;
+		this.vSeriesDefns = vSeriesDefns;
 		GridLayout gl = new GridLayout( );
 		gl.numColumns = 1;
 		gl.makeColumnsEqualWidth = true;
@@ -156,7 +162,7 @@ public final class PaletteEditorComposite extends Composite implements
 		coPaletteEntries = new Composite( this, SWT.V_SCROLL );
 		GridData gd = new GridData( GridData.FILL_BOTH );
 		coPaletteEntries.setLayoutData( gd );
-		elPaletteEntries = pa.getEntries( );
+		elPaletteEntries1 = pa1.getEntries( );
 		sb = coPaletteEntries.getVerticalBar( );
 		sb.addSelectionListener( this );
 
@@ -189,17 +195,20 @@ public final class PaletteEditorComposite extends Composite implements
 		btnRemove.setLayoutData( gd );
 		btnRemove.setText( Messages.getString( "PaletteEditorComposite.Lbl.Remove" ) ); //$NON-NLS-1$
 		btnRemove.addSelectionListener( this );
+		btnRemove.setEnabled( elPaletteEntries1.size( ) > 1 ? true : false );
 
 		btnUp = new Button( coControlPanel, SWT.ARROW | SWT.UP );
 		gd = new GridData( );
 		btnUp.setLayoutData( gd );
 		btnUp.setToolTipText( Messages.getString( "PaletteEditorComposite.Lbl.Up" ) ); //$NON-NLS-1$
 		btnUp.addSelectionListener( this );
+		btnUp.setEnabled( elPaletteEntries1.size( ) > 1 ? true : false );
 		btnDown = new Button( coControlPanel, SWT.ARROW | SWT.DOWN );
 		gd = new GridData( );
 		btnDown.setLayoutData( gd );
 		btnDown.setToolTipText( Messages.getString( "PaletteEditorComposite.Lbl.Down" ) ); //$NON-NLS-1$
 		btnDown.addSelectionListener( this );
+		btnDown.setEnabled( elPaletteEntries1.size( ) > 1 ? true : false );
 
 		addControlListener( this );
 		addDisposeListener( this );
@@ -260,7 +269,7 @@ public final class PaletteEditorComposite extends Composite implements
 			iStartIndex = 0;
 		}
 		iVisibleCount = iViewHeight / iItemHeight + 2;
-		int iAvailableItems = Math.min( iVisibleCount, elPaletteEntries.size( )
+		int iAvailableItems = Math.min( iVisibleCount, elPaletteEntries1.size( )
 				- iStartIndex );
 		int iY = -( iViewY % iItemHeight );
 
@@ -277,7 +286,7 @@ public final class PaletteEditorComposite extends Composite implements
 
 		for ( int i = iStartIndex; i < iStartIndex + iAvailableItems; i++ )
 		{
-			fi = (Fill) elPaletteEntries.get( i );
+			fi = (Fill) elPaletteEntries1.get( i );
 
 			if ( fi instanceof MultipleFill )
 			{
@@ -332,7 +341,7 @@ public final class PaletteEditorComposite extends Composite implements
 					logger.log( rex );
 				}
 			}
-			
+
 			if ( i == iSelectedIndex )
 			{
 				// WITHIN RANGE; SHOW EDITOR AND UPDATE POSITION
@@ -365,7 +374,7 @@ public final class PaletteEditorComposite extends Composite implements
 	private final void updateScrollBar( )
 	{
 		sb.setPageIncrement( iViewHeight );
-		sb.setMaximum( iItemHeight * elPaletteEntries.size( ) - iViewHeight );
+		sb.setMaximum( iItemHeight * elPaletteEntries1.size( ) - iViewHeight );
 		sb.setSelection( iViewY );
 	}
 
@@ -405,8 +414,7 @@ public final class PaletteEditorComposite extends Composite implements
 		{
 			// ADJUST LOWER END IF WE GO BEYOND
 			int iY = ( iIndex - iStartIndex )
-					* iItemHeight
-					- ( iViewY % iItemHeight );
+					* iItemHeight - ( iViewY % iItemHeight );
 			if ( iY + iItemHeight > iViewHeight ) // BELOW THE LOWER EDGE
 			{
 				iViewY += iY + iItemHeight - iViewHeight;
@@ -494,7 +502,7 @@ public final class PaletteEditorComposite extends Composite implements
 			}
 			else if ( ( btn.getStyle( ) & SWT.DOWN ) == SWT.DOWN )
 			{
-				if ( iSelectedIndex < elPaletteEntries.size( ) - 1 )
+				if ( iSelectedIndex < elPaletteEntries1.size( ) - 1 )
 				{
 					swap( iSelectedIndex, iSelectedIndex + 1 );
 				}
@@ -517,7 +525,7 @@ public final class PaletteEditorComposite extends Composite implements
 		}
 		int iY = -( iViewY % iItemHeight );
 		int iClickedIndex = iStartIndex + ( iClickedY - iY ) / iItemHeight;
-		if ( iClickedIndex < 0 || iClickedIndex > elPaletteEntries.size( ) )
+		if ( iClickedIndex < 0 || iClickedIndex > elPaletteEntries1.size( ) )
 		{
 			return;
 		}
@@ -541,7 +549,7 @@ public final class PaletteEditorComposite extends Composite implements
 	 */
 	public final ColorDefinitionImpl getSelectedFill( )
 	{
-		return (ColorDefinitionImpl) elPaletteEntries.get( iSelectedIndex );
+		return (ColorDefinitionImpl) elPaletteEntries1.get( iSelectedIndex );
 	}
 
 	/**
@@ -551,29 +559,60 @@ public final class PaletteEditorComposite extends Composite implements
 	 */
 	public final void remove( int iIndex )
 	{
-		if ( iIndex < 0 || iIndex >= elPaletteEntries.size( ) )
+		if ( iIndex < 0 || iIndex >= elPaletteEntries1.size( ) )
 		{
 			return;
 		}
 
-		elPaletteEntries.remove( iIndex );
+		int size = elPaletteEntries1.size( );
+		elPaletteEntries1.remove( iIndex );
+
+		if ( vSeriesDefns != null )
+		{
+			for ( int i = 0; i < vSeriesDefns.length; i++ )
+			{
+				EList el = vSeriesDefns[i].getSeriesPalette( ).getEntries( );
+				if ( ( iIndex - i ) >= 0 )
+				{
+					el.remove( iIndex - i );
+				}
+				else
+				{
+					int index = size - i + iIndex;
+					while ( index < 0 )
+					{
+						index += size;
+					}
+					el.remove( index );
+					if ( el.size( ) > 1 )
+					{
+						final Object o = el.get( 0 );
+						el.remove( 0 );
+						el.add( o );
+					}
+				}
+			}
+		}
+
 		if ( iIndex < iSelectedIndex )
 		{
 			iSelectedIndex--;
 		}
 		else if ( iIndex == iSelectedIndex )
 		{
-			if ( iSelectedIndex > elPaletteEntries.size( ) - 1 )
+			if ( iSelectedIndex > elPaletteEntries1.size( ) - 1 )
 			{
 				iSelectedIndex--;
 			}
 		}
 
-		if ( elPaletteEntries.isEmpty( ) )
+		if ( elPaletteEntries1.size( ) <= 1 )
 		{
-			iSelectedIndex = -1;
-			sb.setEnabled( false );
+			btnRemove.setEnabled( false );
+			btnUp.setEnabled( false );
+			btnDown.setEnabled( false );
 		}
+
 		scrollToView( iSelectedIndex );
 		coPaletteEntries.redraw( );
 	}
@@ -589,7 +628,27 @@ public final class PaletteEditorComposite extends Composite implements
 		{
 			return;
 		}
-		elPaletteEntries.set( iSelectedIndex, f );
+		elPaletteEntries1.set( iSelectedIndex, f );
+
+		if ( vSeriesDefns != null )
+		{
+			int size = elPaletteEntries1.size( );
+			for ( int i = 0; i < vSeriesDefns.length; i++ )
+			{
+				if ( ( iSelectedIndex - i ) >= 0 )
+				{
+					vSeriesDefns[i].getSeriesPalette( )
+							.getEntries( )
+							.set( iSelectedIndex - i, EcoreUtil.copy( f ) );
+				}
+				else
+				{
+					vSeriesDefns[i].getSeriesPalette( ).getEntries( ).set( size
+							- i + iSelectedIndex,
+							EcoreUtil.copy( f ) );
+				}
+			}
+		}
 		coPaletteEntries.redraw( );
 	}
 
@@ -600,11 +659,47 @@ public final class PaletteEditorComposite extends Composite implements
 	 */
 	public final void append( Fill fi )
 	{
-		elPaletteEntries.add( fi );
-		iSelectedIndex = elPaletteEntries.size( ) - 1;
-		if ( !sb.isEnabled( ) )
+		elPaletteEntries1.add( fi );
+		iSelectedIndex = elPaletteEntries1.size( ) - 1;
+
+		if ( vSeriesDefns != null )
 		{
-			sb.setEnabled( true );
+			int size = elPaletteEntries1.size( );
+			for ( int i = 0; i < vSeriesDefns.length; i++ )
+			{
+				if ( i < size )
+				{
+					vSeriesDefns[i].getSeriesPalette( ).getEntries( ).add( size
+							- i - 1,
+							EcoreUtil.copy( fi ) );
+				}
+				else
+				{
+					EList el = vSeriesDefns[i - size].getSeriesPalette( )
+							.getEntries( );
+					for ( int j = 0; j < el.size( ); j++ )
+					{
+						vSeriesDefns[i].getSeriesPalette( )
+								.getEntries( )
+								.add( j, EcoreUtil.copy( (Fill) el.get( j ) ) );
+					}
+					for ( int j = el.size( ); j < vSeriesDefns[i].getSeriesPalette( )
+							.getEntries( )
+							.size( ); j++ )
+					{
+						vSeriesDefns[i].getSeriesPalette( )
+								.getEntries( )
+								.remove( j );
+					}
+				}
+			}
+		}
+
+		if ( !btnRemove.isEnabled( ) )
+		{
+			btnRemove.setEnabled( true );
+			btnUp.setEnabled( true );
+			btnDown.setEnabled( true );
 		}
 		scrollToView( iSelectedIndex );
 		coPaletteEntries.redraw( );
@@ -618,21 +713,24 @@ public final class PaletteEditorComposite extends Composite implements
 	 */
 	private final void swap( int iIndex1, int iIndex2 )
 	{
-		final Object o1 = elPaletteEntries.get( iIndex1 );
-		final Object o2 = elPaletteEntries.get( iIndex2 );
+		final Object o1 = elPaletteEntries1.get( iIndex1 );
+		final Object o2 = elPaletteEntries1.get( iIndex2 );
+
 		int iSmaller = Math.min( iIndex1, iIndex2 );
-		elPaletteEntries.remove( iSmaller );
-		elPaletteEntries.remove( iSmaller );
+		elPaletteEntries1.remove( iSmaller );
+		elPaletteEntries1.remove( iSmaller );
+
 		if ( iIndex1 < iIndex2 )
 		{
-			elPaletteEntries.add( iSmaller, o1 );
-			elPaletteEntries.add( iSmaller, o2 );
+			elPaletteEntries1.add( iSmaller, o1 );
+			elPaletteEntries1.add( iSmaller, o2 );
 		}
 		else
 		{
-			elPaletteEntries.add( iSmaller, o2 );
-			elPaletteEntries.add( iSmaller, o1 );
+			elPaletteEntries1.add( iSmaller, o2 );
+			elPaletteEntries1.add( iSmaller, o1 );
 		}
+
 		if ( iSelectedIndex == iIndex1 )
 		{
 			iSelectedIndex = iIndex2;
@@ -641,6 +739,53 @@ public final class PaletteEditorComposite extends Composite implements
 		{
 			iSelectedIndex = iIndex1;
 		}
+
+		if ( vSeriesDefns != null )
+		{
+			int size = elPaletteEntries1.size( );
+			int index1 = iIndex1;
+			int index2 = iIndex2;
+			for ( int i = 0; i < vSeriesDefns.length; i++ )
+			{
+				if ( ( iIndex1 - i ) >= 0 )
+				{
+					index1 = iIndex1 - i;
+				}
+				else
+				{
+					index1 = size - i + iIndex1;
+				}
+
+				if ( ( iIndex2 - i ) >= 0 )
+				{
+					index2 = iIndex2 - i;
+				}
+				else
+				{
+					index2 = size - i + iIndex2;
+				}
+
+				EList el = vSeriesDefns[i].getSeriesPalette( ).getEntries( );
+				final Object o3 = el.get( index1 );
+				final Object o4 = el.get( index2 );
+
+				if ( index1 < index2 )
+				{
+					el.remove( index2 );
+					el.remove( index1 );
+					el.add( index1, o4 );
+					el.add( index2, o3 );
+				}
+				else
+				{
+					el.remove( index1 );
+					el.remove( index2 );
+					el.add( index2, o3 );
+					el.add( index1, o4 );
+				}
+			}
+		}
+
 		scrollToView( iSelectedIndex );
 		coPaletteEntries.redraw( );
 	}
@@ -707,7 +852,7 @@ public final class PaletteEditorComposite extends Composite implements
 		switch ( e.keyCode )
 		{
 			case SWT.ARROW_DOWN :
-				if ( iSelectedIndex < elPaletteEntries.size( ) - 1 )
+				if ( iSelectedIndex < elPaletteEntries1.size( ) - 1 )
 				{
 					iSelectedIndex++;
 					scrollToView( iSelectedIndex );
@@ -730,14 +875,13 @@ public final class PaletteEditorComposite extends Composite implements
 				break;
 			case SWT.PAGE_DOWN :
 				iSelectedIndex += 8;
-				if ( iSelectedIndex > elPaletteEntries.size( ) )
+				if ( iSelectedIndex > elPaletteEntries1.size( ) )
 				{
-					iSelectedIndex = elPaletteEntries.size( ) - 1;
+					iSelectedIndex = elPaletteEntries1.size( ) - 1;
 				}
 				scrollToView( iSelectedIndex );
 				sb.setSelection( sb.getMaximum( )
-						* ( iSelectedIndex + 1 )
-						/ elPaletteEntries.size( ) );
+						* ( iSelectedIndex + 1 ) / elPaletteEntries1.size( ) );
 				coPaletteEntries.redraw( );
 				break;
 			case SWT.PAGE_UP :
@@ -748,8 +892,7 @@ public final class PaletteEditorComposite extends Composite implements
 				}
 				scrollToView( iSelectedIndex );
 				sb.setSelection( sb.getMaximum( )
-						* iSelectedIndex
-						/ elPaletteEntries.size( ) );
+						* iSelectedIndex / elPaletteEntries1.size( ) );
 				coPaletteEntries.redraw( );
 				break;
 			case SWT.TAB :

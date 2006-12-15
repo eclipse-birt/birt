@@ -11,7 +11,6 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.series;
 
 import java.lang.reflect.Method;
 import java.util.Hashtable;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.chart.exception.ChartException;
@@ -39,7 +38,6 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
@@ -59,8 +57,9 @@ import org.eclipse.swt.widgets.TreeItem;
  * series items in the naviagor tree.
  * 
  */
-public class SeriesSheetImpl extends SubtaskSheetImpl implements
-		SelectionListener
+public class SeriesSheetImpl extends SubtaskSheetImpl
+		implements
+			SelectionListener
 
 {
 
@@ -68,17 +67,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 	private transient Combo cmbColorBy;
 
-	private transient ArrayList popups = new ArrayList( );
-
 	private transient ITaskPopupSheet popup = null;
-
-	private transient Composite cmp = null;
-
-	private transient Composite cmpCategory = null;
-
-	private transient Composite cmpValue = null;
-
-	private transient StackLayout sl = null;
 
 	public void createControl( Composite parent )
 	{
@@ -124,6 +113,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		{
 			GridData gd = new GridData( GridData.FILL_BOTH );
 			gd.horizontalSpan = COLUMN_CONTENT;
+			gd.heightHint = 120;
 			cmpScroll.setLayoutData( gd );
 
 			cmpScroll.setMinHeight( ( ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChart( ) )
@@ -200,7 +190,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		for ( int i = 0; i < seriesDefns.size( ); i++ )
 		{
 			new SeriesOptionChoser( ( (SeriesDefinition) seriesDefns.get( i ) ),
-					getChart( ) instanceof ChartWithAxes ? Messages.getString( "SeriesSheetImpl.Label.CategoryXSeries" ) : Messages.getString( "SeriesSheetImpl.Label.CategoryBaseSeries" ), //$NON-NLS-1$ //$NON-NLS-2$
+					getChart( ) instanceof ChartWithAxes
+							? Messages.getString( "SeriesSheetImpl.Label.CategoryXSeries" ) : Messages.getString( "SeriesSheetImpl.Label.CategoryBaseSeries" ), //$NON-NLS-1$ //$NON-NLS-2$
 					i,
 					treeIndex++ ).placeComponents( cmpList );
 		}
@@ -208,75 +199,38 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		seriesDefns = ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChart( ) );
 		for ( int i = 0; i < seriesDefns.size( ); i++ )
 		{
-			String text = getChart( ) instanceof ChartWithAxes ? Messages.getString( "SeriesSheetImpl.Label.ValueYSeries" ) : Messages.getString( "SeriesSheetImpl.Label.ValueOrthogonalSeries" ); //$NON-NLS-1$ //$NON-NLS-2$
+			String text = getChart( ) instanceof ChartWithAxes
+					? Messages.getString( "SeriesSheetImpl.Label.ValueYSeries" ) : Messages.getString( "SeriesSheetImpl.Label.ValueOrthogonalSeries" ); //$NON-NLS-1$ //$NON-NLS-2$
 			new SeriesOptionChoser( ( (SeriesDefinition) seriesDefns.get( i ) ),
 					( seriesDefns.size( ) == 1 ? text
 							: ( text + " - " + ( i + 1 ) ) ), i, treeIndex++ ).placeComponents( cmpList ); //$NON-NLS-1$
 		}
 
-		cmp = new Composite( cmpContent, SWT.NONE );
-		{
-			GridData gd = new GridData( GridData.VERTICAL_ALIGN_BEGINNING
-					| GridData.FILL_HORIZONTAL );
-			gd.horizontalSpan = COLUMN_CONTENT;
-			cmp.setLayoutData( gd );
-			sl = new StackLayout( );
-			cmp.setLayout( sl );
-		}
-
-		cmpCategory = new Composite( cmp, SWT.NONE );
-		{
-			cmpCategory.setLayout( new GridLayout( 6, false ) );
-			cmpCategory.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		}
-
-		popup = new SeriesPaletteSheet( Messages.getString( "SeriesSheetImpl.Label.CategoryPalette" ), //$NON-NLS-1$
-				getContext( ),
-				getCategorySeriesDefinition( ) );
-		Button btnSeriesPals = createToggleButton( cmpCategory,
-				Messages.getString( "SeriesSheetImpl.Label.CategoryPalette&" ), //$NON-NLS-1$
-				popup );
-		btnSeriesPals.addSelectionListener( this );
-
-		cmpValue = new Composite( cmp, SWT.NONE );
-		{
-			cmpValue.setLayout( new GridLayout( 6, false ) );
-			cmpValue.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		}
-
-		for ( int i = 0; i < getChart( ).getSeriesForLegend( ).length; i++ )
-		{
-			popups.add( new SeriesPaletteSheet( Messages.getString( "SeriesSheetImpl.Label.SeriesPalette" ), //$NON-NLS-1$
-					getContext( ),
-					getValueSeriesDefinition( i ) ) );
-			Button btnSeriesPal = createToggleButton( cmpValue,
-					Messages.getString( "SeriesSheetImpl.Label.SeriesPalette&" ) + getIndexString( i ), //$NON-NLS-1$
-					(ITaskPopupSheet) popups.get( i ) );
-			btnSeriesPal.addSelectionListener( this );
-		}
-
-		NameSet ns = LiteralHelper.legendItemTypeSet;
-		if ( cmbColorBy.getText( )
-				.equals( ns.getDisplayNameByName( LegendItemType.CATEGORIES_LITERAL.getName( ) ) ) )
-		{
-			sl.topControl = cmpCategory;
-		}
-		else
-		{
-			sl.topControl = cmpValue;
-		}
+		createButtonGroup( cmpContent );
 	}
 
-	private String getIndexString( int i )
+	private void createButtonGroup( Composite parent )
 	{
-		if ( getChart( ).getSeriesForLegend( ).length == 1 )
+		Composite cmp = new Composite( parent, SWT.NONE );
 		{
-			return ""; //$NON-NLS-1$
+			cmp.setLayout( new GridLayout( 6, false ) );
+			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+			gridData.horizontalSpan = 2;
+			gridData.grabExcessVerticalSpace = true;
+			gridData.verticalAlignment = SWT.END;
+			cmp.setLayoutData( gridData );
 		}
-		else
-		{
-			return String.valueOf( i + 1 );
-		}
+
+		popup = new SeriesPaletteSheet( Messages.getString( "SeriesSheetImpl.Label.SeriesPalette" ), //$NON-NLS-1$
+				getContext( ),
+				getCategorySeriesDefinition( ),
+				getValueSeriesDefinition( ),
+				isGroupedPalette( ) );
+
+		Button btnSeriesPals = createToggleButton( cmp,
+				Messages.getString( "SeriesSheetImpl.Label.SeriesPalette&" ), //$NON-NLS-1$
+				popup );
+		btnSeriesPals.addSelectionListener( this );
 	}
 
 	private SeriesDefinition getCategorySeriesDefinition( )
@@ -295,19 +249,19 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		return sd;
 	}
 
-	private SeriesDefinition getValueSeriesDefinition( int index )
+	private SeriesDefinition[] getValueSeriesDefinition( )
 	{
-		SeriesDefinition sd = null;
+		SeriesDefinition[] sds = null;
 		if ( getChart( ) instanceof ChartWithAxes )
 		{
-			sd = ( (ChartWithAxes) getChart( ) ).getSeriesForLegend( )[index];
+			sds = ( (ChartWithAxes) getChart( ) ).getSeriesForLegend( );
 		}
 		else if ( getChart( ) instanceof ChartWithoutAxes )
 		{
-			sd = (SeriesDefinition) ( (SeriesDefinition) ( (ChartWithoutAxes) getChart( ) ).getSeriesDefinitions( )
-					.get( 0 ) ).getSeriesDefinitions( ).get( index );
+			sds = (SeriesDefinition[]) ( ( (SeriesDefinition) ( (ChartWithoutAxes) getChart( ) ).getSeriesDefinitions( )
+					.get( 0 ) ).getSeriesDefinitions( ).toArray( ) );
 		}
-		return sd;
+		return sds;
 	}
 
 	private class SeriesOptionChoser implements SelectionListener, Listener
@@ -601,24 +555,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		{
 			getChart( ).getLegend( )
 					.setItemType( LegendItemType.getByName( LiteralHelper.legendItemTypeSet.getNameByDisplayName( cmbColorBy.getText( ) ) ) );
-
-			if ( getChart( ).getLegend( ).getItemType( ).getValue( ) == LegendItemType.CATEGORIES_LITERAL.getValue( ) )
-			{
-				sl.topControl = cmpCategory;
-				cmp.layout( );
-				( (SeriesPaletteSheet) popup ).setSeriesDefinition( getCategorySeriesDefinition( ) );
-			}
-			else
-			{
-				popups.clear( );
-				sl.topControl = cmpValue;
-				cmp.layout( );
-				for ( int i = 0; i < popups.size( ); i++ )
-				{
-					( (SeriesPaletteSheet) ( (ITaskPopupSheet) popups.get( i ) ) ).setSeriesDefinition( getValueSeriesDefinition( i ) );
-				}
-			}
-			detachPopup( );
+			( (SeriesPaletteSheet) popup ).setGroupedPalette( isGroupedPalette( ) );
+			refreshPopupSheet( );
 		}
 	}
 
@@ -626,5 +564,14 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 	{
 		// TODO Auto-generated method stub
 
+	}
+
+	private boolean isGroupedPalette( )
+	{
+		return ( !getValueSeriesDefinition( )[0].getQuery( )
+				.getDefinition( )
+				.trim( )
+				.equals( "" ) ) //$NON-NLS-1$
+				&& ( getChart( ).getLegend( ).getItemType( ).getName( ).equals( LegendItemType.SERIES_LITERAL.getName( ) ) );
 	}
 }

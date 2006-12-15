@@ -21,6 +21,8 @@ import java.util.Map;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.attribute.Fill;
+import org.eclipse.birt.chart.model.attribute.Palette;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -62,8 +64,9 @@ import com.ibm.icu.text.SimpleDateFormat;
  * instance. Series adding is embedded in Combo selector.
  */
 
-public class DataDefinitionSelector extends DefaultSelectDataComponent implements
-		SelectionListener
+public class DataDefinitionSelector extends DefaultSelectDataComponent
+		implements
+			SelectionListener
 {
 
 	private transient EList seriesDefns = null;
@@ -254,7 +257,22 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 	{
 		// Create a series definition without data definition
 		SeriesDefinition sdTmp = SeriesDefinitionImpl.create( );
-		sdTmp.getSeriesPalette( ).update( -seriesDefns.size( ) );
+
+		Palette pa = ( (SeriesDefinition) ( seriesDefns.get( 0 ) ) ).getSeriesPalette( );
+		for ( int i = 0; i < pa.getEntries( ).size( ); i++ )
+		{
+			int index = i + seriesDefns.size( );
+			int paletteSize = pa.getEntries( ).size( );
+			while ( index >= pa.getEntries( ).size( ) )
+			{
+				index -= paletteSize;
+			}
+			sdTmp.getSeriesPalette( ).getEntries( ).add( i,
+					EcoreUtil.copy( (Fill) pa.getEntries( ).get( index ) ) );
+		}
+		sdTmp.getSeriesPalette( )
+				.getEntries( )
+				.remove( pa.getEntries( ).size( ) );
 		sdTmp.getSeries( )
 				.add( EcoreUtil.copy( ( (SeriesDefinition) seriesDefns.get( 0 ) ).getDesignTimeSeries( ) ) );
 		// Add grouping query of the first series definition

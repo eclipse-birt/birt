@@ -19,11 +19,13 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
 
 /**
  * 
@@ -32,13 +34,30 @@ import org.eclipse.swt.widgets.Group;
 public class SeriesPaletteSheet extends AbstractPopupSheet
 {
 
-	private transient SeriesDefinition seriesDefn = null;
+	private transient SeriesDefinition cSeriesDefn = null;
+
+	private transient SeriesDefinition[] vSeriesDefns = null;
+
+	private transient boolean isGroupedPalette = false;
+
+	private transient StackLayout slPalette = null;
+
+	private transient Group grpPalette = null;
+
+	private transient PaletteEditorComposite cmpPE = null;
+
+	private transient Composite cmpMPE = null;
+
+	private transient TabFolder tf = null;
 
 	public SeriesPaletteSheet( String title, ChartWizardContext context,
-			SeriesDefinition seriesDefn )
+			SeriesDefinition cSeriesDefn, SeriesDefinition[] vSeriesDefns,
+			boolean isGroupedPalette )
 	{
 		super( title, context, true );
-		this.seriesDefn = seriesDefn;
+		this.cSeriesDefn = cSeriesDefn;
+		this.vSeriesDefns = vSeriesDefns;
+		this.isGroupedPalette = isGroupedPalette;
 	}
 
 	/*
@@ -60,23 +79,59 @@ public class SeriesPaletteSheet extends AbstractPopupSheet
 		}
 
 		// Palete composite
-		Group grpPalette = new Group( cmpContent, SWT.NONE );
+		slPalette = new StackLayout( );
+
+		grpPalette = new Group( cmpContent, SWT.NONE );
 		GridData gdGRPPalette = new GridData( GridData.FILL_HORIZONTAL );
 		gdGRPPalette.heightHint = 300;
 		grpPalette.setLayoutData( gdGRPPalette );
-		grpPalette.setLayout( new FillLayout( ) );
+		grpPalette.setLayout( slPalette );
 		grpPalette.setText( Messages.getString( "BaseSeriesAttributeSheetImpl.Lbl.Palette" ) ); //$NON-NLS-1$
 
-		// Palette list
-		new PaletteEditorComposite( grpPalette,
+		cmpPE = new PaletteEditorComposite( grpPalette,
 				getContext( ),
-				seriesDefn.getSeriesPalette( ) );
+				cSeriesDefn.getSeriesPalette( ),
+				vSeriesDefns );
+
+		cmpMPE = new Composite( grpPalette, SWT.NONE );
+		{
+			GridLayout gl = new GridLayout( );
+			gl.marginLeft = 0;
+			gl.marginRight = 0;
+			cmpMPE.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+			cmpMPE.setLayout( gl );
+		}
+
+		tf = new TabFolder( cmpMPE, SWT.NONE );
+		{
+			tf.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		}
+
+		for ( int i = 0; i < vSeriesDefns.length; i++ )
+		{
+			TabItem ti = new TabItem( tf, SWT.NONE );
+			ti.setText( "Series" + ( i + 1 ) ); //$NON-NLS-1$
+			ti.setControl( new PaletteEditorComposite( tf,
+					getContext( ),
+					vSeriesDefns[i].getSeriesPalette( ),
+					null ) );
+		}
+		tf.setSelection( 0 );
+
+		if ( isGroupedPalette )
+		{
+			slPalette.topControl = cmpMPE;
+		}
+		else
+		{
+			slPalette.topControl = cmpPE;
+		}
 
 		return cmpContent;
 	}
 
-	public void setSeriesDefinition( SeriesDefinition sd )
+	public void setGroupedPalette( boolean isGroupedPalette )
 	{
-		this.seriesDefn = sd;
+		this.isGroupedPalette = isGroupedPalette;
 	}
 }

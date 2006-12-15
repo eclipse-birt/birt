@@ -48,24 +48,19 @@
             nodeIndex="10"
             nodePath="Series"/>
       <propertySheet
-            classDefinition="org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesXSheetImpl"
-            displayName="%CategoryXSeries"
-            nodeIndex="11"
-            nodePath="Series.X Series"/>
-      <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesYSheetImpl"
             displayName="%ValueYSeries"
-            nodeIndex="12"
+            nodeIndex="11"
             nodePath="Series.Y Series"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesXSheetImpl"
             displayName="%CategorySeries"
-            nodeIndex="13"
+            nodeIndex="12"
             nodePath="Series.Category Series"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesYSheetImpl"
             displayName="%ValueSeries"
-            nodeIndex="14"
+            nodeIndex="13"
             nodePath="Series.Value Series"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartSheetImpl"

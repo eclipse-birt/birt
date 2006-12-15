@@ -76,10 +76,11 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Text;
 
-public class TaskSelectData extends SimpleTask implements
-		SelectionListener,
-		ITaskChangeListener,
-		Listener
+public class TaskSelectData extends SimpleTask
+		implements
+			SelectionListener,
+			ITaskChangeListener,
+			Listener
 {
 
 	private final static int CENTER_WIDTH_HINT = 400;
@@ -181,7 +182,7 @@ public class TaskSelectData extends SimpleTask implements
 			createDataPreviewButtonArea( topControl );
 
 			new Label( topControl, SWT.NONE );
-			
+
 		}
 		finally
 		{
@@ -310,9 +311,7 @@ public class TaskSelectData extends SimpleTask implements
 		}
 
 		tablePreview = new CustomPreviewTable( composite, SWT.SINGLE
-				| SWT.H_SCROLL
-				| SWT.V_SCROLL
-				| SWT.FULL_SELECTION );
+				| SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION );
 		{
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			gridData.widthHint = CENTER_WIDTH_HINT;
@@ -1007,8 +1006,7 @@ public class TaskSelectData extends SimpleTask implements
 			}
 		}
 		sb.append( Messages.getString( "TaskSelectData.Label.Series" ) //$NON-NLS-1$
-				+ ( seriesIndex + 1 )
-				+ " (" + series.getDisplayName( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
+				+ ( seriesIndex + 1 ) + " (" + series.getDisplayName( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
 		return sb.toString( );
 	}
 
@@ -1275,7 +1273,7 @@ public class TaskSelectData extends SimpleTask implements
 		int index = 0;
 		for ( int i = 0; i < axisList.size( ); i++ )
 		{
-			if ( axis.equals( (Axis) axisList.get( i ) ) )
+			if ( axis.equals( axisList.get( i ) ) )
 			{
 				index = i;
 				break;
