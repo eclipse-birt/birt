@@ -313,8 +313,14 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		 */
 		private Map getColumnBindings(IBaseQueryDefinition defn) 
 		{
-			Map result = defn.getResultSetExpressions();
-		
+			Map result = new HashMap();
+			Iterator temp = defn.getResultSetExpressions().keySet( ).iterator( );
+			while ( temp.hasNext( ) )
+			{
+				Object key = temp.next( );
+				result.put( key, defn.getResultSetExpressions( ).get( key ) );
+			}
+					
 			//Put all column bindings in subquery definitions in group
 			result.putAll(populateGroupColumnBindings(defn.getGroups()
 					.iterator()));
