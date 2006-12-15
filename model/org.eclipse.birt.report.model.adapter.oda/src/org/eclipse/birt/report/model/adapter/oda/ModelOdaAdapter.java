@@ -36,6 +36,7 @@ import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
+import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.util.PropertyValueValidationUtil;
@@ -61,8 +62,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * @see DataSourceDesign
  */
 
-public class ModelOdaAdapter
-{
+public class ModelOdaAdapter {
 
 	/**
 	 * Adapts the specified Model OdaDataSourceHandle to a Data Engine API
@@ -74,14 +74,13 @@ public class ModelOdaAdapter
 	 */
 
 	public DataSourceDesign createDataSourceDesign(
-			OdaDataSourceHandle sourceHandle )
-	{
-		if ( sourceHandle == null )
+			OdaDataSourceHandle sourceHandle) {
+		if (sourceHandle == null)
 			return null;
 
 		DataSourceDesign sourceDesign = DesignFactory.eINSTANCE
-				.createDataSourceDesign( );
-		updateDataSourceDesign( sourceHandle, sourceDesign );
+				.createDataSourceDesign();
+		updateDataSourceDesign(sourceHandle, sourceDesign);
 		return sourceDesign;
 	}
 
@@ -94,13 +93,12 @@ public class ModelOdaAdapter
 	 * @return a new <code>DataSetDesign</code>
 	 */
 
-	public DataSetDesign createDataSetDesign( OdaDataSetHandle setHandle )
-	{
-		if ( setHandle == null )
+	public DataSetDesign createDataSetDesign(OdaDataSetHandle setHandle) {
+		if (setHandle == null)
 			return null;
 
-		DataSetDesign setDesign = DesignFactory.eINSTANCE.createDataSetDesign( );
-		updateDataSetDesign( setHandle, setDesign );
+		DataSetDesign setDesign = DesignFactory.eINSTANCE.createDataSetDesign();
+		updateDataSetDesign(setHandle, setDesign);
 		return setDesign;
 	}
 
@@ -109,7 +107,10 @@ public class ModelOdaAdapter
 	 * OdaDataSetHandle.
 	 * 
 	 * @param setDesign
-	 *            the ODA dataSet design.
+	 *            the ODA dataSet design. <b>User should make sure
+	 *            <code>setDesign</code> only contains driver-defined
+	 *            parameter.It's very important! </b>
+	 * 
 	 * @param module
 	 *            the module where the Model handle resides.
 	 * @return a new <code>OdaDataSourceHandle</code>
@@ -120,24 +121,23 @@ public class ModelOdaAdapter
 	 *             if <code>setDesign</code> is not valid.
 	 */
 
-	public OdaDataSetHandle createDataSetHandle( DataSetDesign setDesign,
-			ModuleHandle module ) throws SemanticException,
-			IllegalStateException
-	{
-		if ( setDesign == null )
+	public OdaDataSetHandle createDataSetHandle(DataSetDesign setDesign,
+			ModuleHandle module) throws SemanticException,
+			IllegalStateException {
+		if (setDesign == null)
 			return null;
 
 		// validate the source design to make sure it is valid
 
-		DesignUtil.validateObject( setDesign );
+		DesignUtil.validateObject(setDesign);
 
-		OdaDataSetHandle setHandle = module.getElementFactory( ).newOdaDataSet(
-				setDesign.getName( ), setDesign.getOdaExtensionDataSetId( ) );
+		OdaDataSetHandle setHandle = module.getElementFactory().newOdaDataSet(
+				setDesign.getName(), setDesign.getOdaExtensionDataSetId());
 
-		if ( setHandle == null )
+		if (setHandle == null)
 			return null;
 
-		adaptDataSetDesign( setDesign, setHandle );
+		adaptDataSetDesign(setDesign, setHandle);
 		return setHandle;
 	}
 
@@ -155,27 +155,25 @@ public class ModelOdaAdapter
 	 * 
 	 */
 
-	private void adaptDataSetDesign( DataSetDesign setDesign,
-			OdaDataSetHandle setHandle ) throws SemanticException
-	{
+	private void adaptDataSetDesign(DataSetDesign setDesign,
+			OdaDataSetHandle setHandle) throws SemanticException {
 
 		Object value = null;
 
 		// properties on ReportElement, like name, displayNames, etc.
 
-		value = setDesign.getName( );
-		PropertyValueValidationUtil.validateProperty( setHandle,
-				OdaDataSetHandle.NAME_PROP, value );
-		setHandle.getElement( ).setName( setDesign.getName( ) );
+		value = setDesign.getName();
+		PropertyValueValidationUtil.validateProperty(setHandle,
+				OdaDataSetHandle.NAME_PROP, value);
+		setHandle.getElement().setName(setDesign.getName());
 
 		// properties on ReportElement, like name, displayNames, etc.
 
-		value = setDesign.getDisplayName( );
-		PropertyValueValidationUtil.validateProperty( setHandle,
-				OdaDataSetHandle.DISPLAY_NAME_PROP, value );
-		setHandle.getElement( )
-				.setProperty( OdaDataSetHandle.DISPLAY_NAME_PROP,
-						setDesign.getDisplayName( ) );
+		value = setDesign.getDisplayName();
+		PropertyValueValidationUtil.validateProperty(setHandle,
+				OdaDataSetHandle.DISPLAY_NAME_PROP, value);
+		setHandle.getElement().setProperty(OdaDataSetHandle.DISPLAY_NAME_PROP,
+				setDesign.getDisplayName());
 
 		// properties such as comments, extends, etc are kept in
 		// DataSourceHandle, not DataSourceDesign.
@@ -185,95 +183,88 @@ public class ModelOdaAdapter
 
 		// set null or empty list if the return list is empty.
 
-		value = newROMPrivateProperties( setDesign.getPrivateProperties( ) );
-		PropertyValueValidationUtil.validateProperty( setHandle,
-				OdaDataSetHandle.PRIVATE_DRIVER_PROPERTIES_PROP, value );
-		setHandle.getElement( ).setProperty(
-				OdaDataSetHandle.PRIVATE_DRIVER_PROPERTIES_PROP, value );
+		value = newROMPrivateProperties(setDesign.getPrivateProperties());
+		PropertyValueValidationUtil.validateProperty(setHandle,
+				OdaDataSetHandle.PRIVATE_DRIVER_PROPERTIES_PROP, value);
+		setHandle.getElement().setProperty(
+				OdaDataSetHandle.PRIVATE_DRIVER_PROPERTIES_PROP, value);
 
-		updateROMPublicProperties( setDesign.getPublicProperties( ), setHandle );
+		updateROMPublicProperties(setDesign.getPublicProperties(), setHandle);
 
-		DataSourceDesign sourceDesign = setDesign.getDataSourceDesign( );
+		DataSourceDesign sourceDesign = setDesign.getDataSourceDesign();
 
-		if ( sourceDesign != null )
-		{
-			String dataSourceName = sourceDesign.getName( );
-			setHandle.getElement( )
-					.setProperty(
-							OdaDataSetHandle.DATA_SOURCE_PROP,
-							PropertyValueValidationUtil.validateProperty(
-									setHandle,
-									OdaDataSetHandle.DATA_SOURCE_PROP,
-									dataSourceName ) );
-		}
-		else
-			setHandle.getElement( ).clearProperty(
-					OdaDataSetHandle.DATA_SOURCE_PROP );
+		if (sourceDesign != null) {
+			String dataSourceName = sourceDesign.getName();
+			setHandle.getElement().setProperty(
+					OdaDataSetHandle.DATA_SOURCE_PROP,
+					PropertyValueValidationUtil.validateProperty(setHandle,
+							OdaDataSetHandle.DATA_SOURCE_PROP, dataSourceName));
+		} else
+			setHandle.getElement().clearProperty(
+					OdaDataSetHandle.DATA_SOURCE_PROP);
 
 		// set the data set parameter list.
 
-		setHandle.getElement( )
-				.clearProperty( OdaDataSetHandle.PARAMETERS_PROP );
+		setHandle.getElement().clearProperty(OdaDataSetHandle.PARAMETERS_PROP);
 
-		List dataSetParams = new DataSetParameterAdapter( ).newROMSetParams(
-				setDesign, setHandle, null );
-		PropertyValueValidationUtil.validateProperty( setHandle,
-				OdaDataSetHandle.PARAMETERS_PROP, dataSetParams );
-		setHandle.getElement( ).setProperty( OdaDataSetHandle.PARAMETERS_PROP,
-				dataSetParams );
+		List dataSetParams = new DataSetParameterAdapter().newROMSetParams(
+				setDesign, setHandle, null , null );
+		PropertyValueValidationUtil.validateProperty(setHandle,
+				OdaDataSetHandle.PARAMETERS_PROP, dataSetParams);
+		setHandle.getElement().setProperty(OdaDataSetHandle.PARAMETERS_PROP,
+				dataSetParams);
 
 		// set the result sets
 
-		List resultRetColumns = new ResultSetsAdapter( ).newROMResultSets(
-				setDesign, setHandle, null );
+		List resultRetColumns = new ResultSetsAdapter().newROMResultSets(
+				setDesign, setHandle, null);
 
 		List columns = null;
 		List hints = null;
 
 		// if the return value is null, do not create an empty list.
 
-		if ( resultRetColumns != null )
-		{
-			columns = new ArrayList( );
-			hints = new ArrayList( );
+		if (resultRetColumns != null) {
+			columns = new ArrayList();
+			hints = new ArrayList();
 
-			ResultSetColumnInfo.updateResultSetColumnList( resultRetColumns,
-					columns, hints );
+			ResultSetColumnInfo.updateResultSetColumnList(resultRetColumns,
+					columns, hints);
 
-			PropertyValueValidationUtil.validateProperty( setHandle,
-					OdaDataSetHandle.RESULT_SET_PROP, columns );
-			PropertyValueValidationUtil.validateProperty( setHandle,
-					OdaDataSetHandle.COLUMN_HINTS_PROP, hints );
+			PropertyValueValidationUtil.validateProperty(setHandle,
+					OdaDataSetHandle.RESULT_SET_PROP, columns);
+			PropertyValueValidationUtil.validateProperty(setHandle,
+					OdaDataSetHandle.COLUMN_HINTS_PROP, hints);
 		}
-		setHandle.getElement( ).setProperty(
-				OdaDataSetHandle.COLUMN_HINTS_PROP, hints );
-		setHandle.getElement( ).setProperty( OdaDataSetHandle.RESULT_SET_PROP,
-				columns );
+		setHandle.getElement().setProperty(OdaDataSetHandle.COLUMN_HINTS_PROP,
+				hints);
+		setHandle.getElement().setProperty(OdaDataSetHandle.RESULT_SET_PROP,
+				columns);
 
 		// set the query text.
 
-		String queryText = setDesign.getQueryText( );
-		PropertyValueValidationUtil.validateProperty( setHandle,
-				OdaDataSetHandle.QUERY_TEXT_PROP, queryText );
-		setHandle.getElement( ).setProperty( OdaDataSetHandle.QUERY_TEXT_PROP,
-				queryText );
+		String queryText = setDesign.getQueryText();
+		PropertyValueValidationUtil.validateProperty(setHandle,
+				OdaDataSetHandle.QUERY_TEXT_PROP, queryText);
+		setHandle.getElement().setProperty(OdaDataSetHandle.QUERY_TEXT_PROP,
+				queryText);
 
 		// set the result name
 
-		String resultSetName = setDesign.getPrimaryResultSetName( );
-		PropertyValueValidationUtil.validateProperty( setHandle,
-				OdaDataSetHandle.RESULT_SET_NAME_PROP, queryText );
-		setHandle.getElement( ).setProperty(
-				OdaDataSetHandle.RESULT_SET_NAME_PROP, resultSetName );
+		String resultSetName = setDesign.getPrimaryResultSetName();
+		PropertyValueValidationUtil.validateProperty(setHandle,
+				OdaDataSetHandle.RESULT_SET_NAME_PROP, queryText);
+		setHandle.getElement().setProperty(
+				OdaDataSetHandle.RESULT_SET_NAME_PROP, resultSetName);
 
 		// convert data set paramters and result set columns first. Then update
 		// designer values.
 
-		String odaValues = serializeOdaValues( setDesign );
-		PropertyValueValidationUtil.validateProperty( setHandle,
-				OdaDataSetHandle.DESIGNER_VALUES_PROP, odaValues );
-		setHandle.getElement( ).setProperty(
-				OdaDataSetHandle.DESIGNER_VALUES_PROP, odaValues );
+		String odaValues = serializeOdaValues(setDesign);
+		PropertyValueValidationUtil.validateProperty(setHandle,
+				OdaDataSetHandle.DESIGNER_VALUES_PROP, odaValues);
+		setHandle.getElement().setProperty(
+				OdaDataSetHandle.DESIGNER_VALUES_PROP, odaValues);
 	}
 
 	/**
@@ -285,37 +276,31 @@ public class ModelOdaAdapter
 	 * @return the serializable string for design values
 	 */
 
-	private String serializeOdaValues( DataSetDesign setDesign )
-	{
-		DataSetParameters params = setDesign.getParameters( );
-		ResultSets resultSets = setDesign.getResultSets( );
+	private String serializeOdaValues(DataSetDesign setDesign) {
+		DataSetParameters params = setDesign.getParameters();
+		ResultSets resultSets = setDesign.getResultSets();
 
-		DesignValues values = ModelFactory.eINSTANCE.createDesignValues( );
-		values.setVersion( IConstants.DESINGER_VALUES_VERSION );
+		DesignValues values = ModelFactory.eINSTANCE.createDesignValues();
+		values.setVersion(IConstants.DESINGER_VALUES_VERSION);
 		boolean hasData = false;
 
-		if ( params != null )
-		{
-			values.setDataSetParameters( (DataSetParameters) EcoreUtil
-					.copy( params ) );
+		if (params != null) {
+			values.setDataSetParameters((DataSetParameters) EcoreUtil
+					.copy(params));
 			hasData = true;
 		}
 
-		if ( resultSets != null )
-		{
-			values.setResultSets( (ResultSets) EcoreUtil.copy( resultSets ) );
+		if (resultSets != null) {
+			values.setResultSets((ResultSets) EcoreUtil.copy(resultSets));
 			hasData = true;
 		}
 
-		if ( !hasData )
+		if (!hasData)
 			return IConstants.EMPTY_STRING;
 
-		try
-		{
-			return SerializerImpl.instance( ).write( values );
-		}
-		catch ( IOException e )
-		{
+		try {
+			return SerializerImpl.instance().write(values);
+		} catch (IOException e) {
 			return null;
 		}
 	}
@@ -329,13 +314,12 @@ public class ModelOdaAdapter
 	 *            the ODA data source design
 	 */
 
-	public void updateDataSetDesign( OdaDataSetHandle setHandle,
-			DataSetDesign setDesign )
-	{
+	public void updateDataSetDesign(OdaDataSetHandle setHandle,
+			DataSetDesign setDesign) {
 		// properties on ReportElement, like name, displayNames, etc.
 
-		setDesign.setName( setHandle.getName( ) );
-		setDesign.setDisplayName( setHandle.getDisplayName( ) );
+		setDesign.setName(setHandle.getName());
+		setDesign.setDisplayName(setHandle.getDisplayName());
 
 		// properties such as comments, extends, etc are kept in
 		// DataSourceHandle, not DataSourceDesign.
@@ -343,56 +327,50 @@ public class ModelOdaAdapter
 		// scripts of DataSource are kept in
 		// DataSourceHandle, not DataSourceDesign.
 
-		setDesign.setOdaExtensionDataSetId( setHandle.getExtensionID( ) );
+		setDesign.setOdaExtensionDataSetId(setHandle.getExtensionID());
 
-		setDesign.setPublicProperties( newOdaPublicProperties( setHandle
-				.getExtensionPropertyDefinitionList( ), setHandle ) );
+		setDesign.setPublicProperties(newOdaPublicProperties(setHandle
+				.getExtensionPropertyDefinitionList(), setHandle));
 
-		setDesign.setPrivateProperties( newOdaPrivateProperties( setHandle
-				.privateDriverPropertiesIterator( ) ) );
+		setDesign.setPrivateProperties(newOdaPrivateProperties(setHandle
+				.privateDriverPropertiesIterator()));
 
-		setDesign.setPrimaryResultSetName( setHandle.getResultSetName( ) );
+		setDesign.setPrimaryResultSetName(setHandle.getResultSetName());
 
-		setDesign.setQueryText( setHandle.getQueryText( ) );
+		setDesign.setQueryText(setHandle.getQueryText());
 
 		// create a new data source design for this set design.
 
 		OdaDataSourceHandle sourceHandle = (OdaDataSourceHandle) setHandle
-				.getDataSource( );
+				.getDataSource();
 
-		if ( sourceHandle != null )
-			setDesign
-					.setDataSourceDesign( createDataSourceDesign( sourceHandle ) );
+		if (sourceHandle != null)
+			setDesign.setDataSourceDesign(createDataSourceDesign(sourceHandle));
 
-		String strDesignValues = setHandle.getDesignerValues( );
+		String strDesignValues = setHandle.getDesignerValues();
 
 		DesignValues designerValues = null;
 
-		try
-		{
-			designerValues = SerializerImpl.instance( ).read( strDesignValues );
-		}
-		catch ( IOException e )
-		{
+		try {
+			designerValues = SerializerImpl.instance().read(strDesignValues);
+		} catch (IOException e) {
 		}
 
-		if ( designerValues != null
-				&& designerValues.getDataSetParameters( ) != null )
-		{
-			setDesign.setParameters( (DataSetParameters) EcoreUtil
-					.copy( designerValues.getDataSetParameters( ) ) );
+		if (designerValues != null
+				&& designerValues.getDataSetParameters() != null) {
+			setDesign.setParameters((DataSetParameters) EcoreUtil
+					.copy(designerValues.getDataSetParameters()));
 		}
 
-		if ( setDesign.getParameters( ) == null )
-		{
-			setDesign.setParameters( new DataSetParameterAdapter( )
-					.newOdaDataSetParams( setHandle.parametersIterator( ),
+		if (setDesign.getParameters() == null) {
+			setDesign.setParameters(new DataSetParameterAdapter()
+					.newOdaDataSetParams(setHandle.parametersIterator(),
 							designerValues == null ? null : designerValues
-									.getDataSetParameters( ), setDesign ) );
+									.getDataSetParameters(), setDesign));
 		}
 
-		setDesign.setPrimaryResultSet( new ResultSetsAdapter( )
-				.newOdaResultSetDefinition( setHandle ) );
+		setDesign.setPrimaryResultSet(new ResultSetsAdapter()
+				.newOdaResultSetDefinition(setHandle));
 
 	}
 
@@ -407,19 +385,18 @@ public class ModelOdaAdapter
 	 *            the property name
 	 */
 
-	public void updateDataSetDesign( OdaDataSetHandle setHandle,
-			DataSetDesign setDesign, String propertyName )
-	{
-		if ( setHandle == null || setDesign == null || propertyName == null )
+	public void updateDataSetDesign(OdaDataSetHandle setHandle,
+			DataSetDesign setDesign, String propertyName) {
+		if (setHandle == null || setDesign == null || propertyName == null)
 			return;
 
 		// properties on ReportElement, like name, displayNames, etc.
 
-		if ( OdaDataSetHandle.NAME_PROP.equalsIgnoreCase( propertyName ) )
-			setDesign.setName( setHandle.getName( ) );
-		else if ( OdaDataSetHandle.DISPLAY_NAME_PROP
-				.equalsIgnoreCase( propertyName ) )
-			setDesign.setDisplayName( setHandle.getDisplayName( ) );
+		if (OdaDataSetHandle.NAME_PROP.equalsIgnoreCase(propertyName))
+			setDesign.setName(setHandle.getName());
+		else if (OdaDataSetHandle.DISPLAY_NAME_PROP
+				.equalsIgnoreCase(propertyName))
+			setDesign.setDisplayName(setHandle.getDisplayName());
 
 		// properties such as comments, extends, etc are kept in
 		// DataSourceHandle, not DataSourceDesign.
@@ -427,70 +404,45 @@ public class ModelOdaAdapter
 		// scripts of DataSource are kept in
 		// DataSourceHandle, not DataSourceDesign.
 
-		else if ( OdaDataSourceHandle.EXTENSION_ID_PROP
-				.equalsIgnoreCase( propertyName ) )
-			setDesign.setOdaExtensionDataSetId( setHandle.getExtensionID( ) );
+		else if (OdaDataSourceHandle.EXTENSION_ID_PROP
+				.equalsIgnoreCase(propertyName))
+			setDesign.setOdaExtensionDataSetId(setHandle.getExtensionID());
 
-		else if ( OdaDataSetHandle.PRIVATE_DRIVER_PROPERTIES_PROP
-				.equalsIgnoreCase( propertyName ) )
-			setDesign.setPrivateProperties( newOdaPrivateProperties( setHandle
-					.privateDriverPropertiesIterator( ) ) );
+		else if (OdaDataSetHandle.PRIVATE_DRIVER_PROPERTIES_PROP
+				.equalsIgnoreCase(propertyName))
+			setDesign.setPrivateProperties(newOdaPrivateProperties(setHandle
+					.privateDriverPropertiesIterator()));
 
-		else if ( OdaDataSetHandle.RESULT_SET_NAME_PROP
-				.equalsIgnoreCase( propertyName ) )
-			setDesign.setPrimaryResultSetName( setHandle.getResultSetName( ) );
+		else if (OdaDataSetHandle.RESULT_SET_NAME_PROP
+				.equalsIgnoreCase(propertyName))
+			setDesign.setPrimaryResultSetName(setHandle.getResultSetName());
 
-		else if ( OdaDataSetHandle.QUERY_TEXT_PROP
-				.equalsIgnoreCase( propertyName ) )
-			setDesign.setQueryText( setHandle.getQueryText( ) );
+		else if (OdaDataSetHandle.QUERY_TEXT_PROP
+				.equalsIgnoreCase(propertyName))
+			setDesign.setQueryText(setHandle.getQueryText());
 
 		// create a new data source design for this set design.
 
-		else if ( OdaDataSetHandle.DATA_SOURCE_PROP
-				.equalsIgnoreCase( propertyName ) )
-		{
+		else if (OdaDataSetHandle.DATA_SOURCE_PROP
+				.equalsIgnoreCase(propertyName)) {
 			OdaDataSourceHandle sourceHandle = (OdaDataSourceHandle) setHandle
-					.getDataSource( );
+					.getDataSource();
 
-			if ( sourceHandle != null )
+			if (sourceHandle != null)
 				setDesign
-						.setDataSourceDesign( createDataSourceDesign( sourceHandle ) );
+						.setDataSourceDesign(createDataSourceDesign(sourceHandle));
 		}
 
-		else if ( OdaDataSetHandle.PARAMETERS_PROP
-				.equalsIgnoreCase( propertyName ) )
-		{
+		else if (OdaDataSetHandle.PARAMETERS_PROP
+				.equalsIgnoreCase(propertyName)) {
 
-			String strDesignValues = setHandle.getDesignerValues( );
-
-			DesignValues designerValues = null;
-
-			try
-			{
-				designerValues = SerializerImpl.instance( ).read(
-						strDesignValues );
-			}
-			catch ( IOException e )
-			{
-			}
-
-			if ( designerValues != null
-					&& designerValues.getDataSetParameters( ) != null )
-			{
-				setDesign.setParameters( (DataSetParameters) EcoreUtil
-						.copy( designerValues.getDataSetParameters( ) ) );
-			}
-
-			setDesign.setParameters( new DataSetParameterAdapter( )
-					.newOdaDataSetParams( setHandle.parametersIterator( ),
-							designerValues == null ? null : designerValues
-									.getDataSetParameters( ), setDesign ) );
+			updateDataSetDesignParams( setDesign, setHandle );
 		}
 
-		else if ( OdaDataSetHandle.RESULT_SET_PROP
-				.equalsIgnoreCase( propertyName ) )
-			setDesign.setPrimaryResultSet( new ResultSetsAdapter( )
-					.newOdaResultSetDefinition( setHandle ) );
+		else if (OdaDataSetHandle.RESULT_SET_PROP
+				.equalsIgnoreCase(propertyName))
+			setDesign.setPrimaryResultSet(new ResultSetsAdapter()
+					.newOdaResultSetDefinition(setHandle));
 	}
 
 	/**
@@ -502,13 +454,12 @@ public class ModelOdaAdapter
 	 *            the ODA data source design
 	 */
 
-	public void updateDataSourceDesign( OdaDataSourceHandle sourceHandle,
-			DataSourceDesign sourceDesign )
-	{
+	public void updateDataSourceDesign(OdaDataSourceHandle sourceHandle,
+			DataSourceDesign sourceDesign) {
 		// properties on ReportElement, like name, displayNames, etc.
 
-		sourceDesign.setName( sourceHandle.getName( ) );
-		sourceDesign.setDisplayName( sourceHandle.getDisplayName( ) );
+		sourceDesign.setName(sourceHandle.getName());
+		sourceDesign.setDisplayName(sourceHandle.getDisplayName());
 
 		// properties such as comments, extends, etc are kept in
 		// DataSourceHandle, not DataSourceDesign.
@@ -516,14 +467,13 @@ public class ModelOdaAdapter
 		// scripts of DataSource are kept in
 		// DataSourceHandle, not DataSourceDesign.
 
-		sourceDesign.setOdaExtensionId( sourceHandle.getExtensionID( ) );
+		sourceDesign.setOdaExtensionId(sourceHandle.getExtensionID());
 
-		sourceDesign
-				.setPrivateProperties( newOdaPrivateProperties( sourceHandle
-						.privateDriverPropertiesIterator( ) ) );
+		sourceDesign.setPrivateProperties(newOdaPrivateProperties(sourceHandle
+				.privateDriverPropertiesIterator()));
 
-		sourceDesign.setPublicProperties( newOdaPublicProperties( sourceHandle
-				.getExtensionPropertyDefinitionList( ), sourceHandle ) );
+		sourceDesign.setPublicProperties(newOdaPublicProperties(sourceHandle
+				.getExtensionPropertyDefinitionList(), sourceHandle));
 
 		// updateOdaPublicProperties( sourceDesign.getPublicProperties( ),
 		// sourceHandle );
@@ -537,22 +487,20 @@ public class ModelOdaAdapter
 	 * @return <code>Properties</code> containing ROM public property values.
 	 */
 
-	private Properties newOdaPublicProperties( List propDefns,
-			ReportElementHandle element )
-	{
-		if ( propDefns == null )
+	private Properties newOdaPublicProperties(List propDefns,
+			ReportElementHandle element) {
+		if (propDefns == null)
 			return null;
 
 		Properties retProps = null;
 
-		for ( int i = 0; i < propDefns.size( ); i++ )
-		{
-			if ( retProps == null )
-				retProps = DesignFactory.eINSTANCE.createProperties( );
-			IPropertyDefn propDefn = (IPropertyDefn) propDefns.get( i );
-			String propName = propDefn.getName( );
-			String propValue = element.getStringProperty( propName );
-			retProps.setProperty( propName, propValue );
+		for (int i = 0; i < propDefns.size(); i++) {
+			if (retProps == null)
+				retProps = DesignFactory.eINSTANCE.createProperties();
+			IPropertyDefn propDefn = (IPropertyDefn) propDefns.get(i);
+			String propName = propDefn.getName();
+			String propValue = element.getStringProperty(propName);
+			retProps.setProperty(propName, propValue);
 		}
 
 		return retProps;
@@ -567,18 +515,15 @@ public class ModelOdaAdapter
 	 * @return a new <code>Properties</code> object.
 	 */
 
-	private Properties newOdaPrivateProperties( Iterator props )
-	{
-		if ( props == null || !props.hasNext( ) )
+	private Properties newOdaPrivateProperties(Iterator props) {
+		if (props == null || !props.hasNext())
 			return null;
 
-		Properties retProps = DesignFactory.eINSTANCE.createProperties( );
-		for ( ; props.hasNext( ); )
-		{
+		Properties retProps = DesignFactory.eINSTANCE.createProperties();
+		for (; props.hasNext();) {
 			ExtendedPropertyHandle propHandle = (ExtendedPropertyHandle) props
-					.next( );
-			retProps
-					.setProperty( propHandle.getName( ), propHandle.getValue( ) );
+					.next();
+			retProps.setProperty(propHandle.getName(), propHandle.getValue());
 		}
 
 		return retProps;
@@ -601,23 +546,22 @@ public class ModelOdaAdapter
 	 */
 
 	public OdaDataSourceHandle createDataSourceHandle(
-			DataSourceDesign sourceDesign, ModuleHandle module )
-			throws SemanticException, IllegalStateException
-	{
-		if ( sourceDesign == null )
+			DataSourceDesign sourceDesign, ModuleHandle module)
+			throws SemanticException, IllegalStateException {
+		if (sourceDesign == null)
 			return null;
 
 		// validate the source design to make sure it is valid
 
-		DesignUtil.validateObject( sourceDesign );
-		OdaDataSourceHandle sourceHandle = module.getElementFactory( )
-				.newOdaDataSource( sourceDesign.getName( ),
-						sourceDesign.getOdaExtensionId( ) );
+		DesignUtil.validateObject(sourceDesign);
+		OdaDataSourceHandle sourceHandle = module.getElementFactory()
+				.newOdaDataSource(sourceDesign.getName(),
+						sourceDesign.getOdaExtensionId());
 
-		if ( sourceHandle == null )
+		if (sourceHandle == null)
 			return null;
 
-		adaptDataSourceDesign( sourceDesign, sourceHandle );
+		adaptDataSourceDesign(sourceDesign, sourceHandle);
 		return sourceHandle;
 	}
 
@@ -634,38 +578,33 @@ public class ModelOdaAdapter
 	 *             valid.
 	 */
 
-	public void updateDataSourceHandle( DataSourceDesign sourceDesign,
-			OdaDataSourceHandle sourceHandle ) throws SemanticException
-	{
-		if ( sourceDesign == null || sourceHandle == null )
+	public void updateDataSourceHandle(DataSourceDesign sourceDesign,
+			OdaDataSourceHandle sourceHandle) throws SemanticException {
+		if (sourceDesign == null || sourceHandle == null)
 			return;
 
-		DesignUtil.validateObject( sourceDesign );
-		CommandStack stack = sourceHandle.getModuleHandle( ).getCommandStack( );
+		DesignUtil.validateObject(sourceDesign);
+		CommandStack stack = sourceHandle.getModuleHandle().getCommandStack();
 
-		stack.startTrans( null );
-		try
-		{
+		stack.startTrans(null);
+		try {
 			// extension id is set without undo/redo support.
 
-			sourceHandle.getElement( ).setProperty(
+			sourceHandle.getElement().setProperty(
 					OdaDataSourceHandle.EXTENSION_ID_PROP,
-					sourceDesign.getOdaExtensionId( ) );
+					sourceDesign.getOdaExtensionId());
 
-			sourceHandle.setName( sourceDesign.getName( ) );
-			sourceHandle.setDisplayName( sourceDesign.getDisplayName( ) );
+			sourceHandle.setName(sourceDesign.getName());
+			sourceHandle.setDisplayName(sourceDesign.getDisplayName());
 
 			// set public properties.
 
-			Properties props = sourceDesign.getPublicProperties( );
-			if ( props != null )
-			{
-				EList propList = props.getProperties( );
-				for ( int i = 0; i < propList.size( ); i++ )
-				{
-					Property prop = (Property) propList.get( i );
-					sourceHandle
-							.setProperty( prop.getName( ), prop.getValue( ) );
+			Properties props = sourceDesign.getPublicProperties();
+			if (props != null) {
+				EList propList = props.getProperties();
+				for (int i = 0; i < propList.size(); i++) {
+					Property prop = (Property) propList.get(i);
+					sourceHandle.setProperty(prop.getName(), prop.getValue());
 				}
 			}
 
@@ -673,26 +612,22 @@ public class ModelOdaAdapter
 
 			// set private properties.
 
-			props = sourceDesign.getPrivateProperties( );
-			if ( props != null )
-			{
-				EList propList = props.getProperties( );
-				for ( int i = 0; i < propList.size( ); i++ )
-				{
-					Property prop = (Property) propList.get( i );
-					sourceHandle.setPrivateDriverProperty( prop.getName( ),
-							prop.getValue( ) );
+			props = sourceDesign.getPrivateProperties();
+			if (props != null) {
+				EList propList = props.getProperties();
+				for (int i = 0; i < propList.size(); i++) {
+					Property prop = (Property) propList.get(i);
+					sourceHandle.setPrivateDriverProperty(prop.getName(), prop
+							.getValue());
 				}
 			}
 
-		}
-		catch ( SemanticException e )
-		{
-			stack.rollback( );
+		} catch (SemanticException e) {
+			stack.rollback();
 			throw e;
 		}
 
-		stack.commit( );
+		stack.commit();
 	}
 
 	/**
@@ -709,27 +644,26 @@ public class ModelOdaAdapter
 	 * 
 	 */
 
-	private void adaptDataSourceDesign( DataSourceDesign sourceDesign,
-			OdaDataSourceHandle sourceHandle ) throws SemanticException
-	{
+	private void adaptDataSourceDesign(DataSourceDesign sourceDesign,
+			OdaDataSourceHandle sourceHandle) throws SemanticException {
 
 		Object value = null;
 
 		// properties on ReportElement, like name, displayNames, etc.
 
-		value = sourceDesign.getName( );
-		PropertyValueValidationUtil.validateProperty( sourceHandle,
-				OdaDataSourceHandle.NAME_PROP, value );
-		sourceHandle.getElement( ).setName( sourceDesign.getName( ) );
+		value = sourceDesign.getName();
+		PropertyValueValidationUtil.validateProperty(sourceHandle,
+				OdaDataSourceHandle.NAME_PROP, value);
+		sourceHandle.getElement().setName(sourceDesign.getName());
 
 		// properties on ReportElement, like name, displayNames, etc.
 
-		value = sourceDesign.getDisplayName( );
-		PropertyValueValidationUtil.validateProperty( sourceHandle,
-				OdaDataSourceHandle.DISPLAY_NAME_PROP, value );
-		sourceHandle.getElement( ).setProperty(
+		value = sourceDesign.getDisplayName();
+		PropertyValueValidationUtil.validateProperty(sourceHandle,
+				OdaDataSourceHandle.DISPLAY_NAME_PROP, value);
+		sourceHandle.getElement().setProperty(
 				OdaDataSourceHandle.DISPLAY_NAME_PROP,
-				sourceDesign.getDisplayName( ) );
+				sourceDesign.getDisplayName());
 
 		// properties such as comments, extends, etc are kept in
 		// DataSourceHandle, not DataSourceDesign.
@@ -739,14 +673,14 @@ public class ModelOdaAdapter
 
 		// set null or empty list if the return list is empty.
 
-		value = newROMPrivateProperties( sourceDesign.getPrivateProperties( ) );
-		PropertyValueValidationUtil.validateProperty( sourceHandle,
-				OdaDataSourceHandle.PRIVATE_DRIVER_PROPERTIES_PROP, value );
-		sourceHandle.getElement( ).setProperty(
-				OdaDataSourceHandle.PRIVATE_DRIVER_PROPERTIES_PROP, value );
+		value = newROMPrivateProperties(sourceDesign.getPrivateProperties());
+		PropertyValueValidationUtil.validateProperty(sourceHandle,
+				OdaDataSourceHandle.PRIVATE_DRIVER_PROPERTIES_PROP, value);
+		sourceHandle.getElement().setProperty(
+				OdaDataSourceHandle.PRIVATE_DRIVER_PROPERTIES_PROP, value);
 
-		updateROMPublicProperties( sourceDesign.getPublicProperties( ),
-				sourceHandle );
+		updateROMPublicProperties(sourceDesign.getPublicProperties(),
+				sourceHandle);
 
 		// udpate property bindings, report parameters and so on.
 
@@ -761,24 +695,22 @@ public class ModelOdaAdapter
 	 *            the data source handle
 	 */
 
-	private void updateROMPublicProperties( Properties designProps,
-			ReportElementHandle sourceHandle ) throws SemanticException
-	{
-		if ( designProps == null )
+	private void updateROMPublicProperties(Properties designProps,
+			ReportElementHandle sourceHandle) throws SemanticException {
+		if (designProps == null)
 			return;
 
-		EList publicProps = designProps.getProperties( );
-		for ( int i = 0; i < publicProps.size( ); i++ )
-		{
-			Property prop = (Property) publicProps.get( i );
+		EList publicProps = designProps.getProperties();
+		for (int i = 0; i < publicProps.size(); i++) {
+			Property prop = (Property) publicProps.get(i);
 
-			String propName = prop.getName( );
-			String propValue = prop.getValue( );
+			String propName = prop.getName();
+			String propValue = prop.getValue();
 
-			PropertyValueValidationUtil.validateProperty( sourceHandle,
-					propName, propValue );
+			PropertyValueValidationUtil.validateProperty(sourceHandle,
+					propName, propValue);
 
-			sourceHandle.getElement( ).setProperty( propName, propValue );
+			sourceHandle.getElement().setProperty(propName, propValue);
 		}
 	}
 
@@ -791,29 +723,27 @@ public class ModelOdaAdapter
 	 * @return a new <code>List</code> object.
 	 */
 
-	private List newROMPrivateProperties( Properties props )
-	{
-		if ( props == null )
+	private List newROMPrivateProperties(Properties props) {
+		if (props == null)
 			return null;
 
-		List list = new ArrayList( );
-		EList designProps = props.getProperties( );
-		for ( int i = 0; i < designProps.size( ); i++ )
-		{
-			Property prop = (Property) designProps.get( i );
+		List list = new ArrayList();
+		EList designProps = props.getProperties();
+		for (int i = 0; i < designProps.size(); i++) {
+			Property prop = (Property) designProps.get(i);
 			ExtendedProperty extendedProperty = StructureFactory
-					.createExtendedProperty( );
-			extendedProperty.setName( prop.getName( ) );
-			extendedProperty.setValue( prop.getValue( ) );
+					.createExtendedProperty();
+			extendedProperty.setName(prop.getName());
+			extendedProperty.setValue(prop.getValue());
 
-			list.add( extendedProperty );
+			list.add(extendedProperty);
 		}
 
 		return list;
 	}
 
 	/**
-	 * Updates values of <code>sourceHandle</code> with the given
+	 * Updates values of <code>DataSetHandle</code> with the given
 	 * <code>sourceDesign</code>.
 	 * 
 	 * @param setDesign
@@ -821,7 +751,7 @@ public class ModelOdaAdapter
 	 * @param setHandle
 	 *            the Model handle
 	 * @param isSourceChanged
-	 *            <code>true</code> if the data source of the given design has
+	 *            <code>true</code> if the data set of the given design has
 	 *            been changed. Otherwise <code>false</code>.
 	 * @throws SemanticException
 	 *             if any of <code>sourceDesign</code> property values is not
@@ -889,11 +819,6 @@ public class ModelOdaAdapter
 			{
 			}
 
-			updateROMDataSetParamList( setHandle, new DataSetParameterAdapter( )
-					.newROMSetParams( setDesign, setHandle,
-							designerValues == null ? null : designerValues
-									.getDataSetParameters( ) ) );
-
 			ResultSets cachedResultSets = designerValues == null
 					? null
 					: designerValues.getResultSets( );
@@ -915,8 +840,67 @@ public class ModelOdaAdapter
 			// designer values must be saved after convert data set parameters
 			// and result set columns.
 
-			String odaValues = serializeOdaValues( setDesign );
-			setHandle.setDesignerValues( odaValues );
+			// Set Parameter
+			
+			// Get user-defined parameters
+
+			List userDefinedList = new DataSetParameterAdapter( )
+					.getUserDefinedParameter( designerValues, setDesign,
+							setHandle );
+
+			// update designvalues.
+			
+			if ( setDesign.getParameters( ) == null )
+			{
+				if ( designerValues != null )
+					designerValues.setDataSetParameters( null );
+			}
+			else
+			{
+				EList designDefns = setDesign.getParameters( )
+						.getParameterDefinitions( );
+				
+				List resultList = DataSetParameterAdapter.getDriverDefinedParameters(
+						designDefns, userDefinedList );
+
+				if ( resultList.size( ) > 0 )
+				{
+					if ( designerValues == null )
+					{
+						designerValues = ModelFactory.eINSTANCE
+								.createDesignValues( );
+					}
+					DataSetParameters dsParams = designerValues.getDataSetParameters( );
+					if ( dsParams == null )
+					{
+						dsParams = DesignFactory.eINSTANCE.createDataSetParameters( );
+						designerValues.setDataSetParameters( dsParams );
+					}
+					dsParams = designerValues.getDataSetParameters( );
+					dsParams.getParameterDefinitions( ).clear( );
+					dsParams.getParameterDefinitions( ).addAll( resultList );
+				}
+			}
+
+			// Set DesignerValues
+
+			try
+			{
+				if ( designerValues != null )
+				{
+					String dValue = SerializerImpl.instance( ).write(
+							designerValues );
+					setHandle.setDesignerValues( dValue );
+				}
+			}
+			catch ( IOException e )
+			{
+			}
+			
+			//Update parameters of dataset handle.
+
+			updateROMDataSetParams( setDesign, setHandle,
+					userDefinedList );
 
 			DataSourceDesign sourceDesign = setDesign.getDataSourceDesign( );
 			if ( sourceDesign != null )
@@ -957,6 +941,35 @@ public class ModelOdaAdapter
 
 		stack.commit( );
 	}
+	
+	/**
+	 * Overrides data set design's parameters with data set handle's. Totally
+	 * override.
+	 * 
+	 * @param setDesign
+	 *            data set design.
+	 * @param setHandle
+	 *            data set handle.
+	 * @throws SemanticException
+	 */
+
+	void updateDataSetDesignParams( DataSetDesign setDesign,
+			OdaDataSetHandle setHandle )
+	{
+		DataSetParameters dsParams = new DataSetParameterAdapter( )
+				.newOdaDataSetParams( setHandle.parametersIterator( ), null,
+						setDesign );
+
+		if ( dsParams != null )
+		{
+			setDesign.setParameters( dsParams );
+		}
+		else
+		{
+			setDesign.setParameters( null );
+		}
+
+	}
 
 	/**
 	 * Updates a strucutre list with the corresponding property handle.
@@ -969,54 +982,49 @@ public class ModelOdaAdapter
 	 *             if any strucutre has invalid value.
 	 */
 
-	private void updateROMResultSets( OdaDataSetHandle setHandle,
-			List structList ) throws SemanticException
-	{
-		List columns = new ArrayList( );
-		List hints = new ArrayList( );
+	private void updateROMResultSets(OdaDataSetHandle setHandle, List structList)
+			throws SemanticException {
+		List columns = new ArrayList();
+		List hints = new ArrayList();
 
-		ResultSetColumnInfo.updateResultSetColumnList( structList, columns,
-				hints );
+		ResultSetColumnInfo.updateResultSetColumnList(structList, columns,
+				hints);
 
 		PropertyHandle propHandle = setHandle
-				.getPropertyHandle( OdaDataSetHandle.RESULT_SET_PROP );
-		propHandle.setValue( null );
+				.getPropertyHandle(OdaDataSetHandle.RESULT_SET_PROP);
+		propHandle.setValue(null);
 
-		if ( !columns.isEmpty( ) )
-		{
-			createUniqueResultSetColumnNames( columns );
+		if (!columns.isEmpty()) {
+			createUniqueResultSetColumnNames(columns);
 
-			propHandle.setValue( new ArrayList( ) );
-			for ( int i = 0; i < columns.size( ); i++ )
-				propHandle.addItem( columns.get( i ) );
+			propHandle.setValue(new ArrayList());
+			for (int i = 0; i < columns.size(); i++)
+				propHandle.addItem(columns.get(i));
 		}
 
 		propHandle = setHandle
-				.getPropertyHandle( OdaDataSetHandle.COLUMN_HINTS_PROP );
-		propHandle.setValue( null );
+				.getPropertyHandle(OdaDataSetHandle.COLUMN_HINTS_PROP);
+		propHandle.setValue(null);
 
-		if ( !hints.isEmpty( ) )
-		{
-			propHandle.setValue( new ArrayList( ) );
+		if (!hints.isEmpty()) {
+			propHandle.setValue(new ArrayList());
 
-			for ( int i = 0; i < hints.size( ); i++ )
-			{
-				ColumnHint hint = (ColumnHint) hints.get( i );
+			for (int i = 0; i < hints.size(); i++) {
+				ColumnHint hint = (ColumnHint) hints.get(i);
 				ColumnHintHandle oldHint = ResultSetsAdapter.findColumnHint(
-						(String) hint.getProperty( null,
-								ColumnHint.COLUMN_NAME_MEMBER ), setHandle
-								.columnHintsIterator( ) );
+						(String) hint.getProperty(null,
+								ColumnHint.COLUMN_NAME_MEMBER), setHandle
+								.columnHintsIterator());
 
-				if ( oldHint == null )
-					propHandle.addItem( hints.get( i ) );
-				else
-				{
-					oldHint.setDisplayName( (String) hint.getProperty( null,
-							ColumnHint.DISPLAY_NAME_MEMBER ) );
-					oldHint.setHelpText( (String) hint.getProperty( null,
-							ColumnHint.HELP_TEXT_MEMBER ) );
-					oldHint.setFormat( (String) hint.getProperty( null,
-							ColumnHint.FORMAT_MEMBER ) );
+				if (oldHint == null)
+					propHandle.addItem(hints.get(i));
+				else {
+					oldHint.setDisplayName((String) hint.getProperty(null,
+							ColumnHint.DISPLAY_NAME_MEMBER));
+					oldHint.setHelpText((String) hint.getProperty(null,
+							ColumnHint.HELP_TEXT_MEMBER));
+					oldHint.setFormat((String) hint.getProperty(null,
+							ColumnHint.FORMAT_MEMBER));
 				}
 			}
 		}
@@ -1029,38 +1037,35 @@ public class ModelOdaAdapter
 	 * @param resultSetColumn
 	 */
 
-	private void createUniqueResultSetColumnNames( List resultSetColumn )
-	{
-		if ( resultSetColumn == null || resultSetColumn.isEmpty( ) )
+	private void createUniqueResultSetColumnNames(List resultSetColumn) {
+		if (resultSetColumn == null || resultSetColumn.isEmpty())
 			return;
 
-		Set names = new HashSet( );
-		for ( int i = 0; i < resultSetColumn.size( ); i++ )
-		{
+		Set names = new HashSet();
+		for (int i = 0; i < resultSetColumn.size(); i++) {
 			OdaResultSetColumn column = (OdaResultSetColumn) resultSetColumn
-					.get( i );
-			String nativeName = column.getNativeName( );
-			if ( nativeName != null )
-				names.add( nativeName );
+					.get(i);
+			String nativeName = column.getNativeName();
+			if (nativeName != null)
+				names.add(nativeName);
 		}
 
-		Set newNames = new HashSet( );
-		for ( int i = 0; i < resultSetColumn.size( ); i++ )
-		{
+		Set newNames = new HashSet();
+		for (int i = 0; i < resultSetColumn.size(); i++) {
 			OdaResultSetColumn column = (OdaResultSetColumn) resultSetColumn
-					.get( i );
-			String nativeName = column.getNativeName( );
-			if ( !StringUtil.isBlank( nativeName ) )
+					.get(i);
+			String nativeName = column.getNativeName();
+			if (!StringUtil.isBlank(nativeName))
 				continue;
 
-			String newName = IdentifierUtility.getUniqueColumnName( names,
-					newNames, nativeName, i );
+			String newName = IdentifierUtility.getUniqueColumnName(names,
+					newNames, nativeName, i);
 
-			column.setColumnName( newName );
+			column.setColumnName(newName);
 		}
 
-		names.clear( );
-		newNames.clear( );
+		names.clear();
+		newNames.clear();
 	}
 
 	/**
@@ -1074,19 +1079,18 @@ public class ModelOdaAdapter
 	 *             if any strucutre has invalid value.
 	 */
 
-	private void updateROMDataSetParamList( OdaDataSetHandle setHandle,
-			List structList ) throws SemanticException
-	{
-		setHandle.setProperty( OdaDataSetHandle.PARAMETERS_PROP, null );
+	private void updateROMDataSetParamList(OdaDataSetHandle setHandle,
+			List structList) throws SemanticException {
+		setHandle.setProperty(OdaDataSetHandle.PARAMETERS_PROP, null);
 
-		if ( structList == null || structList.isEmpty( ) )
+		if (structList == null || structList.isEmpty())
 			return;
 
 		PropertyHandle propHandle = setHandle
-				.getPropertyHandle( OdaDataSetHandle.PARAMETERS_PROP );
+				.getPropertyHandle(OdaDataSetHandle.PARAMETERS_PROP);
 
-		for ( int i = 0; i < structList.size( ); i++ )
-			propHandle.addItem( structList.get( i ) );
+		for (int i = 0; i < structList.size(); i++)
+			propHandle.addItem(structList.get(i));
 	}
 
 	/**
@@ -1097,11 +1101,10 @@ public class ModelOdaAdapter
 	 * @return the oda DesignerState object.
 	 */
 
-	public DesignerState newOdaDesignerState( OdaDataSetHandle setHandle )
-	{
-		OdaDesignerStateHandle designerState = setHandle.getDesignerState( );
+	public DesignerState newOdaDesignerState(OdaDataSetHandle setHandle) {
+		OdaDesignerStateHandle designerState = setHandle.getDesignerState();
 
-		return DesignerStateAdapter.createOdaDesignState( designerState );
+		return DesignerStateAdapter.createOdaDesignState(designerState);
 	}
 
 	/**
@@ -1115,13 +1118,12 @@ public class ModelOdaAdapter
 	 *             if ROM Designer state value is locked.
 	 */
 
-	public void updateROMDesignerState( DesignerState designerState,
-			OdaDataSetHandle setHandle ) throws SemanticException
-	{
-		if ( designerState == null || setHandle == null )
+	public void updateROMDesignerState(DesignerState designerState,
+			OdaDataSetHandle setHandle) throws SemanticException {
+		if (designerState == null || setHandle == null)
 			return;
 
-		DesignerStateAdapter.updateROMDesignerState( designerState, setHandle );
+		DesignerStateAdapter.updateROMDesignerState(designerState, setHandle);
 	}
 
 	/**
@@ -1132,11 +1134,10 @@ public class ModelOdaAdapter
 	 * @return the oda DesignerState object.
 	 */
 
-	public DesignerState newOdaDesignerState( OdaDataSourceHandle sourceHandle )
-	{
-		OdaDesignerStateHandle designerState = sourceHandle.getDesignerState( );
+	public DesignerState newOdaDesignerState(OdaDataSourceHandle sourceHandle) {
+		OdaDesignerStateHandle designerState = sourceHandle.getDesignerState();
 
-		return DesignerStateAdapter.createOdaDesignState( designerState );
+		return DesignerStateAdapter.createOdaDesignState(designerState);
 	}
 
 	/**
@@ -1150,13 +1151,72 @@ public class ModelOdaAdapter
 	 *             if ROM Designer state value is locked.
 	 */
 
-	public void updateROMDesignerState( DesignerState designerState,
-			OdaDataSourceHandle sourceHandle ) throws SemanticException
-	{
-		if ( designerState == null || sourceHandle == null )
+	public void updateROMDesignerState(DesignerState designerState,
+			OdaDataSourceHandle sourceHandle) throws SemanticException {
+		if (designerState == null || sourceHandle == null)
 			return;
 
-		DesignerStateAdapter.updateROMDesignerState( designerState,
-				sourceHandle );
+		DesignerStateAdapter
+				.updateROMDesignerState(designerState, sourceHandle);
 	}
+	
+
+	/**
+	 * Update parameters in DataSetHandle with DataSetDesign's.
+	 * 
+	 * @param setDesign
+	 *            data set design contains driver-defined parameters
+	 * @param setHandle
+	 *            data set handle
+	 * @param userDefinedList
+	 *            a list contains user-defined parameters. Each item is
+	 *            <code>OdaDataSetParameter</code>.
+	 * 
+	 * @throws SemanticException
+	 */
+
+	private void updateROMDataSetParams( DataSetDesign setDesign,
+			OdaDataSetHandle setHandle, List userDefinedList )
+			throws SemanticException
+	{
+		List resultList = new DataSetParameterAdapter( ).newROMSetParams(
+				setDesign, setHandle, null, userDefinedList );
+
+		// Merge all parameter list with data set handle.
+
+		PropertyHandle propHandle = setHandle
+				.getPropertyHandle( OdaDataSetHandle.PARAMETERS_PROP );
+
+		// If the name is the same , should rename it.
+		// when you have three driver-defined parameter in DataSetDesign,but you
+		// remove two of them
+		// in handle, then when you back to 'parameter' page, you can get three
+		// parameter and in this
+		// time it's easy to duplicate name.
+
+		List nameList = new ArrayList( );
+		List retList = new ArrayList( );
+
+		propHandle.clearValue( );
+		Iterator iterator = resultList.iterator( );
+		while ( iterator.hasNext( ) )
+		{
+			OdaDataSetParameter parameter = (OdaDataSetParameter) iterator
+					.next( );
+			String paramName = parameter.getName( );
+			if ( nameList.contains( paramName ) )
+			{
+				paramName = IdentifierUtility.getParamUniqueName( setHandle
+						.parametersIterator( ), retList, parameter
+						.getPosition( ).intValue( ) );
+				parameter.setName( paramName );
+			}
+			nameList.add( paramName );
+			retList.add( parameter );
+			propHandle.addItem( parameter );
+		}
+
+	}
+
+
 }
