@@ -505,7 +505,10 @@ public class PDFEmitter implements IContentEmitter
 		
 		public void setTotalPage(ITextArea totalPage)
 		{
-			drawTextAt(totalPage, 0, 0, tpl, tpl.getHeight());
+			if(tpl!=null)
+			{
+				drawTextAt(totalPage, 0, 0, tpl, tpl.getHeight());
+			}
 		}
 
 		public void visitText(ITextArea textArea)
