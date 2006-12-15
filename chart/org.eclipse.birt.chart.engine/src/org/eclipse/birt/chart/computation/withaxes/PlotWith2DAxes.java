@@ -518,13 +518,13 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			}
 			if ( ax.isPercent( ) ) // HANDLE PERCENT
 			{
-				if ( dPercentMax >= 100 )
-					dPercentMax = 99.9;
-				if ( dPercentMin <= -100 )
-					dPercentMin = -99.9;
+				if ( dPercentMax > 100 )
+					dPercentMax = 100;
+				if ( dPercentMin < -100 )
+					dPercentMin = -100;
 				if ( dPercentMax == 0 && dPercentMin == 0 )
 				{
-					dPercentMax = 99;
+					dPercentMax = 100;
 				}
 				dAxisMin = dPercentMin;
 				dAxisMax = dPercentMax;
@@ -551,17 +551,17 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				if ( ( iType & PERCENT ) == PERCENT )
 				{
 					oMin = new Double( 0 );
-					oMax = new Double( 99.99 );
+					oMax = new Double( 100 );
 				}
 				else if ( ( iType & LOGARITHMIC ) == LOGARITHMIC )
 				{
 					oMin = new Double( 1 );
-					oMax = new Double( 999 );
+					oMax = new Double( 1000 );
 				}
 				else
 				{
-					oMin = new Double( -0.9 );
-					oMax = new Double( 0.9 );
+					oMin = new Double( -1 );
+					oMax = new Double( 1 );
 				}
 			}
 		}

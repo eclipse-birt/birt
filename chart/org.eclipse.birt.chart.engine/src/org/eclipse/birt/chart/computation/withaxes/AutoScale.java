@@ -2169,6 +2169,11 @@ public final class AutoScale extends Methods implements Cloneable
 					if ( dValue > dMaxValue )
 						dMaxValue = dValue;
 				}
+				// Avoid the number that will be multiplied is zero
+				if ( dMinValue == 0 )
+				{
+					dMinValue = dMaxValue > 0 ? 1 : -1;
+				}
 			}
 			oMinValue = new Double( dMinValue );
 			oMaxValue = new Double( dMaxValue );
