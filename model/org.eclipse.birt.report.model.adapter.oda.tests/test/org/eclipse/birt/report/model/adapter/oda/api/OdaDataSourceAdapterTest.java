@@ -32,14 +32,11 @@ public class OdaDataSourceAdapterTest extends BaseTestCase
 {
 
 	private final static String INPUT_FILE = "OdaDataSourceConvertTest.xml"; //$NON-NLS-1$
-	private final static String OUTPUT_FILE = "OdaDataSourceConvertTest_out.xml"; //$NON-NLS-1$
 	private final static String GOLDEN_FILE = "OdaDataSourceConvertTest_golden.xml"; //$NON-NLS-1$
 
 	private final static String INPUT_FILE_WITH_EMPTY_PROPS = "OdaDataSourceEmptyProps.xml"; //$NON-NLS-1$
-	private final static String OUTPUT_FILE_WITH_EMPTY_PROPS = "OdaDataSourceEmptyProps_out.xml"; //$NON-NLS-1$
 	private final static String GOLDEN_FILE_WITH_EMPTY_PROPS = "OdaDataSourceEmptyProps_golden.xml"; //$NON-NLS-1$
 
-	private final static String OUTPUT_FILE1_WITH_EMPTY_PROPS = "OdaDataSourceEmptyProps_out_1.xml"; //$NON-NLS-1$
 	private final static String GOLDEN_FILE1_WITH_EMPTY_PROPS = "OdaDataSourceEmptyProps_golden_1.xml"; //$NON-NLS-1$
 
 	private final static String DATA_SOURCE_EXTENSIONID = "org.eclipse.birt.report.data.oda.jdbc"; //$NON-NLS-1$
@@ -66,13 +63,12 @@ public class OdaDataSourceAdapterTest extends BaseTestCase
 
 		assertEquals( "My Data Source One", sourceDesign.getDisplayName( ) ); //$NON-NLS-1$
 		Properties props = sourceDesign.getPublicProperties( );
-		assertEquals( 6, props.getProperties( ).size( ) );
+		assertEquals( 5, props.getProperties( ).size( ) );
 
 		assertEquals( "com.mysql.jdbc.Driver", props //$NON-NLS-1$
 				.findProperty( "odaDriverClass" ).getValue( ) ); //$NON-NLS-1$
 		assertEquals( "jdbc:mysql://localhost:3306/birt", props //$NON-NLS-1$
 				.findProperty( "odaURL" ).getValue( ) ); //$NON-NLS-1$
-		assertNull( props.findProperty( "odaDataSource" ).getValue( ) ); //$NON-NLS-1$
 		assertNull( props.findProperty( "odaUser" ).getValue( ) ); //$NON-NLS-1$
 		assertNull( props.findProperty( "odaPassword" ) //$NON-NLS-1$ 
 				.getValue( ) );
@@ -82,7 +78,7 @@ public class OdaDataSourceAdapterTest extends BaseTestCase
 
 		assertEquals( "User", props.findProperty( "odaUser" ).getValue( ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		assertEquals( "Password", props.findProperty( "odaPassword" ) //$NON-NLS-1$ //$NON-NLS-2$
-				.getValue( ) );
+				.getValue( ) );		
 	}
 
 	/**

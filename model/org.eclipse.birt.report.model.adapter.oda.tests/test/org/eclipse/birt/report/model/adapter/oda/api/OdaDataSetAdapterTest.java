@@ -41,18 +41,15 @@ import org.eclipse.datatools.connectivity.oda.design.ResultSetDefinition;
 public class OdaDataSetAdapterTest extends BaseTestCase
 {
 
-	private final static String INPUT_FILE = "OdaDataSetConvertTest.xml"; //$NON-NLS-1$
-	private final static String OUTPUT_FILE = "OdaDataSetConvertTest_out.xml"; //$NON-NLS-1$
+	private final static String INPUT_FILE = "OdaDataSetConvertTest.xml"; //$NON-NLS-1$	
 	private final static String GOLDEN_FILE = "OdaDataSetConvertTest_golden.xml"; //$NON-NLS-1$
 
 	private final static String INPUT_FILE_WITH_EMPTY_PROPS = "OdaDataSetEmptyProps.xml"; //$NON-NLS-1$
 
 	private final static String INPUT_FILE_WITH_LIB = "OdaDataSetEmptyProps_1.xml"; //$NON-NLS-1$
 
-	private final static String OUTPUT_FILE_WITH_EMPTY_PROPS = "OdaDataSetEmptyProps_out.xml"; //$NON-NLS-1$
 	private final static String GOLDEN_FILE_WITH_EMPTY_PROPS = "OdaDataSetEmptyProps_golden.xml"; //$NON-NLS-1$
 
-	private final static String OUTPUT_FILE1_WITH_EMPTY_PROPS = "OdaDataSetEmptyProps_out_1.xml"; //$NON-NLS-1$
 	private final static String GOLDEN_FILE1_WITH_EMPTY_PROPS = "OdaDataSetEmptyProps_golden_1.xml"; //$NON-NLS-1$
 
 	private final static String DATA_SET_EXTENSIONID = "org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet"; //$NON-NLS-1$
@@ -133,7 +130,6 @@ public class OdaDataSetAdapterTest extends BaseTestCase
 				.findProperty( "odaDriverClass" ).getValue( ) ); //$NON-NLS-1$
 		assertEquals( "jdbc:mysql://localhost:3306/birt", props //$NON-NLS-1$
 				.findProperty( "odaURL" ).getValue( ) ); //$NON-NLS-1$
-		assertNull( props.findProperty( "odaDataSource" ).getValue( ) ); //$NON-NLS-1$
 		assertNull( props.findProperty( "odaUser" ).getValue( ) ); //$NON-NLS-1$
 		assertNull( props.findProperty( "odaPassword" ) //$NON-NLS-1$ 
 				.getValue( ) );

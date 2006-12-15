@@ -55,11 +55,6 @@
                   </design:properties>
                   <design:properties>
                     <design:nameValue>
-                      <design:name>odaDataSource</design:name>
-                    </design:nameValue>
-                  </design:properties>
-                  <design:properties>
-                    <design:nameValue>
                       <design:name>odaUser</design:name>
                     </design:nameValue>
                   </design:properties>
@@ -143,11 +138,6 @@
                     <design:nameValue>
                       <design:name>odaURL</design:name>
                       <design:value>jdbc:mysql://localhost:3306/birt</design:value>
-                    </design:nameValue>
-                  </design:properties>
-                  <design:properties>
-                    <design:nameValue>
-                      <design:name>odaDataSource</design:name>
                     </design:nameValue>
                   </design:properties>
                   <design:properties>
@@ -236,11 +226,6 @@
                     <design:nameValue>
                       <design:name>odaURL</design:name>
                       <design:value>jdbc:mysql://localhost:3306/birt</design:value>
-                    </design:nameValue>
-                  </design:properties>
-                  <design:properties>
-                    <design:nameValue>
-                      <design:name>odaDataSource</design:name>
                     </design:nameValue>
                   </design:properties>
                   <design:properties>
