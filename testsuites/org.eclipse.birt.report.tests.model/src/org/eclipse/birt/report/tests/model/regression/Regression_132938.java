@@ -51,9 +51,10 @@ public class Regression_132938 extends BaseTestCase
 		removeResource( );
 		
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( INPUT , INPUT );
-		copyResource_INPUT( LIBRARY_A , LIBRARY_A );
-		copyResource_INPUT( LIBRARY_B , LIBRARY_B );
+		
+		copyInputToFile ( INPUT_FOLDER + "/" + INPUT );
+		copyInputToFile ( INPUT_FOLDER + "/" + LIBRARY_A );
+		copyInputToFile ( INPUT_FOLDER + "/" + LIBRARY_B );
 		
 		
 	}
@@ -70,10 +71,8 @@ public class Regression_132938 extends BaseTestCase
 		// backup the libraryB file, as we need to modify the input file during
 		// test case, the backed-up one will be copied back when case finished.
 
-		//makeOutputDir( );
-		copyFile( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + LIBRARY_A, this
-				.getFullQualifiedClassName( )
-				+ "/" + OUTPUT_FOLDER + "/" + LIBRARY_A );
+		
+		copyFile(  LIBRARY_A, LIBRARY_A );
 
 		
 		// Open LibB, change the content of label to "bbb", write to disk.
@@ -83,7 +82,7 @@ public class Regression_132938 extends BaseTestCase
 		LabelHandle baseLabel = (LabelHandle) libraryHandle
 				.findElement( "NewLabel" ); //$NON-NLS-1$
 		baseLabel.setText( "aaa" ); //$NON-NLS-1$
-		libraryHandle.saveAs( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + LIBRARY_A );
+		libraryHandle.saveAs( getTempFolder( ) + "/" + INPUT_FOLDER + "/" + LIBRARY_A );
 
 		System.out.println (( (LabelHandle) designHandle.findElement( "childlabel" ) ).getText( ) );
 		// refresh report
@@ -95,8 +94,7 @@ public class Regression_132938 extends BaseTestCase
 		
 		// we recover the libraryB file, copied back from backup.
 		
-		copyFile( this.getFullQualifiedClassName( ) + "/" + OUTPUT_FOLDER + "/" + LIBRARY_A, this
-				.getFullQualifiedClassName( )
+		copyFile( getTempFolder( ) + "/" + OUTPUT_FOLDER + "/" + LIBRARY_A, getTempFolder( )
 				+ "/" + INPUT_FOLDER + "/" + LIBRARY_A );
 	}
 }

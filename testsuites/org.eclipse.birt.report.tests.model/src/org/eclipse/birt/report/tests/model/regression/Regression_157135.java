@@ -55,8 +55,10 @@ public class Regression_157135 extends BaseTestCase
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( "sub/" + filename2, "sub/" + filename2 );
-		copyResource_INPUT( libname, libname );
+		//copyResource_INPUT( "sub/" + filename2, "sub/" + filename2 );
+		//copyResource_INPUT( libname, libname );
+		copyInputToFile ( INPUT_FOLDER + "/" + filename2 );
+		copyInputToFile ( INPUT_FOLDER + "/" + libname );
 	}
 
 	public void tearDown( )
@@ -72,10 +74,10 @@ public class Regression_157135 extends BaseTestCase
 	public void test_regression_157135( ) throws DesignFileException,
 			SemanticException
 	{
-		filename2 = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER
-				+ "/sub/" + "Regression_157135_2.xml"; //$NON-NLS-1$ //$NON-NLS-2$
-		libname = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER
-				+ "/" + "Regression_157135_lib.xml"; //$NON-NLS-1$
+		filename2 = getTempFolder() + "/" + INPUT_FOLDER
+				 + "Regression_157135_2.xml"; //$NON-NLS-1$ //$NON-NLS-2$
+		libname = getTempFolder( ) + "/" + INPUT_FOLDER
+				+ "/" + libname; //$NON-NLS-1$
 
 		sessionHandle = new DesignEngine( new DesignConfig( ) )
 				.newSessionHandle( ULocale.ENGLISH );

@@ -45,12 +45,15 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 public class Regression_155943 extends BaseTestCase
 {
     private String filename = "Regression_155943.xml"; //$NON-NLS-1$
+    private String libname = "Regression_155943_lib.xml";
     
     public void setUp( ) throws Exception
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( filename , filename );
+		//copyResource_INPUT( filename , filename );
+		copyInputToFile ( INPUT_FOLDER + "/" + filename );
+		copyInputToFile ( INPUT_FOLDER + "/" + libname );
 	}
 	
 	public void tearDown( )

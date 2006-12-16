@@ -43,10 +43,10 @@ public class Regression_130271 extends BaseTestCase
 		
 		// retrieve two input files from tests-model.jar file
 		
-		copyResource_INPUT( INPUT , INPUT );
-		copyResource_INPUT( LIBRARY, LIBRARY);
 		
-		copyResource_GOLDEN( GOLDEN , GOLDEN );
+		copyInputToFile ( INPUT_FOLDER + "/" + INPUT  );
+		copyInputToFile ( INPUT_FOLDER + "/" + LIBRARY  );
+		copyGoldenToFile ( GOLDEN_FOLDER + "/" + GOLDEN );
 	}
 	/**
 	 * @throws Exception
@@ -79,7 +79,8 @@ public class Regression_130271 extends BaseTestCase
 		designHandle.getDataSources( ).add( dsource );
 		designHandle.getDataSets( ).add( dset );
 
-		saveAs( OUTPUT );
+		String TempFile=this.genOutputFile(OUTPUT);
+		designHandle.saveAs( TempFile );
 		assertTrue( super.compareTextFile( GOLDEN, OUTPUT ) );
 	}
 }

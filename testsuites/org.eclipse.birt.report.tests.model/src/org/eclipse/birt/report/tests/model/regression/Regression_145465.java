@@ -67,8 +67,10 @@ public class Regression_145465 extends BaseTestCase
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( REPORT , REPORT );
-		copyResource_INPUT( LIB , LIB );
+		
+		copyInputToFile ( INPUT_FOLDER + "/" + REPORT );
+		copyInputToFile ( INPUT_FOLDER + "/" + LIB );
+		//copyGoldenToFile ( GOLDEN_FOLDER + "/" + goldenFileName );
 	}
 	
 	public void tearDown( )
@@ -76,35 +78,21 @@ public class Regression_145465 extends BaseTestCase
 		removeResource( );
 	}
 	
-	public void test_regression_145465( ) throws IOException,
-			DesignFileException, SemanticException
+	public void test_regression_145465( ) throws Exception
 	{
 		openDesign (REPORT);
 		
-		/*
-		 * copyFile( this.getClassFolder( ) + INPUT_FOLDER + REPORT, this
-		 * .getClassFolder( ) + OUTPUT_FOLDER + REPORT );
-		 */
-/*
-		String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
-		if ( !tempDir.endsWith( File.separator ) )
-			tempDir += File.separator;
-		String outputLib = tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
-				+ File.separator + OUTPUT_FOLDER + File.separator + LIB;
-*/		
-		String outputLib = getTempFolder() + File.separator + OUTPUT_FOLDER + File.separator +  LIB;
-		//copyFile( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + LIB, outputLib );
+		
+		String outputLib = getTempFolder() + File.separator + INPUT_FOLDER + File.separator +  LIB;
 
+		
 		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
 		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		//session.setResourceFolder( tempDir + getFullQualifiedClassName( ) //$NON-NLS-1$
+		session.setResourceFolder( getTempFolder()+ File.separator + OUTPUT_FOLDER );  //$NON-NLS-1$
+				
+		//session.setResourceFolder(this.getFullQualifiedClassName( ) //$NON-NLS-1$
 		//		+ File.separator + OUTPUT_FOLDER );
-
-		session.setResourceFolder(this.getFullQualifiedClassName( ) //$NON-NLS-1$
-				+ File.separator + OUTPUT_FOLDER );
-		ReportDesignHandle designHandle = session.openDesign( this
-				.getFullQualifiedClassName( )
-				+ "/" + INPUT_FOLDER + "/"+ REPORT );
+		ReportDesignHandle designHandle = session.openDesign( getTempFolder() + "/" + INPUT_FOLDER+"/"+ REPORT );
 		LibraryHandle libHandle = designHandle
 				.getLibrary( "regression_145465_lib" ); //$NON-NLS-1$
 		LabelHandle label = (LabelHandle) libHandle.findElement( "NewLabel" ); //$NON-NLS-1$
@@ -120,6 +108,7 @@ public class Regression_145465 extends BaseTestCase
 		// remove the library from resource folder.
 
 		boolean deleted = new File( outputLib ).delete( );
+		
 		assertTrue( deleted );
 
 		// refresh the report, make sure no exception is throwed out.

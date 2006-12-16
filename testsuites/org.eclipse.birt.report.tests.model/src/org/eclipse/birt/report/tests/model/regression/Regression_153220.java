@@ -44,18 +44,18 @@ import com.ibm.icu.util.ULocale;
  */
 public class Regression_153220 extends BaseTestCase
 {
-
+	private String filename = "Regression_153220.xml"; //$NON-NLS-1$
 	private String lib1name = "Regression_153220_lib1.xml"; //$NON-NLS-1$
 	private String lib2name = "Regression_153220_lib2.xml"; //$NON-NLS-1$
-	private String filename = "Regression_153220.xml"; //$NON-NLS-1$
-
+	
 	public void setUp( ) throws Exception
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( lib1name , lib1name );
-		copyResource_INPUT( lib2name , lib2name );
-		copyResource_INPUT( filename , filename );
+			
+		copyInputToFile ( INPUT_FOLDER + "/" + filename );
+		copyInputToFile ( INPUT_FOLDER + "/" + lib1name );
+		copyInputToFile ( INPUT_FOLDER + "/" + lib2name );
 	}
 	
 	public void tearDown( )
@@ -70,27 +70,28 @@ public class Regression_153220 extends BaseTestCase
 	public void test_Regression_153220( ) throws IOException,
 			DesignFileException, SemanticException
 	{
-		String lib1Input = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + lib1name;
-		String lib2Input = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + lib2name;
-		String fileInput = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + filename;
-
-		String lib1Output = this.genOutputFile( lib1name );
-		String lib2Output = this.genOutputFile( lib2name );;
-		String fileOutput = this.genOutputFile( filename );;
+		String fileOutput = getTempFolder() + "/" + INPUT_FOLDER + "/" + filename;
+		String lib1Output = getTempFolder() + "/" + INPUT_FOLDER + "/" + lib1name;
+		String lib2Output = getTempFolder() + "/" + INPUT_FOLDER + "/" + lib2name;
 		
+		String TempFile = this.genOutputFile( filename );
+		saveAs( TempFile );
+		String TempLib1 = this.genOutputFile( lib1name );
+		saveAs( TempLib1 );
+		String TempLib2 = this.genOutputFile( lib2name  );
+		saveAs( TempLib2 );	
 		
-		//makeOutputDir( );
 		// open and modify the library files under the output folder.
 
-		copyFile( lib1Input, lib1Output );
-		copyFile( lib2Input, lib2Output );
-		copyFile( fileInput, fileOutput );
+		//copyFile( lib1Input, lib1name );
+		//copyFile( lib2Input, lib2name );
+		//copyFile( fileInput, filename );
 
 		sessionHandle = new DesignEngine( new DesignConfig( ) )
 				.newSessionHandle( ULocale.ENGLISH );
 		designHandle = sessionHandle.openDesign( fileOutput );
 
-		designHandle.includeLibrary( lib2Output, "lib2" ); //$NON-NLS-1$
+		designHandle.includeLibrary( lib2name, "lib2" ); //$NON-NLS-1$
 		libraryHandle = designHandle.getLibrary( "lib2" ); //$NON-NLS-1$
 		TableHandle table = (TableHandle) libraryHandle.findElement( "table2" ); //$NON-NLS-1$
 
@@ -100,10 +101,11 @@ public class Regression_153220 extends BaseTestCase
 		designHandle.getBody( ).add( rtable );
 
 		// drop table in lib1 and save the library
-		libraryHandle = sessionHandle.openLibrary( lib1Output );
+		libraryHandle = sessionHandle.openLibrary( lib1name );
 		libraryHandle.findElement( "table1" ).drop( ); //$NON-NLS-1$
-		libraryHandle.save( );
-
+		//libraryHandle.save( );
+		libraryHandle.saveAs(lib1Output );
+		
 		// reload lib2, no error, and table reference is unresolved
 		designHandle.reloadLibrary( lib2Output );
 		assertFalse( rtable.isValidReferenceForCompoundElement( ) );

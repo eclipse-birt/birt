@@ -50,8 +50,8 @@ public class Regression_122357 extends BaseTestCase
 			removeResource( );
 			
 			// retrieve two input files from tests-model.jar file
-			copyResource_INPUT( INPUT , INPUT );
-			copyResource_INPUT( LIB , LIB );
+			copyInputToFile ( INPUT_FOLDER + "/" + INPUT );
+			//copyGoldenToFile ( GOLDEN_FOLDER + "/" + goldenFileName );
 			
 	}
 
@@ -66,18 +66,23 @@ public class Regression_122357 extends BaseTestCase
 	{
 		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
 		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle design = session.openDesign( this.getClassFolder( )
-				+ "/" + INPUT_FOLDER + "/" + INPUT );
-
-		String output = getClassFolder( ) + "/" + OUTPUT_FOLDER + "/" + LIB;
-		File outputFile = new File( output );
-		if ( outputFile.exists( ) )
-			outputFile.delete( );
+		//ReportDesignHandle design = session.openDesign( this.getFullQualifiedClassName( )
+		//		+ "/" + INPUT_FOLDER + "/" + INPUT );
+		ReportDesignHandle design = session.openDesign( getTempFolder() + "/" + INPUT_FOLDER + "/" + INPUT ); 
+		//String output = OUTPUT_FOLDER + "/" + LIB;
+		
+		String output = this.genOutputFile(LIB);
+		//File outputFile = new File( output );
+		//if ( outputFile.exists( ) )
+		//	outputFile.delete( );
 
 		ElementExportUtil.exportDesign( design, output, true, true );
 
-		LibraryHandle lib = session.openLibrary( this.getClassFolder( )
-				+ "/" + OUTPUT_FOLDER + "/" + LIB );
+		
+		//LibraryHandle lib = session.openLibrary( this.getFullQualifiedClassName( )
+		//		+ "/" + OUTPUT_FOLDER + "/" + LIB );
+		//LibraryHandle lib = session.openLibrary( this.genOutputFile(LIB));
+		LibraryHandle lib = session.openLibrary( this.genOutputFile(LIB));
 		DesignElementHandle chart = lib.getComponents( ).get( 0 );
 		assertEquals( "NewChart", chart.getName( ) ); //$NON-NLS-1$
 		assertEquals(

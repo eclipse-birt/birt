@@ -41,7 +41,8 @@ public class Regression_154327 extends BaseTestCase
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( filename , filename );
+		//copyResource_INPUT( filename , filename );
+		copyInputToFile ( INPUT_FOLDER + "/" + filename );
 	}
 	
 	public void tearDown( )
@@ -61,7 +62,7 @@ public class Regression_154327 extends BaseTestCase
 		DesignEngine designEngine = new DesignEngine( new DesignConfig( ) );
 		sessionHandle = designEngine.newSessionHandle( (ULocale) null );
 
-		designHandle = sessionHandle.openDesign( this.getFullQualifiedClassName( ) + "/"
+		designHandle = sessionHandle.openDesign( getTempFolder( ) + "/"
 				+ INPUT_FOLDER + "/" + filename, options );
 		assertEquals( 0, designHandle.getModule( ).getAllErrors( ).size( ) );
 		designHandle.close( );
@@ -70,7 +71,7 @@ public class Regression_154327 extends BaseTestCase
 		// open design with semantic check
 
 		options = null;
-		designHandle = sessionHandle.openDesign( this.getFullQualifiedClassName( ) + "/"
+		designHandle = sessionHandle.openDesign( getTempFolder( ) + "/"
 				+ INPUT_FOLDER + "/" + filename, options );
 		assertEquals( 1, designHandle.getModule( ).getAllErrors( ).size( ) );
 

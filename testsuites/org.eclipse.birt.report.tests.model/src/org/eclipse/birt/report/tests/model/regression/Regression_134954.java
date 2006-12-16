@@ -9,6 +9,7 @@
 
 package org.eclipse.birt.report.tests.model.regression;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.birt.report.model.api.DesignConfig;
@@ -55,7 +56,7 @@ public class Regression_134954 extends BaseTestCase
 {
 
 	private final static String INPUT = "regression_134954.xml"; //$NON-NLS-1$
-	private final static String OUTPUT = "regression_134954.out"; //$NON-NLS-1$
+	private final static String OUTPUT = "regression_134954_out"; //$NON-NLS-1$
 
 	protected void setUp( ) throws Exception
 	{
@@ -63,8 +64,8 @@ public class Regression_134954 extends BaseTestCase
 		removeResource( );
 		
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( INPUT , INPUT );
-		copyResource_OUTPUT( OUTPUT , OUTPUT );
+		
+		copyInputToFile ( INPUT_FOLDER + "/" + INPUT );
 	}
 	/**
 	 * @throws DesignFileException
@@ -81,13 +82,16 @@ public class Regression_134954 extends BaseTestCase
 
 		// save the design and reopen it, make sure the included structure is
 		// cleared.
-
-		saveAs( OUTPUT );
+		
+		
+		designHandle.saveAs( OUTPUT );
+		
 		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
 		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle = session.openDesign( this
-				.getClassFolder( )
-				+ "/" + OUTPUT_FOLDER + "/" + OUTPUT );
+		//ReportDesignHandle designHandle = session.openDesign(getTempFolder()+File.separator+ OUTPUT_FOLDER+ File.separator+OUTPUT );
+		//ReportDesignHandle designHandle = session.openDesign(OUTPUT );
+		ReportDesignHandle designHandle = session.openDesign(OUTPUT );
+		
 		assertNull( designHandle
 				.getListProperty( ReportDesignHandle.LIBRARIES_PROP ) );
 	}
