@@ -421,6 +421,9 @@ public class ReportTag extends AbstractViewerTag
 	 */
 	protected void __handleOutputReport( OutputStream out ) throws Exception
 	{
+		// Set preview report max rows
+		ReportEngineService.getInstance( ).setMaxRows( viewer.getMaxRowsOfRecords( ) );
+		
 		if ( this.documentInUrl )
 		{
 			String doc = createAbsolutePath( viewer.getReportDocument( ) );
