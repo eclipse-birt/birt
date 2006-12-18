@@ -388,6 +388,10 @@ public abstract class EngineTask implements IEngineTask
 			{
 				return DataTypeUtil.toString( value );
 			}
+			else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
+			{
+				return DataTypeUtil.toInteger( value );
+			}
 			return value;
 		}
 		catch ( BirtException e )
