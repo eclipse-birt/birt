@@ -175,11 +175,6 @@ public class ViewerField implements Serializable, Cloneable
 		if ( allowPageBreak && showTitle != null )
 			uri += "&" + ParameterAccessor.PARAM_SHOW_TITLE + "=" + urlParamValueEncode( showTitle ); //$NON-NLS-1$//$NON-NLS-2$
 
-		// append bookmark setting
-		if ( bookmark != null )
-			uri += "&" + ParameterAccessor.PARAM_BOOKMARK + "=" //$NON-NLS-1$ //$NON-NLS-2$
-					+ urlParamValueEncode( bookmark );
-
 		// append target serlvet pattern setting
 		if ( !isCustom && pattern != null )
 			uri += "&" + ParameterAccessor.PARAM_SERVLET_PATTERN + "=" //$NON-NLS-1$ //$NON-NLS-2$
@@ -234,6 +229,21 @@ public class ViewerField implements Serializable, Cloneable
 		// append show NavigationBar setting
 		if ( showNavigationBar != null )
 			uri += "&" + ParameterAccessor.PARAM_NAVIGATIONBAR + "=" + urlParamValueEncode( showNavigationBar ); //$NON-NLS-1$ //$NON-NLS-2$
+
+		// append bookmark setting
+		if ( bookmark != null )
+		{
+			if ( IBirtConstants.VIEWER_PREVIEW.equalsIgnoreCase( iPattern ) )
+			{
+				// if use PREVIEW mode, append bookmark directly
+				uri += "#" + urlParamValueEncode( bookmark ); //$NON-NLS-1$
+			}
+			else
+			{
+				uri += "&" + ParameterAccessor.PARAM_BOOKMARK + "=" //$NON-NLS-1$ //$NON-NLS-2$
+						+ urlParamValueEncode( bookmark );
+			}
+		}
 
 		return uri;
 	}
