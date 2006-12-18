@@ -18,9 +18,7 @@ import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
-import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.FreeFormHandle;
@@ -59,7 +57,6 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.MetaDataReader;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.util.BaseTestCase;
@@ -889,19 +886,9 @@ public class DesignElementTest extends BaseTestCase
 	 */
 	protected void setUp( ) throws Exception
 	{
-		MetaDataDictionary.reset( );
-		ThreadResources.setLocale( ULocale.ENGLISH );
-
-		MetaDataReader
-				.read( ReportDesign.class.getResourceAsStream( "rom.def" ) ); //$NON-NLS-1$
-
-		sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( (ULocale) null );
-		MetaDataDictionary.reset( );
-
-		MetaDataReader.read( ReportDesign.class
-				.getResourceAsStream( ROM_DEF_NAME ) );
-
+		super.setUp();
+		
+		sessionHandle = engine.newSessionHandle( ULocale.ENGLISH );
 		designElement = new TextItem( );
 		designElement.setName( "element" ); //$NON-NLS-1$
 
@@ -3402,7 +3389,6 @@ public class DesignElementTest extends BaseTestCase
 	{
 		setupDesign( );
 
-		assertFalse( dd.useID( ) );
 		assertEquals( design.getID( ), 1 );
 		assertNotNull( design.getElementByID( 1 ) );
 
@@ -3566,9 +3552,7 @@ public class DesignElementTest extends BaseTestCase
 
 	private void setupDesign( ) throws SemanticException
 	{
-		sessionHandle = DesignEngine.newSession( (ULocale) null );
-		designHandle = sessionHandle.createDesign( "myDesign" ); //$NON-NLS-1$
-		design = designHandle.getDesign( );
+		createDesign( null );
 
 		ElementFactory factory = designHandle.getElementFactory( );
 

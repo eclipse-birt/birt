@@ -8,7 +8,7 @@
             <property name="odaDriverClass">net.sourceforge.jtds.jdbc.Driver</property>
             <property name="odaURL">jdbc:jtds:sqlserver://192.168.30.67:1433;databaseName=BIRT_test</property>
             <property name="odaUser">actest</property>
-            <encrypted-property name="odaPassword">c3lzVGVzdA==</encrypted-property>
+            <encrypted-property name="odaPassword"> c3lzVGVzdA== </encrypted-property>
         </oda-data-source>
     </data-sources>
     <data-sets>

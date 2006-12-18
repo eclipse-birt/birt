@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
  * 1) Test read a rom file that doesn't exist, an exception should be thrown.
  *  
  */
-public class MetaDataReaderTest extends TestCase
+public class MetaDataReaderTest extends AbstractMetaTest
 {
 
 	protected MetaDataReader reader = null;
@@ -85,6 +85,7 @@ public class MetaDataReaderTest extends TestCase
 
 	protected void tearDown( ) throws Exception
 	{
+		super.tearDown( );
 		reader = null;
 	}
 }

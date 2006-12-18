@@ -13,9 +13,7 @@ package org.eclipse.birt.report.model.parser;
 
 import java.util.Iterator;
 
-import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.model.api.DataItemHandle;
-import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
@@ -33,8 +31,6 @@ import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
-import com.ibm.icu.util.ULocale;
-
 /**
  * Tests parser compatibility.
  */
@@ -44,16 +40,6 @@ public class ParserCompatibilityTest extends BaseTestCase
 
 	private String resultSetClearFileName = "CompatibleResultSetClearTest.xml";//$NON-NLS-1$
 	private String resultSetHintClearFileName = "CompatibleResultSetHintClearTest.xml";//$NON-NLS-1$
-
-	/*
-	 * @see BaseTestCase#setUp()
-	 */
-
-	protected void setUp( ) throws Exception
-	{
-		Platform.startup( null );
-		DesignEngine.newSession( ULocale.ENGLISH );
-	}
 
 	/**
 	 * Test clear 'resultSet' property before version 3.2.2

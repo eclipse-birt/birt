@@ -33,13 +33,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.SimpleDataSet;
-import org.eclipse.birt.report.model.i18n.ThreadResources;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.MetaDataParserException;
-import org.eclipse.birt.report.model.metadata.MetaDataReader;
 import org.eclipse.birt.report.model.util.BaseTestCase;
-
-import com.ibm.icu.util.ULocale;
 
 /**
  * Tests the all structure operation and demos. The structure operations include
@@ -48,26 +42,6 @@ import com.ibm.icu.util.ULocale;
 
 public class StructureHandleTest extends BaseTestCase
 {
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see junit.framework.TestCase#setUp()
-	 */
-	protected void setUp( ) throws Exception
-	{
-		MetaDataDictionary.reset( );
-		ThreadResources.setLocale( ULocale.ENGLISH );
-		try
-		{
-			MetaDataReader.read( ReportDesign.class
-					.getResourceAsStream( "rom.def" ) ); //$NON-NLS-1$
-		}
-		catch ( MetaDataParserException e )
-		{
-			assert false;
-		}
-	}
 
 	/**
 	 * Tests all structure operations. They are:

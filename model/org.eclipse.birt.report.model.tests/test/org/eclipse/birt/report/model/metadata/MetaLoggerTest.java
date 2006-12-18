@@ -16,7 +16,6 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IMetaLogger;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
-import org.eclipse.birt.report.model.util.BaseTestCase;
 import org.eclipse.birt.report.model.util.XMLParserException;
 
 import com.ibm.icu.util.ULocale;
@@ -26,8 +25,12 @@ import com.ibm.icu.util.ULocale;
  * exceptions have been.
  * 
  */
-public class MetaLoggerTest extends BaseTestCase
+public class MetaLoggerTest extends AbstractMetaTest
 {
+
+	protected void tearDown( ) throws Exception
+	{
+	}
 
 	private IMetaLogger logger = null;
 
@@ -59,7 +62,7 @@ public class MetaLoggerTest extends BaseTestCase
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	protected void setUp( ) throws Exception
-	{
+	{		
 		// don not call super.setUp().
 		// We wanna to hold the meta initialization.
 		errorList = null;
@@ -89,11 +92,10 @@ public class MetaLoggerTest extends BaseTestCase
 	private void loadMeta( String fileName )
 	{
 		ThreadResources.setLocale( ULocale.getDefault( ) );
-		MetaDataDictionary.reset( );
 
 		try
 		{
-			MetaDataReader.read( MetaLoggerTest.class
+			loadMetaData( MetaLoggerTest.class
 					.getResourceAsStream( "input/" + fileName ) ); //$NON-NLS-1$
 		}
 		catch ( MetaDataParserException e )
@@ -143,7 +145,7 @@ public class MetaLoggerTest extends BaseTestCase
 
 		try
 		{
-			MetaDataReader.read( MetaLoggerTest.class
+			loadMetaData( MetaLoggerTest.class
 					.getResourceAsStream( "input/none-exsit.def" ) ); //$NON-NLS-1$
 		}
 		catch ( MetaDataParserException e )

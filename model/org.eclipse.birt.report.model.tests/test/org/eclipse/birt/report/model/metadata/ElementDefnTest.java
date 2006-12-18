@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.metadata;
 
 import java.util.Iterator;
 import java.util.List;
-import com.ibm.icu.util.ULocale;
 
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
@@ -22,18 +21,18 @@ import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
-import org.eclipse.birt.report.model.util.BaseTestCase;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Test case for ElementDefn.
  * 
  */
-public class ElementDefnTest extends BaseTestCase
+public class ElementDefnTest extends AbstractMetaTest
 {
 
 	private ElementDefn def = null;
@@ -43,17 +42,7 @@ public class ElementDefnTest extends BaseTestCase
 	 */
 	protected void setUp( ) throws Exception
 	{
-		MetaDataDictionary.reset( );
-		try
-		{
-			MetaDataReader.read( ReportDesign.class
-					.getResourceAsStream( ROM_DEF_NAME ) );
-		}
-		catch ( MetaDataParserException e )
-		{
-			assert false;
-		}
-
+		super.setUp( );
 		def = new ElementDefn( );
 		ThreadResources.setLocale( ULocale.ENGLISH );
 	}
@@ -460,9 +449,7 @@ public class ElementDefnTest extends BaseTestCase
 	public void testMethod( ) throws MetaDataParserException
 	{
 		ThreadResources.setLocale( ULocale.getDefault( ) );
-		MetaDataDictionary.reset( );
-
-		MetaDataReader.read( ElementDefnTest.class
+		loadMetaData( ElementDefnTest.class
 				.getResourceAsStream( "input/ElementDefnTest.def" ) ); //$NON-NLS-1$
 
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
@@ -489,6 +476,7 @@ public class ElementDefnTest extends BaseTestCase
 
 		IMethodInfo method2 = element.getProperty( "method2" ).getMethodInfo( ); //$NON-NLS-1$
 		assertNotNull( method2 );
+		
 	}
 
 	/**

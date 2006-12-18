@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ErrorDetail;
+import org.eclipse.birt.report.model.api.IDesignEngine;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -39,8 +40,6 @@ import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.MetaDataParserException;
-import org.eclipse.birt.report.model.metadata.MetaDataReader;
 
 import com.ibm.icu.util.ULocale;
 
@@ -74,6 +73,12 @@ import com.ibm.icu.util.ULocale;
  */
 public abstract class BaseTestCase extends TestCase
 {
+
+	/**
+	 * The design engine.
+	 */
+
+	protected static IDesignEngine engine = null;
 
 	/**
 	 * The report design handle.
@@ -128,25 +133,24 @@ public abstract class BaseTestCase extends TestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
-
 		ThreadResources.setLocale( ULocale.ENGLISH );
-		MetaDataDictionary.reset( );
-		try
+
+		if ( engine == null )
 		{
-			MetaDataReader.read( ReportDesign.class
-					.getResourceAsStream( ROM_DEF_NAME ) );
-		}
-		catch ( MetaDataParserException e )
-		{
-			assert false;
+			engine = new DesignEngine( new DesignConfig( ) );
+			MetaDataDictionary.reset( );
+			//initialize the metadata.
+			
+			engine.getMetaData();
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see junit.framework.TestCase#tearDown()
+	 * @see junit.framework.TestCase#teardown()
 	 */
+	
 	protected void tearDown( ) throws Exception
 	{
 		if ( designHandle != null )
@@ -182,8 +186,7 @@ public abstract class BaseTestCase extends TestCase
 
 	protected ReportDesignHandle createDesign( ULocale locale )
 	{
-		sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( locale );
+		sessionHandle = engine.newSessionHandle( locale );
 		designHandle = sessionHandle.createDesign( );
 		design = (ReportDesign) designHandle.getModule( );
 
@@ -211,8 +214,7 @@ public abstract class BaseTestCase extends TestCase
 
 	protected LibraryHandle createLibrary( ULocale locale )
 	{
-		sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( locale );
+		sessionHandle = engine.newSessionHandle( locale );
 		libraryHandle = sessionHandle.createLibrary( );
 
 		return libraryHandle;
@@ -270,8 +272,7 @@ public abstract class BaseTestCase extends TestCase
 		if ( inSingleJarMode )
 			fileName = INPUT_FOLDER + fileName;
 
-		sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( locale );
+		sessionHandle = engine.newSessionHandle( locale );
 		assertNotNull( sessionHandle );
 
 		if ( inSingleJarMode )
@@ -372,8 +373,7 @@ public abstract class BaseTestCase extends TestCase
 		if ( inSingleJarMode )
 			fileName = INPUT_FOLDER + fileName;
 
-		sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( locale );
+		sessionHandle = engine.newSessionHandle( locale );
 		assertNotNull( sessionHandle );
 
 		if ( inSingleJarMode )
@@ -411,8 +411,7 @@ public abstract class BaseTestCase extends TestCase
 			throws DesignFileException
 	{
 		fileName = INPUT_FOLDER + fileName;
-		sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( locale );
+		sessionHandle = engine.newSessionHandle( locale );
 		assertNotNull( sessionHandle );
 
 		moduleHandle = sessionHandle.openModule( getResource( fileName )
@@ -451,8 +450,7 @@ public abstract class BaseTestCase extends TestCase
 	protected void openDesign( String fileName, InputStream is, ULocale locale )
 			throws DesignFileException
 	{
-		sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( locale );
+		sessionHandle = engine.newSessionHandle( locale );
 		designHandle = sessionHandle.openDesign( fileName, is );
 		design = (ReportDesign) designHandle.getModule( );
 	}
@@ -501,7 +499,7 @@ public abstract class BaseTestCase extends TestCase
 				if ( readerA != null )
 					readerA.close( );
 				if ( readerB != null )
-				readerB.close( );
+					readerB.close( );
 			}
 			catch ( Exception e )
 			{
@@ -722,7 +720,7 @@ public abstract class BaseTestCase extends TestCase
 	{
 		save( designHandle );
 	}
-	
+
 	/**
 	 * Eventually, this method will call
 	 * {@link ReportDesignHandle#serialize(java.io.OutputStream)}to save the
@@ -874,7 +872,7 @@ public abstract class BaseTestCase extends TestCase
 
 		return folder + filename;
 	}
-	
+
 	/**
 	 * Saves the output stream into the output file.
 	 * 
@@ -889,11 +887,11 @@ public abstract class BaseTestCase extends TestCase
 		File tmpFolder = new File( folder );
 		if ( !tmpFolder.exists( ) )
 			tmpFolder.mkdirs( );
-		
+
 		String strDesign = os.toString( );
 		FileOutputStream fos = new FileOutputStream( folder + fileName );
 		fos.write( strDesign.getBytes( "UTF-8" ) ); //$NON-NLS-1$
-		
-		fos.close( );	
+
+		fos.close( );
 	}
 }

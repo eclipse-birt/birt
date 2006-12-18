@@ -17,23 +17,13 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.metadata.IMemberInfo;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
-import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Test class definition.
  */
 
-public class ClassDefnTest extends BaseTestCase
+public class ClassDefnTest extends AbstractMetaTest
 {
-
-	/*
-	 * @see BaseTestCase#setUp()
-	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
 	/**
 	 * Test the meta-data parser for class definition.
 	 * 
@@ -43,9 +33,7 @@ public class ClassDefnTest extends BaseTestCase
 
 	public void testParseRomDef( ) throws MetaDataParserException
 	{
-		MetaDataDictionary.reset( );
-
-		MetaDataReader.read( ClassDefnTest.class
+		loadMetaData( ClassDefnTest.class
 				.getResourceAsStream( "input/ClassDefnTest.def" ) ); //$NON-NLS-1$
 
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
@@ -107,7 +95,7 @@ public class ClassDefnTest extends BaseTestCase
 
 		method = (MethodInfo) methods.get( 1 );
 		assertEquals( "addColumn", method.getName( ) ); //$NON-NLS-1$
-		assertEquals( null, method.getReturnType( ) ); 
+		assertEquals( null, method.getReturnType( ) );
 		assertEquals( "Class.MyClass.addColumn", method.getDisplayNameKey( ) ); //$NON-NLS-1$
 		assertEquals( "Class.MyClass.addColumn.toolTip", method.getToolTipKey( ) ); //$NON-NLS-1$
 		assertTrue( method.isStatic( ) );
@@ -129,7 +117,7 @@ public class ClassDefnTest extends BaseTestCase
 
 	/**
 	 * Test whether optional argument can be displayed correctly.
-	 *  
+	 * 
 	 */
 
 	public void testOptionalArgument( )
@@ -244,7 +232,7 @@ public class ClassDefnTest extends BaseTestCase
 
 	/**
 	 * Test the classes defined in rom.def.
-	 *  
+	 * 
 	 */
 
 	public void testClassesInRom( )
@@ -267,10 +255,10 @@ public class ClassDefnTest extends BaseTestCase
 
 		classInfo = dd.getClass( "GlobalBirt" ); //$NON-NLS-1$ 
 		assertNull( classInfo );
-//		assertNull( classInfo.getConstructor( ) );
-//		assertEquals( 6, classInfo.getMembers( ).size( ) );
-//		assertEquals( 0, classInfo.getMethods( ).size( ) );
-//		assertFalse( classInfo.isNative( ) );
+		// assertNull( classInfo.getConstructor( ) );
+		// assertEquals( 6, classInfo.getMembers( ).size( ) );
+		// assertEquals( 0, classInfo.getMethods( ).size( ) );
+		// assertFalse( classInfo.isNative( ) );
 
 		classInfo = dd.getClass( "Array" ); //$NON-NLS-1$ 
 		assertNotNull( classInfo );
@@ -283,7 +271,7 @@ public class ClassDefnTest extends BaseTestCase
 		assertNotNull( classInfo.getConstructor( ) );
 		assertEquals( 5, classInfo.getMembers( ).size( ) );
 		assertEquals( 6, classInfo.getMethods( ).size( ) );
-		
+
 		IMemberInfo memberInfo = classInfo.getMember( "NaN" ); //$NON-NLS-1$
 		assertTrue( memberInfo.isStatic( ) );
 

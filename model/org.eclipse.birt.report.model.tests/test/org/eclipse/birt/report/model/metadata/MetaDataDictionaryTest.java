@@ -19,17 +19,15 @@ import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.metadata.validators.IValueValidator;
 import org.eclipse.birt.report.model.metadata.validators.PositiveValueValidator;
-import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Test case for MetaDataDictionary.
  * 
  */
-public class MetaDataDictionaryTest extends BaseTestCase
+public class MetaDataDictionaryTest extends AbstractMetaTest
 {
 
 	private MetaDataDictionary dict = null;
@@ -37,19 +35,10 @@ public class MetaDataDictionaryTest extends BaseTestCase
 	/*
 	 * @see TestCase#setUp()
 	 */
+	
 	protected void setUp( ) throws Exception
 	{
-		MetaDataDictionary.reset( );
-		try
-		{
-			MetaDataReader.read( ReportDesign.class
-					.getResourceAsStream( ROM_DEF_NAME ) );
-		}
-		catch ( MetaDataParserException e )
-		{
-			assert false;
-		}
-
+		super.setUp( );
 		dict = MetaDataDictionary.getInstance( );
 	}
 
@@ -113,7 +102,7 @@ public class MetaDataDictionaryTest extends BaseTestCase
 	/**
 	 * test reseting.
 	 */
-	public void testResetAndIsEmpty( )
+	public void testResetAndIsEmpty( ) throws Exception
 	{
 		MetaDataDictionary.reset( );
 		assertNotSame( MetaDataDictionary.getInstance( ), dict );

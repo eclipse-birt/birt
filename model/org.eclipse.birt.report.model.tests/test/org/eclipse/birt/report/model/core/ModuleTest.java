@@ -14,23 +14,17 @@ package org.eclipse.birt.report.model.core;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
-import org.eclipse.birt.report.model.api.DesignConfig;
-import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.FreeFormHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
-import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.DataSource;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
-import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.MetaDataParserException;
-import org.eclipse.birt.report.model.metadata.MetaDataReader;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
@@ -75,20 +69,9 @@ public class ModuleTest extends BaseTestCase
 	 */
 	protected void setUp( ) throws Exception
 	{
-		MetaDataDictionary.reset( );
-		ThreadResources.setLocale( ULocale.ENGLISH );
-		try
-		{
-			MetaDataReader.read( ReportDesign.class
-					.getResourceAsStream( "rom.def" ) ); //$NON-NLS-1$
-		}
-		catch ( MetaDataParserException e )
-		{
-			assert false;
-		}
-
-		SessionHandle sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( ULocale.ENGLISH );
+		super.setUp( );
+		
+		sessionHandle = engine.newSessionHandle( ULocale.ENGLISH );
 
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
 		dd.enableElementID( );
@@ -199,7 +182,7 @@ public class ModuleTest extends BaseTestCase
 
 		String goldenFileName = "ModuleTest_golden.xml"; //$NON-NLS-1$
 		save( );
-		assertTrue( compareFile( goldenFileName) );
+		assertTrue( compareFile( goldenFileName ) );
 	}
 
 	/**

@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.metadata;
 
 import java.util.Iterator;
 import java.util.List;
-import com.ibm.icu.util.ULocale;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ErrorDetail;
@@ -24,18 +23,16 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.MasterPage;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
+import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
-import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Test case for PropertyDefn.
  */
-public class PropertyDefnTest extends BaseTestCase
+public class PropertyDefnTest extends AbstractMetaTest
 {
 
 	private PropertyDefn propertyDefn = null;
@@ -147,9 +144,7 @@ public class PropertyDefnTest extends BaseTestCase
 
 	public void testGetAllowedUnits( ) throws MetaDataParserException
 	{
-		MetaDataDictionary.reset( );
-
-		MetaDataReader.read( this.getClass( ).getResourceAsStream(
+		loadMetaData( this.getClass( ).getResourceAsStream(
 				"input/AllowedChoicesTest.def" ) ); //$NON-NLS-1$
 
 		IElementDefn styleDefn = MetaDataDictionary.getInstance( ).getElement(
@@ -173,7 +168,6 @@ public class PropertyDefnTest extends BaseTestCase
 				.getProperty( Style.BACKGROUND_POSITION_X_PROP );
 		choices = propDefn.getAllowedChoices( );
 		assertEquals( 9, choices.getChoices( ).length );
-
 	}
 
 	/**
@@ -237,11 +231,6 @@ public class PropertyDefnTest extends BaseTestCase
 
 	public void testParseRom( ) throws MetaDataParserException
 	{
-		MetaDataDictionary.reset( );
-		ThreadResources.setLocale( ULocale.ENGLISH );
-		MetaDataReader
-				.read( ReportDesign.class.getResourceAsStream( "rom.def" ) ); //$NON-NLS-1$
-
 		// the default value;
 
 		IElementDefn ed = MetaDataDictionary.getInstance( ).getElement(
@@ -283,11 +272,6 @@ public class PropertyDefnTest extends BaseTestCase
 
 	public void testSemanticValidator( ) throws MetaDataParserException
 	{
-		MetaDataDictionary.reset( );
-		ThreadResources.setLocale( ULocale.ENGLISH );
-		MetaDataReader
-				.read( ReportDesign.class.getResourceAsStream( "rom.def" ) ); //$NON-NLS-1$
-
 		IElementDefn masterPageDefn = MetaDataDictionary.getInstance( )
 				.getElement( ReportDesignConstants.MASTER_PAGE_ELEMENT );
 		PropertyDefn typeDefn = (PropertyDefn) masterPageDefn
@@ -321,10 +305,6 @@ public class PropertyDefnTest extends BaseTestCase
 
 	public void testGetAllowedChoices( ) throws MetaDataParserException
 	{
-		MetaDataDictionary.reset( );
-		ThreadResources.setLocale( ULocale.ENGLISH );
-		MetaDataReader
-				.read( ReportDesign.class.getResourceAsStream( "rom.def" ) ); //$NON-NLS-1$
 		IElementDefn groupDefn = MetaDataDictionary.getInstance( ).getElement(
 				ReportDesignConstants.GROUP_ELEMENT );
 

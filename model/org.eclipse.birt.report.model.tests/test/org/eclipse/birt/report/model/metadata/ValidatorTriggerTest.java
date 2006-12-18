@@ -11,13 +11,11 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-import junit.framework.TestCase;
-
 /**
  * Tests the validator definition and semantic validation trigger definition.
  */
 
-public class ValidatorTriggerTest extends TestCase
+public class ValidatorTriggerTest extends AbstractMetaTest
 {
 
 	/**
@@ -29,14 +27,13 @@ public class ValidatorTriggerTest extends TestCase
 	 * </ul>
 	 */
 
-	public void testValueValidatorParse( )
+	public void testValueValidatorParse( ) throws Exception
 	{
 		// The attribute "name" is missing.
 
 		try
 		{
-			MetaDataDictionary.reset( );
-			MetaDataReader.read( this.getClass( ).getResourceAsStream(
+			loadMetaData( this.getClass( ).getResourceAsStream(
 					"input/ValidatorDefnTest.def" ) ); //$NON-NLS-1$
 			fail( );
 		}
@@ -48,8 +45,7 @@ public class ValidatorTriggerTest extends TestCase
 
 		try
 		{
-			MetaDataDictionary.reset( );
-			MetaDataReader.read( this.getClass( ).getResourceAsStream(
+			loadMetaData( this.getClass( ).getResourceAsStream(
 					"input/ValidatorDefnTest1.def" ) ); //$NON-NLS-1$
 			fail( );
 		}
@@ -61,8 +57,7 @@ public class ValidatorTriggerTest extends TestCase
 
 		try
 		{
-			MetaDataDictionary.reset( );
-			MetaDataReader.read( this.getClass( ).getResourceAsStream(
+			loadMetaData( this.getClass( ).getResourceAsStream(
 					"input/ValidatorDefnTest2.def" ) ); //$NON-NLS-1$
 			fail( );
 		}
@@ -80,14 +75,13 @@ public class ValidatorTriggerTest extends TestCase
 	 * </ul>
 	 */
 
-	public void testSemanticValidatorParse( )
+	public void testSemanticValidatorParse( ) throws Exception
 	{
 		// The attribute "name" is missing.
 
 		try
 		{
-			MetaDataDictionary.reset( );
-			MetaDataReader.read( this.getClass( ).getResourceAsStream(
+			loadMetaData( this.getClass( ).getResourceAsStream(
 					"input/ValidatorDefnTest5.def" ) ); //$NON-NLS-1$
 			fail( );
 		}
@@ -99,8 +93,7 @@ public class ValidatorTriggerTest extends TestCase
 
 		try
 		{
-			MetaDataDictionary.reset( );
-			MetaDataReader.read( this.getClass( ).getResourceAsStream(
+			loadMetaData( this.getClass( ).getResourceAsStream(
 					"input/ValidatorDefnTest6.def" ) ); //$NON-NLS-1$
 			fail( );
 		}
@@ -112,14 +105,14 @@ public class ValidatorTriggerTest extends TestCase
 
 		try
 		{
-			MetaDataDictionary.reset( );
-			MetaDataReader.read( this.getClass( ).getResourceAsStream(
+			loadMetaData( this.getClass( ).getResourceAsStream(
 					"input/ValidatorDefnTest7.def" ) ); //$NON-NLS-1$
 			fail( );
 		}
 		catch ( MetaDataParserException e )
 		{
 		}
+
 	}
 
 	/**
@@ -130,14 +123,13 @@ public class ValidatorTriggerTest extends TestCase
 	 * </ul>
 	 */
 
-	public void testTriggerParse( )
+	public void testTriggerParse( ) throws Exception
 	{
 		// The attribute "validator" is missing.
 
 		try
 		{
-			MetaDataDictionary.reset( );
-			MetaDataReader.read( this.getClass( ).getResourceAsStream(
+			loadMetaData( this.getClass( ).getResourceAsStream(
 					"input/ValidatorDefnTest3.def" ) ); //$NON-NLS-1$
 			fail( );
 		}
@@ -149,8 +141,7 @@ public class ValidatorTriggerTest extends TestCase
 
 		try
 		{
-			MetaDataDictionary.reset( );
-			MetaDataReader.read( this.getClass( ).getResourceAsStream(
+			loadMetaData( this.getClass( ).getResourceAsStream(
 					"input/ValidatorDefnTest4.def" ) ); //$NON-NLS-1$
 			fail( );
 		}

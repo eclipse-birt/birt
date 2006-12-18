@@ -35,17 +35,6 @@ public class SlotDefnTest extends BaseTestCase
 
 	SlotDefn slotDefn = null;
 
-	/*
-	 * @see TestCase#setUp()
-	 */
-	protected void setUp( ) throws Exception
-	{
-		MetaDataDictionary.reset( );
-		MetaDataReader
-				.read( ReportDesign.class.getResourceAsStream( "rom.def" ) ); //$NON-NLS-1$
-		ThreadResources.setLocale( ULocale.ENGLISH );
-	}
-
 	/**
 	 * Test getters and setters.
 	 * 
@@ -166,11 +155,6 @@ public class SlotDefnTest extends BaseTestCase
 
 	public void testSemanticValidator( ) throws MetaDataParserException
 	{
-		MetaDataDictionary.reset( );
-		ThreadResources.setLocale( ULocale.ENGLISH );
-		MetaDataReader
-				.read( ReportDesign.class.getResourceAsStream( "rom.def" ) ); //$NON-NLS-1$
-
 		IElementDefn groupDefn = MetaDataDictionary.getInstance( ).getElement(
 				ReportDesignConstants.TABLE_GROUP_ELEMENT );
 		SlotDefn headerDefn = (SlotDefn) groupDefn

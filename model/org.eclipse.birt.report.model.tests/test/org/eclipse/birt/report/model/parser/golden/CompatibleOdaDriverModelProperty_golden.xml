@@ -17,7 +17,7 @@
             <property name="odaDriverClass">Driver Class</property>
             <property name="odaURL">URL</property>
             <property name="odaUser">User</property>
-            <encrypted-property name="odaPassword">UGFzc3dvcmQ=</encrypted-property>
+            <encrypted-property name="odaPassword"> Password </encrypted-property>
         </oda-data-source>
     </data-sources>
     <page-setup>
