@@ -19,7 +19,7 @@ import org.eclipse.birt.report.model.api.command.NameException;
 
 public class Group extends DesignElement implements IGroup
 {
-	
+
 	public Group( GroupHandle handle )
 	{
 		super( handle );
@@ -51,9 +51,9 @@ public class Group extends DesignElement implements IGroup
 	{
 		try
 		{
-		( (GroupHandle) handle ).setName( name );
+			( (GroupHandle) handle ).setName( name );
 		}
-		catch (NameException e)
+		catch ( NameException e )
 		{
 			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
@@ -169,6 +169,42 @@ public class Group extends DesignElement implements IGroup
 		{
 			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
+	}
+
+	/**
+	 * Returns hide detail.
+	 * 
+	 * @return hide detail.
+	 */
+	
+	public boolean getHideDetail( )
+	{
+		Boolean value = (Boolean)( (GroupHandle) handle ).getProperty( GroupHandle.HIDE_DETAIL_PROP );
+		if( value == null )
+			return false;
+		return value.booleanValue( );
+	}
+
+	/**
+	 * Sets hide detail
+	 * 
+	 * @param hideDetail
+	 *            hide detail
+	 * @throws ScriptException
+	 *             if the property is locked.
+	 */
+	
+	public void setHideDetail( boolean hideDetail ) throws ScriptException
+	{
+		try
+		{
+			( (GroupHandle) handle ).setHideDetail( hideDetail );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+
 	}
 
 }

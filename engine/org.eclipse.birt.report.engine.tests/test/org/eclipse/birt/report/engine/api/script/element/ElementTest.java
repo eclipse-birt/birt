@@ -781,6 +781,10 @@ public class ElementTest extends TestCase
 
 		group.setTocExpression( TOC );
 		assertEquals( TOC, group.getTocExpression( ) );
+		
+		group.setHideDetail( true );
+		
+		assertTrue( group.getHideDetail( ));
 	}
 
 	public void testImage( ) throws ScriptException

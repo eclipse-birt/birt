@@ -249,4 +249,23 @@ public interface IGroup extends IDesignElement
 
 	void setSortType( String sortType ) throws ScriptException;
 
+	/**
+	 * Returns hide detail.
+	 * 
+	 * @return hide detail.
+	 */
+
+	boolean getHideDetail( );
+
+	/**
+	 * Sets hide detail
+	 * 
+	 * @param hideDetail
+	 *            hide detail
+	 * @throws ScriptException
+	 *             if the property is locked.
+	 */
+
+	void setHideDetail( boolean hideDetail ) throws ScriptException;
+
 }
