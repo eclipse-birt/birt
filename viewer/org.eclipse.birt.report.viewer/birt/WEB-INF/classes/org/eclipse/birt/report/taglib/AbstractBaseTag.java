@@ -12,14 +12,12 @@
 package org.eclipse.birt.report.taglib;
 
 import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.TagSupport;
-
-import org.eclipse.birt.report.service.BirtReportServiceFactory;
-import org.eclipse.birt.report.service.BirtViewerReportService;
-import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.taglib.component.ViewerField;
 
 /**
@@ -54,8 +52,7 @@ public abstract class AbstractBaseTag extends TagSupport
 	 * Default constructor
 	 */
 	public AbstractBaseTag( )
-	{
-		__init( );
+	{	
 	}
 
 	/**
@@ -66,6 +63,10 @@ public abstract class AbstractBaseTag extends TagSupport
 	public void __init( )
 	{
 		viewer = new ViewerField( );
+		
+		// initialize context root
+		HttpServletRequest req = (HttpServletRequest) pageContext.getRequest( );
+		viewer.setContextRoot( req.getContextPath( ) );
 	}
 	
 	/**
@@ -115,10 +116,6 @@ public abstract class AbstractBaseTag extends TagSupport
 	 */
 	protected void __beforeEndTag( )
 	{
-		// initialize ViewerReportService instance
-		IViewerReportService instance = new BirtViewerReportService(
-				pageContext.getServletConfig( ) );
-		BirtReportServiceFactory.init( instance );
 	}
 
 	/**

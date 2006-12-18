@@ -28,7 +28,6 @@ import org.eclipse.birt.report.presentation.aggregation.layout.EngineFragment;
 import org.eclipse.birt.report.presentation.aggregation.layout.RequesterFragment;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
 import org.eclipse.birt.report.service.BirtViewerReportService;
-import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
 import org.eclipse.birt.report.servlet.BaseReportEngineServlet;
 
@@ -47,8 +46,8 @@ public class BirtEngineServlet extends BaseReportEngineServlet
 	 */
 	protected void __init( ServletConfig config )
 	{
-		IViewerReportService instance = new BirtViewerReportService( config );
-		BirtReportServiceFactory.init( instance );
+		BirtReportServiceFactory.init( new BirtViewerReportService( config
+				.getServletContext( ) ) );
 
 		engine = new EngineFragment( );
 

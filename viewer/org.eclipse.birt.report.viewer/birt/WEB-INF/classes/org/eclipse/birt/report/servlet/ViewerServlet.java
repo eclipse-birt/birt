@@ -104,6 +104,7 @@ import org.eclipse.birt.report.presentation.aggregation.layout.RunFragment;
  */
 public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 {
+
 	/**
 	 * TODO: what's this?
 	 */
@@ -116,7 +117,8 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 	 */
 	protected void __init( ServletConfig config )
 	{
-		BirtReportServiceFactory.init( new BirtViewerReportService( config ) );
+		BirtReportServiceFactory.init( new BirtViewerReportService( config
+				.getServletContext( ) ) );
 
 		// handle 'frameset' pattern
 		viewer = new FramesetFragment( );

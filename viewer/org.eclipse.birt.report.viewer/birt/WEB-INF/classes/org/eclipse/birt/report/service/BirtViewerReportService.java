@@ -23,7 +23,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
@@ -65,11 +64,11 @@ import com.ibm.icu.util.ULocale;
 public class BirtViewerReportService implements IViewerReportService
 {
 
-	public BirtViewerReportService( ServletConfig conf )
+	public BirtViewerReportService( ServletContext context )
 	{
 		try
 		{
-			ReportEngineService.initEngineInstance( conf );
+			ReportEngineService.initEngineInstance( context );
 		}
 		catch ( BirtException e )
 		{
@@ -497,7 +496,10 @@ public class BirtViewerReportService implements IViewerReportService
 			{
 				ViewerAttributeBean bean = getViewerAttrBean( options );
 				if ( bean != null )
+				{
+					task.setLocale( bean.getLocale( ) );
 					task.setParameterValues( bean.getParameters( ) );
+				}
 
 				// Add task into session
 				BirtUtility.addTask( request, task );
@@ -534,7 +536,10 @@ public class BirtViewerReportService implements IViewerReportService
 			{
 				ViewerAttributeBean bean = getViewerAttrBean( runOptions );
 				if ( bean != null )
+				{
+					task.setLocale( bean.getLocale( ) );
 					task.setParameterValues( bean.getParameters( ) );
+				}
 
 				Collection selectionList = task.getSelectionList( paramName );
 				return convertEngineParameterSelectionChoice( selectionList );

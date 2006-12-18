@@ -137,7 +137,11 @@ public class ViewerField implements Serializable, Cloneable
 
 		// append context root setting
 		if ( contextRoot != null )
-			uri = "/" + contextRoot + "/" + uri; //$NON-NLS-1$//$NON-NLS-2$
+		{
+			uri = contextRoot + "/" + uri; //$NON-NLS-1$
+			if ( !uri.startsWith( "/" ) ) //$NON-NLS-1$
+				uri = "/" + uri; //$NON-NLS-1$
+		}
 
 		// append format setting
 		if ( format != null )

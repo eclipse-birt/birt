@@ -97,7 +97,8 @@ public class ReportTag extends AbstractViewerTag
 				.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_HTML )
 				|| BirtTagUtil.convertToBoolean( viewer
 						.getForceParameterPrompting( ) )
-				|| viewer.isForceIFrame( ) )
+				|| viewer.isForceIFrame( )
+				|| isContextChanged( viewer.getContextRoot( ) ) )
 		{
 			__handleIFrame( viewer.createURI( IBirtConstants.VIEWER_PREVIEW ),
 					viewer.getId( ) );
@@ -172,6 +173,26 @@ public class ReportTag extends AbstractViewerTag
 				writer.write( "</div>\n" ); //$NON-NLS-1$
 			}
 		}
+	}
+
+	/**
+	 * Check whether accesses the other context
+	 * 
+	 * @param contextRoot
+	 * @return
+	 */
+	protected boolean isContextChanged( String contextRoot )
+	{
+		if ( contextRoot == null )
+			return false;
+
+		if ( !contextRoot.startsWith( "/" ) ) //$NON-NLS-1$
+			contextRoot = "/" + contextRoot; //$NON-NLS-1$
+
+		HttpServletRequest req = (HttpServletRequest) pageContext.getRequest( );
+		String currentContext = req.getContextPath( );
+
+		return !currentContext.equals( contextRoot );
 	}
 
 	/**
@@ -422,8 +443,9 @@ public class ReportTag extends AbstractViewerTag
 	protected void __handleOutputReport( OutputStream out ) throws Exception
 	{
 		// Set preview report max rows
-		ReportEngineService.getInstance( ).setMaxRows( viewer.getMaxRowsOfRecords( ) );
-		
+		ReportEngineService.getInstance( ).setMaxRows(
+				viewer.getMaxRowsOfRecords( ) );
+
 		if ( this.documentInUrl )
 		{
 			String doc = createAbsolutePath( viewer.getReportDocument( ) );

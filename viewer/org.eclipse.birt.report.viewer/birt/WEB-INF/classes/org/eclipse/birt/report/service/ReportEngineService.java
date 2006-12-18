@@ -132,14 +132,14 @@ public class ReportEngineService
 	/**
 	 * Constructor.
 	 * 
-	 * @param servletConfig
+	 * @param servletContext
 	 * @param config
 	 */
-	private ReportEngineService( ServletConfig servletConfig )
+	private ReportEngineService( ServletContext servletContext )
 	{
 		System.setProperty( "RUN_UNDER_ECLIPSE", "false" ); //$NON-NLS-1$ //$NON-NLS-2$
 
-		if ( servletConfig == null )
+		if ( servletContext == null )
 		{
 			return;
 		}
@@ -154,14 +154,13 @@ public class ReportEngineService
 		config.getEmitterConfigs( ).put( "html", emitterConfig ); //$NON-NLS-1$
 
 		// Prepare image directory.
-		imageDirectory = servletConfig.getServletContext( )
+		imageDirectory = servletContext
 				.getInitParameter( ParameterAccessor.INIT_PARAM_IMAGE_DIR );
 
-		if ( imageDirectory == null
-				|| imageDirectory.trim( ).length( ) <= 0
+		if ( imageDirectory == null || imageDirectory.trim( ).length( ) <= 0
 				|| ParameterAccessor.isRelativePath( imageDirectory ) )
 		{
-			imageDirectory = ParameterAccessor.getRealPath( servletConfig.getServletContext( ),
+			imageDirectory = ParameterAccessor.getRealPath( servletContext,
 					"/report/images" ); //$NON-NLS-1$
 		}
 
@@ -169,32 +168,30 @@ public class ReportEngineService
 		imageBaseUrl = IBirtConstants.SERVLET_PATH_PREVIEW + "?__imageID="; //$NON-NLS-1$
 
 		// Prepare log directory.
-		String logDirectory = servletConfig.getServletContext( )
+		String logDirectory = servletContext
 				.getInitParameter( ParameterAccessor.INIT_PARAM_LOG_DIR );
 
-		if ( logDirectory == null
-				|| logDirectory.trim( ).length( ) <= 0
+		if ( logDirectory == null || logDirectory.trim( ).length( ) <= 0
 				|| ParameterAccessor.isRelativePath( logDirectory ) )
 		{
-			logDirectory = ParameterAccessor.getRealPath( servletConfig.getServletContext( ),
+			logDirectory = ParameterAccessor.getRealPath( servletContext,
 					"/logs" ); //$NON-NLS-1$
 		}
 
 		// Prepare log level.
-		String logLevel = servletConfig.getServletContext( )
+		String logLevel = servletContext
 				.getInitParameter( ParameterAccessor.INIT_PARAM_LOG_LEVEL );
-		Level level = logLevel != null && logLevel.length( ) > 0 ? Level.parse( logLevel )
-				: Level.OFF;
+		Level level = logLevel != null && logLevel.length( ) > 0 ? Level
+				.parse( logLevel ) : Level.OFF;
 		config.setLogConfig( logDirectory, level );
 
 		// Prepare ScriptLib location
-		String scriptLibDir = servletConfig.getServletContext( )
+		String scriptLibDir = servletContext
 				.getInitParameter( ParameterAccessor.INIT_PARAM_SCRIPTLIB_DIR );
-		if ( scriptLibDir == null
-				|| scriptLibDir.trim( ).length( ) <= 0
+		if ( scriptLibDir == null || scriptLibDir.trim( ).length( ) <= 0
 				|| ParameterAccessor.isRelativePath( scriptLibDir ) )
 		{
-			scriptLibDir = ParameterAccessor.getRealPath( servletConfig.getServletContext( ),
+			scriptLibDir = ParameterAccessor.getRealPath( servletContext,
 					"/scriptlib" ); //$NON-NLS-1$
 		}
 
@@ -211,7 +208,8 @@ public class ReportEngineService
 					+ ( (File) jarFileList.get( i ) ).getAbsolutePath( );
 
 		if ( scriptlibClassPath.startsWith( EngineConstants.PROPERTYSEPARATOR ) )
-			scriptlibClassPath = scriptlibClassPath.substring( EngineConstants.PROPERTYSEPARATOR.length( ) );
+			scriptlibClassPath = scriptlibClassPath
+					.substring( EngineConstants.PROPERTYSEPARATOR.length( ) );
 
 		System.setProperty( EngineConstants.WEBAPP_CLASSPATH_KEY,
 				scriptlibClassPath );
@@ -239,11 +237,24 @@ public class ReportEngineService
 	public synchronized static void initEngineInstance(
 			ServletConfig servletConfig ) throws BirtException
 	{
+		initEngineInstance( servletConfig.getServletContext( ) );
+	}
+
+	/**
+	 * Get engine instance.
+	 * 
+	 * @param servletContext
+	 * @throws BirtException
+	 * 
+	 */
+	public synchronized static void initEngineInstance(
+			ServletContext servletContext ) throws BirtException
+	{
 		if ( ReportEngineService.instance != null )
 		{
 			return;
 		}
-		ReportEngineService.instance = new ReportEngineService( servletConfig );
+		ReportEngineService.instance = new ReportEngineService( servletContext );
 	}
 
 	/**
@@ -290,7 +301,8 @@ public class ReportEngineService
 	{
 		if ( engine == null )
 		{
-			IPlatformContext platformContext = new PlatformServletContext( servletContext );
+			IPlatformContext platformContext = new PlatformServletContext(
+					servletContext );
 			config.setPlatformContext( platformContext );
 
 			try
@@ -304,7 +316,8 @@ public class ReportEngineService
 				e.printStackTrace( );
 			}
 
-			IReportEngineFactory factory = (IReportEngineFactory) Platform.createFactoryObject( IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );
+			IReportEngineFactory factory = (IReportEngineFactory) Platform
+					.createFactoryObject( IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );
 			engine = factory.createReportEngine( config );
 
 			contextPath = request.getContextPath( );
@@ -326,8 +339,8 @@ public class ReportEngineService
 		File file = new File( report );
 		if ( !file.exists( ) )
 		{
-			throw new EngineException( MessageConstants.DESIGN_FILE_NOT_FOUND_EXCEPTION,
-					report );
+			throw new EngineException(
+					MessageConstants.DESIGN_FILE_NOT_FOUND_EXCEPTION, report );
 		}
 
 		try
@@ -346,8 +359,8 @@ public class ReportEngineService
 		}
 		catch ( FileNotFoundException ioe )
 		{
-			throw new EngineException( MessageConstants.DESIGN_FILE_NOT_FOUND_EXCEPTION,
-					report );
+			throw new EngineException(
+					MessageConstants.DESIGN_FILE_NOT_FOUND_EXCEPTION, report );
 		}
 	}
 
@@ -435,14 +448,15 @@ public class ReportEngineService
 
 		try
 		{
-			this.imageHandler.getImage( outputStream,
-					this.imageDirectory,
+			this.imageHandler.getImage( outputStream, this.imageDirectory,
 					imageId );
 		}
 		catch ( EngineException e )
 		{
 			AxisFault fault = new AxisFault( e.getLocalizedMessage( ) );
-			fault.setFaultCode( new QName( "ReportEngineService.renderImage( )" ) ); //$NON-NLS-1$
+			fault
+					.setFaultCode( new QName(
+							"ReportEngineService.renderImage( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
 		}
@@ -473,7 +487,8 @@ public class ReportEngineService
 		}
 
 		renderContext.setImageDirectory( imageDirectory );
-		renderContext.setSupportedImageFormats( svgFlag ? "PNG;GIF;JPG;BMP;SVG" : "PNG;GIF;JPG;BMP" ); //$NON-NLS-1$ //$NON-NLS-2$
+		renderContext.setSupportedImageFormats( svgFlag
+				? "PNG;GIF;JPG;BMP;SVG" : "PNG;GIF;JPG;BMP" ); //$NON-NLS-1$ //$NON-NLS-2$
 		return renderContext;
 	}
 
@@ -521,19 +536,8 @@ public class ReportEngineService
 			Locale locale, boolean rtl, Map parameters, boolean masterPage,
 			boolean svgFlag ) throws RemoteException
 	{
-		runAndRenderReport( request,
-				runnable,
-				outputStream,
-				format,
-				locale,
-				rtl,
-				parameters,
-				masterPage,
-				svgFlag,
-				null,
-				null,
-				null,
-				null,
+		runAndRenderReport( request, runnable, outputStream, format, locale,
+				rtl, parameters, masterPage, svgFlag, null, null, null, null,
 				null );
 	}
 
@@ -560,20 +564,9 @@ public class ReportEngineService
 			boolean svgFlag, Map displayTexts, String servletPath )
 			throws RemoteException
 	{
-		runAndRenderReport( request,
-				runnable,
-				outputStream,
-				format,
-				locale,
-				rtl,
-				parameters,
-				masterPage,
-				svgFlag,
-				null,
-				null,
-				null,
-				displayTexts,
-				servletPath );
+		runAndRenderReport( request, runnable, outputStream, format, locale,
+				rtl, parameters, masterPage, svgFlag, null, null, null,
+				displayTexts, servletPath );
 	}
 
 	/**
@@ -599,20 +592,10 @@ public class ReportEngineService
 			boolean svgFlag, List activeIds, HTMLRenderContext htmlRenderContext )
 			throws RemoteException
 	{
-		runAndRenderReport( request,
-				runnable,
-				outputStream,
-				ParameterAccessor.PARAM_FORMAT_HTML,
-				locale,
-				rtl,
-				parameters,
-				masterPage,
-				svgFlag,
-				Boolean.TRUE,
-				activeIds,
-				htmlRenderContext,
-				null,
-				null );
+		runAndRenderReport( request, runnable, outputStream,
+				ParameterAccessor.PARAM_FORMAT_HTML, locale, rtl, parameters,
+				masterPage, svgFlag, Boolean.TRUE, activeIds,
+				htmlRenderContext, null, null );
 	}
 
 	/**
@@ -640,20 +623,10 @@ public class ReportEngineService
 			HTMLRenderContext htmlRenderContext, Map displayTexts )
 			throws RemoteException
 	{
-		runAndRenderReport( request,
-				runnable,
-				outputStream,
-				ParameterAccessor.PARAM_FORMAT_HTML,
-				locale,
-				rtl,
-				parameters,
-				masterPage,
-				svgFlag,
-				Boolean.TRUE,
-				activeIds,
-				htmlRenderContext,
-				displayTexts,
-				null );
+		runAndRenderReport( request, runnable, outputStream,
+				ParameterAccessor.PARAM_FORMAT_HTML, locale, rtl, parameters,
+				masterPage, svgFlag, Boolean.TRUE, activeIds,
+				htmlRenderContext, displayTexts, null );
 	}
 
 	/**
@@ -694,11 +667,11 @@ public class ReportEngineService
 		option.setOutputFormat( format );
 		option.setMasterPageContent( masterPage );
 		option.setHtmlRtLFlag( rtl );
-		option.setActionHandle( new ViewerHTMLActionHandler( locale,
-				rtl,
+		option.setActionHandle( new ViewerHTMLActionHandler( locale, rtl,
 				masterPage ) );
 		// set a default title for the html page
-		option.setHtmlTitle( BirtResources.getMessage( ResourceConstants.BIRT_VIEWER_TITLE ) );
+		option.setHtmlTitle( BirtResources
+				.getMessage( ResourceConstants.BIRT_VIEWER_TITLE ) );
 
 		if ( embeddable != null )
 		{
@@ -727,7 +700,8 @@ public class ReportEngineService
 			while ( keys.hasNext( ) )
 			{
 				String paramName = DataUtil.getString( keys.next( ) );
-				String displayText = DataUtil.getString( displayTexts.get( paramName ) );
+				String displayText = DataUtil.getString( displayTexts
+						.get( paramName ) );
 				runAndRenderTask.setParameterDisplayText( paramName,
 						displayText );
 			}
@@ -745,7 +719,8 @@ public class ReportEngineService
 
 		// context.put(DataEngine.DATASET_CACHE_OPTION, Boolean.TRUE )running in
 		// designer enviroment; if running in deployment, set it to false
-		Boolean isDesigner = Boolean.valueOf( ParameterAccessor.isDesigner( request ) );
+		Boolean isDesigner = Boolean.valueOf( ParameterAccessor
+				.isDesigner( request ) );
 		context.put( "org.eclipse.birt.data.engine.dataset.cache.option", //$NON-NLS-1$
 				isDesigner );
 		context.put( EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST,
@@ -781,7 +756,8 @@ public class ReportEngineService
 		catch ( BirtException e )
 		{
 			AxisFault fault = new AxisFault( e.getLocalizedMessage( ) );
-			fault.setFaultCode( new QName( "ReportEngineService.runAndRenderReport( )" ) ); //$NON-NLS-1$
+			fault.setFaultCode( new QName(
+					"ReportEngineService.runAndRenderReport( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
 		}
@@ -804,7 +780,8 @@ public class ReportEngineService
 			return;
 		}
 
-		for ( Iterator itr = request.getParameterMap( ).entrySet( ).iterator( ); itr.hasNext( ); )
+		for ( Iterator itr = request.getParameterMap( ).entrySet( ).iterator( ); itr
+				.hasNext( ); )
 		{
 			Entry entry = (Entry) itr.next( );
 
@@ -874,7 +851,8 @@ public class ReportEngineService
 			while ( keys.hasNext( ) )
 			{
 				String paramName = DataUtil.getString( keys.next( ) );
-				String displayText = DataUtil.getString( displayTexts.get( paramName ) );
+				String displayText = DataUtil.getString( displayTexts
+						.get( paramName ) );
 				runTask.setParameterDisplayText( paramName, displayText );
 			}
 		}
@@ -882,8 +860,11 @@ public class ReportEngineService
 		HashMap context = new HashMap( );
 		// context.put(DataEngine.DATASET_CACHE_OPTION, Boolean.TRUE )running in
 		// designer enviroment; if running in deployment, set it to false
-		Boolean isDesigner = Boolean.valueOf( ParameterAccessor.isDesigner( request ) );
-		context.put( "org.eclipse.birt.data.engine.dataset.cache.option", isDesigner ); //$NON-NLS-1$
+		Boolean isDesigner = Boolean.valueOf( ParameterAccessor
+				.isDesigner( request ) );
+		context
+				.put(
+						"org.eclipse.birt.data.engine.dataset.cache.option", isDesigner ); //$NON-NLS-1$
 		context.put( EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST,
 				request );
 		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
@@ -903,7 +884,9 @@ public class ReportEngineService
 		{
 			// Any Birt exception.
 			AxisFault fault = new AxisFault( e.getLocalizedMessage( ) );
-			fault.setFaultCode( new QName( "ReportEngineService.runReport( )" ) ); //$NON-NLS-1$
+			fault
+					.setFaultCode( new QName(
+							"ReportEngineService.runReport( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
 		}
@@ -936,15 +919,8 @@ public class ReportEngineService
 			boolean rtl ) throws RemoteException
 	{
 		ByteArrayOutputStream out = new ByteArrayOutputStream( );
-		renderReport( out,
-				request,
-				reportDocument,
-				pageNumber,
-				masterPage,
-				svgFlag,
-				activeIds,
-				locale,
-				rtl );
+		renderReport( out, request, reportDocument, pageNumber, masterPage,
+				svgFlag, activeIds, locale, rtl );
 		return out;
 	}
 
@@ -968,16 +944,8 @@ public class ReportEngineService
 			boolean masterPage, boolean svgFlag, List activeIds, Locale locale,
 			boolean rtl ) throws RemoteException
 	{
-		renderReport( os,
-				request,
-				reportDocument,
-				pageNumber,
-				masterPage,
-				svgFlag,
-				activeIds,
-				locale,
-				rtl,
-				null );
+		renderReport( os, request, reportDocument, pageNumber, masterPage,
+				svgFlag, activeIds, locale, rtl, null );
 	}
 
 	/**
@@ -1047,27 +1015,23 @@ public class ReportEngineService
 		setting.setOutputFormat( format );
 		if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_PDF ) )
 		{
-			setting.setActionHandle( new ViewerHTMLActionHandler( reportDocument,
-					pageNumber,
-					locale,
-					false,
-					rtl,
-					masterPage ) );
+			setting
+					.setActionHandle( new ViewerHTMLActionHandler(
+							reportDocument, pageNumber, locale, false, rtl,
+							masterPage ) );
 		}
 		else
 		{
 			boolean isEmbeddable = false;
-			if ( ParameterAccessor.SERVLET_PATH_FRAMESET.equalsIgnoreCase( servletPath ) )
+			if ( ParameterAccessor.SERVLET_PATH_FRAMESET
+					.equalsIgnoreCase( servletPath ) )
 				isEmbeddable = true;
 			setting.setEmbeddable( isEmbeddable );
 			setting.setHtmlRtLFlag( rtl );
 			setting.setInstanceIDs( activeIds );
 			setting.setMasterPageContent( masterPage );
-			setting.setActionHandle( new ViewerHTMLActionHandler( reportDocument,
-					pageNumber,
-					locale,
-					isEmbeddable,
-					rtl,
+			setting.setActionHandle( new ViewerHTMLActionHandler(
+					reportDocument, pageNumber, locale, isEmbeddable, rtl,
 					masterPage ) );
 		}
 
@@ -1081,8 +1045,10 @@ public class ReportEngineService
 		try
 		{
 			if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_PDF )
-					|| IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase( servletPath )
-					|| IBirtConstants.SERVLET_PATH_PREVIEW.equalsIgnoreCase( servletPath ) )
+					|| IBirtConstants.SERVLET_PATH_RUN
+							.equalsIgnoreCase( servletPath )
+					|| IBirtConstants.SERVLET_PATH_PREVIEW
+							.equalsIgnoreCase( servletPath ) )
 			{
 				renderTask.render( );
 			}
@@ -1095,14 +1061,16 @@ public class ReportEngineService
 		catch ( BirtException e )
 		{
 			AxisFault fault = new AxisFault( e.getLocalizedMessage( ) );
-			fault.setFaultCode( new QName( "ReportEngineService.renderReport( )" ) ); //$NON-NLS-1$
+			fault.setFaultCode( new QName(
+					"ReportEngineService.renderReport( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
 		}
 		catch ( Exception e )
 		{
 			AxisFault fault = new AxisFault( e.getLocalizedMessage( ) );
-			fault.setFaultCode( new QName( "ReportEngineService.renderReport( )" ) ); //$NON-NLS-1$
+			fault.setFaultCode( new QName(
+					"ReportEngineService.renderReport( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
 		}
@@ -1135,16 +1103,8 @@ public class ReportEngineService
 			boolean masterPage, boolean svgFlag, List activeIds, Locale locale,
 			boolean rtl ) throws RemoteException
 	{
-		renderReportlet( os,
-				request,
-				reportDocument,
-				reportletId,
-				masterPage,
-				svgFlag,
-				activeIds,
-				locale,
-				rtl,
-				null );
+		renderReportlet( os, request, reportDocument, reportletId, masterPage,
+				svgFlag, activeIds, locale, rtl, null );
 	}
 
 	/**
@@ -1213,29 +1173,24 @@ public class ReportEngineService
 		if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_PDF ) )
 		{
 			setting.setOutputFormat( IBirtConstants.PDF_RENDER_FORMAT );
-			setting.setActionHandle( new ViewerHTMLActionHandler( reportDocument,
-					-1,
-					locale,
-					false,
-					rtl,
-					masterPage ) );
+			setting.setActionHandle( new ViewerHTMLActionHandler(
+					reportDocument, -1, locale, false, rtl, masterPage ) );
 		}
 		else
 		{
 			setting.setOutputFormat( IBirtConstants.HTML_RENDER_FORMAT );
 			boolean isEmbeddable = false;
-			if ( ParameterAccessor.SERVLET_PATH_FRAMESET.equalsIgnoreCase( servletPath ) )
+			if ( ParameterAccessor.SERVLET_PATH_FRAMESET
+					.equalsIgnoreCase( servletPath ) )
 				isEmbeddable = true;
 			setting.setEmbeddable( isEmbeddable );
 			setting.setHtmlRtLFlag( rtl );
 			setting.setInstanceIDs( activeIds );
 			setting.setMasterPageContent( masterPage );
-			setting.setActionHandle( new ViewerHTMLActionHandler( reportDocument,
-					-1,
-					locale,
-					isEmbeddable,
-					rtl,
-					masterPage ) );
+			setting
+					.setActionHandle( new ViewerHTMLActionHandler(
+							reportDocument, -1, locale, isEmbeddable, rtl,
+							masterPage ) );
 		}
 
 		renderTask.setRenderOption( setting );
@@ -1263,14 +1218,16 @@ public class ReportEngineService
 		catch ( BirtException e )
 		{
 			AxisFault fault = new AxisFault( e.getLocalizedMessage( ) );
-			fault.setFaultCode( new QName( "ReportEngineService.renderReport( )" ) ); //$NON-NLS-1$
+			fault.setFaultCode( new QName(
+					"ReportEngineService.renderReport( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
 		}
 		catch ( Exception e )
 		{
 			AxisFault fault = new AxisFault( e.getLocalizedMessage( ) );
-			fault.setFaultCode( new QName( "ReportEngineService.renderReport( )" ) ); //$NON-NLS-1$
+			fault.setFaultCode( new QName(
+					"ReportEngineService.renderReport( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
 		}
@@ -1296,7 +1253,8 @@ public class ReportEngineService
 
 		ResultSet[] resultSetArray = null;
 
-		IDataExtractionTask dataTask = engine.createDataExtractionTask( document );
+		IDataExtractionTask dataTask = engine
+				.createDataExtractionTask( document );
 
 		try
 		{
@@ -1308,12 +1266,15 @@ public class ReportEngineService
 				for ( int k = 0; k < resultSets.size( ); k++ )
 				{
 					resultSetArray[k] = new ResultSet( );
-					IResultSetItem resultSetItem = (IResultSetItem) resultSets.get( k );
+					IResultSetItem resultSetItem = (IResultSetItem) resultSets
+							.get( k );
 					assert resultSetItem != null;
 
-					resultSetArray[k].setQueryName( resultSetItem.getResultSetName( ) );
+					resultSetArray[k].setQueryName( resultSetItem
+							.getResultSetName( ) );
 
-					IResultMetaData metaData = resultSetItem.getResultMetaData( );
+					IResultMetaData metaData = resultSetItem
+							.getResultMetaData( );
 					assert metaData != null;
 
 					Column[] columnArray = new Column[metaData.getColumnCount( )];
@@ -1341,7 +1302,8 @@ public class ReportEngineService
 		{
 			e.printStackTrace( );
 			AxisFault fault = new AxisFault( e.getLocalizedMessage( ) );
-			fault.setFaultCode( new QName( "ReportEngineService.getResultSets( )" ) ); //$NON-NLS-1$
+			fault.setFaultCode( new QName(
+					"ReportEngineService.getResultSets( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
 		}
@@ -1349,7 +1311,8 @@ public class ReportEngineService
 		{
 			e.printStackTrace( );
 			AxisFault fault = new AxisFault( e.getLocalizedMessage( ) );
-			fault.setFaultCode( new QName( "ReportEngineService.getResultSets( )" ) ); //$NON-NLS-1$
+			fault.setFaultCode( new QName(
+					"ReportEngineService.getResultSets( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
 		}
@@ -1375,8 +1338,8 @@ public class ReportEngineService
 	 * @throws RemoteException
 	 */
 	public void extractData( IReportDocument document, String resultSetName,
-			Collection columns, Locale locale, OutputStream outputStream, String encoding )
-			throws RemoteException
+			Collection columns, Locale locale, OutputStream outputStream,
+			String encoding ) throws RemoteException
 	{
 		assert document != null;
 		assert resultSetName != null && resultSetName.length( ) > 0;
@@ -1436,8 +1399,9 @@ public class ReportEngineService
 
 						try
 						{
-							value = cvsConvertor( (String) DataTypeUtil.convert( iData.getValue( columnNames[0] ),
-									DataType.STRING_TYPE ) );
+							value = cvsConvertor( (String) DataTypeUtil
+									.convert( iData.getValue( columnNames[0] ),
+											DataType.STRING_TYPE ) );
 						}
 						catch ( Exception e )
 						{
@@ -1455,8 +1419,10 @@ public class ReportEngineService
 
 							try
 							{
-								value = cvsConvertor( (String) DataTypeUtil.convert( iData.getValue( columnNames[i] ),
-										DataType.STRING_TYPE ) );
+								value = cvsConvertor( (String) DataTypeUtil
+										.convert( iData
+												.getValue( columnNames[i] ),
+												DataType.STRING_TYPE ) );
 							}
 							catch ( Exception e )
 							{
@@ -1487,7 +1453,9 @@ public class ReportEngineService
 		catch ( Exception e )
 		{
 			AxisFault fault = new AxisFault( e.getLocalizedMessage( ) );
-			fault.setFaultCode( new QName( "ReportEngineService.extractData( )" ) ); //$NON-NLS-1$
+			fault
+					.setFaultCode( new QName(
+							"ReportEngineService.extractData( )" ) ); //$NON-NLS-1$
 			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
 		}
@@ -1562,7 +1530,8 @@ public class ReportEngineService
 		Collection parameterList = task.getParameterDefns( false );
 		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
 		{
-			IScalarParameterDefn parameterObj = (IScalarParameterDefn) iter.next( );
+			IScalarParameterDefn parameterObj = (IScalarParameterDefn) iter
+					.next( );
 
 			String paramValue = null;
 			Object paramValueObj = null;
@@ -1574,27 +1543,26 @@ public class ReportEngineService
 			String format = parameterObj.getDisplayFormat( );
 
 			// Get default value from task
-			ReportParameterConverter converter = new ReportParameterConverter( format,
-					locale );
+			ReportParameterConverter converter = new ReportParameterConverter(
+					format, locale );
 
 			if ( ParameterAccessor.isReportParameterExist( request, paramName ) )
 			{
 				// Get value from http request
 				paramValue = ParameterAccessor.getReportParameter( request,
-						paramName,
-						paramValue );
-				paramValueObj = converter.parse( paramValue,
-						parameterObj.getDataType( ) );
+						paramName, paramValue );
+				paramValueObj = converter.parse( paramValue, parameterObj
+						.getDataType( ) );
 			}
 			else if ( ParameterAccessor.isDesigner( request )
 					&& configVars.containsKey( paramName ) )
 			{
 				// Get value from test config
 				String configValue = (String) configVars.get( paramName );
-				ReportParameterConverter cfgConverter = new ReportParameterConverter( format,
-						Locale.US );
-				paramValueObj = cfgConverter.parse( configValue,
-						parameterObj.getDataType( ) );
+				ReportParameterConverter cfgConverter = new ReportParameterConverter(
+						format, Locale.US );
+				paramValueObj = cfgConverter.parse( configValue, parameterObj
+						.getDataType( ) );
 			}
 			else
 			{
@@ -1625,7 +1593,8 @@ public class ReportEngineService
 		Collection parameterList = task.getParameterDefns( false );
 		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
 		{
-			IScalarParameterDefn parameterObj = (IScalarParameterDefn) iter.next( );
+			IScalarParameterDefn parameterObj = (IScalarParameterDefn) iter
+					.next( );
 			// ScalarParameterHandle paramHandle = ( ScalarParameterHandle )
 			// parameterObj
 			// .getHandle( );
@@ -1669,16 +1638,18 @@ public class ReportEngineService
 	 */
 	public void clearCache( DataSetHandle dataSet ) throws BirtException
 	{
-		DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-				dataSet.getModuleHandle( ),
-				null );
+		DataSessionContext context = new DataSessionContext(
+				DataSessionContext.MODE_DIRECT_PRESENTATION, dataSet
+						.getModuleHandle( ), null );
 
-		DataRequestSession requestSession = DataRequestSession.newSession( context );
+		DataRequestSession requestSession = DataRequestSession
+				.newSession( context );
 
 		IModelAdapter modelAdaptor = requestSession.getModelAdaptor( );
 		DataSourceHandle dataSource = dataSet.getDataSource( );
 
-		IBaseDataSourceDesign sourceDesign = modelAdaptor.adaptDataSource( dataSource );
+		IBaseDataSourceDesign sourceDesign = modelAdaptor
+				.adaptDataSource( dataSource );
 		IBaseDataSetDesign dataSetDesign = modelAdaptor.adaptDataSet( dataSet );
 
 		requestSession.clearCache( sourceDesign, dataSetDesign );
@@ -1716,8 +1687,7 @@ public class ReportEngineService
 			DesignElementHandle elementHandle, IRequestInfo requestInfo )
 			throws BirtException
 	{
-		if ( bindingName == null
-				|| elementHandle == null
+		if ( bindingName == null || elementHandle == null
 				|| !( elementHandle instanceof ReportItemHandle ) )
 			return Collections.EMPTY_LIST;
 
@@ -1727,13 +1697,13 @@ public class ReportEngineService
 			return Collections.EMPTY_LIST;
 
 		List selectValueList = new ArrayList( );
-		DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-				reportItem.getModuleHandle( ) ) );
-		selectValueList.addAll( session.getColumnValueSet( reportItem.getDataSet( ),
-				reportItem.paramBindingsIterator( ),
-				reportItem.columnBindingsIterator( ),
-				bindingName,
-				requestInfo ) );
+		DataRequestSession session = DataRequestSession
+				.newSession( new DataSessionContext(
+						DataSessionContext.MODE_DIRECT_PRESENTATION, reportItem
+								.getModuleHandle( ) ) );
+		selectValueList.addAll( session.getColumnValueSet( reportItem
+				.getDataSet( ), reportItem.paramBindingsIterator( ), reportItem
+				.columnBindingsIterator( ), bindingName, requestInfo ) );
 		session.shutdown( );
 
 		return selectValueList;
@@ -1757,8 +1727,7 @@ public class ReportEngineService
 	public List getColumnValueSet( String bindingName,
 			DesignElementHandle elementHandle ) throws BirtException
 	{
-		if ( bindingName == null
-				|| elementHandle == null
+		if ( bindingName == null || elementHandle == null
 				|| !( elementHandle instanceof ReportItemHandle ) )
 			return Collections.EMPTY_LIST;
 
@@ -1768,12 +1737,13 @@ public class ReportEngineService
 			return Collections.EMPTY_LIST;
 
 		List selectValueList = new ArrayList( );
-		DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-				reportItem.getModuleHandle( ) ) );
-		selectValueList.addAll( session.getColumnValueSet( reportItem.getDataSet( ),
-				reportItem.paramBindingsIterator( ),
-				reportItem.columnBindingsIterator( ),
-				bindingName ) );
+		DataRequestSession session = DataRequestSession
+				.newSession( new DataSessionContext(
+						DataSessionContext.MODE_DIRECT_PRESENTATION, reportItem
+								.getModuleHandle( ) ) );
+		selectValueList.addAll( session.getColumnValueSet( reportItem
+				.getDataSet( ), reportItem.paramBindingsIterator( ), reportItem
+				.columnBindingsIterator( ), bindingName ) );
 		session.shutdown( );
 
 		return selectValueList;
@@ -1799,8 +1769,8 @@ public class ReportEngineService
 			if ( handle instanceof ReportItemHandle )
 			{
 				if ( ( (ReportItemHandle) handle ).getDataSet( ) != null
-						|| ( (ReportItemHandle) handle ).columnBindingsIterator( )
-								.hasNext( ) )
+						|| ( (ReportItemHandle) handle )
+								.columnBindingsIterator( ).hasNext( ) )
 				{
 					return (ReportItemHandle) handle;
 				}
