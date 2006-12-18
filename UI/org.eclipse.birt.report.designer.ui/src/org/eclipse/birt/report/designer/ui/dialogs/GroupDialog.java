@@ -369,9 +369,24 @@ public class GroupDialog extends BaseDialog
 			{
 				String key = UIUtil.convertToModelString( keyChooser.getText( ),
 						true );
-				if ( key != null && keyChooser.indexOf( key ) != -1 )
+				if ( key != null )
 				{
-					String tocExp = DEUtil.getExpression( columnList.get( keyChooser.indexOf( key ) ) );
+					String tocExp = null;
+					if ( keyChooser.indexOf( key ) != -1 )
+					{
+						tocExp = DEUtil.getExpression( columnList.get( keyChooser.indexOf( key ) ) );
+					}
+					else
+					{
+						for ( int i = 0; i < columnList.size( ); i++ )
+						{
+							if ( key.equals( DEUtil.getExpression( columnList.get( i ) ) ) )
+							{
+								tocExp = DEUtil.getExpression( columnList.get( i ) );
+								break;
+							}
+						}
+					}					
 					if ( !tocEditor.getText( ).equals( tocExp ) )
 					{
 						tocEditor.setText( tocExp );
@@ -852,12 +867,25 @@ public class GroupDialog extends BaseDialog
 			}
 
 			int index = keyChooser.getSelectionIndex( );
-//			if ( index == -1
-//					&& UIUtil.convertToModelString( keyChooser.getText( ), true ) != null )
-			if ( index == -1 )
+			if ( index == -1
+					&& UIUtil.convertToModelString( keyChooser.getText( ), true ) != null )
 			{
-				index = keyChooser.indexOf( UIUtil.convertToModelString( keyChooser.getText( ),
-						true ) );
+				String groupKey = UIUtil.convertToModelString( keyChooser.getText( ), true );
+				if ( keyChooser.indexOf( groupKey ) != -1 )
+				{
+					index = keyChooser.indexOf( groupKey );
+				}
+				else 
+				{
+					for ( int i = 0; i < columnList.size( ); i++ )
+					{
+						if ( groupKey.equals( DEUtil.getExpression( columnList.get( i ) ) ) )
+						{
+							index = i;
+							break;
+						}
+					}
+				}
 			}
 			String oldKeyExpr = inputGroup.getKeyExpr( );
 			String newKeyExpr = getKeyExpression( );
@@ -1174,7 +1202,7 @@ public class GroupDialog extends BaseDialog
 		{
 			exp = DEUtil.getExpression( columnList.get( keyChooser.getSelectionIndex( ) ) );
 		}
-		else if ( keyChooser.indexOf( keyText ) != -1 )
+		else if ( keyText != null && keyChooser.indexOf( keyText ) != -1 )
 		{
 			exp = DEUtil.getExpression( columnList.get( keyChooser.indexOf( keyText ) ) );
 		}
