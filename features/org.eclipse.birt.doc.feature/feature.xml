@@ -26,6 +26,7 @@
 
    <requires>
       <import plugin="org.eclipse.help" version="3.2.0" match="compatible"/>
+      <import plugin="org.eclipse.datatools.oda.cshelp" version="1.0.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
