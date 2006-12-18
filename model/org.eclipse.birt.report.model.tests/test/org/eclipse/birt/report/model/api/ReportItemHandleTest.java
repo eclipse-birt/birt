@@ -337,7 +337,42 @@ public class ReportItemHandleTest extends BaseTestCase
 
 		newCol.setName( "Number" );//$NON-NLS-1$
 		propertyHandle.replaceItem( col, newCol );
+		
+		//clear all bound column.
+		
+		tableHandle.clearProperty( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
+		assertNull( tableHandle.getListProperty( IReportItemModel.BOUND_DATA_COLUMNS_PROP ) );
+		
+		//add group bound column with group name aggregateOn.
+		
+		GroupHandle groupHandle = designHandle.getElementFactory( ).newTableGroup( );
+		groupHandle.setName( "NewGroup" );//$NON-NLS-1$
+		tableHandle.getGroups( ).add(  groupHandle );
 
+		ComputedColumn groupCol = StructureFactory.createComputedColumn( );
+		groupCol.setName( "data item1" );//$NON-NLS-1$
+		groupCol.setExpression( "Total.sum(row[\"CUSTOMERNUMBER\"] , null , null )" ); //$NON-NLS-1$
+		groupCol.setAggregateOn( "NewGroup" );//$NON-NLS-1$
+		groupCol.setDataType( DesignChoiceConstants.PARAM_TYPE_STRING );
+		
+		//add bound column with all aggregateOn.
+		
+		tableHandle.addColumnBinding( groupCol, false );
+		
+		ComputedColumn tableCol = StructureFactory.createComputedColumn( );
+		tableCol.setName( "data item2" );//$NON-NLS-1$
+		tableCol.setExpression( "Total.sum(row[\"CUSTOMERNUMBER\"] , null , null )" ); //$NON-NLS-1$
+		tableCol.setAggregateOn( "All" );//$NON-NLS-1$
+		tableCol.setDataType( DesignChoiceConstants.PARAM_TYPE_STRING );
+		
+		tableHandle.addColumnBinding( tableCol, false );
+		
+		List boundList = tableHandle.getListProperty( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
+		assertEquals( 2, boundList.size( ) );
+		assertEquals( "data item1" , ((ComputedColumn)boundList.get( 0 )).getName( ));//$NON-NLS-1$
+		assertEquals( "NewGroup" , ((ComputedColumn)boundList.get( 0 )).getAggregateOn( ));//$NON-NLS-1$
+		assertEquals( "data item2" , ((ComputedColumn)boundList.get( 1 )).getName( ));//$NON-NLS-1$
+		assertEquals( "All" , ((ComputedColumn)boundList.get( 1 )).getAggregateOn( ));//$NON-NLS-1$
 	}
 
 	/**

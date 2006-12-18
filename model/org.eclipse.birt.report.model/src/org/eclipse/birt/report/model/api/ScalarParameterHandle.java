@@ -956,8 +956,8 @@ public class ScalarParameterHandle extends ParameterHandle
 		if ( columns == null )
 			return (ComputedColumnHandle) getPropertyHandle(
 					BOUND_DATA_COLUMNS_PROP ).addItem( addColumn );
-
-		ComputedColumn column = DataBoundColumnUtil.getColumn( columns, expr );
+		String aggregateOn = addColumn.getAggregateOn( );
+		ComputedColumn column = DataBoundColumnUtil.getColumn( columns, expr , aggregateOn );
 		if ( column != null && !inForce )
 		{
 			return (ComputedColumnHandle) column.handle(

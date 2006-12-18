@@ -573,8 +573,10 @@ public abstract class ReportItemHandle extends ReportElementHandle
 		if ( columns == null )
 			return (ComputedColumnHandle) getPropertyHandle(
 					BOUND_DATA_COLUMNS_PROP ).addItem( addColumn );
+		
+		String aggregateOn = addColumn.getAggregateOn( );
+		ComputedColumn column = DataBoundColumnUtil.getColumn( columns, expr , aggregateOn );
 
-		ComputedColumn column = DataBoundColumnUtil.getColumn( columns, expr );
 		if ( column != null && !inForce )
 		{
 			return (ComputedColumnHandle) column.handle(
