@@ -64,6 +64,7 @@ import org.eclipse.ui.forms.editor.IFormPage;
 import org.eclipse.ui.part.IPageBookViewPage;
 import org.eclipse.ui.part.MultiPageSelectionProvider;
 import org.eclipse.ui.part.PageBookView;
+import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 /**
@@ -83,6 +84,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 	public static final String LayoutMasterPage_ID = "org.eclipse.birt.report.designer.ui.editors.masterpage";
 	public static final String LayoutEditor_ID = "org.eclipse.birt.report.designer.ui.editors.layout";
+	public static final String XMLSourcePage_ID = "org.eclipse.birt.report.designer.ui.editors.xmlsource";
 	private ReportMultiBookPage fPalettePage;
 
 	private ReportMultiBookPage outlinePage;
@@ -233,7 +235,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 				for ( Iterator iter = formPageList.iterator( ); iter.hasNext( ); )
 				{
 					FormPageDef pagedef = (FormPageDef) iter.next( );
-					if ( "org.eclipse.birt.report.designer.ui.editors.xmlsource".equals( pagedef.id ) ) //$NON-NLS-1$
+					if ( XMLSourcePage_ID.equals( pagedef.id ) ) //$NON-NLS-1$
 
 					{
 						try
@@ -246,7 +248,6 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 						}
 					}
 				}
-
 				return;
 			}
 		}
@@ -266,7 +267,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 		if ( error )
 		{
-			setActivePage( "org.eclipse.birt.report.designer.ui.editors.xmlsource" ); //$NON-NLS-1$
+			setActivePage( XMLSourcePage_ID ); //$NON-NLS-1$
 		}
 	}
 
@@ -333,10 +334,9 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	 */
 	public void doSave( IProgressMonitor monitor )
 	{
-		getCurrentPageInstance().doSave( monitor );
+		getCurrentPageInstance( ).doSave( monitor );
 		fireDesignFileChangeEvent( );
 	}
-	
 
 	private void fireDesignFileChangeEvent( )
 	{
@@ -443,7 +443,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			updateDateView( getActivePageInstance( ) );
 			return adapter;
 		}
-		
+
 		if ( type == AttributeViewPage.class )
 		{
 			Object adapter = getAttributePage( );
@@ -468,7 +468,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 		Object adapter = activePageInstance.getAdapter( AttributeViewPage.class );
 		attributePage.setActivePage( (IPageBookViewPage) adapter );
-		
+
 	}
 
 	private void updateDateView( IFormPage activePageInstance )
@@ -493,6 +493,44 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		outlinePage.setActivePage( (IPageBookViewPage) designOutLinePage );
 	}
 
+	public void outlineSwitch( )
+	{
+		if ( !getActivePageInstance( ).getId( ).equals( XMLSourcePage_ID )
+				|| outlinePage == null )
+		{
+			return;
+		}
+
+		if ( outlinePage.getCurrentPage( ) instanceof DesignerOutlinePage )
+		{
+			outlinePage.setActivePage( (IPageBookViewPage) getActivePageInstance( ).getAdapter( ContentOutlinePage.class ) );
+		}
+		else
+		{
+			outlinePage.setActivePage( (IPageBookViewPage) getActivePageInstance( ).getAdapter( IContentOutlinePage.class ) );
+		}
+		outlinePage.getSite( ).getActionBars( ).updateActionBars( );
+	}
+
+	public void reloadOutlinePage( )
+	{
+		if ( !getActivePageInstance( ).getId( ).equals( XMLSourcePage_ID )
+				|| outlinePage == null )
+		{
+			return;
+		}
+
+		if ( outlinePage.getCurrentPage( ) instanceof DesignerOutlinePage )
+		{
+			outlinePage.setActivePage( (IPageBookViewPage) getActivePageInstance( ).getAdapter( IContentOutlinePage.class ) );
+		}
+		else
+		{
+			outlinePage.setActivePage( (IPageBookViewPage) getActivePageInstance( ).getAdapter( ContentOutlinePage.class ) );
+		}
+		outlinePage.getSite( ).getActionBars( ).updateActionBars( );
+	}
+
 	private Object getDataPage( )
 	{
 		if ( dataPage == null || dataPage.isDisposed( ) )
@@ -501,7 +539,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		}
 		return dataPage;
 	}
-	
+
 	private Object getAttributePage( )
 	{
 		if ( attributePage == null || attributePage.isDisposed( ) )
@@ -511,7 +549,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		return attributePage;
 	}
 
-	private Object getOutlinePage( )
+	public Object getOutlinePage( )
 	{
 		if ( outlinePage == null || outlinePage.isDisposed( ) )
 		{

@@ -19,7 +19,6 @@ import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
@@ -37,7 +36,6 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 public class ReportMultiBookPage extends Page implements
 		IContentOutlinePage,
-		ISelectionProvider,
 		ISelectionChangedListener
 {
 
@@ -115,6 +113,11 @@ public class ReportMultiBookPage extends Page implements
 		listeners.remove( listener );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(org.eclipse.jface.viewers.SelectionChangedEvent)
+	 */
 	public void selectionChanged( SelectionChangedEvent event )
 	{
 		setSelection( event.getSelection( ) );
@@ -127,13 +130,16 @@ public class ReportMultiBookPage extends Page implements
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.part.Page#setActionBars(org.eclipse.ui.IActionBars)
+	 */
 	public void setActionBars( IActionBars actionBars )
 	{
-		// this.actionBars = actionBars;
-		// registerToolbarActions(actionBars);
+		this.actionBars = actionBars;
 		if ( currentPage != null )
 			setActivePage( currentPage );
-
 	}
 
 	public IActionBars getActionBars( )
@@ -141,6 +147,11 @@ public class ReportMultiBookPage extends Page implements
 		return actionBars;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.part.Page#setFocus()
+	 */
 	public void setFocus( )
 	{
 		if ( currentPage != null )
@@ -154,17 +165,26 @@ public class ReportMultiBookPage extends Page implements
 		return emptyPage;
 	}
 
+	public IPageBookViewPage getCurrentPage( )
+	{
+		return currentPage;
+	}
+
 	public void setActivePage( IPageBookViewPage page )
 	{
+		IPageBookViewPage previousPage = null;
 		if ( page == null )
 		{
 			page = getEmptyPage( );
 		}
 		else if ( currentPage != null
 				&& currentPage != getEmptyPage( )
-				&& !( currentPage instanceof PalettePage ) && page!=currentPage )
+				&& !( currentPage instanceof PalettePage )
+				&& page != currentPage )
 		{
-			currentPage.dispose( );
+			// currentPage.getControl( ).dispose( );
+			// currentPage.dispose( );
+			previousPage = currentPage;
 		}
 		this.currentPage = page;
 		if ( pagebook == null )
@@ -196,11 +216,18 @@ public class ReportMultiBookPage extends Page implements
 			}
 			// first time
 			page.createControl( pagebook );
-			// page.setActionBars(getActionBars());
+			page.setActionBars( getActionBars( ) );
 			control = page.getControl( );
 		}
 		pagebook.showPage( control );
 		this.currentPage = page;
+		if ( previousPage != null
+				&& previousPage.getControl( ) != null
+				&& !previousPage.getControl( ).isDisposed( ) )
+		{
+			previousPage.getControl( ).dispose( );
+			previousPage.dispose( );
+		}
 	}
 
 	/**
@@ -277,4 +304,5 @@ public class ReportMultiBookPage extends Page implements
 
 		}
 	}
+
 }

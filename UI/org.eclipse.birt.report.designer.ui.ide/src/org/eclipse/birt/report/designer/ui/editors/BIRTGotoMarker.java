@@ -24,7 +24,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.editors.pages.ReportLayoutEditorFormPage;
 import org.eclipse.birt.report.designer.ui.editors.pages.ReportMasterPageEditorFormPage;
-import org.eclipse.birt.report.designer.ui.editors.pages.ReportXMLSourceEditorFormPage;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -82,12 +81,12 @@ class BIRTGotoMarker implements IGotoMarker
 		}
 
 		ModuleHandle moduleHandle = editorPart.getModel( );
-		ReportElementHandle reportElementHandle = null;
-		reportElementHandle = getReportElementHandle( moduleHandle, marker );
-		if ( reportElementHandle == null 
-		|| ( reportElementHandle != null && isElementTemplateParameterDefinition(reportElementHandle)))
+		ReportElementHandle reportElementHandle = getReportElementHandle( moduleHandle,
+				marker );
+		if ( reportElementHandle == null
+				|| ( reportElementHandle != null && isElementTemplateParameterDefinition( reportElementHandle ) ) )
 		{
-			gotoXMLSourcePage( moduleHandle, marker );
+			gotoXMLSourcePage( marker );
 		}
 		else
 		{
@@ -122,11 +121,8 @@ class BIRTGotoMarker implements IGotoMarker
 				{
 					gotoLibraryLayoutPage( marker, reportElementHandle );
 				}
-
 			}
-
 		}
-
 	}
 
 	protected void gotoLibraryLayoutPage( IMarker marker,
@@ -172,30 +168,32 @@ class BIRTGotoMarker implements IGotoMarker
 		} );
 	}
 
-	protected void gotoXMLSourcePage( ModuleHandle moduleHandle,
-			final IMarker marker )
+	protected void gotoXMLSourcePage( final IMarker marker )
 	{
-		String pageId = ReportXMLSourceEditorFormPage.ID;
-		if ( activatePage( pageId ) == false )
+		if ( activatePage( MultiPageReportEditor.XMLSourcePage_ID ) == false )
 		{
 			return;
 		}
 
-		final ReportXMLSourceEditorFormPage xmlSourceEditorFormPage = (ReportXMLSourceEditorFormPage) editorPart.getActivePageInstance( );
+		final IReportEditorPage reportXMLSourcePage = (IReportEditorPage) editorPart.getActivePageInstance( );
 		Display.getCurrent( ).asyncExec( new Runnable( ) {
 
 			public void run( )
 			{
-				gotoXMLSourceMarker( xmlSourceEditorFormPage, marker );
+				gotoXMLSourceMarker( reportXMLSourcePage, marker );
 			}
 		} );
+	}
 
+	protected void gotoXMLSourceMarker( IReportEditorPage reportXMLSourcePage,
+			IMarker marker )
+	{
+		reportXMLSourcePage.selectReveal( marker );
 	}
 
 	protected boolean activatePage( String pageId )
 	{
-		String currentId = editorPart.getActivePageInstance( ).getId( );
-		if ( pageId.equals( currentId ) )
+		if ( pageId.equals( editorPart.getActivePageInstance( ).getId( ) ) )
 		{
 			return true;
 		}
@@ -205,7 +203,6 @@ class BIRTGotoMarker implements IGotoMarker
 		{
 			return true;
 		}
-
 		return false;
 	}
 
@@ -221,12 +218,11 @@ class BIRTGotoMarker implements IGotoMarker
 		{
 			ExceptionHandler.handle( e );
 		}
-		DesignElementHandle elementHandle = null;
-		if ( elementId != null && elementId.intValue( ) > 0 )
+		if ( elementId.intValue( ) > 0 )
 		{
-			elementHandle = moduleHandle.getElementByID( elementId.intValue( ) );
-			if ( ( elementHandle == null )
-					|| ( !( elementHandle instanceof ReportElementHandle ) ) )
+			DesignElementHandle elementHandle = moduleHandle.getElementByID( elementId.intValue( ) );
+			if ( elementHandle == null
+					|| !( elementHandle instanceof ReportElementHandle ) )
 			{
 				return null;
 			}
@@ -283,10 +279,10 @@ class BIRTGotoMarker implements IGotoMarker
 				{
 					Object obj = itr.next( );
 
-//					if ( obj instanceof ReportElementModel )
-//					{
-//						lst.add( ( (ReportElementModel) obj ).getSlotHandle( ) );
-//					}
+					// if ( obj instanceof ReportElementModel )
+					// {
+					// lst.add( ( (ReportElementModel) obj ).getSlotHandle( ) );
+					// }
 					lst.add( obj );
 				}
 				return lst;
@@ -296,82 +292,6 @@ class BIRTGotoMarker implements IGotoMarker
 		r.setSelectionObject( list );
 		SessionHandleAdapter.getInstance( ).getMediator( ).notifyRequest( r );
 
-	}
-
-	/**
-	 * If the editor can be saved all marker ranges have been changed according
-	 * to the text manipulations. However, those changes are not yet propagated
-	 * to the marker manager. Thus, when opening a marker, the marker's position
-	 * in the editor must be determined as it might differ from the position
-	 * stated in the marker.
-	 * 
-	 * @param marker
-	 *            the marker to go to
-	 */
-	protected void gotoXMLSourceMarker( AbstractTextEditor editorFormPage,
-			IMarker marker )
-	{
-
-		int start = MarkerUtilities.getCharStart( marker );
-		int end = MarkerUtilities.getCharEnd( marker );
-
-		boolean selectLine = start < 0 || end < 0;
-
-		// look up the current range of the marker when the document has been
-		// edited
-		IAnnotationModel model = editorFormPage.getDocumentProvider( )
-				.getAnnotationModel( editorFormPage.getEditorInput( ) );
-		if ( model instanceof AbstractMarkerAnnotationModel )
-		{
-
-			AbstractMarkerAnnotationModel markerModel = (AbstractMarkerAnnotationModel) model;
-			Position pos = markerModel.getMarkerPosition( marker );
-			if ( pos != null && !pos.isDeleted( ) )
-			{
-				// use position instead of marker values
-				start = pos.getOffset( );
-				end = pos.getOffset( ) + pos.getLength( );
-			}
-
-			if ( pos != null && pos.isDeleted( ) )
-			{
-				// do nothing if position has been deleted
-				return;
-			}
-		}
-
-		IDocument document = editorFormPage.getDocumentProvider( )
-				.getDocument( editorFormPage.getEditorInput( ) );
-
-		if ( selectLine )
-		{
-			int line;
-			try
-			{
-				if ( start >= 0 )
-					line = document.getLineOfOffset( start );
-				else
-				{
-					line = MarkerUtilities.getLineNumber( marker );
-					// Marker line numbers are 1-based
-					if ( line >= 1 )
-					{
-						--line;
-					}
-
-					start = document.getLineOffset( line );
-				}
-				end = start + document.getLineLength( line ) - 1;
-			}
-			catch ( BadLocationException e )
-			{
-				return;
-			}
-		}
-
-		int length = document.getLength( );
-		if ( end - 1 < length && start < length )
-			editorFormPage.selectAndReveal( start, end - start );
 	}
 
 	protected boolean isElementInMasterPage( DesignElementHandle elementHandle )
@@ -389,8 +309,9 @@ class BIRTGotoMarker implements IGotoMarker
 
 		return false;
 	}
-	
-	protected boolean isElementTemplateParameterDefinition( DesignElementHandle elementHandle )
+
+	protected boolean isElementTemplateParameterDefinition(
+			DesignElementHandle elementHandle )
 	{
 		ModuleHandle root = elementHandle.getRoot( );
 		DesignElementHandle container = elementHandle;
@@ -402,7 +323,6 @@ class BIRTGotoMarker implements IGotoMarker
 			}
 			container = container.getContainer( );
 		}
-
 		return false;
 	}
 }
