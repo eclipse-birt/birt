@@ -70,6 +70,16 @@ public interface IReportDocument
 	 *         document.
 	 */
 	public abstract Map getParameterValues( );
+	
+	/**
+	 * returns display texts for all the parameters that are used for generating the
+	 * current report document. Useful for running the report again based on a
+	 * report document
+	 * 
+	 * @return parameter name/display text pairs for generating the current report
+	 *         document.
+	 */	
+	public abstract Map getParameterDisplayTexts( );
 
 	/**
 	 * @return the page count in the report. Used for supporting page-based

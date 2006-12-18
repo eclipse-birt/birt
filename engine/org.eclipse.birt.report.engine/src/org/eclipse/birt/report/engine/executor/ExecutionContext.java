@@ -89,7 +89,7 @@ import com.ibm.icu.util.ULocale;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.90 $ $Date: 2006/11/13 05:27:25 $
+ * @version $Revision: 1.91 $ $Date: 2006/11/22 08:30:07 $
  */
 public class ExecutionContext
 {
@@ -770,6 +770,21 @@ public class ExecutionContext
 		}
 		return result;
 
+	}
+	
+	public Map getParameterDisplayTexts( )
+	{
+		Map result = new HashMap( );
+		Set entries = params.entrySet( );
+		Iterator iterator = entries.iterator( );
+		while ( iterator.hasNext( ) )
+		{
+			Map.Entry entry = (Map.Entry) iterator.next( );
+			String name = (String) entry.getKey( );
+			ParameterAttribute value = (ParameterAttribute) entry.getValue( );
+			result.put( name, value.getDisplayText( ) );
+		}
+		return result;
 	}
 
 	public String getParameterDisplayText( String name )

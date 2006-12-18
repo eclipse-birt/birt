@@ -32,15 +32,17 @@ public class TransientReportDocument implements IReportDocument
 	protected IReportDocument document;
 	protected Map globalVariables;
 	protected Map parameters;
+	protected Map parameterDisplayTexts;
 	protected long pageNumber;
 	protected boolean isComplete;
 
 	TransientReportDocument( IReportDocument document, long pageNumber,
-			Map paramters, Map globalVariables, boolean isComplete )
+			Map paramters, Map parameterDisplayTexts, Map globalVariables, boolean isComplete )
 	{
 		this.document = document;
 		this.pageNumber = pageNumber;
 		this.parameters = paramters;
+		this.parameterDisplayTexts = parameterDisplayTexts;
 		this.globalVariables = globalVariables;
 		this.isComplete = isComplete;
 	}
@@ -78,6 +80,11 @@ public class TransientReportDocument implements IReportDocument
 	public Map getParameterValues( )
 	{
 		return parameters;
+	}
+	
+	public Map getParameterDisplayTexts()
+	{
+		return parameterDisplayTexts;
 	}
 
 	public long getPageCount( )

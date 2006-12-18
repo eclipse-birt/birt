@@ -25,7 +25,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 /**
  * the report document information given out by the report document builder
  * 
- * @version $Revision: 1.3 $ $Date: 2006/07/17 03:24:00 $
+ * @version $Revision: 1.4 $ $Date: 2006/08/10 10:34:22 $
  */
 public class ReportDocumentInfo implements IReportDocumentInfo
 {
@@ -34,6 +34,7 @@ public class ReportDocumentInfo implements IReportDocumentInfo
 	protected long pageNumber;
 	protected boolean finished;
 	protected Map params = new HashMap( );
+	protected Map parameterDisplayTexts = new HashMap( );
 	protected Map beans = new HashMap( );
 	protected List errors;
 
@@ -44,6 +45,7 @@ public class ReportDocumentInfo implements IReportDocumentInfo
 		this.pageNumber = pageNumber;
 		this.finished = finished;
 		params.putAll( context.getParameterValues( ) );
+		parameterDisplayTexts.putAll( context.getParameterDisplayTexts( ) );
 		beans.putAll( context.getGlobalBeans( ) );
 		errors = context.getErrors( );
 
@@ -79,7 +81,7 @@ public class ReportDocumentInfo implements IReportDocumentInfo
 		}
 		IReportDocument document = engine.openReportDocument( documentName );
 
-		return new TransientReportDocument( document, pageNumber, params, beans, finished );
+		return new TransientReportDocument( document, pageNumber, params, parameterDisplayTexts, beans, finished );
 	}
 
 	public List getErrors( )
