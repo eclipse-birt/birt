@@ -17,6 +17,7 @@ import org.eclipse.birt.integration.wtp.ui.internal.resource.BirtWTPMessages;
 import org.eclipse.birt.integration.wtp.ui.internal.util.DataUtil;
 import org.eclipse.birt.integration.wtp.ui.internal.util.UIUtil;
 import org.eclipse.birt.integration.wtp.ui.internal.util.WebArtifactUtil;
+import org.eclipse.birt.integration.wtp.ui.internal.webapplication.ContextParamBean;
 import org.eclipse.birt.integration.wtp.ui.internal.wizards.IBirtWizardConstants;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.window.IShellProvider;
@@ -35,7 +36,9 @@ import org.eclipse.swt.widgets.Text;
  * The dialog to configurate BIRT runtime settings
  * 
  */
-public class BirtConfigurationDialog extends Dialog implements IBirtWizardConstants
+public class BirtConfigurationDialog extends Dialog
+		implements
+			IBirtWizardConstants
 {
 
 	/**
@@ -98,7 +101,7 @@ public class BirtConfigurationDialog extends Dialog implements IBirtWizardConsta
 	 */
 	protected Button btClear;
 	private boolean isClear;
-	
+
 	/**
 	 * default contrustor
 	 * 
@@ -154,6 +157,18 @@ public class BirtConfigurationDialog extends Dialog implements IBirtWizardConsta
 
 		// create resource folder setting group
 		this.txtResourceFolder = uit.createResourceFolderGroup( paths );
+		ContextParamBean param = (ContextParamBean) properties
+				.get( BIRT_RESOURCE_FOLDER_SETTING );
+		String resFolder = null;
+		if ( param != null )
+		{
+			resFolder = param.getValue( );
+		}
+		// if the old setting isn't null and blank, overwrite it.
+		if ( resFolder != null && resFolder.trim( ).length( ) > 0 )
+		{
+			this.txtResourceFolder.setText( resFolder.trim( ) );
+		}
 
 		// create document folder setting group
 		this.txtDocumentFolder = uit.createDocumentFolderGroup( paths );
@@ -189,10 +204,10 @@ public class BirtConfigurationDialog extends Dialog implements IBirtWizardConsta
 		// create import clear setting group
 		this.btClear = uit.createImportClearSetting( composite );
 		this.isClear = this.btClear.getSelection( );
-		
+
 		// initialize page properties map
 		initializeProperties( );
-		
+
 		return composite;
 	}
 
