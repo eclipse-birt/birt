@@ -145,7 +145,7 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 				{
 					SessionHandleAdapter.getInstance( )
 							.getCommandStack( )
-							.startTrans( "Select border" );
+							.startTrans( Messages.getString( "BordersPage.Trans.SelectBorder" ) );
 					if ( ( (Button) e.widget ).getSelection( ) )
 					{
 						BorderInfomation information = new BorderInfomation( );
@@ -225,7 +225,7 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 			{
 				SessionHandleAdapter.getInstance( )
 						.getCommandStack( )
-						.startTrans( "Select all borders" );
+						.startTrans( Messages.getString( "BordersPage.Trans.SelectAllborders" ) );
 				if ( ( (Button) e.widget ).getSelection( ) )
 				{
 					for ( int i = 0; i < toggleProviders.length; i++ )
