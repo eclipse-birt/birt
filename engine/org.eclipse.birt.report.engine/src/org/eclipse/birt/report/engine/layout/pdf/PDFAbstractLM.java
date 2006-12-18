@@ -885,8 +885,8 @@ public abstract class PDFAbstractLM implements ILayoutManager
 	protected IArea createBlockTextArea(String text, ITextContent content, FontInfo fi, Dimension contentDimension)
 	{
 		AbstractArea textArea = (AbstractArea)AreaFactory.createTextArea( content, text, fi);
-		textArea.setWidth( contentDimension.getWidth() );
-		textArea.setHeight( contentDimension.getHeight() );
+		textArea.setWidth( Math.min( context.getMaxWidth( ), contentDimension.getWidth()) );
+		textArea.setHeight( Math.min( context.getMaxHeight( ), contentDimension.getHeight()) );
 		return textArea;
 	}
 

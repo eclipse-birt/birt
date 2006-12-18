@@ -327,7 +327,7 @@ public class PDFImageLM extends PDFLeafItemLM
 		
 		imageArea.setPosition( root.getContentX( ), root.getContentY( ) );
 		root.setContentWidth( contentDimension.getWidth( ) );
-		root.setContentHeight( contentDimension.getHeight( ) );
+		root.setContentHeight( Math.min( context.getMaxHeight( ),contentDimension.getHeight( )) );
 	}
 	
 }

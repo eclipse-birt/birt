@@ -630,9 +630,9 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 			ContainerArea con = (ContainerArea)createInlineContainer(content, false, false);
 			int textHeight = contentDimension.getHeight();
 			int textWidth =  contentDimension.getWidth();
-			con.setWidth(textWidth); 
-			con.setHeight( textHeight + topPadding + topBorder + bottomPadding
-					+ bottomBorder );
+			con.setWidth(Math.min( textWidth, context.getMaxWidth( ))); 
+			con.setHeight( Math.min( textHeight + topPadding + topBorder + bottomPadding
+					+ bottomBorder, context.getMaxHeight( )) );
 			
 			AbstractArea textArea = (AbstractArea) AreaFactory.createTextArea(
 					content, text, fi );
