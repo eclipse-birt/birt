@@ -96,15 +96,14 @@ public class Regression_136241 extends BaseTestCase
 
 		// serialize the report.
 
-		makeOutputDir( );
-		DocumentUtil.serialize( designHandle, new FileOutputStream( new File(
-				this.getFullQualifiedClassName( ) + "/"+ OUTPUT_FOLDER + "/"+ OUTPUT ) ) );
+		String TempFile = this.genOutputFile(OUTPUT);
+		DocumentUtil.serialize( designHandle, new FileOutputStream( TempFile));
+				
 
 		// open the output, make sure the report template item and its
 		// definition are written out.
 
-		designHandle = session.openDesign( this.getFullQualifiedClassName( )
-				+ "/" + OUTPUT_FOLDER + "/" + OUTPUT );
+		designHandle = session.openDesign( OUTPUT );
 
 		TemplateReportItemHandle template = (TemplateReportItemHandle) designHandle
 				.findElement( "templateLabel" ); //$NON-NLS-1$

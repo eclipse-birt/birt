@@ -50,7 +50,7 @@ public class Regression_141218 extends BaseTestCase
 	public void test_regression_141218( ) throws DesignFileException, ContentException,
 			NameException
 	{
-		openLibrary( filename );
+		openLibrary( filename, true );
 		SimpleMasterPageHandle masterpage = (SimpleMasterPageHandle) libraryHandle
 				.findMasterPage( "masterpage" ); //$NON-NLS-1$
 		AutoTextHandle autotext = libraryHandle.getElementFactory( )

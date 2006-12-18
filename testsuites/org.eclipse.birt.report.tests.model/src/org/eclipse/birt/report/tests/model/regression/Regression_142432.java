@@ -57,7 +57,7 @@ public class Regression_142432 extends BaseTestCase
 	 */
 	public void test_regression_142432( ) throws DesignFileException, SemanticException
 	{
-		openLibrary( libraryname );
+		openLibrary( libraryname, true );
 		MasterPageHandle masterpage = libraryHandle
 				.findMasterPage( "NewSimpleMasterPage" ); //$NON-NLS-1$
 

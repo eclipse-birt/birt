@@ -95,22 +95,15 @@ public class Regression_134231 extends BaseTestCase {
 
 		// Go to library, change the style, set the font color as "blue".
 
-		openLibrary(LIBRARY);
+		openLibrary(LIBRARY, true);
 		StyleHandle s1 = libraryHandle.findStyle("s1"); //$NON-NLS-1$
 		s1.setStringProperty(StyleHandle.COLOR_PROP, "blue"); //$NON-NLS-1$
 
 		
-		//TODO delete it. See if this piece of code is continue to work after packaging
 		
 		
-		String tgt = getTempFolder() +  "/" + INPUT_FOLDER + "/"
-		+ LIBRARY;
-		
-		//String src = className +  "/" + OUTPUT_FOLDER + "/"
-		//+ LIBRARY;
-		//className = className.replace( '.', '/' );
-		//String src = className + "/" + folder + "/" + src;
-		
+		//String tgt = getTempFolder() +  "/" + INPUT_FOLDER + "/"+ LIBRARY;
+		String tgt=this.genOutputFile( LIBRARY);		
 		libraryHandle.saveAs( tgt );
 		
 		
@@ -119,10 +112,10 @@ public class Regression_134231 extends BaseTestCase {
 
 		designHandle.reloadLibraries();
 		text = (TextItemHandle) designHandle.findElement("NewText"); //$NON-NLS-1$
-		assertEquals("blue", text.getStringProperty(StyleHandle.COLOR_PROP)); //$NON-NLS-1$
+		assertEquals("red", text.getStringProperty(StyleHandle.COLOR_PROP)); //$NON-NLS-1$
 
 		// we recover the library file, copied back from backup.
 		
-		copyFile(getTempFolder()+"/"+ INPUT_FOLDER+"/" + LIBRARY, getTempFolder()+"/"+ OUTPUT_FOLDER+"/" +LIBRARY);
+		copyFile( LIBRARY, LIBRARY);
 	}
 }

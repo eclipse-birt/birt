@@ -50,8 +50,8 @@ public class Regression_120293 extends BaseTestCase
 	
 	public void test_regression_120293( ) throws Exception
 	{
-		openLibrary( INPUT1 ); //$NON-NLS-1$
-
+		openLibrary( INPUT1, true ); //$NON-NLS-1$
+		
 		Iterator imageIter = libraryHandle.imagesIterator( );
 		EmbeddedImageHandle baseImage = (EmbeddedImageHandle) imageIter.next( );
 

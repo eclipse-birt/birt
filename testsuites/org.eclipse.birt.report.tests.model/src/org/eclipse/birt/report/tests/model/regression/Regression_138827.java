@@ -73,7 +73,7 @@ public class Regression_138827 extends BaseTestCase
 		TableHandle table = (TableHandle) designHandle.findElement( "table" ); //$NON-NLS-1$
 		designHandle.includeLibrary( libraryname, "Lib" ); //$NON-NLS-1$
 
-		openLibrary( libraryname );
+		openLibrary( libraryname, true );
 		libraryHandle = designHandle.getLibrary( "Lib" ); //$NON-NLS-1$
 		ThemeHandle theme = libraryHandle.findTheme( "theme1" ); //$NON-NLS-1$
 		designHandle.setTheme( theme );

@@ -23,7 +23,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 public class LibraryImportTest extends BaseTestCase
 {
 
-	String fileName = "Library_Import_test.xml"; //$NON-NLS-1$
+	String fileName = "Library_Import_Test.xml"; //$NON-NLS-1$
 	private String inputLibraryName = "LibraryCreatLib.xml"; //$NON-NLS-1$
 	private String outputFileName = "Library_Import_Dpt.xml"; //$NON-NLS-1$
 	private String goldenFileName = "LibraryImportDpt_golden.xml"; //$NON-NLS-1$

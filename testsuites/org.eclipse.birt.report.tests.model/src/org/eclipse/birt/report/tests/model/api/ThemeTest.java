@@ -141,7 +141,7 @@ public class ThemeTest extends BaseTestCase
 	       //LibC has a theme with four styles:
 			  //custom styles: mytable, mylabel
 			  //selector styles: table, label
-		       openLibrary(LibCInclTheme);
+		       openLibrary(LibCInclTheme, true);
 		       libraryHandle.saveAs(getTempFolder( )+"/"+INPUT_FOLDER+"/"+LibC1);
 		       StyleHandle LCS1 = libraryHandle.findTheme("theme1").findStyle("mytable");
 		       StyleHandle LCS2 = libraryHandle.findTheme("theme1").findStyle("mylabel");
@@ -201,7 +201,7 @@ public class ThemeTest extends BaseTestCase
 	  public void testLibraryUseTheme() throws Exception
 	  {
 		     	      
-		  openLibrary(LibA);
+		  openLibrary(LibA, true);
 		  library = (Library)libraryHandle.getModule();
 		  factory = new ElementFactory( library );
 		  table = factory.newTableItem("mytable");
@@ -225,7 +225,7 @@ public class ThemeTest extends BaseTestCase
     	{
     		  
             
-		  openLibrary(LibA);
+		  openLibrary(LibA, true);
 		  library = (Library)libraryHandle.getModule();
 		  factory = new ElementFactory( library );
 		  table = factory.newTableItem("mytable");
@@ -279,7 +279,7 @@ public class ThemeTest extends BaseTestCase
 	
     	  public void testCopyPasteTheme() throws Exception
         {
-    	    openLibrary(LibC);
+    	    openLibrary(LibC, true);
     	    ThemeHandle defaulttheme = libraryHandle.findTheme("defaultTheme");
     	    ThemeHandle theme1 = libraryHandle.findTheme("theme1");
     	    assertNotNull(defaulttheme);

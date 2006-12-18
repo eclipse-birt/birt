@@ -56,7 +56,8 @@ public class Regression_151661 extends BaseTestCase
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( LIBRARY , LIBRARY );
+		//copyResource_INPUT( LIBRARY , LIBRARY );
+		copyInputToFile ( INPUT_FOLDER + "/" + LIBRARY );
 	}
 	
 	public void tearDown( )
@@ -75,7 +76,7 @@ public class Regression_151661 extends BaseTestCase
 		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
 
 		ResourceChangeListener libExplorer = new ResourceChangeListener( );
-		session.openLibrary( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + LIBRARY );
+		session.openLibrary( getTempFolder() + "/" + INPUT_FOLDER +"/"+LIBRARY );
 		session.addResourceChangeListener( libExplorer );
 
 		session.fireResourceChange( new LibraryChangeEvent( LIBRARY ) );

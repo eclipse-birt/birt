@@ -18,9 +18,9 @@ public class MoveLibraryTest extends BaseTestCase
 {
 	String fileName = "BlankReport.xml";
 	
-	private String LibA = "LibA.xml";
-	private String LibB = "LibB.xml";
-	private String LibC = "LibC.xml";
+	private static String LibA = "LibA.xml";
+	private static String LibB = "LibB.xml";
+	private static String LibC = "LibC.xml";
 	
 	private String LibD = "LibA.xml";
 	
@@ -38,11 +38,12 @@ public class MoveLibraryTest extends BaseTestCase
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( fileName, fileName );
 		
+		copyInputToFile ( INPUT_FOLDER + "/" + fileName );
 		copyInputToFile ( INPUT_FOLDER + "/" + LibA );
 		copyInputToFile ( INPUT_FOLDER + "/" + LibB );
 		copyInputToFile ( INPUT_FOLDER + "/" + LibC );
+		openDesign(fileName);
 		
 	}
 	public void tearDown( )
@@ -55,10 +56,13 @@ public class MoveLibraryTest extends BaseTestCase
 		sessionHandle = DesignEngine.newSession( ULocale.ENGLISH );
 		assertNotNull( sessionHandle );
 
-		libraryHandle = sessionHandle.openLibrary( getTempFolder() + "/" + INPUT_FOLDER+"/" + LibA);
+		libraryHandle = sessionHandle.openLibrary(getTempFolder()+ "/"+ INPUT_FOLDER + "/" + LibA );
 		assertNotNull(libraryHandle);
-		super.saveLibraryAs(LibD);
 		
+		String TempFile=this.genOutputFile(LibD);
+		libraryHandle.saveAs( TempFile );
+		//super.saveLibraryAs(LibD);
+		//libraryHandle.saveAs(LibD);
 	}
 	public void testMoveLibrary( ) throws Exception
 	{
@@ -88,7 +92,8 @@ public class MoveLibraryTest extends BaseTestCase
 		
 		File deleteLibD = new File(LibD);
 		deleteLibD.delete();
-		designHandle.saveAs(getTempFolder( ) + "/" + INPUT_FOLDER + "/" + "SavedReport.xml");
+		String TempFile=this.genOutputFile("SavedReport.xml");
+		designHandle.saveAs( TempFile);
 		
 		openDesign("SavedReport.xml");
 		assertNotNull((TextItemHandle)designHandle.findElement("text1"));

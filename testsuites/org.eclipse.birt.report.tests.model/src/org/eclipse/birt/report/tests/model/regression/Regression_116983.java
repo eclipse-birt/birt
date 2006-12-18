@@ -43,6 +43,7 @@ import com.ibm.icu.util.ULocale;
 public class Regression_116983 extends BaseTestCase
 {
 
+	private String outFileName = "regression_116983_template.out";
 	
 	protected void setUp() throws Exception
 	{
@@ -84,7 +85,8 @@ public class Regression_116983 extends BaseTestCase
 		// save the template
 		
 		//cannot create BaseTestCases.makeOutputDir
-		makeOutputDir( );
-		template.saveAs(getFullQualifiedClassName() + "/" + OUTPUT_FOLDER+"/"+"regression_116983_template.out" ); //$NON-NLS-1$
+		String TempFile=this.genOutputFile(outFileName);
+		//designHandle.saveAs( TempFile );
+		template.saveAs(TempFile); //$NON-NLS-1$
 	}
 }

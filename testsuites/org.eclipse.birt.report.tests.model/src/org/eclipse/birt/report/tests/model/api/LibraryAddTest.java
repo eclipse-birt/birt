@@ -14,25 +14,20 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 public class LibraryAddTest extends BaseTestCase
 {	
-	private String fileName = "Library_Addin_test.xml";
-	private String LibImpFile = "Library_Import_test.xml";
+	private String fileName = "Library_Addin_Test.xml";
+	private String LibImpFile = "Library_Import_Test.xml";
 	private String inputLibraryName = "LibraryCreatLib.xml";
 	private String  libname = "LibA.xml";
     private String outFileName = "Library_Addin_Test_out.xml"; 
 	private String goldenFileName = "Library_Addin_Test_golden.xml"; 
 	String LibFile= inputLibraryName;
-	String LibFileError1 = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + "LibY.xml";
+	String LibFileError1 = this.getTempFolder( ) + "/" + INPUT_FOLDER + "/" + "LibY.xml";
 
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
 		removeResource( );
-		//copyResource_INPUT( fileName, fileName );
-		//copyResource_INPUT( inputLibraryName, inputLibraryName );
-		//copyResource_INPUT( libname, libname );
-		//copyResource_INPUT( LibImpFile, LibImpFile );
-		//copyResource_GOLDEN( goldenFileName, goldenFileName );
-		
+				
 		copyInputToFile ( INPUT_FOLDER + "/" + fileName );
 		copyInputToFile ( INPUT_FOLDER + "/" + inputLibraryName );
 		copyInputToFile ( INPUT_FOLDER + "/" + libname );

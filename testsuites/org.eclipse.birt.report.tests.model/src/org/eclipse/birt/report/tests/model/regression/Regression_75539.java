@@ -65,7 +65,7 @@ public class Regression_75539 extends BaseTestCase
 		dsourceHandle.setProperty( "odaURL", "jdbc:classicmodels:sampledb" ); //$NON-NLS-1$//$NON-NLS-2$
 		dsourceHandle.setProperty( "odaUser", "ClassicModels" ); //$NON-NLS-1$//$NON-NLS-2$
 
-		makeOutputDir();
+		
 		designHandle.getDataSources( ).add( dsourceHandle );
 		
 		//saveAs( OUTPUT ); //$NON-NLS-1$    

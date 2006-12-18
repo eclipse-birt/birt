@@ -42,13 +42,14 @@ public class Regression_117442 extends BaseTestCase
 {
 
 	private final static String INPUT = "regression_117442.xml"; //$NON-NLS-1$
-
+	private final static String OUTPUT ="regression_117442.out";
+	
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
 		removeResource( );
 		
-		copyResource_INPUT( INPUT , INPUT );
+		copyInputToFile ( INPUT_FOLDER + "/" + INPUT );
 	
 	}
 	/**
@@ -61,12 +62,16 @@ public class Regression_117442 extends BaseTestCase
 			IOException
 	{
 		openDesign( INPUT );
-		//String output = this.getClassFolder( ) + "/" +OUTPUT_FOLDER
-		makeOutputDir();
-		String output = this.getFullQualifiedClassName( ) + "/" +OUTPUT_FOLDER
-				+ "/" + "regression_117442.out"; //$NON-NLS-1$
 		
+		String output = this.getTempFolder( ) + "/" + INPUT_FOLDER
+				+ "/" + "regression_117442.out"; //$NON-NLS-1$
 		ElementExportUtil.exportDesign( designHandle, output, true, true ); 
 		assertTrue( new File( output ).exists( ) );
+		
+		//String TempFile=this.genOutputFile( OUTPUT);
+		//designHandle.saveAs( TempFile );
+		
+		//ElementExportUtil.exportDesign( designHandle, TempFile, true, true ); 
+		//assertTrue( new File( TempFile ).exists( ) );
 	}
 }

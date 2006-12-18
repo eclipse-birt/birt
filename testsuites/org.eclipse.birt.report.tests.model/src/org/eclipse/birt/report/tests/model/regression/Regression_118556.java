@@ -47,17 +47,18 @@ import com.ibm.icu.util.ULocale;
  */
 public class Regression_118556 extends BaseTestCase
 {
-
+	private String OUTPUT = "regression_118556_lib.out";
 	protected void setUp() throws Exception
 	{
 		super.setUp();
 		removeResource();
+		
 	}
-   /* protected void tearDown() throws Exception
+    protected void tearDown() throws Exception
 	 {
 		 removeResource();	 
 	 }
-	*/ 
+	
 	/**
 	 * @throws SemanticException
 	 * @throws IOException
@@ -78,19 +79,23 @@ public class Regression_118556 extends BaseTestCase
 
 		designHandle.getBody( ).add( label );
 		
-        makeOutputDir();
-		String lib = this.getFullQualifiedClassName( ) + "/" + OUTPUT_FOLDER
-				+ "/" + "regression_118556_lib.out"; //$NON-NLS-1$
+        
+		//String lib = this.getTempFolder( ) + "/" + OUTPUT_FOLDER
+		//		+ "/" + "regression_118556_lib.out"; //$NON-NLS-1$
+		
+		String lib=this.genOutputFile(OUTPUT);
+		designHandle.saveAs( lib );
+		
 		LabelHandle labelHandle = (LabelHandle) designHandle
-				.findElement( "newLabel" ); //$NON-NLS-1$
-
-		ElementExportUtil.exportElement( labelHandle, lib, true );
+		.findElement( "newLabel" ); //$NON-NLS-1$
+		
+		ElementExportUtil.exportElement( labelHandle, OUTPUT, true );
 
 		// the second time
 
 		try
 		{
-			ElementExportUtil.exportElement( labelHandle, lib, true );
+			ElementExportUtil.exportElement( labelHandle, OUTPUT, true );
 		}
 		catch ( Exception e )
 		{

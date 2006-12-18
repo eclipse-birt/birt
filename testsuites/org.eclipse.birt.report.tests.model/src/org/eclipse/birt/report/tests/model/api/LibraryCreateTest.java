@@ -20,7 +20,7 @@ import com.ibm.icu.util.ULocale;
 
 public class LibraryCreateTest extends BaseTestCase
 {
-	private static String fileName = "Library_Creat_test.xml";
+	private static String fileName = "Library_Creat_Test.xml";
 	private static String outFileName = "LibraryCreatLib.xml"; 
 	private static String goldenFileName = "LibraryCreatLib_golden.xml"; 
 

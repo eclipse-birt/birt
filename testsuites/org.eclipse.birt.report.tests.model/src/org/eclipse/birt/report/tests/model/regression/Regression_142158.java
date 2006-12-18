@@ -69,7 +69,7 @@ public class Regression_142158 extends BaseTestCase
 	 */
 	public void test_regression_142158( ) throws DesignFileException, SemanticException
 	{
-		openLibrary( libraryname );
+		openLibrary( libraryname, true );
 		ImageHandle libImage = (ImageHandle) libraryHandle
 				.findElement( "NewImage" ); //$NON-NLS-1$
 

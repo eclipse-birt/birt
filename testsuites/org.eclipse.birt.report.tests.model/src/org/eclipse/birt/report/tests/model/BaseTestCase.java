@@ -762,7 +762,7 @@ public abstract class BaseTestCase extends TestCase
 			boolean inSingleJarMode ) throws DesignFileException
 	{
 		if ( inSingleJarMode )
-			fileName = INPUT_FOLDER + fileName;
+			fileName = INPUT_FOLDER + "/" + fileName;
 
 		sessionHandle = new DesignEngine( new DesignConfig( ) )
 				.newSessionHandle( locale );
@@ -1512,13 +1512,13 @@ public abstract class BaseTestCase extends TestCase
 	{
 		if ( libraryHandle == null )
 			return;
-		String outputPath = getClassFolder( ) + OUTPUT_FOLDER;
+		String outputPath = getTempFolder( ) + "/"+ OUTPUT_FOLDER;
 		File outputFolder = new File( outputPath );
 		if ( !outputFolder.exists( ) && !outputFolder.mkdir( ) )
 		{
 			throw new IOException( "Can not create the output folder" ); //$NON-NLS-1$
 		}
-		libraryHandle.saveAs( outputPath + filename );
+		libraryHandle.saveAs( outputPath + "/"+ filename );
 	}
 
 	/**
@@ -1689,7 +1689,7 @@ public abstract class BaseTestCase extends TestCase
 			tmpFolder.mkdirs( );
 		
 		String strDesign = os.toString( );
-		FileOutputStream fos = new FileOutputStream( folder + fileName );
+		FileOutputStream fos = new FileOutputStream( folder + "/" + fileName );
 		fos.write( strDesign.getBytes( "UTF-8" ) ); //$NON-NLS-1$
 		
 		fos.close( );	
