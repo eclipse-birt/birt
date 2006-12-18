@@ -15,7 +15,7 @@
         <feature url="features/org.apache.batik_@FEATURE.BATIK@.jar" id="org.apache.batik" version="@FEATURE.BATIK@">
                 <category name="BIRT" />
         </feature>
-        <feature url="features/org.apache.batik.pdf_@FEATURE.BATIK.PDF@" id="org.apache.batik.pdf" version="@FEATURE.BATIK.PDF@">
+        <feature url="features/org.apache.batik.pdf_@FEATURE.BATIK.PDF@.jar" id="org.apache.batik.pdf" version="@FEATURE.BATIK.PDF@">
                 <category name="BIRT" />
         </feature>
         <feature url="features/org.apache.derby.core_10.1.2.1.jar" id="org.apache.derby.core" version="10.1.2.1">
