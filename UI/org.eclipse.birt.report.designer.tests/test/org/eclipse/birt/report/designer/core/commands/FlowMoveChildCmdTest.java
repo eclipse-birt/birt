@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.core.commands;
 
-import org.eclipse.birt.report.designer.core.model.views.outline.ReportElementModel;
 import org.eclipse.birt.report.model.api.SlotHandle;
 
 /**
@@ -50,7 +49,7 @@ public class FlowMoveChildCmdTest extends CmdBaseTestCase
 		assertEquals( firstRow, table.getDetail( ).get( 1 ) );
 		FlowMoveChildCommand moveCmd = new FlowMoveChildCommand( firstRow,
 				secondRow,
-				new ReportElementModel( container ) );
+				 container );
 		moveCmd.execute( );
 		assertEquals( secondRow, container.get( 1 ) );
 		assertEquals( firstRow, container.get( 0 ) );

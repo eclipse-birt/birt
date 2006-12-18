@@ -13,17 +13,16 @@ package org.eclipse.birt.report.designer.tests.example.matrix;
 
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 
 import org.eclipse.birt.report.designer.ui.extensions.IPropertyListener;
 import org.eclipse.birt.report.designer.ui.extensions.IPropertyTabUI;
 import org.eclipse.birt.report.designer.ui.extensions.IPropertyValue;
-import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
@@ -94,19 +93,20 @@ public class PropertyTabUITest  implements IPropertyTabUI
 
     }
 
-	public void setInput( List elements )
+	
+	public void dispose( )
 	{
 		// TODO Auto-generated method stub
 		
 	}
 
-	public void elementChanged( NotificationEvent ev )
+	public Control getControl( )
 	{
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
-	
-	public void dispose( )
+
+	public void setInput( Object elements )
 	{
 		// TODO Auto-generated method stub
 		
