@@ -743,6 +743,11 @@ DesignerOutlinePage.action.Undo=元に戻す
 DesignerOutlinePage.menu.Filters=フィルタ
 
 ###########################################################
+#Content outline page switch action
+ContentOutlinePage.action.text.reportOutline=Switch to XML source outline
+ContentOutlinePage.action.text.reportXMLSourceOutline=Switch to report outline
+
+###########################################################
 #DesignerPaletteFactory properties
 
 DesignerPaletteFactory.categoryName.reportItems=レポート項目

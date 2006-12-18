@@ -743,6 +743,11 @@ DesignerOutlinePage.action.Undo=Annuler
 DesignerOutlinePage.menu.Filters=Filtres
 
 ###########################################################
+#Content outline page switch action
+ContentOutlinePage.action.text.reportOutline=Switch to XML source outline
+ContentOutlinePage.action.text.reportXMLSourceOutline=Switch to report outline
+
+###########################################################
 #DesignerPaletteFactory properties
 
 DesignerPaletteFactory.categoryName.reportItems=Eléments d'état

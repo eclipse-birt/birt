@@ -743,6 +743,11 @@ DesignerOutlinePage.action.Undo=撤消
 DesignerOutlinePage.menu.Filters=筛选器
 
 ###########################################################
+#Content outline page switch action
+ContentOutlinePage.action.text.reportOutline=Switch to XML source outline
+ContentOutlinePage.action.text.reportXMLSourceOutline=Switch to report outline
+
+###########################################################
 #DesignerPaletteFactory properties
 
 DesignerPaletteFactory.categoryName.reportItems=报表项
