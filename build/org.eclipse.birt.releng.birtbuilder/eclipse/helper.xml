@@ -713,6 +713,7 @@ JUnit Test Suite Framework from ${QA.test.dir}\BIRT2.2-download\${buildId}\birt-
                 	
 NL pack from ${QA.test.dir}\BIRT2.2-download\${buildId}\
 
+Internal Update Site URL: http://qa-build/UpdateSite 
                 	
 Have a nice day!
                 </message>
