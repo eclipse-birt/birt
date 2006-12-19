@@ -4,3 +4,5 @@ plugin@org.eclipse.birt.report.engine=v20061214,:pserver:anonymous@dev.eclipse.o
 plugin@org.eclipse.birt.report.engine.emitter.html=v20061214,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.html
 plugin@org.eclipse.birt.report.engine.emitter.pdf=v20061214,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.pdf
 plugin@org.eclipse.birt.report.engine.fonts=v20061120-1200,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.fonts
+
+plugin@org.eclipse.birt.report.engine.emitter.wpml=v20061120-1200,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.wpml
