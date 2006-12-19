@@ -39,6 +39,7 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.PieSeries;
+import org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
@@ -76,10 +77,9 @@ import org.eclipse.swt.widgets.Listener;
  * @author Actuate Corporation
  * 
  */
-public class SeriesLabelSheet extends AbstractPopupSheet
-		implements
-			SelectionListener,
-			Listener
+public class SeriesLabelSheet extends AbstractPopupSheet implements
+		SelectionListener,
+		Listener
 {
 
 	private transient Composite cmpContent = null;
@@ -277,9 +277,17 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 		this.txtSeparator.setText( ( str == null ) ? "" : str ); //$NON-NLS-1$
 
 		// Position
-		int positionScope = ( getSeriesForProcessing( ) instanceof PieSeries || getSeriesForProcessing( ) instanceof BarSeries )
-				? LabelAttributesComposite.ALLOW_INOUT_POSITION
-				: ( LabelAttributesComposite.ALLOW_HORIZONTAL_POSITION | LabelAttributesComposite.ALLOW_VERTICAL_POSITION );
+		int positionScope = LabelAttributesComposite.ALLOW_HORIZONTAL_POSITION
+				| LabelAttributesComposite.ALLOW_VERTICAL_POSITION;
+		if ( getSeriesForProcessing( ) instanceof PieSeries
+				|| getSeriesForProcessing( ) instanceof BarSeries )
+		{
+			positionScope = LabelAttributesComposite.ALLOW_INOUT_POSITION;
+		}
+		else if ( getSeriesForProcessing( ) instanceof GanttSeriesImpl )
+		{
+			positionScope |= LabelAttributesComposite.ALLOW_INOUT_POSITION;
+		}
 		Position lpCurrent = getSeriesForProcessing( ).getLabelPosition( );
 		if ( positionScope == LabelAttributesComposite.ALLOW_ALL_POSITION )
 		{
@@ -342,13 +350,17 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 					}
 				}
 			}
-			// check input
+			// check inside/outside
 			if ( ( positionScope & LabelAttributesComposite.ALLOW_INOUT_POSITION ) != 0 )
 			{
 				if ( ( getSeriesForProcessing( ) instanceof BarSeries )
 						&& ( getContext( ).getModel( ).getDimension( ) == ChartDimension.THREE_DIMENSIONAL_LITERAL ) )
 				{
 					cmbPosition.add( LiteralHelper.inoutPositionSet.getDisplayNameByName( Position.OUTSIDE_LITERAL.getName( ) ) );
+				}
+				else if ( getSeriesForProcessing( ) instanceof GanttSeriesImpl )
+				{
+					cmbPosition.add( LiteralHelper.inoutPositionSet.getDisplayNameByName( Position.INSIDE_LITERAL.getName( ) ) );
 				}
 				else
 				{
@@ -380,7 +392,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 						cmbPosition.select( i );
 					}
 				}
-				
+
 				// For compatibility with old model, set the first selection by
 				// default.
 				if ( cmbPosition.getSelectionIndex( ) < 0 )
