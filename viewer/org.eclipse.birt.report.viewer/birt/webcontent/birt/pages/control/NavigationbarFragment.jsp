@@ -56,7 +56,7 @@
 							%>&nbsp;
 							<SPAN ID='pageNumber'></SPAN>&nbsp;
 							<%= BirtResources.getMessage( "birt.viewer.navbar.prompt.two" )%>&nbsp;
-							<SPAN ID='totalPage'>1</SPAN>
+							<SPAN ID='totalPage'></SPAN>
 						<%
 							}
 							else
@@ -65,7 +65,7 @@
 							<%= BirtResources.getMessage( "birt.viewer.navbar.prompt.one" )%>&nbsp;
 							<SPAN ID='pageNumber'><%= attributeBean.getReportPage( ) %></SPAN>&nbsp;
 							<%= BirtResources.getMessage( "birt.viewer.navbar.prompt.two" )%>&nbsp;
-							<SPAN ID='totalPage'>1</SPAN>
+							<SPAN ID='totalPage'></SPAN>
 						<%
 							}
 						%>

@@ -360,7 +360,7 @@ BirtUtility.prototype =
 		if ( !target )
 			return;
 			
-		var oTarget = document.getElementById( target );
+		var oTarget = $( target );
 		var oIEC;
 		
 		if ( oTarget )
@@ -398,7 +398,7 @@ BirtUtility.prototype =
 		}
 		
 		// find taskid input control
-		var oTaskId = document.getElementById( this.__task_id );
+		var oTaskId = $( this.__task_id );
 		if( oTaskId )
 			oTaskId.value = taskid;
 		
@@ -409,7 +409,7 @@ BirtUtility.prototype =
 	getTaskId: function( )
 	{
 		// find taskid input control
-		var oTaskId = document.getElementById( this.__task_id );
+		var oTaskId = $( this.__task_id );
 		if( oTaskId )
 			return this.trim( oTaskId.value );
 			
@@ -420,9 +420,20 @@ BirtUtility.prototype =
 	clearTaskId: function( )
 	{
 		// find taskid input control
-		var oTaskId = document.getElementById( this.__task_id );
+		var oTaskId = $( this.__task_id );
 		if( oTaskId )
 			oTaskId.value = '';			
+	},
+	
+	// get current page number
+	getPageNumber: function( )
+	{
+		var oPage = $( 'pageNumber' );
+		var pageNum = 0;
+		if( oPage )
+			pageNum = parseInt( this.trim( oPage.innerHTML ) );
+			
+		return pageNum;
 	},
 	
 	noComma : "" //just to avoid javascript syntax errors

@@ -103,10 +103,25 @@ AbstractBaseReportDocument.prototype = Object.extend( new AbstractReportComponen
 		{
 	        birtParameterDialog.__parameter.length = birtParameterDialog.__parameter.length - 1;
 		}
-        birtSoapRequest.addOperation( Constants.documentId, Constants.Document,
-        							  "ChangeParameter", null, birtParameterDialog.__parameter,
-									  { name : "svg", value : this.__has_svg_support? "true" : "false" },
-									  { name : this.__task_id, value : taskid } );
+		
+		// Get current page number
+		var pageNum = birtUtility.getPageNumber( );
+		
+		if( pageNum > 0 )
+		{		
+	        birtSoapRequest.addOperation( Constants.documentId, Constants.Document,
+	        							  "ChangeParameter", null, birtParameterDialog.__parameter,
+										  { name : "svg", value : this.__has_svg_support? "true" : "false" },
+										  { name : "page", value : pageNum },
+										  { name : this.__task_id, value : taskid } );
+		}
+		else
+		{
+	        birtSoapRequest.addOperation( Constants.documentId, Constants.Document,
+	        							  "ChangeParameter", null, birtParameterDialog.__parameter,
+										  { name : "svg", value : this.__has_svg_support? "true" : "false" },
+										  { name : this.__task_id, value : taskid } );			
+		}
 		birtSoapRequest.setURL( document.location );
 		birtEventDispatcher.setFocusId( null );	// Clear out current focusid.
 		return true;
@@ -185,21 +200,47 @@ AbstractBaseReportDocument.prototype = Object.extend( new AbstractReportComponen
 		// set task id
 		var taskid = birtUtility.setTaskId( );
 		
+		// Get current page number
+		var pageNum = birtUtility.getPageNumber( );
+		
 		birtSoapRequest.setURL( document.location );
 		if ( object )
 		{
-			birtSoapRequest.addOperation( Constants.documentId, Constants.Document,
-										  "GetPage", null, birtParameterDialog.__parameter,
-										  object,
-										  { name : "svg", value : this.__has_svg_support? "true" : "false" },
-										  { name : this.__task_id, value : taskid } );
+			if( pageNum > 0 )
+			{
+				birtSoapRequest.addOperation( Constants.documentId, Constants.Document,
+											  "GetPage", null, birtParameterDialog.__parameter,
+											  object,
+											  { name : "svg", value : this.__has_svg_support? "true" : "false" },
+											  { name : "page", value : pageNum },
+											  { name : this.__task_id, value : taskid } );
+			}
+			else
+			{
+				birtSoapRequest.addOperation( Constants.documentId, Constants.Document,
+											  "GetPage", null, birtParameterDialog.__parameter,
+											  object,
+											  { name : "svg", value : this.__has_svg_support? "true" : "false" },
+											  { name : this.__task_id, value : taskid } );				
+			}
 		}
 		else
 		{
-			birtSoapRequest.addOperation( Constants.documentId, Constants.Document,
-										  "GetPage", null, birtParameterDialog.__parameter,
-										  { name : "svg", value : this.__has_svg_support? "true" : "false" },
-										  { name : this.__task_id, value : taskid } );				
+			if( pageNum > 0 )
+			{
+				birtSoapRequest.addOperation( Constants.documentId, Constants.Document,
+											  "GetPage", null, birtParameterDialog.__parameter,
+											  { name : "svg", value : this.__has_svg_support? "true" : "false" },
+											  { name : "page", value : pageNum },
+											  { name : this.__task_id, value : taskid } );				
+			}
+			else
+			{
+				birtSoapRequest.addOperation( Constants.documentId, Constants.Document,
+											  "GetPage", null, birtParameterDialog.__parameter,
+											  { name : "svg", value : this.__has_svg_support? "true" : "false" },
+											  { name : this.__task_id, value : taskid } );
+			}
 		}
 
 		birtEventDispatcher.setFocusId( null );	// Clear out current focusid.
