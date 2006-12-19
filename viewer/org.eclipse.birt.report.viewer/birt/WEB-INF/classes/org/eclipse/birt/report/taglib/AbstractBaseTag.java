@@ -39,7 +39,7 @@ public abstract class AbstractBaseTag extends TagSupport
 	 * 
 	 * @throws Exception
 	 */
-	public abstract void __validate( ) throws Exception;
+	public abstract boolean __validate( ) throws Exception;
 
 	/**
 	 * Then entry to process tag
@@ -47,12 +47,12 @@ public abstract class AbstractBaseTag extends TagSupport
 	 * @throws Exception
 	 */
 	public abstract void __process( ) throws Exception;
-	
+
 	/**
 	 * Default constructor
 	 */
 	public AbstractBaseTag( )
-	{	
+	{
 	}
 
 	/**
@@ -63,12 +63,12 @@ public abstract class AbstractBaseTag extends TagSupport
 	public void __init( )
 	{
 		viewer = new ViewerField( );
-		
+
 		// initialize context root
 		HttpServletRequest req = (HttpServletRequest) pageContext.getRequest( );
 		viewer.setContextRoot( req.getContextPath( ) );
 	}
-	
+
 	/**
 	 * Initialize pageContext
 	 * 
@@ -99,9 +99,11 @@ public abstract class AbstractBaseTag extends TagSupport
 	{
 		try
 		{
-			__validate( );
-			__beforeEndTag( );
-			__process( );
+			if ( __validate( ) )
+			{
+				__beforeEndTag( );
+				__process( );
+			}
 
 		}
 		catch ( Exception e )

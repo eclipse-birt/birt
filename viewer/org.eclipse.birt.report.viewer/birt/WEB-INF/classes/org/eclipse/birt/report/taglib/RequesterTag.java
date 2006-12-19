@@ -78,7 +78,7 @@ public class RequesterTag extends AbstractBaseTag
 	 * 
 	 * @see org.eclipse.birt.report.taglib.AbstractBaseTag#__validate()
 	 */
-	public void __validate( ) throws Exception
+	public boolean __validate( ) throws Exception
 	{
 		// get Locale
 		Locale locale = BirtTagUtil.getLocale( (HttpServletRequest) pageContext
@@ -111,6 +111,8 @@ public class RequesterTag extends AbstractBaseTag
 			throw new JspTagException( BirtResources
 					.getMessage( ResourceConstants.TAGLIB_NO_REPORT_DOCUMENT ) );
 		}
+		
+		return true;
 	}
 
 	/**

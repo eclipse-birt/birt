@@ -62,8 +62,14 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 	 * 
 	 * @see org.eclipse.birt.report.taglib.AbstractBaseTag#__validate()
 	 */
-	public void __validate( ) throws Exception
+	public boolean __validate( ) throws Exception
 	{
+		String hasHostPage = (String) pageContext.getAttribute( ATTR_HOSTPAGE );
+		if ( hasHostPage != null && "true".equalsIgnoreCase( hasHostPage ) ) //$NON-NLS-1$
+		{
+			return false;
+		}		
+		
 		// get Locale
 		this.locale = BirtTagUtil.getLocale( (HttpServletRequest) pageContext
 				.getRequest( ), viewer.getLocale( ) );
@@ -106,6 +112,8 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 			throw new JspTagException( BirtResources
 					.getMessage( ResourceConstants.TAGLIB_NO_REPORT_DOCUMENT ) );
 		}
+		
+		return true;
 	}
 
 	/**
@@ -131,6 +139,10 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 
 		// Save viewer id
 		pageContext.setAttribute( viewer.getId( ), viewer.getId( ) );
+
+		// Save has HostPage
+		if ( viewer.isHostPage( ) )
+			pageContext.setAttribute( ATTR_HOSTPAGE, "true" ); //$NON-NLS-1$
 	}
 
 	/**

@@ -26,6 +26,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspWriter;
 
 import org.eclipse.birt.report.IBirtConstants;
@@ -100,9 +101,7 @@ public class ReportTag extends AbstractViewerTag
 				|| viewer.isForceIFrame( )
 				|| isContextChanged( viewer.getContextRoot( ) ) )
 		{
-			__handleIFrame( viewer.createURI( IBirtConstants.VIEWER_PREVIEW ),
-					viewer.getId( ) );
-
+			__processWithIFrame( );
 			return;
 		}
 
@@ -138,25 +137,27 @@ public class ReportTag extends AbstractViewerTag
 				getParameterMap( ) ) )
 		{
 			// if miss parameters, use IFrame to load report.
-			__handleIFrame( viewer.createURI( IBirtConstants.VIEWER_PREVIEW ),
-					viewer.getId( ) );
+			__processWithIFrame( );
 		}
 		else
 		{
-			// output to byte array
-			ByteArrayOutputStream out = new ByteArrayOutputStream( );
-			__handleOutputReport( out );
-			String content = out.toString( );
-
-			JspWriter writer = pageContext.getOut( );
-
 			if ( viewer.isHostPage( ) )
 			{
 				// if set isHostPage is true, output report directly
-				writer.write( content );
+				HttpServletResponse response = (HttpServletResponse) pageContext
+						.getResponse( );
+				__handleOutputReport( response.getOutputStream( ) );
 			}
 			else
 			{
+
+				// output to byte array
+				ByteArrayOutputStream out = new ByteArrayOutputStream( );
+				__handleOutputReport( out );
+				String content = out.toString( );
+
+				JspWriter writer = pageContext.getOut( );
+
 				// write style
 				writer.write( __handleStyle( content ) );
 
@@ -172,6 +173,25 @@ public class ReportTag extends AbstractViewerTag
 				writer.write( "</div>\n" ); //$NON-NLS-1$
 				writer.write( "</div>\n" ); //$NON-NLS-1$
 			}
+		}
+	}
+
+	/**
+	 * Process report generation with IFrame
+	 * 
+	 * @throws Exception
+	 */
+	private void __processWithIFrame( ) throws Exception
+	{
+		if ( viewer.isHostPage( ) )
+		{
+			__handleIFrame( viewer.createURI( IBirtConstants.VIEWER_PREVIEW ),
+					null );
+		}
+		else
+		{
+			__handleIFrame( viewer.createURI( IBirtConstants.VIEWER_PREVIEW ),
+					viewer.getId( ) );
 		}
 	}
 

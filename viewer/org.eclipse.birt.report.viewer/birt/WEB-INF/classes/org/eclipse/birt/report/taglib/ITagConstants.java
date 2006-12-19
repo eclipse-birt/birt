@@ -28,4 +28,9 @@ public interface ITagConstants
 	 */
 	public static final String SCROLLING_YES = "yes";	 //$NON-NLS-1$
 	public static final String SCROLLING_AUTO = "auto"; //$NON-NLS-1$
+	
+	/**
+	 * Attribute
+	 */
+	public static final String ATTR_HOSTPAGE = "hasHostPage"; //$NON-NLS-1$
 }
