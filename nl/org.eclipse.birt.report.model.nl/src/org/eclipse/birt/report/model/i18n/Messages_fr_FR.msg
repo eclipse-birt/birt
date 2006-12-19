@@ -534,6 +534,12 @@ Choices.viewAction.Changed=Modifié
 Choices.viewAction.Added=Ajouté
 Choices.viewAction.Deleted=Supprimé
 
+#70. measureFunction
+Choices.measureFunction.sum=Sum
+Choices.measureFunction.count=Count
+Choices.measureFunction.min=Min
+Choices.measureFunction.max=Max
+
 ###########################################################
 # Classes
 
@@ -2042,6 +2048,11 @@ Structure.TOC.text.align=Alignement du texte
 Structure.TOC.text.indent=Retrait du texte
 Structure.TOC.text.transform=Transformation du texte
 
+#29. DimensionCondition
+Structure.DimensionCondition=Dimension Condition
+Structure.DimensionCondition.primaryKeys=Primary Keys
+Structure.DimensionCondition.hierarchy=Hierarchy
+
 ###########################################################
 # Element names
 
@@ -2096,6 +2107,11 @@ Element.TemplateElement=Elément de modèle
 Element.TemplateReportItem=Elément d'état de modèle
 Element.TemplateDataSet=Jeu de données de modèle
 Element.JointDataSet=Joindre le jeu de données
+Element.Cube=Cube
+Element.Dimension=Dimension
+Element.Hierarchy=Hierarchy
+Element.Level=Level
+Element.Measure=Measure
 
 ###########################################################
 # Element property names
@@ -2129,6 +2145,7 @@ Element.Library.slot.dataSets=Jeux de données
 Element.Library.slot.pageSetup=Mise en page
 Element.Library.slot.components=Composants
 Element.Library.slot.themes=Thèmes
+Element.Library.slot.cubes=Cubes
 
 #1. Report Design ( Prefix = Element.ReportDesign )
 Element.ReportDesign.refreshRate=Fréquence d'actualisation
@@ -2172,6 +2189,7 @@ Element.ReportDesign.slot.components=Composants
 Element.ReportDesign.slot.body=Corps
 Element.ReportDesign.slot.scratchPad=Zone de travail
 Element.ReportDesign.slot.templateParameterDefinitions=Définitions de paramètre de modèle
+Element.ReportDesign.slot.cubes=Cube Elements
 Element.ReportDesign.initialize=Initialiser
 Element.ReportDesign.initialize.toolTip=Commande appelée au début de l'exécution de l'état.
 Element.ReportDesign.initialize.reportContext=Contexte d'état
@@ -2271,7 +2289,7 @@ Element.ParameterGroup.helpTextID=Clé du texte d'aide
 Element.ParameterGroup.slot.parameters=Paramètres
 
 # CascadingParameterGroup (prefix Element.CascadingParameterGroup)
-Element.Element.CascadingParameterGroup.dataSet=Jeu de données
+Element.CascadingParameterGroup.dataSet=Jeu de données
 Element.CascadingParameterGroup.promptText=Texte de l'invite
 Element.CascadingParameterGroup.dataSetMode=Jeux de données uniques ou multiples
 Element.CascadingParameterGroup.slot.parameters=Paramètres
@@ -2847,6 +2865,30 @@ Element.AutoText.onPageBreak.toolTip=A définir
 Element.AutoText.onPageBreak.this=Instance AutoText
 Element.AutoText.onPageBreak.reportContext=Contexte d'état
 
+#45. Cube ( prefix Element.Cube )
+Element.Cube.dataSet=Data Set
+Element.Cube.dimensionConditions=Dimension Conditions
+Element.Cube.slot.dimensions=Dimensions
+Element.Cube.slot.measures=Measures
+
+#46. Dimension ( prefix Element.Dimension )
+Element.Dimension.isTimeType=Is Time Type
+Element.Dimension.slot.hierarchies=Hierarchies
+
+#47. Hierarchy ( prefix Element.Hierarchy )
+Element.Hierarchy.dataSet=Data Set
+Element.Hierarchy.primaryKeys=Primary Key
+Element.Hierarchy.slot.levels=Levels
+
+#48. Level ( prefix Element.Level )
+Element.Level.columnName=Column Name
+Element.Level.attributes=Attributes
+
+#49. Measure ( prefix Element.Measure )
+Element.Measure.function=Function
+Element.Measure.isCalculated=Is Calculated
+Element.Measure.measureExpression=Measure Expression
+
 ###########################################################
 # Predefined style
 Style.Report=Etat
@@ -3075,6 +3117,11 @@ New.TemplateDataSet=Nouveau jeu de données de modèle
 New.TemplateReportItem=Nouvel élément d'état de modèle
 New.Theme=Nouveau thème
 New.AutoText=Nouveau texte auto
+New.Cube=NewCube
+New.Dimension=NewDimension
+New.Hierarchy=NewHierarchy
+New.Level=NewLevel
+New.Measure=NewMeasure
 
 ###########################################################
 #Default theme name.

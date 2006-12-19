@@ -534,6 +534,12 @@ Choices.viewAction.Changed=Geändert
 Choices.viewAction.Added=Hinzugefügt
 Choices.viewAction.Deleted=Gelöscht
 
+#70. measureFunction
+Choices.measureFunction.sum=Sum
+Choices.measureFunction.count=Count
+Choices.measureFunction.min=Min
+Choices.measureFunction.max=Max
+
 ###########################################################
 # Classes
 
@@ -2042,6 +2048,11 @@ Structure.TOC.text.align=Textausrichtung
 Structure.TOC.text.indent=Texteinzug
 Structure.TOC.text.transform=Textumwandlung
 
+#29. DimensionCondition
+Structure.DimensionCondition=Dimension Condition
+Structure.DimensionCondition.primaryKeys=Primary Keys
+Structure.DimensionCondition.hierarchy=Hierarchy
+
 ###########################################################
 # Element names
 
@@ -2096,6 +2107,11 @@ Element.TemplateElement=Vorlagenelement
 Element.TemplateReportItem=Berichtobjekt für Vorlage
 Element.TemplateDataSet=Datensatz für Vorlage
 Element.JointDataSet=Verknüpfungsdatensatz
+Element.Cube=Cube
+Element.Dimension=Dimension
+Element.Hierarchy=Hierarchy
+Element.Level=Level
+Element.Measure=Measure
 
 ###########################################################
 # Element property names
@@ -2129,6 +2145,7 @@ Element.Library.slot.dataSets=Datensätze
 Element.Library.slot.pageSetup=Seite einrichten
 Element.Library.slot.components=Komponenten
 Element.Library.slot.themes=Designs
+Element.Library.slot.cubes=Cubes
 
 #1. Report Design ( Prefix = Element.ReportDesign )
 Element.ReportDesign.refreshRate=Aktualisierungsrate
@@ -2172,6 +2189,7 @@ Element.ReportDesign.slot.components=Komponenten
 Element.ReportDesign.slot.body=Text
 Element.ReportDesign.slot.scratchPad=Skizzenblock
 Element.ReportDesign.slot.templateParameterDefinitions=Parameterdefinitionen für Vorlage
+Element.ReportDesign.slot.cubes=Cube Elements
 Element.ReportDesign.initialize=Initialisieren
 Element.ReportDesign.initialize.toolTip=Wird zu Beginn der Berichtausführung aufgerufen.
 Element.ReportDesign.initialize.reportContext=Berichtkontext
@@ -2271,7 +2289,7 @@ Element.ParameterGroup.helpTextID=Hilfetextschlüssel
 Element.ParameterGroup.slot.parameters=Parameter
 
 # CascadingParameterGroup (prefix Element.CascadingParameterGroup)
-Element.Element.CascadingParameterGroup.dataSet=Datensatz
+Element.CascadingParameterGroup.dataSet=Datensatz
 Element.CascadingParameterGroup.promptText=Aufforderungstext
 Element.CascadingParameterGroup.dataSetMode=Einfache oder mehrfache Datensätze
 Element.CascadingParameterGroup.slot.parameters=Parameter
@@ -2847,6 +2865,30 @@ Element.AutoText.onPageBreak.toolTip=TBD
 Element.AutoText.onPageBreak.this=AutoText-Instanz
 Element.AutoText.onPageBreak.reportContext=Berichtkontext
 
+#45. Cube ( prefix Element.Cube )
+Element.Cube.dataSet=Data Set
+Element.Cube.dimensionConditions=Dimension Conditions
+Element.Cube.slot.dimensions=Dimensions
+Element.Cube.slot.measures=Measures
+
+#46. Dimension ( prefix Element.Dimension )
+Element.Dimension.isTimeType=Is Time Type
+Element.Dimension.slot.hierarchies=Hierarchies
+
+#47. Hierarchy ( prefix Element.Hierarchy )
+Element.Hierarchy.dataSet=Data Set
+Element.Hierarchy.primaryKeys=Primary Key
+Element.Hierarchy.slot.levels=Levels
+
+#48. Level ( prefix Element.Level )
+Element.Level.columnName=Column Name
+Element.Level.attributes=Attributes
+
+#49. Measure ( prefix Element.Measure )
+Element.Measure.function=Function
+Element.Measure.isCalculated=Is Calculated
+Element.Measure.measureExpression=Measure Expression
+
 ###########################################################
 # Predefined style
 Style.Report=Bericht
@@ -3075,6 +3117,11 @@ New.TemplateDataSet=Neuer_Datensatz_für_Vorlage
 New.TemplateReportItem=Neues_Berichtobjekt_für_Vorlage
 New.Theme=Neues_Thema
 New.AutoText=NewAutoText
+New.Cube=NewCube
+New.Dimension=NewDimension
+New.Hierarchy=NewHierarchy
+New.Level=NewLevel
+New.Measure=NewMeasure
 
 ###########################################################
 #Default theme name.

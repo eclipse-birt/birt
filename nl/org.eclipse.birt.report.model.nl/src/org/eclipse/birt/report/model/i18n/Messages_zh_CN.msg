@@ -534,6 +534,12 @@ Choices.viewAction.Changed=已更改
 Choices.viewAction.Added=已添加
 Choices.viewAction.Deleted=已删除
 
+#70. measureFunction
+Choices.measureFunction.sum=Sum
+Choices.measureFunction.count=Count
+Choices.measureFunction.min=Min
+Choices.measureFunction.max=Max
+
 ###########################################################
 # Classes
 
@@ -2042,6 +2048,11 @@ Structure.TOC.text.align=文本对齐
 Structure.TOC.text.indent=文本缩进
 Structure.TOC.text.transform=文本转换
 
+#29. DimensionCondition
+Structure.DimensionCondition=Dimension Condition
+Structure.DimensionCondition.primaryKeys=Primary Keys
+Structure.DimensionCondition.hierarchy=Hierarchy
+
 ###########################################################
 # Element names
 
@@ -2096,6 +2107,11 @@ Element.TemplateElement=模板元素
 Element.TemplateReportItem=模板报表项
 Element.TemplateDataSet=模板数据集
 Element.JointDataSet=联接数据集
+Element.Cube=Cube
+Element.Dimension=Dimension
+Element.Hierarchy=Hierarchy
+Element.Level=Level
+Element.Measure=Measure
 
 ###########################################################
 # Element property names
@@ -2129,6 +2145,7 @@ Element.Library.slot.dataSets=数据集
 Element.Library.slot.pageSetup=页面设置
 Element.Library.slot.components=组件
 Element.Library.slot.themes=主题
+Element.Library.slot.cubes=Cubes
 
 #1. Report Design ( Prefix = Element.ReportDesign )
 Element.ReportDesign.refreshRate=刷新比率
@@ -2172,6 +2189,7 @@ Element.ReportDesign.slot.components=组件
 Element.ReportDesign.slot.body=正文
 Element.ReportDesign.slot.scratchPad=便笺簿
 Element.ReportDesign.slot.templateParameterDefinitions=模板参数定义
+Element.ReportDesign.slot.cubes=Cube Elements
 Element.ReportDesign.initialize=初始化
 Element.ReportDesign.initialize.toolTip=开始执行报表时调用。
 Element.ReportDesign.initialize.reportContext=报表上下文
@@ -2271,7 +2289,7 @@ Element.ParameterGroup.helpTextID=帮助文本关键字
 Element.ParameterGroup.slot.parameters=参数
 
 # CascadingParameterGroup (prefix Element.CascadingParameterGroup)
-Element.Element.CascadingParameterGroup.dataSet=数据集
+Element.CascadingParameterGroup.dataSet=数据集
 Element.CascadingParameterGroup.promptText=提示文本
 Element.CascadingParameterGroup.dataSetMode=单个或多个数据集
 Element.CascadingParameterGroup.slot.parameters=参数
@@ -2847,6 +2865,30 @@ Element.AutoText.onPageBreak.toolTip=TBD
 Element.AutoText.onPageBreak.this=自动图文集实例
 Element.AutoText.onPageBreak.reportContext=报表上下文
 
+#45. Cube ( prefix Element.Cube )
+Element.Cube.dataSet=Data Set
+Element.Cube.dimensionConditions=Dimension Conditions
+Element.Cube.slot.dimensions=Dimensions
+Element.Cube.slot.measures=Measures
+
+#46. Dimension ( prefix Element.Dimension )
+Element.Dimension.isTimeType=Is Time Type
+Element.Dimension.slot.hierarchies=Hierarchies
+
+#47. Hierarchy ( prefix Element.Hierarchy )
+Element.Hierarchy.dataSet=Data Set
+Element.Hierarchy.primaryKeys=Primary Key
+Element.Hierarchy.slot.levels=Levels
+
+#48. Level ( prefix Element.Level )
+Element.Level.columnName=Column Name
+Element.Level.attributes=Attributes
+
+#49. Measure ( prefix Element.Measure )
+Element.Measure.function=Function
+Element.Measure.isCalculated=Is Calculated
+Element.Measure.measureExpression=Measure Expression
+
 ###########################################################
 # Predefined style
 Style.Report=报表
@@ -3075,6 +3117,11 @@ New.TemplateDataSet=新模板数据集
 New.TemplateReportItem=新模板报表项
 New.Theme=新主题
 New.AutoText=NewAutoText
+New.Cube=NewCube
+New.Dimension=NewDimension
+New.Hierarchy=NewHierarchy
+New.Level=NewLevel
+New.Measure=NewMeasure
 
 ###########################################################
 #Default theme name.

@@ -534,6 +534,12 @@ Choices.viewAction.Changed=変更済み
 Choices.viewAction.Added=追加済み
 Choices.viewAction.Deleted=削除済み
 
+#70. measureFunction
+Choices.measureFunction.sum=Sum
+Choices.measureFunction.count=Count
+Choices.measureFunction.min=Min
+Choices.measureFunction.max=Max
+
 ###########################################################
 # Classes
 
@@ -2042,6 +2048,11 @@ Structure.TOC.text.align=文字配置
 Structure.TOC.text.indent=文字列のインデント
 Structure.TOC.text.transform=文字列の位置変更
 
+#29. DimensionCondition
+Structure.DimensionCondition=Dimension Condition
+Structure.DimensionCondition.primaryKeys=Primary Keys
+Structure.DimensionCondition.hierarchy=Hierarchy
+
 ###########################################################
 # Element names
 
@@ -2096,6 +2107,11 @@ Element.TemplateElement=テンプレートの要素
 Element.TemplateReportItem=テンプレートのレポート項目
 Element.TemplateDataSet=テンプレートのデータセット
 Element.JointDataSet=ジョイントデータセット
+Element.Cube=Cube
+Element.Dimension=Dimension
+Element.Hierarchy=Hierarchy
+Element.Level=Level
+Element.Measure=Measure
 
 ###########################################################
 # Element property names
@@ -2129,6 +2145,7 @@ Element.Library.slot.dataSets=データセット
 Element.Library.slot.pageSetup=ページ設定
 Element.Library.slot.components=コンポーネント
 Element.Library.slot.themes=テーマ
+Element.Library.slot.cubes=Cubes
 
 #1. Report Design ( Prefix = Element.ReportDesign )
 Element.ReportDesign.refreshRate=更新頻度
@@ -2172,6 +2189,7 @@ Element.ReportDesign.slot.components=コンポーネント
 Element.ReportDesign.slot.body=本文
 Element.ReportDesign.slot.scratchPad=スクラッチパッド
 Element.ReportDesign.slot.templateParameterDefinitions=テンプレートのパラメタの定義
+Element.ReportDesign.slot.cubes=Cube Elements
 Element.ReportDesign.initialize=初期化 
 Element.ReportDesign.initialize.toolTip=レポートの実行を開始する際に呼び出されます。
 Element.ReportDesign.initialize.reportContext=レポートのコンテキスト
@@ -2271,7 +2289,7 @@ Element.ParameterGroup.helpTextID=ヘルプテキストキー
 Element.ParameterGroup.slot.parameters=パラメタ
 
 # CascadingParameterGroup (prefix Element.CascadingParameterGroup)
-Element.Element.CascadingParameterGroup.dataSet=データセット
+Element.CascadingParameterGroup.dataSet=データセット
 Element.CascadingParameterGroup.promptText=プロンプトテキスト
 Element.CascadingParameterGroup.dataSetMode=1 つまたは複数のデータセット
 Element.CascadingParameterGroup.slot.parameters=パラメタ
@@ -2847,6 +2865,30 @@ Element.AutoText.onPageBreak.toolTip=TBD
 Element.AutoText.onPageBreak.this=定型句のインスタンス
 Element.AutoText.onPageBreak.reportContext=レポートのコンテキスト
 
+#45. Cube ( prefix Element.Cube )
+Element.Cube.dataSet=Data Set
+Element.Cube.dimensionConditions=Dimension Conditions
+Element.Cube.slot.dimensions=Dimensions
+Element.Cube.slot.measures=Measures
+
+#46. Dimension ( prefix Element.Dimension )
+Element.Dimension.isTimeType=Is Time Type
+Element.Dimension.slot.hierarchies=Hierarchies
+
+#47. Hierarchy ( prefix Element.Hierarchy )
+Element.Hierarchy.dataSet=Data Set
+Element.Hierarchy.primaryKeys=Primary Key
+Element.Hierarchy.slot.levels=Levels
+
+#48. Level ( prefix Element.Level )
+Element.Level.columnName=Column Name
+Element.Level.attributes=Attributes
+
+#49. Measure ( prefix Element.Measure )
+Element.Measure.function=Function
+Element.Measure.isCalculated=Is Calculated
+Element.Measure.measureExpression=Measure Expression
+
 ###########################################################
 # Predefined style
 Style.Report=レポート
@@ -3075,6 +3117,11 @@ New.TemplateDataSet=新しいテンプレートのデータセット
 New.TemplateReportItem=新しいテンプレートのレポート項目
 New.Theme=新しいテーマ
 New.AutoText=新規定型句
+New.Cube=NewCube
+New.Dimension=NewDimension
+New.Hierarchy=NewHierarchy
+New.Level=NewLevel
+New.Measure=NewMeasure
 
 ###########################################################
 #Default theme name.
