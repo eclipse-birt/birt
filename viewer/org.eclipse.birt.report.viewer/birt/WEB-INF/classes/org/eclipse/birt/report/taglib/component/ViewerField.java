@@ -104,7 +104,7 @@ public class ViewerField implements Serializable, Cloneable
 	private String showToolBar;
 	private String showNavigationBar;
 
-	private boolean forceIFrame = false;
+	private boolean forceIFrame = true;
 
 	/**
 	 * Report parameters

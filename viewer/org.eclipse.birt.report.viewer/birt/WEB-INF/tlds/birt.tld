@@ -570,7 +570,7 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>
 				Specifies whether forces to use IFrame as report container.
-				Default to false.
+				Default to true.
 			</description>			
 		</attribute>
 		        
