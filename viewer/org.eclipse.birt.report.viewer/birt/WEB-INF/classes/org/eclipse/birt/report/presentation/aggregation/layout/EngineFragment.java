@@ -138,18 +138,23 @@ public class EngineFragment extends BirtBaseFragment
 		}
 		catch ( RemoteException e )
 		{
-			AxisFault fault = (AxisFault) e;
-			// Special handle since servlet output stream has been
-			// retrieved.
-			// Any include and forward throws exception.
-			// Better to move this error handle into engine.
-			response.setContentType( "text/html; charset=utf-8" ); //$NON-NLS-1$
-			String message = "<html><head><title>" + BirtResources.getMessage( "birt.viewer.title.error" ) + "</title><body><font color=\"red\">" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
-					+ ParameterAccessor.htmlEncode( fault.getFaultString( ) )
-					+ "</font></body></html>"; //$NON-NLS-1$
-			out.write( message.getBytes( ) );
-			out.flush( );
-			out.close( );
+			// if get image, don't write exception into output stream.
+			if ( !ParameterAccessor.isGetImageOperator( request ) )
+			{
+				AxisFault fault = (AxisFault) e;
+				// Special handle since servlet output stream has been
+				// retrieved.
+				// Any include and forward throws exception.
+				// Better to move this error handle into engine.
+				response.setContentType( "text/html; charset=utf-8" ); //$NON-NLS-1$
+				String message = "<html><head><title>" + BirtResources.getMessage( "birt.viewer.title.error" ) + "</title><body><font color=\"red\">" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
+						+ ParameterAccessor
+								.htmlEncode( fault.getFaultString( ) )
+						+ "</font></body></html>"; //$NON-NLS-1$
+				out.write( message.getBytes( ) );
+				out.flush( );
+				out.close( );
+			}
 		}
 	}
 
