@@ -160,7 +160,7 @@ public class OSGILauncher
 
 			Method runMethod = clazz.getMethod(
 					"startup", new Class[]{String[].class, Runnable.class} ); //$NON-NLS-1$
-			bundleContext = runMethod.invoke( null, new Object[]{null, null} );
+			bundleContext = runMethod.invoke( null, new Object[]{new String[]{}, null} );
 			frameworkContextClassLoader = Thread.currentThread( )
 					.getContextClassLoader( );
 		}
