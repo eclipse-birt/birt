@@ -45,7 +45,7 @@ public class Regression_142948and141927 extends BaseTestCase
 		removeResource( );
 		
 		// retrieve two input files from tests-model.jar file
-		//copyResource_INPUT( filename , filename );
+		
 		copyInputToFile ( INPUT_FOLDER + "/" + filename );
 	}
 	/**
@@ -57,7 +57,7 @@ public class Regression_142948and141927 extends BaseTestCase
 		openDesign( filename );
 
 		designHandle.setFileName( null );
-		String filePath = "file:/" + getClassFolder( ) + "/" + INPUT_FOLDER //$NON-NLS-1$
+		String filePath = "file:/" + getTempFolder( ) + "/" + INPUT_FOLDER //$NON-NLS-1$
 				+ "/" + filename;
 
 		designHandle.setFileName( filePath );

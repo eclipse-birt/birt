@@ -103,7 +103,7 @@ public class Regression_136241 extends BaseTestCase
 		// open the output, make sure the report template item and its
 		// definition are written out.
 
-		designHandle = session.openDesign( OUTPUT );
+		designHandle = session.openDesign( TempFile );
 
 		TemplateReportItemHandle template = (TemplateReportItemHandle) designHandle
 				.findElement( "templateLabel" ); //$NON-NLS-1$

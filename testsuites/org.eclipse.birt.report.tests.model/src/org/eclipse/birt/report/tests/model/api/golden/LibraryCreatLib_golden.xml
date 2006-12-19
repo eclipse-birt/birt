@@ -83,6 +83,7 @@ from ROOT.SAMPLEDATA</property>
                         <property name="rowSpan">1</property>
                         <property name="drop">none</property>
                         <label id="10">
+                            <property name="zIndex">0</property>
                             <text-property name="text">CATEGORY</text-property>
                         </label>
                     </cell>
@@ -92,6 +93,7 @@ from ROOT.SAMPLEDATA</property>
                         <property name="rowSpan">1</property>
                         <property name="drop">none</property>
                         <label id="12">
+                        	<property name="zIndex">0</property> 
                             <text-property name="text">VALUE1</text-property>
                         </label>
                     </cell>
@@ -101,6 +103,7 @@ from ROOT.SAMPLEDATA</property>
                         <property name="rowSpan">1</property>
                         <property name="drop">none</property>
                         <label id="14">
+                        	<property name="zIndex">0</property> 
                             <text-property name="text">VALUE2</text-property>
                         </label>
                     </cell>
@@ -115,6 +118,7 @@ from ROOT.SAMPLEDATA</property>
                         <property name="rowSpan">1</property>
                         <property name="drop">none</property>
                         <data id="17">
+                        	<property name="zIndex">0</property> 
                             <property name="resultSetColumn">CATEGORY</property>
                         </data>
                     </cell>
@@ -124,6 +128,7 @@ from ROOT.SAMPLEDATA</property>
                         <property name="rowSpan">1</property>
                         <property name="drop">none</property>
                         <data id="19">
+                        	<property name="zIndex">0</property> 
                             <property name="resultSetColumn">VALUE1</property>
                         </data>
                     </cell>
@@ -133,6 +138,7 @@ from ROOT.SAMPLEDATA</property>
                         <property name="rowSpan">1</property>
                         <property name="drop">none</property>
                         <data id="21">
+                        	<property name="zIndex">0</property> 
                             <property name="resultSetColumn">VALUE2</property>
                         </data>
                     </cell>

@@ -27,8 +27,10 @@ public class InputStreamURITest extends BaseTestCase
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( fileName , fileName );
-		copyResource_INPUT( "Library_Import_Test.xml" , "Library_Import_Test.xml" );
+		
+		copyInputToFile ( INPUT_FOLDER + "/" + fileName );
+		copyInputToFile ( INPUT_FOLDER + "/" + "Library_Import_Test.xml" );
+		
 		openDesign( fileName );
 		rl = new DefaultResourceLocator( );
 	}
@@ -51,11 +53,12 @@ public class InputStreamURITest extends BaseTestCase
 		url = rl.findResource( designHandle, "Library_Import_Test.xml", IResourceLocator.LIBRARY );
 		assertNotNull(url);
 		
-		designHandle.setFileName( getClassFolder( ) +"/golden/" );
+		designHandle.setFileName( getTempFolder( ) +"/" +GOLDEN_FOLDER+"/" );
 		url = rl.findResource( designHandle, "1_golden.xml", IResourceLocator.IMAGE );
 		assertNull( url );
 		
-		designHandle.setFileName( getClassFolder( ) +"/golden/" ); 
+	//	designHandle.setFileName( getClassFolder( ) +"/golden/" ); 
+		designHandle.setFileName( getTempFolder( ) +"/" +GOLDEN_FOLDER+"/" );
 		url = rl.findResource( designHandle, "LibraryCreatLib.xml", IResourceLocator.IMAGE ); 
 		assertNull( url );
 		

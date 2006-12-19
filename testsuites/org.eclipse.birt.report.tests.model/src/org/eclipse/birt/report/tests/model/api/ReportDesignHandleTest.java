@@ -140,10 +140,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 	{
 		super.setUp( );
 		removeResource( );
-		//copyResource_INPUT( "ReportDesignHandleTest.xml" , "ReportDesignHandleTest.xml" );
-		//copyResource_INPUT( "ReportDesignHandleTest1.xml" , "ReportDesignHandleTest1.xml" );
-		//copyResource_INPUT( "ReportDesignHandleTest2.xml" , "ReportDesignHandleTest2.xml" );
-		//copyResource_INPUT( "EmbeddedImageTest.xml" , "EmbeddedImageTest.xml" );
+		
 		copyInputToFile ( INPUT_FOLDER + "/" + "ReportDesignHandleTest.xml"  );
 		copyInputToFile ( INPUT_FOLDER + "/" + "ReportDesignHandleTest1.xml"  );
 		copyInputToFile ( INPUT_FOLDER + "/" + "ReportDesignHandleTest2.xml"  );
@@ -318,7 +315,8 @@ public class ReportDesignHandleTest extends BaseTestCase
 		// get properties.
 
 		assertEquals( "c:\\", designHandle.getBase( ) ); //$NON-NLS-1$
-		assertEquals( "bundleresource://208/org/eclipse/birt/report/tests/model/api/input/ReportDesignHandleTest.xml", designHandle.getFileName( ) ); //$NON-NLS-1$
+		//assertEquals( "bundleresource://208/org/eclipse/birt/report/tests/model/api/input/ReportDesignHandleTest.xml", designHandle.getFileName( ) ); //$NON-NLS-1$
+		assertEquals( "bundleresource://1645/org/eclipse/birt/report/tests/model/api/input/ReportDesignHandleTest.xml", designHandle.getFileName( ) ); //$NON-NLS-1$
 
 		// sets properties.
 

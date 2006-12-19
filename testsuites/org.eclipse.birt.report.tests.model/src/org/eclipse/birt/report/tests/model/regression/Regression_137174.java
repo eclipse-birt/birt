@@ -35,9 +35,23 @@ public class Regression_137174 extends BaseTestCase
 	/**
 	 * 
 	 */
+	
+	protected void setUp() throws Exception
+	{
+		super.setUp();
+		removeResource();
+		copyInputToFile(INPUT_FOLDER+"/"+filename);
+	}
+
+	protected void tearDown() 
+	{
+		removeResource();
+	}
+	
+	
 	public void test_regression_137174( )
 	{
-		List infos = ModuleUtil.checkVersion( getClassFolder( ) + "/" + INPUT_FOLDER
+		List infos = ModuleUtil.checkVersion( getTempFolder( ) + "/" + INPUT_FOLDER
 				+ "/" + filename );
 		assertEquals( 1, infos.size( ) );
 

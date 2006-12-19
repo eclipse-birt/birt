@@ -26,7 +26,7 @@ public class TocSupportTest extends BaseTestCase
 			super.setUp( );
 			removeResource( );
 			
-			copyInputToFile ( INPUT_FOLDER + "/" + fileName1 );
+			copyInputToFile ( INPUT_FOLDER + "/" + fileName );
 			copyInputToFile ( INPUT_FOLDER + "/" + fileName1 );
 			
 		}
@@ -48,7 +48,7 @@ public class TocSupportTest extends BaseTestCase
 		public void testGetAllToc( ) throws Exception
 		{
 			openDesign( fileName1 );
-			assertEquals(3,designHandle.getAllTocs().size());
+			assertEquals(2,designHandle.getAllTocs().size());
 			
 			//add toc
             TextItemHandle text = (TextItemHandle)designHandle.findElement("mytext");
