@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2006 Inetsoft Technology Corp.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Inetsoft Technology Corp  - initial API and implementation
+ *******************************************************************************/
+
 package org.eclipse.birt.report.engine.emitter.wpml;
 
 import java.util.Collections;
@@ -5,28 +16,52 @@ import java.util.Comparator;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 import java.util.Vector;
 
-import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 
 public class EmitterContext
 {	
-	public void addForeign(IForeignContent content)
+	public void startInline()
 	{
-		foreign = content;
+		inline = true;
 	}
 	
-	public IForeignContent getForeignContent()
+	public boolean isInline()
 	{
-		return foreign;
+		return inline;
 	}
 	
-	public void clearForeignContent()
+	public void endInline()
 	{
-		foreign = null;
-	}	
-
+		inline = false;
+	}
+	
+	public void startCell()
+	{
+		cellind.push( Boolean.TRUE );
+	}
+	
+	public void endCell()
+	{
+		cellind.pop( );
+	}
+	
+	public boolean needEmptyP()
+	{
+		return ((Boolean)cellind.peek( )).booleanValue( );
+	}
+	
+	public void addContainer(boolean isContainer)
+	{
+		if(!cellind.isEmpty( ))
+		{
+			cellind.pop( );
+			cellind.push(new Boolean(isContainer));
+		}	
+	}
+	
 	public void addWidth ( int w )
 	{
 		wlist.addLast ( new Integer ( w ) );
@@ -65,12 +100,7 @@ public class EmitterContext
 	public void addSpan ( int col, int cs, int cw, int height, IStyle style )
 	{
 		((TableInfo) tbls.getLast ( )).addSpan ( col, cs, cw, height, style );
-	}
-
-	public int getCurrentRow ( )
-	{
-		return ((TableInfo) tbls.getLast ( )).getRow ( );
-	}
+	}	
 
 	public void removeTable ( )
 	{
@@ -218,6 +248,7 @@ public class EmitterContext
 
 	private LinkedList wlist = new LinkedList ( );
 	
-	private IForeignContent foreign = null;	
+	Stack cellind = new Stack();
 	
+	boolean inline = false;
 }
