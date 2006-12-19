@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.command;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.ActionHandle;
@@ -31,7 +32,6 @@ import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.SortKeyHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.StructureHandle;
-import org.eclipse.birt.report.model.api.StructureIterator;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
@@ -378,9 +378,9 @@ public class PropertyCommandTest extends BaseTestCase
 		labelHandle.setStringProperty( IReportItemModel.TOC_PROP, "exp2" );//$NON-NLS-1$
 
 		assertEquals( "exp2", labelHandle.getTOC( ).getExpression( ) );//$NON-NLS-1$
-		
+
 		designHandle.getModule( ).getActivityStack( ).undo( );
-		
+
 		assertEquals( "exp1", labelHandle.getTOC( ).getExpression( ) );//$NON-NLS-1$
 	}
 
@@ -955,7 +955,7 @@ public class PropertyCommandTest extends BaseTestCase
 		PropertyHandle propHandle = shareHandle
 				.getPropertyHandle( Style.MAP_RULES_PROP );
 		assertNotNull( propHandle );
-		PropertyCommand command = new PropertyCommand( design, shareHandle
+		ComplexPropertyCommand command = new ComplexPropertyCommand( design, shareHandle
 				.getElement( ) );
 		command.removeAllItems( propHandle.getReference( ) );
 
@@ -968,7 +968,7 @@ public class PropertyCommandTest extends BaseTestCase
 
 		assertEquals( 2, memberHandle.getListValue( ).size( ) );
 
-		command = new PropertyCommand( design, imageHandle.getElement( ) );
+		command = new ComplexPropertyCommand( design, imageHandle.getElement( ) );
 		command.removeAllItems( memberHandle.getReference( ) );
 
 		assertNull( memberHandle.getListValue( ) );
@@ -993,7 +993,7 @@ public class PropertyCommandTest extends BaseTestCase
 		assertEquals( "Design", ( (MapRule) list.get( 1 ) ).getDisplay( ) ); //$NON-NLS-1$
 
 		// Delete the second one
-		PropertyCommand command = new PropertyCommand( design, shareHandle
+		ComplexPropertyCommand command = new ComplexPropertyCommand( design, shareHandle
 				.getElement( ) );
 		command.removeItem( new CachedMemberRef(
 				(ElementPropertyDefn) propHandle.getPropertyDefn( ) ), 1 );
@@ -1003,7 +1003,7 @@ public class PropertyCommandTest extends BaseTestCase
 		assertEquals( "Open", ( (MapRule) list.get( 0 ) ).getDisplay( ) ); //$NON-NLS-1$
 
 		// Delete the first one
-		command = new PropertyCommand( design, shareHandle.getElement( ) );
+		command = new ComplexPropertyCommand( design, shareHandle.getElement( ) );
 		command.removeItem( new CachedMemberRef(
 				(ElementPropertyDefn) propHandle.getPropertyDefn( ) ), 0 );
 
@@ -1012,7 +1012,7 @@ public class PropertyCommandTest extends BaseTestCase
 
 		try
 		{
-			command = new PropertyCommand( design, shareHandle.getElement( ) );
+			command = new ComplexPropertyCommand( design, shareHandle.getElement( ) );
 			command.removeItem( new CachedMemberRef(
 					(ElementPropertyDefn) propHandle.getPropertyDefn( ) ), 4 );
 			fail( );
@@ -1043,7 +1043,7 @@ public class PropertyCommandTest extends BaseTestCase
 		assertEquals( "Design", ( (MapRule) list.get( 1 ) ).getDisplay( ) ); //$NON-NLS-1$
 
 		// Delete the second one
-		PropertyCommand command = new PropertyCommand( design, shareHandle
+		ComplexPropertyCommand command = new ComplexPropertyCommand( design, shareHandle
 				.getElement( ) );
 		command.removeItem( new CachedMemberRef(
 				(ElementPropertyDefn) propHandle.getPropertyDefn( ) ),
@@ -1054,7 +1054,7 @@ public class PropertyCommandTest extends BaseTestCase
 		assertEquals( "Open", ( (MapRule) list.get( 0 ) ).getDisplay( ) ); //$NON-NLS-1$
 
 		// Delete the first one
-		command = new PropertyCommand( design, shareHandle.getElement( ) );
+		command = new ComplexPropertyCommand( design, shareHandle.getElement( ) );
 		command.removeItem( new CachedMemberRef(
 				(ElementPropertyDefn) propHandle.getPropertyDefn( ) ),
 				(MapRule) list.get( 0 ) );
@@ -1064,7 +1064,7 @@ public class PropertyCommandTest extends BaseTestCase
 
 		try
 		{
-			command = new PropertyCommand( design, shareHandle.getElement( ) );
+			command = new ComplexPropertyCommand( design, shareHandle.getElement( ) );
 			command.removeItem( new CachedMemberRef(
 					(ElementPropertyDefn) propHandle.getPropertyDefn( ) ),
 					new MapRule( ) );
@@ -1217,17 +1217,15 @@ public class PropertyCommandTest extends BaseTestCase
 		SharedStyleHandle styleHandle1 = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
 		SharedStyleHandle styleHandle2 = designHandle.findStyle( "Style2" ); //$NON-NLS-1$
 
-		PropertyCommand command1 = new PropertyCommand( design, styleHandle1
+		ComplexPropertyCommand command1 = new ComplexPropertyCommand( design, styleHandle1
 				.getElement( ) );
-		PropertyCommand command2 = new PropertyCommand( design, styleHandle2
+		ComplexPropertyCommand command2 = new ComplexPropertyCommand( design, styleHandle2
 				.getElement( ) );
 
 		CommandStack cs = designHandle.getCommandStack( );
 
-		StructureIterator maprules1 = (StructureIterator) styleHandle1
-				.mapRulesIterator( );
-		StructureIterator maprules2 = (StructureIterator) styleHandle2
-				.mapRulesIterator( );
+		Iterator maprules1 = styleHandle1.mapRulesIterator( );
+		Iterator maprules2 = styleHandle2.mapRulesIterator( );
 
 		MapRuleHandle rule1 = (MapRuleHandle) maprules1.next( );
 		MapRuleHandle rule2 = (MapRuleHandle) maprules2.next( );
@@ -1288,7 +1286,7 @@ public class PropertyCommandTest extends BaseTestCase
 		SearchKey key = StructureFactory.createSearchKey( );
 		key.setExpression( "SearchKey3" ); //$NON-NLS-1$
 
-		command1 = new PropertyCommand( design, imageHandle.getElement( ) );
+		command1 = new ComplexPropertyCommand( design, imageHandle.getElement( ) );
 		command1.replaceItem( memberHandle.getReference( ), memberHandle.getAt(
 				0 ).getStructure( ), key );
 
@@ -1414,7 +1412,7 @@ public class PropertyCommandTest extends BaseTestCase
 		paramBinding.setParamName( "param1" ); //$NON-NLS-1$
 		paramBinding.setExpression( "expr1" ); //$NON-NLS-1$
 
-		PropertyCommand command = new PropertyCommand( design, imageHandle
+		ComplexPropertyCommand command = new ComplexPropertyCommand( design, imageHandle
 				.getElement( ) );
 		command.addItem( memberHandle.getReference( ), paramBinding );
 
@@ -1425,7 +1423,7 @@ public class PropertyCommandTest extends BaseTestCase
 		memberHandle = actionHandle.getMember( Action.SEARCH_MEMBER );
 		assertEquals( 2, memberHandle.getListValue( ).size( ) );
 
-		command = new PropertyCommand( design, imageHandle.getElement( ) );
+		command = new ComplexPropertyCommand( design, imageHandle.getElement( ) );
 		command.removeItem( memberHandle.getReference( ), 1 );
 
 		assertEquals( 1, memberHandle.getListValue( ).size( ) );
@@ -1506,7 +1504,7 @@ public class PropertyCommandTest extends BaseTestCase
 				.getMember( Action.SEARCH_MEMBER );
 		assertEquals( 2, memberHandle.getListValue( ).size( ) );
 
-		PropertyCommand command = new PropertyCommand( design, imageHandle
+		ComplexPropertyCommand command = new ComplexPropertyCommand( design, imageHandle
 				.getElement( ) );
 		command.moveItem( memberHandle.getReference( ), 0, 2 );
 

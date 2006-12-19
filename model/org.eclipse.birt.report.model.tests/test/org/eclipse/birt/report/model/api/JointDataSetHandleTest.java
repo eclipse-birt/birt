@@ -11,17 +11,10 @@
 
 package org.eclipse.birt.report.model.api;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
-import org.eclipse.birt.report.model.command.ElementRefRecord;
-import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.JointDataSet;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
@@ -84,7 +77,7 @@ public class JointDataSetHandleTest extends BaseTestCase
 	 */
 
 	public void setUp( ) throws DesignFileException
-	{
+	{		
 		openDesign( fileName );
 		dataSet = (JointDataSetHandle) designHandle
 				.findJointDataSet( "JointDataSet" ); //$NON-NLS-1$
@@ -286,42 +279,11 @@ public class JointDataSetHandleTest extends BaseTestCase
 	/**
 	 * get count of clients of one <code>DataSetHandle</code> 
 	 * @param dsHandle
-	 * @return
+	 * @return the size of the clients
 	 */
 	private int countNum( DataSetHandle dsHandle )
 	{
 		DataSet ds = (DataSet) dsHandle.getElement( );
 		return ds.getClientList( ).size( );
-	}
-	
-	/**
-	 * Asserts a method of the <code>JointDataSetHandle</code> can't be
-	 * called.
-	 * 
-	 * @param dataSet
-	 *            the joint data set
-	 * @param methodName
-	 *            name of the method
-	 * 
-	 */
-
-	private void assertUncallable( JointDataSetHandle dataSet, String methodName )
-	{
-		Class dataSetClass = dataSet.getClass( );
-		try
-		{
-			Method method = dataSetClass.getMethod( methodName, new Class[0] );
-			method.invoke( dataSet, new Object[0] );
-			fail( );
-		}
-		catch ( InvocationTargetException e )
-		{
-			assertTrue( e.getTargetException( ) instanceof IllegalOperationException );
-		}
-		catch ( Throwable e )
-		{
-			fail( );
-		}
-	}
-
+	}	
 }

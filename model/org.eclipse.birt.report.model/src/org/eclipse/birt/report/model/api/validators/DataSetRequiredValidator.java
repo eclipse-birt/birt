@@ -21,17 +21,24 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.ListingElement;
+import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
- * Validates the data set of a listing element should be provided.
+ * Validates the data set of some special elements should be provided.
  * 
  * <h3>Rule</h3>
  * The rule is that the <code>ListingElement.DATA_SET_PROP</code> should be
- * set on the element itself or its container which is also a listing element.
+ * set on the element itself or its container which is also a listing element;
+ * the <code>ICubeModel.DATA_SET_PROP</code> should be set in the cube
+ * element; the <code>IReportItemModel.DATA_SET_PROP</code> should be set in
+ * the extended items.
  * 
  * <h3>Applicability</h3>
- * This validator is only applied to <code>ListingElement</code>.
+ * This validator is applied to <code>ListingElement</code>,
+ * <code>Cube</code> and <code>ExtendedItem</code>.
  */
 
 public class DataSetRequiredValidator extends AbstractElementValidator
@@ -63,7 +70,8 @@ public class DataSetRequiredValidator extends AbstractElementValidator
 
 	public List validate( Module module, DesignElement element )
 	{
-		if ( !( element instanceof ListingElement || element instanceof ExtendedItem ) )
+		if ( !( element instanceof ListingElement
+				|| element instanceof ExtendedItem || element instanceof Cube ) )
 			return Collections.EMPTY_LIST;
 
 		return doValidate( module, element );
@@ -77,9 +85,12 @@ public class DataSetRequiredValidator extends AbstractElementValidator
 		int slot = toValidate.getContainerSlot( );
 
 		boolean dataSetFound = false;
-		if ( toValidate instanceof ExtendedItem )
+		if ( toValidate instanceof ExtendedItem || toValidate instanceof Cube )
 		{
-			if ( ( (ExtendedItem) toValidate ).getDataSetElement( module ) != null )
+			String propName = toValidate instanceof ExtendedItem
+					? IReportItemModel.DATA_SET_PROP
+					: ICubeModel.DATA_SET_PROP;
+			if ( toValidate.getReferenceProperty( module, propName ) != null )
 			{
 				dataSetFound = true;
 			}

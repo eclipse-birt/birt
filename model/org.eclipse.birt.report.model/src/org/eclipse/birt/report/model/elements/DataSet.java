@@ -49,17 +49,6 @@ public abstract class DataSet extends ReferenceableElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.ReferenceableElement#setDeliveryPath(org.eclipse.birt.report.model.activity.NotificationEvent)
-	 */
-
-	protected void adjustDeliveryPath( NotificationEvent ev )
-	{
-		ev.setDeliveryPath( NotificationEvent.ELEMENT_CLIENT );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.report.model.core.ReferenceableElement#broadcastToClients(org.eclipse.birt.report.model.api.activity.NotificationEvent,
 	 *      org.eclipse.birt.report.model.core.Module)
 	 */

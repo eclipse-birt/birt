@@ -49,26 +49,26 @@ public interface IReportDesignModel
 	 */
 
 	public static final String AFTER_RENDER_METHOD = "afterRender"; //$NON-NLS-1$
-	
+
 	/**
 	 * Name of the property to store report design icon/thumbnail file path.
 	 */
-	
+
 	public static final String ICON_FILE_PROP = "iconFile"; //$NON-NLS-1$
-		
+
 	/**
 	 * Name of the property to store the cheet sheet file name.
 	 */
-	
+
 	public static final String CHEAT_SHEET_PROP = "cheatSheet"; //$NON-NLS-1$
-	
+
 	/**
 	 * Name of the property to store the thumbnail image for the design or
 	 * template.
 	 */
-	
+
 	public static final String THUMBNAIL_PROP = "thumbnail"; //$NON-NLS-1$
-	
+
 	/**
 	 * Encoding mode for the thumbnail image.
 	 */
@@ -78,13 +78,12 @@ public interface IReportDesignModel
 	// Design slots
 	// See constants defined in the module class.
 
-
 	/**
 	 * Identifier of the slot that holds styles.
 	 */
-	
+
 	public static final int STYLE_SLOT = 0;
-	
+
 	/**
 	 * Identifier of the body slot that contains the report sections.
 	 */
@@ -96,18 +95,23 @@ public interface IReportDesignModel
 	 */
 
 	public static final int SCRATCH_PAD_SLOT = 7;
-	
+
 	/**
 	 * Identifier of the template parameter definition slot.
 	 */
-	
+
 	public static final int TEMPLATE_PARAMETER_DEFINITION_SLOT = 8;
+
+	/**
+	 * Identifier of the slot that holds a collections of cube elements.
+	 */
+
+	public static final int CUBE_SLOT = 9;
 
 	/**
 	 * Number of slots in the report design element.
 	 */
 
-	public static final int SLOT_COUNT = 9;
-
+	public static final int SLOT_COUNT = 10;
 
 }

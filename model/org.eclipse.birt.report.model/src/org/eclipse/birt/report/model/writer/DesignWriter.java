@@ -96,14 +96,17 @@ public class DesignWriter extends ModuleWriter
 
 		writeStructureList( obj, IModuleModel.CONFIG_VARS_PROP );
 
-		writeContents( obj, IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT,
+		writeContents( obj,
+				IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT,
 				DesignSchemaConstants.TEMPLATE_PARAMETER_DEFINITIONS_TAG );
-		writeArrangedContents( obj, IModuleModel.PARAMETER_SLOT,
+		writeContents( obj, IModuleModel.PARAMETER_SLOT,
 				DesignSchemaConstants.PARAMETERS_TAG );
-		writeArrangedContents( obj, IModuleModel.DATA_SOURCE_SLOT,
+		writeContents( obj, IModuleModel.DATA_SOURCE_SLOT,
 				DesignSchemaConstants.DATA_SOURCES_TAG );
-		writeArrangedContents( obj, IModuleModel.DATA_SET_SLOT,
+		writeContents( obj, IModuleModel.DATA_SET_SLOT,
 				DesignSchemaConstants.DATA_SETS_TAG );
+		writeContents( obj, IReportDesignModel.CUBE_SLOT,
+				DesignSchemaConstants.CUBES_TAG );
 
 		// ColorPalette tag
 
@@ -117,7 +120,7 @@ public class DesignWriter extends ModuleWriter
 				DesignSchemaConstants.STYLES_TAG );
 		writeArrangedContents( obj, IModuleModel.COMPONENT_SLOT,
 				DesignSchemaConstants.COMPONENTS_TAG );
-		writeArrangedContents( obj, IModuleModel.PAGE_SLOT,
+		writeContents( obj, IModuleModel.PAGE_SLOT,
 				DesignSchemaConstants.PAGE_SETUP_TAG );
 		writeContents( obj, IReportDesignModel.BODY_SLOT,
 				DesignSchemaConstants.BODY_TAG );

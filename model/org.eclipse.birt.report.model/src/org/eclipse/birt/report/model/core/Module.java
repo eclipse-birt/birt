@@ -149,10 +149,16 @@ public abstract class Module extends DesignElement implements IModuleModel
 	public static final int TEMPLATE_PARAMETER_NAME_SPACE = 7;
 
 	/**
+	 * Identifier for the cube element name space.
+	 */
+
+	public static final int CUBE_NAME_SPACE = 8;
+
+	/**
 	 * Number of defined name spaces.
 	 */
 
-	public static final int NAME_SPACE_COUNT = 8;
+	public static final int NAME_SPACE_COUNT = 9;
 
 	/**
 	 * The session that owns this module.
@@ -454,6 +460,19 @@ public abstract class Module extends DesignElement implements IModuleModel
 	public DesignElement findParameter( String name )
 	{
 		return resolveNativeElement( name, PARAMETER_NAME_SPACE );
+	}
+
+	/**
+	 * Finds a cube element by name in this module and the included modules.
+	 * 
+	 * @param name
+	 *            the element name
+	 * @return the cube element, if found, otherwise null
+	 */
+
+	public DesignElement findCube( String name )
+	{
+		return resolveNativeElement( name, CUBE_NAME_SPACE );
 	}
 
 	/**
@@ -2658,7 +2677,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 			return null;
 		return effectOptions.getResourceFolder( );
 	}
-	
+
 	/**
 	 * Sets the module is read-only one. That means any operation on it will
 	 * throw runtime exception.
@@ -2669,4 +2688,15 @@ public abstract class Module extends DesignElement implements IModuleModel
 		activityStack = new ReadOnlyActivityStack( );
 	}
 
+	/**
+	 * Returns the module namespace. Only included library has a non-empty
+	 * namespace.
+	 * 
+	 * @return the module namespace
+	 */
+
+	public String getNamespace( )
+	{
+		return null;
+	}
 }

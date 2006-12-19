@@ -17,6 +17,7 @@ import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 
@@ -90,14 +91,14 @@ public abstract class PropertyStructure extends Structure
 	{
 		assert prop != null;
 
-		updateReference( prop, value );		
-		
+		updateReference( prop, value );
+
 		if ( prop.isIntrinsic( ) )
 			setIntrinsicProperty( prop.getName( ), value );
 		else if ( value == null )
 			propValues.remove( prop.getName( ) );
 		else
-			propValues.put( prop.getName( ), value );		
+			propValues.put( prop.getName( ), value );
 	}
 
 	/*
@@ -153,9 +154,15 @@ public abstract class PropertyStructure extends Structure
 				else
 				{
 					// must be a structure.
-
-					value = ( (Structure) propValues.get( memberName ) ).copy( );
+					Structure struct = (Structure) propValues.get( memberName );
+					value = struct == null ? null : struct.copy( );
 				}
+			}
+			else if ( memberDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
+			{
+				ElementRefValue refValue = (ElementRefValue) propValues
+						.get( memberName );
+				value = refValue == null ? null : refValue.copy( );
 			}
 			else
 			{

@@ -358,6 +358,7 @@ class MetaDataHandler extends XMLParserHandler
 			String displayNameID = getAttrib( attrs, DISPLAY_NAME_ID_ATTRIB );
 			String type = getAttrib( attrs, TYPE_ATTRIB );
 			String validator = getAttrib( attrs, VALIDATOR_ATTRIB );
+			String subType = getAttrib( attrs, SUB_TYPE_ATTRIB );
 
 			boolean ok = ( struct != null );
 			if ( StringUtil.isBlank( name ) )
@@ -398,6 +399,7 @@ class MetaDataHandler extends XMLParserHandler
 			String detailName = getAttrib( attrs, DETAIL_TYPE_ATTRIB );
 			ChoiceSet choiceSet = null;
 			String structDefn = null;
+			PropertyType subTypeDefn = null;
 			switch ( typeDefn.getTypeCode( ) )
 			{
 
@@ -465,12 +467,47 @@ class MetaDataHandler extends XMLParserHandler
 					if ( detailName.equals( THIS_KEYWORD ) )
 						detailName = elementDefn.getName( );
 					break;
+				case IPropertyType.LIST_TYPE :
+					if ( subType == null )
+					{
+						errorHandler
+								.semanticError( new MetaDataParserException(
+										MetaDataParserException.DESIGN_EXCEPTION_MISSING_SUB_TYPE ) );
+					}
+					else
+					{
+						subTypeDefn = dictionary.getPropertyType( subType );
+						if ( subTypeDefn == null )
+						{
+							errorHandler
+									.semanticError( new MetaDataParserException(
+											MetaDataParserException.DESIGN_EXCEPTION_INVALID_TYPE ) );
+							return;
+						}
+						else if ( subTypeDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
+						{
+							if ( detailName == null )
+							{
+								errorHandler
+										.semanticError( new MetaDataParserException(
+												MetaDataParserException.DESIGN_EXCEPTION_ELEMENT_REF_TYPE_REQUIRED ) );
+								return;
+							}
+							if ( detailName.equals( THIS_KEYWORD ) )
+								detailName = elementDefn.getName( );
+						}
+
+					}
+					break;
 			}
 
 			memberDefn = new StructPropertyDefn( );
 
 			memberDefn.setName( name );
 			memberDefn.setType( typeDefn );
+			if ( subTypeDefn != null
+					&& typeDefn.getTypeCode( ) == IPropertyType.LIST_TYPE )
+				memberDefn.setSubType( subTypeDefn );
 			memberDefn.setDisplayNameID( displayNameID );
 			memberDefn.setValueRequired( getBooleanAttrib( attrs,
 					VALUE_REQUIRED_ATTRIB, false ) );
@@ -534,6 +571,7 @@ class MetaDataHandler extends XMLParserHandler
 		private static final String STYLE_NS_NAME = "style"; //$NON-NLS-1$
 		private static final String THEME_NS_NAME = "theme"; //$NON-NLS-1$
 		private static final String TEMPLATE_PARAMETER_DEFINITION_NS_NAME = "templateParameterDefinition"; //$NON-NLS-1$
+		private static final String CUBE_NS_NAME = "cube"; //$NON-NLS-1$		
 
 		public void parseAttrs( Attributes attrs )
 		{
@@ -609,6 +647,8 @@ class MetaDataHandler extends XMLParserHandler
 					.equalsIgnoreCase( TEMPLATE_PARAMETER_DEFINITION_NS_NAME ) )
 				elementDefn
 						.setNameSpaceID( Module.TEMPLATE_PARAMETER_NAME_SPACE );
+			else if ( ns.equalsIgnoreCase( CUBE_NS_NAME ) )
+				elementDefn.setNameSpaceID( Module.CUBE_NAME_SPACE );
 			else
 				errorHandler
 						.semanticError( new MetaDataParserException(

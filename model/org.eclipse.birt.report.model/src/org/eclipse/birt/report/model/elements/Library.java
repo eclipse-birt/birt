@@ -130,12 +130,10 @@ public class Library extends Module implements ILibraryModel
 		return SLOT_COUNT;
 	}
 
-	/**
-	 * Returns the library namespace.
-	 * 
-	 * @return the library namespace
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.core.Module#getNamespace()
 	 */
-
 	public String getNamespace( )
 	{
 		return namespace;

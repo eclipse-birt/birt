@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <contents>               
+                <data>
+                    <expression name="valueExpr">[myParam]</expression>
+                    <text-property name="helpText">Shows what parameter was used.</text-property>
+                </data>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+    <data-sources>
+        <script-data-source name="myDataSource"/>
+    </data-sources>
+    <data-sets>
+        <script-data-set name="firstDataSet">
+            <property name="dataSource">myDataSource</property>
+        </script-data-set>
+        <script-data-set name="secondDataSet">
+            <property name="dataSource">myDataSource</property>
+        </script-data-set>
+    </data-sets>
+    <cubes>
+    	<cube name="testCube">
+    		<property name="dataSet">firstDataSet</property>
+    		<list-property name="dimensionConditions">
+    			<structure>
+    				<property name="hierarchy">testHierarchy</property>
+    				<simple-property-list name="primaryKeys">
+    					<value>column</value>
+    					<value>column2</value>
+    					<value>column4</value>
+    				</simple-property-list>
+    			</structure>
+    			<structure>
+    				<property name="hierarchy">nonExistingHierarchy</property>
+    				<simple-property-list name="primaryKeys">
+    					<value>column</value>
+    				</simple-property-list>
+    			</structure>
+    		</list-property>
+    		<dimensions>
+    			<dimension name="testDimension">
+    				<property name="isTimeType">true</property>
+    				<hierarchies>
+    					<hierarchy name="testHierarchy">
+    						<property name="dataSet">secondDataSet</property>
+    						<simple-property-list name="primaryKeys">
+    							<value>key</value>
+    							<value>key2</value>
+    							<value>key4</value>
+    						</simple-property-list>
+    						<levels>
+    							<level name="testLevel">
+    								<property name="columnName">column1</property>
+    								<list-property name="attributes">
+    									<structure>
+            								<property name="name">var1</property>
+            								<property name="value">mumble.jpg</property>
+        								</structure>
+       	 								<structure>
+            								<property name="name">var2</property>
+            								<property name="value">abcdefg</property>
+        								</structure>
+    								</list-property>
+    							</level>
+    						</levels>
+    					</hierarchy>
+    				</hierarchies>
+    			</dimension>
+    		</dimensions>
+    		<measures>
+    			<measure name="testMeasure">
+    				<property name="function">min</property>
+    				<property name="measureExpression">column</property>
+    				<property name="isCalculated">false</property>
+    			</measure>
+    		</measures>
+    	</cube>
+    </cubes>
+</report>

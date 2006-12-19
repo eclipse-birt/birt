@@ -139,9 +139,9 @@ public abstract class BaseTestCase extends TestCase
 		{
 			engine = new DesignEngine( new DesignConfig( ) );
 			MetaDataDictionary.reset( );
-			//initialize the metadata.
-			
-			engine.getMetaData();
+			// initialize the metadata.
+
+			engine.getMetaData( );
 		}
 	}
 
@@ -150,7 +150,7 @@ public abstract class BaseTestCase extends TestCase
 	 * 
 	 * @see junit.framework.TestCase#teardown()
 	 */
-	
+
 	protected void tearDown( ) throws Exception
 	{
 		if ( designHandle != null )
@@ -186,6 +186,8 @@ public abstract class BaseTestCase extends TestCase
 
 	protected ReportDesignHandle createDesign( ULocale locale )
 	{
+		if ( engine == null )
+			engine = new DesignEngine( new DesignConfig( ) );
 		sessionHandle = engine.newSessionHandle( locale );
 		designHandle = sessionHandle.createDesign( );
 		design = (ReportDesign) designHandle.getModule( );
@@ -214,6 +216,8 @@ public abstract class BaseTestCase extends TestCase
 
 	protected LibraryHandle createLibrary( ULocale locale )
 	{
+		if ( engine == null )
+			engine = new DesignEngine( new DesignConfig( ) );
 		sessionHandle = engine.newSessionHandle( locale );
 		libraryHandle = sessionHandle.createLibrary( );
 
@@ -272,6 +276,8 @@ public abstract class BaseTestCase extends TestCase
 		if ( inSingleJarMode )
 			fileName = INPUT_FOLDER + fileName;
 
+		if ( engine == null )
+			engine = new DesignEngine( new DesignConfig( ) );
 		sessionHandle = engine.newSessionHandle( locale );
 		assertNotNull( sessionHandle );
 
@@ -373,6 +379,8 @@ public abstract class BaseTestCase extends TestCase
 		if ( inSingleJarMode )
 			fileName = INPUT_FOLDER + fileName;
 
+		if ( engine == null )
+			engine = new DesignEngine( new DesignConfig( ) );
 		sessionHandle = engine.newSessionHandle( locale );
 		assertNotNull( sessionHandle );
 
@@ -410,6 +418,8 @@ public abstract class BaseTestCase extends TestCase
 	protected void openModule( String fileName, ULocale locale )
 			throws DesignFileException
 	{
+		if ( engine == null )
+			engine = new DesignEngine( new DesignConfig( ) );
 		fileName = INPUT_FOLDER + fileName;
 		sessionHandle = engine.newSessionHandle( locale );
 		assertNotNull( sessionHandle );
@@ -450,6 +460,8 @@ public abstract class BaseTestCase extends TestCase
 	protected void openDesign( String fileName, InputStream is, ULocale locale )
 			throws DesignFileException
 	{
+		if ( engine == null )
+			engine = new DesignEngine( new DesignConfig( ) );
 		sessionHandle = engine.newSessionHandle( locale );
 		designHandle = sessionHandle.openDesign( fileName, is );
 		design = (ReportDesign) designHandle.getModule( );

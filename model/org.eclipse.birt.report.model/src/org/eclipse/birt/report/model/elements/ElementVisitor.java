@@ -18,6 +18,11 @@ import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.elements.olap.Cube;
+import org.eclipse.birt.report.model.elements.olap.Dimension;
+import org.eclipse.birt.report.model.elements.olap.Hierarchy;
+import org.eclipse.birt.report.model.elements.olap.Level;
+import org.eclipse.birt.report.model.elements.olap.Measure;
 
 /**
  * The base class for defining algorithms that traverse the design tree. The
@@ -48,9 +53,9 @@ public class ElementVisitor
 	 *            the data set to traverse
 	 */
 
-	public void visitDataSet(DataSet obj)
+	public void visitDataSet( DataSet obj )
 	{
-		visitDesignElement(obj);
+		visitDesignElement( obj );
 	}
 
 	/**
@@ -112,6 +117,7 @@ public class ElementVisitor
 	{
 		visitReportItem( obj );
 	}
+
 	/**
 	 * Visits the special field element.
 	 * 
@@ -603,4 +609,63 @@ public class ElementVisitor
 		visitDataSet( obj );
 	}
 
+	/**
+	 * Visits the cube element.
+	 * 
+	 * @param obj
+	 *            the cube element to traverse
+	 */
+
+	public void visitCube( Cube obj )
+	{
+		visitDesignElement( obj );
+	}
+
+	/**
+	 * Visists the dimension element.
+	 * 
+	 * @param obj
+	 *            the dimension element to traverse
+	 */
+
+	public void visitDimension( Dimension obj )
+	{
+		visitDesignElement( obj );
+	}
+	
+	/**
+	 * Visists the hierarchy element.
+	 * 
+	 * @param obj
+	 *            the hierarchy element to traverse
+	 */
+
+	public void visitHierarchy( Hierarchy obj )
+	{
+		visitDesignElement( obj );
+	}
+
+	/**
+	 * Visists the level element.
+	 * 
+	 * @param obj
+	 *            the level element to traverse
+	 */
+
+	public void visitLevel( Level obj )
+	{
+		visitDesignElement( obj );
+	}
+	
+	/**
+	 * Visists the measure element.
+	 * 
+	 * @param obj
+	 *            the measure element to traverse
+	 */
+
+	public void visitMeasure( Measure obj )
+	{
+		visitDesignElement( obj );
+	}
 }

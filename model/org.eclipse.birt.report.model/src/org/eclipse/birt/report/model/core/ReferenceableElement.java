@@ -179,7 +179,10 @@ public abstract class ReferenceableElement extends DesignElement
 	 *            the notification event
 	 */
 
-	abstract protected void adjustDeliveryPath( NotificationEvent ev );
+	protected void adjustDeliveryPath( NotificationEvent ev )
+	{
+		ev.setDeliveryPath( NotificationEvent.ELEMENT_CLIENT );
+	}
 
 	/**
 	 * Broadcasts the event to clients.

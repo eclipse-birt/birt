@@ -48,9 +48,9 @@ import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
 import org.eclipse.birt.report.model.api.validators.ValidationEvent;
+import org.eclipse.birt.report.model.command.ComplexPropertyCommand;
 import org.eclipse.birt.report.model.command.CustomMsgCommand;
 import org.eclipse.birt.report.model.command.LibraryCommand;
-import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.command.ShiftLibraryCommand;
 import org.eclipse.birt.report.model.command.ThemeCommand;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
@@ -194,7 +194,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 					PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS );
 		}
 
-		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ), getElement( ) );
 		cmd.addItem( new CachedMemberRef( propDefn ), configVar );
 	}
 
@@ -210,7 +210,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public void addImage( EmbeddedImage image ) throws SemanticException
 	{
-		PropertyCommand cmd = new PropertyCommand( module, getElement( ) );
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( module, getElement( ) );
 		ElementPropertyDefn propDefn = module.getPropertyDefn( IMAGES_PROP );
 		cmd.addItem( new CachedMemberRef( propDefn ), image );
 	}
@@ -671,6 +671,22 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public DesignElementHandle findElement( String name )
 	{
 		DesignElement element = module.findElement( name );
+		if ( element == null )
+			return null;
+		return element.getHandle( element.getRoot( ) );
+	}
+
+	/**
+	 * Finds a cube element by name in this module and the included modules.
+	 * 
+	 * @param name
+	 *            the element name
+	 * @return the cube element handle, if found, otherwise null
+	 */
+
+	public DesignElementHandle findCube( String name )
+	{
+		DesignElement element = module.findCube( name );
 		if ( element == null )
 			return null;
 		return element.getHandle( element.getRoot( ) );
@@ -1413,7 +1429,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	{
 		ElementPropertyDefn propDefn = module.getPropertyDefn( propName );
 
-		PropertyCommand cmd = new PropertyCommand( module, getElement( ) );
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( module, getElement( ) );
 		cmd.replaceItem( new CachedMemberRef( propDefn ), (Structure) oldVar,
 				(Structure) newVar );
 	}
@@ -1668,8 +1684,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		IModuleNameScope namescope = module
 				.getModuleNameSpace( Module.DATA_SOURCE_NAME_SPACE );
 
-		List elementList = namescope
-				.getElements( IAccessControl.NATIVE_LEVEL );
+		List elementList = namescope.getElements( IAccessControl.NATIVE_LEVEL );
 		return generateHandleList( sortVisibleElements( elementList,
 				IAccessControl.NATIVE_LEVEL ) );
 	}
@@ -1703,8 +1718,42 @@ public abstract class ModuleHandle extends DesignElementHandle
 		IModuleNameScope namescope = module
 				.getModuleNameSpace( Module.DATA_SET_NAME_SPACE );
 
+		List elementList = namescope.getElements( IAccessControl.NATIVE_LEVEL );
+		return generateHandleList( sortVisibleElements( elementList,
+				IAccessControl.NATIVE_LEVEL ) );
+
+	}
+	
+	/**
+	 * Returns all cube handles that this modules and the included modules
+	 * contain.
+	 * 
+	 * @return all cube handles that this modules and the included modules
+	 *         contain.
+	 */
+
+	public List getAllCubes( )
+	{
+		IModuleNameScope namescope = module
+				.getModuleNameSpace( Module.CUBE_NAME_SPACE );
+
 		List elementList = namescope
-				.getElements( IAccessControl.NATIVE_LEVEL );
+				.getElements( IAccessControl.ARBITARY_LEVEL );
+		return generateHandleList( elementList );
+	}
+
+	/**
+	 * Returns cube handles that are visible to this modules.
+	 * 
+	 * @return cube handles that are visible to this modules.
+	 */
+
+	public List getVisibleCubes( )
+	{
+		IModuleNameScope namescope = module
+				.getModuleNameSpace( Module.CUBE_NAME_SPACE );
+
+		List elementList = namescope.getElements( IAccessControl.NATIVE_LEVEL );
 		return generateHandleList( sortVisibleElements( elementList,
 				IAccessControl.NATIVE_LEVEL ) );
 
@@ -2524,7 +2573,6 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * @throws SemanticException
 	 *             SemamticException will throw out when the give properties map
 	 *             contians invlid property name or property value.
-	 * @deprecated
 	 */
 
 	public void initializeModule( Map properties ) throws SemanticException
@@ -2618,7 +2666,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		if ( scriptLib == null )
 			return;
 
-		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ), getElement( ) );
 		cmd.removeItem( new CachedMemberRef( propDefn ), scriptLib );
 	}
 
@@ -2638,7 +2686,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		if ( scriptLibHandle == null )
 			return;
 
-		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ), getElement( ) );
 		cmd.removeItem( new CachedMemberRef( propDefn ), scriptLibHandle
 				.getStructure( ) );
 	}
@@ -2731,7 +2779,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 			throws SemanticException
 	{
 		ElementPropertyDefn propDefn = module.getPropertyDefn( SCRIPTLIBS_PROP );
-		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ), getElement( ) );
 		cmd.moveItem( new CachedMemberRef( propDefn ), sourceIndex, destIndex );
 	}
 
@@ -2746,7 +2794,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void addScriptLib( ScriptLib scriptLib ) throws SemanticException
 	{
 		ElementPropertyDefn propDefn = module.getPropertyDefn( SCRIPTLIBS_PROP );
-		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ), getElement( ) );
 		cmd.addItem( new CachedMemberRef( propDefn ), scriptLib );
 	}
 

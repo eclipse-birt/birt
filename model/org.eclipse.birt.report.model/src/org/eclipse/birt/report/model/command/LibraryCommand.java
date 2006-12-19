@@ -568,7 +568,8 @@ public class LibraryCommand extends AbstractElementCommand
 
 		ElementPropertyDefn propDefn = module
 				.getPropertyDefn( IModuleModel.LIBRARIES_PROP );
-		PropertyCommand propCommand = new PropertyCommand( module, module );
+		ComplexPropertyCommand propCommand = new ComplexPropertyCommand(
+				module, module );
 		propCommand.addItem( new CachedMemberRef( propDefn ), includeLibrary );
 	}
 
@@ -693,7 +694,8 @@ public class LibraryCommand extends AbstractElementCommand
 
 			ElementPropertyDefn propDefn = module
 					.getPropertyDefn( IModuleModel.LIBRARIES_PROP );
-			PropertyCommand propCommand = new PropertyCommand( module, module );
+			ComplexPropertyCommand propCommand = new ComplexPropertyCommand(
+					module, module );
 			propCommand.removeItem( new CachedMemberRef( propDefn ),
 					includeLibrary );
 			break;

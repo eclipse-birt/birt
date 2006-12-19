@@ -42,6 +42,7 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.command.ComplexPropertyCommand;
 import org.eclipse.birt.report.model.command.ContentCommand;
 import org.eclipse.birt.report.model.command.ExtendsCommand;
 import org.eclipse.birt.report.model.command.NameCommand;
@@ -2244,10 +2245,11 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		defn = root.getPropertyDefn( IModuleModel.PROPERTY_BINDINGS_PROP );
 		assert defn != null;
 
-		PropertyCommand cmd = new PropertyCommand( module, root );
+		
 
 		if ( value == null && binding != null )
 		{
+			ComplexPropertyCommand cmd = new ComplexPropertyCommand( module, root );
 			// maskValue is null, remove the item from the structure list.
 
 			cmd.removeItem( new CachedMemberRef( defn ), bindingList
@@ -2266,6 +2268,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 				binding.setName( propName );
 				binding.setID( getID( ) );
 				binding.setValue( value );
+				ComplexPropertyCommand cmd = new ComplexPropertyCommand( module, root );
 				cmd.addItem( new CachedMemberRef( defn ), binding );
 			}
 			else
@@ -2274,6 +2277,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 				MemberRef memberRef = new CachedMemberRef( defn, bindingList
 						.indexOf( binding ), PropertyBinding.VALUE_MEMBER );
+				PropertyCommand cmd = new PropertyCommand( module, root );
 				cmd.setMember( memberRef, value );
 			}
 		}

@@ -11,6 +11,11 @@
 
 package org.eclipse.birt.report.model.api;
 
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
+import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.AutoText;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
@@ -48,6 +53,11 @@ import org.eclipse.birt.report.model.elements.TemplateReportItem;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.olap.Cube;
+import org.eclipse.birt.report.model.elements.olap.Dimension;
+import org.eclipse.birt.report.model.elements.olap.Hierarchy;
+import org.eclipse.birt.report.model.elements.olap.Level;
+import org.eclipse.birt.report.model.elements.olap.Measure;
 
 /**
  * Applies logic customized to each type of report element. This is an
@@ -108,7 +118,7 @@ public class DesignVisitor
 	 * Visits auto text element
 	 * 
 	 * @param obj
-     *
+	 * 
 	 */
 
 	protected void visitAutoText( AutoTextHandle obj )
@@ -657,6 +667,66 @@ public class DesignVisitor
 	}
 
 	/**
+	 * Visits the cube element.
+	 * 
+	 * @param obj
+	 *            the cube element to traverse
+	 */
+
+	protected void visitCube( CubeHandle obj )
+	{
+		visitDesignElement( obj );
+	}
+
+	/**
+	 * Visits the dimension element.
+	 * 
+	 * @param obj
+	 *            the dimension element to traverse
+	 */
+
+	protected void visitDimension( DimensionHandle obj )
+	{
+		visitDesignElement( obj );
+	}
+
+	/**
+	 * Visits the hierarchy element.
+	 * 
+	 * @param obj
+	 *            the hierarchy element to traverse
+	 */
+
+	protected void visitHierarchy( HierarchyHandle obj )
+	{
+		visitDesignElement( obj );
+	}
+
+	/**
+	 * Visits the level element.
+	 * 
+	 * @param obj
+	 *            the level element to traverse
+	 */
+
+	protected void visitLevel( LevelHandle obj )
+	{
+		visitDesignElement( obj );
+	}
+
+	/**
+	 * Visits the measure element.
+	 * 
+	 * @param obj
+	 *            the measure element to traverse
+	 */
+
+	protected void visitMeasure( MeasureHandle obj )
+	{
+		visitDesignElement( obj );
+	}
+
+	/**
 	 * A class forward the visit of an element to its handle.
 	 * 
 	 */
@@ -712,7 +782,7 @@ public class DesignVisitor
 		 * @param obj
 		 *            auto text to traverse
 		 */
-		
+
 		public void visitAutoText( AutoText obj )
 		{
 			DesignVisitor.this.visitAutoText( obj.handle( module ) );
@@ -1104,6 +1174,66 @@ public class DesignVisitor
 		public void visitTemplateDataSet( TemplateDataSet obj )
 		{
 			DesignVisitor.this.visitTemplateDataSet( obj.handle( module ) );
+		}
+
+		/**
+		 * Visits the cube element.
+		 * 
+		 * @param obj
+		 *            the cube element
+		 */
+
+		public void visitCube( Cube obj )
+		{
+			DesignVisitor.this.visitCube( obj.handle( module ) );
+		}
+
+		/**
+		 * Visits the dimension element.
+		 * 
+		 * @param obj
+		 *            the dimension element
+		 */
+
+		public void visitDimension( Dimension obj )
+		{
+			DesignVisitor.this.visitDimension( obj.handle( module ) );
+		}
+
+		/**
+		 * Visits the hierarchy element.
+		 * 
+		 * @param obj
+		 *            the hierarchy element
+		 */
+
+		public void visitHierarchy( Hierarchy obj )
+		{
+			DesignVisitor.this.visitHierarchy( obj.handle( module ) );
+		}
+
+		/**
+		 * Visits the level element.
+		 * 
+		 * @param obj
+		 *            the level element
+		 */
+
+		public void visitLevel( Level obj )
+		{
+			DesignVisitor.this.visitLevel( obj.handle( module ) );
+		}
+
+		/**
+		 * Visits the measure element.
+		 * 
+		 * @param obj
+		 *            the measure element
+		 */
+
+		public void visitMeasure( Measure obj )
+		{
+			DesignVisitor.this.visitMeasure( obj.handle( module ) );
 		}
 	}
 }

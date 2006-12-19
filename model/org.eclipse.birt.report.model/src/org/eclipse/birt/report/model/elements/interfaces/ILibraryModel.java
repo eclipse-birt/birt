@@ -12,12 +12,12 @@
 package org.eclipse.birt.report.model.elements.interfaces;
 
 /**
- * The interface for report design element to store the constants.
+ * The interface for library element to store the constants.
  */
 
 public interface ILibraryModel
 {
-	// Design slots
+	// Library slots
 	// See constants defined in the module class.
 
 	/**
@@ -25,11 +25,17 @@ public interface ILibraryModel
 	 */
 	
 	public static final int THEMES_SLOT = 0;
-
+	
 	/**
-	 * Number of slots in the report design element.
+	 * Identifier of the slot that holds a collections of cube elements.
 	 */
 
-	public static final int SLOT_COUNT = 6;
+	public static final int CUBE_SLOT = 6;
+
+	/**
+	 * Number of slots in the library.
+	 */
+
+	public static final int SLOT_COUNT = 7;
 
 }

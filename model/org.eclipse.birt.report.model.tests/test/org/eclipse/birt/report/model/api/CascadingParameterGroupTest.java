@@ -13,6 +13,10 @@ package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
+/**
+ * Test cases for Cascading parameter group APIs.
+ */
+
 public class CascadingParameterGroupTest extends BaseTestCase
 {
 

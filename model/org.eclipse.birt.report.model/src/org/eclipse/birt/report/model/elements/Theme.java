@@ -118,17 +118,6 @@ public class Theme extends ReferenceableElement implements IThemeModel
 		return slots[STYLES_SLOT];
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.ReferenceableElement#adjustDeliveryPath(org.eclipse.birt.report.model.api.activity.NotificationEvent)
-	 */
-
-	protected void adjustDeliveryPath( NotificationEvent ev )
-	{
-		ev.setDeliveryPath( NotificationEvent.ELEMENT_CLIENT );
-	}
-
 	/**
 	 * Returns the style with the given name.
 	 * 

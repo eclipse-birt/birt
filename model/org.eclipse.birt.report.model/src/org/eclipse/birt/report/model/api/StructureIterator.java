@@ -26,7 +26,7 @@ import org.eclipse.birt.report.model.core.Structure;
  *  
  */
 
-public class StructureIterator implements Iterator
+class StructureIterator implements Iterator
 {
 
 	/**

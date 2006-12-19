@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.Style;
@@ -227,10 +228,10 @@ public class HighlightRule extends StyleRule
 
 	public void setStyle( StyleHandle styleElement )
 	{
-		if ( styleElement == null )
-			return;
+		DesignElement element = styleElement == null ? null : styleElement
+				.getElement( );
 
-		setProperty( HighlightRule.STYLE_MEMBER, styleElement.getElement( ) );
+		setProperty( HighlightRule.STYLE_MEMBER, element );
 	}
 
 	/**

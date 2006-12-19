@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.elements.structures.CachedMetaData;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
+import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
@@ -506,6 +507,17 @@ public class StructureFactory
 		TOC toc = new TOC( );
 		toc.setProperty( TOC.TOC_EXPRESSION, expression );
 		return toc;
+	}
+
+	/**
+	 * Creates an empty cube join condition structure.
+	 * 
+	 * @return an empty cube join condition structure.
+	 */
+
+	public static DimensionCondition createCubeJoinCondition( )
+	{
+		return new DimensionCondition( );
 	}
 
 }

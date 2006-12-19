@@ -683,10 +683,10 @@ public class ContentCommand extends AbstractElementCommand
 								// Clear all element reference property for
 								// dropped element
 
-								PropertyCommand cmd = new PropertyCommand(
+								ComplexPropertyCommand cmd = new ComplexPropertyCommand(
 										module, element );
 								cmd.removeItem( (ElementPropertyDefn) propDefn,
-										item.getElement( ) );
+										i );
 							}
 							catch ( SemanticException e )
 							{
@@ -1294,7 +1294,8 @@ public class ContentCommand extends AbstractElementCommand
 					.get( i );
 			ElementPropertyDefn propDefn = module
 					.getPropertyDefn( IModuleModel.PROPERTY_BINDINGS_PROP );
-			PropertyCommand propCommand = new PropertyCommand( module, module );
+			ComplexPropertyCommand propCommand = new ComplexPropertyCommand(
+					module, module );
 			propCommand.removeItem( new CachedMemberRef( propDefn ),
 					propBinding );
 		}

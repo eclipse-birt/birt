@@ -81,7 +81,7 @@ public class ShiftLibraryCommand extends AbstractElementCommand
 				adjustedNewPosn );
 		getActivityStack( ).execute( record );
 
-		PropertyCommand cmd = new PropertyCommand( module, module );
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( module, module );
 		ElementPropertyDefn propDefn = module
 				.getPropertyDefn( IModuleModel.LIBRARIES_PROP );
 		cmd.moveItem( new CachedMemberRef( propDefn ), oldPosn, newPosn );

@@ -12,8 +12,11 @@
 package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.command.ComplexPropertyCommand;
 import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.MemberRef;
@@ -83,33 +86,72 @@ public class MemberHandle extends SimpleValueHandle
 					"The structure is floating, and its handle is invalid!" ); //$NON-NLS-1$
 	}
 
-	// Implementation of abstract method defined in base class.
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#getDefn()
+	 */
 	public IPropertyDefn getDefn( )
 	{
 		return memberRef.getMemberDefn( );
 	}
 
-	// Implementation of abstract method defined in base class.
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#getValue()
+	 */
 	public Object getValue( )
 	{
 		Object value = memberRef.getValue( getModule( ), getElement( ) );
 
 		if ( value instanceof ReferenceValue )
 			return ReferenceValueUtil.needTheNamespacePrefix(
-					(ReferenceValue) value, getElementHandle( )
-							.getModule( ) );
+					(ReferenceValue) value, getElementHandle( ).getModule( ) );
 
 		return value;
 	}
 
-	// Implementation of abstract method defined in base class.
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#setValue(java.lang.Object)
+	 */
 	public void setValue( Object value ) throws SemanticException
 	{
 		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
 		cmd.setMember( memberRef, value );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#removeItem(int)
+	 */
+	public void removeItem( int posn ) throws PropertyValueException
+	{
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
+				getElement( ) );
+		cmd.removeItem( memberRef, posn );
+
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#addItem(java.lang.Object)
+	 */
+	public void addItem( Object item ) throws SemanticException
+	{
+		if ( item == null )
+			return;
+		if ( item instanceof IStructure )
+			super.addItem( (IStructure) item );
+		else
+		{
+			ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
+					getElement( ) );
+			cmd.addItem( memberRef, item );
+		}
 	}
 
 	// Implementation of abstract method defined in base class.

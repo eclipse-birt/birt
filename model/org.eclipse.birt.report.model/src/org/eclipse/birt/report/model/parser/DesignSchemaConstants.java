@@ -62,6 +62,8 @@ public interface DesignSchemaConstants
 	static final String COLUMN_TAG = "column"; //$NON-NLS-1$ 
 	static final String COMPONENTS_TAG = "components"; //$NON-NLS-1$	
 	static final String CONTENTS_TAG = "contents"; //$NON-NLS-1$
+	static final String CUBE_TAG = "cube"; //$NON-NLS-1$
+	static final String CUBES_TAG = "cubes"; //$NON-NLS-1$
 	static final String CUSTOM_COLOR_TAG = "custom-color"; //$NON-NLS-1$ 
 	static final String DATA_SETS_TAG = "data-sets"; //$NON-NLS-1$ 
 	static final String DATA_SOURCES_TAG = "data-sources"; //$NON-NLS-1$ 
@@ -69,6 +71,8 @@ public interface DesignSchemaConstants
 	static final String DEFAULT_VALUE_TAG = "default-value"; //$NON-NLS-1$
 	static final String DEFAULT_TAG = "default"; //$NON-NLS-1$
 	static final String DETAIL_TAG = "detail"; //$NON-NLS-1$
+	static final String DIMENSION_TAG = "dimension"; //$NON-NLS-1$
+	static final String DIMENSIONS_TAG = "dimensions"; //$NON-NLS-1$
 	static final String ENCRYPTED_PROPERTY_TAG = "encrypted-property"; //$NON-NLS-1$
 	static final String EX_PROPERTY_TAG = "ex-property"; //$NON-NLS-1$
 	static final String EXPRESSION_TAG = "expression"; //$NON-NLS-1$
@@ -89,7 +93,9 @@ public interface DesignSchemaConstants
 	static final String GRID_TAG = "grid"; //$NON-NLS-1$ 
 	static final String GROUP_TAG = "group"; //$NON-NLS-1$ 
 	static final String HEADER_TAG = "header"; //$NON-NLS-1$ 
-	static final String HEADLINE_TAG = "headline"; //$NON-NLS-1$ 
+	static final String HEADLINE_TAG = "headline"; //$NON-NLS-1$
+	static final String HIERARCHY_TAG = "hierarchy"; //$NON-NLS-1$
+	static final String HIERARCHIES_TAG = "hierarchies"; //$NON-NLS-1$
 	static final String HTML_PROPERTY_TAG = "html-property"; //$NON-NLS-1$
 	static final String ID_ATTRIB = "id"; //$NON-NLS-1$
 	static final String IMAGE_TAG = "image"; //$NON-NLS-1$ 
@@ -100,7 +106,9 @@ public interface DesignSchemaConstants
 	static final String INCLUDES_TAG = "includes"; //$NON-NLS-1$
 	static final String JOINT_DATA_SET_TAG = "joint-data-set"; //$NON-NLS-1$
 	static final String KEY_ATTRIB = "key"; //$NON-NLS-1$
-	static final String LABEL_TAG = "label"; //$NON-NLS-1$ 
+	static final String LABEL_TAG = "label"; //$NON-NLS-1$
+	static final String LEVEL_TAG = "level"; //$NON-NLS-1$
+	static final String LEVELS_TAG = "levels"; //$NON-NLS-1$
 	static final String LIBRARY_ATTRIB = "library"; //$NON-NLS-1$ 
 	static final String LIBRARY_TAG = "library"; //$NON-NLS-1$ 
 	static final String LINE_TAG = "line"; //$NON-NLS-1$ 
@@ -114,6 +122,8 @@ public interface DesignSchemaConstants
 	static final String MARGIN_TOP_ATTRIB = "margin-top"; //$NON-NLS-1$
 	static final String MARGINS_TAG = "margins"; //$NON-NLS-1$
 	static final String MASK_ATTRIB = "mask"; //$NON-NLS-1$
+	static final String MEASURE_TAG = "measure"; //$NON-NLS-1$
+	static final String MEASURES_TAG = "measures"; //$NON-NLS-1$
 	static final String METHOD_TAG = "method"; //$NON-NLS-1$
 	static final String NAME_ATTRIB = "name"; //$NON-NLS-1$ 
 	static final String NUMBER_ALIGN_ATTRIB = "number-align"; //$NON-NLS-1$ 

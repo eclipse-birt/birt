@@ -429,9 +429,16 @@ public abstract class PropertyDefn
 					throw new MetaDataException( new String[]{name},
 							MetaDataException.DESIGN_EXCEPTION_MISSING_SUB_TYPE );
 
-				// check the subtype, not all simple types are supported
+				// check the subtype, not all simple types are supported;
+				// furthermore, a structure member not support element-ref
+				// subtype, just simple types, such as int, float and...
+				if ( this instanceof StructPropertyDefn
+						&& subType.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
+					throw new MetaDataException(
+							new String[]{name, subType.getName( )},
+							MetaDataException.DESIGN_EXCEPTION_UNSUPPORTED_SUB_TYPE );
 
-				if ( !getSupportedSubTypes( ).contains( subType ) )
+				else if ( !getSupportedSubTypes( ).contains( subType ) )
 					throw new MetaDataException(
 							new String[]{name, subType.getName( )},
 							MetaDataException.DESIGN_EXCEPTION_UNSUPPORTED_SUB_TYPE );

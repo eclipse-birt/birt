@@ -16,6 +16,11 @@ import java.util.Iterator;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.command.InvalidParentException;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
+import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.AutoText;
@@ -49,12 +54,18 @@ import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
+import org.eclipse.birt.report.model.elements.olap.Cube;
+import org.eclipse.birt.report.model.elements.olap.Dimension;
+import org.eclipse.birt.report.model.elements.olap.Hierarchy;
+import org.eclipse.birt.report.model.elements.olap.Level;
+import org.eclipse.birt.report.model.elements.olap.Measure;
 import org.eclipse.birt.report.model.extension.oda.ODAProviderFactory;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
@@ -1031,6 +1042,88 @@ public class ElementFactory
 	public ThemeHandle newTheme( String name )
 	{
 		Theme element = new Theme( name );
+		module.makeUniqueName( element );
+		return element.handle( module );
+	}
+	
+	/**
+	 * Creates a new cube element. The name is required. If the
+	 * <code>name</code> is null, we will make a unique name for it.
+	 * 
+	 * @param name
+	 *            the cube element name.
+	 * @return a handle to the cube element
+	 */
+
+	public CubeHandle newCube( String name )
+	{
+		Cube element = new Cube( name );
+		module.makeUniqueName( element );
+		return element.handle( module );
+	}
+	
+	/**
+	 * Creates a new dimension element. The name is required. If the
+	 * <code>name</code> is null, we will make a unique name for it.
+	 * 
+	 * @param name
+	 *            the dimension name
+	 * @return a handle to the dimension element
+	 */
+
+	public DimensionHandle newDimension( String name )
+	{
+		// add a hierarchy element to the dimension
+		Dimension element = new Dimension( name );
+		module.makeUniqueName( element );
+		Hierarchy hierarchy = new Hierarchy( );
+		element.getSlot( IDimensionModel.HIERARCHY_SLOT ).add( hierarchy );
+		hierarchy.setContainer( element, IDimensionModel.HIERARCHY_SLOT );
+		module.makeUniqueName( hierarchy );
+		return element.handle( module );
+	}
+	
+	/**
+	 * Creates a new hierarchy element.
+	 * 
+	 * @param name
+	 *            the optional hierarchy element name. Can be <code>null</code>.
+	 * @return a handle to the hierarchy element
+	 */
+
+	public HierarchyHandle newHierarchy( String name )
+	{
+		Hierarchy element = new Hierarchy( name );
+		module.makeUniqueName( element );
+		return element.handle( module );
+	}
+	
+	/**
+	 * Creates a new level element.
+	 * 
+	 * @param name
+	 *            the optional level element name. Can be <code>null</code>.
+	 * @return a handle to the level element
+	 */
+
+	public LevelHandle newLevel( String name )
+	{
+		Level element = new Level( name );
+		module.makeUniqueName( element );
+		return element.handle( module );
+	}
+	
+	/**
+	 * Creates a new measure element.
+	 * 
+	 * @param name
+	 *            the optional measure element name. Can be <code>null</code>.
+	 * @return a handle to the measure element
+	 */
+
+	public MeasureHandle newMeasure( String name )
+	{
+		Measure element = new Measure( name );
 		module.makeUniqueName( element );
 		return element.handle( module );
 	}

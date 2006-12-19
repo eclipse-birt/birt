@@ -17,7 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.command.PropertyCommand;
+import org.eclipse.birt.report.model.command.ComplexPropertyCommand;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.JointDataSet;
@@ -101,7 +101,8 @@ public class JointDataSetHandle extends DataSetHandle
 
 	public void addDataSet( String dataSetName ) throws SemanticException
 	{
-		PropertyCommand command = new PropertyCommand( module, getElement( ) );
+		ComplexPropertyCommand command = new ComplexPropertyCommand( module,
+				getElement( ) );
 		command.addItem(
 				(ElementPropertyDefn) getPropertyDefn( DATA_SETS_PROP ),
 				dataSetName );
@@ -119,10 +120,8 @@ public class JointDataSetHandle extends DataSetHandle
 
 	public void removeDataSet( String dataSetName ) throws SemanticException
 	{
-		PropertyCommand command = new PropertyCommand( module, getElement( ) );
-		command.removeItem(
-				(ElementPropertyDefn) getPropertyDefn( DATA_SETS_PROP ),
-				dataSetName );
+		PropertyHandle propertyHandle = getPropertyHandle( DATA_SETS_PROP );
+		propertyHandle.removeItem( dataSetName );
 	}
 
 	/**

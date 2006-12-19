@@ -169,7 +169,7 @@ public class AbstractPropertyState extends AbstractParseState
 	 */
 
 	void setMember( IStructure struct, String propName, String member,
-			String value )
+			Object value )
 	{
 		// Ensure that the member is defined.
 
@@ -189,27 +189,27 @@ public class AbstractPropertyState extends AbstractParseState
 			return;
 		}
 
-		String valueToSet = value;
+		Object valueToSet = value;
 
 		if ( memberDefn.isEncryptable( ) )
 		{
 			IEncryptionHelper helper = MetaDataDictionary.getInstance( )
 					.getEncryptionHelper( );
-			valueToSet = helper.decrypt( valueToSet );
+			valueToSet = helper.decrypt( (String) valueToSet );
 		}
 
 		doSetMember( struct, propName, memberDefn, valueToSet );
 	}
 
 	protected void doSetMember( IStructure struct, String propName,
-			StructPropertyDefn memberDefn, String valueToSet )
+			StructPropertyDefn memberDefn, Object valueToSet )
 	{
 		// Validate the value.
 
 		try
 		{
 			Object propValue = memberDefn.validateXml( handler.getModule( ),
-					valueToSet );
+					(String) valueToSet );
 			struct.setProperty( memberDefn, propValue );
 		}
 		catch ( PropertyValueException ex )

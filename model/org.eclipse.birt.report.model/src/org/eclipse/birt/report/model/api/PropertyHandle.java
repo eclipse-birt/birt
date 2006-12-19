@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.command.ComplexPropertyCommand;
 import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -156,7 +157,6 @@ public class PropertyHandle extends SimpleValueHandle
 
 	public boolean isLocal( )
 	{
-		// TODO: getModule() here should be getRoot()
 		Object value = getElement( ).getLocalProperty( getModule( ), propDefn );
 		return ( value != null );
 	}
@@ -216,7 +216,8 @@ public class PropertyHandle extends SimpleValueHandle
 			return ( (ReportDesignHandle) moduleHandle ).getAllStyles( );
 		else if ( ReportDesignConstants.THEME_ITEM.equals( elementDefn
 				.getName( ) ) )
-			return moduleHandle.getVisibleThemes( IAccessControl.DIRECTLY_INCLUDED_LEVEL );
+			return moduleHandle
+					.getVisibleThemes( IAccessControl.DIRECTLY_INCLUDED_LEVEL );
 
 		return list;
 	}
@@ -284,19 +285,33 @@ public class PropertyHandle extends SimpleValueHandle
 		}
 
 		return isVisible;
-	}
+	}	
 
-	/**
-	 * Adds an item to the end of a list property. The handle must be working on
-	 * a list property.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param item
-	 *            The new item to add.
-	 * @throws SemanticException
-	 *             If the property is not a list property, or if the the value
-	 *             of the item is incorrect.
+	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#removeItem(int)
 	 */
-
+	public void removeItem( int posn ) throws PropertyValueException
+	{
+		if ( propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE )
+		{
+			ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
+					getElement( ) );
+			cmd.removeItem( propDefn, posn );
+		}
+		else
+		{
+			ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
+					getElement( ) );
+			cmd.removeItem( getReference( ), posn );
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#addItem(java.lang.Object)
+	 */
 	public void addItem( Object item ) throws SemanticException
 	{
 		if ( item == null )
@@ -305,50 +320,11 @@ public class PropertyHandle extends SimpleValueHandle
 			super.addItem( (IStructure) item );
 		else
 		{
-			PropertyCommand cmd = new PropertyCommand( getModule( ),
+			ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
 					getElement( ) );
 			cmd.addItem( propDefn, item );
 		}
 	}
-
-	/**
-	 * Removes an item from a list property. The handle must be working on a
-	 * list property.
-	 * 
-	 * @param item
-	 *            The new item to add.
-	 * @throws SemanticException
-	 *             If the property is not a list property, or if the the value
-	 *             of the item does not exist in the element.
-	 */
-
-	public void removeItem( Object item ) throws SemanticException
-	{
-		if ( item == null )
-			return;
-		if ( item instanceof IStructure )
-			super.removeItem( (IStructure) item );
-		else
-		{
-			PropertyCommand cmd = new PropertyCommand( getModule( ),
-					getElement( ) );
-			cmd.removeItem( propDefn, item );
-		}
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#removeItem(int)
-	 */
-	public void removeItem( int posn ) throws PropertyValueException
-	{
-		if ( propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE )
-		{
-			PropertyCommand cmd = new PropertyCommand( getModule( ) , getElement( ));
-			cmd.removeItem( propDefn, posn );
-		}
-		else
-			super.removeItem( posn );
-	}	
 
 	/**
 	 * Returns whether the property value is read-only in the report context.
@@ -373,5 +349,5 @@ public class PropertyHandle extends SimpleValueHandle
 		}
 
 		return false;
-	}
+	}	
 }

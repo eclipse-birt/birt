@@ -26,10 +26,11 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.command.PropertyCommand;
-import org.eclipse.birt.report.model.core.CachedMemberRef;
-import org.eclipse.birt.report.model.core.MemberRef;
+import org.eclipse.birt.report.model.command.ComplexPropertyCommand;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.metadata.ElementRefPropertyType;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
@@ -127,7 +128,7 @@ public abstract class SimpleValueHandle extends ValueHandle
 	}
 
 	/**
-	 * Gets the value as a structure list.
+	 * Gets the value as a list.
 	 * 
 	 * @return The value as a list. Returns null if the value cannot be
 	 *         converted to a list.
@@ -165,16 +166,115 @@ public abstract class SimpleValueHandle extends ValueHandle
 	public StructureHandle getAt( int n )
 	{
 		if ( isList( ) )
-		{
-			MemberRef structRef = new CachedMemberRef( getReference( ), n );
-			Structure struct = structRef.getStructure( getModule( ),
-					getElement( ) );
-
-			if ( struct != null )
-				return struct.getHandle( this, n );
-		}
-
+			return (StructureHandle) get( n );
 		return null;
+	}
+
+	/**
+	 * Returns the the nth entry in a list property or member. Use this method
+	 * for properties that contain a list of items. The index must be valid for
+	 * the list. In the following cases, this method will return a meaningful
+	 * value:
+	 * <p>
+	 * <li>If this property or member is a structure list type, then return
+	 * <code>StructureHandle</code>.</li>
+	 * <li>If this property or member is a list of element reference, return
+	 * <code>DesignElementHandle</code> if resolved, otherwise return the
+	 * qualified name of the referred element.</li>
+	 * <li>If this property or member is a list of simeple value(int, float,
+	 * decimal, date-time, string), then return the atomice Java Object(Integer,
+	 * Float, Double, BigDecimal, Date, String).</li>
+	 * <li>If this property or member is not a list value or the index is out
+	 * of range, then return <code>null</code>.</li>
+	 * 
+	 * @param n
+	 *            The list index.
+	 * @return A handle to the structure, a handle to the referred element, or
+	 *         some simple value(int, float, decimal, data-time, string) at the
+	 *         given index.
+	 */
+
+	public Object get( int n )
+	{
+		List values = getListValue( );
+		if ( values == null || values.isEmpty( ) )
+			return null;
+
+		Object item = values.get( n );
+		if ( item instanceof Structure )
+		{
+			return ( (Structure) item ).getHandle( this, n );
+		}
+		else if ( item instanceof ElementRefValue )
+		{
+			ElementRefValue refValue = (ElementRefValue) item;
+			if ( refValue.isResolved( ) )
+				return refValue.getElement( ).getHandle(
+						refValue.getElement( ).getRoot( ) );
+			return refValue.getQualifiedReference( );
+		}
+		return item;
+	}
+
+	/**
+	 * Returns the index in this list of the first occurrence of the specified
+	 * element, or -1 if this list does not contain this element. More formally,
+	 * returns the lowest index <tt>i</tt> such that
+	 * <tt>(o==null ? get(i)==null : o.equals(get(i)))</tt>, or -1 if there
+	 * is no such index.
+	 * 
+	 * @param o
+	 *            element to search for.
+	 * @return the index in this list of the first occurrence of the specified
+	 *         element, or -1 if this list does not contain this element.
+	 */
+	public int indexOf( Object o )
+	{
+		List values = getListValue( );
+		if ( values == null || values.isEmpty( ) )
+			return -1;
+		if ( getTypeCode( ) == IPropertyType.STRUCT_TYPE )
+		{
+			if ( o instanceof StructureHandle )
+				return values.indexOf( ( (StructureHandle) o ).getStructure( ) );
+			return values.indexOf( o );
+		}
+		else if ( getTypeCode( ) == IPropertyType.LIST_TYPE )
+		{
+			PropertyDefn defn = (PropertyDefn) getDefn( );
+			if ( defn.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
+			{
+				if ( o instanceof DesignElementHandle )
+				{
+					DesignElementHandle handle = (DesignElementHandle) o;
+					ElementRefValue value = new ElementRefValue( handle
+							.getModule( ).getNamespace( ), handle.getElement( ) );
+					return values.indexOf( value );
+				}
+				else if ( o instanceof DesignElement )
+				{
+					DesignElement e = (DesignElement) o;
+					String prefix = e.getRoot( ) == null ? null : e.getRoot( )
+							.getNamespace( );
+					ElementRefValue value = new ElementRefValue( prefix, e );
+					return values.indexOf( value );
+				}
+				else if ( o instanceof String )
+				{
+					String stringValue = (String) o;
+					ElementRefValue value = new ElementRefValue( StringUtil
+							.extractNamespace( stringValue ), StringUtil
+							.extractName( stringValue ) );
+					ElementRefPropertyType type = new ElementRefPropertyType( );
+					type.resolve( getModule( ), defn, value );
+					return values.indexOf( value );
+				}
+				return values.indexOf( o );
+			}
+			else
+				return values.indexOf( o );
+		}
+		return -1;
 	}
 
 	/**
@@ -204,9 +304,14 @@ public abstract class SimpleValueHandle extends ValueHandle
 
 	public Iterator iterator( )
 	{
+		// structure list type
 		if ( isList( ) )
 		{
 			return new StructureIterator( this );
+		}
+		else if ( getTypeCode( ) == IPropertyType.LIST_TYPE )
+		{
+			return new SimpleIterator( this );
 		}
 
 		return Collections.EMPTY_LIST.iterator( );
@@ -319,15 +424,21 @@ public abstract class SimpleValueHandle extends ValueHandle
 	 *             <code>(index &lt; 0 || index &gt;= list.size())</code>.
 	 */
 
-	public void removeItem( int posn ) throws PropertyValueException
-	{
-		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
-		cmd.removeItem( getReference( ), posn );
-	}
+	abstract public void removeItem( int posn ) throws PropertyValueException;
 
 	/**
 	 * Removes an item from a list property or member. The handle must be
-	 * working on a list property or member.
+	 * working on a list property or member.The item should be a meaningfule
+	 * value in the following cases:
+	 * <p>
+	 * <li>If this property or member is a structure list type, the item should
+	 * be a <code>StructureHandle</code> or <code>Structure</code>.</li>
+	 * <li>If this property or member is a list of element reference, the item
+	 * should be <code>DesignElementHandle</code> or
+	 * <code>IDesignElement</code>.</li>
+	 * <li>If this property or member is a list of simeple value(int, float,
+	 * decimal, date-time, string), then return the atomice Java Object(Integer,
+	 * Float, Double, BigDecimal, Date, String).</li>
 	 * 
 	 * @param item
 	 *            the item to remove
@@ -336,10 +447,10 @@ public abstract class SimpleValueHandle extends ValueHandle
 	 *             is not contained in the list.
 	 */
 
-	public void removeItem( IStructure item ) throws PropertyValueException
+	public final void removeItem( Object item ) throws PropertyValueException
 	{
-		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
-		cmd.removeItem( getReference( ), item );
+		int posn = indexOf( item );
+		removeItem( posn );
 	}
 
 	/**
@@ -356,21 +467,16 @@ public abstract class SimpleValueHandle extends ValueHandle
 
 	public void removeItems( List items ) throws PropertyValueException
 	{
-		if ( items == null )
+		if ( items == null || items.isEmpty( ) )
 			return;
 		ActivityStack stack = getModule( ).getActivityStack( );
-		List newItems = new ArrayList( );
-		for ( int i = 0; i < items.size( ); i++ )
-		{
-			newItems.add( ( (StructureHandle) items.get( i ) ).getStructure( ) );
-		}
 		stack.startTrans( );
 		try
 		{
-			for ( int i = 0; i < newItems.size( ); i++ )
+			for ( int i = 0; i < items.size( ); i++ )
 			{
-				IStructure item = (IStructure) newItems.get( i );
-				removeItem( item );
+				int posn = indexOf( items.get( i ) );
+				removeItem( posn );
 			}
 		}
 		catch ( PropertyValueException e )
@@ -399,7 +505,8 @@ public abstract class SimpleValueHandle extends ValueHandle
 	public void replaceItem( IStructure oldItem, IStructure newItem )
 			throws SemanticException
 	{
-		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
+				getElement( ) );
 		cmd.replaceItem( getReference( ), oldItem, newItem );
 	}
 
@@ -421,11 +528,25 @@ public abstract class SimpleValueHandle extends ValueHandle
 		if ( item == null )
 			return null;
 
-		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
+				getElement( ) );
 		cmd.addItem( getReference( ), item );
 
 		return ( (Structure) item ).getHandle( this );
 	}
+
+	/**
+	 * Adds an item to the end of a list property. The handle must be working on
+	 * a list property.
+	 * 
+	 * @param item
+	 *            The new item to add.
+	 * @throws SemanticException
+	 *             If the property is not a list property, or if the the value
+	 *             of the item is incorrect.
+	 */
+
+	abstract public void addItem( Object item ) throws SemanticException;
 
 	/**
 	 * Inserts a new item into a list property or member at the given position.
@@ -451,7 +572,8 @@ public abstract class SimpleValueHandle extends ValueHandle
 		if ( item == null )
 			return null;
 
-		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
+				getElement( ) );
 		cmd.insertItem( this.getReference( ), item, posn );
 
 		return ( (Structure) item ).getHandle( this );
@@ -474,7 +596,8 @@ public abstract class SimpleValueHandle extends ValueHandle
 
 	public void moveItem( int from, int to ) throws PropertyValueException
 	{
-		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
+				getElement( ) );
 		cmd.moveItem( getReference( ), from, to );
 	}
 
@@ -549,5 +672,5 @@ public abstract class SimpleValueHandle extends ValueHandle
 	 *         <code>false</code>.
 	 */
 
-	abstract public boolean isReadOnly( );
+	abstract public boolean isReadOnly( );	
 }

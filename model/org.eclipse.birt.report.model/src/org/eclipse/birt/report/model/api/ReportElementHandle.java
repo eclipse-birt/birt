@@ -17,6 +17,7 @@ import java.util.Iterator;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.PropertyNameException;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyMask;
+import org.eclipse.birt.report.model.command.ComplexPropertyCommand;
 import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -163,7 +164,8 @@ public abstract class ReportElementHandle extends DesignElementHandle
 	public void setPropertyMask( String propName, String maskValue )
 			throws SemanticException
 	{
-		if ( IDesignElementModel.PROPERTY_MASKS_PROP.equalsIgnoreCase( propName ) )
+		if ( IDesignElementModel.PROPERTY_MASKS_PROP
+				.equalsIgnoreCase( propName ) )
 			return;
 
 		ElementPropertyDefn maskProp = getElement( ).getPropertyDefn(
@@ -185,8 +187,8 @@ public abstract class ReportElementHandle extends DesignElementHandle
 		if ( masks == null )
 		{
 			masks = new ArrayList( );
-			getElement( )
-					.setProperty( IDesignElementModel.PROPERTY_MASKS_PROP, masks );
+			getElement( ).setProperty( IDesignElementModel.PROPERTY_MASKS_PROP,
+					masks );
 		}
 
 		for ( int i = 0; i < masks.size( ); i++ )
@@ -199,7 +201,8 @@ public abstract class ReportElementHandle extends DesignElementHandle
 			}
 		}
 
-		PropertyCommand cmd = new PropertyCommand( module, getElement( ) );
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( module,
+				getElement( ) );
 
 		if ( maskValue == null && mask != null )
 		{
@@ -235,7 +238,9 @@ public abstract class ReportElementHandle extends DesignElementHandle
 
 				MemberRef memberRef = new CachedMemberRef( maskProp, masks
 						.indexOf( mask ), PropertyMask.MASK_MEMBER );
-				cmd.setMember( memberRef, value );
+				PropertyCommand pCmd = new PropertyCommand( module,
+						getElement( ) );
+				pCmd.setMember( memberRef, value );
 			}
 		}
 	}
@@ -253,7 +258,8 @@ public abstract class ReportElementHandle extends DesignElementHandle
 	public void setDisplayNameKey( String displayNameKey )
 			throws SemanticException
 	{
-		setStringProperty( IDesignElementModel.DISPLAY_NAME_ID_PROP, displayNameKey );
+		setStringProperty( IDesignElementModel.DISPLAY_NAME_ID_PROP,
+				displayNameKey );
 	}
 
 	/**
@@ -376,8 +382,8 @@ public abstract class ReportElementHandle extends DesignElementHandle
 	 * 
 	 * @return <code>true</code> if the compound element is valid. Otherwise
 	 *         <code>false</code>.
-	 *         
-	 * @deprecated        
+	 * 
+	 * @deprecated
 	 */
 
 	public boolean isValidReferenceForCompoundElement( )

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.10" id="1">
+    <data-sources>
+        <script-data-source name="myDataSource" id="4"/>
+    </data-sources>
+    <data-sets>
+        <script-data-set name="firstDataSet" id="5">
+            <property name="dataSource">myDataSource</property>
+        </script-data-set>
+        <script-data-set name="secondDataSet" id="6">
+            <property name="dataSource">myDataSource</property>
+        </script-data-set>
+    </data-sets>
+    <cubes>
+        <cube name="testCube" id="7">
+            <property name="dataSet">firstDataSet</property>
+            <list-property name="dimensionConditions">
+                <structure>
+                    <simple-property-list name="primaryKeys">
+                        <value>column</value>
+                        <value>column2</value>
+                        <value>column4</value>
+                    </simple-property-list>
+                    <property name="hierarchy">testHierarchy</property>
+                </structure>
+                <structure>
+                    <simple-property-list name="primaryKeys">
+                        <value>column</value>
+                    </simple-property-list>
+                    <property name="hierarchy">nonExistingHierarchy</property>
+                </structure>
+            </list-property>
+            <dimensions>
+                <dimension name="testDimension" id="8">
+                    <property name="isTimeType">true</property>
+                    <hierarchies>
+                        <hierarchy name="testHierarchy" id="9">
+                            <property name="dataSet">secondDataSet</property>
+                            <simple-property-list name="primaryKeys">
+                                <value>key</value>
+                                <value>key2</value>
+                                <value>key4</value>
+                            </simple-property-list>
+                            <levels>
+                                <level name="testLevel" id="10">
+                                    <property name="columnName">column1</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">var1</property>
+                                            <property name="value">mumble.jpg</property>
+                                        </structure>
+                                        <structure>
+                                            <property name="name">var2</property>
+                                            <property name="value">abcdefg</property>
+                                        </structure>
+                                    </list-property>
+                                </level>
+                            </levels>
+                        </hierarchy>
+                    </hierarchies>
+                </dimension>
+            </dimensions>
+            <measures>
+                <measure name="testMeasure" id="11">
+                    <property name="function">min</property>
+                    <property name="isCalculated">false</property>
+                    <expression name="measureExpression">column</expression>
+                </measure>
+            </measures>
+        </cube>
+        <cube name="testCube1" id="12">
+            <property name="dataSet">firstDataSet</property>
+            <list-property name="dimensionConditions">
+                <structure>
+                    <simple-property-list name="primaryKeys">
+                        <value>column</value>
+                        <value>column2</value>
+                        <value>column4</value>
+                    </simple-property-list>
+                    <property name="hierarchy">testHierarchy</property>
+                </structure>
+                <structure>
+                    <simple-property-list name="primaryKeys">
+                        <value>column</value>
+                    </simple-property-list>
+                    <property name="hierarchy">nonExistingHierarchy</property>
+                </structure>
+            </list-property>
+            <dimensions>
+                <dimension name="testDimension1" id="13">
+                    <property name="isTimeType">true</property>
+                    <hierarchies>
+                        <hierarchy name="testHierarchy1" id="14">
+                            <property name="dataSet">secondDataSet</property>
+                            <simple-property-list name="primaryKeys">
+                                <value>key</value>
+                                <value>key2</value>
+                                <value>key4</value>
+                            </simple-property-list>
+                            <levels>
+                                <level name="testLevel1" id="15">
+                                    <property name="columnName">column1</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">var1</property>
+                                            <property name="value">mumble.jpg</property>
+                                        </structure>
+                                        <structure>
+                                            <property name="name">var2</property>
+                                            <property name="value">abcdefg</property>
+                                        </structure>
+                                    </list-property>
+                                </level>
+                            </levels>
+                        </hierarchy>
+                    </hierarchies>
+                </dimension>
+            </dimensions>
+            <measures>
+                <measure name="testMeasure1" id="16">
+                    <property name="function">min</property>
+                    <property name="isCalculated">false</property>
+                    <expression name="measureExpression">column</expression>
+                </measure>
+            </measures>
+        </cube>
+    </cubes>
+    <page-setup>
+        <graphic-master-page name="My Page" id="2">
+            <contents>
+                <data id="3">
+                    <list-property name="boundDataColumns">
+                        <structure>
+                            <property name="name">[myParam]</property>
+                            <expression name="expression">[myParam]</expression>
+                        </structure>
+                    </list-property>
+                    <property name="resultSetColumn">[myParam]</property>
+                    <text-property name="helpText">Shows what parameter was used.</text-property>
+                </data>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+</report>

@@ -732,5 +732,14 @@ public interface DesignChoiceConstants
 	public static final String VIEW_ACTION_CHANGED = "Changed"; //$NON-NLS-1$
 	public static final String VIEW_ACTION_ADDED = "Added"; //$NON-NLS-1$
 	public static final String VIEW_ACTION_DELETED = "Deleted"; //$NON-NLS-1$
-
+	
+	/**
+	 * measure Function -- measure function type.
+	 */
+	
+	public static final String CHOICE_MEASURE_FUNCTION = "measureFunction"; //$NON-NLS-1$
+	public static final String MEASURE_FUNCTION_SUM = "sum"; //$NON-NLS-1$
+	public static final String MEASURE_FUNCTION_COUNT = "count"; //$NON-NLS-1$
+	public static final String MEASURE_FUNCTION_MIN = "min"; //$NON-NLS-1$
+	public static final String MEASURE_FUNCTION_MAX = "max"; //$NON-NLS-1$
 };

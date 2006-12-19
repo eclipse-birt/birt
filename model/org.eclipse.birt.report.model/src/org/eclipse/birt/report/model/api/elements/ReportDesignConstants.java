@@ -65,6 +65,11 @@ public interface ReportDesignConstants
 	String TEMPLATE_DATA_SET = "TemplateDataSet"; //$NON-NLS-1$
 	String JOINT_DATA_SET = "JointDataSet"; //$NON-NLS-1$
 	String AUTOTEXT_ITEM = "AutoText";//$NON-NLS-1$
+	String CUBE_ELEMENT = "Cube"; //$NON-NLS-1$
+	String DIMENSION_ELEMENT = "Dimension"; //$NON-NLS-1$
+	String HIERARCHY_ELEMENT = "Hierarchy"; //$NON-NLS-1$
+	String LEVEL_ELEMENT = "Level"; //$NON-NLS-1$
+	String MEASURE_ELEMENT = "Measure"; //$NON-NLS-1$
 
 	/**
 	 * @deprecated by {@link #TEXT_DATA_ITEM}

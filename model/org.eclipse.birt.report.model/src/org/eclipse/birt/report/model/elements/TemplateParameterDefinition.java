@@ -122,17 +122,6 @@ public class TemplateParameterDefinition extends ReferenceableElement
 		return (TemplateParameterDefinitionHandle) handle;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.ReferenceableElement#setDeliveryPath(org.eclipse.birt.report.model.activity.NotificationEvent)
-	 */
-
-	protected void adjustDeliveryPath( NotificationEvent ev )
-	{
-		ev.setDeliveryPath( NotificationEvent.ELEMENT_CLIENT );
-	}
-
 	/**
 	 * Returns the slot in this cell defined by the slot ID.
 	 * 

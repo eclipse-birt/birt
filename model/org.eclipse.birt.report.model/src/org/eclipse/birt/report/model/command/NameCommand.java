@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
 
@@ -136,7 +137,8 @@ public class NameCommand extends AbstractElementCommand
 
 			// Cannot set the name of an element when the name is not allowed.
 
-			if ( metaData.getNameOption( ) == MetaDataConstants.NO_NAME )
+			if ( metaData.getProperty( IDesignElementModel.NAME_PROP ) == null
+					&& metaData.getNameOption( ) == MetaDataConstants.NO_NAME )
 				throw new NameException( element, name,
 						NameException.DESIGN_EXCEPTION_NAME_FORBIDDEN );
 

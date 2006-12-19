@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
@@ -269,6 +270,11 @@ public class StructureState extends AbstractPropertyState
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STRUCTURE_TAG ) )
 			return new StructureState( handler, element, propDefn, struct );
 
+		if ( tagName
+				.equalsIgnoreCase( DesignSchemaConstants.SIMPLE_PROPERTY_LIST_TAG ) )
+			return new SimplePropertyListState( handler, element, propDefn,
+					struct );
+
 		return super.startElement( tagName );
 	}
 
@@ -327,7 +333,8 @@ public class StructureState extends AbstractPropertyState
 
 		if ( ( element instanceof DataSet ) )
 		{
-			if ( IDataSetModel.COMPUTED_COLUMNS_PROP.equalsIgnoreCase( propName ) )
+			if ( IDataSetModel.COMPUTED_COLUMNS_PROP
+					.equalsIgnoreCase( propName ) )
 			{
 				CompatibleComputedColumnStructureState state = new CompatibleComputedColumnStructureState(
 						handler, element, propDefn, list );
@@ -477,8 +484,9 @@ public class StructureState extends AbstractPropertyState
 
 		structDict.put( ScriptLib.STRUCTURE_NAME.toLowerCase( ),
 				ScriptLib.class );
-		
-		structDict.put( TOC.TOC_STRUCT.toLowerCase( ),
-				TOC.class );
+
+		structDict.put( TOC.TOC_STRUCT.toLowerCase( ), TOC.class );
+		structDict.put( DimensionCondition.DIMENSION_CONDITION_STRUCT
+				.toLowerCase( ), DimensionCondition.class );
 	}
 }

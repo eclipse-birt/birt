@@ -95,21 +95,26 @@ import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.interfaces.IAutoTextModel;
 import org.eclipse.birt.report.model.elements.interfaces.ICascadingParameterGroupModel;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
+import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSourceModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IFreeFormModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGraphicMaterPageModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IHierarchyModel;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IJointDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.ILabelModel;
+import org.eclipse.birt.report.model.elements.interfaces.ILevelModel;
 import org.eclipse.birt.report.model.elements.interfaces.ILineItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
+import org.eclipse.birt.report.model.elements.interfaces.IMeasureModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSourceModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
@@ -129,6 +134,11 @@ import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITemplateParameterDefinitionModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITextDataItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITextItemModel;
+import org.eclipse.birt.report.model.elements.olap.Cube;
+import org.eclipse.birt.report.model.elements.olap.Dimension;
+import org.eclipse.birt.report.model.elements.olap.Hierarchy;
+import org.eclipse.birt.report.model.elements.olap.Level;
+import org.eclipse.birt.report.model.elements.olap.Measure;
 import org.eclipse.birt.report.model.extension.oda.ODAProvider;
 import org.eclipse.birt.report.model.extension.oda.OdaDummyProvider;
 import org.eclipse.birt.report.model.metadata.Choice;
@@ -876,19 +886,26 @@ public abstract class ModuleWriter extends ElementVisitor
 		// the member of the structure list may be the
 		// structure/structure list again.
 
-		if ( propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
+		String propName = propDefn.getName( );
+		switch ( propDefn.getTypeCode( ) )
 		{
-			if ( propDefn.isList( ) )
-				writeStructureList( struct, propDefn.getName( ) );
-			else
-				writeStructure( struct, propDefn.getName( ) );
+			case IPropertyType.STRUCT_TYPE :
+				if ( propDefn.isList( ) )
+					writeStructureList( struct, propName );
+				else
+					writeStructure( struct, propName );
+				break;
+			case IPropertyType.LIST_TYPE :
+				writeSimplePropertyList( struct, propName );
+				break;
+			default :
+				property( struct, propName );
+				break;
 		}
-		else
-			property( struct, propDefn.getName( ) );
 	}
 
 	/**
-	 * Writes the structure list, each of which has only one member.
+	 * Writes the simple value list.
 	 * 
 	 * @param obj
 	 *            the design element
@@ -904,6 +921,45 @@ public abstract class ModuleWriter extends ElementVisitor
 			return;
 
 		List values = (List) obj.getLocalProperty( getModule( ), propName );
+		if ( values == null || values.isEmpty( ) )
+			return;
+
+		writer
+				.conditionalStartElement( DesignSchemaConstants.SIMPLE_PROPERTY_LIST_TAG );
+		writer.attribute( DesignSchemaConstants.NAME_ATTRIB, propName );
+
+		for ( int i = 0; i < values.size( ); i++ )
+		{
+			PropertyType type = prop.getSubType( );
+			String xmlValue = type.toXml( getModule( ), prop, values.get( i ) );
+			if ( xmlValue != null )
+			{
+				writer.startElement( DesignSchemaConstants.VALUE_TAG );
+				writer.text( xmlValue );
+				writer.endElement( );
+			}
+		}
+
+		writer.endElement( );
+	}
+
+	/**
+	 * Writes the simple value list.
+	 * 
+	 * @param struct
+	 *            the structure
+	 * @param propName
+	 *            the name of the list property
+	 */
+
+	protected void writeSimplePropertyList( IStructure struct, String propName )
+	{
+		PropertyDefn prop = (PropertyDefn) struct.getDefn( ).getMember(
+				propName );
+		if ( prop == null || prop.getTypeCode( ) != IPropertyType.LIST_TYPE )
+			return;
+
+		List values = (List) struct.getLocalProperty( getModule( ), prop);
 		if ( values == null || values.isEmpty( ) )
 			return;
 
@@ -3225,6 +3281,92 @@ public abstract class ModuleWriter extends ElementVisitor
 				writeContentNode( child );
 			}
 		}
+
+		writer.endElement( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitCube(org.eclipse.birt.report.model.elements.olap.Cube)
+	 */
+	public void visitCube( Cube obj )
+	{
+		writer.startElement( DesignSchemaConstants.CUBE_TAG );
+		super.visitCube( obj );
+		property( obj, ICubeModel.DATA_SET_PROP );
+		writeStructureList( obj, ICubeModel.DIMENSION_CONDITIONS_PROP );
+
+		writeContents( obj, ICubeModel.DIMENSION_SLOT,
+				DesignSchemaConstants.DIMENSIONS_TAG );
+		writeContents( obj, ICubeModel.MEASURE_SLOT,
+				DesignSchemaConstants.MEASURES_TAG );
+
+		writer.endElement( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitDimension(org.eclipse.birt.report.model.elements.olap.Dimension)
+	 */
+	public void visitDimension( Dimension obj )
+	{
+		writer.startElement( DesignSchemaConstants.DIMENSION_TAG );
+		super.visitDimension( obj );
+		property( obj, IDimensionModel.IS_TIME_TYPE_PROP );
+
+		writeContents( obj, IDimensionModel.HIERARCHY_SLOT,
+				DesignSchemaConstants.HIERARCHIES_TAG );
+
+		writer.endElement( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitHierarchy(org.eclipse.birt.report.model.elements.olap.Hierarchy)
+	 */
+	public void visitHierarchy( Hierarchy obj )
+	{
+		writer.startElement( DesignSchemaConstants.HIERARCHY_TAG );
+		super.visitHierarchy( obj );
+		property( obj, IHierarchyModel.DATA_SET_PROP );
+		writeSimplePropertyList( obj, IHierarchyModel.PRIMARY_KEYS_PROP );
+
+		writeContents( obj, IHierarchyModel.LEVEL_SLOT,
+				DesignSchemaConstants.LEVELS_TAG );
+
+		writer.endElement( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitLevel(org.eclipse.birt.report.model.elements.olap.Level)
+	 */
+	public void visitLevel( Level obj )
+	{
+		writer.startElement( DesignSchemaConstants.LEVEL_TAG );
+		super.visitLevel( obj );
+		property( obj, ILevelModel.COLUMN_NAME_PROP );
+		writeStructureList( obj, ILevelModel.ATTRIBUTES_PROP );
+
+		writer.endElement( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitMeasure(org.eclipse.birt.report.model.elements.olap.Measure)
+	 */
+	public void visitMeasure( Measure obj )
+	{
+		writer.startElement( DesignSchemaConstants.MEASURE_TAG );
+		super.visitMeasure( obj );
+		property( obj, IMeasureModel.FUNCTION_PROP );
+		property( obj, IMeasureModel.IS_CALCULATED_PROP );
+		property( obj, IMeasureModel.MEASURE_EXPRESSION_PROP );
 
 		writer.endElement( );
 	}

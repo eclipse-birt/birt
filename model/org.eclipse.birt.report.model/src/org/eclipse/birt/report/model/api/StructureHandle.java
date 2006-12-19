@@ -19,7 +19,7 @@ import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.command.PropertyCommand;
+import org.eclipse.birt.report.model.command.ComplexPropertyCommand;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
@@ -284,7 +284,8 @@ public class StructureHandle extends ValueHandle
 
 		}
 
-		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
+				getElement( ) );
 		cmd.removeItem( listRef, getStructure( ) );
 	}
 

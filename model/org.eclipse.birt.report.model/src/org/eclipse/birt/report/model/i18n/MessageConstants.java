@@ -196,7 +196,7 @@ public interface MessageConstants
 	public static final String SEMANTIC_ERROR_ROW_INSERTANDPASTE_FORBIDDEN="Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN";//$NON-NLS-1$
 	
 	public static final String SEMANTIC_ERROR_CIRCULAR_ELEMENT_REFERNECE="Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE";//$NON-NLS-1$
-	
+		
 	// ThemeException
 
 	public static final String THEME_EXCEPTION_NOT_FOUND = "Error.ThemeException.NOT_FOUND"; //$NON-NLS-1$
@@ -293,4 +293,5 @@ public interface MessageConstants
 	// VersionInfo
 	public static final String VERSION_INFO_INVALID_DESIGN_FILE = "Info.VersionInfo.INVALID_DESIGN_FILE"; //$NON-NLS-1$
 	public static final String VERSION_INFO_CONVERT_INFO = "Info.VersionInfo.CONVERT_INFO"; //$NON-NLS-1$
+	
 }
