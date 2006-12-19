@@ -12,14 +12,12 @@
 package org.eclipse.birt.chart.ui.swt.wizard.data;
 
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
-import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.GroupSortingDialog;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -67,8 +65,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 	private transient Button btnBuilder = null;
 
-	private transient Button btnFormatEditor = null;
-
 	private transient Button btnGroup = null;
 
 	private transient Query query = null;
@@ -90,22 +86,19 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	/** Indicates no button */
 	public static final int BUTTON_NONE = 0;
 
-	/** Indicates button for format specifier will be created */
-	public static final int BUTTON_FORMAT = 1;
-
 	/** Indicates button for group sorting will be created */
-	public static final int BUTTON_GROUP = 2;
+	public static final int BUTTON_GROUP = 1;
 
 	public BaseDataDefinitionComponent( SeriesDefinition seriesdefinition,
 			Query query, ChartWizardContext context, String sTitle )
 	{
-		this( BUTTON_FORMAT, seriesdefinition, query, context, sTitle );
+		this( BUTTON_NONE, seriesdefinition, query, context, sTitle );
 	}
 
 	/**
 	 * 
 	 * @param style
-	 *            Specify buttons by using '|'. See {@link #BUTTON_FORMAT},
+	 *            Specify buttons by using '|'. See  
 	 *            {@link #BUTTON_GROUP}, {@link #BUTTON_NONE}
 	 * @param seriesdefinition
 	 * @param query
@@ -130,10 +123,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	{
 		int numColumns = 2;
 		if ( description != null && description.length( ) > 0 )
-		{
-			numColumns++;
-		}
-		if ( ( style & BUTTON_FORMAT ) == BUTTON_FORMAT )
 		{
 			numColumns++;
 		}
@@ -200,20 +189,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			btnBuilder.getImage( ).setBackground( btnBuilder.getBackground( ) );
 			btnBuilder.setEnabled( context.getUIServiceProvider( )
 					.isInvokingSupported( ) );
-		}
-
-		if ( ( style & BUTTON_FORMAT ) == BUTTON_FORMAT )
-		{
-			btnFormatEditor = new Button( cmpTop, SWT.PUSH );
-			GridData gdBTNFormatEditor = new GridData( );
-			gdBTNFormatEditor.heightHint = 20;
-			gdBTNFormatEditor.widthHint = 20;
-			btnFormatEditor.setLayoutData( gdBTNFormatEditor );
-			btnFormatEditor.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
-			btnFormatEditor.addSelectionListener( this );
-			btnFormatEditor.setToolTipText( Messages.getString( "BaseDataDefinitionComponent.Text.EditFormat" ) ); //$NON-NLS-1$
-			btnFormatEditor.getImage( )
-					.setBackground( btnFormatEditor.getBackground( ) );
 		}
 
 		if ( ( style & BUTTON_GROUP ) == BUTTON_GROUP )
@@ -287,24 +262,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			catch ( ChartException e1 )
 			{
 				WizardBase.displayException( e1 );
-			}
-		}
-		else if ( e.getSource( ).equals( btnFormatEditor ) )
-		{
-			FormatSpecifier formatspecifier = seriesdefinition.getFormatSpecifier( );
-			FormatSpecifierDialog editor = new FormatSpecifierDialog( cmpTop.getShell( ),
-					formatspecifier,
-					sTitle );
-			if ( editor.open( ) == Window.OK )
-			{
-				if ( editor.getFormatSpecifier( ) == null )
-				{
-					seriesdefinition.eUnset( DataPackage.eINSTANCE.getSeriesDefinition_FormatSpecifier( ) );
-				}
-				else
-				{
-					seriesdefinition.setFormatSpecifier( editor.getFormatSpecifier( ) );
-				}
 			}
 		}
 		else if ( e.getSource( ).equals( btnGroup ) )
@@ -434,24 +391,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	{
 		// TODO Auto-generated method stub
 
-	}
-
-	/**
-	 * Enables or disables the format specifier. Default value is enabled.
-	 * 
-	 * @param isEnabled
-	 *            The flag to enable or disable the format specifier.
-	 */
-	public void setFormatSpecifierEnabled( boolean isEnabled )
-	{
-		if ( isEnabled )
-		{
-			this.style |= BUTTON_FORMAT;
-		}
-		else
-		{
-			this.style &= ~BUTTON_FORMAT;
-		}
 	}
 
 	public void setTooltipWhenBlank( String tootipWhenBlank )

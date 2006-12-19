@@ -373,10 +373,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 			}
 			return sb.toString( );
 		}
-		else
-		{
-			return null;
-		}
+		return null;
 	}
 
 	private void cleanDataDefinition( SeriesDefinition sd )

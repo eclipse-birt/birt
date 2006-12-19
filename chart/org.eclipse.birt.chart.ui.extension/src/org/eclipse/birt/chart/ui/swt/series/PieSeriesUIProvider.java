@@ -83,7 +83,6 @@ public class PieSeriesUIProvider extends DefaultSeriesUIProvider
 					seriesDefn.getQuery( ),
 					context,
 					sTitle );
-			ddc.setFormatSpecifierEnabled( false );
 			return ddc;
 		}
 		return new DefaultSelectDataComponent( );

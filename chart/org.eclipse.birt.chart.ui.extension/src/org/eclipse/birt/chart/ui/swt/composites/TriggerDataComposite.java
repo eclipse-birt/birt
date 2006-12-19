@@ -61,8 +61,9 @@ import org.eclipse.swt.widgets.Text;
  * @author Actuate Corporation
  * 
  */
-public class TriggerDataComposite extends Composite implements
-		SelectionListener
+public class TriggerDataComposite extends Composite
+		implements
+			SelectionListener
 {
 
 	private transient Group grpValue = null;
@@ -350,8 +351,7 @@ public class TriggerDataComposite extends Composite implements
 			lblText.setLayoutData( lblGd );
 
 			txtTooltipText = new Text( cmpTooltip, SWT.BORDER
-					| SWT.MULTI
-					| SWT.V_SCROLL );
+					| SWT.MULTI | SWT.V_SCROLL );
 			GridData gdTXTTooltipText = new GridData( GridData.FILL_BOTH );
 			gdTXTTooltipText.horizontalSpan = 3;
 			txtTooltipText.setLayoutData( gdTXTTooltipText );
@@ -396,7 +396,7 @@ public class TriggerDataComposite extends Composite implements
 			btnBaseURL.setEnabled( wizardContext.getUIServiceProvider( )
 					.isInvokingSupported( ) );
 		}
-		
+
 		Label lblDefine = new Label( cmpURL, SWT.WRAP );
 		{
 			GridData gd = new GridData( );
@@ -412,7 +412,7 @@ public class TriggerDataComposite extends Composite implements
 			GridData gd = new GridData( );
 			gd.horizontalSpan = 2;
 			btnAdvanced.setLayoutData( gd );
-			btnAdvanced.setText( getAdvancedButtonText( bAdvanced ) ); 
+			btnAdvanced.setText( getAdvancedButtonText( bAdvanced ) );
 			btnAdvanced.setToolTipText( Messages.getString( "TriggerDataComposite.Tooltip.Advanced" ) ); //$NON-NLS-1$
 			btnAdvanced.addSelectionListener( this );
 			btnAdvanced.setEnabled( bEnableURLParameters );
@@ -506,7 +506,7 @@ public class TriggerDataComposite extends Composite implements
 		gdTXTSeriesParm.horizontalSpan = 2;
 		txtSeriesParm.setLayoutData( gdTXTSeriesParm );
 		txtSeriesParm.setToolTipText( Messages.getString( "TriggerDataComposite.Tooltip.ParameterSeries" ) ); //$NON-NLS-1$
-		
+
 		populateLists( );
 	}
 
@@ -608,8 +608,8 @@ public class TriggerDataComposite extends Composite implements
 			case INDEX_1_URL_REDIRECT :
 				this.slValues.topControl = cmpURL;
 				URLValue urlValue = (URLValue) trigger.getAction( ).getValue( );
-				sBaseURL = ( urlValue.getBaseUrl( ).length( ) > 0 ) ? urlValue.getBaseUrl( )
-						: ""; //$NON-NLS-1$
+				sBaseURL = ( urlValue.getBaseUrl( ).length( ) > 0 )
+						? urlValue.getBaseUrl( ) : ""; //$NON-NLS-1$
 				// txtBaseURL.setText( sBaseURL );
 				// txtTarget.setText( ( urlValue.getTarget( ).length( ) > 0 )
 				// ? urlValue.getTarget( ) : "" ); //$NON-NLS-1$
@@ -628,8 +628,8 @@ public class TriggerDataComposite extends Composite implements
 				TooltipValue tooltipValue = (TooltipValue) trigger.getAction( )
 						.getValue( );
 				// iscDelay.setSelection( tooltipValue.getDelay( ) );
-				txtTooltipText.setText( ( tooltipValue.getText( ) != null ) ? tooltipValue.getText( )
-						: "" ); //$NON-NLS-1$
+				txtTooltipText.setText( ( tooltipValue.getText( ) != null )
+						? tooltipValue.getText( ) : "" ); //$NON-NLS-1$
 				break;
 			case INDEX_3_TOOGLE_VISABILITY :
 				this.slValues.topControl = cmpVisiblity;
@@ -643,8 +643,8 @@ public class TriggerDataComposite extends Composite implements
 				this.slValues.topControl = cmpScript;
 				ScriptValue scriptValue = (ScriptValue) trigger.getAction( )
 						.getValue( );
-				txtScript.setText( ( scriptValue.getScript( ).length( ) > 0 ) ? scriptValue.getScript( )
-						: "" ); //$NON-NLS-1$
+				txtScript.setText( ( scriptValue.getScript( ).length( ) > 0 )
+						? scriptValue.getScript( ) : "" ); //$NON-NLS-1$
 				break;
 			case INDEX_5_HIGHLIGHT :
 				this.slValues.topControl = cmpHighlight;
@@ -711,8 +711,8 @@ public class TriggerDataComposite extends Composite implements
 		}
 		Action action = ActionImpl.create( ActionType.getByName( LiteralHelper.actionTypeSet.getNameByDisplayName( cmbActionType.getText( ) ) ),
 				value );
-		return TriggerImpl.create( TriggerCondition.getByName( LiteralHelper.triggerConditionSet.getNameByDisplayName( lastTriggerType == null ? cmbTriggerType.getText( )
-				: lastTriggerType ) ),
+		return TriggerImpl.create( TriggerCondition.getByName( LiteralHelper.triggerConditionSet.getNameByDisplayName( lastTriggerType == null
+				? cmbTriggerType.getText( ) : lastTriggerType ) ),
 				action );
 	}
 
@@ -877,17 +877,14 @@ public class TriggerDataComposite extends Composite implements
 		}
 		triggersMap.put( triggerType, newTrigger );
 	}
-	
+
 	private String getAdvancedButtonText( boolean bAdvanced )
 	{
 		if ( bAdvanced )
 		{
-			return Messages.getString( "TriggerDataComposite.Text.OpenAdvanced" ) ; //$NON-NLS-1$
+			return Messages.getString( "TriggerDataComposite.Text.OpenAdvanced" ); //$NON-NLS-1$
 		}
-		else
-		{
-			return Messages.getString( "TriggerDataComposite.Text.Advanced" ); //$NON-NLS-1$
-		}
-		
+		return Messages.getString( "TriggerDataComposite.Text.Advanced" ); //$NON-NLS-1$
+
 	}
 }

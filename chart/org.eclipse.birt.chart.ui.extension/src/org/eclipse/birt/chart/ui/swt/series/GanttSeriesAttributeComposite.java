@@ -41,12 +41,12 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
-public class GanttSeriesAttributeComposite extends Composite implements
-		SelectionListener,
-		Listener
+public class GanttSeriesAttributeComposite extends Composite
+		implements
+			SelectionListener,
+			Listener
 {
 
 	private transient Group grpMarkerStart = null;
@@ -139,7 +139,7 @@ public class GanttSeriesAttributeComposite extends Composite implements
 		grpMarkerStart.setText( Messages.getString( "GanttSeriesAttributeComposite.Lbl.StartMarker" ) ); //$NON-NLS-1$
 
 		new MarkerEditorComposite( grpMarkerStart,
-				createMarker( ( (GanttSeries) series ).getStartMarker( ) ) );
+				createMarker( series.getStartMarker( ) ) );
 
 		// Layout for the End Marker
 		grpMarkerEnd = new Group( cmpMarker, SWT.NONE );
@@ -148,7 +148,7 @@ public class GanttSeriesAttributeComposite extends Composite implements
 		grpMarkerEnd.setText( Messages.getString( "GanttSeriesAttributeComposite.Lbl.EndMarker" ) ); //$NON-NLS-1$
 
 		new MarkerEditorComposite( grpMarkerEnd,
-				createMarker( ( (GanttSeries) series ).getEndMarker( ) ) );
+				createMarker( series.getEndMarker( ) ) );
 
 		// Layout for Connection Line
 		grpLine = new Group( this, SWT.NONE );
@@ -161,7 +161,7 @@ public class GanttSeriesAttributeComposite extends Composite implements
 		gliacGantt = new GanttLineAttributesComposite( grpLine,
 				context,
 				SWT.NONE,
-				( (GanttSeries) series ).getConnectionLine( ),
+				series.getConnectionLine( ),
 				true,
 				true,
 				true );
@@ -178,7 +178,7 @@ public class GanttSeriesAttributeComposite extends Composite implements
 		oliacGantt = new LineAttributesComposite( grpOutline,
 				SWT.NONE,
 				context,
-				( (GanttSeries) series ).getOutline( ),
+				series.getOutline( ),
 				true,
 				true,
 				true );
@@ -186,35 +186,36 @@ public class GanttSeriesAttributeComposite extends Composite implements
 
 		Composite cmpFill = new Composite( this, SWT.NONE );
 		cmpFill.setLayout( new GridLayout( ) );
-		GridData gdFill = new GridData( GridData.FILL_BOTH | GridData.VERTICAL_ALIGN_BEGINNING);
+		GridData gdFill = new GridData( GridData.FILL_BOTH
+				| GridData.VERTICAL_ALIGN_BEGINNING );
 		gdFill.horizontalSpan = 2;
 		cmpFill.setLayoutData( gdFill );
 
 		/*Label lblFill = new Label( cmpFill, SWT.NONE );
-		GridData gdLBLFill = new GridData( );
-		lblFill.setLayoutData( gdLBLFill );
-		lblFill.setText( Messages.getString( "GanttSeriesAttributeComposite.Lbl.OutlineFill" ) ); //$NON-NLS-1$
+		 GridData gdLBLFill = new GridData( );
+		 lblFill.setLayoutData( gdLBLFill );
+		 lblFill.setText( Messages.getString( "GanttSeriesAttributeComposite.Lbl.OutlineFill" ) ); //$NON-NLS-1$
 
-		fccFill = new FillChooserComposite( cmpFill,
-				SWT.NONE,
-				context,
-				( (GanttSeries) series ).getOutlineFill( ),
-				false,
-				false );
-		fccFill.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		fccFill.addListener( this );*/
+		 fccFill = new FillChooserComposite( cmpFill,
+		 SWT.NONE,
+		 context,
+		 ( (GanttSeries) series ).getOutlineFill( ),
+		 false,
+		 false );
+		 fccFill.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		 fccFill.addListener( this );*/
 
 		btnDecoration = new Button( cmpFill, SWT.CHECK );
 		{
 			btnDecoration.setText( Messages.getString( "GanttSeriesAttributeComposite.Lbl.UseDecoration" ) ); //$NON-NLS-1$
-			btnDecoration.setSelection( ( (GanttSeries) series ).isUseDecorationLabelValue( ) );
+			btnDecoration.setSelection( series.isUseDecorationLabelValue( ) );
 			btnDecoration.addSelectionListener( this );
 		}
 
 		btnPalette = new Button( cmpFill, SWT.CHECK );
 		{
 			btnPalette.setText( Messages.getString( "GanttSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
-			btnPalette.setSelection( ( (GanttSeries) series ).isPaletteLineColor( ) );
+			btnPalette.setSelection( series.isPaletteLineColor( ) );
 			btnPalette.addSelectionListener( this );
 		}
 
@@ -234,11 +235,11 @@ public class GanttSeriesAttributeComposite extends Composite implements
 	{
 		if ( e.getSource( ).equals( btnDecoration ) )
 		{
-			( (GanttSeries) series ).setUseDecorationLabelValue( btnDecoration.getSelection( ) );
+			series.setUseDecorationLabelValue( btnDecoration.getSelection( ) );
 		}
 		else if ( e.getSource( ).equals( btnPalette ) )
 		{
-			( (GanttSeries) series ).setPaletteLineColor( btnPalette.getSelection( ) );
+			series.setPaletteLineColor( btnPalette.getSelection( ) );
 		}
 	}
 
@@ -262,22 +263,21 @@ public class GanttSeriesAttributeComposite extends Composite implements
 		{
 			if ( event.type == GanttLineAttributesComposite.VISIBILITY_CHANGED_EVENT )
 			{
-				( (GanttSeries) series ).getConnectionLine( )
+				series.getConnectionLine( )
 						.setVisible( ( (Boolean) event.data ).booleanValue( ) );
 			}
 			else if ( event.type == GanttLineAttributesComposite.STYLE_CHANGED_EVENT )
 			{
-				( (GanttSeries) series ).getConnectionLine( )
-						.setStyle( (LineStyle) event.data );
+				series.getConnectionLine( ).setStyle( (LineStyle) event.data );
 			}
 			else if ( event.type == GanttLineAttributesComposite.WIDTH_CHANGED_EVENT )
 			{
-				( (GanttSeries) series ).getConnectionLine( )
+				series.getConnectionLine( )
 						.setThickness( ( (Integer) event.data ).intValue( ) );
 			}
 			else if ( event.type == GanttLineAttributesComposite.COLOR_CHANGED_EVENT )
 			{
-				( (GanttSeries) series ).getConnectionLine( )
+				series.getConnectionLine( )
 						.setColor( (ColorDefinition) event.data );
 			}
 		}
@@ -285,28 +285,26 @@ public class GanttSeriesAttributeComposite extends Composite implements
 		{
 			if ( event.type == LineAttributesComposite.VISIBILITY_CHANGED_EVENT )
 			{
-				( (GanttSeries) series ).getOutline( )
+				series.getOutline( )
 						.setVisible( ( (Boolean) event.data ).booleanValue( ) );
 			}
 			else if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
 			{
-				( (GanttSeries) series ).getOutline( )
-						.setStyle( (LineStyle) event.data );
+				series.getOutline( ).setStyle( (LineStyle) event.data );
 			}
 			else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )
 			{
-				( (GanttSeries) series ).getOutline( )
+				series.getOutline( )
 						.setThickness( ( (Integer) event.data ).intValue( ) );
 			}
 			else if ( event.type == LineAttributesComposite.COLOR_CHANGED_EVENT )
 			{
-				( (GanttSeries) series ).getOutline( )
-						.setColor( (ColorDefinition) event.data );
+				series.getOutline( ).setColor( (ColorDefinition) event.data );
 			}
 		}
 		else if ( event.widget.equals( fccFill ) )
 		{
-			( (GanttSeries) series ).setOutlineFill( (ColorDefinition) event.data );
+			series.setOutlineFill( (ColorDefinition) event.data );
 		}
 	}
 

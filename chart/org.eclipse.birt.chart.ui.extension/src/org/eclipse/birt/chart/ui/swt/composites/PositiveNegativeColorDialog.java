@@ -217,11 +217,11 @@ public class PositiveNegativeColorDialog extends TrayDialog implements Listener
 	{
 		if ( event.widget.equals( fccPosColor ) )
 		{
-			mCurrent.getFills( ).set( 0, (ColorDefinition) event.data );
+			mCurrent.getFills( ).set( 0, event.data );
 		}
 		else if ( event.widget.equals( fccNegColor ) )
 		{
-			mCurrent.getFills( ).set( 1, (ColorDefinition) event.data );
+			mCurrent.getFills( ).set( 1, event.data );
 		}
 		cnvPreview.redraw( );
 	}

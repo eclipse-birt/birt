@@ -53,7 +53,7 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 	public void createControl( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_PLOT );
-		
+
 		cmpContent = new Composite( parent, SWT.NONE );
 		{
 			GridLayout glContent = new GridLayout( 2, false );
@@ -147,8 +147,9 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 					.getClientArea( )
 					.getOutline( )
 					.isVisible( ) );
-			btnWithinVisible.setEnabled( is3DWallFloorSet && isClientAreaOutlineEnabled( ) );
-			if ( ! btnWithinVisible.getEnabled( ) )
+			btnWithinVisible.setEnabled( is3DWallFloorSet
+					&& isClientAreaOutlineEnabled( ) );
+			if ( !btnWithinVisible.getEnabled( ) )
 			{
 				btnWithinVisible.setSelection( false );
 			}
@@ -175,33 +176,28 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 				Messages.getString( "ChartPlotSheetImpl.Label.AreaFormat&" ), popup ); //$NON-NLS-1$
 		btnArea.addSelectionListener( this );
 	}
-	
+
 	private boolean isClientAreaOutlineEnabled( )
 	{
 		if ( getChart( ) instanceof ChartWithAxes )
 		{
 			return true;
 		}
-		else 
+
+		if ( getChart( ) instanceof DialChart )
 		{
-			if ( getChart( ) instanceof DialChart )
-			{
-				if ( ( (DialChart) getChart( ) ).isDialSuperimposition( ) )
-				{
-					return false;
-				}
-			}
-			
-			if ( ( getChart( ).getGridColumnCount( ) > 1 )
-					|| ( (ChartWithoutAxes) getChart( ) ).getRunTimeSeries( ).length > 2 )
-			{
-				return true;
-			}
-			else
+			if ( ( (DialChart) getChart( ) ).isDialSuperimposition( ) )
 			{
 				return false;
 			}
 		}
+
+		if ( ( getChart( ).getGridColumnCount( ) > 1 )
+				|| ( (ChartWithoutAxes) getChart( ) ).getRunTimeSeries( ).length > 2 )
+		{
+			return true;
+		}
+		return false;
 	}
 
 	/*

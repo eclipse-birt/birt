@@ -12,7 +12,6 @@
 package org.eclipse.birt.chart.ui.swt.series;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.AxisType;
@@ -80,7 +79,6 @@ public class GanttSeriesUIProvider extends DefaultSeriesUIProvider
 					seriesDefn.getQuery( ),
 					context,
 					sTitle );
-			ddc.setFormatSpecifierEnabled( false );
 			return ddc;
 		}
 		return new DefaultSelectDataComponent( );
@@ -105,7 +103,7 @@ public class GanttSeriesUIProvider extends DefaultSeriesUIProvider
 	public void validateSeriesBindingType( Series series, IDataServiceProvider idsp ) throws ChartException
 	{
 		ArrayList al = new ArrayList( );
-		al.addAll( (Collection) series.getDataDefinition( ) );
+		al.addAll( series.getDataDefinition( ) );
 		for ( int i = 0; i < al.size( ); i++ )
 		{
 			Query query = (Query) al.get( i );
