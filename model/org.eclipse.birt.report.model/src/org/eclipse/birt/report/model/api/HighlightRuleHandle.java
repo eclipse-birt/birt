@@ -1020,7 +1020,10 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	public void setStyle( StyleHandle style ) throws SemanticException
 	{
 		if ( style == null )
+		{
+			setProperty( HighlightRule.STYLE_MEMBER, null );
 			return;
+		}
 
 		setProperty( HighlightRule.STYLE_MEMBER, style.getElement( ) );
 	}
