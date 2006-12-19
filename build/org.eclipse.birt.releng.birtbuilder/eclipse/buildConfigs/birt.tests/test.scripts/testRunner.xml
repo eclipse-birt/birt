@@ -78,7 +78,7 @@
 		<ant dir="${working.dir}/org.eclipse.birt.report.model.tests_${org.eclipse.birt.report.model.tests}" antfile="test.xml">
 			<property name="os" value="${os}"/>
 			<property name="eclipse-home" value="${eclipse-home}"/>
-			<property name="vmargs" value="  -Xms800M -Xmx800M"/>
+			<property name="vmargs" value="  -Xms128M -Xmx256M"/>
 			<property name="test-output" value="${test-output}/org.eclipse.birt.report.model.AllTests.xml"/>
 		</ant>
 	</target>
