@@ -518,8 +518,9 @@ public class PDFEmitter implements IContentEmitter
 				curPos = (ContainerPosition)containerStack.peek();	
 			else 
 				curPos = new ContainerPosition(0, 0);
-			int x = curPos.x + textArea.getX();
-			int y = curPos.y + textArea.getY();
+			//set default spacing for text
+			int x = curPos.x + textArea.getX() + (int)(textArea.getFontInfo( ).getFontSize( ) * 70);
+			int y = curPos.y + textArea.getY() + (int)(textArea.getFontInfo( ).getFontSize( ) * 100);
 			drawTextAt(textArea, x, y, cb, pageHeight);
 			//Checks if itself is the destination of a bookmark.
 			//if so, make a bookmark; if not, do nothing

@@ -53,11 +53,12 @@ public class PDFRowLM extends PDFInlineStackingLM
 		{
 			if ( tbl != null )
 			{
-				if ( !isFinished( ) && needPageBreakBefore(null ) )
+				IStyle cStyle = content.getStyle( );
+				if ( !isFinished( ) && needPageBreakBefore(cStyle.getPageBreakBefore( )))
 				{
 					tbl.setTableCloseStateAsForced( );
 				}
-				else if ( isFinished( ) && needPageBreakAfter(null ) )
+				else if ( isFinished( ) && needPageBreakAfter(cStyle.getPageBreakAfter( ) ) )
 				{
 					tbl.setTableCloseStateAsForced( );
 				}
