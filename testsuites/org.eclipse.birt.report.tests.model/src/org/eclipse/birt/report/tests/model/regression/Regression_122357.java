@@ -66,23 +66,21 @@ public class Regression_122357 extends BaseTestCase
 	{
 		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
 		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		//ReportDesignHandle design = session.openDesign( this.getFullQualifiedClassName( )
-		//		+ "/" + INPUT_FOLDER + "/" + INPUT );
+		
 		ReportDesignHandle design = session.openDesign( getTempFolder() + "/" + INPUT_FOLDER + "/" + INPUT ); 
-		//String output = OUTPUT_FOLDER + "/" + LIB;
+		
 		
 		String output = this.genOutputFile(LIB);
-		//File outputFile = new File( output );
-		//if ( outputFile.exists( ) )
-		//	outputFile.delete( );
+		File outputFile = new File( output );
+		if ( outputFile.exists( ) )
+			outputFile.delete( );
 
 		ElementExportUtil.exportDesign( design, output, true, true );
 
 		
-		//LibraryHandle lib = session.openLibrary( this.getFullQualifiedClassName( )
-		//		+ "/" + OUTPUT_FOLDER + "/" + LIB );
+		
 		//LibraryHandle lib = session.openLibrary( this.genOutputFile(LIB));
-		LibraryHandle lib = session.openLibrary( this.genOutputFile(LIB));
+		LibraryHandle lib = session.openLibrary( output );
 		DesignElementHandle chart = lib.getComponents( ).get( 0 );
 		assertEquals( "NewChart", chart.getName( ) ); //$NON-NLS-1$
 		assertEquals(

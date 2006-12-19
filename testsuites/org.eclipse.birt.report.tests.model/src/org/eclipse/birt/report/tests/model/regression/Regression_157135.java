@@ -75,7 +75,7 @@ public class Regression_157135 extends BaseTestCase
 			SemanticException
 	{
 		filename2 = getTempFolder() + "/" + INPUT_FOLDER
-				 + "Regression_157135_2.xml"; //$NON-NLS-1$ //$NON-NLS-2$
+				 + "/"+"Regression_157135_2.xml"; //$NON-NLS-1$ //$NON-NLS-2$
 		libname = getTempFolder( ) + "/" + INPUT_FOLDER
 				+ "/" + libname; //$NON-NLS-1$
 
