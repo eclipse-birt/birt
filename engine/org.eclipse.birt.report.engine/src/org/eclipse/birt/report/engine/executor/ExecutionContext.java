@@ -89,7 +89,7 @@ import com.ibm.icu.util.ULocale;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.91 $ $Date: 2006/11/22 08:30:07 $
+ * @version $Revision: 1.92 $ $Date: 2006/12/18 07:57:53 $
  */
 public class ExecutionContext
 {
@@ -559,8 +559,6 @@ public class ExecutionContext
 			}
 			catch ( Throwable e )
 			{
-				// TODO eval may throw RuntimeException, which may also need
-				// logging. May need to log more info.
 				log.log( Level.SEVERE, e.getMessage( ), e );
 				addException( new EngineException(
 						MessageConstants.SCRIPT_EVALUATION_ERROR, expr, e ) ); //$NON-NLS-1$

@@ -19,7 +19,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * <code>AttributeBuilder</code> is a concrete class that HTML Emitters use to
  * build the Style strings.
  * 
- * @version $Revision: 1.30 $ $Date: 2006/10/26 10:19:50 $
+ * @version $Revision: 1.31 $ $Date: 2006/12/13 08:25:12 $
  */
 public class AttributeBuilder
 {
@@ -198,14 +198,15 @@ public class AttributeBuilder
 	 */
 	private static void buildPagedMedia( StringBuffer content, IStyle style )
 	{
-		buildProperty( content, HTMLTags.ATTR_ORPHANS, style.getOrphans( ) );
-		buildProperty( content, HTMLTags.ATTR_WIDOWS, style.getWidows( ) );
-		buildProperty( content, HTMLTags.ATTR_PAGE_BREAK_BEFORE, style
-				.getPageBreakBefore( ) );
-		buildProperty( content, HTMLTags.ATTR_PAGE_BREAK_AFTER, style
-				.getPageBreakAfter( ) );
-		buildProperty( content, HTMLTags.ATTR_PAGE_BREAK_INSIDE, style
-				.getPageBreakInside( ) );
+		//We should not write the extra pagination information in style classes. 
+		//buildProperty( content, HTMLTags.ATTR_ORPHANS, style.getOrphans( ) );
+		//buildProperty( content, HTMLTags.ATTR_WIDOWS, style.getWidows( ) );
+		//buildProperty( content, HTMLTags.ATTR_PAGE_BREAK_BEFORE, style
+		//		.getPageBreakBefore( ) );
+		//buildProperty( content, HTMLTags.ATTR_PAGE_BREAK_AFTER, style
+		//		.getPageBreakAfter( ) );
+		//buildProperty( content, HTMLTags.ATTR_PAGE_BREAK_INSIDE, style
+		//		.getPageBreakInside( ) );
 	}
 
 	/**
