@@ -618,10 +618,13 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		}
 		else if ( IContentOutlinePage.class.equals( required ) )
 		{
-			DesignerOutlinePage outlinePage = new DesignerOutlinePage( getModel( ) );
-			getModelEventManager( ).addModelEventProcessor( outlinePage.getModelProcessor( ) );
-			registerOutlineSwitchAction( );
-			return outlinePage;
+			if ( getModel( ) != null )
+			{
+				DesignerOutlinePage outlinePage = new DesignerOutlinePage( getModel( ) );
+				getModelEventManager( ).addModelEventProcessor( outlinePage.getModelProcessor( ) );
+				registerOutlineSwitchAction( );
+				return outlinePage;
+			}			
 		}
 		else if ( ContentOutlinePage.class.equals( required ) )
 		{
