@@ -53,13 +53,13 @@ public class TocSupportTest extends BaseTestCase
 			//add toc
             TextItemHandle text = (TextItemHandle)designHandle.findElement("mytext");
 			text.setTocExpression("Mytext");
-			assertEquals(4,designHandle.getAllTocs().size());
-			designHandle.getCommandStack().undo();
 			assertEquals(3,designHandle.getAllTocs().size());
+			designHandle.getCommandStack().undo();
+			assertEquals(2,designHandle.getAllTocs().size());
 			designHandle.getCommandStack().redo();
 			
 			//remove toc
 			text.clearProperty(IReportItemModel.TOC_PROP);
-			assertEquals(3,designHandle.getAllTocs().size());
+			assertEquals(2,designHandle.getAllTocs().size());
 		}
 }

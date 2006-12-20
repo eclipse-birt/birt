@@ -31,7 +31,8 @@ public class ExternalCssStyleSheet3Test extends BaseTestCase {
 		super.setUp();
 		removeResource( );
 		
-		copyResource_INPUT( fileName , fileName );
+		copyInputToFile ( INPUT_FOLDER + "/" + fileName );
+	
 	//	Platform.initialize( null );
 		SessionHandle session = DesignEngine.newSession( ULocale.ENGLISH );
 		designHandle = session.createDesign( );
@@ -42,7 +43,7 @@ public class ExternalCssStyleSheet3Test extends BaseTestCase {
 		//open a external style sheet with relative filename
 		designHandle.setBase(PLUGIN_PATH);
 		
-		CssStyleSheetHandle stylesheet = loadStyleSheet( fileName );
+		CssStyleSheetHandle stylesheet = loadStyleSheet( getTempFolder()+"/"+INPUT_FOLDER+"/"+fileName );
 		SharedStyleHandle style1 = stylesheet.findStyle("STYLE1");
 		SharedStyleHandle style2 = stylesheet.findStyle("STYLE2");
 		assertNotNull(style1);
@@ -59,8 +60,8 @@ public class ExternalCssStyleSheet3Test extends BaseTestCase {
 			
 	  //open a external style sheet with absolute filename and import it into a report
 		
-		fileName = "ExternalCssStyleSheetTest2.css";
-	    CssStyleSheetHandle stylesheet2 = loadStyleSheet( fileName );
+		//fileName = INPUT_FOLDER + "/" + fileName;
+	    CssStyleSheetHandle stylesheet2 = loadStyleSheet( getTempFolder()+"/"+INPUT_FOLDER+"/"+fileName );
 		SharedStyleHandle style2_1 = stylesheet2.findStyle("STYLE1");
 		SharedStyleHandle style2_2 = stylesheet2.findStyle("STYLE2");
 		assertNotNull(style2_1);
@@ -73,8 +74,9 @@ public class ExternalCssStyleSheet3Test extends BaseTestCase {
 		
 	   //open a no-existing external style
 		try{
-		 CssStyleSheetHandle stylesheet3 = loadStyleSheet(fileName+"NoCssStyleSheet.xml");
-		 fail();
+		 //CssStyleSheetHandle stylesheet3 = loadStyleSheet(fileName+"NoCssStyleSheet.xml");
+			CssStyleSheetHandle stylesheet3 = loadStyleSheet(fileName);
+			fail();
 		}
 		catch(Exception e)
 		{
@@ -86,7 +88,7 @@ public class ExternalCssStyleSheet3Test extends BaseTestCase {
 	private CssStyleSheetHandle loadStyleSheet( String fileName )
 	throws Exception
        {
-		fileName = getClassFolder() + INPUT_FOLDER + fileName;
+		//fileName = INPUT_FOLDER + "/" + fileName;
 		return designHandle.openCssStyleSheet( fileName );
        }
 
