@@ -80,7 +80,7 @@ public class ListPageGenerator extends AbstractPageGenerator
 					sortingPage = new FormPage(
 							FormPropertyDescriptor.FULL_FUNCTION,
 							new SortingHandleProvider( ),
-							false,
+							true,
 							true );
 					setPageInput( sortingPage );
 					refresh(tabFolder,sortingPage, true);
@@ -120,7 +120,7 @@ public class ListPageGenerator extends AbstractPageGenerator
 					filterPage = new FormPage(
 							FormPropertyDescriptor.FULL_FUNCTION,
 							new FilterHandleProvider( ),
-							false,
+							true,
 							true );
 					setPageInput( filterPage );
 					refresh(tabFolder,filterPage, true);

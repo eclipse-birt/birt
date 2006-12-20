@@ -427,6 +427,11 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 			if ( btnEdit != null )
 				btnEdit.setEnabled( false );
 		}
+		
+		if(getDescriptorProvider( ) instanceof FilterHandleProvider){
+			btnUp.setVisible( false );
+			btnDown.setVisible( false );
+		}
 	}
 
 	private void updateBindingParameters( )

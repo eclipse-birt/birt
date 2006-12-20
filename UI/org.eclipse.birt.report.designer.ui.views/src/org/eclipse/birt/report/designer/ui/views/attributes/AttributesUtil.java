@@ -292,7 +292,7 @@ public class AttributesUtil
 		parent.setLayout( gl );
 		FormPage page = new FormPage( FormPropertyDescriptor.FULL_FUNCTION,
 				new FilterHandleProvider( ),
-				false,
+				true,
 				true );
 		page.setInput( input );
 		page.buildUI( parent );
