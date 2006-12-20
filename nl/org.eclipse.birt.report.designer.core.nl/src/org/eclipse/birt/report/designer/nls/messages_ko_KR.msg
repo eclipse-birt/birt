@@ -193,7 +193,9 @@ BordersPage.Tooltip.Right=오른쪽 테두리
 BordersPage.Tooltip.Top=위쪽 테두리
 BordersPage.text.Preview=미리 보기:
 BordersPage.Trans.SelectBorder=Select Border
+BordersPage.Trans.UnSelectBorder=Unselect Border
 BordersPage.Trans.SelectAllborders=Select all borders
+BordersPage.Trans.UnSelectAllborders=Unselect all borders
 
 ###########################################################
 #BoxPreferencePage properties

@@ -193,7 +193,9 @@ BordersPage.Tooltip.Right=Borde derecho
 BordersPage.Tooltip.Top=Borde superior
 BordersPage.text.Preview=Vista previa:
 BordersPage.Trans.SelectBorder=Select Border
+BordersPage.Trans.UnSelectBorder=Unselect Border
 BordersPage.Trans.SelectAllborders=Select all borders
+BordersPage.Trans.UnSelectAllborders=Unselect all borders
 
 ###########################################################
 #BoxPreferencePage properties

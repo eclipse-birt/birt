@@ -193,7 +193,9 @@ BordersPage.Tooltip.Right=右罫線
 BordersPage.Tooltip.Top=上罫線
 BordersPage.text.Preview=プレビュー :
 BordersPage.Trans.SelectBorder=Select Border
+BordersPage.Trans.UnSelectBorder=Unselect Border
 BordersPage.Trans.SelectAllborders=Select all borders
+BordersPage.Trans.UnSelectAllborders=Unselect all borders
 
 ###########################################################
 #BoxPreferencePage properties
