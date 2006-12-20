@@ -486,12 +486,16 @@ public final class AxesRenderHelper
 				String stepPattern = sc.getNumericPattern( dAxisStep );
 				if ( valuePattern.length( ) < stepPattern.length( ) )
 				{
-					df = new DecimalFormat( stepPattern );
+					valuePattern = stepPattern;
 				}
-				else
+				
+				// Use 3 digits as default precision
+				int iPoint = valuePattern.indexOf( '.' );
+				if ( iPoint >= 0 && valuePattern.length( ) - iPoint > 4 )
 				{
-					df = new DecimalFormat( valuePattern );
+					valuePattern = valuePattern.substring( 0, iPoint + 4 );
 				}
+				df = new DecimalFormat( valuePattern );
 			}
 		}
 

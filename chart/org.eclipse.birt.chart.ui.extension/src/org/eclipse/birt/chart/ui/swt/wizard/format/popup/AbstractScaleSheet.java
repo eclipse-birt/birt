@@ -81,7 +81,7 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 
 	protected transient Spinner spnStepNumber = null;
 
-//	protected transient Button btnShowOutside = null;
+	protected transient Button btnShowOutside = null;
 
 	public AbstractScaleSheet( String title, ChartWizardContext context )
 	{
@@ -198,13 +198,6 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 			txtScaleMin.setDefaultValue( "" ); //$NON-NLS-1$
 		}
 
-//		btnShowOutside = new Button( cmpContent, SWT.CHECK );
-//		{
-//			btnShowOutside.setText( Messages.getString( "AbstractScaleSheet.Label.ShowValuesOutside" ) ); //$NON-NLS-1$
-//			btnShowOutside.setSelection( getScale( ).isShowOutside( ) );
-//			btnShowOutside.addListener( SWT.Selection, this );
-//		}
-
 		lblMax = new Label( cmpContent, SWT.NONE );
 		lblMax.setText( Messages.getString( "BaseAxisDataSheetImpl.Lbl.Maximum" ) ); //$NON-NLS-1$
 
@@ -217,6 +210,16 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 			txtScaleMax.setText( getValue( getScale( ).getMax( ) ) );
 			txtScaleMax.addListener( this );
 			txtScaleMax.setDefaultValue( "" ); //$NON-NLS-1$
+		}
+		
+		btnShowOutside = new Button( cmpContent, SWT.CHECK );
+		{
+			GridData gd = new GridData( );
+			gd.horizontalSpan = 4;
+			btnShowOutside.setLayoutData( gd );
+			btnShowOutside.setText( Messages.getString( "AbstractScaleSheet.Label.ShowValuesOutside" ) ); //$NON-NLS-1$
+			btnShowOutside.setSelection( getScale( ).isShowOutside( ) );
+			btnShowOutside.addListener( SWT.Selection, this );
 		}
 		
 		// Set checkbox selection. 
@@ -256,7 +259,9 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 		txtScaleMin.setEnabled( bEnabled );
 		lblMax.setEnabled( bEnabled );
 		txtScaleMax.setEnabled( bEnabled );
-//		btnShowOutside.setEnabled( bEnabled );
+		// Enabled only min or max has been set
+		btnShowOutside.setEnabled( bEnabled
+				&& ( getScale( ).eIsSet( ComponentPackage.eINSTANCE.getScale_Min( ) ) || getScale( ).eIsSet( ComponentPackage.eINSTANCE.getScale_Max( ) ) ) );
 
 		lblUnit.setEnabled( bEnabled
 				&& btnStepSize.getSelection( )
@@ -293,6 +298,7 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 					getScale( ).setMin( de );
 				}
 			}
+			setState( );
 		}
 		else if ( event.widget.equals( txtScaleMax ) )
 		{
@@ -308,6 +314,7 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 					getScale( ).setMax( de );
 				}
 			}
+			setState( );
 		}
 		else if ( event.widget.equals( txtStepSize ) )
 		{
@@ -359,10 +366,10 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 			getScale( ).setStepNumber( spnStepNumber.getSelection( ) );
 			setState( );			
 		}
-//		else if ( event.widget.equals( btnShowOutside ) )
-//		{
-//			getScale( ).setShowOutside( btnShowOutside.getSelection( ) );
-//		}
+		else if ( event.widget.equals( btnShowOutside ) )
+		{
+			getScale( ).setShowOutside( btnShowOutside.getSelection( ) );
+		}
 		else if ( event.widget.equals( spnStepNumber ) )
 		{
 			getScale( ).setStepNumber( spnStepNumber.getSelection( ) );

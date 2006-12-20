@@ -306,6 +306,15 @@ public final class DataPointHints
 	{
 		return oOrthogonalValue;
 	}
+	
+	/**
+	 * Invalidates current orthogonal value to skip the rendering.
+	 * 
+	 */
+	public final void invalidateOrthogonalValue( )
+	{
+		this.oOrthogonalValue = null;
+	}
 
 	/**
 	 * Returns the series value of current DataPointHintes.

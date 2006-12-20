@@ -29,6 +29,7 @@ import org.eclipse.birt.chart.computation.withaxes.OneAxis;
 import org.eclipse.birt.chart.computation.withaxes.PlotWith2DAxes;
 import org.eclipse.birt.chart.computation.withaxes.PlotWith3DAxes;
 import org.eclipse.birt.chart.computation.withaxes.PlotWithAxes;
+import org.eclipse.birt.chart.computation.withaxes.SeriesRenderingHints;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IPrimitiveRenderer;
 import org.eclipse.birt.chart.device.IStructureDefinitionListener;
@@ -3080,5 +3081,232 @@ public abstract class AxesRenderer extends BaseRenderer
 	public final Axis getAxis( )
 	{
 		return ax;
+	}
+
+	/**
+	 * Checks out-of-range data and remove or set boundary value for it. Note
+	 * that coordinates array may be modified and orthogonal value in
+	 * DataPointHints may be set null in out-of-range data point
+	 * 
+	 * @param srh
+	 *            SeriesRenderingHints
+	 * @param faX
+	 *            X coordinates
+	 * @param faY
+	 *            Y coordinates
+	 */
+	protected final void handleOutsideDataPoints(
+			final SeriesRenderingHints srh, final double[] faX,
+			final double[] faY )
+	{
+		final boolean bHideOutside = !getAxis( ).getScale( ).isShowOutside( );
+		final Bounds boClientArea = srh.getClientAreaBounds( true );
+		double dBaseLocation = srh.getPlotBaseLocation( );
+		final DataPointHints[] dpha = srh.getDataPoints( );
+		final boolean isCategory = srh.isCategoryScale( );
+		for ( int i = 0; i < dpha.length; i++ )
+		{
+			if ( dpha[i].getOrthogonalValue( ) == null )
+			{
+				continue;
+			}
+			// Skip out-of-X-range data when non-category scale
+			if ( !isCategory && dpha[i].getBaseValue( ) == null )
+			{
+				dpha[i].invalidateOrthogonalValue( );
+				faX[i] = Double.NaN;
+				faY[i] = Double.NaN;
+				continue;
+			}
+			
+			if ( isTransposed( ) )
+			{
+				// RANGE CHECK (WITHOUT CLIPPING)
+				// =================================
+				// NOTE: use a wider precision check here to fix some incorrect
+				// rendering case.
+				// ==================================
+				if ( ChartUtil.mathLT( faX[i], boClientArea.getLeft( ) ) )
+				// LEFT EDGE
+				{
+					if ( bHideOutside
+							|| ChartUtil.mathLT( dBaseLocation,
+									boClientArea.getLeft( ) ) )
+					{
+						// BOTH ARE OUT OF RANGE
+						dpha[i].invalidateOrthogonalValue( );
+						faX[i] = Double.NaN;
+						faY[i] = Double.NaN;
+						continue;
+					}
+					faX[i] = boClientArea.getLeft( );
+				}
+				else if ( ChartUtil.mathLT( dBaseLocation,
+						boClientArea.getLeft( ) ) )
+				{
+					dBaseLocation = boClientArea.getLeft( );
+				}
+
+				if ( ChartUtil.mathGT( faX[i], boClientArea.getLeft( )
+						+ boClientArea.getWidth( ) ) )
+				// RIGHT EDGE
+				{
+					if ( bHideOutside
+							|| ChartUtil.mathGT( dBaseLocation,
+									boClientArea.getLeft( )
+											+ boClientArea.getWidth( ) ) )
+					{
+						// BOTH ARE OUT OF RANGE
+						dpha[i].invalidateOrthogonalValue( );
+						faX[i] = Double.NaN;
+						faY[i] = Double.NaN;
+						continue;
+					}
+					faX[i] = boClientArea.getLeft( ) + boClientArea.getWidth( );
+				}
+				else if ( ChartUtil.mathGT( dBaseLocation,
+						boClientArea.getLeft( ) + boClientArea.getWidth( ) ) )
+				{
+					dBaseLocation = boClientArea.getLeft( )
+							+ boClientArea.getWidth( );
+				}
+			}
+			else
+			{
+				// RANGE CHECK (WITHOUT CLIPPING)
+				if ( ChartUtil.mathLT( faY[i], boClientArea.getTop( ) ) ) // TOP
+				// EDGE
+				{
+					if ( bHideOutside
+							|| ChartUtil.mathLT( dBaseLocation,
+									boClientArea.getTop( ) ) )
+					{
+						// BOTH ARE OUT OF RANGE
+						dpha[i].invalidateOrthogonalValue( );
+						faX[i] = Double.NaN;
+						faY[i] = Double.NaN;
+						continue;
+					}
+					faY[i] = boClientArea.getTop( ); // - This causes
+					// clipping in output
+				}
+				else if ( ChartUtil.mathLT( dBaseLocation,
+						boClientArea.getTop( ) ) )
+				{
+					dBaseLocation = boClientArea.getTop( );
+				}
+
+				if ( ChartUtil.mathGT( faY[i], boClientArea.getTop( )
+						+ boClientArea.getHeight( ) ) ) // BOTTOM
+				// EDGE
+				{
+					if ( bHideOutside
+							|| ChartUtil.mathGT( dBaseLocation,
+									boClientArea.getTop( )
+											+ boClientArea.getHeight( ) ) )
+					{
+						// BOTH ARE OUT OF RANGE
+						dpha[i].invalidateOrthogonalValue( );
+						faX[i] = Double.NaN;
+						faY[i] = Double.NaN;
+						continue;
+					}
+					faY[i] = boClientArea.getTop( ) + boClientArea.getHeight( );
+				}
+				else if ( ChartUtil.mathGT( dBaseLocation,
+						boClientArea.getTop( ) + boClientArea.getHeight( ) ) )
+				{
+					dBaseLocation = boClientArea.getTop( )
+							+ boClientArea.getHeight( );
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Checks out-of-range for the period of a data point.
+	 * 
+	 * @param dpha
+	 *            DataPointHints
+	 * @param dOpen
+	 *            the start point of the period
+	 * @param dClose
+	 *            the end point of the period
+	 * @param boClientArea
+	 *            plot bounds
+	 * @param dBaseLocation
+	 *            base location of the boundary
+	 * @param bHideOutside
+	 *            to hide outside or show it in boundary
+	 * @return out-of-range or not
+	 */
+	protected final boolean rangeCheck( final DataPointHints dpha,
+			double dOpen, double dClose, final Bounds boClientArea,
+			double dBaseLocation, boolean bHideOutside )
+	{
+		if ( isTransposed( ) )
+		{
+			if ( ChartUtil.mathLT( Math.min( dOpen, dClose ),
+					boClientArea.getLeft( ) ) )
+			// LEFT EDGE
+			{
+				if ( bHideOutside
+						|| ChartUtil.mathLT( dBaseLocation,
+								boClientArea.getLeft( ) ) )
+				{
+					// BOTH ARE OUT OF RANGE
+					dpha.invalidateOrthogonalValue( );
+					return false;
+				}
+			}
+
+			if ( ChartUtil.mathGT( Math.max( dOpen, dClose ),
+					boClientArea.getLeft( ) + boClientArea.getWidth( ) ) )
+			// RIGHT EDGE
+			{
+				if ( bHideOutside
+						|| ChartUtil.mathGT( dBaseLocation,
+								boClientArea.getLeft( )
+										+ boClientArea.getWidth( ) ) )
+				{
+					// BOTH ARE OUT OF RANGE
+					dpha.invalidateOrthogonalValue( );
+					return false;
+				}
+			}
+		}
+		else
+		{
+			// RANGE CHECK (WITHOUT CLIPPING)
+			if ( ChartUtil.mathLT( Math.min( dOpen, dClose ),
+					boClientArea.getTop( ) ) )
+			// TOP EDGE
+			{
+				if ( bHideOutside
+						|| ChartUtil.mathLT( dBaseLocation,
+								boClientArea.getTop( ) ) )
+				{
+					// BOTH ARE OUT OF RANGE
+					dpha.invalidateOrthogonalValue( );
+					return false;
+				}
+			}
+
+			if ( ChartUtil.mathGT( Math.max( dOpen, dClose ),
+					boClientArea.getTop( ) + boClientArea.getHeight( ) ) )
+			// BOTTOM EDGE
+			{
+				if ( bHideOutside
+						|| ChartUtil.mathGT( dBaseLocation,
+								boClientArea.getTop( )
+										+ boClientArea.getHeight( ) ) )
+				{
+					// BOTH ARE OUT OF RANGE
+					dpha.invalidateOrthogonalValue( );
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 }

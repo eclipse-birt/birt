@@ -302,6 +302,7 @@ public interface Scale extends EObject
 
 	/**
 	 * Returns the value of the '<em><b>Show Outside</b></em>' attribute.
+	 * The default value is <code>"true"</code>.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
@@ -312,7 +313,7 @@ public interface Scale extends EObject
 	 * @see #unsetShowOutside()
 	 * @see #setShowOutside(boolean)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getScale_ShowOutside()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+	 * @model default="true" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
 	 *        extendedMetaData="kind='element' name='ShowOutside'"
 	 * @generated
 	 */

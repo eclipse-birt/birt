@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis;
 
+import org.eclipse.birt.chart.model.attribute.AngleType;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Scale;
@@ -26,11 +27,14 @@ public class AxisScaleSheet extends AbstractScaleSheet
 {
 
 	private Axis axis;
+	private int axisAngleType;
 
-	public AxisScaleSheet( String title, ChartWizardContext context, Axis axis )
+	public AxisScaleSheet( String title, ChartWizardContext context, Axis axis,
+			int axisAngleType )
 	{
 		super( title, context );
 		this.axis = axis;
+		this.axisAngleType = axisAngleType;
 	}
 
 	private Axis getAxisForProcessing( )
@@ -62,6 +66,11 @@ public class AxisScaleSheet extends AbstractScaleSheet
 		// style X-axis,
 		boolean bEnabled = !( getAxisForProcessing( ).isCategoryAxis( ) || getAxisForProcessing( ).getType( ) == AxisType.TEXT_LITERAL );
 		setState( bEnabled );
+		// Show outside is only available in Y axis
+		if ( axisAngleType != AngleType.Y )
+		{
+			btnShowOutside.setEnabled( false );
+		}
 	}
 
 }

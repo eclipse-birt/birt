@@ -527,7 +527,7 @@
 					<xsd:documentation>Number of steps in the values shown on the axis.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="ShowOutside" type="xsd:boolean">
+			<xsd:element name="ShowOutside" type="xsd:boolean" default="true">
 				<xsd:annotation>
 					<xsd:documentation>Indicates if it shows values outside Axis range.</xsd:documentation>
 				</xsd:annotation>

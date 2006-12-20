@@ -313,7 +313,8 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			// Scale
 			popup = new AxisScaleSheet( Messages.getString( "AxisYSheetImpl.Label.Scale" ), //$NON-NLS-1$
 					getContext( ),
-					getAxisForProcessing( ) );
+					getAxisForProcessing( ),
+					getAxisAngleType( ) );
 			Button btnScale = createToggleButton( cmp,
 					Messages.getString( "AxisYSheetImpl.Label.Scale&" ), //$NON-NLS-1$
 					popup );

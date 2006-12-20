@@ -179,7 +179,7 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean SHOW_OUTSIDE_EDEFAULT = false;
+	protected static final boolean SHOW_OUTSIDE_EDEFAULT = true;
 
 	/**
 	 * The cached value of the '{@link #isShowOutside() <em>Show Outside</em>}' attribute.
