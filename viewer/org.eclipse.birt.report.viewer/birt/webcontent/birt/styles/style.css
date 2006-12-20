@@ -80,8 +80,7 @@
 	font-size: 8pt;
 	color: gray;
 	font-weight: bold;
-	border-style:solid;
-	border-width:0px 0px 1px;
+	text-decoration: underline;
 }
 
 .birtviewer_exception_dialog_detail

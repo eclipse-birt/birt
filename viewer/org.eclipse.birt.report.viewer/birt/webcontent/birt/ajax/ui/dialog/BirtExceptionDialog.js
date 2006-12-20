@@ -22,6 +22,13 @@ BirtExceptionDialog.prototype = Object.extend( new AbstractExceptionDialog( ),
 	__isShow: false,
 	
 	/**
+	 * control id definitions
+	 */
+	__TRACE_CONTAINER: 'exceptionTraceContainer',
+	__LABEL_SHOW_TRACE: 'showTraceLabel',
+	__LABEL_HIDE_TRACE: 'hideTraceLabel',
+	
+	/**
 	 * Event handler closures.
 	 */
 	__neh_click_input_closurre : null,
@@ -38,7 +45,8 @@ BirtExceptionDialog.prototype = Object.extend( new AbstractExceptionDialog( ),
 		
 		// click event on input control
 		this.__neh_click_input_closure = this.__neh_click_input.bindAsEventListener( this );
-		Event.observe( $('exceptionTraceLabel'), 'click', this.__neh_click_input_closure, false );				
+		Event.observe( $( this.__LABEL_SHOW_TRACE ), 'click', this.__neh_click_input_closure, false );				
+		Event.observe( $( this.__LABEL_HIDE_TRACE ), 'click', this.__neh_click_input_closure, false );				
 	},
 
 	/**
@@ -48,14 +56,17 @@ BirtExceptionDialog.prototype = Object.extend( new AbstractExceptionDialog( ),
 	*/
 	__neh_click_input: function( event )
 	{
-		var container = $('exceptionTraceContainer');
 		if( !this.__isShow )
 		{
-			container.style.display = "block";
+			$( this.__TRACE_CONTAINER ).style.display = "block";
+			$( this.__LABEL_SHOW_TRACE ).style.display = "none";
+			$( this.__LABEL_HIDE_TRACE ).style.display = "block";
 		}
 		else
 		{
-			container.style.display = "none";
+			$( this.__TRACE_CONTAINER ).style.display = "none";
+			$( this.__LABEL_SHOW_TRACE ).style.display = "block";
+			$( this.__LABEL_HIDE_TRACE ).style.display = "none";			
 		}
 		
 		this.__isShow = !this.__isShow;
@@ -83,8 +94,10 @@ BirtExceptionDialog.prototype = Object.extend( new AbstractExceptionDialog( ),
 		birtUtility.setButtonsDisabled ( "navigationBar", true );
 		
 		// close the exception stack trace
-		var container = $('exceptionTraceContainer');
-		container.style.display = 'none';
+		$( this.__TRACE_CONTAINER ).style.display = 'none';
+		$( this.__LABEL_SHOW_TRACE ).style.display = "block";
+		$( this.__LABEL_HIDE_TRACE ).style.display = "none";			
+		
 		this.__isShow = false;
 	},
 	

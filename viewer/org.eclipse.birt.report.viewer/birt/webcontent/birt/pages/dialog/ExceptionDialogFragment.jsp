@@ -39,9 +39,12 @@
 							</TR>
 							<TR>
 								<TD>
-									<LABEL ID="exceptionTraceLabel" CLASS="birtviewer_exception_dialog_label">
+									<LABEL ID="showTraceLabel" CLASS="birtviewer_exception_dialog_label">
 										<%= BirtResources.getMessage( ResourceConstants.EXCEPTION_DIALOG_SHOW_STACK_TRACE ) %> 
 									</LABEL>																				
+									<LABEL ID="hideTraceLabel" CLASS="birtviewer_exception_dialog_label" STYLE="display:none">
+										<%= BirtResources.getMessage( ResourceConstants.EXCEPTION_DIALOG_HIDE_STACK_TRACE ) %> 
+									</LABEL>									
 								</TD>
 							</TR>
 							<TR>
