@@ -138,6 +138,7 @@ birt.viewer.componentProcessorException.MISSING_OPERATOR=Fehler: Fehlender Opera
 ###############################################################################
 birt.viewer.exceptionDialog.stackTrace=Ablaufverfolgungsstapel:
 birt.viewer.exceptionDialog.showStackTrace=Show Exception Stack Trace
+birt.viewer.exceptionDialog.hideStackTrace=Hide Exception Stack Trace
 
 ###############################################################################
 # Birt Viewer JSP Taglib

@@ -139,6 +139,7 @@ birt.viewer.componentProcessorException.MISSING_OPERATOR=Erreur : Opérateur manq
 ###############################################################################
 birt.viewer.exceptionDialog.stackTrace=Trace de la pile :
 birt.viewer.exceptionDialog.showStackTrace=Show Exception Stack Trace
+birt.viewer.exceptionDialog.hideStackTrace=Hide Exception Stack Trace
 
 ###############################################################################
 # Birt Viewer JSP Taglib

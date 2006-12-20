@@ -138,6 +138,7 @@ birt.viewer.componentProcessorException.MISSING_OPERATOR=오류: 연산자 누락!!!
 ###############################################################################
 birt.viewer.exceptionDialog.stackTrace=추적 누적:
 birt.viewer.exceptionDialog.showStackTrace=Show Exception Stack Trace
+birt.viewer.exceptionDialog.hideStackTrace=Hide Exception Stack Trace
 
 ###############################################################################
 # Birt Viewer JSP Taglib
