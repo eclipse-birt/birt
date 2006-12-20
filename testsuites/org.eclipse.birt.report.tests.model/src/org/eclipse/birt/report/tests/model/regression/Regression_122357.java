@@ -67,7 +67,7 @@ public class Regression_122357 extends BaseTestCase
 		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
 		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
 		
-		ReportDesignHandle design = session.openDesign( getTempFolder() + "/" + INPUT_FOLDER + "/" + INPUT ); 
+		ReportDesignHandle design = session.openDesign(  getTempFolder() + "/" + INPUT_FOLDER + "/" +INPUT ); 
 		
 		
 		String output = this.genOutputFile(LIB);
@@ -76,7 +76,7 @@ public class Regression_122357 extends BaseTestCase
 			outputFile.delete( );
 
 		ElementExportUtil.exportDesign( design, output, true, true );
-
+		
 		
 		
 		//LibraryHandle lib = session.openLibrary( this.genOutputFile(LIB));
