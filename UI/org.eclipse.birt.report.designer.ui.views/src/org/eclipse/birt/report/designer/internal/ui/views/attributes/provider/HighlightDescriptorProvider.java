@@ -37,8 +37,8 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IViewPart;
 
-public class HighlightDescriptorProvider extends
-		HighlightHandleProvider implements PreviewPropertyDescriptorProvider
+public class HighlightDescriptorProvider extends HighlightHandleProvider implements
+		PreviewPropertyDescriptorProvider
 {
 
 	class HighlightLabelProvider extends LabelProvider implements
@@ -52,8 +52,7 @@ public class HighlightDescriptorProvider extends
 
 		public String getColumnText( Object element, int columnIndex )
 		{
-			return HighlightDescriptorProvider.this.getColumnText( element,
-					1 );
+			return HighlightDescriptorProvider.this.getColumnText( element, 1 );
 		}
 
 	}
@@ -298,7 +297,7 @@ public class HighlightDescriptorProvider extends
 				result = true;
 			}
 			stack.commit( );
-			
+
 			refreshRestoreProperty( );
 		}
 		catch ( Exception e )
@@ -328,7 +327,7 @@ public class HighlightDescriptorProvider extends
 			}
 
 			stack.commit( );
-			
+
 			refreshRestoreProperty( );
 		}
 		catch ( Exception e )
@@ -367,7 +366,7 @@ public class HighlightDescriptorProvider extends
 			stack.commit( );
 
 			result = true;
-			
+
 			refreshRestoreProperty( );
 		}
 		catch ( Exception e )
@@ -394,7 +393,7 @@ public class HighlightDescriptorProvider extends
 			stack.commit( );
 
 			result = true;
-			
+
 			refreshRestoreProperty( );
 		}
 		catch ( Exception e )
@@ -461,7 +460,9 @@ public class HighlightDescriptorProvider extends
 	public String getFontFamily( Object object )
 	{
 		HighlightRuleHandle hrHandle = (HighlightRuleHandle) object;
-		String rfm = hrHandle.getFontFamilyHandle( ).getStringValue( );
+		// String rfm = hrHandle.getFontFamilyHandle( ).getStringValue( );
+		String rfm = DEUtil.RemoveQuote( hrHandle.getFontFamilyHandle( )
+				.getStringValue( ) );
 
 		if ( rfm == null || rfm.length( ) == 0 )
 		{
@@ -516,6 +517,11 @@ public class HighlightDescriptorProvider extends
 		return DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH.equals( ( (HighlightRuleHandle) object ).getTextLineThrough( ) );
 	}
 
+	public boolean isOverline( Object object )
+	{
+		return DesignChoiceConstants.TEXT_OVERLINE_OVERLINE.equals( ( (HighlightRuleHandle) object ).getTextOverline( ) );
+	}
+
 	public Color getColor( Object object )
 	{
 		return ColorManager.getColor( ( (HighlightRuleHandle) object ).getColor( )
@@ -555,7 +561,7 @@ public class HighlightDescriptorProvider extends
 		}
 		return "";
 	}
-	
+
 	protected void refreshRestoreProperty( )
 	{
 		IViewPart view = UIUtil.getView( "org.eclipse.birt.report.designer.ui.attributes.AttributeView" );

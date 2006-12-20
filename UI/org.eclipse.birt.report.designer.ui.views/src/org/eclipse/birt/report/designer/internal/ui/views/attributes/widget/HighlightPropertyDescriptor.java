@@ -36,6 +36,7 @@ public class HighlightPropertyDescriptor extends PreviewPropertyDescriptor
 			previewLabel.setBackground( provider.getBackgroundColor( handle ) );
 			previewLabel.setUnderline( provider.isUnderline( handle ) );
 			previewLabel.setLinethrough( provider.isLinethrough( handle ) );
+			previewLabel.setOverline( provider.isOverline( handle ) );
 			previewLabel.updateView( );
 
 			if ( provider.getBackgroundColor( handle ) == null && isFormStyle( ) )

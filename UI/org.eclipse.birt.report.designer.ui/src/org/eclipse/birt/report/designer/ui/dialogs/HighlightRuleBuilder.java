@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.PreviewLabel;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -67,6 +71,8 @@ import org.eclipse.swt.widgets.Text;
 
 public class HighlightRuleBuilder extends BaseDialog
 {
+
+	private static final String NONE_DISPLAY_TEXT = Messages.getString( "HighlightRuleBuilderDialog.displayText.None" );
 
 	/**
 	 * Usable operators for building highlight rule conditions.
@@ -181,7 +187,7 @@ public class HighlightRuleBuilder extends BaseDialog
 
 	private int handleCount;
 
-	private Combo expression;
+	private Combo expression, stylesChooser;
 
 	private Combo operator;
 
@@ -213,6 +219,10 @@ public class HighlightRuleBuilder extends BaseDialog
 	private static final String[] SYSTEM_FONT_LIST = DEUtil.getSystemFontNames( );
 
 	private static final String VALUE_OF_THIS_DATA_ITEM = Messages.getString( "HighlightRuleBuilderDialog.choice.ValueOfThisDataItem" ); //$NON-NLS-1$
+
+	private Map styles = new HashMap( );
+
+	private Label applyLocalFormat;
 
 	/**
 	 * Default constructor.
@@ -257,6 +267,8 @@ public class HighlightRuleBuilder extends BaseDialog
 
 		Composite innerParent = (Composite) createDialogArea( composite );
 		createButtonBar( composite );
+
+		// createApplyStyleArea( innerParent );
 
 		Label lb = new Label( innerParent, SWT.NONE );
 		lb.setText( Messages.getString( "HighlightRuleBuilderDialog.text.Condition" ) ); //$NON-NLS-1$
@@ -411,8 +423,11 @@ public class HighlightRuleBuilder extends BaseDialog
 			operator.select( 0 );
 		}
 
-		lb = new Label( innerParent, SWT.NONE );
-		lb.setText( Messages.getString( "HighlightRuleBuilderDialog.text.Format" ) ); //$NON-NLS-1$
+		createApplyStyleArea( innerParent );
+
+		applyLocalFormat = new Label( innerParent, SWT.NONE );
+		applyLocalFormat.setText( Messages.getString( "HighlightRuleBuilderDialog.text.Format" ) ); //$NON-NLS-1$
+		applyLocalFormat.setEnabled( false );
 
 		Composite format = new Composite( innerParent, SWT.NONE );
 		format.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -609,6 +624,35 @@ public class HighlightRuleBuilder extends BaseDialog
 		return composite;
 	}
 
+	private Composite createApplyStyleArea( Composite parent )
+	{
+		Label lb = new Label( parent, SWT.NONE );
+		lb.setText( Messages.getString( "HighlightRuleBuilderDialog.text.applyStyle" ) ); //$NON-NLS-1$
+
+		Composite applyStyleArea = new Composite( parent, SWT.NONE );
+		applyStyleArea.setLayoutData( new GridData( ) );
+		GridLayout layout = new GridLayout( 1, false );
+		applyStyleArea.setLayout( layout );
+
+		stylesChooser = new Combo( applyStyleArea, SWT.READ_ONLY
+				| SWT.DROP_DOWN );
+		GridData gdata = new GridData( );
+		gdata.widthHint = 100;
+		stylesChooser.setLayoutData( gdata );
+		fillStyles( stylesChooser );
+		stylesChooser.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				updateButtons( );
+				updatePreview( );
+			}
+		} );
+
+		createDummy( applyStyleArea, 3 );
+		return applyStyleArea;
+	}
+
 	private Composite createTitleArea( Composite parent )
 	{
 		int heightMargins = 3;
@@ -680,19 +724,86 @@ public class HighlightRuleBuilder extends BaseDialog
 
 	private void updatePreview( )
 	{
-		String familyValue = getFontFamily( );
-		int sizeValue = getFontSize( );
+		if ( stylesChooser.getText( ).equals( NONE_DISPLAY_TEXT ) )
+		{
+			String familyValue = getFontFamily( );
+			int sizeValue = getFontSize( );
 
-		previewLabel.setFontFamily( familyValue );
-		previewLabel.setFontSize( sizeValue );
-		previewLabel.setBold( bold.getSelection( ) );
-		previewLabel.setItalic( italic.getSelection( ) );
-		previewLabel.setForeground( ColorManager.getColor( color.getRGB( ) ) );
-		previewLabel.setBackground( ColorManager.getColor( backColor.getRGB( ) ) );
-		previewLabel.setUnderline( underline.getSelection( ) );
-		previewLabel.setLinethrough( linethrough.getSelection( ) );
+			previewLabel.setFontFamily( familyValue );
+			previewLabel.setFontSize( sizeValue );
+			previewLabel.setBold( bold.getSelection( ) );
+			previewLabel.setItalic( italic.getSelection( ) );
+			previewLabel.setForeground( ColorManager.getColor( color.getRGB( ) ) );
+			previewLabel.setBackground( ColorManager.getColor( backColor.getRGB( ) ) );
+			previewLabel.setUnderline( underline.getSelection( ) );
+			previewLabel.setLinethrough( linethrough.getSelection( ) );
+			previewLabel.setOverline( false );
 
-		previewLabel.updateView( );
+			previewLabel.updateView( );;
+		}
+		else
+		{
+			StyleHandle style = (StyleHandle) styles.get( stylesChooser.getText( ) );
+
+			String familyValue = DEUtil.RemoveQuote( style.getFontFamilyHandle( )
+					.getStringValue( ) );
+			int sizeValue = DEUtil.getFontSize( style.getFontSize( )
+					.getDisplayValue( ) );
+			previewLabel.setFontFamily( familyValue );
+			previewLabel.setFontSize( sizeValue );
+			previewLabel.setForeground( ColorManager.getColor( style.getColor( )
+					.getRGB( ) ) );
+			previewLabel.setBackground( ColorManager.getColor( style.getBackgroundColor( )
+					.getRGB( ) ) );
+
+			if ( style.getFontWeight( )
+					.equals( DesignChoiceConstants.FONT_WEIGHT_BOLD ) )
+			{
+				previewLabel.setBold( true );
+			}
+			else
+			{
+				previewLabel.setBold( false );
+			}
+			if ( style.getFontStyle( )
+					.equals( DesignChoiceConstants.FONT_STYLE_ITALIC ) )
+			{
+				previewLabel.setItalic( true );
+			}
+			else
+			{
+				previewLabel.setItalic( false );
+			}
+			if ( style.getTextUnderline( )
+					.equals( DesignChoiceConstants.TEXT_UNDERLINE_UNDERLINE ) )
+			{
+				previewLabel.setUnderline( true );
+			}
+			else
+			{
+				previewLabel.setUnderline( false );
+			}
+			if ( style.getTextLineThrough( )
+					.equals( DesignChoiceConstants.TEXT_LINE_THROUGH_LINE_THROUGH ) )
+			{
+				previewLabel.setLinethrough( true );
+			}
+			else
+			{
+				previewLabel.setLinethrough( false );
+			}
+			if ( style.getTextOverline( )
+					.equals( DesignChoiceConstants.TEXT_OVERLINE_OVERLINE ) )
+			{
+				previewLabel.setOverline( true );
+			}
+			else
+			{
+				previewLabel.setOverline( false );
+			}
+
+			previewLabel.updateView( );
+		}
 	}
 
 	/**
@@ -739,6 +850,29 @@ public class HighlightRuleBuilder extends BaseDialog
 		return txt;
 	}
 
+	private void fillStyles( Combo stylesChooser )
+	{
+		stylesChooser.removeAll( );
+		styles.clear( );
+		stylesChooser.add( NONE_DISPLAY_TEXT );
+		for ( Iterator iter = DEUtil.getStyles( ); iter.hasNext( ); )
+		{
+			StyleHandle styleHandle = (StyleHandle) iter.next( );
+			String styleName = styleHandle.getName( );
+			stylesChooser.add( styleName );
+			styles.put( (Object) styleName, (Object) styleHandle );
+		}
+
+		if ( handle != null && handle.getStyle( ) != null )
+		{
+			stylesChooser.setText( handle.getStyle( ).getName( ) );
+		}
+		else
+		{
+			stylesChooser.setText( NONE_DISPLAY_TEXT );
+		}
+	}
+
 	private void fillExpression( Combo control )
 	{
 		String te = "";//$NON-NLS-1$
@@ -772,19 +906,26 @@ public class HighlightRuleBuilder extends BaseDialog
 
 	private void enableInput( boolean val )
 	{
+		boolean val2 = val;
+		if ( !stylesChooser.getText( ).equals( NONE_DISPLAY_TEXT ) )
+		{
+			val2 = false;
+		}
+		applyLocalFormat.setEnabled( val2 );
+		font.setEnabled( val2 );
+		size.setEnabled( val2 );
+		color.setEnabled( val2 );
+		bold.setEnabled( val2 );
+		italic.setEnabled( val2 );
+		underline.setEnabled( val2 );
+		linethrough.setEnabled( val2 );
+		backColor.setEnabled( val2 );
+
 		operator.setEnabled( val );
 		value1.setEnabled( val );
 		value2.setEnabled( val );
 		valBuilder1.setEnabled( val );
 		valBuilder2.setEnabled( val );
-		font.setEnabled( val );
-		size.setEnabled( val );
-		color.setEnabled( val );
-		bold.setEnabled( val );
-		italic.setEnabled( val );
-		underline.setEnabled( val );
-		linethrough.setEnabled( val );
-		backColor.setEnabled( val );
 	}
 
 	/**
@@ -848,6 +989,25 @@ public class HighlightRuleBuilder extends BaseDialog
 		return true;
 	}
 
+	private void removeLocalStyleProperties( )
+	{
+		try
+		{
+			handle.getFontFamilyHandle( ).setStringValue( null );
+			handle.getFontSize( ).setStringValue( null );
+			handle.getColor( ).setValue( null );
+			handle.getBackgroundColor( ).setValue( null );
+			handle.setFontStyle( null );
+			handle.setFontWeight( null );
+			handle.setTextUnderline( null );
+			handle.setTextLineThrough( null );
+		}
+		catch ( Exception e )
+		{
+			WidgetUtil.processError( getShell( ), e );
+		}
+	}
+
 	/**
 	 * SYNC the control value according to the handle.
 	 */
@@ -898,7 +1058,7 @@ public class HighlightRuleBuilder extends BaseDialog
 		syncFamily( );
 		syncSize( );
 
-		if ( handle != null )
+		if ( handle != null && handle.getStyle( ) == null )
 		{
 			if ( handle.getColor( ).isSet( ) )
 			{
@@ -918,7 +1078,7 @@ public class HighlightRuleBuilder extends BaseDialog
 
 	private void syncFamily( )
 	{
-		if ( handle != null )
+		if ( handle != null && handle.getStyle( ) == null )
 		{
 			String fm = DEUtil.RemoveQuote( handle.getFontFamilyHandle( )
 					.getDisplayValue( ) );
@@ -976,7 +1136,7 @@ public class HighlightRuleBuilder extends BaseDialog
 
 	private void syncSize( )
 	{
-		if ( handle != null )
+		if ( handle != null && handle.getStyle( ) == null )
 		{
 			size.setFontSizeValue( handle.getFontSize( ).getStringValue( ) );
 		}
@@ -1044,7 +1204,8 @@ public class HighlightRuleBuilder extends BaseDialog
 			{
 				if ( SYSTEM_FONT_LIST[i].equals( ftName ) )
 				{
-					return DEUtil.AddQuote( ftName );
+					// return DEUtil.AddQuote( ftName );
+					return ftName;
 				}
 			}
 		}
@@ -1117,57 +1278,66 @@ public class HighlightRuleBuilder extends BaseDialog
 						DEUtil.resolveNull( value1.getText( ) ) );
 				rule.setProperty( HighlightRule.VALUE2_MEMBER,
 						DEUtil.resolveNull( value2.getText( ) ) );
-
-				/**
-				 * Sets our necessary style properties.
-				 */
-				if ( color.getRGB( ) != null )
-				{
-					rule.setProperty( HighlightRule.COLOR_MEMBER,
-							new Integer( colorValue ) );
-				}
-				if ( backColor.getRGB( ) != null )
-				{
-					rule.setProperty( HighlightRule.BACKGROUND_COLOR_MEMBER,
-							new Integer( backColorValue ) );
-				}
-				if ( familyValue != null )
-				{
-					rule.setProperty( HighlightRule.FONT_FAMILY_MEMBER,
-							familyValue );
-				}
-				if ( sizeValue != null )
-				{
-					rule.setProperty( HighlightRule.FONT_SIZE_MEMBER, sizeValue );
-				}
-				if ( isItalicChanged )
-				{
-					rule.setProperty( HighlightRule.FONT_STYLE_MEMBER,
-							italicValue );
-				}
-				if ( isBoldChanged )
-				{
-					rule.setProperty( HighlightRule.FONT_WEIGHT_MEMBER,
-							weightValue );
-				}
-				if ( isLinethroughChanged )
-				{
-					rule.setProperty( HighlightRule.TEXT_LINE_THROUGH_MEMBER,
-							lingthroughValue );
-				}
-				if ( isUnderlineChanged )
-				{
-					rule.setProperty( HighlightRule.TEXT_UNDERLINE_MEMBER,
-							underlineValue );
-				}
-
 				// set test expression into highlight rule.
 				rule.setTestExpression( DEUtil.resolveNull( expression.getText( ) ) );
 
+				// Set referenced style of the highlight rule.
+				if ( !stylesChooser.getText( ).equals( NONE_DISPLAY_TEXT ) )
+				{
+					rule.setStyle( (StyleHandle) styles.get( stylesChooser.getText( ) ) );
+				}
+				else
+				{
+					/**
+					 * Sets our necessary style properties.
+					 */
+					if ( color.getRGB( ) != null )
+					{
+						rule.setProperty( HighlightRule.COLOR_MEMBER,
+								new Integer( colorValue ) );
+					}
+					if ( backColor.getRGB( ) != null )
+					{
+						rule.setProperty( HighlightRule.BACKGROUND_COLOR_MEMBER,
+								new Integer( backColorValue ) );
+					}
+					if ( familyValue != null )
+					{
+						rule.setProperty( HighlightRule.FONT_FAMILY_MEMBER,
+								familyValue );
+					}
+					if ( sizeValue != null )
+					{
+						rule.setProperty( HighlightRule.FONT_SIZE_MEMBER,
+								sizeValue );
+					}
+					if ( isItalicChanged )
+					{
+						rule.setProperty( HighlightRule.FONT_STYLE_MEMBER,
+								italicValue );
+					}
+					if ( isBoldChanged )
+					{
+						rule.setProperty( HighlightRule.FONT_WEIGHT_MEMBER,
+								weightValue );
+					}
+					if ( isLinethroughChanged )
+					{
+						rule.setProperty( HighlightRule.TEXT_LINE_THROUGH_MEMBER,
+								lingthroughValue );
+					}
+					if ( isUnderlineChanged )
+					{
+						rule.setProperty( HighlightRule.TEXT_UNDERLINE_MEMBER,
+								underlineValue );
+					}
+				}
 				handle = provider.doAddItem( rule, handleCount );
 			}
 			else
 			{
+				// set test expression into highlight rule.
+				handle.setTestExpression( DEUtil.resolveNull( expression.getText( ) ) );
 				handle.setOperator( DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
 
 				handle.setValue1( DEUtil.resolveNull( value1.getText( ) ) );
@@ -1179,46 +1349,60 @@ public class HighlightRuleBuilder extends BaseDialog
 					handle.setValue2( DEUtil.resolveNull( value2.getText( ) ) );
 				}
 
-				handle.getFontFamilyHandle( )
-						.setStringValue( DEUtil.resolveNull( familyValue ) );
-				handle.getFontSize( )
-						.setStringValue( DEUtil.resolveNull( sizeValue ) );
-				if ( color.getRGB( ) != null )
+				if ( !stylesChooser.getText( ).equals( NONE_DISPLAY_TEXT ) )
 				{
-					handle.getColor( ).setRGB( colorValue );
+					if ( handle.getStyle( ) == null )
+					{
+						handle.setStyle( (StyleHandle) styles.get( stylesChooser.getText( ) ) );
+					}
+					else if ( !stylesChooser.getText( )
+							.equals( handle.getStyle( ).getName( ) ) )
+					{
+						handle.setStyle( (StyleHandle) styles.get( stylesChooser.getText( ) ) );
+					}
+					removeLocalStyleProperties( );
 				}
 				else
 				{
-					handle.getColor( ).setValue( null );
-				}
-				if ( backColor.getRGB( ) != null )
-				{
-					handle.getBackgroundColor( ).setRGB( backColorValue );
-				}
-				else
-				{
-					handle.getBackgroundColor( ).setValue( null );
-				}
-				if ( isItalicChanged )
-				{
-					handle.setFontStyle( italicValue );
-				}
-				if ( isBoldChanged )
-				{
-					handle.setFontWeight( weightValue );
-				}
-				if ( isUnderlineChanged )
-				{
-					handle.setTextUnderline( underlineValue );
-				}
-				if ( isLinethroughChanged )
-				{
-					handle.setTextLineThrough( lingthroughValue );
-				}
+					handle.setStyle( null );
 
-				// set test expression into highlight rule.
-				handle.setTestExpression( DEUtil.resolveNull( expression.getText( ) ) );
-
+					handle.getFontFamilyHandle( )
+							.setStringValue( DEUtil.resolveNull( familyValue ) );
+					handle.getFontSize( )
+							.setStringValue( DEUtil.resolveNull( sizeValue ) );
+					if ( color.getRGB( ) != null )
+					{
+						handle.getColor( ).setRGB( colorValue );
+					}
+					else
+					{
+						handle.getColor( ).setValue( null );
+					}
+					if ( backColor.getRGB( ) != null )
+					{
+						handle.getBackgroundColor( ).setRGB( backColorValue );
+					}
+					else
+					{
+						handle.getBackgroundColor( ).setValue( null );
+					}
+					if ( isItalicChanged )
+					{
+						handle.setFontStyle( italicValue );
+					}
+					if ( isBoldChanged )
+					{
+						handle.setFontWeight( weightValue );
+					}
+					if ( isUnderlineChanged )
+					{
+						handle.setTextUnderline( underlineValue );
+					}
+					if ( isLinethroughChanged )
+					{
+						handle.setTextLineThrough( lingthroughValue );
+					}
+				}
 			}
 		}
 		catch ( Exception e )
