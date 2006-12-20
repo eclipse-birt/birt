@@ -28,6 +28,7 @@ exception.multi.orthogonal.3D.not.supported=El gráfico 3D no admite varios ejes 
 exception.scatter.3D.not.supported=El gráfico 3D no admite el eje de categoría dispersa.
 exception.no.transposed.3D.chart=El gráfico 3D no admite la transposición.
 exception.no.transposed.stock.chart=El diagrama de cotización no admite la transposición.
+exception.no.transposed.gantt.chart=Only transposition is supported by Gantt Chart.
 exception.3D.points.length.less.than.3=La longitud de la lista de puntos para un evento de procesamiento 3D es al menos 3 (>=3).
 exception.empty.icon.list=La lista de paleta de iconos para el marcador está vacía.
 info.sample.formats=Ejemplos\nNumérico: 1,2,3\nFecha: 26/01/05,27/01/05,28/01/05\nTexto: 'a,b,c'\ncon todos los valores múltiples separados por comas.

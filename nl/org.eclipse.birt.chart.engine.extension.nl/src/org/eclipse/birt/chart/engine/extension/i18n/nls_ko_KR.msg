@@ -28,6 +28,7 @@ exception.multi.orthogonal.3D.not.supported=다중 값 축은 3D 차트에서 지원되지 않
 exception.scatter.3D.not.supported=분산형 범주 축은 3D 차트에서 지원되지 않습니다.
 exception.no.transposed.3D.chart=전위는 3D 차트에서 지원되지 않습니다.
 exception.no.transposed.stock.chart=전위는 주식형 차트에서 지원되지 않습니다.
+exception.no.transposed.gantt.chart=Only transposition is supported by Gantt Chart.
 exception.3D.points.length.less.than.3=3D 렌더링 이벤트에 대한 포인트 목록 길이는 3 이상이어야 합니다(>=3).
 exception.empty.icon.list=표지에 대한 아이콘 색상표 목록이 비어 있습니다.
 info.sample.formats=예\n숫자: 1,2,3\n날짜: 05-01-26,05-01-27,05-01-28\n텍스트: 'a,b,c'\n복수 값은 모두 쉼표로 분리됩니다.

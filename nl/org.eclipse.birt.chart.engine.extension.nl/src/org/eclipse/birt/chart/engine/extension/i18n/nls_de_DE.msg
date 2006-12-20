@@ -28,6 +28,7 @@ exception.multi.orthogonal.3D.not.supported=3D-Diagramme unterstützen nur eine W
 exception.scatter.3D.not.supported=Punktdiagramm-Kategorieachse wird von 3D-Diagrammen nicht unterstützt.
 exception.no.transposed.3D.chart=Transposition wird von 3D-Diagrammen nicht unterstützt.
 exception.no.transposed.stock.chart=Transposition wird von Kursdiagramm nicht unterstützt.
+exception.no.transposed.gantt.chart=Only transposition is supported by Gantt Chart.
 exception.3D.points.length.less.than.3=Die Länge der Punkteliste für das 3D-Render-Ereignis muss mindestens 3(>=3) betragen.
 exception.empty.icon.list=Die Symbol-Palettenliste für Markierungen enthält keine Elemente.
 info.sample.formats=Beispiele\nNumerisch: 1,2,3\nDatum: 01/26/2005,01/27/2005,01/28/2005\nText: 'a,b,c',\nmehrere Werte jeweils durch Komma getrennt.

@@ -28,6 +28,7 @@ exception.multi.orthogonal.3D.not.supported=Les axes de valeurs multiples ne son
 exception.scatter.3D.not.supported=Les axes de catégories en nuage de points ne sont pas pris en charge par les graphiques en 3D.
 exception.no.transposed.3D.chart=La transposition n'est pas prise en charge par les graphiques en 3D.
 exception.no.transposed.stock.chart=La transposition n'est pas prise en charge par les graphiques d'actions.
+exception.no.transposed.gantt.chart=Only transposition is supported by Gantt Chart.
 exception.3D.points.length.less.than.3=La liste des longueurs de points pour les événements de rendu 3D est au minimum de 3 (>=3).
 exception.empty.icon.list=La liste de la palette d'icônes associée au repère est vide.
 info.sample.formats=Exemples\nNumérique : 1,2,3\nDate : 01/26/2005,01/27/2005,01/28/2005\nTexte : 'a,b,c'\nles valeurs multiples étant séparées par des virgules.
