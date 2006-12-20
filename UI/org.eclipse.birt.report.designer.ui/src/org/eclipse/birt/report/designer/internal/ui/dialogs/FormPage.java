@@ -302,7 +302,7 @@ public class FormPage extends Composite implements Listener
 		} );
 		createTableViewer( );
 
-		btnDel = new Button( this, SWT.BORDER );
+		btnDel = new Button( this, SWT.PUSH );
 		btnDel.setText( Messages.getString( "FormPage.Button.Delete" ) ); //$NON-NLS-1$
 
 		btnDel.addSelectionListener( new SelectionAdapter( ) {
@@ -336,7 +336,7 @@ public class FormPage extends Composite implements Listener
 				updateArraw( );
 			}
 		} );
-		btnAdd = new Button( this, SWT.BORDER );
+		btnAdd = new Button( this, SWT.PUSH );
 		if ( bAddWithDialog == true )
 		{
 			btnAdd.setText( Messages.getString( "FormPage.Button.AddWithDialog" ) ); //$NON-NLS-1$
@@ -380,7 +380,7 @@ public class FormPage extends Composite implements Listener
 
 		if ( style == FULL_FUNCTION || style == FULL_FUNCTION_HORIZONTAL)
 		{
-			btnEdit = new Button( this, SWT.BORDER );
+			btnEdit = new Button( this, SWT.PUSH );
 			if ( bAddWithDialog == true )
 			{
 				btnEdit.setText( Messages.getString( "FormPage.Button.EditWithDialog" ) ); //$NON-NLS-1$
@@ -401,7 +401,7 @@ public class FormPage extends Composite implements Listener
 
 		if ( style != SIMPLE_FUNCTION )
 		{
-			btnUp = new Button( this, SWT.BORDER );
+			btnUp = new Button( this, SWT.PUSH );
 			btnUp.setText( Messages.getString( "FormPage.Button.Up" ) );
 			btnUp.setToolTipText( Messages.getString( "FormPage.toolTipText.Up" ) );
 			btnUp.addSelectionListener( new SelectionAdapter( ) {
@@ -420,7 +420,7 @@ public class FormPage extends Composite implements Listener
 				}
 			} );
 
-			btnDown = new Button( this, SWT.BORDER );
+			btnDown = new Button( this, SWT.PUSH );
 			btnDown.setText( Messages.getString( "FormPage.Button.Down" ) );
 			btnDown.setToolTipText( Messages.getString( "FormPage.toolTipText.Down" ) );
 			btnDown.addSelectionListener( new SelectionAdapter( ) {
@@ -455,7 +455,6 @@ public class FormPage extends Composite implements Listener
 				fullLayoutHorizontal();
 				break;
 		}
-
 	}
 
 	private void edit( )
@@ -514,6 +513,10 @@ public class FormPage extends Composite implements Listener
 			btnDel.setEnabled( false );
 			if ( btnEdit != null )
 				btnEdit.setEnabled( false );
+		}
+		if(this.provider instanceof FilterHandleProvider){
+			btnDown.setEnabled ( false );
+			btnUp.setEnabled( false );
 		}
 	}
 

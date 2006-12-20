@@ -38,7 +38,7 @@ public class DataSetColumnBindingsFormPage extends FormPage
 	public DataSetColumnBindingsFormPage( Composite parent,
 			DataSetColumnBindingsFormHandleProvider provider )
 	{
-		super( parent, FormPage.FULL_FUNCTION, provider, false );
+		super( parent, FormPage.FULL_FUNCTION, provider, true );
 		this.provider = provider;
 		this.provider.setTableViewer( this.getTableViewer( ) );
 	}
