@@ -1392,7 +1392,7 @@ public class PDFEmitter implements IContentEmitter
 			
 		}
 		/**
-		 * 
+		 *
 		 * @param absPos
 		 *            the vertical position relative to its containing box
 		 * @param containerBaseAbsPos
@@ -1419,7 +1419,7 @@ public class PDFEmitter implements IContentEmitter
 				{
 					tplOrigin = containerBaseAbsPos - containerSize;
 					tplSize = containerSize;
-					translation = containerSize - ImageSize;
+					translation = containerSize - ImageSize - absPos;
 				}
 				else
 				{
