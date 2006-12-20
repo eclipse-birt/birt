@@ -62,6 +62,7 @@ import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.DataSet;
+import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.Library;
@@ -1063,6 +1064,28 @@ public class ModelUtil
 	}
 
 	/**
+	 * Get virtual parent or extended parent.
+	 * 
+	 * @param element
+	 *            design element which wants to get its parent.
+	 * @return parent of element.
+	 */
+
+	public static DesignElement getParent( DesignElement element )
+	{
+		DesignElement parent = null;
+		if ( element.isVirtualElement( ) )
+		{
+			parent = element.getVirtualParent( );
+		}
+		else
+		{
+			parent = element.getExtendsElement( );
+		}
+		return parent;
+	}
+
+	/**
 	 * Checks whether the compound element is valid.
 	 * <p>
 	 * If the table/grid has no rows and columns, its layout is invalid.
@@ -1376,7 +1399,7 @@ public class ModelUtil
 
 		return null;
 	}
-	
+
 	/**
 	 * Formats the file path into the format of unix. Unix file path is
 	 * compatible on the windows platforms. If the <code>filePath</code>

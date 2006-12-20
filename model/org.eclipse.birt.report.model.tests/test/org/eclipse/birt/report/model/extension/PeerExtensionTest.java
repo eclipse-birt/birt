@@ -61,6 +61,7 @@ public class PeerExtensionTest extends BaseTestCase
 	private static final String FILE_NAME_1 = "PeerExtensionTest_1.xml"; //$NON-NLS-1$
 	private static final String FILE_NAME_2 = "PeerExtensionTest_2.xml"; //$NON-NLS-1$
 	private static final String FILE_NAME_3 = "PeerExtensionTest_3.xml"; //$NON-NLS-1$
+	private static final String FILE_NAME_5 = "PeerExtensionTest_5.xml";//$NON-NLS-1$
 
 	private static final String POINTS_PROP_NAME = "points"; //$NON-NLS-1$
 
@@ -82,6 +83,22 @@ public class PeerExtensionTest extends BaseTestCase
 	{
 		super.setUp( );
 		ThreadResources.setLocale( ULocale.ENGLISH );
+	}
+
+	/**
+	 * Test initializeReportItem method. when element has virtual parent, also
+	 * can be initialized.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testVirtualExtension( ) throws Exception
+	{
+		openDesign( FILE_NAME_5 );
+
+		ExtendedItemHandle handle = (ExtendedItemHandle) designHandle
+				.findElement( "newHeaderMatrix" ); //$NON-NLS-1$
+		assertNotNull( handle );
 	}
 
 	/**
