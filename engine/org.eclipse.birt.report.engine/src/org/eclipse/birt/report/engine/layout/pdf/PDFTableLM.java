@@ -1110,8 +1110,8 @@ public class PDFTableLM extends PDFBlockStackingLM
 
 					resolveBorderConflict( emptyCell );
 					IStyle areaStyle = emptyCell.getStyle( );
-					areaStyle.setProperty( IStyle.STYLE_BORDER_TOP_WIDTH,
-							IStyle.NUMBER_0 );
+					/*areaStyle.setProperty( IStyle.STYLE_BORDER_TOP_WIDTH,
+							IStyle.NUMBER_0 );*/
 					areaStyle.setProperty( IStyle.STYLE_PADDING_TOP, IStyle.NUMBER_0 );
 					areaStyle.setProperty( IStyle.STYLE_MARGIN_TOP, IStyle.NUMBER_0 );
 					emptyCell.setWidth( getCellWidth( startColumn, endColumn ) );
