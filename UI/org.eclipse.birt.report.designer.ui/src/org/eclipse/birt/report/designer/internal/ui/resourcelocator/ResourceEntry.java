@@ -29,6 +29,8 @@ public interface ResourceEntry extends IAdaptable
 		public boolean accept( ResourceEntry entity );
 	}
 
+	String getDisplayName();
+	
 	String getName( );
 
 	Image getImage( );

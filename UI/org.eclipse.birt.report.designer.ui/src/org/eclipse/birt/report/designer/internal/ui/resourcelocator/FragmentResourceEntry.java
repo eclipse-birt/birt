@@ -39,6 +39,8 @@ class FragmentResourceEntry extends BaseResourceEntity
 
 	private String name;
 
+	private String displayName;
+	
 	private FragmentResourceEntry parent;
 
 	private String path;
@@ -60,6 +62,7 @@ class FragmentResourceEntry extends BaseResourceEntity
 	{
 		this( Messages.getString( "FragmentResourceEntry.RootName" ), "/", null, false ); //$NON-NLS-1$//$NON-NLS-2$
 		this.isRoot = true;
+		this.displayName = Messages.getString( "FragmentResourceEntry.RootDisplayName" );
 		bundle = Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST );
 		if ( bundle != null )
 		{
@@ -161,6 +164,11 @@ class FragmentResourceEntry extends BaseResourceEntity
 		return this.name;
 	}
 
+	public String getDisplayName( )
+	{
+		return this.displayName;
+	}
+	
 	public Image getImage( )
 	{
 		if ( this.isRoot || getChildren( ).length > 0 )
