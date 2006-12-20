@@ -166,10 +166,11 @@ GROUP BY  CLASSICMODELS.PRODUCTS.PRODUCTLINE, CLASSICMODELS.PRODUCTS.PRODUCTNAME
                             <property name="colSpan">7</property>
                             <property name="rowSpan">1</property>
                             <property name="textAlign">center</property>
-                            <extended-item extensionName="Chart" id="39">
+                            <extended-item extensionName="Chart" name="NewChart" id="39">
+								<xml-property name="xmlRepresentation"><![CDATA[]]></xml-property>
+								<property name="dataSet">Data Set</property>
                                 <property name="height">400pt</property>
-                                <property name="width">550pt</property>
-                                <property name="dataSet">Data Set</property>
+                                <property name="width">550pt</property>                                
                                 <list-property name="paramBindings">
                                     <structure>
                                         <property name="paramName">param1</property>
