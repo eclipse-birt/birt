@@ -529,14 +529,4 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 	{
 		viewer.setResourceFolder( resourceFolder );
 	}
-
-	/**
-	 * @param maxRowsOfRecords
-	 *            the maxRowsOfRecords to set
-	 */
-	public void setMaxRowsOfRecords( String maxRowsOfRecords )
-	{
-		viewer.setMaxRowsOfRecords( Integer.parseInt( maxRowsOfRecords ) );
-	}
-
 }

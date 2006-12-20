@@ -492,15 +492,6 @@ public class RequesterTag extends AbstractBaseTag
 	}
 
 	/**
-	 * @param maxRowsOfRecords
-	 *            the maxRowsOfRecords to set
-	 */
-	public void setMaxRowsOfRecords( String maxRowsOfRecords )
-	{
-		viewer.setMaxRowsOfRecords( Integer.parseInt( maxRowsOfRecords ) );
-	}
-
-	/**
 	 * @param forceOverwriteDocument
 	 *            the forceOverwriteDocument to set
 	 */

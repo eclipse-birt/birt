@@ -254,17 +254,7 @@
 				Default value is defined in web.xml.
 			</description>			
 		</attribute>
-				
-		<attribute>
-			<name>maxRowsOfRecords</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>
-				Specifies the max rows of dataset records to display.
-				Default value is defined in web.xml.
-			</description>			
-		</attribute>
-								
+											
 		<attribute>
 			<name>forceOverwriteDocument</name>
 			<required>false</required>
@@ -542,17 +532,7 @@
 				Specifies the referenced resource folder.
 				Default value is defined in web.xml.
 			</description>			
-		</attribute>
-				
-		<attribute>
-			<name>maxRowsOfRecords</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>
-				Specifies the max rows of dataset records to display.
-				Default value is defined in web.xml.
-			</description>			
-		</attribute>
+		</attribute>			
 								
 		<attribute>
 			<name>forceParameterPrompting</name>
@@ -875,17 +855,7 @@
 				Specifies the referenced resource folder.
 				Default value is defined in web.xml.
 			</description>			
-		</attribute>
-				
-		<attribute>
-			<name>maxRowsOfRecords</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>
-				Specifies the max rows of dataset records to display.
-				Default value is defined in web.xml.
-			</description>			
-		</attribute>
+		</attribute>			
 								
 		<attribute>
 			<name>forceOverwriteDocument</name>
