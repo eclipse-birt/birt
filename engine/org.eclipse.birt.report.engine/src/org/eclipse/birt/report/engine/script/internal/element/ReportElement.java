@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.script.internal.element;
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IReportElement;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 
 public class ReportElement extends DesignElement implements IReportElement
@@ -41,6 +42,30 @@ public class ReportElement extends DesignElement implements IReportElement
 		} catch ( SemanticException e )
 		{
 			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#getName()
+	 */
+
+	public String getName() {
+		return reportElementHandle.getName();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setName(java.lang.String)
+	 */
+
+	public void setName(String name) throws ScriptException {
+		try {
+			reportElementHandle.setName(name);
+		} catch (NameException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 	}
 

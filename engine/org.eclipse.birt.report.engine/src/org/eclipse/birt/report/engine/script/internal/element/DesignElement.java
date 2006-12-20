@@ -43,36 +43,12 @@ public class DesignElement implements IDesignElement {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#getName()
-	 */
-
-	public String getName() {
-		return handle.getName();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#getQualifiedName()
 	 */
 
 	public String getQualifiedName() {
 
 		return handle.getQualifiedName();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setName(java.lang.String)
-	 */
-
-	public void setName(String name) throws ScriptException {
-		try {
-			handle.setName(name);
-		} catch (NameException e) {
-			throw new ScriptException(e.getLocalizedMessage());
-		}
 	}
 
 	public String getNamedExpression(String name) {
