@@ -15,6 +15,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.views.attributes.IPropertyDescriptor;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
@@ -40,6 +41,8 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 	private boolean isFormStyle;
 
 	private BorderInfomation restoreInfo;
+
+	private static final RGB autoColor = DEUtil.getRGBValue( ColorUtil.parsePredefinedColor( "black" ) );
 
 	public BorderPropertyDescriptor( boolean isFormStyle )
 	{
@@ -143,11 +146,12 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 
 				public void widgetSelected( SelectionEvent e )
 				{
-					SessionHandleAdapter.getInstance( )
-							.getCommandStack( )
-							.startTrans( Messages.getString( "BordersPage.Trans.SelectBorder" ) );
 					if ( ( (Button) e.widget ).getSelection( ) )
 					{
+						SessionHandleAdapter.getInstance( )
+								.getCommandStack( )
+								.startTrans( Messages.getString( "BordersPage.Trans.SelectBorder" ) );
+
 						BorderInfomation information = new BorderInfomation( );
 
 						information.setPosition( provider.getPosition( ) );
@@ -165,14 +169,27 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 							ExceptionHandler.handle( e1 );
 						}
 						checkToggleButtons( );
+
+						SessionHandleAdapter.getInstance( )
+								.getCommandStack( )
+								.commit( );
 					}
 					else
 					{
 						BorderInfomation oldInfo = (BorderInfomation) provider.load( );
+						RGB oldColor = oldInfo.getColor( );
+						if ( oldColor == null )
+						{
+							oldColor = autoColor;
+						}
 						if ( !( oldInfo.getStyle( ).equals( (String) styleCombo.getSelectedItem( ) ) )
-								|| !( oldInfo.getColor( ).equals( builder.getRGB( ) ) )
+								|| !( oldColor.equals( builder.getRGB( ) ) )
 								|| !( oldInfo.getWidth( ).equals( (String) widthCombo.getSelectedItem( ) ) ) )
 						{
+							SessionHandleAdapter.getInstance( )
+									.getCommandStack( )
+									.startTrans( Messages.getString( "BordersPage.Trans.SelectBorder" ) );
+
 							BorderInfomation information = new BorderInfomation( );
 
 							information.setPosition( provider.getPosition( ) );
@@ -190,9 +207,16 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 								ExceptionHandler.handle( e1 );
 							}
 							( (Button) e.widget ).setSelection( true );
+							SessionHandleAdapter.getInstance( )
+									.getCommandStack( )
+									.commit( );
 						}
 						else
 						{
+							SessionHandleAdapter.getInstance( )
+									.getCommandStack( )
+									.startTrans( Messages.getString( "BordersPage.Trans.UnSelectBorder" ) );
+
 							previewCanvas.removeBorderInfomation( provider.getPosition( ) );
 							if ( allButton.getSelection( ) )
 								allButton.setSelection( false );
@@ -204,12 +228,12 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 							{
 								ExceptionHandler.handle( e1 );
 							}
+							SessionHandleAdapter.getInstance( )
+									.getCommandStack( )
+									.commit( );
 						}
 					}
 					previewCanvas.redraw( );
-					SessionHandleAdapter.getInstance( )
-							.getCommandStack( )
-							.commit( );
 				}
 
 			} );
@@ -223,11 +247,11 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				SessionHandleAdapter.getInstance( )
-						.getCommandStack( )
-						.startTrans( Messages.getString( "BordersPage.Trans.SelectAllborders" ) );
 				if ( ( (Button) e.widget ).getSelection( ) )
 				{
+					SessionHandleAdapter.getInstance( )
+							.getCommandStack( )
+							.startTrans( Messages.getString( "BordersPage.Trans.SelectAllborders" ) );
 					for ( int i = 0; i < toggleProviders.length; i++ )
 					{
 						BorderInfomation information = new BorderInfomation( );
@@ -247,15 +271,24 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 						}
 					}
 					restoreInfo = (BorderInfomation) toggleProviders[toggleProviders.length - 1].load( );
+					SessionHandleAdapter.getInstance( )
+							.getCommandStack( )
+							.commit( );
 				}
 				else
 				{
 					boolean reset = true;
+					RGB oldColor = null;
 					for ( int i = 0; i < toggleProviders.length; i++ )
 					{
 						BorderInfomation info = (BorderInfomation) toggleProviders[i].load( );
+						oldColor = info.getColor( );
+						if ( oldColor == null )
+						{
+							oldColor = autoColor;
+						}
 						if ( !( info.getStyle( ).equals( (String) styleCombo.getSelectedItem( ) ) )
-								|| !( info.getColor( ).equals( builder.getRGB( ) ) )
+								|| !( oldColor.equals( builder.getRGB( ) ) )
 								|| !( info.getWidth( ).equals( (String) widthCombo.getSelectedItem( ) ) ) )
 						{
 							reset = false;
@@ -264,6 +297,10 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 					}
 					if ( reset )
 					{
+						SessionHandleAdapter.getInstance( )
+								.getCommandStack( )
+								.startTrans( Messages.getString( "BordersPage.Trans.UnSelectAllborders" ) );
+
 						for ( int i = 0; i < toggleProviders.length; i++ )
 						{
 							previewCanvas.removeBorderInfomation( toggleProviders[i].getPosition( ) );
@@ -277,9 +314,16 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 								ExceptionHandler.handle( e1 );
 							}
 						}
+						SessionHandleAdapter.getInstance( )
+								.getCommandStack( )
+								.commit( );
 					}
 					else
 					{
+						SessionHandleAdapter.getInstance( )
+								.getCommandStack( )
+								.startTrans( Messages.getString( "BordersPage.Trans.SelectAllborders" ) );
+
 						for ( int i = 0; i < toggleProviders.length; i++ )
 						{
 							BorderInfomation information = new BorderInfomation( );
@@ -300,10 +344,12 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 							}
 						}
 						( (Button) e.widget ).setSelection( true );
+						SessionHandleAdapter.getInstance( )
+								.getCommandStack( )
+								.commit( );
 					}
 				}
 				previewCanvas.redraw( );
-				SessionHandleAdapter.getInstance( ).getCommandStack( ).commit( );
 			}
 		} );
 
@@ -374,7 +420,7 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 	public void load( )
 	{
 		// for ( int i = toggleProviders.length - 1; i >= 0; i-- )
-		for ( int i = 0; i < toggleProviders.length; i++  )
+		for ( int i = 0; i < toggleProviders.length; i++ )
 		{
 			BorderInfomation info = (BorderInfomation) toggleProviders[i].load( );
 			previewCanvas.setBorderInfomation( info );
