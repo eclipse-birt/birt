@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.ui.editors;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -37,7 +36,6 @@ import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.GraphicalViewer;
@@ -54,7 +52,6 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IKeyBindingService;
 import org.eclipse.ui.INestableKeyBindingService;
 import org.eclipse.ui.IPartListener;
-import org.eclipse.ui.IPathEditorInput;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartConstants;
 import org.eclipse.ui.PartInitException;
@@ -759,32 +756,32 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 		}
 
-		if(getModel() != null)
-		{
-			getModel( ).setResourceFolder( getProjectFolder( ) );
-		}
+//		if(getModel() != null)
+//		{
+//			getModel( ).setResourceFolder( getProjectFolder( ) );
+//		}
 		
 	}
 
-	private String getProjectFolder( )
-	{
-		IEditorInput input = getEditorInput( );
-		Object fileAdapter = input.getAdapter( IFile.class );
-		IFile file = null;
-		if ( fileAdapter != null )
-			file = (IFile) fileAdapter;
-		if ( file != null && file.getProject( ) != null )
-		{
-			return file.getProject( ).getLocation( ).toOSString( );
-		}
-		if ( input instanceof IPathEditorInput )
-		{
-			File fileSystemFile = ( (IPathEditorInput) input ).getPath( )
-					.toFile( );
-			return fileSystemFile.getParent( );
-		}
-		return null;
-	}
+//	private String getProjectFolder( )
+//	{
+//		IEditorInput input = getEditorInput( );
+//		Object fileAdapter = input.getAdapter( IFile.class );
+//		IFile file = null;
+//		if ( fileAdapter != null )
+//			file = (IFile) fileAdapter;
+//		if ( file != null && file.getProject( ) != null )
+//		{
+//			return file.getProject( ).getLocation( ).toOSString( );
+//		}
+//		if ( input instanceof IPathEditorInput )
+//		{
+//			File fileSystemFile = ( (IPathEditorInput) input ).getPath( )
+//					.toFile( );
+//			return fileSystemFile.getParent( );
+//		}
+//		return null;
+//	}
 
 	/*
 	 * (non-Javadoc)
