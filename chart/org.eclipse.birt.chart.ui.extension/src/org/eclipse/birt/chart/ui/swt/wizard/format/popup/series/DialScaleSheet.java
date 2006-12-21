@@ -42,5 +42,12 @@ public class DialScaleSheet extends AbstractScaleSheet
 	{
 		return TextEditorComposite.TYPE_NUMBERIC;
 	}
+	
+	protected void setState( )
+	{
+		super.setState( );
+		// Hide invalid attributes.
+		btnShowOutside.setVisible( false );
+	}
 
 }
