@@ -30,7 +30,7 @@ import org.eclipse.ui.PlatformUI;
  * 
  */
 
-class PathResourceEntry extends BaseResourceEntity
+public class PathResourceEntry extends BaseResourceEntity
 {
 
 	private String path;

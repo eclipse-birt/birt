@@ -104,13 +104,7 @@ public class ResourceFileLabelProvider extends LabelProvider
 		}
 		if ( element instanceof ResourceEntry )
 		{
-			String text;
-			text = ( (ResourceEntry) element ).getDisplayName( );
-			if(text == null || text.trim( ).length( ) == 0)
-			{
-				text = ( (ResourceEntry) element ).getName( );
-			}
-			return text;
+			return ( (ResourceEntry) element ).getName( );
 		}
 		return super.getText( element );
 	}
