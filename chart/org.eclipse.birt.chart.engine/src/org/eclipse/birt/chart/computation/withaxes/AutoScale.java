@@ -2551,10 +2551,10 @@ public final class AutoScale extends Methods implements Cloneable
 			dTickGap = dLength / ( nTicks - 1 ) * iDirection;
 		}
 
-		// Do not render too many grids for datetime value. It may be caused by
-		// improper step or unit.
-		if ( nTicks > TICKS_MAX
-				&& !bCategoryScale && ( iType & DATE_TIME ) == DATE_TIME )
+		// Added the maximum check for the step number in fixed step case.
+		// If too many steps are used in auto scale, skip it. If it's fixed
+		// step, it may be caused by improper step or unit.
+		if ( nTicks > TICKS_MAX && bStepFixed && !bCategoryScale )
 		{
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.GENERATION,
