@@ -903,6 +903,7 @@
 		<zip destfile="${OutputDir}/${wtp.integration.zip.name}">
 			<zipfileset dir="${deposit}/eclipse/plugins" prefix="${ZipPrefix}">
 				<include name="org.eclipse.birt.integration.wtp*/**" />
+				<include name="org.eclipse.birt.report.designer.ui.editor.xml.wtp*/**"/>
 			</zipfileset>
 			<zipfileset dir="${deposit}/eclipse/features" prefix="${FeautrePrefix}">
 				<include name="org.eclipse.birt.integration.wtp*/*" />
