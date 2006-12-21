@@ -167,6 +167,9 @@ public class ImageManager
 						new Float( .8 ) );
 				// create the transcoder input
 				TranscoderInput input = new TranscoderInput( new ByteArrayInputStream( embeddedImage.getData( handle.getModule( ) ) ) );
+				// For embedded image we have't a file URI, so set handle filename as URI.
+				// See Bugzilla Bug 167395 168647
+				input.setURI( generateURL( handle.getFileName( ) ).toString( ) );
 				// create the transcoder output
 				ByteArrayOutputStream ostream = new ByteArrayOutputStream( );
 				TranscoderOutput output = new TranscoderOutput( ostream );
