@@ -30,7 +30,7 @@ public class ODAProviderFactory implements IODAProviderFactory
 	/*
 	 * The only one ODAProviderFactory instance.
 	 */
-	private static ODAProviderFactory instance = new ODAProviderFactory( );
+	private static ODAProviderFactory instance = null;
 
 	/**
 	 * Returns the ODAProviderFactory instance.
@@ -40,6 +40,8 @@ public class ODAProviderFactory implements IODAProviderFactory
 
 	public static ODAProviderFactory getInstance( )
 	{
+		if ( instance == null )
+			instance = new ODAProviderFactory( );
 		return instance;
 	}
 
