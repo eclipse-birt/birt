@@ -77,4 +77,13 @@ public class ODAProviderFactory implements IODAProviderFactory
 
 		baseFactory = base;
 	}
+	
+	/**
+     * Singleton instance release method.
+     */
+    public static void releaseInstance()
+    {
+        baseFactory = null;
+        instance = null;
+    }
 }

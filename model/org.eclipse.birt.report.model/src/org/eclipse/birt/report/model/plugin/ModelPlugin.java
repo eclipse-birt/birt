@@ -23,6 +23,11 @@ import org.osgi.framework.BundleContext;
 public class ModelPlugin extends BIRTPlugin
 {
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.core.plugin.BIRTPlugin#start(org.osgi.framework.BundleContext)
+	 */
 	public void start( BundleContext context ) throws Exception
 	{
 		super.start( context );
@@ -30,6 +35,17 @@ public class ModelPlugin extends BIRTPlugin
 		ODAProviderFactory.initeTheFactory( new ODABaseProviderFactory( ) );
 
 		BundleFactory.setBundleFactory( new PlatformBundleFactory( ) );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.core.runtime.Plugin#stop(org.osgi.framework.BundleContext)
+	 */
+	
+	public void stop( BundleContext context ) throws Exception
+	{
+		ODAProviderFactory.releaseInstance( );
+		super.stop( context );
 	}
 
 }
