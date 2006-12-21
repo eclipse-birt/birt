@@ -18,10 +18,12 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
+import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
@@ -474,7 +476,9 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 				try
 				{
 					populateSeriesTypes( PluginSettings.instance( )
-							.getRegisteredSeries( ), series );
+							.getRegisteredSeries( ),
+							series,
+							( (ChartWithAxes) getChart( ) ).getOrientation( ) );
 				}
 				catch ( ChartException e )
 				{
@@ -490,7 +494,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 			}
 		}
 
-		private void populateSeriesTypes( String[] allSeriesTypes, Series series )
+		private void populateSeriesTypes( String[] allSeriesTypes,
+				Series series, Orientation orientation )
 		{
 			for ( int i = 0; i < allSeriesTypes.length; i++ )
 			{
@@ -509,7 +514,11 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 					htSeriesNames.put( sDisplayName, allSeriesTypes[i] );
 					if ( newSeries.canParticipateInCombination( ) )
 					{
-						cmbTypes.add( sDisplayName );
+						if ( !( newSeries instanceof StockSeries )
+								|| ( orientation.getValue( ) == Orientation.VERTICAL ) )
+						{
+							cmbTypes.add( sDisplayName );
+						}
 						if ( allSeriesTypes[i].equals( series.getClass( )
 								.getName( ) ) )
 						{

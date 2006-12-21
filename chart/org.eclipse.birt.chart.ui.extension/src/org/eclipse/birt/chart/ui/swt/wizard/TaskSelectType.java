@@ -36,6 +36,7 @@ import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
@@ -501,7 +502,7 @@ public class TaskSelectType extends SimpleTask implements
 	}
 
 	private void populateSeriesTypes( String[] allSeriesTypes, Series series,
-			Orientation orientation, String dimension ) throws ChartException
+			Orientation orientation ) throws ChartException
 	{
 		for ( int i = 0; i < allSeriesTypes.length; i++ )
 		{
@@ -520,7 +521,11 @@ public class TaskSelectType extends SimpleTask implements
 				htSeriesNames.put( sDisplayName, allSeriesTypes[i] );
 				if ( newSeries.canParticipateInCombination( ) )
 				{
-					cbSeriesType.add( sDisplayName );
+					if ( !( newSeries instanceof StockSeries )
+							|| ( orientation.getValue( ) == Orientation.VERTICAL ) )
+					{
+						cbSeriesType.add( sDisplayName );
+					}
 					if ( allSeriesTypes[i].equals( series.getClass( ).getName( ) ) )
 					{
 						cbSeriesType.select( cbSeriesType.getItemCount( ) - 1 );
@@ -581,6 +586,7 @@ public class TaskSelectType extends SimpleTask implements
 				}
 				createAndDisplayTypesSheet( sType );
 				setDefaultSubtypeSelection( );
+				populateSeriesTypesList( );
 				ChartCacheManager.getInstance( ).cacheOrientation( sType,
 						orientation );
 			}
@@ -880,7 +886,7 @@ public class TaskSelectType extends SimpleTask implements
 			try
 			{
 				populateSeriesTypes( PluginSettings.instance( )
-						.getRegisteredSeries( ), series, this.orientation, this.sDimension );
+						.getRegisteredSeries( ), series, this.orientation );
 			}
 			catch ( ChartException e )
 			{
