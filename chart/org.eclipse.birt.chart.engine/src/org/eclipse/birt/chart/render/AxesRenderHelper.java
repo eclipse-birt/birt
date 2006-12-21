@@ -481,21 +481,7 @@ public final class AxesRenderHelper
 			dAxisStep = Methods.asDouble( sc.getStep( ) ).doubleValue( );
 			if ( fs == null )
 			{
-				// Use a more precise pattern
-				String valuePattern = sc.getNumericPattern( dAxisValue );
-				String stepPattern = sc.getNumericPattern( dAxisStep );
-				if ( valuePattern.length( ) < stepPattern.length( ) )
-				{
-					valuePattern = stepPattern;
-				}
-				
-				// Use 3 digits as default precision
-				int iPoint = valuePattern.indexOf( '.' );
-				if ( iPoint >= 0 && valuePattern.length( ) - iPoint > 4 )
-				{
-					valuePattern = valuePattern.substring( 0, iPoint + 4 );
-				}
-				df = new DecimalFormat( valuePattern );
+				df = sc.computeDecimalFormat( dAxisValue, dAxisStep );
 			}
 		}
 
@@ -523,10 +509,6 @@ public final class AxesRenderHelper
 			// PERFORM COMPUTATIONS ONLY IF AXIS LABEL IS VISIBLE
 			if ( bRenderAxisLabels )
 			{
-				if ( fs == null )
-				{
-					df = new DecimalFormat( sc.getNumericPattern( dAxisValue ) );
-				}
 				nde.setValue( dAxisValue );
 				try
 				{
@@ -548,6 +530,10 @@ public final class AxesRenderHelper
 		{
 			dAxisValue = Methods.asDouble( sc.getMinimum( ) ).doubleValue( );
 			dAxisStep = Methods.asDouble( sc.getStep( ) ).doubleValue( );
+			if ( fs == null )
+			{
+				df = sc.computeDecimalFormat( dAxisValue, dAxisStep );
+			}
 		}
 
 	}

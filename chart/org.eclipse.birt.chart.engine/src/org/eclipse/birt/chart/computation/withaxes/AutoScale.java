@@ -947,7 +947,7 @@ public final class AutoScale extends Methods implements Cloneable
 				double dMax = asDouble( oMaximum ).doubleValue( );
 				double dMin = asDouble( oMinimum ).doubleValue( );
 				double dStep = asDouble( oStep ).doubleValue( );
-				nTicks = (int) Math.ceil( ( dMax - dMin ) / dStep ) + 1;
+				nTicks = (int) Math.ceil( ( dMax - dMin ) / dStep - 0.5 ) + 1;
 
 				// !Remove artificial limit for tick count.
 				// // ARTIFICIAL LIMIT TO TICK COUNT
@@ -3146,7 +3146,7 @@ public final class AutoScale extends Methods implements Cloneable
 				DecimalFormat df = null;
 				if ( fs == null )
 				{
-					df = new DecimalFormat( getNumericPattern( ) );
+					df = computeDecimalFormat( dAxisValue, dAxisStep );
 				}
 				for ( int i = 0; i < da.length; i++ )
 				{
@@ -3187,7 +3187,7 @@ public final class AutoScale extends Methods implements Cloneable
 				{
 					if ( fs == null )
 					{
-						df = new DecimalFormat( getNumericPattern( dAxisValue ) );
+						df = computeDecimalFormat( dAxisValue, dAxisStep );
 					}
 					nde.setValue( dAxisValue );
 					try
@@ -3884,6 +3884,36 @@ public final class AutoScale extends Methods implements Cloneable
 						Messages.getResourceBundle( rtc.getULocale( ) ) );
 			}
 		}
+	}
+	
+	/**
+	 * Computes the default DecimalFormat pattern for axis according to axis
+	 * value and scale steps.
+	 * 
+	 * @param dAxisValue
+	 *            axis value
+	 * @param dAxisStep
+	 *            scale step
+	 * @return default format pattern
+	 */
+	public final DecimalFormat computeDecimalFormat( double dAxisValue,
+			double dAxisStep )
+	{
+		// Use a more precise pattern
+		String valuePattern = getNumericPattern( dAxisValue );
+		String stepPattern = getNumericPattern( dAxisStep );
+		if ( valuePattern.length( ) < stepPattern.length( ) )
+		{
+			valuePattern = stepPattern;
+		}
+
+		// Use 3 digits as default precision
+		int iPoint = valuePattern.indexOf( '.' );
+		if ( iPoint >= 0 && valuePattern.length( ) - iPoint > 4 )
+		{
+			valuePattern = valuePattern.substring( 0, iPoint + 4 );
+		}
+		return new DecimalFormat( valuePattern );
 	}
 	
 }
