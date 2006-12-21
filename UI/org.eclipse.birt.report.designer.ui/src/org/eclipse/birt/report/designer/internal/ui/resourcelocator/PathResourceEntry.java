@@ -30,7 +30,7 @@ import org.eclipse.ui.PlatformUI;
  * 
  */
 
-class PathResourceEntry extends BaseResourceEntity
+public class PathResourceEntry extends BaseResourceEntity
 {
 
 	private String path;
@@ -182,7 +182,6 @@ class PathResourceEntry extends BaseResourceEntity
 	{
 		return this.displayName;
 	}
-	
 	
 	public Image getImage( )
 	{

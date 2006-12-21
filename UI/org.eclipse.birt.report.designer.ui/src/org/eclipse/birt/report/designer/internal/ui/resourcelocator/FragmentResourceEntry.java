@@ -32,7 +32,7 @@ import org.osgi.framework.Bundle;
  * 
  */
 
-class FragmentResourceEntry extends BaseResourceEntity
+public class FragmentResourceEntry extends BaseResourceEntity
 {
 
 	private static Bundle bundle;
