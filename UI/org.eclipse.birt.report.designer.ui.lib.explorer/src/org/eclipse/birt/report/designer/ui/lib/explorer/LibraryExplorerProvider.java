@@ -14,8 +14,11 @@ package org.eclipse.birt.report.designer.ui.lib.explorer;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.resourcelocator.FragmentResourceEntry;
+import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.graphics.Image;
@@ -82,7 +85,14 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 		}
 		if ( element instanceof ResourceEntry )
 		{
-			return ( (ResourceEntry) element ).getName( );
+			if(element instanceof FragmentResourceEntry)
+			{
+				return Messages.getString( "FragmentResourceEntry.RootDisplayName" );
+			}else
+			if(element instanceof PathResourceEntry)
+			{
+				return Messages.getString( "PathResourceEntry.RootDisplayName" );
+			}
 		}
 		if ( element instanceof String )
 		{
