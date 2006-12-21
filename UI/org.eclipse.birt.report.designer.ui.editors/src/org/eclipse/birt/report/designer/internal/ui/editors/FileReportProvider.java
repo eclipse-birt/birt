@@ -31,8 +31,10 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.IModuleOption;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -54,8 +56,7 @@ public class FileReportProvider implements IReportProvider
 {
 
 	private ModuleHandle model;
-	private static final String VERSION_MESSAGE = Messages
-			.getString( "TextPropertyDescriptor.Message.Version" ); //$NON-NLS-1$
+	private static final String VERSION_MESSAGE = Messages.getString( "TextPropertyDescriptor.Message.Version" ); //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
@@ -76,7 +77,7 @@ public class FileReportProvider implements IReportProvider
 	public ModuleHandle getReportModuleHandle( Object element, boolean reset )
 	{
 
-		if ( (model == null && element instanceof IPathEditorInput) || reset )
+		if ( ( model == null || reset ) && element instanceof IPathEditorInput )
 		{
 			IPath path = ( (IPathEditorInput) element ).getPath( );
 
@@ -88,13 +89,21 @@ public class FileReportProvider implements IReportProvider
 					InputStream stream = new FileInputStream( path.toFile( ) );
 
 					Map properties = new HashMap( );
-					properties.put( IModuleModel.CREATED_BY_PROP, MessageFormat
-							.format( VERSION_MESSAGE, new String[]{
-									ReportPlugin.getVersion( ),
-									ReportPlugin.getBuildInfo( )} ) );
-					
+					properties.put( IModuleModel.CREATED_BY_PROP,
+							MessageFormat.format( VERSION_MESSAGE,
+									new String[]{
+											ReportPlugin.getVersion( ),
+											ReportPlugin.getBuildInfo( )
+									} ) );
+					String projectFolder = getProjectFolder( (IPathEditorInput) element );
+					if ( projectFolder != null )
+					{
+						properties.put( IModuleOption.RESOURCE_FOLDER_KEY,
+								projectFolder );
+					}
 					model = SessionHandleAdapter.getInstance( ).init( fileName,
-							stream,properties );
+							stream,
+							properties );
 				}
 				catch ( DesignFileException e )
 				{
@@ -107,6 +116,25 @@ public class FileReportProvider implements IReportProvider
 			}
 		}
 		return model;
+	}
+
+	private String getProjectFolder( IEditorInput input )
+	{
+		Object fileAdapter = input.getAdapter( IFile.class );
+		IFile file = null;
+		if ( fileAdapter != null )
+			file = (IFile) fileAdapter;
+		if ( file != null && file.getProject( ) != null )
+		{
+			return file.getProject( ).getLocation( ).toOSString( );
+		}
+		if ( input instanceof IPathEditorInput )
+		{
+			File fileSystemFile = ( (IPathEditorInput) input ).getPath( )
+					.toFile( );
+			return fileSystemFile.getParent( );
+		}
+		return null;
 	}
 
 	/*
@@ -158,7 +186,8 @@ public class FileReportProvider implements IReportProvider
 
 					ResourcesPlugin.getWorkspace( ).run( workspaceRunnable,
 							ResourcesPlugin.getWorkspace( ).getRoot( ),
-							IResource.NONE, monitor );
+							IResource.NONE,
+							monitor );
 				}
 				catch ( CoreException e )
 				{
@@ -185,7 +214,8 @@ public class FileReportProvider implements IReportProvider
 		try
 		{
 			new ProgressMonitorDialog( UIUtil.getDefaultShell( ) ).run( false,
-					true, op );
+					true,
+					op );
 		}
 
 		catch ( Exception e )
@@ -205,9 +235,8 @@ public class FileReportProvider implements IReportProvider
 		{
 			IEditorInput input = (IEditorInput) element;
 
-			SaveReportAsWizardDialog dialog = new SaveReportAsWizardDialog(
-					UIUtil.getDefaultShell( ), new SaveReportAsWizard(
-							(ModuleHandle) model, input ) );
+			SaveReportAsWizardDialog dialog = new SaveReportAsWizardDialog( UIUtil.getDefaultShell( ),
+					new SaveReportAsWizard( (ModuleHandle) model, input ) );
 			if ( dialog.open( ) == Window.OK )
 			{
 				return dialog.getResult( );

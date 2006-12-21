@@ -17,13 +17,13 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 import org.eclipse.birt.report.designer.core.util.mediator.ReportMediator;
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -32,7 +32,6 @@ import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.core.DisposeEvent;
 import org.eclipse.birt.report.model.api.core.IDisposeListener;
-import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
 
 import com.ibm.icu.util.ULocale;
 
@@ -45,7 +44,7 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * @author Actuate
- *
+ * 
  */
 public class SessionHandleAdapter
 {
@@ -60,8 +59,7 @@ public class SessionHandleAdapter
 
 		public void moduleDisposed( ModuleHandle targetElement, DisposeEvent ev )
 		{
-			ReportMediator media = (ReportMediator) mediatorMap
-					.get( targetElement );
+			ReportMediator media = (ReportMediator) mediatorMap.get( targetElement );
 			if ( media != null )
 			{
 				media.dispose( );
@@ -84,8 +82,8 @@ public class SessionHandleAdapter
 
 	/**
 	 * Get file type
-	 * @return
-	 *  File type
+	 * 
+	 * @return File type
 	 */
 	public int getFileType( )
 	{
@@ -114,6 +112,7 @@ public class SessionHandleAdapter
 
 	/**
 	 * Get session handle
+	 * 
 	 * @return Session handle
 	 */
 
@@ -121,59 +120,65 @@ public class SessionHandleAdapter
 	{
 		if ( sessionHandle == null )
 		{
-			sessionHandle = new DesignEngine( new DesignConfig( ) )
-			.newSessionHandle( ULocale.getDefault( ) );
+			sessionHandle = new DesignEngine( new DesignConfig( ) ).newSessionHandle( ULocale.getDefault( ) );
 		}
 		return sessionHandle;
 	}
 
 	/**
 	 * Open a design/library file.
+	 * 
 	 * @param fileName
-	 * 	The file name
+	 *            The file name
 	 * @param input
-	 *   The input stream
+	 *            The input stream
 	 * @throws DesignFileException
 	 */
-	public ModuleHandle init( String fileName, InputStream input,Map properties) throws DesignFileException
-	{
-		ModuleHandle handle = init(fileName,input);
-		
-		postInit( handle,properties );
-		setReportDesignHandle(handle);
-		return handle;
-	}
-	
-	
-	/**
-	 * Open a design/library file.
-	 * @param fileName
-	 * 	The file name
-	 * @param input
-	 *   The input stream
-	 * @throws DesignFileException
-	 */
-	public ModuleHandle init( String fileName, InputStream input) throws DesignFileException
+	public ModuleHandle init( String fileName, InputStream input, Map properties )
+			throws DesignFileException
 	{
 		ModuleHandle handle = null;
-		handle = getSessionHandle( ).openModule( fileName, input );
-		
-		postInit( handle ,null);
-		setReportDesignHandle(handle);
+		if ( properties == null )
+		{
+			handle = getSessionHandle( ).openModule( fileName, input );
+		}
+		else
+		{
+			handle = getSessionHandle( ).openModule( fileName,
+					input,
+					new ModuleOption( properties ) );
+		}
+		setReportDesignHandle( handle );
+		postInit( handle, properties );
 		return handle;
 	}
 
 	/**
-	 * @param handle
-	 * 	The moudle handle
-	 * @param properties
-	 * 	The properties
+	 * Open a design/library file.
+	 * 
+	 * @param fileName
+	 *            The file name
+	 * @param input
+	 *            The input stream
+	 * @throws DesignFileException
 	 */
-	private void postInit( ModuleHandle handle ,Map properties)
+	public ModuleHandle init( String fileName, InputStream input )
+			throws DesignFileException
 	{
-		if(properties!= null && !properties.isEmpty( ))
+		return init( fileName, input, null );
+	}
+
+	/**
+	 * @param handle
+	 *            The moudle handle
+	 * @param properties
+	 *            The properties
+	 */
+	private void postInit( ModuleHandle handle, Map properties )
+	{
+		if ( properties != null && !properties.isEmpty( ) )
 		{
-			String createInfo = model.getCreatedBy( );
+			String createInfo = handle.getCreatedBy( );
 
 			if ( createInfo == null || createInfo.length( ) == 0 )
 			{
@@ -183,14 +188,14 @@ public class SessionHandleAdapter
 				}
 				catch ( SemanticException e )
 				{
-					//ignore
+					// ignore
 				}
 			}
 		}
 		SimpleMasterPageHandle masterPage = null;
 		if ( handle.getMasterPages( ).getCount( ) == 0 )
 		{
-			masterPage = handle.getElementFactory( ).newSimpleMasterPage(null); //$NON-NLS-1$
+			masterPage = handle.getElementFactory( ).newSimpleMasterPage( null ); //$NON-NLS-1$
 			try
 			{
 				handle.getMasterPages( ).add( masterPage );
@@ -225,12 +230,12 @@ public class SessionHandleAdapter
 		return model;
 	}
 
-	 /**
-		 * Sets report design.
-		 * 
-		 * @param handle
-		 *            the model
-		 */
+	/**
+	 * Sets report design.
+	 * 
+	 * @param handle
+	 *            the model
+	 */
 	public void setReportDesignHandle( ModuleHandle handle )
 	{
 		model = handle;
@@ -252,8 +257,7 @@ public class SessionHandleAdapter
 	}
 
 	/**
-	 * @deprecated
-	 * Gets the first MasterPageHandle
+	 * @deprecated Gets the first MasterPageHandle
 	 * 
 	 */
 	public MasterPageHandle getMasterPageHandle( )
@@ -262,8 +266,7 @@ public class SessionHandleAdapter
 	}
 
 	/**
-	 * @deprecated
-	 * Gets the first MasterPageHandle
+	 * @deprecated Gets the first MasterPageHandle
 	 * 
 	 * @param handle
 	 * @return
@@ -320,16 +323,17 @@ public class SessionHandleAdapter
 		mediatorMap.remove( oldObj );
 		mediatorMap.put( newObj, mediator );
 	}
-	
+
 	/**
-	 *  Clear the specified module handle
+	 * Clear the specified module handle
+	 * 
 	 * @param handle
-	 * 	The module handle
+	 *            The module handle
 	 */
-	public void clear(ModuleHandle handle )
+	public void clear( ModuleHandle handle )
 	{
 		mediatorMap.remove( handle );
-		if(handle == getReportDesignHandle( ))
+		if ( handle == getReportDesignHandle( ) )
 		{
 			setReportDesignHandle( null );
 		}

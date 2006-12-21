@@ -825,31 +825,31 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			}
 
 		}
-		if ( getModel( ) != null )
-		{
-			getModel( ).setResourceFolder( getProjectFolder( ) );
-		}
+//		if ( getModel( ) != null )
+//		{
+//			getModel( ).setResourceFolder( getProjectFolder( ) );
+//		}
 	}
 
-	private String getProjectFolder( )
-	{
-		IEditorInput input = getEditorInput( );
-		Object fileAdapter = input.getAdapter( IFile.class );
-		IFile file = null;
-		if ( fileAdapter != null )
-			file = (IFile) fileAdapter;
-		if ( file != null && file.getProject( ) != null )
-		{
-			return file.getProject( ).getLocation( ).toOSString( );
-		}
-		if ( input instanceof IPathEditorInput )
-		{
-			File fileSystemFile = ( (IPathEditorInput) input ).getPath( )
-					.toFile( );
-			return fileSystemFile.getParent( );
-		}
-		return null;
-	}
+//	private String getProjectFolder( )
+//	{
+//		IEditorInput input = getEditorInput( );
+//		Object fileAdapter = input.getAdapter( IFile.class );
+//		IFile file = null;
+//		if ( fileAdapter != null )
+//			file = (IFile) fileAdapter;
+//		if ( file != null && file.getProject( ) != null )
+//		{
+//			return file.getProject( ).getLocation( ).toOSString( );
+//		}
+//		if ( input instanceof IPathEditorInput )
+//		{
+//			File fileSystemFile = ( (IPathEditorInput) input ).getPath( )
+//					.toFile( );
+//			return fileSystemFile.getParent( );
+//		}
+//		return null;
+//	}
 
 	/*
 	 * (non-Javadoc)

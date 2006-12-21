@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.ide.adapters;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -29,6 +30,7 @@ import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.designer.ui.ide.wizards.SaveReportAsWizard;
 import org.eclipse.birt.report.designer.ui.ide.wizards.SaveReportAsWizardDialog;
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.IModuleOption;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.core.resources.IContainer;
@@ -47,6 +49,7 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.window.Window;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IPathEditorInput;
 import org.eclipse.ui.IStorageEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.texteditor.IDocumentProvider;
@@ -59,8 +62,7 @@ public class IDEFileReportProvider implements IReportProvider
 {
 
 	private ModuleHandle model = null;
-	private static final String VERSION_MESSAGE = Messages
-			.getString( "TextPropertyDescriptor.Message.Version" ); //$NON-NLS-1$
+	private static final String VERSION_MESSAGE = Messages.getString( "TextPropertyDescriptor.Message.Version" ); //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
@@ -109,13 +111,14 @@ public class IDEFileReportProvider implements IReportProvider
 			IProgressMonitor monitor )
 	{
 		// TODO
-		
-		if(file.exists( ) && file.isReadOnly( ))
+
+		if ( file.exists( ) && file.isReadOnly( ) )
 		{
 			MessageDialog.openError( UIUtil.getDefaultShell( ),
 					Messages.getString( "IDEFileReportProvider.ReadOnlyEncounter.Title" ),
 					Messages.getFormattedString( "IDEFileReportProvider.ReadOnlyEncounter.Message",
-							new Object[]{file.getFullPath( )
+							new Object[]{
+								file.getFullPath( )
 							} ) );
 			return;
 		}
@@ -148,7 +151,8 @@ public class IDEFileReportProvider implements IReportProvider
 
 					ResourcesPlugin.getWorkspace( ).run( workspaceRunnable,
 							ResourcesPlugin.getWorkspace( ).getRoot( ),
-							IResource.NONE, monitor );
+							IResource.NONE,
+							monitor );
 				}
 				catch ( CoreException e )
 				{
@@ -192,7 +196,8 @@ public class IDEFileReportProvider implements IReportProvider
 		try
 		{
 			new ProgressMonitorDialog( UIUtil.getDefaultShell( ) ).run( false,
-					true, op );
+					true,
+					op );
 		}
 
 		catch ( Exception e )
@@ -221,9 +226,9 @@ public class IDEFileReportProvider implements IReportProvider
 		{
 			IFileEditorInput input = (IFileEditorInput) element;
 
-			SaveReportAsWizardDialog dialog = new SaveReportAsWizardDialog(
-					UIUtil.getDefaultShell( ), new SaveReportAsWizard(
-							(ModuleHandle) model, input.getFile( ) ) );
+			SaveReportAsWizardDialog dialog = new SaveReportAsWizardDialog( UIUtil.getDefaultShell( ),
+					new SaveReportAsWizard( (ModuleHandle) model,
+							input.getFile( ) ) );
 			if ( dialog.open( ) == Window.OK )
 			{
 				return dialog.getResult( );
@@ -239,7 +244,8 @@ public class IDEFileReportProvider implements IReportProvider
 	 */
 	public IEditorInput createNewEditorInput( IPath path )
 	{
-		return new FileEditorInput( ResourcesPlugin.getWorkspace( ).getRoot( )
+		return new FileEditorInput( ResourcesPlugin.getWorkspace( )
+				.getRoot( )
 				.getFile( path ) );
 	}
 
@@ -284,7 +290,8 @@ public class IDEFileReportProvider implements IReportProvider
 				if ( element instanceof IFileEditorInput )
 				{
 					fileName = ( (IFileEditorInput) element ).getFile( )
-							.getLocation( ).toOSString( );
+							.getLocation( )
+							.toOSString( );
 				}
 				InputStream stream;
 				try
@@ -293,13 +300,21 @@ public class IDEFileReportProvider implements IReportProvider
 							.getContents( );
 
 					Map properties = new HashMap( );
-					properties.put( IModuleModel.CREATED_BY_PROP, MessageFormat
-							.format( VERSION_MESSAGE, new String[]{
-									ReportPlugin.getVersion( ),
-									ReportPlugin.getBuildInfo( )} ) );
-
+					properties.put( IModuleModel.CREATED_BY_PROP,
+							MessageFormat.format( VERSION_MESSAGE,
+									new String[]{
+											ReportPlugin.getVersion( ),
+											ReportPlugin.getBuildInfo( )
+									} ) );
+					String projectFolder = getProjectFolder( input );
+					if ( projectFolder != null )
+					{
+						properties.put( IModuleOption.RESOURCE_FOLDER_KEY,
+								projectFolder );
+					}
 					model = SessionHandleAdapter.getInstance( ).init( fileName,
-							stream ,properties);
+							stream,
+							properties );
 				}
 				catch ( CoreException e )
 				{
@@ -314,6 +329,25 @@ public class IDEFileReportProvider implements IReportProvider
 		}
 
 		return model;
+	}
+
+	private String getProjectFolder( IEditorInput input )
+	{
+		Object fileAdapter = input.getAdapter( IFile.class );
+		IFile file = null;
+		if ( fileAdapter != null )
+			file = (IFile) fileAdapter;
+		if ( file != null && file.getProject( ) != null )
+		{
+			return file.getProject( ).getLocation( ).toOSString( );
+		}
+		if ( input instanceof IPathEditorInput )
+		{
+			File fileSystemFile = ( (IPathEditorInput) input ).getPath( )
+					.toFile( );
+			return fileSystemFile.getParent( );
+		}
+		return null;
 	}
 
 }
