@@ -401,7 +401,11 @@ public class ImportValueDialog extends BaseDialog
 		selectedList.removeAll( );
 		for ( Iterator iter = choiceList.iterator( ); iter.hasNext( ); )
 		{
-			selectedList.add( (String) iter.next( ) );
+			String value = (String) iter.next( );
+			if ( value != null )
+			{
+				selectedList.add( value );
+			}			
 		}
 		refreshColumns( );
 		return true;

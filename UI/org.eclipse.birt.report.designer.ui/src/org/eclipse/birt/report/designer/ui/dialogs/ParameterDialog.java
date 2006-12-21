@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -1244,10 +1245,15 @@ public class ParameterDialog extends BaseDialog
 				boolean defaultValueRemoved = true;
 				String type = getSelectedDataType( );
 				List choices = new ArrayList( );
+				Map labelMap = new HashMap();
 				for ( Iterator iter = choiceList.iterator( ); iter.hasNext( ); )
 				{
 					SelectionChoice choice = (SelectionChoice) iter.next( );
 					choices.add( choice.getValue( ) );
+					if ( choice.getLabel( ) != null )
+					{
+						labelMap.put( choice.getValue( ), choice.getLabel( ) );
+					}
 				}
 				ImportValueDialog dialog = new ImportValueDialog( type, choices );
 				if ( dialog.open( ) == OK )
@@ -1258,6 +1264,10 @@ public class ParameterDialog extends BaseDialog
 					{
 						SelectionChoice choice = StructureFactory.createSelectionChoice( );
 						choice.setValue( importValues[i] );
+						if ( labelMap.get( importValues[i] ) != null )
+						{
+							choice.setLabel( (String)labelMap.get( importValues[i] ) );
+						}						
 						choiceList.add( choice );
 						if ( defaultValue != null
 								&& defaultValue.equals( importValues[i] ) )
