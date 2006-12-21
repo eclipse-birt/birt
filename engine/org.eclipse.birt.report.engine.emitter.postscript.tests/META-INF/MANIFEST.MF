@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Report Engine Emitter POSTSCRIPT Tests Plug-in
+Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.postscript.tests
+Bundle-Version: 2.2.0.qualifier
+Bundle-Activator: org.eclipse.birt.report.engine.emitter.postscript.Activator
+Bundle-Localization: plugin
+Import-Package: org.osgi.framework;version="1.3.0"
+Require-Bundle: org.eclipse.birt.core,
+ org.eclipse.birt.report.engine,
+ org.eclipse.birt.report.engine.emitter.postscript
+Bundle-Vendor: Eclipse.org

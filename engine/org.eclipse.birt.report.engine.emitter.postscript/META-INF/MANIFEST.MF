@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: BIRT POSTSCRIPT emitter
+Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.postscript;singleton:=true
+Bundle-Version: 2.2.0.qualifier
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.birt.report.engine,
+ org.eclipse.birt.report.engine.fonts,
+ com.lowagie.itext,
+ org.apache.batik
+Export-Package: org.eclipse.birt.report.engine.emitter.postscript,
+ org.eclipse.birt.report.engine.emitter.postscript.util
