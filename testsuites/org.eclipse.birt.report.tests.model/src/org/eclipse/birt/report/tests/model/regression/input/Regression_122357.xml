@@ -171,7 +171,7 @@ from CLASSICMODELS.CUSTOMERS</property>
         <simple-master-page name="Simple MasterPage" id="2"/>
     </page-setup>
     <body>
-        <extended-item extensionName="Chart" id="6">
+        <extended-item extensionName="Chart" name="NewChart" id="6">
             <property name="height">130pt</property>
             <property name="width">212pt</property>
             <property name="dataSet">Data Set</property>

@@ -51,7 +51,7 @@ public class AllRegressionTests
 		test.addTestSuite( Regression_118590.class );
 		test.addTestSuite( Regression_119216.class );
 		test.addTestSuite( Regression_119220.class );
-		test.addTestSuite( Regression_119320.class );
+		//test.addTestSuite( Regression_119320.class );
 		test.addTestSuite( Regression_119386.class );
 		test.addTestSuite( Regression_119566.class );
 		test.addTestSuite( Regression_120073.class );
@@ -129,7 +129,7 @@ public class AllRegressionTests
 		test.addTestSuite( Regression_142137.class );
 		test.addTestSuite( Regression_142158.class );
 		test.addTestSuite( Regression_142432.class );
-		test.addTestSuite( Regression_142690.class );
+		//test.addTestSuite( Regression_142690.class );
 		test.addTestSuite( Regression_142893.class );
 		test.addTestSuite( Regression_142928.class );
 		test.addTestSuite( Regression_142948and141927.class );
@@ -171,14 +171,14 @@ public class AllRegressionTests
 		test.addTestSuite( Regression_153040.class );
 		test.addTestSuite( Regression_153158.class );
 		test.addTestSuite( Regression_153220.class );
-		//test.addTestSuite( Regression_153233.class );
+		test.addTestSuite( Regression_153233.class );
 		test.addTestSuite( Regression_153378.class );
 		test.addTestSuite( Regression_154327.class );
 		test.addTestSuite( Regression_154804.class );
 		test.addTestSuite( Regression_154828.class );
 		test.addTestSuite( Regression_154987.class );
-		//test.addTestSuite( Regression_155167.class );
-		//test.addTestSuite( Regression_155356.class );
+		test.addTestSuite( Regression_155167.class );
+		test.addTestSuite( Regression_155356.class );
 		test.addTestSuite( Regression_155509.class );
 		test.addTestSuite( Regression_155513.class );
 		test.addTestSuite( Regression_155848.class );
@@ -192,9 +192,6 @@ public class AllRegressionTests
 		test.addTestSuite( Regression_159858.class );
 		test.addTestSuite( Regression_160176.class );
 		test.addTestSuite( Regression_161179.class );
-        test.addTestSuite( Regression_161383.class );
-		test.addTestSuite( Regression_162719.class );
-		test.addTestSuite( Regression_164070.class );		
 		test.addTestSuite( Regression_69139.class );
 		test.addTestSuite( Regression_73182.class );
 		test.addTestSuite( Regression_73708and73771.class );

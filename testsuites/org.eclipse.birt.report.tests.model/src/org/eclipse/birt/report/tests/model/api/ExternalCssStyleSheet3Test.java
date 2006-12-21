@@ -15,7 +15,7 @@ import com.ibm.icu.util.ULocale;
 
 public class ExternalCssStyleSheet3Test extends BaseTestCase {
 
-	//private String fileName = null;
+	
 	private String fileName = "ExternalCssStyleSheet3Test.css";
 	
 	public ExternalCssStyleSheet3Test(String name) {

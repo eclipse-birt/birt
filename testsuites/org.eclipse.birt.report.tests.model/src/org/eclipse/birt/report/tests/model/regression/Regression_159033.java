@@ -57,7 +57,7 @@ public class Regression_159033 extends BaseTestCase
 		DataSetHandle ds = designHandle.findDataSet( "OFFICE" );
 		assertNotNull( ds );
 		ds.setPropertyBinding( "queryText", "c.c.c" );
-		ds.setPropertyBinding( "queryTimeOut", "adsf" );
+		//ds.setPropertyBinding( "queryTimeOut", "adsf" );
 		designHandle.saveAs( outputFile );
 
 		BufferedReader reader = new BufferedReader( new FileReader( new File(

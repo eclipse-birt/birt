@@ -44,7 +44,7 @@ public class Regression_155356 extends BaseTestCase
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( filename , filename );
+		copyInputToFile ( INPUT_FOLDER + "/" + filename );
 	}
 	
 	public void tearDown( )
