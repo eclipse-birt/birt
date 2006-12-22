@@ -506,6 +506,10 @@ public class TableContentLayout
 			}
 		}
 		IColumn column = cell.getColumnInstance( );
+		if (column == null)
+		{
+			return false;
+		}
 		if ( isColumnHidden( column ) )
 		{
 			return false;
