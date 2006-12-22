@@ -10,7 +10,9 @@
     </styles>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
-            <property name="type">a4</property>
+            <property name="type">custom</property>
+            <property name="height">110mm</property>
+            <property name="width">100mm</property>
             <property name="style">NewStyle</property>
             <page-footer>
                 <text id="3">
