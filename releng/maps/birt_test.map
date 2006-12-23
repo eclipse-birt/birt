@@ -1,7 +1,6 @@
 !**************** chart test ********************
 plugin@org.eclipse.birt.chart.tests=v20061130,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.tests
-!**************** gui test *******************
-plugin@org.eclipse.birt.report.designer.tests=v20061120-1200,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.tests
+
 !**************** engine test *******************
 plugin@org.eclipse.birt.core.tests=v20061214,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.core.tests
 plugin@org.eclipse.birt.report.engine.tests=v20061221,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.tests
