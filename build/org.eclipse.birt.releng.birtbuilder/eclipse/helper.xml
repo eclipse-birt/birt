@@ -700,7 +700,9 @@
 Hi All,
 
 Today's build (BuildId: ${buildId}) is available.
-
+Build based on:
+Eclipse 3.2.1 Release /EMF 2.2.1 Release /GEF 3.2.1 Release /WTP 1.5.3 Release
+                	
 Please download :
                 	
 AllInOne from ${QA.test.dir}\BIRT2.2-download\${buildId}\birt-report-designer-all-in-one-2_2_0.zip${rtn}               	
