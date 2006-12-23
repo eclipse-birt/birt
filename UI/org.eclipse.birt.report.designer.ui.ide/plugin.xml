@@ -110,6 +110,29 @@
             %LibraryWizardDescription
          </description>
       </wizard>
+      <wizard
+            category="org.eclipse.birt.report.designer.ui.wizard.category"
+            class="org.eclipse.pde.internal.ui.wizards.plugin.NewPluginProjectWizard"
+            icon="platform:/plugin/org.eclipse.datatools.connectivity.oda.template.ui/icons/newoda_wiz.gif"
+            id="oda.plugin.NewRuntimePluginProjectWizard"
+            name="%OdaRuntimeWizard"
+            project="true">
+         <description>
+            %OdaRuntimeWizardDesc
+         </description>
+      </wizard>
+      <wizard
+            category="org.eclipse.birt.report.designer.ui.wizard.category"
+            class="org.eclipse.pde.internal.ui.wizards.plugin.NewPluginProjectWizard"
+            icon="platform:/plugin/org.eclipse.datatools.connectivity.oda.template.ui/icons/newodaui_wiz.gif"
+            id="oda.plugin.NewDesignerPluginProjectWizard"
+            name="%OdaDesignerWizard"
+            project="true">
+         <description>
+            %OdaDesignerWizardDesc
+         </description>
+      </wizard>
+      
    </extension>
    <extension
          point="org.eclipse.core.runtime.adapters">
