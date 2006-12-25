@@ -9,7 +9,7 @@ plugin@org.eclipse.birt.report.engine.emitter.html.tests=v20061130,:pserver:anon
 plugin@org.eclipse.birt.report.engine.emitter.pdf.tests=v20061120-1200,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.pdf.tests
 plugin@org.eclipse.birt.report.engine.emitter.postscript.tests=v20061221,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.postscript.tests
 !**************** model test  *******************
-plugin@org.eclipse.birt.report.model.tests=v20061221,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model.tests
+plugin@org.eclipse.birt.report.model.tests=v20061225,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model.tests
 plugin@org.eclipse.birt.report.model.adapter.oda.tests=v20061221,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model.adapter.oda.tests
 fragment@org.eclipse.birt.report.model.testhelper=v20061214,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model.testhelper
 
