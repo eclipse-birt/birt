@@ -917,18 +917,26 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 		Map properties = new HashMap( );
 		String createdBy = "test initialize"; //$NON-NLS-1$
+		
+		//bad property key value.
+		
+		properties.put( "Build" , "2006-12-25" );//$NON-NLS-1$//$NON-NLS-2$
+		
+		//good property key value.
+		
 		properties.put( ReportDesign.CREATED_BY_PROP, createdBy );
-
+	
 		designHandle.initializeModule( properties );
-
+		
 		assertEquals( 0, designHandle.getMasterPages( ).getCount( ) );
-		assertEquals( createdBy, designHandle.getCreatedBy( ) );
+		assertNull( designHandle.getProperty("Build") );//$NON-NLS-1$
+		assertEquals( createdBy , designHandle.getProperty( ReportDesign.CREATED_BY_PROP ) );
 
 		CommandStack stack = designHandle.getCommandStack( );
 
 		assertFalse( stack.canRedo( ) );
 		assertFalse( stack.canUndo( ) );
-
+		
 	}
 
 	/**
