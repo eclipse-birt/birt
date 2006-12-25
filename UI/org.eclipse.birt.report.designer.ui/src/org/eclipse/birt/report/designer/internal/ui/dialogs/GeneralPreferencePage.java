@@ -124,6 +124,10 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 
 			public void widgetSelected( SelectionEvent e )
 			{
+				if(preStyle.getSelection( ) == false)
+				{
+					return;
+				}
 				setPredefinedStyle( true );
 				preName.setFocus( );
 				if ( preName.getSelectionIndex( ) == -1 )
@@ -160,6 +164,10 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 
 			public void widgetSelected( SelectionEvent e )
 			{
+				if(cusStyle.getSelection( ) == false)
+				{
+					return;
+				}
 				setPredefinedStyle( false );
 				cusName.setFocus( );
 				selectedType = TYPE_CUSTOM;
