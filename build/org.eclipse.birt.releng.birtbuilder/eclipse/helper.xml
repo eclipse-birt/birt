@@ -695,7 +695,7 @@
 	
 	<target name="InformQA" unless="nomail">
         <property file="${eclipse.build.configs}/../../config.properties" />
-        <mail mailport="${mail.port}" tolist="${QA.members}" from="DAILYBUILD@QA-SHA" replyto="${replyto.address}" subject="Build Is Ready (BuildId: ${buildId})" >
+        <mail mailport="${mail.port}" tolist="${QA.members}" from="${mail.from}" replyto="${replyto.address}" subject="Build Is Ready (BuildId: ${buildId})" >
                 <message>
 Hi All,
 
@@ -725,7 +725,7 @@ Have a nice day!
 	<target name="InformPerformance">
 		<property file="${eclipse.build.configs}/../../config.properties" />			
         <mail mailport="${mail.port}" subject="Performance Test Reporting (BuildId: ${buildId} ) " tolist="${QA.PERFORMANCE}">
-			<from address="DAILYBUILD@QA-SHA"/>
+			<from address="${mail.from}"/>
 			<replyto address="${replyto.address}"/>
 			<message>
 Hi All,
@@ -743,7 +743,7 @@ Have a nice day!
 	<target name="InformAutomation">
 		<property file="${eclipse.build.configs}/../../config.properties" />			
         <mail mailport="${mail.port}" subject="Test Suite Projects Reporting (BuildId: ${buildId} ) " tolist="${QA.AUTOMATION}">
-			<from address="DAILYBUILD@QA-SHA"/>
+			<from address="${mail.from}"/>
 			<replyto address="${replyto.address}"/>
 			<message>
 Hi All,
@@ -778,7 +778,7 @@ Have a nice day!
 		<property file="${eclipse.build.configs}/../../monitor.properties" />
 
 		<mail mailport="${mail.port}" subject="Compile errors found in Today's Build (BuildId: ${buildId} ) " tolist="${COMPILE.ERROR.RECIPIENTS}">
-                    <from address="DAILYBUILD@QA-SHA"/>
+                    <from address="${mail.from}"/>
                     <replyto address="${replyto.address}"/>
                     <message>
 Hi All,
