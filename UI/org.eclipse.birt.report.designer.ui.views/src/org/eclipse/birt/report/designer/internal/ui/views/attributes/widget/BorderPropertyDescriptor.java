@@ -178,12 +178,17 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 					{
 						BorderInfomation oldInfo = (BorderInfomation) provider.load( );
 						RGB oldColor = oldInfo.getColor( );
+						RGB selectedColor = builder.getRGB( );
 						if ( oldColor == null )
 						{
 							oldColor = autoColor;
 						}
+						if ( selectedColor == null )
+						{
+							selectedColor = autoColor;
+						}
 						if ( !( oldInfo.getStyle( ).equals( (String) styleCombo.getSelectedItem( ) ) )
-								|| !( oldColor.equals( builder.getRGB( ) ) )
+								|| !( oldColor.equals( selectedColor ) )
 								|| !( oldInfo.getWidth( ).equals( (String) widthCombo.getSelectedItem( ) ) ) )
 						{
 							SessionHandleAdapter.getInstance( )
@@ -193,7 +198,7 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 							BorderInfomation information = new BorderInfomation( );
 
 							information.setPosition( provider.getPosition( ) );
-							information.setColor( builder.getRGB( ) );
+							information.setColor( selectedColor );
 							information.setStyle( (String) styleCombo.getSelectedItem( ) );
 							information.setWidth( (String) widthCombo.getSelectedItem( ) );
 							previewCanvas.setBorderInfomation( information );
@@ -247,20 +252,28 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 
 			public void widgetSelected( SelectionEvent e )
 			{
+				RGB selectedColor = null;
+				RGB oldColor = null;
 				if ( ( (Button) e.widget ).getSelection( ) )
 				{
 					SessionHandleAdapter.getInstance( )
 							.getCommandStack( )
 							.startTrans( Messages.getString( "BordersPage.Trans.SelectAllborders" ) );
+					selectedColor = builder.getRGB( );
+					if ( selectedColor == null )
+					{
+						selectedColor = autoColor;
+					}
 					for ( int i = 0; i < toggleProviders.length; i++ )
 					{
 						BorderInfomation information = new BorderInfomation( );
 						information.setPosition( toggleProviders[i].getPosition( ) );
-						information.setColor( builder.getRGB( ) );
+						information.setColor( selectedColor );
 						information.setStyle( (String) styleCombo.getSelectedItem( ) );
 						information.setWidth( (String) widthCombo.getSelectedItem( ) );
 						toggles[i].setSelection( true );
 						previewCanvas.setBorderInfomation( information );
+						restoreInfo = information;
 						try
 						{
 							toggleProviders[i].save( information );
@@ -270,7 +283,9 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 							ExceptionHandler.handle( e1 );
 						}
 					}
-					restoreInfo = (BorderInfomation) toggleProviders[toggleProviders.length - 1].load( );
+					// restoreInfo = (BorderInfomation)
+					// toggleProviders[toggleProviders.length - 1].load( );
+					// restoreInfo.setColor( selectedColor );
 					SessionHandleAdapter.getInstance( )
 							.getCommandStack( )
 							.commit( );
@@ -278,17 +293,21 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 				else
 				{
 					boolean reset = true;
-					RGB oldColor = null;
 					for ( int i = 0; i < toggleProviders.length; i++ )
 					{
 						BorderInfomation info = (BorderInfomation) toggleProviders[i].load( );
 						oldColor = info.getColor( );
+						selectedColor = builder.getRGB( );
 						if ( oldColor == null )
 						{
 							oldColor = autoColor;
 						}
+						if ( selectedColor == null )
+						{
+							selectedColor = autoColor;
+						}
 						if ( !( info.getStyle( ).equals( (String) styleCombo.getSelectedItem( ) ) )
-								|| !( oldColor.equals( builder.getRGB( ) ) )
+								|| !( oldColor.equals( selectedColor ) )
 								|| !( info.getWidth( ).equals( (String) widthCombo.getSelectedItem( ) ) ) )
 						{
 							reset = false;
@@ -329,7 +348,14 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 							BorderInfomation information = new BorderInfomation( );
 
 							information.setPosition( toggleProviders[i].getPosition( ) );
-							information.setColor( builder.getRGB( ) );
+							if ( builder.getRGB( ) == null )
+							{
+								information.setColor( autoColor );
+							}
+							else
+							{
+								information.setColor( builder.getRGB( ) );
+							}
 							information.setStyle( (String) styleCombo.getSelectedItem( ) );
 							information.setWidth( (String) widthCombo.getSelectedItem( ) );
 							previewCanvas.setBorderInfomation( information );
