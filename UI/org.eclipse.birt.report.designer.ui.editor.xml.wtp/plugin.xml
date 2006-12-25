@@ -10,6 +10,7 @@
                displayName="%design.xmlsource"
                id="org.eclipse.birt.report.designer.ui.editors.xmlsource"
                position="right"
+               priority="high"
                relative="org.eclipse.birt.report.designer.ui.editors.script"
                visible="true"/>
       </targetEditor>
@@ -20,6 +21,7 @@
                displayName="%template.xmlsource"
                id="org.eclipse.birt.report.designer.ui.editors.xmlsource"
                position="right"
+               priority="high"
                relative="org.eclipse.birt.report.designer.ui.editors.script"
                visible="true"/>
       </targetEditor>
@@ -30,6 +32,7 @@
                displayName="%library.xmlsource"
                id="org.eclipse.birt.report.designer.ui.editors.xmlsource"
                position="right"
+               priority="high"
                relative="org.eclipse.birt.report.designer.ui.editors.library.script"
                visible="true"/>
       </targetEditor>
