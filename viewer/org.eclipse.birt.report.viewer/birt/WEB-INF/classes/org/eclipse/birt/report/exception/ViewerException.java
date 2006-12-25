@@ -13,7 +13,6 @@ package org.eclipse.birt.report.exception;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.resource.BirtResources;
-import com.ibm.icu.util.UResourceBundle;
 
 /**
  * Implementation of BirtException in viewer project. ViewerException builds on
