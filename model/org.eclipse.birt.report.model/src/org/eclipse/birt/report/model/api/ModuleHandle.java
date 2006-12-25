@@ -2543,9 +2543,14 @@ public abstract class ModuleHandle extends DesignElementHandle
 		while ( itre.hasNext( ) )
 		{
 			name = (String) itre.next( );
-			value = PropertyValueValidationUtil.validateProperty( this, name,
+			try{
+				value = PropertyValueValidationUtil.validateProperty( this, name,
 					properties.get( name ) );
-			root.setProperty( name, value );
+				root.setProperty( name, value );
+			}catch(SemanticException e)
+			{
+				//Do Nothing.
+			}
 		}
 
 		isInitialized = true;
