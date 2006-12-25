@@ -59,7 +59,7 @@ public class EditorContributorManager implements IExtensionConstants
 						formPageList.add( incomingPage );
 						merged = true;
 					}
-					else
+					else if ( exsitPage.priority <= incomingPage.priority )
 					{
 						int index = formPageList.indexOf( exsitPage );
 						formPageList.remove( exsitPage );
@@ -242,7 +242,6 @@ public class EditorContributorManager implements IExtensionConstants
 					}
 				}
 			}
-
 		}
 	}
 

@@ -115,6 +115,23 @@
                </restriction>
             </simpleType>
          </attribute>
+         <attribute name="priority" use="default" value="normal">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="high">
+                  </enumeration>
+                  <enumeration value="normal">
+                  </enumeration>
+                  <enumeration value="low">
+                  </enumeration>
+               </restriction>
+            </simpleType>
+         </attribute>
          <attribute name="pageAction" type="string">
             <annotation>
                <documentation>

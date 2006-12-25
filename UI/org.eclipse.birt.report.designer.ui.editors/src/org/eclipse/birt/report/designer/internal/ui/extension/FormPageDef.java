@@ -38,6 +38,7 @@ public class FormPageDef implements IExtensionConstants
 	public int position;
 	public IAction pageAction;
 	public IEditorActionBarContributor actionBarContributor;
+	public int priority;
 
 	FormPageDef( IConfigurationElement element )
 	{
@@ -48,6 +49,7 @@ public class FormPageDef implements IExtensionConstants
 		visible = loadBooleanAttribute( element, ATTRIBUTE_VISIBLE );
 		relative = loadStringAttribute( element, ATTRIBUTE_RELATIVE );
 		position = loadPosition( element, ATTRIBUTE_POSITION );
+		this.priority = loadPriority( element, ATTRIBUTE_PRIORITY );
 		if ( loadStringAttribute( element, ATTRIBUTE_PAGE_ACTION ) != null )
 		{
 			pageAction = (IAction) loadClass( element, ATTRIBUTE_PAGE_ACTION );
@@ -58,6 +60,31 @@ public class FormPageDef implements IExtensionConstants
 		}
 		actionBarContributor = (IEditorActionBarContributor) loadClass( element,
 				ATTRIBUTE_ACTION_BAR_CONTRIBUTOR );
+	}
+
+	private int loadPriority( IConfigurationElement element,
+			String attributeName )
+	{
+		String attribute = element.getAttribute( attributeName );
+		if ( "normal".equals( attribute ) ) { //$NON-NLS-1$
+			return 1;
+		}
+		else if ( "high".equals( attribute ) ) { //$NON-NLS-1$
+			return 2;
+		}
+		else if ( "low".equals( attribute ) ) { //$NON-NLS-1$
+			return 0;
+		}
+		return 1;
+	}
+
+	private String[] loadOverride( IConfigurationElement element,
+			String attributeName )
+	{
+		String attribute = element.getAttribute( attributeName );
+		if ( attribute != null && !attribute.equals( "" ) ) //$NON-NLS-1$
+			return attribute.split( ";" ); //$NON-NLS-1$
+		return null;
 	}
 
 	private int loadPosition( IConfigurationElement element,
