@@ -46,9 +46,9 @@
 			<sequential>
 				<antcall target="CreateDistribute"/>
 				<ant antfile="${eclipse.build.configs}/../helper.xml" target="verifyCompile" />
+				<antcall target="CreateUpdateSite"/>
 			</sequential>
 			<sequential>
-				<antcall target="CreateUpdateSite"/>
 				<antcall target="buildBirtNLFeature"/>
 			</sequential>
 		</parallel>
@@ -153,6 +153,12 @@
 			<fileset dir="${updateJarWorkingDir}/eclipse/features" includes="*.thirdparty*/**" />
 			<fileset dir="${updateJarWorkingDir}/eclipse/plugins" includes="*.thirdparty*/**" />
 		</delete>
+		
+		<!-- repack plugin org.eclipse.birt.integration.wtp.ui to include birt.zip in runtime sub-folder -->
+		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
+		<delete file="${updateJarWorkingDir}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}.jar"/>
+		<jar destfile="${updateJarWorkingDir}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}.jar" 
+			basedir="${buildDirectory}/${buildLabel}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}"/>
 		
 		<!-- TODO:sign update jars -->
 		
