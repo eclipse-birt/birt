@@ -489,6 +489,10 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			return;
 		}
 
+		if ( reloadOutlinePage( ) )
+		{
+			return;
+		}
 		Object designOutLinePage = activePageInstance.getAdapter( IContentOutlinePage.class );
 		outlinePage.setActivePage( (IPageBookViewPage) designOutLinePage );
 	}
@@ -512,12 +516,12 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		outlinePage.getSite( ).getActionBars( ).updateActionBars( );
 	}
 
-	public void reloadOutlinePage( )
+	public boolean reloadOutlinePage( )
 	{
 		if ( !getActivePageInstance( ).getId( ).equals( XMLSourcePage_ID )
 				|| outlinePage == null )
 		{
-			return;
+			return false;
 		}
 
 		if ( outlinePage.getCurrentPage( ) instanceof DesignerOutlinePage )
@@ -529,6 +533,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			outlinePage.setActivePage( (IPageBookViewPage) getActivePageInstance( ).getAdapter( ContentOutlinePage.class ) );
 		}
 		outlinePage.getSite( ).getActionBars( ).updateActionBars( );
+		return true;
 	}
 
 	private Object getDataPage( )
@@ -825,31 +830,31 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			}
 
 		}
-//		if ( getModel( ) != null )
-//		{
-//			getModel( ).setResourceFolder( getProjectFolder( ) );
-//		}
+		// if ( getModel( ) != null )
+		// {
+		// getModel( ).setResourceFolder( getProjectFolder( ) );
+		// }
 	}
 
-//	private String getProjectFolder( )
-//	{
-//		IEditorInput input = getEditorInput( );
-//		Object fileAdapter = input.getAdapter( IFile.class );
-//		IFile file = null;
-//		if ( fileAdapter != null )
-//			file = (IFile) fileAdapter;
-//		if ( file != null && file.getProject( ) != null )
-//		{
-//			return file.getProject( ).getLocation( ).toOSString( );
-//		}
-//		if ( input instanceof IPathEditorInput )
-//		{
-//			File fileSystemFile = ( (IPathEditorInput) input ).getPath( )
-//					.toFile( );
-//			return fileSystemFile.getParent( );
-//		}
-//		return null;
-//	}
+	// private String getProjectFolder( )
+	// {
+	// IEditorInput input = getEditorInput( );
+	// Object fileAdapter = input.getAdapter( IFile.class );
+	// IFile file = null;
+	// if ( fileAdapter != null )
+	// file = (IFile) fileAdapter;
+	// if ( file != null && file.getProject( ) != null )
+	// {
+	// return file.getProject( ).getLocation( ).toOSString( );
+	// }
+	// if ( input instanceof IPathEditorInput )
+	// {
+	// File fileSystemFile = ( (IPathEditorInput) input ).getPath( )
+	// .toFile( );
+	// return fileSystemFile.getParent( );
+	// }
+	// return null;
+	// }
 
 	/*
 	 * (non-Javadoc)
