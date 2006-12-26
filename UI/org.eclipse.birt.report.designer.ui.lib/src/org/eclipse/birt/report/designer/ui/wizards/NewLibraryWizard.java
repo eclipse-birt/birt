@@ -87,7 +87,13 @@ public class NewLibraryWizard extends Wizard implements
 	 */
 	public boolean performFinish( )
 	{
-		return newLibraryFileWizardPage.performFinish( );
+		boolean bool = newLibraryFileWizardPage.performFinish( );
+		if ( bool == true )
+		{
+			newLibraryFileWizardPage.updatePerspective( getConfigElement( ) );
+		}		
+		return bool;
+		// return newLibraryFileWizardPage.performFinish( );
 	}
 
 	/*

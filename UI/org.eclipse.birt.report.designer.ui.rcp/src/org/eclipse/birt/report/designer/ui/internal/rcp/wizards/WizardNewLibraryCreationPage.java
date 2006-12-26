@@ -28,6 +28,7 @@ import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
@@ -346,5 +347,15 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 			return true;
 		}
 		return false;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.wizards.INewLibraryCreationPage#updatePerspective(org.eclipse.core.runtime.IConfigurationElement)
+	 */
+	public void updatePerspective( IConfigurationElement configElement )
+	{
+		// do nothing on updating perspective for RCP
 	}
 }

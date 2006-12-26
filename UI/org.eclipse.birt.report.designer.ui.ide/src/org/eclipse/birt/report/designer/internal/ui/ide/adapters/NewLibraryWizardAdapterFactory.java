@@ -36,6 +36,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IAdapterFactory;
+import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
@@ -49,6 +50,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 import org.eclipse.ui.ide.IDE;
+import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 
 /**
  * Add INewLibraryCreationPage adaptable to NewLibraryWizard.
@@ -299,4 +301,13 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.wizards.INewLibraryCreationPage#updatePerspective(org.eclipse.core.runtime.IConfigurationElement)
+	 */
+	public void updatePerspective( IConfigurationElement configElement )
+	{
+		BasicNewProjectResourceWizard.updatePerspective( configElement );
+	}
 }

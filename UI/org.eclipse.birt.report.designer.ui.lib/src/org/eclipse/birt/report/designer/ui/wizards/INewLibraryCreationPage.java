@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.wizards;
 
+import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.wizard.IWizardPage;
 
@@ -30,4 +31,6 @@ public interface INewLibraryCreationPage extends IWizardPage
 	String getFileName( );
 
 	boolean performFinish( );
+
+	void updatePerspective( IConfigurationElement configElement );
 }
