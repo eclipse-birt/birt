@@ -175,7 +175,7 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 		spnStepNumber = new Spinner( grpScale, SWT.BORDER );
 		{
 			spnStepNumber.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-			spnStepNumber.setMinimum( 2 );
+			spnStepNumber.setMinimum( 1 );
 			spnStepNumber.setMaximum( 100 );
 			spnStepNumber.setSelection( getScale( ).getStepNumber( ) );
 			spnStepNumber.addListener( SWT.Selection, this );
@@ -220,6 +220,8 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 			btnShowOutside.setText( Messages.getString( "AbstractScaleSheet.Label.ShowValuesOutside" ) ); //$NON-NLS-1$
 			btnShowOutside.setSelection( getScale( ).isShowOutside( ) );
 			btnShowOutside.addListener( SWT.Selection, this );
+			// Only visible in number type
+			btnShowOutside.setVisible( getValueType( ) == TextEditorComposite.TYPE_NUMBERIC );
 		}
 		
 		// Set checkbox selection. 

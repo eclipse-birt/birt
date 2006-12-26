@@ -928,7 +928,7 @@ public final class AutoScale extends Methods implements Cloneable
 			}
 			else
 			{
-				return this.oStepNumber.intValue( );
+				return this.oStepNumber.intValue( ) + 1;
 			}
 		}
 		
@@ -1237,7 +1237,7 @@ public final class AutoScale extends Methods implements Cloneable
 			{
 				// Compute step size
 				oStep = new Double( Math.abs( dMaxValue - dMinValue )
-						/ ( oStepNumber.intValue( ) - 1 ) );
+						/ ( oStepNumber.intValue( ) ) );
 				dStep = asDouble( oStep ).doubleValue( );
 			}
 			else
@@ -2536,7 +2536,7 @@ public final class AutoScale extends Methods implements Cloneable
 			{
 				// Use step number
 				dTickGap = dLength
-						/ ( oStepNumber.intValue( ) - 1 ) * iDirection;
+						/ ( oStepNumber.intValue( ) ) * iDirection;
 			}
 			else
 			{
@@ -3873,7 +3873,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.bStepFixed = true;
 
 			// VALIDATE OVERRIDDEN STEP
-			if ( sc.oStepNumber.intValue( ) < 2 )
+			if ( sc.oStepNumber.intValue( ) < 1 )
 			{
 				throw new ChartException( ChartEnginePlugin.ID,
 						ChartException.GENERATION,
