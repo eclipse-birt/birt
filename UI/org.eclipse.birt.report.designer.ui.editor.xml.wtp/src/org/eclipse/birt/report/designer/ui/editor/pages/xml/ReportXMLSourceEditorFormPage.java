@@ -390,7 +390,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 
 				public void stackChanged( ActivityStackEvent event )
 				{
-					if ( isActive( ) )
+					if ( isActive( ) && event.getAction( ) != ActivityStackEvent.ROLL_BACK )
 					{
 						reloadEditorInput( );
 					}
