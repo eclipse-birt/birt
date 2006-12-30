@@ -14,7 +14,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.views.property.PropertySheetRootElement;
 import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
@@ -23,8 +22,9 @@ import org.eclipse.birt.report.designer.internal.ui.swt.custom.TabbedPropertyTit
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.AlphabeticallyViewSorter;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.GlobalActionFactory;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormWidgetFactory;
+import org.eclipse.birt.report.designer.internal.ui.views.memento.MementoElement;
+import org.eclipse.birt.report.designer.internal.ui.views.memento.ViewsMemento;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.widget.ExpressionDialogCellEditor;
@@ -51,6 +51,8 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.TreeEvent;
+import org.eclipse.swt.events.TreeListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -59,6 +61,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.swt.widgets.Widget;
+import org.eclipse.ui.IMemento;
+import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.Page;
@@ -93,7 +98,7 @@ public class ReportPropertySheetPage extends Page implements
 	private static final String COLUMN_TITLE_PROPERTY = Messages.getString( "ReportPropertySheetPage.Column.Title.Property" ); //$NON-NLS-1$
 	private static final String COLUMN_TITLE_VALUE = Messages.getString( "ReportPropertySheetPage.Column.Title.Value" ); //$NON-NLS-1$
 
-	private TreeViewer viewer;
+	private CustomTreeViewer viewer;
 	private ReportPropertySheetContentProvider contentProvider;
 	private ReportPropertySheetLabelProvider labelProvider;
 	private ISelection selection;
@@ -108,6 +113,9 @@ public class ReportPropertySheetPage extends Page implements
 	private List list;
 	private TabbedPropertyTitle title;
 	private Composite container;
+	private IMemento propertySheetMemento;
+	private IMemento viewerMemento;
+	protected String propertyViewerID = "Report_Property_Sheet_Page_Viewer_ID";
 
 	/*
 	 * (non-Javadoc)
@@ -116,22 +124,22 @@ public class ReportPropertySheetPage extends Page implements
 	 */
 	public void createControl( Composite parent )
 	{
-		container = new Composite(parent , SWT.NONE);
-		GridLayout layout = new GridLayout();
+		container = new Composite( parent, SWT.NONE );
+		GridLayout layout = new GridLayout( );
 		layout.marginWidth = layout.marginHeight = 0;
 		container.setLayout( layout );
 		title = new TabbedPropertyTitle( container,
 				FormWidgetFactory.getInstance( ) );
 		title.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		
-		Composite viewerContainer = new Composite(container , SWT.NONE);
-		layout = new GridLayout();
+
+		Composite viewerContainer = new Composite( container, SWT.NONE );
+		layout = new GridLayout( );
 		layout.marginWidth = 10;
 		layout.marginHeight = 3;
 		viewerContainer.setLayout( layout );
 		viewerContainer.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		
-		viewer = new TreeViewer( viewerContainer, SWT.FULL_SELECTION );
+
+		viewer = new CustomTreeViewer( viewerContainer, SWT.FULL_SELECTION );
 		tableTree = viewer.getTree( );
 		tableTree.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		tableTree.setHeaderVisible( true );
@@ -161,20 +169,31 @@ public class ReportPropertySheetPage extends Page implements
 		// create the editor listener
 		createEditorListener( );
 
-		
-		
 		handleGlobalAction( );
-		
+
 		// suport the mediator
 		SessionHandleAdapter.getInstance( ).getMediator( ).addColleague( this );
 
-		expandToDefaultLevel( );
-		
 		FormWidgetFactory.getInstance( ).paintFormStyle( parent );
 		FormWidgetFactory.getInstance( ).adapt( parent );
-		
+
 		IWorkbenchPage page = getSite( ).getPage( );
-		handleSelectionChanged( page.getSelection( ));
+
+		if ( ( propertySheetMemento = ViewsMemento.getInstance( )
+				.getChild( IPageLayout.ID_PROP_SHEET ) ) == null )
+		{
+			propertySheetMemento = ViewsMemento.getInstance( )
+					.createChild( IPageLayout.ID_PROP_SHEET,
+							MementoElement.Type_View );
+		}
+
+		if ( ( viewerMemento = propertySheetMemento.getChild( propertyViewerID ) ) == null )
+		{
+			viewerMemento = propertySheetMemento.createChild( propertyViewerID,
+					MementoElement.Type_Viewer );
+		}
+
+		handleSelectionChanged( page.getSelection( ) );
 	}
 
 	/**
@@ -207,6 +226,7 @@ public class ReportPropertySheetPage extends Page implements
 			public void applyEditorValue( )
 			{
 				applyValue( );
+				if(changed)refresh( );
 			}
 		};
 	}
@@ -256,6 +276,90 @@ public class ReportPropertySheetPage extends Page implements
 				}
 			}
 		} );
+
+		tableTree.addTreeListener( new TreeListener( ) {
+
+			public void treeCollapsed( TreeEvent e )
+			{
+				if ( e.item instanceof TreeItem )
+				{
+					TreeItem item = (TreeItem) e.item;
+					if ( viewer.getInput( ) != null
+							&& viewer.getInput( ) instanceof GroupElementHandle )
+					{
+						GroupElementHandle handle = (GroupElementHandle) viewer.getInput( );
+						Object obj = handle.getElements( ).get( 0 );
+						if ( obj instanceof DesignElementHandle )
+						{
+							ViewsMemento element = (ViewsMemento) viewerMemento.getChild( PropertyMementoUtil.getElementType( (DesignElementHandle) obj ) );
+							if ( element != null )
+							{
+								MementoElement[] path = createItemPath( item );
+								PropertyMementoUtil.removeNode( element, path );
+							}
+						}
+					}
+					viewer.getTree( ).setSelection( item );
+					saveSelection( item );
+				}
+			}
+
+			public void treeExpanded( TreeEvent e )
+			{
+				if ( e.item instanceof TreeItem )
+				{
+					TreeItem item = (TreeItem) e.item;
+					if ( viewer.getInput( ) != null
+							&& viewer.getInput( ) instanceof GroupElementHandle )
+					{
+						GroupElementHandle handle = (GroupElementHandle) viewer.getInput( );
+						Object obj = handle.getElements( ).get( 0 );
+						if ( obj instanceof DesignElementHandle )
+						{
+							ViewsMemento element = (ViewsMemento) viewerMemento.getChild( PropertyMementoUtil.getElementType( (DesignElementHandle) obj ) );
+							if ( element != null )
+							{
+								MementoElement[] path = createItemPath( item );
+								PropertyMementoUtil.addNode( element, path );
+							}
+						}
+					}
+					viewer.getTree( ).setSelection( item );
+					saveSelection( item );
+				}
+
+			}
+
+		} );
+	}
+
+	protected MementoElement[] createItemPath( TreeItem item )
+	{
+		MementoElement tempMemento = null;
+		while ( item.getParentItem( ) != null )
+		{
+			TreeItem parent = item.getParentItem( );
+			for ( int i = 0; i < parent.getItemCount( ); i++ )
+			{
+				if ( parent.getItem( i ) == item )
+				{
+					MementoElement memento = new MementoElement( item.getText( ),
+							new Integer( i ),
+							MementoElement.Type_Element );
+					if ( tempMemento != null )
+						memento.addChild( tempMemento );
+					tempMemento = memento;
+					item = parent;
+					break;
+				}
+			}
+		}
+		MementoElement memento = new MementoElement( item.getText( ),
+				new Integer( 0 ),
+				MementoElement.Type_Element );
+		if ( tempMemento != null )
+			memento.addChild( tempMemento );
+		return PropertyMementoUtil.getNodePath( memento );
 	}
 
 	/**
@@ -314,6 +418,29 @@ public class ReportPropertySheetPage extends Page implements
 			// activate a cell editor on the selection
 			// assume single selection
 			activateCellEditor( sel[0] );
+		}
+
+		saveSelection( selection );
+	}
+
+	protected void saveSelection( TreeItem selection )
+	{
+		MementoElement[] selectPath = createItemPath( selection );
+		if ( viewer.getInput( ) != null
+				&& viewer.getInput( ) instanceof GroupElementHandle )
+		{
+			GroupElementHandle handle = (GroupElementHandle) viewer.getInput( );
+			Object obj = handle.getElements( ).get( 0 );
+			if ( obj instanceof DesignElementHandle )
+			{
+				ViewsMemento element = (ViewsMemento) viewerMemento.getChild( PropertyMementoUtil.getElementType( (DesignElementHandle) obj ) );
+				if ( element != null )
+				{
+					element.getMementoElement( )
+							.setAttribute( MementoElement.ATTRIBUTE_SELECTED,
+									selectPath );
+				}
+			}
 		}
 	}
 
@@ -485,6 +612,43 @@ public class ReportPropertySheetPage extends Page implements
 	public void setFocus( )
 	{
 		getControl( ).setFocus( );
+
+		if(changed)refresh( );
+
+	}
+
+	protected void refresh( )
+	{
+		viewer.refresh( true );
+
+		if ( viewer.getInput( ) != null
+				&& viewer.getInput( ) instanceof GroupElementHandle )
+		{
+			GroupElementHandle handle = (GroupElementHandle) viewer.getInput( );
+			Object obj = handle.getElements( ).get( 0 );
+			if ( obj instanceof DesignElementHandle )
+			{
+				IMemento memento = viewerMemento.getChild( PropertyMementoUtil.getElementType( (DesignElementHandle) obj ) );
+				if ( memento == null )
+				{
+					expandToDefaultLevel( );
+					if ( viewer.getTree( ).getItemCount( ) > 0 )
+					{
+						ViewsMemento elementMemento = (ViewsMemento) viewerMemento.createChild( PropertyMementoUtil.getElementType( (DesignElementHandle) obj ),
+								MementoElement.Type_Element );
+						elementMemento.getMementoElement( )
+								.setValue( new Integer( 0 ) );
+					}
+				}
+				if ( memento != null && memento instanceof ViewsMemento )
+				{
+					expandToDefaultLevel( );
+					expandTreeFromMemento( (ViewsMemento) memento );
+				}
+			}
+		}
+		
+		changed = false;
 	}
 
 	public void selectionChanged( IWorkbenchPart part, ISelection selection )
@@ -512,6 +676,7 @@ public class ReportPropertySheetPage extends Page implements
 		if ( handle != null && !handle.isSameType( ) )
 		{
 			viewer.setInput( null );
+			setTitleDisplayName( null );
 			return;
 		}
 
@@ -521,25 +686,102 @@ public class ReportPropertySheetPage extends Page implements
 
 		registerListeners( );
 
-		expandToDefaultLevel( );
+		Object element = handle.getElements( ).get( 0 );
+		if ( element instanceof DesignElementHandle )
+		{
+			IMemento memento = viewerMemento.getChild( PropertyMementoUtil.getElementType( (DesignElementHandle) element ) );
+			if ( memento == null )
+			{
+				expandToDefaultLevel( );
+				if ( viewer.getTree( ).getItemCount( ) > 0 )
+				{
+					ViewsMemento elementMemento = (ViewsMemento) viewerMemento.createChild( PropertyMementoUtil.getElementType( (DesignElementHandle) element ),
+							MementoElement.Type_Element );
+					elementMemento.getMementoElement( )
+							.setValue( new Integer( 0 ) );
+				}
+			}
+			else if ( memento instanceof ViewsMemento )
+			{
+				expandToDefaultLevel( );
+				expandTreeFromMemento( (ViewsMemento) memento );
+			}
+		}
+
+	}
+
+	private void expandTreeFromMemento( ViewsMemento memento )
+	{
+		if ( viewer.getTree( ).getItemCount( ) == 0 )
+			return;
+		TreeItem root = viewer.getTree( ).getItem( 0 );
+		if ( memento.getMementoElement( ).getKey( ).equals( root.getText( ) ) )
+		{
+			restoreExpandedMemento( root, memento.getMementoElement( ) );
+			Object obj = memento.getMementoElement( )
+					.getAttribute( MementoElement.ATTRIBUTE_SELECTED );
+			if ( obj != null )
+				restoreSelectedMemento( root, (MementoElement[]) obj );
+		}
+	}
+
+	private void restoreSelectedMemento( TreeItem root,
+			MementoElement[] selectedPath )
+	{
+		if ( selectedPath.length <= 1 )
+			return;
+		for ( int i = 1; i < selectedPath.length; i++ )
+		{
+			MementoElement element = selectedPath[i];
+			if ( !root.getExpanded( ) )
+			{
+				viewer.createChildren( root );
+				root.setExpanded( true );
+			}
+			if ( root.getItemCount( ) > ( (Integer) element.getValue( ) ).intValue( ) )
+			{
+				root = root.getItem( ( (Integer) element.getValue( ) ).intValue( ) );
+			}
+			else
+				return;
+		}
+		viewer.getTree( ).setSelection( root );
+
+	}
+
+	private void restoreExpandedMemento( TreeItem root, MementoElement memento )
+	{
+		if ( memento.getKey( ).equals( root.getText( ) ) )
+		{
+			if ( !root.getExpanded( ) )
+				viewer.createChildren( root );
+			if ( root.getItemCount( ) > 0 )
+			{
+				if ( !root.getExpanded( ) )
+					root.setExpanded( true );
+				MementoElement[] children = memento.getChildren( );
+				for ( int i = 0; i < children.length; i++ )
+				{
+					MementoElement child = children[i];
+					TreeItem item = root.getItem( ( (Integer) child.getValue( ) ).intValue( ) );
+					restoreExpandedMemento( item, child );
+				}
+			}
+		}
 	}
 
 	private void setTitleDisplayName( GroupElementHandle handle )
 	{
 
 		String displayName = null;
-		
-		Object element = handle.getElements( ).get( 0 );
 
-		if ( element instanceof DesignElementHandle )
+		if ( handle != null )
 		{
-			displayName = ( (DesignElementHandle) element ).getDefn( )
-					.getDisplayName( );
+			Object element = handle.getElements( ).get( 0 );
 
-			if ( displayName == null || "".equals( displayName ) )//$NON-NLS-1$ 
+			if ( element instanceof DesignElementHandle )
 			{
-				displayName = ( (DesignElementHandle) element ).getDefn( )
-						.getName( );
+				displayName = PropertyMementoUtil.getElementType( (DesignElementHandle) element );
 			}
 		}
 
@@ -619,6 +861,7 @@ public class ReportPropertySheetPage extends Page implements
 		}
 	}
 
+	private boolean changed = false;
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -630,7 +873,29 @@ public class ReportPropertySheetPage extends Page implements
 		if ( !viewer.getTree( ).isDisposed( ) )
 		{
 			viewer.refresh( true );
-			expandToDefaultLevel( );
+			if ( getControl( ).isFocusControl( ) )
+			{
+				IMemento memento = viewerMemento.getChild( PropertyMementoUtil.getElementType( (DesignElementHandle) focus ) );
+				if ( memento == null )
+				{
+					expandToDefaultLevel( );
+					if ( viewer.getTree( ).getItemCount( ) > 0 )
+					{
+						ViewsMemento elementMemento = (ViewsMemento) viewerMemento.createChild( PropertyMementoUtil.getElementType( (DesignElementHandle) focus ),
+								MementoElement.Type_Element );
+						elementMemento.getMementoElement( )
+								.setValue( new Integer( 0 ) );
+					}
+				}
+				if ( memento != null && memento instanceof ViewsMemento )
+				{
+					expandToDefaultLevel( );
+					expandTreeFromMemento( (ViewsMemento) memento );
+				}
+				changed = false;
+			}else{
+				changed = true;
+			}
 		}
 	}
 
@@ -703,4 +968,18 @@ public class ReportPropertySheetPage extends Page implements
 			handleSelectionChanged( new StructuredSelection( selections ) );
 		}
 	}
+
+	class CustomTreeViewer extends TreeViewer
+	{
+
+		public CustomTreeViewer( Composite parent, int style )
+		{
+			super( parent, style );
+		}
+
+		public void createChildren( Widget widget )
+		{
+			super.createChildren( widget );
+		}
+	};
 }
