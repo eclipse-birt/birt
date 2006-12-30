@@ -13,12 +13,12 @@ package org.eclipse.birt.report.designer.internal.ui.views.property.widgets;
 
 import java.util.Arrays;
 
-import org.eclipse.birt.report.designer.internal.ui.swt.custom.CCombo;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.KeyAdapter;
@@ -236,7 +236,7 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor
 	void applyEditorValueAndDeactivate( )
 	{
 		inProcessing = 1;
-		doValueChanged();
+		doValueChanged( );
 		fireApplyEditorValue( );
 		deactivate( );
 		inProcessing = 0;
@@ -249,8 +249,7 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor
 	 */
 	protected Object openDialogBox( Control cellEditorWindow )
 	{
-		DimensionBuilderDialog dialog = new DimensionBuilderDialog(
-				cellEditorWindow.getShell( ) );
+		DimensionBuilderDialog dialog = new DimensionBuilderDialog( cellEditorWindow.getShell( ) );
 
 		DimensionValue value;
 		try
@@ -277,10 +276,12 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor
 		}
 		else
 		{
-			comboBox.setFocus();
+			comboBox.setFocus( );
 			return null;
 		}
 	}
+
+
 
 	/*
 	 * (non-Javadoc) Method declared on DialogCellEditor.
@@ -352,19 +353,22 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor
 	{
 		if ( inProcessing == 1 )
 			return;
-
 		super.focusLost( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.viewers.CellEditor#doSetFocus()
 	 */
 	protected void doSetFocus( )
 	{
-		comboBox.setFocus();
+		comboBox.setFocus( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.property.widgets.CDialogCellEditor#doValueChanged()
 	 */
 	protected void doValueChanged( )
@@ -373,7 +377,7 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor
 		{
 			markDirty( );
 		}
-		//	must set the selection before getting value
+		// must set the selection before getting value
 		selection = comboBox.getSelectionIndex( );
 		Object newValue = null;
 		if ( selection == -1 )
