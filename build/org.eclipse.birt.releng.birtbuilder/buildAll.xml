@@ -134,7 +134,7 @@
 		<!-- copy directory.txt to output directory -->
 		<copy tofile="${postingDirectory}/${buildLabel}/directory.txt" file="${buildDirectory}/directory.txt"/>
 		
-		<copy tofile="${postingDirectory}/../monitor.properties" file="${buildDirectory}/monitor.properties" overwrite="true" />
+		<copy tofile="${postingDirectory}/../monitor.properties" file="monitor.properties" overwrite="true" />
 		<copy tofile="${postingDirectory}/../finalPluginsVersions.properties" file="${buildDirectory}/finalPluginsVersions.properties" overwrite="true" />
 		<!-- Send build ready mail to QA -->
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="InformQA"/>
