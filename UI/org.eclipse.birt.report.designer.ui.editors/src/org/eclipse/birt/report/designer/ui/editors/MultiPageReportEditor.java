@@ -519,12 +519,12 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	public boolean reloadOutlinePage( )
 	{
 		if ( !getActivePageInstance( ).getId( ).equals( XMLSourcePage_ID )
-				|| outlinePage == null )
+				|| outlinePage == null || !getCurrentPageInstance( ).getId( ).equals( XMLSourcePage_ID ) )
 		{
 			return false;
 		}
 
-		if ( outlinePage.getCurrentPage( ) instanceof DesignerOutlinePage )
+		if ( outlinePage.getCurrentPage( ) instanceof DesignerOutlinePage || outlinePage.getCurrentPage( ) == null )
 		{
 			outlinePage.setActivePage( (IPageBookViewPage) getActivePageInstance( ).getAdapter( IContentOutlinePage.class ) );
 		}
@@ -532,7 +532,10 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		{
 			outlinePage.setActivePage( (IPageBookViewPage) getActivePageInstance( ).getAdapter( ContentOutlinePage.class ) );
 		}
-		outlinePage.getSite( ).getActionBars( ).updateActionBars( );
+		if ( outlinePage.getSite( ) != null )
+		{
+			outlinePage.getSite( ).getActionBars( ).updateActionBars( );
+		}		
 		return true;
 	}
 
