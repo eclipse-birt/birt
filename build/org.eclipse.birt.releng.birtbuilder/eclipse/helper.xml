@@ -720,6 +720,14 @@ Internal Update Site URL: http://qa-build/UpdateSite
 Have a nice day!
                 </message>
         </mail>
+		<!-- create download info file -->
+		<echo file="download.properties" append="false">
+			allInOne=${QA.test.dir}\BIRT2.2-download\${buildId}\birt-report-designer-all-in-one-2_2_0.zip
+			runtime=${QA.test.dir}\BIRT2.2-download\${buildId}\birt-runtime-2_2_0.zip
+			rcp=${QA.test.dir}\BIRT2.2-download\${buildId}\birt-rcp-report-designer-2_2_0.zip
+			frameworkSDK=${QA.test.dir}\BIRT2.2-download\${buildId}\birt-report-framework-sdk-2_2_0.zip
+		</echo>
+		<copy tofile="${postingDirectory}/../download.properties" file="download.properties" overwrite="true" />
 	</target>
 	
 	<target name="InformPerformance">
