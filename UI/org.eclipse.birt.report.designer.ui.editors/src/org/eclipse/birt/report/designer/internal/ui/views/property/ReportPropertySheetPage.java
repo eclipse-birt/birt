@@ -25,7 +25,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.actions.GlobalActionFa
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormWidgetFactory;
 import org.eclipse.birt.report.designer.internal.ui.views.memento.Memento;
 import org.eclipse.birt.report.designer.internal.ui.views.memento.MementoElement;
-import org.eclipse.birt.report.designer.internal.ui.views.memento.MementoFactory;
+import org.eclipse.birt.report.designer.internal.ui.views.memento.MementoBuilder;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.widget.ExpressionDialogCellEditor;
@@ -180,10 +180,11 @@ public class ReportPropertySheetPage extends Page implements
 
 		IWorkbenchPage page = getSite( ).getPage( );
 
-		if ( ( propertySheetMemento = MementoFactory.getInstance( ).getRootMemento( )
+		MementoBuilder builder = new MementoBuilder();
+		if ( ( propertySheetMemento = builder.getRootMemento( )
 				.getChild( IPageLayout.ID_PROP_SHEET ) ) == null )
 		{
-			propertySheetMemento = MementoFactory.getInstance( ).getRootMemento( )
+			propertySheetMemento = builder.getRootMemento( )
 					.createChild( IPageLayout.ID_PROP_SHEET,
 							MementoElement.Type_View );
 		}
