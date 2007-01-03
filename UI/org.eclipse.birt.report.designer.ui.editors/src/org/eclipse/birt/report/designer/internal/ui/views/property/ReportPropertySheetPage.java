@@ -23,8 +23,9 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.AlphabeticallyViewSorter;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.GlobalActionFactory;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormWidgetFactory;
+import org.eclipse.birt.report.designer.internal.ui.views.memento.MementoBuilder;
 import org.eclipse.birt.report.designer.internal.ui.views.memento.MementoElement;
-import org.eclipse.birt.report.designer.internal.ui.views.memento.ViewsMemento;
+import org.eclipse.birt.report.designer.internal.ui.views.memento.Memento;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.widget.ExpressionDialogCellEditor;
@@ -179,10 +180,10 @@ public class ReportPropertySheetPage extends Page implements
 
 		IWorkbenchPage page = getSite( ).getPage( );
 
-		if ( ( propertySheetMemento = ViewsMemento.getInstance( )
+		if ( ( propertySheetMemento = MementoBuilder.getRootMemento( )
 				.getChild( IPageLayout.ID_PROP_SHEET ) ) == null )
 		{
-			propertySheetMemento = ViewsMemento.getInstance( )
+			propertySheetMemento = MementoBuilder.getRootMemento( )
 					.createChild( IPageLayout.ID_PROP_SHEET,
 							MementoElement.Type_View );
 		}
@@ -291,7 +292,7 @@ public class ReportPropertySheetPage extends Page implements
 						Object obj = handle.getElements( ).get( 0 );
 						if ( obj instanceof DesignElementHandle )
 						{
-							ViewsMemento element = (ViewsMemento) viewerMemento.getChild( PropertyMementoUtil.getElementType( (DesignElementHandle) obj ) );
+							Memento element = (Memento) viewerMemento.getChild( PropertyMementoUtil.getElementType( (DesignElementHandle) obj ) );
 							if ( element != null )
 							{
 								MementoElement[] path = createItemPath( item );
@@ -316,7 +317,7 @@ public class ReportPropertySheetPage extends Page implements
 						Object obj = handle.getElements( ).get( 0 );
 						if ( obj instanceof DesignElementHandle )
 						{
-							ViewsMemento element = (ViewsMemento) viewerMemento.getChild( PropertyMementoUtil.getElementType( (DesignElementHandle) obj ) );
+							Memento element = (Memento) viewerMemento.getChild( PropertyMementoUtil.getElementType( (DesignElementHandle) obj ) );
 							if ( element != null )
 							{
 								MementoElement[] path = createItemPath( item );
@@ -433,7 +434,7 @@ public class ReportPropertySheetPage extends Page implements
 			Object obj = handle.getElements( ).get( 0 );
 			if ( obj instanceof DesignElementHandle )
 			{
-				ViewsMemento element = (ViewsMemento) viewerMemento.getChild( PropertyMementoUtil.getElementType( (DesignElementHandle) obj ) );
+				Memento element = (Memento) viewerMemento.getChild( PropertyMementoUtil.getElementType( (DesignElementHandle) obj ) );
 				if ( element != null )
 				{
 					element.getMementoElement( )
@@ -634,16 +635,16 @@ public class ReportPropertySheetPage extends Page implements
 					expandToDefaultLevel( );
 					if ( viewer.getTree( ).getItemCount( ) > 0 )
 					{
-						ViewsMemento elementMemento = (ViewsMemento) viewerMemento.createChild( PropertyMementoUtil.getElementType( (DesignElementHandle) obj ),
+						Memento elementMemento = (Memento) viewerMemento.createChild( PropertyMementoUtil.getElementType( (DesignElementHandle) obj ),
 								MementoElement.Type_Element );
 						elementMemento.getMementoElement( )
 								.setValue( new Integer( 0 ) );
 					}
 				}
-				if ( memento != null && memento instanceof ViewsMemento )
+				if ( memento != null && memento instanceof Memento )
 				{
 					expandToDefaultLevel( );
-					expandTreeFromMemento( (ViewsMemento) memento );
+					expandTreeFromMemento( (Memento) memento );
 				}
 			}
 		}
@@ -695,22 +696,22 @@ public class ReportPropertySheetPage extends Page implements
 				expandToDefaultLevel( );
 				if ( viewer.getTree( ).getItemCount( ) > 0 )
 				{
-					ViewsMemento elementMemento = (ViewsMemento) viewerMemento.createChild( PropertyMementoUtil.getElementType( (DesignElementHandle) element ),
+					Memento elementMemento = (Memento) viewerMemento.createChild( PropertyMementoUtil.getElementType( (DesignElementHandle) element ),
 							MementoElement.Type_Element );
 					elementMemento.getMementoElement( )
 							.setValue( new Integer( 0 ) );
 				}
 			}
-			else if ( memento instanceof ViewsMemento )
+			else if ( memento instanceof Memento )
 			{
 				expandToDefaultLevel( );
-				expandTreeFromMemento( (ViewsMemento) memento );
+				expandTreeFromMemento( (Memento) memento );
 			}
 		}
 
 	}
 
-	private void expandTreeFromMemento( ViewsMemento memento )
+	private void expandTreeFromMemento( Memento memento )
 	{
 		if ( viewer.getTree( ).getItemCount( ) == 0 )
 			return;
@@ -881,16 +882,16 @@ public class ReportPropertySheetPage extends Page implements
 					expandToDefaultLevel( );
 					if ( viewer.getTree( ).getItemCount( ) > 0 )
 					{
-						ViewsMemento elementMemento = (ViewsMemento) viewerMemento.createChild( PropertyMementoUtil.getElementType( (DesignElementHandle) focus ),
+						Memento elementMemento = (Memento) viewerMemento.createChild( PropertyMementoUtil.getElementType( (DesignElementHandle) focus ),
 								MementoElement.Type_Element );
 						elementMemento.getMementoElement( )
 								.setValue( new Integer( 0 ) );
 					}
 				}
-				if ( memento != null && memento instanceof ViewsMemento )
+				if ( memento != null && memento instanceof Memento )
 				{
 					expandToDefaultLevel( );
-					expandTreeFromMemento( (ViewsMemento) memento );
+					expandTreeFromMemento( (Memento) memento );
 				}
 				changed = false;
 			}else{

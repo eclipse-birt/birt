@@ -4,13 +4,13 @@ package org.eclipse.birt.report.designer.internal.ui.views.property;
 import java.util.LinkedList;
 
 import org.eclipse.birt.report.designer.internal.ui.views.memento.MementoElement;
-import org.eclipse.birt.report.designer.internal.ui.views.memento.ViewsMemento;
+import org.eclipse.birt.report.designer.internal.ui.views.memento.Memento;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 
 public class PropertyMementoUtil
 {
 
-	public static boolean addNode( ViewsMemento element,
+	public static boolean addNode( Memento element,
 			MementoElement[] nodePath )
 	{
 		if ( nodePath!=null && nodePath.length>0)
@@ -34,7 +34,7 @@ public class PropertyMementoUtil
 		return false;
 	}
 
-	public static boolean removeNode( ViewsMemento element,
+	public static boolean removeNode( Memento element,
 			MementoElement[] nodePath )
 	{
 		if ( nodePath!=null && nodePath.length>0)
