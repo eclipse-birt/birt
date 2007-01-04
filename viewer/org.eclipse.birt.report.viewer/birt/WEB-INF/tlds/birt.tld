@@ -580,6 +580,7 @@
             <rtexprvalue>true</rtexprvalue>
             <description>
             	Specifies the report parameter pattern format.
+            	If isLocale is false, ignore it.
             </description>
         </attribute>     
         <attribute>
@@ -603,7 +604,8 @@
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
             <description>
-            	Specifies whether the report parameter value is a locale/format related string.
+            	Specifies whether the report parameter value is a locale/format related string.( true | false )
+            	Default to false.
             </description>
         </attribute>             
      </tag>   
