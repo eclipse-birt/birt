@@ -648,6 +648,7 @@
 				<exclude name="org.eclipse.birt.integration.wtp*/**" />
 				<exclude name="org.eclipse.birt.sample.reportitem.rotatedtext*/**" />
 				<exclude name="org.eclipse.birt.report.debug.ui*/**" />
+				<exclude name="org.eclipse.birt.report.designer.ui.editor.xml.wtp*/**" />
 				<exclude name="org.eclipse.birt.sdk*/**" />
 				<exclude name="org.eclipse.birt.thirdparty*/**"/>
 				<exclude name="*.source_*/**" />
