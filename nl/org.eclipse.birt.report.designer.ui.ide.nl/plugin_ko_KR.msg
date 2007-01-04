@@ -32,6 +32,11 @@ LibraryEditor=라이브러리 편집기
 LibraryWizard=라이브러리
 LibraryWizardDescription=이 마법사는 새 보고서 라이브러리를 생성합니다.
 
+OdaRuntimeWizard=ODA Runtime Driver Plug-in Project
+OdaRuntimeWizardDesc=Create a new ODA runtime driver plug-in.
+OdaDesignerWizard=ODA Designer Plug-in Project
+OdaDesignerWizardDesc=Create a new ODA designer plug-in.
+
 ###############################################################################
 # Activities
 ###############################################################################

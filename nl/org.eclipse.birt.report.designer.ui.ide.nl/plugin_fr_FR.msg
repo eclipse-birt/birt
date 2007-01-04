@@ -32,6 +32,11 @@ LibraryEditor=Editeur de bibliothèque
 LibraryWizard=Bibliothèque
 LibraryWizardDescription=Cet assistant crée une nouvelle bibliothèque d'états.
 
+OdaRuntimeWizard=ODA Runtime Driver Plug-in Project
+OdaRuntimeWizardDesc=Create a new ODA runtime driver plug-in.
+OdaDesignerWizard=ODA Designer Plug-in Project
+OdaDesignerWizardDesc=Create a new ODA designer plug-in.
+
 ###############################################################################
 # Activities
 ###############################################################################
