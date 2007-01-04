@@ -484,7 +484,20 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 				updateLaunchConfigurationDialog( );
 			}
 		} );
-		fPluginTreeViewer.setSorter( new ListUtil.PluginSorter( ) {
+//		fPluginTreeViewer.setSorter( new ListUtil.PluginSorter( ) {
+//
+//			public int category( Object obj )
+//			{
+//				for ( int i = 0; i < fWorkspacePlugins.length; i++ )
+//				{
+//
+//					if ( obj == fWorkspacePlugins[i] )
+//						return -1;
+//				}
+//				return 0;
+//			}
+//		} );
+		fPluginTreeViewer.setComparator( new ListUtil.PluginComparator() {
 
 			public int category( Object obj )
 			{
