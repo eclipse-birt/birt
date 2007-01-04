@@ -44,7 +44,6 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -683,9 +682,9 @@ public class WizardBase implements IRegistrationListener
 
 			// Set width hint for message label in case the description message
 			// is too long
-			FormData layoutData = (FormData) getTitleImageLabel( ).getParent( )
+			GridData layoutData = (GridData) getTitleImageLabel( ).getParent( )
 					.getLayoutData( );
-			layoutData.width = iWizardWidthMinimum;
+			layoutData.widthHint = iWizardWidthMinimum;
 
 			return composite;
 		}
