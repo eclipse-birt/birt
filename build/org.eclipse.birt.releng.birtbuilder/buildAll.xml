@@ -47,6 +47,7 @@
 				<antcall target="CreateDistribute"/>
 				<ant antfile="${eclipse.build.configs}/../helper.xml" target="verifyCompile" />
 				<antcall target="CreateUpdateSite"/>
+				<antcall target="pushUpdateSite"/>
 			</sequential>
 			<sequential>
 				<antcall target="buildBirtNLFeature"/>
@@ -199,10 +200,13 @@
 		</java>
 		-->
 		<!-- generate site.xml -->
-		<property file="${buildDirectory}/finalFeaturesVersions.properties"/>
-		<copy file="${eclipse.build.configs}/../../extras/site.xml" tofile="${updateJarWorkingDir}/site/site.xml"/>
-		<!-- replace the feature version in site.xml -->
-		<replace file="${updateJarWorkingDir}/site/site.xml" value="${com.lowagie.itext}" token="@FEATURE.ITEXT@"/>
+
+	</target>
+	<target name="pushUpdateSite">
+ 	    <property file="${buildDirectory}/finalFeaturesVersions.properties"/>
+	    <copy file="${eclipse.build.configs}/../../extras/site.xml" tofile="${updateJarWorkingDir}/site/site.xml"/>
+	    <!-- replace the feature version in site.xml -->
+	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${com.lowagie.itext}" token="@FEATURE.ITEXT@"/>
 		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.apache.commons.codec}" token="@FEATURE.CODEC@"/>
 		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.mozilla.rhino}" token="@FEATURE.MOZILLA@"/>
 		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.w3c.sac}" token="@FEATURE.W3C@"/>
@@ -231,7 +235,6 @@
 		</copy>
 		<copy tofile="${postingDirectory}/../../../UpdateSite/site.xml" file="${updateJarWorkingDir}/site/site.xml" overwrite="true"/>
 	</target>
-	
 	<target name="runBirtTest">
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="runBirtTest" >
 			<property name="runner.dir" value="${eclipse.build.configs}/birt.tests/test.scripts" />
