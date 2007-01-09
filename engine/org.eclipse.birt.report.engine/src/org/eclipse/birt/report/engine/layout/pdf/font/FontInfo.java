@@ -134,7 +134,7 @@ public class FontInfo
 		return bf.getFontDescriptor(BaseFont.AWT_ASCENT, fontSize)
 				- bf.getFontDescriptor(BaseFont.AWT_DESCENT, fontSize)
 				+ bf.getFontDescriptor(BaseFont.AWT_LEADING, fontSize)
-				+ fontSize/5f;
+				+ fontSize/4f;
 	}
 	
 	
