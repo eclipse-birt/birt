@@ -85,6 +85,10 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 		}
 		if ( element instanceof ResourceEntry )
 		{
+			if(!((ResourceEntry)element ).isRoot( ))
+			{
+				return ((ResourceEntry)element ).getName( );
+			}
 			if(element instanceof FragmentResourceEntry)
 			{
 				return Messages.getString( "FragmentResourceEntry.RootDisplayName" );

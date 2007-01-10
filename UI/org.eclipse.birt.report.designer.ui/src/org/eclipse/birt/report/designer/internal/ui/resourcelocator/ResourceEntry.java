@@ -44,6 +44,8 @@ public interface ResourceEntry extends IAdaptable
 	ResourceEntry[] getChildren( Filter filter );
 
 	boolean isFile( );
+	
+	boolean isRoot( );
 
 	void dispose( );
 }

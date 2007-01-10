@@ -207,6 +207,11 @@ public class PathResourceEntry extends BaseResourceEntity
 		return this.isFile;
 	}
 
+	public boolean isRoot( )
+	{
+		return this.isRoot;
+	}
+	
 	public void dispose( )
 	{
 		if ( this.library != null )
