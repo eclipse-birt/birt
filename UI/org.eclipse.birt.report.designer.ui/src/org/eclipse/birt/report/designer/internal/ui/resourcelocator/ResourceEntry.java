@@ -29,10 +29,10 @@ public interface ResourceEntry extends IAdaptable
 		public boolean accept( ResourceEntry entity );
 	}
 
-	String getDisplayName();
-	
 	String getName( );
 
+	String getDisplayName();
+	
 	Image getImage( );
 
 	URL getURL( );
@@ -44,6 +44,8 @@ public interface ResourceEntry extends IAdaptable
 	ResourceEntry[] getChildren( Filter filter );
 
 	boolean isFile( );
+	
+	boolean isRoot( );
 
 	void dispose( );
 }
