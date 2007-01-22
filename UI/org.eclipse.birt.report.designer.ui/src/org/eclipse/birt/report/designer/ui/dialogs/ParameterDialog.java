@@ -1956,16 +1956,16 @@ public class ParameterDialog extends BaseDialog
 		{
 			displayFormat = choiceSet.findChoice( formatCategroy )
 					.getDisplayName( );
+			if ( isCustom( ) )
+			{
+				displayFormat += ": " + formatPattern; //$NON-NLS-1$
+			}
 			if ( defaultValue != null )
 			{
 				previewString = format( defaultValue );
 			}
 			else
 			{
-				if ( isCustom( ) )
-				{
-					displayFormat += ": " + formatPattern; //$NON-NLS-1$
-				}
 				if ( type.equals( DesignChoiceConstants.PARAM_TYPE_DATETIME ) )
 				{
 					previewString = new DateFormatter( isCustom( ) ? formatPattern
