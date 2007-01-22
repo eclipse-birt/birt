@@ -717,7 +717,15 @@ public class ParameterDialog extends BaseDialog
 				if ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) )
 						&& defaultValue != null )
 				{
-					defaultValueEditor.setText( defaultValue );
+					if ( defaultValue.equals( Boolean.toString( true ) )
+							|| defaultValue.equals( Boolean.toString( false ) ) )
+					{
+						defaultValue = null;
+					}
+					else
+					{
+						defaultValueEditor.setText( defaultValue );
+					}
 				}
 			}
 			refreshValueTable( );
@@ -969,7 +977,8 @@ public class ParameterDialog extends BaseDialog
 		{
 			return PARAM_CONTROL_LIST;
 		}
-		return CONTROL_TYPE_CHOICE_SET.findChoiceByDisplayName( displayText ).getName( );
+		return CONTROL_TYPE_CHOICE_SET.findChoiceByDisplayName( displayText )
+				.getName( );
 	}
 
 	private void changeDataType( )
@@ -2179,7 +2188,8 @@ public class ParameterDialog extends BaseDialog
 		String displayName = null;
 		if ( CONTROL_TYPE_CHOICE_SET.findChoice( type ) != null )
 		{
-			displayName = CONTROL_TYPE_CHOICE_SET.findChoice( type ).getDisplayName( );
+			displayName = CONTROL_TYPE_CHOICE_SET.findChoice( type )
+					.getDisplayName( );
 		}
 		else
 		{
