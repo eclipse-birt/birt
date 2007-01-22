@@ -63,14 +63,13 @@ public class PDFCellLM extends PDFBlockStackingLM
 			columnWidth = tableLM.getCellWidth( startColumn, endColumn );
 		}
 		root = AreaFactory.createCellArea( cellContent );
-		tableLM.resolveBorderConflict( (CellArea) root );
 		root.setWidth( columnWidth );
 		if ( !isFirst )
 		{
 			IStyle areaStyle = root.getStyle( );
 			areaStyle.setProperty( IStyle.STYLE_BORDER_TOP_WIDTH,
 					IStyle.NUMBER_0 );
-			areaStyle.setProperty( IStyle.STYLE_PADDING_TOP, IStyle.NUMBER_0 );
+			/*areaStyle.setProperty( IStyle.STYLE_PADDING_TOP, IStyle.NUMBER_0 );*/
 			areaStyle.setProperty( IStyle.STYLE_MARGIN_TOP, IStyle.NUMBER_0 );
 		}
 	}
@@ -80,9 +79,10 @@ public class PDFCellLM extends PDFBlockStackingLM
 		createRoot( );
 		IStyle areaStyle = root.getStyle( );
 		removeMargin( areaStyle );
+		tableLM.resolveBorderConflict( (CellArea) root );
 		validateBoxProperty( root.getStyle( ), columnWidth, context.getMaxHeight( ) );
 		setOffsetX( root.getContentX( ) );
-		setOffsetY( isFirst ? root.getContentY( ) : 0 );
+		setOffsetY( root.getContentY( ) );
 
 		/*
 		 * int borderWidth = getDimensionValue( areaStyle .getProperty(
@@ -140,6 +140,22 @@ public class PDFCellLM extends PDFBlockStackingLM
 	protected boolean isRootEmpty( )
 	{
 		return false;
+	}
+	
+	public boolean isPageEmpty( )
+	{
+		if ( root!=null && root.getChildrenCount()>0 )
+		{
+			return false;
+		}
+		else
+		{
+			if ( parent != null )
+			{
+				return parent.isPageEmpty( );
+			}
+		}
+		return true;
 	}
 
 }
