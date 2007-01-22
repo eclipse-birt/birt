@@ -19,7 +19,7 @@ package org.eclipse.birt.chart.device.svg;
 public final class EventHandlers
 {
 
-	public static StringBuffer styles = new StringBuffer( ).append( ".tooltip.text{ text-anchor:left;font-size:12pt;fill:black;}.tooltip{fill:rgb(244,245,235)}" ); //$NON-NLS-1$
+	public static StringBuffer styles = new StringBuffer( ).append( ".tooltip.text{ text-anchor:start;font-size:12pt;fill:black;}.tooltip{fill:rgb(244,245,235)}" ); //$NON-NLS-1$
 
 	public static StringBuffer content = new StringBuffer( ).append( "function BuildHelper(tag, attrList, text) {\n" ) //$NON-NLS-1$
 			.append( "	this.tag = tag;\n" ) //$NON-NLS-1$
