@@ -81,7 +81,7 @@ public class HTMLLayoutContext
 		cancelFlag = flag;
 	}
 	
-	boolean getCancelFlag()
+	public boolean getCancelFlag()
 	{
 		return cancelFlag;
 	}

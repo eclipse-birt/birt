@@ -160,7 +160,7 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the report content into the content stream
 	 * 
-	 * @version $Revision: 1.12 $ $Date: 2006/08/23 16:10:56 $
+	 * @version $Revision: 1.13 $ $Date: 2006/08/25 03:24:05 $
 	 */
 	class ContentEmitter extends ContentEmitterAdapter
 	{
@@ -259,7 +259,7 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the master page.
 	 * 
-	 * @version $Revision: 1.12 $ $Date: 2006/08/23 16:10:56 $
+	 * @version $Revision: 1.13 $ $Date: 2006/08/25 03:24:05 $
 	 */
 	class PageEmitter extends ContentEmitterAdapter
 	{
@@ -482,9 +482,13 @@ public class ReportDocumentBuilder
 				// notify the page handler
 				if ( pageHandler != null )
 				{
-					IReportDocumentInfo docInfo = new ReportDocumentInfo(
+					// if user has canceled the task, we should not do onPage.
+					if ( !htmlContext.getCancelFlag( ) )
+					{
+						IReportDocumentInfo docInfo = new ReportDocumentInfo(
 							executionContext, pageNumber, reportFinished );
-					pageHandler.onPage( (int) pageNumber, checkpoint, docInfo );
+						pageHandler.onPage( (int) pageNumber, checkpoint, docInfo );
+					}
 				}
 			}
 		}
