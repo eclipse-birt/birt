@@ -155,7 +155,7 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.118.2.9 $ $Date: 2006/09/21 10:52:30 $
+ * @version $Revision: 1.118.2.9.2.1 $ $Date: 2006/10/19 22:16:18 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
@@ -1025,7 +1025,7 @@ class EngineIRVisitor extends DesignVisitor
 				keyExpression );
 		for ( int i = 0; i < groupHeader.getContentCount( ); i++ )
 		{
-			RowDesign row = (RowDesign) groupHeader.getContent( 0 );
+			RowDesign row = (RowDesign) groupHeader.getContent( i );
 			for ( int j = 0; j < row.getCellCount( ); j++)
 			{
 				CellDesign cell = row.getCell( j );
@@ -1039,6 +1039,16 @@ class EngineIRVisitor extends DesignVisitor
 						return;
 					}
 				}
+			}
+		}
+		//if the group icon hasn't been set, set the icon to the default cell.
+		RowDesign row = (RowDesign) groupHeader.getContent( 0 );
+		if( null != row )
+		{
+			CellDesign cell = row.getCell( 0 );
+			if( null != cell )
+			{
+				cell.setDisplayGroupIcon( true );
 			}
 		}
 	}
