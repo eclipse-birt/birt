@@ -179,39 +179,8 @@ public class ReportEngineService
 		// Prepare log level.
 		String logLevel = servletConfig.getServletContext( ).getInitParameter(
 				ParameterAccessor.INIT_PARAM_LOG_LEVEL );
-		Level level = Level.OFF;
-		if ( "SEVERE".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
-		{
-			level = Level.SEVERE;
-		}
-		else if ( "WARNING".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
-		{
-			level = Level.WARNING;
-		}
-		else if ( "INFO".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
-		{
-			level = Level.INFO;
-		}
-		else if ( "CONFIG".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
-		{
-			level = Level.CONFIG;
-		}
-		else if ( "FINE".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
-		{
-			level = Level.FINE;
-		}
-		else if ( "FINER".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
-		{
-			level = Level.FINER;
-		}
-		else if ( "FINEST".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
-		{
-			level = Level.FINEST;
-		}
-		else if ( "OFF".equalsIgnoreCase( logLevel ) ) //$NON-NLS-1$
-		{
-			level = Level.OFF;
-		}
+		Level level = logLevel != null && logLevel.length( ) > 0 ? Level
+				.parse( logLevel ) : Level.OFF;
 		config.setLogConfig( logDirectory, level );
 
 		// Prepare ScriptLib location
