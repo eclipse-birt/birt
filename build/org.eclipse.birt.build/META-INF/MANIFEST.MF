@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: BIRT Build Internal Tools
+Bundle-SymbolicName: org.eclipse.birt.build
+Bundle-Version: 2.2.0
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Bundle-ClassPath: lib/dom4j-1.6.1.jar,.
+Require-Bundle: org.apache.ant
