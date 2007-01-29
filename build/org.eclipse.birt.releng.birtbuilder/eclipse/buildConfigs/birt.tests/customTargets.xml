@@ -34,11 +34,36 @@
 	</target>
 	
 	<target name="postPackage">
-		<move todir="${postingDirectory}/${buildLabel}">
-			<fileset dir="${buildDirectory}/${buildLabel}">
-				<include name="${archiveName}" />
-			</fileset>
+		<move todir="${postingDirectory}/${buildId}">
+			<fileset dir="${buildDirectory}/${buildId}">
+		 		<include name="${archiveName}" />
+		 	</fileset>
 		</move>
+		<!-- Add finalPluginsVersions.properties and testRunner.xml to package -->
+		<exec executable="unzip" dir="${postingDirectory}/${buildId}">
+		    <arg line="-o -q ${archiveName} -d ${postingDirectory}/${buildId}/test-suite" />
+		</exec>
+		<delete file="${postingDirectory}/${buildId}/${archiveName}" failonerror="false"/>
+		<copy tofile="${postingDirectory}/${buildId}/test-suite/BirtRunner.xml"
+		 file="${eclipse.build.configs}/birt.tests/test.scripts/BirtRunner-template.xml"/>
+		<copy todir="${postingDirectory}/${buildId}/test-suite">
+            <fileset dir="${eclipse.build.configs}/birt.tests/test.scripts">
+                    <include name="BirtRunner.bat"/>
+                    <include name="BirtRunner.sh"/>
+                    <include name="BirtRunner.properties"/>
+            </fileset>
+            <fileset dir="${buildDirectory}">
+                    <include name="finalPluginsVersions.properties"/>
+            </fileset>
+	    </copy>
+        <delete file="${postingDirectory}/${buildId}/${archiveName}" failonerror="false" />
+
+    	<exec executable="zip" dir="${postingDirectory}/${buildId}/test-suite">
+            <arg line="-q ${postingDirectory}/${buildId}/${archiveName} -r eclipse BirtRunner.xml BirtRunner.bat BirtRunner.sh BirtRunner.properties finalPluginsVersions.properties" />
+        </exec>
+		
+        <delete dir="${postingDirectory}/${buildId}/test-suite" failonerror="false" />
+
 	</target>
 	<!-- ===================================================================== -->
 	<!-- Check out map files from correct repository -->
@@ -115,16 +140,10 @@
 	<!-- Steps to do before running the build.xmls for the elements being built. -->
 	<!-- ===================================================================== -->
 	<target name="preProcess">
-		<!-- copy necessary lib to tests.viewer/lib -->
-		<copy todir="${buildDirectory}/plugins/org.eclipse.birt.report.tests.viewer/lib">
-			<fileset dir="${p4.home}/testsViewerLib">
+		<!-- copy necessary lib to report.tests/lib -->
+		<copy todir="${buildDirectory}/plugins/org.eclipse.birt.report.tests/lib">
+			<fileset dir="${p4.home}/reportTestsLib">
 				<include name="**"/>
-			</fileset>
-		</copy>
-		<!-- copy viewservlets.jar to tests.viewer/lib -->
-		<copy todir="${buildDirectory}/plugins/org.eclipse.birt.report.tests.viewer/lib">
-			<fileset dir="${buildDirectory}/plugins/org.eclipse.birt.report.viewer/birt/WEB-INF/lib">
-				<include name="viewservlets.jar"/>
 			</fileset>
 		</copy>
 	</target>
