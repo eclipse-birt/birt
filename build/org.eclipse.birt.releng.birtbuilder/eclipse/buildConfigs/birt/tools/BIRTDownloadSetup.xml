@@ -39,7 +39,7 @@
  *
 -->
 
-<project name="EclipseDownloadSetup For Release 1" default="default" basedir=".">
+<project name="EclipseDownloadSetup For BIRT Release 2.2" default="default" basedir=".">
 
 
 
@@ -482,7 +482,7 @@
 		</copy>
 
 		<!--correct web.xml in birt sample, remove *_jsp.class from the viewservlets.jar-->
-		<!--move file="${runtime.tmp}/WEB-INF/web_delpoy.xml" tofile="${runtime.tmp}/WebViewerExample/WEB-INF/web.xml" /-->
+		<!--move file="${runtime.tmp}/WEB-INF/web_deploy.xml" tofile="${runtime.tmp}/WebViewerExample/WEB-INF/web.xml" /-->
 		<unjar src="${runtime.tmp}/WEB-INF/lib/viewservlets.jar" dest="${runtime.tmp}/WEB-INF/lib/viewservlets" />
 		<delete file="${runtime.tmp}/WEB-INF/lib/viewservlets.jar" />
 		<jar destfile="${runtime.tmp}/WEB-INF/lib/viewservlets.jar" basedir="${runtime.tmp}/WEB-INF/lib/viewservlets" excludes="**/*_jsp.class" />
@@ -563,11 +563,13 @@
 				<exclude name="**/org.junit*/**"/>
 			</fileset>
 		</copy>
+		<!--
 		<copy todir="${runtime.tmp}/ReportEngine">
 			<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF">
 				<include name="lib/*.*" />
 			</fileset>
 		</copy>
+		-->
 		<copy todir="${runtime.tmp}/ReportEngine/samples">
 			<fileset dir="${template.dir}/engine.runtime.samples">
 				<include name="*.*" />
@@ -607,7 +609,7 @@
 		</copy>
 
 		<!--correct web.xml in birt sample, remove *_jsp.class from the viewservlets.jar-->
-		<move file="${runtime.tmp}/WebViewerExample/WEB-INF/web_delpoy.xml" tofile="${runtime.tmp}/WebViewerExample/WEB-INF/web.xml" />
+		<move file="${runtime.tmp}/WebViewerExample/WEB-INF/web_deploy.xml" tofile="${runtime.tmp}/WebViewerExample/WEB-INF/web.xml" />
 		<unjar src="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets.jar" dest="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets" />
 		<delete file="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets.jar" />
 		<jar destfile="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets.jar" basedir="${runtime.tmp}/WebViewerExample/WEB-INF/lib/viewservlets" excludes="**/*_jsp.class" />
@@ -626,6 +628,12 @@
 		<copy todir="${runtime.tmp}/WebViewerExample/WEB-INF/platform/plugins">
 			<fileset dir="${deposit}/eclipse/plugins" includes="org.eclipse.birt.report.data.adapter_*.jar"/>
 		</copy>
+		<!-- copy extra chartengine, emf has been copied by viewer plugin -->
+		<copy todir="${runtime.tmp}/WebViewerExample/WEB-INF/lib">
+			<fileset dir="${deposit}/eclipse/plugins" />
+			<mapper type="regexp"  from="org.eclipse.birt.chart.engine_.*.jar" to="chartengineapi.jar"/>
+		</copy>
+
 		<zip destfile="${OutputDir}/${runtime.zip.name}">
 			<zipfileset dir="${runtime.tmp}" prefix="${birt.runtime.dir.prefix}">
 			</zipfileset>
@@ -648,6 +656,7 @@
 				<exclude name="org.eclipse.birt.integration.wtp*/**" />
 				<exclude name="org.eclipse.birt.sample.reportitem.rotatedtext*/**" />
 				<exclude name="org.eclipse.birt.report.debug.ui*/**" />
+				<exclude name="org.eclipse.birt.chart.examples*" />
 				<exclude name="org.eclipse.birt.report.designer.ui.editor.xml.wtp*/**" />
 				<exclude name="org.eclipse.birt.sdk*/**" />
 				<exclude name="org.eclipse.birt.thirdparty*/**"/>
@@ -723,7 +732,7 @@
        		</fileset>
        </copy>
        <delete file="${war.tmp}/birt/WEB-INF/web.xml"/>
-	   <move file="${war.tmp}/birt/WEB-INF/web_delpoy.xml" tofile="${war.tmp}/birt/WEB-INF/web.xml"/>
+	   <move file="${war.tmp}/birt/WEB-INF/web_deploy.xml" tofile="${war.tmp}/birt/WEB-INF/web.xml"/>
 
 		<!--remove *_jsp.class from the viewservlets.jar in WAR-->
 		<unjar src="${war.tmp}/birt/WEB-INF/lib/viewservlets.jar" dest="${war.tmp}/birt/WEB-INF/lib/viewservlets" />
@@ -895,6 +904,14 @@
 				<exclude name="**/feature.temp.folder/**"/>
 				<exclude name="*test*/**"/>
 				<patternset refid="exclude.jars" />
+			</zipfileset>
+			<zipfileset dir="${buildDirectory}">
+				<include name="directory.txt"/>
+				<include name="label.properties"/>
+				<include name="fetch_*.xml"/>
+				<include name="package.*.xml"/>
+				<include name="assemble.*.xml"/>
+				<include name="final*Versions.properties"/>
 			</zipfileset>
 		</zip>
 	</target>
