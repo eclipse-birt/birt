@@ -31,7 +31,7 @@
 	<!--default buildDirectory-->
 	<property name="buildDirectory" value="${basedir}/../src" />
 	
-	<!--default location for build output, parent to ${buildLabel}-->
+	<!--default location for build output, parent to ${buildId}-->
 	<property name="postingDirectory" value="${buildDirectory}" />
 
 	<target name="main" depends="init">
@@ -47,10 +47,12 @@
 				<antcall target="CreateDistribute"/>
 				<ant antfile="${eclipse.build.configs}/../helper.xml" target="verifyCompile" />
 				<antcall target="CreateUpdateSite"/>
-				<antcall target="pushUpdateSite"/>
+				<antcall target="pushUpdateSiteLocal"/>
 			</sequential>
 			<sequential>
 				<antcall target="buildBirtNLFeature"/>
+				<antcall target="generateJavaCrossReference"/>
+				<antcall target="generateDocumentCheck"/>
 			</sequential>
 		</parallel>
 		<!-- start birt JUnit test -->
@@ -117,23 +119,36 @@
 	</target>
 
 	<target name="CreateDistribute">
-		<mkdir dir="${postingDirectory}/${buildLabel}"/>
+		<mkdir dir="${postingDirectory}/${buildId}"/>
+		
+		<!-- generate genReport.sh/.bat for birt-runtime-package -->
+		<property name="template.dir" value="${baseLocation}/../PackageFiles/template"/>
+		<delete>
+			<fileset dir="${template.dir}/engine.runtime.bin">
+				<include name="*.*"/>
+			</fileset>
+		</delete>
+		
+		<exec executable="${eclipse.build.configs}/../../extras/genReportGenerator.sh">
+			<arg line="${buildDirectory}/${buildId}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF/platform/lib" />
+			<arg line="${template.dir}/engine.runtime.bin" />
+		</exec>
 		<!-- create Runtime -->
 		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
 		
-		<!-- copy runtime to ${buildDirectory}/${buildLabel}/eclipse/plugins/org.eclipse.birt.integration.wtp_${org.eclipse.birt.integration.wtp}/runtime -->
+		<!-- copy runtime to ${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.integration.wtp_${org.eclipse.birt.integration.wtp}/runtime -->
 		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="createWebViewerExample">
-			<property name="OutputDir" value="${buildDirectory}/${buildLabel}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}/runtime" />
-			<property name="deposit" value="${buildDirectory}/${buildLabel}" />
+			<property name="OutputDir" value="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}/runtime" />
+			<property name="deposit" value="${buildDirectory}/${buildId}" />
 		</ant>
 			
 		<!-- create AllInOne,AllInOne for Linux, RCP, FrameworkSDK,Framework,Chart,BIRTSample,TestSuite,Database -->
 		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="default">
-			<property name="OutputDir" value="${postingDirectory}/${buildLabel}" />
-			<property name="deposit" value="${buildDirectory}/${buildLabel}" />
+			<property name="OutputDir" value="${postingDirectory}/${buildId}" />
+			<property name="deposit" value="${buildDirectory}/${buildId}" />
 		</ant>
 		<!-- copy directory.txt to output directory -->
-		<copy tofile="${postingDirectory}/${buildLabel}/directory.txt" file="${buildDirectory}/directory.txt"/>
+		<copy tofile="${postingDirectory}/${buildId}/directory.txt" file="${buildDirectory}/directory.txt"/>
 		
 		<copy tofile="${postingDirectory}/../monitor.properties" file="monitor.properties" overwrite="true" />
 		<copy tofile="${postingDirectory}/../finalPluginsVersions.properties" file="${buildDirectory}/finalPluginsVersions.properties" overwrite="true" />
@@ -146,10 +161,10 @@
 		<mkdir dir="${updateJarWorkingDir}" />
 		<mkdir dir="${updateJarWorkingDir}/site" />
 		
-		<exec executable="unzip" dir="${buildDirectory}/${buildLabel}">
+		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-o -q birt-report-framework-sdk-2_2_0.bak.zip -d ${updateJarWorkingDir}" />
 		</exec>
-		<exec executable="unzip" dir="${buildDirectory}/${buildLabel}">
+		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-o -q birt-third-party-2_2_0.bak.zip -d ${updateJarWorkingDir}" />
 		</exec>
 
@@ -162,8 +177,8 @@
 		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
 		<delete file="${updateJarWorkingDir}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}.jar"/>
 		<jar destfile="${updateJarWorkingDir}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}.jar" 
-			basedir="${buildDirectory}/${buildLabel}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}"
-			manifest="${buildDirectory}/${buildLabel}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}/META-INF/MANIFEST.MF" />
+			basedir="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}"
+			manifest="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}/META-INF/MANIFEST.MF" />
 		
 		<!-- TODO:sign update jars -->
 		
@@ -186,7 +201,6 @@
 		</java>
 		
 		<!-- create Pack200 update jars -->
-		<!--
 		<java jar="${buildDirectory}/../eclipse/startup.jar"
 				fork="true"
 				timeout="10800000"
@@ -198,15 +212,16 @@
 			<arg line="-application org.eclipse.update.core.siteOptimizer"/>
 			<arg line="-jarProcessor -outputDir ${updateJarWorkingDir}/site -processAll -pack updateJars/eclipse"/>
 		</java>
-		-->
-		<!-- generate site.xml -->
-
 	</target>
-	<target name="pushUpdateSite">
- 	    <property file="${buildDirectory}/finalFeaturesVersions.properties"/>
-	    <copy file="${eclipse.build.configs}/../../extras/site.xml" tofile="${updateJarWorkingDir}/site/site.xml"/>
-	    <!-- replace the feature version in site.xml -->
-	    <replace file="${updateJarWorkingDir}/site/site.xml" value="${com.lowagie.itext}" token="@FEATURE.ITEXT@"/>
+	
+	<target name="pushUpdateSiteLocal">
+		<property name="updateJarWorkingDir" value="${buildDirectory}/updateJars" />
+
+		<!-- generate site.xml -->
+		<property file="${buildDirectory}/finalFeaturesVersions.properties"/>
+		<copy file="${eclipse.build.configs}/../../extras/site.xml" tofile="${updateJarWorkingDir}/site/site.xml"/>
+		<!-- replace the feature version in site.xml -->
+		<replace file="${updateJarWorkingDir}/site/site.xml" value="${com.lowagie.itext}" token="@FEATURE.ITEXT@"/>
 		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.apache.commons.codec}" token="@FEATURE.CODEC@"/>
 		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.mozilla.rhino}" token="@FEATURE.MOZILLA@"/>
 		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.w3c.sac}" token="@FEATURE.W3C@"/>
@@ -216,8 +231,8 @@
 		<replace file="${updateJarWorkingDir}/site/site.xml" value="${org.eclipse.birt.sdk}" token="@FEATURE.BIRT.SDK@"/>
 		
 		<!-- push update site to output directory -->
-		<mkdir dir="${postingDirectory}/${buildLabel}/UpdateSite"/>
-		<copy todir="${postingDirectory}/${buildLabel}/UpdateSite">
+		<mkdir dir="${postingDirectory}/${buildId}/UpdateSite"/>
+		<copy todir="${postingDirectory}/${buildId}/UpdateSite">
 			<fileset dir="${updateJarWorkingDir}/site">
 				<include name="**"/>
 			</fileset>
@@ -235,13 +250,16 @@
 		</copy>
 		<copy tofile="${postingDirectory}/../../../UpdateSite/site.xml" file="${updateJarWorkingDir}/site/site.xml" overwrite="true"/>
 	</target>
+	
 	<target name="runBirtTest">
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="runBirtTest" >
 			<property name="runner.dir" value="${eclipse.build.configs}/birt.tests/test.scripts" />
 		</ant>
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="InformAutomation" >
 			<property name="runner.dir" value="${eclipse.build.configs}/birt.tests/test.scripts" />
-		</ant>		
+		</ant>
+
+		<ant antfile="${eclipse.build.configs}/../helper.xml" target="genTestResultSummary" />
 	</target>
 	
 	<target name="runBirtPerformance">
@@ -298,31 +316,31 @@
 		<mkdir dir="${tmpsite2}/new/eclipse/plugins" />
 
 		<!-- BIRT framework-->
-		<exec executable="unzip" dir="${buildDirectory}/${buildLabel}">
+		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-q birt-report-framework-sdk-2_2_0.zip -d ${tmpsite}" />
 		</exec>
 		<unpackUpdateJars site="${tmpsite}/eclipse" output="${tmpsite}/new/eclipse"/>
 		<!-- BIRT third party -->
-		<exec executable="unzip" dir="${buildDirectory}/${buildLabel}">
+		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-q birt-third-party-2_2_0.zip -d ${tmpsite2}" />
 		</exec>
 		<unpackUpdateJars site="${tmpsite2}/eclipse" output="${tmpsite2}/new/eclipse"/>
 
-		<exec executable="unzip" dir="${buildDirectory}/${buildLabel}">
+		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-o -q birt-report-framework-sdk-2_2_0.zip -d ${tmpsite}" />
 		</exec>
-		<exec executable="unzip" dir="${buildDirectory}/${buildLabel}">
+		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-o -q birt-third-party-2_2_0.zip -d ${tmpsite2}" />
 		</exec>
 
-		<move file="${buildDirectory}/${buildLabel}/birt-report-framework-sdk-2_2_0.zip" tofile="${buildDirectory}/${buildLabel}/birt-report-framework-sdk-2_2_0.bak.zip" />
-		<move file="${buildDirectory}/${buildLabel}/birt-third-party-2_2_0.zip" tofile="${buildDirectory}/${buildLabel}/birt-third-party-2_2_0.bak.zip" />
+		<move file="${buildDirectory}/${buildId}/birt-report-framework-sdk-2_2_0.zip" tofile="${buildDirectory}/${buildId}/birt-report-framework-sdk-2_2_0.bak.zip" />
+		<move file="${buildDirectory}/${buildId}/birt-third-party-2_2_0.zip" tofile="${buildDirectory}/${buildId}/birt-third-party-2_2_0.bak.zip" />
 
 		<exec executable="zip" dir="${tmpsite}/new">
-			<arg line="-q ${buildDirectory}/${buildLabel}/birt-report-framework-sdk-2_2_0.zip -r eclipse" />
+			<arg line="-q ${buildDirectory}/${buildId}/birt-report-framework-sdk-2_2_0.zip -r eclipse" />
 		</exec>
 		<exec executable="zip" dir="${tmpsite2}/new">
-			<arg line="-q ${buildDirectory}/${buildLabel}/birt-third-party-2_2_0.zip -r eclipse" />
+			<arg line="-q ${buildDirectory}/${buildId}/birt-third-party-2_2_0.zip -r eclipse" />
 		</exec>	
 	</target>
 
@@ -332,14 +350,14 @@
 		<property name="birtThirdPartyPackageName" value="birt-third-party-2_2_0" />
 		<property name="birtRCPPackageName" value="birt-rcp-2_2_0" />
 		
-		<exec executable="unzip" dir="${buildDirectory}/${buildLabel}">
-			<arg line="-o -q ${birtFramePackageName}.zip -d ${buildDirectory}/${buildLabel}" />
+		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
+			<arg line="-o -q ${birtFramePackageName}.zip -d ${buildDirectory}/${buildId}" />
 		</exec>
-		<exec executable="unzip" dir="${buildDirectory}/${buildLabel}">
-			<arg line="-o -q ${birtThirdPartyPackageName}.zip -d ${buildDirectory}/${buildLabel}" />
+		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
+			<arg line="-o -q ${birtThirdPartyPackageName}.zip -d ${buildDirectory}/${buildId}" />
 		</exec>
-		<exec executable="unzip" dir="${buildDirectory}/${buildLabel}">
-			<arg line="-o -q ${birtRCPPackageName}.zip -d ${buildDirectory}/${buildLabel}" />
+		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
+			<arg line="-o -q ${birtRCPPackageName}.zip -d ${buildDirectory}/${buildId}" />
 		</exec>
 	</target>
 
@@ -355,5 +373,16 @@
             </ant>
     </target>
 
+	<target name="generateJavaCrossReference">
+        <ant antfile="${eclipse.build.configs}/../../extras/CrossReferenceGenerator.xml" 
+        	target="generateJavaCrossReference" >
+        </ant>
+	</target>
 
+	<target name="generateDocumentCheck">
+        <ant antfile="${eclipse.build.configs}/../../extras/CrossReferenceGenerator.xml" 
+        	target="generateDocumentCheck" >
+        </ant>
+	</target>
+        	
 </project>

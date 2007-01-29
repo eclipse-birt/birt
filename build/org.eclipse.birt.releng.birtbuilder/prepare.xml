@@ -1,9 +1,9 @@
 <project name="Checkout BIRT PDE Builder before build" default="checkout">
 
-        <property name="working.dir" value="/home/adb/farrah/BIRTBuilder"/>
+        <property name="working.dir" value="/home/adb/releng/BIRTBuilder"/>
         <property name="cvsRoot" value=":pserver:anonymous@dev.eclipse.org:/cvsroot/birt"/>
-        <property name="cvs.dir" value="/home/adb/farrah/P4/dailybuild" />
-        <property name="work.dir" value="/home/adb/farrah/BIRTBuilder" />
+        <property name="cvs.dir" value="/home/adb/releng/P4/dailybuild" />
+        <property name="work.dir" value="/home/adb/releng/BIRTBuilder" />
         <property name="checkout.version" value=" "/>
         <property name="cvs.options" value=" "/>
 
@@ -35,4 +35,3 @@
                 </delete>
         </target>
 </project>
-~
