@@ -24,7 +24,10 @@
 		<antcall target="org.eclipse.birt.report.tests.engine"/>
 		<antcall target="org.eclipse.birt.report.tests.model"/>
 		<antcall target="org.eclipse.birt.report.tests.chart"/>
-		<antcall target="org.eclipse.birt.report.tests.viewer"/>
+		<antcall target="org.eclipse.birt.report.tests"/>
+		<!-- obselete -->
+		<!--<antcall target="org.eclipse.birt.report.tests.viewer"/>-->
+		
 		<!--
 		<antcall target="org.eclipse.birt.report.designer.tests"/>
 		-->
@@ -46,6 +49,7 @@
 		<ant dir="${working.dir}/org.eclipse.birt.core.tests_${org.eclipse.birt.core.tests}" antfile="test.xml">
 			<property name="os" value="${os}"/>
 			<property name="eclipse-home" value="${eclipse-home}"/>
+			<property name="jvm" value="${jvm15_home}/bin/java"/>
 			<property name="test-output" value="${test-output}/org.eclipse.birt.core.AllTests.xml"/>
 		</ant>
 	</target>
@@ -54,6 +58,7 @@
 		<ant dir="${working.dir}/org.eclipse.birt.report.engine.tests_${org.eclipse.birt.report.engine.tests}" antfile="test.xml">
 			<property name="os" value="${os}"/>
 			<property name="eclipse-home" value="${eclipse-home}"/>
+			<property name="jvm" value="${jvm15_home}/bin/java"/>
 			<property name="test-output" value="${test-output}/org.eclipse.birt.report.engine.AllTests.xml"/>
 		</ant>
 	</target>
@@ -62,6 +67,7 @@
 		<ant dir="${working.dir}/org.eclipse.birt.report.engine.emitter.pdf.tests_${org.eclipse.birt.report.engine.emitter.pdf.tests}" antfile="test.xml">
 			<property name="os" value="${os}"/>
 			<property name="eclipse-home" value="${eclipse-home}"/>
+			<property name="jvm" value="${jvm15_home}/bin/java"/>
 			<property name="test-output" value="${test-output}/org.eclipse.birt.report.engine.emitter.pdf.AllTests.xml"/>
 		</ant>
 	</target>
@@ -70,6 +76,7 @@
 		<ant dir="${working.dir}/org.eclipse.birt.report.engine.emitter.html.tests_${org.eclipse.birt.report.engine.emitter.html.tests}" antfile="test.xml">
 			<property name="os" value="${os}"/>
 			<property name="eclipse-home" value="${eclipse-home}"/>
+			<property name="jvm" value="${jvm15_home}/bin/java"/>
 			<property name="test-output" value="${test-output}/org.eclipse.birt.report.engine.emitter.html.AllTests.xml"/>
 		</ant>
 	</target>
@@ -79,6 +86,7 @@
 			<property name="os" value="${os}"/>
 			<property name="eclipse-home" value="${eclipse-home}"/>
 			<property name="vmargs" value="  -Xms128M -Xmx256M"/>
+			<property name="jvm" value="${jvm15_home}/bin/java"/>
 			<property name="test-output" value="${test-output}/org.eclipse.birt.report.model.AllTests.xml"/>
 		</ant>
 	</target>
@@ -87,6 +95,7 @@
 		<ant dir="${working.dir}/org.eclipse.birt.report.model.adapter.oda.tests_${org.eclipse.birt.report.model.adapter.oda.tests}" antfile="test.xml">
 			<property name="os" value="${os}"/>
 			<property name="eclipse-home" value="${eclipse-home}"/>
+			<property name="jvm" value="${jvm15_home}/bin/java"/>
 			<property name="test-output" value="${test-output}/org.eclipse.birt.report.model.adapter.oda.AllTests.xml"/>
 		</ant>
 	</target>
@@ -95,6 +104,7 @@
         <ant dir="${working.dir}/org.eclipse.birt.data.tests_${org.eclipse.birt.data.tests}" antfile="test.xml">
 			<property name="os" value="${os}"/>
         	<property name="eclipse-home" value="${eclipse-home}"/>
+        	<property name="jvm" value="${jvm15_home}/bin/java"/>
         	<property name="test-output" value="${test-output}/org.eclipse.birt.data.engine.AllTests.xml"/>
         </ant>
     </target>
@@ -103,6 +113,7 @@
         <ant dir="${working.dir}/org.eclipse.birt.report.data.oda.jdbc.tests_${org.eclipse.birt.report.data.oda.jdbc.tests}" antfile="test.xml">
             <property name="os" value="${os}"/>
         	<property name="eclipse-home" value="${eclipse-home}"/>
+        	<property name="jvm" value="${jvm15_home}/bin/java"/>
         	<property name="test-output" value="${test-output}/org.eclipse.birt.report.data.oda.jdbc.AllTests.xml"/>
         </ant>
     </target>
@@ -113,6 +124,7 @@
 			<property name="os" value="${os}"/>
 			<property name="eclipse-home" value="${eclipse-home}"/>
 			<property name="vmargs" value="  -Xms800M -Xmx800M"/>
+        	<property name="jvm" value="${jvm15_home}/bin/java"/>
         	<property name="test-output" value="${test-output}/org.eclipse.birt.tests.data.engine.AllTests.xml"/>
         </ant>
     </target>
@@ -121,6 +133,7 @@
         <ant dir="${working.dir}/org.eclipse.birt.chart.tests_${org.eclipse.birt.chart.tests}" antfile="test.xml">              
         	<property name="os" value="${os}"/>
         	<property name="eclipse-home" value="${eclipse-home}"/>
+        	<property name="jvm" value="${jvm15_home}/bin/java"/>
         	<property name="test-output" value="${test-output}/org.eclipse.birt.chart.tests.AllTests.xml"/>
         </ant>
     </target>
@@ -130,6 +143,7 @@
         <ant dir="${working.dir}/org.eclipse.birt.test.performance_${org.eclipse.birt.test.performance}" antfile="test.xml">
 			<property name="os" value="${os}"/>
 			<property name="eclipse-home" value="${eclipse-home}"/>
+        	<property name="jvm" value="${jvm15_home}/bin/java"/>
 			<property name="vmargs" value="  -Xms800M -Xmx800M -Djava.awt.headless=true"/>
         </ant>
     </target>
@@ -139,6 +153,7 @@
 			<property name="os" value="${os}"/>
 			<property name="eclipse-home" value="${eclipse-home}"/>
 			<property name="vmargs" value="  -Xms800M -Xmx800M"/>
+        	<property name="jvm" value="${jvm15_home}/bin/java"/>
         	<property name="test-output" value="${test-output}/org.eclipse.birt.report.tests.engine.AllTests.xml"/>       	
         </ant>
     </target>
@@ -152,7 +167,18 @@
         	<property name="test-output" value="${test-output}/org.eclipse.birt.report.tests.chart.AllTests.xml"/>
         </ant>
     </target>
-	
+    <target name="org.eclipse.birt.report.tests" depends="init">
+    	<echo message="Starting unit test for org.eclipse.birt.report.tests"/>
+        <ant dir="${working.dir}/org.eclipse.birt.report.tests_${org.eclipse.birt.report.tests}" antfile="test.xml">
+			<property name="os" value="${os}"/>
+			<property name="eclipse-home" value="${eclipse-home}"/>
+        	<property name="jvm" value="${jvm15_home}/bin/java"/>
+			<property name="vmargs" value="  -Xms256M -Xmx256M -Djava.awt.headless=true"/>
+        	<property name="test-output" value="${test-output}/org.eclipse.birt.report.tests.regression.AllTests.xml"/>
+        </ant>
+    </target>	
+	<!-- OBSOLETE -->
+	<!--
     <target name="org.eclipse.birt.report.tests.viewer" depends="init">
     	<echo message="Starting unit test for org.eclipse.birt.report.tests.viewer"/>
         <ant dir="${working.dir}/org.eclipse.birt.report.tests.viewer_${org.eclipse.birt.report.tests.viewer}" antfile="test.xml">
@@ -165,12 +191,14 @@
         	<property name="birtbuild" value="${buildId}"/>
         </ant>
     </target>
+    -->
     <target name="org.eclipse.birt.report.tests.model" depends="init">
     	<echo message="Starting unit test for org.eclipse.birt.report.tests.model"/>
         <ant dir="${working.dir}/org.eclipse.birt.report.tests.model_${org.eclipse.birt.report.tests.model}" antfile="test.xml">
 			<property name="os" value="${os}"/>
 			<property name="eclipse-home" value="${eclipse-home}"/>
 			<property name="vmargs" value="  -Xms800M -Xmx800M"/>
+        	<property name="jvm" value="${jvm15_home}/bin/java"/>
         	<property name="test-output" value="${test-output}/org.eclipse.birt.report.tests.model.AllTests.xml"/>
         </ant>
     </target>
