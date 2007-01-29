@@ -1,0 +1,1 @@
+ant -f BirtRunner.xml -propertyfile BirtRunner.properties -logfile BirtTest.log
