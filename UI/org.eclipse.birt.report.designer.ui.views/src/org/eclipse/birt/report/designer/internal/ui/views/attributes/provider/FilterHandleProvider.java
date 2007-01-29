@@ -337,18 +337,18 @@ public class FilterHandleProvider extends AbstractFormHandleProvider
 		// Clear the value of value2 when operator is not "between" or "not
 		// between"
 		// if ( property.equals( "Operator" ) )
-		if ( property.equals( modelAdapter.getColumnNames( columnKeys )[1] ) )
-		{
-			if ( !( value.equals( getDisplayName( FilterCondition.OPERATOR_MEMBER,
-					DesignChoiceConstants.FILTER_OPERATOR_BETWEEN ) ) || value.equals( getDisplayName( FilterCondition.OPERATOR_MEMBER,
-					DesignChoiceConstants.FILTER_OPERATOR_NOT_BETWEEN ) ) ) )
-			{
-				modelAdapter.setStringValue( input.get( 0 ),
-						data,
-						FilterCondition.VALUE2_MEMBER,
-						"" ); //$NON-NLS-1$
-			}
-		}
+//		if ( property.equals( modelAdapter.getColumnNames( columnKeys )[1] ) )
+//		{
+//			if ( !( value.equals( getDisplayName( FilterCondition.OPERATOR_MEMBER,
+//					DesignChoiceConstants.FILTER_OPERATOR_BETWEEN ) ) || value.equals( getDisplayName( FilterCondition.OPERATOR_MEMBER,
+//					DesignChoiceConstants.FILTER_OPERATOR_NOT_BETWEEN ) ) ) )
+//			{
+//				modelAdapter.setStringValue( input.get( 0 ),
+//						data,
+//						FilterCondition.VALUE2_MEMBER,
+//						"" ); //$NON-NLS-1$
+//			}
+//		}
 
 		int index = Arrays.asList( columnNames ).indexOf( property );
 		String key = columnKeys[index];

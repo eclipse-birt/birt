@@ -858,6 +858,10 @@ public class HighlightRuleBuilder extends BaseDialog
 		for ( Iterator iter = DEUtil.getStyles( ); iter.hasNext( ); )
 		{
 			StyleHandle styleHandle = (StyleHandle) iter.next( );
+			if ( styleHandle.isPredefined( ) )
+			{
+				continue;
+			}
 			String styleName = styleHandle.getName( );
 			stylesChooser.add( styleName );
 			styles.put( (Object) styleName, (Object) styleHandle );
@@ -1274,10 +1278,16 @@ public class HighlightRuleBuilder extends BaseDialog
 
 				rule.setProperty( HighlightRule.OPERATOR_MEMBER,
 						DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
-				rule.setProperty( HighlightRule.VALUE1_MEMBER,
-						DEUtil.resolveNull( value1.getText( ) ) );
-				rule.setProperty( HighlightRule.VALUE2_MEMBER,
-						DEUtil.resolveNull( value2.getText( ) ) );
+				if ( value1.isVisible( ) )
+				{
+					rule.setProperty( HighlightRule.VALUE1_MEMBER,
+							DEUtil.resolveNull( value1.getText( ) ) );
+				}
+				if ( value2.isVisible( ) )
+				{
+					rule.setProperty( HighlightRule.VALUE2_MEMBER,
+							DEUtil.resolveNull( value2.getText( ) ) );
+				}
 				// set test expression into highlight rule.
 				rule.setTestExpression( DEUtil.resolveNull( expression.getText( ) ) );
 
@@ -1340,11 +1350,11 @@ public class HighlightRuleBuilder extends BaseDialog
 				handle.setTestExpression( DEUtil.resolveNull( expression.getText( ) ) );
 				handle.setOperator( DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
 
-				handle.setValue1( DEUtil.resolveNull( value1.getText( ) ) );
-				if ( handle.getOperator( )
-						.equals( DesignChoiceConstants.MAP_OPERATOR_BETWEEN )
-						|| handle.getOperator( )
-								.equals( DesignChoiceConstants.MAP_OPERATOR_NOT_BETWEEN ) )
+				if ( value1.isVisible( ) )
+				{
+					handle.setValue1( DEUtil.resolveNull( value1.getText( ) ) );
+				}
+				if ( value2.isVisible( ) )
 				{
 					handle.setValue2( DEUtil.resolveNull( value2.getText( ) ) );
 				}

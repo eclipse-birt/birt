@@ -673,10 +673,16 @@ public class MapRuleBuilder extends BaseDialog
 
 				rule.setProperty( HighlightRule.OPERATOR_MEMBER,
 						DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
-				rule.setProperty( HighlightRule.VALUE1_MEMBER,
-						DEUtil.resolveNull( value1.getText( ) ) );
-				rule.setProperty( HighlightRule.VALUE2_MEMBER,
-						DEUtil.resolveNull( value2.getText( ) ) );
+				if ( value1.isVisible( ) )
+				{
+					rule.setProperty( HighlightRule.VALUE1_MEMBER,
+							DEUtil.resolveNull( value1.getText( ) ) );
+				}
+				if ( value2.isVisible( ) )
+				{
+					rule.setProperty( HighlightRule.VALUE2_MEMBER,
+							DEUtil.resolveNull( value2.getText( ) ) );
+				}
 
 				rule.setProperty( MapRule.DISPLAY_MEMBER,
 						DEUtil.resolveNull( display.getText( ) ) );
@@ -690,9 +696,14 @@ public class MapRuleBuilder extends BaseDialog
 			{
 				handle.setOperator( DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
 
-				handle.setValue1( DEUtil.resolveNull( value1.getText( ) ) );
-				handle.setValue2( DEUtil.resolveNull( value2.getText( ) ) );
-
+				if ( value1.isVisible( ) )
+				{
+					handle.setValue1( DEUtil.resolveNull( value1.getText( ) ) );
+				}
+				if ( value2.isVisible( ) )
+				{
+					handle.setValue2( DEUtil.resolveNull( value2.getText( ) ) );
+				}
 				handle.setDisplay( DEUtil.resolveNull( display.getText( ) ) );
 
 				handle.setTestExpression( DEUtil.resolveNull( expression.getText( ) ) );
