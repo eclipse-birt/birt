@@ -21,7 +21,7 @@ import java.util.Map;
 class CacheMapManager
 {
 	// map of cache relationship
-	private Map cacheMap;
+	//private Map cacheMap;
 		
 	// folder util instance
 	private FolderUtil folderUtil;
@@ -29,13 +29,13 @@ class CacheMapManager
 	
 	private static Integer cacheCounter1 = new Integer(0);
 	private static Integer cacheCounter2 = new Integer(0);
-	
+	private static Map cacheMap = new HashMap();
 	/**
 	 * construction
 	 */
 	CacheMapManager( String tempDir )
 	{
-		this.cacheMap = new HashMap( );
+		
 		this.folderUtil = new FolderUtil( );
 		this.tempDir = tempDir;
 	}
@@ -47,9 +47,9 @@ class CacheMapManager
 	{
 		String cacheDirStr = null;
 		
-		synchronized ( this.cacheMap )
+		synchronized ( cacheMap )
 		{
-			cacheDirStr = (String) this.cacheMap.get( dsAndDs );
+			cacheDirStr = (String) cacheMap.get( dsAndDs );
 		}
 		
 		if ( cacheDirStr != null && new File( cacheDirStr ).exists( ) == true )
@@ -58,9 +58,9 @@ class CacheMapManager
 		}
 		else
 		{
-			synchronized ( this.cacheMap )
+			synchronized ( cacheMap )
 			{
-				cacheDirStr = (String) this.cacheMap.get( dsAndDs );
+				cacheDirStr = (String) cacheMap.get( dsAndDs );
 				if ( cacheDirStr != null
 						&& new File( cacheDirStr ).exists( ) == true )
 				{
@@ -68,7 +68,7 @@ class CacheMapManager
 				}
 				else
 				{
-					this.cacheMap.put( dsAndDs,
+					cacheMap.put( dsAndDs,
 							folderUtil.createSessionTempDir( ) );
 					return true;
 				}
@@ -83,9 +83,9 @@ class CacheMapManager
 	boolean doesLoadFromCache( DataSourceAndDataSet dsAndDs )
 	{
 		String cacheDirStr = null;
-		synchronized ( this.cacheMap )
+		synchronized ( cacheMap )
 		{
-			cacheDirStr = (String) this.cacheMap.get( dsAndDs );
+			cacheDirStr = (String) cacheMap.get( dsAndDs );
 		}
 		if ( cacheDirStr != null && new File( cacheDirStr ).exists( ) == true )
 			return true;
@@ -117,7 +117,7 @@ class CacheMapManager
 	void clearCache( DataSourceAndDataSet dsAndDs )
 	{
 		Object cacheDir = null;
-		synchronized ( this.cacheMap )
+		synchronized ( cacheMap )
 		{
 			cacheDir = cacheMap.remove( dsAndDs );
 		}

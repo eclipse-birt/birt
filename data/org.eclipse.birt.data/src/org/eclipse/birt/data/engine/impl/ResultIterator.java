@@ -408,16 +408,31 @@ public class ResultIterator implements IResultIterator
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#skipToEnd(int)
 	 */
-	public void skipToEnd( int groupLevel ) throws DataException
+	public void skipToEnd( int groupLevel ) throws BirtException
 	{
 		checkStarted( );
-		odiResult.last( groupLevel );
+		goThroughGapRows( groupLevel );
 		logger.logp( Level.FINER,
 				ResultIterator.class.getName( ),
 				"skipToEnd",
 				"skipping rows to the last row in the current group" );
 	}
 
+	/**
+	 * 
+	 * @param groupLevel
+	 * @throws DataException
+	 * @throws BirtException
+	 */
+	protected void goThroughGapRows( int groupLevel ) throws DataException,
+			BirtException
+	{
+		//try to keep all gap row when doing skip
+		while(	groupLevel!= odiResult.getEndingGroupLevel( )&& this.next( ) )
+		{			
+		}
+	}
+	
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getStartingGroupLevel()
 	 */
@@ -494,8 +509,14 @@ public class ResultIterator implements IResultIterator
 	 */
 	public void close( ) throws BirtException
 	{
-		// save results when neededs
-		this.getRdSaveHelper( ).doSaveFinish( );
+		if ( this.getRdSaveHelper( ).needsSaveToDoc( ) )
+		{
+    		// save all gap row
+			while ( this.next( ) )
+				;
+			// save results when neededs
+			this.getRdSaveHelper( ).doSaveFinish( );
+		}
 
 		if ( odiResult != null )
 				odiResult.close( );
