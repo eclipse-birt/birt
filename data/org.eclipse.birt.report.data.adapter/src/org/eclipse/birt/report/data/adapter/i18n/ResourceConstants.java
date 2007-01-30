@@ -26,4 +26,6 @@ public class ResourceConstants
 	
 	public final static String DATASETHANDLE_NULL_ERROR = "datasethandle.null.error";
 	public final static String INVALID_COLUMN_INDEX = "datasethandle.invalidColumnIndex";
+	
+	public final static String INVALID_DESIGNTIME_METHOD ="context.invalidDesigntimeMethod";
 }
