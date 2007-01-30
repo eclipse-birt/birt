@@ -7,6 +7,8 @@ BASH_ENV=$HOME/.bashrc
 USERNAME=`whoami`
 xhost +$HOSTNAME
 DISPLAY=:0.0
+export DISPLAY
+
 CVS_RSH=ssh
 ulimit -c unlimited
 export CVS_RSH USERNAME BASH_ENV LD_LIBRARY_PATH DISPLAY
@@ -58,7 +60,7 @@ builderDir=/home/adb/releng/BIRTBuilder/
 buildType=I
 
 # directory where to copy build
-postingDirectory=/home/adb/releng/BIRTOutput
+postingDirectory=/home/adb/rollingBuild/BIRTOutput/BIRT2.2-download
 
 # flag to indicate if test build
 testBuild=""
@@ -201,7 +203,7 @@ echo $tagMaps >> adb.log
 echo $compareMaps >> adb.log
 
 #full command with args
-buildCommand="$antRunner -q -buildfile buildAll.xml $mail $testBuild $compareMaps -DmapVersionTag=$mapVersionTag -DpostingDirectory=$postingDirectory -Dbootclasspath=$bootclasspath -DbuildType=$buildType -D$buildType=true -DbuildId=$buildId -Dbuildid=$buildId -DbuildLabel=$buildId -Dtimestamp=$timestamp $skipPerf $skipTest $tagMaps -DJ2SE-1.5=$bootclasspath_15  -DlogExtension=.xml $javadoc $updateSite $sign -DgenerateFeatureVersionSuffix=true -Djava15-home=$bootclasspath_15 -DbuildDirectory=/home/adb/releng/src -DbaseLocation=/home/adb/releng/baseLocation -DgroupConfiguration=true -DjavacSource=1.4 -DjavacTarget=1.4 -DjavacVerbose=true -Dbasebuilder=/home/adb/releng/BaseBuilder -DpostPackage=BIRTOutput  -Dtest.dir=/home/adb/unittest -Dp4.home=/home/adb/releng/P4 -Djvm15_home=$jvm15_home -DmapCvsRoot=:ext:xgu@dev.eclipse.org:/cvsroot/birt -DmapTag.properties=/home/adb/releng/BIRTBuilder/mapTag.properties -Dbuild.date=$builddate -Dtomcat.install.dir=/home/adb/jakarta-tomcat-5.5.7"
+buildCommand="$antRunner -q -buildfile buildAll.xml $mail $testBuild $compareMaps -DmapVersionTag=$mapVersionTag -DpostingDirectory=$postingDirectory -Dbootclasspath=$bootclasspath -DbuildType=$buildType -D$buildType=true -DbuildId=$buildId -Dbuildid=$buildId -DbuildLabel=$buildId -Dtimestamp=$timestamp $skipPerf $skipTest $tagMaps -DJ2SE-1.5=$bootclasspath_15  -DlogExtension=.xml $javadoc $updateSite $sign -DgenerateFeatureVersionSuffix=true -Djava15-home=$bootclasspath_15 -DbuildDirectory=/home/adb/releng/src -DbaseLocation=/home/adb/releng/baseLocation -DgroupConfiguration=true -DjavacSource=1.4 -DjavacTarget=1.4 -DjavacVerbose=true -Dbasebuilder=/home/adb/releng/BaseBuilder -DpostPackage=BIRTOutput  -Dtest.dir=/home/adb/unittest -Dp4.home=/home/adb/releng/P4 -Djvm15_home=$jvm15_home  -DmapTag.properties=/home/adb/releng/BIRTBuilder/mapTag.properties -Dbuild.date=$builddate -DmapCvsRoot=:pserver:anonymous@dev.eclipse.org:/cvsroot/birt"
 
 #skipPreBuild
 
@@ -220,4 +222,4 @@ $buildCommand >> adb.log
 
 #clean up
 #rm -rf $builderDir
-
+rm -rf /home/adb/releng/src/$buildId
