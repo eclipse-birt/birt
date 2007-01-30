@@ -4,7 +4,7 @@
         <property name="cvsRoot" value=":pserver:anonymous@dev.eclipse.org:/cvsroot/birt"/>
         <property name="cvs.dir" value="/home/adb/releng/P4/dailybuild" />
         <property name="work.dir" value="/home/adb/releng/BIRTBuilder" />
-        <property name="checkout.version" value=" "/>
+        <property name="checkout.version" value=" -r v20070129"/>
         <property name="cvs.options" value=" "/>
 
         <target name="checkout" depends="clean">
