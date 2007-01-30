@@ -437,12 +437,12 @@
 		<property name="AllInOne-Linux-dest" value="${baseLocation}/../PackageFiles/AllInOne-Linux"/>
 		<property name="file-version" value="${file-prefix}${timestamp.TODAY_US}"/>
 
-		<echo message="DTP url is http://download.eclipse.org/datatools/downloads/drops/N_DTP_1.0/${file-version}.zip" />
+		<echo message="DTP url is http://download.eclipse.org/datatools/downloads/drops/N_DTP_1.5/${file-version}.zip" />
 
-		<get src="http://download.eclipse.org/datatools/downloads/drops/N_DTP_1.0/${file-version}.zip"  dest="${p4.home}/downloads/${file-version}.zip" verbose="true" usetimestamp="true" /> 
+		<get src="http://download.eclipse.org/datatools/downloads/drops/N_DTP_1.5/${file-version}.zip"  dest="${postingDirectory}/../platform/DTP/${file-version}.zip" verbose="true" usetimestamp="true" /> 
 
 		<echo message="START to Unzip the downloaded Plugins files" />
-		<unzip src="${p4.home}/downloads/${file-version}.zip" dest="${p4.home}/downloads/${file-version}"/>
+		<unzip src="${postingDirectory}/../platform/DTP/${file-version}.zip" dest="${p4.home}/downloads/${file-version}"/>
 		
 		<echo message="Clean last download stuff" />
 		<delete includeemptydirs="true" failonerror="false">
