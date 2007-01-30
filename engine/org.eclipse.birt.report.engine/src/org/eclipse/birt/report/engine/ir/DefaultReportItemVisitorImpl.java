@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * Default implementation for IReportItemVisitor interface
  * 
- * @version $Revision: 1.7 $ $Date: 2006/04/27 09:52:28 $
  */
 public class DefaultReportItemVisitorImpl implements IReportItemVisitor
 {

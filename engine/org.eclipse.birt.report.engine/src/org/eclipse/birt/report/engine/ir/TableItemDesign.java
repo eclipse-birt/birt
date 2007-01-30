@@ -17,7 +17,6 @@ import java.util.ArrayList;
  * 
  * Tabel item.
  * 
- * @version $Revision: 1.8 $ $Date: 2005/11/17 16:50:43 $
  */
 public class TableItemDesign extends ListingDesign
 {

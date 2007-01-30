@@ -8,7 +8,6 @@ package org.eclipse.birt.core.framework;
 
 /**
  *
- * @version $Revision: 1.1 $ $Date: 2005/07/06 11:16:26 $
  */
 public interface IPlatformPath
 {

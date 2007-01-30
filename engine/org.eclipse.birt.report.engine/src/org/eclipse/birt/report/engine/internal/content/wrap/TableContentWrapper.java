@@ -20,7 +20,6 @@ import org.eclipse.birt.report.engine.content.ITableContent;
  * 
  * the table content object which contains columns object and row objects
  * 
- * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:53 $
  */
 public class TableContentWrapper extends AbstractContentWrapper
 		implements

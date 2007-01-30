@@ -58,6 +58,18 @@ public abstract class AbstractArea implements IArea
 	 */
 	protected IContent content;
 
+	
+	protected float scale = 1.0f;
+	
+	public void setScale(float scale)
+	{
+		this.scale = scale;
+	}
+	
+	public float getScale()
+	{
+		return this.scale;
+	}
 
 	/**
 	 * constructor

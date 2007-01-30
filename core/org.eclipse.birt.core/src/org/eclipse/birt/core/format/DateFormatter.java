@@ -28,7 +28,6 @@ import java.util.logging.Logger;
  * this version, we also provide some new API for further implementation in the
  * future
  * 
- * @version $Revision: 1.2 $ $Date: 2007/01/29 07:02:25 $
  */
 public class DateFormatter
 {

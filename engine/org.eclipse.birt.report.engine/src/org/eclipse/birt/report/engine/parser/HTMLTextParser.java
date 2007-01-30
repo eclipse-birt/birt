@@ -37,7 +37,6 @@ import org.w3c.tidy.Tidy;
  * that need to be processed to output are the descendant nodes of "body" node.
  * <p>
  * 
- * @version $Revision: 1.9 $ $Date: 2006/03/08 02:51:02 $
  */
 public class HTMLTextParser
 {

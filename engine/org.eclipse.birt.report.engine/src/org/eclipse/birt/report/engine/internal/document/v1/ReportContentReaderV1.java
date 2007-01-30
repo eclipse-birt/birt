@@ -41,7 +41,6 @@ import org.eclipse.birt.report.engine.internal.document.IReportContentReader;
 /**
  * read the content from the content stream.
  * 
- * @version $Revision: 1.3 $ $Date: 2006/04/28 06:44:28 $
  */
 class ReportContentReaderV1 implements IReportContentReader
 {

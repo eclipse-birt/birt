@@ -18,7 +18,6 @@ import org.eclipse.birt.report.engine.presentation.IPageHint;
 /**
  * interfaces used to read the page hints.
  *
- * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:52 $
  */
 public interface IPageHintReader
 {

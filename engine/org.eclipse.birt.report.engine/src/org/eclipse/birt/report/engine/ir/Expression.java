@@ -17,7 +17,6 @@ import org.eclipse.birt.core.data.DataType;
 /**
  * Expression Type. see report design schema for reference.
  * 
- * @version $Revision: 1.8 $ $Date: 2005/11/11 10:26:39 $
  */
 public class Expression
 		implements

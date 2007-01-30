@@ -27,7 +27,6 @@ import org.w3c.dom.css.CSSPrimitiveValue;
  * 
  * Complete Class Desc
  * 
- * @version $Id: URIManager.java,v 1.6 2006/10/13 03:36:50 wyan Exp $
  */
 public class URIManager extends IdentifierManager
 {

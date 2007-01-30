@@ -30,7 +30,6 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * 
  * column content object
  * 
- * @version $Revision: 1.8 $ $Date: 2006/06/07 09:51:52 $
  */
 public class Column implements IColumn
 {

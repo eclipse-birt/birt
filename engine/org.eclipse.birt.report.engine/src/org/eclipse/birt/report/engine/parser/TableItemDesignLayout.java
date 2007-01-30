@@ -25,7 +25,6 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
 /**
  * calculate the cell id explictly.
  * 
- * @version $Revision: 1.4 $ $Date: 2006/06/13 15:37:23 $
  */
 public class TableItemDesignLayout
 {

@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.engine.layout.pdf;
 
+import java.util.HashMap;
+
+import org.eclipse.birt.report.engine.api.RenderOptionBase;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
@@ -28,9 +31,11 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 	protected PDFLayoutEngineContext context;
 	protected PDFLayoutManagerFactory factory;
 	protected ILayoutPageHandler handle;
+	protected HashMap options;
 
 	public PDFReportLayoutEngine( )
 	{
+		options = new HashMap();
 		context = new PDFLayoutEngineContext( this );
 		factory = new PDFLayoutManagerFactory( context );
 		context.setFactory( factory );
@@ -56,10 +61,31 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 
 	}
 
+	protected void setupLayoutOptions()
+	{
+		Object fitToPage = options.get(RenderOptionBase.FIT_TO_PAGE);
+		if(fitToPage!=null && fitToPage instanceof Boolean)
+		{
+			if(((Boolean)fitToPage).booleanValue())
+			{
+				context.setFitToPage(true);
+			}
+		}
+		Object pageBreakOnly = options.get(RenderOptionBase.PAGEBREAK_PAGINATION_ONLY);
+		if(pageBreakOnly!=null && pageBreakOnly instanceof Boolean)
+		{
+			if(((Boolean)pageBreakOnly).booleanValue())
+			{
+				context.setPagebreakPaginationOnly(true);
+			}
+		}
+		
+	}
 	public void layout( IReportExecutor executor, IContentEmitter output, boolean pagination )
 	{
 		context.setAllowPageBreak(pagination);
 		this.executor = executor;
+		setupLayoutOptions();
 		IReportContent report = executor.execute( );
 		context.setReport( report );
 		if ( output != null )
@@ -108,6 +134,16 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 		{
 			context.setCancel( true );
 		}
+	}
+	
+	public void setOption(String name, Object value)
+	{
+		options.put(name, value);
+	}
+	
+	public Object getOption(String name)
+	{
+		return options.get(name);
 	}
 
 }

@@ -14,7 +14,6 @@ import org.eclipse.birt.report.engine.extension.IRowMetaData;
 
 /**
  *
- * @version $Revision:$ $Date:$
  */
 public class RowMetaData implements IRowMetaData
 {

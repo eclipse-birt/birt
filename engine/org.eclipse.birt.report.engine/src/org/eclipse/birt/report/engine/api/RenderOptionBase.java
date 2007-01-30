@@ -38,6 +38,9 @@ public class RenderOptionBase implements IRenderOption
 	public static final String OUTPUT_STREAM = "outputStream"; //$NON-NLS-1$
 
 	public static final String LOCALE = "locale"; //$NON-NLS-1$
+	
+	public static final String FIT_TO_PAGE = "fitToPage";
+	public static final String PAGEBREAK_PAGINATION_ONLY = "pagebreakPaginationOnly";
 
 	/**
 	 * a hash map that stores the rendering options

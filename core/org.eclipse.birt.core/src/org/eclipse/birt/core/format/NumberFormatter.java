@@ -24,7 +24,6 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * 
- * @version $Revision: 1.19 $ $Date: 2006/09/13 06:41:42 $
  * 
  * Defines a number formatting class. It does the following: 1. In constructor,
  * convert format string to Java format string. 2. Expose a format function,

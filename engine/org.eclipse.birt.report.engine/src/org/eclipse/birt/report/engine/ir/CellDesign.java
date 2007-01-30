@@ -19,7 +19,6 @@ import java.util.ArrayList;
  * Cell type is used by Row, which is the base element of the table item and
  * grid item.
  * 
- * @version $Revision: 1.8 $ $Date: 2006/09/06 10:12:46 $
  */
 public class CellDesign extends ReportItemDesign
 {

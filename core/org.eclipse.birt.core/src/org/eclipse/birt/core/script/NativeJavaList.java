@@ -17,7 +17,6 @@ import org.mozilla.javascript.Scriptable;
 
 /**
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:58:29 $
  */
 public class NativeJavaList extends NativeJavaObject
 {

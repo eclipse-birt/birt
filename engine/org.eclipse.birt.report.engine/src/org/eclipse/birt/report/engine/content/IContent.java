@@ -24,7 +24,6 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * 
  * the content of report document.
  * 
- * @version $Revision: 1.9 $ $Date: 2006/06/13 15:37:17 $
  */
 public interface IContent extends IElement, CSSStylableElement
 {

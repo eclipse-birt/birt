@@ -19,7 +19,6 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * column definition used by table content.
  * 
  * 
- * @version $Revision: 1.4 $ $Date: 2006/06/07 09:52:02 $
  */
 public interface IColumn
 {

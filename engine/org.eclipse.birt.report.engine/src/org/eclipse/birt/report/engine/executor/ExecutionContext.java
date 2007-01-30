@@ -87,7 +87,6 @@ import org.mozilla.javascript.WrapFactory;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.84.2.2.2.1 $ $Date: 2006/10/13 08:15:27 $
  */
 public class ExecutionContext
 {

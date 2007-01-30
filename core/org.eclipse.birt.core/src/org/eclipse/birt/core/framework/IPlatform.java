@@ -18,7 +18,6 @@ import java.net.URL;
  * Defines the Platform interface that allows BIRT to be run in Eclipse and
  * server environments
  * 
- * @version $Revision: 1.9 $ $Date: 2005/07/09 06:52:17 $
  */
 public interface IPlatform
 {

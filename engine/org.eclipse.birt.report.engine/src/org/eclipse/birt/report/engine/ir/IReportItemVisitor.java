@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * A visitor class against the report design.
  * 
- * @version $Revision: 1.7 $ $Date: 2006/04/27 09:52:28 $
  */
 public interface IReportItemVisitor {
 

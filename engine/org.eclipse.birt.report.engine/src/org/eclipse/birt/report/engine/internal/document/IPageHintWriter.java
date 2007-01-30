@@ -18,7 +18,6 @@ import org.eclipse.birt.report.engine.presentation.IPageHint;
 /**
  * writer used to write the page hints.
  *
- * @version $Revision:$ $Date:$
  */
 public interface IPageHintWriter
 {

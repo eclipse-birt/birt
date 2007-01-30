@@ -16,7 +16,6 @@ import java.util.ArrayList;
 
 /**
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:08:26 $
  */
 public class GraphicMasterPageDesign extends MasterPageDesign
 {

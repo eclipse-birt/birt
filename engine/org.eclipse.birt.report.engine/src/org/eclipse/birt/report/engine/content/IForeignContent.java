@@ -22,7 +22,6 @@ package org.eclipse.birt.report.engine.content;
  * For foreign object in "text/html" format, the PDF writer output the standard
  * content while the HTML writer output the raw value directly.
  * 
- * @version $Revision: 1.5 $ $Date: 2006/08/02 09:12:21 $
  */
 public interface IForeignContent extends IContent
 {

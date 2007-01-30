@@ -18,7 +18,6 @@ import java.io.RandomAccessFile;
 /**
  * read a index (binary search) 
  *
- * @version $Revision:$ $Date:$
  */
 public class OffsetIndexReader
 {

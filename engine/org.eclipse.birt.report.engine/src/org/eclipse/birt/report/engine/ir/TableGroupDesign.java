@@ -15,7 +15,6 @@ package org.eclipse.birt.report.engine.ir;
  * group defined in table item
  * 
  * @see TableItemDesign
- * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:45 $
  */
 public class TableGroupDesign extends GroupDesign
 {

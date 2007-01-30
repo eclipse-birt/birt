@@ -15,7 +15,6 @@ package org.eclipse.birt.report.engine.ir;
  *  Visibility Rule Design
  * 
  * 
- * @version $Revision: 1.6 $  $Date: 2005/11/11 06:26:41 $
  */
 public class VisibilityRuleDesign
 {

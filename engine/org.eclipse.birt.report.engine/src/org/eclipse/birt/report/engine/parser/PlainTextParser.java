@@ -42,7 +42,6 @@ import org.w3c.dom.Text;
  * other nodes that need to be processed are descendant nodes of "body" 
  * node.
  * 
- * @version $Revision: 1.7 $ $Date: 2005/05/08 06:08:27 $
  */
 public class PlainTextParser
 {

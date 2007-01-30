@@ -35,7 +35,6 @@ import org.osgi.framework.BundleContext;
 
 /**
  * 
- * @version $Revision: 1.9 $ $Date: 2005/07/09 06:52:17 $
  */
 public class EclipsePlatform implements IPlatform
 {

@@ -18,7 +18,6 @@ import java.util.logging.Logger;
 
 /**
  * 
- * @version $Revision: 1.12 $ $Date: 2006/02/22 06:44:15 $
  * 
  * Defines a string formatting class. Notice that unlike numeric or Date
  * formatting, locale is irrelevant in string formatting

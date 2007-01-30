@@ -19,7 +19,6 @@ import org.eclipse.birt.report.engine.script.internal.ListScriptExecutor;
 /**
  * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.40 $ $Date: 2006/08/25 03:24:02 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {

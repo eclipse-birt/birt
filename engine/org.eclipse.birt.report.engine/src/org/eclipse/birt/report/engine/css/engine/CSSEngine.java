@@ -36,7 +36,6 @@ import org.w3c.dom.css.CSSValue;
 /**
  * This is the base class for all the CSS engines.
  *
- * @version $Id: CSSEngine.java,v 1.8 2006/10/13 03:36:50 wyan Exp $
  */
 public abstract class CSSEngine implements CSSConstants, CSSValueConstants{
 

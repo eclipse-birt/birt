@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.css.engine.value.css;
  * This interface defines constants for CSS.
  * Important: Constants must not contain uppercase characters.
  *
- * @version $Id: CSSConstants.java,v 1.1 2005/11/11 06:26:47 wyan Exp $
  */
 public interface CSSConstants {
 

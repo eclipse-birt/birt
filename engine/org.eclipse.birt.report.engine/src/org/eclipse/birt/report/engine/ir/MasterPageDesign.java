@@ -17,7 +17,6 @@ import java.util.ArrayList;
 /**
  * Master Page
  * 
- * @version $Revision: 1.8 $ $Date: 2005/11/11 06:26:41 $
  */
 abstract public class MasterPageDesign extends StyledElementDesign
 {

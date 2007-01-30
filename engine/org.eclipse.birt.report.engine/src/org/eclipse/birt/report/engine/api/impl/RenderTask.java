@@ -42,7 +42,6 @@ import org.eclipse.birt.report.engine.internal.executor.doc.ReportletReader;
 import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExecutor;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
-import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
 import org.eclipse.birt.report.engine.layout.html.HTMLTableLayoutNestEmitter;
 
 public class RenderTask extends EngineTask implements IRenderTask
@@ -217,8 +216,8 @@ public class RenderTask extends EngineTask implements IRenderTask
 						executor );
 				executionContext.setExecutor( executor );
 				initializeContentEmitter( emitter, executor );
-				IReportLayoutEngine layoutEngine = LayoutEngineFactory
-						.createLayoutEngine( format );
+				IReportLayoutEngine layoutEngine = createReportLayoutEngine(
+						format, renderOptions );
 
 				OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
 						executionContext );
@@ -299,8 +298,8 @@ public class RenderTask extends EngineTask implements IRenderTask
 				executionContext.setExecutor( executor );
 				initializeContentEmitter( emitter, executor );
 
-				IReportLayoutEngine layoutEngine = LayoutEngineFactory
-						.createLayoutEngine( format );
+				IReportLayoutEngine layoutEngine = layoutEngine = createReportLayoutEngine(
+						format, renderOptions );
 
 				OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
 						executionContext );
@@ -388,8 +387,8 @@ public class RenderTask extends EngineTask implements IRenderTask
 							executor );
 					executionContext.setExecutor( executor );
 					initializeContentEmitter( emitter, executor );
-					IReportLayoutEngine layoutEngine = LayoutEngineFactory
-							.createLayoutEngine( format );
+					IReportLayoutEngine layoutEngine = createReportLayoutEngine(
+							format, renderOptions );
 
 					OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
 							executionContext );

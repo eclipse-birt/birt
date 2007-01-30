@@ -26,7 +26,6 @@ import org.w3c.dom.css.CSSValue;
  * 
  * the properties must be string as the user may change them in script.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/10/19 11:03:06 $
  */
 public interface IStyle
 		extends

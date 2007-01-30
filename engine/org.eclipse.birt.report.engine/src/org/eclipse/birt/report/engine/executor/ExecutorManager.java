@@ -40,7 +40,6 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
  * 
  * report item executor manager
  *
- * @version $Revision: 1.11 $ $Date: 2006/06/13 15:37:16 $
  */
 public class ExecutorManager
 {

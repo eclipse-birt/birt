@@ -15,7 +15,6 @@ package org.eclipse.birt.report.engine.ir;
 
 /**
  * 
- * @version $Revision: 1.7 $ $Date: 2006/04/26 07:33:48 $
  */
 public abstract class RuleDesign
 {

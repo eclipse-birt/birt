@@ -36,7 +36,6 @@ import org.w3c.dom.Element;
  * nodes that need to be processed are descendant nodes of "body" node.
  * <p>
  * 
- * @version $Revision: 1.6 $ $Date: 2005/05/08 06:08:27 $
  */
 public class TextParser
 {

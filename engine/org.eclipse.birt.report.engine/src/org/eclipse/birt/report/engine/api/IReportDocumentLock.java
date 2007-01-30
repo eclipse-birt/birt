@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.api;
 /**
  * lock used to lock the report document.
  *
- * @version $Revision:$ $Date:$
  */
 public interface IReportDocumentLock
 {

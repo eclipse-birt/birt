@@ -16,7 +16,6 @@ import java.util.ArrayList;
 
 /**
  * 
- * @version $Revision: 1.9 $ $Date: 2006/06/13 15:37:20 $
  */
 abstract public class ListingDesign extends ReportItemDesign
 {

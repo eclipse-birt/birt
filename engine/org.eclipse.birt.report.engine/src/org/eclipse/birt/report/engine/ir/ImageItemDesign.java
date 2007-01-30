@@ -16,7 +16,6 @@ import org.eclipse.birt.report.model.api.ImageHandle;
 /**
  * Image Item definition.
  * 
- * @version $Revision: 1.13 $ $Date: 2006/10/13 03:38:43 $
  */
 public class ImageItemDesign extends ReportItemDesign
 {

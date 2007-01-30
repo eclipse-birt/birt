@@ -18,7 +18,6 @@ import org.eclipse.birt.core.data.ExpressionUtil;
  * 
  * reference to report design schema.
  * 
- * @version $Revision: 1.10 $ $Date: 2006/04/06 12:35:25 $
  */
 public class DataItemDesign extends ReportItemDesign
 {

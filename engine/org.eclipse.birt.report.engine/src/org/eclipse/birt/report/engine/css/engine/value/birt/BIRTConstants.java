@@ -15,7 +15,6 @@ import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 /**
  * Define BIRT constants, such as tag names, attribute names and URI
  *
- * @version $Id: BIRTConstants.java,v 1.2 2005/11/22 09:59:57 wyan Exp $
  */
 public interface BIRTConstants extends CSSConstants {
 

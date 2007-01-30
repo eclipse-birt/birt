@@ -19,7 +19,6 @@ import java.util.ArrayList;
  * a simple master page contains a header, and a footer.
  * 
  * 
- * @version $Revision: 1.3 $ $Date: 2005/11/11 06:54:18 $
  */
 public class SimpleMasterPageDesign extends MasterPageDesign
 {

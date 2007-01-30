@@ -49,7 +49,6 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.40 $ $Date: 2006/08/22 08:31:13 $
  */
 public class ReportExecutor implements IReportExecutor
 {

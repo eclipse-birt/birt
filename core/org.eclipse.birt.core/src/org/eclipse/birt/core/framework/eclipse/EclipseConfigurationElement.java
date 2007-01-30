@@ -19,7 +19,6 @@ import org.eclipse.core.runtime.CoreException;
 
 /**
  * 
- * @version $Revision: 1.3 $ $Date: 2005/05/08 06:07:16 $
  */
 class EclipseConfigurationElement implements IConfigurationElement
 {

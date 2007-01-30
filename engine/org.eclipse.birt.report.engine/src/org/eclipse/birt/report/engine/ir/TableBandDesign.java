@@ -15,7 +15,6 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * Band used in a TableItem.
  * 
- * @version $Revision: 1.7 $ $Date: 2006/01/25 09:06:46 $
  */
 public class TableBandDesign extends BandDesign
 {

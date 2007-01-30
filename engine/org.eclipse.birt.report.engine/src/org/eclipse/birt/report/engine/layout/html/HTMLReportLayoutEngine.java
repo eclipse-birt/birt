@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.layout.html;
 
+import java.util.HashMap;
+
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
@@ -37,6 +39,8 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 	protected HTMLLayoutManagerFactory factory;
 
 	protected ILayoutPageHandler pageHandler;
+	
+	protected HashMap options;
 
 	/**
 	 * executor used to create the master page
@@ -45,6 +49,7 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 
 	public HTMLReportLayoutEngine( )
 	{
+		options = new HashMap();
 		context = new HTMLLayoutContext( this );
 		factory = new HTMLLayoutManagerFactory( this );
 	}
@@ -138,5 +143,15 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 		{
 			context.setCancelFlag( true );
 		}
+	}
+	
+	public void setOption(String name, Object value)
+	{
+		options.put(name, value);
+	}
+	
+	public Object getOption(String name)
+	{
+		return options.get(name);
 	}
 }

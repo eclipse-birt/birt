@@ -25,7 +25,6 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
  * A factory class to create data engines. For now, only DtE data engine is
  * created in this factory.
  * 
- * @version $Revision: 1.12 $ $Date: 2006/04/29 07:40:12 $
  */
 public class DataEngineFactory
 {

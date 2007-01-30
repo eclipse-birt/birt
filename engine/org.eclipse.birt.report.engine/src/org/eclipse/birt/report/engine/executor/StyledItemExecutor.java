@@ -34,7 +34,6 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * class provides methods for style manipulation, such as applying highlight and
  * mapping rules, calculating flattened (merged) styles, and so on.
  * 
- * @version $Revision: 1.26 $ $Date: 2006/05/11 09:00:07 $
  */
 public abstract class StyledItemExecutor extends ReportItemExecutor
 {

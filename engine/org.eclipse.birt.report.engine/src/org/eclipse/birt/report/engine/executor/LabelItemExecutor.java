@@ -20,7 +20,6 @@ import org.eclipse.birt.report.engine.script.internal.LabelScriptExecutor;
 /**
  * the labelItem excutor
  * 
- * @version $Revision: 1.21 $ $Date: 2006/06/23 03:37:41 $
  */
 public class LabelItemExecutor extends QueryItemExecutor
 {

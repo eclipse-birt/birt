@@ -33,7 +33,6 @@ import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExecutor;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
-import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
 
 /**
  * an engine task that runs a report and renders it to one of the output formats
@@ -188,8 +187,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 			{
 				if ( !executionContext.isCanceled( ) )
 				{
-					layoutEngine = LayoutEngineFactory
-							.createLayoutEngine( emitter.getOutputFormat( ) );
+					layoutEngine = createReportLayoutEngine( emitter.getOutputFormat( ), renderOptions );
 				}
 			}
 

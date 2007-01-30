@@ -23,7 +23,6 @@ import org.eclipse.birt.report.engine.content.IPageContent;
 /**
  * writer used to create the content stream.
  *
- * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:51 $
  */
 abstract public class AbstractReportContentWriter
 		implements
@@ -43,7 +42,6 @@ abstract public class AbstractReportContentWriter
 	/**
 	 * use to writer the content into the disk.
 	 * 
-	 * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:51 $
 	 */
 	private class ContentWriterVisitor extends ContentVisitorAdapter
 	{

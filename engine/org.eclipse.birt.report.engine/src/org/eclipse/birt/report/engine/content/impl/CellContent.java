@@ -31,7 +31,6 @@ import org.eclipse.birt.report.engine.ir.CellDesign;
  * cell content object Implement IContentContainer interface the content of cell
  * can be any report item
  * 
- * @version $Revision: 1.19 $ $Date: 2006/09/06 10:12:46 $
  */
 public class CellContent extends AbstractContent implements ICellContent
 {

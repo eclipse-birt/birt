@@ -39,7 +39,6 @@ import com.ibm.icu.util.ULocale;
  * used to parse the design file, and get the IR of design.
  * 
  * 
- * @version $Revision: 1.17 $ $Date: 2006/08/22 05:55:28 $
  */
 public class ReportParser
 {

@@ -28,7 +28,6 @@ import org.eclipse.birt.report.engine.content.ITableContent;
  * 
  * the row content object which contains cell content objects
  * 
- * @version $Revision: 1.16 $ $Date: 2006/08/31 02:19:27 $
  */
 public class RowContent extends AbstractContent implements IRowContent
 {

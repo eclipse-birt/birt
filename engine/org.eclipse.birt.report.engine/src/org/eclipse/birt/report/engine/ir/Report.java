@@ -30,7 +30,6 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.35 $ $Date: 2006/10/13 03:36:51 $
  */
 public class Report
 {

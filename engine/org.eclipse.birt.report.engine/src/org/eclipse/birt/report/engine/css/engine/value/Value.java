@@ -21,7 +21,6 @@ import org.w3c.dom.css.Rect;
 /**
  * This class provides an abstract implementation of the Value interface.
  * 
- * @version $Id: Value.java,v 1.1 2005/11/11 06:26:44 wyan Exp $
  */
 public abstract class Value implements CSSValue, CSSPrimitiveValue
 {

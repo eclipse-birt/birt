@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.content;
 /**
  * Provides the interfaces for Cell Content
  * 
- * @version $Revision: 1.10 $ $Date: 2006/09/06 10:12:47 $
  */
 public interface ICellContent extends IContainerContent
 {

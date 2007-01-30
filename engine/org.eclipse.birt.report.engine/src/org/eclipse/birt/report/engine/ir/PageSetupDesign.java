@@ -17,7 +17,6 @@ import java.util.HashMap;
 /**
  * Page Setup
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:08:26 $
  */
 public class PageSetupDesign
 {

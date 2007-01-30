@@ -32,7 +32,6 @@ import org.w3c.dom.css.CSSValue;
  * Converts the deprecated element according to the HTML 4.0 specification and
  * parses the style attribute of the HTML element.
  * 
- * @version $Revision$ $Date$
  */
 public class HTMLStyleProcessor
 {

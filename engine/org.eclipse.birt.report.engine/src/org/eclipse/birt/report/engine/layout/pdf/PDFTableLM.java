@@ -32,6 +32,8 @@ import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
 import org.eclipse.birt.report.engine.ir.CellDesign;
+import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.IPDFTableLayoutManager;
 import org.eclipse.birt.report.engine.layout.area.IArea;
@@ -389,7 +391,8 @@ public class PDFTableLM extends PDFBlockStackingLM
 	protected void buildTableLayoutInfo( )
 	{
 		//this.layoutInfo = new TableLayoutInfo( resolveColumnWidth( ) );
-		this.layoutInfo = resolveTableLayoutInfo( (TableArea)root );
+		//this.layoutInfo = resolveTableLayoutInfo( (TableArea)root );
+		this.layoutInfo = resolveTableFixedLayout((TableArea)root );
 	}
 
 	protected void newContext( )
@@ -748,6 +751,141 @@ public class PDFTableLM extends PDFBlockStackingLM
 			this.table = table;
 		}
 		
+		protected void formalize(DimensionType[] columns)
+		{
+			ArrayList percentageList = new ArrayList();
+			ArrayList unsetList = new ArrayList();
+			double total = 0.0f;
+			for(int i=0; i<columns.length; i++)
+			{
+				if(columns[i]==null)
+				{
+					unsetList.add(new Integer(i));
+				}
+				else if( EngineIRConstants.UNITS_PERCENTAGE.equals(columns[i].getUnits()))
+				{
+					percentageList.add(new Integer(i));
+					total += columns[i].getMeasure();
+				}
+			}
+			
+			
+			if(unsetList.isEmpty())
+			{
+				double ratio = 100/total;
+				for(int i=0; i<percentageList.size(); i++)
+				{
+					Integer index = (Integer)percentageList.get(i);
+					columns[index.intValue()] = new DimensionType(columns[index
+							.intValue()].getMeasure()
+							* ratio, columns[index.intValue()].getUnits());
+				}
+			}
+			else
+			{
+				
+				if(total<100f)
+				{
+					double delta = 100 - total;
+					for(int i=0; i<unsetList.size(); i++)
+					{
+						Integer index = (Integer)unsetList.get(i);
+						columns[index.intValue()] = new DimensionType(delta
+								/ (double) unsetList.size(),
+								EngineIRConstants.UNITS_PERCENTAGE);
+					}
+				}
+				else
+				{
+					double ratio = 100/total;
+					for(int i=0; i<unsetList.size(); i++)
+					{
+						Integer index = (Integer)unsetList.get(i);
+						columns[index.intValue()] = new DimensionType(0d, EngineIRConstants.UNITS_PT);
+					}
+					for(int i=0; i<percentageList.size(); i++)
+					{
+						Integer index = (Integer)percentageList.get(i);
+						columns[index.intValue()] = new DimensionType(columns[index
+								.intValue()].getMeasure()
+								* ratio, columns[index.intValue()].getUnits());
+					}
+				}
+			}
+		}
+		
+		protected int[] resolve(int tableWidth, DimensionType[] columns)
+		{
+			int[] cols = new int[columns.length];
+			int total = 0;
+			for(int i=0; i<columns.length; i++)
+			{
+				if(!EngineIRConstants.UNITS_PERCENTAGE.equals(columns[i].getUnits()))
+				{
+					cols[i] = PDFTableLM.this.getDimensionValue(columns[i], tableWidth);
+					total += cols[i];
+				}
+			}
+			
+			if(total > tableWidth)
+			{
+				for(int i=0; i<columns.length; i++)
+				{
+					if(EngineIRConstants.UNITS_PERCENTAGE.equals(columns[i].getUnits()))
+					{
+						cols[i] = 0;
+					}
+				}
+			}
+			else
+			{
+				int delta = tableWidth - total;
+				for(int i=0; i<columns.length; i++)
+				{
+					if(EngineIRConstants.UNITS_PERCENTAGE.equals(columns[i].getUnits()))
+					{
+						cols[i] = (int)(delta * columns[i].getMeasure()/100.0d);
+					}
+				}
+			}
+			return cols;
+		}
+		
+		public int[] resolveFixedLayout(int maxWidth)
+		{
+			int columnNumber = table.getColumnCount( );
+			DimensionType[] columns = new DimensionType[columnNumber];
+			
+			//handle visibility
+			for(int i=0; i<columnNumber; i++)
+			{
+				IColumn column = (IColumn) table.getColumn( i );
+				DimensionType w = column.getWidth();
+				if(PDFTableLM.this.isColumnHidden(column))
+				{
+					columns[i] = new DimensionType(0d, EngineIRConstants.UNITS_PT);
+				}
+				else
+				{
+					if(w==null)
+					{
+						columns[i] = null;
+					}
+					else
+					{
+						columns[i] = new DimensionType(w.getMeasure(), w.getUnits()); 
+					}
+				}
+			}
+			
+			formalize(columns);
+			
+			int specifiedWidth = getDimensionValue( tableContent.getWidth( ), maxWidth );
+			int tableWidth = Math.max(specifiedWidth, maxWidth);
+			
+			return resolve(tableWidth, columns);
+		}
+		
 		public int[] resolve(int specifiedWidth, int maxWidth)
 		{
 			assert(specifiedWidth<=maxWidth);
@@ -930,6 +1068,22 @@ public class PDFTableLM extends PDFBlockStackingLM
 				CSSPrimitiveValue.CSS_NUMBER, hs[1] ) );
 		style.setProperty( IStyle.STYLE_MARGIN_BOTTOM, new FloatValue(
 				CSSPrimitiveValue.CSS_NUMBER, hs[0] ) );
+	}
+	
+	private TableLayoutInfo resolveTableFixedLayout(TableArea area)
+	{
+		assert(parent!=null);
+		int parentMaxWidth = parent.getMaxAvaWidth( );
+		IStyle style = area.getStyle( );
+		validateBoxProperty( style );
+		int marginWidth = getDimensionValue( style
+				.getProperty( StyleConstants.STYLE_MARGIN_LEFT ) )
+				+ getDimensionValue( style
+						.getProperty( StyleConstants.STYLE_MARGIN_RIGHT ) );
+
+		return  new TableLayoutInfo(
+				 columnWidthResolver.resolveFixedLayout(
+						parentMaxWidth - marginWidth )  );
 	}
 	
 	private TableLayoutInfo resolveTableLayoutInfo(TableArea area)

@@ -314,6 +314,10 @@ public class PDFEmitter implements IContentEmitter
 		 */
 		public static final float LAYOUT_TO_PDF_RATIO = 1000f;
 		
+		public static final  int H_TEXT_SPACE = 70;
+		
+		public static final int V_TEXT_SPACE = 100;
+		
 		/**
 		 * The pdf Document object created by iText
 		 */
@@ -353,6 +357,13 @@ public class PDFEmitter implements IContentEmitter
 		
 		protected IEmitterServices services;
 		
+		protected float scale;
+		
+		protected  int hTextSpace = 70;
+		
+		protected int vTextSpace = 100;
+		
+		protected float lToP;
 		
 		private Stack containerStack = new Stack();
 		
@@ -504,8 +515,8 @@ public class PDFEmitter implements IContentEmitter
 				curPos = (ContainerPosition)containerStack.peek();	
 			else 
 				curPos = new ContainerPosition(0, 0);
-			int x = curPos.x + textArea.getX() + (int)(textArea.getFontInfo( ).getFontSize( ) * 70);
-			int y = curPos.y + textArea.getY() + (int)(textArea.getFontInfo( ).getFontSize( ) * 100);
+			int x = curPos.x + textArea.getX() + (int)(textArea.getFontInfo( ).getFontSize( ) * hTextSpace);
+			int y = curPos.y + textArea.getY() + (int)(textArea.getFontInfo( ).getFontSize( ) * vTextSpace);
 			drawTextAt(textArea, x, y, cb, pageHeight);
 			//Checks if itself is the destination of a bookmark.
 			//if so, make a bookmark; if not, do nothing
@@ -539,7 +550,7 @@ public class PDFEmitter implements IContentEmitter
 			cb.addTemplate(tpl, x, y);
 			cb.restoreState();
 		}
-
+		
 		/**
 		 * If the container is a PageArea, this method creates a pdf page.
 		 * If the container is the other containerAreas, 
@@ -551,7 +562,13 @@ public class PDFEmitter implements IContentEmitter
 		{
 			if (container instanceof PageArea)
 			{
+				scale = container.getScale();
+				lToP = LAYOUT_TO_PDF_RATIO / scale;
+				hTextSpace = (int)(H_TEXT_SPACE * scale);
+				vTextSpace = (int)(V_TEXT_SPACE * scale);
+				
 				newPage(container);
+				
 				containerStack.push(new ContainerPosition(0, 0));
 			}
 			else
@@ -591,7 +608,7 @@ public class PDFEmitter implements IContentEmitter
 		 */
 		protected void newPage( IContainerArea page )
 		{
-			pageHeight = pdfMeasure( page.getHeight() );
+			pageHeight = pdfMeasure( page.getHeight() ) ;
 			pageWidth = pdfMeasure( page.getWidth() );
 			
 			// Sets the pagesize of the new page
@@ -786,12 +803,25 @@ public class PDFEmitter implements IContentEmitter
 					Color borderRightColor = PropertyUtil
 					.getColor( style
 							.getProperty( StyleConstants.STYLE_BORDER_RIGHT_COLOR ) );
-					drawBorder(new BorderInfo( layoutX
-							+ container.getWidth( ) - borderRightWidth / 2,
-							layoutY, layoutX + container.getWidth( )
-									- borderRightWidth / 2, layoutY
-									+ container.getHeight( ), borderRightWidth,
-							borderRightColor, style.getProperty( IStyle.STYLE_BORDER_RIGHT_STYLE ),BorderInfo.RIGHT_BORDER ));
+					if(borderRightWidth<container.getWidth())
+					{
+						
+						drawBorder(new BorderInfo( layoutX
+								+ container.getWidth( ) - borderRightWidth / 2,
+								layoutY, layoutX + container.getWidth( )
+										- borderRightWidth / 2, layoutY
+										+ container.getHeight( ), borderRightWidth,
+								borderRightColor, style.getProperty( IStyle.STYLE_BORDER_RIGHT_STYLE ),BorderInfo.RIGHT_BORDER ));
+					}
+					else
+					{
+						drawBorder(new BorderInfo( layoutX
+								+ container.getWidth( ) + borderRightWidth / 2,
+								layoutY, layoutX + container.getWidth( )
+										+ borderRightWidth / 2, layoutY
+										+ container.getHeight( ), borderRightWidth,
+								borderRightColor, style.getProperty( IStyle.STYLE_BORDER_RIGHT_STYLE ),BorderInfo.RIGHT_BORDER ));
+					}
 				}
 
 				// Checks if itself is the destination of a bookmark.
@@ -820,7 +850,7 @@ public class PDFEmitter implements IContentEmitter
 			
 		    //style.getFontVariant();     	small-caps or normal
 		    //FIXME does NOT support small-caps now
-			float fontSize = text.getFontInfo().getFontSize();
+			float fontSize = text.getFontInfo().getFontSize() * scale ;
 			float characterSpacing = pdfMeasure( PropertyUtil.getDimensionValue(
 		        	style.getProperty(StyleConstants.STYLE_LETTER_SPACING)) );
 			float wordSpacing = pdfMeasure( PropertyUtil.getDimensionValue(
@@ -1650,9 +1680,9 @@ public class PDFEmitter implements IContentEmitter
 		 */
 		private float pdfMeasure( int layoutMeasure )
 		{
-			return layoutMeasure/(float)LAYOUT_TO_PDF_RATIO;
+			return layoutMeasure/lToP;
 		}
-
+		
 		/**
 		 * Converts the X coordinate of a point from layout to X coordinate in PDF
 		 * @param layoutX 		the X coordinate specified from layout

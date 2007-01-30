@@ -18,7 +18,6 @@ import org.w3c.dom.css.Rect;
 /**
  * This class represents CSS rect values.
  * 
- * @version $Id: RectValue.java,v 1.2.14.1 2006/09/15 05:33:32 lyu Exp $
  */
 public class RectValue extends Value implements Rect
 {

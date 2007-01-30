@@ -38,7 +38,6 @@ import org.eclipse.birt.core.framework.Platform;
  * Report parameters are handled as command line parameters. Currently, only
  * scalar parameters are handled.
  * 
- * @version $Revision: 1.26 $ $Date: 2006/08/08 09:59:09 $
  */
 public class ReportRunner
 {

@@ -22,7 +22,6 @@ import org.mozilla.javascript.Scriptable;
  * Represents the scriptable object for Java object which implements the
  * interface <code>Map</code>.
  * 
- * @version $Revision: 1.6 $ $Date: 2006/06/05 10:10:36 $
  */
 public class NativeRowObject implements Scriptable
 {

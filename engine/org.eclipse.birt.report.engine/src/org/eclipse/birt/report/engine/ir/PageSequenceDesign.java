@@ -16,7 +16,6 @@ import java.util.HashMap;
 /**
  * Page sequence.
  * Page sequence associated master page with page role.
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:08:26 $
  */
 public class PageSequenceDesign extends ReportElementDesign
 {

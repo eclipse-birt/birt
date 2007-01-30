@@ -160,7 +160,6 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the report content into the content stream
 	 * 
-	 * @version $Revision: 1.13 $ $Date: 2006/08/25 03:24:05 $
 	 */
 	class ContentEmitter extends ContentEmitterAdapter
 	{
@@ -259,7 +258,6 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the master page.
 	 * 
-	 * @version $Revision: 1.13 $ $Date: 2006/08/25 03:24:05 $
 	 */
 	class PageEmitter extends ContentEmitterAdapter
 	{

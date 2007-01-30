@@ -63,7 +63,6 @@ import com.ibm.icu.text.DecimalFormat;
 /**
  * visitor used to write the IR.
  * 
- * @version $Revision: 1.16 $ $Date: 2006/06/13 15:37:23 $
  */
 public class ReportDesignWriter
 {

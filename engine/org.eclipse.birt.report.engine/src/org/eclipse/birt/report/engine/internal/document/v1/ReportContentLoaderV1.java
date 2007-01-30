@@ -574,7 +574,6 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 	 * It visits the report design, add the element id and design object into
 	 * the hash map.
 	 * 
-	 * @version $Revision: 1.10.2.1 $ $Date: 2006/09/06 07:10:29 $
 	 */
 	protected class GenerateIDMapVisitor extends DefaultReportItemVisitorImpl
 	{

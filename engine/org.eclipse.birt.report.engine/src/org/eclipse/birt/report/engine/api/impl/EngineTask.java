@@ -31,8 +31,11 @@ import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.RenderOptionBase;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
+import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
 import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
 import org.eclipse.birt.report.engine.script.internal.ReportScriptExecutor;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
@@ -670,7 +673,6 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * class used to visit all parameters
 	 * 
-	 * @version $Revision: 1.45.2.1.2.1 $ $Date: 2006/10/30 17:45:06 $
 	 */
 	static abstract class ParameterVisitor
 	{
@@ -835,6 +837,25 @@ public abstract class EngineTask implements IEngineTask
 	public void close( )
 	{
 		executionContext.close( );
+	}
+	
+	protected IReportLayoutEngine createReportLayoutEngine(String format, IRenderOption options)
+	{
+		IReportLayoutEngine layoutEngine = LayoutEngineFactory.createLayoutEngine( format );
+		if(options!=null)
+		{
+			Object fitToPage = renderOptions.getOutputSetting().get(RenderOptionBase.FIT_TO_PAGE);
+			if(fitToPage!=null)
+			{
+				layoutEngine.setOption(RenderOptionBase.FIT_TO_PAGE, fitToPage);
+			}
+			Object pagebreakOnly = renderOptions.getOutputSetting().get(RenderOptionBase.PAGEBREAK_PAGINATION_ONLY);
+			if(pagebreakOnly!=null)
+			{
+				layoutEngine.setOption(RenderOptionBase.PAGEBREAK_PAGINATION_ONLY, pagebreakOnly);
+			}
+		}
+		return layoutEngine;
 	}
 
 	protected void loadDesign( )

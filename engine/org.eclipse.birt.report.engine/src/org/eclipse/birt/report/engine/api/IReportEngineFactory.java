@@ -15,7 +15,6 @@ package org.eclipse.birt.report.engine.api;
  * a factory used to create the Report Engine.
  * 
  * @see the ReportRunner for the usage.
- * @version $Revision:$ $Date:$
  */
 public interface IReportEngineFactory
 {

@@ -16,7 +16,6 @@ package org.eclipse.birt.report.engine.ir;
  * 
  * This class is used by Style to compare two style properties.
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:08:26 $
  */
 class CompareUtils
 {

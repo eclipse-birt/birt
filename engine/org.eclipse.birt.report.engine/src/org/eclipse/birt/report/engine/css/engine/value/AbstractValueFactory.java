@@ -16,7 +16,6 @@ import org.w3c.dom.DOMException;
 /**
  * This class provides a base implementation for the value factories.
  * 
- * @version $Id: AbstractValueFactory.java,v 1.5 2006/10/13 03:36:50 wyan Exp $
  */
 public abstract class AbstractValueFactory
 {

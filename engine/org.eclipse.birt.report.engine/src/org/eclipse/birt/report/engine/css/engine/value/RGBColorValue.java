@@ -18,7 +18,6 @@ import org.w3c.dom.css.RGBColor;
 /**
  * This class represents RGB colors.
  * 
- * @version $Id: RGBColorValue.java,v 1.4.12.1 2006/09/15 05:33:32 lyu Exp $
  */
 public class RGBColorValue extends Value implements RGBColor
 {

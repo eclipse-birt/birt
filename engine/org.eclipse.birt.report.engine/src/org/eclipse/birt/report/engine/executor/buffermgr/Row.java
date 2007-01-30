@@ -15,7 +15,6 @@ package org.eclipse.birt.report.engine.executor.buffermgr;
 /**
  * ROW in table layout
  * 
- * @version $Revision: 1.1 $ $Date: 2005/09/15 07:25:40 $
  */
 public class Row
 {

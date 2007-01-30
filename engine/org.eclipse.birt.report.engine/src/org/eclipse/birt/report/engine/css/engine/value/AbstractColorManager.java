@@ -26,7 +26,6 @@ import org.w3c.dom.css.RGBColor;
  * This class provides a manager for the property with support for CSS color
  * values.
  * 
- * @version $Id: AbstractColorManager.java,v 1.4 2005/11/22 09:59:57 wyan Exp $
  */
 public abstract class AbstractColorManager extends IdentifierManager
 {

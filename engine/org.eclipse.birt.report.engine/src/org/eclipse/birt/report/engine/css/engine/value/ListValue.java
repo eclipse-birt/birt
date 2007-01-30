@@ -19,7 +19,6 @@ import org.w3c.dom.css.CSSValueList;
 /**
  * This class represents a list of values.
  * 
- * @version $Id: ListValue.java,v 1.6 2006/10/13 03:36:50 wyan Exp $
  */
 public class ListValue extends Value implements CSSValueList
 {

@@ -24,7 +24,6 @@ import org.eclipse.birt.report.engine.presentation.IPageHint;
  * 
  * It can support mutiple versions.
  * 
- * @version $Revision: 1.2 $ $Date: 2006/04/12 05:40:31 $
  */
 public class PageHintReader implements IPageHintReader
 {

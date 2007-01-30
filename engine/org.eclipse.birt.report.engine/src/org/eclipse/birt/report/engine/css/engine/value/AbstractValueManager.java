@@ -18,7 +18,6 @@ import org.eclipse.birt.report.engine.css.engine.ValueManager;
 /**
  * This class provides an abstract implementation of the ValueManager interface.
  * 
- * @version $Id: AbstractValueManager.java,v 1.5 2006/10/13 03:36:50 wyan Exp $
  */
 public abstract class AbstractValueManager extends AbstractValueFactory
 		implements

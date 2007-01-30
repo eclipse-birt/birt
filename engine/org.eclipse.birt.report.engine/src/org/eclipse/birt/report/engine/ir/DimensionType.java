@@ -24,7 +24,6 @@ import org.eclipse.birt.report.model.api.util.DimensionUtil;
 
 /**
  * 
- * @version $Revision: 1.10 $ $Date: 2005/12/14 03:41:38 $
  */
 public class DimensionType
 {

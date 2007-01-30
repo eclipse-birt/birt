@@ -28,7 +28,6 @@ import org.eclipse.birt.report.engine.script.internal.DataItemScriptExecutor;
  * data content instance, evaluate styles, bookmark, action property and pass
  * this instance to emitter.
  * 
- * @version $Revision: 1.31 $ $Date: 2006/08/25 03:24:04 $
  */
 public class DataItemExecutor extends QueryItemExecutor
 {

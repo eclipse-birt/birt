@@ -24,7 +24,6 @@ import org.eclipse.birt.report.engine.script.internal.GridScriptExecutor;
 /**
  * the gridItem excutor
  * 
- * @version $Revision: 1.39 $ $Date: 2006/06/23 03:37:41 $
  */
 public class GridItemExecutor extends QueryItemExecutor
 {

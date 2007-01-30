@@ -20,7 +20,6 @@ import java.io.UnsupportedEncodingException;
  * two or three bytes, using the UTF-8 algorithm, before being
  * encoded as %HH escapes.
  * 
- * @version $Revision: 1.12 $ $Date: 2005/05/10 02:16:10 $
  */
 public class URLEncoder {
 

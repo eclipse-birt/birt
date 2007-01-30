@@ -34,7 +34,6 @@ import org.eclipse.birt.report.engine.content.ITextContent;
 /**
  * used to pass the content object to following process.
  * 
- * @version $Revision: 1.2 $ $Date: 2006/04/27 09:52:25 $
  */
 public interface IContentEmitter
 {
