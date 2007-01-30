@@ -13,6 +13,10 @@ CVS_RSH=ssh
 ulimit -c unlimited
 export CVS_RSH USERNAME BASH_ENV LD_LIBRARY_PATH DISPLAY
 
+if [ "x"$ANT_HOME = "x" ]; then export ANT_HOME=/usr/local/apache-ant-1.6.5; fi
+if [ "x"$JAVA_HOME = "x" ]; then export JAVA_HOME=/usr/local/j2sdk1.4.2_13; fi
+export PATH=${PATH}:${ANT_HOME}/bin
+
 proc=$$
 
 #notification list
