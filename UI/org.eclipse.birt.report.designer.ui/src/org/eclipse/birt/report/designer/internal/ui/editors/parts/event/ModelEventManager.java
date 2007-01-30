@@ -118,11 +118,12 @@ public class ModelEventManager implements Listener
 		// code strengh.
 		try
 		{
+			List post = new ArrayList(listenerList);
 			isPost = true;
-			int size = listenerList.size( );
+			int size = post.size( );
 			for ( int i = 0; i < size; i++ )
 			{
-				IModelEventProcessor processor = (IModelEventProcessor) listenerList.get( i );
+				IModelEventProcessor processor = (IModelEventProcessor) post.get( i );
 				processor.postElementEvent( );
 			}
 		}
