@@ -869,27 +869,27 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 							page.getPageHeader( ).getStyle( ),
 							styleBuffer);
 					
-					//build page header margin
-					if( genBy instanceof SimpleMasterPageDesign )
-					{
-						SimpleMasterPageDesign SimpleMasterPage = (SimpleMasterPageDesign) genBy;
-						if( null != SimpleMasterPage )
-						{
-							styleBuffer.append( "margin-left: " + SimpleMasterPage.getLeftMargin( ).toString( ) + ";");
-							styleBuffer.append( "margin-top: " + SimpleMasterPage.getTopMargin( ).toString( ) + ";");
-							styleBuffer.append( "margin-right: " + SimpleMasterPage.getRightMargin( ).toString( ) + ";");
-						}
-					}
-					else if ( genBy instanceof MasterPageDesign )
-					{
-						MasterPageDesign masterPage = (MasterPageDesign) genBy;
-						if( null != masterPage )
-						{
-							styleBuffer.append( "margin-left: " + masterPage.getLeftMargin( ).toString( ) + ";");
-							styleBuffer.append( "margin-top: " + masterPage.getTopMargin( ).toString( ) + ";");
-							styleBuffer.append( "margin-right: " + masterPage.getRightMargin( ).toString( ) + ";");
-						}
-					}
+//					//build page header margin
+//					if( genBy instanceof SimpleMasterPageDesign )
+//					{
+//						SimpleMasterPageDesign SimpleMasterPage = (SimpleMasterPageDesign) genBy;
+//						if( null != SimpleMasterPage )
+//						{
+//							styleBuffer.append( "margin-left: " + SimpleMasterPage.getLeftMargin( ).toString( ) + ";");
+//							styleBuffer.append( "margin-top: " + SimpleMasterPage.getTopMargin( ).toString( ) + ";");
+//							styleBuffer.append( "margin-right: " + SimpleMasterPage.getRightMargin( ).toString( ) + ";");
+//						}
+//					}
+//					else if ( genBy instanceof MasterPageDesign )
+//					{
+//						MasterPageDesign masterPage = (MasterPageDesign) genBy;
+//						if( null != masterPage )
+//						{
+//							styleBuffer.append( "margin-left: " + masterPage.getLeftMargin( ).toString( ) + ";");
+//							styleBuffer.append( "margin-top: " + masterPage.getTopMargin( ).toString( ) + ";");
+//							styleBuffer.append( "margin-right: " + masterPage.getRightMargin( ).toString( ) + ";");
+//						}
+//					}
 					
 					//output the page header attribute
 					writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
@@ -931,9 +931,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 							HTMLTags.ATTR_MIN_HEIGHT,
 							masterPage.getPageHeight( ) );
 				}
-				// output page body margin
-				styleBuffer.append( "margin-left: " + masterPage.getLeftMargin( ).toString( ) + ";");
-				styleBuffer.append( "margin-right: " + masterPage.getRightMargin( ).toString( ) + ";");
+//				// output page body margin
+//				styleBuffer.append( "margin-left: " + masterPage.getLeftMargin( ).toString( ) + ";");
+//				styleBuffer.append( "margin-right: " + masterPage.getRightMargin( ).toString( ) + ";");
 				writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 			}
 		}
@@ -988,27 +988,27 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 							page.getPageHeader( ).getStyle( ),
 							styleBuffer);
 					
-					//build page footer margin
-					if( genBy instanceof SimpleMasterPageDesign )
-					{
-						SimpleMasterPageDesign SimpleMasterPage = (SimpleMasterPageDesign) genBy;
-						if( null != SimpleMasterPage )
-						{
-							styleBuffer.append( "margin-left: " + SimpleMasterPage.getLeftMargin( ).toString( ) + ";");
-							styleBuffer.append( "margin-right: " + SimpleMasterPage.getRightMargin( ).toString( ) + ";");
-							styleBuffer.append( "margin-bottom: " + SimpleMasterPage.getBottomMargin( ).toString( ) + ";");
-						}
-					}
-					else if ( genBy instanceof MasterPageDesign )
-					{
-						MasterPageDesign masterPage = (MasterPageDesign) genBy;
-						if( null != masterPage )
-						{
-							styleBuffer.append( "margin-left: " + masterPage.getLeftMargin( ).toString( ) + ";");
-							styleBuffer.append( "margin-right: " + masterPage.getRightMargin( ).toString( ) + ";");
-							styleBuffer.append( "margin-bottom: " + masterPage.getBottomMargin( ).toString( ) + ";");
-						}
-					}
+//					//build page footer margin
+//					if( genBy instanceof SimpleMasterPageDesign )
+//					{
+//						SimpleMasterPageDesign SimpleMasterPage = (SimpleMasterPageDesign) genBy;
+//						if( null != SimpleMasterPage )
+//						{
+//							styleBuffer.append( "margin-left: " + SimpleMasterPage.getLeftMargin( ).toString( ) + ";");
+//							styleBuffer.append( "margin-right: " + SimpleMasterPage.getRightMargin( ).toString( ) + ";");
+//							styleBuffer.append( "margin-bottom: " + SimpleMasterPage.getBottomMargin( ).toString( ) + ";");
+//						}
+//					}
+//					else if ( genBy instanceof MasterPageDesign )
+//					{
+//						MasterPageDesign masterPage = (MasterPageDesign) genBy;
+//						if( null != masterPage )
+//						{
+//							styleBuffer.append( "margin-left: " + masterPage.getLeftMargin( ).toString( ) + ";");
+//							styleBuffer.append( "margin-right: " + masterPage.getRightMargin( ).toString( ) + ";");
+//							styleBuffer.append( "margin-bottom: " + masterPage.getBottomMargin( ).toString( ) + ";");
+//						}
+//					}
 					
 					//output the page footer attribute
 					writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
