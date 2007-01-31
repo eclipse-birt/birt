@@ -197,7 +197,7 @@ public class FragmentResourceEntry extends BaseResourceEntity
 
 	public boolean isRoot()
 	{
-		return this.isRoot();
+		return this.isRoot;
 	}
 	
 	public void dispose( )
