@@ -1034,6 +1034,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	{
 		assert table != null;
 
+		if ( enableMetadata )
+		{
+			metadataEmitter.startWrapTable( table );
+		}
+		
 		IStyle mergedStyle = table.getStyle( );
 		push( mergedStyle );
 		if ( isHidden( ) )
@@ -1268,6 +1273,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 				
 		writer.closeTag( HTMLTags.TAG_TABLE );
+		
+		if ( enableMetadata )
+		{
+			metadataEmitter.endWrapTable( table );
+		}
 
 		logger.log( Level.FINE, "[HTMLTableEmitter] End table" ); //$NON-NLS-1$
 	}

@@ -92,4 +92,10 @@ public interface IHTMLRenderOption
 	 * The default value is <code>Boolean.FALSE</code>
 	 */
 	public static final String HTML_DISPLAY_GROUP_ICON = "displayGroupIcon"; //$NON-NLS-1$//false
+	/**
+	 * Should the the top-level template table be wrapped. Only effect if the
+	 * enable metadata is setting to <code>Boolea.TRUE</code>. The default
+	 * value is <code>Boolean.FALSE</code>
+	 */
+	public static final String HTML_WRAP_TEMPLATE_TABLE = "wrapTemplateTable"; //$NON-NLS-1$//false
 }

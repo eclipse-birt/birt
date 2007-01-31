@@ -268,4 +268,28 @@ public class HTMLRenderOption extends RenderOptionBase  implements IHTMLRenderOp
 		}
 		return false;
 	}
+	
+	/**
+	 * Sets the flag indicationg that if the top-level table should be wrapped.
+	 * 
+	 * @param displayFilterIcon
+	 *            the flag
+	 */
+	public void setWrapTemplateTable( boolean displayFilterIcon )
+	{
+		options.put( HTML_WRAP_TEMPLATE_TABLE, new Boolean( displayFilterIcon ) );
+	}
+
+	/**
+	 * @return the group expand/collapse icon flag value.
+	 */
+	public boolean getWrapTemplateTable( )
+	{
+		Object value = options.get( HTML_WRAP_TEMPLATE_TABLE );
+		if ( value instanceof Boolean )
+		{
+			return ( (Boolean) value ).booleanValue( );
+		}
+		return false;
+	}
 }
