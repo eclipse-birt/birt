@@ -209,7 +209,7 @@ public class AggregationTest extends APITestCase
 		query.addResultSetExpression("e3", e3 );
 		
 		// wrong expression
-		ScriptExpression e4 = new ScriptExpression( "Total.Sum(dataSetRow.PRICEs,null,1)" );
+		ScriptExpression e4 = new ScriptExpression( "Total.Sum(dataSetRow.PRICE,a,1)" );
 		e4.setGroupName("G1");
 		query.addResultSetExpression("e4", e4 );
 

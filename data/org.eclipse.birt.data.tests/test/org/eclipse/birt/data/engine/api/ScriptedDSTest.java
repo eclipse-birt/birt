@@ -45,6 +45,8 @@ public class ScriptedDSTest extends APITestCase
 	private final static int TEST_MAXROW = 3;
 	private final static int TEST_TOPN_FILTER = 4;
 
+	private boolean ADD_ALIAS = true;
+	
 	// aggreation expression
 	private ScriptExpression queryExpr = new ScriptExpression( "Total.Count( )" );
 	private String queryName = "_query_count";
@@ -75,6 +77,12 @@ public class ScriptedDSTest extends APITestCase
 	private ScriptDataSourceDesign dsource;
 	
 	private ScriptDataSetDesign dset;
+	
+	public void setUp() throws Exception
+	{
+		super.setUp( );
+		this.ADD_ALIAS = true;
+	}
 	
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
@@ -283,6 +291,7 @@ public class ScriptedDSTest extends APITestCase
 	
 	public void testFetch1Dynamic() throws Exception
 	{
+		this.ADD_ALIAS = false;
 		fetch1_test_impl(true);
 	}
 	
@@ -705,10 +714,16 @@ public class ScriptedDSTest extends APITestCase
 		{
 			rqDefn.addResultSetExpression( "_" + scriptColumnNames[i], scriptExprs[i] );
 		}
-		for(int i = 0; i<this.aliasScriptExprs.length; i++)
+		
+		if ( this.ADD_ALIAS )
 		{
-			rqDefn.addResultSetExpression( "_" + scriptColumnAliasNames[i], aliasScriptExprs[i] );
+			for ( int i = 0; i < this.aliasScriptExprs.length; i++ )
+			{
+				rqDefn.addResultSetExpression( "_" + scriptColumnAliasNames[i],
+						aliasScriptExprs[i] );
+			}
 		}
+		
 		rqDefn.addResultSetExpression( "_groupCol0", new ScriptExpression( "dataSetRow.NUM" ) );
 		rqDefn.addResultSetExpression( "_sortCol0", new ScriptExpression( "dataSetRow.NUM" ) );
 		

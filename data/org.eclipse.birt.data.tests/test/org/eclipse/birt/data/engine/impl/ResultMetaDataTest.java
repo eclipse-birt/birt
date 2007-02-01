@@ -62,6 +62,9 @@ public class ResultMetaDataTest extends APITestCase
 		md = qr.getResultIterator( ).getResultMetaData( );
 		this.testPrint( Util.getMetaDadataInfo( md ) );
 		checkOutputFile();
+		
+		// Test columnCount eliminating temp columns
+		assertEquals( 17, md.getColumnCount( ) );
 
 		// Test out of bound reads
 		try
@@ -79,7 +82,7 @@ public class ResultMetaDataTest extends APITestCase
 			md.getColumnName( 18 );
 			fail( "Exception expected" );
 		}
-		catch ( java.lang.ArrayIndexOutOfBoundsException e)
+		catch ( DataException e )
 		{
 			// We are OK
 		}

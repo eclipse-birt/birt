@@ -76,7 +76,7 @@ public class DataSourceTest extends APITestCase
 		}
 		
 		// do jdbc query
-		expr = new ScriptExpression( "dataSetRow.CustomerID" );
+		expr = new ScriptExpression( "dataSetRow.CUSTOMERID" );
 		queryDefn = getJDBCQueryDefn(expr);		
 		try
 		{
