@@ -109,7 +109,10 @@ public class OSGILauncher
 		try
 		{
 			ClassLoader loader = this.getClass( ).getClassLoader( );
-			frameworkClassLoader = new ChildFirstURLClassLoader(
+//			frameworkClassLoader = new ChildFirstURLClassLoader(
+//					new URL[]{osgiFramework}, loader );
+			//use the URL classloader to make the 
+			frameworkClassLoader = new URLClassLoader(
 					new URL[]{osgiFramework}, loader );
 			// frameworkClassLoader = new OSGIClassLoader(
 			// new URL[]{frameworkUrl}, loader );
@@ -133,6 +136,9 @@ public class OSGILauncher
 			Class clazz = frameworkClassLoader.loadClass( ECLIPSE_STARTER );
 
 			setupOSGiProperties();
+			
+			//set to FWK to let the iPortal run 
+			properties.put( "osgi.parentClassloader", "fwk" ); //$NON-NLS-1$ //$NON-NLS-2$
 
 			Method initPropertiesMethod = clazz.getMethod(
 					"setInitialProperties", new Class[]{Map.class} ); //$NON-NLS-1$
@@ -167,6 +173,7 @@ public class OSGILauncher
 		catch ( Exception e )
 		{
 			e.printStackTrace( );
+			frameworkClassLoader = null;
 			return;
 		}
 		finally
