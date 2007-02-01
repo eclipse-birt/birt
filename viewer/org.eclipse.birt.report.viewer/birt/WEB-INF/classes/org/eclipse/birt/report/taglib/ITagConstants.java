@@ -33,4 +33,10 @@ public interface ITagConstants
 	 * Attribute
 	 */
 	public static final String ATTR_HOSTPAGE = "hasHostPage"; //$NON-NLS-1$
+	
+	/**
+	 * Report Container
+	 */
+	public static final String CONTAINER_IFRAME = "iframe"; //$NON-NLS-1$
+	public static final String CONTAINER_DIV = "div"; //$NON-NLS-1$
 }

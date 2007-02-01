@@ -15,7 +15,6 @@ import java.io.IOException;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -54,12 +53,13 @@ abstract public class BaseReportEngineServlet extends AxisServlet
 			HttpServletResponse response );
 
 	abstract protected IContext __getContext( HttpServletRequest request,
-			HttpServletResponse response );
+			HttpServletResponse response ) throws BirtException;
 
 	abstract protected void __doGet( IContext context )
 			throws ServletException, IOException, BirtException;
 
-	abstract protected void __handleNonSoapException( IContext context,
+	abstract protected void __handleNonSoapException(
+			HttpServletRequest request, HttpServletResponse response,
 			Exception exception ) throws ServletException, IOException;
 
 	/**
@@ -105,35 +105,39 @@ abstract public class BaseReportEngineServlet extends AxisServlet
 		{
 			return;
 		}
-		
-		IContext context = __getContext( request, response );
 
-		if ( context.getBean( ).getException( ) != null )
+		try
 		{
-			__handleNonSoapException( context, context.getBean( )
-					.getException( ) );
-		}
-		else
-		{
-			String requestType = request.getHeader( 
-					ParameterAccessor.HEADER_REQUEST_TYPE );
-			if ( ParameterAccessor.HEADER_REQUEST_TYPE_SOAP.equalsIgnoreCase(
-					requestType ) )
+
+			IContext context = __getContext( request, response );
+
+			if ( context.getBean( ).getException( ) != null )
 			{
-				super.doPost( request, response );
+				__handleNonSoapException( request, response, context.getBean( )
+						.getException( ) );
 			}
 			else
 			{
-				try
+				String requestType = request
+						.getHeader( ParameterAccessor.HEADER_REQUEST_TYPE );
+				if ( ParameterAccessor.HEADER_REQUEST_TYPE_SOAP
+						.equalsIgnoreCase( requestType ) )
 				{
+					super.doPost( request, response );
+				}
+				else
+				{
+
 					__doGet( context );
 				}
-				catch ( BirtException e )
-				{
-					__handleNonSoapException( context, e );
-				}
 			}
+
 		}
+		catch ( BirtException e )
+		{
+			__handleNonSoapException( request, response, e );
+		}
+
 	}
 
 	/**

@@ -24,13 +24,14 @@
 
 <%
 	// base href can be defined in config file for deployment.
-	String baseHref = request.getScheme( ) + "://" + request.getServerName( ) + ":" + request.getServerPort( ) + request.getContextPath( ) + fragment.getJSPRootPath( );
+	String baseHref = request.getScheme( ) + "://" + request.getServerName( ) + ":" + request.getServerPort( );
 	if( !attributeBean.isDesigner( ) )
 	{
-		String prop = ParameterAccessor.getInitProp( ParameterAccessor.PROP_BASE_HREF );
-		if( prop != null && prop.length( ) > 0 )
-			baseHref = 	prop;
+		String baseURL = ParameterAccessor.getBaseURL( );
+		if( baseURL != null )
+			baseHref = baseURL;
 	}
+	baseHref += request.getContextPath( ) + fragment.getJSPRootPath( );
 %>
 
 <%-----------------------------------------------------------------------------

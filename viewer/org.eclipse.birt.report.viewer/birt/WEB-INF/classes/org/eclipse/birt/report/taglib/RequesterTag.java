@@ -111,7 +111,7 @@ public class RequesterTag extends AbstractBaseTag
 			throw new JspTagException( BirtResources
 					.getMessage( ResourceConstants.TAGLIB_NO_REPORT_DOCUMENT ) );
 		}
-		
+
 		return true;
 	}
 
@@ -204,11 +204,11 @@ public class RequesterTag extends AbstractBaseTag
 			style += "width:" + viewer.getWidth( ) + "px;"; //$NON-NLS-1$//$NON-NLS-2$
 
 		// top
-		if ( viewer.getTop( ) >= 0 )
+		if ( viewer.getTop( ) != null )
 			style += "top:" + viewer.getTop( ) + "px;"; //$NON-NLS-1$//$NON-NLS-2$
 
 		// left
-		if ( viewer.getLeft( ) >= 0 )
+		if ( viewer.getLeft( ) != null )
 			style = style + "left:" + viewer.getLeft( ) + "px;"; //$NON-NLS-1$//$NON-NLS-2$
 
 		style += "' "; //$NON-NLS-1$	
@@ -238,11 +238,11 @@ public class RequesterTag extends AbstractBaseTag
 			style += "width:" + viewer.getWidth( ) + "px;"; //$NON-NLS-1$//$NON-NLS-2$
 
 		// top
-		if ( viewer.getTop( ) >= 0 )
+		if ( viewer.getTop( ) != null )
 			style += "top:" + viewer.getTop( ) + "px;"; //$NON-NLS-1$//$NON-NLS-2$
 
 		// left
-		if ( viewer.getLeft( ) >= 0 )
+		if ( viewer.getLeft( ) != null )
 			style = style + "left:" + viewer.getLeft( ) + "px;"; //$NON-NLS-1$//$NON-NLS-2$
 
 		// scroll
@@ -293,21 +293,21 @@ public class RequesterTag extends AbstractBaseTag
 	}
 
 	/**
+	 * @param baseURL
+	 *            the baseURL to set
+	 */
+	public void setBaseURL( String baseURL )
+	{
+		viewer.setBaseURL( baseURL );
+	}
+
+	/**
 	 * @param isCustom
 	 *            the isCustom to set
 	 */
 	public void setIsCustom( String isCustom )
 	{
 		viewer.setCustom( Boolean.valueOf( isCustom ).booleanValue( ) );
-	}
-
-	/**
-	 * @param contextRoot
-	 *            the contextRoot to set
-	 */
-	public void setContextRoot( String contextRoot )
-	{
-		viewer.setContextRoot( contextRoot );
 	}
 
 	/**
@@ -361,7 +361,7 @@ public class RequesterTag extends AbstractBaseTag
 	 */
 	public void setLeft( String left )
 	{
-		viewer.setLeft( Integer.parseInt( left ) );
+		viewer.setLeft( "" + Integer.parseInt( left ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -370,7 +370,7 @@ public class RequesterTag extends AbstractBaseTag
 	 */
 	public void setTop( String top )
 	{
-		viewer.setTop( Integer.parseInt( top ) );
+		viewer.setTop( "" + Integer.parseInt( top ) ); //$NON-NLS-1$
 	}
 
 	/**

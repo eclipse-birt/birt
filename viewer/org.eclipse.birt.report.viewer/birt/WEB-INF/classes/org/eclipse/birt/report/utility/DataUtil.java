@@ -39,6 +39,20 @@ public class DataUtil
 	}
 
 	/**
+	 * Returns trim string, not null
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static String trimString( String str )
+	{
+		if( str == null )
+			return ""; //$NON-NLS-1$
+		
+		return str.trim( );
+	}
+	
+	/**
 	 * 
 	 * Convert parameter to Object
 	 * 

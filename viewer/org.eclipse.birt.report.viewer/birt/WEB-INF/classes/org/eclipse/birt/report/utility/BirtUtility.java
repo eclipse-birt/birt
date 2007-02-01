@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.utility;
 
+import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -26,12 +29,14 @@ import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.BaseTaskBean;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.model.api.IModuleOption;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.service.ParameterDataTypeConverter;
+import org.eclipse.birt.report.service.ReportEngineService;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.service.api.ReportServiceException;
@@ -344,7 +349,7 @@ public class BirtUtility
 				break;
 			}
 
-			if ( ParameterDefinition.TYPE_STRING == parameterObj.getDataType( ) )
+			if ( parameterValue instanceof String )
 			{
 				String parameterStringValue = (String) parameterValue;
 				if ( parameterStringValue != null
@@ -442,5 +447,85 @@ public class BirtUtility
 			// push to parameter map
 			parameterMap.put( paramName, paramValueObj );
 		}
+	}
+
+	/**
+	 * Returns report runnable from design file
+	 * 
+	 * @param request
+	 * @param path
+	 * @return
+	 * @throws EngineException
+	 * 
+	 */
+	public static IReportRunnable getRunnableFromDesignFile(
+			HttpServletRequest request, String designFile, Map options )
+			throws EngineException
+	{
+		IReportRunnable reportRunnable = null;
+
+		// check the design file if exist
+		File file = new File( designFile );
+		if ( file.exists( ) )
+		{
+			reportRunnable = ReportEngineService.getInstance( )
+					.openReportDesign( designFile, options );
+		}
+		else
+		{
+			// try to get resource from war package
+			InputStream is = null;
+			URL url = null;
+			try
+			{
+				designFile = ParameterAccessor.workingFolder
+						+ "/" //$NON-NLS-1$
+						+ ParameterAccessor.getParameter( request,
+								ParameterAccessor.PARAM_REPORT );
+				if ( !designFile.startsWith( "/" ) ) //$NON-NLS-1$
+					designFile = "/" + designFile; //$NON-NLS-1$
+
+				url = request.getSession( ).getServletContext( ).getResource(
+						designFile );
+				if ( url != null )
+					is = url.openStream( );
+
+				if ( is != null )
+					reportRunnable = ReportEngineService.getInstance( )
+							.openReportDesign( url.toString( ), is, options );
+
+			}
+			catch ( Exception e )
+			{
+			}
+		}
+
+		return reportRunnable;
+	}
+
+	/**
+	 * Returns report title from design
+	 * 
+	 * @param reportDesignHandle
+	 * @return
+	 * @throws ReportServiceException
+	 */
+	public static String getTitleFromDesign(
+			IViewerReportDesignHandle reportDesignHandle )
+			throws ReportServiceException
+	{
+		String reportTitle = null;
+		if ( reportDesignHandle != null )
+		{
+			Object design = reportDesignHandle.getDesignObject( );
+			if ( design instanceof IReportRunnable )
+			{
+				IReportRunnable runnable = (IReportRunnable) design;
+				reportTitle = (String) runnable
+						.getProperty( IReportRunnable.TITLE );
+			}
+		}
+
+		return reportTitle;
 	}
 }

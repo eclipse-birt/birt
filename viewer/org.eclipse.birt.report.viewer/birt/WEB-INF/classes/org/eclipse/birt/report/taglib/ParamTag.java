@@ -106,6 +106,6 @@ public class ParamTag extends BodyTagSupport
 	 */
 	public void setIsLocale( String isLocale )
 	{
-		param.setLocale( Boolean.valueOf( isLocale ).booleanValue( ) );
+		param.setLocale( isLocale );
 	}
 }

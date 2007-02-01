@@ -61,10 +61,13 @@ public class BirtEngineServlet extends BaseReportEngineServlet
 	 * 
 	 * @param request
 	 *            incoming http request
-	 * @return
+	 * @param response
+	 *            http response
+	 * @exception BirtException
+	 * @return IContext
 	 */
 	protected IContext __getContext( HttpServletRequest request,
-			HttpServletResponse response )
+			HttpServletResponse response ) throws BirtException
 	{
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, request );
@@ -118,19 +121,22 @@ public class BirtEngineServlet extends BaseReportEngineServlet
 	/**
 	 * Process exception for non soap request.
 	 * 
-	 * @param context
+	 * @param request
+	 *            incoming http request
+	 * @param response
+	 *            http response
 	 * @param exception
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	protected void __handleNonSoapException( IContext context,
-			Exception exception ) throws ServletException, IOException
+	protected void __handleNonSoapException( HttpServletRequest request,
+			HttpServletResponse response, Exception exception )
+			throws ServletException, IOException
 	{
 		exception.printStackTrace( );
 		String target = "webcontent/birt/pages/common/Error.jsp"; //$NON-NLS-1$
-		context.getRequest( ).setAttribute( "error", exception ); //$NON-NLS-1$
-		RequestDispatcher rd = context.getRequest( ).getRequestDispatcher(
-				target );
-		rd.include( context.getRequest( ), context.getResponse( ) );
+		request.setAttribute( "error", exception ); //$NON-NLS-1$
+		RequestDispatcher rd = request.getRequestDispatcher( target );
+		rd.include( request, response );
 	}
 }

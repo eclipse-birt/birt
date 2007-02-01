@@ -66,8 +66,8 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		{
 			Event.observe( oSelects[1], 'dblclick', this.__neh_dblclick_src_closure, false );
 			Event.observe( oSelects[2], 'dblclick', this.__neh_dblclick_dest_closure, false );
-			Event.observe( oSelects[1], 'click', this.__neh_click_src_closure, false );
-			Event.observe( oSelects[2], 'click', this.__neh_click_dest_closure, false );
+			Event.observe( oSelects[1], 'change', this.__neh_click_src_closure, false );
+			Event.observe( oSelects[2], 'change', this.__neh_click_dest_closure, false );
 		}
 	},
 	

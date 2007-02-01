@@ -352,13 +352,19 @@
 	<mkdir dir="${export.dir}/configuration" />
 	<!-- copy config.ini to configuration/config.ini-->
 	<copy todir="${export.dir}/configuration">
-		<fileset dir="../org.eclipse.birt.report.engine">
+		<fileset dir="../org.eclipse.birt.report.engine/sdk">
 			<include name="config.ini" />
 		</fileset>
 	</copy>
 
 	<!-- copy plugins needed in the system fold ./eclipse/plugins into the directory -->
 	<mkdir dir="${export.dir}/plugins" />
+
+	<!-- framework extension fragment -->
+	<jar destfile="${export.dir}/plugins/org.eclipse.birt.api_1.0.0.jar" 
+		manifest="../org.eclipse.birt.report.engine/sdk/manifest.mf.template"/>
+	
+
 	<copy todir="${export.dir}/plugins">
 		<fileset dir="${baseLocation}/plugins">
 			<include name="org.eclipse.core.runtime.compatibility.registry_*/**" />
@@ -369,15 +375,20 @@
 			<include name="org.eclipse.core.contenttype_*.jar" />
 			<include name="org.eclipse.core.jobs_*.jar" />
 			<include name="org.eclipse.core.runtime.compatibility_*.jar" />
+			<include name="org.eclipse.core.runtime.compatibility.auth_*.jar"/>
+			<include name="org.eclipse.core.runtime.compatibility.registry_*.jar"/>
 			<include name="org.eclipse.core.runtime_*.jar" />
 			<include name="org.eclipse.emf.common_*.jar" />
 			<include name="org.eclipse.emf.ecore.xmi_*.jar" />
 			<include name="org.eclipse.emf.ecore_*.jar" />
 			<include name="org.eclipse.emf_*.jar" />
+			<include name="org.eclipse.equinox.app_*.jar"/>
 			<include name="org.eclipse.equinox.common_*.jar" />
 			<include name="org.eclipse.equinox.preferences_*.jar" />
 			<include name="org.eclipse.equinox.registry_*.jar" />
+			<!-- <include name="org.eclipse.equinox.servlet.api_*.jar"/> -->
 			<include name="org.eclipse.osgi_*.jar" />
+			<include name="org.eclipse.osgi.services_*.jar"/>
 			<include name="org.eclipse.update.configurator_*.jar" />
 			<include name="org.apache.xerces_*/**" />
 			

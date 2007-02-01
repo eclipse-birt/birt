@@ -93,7 +93,12 @@ abstract public class BaseAttributeBean
 	/**
 	 * Report page number.
 	 */
-	protected String reportPage = null;
+	protected int reportPage;
+
+	/**
+	 * Report page range.
+	 */
+	protected String reportPageRange;
 
 	/**
 	 * Current locale.
@@ -248,7 +253,7 @@ abstract public class BaseAttributeBean
 	}
 
 	protected IViewerReportDesignHandle getDesignHandle(
-			HttpServletRequest request )
+			HttpServletRequest request ) throws Exception
 	{
 		return new BirtViewerReportDesignHandle( null, reportDesignName );
 	}
@@ -279,11 +284,19 @@ abstract public class BaseAttributeBean
 	}
 
 	/**
-	 * @return Returns the reportPage.
+	 * @return the reportPage
 	 */
-	public String getReportPage( )
+	public int getReportPage( )
 	{
 		return reportPage;
+	}
+
+	/**
+	 * @return the reportPageRange
+	 */
+	public String getReportPageRange( )
+	{
+		return reportPageRange;
 	}
 
 	/**

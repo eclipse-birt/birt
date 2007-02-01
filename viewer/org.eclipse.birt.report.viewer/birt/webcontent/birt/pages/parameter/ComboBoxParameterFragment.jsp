@@ -92,9 +92,15 @@
 		
 		if ( defaultValue != null && !parameterBean.isDefaultValueInList( ) ) // Add default value in Combo Box
 		{
+			boolean flag = CHECKED && !parameterBean.isValueInList( );
+			// if displayText is in request, use it
+			if( flag && parameterBean.isDisplayTextInReq( ) )
+			{
+				defaultDisplayText = displayText;
+			}
 %>
 			<OPTION VALUE="<%= ParameterAccessor.htmlEncode( defaultValue ) %>" 
-				<%= CHECKED && !parameterBean.isValueInList( ) ? "SELECTED" : "" %> > <%= ParameterAccessor.htmlEncode( defaultDisplayText ) %></OPTION>
+				<%=  flag ? "SELECTED" : "" %> > <%= ParameterAccessor.htmlEncode( defaultDisplayText ) %></OPTION>
 <%	
 		}
 		
@@ -105,6 +111,11 @@
 
 			if ( paramValue != null && paramValue.equals( value ) )
 			{
+				// if displayText is in request, use it
+				if( parameterBean.isDisplayTextInReq( ) )
+				{
+					label = displayText;
+				}
 %>
 			<OPTION VALUE="<%= ParameterAccessor.htmlEncode( value ) %>" SELECTED><%= ParameterAccessor.htmlEncode( label ) %></OPTION>
 <%

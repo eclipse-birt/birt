@@ -32,23 +32,25 @@
 				It can contain number,letter or underline.
 			</description>			
 		</attribute>	
-		        
-        <attribute>
-            <name>name</name>
-            <required>false</required>
-            <rtexprvalue>true</rtexprvalue>
-            <description>
-            	Specifies the viewer name.
-            </description>
-        </attribute>
 
         <attribute>
-            <name>contextRoot</name>
+            <name>pattern</name>
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
             <description>
-            	Specifies the context root of web application.
-            	Otherwise, according to the current context.
+            	Specifies which servlet pattern to be used to preview report.
+            	Default value is frameset.
+            	( frameset or run )
+            </description>
+        </attribute>
+        		        
+        <attribute>
+            <name>baseURL</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>
+            	Specifies base URL of BIRT viewer.
+            	Default to the current context.
             </description>
         </attribute>
         
@@ -76,7 +78,7 @@
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
             <description>
-            	Sets the DIV/IFrame style "scrolling ".
+            	Sets the IFrame style "scrolling ".
             	If isHostPage is true, ignore this attribute.
             	( auto | yes | no )
             </description>
@@ -148,8 +150,10 @@
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
             <description>
- 				Specifies whether displays the iframe border.( Yes | No )
- 				Default to no.
+ 				Specifies whether displays the iframe border.
+				Default to no. 
+				If isHostPage is true, ignore this attribute.
+				( Yes | No )
             </description>
         </attribute>
                         
@@ -159,6 +163,7 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>
 				Specifies the report design file name.
+				( Absolute path, relative path or URL )
 			</description>	
 		</attribute>		
 
@@ -167,7 +172,9 @@
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 			<description>
-				Specifies the report document file name.
+				Specifies the report document file name. 
+				Noted: only support "file:" URL format.
+				( Absolute path, relative path or URL ) 
 			</description>	
 		</attribute>		
 
@@ -178,6 +185,7 @@
 			<description>
 				Specifies the instance id of reportlet.
 				The "reportDocument" attribute should be required.
+				Noted: frameset pattern doesn't support reportlet.
 			</description>	
 		</attribute>
 				
@@ -225,7 +233,7 @@
 				Specifies whether supports rtl page or not.
 			</description>			
 		</attribute>
-		
+				
 		<attribute>
 			<name>allowMasterPage</name>
 			<required>false</required>
@@ -234,17 +242,25 @@
 				Specifies whether supports master page or not.
 			</description>			
 		</attribute>
-		
+
 		<attribute>
-			<name>allowPageBreak</name>
+			<name>pageNum</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 			<description>
-				Specifies whether supports page break.If true, then output generated document file.
-				Default to true.
+				Specifies output page number when render document file.
 			</description>			
 		</attribute>
-						
+
+		<attribute>
+			<name>pageRange</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Specifies page range when render document file.
+			</description>			
+		</attribute>
+								
 		<attribute>
 			<name>resourceFolder</name>
 			<required>false</required>
@@ -332,21 +348,13 @@
 		</attribute>	
 		        
         <attribute>
-            <name>name</name>
+            <name>baseURL</name>
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
             <description>
-            	Specifies the viewer name.
-            </description>
-        </attribute>
-
-      	<attribute>
-            <name>contextRoot</name>
-            <required>false</required>
-            <rtexprvalue>true</rtexprvalue>
-            <description>
-            	Specifies the context root of web application.
-            	Otherwise, according to the current context.
+            	Specifies base URL of BIRT viewer.
+            	Default to the current context.
+				If report container is DIV, ignore this attribute.
             </description>
         </attribute>
         
@@ -437,8 +445,10 @@
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
             <description>
- 				Specifies whether displays the iframe border.( Yes | No )
- 				Default to no.
+ 				Specifies whether displays the iframe border.
+ 				Available when user IFrame.
+				Default to no.
+				( Yes | No )
             </description>
         </attribute>
 
@@ -448,6 +458,7 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>
 				Specifies the report design file name.
+				( Absolute path, relative path or URL )
 			</description>	
 		</attribute>		
 
@@ -456,9 +467,11 @@
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 			<description>
-				Specifies the report document file name.
+				Specifies the report document file name. 
+				Noted: only support "file:" URL format.
+				( Absolute path, relative path or URL ) 
 			</description>	
-		</attribute>		
+		</attribute>
 
 		<attribute>
 			<name>reportletId</name>
@@ -514,7 +527,7 @@
 				Specifies whether supports rtl page or not.
 			</description>			
 		</attribute>
-		
+				
 		<attribute>
 			<name>allowMasterPage</name>
 			<required>false</required>
@@ -523,17 +536,7 @@
 				Specifies whether supports master page or not.
 			</description>			
 		</attribute>
-								
-		<attribute>
-			<name>resourceFolder</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>
-				Specifies the referenced resource folder.
-				Default value is defined in web.xml.
-			</description>			
-		</attribute>			
-								
+
 		<attribute>
 			<name>forceParameterPrompting</name>
 			<required>false</required>
@@ -543,14 +546,43 @@
 				Default to false.
 			</description>			
 		</attribute>
-		
+										
 		<attribute>
-			<name>forceIFrame</name>
+			<name>resourceFolder</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 			<description>
-				Specifies whether forces to use IFrame as report container.
-				Default to true.
+				Specifies the referenced resource folder.
+				Default value is defined in web.xml.
+			</description>			
+		</attribute>			
+									
+		<attribute>
+			<name>reportContainer</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Specifies iframe or div as report container.
+				Default to iframe.
+				( iframe | div )
+			</description>			
+		</attribute>
+
+		<attribute>
+			<name>pageNum</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Specifies output page number when render document file.
+			</description>			
+		</attribute>
+
+		<attribute>
+			<name>pageRange</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Specifies page range when render document file.
 			</description>			
 		</attribute>
 		        
@@ -580,7 +612,6 @@
             <rtexprvalue>true</rtexprvalue>
             <description>
             	Specifies the report parameter pattern format.
-            	If isLocale is false, ignore it.
             </description>
         </attribute>     
         <attribute>
@@ -604,21 +635,20 @@
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
             <description>
-            	Specifies whether the report parameter value is a locale/format related string.( true | false )
-            	Default to false.
+            	Specifies whether the report parameter value is a locale/format related string.
             </description>
         </attribute>             
      </tag>   
      
     <!--**********************************************-->
-    <!--             Requester Tag                    -->
+    <!--             ParameterPage Tag                -->
     <!--**********************************************-->
     <tag>
-        <name>requester</name>
+        <name>parameterPage</name>
         <tag-class>org.eclipse.birt.report.taglib.RequesterTag</tag-class>
         <body-content>JSP</body-content>
         <description>
-        	The requester tag can help developers to create a user-defined parameter page.
+        	The parameterPage tag can help developers to display BIRT parameter page or create a user-defined parameter page.
 			This tag can collect these parameters and submit to BIRT servlet to handle request.
         </description>
         
@@ -627,7 +657,7 @@
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 			<description>
-				Specifies the requester container id.
+				Specifies the parameter page id.
 			</description>			
 		</attribute>	
         
@@ -636,8 +666,8 @@
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
             <description>
-            	Specifies the requester name. 
-            	If attribute 'isCustomer' is true, this name should be required and unique.
+            	Specifies the parameter page name. 
+            	If attribute 'isCustom' is true, this name should be required and unique.
             </description>
         </attribute>
 
@@ -662,12 +692,12 @@
         </attribute>
                         
       	<attribute>
-            <name>contextRoot</name>
+            <name>baseURL</name>
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
             <description>
-            	Specifies the context root of web application.
-            	Otherwise, according to the current context.
+            	Specifies base URL of BIRT viewer. 
+            	Default to the current context.
             </description>
         </attribute>
 		
@@ -686,7 +716,7 @@
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
             <description>
-            	Sets the style "position" of requester container.
+            	Sets the style "position" of parameter page.
             	( static | absolute | fixed | relative )
             </description>
         </attribute>
@@ -696,7 +726,7 @@
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
             <description>
-            	Sets the style of requester container.
+            	Sets the style of parameter page.
             </description>
         </attribute>
                         
@@ -705,7 +735,7 @@
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
             <description>
-            	Sets the height of requester container in pixels.
+            	Sets the height of parameter page in pixels.
             </description>
         </attribute>
 
@@ -714,7 +744,7 @@
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
             <description>
-	            Sets the width of requester container in pixels.
+	            Sets the width of parameter page in pixels.
             </description>
         </attribute>
 
@@ -723,7 +753,7 @@
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
             <description>
-            	Sets the top of requester container in pixels.
+            	Sets the top of parameter page in pixels.
             </description>
         </attribute>
 
@@ -732,7 +762,7 @@
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
             <description>
- 				Sets the left of requester container in pixels.
+ 				Sets the left of parameter page in pixels.
             </description>
         </attribute>
 
@@ -741,8 +771,10 @@
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>
             <description>
- 				Specifies whether displays the iframe border.( Yes | No )
- 				Default to no.
+ 				Specifies whether displays the iframe border.
+				Default to no.
+				If set "isCustom" to true, ignore this attribute.
+				( Yes | No )
             </description>
         </attribute>
                         
@@ -752,6 +784,7 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>
 				Specifies the report design file name.
+				( Absolute path, relative path or URL )
 			</description>	
 		</attribute>		
 
@@ -760,7 +793,9 @@
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 			<description>
-				Specifies the report document file name.
+				Specifies the report document file name. 
+				Noted: only support "file:" URL format.
+				( Absolute path, relative path or URL ) 
 			</description>	
 		</attribute>		
 
@@ -771,6 +806,7 @@
 			<description>
 				Specifies the instance id of reportlet.
 				The "reportDocument" attribute should be required.
+				Noted: frameset pattern doesn't support reportlet.
 			</description>	
 		</attribute>
 
@@ -900,7 +936,7 @@
 				Default to true.
 			</description>			
 		</attribute>
-        
+				        
     </tag>
      		
 </taglib>

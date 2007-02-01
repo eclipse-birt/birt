@@ -13,14 +13,11 @@ package org.eclipse.birt.report.taglib;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -89,17 +86,19 @@ public class ReportTag extends AbstractViewerTag
 	 */
 	public void __process( ) throws Exception
 	{
-		// output format
-		outputFormat = BirtTagUtil.getFormat( viewer.getFormat( ) );
+		boolean isIFrame = true;
 
-		// if output format isn't html,allowParameterPrompting is
-		// true or set forceIFrame as true, use IFrame to load report.
+		// Set DIV as report container
+		if ( CONTAINER_DIV.equalsIgnoreCase( viewer.getReportContainer( ) ) )
+			isIFrame = false;
+
+		// if output format isn't html, force to use IFrame as report container.
+		outputFormat = BirtTagUtil.getFormat( viewer.getFormat( ) );
 		if ( !outputFormat
-				.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_HTML )
-				|| BirtTagUtil.convertToBoolean( viewer
-						.getForceParameterPrompting( ) )
-				|| viewer.isForceIFrame( )
-				|| isContextChanged( viewer.getContextRoot( ) ) )
+				.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_HTML ) )
+			isIFrame = true;
+
+		if ( isIFrame )
 		{
 			__processWithIFrame( );
 			return;
@@ -128,51 +127,37 @@ public class ReportTag extends AbstractViewerTag
 		// get report design handle
 		reportDesignHandle = getDesignHandle( );
 
-		// Get parameter definition list
-		Collection parameterDefList = getReportService( )
-				.getParameterDefinitions( this.reportDesignHandle, options,
-						false );
-
-		if ( BirtUtility.validateParameters( parameterDefList,
-				getParameterMap( ) ) )
+		if ( viewer.isHostPage( ) )
 		{
-			// if miss parameters, use IFrame to load report.
-			__processWithIFrame( );
+			// if set isHostPage is true, output report directly
+			HttpServletResponse response = (HttpServletResponse) pageContext
+					.getResponse( );
+			__handleOutputReport( response.getOutputStream( ) );
 		}
 		else
 		{
-			if ( viewer.isHostPage( ) )
-			{
-				// if set isHostPage is true, output report directly
-				HttpServletResponse response = (HttpServletResponse) pageContext
-						.getResponse( );
-				__handleOutputReport( response.getOutputStream( ) );
-			}
-			else
-			{
 
-				// output to byte array
-				ByteArrayOutputStream out = new ByteArrayOutputStream( );
-				__handleOutputReport( out );
-				String content = out.toString( );
+			// output to byte array
+			ByteArrayOutputStream out = new ByteArrayOutputStream( );
+			__handleOutputReport( out );
+			String content = out.toString( );
 
-				JspWriter writer = pageContext.getOut( );
+			JspWriter writer = pageContext.getOut( );
 
-				// write style
-				writer.write( __handleStyle( content ) );
+			// write style
+			writer.write( __handleStyle( content ) );
 
-				// write script
-				writer.write( __handleScript( content ) );
+			// write script
+			writer.write( __handleScript( content ) );
 
-				// use <div> to control report content display
-				writer.write( "<div id='" + viewer.getId( ) + "'" //$NON-NLS-1$ //$NON-NLS-2$
-						+ __handleDivAppearance( ) + ">\n" ); //$NON-NLS-1$
-				writer.write( "<div class='" + __handleBodyStyle( content ) //$NON-NLS-1$
-						+ "'>\n" ); //$NON-NLS-1$
-				writer.write( __handleBody( content ) + "\n" ); //$NON-NLS-1$
-				writer.write( "</div>\n" ); //$NON-NLS-1$
-				writer.write( "</div>\n" ); //$NON-NLS-1$
-			}
+			// use <div> to control report content display
+			writer.write( "<div id='" + viewer.getId( ) + "'" //$NON-NLS-1$ //$NON-NLS-2$
+					+ __handleDivAppearance( ) + ">\n" ); //$NON-NLS-1$
+			writer.write( "<div class='" + __handleBodyStyle( content ) //$NON-NLS-1$
+					+ "'>\n" ); //$NON-NLS-1$
+			writer.write( __handleBody( content ) + "\n" ); //$NON-NLS-1$
+			writer.write( "</div>\n" ); //$NON-NLS-1$
+			writer.write( "</div>\n" ); //$NON-NLS-1$
 		}
 	}
 
@@ -193,26 +178,6 @@ public class ReportTag extends AbstractViewerTag
 			__handleIFrame( viewer.createURI( IBirtConstants.VIEWER_PREVIEW ),
 					viewer.getId( ) );
 		}
-	}
-
-	/**
-	 * Check whether accesses the other context
-	 * 
-	 * @param contextRoot
-	 * @return
-	 */
-	protected boolean isContextChanged( String contextRoot )
-	{
-		if ( contextRoot == null )
-			return false;
-
-		if ( !contextRoot.startsWith( "/" ) ) //$NON-NLS-1$
-			contextRoot = "/" + contextRoot; //$NON-NLS-1$
-
-		HttpServletRequest req = (HttpServletRequest) pageContext.getRequest( );
-		String currentContext = req.getContextPath( );
-
-		return !currentContext.equals( contextRoot );
 	}
 
 	/**
@@ -237,11 +202,11 @@ public class ReportTag extends AbstractViewerTag
 			style += "width:" + viewer.getWidth( ) + "px;"; //$NON-NLS-1$//$NON-NLS-2$
 
 		// top
-		if ( viewer.getTop( ) >= 0 )
+		if ( viewer.getTop( ) != null )
 			style += "top:" + viewer.getTop( ) + "px;"; //$NON-NLS-1$//$NON-NLS-2$
 
 		// left
-		if ( viewer.getLeft( ) >= 0 )
+		if ( viewer.getLeft( ) != null )
 			style = style + "left:" + viewer.getLeft( ) + "px;"; //$NON-NLS-1$//$NON-NLS-2$
 
 		// scroll
@@ -468,33 +433,113 @@ public class ReportTag extends AbstractViewerTag
 
 		if ( this.documentInUrl )
 		{
-			String doc = createAbsolutePath( viewer.getReportDocument( ) );
+			__renderDocument( out );
+		}
+		else
+		{
+			__renderReport( out );
+		}
+	}
+
+	/**
+	 * Render context from document file
+	 * 
+	 * @param out
+	 * @throws Exception
+	 */
+	private void __renderDocument( OutputStream out ) throws Exception
+	{
+		HttpServletRequest request = (HttpServletRequest) pageContext
+				.getRequest( );
+
+		// Get document file path
+		String documentFile = ParameterAccessor.getReportDocument( request,
+				viewer.getReportDocument( ), false );
+		IReportDocument doc = ReportEngineService.getInstance( )
+				.openReportDocument( null, documentFile, getModuleOptions( ) );
+		try
+		{
+			Locale locale = (Locale) this.options
+					.getOption( InputOptions.OPT_LOCALE );
+			Boolean isMasterPageContent = (Boolean) this.options
+					.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
+			boolean isMasterPage = isMasterPageContent == null
+					? false
+					: isMasterPageContent.booleanValue( );
+			Boolean svgFlag = (Boolean) this.options
+					.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
+			boolean isSvg = svgFlag == null ? false : svgFlag.booleanValue( );
+			Boolean isRtl = (Boolean) this.options
+					.getOption( InputOptions.OPT_RTL );
+			String servletPath = (String) this.options
+					.getOption( InputOptions.OPT_SERVLET_PATH );
+
 			if ( viewer.getReportletId( ) != null )
 			{
 				// Render the reportlet
-				getReportService( ).renderReportlet( doc,
-						viewer.getReportletId( ), this.options,
-						new ArrayList( ), out );
+				ReportEngineService.getInstance( )
+						.renderReportlet( out, request, doc,
+								viewer.getReportletId( ), isMasterPage, isSvg,
+								null, locale, isRtl.booleanValue( ),
+								servletPath );
 			}
 			else
 			{
 				// Render the report document file
-				getReportService( ).renderReport( doc, null, this.options, out );
+				ReportEngineService.getInstance( ).renderReport( out, request,
+						doc, viewer.getPageNum( ), viewer.getPageRange( ),
+						isMasterPage, isSvg, null, locale,
+						isRtl.booleanValue( ), servletPath );
 			}
 		}
-		else
+		finally
 		{
-			// Prepare the report parameters
-			Map params = __handleParameters( reportDesignHandle, null );
-
-			// Prepare the display text of report parameters
-			Map displayTexts = BirtUtility.getDisplayTexts( null,
-					(HttpServletRequest) pageContext.getRequest( ) );
-
-			// RunAndRender the report design file
-			getReportService( ).runAndRenderReport( reportDesignHandle, null,
-					this.options, params, out, new ArrayList( ), displayTexts );
+			if ( doc != null )
+				doc.close( );
 		}
+	}
+
+	/**
+	 * Render report content from design file
+	 * 
+	 * @param out
+	 * @throws Exception
+	 */
+	private void __renderReport( OutputStream out ) throws Exception
+	{
+		HttpServletRequest request = (HttpServletRequest) pageContext
+				.getRequest( );
+		Locale locale = (Locale) this.options
+				.getOption( InputOptions.OPT_LOCALE );
+		Boolean isMasterPageContent = (Boolean) this.options
+				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
+		Boolean svgFlag = (Boolean) this.options
+				.getOption( InputOptions.OPT_SVG_FLAG );
+		String format = (String) this.options
+				.getOption( InputOptions.OPT_FORMAT );
+		Boolean isRtl = (Boolean) this.options.getOption( InputOptions.OPT_RTL );
+		String servletPath = (String) this.options
+				.getOption( InputOptions.OPT_SERVLET_PATH );
+		IReportRunnable runnable = (IReportRunnable) this.reportDesignHandle
+				.getDesignObject( );
+
+		// Get report title
+		String reportTitle = ParameterAccessor.htmlDecode( BirtUtility
+				.getTitleFromDesign( reportDesignHandle ) );
+
+		// Prepare the report parameters
+		Map params = __handleParameters( reportDesignHandle, null );
+
+		// Prepare the display text of report parameters
+		Map displayTexts = BirtUtility.getDisplayTexts( null,
+				(HttpServletRequest) pageContext.getRequest( ) );
+
+		// Render report
+		ReportEngineService.getInstance( ).runAndRenderReport( request,
+				runnable, out, format, locale, isRtl.booleanValue( ), params,
+				isMasterPageContent.booleanValue( ), svgFlag.booleanValue( ),
+				Boolean.TRUE, null, null, displayTexts, servletPath,
+				reportTitle );
 	}
 
 	/**
@@ -571,28 +616,6 @@ public class ReportTag extends AbstractViewerTag
 	}
 
 	/**
-	 * Create Map containing parameter name and value
-	 * 
-	 * @return
-	 */
-	private Map getParameterMap( )
-	{
-		Map map = new HashMap( );
-
-		Iterator it = viewer.getParameters( ).values( ).iterator( );
-		while ( it.hasNext( ) )
-		{
-			ParameterField field = (ParameterField) it.next( );
-			if ( field == null )
-				continue;
-
-			map.put( field.getName( ), field.getValue( ) );
-		}
-
-		return map;
-	}
-
-	/**
 	 * parse parameter value by string value
 	 * 
 	 * @param handle
@@ -649,7 +672,7 @@ public class ReportTag extends AbstractViewerTag
 		if ( filePath != null && filePath.trim( ).length( ) > 0
 				&& ParameterAccessor.isRelativePath( filePath ) )
 		{
-			return ParameterAccessor.documentFolder + File.separator + filePath;
+			return ParameterAccessor.workingFolder + File.separator + filePath;
 		}
 		return filePath;
 	}
@@ -668,11 +691,14 @@ public class ReportTag extends AbstractViewerTag
 		IViewerReportDesignHandle design = null;
 		IReportRunnable reportRunnable = null;
 
-		// Get the absolute report design and document file path
-		String designFile = createAbsolutePath( viewer.getReportDesign( ) );
-		String documentFile = createAbsolutePath( viewer.getReportDocument( ) );
 		HttpServletRequest request = (HttpServletRequest) pageContext
 				.getRequest( );
+
+		// Get the absolute report design and document file path
+		String designFile = ParameterAccessor.getReport( request, viewer
+				.getReportDesign( ) );
+		String documentFile = ParameterAccessor.getReportDocument( request,
+				viewer.getReportDocument( ), false );
 
 		// check if document file path is valid
 		boolean isValidDocument = ParameterAccessor
@@ -717,38 +743,8 @@ public class ReportTag extends AbstractViewerTag
 			}
 			else
 			{
-				// check the design file if exist
-				File file = new File( designFile );
-				if ( file.exists( ) )
-				{
-					reportRunnable = ReportEngineService.getInstance( )
-							.openReportDesign( designFile, getModuleOptions( ) );
-				}
-				else if ( !ParameterAccessor.isWorkingFolderAccessOnly( ) )
-				{
-					InputStream is = null;
-					URL url = null;
-					try
-					{
-						String reportPath = viewer.getReportDesign( );
-						if ( !reportPath.startsWith( "/" ) ) //$NON-NLS-1$
-							reportPath = "/" + reportPath; //$NON-NLS-1$
-
-						url = request.getSession( ).getServletContext( )
-								.getResource( reportPath );
-						if ( url != null )
-							is = url.openStream( );
-
-						if ( is != null )
-							reportRunnable = ReportEngineService.getInstance( )
-									.openReportDesign( url.toString( ), is,
-											getModuleOptions( ) );
-
-					}
-					catch ( Exception e )
-					{
-					}
-				}
+				reportRunnable = BirtUtility.getRunnableFromDesignFile(
+						request, designFile, this.getModuleOptions( ) );
 
 				if ( reportRunnable == null )
 				{
@@ -787,11 +783,11 @@ public class ReportTag extends AbstractViewerTag
 	}
 
 	/**
-	 * @param forceIFrame
-	 *            the forceIFrame to set
+	 * @param reportContainer
+	 *            the reportContainer to set
 	 */
-	public void setForceIFrame( String forceIFrame )
+	public void setReportContainer( String reportContainer )
 	{
-		viewer.setForceIFrame( Boolean.valueOf( forceIFrame ).booleanValue( ) );
+		viewer.setReportContainer( reportContainer );
 	}
 }

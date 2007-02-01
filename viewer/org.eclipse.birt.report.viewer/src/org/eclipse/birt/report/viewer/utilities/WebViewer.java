@@ -174,12 +174,9 @@ public class WebViewer
 				}
 			}
 		}
-		String maxrows = null;
-		if ( params.get( MAX_ROWS_KEY ) != null )
-			maxrows = (String) params.get( MAX_ROWS_KEY );
-		else
-			maxrows = ViewerPlugin.getDefault( ).getPluginPreferences( )
-					.getString( WebViewer.PREVIEW_MAXROW );
+
+		// max rows setting
+		String maxrows = (String) params.get( MAX_ROWS_KEY );
 
 		return createURL( servletName, report, format, true, resourceFolder,
 				maxrows );
@@ -296,7 +293,23 @@ public class WebViewer
 	{
 		try
 		{
-			WebappAccessor.start( "viewer", WebAppPlugin, Path.EMPTY ); //$NON-NLS-1$
+			WebappAccessor.start( ViewerPlugin.WEBAPP_CONTEXT, WebAppPlugin,
+					Path.EMPTY );
+		}
+		catch ( CoreException e )
+		{
+			// Do nothing
+		}
+	}
+
+	/**
+	 * Stop web application
+	 */
+	private static void stopWebApp( )
+	{
+		try
+		{
+			WebappAccessor.stop( ViewerPlugin.WEBAPP_CONTEXT );
 		}
 		catch ( CoreException e )
 		{
@@ -313,6 +326,14 @@ public class WebViewer
 	public static void startup( Browser browser )
 	{
 		startWebApp( );
+	}
+
+	/**
+	 * Stop the web server
+	 */
+	public static void stop( )
+	{
+		stopWebApp( );
 	}
 
 	/**

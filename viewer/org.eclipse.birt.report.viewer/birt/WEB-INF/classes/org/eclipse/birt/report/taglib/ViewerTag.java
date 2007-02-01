@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.taglib;
 
+import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.taglib.util.BirtTagUtil;
 
 /**
@@ -47,22 +48,25 @@ public class ViewerTag extends AbstractViewerTag
 	}
 
 	/**
+	 * @param pattern
+	 *            the pattern to set
+	 */
+	public void setPattern( String pattern )
+	{
+		if ( pattern == null
+				|| !IBirtConstants.VIEWER_RUN.equalsIgnoreCase( pattern ) )
+			pattern = IBirtConstants.VIEWER_FRAMESET;
+
+		viewer.setPattern( pattern );
+	}
+
+	/**
 	 * @param title
 	 *            the title to set
 	 */
 	public void setTitle( String title )
 	{
 		viewer.setTitle( title );
-	}
-
-	/**
-	 * @param allowPageBreak
-	 *            the allowPageBreak to set
-	 */
-	public void setAllowPageBreak( String allowPageBreak )
-	{
-		viewer.setAllowPageBreak( Boolean.valueOf( allowPageBreak )
-				.booleanValue( ) );
 	}
 
 	/**

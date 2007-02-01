@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.utility;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
@@ -44,32 +45,6 @@ import org.eclipse.birt.report.resource.ResourceConstants;
 
 public class ParameterAccessor
 {
-
-	// servlet path constants
-	/**
-	 * Servlet path for parameter model.
-	 */
-	public static final String SERVLET_PATH_PARAMETER = "/parameter"; //$NON-NLS-1$
-
-	/**
-	 * Servlet path for preview model.
-	 */
-	public static final String SERVLET_PATH_PREVIEW = "/preview"; //$NON-NLS-1$
-
-	/**
-	 * Servlet path for frameset model.
-	 */
-	public static final String SERVLET_PATH_FRAMESET = "/frameset"; //$NON-NLS-1$
-
-	/**
-	 * Servlet path for running model.
-	 */
-	public static final String SERVLET_PATH_RUN = "/run"; //$NON-NLS-1$
-
-	/**
-	 * Servlet path for running model.
-	 */
-	public static final String SERVLET_PATH_DOWNLOAD = "/download"; //$NON-NLS-1$
 
 	// URL parameter constants
 	/**
@@ -144,6 +119,11 @@ public class ParameterAccessor
 	 * URL parameter name that gives the page number to display the report.
 	 */
 	public static final String PARAM_PAGE = "__page"; //$NON-NLS-1$
+
+	/**
+	 * URL parameter name that gives the page range to display the report.
+	 */
+	public static final String PARAM_PAGE_RANGE = "__pagerange"; //$NON-NLS-1$
 
 	/**
 	 * URL parameter name that gives the report design name.
@@ -280,7 +260,7 @@ public class ParameterAccessor
 	 * Context parameter name that gives the working folder of the local BIRT
 	 * viewer user.
 	 */
-	public static final String INIT_PARAM_REPORT_DIR = "BIRT_VIEWER_WORKING_FOLDER"; //$NON-NLS-1$
+	public static final String INIT_PARAM_WORKING_DIR = "BIRT_VIEWER_WORKING_FOLDER"; //$NON-NLS-1$
 
 	/**
 	 * Context parameter name that gives the repository location of the image
@@ -307,10 +287,10 @@ public class ParameterAccessor
 
 	/**
 	 * Context parameter name that determines the search strategy of searching
-	 * report resources. True if only search the document folder, otherwise
+	 * report resources. True if only search the working folder, otherwise
 	 * false.
 	 */
-	public static final String INIT_PARAM_DOCUMENT_FOLDER_ACCESS_ONLY = "DOCUMENT_FOLDER_ACCESS_ONLY"; //$NON-NLS-1$
+	public static final String INIT_PARAM_WORKING_FOLDER_ACCESS_ONLY = "WORKING_FOLDER_ACCESS_ONLY"; //$NON-NLS-1$
 
 	/**
 	 * The parameter name that gives the repository lication to put the created
@@ -370,11 +350,6 @@ public class ParameterAccessor
 	public static final String SUFFIX_REPORT_DOCUMENT = ".rptdocument"; //$NON-NLS-1$
 
 	/**
-	 * File package name to store the documents.
-	 */
-	public static final String DOCUMENTS_DIR = "documents";//$NON-NLS-1$
-
-	/**
 	 * Report working folder.
 	 */
 	public static String workingFolder = null;
@@ -383,6 +358,26 @@ public class ParameterAccessor
 	 * Document folder to put the report files and created documents.
 	 */
 	public static String documentFolder = null;
+
+	/**
+	 * Image folder to put the image files
+	 */
+	public static String imageFolder = null;
+
+	/**
+	 * Log folder to put the generated log files
+	 */
+	public static String logFolder = null;
+
+	/**
+	 * Log level
+	 */
+	public static String logLevel = null;
+
+	/**
+	 * Script lib folder
+	 */
+	public static String scriptLibDir = null;
 
 	/**
 	 * Preview report max rows
@@ -395,9 +390,9 @@ public class ParameterAccessor
 	public static Locale webAppLocale = null;
 
 	/**
-	 * Flag indicating that if user can only access the file in working folder.
+	 * Indicating that if user can only access the files in working folder.
 	 */
-	public static boolean isDocumentFolderAccessOnly = false;
+	public static boolean isWorkingFolderAccessOnly = false;
 
 	/**
 	 * Resource path set in the web application.
@@ -432,7 +427,7 @@ public class ParameterAccessor
 	/**
 	 * viewer properties
 	 */
-	public static final String PROP_BASE_HREF = "base_href"; //$NON-NLS-1$
+	public static final String PROP_BASE_URL = "base_url"; //$NON-NLS-1$
 
 	/**
 	 * Get bookmark. If page exists, ignore bookmark.
@@ -708,17 +703,45 @@ public class ParameterAccessor
 	}
 
 	/**
-	 * Get report page from Http request.
+	 * Get report page from Http request. If frameset pattern, default page is
+	 * 1.
 	 * 
 	 * @param request
 	 *            http request
-	 * @return report locale
+	 * @return report page number
 	 */
 
 	public static int getPage( HttpServletRequest request )
 	{
 		int page = getParameterAsInt( request, PARAM_PAGE );
-		return page <= 0 ? 1 : page; // The default page value is 1.
+		if ( page > 0 )
+			return page;
+
+		String servletPath = request.getServletPath( );
+		if ( IBirtConstants.SERVLET_PATH_FRAMESET
+				.equalsIgnoreCase( servletPath ) )
+		{
+			page = 1;
+		}
+		else
+		{
+			page = 0;
+		}
+
+		return page;
+	}
+
+	/**
+	 * Get report page range from Http request.
+	 * 
+	 * @param request
+	 *            http request
+	 * @return report page range
+	 */
+
+	public static String getPageRange( HttpServletRequest request )
+	{
+		return getParameter( request, PARAM_PAGE_RANGE );
 	}
 
 	/**
@@ -760,44 +783,79 @@ public class ParameterAccessor
 	}
 
 	/**
-	 * Get report file name.
+	 * Get report file name. If passed file path is null, get report file from
+	 * request.
 	 * 
 	 * @param request
-	 *            http request
-	 * @return report file name
+	 * @param filePath
+	 * @return report file
 	 */
-
-	public static String getReport( HttpServletRequest request )
+	public static String getReport( HttpServletRequest request, String filePath )
 	{
-		String filePath = getParameter( request, PARAM_REPORT );
-		filePath = preProcess( filePath );
-		filePath = createAbsolutePath( filePath );
+		if ( filePath == null )
+			filePath = DataUtil
+					.trimString( getParameter( request, PARAM_REPORT ) );
+
+		// if file path is an absolute file, return it directly
+		if ( !isRelativePath( filePath ) )
+			return filePath;
+
+		// relative to working folder
+		if ( isRelativePath( workingFolder ) )
+		{
+			filePath = getRealPath( workingFolder + "/" + filePath, request //$NON-NLS-1$
+					.getSession( ).getServletContext( ) );
+		}
+		else
+		{
+			filePath = workingFolder + File.separator + filePath;
+		}
+
 		return filePath;
 	}
 
 	/**
-	 * Get report document name.
+	 * Get report document name. If passed file path is null, get document file
+	 * from request. If isCreated is true, try to create the document file when
+	 * file path is null.
 	 * 
 	 * @param request
-	 *            http request
-	 * @return report file name
-	 * @throws AxisFault
+	 * @param filePath
+	 * @param isCreated
+	 * @return
 	 */
-
-	public static String getReportDocument( HttpServletRequest request )
+	public static String getReportDocument( HttpServletRequest request,
+			String filePath, boolean isCreated )
 	{
-		String filePath = getParameter( request, PARAM_REPORT_DOCUMENT );
+		if ( filePath == null )
+			filePath = DataUtil.trimString( getParameter( request,
+					PARAM_REPORT_DOCUMENT ) );
 
-		filePath = preProcess( filePath );
+		// don't need create the document file from report
+		if ( filePath.length( ) <= 0 && !isCreated )
+			return null;
 
-		if ( filePath == null || filePath.trim( ).length( ) <= 0 )
+		if ( filePath.length( ) <= 0 )
 		{
 			filePath = generateDocumentFromReport( request );
 			filePath = createDocumentPath( filePath, request );
 		}
 		else
 		{
-			filePath = createAbsolutePath( filePath );
+			// if file path is an absolute file, return it directly
+			if ( !isRelativePath( filePath ) )
+				return filePath;
+
+			// relative to working folder
+			if ( isRelativePath( workingFolder ) )
+			{
+				filePath = getRealPath( workingFolder + "/" + filePath, request //$NON-NLS-1$
+						.getSession( ).getServletContext( ) );
+			}
+			else
+			{
+				filePath = workingFolder + File.separator + filePath;
+			}
 		}
 
 		return filePath;
@@ -806,7 +864,7 @@ public class ParameterAccessor
 
 	/**
 	 * Create the file path of the the document. The document will be put under
-	 * the working folder birt document directory based on different session id.
+	 * the document folder based on different session id.
 	 * 
 	 * @param filePath
 	 *            the document path cretaed from the report design file.
@@ -819,8 +877,6 @@ public class ParameterAccessor
 			HttpServletRequest request )
 	{
 
-		String temp = null;
-		String projectName = null;
 		String documentName = null;
 
 		if ( ( filePath == null ) || ( filePath.length( ) == 0 ) )
@@ -832,73 +888,38 @@ public class ParameterAccessor
 		if ( filePath.lastIndexOf( fileSeparator ) == -1 )
 			fileSeparator = "/"; //$NON-NLS-1$
 
+		// parse document file name
 		if ( filePath.lastIndexOf( fileSeparator ) != -1 )
 		{
 
 			documentName = filePath.substring( filePath
-					.lastIndexOf( fileSeparator ) );
-			temp = filePath
-					.substring( 0, filePath.lastIndexOf( fileSeparator ) );
-
-			if ( temp.lastIndexOf( fileSeparator ) != -1 )
-				projectName = temp
-						.substring( temp.lastIndexOf( fileSeparator ) );
-			else
-				projectName = temp;
-
-			projectName = validateProjectName( projectName );
+					.lastIndexOf( fileSeparator ) + 1 );
 		}
 		else
-			documentName = filePath;
-
-		String targetFolder = documentFolder + fileSeparator + DOCUMENTS_DIR
-				+ fileSeparator + sessionId + projectName;
-
-		String documentPath = targetFolder + documentName;
-
-		return documentPath;
-
-	}
-
-	/**
-	 * make sure the project name is a valid folder name. If the name contains
-	 * ":", remove it. If the project name does not start with "\" or "/", add
-	 * the file separator at the beginning of the name. If the project name is
-	 * null, just return it.
-	 * 
-	 * @param projectName
-	 * @return
-	 */
-	private static String validateProjectName( String projectName )
-	{
-		if ( projectName == null )
-			return projectName;
-
-		if ( projectName.indexOf( ":" ) != -1 ) //$NON-NLS-1$
-			projectName = projectName.substring( 0, projectName.indexOf( ":" ) ); //$NON-NLS-1$
-
-		if ( !"\\".equals( projectName.substring( 0, 1 ) ) //$NON-NLS-1$
-				&& !"/".equals( projectName.substring( 0, 1 ) ) ) //$NON-NLS-1$
 		{
-			projectName = File.separator + projectName;
+			documentName = filePath;
 		}
-		return projectName;
 
+		String hashCode = Integer.toHexString( filePath.hashCode( ) );
+		return documentFolder + File.separator + sessionId + File.separator
+				+ hashCode + File.separator + documentName;
 	}
 
 	/**
-	 * Clears the report document files which had been created last time the
-	 * server starts up.
+	 * Clears the report document/image files which had been created last time
+	 * the server starts up.
 	 */
-	protected static void clearDocuments( )
+	protected static void clearTempFiles( )
 	{
-		String targetFolder = documentFolder + File.separator + DOCUMENTS_DIR;
-		File file = new File( targetFolder );
+		// clear the document files
+		File file = new File( documentFolder );
+		deleteDir( file );
+		makeDir( documentFolder );
 
-		boolean success = file.delete( );
-		if ( !success )
-			deleteDir( file );
-
+		// clear image files
+		file = new File( imageFolder );
+		deleteDir( file );
+		makeDir( imageFolder );
 	}
 
 	/**
@@ -944,7 +965,7 @@ public class ParameterAccessor
 
 		String value = getParameter( request, name );
 
-		if ( value == null || ( (String) value ).trim( ).length( ) <= 0 ) // Treat
+		if ( value == null || value.length( ) <= 0 ) // Treat
 		// it as blank value.
 		{
 			value = ""; //$NON-NLS-1$
@@ -1035,27 +1056,6 @@ public class ParameterAccessor
 	}
 
 	/**
-	 * Get current working folder.
-	 * 
-	 * @return Returns the workingFolder.
-	 */
-
-	public static String getWorkingFolder( )
-	{
-		return workingFolder;
-	}
-
-	/**
-	 * Gets the current document folder.
-	 * 
-	 * @return returns the documentFolder.
-	 */
-	public static String getDocumentFolder( )
-	{
-		return documentFolder;
-	}
-
-	/**
 	 * This function is used to encode an ordinary string that may contain
 	 * characters or more than one consecutive spaces for appropriate HTML
 	 * display.
@@ -1129,6 +1129,9 @@ public class ParameterAccessor
 	 */
 	public static final String htmlDecode( String s )
 	{
+		if ( s == null )
+			return null;
+
 		String sHtmlDecoded = s.replaceAll( "&#09;", "\t" ); //$NON-NLS-1$ //$NON-NLS-2$
 		sHtmlDecoded = sHtmlDecoded.replaceAll( "<br>", "\n" ); //$NON-NLS-1$ //$NON-NLS-2$
 		sHtmlDecoded = sHtmlDecoded.replaceAll( "&#13;", "\r" ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -1172,38 +1175,46 @@ public class ParameterAccessor
 		if ( isInitContext )
 			return;
 
-		// Report root.in the web.xml has higher priority.
-		workingFolder = context.getInitParameter( INIT_PARAM_REPORT_DIR );
-		documentFolder = context.getInitParameter( INIT_PARAM_DOCUMENT_FOLDER );
+		// Working folder setting
+		workingFolder = processWorkingFolder( context, context
+				.getInitParameter( INIT_PARAM_WORKING_DIR ) );
 
-		if ( workingFolder == null || workingFolder.trim( ).length( ) <= 0 )
-		{
-			// Use birt dir as default report root.
-			workingFolder = getRealPath( context, "/" ); //$NON-NLS-1$
-		}
+		// Document folder setting
+		documentFolder = processRealPath( context, context
+				.getInitParameter( INIT_PARAM_DOCUMENT_FOLDER ),
+				IBirtConstants.DEFAULT_DOCUMENT_FOLDER, true );
 
-		// Report root could be empty. .WAR
-		// Clear out report location.
-		if ( workingFolder != null
-				&& workingFolder.trim( ).endsWith( File.separator ) )
-		{
-			workingFolder = workingFolder.trim( ).substring( 0,
-					workingFolder.trim( ).length( ) - 1 );
-		}
+		// Image folder setting
+		imageFolder = processRealPath( context, context
+				.getInitParameter( ParameterAccessor.INIT_PARAM_IMAGE_DIR ),
+				IBirtConstants.DEFAULT_IMAGE_FOLDER, true );
 
-		if ( documentFolder == null || documentFolder.trim( ).length( ) <= 0 )
-			documentFolder = workingFolder;
+		// Log folder setting
+		logFolder = processRealPath( context, context
+				.getInitParameter( ParameterAccessor.INIT_PARAM_LOG_DIR ),
+				IBirtConstants.DEFAULT_LOGS_FOLDER, true );
 
-		// Get Web App Default Locale
+		// Log level setting
+		logLevel = context
+				.getInitParameter( ParameterAccessor.INIT_PARAM_LOG_LEVEL );
+
+		// Script lib folder setting
+		scriptLibDir = processRealPath(
+				context,
+				context
+						.getInitParameter( ParameterAccessor.INIT_PARAM_SCRIPTLIB_DIR ),
+				IBirtConstants.DEFAULT_SCRIPTLIB_FOLDER, false );
+
+		// WebApp Locale setting
 		webAppLocale = getLocaleFromString( context
 				.getInitParameter( INIT_PARAM_LOCALE ) );
 		if ( webAppLocale == null )
 			webAppLocale = Locale.getDefault( );
 
-		isDocumentFolderAccessOnly = Boolean
+		isWorkingFolderAccessOnly = Boolean
 				.valueOf(
 						context
-								.getInitParameter( INIT_PARAM_DOCUMENT_FOLDER_ACCESS_ONLY ) )
+								.getInitParameter( INIT_PARAM_WORKING_FOLDER_ACCESS_ONLY ) )
 				.booleanValue( );
 
 		// Get preview report max rows parameter from Servlet Context
@@ -1217,9 +1228,9 @@ public class ParameterAccessor
 			maxRows = -1;
 		}
 
-		// get the default resource path
-		birtResourceFolder = context
-				.getInitParameter( INIT_PARAM_BIRT_RESOURCE_PATH );
+		// default resource path
+		birtResourceFolder = processRealPath( context, context
+				.getInitParameter( INIT_PARAM_BIRT_RESOURCE_PATH ), null, false );
 
 		// get the overwrite flag
 		String s_overwrite = context
@@ -1236,7 +1247,8 @@ public class ParameterAccessor
 		// initialize the application properties
 		initProps = initViewerProps( context, initProps );
 
-		clearDocuments( );
+		// clear temp files
+		clearTempFiles( );
 
 		// Finish init context
 		isInitContext = true;
@@ -1251,14 +1263,14 @@ public class ParameterAccessor
 
 	public static boolean isDesigner( HttpServletRequest request )
 	{
-		boolean inDEsigner = false;
+		boolean isDesigner = false;
 
 		if ( "true".equalsIgnoreCase( getParameter( request, PARAM_DESIGNER ) ) ) //$NON-NLS-1$
 		{
-			inDEsigner = true;
+			isDesigner = true;
 		}
 
-		return inDEsigner;
+		return isDesigner;
 	}
 
 	/***************************************************************************
@@ -1367,10 +1379,6 @@ public class ParameterAccessor
 		return overwrite;
 	}
 
-	/***************************************************************************
-	 * protected routines
-	 **************************************************************************/
-
 	/**
 	 * Checks if a given file name is a relative path.
 	 * 
@@ -1382,6 +1390,11 @@ public class ParameterAccessor
 
 	public static boolean isRelativePath( String fileName )
 	{
+		if ( fileName == null )
+		{
+			return false;
+		}
+
 		return !new File( fileName ).isAbsolute( );
 	}
 
@@ -1421,27 +1434,8 @@ public class ParameterAccessor
 	}
 
 	/**
-	 * If a report file name is a relative path, it is relative to document
-	 * folder. So if a report file path is relative path, it's absolute path is
-	 * synthesized by appending file path to the document folder path.
-	 * 
-	 * @param file
-	 * @return
-	 */
-
-	protected static String createAbsolutePath( String filePath )
-	{
-		if ( filePath != null && filePath.trim( ).length( ) > 0
-				&& isRelativePath( filePath ) )
-		{
-			return documentFolder + File.separator + filePath;
-		}
-		return filePath;
-	}
-
-	/**
-	 * If set isDocumentFolderAccessOnly as true, check the file if exist in
-	 * document folder.
+	 * If set isWorkingFolderAccessOnly as true, check the file if exist in
+	 * working folder.
 	 * 
 	 * @param filePath
 	 * @return boolean
@@ -1450,18 +1444,32 @@ public class ParameterAccessor
 	public static boolean isValidFilePath( String filePath )
 	{
 		assert filePath != null;
-		if ( isDocumentFolderAccessOnly )
+		if ( isWorkingFolderAccessOnly )
 		{
-			String absolutePath = new File( filePath ).getAbsolutePath( );
-			String docFolderPath = new File( documentFolder ).getAbsolutePath( );
-			// if OS is windows, ignore the case sensitive.
-			if ( isWindowsPlatform( ) )
-			{
-				absolutePath = absolutePath.toLowerCase( );
-				docFolderPath = docFolderPath.toLowerCase( );
-			}
+			File docFile = new File( filePath );
+			if ( !docFile.isAbsolute( ) )
+				return true;
 
-			return absolutePath.startsWith( docFolderPath );
+			File docFolder = new File( workingFolder );
+			if ( docFolder.isAbsolute( ) )
+			{
+				String absolutePath = docFile.getAbsolutePath( );
+				String docFolderPath = docFolder.getAbsolutePath( );
+
+				// if OS is windows, ignore the case sensitive.
+				if ( isWindowsPlatform( ) )
+				{
+					absolutePath = absolutePath.toLowerCase( );
+					docFolderPath = docFolderPath.toLowerCase( );
+				}
+
+				return absolutePath.startsWith( docFolderPath );
+			}
+			else
+			{
+				// if workingFolder is relative path, return false.
+				return false;
+			}
 		}
 
 		return true;
@@ -1477,7 +1485,7 @@ public class ParameterAccessor
 	protected static String generateDocumentFromReport(
 			HttpServletRequest request )
 	{
-		String fileName = getReport( request );
+		String fileName = getReport( request, null );
 		if ( fileName.indexOf( '.' ) >= 0 )
 		{
 			fileName = fileName.substring( 0, fileName.lastIndexOf( '.' ) );
@@ -1601,19 +1609,6 @@ public class ParameterAccessor
 		}
 
 		return parameterValues;
-	}
-
-	/**
-	 * Preprocess a string.
-	 * 
-	 * @param string
-	 *            the string to process.
-	 * @return a string which is not null and without excessive spaces.
-	 */
-
-	protected static String preProcess( String string )
-	{
-		return string == null ? "" : string.trim( ); //$NON-NLS-1$
 	}
 
 	/**
@@ -1783,7 +1778,7 @@ public class ParameterAccessor
 	 */
 	public static boolean isWorkingFolderAccessOnly( )
 	{
-		return isDocumentFolderAccessOnly;
+		return isWorkingFolderAccessOnly;
 	}
 
 	/**
@@ -1897,47 +1892,14 @@ public class ParameterAccessor
 		String resourceFolder = null;
 
 		// get resource folder from request first
-
 		resourceFolder = getParameter( request, PARAM_RESOURCE_FOLDER );
 
 		// if the resource folder in the request is null or empty, read it from
 		// web init params
-
 		if ( resourceFolder == null || resourceFolder.trim( ).length( ) <= 0 )
 			resourceFolder = birtResourceFolder;
+
 		return resourceFolder;
-	}
-
-	/**
-	 * Get the resource real path
-	 * 
-	 * @param context
-	 *            ServletContext
-	 * @param path
-	 *            String
-	 * 
-	 * @return String
-	 */
-	public static String getRealPath( ServletContext context, String path )
-	{
-		// Get real path
-		String resourcePath = context.getRealPath( path );
-
-		// If null, use getResource method to get path
-		if ( resourcePath == null )
-		{
-			try
-			{
-				URL url = context.getResource( path );
-				if ( url != null )
-					resourcePath = url.getFile( );
-			}
-			catch ( Exception e )
-			{
-			}
-		}
-
-		return resourcePath;
 	}
 
 	/**
@@ -2074,16 +2036,28 @@ public class ParameterAccessor
 
 		// get config file
 		String file = context.getInitParameter( INIT_PARAM_CONFIG_FILE );
-		if ( file == null )
-			return props;
-
-		if ( !file.startsWith( "/" ) ) //$NON-NLS-1$
-			file = "/" + file; //$NON-NLS-1$
+		if ( file == null || file.trim( ).length( ) <= 0 )
+			file = IBirtConstants.DEFAULT_VIEWER_CONFIG_FILE;
 
 		try
 		{
+
+			InputStream is = null;
+			if ( isRelativePath( file ) )
+			{
+				// realtive path
+				if ( !file.startsWith( "/" ) ) //$NON-NLS-1$
+					file = "/" + file; //$NON-NLS-1$
+
+				is = context.getResourceAsStream( file );
+			}
+			else
+			{
+				// absolute path
+				is = new FileInputStream( file );
+			}
+
 			// parse the properties file
-			InputStream is = context.getResourceAsStream( file );
 			PropertyResourceBundle bundle = new PropertyResourceBundle( is );
 			if ( bundle != null )
 			{
@@ -2116,5 +2090,220 @@ public class ParameterAccessor
 			return null;
 
 		return (String) initProps.get( key );
+	}
+
+	/**
+	 * Returns the base url defined in config file
+	 * 
+	 * @return
+	 */
+	public static String getBaseURL( )
+	{
+		String baseURL = getInitProp( PROP_BASE_URL );
+		if ( baseURL != null && baseURL.length( ) > 0 )
+		{
+			if ( baseURL.endsWith( "/" ) ) //$NON-NLS-1$
+				baseURL = baseURL.substring( 0, baseURL.length( ) - 1 );
+		}
+
+		return baseURL;
+	}
+
+	/**
+	 * Trim the end separator
+	 * 
+	 * @param path
+	 * @return
+	 */
+	protected static String trimSep( String path )
+	{
+		path = DataUtil.trimString( path );
+		if ( path.endsWith( File.separator ) )
+		{
+			path = path.substring( 0, path.length( ) - 1 );
+		}
+
+		return path;
+	}
+
+	/**
+	 * Process working folder setting. If path is a relative path, first
+	 * relative to context.
+	 * 
+	 * @param context
+	 * @param path
+	 * @return
+	 */
+	public static String processWorkingFolder( ServletContext context,
+			String path )
+	{
+		path = DataUtil.trimString( path );
+		String realPath = null;
+
+		// If path is a relative path
+		if ( isRelativePath( path ) )
+		{
+			realPath = getRealPath( path, context );
+			makeDir( realPath );
+			return trimSep( path );
+		}
+		else
+		{
+			// Path is an absolute path
+			realPath = path;
+		}
+
+		// try to create folder
+		makeDir( realPath );
+
+		return trimSep( realPath );
+	}
+
+	/**
+	 * Process folder settings with absolute path. If path is a relative path,
+	 * first relative to context. If set canWrite to true, then check the folder
+	 * if writable.If not, relative to ${java.io.tmpdir} folder.
+	 * 
+	 * @param context
+	 * @param path
+	 * @param defaultPath
+	 * @param canWrite
+	 * @return
+	 */
+	public static String processRealPath( ServletContext context, String path,
+			String defaultPath, boolean canWrite )
+	{
+		String realPath = null;
+
+		// Using default path
+		if ( path == null || path.trim( ).length( ) <= 0 )
+		{
+			path = DataUtil.trimString( defaultPath );
+		}
+
+		// If path is a relative path
+		if ( isRelativePath( path ) )
+		{
+			if ( !path.startsWith( "/" ) ) //$NON-NLS-1$
+				path = "/" + path; //$NON-NLS-1$
+
+			realPath = getRealPath( path, context );
+			if ( realPath != null && makeDir( realPath ) )
+			{
+				if ( !canWrite )
+					return trimSep( realPath );
+
+				// check if the folder is writable
+				try
+				{
+					if ( canWrite && new File( realPath ).canWrite( ) )
+						return trimSep( realPath );
+				}
+				catch ( Exception e )
+				{
+
+				}
+			}
+
+			// try to create folder in ${java.io.tmpdir}
+			realPath = trimSep( System.getProperty( "java.io.tmpdir" ) ) + path; //$NON-NLS-1$
+		}
+		else
+		{
+			// Path is an absolute path
+			realPath = trimSep( path );
+		}
+
+		// try to create folder
+		makeDir( realPath );
+
+		return realPath;
+	}
+
+	/**
+	 * Returns real path relative to context
+	 * 
+	 * @param path
+	 * @param context
+	 * @return
+	 */
+	private static String getRealPath( String path, ServletContext context )
+	{
+		assert path != null;
+		String realPath = null;
+		try
+		{
+			if ( !path.startsWith( "/" ) ) //$NON-NLS-1$
+				path = "/" + path; //$NON-NLS-1$
+
+			realPath = context.getRealPath( path );
+			if ( realPath == null )
+			{
+				URL url = context.getResource( "/" ); //$NON-NLS-1$
+				if ( url != null )
+					realPath = DataUtil.trimString( url.getFile( ) ) + path;
+			}
+		}
+		catch ( Exception e )
+		{
+			realPath = path;
+		}
+
+		return realPath;
+	}
+
+	/**
+	 * Make directory
+	 * 
+	 * @param path
+	 * @return
+	 */
+	private static boolean makeDir( String path )
+	{
+		assert path != null;
+		File file = new File( path );
+		if ( !file.exists( ) )
+			return file.mkdirs( );
+
+		return true;
+	}
+
+	/**
+	 * Returns the temp image folder with session id
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static String getImageTempFolder( HttpServletRequest request )
+	{
+		String tempFolder = imageFolder;
+
+		// get session id
+		String sessionId = request.getSession( ).getId( );
+		if ( sessionId != null )
+			tempFolder = tempFolder + File.separator + sessionId;
+
+		return tempFolder;
+	}
+
+	/**
+	 * Clear the temp files when session is expired
+	 * 
+	 * @param sessionId
+	 */
+	public static void clearSessionFiles( String sessionId )
+	{
+		if ( sessionId == null )
+			return;
+
+		// clear document folder
+		String tempFolder = documentFolder + File.separator + sessionId;
+		File file = new File( tempFolder );
+		deleteDir( file );
+
+		// clear image folder
+		tempFolder = imageFolder + File.separator + sessionId;
+		file = new File( tempFolder );
+		deleteDir( file );
 	}
 }

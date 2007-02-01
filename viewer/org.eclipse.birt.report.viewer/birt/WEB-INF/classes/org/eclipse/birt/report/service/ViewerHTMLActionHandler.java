@@ -78,6 +78,11 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	 */
 
 	protected boolean isMasterPageContent = true;
+	
+	/**
+	 * 
+	 */
+	protected String hostFormat = null;
 
 	/**
 	 * Constructor.
@@ -95,11 +100,12 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	 * @param isEmbeddable
 	 * @param isRtl
 	 * @param isMasterPageContent
+	 * @param format 
 	 */
 
 	public ViewerHTMLActionHandler( IReportDocument document, long page,
 			Locale locale, boolean isEmbeddable, boolean isRtl,
-			boolean isMasterPageContent )
+			boolean isMasterPageContent, String format )
 	{
 		this.document = document;
 		this.page = page;
@@ -107,6 +113,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		this.isEmbeddable = isEmbeddable;
 		this.isRtl = isRtl;
 		this.isMasterPageContent = isMasterPageContent;
+		this.hostFormat = format;
 	}
 
 	/**
@@ -116,14 +123,16 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	 * @param isEmbeddable
 	 * @param isRtl
 	 * @param isMasterPageContent
+	 * @param format
 	 */
 
 	public ViewerHTMLActionHandler( Locale locale, boolean isRtl,
-			boolean isMasterPageContent )
+			boolean isMasterPageContent, String format )
 	{
 		this.locale = locale;
 		this.isRtl = isRtl;
 		this.isMasterPageContent = isMasterPageContent;
+		this.hostFormat = format;
 	}
 
 	/*
@@ -361,6 +370,8 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 
 			// add format support
 			String format = action.getFormat( );
+			if ( format == null || format.length( ) == 0 )
+				format = hostFormat;
 			if ( format != null && format.length( ) > 0 )
 			{
 				link.append( ParameterAccessor.getQueryParameterString(

@@ -36,7 +36,7 @@ public class ParameterField implements Serializable
 	private String pattern;
 	private Object value;
 	private String displayText;
-	private boolean isLocale;
+	private String isLocale;
 
 	/**
 	 * validate parameter
@@ -121,14 +121,22 @@ public class ParameterField implements Serializable
 	 */
 	public boolean isLocale( )
 	{
-		return isLocale;
+		// Set isLocale attribute
+		if ( this.isLocale != null )
+			return Boolean.valueOf( isLocale ).booleanValue( );
+
+		// If set pattern, return true
+		if ( this.pattern != null )
+			return true;
+
+		return false;
 	}
 
 	/**
 	 * @param isLocale
 	 *            the isLocale to set
 	 */
-	public void setLocale( boolean isLocale )
+	public void setLocale( String isLocale )
 	{
 		this.isLocale = isLocale;
 	}

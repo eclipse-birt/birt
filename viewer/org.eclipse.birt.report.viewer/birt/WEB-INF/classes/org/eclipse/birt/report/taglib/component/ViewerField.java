@@ -15,6 +15,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 import org.eclipse.birt.report.IBirtConstants;
+import org.eclipse.birt.report.taglib.ITagConstants;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
@@ -24,7 +25,7 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
  * <ol>
  * <li>id-Specifies viewer/requester id.</li>
  * <li>name-Specifies viewer/requester name.</li>
- * <li>contextRoot-Specifies the context root of web application.</li>
+ * <li>baseURL-Specifies the base URL of BIRT viewer.</li>
  * <li>title-Specifies the report title displayed at the top</li>
  * <li>isHostPage</li>
  * <li>isCustom</li>
@@ -46,8 +47,9 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
  * <li>format</li>
  * <li>svg</li>
  * <li>rtl</li>
+ * <li>pageNum</li>
+ * <li>pageRange</li>
  * <li>allowMasterPage</li>
- * <li>allowPageBreak</li>
  * <li>resourceFolder</li>
  * <li>maxRowsOfRecords</li>
  * <li>forceOverwriteDocument</li>
@@ -55,10 +57,10 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
  * <li>showTitle</li>
  * <li>showToolBar</li>
  * <li>showNavigationBar</li>
- * <li>forceIFrame</li>
+ * <li>reportContainer</li>
  * </ol>
  */
-public class ViewerField implements Serializable, Cloneable
+public class ViewerField implements Serializable, Cloneable, ITagConstants
 {
 
 	/**
@@ -68,7 +70,7 @@ public class ViewerField implements Serializable, Cloneable
 
 	private String id;
 	private String name;
-	private String contextRoot;
+	private String baseURL;
 	private String title;
 	private boolean isHostPage = false;
 	private boolean isCustom = false;
@@ -77,8 +79,8 @@ public class ViewerField implements Serializable, Cloneable
 	private String style;
 	private int height = -1;
 	private int width = -1;
-	private int left = -1;
-	private int top = -1;
+	private String left;
+	private String top;
 	private String frameborder = "no"; //$NON-NLS-1$
 
 	private String reportDesign;
@@ -92,8 +94,9 @@ public class ViewerField implements Serializable, Cloneable
 	private String format;
 	private String svg;
 	private String rtl;
+	private long pageNum;
+	private String pageRange;
 	private String allowMasterPage = "true"; //$NON-NLS-1$
-	private boolean allowPageBreak = true;
 
 	private String resourceFolder;
 	private int maxRowsOfRecords = -1;
@@ -104,7 +107,7 @@ public class ViewerField implements Serializable, Cloneable
 	private String showToolBar;
 	private String showNavigationBar;
 
-	private boolean forceIFrame = true;
+	private String reportContainer = CONTAINER_IFRAME;
 
 	/**
 	 * Report parameters
@@ -126,22 +129,26 @@ public class ViewerField implements Serializable, Cloneable
 		if ( uri == null )
 		{
 			uri = IBirtConstants.VIEWER_FRAMESET;
+
 			// frameset doesn't support reportlet. If preview reportlet, force
 			// to use run pattern.
-			if ( ( reportDocument != null && reportletId != null )
-					|| !allowPageBreak )
+			if ( reportDocument != null && reportletId != null )
 			{
 				uri = IBirtConstants.VIEWER_RUN;
 			}
 		}
 
-		// append context root setting
-		if ( contextRoot != null )
-		{
-			uri = contextRoot + "/" + uri; //$NON-NLS-1$
-			if ( !uri.startsWith( "/" ) ) //$NON-NLS-1$
-				uri = "/" + uri; //$NON-NLS-1$
-		}
+		// whether use frameset pattern
+		boolean usingFrameset = IBirtConstants.VIEWER_FRAMESET
+				.equalsIgnoreCase( uri );
+
+		// whether use parameter pattern
+		boolean usingParameter = IBirtConstants.VIEWER_PARAMETER
+				.equalsIgnoreCase( uri );
+
+		// append baseURL setting
+		if ( baseURL != null )
+			uri = baseURL + "/" + uri; //$NON-NLS-1$
 
 		// append format setting
 		if ( format != null )
@@ -168,24 +175,24 @@ public class ViewerField implements Serializable, Cloneable
 		if ( reportletId != null )
 			uri += "&" + ParameterAccessor.PARAM_INSTANCEID + "=" + urlParamValueEncode( reportletId ); //$NON-NLS-1$ //$NON-NLS-2$
 
-		if ( allowPageBreak && id != null )
+		if ( usingFrameset && id != null )
 			uri += "&" + ParameterAccessor.PARAM_ID + "=" + urlParamValueEncode( id ); //$NON-NLS-1$//$NON-NLS-2$
 
 		// append report title
-		if ( allowPageBreak && title != null )
+		if ( usingFrameset && title != null )
 			uri += "&" + ParameterAccessor.PARAM_TITLE + "=" + urlParamValueEncode( title ); //$NON-NLS-1$//$NON-NLS-2$
 
 		// append report title
-		if ( allowPageBreak && showTitle != null )
+		if ( usingFrameset && showTitle != null )
 			uri += "&" + ParameterAccessor.PARAM_SHOW_TITLE + "=" + urlParamValueEncode( showTitle ); //$NON-NLS-1$//$NON-NLS-2$
 
 		// append target serlvet pattern setting
-		if ( !isCustom && pattern != null )
+		if ( usingParameter && !isCustom && pattern != null )
 			uri += "&" + ParameterAccessor.PARAM_SERVLET_PATTERN + "=" //$NON-NLS-1$ //$NON-NLS-2$
 					+ urlParamValueEncode( pattern );
 
 		// append window target setting
-		if ( !isCustom && target != null )
+		if ( usingParameter && !isCustom && target != null )
 			uri += "&" + ParameterAccessor.PARAM_TARGET + "=" //$NON-NLS-1$ //$NON-NLS-2$
 					+ urlParamValueEncode( target );
 
@@ -201,6 +208,13 @@ public class ViewerField implements Serializable, Cloneable
 		// append rtl setting
 		if ( rtl != null )
 			uri += "&" + ParameterAccessor.PARAM_RTL + "=" + urlParamValueEncode( rtl ); //$NON-NLS-1$ //$NON-NLS-2$
+
+		// append page number setting
+		if ( pageNum > 0 )
+			uri += "&" + ParameterAccessor.PARAM_PAGE + "=" + pageNum; //$NON-NLS-1$ //$NON-NLS-2$
+
+		if ( pageRange != null )
+			uri += "&" + ParameterAccessor.PARAM_PAGE_RANGE + "=" + pageRange; //$NON-NLS-1$ //$NON-NLS-2$
 
 		// append masterpage setting
 		if ( allowMasterPage != null )
@@ -227,11 +241,11 @@ public class ViewerField implements Serializable, Cloneable
 			uri += "&" + ParameterAccessor.PARAM_PARAMETER_PROMPTING + "=" + urlParamValueEncode( forceParameterPrompting ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// append show toolbar setting
-		if ( showToolBar != null )
+		if ( usingFrameset && showToolBar != null )
 			uri += "&" + ParameterAccessor.PARAM_TOOLBAR + "=" + urlParamValueEncode( showToolBar ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// append show NavigationBar setting
-		if ( showNavigationBar != null )
+		if ( usingFrameset && showNavigationBar != null )
 			uri += "&" + ParameterAccessor.PARAM_NAVIGATIONBAR + "=" + urlParamValueEncode( showNavigationBar ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// append bookmark setting
@@ -299,20 +313,20 @@ public class ViewerField implements Serializable, Cloneable
 	}
 
 	/**
-	 * @return the contextRoot
+	 * @return the baseURL
 	 */
-	public String getContextRoot( )
+	public String getBaseURL( )
 	{
-		return contextRoot;
+		return baseURL;
 	}
 
 	/**
-	 * @param contextRoot
-	 *            the contextRoot to set
+	 * @param baseURL
+	 *            the baseURL to set
 	 */
-	public void setContextRoot( String contextRoot )
+	public void setBaseURL( String baseURL )
 	{
-		this.contextRoot = contextRoot;
+		this.baseURL = baseURL;
 	}
 
 	/**
@@ -454,7 +468,7 @@ public class ViewerField implements Serializable, Cloneable
 	/**
 	 * @return the left
 	 */
-	public int getLeft( )
+	public String getLeft( )
 	{
 		return left;
 	}
@@ -463,7 +477,7 @@ public class ViewerField implements Serializable, Cloneable
 	 * @param left
 	 *            the left to set
 	 */
-	public void setLeft( int left )
+	public void setLeft( String left )
 	{
 		this.left = left;
 	}
@@ -471,7 +485,7 @@ public class ViewerField implements Serializable, Cloneable
 	/**
 	 * @return the top
 	 */
-	public int getTop( )
+	public String getTop( )
 	{
 		return top;
 	}
@@ -480,7 +494,7 @@ public class ViewerField implements Serializable, Cloneable
 	 * @param top
 	 *            the top to set
 	 */
-	public void setTop( int top )
+	public void setTop( String top )
 	{
 		this.top = top;
 	}
@@ -673,6 +687,40 @@ public class ViewerField implements Serializable, Cloneable
 	}
 
 	/**
+	 * @return the pageNum
+	 */
+	public long getPageNum( )
+	{
+		return pageNum;
+	}
+
+	/**
+	 * @param pageNum
+	 *            the pageNum to set
+	 */
+	public void setPageNum( long pageNum )
+	{
+		this.pageNum = pageNum;
+	}
+
+	/**
+	 * @return the pageRange
+	 */
+	public String getPageRange( )
+	{
+		return pageRange;
+	}
+
+	/**
+	 * @param pageRange
+	 *            the pageRange to set
+	 */
+	public void setPageRange( String pageRange )
+	{
+		this.pageRange = pageRange;
+	}
+
+	/**
 	 * @return the allowMasterPage
 	 */
 	public String getAllowMasterPage( )
@@ -687,23 +735,6 @@ public class ViewerField implements Serializable, Cloneable
 	public void setAllowMasterPage( String allowMasterPage )
 	{
 		this.allowMasterPage = allowMasterPage;
-	}
-
-	/**
-	 * @return the allowPageBreak
-	 */
-	public boolean isAllowPageBreak( )
-	{
-		return allowPageBreak;
-	}
-
-	/**
-	 * @param allowPageBreak
-	 *            the allowPageBreak to set
-	 */
-	public void setAllowPageBreak( boolean allowPageBreak )
-	{
-		this.allowPageBreak = allowPageBreak;
 	}
 
 	/**
@@ -826,20 +857,20 @@ public class ViewerField implements Serializable, Cloneable
 	}
 
 	/**
-	 * @return the forceIFrame
+	 * @return the reportContainer
 	 */
-	public boolean isForceIFrame( )
+	public String getReportContainer( )
 	{
-		return forceIFrame;
+		return reportContainer;
 	}
 
 	/**
-	 * @param forceIFrame
-	 *            the forceIFrame to set
+	 * @param reportContainer
+	 *            the reportContainer to set
 	 */
-	public void setForceIFrame( boolean forceIFrame )
+	public void setReportContainer( String reportContainer )
 	{
-		this.forceIFrame = forceIFrame;
+		this.reportContainer = reportContainer;
 	}
 
 	/**

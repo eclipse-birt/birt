@@ -88,4 +88,12 @@ public interface IBirtConstants
 	
 	// Task Map
 	public static final String TASK_MAP = "tasks"; //$NON-NLS-1$
+	
+	// default value of viewer settings
+	public static final String DEFAULT_VIEWER_CONFIG_FILE = "WEB-INF/viewer.properties"; //$NON-NLS-1$
+	public static final String DEFAULT_DOCUMENT_FOLDER = "documents";//$NON-NLS-1$
+	public static final String DEFAULT_IMAGE_FOLDER = "report/images"; //$NON-NLS-1$
+	public static final String DEFAULT_LOGS_FOLDER = "logs"; //$NON-NLS-1$
+	public static final String DEFAULT_SCRIPTLIB_FOLDER = "scriptlib"; //$NON-NLS-1$
+	
 }

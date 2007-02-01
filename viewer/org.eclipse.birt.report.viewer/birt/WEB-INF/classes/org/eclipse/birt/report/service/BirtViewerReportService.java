@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-
+import com.ibm.icu.util.ULocale;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
@@ -59,11 +59,17 @@ import org.eclipse.birt.report.soapengine.api.ResultSet;
 import org.eclipse.birt.report.utility.BirtUtility;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
-import com.ibm.icu.util.ULocale;
-
+/**
+ * The main entrance for BIRT viewer to invoke report service APIs.
+ */
 public class BirtViewerReportService implements IViewerReportService
 {
 
+	/**
+	 * Default constructor
+	 * 
+	 * @param context
+	 */
 	public BirtViewerReportService( ServletContext context )
 	{
 		try
@@ -72,11 +78,15 @@ public class BirtViewerReportService implements IViewerReportService
 		}
 		catch ( BirtException e )
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace( );
 		}
 	}
 
+	/**
+	 * @see org.eclipse.birt.report.service.api.IViewerReportService#runReport(org.eclipse.birt.report.service.api.IViewerReportDesignHandle,
+	 *      java.lang.String, org.eclipse.birt.report.service.api.InputOptions,
+	 *      java.util.Map)
+	 */
 	public String runReport( IViewerReportDesignHandle design,
 			String outputDocName, InputOptions runOptions, Map parameters )
 			throws ReportServiceException
@@ -84,6 +94,11 @@ public class BirtViewerReportService implements IViewerReportService
 		return runReport( design, outputDocName, runOptions, parameters, null );
 	}
 
+	/**
+	 * @see org.eclipse.birt.report.service.api.IViewerReportService#runReport(org.eclipse.birt.report.service.api.IViewerReportDesignHandle,
+	 *      java.lang.String, org.eclipse.birt.report.service.api.InputOptions,
+	 *      java.util.Map, java.util.Map)
+	 */
 	public String runReport( IViewerReportDesignHandle design,
 			String outputDocName, InputOptions runOptions, Map parameters,
 			Map displayTexts ) throws ReportServiceException
@@ -118,12 +133,15 @@ public class BirtViewerReportService implements IViewerReportService
 		}
 		catch ( RemoteException e )
 		{
-			e.printStackTrace( );
-			throw new ReportServiceException( e.getLocalizedMessage( ) );
+			throw new ReportServiceException( e.getLocalizedMessage( ), e );
 		}
 		return outputDocName;
 	}
 
+	/**
+	 * @see org.eclipse.birt.report.service.api.IViewerReportService#getReportDesignHandle(java.lang.String,
+	 *      org.eclipse.birt.report.service.api.InputOptions)
+	 */
 	public IViewerReportDesignHandle getReportDesignHandle( String docName,
 			InputOptions options )
 	{
@@ -132,13 +150,17 @@ public class BirtViewerReportService implements IViewerReportService
 						getModuleOptions( options ) );
 		String fileName = doc.getReportRunnable( ).getReportName( );
 		doc.close( );
-		// TODO: What is content type?
+
 		IViewerReportDesignHandle design = new BirtViewerReportDesignHandle(
 				null, fileName );
 		return design;
 	}
 
-	// TODO: Maybe change pageID to long?
+	/**
+	 * @see org.eclipse.birt.report.service.api.IViewerReportService#getPage(java.lang.String,
+	 *      java.lang.String, org.eclipse.birt.report.service.api.InputOptions,
+	 *      java.util.List)
+	 */
 	public ByteArrayOutputStream getPage( String docName, String pageID,
 			InputOptions renderOptions, List activeIds )
 			throws ReportServiceException
@@ -171,20 +193,29 @@ public class BirtViewerReportService implements IViewerReportService
 		catch ( RemoteException e )
 		{
 			doc.close( );
-			throw new ReportServiceException( e.getLocalizedMessage( ) );
+			throw new ReportServiceException( e.getLocalizedMessage( ), e );
 		}
 	}
 
+	/**
+	 * @see org.eclipse.birt.report.service.api.IViewerReportService#getPageByBookmark(java.lang.String,
+	 *      java.lang.String, org.eclipse.birt.report.service.api.InputOptions,
+	 *      java.util.List)
+	 */
 	public ByteArrayOutputStream getPageByBookmark( String docName,
 			String bookmark, InputOptions renderOptions, List activeIds )
 			throws ReportServiceException
 	{
 		long pageNum = getPageNumberByBookmark( docName, bookmark,
 				renderOptions );
-		// TODO: Why String and not long in getPage?
 		return getPage( docName, pageNum + "", renderOptions, activeIds ); //$NON-NLS-1$
 	}
 
+	/**
+	 * @see org.eclipse.birt.report.service.api.IViewerReportService#getPageByObjectId(java.lang.String,
+	 *      java.lang.String, org.eclipse.birt.report.service.api.InputOptions,
+	 *      java.util.List)
+	 */
 	public ByteArrayOutputStream getPageByObjectId( String docName,
 			String objectId, InputOptions renderOptions, List activeIds )
 			throws ReportServiceException
@@ -193,6 +224,11 @@ public class BirtViewerReportService implements IViewerReportService
 		return null;
 	}
 
+	/**
+	 * @see org.eclipse.birt.report.service.api.IViewerReportService#renderReportlet(java.lang.String,
+	 *      java.lang.String, org.eclipse.birt.report.service.api.InputOptions,
+	 *      java.util.List, java.io.OutputStream)
+	 */
 	public void renderReportlet( String docName, String objectId,
 			InputOptions renderOptions, List activeIds, OutputStream out )
 			throws ReportServiceException
@@ -226,11 +262,17 @@ public class BirtViewerReportService implements IViewerReportService
 		catch ( RemoteException e )
 		{
 			doc.close( );
-			throw new ReportServiceException( e.getLocalizedMessage( ) );
+			throw new ReportServiceException( e.getLocalizedMessage( ), e );
 		}
 	}
 
-	public void renderReport( String docName, String pageRange,
+	/**
+	 * @see org.eclipse.birt.report.service.api.IViewerReportService#renderReport(java.lang.String,
+	 *      int,java.lang.String,
+	 *      org.eclipse.birt.report.service.api.InputOptions,
+	 *      java.io.OutputStream)
+	 */
+	public void renderReport( String docName, int pageNum, String pageRange,
 			InputOptions renderOptions, OutputStream out )
 			throws ReportServiceException
 	{
@@ -254,16 +296,10 @@ public class BirtViewerReportService implements IViewerReportService
 		String servletPath = (String) renderOptions
 				.getOption( InputOptions.OPT_SERVLET_PATH );
 
-		Long pageNum = null;
-		if ( pageRange != null && pageRange.trim( ).length( ) >= 0 )
-			pageNum = Long.valueOf( pageRange );
-		long page = 1;
-		if ( pageNum != null )
-			page = pageNum.longValue( );
 		try
 		{
 			ReportEngineService.getInstance( ).renderReport( out, request, doc,
-					page, isMasterPage, isSvg, null, locale,
+					pageNum, pageRange, isMasterPage, isSvg, null, locale,
 					isRtl.booleanValue( ), servletPath );
 			doc.close( );
 
@@ -271,10 +307,29 @@ public class BirtViewerReportService implements IViewerReportService
 		catch ( RemoteException e )
 		{
 			doc.close( );
-			throw new ReportServiceException( e.getLocalizedMessage( ) );
+			throw new ReportServiceException( e.getLocalizedMessage( ), e );
 		}
 	}
 
+	/**
+	 * @see org.eclipse.birt.report.service.api.IViewerReportService#renderReport(java.lang.String,
+	 *      int, org.eclipse.birt.report.service.api.InputOptions,
+	 *      java.io.OutputStream)
+	 * @deprecated
+	 */
+	public void renderReport( String docName, int pageNum,
+			InputOptions renderOptions, OutputStream out )
+			throws ReportServiceException
+	{
+		renderReport( docName, pageNum, null, renderOptions, out );
+	}
+
+	/**
+	 * @see org.eclipse.birt.report.service.api.IViewerReportService#extractResultSet(java.lang.String,
+	 *      java.lang.String, java.util.Collection, java.util.Set,
+	 *      org.eclipse.birt.report.service.api.InputOptions,
+	 *      java.io.OutputStream)
+	 */
 	public void extractResultSet( String docName, String resultSetId,
 			Collection columns, Set filters, InputOptions options,
 			OutputStream out ) throws ReportServiceException
@@ -297,10 +352,14 @@ public class BirtViewerReportService implements IViewerReportService
 		catch ( RemoteException e )
 		{
 			doc.close( );
-			throw new ReportServiceException( e.getLocalizedMessage( ) );
+			throw new ReportServiceException( e.getLocalizedMessage( ), e );
 		}
 	}
 
+	/**
+	 * @see org.eclipse.birt.report.service.api.IViewerReportService#getResultSetsMetadata(java.lang.String,
+	 *      org.eclipse.birt.report.service.api.InputOptions)
+	 */
 	public List getResultSetsMetadata( String docName, InputOptions options )
 			throws ReportServiceException
 	{
@@ -326,8 +385,7 @@ public class BirtViewerReportService implements IViewerReportService
 		catch ( RemoteException e )
 		{
 			doc.close( );
-			e.printStackTrace( );
-			throw new ReportServiceException( e.getLocalizedMessage( ) );
+			throw new ReportServiceException( e.getLocalizedMessage( ), e );
 		}
 		if ( resultSetArray == null || resultSetArray.length < 0 )
 		{
@@ -339,6 +397,10 @@ public class BirtViewerReportService implements IViewerReportService
 		return transformResultSetArray( resultSetArray );
 	}
 
+	/**
+	 * @see org.eclipse.birt.report.service.api.IViewerReportService#getResultSetsMetadata(java.lang.String,
+	 *      java.lang.String, org.eclipse.birt.report.service.api.InputOptions)
+	 */
 	public List getResultSetsMetadata( String docName, String instanceId,
 			InputOptions options ) throws ReportServiceException
 	{
@@ -346,21 +408,33 @@ public class BirtViewerReportService implements IViewerReportService
 		return null;
 	}
 
+	/**
+	 * @see org.eclipse.birt.report.service.api.IViewerReportService#getImage(java.lang.String,
+	 *      java.lang.String, java.io.OutputStream,
+	 *      org.eclipse.birt.report.service.api.InputOptions)
+	 */
 	public void getImage( String docName, String imageId, OutputStream out,
 			InputOptions options ) throws ReportServiceException
 	{
 		try
 		{
-			// TODO: docName is not used. why?
-			ReportEngineService.getInstance( ).renderImage( imageId, out );
+			HttpServletRequest request = (HttpServletRequest) options
+					.getOption( InputOptions.OPT_REQUEST );
+
+			ReportEngineService.getInstance( ).renderImage( imageId, request,
+					out );
 		}
 		catch ( RemoteException e )
 		{
-			throw new ReportServiceException( e.getLocalizedMessage( ) );
+			throw new ReportServiceException( e.getLocalizedMessage( ), e );
 		}
 
 	}
 
+	/**
+	 * @see org.eclipse.birt.report.service.api.IViewerReportService#getTOC(java.lang.String,
+	 *      java.lang.String, org.eclipse.birt.report.service.api.InputOptions)
+	 */
 	public ToC getTOC( String docName, String tocId, InputOptions options )
 			throws ReportServiceException
 	{
@@ -405,6 +479,10 @@ public class BirtViewerReportService implements IViewerReportService
 		return transformTOCNode( node );
 	}
 
+	/**
+	 * @see org.eclipse.birt.report.service.api.IViewerReportService#findTocByName(java.lang.String,
+	 *      java.lang.String, org.eclipse.birt.report.service.api.InputOptions)
+	 */
 	public String findTocByName( String docName, String name,
 			InputOptions options )
 	{
@@ -436,6 +514,11 @@ public class BirtViewerReportService implements IViewerReportService
 
 	}
 
+	/**
+	 * @see org.eclipse.birt.report.service.api.IViewerReportService#getPageCount(java.lang.String,
+	 *      org.eclipse.birt.report.service.api.InputOptions,
+	 *      org.eclipse.birt.report.service.api.OutputOptions)
+	 */
 	public long getPageCount( String docName, InputOptions options,
 			OutputOptions outputOptions ) throws ReportServiceException
 	{
@@ -447,6 +530,10 @@ public class BirtViewerReportService implements IViewerReportService
 		return count;
 	}
 
+	/**
+	 * @see org.eclipse.birt.report.service.api.IViewerReportService#getParameterDefinitions(org.eclipse.birt.report.service.api.IViewerReportDesignHandle,
+	 *      org.eclipse.birt.report.service.api.InputOptions, boolean)
+	 */
 	public Collection getParameterDefinitions(
 			IViewerReportDesignHandle design, InputOptions runOptions,
 			boolean includeGroups ) throws ReportServiceException
@@ -470,6 +557,10 @@ public class BirtViewerReportService implements IViewerReportService
 		return null;
 	}
 
+	/**
+	 * @see org.eclipse.birt.report.service.api.IViewerReportService#getParameterValues(java.lang.String,
+	 *      org.eclipse.birt.report.service.api.InputOptions)
+	 */
 	public Map getParameterValues( String docName, InputOptions options )
 			throws ReportServiceException
 	{
@@ -481,6 +572,11 @@ public class BirtViewerReportService implements IViewerReportService
 		return paramValues;
 	}
 
+	/**
+	 * @see org.eclipse.birt.report.service.api.IViewerReportService#getSelectionListForCascadingGroup(org.eclipse.birt.report.service.api.IViewerReportDesignHandle,
+	 *      java.lang.String, java.lang.Object[],
+	 *      org.eclipse.birt.report.service.api.InputOptions)
+	 */
 	public Collection getSelectionListForCascadingGroup(
 			IViewerReportDesignHandle design, String groupName,
 			Object[] groupKeys, InputOptions options )
@@ -524,6 +620,10 @@ public class BirtViewerReportService implements IViewerReportService
 		return null;
 	}
 
+	/**
+	 * @see org.eclipse.birt.report.service.api.IViewerReportService#getParameterSelectionList(org.eclipse.birt.report.service.api.IViewerReportDesignHandle,
+	 *      org.eclipse.birt.report.service.api.InputOptions, java.lang.String)
+	 */
 	public Collection getParameterSelectionList(
 			IViewerReportDesignHandle design, InputOptions runOptions,
 			String paramName ) throws ReportServiceException
@@ -554,6 +654,14 @@ public class BirtViewerReportService implements IViewerReportService
 		return null;
 	}
 
+	/**
+	 * Returns the GetParameterDefinitionTask
+	 * 
+	 * @param design
+	 * @param options
+	 * @return
+	 * @throws ReportServiceException
+	 */
 	private IGetParameterDefinitionTask getParameterDefinitionTask(
 			IViewerReportDesignHandle design, InputOptions options )
 			throws ReportServiceException
@@ -577,12 +685,16 @@ public class BirtViewerReportService implements IViewerReportService
 			}
 			catch ( EngineException e )
 			{
-				throw new ReportServiceException( e.getLocalizedMessage( ) );
+				throw new ReportServiceException( e.getLocalizedMessage( ), e );
 			}
 		}
 		return task;
 	}
 
+	/**
+	 * @see org.eclipse.birt.report.service.api.IViewerReportService#getPageNumberByBookmark(java.lang.String,
+	 *      java.lang.String, org.eclipse.birt.report.service.api.InputOptions)
+	 */
 	public long getPageNumberByBookmark( String docName, String bookmark,
 			InputOptions options ) throws ReportServiceException
 	{
@@ -594,6 +706,10 @@ public class BirtViewerReportService implements IViewerReportService
 		return pageNumber;
 	}
 
+	/**
+	 * @see org.eclipse.birt.report.service.api.IViewerReportService#getPageNumberByObjectId(java.lang.String,
+	 *      java.lang.String, org.eclipse.birt.report.service.api.InputOptions)
+	 */
 	public long getPageNumberByObjectId( String docName, String objectId,
 			InputOptions options ) throws ReportServiceException
 	{
@@ -605,6 +721,11 @@ public class BirtViewerReportService implements IViewerReportService
 		return pageNumber;
 	}
 
+	/**
+	 * @see org.eclipse.birt.report.service.api.IViewerReportService#runAndRenderReport(org.eclipse.birt.report.service.api.IViewerReportDesignHandle,
+	 *      java.lang.String, org.eclipse.birt.report.service.api.InputOptions,
+	 *      java.util.Map, java.io.OutputStream, java.util.List)
+	 */
 	public void runAndRenderReport( IViewerReportDesignHandle design,
 			String outputDocName, InputOptions options, Map parameters,
 			OutputStream out, List activeIds ) throws ReportServiceException
@@ -613,6 +734,11 @@ public class BirtViewerReportService implements IViewerReportService
 				activeIds, null );
 	}
 
+	/**
+	 * @see org.eclipse.birt.report.service.api.IViewerReportService#runAndRenderReport(org.eclipse.birt.report.service.api.IViewerReportDesignHandle,
+	 *      java.lang.String, org.eclipse.birt.report.service.api.InputOptions,
+	 *      java.util.Map, java.io.OutputStream, java.util.List, java.util.Map)
+	 */
 	public void runAndRenderReport( IViewerReportDesignHandle design,
 			String outputDocName, InputOptions options, Map parameters,
 			OutputStream out, List activeIds, Map displayTexts )
@@ -633,20 +759,29 @@ public class BirtViewerReportService implements IViewerReportService
 				.getOption( InputOptions.OPT_SERVLET_PATH );
 		try
 		{
+			ViewerAttributeBean attrBean = (ViewerAttributeBean) request
+					.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
+			String reportTitle = ParameterAccessor.htmlDecode( attrBean
+					.getReportTitle( ) );
 			IReportRunnable runnable = (IReportRunnable) design
 					.getDesignObject( );
 
 			ReportEngineService.getInstance( ).runAndRenderReport( request,
 					runnable, out, format, locale, isRtl.booleanValue( ),
 					parameters, isMasterPageContent.booleanValue( ),
-					svgFlag.booleanValue( ), displayTexts, servletPath );
+					svgFlag.booleanValue( ), displayTexts, servletPath,
+					reportTitle );
 		}
 		catch ( RemoteException e )
 		{
-			throw new ReportServiceException( e.getLocalizedMessage( ) );
+			throw new ReportServiceException( e.getLocalizedMessage( ), e );
 		}
 	}
 
+	/**
+	 * @see org.eclipse.birt.report.service.api.IViewerReportService#getParameterDefaultValue(org.eclipse.birt.report.service.api.IViewerReportDesignHandle,
+	 *      java.lang.String, org.eclipse.birt.report.service.api.InputOptions)
+	 */
 	public Object getParameterDefaultValue( IViewerReportDesignHandle design,
 			String parameterName, InputOptions options )
 			throws ReportServiceException
@@ -668,7 +803,12 @@ public class BirtViewerReportService implements IViewerReportService
 		return defaultValue;
 	}
 
+	/**
+	 * @see org.eclipse.birt.report.service.api.IViewerReportService#setContext(java.lang.Object,
+	 *      org.eclipse.birt.report.service.api.InputOptions)
+	 */
 	public void setContext( Object context, InputOptions options )
+			throws BirtException
 	{
 		HttpServletRequest request = (HttpServletRequest) options
 				.getOption( InputOptions.OPT_REQUEST );
@@ -677,6 +817,14 @@ public class BirtViewerReportService implements IViewerReportService
 				request );
 	}
 
+	/**
+	 * Returns report runnable object
+	 * 
+	 * @param design
+	 * @param moduleOptions
+	 * @return
+	 * @throws ReportServiceException
+	 */
 	public IReportRunnable getReportRunnable( IViewerReportDesignHandle design,
 			Map moduleOptions ) throws ReportServiceException
 	{
@@ -696,12 +844,18 @@ public class BirtViewerReportService implements IViewerReportService
 			}
 			catch ( EngineException e )
 			{
-				throw new ReportServiceException( e.getLocalizedMessage( ) );
+				throw new ReportServiceException( e.getLocalizedMessage( ), e );
 			}
 		}
 		return runnable;
 	}
 
+	/**
+	 * Transform TOC Node
+	 * 
+	 * @param node
+	 * @return
+	 */
 	private static ToC transformTOCNode( TOCNode node )
 	{
 		ToC toc = new ToC( node.getNodeID( ), node.getDisplayString( ), node
@@ -710,6 +864,12 @@ public class BirtViewerReportService implements IViewerReportService
 		return toc;
 	}
 
+	/**
+	 * Returns the TOC Children from a TOCNode
+	 * 
+	 * @param node
+	 * @return
+	 */
 	private static List getToCChildren( TOCNode node )
 	{
 		if ( node.getChildren( ) == null )
@@ -729,6 +889,14 @@ public class BirtViewerReportService implements IViewerReportService
 		return ret;
 	}
 
+	/**
+	 * Returns the GetParameterDefinitionTask
+	 * 
+	 * @param reportDesignName
+	 * @param options
+	 * @return
+	 * @throws EngineException
+	 */
 	private IGetParameterDefinitionTask getParameterDefinitionTask(
 			String reportDesignName, InputOptions options )
 			throws EngineException
@@ -742,6 +910,12 @@ public class BirtViewerReportService implements IViewerReportService
 		return paramTask;
 	}
 
+	/**
+	 * Handle ResultSet array
+	 * 
+	 * @param resultSetArray
+	 * @return
+	 */
 	private List transformResultSetArray( ResultSet[] resultSetArray )
 	{
 		List ret = new ArrayList( );
@@ -852,7 +1026,11 @@ public class BirtViewerReportService implements IViewerReportService
 		return flattenGroups( ret );
 	}
 
-	// Flatten the results
+	/**
+	 * Flatten the results
+	 * 
+	 * @param params
+	 */
 	private static List flattenGroups( List params )
 	{
 		if ( params == null || params.size( ) == 0 )
@@ -873,6 +1051,13 @@ public class BirtViewerReportService implements IViewerReportService
 		return ret;
 	}
 
+	/**
+	 * Convert parameters in parameter group
+	 * 
+	 * @param scalarParameters
+	 * @param group
+	 * @return
+	 */
 	private static List convertParametersInGroup( Collection scalarParameters,
 			ParameterGroupDefinition group )
 	{
@@ -889,6 +1074,12 @@ public class BirtViewerReportService implements IViewerReportService
 		return ret;
 	}
 
+	/**
+	 * Convert Parameter Group Definition
+	 * 
+	 * @param engineParam
+	 * @return
+	 */
 	private static ParameterGroupDefinition convertParameterGroup(
 			IParameterGroupDefn engineParam )
 	{
@@ -906,6 +1097,13 @@ public class BirtViewerReportService implements IViewerReportService
 		return paramGroup;
 	}
 
+	/**
+	 * Convert Scalar Parameter Definition
+	 * 
+	 * @param engineParam
+	 * @param group
+	 * @return
+	 */
 	private static ParameterDefinition convertScalarParameter(
 			IScalarParameterDefn engineParam, ParameterGroupDefinition group )
 	{
@@ -938,8 +1136,13 @@ public class BirtViewerReportService implements IViewerReportService
 		return param;
 	}
 
-	// Convert collection of IParameterSelectionChoice to collection of
-	// ParameterSelectionChoice
+	/**
+	 * Convert collection of IParameterSelectionChoice to collection of
+	 * ParameterSelectionChoice
+	 * 
+	 * @param params
+	 * @return
+	 */
 	private static Collection convertEngineParameterSelectionChoice(
 			Collection params )
 	{
@@ -963,7 +1166,6 @@ public class BirtViewerReportService implements IViewerReportService
 	 * @param options
 	 * @return
 	 */
-
 	private Map getModuleOptions( InputOptions options )
 	{
 		ViewerAttributeBean bean = getViewerAttrBean( options );

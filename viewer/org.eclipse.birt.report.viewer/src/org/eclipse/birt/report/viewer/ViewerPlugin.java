@@ -29,8 +29,21 @@ import org.osgi.framework.BundleContext;
  */
 public class ViewerPlugin extends Plugin
 {
+	/**
+	 * Plugin ID
+	 */
 	public final static String PLUGIN_ID = "org.eclipse.birt.report.viewer"; //$NON-NLS-1$
+	
+	/**
+	 * Web Application Context
+	 */
+	public final static String WEBAPP_CONTEXT = "viewer"; //$NON-NLS-1$
 
+	/**
+	 * Default value of max rows setting displaying in preference page
+	 */
+	public final static int DEFAULT_MAX_ROWS = 500;
+	
 	/**
 	 * The shared instance.
 	 */
@@ -72,6 +85,7 @@ public class ViewerPlugin extends Plugin
 		super.start( context );
 		bundleContext = context;
 		plugin.getPluginPreferences( ).setDefault( WebViewer.MASTER_PAGE_CONTENT, true );
+		plugin.getPluginPreferences( ).setDefault( WebViewer.PREVIEW_MAXROW, DEFAULT_MAX_ROWS );
 	}
 
 	/**
@@ -82,7 +96,7 @@ public class ViewerPlugin extends Plugin
 	 */
 	public void stop( BundleContext context ) throws Exception
 	{
-		WebappAccessor.stop( "viewer" );
+		WebappAccessor.stop( WEBAPP_CONTEXT );
 		super.stop( context );
 	}
 

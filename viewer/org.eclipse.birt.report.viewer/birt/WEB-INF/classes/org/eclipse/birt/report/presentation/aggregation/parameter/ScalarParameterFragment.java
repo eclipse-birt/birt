@@ -188,6 +188,7 @@ public class ScalarParameterFragment extends BirtBaseFragment
 		Map displayTexts = attrBean.getDisplayTexts( );
 		if ( displayTexts.containsKey( parameterBean.getName( ) ) )
 		{
+			parameterBean.setDisplayTextInReq( true );
 			parameterBean.setDisplayText( DataUtil.getString( displayTexts
 					.get( parameterBean.getName( ) ) ) );
 		}

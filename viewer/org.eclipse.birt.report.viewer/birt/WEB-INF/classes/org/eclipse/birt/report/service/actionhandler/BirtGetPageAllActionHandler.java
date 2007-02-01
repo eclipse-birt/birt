@@ -113,7 +113,9 @@ public class BirtGetPageAllActionHandler extends AbstractBaseActionHandler
 			else if ( context.getBean( ).documentInUrl )
 			{
 				// render document file
-				getReportService( ).renderReport( docName, null, options, out );
+				getReportService( ).renderReport( docName,
+						attrBean.getReportPage( ),
+						attrBean.getReportPageRange( ), options, out );
 			}
 			else
 			{

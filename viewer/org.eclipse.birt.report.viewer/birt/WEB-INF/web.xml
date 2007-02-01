@@ -8,28 +8,37 @@
 
     <display-name>Eclipse BIRT Report Viewer</display-name>
 
+	<!-- Default locale setting -->
 	<context-param>
 		<param-name>BIRT_VIEWER_LOCALE</param-name>
 		<param-value>en-US</param-value>
 	</context-param>
 
+	<!-- Report resources directory for preview. Default to ${birt home} -->
 	<context-param>
 		<param-name>BIRT_VIEWER_WORKING_FOLDER</param-name>
 		<param-value></param-value>
 	</context-param>
 	
+	<!-- The generated document files directory. Default to ${birt home}/documents -->
 	<context-param>
 		<param-name>BIRT_VIEWER_DOCUMENT_FOLDER</param-name>
 		<param-value></param-value>
 	</context-param>
 
-	<!-- Absolute downloaded image/chart directory. Default to ${birt home}/report/images -->
+	<!-- If usr can only access the reprot resources under working folder. Default is false -->
+	<context-param>
+		<param-name>WORKING_FOLDER_ACCESS_ONLY</param-name>
+		<param-value>false</param-value>
+	</context-param>
+
+	<!-- Output image/chart directory. Default to ${birt home}/report/images -->
 	<context-param>
 		<param-name>BIRT_VIEWER_IMAGE_DIR</param-name>
 		<param-value></param-value>
 	</context-param>
 
-	<!-- Absolute engine log directory. Default to ${birt home}/logs -->
+	<!-- Engine log directory. Default to ${birt home}/logs -->
 	<context-param>
 		<param-name>BIRT_VIEWER_LOG_DIR</param-name>
 		<param-value></param-value>
@@ -41,42 +50,36 @@
 		<param-value>WARNING</param-value>
 	</context-param>
 
-	<!-- Absolute directory to store all birt report script libraries (JARs). Default to ${birt home}/scriptlib -->
+	<!-- Directory to store all birt report script libraries (JARs). Default to ${birt home}/scriptlib -->
 	<context-param>
 		<param-name>BIRT_VIEWER_SCRIPTLIB_DIR</param-name>
 		<param-value></param-value>
 	</context-param>
-
-	<!-- If usr can only access the reprot and document under document folder. Default is false -->
-	<context-param>
-		<param-name>DOCUMENT_FOLDER_ACCESS_ONLY</param-name>
-		<param-value>false</param-value>
-	</context-param>
 	
-	<!-- Absolute resource location directory. -->
+	<!-- Resource location directory. Default to ${birt home} -->
 	<context-param>
 		<param-name>BIRT_RESOURCE_PATH</param-name>
 		<param-value></param-value>
 	</context-param>
-	
+
 	<!-- Preview report max rows limited. -->
 	<context-param>
 		<param-name>BIRT_VIEWER_MAX_ROWS</param-name>
 		<param-value></param-value>
 	</context-param>
 
-	<!-- If always overwrite generated document file. Defalult to true -->
+	<!-- If always overwrite generated document file.For designer,defalult to false -->
 	<context-param>
 		<param-name>BIRT_OVERWRITE_DOCUMENT</param-name>
-		<param-value>true</param-value>
+		<param-value>false</param-value>
 	</context-param>
 
 	<!-- Define BIRT viewer configuration file -->
 	<context-param>
 		<param-name>BIRT_VIEWER_CONFIG_FILE</param-name>
-		<param-value>/WEB-INF/viewer.properties</param-value>
+		<param-value>WEB-INF/viewer.properties</param-value>
 	</context-param>
-	
+		
 	<!-- Viewer Servlet Context Listener -->
 	<listener>
 		<listener-class>org.eclipse.birt.report.listener.ViewerServletContextListener</listener-class>
@@ -86,17 +89,293 @@
 	<listener>
 		<listener-class>org.eclipse.birt.report.listener.ViewerHttpSessionListener</listener-class>
 	</listener>
-		
+	
+	<!-- Viewer Servlet, Support SOAP -->
 	<servlet>
 		<servlet-name>ViewerServlet</servlet-name>
 		<servlet-class>org.eclipse.birt.report.servlet.ViewerServlet</servlet-class>
 	</servlet>
 
+	<!-- Engine Serlvet -->
 	<servlet>
 		<servlet-name>EngineServlet</servlet-name>
 		<servlet-class>org.eclipse.birt.report.servlet.BirtEngineServlet</servlet-class>
 	</servlet>
 
+	
+<!--
+Automatically created by Tomcat JspC.
+Place this fragement in the web.xml before all icon, display-name,
+description, distributable, and context-param elements.
+-->
+
+	<servlet>
+		<servlet-name>index_jsp</servlet-name>
+		<servlet-class>index_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>webcontent.birt.pages.control.NavigationbarFragment_jsp</servlet-name>
+		<servlet-class>webcontent.birt.pages.control.NavigationbarFragment_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>webcontent.birt.pages.control.ProgressBarFragment_jsp</servlet-name>
+		<servlet-class>webcontent.birt.pages.control.ProgressBarFragment_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>webcontent.birt.pages.control.ToolbarFragment_jsp</servlet-name>
+		<servlet-class>webcontent.birt.pages.control.ToolbarFragment_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>webcontent.birt.pages.control.TocFragment_jsp</servlet-name>
+		<servlet-class>webcontent.birt.pages.control.TocFragment_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>webcontent.birt.pages.parameter.ParameterGroupFragment_jsp</servlet-name>
+		<servlet-class>webcontent.birt.pages.parameter.ParameterGroupFragment_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>webcontent.birt.pages.parameter.RadioButtonParameterFragment_jsp</servlet-name>
+		<servlet-class>webcontent.birt.pages.parameter.RadioButtonParameterFragment_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>webcontent.birt.pages.parameter.HiddenParameterFragment_jsp</servlet-name>
+		<servlet-class>webcontent.birt.pages.parameter.HiddenParameterFragment_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>webcontent.birt.pages.parameter.TextBoxParameterFragment_jsp</servlet-name>
+		<servlet-class>webcontent.birt.pages.parameter.TextBoxParameterFragment_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>webcontent.birt.pages.parameter.CheckboxParameterFragment_jsp</servlet-name>
+		<servlet-class>webcontent.birt.pages.parameter.CheckboxParameterFragment_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>webcontent.birt.pages.parameter.ComboBoxParameterFragment_jsp</servlet-name>
+		<servlet-class>webcontent.birt.pages.parameter.ComboBoxParameterFragment_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>webcontent.birt.pages.common.Error_jsp</servlet-name>
+		<servlet-class>webcontent.birt.pages.common.Error_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>webcontent.birt.pages.layout.DocumentFragment_jsp</servlet-name>
+		<servlet-class>webcontent.birt.pages.layout.DocumentFragment_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>webcontent.birt.pages.layout.ReportContentFragment_jsp</servlet-name>
+		<servlet-class>webcontent.birt.pages.layout.ReportContentFragment_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>webcontent.birt.pages.layout.ParameterFragment_jsp</servlet-name>
+		<servlet-class>webcontent.birt.pages.layout.ParameterFragment_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>webcontent.birt.pages.layout.FramesetFragment_jsp</servlet-name>
+		<servlet-class>webcontent.birt.pages.layout.FramesetFragment_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>webcontent.birt.pages.layout.SidebarFragment_jsp</servlet-name>
+		<servlet-class>webcontent.birt.pages.layout.SidebarFragment_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>webcontent.birt.pages.layout.RunFragment_jsp</servlet-name>
+		<servlet-class>webcontent.birt.pages.layout.RunFragment_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>webcontent.birt.pages.layout.RequesterFragment_jsp</servlet-name>
+		<servlet-class>webcontent.birt.pages.layout.RequesterFragment_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>webcontent.birt.pages.layout.ReportFragment_jsp</servlet-name>
+		<servlet-class>webcontent.birt.pages.layout.ReportFragment_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>webcontent.birt.pages.dialog.SimpleExportDataDialogFragment_jsp</servlet-name>
+		<servlet-class>webcontent.birt.pages.dialog.SimpleExportDataDialogFragment_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>webcontent.birt.pages.dialog.ParameterDialogFragment_jsp</servlet-name>
+		<servlet-class>webcontent.birt.pages.dialog.ParameterDialogFragment_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>webcontent.birt.pages.dialog.ExceptionDialogFragment_jsp</servlet-name>
+		<servlet-class>webcontent.birt.pages.dialog.ExceptionDialogFragment_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>webcontent.birt.pages.dialog.ExportDataDialogFragment_jsp</servlet-name>
+		<servlet-class>webcontent.birt.pages.dialog.ExportDataDialogFragment_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>webcontent.birt.pages.dialog.DialogContainerFragment_jsp</servlet-name>
+		<servlet-class>webcontent.birt.pages.dialog.DialogContainerFragment_jsp</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>webcontent.birt.pages.dialog.ExportReportDialogFragment_jsp</servlet-name>
+		<servlet-class>webcontent.birt.pages.dialog.ExportReportDialogFragment_jsp</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>index_jsp</servlet-name>
+		<url-pattern>/index.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>webcontent.birt.pages.control.NavigationbarFragment_jsp</servlet-name>
+		<url-pattern>/webcontent/birt/pages/control/NavigationbarFragment.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>webcontent.birt.pages.control.ProgressBarFragment_jsp</servlet-name>
+		<url-pattern>/webcontent/birt/pages/control/ProgressBarFragment.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>webcontent.birt.pages.control.ToolbarFragment_jsp</servlet-name>
+		<url-pattern>/webcontent/birt/pages/control/ToolbarFragment.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>webcontent.birt.pages.control.TocFragment_jsp</servlet-name>
+		<url-pattern>/webcontent/birt/pages/control/TocFragment.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>webcontent.birt.pages.parameter.ParameterGroupFragment_jsp</servlet-name>
+		<url-pattern>/webcontent/birt/pages/parameter/ParameterGroupFragment.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>webcontent.birt.pages.parameter.RadioButtonParameterFragment_jsp</servlet-name>
+		<url-pattern>/webcontent/birt/pages/parameter/RadioButtonParameterFragment.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>webcontent.birt.pages.parameter.HiddenParameterFragment_jsp</servlet-name>
+		<url-pattern>/webcontent/birt/pages/parameter/HiddenParameterFragment.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>webcontent.birt.pages.parameter.TextBoxParameterFragment_jsp</servlet-name>
+		<url-pattern>/webcontent/birt/pages/parameter/TextBoxParameterFragment.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>webcontent.birt.pages.parameter.CheckboxParameterFragment_jsp</servlet-name>
+		<url-pattern>/webcontent/birt/pages/parameter/CheckboxParameterFragment.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>webcontent.birt.pages.parameter.ComboBoxParameterFragment_jsp</servlet-name>
+		<url-pattern>/webcontent/birt/pages/parameter/ComboBoxParameterFragment.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>webcontent.birt.pages.common.Error_jsp</servlet-name>
+		<url-pattern>/webcontent/birt/pages/common/Error.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>webcontent.birt.pages.layout.DocumentFragment_jsp</servlet-name>
+		<url-pattern>/webcontent/birt/pages/layout/DocumentFragment.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>webcontent.birt.pages.layout.ReportContentFragment_jsp</servlet-name>
+		<url-pattern>/webcontent/birt/pages/layout/ReportContentFragment.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>webcontent.birt.pages.layout.ParameterFragment_jsp</servlet-name>
+		<url-pattern>/webcontent/birt/pages/layout/ParameterFragment.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>webcontent.birt.pages.layout.FramesetFragment_jsp</servlet-name>
+		<url-pattern>/webcontent/birt/pages/layout/FramesetFragment.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>webcontent.birt.pages.layout.SidebarFragment_jsp</servlet-name>
+		<url-pattern>/webcontent/birt/pages/layout/SidebarFragment.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>webcontent.birt.pages.layout.RunFragment_jsp</servlet-name>
+		<url-pattern>/webcontent/birt/pages/layout/RunFragment.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>webcontent.birt.pages.layout.RequesterFragment_jsp</servlet-name>
+		<url-pattern>/webcontent/birt/pages/layout/RequesterFragment.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>webcontent.birt.pages.layout.ReportFragment_jsp</servlet-name>
+		<url-pattern>/webcontent/birt/pages/layout/ReportFragment.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>webcontent.birt.pages.dialog.SimpleExportDataDialogFragment_jsp</servlet-name>
+		<url-pattern>/webcontent/birt/pages/dialog/SimpleExportDataDialogFragment.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>webcontent.birt.pages.dialog.ParameterDialogFragment_jsp</servlet-name>
+		<url-pattern>/webcontent/birt/pages/dialog/ParameterDialogFragment.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>webcontent.birt.pages.dialog.ExceptionDialogFragment_jsp</servlet-name>
+		<url-pattern>/webcontent/birt/pages/dialog/ExceptionDialogFragment.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>webcontent.birt.pages.dialog.ExportDataDialogFragment_jsp</servlet-name>
+		<url-pattern>/webcontent/birt/pages/dialog/ExportDataDialogFragment.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>webcontent.birt.pages.dialog.DialogContainerFragment_jsp</servlet-name>
+		<url-pattern>/webcontent/birt/pages/dialog/DialogContainerFragment.jsp</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>webcontent.birt.pages.dialog.ExportReportDialogFragment_jsp</servlet-name>
+		<url-pattern>/webcontent/birt/pages/dialog/ExportReportDialogFragment.jsp</url-pattern>
+	</servlet-mapping>
+
+<!--
+All session-config, mime-mapping, welcome-file-list, error-page, taglib,
+resource-ref, security-constraint, login-config, security-role,
+env-entry, and ejb-ref elements should follow this fragment.
+-->
+
+	
 	<servlet-mapping>
 		<servlet-name>ViewerServlet</servlet-name>
 		<url-pattern>/frameset</url-pattern>
@@ -125,5 +404,6 @@
 	<taglib>
 		<taglib-uri>/birt.tld</taglib-uri>
 		<taglib-location>/WEB-INF/tlds/birt.tld</taglib-location>
-	</taglib>	
+	</taglib>
+		
 </web-app>

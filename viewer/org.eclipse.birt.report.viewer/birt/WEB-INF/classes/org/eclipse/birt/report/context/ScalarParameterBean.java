@@ -82,6 +82,11 @@ public class ScalarParameterBean extends ParameterAttributeBean
 	private boolean defaultValueInList = false;
 
 	/**
+	 * If display text is in request
+	 */
+	private boolean displayTextInReq = false;
+
+	/**
 	 * Constructor.
 	 * 
 	 * @param parameter
@@ -368,6 +373,23 @@ public class ScalarParameterBean extends ParameterAttributeBean
 	public void setDefaultValueInList( boolean defaultValueInList )
 	{
 		this.defaultValueInList = defaultValueInList;
+	}
+
+	/**
+	 * @return the displayTextInReq
+	 */
+	public boolean isDisplayTextInReq( )
+	{
+		return displayTextInReq;
+	}
+
+	/**
+	 * @param displayTextInReq
+	 *            the displayTextInReq to set
+	 */
+	public void setDisplayTextInReq( boolean displayTextInReq )
+	{
+		this.displayTextInReq = displayTextInReq;
 	}
 
 }

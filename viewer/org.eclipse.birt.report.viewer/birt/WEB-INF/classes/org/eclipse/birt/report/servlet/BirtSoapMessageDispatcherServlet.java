@@ -53,7 +53,7 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 			HttpServletResponse response );
 
 	abstract protected IContext __getContext( HttpServletRequest request,
-			HttpServletResponse response );
+			HttpServletResponse response ) throws BirtException;
 
 	abstract protected void __doGet( IContext context )
 			throws ServletException, IOException, BirtException;
@@ -61,7 +61,8 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 	abstract protected void __doPost( IContext context )
 			throws ServletException, IOException, BirtException;
 
-	abstract protected void __handleNonSoapException( IContext context,
+	abstract protected void __handleNonSoapException(
+			HttpServletRequest request, HttpServletResponse response,
 			Exception exception ) throws ServletException, IOException;
 
 	/**
@@ -108,24 +109,26 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 			return;
 		}
 
-		IContext context = __getContext( request, response );
+		try
+		{
 
-		if ( context.getBean( ).getException( ) != null )
-		{
-			__handleNonSoapException( context, context.getBean( )
-					.getException( ) );
-		}
-		else
-		{
-			try
+			IContext context = __getContext( request, response );
+
+			if ( context.getBean( ).getException( ) != null )
+			{
+				__handleNonSoapException( request, response, context.getBean( )
+						.getException( ) );
+			}
+			else
 			{
 				__doGet( context );
 			}
-			catch ( BirtException e )
-			{
-				__handleNonSoapException( context, e );
-			}
 		}
+		catch ( BirtException e )
+		{
+			__handleNonSoapException( request, response, e );
+		}
+
 	}
 
 	/**
@@ -147,7 +150,19 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 			return;
 		}
 
-		IContext context = __getContext( request, response );
+		// init context
+		IContext context = null;
+		try
+		{
+
+			context = __getContext( request, response );
+		}
+		catch ( BirtException e )
+		{
+			// throw exception
+			__handleNonSoapException( request, response, e );
+			return;
+		}
 
 		try
 		{
@@ -168,8 +183,6 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 		catch ( BirtException e )
 		{
 			e.printStackTrace( );
-			// Handle Birt exception.
-			// TODO: Raise axis fault
 		}
 	}
 }

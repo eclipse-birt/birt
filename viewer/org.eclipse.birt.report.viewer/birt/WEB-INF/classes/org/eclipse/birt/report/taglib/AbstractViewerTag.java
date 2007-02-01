@@ -68,8 +68,8 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 		if ( hasHostPage != null && "true".equalsIgnoreCase( hasHostPage ) ) //$NON-NLS-1$
 		{
 			return false;
-		}		
-		
+		}
+
 		// get Locale
 		this.locale = BirtTagUtil.getLocale( (HttpServletRequest) pageContext
 				.getRequest( ), viewer.getLocale( ) );
@@ -112,7 +112,7 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 			throw new JspTagException( BirtResources
 					.getMessage( ResourceConstants.TAGLIB_NO_REPORT_DOCUMENT ) );
 		}
-		
+
 		return true;
 	}
 
@@ -157,6 +157,65 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 	{
 		JspWriter writer = pageContext.getOut( );
 
+		// prepare parameters
+		String paramContainerId = "params_" + viewer.getId( ); //$NON-NLS-1$
+		writer
+				.write( "<div id=\"" + paramContainerId + "\" style='display:none'>\n" ); //$NON-NLS-1$ //$NON-NLS-2$
+
+		Iterator it = viewer.getParameters( ).values( ).iterator( );
+		while ( it.hasNext( ) )
+		{
+			ParameterField param = (ParameterField) it.next( );
+
+			// get parameter name
+			String encParamName = ParameterAccessor
+					.htmlEncode( param.getName( ) );
+
+			// parse parameter object as standard format
+			String paramValue = DataUtil.getDisplayValue( param.getValue( ) );
+
+			// set NULL parameter
+			if ( param.getValue( ) == null )
+			{
+				writer
+						.write( "<input type = 'hidden' name=\"" + ParameterAccessor.PARAM_ISNULL + "\" \n" ); //$NON-NLS-1$ //$NON-NLS-2$
+				writer.write( " value=\"" + encParamName + "\">\n" ); //$NON-NLS-1$//$NON-NLS-2$
+				continue;
+			}
+
+			// set Parameter value
+			writer
+					.write( "<input type = 'hidden' name=\"" + encParamName + "\" \n" ); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write( " value=\"" + paramValue + "\">\n" ); //$NON-NLS-1$//$NON-NLS-2$
+
+			// if value is string, check wheter set isLocale flag
+			if ( param.getValue( ) instanceof String && param.isLocale( ) )
+			{
+
+				writer
+						.write( "<input type = 'hidden' name=\"" + ParameterAccessor.PARAM_ISLOCALE + "\" \n" ); //$NON-NLS-1$ //$NON-NLS-2$
+				writer.write( " value=\"" + encParamName + "\">\n" ); //$NON-NLS-1$//$NON-NLS-2$
+			}
+
+			// set parameter pattern format
+			if ( param.getPattern( ) != null )
+			{
+				writer
+						.write( "<input type = 'hidden' name=\"" + encParamName + "_format\" \n" ); //$NON-NLS-1$ //$NON-NLS-2$
+				writer.write( " value=\"" + param.getPattern( ) + "\">\n" ); //$NON-NLS-1$//$NON-NLS-2$
+			}
+
+			// set parameter display text
+			if ( param.getDisplayText( ) != null )
+			{
+				writer
+						.write( "<input type = 'hidden' name=\"" + ParameterAccessor.PREFIX_DISPLAY_TEXT + encParamName + "\" \n" ); //$NON-NLS-1$ //$NON-NLS-2$
+				writer.write( " value=\"" + param.getDisplayText( ) + "\">\n" ); //$NON-NLS-1$//$NON-NLS-2$
+			}
+		}
+
+		writer.write( "</div>\n" ); //$NON-NLS-1$
+
 		writer.write( "<script type=\"text/javascript\">\n" ); //$NON-NLS-1$
 		writer.write( "function loadViewer" + viewer.getId( ) + "(){\n" ); //$NON-NLS-1$//$NON-NLS-2$
 		writer.write( "var divObj = document.createElement( \"DIV\" );\n" ); //$NON-NLS-1$
@@ -168,72 +227,18 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 		writer.write( "var formObj = document.createElement( \"FORM\" );\n" ); //$NON-NLS-1$
 		writer.write( "divObj.appendChild( formObj );\n" ); //$NON-NLS-1$
 
-		Iterator it = viewer.getParameters( ).values( ).iterator( );
-		while ( it.hasNext( ) )
-		{
-			ParameterField param = (ParameterField) it.next( );
-			// set NULL parameter
-			if ( param.getValue( ) == null )
-			{
-				writer
-						.write( "var param = document.createElement( \"INPUT\" );\n" ); //$NON-NLS-1$
-				writer.write( "formObj.appendChild( param );\n" ); //$NON-NLS-1$
-				writer.write( "param.TYPE = \"HIDDEN\";\n" ); //$NON-NLS-1$
-				writer.write( "param.name='" + ParameterAccessor.PARAM_ISNULL //$NON-NLS-1$
-						+ "';\n" ); //$NON-NLS-1$
-				writer.write( "param.value='" + param.getName( ) + "';\n" ); //$NON-NLS-1$//$NON-NLS-2$
-				continue;
-			}
-
-			// parse parameter object as standard format
-			String paramValue = DataUtil.getDisplayValue( param.getValue( ) );
-
-			// set Parameter value
-			writer.write( "var param = document.createElement( \"INPUT\" );\n" ); //$NON-NLS-1$
-			writer.write( "formObj.appendChild( param );\n" ); //$NON-NLS-1$
-			writer.write( "param.TYPE = \"HIDDEN\";\n" ); //$NON-NLS-1$
-			writer.write( "param.name='" + param.getName( ) + "';\n" ); //$NON-NLS-1$ //$NON-NLS-2$
-			writer.write( "param.value='" + paramValue + "';\n" ); //$NON-NLS-1$//$NON-NLS-2$
-
-			// if value is string, check wheter set isLocale flag
-			if ( param.getValue( ) instanceof String && param.isLocale( ) )
-			{
-				writer
-						.write( "var param = document.createElement( \"INPUT\" );\n" ); //$NON-NLS-1$
-				writer.write( "formObj.appendChild( param );\n" ); //$NON-NLS-1$
-				writer.write( "param.TYPE = \"HIDDEN\";\n" ); //$NON-NLS-1$
-				writer
-						.write( "param.name='" + ParameterAccessor.PARAM_ISLOCALE + "';\n" ); //$NON-NLS-1$ //$NON-NLS-2$
-				writer.write( "param.value='" + param.getName( ) + "';\n" ); //$NON-NLS-1$//$NON-NLS-2$				
-			}
-
-			// set parameter pattern format
-			if ( param.getPattern( ) != null )
-			{
-				writer
-						.write( "var param = document.createElement( \"INPUT\" );\n" ); //$NON-NLS-1$
-				writer.write( "formObj.appendChild( param );\n" ); //$NON-NLS-1$
-				writer.write( "param.TYPE = \"HIDDEN\";\n" ); //$NON-NLS-1$
-				writer.write( "param.name='" + param.getName( ) //$NON-NLS-1$
-						+ "_format';\n" ); //$NON-NLS-1$
-				writer.write( "param.value='" + param.getPattern( ) + "';\n" ); //$NON-NLS-1$//$NON-NLS-2$
-			}
-
-			// set parameter display text
-			if ( param.getDisplayText( ) != null )
-			{
-				writer
-						.write( "var param = document.createElement( \"INPUT\" );\n" ); //$NON-NLS-1$
-				writer.write( "formObj.appendChild( param );\n" ); //$NON-NLS-1$
-				writer.write( "param.TYPE = \"HIDDEN\";\n" ); //$NON-NLS-1$
-				writer.write( "param.name='" //$NON-NLS-1$
-						+ ParameterAccessor.PREFIX_DISPLAY_TEXT
-						+ param.getName( ) + "';\n" ); //$NON-NLS-1$
-				writer
-						.write( "param.value='" + param.getDisplayText( ) + "';\n" ); //$NON-NLS-1$ //$NON-NLS-2$
-
-			}
-		}
+		writer.write( "var paramContainer = document.getElementById(\"" //$NON-NLS-1$
+				+ paramContainerId + "\");\n" ); //$NON-NLS-1$
+		writer
+				.write( "var oParams = paramContainer.getElementsByTagName('input');\n" ); //$NON-NLS-1$
+		writer.write( "for( var i=0;i<oParams.length;i++ )  \n" ); //$NON-NLS-1$
+		writer.write( "{\n" ); //$NON-NLS-1$
+		writer.write( "  var param = document.createElement( \"INPUT\" );\n" ); //$NON-NLS-1$
+		writer.write( "  formObj.appendChild( param );\n" ); //$NON-NLS-1$
+		writer.write( "  param.TYPE = \"HIDDEN\";\n" ); //$NON-NLS-1$
+		writer.write( "  param.name= oParams[i].name;\n" ); //$NON-NLS-1$
+		writer.write( "  param.value= oParams[i].value;\n" ); //$NON-NLS-1$
+		writer.write( "}\n" ); //$NON-NLS-1$
 
 		writer.write( "formObj.action = \"" + src + "\";\n" ); //$NON-NLS-1$ //$NON-NLS-2$
 		writer.write( "formObj.method = \"post\";\n" ); //$NON-NLS-1$
@@ -294,11 +299,11 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 			style += "width:" + viewer.getWidth( ) + "px;"; //$NON-NLS-1$//$NON-NLS-2$
 
 		// top
-		if ( viewer.getTop( ) >= 0 )
+		if ( viewer.getTop( ) != null )
 			style += "top:" + viewer.getTop( ) + "px;"; //$NON-NLS-1$//$NON-NLS-2$
 
 		// left
-		if ( viewer.getLeft( ) >= 0 )
+		if ( viewer.getLeft( ) != null )
 			style = style + "left:" + viewer.getLeft( ) + "px;"; //$NON-NLS-1$//$NON-NLS-2$
 
 		// style
@@ -331,21 +336,12 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 	}
 
 	/**
-	 * @param name
-	 *            the name to set
+	 * @param baseURL
+	 *            the baseURL to set
 	 */
-	public void setName( String name )
+	public void setBaseURL( String baseURL )
 	{
-		viewer.setName( name );
-	}
-
-	/**
-	 * @param contextRoot
-	 *            the contextRoot to set
-	 */
-	public void setContextRoot( String contextRoot )
-	{
-		viewer.setContextRoot( contextRoot );
+		viewer.setBaseURL( baseURL );
 	}
 
 	/**
@@ -408,7 +404,7 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 	 */
 	public void setLeft( String left )
 	{
-		viewer.setLeft( Integer.parseInt( left ) );
+		viewer.setLeft( "" + Integer.parseInt( left ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -417,7 +413,7 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 	 */
 	public void setTop( String top )
 	{
-		viewer.setTop( Integer.parseInt( top ) );
+		viewer.setTop( "" + Integer.parseInt( top ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -499,6 +495,24 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 	public void setRtl( String rtl )
 	{
 		viewer.setRtl( BirtTagUtil.convertBooleanValue( rtl ) );
+	}
+
+	/**
+	 * @param pageNum
+	 *            the pageNum to set
+	 */
+	public void setPageNum( String pageNum )
+	{
+		viewer.setPageNum( Long.parseLong( pageNum ) );
+	}
+
+	/**
+	 * @param pageRange
+	 *            the pageRange to set
+	 */
+	public void setPageRange( String pageRange )
+	{
+		viewer.setPageRange( pageRange );
 	}
 
 	/**

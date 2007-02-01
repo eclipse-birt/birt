@@ -51,17 +51,25 @@
 <%
 	if (parameterBean.getSelectionList( ) != null)
 	{
+		boolean CHECKED = false;
 		for ( int i = 0; i < parameterBean.getSelectionList( ).size( ); i++ )
 		{
 			String label = ( String ) parameterBean.getSelectionList( ).get( i );
 			String value = ( String ) parameterBean.getSelectionTable( ).get( label );
+			
+			CHECKED = ( parameterBean.getValue( ) != null && parameterBean.getValue( ).equalsIgnoreCase( value ) );
+			// if displayText is in request, use it
+			if( CHECKED && parameterBean.isDisplayTextInReq( ) )
+			{
+				label = parameterBean.getDisplayText( );
+			}
 %>
 	<INPUT TYPE="RADIO"
 		NAME="<%= encodedParameterName %>"
 		ID="<%= encodedParameterName + i %>" 
 		TITLE="<%= parameterBean.getToolTip( ) %>"
 		VALUE="<%= ParameterAccessor.htmlEncode( value ) %>"
-		<%= (parameterBean.getValue( ) != null && parameterBean.getValue( ).equalsIgnoreCase( value ) )? "CHECKED" : "" %>>
+		<%= CHECKED ? "CHECKED" : "" %>>
 		<LABEL ID="<%= (encodedParameterName + i) + "_label" %>" 
 		   TITLE="<%= label %>" 
 		   FOR="<%= encodedParameterName + i %>"><%= label %></LABEL>

@@ -66,7 +66,7 @@ public abstract class AbstractBaseTag extends TagSupport
 
 		// initialize context root
 		HttpServletRequest req = (HttpServletRequest) pageContext.getRequest( );
-		viewer.setContextRoot( req.getContextPath( ) );
+		viewer.setBaseURL( req.getContextPath( ) );
 	}
 
 	/**

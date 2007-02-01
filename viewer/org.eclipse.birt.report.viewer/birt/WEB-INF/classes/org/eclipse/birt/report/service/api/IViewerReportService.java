@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.birt.core.exception.BirtException;
+
 /**
  * A service used by the viewer for running and rendering a report
  * 
@@ -30,11 +32,13 @@ public interface IViewerReportService
 	 * 
 	 * @param context
 	 * @param options
+	 * @throws BirtException
 	 */
-	void setContext( Object context, InputOptions options );
+	void setContext( Object context, InputOptions options )
+			throws BirtException;
 
 	/**
-	 * Run a report
+	 * Run a report and generate document file
 	 * 
 	 * @param design
 	 * @param outputDocName
@@ -50,7 +54,7 @@ public interface IViewerReportService
 			throws ReportServiceException;
 
 	/**
-	 * Run a report
+	 * Run a report and generate document file
 	 * 
 	 * @param design
 	 * @param outputDocName
@@ -136,15 +140,29 @@ public interface IViewerReportService
 			throws ReportServiceException;
 
 	/**
-	 * Render the whole report to the OutputStream
+	 * Render the report to the OutputStream
 	 * 
 	 * @param docName
+	 * @param pageNum
+	 * @param renderOptions
+	 * @param out
+	 * @deprecated
+	 * @throws ReportServiceException
+	 */
+	void renderReport( String docName, int pageNum, InputOptions renderOptions,
+			OutputStream out ) throws ReportServiceException;
+
+	/**
+	 * Render the report to the OutputStream
+	 * 
+	 * @param docName
+	 * @param pageNum
 	 * @param pageRange
 	 * @param renderOptions
 	 * @param out
 	 * @throws ReportServiceException
 	 */
-	void renderReport( String docName, String pageRange,
+	void renderReport( String docName, int pageNum, String pageRange,
 			InputOptions renderOptions, OutputStream out )
 			throws ReportServiceException;
 

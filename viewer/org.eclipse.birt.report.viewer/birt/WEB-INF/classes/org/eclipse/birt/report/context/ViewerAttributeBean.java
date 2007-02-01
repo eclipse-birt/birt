@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.context;
 
 import java.io.File;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
@@ -146,9 +145,11 @@ public class ViewerAttributeBean extends BaseAttributeBean
 				.isMasterPageContent( request );
 		this.isDesigner = ParameterAccessor.isDesigner( request );
 		this.bookmark = ParameterAccessor.getBookmark( request );
-		this.reportPage = String.valueOf( ParameterAccessor.getPage( request ) );
-		this.reportDocumentName = ParameterAccessor.getReportDocument( request );
-		this.reportDesignName = ParameterAccessor.getReport( request );
+		this.reportPage = ParameterAccessor.getPage( request );
+		this.reportPageRange = ParameterAccessor.getPageRange( request );
+		this.reportDocumentName = ParameterAccessor.getReportDocument( request,
+				null, true );
+		this.reportDesignName = ParameterAccessor.getReport( request, null );
 		this.format = ParameterAccessor.getFormat( request );
 		this.maxRows = ParameterAccessor.getMaxRows( request );
 
@@ -185,7 +186,11 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		// get some module options
 		this.moduleOptions = BirtUtility.getModuleOptions( request );
 
-		// Initialize report parameters
+		this.reportDesignHandle = getDesignHandle( request );
+		if ( this.reportDesignHandle == null )
+			return;
+
+		// Initialize report parameters.
 		__initParameters( request );
 	}
 
@@ -198,10 +203,6 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	protected void __initParameters( HttpServletRequest request )
 			throws Exception
 	{
-		this.reportDesignHandle = getDesignHandle( request );
-		if ( this.reportDesignHandle == null )
-			return;
-
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, request );
 		options.setOption( InputOptions.OPT_LOCALE, locale );
@@ -407,131 +408,93 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 * Returns the report design handle
 	 * 
 	 * @param request
+	 * @throws Exception
+	 * @return Report Design Handle
 	 */
 	protected IViewerReportDesignHandle getDesignHandle(
-			HttpServletRequest request )
+			HttpServletRequest request ) throws Exception
 	{
 		IViewerReportDesignHandle design = null;
 		IReportRunnable reportRunnable = null;
+		IReportDocument reportDocumentInstance = null;
 
-		// check if document file path is valid
-		boolean isValidDocument = ParameterAccessor
-				.isValidFilePath( this.reportDocumentName );
-		if ( isValidDocument )
+		boolean isDocumentExist = ParameterAccessor.isReportParameterExist(
+				request, ParameterAccessor.PARAM_REPORT_DOCUMENT );
+		boolean isReportExist = ParameterAccessor.isReportParameterExist(
+				request, ParameterAccessor.PARAM_REPORT );
+
+		// if only set __document parameter
+		if ( isDocumentExist && !isReportExist )
 		{
-			// open document instance
-			IReportDocument reportDocumentInstance = ReportEngineService
-					.getInstance( ).openReportDocument( this.reportDesignName,
-							this.reportDocumentName, this.moduleOptions );
+			// check if document file path is valid
+			boolean isValidDocument = ParameterAccessor
+					.isValidFilePath( this.reportDocumentName );
 
-			if ( reportDocumentInstance != null )
+			if ( isValidDocument )
 			{
-				reportRunnable = reportDocumentInstance.getReportRunnable( );
-
-				if ( ParameterAccessor.getParameter( request,
-						ParameterAccessor.PARAM_REPORT_DOCUMENT ) != null )
-					this.documentInUrl = true;
-
-				// in frameset mode, parse parameter values from document file
-				// if the path is frameset, copy the parameter value from
-				// document
-				// to run the report. If the _document parameter from url is not
-				// null, means user wants to preview the document, copy the
-				// parameter from the document to do the preview.
-				if ( IBirtConstants.SERVLET_PATH_FRAMESET
-						.equalsIgnoreCase( request.getServletPath( ) )
-						|| this.documentInUrl )
-
+				// try to open document instance
+				reportDocumentInstance = ReportEngineService.getInstance( )
+						.openReportDocument( this.reportDesignName,
+								this.reportDocumentName, this.moduleOptions );
+				if ( reportDocumentInstance != null )
 				{
-					this.parameterMap = reportDocumentInstance
-							.getParameterValues( );
+					reportRunnable = reportDocumentInstance.getReportRunnable( );
 				}
-
-				// if generating document from report isn't completed
-				if ( !reportDocumentInstance.isComplete( )
-						&& ParameterAccessor.isReportParameterExist( request,
-								ParameterAccessor.PARAM_REPORT ) )
-					this.isDocumentProcessing = true;
-
-				reportDocumentInstance.close( );
-			}
-		}
-
-		// if report runnable is null, then get it from design file
-		if ( reportRunnable == null )
-		{
-			// if only set __document parameter, throw exception directly
-			if ( ParameterAccessor.isReportParameterExist( request,
-					ParameterAccessor.PARAM_REPORT_DOCUMENT )
-					&& !ParameterAccessor.isReportParameterExist( request,
-							ParameterAccessor.PARAM_REPORT ) )
-			{
-				if ( isValidDocument )
-					this.exception = new ViewerException(
+				else
+				{
+					throw new ViewerException(
 							ResourceConstants.GENERAL_EXCEPTION_DOCUMENT_FILE_ERROR,
 							new String[]{this.reportDocumentName} );
-				else
-					this.exception = new ViewerException(
-							ResourceConstants.GENERAL_EXCEPTION_DOCUMENT_ACCESS_ERROR,
-							new String[]{this.reportDocumentName} );
-
-				return design;
-			}
-
-			// check if the report file path is valid
-			if ( !ParameterAccessor.isValidFilePath( this.reportDesignName ) )
-			{
-				this.exception = new ViewerException(
-						ResourceConstants.GENERAL_EXCEPTION_REPORT_ACCESS_ERROR,
-						new String[]{this.reportDesignName} );
+				}
 			}
 			else
 			{
+				throw new ViewerException(
+						ResourceConstants.GENERAL_EXCEPTION_DOCUMENT_ACCESS_ERROR,
+						new String[]{this.reportDocumentName} );
+			}
+
+		}
+		else if ( isReportExist )
+		{
+			if ( isDocumentExist
+					&& !ParameterAccessor
+							.isValidFilePath( this.reportDocumentName ) )
+			{
+				throw new ViewerException(
+						ResourceConstants.GENERAL_EXCEPTION_DOCUMENT_ACCESS_ERROR,
+						new String[]{this.reportDocumentName} );
+			}
+
+			// try to open document instance
+			reportDocumentInstance = ReportEngineService.getInstance( )
+					.openReportDocument( this.reportDesignName,
+							this.reportDocumentName, this.moduleOptions );
+			if ( reportDocumentInstance != null )
+			{
+				reportRunnable = reportDocumentInstance.getReportRunnable( );
+			}
+
+			// try to get runnable from design file
+			if ( reportRunnable == null )
+			{
+				// check if the report path is valid
+				if ( !ParameterAccessor.isValidFilePath( this.reportDesignName ) )
+				{
+					throw new ViewerException(
+							ResourceConstants.GENERAL_EXCEPTION_REPORT_ACCESS_ERROR,
+							new String[]{this.reportDesignName} );
+				}
+
 				try
 				{
-					// check the design file if exist
-					File file = new File( this.reportDesignName );
-					if ( file.exists( ) )
-					{
-						reportRunnable = ReportEngineService.getInstance( )
-								.openReportDesign( this.reportDesignName,
-										this.moduleOptions );
-					}
-					else if ( !ParameterAccessor.isWorkingFolderAccessOnly( ) )
-					{
-						// try to get resource from war package, when
-						// WORKING_FOLDER_ACCESS_ONLY set as false
-						this.reportDesignName = ParameterAccessor.getParameter(
-								request, ParameterAccessor.PARAM_REPORT );
-
-						InputStream is = null;
-						URL url = null;
-						try
-						{
-							String reportPath = this.reportDesignName;
-							if ( !reportPath.startsWith( "/" ) ) //$NON-NLS-1$
-								reportPath = "/" + reportPath; //$NON-NLS-1$
-
-							url = request.getSession( ).getServletContext( )
-									.getResource( reportPath );
-							if ( url != null )
-								is = url.openStream( );
-
-							if ( is != null )
-								reportRunnable = ReportEngineService
-										.getInstance( ).openReportDesign(
-												url.toString( ), is,
-												this.moduleOptions );
-
-						}
-						catch ( Exception e )
-						{
-						}
-					}
+					// get report runnable from design file
+					reportRunnable = BirtUtility.getRunnableFromDesignFile(
+							request, this.reportDesignName, this.moduleOptions );
 
 					if ( reportRunnable == null )
 					{
-						this.exception = new ViewerException(
+						throw new ViewerException(
 								ResourceConstants.GENERAL_EXCEPTION_REPORT_FILE_ERROR,
 								new String[]{this.reportDesignName} );
 					}
@@ -541,6 +504,18 @@ public class ViewerAttributeBean extends BaseAttributeBean
 					this.exception = e;
 				}
 			}
+		}
+
+		if ( reportDocumentInstance != null )
+		{
+			this.documentInUrl = true;
+			this.parameterMap = reportDocumentInstance.getParameterValues( );
+
+			// if generating document from report isn't completed
+			if ( !reportDocumentInstance.isComplete( ) && isReportExist )
+				this.isDocumentProcessing = true;
+
+			reportDocumentInstance.close( );
 		}
 
 		if ( reportRunnable != null )
@@ -561,28 +536,68 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 */
 	protected void processReport( HttpServletRequest request ) throws Exception
 	{
-		File reportDocFile = new File( this.reportDocumentName );
-		File reportDesignDocFile = new File( this.reportDesignName );
-
-		// if request is SOAP Post, don't delete document file
-		if ( reportDesignDocFile != null
-				&& reportDesignDocFile.exists( )
-				&& reportDesignDocFile.isFile( )
-				&& reportDocFile != null
-				&& reportDocFile.exists( )
-				&& reportDocFile.isFile( )
-				&& !ParameterAccessor.HEADER_REQUEST_TYPE_SOAP
-						.equalsIgnoreCase( this.requestType )
-				&& !ParameterAccessor.SERVLET_PATH_DOWNLOAD
+		// if request is SOAP Post or servlet path is "/download", don't delete
+		// document file
+		if ( ParameterAccessor.HEADER_REQUEST_TYPE_SOAP
+				.equalsIgnoreCase( this.requestType )
+				|| IBirtConstants.SERVLET_PATH_DOWNLOAD
 						.equalsIgnoreCase( request.getServletPath( ) ) )
+			return;
+
+		File reportDocFile = new File( this.reportDocumentName );
+		long lastModifiedOfDesign = getLastModifiedOfDesign( request );
+
+		if ( lastModifiedOfDesign != -1L && reportDocFile != null
+				&& reportDocFile.exists( ) && reportDocFile.isFile( ) )
 		{
-			if ( reportDesignDocFile.lastModified( ) > reportDocFile
-					.lastModified( )
+			if ( lastModifiedOfDesign > reportDocFile.lastModified( )
 					|| ParameterAccessor.isOverwrite( request ) )
 			{
 				reportDocFile.delete( );
 			}
 		}
+	}
+
+	/**
+	 * Returns lastModified of report design file. If file doesn't exist, return
+	 * -1L;
+	 * 
+	 * @param request
+	 * @return
+	 */
+	protected long getLastModifiedOfDesign( HttpServletRequest request )
+	{
+		String designFile = ParameterAccessor.getParameter( request,
+				ParameterAccessor.PARAM_REPORT );
+		if ( designFile == null )
+			return -1L;
+
+		// according to the working folder
+		File file = new File( this.reportDesignName );
+		if ( file != null && file.exists( ) )
+		{
+			if ( file.isFile( ) )
+				return file.lastModified( );
+		}
+		else
+		{
+			// try URL resource
+			try
+			{
+				if ( !designFile.startsWith( "/" ) ) //$NON-NLS-1$
+					designFile = "/" + designFile; //$NON-NLS-1$
+
+				URL url = request.getSession( ).getServletContext( )
+						.getResource( designFile );
+				if ( url != null )
+					return url.openConnection( ).getLastModified( );
+			}
+			catch ( Exception e )
+			{
+			}
+		}
+
+		return -1L;
 	}
 
 	/**
@@ -664,7 +679,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 				catch ( ValidationValueException e )
 				{
 					// if in PREVIEW mode, then throw exception directly
-					if ( ParameterAccessor.SERVLET_PATH_PREVIEW
+					if ( IBirtConstants.SERVLET_PATH_PREVIEW
 							.equalsIgnoreCase( request.getServletPath( ) ) )
 					{
 						this.exception = e;
@@ -789,7 +804,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 					continue;
 				}
 
-				// if DateTime parameter, return it
+				// return String parameter value
 				paramValue = DataUtil.getDisplayValue( paramValueObj );
 				params.put( paramName, paramValue );
 			}
@@ -878,19 +893,10 @@ public class ViewerAttributeBean extends BaseAttributeBean
 
 	public String getReportTitle( ) throws ReportServiceException
 	{
-		String title = reportTitle;
-		if ( reportDesignHandle != null )
-		{
-			Object design = reportDesignHandle.getDesignObject( );
-			if ( design instanceof IReportRunnable )
-			{
-				IReportRunnable runnable = (IReportRunnable) design;
-				String designTitle = (String) runnable
-						.getProperty( IReportRunnable.TITLE );
-				if ( designTitle != null && designTitle.trim( ).length( ) > 0 )
-					title = designTitle;
-			}
-		}
+		String title = BirtUtility.getTitleFromDesign( reportDesignHandle );
+		if ( title == null || title.trim( ).length( ) <= 0 )
+			title = reportTitle;
+
 		return title;
 	}
 

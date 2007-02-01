@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 import org.eclipse.birt.report.IBirtConstants;
+import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
  * HttpSession Listener for BIRT viewer web application. Do some necessary jobs
@@ -46,7 +47,8 @@ public class ViewerHttpSessionListener implements HttpSessionListener
 	 */
 	public void sessionDestroyed( HttpSessionEvent event )
 	{
-		
+		String sessionId = event.getSession( ).getId( );
+		ParameterAccessor.clearSessionFiles( sessionId );
 	}
 
 }
