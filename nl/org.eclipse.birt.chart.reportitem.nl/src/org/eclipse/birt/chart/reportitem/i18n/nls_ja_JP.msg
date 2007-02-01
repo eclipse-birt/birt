@@ -52,7 +52,7 @@ ChartElementCommandImpl.setProperty.script=グラフスクリプトの編集
 Element.Chart=グラフ
 Element.Chart.xmlRepresentation=XML モデル
 Element.Chart.outputFormat=出力書式
-Element.Chart.action=Action
+Element.Chart.action=実行
 
 choice.chart.dimension.two_dimensional=2D
 choice.chart.dimension.two_dimensional_with_depth=2D 奥行き付き

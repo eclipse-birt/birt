@@ -27,14 +27,14 @@ ReportProjectWizard=レポートプロジェクト
 ReportEditor=レポートエディタ
 QuickEditView=プロパティエディタ
 DataExplorerView=データエクスプローラ
-cheatsheet.category=Business Intelligence and Reporting Tools
-cheatsheet.simplelisting=Simple Listing Report
-cheatsheet.groupedlisting=Grouped Listing Report
-cheatsheet.dualcolumnlisting=Dual Column Listing Report
-cheatsheet.chartlisting=Chart & Listing Report
-cheatsheet.sidebysidechartlisting=Side by side Chart Listing Report
-cheatsheet.dualcolumnchartlisting=Dual Column Chart Listing Report
-cheatsheet.firstreport=My First Report
+cheatsheet.category=ビジネスインテリジェンスおよびレポーティングツール
+cheatsheet.simplelisting=単純なリストレポート
+cheatsheet.groupedlisting=グループごとのリストレポート
+cheatsheet.dualcolumnlisting=カラムリストの同時表示レポート
+cheatsheet.chartlisting=グラフとリストのレポート
+cheatsheet.sidebysidechartlisting=グラフとリストの並列表示レポート
+cheatsheet.dualcolumnchartlisting=カラムグラフとリストの同時表示レポート
+cheatsheet.firstreport=はじめてのレポート
 
 ###############################################################################
 # UI Framework

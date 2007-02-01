@@ -516,9 +516,9 @@ TriggerDataComposite.Label.DPVisibilityDescription=‘Î‰‚·‚éƒf[ƒ^—v‘f‚Ìƒ‰ƒxƒ‹‚Ì•
 TriggerDataComposite.Label.OptionalURLParameters=Ÿ‚Ì’l‚ğ•\‚· URL ƒpƒ‰ƒƒ^‚É–¼‘O‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢ :
 TriggerDataComposite.Label.TooltipUsingDataLabelOfSeries=ƒc[ƒ‹ƒ`ƒbƒv‚ÌƒeƒLƒXƒg‚ª NULL ‚Ìê‡‚ÍA‘ã‚è‚É‘Î‰‚·‚éŒn—ñ‚Ìƒf[ƒ^ƒ‰ƒxƒ‹‚ğg—p‚µ‚Ä‚­‚¾‚³‚¢B
 TriggerDataComposite.Tooltip.InvokeURLBuilder=URL ƒrƒ‹ƒ_‚Ì‹N“®
-TriggerDataComposite.Tooltip.Advanced=Show Optional URL Parameters
-TriggerDataComposite.Label.None=None
-TriggerDataComposite.Lbl.BaseURL=Edit Base URL:
+TriggerDataComposite.Tooltip.Advanced=ƒIƒvƒVƒ‡ƒ“‚Ì URL ƒpƒ‰ƒƒ^‚ğ•\¦
+TriggerDataComposite.Label.None=‚È‚µ
+TriggerDataComposite.Lbl.BaseURL=ƒx[ƒX URL ‚Ì•ÒW:
 TriggerDataComposite.Tooltip.ParameterCategory=ƒJƒeƒSƒŠ‚Ìƒpƒ‰ƒƒ^–¼ : \u2026&&&name=<ƒJƒeƒSƒŠ>
 TriggerDataComposite.Tooltip.ParameterValue=’l‚Ìƒpƒ‰ƒƒ^–¼ : \u2026&&&name=<’l>
 TriggerDataComposite.Tooltip.ParameterSeries=Œn—ñ‚Ìƒpƒ‰ƒƒ^–¼: \u2026&&&name=<Œn—ñ>
@@ -526,15 +526,15 @@ TriggerDataComposite.Lbl.TooltipDelay=ƒc[ƒ‹ƒ`ƒbƒv‚ğ•\¦‚·‚é‚Ü‚Å‚ÌŠÔ (ƒ~ƒŠ•b) 
 TriggerDataComposite.Lbl.ParameterNames=URL ‚Ìƒpƒ‰ƒƒ^–¼
 TriggerDataComposite.Lbl.CategorySeries=ƒJƒeƒSƒŠŒn—ñ :
 TriggerDataComposite.Text.EditBaseURL=ƒx[ƒX URL ‚Ì•ÒW(&E)...
-TriggerDataComposite.Text.Advanced=&Advanced>>
-TriggerDataComposite.Text.OpenAdvanced=&Advanced<<
+TriggerDataComposite.Text.Advanced=Ú×İ’è(&A)>>
+TriggerDataComposite.Text.OpenAdvanced=Ú×İ’è(&A)<<
 TriggerDataComposite.Lbl.ValueSeries=’lŒn—ñ :
 TriggerDataComposite.Lbl.ValueSeriesName=’lŒn—ñ‚Ì–¼‘O :
 TriggerDataComposite.Tooltip.InputScript=\ •\¦ŠÂ‹«“à‚ÅÀs‚·‚éƒXƒNƒŠƒvƒg (’Êí‚Í JavaScript) ‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
 TriggerEditorComposite.Lbl.Remove=íœ(&R)
 TriggerEditorComposite.Lbl.Add=’Ç‰Á(&A)
-TriggerDataComposite.Lbl.Event=&Event:
-TriggerDataComposite.Lbl.None=<None>
+TriggerDataComposite.Lbl.Event=ƒCƒxƒ“ƒg(&E):
+TriggerDataComposite.Lbl.None=<‚È‚µ>
 TriggerDataComposite.Lbl.Action=ƒAƒNƒVƒ‡ƒ“ (&C):
 TriggerDataComposite.Lbl.Script=ƒXƒNƒŠƒvƒg (&P):
 TriggerDataComposite.Lbl.Target=ƒ^[ƒQƒbƒg :

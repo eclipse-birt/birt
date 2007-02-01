@@ -1388,7 +1388,7 @@ FormatDateTimePage.label.preview.group=プレビュー
 FormatDateTimePage.label.preview.label=書式付きプレビュー :
 FormatDateTimePage.label.table.column.format.name=サンプルの書式
 FormatDateTimePage.label.table.column.format.result=サンプルの書式の結果
-FormatDateTimePage.label.table.column.format.code=Example code
+FormatDateTimePage.label.table.column.format.code=サンプルのコード
 FormatDateTimePage.preview.invalid.dateTime=プレビューする日時形式が無効です。
 FormatDateTimePage.preview.invalid.formatCode=書式コードが無効です。
 
@@ -3606,9 +3606,9 @@ ThumbnailBuilder.FileDialog.FileNameError.Message=選択したファイルは、イメージで
 ###########################################################
 #FragmentResourceEntry properties
 FragmentResourceEntry.RootName=フラグメント
-FragmentResourceEntry.RootDisplayName=Built-in Libraries
+FragmentResourceEntry.RootDisplayName=組み込みのライブラリ
 
 ###########################################################
 #PathResourceEntry properties
 PathResourceEntry.RootName=リソースフォルダ
-PathResourceEntry.RootDisplayName=Shared Libraries
+PathResourceEntry.RootDisplayName=共有ライブラリ
