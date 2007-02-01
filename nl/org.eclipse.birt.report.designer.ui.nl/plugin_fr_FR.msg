@@ -27,6 +27,14 @@ ReportProjectWizard=Projet d'état
 ReportEditor=Editeur d'état
 QuickEditView=Editeur de propriétés
 DataExplorerView=Explorateur de données
+cheatsheet.category=Business Intelligence and Reporting Tools
+cheatsheet.simplelisting=Simple Listing Report
+cheatsheet.groupedlisting=Grouped Listing Report
+cheatsheet.dualcolumnlisting=Dual Column Listing Report
+cheatsheet.chartlisting=Chart & Listing Report
+cheatsheet.sidebysidechartlisting=Side by side Chart Listing Report
+cheatsheet.dualcolumnchartlisting=Dual Column Chart Listing Report
+cheatsheet.firstreport=My First Report
 
 ###############################################################################
 # UI Framework

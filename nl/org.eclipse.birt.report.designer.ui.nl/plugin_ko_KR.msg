@@ -27,6 +27,14 @@ ReportProjectWizard=보고서 프로젝트
 ReportEditor=보고서 편집기
 QuickEditView=속성 편집기
 DataExplorerView=데이터 탐색기
+cheatsheet.category=Business Intelligence and Reporting Tools
+cheatsheet.simplelisting=Simple Listing Report
+cheatsheet.groupedlisting=Grouped Listing Report
+cheatsheet.dualcolumnlisting=Dual Column Listing Report
+cheatsheet.chartlisting=Chart & Listing Report
+cheatsheet.sidebysidechartlisting=Side by side Chart Listing Report
+cheatsheet.dualcolumnchartlisting=Dual Column Chart Listing Report
+cheatsheet.firstreport=My First Report
 
 ###############################################################################
 # UI Framework

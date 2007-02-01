@@ -27,6 +27,14 @@ ReportProjectWizard=报表项目
 ReportEditor=报表编辑器
 QuickEditView=属性编辑器
 DataExplorerView=数据资源管理器
+cheatsheet.category=Business Intelligence and Reporting Tools
+cheatsheet.simplelisting=Simple Listing Report
+cheatsheet.groupedlisting=Grouped Listing Report
+cheatsheet.dualcolumnlisting=Dual Column Listing Report
+cheatsheet.chartlisting=Chart & Listing Report
+cheatsheet.sidebysidechartlisting=Side by side Chart Listing Report
+cheatsheet.dualcolumnchartlisting=Dual Column Chart Listing Report
+cheatsheet.firstreport=My First Report
 
 ###############################################################################
 # UI Framework
