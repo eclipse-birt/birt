@@ -31,21 +31,21 @@ public class LevelState extends ReportElementState
 	protected Level element = null;
 
 	/**
-	 * Constructs the level state with the design parser handler, the container
-	 * element and the container slot of the level.
+	 * Constructs level state with the design parser handler, the container
+	 * element and the container property name of the report element.
 	 * 
 	 * @param handler
 	 *            the design file parser handler
 	 * @param theContainer
 	 *            the element that contains this one
-	 * @param slot
+	 * @param prop
 	 *            the slot in which this element appears
 	 */
 
 	public LevelState( ModuleParserHandler handler, DesignElement theContainer,
-			int slot )
+			String prop )
 	{
-		super( handler, theContainer, slot );
+		super( handler, theContainer, prop );
 	}
 
 	/*

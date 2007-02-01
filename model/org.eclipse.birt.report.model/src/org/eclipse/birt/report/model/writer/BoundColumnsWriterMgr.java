@@ -115,7 +115,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 		}
 		catch ( BirtException e )
 		{
-			newExprs = null;
+			// do nothing
 		}
 
 		DesignElement target = DataBoundColumnUtil.findTargetOfBoundColumns(
@@ -262,7 +262,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 		}
 		catch ( BirtException e )
 		{
-			newExprs = null;
+			// do nothing
 		}
 
 		if ( newExprs != null && newExprs.size( ) >= 1 )
@@ -324,7 +324,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 		}
 		catch ( BirtException e )
 		{
-			newExprs = null;
+			// do nothing
 		}
 
 		DesignElement target = DataBoundColumnUtil.findTargetOfBoundColumns(
@@ -651,8 +651,8 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 		if ( group instanceof ListGroup )
 			level = 1;
 
-		LevelContentIterator contentIter = new LevelContentIterator( group,
-				level );
+		LevelContentIterator contentIter = new LevelContentIterator( module,
+				group, level );
 		while ( contentIter.hasNext( ) )
 		{
 			DesignElement item = (DesignElement) contentIter.next( );

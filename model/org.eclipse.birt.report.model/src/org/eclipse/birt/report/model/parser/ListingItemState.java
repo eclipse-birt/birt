@@ -63,6 +63,25 @@ public abstract class ListingItemState extends ReportItemState
 		super( handler, theContainer, slot );
 	}
 
+	/**
+	 * Constructs listing item(table/list) state with the design parser handler,
+	 * the container element and the container property name of the report
+	 * element.
+	 * 
+	 * @param handler
+	 *            the design file parser handler
+	 * @param theContainer
+	 *            the element that contains this one
+	 * @param prop
+	 *            the slot in which this element appears
+	 */
+
+	public ListingItemState( ModuleParserHandler handler,
+			DesignElement theContainer, String prop )
+	{
+		super( handler, theContainer, prop );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -226,8 +245,8 @@ public abstract class ListingItemState extends ReportItemState
 		if ( group instanceof ListGroup )
 			level = 1;
 
-		LevelContentIterator contentIter = new LevelContentIterator( group,
-				level );
+		LevelContentIterator contentIter = new LevelContentIterator(
+				handler.module, group, level );
 		while ( contentIter.hasNext( ) )
 		{
 			DesignElement item = (DesignElement) contentIter.next( );

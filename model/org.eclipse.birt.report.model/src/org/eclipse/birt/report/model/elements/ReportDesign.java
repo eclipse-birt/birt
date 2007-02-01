@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.validators.MasterPageRequiredValidator;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
@@ -209,7 +210,8 @@ public class ReportDesign extends Module implements IReportDesignModel
 	public List collectPropValues( int slotId, String propName )
 	{
 		List rtnList = new ArrayList( );
-		ContentIterator contents = new ContentIterator( this, slotId );
+		ContentIterator contents = new ContentIterator( this,
+				new ContainerContext( this, slotId ) );
 
 		while ( contents.hasNext( ) )
 		{

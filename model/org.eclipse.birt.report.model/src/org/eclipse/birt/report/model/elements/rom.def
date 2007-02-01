@@ -488,6 +488,10 @@
     <Choice displayNameID="Choices.measureFunction.min" name="min"/>
     <Choice displayNameID="Choices.measureFunction.max" name="max"/>
   </ChoiceType>
+  <ChoiceType name="levelType">
+    <Choice displayNameID="Choices.levelType.dynamic" name="dynamic"/>
+    <Choice displayNameID="Choices.levelType.mirrored" name="mirrored"/>
+  </ChoiceType>
   <Class displayNameID="Class.String" name="String" native="true" toolTipID="Class.String.toolTip">
     <Constructor displayNameID="Class.String.String" name="String" returnType="String" toolTipID="Class.String.String.toolTip">
       <Argument name="object" tagID="Class.String.String.object" type="Object"/>
@@ -1681,7 +1685,7 @@
     <Member detailType="textAlign" displayNameID="Structure.HighlightRule.text.align" name="textAlign" since="1.0" type="choice"/>
     <Member displayNameID="Structure.HighlightRule.text.indent" name="textIndent" since="1.0" type="dimension"/>
     <Member detailType="transform" displayNameID="Structure.HighlightRule.text.transform" name="textTransform" since="1.0" type="choice"/>
-    <Member detailType="Style" displayNameID="Structure.HighlightRule.style" isIntrinsic="true" name="style" since="2.2" type="element"/>
+    <Member detailType="Style" displayNameID="Structure.HighlightRule.style" isIntrinsic="true" name="style" since="2.2" type="elementRef"/>
   </Structure>
   <Structure displayNameID="Structure.CustomColor" name="CustomColor" since="reserved">
     <Member displayNameID="Structure.CustomColor.name" isIntrinsic="true" name="name" runtimeSettable="false" since="reserved" type="name" valueRequired="true"/>
@@ -1731,7 +1735,7 @@
   <Structure displayNameID="Structure.EmbeddedImage" name="EmbeddedImage" since="1.0">
     <Member displayNameID="Structure.EmbeddedImage.name" isIntrinsic="true" name="name" runtimeSettable="false" since="1.0" type="memberKey" valueRequired="true"/>
     <Member detailType="imageType" displayNameID="Structure.EmbeddedImage.type" isIntrinsic="true" name="type" runtimeSettable="false" since="1.0" type="choice"/>
-    <Member displayNameID="Structure.EmbeddedImage.data" isIntrinsic="true" name="data" runtimeSettable="false" since="1.0" type="string"/>
+    <Member displayNameID="Structure.EmbeddedImage.data" isIntrinsic="true" name="data" runtimeSettable="false" since="1.0" type="literalString"/>
   	<Member detailType="EmbeddedImage" displayNameID="Structure.EmbeddedImage.libReference" isIntrinsic="true" name="libReference" runtimeSettable="false" since="2.0" type="structRef"/>
   </Structure>
   <Structure displayNameID="Structure.PropertyMask" name="PropertyMask" since="1.0">
@@ -1890,14 +1894,14 @@
   <Structure displayNameID="Structure.OdaDesignerState" name="OdaDesignerState" since="2.1">
     <Member displayNameID="Structure.OdaDesignerState.version" isIntrinsic="true" name="version" runtimeSettable="true" since="2.1" type="string" />
     <Member displayNameID="Structure.OdaDesignerState.stateContentAsString" isIntrinsic="true" name="stateContentAsString" runtimeSettable="true" since="2.1" type="string" />
-    <Member displayNameID="Structure.OdaDesignerState.stateContentAsBlob" isIntrinsic="true" name="stateContentAsBlob" returnType="any" runtimeSettable="true" since="2.1" type="string" />
+    <Member displayNameID="Structure.OdaDesignerState.stateContentAsBlob" isIntrinsic="true" name="stateContentAsBlob" returnType="any" runtimeSettable="true" since="2.1" type="literalString" />
   </Structure>  
   <Structure displayNameID="Structure.ScriptLib" name="ScriptLib" since="2.2">
     <Member displayNameID="Structure.ScriptLib.name" isIntrinsic="true" name="name" runtimeSettable="true" since="2.1.1" type="memberKey" />
   </Structure>
   <Structure displayNameID="Structure.TOC" name="TOCStructure" since="2.2">
 	<Member name="expressionValue" displayNameID="Structure.TOC.Expression" returnType="any" since="2.2" type="expression" />
-	<Member detailType="Style" displayNameID="Structure.TOC.TOCStyle" isIntrinsic="true" name="TOCStyle" since="2.2" type="element" />
+	<Member detailType="Style" displayNameID="Structure.TOC.TOCStyle" isIntrinsic="true" name="TOCStyle" since="2.2" type="elementRef" />
  	<Member detailType="lineStyle" displayNameID="Structure.TOC.border.top.style" name="borderTopStyle" since="1.0" type="choice"/>
     <Member detailType="lineWidth" displayNameID="Structure.TOC.border.top.width" name="borderTopWidth" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
     <Member displayNameID="Structure.TOC.border.top.color" name="borderTopColor" since="1.0" type="color"/>
@@ -1930,7 +1934,11 @@
   </Structure>
   <Structure displayNameID="Structure.DimensionCondition" name="DimensionCondition" since="2.2">
   	<Member subType="string" displayNameID="Structure.DimensionCondition.primaryKeys" isIntrinsic="true" name="primaryKeys" since="2.2" type="list" />
-	<Member detailType="Hierarchy" displayNameID="Structure.DimensionCondition.hierarchy" isIntrinsic="true" name="hierarchy" since="2.2" type="element" />
+	<Member detailType="Hierarchy" displayNameID="Structure.DimensionCondition.hierarchy" isIntrinsic="true" name="hierarchy" since="2.2" type="elementRef" />
+  </Structure>
+  <Structure displayNameID="Structure.Rule" name="Rule" since="2.2">
+    <Member displayNameID="Structure.Rule.ruleExpre" isIntrinsic="true" name="ruleExpre" since="2.2" type="expression"/>
+    <Member displayNameID="Structure.Rule.displayExpre" isIntrinsic="true" name="displayExpre" since="2.2" type="expression"/>
   </Structure>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Module" hasStyle="false" isAbstract="true" name="Module" nameSpace="none" since="2.0">
     <Property canInherit="false" displayNameID="Element.Module.author" name="author" runtimeSettable="false" since="1.0" type="string"/>
@@ -1951,7 +1959,7 @@
     <Property canInherit="false" detailType="EmbeddedImage" displayNameID="Element.Module.images" isList="true" name="images" runtimeSettable="false" since="1.0" type="structure" />
     <Property canInherit="false" detailType="IncludedLibrary" displayNameID="Element.Module.libraries" isList="true" name="libraries" runtimeSettable="false" since="reserved" type="structure"/>
     <Property canInherit="false" detailType="IncludeScript" displayNameID="Element.Module.includeScripts" isList="true" name="includeScripts" runtimeSettable="false" since="1.0" type="structure"/>
-    <Property canInherit="false" detailType="Theme" displayNameID="Element.Module.theme" isIntrinsic="true" name="theme" runtimeSettable="false" since="2.0" type="element" />	  	  
+    <Property canInherit="false" detailType="Theme" displayNameID="Element.Module.theme" isIntrinsic="true" name="theme" runtimeSettable="false" since="2.0" type="elementRef" />	  	  
     <Property canInherit="false" detailType="PropertyBinding" displayNameID="Element.Module.propertyBindings" isList="true" name="propertyBindings" runtimeSettable="false" since="2.0" type="structure"/>    
     <Property canInherit="false" detailType="ScriptLib" displayNameID="Element.Module.scriptLibs" isList="true" name="scriptLibs" runtimeSettable="false" since="2.1.1" type="structure"/>    
   </Element>
@@ -2029,7 +2037,7 @@
     <Property displayNameID="Element.ReportDesign.displayNameID" name="displayNameID" since="2.0" type="resourceKey"/>
     <Property displayNameID="Element.ReportDesign.iconFile" name="iconFile" runtimeSettable="false" since="2.0" type="string"/>
     <Property displayNameID="Element.ReportDesign.cheatSheet" name="cheatSheet" runtimeSettable="false" since="2.0" type="string"/>
-    <Property displayNameID="Element.ReportDesign.thumbnail" name="thumbnail" runtimeSettable="false" since="2.1" type="string"/>
+    <Property displayNameID="Element.ReportDesign.thumbnail" name="thumbnail" runtimeSettable="false" since="2.1" type="literalString"/>
     <PropertyVisibility name="refreshRate" visibility="hide"/>	    
 	<PropertyVisibility name="includeResource" visibility="hide"/>	
 	<!--
@@ -2191,9 +2199,9 @@
       <Argument name="reportContext" tagID="Element.SimpleDataSet.afterClose.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
 	</Method>	 
 	<Property displayNameID="Element.SimpleDataSet.cachedRowCount" name="cachedRowCount" since="2.0" type="integer"/>
-    <Property detailType="DataSource" displayNameID="Element.SimpleDataSet.dataSource" name="dataSource" since="1.0" type="element" valueRequired="true"/>    
+    <Property detailType="DataSource" displayNameID="Element.SimpleDataSet.dataSource" name="dataSource" since="1.0" type="elementRef" valueRequired="true"/>    
     <Property detailType="ParamBinding" displayNameID="Element.SimpleDataSet.paramBindings" isList="true" name="paramBindings" since="1.0" type="structure"/>
-  	<Property canInherit="false" detailType="TemplateParameterDefinition" displayNameID="Element.SimpleDataSet.refTemplateParameter" name="refTemplateParameter" runtimeSettable="false" since="2.0" type="element"/>
+  	<Property canInherit="false" detailType="TemplateParameterDefinition" displayNameID="Element.SimpleDataSet.refTemplateParameter" name="refTemplateParameter" runtimeSettable="false" since="2.0" type="elementRef"/>
     <PropertyVisibility name="refTemplateParameter" visibility="hide"/>
   </Element>
   <Element canExtend="true" displayNameID="Element.ScriptDataSet" extends="SimpleDataSet" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ScriptDataSet" name="ScriptDataSet" since="1.0" xmlName="script-data-set">
@@ -2229,7 +2237,7 @@
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.JointDataSet" extends="DataSet" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.JointDataSet" name="JointDataSet" since="2.1" xmlName="joint-data-set">
     <Property detailType="DataSetParam" displayNameID="Element.JointDataSet.parameters" isList="true" name="parameters" since="1.0" type="structure"/>	  	  
     <Property detailType="ResultSetColumn" displayNameID="Element.JointDataSet.resultSet" isList="true" name="resultSet" since="1.0" type="structure" />
-    <Property subType="element" detailType="DataSet" displayNameID="Element.JointDataSet.dataSets" name="dataSets" runtimeSettable="true" since="2.1" type="list"/>
+    <Property subType="elementRef" detailType="DataSet" displayNameID="Element.JointDataSet.dataSets" name="dataSets" runtimeSettable="true" since="2.1" type="list"/>
     <Property detailType="JoinCondition" displayNameID="Element.JointDataSet.joinConditions" isList="true" name="joinConditions" runtimeSettable="true" since="2.1" type="structure"/>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Parameter" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" name="Parameter" nameSpace="parameter" since="1.0">
@@ -2266,9 +2274,9 @@
     <Property detailType="scalarParamAlign" displayNameID="Element.ScalarParameter.alignment" name="alignment" runtimeSettable="false" since="1.0" type="choice">
       <Default>auto</Default>
     </Property>
-    <Property displayNameID="Element.ScalarParameter.defaultValue" name="defaultValue" runtimeSettable="false" since="1.0" type="string"/>
+    <Property displayNameID="Element.ScalarParameter.defaultValue" name="defaultValue" runtimeSettable="false" since="1.0" type="literalString"/>
     <PropertyGroup displayNameID="Element.ScalarParameter.dynamicList">
-      <Property detailType="DataSet" displayNameID="Element.ScalarParameter.dynamicList.dataSetName" name="dataSetName" runtimeSettable="false" since="2.0" type="element">
+      <Property detailType="DataSet" displayNameID="Element.ScalarParameter.dynamicList.dataSetName" name="dataSetName" runtimeSettable="false" since="2.0" type="elementRef">
 		<Trigger validator="DataSetNameRequiredValidator"/>
 	  </Property>
       <Property displayNameID="Element.ScalarParameter.dynamicList.valueExpr" name="valueExpr" returnType="any" runtimeSettable="false" since="2.0" type="expression">
@@ -2300,7 +2308,7 @@
     </Slot>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.CascadingParameterGroup" extends="ParameterGroup" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.CascadingParameterGroup" name="CascadingParameterGroup" since="2.0" xmlName="cascading-parameter-group">
-    <Property detailType="DataSet" displayNameID="Element.CascadingParameterGroup.dataSet" name="dataSet" runtimeSettable="false" since="2.0" type="element" />
+    <Property detailType="DataSet" displayNameID="Element.CascadingParameterGroup.dataSet" name="dataSet" runtimeSettable="false" since="2.0" type="elementRef" />
     <Property displayNameID="Element.CascadingParameterGroup.promptText" name="promptText" runtimeSettable="false" since="2.1" type="string"/>	  
     <Property detailType="dataSetMode" displayNameID="Element.CascadingParameterGroup.dataSetMode" name="dataSetMode" runtimeSettable="false" since="2.1" type="choice" >	  	  
 		<Default>single</Default>
@@ -2470,19 +2478,19 @@
         <DefaultUnit>pt</DefaultUnit>
       </Property>
       <Property canInherit="false" displayNameID="Element.Style.padding.top" isStyleProperty="true" name="paddingTop" since="1.0" type="dimension" validator="NonNegativeValueValidator">
-        <Default>0pt</Default>
+        <Default>1pt</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
       <Property canInherit="false" displayNameID="Element.Style.padding.left" isStyleProperty="true" name="paddingLeft" since="1.0" type="dimension" validator="NonNegativeValueValidator">
-        <Default>0pt</Default>
+        <Default>1pt</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
       <Property canInherit="false" displayNameID="Element.Style.padding.bottom" isStyleProperty="true" name="paddingBottom" since="1.0" type="dimension" validator="NonNegativeValueValidator">
-        <Default>0pt</Default>
+        <Default>1pt</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
       <Property canInherit="false" displayNameID="Element.Style.padding.right" isStyleProperty="true" name="paddingRight" since="1.0" type="dimension" validator="NonNegativeValueValidator">
-        <Default>0pt</Default>
+        <Default>1pt</Default>
         <DefaultUnit>pt</DefaultUnit>
       </Property>
     </PropertyGroup>
@@ -2584,8 +2592,14 @@
     <Property displayNameID="Element.SimpleMasterPage.floatingFooter" name="floatingFooter" runtimeSettable="false" since="reserved" type="boolean">
     	<Default>false</Default>
     </Property>
-    <Property displayNameID="Element.SimpleMasterPage.headerHeight" name="headerHeight" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
-	<Property displayNameID="Element.SimpleMasterPage.footerHeight" name="footerHeight" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>     
+    <Property displayNameID="Element.SimpleMasterPage.headerHeight" name="headerHeight" since="1.0" type="dimension" validator="NonNegativeValueValidator">
+    	<Default>0.5in</Default>
+        <DefaultUnit>in</DefaultUnit>
+    </Property>
+	<Property displayNameID="Element.SimpleMasterPage.footerHeight" name="footerHeight" since="1.0" type="dimension" validator="NonNegativeValueValidator">  
+		<Default>0.5in</Default>
+	    <DefaultUnit>in</DefaultUnit>
+	</Property>   
   	<PropertyVisibility name="floatingFooter" visibility="hide"/>    	    
 	<Slot displayNameID="Element.SimpleMasterPage.slot.pageHeader" multipleCardinality="false" name="pageHeader" xmlName="page-header">
       <Type name="FreeForm"/>
@@ -2615,7 +2629,7 @@
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.ReportItem" extends="ReportElement" hasStyle="true" isAbstract="true" isNameRequired="false" name="ReportItem" nameSpace="element" since="1.0">
     <Property displayNameID="Element.ReportItem.bookmark" name="bookmark" returnType="string" since="2.0" type="expression"/>
     <Property detailType="TOCStructure" name="toc" displayNameID="Element.ReportItem.toc"  since="2.2" type="structure" />
-    <Property detailType="DataSet" displayNameID="Element.ReportItem.dataSet" name="dataSet" runtimeSettable="false" since="1.0" type="element">
+    <Property detailType="DataSet" displayNameID="Element.ReportItem.dataSet" name="dataSet" runtimeSettable="false" since="1.0" type="elementRef">
       <Trigger validator="DataSetRequiredValidator"/>
 	</Property>
     <PropertyGroup displayNameID="Element.ReportItem">
@@ -2626,7 +2640,7 @@
     </PropertyGroup>
     <Property detailType="HideRule" displayNameID="Element.ReportItem.visibility" isList="true" name="visibility" runtimeSettable="false" since="reserved" type="structure"/>
     <Property detailType="ParamBinding" displayNameID="Element.ReportItem.paramBindings" isList="true" name="paramBindings" since="1.0" type="structure"/>
-	<Property canInherit="false" detailType="TemplateParameterDefinition" displayNameID="Element.ReportItem.refTemplateParameter" name="refTemplateParameter" runtimeSettable="false" since="2.0" type="element"/>
+	<Property canInherit="false" detailType="TemplateParameterDefinition" displayNameID="Element.ReportItem.refTemplateParameter" name="refTemplateParameter" runtimeSettable="false" since="2.0" type="elementRef"/>
     <Property detailType="ComputedColumn" displayNameID="Element.ReportItem.boundDataColumns" name="boundDataColumns" since="2.1" isList="true" type="structure"/>
     <Property displayNameID="Element.ReportItem.zIndex" name="zIndex" since="2.2" type="integer" validator="NonNegativeValueValidator">    
     	<Default>0</Default>
@@ -2706,7 +2720,7 @@
     <StyleProperty name="wordSpacing"/>
   </Element>
   <Element canExtend="true" displayNameID="Element.Label" extends="ReportItem" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.Label" name="Label" selector="label" since="1.0" xmlName="label">
-    <Property displayNameID="Element.Label.text" name="text" runtimeSettable="false" since="1.0" type="string"/>
+    <Property displayNameID="Element.Label.text" name="text" runtimeSettable="false" since="1.0" type="literalString"/>
     <Property displayNameID="Element.Label.textID" name="textID" since="1.0" type="resourceKey"/>
     <Property displayNameID="Element.Label.helpText" name="helpText" runtimeSettable="false" since="1.0" type="string"/>
     <Property displayNameID="Element.Label.helpTextID" name="helpTextID" since="1.0" type="resourceKey"/>
@@ -2882,7 +2896,7 @@
     <StyleProperty name="orphans"/>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Text" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.TextItem" name="Text" selector="text" since="1.0" xmlName="text">
-    <Property displayNameID="Element.Text.content" name="content" runtimeSettable="false" since="1.0" type="string"/>
+    <Property displayNameID="Element.Text.content" name="content" runtimeSettable="false" since="1.0" type="literalString"/>
     <Property displayNameID="Element.Text.contentID" name="contentID" since="1.0" type="resourceKey"/>
     <Property detailType="textContentType" displayNameID="Element.Text.contentType" name="contentType" runtimeSettable="false" since="1.0" type="choice">
       <Default>auto</Default>
@@ -3024,7 +3038,7 @@
       <Type name="TemplateReportItem"/>
       <Trigger targetElement="Listing" validator="TableHeaderContextContainmentValidator"/>
     </Slot>
-    <Slot displayNameID="Element.List.slot.groups" multipleCardinality="true" name="groups" since="1.0" xmlName="">
+    <Slot displayNameID="Element.List.slot.groups" multipleCardinality="true" name="groups" since="1.0">
       <Type name="ListGroup"/>
       <Trigger validator="GroupNameValidator"/>
     </Slot>
@@ -3119,7 +3133,7 @@
       <Trigger validator="InconsistentColumnsValidator"/>
       <Trigger targetElement="Listing" validator="TableHeaderContextContainmentValidator"/>
     </Slot>
-    <Slot displayNameID="Element.Table.slot.groups" multipleCardinality="true" name="groups" since="1.0" xmlName="">
+    <Slot displayNameID="Element.Table.slot.groups" multipleCardinality="true" name="groups" since="1.0">
       <Type name="TableGroup"/>
       <Trigger validator="GroupNameValidator"/>
     </Slot>
@@ -3131,7 +3145,7 @@
       <Type name="Row"/>
       <Trigger validator="InconsistentColumnsValidator"/>
     </Slot>
-    <Slot displayNameID="Element.Table.slot.columns" multipleCardinality="true" name="columns" since="1.0" xmlName="columns">
+    <Slot displayNameID="Element.Table.slot.columns" multipleCardinality="true" name="columns" since="1.0">
       <Type name="Column"/>
       <Trigger validator="InconsistentColumnsValidator"/>
     </Slot>
@@ -3253,7 +3267,7 @@
     </Method>
     <PropertyVisibility name="bookmark" visibility="hide"/>
     <PropertyVisibility name="viewAction" visibility="hide"/>                                                      
-    <Slot displayNameID="Element.Row.slot.cells" multipleCardinality="true" name="cells" since="1.0" xmlName="cells">
+    <Slot displayNameID="Element.Row.slot.cells" multipleCardinality="true" name="cells" since="1.0">
       <Type name="Cell"/>
       <Trigger validator="CellOverlappingValidator"/>
     </Slot>
@@ -3298,7 +3312,7 @@
     <PropertyVisibility name="colSpan" visibility="readonly"/>        
     <PropertyVisibility name="rowSpan" visibility="readonly"/>
     <PropertyVisibility name="viewAction" visibility="hide"/>                    
-    <Slot displayNameID="Element.Cell.slot.content" multipleCardinality="true" name="content" since="1.0" xmlName="content">
+    <Slot displayNameID="Element.Cell.slot.content" multipleCardinality="true" name="content" since="1.0">
       <Type name="Label"/>
       <Type name="Data"/>
       <Type name="Text"/>
@@ -3392,11 +3406,11 @@
     <StyleProperty name="verticalAlign"/>
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Grid" extends="ReportItem" hasStyle="true" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.GridItem" name="Grid" selector="grid" since="1.0" xmlName="grid">
-    <Slot displayNameID="Element.Grid.slot.columns" multipleCardinality="true" name="columns" since="1.0" xmlName="columns">
+    <Slot displayNameID="Element.Grid.slot.columns" multipleCardinality="true" name="columns" since="1.0">
       <Type name="Column"/>
       <Trigger validator="InconsistentColumnsValidator"/>
     </Slot>
-    <Slot displayNameID="Element.Grid.slot.rows" multipleCardinality="true" name="rows" since="1.0" xmlName="">
+    <Slot displayNameID="Element.Grid.slot.rows" multipleCardinality="true" name="rows" since="1.0">
       <Type name="Row"/>
       <Trigger validator="InconsistentColumnsValidator"/>
     </Slot>
@@ -3563,35 +3577,51 @@
     </Slot>
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.Cube" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.Cube" name="Cube" nameSpace="cube" since="2.2" xmlName="cube">
-  	<Property detailType="DataSet" displayNameID="Element.Cube.dataSet" name="dataSet" runtimeSettable="false" since="2.2" type="element">
+  	<Property detailType="DataSet" displayNameID="Element.Cube.dataSet" name="dataSet" runtimeSettable="false" since="2.2" type="elementRef">
   	  <Trigger validator="DataSetRequiredValidator"/>
   	</Property>
+  	<Property detailType="FilterCondition" displayNameID="Element.Cube.filter" isList="true" name="filter" runtimeSettable="false" since="2.2" type="structure"/>
   	<Property detailType="DimensionCondition" displayNameID="Element.Cube.dimensionConditions" isList="true" name="dimensionConditions" runtimeSettable="false" since="2.2" type="structure" />
-  	<Slot displayNameID="Element.Cube.slot.dimensions" multipleCardinality="true" name="dimensions" since="2.2" xmlName="dimensions">
+  	<Property displayNameID="Element.Cube.dimensions" isList="true" name="dimensions" runtimeSettable="false" since="2.2" type="element" >
   	  <Type name="Dimension"/>
-  	</Slot>
-  	<Slot displayNameID="Element.Cube.slot.measures" multipleCardinality="true" name="measures" since="2.2" xmlName="measures">
-  	  <Type name="Measure"/>
-  	</Slot>
+  	</Property>
+  	<Property displayNameID="Element.Cube.measureGroups" isList="true" name="measureGroups" runtimeSettable="false" since="2.2" type="element">
+  	  <Type name="MeasureGroup"/>
+  	</Property>
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.Dimension" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.Dimension" name="Dimension" nameSpace="cube" since="2.2" xmlName="dimension">
   	<Property displayNameID="Element.Dimension.isTimeType" name="isTimeType" runtimeSettable="false" since="2.2" type="boolean">
   	  <Default>false</Default>
   	</Property>
-  	<Slot displayNameID="Element.Dimension.slot.hierarchies" multipleCardinality="true" name="hierarchies" since="2.2" xmlName="hierarchies">
+  	<Property displayNameID="Element.Dimension.hierarchies" isList="true" name="hierarchies" runtimeSettable="false" since="2.2" type="element">
   	  <Type name="Hierarchy"/>
-  	</Slot>
+  	</Property>
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.Hierarchy" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.Hierarchy" name="Hierarchy" nameSpace="cube" since="2.2" xmlName="hierarchy">
-  	<Property detailType="DataSet" displayNameID="Element.Hierarchy.dataSet" name="dataSet" runtimeSettable="false" since="2.2" type="element" />
+  	<Property detailType="DataSet" displayNameID="Element.Hierarchy.dataSet" name="dataSet" runtimeSettable="false" since="2.2" type="elementRef" />
+  	<Property detailType="FilterCondition" displayNameID="Element.Hierarchy.filter" isList="true" name="filter" runtimeSettable="false" since="2.2" type="structure"/>
   	<Property subType="string" displayNameID="Element.Hierarchy.primaryKeys" name="primaryKeys" runtimeSettable="false" since="2.2" type="list" />
-  	<Slot displayNameID="Element.Hierarchy.slot.levels" multipleCardinality="true" name="levels" since="2.2" xmlName="levels">
+  	<Property displayNameID="Element.Hierarchy.levels" isList="true" name="levels" since="2.2" type="element">
   	  <Type name="Level"/>	
-  	</Slot>
+  	</Property>
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.Level" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.Level" name="Level" nameSpace="cube" since="2.2" xmlName="level">
   	<Property displayNameID="Element.Level.columnName" name="columnName" runtimeSettable="false" since="2.2" type="string" />
+  	<PropertyGroup displayNameID="Element.Level.Interval">
+		<Property displayNameID="Element.Level.intervalBase" name="intervalBase" runtimeSettable="false" since="2.2" type="string" />
+   		<Property detailType="interval" displayNameID="Element.Level.interval" name="interval" runtimeSettable="false" since="2.2" type="choice">
+     		 <Default>none</Default>
+   		</Property>
+    	<Property displayNameID="Element.Level.intervalRange" name="intervalRange" runtimeSettable="false" since="2.2" type="float" />
+    </PropertyGroup>
+    <Property detailType="levelType" displayNameID="Element.Level.levelType" name="levelType" runtimeSettable="false" since="2.2" type="choice" />
+  	<Property detailType="Rule" displayNameID="Element.Level.staticValues" isList="true" name="staticValues" runtimeSettable="false" since="2.2" type="structure"/>
   	<Property detailType="ConfigVar" displayNameID="Element.Level.attributes" isList="true" name="attributes" runtimeSettable="false" since="2.2" type="structure" />
+  </Element>
+  <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.MeasureGroup" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.olap.MeasureGroup" name="MeasureGroup" nameSpace="cube" since="2.2" xmlName="measure-group">
+  	<Property displayNameID="Element.MeasureGroup.measures" isList="true" name="measures" since="2.2" type="element">
+      <Type name="Measure"/>
+    </Property>
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.Measure" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.Measure" name="Measure" nameSpace="cube" since="2.2" xmlName="measure">
   	<Property detailType="measureFunction" displayNameID="Element.Measure.function" name="function" runtimeSettable="false" since="2.2" type="choice" />
@@ -3624,7 +3654,7 @@
     <Property canInherit="false" displayNameID="Element.TemplateElement.name" isIntrinsic="true" name="name" runtimeSettable="false" since="2.0" type="name"/>
     <Property canInherit="false" displayNameID="Element.TemplateElement.displayName" name="displayName" runtimeSettable="false" since="2.1" type="string"/>
     <Property canInherit="false" displayNameID="Element.TemplateElement.displayNameID" name="displayNameID" since="2.1" type="resourceKey"/>
-    <Property canInherit="false" detailType="TemplateParameterDefinition" displayNameID="Element.TemplateElement.refTemplateParameter" name="refTemplateParameter" runtimeSettable="false" since="2.0" type="element"/>
+    <Property canInherit="false" detailType="TemplateParameterDefinition" displayNameID="Element.TemplateElement.refTemplateParameter" name="refTemplateParameter" runtimeSettable="false" since="2.0" type="elementRef"/>
     <PropertyVisibility name="refTemplateParameter" visibility="hide"/>
   </Element>	
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.TemplateReportItem" extends="TemplateElement" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.TemplateReportItem" name="TemplateReportItem" nameSpace="element" since="2.0" xmlName="template-report-item">

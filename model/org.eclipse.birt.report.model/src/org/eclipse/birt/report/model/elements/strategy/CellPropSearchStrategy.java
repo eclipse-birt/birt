@@ -254,13 +254,15 @@ public class CellPropSearchStrategy extends PropertySearchStrategy
 		if ( rowContainer instanceof TableItem )
 		{
 			selector = "table-" //$NON-NLS-1$
-					+ rowContainer.getDefn( ).getSlot( row.getContainerSlot( ) )
+					+ rowContainer.getDefn( ).getSlot(
+							row.getContainerInfo( ).getSlotID( ) )
 							.getName( ) + "-" + selector; //$NON-NLS-1$
 		}
 		else if ( rowContainer instanceof TableGroup )
 		{
 			selector = "table-group-" //$NON-NLS-1$
-					+ rowContainer.getDefn( ).getSlot( row.getContainerSlot( ) )
+					+ rowContainer.getDefn( ).getSlot(
+							row.getContainerInfo( ).getSlotID( ) )
 							.getName( ) + "-" + selector; //$NON-NLS-1$
 		}
 		else

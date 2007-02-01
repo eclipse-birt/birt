@@ -34,6 +34,7 @@ import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
@@ -479,7 +480,8 @@ public class LibraryCommand extends AbstractElementCommand
 
 		Map overriddenValues = new HashMap( );
 
-		LevelContentIterator contentIter = new LevelContentIterator( library, 1 );
+		LevelContentIterator contentIter = new LevelContentIterator( library,
+				library, 1 );
 		while ( contentIter.hasNext( ) )
 		{
 			DesignElement tmpElement = (DesignElement) contentIter.next( );
@@ -611,8 +613,8 @@ public class LibraryCommand extends AbstractElementCommand
 			return Collections.EMPTY_MAP;
 		}
 
-		Map overriddenValues = ElementStructureUtil
-				.collectPropertyValues( child );
+		Map overriddenValues = ElementStructureUtil.collectPropertyValues(
+				module, child );
 
 		// remove virtual elements in the element
 
@@ -620,13 +622,15 @@ public class LibraryCommand extends AbstractElementCommand
 
 		activityStack.startSilentTrans( );
 
-		LevelContentIterator contentIter = new LevelContentIterator( child, 1 );
+		LevelContentIterator contentIter = new LevelContentIterator( module,
+				child, 1 );
 		while ( contentIter.hasNext( ) )
 		{
 			DesignElement tmpElement = (DesignElement) contentIter.next( );
-			ContentCommand command = new ContentCommand( module, child );
-			command.remove( tmpElement, tmpElement.getContainerSlot( ), false,
-					true );
+			ContentCommand command = new ContentCommand( module,
+					new ContainerContext( child, tmpElement.getContainerInfo( )
+							.getSlotID( ) ) );
+			command.remove( tmpElement, false, true );
 		}
 
 		activityStack.commit( );

@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
  * Represents an element that defines a style. An element that uses this style
@@ -231,20 +232,23 @@ public abstract class StyleElement extends ReferenceableElement
 			}
 			else
 			{
-				broadcastToSelectedElementsInSlot( module, module
-						.getSlot( IModuleModel.COMPONENT_SLOT ), selectorName );
-				broadcastToSelectedElementsInSlot( module, module
-						.getSlot( IModuleModel.PAGE_SLOT ), selectorName );
+				broadcastToSelectedElementsInSlot( module, new ContainerContext(
+						module, IModuleModel.COMPONENT_SLOT ), selectorName );
+				broadcastToSelectedElementsInSlot( module, new ContainerContext(
+						module, IModuleModel.PAGE_SLOT ), selectorName );
 
 				// only report design has the body, scratch pad slots.
 
 				if ( module instanceof ReportDesign )
 				{
-					broadcastToSelectedElementsInSlot( module, module
-							.getSlot( IReportDesignModel.BODY_SLOT ), selectorName );
+					broadcastToSelectedElementsInSlot( module,
+							new ContainerContext( module,
+									IReportDesignModel.BODY_SLOT ),
+							selectorName );
 
-					broadcastToSelectedElementsInSlot( module, module
-							.getSlot( IReportDesignModel.SCRATCH_PAD_SLOT ),
+					broadcastToSelectedElementsInSlot( module,
+							new ContainerContext( module,
+									IReportDesignModel.SCRATCH_PAD_SLOT ),
 							selectorName );
 				}
 			}
@@ -265,22 +269,19 @@ public abstract class StyleElement extends ReferenceableElement
 	 */
 
 	private void broadcastToSelectedElementsInSlot( Module module,
-			ContainerSlot slot, String selectorName )
+			ContainerContext containerInfor, String selectorName )
 	{
-		Iterator iter = slot.iterator( );
+		Iterator iter = containerInfor.getContents( module ).iterator( );
 
 		NotificationEvent event = null;
 
 		while ( iter.hasNext( ) )
 		{
 			DesignElement element = (DesignElement) iter.next( );
-			assert element != null;
-
-			event = new StyleEvent( element );
-			event.setDeliveryPath( NotificationEvent.STYLE_CLIENT );
 
 			// Broadcast the element which is selected by this style
-
+			event = new StyleEvent( element );
+			event.setDeliveryPath( NotificationEvent.STYLE_CLIENT );
 			String selector = getMatchedElementSelector( element, selectorName );
 			if ( selector != null )
 			{
@@ -294,11 +295,20 @@ public abstract class StyleElement extends ReferenceableElement
 			if ( checkSlotSelector( element, selectorName, event, module ) )
 				continue;
 
-			int count = element.getDefn( ).getSlotCount( );
-			for ( int i = 0; i < count; i++ )
+			ElementDefn elementDefn = (ElementDefn) element.getDefn( );
+			if ( !elementDefn.isContainer( ) )
+				continue;
+			for ( int i = 0; i < elementDefn.getSlotCount( ); i++ )
 			{
-				broadcastToSelectedElementsInSlot( module,
-						element.getSlot( i ), selectorName );
+				broadcastToSelectedElementsInSlot( module, new ContainerContext(
+						element, i ), selectorName );
+			}
+			List properties = elementDefn.getContainmentProperties( );
+			for ( int i = 0; i < properties.size( ); i++ )
+			{
+				PropertyDefn propDefn = (PropertyDefn) properties.get( i );
+				broadcastToSelectedElementsInSlot( module, new ContainerContext(
+						element, propDefn.getName( ) ), selectorName );
 			}
 		}
 	}
@@ -351,8 +361,7 @@ public abstract class StyleElement extends ReferenceableElement
 			String selectorName, NotificationEvent event, Module module )
 	{
 
-		String selector = element.getContainer( ).getSelector(
-				element.getContainerSlot( ) );
+		String selector = element.getContainerInfo( ).getSelector( );
 
 		if ( selector != null && selector.equalsIgnoreCase( selectorName ) )
 		{

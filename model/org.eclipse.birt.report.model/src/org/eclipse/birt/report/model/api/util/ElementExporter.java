@@ -439,9 +439,9 @@ class ElementExporter
 		{
 			SlotHandle sourceSlotHandle = designToExport.getSlot( i );
 			Iterator iter = sourceSlotHandle.iterator( );
-			
-			//First export element which has name.
-			
+
+			// First export element which has name.
+
 			List noNameList = new ArrayList( );
 			while ( iter.hasNext( ) )
 			{
@@ -458,8 +458,8 @@ class ElementExporter
 				}
 			}
 
-			//Second export element which has no name.
-			
+			// Second export element which has no name.
+
 			iter = noNameList.iterator( );
 			while ( iter.hasNext( ) )
 			{
@@ -486,12 +486,12 @@ class ElementExporter
 
 	private int getTopContainerSlot( DesignElement element )
 	{
-		int slotID = element.getContainerSlot( );
+		int slotID = element.getContainerInfo( ).getSlotID( );
 
 		DesignElement container = element.getContainer( );
 		while ( !( container instanceof Module ) )
 		{
-			slotID = container.getContainerSlot( );
+			slotID = container.getContainerInfo( ).getSlotID( );
 			container = container.getContainer( );
 			assert container != null;
 		}

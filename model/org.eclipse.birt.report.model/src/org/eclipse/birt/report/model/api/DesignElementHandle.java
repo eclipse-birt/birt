@@ -39,9 +39,9 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
-import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.api.util.XPathUtil;
 import org.eclipse.birt.report.model.command.ComplexPropertyCommand;
 import org.eclipse.birt.report.model.command.ContentCommand;
 import org.eclipse.birt.report.model.command.ExtendsCommand;
@@ -51,6 +51,7 @@ import org.eclipse.birt.report.model.command.StyleCommand;
 import org.eclipse.birt.report.model.command.TemplateCommand;
 import org.eclipse.birt.report.model.command.UserPropertyCommand;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
@@ -62,10 +63,8 @@ import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
-import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
@@ -222,6 +221,9 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		DesignElement element = getElement( );
 		Object value = element.getProperty( module, propName );
 
+		if ( value == null )
+			return null;
+
 		if ( value instanceof ReferenceValue )
 			return ReferenceValueUtil.needTheNamespacePrefix(
 					(ReferenceValue) value, getModule( ) );
@@ -239,6 +241,29 @@ public abstract class DesignElementHandle implements IDesignElementModel
 						getModule( ) ) );
 			}
 			return names;
+		}
+
+		// convert design element to handles
+		if ( defn != null && defn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
+		{
+			// TODO: getHandle -- module para is this.module or the
+			// value.getRoot
+			if ( value instanceof DesignElement )
+			{
+				return ( (DesignElement) value ).getHandle( module );
+			}
+			else if ( value instanceof List )
+			{
+				List items = (List) value;
+				List handles = new ArrayList( );
+				for ( int i = 0; i < items.size( ); i++ )
+				{
+					DesignElement item = (DesignElement) items.get( i );
+					handles.add( item.getHandle( module ) );
+				}
+				return handles;
+			}
+
 		}
 
 		return value;
@@ -449,7 +474,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public List getListProperty( String propName )
 	{
-		return getElement( ).getListProperty( module, propName );
+		PropertyHandle propHandle = getPropertyHandle( propName );
+		return propHandle == null ? null : propHandle.getListValue( );
 	}
 
 	/**
@@ -1065,6 +1091,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public PropertyHandle getPropertyHandle( String propName )
 	{
+		if ( propName == null )
+			return null;
 		DesignElement element = getElement( );
 		ElementPropertyDefn propDefn = element.getPropertyDefn( propName );
 		if ( propDefn == null )
@@ -1184,10 +1212,10 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( oldContainer == null )
 			throw new ContentException( element, -1,
 					ContentException.DESIGN_EXCEPTION_HAS_NO_CONTAINER );
-		int oldSlot = element.getContainerSlot( );
-		assert oldSlot != -1;
-		ContentCommand cmd = new ContentCommand( module, oldContainer );
-		cmd.move( element, oldSlot, newContainer.getElement( ), toSlot );
+		ContentCommand cmd = new ContentCommand( module, element
+				.getContainerInfo( ) );
+		cmd.move( element, new ContainerContext( newContainer.getElement( ),
+				toSlot ) );
 	}
 
 	/**
@@ -1212,10 +1240,9 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			throw new ContentException( element, -1,
 					ContentException.DESIGN_EXCEPTION_HAS_NO_CONTAINER );
 
-		int slotID = element.getContainerSlot( );
-		assert slotID != -1;
-		ContentCommand cmd = new ContentCommand( module, container );
-		cmd.remove( element, slotID, false );
+		ContentCommand cmd = new ContentCommand( module, element
+				.getContainerInfo( ) );
+		cmd.remove( element, false );
 	}
 
 	/**
@@ -1240,10 +1267,9 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			throw new ContentException( element, -1,
 					ContentException.DESIGN_EXCEPTION_HAS_NO_CONTAINER );
 
-		int slotID = element.getContainerSlot( );
-		assert slotID != -1;
-		ContentCommand cmd = new ContentCommand( module, container );
-		cmd.remove( element, slotID, true );
+		ContentCommand cmd = new ContentCommand( module, element
+				.getContainerInfo( ) );
+		cmd.remove( element, true );
 	}
 
 	/**
@@ -1259,7 +1285,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	public int findContentSlot( DesignElementHandle content )
 	{
 		if ( content.getContainer( ).getElement( ) == getElement( ) )
-			return content.getElement( ).getContainerSlot( );
+			return content.getElement( ).getContainerInfo( ).getSlotID( );
 
 		return IDesignElementModel.NO_SLOT;
 	}
@@ -1280,6 +1306,21 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		int slotID = containerHandle.findContentSlot( this );
 		assert slotID != IDesignElementModel.NO_SLOT;
 		return containerHandle.getSlot( slotID );
+	}
+
+	/**
+	 * Gets a handle for the container's property what holds this element.
+	 * 
+	 * @return the property handle in which this element resides,
+	 *         <code>null</code> if this element has no container
+	 */
+	public PropertyHandle getContainerPropertyHandle( )
+	{
+		DesignElementHandle containerHandle = getContainer( );
+		if ( containerHandle == null )
+			return null;
+		return containerHandle.getPropertyHandle( getElement( )
+				.getContainerInfo( ).getPropertyName( ) );
 	}
 
 	/**
@@ -1732,11 +1773,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public boolean canDrop( )
 	{
-		boolean flag = getElement( ).canDrop( );
-		if ( !flag )
-			return false;
-
-		return !getModule( ).isReadOnly( );
+		return getElement( ).canDrop( getModule( ) );
 	}
 
 	/**
@@ -1748,11 +1785,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public boolean canEdit( )
 	{
-		boolean flag = getElement( ).canEdit( );
-		if ( !flag )
-			return false;
-
-		return !getModule( ).isReadOnly( );
+		return getElement( ).canEdit( module );
 	}
 
 	/**
@@ -1788,21 +1821,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public boolean canContain( int slotId, String type )
 	{
-		if ( type == null )
-			return false;
-
-		IElementDefn defn = MetaDataDictionary.getInstance( ).getElement( type );
-		if ( defn == null )
-			defn = MetaDataDictionary.getInstance( ).getExtension( type );
-
-		if ( defn == null )
-			return false;
-
-		boolean flag = getElement( ).canContain( getModule( ), slotId, defn );
-		if ( !flag )
-			return false;
-
-		return !getModule( ).isReadOnly( );
+		return new ContainerContext( getElement( ), slotId ).canContain(
+				getModule( ), type );
 	}
 
 	/**
@@ -1825,12 +1845,52 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( content == null )
 			return false;
 
-		boolean flag = getElement( ).canContain( getModule( ), slotId,
-				content.getElement( ) );
-		if ( !flag )
+		return new ContainerContext( getElement( ), slotId ).canContain(
+				getModule( ), content.getElement( ) );
+	}
+
+	/**
+	 * Determines if the slot can contain an element with the type of
+	 * <code>type</code>.
+	 * 
+	 * @param propName
+	 *            name of the property where the type to insert
+	 * @param type
+	 *            the name of the element type, like "Table", "List", etc.
+	 * @return <code>true</code> if the slot can contain the an element with
+	 *         <code>type</code> type, otherwise <code>false</code>.
+	 * 
+	 * @see #canContain(int, DesignElementHandle)
+	 */
+
+	public boolean canContain( String propName, String type )
+	{
+		return new ContainerContext( getElement( ), propName ).canContain(
+				getModule( ), type );
+	}
+
+	/**
+	 * Determines if the given slot can contain the <code>content</code>.
+	 * 
+	 * @param propName
+	 *            the name of the property where the content to insert
+	 * @param content
+	 *            the design element handle to check
+	 * 
+	 * @return <code>true</code> if the slot with the given
+	 *         <code>slotId</code> can contain the <code>content</code>,
+	 *         otherwise <code>false</code>.
+	 * 
+	 * @see #canContain(int, String)
+	 */
+
+	public boolean canContain( String propName, DesignElementHandle content )
+	{
+		if ( content == null )
 			return false;
 
-		return !getModule( ).isReadOnly( );
+		return new ContainerContext( getElement( ), propName ).canContain(
+				module, content.getElement( ) );
 	}
 
 	/**
@@ -1894,59 +1954,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public String getXPath( )
 	{
-
-		DesignElementHandle element = this;
-		StringBuffer sb = new StringBuffer( );
-
-		do
-		{
-			ElementDefn elementDefn = (ElementDefn) element.getDefn( );
-
-			DesignElementHandle container = element.getContainer( );
-
-			String slotInfo = null;
-			String posnInfo = null;
-
-			if ( container != null )
-			{
-				SlotHandle slot = element.getContainerSlotHandle( );
-				ISlotDefn slotDefn = container.getElement( ).getDefn( )
-						.getSlot( slot.getSlotID( ) );
-				String slotDefnName = slotDefn.getXmlName( );
-
-				int slotIndex = 1;
-
-				slotInfo = "/" + slotDefnName + "[" + slotIndex //$NON-NLS-1$ //$NON-NLS-2$
-						+ "]"; //$NON-NLS-1$
-
-				int tagIndex = 1;
-
-				for ( int i = 0; i < slot.findPosn( element ); i++ )
-				{
-					DesignElementHandle tmpElement = slot.get( i );
-					if ( tmpElement.getDefn( ) == elementDefn )
-						tagIndex++;
-				}
-
-				posnInfo = "[" + tagIndex + "]";//$NON-NLS-1$ //$NON-NLS-2$
-			}
-
-			String elementPath = ""; //$NON-NLS-1$
-
-			if ( !StringUtil.isBlank( slotInfo ) )
-				elementPath = slotInfo;
-
-			elementPath = elementPath + "/" + elementDefn.getXmlName( ); //$NON-NLS-1$
-
-			if ( !StringUtil.isBlank( posnInfo ) )
-				elementPath = elementPath + posnInfo;
-
-			sb.insert( 0, elementPath );
-			element = container;
-
-		} while ( element != null );
-
-		return sb.toString( );
+		return XPathUtil.getXPath( this );
 	}
 
 	/**
@@ -1996,10 +2004,10 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			throw new TemplateException(
 					getElement( ),
 					TemplateException.DESIGN_EXCEPTION_CREATE_TEMPLATE_ELEMENT_FORBIDDEN );
-		TemplateCommand cmd = new TemplateCommand( getModule( ), getContainer( )
-				.getElement( ) );
+		TemplateCommand cmd = new TemplateCommand( getModule( ), getElement( )
+				.getContainerInfo( ) );
 		TemplateElement template = cmd.createTemplateElement( getElement( ),
-				getElement( ).getContainerSlot( ), name );
+				name );
 		if ( template == null )
 			return null;
 		return (TemplateElementHandle) template.getHandle( module );
@@ -2027,10 +2035,9 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			throw new TemplateException(
 					getElement( ),
 					TemplateException.DESIGN_EXCEPTION_CREATE_TEMPLATE_ELEMENT_FORBIDDEN );
-		TemplateCommand cmd = new TemplateCommand( getModule( ), getContainer( )
-				.getElement( ) );
-		TemplateElement template = cmd.revertToTemplate( getElement( ),
-				getElement( ).getContainerSlot( ), name );
+		TemplateCommand cmd = new TemplateCommand( getModule( ), getElement( )
+				.getContainerInfo( ) );
+		TemplateElement template = cmd.revertToTemplate( getElement( ), name );
 		if ( template == null )
 			return null;
 		return (TemplateElementHandle) template.getHandle( module );
@@ -2105,20 +2112,20 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public String getPropertyBinding( String propName )
 	{
-		if( propName == null )
+		if ( propName == null )
 			return null;
-		
-		DesignElement element = getElement();
+
+		DesignElement element = getElement( );
 		while ( element != null && element.getRoot( ) != null )
 		{
-			PropertyBinding propBinding = element.getRoot( ).findPropertyBinding(
-					element, propName );
+			PropertyBinding propBinding = element.getRoot( )
+					.findPropertyBinding( element, propName );
 			if ( propBinding != null )
 				return propBinding.getValue( );
-			
+
 			if ( element.isVirtualElement( ) )
 			{
-				element = element.getVirtualParent( ) ;
+				element = element.getVirtualParent( );
 			}
 			else
 			{
@@ -2139,16 +2146,18 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	{
 		List nameList = new ArrayList( );
 		List resultList = new ArrayList( );
-		
-		DesignElement element = getElement();
-		while( element != null && element.getRoot() != null)
+
+		DesignElement element = getElement( );
+		while ( element != null && element.getRoot( ) != null )
 		{
-			List propBindings = element.getRoot( ).getPropertyBindings( element );
-			resultList.addAll( filterPropertyBindingName( propBindings, nameList ) );
-			
+			List propBindings = element.getRoot( )
+					.getPropertyBindings( element );
+			resultList.addAll( filterPropertyBindingName( propBindings,
+					nameList ) );
+
 			if ( element.isVirtualElement( ) )
 			{
-				element =  element.getVirtualParent( );
+				element = element.getVirtualParent( );
 			}
 			else
 			{
@@ -2245,11 +2254,10 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		defn = root.getPropertyDefn( IModuleModel.PROPERTY_BINDINGS_PROP );
 		assert defn != null;
 
-		
-
 		if ( value == null && binding != null )
 		{
-			ComplexPropertyCommand cmd = new ComplexPropertyCommand( module, root );
+			ComplexPropertyCommand cmd = new ComplexPropertyCommand( module,
+					root );
 			// maskValue is null, remove the item from the structure list.
 
 			cmd.removeItem( new CachedMemberRef( defn ), bindingList
@@ -2268,7 +2276,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 				binding.setName( propName );
 				binding.setID( getID( ) );
 				binding.setValue( value );
-				ComplexPropertyCommand cmd = new ComplexPropertyCommand( module, root );
+				ComplexPropertyCommand cmd = new ComplexPropertyCommand(
+						module, root );
 				cmd.addItem( new CachedMemberRef( defn ), binding );
 			}
 			else
@@ -2335,5 +2344,489 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	{
 		return ModelUtil.getExternalizedValue( getElement( ), textIDProp,
 				textProp, ULocale.forLocale( locale ) );
+	}
+
+	/**
+	 * Gets the position where this element resides in its container.
+	 * 
+	 * @return the index where this element resides in its container, otherwise
+	 *         -1 if this element has no container
+	 */
+	public int getIndex( )
+	{
+		ContainerContext containerContext = getElement( ).getContainerInfo( );
+		return containerContext == null ? -1 : containerContext
+				.indexOf( getElement( ) );
+	}
+
+	/**
+	 * Adds a report item to the property with the given element handle. The
+	 * report item must not be newly created and not yet added to the design.
+	 * 
+	 * @param propName
+	 *            name of the property where the content to insert
+	 * @param content
+	 *            handle to the newly created element
+	 * @throws SemanticException
+	 *             if the element is not allowed to insert
+	 */
+
+	public void add( String propName, DesignElementHandle content )
+			throws SemanticException
+	{
+		if ( content == null )
+			return;
+		ContentCommand cmd = new ContentCommand( getModule( ),
+				new ContainerContext( getElement( ), propName ) );
+		cmd.add( content.getElement( ) );
+	}
+
+	/**
+	 * Adds a report item to this property at the given position. The item must
+	 * not be newly created and not yet added to the design.
+	 * 
+	 * @param propName
+	 *            name of the property where the content to insert
+	 * @param content
+	 *            handle to the newly created element
+	 * @param newPos
+	 *            the position index at which the content to be inserted,
+	 *            0-based integer
+	 * @throws SemanticException
+	 *             if the element is not allowed to insert
+	 */
+
+	public void add( String propName, DesignElementHandle content, int newPos )
+			throws SemanticException
+	{
+		if ( content == null )
+			return;
+		ContentCommand cmd = new ContentCommand( getModule( ),
+				new ContainerContext( getElement( ), propName ) );
+		cmd.add( content.getElement( ), newPos );
+	}
+
+	/**
+	 * Pastes a report item to this property. The item must be newly created and
+	 * not yet added to the design.
+	 * 
+	 * @param propName
+	 *            name of the property where the content to insert
+	 * @param content
+	 *            the newly created element handle
+	 * @return a list containing all errors for the pasted element
+	 * @throws SemanticException
+	 *             if the element is not allowed to paste
+	 */
+
+	public List paste( String propName, DesignElementHandle content )
+			throws SemanticException
+	{
+		if ( content == null )
+			return Collections.EMPTY_LIST;
+		add( propName, content );
+		return checkPostPasteErrors( content.getElement( ) );
+	}
+
+	/**
+	 * Pastes a report item to this property. The item must be newly created and
+	 * not yet added to the design.
+	 * 
+	 * @param propName
+	 *            name of the property where the content to insert
+	 * @param content
+	 *            the newly created element
+	 * @return a list containing all errors for the pasted element
+	 * @throws SemanticException
+	 *             if the element is not allowed to paste
+	 */
+	public List paste( String propName, IDesignElement content )
+			throws SemanticException
+	{
+		if ( content == null )
+			return Collections.EMPTY_LIST;
+		add( propName, content.getHandle( getModule( ) ) );
+
+		return checkPostPasteErrors( (DesignElement) content );
+	}
+
+	/**
+	 * Pastes a report item to the slot. The item must be newly created and not
+	 * yet added to the design.
+	 * 
+	 * @param propName
+	 *            name of the property where the content to insert
+	 * @param content
+	 *            the newly created element handle
+	 * @param newPos
+	 *            the position index at which the content to be inserted.
+	 * @return a list containing all errors for the pasted element
+	 * @throws SemanticException
+	 *             if the element is not allowed in the slot
+	 */
+
+	public List paste( String propName, DesignElementHandle content, int newPos )
+			throws SemanticException
+	{
+		if ( content == null )
+			return Collections.EMPTY_LIST;
+		add( propName, content, newPos );
+
+		return Collections.EMPTY_LIST;
+		// return checkPostPasteErrors( content.getElement( ) );
+	}
+
+	/**
+	 * Pastes a report item to the property. The item must be newly created and
+	 * not yet added to the design.
+	 * 
+	 * @param propName
+	 *            name of the property where the content to insert
+	 * @param content
+	 *            the newly created element
+	 * @param newPos
+	 *            the position index at which the content to be inserted.
+	 * @return a list containing all errors for the pasted element
+	 * @throws SemanticException
+	 *             if the element is not allowed in the property
+	 */
+
+	public List paste( String propName, IDesignElement content, int newPos )
+			throws SemanticException
+	{
+		if ( content == null )
+			return Collections.EMPTY_LIST;
+		add( propName, content.getHandle( getModule( ) ), newPos );
+
+		return checkPostPasteErrors( (DesignElement) content );
+
+	}
+
+	/**
+	 * Checks the element after the paste action.
+	 * 
+	 * @param content
+	 *            the pasted element
+	 * 
+	 * @return a list containing parsing errors. Each element in the list is
+	 *         <code>ErrorDetail</code>.
+	 */
+
+	private List checkPostPasteErrors( DesignElement content )
+	{
+		Module currentModule = getModule( );
+		String nameSpace = null;
+
+		if ( currentModule != null && currentModule instanceof Library )
+			nameSpace = ( (Library) currentModule ).getNamespace( );
+
+		ModelUtil.revisePropertyNameSpace( getModule( ), content, content
+				.getDefn( ).getProperty( IDesignElementModel.EXTENDS_PROP ),
+				nameSpace );
+
+		ModelUtil.reviseNameSpace( getModule( ), content, nameSpace );
+
+		List exceptionList = content.validateWithContents( getModule( ) );
+		List errorDetailList = ErrorDetail.convertExceptionList( exceptionList );
+
+		return errorDetailList;
+	}
+
+	/**
+	 * Returns the a list with contents.Items are handles to the contents and in
+	 * order by position.
+	 * 
+	 * @param propName
+	 *            name of the property where the contents reside
+	 * @return a list with property contents, items of the list are handles to
+	 *         the contents.
+	 */
+
+	public List getContents( String propName )
+	{
+		PropertyHandle propHandle = getPropertyHandle( propName );
+		return propHandle == null ? Collections.EMPTY_LIST : propHandle
+				.getContents( );
+	}
+
+	/**
+	 * Returns the number of elements in the property.
+	 * 
+	 * @param propName
+	 *            name of the property where the contents reside
+	 * @return the count of contents in the property
+	 */
+
+	public int getContentCount( String propName )
+	{
+		return getContents( propName ).size( );
+	}
+
+	/**
+	 * Gets a handle to the content element at the given position.
+	 * 
+	 * @param propName
+	 *            name of the property where the content resides
+	 * @param index
+	 *            the specified position to find
+	 * @return the content handle if found, otherwise null
+	 */
+	public DesignElementHandle getContent( String propName, int index )
+	{
+		if ( index < 0 || index >= getContentCount( propName ) )
+			return null;
+		return (DesignElementHandle) getContents( propName ).get( index );
+	}
+
+	/**
+	 * Moves the position of a content element within this container.
+	 * 
+	 * @param propName
+	 *            name of the property where the content resides
+	 * @param content
+	 *            handle to the content to move
+	 * @param toPosn
+	 *            the new position
+	 * @throws SemanticException
+	 *             if the content is not in the property, or if the to position
+	 *             is not valid.
+	 */
+
+	public void shift( String propName, DesignElementHandle content, int toPosn )
+			throws SemanticException
+	{
+		if ( content == null )
+			return;
+		ContentCommand cmd = new ContentCommand( getModule( ),
+				new ContainerContext( getElement( ), propName ) );
+		cmd.movePosition( content.getElement( ), toPosn );
+	}
+
+	/**
+	 * Moves this element handle to the given position within its container.
+	 * 
+	 * @param posn
+	 *            the new position to move
+	 * @throws SemanticException
+	 */
+	public void moveTo( int posn ) throws SemanticException
+	{
+		DesignElement element = getElement( );
+		DesignElement oldContainer = element.getContainer( );
+		if ( oldContainer == null )
+			throw new ContentException( element, -1,
+					ContentException.DESIGN_EXCEPTION_HAS_NO_CONTAINER );
+		ContentCommand cmd = new ContentCommand( module, element
+				.getContainerInfo( ) );
+		cmd.movePosition( element, posn );
+	}
+
+	/**
+	 * Moves a content element from this element into a property in another
+	 * container element.
+	 * 
+	 * @param fromPropName
+	 *            name of the property where the content originally resides
+	 * @param content
+	 *            a handle to the element to move
+	 * @param newContainer
+	 *            a handle to the new container element
+	 * @param toPropName
+	 *            the target property name where the element will be moved to.
+	 * @throws SemanticException
+	 *             if the content is not in this slot or if the new container is
+	 *             not, in fact, a container, or if the content cannot go into
+	 *             the target slot.
+	 */
+
+	public void move( String fromPropName, DesignElementHandle content,
+			DesignElementHandle newContainer, String toPropName )
+			throws SemanticException
+	{
+		if ( content == null || newContainer == null )
+			return;
+		ContentCommand cmd = new ContentCommand( getModule( ),
+				new ContainerContext( getElement( ), fromPropName ) );
+		cmd.move( content.getElement( ), new ContainerContext( newContainer
+				.getElement( ), toPropName ) );
+	}
+
+	/**
+	 * Moves this element to a property in another container element.
+	 * 
+	 * @param newContainer
+	 *            a handle to the new container element
+	 * @param toPropName
+	 *            the target property name where this element will be moved to
+	 * @throws SemanticException
+	 */
+	public void moveTo( DesignElementHandle newContainer, String toPropName )
+			throws SemanticException
+	{
+		DesignElement element = getElement( );
+		DesignElement oldContainer = element.getContainer( );
+		if ( oldContainer == null )
+			throw new ContentException( element, -1,
+					ContentException.DESIGN_EXCEPTION_HAS_NO_CONTAINER );
+		if ( newContainer == null )
+			return;
+		ContentCommand cmd = new ContentCommand( getModule( ), element
+				.getContainerInfo( ) );
+		cmd.move( element, new ContainerContext( newContainer.getElement( ),
+				toPropName ) );
+	}
+
+	/**
+	 * Moves a content element into a property in another container element at
+	 * the specified position.
+	 * 
+	 * @param fromPropName
+	 *            name of the property where the content originally resides
+	 * @param content
+	 *            a handle to the element to move
+	 * @param newContainer
+	 *            a handle to the new container element
+	 * @param toPropName
+	 *            the target property name where the element will be moved to.
+	 * @param newPos
+	 *            the position to which the content will be moved. If it is
+	 *            greater than the current content size of the target property,
+	 *            the content will be appended at the end of the target
+	 *            property.
+	 * @throws SemanticException
+	 *             if the content is not in this property or if the new
+	 *             container is not, in fact, a container, or if the content
+	 *             cannot go into the target property.
+	 */
+
+	public void move( String fromPropName, DesignElementHandle content,
+			DesignElementHandle newContainer, String toPropName, int newPos )
+			throws SemanticException
+	{
+		if ( content == null || newContainer == null )
+			return;
+		ContentCommand cmd = new ContentCommand( getModule( ),
+				new ContainerContext( getElement( ), fromPropName ) );
+		cmd.move( content.getElement( ), new ContainerContext( newContainer
+				.getElement( ), toPropName ), newPos );
+	}
+
+	/**
+	 * Moves this element to a property in another container element at the
+	 * specified position.
+	 * 
+	 * @param newContainer
+	 *            a handle to the new container element
+	 * @param toPropName
+	 *            the target property name where this element will be moved to
+	 * @param newPos
+	 *            the position to which this element will be moved. It is a
+	 *            0-based integer. If it is greater than the current content
+	 *            size of the target property, this element will be appended at
+	 *            the tail
+	 * @throws SemanticException
+	 */
+	public void moveTo( DesignElementHandle newContainer, String toPropName,
+			int newPos ) throws SemanticException
+	{
+		DesignElement element = getElement( );
+		DesignElement oldContainer = element.getContainer( );
+		if ( oldContainer == null )
+			throw new ContentException( element, -1,
+					ContentException.DESIGN_EXCEPTION_HAS_NO_CONTAINER );
+		if ( newContainer == null )
+			return;
+		ContentCommand cmd = new ContentCommand( getModule( ), element
+				.getContainerInfo( ) );
+		cmd.move( element, new ContainerContext( newContainer.getElement( ),
+				toPropName ), newPos );
+	}
+
+	/**
+	 * Drops a content element from the container, and clear any reference
+	 * property which refers the element to drop.
+	 * 
+	 * @param propName
+	 *            name of the property where the content resides
+	 * @param content
+	 *            a handle to the content to drop
+	 * @throws SemanticException
+	 *             if the content is not within the container
+	 */
+
+	public void dropAndClear( String propName, DesignElementHandle content )
+			throws SemanticException
+	{
+		if ( content == null )
+			return;
+		ContentCommand cmd = new ContentCommand( getModule( ),
+				new ContainerContext( getElement( ), propName ) );
+		cmd.remove( content.getElement( ), false );
+	}
+
+	/**
+	 * Drops a content element from the container, and unresolve any reference
+	 * property which refers the element to drop.
+	 * 
+	 * @param propName
+	 *            name of the property where the content resides
+	 * @param content
+	 *            a handle to the content to drop
+	 * @throws SemanticException
+	 *             if the content is not within the container
+	 */
+
+	public void drop( String propName, DesignElementHandle content )
+			throws SemanticException
+	{
+		if ( content == null )
+			return;
+		ContentCommand cmd = new ContentCommand( getModule( ),
+				new ContainerContext( getElement( ), propName ) );
+		cmd.remove( content.getElement( ), true );
+	}
+
+	/**
+	 * Drops a content element at the given position from the container, and
+	 * clear any reference property which refers the element to drop.
+	 * 
+	 * @param propName
+	 *            name of the property where the content resides
+	 * @param posn
+	 *            the position of the content to drop
+	 * @throws SemanticException
+	 *             if the position is out of range
+	 */
+
+	public void dropAndClear( String propName, int posn )
+			throws SemanticException
+	{
+		PropertyHandle propHandle = getPropertyHandle( propName );
+		if ( propHandle != null )
+		{
+			propHandle.dropAndClear( posn );
+		}
+	}
+
+	/**
+	 * Drops a content element at the given position from the container, and
+	 * unresolve any reference property which refers the element to drop.
+	 * 
+	 * @param propName
+	 *            name of the property where the content resides
+	 * @param posn
+	 *            the position of the content to drop
+	 * @throws SemanticException
+	 *             if the position is out of range
+	 */
+
+	public void drop( String propName, int posn ) throws SemanticException
+	{
+
+		PropertyHandle propHandle = getPropertyHandle( propName );
+		if ( propHandle != null )
+		{
+			propHandle.drop( posn );
+		}
 	}
 }

@@ -159,6 +159,7 @@ public class XMLWriter
 	 *            the output stream to which the design file is written.
 	 * @param signature
 	 *            the UTF signature
+	 * @param needMarkLineNumber 
 	 * @throws IOException
 	 *             if write error occurs
 	 */

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.api.command;
 
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 
 /**
@@ -27,42 +28,40 @@ public class TemplateTransformEvent extends NotificationEvent
 	 * The slot within the container.
 	 */
 
-	protected int slot = 0;
+	protected final ContainerContext focus;
 
 	/**
 	 * The from element which this event transforms from.
 	 */
 
-	private DesignElement fromElement;
+	private final DesignElement fromElement;
 
 	/**
 	 * The new element which this event transforms from.
 	 */
 
-	private DesignElement toElement;
+	private final DesignElement toElement;
 
 	/**
 	 * 
 	 * /** Constructs the content replace event with the container element, from
 	 * element, to element and the slot within this container.
 	 * 
-	 * @param theContainer
-	 *            the container element
+	 * @param containerInfo
+	 *            the container information
 	 * @param from
 	 *            the element which the transformation starts from
 	 * @param to
 	 *            the element which the transformation ends to
-	 * @param theSlot
-	 *            the slot within the container
 	 */
 
-	public TemplateTransformEvent( DesignElement theContainer,
-			DesignElement from, DesignElement to, int theSlot )
+	public TemplateTransformEvent( ContainerContext containerInfo,
+			DesignElement from, DesignElement to )
 	{
-		super( theContainer );
+		super( containerInfo.getElement( ) );
 		this.fromElement = from;
 		this.toElement = to;
-		this.slot = theSlot;
+		this.focus = containerInfo;
 	}
 
 	/*
@@ -84,7 +83,7 @@ public class TemplateTransformEvent extends NotificationEvent
 
 	public int getSlot( )
 	{
-		return slot;
+		return focus.getSlotID( );
 	}
 
 	/**
@@ -119,7 +118,7 @@ public class TemplateTransformEvent extends NotificationEvent
 		if ( !super.isSame( event ) )
 			return false;
 		TemplateTransformEvent transEvent = (TemplateTransformEvent) event;
-		if ( slot != transEvent.getSlot( )
+		if ( !focus.equals( transEvent.focus )
 				|| fromElement != transEvent.getFrom( )
 				|| toElement != transEvent.getTo( ) )
 			return false;

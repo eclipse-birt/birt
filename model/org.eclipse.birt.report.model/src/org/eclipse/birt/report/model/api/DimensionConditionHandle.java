@@ -65,6 +65,28 @@ public class DimensionConditionHandle extends StructureHandle
 	{
 		return (List) getProperty( DimensionCondition.PRIMARY_KEYS_MEMBER );
 	}
+	
+	/**
+	 * Adds a primary key to this condition.
+	 * @param key
+	 * @throws SemanticException
+	 */
+	public void addPrimaryKey( String key ) throws SemanticException
+	{
+		MemberHandle memberHandle = getMember( DimensionCondition.PRIMARY_KEYS_MEMBER );
+		memberHandle.addItem( key );		
+	}
+	
+	/**
+	 * 
+	 * @param key
+	 * @throws SemanticException
+	 */
+	public void removePrimaryKey(String key ) throws SemanticException
+	{
+		MemberHandle memberHandle = getMember( DimensionCondition.PRIMARY_KEYS_MEMBER );
+		memberHandle.removeItem( key );
+	}
 
 	/**
 	 * Gets the referred hierarchy handle of this condition.

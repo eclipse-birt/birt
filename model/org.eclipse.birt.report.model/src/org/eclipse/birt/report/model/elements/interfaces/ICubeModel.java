@@ -32,20 +32,19 @@ public interface ICubeModel
 	static final String DIMENSION_CONDITIONS_PROP = "dimensionConditions"; //$NON-NLS-1$
 
 	/**
+	 * Name of the property that defines a list of filter conditions.
+	 */
+	static final String FILTER_PROP = "filter"; //$NON-NLS-1$
+
+	/**
 	 * Identifier of the slot that holds dimension list in cube element.
 	 */
 
-	static final int DIMENSION_SLOT = 0;
+	static final String DIMENSIONS_PROP = "dimensions"; //$NON-NLS-1$
 
 	/**
-	 * Identifier of the slot that holds measure list in cube element.
+	 * Identifier of the slot that holds measure group list in cube element.
 	 */
 
-	static final int MEASURE_SLOT = 1;
-
-	/**
-	 * Number of slots in the cube element.
-	 */
-
-	static final int SLOT_COUNT = 2;
+	static final String MEASURE_GROUPS_PROP = "measureGroups"; //$NON-NLS-1$
 }

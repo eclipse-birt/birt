@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api.metadata;
 
+import org.eclipse.birt.report.model.metadata.IContainerDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 
 /**
@@ -18,7 +19,7 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
  * structure member definitions.
  */
 
-public interface IPropertyDefn
+public interface IPropertyDefn extends IContainerDefn
 {
 
 	/**
@@ -60,15 +61,7 @@ public interface IPropertyDefn
 	 * @return whether the property is a list or not.
 	 */
 
-	public boolean isList( );
-
-	/**
-	 * Returns the internal name for the property.
-	 * 
-	 * @return the internal (non-localized) name for the property
-	 */
-
-	public String getName( );
+	public boolean isList( );	
 
 	/**
 	 * Returns the property type. See the list in {@link PropertyType}.
@@ -76,15 +69,7 @@ public interface IPropertyDefn
 	 * @return he property type code
 	 */
 
-	public int getTypeCode( );
-
-	/**
-	 * Returns the display name for the property.
-	 * 
-	 * @return the user-visible, localized display name for the property
-	 */
-
-	public String getDisplayName( );
+	public int getTypeCode( );	
 
 	/**
 	 * Returns the message id for the display name.
@@ -134,7 +119,7 @@ public interface IPropertyDefn
 	 * @return the element type associated with the property
 	 */
 
-	public IElementDefn getTargetElementType( );
+	public IElementDefn getTargetElementType( );	
 
 	/**
 	 * Returns the allowed choices for this property. It contains allowed

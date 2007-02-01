@@ -58,6 +58,24 @@ public class ImageState extends ReportItemState
 		super( handler, theContainer, slot );
 	}
 
+	/**
+	 * Constructs image state with the design parser handler, the container
+	 * element and the container property name of the report element.
+	 * 
+	 * @param handler
+	 *            the design file parser handler
+	 * @param theContainer
+	 *            the element that contains this one
+	 * @param prop
+	 *            the slot in which this element appears
+	 */
+
+	public ImageState( ModuleParserHandler handler, DesignElement theContainer,
+			String prop )
+	{
+		super( handler, theContainer, prop );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -155,8 +173,8 @@ public class ImageState extends ReportItemState
 				&& handler.versionNumber <= VersionUtil.VERSION_3_2_3 )
 			checkImageType( );
 
-		String refType = image
-				.getStringProperty( module, IImageItemModel.SOURCE_PROP );
+		String refType = image.getStringProperty( module,
+				IImageItemModel.SOURCE_PROP );
 
 		if ( DesignChoiceConstants.IMAGE_REF_TYPE_EXPR
 				.equalsIgnoreCase( refType ) )
@@ -177,7 +195,8 @@ public class ImageState extends ReportItemState
 				|| DesignChoiceConstants.IMAGE_REF_TYPE_FILE
 						.equalsIgnoreCase( refType ) )
 		{
-			String uri = image.getStringProperty( module, IImageItemModel.URI_PROP );
+			String uri = image.getStringProperty( module,
+					IImageItemModel.URI_PROP );
 			if ( StringUtil.isEmpty( uri ) )
 			{
 				handler

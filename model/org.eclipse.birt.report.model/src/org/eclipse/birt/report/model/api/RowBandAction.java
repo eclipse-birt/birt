@@ -12,8 +12,7 @@ package org.eclipse.birt.report.model.api;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.model.core.ContainerSlot;
-import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
@@ -151,12 +150,10 @@ abstract class RowBandAction
 
 	protected int getPositionOfRow( TableRow row )
 	{
-		DesignElement rowContainer = row.getContainer( );
-		int slotId = rowContainer.findSlotOf( row );
-		ContainerSlot parent = rowContainer.getSlot( slotId );
-		int rowNumber = parent.findPosn( row );
-
-		return rowNumber;
+		ContainerContext containerInfor = row.getContainerInfo( );
+		if ( containerInfor == null )
+			return -1;
+		return containerInfor.indexOf( adapter.getModule( ), row );
 	}
 
 	/**
@@ -207,10 +204,10 @@ abstract class RowBandAction
 	{
 		ReportItemHandle reportHandle = adapter.getElementHandle( );
 		SlotHandle slotHandle = null;
-		
+
 		int slotId = parameters.getSlotId( );
 		int groupId = parameters.getGroupId( );
-		
+
 		if ( reportHandle instanceof TableHandle )
 		{
 			if ( groupId >= 0 )

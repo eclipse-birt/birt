@@ -33,6 +33,7 @@ import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
+import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
 import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
@@ -44,6 +45,7 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.UserChoice;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
@@ -114,6 +116,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ILevelModel;
 import org.eclipse.birt.report.model.elements.interfaces.ILineItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
+import org.eclipse.birt.report.model.elements.interfaces.IMeasureGroupModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMeasureModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSourceModel;
@@ -139,6 +142,7 @@ import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.elements.olap.Hierarchy;
 import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.birt.report.model.elements.olap.Measure;
+import org.eclipse.birt.report.model.elements.olap.MeasureGroup;
 import org.eclipse.birt.report.model.extension.oda.ODAProvider;
 import org.eclipse.birt.report.model.extension.oda.OdaDummyProvider;
 import org.eclipse.birt.report.model.metadata.Choice;
@@ -147,13 +151,13 @@ import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
-import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 import org.eclipse.birt.report.model.parser.treebuild.ContentNode;
 import org.eclipse.birt.report.model.parser.treebuild.ContentTree;
 import org.eclipse.birt.report.model.util.ContentIterator;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Represents the module writer which writes an XML file following the BIRT
@@ -299,46 +303,6 @@ public abstract class ModuleWriter extends ElementVisitor
 			return;
 
 		writer.attribute( attr, xml );
-	}
-
-	/**
-	 * Returns the tag according to the simple property type. If the property
-	 * type is structure or structure list, this method can not be used.
-	 * 
-	 * <ul>
-	 * <li>EXPRESSION_TAG, if the property is expression;
-	 * <li>XML_PROPERTY_TAG, if the property is xml;
-	 * <li>METHOD_TAG, if the property is method;
-	 * <li>PROPERTY_TAG, if the property is string, number, and so on.
-	 * </ul>
-	 * 
-	 * @param prop
-	 *            the property definition
-	 * @return the tag of this property
-	 */
-
-	protected String getTagByPropertyType( PropertyDefn prop )
-	{
-		assert prop != null;
-		assert prop.getTypeCode( ) != IPropertyType.STRUCT_TYPE;
-
-		switch ( prop.getTypeCode( ) )
-		{
-			case IPropertyType.EXPRESSION_TYPE :
-				return DesignSchemaConstants.EXPRESSION_TAG;
-
-			case IPropertyType.XML_TYPE :
-				return DesignSchemaConstants.XML_PROPERTY_TAG;
-
-			case IPropertyType.SCRIPT_TYPE :
-				return DesignSchemaConstants.METHOD_TAG;
-
-			default :
-				if ( prop.isEncryptable( ) )
-					return DesignSchemaConstants.ENCRYPTED_PROPERTY_TAG;
-
-				return DesignSchemaConstants.PROPERTY_TAG;
-		}
 	}
 
 	/**
@@ -684,7 +648,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		}
 
 		if ( tag == null )
-			tag = getTagByPropertyType( propDefn );
+			tag = ModelUtil.getTagByPropertyType( propDefn );
 
 		if ( propDefn.getTypeCode( ) == IPropertyType.SCRIPT_TYPE )
 			cdata = true;
@@ -742,7 +706,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		}
 
 		if ( tag == null )
-			tag = getTagByPropertyType( propDefn );
+			tag = ModelUtil.getTagByPropertyType( propDefn );
 
 		if ( propDefn.getTypeCode( ) == IPropertyType.SCRIPT_TYPE )
 			cdata = true;
@@ -959,7 +923,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		if ( prop == null || prop.getTypeCode( ) != IPropertyType.LIST_TYPE )
 			return;
 
-		List values = (List) struct.getLocalProperty( getModule( ), prop);
+		List values = (List) struct.getLocalProperty( getModule( ), prop );
 		if ( values == null || values.isEmpty( ) )
 			return;
 
@@ -1054,6 +1018,9 @@ public abstract class ModuleWriter extends ElementVisitor
 			IStructure struct = (IStructure) iter.next( );
 
 			writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
+
+			if ( struct instanceof IncludedLibrary )
+				markLineNumber( struct );
 
 			Iterator memberIter = prop.getStructDefn( ).propertiesIterator( );
 			while ( memberIter.hasNext( ) )
@@ -1232,6 +1199,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		if ( markLineNumber )
 			obj.initLineNoMap( );
+		markLineNumber( obj );
 
 		writer.attribute( DesignSchemaConstants.XMLNS_ATTRIB,
 				DEFAULT_NAME_SPACE );
@@ -1285,6 +1253,7 @@ public abstract class ModuleWriter extends ElementVisitor
 				EmbeddedImage image = (EmbeddedImage) list.get( i );
 				writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
 
+				markLineNumber( image );
 				property( image, EmbeddedImage.NAME_MEMBER );
 				property( image, EmbeddedImage.TYPE_MEMBER );
 				property( image, ReferencableStructure.LIB_REFERENCE_MEMBER );
@@ -1483,8 +1452,8 @@ public abstract class ModuleWriter extends ElementVisitor
 				if ( prop.getTypeCode( ) == IPropertyType.XML_TYPE
 						|| prop.getTypeCode( ) == IPropertyType.SCRIPT_TYPE )
 					cdata = true;
-				writeProperty( obj, getTagByPropertyType( prop ), prop
-						.getName( ), cdata );
+				writeProperty( obj, ModelUtil.getTagByPropertyType( prop ),
+						prop.getName( ), cdata );
 			}
 		}
 	}
@@ -1632,6 +1601,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		}
 		else
 		{
+			markLineNumber( obj );
 			// write some attributes
 			attribute( obj, DesignSchemaConstants.EXTENSION_NAME_ATTRIB,
 					IExtendedItemModel.EXTENSION_NAME_PROP );
@@ -1669,8 +1639,8 @@ public abstract class ModuleWriter extends ElementVisitor
 						writeSimplePropertyList( obj, propName );
 						break;
 					case IPropertyType.XML_TYPE :
-						writeProperty( obj, getTagByPropertyType( prop ),
-								propName, true );
+						writeProperty( obj, ModelUtil
+								.getTagByPropertyType( prop ), propName, true );
 						break;
 					case IPropertyType.STRUCT_TYPE :
 						if ( prop.isList( ) )
@@ -1678,23 +1648,16 @@ public abstract class ModuleWriter extends ElementVisitor
 						else
 							writeStructure( obj, propName );
 						break;
+					case IPropertyType.ELEMENT_TYPE :
+						writeContents( obj, propName );
+						break;
 					default :
-						writeProperty( obj, getTagByPropertyType( prop ), prop
-								.getName( ), false );
+						writeProperty( obj, ModelUtil
+								.getTagByPropertyType( prop ), prop.getName( ),
+								false );
 						break;
 				}
 			}
-
-			// write the slot content
-			if ( extDefn.isContainer( ) )
-			{
-				for ( int i = 0; i < extDefn.getSlotCount( ); i++ )
-				{
-					SlotDefn slotDefn = (SlotDefn) extDefn.getSlot( i );
-					writeContents( obj, i, slotDefn.getXmlName( ) );
-				}
-			}
-
 		}
 
 		writer.endElement( );
@@ -1889,6 +1852,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		// written.
 
 		writer.startElement( DesignSchemaConstants.COLUMN_TAG );
+		markLineNumber( obj );
 		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
 				.getID( ) ).toString( ) );
 		attribute( obj, DesignSchemaConstants.VIEW_ACTION_ATTRIB,
@@ -1915,6 +1879,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	public void visitRow( TableRow obj )
 	{
 		writer.startElement( DesignSchemaConstants.ROW_TAG );
+		markLineNumber( obj );
 		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
 				.getID( ) ).toString( ) );
 		attribute( obj, DesignSchemaConstants.VIEW_ACTION_ATTRIB,
@@ -1953,6 +1918,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	public void visitCell( Cell obj )
 	{
 		writer.startElement( DesignSchemaConstants.CELL_TAG );
+		markLineNumber( obj );
 		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
 				.getID( ) ).toString( ) );
 		attribute( obj, DesignSchemaConstants.VIEW_ACTION_ATTRIB,
@@ -2402,6 +2368,8 @@ public abstract class ModuleWriter extends ElementVisitor
 				property( rule, StyleRule.VALUE1_MEMBER );
 				property( rule, StyleRule.VALUE2_MEMBER );
 
+				property( rule, HighlightRule.STYLE_MEMBER );
+
 				writer.endElement( );
 			}
 			writer.endElement( );
@@ -2436,6 +2404,47 @@ public abstract class ModuleWriter extends ElementVisitor
 	}
 
 	/**
+	 * Writes the contents of the container information. The contents are
+	 * enclosed in an optional list tag.
+	 * 
+	 * @param containerInfor
+	 *            the container infor
+	 * @param tag
+	 *            the optional list tag that encloses the list of contents
+	 */
+	private void writeContents( ContainerContext containerInfor, String tag )
+	{
+		assert containerInfor != null;
+		List list = containerInfor.getContents( getModule( ) );
+		if ( list.isEmpty( ) )
+			return;
+
+		// if there is "extends" element, do not write out the conent.
+
+		if ( containerInfor.getElement( ).getExtendsElement( ) != null )
+			return;
+
+		if ( tag != null )
+			writer.conditionalStartElement( tag );
+
+		// 
+		writer.attribute( DesignSchemaConstants.NAME_ATTRIB, containerInfor
+				.getPropertyName( ) );
+
+		// Iterate over the contents using this visitor to write each one.
+		// Note that this may result in a recursive call back into this
+		// method as we do a depth-first traversal of the design tree.
+
+		Iterator iter = list.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			( (DesignElement) iter.next( ) ).apply( this );
+		}
+		if ( tag != null )
+			writer.endElement( );
+	}
+
+	/**
 	 * Writes the contents of a slot. The contents are enclosed in an optional
 	 * list tag.
 	 * 
@@ -2449,29 +2458,24 @@ public abstract class ModuleWriter extends ElementVisitor
 
 	protected void writeContents( DesignElement obj, int slot, String tag )
 	{
-		List list = obj.getSlot( slot ).getContents( );
-		if ( list.isEmpty( ) )
-			return;
+		writeContents( new ContainerContext( obj, slot ), tag );
+	}
 
-		// if there is "extends" element, do not write out the conent.
-
-		if ( obj.getExtendsElement( ) != null )
-			return;
-
-		if ( tag != null )
-			writer.conditionalStartElement( tag );
-
-		// Iterate over the contents using this visitor to write each one.
-		// Note that this may result in a recursive call back into this
-		// method as we do a depth-first traversal of the design tree.
-
-		Iterator iter = list.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			( (DesignElement) iter.next( ) ).apply( this );
-		}
-		if ( tag != null )
-			writer.endElement( );
+	/**
+	 * Writes the contents of an element property. The contents are enclosed in
+	 * an optional list tag.
+	 * 
+	 * @param obj
+	 *            the container element
+	 * @param propName
+	 *            the element property to write
+	 * @param tag
+	 *            the optional list tag that encloses the list of contents
+	 */
+	protected void writeContents( DesignElement obj, String propName )
+	{
+		writeContents( new ContainerContext( obj, propName ),
+				DesignSchemaConstants.PROPERTY_TAG );
 	}
 
 	/**
@@ -2679,14 +2683,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		super.visitDesignElement( obj );
 
-		if ( markLineNumber )
-		{
-			Module module = getModule( );
-			if ( module != null )
-				module
-						.addElementLineNo( obj.getID( ), writer
-								.getLineCounter( ) );
-		}
+		markLineNumber( obj );
 
 		// The element name, id and extends should be written in the tag.
 
@@ -2711,6 +2708,22 @@ public abstract class ModuleWriter extends ElementVisitor
 		writeUserPropertyValues( obj );
 
 		writeStructureList( obj, IDesignElementModel.PROPERTY_MASKS_PROP );
+	}
+
+	/**
+	 * Marks line number of element
+	 * 
+	 * @param obj
+	 */
+
+	void markLineNumber( Object obj )
+	{
+		if ( markLineNumber )
+		{
+			Module module = getModule( );
+			if ( module != null )
+				module.addLineNo( obj, new Integer( writer.getLineCounter( ) ) );
+		}
 	}
 
 	/*
@@ -2921,6 +2934,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	 */
 	public void visitGroup( GroupElement obj )
 	{
+		markLineNumber( obj );
 		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
 				.getID( ) ).toString( ) );
 		attribute( obj, DesignSchemaConstants.VIEW_ACTION_ATTRIB,
@@ -3079,7 +3093,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer
 				.conditionalStartElement( DesignSchemaConstants.OVERRIDDEN_VALUES_TAG );
 
-		Iterator iter = new ContentIterator( obj );
+		Iterator iter = new ContentIterator( getModule( ), obj );
 		while ( iter.hasNext( ) ) // for each virtual element in the child
 		{
 			DesignElement virtualElement = (DesignElement) iter.next( );
@@ -3141,9 +3155,9 @@ public abstract class ModuleWriter extends ElementVisitor
 				else if ( propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE )
 					writeSimplePropertyList( virtualElement, propDefn.getName( ) );
 				else
-					writeProperty( virtualElement,
-							getTagByPropertyType( propDefn ), propDefn
-									.getName( ), cdata );
+					writeProperty( virtualElement, ModelUtil
+							.getTagByPropertyType( propDefn ), propDefn
+							.getName( ), cdata );
 			}
 
 			writer.endElement( ); // end ��ref-entry��
@@ -3295,12 +3309,11 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.startElement( DesignSchemaConstants.CUBE_TAG );
 		super.visitCube( obj );
 		property( obj, ICubeModel.DATA_SET_PROP );
+		writeStructureList( obj, ICubeModel.FILTER_PROP );
 		writeStructureList( obj, ICubeModel.DIMENSION_CONDITIONS_PROP );
 
-		writeContents( obj, ICubeModel.DIMENSION_SLOT,
-				DesignSchemaConstants.DIMENSIONS_TAG );
-		writeContents( obj, ICubeModel.MEASURE_SLOT,
-				DesignSchemaConstants.MEASURES_TAG );
+		writeContents( obj, ICubeModel.DIMENSIONS_PROP );
+		writeContents( obj, ICubeModel.MEASURE_GROUPS_PROP );
 
 		writer.endElement( );
 	}
@@ -3316,8 +3329,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		super.visitDimension( obj );
 		property( obj, IDimensionModel.IS_TIME_TYPE_PROP );
 
-		writeContents( obj, IDimensionModel.HIERARCHY_SLOT,
-				DesignSchemaConstants.HIERARCHIES_TAG );
+		writeContents( obj, IDimensionModel.HIERARCHIES_PROP );
 
 		writer.endElement( );
 	}
@@ -3332,10 +3344,10 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.startElement( DesignSchemaConstants.HIERARCHY_TAG );
 		super.visitHierarchy( obj );
 		property( obj, IHierarchyModel.DATA_SET_PROP );
+		writeStructureList( obj, ICubeModel.FILTER_PROP );
 		writeSimplePropertyList( obj, IHierarchyModel.PRIMARY_KEYS_PROP );
 
-		writeContents( obj, IHierarchyModel.LEVEL_SLOT,
-				DesignSchemaConstants.LEVELS_TAG );
+		writeContents( obj, IHierarchyModel.LEVELS_PROP );
 
 		writer.endElement( );
 	}
@@ -3350,7 +3362,26 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.startElement( DesignSchemaConstants.LEVEL_TAG );
 		super.visitLevel( obj );
 		property( obj, ILevelModel.COLUMN_NAME_PROP );
+		property( obj, ILevelModel.INTERVAL_BASE_PROP );
+		property( obj, ILevelModel.INTERVAL_PROP );
+		property( obj, ILevelModel.INTERVAL_RANGE_PROP );
+		property( obj, ILevelModel.LEVEL_TYPE_PROP );
+		writeStructureList( obj, ILevelModel.STATIC_VALUES_PROP );
 		writeStructureList( obj, ILevelModel.ATTRIBUTES_PROP );
+
+		writer.endElement( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitMeasureGroup(org.eclipse.birt.report.model.elements.olap.MeasureGroup)
+	 */
+	public void visitMeasureGroup( MeasureGroup obj )
+	{
+		writer.startElement( DesignSchemaConstants.MEASURE_GROUP_TAG );
+		super.visitMeasureGroup( obj );
+		writeContents( obj, IMeasureGroupModel.MEASURES_PROP );
 
 		writer.endElement( );
 	}

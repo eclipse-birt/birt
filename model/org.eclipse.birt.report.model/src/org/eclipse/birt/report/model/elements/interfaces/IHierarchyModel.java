@@ -24,6 +24,11 @@ public interface IHierarchyModel
 	 */
 
 	static final String DATA_SET_PROP = "dataSet"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the property that defines a list of filter conditions.
+	 */
+	static final String FILTER_PROP = "filter"; //$NON-NLS-1$
 
 	/**
 	 * Name of the property that refers a list of column name from the dataset
@@ -36,5 +41,5 @@ public interface IHierarchyModel
 	 * Identifier of the slot that holds all the level elements.
 	 */
 
-	static final int LEVEL_SLOT = 0;
+	static final String LEVELS_PROP = "levels"; //$NON-NLS-1$
 }

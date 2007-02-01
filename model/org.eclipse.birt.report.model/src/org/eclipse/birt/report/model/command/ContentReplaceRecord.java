@@ -20,7 +20,7 @@ import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ContentReplaceEvent;
 import org.eclipse.birt.report.model.api.elements.table.LayoutUtil;
-import org.eclipse.birt.report.model.core.ContainerSlot;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyleElement;
@@ -28,12 +28,10 @@ import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
-import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
 
 /**
@@ -47,7 +45,7 @@ public class ContentReplaceRecord extends SimpleRecord
 	 * The container element.
 	 */
 
-	protected DesignElement container = null;
+	protected ContainerContext focus = null;
 
 	/**
 	 * The new element.
@@ -62,12 +60,6 @@ public class ContentReplaceRecord extends SimpleRecord
 	protected final DesignElement oldElement;
 
 	/**
-	 * The slot within the container.
-	 */
-
-	protected int slotID = 0;
-
-	/**
 	 * The module set when using element IDs.
 	 */
 
@@ -80,21 +72,13 @@ public class ContentReplaceRecord extends SimpleRecord
 	protected int posn;
 
 	/**
-	 * The container slot where the record executes.
-	 */
-
-	protected ContainerSlot slot = null;
-
-	/**
 	 * Constructs the record with container element, slot id, old element, and
 	 * new element.
 	 * 
 	 * @param module
 	 *            the module in which this record executes
-	 * @param containerObj
-	 *            The container element.
-	 * @param theSlot
-	 *            The slotID in which to put the content.
+	 * @param containerInfo
+	 *            The container information.
 	 * @param oldElement
 	 *            the old elemnt to be replaced
 	 * @param newElement
@@ -102,19 +86,18 @@ public class ContentReplaceRecord extends SimpleRecord
 	 * 
 	 */
 
-	public ContentReplaceRecord( Module module, DesignElement containerObj,
-			int theSlot, DesignElement oldElement, DesignElement newElement )
+	public ContentReplaceRecord( Module module, ContainerContext containerInfo,
+			DesignElement oldElement, DesignElement newElement )
 	{
 		this.module = module;
+		this.focus = containerInfo;
 		this.oldElement = oldElement;
 		this.newElement = newElement;
-		this.slotID = theSlot;
-		this.container = containerObj;
-		assert module != null;
 
-		this.slot = container.getSlot( theSlot );
-		assert slot != null;
-		this.posn = slot.findPosn( oldElement );
+		assert module != null;
+		assert containerInfo != null;
+
+		this.posn = focus.indexOf( module, oldElement );
 		assert posn != -1;
 
 		this.label = ModelMessages
@@ -153,16 +136,12 @@ public class ContentReplaceRecord extends SimpleRecord
 	private void replace( DesignElement oldElement, DesignElement newElement )
 	{
 		// remove old one
-
-		slot.remove( oldElement );
 		if ( oldElement.getRoot( ) != null )
 			module.manageId( oldElement, false );
-		oldElement.setContainer( null, IDesignElementModel.NO_SLOT );
+		focus.remove( module, oldElement );
 
 		// add new one
-
-		slot.insert( newElement, posn );
-		newElement.setContainer( container, slotID );
+		focus.add( module, newElement, posn );
 		if ( newElement.getRoot( ) != null )
 			module.manageId( newElement, true );
 	}
@@ -175,7 +154,7 @@ public class ContentReplaceRecord extends SimpleRecord
 
 	public DesignElement getTarget( )
 	{
-		return container;
+		return focus.getElement( );
 	}
 
 	/*
@@ -214,10 +193,8 @@ public class ContentReplaceRecord extends SimpleRecord
 
 	public List getValidators( )
 	{
-		SlotDefn slotDefn = (SlotDefn) container.getDefn( ).getSlot( slotID );
-
-		List list = ValidationExecutor.getValidationNodes( container, slotDefn
-				.getTriggerDefnSet( ), false );
+		List list = ValidationExecutor.getValidationNodes( focus.getElement( ),
+				focus.getTriggerSetForContainerDefn( ), false );
 
 		if ( state != UNDONE_STATE )
 		{
@@ -250,6 +227,7 @@ public class ContentReplaceRecord extends SimpleRecord
 		List retValue = new ArrayList( );
 		retValue.addAll( super.getPostTasks( ) );
 
+		DesignElement container = focus.getElement( );
 		if ( container instanceof TableItem || container instanceof TableGroup
 				|| container instanceof TableRow )
 		{
@@ -307,11 +285,9 @@ public class ContentReplaceRecord extends SimpleRecord
 		// "target" element
 
 		if ( state != UNDONE_STATE )
-			event = new ContentReplaceEvent( container, oldElement, newElement,
-					slotID );
+			event = new ContentReplaceEvent( focus, oldElement, newElement );
 		else
-			event = new ContentReplaceEvent( container, newElement, oldElement,
-					slotID );
+			event = new ContentReplaceEvent( focus, newElement, oldElement );
 
 		if ( state == DONE_STATE )
 			event.setSender( sender );

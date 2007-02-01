@@ -544,7 +544,7 @@ public final class ErrorDetail
 		{
 			Module root = element.getRoot( );
 			if ( root != null )
-				return root.getLineNoByID( element.getID( ) );
+				return root.getLineNo( element );
 			else
 				return 1;
 		}

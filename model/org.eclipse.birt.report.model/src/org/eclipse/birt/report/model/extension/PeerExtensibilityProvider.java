@@ -405,7 +405,8 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 			if ( value == null )
 			{
 				// Get the raw xml data from parent.
-				ExtendedItem parent = (ExtendedItem)ModelUtil.getParent( element );
+				ExtendedItem parent = (ExtendedItem) ModelUtil
+						.getParent( element );
 				while ( parent != null )
 				{
 					// get the value from the parent provider: read from the
@@ -424,7 +425,7 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 					if ( value != null )
 						break;
 
-					parent = (ExtendedItem)ModelUtil.getParent( parent );
+					parent = (ExtendedItem) ModelUtil.getParent( parent );
 				}
 			}
 			else
@@ -558,8 +559,32 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 			PropertyDefn propDefn = element.getPropertyDefn( propName );
 
 			Object value = source.extensionPropValues.get( propName );
+			if ( value == null )
+				continue;
+			
 			Object valueToSet = ModelUtil.copyValue( propDefn, value );
+			if ( valueToSet == null )
+				continue;
 			extensionPropValues.put( propName, valueToSet );
+
+			// if the property is element type, then set-up the container
+			// relationship
+			if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
+			{
+				if ( propDefn.isList( ) )
+				{
+					List values = (ArrayList) valueToSet;
+					for ( int i = 0; i < values.size( ); i++ )
+					{
+						DesignElement item = (DesignElement) values.get( i );
+						item.setContainer( element, propName );
+					}
+				}
+				else
+				{
+					( (DesignElement) valueToSet ).setContainer( element, propName );
+				}
+			}
 		}
 	}
 

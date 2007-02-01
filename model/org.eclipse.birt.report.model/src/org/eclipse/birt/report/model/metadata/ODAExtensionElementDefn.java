@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
@@ -81,12 +82,43 @@ public final class ODAExtensionElementDefn extends ExtensionElementDefn
 
 		buildProperties( );
 
+		// set the xml-name
+
+		buildXmlName( );
+
 		buildPrivateDriverProperties( );
 
 		// build validation trigger
 		buildTriggerDefnSet( );
 
 		isBuilt = true;
+	}
+
+	/**
+	 * Sets up the xml name of the definition.
+	 */
+
+	private void buildXmlName( )
+	{
+		String tmpXmlName = null;
+
+		ElementDefn tmpDefn = (ElementDefn) MetaDataDictionary.getInstance( )
+				.getElement( ReportDesignConstants.ODA_DATA_SET );
+		if ( isKindOf( tmpDefn ) )
+		{
+			tmpXmlName = tmpDefn.getXmlName( );
+		}
+		else
+		{
+			tmpDefn = (ElementDefn) MetaDataDictionary.getInstance( )
+					.getElement( ReportDesignConstants.ODA_DATA_SOURCE );
+			if ( isKindOf( tmpDefn ) )
+			{
+				tmpXmlName = tmpDefn.getXmlName( );
+			}
+		}
+
+		setXmlName( tmpXmlName );
 	}
 
 	/**

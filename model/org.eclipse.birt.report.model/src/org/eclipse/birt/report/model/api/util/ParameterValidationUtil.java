@@ -771,11 +771,13 @@ public class ParameterValidationUtil
 		else if ( value instanceof String )
 		{
 			StringFormatter formatter = new StringFormatter( DEFAULT_LOCALE );
+			formatter.setTrim( false );
 			return formatter.format( (String) value );
 		}
 		else
 		{
 			StringFormatter formatter = new StringFormatter( DEFAULT_LOCALE );
+			formatter.setTrim( false );
 			return formatter.format( value.toString( ) );
 		}
 	}
@@ -875,12 +877,14 @@ public class ParameterValidationUtil
 				|| value instanceof String )
 		{
 			StringFormatter formatter = new StringFormatter( locale );
+			formatter.setTrim( false );
 			formatter.applyPattern( format );
 			return formatter.format( (String) value );
 		}
 		else
 		{
 			StringFormatter formatter = new StringFormatter( locale );
+			formatter.setTrim( false );
 			formatter.applyPattern( format );
 			return formatter.format( value.toString( ) );
 		}

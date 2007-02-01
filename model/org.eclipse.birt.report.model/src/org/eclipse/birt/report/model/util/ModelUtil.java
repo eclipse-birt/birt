@@ -55,14 +55,12 @@ import org.eclipse.birt.report.model.api.util.ElementExportUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.core.BackRef;
-import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.DataSet;
-import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.Library;
@@ -365,6 +363,10 @@ public class ModelUtil
 
 			case IPropertyType.LIST_TYPE :
 				return ModelUtil.clonePropertyList( (List) value );
+			case IPropertyType.ELEMENT_TYPE :
+				if ( propDefn.isList( ) )
+					return null;
+				return getCopy( (DesignElement) value );
 		}
 
 		return value;
@@ -395,6 +397,26 @@ public class ModelUtil
 			{
 				returnList.add( item );
 			}
+		}
+		return returnList;
+	}
+
+	/**
+	 * Copies a list of design elements.
+	 * 
+	 * @param value
+	 *            the value to copy
+	 * @return the cloned list of design elements
+	 */
+	private static List cloneElementList( List value )
+	{
+		if ( value == null )
+			return null;
+		ArrayList returnList = new ArrayList( );
+		for ( int i = 0; i < value.size( ); i++ )
+		{
+			DesignElement item = (DesignElement) value.get( i );
+			returnList.add( getCopy( item ) );
 		}
 		return returnList;
 	}
@@ -662,12 +684,7 @@ public class ModelUtil
 		ns.insert( theme );
 
 		// Add the item to the container.
-
-		library.getSlot( ILibraryModel.THEMES_SLOT ).add( theme );
-
-		// Cache the inverse relationship.
-
-		theme.setContainer( library, ILibraryModel.THEMES_SLOT );
+		library.add( theme, ILibraryModel.THEMES_SLOT );
 	}
 
 	/**
@@ -698,11 +715,11 @@ public class ModelUtil
 			revisePropertyNameSpace( module, content, propDefn, nameSpace );
 		}
 
-		for ( int i = 0; i < defn.getSlotCount( ); i++ )
+		Iterator iter = new LevelContentIterator( module, content, 1 );
+		while ( iter.hasNext( ) )
 		{
-			ContainerSlot slot = content.getSlot( i );
-			for ( int pos = 0; pos < slot.getCount( ); pos++ )
-				reviseNameSpace( module, slot.getContent( pos ), nameSpace );
+			DesignElement item = (DesignElement) iter.next( );
+			reviseNameSpace( module, item, nameSpace );
 		}
 	}
 
@@ -743,6 +760,7 @@ public class ModelUtil
 	/**
 	 * Determines whether there is a child in the given element, which is kind
 	 * of the given element definition.
+	 * @param module 
 	 * 
 	 * @param element
 	 *            the element to find
@@ -752,7 +770,7 @@ public class ModelUtil
 	 *         definition, otherwise false
 	 */
 
-	public static boolean containElement( DesignElement element,
+	public static boolean containElement( Module module, DesignElement element,
 			IElementDefn defn )
 	{
 		if ( element == null || defn == null )
@@ -760,29 +778,22 @@ public class ModelUtil
 
 		// Check contents.
 
-		int count = element.getDefn( ).getSlotCount( );
-		for ( int i = 0; i < count; i++ )
+		Iterator iter = new ContentIterator( module, element );
+		while ( iter.hasNext( ) )
 		{
-			Iterator iter = element.getSlot( i ).iterator( );
-			while ( iter.hasNext( ) )
-			{
-				DesignElement e = (DesignElement) iter.next( );
-				IElementDefn targetDefn = e.getDefn( );
-
-				if ( targetDefn.isKindOf( defn ) )
-					return true;
-
-				if ( containElement( e, defn ) )
-					return true;
-			}
+			DesignElement e = (DesignElement) iter.next( );
+			IElementDefn targetDefn = e.getDefn( );
+			if ( targetDefn.isKindOf( defn ) )
+				return true;
 		}
-
 		return false;
 	}
 
 	/**
 	 * Determines whether there is a child in the given element, which is kind
 	 * of the given element definition.
+	 * 
+	 * @param module
 	 * 
 	 * @param element
 	 *            the element to find
@@ -792,12 +803,12 @@ public class ModelUtil
 	 *         definition, otherwise false
 	 */
 
-	public static boolean containElement( DesignElement element,
+	public static boolean containElement( Module module, DesignElement element,
 			String elementName )
 	{
 		IElementDefn defn = MetaDataDictionary.getInstance( ).getElement(
 				elementName );
-		return containElement( element, defn );
+		return containElement( module, element, defn );
 	}
 
 	/**
@@ -816,12 +827,10 @@ public class ModelUtil
 		try
 		{
 			DesignElement copy = (DesignElement) element.clone( );
-			assert copy != null;
 			return copy;
 		}
 		catch ( CloneNotSupportedException e )
 		{
-			assert false;
 			return null;
 		}
 	}
@@ -1218,8 +1227,7 @@ public class ModelUtil
 		int ns = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
 		if ( element.getName( ) != null
 				&& ns != MetaDataConstants.NO_NAME_SPACE
-				&& element.getContainer( ).isManagedByNameSpace(
-						element.getContainerSlot( ) ) )
+				&& element.getContainerInfo( ).isManagedByNameSpace( ) )
 			module.getNameSpace( ns ).insert( element );
 	}
 
@@ -1419,5 +1427,45 @@ public class ModelUtil
 			return filePath;
 
 		return filePath.replace( '\\', '/' );
+	}
+
+	/**
+	 * Returns the tag according to the simple property type. If the property
+	 * type is structure or structure list, this method can not be used.
+	 * 
+	 * <ul>
+	 * <li>EXPRESSION_TAG, if the property is expression;
+	 * <li>XML_PROPERTY_TAG, if the property is xml;
+	 * <li>METHOD_TAG, if the property is method;
+	 * <li>PROPERTY_TAG, if the property is string, number, and so on.
+	 * </ul>
+	 * 
+	 * @param prop
+	 *            the property definition
+	 * @return the tag of this property
+	 */
+
+	public static String getTagByPropertyType( PropertyDefn prop )
+	{
+		assert prop != null;
+		assert prop.getTypeCode( ) != IPropertyType.STRUCT_TYPE;
+
+		switch ( prop.getTypeCode( ) )
+		{
+			case IPropertyType.EXPRESSION_TYPE :
+				return DesignSchemaConstants.EXPRESSION_TAG;
+
+			case IPropertyType.XML_TYPE :
+				return DesignSchemaConstants.XML_PROPERTY_TAG;
+
+			case IPropertyType.SCRIPT_TYPE :
+				return DesignSchemaConstants.METHOD_TAG;
+
+			default :
+				if ( prop.isEncryptable( ) )
+					return DesignSchemaConstants.ENCRYPTED_PROPERTY_TAG;
+
+				return DesignSchemaConstants.PROPERTY_TAG;
+		}
 	}
 }

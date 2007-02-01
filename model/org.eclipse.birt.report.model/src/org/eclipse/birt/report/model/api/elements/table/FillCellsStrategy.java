@@ -84,21 +84,23 @@ public class FillCellsStrategy
 		int columnCount = layoutTable.getColumnCount( );
 		TableItem table = layoutTable.table;
 
-		fillsEmptyCellsForSlot( table.getSlot( IListingElementModel.HEADER_SLOT ),
-				layoutTable.getHeader( ), columnCount );
+		fillsEmptyCellsForSlot( table
+				.getSlot( IListingElementModel.HEADER_SLOT ), layoutTable
+				.getHeader( ), columnCount );
 
 		ContainerSlot groups = table.getSlot( IListingElementModel.GROUP_SLOT );
 		int groupCount = groups.getCount( );
 		for ( int i = 0; i < groupCount; i++ )
 		{
 			TableGroup group = (TableGroup) groups.getContent( i );
-			fillsEmptyCellsForSlot( group.getSlot( IGroupElementModel.HEADER_SLOT ),
-					layoutTable.getGroupHeaders( ).getLayoutSlot( i ),
-					columnCount );
+			fillsEmptyCellsForSlot( group
+					.getSlot( IGroupElementModel.HEADER_SLOT ), layoutTable
+					.getGroupHeaders( ).getLayoutSlot( i ), columnCount );
 		}
 
-		fillsEmptyCellsForSlot( table.getSlot( IListingElementModel.DETAIL_SLOT ),
-				layoutTable.getDetail( ), columnCount );
+		fillsEmptyCellsForSlot( table
+				.getSlot( IListingElementModel.DETAIL_SLOT ), layoutTable
+				.getDetail( ), columnCount );
 
 		// the group level in the group is from 0 to groupCount - 1;
 		// the group level in the layout slot band is from groupCount - 1 to 0.
@@ -107,13 +109,14 @@ public class FillCellsStrategy
 		{
 			TableGroup group = (TableGroup) groups.getContent( groupCount - i
 					- 1 );
-			fillsEmptyCellsForSlot( group.getSlot( IGroupElementModel.FOOTER_SLOT ),
-					layoutTable.getGroupFooters( ).getLayoutSlot( i ),
-					columnCount );
+			fillsEmptyCellsForSlot( group
+					.getSlot( IGroupElementModel.FOOTER_SLOT ), layoutTable
+					.getGroupFooters( ).getLayoutSlot( i ), columnCount );
 		}
 
-		fillsEmptyCellsForSlot( table.getSlot( IListingElementModel.FOOTER_SLOT ),
-				layoutTable.getFooter( ), columnCount );
+		fillsEmptyCellsForSlot( table
+				.getSlot( IListingElementModel.FOOTER_SLOT ), layoutTable
+				.getFooter( ), columnCount );
 	}
 
 	/**
@@ -246,9 +249,7 @@ public class FillCellsStrategy
 				continue;
 
 			Cell cell = new Cell( );
-			cell.setContainer( row, ITableRowModel.CONTENT_SLOT );
-			row.getSlot( ITableRowModel.CONTENT_SLOT ).insert( cell, posn );
-
+			row.add( cell, ITableRowModel.CONTENT_SLOT, posn );
 			layoutRow.fillCells( layoutTable.getNextCellId( ),
 					positionsToFillLayoutCells[i], 1, 0, cell, false );
 		}

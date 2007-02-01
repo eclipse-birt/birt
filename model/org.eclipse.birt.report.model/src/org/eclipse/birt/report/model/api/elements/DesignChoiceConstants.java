@@ -742,4 +742,11 @@ public interface DesignChoiceConstants
 	public static final String MEASURE_FUNCTION_COUNT = "count"; //$NON-NLS-1$
 	public static final String MEASURE_FUNCTION_MIN = "min"; //$NON-NLS-1$
 	public static final String MEASURE_FUNCTION_MAX = "max"; //$NON-NLS-1$
+	
+	/**
+	 * Level type constants.
+	 */
+	String CHOICE_LEVEL_TYPE = "levelType"; //$NON-NLS-1$
+	String LEVEL_TYPE_DYNAMIC = "dynamic"; //$NON-NLS-1$
+	String LEVEL_TYPE_MIRRORED = "mirrored"; //$NON-NLS-1$
 };

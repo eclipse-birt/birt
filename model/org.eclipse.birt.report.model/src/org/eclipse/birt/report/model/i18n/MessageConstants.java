@@ -63,7 +63,6 @@ public interface MessageConstants
 	public static final String CONTENT_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN = "Error.ContentException.STRUCTURE_CHANGE_FORBIDDEN"; //$NON-NLS-1$
 	public static final String CONTENT_EXCEPTION_SLOT_NOT_FOUND = "Error.ContentException.SLOT_NOT_FOUND"; //$NON-NLS-1$
 	public static final String CONTENT_EXCEPTION_WRONG_TYPE = "Error.ContentException.WRONG_TYPE"; //$NON-NLS-1$
-	public static final String CONTENT_EXCEPTION_DROP_FORBIDDEN = "Error.ContentException.DROP_FORBIDDEN"; //$NON-NLS-1$
 	public static final String CONTENT_EXCEPTION_CONTENT_NOT_FOUND = "Error.ContentException.CONTENT_NOT_FOUND"; //$NON-NLS-1$
 
 	public static final String CONTENT_EXCEPTION_NOT_CONTAINER = "Error.ContentException.NOT_CONTAINER"; //$NON-NLS-1$

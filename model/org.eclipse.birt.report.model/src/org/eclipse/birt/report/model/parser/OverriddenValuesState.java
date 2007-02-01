@@ -60,7 +60,7 @@ class OverriddenValuesState extends AbstractParseState
 		this.handler = handler;
 
 		assert element.getExtendsElement( ) != null;
-		baseIdMap = ElementStructureUtil.getIdMap( element );
+		baseIdMap = ElementStructureUtil.getIdMap( handler.module, element );
 	}
 
 	/*

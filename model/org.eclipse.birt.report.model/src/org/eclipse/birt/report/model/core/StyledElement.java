@@ -250,13 +250,6 @@ public abstract class StyledElement extends DesignElement
 		if ( !prop.isStyleProperty( ) )
 			return getProperty( module, prop );
 
-		if ( prop.isIntrinsic( ) )
-		{
-			// This is an intrinsic system-defined property.
-
-			return getIntrinsicProperty( prop.getName( ) );
-		}
-
 		// Get the value from this element and its parent.
 
 		Object value = getStrategy( ).getPropertyFromElement( module, this,

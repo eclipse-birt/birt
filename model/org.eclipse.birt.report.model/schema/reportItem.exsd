@@ -58,7 +58,7 @@
             <element ref="method" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="propertyVisibility" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="style" minOccurs="0" maxOccurs="unbounded"/>
-            <element ref="slot" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="overrideProperty" minOccurs="0" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="extensionName" type="string" use="required">
             <annotation>
@@ -98,7 +98,7 @@
          <attribute name="extendsFrom" type="string" use="default" value="ExtendedItem">
             <annotation>
                <documentation>
-                  Represent the parent element definition extending from. It can be one of the report items defined in ROM, or group element defined in ROM, or other extensions from this point. By default, it is &apos;ExtendedItem&apos;.
+                  Represent the parent element definition extending from. It can be one of the report elements defined in ROM, or group element defined in ROM, or other extensions from this point. By default, it is &apos;ExtendedItem&apos;.
                </documentation>
             </annotation>
          </attribute>
@@ -131,6 +131,7 @@
       <complexType>
          <sequence>
             <element ref="choice" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="elementType" minOccurs="0" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="name" type="string" use="required">
             <annotation>
@@ -149,7 +150,11 @@
          <attribute name="type" use="required">
             <annotation>
                <documentation>
-                  
+                  Generally, if property is of simple type(string, number, integer, dimension, color, boolean, expression, html, uri, dateTime, xml, name, float, literalString, resourceKey), then it is useless to set &quot;subType&quot; and &quot;detailType&quot; for the property; If type is &quot;choice&quot;, then either define customized choices or set &quot;detailType&quot; to name of the preferred choice set in rom.def; If type is &quot;list&quot;, the &quot;subType&quot; is required to determine the item type in the list value and by default its value is &quot;string&quot;; If type is &quot;structure&quot;, &quot;detailType&quot; is required to refer a structure definition name in rom.def and set &quot;isList&quot; to true if value is not single; If type is &quot;elementRef&quot;, &quot;detailType&quot; is required to refer an element definition name in  rom.def or an extension name of any report item extension; If type is &quot;element&quot;, then set &quot;isList&quot; to true if the property value list is not single.
+choice:
+list:
+structure, elementRef and element
+
                </documentation>
             </annotation>
             <simpleType>
@@ -189,6 +194,10 @@
                   <enumeration value="resourceKey">
                   </enumeration>
                   <enumeration value="structure">
+                  </enumeration>
+                  <enumeration value="elementRef">
+                  </enumeration>
+                  <enumeration value="element">
                   </enumeration>
                </restriction>
             </simpleType>
@@ -475,61 +484,6 @@ When &quot;type&quot; is &quot;structure&quot;, extension must define &quot;deta
       </complexType>
    </element>
 
-   <element name="slot">
-      <annotation>
-         <documentation>
-            (no description available)
-         </documentation>
-      </annotation>
-      <complexType>
-         <sequence>
-            <element ref="elementType" minOccurs="1" maxOccurs="unbounded"/>
-         </sequence>
-         <attribute name="name" type="string" use="required">
-            <annotation>
-               <documentation>
-                  The internal name of this slot. It is used to identify the slot within this report item.
-               </documentation>
-            </annotation>
-         </attribute>
-         <attribute name="xmlTagName" type="string" use="required">
-            <annotation>
-               <documentation>
-                  The xml tag name must be unique within the report item scope. It is used to write the slot to xml file.
-               </documentation>
-            </annotation>
-         </attribute>
-         <attribute name="displayNameID" type="string">
-            <annotation>
-               <documentation>
-                  (no description available)
-               </documentation>
-            </annotation>
-         </attribute>
-         <attribute name="defaultDisplayName" type="string">
-            <annotation>
-               <documentation>
-                  The default display name, which is used if no localized display name is found with I18N.
-               </documentation>
-            </annotation>
-         </attribute>
-         <attribute name="multipleCardinality" type="boolean" use="default" value="true">
-            <annotation>
-               <documentation>
-                  (no description available)
-               </documentation>
-            </annotation>
-         </attribute>
-         <attribute name="defaultStyle" type="string">
-            <annotation>
-               <documentation>
-                  Selector name defined for this slot.
-               </documentation>
-            </annotation>
-         </attribute>
-      </complexType>
-   </element>
-
    <element name="elementType">
       <annotation>
          <documentation>
@@ -541,6 +495,30 @@ When &quot;type&quot; is &quot;structure&quot;, extension must define &quot;deta
             <annotation>
                <documentation>
                   Name of the element which is allowed in the slot. The name must be consistent with those defined in &apos;rom.def&apos; or some other reportItem extensions.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="overrideProperty">
+      <annotation>
+         <documentation>
+            override allowed units.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="propertyName" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="allowedChoices" type="string">
+            <annotation>
+               <documentation>
+                  units choices that use &apos;,&apos; as seperator. For example: if only allowed &apos;in&apos; and &apos;cm&apos; as allowed units, can set it as &apos;in,cm&apos;.
                </documentation>
             </annotation>
          </attribute>

@@ -29,6 +29,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ParameterFormatValu
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyledElement;
@@ -55,6 +56,8 @@ import org.eclipse.birt.report.model.metadata.ODAExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.VersionUtil;
+import org.eclipse.birt.report.model.util.XMLParserException;
+import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 /**
@@ -120,6 +123,24 @@ class PropertyState extends AbstractPropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#parseAttrs(org.xml.sax.Attributes)
+	 */
+
+	public void parseAttrs( Attributes attrs ) throws XMLParserException
+	{
+		super.parseAttrs( attrs );
+
+		if ( handler.markLineNumber
+				&& IModuleModel.THEME_PROP.equalsIgnoreCase( name ) )
+		{
+			handler.module.addLineNo( element.getPropertyDefn( name ),
+					new Integer( handler.getCurrentLineNo( ) ) );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
@@ -161,7 +182,6 @@ class PropertyState extends AbstractPropertyState
 		{
 			setProperty( name, value );
 		}
-
 	}
 
 	/*
@@ -177,6 +197,13 @@ class PropertyState extends AbstractPropertyState
 			jmpDefn = struct.getDefn( ).getMember( name );
 		else
 			jmpDefn = element.getPropertyDefn( name );
+		
+		if ( jmpDefn != null && jmpDefn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
+		{
+			ElementPropertyState state = new ElementPropertyState( handler, element );
+			state.setName( name );
+			return state;
+		}
 
 		if ( element instanceof ListGroup
 				&& IGroupElementModel.GROUP_START_PROP.equalsIgnoreCase( name ) )
@@ -342,7 +369,8 @@ class PropertyState extends AbstractPropertyState
 
 			if ( elementDefn != null )
 			{
-				List privatePropDefns = elementDefn.getODAPrivateDriverPropertyNames( );
+				List privatePropDefns = elementDefn
+						.getODAPrivateDriverPropertyNames( );
 				if ( privatePropDefns.contains( name ) )
 				{
 					CompatibleODAPrivatePropertyState state = new CompatibleODAPrivatePropertyState(

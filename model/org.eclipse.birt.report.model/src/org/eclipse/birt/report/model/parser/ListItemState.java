@@ -46,6 +46,24 @@ public class ListItemState extends ListingItemState
 	{
 		super( handler, theContainer, slot );
 	}
+	
+	/**
+	 * Constructs list item state with the design parser handler, the container
+	 * element and the container property name of the report element.
+	 * 
+	 * @param handler
+	 *            the design file parser handler
+	 * @param theContainer
+	 *            the element that contains this one
+	 * @param prop
+	 *            the slot in which this element appears
+	 */
+
+	public ListItemState( ModuleParserHandler handler,
+			DesignElement theContainer, String prop )
+	{
+		super( handler, theContainer, prop );
+	}
 
 	/*
 	 * (non-Javadoc)

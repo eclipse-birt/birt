@@ -28,12 +28,11 @@ import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
-import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
-import org.eclipse.birt.report.model.core.ContainerSlot;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
@@ -50,11 +49,13 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.metadata.IContainerDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
+import org.eclipse.birt.report.model.util.ContentExceptionFactory;
+import org.eclipse.birt.report.model.util.LevelContentIterator;
 
 /**
  * This class adds, deletes and moves content elements. Adding a content element
@@ -73,19 +74,21 @@ import org.eclipse.birt.report.model.metadata.StructRefValue;
 public class ContentCommand extends AbstractElementCommand
 {
 
+	protected final ContainerContext focus;
+
 	/**
 	 * Constructs the content command with container element.
 	 * 
 	 * @param module
 	 *            the module
-	 * @param container
-	 *            the container element
+	 * @param containerInfo
+	 *            the container infor
 	 */
 
-	public ContentCommand( Module module, DesignElement container )
+	public ContentCommand( Module module, ContainerContext containerInfo )
 	{
-		super( module, container );
-
+		super( module, containerInfo.getElement( ) );
+		this.focus = containerInfo;
 	}
 
 	/**
@@ -97,8 +100,6 @@ public class ContentCommand extends AbstractElementCommand
 	 * 
 	 * @param content
 	 *            the element to add
-	 * @param slotID
-	 *            the slot in which to add the component
 	 * @param newPos
 	 *            the position index at which the content to be inserted. If
 	 *            it's -1, the content will be inserted at the end of the slot.
@@ -108,11 +109,11 @@ public class ContentCommand extends AbstractElementCommand
 	 *             if the name of the content exists in name space.
 	 */
 
-	public void add( DesignElement content, int slotID, int newPos )
+	public void add( DesignElement content, int newPos )
 			throws ContentException, NameException
 	{
 		assert newPos >= 0 || newPos == -1;
-		doAdd( content, slotID, newPos );
+		doAdd( content, newPos );
 	}
 
 	/**
@@ -131,10 +132,10 @@ public class ContentCommand extends AbstractElementCommand
 	 *             if the name of the content exists in name space.
 	 */
 
-	public void add( DesignElement content, int slotID )
-			throws ContentException, NameException
+	public void add( DesignElement content ) throws ContentException,
+			NameException
 	{
-		doAdd( content, slotID, -1 );
+		doAdd( content, -1 );
 	}
 
 	/**
@@ -158,7 +159,7 @@ public class ContentCommand extends AbstractElementCommand
 	 *             if the name of the content exists in name space.
 	 */
 
-	private void doAdd( DesignElement content, int slotID, int newPos )
+	private void doAdd( DesignElement content, int newPos )
 			throws ContentException, NameException
 	{
 		assert content.getContainer( ) == null;
@@ -167,62 +168,63 @@ public class ContentCommand extends AbstractElementCommand
 
 		ElementDefn metaData = (ElementDefn) element.getDefn( );
 		if ( !metaData.isContainer( ) )
-			throw new ContentException( element, slotID,
+			throw ContentExceptionFactory.createContentException( focus,
 					ContentException.DESIGN_EXCEPTION_NOT_CONTAINER );
-		SlotDefn slotInfo = (SlotDefn) metaData.getSlot( slotID );
-		if ( slotInfo == null )
-			throw new ContentException( element, slotID,
+		IContainerDefn containerDefn = focus.getContainerDefn( );
+		if ( containerDefn == null )
+			throw ContentExceptionFactory.createContentException( focus,
 					ContentException.DESIGN_EXCEPTION_SLOT_NOT_FOUND );
-		if ( !slotInfo.canContain( content ) )
-			throw new ContentException( element, slotID, content,
-					ContentException.DESIGN_EXCEPTION_WRONG_TYPE );
+		if ( !containerDefn.canContain( content ) )
+			throw ContentExceptionFactory.createContentException( focus,
+					content, ContentException.DESIGN_EXCEPTION_WRONG_TYPE );
 
 		// Can not change the structure of child element or a virtual element(
 		// inside the child ).
 
 		if ( element.isVirtualElement( ) || element.getExtendsName( ) != null )
-			throw new ContentException(
-					element,
-					slotID,
-					content,
-					ContentException.DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN );
+			throw ContentExceptionFactory
+					.createContentException(
+							focus,
+							content,
+							ContentException.DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN );
 
 		// This element is already the content of the element to add.
 
 		if ( element.isContentOf( content ) )
-			throw new ContentException( element, slotID, content,
-					ContentException.DESIGN_EXCEPTION_RECURSIVE );
+			throw ContentExceptionFactory.createContentException( focus,
+					content, ContentException.DESIGN_EXCEPTION_RECURSIVE );
 
 		// If this is a single-item slot, ensure that the slot is empty.
 
-		if ( !slotInfo.isMultipleCardinality( )
-				&& element.getSlot( slotID ).getCount( ) > 0 )
+		if ( !focus.isContainerMultipleCardinality( )
+				&& focus.getContentCount( module ) > 0 )
 		{
-			throw new ContentException( element, slotID,
+			throw ContentExceptionFactory.createContentException( focus,
 					ContentException.DESIGN_EXCEPTION_SLOT_IS_FULL );
 		}
 
-		if ( slotID == IModuleModel.COMPONENT_SLOT )
+		if ( focus.getSlotID( ) == IModuleModel.COMPONENT_SLOT )
 		{
 			if ( StringUtil.isBlank( content.getName( ) ) )
-				throw new ContentException( element, slotID, content,
-						ContentException.DESIGN_EXCEPTION_CONTENT_NAME_REQUIRED );
+				throw ContentExceptionFactory
+						.createContentException(
+								focus,
+								content,
+								ContentException.DESIGN_EXCEPTION_CONTENT_NAME_REQUIRED );
 		}
 
-		checkContainmentContext( slotID, content );
+		checkContainmentContext( content );
 
 		// Add the item to the container.
 
 		ContentRecord addRecord;
 		if ( newPos == -1 )
 		{
-			addRecord = new ContentRecord( module, element, slotID, content,
-					true );
+			addRecord = new ContentRecord( module, focus, content, true );
 		}
 		else
 		{
-			addRecord = new ContentRecord( module, element, slotID, content,
-					newPos );
+			addRecord = new ContentRecord( module, focus, content, newPos );
 		}
 
 		ActivityStack stack = getActivityStack( );
@@ -232,8 +234,8 @@ public class ContentCommand extends AbstractElementCommand
 		{
 			// add the template parameter definition first
 
-			TemplateCommand cmd = new TemplateCommand( module, element );
-			cmd.checkAdd( content, slotID );
+			TemplateCommand cmd = new TemplateCommand( module, focus );
+			cmd.checkAdd( content );
 
 			// add the element
 
@@ -298,10 +300,10 @@ public class ContentCommand extends AbstractElementCommand
 	 *             the slot cannot contain the given element.
 	 */
 
-	private void checkContainmentContext( int slotId, DesignElement content )
+	private void checkContainmentContext( DesignElement content )
 			throws NameException, ContentException
 	{
-		List errors = element.checkContainmentContext( module, slotId, content );
+		List errors = focus.checkContainmentContext( module, content );
 		if ( !errors.isEmpty( ) )
 		{
 			SemanticException e = (SemanticException) errors.get( 0 );
@@ -340,12 +342,13 @@ public class ContentCommand extends AbstractElementCommand
 
 		// recusively check the contents and add them
 
-		for ( int i = 0; i < content.getDefn( ).getSlotCount( ); i++ )
+		ElementDefn defn = (ElementDefn) content.getDefn( );
+		if ( defn.isContainer( ) )
 		{
-			ContainerSlot slot = content.getSlot( i );
-			for ( int j = 0; j < slot.getCount( ); j++ )
+			Iterator iter = new LevelContentIterator( module, content, 1 );
+			while ( iter.hasNext( ) )
 			{
-				DesignElement tmpElement = slot.getContent( j );
+				DesignElement tmpElement = (DesignElement) iter.next( );
 				addElementNames( tmpElement );
 			}
 		}
@@ -373,10 +376,9 @@ public class ContentCommand extends AbstractElementCommand
 	 *             if this content cannot be removed from container.
 	 */
 
-	public void remove( DesignElement content, int slotID )
-			throws SemanticException
+	public void remove( DesignElement content ) throws SemanticException
 	{
-		remove( content, slotID, false );
+		remove( content, false );
 	}
 
 	/**
@@ -403,10 +405,10 @@ public class ContentCommand extends AbstractElementCommand
 	 *             if this content cannot be removed from container.
 	 */
 
-	public void remove( DesignElement content, int slotID,
-			boolean unresolveReference ) throws SemanticException
+	public void remove( DesignElement content, boolean unresolveReference )
+			throws SemanticException
 	{
-		doRemove( content, slotID, unresolveReference, false );
+		doRemove( content, unresolveReference, false );
 	}
 
 	/**
@@ -437,10 +439,10 @@ public class ContentCommand extends AbstractElementCommand
 	 *             if this content cannot be removed from container.
 	 */
 
-	public void remove( DesignElement content, int slotID,
-			boolean unresolveReference, boolean flag ) throws SemanticException
+	public void remove( DesignElement content, boolean unresolveReference,
+			boolean flag ) throws SemanticException
 	{
-		doRemove( content, slotID, unresolveReference, flag );
+		doRemove( content, unresolveReference, flag );
 	}
 
 	/**
@@ -458,50 +460,49 @@ public class ContentCommand extends AbstractElementCommand
 	 *             if this content cannot be removed from container.
 	 */
 
-	private void doRemove( DesignElement content, int slotID,
-			boolean unresolveReference, boolean flag ) throws SemanticException
+	private void doRemove( DesignElement content, boolean unresolveReference,
+			boolean flag ) throws SemanticException
 	{
 		assert content != null;
 
 		// Ensure that the content can be dropped from the container.
 
 		if ( !element.getDefn( ).isContainer( ) )
-			throw new ContentException( element, slotID,
+			throw ContentExceptionFactory.createContentException( focus,
 					ContentException.DESIGN_EXCEPTION_NOT_CONTAINER );
-		ContainerSlot slot = element.getSlot( slotID );
-		if ( slot == null )
-			throw new ContentException( element, slotID,
+		IContainerDefn containerDefn = focus.getContainerDefn( );
+		if ( containerDefn == null )
+			throw ContentExceptionFactory.createContentException( focus,
 					ContentException.DESIGN_EXCEPTION_SLOT_NOT_FOUND );
-		if ( !slot.contains( content ) )
-			throw new ContentException( element, slotID, content,
+		if ( !focus.contains( module, content ) )
+			throw ContentExceptionFactory.createContentException( focus,
+					content,
 					ContentException.DESIGN_EXCEPTION_CONTENT_NOT_FOUND );
-		if ( !slot.canDrop( content ) )
-			throw new ContentException( element, slotID, content,
-					ContentException.DESIGN_EXCEPTION_DROP_FORBIDDEN );
 
 		// Can not drop a virtual element. However, if it is called when
 		// dropping the child element, the check should be ignored.
 
-		if ( !content.canDrop( ) && !flag )
-			throw new ContentException(
-					element,
-					slotID,
-					content,
-					ContentException.DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN );
+		if ( !content.canDrop( module ) && !flag )
+			throw ContentExceptionFactory
+					.createContentException(
+							focus,
+							content,
+							ContentException.DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN );
 
 		// if the content is in component slot of report design and it has
 		// children, then the operation is forbidden.
 
-		if ( hasDescendents( content, slotID ) )
+		if ( hasDescendents( content ) )
 		{
-			throw new ContentException( element, slotID,
+			throw ContentExceptionFactory.createContentException(
+					new ContainerContext( content, focus.getSlotID( ) ),
 					ContentException.DESIGN_EXCEPTION_HAS_DESCENDENTS );
 		}
 
 		// Prepare the transaction.
 
-		ContentRecord dropRecord = new ContentRecord( module, element, slotID,
-				content, false );
+		ContentRecord dropRecord = new ContentRecord( module, focus, content,
+				false );
 
 		ActivityStack stack = getActivityStack( );
 
@@ -741,20 +742,17 @@ public class ContentCommand extends AbstractElementCommand
 	{
 		// Skip this step if the element is not a container.
 
-		IElementDefn metaData = obj.getDefn( );
+		ElementDefn metaData = (ElementDefn) obj.getDefn( );
 		if ( !metaData.isContainer( ) )
 			return;
 
-		int slotCount = metaData.getSlotCount( );
-		for ( int slotID = 0; slotID < slotCount; slotID++ )
+		LevelContentIterator iter = new LevelContentIterator( module, obj, 1 );
+		while ( iter.hasNext( ) )
 		{
-			ContainerSlot slot = obj.getSlot( slotID );
-			ContentCommand contentCmd = new ContentCommand( module, obj );
-			while ( !slot.isEmpty( ) )
-			{
-				DesignElement content = slot.getContent( 0 );
-				contentCmd.doRemove( content, slotID, false, true );
-			}
+			DesignElement content = (DesignElement) iter.next( );
+			ContentCommand cmd = new ContentCommand( module, content
+					.getContainerInfo( ) );
+			cmd.remove( content, false, true );
 		}
 	}
 
@@ -766,13 +764,6 @@ public class ContentCommand extends AbstractElementCommand
 	 * 
 	 * @param content
 	 *            the element to move.
-	 * @param fromSlotID
-	 *            the old slot location within the container item associated
-	 *            with this command.
-	 * @param to
-	 *            the new container.
-	 * @param toSlotID
-	 *            the slot within the new container.
 	 * @param newPos
 	 *            the position in the target slot to which the content will be
 	 *            moved. If it is -1 or greater than the size of the target
@@ -781,81 +772,82 @@ public class ContentCommand extends AbstractElementCommand
 	 *             if the content cannot be moved to new container.
 	 */
 
-	private void doMove( DesignElement content, int fromSlotID,
-			DesignElement to, int toSlotID, int newPos )
-			throws ContentException
+	private void doMove( DesignElement content, ContainerContext toContainerInfor,
+			int newPos ) throws ContentException
 	{
 		assert content != null;
-		assert to != null;
+		assert toContainerInfor != null;
 		assert newPos >= -1;
 
 		// Do nothing if source and destination are the same.
-
-		if ( element == to && fromSlotID == toSlotID )
+		if ( focus.equals( toContainerInfor ) )
 			return;
 
 		// Can not change the structure of child element or a virtual element(
 		// inside the child ).
-
 		if ( content.isVirtualElement( ) || content.getExtendsName( ) != null )
-			throw new ContentException(
-					element,
-					fromSlotID,
-					content,
-					ContentException.DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN );
+			throw ContentExceptionFactory
+					.createContentException(
+							focus,
+							content,
+							ContentException.DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN );
 
 		// Cannot put an element inside itself.
-
-		if ( to.isContentOf( content ) )
-			throw new ContentException( to, fromSlotID, content,
+		if ( toContainerInfor.getElement( ).isContentOf( content ) )
+			throw ContentExceptionFactory.createContentException(
+					toContainerInfor, content,
 					ContentException.DESIGN_EXCEPTION_RECURSIVE );
 
 		// Ensure that the content can be put into the container.
 
 		if ( !element.getDefn( ).isContainer( ) )
-			throw new ContentException( element, fromSlotID,
+			throw ContentExceptionFactory.createContentException( focus,
 					ContentException.DESIGN_EXCEPTION_NOT_CONTAINER );
-		if ( !to.getDefn( ).isContainer( ) )
-			throw new ContentException( to, toSlotID,
+		if ( !toContainerInfor.getElement( ).getDefn( ).isContainer( ) )
+			throw ContentExceptionFactory.createContentException(
+					toContainerInfor,
 					ContentException.DESIGN_EXCEPTION_NOT_CONTAINER );
-		ContainerSlot fromSlot = element.getSlot( fromSlotID );
-		if ( fromSlot == null )
-			throw new ContentException( element, fromSlotID,
+		IContainerDefn containerDefn = focus.getContainerDefn( );
+		if ( containerDefn == null )
+			throw ContentExceptionFactory.createContentException( focus,
 					ContentException.DESIGN_EXCEPTION_SLOT_NOT_FOUND );
-		ContainerSlot toSlot = to.getSlot( toSlotID );
-		if ( toSlot == null )
-			throw new ContentException( to, toSlotID,
+		containerDefn = toContainerInfor.getContainerDefn( );
+		if ( containerDefn == null )
+			throw ContentExceptionFactory.createContentException(
+					toContainerInfor,
 					ContentException.DESIGN_EXCEPTION_SLOT_NOT_FOUND );
-		if ( !fromSlot.contains( content ) )
-			throw new ContentException( element, fromSlotID, content,
+		if ( !focus.contains( module, content ) )
+			throw ContentExceptionFactory.createContentException( focus,
+					content,
 					ContentException.DESIGN_EXCEPTION_CONTENT_NOT_FOUND );
-		if ( !fromSlot.canDrop( content ) )
-			throw new ContentException( element, fromSlotID, content,
-					ContentException.DESIGN_EXCEPTION_DROP_FORBIDDEN );
 
 		// if the content is in component slot of report design and it has
 		// children, then the operation is forbidden.
 
-		if ( hasDescendents( content, fromSlotID ) )
+		if ( hasDescendents( content ) )
 		{
-			throw new ContentException( element, fromSlotID,
+			throw ContentExceptionFactory.createContentException(
+					new ContainerContext( content, focus.getSlotID( ) ),
 					ContentException.DESIGN_EXCEPTION_HAS_DESCENDENTS );
 		}
 
-		SlotDefn slotInfo = (SlotDefn) to.getDefn( ).getSlot( toSlotID );
-		if ( !slotInfo.canContain( content ) )
-			throw new ContentException( to, toSlotID, content,
+		containerDefn = toContainerInfor.getContainerDefn( );
+		if ( !containerDefn.canContain( content ) )
+			throw ContentExceptionFactory.createContentException(
+					toContainerInfor, content,
 					ContentException.DESIGN_EXCEPTION_WRONG_TYPE );
-		if ( !slotInfo.isMultipleCardinality( ) && toSlot.getCount( ) > 0 )
-			throw new ContentException( to, toSlotID,
+		if ( !toContainerInfor.isContainerMultipleCardinality( )
+				&& toContainerInfor.getContentCount( module ) > 0 )
+			throw ContentExceptionFactory.createContentException(
+					toContainerInfor,
 					ContentException.DESIGN_EXCEPTION_SLOT_IS_FULL );
 
-		if ( !to.canContain( module, toSlotID, content ) )
-			throw new ContentException(
-					to,
-					toSlotID,
-					content,
-					ContentException.DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT );
+		if ( !toContainerInfor.canContain( module, content ) )
+			throw ContentExceptionFactory
+					.createContentException(
+							toContainerInfor,
+							content,
+							ContentException.DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT );
 
 		ActivityStack stack = getActivityStack( );
 
@@ -863,10 +855,9 @@ public class ContentCommand extends AbstractElementCommand
 				.getMessage( MessageConstants.MOVE_ELEMENT_MESSAGE );
 		stack.startTrans( label );
 
-		ContentRecord record = new ContentRecord( module, element, fromSlotID,
-				content, false );
+		ContentRecord record = new ContentRecord( module, focus, content, false );
 		stack.execute( record );
-		record = new ContentRecord( module, to, toSlotID, content, newPos );
+		record = new ContentRecord( module, toContainerInfor, content, newPos );
 		stack.execute( record );
 		stack.commit( );
 	}
@@ -879,13 +870,8 @@ public class ContentCommand extends AbstractElementCommand
 	 * 
 	 * @param content
 	 *            The element to move.
-	 * @param fromSlotID
-	 *            Old slot location within the container item associated with
-	 *            this command.
-	 * @param to
-	 *            The new container.
-	 * @param toSlotID
-	 *            the slot within the new container.
+	 * @param toContainerInfor
+	 *            the destination container information.
 	 * @param newPos
 	 *            the position in the target slot to which the content will be
 	 *            moved. If it is greater than the size of the target slot, the
@@ -893,11 +879,11 @@ public class ContentCommand extends AbstractElementCommand
 	 * @throws ContentException
 	 */
 
-	public void move( DesignElement content, int fromSlotID, DesignElement to,
-			int toSlotID, int newPos ) throws ContentException
+	public void move( DesignElement content, ContainerContext toContainerInfor,
+			int newPos ) throws ContentException
 	{
 		assert newPos >= 0;
-		doMove( content, fromSlotID, to, toSlotID, newPos );
+		doMove( content, toContainerInfor, newPos );
 	}
 
 	/**
@@ -907,20 +893,15 @@ public class ContentCommand extends AbstractElementCommand
 	 * 
 	 * @param content
 	 *            The element to move.
-	 * @param fromSlotID
-	 *            Old slot location within the container item associated with
-	 *            this command.
-	 * @param to
-	 *            The new container.
-	 * @param toSlotID
-	 *            The slot within the new container.
+	 * @param toContainerInfor
+	 *            the destination container information.
 	 * @throws ContentException
 	 */
 
-	public void move( DesignElement content, int fromSlotID, DesignElement to,
-			int toSlotID ) throws ContentException
+	public void move( DesignElement content, ContainerContext toContainerInfor )
+			throws ContentException
 	{
-		doMove( content, fromSlotID, to, toSlotID, -1 );
+		doMove( content, toContainerInfor, -1 );
 	}
 
 	/**
@@ -942,7 +923,7 @@ public class ContentCommand extends AbstractElementCommand
 	 *             if the content cannot be moved to new container.
 	 */
 
-	public void movePosition( DesignElement content, int slotID, int newPosn )
+	public void movePosition( DesignElement content, int newPosn )
 			throws ContentException
 	{
 		assert content != null;
@@ -950,39 +931,38 @@ public class ContentCommand extends AbstractElementCommand
 		// Ensure that the content can be put into the container.
 
 		if ( !element.getDefn( ).isContainer( ) )
-			throw new ContentException( element, slotID,
+			throw ContentExceptionFactory.createContentException( focus,
 					ContentException.DESIGN_EXCEPTION_NOT_CONTAINER );
-		ContainerSlot slot = element.getSlot( slotID );
-		if ( slot == null )
-			throw new ContentException( element, slotID,
+		IContainerDefn defn = focus.getContainerDefn( );
+		if ( defn == null )
+			throw ContentExceptionFactory.createContentException( focus,
 					ContentException.DESIGN_EXCEPTION_SLOT_NOT_FOUND );
 		if ( !content.isContentOf( element ) )
-			throw new ContentException( element, slotID, content,
+			throw ContentExceptionFactory.createContentException( focus,
+					content,
 					ContentException.DESIGN_EXCEPTION_CONTENT_NOT_FOUND );
 
-		// Skip the step if the slotID has only single content.
-
-		SlotDefn slotInfo = (SlotDefn) element.getDefn( ).getSlot( slotID );
-		if ( !slotInfo.isMultipleCardinality( ) )
+		// Skip the step if the slotID/propName has only single content.
+		if ( !focus.isContainerMultipleCardinality( ) )
 			return;
 
 		// Can not change the structure of child element or a virtual element(
 		// inside the child ).
 
 		if ( content.isVirtualElement( ) )
-			throw new ContentException(
-					element,
-					slotID,
-					content,
-					ContentException.DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN );
+			throw ContentExceptionFactory
+					.createContentException(
+							focus,
+							content,
+							ContentException.DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN );
 
-		if ( !canMovePosition( content, slotID, newPosn ) )
-			throw new ContentException( element, slotID,
+		if ( !canMovePosition( content, newPosn ) )
+			throw ContentExceptionFactory.createContentException( focus,
 					ContentException.DESIGN_EXCEPTION_MOVE_FORBIDDEN );
 
-		int oldPosn = slot.findPosn( content );
-		int adjustedNewPosn = checkAndAdjustPosition( oldPosn, newPosn, slot
-				.getCount( ) );
+		int oldPosn = focus.indexOf( module, content );
+		int adjustedNewPosn = checkAndAdjustPosition( oldPosn, newPosn, focus
+				.getContentCount( module ) );
 		if ( oldPosn == adjustedNewPosn )
 			return;
 
@@ -1007,7 +987,7 @@ public class ContentCommand extends AbstractElementCommand
 
 		// Do the move.
 
-		MoveContentRecord record = new MoveContentRecord( element, slotID,
+		MoveContentRecord record = new MoveContentRecord( module, focus,
 				content, adjustedNewPosn );
 		getActivityStack( ).execute( record );
 	}
@@ -1018,32 +998,28 @@ public class ContentCommand extends AbstractElementCommand
 	 * 
 	 * @param content
 	 *            the element to move position
-	 * @param slotID
-	 *            the slot that contains the element
 	 * @param newPosn
 	 *            the new position within the slot.
 	 * @return true if the content can be moved within the slot, otherwise
 	 *         false.
 	 */
 
-	private boolean canMovePosition( DesignElement content, int slotID,
-			int newPosn )
+	private boolean canMovePosition( DesignElement content, int newPosn )
 	{
 		if ( element instanceof ReportDesign
-				&& slotID == IModuleModel.COMPONENT_SLOT )
+				&& focus.getSlotID( ) == IModuleModel.COMPONENT_SLOT )
 		{
 			List derived = content.getDerived( );
-			ContainerSlot slot = element.getSlot( slotID );
+			// ContainerSlot slot = element.getSlot( slotID );
 			Iterator iter = derived.iterator( );
 			while ( iter.hasNext( ) )
 			{
 				DesignElement child = (DesignElement) iter.next( );
-				if ( slot.contains( child ) )
+				if ( focus.contains( module, child ) )
 				{
 					// if content has child before the new position
 					// then the move of new position is forbidden.
-
-					if ( slot.findPosn( child ) <= newPosn )
+					if ( focus.indexOf( module, child ) <= newPosn )
 						return false;
 				}
 			}
@@ -1052,8 +1028,7 @@ public class ContentCommand extends AbstractElementCommand
 			{
 				// if the content has ancestor behind the new position
 				// then the move of new position is forbidden.
-
-				if ( slot.findPosn( e ) >= newPosn )
+				if ( focus.indexOf( module, e ) >= newPosn )
 					return false;
 				e = e.getExtendsElement( );
 			}
@@ -1067,15 +1042,13 @@ public class ContentCommand extends AbstractElementCommand
 	 * 
 	 * @param content
 	 *            the content to handle
-	 * @param fromSlotID
-	 *            the slot that contains the element
 	 * @return true if content has descendants, otherwise false.
 	 */
 
-	private boolean hasDescendents( DesignElement content, int fromSlotID )
+	private boolean hasDescendents( DesignElement content )
 	{
 		return element instanceof ReportDesign
-				&& fromSlotID == IModuleModel.COMPONENT_SLOT
+				&& focus.getSlotID( ) == IModuleModel.COMPONENT_SLOT
 				&& content.hasDerived( );
 	}
 
@@ -1099,9 +1072,9 @@ public class ContentCommand extends AbstractElementCommand
 	 */
 
 	public void transformTemplate( DesignElement from, DesignElement to,
-			int slotID, boolean unresolveReference ) throws SemanticException
+			boolean unresolveReference ) throws SemanticException
 	{
-		doReplace( from, to, slotID, unresolveReference );
+		doReplace( from, to, unresolveReference );
 	}
 
 	/**
@@ -1122,7 +1095,7 @@ public class ContentCommand extends AbstractElementCommand
 	 */
 
 	private void doReplace( DesignElement oldElement, DesignElement newElement,
-			int slotID, boolean unresolveReference ) throws SemanticException
+			boolean unresolveReference ) throws SemanticException
 	{
 		assert newElement.getContainer( ) == null;
 
@@ -1130,41 +1103,41 @@ public class ContentCommand extends AbstractElementCommand
 
 		ElementDefn metaData = (ElementDefn) element.getDefn( );
 		if ( !metaData.isContainer( ) )
-			throw new ContentException( element, slotID,
+			throw ContentExceptionFactory.createContentException( focus,
 					ContentException.DESIGN_EXCEPTION_NOT_CONTAINER );
-		SlotDefn slotInfo = (SlotDefn) metaData.getSlot( slotID );
-		if ( slotInfo == null )
-			throw new ContentException( element, slotID,
+		IContainerDefn containerDefn = focus.getContainerDefn( );
+		if ( containerDefn == null )
+			throw ContentExceptionFactory.createContentException( focus,
 					ContentException.DESIGN_EXCEPTION_SLOT_NOT_FOUND );
-		if ( !slotInfo.canContain( newElement ) )
-			throw new ContentException( element, slotID, newElement,
-					ContentException.DESIGN_EXCEPTION_WRONG_TYPE );
+		if ( !containerDefn.canContain( newElement ) )
+			throw ContentExceptionFactory.createContentException( focus,
+					newElement, ContentException.DESIGN_EXCEPTION_WRONG_TYPE );
 
 		// This element is already the content of the element to add.
-
 		if ( element.isContentOf( newElement ) )
-			throw new ContentException( element, slotID, newElement,
-					ContentException.DESIGN_EXCEPTION_RECURSIVE );
+			throw ContentExceptionFactory.createContentException( focus,
+					newElement, ContentException.DESIGN_EXCEPTION_RECURSIVE );
 
-		if ( slotID == IModuleModel.COMPONENT_SLOT )
+		if ( focus.getSlotID( ) == IModuleModel.COMPONENT_SLOT )
 		{
 			if ( StringUtil.isBlank( newElement.getName( ) ) )
-				throw new ContentException( element, slotID, newElement,
-						ContentException.DESIGN_EXCEPTION_CONTENT_NAME_REQUIRED );
+				throw ContentExceptionFactory
+						.createContentException(
+								focus,
+								newElement,
+								ContentException.DESIGN_EXCEPTION_CONTENT_NAME_REQUIRED );
 		}
 
 		// do some checks about the element to be replaced
-
-		ContainerSlot slot = element.getSlot( slotID );
-		if ( !slot.contains( oldElement ) )
-			throw new ContentException( element, slotID, oldElement,
+		if ( !focus.contains( module, oldElement ) )
+			throw ContentExceptionFactory.createContentException( focus,
+					oldElement,
 					ContentException.DESIGN_EXCEPTION_CONTENT_NOT_FOUND );
 
 		// do all checks about the transformation state
-
 		if ( oldElement instanceof TemplateElement )
 		{
-			if ( !oldElement.canDrop( )
+			if ( !oldElement.canDrop( module )
 					|| !oldElement.isTemplateParameterValue( module )
 					|| !newElement.getDefn( ).isKindOf(
 							( (TemplateElement) oldElement ).getDefaultElement(
@@ -1177,25 +1150,26 @@ public class ContentCommand extends AbstractElementCommand
 		{
 			if ( !oldElement.canTransformToTemplate( module )
 					|| !( newElement instanceof TemplateElement ) )
-				throw new ContentException(
-						element,
-						slotID,
-						ContentException.DESIGN_EXCEPTION_TEMPLATE_TRANSFORM_FORBIDDEN );
+				throw ContentExceptionFactory
+						.createContentException(
+								focus,
+								ContentException.DESIGN_EXCEPTION_TEMPLATE_TRANSFORM_FORBIDDEN );
 		}
 
 		// if the old element is in component slot of report design and it has
 		// children, then the operation is forbidden.
 
-		if ( hasDescendents( oldElement, slotID ) )
+		if ( hasDescendents( oldElement ) )
 		{
-			throw new ContentException( oldElement, slotID,
+			throw ContentExceptionFactory.createContentException(
+					new ContainerContext( oldElement, focus.getSlotID( ) ),
 					ContentException.DESIGN_EXCEPTION_HAS_DESCENDENTS );
 		}
 
 		// Prepare the transaction.
 
 		ContentReplaceRecord replaceRecord = new TemplateTransformRecord(
-				module, element, slotID, oldElement, newElement );
+				module, focus, oldElement, newElement );
 
 		ActivityStack stack = getActivityStack( );
 
@@ -1207,8 +1181,8 @@ public class ContentCommand extends AbstractElementCommand
 
 			// do some checks about the template issues
 
-			TemplateCommand cmd = new TemplateCommand( module, element );
-			cmd.checkAdd( newElement, slotID );
+			TemplateCommand cmd = new TemplateCommand( module, focus );
+			cmd.checkAdd( newElement );
 
 			// Remove the element itself.
 

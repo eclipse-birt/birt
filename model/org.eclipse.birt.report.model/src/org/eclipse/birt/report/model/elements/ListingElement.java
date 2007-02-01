@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.DataSetRequiredValidator;
 import org.eclipse.birt.report.model.api.validators.GroupNameValidator;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -145,15 +146,15 @@ public abstract class ListingElement extends ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#checkContent(org.eclipse.birt.report.model.elements.ReportDesign,
-	 *      org.eclipse.birt.report.model.core.DesignElement, int,
+	 * @see org.eclipse.birt.report.model.core.DesignElement#checkContent(org.eclipse.birt.report.model.core.Module,
+	 *      org.eclipse.birt.report.model.core.ContainerInfo,
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	protected List checkContent( Module module, DesignElement container,
-			int slotId, DesignElement content )
+	public List checkContent( Module module, ContainerContext containerInfo,
+			DesignElement content )
 	{
-		List errors = super.checkContent( module, container, slotId, content );
+		List errors = super.checkContent( module, containerInfo, content );
 		if ( !errors.isEmpty( ) )
 			return errors;
 

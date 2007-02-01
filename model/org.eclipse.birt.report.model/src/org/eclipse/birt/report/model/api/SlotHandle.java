@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.command.ContentCommand;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -78,6 +79,8 @@ public class SlotHandle extends ElementDetailHandle
 	public void add( DesignElementHandle content ) throws ContentException,
 			NameException
 	{
+		if ( content == null )
+			return;
 		add( content.getElement( ) );
 	}
 
@@ -98,6 +101,8 @@ public class SlotHandle extends ElementDetailHandle
 	public void add( DesignElementHandle content, int newPos )
 			throws ContentException, NameException
 	{
+		if ( content == null )
+			return;
 		add( content.getElement( ), newPos );
 	}
 
@@ -118,8 +123,11 @@ public class SlotHandle extends ElementDetailHandle
 	public void add( DesignElement content ) throws ContentException,
 			NameException
 	{
-		ContentCommand cmd = new ContentCommand( getModule( ), getElement( ) );
-		cmd.add( content, slotID );
+		if ( content == null )
+			return;
+		ContentCommand cmd = new ContentCommand( getModule( ),
+				new ContainerContext( getElement( ), slotID ) );
+		cmd.add( content );
 	}
 
 	/**
@@ -141,8 +149,11 @@ public class SlotHandle extends ElementDetailHandle
 	public void add( DesignElement content, int newPos )
 			throws ContentException, NameException
 	{
-		ContentCommand cmd = new ContentCommand( getModule( ), getElement( ) );
-		cmd.add( content, slotID, newPos );
+		if ( content == null )
+			return;
+		ContentCommand cmd = new ContentCommand( getModule( ),
+				new ContainerContext( getElement( ), slotID ) );
+		cmd.add( content, newPos );
 	}
 
 	/**
@@ -161,6 +172,8 @@ public class SlotHandle extends ElementDetailHandle
 	public List paste( DesignElementHandle content ) throws ContentException,
 			NameException
 	{
+		if ( content == null )
+			return Collections.EMPTY_LIST;
 		add( content );
 
 		return checkPostPasteErrors( content.getElement( ) );
@@ -181,6 +194,8 @@ public class SlotHandle extends ElementDetailHandle
 	public List paste( IDesignElement content ) throws ContentException,
 			NameException
 	{
+		if ( content == null )
+			return Collections.EMPTY_LIST;
 		add( content.getHandle( getModule( ) ) );
 
 		return checkPostPasteErrors( (DesignElement) content );
@@ -204,6 +219,8 @@ public class SlotHandle extends ElementDetailHandle
 	public List paste( DesignElementHandle content, int newPos )
 			throws ContentException, NameException
 	{
+		if ( content == null )
+			return Collections.EMPTY_LIST;
 		add( content, newPos );
 
 		return Collections.EMPTY_LIST;
@@ -228,6 +245,8 @@ public class SlotHandle extends ElementDetailHandle
 	public List paste( IDesignElement content, int newPos )
 			throws ContentException, NameException
 	{
+		if ( content == null )
+			return Collections.EMPTY_LIST;
 		add( content.getHandle( getModule( ) ), newPos );
 
 		return checkPostPasteErrors( (DesignElement) content );
@@ -323,6 +342,8 @@ public class SlotHandle extends ElementDetailHandle
 
 	public DesignElementHandle get( int posn )
 	{
+		if ( posn < 0 || posn >= getCount( ) )
+			return null;
 		DesignElement content = getElement( ).getSlot( slotID ).getContent(
 				posn );
 		if ( content == null )
@@ -345,8 +366,11 @@ public class SlotHandle extends ElementDetailHandle
 	public void shift( DesignElementHandle content, int toPosn )
 			throws ContentException
 	{
-		ContentCommand cmd = new ContentCommand( getModule( ), getElement( ) );
-		cmd.movePosition( content.getElement( ), slotID, toPosn );
+		if ( content == null )
+			return;
+		ContentCommand cmd = new ContentCommand( getModule( ),
+				new ContainerContext( getElement( ), slotID ) );
+		cmd.movePosition( content.getElement( ), toPosn );
 	}
 
 	/**
@@ -368,9 +392,12 @@ public class SlotHandle extends ElementDetailHandle
 			DesignElementHandle newContainer, int toSlot )
 			throws ContentException
 	{
-		ContentCommand cmd = new ContentCommand( getModule( ), getElement( ) );
-		cmd.move( content.getElement( ), slotID, newContainer.getElement( ),
-				toSlot );
+		if ( content == null || newContainer == null )
+			return;
+		ContentCommand cmd = new ContentCommand( getModule( ),
+				new ContainerContext( getElement( ), slotID ) );
+		cmd.move( content.getElement( ), new ContainerContext( newContainer
+				.getElement( ), toSlot ) );
 	}
 
 	/**
@@ -397,9 +424,12 @@ public class SlotHandle extends ElementDetailHandle
 			DesignElementHandle newContainer, int toSlot, int newPos )
 			throws ContentException
 	{
-		ContentCommand cmd = new ContentCommand( getModule( ), getElement( ) );
-		cmd.move( content.getElement( ), slotID, newContainer.getElement( ),
-				toSlot, newPos );
+		if ( content == null || newContainer == null )
+			return;
+		ContentCommand cmd = new ContentCommand( getModule( ),
+				new ContainerContext( getElement( ), slotID ) );
+		cmd.move( content.getElement( ), new ContainerContext( newContainer
+				.getElement( ), toSlot ), newPos );
 	}
 
 	/**
@@ -415,8 +445,11 @@ public class SlotHandle extends ElementDetailHandle
 	public void dropAndClear( DesignElementHandle content )
 			throws SemanticException
 	{
-		ContentCommand cmd = new ContentCommand( getModule( ), getElement( ) );
-		cmd.remove( content.getElement( ), slotID, false );
+		if ( content == null )
+			return;
+		ContentCommand cmd = new ContentCommand( getModule( ),
+				new ContainerContext( getElement( ), slotID ) );
+		cmd.remove( content.getElement( ), false );
 	}
 
 	/**
@@ -431,8 +464,11 @@ public class SlotHandle extends ElementDetailHandle
 
 	public void drop( DesignElementHandle content ) throws SemanticException
 	{
-		ContentCommand cmd = new ContentCommand( getModule( ), getElement( ) );
-		cmd.remove( content.getElement( ), slotID, true );
+		if ( content == null )
+			return;
+		ContentCommand cmd = new ContentCommand( getModule( ),
+				new ContainerContext( getElement( ), slotID ) );
+		cmd.remove( content.getElement( ), true );
 	}
 
 	/**
@@ -449,8 +485,9 @@ public class SlotHandle extends ElementDetailHandle
 	{
 		DesignElement content = getElement( ).getSlot( slotID ).getContent(
 				posn );
-		ContentCommand cmd = new ContentCommand( getModule( ), getElement( ) );
-		cmd.remove( content, slotID, false );
+		ContentCommand cmd = new ContentCommand( getModule( ),
+				new ContainerContext( getElement( ), slotID ) );
+		cmd.remove( content, false );
 	}
 
 	/**
@@ -467,8 +504,9 @@ public class SlotHandle extends ElementDetailHandle
 	{
 		DesignElement content = getElement( ).getSlot( slotID ).getContent(
 				posn );
-		ContentCommand cmd = new ContentCommand( getModule( ), getElement( ) );
-		cmd.remove( content, slotID, true );
+		ContentCommand cmd = new ContentCommand( getModule( ),
+				new ContainerContext( getElement( ), slotID ) );
+		cmd.remove( content, true );
 	}
 
 	/**

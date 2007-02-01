@@ -202,6 +202,12 @@ public class OdaDataSet extends SimpleDataSet
 			{
 				provider = ODAProviderFactory.getInstance( ).createODAProvider(
 						this, extensionID );
+				
+				// ModelPlugin is not loaded properly
+				
+				if ( provider == null )
+					return;
+				
 				if ( !provider.isValidODADataSetExtensionID( extensionID ) )
 					provider = new OdaDummyProvider( extensionID );
 			}

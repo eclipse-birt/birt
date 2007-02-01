@@ -128,8 +128,9 @@ public class StructPropertyType extends PropertyType
 		// exception
 		logger.log( Level.WARNING,
 				"The value of this structure property is not a valid type" ); //$NON-NLS-1$
-		return null;
-
+		throw new PropertyValueException( value,
+				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+				STRUCT_TYPE );
 	}
 
 	/**
@@ -145,7 +146,9 @@ public class StructPropertyType extends PropertyType
 
 		if ( value == null )
 			return 0;
-		return ( (ArrayList) value ).size( );
+		if ( value instanceof ArrayList )
+			return ( (ArrayList) value ).size( );
+		return 1;
 	}
 
 	/**

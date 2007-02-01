@@ -106,7 +106,7 @@ public class OdaDataSourceState extends DataSourceState
 			return super.startElement( tagName );
 
 		( (OdaDummyProvider) provider ).initializeContentTree( );
-		return ElementContentParseFactory.createParseState( tagName, handler,
+		return ParseStateFactory.createParseState( tagName, handler,
 				element, ( (OdaDummyProvider) provider ).getContentTree( ) );
 	}
 

@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.TableGroup;
@@ -153,10 +154,11 @@ class DropStrategy
 	private void resolveDropInRow( TableRow row, int rowId, int groupLevel,
 			LayoutRow layoutRow )
 	{
-		ContainerSlot cells = row.getSlot( ITableRowModel.CONTENT_SLOT );
-		for ( int i = 0; i < cells.getCount( ); i++ )
+		List cells = new ContainerContext( row, ITableRowModel.CONTENT_SLOT )
+				.getContents( layoutTable.getModule( ) );
+		for ( int i = 0; i < cells.size( ); i++ )
 		{
-			Cell cell = (Cell) cells.getContent( i );
+			Cell cell = (Cell) cells.get( i );
 			resolveDropForCell( cell, rowId, groupLevel, layoutRow );
 		}
 	}

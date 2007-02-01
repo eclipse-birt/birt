@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.report.model.util;
 
-import java.util.List;
-
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 
 /**
  * Iterator that is used to visit an container element. We go through the given
@@ -34,42 +34,32 @@ public class ContentIterator extends LevelContentIterator
 	protected static final int MAX_LEVEL = Integer.MAX_VALUE;
 
 	/**
-	 * List of content elements.
-	 */
-
-	List elementContents = null;
-
-	/**
-	 * Current iteration position.
-	 */
-
-	protected int posn = 0;
-
-	/**
 	 * Constructs a iterator that will visit all the content element within the
 	 * given <code>element</code>
+	 * 
+	 * @param module
 	 * 
 	 * @param element
 	 *            the element to visit.
 	 */
 
-	public ContentIterator( DesignElement element )
+	public ContentIterator( Module module, DesignElement element )
 	{
-		super( element, LevelContentIterator.MAX_LEVEL );
+		super( module, element, LevelContentIterator.MAX_LEVEL );
 	}
 
 	/**
 	 * Constructs a iterator that will visit all the content element within the
 	 * given slot id of the given <code>element</code>
 	 * 
-	 * @param element
-	 *            the element to visit.
-	 * @param slotId
-	 *            the slot id
+	 * @param module
+	 *            module where contents reside.
+	 * @param containerInfo
+	 *            container infor to traverse
 	 */
 
-	public ContentIterator( DesignElement element, int slotId )
+	public ContentIterator( Module module, ContainerContext containerInfo )
 	{
-		super( element, slotId, LevelContentIterator.MAX_LEVEL );
+		super( module, containerInfo, LevelContentIterator.MAX_LEVEL );
 	}
 }

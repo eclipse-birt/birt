@@ -19,7 +19,9 @@ import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.elements.table.LayoutUtil;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.TableGroup;
@@ -36,10 +38,9 @@ public class MoveContentRecord extends SimpleRecord
 {
 
 	/**
-	 * The container element.
+	 * 
 	 */
-
-	protected DesignElement container = null;
+	protected Module module = null;
 
 	/**
 	 * The content element to move.
@@ -51,7 +52,7 @@ public class MoveContentRecord extends SimpleRecord
 	 * The slot within the container that holds the content.
 	 */
 
-	protected int slot = 0;
+	protected ContainerContext focus = null;
 
 	/**
 	 * The new position of the content.
@@ -68,31 +69,31 @@ public class MoveContentRecord extends SimpleRecord
 	/**
 	 * Constructor.
 	 * 
-	 * @param element
-	 *            the container element.
-	 * @param theSlot
-	 *            the slot id that contains the content.
+	 * @param theModule
+	 * 
+	 * @param containerInfor
+	 *            the container information.
 	 * @param obj
 	 *            the content element to move.
 	 * @param posn
 	 *            the new position of the content element.
 	 */
 
-	public MoveContentRecord( DesignElement element, int theSlot,
+	public MoveContentRecord( Module theModule, ContainerContext containerInfor,
 			DesignElement obj, int posn )
 	{
-		container = element;
-		slot = theSlot;
+		module = theModule;
+		focus = containerInfor;
 		content = obj;
 		newPosn = posn;
 
-		assert container != null;
-		assert container.getSlot( slot ) != null;
+		assert focus != null;
+		assert focus.getContainerDefn( ) != null;
 		assert content != null;
-		assert container.getDefn( ).getSlot( slot ).canContain( content );
-		assert newPosn >= 0 && newPosn < container.getSlot( slot ).getCount( );
+		assert focus.canContain( module, content );
+		assert newPosn >= 0 && newPosn < focus.getContentCount( module );
 
-		oldPosn = container.getSlot( slot ).findPosn( content );
+		oldPosn = focus.indexOf( module, content );
 
 		label = ModelMessages
 				.getMessage( MessageConstants.MOVE_CONTENT_MESSAGE );
@@ -109,7 +110,7 @@ public class MoveContentRecord extends SimpleRecord
 	{
 		int from = undo ? newPosn : oldPosn;
 		int to = undo ? oldPosn : newPosn;
-		container.getSlot( slot ).moveContent( from, to );
+		focus.move( module, from, to );
 	}
 
 	/*
@@ -120,7 +121,7 @@ public class MoveContentRecord extends SimpleRecord
 
 	public DesignElement getTarget( )
 	{
-		return container;
+		return focus.getElement( );
 	}
 
 	/*
@@ -131,7 +132,7 @@ public class MoveContentRecord extends SimpleRecord
 
 	public NotificationEvent getEvent( )
 	{
-		return new ContentEvent( container, content, slot, ContentEvent.SHIFT );
+		return new ContentEvent( focus, content, ContentEvent.SHIFT );
 	}
 
 	/*
@@ -148,8 +149,8 @@ public class MoveContentRecord extends SimpleRecord
 		if ( !( content instanceof TableGroup || content instanceof TableRow || content instanceof Cell ) )
 			return retValue;
 
-		ReportItem compoundElement = LayoutUtil
-				.getCompoundContainer( container );
+		ReportItem compoundElement = LayoutUtil.getCompoundContainer( focus
+				.getElement( ) );
 		if ( compoundElement == null )
 			return retValue;
 

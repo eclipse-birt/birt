@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.metadata;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -365,6 +366,17 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	protected Map cachedProperties = new LinkedHashMap( );
 
 	/**
+	 * Justifies whether this element definition is container or not. True if
+	 * this elmement defines slot or any element type property.
+	 */
+	protected boolean isContainer = false;
+
+	/**
+	 * 
+	 */
+	protected LinkedHashMap cachedContainerProperties = null;
+
+	/**
 	 * Sets the Java class which implements this element.
 	 * 
 	 * @param theClass
@@ -500,6 +512,31 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		assert propName != null;
 
 		return (ElementPropertyDefn) cachedProperties.get( propName );
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public List getContainmentProperties( )
+	{
+		if ( cachedContainerProperties == null )
+		{
+			cachedContainerProperties = new LinkedHashMap( );
+			Iterator iter = cachedProperties.values( ).iterator( );
+			while ( iter.hasNext( ) )
+			{
+				PropertyDefn defn = (PropertyDefn) iter.next( );
+				if ( defn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
+					cachedContainerProperties.put( defn.getName( ), defn );
+			}
+		}
+
+		if ( cachedContainerProperties.isEmpty( ) )
+			return Collections.EMPTY_LIST;
+		List result = new ArrayList( );
+		result.addAll( cachedContainerProperties.values( ) );
+		return result;
 	}
 
 	/**
@@ -663,8 +700,6 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		{
 			parent = (ElementDefn) dd.getElement( extendsFrom );
 			if ( parent == null )
-				parent = (ElementDefn) dd.getExtension( extendsFrom );
-			if ( parent == null )
 				throw new MetaDataException(
 						new String[]{extendsFrom, name},
 						MetaDataException.DESIGN_EXCEPTION_ELEMENT_PARENT_NOT_FOUND );
@@ -700,6 +735,10 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		if ( parent != null && parent.allowsUserProperties( ) )
 			supportsUserProperties = true;
 
+		// if parent is a container, this will be container too
+		if ( parent != null && parent.isContainer )
+			isContainer = true;
+
 		// If this element is abstract and has a parent, then the parent
 		// must also be abstract.
 
@@ -713,7 +752,8 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		{
 			if ( nameSpaceID == MetaDataConstants.NO_NAME_SPACE )
 				nameSpaceID = parent.getNameSpaceID( );
-			else if ( parent.getNameSpaceID( ) != MetaDataConstants.NO_NAME_SPACE )
+			else if ( !isExtended( )
+					&& parent.getNameSpaceID( ) != MetaDataConstants.NO_NAME_SPACE )
 				throw new MetaDataException( new String[]{name},
 						MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_OPTION );
 		}
@@ -1250,7 +1290,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 	public boolean isContainer( )
 	{
-		return slots != null;
+		return slots != null || isContainer;
 	}
 
 	/**
@@ -1460,7 +1500,6 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	{
 		if ( property == null )
 			return;
-
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
 
 		// Check whether parent element define the property with the same name.
@@ -1505,8 +1544,11 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 			}
 
 		}
-
 		super.addProperty( property );
+		if ( property.getType( ) != null
+				&& property.getTypeCode( ) == IPropertyType.ELEMENT_TYPE
+				&& !isContainer )
+			isContainer = true;
 	}
 
 	/**
@@ -1627,5 +1669,18 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	public String getXmlName( )
 	{
 		return xmlName;
+	}
+
+	/**
+	 * Justifies whether this definition is extension element.
+	 * 
+	 * @return true if it is extension element
+	 */
+	private boolean isExtended( )
+	{
+		if ( name.equalsIgnoreCase( ReportDesignConstants.EXTENDED_ITEM )
+				|| MetaDataDictionary.getInstance( ).getExtension( name ) != null )
+			return true;
+		return false;
 	}
 }

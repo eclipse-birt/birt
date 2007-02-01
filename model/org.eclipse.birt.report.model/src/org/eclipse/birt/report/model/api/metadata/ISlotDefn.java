@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.api.metadata;
 import java.util.List;
 
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.metadata.IContainerDefn;
 
 /**
  * Interface for the definition of a slot within an element. It defines methods
@@ -23,7 +24,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * slot, but some (such as the design) have several.
  */
 
-public interface ISlotDefn
+public interface ISlotDefn extends IContainerDefn
 {
 
 	/**

@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
@@ -164,11 +165,17 @@ public class ReportDesignSerializer extends ElementVisitor
 	public void visitDesignElement( DesignElement obj )
 	{
 		DesignElement newElement = localize( obj );
-		IElementDefn elementDefn = obj.getDefn( );
+		ElementDefn elementDefn = (ElementDefn) obj.getDefn( );
 
-		int slotCount = elementDefn.getSlotCount( );
-		if ( slotCount > 0 )
-			visitSlots( obj, newElement, slotCount );
+		if ( elementDefn.isContainer( ) )
+		{
+			int slotCount = elementDefn.getSlotCount( );
+			if ( slotCount > 0 )
+				visitSlots( obj, newElement, slotCount );
+			List properties = elementDefn.getContainmentProperties( );
+			if ( properties.size( ) > 0 )
+				visitContainerProperties( obj, newElement, properties );
+		}
 
 		currentNewElement = newElement;
 	}
@@ -214,7 +221,7 @@ public class ReportDesignSerializer extends ElementVisitor
 		{
 			DesignElement originalElement = elementArray[i];
 
-			int slotId = originalElement.getContainerSlot( );
+			int slotId = originalElement.getContainerInfo( ).getSlotID( );
 
 			DesignElement tmpElement = (DesignElement) externalElements
 					.get( originalElement );
@@ -223,9 +230,7 @@ public class ReportDesignSerializer extends ElementVisitor
 					tmpElement );
 
 			assert tmpContainer != null;
-
-			tmpContainer.getSlot( slotId ).add( tmpElement );
-			tmpElement.setContainer( tmpContainer, slotId );
+			tmpContainer.add( tmpElement, slotId );
 
 			// work on unique name and name space.
 
@@ -583,6 +588,29 @@ public class ReportDesignSerializer extends ElementVisitor
 	}
 
 	/**
+	 * Visits the container properties of the given element.
+	 * 
+	 * @param obj
+	 * @param newElement
+	 * @param properties
+	 */
+	private void visitContainerProperties( DesignElement obj,
+			DesignElement newElement, List properties )
+	{
+		elements.push( newElement );
+		for ( int i = 0; i < properties.size( ); i++ )
+		{
+			PropertyDefn propDefn = (PropertyDefn) properties.get( i );
+			List contents = new ContainerContext( obj, propDefn.getName( ) )
+					.getContents( sourceDesign );
+			Iterator iter = contents.iterator( );
+			while ( iter.hasNext( ) )
+				( (DesignElement) iter.next( ) ).apply( this );
+		}
+		elements.pop( );
+	}
+
+	/**
 	 * Returns a newly created element by given elements. Do not copies values
 	 * here. It only concerns names, container/content relationship.
 	 * 
@@ -613,9 +641,8 @@ public class ReportDesignSerializer extends ElementVisitor
 		DesignElement container = (DesignElement) elements.peek( );
 
 		newElement.setID( element.getID( ) );
-		int slotId = element.getContainerSlot( );
-		newElement.setContainer( container, slotId );
-		container.getSlot( slotId ).add( newElement );
+		int slotId = element.getContainerInfo( ).getSlotID( );
+		container.add( newElement, slotId );
 
 		if ( newElement.getName( ) != null )
 		{

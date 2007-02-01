@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.util.Rectangle;
 import org.eclipse.birt.report.model.api.validators.MasterPageContextContainmentValidator;
 import org.eclipse.birt.report.model.api.validators.MasterPageSizeValidator;
 import org.eclipse.birt.report.model.api.validators.MasterPageTypeValidator;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyledElement;
@@ -217,20 +218,19 @@ public abstract class MasterPage extends StyledElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#checkContent(org.eclipse.birt.report.model.elements.ReportDesign,
-	 *      org.eclipse.birt.report.model.core.DesignElement, int,
+	 * @see org.eclipse.birt.report.model.core.DesignElement#checkContent(org.eclipse.birt.report.model.core.Module,
+	 *      org.eclipse.birt.report.model.core.ContainerInfo,
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
-
-	protected List checkContent( Module module, DesignElement container,
-			int slotId, DesignElement content )
+	public List checkContent( Module module, ContainerContext containerInfo,
+			DesignElement content )
 	{
-		List errors = super.checkContent( module, container, slotId, content );
+		List errors = super.checkContent( module, containerInfo, content );
 		if ( !errors.isEmpty( ) )
 			return errors;
 
 		errors.addAll( MasterPageContextContainmentValidator.getInstance( )
-				.validateForAdding( module, container, slotId, content ) );
+				.validateForAdding( module, containerInfo, content ) );
 
 		return errors;
 	}
@@ -243,15 +243,18 @@ public abstract class MasterPage extends StyledElement
 	 *      org.eclipse.birt.report.model.metadata.IElementDefn)
 	 */
 
-	protected List checkContent( Module module, DesignElement container,
-			int slotId, IElementDefn defn )
+	public List checkContent( Module module, ContainerContext containerInfo,
+			IElementDefn defn )
 	{
-		List errors = super.checkContent( module, container, slotId, defn );
+		List errors = super.checkContent( module, containerInfo, defn );
 		if ( !errors.isEmpty( ) )
 			return errors;
 
 		errors.addAll( MasterPageContextContainmentValidator.getInstance( )
-				.validateForAdding( module, container, defn ) );
+				.validateForAdding(
+						module,
+						containerInfo == null ? null : containerInfo
+								.getElement( ), defn ) );
 
 		return errors;
 	}
@@ -332,7 +335,8 @@ public abstract class MasterPage extends StyledElement
 						.equalsIgnoreCase( pageType ) )
 				{
 					return getPredefinedDimension( propName, isLandScape,
-							IMasterPageModel.A4_WIDTH, IMasterPageModel.A4_HEIGHT );
+							IMasterPageModel.A4_WIDTH,
+							IMasterPageModel.A4_HEIGHT );
 				}
 				else if ( DesignChoiceConstants.PAGE_SIZE_US_LEGAL
 						.equalsIgnoreCase( pageType ) )

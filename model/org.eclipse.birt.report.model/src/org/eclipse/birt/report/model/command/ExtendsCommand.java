@@ -183,7 +183,7 @@ public class ExtendsCommand extends AbstractElementCommand
 						.getElement( ReportDesignConstants.MODULE_ELEMENT );
 
 				if ( !parent.getContainer( ).getDefn( ).isKindOf( moduleDefn )
-						|| parent.getContainerSlot( ) != IModuleModel.COMPONENT_SLOT )
+						|| parent.getContainerInfo( ).getSlotID( ) != IModuleModel.COMPONENT_SLOT )
 				{
 					throw new ExtendsForbiddenException(
 							element,
@@ -331,8 +331,9 @@ public class ExtendsCommand extends AbstractElementCommand
 		// structure
 		// when doing the localization.
 
-		ContentIterator parentIter = new ContentIterator( parent );
-		ContentIterator childIter = new ContentIterator( element );
+		ContentIterator parentIter = new ContentIterator( parent.getRoot( ),
+				parent );
+		ContentIterator childIter = new ContentIterator( module, element );
 		while ( parentIter.hasNext( ) )
 		{
 			assert childIter.hasNext( );
@@ -383,7 +384,8 @@ public class ExtendsCommand extends AbstractElementCommand
 
 				if ( IStyledElementModel.STYLE_PROP.equals( propName )
 						|| IDesignElementModel.EXTENDS_PROP.equals( propName )
-						|| IDesignElementModel.USER_PROPERTIES_PROP.equals( propName ) )
+						|| IDesignElementModel.USER_PROPERTIES_PROP
+								.equals( propName ) )
 					continue;
 
 				Object localValue = element.getLocalProperty( module, propDefn );
@@ -421,8 +423,8 @@ public class ExtendsCommand extends AbstractElementCommand
 
 		// localize the content virtual elements.
 
-		parentIter = new ContentIterator( parent );
-		childIter = new ContentIterator( element );
+		parentIter = new ContentIterator( parent.getRoot( ), parent );
+		childIter = new ContentIterator( module, element );
 
 		while ( parentIter.hasNext( ) )
 		{

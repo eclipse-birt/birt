@@ -79,9 +79,7 @@ public abstract class DesignParseState extends AbstractParseState
 		DesignElement element = getElement( );
 		ElementPropertyDefn prop = element.getPropertyDefn( propName );
 		assert prop != null;
-		if ( prop == null )
-			return;
-
+		
 		// Validate the value.
 
 		Object propValue = null;

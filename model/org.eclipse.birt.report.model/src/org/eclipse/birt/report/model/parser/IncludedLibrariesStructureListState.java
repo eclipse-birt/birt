@@ -32,6 +32,8 @@ import org.xml.sax.SAXException;
 public class IncludedLibrariesStructureListState extends CompatibleListPropertyState
 {
 
+	private int lineNumber = 1;
+
 	IncludedLibrariesStructureListState( ModuleParserHandler theHandler,
 			DesignElement element )
 	{
@@ -59,6 +61,7 @@ public class IncludedLibrariesStructureListState extends CompatibleListPropertyS
 				DesignElement element, PropertyDefn propDefn, ArrayList theList )
 		{
 			super( theHandler, element, propDefn, theList );
+			lineNumber = handler.getCurrentLineNo( );
 		}
 
 		/*
@@ -72,6 +75,9 @@ public class IncludedLibrariesStructureListState extends CompatibleListPropertyS
 			super.end( );
 
 			IncludedLibrary includeLibrary = (IncludedLibrary) struct;
+
+			if ( handler.markLineNumber )
+				handler.module.addLineNo( struct, new Integer( lineNumber ) );
 
 			// Use file name without path and suffix as default namespace.
 

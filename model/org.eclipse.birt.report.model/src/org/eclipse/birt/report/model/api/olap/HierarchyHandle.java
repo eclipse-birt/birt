@@ -11,13 +11,15 @@
 
 package org.eclipse.birt.report.model.api.olap;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
-import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -104,13 +106,58 @@ public class HierarchyHandle extends ReportElementHandle
 	}
 
 	/**
-	 * Gets the slot handle that holds the list of level elements.
+	 * Gets the count of the level elements within this hierarchy.
 	 * 
-	 * @return the slot handle for all level elements
+	 * @return count of the level elements if set, otherwise 0
+	 */
+	public int getLevelCount( )
+	{
+		return getPropertyHandle( LEVELS_PROP ).getContentCount( );
+	}
+
+	/**
+	 * Gets the level handle by the name within this hierarchy.
+	 * 
+	 * @param levelName
+	 *            name of the level to find
+	 * @return the level within this hierarchy if found, otherwise null
+	 */
+	public LevelHandle getLevel( String levelName )
+	{
+		DesignElementHandle levelHandle = this.getModuleHandle( ).findCube(
+				levelName );
+		if ( levelHandle instanceof LevelHandle
+				&& levelHandle.getContainer( ) == this )
+			return (LevelHandle) levelHandle;
+		return null;
+	}
+
+	/**
+	 * Gets the level handle at the specified position within this hierarchy.
+	 * 
+	 * @param index
+	 *            0-based integer
+	 * @return the level handle at the given index, <code>null</code> if index
+	 *         is out of range
+	 */
+	public LevelHandle getLevel( int index )
+	{
+		return (LevelHandle) getPropertyHandle( LEVELS_PROP )
+				.getContent( index );
+	}
+
+	/**
+	 * Returns an iterator for the filter list defined on this hierarchy. Each
+	 * object returned is of type <code>StructureHandle</code>.
+	 * 
+	 * @return the iterator for <code>FilterCond</code> structure list defined
+	 *         on this hierarchy.
 	 */
 
-	public SlotHandle getLevels( )
+	public Iterator filtersIterator( )
 	{
-		return getSlot( LEVEL_SLOT );
+		PropertyHandle propHandle = getPropertyHandle( FILTER_PROP );
+		assert propHandle != null;
+		return propHandle.iterator( );
 	}
 }

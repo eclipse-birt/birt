@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.metadata;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -34,6 +35,7 @@ import org.eclipse.birt.report.model.api.validators.StructureListValidator;
 import org.eclipse.birt.report.model.api.validators.StructureReferenceValidator;
 import org.eclipse.birt.report.model.api.validators.StructureValidator;
 import org.eclipse.birt.report.model.api.validators.ValueRequiredValidator;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
@@ -306,7 +308,7 @@ public abstract class PropertyDefn
 		displayNameID = StringUtil.trimString( displayNameID );
 
 		// Perform type-specific initialization.
-
+		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
 		switch ( getTypeCode( ) )
 		{
 			case IPropertyType.CHOICE_TYPE :
@@ -335,7 +337,6 @@ public abstract class PropertyDefn
 
 				if ( details instanceof String )
 				{
-					MetaDataDictionary dd = MetaDataDictionary.getInstance( );
 					StructureDefn structDefn = (StructureDefn) dd
 							.getStructure( StringUtil
 									.trimString( (String) details ) );
@@ -381,7 +382,6 @@ public abstract class PropertyDefn
 
 				if ( details instanceof String )
 				{
-					MetaDataDictionary dd = MetaDataDictionary.getInstance( );
 					StructureDefn structDefn = (StructureDefn) dd
 							.getStructure( StringUtil
 									.trimString( (String) details ) );
@@ -390,7 +390,6 @@ public abstract class PropertyDefn
 
 				// the structure must be defined in the ReportDesign
 
-				MetaDataDictionary dd = MetaDataDictionary.getInstance( );
 				IElementDefn report = dd
 						.getElement( ReportDesignConstants.REPORT_DESIGN_ELEMENT );
 				List properties = report.getProperties( );
@@ -458,6 +457,31 @@ public abstract class PropertyDefn
 					buildElementType( );
 
 				break;
+			case IPropertyType.ELEMENT_TYPE :
+				// must define detail types
+				if ( !( details instanceof List ) )
+					throw new MetaDataException(
+							new String[]{name, type.getName( )},
+							MetaDataException.DESIGN_EXCEPTION_MISSING_ELEMENT_TYPE );
+				List elementNames = (List) details;
+				if ( elementNames.isEmpty( ) )
+					throw new MetaDataException(
+							new String[]{name, type.getName( )},
+							MetaDataException.DESIGN_EXCEPTION_MISSING_ELEMENT_TYPE );
+				List elementTypes = new ArrayList( );
+				for ( int i = 0; i < elementNames.size( ); i++ )
+				{
+					String elementName = (String) elementNames.get( i );
+					ElementDefn type = (ElementDefn) dd
+							.getElement( elementName );
+					if ( type == null )
+						throw new MetaDataException(
+								new String[]{(String) elementName, name},
+								MetaDataException.DESIGN_EXCEPTION_UNDEFINED_ELEMENT_TYPE );
+					elementTypes.add( type );
+				}
+				details = elementTypes;
+				break;
 		}
 
 		if ( isValueRequired( ) )
@@ -477,7 +501,9 @@ public abstract class PropertyDefn
 					MetaDataException.DESIGN_EXCEPTION_SUB_TYPE_FORBIDDEN );
 		}
 
-		if ( getTypeCode( ) != IPropertyType.STRUCT_TYPE && isList == true )
+		if ( getTypeCode( ) != IPropertyType.STRUCT_TYPE
+				&& getTypeCode( ) != IPropertyType.ELEMENT_TYPE
+				&& isList == true )
 		{
 			// only support list of structures.
 
@@ -545,7 +571,7 @@ public abstract class PropertyDefn
 	private void buildElementType( ) throws MetaDataException
 	{
 		if ( details == null )
-			throw new MetaDataException( new String[]{name},
+			throw new MetaDataException( new String[]{name, type.getName( )},
 					MetaDataException.DESIGN_EXCEPTION_MISSING_ELEMENT_TYPE );
 
 		// Look up a string name reference.
@@ -555,7 +581,10 @@ public abstract class PropertyDefn
 			MetaDataDictionary dd = MetaDataDictionary.getInstance( );
 			ElementDefn elementDefn = (ElementDefn) dd.getElement( StringUtil
 					.trimString( (String) details ) );
-			if ( elementDefn == null )
+			// the detail can not be 'extended-item'
+			if ( elementDefn == null
+					|| ReportDesignConstants.EXTENDED_ITEM
+							.equalsIgnoreCase( (String) details ) )
 				throw new MetaDataException(
 						new String[]{(String) details, name},
 						MetaDataException.DESIGN_EXCEPTION_UNDEFINED_ELEMENT_TYPE );
@@ -569,7 +598,7 @@ public abstract class PropertyDefn
 		// Otherwise, an element definition must be provided.
 
 		else if ( getTargetElementType( ) == null )
-			throw new MetaDataException( new String[]{name},
+			throw new MetaDataException( new String[]{name, type.getName( )},
 					MetaDataException.DESIGN_EXCEPTION_MISSING_ELEMENT_TYPE );
 
 		if ( !name.equalsIgnoreCase( IStyledElementModel.STYLE_PROP ) )
@@ -637,6 +666,7 @@ public abstract class PropertyDefn
 
 	public int getTypeCode( )
 	{
+		assert type != null;
 		return type.getTypeCode( );
 	}
 
@@ -1466,4 +1496,97 @@ public abstract class PropertyDefn
 			return subType.getTypeCode( );
 		return -1;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.metadata.IPropertyDefn#getAllowedElements()
+	 */
+	public List getAllowedElements( )
+	{
+		return getAllowedElements( true );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.metadata.IPropertyDefn#getAllowedElements(boolean)
+	 */
+	public List getAllowedElements( boolean extractExtensions )
+	{
+		if ( details instanceof List
+				&& type.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
+		{
+			// if not extract extension definitions, return details directly
+			if ( !extractExtensions )
+				return Collections.unmodifiableList( (List) details );
+
+			// extract is true, then build extension definitions
+			List allowedElements = (List) details;
+			MetaDataDictionary dd = MetaDataDictionary.getInstance( );
+			IElementDefn extendItem = dd
+					.getElement( ReportDesignConstants.EXTENDED_ITEM );
+
+			ArrayList contentsWithExtensions = new ArrayList( );
+			contentsWithExtensions.addAll( allowedElements );
+
+			if ( allowedElements.contains( extendItem ) )
+			{
+				contentsWithExtensions.remove( extendItem );
+
+				for ( int i = 0; i < dd.getExtensions( ).size( ); i++ )
+				{
+					ExtensionElementDefn extension = (ExtensionElementDefn) dd
+							.getExtensions( ).get( i );
+					if ( extension.isKindOf( dd
+							.getElement( ReportDesignConstants.REPORT_ITEM ) )
+							&& PeerExtensionLoader.EXTENSION_POINT
+									.equals( extension.extensionPoint )
+							&& !contentsWithExtensions.contains( extension ) )
+						contentsWithExtensions.add( extension );
+				}
+			}
+			return Collections.unmodifiableList( (List) contentsWithExtensions );
+		}
+
+		return Collections.EMPTY_LIST;
+	}
+
+	/**
+	 * Determines if this property can contain an element of the given type.
+	 * 
+	 * @param type
+	 *            the type to test
+	 * @return true if the property can contain the type, false otherwise
+	 */
+
+	public final boolean canContain( IElementDefn type )
+	{
+		List contentElements = getAllowedElements( );
+		assert contentElements != null;
+		if ( contentElements.isEmpty( ) )
+			return false;
+		Iterator iter = contentElements.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			ElementDefn element = (ElementDefn) iter.next( );
+			if ( type.isKindOf( element ) )
+				return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Determines if an element can reside within this property.
+	 * 
+	 * @param content
+	 *            the design element to check
+	 * @return true if the element can reside in the property, false otherwise
+	 */
+
+	public final boolean canContain( DesignElement content )
+	{
+		return canContain( content.getDefn( ) );
+	}
+
 }

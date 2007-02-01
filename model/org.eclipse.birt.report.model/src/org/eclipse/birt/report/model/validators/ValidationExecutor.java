@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.validators;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -182,6 +183,8 @@ public class ValidationExecutor
 	public static List getValidationNodes( DesignElement element,
 			SemanticTriggerDefnSet triggers, boolean onlyOnSelf )
 	{
+		if ( triggers == null )
+			return Collections.EMPTY_LIST;
 		List nodes = new ArrayList( );
 
 		List validatorDefns = triggers.getTriggerList( );

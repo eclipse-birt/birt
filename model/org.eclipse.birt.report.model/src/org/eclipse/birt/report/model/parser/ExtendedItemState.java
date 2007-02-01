@@ -14,23 +14,15 @@ package org.eclipse.birt.report.model.parser;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.ICompatibleReportItem;
-import org.eclipse.birt.report.model.api.metadata.IElementDefn;
-import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
-import org.eclipse.birt.report.model.metadata.ElementDefn;
-import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.PeerExtensionLoader;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
-import org.eclipse.birt.report.model.util.XMLParserHandler;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
@@ -63,6 +55,24 @@ public class ExtendedItemState extends ReportItemState
 			DesignElement theContainer, int slot )
 	{
 		super( handler, theContainer, slot );
+	}
+
+	/**
+	 * Constructs extended item state with the design parser handler, the
+	 * container element and the container property name of the report element.
+	 * 
+	 * @param handler
+	 *            the design file parser handler
+	 * @param theContainer
+	 *            the element that contains this one
+	 * @param prop
+	 *            the slot in which this element appears
+	 */
+
+	public ExtendedItemState( ModuleParserHandler handler,
+			DesignElement theContainer, String prop )
+	{
+		super( handler, theContainer, prop );
 	}
 
 	/*
@@ -105,26 +115,10 @@ public class ExtendedItemState extends ReportItemState
 	{
 		if ( element.getExtDefn( ) != null )
 		{
-			IElementDefn defn = element.getDefn( );
-
-			// read the slot definition with the extension definition
-			if ( defn != null && defn.isContainer( ) )
-			{
-				for ( int i = 0; i < defn.getSlotCount( ); i++ )
-				{
-					ISlotDefn slotDefn = defn.getSlot( i );
-					if ( tagName.equalsIgnoreCase( slotDefn.getXmlName( ) ) )
-						return new ExtendedItemSlotState( element, i );
-				}
-			}
 			return super.startElement( tagName );
 		}
-		else
-		{
-			return ElementContentParseFactory.createParseState( tagName,
-					handler, element, element.getContentTree( ) );
-		}
-
+		return ParseStateFactory.createParseState( tagName, handler, element,
+				element.getContentTree( ) );
 	}
 
 	/*
@@ -163,113 +157,5 @@ public class ExtendedItemState extends ReportItemState
 		}
 
 		super.end( );
-	}
-
-	/**
-	 * Parses the contents in extended item slot.
-	 */
-
-	class ExtendedItemSlotState extends AbstractParseState
-	{
-
-		protected int slotId;
-
-		protected ExtendedItem extendedItem;
-
-		/**
-		 * 
-		 * @param container
-		 * @param slot
-		 */
-
-		public ExtendedItemSlotState( ExtendedItem container, int slot )
-		{
-			extendedItem = container;
-			slotId = slot;
-		}
-
-		public XMLParserHandler getHandler( )
-		{
-			return handler;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
-		 */
-
-		public AbstractParseState startElement( String tagName )
-		{
-			IElementDefn extDefn = extendedItem.getDefn( );
-			assert extDefn != null;
-
-			ISlotDefn slotDefn = extDefn.getSlot( slotId );
-			assert slotDefn != null;
-
-			List allowedElements = slotDefn.getContentElements( );
-			for ( int i = 0; i < allowedElements.size( ); i++ )
-			{
-				ElementDefn contentDefn = (ElementDefn) allowedElements.get( i );
-				String elementName = contentDefn.getName( );
-				// allow the slottype refers to extension definition directly,
-				// so add this handler
-				if ( MetaDataDictionary.getInstance( ).getElement( elementName ) == null )
-				{
-					if ( contentDefn instanceof ExtensionElementDefn )
-					{
-						ExtensionElementDefn extContentDefn = (ExtensionElementDefn) contentDefn;
-						if ( PeerExtensionLoader.EXTENSION_POINT
-								.equalsIgnoreCase( extContentDefn
-										.getExtensionPoint( ) ) )
-							elementName = ReportDesignConstants.EXTENDED_ITEM;
-					}
-				}
-				if ( tagName.equalsIgnoreCase( contentDefn.getXmlName( ) ) )
-				{
-					if ( ReportDesignConstants.TEXT_ITEM
-							.equalsIgnoreCase( elementName ) )
-						return new TextItemState( handler, extendedItem, slotId );
-					if ( ReportDesignConstants.GRID_ITEM
-							.equalsIgnoreCase( elementName ) )
-						return new GridItemState( handler, extendedItem, slotId );
-					if ( ReportDesignConstants.FREE_FORM_ITEM
-							.equalsIgnoreCase( elementName ) )
-						return new FreeFormState( handler, extendedItem, slotId );
-					if ( ReportDesignConstants.LIST_ITEM
-							.equalsIgnoreCase( elementName ) )
-						return new ListItemState( handler, extendedItem, slotId );
-					if ( ReportDesignConstants.TABLE_ITEM
-							.equalsIgnoreCase( elementName ) )
-						return new TableItemState( handler, extendedItem,
-								slotId );
-					if ( ReportDesignConstants.LABEL_ITEM
-							.equalsIgnoreCase( elementName ) )
-						return new LabelState( handler, extendedItem, slotId );
-					if ( ReportDesignConstants.IMAGE_ITEM
-							.equalsIgnoreCase( elementName ) )
-						return new ImageState( handler, extendedItem, slotId );
-					if ( ReportDesignConstants.DATA_ITEM
-							.equalsIgnoreCase( elementName ) )
-						return new DataItemState( handler, extendedItem, slotId );
-					if ( ReportDesignConstants.EXTENDED_ITEM
-							.equalsIgnoreCase( elementName ) )
-						return new ExtendedItemState( handler, extendedItem,
-								slotId );
-					if ( ReportDesignConstants.MULTI_LINE_DATA_ITEM
-							.equalsIgnoreCase( elementName )
-							|| ReportDesignConstants.TEXT_DATA_ITEM
-									.equalsIgnoreCase( elementName ) )
-						return new TextDataItemState( handler, extendedItem,
-								slotId );
-					if ( ReportDesignConstants.TEMPLATE_REPORT_ITEM
-							.equalsIgnoreCase( elementName ) )
-						return new TemplateReportItemState( handler,
-								extendedItem, slotId );
-				}
-			}
-
-			return super.startElement( tagName );
-		}
 	}
 }

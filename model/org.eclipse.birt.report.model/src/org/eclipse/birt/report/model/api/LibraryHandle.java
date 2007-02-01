@@ -125,8 +125,10 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 
 	public ModuleHandle getHostHandle( )
 	{
-		return (ModuleHandle) ( (Library) getElement( ) ).getHost( ).getHandle(
-				getModule( ) );
+		Module host = ( (Library) getElement( ) ).getHost( );
+		if ( host == null )
+			return null;
+		return (ModuleHandle) host.getHandle( getModule( ) );
 	}
 
 	/*
@@ -195,7 +197,8 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 		String themeName = ( (Module) getElement( ) ).getThemeName( );
 
 		if ( themeName == null )
-			themeName = ModelMessages.getMessage( IThemeModel.DEFAULT_THEME_NAME );
+			themeName = ModelMessages
+					.getMessage( IThemeModel.DEFAULT_THEME_NAME );
 
 		importCssStyles( stylesheet, selectedStyles, themeName );
 
@@ -303,5 +306,15 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 		}
 
 		stack.commit( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.ModuleHandle#getCubes()
+	 */
+	public SlotHandle getCubes( )
+	{
+		return getSlot( CUBE_SLOT );
 	}
 }

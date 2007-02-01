@@ -85,7 +85,7 @@ public abstract class BoundColumnsMgr
 
 		TOC toc = (TOC) element.getLocalProperty( module,
 				IReportItemModel.TOC_PROP );
-		if( toc != null )
+		if ( toc != null )
 			handleBoundsForValue( element, module, toc.getExpression( ) );
 
 		String value = (String) element.getLocalProperty( module,
@@ -316,7 +316,8 @@ public abstract class BoundColumnsMgr
 	protected void dealGrid( GridItem element, Module module )
 	{
 		dealReportItem( element, module );
-		LevelContentIterator contents = new LevelContentIterator( element, 3 );
+		LevelContentIterator contents = new LevelContentIterator( module,
+				element, 3 );
 		while ( contents.hasNext( ) )
 		{
 			DesignElement child = (DesignElement) contents.next( );
@@ -354,7 +355,8 @@ public abstract class BoundColumnsMgr
 	protected void dealList( ListItem element, Module module )
 	{
 		dealListing( element, module );
-		LevelContentIterator contents = new LevelContentIterator( element, 1 );
+		LevelContentIterator contents = new LevelContentIterator( module,
+				element, 1 );
 		while ( contents.hasNext( ) )
 		{
 			DesignElement child = (DesignElement) contents.next( );
@@ -362,7 +364,7 @@ public abstract class BoundColumnsMgr
 			{
 				dealListingGroup( (ListGroup) child, module );
 				LevelContentIterator grandChildren = new LevelContentIterator(
-						child, 1 );
+						module, child, 1 );
 				while ( grandChildren.hasNext( ) )
 				{
 					DesignElement grandChild = (DesignElement) grandChildren
@@ -403,8 +405,8 @@ public abstract class BoundColumnsMgr
 			if ( i == IListingElementModel.GROUP_SLOT )
 				level = 1;
 
-			LevelContentIterator contents = new LevelContentIterator( element,
-					level );
+			LevelContentIterator contents = new LevelContentIterator( module,
+					element, level );
 			while ( contents.hasNext( ) )
 			{
 				DesignElement child = (DesignElement) contents.next( );
@@ -412,7 +414,7 @@ public abstract class BoundColumnsMgr
 				{
 					dealListingGroup( (TableGroup) child, module );
 					LevelContentIterator grandChildren = new LevelContentIterator(
-							child, 3 );
+							module, child, 3 );
 					while ( grandChildren.hasNext( ) )
 					{
 						DesignElement grandChild = (DesignElement) grandChildren

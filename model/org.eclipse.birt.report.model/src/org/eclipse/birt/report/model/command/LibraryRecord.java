@@ -17,6 +17,7 @@ import java.util.Map;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.LibraryEvent;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
@@ -192,7 +193,8 @@ class LibraryRecord extends AbstractLibraryRecord
 
 	private void resolveElementDescendantsInSlot( int slotId )
 	{
-		ContentIterator contentIter = new ContentIterator( module, slotId );
+		ContentIterator contentIter = new ContentIterator( module,
+				new ContainerContext( module, slotId ) );
 
 		while ( contentIter.hasNext( ) )
 		{
@@ -222,10 +224,10 @@ class LibraryRecord extends AbstractLibraryRecord
 
 			if ( overriddenValues == null )
 				continue;
-			
+
 			Long idObj = new Long( tmpElement.getID( ) );
 			Map values = (Map) overriddenValues.get( idObj );
-			ElementStructureUtil.distributeValues( tmpElement, values );			
+			ElementStructureUtil.distributeValues( module, tmpElement, values );
 		}
 	}
 

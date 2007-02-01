@@ -21,24 +21,22 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.command.ElementDeletedEvent;
 import org.eclipse.birt.report.model.api.elements.table.LayoutUtil;
-import org.eclipse.birt.report.model.core.ContainerSlot;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyleElement;
-import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.Parameter;
 import org.eclipse.birt.report.model.elements.ParameterGroup;
 import org.eclipse.birt.report.model.elements.ReportItem;
+import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.TableGroup;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
-import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
 
 /**
@@ -52,22 +50,15 @@ public class ContentRecord extends SimpleRecord
 {
 
 	/**
-	 * The container element.
+	 * Container information of this record.
 	 */
-
-	protected DesignElement container = null;
+	protected ContainerContext containerInfo = null;
 
 	/**
 	 * The content element.
 	 */
 
 	protected DesignElement content = null;
-
-	/**
-	 * The slot within the container.
-	 */
-
-	protected int slotID = 0;
 
 	/**
 	 * Whether to add or remove the element.
@@ -93,20 +84,18 @@ public class ContentRecord extends SimpleRecord
 	 * 
 	 * @param module
 	 *            the module in which this record executes
-	 * @param containerObj
-	 *            The container element.
-	 * @param theSlot
-	 *            The slotID in which to put the content.
+	 * @param containerInfor
+	 *            The container information
 	 * @param contentObj
 	 *            The content object to add or remove.
 	 * @param isAdd
 	 *            Whether to add or remove the item.
 	 */
 
-	public ContentRecord( Module module, DesignElement containerObj,
-			int theSlot, DesignElement contentObj, boolean isAdd )
+	public ContentRecord( Module module, ContainerContext containerInfor,
+			DesignElement contentObj, boolean isAdd )
 	{
-		init( containerObj, theSlot, contentObj, -1, isAdd );
+		init( containerInfor, contentObj, -1, isAdd );
 		this.module = module;
 		assert module != null;
 	}
@@ -117,20 +106,18 @@ public class ContentRecord extends SimpleRecord
 	 * 
 	 * @param module
 	 *            the module in which this record executes
-	 * @param containerObj
-	 *            The container element.
-	 * @param theSlot
-	 *            The slotID in which to put the content.
+	 * @param containerInfo
+	 *            The container information
 	 * @param contentObj
 	 *            The content object to add or remove.
 	 * @param newPos
 	 *            The position index where to insert the content.
 	 */
 
-	public ContentRecord( Module module, DesignElement containerObj,
-			int theSlot, DesignElement contentObj, int newPos )
+	public ContentRecord( Module module, ContainerContext containerInfo,
+			DesignElement contentObj, int newPos )
 	{
-		init( containerObj, theSlot, contentObj, newPos, true );
+		init( containerInfo, contentObj, newPos, true );
 		this.module = module;
 		assert module != null;
 	}
@@ -150,32 +137,29 @@ public class ContentRecord extends SimpleRecord
 	 *            whether to add or remove the item
 	 */
 
-	private void init( DesignElement containerObj, int theSlot,
+	private void init( ContainerContext theContainerInfo,
 			DesignElement contentObj, int newPos, boolean isAdd )
 	{
-		container = containerObj;
-		slotID = theSlot;
+		this.containerInfo = theContainerInfo;
 		content = contentObj;
 		add = isAdd;
 
 		// Verify invariants.
 		assert newPos >= -1;
-		assert container != null;
+		assert containerInfo != null;
 		assert content != null;
 		assert isAdd && content.getContainer( ) == null || !isAdd
 				&& content.getContainer( ) != null;
-		assert container.getDefn( ).getSlot( slotID ).canContain( content );
+		assert containerInfo.getContainerDefn( ).canContain( content );
 
-		ContainerSlot slot = container.getSlot( slotID );
-		assert slot != null;
 		if ( isAdd )
 		{
-			oldPosn = ( newPos == -1 || slot.getCount( ) < newPos ) ? slot
-					.getCount( ) : newPos;
+			int count = containerInfo.getContentCount( module );
+			oldPosn = ( newPos == -1 || count < newPos ) ? count : newPos;
 		}
 		else
 		{
-			oldPosn = slot.findPosn( content );
+			oldPosn = containerInfo.indexOf( module, content );
 			assert oldPosn != -1;
 		}
 
@@ -196,7 +180,7 @@ public class ContentRecord extends SimpleRecord
 
 	public DesignElement getTarget( )
 	{
-		return container;
+		return containerInfo.getElement( );
 	}
 
 	/**
@@ -219,14 +203,9 @@ public class ContentRecord extends SimpleRecord
 
 	protected void perform( boolean undo )
 	{
-		ContainerSlot slot = container.getSlot( slotID );
 		if ( add && !undo || !add && undo )
 		{
-			slot.insert( content, oldPosn );
-
-			// Cache the inverse relationship.
-
-			content.setContainer( container, slotID );
+			containerInfo.add( module, content, oldPosn );
 
 			// Add the item to the element ID map if we are using
 			// element IDs.
@@ -236,18 +215,13 @@ public class ContentRecord extends SimpleRecord
 		}
 		else
 		{
-			slot.remove( content );
-
 			// Remove the element from the ID map if we are using
 			// IDs.
 
 			if ( content.getRoot( ) != null )
 				module.manageId( content, false );
-
-			// Clear the inverse relationship.
-
-			content.setContainer( null, IDesignElementModel.NO_SLOT );
-
+			
+			containerInfo.remove( module, content );
 		}
 	}
 
@@ -276,10 +250,9 @@ public class ContentRecord extends SimpleRecord
 
 	public List getValidators( )
 	{
-		SlotDefn slotDefn = (SlotDefn) container.getDefn( ).getSlot( slotID );
-
-		List list = ValidationExecutor.getValidationNodes( container, slotDefn
-				.getTriggerDefnSet( ), false );
+		List list = ValidationExecutor.getValidationNodes( this.containerInfo
+				.getElement( ), containerInfo.getTriggerSetForContainerDefn( ),
+				false );
 
 		// Validate the content.
 
@@ -304,6 +277,7 @@ public class ContentRecord extends SimpleRecord
 		List retValue = new ArrayList( );
 		retValue.addAll( super.getPostTasks( ) );
 
+		DesignElement container = containerInfo.getElement( );
 		if ( container instanceof TableItem || container instanceof GridItem
 				|| container instanceof TableGroup
 				|| container instanceof TableRow )
@@ -320,10 +294,9 @@ public class ContentRecord extends SimpleRecord
 
 		NotificationEvent event = null;
 		if ( add && state != UNDONE_STATE || !add && state == UNDONE_STATE )
-			event = new ContentEvent( container, content, slotID,
-					ContentEvent.ADD );
+			event = new ContentEvent( containerInfo, content, ContentEvent.ADD );
 		else
-			event = new ContentEvent( container, content, slotID,
+			event = new ContentEvent( containerInfo, content,
 					ContentEvent.REMOVE );
 
 		if ( state == DONE_STATE )
@@ -359,7 +332,7 @@ public class ContentRecord extends SimpleRecord
 			retValue.add( new NotificationRecordTask( content, event, container
 					.getRoot( ) ) );
 		}
-		else 
+		else
 			content.clearListeners( );
 
 		return retValue;

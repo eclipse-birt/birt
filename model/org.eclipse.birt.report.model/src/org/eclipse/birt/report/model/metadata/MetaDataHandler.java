@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.metadata;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -759,6 +760,8 @@ class MetaDataHandler extends XMLParserHandler
 	class PropertyState extends InnerParseState
 	{
 
+		List propertyTypes = new ArrayList( );
+
 		public void parseAttrs( Attributes attrs )
 		{
 			choices.clear( );
@@ -953,7 +956,9 @@ class MetaDataHandler extends XMLParserHandler
 				propDefn.setValueValidator( validator );
 			}
 
-			if ( typeDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
+			int typeCode = typeDefn.getTypeCode( );
+			if ( typeCode == IPropertyType.STRUCT_TYPE
+					|| typeCode == IPropertyType.ELEMENT_TYPE )
 				propDefn.setIsList( getBooleanAttrib( attrs, IS_LIST_ATTRIB,
 						false ) );
 
@@ -986,12 +991,21 @@ class MetaDataHandler extends XMLParserHandler
 				return new TriggerState( );
 			else if ( tagName.equalsIgnoreCase( DEFAULT_UNIT_TAG ) )
 				return new DefaultUnitState( );
+			else if ( tagName.equalsIgnoreCase( TYPE_TAG ) )
+				return new PropertyTypeState( propertyTypes );
 			else
 				return super.startElement( tagName );
 		}
 
 		public void end( ) throws SAXException
 		{
+			// if property is element type, then set list of allowed type names
+			// to the details
+			if ( propDefn != null
+					&& propDefn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
+			{
+				propDefn.setDetails( propertyTypes );
+			}
 			propDefn = null;
 		}
 	}
@@ -1424,6 +1438,39 @@ class MetaDataHandler extends XMLParserHandler
 			slotDefn = null;
 		}
 
+	}
+
+	class PropertyTypeState extends InnerParseState
+	{
+
+		protected List types = null;
+
+		/**
+		 * Constructs the property type state with a list to hold all the type
+		 * names.
+		 * 
+		 * @param propertyTypes
+		 */
+		public PropertyTypeState( List propertyTypes )
+		{
+			this.types = propertyTypes;
+		}
+
+		public void parseAttrs( Attributes attrs ) throws XMLParserException
+		{
+			boolean ok = ( propDefn != null );
+			String name = attrs.getValue( NAME_ATTRIB );
+			if ( StringUtil.isBlank( name ) )
+			{
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
+				ok = false;
+			}
+
+			if ( ok )
+				types.add( name );
+		}
 	}
 
 	class SlotTypeState extends InnerParseState

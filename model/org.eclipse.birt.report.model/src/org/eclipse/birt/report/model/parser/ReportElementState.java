@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
@@ -36,6 +37,7 @@ import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -67,6 +69,12 @@ public abstract class ReportElementState extends DesignParseState
 	protected int slotID = 0;
 
 	/**
+	 * Name of the property that is defined in the container and is of element
+	 * type.
+	 */
+	protected String propName = null;
+
+	/**
 	 * Constructs the report element state with the design parser handler, the
 	 * container element and the container slot of the report element.
 	 * 
@@ -84,6 +92,26 @@ public abstract class ReportElementState extends DesignParseState
 		super( handler );
 		container = theContainer;
 		slotID = slot;
+	}
+
+	/**
+	 * Constructs the report element state with the design parser handler, the
+	 * container element and the container property name of the report element.
+	 * 
+	 * @param handler
+	 *            the design file parser handler
+	 * @param theContainer
+	 *            the element that contains this one
+	 * @param prop
+	 *            the slot in which this element appears
+	 */
+
+	public ReportElementState( ModuleParserHandler handler,
+			DesignElement theContainer, String prop )
+	{
+		super( handler );
+		container = theContainer;
+		propName = prop;
 	}
 
 	/**
@@ -105,23 +133,7 @@ public abstract class ReportElementState extends DesignParseState
 
 	public abstract DesignElement getElement( );
 
-	/**
-	 * Adds an element to the given slot. Records a semantic error and returns
-	 * false if an error occurs. (Does not throw an exception because we don't
-	 * want to terminate the parser: we want to keep parsing to find other
-	 * errors.)
-	 * 
-	 * @param container
-	 *            the container element
-	 * @param slotID
-	 *            the slot within the container
-	 * @param content
-	 *            the content element
-	 * @return true if the add was successful, false if an error occurred and a
-	 *         semantic error was logged
-	 */
-
-	protected boolean addToSlot( DesignElement container, int slotID,
+	private boolean checkContainer( DesignElement container, int slotID,
 			DesignElement content )
 	{
 		ElementDefn containerDefn = (ElementDefn) container.getDefn( );
@@ -129,13 +141,56 @@ public abstract class ReportElementState extends DesignParseState
 		// The following conditions should not occur in the parser --
 		// they indicate parser design errors since they can be prevented
 		// with the right syntax checks.
-
 		assert containerDefn.isContainer( );
+		if ( !StringUtil.isBlank( propName ) )
+		{
+			PropertyDefn propDefn = (PropertyDefn) containerDefn
+					.getProperty( propName );
+			assert propDefn != null;
+			assert propDefn.canContain( content );
+
+			// Can not change the structure of an element if it is a child
+			// element
+			// or it is within a child element.
+
+			if ( container.getExtendsElement( ) != null )
+			{
+				handler
+						.getErrorHandler( )
+						.semanticWarning(
+								new ContentException(
+										container,
+										propName,
+										content,
+										ContentException.DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN ) );
+				return false;
+			}
+
+			// If this is a single-item slot, ensure that the slot is empty.
+
+			if ( !propDefn.isList( )
+					&& new ContainerContext( container, propName )
+							.getContentCount( handler.module ) > 0 )
+			{
+				handler
+						.getErrorHandler( )
+						.semanticError(
+								new ContentException(
+										container,
+										propName,
+										ContentException.DESIGN_EXCEPTION_SLOT_IS_FULL ) );
+				return false;
+			}
+
+			return true;
+		}
+
 		SlotDefn slotInfo = (SlotDefn) containerDefn.getSlot( slotID );
 		assert slotInfo != null;
 		assert slotInfo.canContain( content );
 
-		// Can not change the structure of an element if it is a child element
+		// Can not change the structure of an element if it is a child
+		// element
 		// or it is within a child element.
 
 		if ( container.getExtendsElement( ) != null )
@@ -161,6 +216,33 @@ public abstract class ReportElementState extends DesignParseState
 							ContentException.DESIGN_EXCEPTION_SLOT_IS_FULL ) );
 			return false;
 		}
+
+		return true;
+
+	}
+
+	/**
+	 * Adds an element to the given slot. Records a semantic error and returns
+	 * false if an error occurs. (Does not throw an exception because we don't
+	 * want to terminate the parser: we want to keep parsing to find other
+	 * errors.)
+	 * 
+	 * @param container
+	 *            the container element
+	 * @param slotID
+	 *            the slot within the container
+	 * @param content
+	 *            the content element
+	 * @return true if the add was successful, false if an error occurred and a
+	 *         semantic error was logged
+	 */
+
+	protected boolean addToSlot( DesignElement container, int slotID,
+			DesignElement content )
+	{
+		// check the container relationship
+		if ( !checkContainer( container, slotID, content ) )
+			return false;
 
 		// The name should not be null if it is required. The parser state
 		// should have already caught this case.
@@ -196,13 +278,14 @@ public abstract class ReportElementState extends DesignParseState
 		}
 
 		// Add the item to the container.
-
-		container.getSlot( slotID ).add( content );
-
-		// Cache the inverse relationship.
-
-		content.setContainer( container, slotID );
-
+		if ( !StringUtil.isBlank( propName ) )
+		{
+			container.add( handler.module, content, propName );
+		}
+		else
+		{
+			container.add( content, slotID );
+		}
 		return true;
 	}
 
@@ -404,7 +487,7 @@ public abstract class ReportElementState extends DesignParseState
 		}
 
 		element.setExtendsElement( parent );
-		ElementStructureUtil.duplicateStructure( parent, element );
+		ElementStructureUtil.duplicateStructure( parent, element, module );
 	}
 
 	/**
@@ -438,8 +521,10 @@ public abstract class ReportElementState extends DesignParseState
 		}
 
 		int id = contentDefn.getNameSpaceID( );
-		if ( name != null && id != MetaDataConstants.NO_NAME_SPACE
-				&& container.isManagedByNameSpace( slotID ) )
+		if ( name != null
+				&& id != MetaDataConstants.NO_NAME_SPACE
+				&& new ContainerContext( container, slotID )
+						.isManagedByNameSpace( ) )
 		{
 			NameSpace ns = module.getNameSpace( id );
 
@@ -453,7 +538,7 @@ public abstract class ReportElementState extends DesignParseState
 			DesignElement parent = content.getExtendsElement( );
 			if ( id == Module.ELEMENT_NAME_SPACE && parent != null )
 			{
-				if ( parent.getContainerSlot( ) != IModuleModel.COMPONENT_SLOT )
+				if ( parent.getContainerInfo( ).getSlotID( ) != IModuleModel.COMPONENT_SLOT )
 				// if ( !module.getSlot( Module.COMPONENT_SLOT ).contains(
 				// parent ) )
 				{
@@ -480,7 +565,7 @@ public abstract class ReportElementState extends DesignParseState
 
 	private void addTheVirualElements2Map( DesignElement element )
 	{
-		Iterator contentIter = new ContentIterator( element );
+		Iterator contentIter = new ContentIterator( handler.module, element );
 		Module module = handler.getModule( );
 
 		while ( contentIter.hasNext( ) )
@@ -526,7 +611,7 @@ public abstract class ReportElementState extends DesignParseState
 		{
 			MetaDataDictionary dd = MetaDataDictionary.getInstance( );
 			ExtensionElementDefn extDefn = (ExtensionElementDefn) dd
-					.getExtension( extensionName );
+					.getElement( extensionName );
 			if ( extDefn == null )
 			{
 				SemanticError e = new SemanticError( element,

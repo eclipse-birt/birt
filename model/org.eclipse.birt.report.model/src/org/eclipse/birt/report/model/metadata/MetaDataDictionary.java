@@ -237,6 +237,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 		addPropertyType( new StructRefPropertyType( ) );
 		addPropertyType( new ListPropertyType( ) );
 		addPropertyType( new MemberKeyPropertyType( ) );
+		addPropertyType( new ElementPropertyType( ) );
 	}
 
 	/**
@@ -276,7 +277,10 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 
 	public IElementDefn getElement( String name )
 	{
-		return (IElementDefn) elementNameMap.get( name );
+		return (IElementDefn) ( elementNameMap.get( name ) == null
+				? ( extensionNameMap == null ? null : extensionNameMap
+						.get( name ) )
+				: elementNameMap.get( name ) );
 	}
 
 	/**

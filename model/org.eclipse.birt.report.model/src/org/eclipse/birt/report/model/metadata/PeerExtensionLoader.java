@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.Module;
 
 /**
  * Represents the extension loader for peer extension.
@@ -121,10 +122,12 @@ public class PeerExtensionLoader extends ExtensionLoader
 		protected static final String METHOD_TAG = "method"; //$NON-NLS-1$
 		protected static final String ARGUMENT_TAG = "argument"; //$NON-NLS-1$		
 		protected static final String STYLE_TAG = "style"; //$NON-NLS-1$
-		protected static final String SLOT_TAG = "slot"; //$NON-NLS-1$
 		protected static final String ELEMENT_TYPE_TAG = "elementType"; //$NON-NLS-1$
+		protected static final String OVERRIDE_PROPERTY_TAG = "overrideProperty";//$NON-NLS-1$
 
 		protected static final String NAME_ATTRIB = "name"; //$NON-NLS-1$
+		protected static final String PROPERTY_NAME_ATTRIB = "propertyName";//$NON-NLS-1$
+		protected static final String ALLOWEDCHOICES_ATTRIB = "allowedChoices";//$NON-NLS-1$
 		protected static final String DISPLAY_NAME_ID_ATTRIB = "displayNameID"; //$NON-NLS-1$
 		protected static final String TYPE_ATTRIB = "type"; //$NON-NLS-1$
 		protected static final String CAN_INHERIT_ATTRIB = "canInherit"; //$NON-NLS-1$
@@ -141,8 +144,6 @@ public class PeerExtensionLoader extends ExtensionLoader
 		protected static final String DEFAULT_STYLE_ATTRIB = "defaultStyle"; //$NON-NLS-1$
 		protected static final String IS_NAME_REQUIRED_ATTRIB = "isNameRequired"; //$NON-NLS-1$
 		protected static final String EXTENDS_FROM_ATTRIB = "extendsFrom"; //$NON-NLS-1$
-		protected static final String XML_TAG_NAME_ATTRIB = "xmlTagName"; //$NON-NLS-1$
-		protected static final String MULTIPLE_CARDINALITY_ATTRIB = "multipleCardinality"; //$NON-NLS-1$
 		protected static final String DETAIL_TYPE_ATTRIB = "detailType"; //$NON-NLS-1$
 		protected static final String SUB_TYPE_ATTRIB = "subType"; //$NON-NLS-1$
 		protected static final String IS_LIST_ATTRIB = "isList"; //$NON-NLS-1$
@@ -196,7 +197,6 @@ public class PeerExtensionLoader extends ExtensionLoader
 			if ( StringUtil.isBlank( extendsFrom ) )
 				extendsFrom = ReportDesignConstants.EXTENDED_ITEM;
 
-
 			IReportItemFactory factory = null;
 			PeerExtensionElementDefn elementDefn = null;
 			try
@@ -218,6 +218,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 					elementDefn.setNameOption( MetaDataConstants.REQUIRED_NAME );
 				else
 					elementDefn.setNameOption( MetaDataConstants.OPTIONAL_NAME );
+				elementDefn.setNameSpaceID( Module.ELEMENT_NAME_SPACE );
 
 				List propList = new ArrayList( );
 
@@ -272,14 +273,10 @@ public class PeerExtensionLoader extends ExtensionLoader
 							MetaDataDictionary.getInstance( )
 									.addPredefinedStyle( style );
 						}
-						else if ( SLOT_TAG.equalsIgnoreCase( elements[i]
-								.getName( ) ) )
+						else if ( OVERRIDE_PROPERTY_TAG
+								.equalsIgnoreCase( elements[i].getName( ) ) )
 						{
-							SlotDefn slotDefn = loadSlot( elementTag,
-									elements[i], elementDefn );
-							if ( slotDefn == null )
-								continue;
-							elementDefn.addSlot( slotDefn );
+							addAllowedUnits( elements[i], elementDefn );
 						}
 					}
 					catch ( ExtensionException e )
@@ -310,6 +307,29 @@ public class PeerExtensionLoader extends ExtensionLoader
 			{
 				handleError( e );
 			}
+		}
+
+		/**
+		 * Add allowed units value to element definition.
+		 * 
+		 * @param elementTag
+		 *            the element tag
+		 * @param elementDefn
+		 *            element definition
+		 */
+
+		void addAllowedUnits( IConfigurationElement elementTag,
+				PeerExtensionElementDefn elementDefn )
+		{
+			// load required parts
+
+			String name = elementTag.getAttribute( PROPERTY_NAME_ATTRIB );
+			if ( !checkRequiredAttribute( PROPERTY_NAME_ATTRIB, name ) )
+				return;
+
+			String units = elementTag.getAttribute( ALLOWEDCHOICES_ATTRIB );
+
+			elementDefn.setExtendedAllowedChoices( name, units );
 		}
 
 		/**
@@ -378,10 +398,9 @@ public class PeerExtensionLoader extends ExtensionLoader
 					( (PeerExtensionElementDefn) elementDefn )
 							.getReportItemFactory( ).getMessages( ) );
 
-
 			boolean hasOwnModel = getBooleanAttrib( elementTag, HAS_OWN_MODEL,
 					true );
-			
+
 			extPropDefn.setName( name );
 			extPropDefn.setDisplayNameID( displayNameID );
 			extPropDefn.setType( propType );
@@ -390,7 +409,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 			extPropDefn.setStyleProperty( false );
 			extPropDefn.setDefaultDisplayName( defaultDisplayName );
 			extPropDefn.setHasOwnModel( hasOwnModel );
-			
+
 			if ( !StringUtil.isBlank( canInherit ) )
 				extPropDefn.setCanInherit( Boolean.valueOf( canInherit )
 						.booleanValue( ) );
@@ -400,6 +419,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 						.booleanValue( ) );
 
 			List choiceList = new ArrayList( );
+			List elementTypes = new ArrayList( );
 
 			IConfigurationElement[] elements = propTag.getChildren( );
 			for ( int k = 0; k < elements.length; k++ )
@@ -411,6 +431,11 @@ public class PeerExtensionLoader extends ExtensionLoader
 									.getReportItemFactory( ).getMessages( ) );
 					if ( loadChoice( elements[k], choiceDefn, extPropDefn ) )
 						choiceList.add( choiceDefn );
+				}
+				else if ( ELEMENT_TYPE_TAG.equalsIgnoreCase( elements[k]
+						.getName( ) ) )
+				{
+					elementTypes.add( loadElementType( elements[k] ) );
 				}
 			}
 
@@ -449,6 +474,14 @@ public class PeerExtensionLoader extends ExtensionLoader
 							false );
 					extPropDefn.setIsList( isList );
 					extPropDefn.setDetails( detailType );
+					break;
+				case IPropertyType.ELEMENT_REF_TYPE :
+					extPropDefn.setDetails( detailType );
+					break;
+				case IPropertyType.ELEMENT_TYPE :
+					isList = getBooleanAttrib( propTag, IS_LIST_ATTRIB, false );
+					extPropDefn.setIsList( isList );
+					extPropDefn.setDetails( elementTypes );
 					break;
 			}
 
@@ -741,67 +774,6 @@ public class PeerExtensionLoader extends ExtensionLoader
 		}
 
 		/**
-		 * Loads one slot definition of the given element.
-		 * 
-		 * @param elementTag
-		 *            the element tag
-		 * @param propTag
-		 *            the property tag
-		 * @param elementDefn
-		 *            element definition
-		 * @return the slot definition
-		 */
-
-		SlotDefn loadSlot( IConfigurationElement elementTag,
-				IConfigurationElement propTag, ExtensionElementDefn elementDefn )
-		{
-			// read required parts
-			String name = propTag.getAttribute( NAME_ATTRIB );
-			String xmlTagName = propTag.getAttribute( XML_TAG_NAME_ATTRIB );
-			if ( !checkRequiredAttribute( NAME_ATTRIB, name )
-					|| !checkRequiredAttribute( XML_TAG_NAME_ATTRIB, xmlTagName ) )
-				return null;
-
-			// optional parts
-			String displayNameID = propTag
-					.getAttribute( DISPLAY_NAME_ID_ATTRIB );
-			String defaultDisplayName = propTag
-					.getAttribute( DEFAULT_DISPLAY_NAME_ATTRIB );
-
-			// by default 'multipleCardinality' is true
-			boolean multipleCardinality = getBooleanAttrib( propTag,
-					MULTIPLE_CARDINALITY_ATTRIB, true );
-
-			String selector = propTag.getAttribute( DEFAULT_STYLE_ATTRIB );
-
-			ExtensionSlotDefn slot = new ExtensionSlotDefn(
-					( (PeerExtensionElementDefn) elementDefn )
-							.getReportItemFactory( ).getMessages( ) );
-			slot.setName( name );
-			slot.setXmlName( xmlTagName );
-			slot.setDisplayNameID( StringUtil.trimString( displayNameID ) );
-			slot.setDefaultDisplayName( StringUtil
-					.trimString( defaultDisplayName ) );
-			slot.setMultipleCardinality( multipleCardinality );
-			slot.setSelector( StringUtil.trimString( selector ) );
-
-			// load the element types
-			IConfigurationElement[] elements = propTag.getChildren( );
-			for ( int i = 0; i < elements.length; i++ )
-			{
-				if ( ELEMENT_TYPE_TAG.equalsIgnoreCase( elements[i].getName( ) ) )
-				{
-					String elementType = loadSlotElementType( elements[i] );
-					if ( elementType == null )
-						continue;
-					slot.addType( elementType );
-				}
-			}
-
-			return slot;
-		}
-
-		/**
 		 * Loads one element type name of the given element.
 		 * 
 		 * @param elementTag
@@ -816,7 +788,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 		 *             instanced.
 		 */
 
-		String loadSlotElementType( IConfigurationElement elementTypeTag )
+		String loadElementType( IConfigurationElement elementTypeTag )
 		{
 			// read required parts
 			String name = elementTypeTag.getAttribute( NAME_ATTRIB );
@@ -888,6 +860,8 @@ public class PeerExtensionLoader extends ExtensionLoader
 					case IPropertyType.LITERAL_STRING_TYPE :
 					case IPropertyType.LIST_TYPE :
 					case IPropertyType.STRUCT_TYPE :
+					case IPropertyType.ELEMENT_REF_TYPE :
+					case IPropertyType.ELEMENT_TYPE :
 						allowedPropertyTypes.add( propType );
 						break;
 					default :

@@ -44,6 +44,24 @@ public abstract class ReportItemState extends ReportElementState
 	}
 
 	/**
+	 * Constructs the report item state with the design parser handler, the
+	 * container element and the container property name of the report element.
+	 * 
+	 * @param handler
+	 *            the design file parser handler
+	 * @param theContainer
+	 *            the element that contains this one
+	 * @param prop
+	 *            the slot in which this element appears
+	 */
+
+	public ReportItemState( ModuleParserHandler handler,
+			DesignElement theContainer, String prop )
+	{
+		super( handler, theContainer, prop );
+	}
+
+	/**
 	 * Intializes a report item with the properties common to all report items.
 	 * 
 	 * @param attrs

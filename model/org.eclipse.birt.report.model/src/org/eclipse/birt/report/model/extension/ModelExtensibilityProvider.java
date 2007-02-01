@@ -63,7 +63,7 @@ public abstract class ModelExtensibilityProvider extends ExtensibilityProvider
 		{
 			MetaDataDictionary dd = MetaDataDictionary.getInstance( );
 			cachedExtDefn = (ExtensionElementDefn) dd
-					.getExtension( extensionName );
+					.getElement( extensionName );
 		}
 
 		return cachedExtDefn;

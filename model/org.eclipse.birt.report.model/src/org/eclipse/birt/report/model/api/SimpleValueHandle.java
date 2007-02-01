@@ -197,7 +197,7 @@ public abstract class SimpleValueHandle extends ValueHandle
 	public Object get( int n )
 	{
 		List values = getListValue( );
-		if ( values == null || values.isEmpty( ) )
+		if ( n < 0 || values == null || values.isEmpty( ) || n >= values.size( ) )
 			return null;
 
 		Object item = values.get( n );
@@ -271,10 +271,10 @@ public abstract class SimpleValueHandle extends ValueHandle
 				}
 				return values.indexOf( o );
 			}
-			else
-				return values.indexOf( o );
+
+			return values.indexOf( o );
 		}
-		return -1;
+		return values.indexOf( o );
 	}
 
 	/**
@@ -516,8 +516,8 @@ public abstract class SimpleValueHandle extends ValueHandle
 	 * 
 	 * @param item
 	 *            The new item to add.
-	 * @return a handle to the newly added structure��return null if the item is
-	 *         null.
+	 * @return a handle to the newly added structure��return null if the item
+	 *         is null.
 	 * @throws SemanticException
 	 *             If the property is not a list property, or if the the value
 	 *             of the item is incorrect.
@@ -672,5 +672,5 @@ public abstract class SimpleValueHandle extends ValueHandle
 	 *         <code>false</code>.
 	 */
 
-	abstract public boolean isReadOnly( );	
+	abstract public boolean isReadOnly( );
 }

@@ -94,7 +94,6 @@ public class DesignEngineImpl implements IDesignEngine
 
 			ExtensionManager.initialize( );
 
-			MetaLogManager.shutDown( );
 		}
 		catch ( MetaDataParserException e )
 		{
@@ -145,7 +144,6 @@ public class DesignEngineImpl implements IDesignEngine
 			{
 				MetaLogManager.shutDown( );
 			}
-
 		}
 
 		SessionHandle session = new SessionHandle( locale );
@@ -196,7 +194,6 @@ public class DesignEngineImpl implements IDesignEngine
 			{
 				MetaLogManager.shutDown( );
 			}
-
 		}
 
 		return MetaDataDictionary.getInstance( );

@@ -16,10 +16,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
-import org.eclipse.birt.report.model.metadata.ElementDefn;
-
 /**
  * A name space organizes a set of named elements. The name space allows quick
  * lookup of elements by name, and ensures that each element has a unique name.
@@ -103,7 +99,7 @@ public final class NameSpace implements Cloneable
 	 *            The new name in the name space.
 	 */
 
-	 public void rename( DesignElement element, String oldName, String newName )
+	public void rename( DesignElement element, String oldName, String newName )
 	{
 		if ( oldName != null )
 		{
@@ -172,32 +168,5 @@ public final class NameSpace implements Cloneable
 		ns.names = new LinkedHashMap( );
 
 		return ns;
-	}
-
-	/**
-	 * Makes a clone of this name space for the new cloned design.
-	 * 
-	 * @param design
-	 *            the new cloned report design
-	 * @throws CloneNotSupportedException 
-	 * @see java.lang.Object#clone()
-	 */
-	public static void rebuildNamespace( ReportDesign design )
-			throws CloneNotSupportedException
-	{
-
-		for ( int i = 0; i < IReportDesignModel.SLOT_COUNT; i++ )
-		{
-			ContainerSlot slot = design.getSlot( i );
-			for ( int j = 0; j < slot.getCount( ); j++ )
-			{
-				DesignElement element = slot.getContent( j );
-				ElementDefn elementDefn = (ElementDefn) element.getDefn( );
-				int namespaceId = elementDefn.getNameSpaceID( );
-
-				design.getNameSpace( namespaceId ).names.put( element.name,
-						element );
-			}
-		}
 	}
 }

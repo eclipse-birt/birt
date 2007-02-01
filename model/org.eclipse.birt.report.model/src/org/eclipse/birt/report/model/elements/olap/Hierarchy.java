@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.elements.olap;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
-import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
@@ -38,7 +37,6 @@ public class Hierarchy extends ReferenceableElement implements IHierarchyModel
 
 	public Hierarchy( )
 	{
-		initSlots( );
 	}
 
 	/**
@@ -51,7 +49,6 @@ public class Hierarchy extends ReferenceableElement implements IHierarchyModel
 	public Hierarchy( String name )
 	{
 		super( name );
-		initSlots( );
 	}
 
 	/*
@@ -100,16 +97,5 @@ public class Hierarchy extends ReferenceableElement implements IHierarchyModel
 			handle = new HierarchyHandle( module, this );
 		}
 		return (HierarchyHandle) handle;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getSlot(int)
-	 */
-	public ContainerSlot getSlot( int slot )
-	{
-		assert slot == LEVEL_SLOT;
-		return slots[LEVEL_SLOT];
 	}
 }

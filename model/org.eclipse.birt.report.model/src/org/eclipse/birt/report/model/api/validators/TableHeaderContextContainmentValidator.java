@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ListingElement;
@@ -78,7 +79,8 @@ public class TableHeaderContextContainmentValidator
 		if ( !( element instanceof ListingElement ) )
 			return Collections.EMPTY_LIST;
 
-		return doValidate( module, element, IDesignElementModel.NO_SLOT );
+		return doValidate( module, new ContainerContext( element,
+				IDesignElementModel.NO_SLOT ) );
 	}
 
 	/**
@@ -96,39 +98,68 @@ public class TableHeaderContextContainmentValidator
 	 *         <code>TableItem.HEADER_SLOT</code>.
 	 */
 
-	private List doValidate( Module module, DesignElement toValidate, int slotId )
+	private List doValidate( Module module, ContainerContext containerInfo )
 	{
+		assert containerInfo != null;
 		List list = new ArrayList( );
 
-		DesignElement curContainer = toValidate;
-		int curSlotID = slotId;
+		// DesignElement curContainer = toValidate;
+		// int curSlotID = slotId;
+		//
+		// if ( slotId <= IDesignElementModel.NO_SLOT )
+		// {
+		// curContainer = toValidate.getContainer( );
+		// curSlotID = toValidate.getContainerSlot( );
+		// }
 
-		if ( slotId == IDesignElementModel.NO_SLOT )
+		ContainerContext infor = containerInfo;
+		if ( containerInfo.getSlotID( ) == IDesignElementModel.NO_SLOT )
+			infor = containerInfo.getElement( ).getContainerInfo( );
+		while ( infor != null )
 		{
-			curContainer = toValidate.getContainer( );
-			curSlotID = toValidate.getContainerSlot( );
-		}
-
-		while ( curContainer != null )
-		{
-			IElementDefn containerDefn = curContainer.getDefn( );
+			IElementDefn containerDefn = infor.getElement( ).getDefn( );
 
 			if ( ReportDesignConstants.TABLE_ITEM
 					.equalsIgnoreCase( containerDefn.getName( ) )
-					&& curSlotID == IListingElementModel.HEADER_SLOT )
+					&& infor.getSlotID( ) == IListingElementModel.HEADER_SLOT )
 			{
 				list
 						.add( new ContentException(
-								curContainer,
-								curSlotID,
-								toValidate,
+								infor.getElement( ),
+								infor.getSlotID( ),
+								containerInfo.getElement( ),
 								ContentException.DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT ) );
 			}
 
-			curSlotID = curContainer.getContainerSlot( );
-			curContainer = curContainer.getContainer( );
+			infor = infor.getElement( ).getContainerInfo( );
 		}
 		return list;
+	}
+
+	/**
+	 * Validates whether the given element can recursively resides in the
+	 * specific slot of specific container type when trying to add an element.
+	 * 
+	 * @param module
+	 *            the module
+	 * @param containerInfo
+	 *            the container information
+	 * @param toAdd
+	 *            the element to add
+	 * 
+	 * @return error list, each of which is the instance of
+	 *         <code>SemanticException</code>.
+	 */
+
+	public List validateForAdding( Module module, ContainerContext containerInfo,
+			DesignElement toAdd )
+	{
+		if ( !( toAdd instanceof ListingElement )
+				&& !( ModelUtil.containElement( module, toAdd,
+						ReportDesignConstants.LISTING_ITEM ) ) )
+			return Collections.EMPTY_LIST;
+
+		return doValidate( module, containerInfo );
 	}
 
 	/**
@@ -146,17 +177,19 @@ public class TableHeaderContextContainmentValidator
 	 * 
 	 * @return error list, each of which is the instance of
 	 *         <code>SemanticException</code>.
+	 * @deprecated since birt2.2, replaced by
+	 *             {@link #validateForAdding(Module, ContainerContext, DesignElement)}
 	 */
 
 	public List validateForAdding( Module module, DesignElement element,
 			int slotId, DesignElement toAdd )
 	{
 		if ( !( toAdd instanceof ListingElement )
-				&& !( ModelUtil.containElement( toAdd,
+				&& !( ModelUtil.containElement( module, toAdd,
 						ReportDesignConstants.LISTING_ITEM ) ) )
 			return Collections.EMPTY_LIST;
 
-		return doValidate( module, element, slotId );
+		return doValidate( module, new ContainerContext( element, slotId ) );
 	}
 
 	/**
@@ -182,6 +215,7 @@ public class TableHeaderContextContainmentValidator
 		if ( !toAdd.isKindOf( listingDefn ) )
 			return Collections.EMPTY_LIST;
 
-		return doValidate( module, element, IDesignElementModel.NO_SLOT );
+		return doValidate( module, new ContainerContext( element,
+				IDesignElementModel.NO_SLOT ) );
 	}
 }

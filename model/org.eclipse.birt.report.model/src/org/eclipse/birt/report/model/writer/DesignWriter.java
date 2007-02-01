@@ -79,6 +79,13 @@ public class DesignWriter extends ModuleWriter
 		property( obj, IReportDesignModel.AFTER_FACTORY_METHOD );
 		property( obj, IReportDesignModel.BEFORE_RENDER_METHOD );
 		property( obj, IReportDesignModel.AFTER_RENDER_METHOD );
+
+		if ( markLineNumber )
+		{
+			getModule( ).addLineNo(
+					obj.getPropertyDefn( IModuleModel.THEME_PROP ),
+					new Integer( writer.getLineCounter( ) ) );
+		}
 		property( obj, IModuleModel.THEME_PROP );
 		resourceKey( obj, IDesignElementModel.DISPLAY_NAME_ID_PROP,
 				IDesignElementModel.DISPLAY_NAME_PROP );

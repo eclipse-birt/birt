@@ -18,7 +18,7 @@ import org.xml.sax.Attributes;
 
 /**
  * This class parses a label item.
- *  
+ * 
  */
 
 public class LabelState extends ReportItemState
@@ -48,6 +48,24 @@ public class LabelState extends ReportItemState
 		super( handler, theContainer, slot );
 	}
 
+	/**
+	 * Constructs label state with the design parser handler, the container
+	 * element and the container property name of the report element.
+	 * 
+	 * @param handler
+	 *            the design file parser handler
+	 * @param theContainer
+	 *            the element that contains this one
+	 * @param prop
+	 *            the slot in which this element appears
+	 */
+
+	public LabelState( ModuleParserHandler handler, DesignElement theContainer,
+			String prop )
+	{
+		super( handler, theContainer, prop );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -70,5 +88,5 @@ public class LabelState extends ReportItemState
 	{
 		return element;
 	}
-    
+
 }

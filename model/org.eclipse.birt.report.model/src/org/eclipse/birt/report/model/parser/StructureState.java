@@ -42,6 +42,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ParameterFormatValu
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyMask;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
+import org.eclipse.birt.report.model.api.elements.structures.Rule;
 import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.birt.report.model.api.elements.structures.SearchKey;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
@@ -74,6 +75,8 @@ import org.xml.sax.SAXException;
 
 public class StructureState extends AbstractPropertyState
 {
+
+	private int lineNumber = 1;
 
 	/**
 	 * The list property value if this state is used to parse one structure in
@@ -192,6 +195,8 @@ public class StructureState extends AbstractPropertyState
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
 	{
+		lineNumber = handler.getCurrentLineNo( );
+
 		if ( name == null )
 			name = getAttrib( attrs, DesignSchemaConstants.NAME_ATTRIB );
 
@@ -286,6 +291,9 @@ public class StructureState extends AbstractPropertyState
 
 	public void end( ) throws SAXException
 	{
+		if ( handler.markLineNumber && struct instanceof EmbeddedImage )
+			handler.module.addLineNo( struct, new Integer( lineNumber ) );
+
 		if ( struct != null )
 		{
 			if ( parentStruct != null )
@@ -488,5 +496,6 @@ public class StructureState extends AbstractPropertyState
 		structDict.put( TOC.TOC_STRUCT.toLowerCase( ), TOC.class );
 		structDict.put( DimensionCondition.DIMENSION_CONDITION_STRUCT
 				.toLowerCase( ), DimensionCondition.class );
+		structDict.put( Rule.RULE_STRUCTURE.toLowerCase( ), Rule.class );
 	}
 }

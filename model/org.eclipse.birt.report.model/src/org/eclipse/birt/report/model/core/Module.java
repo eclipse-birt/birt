@@ -71,6 +71,8 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.parser.DesignParserException;
 import org.eclipse.birt.report.model.parser.LibraryReader;
+import org.eclipse.birt.report.model.util.LevelContentIterator;
+import org.eclipse.birt.report.model.util.LineNumberInfo;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 import org.eclipse.birt.report.model.util.StructureRefUtil;
@@ -177,12 +179,6 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 */
 
 	protected HashMap idMap = new HashMap( );
-
-	/**
-	 * The hash map for the id-to-lineNumber lookup.
-	 */
-
-	protected HashMap lineNoMap = null;
 
 	/**
 	 * The undo/redo stack for operations on this module.
@@ -326,6 +322,12 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 */
 
 	protected ModuleOption options = null;
+
+	/**
+	 * Information member for line numbers.
+	 */
+
+	protected LineNumberInfo lineNoInfo = null;
 
 	/**
 	 * Default constructor.
@@ -559,21 +561,6 @@ public abstract class Module extends DesignElement implements IModuleModel
 	}
 
 	/**
-	 * Adds an element to the id-to-elementLineNumber map.
-	 * 
-	 * @param elementId
-	 *            The element id.
-	 * @param lineNo
-	 *            the line number of the element in xml source.
-	 */
-
-	public void addElementLineNo( long elementId, int lineNo )
-	{
-		assert lineNoMap != null;
-		lineNoMap.put( new Long( elementId ), new Integer( lineNo ) );
-	}
-
-	/**
 	 * Drops an element from the id-to-element map. Does nothing if IDs are not
 	 * enabled. Should be called only from the
 	 * {@link org.eclipse.birt.report.model.command.ContentCommand ContentCommand}.
@@ -598,7 +585,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 	public void initLineNoMap( )
 	{
-		lineNoMap = new HashMap( );
+		lineNoInfo = new LineNumberInfo( );
 	}
 
 	/**
@@ -623,6 +610,22 @@ public abstract class Module extends DesignElement implements IModuleModel
 	}
 
 	/**
+	 * Returns the line number.
+	 * 
+	 * @param obj
+	 *            the obj to query the line number, it can be
+	 *            <code>DesignElement</code>, or <code>EmbeddedImage</code>,
+	 *            or <code>IncludedLibrary</code>
+	 * 
+	 * @return the line number
+	 */
+
+	public int getLineNo( Object obj )
+	{
+		return lineNoInfo.get( obj );
+	}
+
+	/**
 	 * Looks up line number of the element in xml source given an element ID.
 	 * Returns 1 if no line number of the element exists with the given ID.
 	 * 
@@ -630,15 +633,32 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 *            The id of the element to find.
 	 * @return The line number of the element given the element id, or 1 if the
 	 *         element can't be found or if IDs are not enabled.
+	 * @deprecated {@link #getLineNo(Object)}
 	 */
 
 	final public int getLineNoByID( long id )
 	{
-		if ( lineNoMap == null )
+		if ( lineNoInfo == null )
 			return 1;
 
-		Integer lineNo = (Integer) lineNoMap.get( new Long( id ) );
-		return lineNo == null ? 1 : lineNo.intValue( );
+		return lineNoInfo.getElementLineNo( id );
+	}
+
+	/**
+	 * Adds an object's line number info.
+	 * 
+	 * @param obj
+	 *            the object
+	 * @param lineNo
+	 *            the line number
+	 */
+
+	public void addLineNo( Object obj, Integer lineNo )
+	{
+		if ( lineNoInfo == null )
+			return;
+
+		lineNoInfo.put( obj, lineNo );
 	}
 
 	/**
@@ -746,7 +766,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 		module.elementIDCounter = 1;
 		module.fatalException = null;
 		module.idMap = new HashMap( );
-		module.lineNoMap = null;
+		module.lineNoInfo = null;
 		module.moduleNameSpaces = new IModuleNameScope[NAME_SPACE_COUNT];
 		module.nameSpaces = new NameSpace[NAME_SPACE_COUNT];
 		module.nameManager = new NameManager( module );
@@ -870,14 +890,12 @@ public abstract class Module extends DesignElement implements IModuleModel
 			ns.insert( element );
 		}
 
-		for ( int i = 0; i < defn.getSlotCount( ); i++ )
+		if ( defn.isContainer( ) )
 		{
-			ContainerSlot slot = element.getSlot( i );
-			assert slot != null;
-
-			for ( int pos = 0; pos < slot.getCount( ); pos++ )
+			Iterator iter = new LevelContentIterator( this, element, 1 );
+			while ( iter.hasNext( ) )
 			{
-				DesignElement innerElement = slot.getContent( pos );
+				DesignElement innerElement = (DesignElement) iter.next( );
 				buildNameSpaceAndIDMap( module, innerElement );
 			}
 		}
@@ -1432,16 +1450,15 @@ public abstract class Module extends DesignElement implements IModuleModel
 						.getContent( i );
 				if ( templateParam.getClientList( ).isEmpty( ) )
 				{
-					slot.remove( templateParam );
+					module
+							.remove(
+									templateParam,
+									IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT );
 
 					// Remove the element from the ID map if we are using
 					// IDs.
 
 					module.manageId( templateParam, false );
-
-					// Clear the inverse relationship.
-
-					templateParam.setContainer( null, NO_SLOT );
 				}
 			}
 		}
@@ -2284,8 +2301,6 @@ public abstract class Module extends DesignElement implements IModuleModel
 
 		if ( element.getRoot( ) != this )
 			return;
-
-		IElementDefn defn = element.getDefn( );
 		if ( isAdd )
 		{
 			// the element has no id or a duplicate id, re-allocate another one
@@ -2305,18 +2320,11 @@ public abstract class Module extends DesignElement implements IModuleModel
 			dropElementID( element );
 		}
 
-		for ( int i = 0; i < defn.getSlotCount( ); i++ )
+		Iterator iter = new LevelContentIterator( this, element, 1 );
+		while ( iter.hasNext( ) )
 		{
-			ContainerSlot slot = element.getSlot( i );
-
-			if ( slot == null )
-				continue;
-
-			for ( int pos = 0; pos < slot.getCount( ); pos++ )
-			{
-				DesignElement innerElement = slot.getContent( pos );
-				manageId( innerElement, isAdd );
-			}
+			DesignElement innerElement = (DesignElement) iter.next( );
+			manageId( innerElement, isAdd );
 		}
 	}
 
@@ -2604,18 +2612,11 @@ public abstract class Module extends DesignElement implements IModuleModel
 				|| element.getName( ) != null )
 			makeUniqueName( element );
 
-		for ( int i = 0; i < defn.getSlotCount( ); i++ )
+		LevelContentIterator iter = new LevelContentIterator( this, element, 1 );
+		while ( iter.hasNext( ) )
 		{
-			ContainerSlot slot = element.getSlot( i );
-
-			if ( slot != null )
-			{
-				for ( int pos = 0; pos < slot.getCount( ); pos++ )
-				{
-					DesignElement innerElement = slot.getContent( pos );
-					rename( innerElement );
-				}
-			}
+			DesignElement innerElement = (DesignElement) iter.next( );
+			rename( innerElement );
 		}
 	}
 

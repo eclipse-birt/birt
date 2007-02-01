@@ -36,6 +36,7 @@ import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IResourceChangeListener;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.css.StyleSheetException;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
@@ -70,6 +71,7 @@ import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.parser.DesignParserException;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
@@ -194,7 +196,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 					PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS );
 		}
 
-		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ), getElement( ) );
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
+				getElement( ) );
 		cmd.addItem( new CachedMemberRef( propDefn ), configVar );
 	}
 
@@ -210,7 +213,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public void addImage( EmbeddedImage image ) throws SemanticException
 	{
-		ComplexPropertyCommand cmd = new ComplexPropertyCommand( module, getElement( ) );
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( module,
+				getElement( ) );
 		ElementPropertyDefn propDefn = module.getPropertyDefn( IMAGES_PROP );
 		cmd.addItem( new CachedMemberRef( propDefn ), image );
 	}
@@ -909,6 +913,13 @@ public abstract class ModuleHandle extends DesignElementHandle
 	}
 
 	/**
+	 * Gets the slot handle to work with all cube elements within the report.
+	 * 
+	 * @return
+	 */
+	public abstract SlotHandle getCubes( );
+
+	/**
 	 * Returns a slot handle to work with the data sources within the report.
 	 * Note that the order of the data sources within the slot is unimportant.
 	 * 
@@ -1429,7 +1440,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 	{
 		ElementPropertyDefn propDefn = module.getPropertyDefn( propName );
 
-		ComplexPropertyCommand cmd = new ComplexPropertyCommand( module, getElement( ) );
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( module,
+				getElement( ) );
 		cmd.replaceItem( new CachedMemberRef( propDefn ), (Structure) oldVar,
 				(Structure) newVar );
 	}
@@ -1723,7 +1735,29 @@ public abstract class ModuleHandle extends DesignElementHandle
 				IAccessControl.NATIVE_LEVEL ) );
 
 	}
-	
+
+	/**
+	 * Gets all the cube elements from the given element list.
+	 * 
+	 * @param elements
+	 * @return
+	 */
+	private List getCubeList( List elements )
+	{
+		if ( elements == null )
+			return null;
+		List cubes = new ArrayList( );
+		for ( int i = 0; i < elements.size( ); i++ )
+		{
+			DesignElement element = (DesignElement) elements.get( i );
+			if ( element.getDefn( ).isKindOf(
+					MetaDataDictionary.getInstance( ).getElement(
+							ReportDesignConstants.CUBE_ELEMENT ) ) )
+				cubes.add( element );
+		}
+		return cubes;
+	}
+
 	/**
 	 * Returns all cube handles that this modules and the included modules
 	 * contain.
@@ -1739,7 +1773,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 		List elementList = namescope
 				.getElements( IAccessControl.ARBITARY_LEVEL );
-		return generateHandleList( elementList );
+		List cubeList = getCubeList( elementList );
+		return generateHandleList( cubeList );
 	}
 
 	/**
@@ -1754,7 +1789,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 				.getModuleNameSpace( Module.CUBE_NAME_SPACE );
 
 		List elementList = namescope.getElements( IAccessControl.NATIVE_LEVEL );
-		return generateHandleList( sortVisibleElements( elementList,
+		List cubeList = getCubeList( elementList );
+		return generateHandleList( sortVisibleElements( cubeList,
 				IAccessControl.NATIVE_LEVEL ) );
 
 	}
@@ -2591,13 +2627,15 @@ public abstract class ModuleHandle extends DesignElementHandle
 		while ( itre.hasNext( ) )
 		{
 			name = (String) itre.next( );
-			try{
-				value = PropertyValueValidationUtil.validateProperty( this, name,
-					properties.get( name ) );
-				root.setProperty( name, value );
-			}catch(SemanticException e )
+			try
 			{
-				//Do Nothing
+				value = PropertyValueValidationUtil.validateProperty( this,
+						name, properties.get( name ) );
+				root.setProperty( name, value );
+			}
+			catch ( SemanticException e )
+			{
+				// Do Nothing
 			}
 		}
 
@@ -2671,7 +2709,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 		if ( scriptLib == null )
 			return;
 
-		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ), getElement( ) );
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
+				getElement( ) );
 		cmd.removeItem( new CachedMemberRef( propDefn ), scriptLib );
 	}
 
@@ -2691,7 +2730,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 		if ( scriptLibHandle == null )
 			return;
 
-		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ), getElement( ) );
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
+				getElement( ) );
 		cmd.removeItem( new CachedMemberRef( propDefn ), scriptLibHandle
 				.getStructure( ) );
 	}
@@ -2784,7 +2824,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 			throws SemanticException
 	{
 		ElementPropertyDefn propDefn = module.getPropertyDefn( SCRIPTLIBS_PROP );
-		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ), getElement( ) );
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
+				getElement( ) );
 		cmd.moveItem( new CachedMemberRef( propDefn ), sourceIndex, destIndex );
 	}
 
@@ -2799,7 +2840,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public void addScriptLib( ScriptLib scriptLib ) throws SemanticException
 	{
 		ElementPropertyDefn propDefn = module.getPropertyDefn( SCRIPTLIBS_PROP );
-		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ), getElement( ) );
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
+				getElement( ) );
 		cmd.addItem( new CachedMemberRef( propDefn ), scriptLib );
 	}
 
@@ -2825,7 +2867,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	{
 		return module.getResourceFolder( );
 	}
-	
+
 	/**
 	 * Looks up line number of the element in xml source given an element ID.
 	 * Returns 1 if no line number of the element exists with the given ID.
@@ -2834,11 +2876,40 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            The id of the element to find.
 	 * @return The line number of the element given the element id, or 1 if the
 	 *         element can't be found or if IDs are not enabled.
+	 * @deprecated new method see {@link #getLineNo(Object)}
 	 */
 
 	public int getLineNoByID( long id )
 	{
 		return module.getLineNoByID( id );
+	}
+
+	/**
+	 * looks up line number of the element\property\struceture, in xml source
+	 * with given xPaht. Returns 1 if there is no corresponding
+	 * element\property\structure.
+	 * 
+	 * @param obj
+	 *            The xPath of the element\property\structure, it should be
+	 *            unique in an report file.
+	 * @return The line number of the element\property\structure, or 1 if
+	 *         correspondign item does not exsit.
+	 */
+
+	public int getLineNo( Object obj )
+	{
+		if ( obj instanceof EmbeddedImageHandle )
+		{
+			return module.getLineNo( ( (EmbeddedImageHandle) obj )
+					.getStructure( ) );
+		}
+		else if ( obj instanceof DesignElementHandle )
+		{
+			return module
+					.getLineNo( ( (DesignElementHandle) obj ).getElement( ) );
+		}
+		else
+			return 1;
 	}
 
 	/**
@@ -2864,7 +2935,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 		// Check value in design handle and libraries.
 
 		DesignElement element = (DesignElement) nameSpaceList.get( 0 );
-		int slotID = element.getContainerSlot( );
+		int slotID = element.getContainerInfo( ) == null
+				? IDesignElementModel.NO_SLOT
+				: element.getContainerInfo( ).getSlotID( );
 		assert slotID != IDesignElementModel.NO_SLOT;
 
 		// Libraries

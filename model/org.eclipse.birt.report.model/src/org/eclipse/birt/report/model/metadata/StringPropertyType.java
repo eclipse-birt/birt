@@ -64,24 +64,7 @@ public class StringPropertyType extends PropertyType
 		if ( StringUtil.isEmpty( stringValue ) )
 			return null;
 
-		return stringValue;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.design.metadata.PropertyValidator#validateXml(java.lang.String)
-	 */
-
-	public Object validateXml( Module module, PropertyDefn defn,
-			String value ) throws PropertyValueException
-	{
-		// Model treats "" is as same as null.
-		
-		if ( StringUtil.isEmpty( value ) )
-			return null;
-
-		return value;
+		return stringValue.trim( );
 	}
 
 	/*

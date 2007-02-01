@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.elements.olap.Hierarchy;
 import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.birt.report.model.elements.olap.Measure;
+import org.eclipse.birt.report.model.elements.olap.MeasureGroup;
 
 /**
  * The base class for defining algorithms that traverse the design tree. The
@@ -632,7 +633,7 @@ public class ElementVisitor
 	{
 		visitDesignElement( obj );
 	}
-	
+
 	/**
 	 * Visists the hierarchy element.
 	 * 
@@ -656,7 +657,7 @@ public class ElementVisitor
 	{
 		visitDesignElement( obj );
 	}
-	
+
 	/**
 	 * Visists the measure element.
 	 * 
@@ -665,6 +666,17 @@ public class ElementVisitor
 	 */
 
 	public void visitMeasure( Measure obj )
+	{
+		visitDesignElement( obj );
+	}
+
+	/**
+	 * Visits the measure group element.
+	 * 
+	 * @param obj
+	 *            the measure group to traverse
+	 */
+	public void visitMeasureGroup( MeasureGroup obj )
 	{
 		visitDesignElement( obj );
 	}

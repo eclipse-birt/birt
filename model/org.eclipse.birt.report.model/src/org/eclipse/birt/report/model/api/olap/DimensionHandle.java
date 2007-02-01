@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.api.olap;
 
 import org.eclipse.birt.report.model.api.ReportElementHandle;
-import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -69,16 +68,5 @@ public class DimensionHandle extends ReportElementHandle
 	public void setTimeType( boolean isTimeType ) throws SemanticException
 	{
 		setProperty( IS_TIME_TYPE_PROP, Boolean.valueOf( isTimeType ) );
-	}
-
-	/**
-	 * Gets the slot handle that holds all the hierarchy elements.
-	 * 
-	 * @return slot handle of all hierarchy elements
-	 */
-
-	public SlotHandle getHierarchies( )
-	{
-		return getSlot( HIERARCHY_SLOT );
 	}
 }

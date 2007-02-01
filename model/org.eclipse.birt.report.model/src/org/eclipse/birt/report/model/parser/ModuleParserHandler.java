@@ -268,8 +268,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 			while ( iter.hasNext( ) )
 			{
 				Map.Entry entry = (Map.Entry) iter.next( );
-				module.addElementLineNo( ( (DesignElement) entry.getKey( ) )
-						.getID( ), ( (Integer) entry.getValue( ) ).intValue( ) );
+				module.addLineNo( entry.getKey( ), (Integer) entry.getValue( ) );
 			}
 			tempLineNumbers = null;
 		}

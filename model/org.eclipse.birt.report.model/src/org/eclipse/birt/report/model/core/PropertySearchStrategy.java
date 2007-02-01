@@ -86,7 +86,8 @@ public class PropertySearchStrategy
 
 			// Check if this element or parent provides the value
 
-			value = tmpStrategy.getPropertyFromElement( module, e, prop );
+			value = tmpStrategy.getNonIntrinsicPropertyFromElement( module, e,
+					prop );
 			if ( value != null )
 				return value;
 
@@ -134,6 +135,42 @@ public class PropertySearchStrategy
 	public Object getPropertyFromElement( Module module, DesignElement element,
 			ElementPropertyDefn prop )
 	{
+		if ( prop.isIntrinsic( ) )
+		{
+			// This is an intrinsic system-defined property.
+
+			return element.getIntrinsicProperty( prop.getName( ) );
+		}
+
+		return getNonIntrinsicPropertyFromElement( module, element, prop );
+
+	}
+
+	/**
+	 * Gets a non-intrinic property value given its definition. This version
+	 * does the property search as defined by the given derived component. That
+	 * is, it gets the "effective" property value. The definition can be for a
+	 * system or user-defined property.
+	 * <p>
+	 * The search won't search up the containment hierarchy. Meanwhile, it won't
+	 * the inheritance hierarchy if the non-style property is not inheritable.
+	 * <p>
+	 * Part of: Property value system.
+	 * 
+	 * @param module
+	 *            the module
+	 * @param element
+	 *            the element to search
+	 * @param prop
+	 *            definition of the property to get
+	 * @return The property value, or null if no value is set.
+	 */
+
+	private Object getNonIntrinsicPropertyFromElement( Module module,
+			DesignElement element, ElementPropertyDefn prop )
+	{
+		assert !prop.isIntrinsic( );
+
 		Object value = null;
 
 		value = getPropertyFromSelf( module, element, prop );
@@ -253,9 +290,9 @@ public class PropertySearchStrategy
 				// If we can find the value here, return it.
 
 				value = getPropertyFromSelf( currentRoot, e, prop );
-				if ( value != null )			
+				if ( value != null )
 					return value;
-				
+
 			}
 
 		} while ( e != null );
@@ -303,8 +340,7 @@ public class PropertySearchStrategy
 		if ( element.getContainer( ) == null )
 			return null;
 
-		String selector = element.getContainer( ).getSelector(
-				element.getContainerSlot( ) );
+		String selector = element.getContainerInfo( ).getSelector( );
 
 		return getPropertyFromSelector( module, prop, selector );
 	}

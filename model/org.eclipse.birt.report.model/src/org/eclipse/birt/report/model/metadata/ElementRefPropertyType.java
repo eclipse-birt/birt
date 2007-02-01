@@ -56,7 +56,7 @@ public class ElementRefPropertyType extends PropertyType
 	 * Display name key.
 	 */
 
-	private static final String DISPLAY_NAME_KEY = "Property.element"; //$NON-NLS-1$
+	private static final String DISPLAY_NAME_KEY = "Property.elementRef"; //$NON-NLS-1$
 
 	/**
 	 * Constructor.

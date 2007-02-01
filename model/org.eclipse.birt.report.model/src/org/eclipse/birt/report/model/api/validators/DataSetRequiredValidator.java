@@ -17,11 +17,13 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
@@ -82,7 +84,7 @@ public class DataSetRequiredValidator extends AbstractElementValidator
 		List list = new ArrayList( );
 
 		DesignElement container = toValidate;
-		int slot = toValidate.getContainerSlot( );
+		ContainerContext containerInfo = null;
 
 		boolean dataSetFound = false;
 		if ( toValidate instanceof ExtendedItem || toValidate instanceof Cube )
@@ -98,7 +100,7 @@ public class DataSetRequiredValidator extends AbstractElementValidator
 			{
 				while ( container.getContainer( ) != null )
 				{
-					slot = container.getContainerSlot( );
+					containerInfo = container.getContainerInfo( );
 					container = container.getContainer( );
 				}
 			}
@@ -117,7 +119,7 @@ public class DataSetRequiredValidator extends AbstractElementValidator
 					}
 				}
 
-				slot = container.getContainerSlot( );
+				containerInfo = container.getContainerInfo( );
 				container = container.getContainer( );
 			}
 		}
@@ -132,6 +134,9 @@ public class DataSetRequiredValidator extends AbstractElementValidator
 		// Since element in components slot is considered as incompletely
 		// defined, the data set is not required on table in components.
 
+		int slot = containerInfo == null
+				? IDesignElementModel.NO_SLOT
+				: containerInfo.getSlotID( );
 		if ( !dataSetFound && IModuleModel.COMPONENT_SLOT != slot )
 		{
 			list.add( new SemanticError( toValidate,

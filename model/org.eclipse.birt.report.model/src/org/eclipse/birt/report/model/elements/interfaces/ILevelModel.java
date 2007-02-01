@@ -24,11 +24,38 @@ public interface ILevelModel
 	 * column name.
 	 */
 
-	static final String ATTRIBUTES_PROP = "attributes"; //$NON-NLS-1$
+	String ATTRIBUTES_PROP = "attributes"; //$NON-NLS-1$
 
 	/**
 	 * Name of the property that refers a column name in the dataset.
 	 */
 
-	static final String COLUMN_NAME_PROP = "columnName"; //$NON-NLS-1$
+	String COLUMN_NAME_PROP = "columnName"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property that is used to create static group based on the
+	 * rules define in this property.
+	 */
+	String STATIC_VALUES_PROP = "staticValues"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property that gives the interval base of search.
+	 */
+	String INTERVAL_BASE_PROP = "intervalBase"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property that gives the interval range of search.
+	 */
+	String INTERVAL_RANGE_PROP = "intervalRange"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property that gives the interval of search.
+	 */
+	String INTERVAL_PROP = "interval"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property that indicates whether this level is static, dynamic
+	 * or mirrored.
+	 */
+	String LEVEL_TYPE_PROP = "levelType"; //$NON-NLS-1$
 }

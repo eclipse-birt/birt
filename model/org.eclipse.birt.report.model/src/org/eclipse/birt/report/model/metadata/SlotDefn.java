@@ -240,7 +240,8 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 			{
 				ExtensionElementDefn extension = (ExtensionElementDefn) dd
 						.getExtensions( ).get( i );
-				if ( extension.isKindOf( extendItem )
+				if ( extension.isKindOf( dd
+						.getElement( ReportDesignConstants.REPORT_ITEM ) )
 						&& PeerExtensionLoader.EXTENSION_POINT
 								.equals( extension.extensionPoint )
 						&& !contentsWithExtensions.contains( extension ) )
@@ -494,6 +495,27 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 	public void setManagedByNameSpace( boolean isManagedByNameSpace )
 	{
 		this.isManagedByNameSpace = isManagedByNameSpace;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.metadata.IContainerDefn#getAllowedElements()
+	 */
+	public List getAllowedElements( )
+	{
+		return getAllowedElements( true );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.metadata.IContainerDefn#getAllowedElements(boolean)
+	 */
+	public List getAllowedElements( boolean extractExtensions )
+	{
+		if ( extractExtensions )
+			return getContentExtendedElements( );
+		return getContentElements( );
 	}
 
 }

@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.elements.olap;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
-import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
@@ -36,8 +35,7 @@ public class Cube extends ReferenceableElement implements ICubeModel
 	 */
 	
 	public Cube( )
-	{
-		initSlots( );
+	{		
 	}
 
 	/**
@@ -50,7 +48,6 @@ public class Cube extends ReferenceableElement implements ICubeModel
 	public Cube( String name )
 	{
 		super( name );
-		initSlots( );
 	}
 
 	/*
@@ -102,17 +99,5 @@ public class Cube extends ReferenceableElement implements ICubeModel
 			handle = new CubeHandle( module, this );
 		}
 		return (CubeHandle) handle;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getSlot(int)
-	 */
-	
-	public ContainerSlot getSlot( int slot )
-	{
-		assert slot >= 0 && slot < SLOT_COUNT;
-		return slots[slot];
 	}
 }

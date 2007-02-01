@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.api.command;
 
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 
 /**
@@ -46,12 +47,6 @@ public class ContentEvent extends NotificationEvent
 	public static final int SHIFT = 3;
 
 	/**
-	 * The slot within the container.
-	 */
-
-	protected int slot = 0;
-
-	/**
 	 * The type of change. One of {@link #ADD},{@link #REMOVE}, or
 	 * {@link #SHIFT}.
 	 */
@@ -66,8 +61,12 @@ public class ContentEvent extends NotificationEvent
 
 	/**
 	 * 
-	 * /** Constructs the content event with the container element, content
-	 * element, the slot within this container and the event operation kind.
+	 */
+	protected ContainerContext focus = null;
+
+	/**
+	 * Constructs the content event with the container element, content element,
+	 * the slot within this container and the event operation kind.
 	 * 
 	 * @param theContainer
 	 *            the container element
@@ -83,9 +82,24 @@ public class ContentEvent extends NotificationEvent
 			int theSlot, int theAction )
 	{
 		super( theContainer );
-		slot = theSlot;
 		action = theAction;
 		content = theContent;
+		focus = new ContainerContext( theContainer, theSlot );
+	}
+
+	/**
+	 * 
+	 * @param containerInfo
+	 * @param theContent
+	 * @param theAction
+	 */
+	public ContentEvent( ContainerContext containerInfo, DesignElement theContent,
+			int theAction )
+	{
+		super( containerInfo.getElement( ) );
+		action = theAction;
+		content = theContent;
+		focus = containerInfo;
 	}
 
 	/*
@@ -118,7 +132,7 @@ public class ContentEvent extends NotificationEvent
 
 	public int getSlot( )
 	{
-		return slot;
+		return focus.getSlotID( );
 	}
 
 	/**
@@ -144,7 +158,7 @@ public class ContentEvent extends NotificationEvent
 			return false;
 		ContentEvent contentEvent = (ContentEvent) event;
 		if ( action != contentEvent.getAction( )
-				|| slot != contentEvent.getSlot( )
+				|| !focus.equals( contentEvent.focus )
 				|| content != contentEvent.getContent( ) )
 			return false;
 		return true;

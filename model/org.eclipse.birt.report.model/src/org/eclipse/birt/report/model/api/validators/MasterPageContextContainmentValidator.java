@@ -19,11 +19,13 @@ import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.util.ContentExceptionFactory;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
@@ -116,7 +118,7 @@ public class MasterPageContextContainmentValidator
 		List list = new ArrayList( );
 
 		if ( ModelUtil
-				.containElement( page, ReportDesignConstants.LISTING_ITEM )
+				.containElement( module,page, ReportDesignConstants.LISTING_ITEM )
 				|| isAddListing )
 		{
 			list
@@ -134,6 +136,45 @@ public class MasterPageContextContainmentValidator
 	 * 
 	 * @param module
 	 *            the module
+	 * @param containerInfo
+	 *            the container information
+	 * @param toAdd
+	 *            the element to add
+	 * 
+	 * @return error list, each of which is the instance of
+	 *         <code>SemanticException</code>.
+	 */
+
+	public List validateForAdding( Module module, ContainerContext containerInfo,
+			DesignElement toAdd )
+	{
+		boolean isAddListing = false;
+		if ( toAdd instanceof ListingElement
+				|| ModelUtil.containElement( module, toAdd,
+						ReportDesignConstants.LISTING_ITEM ) )
+			isAddListing = true;
+
+		List errors = doValidate( module, containerInfo.getElement( ),
+				isAddListing );
+		if ( !errors.isEmpty( ) )
+		{
+			errors.clear( );
+			errors
+					.add( ContentExceptionFactory
+							.createContentException(
+									containerInfo,
+									toAdd,
+									ContentException.DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT ) );
+		}
+		return errors;
+	}
+
+	/**
+	 * Validates whether the given element can recursively resides in the
+	 * specific slot of specific container type when trying to add an element.
+	 * 
+	 * @param module
+	 *            the module
 	 * @param element
 	 *            the container element
 	 * @param slotId
@@ -143,6 +184,8 @@ public class MasterPageContextContainmentValidator
 	 * 
 	 * @return error list, each of which is the instance of
 	 *         <code>SemanticException</code>.
+	 * @deprecated since birt2.2, replaced by
+	 *             {@link #validateForAdding(Module, ContainerContext, DesignElement)}
 	 */
 
 	public List validateForAdding( Module module, DesignElement element,
@@ -150,7 +193,7 @@ public class MasterPageContextContainmentValidator
 	{
 		boolean isAddListing = false;
 		if ( toAdd instanceof ListingElement
-				|| ModelUtil.containElement( toAdd,
+				|| ModelUtil.containElement( module, toAdd,
 						ReportDesignConstants.LISTING_ITEM ) )
 			isAddListing = true;
 

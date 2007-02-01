@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.api.command;
 
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 
 /**
@@ -24,22 +25,22 @@ public class ContentReplaceEvent extends NotificationEvent
 {
 
 	/**
-	 * The slot within the container.
+	 * The container information.
 	 */
 
-	protected int slot = 0;
+	protected final ContainerContext focus;
 
 	/**
 	 * The old element replaced and causing the event.
 	 */
 
-	private DesignElement oldElement;
+	private final DesignElement oldElement;
 
 	/**
 	 * The new element replacing and causing the event.
 	 */
 
-	private DesignElement newElement;
+	private final DesignElement newElement;
 
 	/**
 	 * 
@@ -54,6 +55,8 @@ public class ContentReplaceEvent extends NotificationEvent
 	 *            the new element
 	 * @param theSlot
 	 *            the slot within the container
+	 * @deprecated since birt 2.2 replaced by
+	 *             {@link #ContentReplaceEvent(ContainerContext, DesignElement, DesignElement)}
 	 */
 
 	public ContentReplaceEvent( DesignElement theContainer,
@@ -62,7 +65,29 @@ public class ContentReplaceEvent extends NotificationEvent
 		super( theContainer );
 		this.oldElement = theOld;
 		this.newElement = theNew;
-		this.slot = theSlot;
+		this.focus = new ContainerContext( theContainer, theSlot);
+	}
+
+	/**
+	 * 
+	 * /** Constructs the content replace event with the container element, old
+	 * element, new element and the slot within this container.
+	 * 
+	 * @param containerInfo
+	 *            the container information
+	 * @param theOld
+	 *            the old element replaced
+	 * @param theNew
+	 *            the new element
+	 */
+
+	public ContentReplaceEvent( ContainerContext containerInfo,
+			DesignElement theOld, DesignElement theNew )
+	{
+		super( containerInfo.getElement( ) );
+		this.focus = containerInfo;
+		this.oldElement = theOld;
+		this.newElement = theNew;
 	}
 
 	/*
@@ -84,7 +109,7 @@ public class ContentReplaceEvent extends NotificationEvent
 
 	public int getSlot( )
 	{
-		return slot;
+		return focus.getSlotID( );
 	}
 
 	/**

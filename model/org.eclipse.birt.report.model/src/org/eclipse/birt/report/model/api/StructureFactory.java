@@ -35,6 +35,7 @@ import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyMask;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
+import org.eclipse.birt.report.model.api.elements.structures.Rule;
 import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.birt.report.model.api.elements.structures.SearchKey;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
@@ -520,4 +521,13 @@ public class StructureFactory
 		return new DimensionCondition( );
 	}
 
+	/**
+	 * Creates a Rule structure.
+	 * 
+	 * @return a rule structure
+	 */
+	public static Rule createRule( )
+	{
+		return new Rule( );
+	}
 }

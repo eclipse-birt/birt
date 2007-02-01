@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.AutoText;
@@ -58,6 +59,7 @@ import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.elements.olap.Hierarchy;
 import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.birt.report.model.elements.olap.Measure;
+import org.eclipse.birt.report.model.elements.olap.MeasureGroup;
 
 /**
  * Applies logic customized to each type of report element. This is an
@@ -725,7 +727,19 @@ public class DesignVisitor
 	{
 		visitDesignElement( obj );
 	}
+	
+	/**
+	 * Visits the measure element.
+	 * 
+	 * @param obj
+	 *            the measure element to traverse
+	 */
 
+	protected void visitMeasureGroup( MeasureGroupHandle obj )
+	{
+		visitDesignElement( obj );
+	}
+	
 	/**
 	 * A class forward the visit of an element to its handle.
 	 * 
@@ -1234,6 +1248,17 @@ public class DesignVisitor
 		public void visitMeasure( Measure obj )
 		{
 			DesignVisitor.this.visitMeasure( obj.handle( module ) );
+		}
+
+		/**
+		 * Visits the measure group.
+		 * 
+		 * @param obj
+		 *            the measure group
+		 */
+		public void visitMeasureGroup( MeasureGroup obj )
+		{
+			DesignVisitor.this.visitMeasureGroup( obj.handle( module ) );
 		}
 	}
 }

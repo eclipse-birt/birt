@@ -15,9 +15,9 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
-import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.validators.ThemeStyleNameValidator;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -142,19 +142,16 @@ public class Theme extends ReferenceableElement implements IThemeModel
 		}
 		return style;
 	}
+	
+	
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#checkContent(org.eclipse.birt.report.model.core.Module,
-	 *      org.eclipse.birt.report.model.core.DesignElement, int,
-	 *      org.eclipse.birt.report.model.core.DesignElement)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#checkContent(org.eclipse.birt.report.model.core.Module, org.eclipse.birt.report.model.core.ContainerInfo, org.eclipse.birt.report.model.core.DesignElement)
 	 */
-
-	protected List checkContent( Module module, DesignElement tmpContainer,
-			int slotId, DesignElement content )
+	public List checkContent( Module module, ContainerContext containerInfo, DesignElement content )
 	{
-		List tmpErrors = super.checkContent( module, tmpContainer, slotId, content );
+		List tmpErrors = super.checkContent( module, containerInfo, content );
 		if ( !tmpErrors.isEmpty( ) )
 			return tmpErrors;
 

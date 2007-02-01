@@ -70,7 +70,7 @@ public class LevelHandle extends ReportElementHandle implements ILevelModel
 
 	/**
 	 * Returns the iterator of attributes. The element in the iterator is a
-	 * <code>String</code>.
+	 * <code>StructureHandle</code>.
 	 * 
 	 * @return the iterator of attribute string list
 	 */
@@ -82,5 +82,178 @@ public class LevelHandle extends ReportElementHandle implements ILevelModel
 		assert propHandle != null;
 
 		return propHandle.iterator( );
+	}
+
+	/**
+	 * Returns the iterator of static values. The element in the iterator is
+	 * instanceof <code>RuleHandle</code>.
+	 * 
+	 * @return iterator of static values
+	 */
+	public Iterator staticValuesIterator( )
+	{
+		PropertyHandle propHandle = getPropertyHandle( STATIC_VALUES_PROP );
+		assert propHandle != null;
+		return propHandle.iterator( );
+	}
+
+	/**
+	 * Sets the base of the interval property of this level.IntervalBase, in
+	 * conjunction with Interval and IntervalRange, determines how data is
+	 * divided into levels.
+	 * 
+	 * @param intervalBase
+	 *            interval base property value.
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setIntervalBase( String intervalBase ) throws SemanticException
+	{
+		setStringProperty( INTERVAL_BASE_PROP, intervalBase );
+	}
+
+	/**
+	 * Return the interval base property value of this level.
+	 * 
+	 * @return interval baseF property value of this level.
+	 */
+
+	public String getIntervalBase( )
+	{
+		return getStringProperty( INTERVAL_BASE_PROP );
+	}
+
+	/**
+	 * Returns the interval of this level. The return value is defined in
+	 * <code>DesignChoiceConstants</code> and can be one of:
+	 * 
+	 * <ul>
+	 * <li><code>INTERVAL_NONE</code>
+	 * <li><code>INTERVAL_PREFIX</code>
+	 * <li><code>INTERVAL_YEAR</code>
+	 * <li><code>INTERVAL_QUARTER</code>
+	 * <li><code>INTERVAL_MONTH</code>
+	 * <li><code>INTERVAL_WEEK</code>
+	 * <li><code>INTERVAL_DAY</code>
+	 * <li><code>INTERVAL_HOUR</code>
+	 * <li><code>INTERVAL_MINUTE</code>
+	 * <li><code>INTERVAL_SECOND</code>
+	 * <li><code>INTERVAL_INTERVAL</code>
+	 * 
+	 * </ul>
+	 * 
+	 * @return the interval value as a string
+	 */
+
+	public String getInterval( )
+	{
+		return getStringProperty( INTERVAL_PROP );
+	}
+
+	/**
+	 * Returns the interval of this level. The input value is defined in
+	 * <code>DesignChoiceConstants</code> and can be one of:
+	 * 
+	 * <ul>
+	 * <li><code>INTERVAL_NONE</code>
+	 * <li><code>INTERVAL_PREFIX</code>
+	 * <li><code>INTERVAL_YEAR</code>
+	 * <li><code>INTERVAL_QUARTER</code>
+	 * <li><code>INTERVAL_MONTH</code>
+	 * <li><code>INTERVAL_WEEK</code>
+	 * <li><code>INTERVAL_DAY</code>
+	 * <li><code>INTERVAL_HOUR</code>
+	 * <li><code>INTERVAL_MINUTE</code>
+	 * <li><code>INTERVAL_SECOND</code>
+	 * <li><code>INTERVAL_INTERVAL</code>
+	 * 
+	 * </ul>
+	 * 
+	 * @param interval
+	 *            the interval value as a string
+	 * @throws SemanticException
+	 *             if the property is locked or the input value is not one of
+	 *             the above.
+	 */
+
+	public void setInterval( String interval ) throws SemanticException
+	{
+		setStringProperty( INTERVAL_PROP, interval );
+	}
+
+	/**
+	 * Returns the interval range of this level.
+	 * 
+	 * @return the interval range value as a double
+	 */
+
+	public double getIntervalRange( )
+	{
+		return this.getFloatProperty( INTERVAL_RANGE_PROP );
+	}
+
+	/**
+	 * Returns the interval range of this level.
+	 * 
+	 * @param intervalRange
+	 *            the interval range value as a double
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setIntervalRange( double intervalRange )
+			throws SemanticException
+	{
+		setFloatProperty( INTERVAL_RANGE_PROP, intervalRange );
+	}
+
+	/**
+	 * Sets the interval range of this level.
+	 * 
+	 * @param intervalRange
+	 *            the interval range value as a string.value is locale
+	 *            dependent.
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setIntervalRange( String intervalRange )
+			throws SemanticException
+	{
+		setStringProperty( INTERVAL_RANGE_PROP, intervalRange );
+	}
+
+	/**
+	 * Returns the level type of this level. The returned value is one of:
+	 * 
+	 * <ul>
+	 * <li><code>LEVEL_TYPE_DYNAMIC</code>
+	 * <li><code>LEVEL_TYPE_MIRRORED</code>
+	 * </ul>
+	 * 
+	 * @return the level type
+	 */
+
+	public String getLevelType( )
+	{
+		return getStringProperty( LEVEL_TYPE_PROP );
+	}
+
+	/**
+	 * Sets the level type. The input value is defined in
+	 * <code>DesignChoiceConstants</code> and can be one of:
+	 * 
+	 * <ul>
+	 * <li><code>LEVEL_TYPE_DYNAMIC</code>
+	 * <li><code>LEVEL_TYPE_MIRRORED</code>
+	 * </ul>
+	 * 
+	 * @param levelType
+	 * @throws SemanticException
+	 */
+	public void setLevelType( String levelType ) throws SemanticException
+	{
+		setStringProperty( LEVEL_TYPE_PROP, levelType );
 	}
 }

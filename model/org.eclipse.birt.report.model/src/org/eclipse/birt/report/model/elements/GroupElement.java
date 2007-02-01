@@ -13,15 +13,12 @@ package org.eclipse.birt.report.model.elements;
 
 import java.util.List;
 
-import org.eclipse.birt.report.model.api.metadata.IElementDefn;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.ValueRequiredValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.SlotDefn;
 
 /**
  * This class represents a grouping level within either a List or Table item.
@@ -76,42 +73,14 @@ public abstract class GroupElement extends DesignElement
 
 	public int getGroupLevel( )
 	{
+		DesignElement container = getContainer( );
 		if ( container == null )
 			groupLevel = LEVEL_NOT_SET;
 		else
 		{
-			ContainerSlot slot = container.getSlot( containerSlotID );
-			groupLevel = slot.findPosn( this ) + 1;
+			groupLevel = getContainerInfo( ).indexOf( this ) + 1;
 		}
 		return groupLevel;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getSelectors(int)
-	 */
-
-	public String getSelector( int slotID )
-	{
-		IElementDefn defn = getDefn( );
-		SlotDefn slotDefn = (SlotDefn) defn.getSlot( slotID );
-		if ( slotDefn == null )
-		{
-			return null;
-		}
-
-		int depth = getGroupLevel( );
-		if ( depth > 9 )
-			depth = 9;
-
-		String slotSelector = slotDefn.getSelector( );
-		if ( StringUtil.isBlank( slotSelector ) )
-		{
-			return null;
-		}
-
-		return slotSelector + "-" + Integer.toString( depth ); //$NON-NLS-1$
 	}
 
 	/*

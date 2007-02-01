@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.api.command;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
@@ -42,6 +43,11 @@ public class ContentException extends SemanticException
 	protected DesignElement content = null;
 
 	/**
+	 * The property name within the container.
+	 */
+	protected String containerProp = null;
+
+	/**
 	 * Can not change the structure of an element if it is a child element, or
 	 * it is within a child element, or it is a template parameter definition.
 	 */
@@ -62,9 +68,11 @@ public class ContentException extends SemanticException
 
 	/**
 	 * The content element cannot be deleted.
+	 * 
+	 * @deprecated since birt 2.2
 	 */
 
-	public static final String DESIGN_EXCEPTION_DROP_FORBIDDEN = MessageConstants.CONTENT_EXCEPTION_DROP_FORBIDDEN;
+	public static final String DESIGN_EXCEPTION_DROP_FORBIDDEN = "DESIGN_EXCEPTION_DROP_FORBIDDEN"; //$NON-NLS-1$
 
 	/**
 	 * The content element does not appear within the container.
@@ -127,7 +135,7 @@ public class ContentException extends SemanticException
 	 */
 
 	public static final String DESIGN_EXCEPTION_INVALID_TEMPLATE_ELEMENT = MessageConstants.CONTENT_EXCEPTION_INVALID_TEMPLATE_ELEMENT;
-	
+
 	/**
 	 * The template element has no referred template definition, it is invalid.
 	 */
@@ -174,6 +182,46 @@ public class ContentException extends SemanticException
 	}
 
 	/**
+	 * Constructs the exception with container element, slot id, and error code.
+	 * 
+	 * @param element
+	 *            The container element.
+	 * @param propName
+	 *            The property name within the container.
+	 * @param errCode
+	 *            What went wrong.
+	 */
+
+	public ContentException( DesignElement element, String propName,
+			String errCode )
+	{
+		super( element, errCode );
+		containerProp = propName;
+	}
+
+	/**
+	 * Constructs the exception with container element slot id, content element
+	 * and error code.
+	 * 
+	 * @param element
+	 *            The container element.
+	 * @param propName
+	 *            The property name within the container.
+	 * @param content
+	 *            The content in the container element.
+	 * @param errCode
+	 *            What went wrong.
+	 */
+
+	public ContentException( DesignElement element, String propName,
+			DesignElement content, String errCode )
+	{
+		super( element, errCode );
+		containerProp = propName;
+		this.content = content;
+	}
+
+	/**
 	 * Returns the slot ID.
 	 * 
 	 * @return the slot ID
@@ -184,18 +232,39 @@ public class ContentException extends SemanticException
 		return slot;
 	}
 
+	/**
+	 * Gets the name of the container. It is either the slot name or the
+	 * property name.
+	 * 
+	 * @return name of the container
+	 */
+	private String getContainerName( )
+	{
+		if ( containerProp != null
+				&& element.getPropertyDefn( containerProp ) != null )
+		{
+			return containerProp;
+		}
+		else
+		{
+			return element.getDefn( ).getSlot( slot ).getName( );
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
 
-public String getLocalizedMessage( )
+	public String getLocalizedMessage( )
 	{
 		if ( sResourceKey == DESIGN_EXCEPTION_SLOT_NOT_FOUND )
 		{
+			String param = StringUtil.isBlank( containerProp ) ? String
+					.valueOf( slot ) : containerProp;
 			return ModelMessages.getMessage( sResourceKey, new String[]{
-					getElementName( element ), String.valueOf( slot )} );
+					getElementName( element ), param} );
 		}
 		else if ( sResourceKey == DESIGN_EXCEPTION_NOT_CONTAINER
 				|| sResourceKey == DESIGN_EXCEPTION_HAS_NO_CONTAINER
@@ -208,8 +277,7 @@ public String getLocalizedMessage( )
 		else if ( sResourceKey == DESIGN_EXCEPTION_CONTENT_NOT_FOUND )
 		{
 			return ModelMessages.getMessage( sResourceKey, new String[]{
-					getElementName( content ),
-					element.getDefn( ).getSlot( slot ).getName( ),
+					getElementName( content ), getContainerName( ),
 					getElementName( element )} );
 		}
 		else if ( sResourceKey == DESIGN_EXCEPTION_RECURSIVE )
@@ -220,14 +288,13 @@ public String getLocalizedMessage( )
 		else if ( sResourceKey == DESIGN_EXCEPTION_SLOT_IS_FULL )
 		{
 			return ModelMessages.getMessage( sResourceKey, new String[]{
-					element.getDefn( ).getSlot( slot ).getName( ),
-					getElementName( element )} );
+					getContainerName( ), getElementName( element )} );
 		}
 		else if ( sResourceKey == DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT )
 		{
 			return ModelMessages.getMessage( sResourceKey, new String[]{
 					getElementName( content ), element.getElementName( ),
-					element.getDefn( ).getSlot( slot ).getName( )} );
+					getContainerName( )} );
 		}
 		else if ( sResourceKey == DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN )
 		{
@@ -238,20 +305,22 @@ public String getLocalizedMessage( )
 		{
 			return ModelMessages.getMessage( sResourceKey, new String[]{
 					getElementName( content ), element.getElementName( ),
-					element.getDefn( ).getSlot( slot ).getName( )} );
+					getContainerName( )} );
 		}
 		else if ( sResourceKey == DESIGN_EXCEPTION_INVALID_TEMPLATE_ELEMENT )
 		{
 			return ModelMessages.getMessage( sResourceKey, new String[]{
 					getElementName( content ), getElementName( element ),
-					element.getDefn( ).getSlot( slot ).getName( )} );
+					getContainerName( )} );
 		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_WRONG_TYPE || sResourceKey == DESIGN_EXCEPTION_DROP_FORBIDDEN )
+		else if ( sResourceKey == DESIGN_EXCEPTION_WRONG_TYPE
+				|| sResourceKey == DESIGN_EXCEPTION_DROP_FORBIDDEN )
 		{
 			return ModelMessages.getMessage( sResourceKey, new String[]{
 					getElementName( element ), getElementName( content ),
-					element.getDefn( ).getSlot( slot ).getName( )} );
+					getContainerName( )} );
 		}
 
 		return ModelMessages.getMessage( sResourceKey );
-	}}
+	}
+}

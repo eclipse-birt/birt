@@ -61,8 +61,15 @@ public class LibraryWriter extends ModuleWriter
 		writer.startElement( DesignSchemaConstants.LIBRARY_TAG );
 		super.visitLibrary( obj );
 		property( obj, IModuleModel.INITIALIZE_METHOD );
+
+		if ( markLineNumber )
+		{
+			getModule( ).addLineNo(
+					obj.getPropertyDefn( IModuleModel.THEME_PROP ),
+					new Integer( writer.getLineCounter( ) ) );
+		}
 		property( obj, IModuleModel.THEME_PROP );
-		
+
 		// include libraries and scripts
 
 		// Library including library is not supported.
@@ -70,7 +77,6 @@ public class LibraryWriter extends ModuleWriter
 		writeStructureList( obj, IModuleModel.LIBRARIES_PROP );
 		writeSimpleStructureList( obj, IModuleModel.INCLUDE_SCRIPTS_PROP,
 				IncludeScript.FILE_NAME_MEMBER );
-
 
 		// config variables
 
@@ -101,7 +107,7 @@ public class LibraryWriter extends ModuleWriter
 		// Embedded images
 
 		writeEmbeddedImages( obj );
-		
+
 		writer.endElement( );
 	}
 
@@ -114,10 +120,11 @@ public class LibraryWriter extends ModuleWriter
 	public void visitTheme( Theme obj )
 	{
 		writer.startElement( DesignSchemaConstants.THEME_TAG );
-		
+
 		super.visitDesignElement( obj );
-		
-		writeContents( obj, IThemeModel.STYLES_SLOT, DesignSchemaConstants.STYLES_TAG );
+
+		writeContents( obj, IThemeModel.STYLES_SLOT,
+				DesignSchemaConstants.STYLES_TAG );
 		writer.endElement( );
 	}
 }

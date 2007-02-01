@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.api.metadata;
 
-
 /**
  * Base class for the meta-data for property types. Every property has a
  * property type. The property type provides a display name, data validation
@@ -142,34 +141,37 @@ public interface IPropertyType
 	/**
 	 * Type code for the structure reference property type.
 	 */
-	
+
 	public static final int STRUCT_REF_TYPE = 19;
-	
+
 	/**
-	 * Type code for the list property type. 
+	 * Type code for the list property type.
 	 */
-	
+
 	public static final int LIST_TYPE = 20;
-	
+
 	/**
 	 * Type code for the Literal String property type.
 	 */
 
-	public static final int LITERAL_STRING_TYPE = 21; 
-	
+	public static final int LITERAL_STRING_TYPE = 21;
+
 	/**
 	 * Type code for the key property type of a structure member.
 	 */
 
 	public static final int MEMBER_KEY_TYPE = 22;
-	
+
+	/**
+	 * Type code for element property type.
+	 */
+	public static final int ELEMENT_TYPE = 23;
+
 	/**
 	 * Number of types defined.
 	 */
 
-	public static final int TYPE_COUNT = 23;
-	
-	
+	public static final int TYPE_COUNT = 24;
 
 	/**
 	 * Name of the String property type.
@@ -271,7 +273,7 @@ public interface IPropertyType
 	 * Name of the Element reference property type.
 	 */
 
-	public static final String ELEMENT_REF_NAME = "element"; //$NON-NLS-1$
+	public static final String ELEMENT_REF_NAME = "elementRef"; //$NON-NLS-1$
 
 	/**
 	 * Name of the Structure property type.
@@ -291,19 +293,18 @@ public interface IPropertyType
 
 	public static final String SCRIPT_TYPE_NAME = "script"; //$NON-NLS-1$
 
-
 	/**
 	 * Name of the structure reference property type.
 	 */
-	
+
 	public static final String STRUCT_REF_TYPE_NAME = "structRef"; //$NON-NLS-1$
-	
+
 	/**
 	 * Name of the list property type.
 	 */
-	
+
 	public static final String LIST_TYPE_NAME = "list"; //$NON-NLS-1$
-	
+
 	/**
 	 * Name of the Literal String property type.
 	 */
@@ -315,8 +316,12 @@ public interface IPropertyType
 	 */
 
 	public static final String MEMBER_KEY_NAME = "memberKey"; //$NON-NLS-1$
-	
-	
+
+	/**
+	 * Name of the element property type.
+	 */
+	public static final String ELEMENT_TYPE_NAME = "element"; //$NON-NLS-1$
+
 	/**
 	 * Returns the localized display name.
 	 * 

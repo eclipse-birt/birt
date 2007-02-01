@@ -13,16 +13,14 @@ package org.eclipse.birt.report.model.metadata;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.Module;
 
 /**
- * Represents the property type for a list of some simple property values, such as
- * integer, float, dateTime and so on.
+ * Represents the property type for a list of some simple property values, such
+ * as integer, float, dateTime and so on.
  * 
  */
 
@@ -87,13 +85,23 @@ public class ListPropertyType extends PropertyType
 		{
 			return null;
 		}
-		
-		// Cannot store objects of a list directly.
 
-		logger.log( Level.SEVERE, "Invalid value type: " + value ); //$NON-NLS-1$
-		throw new PropertyValueException( value,
-				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-				IPropertyType.LIST_TYPE );
+		PropertyType type = MetaDataDictionary.getInstance( ).getPropertyType(
+				defn.getSubTypeCode( ) );
+		assert type != null;
+		if ( value instanceof List )
+		{
+			List items = (List) value;
+			List validatedItems = new ArrayList( );
+			for ( int i = 0; i < items.size( ); i++ )
+			{
+				Object item = items.get( i );
+				validatedItems.add( type.validateValue( module, defn, item ) );
+			}
+			
+			return validatedItems;
+		}		
+		return type.validateValue( module, defn, value );
 	}
 
 	/*
@@ -108,22 +116,22 @@ public class ListPropertyType extends PropertyType
 	{
 		if ( value == null )
 			return null;
-		
+
 		assert value instanceof List;
-		
+
 		List valueList = (List) value;
 		if ( valueList.isEmpty( ) )
 			return null;
-		
+
 		StringBuffer sb = new StringBuffer( );
 		PropertyType type = defn.getSubType( );
 		assert type != null;
 		for ( int i = 0; i < valueList.size( ); i++ )
 		{
-			Object item = valueList.get( i );			
-			
+			Object item = valueList.get( i );
+
 			String stringValue = type.toString( module, defn, item );
-			if ( sb.length( )>0 )
+			if ( sb.length( ) > 0 )
 				sb.append( "; " ); //$NON-NLS-1$
 			if ( stringValue != null )
 				sb.append( stringValue );

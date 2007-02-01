@@ -25,13 +25,12 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.CircularExtendsException;
-import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
+import org.eclipse.birt.report.model.api.command.ExtendsForbiddenException;
 import org.eclipse.birt.report.model.api.command.InvalidParentException;
 import org.eclipse.birt.report.model.api.command.PropertyNameException;
 import org.eclipse.birt.report.model.api.command.WrongTypeException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
-import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
@@ -40,7 +39,6 @@ import org.eclipse.birt.report.model.api.elements.structures.PropertyMask;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IObjectDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
-import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.SimpleListValidator;
@@ -48,12 +46,8 @@ import org.eclipse.birt.report.model.api.validators.StructureListValidator;
 import org.eclipse.birt.report.model.api.validators.UnsupportedElementValidator;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
 import org.eclipse.birt.report.model.elements.Library;
-import org.eclipse.birt.report.model.elements.ListingElement;
-import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
-import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITemplateParameterDefinitionModel;
 import org.eclipse.birt.report.model.elements.strategy.CopyForPastePolicy;
@@ -63,12 +57,12 @@ import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.metadata.IContainerDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.SlotDefn;
 import org.eclipse.birt.report.model.metadata.StructRefPropertyType;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
-import org.eclipse.birt.report.model.util.ContentIterator;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 import org.eclipse.birt.report.model.validators.ValidationExecutor;
@@ -548,20 +542,6 @@ public abstract class DesignElement
 	protected String name = null;
 
 	/**
-	 * Elements are structured in a hierarchy. The implementation of the
-	 * container-to-child relationship must be defined in derived classes. This
-	 * base class defines the child-to-container relationship.
-	 */
-
-	protected DesignElement container = null;
-
-	/**
-	 * Slot in the container in which this element resides.
-	 */
-
-	protected int containerSlotID = NO_SLOT;
-
-	/**
 	 * Listeners are the objects that want to be notified of events. Contents
 	 * are of type Listener. Created only when needed.
 	 */
@@ -581,6 +561,18 @@ public abstract class DesignElement
 	 */
 
 	protected HashMap userProperties = null;
+
+	/**
+	 * Class to store all container relation ship related information.
+	 */
+
+	protected ContainerContext containerInfo = null;
+
+	/**
+	 * The set of slots for the design element. If the design element has no
+	 */
+
+	protected ContainerSlot slots[] = null;
 
 	/**
 	 * Support for inheritance. Represents the resolved or unresolved element
@@ -628,12 +620,6 @@ public abstract class DesignElement
 	 */
 
 	protected List errors;
-
-	/**
-	 * The set of slots for the design element. If the design element has no
-	 */
-
-	protected ContainerSlot slots[] = null;
 
 	/**
 	 * Support for id inheritance. If it is set, base id must be larger than
@@ -956,34 +942,6 @@ public abstract class DesignElement
 	public PropertySearchStrategy getStrategy( )
 	{
 		return PropertySearchStrategy.getInstance( );
-	}
-
-	/**
-	 * Gets selector of the given slot of this element. The selector is kind of
-	 * predefined style, and its style property value can be applied on contents
-	 * of the given slot of this element depending on whether property can be
-	 * inherited.
-	 * 
-	 * @param slotID
-	 *            slot id
-	 * @return the selector of the given slot of this element.
-	 */
-
-	public String getSelector( int slotID )
-	{
-		ElementDefn defn = (ElementDefn) getDefn( );
-		SlotDefn slotDefn = (SlotDefn) defn.getSlot( slotID );
-
-		if ( slotDefn == null )
-		{
-			return null;
-		}
-		String slotSelector = slotDefn.getSelector( );
-		if ( StringUtil.isBlank( slotSelector ) )
-		{
-			return null;
-		}
-		return slotSelector;
 	}
 
 	/**
@@ -1603,25 +1561,7 @@ public abstract class DesignElement
 
 	public DesignElement getContainer( )
 	{
-		return container;
-	}
-
-	/**
-	 * Caches the child-to-container relationship. The caller must have
-	 * validated that the relationship is valid.
-	 * <p>
-	 * Part of: The containment system.
-	 * 
-	 * @param obj
-	 *            the container to set
-	 * @param slot
-	 *            the slot within the container where this element resides
-	 */
-
-	public void setContainer( DesignElement obj, int slot )
-	{
-		container = obj;
-		containerSlotID = slot;
+		return containerInfo == null ? null : containerInfo.container;
 	}
 
 	/**
@@ -1637,8 +1577,10 @@ public abstract class DesignElement
 
 	public ElementPropertyDefn getPropertyDefn( String propName )
 	{
-		// Look for the property defined on this element.
+		if ( propName == null )
+			return null;
 
+		// Look for the property defined on this element.
 		ElementPropertyDefn prop = (ElementPropertyDefn) getDefn( )
 				.getProperty( propName );
 		if ( prop == null )
@@ -2078,7 +2020,7 @@ public abstract class DesignElement
 		{
 			if ( e == element )
 				return true;
-			e = e.container;
+			e = e.getContainer( );
 		}
 		return false;
 	}
@@ -2131,7 +2073,7 @@ public abstract class DesignElement
 		ElementPropertyDefn prop = getPropertyDefn( propName );
 		if ( prop == null )
 			return null;
-		
+
 		Object value = getProperty( module, prop );
 		return prop.getStringValue( module, value );
 	}
@@ -2392,6 +2334,15 @@ public abstract class DesignElement
 			throw new CircularExtendsException( this, parent,
 					CircularExtendsException.DESIGN_EXCEPTION_CIRCULAR );
 		}
+		// TODO: if element has container properties, extends is forbidden
+		else if ( !( (ElementDefn) getDefn( ) ).getContainmentProperties( )
+				.isEmpty( ) )
+		{
+			throw new ExtendsForbiddenException(
+					this,
+					parent,
+					ExtendsForbiddenException.DESIGN_EXCEPTION_EXTENDS_FORBIDDEN );
+		}
 
 	}
 
@@ -2540,35 +2491,41 @@ public abstract class DesignElement
 	{
 		if ( content == null || content.getContainer( ) != this )
 			return NO_SLOT;
-		return content.getContainerSlot( );
-
+		return content.getContainerInfo( ).getSlotID( );
 	}
 
 	/**
 	 * Checks whether the property of current element is editable.
 	 * 
+	 * @param module
+	 * 
 	 * @return <code>true</code> if the property of current element is
 	 *         editable. Otherwise <code>false</code>.
 	 */
 
-	public boolean canEdit( )
+	public boolean canEdit( Module module )
 	{
-		return !isRootIncludedByModule( );
+		if ( isRootIncludedByModule( )
+				|| ( module != null && module.isReadOnly( ) ) )
+			return false;
+		return true;
 	}
 
 	/**
 	 * Determines if this element can be dropped from its container.
 	 * 
+	 * @param module
+	 * 
 	 * @return <code>true</code> if it can be dropped. Returns
 	 *         <code>false</code> otherwise.
 	 */
 
-	public boolean canDrop( )
+	public boolean canDrop( Module module )
 	{
 		// if the root of element is included by report/library. Do not allow
-		// drop.
-
-		if ( isRootIncludedByModule( ) )
+		// drop; if module is read-only, forbide drop too
+		if ( isRootIncludedByModule( )
+				|| ( module != null && module.isReadOnly( ) ) )
 			return false;
 
 		// Can not change the structure of child element or a virtual element(
@@ -2580,9 +2537,9 @@ public abstract class DesignElement
 		// if the element is in the default slot of template parameter
 		// definition, then the drop operarion is forbidden
 
-		if ( container instanceof TemplateParameterDefinition )
+		if ( getContainer( ) instanceof TemplateParameterDefinition )
 		{
-			assert containerSlotID == ITemplateParameterDefinitionModel.DEFAULT_SLOT;
+			assert getContainerInfo( ).getSlotID( ) == ITemplateParameterDefinitionModel.DEFAULT_SLOT;
 			return false;
 		}
 
@@ -2603,110 +2560,6 @@ public abstract class DesignElement
 	}
 
 	/**
-	 * Determines if the slot can contain a given element.
-	 * 
-	 * @param module
-	 *            the module
-	 * @param slotId
-	 *            the slot id
-	 * @param element
-	 *            the element to insert
-	 * @return a list containing exceptions.
-	 */
-
-	public final boolean canContain( Module module, int slotId,
-			DesignElement element )
-	{
-		List errors = checkContainmentContext( module, slotId, element );
-		if ( !errors.isEmpty( ) )
-			return false;
-
-		return true;
-	}
-
-	/**
-	 * Determines if the slot can contain a given element.
-	 * 
-	 * @param module
-	 *            the module
-	 * @param slotId
-	 *            the slot id
-	 * @param element
-	 *            the element to insert
-	 * @return a list containing exceptions.
-	 */
-
-	public final List checkContainmentContext( Module module, int slotId,
-			DesignElement element )
-	{
-		boolean retValue = canContainInRom( slotId, element.getDefn( ) );
-		ContentException e = new ContentException( this, slotId, element,
-				ContentException.DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT );
-
-		List errors = new ArrayList( );
-		if ( !retValue )
-		{
-			errors.add( e );
-			return errors;
-		}
-
-		// if this element can not be contained in the module, return false;
-		// such as, template elements can not be contained in the libraries, so
-		// either a template table or a real tabel with a template image in one
-		// cell of it can never be contained in a libraries
-
-		if ( !canContainTemplateElement( module, slotId, element ) )
-		{
-			errors.add( e );
-			return errors;
-		}
-
-		// if the root of element is included by report/library. Do not allow
-		// drop.
-
-		if ( isRootIncludedByModule( ) )
-		{
-			errors.add( e );
-			return errors;
-		}
-
-		// Can not change the structure of child element or a virtual element(
-		// inside the child ).
-
-		if ( isVirtualElement( ) || getExtendsName( ) != null )
-		{
-			errors.add( e );
-			return errors;
-		}
-
-		// special cases check table header containment.
-
-		DesignElement tmpContainer = this;
-		while ( tmpContainer != null )
-		{
-			if ( tmpContainer == element )
-			{
-				errors.add( e );
-				return errors;
-			}
-
-			if ( tmpContainer instanceof ListingElement
-					|| tmpContainer instanceof Theme
-					|| tmpContainer instanceof MasterPage )
-			{
-				errors = tmpContainer.checkContent( module, this, slotId,
-						element );
-
-				return errors;
-			}
-
-			tmpContainer = tmpContainer.getContainer( );
-		}
-
-		return Collections.EMPTY_LIST;
-	}
-
-	/**
 	 * Checks whether the root of the current element is included by
 	 * report/library.
 	 * 
@@ -2714,7 +2567,7 @@ public abstract class DesignElement
 	 *         included by report/library. Otherwise <code>false</code>.
 	 */
 
-	private boolean isRootIncludedByModule( )
+	public boolean isRootIncludedByModule( )
 	{
 		DesignElement tmpContainer = getRoot( );
 		if ( tmpContainer instanceof Library
@@ -2727,209 +2580,20 @@ public abstract class DesignElement
 	}
 
 	/**
-	 * Determines if the current element can contain an element with the
-	 * definition of <code>elementType</code> on context containment.
-	 * 
-	 * @param module
-	 *            the module
-	 * @param slotId
-	 *            the slot id
-	 * @param defn
-	 *            the definition of the element
-	 * @return <code>true</code> if the slot can contain the an element,
-	 *         otherwise <code>false</code>.
-	 */
-
-	public final boolean canContain( Module module, int slotId,
-			IElementDefn defn )
-	{
-		assert defn != null;
-
-		boolean retValue = canContainInRom( slotId, defn );
-		if ( !retValue )
-			return false;
-
-		// if the root of element is included by report/library. Do not allow
-		// drop.
-
-		if ( isRootIncludedByModule( ) )
-			return false;
-
-		if ( !canContainTemplateElement( module, slotId, defn ) )
-			return false;
-
-		// Can not change structure of child element or a virtual element(
-		// inside the child ).
-
-		if ( isVirtualElement( ) || getExtendsName( ) != null )
-			return false;
-
-		// special cases check table header containment.
-
-		DesignElement tmpContainer = this;
-		while ( tmpContainer != null )
-		{
-			if ( tmpContainer instanceof ListingElement
-					|| tmpContainer instanceof MasterPage )
-			{
-				List errors = tmpContainer.checkContent( module, this, slotId,
-						defn );
-				return errors.isEmpty( );
-			}
-
-			tmpContainer = tmpContainer.getContainer( );
-		}
-
-		return retValue;
-	}
-
-	/**
-	 * Checks whether a type of elements can reside in the given slot of the
-	 * current element. Besides the type check, it also checks the cardinality
-	 * of this slot.
-	 * 
-	 * @param slotId
-	 *            the slot id of the current element
-	 * @param defn
-	 *            the element definition
-	 * 
-	 * @return <code>true</code> if elements with the definition
-	 *         <code>defn</code> can reside in the given slot. Otherwise
-	 *         <code>false</code>.
-	 */
-
-	private boolean canContainInRom( int slotId, IElementDefn defn )
-	{
-		if ( slotId < 0 || slotId >= getDefn( ).getSlotCount( ) )
-			return false;
-
-		ISlotDefn slotDefn = getDefn( ).getSlot( slotId );
-		assert slotDefn != null;
-
-		if ( !slotDefn.canContain( defn ) )
-			return false;
-
-		// if the canContain is check for create template, then jump the slot
-		// count check for the operation won't change the content count, it is a
-		// replace operation.
-
-		String name = defn.getName( );
-		if ( ReportDesignConstants.TEMPLATE_DATA_SET.equals( name )
-				|| ReportDesignConstants.TEMPLATE_REPORT_ITEM.equals( name )
-				|| ReportDesignConstants.TEMPLATE_ELEMENT.equals( name ) )
-			return true;
-
-		if ( getSlot( slotId ).getCount( ) > 0
-				&& !slotDefn.isMultipleCardinality( ) )
-			return false;
-
-		return true;
-
-	}
-
-	/**
-	 * Checks whether the element to insert can reside in the given module.
-	 * 
-	 * @param module
-	 *            the root module of the element to add
-	 * @param slotID
-	 *            the slot ID to insert
-	 * @param element
-	 *            the element to insert
-	 * @return false if the module is a library and the element to insert is a
-	 *         template element or its content is a template element; or the
-	 *         container is report design and slot is component slot and the
-	 *         element to insert is a template element or its content is a
-	 *         template element; otherwise true
-	 */
-
-	private boolean canContainTemplateElement( Module module, int slotID,
-			DesignElement element )
-	{
-		// if this element is a kind of template element or any its content is a
-		// kind of template element, return false
-
-		IElementDefn defn = MetaDataDictionary.getInstance( ).getElement(
-				ReportDesignConstants.TEMPLATE_ELEMENT );
-
-		if ( element instanceof TemplateElement )
-			return canContainTemplateElement( module, slotID, defn );
-
-		ContentIterator contents = new ContentIterator( element );
-		while ( contents.hasNext( ) )
-		{
-			DesignElement content = (DesignElement) contents.next( );
-			if ( content instanceof TemplateElement )
-				return canContainTemplateElement( module, slotID, defn );
-		}
-
-		return true;
-	}
-
-	/**
-	 * Checks whether the element to insert can reside in the given module.
-	 * 
-	 * @param module
-	 *            the root module of the element to add
-	 * @param slotID
-	 *            the slot ID to insert
-	 * @param defn
-	 *            the definition of element to insert
-	 * @return false if the module is a library and the element to insert is a
-	 *         template element or its content is a template element; or the
-	 *         container is report design and slot is component slot and the
-	 *         element to insert is a template element or its content is a
-	 *         template element; otherwise true
-	 */
-
-	private boolean canContainTemplateElement( Module module, int slotID,
-			IElementDefn defn )
-	{
-		// if this element is a kind of template element or any its content is a
-		// kind of template element, return false
-
-		if ( defn != null
-				&& defn.isKindOf( MetaDataDictionary.getInstance( ).getElement(
-						ReportDesignConstants.TEMPLATE_ELEMENT ) ) )
-		{
-			// components in the design/library cannot contain template
-			// elements.
-
-			DesignElement container = this;
-			int slot = slotID;
-			while ( container != null )
-			{
-				if ( ( container instanceof Module && slot == IModuleModel.COMPONENT_SLOT )
-						|| container instanceof Library )
-					return false;
-				slot = container.getContainerSlot( );
-				container = container.getContainer( );
-			}
-
-			if ( module instanceof Library )
-				return false;
-		}
-
-		return true;
-	}
-
-	/**
 	 * Checks whether the <code>content</code> can be inserted to the slot
 	 * <code>slotId</code> in another element <code>container</code>.
 	 * 
 	 * @param module
 	 *            the module
-	 * @param container
-	 *            the container element
-	 * @param slotId
-	 *            the slot id of the container element
+	 * @param containerInfo
+	 *            the container information
 	 * @param content
 	 *            the target element to be inserted
 	 * @return a list containing exceptions.
 	 */
 
-	protected List checkContent( Module module, DesignElement container,
-			int slotId, DesignElement content )
+	public List checkContent( Module module, ContainerContext containerInfo,
+			DesignElement content )
 	{
 		return new ArrayList( );
 	}
@@ -2941,30 +2605,27 @@ public abstract class DesignElement
 	 * 
 	 * @param module
 	 *            the module
-	 * @param container
-	 *            the container element
-	 * @param slotId
-	 *            the slot id of the container element
+	 * @param containerInfo
+	 *            the container information
 	 * @param defn
 	 *            the element definition
 	 * @return a list containing exceptions.
 	 */
 
-	protected List checkContent( Module module, DesignElement container,
-			int slotId, IElementDefn defn )
+	public List checkContent( Module module, ContainerContext containerInfo,
+			IElementDefn defn )
 	{
 		return new ArrayList( );
 	}
 
 	/**
-	 * Returns the slot within the container element that holds this element.
+	 * Gets the containerInfo of this element.
 	 * 
-	 * @return the container's slot in which this element appears
+	 * @return the container information
 	 */
-
-	public int getContainerSlot( )
+	public ContainerContext getContainerInfo( )
 	{
-		return containerSlotID;
+		return this.containerInfo;
 	}
 
 	/*
@@ -3450,16 +3111,14 @@ public abstract class DesignElement
 		if ( getContainer( ) == null )
 			return getDefn( ).getName( );
 
-		ContainerSlot slot = getContainer( ).getSlot( getContainerSlot( ) );
-		ISlotDefn slotDefn = getContainer( ).getDefn( ).getSlot(
-				getContainerSlot( ) );
+		IContainerDefn containerDefn = getContainerInfo( ).getContainerDefn( );
 
 		StringBuffer sb = new StringBuffer( );
 		sb.append( getContainer( ).getIdentifier( ) );
 		sb.append( "." ); //$NON-NLS-1$
-		sb.append( slotDefn.getDisplayName( ) );
+		sb.append( containerDefn.getDisplayName( ) );
 		sb.append( "[" ); //$NON-NLS-1$
-		sb.append( slot.findPosn( this ) );
+		sb.append( getContainerInfo( ).indexOf( this ) );
 		sb.append( "]" ); //$NON-NLS-1$
 
 		return sb.toString( );
@@ -3501,42 +3160,6 @@ public abstract class DesignElement
 	}
 
 	/**
-	 * Determines whether this element and its contents are managed by
-	 * namespace. If this element is a pending node and not in any module, or it
-	 * is contained in a slot that is not managed by namespace, then return
-	 * false. Otherwise true.
-	 * 
-	 * @param slotID
-	 *            the slot ID in this element
-	 * @return true if this element and its contents are managed by namespace,
-	 *         otherwise false
-	 */
-
-	public boolean isManagedByNameSpace( int slotID )
-	{
-		// if this element is a pending node, return false
-
-		if ( getRoot( ) == null )
-			return false;
-
-		// check the slot
-
-		DesignElement containerObj = this;
-		int slot = slotID;
-		while ( containerObj != null )
-		{
-			ElementDefn defn = (ElementDefn) containerObj.getDefn( );
-			SlotDefn slotInfo = (SlotDefn) defn.getSlot( slot );
-			if ( slotInfo != null && !slotInfo.isManagedByNameSpace( ) )
-				return false;
-
-			slot = containerObj.getContainerSlot( );
-			containerObj = containerObj.getContainer( );
-		}
-		return true;
-	}
-
-	/**
 	 * Determines whether this element is managed by namespace. If this element
 	 * is a pending node or the container is not managed by the namespace,
 	 * return false. Otherwise true.
@@ -3546,10 +3169,10 @@ public abstract class DesignElement
 
 	public boolean isManagedByNameSpace( )
 	{
-		if ( getContainer( ) == null )
+		if ( getContainerInfo( ) == null )
 			return false;
 
-		return getContainer( ).isManagedByNameSpace( getContainerSlot( ) );
+		return getContainerInfo( ).isManagedByNameSpace( );
 	}
 
 	/**
@@ -3568,7 +3191,7 @@ public abstract class DesignElement
 		// if this kind of element does not support template or this element can
 		// not be dropped, return false;
 
-		if ( !ModelUtil.isTemplateSupported( this ) || ( !canDrop( ) ) )
+		if ( !ModelUtil.isTemplateSupported( this ) || ( !canDrop( module ) ) )
 			return false;
 
 		// check the containment for the template elements
@@ -3577,11 +3200,13 @@ public abstract class DesignElement
 				.getElement( ReportDesignConstants.TEMPLATE_REPORT_ITEM );
 		IElementDefn templateDataSet = MetaDataDictionary.getInstance( )
 				.getElement( ReportDesignConstants.TEMPLATE_DATA_SET );
+		DesignElement container = getContainer( );
 		if ( container != null )
-			return container.canContain( module, containerSlotID,
-					templateReportItem )
-					|| container.canContain( module, containerSlotID,
-							templateDataSet );
+		{
+			ContainerContext containerInfor = getContainerInfo( );
+			return containerInfor.canContain( module, templateReportItem )
+					|| containerInfor.canContain( module, templateDataSet );
+		}
 
 		return true;
 	}
@@ -3729,16 +3354,19 @@ public abstract class DesignElement
 	{
 		DesignElement element = (DesignElement) super.clone( );
 
-		element.container = null;
+		// handle non-simple members
+		element.containerInfo = null;
 		element.listeners = null;
 		element.derived = null;
 		element.cachedDefn = null;
 		element.handle = null;
 		element.propValues = new HashMap( );
 
+		// handle extends relationship
 		if ( extendsRef != null )
 			element.extendsRef = (ElementRefValue) this.extendsRef.copy( );
 
+		// handle user property definitions
 		Iterator iter = null;
 		if ( !isVirtualElement( ) && userProperties != null )
 		{
@@ -3754,17 +3382,209 @@ public abstract class DesignElement
 			}
 		}
 
+		// handle property value
 		iter = propValues.keySet( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
 			String key = (String) iter.next( );
 			PropertyDefn propDefn = getPropertyDefn( key );
 			Object value = propValues.get( key );
-			element.propValues
-					.put( key, ModelUtil.copyValue( propDefn, value ) );
+			if ( value == null )
+				continue;
+
+			// set the cloned value
+			Object clonedValue = ModelUtil.copyValue( propDefn, value );
+			if ( clonedValue == null )
+				continue;
+			element.propValues.put( key, clonedValue );
+
+			// if the property is element type, then set-up the container
+			// relationship
+			if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
+			{
+				if ( propDefn.isList( ) )
+				{
+					List values = (ArrayList) clonedValue;
+					for ( int i = 0; i < values.size( ); i++ )
+					{
+						DesignElement item = (DesignElement) values.get( i );
+						item.setContainer( element, key );
+					}
+				}
+				else
+				{
+					( (DesignElement) clonedValue ).setContainer( element, key );
+				}
+			}
 		}
 
 		return element;
 	}
 
+	/**
+	 * Caches the child-to-container relationship. The caller must have
+	 * validated that the relationship is valid.
+	 * <p>
+	 * Part of: The containment system.
+	 * 
+	 * @param obj
+	 *            the container to set
+	 * @param slot
+	 *            the slot within the container where this element resides
+	 */
+
+	void setContainer( DesignElement obj, int slot )
+	{
+		containerInfo = new ContainerContext( obj, slot );
+	}
+
+	/**
+	 * Caches the child-to-container relationship. The caller must have
+	 * validated that the relationship is valid.
+	 * <p>
+	 * Part of: The containment system.
+	 * 
+	 * @param obj
+	 *            the container to set
+	 * @param propName
+	 *            the property within the container where this element resides
+	 */
+
+	public void setContainer( DesignElement obj, String propName )
+	{
+		containerInfo = new ContainerContext( obj, propName );
+	}
+
+	/**
+	 * Adds a content to this element.
+	 * 
+	 * @param content
+	 *            the content to add
+	 * @param slotID
+	 *            the slot id to add
+	 */
+	public void add( DesignElement content, int slotID )
+	{
+		getSlot( slotID ).add( content );
+		content.setContainer( this, slotID );
+	}
+
+	/**
+	 * Adds a content to this element.
+	 * 
+	 * @param content
+	 *            the content to add
+	 * @param slotID
+	 *            the slot id to add
+	 * @param posn
+	 */
+	public void add( DesignElement content, int slotID, int posn )
+	{
+		getSlot( slotID ).insert( content, posn );
+		content.setContainer( this, slotID );
+	}
+
+	/**
+	 * Removes a content from the given slot.
+	 * 
+	 * @param content
+	 *            the content to remove
+	 * @param slotID
+	 *            the slot id in which content resides
+	 */
+	public void remove( DesignElement content, int slotID )
+	{
+		getSlot( slotID ).remove( content );
+		content.containerInfo = null;
+	}
+
+	/**
+	 * 
+	 * @param module
+	 * @param content
+	 * @param propName
+	 */
+	public void add( Module module, DesignElement content, String propName )
+	{
+		ElementPropertyDefn defn = getPropertyDefn( propName );
+		if ( defn != null )
+		{
+			if ( defn.isList( ) )
+			{
+				List values = getListProperty( module, propName );
+				if ( values == null )
+					values = new ArrayList( );
+				values.add( content );
+				setProperty( propName, values );
+				content.setContainer( this, propName );
+			}
+			else
+			{
+				setProperty( defn, content );
+				content.setContainer( this, propName );
+			}
+		}
+	}
+
+	/**
+	 * 
+	 * @param module
+	 * @param content
+	 * @param propName
+	 */
+	public void add( Module module, DesignElement content, String propName,
+			int posn )
+	{
+		ElementPropertyDefn defn = getPropertyDefn( propName );
+		if ( defn != null )
+		{
+			if ( defn.isList( ) )
+			{
+				List values = getListProperty( module, propName );
+				if ( values == null )
+					values = new ArrayList( );
+				values.add( posn, content );
+				setProperty( propName, values );
+				content.setContainer( this, propName );
+			}
+			else
+			{
+				assert posn == 0;
+				setProperty( defn, content );
+				content.setContainer( this, propName );
+			}
+		}
+	}
+
+	/**
+	 * Removes a content from the given property value.
+	 * 
+	 * @param module
+	 *            the module of the content
+	 * @param content
+	 *            the content to remove
+	 * @param propName
+	 *            the property name where the content resides
+	 */
+	public void remove( Module module, DesignElement content, String propName )
+	{
+		ElementPropertyDefn defn = getPropertyDefn( propName );
+		if ( defn != null )
+		{
+			if ( defn.isList( ) )
+			{
+				List values = getListProperty( module, propName );
+				if ( values != null )
+				{
+					values.remove( content );
+					content.containerInfo = null;
+				}
+			}
+			else
+			{
+				clearProperty( propName );
+				content.containerInfo = null;
+			}
+		}
+	}
 }

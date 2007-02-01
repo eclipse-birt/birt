@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
@@ -122,21 +123,21 @@ import org.eclipse.birt.report.model.util.LevelContentIterator;
  * </ul>
  * 
  * <pre>
- *            // Include one library
+ *               // Include one library
+ *               
+ *               ReportDesignHandle designHandle = ...;
+ *               designHandle.includeLibrary( &quot;libA.rptlibrary&quot;, &quot;LibA&quot; );
+ *               LibraryHandle libraryHandle = designHandle.getLibrary(&quot;LibA&quot;);
+ *                
+ *               // Create one label based on the one in library
+ *              
+ *               LabelHandle labelHandle = (LabelHandle) libraryHandle.findElement(&quot;companyNameLabel&quot;);
+ *               LabelHandle myLabelHandle = (LabelHandle) designHandle.getElementFactory().newElementFrom( labelHandle, &quot;myLabel&quot; );
+ *              
+ *               // Add the new label into design file
+ *              
+ *               designHandle.getBody().add(myLabelHandle);
  *            
- *            ReportDesignHandle designHandle = ...;
- *            designHandle.includeLibrary( &quot;libA.rptlibrary&quot;, &quot;LibA&quot; );
- *            LibraryHandle libraryHandle = designHandle.getLibrary(&quot;LibA&quot;);
- *             
- *            // Create one label based on the one in library
- *           
- *            LabelHandle labelHandle = (LabelHandle) libraryHandle.findElement(&quot;companyNameLabel&quot;);
- *            LabelHandle myLabelHandle = (LabelHandle) designHandle.getElementFactory().newElementFrom( labelHandle, &quot;myLabel&quot; );
- *           
- *            // Add the new label into design file
- *           
- *            designHandle.getBody().add(myLabelHandle);
- *         
  * </pre>
  * 
  * @see org.eclipse.birt.report.model.elements.ReportDesign
@@ -537,7 +538,7 @@ public class ReportDesignHandle extends ModuleHandle
 	{
 		return getStringProperty( CHEAT_SHEET_PROP );
 	}
-	
+
 	/**
 	 * Sets the thumbnail image encoded in ISO-8859-1.
 	 * 
@@ -569,7 +570,7 @@ public class ReportDesignHandle extends ModuleHandle
 	{
 		return ( (ReportDesign) module ).getThumbnail( );
 	}
-	
+
 	/**
 	 * Deletes the thumbnail image in the design.
 	 * 
@@ -604,14 +605,14 @@ public class ReportDesignHandle extends ModuleHandle
 	{
 		List tocs = ( (ReportDesign) module ).collectPropValues( BODY_SLOT,
 				IReportItemModel.TOC_PROP );
-				
-		//TODO merge with IGroupElementModel.TOC_PROP.
-		
-		List resultList = new ArrayList();
+
+		// TODO merge with IGroupElementModel.TOC_PROP.
+
+		List resultList = new ArrayList( );
 		Iterator iterator = tocs.iterator( );
-		while( iterator.hasNext( ) )
+		while ( iterator.hasNext( ) )
 		{
-			TOC toc = (TOC)iterator.next( );
+			TOC toc = (TOC) iterator.next( );
 			resultList.add( toc.getProperty( module, TOC.TOC_EXPRESSION ) );
 		}
 		return resultList;
@@ -630,8 +631,10 @@ public class ReportDesignHandle extends ModuleHandle
 		ArrayList rtnList = new ArrayList( );
 		ArrayList tempList = new ArrayList( );
 
-		List contents = getElement( ).getSlot( BODY_SLOT ).getContents( );
-		contents.addAll( getElement( ).getSlot( PAGE_SLOT ).getContents( ) );
+		List contents = new ContainerContext( getElement( ), BODY_SLOT )
+				.getContents( module );
+		contents.addAll( new ContainerContext( getElement( ), PAGE_SLOT )
+				.getContents( module ) );
 
 		findTemplateItemIn( contents.iterator( ), tempList );
 
@@ -664,9 +667,20 @@ public class ReportDesignHandle extends ModuleHandle
 				continue;
 			}
 
-			LevelContentIterator children = new LevelContentIterator( e, 1 );
+			LevelContentIterator children = new LevelContentIterator( module,
+					e, 1 );
 
 			findTemplateItemIn( children, addTo );
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.ModuleHandle#getCubes()
+	 */
+	public SlotHandle getCubes( )
+	{
+		return getSlot( CUBE_SLOT );
 	}
 }

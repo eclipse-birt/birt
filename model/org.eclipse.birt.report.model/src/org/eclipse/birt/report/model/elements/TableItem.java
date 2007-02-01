@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.api.elements.table.LayoutTable;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.validators.InconsistentColumnsValidator;
 import org.eclipse.birt.report.model.api.validators.TableHeaderContextContainmentValidator;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -173,7 +174,8 @@ public class TableItem extends ListingElement implements ITableItemModel
 		for ( int i = 0; i < colDefnCount; i++ )
 		{
 			TableColumn col = (TableColumn) cols.getContent( i );
-			colCount += col.getIntProperty( module, ITableColumnModel.REPEAT_PROP );
+			colCount += col.getIntProperty( module,
+					ITableColumnModel.REPEAT_PROP );
 		}
 		return colCount;
 	}
@@ -193,7 +195,7 @@ public class TableItem extends ListingElement implements ITableItemModel
 		if ( target == null )
 			return 0;
 
-		int slotId = target.getContainer( ).getContainerSlot( );
+		int slotId = target.getContainer( ).getContainerInfo( ).getSlotID( );
 
 		TableRow row = (TableRow) target.getContainer( );
 		DesignElement grandPa = row.getContainer( );
@@ -267,15 +269,14 @@ public class TableItem extends ListingElement implements ITableItemModel
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	protected List checkContent( Module module, DesignElement container,
-			int slotId, DesignElement content )
+	public List checkContent( Module module, ContainerContext containerInfo, DesignElement content )
 	{
-		List errors = super.checkContent( module, container, slotId, content );
+		List errors = super.checkContent( module, containerInfo, content );
 		if ( !errors.isEmpty( ) )
 			return errors;
 
 		errors.addAll( TableHeaderContextContainmentValidator.getInstance( )
-				.validateForAdding( module, container, slotId, content ) );
+				.validateForAdding( module, containerInfo, content ) );
 
 		return errors;
 	}
@@ -283,20 +284,21 @@ public class TableItem extends ListingElement implements ITableItemModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#checkContent(org.eclipse.birt.report.model.elements.Module,
-	 *      org.eclipse.birt.report.model.core.DesignElement, int,
-	 *      org.eclipse.birt.report.model.metadata.IElementDefn)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#checkContent(org.eclipse.birt.report.model.core.Module,
+	 *      org.eclipse.birt.report.model.core.ContainerInfo,
+	 *      org.eclipse.birt.report.model.api.metadata.IElementDefn)
 	 */
-
-	protected List checkContent( Module module, DesignElement container,
-			int slotId, IElementDefn defn )
+	public List checkContent( Module module, ContainerContext containerInfo,
+			IElementDefn defn )
 	{
-		List errors = super.checkContent( module, container, slotId, defn );
+		List errors = super.checkContent( module, containerInfo, defn );
 		if ( !errors.isEmpty( ) )
 			return errors;
 
-		errors.addAll( TableHeaderContextContainmentValidator.getInstance( )
-				.validateForAdding( module, container, defn ) );
+		errors
+				.addAll( TableHeaderContextContainmentValidator.getInstance( )
+						.validateForAdding( module,
+								containerInfo.getElement( ), defn ) );
 
 		return errors;
 	}

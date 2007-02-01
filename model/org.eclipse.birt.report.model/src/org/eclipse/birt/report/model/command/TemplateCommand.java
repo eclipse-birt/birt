@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.model.command;
 
-import java.util.Iterator;
-
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -22,6 +20,7 @@ import org.eclipse.birt.report.model.api.command.TemplateException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -42,6 +41,8 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.util.ContentExceptionFactory;
+import org.eclipse.birt.report.model.util.LevelContentIterator;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
@@ -52,6 +53,11 @@ import org.eclipse.birt.report.model.util.ModelUtil;
 
 public class TemplateCommand extends AbstractElementCommand
 {
+
+	/**
+	 * The container information.
+	 */
+	protected final ContainerContext focus;
 
 	/**
 	 * Constructor.
@@ -65,6 +71,18 @@ public class TemplateCommand extends AbstractElementCommand
 	public TemplateCommand( Module module, DesignElement obj )
 	{
 		super( module, obj );
+		this.focus = null;
+	}
+
+	/**
+	 * 
+	 * @param module
+	 * @param containerInfor
+	 */
+	public TemplateCommand( Module module, ContainerContext containerInfor )
+	{
+		super( module, containerInfor.getElement( ) );
+		this.focus = containerInfor;
 	}
 
 	/**
@@ -171,7 +189,7 @@ public class TemplateCommand extends AbstractElementCommand
 	 *             element is null, or an un-resolved value
 	 */
 
-	public void checkAdd( Object content, int slotID ) throws ContentException
+	public void checkAdd( Object content ) throws ContentException
 	{
 		Object obj = null;
 		if ( content instanceof DesignElement )
@@ -181,24 +199,17 @@ public class TemplateCommand extends AbstractElementCommand
 					IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP );
 			if ( obj == null )
 			{
-				int count = ( (DesignElement) content ).getDefn( )
-						.getSlotCount( );
-				for ( int i = 0; i < count; ++i )
+				LevelContentIterator iter = new LevelContentIterator( module,
+						element, 1 );
+				while ( iter.hasNext( ) )
 				{
-					ContainerSlot slot = ( (DesignElement) content )
-							.getSlot( i );
-					Iterator iter = slot.iterator( );
-					while ( iter.hasNext( ) )
-					{
-						Object eleObj = iter.next( );
-						checkAdd( eleObj, slotID );
-					}
+					Object eleObj = iter.next( );
+					checkAdd( eleObj );
 				}
 			}
 			else
 			{
-				addTemplateParameterDefinition( obj, (DesignElement) content,
-						slotID );
+				addTemplateParameterDefinition( obj, (DesignElement) content );
 			}
 		}
 	}
@@ -215,24 +226,23 @@ public class TemplateCommand extends AbstractElementCommand
 	 */
 
 	private void addTemplateParameterDefinition( Object obj,
-			DesignElement content, int slotID ) throws ContentException
+			DesignElement content ) throws ContentException
 	{
 		assert obj instanceof ElementRefValue;
 		ElementRefValue templateParam = (ElementRefValue) obj;
 		if ( templateParam.getElement( ) == null )
 		{
 			// a template element must define an explicit parameter definition
-
 			if ( content instanceof TemplateElement )
-				throw new ContentException(
-						element,
-						slotID,
-						content,
-						ContentException.DESIGN_EXCEPTION_INVALID_TEMPLATE_ELEMENT );
+				throw ContentExceptionFactory
+						.createContentException(
+								focus,
+								content,
+								ContentException.DESIGN_EXCEPTION_INVALID_TEMPLATE_ELEMENT );
+
 			// if content is a ReportItem, then look the definition in the
 			// report, if found and type is identical, then let it be; otherwise
 			// clear parameter definition
-
 			else
 			{
 				try
@@ -276,9 +286,12 @@ public class TemplateCommand extends AbstractElementCommand
 				DesignElement copyTemplateParam = ModelUtil
 						.getCopy( definition );
 				module.makeUniqueName( copyTemplateParam );
-				ContentCommand cmd = new ContentCommand( module, module );
-				cmd.add( copyTemplateParam,
-						IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT );
+				ContentCommand cmd = new ContentCommand(
+						module,
+						new ContainerContext(
+								module,
+								IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT ) );
+				cmd.add( copyTemplateParam );
 				PropertyCommand propertyCmd = new PropertyCommand( module,
 						content );
 				propertyCmd.setProperty(
@@ -357,7 +370,7 @@ public class TemplateCommand extends AbstractElementCommand
 	 */
 
 	public TemplateElement createTemplateElement( DesignElement base,
-			int slotID, String name ) throws SemanticException
+			String name ) throws SemanticException
 	{
 		assert base != null;
 
@@ -383,8 +396,8 @@ public class TemplateCommand extends AbstractElementCommand
 		{
 			createTemplateFromDesignElement( template, base );
 
-			ContentCommand cmd = new ContentCommand( module, element );
-			cmd.transformTemplate( base, template, slotID, true );
+			ContentCommand cmd = new ContentCommand( module, focus );
+			cmd.transformTemplate( base, template, true );
 		}
 		catch ( SemanticException e )
 		{
@@ -465,13 +478,14 @@ public class TemplateCommand extends AbstractElementCommand
 						IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP, null );
 			}
 
-			contentCmd = new ContentCommand( module, templateParam );
-			contentCmd.add( defaultElement,
-					ITemplateParameterDefinitionModel.DEFAULT_SLOT );
+			contentCmd = new ContentCommand( module, new ContainerContext(
+					templateParam,
+					ITemplateParameterDefinitionModel.DEFAULT_SLOT ) );
+			contentCmd.add( defaultElement );
 
-			contentCmd = new ContentCommand( module, module );
-			contentCmd.add( templateParam,
-					IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT );
+			contentCmd = new ContentCommand( module, new ContainerContext( module,
+					IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT ) );
+			contentCmd.add( templateParam );
 
 			// let the template handle refer the template parameter definition
 
@@ -507,13 +521,11 @@ public class TemplateCommand extends AbstractElementCommand
 	 *            the template report item to be transformed
 	 * @param reportItem
 	 *            the real report item to transform
-	 * @param slotID
-	 *            the slot ID where the transformation occurs
 	 * @throws SemanticException
 	 */
 
 	public void transformToReportItem( TemplateReportItem templateItem,
-			ReportItem reportItem, int slotID ) throws SemanticException
+			ReportItem reportItem ) throws SemanticException
 	{
 		// if the template report item has no template definition, it can not be
 		// transformed to a report item
@@ -537,8 +549,8 @@ public class TemplateCommand extends AbstractElementCommand
 			pcmd.setProperty( IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP,
 					templateparam.getName( ) );
 
-			ContentCommand cmd = new ContentCommand( module, element );
-			cmd.transformTemplate( templateItem, reportItem, slotID, false );
+			ContentCommand cmd = new ContentCommand( module, focus );
+			cmd.transformTemplate( templateItem, reportItem, false );
 		}
 		catch ( SemanticException e )
 		{
@@ -558,13 +570,11 @@ public class TemplateCommand extends AbstractElementCommand
 	 *            the template data set to be transformed
 	 * @param dataSet
 	 *            the real data set to transform
-	 * @param slotID
-	 *            the slot ID where the transformation occurs
 	 * @throws SemanticException
 	 */
 
 	public void transformToDataSet( TemplateDataSet templateDataSet,
-			SimpleDataSet dataSet, int slotID ) throws SemanticException
+			SimpleDataSet dataSet ) throws SemanticException
 	{
 		// if the template data set has no template definition, it can not be
 		// transformed to a data set
@@ -586,8 +596,8 @@ public class TemplateCommand extends AbstractElementCommand
 			pcmd.setProperty( IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP,
 					templateparam.getName( ) );
 
-			ContentCommand cmd = new ContentCommand( module, element );
-			cmd.transformTemplate( templateDataSet, dataSet, slotID, false );
+			ContentCommand cmd = new ContentCommand( module, focus );
+			cmd.transformTemplate( templateDataSet, dataSet, false );
 		}
 		catch ( SemanticException e )
 		{
@@ -607,8 +617,6 @@ public class TemplateCommand extends AbstractElementCommand
 	 * @param base
 	 *            the base report item or data set element to be reverted to a
 	 *            template element
-	 * @param slotID
-	 *            the slot of the container
 	 * @param name
 	 *            the given name of the created template element
 	 * @return the created template element
@@ -619,8 +627,8 @@ public class TemplateCommand extends AbstractElementCommand
 	 *             or the replacement fails
 	 */
 
-	public TemplateElement revertToTemplate( DesignElement base, int slotID,
-			String name ) throws SemanticException
+	public TemplateElement revertToTemplate( DesignElement base, String name )
+			throws SemanticException
 	{
 		assert base != null;
 
@@ -660,8 +668,8 @@ public class TemplateCommand extends AbstractElementCommand
 			assert false;
 		}
 
-		ContentCommand cmd = new ContentCommand( module, element );
-		cmd.transformTemplate( base, template, slotID, false );
+		ContentCommand cmd = new ContentCommand( module, focus );
+		cmd.transformTemplate( base, template, false );
 
 		return template;
 	}

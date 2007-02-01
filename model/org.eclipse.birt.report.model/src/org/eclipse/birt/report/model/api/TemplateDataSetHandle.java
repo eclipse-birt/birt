@@ -20,8 +20,8 @@ import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.TemplateDataSet;
 
 /**
- * Handle for template data sets. A template data set is a place holder
- * to generate a real data set element. 
+ * Handle for template data sets. A template data set is a place holder to
+ * generate a real data set element.
  * 
  * @see org.eclipse.birt.report.model.api.TemplateElementHandle
  */
@@ -59,12 +59,12 @@ public class TemplateDataSetHandle extends TemplateElementHandle
 			throws SemanticException
 	{
 		if ( getRoot( ) == null )
-			throw new TemplateException( getElement( ),
+			throw new TemplateException(
+					getElement( ),
 					TemplateException.DESIGN_EXCEPTION_CREATE_TEMPLATE_ELEMENT_FORBIDDEN );
-		TemplateCommand cmd = new TemplateCommand( getModule( ), getContainer( )
-				.getElement( ) );
+		TemplateCommand cmd = new TemplateCommand( getModule( ), getElement( )
+				.getContainerInfo( ) );
 		cmd.transformToDataSet( (TemplateDataSet) getElement( ),
-				(SimpleDataSet) dataSetHandle.getElement( ), getElement( )
-						.getContainerSlot( ) );
+				(SimpleDataSet) dataSetHandle.getElement( ) );
 	}
 }

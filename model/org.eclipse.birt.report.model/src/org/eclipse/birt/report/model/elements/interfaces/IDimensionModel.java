@@ -29,5 +29,5 @@ public interface IDimensionModel
 	 * Identifier of the slot that holds a list of Hierarchy elements.
 	 */
 
-	static final int HIERARCHY_SLOT = 0;
+	static final String HIERARCHIES_PROP = "hierarchies"; //$NON-NLS-1$
 }

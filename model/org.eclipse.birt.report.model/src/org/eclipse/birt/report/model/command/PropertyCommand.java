@@ -125,8 +125,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 		// Backward for TOC expression.
 
 		String propName = prop.getName( );
-		if ( ( IReportItemModel.TOC_PROP.equals( propName ) 
-				|| IGroupElementModel.TOC_PROP.equals( propName  ) )
+		if ( ( IReportItemModel.TOC_PROP.equals( propName ) || IGroupElementModel.TOC_PROP
+				.equals( propName ) )
 				&& ( value instanceof String ) )
 		{
 			Object oldValue = element.getLocalProperty( module, prop );
@@ -257,8 +257,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 			if ( definition != null && !definition.hasReferences( ) )
 			{
 				ContentCommand cmd = new ContentCommand( definition.getRoot( ),
-						definition.getContainer( ) );
-				cmd.remove( definition, definition.getContainerSlot( ) );
+						definition.getContainerInfo( ) );
+				cmd.remove( definition );
 			}
 		}
 		catch ( SemanticException e )
@@ -321,7 +321,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 		PropertyRecord record = new PropertyRecord( element, prop, value );
 		getActivityStack( ).execute( record );
 
-	}	
+	}
 
 	/**
 	 * Private method to validate the value of a property.
@@ -561,5 +561,5 @@ public class PropertyCommand extends AbstractPropertyCommand
 
 		stack.commit( );
 
-	}		
+	}
 }

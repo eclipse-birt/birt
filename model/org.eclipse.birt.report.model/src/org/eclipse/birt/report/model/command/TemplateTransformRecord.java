@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.command;
 
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.TemplateTransformEvent;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
@@ -34,10 +35,8 @@ public class TemplateTransformRecord extends ContentReplaceRecord
 	 * 
 	 * @param module
 	 *            the module in which this record executes
-	 * @param containerObj
-	 *            The container element.
-	 * @param theSlot
-	 *            The slotID in which to put the content.
+	 * @param containerInfo
+	 *            The container information.
 	 * @param from
 	 *            the elemnt which the record transforms from
 	 * @param to
@@ -45,10 +44,10 @@ public class TemplateTransformRecord extends ContentReplaceRecord
 	 * 
 	 */
 
-	public TemplateTransformRecord( Module module, DesignElement containerObj,
-			int theSlot, DesignElement from, DesignElement to )
+	public TemplateTransformRecord( Module module, ContainerContext containerInfo,
+			DesignElement from, DesignElement to )
 	{
-		super( module, containerObj, theSlot, from, to );
+		super( module, containerInfo, from, to );
 		this.label = ModelMessages
 				.getMessage( MessageConstants.TRANSFORM_TEMPLATE_MESSAGE );
 
@@ -70,11 +69,9 @@ public class TemplateTransformRecord extends ContentReplaceRecord
 		// normal content replace event.
 
 		if ( state != UNDONE_STATE )
-			event = new TemplateTransformEvent( container, oldElement,
-					newElement, slotID );
+			event = new TemplateTransformEvent( focus, oldElement, newElement );
 		else
-			event = new TemplateTransformEvent( container, newElement,
-					oldElement, slotID );
+			event = new TemplateTransformEvent( focus, newElement, oldElement );
 
 		if ( state == DONE_STATE )
 			event.setSender( sender );

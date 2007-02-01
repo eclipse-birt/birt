@@ -66,12 +66,11 @@ public class TemplateReportItemHandle extends TemplateElementHandle
 			throw new TemplateException(
 					getElement( ),
 					TemplateException.DESIGN_EXCEPTION_CREATE_TEMPLATE_ELEMENT_FORBIDDEN );
-		
-		TemplateCommand cmd = new TemplateCommand( getModule( ), getContainer( )
-				.getElement( ) );
+
+		TemplateCommand cmd = new TemplateCommand( getModule( ), getElement( )
+				.getContainerInfo( ) );
 		cmd.transformToReportItem( (TemplateReportItem) getElement( ),
-				(ReportItem) reportItemHandle.getElement( ), getElement( )
-						.getContainerSlot( ) );
+				(ReportItem) reportItemHandle.getElement( ) );
 	}
 
 	/**

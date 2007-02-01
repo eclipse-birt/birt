@@ -9,7 +9,7 @@ import org.w3c.css.sac.CSSException;
  * Parses the compound properties of CSS defined, such as background, font, 
  * border, border-width and so on.  
  *
- * @version $Revision$ $Date$
+ * @version $Revision: 1.1 $ $Date: 2006/12/28 04:36:47 $
  */
 
 public class PropertyParser implements PropertyParserConstants {

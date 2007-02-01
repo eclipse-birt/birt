@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -54,6 +55,7 @@ import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
@@ -66,6 +68,7 @@ import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.elements.olap.Hierarchy;
 import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.birt.report.model.elements.olap.Measure;
+import org.eclipse.birt.report.model.elements.olap.MeasureGroup;
 import org.eclipse.birt.report.model.extension.oda.ODAProviderFactory;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
@@ -125,18 +128,26 @@ public class ElementFactory
 	{
 
 		ElementDefn elemDefn = (ElementDefn) MetaDataDictionary.getInstance( )
-				.getElement( elementTypeName );
+				.getExtension( elementTypeName );
 
-		if ( elemDefn == null )
+		// try extension first
+		if ( elemDefn != null )
 		{
 			return newExtensionElement( elementTypeName, name );
 		}
 
-		DesignElement element = ModelUtil.newElement( module, elementTypeName,
-				name );
-		if ( element == null )
-			return null;
-		return element.getHandle( module );
+		// try other system definitions
+		elemDefn = (ElementDefn) MetaDataDictionary.getInstance( ).getElement(
+				elementTypeName );
+		if ( elemDefn != null )
+		{
+			DesignElement element = ModelUtil.newElement( module,
+					elementTypeName, name );
+			if ( element == null )
+				return null;
+			return element.getHandle( module );
+		}
+		return null;
 	}
 
 	/**
@@ -457,29 +468,25 @@ public class ElementFactory
 		for ( int i = 0; i < columnNum; i++ )
 		{
 			TableColumn column = new TableColumn( );
-			table.getSlot( ITableItemModel.COLUMN_SLOT ).add( column );
-			column.setContainer( table, ITableItemModel.COLUMN_SLOT );
+			table.add( column, ITableItemModel.COLUMN_SLOT );
 		}
 
 		for ( int i = 0; i < headerRow; i++ )
 		{
 			TableRow row = (TableRow) newTableRow( columnNum ).getElement( );
-			table.getSlot( IListingElementModel.HEADER_SLOT ).add( row );
-			row.setContainer( table, IListingElementModel.HEADER_SLOT );
+			table.add( row, IListingElementModel.HEADER_SLOT );
 		}
 
 		for ( int i = 0; i < footerRow; i++ )
 		{
 			TableRow row = (TableRow) newTableRow( columnNum ).getElement( );
-			table.getSlot( IListingElementModel.FOOTER_SLOT ).add( row );
-			row.setContainer( table, IListingElementModel.FOOTER_SLOT );
+			table.add( row, IListingElementModel.FOOTER_SLOT );
 		}
 
 		for ( int i = 0; i < detailRow; i++ )
 		{
 			TableRow row = (TableRow) newTableRow( columnNum ).getElement( );
-			table.getSlot( IListingElementModel.DETAIL_SLOT ).add( row );
-			row.setContainer( table, IListingElementModel.DETAIL_SLOT );
+			table.add( row, IListingElementModel.DETAIL_SLOT );
 		}
 
 		table.refreshRenderModel( module );
@@ -544,8 +551,7 @@ public class ElementFactory
 		for ( int j = 0; j < cellNum; j++ )
 		{
 			Cell cell = new Cell( );
-			row.getSlot( ITableRowModel.CONTENT_SLOT ).add( cell );
-			cell.setContainer( row, ITableRowModel.CONTENT_SLOT );
+			row.add( cell, ITableRowModel.CONTENT_SLOT );
 		}
 
 		return rowHandle;
@@ -605,15 +611,13 @@ public class ElementFactory
 		for ( int i = 0; i < columnNum; i++ )
 		{
 			TableColumn column = new TableColumn( );
-			grid.getSlot( IGridItemModel.COLUMN_SLOT ).add( column );
-			column.setContainer( grid, IGridItemModel.COLUMN_SLOT );
+			grid.add( column, IGridItemModel.COLUMN_SLOT );
 		}
 
 		for ( int i = 0; i < rowNum; i++ )
 		{
 			TableRow row = (TableRow) newTableRow( columnNum ).getElement( );
-			grid.getSlot( IGridItemModel.ROW_SLOT ).add( row );
-			row.setContainer( grid, IGridItemModel.ROW_SLOT );
+			grid.add( row, IGridItemModel.ROW_SLOT );
 		}
 
 		return gridHandle;
@@ -720,11 +724,12 @@ public class ElementFactory
 					"Only report item extension can be created through this method." ); //$NON-NLS-1$
 
 		ExtendedItem element = new ExtendedItem( name );
-		
-		//init provider.
-		
-		element.setProperty( IExtendedItemModel.EXTENSION_NAME_PROP, extensionName );
-		
+
+		// init provider.
+
+		element.setProperty( IExtendedItemModel.EXTENSION_NAME_PROP,
+				extensionName );
+
 		if ( parent != null )
 		{
 			element.getHandle( module ).setExtends( parent );
@@ -823,7 +828,8 @@ public class ElementFactory
 		}
 		OdaDataSource element = new OdaDataSource( name );
 		module.makeUniqueName( element );
-		element.setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP, extensionID );
+		element.setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP,
+				extensionID );
 
 		return element.handle( module );
 	}
@@ -890,7 +896,8 @@ public class ElementFactory
 		}
 		OdaDataSet element = new OdaDataSet( name );
 		module.makeUniqueName( element );
-		element.setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP, extensionID );
+		element.setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP,
+				extensionID );
 
 		return element.handle( module );
 	}
@@ -1022,7 +1029,7 @@ public class ElementFactory
 	private void renameForVirtualElements( DesignElement element )
 	{
 
-		Iterator contentIter = new ContentIterator( element );
+		Iterator contentIter = new ContentIterator( module, element );
 		while ( contentIter.hasNext( ) )
 		{
 			DesignElement virtualElement = (DesignElement) contentIter.next( );
@@ -1045,7 +1052,7 @@ public class ElementFactory
 		module.makeUniqueName( element );
 		return element.handle( module );
 	}
-	
+
 	/**
 	 * Creates a new cube element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
@@ -1059,9 +1066,14 @@ public class ElementFactory
 	{
 		Cube element = new Cube( name );
 		module.makeUniqueName( element );
+
+		// add a measure group
+		MeasureGroup measureGroup = new MeasureGroup( );
+		element.add( module, measureGroup, ICubeModel.MEASURE_GROUPS_PROP );
+
 		return element.handle( module );
 	}
-	
+
 	/**
 	 * Creates a new dimension element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
@@ -1077,17 +1089,17 @@ public class ElementFactory
 		Dimension element = new Dimension( name );
 		module.makeUniqueName( element );
 		Hierarchy hierarchy = new Hierarchy( );
-		element.getSlot( IDimensionModel.HIERARCHY_SLOT ).add( hierarchy );
-		hierarchy.setContainer( element, IDimensionModel.HIERARCHY_SLOT );
+		element.add( module, hierarchy, IDimensionModel.HIERARCHIES_PROP );
 		module.makeUniqueName( hierarchy );
 		return element.handle( module );
 	}
-	
+
 	/**
-	 * Creates a new hierarchy element.
+	 * Creates a new hierarchy element. The name is required. If the
+	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
 	 * @param name
-	 *            the optional hierarchy element name. Can be <code>null</code>.
+	 *            hierarchy name
 	 * @return a handle to the hierarchy element
 	 */
 
@@ -1097,12 +1109,13 @@ public class ElementFactory
 		module.makeUniqueName( element );
 		return element.handle( module );
 	}
-	
+
 	/**
-	 * Creates a new level element.
+	 * Creates a new level element. The name is required. If the
+	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
 	 * @param name
-	 *            the optional level element name. Can be <code>null</code>.
+	 *            the level name
 	 * @return a handle to the level element
 	 */
 
@@ -1112,18 +1125,33 @@ public class ElementFactory
 		module.makeUniqueName( element );
 		return element.handle( module );
 	}
-	
+
 	/**
-	 * Creates a new measure element.
+	 * Creates a new measure element. The name is required. If the
+	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
 	 * @param name
-	 *            the optional measure element name. Can be <code>null</code>.
+	 *            the measure name
 	 * @return a handle to the measure element
 	 */
 
 	public MeasureHandle newMeasure( String name )
 	{
 		Measure element = new Measure( name );
+		module.makeUniqueName( element );
+		return element.handle( module );
+	}
+
+	/**
+	 * Creates a new measure group.
+	 * 
+	 * @param name
+	 *            the optional measure group name.
+	 * @return
+	 */
+	public MeasureGroupHandle newMeasureGroup( String name )
+	{
+		MeasureGroup element = new MeasureGroup( name );
 		module.makeUniqueName( element );
 		return element.handle( module );
 	}

@@ -51,6 +51,24 @@ public class GridItemState extends ReportItemState
 		super( handler, theContainer, slot );
 	}
 
+	/**
+	 * Constructs grid item state with the design parser handler, the container
+	 * element and the container property name of the report element.
+	 * 
+	 * @param handler
+	 *            the design file parser handler
+	 * @param theContainer
+	 *            the element that contains this one
+	 * @param prop
+	 *            the slot in which this element appears
+	 */
+
+	public GridItemState( ModuleParserHandler handler,
+			DesignElement theContainer, String prop )
+	{
+		super( handler, theContainer, prop );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -72,7 +90,8 @@ public class GridItemState extends ReportItemState
 	public AbstractParseState startElement( String tagName )
 	{
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.COLUMN_TAG ) )
-			return new TableColumnState( handler, element, IGridItemModel.COLUMN_SLOT );
+			return new TableColumnState( handler, element,
+					IGridItemModel.COLUMN_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.ROW_TAG ) )
 			return new TableRowState( handler, element, IGridItemModel.ROW_SLOT );
 		return super.startElement( tagName );
