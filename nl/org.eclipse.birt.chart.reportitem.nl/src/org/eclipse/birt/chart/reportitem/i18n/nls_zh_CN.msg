@@ -52,6 +52,7 @@ ChartElementCommandImpl.setProperty.script=编辑图表脚本
 Element.Chart=图表
 Element.Chart.xmlRepresentation=XML 模型
 Element.Chart.outputFormat=输出格式
+Element.Chart.action=Action
 
 choice.chart.dimension.two_dimensional=二维
 choice.chart.dimension.two_dimensional_with_depth=二维并具有深度
