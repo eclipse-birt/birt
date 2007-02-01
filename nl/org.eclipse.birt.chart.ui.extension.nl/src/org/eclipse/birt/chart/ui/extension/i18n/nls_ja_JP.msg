@@ -511,11 +511,14 @@ TriggerDataComposite.Lbl.SeriesDefinition=系列の定義 :
 TriggerDataComposite.Label.CallbackDescription=CallBack アクションは API の SWT (または Swing レンダリング) で使用し、Java イベントハンドラをフッキングを可能にします。
 TriggerDataComposite.Label.HighlightDescription=対応するデータ要素をハイライトします (該当する場合)。
 TriggerDataComposite.Label.VisiblityDescription=対応するデータ要素の表示と非表示を切り替えます (該当する場合)。
-TriggerDataComposite.Label.DefineTheParametersNames=パラメタの名前を URL に定義します。この URL により、このハイパーリンクにバインドするデータポイント値を記述します。名前と値は URL に「\u2026&&&paramName=value」という形式で追加されます。
+TriggerDataComposite.Label.Description=パラメタの名前を URL に定義します。この URL により、このハイパーリンクにバインドするデータポイント値を記述します。名前と値は URL に「\u2026&&&paramName=value」という形式で追加されます。
 TriggerDataComposite.Label.DPVisibilityDescription=対応するデータ要素のラベルの表示と非表示を切り替えます (該当する場合)。
-TriggerDataComposite.Label.GiveANameForParameters=次の値を表す URL パラメタに名前を指定してください :
+TriggerDataComposite.Label.OptionalURLParameters=次の値を表す URL パラメタに名前を指定してください :
 TriggerDataComposite.Label.TooltipUsingDataLabelOfSeries=ツールチップのテキストが NULL の場合は、代りに対応する系列のデータラベルを使用してください。
 TriggerDataComposite.Tooltip.InvokeURLBuilder=URL ビルダの起動
+TriggerDataComposite.Tooltip.Advanced=Show Optional URL Parameters
+TriggerDataComposite.Label.None=None
+TriggerDataComposite.Lbl.BaseURL=Edit Base URL:
 TriggerDataComposite.Tooltip.ParameterCategory=カテゴリのパラメタ名 : \u2026&&&name=<カテゴリ>
 TriggerDataComposite.Tooltip.ParameterValue=値のパラメタ名 : \u2026&&&name=<値>
 TriggerDataComposite.Tooltip.ParameterSeries=系列のパラメタ名: \u2026&&&name=<系列>
@@ -523,12 +526,15 @@ TriggerDataComposite.Lbl.TooltipDelay=ツールチップを表示するまでの時間 (ミリ秒) 
 TriggerDataComposite.Lbl.ParameterNames=URL のパラメタ名
 TriggerDataComposite.Lbl.CategorySeries=カテゴリ系列 :
 TriggerDataComposite.Text.EditBaseURL=ベース URL の編集(&E)...
+TriggerDataComposite.Text.Advanced=&Advanced>>
+TriggerDataComposite.Text.OpenAdvanced=&Advanced<<
 TriggerDataComposite.Lbl.ValueSeries=値系列 :
 TriggerDataComposite.Lbl.ValueSeriesName=値系列の名前 :
 TriggerDataComposite.Tooltip.InputScript=\ 表示環境内で実行するスクリプト (通常は JavaScript) を入力してください。
 TriggerEditorComposite.Lbl.Remove=削除(&R)
 TriggerEditorComposite.Lbl.Add=追加(&A)
-TriggerDataComposite.Lbl.Type=型 (&T):
+TriggerDataComposite.Lbl.Event=&Event:
+TriggerDataComposite.Lbl.None=<None>
 TriggerDataComposite.Lbl.Action=アクション (&C):
 TriggerDataComposite.Lbl.Script=スクリプト (&P):
 TriggerDataComposite.Lbl.Target=ターゲット :

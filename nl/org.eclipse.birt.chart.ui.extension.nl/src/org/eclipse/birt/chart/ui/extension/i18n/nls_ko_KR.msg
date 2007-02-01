@@ -515,11 +515,14 @@ TriggerDataComposite.Lbl.SeriesDefinition=계열 정의:
 TriggerDataComposite.Label.CallbackDescription=CallBack 작업은 SWT 또는 Swing 렌더링에서 API 용도이며, Java 이벤트 처리기를 연결시킵니다.
 TriggerDataComposite.Label.HighlightDescription=적용 가능할 때 해당 데이터 요소를 강조합니다.
 TriggerDataComposite.Label.VisiblityDescription=적용 가능할 때 해당 데이터 요소의 표시 유형을 전환합니다.
-TriggerDataComposite.Label.DefineTheParametersNames=이 하이퍼링크에 바인딩된 DataPoint 값을 설명하는 매개 변수 이름을 URL에 정의합니다. 이름과 값은 \u2026&&&paramName=value로 URL에 추가됩니다.
+TriggerDataComposite.Label.Description=이 하이퍼링크에 바인딩된 DataPoint 값을 설명하는 매개 변수 이름을 URL에 정의합니다. 이름과 값은 \u2026&&&paramName=value로 URL에 추가됩니다.
 TriggerDataComposite.Label.DPVisibilityDescription=적용 가능할 때 해당 데이터 요소 레이블의 표시 유형을 전환합니다.
-TriggerDataComposite.Label.GiveANameForParameters=다음의 값을 나타내는 URL 매개 변수에 대해 이름을 지정합니다.
+TriggerDataComposite.Label.OptionalURLParameters=다음의 값을 나타내는 URL 매개 변수에 대해 이름을 지정합니다.
 TriggerDataComposite.Label.TooltipUsingDataLabelOfSeries=도구 설명 텍스트가 널(null)인 경우 해당 계열의 데이터 레이블을 사용하십시오.
 TriggerDataComposite.Tooltip.InvokeURLBuilder=URL 빌더 호출
+TriggerDataComposite.Tooltip.Advanced=Show Optional URL Parameters
+TriggerDataComposite.Label.None=None
+TriggerDataComposite.Lbl.BaseURL=Edit Base URL:
 TriggerDataComposite.Tooltip.ParameterCategory=범주에 대한 매개 변수 이름: \u2026&&&name=<범주>
 TriggerDataComposite.Tooltip.ParameterValue=값에 대한 매개 변수 이름: \u2026&&&name=<값>
 TriggerDataComposite.Tooltip.ParameterSeries=계열에 대한 매개 변수 이름: \u2026&&&name=<계열>
@@ -527,12 +530,15 @@ TriggerDataComposite.Lbl.TooltipDelay=도구 설명 지연(ms)(&D):
 TriggerDataComposite.Lbl.ParameterNames=URL 매개 변수 이름
 TriggerDataComposite.Lbl.CategorySeries=범주 계열:
 TriggerDataComposite.Text.EditBaseURL=기본 URL 편집(&E)...
+TriggerDataComposite.Text.Advanced=&Advanced>>
+TriggerDataComposite.Text.OpenAdvanced=&Advanced<<
 TriggerDataComposite.Lbl.ValueSeries=값 계열:
 TriggerDataComposite.Lbl.ValueSeriesName=값 계열 이름:
 TriggerDataComposite.Tooltip.InputScript=\ 렌더링 환경에서 실행할 스크립트(일반적으로 JavaScript) 를 입력합니다.
 TriggerEditorComposite.Lbl.Remove=제거(&R)
 TriggerEditorComposite.Lbl.Add=추가(&A)
-TriggerDataComposite.Lbl.Type=형식:(&T)
+TriggerDataComposite.Lbl.Event=&Event:
+TriggerDataComposite.Lbl.None=<None>
 TriggerDataComposite.Lbl.Action=작업:(&C)
 TriggerDataComposite.Lbl.Script=스크립트(&P):
 TriggerDataComposite.Lbl.Target=대상:

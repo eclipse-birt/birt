@@ -510,11 +510,14 @@ TriggerDataComposite.Lbl.SeriesDefinition=系列定义:
 TriggerDataComposite.Label.CallbackDescription=CallBack 操作供 API 在 SWT 或 Swing 绘制中使用，并允许挂接 java 事件处理程序。
 TriggerDataComposite.Label.HighlightDescription=适当时突出显示相应数据元素。
 TriggerDataComposite.Label.VisiblityDescription=适当时切换相应数据元素的可见性。
-TriggerDataComposite.Label.DefineTheParametersNames=定义 URL 中描述绑定到此超级链接的数据点的值的参数名称。名称和值将以 \u2026&&&paramName=value 的形式添加到 URL。
+TriggerDataComposite.Label.Description=定义 URL 中描述绑定到此超级链接的数据点的值的参数名称。名称和值将以 \u2026&&&paramName=value 的形式添加到 URL。
 TriggerDataComposite.Label.DPVisibilityDescription=适当时切换相应数据元素标签的可见性。
-TriggerDataComposite.Label.GiveANameForParameters=为表示以下值的 URL 参数指定名称:
+TriggerDataComposite.Label.OptionalURLParameters=为表示以下值的 URL 参数指定名称:
 TriggerDataComposite.Label.TooltipUsingDataLabelOfSeries=如果工具提示文本为空，则使用相应系列的数据标签。
 TriggerDataComposite.Tooltip.InvokeURLBuilder=调用 URL 生成器
+TriggerDataComposite.Tooltip.Advanced=Show Optional URL Parameters
+TriggerDataComposite.Label.None=None
+TriggerDataComposite.Lbl.BaseURL=Edit Base URL:
 TriggerDataComposite.Tooltip.ParameterCategory=类别的参数名称: \u2026&&&name=<category>
 TriggerDataComposite.Tooltip.ParameterValue=值的参数名称: \u2026&&&name=<value>
 TriggerDataComposite.Tooltip.ParameterSeries=系列的参数名称: \u2026&&&name=<series>
@@ -522,12 +525,15 @@ TriggerDataComposite.Lbl.TooltipDelay=工具提示延迟（毫秒）(&D):
 TriggerDataComposite.Lbl.ParameterNames=URL 参数名称
 TriggerDataComposite.Lbl.CategorySeries=类别系列:
 TriggerDataComposite.Text.EditBaseURL=编辑基本 URL(&E)...
+TriggerDataComposite.Text.Advanced=&Advanced>>
+TriggerDataComposite.Text.OpenAdvanced=&Advanced<<
 TriggerDataComposite.Lbl.ValueSeries=值系列:
 TriggerDataComposite.Lbl.ValueSeriesName=值系列名称:
 TriggerDataComposite.Tooltip.InputScript=\ 输入要在绘制环境内部执行的脚本（通常为 JavaScript）。
 TriggerEditorComposite.Lbl.Remove=删除(&R)
 TriggerEditorComposite.Lbl.Add=添加(&A)
-TriggerDataComposite.Lbl.Type=类型(&T): 
+TriggerDataComposite.Lbl.Event=&Event:
+TriggerDataComposite.Lbl.None=<None>
 TriggerDataComposite.Lbl.Action=操作(&C):
 TriggerDataComposite.Lbl.Script=脚本(&P):
 TriggerDataComposite.Lbl.Target=目标:
