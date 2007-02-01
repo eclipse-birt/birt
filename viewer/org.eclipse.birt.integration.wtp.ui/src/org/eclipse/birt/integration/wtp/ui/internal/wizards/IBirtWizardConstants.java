@@ -39,8 +39,9 @@ public interface IBirtWizardConstants
 
 	// deployment settings
 	public final static String BIRT_RESOURCE_FOLDER_SETTING = "BIRT_RESOURCE_PATH"; //$NON-NLS-1$
+	public final static String BIRT_WORKING_FOLDER_SETTING = "BIRT_VIEWER_WORKING_FOLDER"; //$NON-NLS-1$
 	public final static String BIRT_DOCUMENT_FOLDER_SETTING = "BIRT_VIEWER_DOCUMENT_FOLDER"; //$NON-NLS-1$
-	public final static String BIRT_DOCUMENT_ACCESSONLY_SETTING = "DOCUMENT_FOLDER_ACCESS_ONLY"; //$NON-NLS-1$
+	public final static String BIRT_REPORT_ACCESSONLY_SETTING = "WORKING_FOLDER_ACCESS_ONLY"; //$NON-NLS-1$
 	public final static String BIRT_IMAGE_FOLDER_SETTING = "BIRT_VIEWER_IMAGE_DIR"; //$NON-NLS-1$
 	public final static String BIRT_SCRIPTLIB_FOLDER_SETTING = "BIRT_VIEWER_SCRIPTLIB_DIR"; //$NON-NLS-1$
 	public final static String BIRT_LOG_FOLDER_SETTING = "BIRT_VIEWER_LOG_DIR"; //$NON-NLS-1$
