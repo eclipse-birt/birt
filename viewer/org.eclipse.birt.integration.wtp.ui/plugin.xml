@@ -196,23 +196,27 @@
 				value=""/>				
 
 			<context-param 
+				name="BIRT_VIEWER_WORKING_FOLDER"
+				value=""/>	
+				
+			<context-param 
 				name="BIRT_VIEWER_DOCUMENT_FOLDER"
-				value=""/>		
+				value="documents"/>		
 						
 			<context-param 
 				name="BIRT_VIEWER_IMAGE_DIR"
-				value="/report/images"/>
+				value="report/images"/>
 
 			<context-param 
 				name="BIRT_VIEWER_SCRIPTLIB_DIR"
-				value="/scriptlib"/>
+				value="scriptlib"/>
 				
 			<context-param 
 				name="BIRT_VIEWER_LOG_DIR"
-				value="/logs"/>
+				value="logs"/>
 
 			<context-param 
-				name="DOCUMENT_FOLDER_ACCESS_ONLY"
+				name="WORKING_FOLDER_ACCESS_ONLY"
 				value="false"/>
 
 			<context-param 
@@ -229,7 +233,7 @@
 			
 			<context-param 
 				name="BIRT_VIEWER_CONFIG_FILE"
-				value="/WEB-INF/viewer.properties"/>
+				value="WEB-INF/viewer.properties"/>
 			
 			<listener class="org.eclipse.birt.report.listener.ViewerServletContextListener"/>
 			<listener class="org.eclipse.birt.report.listener.ViewerHttpSessionListener"/>
@@ -271,7 +275,6 @@
 		<!-- Conflict Resources Settings( Clear these resources when import ) -->
 		<conflict
 			id="org.eclipse.birt.integration.wtp.ui.defaultConflictResourcesDefinition">
-			<folder path="/webcontent/birt"/>
 			<folder path="/WEB-INF/platform"/>
 			<folder path="/WEB-INF/lib">
 				<file name="com.ibm.icu_"/>

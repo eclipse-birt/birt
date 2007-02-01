@@ -52,12 +52,17 @@ public class BirtConfigurationDialog extends Dialog
 	protected Text txtResourceFolder;
 
 	/**
+	 * Value for "BIRT_VIEWER_WORKING_FOLDER" setting
+	 */
+	protected Text txtWorkingFolder;
+
+	/**
 	 * Value for "BIRT_VIEWER_DOCUMENT_FOLDER" setting
 	 */
 	protected Text txtDocumentFolder;
 
 	/**
-	 * Value for "DOCUMENT_FOLDER_ACCESS_ONLY" setting
+	 * Value for "WORKING_FOLDER_ACCESS_ONLY" setting
 	 */
 	protected Button btAccessOnly;
 
@@ -170,6 +175,9 @@ public class BirtConfigurationDialog extends Dialog
 			this.txtResourceFolder.setText( resFolder.trim( ) );
 		}
 
+		// create working folder setting group
+		this.txtWorkingFolder = uit.createWorkingFolderGroup( paths );
+
 		// create document folder setting group
 		this.txtDocumentFolder = uit.createDocumentFolderGroup( paths );
 
@@ -220,9 +228,11 @@ public class BirtConfigurationDialog extends Dialog
 		WebArtifactUtil.setContextParamValue( properties,
 				BIRT_RESOURCE_FOLDER_SETTING, txtResourceFolder.getText( ) );
 		WebArtifactUtil.setContextParamValue( properties,
+				BIRT_WORKING_FOLDER_SETTING, txtWorkingFolder.getText( ) );
+		WebArtifactUtil.setContextParamValue( properties,
 				BIRT_DOCUMENT_FOLDER_SETTING, txtDocumentFolder.getText( ) );
 		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_DOCUMENT_ACCESSONLY_SETTING, new String( BLANK_STRING
+				BIRT_REPORT_ACCESSONLY_SETTING, new String( BLANK_STRING
 						+ btAccessOnly.getSelection( ) ) );
 		WebArtifactUtil.setContextParamValue( properties,
 				BIRT_IMAGE_FOLDER_SETTING, txtImageFolder.getText( ) );
