@@ -23,11 +23,12 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+//TODO: review, we should remove the CssParser from this class.
+//TODO: review, in HTML, we need support a RESOURCE tag like VALUE-OF which create a URL.
 /**
  * Converts the deprecated element according to the HTML 4.0 specification and
  * parses the style attribute of the HTML element.
  * 
- * @version $Revision: 1.12 $ $Date: 2005/12/23 06:37:25 $
  */
 public class HTMLProcessor
 {

@@ -99,14 +99,10 @@ public class ReportEngine implements IReportEngine
 		if ( config != null )
 		{
 			String dest = (String) config.getLogDirectory( );
-
-			if ( dest != null )
-			{
-				Level level = (Level) config.getLogLevel( );
-				if ( level == null )
-					level = Level.WARNING;
-				helper.setupLogging( dest, level );
-			}
+			Level level = config.getLogLevel( );
+			if ( level == null )
+				level = Level.WARNING;
+			helper.setupLogging( dest, level );
 		}
 	}
 

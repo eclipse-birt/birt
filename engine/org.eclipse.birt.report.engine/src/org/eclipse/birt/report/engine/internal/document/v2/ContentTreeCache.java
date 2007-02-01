@@ -10,7 +10,6 @@ import java.util.ListIterator;
  * 
  * A entry is not used only if all its child has been retrived.
  * 
- * @version $Revision:$ $Date:$
  */
 class ContentTreeCache
 {

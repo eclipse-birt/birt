@@ -37,7 +37,6 @@ import org.eclipse.birt.report.engine.api.IRunTask;
 /**
  * Unit test for resource manager and HTML report emitter.
  * 
- * @version $Revision: 1.14 $ $Date: 2006/09/08 08:56:50 $
  */
 abstract public class HTMLReportEmitterTestCase extends TestCase
 {

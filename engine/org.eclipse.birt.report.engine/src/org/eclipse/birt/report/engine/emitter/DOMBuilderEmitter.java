@@ -19,7 +19,6 @@ import org.eclipse.birt.report.engine.content.IContent;
  * receive the input and construct the DOM strcuture 
  * of the received contents.
  *
- * @version $Revision: 1.2 $ $Date: 2006/04/10 08:11:57 $
  */
 public class DOMBuilderEmitter extends ContentEmitterAdapter
 {

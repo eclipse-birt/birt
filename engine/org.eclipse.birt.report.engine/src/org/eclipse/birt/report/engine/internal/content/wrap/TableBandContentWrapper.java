@@ -19,7 +19,6 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
  * table band content object There are three type: table header, table footer,
  * table body
  * 
- * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:53 $
  */
 public class TableBandContentWrapper extends AbstractContentWrapper
 		implements

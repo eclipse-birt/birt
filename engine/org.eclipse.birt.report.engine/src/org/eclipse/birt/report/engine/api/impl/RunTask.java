@@ -13,22 +13,18 @@ package org.eclipse.birt.report.engine.api.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.archive.FileArchiveWriter;
 import org.eclipse.birt.core.archive.FolderArchive;
 import org.eclipse.birt.core.archive.FolderArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
-import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IPageHandler;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunTask;
-import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
-import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.presentation.ReportDocumentBuilder;
@@ -164,26 +160,6 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		writer.close( );
 	}
 
-	private void initializeContentEmitter(IContentEmitter emitter, IReportExecutor executor)
-	{
-		// create the emitter services object that is needed in the emitters.
-		EngineEmitterServices services = new EngineEmitterServices( this );
-
-		EngineConfig config = engine.getConfig( );
-		if ( config != null )
-		{
-			HashMap emitterConfigs = config.getEmitterConfigs( );
-			services.setEmitterConfig( emitterConfigs );
-		}
-		services.setRenderOption( renderOptions );
-		services.setExecutor( executor );
-		services.setRenderContext( appContext );
-		services.setReportRunnable( runnable );
-
-		// emitter is not null
-		emitter.initialize( services );
-	}
-
 	/**
 	 * runs the report
 	 * 
@@ -199,6 +175,8 @@ public class RunTask extends AbstractRunTask implements IRunTask
 					MessageConstants.INVALID_PARAMETER_EXCEPTION ); //$NON-NLS-1$
 		}
 
+		setupRenderOption( );
+		
 		loadDesign( );
 		prepareDesign( );
 		startFactory( );

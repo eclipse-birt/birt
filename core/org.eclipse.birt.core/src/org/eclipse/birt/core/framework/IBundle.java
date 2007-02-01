@@ -12,7 +12,6 @@ import java.util.Enumeration;
 
 /**
  *
- * @version $Revision: 1.2 $ $Date: 2005/04/12 03:17:34 $
  */
 public interface IBundle
 {

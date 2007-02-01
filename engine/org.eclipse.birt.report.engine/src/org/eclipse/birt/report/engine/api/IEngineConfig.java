@@ -22,9 +22,19 @@ public interface IEngineConfig extends IPlatformConfig
 	static final String LOG_LEVEL = "logLevel"; //$NON-NLS-1$
 	static final String TEMP_DIR = "tmpDir"; //$NON-NLS-1$
 	static final String REPORT_DOCUMENT_LOCK_MANAGER = "org.eclipse.birt.report.engine.api.IReportDocumentLockManager"; //$NON-NLS-1$
-	static final String SCRIPT_OBJECTS = "org.eclipse.birt.report.engine.api.EngineConfig.scriptObjects";
-	static final String EMITTER_CONFIGS = "org.eclipse.birt.report.engine.api.EngineConfig.emitterConfigs";
-	static final String STATUS_HANDLER = "org.eclipse.birt.report.engine.api.EngineConfig.statusHandler";
+	static final String SCRIPT_OBJECTS = "org.eclipse.birt.report.engine.api.EngineConfig.scriptObjects";//$NON-NLS-1$
+	/**
+	 * contains a hashmap which saved the default render options.
+	 * 
+	 * each key is either a DEFAULT_EMITTER_CONFIG or format or emitter id. each
+	 * value is a IRenderOption
+	 */
+	static final String EMITTER_CONFIGS = "org.eclipse.birt.report.engine.api.EngineConfig.emitterConfigs"; //$NON-NLS-1$
+	/**
+	 * the default render option which used by all emitters
+	 */
+	static final String DEFAULT_RENDER_OPTION = "org.eclipse.birt.report.engine.api.EngineConfig.defaultRenderOption";//$NON-NLS-1$
+	static final String STATUS_HANDLER = "org.eclipse.birt.report.engine.api.EngineConfig.statusHandler";//$NON-NLS-1$
 	/**
 	 * resource locator used by design engine
 	 */

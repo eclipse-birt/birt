@@ -63,7 +63,7 @@ public class DataEngineTest extends TestCase
 	private IDataEngine getDataEngine( Report report, String archivePath,
 			String archiveMetaName, int mode ) throws Exception
 	{
-		ExecutionContext context = new ExecutionContext( 0 );
+		ExecutionContext context = new ExecutionContext( );
 
 		if ( mode == MODE_GENERATION )
 		{

@@ -19,7 +19,6 @@ import junit.framework.TestCase;
 /**
  * Testcase for XMLWriter
  * 
- * @version $Revision: 1.7 $ $Date: 2005/11/11 06:26:41 $
  */
 public class XMLWriterTest extends TestCase
 {

@@ -8,13 +8,23 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.engine.script.internal.element;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IDataSet;
 import org.eclipse.birt.report.engine.api.script.element.IDataSource;
+import org.eclipse.birt.report.engine.api.script.element.IResultSetColumn;
+import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.MemberHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 public class DataSet implements IDataSet
@@ -36,7 +46,7 @@ public class DataSet implements IDataSet
 	public String getQueryText( )
 	{
 		if ( dataSet instanceof OdaDataSetHandle )
-			return ( ( OdaDataSetHandle ) dataSet ).getQueryText( );
+			return ( (OdaDataSetHandle) dataSet ).getQueryText( );
 		return null;
 	}
 
@@ -46,8 +56,9 @@ public class DataSet implements IDataSet
 		{
 			try
 			{
-				( ( OdaDataSetHandle ) dataSet ).setQueryText( query );
-			} catch ( SemanticException e )
+				( (OdaDataSetHandle) dataSet ).setQueryText( query );
+			}
+			catch ( SemanticException e )
 			{
 				throw new ScriptException( e.getLocalizedMessage( ) );
 			}
@@ -57,7 +68,7 @@ public class DataSet implements IDataSet
 	public String getPrivateDriverProperty( String name )
 	{
 		if ( dataSet instanceof OdaDataSetHandle )
-			return ( ( OdaDataSetHandle ) dataSet )
+			return ( (OdaDataSetHandle) dataSet )
 					.getPrivateDriverProperty( name );
 		return null;
 	}
@@ -69,13 +80,40 @@ public class DataSet implements IDataSet
 		{
 			try
 			{
-				( ( OdaDataSetHandle ) dataSet ).setPrivateDriverProperty(
-						name, value );
-			} catch ( SemanticException e )
+				( (OdaDataSetHandle) dataSet ).setPrivateDriverProperty( name,
+						value );
+			}
+			catch ( SemanticException e )
 			{
 				throw new ScriptException( e.getLocalizedMessage( ) );
 			}
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IDataSet#getResultSetColumn()
+	 */
+	
+	public List getCachedResultSetColumns( )
+	{
+		List values = new ArrayList( );
+		CachedMetaDataHandle metaDataHandle = dataSet.getCachedMetaDataHandle( );
+		if ( metaDataHandle == null )
+			return values;
+		MemberHandle memberHandle = metaDataHandle.getResultSet( );
+		if ( memberHandle == null )
+			return values;
+		Iterator iterator = memberHandle.iterator( );
+		while ( iterator.hasNext( ) )
+		{
+			ResultSetColumnHandle columnHandle = (ResultSetColumnHandle) iterator
+					.next( );
+			IResultSetColumn column = new ResultSetColumnImpl( columnHandle );
+			values.add( column );
+		}
+		return Collections.unmodifiableList( values );
 	}
 
 }

@@ -17,7 +17,6 @@ import org.mozilla.javascript.Scriptable;
 /**
  * Interface used to wrap a java object into javascript object.
  *  
- * @version $Revision:$ $Date:$
  */
 public interface IJavascriptWrapper
 {

@@ -19,7 +19,6 @@ import org.eclipse.birt.report.engine.ir.RowDesign;
 /**
  * Test Parser.
  * 
- * @version $Revision: 1.8 $ $Date: 2005/11/11 06:26:49 $
  */
 
 public class GridItemDesignTest extends AbstractDesignTestCase

@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
@@ -575,7 +576,6 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 	 * It visits the report design, add the element id and design object into
 	 * the hash map.
 	 * 
-	 * @version $Revision: 1.12 $ $Date: 2006/09/07 13:35:20 $
 	 */
 	protected class GenerateIDMapVisitor extends DefaultReportItemVisitorImpl
 	{
@@ -731,7 +731,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 
 	}
 
-	protected void openQuery( IContent content )
+	protected void openQuery( IContent content ) throws BirtException
 	{
 		Object generateBy = content.getGenerateBy( );
 		if ( generateBy instanceof ReportItemDesign )
@@ -830,7 +830,14 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 	protected void startContent( IContent content, IContentEmitter emitter )
 	{
 		// open the query used by the content, locate the resource
-		openQuery( content );
+		try
+		{
+			openQuery( content );
+		}
+		catch ( BirtException ex )
+		{
+			logger.log( Level.SEVERE, ex.getLocalizedMessage( ), ex );
+		}
 		outputStartVisitor.visit( content, emitter );
 	}
 

@@ -17,7 +17,6 @@ import java.util.HashMap;
 /**
  *
  * 
- * @version $Revision: 1.1 $ $Date: 2005/06/01 07:57:57 $
  */
 
 public class BirtHashMap extends HashMap

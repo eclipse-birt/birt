@@ -22,7 +22,6 @@ import org.eclipse.birt.report.engine.api.IReportDocumentLockManager;
  * 
  * The user should register the lock mangager to the report engine.
  * 
- * @version $Revision: 1.1 $ $Date: 2006/04/07 10:49:16 $
  */
 public class ReportDocumentLockManager implements IReportDocumentLockManager
 {

@@ -28,7 +28,6 @@ import java.util.logging.Logger;
  * this version, we also provide some new API for further implementation in the
  * future
  * 
- * @version $Revision: 1.11 $ $Date: 2006/08/17 02:35:06 $
  */
 public class DateFormatter
 {
@@ -224,12 +223,15 @@ public class DateFormatter
                         
                     	String pattern = factorySimpleFormat.toPattern();
                     	// Search for 'yy', then add a 'y' to make the year 4 digits
-                    	int idx = pattern.indexOf("yy");
-                    	if ( idx >=0 )
+                    	if (pattern.indexOf( "yyyy" ) == -1)
                     	{
-                    		StringBuffer strBuf = new StringBuffer(pattern);
-                    		strBuf.insert(idx, 'y');
-                    		pattern = strBuf.toString();
+							int idx = pattern.indexOf( "yy" );
+							if ( idx >= 0 )
+							{
+								StringBuffer strBuf = new StringBuffer( pattern );
+								strBuf.insert( idx, 'y' );
+								pattern = strBuf.toString( );
+							}
                     	}
                     	
                         dateFormat = new SimpleDateFormat(pattern, locale);

@@ -25,7 +25,6 @@ import org.osgi.framework.BundleContext;
  * 
  * This class is a singleton.
  * 
- * @version $Revision: 1.17 $ $Date: 2006/07/22 02:35:33 $
  */
 public class Platform
 {

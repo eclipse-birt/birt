@@ -16,15 +16,14 @@ import java.io.InputStream;
 import junit.framework.TestCase;
 
 import org.eclipse.birt.report.engine.ir.DimensionType;
-import org.eclipse.birt.report.engine.ir.GraphicMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 import org.eclipse.birt.report.engine.ir.PageSetupDesign;
 import org.eclipse.birt.report.engine.ir.Report;
+import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 
 /**
  * Test Parser.
  * 
- * @version $Revision: 1.9 $ $Date: 2005/11/11 06:26:49 $
  */
 public class PageSetupTest extends TestCase
 {
@@ -53,8 +52,9 @@ public class PageSetupTest extends TestCase
 	{
 		PageSetupDesign pageSetup = report.getPageSetup( );
 		assertEquals( pageSetup.getMasterPageCount( ), 1 );
-
-		GraphicMasterPageDesign page = (GraphicMasterPageDesign) pageSetup
+		
+		// We do not support graphic master page now. So change it to be simple master page.
+		SimpleMasterPageDesign page = (SimpleMasterPageDesign) pageSetup
 				.getMasterPage( 0 );
 		assertEquals( "page", page.getName( ) );
 		assertEquals( 29.7, page.getPageHeight( ).convertTo(
@@ -67,13 +67,13 @@ public class PageSetupTest extends TestCase
 		assertEquals( "0.5cm", page.getLeftMargin( ).toString( ) );
 		assertEquals( "0.5cm", page.getRightMargin( ).toString( ) );
 
-		assertEquals( page.getContentCount( ), 2 );
+		/*
+		assertEquals( page.get.getContentCount( ), 2 );
 		LabelItemDesign label = (LabelItemDesign) page.getContent( 0 );
 		assertEquals( "0cm", label.getX( ).toString( ) );
 		assertEquals( "10cm", label.getY( ).toString( ) );
 		assertEquals( "1.2cm", label.getHeight( ).toString( ) );
 		assertEquals( "10cm", label.getWidth( ).toString( ) );
-		assertEquals( "PAGE HEADER", label.getText( ) );
-
+		*/
 	}
 }

@@ -18,7 +18,6 @@ import org.eclipse.birt.report.engine.content.IContent;
 /**
  * reader the content from the content stream.
  *
- * @version $Revision:$ $Date:$
  */
 public interface IReportContentReader
 {

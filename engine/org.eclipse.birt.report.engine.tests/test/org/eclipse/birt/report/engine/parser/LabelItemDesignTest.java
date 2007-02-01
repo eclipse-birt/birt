@@ -22,7 +22,6 @@ import org.eclipse.birt.report.engine.ir.Report;
 /**
  * Test Parser.
  * 
- * @version $Revision: 1.9 $ $Date: 2006/04/06 12:35:23 $
  */
 public class LabelItemDesignTest extends TestCase
 {

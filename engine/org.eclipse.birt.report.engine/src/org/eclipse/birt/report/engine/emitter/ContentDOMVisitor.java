@@ -34,7 +34,6 @@ import org.eclipse.birt.report.engine.content.ITextContent;
 /**
  * visit the content and output the content to emitter
  * 
- * @version $Revision: 1.1 $ $Date: 2006/04/12 05:40:29 $
  */
 public class ContentDOMVisitor extends ContentVisitorAdapter
 {

@@ -26,7 +26,6 @@ import java.util.logging.Logger;
 /**
  * Collection of file utility.
  * 
- * @version $Revision: 1.16 $ $Date: 2006/06/01 06:27:24 $
  */
 public class FileUtil
 {

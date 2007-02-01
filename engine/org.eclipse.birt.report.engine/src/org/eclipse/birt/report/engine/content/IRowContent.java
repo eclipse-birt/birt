@@ -15,7 +15,6 @@ package org.eclipse.birt.report.engine.content;
  * Provides the interfaces for the Row AbstractContent
  * 
  * 
- * @version $Revision: 1.10 $ $Date: 2006/06/13 15:37:17 $
  */
 public interface IRowContent extends IContainerContent
 {

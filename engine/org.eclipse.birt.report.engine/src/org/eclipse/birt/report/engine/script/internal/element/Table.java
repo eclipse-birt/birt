@@ -12,9 +12,13 @@
 package org.eclipse.birt.report.engine.script.internal.element;
 
 import org.eclipse.birt.report.engine.api.script.ScriptException;
+import org.eclipse.birt.report.engine.api.script.element.IColumn;
 import org.eclipse.birt.report.engine.api.script.element.ITable;
+import org.eclipse.birt.report.model.api.ColumnHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
 
 public class Table extends Listing implements ITable
 {
@@ -117,6 +121,20 @@ public class Table extends Listing implements ITable
 		{
 			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#getColumn(int)
+	 */
+	
+	public IColumn getColumn( int index )
+	{
+		SlotHandle slotHandle = handle.getSlot( ITableItemModel.COLUMN_SLOT );
+		ColumnHandle columnHandle = (ColumnHandle)slotHandle.get( index );
+		if( columnHandle == null )
+			return null;
+		IColumn column = new Column( columnHandle ) ;
+		return column;
 	}
 
 }

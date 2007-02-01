@@ -20,7 +20,6 @@ import org.w3c.dom.Node;
 /**
  * Test case for DOM parser.
  * 
- * @version $Revision: 1.7 $ $Date: 2006/09/15 05:31:47 $
  */
 public class TextParserTest extends TestCase
 {

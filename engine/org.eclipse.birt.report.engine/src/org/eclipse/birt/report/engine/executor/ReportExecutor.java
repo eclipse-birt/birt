@@ -49,7 +49,6 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * database in factory engine, and from report document in the presentation
  * engine.
  * 
- * @version $Revision: 1.40.2.1 $ $Date: 2006/09/07 12:56:55 $
  */
 public class ReportExecutor implements IReportExecutor
 {
@@ -175,6 +174,7 @@ public class ReportExecutor implements IReportExecutor
 			context.setTOCBuilder( null );
 			context.setExecutingMasterPage( true );
 			SimpleMasterPageDesign pageDesign = (SimpleMasterPageDesign) masterPage;
+			pageContent.setStyleClass( masterPage.getStyleName( ) );
 			InstanceID iid = new InstanceID( null, pageDesign.getID( ), null );
 			pageContent.setInstanceID( iid );
 			
@@ -195,7 +195,6 @@ public class ReportExecutor implements IReportExecutor
 			
 			//create body
 			IContent body = reportContent.createContainerContent( ) ;
-			body.setStyleClass(masterPage.getBodyStyleName( ));
 			pageContent.setPageBody( body );
 			body.setParent( pageContent );
 

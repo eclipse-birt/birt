@@ -462,6 +462,7 @@ from offices</property>
                 <property name="hideDetail">false</property>
                 <property name="pageBreakAfter">auto</property>
                 <property name="pageBreakBefore">auto</property>
+                <expression name="toc">row["COUNTRY"]</expression>
                 <header>
                     <row id="83">
                         <cell id="90"/>

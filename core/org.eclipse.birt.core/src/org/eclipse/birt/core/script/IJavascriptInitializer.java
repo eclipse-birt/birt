@@ -24,7 +24,6 @@ import org.mozilla.javascript.Scriptable;
  * After that, the new ScriptContext instance will call the registed initializer in 
  * the constructor.
  *  
- * @version $Revision:$ $Date:$
  */
 public interface IJavascriptInitializer
 {

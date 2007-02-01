@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * A visitor class against the report design.
  * 
- * @version $Revision: 1.7 $ $Date: 2006/04/27 09:52:28 $
  */
 public interface IReportItemVisitor {
 
@@ -77,7 +76,7 @@ public interface IReportItemVisitor {
 	 * @param multiLine
 	 *            the multi-line item to be visited.
 	 */
-	Object visitMultiLineItem(MultiLineItemDesign multiLine, Object value);
+	Object visitDynamicTextItem(DynamicTextItemDesign multiLine, Object value);
 
 	/**
 	 * visit grid item

@@ -20,7 +20,6 @@ import org.eclipse.birt.core.template.TextTemplate;
 /**
  * Text element captures a long string with internal formatting.
  * 
- * @version $Revision: 1.16 $ $Date: 2006/04/06 12:35:25 $
  */
 public class TextItemDesign extends ReportItemDesign
 {

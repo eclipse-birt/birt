@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.parser;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -21,12 +20,6 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.engine.api.IParameterDefnBase;
-import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
-import org.eclipse.birt.report.engine.api.impl.CascadingParameterGroupDefn;
-import org.eclipse.birt.report.engine.api.impl.ParameterGroupDefn;
-import org.eclipse.birt.report.engine.api.impl.ParameterSelectionChoice;
-import org.eclipse.birt.report.engine.api.impl.ScalarParameterDefn;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
@@ -38,6 +31,7 @@ import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.DrillThroughActionDesign;
+import org.eclipse.birt.report.engine.ir.DynamicTextItemDesign;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.FreeFormItemDesign;
@@ -55,14 +49,12 @@ import org.eclipse.birt.report.engine.ir.ListingDesign;
 import org.eclipse.birt.report.engine.ir.MapDesign;
 import org.eclipse.birt.report.engine.ir.MapRuleDesign;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
-import org.eclipse.birt.report.engine.ir.MultiLineItemDesign;
 import org.eclipse.birt.report.engine.ir.PageSetupDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
-import org.eclipse.birt.report.engine.ir.StylePropertyMapping;
 import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 import org.eclipse.birt.report.engine.ir.TableBandDesign;
 import org.eclipse.birt.report.engine.ir.TableGroupDesign;
@@ -73,12 +65,10 @@ import org.eclipse.birt.report.engine.ir.VisibilityDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityRuleDesign;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.AutoTextHandle;
-import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
-import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignVisitor;
 import org.eclipse.birt.report.model.api.DimensionHandle;
@@ -99,14 +89,11 @@ import org.eclipse.birt.report.model.api.MapRuleHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.MemberHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
-import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
-import org.eclipse.birt.report.model.api.ScalarParameterHandle;
-import org.eclipse.birt.report.model.api.SelectionChoiceHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
@@ -122,6 +109,7 @@ import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.core.runtime.Assert;
 
 /**
  * Constructs an internal representation of the report design for report
@@ -155,11 +143,29 @@ import org.eclipse.birt.report.model.elements.Style;
  * <li> BIRT doesn't define the body style, it uses a predefined style "report"
  * as the default style.
  * 
- * @version $Revision: 1.134 $ $Date: 2006/11/24 07:15:45 $
  */
 class EngineIRVisitor extends DesignVisitor
 {
+	/**
+	 * The prefix of style name
+	 */
+	static final String PREFIX_STYLE_NAME = "style_"; //$NON-NLS-1$
 
+	
+	/**
+	 * default master page name.
+	 */
+	static final String DEFAULT_MASTERPAGE_NAME = "NewSimpleMasterPage";
+	
+	/**
+	 * The default value of masterPage's margin, in inch.
+	 * See rom.ref in model: <PropertyGroup displayNameID="Element.MasterPage.margin">
+	 */
+	static final double DEFAULT_MASTERPAGE_TOP_MARGIN = 1; 
+	static final double DEFAULT_MASTERPAGE_LEFT_MARGIN = 1.25; 
+	static final double DEFAULT_MASTERPAGE_BOTTOM_MARGIN = 1; 
+	static final double DEFAULT_MASTERPAGE_RIGHT_MARGIN = 1.25; 
+	
 	/**
 	 * logger used to log the error.
 	 */
@@ -171,10 +177,6 @@ class EngineIRVisitor extends DesignVisitor
 	 */
 	protected Object currentElement;
 
-	/**
-	 * default unit used by this report
-	 */
-	protected String defaultUnit;
 
 	/**
 	 * Factory IR created by this visitor
@@ -202,7 +204,9 @@ class EngineIRVisitor extends DesignVisitor
 	StyleDeclaration inheritableReportStyle;
 
 	/**
-	 * used to fix the new added empty cell created in format irregular table or grid.
+	 * Used to fix half-baked handle, such as:
+	 *   fix the new added empty cell created in format irregular table or grid.
+	 *   fix default master page.
 	 */
 	long newCellId = -1;
 	
@@ -240,13 +244,6 @@ class EngineIRVisitor extends DesignVisitor
 	 */
 	public void visitReportDesign( ReportDesignHandle handle )
 	{
-		report.setUnit( handle.getDefaultUnits( ) );
-		if ( handle.getBase( ) != null && !handle.getBase( ).equals( "" ) ) //$NON-NLS-1$
-		{
-			report.setBasePath( handle.getBase( ) );
-		}
-		defaultUnit = report.getUnit( );
-
 		setupNamedExpressions( handle, report.getNamedExpressions( ) );
 
 		// INCLUDE LIBRARY
@@ -278,18 +275,19 @@ class EngineIRVisitor extends DesignVisitor
 			}
 		}
 		
-		// If there is no master page, set a default one.		
+		// If there is no master page, set a default one.
 		if ( pageSlot.getCount( ) < 1 )
 		{
 			MasterPageDesign masterPage = new SimpleMasterPageDesign( );
-			masterPage.setName( "NewSimpleMasterPage" );
+			masterPage.setID( --newCellId );
+			masterPage.setName( DEFAULT_MASTERPAGE_NAME );
 			masterPage.setPageType( DesignChoiceConstants.PAGE_SIZE_US_LETTER );		
-			masterPage.setOrientation( "Auto" );
-			
-			DimensionType top = new DimensionType( 1, DimensionType.UNITS_IN );
-			DimensionType left = new DimensionType( 1.25, DimensionType.UNITS_IN );
-			DimensionType right = new DimensionType( 1.25, DimensionType.UNITS_IN );
-			DimensionType bottom = new DimensionType( 1, DimensionType.UNITS_IN );		
+			masterPage.setOrientation( DesignChoiceConstants.PAGE_ORIENTATION_AUTO );
+						
+			DimensionType top = new DimensionType( DEFAULT_MASTERPAGE_TOP_MARGIN, DimensionType.UNITS_IN );
+			DimensionType left = new DimensionType( DEFAULT_MASTERPAGE_LEFT_MARGIN, DimensionType.UNITS_IN );
+			DimensionType bottom = new DimensionType( DEFAULT_MASTERPAGE_BOTTOM_MARGIN, DimensionType.UNITS_IN );
+			DimensionType right = new DimensionType( DEFAULT_MASTERPAGE_RIGHT_MARGIN, DimensionType.UNITS_IN );		
 			masterPage.setMargin( top, left, bottom, right );	
 			
 			pageSetup.addMasterPage( masterPage );
@@ -369,11 +367,6 @@ class EngineIRVisitor extends DesignVisitor
 	private void setupMasterPage( MasterPageDesign page, MasterPageHandle handle )
 	{
 		setupStyledElement( page, handle );
-		String styleName = setupBodyStyle( page );
-		if (styleName != null)
-		{
-			page.setBodyStyleName( styleName );
-		}
 
 		page.setPageType( handle.getPageType( ) );
 
@@ -432,6 +425,9 @@ class EngineIRVisitor extends DesignVisitor
 		}
 
 		currentElement = page;
+		
+		// We do not support graphic master page now.
+		Assert.isTrue( false, "Graphic master page is not supported now!" );
 	}
 
 	public void visitSimpleMasterPage( SimpleMasterPageHandle handle )
@@ -440,7 +436,7 @@ class EngineIRVisitor extends DesignVisitor
 
 		// setup the base master page property.
 		setupMasterPage( page, handle );
-
+		
 		page.setHeaderHeight( createDimension( handle.getHeaderHeight( ) ) );
 		page.setFooterHeight( createDimension( handle.getFooterHeight( ) ) );
 		page.setShowFooterOnLast( handle.showFooterOnLast( ) );
@@ -541,206 +537,18 @@ class EngineIRVisitor extends DesignVisitor
 
 	public void visitTextDataItem( TextDataHandle handle )
 	{
-		MultiLineItemDesign multiLineItem = new MultiLineItemDesign( );
+		DynamicTextItemDesign dynamicTextItem = new DynamicTextItemDesign( );
 
-		setupReportItem( multiLineItem, handle );
+		setupReportItem( dynamicTextItem, handle );
 
 		String valueExpr = handle.getValueExpr( );
 		String contentType = handle.getContentType( );
-		multiLineItem.setContent( createExpression( valueExpr ) );
-		multiLineItem.setContentType( contentType );
-		setHighlight( multiLineItem, valueExpr );
-		setMap( multiLineItem, valueExpr );
+		dynamicTextItem.setContent( createExpression( valueExpr ) );
+		dynamicTextItem.setContentType( contentType );
+		setupHighlight( dynamicTextItem, valueExpr );
+		setMap( dynamicTextItem, valueExpr );
 		
-		currentElement = multiLineItem;
-	}
-
-	public void visitParameterGroup( ParameterGroupHandle handle )
-	{
-		ParameterGroupDefn paramGroup = new ParameterGroupDefn( );
-		paramGroup.setHandle( handle );
-		paramGroup.setParameterType( IParameterDefnBase.PARAMETER_GROUP );
-		paramGroup.setName( handle.getName( ) );
-		paramGroup.setDisplayName( handle.getDisplayName( ) );
-		paramGroup.setDisplayNameKey( handle.getDisplayNameKey( ) );
-		paramGroup.setHelpText( handle.getHelpText( ) );
-		paramGroup.setHelpTextKey( handle.getHelpTextKey( ) );
-		SlotHandle parameters = handle.getParameters( );
-
-		// set custom properties
-		List properties = handle.getUserProperties( );
-		for ( int i = 0; i < properties.size( ); i++ )
-		{
-			UserPropertyDefn p = (UserPropertyDefn) properties.get( i );
-			paramGroup.addUserProperty( p.getName( ), handle.getProperty( p
-					.getName( ) ) );
-		}
-
-		int size = parameters.getCount( );
-		for ( int n = 0; n < size; n++ )
-		{
-			apply( parameters.get( n ) );
-			if ( currentElement != null )
-			{
-				paramGroup.addParameter( (IParameterDefnBase) currentElement );
-			}
-		}
-
-		currentElement = paramGroup;
-	}
-
-	public void visitCascadingParameterGroup(
-			CascadingParameterGroupHandle handle )
-	{
-		CascadingParameterGroupDefn paramGroup = new CascadingParameterGroupDefn( );
-		paramGroup.setHandle( handle );
-		paramGroup
-				.setParameterType( IParameterDefnBase.CASCADING_PARAMETER_GROUP );
-		paramGroup.setName( handle.getName( ) );
-		paramGroup.setDisplayName( handle.getDisplayName( ) );
-		paramGroup.setDisplayNameKey( handle.getDisplayNameKey( ) );
-		paramGroup.setHelpText( handle.getHelpText( ) );
-		paramGroup.setHelpTextKey( handle.getHelpTextKey( ) );
-		paramGroup.setPromptText( handle.getPromptText( ) );
-		DataSetHandle dset = handle.getDataSet( );
-		if ( dset != null )
-		{
-			paramGroup.setDataSet( dset.getName( ) );
-		}
-		SlotHandle parameters = handle.getParameters( );
-
-		// set custom properties
-		List properties = handle.getUserProperties( );
-		for ( int i = 0; i < properties.size( ); i++ )
-		{
-			UserPropertyDefn p = (UserPropertyDefn) properties.get( i );
-			paramGroup.addUserProperty( p.getName( ), handle.getProperty( p
-					.getName( ) ) );
-		}
-
-		int size = parameters.getCount( );
-		for ( int n = 0; n < size; n++ )
-		{
-			apply( parameters.get( n ) );
-			if ( currentElement != null )
-			{
-				paramGroup.addParameter( (IParameterDefnBase) currentElement );
-			}
-		}
-
-		currentElement = paramGroup;
-
-	}
-
-	public void visitScalarParameter( ScalarParameterHandle handle )
-	{
-		assert ( handle.getName( ) != null );
-		// Create Parameter
-		ScalarParameterDefn scalarParameter = new ScalarParameterDefn( );
-		scalarParameter.setHandle( handle );
-		scalarParameter.setParameterType( IParameterDefnBase.SCALAR_PARAMETER );
-		scalarParameter.setName( handle.getName( ) );
-
-		// set custom properties
-		List properties = handle.getUserProperties( );
-		for ( int i = 0; i < properties.size( ); i++ )
-		{
-			UserPropertyDefn p = (UserPropertyDefn) properties.get( i );
-			scalarParameter.addUserProperty( p.getName( ), handle
-					.getProperty( p.getName( ) ) );
-		}
-		String align = handle.getAlignment( );
-		if ( DesignChoiceConstants.SCALAR_PARAM_ALIGN_CENTER.equals( align ) )
-			scalarParameter.setAlignment( IScalarParameterDefn.CENTER );
-		else if ( DesignChoiceConstants.SCALAR_PARAM_ALIGN_LEFT.equals( align ) )
-			scalarParameter.setAlignment( IScalarParameterDefn.LEFT );
-		else if ( DesignChoiceConstants.SCALAR_PARAM_ALIGN_RIGHT.equals( align ) )
-			scalarParameter.setAlignment( IScalarParameterDefn.RIGHT );
-		else
-			scalarParameter.setAlignment( IScalarParameterDefn.AUTO );
-
-		scalarParameter.setAllowBlank( handle.allowBlank( ) );
-		scalarParameter.setAllowNull( handle.allowNull( ) );
-
-		String controlType = handle.getControlType( );
-		if ( DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals( controlType ) )
-			scalarParameter.setControlType( IScalarParameterDefn.CHECK_BOX );
-		else if ( DesignChoiceConstants.PARAM_CONTROL_LIST_BOX
-				.equals( controlType ) )
-			scalarParameter.setControlType( IScalarParameterDefn.LIST_BOX );
-		else if ( DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON
-				.equals( controlType ) )
-			scalarParameter.setControlType( IScalarParameterDefn.RADIO_BUTTON );
-		else
-			scalarParameter.setControlType( IScalarParameterDefn.TEXT_BOX );
-
-		scalarParameter.setDefaultValue( handle.getDefaultValue( ) );
-		scalarParameter.setDisplayName( handle.getDisplayName( ) );
-		scalarParameter.setDisplayNameKey( handle.getDisplayNameKey( ) );
-
-		scalarParameter.setFormat( handle.getPattern( ) );
-		scalarParameter.setHelpText( handle.getHelpText( ) );
-		scalarParameter.setHelpTextKey( handle.getHelpTextKey( ) );
-		scalarParameter.setPromptText( handle.getPromptText( ) );
-		scalarParameter.setPromptTextKey( handle.getPromptTextID( ) );
-		scalarParameter.setIsHidden( handle.isHidden( ) );
-		scalarParameter.setName( handle.getName( ) );
-
-		String valueType = handle.getDataType( );
-		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( valueType ) )
-			scalarParameter.setDataType( IScalarParameterDefn.TYPE_BOOLEAN );
-		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( valueType ) )
-			scalarParameter.setDataType( IScalarParameterDefn.TYPE_DATE_TIME );
-		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( valueType ) )
-			scalarParameter.setDataType( IScalarParameterDefn.TYPE_DECIMAL );
-		else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( valueType ) )
-			scalarParameter.setDataType( IScalarParameterDefn.TYPE_FLOAT );
-		else if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( valueType ) )
-			scalarParameter.setDataType( IScalarParameterDefn.TYPE_STRING );
-		else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( valueType ) )
-			scalarParameter.setDataType( IScalarParameterDefn.TYPE_INTEGER );
-		else
-			scalarParameter.setDataType( IScalarParameterDefn.TYPE_ANY );
-
-		ArrayList values = new ArrayList( );
-		Iterator selectionIter = handle.choiceIterator( );
-		while ( selectionIter.hasNext( ) )
-		{
-			SelectionChoiceHandle selection = (SelectionChoiceHandle) selectionIter
-					.next( );
-			ParameterSelectionChoice selectionChoice = new ParameterSelectionChoice(
-					this.handle );
-			selectionChoice.setLabel( selection.getLabelKey( ), selection
-					.getLabel( ) );
-			selectionChoice.setValue( selection.getValue( ), scalarParameter
-					.getDataType( ) );
-			values.add( selectionChoice );
-		}
-		scalarParameter.setSelectionList( values );
-		scalarParameter.setAllowNewValues( !handle.isMustMatch( ) );
-		scalarParameter.setFixedOrder( handle.isFixedOrder( ) );
-
-		String paramType = handle.getValueType( );
-		if ( IScalarParameterDefn.SELECTION_LIST_TYPE_STATIC.equals( paramType )
-				&& scalarParameter.getSelectionList( ) != null
-				&& scalarParameter.getSelectionList( ).size( ) > 0 )
-		{
-			scalarParameter
-					.setSelectionListType( IScalarParameterDefn.SELECTION_LIST_STATIC );
-		}
-		else if ( IScalarParameterDefn.SELECTION_LIST_TYPE_DYNAMIC
-				.equals( paramType ) )
-		{
-			scalarParameter
-					.setSelectionListType( IScalarParameterDefn.SELECTION_LIST_DYNAMIC );
-		}
-		else
-		{
-			scalarParameter
-					.setSelectionListType( IScalarParameterDefn.SELECTION_LIST_NONE );
-		}
-		scalarParameter.setValueConcealed( handle.isConcealValue( ) );
-		currentElement = scalarParameter;
+		currentElement = dynamicTextItem;
 	}
 
 	public void visitLabel( LabelHandle handle )
@@ -782,7 +590,6 @@ class EngineIRVisitor extends DesignVisitor
 		// Create data item
 		DataItemDesign data = new DataItemDesign( );
 		setupReportItem( data, handle );
-		data.setName( handle.getName( ) );
 
 		// Fill in data expression, 
 		//String expr = handle.getValueExpr( );
@@ -801,7 +608,7 @@ class EngineIRVisitor extends DesignVisitor
 		// Fill in help text
 		data.setHelpText( handle.getHelpTextKey( ), handle.getHelpText( ) );
 
-		setHighlight( data, expr );
+		setupHighlight( data, expr );
 		setMap( data, expr );
 		currentElement = data;
 	}
@@ -970,6 +777,12 @@ class EngineIRVisitor extends DesignVisitor
 
 		new TableItemDesignLayout( ).layout( table, newCellId );
 
+		for ( int i = 0; i < table.getGroupCount( ); i++ )
+		{
+			TableGroupDesign group = (TableGroupDesign) table.getGroup( i );
+			locateGroupIcon( group );
+		}
+		
 		applyColumnHighlight( table );
 		//setup the supressDuplicate property of the data items in the 
 		//detail band		
@@ -1036,7 +849,7 @@ class EngineIRVisitor extends DesignVisitor
 				keyExpression );
 		for ( int i = 0; i < groupHeader.getContentCount( ); i++ )
 		{
-			RowDesign row = (RowDesign) groupHeader.getContent( 0 );
+			RowDesign row = (RowDesign) groupHeader.getContent( i );
 			for ( int j = 0; j < row.getCellCount( ); j++)
 			{
 				CellDesign cell = row.getCell( j );
@@ -1052,6 +865,16 @@ class EngineIRVisitor extends DesignVisitor
 				}
 			}
 		}
+		// if the group icon hasn't been set, set the icon to the default cell.
+		RowDesign row = (RowDesign) groupHeader.getContent( 0 );
+		if( null != row )
+		{
+			CellDesign cell = row.getCell( 0 );
+			if( null != cell )
+			{
+				cell.setDisplayGroupIcon( true );
+			}
+		}
 	}
 
 	private boolean hasExpression( TableHandle tableHandle,
@@ -1063,6 +886,12 @@ class EngineIRVisitor extends DesignVisitor
 		{
 			DataItemDesign data = (DataItemDesign) item;
 			String columnBinding = data.getBindingColumn( );
+			String value = ExpressionUtil.createJSRowExpression( columnBinding );
+			if ( value != null && keyExpression.equals( value.trim( ) ) )
+			{
+				return true;
+			}
+			columnBinding = getColumnBinding( tableHandle, value );
 			if ( columnBinding != null && columnBindingExpression != null
 					&& columnBindingExpression.equals( columnBinding ) )
 			{
@@ -1216,7 +1045,7 @@ class EngineIRVisitor extends DesignVisitor
 				.visibilityRulesIterator( ) );
 		col.setVisibility( visibility );
 
-		setHighlight( col, null );
+		setupHighlight( col, null );
 
 		currentElement = col;
 	}
@@ -1255,7 +1084,7 @@ class EngineIRVisitor extends DesignVisitor
 		row.setOnCreate( createExpression( onCreate ) );
 		row.setOnRender( ( (RowHandle) handle ).getOnRender( ) );
 
-		setHighlight( row, null );
+		setupHighlight( row, null );
 		/*
 		 * model hasn't send onPageBreak to us
 		row.setOnPageBreak( handle.getOnPageBreak( ) );
@@ -1354,7 +1183,7 @@ class EngineIRVisitor extends DesignVisitor
 		cell.setOnCreate( createExpression( onCreate ) );
 		cell.setOnRender( handle.getOnRender( ) );
 
-		setHighlight( cell, null );
+		setupHighlight( cell, null );
 		/*
 		 * model hasn't send onPageBreak to us
 		cell.setOnPageBreak( handle.getOnPageBreak( ) );
@@ -1449,8 +1278,6 @@ class EngineIRVisitor extends DesignVisitor
 		boolean hideDetail = handle.hideDetail( );
 		listGroup.setHideDetail( hideDetail );
 		
-		listGroup.setOnPageBreak( handle.getOnPageBreak( ) );
-		
 		currentElement = listGroup;
 	}
 
@@ -1495,8 +1322,6 @@ class EngineIRVisitor extends DesignVisitor
 		
 		boolean hideDetail = handle.hideDetail( );
 		tableGroup.setHideDetail( hideDetail );
-		
-		tableGroup.setOnPageBreak( handle.getOnPageBreak( ) );
 		
 		currentElement = tableGroup;
 	}
@@ -1559,6 +1384,9 @@ class EngineIRVisitor extends DesignVisitor
 		group.setPageBreakBefore( pageBreakBefore );
 		group.setPageBreakAfter( pageBreakAfter );
 		group.setPageBreakInside( pageBreakInside );
+		
+		// TODO: review: group should support OnCreate and OnRender. But model didn't support it now. 
+		group.setOnPageBreak( handle.getOnPageBreak( ) );
 		
 		group.setHandle( handle );
 		group.setJavaClass( handle.getEventHandlerClass( ) );
@@ -1679,7 +1507,7 @@ class EngineIRVisitor extends DesignVisitor
 		VisibilityDesign visibility = createVisibility( visibilityIter );
 		item.setVisibility( visibility );
 		
-		setHighlight( item, null );
+		setupHighlight( item, null );
 	}
 
 	/**
@@ -1696,11 +1524,7 @@ class EngineIRVisitor extends DesignVisitor
 		element.setHandle( handle );
 		element.setName( handle.getName( ) );
 		element.setID( handle.getID( ) );
-		DesignElementHandle extend = handle.getExtends( );
-		if ( extend != null )
-		{
-			element.setExtends( extend.getName( ) );
-		}
+				
 		// handle the properties
 		List list = handle.getUserProperties( );
 		if ( list != null )
@@ -1880,7 +1704,7 @@ class EngineIRVisitor extends DesignVisitor
 	 * @param item
 	 *            styled item.
 	 */
-	protected void setHighlight( StyledElementDesign item, String defaultStr )
+	protected void setupHighlight( StyledElementDesign item, String defaultStr )
 	{
 		StyleHandle handle = item.getHandle( ).getPrivateStyle( );
 		if ( handle == null )
@@ -2002,24 +1826,26 @@ class EngineIRVisitor extends DesignVisitor
 		}
 
 		// Check if the style is already in report's style list
-		for ( int i = 0; i < report.getStyleCount( ); i++ )
+		Map styles = report.getStyles( );
+		Iterator iter = styles.entrySet( ).iterator( );
+		while ( iter.hasNext( ) )
 		{
+			Map.Entry entry = (Map.Entry) iter.next( );
 			// Cast the type mandatorily
-			StyleDeclaration cachedStyle = (StyleDeclaration) report
-					.getStyle( i );
+			StyleDeclaration cachedStyle = (StyleDeclaration) entry.getValue( );
 			if ( cachedStyle.equals( style ) )
 			{
 				// There exist a style which has same properties with this
 				// one,
 				style = cachedStyle;
-				return Report.PREFIX_STYLE_NAME + i;
+				return (String) entry.getKey( );
 			}
-		}
+		}		
 
 		// the style is a new style, we need create a unique name for
 		// it, and
 		// add it into the report's style list.
-		String styleName = Report.PREFIX_STYLE_NAME + report.getStyleCount( );
+		String styleName = PREFIX_STYLE_NAME + styles.size( );
 		report.addStyle( styleName, style );
 		return styleName;
 	}
@@ -2407,10 +2233,6 @@ class EngineIRVisitor extends DesignVisitor
 		// set measure and unit
 		double measure = handle.getMeasure( );
 		String unit = handle.getUnits( );
-		if ( DimensionValue.DEFAULT_UNIT.equals( unit ) )
-		{
-			unit = defaultUnit;
-		}
 		return new DimensionType( measure, unit );
 	}
 

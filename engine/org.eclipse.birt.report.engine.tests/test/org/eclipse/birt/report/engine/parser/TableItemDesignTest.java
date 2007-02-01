@@ -21,7 +21,6 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
 /**
  * Test Parser.
  * 
- * @version $Revision: 1.12 $ $Date: 2006/06/13 15:37:32 $
  */
 public class TableItemDesignTest extends AbstractDesignTestCase
 {

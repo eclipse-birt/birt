@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.ir.BandDesign;
 import org.eclipse.birt.report.engine.ir.CellDesign;
@@ -259,30 +260,38 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		{
 			return false;
 		}
-		while ( !endOfListing )
+		try
 		{
-			int endGroup = rset.getEndingGroupLevel( );
-			if ( endGroup <= 0 )
+			while ( !endOfListing )
 			{
-				ListingDesign listingDesign = (ListingDesign) getDesign( );
-				totalElements = 0;
-				currentElement = 0;
-				if ( listingDesign.getFooter( ) != null )
+				int endGroup = rset.getEndingGroupLevel( );
+				if ( endGroup <= 0 )
 				{
-					executableElements[totalElements++] = listingDesign.getFooter( );
+					ListingDesign listingDesign = (ListingDesign) getDesign( );
+					totalElements = 0;
+					currentElement = 0;
+					if ( listingDesign.getFooter( ) != null )
+					{
+						executableElements[totalElements++] = listingDesign
+								.getFooter( );
+					}
+					endOfListing = true;
+					return currentElement < totalElements;
 				}
-				endOfListing = true;
-				return currentElement < totalElements;
-			}
-			if ( rset.next( ) )
-			{
-				nextRow( );
-				collectExecutableElements( );
-				if( currentElement < totalElements )
+				if ( rset.next( ) )
 				{
-					return true;
+					nextRow( );
+					collectExecutableElements( );
+					if ( currentElement < totalElements )
+					{
+						return true;
+					}
 				}
 			}
+		}
+		catch ( BirtException ex )
+		{
+			context.addException( ex );
 		}
 		return false;
 	}
@@ -342,43 +351,51 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 
 	void collectExecutableElements( )
 	{
-		currentElement = 0;
-		totalElements = 0;
-		endOfListing = false;
-		ListingDesign listingDesign = (ListingDesign) getDesign( );
-		int groupCount = listingDesign.getGroupCount( );
-		int startGroup = rset.getStartingGroupLevel( );
-		if ( startGroup == 0 )
+		try
 		{
-			// this is the first record
-			BandDesign header = listingDesign.getHeader( );
-			if ( header != null )
+			currentElement = 0;
+			totalElements = 0;
+			endOfListing = false;
+			ListingDesign listingDesign = (ListingDesign) getDesign( );
+			int groupCount = listingDesign.getGroupCount( );
+			int startGroup = rset.getStartingGroupLevel( );
+			if ( startGroup == 0 )
 			{
-				executableElements[totalElements++] = header;
+				// this is the first record
+				BandDesign header = listingDesign.getHeader( );
+				if ( header != null )
+				{
+					executableElements[totalElements++] = header;
+				}
+			}
+			if ( groupCount > 0 )
+			{
+				executableElements[totalElements++] = listingDesign
+						.getGroup( 0 );
+			}
+			else
+			{
+				BandDesign detail = listingDesign.getDetail( );
+				if ( detail != null )
+				{
+					executableElements[totalElements++] = detail;
+				}
+			}
+			int endGroup = rset.getEndingGroupLevel( );
+			if ( endGroup <= 0 )
+			{
+				// this is the last record
+				BandDesign footer = listingDesign.getFooter( );
+				if ( footer != null )
+				{
+					executableElements[totalElements++] = footer;
+				}
+				endOfListing = true;
 			}
 		}
-		if ( groupCount > 0 )
+		catch ( BirtException ex )
 		{
-			executableElements[totalElements++] = listingDesign.getGroup( 0 );
-		}
-		else
-		{
-			BandDesign detail = listingDesign.getDetail( );
-			if ( detail != null )
-			{
-				executableElements[totalElements++] = detail;
-			}
-		}
-		int endGroup = rset.getEndingGroupLevel( );
-		if ( endGroup <= 0 )
-		{
-			// this is the last record
-			BandDesign footer = listingDesign.getFooter( );
-			if ( footer != null )
-			{
-				executableElements[totalElements++] = footer;
-			}
-			endOfListing = true;
+			context.addException( ex );
 		}
 
 	}

@@ -24,7 +24,6 @@ import org.w3c.dom.css.CSSValue;
 /**
  * This class provides support for AWT system colors.
  *
- * @version $Id: SystemColorSupport.java,v 1.3 2006/09/15 05:31:46 lyu Exp $
  */
 public class SystemColorSupport implements CSSConstants {
     

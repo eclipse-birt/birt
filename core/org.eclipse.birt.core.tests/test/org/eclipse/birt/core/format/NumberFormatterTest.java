@@ -21,7 +21,6 @@ import junit.framework.TestCase;
 
 /**
  * 
- * @version $Revision: 1.9 $ $Date: 2005/12/27 09:07:28 $
  */
 public class NumberFormatterTest extends TestCase
 {

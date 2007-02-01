@@ -1,5 +1,4 @@
 
-package org.eclipse.birt.report.engine.layout.pdf;
 
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
@@ -11,6 +10,8 @@ package org.eclipse.birt.report.engine.layout.pdf;
  * Contributors:
  * Actuate Corporation - initial API and implementation
  ***********************************************************************/
+package org.eclipse.birt.report.engine.layout.pdf;
+
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IElement;
@@ -19,7 +20,6 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
-import org.eclipse.birt.report.engine.layout.IPDFTableLayoutManager;
 import org.eclipse.birt.report.engine.layout.area.IArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 
@@ -28,7 +28,7 @@ public class PDFTableBandLM extends PDFBlockStackingLM
 			IBlockStackingLayoutManager
 {
 
-	protected IPDFTableLayoutManager tbl;
+	protected PDFTableLM tbl;
 	protected int groupLevel;
 	protected int type;
 	protected boolean repeatHeader = false;
@@ -55,6 +55,7 @@ public class PDFTableBandLM extends PDFBlockStackingLM
 				groupContent.getChildren( ).add( content );
 				this.executor = new DOMReportItemExecutor( content );
 				this.executor.execute( );
+				((PDFTableGroupLM)parent).setRepeatCount(content.getChildren( ).size( ));
 			}
 		}
 		else if ( pContent instanceof ITableContent )
@@ -71,12 +72,13 @@ public class PDFTableBandLM extends PDFBlockStackingLM
 				tableContent.getChildren( ).add( content );
 				this.executor = new DOMReportItemExecutor( content );
 				this.executor.execute( );
+				tbl.setRepeatCount( content.getChildren( ).size( ) );
 			}
 		}
 
 	}
 	
-	protected boolean checkAvailableSpace( )
+	/*protected boolean checkAvailableSpace( )
 	{
 		boolean availableSpace = super.checkAvailableSpace( );
 		if(availableSpace && tbl != null)
@@ -84,7 +86,7 @@ public class PDFTableBandLM extends PDFBlockStackingLM
 			tbl.setTableCloseStateAsForced( );
 		}
 		return availableSpace;
-	}
+	}*/
 
 	protected boolean traverseChildren( )
 	{

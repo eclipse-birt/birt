@@ -1,7 +1,7 @@
 /*
- * $Header: /home/cvs/jakarta-commons/LICENSE,v 1.4 2002/04/11 13:24:02 dion Exp $
- * $Revision: 1.4 $
- * $Date: 2002/04/11 13:24:02 $
+ * $Header: /cvsroot/birt/source/org.eclipse.birt.report.engine/about_files/LICENSE.txt,v 1.2 2007/01/05 07:07:11 anonymous Exp $
+ * $Revision: 1.2 $
+ * $Date: 2007/01/05 07:07:11 $
  *
  * ====================================================================
  *

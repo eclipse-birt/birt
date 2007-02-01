@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
@@ -575,9 +576,9 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		IContent parent = root;
 
 		initializeContent( root );
-		openQuery(root);
 		try
 		{
+			openQuery( root );
 			IContent next = reader.readContent( );
 			while ( next != null )
 			{
@@ -592,7 +593,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 				{
 					if ( parent == root )
 					{
-						closeQuery(root);
+						closeQuery( root );
 						return next;
 					}
 					endContent( parent, emitter );
@@ -602,6 +603,10 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		}
 		catch ( IOException ex )
 		{
+		}
+		catch ( BirtException ex )
+		{
+
 		}
 
 		while ( parent != root )
@@ -651,7 +656,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 		return report.getReportItemByID( designId );
 	}
 
-	protected void openQuery( IContent content )
+	protected void openQuery( IContent content ) throws BirtException
 	{
 		Object generateBy = content.getGenerateBy( );
 		// open the query associated with the current report item
@@ -769,7 +774,14 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 	protected void startContent( IContent content, IContentEmitter emitter )
 	{
 		// open the query used by the content, locate the resource
-		openQuery( content );
+		try
+		{
+			openQuery( content );
+		}
+		catch ( BirtException ex )
+		{
+			logger.log( Level.SEVERE, ex.getLocalizedMessage( ), ex );
+		}
 		outputStartVisitor.visit( content, emitter );
 	}
 

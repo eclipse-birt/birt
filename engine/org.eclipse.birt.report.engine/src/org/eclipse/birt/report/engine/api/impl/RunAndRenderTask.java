@@ -15,15 +15,14 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.logging.Level;
 
-import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
+import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.api.UnsupportedFormatException;
 import org.eclipse.birt.report.engine.emitter.CompositeContentEmitter;
-import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ContextPageBreakHandler;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
@@ -45,11 +44,6 @@ import org.eclipse.birt.report.engine.layout.html.HTMLTableLayoutNestEmitter;
 public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 {
 
-	/**
-	 * specifies the emitter ID used for rendering the report
-	 */
-	protected String emitterID;
-	
 	protected IReportLayoutEngine layoutEngine;
 
 	/**
@@ -66,7 +60,11 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	protected IContentEmitter createContentEmitter( ) throws EngineException
 	{
 
-		String format = executionContext.getOutputFormat( );
+		String format = renderOptions.getOutputFormat( );
+		if ( format == null )
+		{
+			format = RenderOption.OUTPUT_FORMAT_HTML;
+		}
 
 		ExtensionManager extManager = ExtensionManager.getInstance( );
 		boolean supported = false;
@@ -90,7 +88,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 					MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
 		}
 
-		initializePagination( format, extManager );
+		pagination = extManager.getPagination( format );
 		IContentEmitter emitter = null;
 		try
 		{
@@ -112,26 +110,6 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		}
 
 		return emitter;
-	}
-
-	private void initializeContentEmitter( IContentEmitter emitter,
-			ReportExecutor executor )
-	{
-		// create the emitter services object that is needed in the emitters.
-		EngineEmitterServices services = new EngineEmitterServices( this );
-
-		EngineConfig config = engine.getConfig( );
-		if ( config != null )
-		{
-			services.setEmitterConfig( config.getEmitterConfigs( ) );
-		}
-		services.setRenderOption( renderOptions );
-		services.setExecutor( executor );
-		services.setRenderContext( appContext );
-		services.setReportRunnable( runnable );
-
-		// emitter is not null
-		emitter.initialize( services );
 	}
 
 	/*
@@ -161,6 +139,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 					MessageConstants.INVALID_PARAMETER_EXCEPTION ); //$NON-NLS-1$
 		}
 
+		setupRenderOption( );
 		loadDesign( );
 		prepareDesign( );
 		startFactory( );
@@ -201,8 +180,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 				{
 					if ( !executionContext.isCanceled( ) )
 					{
-						layoutEngine = LayoutEngineFactory
-								.createLayoutEngine( pagination );
+						layoutEngine = createReportLayoutEngine( pagination, renderOptions );
 					}
 				}
 
@@ -253,12 +231,6 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 					"Error happened while running the report.", t ); //$NON-NLS-1$
 			throw new EngineException( "Error happened while running the report", t ); //$NON-NLS-1$
 		}
-	}
-
-	public void setEmitterID( String id )
-	{
-		this.emitterID = id;
-
 	}
 
 	public void cancel( )

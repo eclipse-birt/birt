@@ -19,6 +19,7 @@ import org.eclipse.birt.report.engine.ir.AutoTextItemDesign;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl;
+import org.eclipse.birt.report.engine.ir.DynamicTextItemDesign;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.FreeFormItemDesign;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
@@ -27,7 +28,6 @@ import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 import org.eclipse.birt.report.engine.ir.ListBandDesign;
 import org.eclipse.birt.report.engine.ir.ListGroupDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
-import org.eclipse.birt.report.engine.ir.MultiLineItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.ir.TableBandDesign;
@@ -40,7 +40,6 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
  * 
  * report item executor manager
  *
- * @version $Revision: 1.11 $ $Date: 2006/06/13 15:37:16 $
  */
 public class ExecutorManager
 {
@@ -53,7 +52,7 @@ public class ExecutorManager
 	public static final int LABELITEM = 2;
 	public static final int LISTITEM = 3;
 	public static final int TABLEITEM = 4;
-	public static final int MULTILINEITEM = 5;
+	public static final int DYNAMICTEXTITEM = 5;
 	public static final int TEXTITEM = 6;
 	public static final int DATAITEM = 7;
 	public static final int EXTENDEDITEM = 8;
@@ -137,8 +136,8 @@ public class ExecutorManager
 				return new ListItemExecutor( this );
 			case TABLEITEM :
 				return new TableItemExecutor( this );
-			case MULTILINEITEM :
-				return new MultiLineItemExecutor( this );
+			case DYNAMICTEXTITEM :
+				return new DynamicTextItemExecutor( this );
 			case TEXTITEM :
 				return new TextItemExecutor( this );
 			case DATAITEM :
@@ -249,9 +248,9 @@ public class ExecutorManager
 			return getItemExecutor(LISTITEM);
 		}
 
-		public Object visitMultiLineItem( MultiLineItemDesign multiLine, Object value )
+		public Object visitDynamicTextItem( DynamicTextItemDesign dynamicText, Object value )
 		{
-			return getItemExecutor(MULTILINEITEM);
+			return getItemExecutor(DYNAMICTEXTITEM);
 		}
 
 		public Object visitRow( RowDesign row, Object value )

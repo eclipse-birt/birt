@@ -71,6 +71,7 @@ public class StyleDeclaration extends AbstractStyle implements IStyle
 		this.shared = false;
 	}
 
+	//TODO: remoview, there is a problem for list value.
 	protected void decouple( )
 	{
 		CSSValue[] newValues = new CSSValue[NUMBER_OF_STYLE];

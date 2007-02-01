@@ -28,8 +28,9 @@ public class HTMLServerImageHandler extends HTMLImageHandler
 
 	protected Logger log = Logger.getLogger( HTMLServerImageHandler.class
 			.getName( ) );
-
-	private static int count = 0;
+	
+	private String handlerId;
+	private int count = 0;
 
 	private static HashMap map = new HashMap( );
 
@@ -38,7 +39,9 @@ public class HTMLServerImageHandler extends HTMLImageHandler
 	 */
 	public HTMLServerImageHandler( )
 	{
-
+		String codePart = Integer.toHexString( this.hashCode( ) );
+		String timePart = Long.toHexString( System.currentTimeMillis( ) );
+		handlerId = codePart + timePart;
 	}
 
 	/*
@@ -93,6 +96,20 @@ public class HTMLServerImageHandler extends HTMLImageHandler
 	}
 
 	/**
+	 * returns a unique file name based on a directory and name prefix
+	 * 
+	 * @param imageDir
+	 *            directory to store the image
+	 * @param prefix
+	 *            prefix for the file name
+	 * @return a file name
+	 */
+	protected String createUniqueFileName( String imageDir, String prefix )
+	{
+		return createUniqueFileName( imageDir, prefix, null );
+	}
+	
+	/**
 	 * creates a unique tempoary file to store an image
 	 * 
 	 * @param imageDir
@@ -107,34 +124,28 @@ public class HTMLServerImageHandler extends HTMLImageHandler
 			String postfix )
 	{
 		File file = null;
+		postfix = ( postfix == null ? "" : postfix );
+		String uniCount = null;
 		do
 		{
-			count++;
-			file = new File( imageDir + "/" + prefix + count + postfix ); //$NON-NLS-1$
+			uniCount = genUniqueCount( );
+			file = new File( imageDir + "/" + prefix + uniCount + postfix ); //$NON-NLS-1$
 		} while ( file.exists( ) );
-
-		return prefix + count + postfix; //$NON-NLS-1$
+		
+		return prefix + uniCount + postfix;
 	}
 
 	/**
-	 * returns a unique file name based on a directory and name prefix
-	 * 
-	 * @param imageDir
-	 *            directory to store the image
-	 * @param prefix
-	 *            prefix for the file name
-	 * @return a file name
+	 * Generating unique string which contains following parts
+	 * <li> the hashcode of the image handler
+	 * <li> creation time of the image handler
+	 * <li> image count created by the image handler
+	 * @return return the unique count for filename
 	 */
-	protected String createUniqueFileName( String imageDir, String prefix )
+	synchronized private String genUniqueCount( )
 	{
-		File file = null;
-		do
-		{
-			count++;
-			file = new File( imageDir + "/" + prefix + count ); //$NON-NLS-1$
-		} while ( file.exists( ) );
-
-		return prefix + count; //$NON-NLS-1$
+		count++;
+		return handlerId + count;
 	}
 
 	/*
@@ -188,27 +199,23 @@ public class HTMLServerImageHandler extends HTMLImageHandler
 
 			String fileName;
 			File file;
-			synchronized ( HTMLCompleteImageHandler.class )
+			String extension = image.getExtension( );
+			if ( extension != null && extension.length( ) > 0 )
 			{
-				String extension = image.getExtension( );
-				if ( extension != null && extension.length( ) > 0 )
-				{
-					fileName = createUniqueFileName( imageDir, prefix,
-							extension ); //$NON-NLS-1$
-				}
-				else
-				{
-					fileName = createUniqueFileName( imageDir, prefix );
-				}
-				file = new File( imageDir, fileName ); //$NON-NLS-1$
-				try
-				{
-					image.writeImage( file );
-				}
-				catch ( IOException e )
-				{
-					log.log( Level.SEVERE, e.getMessage( ), e );
-				}
+				fileName = createUniqueFileName( imageDir, prefix, extension ); //$NON-NLS-1$
+			}
+			else
+			{
+				fileName = createUniqueFileName( imageDir, prefix );
+			}
+			file = new File( imageDir, fileName ); //$NON-NLS-1$
+			try
+			{
+				image.writeImage( file );
+			}
+			catch ( IOException e )
+			{
+				log.log( Level.SEVERE, e.getMessage( ), e );
 			}
 			// servlet mode
 			if ( imageURL.indexOf( "?" ) > 0 ) //$NON-NLS-1$

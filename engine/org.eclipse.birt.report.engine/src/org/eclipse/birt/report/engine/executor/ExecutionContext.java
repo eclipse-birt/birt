@@ -44,17 +44,15 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
-import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.api.HTMLEmitterConfig;
-import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IHTMLImageHandler;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.impl.EngineTask;
 import org.eclipse.birt.report.engine.api.impl.ParameterAttribute;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
 import org.eclipse.birt.report.engine.api.impl.ReportRunnable;
@@ -89,7 +87,6 @@ import com.ibm.icu.util.ULocale;
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
  * 
- * @version $Revision: 1.92 $ $Date: 2006/12/18 07:57:53 $
  */
 public class ExecutionContext
 {
@@ -105,9 +102,9 @@ public class ExecutionContext
 	private IReportEngine engine;
 
 	/**
-	 * task ID string
+	 * task which uses this context.
 	 */
-	private String taskIDString;
+	private EngineTask task;
 
 	/**
 	 * execution mode, in this mode, the render operation should be executed.
@@ -236,6 +233,11 @@ public class ExecutionContext
 	private boolean isCancelled = false;
 	
 	/**
+	 * flag to indicate if the task should be canceled on error
+	 */
+	private boolean cancelOnError = false;
+	
+	/**
 	 * utilities used in the report execution.
 	 */
 	private HashMap stringFormatters = new HashMap( );
@@ -257,26 +259,24 @@ public class ExecutionContext
 	 */
 	private List pageBreakListeners;
 	
-	public ExecutionContext()
-	{
-		this(null, -1);
-	}
 	/**
 	 * create a new context. Call close to finish using the execution context
 	 */
-	public ExecutionContext( int taskID )
+	public ExecutionContext( )
 	{
-		this( null, taskID );
+		this( null );
 	}
 
 	/**
 	 * create a new context. Call close to finish using the execution context
 	 */
-	public ExecutionContext( IReportEngine engine, int taskID )
+	public ExecutionContext( EngineTask engineTask )
 	{
-		this.engine = engine;
-
-		taskIDString = "Task" + new Integer( taskID ).toString( ); //$NON-NLS-1$
+		if ( engineTask != null )
+		{
+			task = engineTask;
+			engine = task.getEngine( );
+		}
 
 		locale = Locale.getDefault( );
 
@@ -354,16 +354,6 @@ public class ExecutionContext
 	public IReportEngine getEngine( )
 	{
 		return engine;
-	}
-
-	/**
-	 * returns taskID as string. The value can be used for logging.
-	 * 
-	 * @return taskID as string
-	 */
-	public String getTaskIDString( )
-	{
-		return taskIDString;
 	}
 
 	/**
@@ -991,6 +981,11 @@ public class ExecutionContext
 			elementExceptions.put( element, exInfo );
 		}
 		exInfo.addException( ex );
+		
+		if ( cancelOnError && task != null )
+		{
+			task.cancel( );
+		}
 	}
 
 	/**
@@ -1105,7 +1100,7 @@ public class ExecutionContext
 		{
 			return renderOption.getOutputFormat( );
 		}
-		return "html";
+		return IRenderOption.OUTPUT_FORMAT_HTML;
 	}
 
 	public class ElementExceptionInfo
@@ -1417,31 +1412,7 @@ public class ExecutionContext
 	 */
 	public IHTMLActionHandler getActionHandler( )
 	{
-		if ( renderOption != null && renderOption instanceof HTMLRenderOption )
-		{
-			HTMLRenderOption htmlOption = (HTMLRenderOption) renderOption;
-			{
-				if ( htmlOption.getActionHandle( ) != null )
-				{
-					return htmlOption.getActionHandle( );
-				}
-			}
-		}
-		EngineConfig config = engine.getConfig( );
-		if ( config != null )
-		{
-			HashMap emitterConfigs = config.getEmitterConfigs( );
-			if ( emitterConfigs != null )
-			{
-				Object htmlEmitterConfig = emitterConfigs.get( "html" );
-				if ( htmlEmitterConfig instanceof HTMLEmitterConfig )
-				{
-					HTMLEmitterConfig htmlConfig = (HTMLEmitterConfig) htmlEmitterConfig;
-					return htmlConfig.getActionHandler( );
-				}
-			}
-		}
-		return null;
+		return renderOption.getActionHandler( );
 	}
 	
 	/**
@@ -1449,22 +1420,7 @@ public class ExecutionContext
 	 */
 	public IHTMLImageHandler getImageHandler( )
 	{
-		EngineConfig config = engine.getConfig( );
-		if ( config != null )
-		{
-			HashMap emitterConfigs = config.getEmitterConfigs( );
-			if ( emitterConfigs != null )
-			{
-				Object htmlEmitterConfig = emitterConfigs.get( "html" );
-				if ( htmlEmitterConfig instanceof HTMLEmitterConfig )
-				{
-					HTMLEmitterConfig htmlConfig = (HTMLEmitterConfig) htmlEmitterConfig;
-					return htmlConfig.getImageHandler( );
-				}
-			}
-		}
-		
-		return null;
+		return renderOption.getImageHandler( );
 	}
 	
 
@@ -1642,17 +1598,16 @@ public class ExecutionContext
 		return isCancelled;
 	}
 	
-	public void setDataSource( IDocArchiveReader dataSource )
+	public void setCancelOnError( boolean cancel )
 	{
-		try
-		{
-			dataSource.open( );
-			this.dataSource = dataSource;
-		}
-		catch ( IOException e )
-		{
-			log.log( Level.SEVERE, "Failed to open the data source", e ); //$NON-NLS-1$
-		}
+		cancelOnError = cancel;
+	}
+	
+	public void setDataSource( IDocArchiveReader dataSource )
+			throws IOException
+	{
+		dataSource.open( );
+		this.dataSource = dataSource;
 	}
 	
 	public IDocArchiveReader getDataSource()

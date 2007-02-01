@@ -26,6 +26,8 @@ import org.eclipse.birt.report.engine.layout.ILineStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ImageArea;
+import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Image;
@@ -130,7 +132,10 @@ public class PDFImageLM extends PDFLeafItemLM
 		switch ( content.getImageSource( ) )
 		{
 			case IImageContent.IMAGE_FILE :
-				URL url = new URL(content.getURI( ));
+				ReportDesignHandle design = content.getReportContent( )
+						.getDesign( ).getReportDesign( );
+				URL url = design.findResource( content.getURI( ),
+						IResourceLocator.IMAGE );
 				InputStream in = url.openStream( );
 				try
 				{
@@ -265,7 +270,8 @@ public class PDFImageLM extends PDFLeafItemLM
 		assert ( parent instanceof ILineStackingLayoutManager );
 		ILineStackingLayoutManager lineParent = (ILineStackingLayoutManager) parent;
 		// if height exceed current available value, must page break;
-		if ( root.getAllocatedHeight( ) > lineParent.getCurrentMaxContentHeight() )
+		if ( root.getAllocatedHeight( ) > lineParent
+				.getCurrentMaxContentHeight( ) )
 		{
 			if ( !parent.isPageEmpty( ) )
 			{
@@ -273,6 +279,8 @@ public class PDFImageLM extends PDFLeafItemLM
 			}
 			else
 			{
+				//change the root height to make sure image can be put into parent.
+				root.setAllocatedHeight( lineParent.getCurrentMaxContentHeight( ) );
 				parent.addArea( root, false, false );
 				return false;
 			}
@@ -306,28 +314,29 @@ public class PDFImageLM extends PDFLeafItemLM
 		assert ( content instanceof IImageContent );
 		image = (IImageContent) content;
 		maxWidth = parent.getCurrentMaxContentWidth( );
-		
+
 		Dimension contentDimension = getSpecifiedDimension( image );
-		root = (ContainerArea) createInlineContainer( image, true,
-				true );
+		root = (ContainerArea) createInlineContainer( image, true, true );
 		validateBoxProperty( root.getStyle( ), maxWidth, context.getMaxHeight( ) );
-		
-		//set max content width
+
+		// set max content width
 		root.setAllocatedWidth( maxWidth );
 		int maxContentWidth = root.getContentWidth( );
-		if(contentDimension.getWidth() > maxContentWidth)
+		if ( contentDimension.getWidth( ) > maxContentWidth )
 		{
-			contentDimension.setDimension(maxContentWidth, (int)(maxContentWidth/contentDimension.getRatio()));
+			contentDimension.setDimension( maxContentWidth,
+					(int) ( maxContentWidth / contentDimension.getRatio( ) ) );
 		}
-		
-		ImageArea imageArea = (ImageArea)AreaFactory.createImageArea( image );
-		imageArea.setWidth(contentDimension.getWidth());
-		imageArea.setHeight(contentDimension.getHeight());
-		root.addChild(imageArea);
-		
+
+		ImageArea imageArea = (ImageArea) AreaFactory.createImageArea( image );
+		imageArea.setWidth( contentDimension.getWidth( ) );
+		imageArea.setHeight( contentDimension.getHeight( ) );
+		root.addChild( imageArea );
+
 		imageArea.setPosition( root.getContentX( ), root.getContentY( ) );
 		root.setContentWidth( contentDimension.getWidth( ) );
-		root.setContentHeight( Math.min( context.getMaxHeight( ),contentDimension.getHeight( )) );
+		root.setContentHeight( Math.min( context.getMaxHeight( ),
+				contentDimension.getHeight( ) ) );
 	}
-	
+
 }

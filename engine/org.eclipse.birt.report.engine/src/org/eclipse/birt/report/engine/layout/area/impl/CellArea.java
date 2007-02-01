@@ -11,6 +11,7 @@
 package org.eclipse.birt.report.engine.layout.area.impl;
 
 import org.eclipse.birt.report.engine.content.ICellContent;
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.css.engine.value.Value;
@@ -21,7 +22,13 @@ public class CellArea extends ContainerArea
 {
 	static Value DEFAULT_PADDING = new FloatValue(CSSPrimitiveValue.CSS_NUMBER, 1500);
 	
-	protected int rowSpan = -1;
+	protected int rowSpan = 0;
+	
+	
+	public CellArea()
+	{
+		super((IContent)null);
+	}
 	
 	CellArea(ICellContent cell)
 	{
@@ -60,11 +67,19 @@ public class CellArea extends ContainerArea
 	
 	public int getRowSpan()
 	{
-		if(content!=null)
+		if(rowSpan==0 && content!=null)
 		{
 			return ((ICellContent)content).getRowSpan();
 		}
-		return 1;
+		else
+		{
+			return rowSpan;
+		}
+	}
+	
+	public void setRowSpan(int rowSpan)
+	{
+		this.rowSpan = rowSpan;
 	}
 	
 	protected void setDefaultPadding()

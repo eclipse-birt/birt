@@ -21,7 +21,6 @@ import junit.framework.TestCase;
  * Test case
  * 
  * 
- * @version $Revision: 1.5 $ $Date: 2005/11/11 06:26:49 $
  */
 public class CssParserTest extends TestCase
 {

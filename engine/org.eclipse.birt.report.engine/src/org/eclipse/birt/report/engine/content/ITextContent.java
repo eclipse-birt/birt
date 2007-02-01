@@ -21,7 +21,6 @@ package org.eclipse.birt.report.engine.content;
  * 
  * If the display is "block", it is "BLOCK" always.
  * 
- * @version $Revision: 1.8 $ $Date: 2005/05/08 06:59:45 $
  
  */
 public interface ITextContent extends IContent

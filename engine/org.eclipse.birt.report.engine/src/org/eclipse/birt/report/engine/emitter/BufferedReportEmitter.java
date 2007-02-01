@@ -21,7 +21,6 @@ import org.eclipse.birt.report.engine.content.IContent;
  * buffered before output to a specific format. Buffering is needed sometimes,
  * for handling drop, table, etc.
  * 
- * @version $Revision: 1.2 $ $Date: 2006/06/13 15:37:15 $
  */
 public class BufferedReportEmitter extends ContentEmitterAdapter
 {

@@ -30,7 +30,7 @@ public class AllTests
 		suite.addTestSuite( AttributeBuilderTest.class );
 		suite.addTestSuite( HTMLWriterTest.class );
 		suite.addTestSuite( HTMLReportEmitterTest.class );
-		suite.addTestSuite( HTMLWriterTest.class );
+		suite.addTestSuite( MetadataEmitterTest.class );
 		
 		//$JUnit-END$
 		return suite;

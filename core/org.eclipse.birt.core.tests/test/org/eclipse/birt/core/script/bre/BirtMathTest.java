@@ -277,4 +277,27 @@ public class BirtMathTest extends TestCase
 			
 		}
 	}
+	
+	public void testSafeDivide( )
+	{
+		String[] scripts = new String[]{
+				"BirtMath.safeDivide( 0, 10,-1 )",
+				"BirtMath.safeDivide( 10.5, -10,-1 )",
+				"BirtMath.safeDivide( 100.5,10,-1 )",
+				"BirtMath.safeDivide( 100.5,0,-1 )",
+		};
+
+		double values[] = new double[]{
+				0, -1.05, 10.05, -1
+		};
+
+		for ( int i = 0; i < values.length; i++ )
+		{
+			assertEquals( ( (Number) cx.evaluateString( scope,
+					scripts[i],
+					"inline",
+					1,
+					null ) ).doubleValue( ), values[i], 0 );
+		}
+	}
 }

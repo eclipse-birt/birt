@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * Base class of styled element test case.
  * 
- * @version $Revision: 1.6 $ $Date: 2005/11/11 06:26:43 $
  */
 abstract public class StyledElementTestCase extends ReportElementTestCase
 {

@@ -39,6 +39,7 @@ public class ComputedStyle extends AbstractStyle implements IStyle
 		return cv;
 	}
 
+	//TODO: review, move the engine.resolveStyle here, so we needn't call parent.getComputedStyle() for none-inheireted styles.
 	protected Value resolveProperty( int index )
 	{
 		CSSStylableElement parent = (CSSStylableElement) elt.getParent( );

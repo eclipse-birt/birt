@@ -419,5 +419,42 @@ public class PDFLayoutEngineContext
 	{
 		this.maxWidth = width;
 	}
+	
+	
+	protected boolean fitToPage = false;
+	
+	public void setFitToPage(boolean fitToPage)
+	{
+		this.fitToPage = fitToPage;
+	}
+	
+	public boolean fitToPage()
+	{
+		return this.fitToPage;
+	}
+	
+	protected boolean pageBreakPaginationOnly = false;
+	
+	public void setPagebreakPaginationOnly(boolean pageBreakPaginationOnly)
+	{
+		this.pageBreakPaginationOnly = pageBreakPaginationOnly;
+	}
+	
+	public boolean pagebreakPaginationOnly()
+	{
+		return this.pageBreakPaginationOnly;
+	}
+	
+	protected int preferenceWidth = 0;
+	public void setPreferenceWidth(int preferenceWidth)
+	{
+		this.preferenceWidth = preferenceWidth;
+	}
+	
+	public int getPreferenceWidth()
+	{
+		return this.preferenceWidth;
+	}
+
 
 }

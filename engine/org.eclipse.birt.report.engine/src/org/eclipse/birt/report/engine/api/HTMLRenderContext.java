@@ -15,6 +15,7 @@ package org.eclipse.birt.report.engine.api;
  * Defines the context for rendering report in HTML emitter. Objects stored in the
  * context object is mainly used for image and action handling, but can be used for
  * other purposes too. 
+ * @deprecated set the property to RenderOption directly.
  */
 public class HTMLRenderContext {
 		

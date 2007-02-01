@@ -31,7 +31,6 @@ import org.mozilla.javascript.Scriptable;
  * implments IDataEngine interface, using birt's data transformation engine
  * (DtE)
  * 
- * @version $Revision: 1.46 $ $Date: 2006/09/05 03:02:35 $
  */
 public class DteDataEngine extends AbstractDataEngine
 {

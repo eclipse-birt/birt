@@ -30,7 +30,9 @@ import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
  * The reading sequence of report root:
  *    1. Version. Version id stored in IR, to remember the document changes.
  *    2. Report Version.
- *    3. Base path.
+ *    *  in version 0 and 1, read:
+ *          base path
+ *          unit  
  *    4. Styles and rootStyle
  *    5. Master pages.
  *       Read report item designs in master page.
@@ -41,6 +43,9 @@ import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
  *    2. Read report item design according design type.
  *    3. Read the current design's fields.
  *    4. Read the current design's children.
+ *    
+ * Version 1: remove read isBookmark of ActionDesign.
+ * Version 2: remove read base path and unit of report.
  */
 public class EngineIRReader implements IOConstants
 {
@@ -62,7 +67,7 @@ public class EngineIRReader implements IOConstants
 
 		// read the version
 		version = IOUtil.readLong( dis );
-		if ( version != 0L || version != 1L )
+		if ( version != 0L && version != 1L && version != 2L )
 		{
 			throw new IOException( "unsupported version:" + version ); //$NON-NLS-1$
 		}
@@ -76,14 +81,14 @@ public class EngineIRReader implements IOConstants
 
 		reportDesign = new Report( );
 
-		// read the int
-		// design's base path
-		String basePath = IOUtil.readString( dis );
-		reportDesign.setBasePath( basePath );
-
-		// design's unit
-		String unit = IOUtil.readString( dis );
-		reportDesign.setUnit( unit );
+		if ( version == 0L || version == 1L )
+		{
+			// design's base path, removed from version 2
+			IOUtil.readString( dis );
+		
+			// design's unit, removed from version 2
+			IOUtil.readString( dis );
+		}
 
 		// style informations
 		int styleCount = IOUtil.readInt( dis );
@@ -359,8 +364,8 @@ public class EngineIRReader implements IOConstants
 			}
 			case MULTI_LINE_DESIGN :
 			{
-				MultiLineItemDesign design = new MultiLineItemDesign( );
-				readMultiline( dis, design );
+				DynamicTextItemDesign design = new DynamicTextItemDesign( );
+				readDynamicText( dis, design );
 				return design;
 			}
 			case IMAGE_DESIGN :
@@ -1077,18 +1082,18 @@ public class EngineIRReader implements IOConstants
 		}
 	}
 
-	protected void readMultiline( DataInputStream in, MultiLineItemDesign design )
+	protected void readDynamicText( DataInputStream in, DynamicTextItemDesign design )
 			throws IOException
 	{
 		while ( in.available( ) > 0 )
 		{
 			short fieldType = IOUtil.readShort( in );
-			readMultilineField( in, design, fieldType );
+			readDynamicTextField( in, design, fieldType );
 		}
 	}
 
-	protected void readMultilineField( DataInputStream in,
-			MultiLineItemDesign design, short fieldType ) throws IOException
+	protected void readDynamicTextField( DataInputStream in,
+			DynamicTextItemDesign design, short fieldType ) throws IOException
 	{
 		switch ( fieldType )
 		{

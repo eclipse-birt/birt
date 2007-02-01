@@ -155,7 +155,7 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.report.engine.ir.ListItemTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.ir.MapRuleTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.ir.MapTest.class );
-		suite.addTestSuite( org.eclipse.birt.report.engine.ir.MultiLineItemTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.ir.DynamicTextItemTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.ir.PageSequenceTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.ir.PageSetupTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.ir.ReportTest.class );
@@ -174,6 +174,12 @@ public class AllTests
 		
 		/* in package: org.eclipse.birt.report.engine.layout.impl */
 		
+		/* in package: org.eclipse.birt.report.engine.layout.pdf */
+		suite.addTestSuite( org.eclipse.birt.report.engine.layout.pdf.PDFImageLMTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.layout.pdf.PDFLineAreaLMTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.layout.pdf.PDFTableLMTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.layout.pdf.PDFPageLMTest.class );
+		
 		/* in package: org.eclipse.birt.report.engine.layout.pdf.hyphen */
 		suite.addTestSuite( org.eclipse.birt.report.engine.layout.pdf.hyphen.DefaultWordRecognizerTest.class );
 		
@@ -186,12 +192,12 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.report.engine.parser.LabelItemDesignTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.parser.ListDesignTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.parser.MapDesignTest.class );
-		suite.addTestSuite( org.eclipse.birt.report.engine.parser.MultiLineItemDesignTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.parser.DynamicTextItemDesignTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.parser.PageSetupTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.parser.StyleDesignTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.parser.SuppressDuplicateDataItemTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.parser.TableItemDesignTest.class );
-		suite.addTestSuite( org.eclipse.birt.report.engine.parser.TestPromptText.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.api.impl.ParameterPromptTextTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.parser.TextDesignTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.parser.TextParserTest.class );
 		

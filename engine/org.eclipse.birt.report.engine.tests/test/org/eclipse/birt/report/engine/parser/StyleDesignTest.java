@@ -27,7 +27,6 @@ import org.eclipse.birt.report.engine.ir.RowDesign;
  * they are the same,that means the IR is correct, otherwise, there exists
  * errors in the parser
  * 
- * @version $Revision: 1.11 $ $Date: 2005/11/11 06:26:49 $
  */
 public class StyleDesignTest extends AbstractDesignTestCase
 {

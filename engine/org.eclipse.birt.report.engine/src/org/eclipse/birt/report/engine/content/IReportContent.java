@@ -24,18 +24,9 @@ import com.ibm.icu.util.ULocale;
 /**
  * The object represents the report content as a whole.
  * 
- * @version $Revision: 1.13 $ $Date: 2006/06/17 12:28:58 $
  */
 public interface IReportContent
 {
-
-	/**
-	 * get the css engien used by this content
-	 * 
-	 * @return the css engine
-	 */
-	public CSSEngine getCSSEngine( );
-
 	/**
 	 * get the report design used to create this report content.
 	 * 

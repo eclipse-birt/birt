@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.ir;
 
 /**
  * 
- * @version $Revision: 1.6 $ $Date: 2005/11/11 06:26:43 $
  */
 public class SimpleMasterPageTest extends MasterPageTestCase
 {

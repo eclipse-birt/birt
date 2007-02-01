@@ -24,7 +24,6 @@ import org.w3c.dom.Element;
 /**
  * Test case
  * 
- * @version $Revision: 1.11 $ $Date: 2006/01/09 12:05:46 $
  */
 public class HTMLProcessorTest extends TestCase
 {

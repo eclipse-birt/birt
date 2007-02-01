@@ -10,6 +10,7 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.RAInputStream;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
@@ -305,7 +306,7 @@ public class ReportPageReader extends ReportReader
 				pageReader.unloadContent( offset );
 				return (IPageContent) pageContent;
 			}
-			catch ( IOException ex )
+			catch ( Exception ex )
 			{
 				logger.log( Level.SEVERE, "Can't load the page content", ex );
 			}
@@ -314,7 +315,7 @@ public class ReportPageReader extends ReportReader
 	}
 
 	private void loadFullContent( CachedReportContentReaderV3 reader,
-			IContent parent, IResultSet prset ) throws IOException
+			IContent parent, IResultSet prset ) throws IOException, BirtException
 	{
 		DocumentExtension docExt = (DocumentExtension) parent
 				.getExtension( IContent.DOCUMENT_EXTENSION );

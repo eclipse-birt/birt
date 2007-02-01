@@ -11,26 +11,20 @@
 
 package org.eclipse.birt.report.engine.ir;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
-import org.eclipse.birt.report.model.api.ConfigVariableHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.w3c.dom.css.CSSStyleDeclaration;
 
 /**
  * Report is the root element of the design.
  * 
- * @version $Revision: 1.34 $ $Date: 2006/09/07 13:35:17 $
  */
 public class Report
 {
@@ -39,11 +33,6 @@ public class Report
 	 * report design get from Model
 	 */
 	protected ReportDesignHandle reportDesign;
-
-	/**
-	 * default unit
-	 */
-	protected String unit;
 
 	/**
 	 * styles used in this report
@@ -91,28 +80,10 @@ public class Report
 
 	protected Map mapReportItemIDtoInstance;
 
-	/**
-	 * The base directory of the relative links. By default it is where design
-	 * file (XML) resides
-	 */
-	protected String basePath;
-
-	/**
-	 * The prefix of style name
-	 */
-	public static final String PREFIX_STYLE_NAME = "style_"; //$NON-NLS-1$
-
 	/*
 	 * map report item to query
 	 */
 	protected HashMap mapReportItemToQuery;
-
-	/*
-	 * map query to "value" expressions
-	 */
-	protected HashMap mapQueryToValueExprs;
-	
-	protected HashMap mapValueExprToName;
 
 	/**
 	 * css engine used in this
@@ -144,29 +115,6 @@ public class Report
 			mapReportItemToQuery = new HashMap( );
 		}
 		return mapReportItemToQuery;
-	}
-
-	/**
-	 * return the map from query to value expressions
-	 * @deprecated 
-	 * @return the map from query to value expressions;
-	 */
-	public HashMap getQueryToValueExprMap( )
-	{
-		if ( mapQueryToValueExprs == null )
-		{
-			mapQueryToValueExprs = new HashMap( );
-		}
-		return mapQueryToValueExprs;
-	}
-	
-	public HashMap getExprToNameMap( )
-	{
-		if( this.mapValueExprToName == null )
-		{
-			this.mapValueExprToName = new HashMap( );
-		}
-		return this.mapQueryToValueExprs;
 	}
 
 	/**
@@ -235,16 +183,6 @@ public class Report
 	}
 
 	/**
-	 * get total contents.
-	 * 
-	 * @return sections in the report body.
-	 */
-	public ArrayList getContents( )
-	{
-		return this.contents;
-	}
-
-	/**
 	 * get contents count in a report.
 	 * 
 	 * @return content count
@@ -279,26 +217,15 @@ public class Report
 	}
 
 	/**
-	 * get number of shared styles defined in this report.
-	 * 
-	 * @return style number
-	 */
-	public int getStyleCount( )
-	{
-		return this.styles.size( );
-	}
-
-	/**
 	 * get the style.
 	 * 
 	 * @param index
 	 *            style index
 	 * @return style
 	 */
-	public IStyle getStyle( int index )
+	public Map getStyles( )
 	{
-		assert ( index >= 0 && index < styles.size( ) );
-		return (IStyle) this.styles.get( index );
+		return styleTable;
 	}
 
 	/**
@@ -312,11 +239,6 @@ public class Report
 		assert ( style != null );
 		this.styles.add( style );
 		this.styleTable.put( name, style );
-	}
-
-	public Set getStyleSet( )
-	{
-		return styleTable.entrySet( );
 	}
 
 	/**
@@ -351,41 +273,6 @@ public class Report
 	}
 
 	/**
-	 * @return Returns the unit.
-	 */
-	public String getUnit( )
-	{
-		return unit;
-	}
-
-	/**
-	 * @param unit
-	 *            The unit to set.
-	 */
-	public void setUnit( String unit )
-	{
-		this.unit = unit;
-	}
-
-	/**
-	 * get message of the resource key
-	 * 
-	 * @param resourceKey
-	 *            resource key
-	 * @param locale
-	 *            locale.
-	 * @return message text.
-	 */
-	public String getMessage( String resourceKey, Locale locale )
-	{
-		if ( this.reportDesign != null )
-		{
-			return this.reportDesign.getMessage( resourceKey, locale );
-		}
-		return null;
-	}
-
-	/**
 	 * @return Returns the reportDesign.
 	 */
 	public ReportDesignHandle getReportDesign( )
@@ -400,15 +287,6 @@ public class Report
 	public void setReportDesign( ReportDesignHandle reportDesign )
 	{
 		this.reportDesign = reportDesign;
-		if ( basePath == null || basePath.equals( "" ) ) //$NON-NLS-1$
-		{
-			String fileName = reportDesign.getFileName( );
-			if ( fileName != null )
-			{
-				File file = new File( fileName );
-				basePath = file.getParent( );
-			}
-		}
 	}
 
 	/**
@@ -430,43 +308,6 @@ public class Report
 	public HashMap getResultMetaData( )
 	{
 		return this.resultMetaData;
-	}
-
-	public HashMap getConfigs( )
-	{
-		HashMap configs = new HashMap( );
-		Iterator iter = reportDesign.configVariablesIterator( );
-		if ( iter != null )
-		{
-			while ( iter.hasNext( ) )
-			{
-				ConfigVariableHandle handle = (ConfigVariableHandle) iter
-						.next( );
-				String name = handle.getName( );
-				String value = handle.getValue( );
-				configs.put( name, value );
-			}
-		}
-		return configs;
-	}
-
-	/**
-	 * Gets the directory where design file resides.
-	 * 
-	 * @return path
-	 */
-	public String getBasePath( )
-	{
-		return basePath;
-	}
-
-	/**
-	 * @param basePath
-	 *            The basePath to set.
-	 */
-	public void setBasePath( String basePath )
-	{
-		this.basePath = basePath;
 	}
 
 	/**

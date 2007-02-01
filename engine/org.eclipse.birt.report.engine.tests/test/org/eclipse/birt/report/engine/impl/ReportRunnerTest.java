@@ -22,7 +22,6 @@ import junit.framework.TestCase;
 
 /**
  * 
- * @version $Revision: 1.13 $ $Date: 2006/04/04 02:27:00 $
  */
 public class ReportRunnerTest extends TestCase
 {

@@ -16,7 +16,6 @@ import junit.framework.TestCase;
 /**
  * Test RowType.
  * 
- * @version $Revision: 1.8 $ $Date: 2006/04/06 12:35:25 $
  */
 public class RowTypeTest extends TestCase
 {

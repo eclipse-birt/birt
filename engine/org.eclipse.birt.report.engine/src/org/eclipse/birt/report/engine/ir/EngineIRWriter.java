@@ -15,6 +15,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.birt.core.util.IOUtil;
@@ -28,7 +29,9 @@ import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
  * The Writing sequence of report root:
  *    1. Version. Version id stored in IR, to remember the document changes.
  *    2. Report Version.
- *    3. Base path.
+ *    *  in version 0 and 1, write:
+ *       base path
+ *       unit  
  *    4. Styles and rootStyle
  *    5. Master pages.
  *       Write report item designs in master page.
@@ -39,6 +42,9 @@ import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
  *    2. Write report item design.
  *    3. Write the current design's fields( field type and field value ).
  *    4. Write the current design's children.
+ *    
+ * Version 1: remove write isBookmark of ActionDesign.
+ * Version 2: remove write base path and unit of report.
  */
 public class EngineIRWriter implements IOConstants
 {	
@@ -48,26 +54,21 @@ public class EngineIRWriter implements IOConstants
 		DataOutputStream dos = new DataOutputStream( out );
 
 		// stream version number
-		IOUtil.writeLong( dos, 1L );
+		IOUtil.writeLong( dos, 2L );
 
 		// design version number
 		IOUtil.writeString( dos, DesignSchemaConstants.REPORT_VERSION );
 
-		// design's base path
-		String basePath = design.getBasePath( );
-		IOUtil.writeString( dos, basePath );
-
-		// design's unit
-		String unit = design.getUnit( );
-		IOUtil.writeString( dos, unit );
-
 		// style informations
-		int styleCount = design.getStyleCount( );
-		IOUtil.writeInt( dos, styleCount );
-		for ( int i = 0; i < styleCount; i++ )
+		Map styles = design.getStyles( );
+		IOUtil.writeInt( dos, styles.size( ) );		
+		Iterator iter = styles.entrySet( ).iterator( );
+		while ( iter.hasNext( ) )
 		{
-			IStyle style = design.getStyle( i );
-			IOUtil.writeString( dos, Report.PREFIX_STYLE_NAME + i );
+			Map.Entry entry = (Map.Entry) iter.next( );
+			String styleName = (String) entry.getKey( );
+			IStyle style = (IStyle) entry.getValue( );
+			IOUtil.writeString( dos, styleName );
 			writeStyle( dos, style );
 		}
 		String rootStyleName = design.getRootStyleName( );
@@ -486,13 +487,13 @@ public class EngineIRWriter implements IOConstants
 			return null;
 		}
 
-		public Object visitMultiLineItem( MultiLineItemDesign multiLine,
+		public Object visitDynamicTextItem( DynamicTextItemDesign multiLine,
 				Object value )
 		{
 			try
 			{
 				bout.reset( );
-				writeMultiline( bdos, multiLine );
+				writeDynamicText( bdos, multiLine );
 				bdos.flush( );
 				IOUtil.writeShort( dos, MULTI_LINE_DESIGN );
 				IOUtil.writeBytes( dos, bout.toByteArray( ) );
@@ -1292,8 +1293,8 @@ public class EngineIRWriter implements IOConstants
 		}
 	}
 
-	protected void writeMultiline( DataOutputStream out,
-			MultiLineItemDesign design ) throws IOException
+	protected void writeDynamicText( DataOutputStream out,
+			DynamicTextItemDesign design ) throws IOException
 	{
 		writeReportItem( out, design );
 		String contentType = design.getContentType( );

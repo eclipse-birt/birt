@@ -11,31 +11,65 @@
 
 package org.eclipse.birt.report.engine.api;
 
+/**
+ * the data id of the data used by an instance.
+ */
 public class DataID
 {
 
+	/**
+	 * data set id.
+	 */
 	protected DataSetID dataSet;
+	/**
+	 * id of the row.
+	 */
 	protected long rowId;
 
+	/**
+	 * creat the new data id instance.
+	 * 
+	 * @param dataSet
+	 *            data set
+	 * @param rowId
+	 *            row id
+	 */
 	public DataID( DataSetID dataSet, long rowId )
 	{
 		this.dataSet = dataSet;
 		this.rowId = rowId;
 	}
 
+	/**
+	 * return the data set.
+	 * 
+	 * @return
+	 */
 	public DataSetID getDataSetID( )
 	{
 		return dataSet;
 	}
-	
+
+	/**
+	 * return the row id
+	 * 
+	 * @return
+	 */
 	public long getRowID( )
 	{
 		return rowId;
 	}
-	
+
+	/**
+	 * add the instance id to the string buffer.
+	 * 
+	 * It is a util class used by other internal packages.
+	 * 
+	 * @param buffer
+	 */
 	public void append( StringBuffer buffer )
 	{
-		if( dataSet != null )
+		if ( dataSet != null )
 		{
 			dataSet.append( buffer );
 		}
@@ -50,6 +84,13 @@ public class DataID
 		return buffer.toString( );
 	}
 
+	/**
+	 * create a new data id instance from the string.
+	 * 
+	 * @param dataId
+	 *            string represetantion of the data id
+	 * @return data id instance.
+	 */
 	static DataID parse( String dataId )
 	{
 		return parse( dataId.toCharArray( ), 0, dataId.length( ) );

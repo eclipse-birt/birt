@@ -13,11 +13,9 @@ package org.eclipse.birt.report.engine.emitter;
 
 import java.util.HashMap;
 
-import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
-import org.eclipse.birt.report.engine.executor.IReportExecutor;
 
 /**
  * Defines interface to supply emitters with necessary information
@@ -26,6 +24,8 @@ public interface IEmitterServices
 {
 
 	/**
+	 * TODO: review, return IEmitterConfig, by format.
+	 * 
 	 * @return emitter configuration of engine
 	 */
 	public HashMap getEmitterConfig( );
@@ -42,12 +42,12 @@ public interface IEmitterServices
 
 	/**
 	 * 
+	 * @deprecated the user should use getReportContext().getRenderContext() to get the render options.
 	 * @return render context
 	 */
 	public Object getRenderContext( );
 
 	/**
-	 * 
 	 * @return the report runnable
 	 */
 	public IReportRunnable getReportRunnable( );
@@ -59,13 +59,5 @@ public interface IEmitterServices
 	 */
 	public Object getOption( String name );
 
-	/**
-	 * 
-	 * @return the engine task
-	 */
-	public IEngineTask getTask( );
-	
-	public IReportExecutor getExecutor();
-	
 	public IReportContext getReportContext( );
 }

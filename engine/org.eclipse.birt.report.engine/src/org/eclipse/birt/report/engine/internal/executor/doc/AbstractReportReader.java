@@ -172,6 +172,7 @@ public abstract class AbstractReportReader implements IReportExecutor
 	}
 
 	protected IResultSet openQuery( IResultSet rset, IContent content )
+			throws BirtException
 	{
 		Object generateBy = content.getGenerateBy( );
 		// open the query associated with the current report item

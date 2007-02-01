@@ -20,11 +20,9 @@ import org.eclipse.birt.report.engine.api.HTMLEmitterConfig;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 
-
 /**
  * Unit test for Class HTMLReportEmitter.
  * 
- * @version $Revision: 1.8 $ $Date: 2006/08/12 09:42:38 $
  */
 public class HTMLReportEmitterTest extends HTMLReportEmitterTestCase
 {
@@ -34,7 +32,7 @@ public class HTMLReportEmitterTest extends HTMLReportEmitterTestCase
 	 */
 	private String goldenFileName = "html_report_gold.txt";
 
-	public String getWorkSpace()
+	public String getWorkSpace( )
 	{
 		return "./html-reportemitter-test/";
 	}
@@ -54,19 +52,21 @@ public class HTMLReportEmitterTest extends HTMLReportEmitterTestCase
 	 */
 	public void testEndEmitter( ) throws Exception
 	{
-		EngineEmitterServices services = new EngineEmitterServices(null);
 		HTMLReportEmitter emitter = new HTMLReportEmitter( );
-		HTMLRenderOption renderOption = new HTMLRenderOption( );
 		HTMLEmitterConfig emitterConfig = new HTMLEmitterConfig( );
 		emitterConfig.setActionHandler( new HTMLActionHandler( ) );
 		emitterConfig.setImageHandler( new HTMLCompleteImageHandler( ) );
 		HashMap configs = new HashMap( );
 		configs.put( "html", emitterConfig ); //$NON-NLS-1$
-		services.setEmitterConfig( configs );
-		
-		new File(getWorkSpace( )).mkdir();
-		renderOption.setOutputFileName(getWorkSpace( ) + "/" + HTMLReportEmitter.REPORT_FILE ); //$NON-NLS-1$
-		services.setRenderOption(renderOption);
+
+		HTMLRenderOption renderOption = new HTMLRenderOption( );
+		new File( getWorkSpace( ) ).mkdir( );
+		renderOption.setOutputFileName( getWorkSpace( )
+				+ "/" + HTMLReportEmitter.REPORT_FILE ); //$NON-NLS-1$
+
+		EngineEmitterServices services = new EngineEmitterServices( null,
+				renderOption, configs );
+
 		emitter.initialize( services );
 		emitter.start( null );
 		emitter.startPage( null );

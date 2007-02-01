@@ -36,6 +36,8 @@ import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
 
 /**
  * Used to output metadata, including group collpase/expand icon, column filter
@@ -56,8 +58,13 @@ public class MetadataEmitter
 	private HTMLWriter writer;
 	private boolean displayFilterIcon;
 	private boolean displayGroupIcon;
+	private boolean wrapTemplateTable;
 	private IDGenerator idGenerator;
 	private List ouputInstanceIDs;
+	/**
+	 * the instance ID of current wrapping table.
+	 */
+	private InstanceID wrapperTableIID = null;
 	
 	public MetadataEmitter( HTMLWriter writer, HTMLRenderOption htmlOption,
 			IDGenerator idGenerator )
@@ -65,6 +72,7 @@ public class MetadataEmitter
 		this.writer = writer;
 		this.displayFilterIcon = htmlOption.getDisplayFilterIcon( );
 		this.displayGroupIcon = htmlOption.getDisplayGroupIcon( );
+		this.wrapTemplateTable = htmlOption.getWrapTemplateTable( );
 		this.ouputInstanceIDs = htmlOption.getInstanceIDs( );
 		this.idGenerator = idGenerator;
 	}
@@ -434,6 +442,89 @@ public class MetadataEmitter
 	private boolean needGroupIcon( ICellContent cell )
 	{
 		return cell.getDisplayGroupIcon( ) && displayGroupIcon;
+	}
+	
+	/**
+	 * judge the table content is a top-level template table or not.
+	 * 
+	 * @param table
+	 *            table content
+	 */
+	private boolean isTopLevelTemplateTable( ITableContent table )
+	{
+
+		Object genBy = table.getGenerateBy( );
+		if ( genBy instanceof TableItemDesign )
+		{
+			TableItemDesign tableDesign = (TableItemDesign) genBy;
+			DesignElementHandle handle = tableDesign.getHandle( );
+			// judge the content is belong table template element or not.
+			if ( ( null != handle ) && handle.isTemplateParameterValue( ) )
+			{
+				// judge the content is the top-level template table or not.
+				DesignElementHandle parentHandle = handle.getContainer( );
+				while ( null != parentHandle )
+				{
+					if ( ( parentHandle instanceof TableHandle )
+							&& parentHandle.isTemplateParameterValue( ) )
+					{
+						return false;
+					}
+					parentHandle = parentHandle.getContainer( );
+				}
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * wrap the top-level template table
+	 * 
+	 * @param table
+	 *            table content
+	 */
+	public void startWrapTable( ITableContent table )
+	{
+		if ( wrapTemplateTable && isTopLevelTemplateTable( table ) )
+		{
+			wrapperTableIID = table.getInstanceID( );
+
+			writer.openTag( HTMLTags.TAG_TABLE );
+			writer.attribute( HTMLTags.ATTR_STYLE, " border: medium none ;"
+					+ " border-collapse: collapse;" );
+			writer.openTag( HTMLTags.TAG_TBODY );
+			writer.openTag( HTMLTags.TAG_TR );
+			writer.attribute( HTMLTags.ATTR_STYLE, " vertical-align: top;" );
+			writer.openTag( HTMLTags.TAG_TD );
+			writer.openTag( HTMLTags.TAG_IMAGE );
+			writer.attribute( HTMLTags.ATTR_SRC,
+					"bizRD/images/report/sidetab_active.gif" );
+			writer.attribute( HTMLTags.ATTR_STYLE,
+					" width: 20px; height: 60px;" );
+			writer.closeTag( HTMLTags.TAG_IMAGE );
+			writer.closeTag( HTMLTags.TAG_TD );
+			writer.openTag( HTMLTags.TAG_TD );
+			writer.attribute( HTMLTags.ATTR_STYLE, " border: 2px solid black;" );
+		}
+	}
+
+	/**
+	 * wrap the top-level template table
+	 * 
+	 * @param table
+	 *            table content
+	 */
+	public void endWrapTable( ITableContent table )
+	{
+		if ( wrapTemplateTable && ( table.getInstanceID( ) == wrapperTableIID ) )
+		{
+			wrapperTableIID = null;
+			writer.closeTag( HTMLTags.TAG_TD );
+			writer.closeTag( HTMLTags.TAG_TR );
+			writer.closeTag( HTMLTags.TAG_TBODY );
+			writer.closeTag( HTMLTags.TAG_TABLE );
+		}
 	}
 }
 

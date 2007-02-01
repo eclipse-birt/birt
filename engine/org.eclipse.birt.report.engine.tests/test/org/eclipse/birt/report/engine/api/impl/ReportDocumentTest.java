@@ -38,7 +38,6 @@ import org.eclipse.birt.report.engine.toc.TOCTree;
 /**
  * 
  * 
- * @version $Revision: 1.24 $ $Date: 2006/09/07 13:35:18 $
  */
 public class ReportDocumentTest extends EngineCase
 {

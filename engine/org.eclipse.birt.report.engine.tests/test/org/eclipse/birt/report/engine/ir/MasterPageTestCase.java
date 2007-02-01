@@ -15,7 +15,6 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * Master Page test
  * 
- * @version $Revision: 1.6 $ $Date: 2005/11/11 06:26:43 $
  */
 abstract public class MasterPageTestCase extends StyledElementTestCase
 {

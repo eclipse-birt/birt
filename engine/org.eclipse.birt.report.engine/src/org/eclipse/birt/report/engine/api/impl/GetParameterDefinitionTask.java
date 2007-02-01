@@ -30,13 +30,16 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
+import org.eclipse.birt.report.engine.api.IParameterGroupDefn;
 import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.DesignVisitor;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
@@ -44,6 +47,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SelectionChoiceHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 import com.ibm.icu.util.ULocale;
@@ -92,8 +96,8 @@ public class GetParameterDefinitionTask extends EngineTask
 	 */
 	public Collection getParameterDefns( boolean includeParameterGroups )
 	{
-		Collection original = ( (ReportRunnable) runnable )
-				.getParameterDefns( includeParameterGroups );
+		DesignElementHandle handle = ( (ReportRunnable) runnable ).getDesignHandle( );
+		Collection original = getParameters( (ReportDesignHandle)handle, includeParameterGroups );
 		Iterator iter = original.iterator( );
 
 		// Clone parameter definitions, fill in locale and report dsign
@@ -176,8 +180,9 @@ public class GetParameterDefinitionTask extends EngineTask
 			return ret;
 		}
 
-		Collection original = ( (ReportRunnable) runnable )
-				.getParameterDefns( true );
+		DesignElementHandle handle = ( (ReportRunnable) runnable ).getDesignHandle( );
+		Collection original = getParameters( (ReportDesignHandle)handle, true );
+		
 		Iterator iter = original.iterator( );
 		while ( iter.hasNext( ) )
 		{
@@ -398,6 +403,8 @@ public class GetParameterDefinitionTask extends EngineTask
 				return DataTypeUtil.toBigDecimal( value );
 			if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( valueType ) )
 				return DataTypeUtil.toDouble( value );
+			if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( valueType ) )
+				return DataTypeUtil.toInteger( value );
 		}
 		catch ( BirtException e )
 		{
@@ -473,19 +480,16 @@ public class GetParameterDefinitionTask extends EngineTask
 				
 				queryDefn.addResultSetExpression( valueColumnName, valueExpr );
 				
-				// Create a group to skip all of the duplicate values
-				GroupDefinition groupDef = new GroupDefinition( );
-				groupDef.setKeyColumn( valueColumnName );
-				queryDefn.addGroup( groupDef );
-				
 				queryDefn.setAutoBinding( true );
 
-				IPreparedQuery query = dteDataEngine.prepare( queryDefn, this.appContext );
+				IPreparedQuery query = dteDataEngine.prepare( queryDefn,
+						getAppContext( ) );
 
 				IQueryResults result = query.execute( executionContext
 						.getSharedScope( ) );
 				IResultIterator iter = result.getResultIterator( );
 				int count = 0;
+				Map checkPool = new HashMap( );
 				while ( iter.next( ) )
 				{
 					String label = null;
@@ -494,14 +498,20 @@ public class GetParameterDefinitionTask extends EngineTask
 						label = iter.getString( labelColumnName );
 					}
 					Object value = iter.getValue( valueColumnName );
-					choices.add( new SelectionChoice( label, convertToType(
-							value, dataType ) ) );
-					count++;
-					if ( ( limit != 0 ) && ( count >= limit ) )
-					{
-						break;
-					}
-					iter.skipToEnd( 1 ); // Skip all of the duplicate values
+										
+					value = convertToType( value, dataType );
+
+					// skip duplicated values.
+					if ( !checkPool.containsKey( value ) )
+					{						
+						checkPool.put( value, value );	
+						choices.add( new SelectionChoice( label, value ) );
+						count++;
+						if ( ( limit != 0 ) && ( count >= limit ) )
+						{
+							break;
+						}
+					}			
 				}
 			}
 			catch ( BirtException ex )
@@ -618,7 +628,8 @@ public class GetParameterDefinitionTask extends EngineTask
 
 				queryDefn.setAutoBinding( true );
 				
-				IPreparedQuery query = dteDataEngine.prepare( queryDefn, this.appContext );
+				IPreparedQuery query = dteDataEngine.prepare( queryDefn,
+						getAppContext( ) );
 				IQueryResults result = query.execute( executionContext
 						.getSharedScope( ) );
 				IResultIterator resultIter = result.getResultIterator( );
@@ -894,5 +905,282 @@ public class GetParameterDefinitionTask extends EngineTask
 			}
 		}
 		return ret;
+	}
+	
+	/**
+	 * Gets the parameter list of the report.
+	 * 
+	 * @param design -
+	 *            the handle of the report design
+	 * @param includeParameterGroups
+	 *            A <code>boolean</code> value specifies whether to include
+	 *            parameter groups or not.
+	 * @return The collection of top-level report parameters and parameter
+	 *         groups if <code>includeParameterGroups</code> is set to
+	 *         <code>true</code>; otherwise, returns all the report
+	 *         parameters.
+	 */
+	public ArrayList getParameters( ReportDesignHandle handle,
+			boolean includeParameterGroups )
+	{
+		assert ( handle != null );
+		ParameterIRVisitor visitor = new ParameterIRVisitor( handle );
+		ArrayList parameters = new ArrayList( );
+
+		SlotHandle paramSlot = handle.getParameters( );
+		IParameterDefnBase param;
+		for ( int i = 0; i < paramSlot.getCount( ); i++ )
+		{
+			visitor.apply( paramSlot.get( i ) );
+			assert ( visitor.currentElement != null );
+			param = (IParameterDefnBase) visitor.currentElement;
+			assert ( param.getName( ) != null );
+			parameters.add( param );
+		}
+		
+		if ( includeParameterGroups )
+			return parameters;
+		else
+			return flattenParameter( parameters );
+	}
+	
+	/**
+	 * Puts all the report parameters including those appear inside parameter
+	 * groups to the <code>allParameters</code> object.
+	 * 
+	 * @param params
+	 *            A collection of parameters and parameter groups.
+	 */
+	protected ArrayList flattenParameter( ArrayList params )
+	{
+		assert params != null;
+		IParameterDefnBase param;
+		ArrayList allParameters = new ArrayList( );
+
+		for ( int n = 0; n < params.size( ); n++ )
+		{
+			param = (IParameterDefnBase) params.get( n );
+			if ( param.getParameterType( ) == IParameterDefnBase.PARAMETER_GROUP
+					|| param.getParameterType( ) == IParameterDefnBase.CASCADING_PARAMETER_GROUP )
+			{
+				allParameters
+						.addAll( flattenParameter( ( (IParameterGroupDefn) param )
+								.getContents( ) ) );
+			}
+			else
+			{
+				allParameters.add( param );
+			}
+		}
+		
+		return allParameters;
+	}
+	
+	class ParameterIRVisitor extends DesignVisitor
+	{
+		/**
+		 * report design handle
+		 */
+		protected ReportDesignHandle handle;
+		
+		/**
+		 * current report element created by visitor
+		 */
+		protected Object currentElement;
+		
+		ParameterIRVisitor( ReportDesignHandle handle )
+		{
+			super( );
+			this.handle = handle;
+		}
+		
+		public void visitParameterGroup( ParameterGroupHandle handle )
+		{
+			ParameterGroupDefn paramGroup = new ParameterGroupDefn( );
+			paramGroup.setHandle( handle );
+			paramGroup.setParameterType( IParameterDefnBase.PARAMETER_GROUP );
+			paramGroup.setName( handle.getName( ) );
+			paramGroup.setDisplayName( handle.getDisplayName( ) );
+			paramGroup.setDisplayNameKey( handle.getDisplayNameKey( ) );
+			paramGroup.setHelpText( handle.getHelpText( ) );
+			paramGroup.setHelpTextKey( handle.getHelpTextKey( ) );
+			SlotHandle parameters = handle.getParameters( );
+
+			// set custom properties
+			List properties = handle.getUserProperties( );
+			for ( int i = 0; i < properties.size( ); i++ )
+			{
+				UserPropertyDefn p = (UserPropertyDefn) properties.get( i );
+				paramGroup.addUserProperty( p.getName( ), handle.getProperty( p
+						.getName( ) ) );
+			}
+
+			int size = parameters.getCount( );
+			for ( int n = 0; n < size; n++ )
+			{
+				apply( parameters.get( n ) );
+				if ( currentElement != null )
+				{
+					paramGroup.addParameter( (IParameterDefnBase) currentElement );
+				}
+			}
+
+			currentElement = paramGroup;
+		}
+
+		public void visitCascadingParameterGroup(
+				CascadingParameterGroupHandle handle )
+		{
+			CascadingParameterGroupDefn paramGroup = new CascadingParameterGroupDefn( );
+			paramGroup.setHandle( handle );
+			paramGroup
+					.setParameterType( IParameterDefnBase.CASCADING_PARAMETER_GROUP );
+			paramGroup.setName( handle.getName( ) );
+			paramGroup.setDisplayName( handle.getDisplayName( ) );
+			paramGroup.setDisplayNameKey( handle.getDisplayNameKey( ) );
+			paramGroup.setHelpText( handle.getHelpText( ) );
+			paramGroup.setHelpTextKey( handle.getHelpTextKey( ) );
+			paramGroup.setPromptText( handle.getPromptText( ) );
+			DataSetHandle dset = handle.getDataSet( );
+			if ( dset != null )
+			{
+				paramGroup.setDataSet( dset.getName( ) );
+			}
+			SlotHandle parameters = handle.getParameters( );
+
+			// set custom properties
+			List properties = handle.getUserProperties( );
+			for ( int i = 0; i < properties.size( ); i++ )
+			{
+				UserPropertyDefn p = (UserPropertyDefn) properties.get( i );
+				paramGroup.addUserProperty( p.getName( ), handle.getProperty( p
+						.getName( ) ) );
+			}
+
+			int size = parameters.getCount( );
+			for ( int n = 0; n < size; n++ )
+			{
+				apply( parameters.get( n ) );
+				if ( currentElement != null )
+				{
+					paramGroup.addParameter( (IParameterDefnBase) currentElement );
+				}
+			}
+
+			currentElement = paramGroup;
+
+		}
+
+		public void visitScalarParameter( ScalarParameterHandle handle )
+		{
+			assert ( handle.getName( ) != null );
+			// Create Parameter
+			ScalarParameterDefn scalarParameter = new ScalarParameterDefn( );
+			scalarParameter.setHandle( handle );
+			scalarParameter.setParameterType( IParameterDefnBase.SCALAR_PARAMETER );
+			scalarParameter.setName( handle.getName( ) );
+
+			// set custom properties
+			List properties = handle.getUserProperties( );
+			for ( int i = 0; i < properties.size( ); i++ )
+			{
+				UserPropertyDefn p = (UserPropertyDefn) properties.get( i );
+				scalarParameter.addUserProperty( p.getName( ), handle
+						.getProperty( p.getName( ) ) );
+			}
+			String align = handle.getAlignment( );
+			if ( DesignChoiceConstants.SCALAR_PARAM_ALIGN_CENTER.equals( align ) )
+				scalarParameter.setAlignment( IScalarParameterDefn.CENTER );
+			else if ( DesignChoiceConstants.SCALAR_PARAM_ALIGN_LEFT.equals( align ) )
+				scalarParameter.setAlignment( IScalarParameterDefn.LEFT );
+			else if ( DesignChoiceConstants.SCALAR_PARAM_ALIGN_RIGHT.equals( align ) )
+				scalarParameter.setAlignment( IScalarParameterDefn.RIGHT );
+			else
+				scalarParameter.setAlignment( IScalarParameterDefn.AUTO );
+
+			scalarParameter.setAllowBlank( handle.allowBlank( ) );
+			scalarParameter.setAllowNull( handle.allowNull( ) );
+
+			String controlType = handle.getControlType( );
+			if ( DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals( controlType ) )
+				scalarParameter.setControlType( IScalarParameterDefn.CHECK_BOX );
+			else if ( DesignChoiceConstants.PARAM_CONTROL_LIST_BOX
+					.equals( controlType ) )
+				scalarParameter.setControlType( IScalarParameterDefn.LIST_BOX );
+			else if ( DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON
+					.equals( controlType ) )
+				scalarParameter.setControlType( IScalarParameterDefn.RADIO_BUTTON );
+			else
+				scalarParameter.setControlType( IScalarParameterDefn.TEXT_BOX );
+
+			scalarParameter.setDefaultValue( handle.getDefaultValue( ) );
+			scalarParameter.setDisplayName( handle.getDisplayName( ) );
+			scalarParameter.setDisplayNameKey( handle.getDisplayNameKey( ) );
+
+			scalarParameter.setFormat( handle.getPattern( ) );
+			scalarParameter.setHelpText( handle.getHelpText( ) );
+			scalarParameter.setHelpTextKey( handle.getHelpTextKey( ) );
+			scalarParameter.setPromptText( handle.getPromptText( ) );
+			scalarParameter.setPromptTextKey( handle.getPromptTextID( ) );
+			scalarParameter.setIsHidden( handle.isHidden( ) );
+			scalarParameter.setName( handle.getName( ) );
+
+			String valueType = handle.getDataType( );
+			if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( valueType ) )
+				scalarParameter.setDataType( IScalarParameterDefn.TYPE_BOOLEAN );
+			else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( valueType ) )
+				scalarParameter.setDataType( IScalarParameterDefn.TYPE_DATE_TIME );
+			else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( valueType ) )
+				scalarParameter.setDataType( IScalarParameterDefn.TYPE_DECIMAL );
+			else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( valueType ) )
+				scalarParameter.setDataType( IScalarParameterDefn.TYPE_FLOAT );
+			else if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( valueType ) )
+				scalarParameter.setDataType( IScalarParameterDefn.TYPE_STRING );
+			else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( valueType ) )
+				scalarParameter.setDataType( IScalarParameterDefn.TYPE_INTEGER );
+			else
+				scalarParameter.setDataType( IScalarParameterDefn.TYPE_ANY );
+
+			ArrayList values = new ArrayList( );
+			Iterator selectionIter = handle.choiceIterator( );
+			while ( selectionIter.hasNext( ) )
+			{
+				SelectionChoiceHandle selection = (SelectionChoiceHandle) selectionIter
+						.next( );
+				ParameterSelectionChoice selectionChoice = new ParameterSelectionChoice(
+						this.handle );
+				selectionChoice.setLabel( selection.getLabelKey( ), selection
+						.getLabel( ) );
+				selectionChoice.setValue( selection.getValue( ), scalarParameter
+						.getDataType( ) );
+				values.add( selectionChoice );
+			}
+			scalarParameter.setSelectionList( values );
+			scalarParameter.setAllowNewValues( !handle.isMustMatch( ) );
+			scalarParameter.setFixedOrder( handle.isFixedOrder( ) );
+
+			String paramType = handle.getValueType( );
+			if ( IScalarParameterDefn.SELECTION_LIST_TYPE_STATIC.equals( paramType )
+					&& scalarParameter.getSelectionList( ) != null
+					&& scalarParameter.getSelectionList( ).size( ) > 0 )
+			{
+				scalarParameter
+						.setSelectionListType( IScalarParameterDefn.SELECTION_LIST_STATIC );
+			}
+			else if ( IScalarParameterDefn.SELECTION_LIST_TYPE_DYNAMIC
+					.equals( paramType ) )
+			{
+				scalarParameter
+						.setSelectionListType( IScalarParameterDefn.SELECTION_LIST_DYNAMIC );
+			}
+			else
+			{
+				scalarParameter
+						.setSelectionListType( IScalarParameterDefn.SELECTION_LIST_NONE );
+			}
+			scalarParameter.setValueConcealed( handle.isConcealValue( ) );
+			currentElement = scalarParameter;
+		}
+
 	}
 }

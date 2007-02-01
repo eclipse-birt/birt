@@ -6,6 +6,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.SoftReference;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -23,7 +24,6 @@ import org.eclipse.birt.core.template.TextTemplate;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.engine.api.CachedImage;
 import org.eclipse.birt.report.engine.api.EngineConstants;
-import org.eclipse.birt.report.engine.api.HTMLRenderContext;
 import org.eclipse.birt.report.engine.api.IHTMLImageHandler;
 import org.eclipse.birt.report.engine.api.IImage;
 import org.eclipse.birt.report.engine.api.IRenderOption;
@@ -100,25 +100,51 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		return (IContent) value;
 	}
 	
-	protected void localizeAllChildren( IContent content )
+	protected IContent localizeAllChildren( IContent content )
 	{
-		Collection children = content.getChildren( );
+		ArrayList children = (ArrayList) content.getChildren( );
 		if ( children != null )
-		{
-			Iterator iter = children.iterator( );
-			while ( iter.hasNext( ) )
+		{			
+			for ( int i = 0; i < children.size( ); i++ )
 			{
-				IContent child = (IContent) iter.next( );
-				localize( child );
-				localizeAllChildren( child );
+				IContent child = (IContent) children.get( i );
+				IContent localChild = localize( child );
+				if ( localChild != child )
+				{
+					// replace the child with the licallized child.
+					children.set( i, localChild );
+
+					// set the locallized child's parent as orient child's
+					// parent.
+					localChild.setParent( content );
+
+					// copy all children of this child to its localized child,
+					// also change all children's parent to this localized
+					// child.
+					Collection childrenOfLocalChild = localChild.getChildren( );
+					Iterator iter = child.getChildren( ).iterator( );
+					while ( iter.hasNext( ) )
+					{
+						IContent childOfChild = (IContent) iter.next( );
+						if ( !childrenOfLocalChild.contains( childOfChild ) )
+						{
+							childOfChild.setParent( localChild );
+							childrenOfLocalChild.add( childOfChild );
+						}
+					}
+				}
+				localizeAllChildren( localChild );
 			}
 		}
+		return content;
 	}
 
 	public Object visitPage( IPageContent page, Object value )
 	{
 		// must localize all the contents in the page content.
-		localizeAllChildren( page );
+		context.setExecutingMasterPage( true );
+		value = localizeAllChildren( page );
+		context.setExecutingMasterPage( false );
 		return value;
 	}
 	
@@ -590,26 +616,12 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 			itemPresentation.setResolution( resolution );
 			itemPresentation.setLocale( locale );
 
-			Object renderContext = null;
-			if ( appContext != null )
-			{
-				renderContext = appContext
-						.get( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT );
-			}
-
-			// Handle the old-style render context, follow the same code path as
-			// before.
 			String supportedImageFormats = "PNG;GIF;JPG;BMP;"; //$NON-NLS-1$
-			if ( renderContext != null
-					&& renderContext instanceof HTMLRenderContext )
+			IRenderOption renderOption = context.getRenderOption( );
+			String formats = renderOption.getSupportedImageFormats( );
+			if ( formats != null )
 			{
-				HTMLRenderContext htmlContext = (HTMLRenderContext) renderContext;
-				IRenderOption option = context.getRenderOption( );
-				htmlContext.SetRenderOption( option );
-
-				String formats = htmlContext.getSupportedImageFormats( );
-				if ( formats != null )
-					supportedImageFormats = formats;
+				supportedImageFormats = formats;
 			}
 			itemPresentation.setSupportedImageFormats( supportedImageFormats ); // Default
 

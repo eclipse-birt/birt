@@ -18,7 +18,6 @@ import junit.framework.TestCase;
 /**
  * Report test
  * 
- * @version $Revision: 1.6 $ $Date: 2005/11/11 06:26:43 $
  */
 public class ReportTest extends TestCase
 {
@@ -87,31 +86,7 @@ public class ReportTest extends TestCase
 		{
 			assertEquals( report.getContent( i ), set.getItem( i ) );
 		}
-		assertEquals( report.getContents( ), set.getItems( ) );
-	}
-
-	/**
-	 * Test add/getUnit methods
-	 * 
-	 * set a unit
-	 * 
-	 * then get it to test if they work correctly
-	 */
-	public void testUnit( )
-	{
-		Report report = new Report( );
-		String[] units = {EngineIRConstants.UNITS_CM,
-				EngineIRConstants.UNITS_IN, EngineIRConstants.UNITS_MM,
-				EngineIRConstants.UNITS_PT};
-
-		for ( int i = 0; i < units.length; i++ )
-		{
-			//Set
-			report.setUnit( units[i] );
-
-			//Get
-			assertEquals( report.getUnit( ), units[i] );
-		}
+		
 	}
 
 }

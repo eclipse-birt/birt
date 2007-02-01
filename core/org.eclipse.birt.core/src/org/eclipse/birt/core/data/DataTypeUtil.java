@@ -316,9 +316,7 @@ public final class DataTypeUtil
 		else if ( source instanceof Number )
 		{
 			// Takes care of all numeric types
-
-			int intValue = ( (Number) source ).intValue( );
-			if ( intValue == 0 )
+			if ( ( (Number) source ).doubleValue( ) == 0 )
 				return new Boolean( false );
 			return new Boolean( true );
 		}

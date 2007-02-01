@@ -17,7 +17,6 @@ package org.eclipse.birt.report.engine.ir;
  * 
  * reference to report design schema.
  * 
- * @version $Revision: 1.11 $ $Date: 2006/10/19 22:35:33 $
  */
 public class DataItemDesign extends ReportItemDesign
 {

@@ -17,7 +17,6 @@ import org.eclipse.birt.report.engine.css.engine.value.Value;
 /**
  * This class provides a manager for the 'font-style' property values.
  *
- * @version $Id: FontStyleManager.java,v 1.3 2006/09/15 05:31:47 lyu Exp $
  */
 public class FontStyleManager extends IdentifierManager {
     

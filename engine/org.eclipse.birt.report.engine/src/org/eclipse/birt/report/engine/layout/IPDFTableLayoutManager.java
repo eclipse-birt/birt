@@ -30,23 +30,9 @@ public interface IPDFTableLayoutManager
 	int getCellWidth( int startColumn, int endColumn );
 
 	void resolveBorderConflict( CellArea area );
-
-	boolean isCellVisible( ICellContent cell );
-
-	void updateUnresolvedCell( int groupLevel, boolean dropAll );
-	
-	void setTableCloseStateAsForced();
-	
-	void setTableCloseStateAsAuto();
-	
-	void setTableCloseStateAsTerminated();
 	
 	TableLayoutInfo getLayoutInfo( );
 	
-	public interface ITableCloseState
-	{
-		void closeLayout();
-	}
 
 	public class TableLayoutInfo
 	{

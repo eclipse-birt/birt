@@ -15,7 +15,6 @@ import org.eclipse.birt.report.engine.content.IStyle;
 
 /**
  * 
- * @version $Revision: 1.7 $ $Date: 2005/11/11 06:26:41 $
  */
 public class HighlightRuleDesign extends RuleDesign
 {

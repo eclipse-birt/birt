@@ -27,7 +27,6 @@ import junit.framework.TestCase;
  * In the testcases, read in a table model, and render it. Compare the render output
  * with the golden output to see if the table layout algorithm is correct.
  * 
- * @version $Revision: 1.1 $ $Date: 2006/10/26 02:42:38 $
  */
 public class TableTest extends TestCase
 {

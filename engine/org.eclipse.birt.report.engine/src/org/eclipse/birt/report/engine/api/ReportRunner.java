@@ -38,7 +38,6 @@ import org.eclipse.birt.core.framework.Platform;
  * Report parameters are handled as command line parameters. Currently, only
  * scalar parameters are handled.
  * 
- * @version $Revision: 1.28 $ $Date: 2006/10/16 09:56:32 $
  */
 public class ReportRunner
 {
@@ -194,42 +193,27 @@ public class ReportRunner
 			task.setParameterValues( inputValues );
 
 			// set report render options
-			IRenderOption options;
-			if ( format.equalsIgnoreCase( "html" ) )
-			{
-				options = new HTMLRenderOption( );
-				if ( "ReportletNoCSS".equals( htmlType ) )
-					( (HTMLRenderOption) options ).setEmbeddable( true );
-				((HTMLRenderOption)options).setHtmlPagination( true );
-			}
-			else
-			{
-				options = new RenderOptionBase();
-			}
+			IRenderOption options = new RenderOption();
 
 			options.setOutputFormat( format );
 
 			// setup the output file
 			options.setOutputFileName( targetFile );
 
-			// setup the output encoding
-			options.getOutputSetting( ).put( HTMLRenderOption.URL_ENCODING,
-					encoding );
-
-			// set the render options
-			task.setRenderOption( options );
-
 			// setup the application context
 			if ( format.equalsIgnoreCase( "html" ) )
 			{
-				HTMLRenderContext renderContext = new HTMLRenderContext( );
-				renderContext.setImageDirectory( "image" ); //$NON-NLS-1$
-
-				HashMap appContext = new HashMap( );
-				appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
-						renderContext );
-				task.setAppContext( appContext );
+				HTMLRenderOption htmlOptions = new HTMLRenderOption( options );
+				if ( "ReportletNoCSS".equals( htmlType ) )
+					htmlOptions.setEmbeddable( true );
+				// setup the output encoding
+				htmlOptions.setUrlEncoding( encoding );
+				htmlOptions.setHtmlPagination( true );
+				htmlOptions.setImageDirectory( "image" ); //$NON-NLS-1$
 			}
+
+			// set the render options
+			task.setRenderOption( options );
 
 			// setup the locale
 			task.setLocale( getLocale( locale ) );
@@ -276,7 +260,6 @@ public class ReportRunner
 			logger.log( Level.SEVERE, e.getMessage( ), e );
 			return -1;
 		}
-
 	}
 
 	/**
@@ -293,39 +276,24 @@ public class ReportRunner
 			IRenderTask task = engine.createRenderTask( document );
 
 			// set report render options
-			IRenderOption options;
-			if ( format.equalsIgnoreCase( "html" ) )
-			{
-				options = new HTMLRenderOption( );
-				if ( "ReportletNoCSS".equals( htmlType ) )
-					( (HTMLRenderOption) options ).setEmbeddable( true );
-			}
-			else
-			{
-				options = new RenderOptionBase();
-			}
+			IRenderOption options = new RenderOption();
 
 			// set the output format
 			options.setOutputFormat( format );
 
-			// setup the output encoding
-			options.getOutputSetting( ).put( HTMLRenderOption.URL_ENCODING,
-					encoding );
-
-			// set the render options
-			task.setRenderOption( options );
-
 			// setup the application context
 			if ( format.equalsIgnoreCase( "html" ) )
 			{
-				HTMLRenderContext renderContext = new HTMLRenderContext( );
-				renderContext.setImageDirectory( "image" ); //$NON-NLS-1$
-
-				HashMap appContext = new HashMap( );
-				appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
-						renderContext );
-				task.setAppContext( appContext );
+				HTMLRenderOption htmlOptions = new HTMLRenderOption( options );
+				if ( "ReportletNoCSS".equals( htmlType ) )
+					htmlOptions.setEmbeddable( true );
+				htmlOptions.setImageDirectory( "image" ); //$NON-NLS-1$
+				// setup the output encoding
+				htmlOptions.setUrlEncoding( encoding );
 			}
+
+			// set the render options
+			task.setRenderOption( options );
 
 			// setup the locale
 			task.setLocale( getLocale( locale ) );

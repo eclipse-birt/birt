@@ -19,7 +19,6 @@ import junit.framework.TestCase;
  * Test case
  * 
  * 
- * @version $Revision: 1.3 $ $Date: 2005/05/08 06:59:46 $
  */
 public class FileUtilTest extends TestCase
 {

@@ -31,7 +31,6 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
  * group as the drop cells can only start from the group header and terminate in
  * the group footer.
  * 
- * @version $Revision: 1.54 $ $Date: 2006/10/12 03:54:03 $
  */
 public class TableItemExecutor extends ListingElementExecutor
 {

@@ -1,8 +1,6 @@
 package org.eclipse.birt.report.engine.layout.area.impl;
 
 import org.eclipse.birt.report.engine.content.IPageContent;
-import org.eclipse.birt.report.engine.css.dom.AreaStyle;
-import org.eclipse.birt.report.engine.css.dom.ComputedStyle;
 import org.eclipse.birt.report.engine.layout.area.IArea;
 import org.eclipse.birt.report.engine.layout.area.IContainerArea;
 
@@ -23,7 +21,7 @@ public class PageArea extends ContainerArea
 	public PageArea(IPageContent page)
 	{
 		super(page);
-		style = new AreaStyle((ComputedStyle)page.getPageBody().getComputedStyle());		
+		//style = new AreaStyle((ComputedStyle)page.getPageBody().getComputedStyle());		
 	}
 	
 	public int getColumnNumber()

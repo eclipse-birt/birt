@@ -50,7 +50,6 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
  * image content to a temporary file.
  * </ul>
  * 
- * @version $Revision: 1.43 $ $Date: 2006/11/06 08:06:20 $
  */
 public class ImageItemExecutor extends QueryItemExecutor
 {

@@ -30,11 +30,10 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * 
  * column content object
  * 
- * @version $Revision: 1.8 $ $Date: 2006/06/07 09:51:52 $
  */
 public class Column implements IColumn
 {
-	transient protected IReportContent report;
+	transient protected ReportContent report;
 
 	transient protected CSSEngine cssEngine;
 
@@ -59,8 +58,9 @@ public class Column implements IColumn
 	 */
 	public Column( IReportContent report )
 	{
-		this.report = report;
-		this.cssEngine = report.getCSSEngine( );
+		assert ( report != null && report instanceof ReportContent );
+		this.report = (ReportContent) report;
+		this.cssEngine = this.report.getCSSEngine( );
 	}
 
 	/*

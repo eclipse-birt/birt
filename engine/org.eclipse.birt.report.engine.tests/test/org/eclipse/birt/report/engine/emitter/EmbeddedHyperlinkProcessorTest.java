@@ -26,7 +26,6 @@ import org.eclipse.birt.report.engine.content.impl.ActionContent;
  * Test case
  * 
  * 
- * @version $Revision: 1.11 $ $Date: 2006/05/15 11:27:35 $
  */
 public class EmbeddedHyperlinkProcessorTest extends TestCase
 {

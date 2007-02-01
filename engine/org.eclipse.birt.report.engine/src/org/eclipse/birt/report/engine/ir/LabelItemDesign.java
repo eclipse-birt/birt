@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * Label.
  * 
- * @version $Revision: 1.8.14.1 $ $Date: 2006/09/07 12:56:51 $
  */
 public class LabelItemDesign extends ReportItemDesign
 {

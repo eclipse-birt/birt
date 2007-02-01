@@ -16,7 +16,6 @@ package org.eclipse.birt.report.engine.content;
  * Provides the interfaces for the Table Content
  * 
  * 
- * @version $Revision: 1.5 $ $Date: 2005/11/11 06:26:46 $
  */
 public interface ITableContent extends IContainerContent
 {

@@ -164,6 +164,43 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 		checkAllGroupIconDisplayed( options, content, iconKeys );
 	}
 
+	/**
+	 * 
+	 * @throws EngineException
+	 * @throws IOException
+	 */
+	public void testDefaultGroupIconPlace( ) throws EngineException, IOException
+	{
+		//the default cell to place the group icon is the first cell.
+		String designFile = "org/eclipse/birt/report/engine/emitter/html/displayGroupIcon_Test3.xml";
+		HTMLRenderOption options = new HTMLRenderOption( );
+		options.setDisplayGroupIcon( true );
+		String content = getRenderResult( designFile, true, options ).content;
+		content = content.replaceAll( "\n", "\"\n\"+\\\\n" );
+		String regex = "<table[^<>]*>[^<>]*<tr[^<>]*>[^<>]*<td[^<>]*>[^<>]*<img[^<>]* src=\"iv/images/collapsexpand.gif\"[^<>]*>"
+			+ "[^<>]*</td[^<>]*>[^<>]*<td[^<>]*>[^<>]*<div[^<>]*>[^<>]*<div[^<>]*>[^<>]*GroupHead";
+		Matcher matcher = Pattern.compile( regex ).matcher( content );
+		assertEquals( true, matcher.find( ) );
+	}
+	
+	/**
+	 * 
+	 * @throws EngineException
+	 * @throws IOException
+	 */
+	public void testWrapTemplateTable( ) throws EngineException, IOException
+	{
+		//the default cell to place the group icon is the first cell.
+		String designFile = "org/eclipse/birt/report/engine/emitter/html/wrapTemplateTable_test.xml";
+		HTMLRenderOption options = new HTMLRenderOption( );
+		options.setWrapTemplateTable( true );
+		String content = getRenderResult( designFile, true, options ).content;
+		content = content.replaceAll( "\n", "\"\n\"+\\\\n" );
+		String regex = "<table[^<>]*>[^<>]*<tbody[^<>]*>[^<>]*<tr[^<>]*>[^<>]*<td[^<>]*>[^<>]*<img[^<>]* src=\"bizRD/images/report/sidetab_active.gif\"[^<>]*>";
+		Matcher matcher = Pattern.compile( regex ).matcher( content );
+		assertEquals( true, matcher.find( ) );
+	}
+	
 	private void checkAllGroupIconDisplayed( HTMLRenderOption options,
 			String content, String[] keys) throws EngineException, IOException
 	{

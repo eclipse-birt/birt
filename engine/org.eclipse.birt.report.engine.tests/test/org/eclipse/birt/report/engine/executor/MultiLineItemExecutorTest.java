@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.executor;
 /**
  * Test case for MultiLineItem
  * 
- * @version $Revision: 1.9 $ $Date: 2005/11/11 06:26:42 $
  */
 public class MultiLineItemExecutorTest extends ReportItemExecutorTestAbs
 {

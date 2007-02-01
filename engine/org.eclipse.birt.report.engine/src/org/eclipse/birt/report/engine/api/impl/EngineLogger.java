@@ -37,6 +37,9 @@ public class EngineLogger {
 	
 	static private final String BIRT_NAME_SPACE = "org.eclipse.birt" ; //$NON-NLS-1$;
 
+	static private FileHandler logFileHandler = null;
+
+	static private String dirName = null;
 	/**
 	 * This function should only called by the main application that starts BIRT. It will add a new log handler to the global BIRT logger. 
 	 * @param directoryName - the directory name of the log file (e.g. C:\Log). The final file name will be the directory name plus an unique file name.
@@ -45,28 +48,15 @@ public class EngineLogger {
 	 */
 	public static void startEngineLogging( String directoryName, Level logLevel )
 	{
+		dirName = directoryName;
+		
 		Logger logger = Logger.getLogger( BIRT_NAME_SPACE );
 		assert (logger != null);
 		
 		if ( logLevel != null )
 			logger.setLevel( logLevel );
-			
-		FileHandler logFileHandler = null;	
-		try {
-			logFileHandler = new FileHandler( generateUniqueLogFileName(directoryName), true );
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		if ( logFileHandler != null )
-		{
-			logFileHandler.setFormatter( new SimpleFormatter() ); // In BIRT log, we should always use the simple format.
-			logger.addHandler( logFileHandler );
-		}
-		
-		logger.setUseParentHandlers( false );
+				
+		createLogFile( logger );
 	}
 
 	/**
@@ -89,6 +79,8 @@ public class EngineLogger {
 				logger.removeHandler( handlers[i] );
 			}
 		}
+		
+		logFileHandler = null;
 	}
 
 	/**
@@ -101,7 +93,13 @@ public class EngineLogger {
 		assert (logger != null);
 
 		if ( newLevel != null )
-			logger.setLevel( newLevel );		
+		{
+			if ( Level.OFF == logger.getLevel( ) && Level.OFF != newLevel )
+			{
+				createLogFile( logger );
+			}
+			logger.setLevel( newLevel );
+		}
 	}
 	
 	/**
@@ -124,4 +122,24 @@ public class EngineLogger {
 		return new String( directoryName + "ReportEngine_" + dateTimeString + ".log" ); //$NON-NLS-1$; $NON-NLS-2$;
 	}
 
+	private static void createLogFile( Logger logger )
+	{
+		if ( logFileHandler != null || dirName == null )
+			return;
+		try {
+			logFileHandler = new FileHandler( generateUniqueLogFileName(dirName), true );
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		if ( logFileHandler != null )
+		{
+			logFileHandler.setFormatter( new SimpleFormatter() ); // In BIRT log, we should always use the simple format.
+			logger.addHandler( logFileHandler );
+		}
+		
+		logger.setUseParentHandlers( false );
+	}
 }

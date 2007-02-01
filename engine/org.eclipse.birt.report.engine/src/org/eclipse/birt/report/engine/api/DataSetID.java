@@ -11,29 +11,50 @@
 
 package org.eclipse.birt.report.engine.api;
 
+/**
+ * ID represent the data set.
+ * 
+ * a data set is created by a sub query or a query. If it is created by a data
+ * query, it will have a uniqe data set name. Otherwise, the data set id is
+ * determinted by its parent data set, parent row id and the subquery name.
+ */
 public class DataSetID
 {
 
+	/**
+	 * parent data set.
+	 */
 	DataSetID parent;
+	/**
+	 * row id of the parent data set.
+	 */
 	long rowId;
+	/**
+	 * name of the query which create this data set.
+	 */
 	String queryName;
 
+	/**
+	 * data set if any.
+	 */
 	String dataSetName;
 
 	/**
 	 * DataSetID of the subquery.
-     *
-	 * @param parent can't be null.
+	 * 
+	 * @param parent
+	 *            can't be null.
 	 * @param rowId
-	 * @param queryName can't be null.
+	 * @param queryName
+	 *            can't be null.
 	 */
 	public DataSetID( DataSetID parent, long rowId, String queryName )
 	{
-		if( null == parent )
+		if ( null == parent )
 		{
 			throw new IllegalArgumentException( "The parent can't be null!" );
 		}
-		if( null == queryName )
+		if ( null == queryName )
 		{
 			throw new IllegalArgumentException( "The queryName can't be null!" );
 		}
@@ -41,32 +62,59 @@ public class DataSetID
 		this.rowId = rowId;
 		this.queryName = queryName;
 	}
+
+	/**
+	 * parent data set if any.
+	 * 
+	 * @return
+	 */
 	public DataSetID getParentID( )
 	{
 		return parent;
 	}
+
+	/**
+	 * data set name if any.
+	 * 
+	 * @return name of the data set.
+	 */
 	public String getDataSetName( )
 	{
 		return dataSetName;
 	}
+
+	/**
+	 * query name if any.
+	 * 
+	 * @return query name.
+	 */
 	public String getQueryName( )
 	{
 		return queryName;
 	}
+
+	/**
+	 * row id in the parent data set.
+	 * 
+	 * @return
+	 */
 	public long getRowID( )
 	{
 		return rowId;
 	}
-	
+
 	/**
 	 * create a dataset id of a normal query.
-	 * @param dataSetName can't be null.
+	 * 
+	 * @param dataSetName
+	 *            can't be null.
 	 */
 	public DataSetID( String dataSetName )
 	{
-		if( null == dataSetName )
+		if ( null == dataSetName )
 		{
-			throw new IllegalArgumentException( "The dataSetName can't be null!" );
+			throw new IllegalArgumentException(
+					"The dataSetName can't be null!" );
 		}
 		this.dataSetName = dataSetName;
 	}

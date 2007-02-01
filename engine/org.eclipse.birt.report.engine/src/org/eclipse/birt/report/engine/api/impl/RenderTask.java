@@ -17,7 +17,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
-import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
@@ -28,7 +27,6 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.UnsupportedFormatException;
 import org.eclipse.birt.report.engine.emitter.CompositeContentEmitter;
-import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.OnPageBreakLayoutPageHandle;
@@ -111,8 +109,11 @@ public class RenderTask extends EngineTask implements IRenderTask
 	protected IContentEmitter createContentEmitter( )
 			throws EngineException
 	{
-		String format = executionContext.getOutputFormat( );
+		assert renderOptions != null;
+		String format = renderOptions.getOutputFormat( );
+		assert format != null;
 		
+		//try to load the output emitters
 		ExtensionManager extManager = ExtensionManager.getInstance( );
 		boolean supported = false;
 		Collection supportedFormats = extManager.getSupportedFormat( );
@@ -156,7 +157,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 					MessageConstants.CANNOT_CREATE_EMITTER_EXCEPTION, format );
 		}
 		
-		initializePagination( format, extManager );
+		pagination = extManager.getPagination( format );
 		//the output will be paginate.
 		if ( !ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) )
 		{
@@ -165,47 +166,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		
 		return emitter;
 	}
-
-	private void initializeContentEmitter( IContentEmitter emitter,
-			IReportExecutor executor )
-	{
-		// create the emitter services object that is needed in the emitters.
-		EngineEmitterServices services = new EngineEmitterServices( this );
-
-		EngineConfig config = engine.getConfig( );
-		if ( config != null )
-		{
-			services.setEmitterConfig( config.getEmitterConfigs( ) );
-		}
-		services.setRenderOption( renderOptions );
-		services.setExecutor( executor );
-		services.setRenderContext( appContext );
-		services.setReportRunnable( runnable );
-
-		// emitter is not null
-		emitter.initialize( services );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.IRenderTask#setEmitterID(java.lang.String)
-	 */
-	public void setEmitterID( String id )
-	{
-		this.emitterID = id;
-	}
-
-	/**
-	 * @return the emitter ID to be used to render this report. Could be null,
-	 *         in which case the engine will choose one emitter that matches the
-	 *         requested output format.
-	 */
-	public String getEmitterID( )
-	{
-		return this.emitterID;
-	}
-
+	
 	public void close( )
 	{
 		closeReportDocument( );
@@ -408,6 +369,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		{
 			try
 			{
+				setupRenderOption( );
 				IContentEmitter emitter = createContentEmitter( );
 				Report reportDesign = executionContext.getReport( );
 				String format = executionContext.getOutputFormat( );
@@ -418,8 +380,8 @@ public class RenderTask extends EngineTask implements IRenderTask
 							executor );
 					executionContext.setExecutor( executor );
 					initializeContentEmitter( emitter, executor );
-					IReportLayoutEngine layoutEngine = LayoutEngineFactory
-							.createLayoutEngine( pagination );
+					IReportLayoutEngine layoutEngine = createReportLayoutEngine(
+							pagination, renderOptions );
 
 					OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
 							executionContext );
@@ -554,20 +516,17 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 		protected void load( ReportContentLoader loader, IContentEmitter emitter )
 		{
-			IRenderOption renderOption = executionContext.getRenderOption( );
+			IRenderOption renderOptions = executionContext.getRenderOption( ); 
 			int pageType = IReportContentLoader.MULTI_PAGES;
-			if ( renderOption instanceof HTMLRenderOption )
+
+			if ( renderOptions.hasOption( HTMLRenderOption.HTML_PAGINATION ) )
 			{
-				HTMLRenderOption htmlRenderOption = ( (HTMLRenderOption) renderOption );
-				if ( htmlRenderOption
-						.hasOption( HTMLRenderOption.HTML_PAGINATION ) )
+				HTMLRenderOption htmlOptions = new HTMLRenderOption(
+						renderOptions );
+				boolean htmlPagination = htmlOptions.getHtmlPagination( );
+				if ( !htmlPagination )
 				{
-					boolean htmlPagination = htmlRenderOption
-							.getHtmlPagination( );
-					if ( !htmlPagination )
-					{
-						pageType = IReportContentLoader.SINGLE_PAGE;
-					}
+					pageType = IReportContentLoader.SINGLE_PAGE;
 				}
 			}
 			loader.loadPageRange( pageRange, pageType, emitter );

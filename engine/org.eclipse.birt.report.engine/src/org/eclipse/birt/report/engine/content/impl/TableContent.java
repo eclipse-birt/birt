@@ -29,7 +29,6 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
  * 
  * the table content object which contains columns object and row objects
  * 
- * @version $Revision: 1.15 $ $Date: 2006/06/13 15:37:19 $
  */
 public class TableContent extends AbstractContent implements ITableContent
 {

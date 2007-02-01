@@ -20,7 +20,6 @@ import junit.framework.TestCase;
  * Test case
  * 
  * 
- * @version $Revision: 1.5 $ $Date: 2006/04/06 12:35:25 $
  */
 public class DrillThroughActionDesignTest extends TestCase
 {

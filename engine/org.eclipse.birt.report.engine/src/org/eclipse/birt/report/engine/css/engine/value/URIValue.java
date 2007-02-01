@@ -16,7 +16,6 @@ import org.w3c.dom.css.CSSPrimitiveValue;
 /**
  * This class represents uri values.
  * 
- * @version $Id: URIValue.java,v 1.2 2005/11/22 09:59:57 wyan Exp $
  */
 public class URIValue extends StringValue
 {

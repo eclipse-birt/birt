@@ -17,7 +17,6 @@ package org.eclipse.birt.report.engine.ir;
  * 
  * used by ListItem and TableItem.
  * 
- * @version $Revision: 1.10 $ $Date: 2006/09/07 13:35:17 $
  */
 public abstract class GroupDesign extends ReportItemDesign
 {

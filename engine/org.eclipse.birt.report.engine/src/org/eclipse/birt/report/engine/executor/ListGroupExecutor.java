@@ -1,4 +1,5 @@
 
+
 package org.eclipse.birt.report.engine.executor;
 
 import org.eclipse.birt.report.engine.content.IContent;
@@ -15,9 +16,8 @@ public class ListGroupExecutor extends GroupExecutor
 
 	public void close( )
 	{
-		
 		handlePageBreakAfterExclusingLast( );
-		handlePageBreakAfter();
+		handlePageBreakAfter( );
 		IListGroupContent groupContent = (IListGroupContent) getContent( );
 		if ( emitter != null )
 		{

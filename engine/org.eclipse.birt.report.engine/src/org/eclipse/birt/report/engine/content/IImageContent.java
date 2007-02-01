@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.content;
 /**
  * Image content in the report.
  * 
- * @version $Revision: 1.2 $ $Date: 2005/12/05 08:11:33 $
  */
 public interface IImageContent extends IContent
 {

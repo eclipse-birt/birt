@@ -51,7 +51,6 @@ import org.eclipse.birt.report.engine.toc.TOCEntry;
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
- * @version $Revision: 1.43 $ $Date: 2006/11/09 09:48:31 $
  */
 public abstract class ReportItemExecutor implements IReportItemExecutor
 {

@@ -8,8 +8,6 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -129,26 +127,6 @@ public class ReportRunnable implements IReportRunnable
 	public DesignElementHandle getDesignHandle()
 	{
 		return designHandle;
-	}
-	
-	/**
-	 * return report parameter definitions defined in report design
-	 * 
-	 * @param includeParameterGroups
-	 *                whether returns one level of parameters with parameter
-	 *                groups or return a flatten collection of all
-	 *                parameters
-	 * @return if includeParameterGroups = true, an ordered collection of
-	 *         report parameters. Each item in the colleciton is of type
-	 *         IParameterDefnBase if includeParameterGroups = false, a
-	 *         collection of parameters. Each item in the collection is of
-	 *         type IParameterDefn.
-	 */
-	public Collection getParameterDefns(boolean includeParameterGroups)
-	{
-		ArrayList params = new ReportParser( engine ).getParameters( designHandle,
-				includeParameterGroups );
-		return params;
 	}
 
 	/* (non-Javadoc)

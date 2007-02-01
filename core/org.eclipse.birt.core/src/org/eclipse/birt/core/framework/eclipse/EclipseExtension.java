@@ -17,7 +17,6 @@ import org.eclipse.birt.core.framework.IExtension;
 
 /**
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:58:29 $
  */
 class EclipseExtension implements IExtension
 {

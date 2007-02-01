@@ -30,7 +30,6 @@ import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.PageSetupDesign;
 import org.eclipse.birt.report.engine.layout.ILayoutManager;
-import org.eclipse.birt.report.engine.layout.IPDFTableLayoutManager;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.area.IArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
@@ -761,10 +760,10 @@ public abstract class PDFAbstractLM implements ILayoutManager
 		return 0;
 	}
 
-	protected IPDFTableLayoutManager getTableLayoutManager( )
+	protected PDFTableLM getTableLayoutManager( )
 	{
 		PDFStackingLM lm = parent;
-		while ( lm != null && !( lm instanceof IPDFTableLayoutManager ) )
+		while ( lm != null && !( lm instanceof PDFTableLM ) )
 		{
 			lm = lm.getParent( );
 		}
@@ -772,7 +771,7 @@ public abstract class PDFAbstractLM implements ILayoutManager
 		{
 			assert ( false );
 		}
-		return (IPDFTableLayoutManager) lm;
+		return (PDFTableLM) lm;
 	}
 
 	protected void resolveBoxConflict( int[] vs, int max )
@@ -856,7 +855,7 @@ public abstract class PDFAbstractLM implements ILayoutManager
 		{
 			return false;
 		}
-		IStyle style = content.getComputedStyle( );
+		IStyle style = content.getStyle( );
 		String pageBreak = style.getPageBreakInside( );
 		if ( IStyle.CSS_AVOID_VALUE == pageBreak )
 		{

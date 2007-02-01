@@ -16,7 +16,6 @@ import junit.framework.TestCase;
 /**
  * Base class of rule tests
  * 
- * @version $Revision: 1.6 $ $Date: 2005/11/11 06:26:43 $
  */
 abstract public class RuleTestCase extends TestCase
 {

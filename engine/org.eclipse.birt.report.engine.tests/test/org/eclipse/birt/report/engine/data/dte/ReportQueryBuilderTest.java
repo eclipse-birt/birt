@@ -29,7 +29,6 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.parser.ReportParser;
 
 /**
- * @version $Revision: 1.1 $ $Date: 2006/10/26 02:42:46 $
  */
 public class ReportQueryBuilderTest extends TestCase
 {
@@ -58,7 +57,7 @@ public class ReportQueryBuilderTest extends TestCase
 		ReportParser parser = new ReportParser( );
 		Report report = parser.parse( "", in );
 		assertTrue( report != null );
-		new ReportQueryBuilder( ).build( report, new ExecutionContext( 0 ) );
+		new ReportQueryBuilder( ).build( report, new ExecutionContext( ) );
 		testGrid( report, report.getContent( 2 ) );
 		testList( report, report.getContent( 1 ) );
 		testTable( report, report.getContent( 0 ) );
@@ -125,7 +124,7 @@ public class ReportQueryBuilderTest extends TestCase
 		IQueryDefinition query = (IQueryDefinition)item.getQuery( );
 		assertTrue( query.getSorts( ).size( ) == 2 );
 		assertTrue( query.getFilters( ).size( ) == 1 );
-		assertTrue( query.getResultSetExpressions( ).size( ) == 25 );
+		assertTrue( query.getResultSetExpressions( ).size( ) == 29 );
 		
 		GroupDefinition grp = (GroupDefinition)item.getQuery( ).getGroups( ).get( 0 );
 		assertTrue( grp.getSorts( ).size( ) == 2 );

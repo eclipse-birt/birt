@@ -11,28 +11,24 @@
 package org.eclipse.birt.report.engine.script.internal.element;
 
 import org.eclipse.birt.report.engine.api.script.ScriptException;
-import org.eclipse.birt.report.engine.api.script.element.ICell;
 import org.eclipse.birt.report.engine.api.script.element.IDataItem;
 import org.eclipse.birt.report.engine.api.script.element.IDataSet;
 import org.eclipse.birt.report.engine.api.script.element.IDataSource;
 import org.eclipse.birt.report.engine.api.script.element.IDesignElement;
+import org.eclipse.birt.report.engine.api.script.element.IDynamicText;
 import org.eclipse.birt.report.engine.api.script.element.IGrid;
 import org.eclipse.birt.report.engine.api.script.element.IImage;
 import org.eclipse.birt.report.engine.api.script.element.ILabel;
 import org.eclipse.birt.report.engine.api.script.element.IList;
 import org.eclipse.birt.report.engine.api.script.element.IReportDesign;
 import org.eclipse.birt.report.engine.api.script.element.IReportElement;
-import org.eclipse.birt.report.engine.api.script.element.IRow;
 import org.eclipse.birt.report.engine.api.script.element.ITable;
-import org.eclipse.birt.report.engine.api.script.element.IDynamicText;
 import org.eclipse.birt.report.engine.api.script.element.ITextItem;
 import org.eclipse.birt.report.engine.script.internal.ElementUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 public class ReportDesign extends DesignElement implements IReportDesign
@@ -68,14 +64,6 @@ public class ReportDesign extends DesignElement implements IReportDesign
 		IDesignElement elementDesign = ElementUtil.getElement( element );
 		return ( elementDesign instanceof IReportElement ? ( IReportElement ) elementDesign
 				: null );
-	}
-
-	public ICell getCell( String name )
-	{
-		IReportElement element = getReportElement( name );
-		if ( element != null && element instanceof ICell )
-			return ( ICell ) element;
-		return null;
 	}
 
 	public IDataItem getDataItem( String name )
@@ -115,14 +103,6 @@ public class ReportDesign extends DesignElement implements IReportDesign
 		IReportElement element = getReportElement( name );
 		if ( element != null && element instanceof IList )
 			return ( IList ) element;
-		return null;
-	}
-
-	public IRow getRow( String name )
-	{
-		IReportElement element = getReportElement( name );
-		if ( element != null && element instanceof IRow )
-			return ( IRow ) element;
 		return null;
 	}
 

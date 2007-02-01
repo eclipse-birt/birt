@@ -16,7 +16,6 @@ import junit.framework.TestCase;
 /**
  * base class of all elements in the report design test case
  * 
- * @version $Revision: 1.6 $ $Date: 2005/11/11 06:26:43 $
  */
 public abstract class ReportElementTestCase extends TestCase
 {

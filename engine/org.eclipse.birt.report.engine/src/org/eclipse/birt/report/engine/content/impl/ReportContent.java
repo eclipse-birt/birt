@@ -48,7 +48,6 @@ import com.ibm.icu.util.ULocale;
 /**
  * Report content is the result of report generation.
  * 
- * @version $Revision: 1.15 $ $Date: 2006/06/17 12:28:58 $
  */
 public class ReportContent implements IReportContent
 {

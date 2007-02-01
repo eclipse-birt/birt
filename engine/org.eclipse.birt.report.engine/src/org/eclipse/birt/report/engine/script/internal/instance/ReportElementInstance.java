@@ -133,7 +133,12 @@ public class ReportElementInstance implements IReportElementInstance
 	 */
 	public String getHorizontalPosition( )
 	{
-		return content.getX( ).toString( );
+		DimensionType x = content.getX( );
+		if ( x != null )
+		{
+			return x.toString( );
+		}
+		return null;
 	}
 
 	/*
@@ -153,7 +158,12 @@ public class ReportElementInstance implements IReportElementInstance
 	 */
 	public String getVerticalPosition( )
 	{
-		return content.getY( ).toString( );
+		DimensionType y = content.getY( );
+		if ( y != null )
+		{
+			return y.toString( );
+		}
+		return null;
 	}
 
 	/*
@@ -168,7 +178,12 @@ public class ReportElementInstance implements IReportElementInstance
 
 	public String getWidth( )
 	{
-		return content.getWidth( ).toString( );
+		DimensionType width = content.getWidth( );
+		if ( width != null )
+		{
+			return width.toString( );
+		}
+		return null;
 	}
 
 	public void setWidth( String width )
@@ -178,7 +193,12 @@ public class ReportElementInstance implements IReportElementInstance
 
 	public String getHeight( )
 	{
-		return content.getHeight( ).toString( );
+		DimensionType height = content.getHeight( );
+		if ( height != null )
+		{
+			return height.toString( );
+		}
+		return null;
 	}
 
 	public void setHeight( String height )

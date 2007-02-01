@@ -47,6 +47,7 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 	 * 
 	 * @param birtHome
 	 *            the value for the BIRT_HOMT configuration variable
+	 * @deprecated, use setBIRTHome instead.
 	 */
 	public void setEngineHome( String birtHome )
 	{
@@ -61,6 +62,7 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 	 *            configuration variable name
 	 * @param value
 	 *            configuration variable value
+	 * @deprecated use setProperty() instead.
 	 */
 	public void setConfigurationVariable( String name, String value )
 	{
@@ -71,6 +73,7 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 	 * returns a hash map that contains all the configuration objects
 	 * 
 	 * @return the configuration object map
+	 * @deprecated use getProperties() instead.
 	 */
 	public HashMap getConfigMap( )
 	{
@@ -99,16 +102,11 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 	 * 
 	 * @return a hash map with all the app-specific, app-wide scriptable Java
 	 *         objects
+	 * @deprecated use getAppContext() instead.
 	 */
 	public HashMap getScriptObjects( )
 	{
-		HashMap scriptObjects = (HashMap) getProperty( SCRIPT_OBJECTS );
-		if ( scriptObjects == null )
-		{
-			scriptObjects = new HashMap( );
-			setProperty( SCRIPT_OBJECTS, scriptObjects );
-		}
-		return scriptObjects;
+		return getAppContext( );
 	}
 
 	/**
@@ -118,10 +116,27 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 	 *            the name that the object is referenced in JavaScript
 	 * @param obj
 	 *            the Java object that is wrapped and scripted
+	 * @deprecated the user need add the object to the appContext directly.
 	 */
 	public void addScriptableJavaObject( String jsName, Object obj )
 	{
 		getScriptObjects( ).put( jsName, obj );
+	}
+	
+	public HashMap getAppContext()
+	{
+		HashMap appContext = (HashMap) getProperty( SCRIPT_OBJECTS );
+		if ( appContext == null )
+		{
+			appContext = new HashMap( );
+			setProperty( SCRIPT_OBJECTS, appContext );
+		}
+		return appContext;
+	}
+	
+	public void setAppContext(HashMap appContext)
+	{
+		setProperty( SCRIPT_OBJECTS, appContext );
 	}
 
 	/**

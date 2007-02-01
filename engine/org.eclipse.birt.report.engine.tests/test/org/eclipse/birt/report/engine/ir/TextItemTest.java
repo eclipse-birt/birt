@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * Text element test
  * 
- * @version $Revision: 1.7 $ $Date: 2005/11/11 06:26:43 $
  */
 public class TextItemTest extends ReportItemTestCase
 {

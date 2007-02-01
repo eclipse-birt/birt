@@ -33,4 +33,6 @@ public interface IArea
 	
 	void accept(IAreaVisitor visitor);
 	
+	float getScale();
+
 }

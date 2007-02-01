@@ -17,7 +17,6 @@ import org.eclipse.birt.report.engine.content.IContent;
 /**
  * write the content into the content stream.
  *
- * @version $Revision:$ $Date:$
  */
 public interface IReportContentWriter
 {

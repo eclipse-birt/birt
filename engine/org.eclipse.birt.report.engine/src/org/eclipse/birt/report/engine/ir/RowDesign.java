@@ -18,7 +18,6 @@ import java.util.ArrayList;
  * 
  * @see GridItemDesign
  * @see TableItemDesign
- * @version $Revision: 1.10.6.1 $ $Date: 2006/09/07 12:56:52 $
  */
 ///TODO: RowDesign is not a realy styled element. It only has a style, but has
 // no other attributes.

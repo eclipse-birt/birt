@@ -18,7 +18,6 @@ import junit.framework.TestCase;
 /**
  * Page Setup test
  * 
- * @version $Revision: 1.6 $ $Date: 2005/11/11 06:26:43 $
  */
 public class PageSetupTest extends TestCase
 {
@@ -67,7 +66,9 @@ public class PageSetupTest extends TestCase
 		//Add
 		for ( int i = 0; i < masterPages.length; i++ )
 		{
-			masterPages[i] = new GraphicMasterPageDesign( );
+			// We do not support GraphicMasterPageDesign now. So use simple master page
+			// masterPages[i] = new GraphicMasterPageDesign( );
+			masterPages[i] = new SimpleMasterPageDesign( );
 			masterPages[i].setName("page_" + i);
 			pageSetup.addMasterPage( masterPages[i] );
 		}

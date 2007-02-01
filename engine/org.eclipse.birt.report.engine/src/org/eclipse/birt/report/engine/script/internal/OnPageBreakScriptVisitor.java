@@ -30,6 +30,7 @@ import org.eclipse.birt.report.engine.ir.BandDesign;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl;
+import org.eclipse.birt.report.engine.ir.DynamicTextItemDesign;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.FreeFormItemDesign;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
@@ -40,7 +41,6 @@ import org.eclipse.birt.report.engine.ir.ListBandDesign;
 import org.eclipse.birt.report.engine.ir.ListGroupDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
-import org.eclipse.birt.report.engine.ir.MultiLineItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.ir.TableBandDesign;
@@ -153,7 +153,7 @@ public class OnPageBreakScriptVisitor extends DefaultReportItemVisitorImpl
 		return visitReportItem( listing, value );
 	}
 
-	public Object visitMultiLineItem( MultiLineItemDesign multiLine,
+	public Object visitDynamicTextItem( DynamicTextItemDesign dynamicText,
 			Object value )
 	{
 		DynamicTextScriptExecutor.handleOnPageBreak( (IContent) value, context );

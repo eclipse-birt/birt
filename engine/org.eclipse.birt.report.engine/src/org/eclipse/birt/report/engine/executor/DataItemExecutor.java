@@ -27,7 +27,6 @@ import org.eclipse.birt.report.engine.ir.DataItemDesign;
  * data content instance, evaluate styles, bookmark, action property and pass
  * this instance to emitter.
  * 
- * @version $Revision: 1.32 $ $Date: 2006/10/19 22:35:35 $
  */
 public class DataItemExecutor extends QueryItemExecutor
 {

@@ -19,7 +19,6 @@ package org.eclipse.birt.report.engine.ir;
  * In creating, a listing will be replace by one header, one footer, several
  * details (surround by groups, each row in dataset will create a detail).
  * 
- * @version $Revision: 1.8 $ $Date: 2005/11/17 16:50:43 $
  */
 public class ListItemDesign extends ListingDesign
 {

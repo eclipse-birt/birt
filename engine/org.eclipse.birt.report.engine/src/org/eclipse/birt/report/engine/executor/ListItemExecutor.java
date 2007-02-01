@@ -18,7 +18,6 @@ import org.eclipse.birt.report.engine.ir.ListItemDesign;
 /**
  * Defines execution logic for a List report item.
  * 
- * @version $Revision: 1.42 $ $Date: 2006/10/12 03:54:03 $
  */
 public class ListItemExecutor extends ListingElementExecutor
 {

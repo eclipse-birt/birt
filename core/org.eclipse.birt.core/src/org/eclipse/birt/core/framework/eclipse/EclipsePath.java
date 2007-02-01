@@ -11,7 +11,6 @@ import org.eclipse.core.runtime.IPath;
 
 /**
  *
- * @version $Revision: 1.2 $ $Date: 2005/04/12 03:17:34 $
  */
 public class EclipsePath implements IPlatformPath
 {

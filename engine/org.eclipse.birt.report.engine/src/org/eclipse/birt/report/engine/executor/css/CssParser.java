@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 /**
  * Parses the style attribute of the HTML element according to the CSS2.0 grammar  
  *
- * @version $Revision: 1.5 $ $Date: 2005/03/15 03:29:36 $
  */
 public class CssParser implements CssParserConstants {
 

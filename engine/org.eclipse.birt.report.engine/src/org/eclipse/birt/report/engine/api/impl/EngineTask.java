@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -26,14 +27,26 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.HTMLRenderContext;
+import org.eclipse.birt.report.engine.api.HTMLRenderOption;
+import org.eclipse.birt.report.engine.api.IEngineConfig;
 import org.eclipse.birt.report.engine.api.IEngineTask;
+import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.PDFRenderContext;
+import org.eclipse.birt.report.engine.api.PDFRenderOption;
+import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
+import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
-import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
+import org.eclipse.birt.report.engine.executor.IReportExecutor;
+import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
+import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
 import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
 import org.eclipse.birt.report.engine.script.internal.ReportScriptExecutor;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
@@ -63,7 +76,7 @@ public abstract class EngineTask implements IEngineTask
 	
 
 	protected static int id = 0;
-	
+
 	protected String pagination;
 
 	protected final static String FORMAT_HTML = "html";
@@ -74,10 +87,10 @@ public abstract class EngineTask implements IEngineTask
 	protected int runningStatus;
 	
 	/**
-	 * the contexts for running this task
+	 * error handling mode.
 	 */
-	protected Map appContext;
-
+	protected int errorHandlingOption = CONTINUE_ON_ERROR;
+	
 	/**
 	 * a reference to the report engine
 	 */
@@ -104,7 +117,11 @@ public abstract class EngineTask implements IEngineTask
 	 * options used to render the report design.
 	 */
 	protected IRenderOption renderOptions;
-
+	/**
+	 * emitter id
+	 */
+	protected String emitterID;
+	
 	/**
 	 * does the parameter has been changed by the user.
 	 */
@@ -135,7 +152,7 @@ public abstract class EngineTask implements IEngineTask
 		taskID = id++;
 
 		// create execution context used by java-script
-		executionContext = new ExecutionContext( engine, taskID );
+		executionContext = new ExecutionContext( this );
 		// Create IReportContext used by java-based script
 		executionContext.setReportContext( new ReportContextImpl(
 				executionContext ) );
@@ -144,15 +161,10 @@ public abstract class EngineTask implements IEngineTask
 
 		setReportRunnable( runnable );
 		// set the default app context
-		setAppContext( new HashMap( ) );
+		executionContext.setAppContext( engine.getConfig( ).getAppContext( ) );
 		
 		cancelFlag = false;
 		runningStatus = RUNNING_STATUS_START;
-	}
-
-	protected void initializePagination( String format, ExtensionManager extManager )
-	{
-		pagination = extManager.getPagination( format );
 	}
 
 	/**
@@ -174,26 +186,26 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * sets the task locale
 	 * 
-	 * The locale must be called in the same thread which
-	 * create the engine task
+	 * The locale must be called in the same thread which create the engine task
 	 * 
 	 * @param locale
 	 *            the task locale
 	 */
 	public void setLocale( Locale locale )
 	{
-		log.log( Level.FINE, "EngineTask.setLocale: locale={0}",
-				locale == null? null : locale.getDisplayName());
-		doSetLocale(locale);
+		log.log( Level.FINE, "EngineTask.setLocale: locale={0}", locale == null
+				? null
+				: locale.getDisplayName( ) );
+		doSetLocale( locale );
 	}
-	
+
 	private void doSetLocale( Locale locale )
 	{
 		this.locale = locale;
 		executionContext.setLocale( locale );
 		EngineException.setULocale( ULocale.forLocale( locale ) );
 	}
-	
+
 	/**
 	 * sets the task locale
 	 * 
@@ -203,8 +215,8 @@ public abstract class EngineTask implements IEngineTask
 	public void setLocale( ULocale uLocale )
 	{
 		log.log( Level.FINE, "EngineTask.setLocale: uLocale={0}",
-				uLocale == null? null : uLocale.getDisplayName());
-		doSetLocale( uLocale.toLocale() );
+				uLocale == null ? null : uLocale.getDisplayName( ) );
+		doSetLocale( uLocale.toLocale( ) );
 	}
 
 	/**
@@ -215,30 +227,41 @@ public abstract class EngineTask implements IEngineTask
 	 */
 	public void setAppContext( Map context )
 	{
-		this.appContext = context;
-		executionContext.setAppContext( context );
-
-		String logStr = null;
-		if ( log.isLoggable(Level.FINE) )
-			logStr = new String();
-		
-		// add the contexts into ScriptableJavaObject
-		if ( !context.isEmpty( ) )
+		HashMap appContext = new HashMap();
+		HashMap sysAppContext = engine.getConfig( ).getAppContext( );
+		if (sysAppContext != null)
 		{
-			Set entries = context.entrySet( );
+			appContext.putAll( sysAppContext );
+		}
+		if ( context != null )
+		{
+			appContext.putAll( context );
+		}
+		
+		executionContext.setAppContext( appContext );
+
+		StringBuffer logStr = null;
+		if ( log.isLoggable( Level.FINE ) )
+			logStr = new StringBuffer( );
+
+		// add the contexts into ScriptableJavaObject
+		if ( !appContext.isEmpty( ) )
+		{
+			Set entries = appContext.entrySet( );
 			for ( Iterator iter = entries.iterator( ); iter.hasNext( ); )
 			{
 				Map.Entry entry = (Map.Entry) iter.next( );
+				
 				if ( entry.getKey( ) instanceof String )
 				{
-					addScriptableJavaObject( (String) entry.getKey( ), entry
-							.getValue( ) );
-					if (logStr != null )
+					executionContext.registerBean( (String) entry.getKey( ),
+							entry.getValue( ) );
+					if ( logStr != null )
 					{
-						logStr += entry.getKey();
-						logStr += "=";
-						logStr += entry.getValue();
-						logStr += ";";
+						logStr.append(entry.getKey( ));
+						logStr.append("=");
+						logStr.append(entry.getValue( ));
+						logStr.append(";");
 					}
 				}
 				else
@@ -251,9 +274,10 @@ public abstract class EngineTask implements IEngineTask
 				}
 			}
 		}
-		
+
 		if ( logStr != null )
-			log.log( Level.FINE, "EngineTask.setAppContext: context={0}", logStr );
+			log.log( Level.FINE, "EngineTask.setAppContext: context={0}",
+					logStr );
 	}
 
 	/**
@@ -263,7 +287,7 @@ public abstract class EngineTask implements IEngineTask
 	 */
 	public Map getAppContext( )
 	{
-		return appContext;
+		return executionContext.getAppContext( );
 	}
 
 	protected void setReportEngine( IReportEngine engine )
@@ -315,29 +339,42 @@ public abstract class EngineTask implements IEngineTask
 	 */
 	public void setRenderOption( IRenderOption options )
 	{
-		if ( options != null )
+		if ( options == null )
 		{
-			String format = options.getOutputFormat( );
-			if ( format == null || format.length( ) == 0 ) // $NON-NLS-1
-			{
-				options.setOutputFormat( "html" ); // $NON-NLS-1
-			}
+			throw new NullPointerException( "options can't be null" );
 		}
 		renderOptions = options;
-		// Set up rendering environment and check for supported format
-		executionContext.setRenderOption( renderOptions );
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.IRenderTask#getRenderOption()
-	 */
+	
 	public IRenderOption getRenderOption( )
 	{
 		return renderOptions;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.IRenderTask#setEmitterID(java.lang.String)
+	 */
+	/**
+	 * @deprecated
+	 */
+	public void setEmitterID( String id )
+	{
+		this.emitterID = id;
+	}
+
+	/**
+	 * @deprecated
+	 * @return the emitter ID to be used to render this report. Could be null,
+	 *         in which case the engine will choose one emitter that matches the
+	 *         requested output format.
+	 */
+	public String getEmitterID( )
+	{
+		return this.emitterID;
+	}
+	
 	public DataEngine getDataEngine( )
 	{
 		return executionContext.getDataEngine( ).getDataEngine( );
@@ -408,11 +445,11 @@ public abstract class EngineTask implements IEngineTask
 	 */
 	public boolean validateParameters( )
 	{
-		if (runnable == null)
+		if ( runnable == null )
 		{
 			return false;
 		}
-		
+
 		// set the parameter values into the execution context
 		usingParameterValues( );
 
@@ -521,9 +558,9 @@ public abstract class EngineTask implements IEngineTask
 		while ( iterator.hasNext( ) )
 		{
 			Map.Entry entry = (Map.Entry) iterator.next( );
-			String name = (String) entry.getKey();
-			Object value = entry.getValue();
-			setParameterValue( name, value);
+			String name = (String) entry.getKey( );
+			Object value = entry.getValue( );
+			setParameterValue( name, value );
 		}
 	}
 
@@ -536,13 +573,14 @@ public abstract class EngineTask implements IEngineTask
 	public void setParameterValue( String name, Object value )
 	{
 		log.log( Level.FINE, "EngineTask.setParameterValue: {0}={1} [{2}]",
-				new Object[] { name, value, value == null ? null : value.getClass().getName() } );
+				new Object[]{name, value,
+						value == null ? null : value.getClass( ).getName( )} );
 		parameterChanged = true;
 		Object parameter = inputValues.get( name );
 		if ( parameter != null )
 		{
 			assert parameter instanceof ParameterAttribute;
-			(( ParameterAttribute )parameter).setValue( value );
+			( (ParameterAttribute) parameter ).setValue( value );
 		}
 		else
 		{
@@ -624,7 +662,7 @@ public abstract class EngineTask implements IEngineTask
 			setParameterDisplayText( name, text );
 		}
 	}
-	
+
 	public void setParameterDisplayText( String name, String displayText )
 	{
 		parameterChanged = true;
@@ -632,7 +670,7 @@ public abstract class EngineTask implements IEngineTask
 		if ( parameter != null )
 		{
 			assert parameter instanceof ParameterAttribute;
-			(( ParameterAttribute )parameter).setDisplayText( displayText );
+			( (ParameterAttribute) parameter ).setDisplayText( displayText );
 		}
 		else
 		{
@@ -678,6 +716,20 @@ public abstract class EngineTask implements IEngineTask
 	public boolean getCancelFlag( )
 	{
 		return cancelFlag;
+	}
+
+	public void setErrorHandlingOption( int option )
+	{
+		if ( option == CANCEL_ON_ERROR )
+		{
+			this.errorHandlingOption = CANCEL_ON_ERROR;
+			executionContext.setCancelOnError( true );
+		}
+		else
+		{
+			this.errorHandlingOption = CONTINUE_ON_ERROR;
+			executionContext.setCancelOnError( false );
+		}
 	}
 	
 	/**
@@ -849,6 +901,26 @@ public abstract class EngineTask implements IEngineTask
 		executionContext.close( );
 	}
 
+	
+	protected IReportLayoutEngine createReportLayoutEngine(String pagination, IRenderOption options)
+	{
+		IReportLayoutEngine layoutEngine = LayoutEngineFactory.createLayoutEngine( pagination );
+		if(options!=null)
+		{
+			Object fitToPage = renderOptions.getOption(IPDFRenderOption.FIT_TO_PAGE);
+			if(fitToPage!=null)
+			{
+				layoutEngine.setOption(IPDFRenderOption.FIT_TO_PAGE, fitToPage);
+			}
+			Object pagebreakOnly = renderOptions.getOption(IPDFRenderOption.PAGEBREAK_PAGINATION_ONLY);
+			if(pagebreakOnly!=null)
+			{
+				layoutEngine.setOption(IPDFRenderOption.PAGEBREAK_PAGINATION_ONLY, pagebreakOnly);
+			}
+		}
+		return layoutEngine;
+	}
+
 	protected void loadDesign( )
 	{
 		if ( runnable != null )
@@ -906,7 +978,8 @@ public abstract class EngineTask implements IEngineTask
 		ReportDesignHandle reportDesign = executionContext.getDesign( );
 		ReportScriptExecutor.handleAfterRender( reportDesign, executionContext );
 	}
-	
+
+	//TODO: throw out the IOException
 	public void setDataSource( IDocArchiveReader dataSource )
 	{
 		// try to open the dataSource as report document
@@ -925,8 +998,15 @@ public abstract class EngineTask implements IEngineTask
 			log.log( Level.WARNING,
 					"failed to load the paremters in the data source", ex );
 		}
-		
-		executionContext.setDataSource( dataSource );		
+		try
+		{
+			executionContext.setDataSource( dataSource );
+		}
+		catch ( IOException ioex )
+		{
+			log.log( Level.WARNING, "failed to open the data source document",
+					ioex );
+		}
 	}
 
 	public int getStatus()
@@ -951,14 +1031,190 @@ public abstract class EngineTask implements IEngineTask
 		assert false;
 		return STATUS_NOT_STARTED;
 	}
-	
+
 	public List getErrors( )
 	{
 		return executionContext.getErrors( );
 	}
-	
+
 	public IReportContext getReportContext( )
 	{
 		return executionContext.getReportContext( );
 	}
+	
+	private void mergeOption( IRenderOption options, String name, Object value )
+	{
+		if ( options != null )
+		{
+			if ( value != null && !options.hasOption( name ) )
+			{
+				options.setOption( name, value );
+			}
+		}
+	}
+
+	/**
+	 * intialize the render options used to render the report.
+	 * 
+	 * the render options are load from:
+	 * <li> engine level default options</li>
+	 * <li> engine level format options</li>
+	 * <li> engine level emitter options</li>
+	 * <li> task level options </li>
+	 * 
+	 */
+	protected void setupRenderOption( )
+	{
+		String format = RenderOption.OUTPUT_FORMAT_HTML;;
+		if ( renderOptions != null )
+		{
+			format = renderOptions.getOutputFormat( );
+			if ( format == null || format.length( ) == 0 )
+			{
+				format = RenderOption.OUTPUT_FORMAT_HTML;
+				renderOptions.setOutputFormat( format );
+			}
+		}
+
+		// copy the old setting to render options
+		Map appContext = executionContext.getAppContext( );
+		if ( IRenderOption.OUTPUT_FORMAT_PDF.equals( format ) )
+		{
+			Object renderContext = appContext
+					.get( EngineConstants.APPCONTEXT_PDF_RENDER_CONTEXT );
+			if ( renderContext instanceof PDFRenderContext )
+			{
+				PDFRenderContext pdfContext = (PDFRenderContext) renderContext;
+				mergeOption( renderOptions, PDFRenderOption.BASE_URL,
+						pdfContext.getBaseURL( ) );
+				mergeOption( renderOptions, PDFRenderOption.FONT_DIRECTORY,
+						pdfContext.getFontDirectory( ) );
+				mergeOption( renderOptions,
+						PDFRenderOption.SUPPORTED_IMAGE_FORMATS, pdfContext
+								.getSupportedImageFormats( ) );
+				mergeOption( renderOptions, PDFRenderOption.IS_EMBEDDED_FONT,
+						new Boolean( pdfContext.isEmbededFont( ) ) );
+			}
+		}
+		else
+		{
+			Object renderContext = appContext
+					.get( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT );
+			if ( renderContext instanceof HTMLRenderContext )
+			{
+				HTMLRenderContext htmlContext = (HTMLRenderContext) renderContext;
+
+				mergeOption( renderOptions, HTMLRenderOption.BASE_IMAGE_URL,
+						htmlContext.getBaseImageURL( ) );
+				mergeOption( renderOptions, HTMLRenderOption.BASE_URL,
+						htmlContext.getBaseURL( ) );
+				mergeOption( renderOptions, HTMLRenderOption.IMAGE_DIRECTROY,
+						htmlContext.getImageDirectory( ) );
+				mergeOption( renderOptions,
+						HTMLRenderOption.SUPPORTED_IMAGE_FORMATS, htmlContext
+								.getSupportedImageFormats( ) );
+			}
+		}
+
+		// setup the render options from:
+		// engine default, format default, emitter default and task options
+		HashMap options = new HashMap( );
+
+		// try to get the default render option from the engine config.
+		HashMap configs = engine.getConfig( ).getEmitterConfigs( );
+		// get the default format of the emitters, the default format key is
+		// IRenderOption.OUTPUT_FORMAT;
+		IRenderOption defaultOptions = (IRenderOption) configs
+				.get( IEngineConfig.DEFAULT_RENDER_OPTION );
+		if ( defaultOptions == null )
+		{
+			defaultOptions = (IRenderOption) configs
+					.get( IRenderOption.OUTPUT_FORMAT_HTML );
+		}
+		if ( defaultOptions != null )
+		{
+			options.putAll( defaultOptions.getOptions( ) );
+		}
+
+		// try to get the render options by the format
+		IRenderOption formatOptions = (IRenderOption) configs.get( format );
+		if ( formatOptions != null )
+		{
+			options.putAll( formatOptions.getOptions( ) );
+		}
+
+		// try to load the configs through the emitter id
+		if ( emitterID != null )
+		{
+			IRenderOption emitterOptions = (IRenderOption) configs
+					.get( emitterID );
+			if ( emitterOptions != null )
+			{
+				options.putAll( emitterOptions.getOptions( ) );
+			}
+		}
+
+		// load the options from task level options
+		if ( renderOptions != null )
+		{
+			options.putAll( renderOptions.getOptions( ) );
+		}
+
+		// setup the render options used by this task
+		IRenderOption allOptions = new RenderOption( options );
+		executionContext.setRenderOption( allOptions );
+
+		// copy the new setting to old APIs
+		if ( IRenderOption.OUTPUT_FORMAT_PDF.equals( format ) )
+		{
+			Object renderContext = appContext
+					.get( EngineConstants.APPCONTEXT_PDF_RENDER_CONTEXT );
+			if ( renderContext == null )
+			{
+				PDFRenderOption pdfOptions = new PDFRenderOption( allOptions );
+				PDFRenderContext pdfContext = new PDFRenderContext( );
+				pdfContext.setBaseURL( pdfOptions.getBaseURL( ) );
+				pdfContext.setEmbededFont( pdfOptions.isEmbededFont( ) );
+				pdfContext.setFontDirectory( pdfOptions.getFontDirectory( ) );
+				pdfContext.setSupportedImageFormats( pdfOptions
+						.getSupportedImageFormats( ) );
+				appContext.put( EngineConstants.APPCONTEXT_PDF_RENDER_CONTEXT,
+						pdfContext );
+			}
+		}
+		else
+		{
+			Object renderContext = appContext
+					.get( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT );
+			if ( renderContext == null )
+			{
+				HTMLRenderContext htmlContext = new HTMLRenderContext( );
+				HTMLRenderOption htmlOptions = new HTMLRenderOption( );
+				htmlContext.setBaseImageURL( htmlOptions.getBaseImageURL( ) );
+				htmlContext.setBaseURL( htmlOptions.getBaseURL( ) );
+				htmlContext
+						.setImageDirectory( htmlOptions.getImageDirectory( ) );
+				htmlContext.setSupportedImageFormats( htmlOptions
+						.getSupportedImageFormats( ) );
+				htmlContext.SetRenderOption( allOptions );
+				appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+						htmlContext );
+			}
+		}
+	}
+	
+	protected void initializeContentEmitter( IContentEmitter emitter,
+			IReportExecutor executor )
+	{
+		// create the emitter services object that is needed in the emitters.
+		HashMap configs = engine.getConfig( ).getEmitterConfigs( );
+		IReportContext reportContext = executionContext.getReportContext( );
+		IRenderOption options = executionContext.getRenderOption( );
+		EngineEmitterServices services = new EngineEmitterServices(
+				reportContext, options, configs );
+
+		// emitter is not null
+		emitter.initialize( services );
+	}
+	
 }

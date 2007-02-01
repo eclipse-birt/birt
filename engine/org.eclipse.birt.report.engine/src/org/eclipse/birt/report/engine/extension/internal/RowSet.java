@@ -21,7 +21,6 @@ import org.eclipse.birt.report.engine.extension.IRowSet;
 /**
  * 
  * 
- * @version $Revision: 1.11 $ $Date: 2006/04/19 08:20:25 $
  */
 public class RowSet implements IRowSet
 {
@@ -102,7 +101,14 @@ public class RowSet implements IRowSet
 				}
 			}
 
-			return rset.next( );
+			try
+			{
+				return rset.next( );
+			}
+			catch ( BirtException ex )
+			{
+				return false;
+			}
 		}
 		return false;
 	}
@@ -144,7 +150,13 @@ public class RowSet implements IRowSet
 	{
 		if ( rset != null )
 		{
-			return rset.getEndingGroupLevel( );
+			try
+			{
+				return rset.getEndingGroupLevel( );
+			}
+			catch ( BirtException ex )
+			{
+			}
 		}
 		return 0;
 	}
@@ -158,7 +170,14 @@ public class RowSet implements IRowSet
 	{
 		if ( rset != null )
 		{
-			return rset.getStartingGroupLevel( );
+			try
+			{
+				return rset.getStartingGroupLevel( );
+			}
+			catch ( BirtException ex )
+			{
+
+			}
 		}
 		return 0;
 	}

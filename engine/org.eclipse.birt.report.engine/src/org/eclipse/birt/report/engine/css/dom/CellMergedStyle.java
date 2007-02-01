@@ -19,6 +19,8 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.w3c.dom.css.CSSValue;
 
+//TODO: move it to HTMLReportEmitter, it is a util used to output the 
+//column style in cells.
 /**
  * Represents style of cell with the style of column.
  *

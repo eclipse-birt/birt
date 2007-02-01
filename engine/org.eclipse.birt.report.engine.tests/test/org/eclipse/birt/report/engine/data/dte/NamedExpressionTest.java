@@ -45,7 +45,7 @@ public class NamedExpressionTest extends TestCase
 	private IDataEngine getDataEngine( Report report, IDocArchiveWriter arch,
 			String archiveMetaName, int mode ) throws Exception
 	{
-		ExecutionContext context = new ExecutionContext( 0 );
+		ExecutionContext context = new ExecutionContext( );
 
 		if ( mode == MODE_GENERATION )
 		{

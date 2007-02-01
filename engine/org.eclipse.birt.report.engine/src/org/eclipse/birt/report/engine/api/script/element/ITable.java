@@ -1,3 +1,4 @@
+
 package org.eclipse.birt.report.engine.api.script.element;
 
 import org.eclipse.birt.report.engine.api.script.ScriptException;
@@ -76,5 +77,14 @@ public interface ITable extends IListing
 	 */
 
 	void setCaptionKey( String captionKey ) throws ScriptException;
+
+	/**
+	 * Gets column.
+	 * 
+	 * @param index
+	 * @return column wrapper
+	 */
+
+	IColumn getColumn( int index );
 
 }

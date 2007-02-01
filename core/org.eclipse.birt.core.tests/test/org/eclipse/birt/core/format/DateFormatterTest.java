@@ -28,7 +28,6 @@ import junit.framework.TestCase;
  * format string. In this unit test, we pay more attention the new method which
  * we add in the subclss.
  * 
- * @version $Revision: 1.11 $ $Date: 2006/10/27 02:05:05 $
  */
 public class DateFormatterTest extends TestCase
 {

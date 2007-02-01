@@ -11,7 +11,6 @@ package org.eclipse.birt.report.engine.emitter.html;
  * If a table is split into two page among the cell drop, the table in the next page may
  * contains empty cells without cell object. We need output empty cells to fix this case.
  *
- * @version $Revision:$ $Date:$
  */
 public class HTMLTableEmitter
 {

@@ -17,7 +17,6 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 
 /**
  * 
- * @version $Revision: 1.8 $ $Date: 2006/04/13 11:25:29 $
  */
 public class MapDesignTest extends AbstractDesignTestCase
 {

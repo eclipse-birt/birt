@@ -21,4 +21,9 @@ public class TableArea extends ContainerArea
 		removeBorder();
 		removePadding();
 	}
+	
+	public boolean contains(RowArea row)
+	{
+		return children.contains( row );
+	}
 }

@@ -20,16 +20,15 @@ import org.eclipse.birt.report.engine.api.script.element.IDataBinding;
 import org.eclipse.birt.report.engine.api.script.element.IHideRule;
 import org.eclipse.birt.report.engine.api.script.element.IHighlightRule;
 import org.eclipse.birt.report.engine.api.script.element.IReportItem;
+import org.eclipse.birt.report.engine.script.internal.HideRuleMethodUtil;
+import org.eclipse.birt.report.engine.script.internal.HighlightRuleMethodUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
-import org.eclipse.birt.report.model.api.HideRuleHandle;
-import org.eclipse.birt.report.model.api.HighlightRuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
-import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 
 /**
  * Implements of ReportItem
@@ -438,20 +437,7 @@ public class ReportItem extends ReportElement implements IReportItem
 
 	public IHideRule[] getHideRules( )
 	{
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( IReportItemModel.VISIBILITY_PROP );
-		Iterator iterator = propHandle.iterator( );
-		List rList = new ArrayList( );
-		int count = 0;
-
-		while ( iterator.hasNext( ) )
-		{
-			HideRuleHandle ruleHandle = (HideRuleHandle) iterator.next( );
-			HideRuleImpl rule = new HideRuleImpl( ruleHandle );
-			rList.add( rule );
-			++count;
-		}
-		return (IHideRule[]) rList.toArray( new IHideRule[count] );
+		return HideRuleMethodUtil.getHideRules( handle );
 	}
 
 	/**
@@ -460,16 +446,9 @@ public class ReportItem extends ReportElement implements IReportItem
 
 	public void removeHideRule( IHideRule rule ) throws ScriptException
 	{
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( IReportItemModel.VISIBILITY_PROP );
-		try
-		{
-			propHandle.removeItem( rule.getStructure() );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
+		if ( rule == null )
+			return;
+		HideRuleMethodUtil.removeHideRule( handle, rule );
 	}
 
 	/**
@@ -483,17 +462,7 @@ public class ReportItem extends ReportElement implements IReportItem
 	{
 		if ( rule == null )
 			return;
-
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( IReportItemModel.VISIBILITY_PROP );
-		try
-		{
-			propHandle.addItem( rule.getStructure( ) );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
+		HideRuleMethodUtil.addHideRule( handle, rule );
 	}
 
 	/**
@@ -502,78 +471,32 @@ public class ReportItem extends ReportElement implements IReportItem
 
 	public void removeHideRules( ) throws ScriptException
 	{
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( IReportItemModel.VISIBILITY_PROP );
-		try
-		{
-			propHandle.clearValue( );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
+		HideRuleMethodUtil.removeHideRules( handle );
 	}
 
 	public void addHighlightRule( IHighlightRule rule ) throws ScriptException
 	{
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
-		try
-		{
-			propHandle.addItem( rule.getStructure( ) );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
+		if ( rule == null )
+			return;
+		HighlightRuleMethodUtil.addHighlightRule( handle , rule );
 	}
 
 	public IHighlightRule[] getHighlightRules( )
 	{
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
-		Iterator iterator = propHandle.iterator( );
-		List rList = new ArrayList( );
-		int count = 0;
-
-		while ( iterator.hasNext( ) )
-		{
-			HighlightRuleHandle ruleHandle = (HighlightRuleHandle) iterator
-					.next( );
-			HighlightRuleImpl rule = new HighlightRuleImpl( ruleHandle );
-			rList.add( rule );
-			++count;
-		}
-		return (IHighlightRule[]) rList.toArray( new IHighlightRule[count] );
+		return HighlightRuleMethodUtil.getHighlightRules( handle );
 	}
 
 	public void removeHighlightRule( IHighlightRule rule )
 			throws ScriptException
 	{
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
-		try
-		{
-			propHandle.removeItem( rule.getStructure( ) );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
+		if ( rule == null )
+			return;
+		HighlightRuleMethodUtil.removeHighlightRule( handle, rule );
 	}
 
 	public void removeHighlightRules( ) throws ScriptException
 	{
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
-		try
-		{
-			propHandle.clearValue( );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
+		HighlightRuleMethodUtil.removeHighlightRules( handle );
 	}
 
 }

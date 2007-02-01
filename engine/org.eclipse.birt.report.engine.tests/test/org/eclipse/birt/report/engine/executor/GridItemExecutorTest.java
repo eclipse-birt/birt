@@ -16,7 +16,6 @@ package org.eclipse.birt.report.engine.executor;
  * 
  * test grid item executor test for single record and empty resultset
  * 
- * @version $Revision: 1.12 $ $Date: 2005/11/11 06:26:42 $
  */
 public class GridItemExecutorTest extends ReportItemExecutorTestAbs
 {

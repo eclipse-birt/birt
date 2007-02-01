@@ -1,6 +1,7 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.content.IStyle;
@@ -67,34 +68,41 @@ abstract public class GroupExecutor extends ReportItemExecutor
 			return false;
 		}
 		
-		//FIXME: is it right? (hiden detail)
-		while ( !endOfGroup )
+		try
 		{
-			IResultSet rset = listingExecutor.getResultSet( );
-			GroupDesign groupDesign = (GroupDesign)getDesign();
-			int endGroup = rset.getEndingGroupLevel( );
-			int groupLevel = groupDesign.getGroupLevel( ) + 1;
-			if (endGroup <= groupLevel)
+			// FIXME: is it right? (hiden detail)
+			while ( !endOfGroup )
 			{
-				totalElements = 0;
-				currentElement = 0;
-				BandDesign footer = groupDesign.getFooter();
-				if (footer != null)
+				IResultSet rset = listingExecutor.getResultSet( );
+				GroupDesign groupDesign = (GroupDesign) getDesign( );
+				int endGroup = rset.getEndingGroupLevel( );
+				int groupLevel = groupDesign.getGroupLevel( ) + 1;
+				if ( endGroup <= groupLevel )
 				{
-					executableElements[totalElements++] = footer;
+					totalElements = 0;
+					currentElement = 0;
+					BandDesign footer = groupDesign.getFooter( );
+					if ( footer != null )
+					{
+						executableElements[totalElements++] = footer;
+					}
+					endOfGroup = true;
+					return currentElement < totalElements;
 				}
-				endOfGroup = true;
-				return currentElement < totalElements ;
-			}
-			if ( rset.next( ) )
-			{
-				listingExecutor.nextRow( );
-				collectExecutableElements( );
-				if ( currentElement < totalElements )
+				if ( rset.next( ) )
 				{
-					return true;
+					listingExecutor.nextRow( );
+					collectExecutableElements( );
+					if ( currentElement < totalElements )
+					{
+						return true;
+					}
 				}
 			}
+		}
+		catch ( BirtException ex )
+		{
+			context.addException( ex );
 		}
 		return false;
 	}
@@ -127,66 +135,76 @@ abstract public class GroupExecutor extends ReportItemExecutor
 	//band to be executed
 	int currentElement;
 	
-	protected void prepareToExecuteChildren()
+	protected void prepareToExecuteChildren() 
 	{
 		//prepare the bands to be executed. 
 		collectExecutableElements();
 	}
 	
-	void collectExecutableElements()
+	void collectExecutableElements( )
 	{
 		currentElement = 0;
 		totalElements = 0;
 		endOfGroup = false;
-		
-		ListingDesign listingDesign = (ListingDesign) listingExecutor
-				.getDesign( );
-		IResultSet rset = listingExecutor.getResultSet( );
-		GroupDesign groupDesign = (GroupDesign)getDesign();
-		int groupCount = listingDesign.getGroupCount();
-		//compare with the start group, the start group 
-		//start with 0 --> listing
-		//1 --> first group (0)
-		int groupLevel = groupDesign.getGroupLevel( ) + 1;
-		int startGroup = rset.getStartingGroupLevel( );
-		hiddenDetail = groupDesign.getHideDetail( );
-		if (startGroup <= groupLevel)
+
+		try
 		{
-			//this is the first record
-			BandDesign header = groupDesign.getHeader( );
-			if (header != null)
+			ListingDesign listingDesign = (ListingDesign) listingExecutor
+					.getDesign( );
+			IResultSet rset = listingExecutor.getResultSet( );
+			GroupDesign groupDesign = (GroupDesign) getDesign( );
+			int groupCount = listingDesign.getGroupCount( );
+			// compare with the start group, the start group
+			// start with 0 --> listing
+			// 1 --> first group (0)
+			int groupLevel = groupDesign.getGroupLevel( ) + 1;
+			int startGroup = rset.getStartingGroupLevel( );
+			hiddenDetail = groupDesign.getHideDetail( );
+			if ( startGroup <= groupLevel )
 			{
-				executableElements[totalElements++] = header;
-			}
-		}
-		if ( !hiddenDetail )
-		{
-			if (groupCount > groupLevel)
-			{
-				executableElements[totalElements++] = listingDesign.getGroup( groupLevel );
-			}
-			else 
-			{
-				BandDesign detail = listingDesign.getDetail( );
-				if (detail != null)
+				// this is the first record
+				BandDesign header = groupDesign.getHeader( );
+				if ( header != null )
 				{
-					executableElements[totalElements++] = listingDesign.getDetail( );
+					executableElements[totalElements++] = header;
+				}
+			}
+			if ( !hiddenDetail )
+			{
+				if ( groupCount > groupLevel )
+				{
+					executableElements[totalElements++] = listingDesign
+							.getGroup( groupLevel );
+				}
+				else
+				{
+					BandDesign detail = listingDesign.getDetail( );
+					if ( detail != null )
+					{
+						executableElements[totalElements++] = listingDesign
+								.getDetail( );
+					}
+				}
+			}
+			int endGroup = rset.getEndingGroupLevel( );
+			if ( endGroup <= groupLevel )
+			{
+				// this is the last record
+				BandDesign footer = groupDesign.getFooter( );
+				if ( footer != null )
+				{
+					executableElements[totalElements++] = groupDesign
+							.getFooter( );
+				}
+				if ( endGroup <= groupLevel )
+				{
+					endOfGroup = true;
 				}
 			}
 		}
-		int endGroup = rset.getEndingGroupLevel( );
-		if (endGroup <= groupLevel )
+		catch ( BirtException ex )
 		{
-			//this is the last record
-			BandDesign footer = groupDesign.getFooter( );
-			if (footer != null)
-			{
-				executableElements[totalElements++] = groupDesign.getFooter( );
-			}
-			if (endGroup <= groupLevel )
-			{
-				endOfGroup = true;
-			}
+			context.addException( ex );
 		}
 	}
 	
@@ -201,30 +219,38 @@ abstract public class GroupExecutor extends ReportItemExecutor
 	 */
 	protected void handlePageBreakBeforeOfGroup( )
 	{
-		boolean needPageBreak = false;		
-		GroupDesign groupDesign = (GroupDesign) design;
-		if ( groupDesign != null )
+		try
 		{
-			String pageBreakBefore = groupDesign.getPageBreakBefore( );
-			int groupLevel = groupDesign.getGroupLevel( );
-			if ( DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS
-					.equals( pageBreakBefore ) )
+			boolean needPageBreak = false;
+			GroupDesign groupDesign = (GroupDesign) design;
+			if ( groupDesign != null )
 			{
-				needPageBreak = true;
-			}
-			if ( DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS_EXCLUDING_FIRST
-					.equals( pageBreakBefore ) )
-			{
-				if ( rset.getStartingGroupLevel( ) > groupLevel )
+				String pageBreakBefore = groupDesign.getPageBreakBefore( );
+				int groupLevel = groupDesign.getGroupLevel( );
+				if ( DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS
+						.equals( pageBreakBefore ) )
 				{
 					needPageBreak = true;
 				}
+				if ( DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS_EXCLUDING_FIRST
+						.equals( pageBreakBefore ) )
+				{
+					if ( rset.getStartingGroupLevel( ) > groupLevel )
+					{
+						needPageBreak = true;
+					}
+				}
+				if ( needPageBreak )
+				{
+					content.getStyle( )
+							.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
+									IStyle.ALWAYS_VALUE );
+				}
 			}
-			if ( needPageBreak )
-			{
-				content.getStyle( ).setProperty(
-						IStyle.STYLE_PAGE_BREAK_BEFORE, IStyle.ALWAYS_VALUE );
-			}
+		}
+		catch ( BirtException ex )
+		{
+			context.addException( ex );
 		}
 	}
 
@@ -280,22 +306,29 @@ abstract public class GroupExecutor extends ReportItemExecutor
 //		}
 	}
 	
-	protected void handlePageBreakAfterExclusingLast()
+	protected void handlePageBreakAfterExclusingLast( )
 	{
-		GroupDesign groupDesign = (GroupDesign) design;
-		if ( groupDesign != null )
+		try
 		{
-			String pageBreakAfter = groupDesign.getPageBreakAfter( );
-			int groupLevel = groupDesign.getGroupLevel( );
-			if ( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS_EXCLUDING_LAST
-					.equals( pageBreakAfter ) )
+			GroupDesign groupDesign = (GroupDesign) design;
+			if ( groupDesign != null )
 			{
-				int endGroup = rset.getEndingGroupLevel( );
-				if ( endGroup >= groupLevel + 1 )
+				String pageBreakAfter = groupDesign.getPageBreakAfter( );
+				int groupLevel = groupDesign.getGroupLevel( );
+				if ( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS_EXCLUDING_LAST
+						.equals( pageBreakAfter ) )
 				{
-					setPageBreakBeforeForNextGroup( );
+					int endGroup = rset.getEndingGroupLevel( );
+					if ( endGroup >= groupLevel + 1 )
+					{
+						setPageBreakBeforeForNextGroup( );
+					}
 				}
 			}
+		}
+		catch ( BirtException ex )
+		{
+			context.addException( ex );
 		}
 	}
 	

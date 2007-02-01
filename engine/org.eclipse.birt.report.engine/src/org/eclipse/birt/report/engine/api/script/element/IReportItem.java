@@ -6,7 +6,9 @@ import org.eclipse.birt.report.engine.api.script.ScriptException;
 /**
  * Represents a the design of a report item in the scripting environment
  */
-public interface IReportItem extends IReportElement
+public interface IReportItem
+		extends
+			IReportElement
 {
 
 	/**
@@ -221,7 +223,7 @@ public interface IReportItem extends IReportElement
 	 * @throws ScriptException
 	 */
 	void removeDataBinding( String bindingName ) throws ScriptException;
-	
+
 	/**
 	 * Removes all column bindings
 	 * 
@@ -237,39 +239,6 @@ public interface IReportItem extends IReportElement
 	 */
 
 	void addDataBinding( IDataBinding binding ) throws ScriptException;
-
-	/**
-	 * Removes all hide rules that matches formatType.
-	 * 
-	 * @param formatType
-	 * @exception ScriptException
-	 */
-
-	void removeHideRule( IHideRule rule ) throws ScriptException;
-	
-	/**
-	 * Removes all hide rules
-	 * @throws ScriptException
-	 */
-	
-	void removeHideRules() throws ScriptException;
-	
-	/**
-	 * Returns array of hide rule expression
-	 * 
-	 * @return array of hide rule expression
-	 */
-	
-	IHideRule[] getHideRules( );
-
-	/**
-	 * Add HideRule
-	 * 
-	 * @param rule
-	 * @throws ScriptException
-	 */
-
-	void addHideRule( IHideRule rule ) throws ScriptException;
 	
 	/**
 	 * Gets all high light rules.
@@ -283,19 +252,53 @@ public interface IReportItem extends IReportElement
 	 * @param rule
 	 */
 	
-	void addHighlightRule( IHighlightRule rule) throws ScriptException;;
+	void addHighlightRule( IHighlightRule rule) throws ScriptException;
 	
 	/**
 	 * Removes all high light rules.
 	 */
 	
-	void removeHighlightRules() throws ScriptException;;
+	void removeHighlightRules() throws ScriptException;
 	
 	/**
 	 * Removes high light rule.
 	 * @param rule
 	 */
 	
-	void removeHighlightRule( IHighlightRule rule) throws ScriptException;;
+	void removeHighlightRule( IHighlightRule rule) throws ScriptException;
+	
+	/**
+	 * Removes all hide rules that matches formatType.
+	 * 
+	 * @param formatType
+	 * @exception ScriptException
+	 */
+
+	void removeHideRule( IHideRule rule ) throws ScriptException;
+
+	/**
+	 * Removes all hide rules
+	 * 
+	 * @throws ScriptException
+	 */
+
+	void removeHideRules( ) throws ScriptException;
+
+	/**
+	 * Returns array of hide rule expression
+	 * 
+	 * @return array of hide rule expression
+	 */
+
+	IHideRule[] getHideRules( );
+
+	/**
+	 * Add HideRule
+	 * 
+	 * @param rule
+	 * @throws ScriptException
+	 */
+
+	void addHideRule( IHideRule rule ) throws ScriptException;
 
 }

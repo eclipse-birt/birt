@@ -19,7 +19,6 @@ import java.util.Iterator;
  * implement memory management policy. The node may exist in disk or keep in the
  * memory.
  * 
- * @version $Revision: 1.1 $ $Date: 2005/11/11 06:26:45 $
  */
 public interface INode
 {

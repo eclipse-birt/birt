@@ -18,7 +18,6 @@ import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 
 /**
  * 
- * @version $Revision: 1.5 $ $Date: 2005/05/08 06:08:26 $
  */
 public class EngineIRConstants
 		implements

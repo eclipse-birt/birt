@@ -28,7 +28,6 @@ import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
-import org.eclipse.birt.report.engine.script.internal.element.Cell;
 import org.eclipse.birt.report.engine.script.internal.element.DataItem;
 import org.eclipse.birt.report.engine.script.internal.element.DynamicText;
 import org.eclipse.birt.report.engine.script.internal.element.Grid;
@@ -37,7 +36,6 @@ import org.eclipse.birt.report.engine.script.internal.element.Label;
 import org.eclipse.birt.report.engine.script.internal.element.List;
 import org.eclipse.birt.report.engine.script.internal.element.ReportDesign;
 import org.eclipse.birt.report.engine.script.internal.element.ReportElement;
-import org.eclipse.birt.report.engine.script.internal.element.Row;
 import org.eclipse.birt.report.engine.script.internal.element.Table;
 import org.eclipse.birt.report.engine.script.internal.element.TextItem;
 import org.eclipse.birt.report.engine.script.internal.instance.CellInstance;
@@ -50,7 +48,6 @@ import org.eclipse.birt.report.engine.script.internal.instance.ReportElementInst
 import org.eclipse.birt.report.engine.script.internal.instance.RowInstance;
 import org.eclipse.birt.report.engine.script.internal.instance.TableInstance;
 import org.eclipse.birt.report.engine.script.internal.instance.TextItemInstance;
-import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
@@ -59,7 +56,6 @@ import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
-import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
@@ -168,9 +164,6 @@ public class ElementUtil
 		if ( !( element instanceof ReportElementHandle ) )
 			return null;
 
-		if ( element instanceof CellHandle )
-			return new Cell( ( CellHandle ) element );
-
 		if ( element instanceof DataItemHandle )
 			return new DataItem( ( DataItemHandle ) element );
 
@@ -185,9 +178,6 @@ public class ElementUtil
 
 		if ( element instanceof ListHandle )
 			return new List( ( ListHandle ) element );
-
-		if ( element instanceof RowHandle )
-			return new Row( ( RowHandle ) element );
 
 		if ( element instanceof TableHandle )
 			return new Table( ( TableHandle ) element );

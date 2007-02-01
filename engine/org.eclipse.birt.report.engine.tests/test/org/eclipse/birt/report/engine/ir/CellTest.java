@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * Cell test
  * 
- * @version $Revision: 1.7 $ $Date: 2005/11/11 06:26:43 $
  */
 public class CellTest extends StyledElementTestCase
 {

@@ -15,7 +15,6 @@ package org.eclipse.birt.report.engine.layout;
 /**
  * this event is trigged by the IPagiantionBuilder.
  * 
- * @version $Revision: 1.2 $ $Date: 2006/05/09 09:26:19 $
  */
 public interface ILayoutPageHandler
 {

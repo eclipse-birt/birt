@@ -19,10 +19,9 @@ import com.ibm.icu.util.UResourceBundle;
 
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 
+//TODO: review use birt localize.
 /**
  * This class manages the message for the css.engine.value module.
- * 
- * @version $Id: Messages.java,v 1.2 2005/11/22 09:59:57 wyan Exp $
  */
 public class Messages
 {

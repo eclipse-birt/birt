@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * List group test
  * 
- * @version $Revision: 1.6 $ 1.2 $ $Date: 2005/11/11 06:26:43 $
  */
 public class ListGroupTest extends GroupTestCase
 {

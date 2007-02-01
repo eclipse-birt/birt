@@ -28,7 +28,6 @@ import org.w3c.dom.css.CSSValue;
 /**
  * This class provides a factory for the 'font-family' property values.
  * 
- * @version $Id: FontFamilyManager.java,v 1.3 2006/09/15 05:31:47 lyu Exp $
  */
 public class FontFamilyManager extends AbstractValueManager {
 

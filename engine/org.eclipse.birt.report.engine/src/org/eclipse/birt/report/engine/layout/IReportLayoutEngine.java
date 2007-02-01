@@ -27,4 +27,9 @@ public interface IReportLayoutEngine
 	void layout(ILayoutManager parent, IReportItemExecutor executor, IContentEmitter output);
 	
 	void cancel();
+	
+	void setOption(String name, Object value);
+	
+	Object getOption(String name);
+
 }

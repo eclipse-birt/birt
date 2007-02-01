@@ -16,7 +16,6 @@ package org.eclipse.birt.report.engine.executor;
  * 
  * table item executor test
  * 
- * @version $Revision: 1.11 $ $Date: 2005/11/18 06:25:47 $
  */
 public class TableItemExecutorTest extends ReportItemExecutorTestAbs
 {

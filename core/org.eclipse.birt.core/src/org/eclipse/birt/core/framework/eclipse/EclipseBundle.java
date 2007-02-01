@@ -15,7 +15,6 @@ import org.osgi.framework.Bundle;
 
 /**
  *
- * @version $Revision: 1.2 $ $Date: 2005/04/12 03:17:34 $
  */
 public class EclipseBundle implements IBundle
 {

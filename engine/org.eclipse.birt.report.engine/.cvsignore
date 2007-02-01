@@ -1,9 +1,2 @@
+export
 bin
-meta.log
-engine.jar
-.settings
-utest
-utestreports
-scriptapi.jar
-schema-doc
-engineapi.jar

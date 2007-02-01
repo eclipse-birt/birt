@@ -36,7 +36,6 @@ import org.eclipse.birt.report.engine.content.ITextContent;
 /**
  * Emitter the input to mutiple outputs.
  *
- * @version $Revision: 1.3.6.1 $ $Date: 2006/08/29 08:21:21 $
  */
 public class CompositeContentEmitter extends ContentEmitterAdapter
 {

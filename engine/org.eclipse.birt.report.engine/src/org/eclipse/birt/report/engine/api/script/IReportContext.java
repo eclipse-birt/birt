@@ -15,6 +15,7 @@ import java.io.Serializable;
 import java.util.Locale;
 import java.util.Map;
 
+import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 
 /**
@@ -73,6 +74,13 @@ public interface IReportContext
 	String getOutputFormat( );
 
 	/**
+	 * get the render options used to render the 
+	 * report.
+	 * @return
+	 */
+	IRenderOption getRenderOption( );
+	
+	/**
 	 * Get the application context
 	 */
 	Map getAppContext( );
@@ -118,21 +126,61 @@ public interface IReportContext
 
 	/**
 	 * Finds user-defined messages for the current thread's locale.
+	 * 
+	 * @param key
+	 *            resource key of the user-defined message.
+	 * @return the corresponding locale-dependent messages. Return
+	 *         <code>null</code> if resoueceKey is blank.
 	 */
 	String getMessage( String key );
 
 	/**
 	 * Finds user-defined messages for the given locale.
+	 * <p>
+	 * First we look up in the report itself, then look into the referenced
+	 * message file. Each search uses a reduced form of Java locale-driven
+	 * search algorithm: Language&Country, language, default.
+	 * 
+	 * @param key
+	 *            resource key of the user defined message.
+	 * @param locale
+	 *            locale of message, if the input <code>locale</code> is
+	 *            <code>null</code>, the locale for the current thread will
+	 *            be used instead.
+	 * @return the corresponding locale-dependent messages. Return
+	 *         <code>null</code> if resoueceKey is blank.
 	 */
 	String getMessage( String key, Locale locale );
 
 	/**
-	 * Finds user-defined messages for the current thread's locale
+	 * Finds user-defined messages for the current thread's locale using parameters
+	 * 
+	 * @param key
+	 *            resource key of the user-defined message.
+	 * @param params
+	 *            string arguments used to format error messages
+	 * @return the corresponding locale-dependent messages. Return
+	 *         <code>null</code> if resoueceKey is blank.
 	 */
 	String getMessage( String key, Object[] params );
 
 	/**
 	 * Finds user-defined messages for the given locale using parameters
+	 * <p>
+	 * First we look up in the report itself, then look into the referenced
+	 * message file. Each search uses a reduced form of Java locale-driven
+	 * search algorithm: Language&Country, language, default.
+	 * 
+	 * @param key
+	 *            resource key of the user defined message.
+	 * @param locale
+	 *            locale of message, if the input <code>locale</code> is
+	 *            <code>null</code>, the locale for the current thread will
+	 *            be used instead.
+	 * @param params
+	 *            string arguments used to format error messages
+	 * @return the corresponding locale-dependent messages. Return
+	 *         <code>null</code> if resoueceKey is blank.
 	 */
 	String getMessage( String key, Locale locale, Object[] params );
 

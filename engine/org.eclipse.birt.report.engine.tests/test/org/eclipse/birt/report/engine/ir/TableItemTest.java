@@ -18,7 +18,6 @@ import java.util.Random;
  * 
  * Colunm has repeat, so we need to test if the getColumnCount is right.
  * 
- * @version $Revision: 1.6 $ $Date: 2005/11/11 06:26:42 $
  */
 public class TableItemTest extends ReportItemTestCase
 {

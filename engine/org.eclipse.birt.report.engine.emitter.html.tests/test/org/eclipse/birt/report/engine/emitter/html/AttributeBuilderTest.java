@@ -20,7 +20,6 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
 /**
  * Unit test for Class AttributeBuilder.
  * 
- * @version $Revision: 1.8 $ $Date: 2005/11/11 08:05:28 $
  */
 public class AttributeBuilderTest extends TestCase
 {

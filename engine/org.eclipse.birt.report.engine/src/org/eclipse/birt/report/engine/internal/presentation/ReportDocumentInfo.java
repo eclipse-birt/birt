@@ -25,7 +25,6 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 /**
  * the report document information given out by the report document builder
  * 
- * @version $Revision: 1.4 $ $Date: 2006/08/10 10:34:22 $
  */
 public class ReportDocumentInfo implements IReportDocumentInfo
 {

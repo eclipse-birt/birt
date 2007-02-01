@@ -178,7 +178,6 @@ public class ReportContentWriterV2 implements IReportContentWriter
 	/**
 	 * use to writer the content into the disk.
 	 * 
-	 * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:46 $
 	 */
 	private static class ContentWriterVisitor extends ContentVisitorAdapter
 	{

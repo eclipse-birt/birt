@@ -17,7 +17,6 @@ import org.w3c.dom.css.CSSPrimitiveValue;
 /**
  * This class represents float values.
  * 
- * @version $Id: FloatValue.java,v 1.4 2005/11/22 11:03:36 wyan Exp $
  */
 public class FloatValue extends Value implements CSSPrimitiveValue
 {

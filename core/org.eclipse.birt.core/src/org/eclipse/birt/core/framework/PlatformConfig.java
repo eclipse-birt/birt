@@ -36,6 +36,11 @@ public class PlatformConfig implements IPlatformConfig
 	{
 		properties.put( name, value );
 	}
+	
+	public HashMap getProperties( )
+	{
+		return properties;
+	}
 
 	public String getBIRTHome( )
 	{

@@ -22,7 +22,6 @@ import java.util.logging.Logger;
  * Output the content following the XML specification. Only when the events of
  * endding the writer, the stream is flushed explictly.
  * 
- * @version $Revision: 1.22 $ $Date: 2006/06/08 03:48:15 $
  */
 public class XMLWriter
 {

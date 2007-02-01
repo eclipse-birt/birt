@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.content;
 /**
  * Defines the visitor interface used mainly by a buffered emitter
  * 
- * @version $Revision: 1.3 $ $Date: 2006/04/27 09:52:25 $
  */
 public interface IContentVisitor
 {

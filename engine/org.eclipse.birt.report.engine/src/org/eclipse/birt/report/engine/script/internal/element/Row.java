@@ -11,19 +11,15 @@
 
 package org.eclipse.birt.report.engine.script.internal.element;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.eclipse.birt.report.engine.api.script.ScriptException;
+import org.eclipse.birt.report.engine.api.script.element.IHideRule;
 import org.eclipse.birt.report.engine.api.script.element.IHighlightRule;
 import org.eclipse.birt.report.engine.api.script.element.IRow;
+import org.eclipse.birt.report.engine.script.internal.HideRuleMethodUtil;
+import org.eclipse.birt.report.engine.script.internal.HighlightRuleMethodUtil;
 import org.eclipse.birt.report.model.api.DimensionHandle;
-import org.eclipse.birt.report.model.api.HighlightRuleHandle;
-import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 
 public class Row extends DesignElement implements IRow
 {
@@ -41,7 +37,7 @@ public class Row extends DesignElement implements IRow
 
 	public String getHeight( )
 	{
-		DimensionHandle height = ((RowHandle)handle).getHeight( );
+		DimensionHandle height = ( (RowHandle) handle ).getHeight( );
 		return ( height == null ? null : height.getStringValue( ) );
 	}
 
@@ -53,7 +49,7 @@ public class Row extends DesignElement implements IRow
 
 	public String getBookmark( )
 	{
-		return ((RowHandle)handle).getBookmark( );
+		return ( (RowHandle) handle ).getBookmark( );
 	}
 
 	/*
@@ -66,7 +62,7 @@ public class Row extends DesignElement implements IRow
 	{
 		try
 		{
-			((RowHandle)handle).setBookmark( value );
+			( (RowHandle) handle ).setBookmark( value );
 		}
 		catch ( SemanticException e )
 		{
@@ -74,81 +70,99 @@ public class Row extends DesignElement implements IRow
 		}
 	}
 
-	/**
-	 * Add HighLightRule
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param rule
-	 * @throws ScriptException
+	 * @see org.eclipse.birt.report.engine.api.script.IHighlightRuleMethod#addHighlightRule(org.eclipse.birt.report.engine.api.script.element.IHighlightRule)
 	 */
 
 	public void addHighlightRule( IHighlightRule rule ) throws ScriptException
 	{
 		if ( rule == null )
 			return;
-
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
-		try
-		{
-			propHandle.addItem( rule.getStructure( ) );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
-
+		HighlightRuleMethodUtil.addHighlightRule( handle, rule );
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.IHighlightRuleMethod#getHighlightRules()
+	 */
 
 	public IHighlightRule[] getHighlightRules( )
 	{
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
-		Iterator iterator = propHandle.iterator( );
-
-		List rList = new ArrayList( );
-		int count = 0;
-
-		while ( iterator.hasNext( ) )
-		{
-			HighlightRuleHandle ruleHandle = (HighlightRuleHandle) iterator
-					.next( );
-			HighlightRuleImpl h = new HighlightRuleImpl( ruleHandle );
-			rList.add( h );
-			++count;
-		}
-
-		return (IHighlightRule[]) rList.toArray( new IHighlightRule[count] );
+		return HighlightRuleMethodUtil.getHighlightRules( handle );
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.IHighlightRuleMethod#removeHighlightRules()
+	 */
 
 	public void removeHighlightRules( ) throws ScriptException
 	{
-
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
-		try
-		{
-			propHandle.clearValue( );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
-
+		HighlightRuleMethodUtil.removeHighlightRules( handle );
 	}
 
-	public void removeHighlightRule( IHighlightRule rule ) throws ScriptException
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.IHighlightRuleMethod#removeHighlightRule(org.eclipse.birt.report.engine.api.script.element.IHighlightRule)
+	 */
+
+	public void removeHighlightRule( IHighlightRule rule )
+			throws ScriptException
 	{
-		PropertyHandle propHandle = handle
-		.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
-		try
-		{
-			propHandle.removeItem( rule.getStructure( ) );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
-
+		if ( rule == null )
+			return;
+		HighlightRuleMethodUtil.removeHighlightRule( handle, rule );
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#addHideRule(org.eclipse.birt.report.engine.api.script.element.IHideRule)
+	 */
+	public void addHideRule( IHideRule rule ) throws ScriptException
+	{
+		if ( rule == null )
+			return;
+		HideRuleMethodUtil.addHideRule( handle, rule );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#getHideRules()
+	 */
+
+	public IHideRule[] getHideRules( )
+	{
+		return HideRuleMethodUtil.getHideRules( handle );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#removeHideRule(org.eclipse.birt.report.engine.api.script.element.IHideRule)
+	 */
+
+	public void removeHideRule( IHideRule rule ) throws ScriptException
+	{
+		if ( rule == null )
+			return;
+		HideRuleMethodUtil.removeHideRule( handle, rule );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#removeHideRules()
+	 */
+
+	public void removeHideRules( ) throws ScriptException
+	{
+		HideRuleMethodUtil.removeHideRules( handle );
+	}
 }

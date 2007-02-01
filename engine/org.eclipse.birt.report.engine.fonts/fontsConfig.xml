@@ -51,6 +51,9 @@
 	You can also add 
 		<mapping name="all-fonts" font-family="YOUR_FONT"/>
 	to define your own mapping.
+	If any language can't be displayed. Please find the respective block entry by
+	language name and substitue the "font-family" attribute of the "mapping" entry
+	with the required font name.
 -->
 
 	<all-fonts>
@@ -269,6 +272,257 @@
 		</block>
 		<block name="Supplementary Private Use Area-B" range-start="100000" range-end="10ffff" index="153">
 			<mapping name="all-fonts" font-family="STSong-Light"/>
+		</block>
+<!--
+		<block name="Cyrillic Supplement" range-start="500" range-end="52f" index="9">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Armenian" range-start="530" range-end="58f" index="10">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Hebrew" range-start="590" range-end="5ff" index="11">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Arabic" range-start="600" range-end="6ff" index="12">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Syriac" range-start="700" range-end="74f" index="13">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Arabic Supplement" range-start="750" range-end="77f" index="14">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Thaana" range-start="780" range-end="7bf" index="15">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="NKo" range-start="7c0" range-end="7ff" index="16">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Devanagari" range-start="900" range-end="97f" index="17">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Bengali" range-start="980" range-end="9ff" index="18">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Gurmukhi" range-start="a00" range-end="a7f" index="19">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Gujarati" range-start="a80" range-end="aff" index="20">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Oriya" range-start="b00" range-end="b7f" index="21">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Tamil" range-start="b80" range-end="bff" index="22">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Telugu" range-start="c00" range-end="c7f" index="23">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Kannada" range-start="c80" range-end="cff" index="24">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Malayalam" range-start="d00" range-end="d7f" index="25">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Sinhala" range-start="d80" range-end="dff" index="26">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Thai" range-start="e00" range-end="e7f" index="27">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Tibetan" range-start="f00" range-end="fff" index="29">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Myanmar" range-start="1000" range-end="109f" index="30">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Georgian" range-start="10a0" range-end="10ff" index="31">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Hangul Jamo" range-start="1100" range-end="11ff" index="32">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Ethiopic" range-start="1200" range-end="137f" index="33">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Ethiopic Supplement" range-start="1380" range-end="139f" index="34">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Cherokee" range-start="13a0" range-end="13ff" index="35">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Unified Canadian Aboriginal Syllabics" range-start="1400" range-end="167f" index="36">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Ogham" range-start="1680" range-end="169f" index="37">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Runic" range-start="16a0" range-end="16ff" index="38">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Tagalog" range-start="1700" range-end="171f" index="39">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Hanunoo" range-start="1720" range-end="173f" index="40">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Buhid" range-start="1740" range-end="175f" index="41">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Tagbanwa" range-start="1760" range-end="177f" index="42">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Khmer" range-start="1780" range-end="17ff" index="43">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Mongolian" range-start="1800" range-end="18af" index="44">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Limbu" range-start="1900" range-end="194f" index="45">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Tai Le" range-start="1950" range-end="197f" index="46">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="New Tai Lue" range-start="1980" range-end="19df" index="47">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Khmer Symbols" range-start="19e0" range-end="19ff" index="48">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Buginese" range-start="1a00" range-end="1a1f" index="49">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Balinese" range-start="1b00" range-end="1b7f" index="50">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Phonetic Extensions" range-start="1d00" range-end="1d7f" index="51">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Phonetic Extensions Supplement" range-start="1d80" range-end="1dbf" index="52">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Combining Diacritical Marks Supplement" range-start="1dc0" range-end="1dff" index="53">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Greek Extended" range-start="1f00" range-end="1fff" index="55">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Miscellaneous Mathematical Symbols-A" range-start="27c0" range-end="27ef" index="73">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Supplemental Arrows-A" range-start="27f0" range-end="27ff" index="74">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Braille Patterns" range-start="2800" range-end="28ff" index="75">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Supplemental Arrows-B" range-start="2900" range-end="297f" index="76">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Miscellaneous Mathematical Symbols-B" range-start="2980" range-end="29ff" index="77">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Supplemental Mathematical Operators" range-start="2a00" range-end="2aff" index="78">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Miscellaneous Symbols and Arrows" range-start="2b00" range-end="2bff" index="79">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Glagolitic" range-start="2c00" range-end="2c5f" index="80">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Latin Extended-C" range-start="2c60" range-end="2c7f" index="81">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Coptic" range-start="2c80" range-end="2cff" index="82">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Georgian Supplement" range-start="2d00" range-end="2d2f" index="83">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Tifinagh" range-start="2d30" range-end="2d7f" index="84">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Ethiopic Extended" range-start="2d80" range-end="2ddf" index="85">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Supplemental Punctuation" range-start="2e00" range-end="2e7f" index="86">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Kanbun" range-start="3190" range-end="319f" index="95">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="CJK Strokes" range-start="31c0" range-end="31ef" index="97">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Katakana Phonetic Extensions" range-start="31f0" range-end="31ff" index="98">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Yijing Hexagram Symbols" range-start="4dc0" range-end="4dff" index="102">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Yi Syllables" range-start="a000" range-end="a48f" index="104">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Yi Radicals" range-start="a490" range-end="a4cf" index="105">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Modifier Tone Letters" range-start="a700" range-end="a71f" index="106">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Latin Extended-D" range-start="a720" range-end="a7ff" index="107">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Syloti Nagri" range-start="a800" range-end="a82f" index="108">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Phags-pa" range-start="a840" range-end="a87f" index="109">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="High Surrogates" range-start="d800" range-end="db7f" index="111">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="High Private Use Surrogates" range-start="db80" range-end="dbff" index="112">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Low Surrogates" range-start="dc00" range-end="dfff" index="113">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Arabic Presentation Forms-A" range-start="fb50" range-end="fdff" index="117">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Variation Selectors" range-start="fe00" range-end="fe0f" index="118">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Vertical Forms" range-start="fe10" range-end="fe1f" index="119">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Combining Half Marks" range-start="fe20" range-end="fe2f" index="120">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Arabic Presentation Forms-B" range-start="fe70" range-end="feff" index="123">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Specials" range-start="fff0" range-end="ffff" index="125">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Osmanya" range-start="10480" range-end="104af" index="136">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Cypriot Syllabary" range-start="10800" range-end="1083f" index="137">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Phoenician" range-start="10900" range-end="1091f" index="138">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+		<block name="Kharoshthi" range-start="10a00" range-end="10a5f" index="139">
+			<mapping name="all-fonts" font-family="Font-Family"/>
+		</block>
+-->
+		<block name="default">
+			<mapping name="all-fonts" font-family="Times-Roman"/>
 		</block>
 	</all-fonts>
 

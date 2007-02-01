@@ -19,7 +19,6 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 /**
  * Captures the need for scripting at factory time.
  * 
- * @version $Revision: 1.2 $ $Date: 2005/10/21 04:51:46 $
  */
 public interface IFactoryContext
 {

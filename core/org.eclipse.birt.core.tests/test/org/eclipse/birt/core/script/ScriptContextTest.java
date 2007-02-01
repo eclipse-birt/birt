@@ -22,7 +22,6 @@ import org.mozilla.javascript.ScriptableObject;
 
 /**
  * 
- * @version $Revision: 1.10 $ $Date: 2005/12/28 09:08:28 $
  */
 public class ScriptContextTest extends TestCase
 {

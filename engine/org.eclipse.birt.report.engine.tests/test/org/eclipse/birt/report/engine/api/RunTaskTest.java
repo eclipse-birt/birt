@@ -15,7 +15,6 @@ import org.eclipse.birt.report.engine.EngineCase;
 
 /**
  * 
- * @version $Revision: 1.1 $ $Date: 2006/10/26 02:42:38 $
  */
 public class RunTaskTest extends EngineCase
 {

@@ -15,7 +15,6 @@ package org.eclipse.birt.report.engine.css.engine.value;
  * A simple hashtable, not synchronized, with fixed load factor and with
  * equality test made with '=='.
  * 
- * @version $Id: StringMap.java,v 1.3 2006/09/15 05:31:47 lyu Exp $
  */
 public class StringMap
 {

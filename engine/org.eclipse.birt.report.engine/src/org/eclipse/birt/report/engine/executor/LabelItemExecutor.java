@@ -19,7 +19,6 @@ import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 /**
  * the labelItem excutor
  * 
- * @version $Revision: 1.22 $ $Date: 2006/08/25 03:24:04 $
  */
 public class LabelItemExecutor extends QueryItemExecutor
 {

@@ -8,7 +8,10 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.engine.api.script.element;
+
+import java.util.List;
 
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 
@@ -25,5 +28,13 @@ public interface IDataSet
 
 	void setPrivateDriverProperty( String name, String value )
 			throws ScriptException;
+
+	/**
+	 * Gets result set column of cached metadata.
+	 * 
+	 * @return collection each iteam is <code>IResultSetColumn</code>.
+	 */
+	
+	List getCachedResultSetColumns( );
 
 }

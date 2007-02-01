@@ -274,6 +274,17 @@ public class BirtStrTest extends TestCase
 				"inline",
 				1,
 				null ) ) , new Integer(0) );
+		
+		assertEquals( ( (Integer) cx.evaluateString( scope,
+				"BirtStr.search(\"g\",\" I am a test    string\",1)",
+				"inline",
+				1,
+				null ) ), new Integer( 21 ) );
+		assertEquals( ( (Integer) cx.evaluateString( scope,
+				"BirtStr.search(\"am\",\"I am a test    string\",3)",
+				"inline",
+				1,
+				null ) ), new Integer( 2 ) );
 	}
 
 	public void testSearchStringString( )

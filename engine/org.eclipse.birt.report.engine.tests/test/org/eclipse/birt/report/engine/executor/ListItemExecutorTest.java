@@ -17,7 +17,6 @@ package org.eclipse.birt.report.engine.executor;
  * test ListItemExecutor
  * 
  * 
- * @version $Revision: 1.11 $ $Date: 2005/11/11 06:26:42 $
  */
 public class ListItemExecutorTest extends ReportItemExecutorTestAbs
 {

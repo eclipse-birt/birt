@@ -23,6 +23,7 @@ public interface IHTMLImageHandler {
 	 * @param image the image definition object
 	 * @param context the context for generating the URL 
 	 * @return the URL for the image
+	 * @deprecated
 	 */
 	public abstract String onDesignImage(IImage image, Object context);
 	public abstract String onDesignImage(IImage image, IReportContext context);
@@ -33,6 +34,7 @@ public interface IHTMLImageHandler {
 	 * @param image the image definition object
 	 * @param context the context for generating the URL 
 	 * @return the URL for the image
+	 * @deprecated
 	 */
 	public abstract String onDocImage(IImage image, Object context);
 	public abstract String onDocImage(IImage image, IReportContext context);
@@ -45,6 +47,7 @@ public interface IHTMLImageHandler {
 	 * @param image the image definition object
 	 * @param context the context for generating the URL 
 	 * @return the URL for the image
+	 * @deprecated
 	 */
 	public abstract String onFileImage(IImage image, Object context);
 	public abstract String onFileImage(IImage image, IReportContext context);
@@ -56,6 +59,7 @@ public interface IHTMLImageHandler {
 	 * @param image the image definition object
 	 * @param context the context for generating the URL 
 	 * @return the URL for the image
+	 * @deprecated
 	 */
 	public abstract String onURLImage(IImage image, Object context);
 	public abstract String onURLImage(IImage image, IReportContext context);
@@ -67,6 +71,7 @@ public interface IHTMLImageHandler {
 	 * @param image the image definition object
 	 * @param context the context for generating the URL 
 	 * @return the URL for the image
+	 * @deprecated
 	 */
 	public abstract String onCustomImage(IImage image, Object context);
 	public abstract String onCustomImage(IImage image, IReportContext context);

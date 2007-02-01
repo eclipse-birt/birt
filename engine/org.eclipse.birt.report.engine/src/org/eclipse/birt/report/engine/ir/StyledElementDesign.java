@@ -17,7 +17,6 @@ package org.eclipse.birt.report.engine.ir;
  * Element has a style. elements with style. such as report item, column, row
  * etc.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/05/08 06:59:45 $
  */
 abstract public class StyledElementDesign extends ReportElementDesign
 {

@@ -15,7 +15,6 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * Column test
  * 
- * @version $Revision: 1.7 $ $Date: 2005/11/24 07:25:15 $
  */
 public class ColumnTest extends StyledElementTestCase
 {

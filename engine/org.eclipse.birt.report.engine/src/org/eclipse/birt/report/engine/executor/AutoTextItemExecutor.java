@@ -20,7 +20,6 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 /**
  * the AutoTextItem excutor
  * 
- * @version $Revision: 1.6 $ $Date: 2006/08/25 03:24:02 $
  */
 public class AutoTextItemExecutor extends StyledItemExecutor
 {

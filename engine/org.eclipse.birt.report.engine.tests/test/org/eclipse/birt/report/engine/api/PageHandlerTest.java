@@ -8,7 +8,6 @@ import org.eclipse.birt.report.engine.EngineCase;
  * 
  * This class must be running as plugin unit test.
  * 
- * @version $Revision: 1.1 $ $Date: 2006/04/05 13:22:47 $
  */
 public class PageHandlerTest extends EngineCase
 {

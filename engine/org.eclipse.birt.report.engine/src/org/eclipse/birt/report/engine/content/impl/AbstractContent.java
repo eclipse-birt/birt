@@ -81,10 +81,10 @@ abstract public class AbstractContent extends AbstractElement
 	 */
 	public AbstractContent( IReportContent report )
 	{
-		assert report != null;
+		assert ( report != null && report instanceof ReportContent );
 		this.report = report;
-		this.parent = report.getRoot();
-		this.cssEngine = report.getCSSEngine( );
+		this.parent = report.getRoot( );
+		this.cssEngine = ( (ReportContent) report ).getCSSEngine( );
 	}
 
 	/**
@@ -93,9 +93,9 @@ abstract public class AbstractContent extends AbstractElement
 	 */
 	public void setReportContent( IReportContent report )
 	{
-		assert report != null;
+		assert ( report != null && report instanceof ReportContent );
 		this.report = report;
-		this.cssEngine = report.getCSSEngine( );
+		this.cssEngine = ( (ReportContent) report ).getCSSEngine( );
 	}
 
 	/**
@@ -104,10 +104,10 @@ abstract public class AbstractContent extends AbstractElement
 	 */
 	public AbstractContent( IContent content )
 	{
-		assert content != null;
+		assert ( content != null && content instanceof ReportContent );
 		this.report = content.getReportContent( );
 		this.parent = content.getReportContent( ).getRoot( );
-		this.cssEngine = content.getReportContent( ).getCSSEngine( );
+		this.cssEngine = ( (ReportContent) content.getReportContent( ) ).getCSSEngine( );
 		
 		this.name = content.getName( );
 		this.x = content.getX( );
@@ -245,7 +245,8 @@ abstract public class AbstractContent extends AbstractElement
 			CSSEngine cssEngine = null;
 			if ( report != null )
 			{
-				cssEngine = report.getCSSEngine( );
+				assert ( report instanceof ReportContent );
+				cssEngine = ( (ReportContent) report ).getCSSEngine( );
 			}
 			if ( cssEngine == null )
 			{

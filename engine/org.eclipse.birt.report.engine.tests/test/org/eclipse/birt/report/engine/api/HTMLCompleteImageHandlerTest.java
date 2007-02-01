@@ -115,7 +115,7 @@ public class HTMLCompleteImageHandlerTest extends EngineCase
 	{
 		try
 		{
-			final String ACTU_IMG_URL = "http://www.actuate.com/images/navimages/v8/logo.gif";
+			final String ACTU_IMG_URL = "http://www.actuatechina.com/Index/logoBG.gif";
 			HTMLRenderContext context = new HTMLRenderContext( );
 			context.setImageDirectory( "" );
 			Image image = new Image( ACTU_IMG_URL );

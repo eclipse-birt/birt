@@ -16,7 +16,6 @@ import java.util.Random;
 /**
  * List Item test
  * 
- * @version $Revision $ $Date: 2005/11/11 06:26:43 $
  */
 public class ListItemTest extends ReportItemTestCase
 {

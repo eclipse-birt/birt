@@ -15,7 +15,6 @@ package org.eclipse.birt.report.engine.executor;
 /**
  * Unit test for <code>ImageItemExecutor</code>.
  * 
- * @version $Revision: 1.9 $ $Date: 2005/11/11 06:26:42 $
  */
 public class ImageItemExecutorTest extends ReportItemExecutorTestAbs
 {

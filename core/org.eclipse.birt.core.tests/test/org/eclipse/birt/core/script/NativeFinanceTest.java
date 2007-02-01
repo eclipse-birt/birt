@@ -24,7 +24,6 @@ import org.mozilla.javascript.ScriptableObject;
  * call every method of Class Finance, then test whether these methods can be
  * successfully called and return a correct result
  * 
- * @version $Revision: 1.8 $ $Date: 2006/09/15 05:32:06 $
  * 
  *         <p>
  * @docRoot <p>

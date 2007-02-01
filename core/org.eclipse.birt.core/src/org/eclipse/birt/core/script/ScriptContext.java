@@ -25,7 +25,6 @@ import org.mozilla.javascript.ScriptableObject;
 /**
  * Wraps around the Rhino Script context
  * 
- * @version $Revision: 1.19 $ $Date: 2005/12/28 09:08:28 $
  */
 public class ScriptContext
 {

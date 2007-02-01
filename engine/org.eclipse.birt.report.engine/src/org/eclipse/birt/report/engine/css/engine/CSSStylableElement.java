@@ -18,7 +18,6 @@ import org.eclipse.birt.report.engine.content.IStyle;
  * This interface must be implemented by the DOM elements which needs CSS
  * support.
  * 
- * @version $Id: CSSStylableElement.java,v 1.3 2005/12/23 10:26:07 wyan Exp $
  */
 public interface CSSStylableElement extends IElement
 {

@@ -7,7 +7,6 @@ import java.awt.print.Paper;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -25,7 +24,7 @@ import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.print.PrintTranscoder;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.api.RenderOptionBase;
+import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.api.impl.Action;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
@@ -71,7 +70,6 @@ import org.w3c.dom.css.CSSValue;
 
 import com.ibm.icu.util.ULocale;
 import com.lowagie.text.BadElementException;
-import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Font;
@@ -318,6 +316,10 @@ public class PDFEmitter implements IContentEmitter
 		 */
 		public static final float LAYOUT_TO_PDF_RATIO = 1000f;
 		
+		public static final  int H_TEXT_SPACE = 70;
+		
+		public static final int V_TEXT_SPACE = 100;
+		
 		/**
 		 * The pdf Document object created by iText
 		 */
@@ -357,6 +359,14 @@ public class PDFEmitter implements IContentEmitter
 		
 		protected IEmitterServices services;
 		
+		protected float scale;
+		
+		protected  int hTextSpace = 70;
+		
+		protected int vTextSpace = 100;
+		
+		protected float lToP;
+		
 		
 		private Stack containerStack = new Stack();
 		
@@ -376,7 +386,7 @@ public class PDFEmitter implements IContentEmitter
 		 */
 		public String getOutputFormat()
 		{
-			return RenderOptionBase.OUTPUT_FORMAT_PDF;
+			return RenderOption.OUTPUT_FORMAT_PDF;
 		}
 
 		/**
@@ -396,7 +406,7 @@ public class PDFEmitter implements IContentEmitter
 		
 			this.context = services.getReportContext( );
 			
-			Object fd = services.getOption( RenderOptionBase.OUTPUT_FILE_NAME );
+			Object fd = services.getOption( RenderOption.OUTPUT_FILE_NAME );
 			File file = null;
 			try
 			{
@@ -421,7 +431,7 @@ public class PDFEmitter implements IContentEmitter
 			//to build the outputStream
 			if( output == null )
 			{
-				Object value = services.getOption( RenderOptionBase.OUTPUT_STREAM );
+				Object value = services.getOption( RenderOption.OUTPUT_STREAM );
 				if( value != null && value instanceof OutputStream )
 				{
 					output = ( OutputStream ) value;
@@ -484,7 +494,7 @@ public class PDFEmitter implements IContentEmitter
 				ulocale = ULocale.forLocale( locale);
 			}
 			// Before closing the document, we need to create TOC.
-			TOCHandler tocHandler = new TOCHandler( rc.getTOCTree( "pdf",
+			TOCHandler tocHandler = new TOCHandler( rc.getTOCTree( "pdf", //$NON-NLS-1$
 					ulocale ).getRoot( ) );
 			TOCNode tocRoot = tocHandler.getTOCRoot();
 			if (tocRoot == null || tocRoot.getChildren().isEmpty())
@@ -497,6 +507,7 @@ public class PDFEmitter implements IContentEmitter
 				PdfOutline root = cb.getRootOutline();
 				tocHandler.createTOC(tocRoot, root);
 			}
+			writer.setPageEmpty( false );
 			if(doc.isOpen( ))
 			{
 				doc.close();
@@ -519,8 +530,8 @@ public class PDFEmitter implements IContentEmitter
 			else 
 				curPos = new ContainerPosition(0, 0);
 			//set default spacing for text
-			int x = curPos.x + textArea.getX() + (int)(textArea.getFontInfo( ).getFontSize( ) * 70);
-			int y = curPos.y + textArea.getY() + (int)(textArea.getFontInfo( ).getFontSize( ) * 100);
+			int x = curPos.x + textArea.getX() + (int)(textArea.getFontInfo( ).getFontSize( ) * hTextSpace);
+			int y = curPos.y + textArea.getY() + (int)(textArea.getFontInfo( ).getFontSize( ) * vTextSpace);
 			drawTextAt(textArea, x, y, cb, pageHeight);
 			//Checks if itself is the destination of a bookmark.
 			//if so, make a bookmark; if not, do nothing
@@ -566,6 +577,11 @@ public class PDFEmitter implements IContentEmitter
 		{
 			if (container instanceof PageArea)
 			{
+				scale = container.getScale();
+				lToP = LAYOUT_TO_PDF_RATIO / scale;
+				hTextSpace = (int)(H_TEXT_SPACE * scale);
+				vTextSpace = (int)(V_TEXT_SPACE * scale);
+
 				newPage(container);
 				containerStack.push(new ContainerPosition(0, 0));
 			}
@@ -624,7 +640,8 @@ public class PDFEmitter implements IContentEmitter
 			    }
 				doc.newPage();
 				//Adds an invisible content to the document to make sure that a new page is created. 
-				doc.add(Chunk.NEWLINE);
+				//doc.add(Chunk.NEWLINE);
+				
 			}
 			catch( DocumentException de )
 			{
@@ -955,7 +972,7 @@ public class PDFEmitter implements IContentEmitter
 			
 		    //style.getFontVariant();     	small-caps or normal
 		    //FIXME does NOT support small-caps now
-			float fontSize = text.getFontInfo().getFontSize();
+			float fontSize = text.getFontInfo().getFontSize() * scale ;
 			float characterSpacing = pdfMeasure( PropertyUtil.getDimensionValue(
 		        	style.getProperty(StyleConstants.STYLE_LETTER_SPACING)) );
 			float wordSpacing = pdfMeasure( PropertyUtil.getDimensionValue(
@@ -1057,16 +1074,17 @@ public class PDFEmitter implements IContentEmitter
 					if (null == imageContent.getURI())
 						return;
 					
-					if ( imageContent.getURI( ).endsWith( ".svg" ) )
+					URL url = reportDesign.findResource( imageContent
+							.getURI( ), IResourceLocator.IMAGE );
+					InputStream in = url.openStream( );
+					
+					if ( imageContent.getURI( ).endsWith( ".svg" ) ) //$NON-NLS-1$
 						{
 							isSvg = true;
-							ti = new TranscoderInput( new FileInputStream(
-									imageContent.getURI( ) ) );
+							ti = new TranscoderInput( in );
 						}
 						else
 						{
-							URL url = new URL( imageContent.getURI( ) );
-							InputStream in = url.openStream( );
 							try
 							{
 								byte[] buffer = new byte[in.available( )];
@@ -1090,7 +1108,7 @@ public class PDFEmitter implements IContentEmitter
 					if (null == imageContent.getURI())
 						return;
 					
-					if(imageContent.getURI().endsWith(".svg")) {
+					if(imageContent.getURI().endsWith(".svg")) { //$NON-NLS-1$
 						isSvg = true;
 						ti = new TranscoderInput(imageContent.getURI( ));
 					} else {
@@ -1811,7 +1829,7 @@ public class PDFEmitter implements IContentEmitter
 		 */
 		private float pdfMeasure( int layoutMeasure )
 		{
-			return layoutMeasure/(float)LAYOUT_TO_PDF_RATIO;
+			return layoutMeasure/lToP;
 		}
 
 		/**
@@ -1944,7 +1962,7 @@ public class PDFEmitter implements IContentEmitter
 						Action act = new Action( systemId, hlAction );
 						
 						IHTMLActionHandler actionHandler = null;
-						Object ac = services.getOption( RenderOptionBase.ACTION_HANDLER );
+						Object ac = services.getOption( RenderOption.ACTION_HANDLER );
 						if ( ac != null && ac instanceof IHTMLActionHandler )
 						{
 							actionHandler = (IHTMLActionHandler) ac;

@@ -21,7 +21,6 @@ import org.mozilla.javascript.Scriptable;
  * Represents the scriptable object for Java object which implements the
  * interface <code>Map</code>.
  * 
- * @version $Revision: 1.9 $ $Date: 2005/11/14 10:54:03 $
  */
 class NativeJavaMap extends NativeJavaObject
 {

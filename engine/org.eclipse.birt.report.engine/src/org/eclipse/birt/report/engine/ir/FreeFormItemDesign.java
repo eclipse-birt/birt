@@ -18,7 +18,6 @@ import java.util.ArrayList;
  * 
  * the content of container should be ReportItem also.
  * 
- * @version $Revision: 1.7 $ $Date: 2005/11/11 06:26:41 $
  */
 public class FreeFormItemDesign extends ReportItemDesign
 {

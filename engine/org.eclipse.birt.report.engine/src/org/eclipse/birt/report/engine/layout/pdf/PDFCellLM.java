@@ -17,7 +17,6 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
-import org.eclipse.birt.report.engine.layout.IPDFTableLayoutManager;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
 
@@ -29,7 +28,7 @@ public class PDFCellLM extends PDFBlockStackingLM
 	/**
 	 * table layout manager of current cell
 	 */
-	protected IPDFTableLayoutManager tableLM;
+	protected PDFTableLM tableLM;
 
 	protected int columnWidth = 0;
 
@@ -45,7 +44,7 @@ public class PDFCellLM extends PDFBlockStackingLM
 		assert ( parent != null );
 		tableLM = getTableLayoutManager( );
 		cellContent = (ICellContent) content;
-		tableLM.startCell( cellContent );
+		//tableLM.startCell( cellContent );
 
 		// set max width constraint
 		int startColumn = cellContent.getColumn( );
@@ -64,19 +63,22 @@ public class PDFCellLM extends PDFBlockStackingLM
 		}
 		if(root==null)
 		{
+			//FIXME setup rowSpan
+			CellArea cell = AreaFactory.createCellArea( cellContent );
+			cell.setRowSpan( tableLM.getRowSpan( cellContent ) );
+			root = cell;
 			
-			root = AreaFactory.createCellArea( cellContent );
-			tableLM.resolveBorderConflict( (CellArea) root );
 			
 			if ( !isFirst )
 			{
 				IStyle areaStyle = root.getStyle( );
-				areaStyle.setProperty( IStyle.STYLE_BORDER_TOP_WIDTH,
-						IStyle.NUMBER_0 );
+				/*areaStyle.setProperty( IStyle.STYLE_BORDER_TOP_WIDTH,
+						IStyle.NUMBER_0 );*/
 				areaStyle.setProperty( IStyle.STYLE_PADDING_TOP, IStyle.NUMBER_0 );
 				areaStyle.setProperty( IStyle.STYLE_MARGIN_TOP, IStyle.NUMBER_0 );
 			}
 		}
+		tableLM.resolveBorderConflict( (CellArea)root );
 		root.setWidth( columnWidth );
 	}
 
@@ -90,7 +92,7 @@ public class PDFCellLM extends PDFBlockStackingLM
 			removeMargin( areaStyle );
 			validateBoxProperty( root.getStyle( ), columnWidth, context.getMaxHeight( ) );
 			setOffsetX( root.getContentX( ) );
-			setOffsetY( isFirst ? root.getContentY( ) : 0 );
+			setOffsetY(root.getContentY( ));
 			if ( isFirst )
 			{
 				isFirst = false;
@@ -151,6 +153,22 @@ public class PDFCellLM extends PDFBlockStackingLM
 			}
 		}
 		return false;
+	}
+	
+	public boolean isPageEmpty( )
+	{
+		if ( root!=null && root.getChildrenCount()>0 )
+		{
+			return false;
+		}
+		else
+		{
+			if ( parent != null )
+			{
+				return parent.isPageEmpty( );
+			}
+		}
+		return true;
 	}
 
 }

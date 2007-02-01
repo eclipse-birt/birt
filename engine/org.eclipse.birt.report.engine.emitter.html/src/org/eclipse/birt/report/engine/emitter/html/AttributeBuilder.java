@@ -19,7 +19,6 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * <code>AttributeBuilder</code> is a concrete class that HTML Emitters use to
  * build the Style strings.
  * 
- * @version $Revision: 1.31 $ $Date: 2006/12/13 08:25:12 $
  */
 public class AttributeBuilder
 {

@@ -43,7 +43,6 @@ import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 /**
  * read the content from the content stream.
  * 
- * @version $Revision: 1.5 $ $Date: 2006/09/01 05:48:11 $
  */
 public class ReportContentReaderV3
 {

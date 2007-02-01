@@ -16,7 +16,6 @@ import junit.framework.TestCase;
 /**
  * 
  * 
- * @version $Revision: 1.1 $ $Date: 2006/10/26 02:42:36 $
  */
 public class ExecutorManagerTest extends TestCase
 {
@@ -24,7 +23,7 @@ public class ExecutorManagerTest extends TestCase
 	public void testGetItemExecutor( )
 	{
 		ExecutorManager manager = new ExecutorManager(
-				new ExecutionContext( 0 ), null );
+				new ExecutionContext( ), null );
 		for ( int i = 0; i < ExecutorManager.NUMBER; i++ )
 		{
 			ReportItemExecutor executor = ExecutorManagerUtil.getItemExecutor(
@@ -47,8 +46,8 @@ public class ExecutorManagerTest extends TestCase
 				case ExecutorManager.TABLEITEM :
 					assertTrue( executor instanceof TableItemExecutor );
 					break;
-				case ExecutorManager.MULTILINEITEM :
-					assertTrue( executor instanceof MultiLineItemExecutor );
+				case ExecutorManager.DYNAMICTEXTITEM :
+					assertTrue( executor instanceof DynamicTextItemExecutor );
 					break;
 				case ExecutorManager.TEXTITEM :
 					assertTrue( executor instanceof TextItemExecutor );
@@ -91,7 +90,7 @@ public class ExecutorManagerTest extends TestCase
 
 	public void testReleaseExecutor( )
 	{
-		ExecutorManager manager = new ExecutorManager(new ExecutionContext( 0 ) , null);
+		ExecutorManager manager = new ExecutorManager(new ExecutionContext( ) , null);
 		for ( int i = 0; i < ExecutorManager.NUMBER; i++ )
 		{
 			ReportItemExecutor executor1 = ExecutorManagerUtil.getItemExecutor( manager, i );

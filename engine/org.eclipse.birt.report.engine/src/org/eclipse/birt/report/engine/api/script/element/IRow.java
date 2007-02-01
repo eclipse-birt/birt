@@ -16,6 +16,7 @@ import org.eclipse.birt.report.engine.api.script.ScriptException;
 /**
  * Represents a row in the scripting environment
  */
+
 public interface IRow extends IDesignElement
 {
 
@@ -50,39 +51,66 @@ public interface IRow extends IDesignElement
 	 */
 
 	void setBookmark( String value ) throws ScriptException;
+	
+	/**
+	 * Removes all hide rules that matches formatType.
+	 * 
+	 * @param formatType
+	 * @exception ScriptException
+	 */
+
+	void removeHideRule( IHideRule rule ) throws ScriptException;
 
 	/**
-	 * Adds HighLightRule
+	 * Removes all hide rules
+	 * 
+	 * @throws ScriptException
+	 */
+
+	void removeHideRules( ) throws ScriptException;
+
+	/**
+	 * Returns array of hide rule expression
+	 * 
+	 * @return array of hide rule expression
+	 */
+
+	IHideRule[] getHideRules( );
+
+	/**
+	 * Add HideRule
 	 * 
 	 * @param rule
 	 * @throws ScriptException
 	 */
 
-	void addHighlightRule( IHighlightRule rule ) throws ScriptException;
-
-	/**
-	 * Removes all HighLightRule
-	 * 
-	 * @param name
-	 * @throws ScriptException
-	 */
-
-	void removeHighlightRules( ) throws ScriptException;
+	void addHideRule( IHideRule rule ) throws ScriptException;
 	
 	/**
-	 * Removes HighLightRule
+	 * Gets all high light rules.
+	 * @return all high light rules
+	 */
+	
+	IHighlightRule[] getHighlightRules();
+	
+	/**
+	 * Adds high light rule.
 	 * @param rule
-	 * @throws ScriptException
 	 */
 	
-	void removeHighlightRule(IHighlightRule rule ) throws ScriptException;
-
+	void addHighlightRule( IHighlightRule rule) throws ScriptException;
+	
 	/**
-	 * Returns all highlightrule
-	 * 
-	 * @return all highlightrule
+	 * Removes all high light rules.
 	 */
 	
-	IHighlightRule[] getHighlightRules( );
+	void removeHighlightRules() throws ScriptException;
+	
+	/**
+	 * Removes high light rule.
+	 * @param rule
+	 */
+	
+	void removeHighlightRule( IHighlightRule rule) throws ScriptException;
 
 }

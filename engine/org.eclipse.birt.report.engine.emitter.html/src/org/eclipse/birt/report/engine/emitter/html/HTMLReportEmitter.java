@@ -148,7 +148,6 @@ import com.ibm.icu.util.ULocale;
  * </tr>
  * </table>
  * 
- * @version $Revision: 1.150 $ $Date: 2006/12/12 06:07:15 $
  */
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
@@ -407,9 +406,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		renderOption = services.getRenderOption( );
 		runnable = services.getReportRunnable( );
 		writer = new HTMLWriter( );
-		if ( renderOption != null && renderOption instanceof HTMLRenderOption )
+		if ( renderOption != null )
 		{
-			HTMLRenderOption htmlOption = (HTMLRenderOption) renderOption;
+			HTMLRenderOption htmlOption = new HTMLRenderOption( renderOption );
 			isEmbeddable = htmlOption.getEmbeddable( );
 			HashMap options = renderOption.getOutputSetting( );
 			if ( options != null )
@@ -603,10 +602,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			if ( title == null )
 			{
 				// set the default title
-				if ( renderOption != null && renderOption instanceof HTMLRenderOption )
+				if ( renderOption != null )
 				{
-					HTMLRenderOption htmlOption = (HTMLRenderOption) renderOption;
-					title = htmlOption.getHtmlTitle( );					
+					HTMLRenderOption htmlOption = new HTMLRenderOption(
+							renderOption );
+					title = htmlOption.getHtmlTitle( );
 				}
 			}
 			if ( title != null )
@@ -634,13 +634,17 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		else
 		{
-			for ( int n = 0; n < reportDesign.getStyleCount( ); n++ )
+			Map styles = reportDesign.getStyles( );
+			Iterator iter = styles.entrySet( ).iterator( );
+			while ( iter.hasNext( ) )
 			{
-				styleBuffer.delete( 0, styleBuffer.capacity( ) );
-				style = (IStyle) reportDesign.getStyle( n );	
+				Map.Entry entry = (Map.Entry) iter.next( );
+				String styleName = (String) entry.getKey( );
+				style = (IStyle) entry.getValue( );
+				
+				styleBuffer.setLength( 0 );					
 				AttributeBuilder.buildStyle( styleBuffer, style, this, true );
-				writer.style( Report.PREFIX_STYLE_NAME + n, styleBuffer
-						.toString( ), false );
+				writer.style( styleName, styleBuffer.toString( ), false );
 			}
 		}
 
@@ -813,9 +817,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 * @param styleName name of the style
 	 * @param style style object
 	 */
-	public void handlePageStyle( String styleName, IStyle style )
+	public void buildPageStyle( String styleName, IStyle style, StringBuffer styleBuffer )
 	{
-		StringBuffer styleBuffer = new StringBuffer( );
 		if ( isEmbeddable )
 		{
 			AttributeBuilder.buildPageStyle( styleBuffer, style, this );
@@ -824,8 +827,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			IStyle classStyle = report.findStyle( styleName );
 			AttributeBuilder.buildPageStyle( styleBuffer, classStyle, this );
-		}	
-		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+		}
 	}
 
 	/*
@@ -846,7 +848,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		// out put the page tag
 		writer.openTag( HTMLTags.TAG_DIV );
 		
-		// out put the background
+		// out put the background and width
 		if ( page != null )
 		{
 			Object genBy = page.getGenerateBy( );
@@ -856,7 +858,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				String masterPageStyleName = masterPage.getStyleName( );
 				IStyle classStyle = report.findStyle( masterPageStyleName );
 				StringBuffer styleBuffer = new StringBuffer( );
+				// build the background
 				AttributeBuilder.buildBackgroundStyle( styleBuffer, classStyle, this );
+				// build the width
+				styleBuffer.append( " width:" + masterPage.getPageWidth( ).toString( ) + ";");
 				writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 			}
 		}
@@ -893,8 +898,37 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				if ( showHeader )
 				{
 					writer.openTag( HTMLTags.TAG_DIV );
-					handlePageStyle( page.getPageHeader( ).getStyleClass( ),
-							page.getPageHeader( ).getStyle( ) );
+					
+					//build page header style
+					StringBuffer styleBuffer = new StringBuffer( );
+					buildPageStyle( page.getPageHeader( ).getStyleClass( ),
+							page.getPageHeader( ).getStyle( ),
+							styleBuffer);
+					
+//					//build page header margin
+//					if( genBy instanceof SimpleMasterPageDesign )
+//					{
+//						SimpleMasterPageDesign SimpleMasterPage = (SimpleMasterPageDesign) genBy;
+//						if( null != SimpleMasterPage )
+//						{
+//							styleBuffer.append( "margin-left: " + SimpleMasterPage.getLeftMargin( ).toString( ) + ";");
+//							styleBuffer.append( "margin-top: " + SimpleMasterPage.getTopMargin( ).toString( ) + ";");
+//							styleBuffer.append( "margin-right: " + SimpleMasterPage.getRightMargin( ).toString( ) + ";");
+//						}
+//					}
+//					else if ( genBy instanceof MasterPageDesign )
+//					{
+//						MasterPageDesign masterPage = (MasterPageDesign) genBy;
+//						if( null != masterPage )
+//						{
+//							styleBuffer.append( "margin-left: " + masterPage.getLeftMargin( ).toString( ) + ";");
+//							styleBuffer.append( "margin-top: " + masterPage.getTopMargin( ).toString( ) + ";");
+//							styleBuffer.append( "margin-right: " + masterPage.getRightMargin( ).toString( ) + ";");
+//						}
+//					}
+					
+					//output the page header attribute
+					writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 
 					contentVisitor.visitChildren( page.getPageHeader( ), null );
 
@@ -933,6 +967,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 							HTMLTags.ATTR_MIN_HEIGHT,
 							masterPage.getPageHeight( ) );
 				}
+//				//output page body margin
+//				styleBuffer.append( "margin-left: " + masterPage.getLeftMargin( ).toString( ) + ";");
+//				styleBuffer.append( "margin-right: " + masterPage.getRightMargin( ).toString( ) + ";");
 				writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 			}
 		}
@@ -980,8 +1017,37 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 					// start output the page footer
 					writer.openTag( HTMLTags.TAG_DIV );
-					handlePageStyle( page.getPageFooter( ).getStyleClass( ),
-							page.getPageFooter( ).getStyle( ) );
+					
+					//build page footer style
+					StringBuffer styleBuffer = new StringBuffer( );
+					buildPageStyle( page.getPageHeader( ).getStyleClass( ),
+							page.getPageHeader( ).getStyle( ),
+							styleBuffer);
+					
+//					//build page footer margin
+//					if( genBy instanceof SimpleMasterPageDesign )
+//					{
+//						SimpleMasterPageDesign SimpleMasterPage = (SimpleMasterPageDesign) genBy;
+//						if( null != SimpleMasterPage )
+//						{
+//							styleBuffer.append( "margin-left: " + SimpleMasterPage.getLeftMargin( ).toString( ) + ";");
+//							styleBuffer.append( "margin-right: " + SimpleMasterPage.getRightMargin( ).toString( ) + ";");
+//							styleBuffer.append( "margin-bottom: " + SimpleMasterPage.getBottomMargin( ).toString( ) + ";");
+//						}
+//					}
+//					else if ( genBy instanceof MasterPageDesign )
+//					{
+//						MasterPageDesign masterPage = (MasterPageDesign) genBy;
+//						if( null != masterPage )
+//						{
+//							styleBuffer.append( "margin-left: " + masterPage.getLeftMargin( ).toString( ) + ";");
+//							styleBuffer.append( "margin-right: " + masterPage.getRightMargin( ).toString( ) + ";");
+//							styleBuffer.append( "margin-bottom: " + masterPage.getBottomMargin( ).toString( ) + ";");
+//						}
+//					}
+					
+					//output the page footer attribute
+					writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 
 					contentVisitor.visitChildren( page.getPageFooter( ), null );
 
@@ -1004,6 +1070,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	{
 		assert table != null;
 
+		if ( enableMetadata )
+		{
+			metadataEmitter.startWrapTable( table );
+		}
+		
 		IStyle mergedStyle = table.getStyle( );
 		push( mergedStyle );
 		if ( isHidden( ) )
@@ -1027,6 +1098,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		handleShrink( DISPLAY_BLOCK, mergedStyle, table.getHeight( ), table
 				.getWidth( ), styleBuffer );
+		
+		//build the table-layout
+		if( null != table.getWidth( ))
+		{
+			styleBuffer.append( " table-layout:fixed;" );
+		}
 		handleStyle( table, styleBuffer );
 
 		// bookmark
@@ -1061,6 +1138,31 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 	protected void writeColumns( ITableContent table )
 	{
+		int widthArraySize = table.getColumnCount( );
+		DimensionType widthArray[] = new DimensionType[ widthArraySize ];
+		// put all the column width into the array.
+		for ( int i = 0; i < table.getColumnCount( ); i++ )
+		{
+			IColumn column = table.getColumn( i );
+			if ( isColumnHidden( column ) )
+			{
+				widthArray[ i ] = new DimensionType( 0, DimensionType.UNITS_IN );
+				continue;
+			}
+			DimensionType value = column.getWidth( );
+			if( null != value )
+			{
+				widthArray[ i ] = new DimensionType( value.getMeasure( ), value.getUnits( ) );
+			}
+			else
+			{
+				widthArray[ i ] =  null ;
+			}
+		}
+		// resize the column width
+		resizeWidth( widthArray, widthArraySize );
+	
+		//write the columns
 		for ( int i = 0; i < table.getColumnCount( ); i++ )
 		{
 			IColumn column = table.getColumn( i );
@@ -1077,7 +1179,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			// width
 			StringBuffer styleBuffer = new StringBuffer( );
 			AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_WIDTH,
-					column.getWidth( ) );
+					widthArray[ i ] );
 			if ( isEmbeddable )
 			{
 				// output in-line style
@@ -1104,6 +1206,52 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			}
 			
 			writer.closeNoEndTag( );
+		}
+	}
+	
+	/**
+	 * Resize the columns' width. 
+	 * All the fixed value won't be changed. All the null value will be reset to a percentage
+	 * value. If the percentage value existing, the sum of all the percentage value will be 100%.
+	 * @param widthArray: array to store the solumn width
+	 * @param size: the size of the array widthArray
+	 * @return
+	 */
+	private void resizeWidth( DimensionType widthArray[], int size )
+	{
+		double percentSum = 0;//the sum of the origin percentage values.
+		int NullNum = 0;//the number of the null values.
+		for ( int i = 0; i < size; i++ )
+		{
+			if( null == widthArray[ i ] )
+			{
+				NullNum++;
+			}
+			else if( DimensionType.UNITS_PERCENTAGE.equals( widthArray[ i ].getUnits( ) ) )
+			{
+				percentSum += widthArray[ i ].getMeasure( );
+			}
+		}
+		for ( int i = 0; i < size; i++ )
+		{
+			if( null == widthArray[ i ] )
+			{
+				if( percentSum >= 100 )
+				{
+					widthArray[ i ] = new DimensionType( 0, DimensionType.UNITS_PERCENTAGE );
+				}
+				else
+				{
+					widthArray[ i ] = new DimensionType( ((100 - percentSum) / NullNum), DimensionType.UNITS_PERCENTAGE );
+				}
+			}
+			else if( DimensionType.UNITS_PERCENTAGE.equals( widthArray[ i ].getUnits( ) ) )
+			{
+				if( ( percentSum > 100 ) || (( percentSum < 100 ) && ( 0 == NullNum )))
+				{
+					widthArray[ i ] = new DimensionType( ((widthArray[ i ].getMeasure( ) * 100)/percentSum), DimensionType.UNITS_PERCENTAGE );
+				}
+			}
 		}
 	}
 	
@@ -1162,6 +1310,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				
 		writer.closeTag( HTMLTags.TAG_TABLE );
 
+		if ( enableMetadata )
+		{
+			metadataEmitter.endWrapTable( table );
+		}
+		
 		logger.log( Level.FINE, "[HTMLTableEmitter] End table" ); //$NON-NLS-1$
 	}
 
@@ -1545,8 +1698,25 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		int display = checkElementType( x, y, width, height, mergedStyle,
 				styleBuffer );
-		tagName = openTagByType( display, DISPLAY_FLAG_ALL );
-		tagStack.push( tagName );
+		
+		if( ((display & HTMLEmitterUtil.DISPLAY_INLINE ) > 0)
+				|| ((display & HTMLEmitterUtil.DISPLAY_INLINE_BLOCK ) > 0) )
+		{
+			writer.openTag( HTMLTags.TAG_TABLE );
+			writer.attribute( HTMLTags.ATTR_STYLE, " display:-moz-inline-box !important; display:inline;" );
+			writer.openTag( HTMLTags.TAG_TR );
+			writer.openTag( HTMLTags.TAG_TD );
+			
+			// this tag is pushed in Stack. The tag will be popped when close the container.
+			tagStack.push( "ImplementInlineBlock" );
+		}
+		else
+		{
+			// this tag is pushed in Stack. The tag will be popped when close the container.
+			tagStack.push( HTMLTags.TAG_DIV );
+		}
+		writer.openTag( HTMLTags.TAG_DIV );
+		tagName = HTMLTags.TAG_DIV;
 
 		// class
 		setStyleName( container.getStyleClass( ) );
@@ -1591,7 +1761,18 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			return;
 		}
 
-		writer.closeTag( (String) tagStack.pop( ) );
+		String tag = (String) tagStack.pop( );
+		if( tag.equals( "ImplementInlineBlock" ))
+		{
+			writer.closeTag( HTMLTags.TAG_DIV );
+			writer.closeTag( HTMLTags.TAG_TD );
+			writer.closeTag( HTMLTags.TAG_TR );
+			writer.closeTag( HTMLTags.TAG_TABLE );
+		}
+		else
+		{
+			writer.closeTag( tag );
+		}
 
 		logger.log( Level.FINE, "[HTMLContainerEmitter] End container" ); //$NON-NLS-1$
 	}
@@ -2520,12 +2701,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			DimensionType width, DimensionType height, IStyle style,
 			StringBuffer styleBuffer )
 	{
-		if ( x != null || y != null )
-		{
-			styleBuffer.append( "position: absolute;" ); //$NON-NLS-1$
-			AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_LEFT, x );
-			AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_LEFT, y );
-		}
+		//if ( x != null || y != null )
+		//{
+		//	styleBuffer.append( "position: absolute;" ); //$NON-NLS-1$
+		//	AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_LEFT, x );
+		//	AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_TOP, y );
+		//}
 		return getElementType( x, y, width, height, style);
 	}
 

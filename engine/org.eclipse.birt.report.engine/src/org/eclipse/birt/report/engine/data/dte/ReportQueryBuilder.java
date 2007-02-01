@@ -60,6 +60,7 @@ import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl;
 import org.eclipse.birt.report.engine.ir.DrillThroughActionDesign;
+import org.eclipse.birt.report.engine.ir.DynamicTextItemDesign;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.FreeFormItemDesign;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
@@ -71,7 +72,6 @@ import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
 import org.eclipse.birt.report.engine.ir.MapDesign;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
-import org.eclipse.birt.report.engine.ir.MultiLineItemDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
@@ -99,7 +99,6 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * visit the report design and prepare all report queries and sub-queries to
  * send to data engine
  * 
- * @version $Revision: 1.85 $ $Date: 2006/10/19 22:35:33 $
  */
 public class ReportQueryBuilder
 {
@@ -593,12 +592,12 @@ public class ReportQueryBuilder
 		 * 
 		 * @see org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitMultiLineItem(org.eclipse.birt.report.engine.ir.MultiLineItemDesign)
 		 */
-		public Object visitMultiLineItem( MultiLineItemDesign multiLine,
+		public Object visitDynamicTextItem( DynamicTextItemDesign dynamicText,
 				Object value )
 		{
-			BaseQueryDefinition query = prepareVisit( multiLine );
-			String newContent = transformExpression( multiLine.getContent( ) );
-			multiLine.setContent( newContent );
+			BaseQueryDefinition query = prepareVisit( dynamicText );
+			String newContent = transformExpression( dynamicText.getContent( ) );
+			dynamicText.setContent( newContent );
 			finishVisit( query );
 			return value;
 		}
@@ -1047,7 +1046,8 @@ public class ReportQueryBuilder
 			{
 				return text;
 			}
-			String ret = report.getMessage( resourceKey, context.getLocale( ) );
+			String ret = report.getReportDesign( ).getMessage( resourceKey,
+					context.getLocale( ) );
 			if ( ret == null )
 			{
 				logger.log( Level.SEVERE, "get resource error, resource key:" //$NON-NLS-1$

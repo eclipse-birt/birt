@@ -22,7 +22,6 @@ import org.w3c.dom.css.CSSPrimitiveValue;
  * This class provides a manager for the property with support for identifier
  * values.
  * 
- * @version $Id: IdentifierManager.java,v 1.4 2006/09/15 08:30:26 lyu Exp $
  */
 public abstract class IdentifierManager extends AbstractValueManager
 {

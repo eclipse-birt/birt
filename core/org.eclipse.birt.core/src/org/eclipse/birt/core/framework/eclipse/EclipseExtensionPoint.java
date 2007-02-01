@@ -18,7 +18,6 @@ import org.eclipse.birt.core.framework.IExtensionPoint;
 
 /**
  * 
- * @version $Revision: 1.4 $ $Date: 2005/05/08 06:58:29 $
  */
 class EclipseExtensionPoint implements IExtensionPoint
 {

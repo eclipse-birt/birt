@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * DataItem test
  * 
- * @version $Revision: 1.2 $ $Date: 2006/10/31 07:43:27 $
  */
 public class DataItemTest extends ReportItemTestCase
 {

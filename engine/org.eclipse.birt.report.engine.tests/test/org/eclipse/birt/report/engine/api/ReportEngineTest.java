@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.api;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.eclipse.birt.report.engine.EngineCase;
 import org.eclipse.birt.report.engine.api.impl.ScalarParameterDefn;
@@ -108,9 +109,20 @@ public class ReportEngineTest extends EngineCase
 		{
 			ReportEngine engine = new ReportEngine( new EngineConfig( ) );
 			String[] supportedFormats = engine.getSupportedFormats( );
-			for ( int length = supportedFormats.length, index = 0; index < length; index++ )
+			
+			Iterator it = supportedMap.keySet( ).iterator( );
+			while ( it.hasNext( ) )
 			{
-				assertTrue( supportedMap.get( supportedFormats[index] ) != null );
+				String key = (String) it.next( );
+				boolean flag = true;
+				for ( int index = 0; index < supportedFormats.length; index++ )
+				{
+					if ( supportedFormats[index].equals( key ) )
+					{
+						flag = false;
+					}
+				}
+				assertFalse( flag );
 			}
 		}
 		catch ( Exception ex )
@@ -164,13 +176,22 @@ public class ReportEngineTest extends EngineCase
 		{
 			ReportEngine engine = new ReportEngine( new EngineConfig( ) );
 			String[] supportedFormats = engine.getSupportedFormats( );
-			String result = null;
-			String golden = null;
-			for ( int length = supportedFormats.length, index = 0; index < length; index++ )
+			
+			Iterator it = supportedMap.entrySet( ).iterator( );
+			while ( it.hasNext( ) )
 			{
-				result = engine.getMIMEType( supportedFormats[index] );
-				golden = (String) supportedMap.get( supportedFormats[index] );
-				assertTrue( result.equals( golden ) );
+				java.util.Map.Entry entry = (java.util.Map.Entry) it.next( );
+				String value = (String) entry.getValue( );
+				boolean flag = true;
+				for ( int index = 0; index < supportedFormats.length; index++ )
+				{
+					if ( engine.getMIMEType( supportedFormats[index] )
+							.equals( value ) )
+					{
+						flag = false;
+					}
+				}
+				assertFalse( flag );
 			}
 			engine.destroy( );
 		}
@@ -183,10 +204,10 @@ public class ReportEngineTest extends EngineCase
 	
 	protected void initSupportedMap( )
 	{
-		String[] goldenFormats = new String[]{"gen", "html", "pdf", "test"};
-		String[] goldenMIMEType = new String[]{"xml", "text/html", "application/pdf", "bugs"};
+		String[] goldenFormats = new String[]{"html", "pdf"};
+		String[] goldenMIMEType = new String[]{"text/html", "application/pdf"};
 		assertTrue( goldenFormats.length == goldenMIMEType.length );
-		supportedMap = new HashMap( goldenFormats.length );
+		supportedMap = new HashMap( );
 		for( int size = goldenFormats.length , index = 0 ; index < size ; index ++ )
 		{
 			supportedMap.put( goldenFormats[index], goldenMIMEType[index] );

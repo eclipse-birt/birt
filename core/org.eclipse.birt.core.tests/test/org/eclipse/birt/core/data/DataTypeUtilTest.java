@@ -351,6 +351,21 @@ public class DataTypeUtilTest extends TestCase
 					fail( "Should not throw Exception." );
 			}
 		}
+		
+		try
+		{
+			assertTrue( DataTypeUtil.toBoolean( new Double(0.1) ).booleanValue( ));
+			assertTrue( DataTypeUtil.toBoolean( new Double(-0.1) ).booleanValue( ));
+			assertTrue( DataTypeUtil.toBoolean( new Double(1) ).booleanValue( ));
+			assertTrue( DataTypeUtil.toBoolean( new Double(1) ).booleanValue( ));
+			assertFalse( DataTypeUtil.toBoolean( new Double(0) ).booleanValue( ));
+		}
+		catch ( BirtException e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	public void testToDate( )

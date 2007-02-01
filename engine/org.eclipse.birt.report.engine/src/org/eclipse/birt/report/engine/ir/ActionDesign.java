@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * Action. Action include: hyperlink, drill through and bookmark.
  * 
- * @version $Revision: 1.8 $ $Date: 2006/05/15 11:27:35 $
  */
 public class ActionDesign
 {

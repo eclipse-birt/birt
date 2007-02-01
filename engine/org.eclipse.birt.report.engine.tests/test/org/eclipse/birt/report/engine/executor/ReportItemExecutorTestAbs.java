@@ -46,7 +46,6 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * 
  * abstract class
  * 
- * @version $Revision: 1.33 $ $Date: 2006/09/07 13:35:18 $
  */
 abstract public class ReportItemExecutorTestAbs extends TestCase
 {
@@ -294,7 +293,7 @@ abstract public class ReportItemExecutorTestAbs extends TestCase
 			}
 		}
 
-		ExecutionContext context = new ExecutionContext( 0 );
+		ExecutionContext context = new ExecutionContext( );
 		context.setLocale( locale );
 		context.setRunnable( runnable );
 

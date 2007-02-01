@@ -15,6 +15,7 @@ package org.eclipse.birt.report.engine.api;
  * Defines the context for rendering report in PDF emitter. Objects stored in the
  * context object is mainly used for font, image, action handling, but can be used for
  * other purposes too. 
+ * @deprecated set the option to RenderOption directly.
  */
 public class PDFRenderContext {
 		

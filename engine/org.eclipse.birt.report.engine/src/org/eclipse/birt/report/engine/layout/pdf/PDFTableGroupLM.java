@@ -6,15 +6,12 @@ import java.util.Iterator;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IGroupContent;
-import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
-import org.eclipse.birt.report.engine.layout.IPDFTableLayoutManager;
-import org.eclipse.birt.report.engine.layout.area.IArea;
-import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
+import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
 
@@ -24,20 +21,19 @@ public class PDFTableGroupLM extends PDFGroupLM
 {
 
 	protected PDFTableLM tableLM = null;
-	protected boolean firstRow = true;
+	protected boolean needRepeat = false;
 
 	public PDFTableGroupLM( PDFLayoutEngineContext context,
 			PDFStackingLM parent, IContent content, IReportItemExecutor executor )
 	{
 		super( context, parent, content, executor );
-		IPDFTableLayoutManager lm = getTableLayoutManager( );
-		assert(lm instanceof PDFTableLM);
-		tableLM = (PDFTableLM) lm;
+		tableLM = getTableLayoutManager( );
 		tableLM.startGroup( (IGroupContent) content );
 	}
 
 	protected boolean traverseChildren( )
 	{
+
 		boolean childBreak = super.traverseChildren( );
 		if ( !childBreak )
 		{
@@ -45,48 +41,34 @@ public class PDFTableGroupLM extends PDFGroupLM
 		}
 		return childBreak;
 	}
-	
-	protected boolean checkAvailableSpace( )
+
+	protected void createRoot( )
 	{
-		boolean availableSpace = super.checkAvailableSpace( );
-		if(availableSpace && tableLM != null)
+		if ( root == null )
 		{
-			tableLM.setTableCloseStateAsForced( );
+			root = (ContainerArea) AreaFactory.createBlockContainer( content );
 		}
-		return availableSpace;
-	}
-	
-	public boolean layout()
-	{
-		boolean childBreak = super.layout( );
-		if ( childBreak )
-		{
-			IPDFTableLayoutManager itsTableLM = getTableLayoutManager( );
-			if ( itsTableLM != null )
-			{
-				IStyle cStyle = content.getStyle( );
-				if ( !isFinished( ) && needPageBreakBefore(cStyle.getPageBreakBefore( )) )
-				{
-					itsTableLM.setTableCloseStateAsForced( );
-				}
-				else if ( isFinished( ) && needPageBreakAfter(cStyle.getPageBreakAfter( ) ) )
-				{
-					itsTableLM.setTableCloseStateAsForced( );
-				}
-			}
-		}
-		return childBreak;
 	}
 
-	protected void repeatHeader( )
+	protected void initialize( )
+	{
+		if ( root == null && keepWithCache.isEmpty( ) && !isFirst )
+		{
+			repeatCount = 0;
+			needRepeat = true;
+		}
+		super.initialize( );
+
+	}
+
+	private void repeat( )
 	{
 		if ( isFirst || tableLM.isFirst )
 		{
 			isFirst = false;
 			return;
-			
 		}
-		if(!isCurrentDetailBand())
+		if ( !needRepeat || !isCurrentDetailBand( ) )
 		{
 			return;
 		}
@@ -117,17 +99,18 @@ public class PDFTableGroupLM extends PDFGroupLM
 		con.setFormat( context.getFormat( ) );
 		con.setReport( context.getReport( ) );
 		con.setMaxHeight( context.getMaxHeight( ) );
+		con.setMaxWidth( context.getMaxWidth( ) );
 		con.setAllowPageBreak( false );
 		IReportItemExecutor headerExecutor = new DOMReportItemExecutor( header );
 		headerExecutor.execute( );
 		PDFTableRegionLM regionLM = new PDFTableRegionLM( con, tableLM
 				.getContent( ), tableLM.getLayoutInfo( ) );
-		regionLM.initialize( header, tableLM.lastRowArea);
+		regionLM.initialize( header, null );// tableLM.lastRowArea);
 		regionLM.layout( );
 		TableArea tableRegion = (TableArea) tableLM.getContent( ).getExtension(
 				IContent.LAYOUT_EXTENSION );
 		if ( tableRegion != null
-				&& tableRegion.getHeight( ) < getCurrentMaxContentHeight( )	)
+				&& tableRegion.getHeight( ) < getCurrentMaxContentHeight( ) )
 		{
 			// add to root
 			Iterator iter = tableRegion.getChildren( );
@@ -136,38 +119,22 @@ public class PDFTableGroupLM extends PDFGroupLM
 			while ( iter.hasNext( ) )
 			{
 				row = (RowArea) iter.next( );
+				// FIXME should add to the first line of this group
 				addArea( row, false, true );
+				tableLM.addRow( row, true );
 				count++;
 			}
-			if ( row != null )
-			{
-				removeBottomBorder( row );
-			}
-			tableLM.setRepeatCount( tableLM.getRepeatCount( ) + count );
+
+			repeatCount += count;
 		}
 		tableLM.getContent( ).setExtension( IContent.LAYOUT_EXTENSION, null );
+		needRepeat = false;
 	}
 
-	public boolean addArea( IArea area, boolean keepWithPrevious, boolean keepWithNext )
+	protected void repeatHeader( )
 	{
-		if(firstRow)
-		{
-			firstRow = false;
-			IArea tocAnchor = AreaFactory.createTableGroupArea( (IGroupContent) content );
-			tableLM.addArea( tocAnchor, false, false );
-			tableLM.setRepeatCount( tableLM.getRepeatCount( ) + 1 );
-		}
-		return parent.addArea(  area, false, false );
-	}
-
-	protected void createRoot( )
-	{
-		// do nothing
-	}
-
-	protected void initialize( )
-	{
-
+		repeat( );
+		skipCachedRow( );
 	}
 
 	protected IReportItemExecutor createExecutor( )
@@ -175,21 +142,21 @@ public class PDFTableGroupLM extends PDFGroupLM
 		return executor;
 	}
 
-	protected boolean isCurrentDetailBand()
+	protected boolean isCurrentDetailBand( )
 	{
-		if(child!=null)
+		if ( child != null )
 		{
 			IContent c = child.getContent( );
-			if(c!=null)
+			if ( c != null )
 			{
-				if(c instanceof IGroupContent)
+				if ( c instanceof IGroupContent )
 				{
 					return true;
 				}
-				else if(c instanceof IBandContent)
+				else if ( c instanceof IBandContent )
 				{
-					IBandContent band = (IBandContent)c;
-					if(band.getBandType( )==IBandContent.BAND_DETAIL)
+					IBandContent band = (IBandContent) c;
+					if ( band.getBandType( ) == IBandContent.BAND_DETAIL )
 					{
 						return true;
 					}
@@ -202,79 +169,36 @@ public class PDFTableGroupLM extends PDFGroupLM
 		}
 		return false;
 	}
-	
-	public void submit(AbstractArea area)
+
+	protected void skipCachedRow( )
 	{
-		parent.submit( area );
-	}
-	
-	protected boolean addToRoot(AbstractArea area)
-	{
-		return parent.addArea( area, false, false );
-		/*if(getCurrentBP() + area.getAllocatedHeight( ) <= getMaxAvaHeight())
+		if ( keepWithCache.isEmpty( ) )
 		{
-			parent.addArea( area, false, false );
-			return true;
+			return;
+		}
+		Iterator iter = keepWithCache.getChildren( );
+		while ( iter.hasNext( ) )
+		{
+			ContainerArea container = (ContainerArea) iter.next( );
+			skip( container );
+		}
+	}
+
+	protected void skip( ContainerArea area )
+	{
+		if ( area instanceof RowArea )
+		{
+			tableLM.skipRow( (RowArea) area );
 		}
 		else
 		{
-			return false;
-		}*/
-	}
-	
-	public int getCurrentBP( )
-	{
-		return parent.getCurrentBP( );
-	}
-	
-
-	public int getCurrentIP( )
-	{
-		return parent.getCurrentIP( );
+			Iterator iter = area.getChildren( );
+			while ( iter.hasNext( ) )
+			{
+				ContainerArea container = (ContainerArea) iter.next( );
+				skip( container );
+			}
+		}
 	}
 
-
-	public int getCurrentMaxContentHeight()
-	{
-		return parent.getCurrentMaxContentHeight( );
-	}
-	public int getCurrentMaxContentWidth( )
-	{
-		return parent.getCurrentMaxContentWidth( );
-	}
-
-	public int getOffsetX( )
-	{
-		return parent.getOffsetX( );
-	}
-
-	public int getOffsetY( )
-	{
-		return parent.getOffsetY( );
-	}
-
-	public void setCurrentBP( int bp )
-	{
-		parent.setCurrentBP( bp );
-	}
-
-	public void setCurrentIP( int ip )
-	{
-		parent.setCurrentIP( ip );
-	}
-
-	public void setOffsetX( int x )
-	{
-		parent.setOffsetX( x );
-	}
-	
-	public int getMaxAvaHeight()
-	{
-		return parent.getMaxAvaHeight();
-	}
-
-	public void setOffsetY( int y )
-	{
-		parent.setOffsetY( y );
-	}
 }

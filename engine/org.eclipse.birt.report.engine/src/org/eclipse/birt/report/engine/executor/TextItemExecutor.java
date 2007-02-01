@@ -26,7 +26,6 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
  * <code>DataItemExecutor</code> is a concrete subclass of
  * <code>StyledItemExecutor</code> that manipulates label/text items.
  * 
- * @version $Revision: 1.38 $ $Date: 2006/11/09 09:48:31 $
  */
 public class TextItemExecutor extends QueryItemExecutor
 {

@@ -16,7 +16,6 @@ import org.w3c.dom.DOMException;
 /**
  * This class represents string values.
  * 
- * @version $Id: StringValue.java,v 1.5 2005/11/22 09:59:57 wyan Exp $
  */
 public class StringValue extends Value
 {

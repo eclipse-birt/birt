@@ -32,7 +32,7 @@
         </oda-data-set>
     </data-sets>
     <page-setup>
-        <graphic-master-page name="page"/>
+        <simple-master-page name="page"/>
     </page-setup>
     <body>
         <text name="text">

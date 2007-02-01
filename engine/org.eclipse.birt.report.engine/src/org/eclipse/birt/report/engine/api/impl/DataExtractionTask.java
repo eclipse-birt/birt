@@ -147,7 +147,7 @@ public class DataExtractionTask extends EngineTask
 			return;
 
 		IDataEngine dataEngine = executionContext.getDataEngine( );
-		dataEngine.prepare( report, appContext );
+		dataEngine.prepare( report, executionContext.getAppContext( ) );
 		
 		HashMap queryIds = report.getQueryIDs( );
 		HashMap query2itemMapping = report.getReportItemToQueryMap( );
@@ -631,8 +631,6 @@ public class DataExtractionTask extends EngineTask
 		}
 		catch ( BirtException e )
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace( );
 			throw new EngineException( "Export date by Instance Id failed!", e );
 		}
 		finally

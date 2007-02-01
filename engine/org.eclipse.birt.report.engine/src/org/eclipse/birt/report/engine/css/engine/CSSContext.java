@@ -16,7 +16,6 @@ import org.w3c.dom.css.CSSValue;
  * This interface allows the user of a CSSEngine to provide contextual
  * informations.
  *
- * @version $Id: CSSContext.java,v 1.2 2005/11/14 03:27:18 gliu Exp $
  */
 public interface CSSContext {
     

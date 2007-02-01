@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.layout.pdf;
 
+import java.util.Iterator;
+
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.engine.content.Dimension;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
@@ -28,9 +30,11 @@ import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.area.IArea;
 import org.eclipse.birt.report.engine.layout.area.IContainerArea;
+import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.LogicContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.PageArea;
+import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.layout.content.BlockStackingExecutor;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontSplitter;
 import org.eclipse.birt.report.engine.layout.pdf.text.Chunk;
@@ -81,7 +85,15 @@ public class PDFPageLM extends PDFBlockContainerLM
 		context.setMaxHeight( page.getBody( ).getHeight( ) );
 		context.setMaxWidth( page.getBody( ).getWidth( ) );
 		maxAvaWidth = context.getMaxWidth( );
-		maxAvaHeight = context.getMaxHeight( );
+		//maxAvaHeight = context.getMaxHeight( );
+		if(context.pagebreakPaginationOnly())
+		{
+			maxAvaHeight = Integer.MAX_VALUE;
+		}
+		else
+		{
+			maxAvaHeight = context.getMaxHeight( );
+		}
 		setCurrentIP( 0 );
 		setCurrentBP( 0 );
 	}
@@ -448,9 +460,49 @@ public class PDFPageLM extends PDFBlockContainerLM
 				reportExecutor ) );
 	}
 
+	
 	protected void closeLayout( )
 	{
-
+		if(context.fitToPage())
+		{
+			setPageScale();
+		}
+	}
+	
+	protected void setPageScale()
+	{
+		if(page!=null && page.getRoot().getChildrenCount()>0)
+		{
+			int maxWidth = context.getMaxWidth();
+			int maxHeight = context.getMaxHeight();
+			int prefWidth = context.getPreferenceWidth();
+			int prefHeight = getCurrentBP();
+			Iterator iter = page.getBody().getChildren();
+			while(iter.hasNext())
+			{
+				AbstractArea area = (AbstractArea)iter.next();
+				if(area instanceof TableArea)
+				{
+					prefWidth = Math.max(prefWidth, area.getAllocatedWidth());
+				}
+			}
+			
+			if(prefHeight>maxHeight)
+			{
+				((ContainerArea)page.getBody()).setHeight(prefHeight);
+				floatingFooter();
+			}
+			
+			if(prefWidth>maxWidth || prefHeight>maxHeight)
+			{
+				ContainerArea pageRoot = (ContainerArea)page.getRoot();
+				float scale = Math.min(maxWidth/(float)prefWidth, maxHeight/(float)prefHeight);
+				page.setScale(scale);
+				page.setHeight((int)(page.getHeight()/scale));
+				page.setWidth((int)(page.getWidth()/scale));
+				pageRoot.setPosition((int)(pageRoot.getX()/scale), (int)(pageRoot.getY()/scale));
+			}
+		}
 	}
 
 	protected boolean isRootEmpty( )

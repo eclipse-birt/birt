@@ -11,33 +11,38 @@
 
 package org.eclipse.birt.report.engine.layout.pdf;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.engine.EngineCase;
 import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.api.HTMLRenderOption;
-import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
-import org.eclipse.birt.report.engine.api.impl.RunAndRenderTask;
-import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.content.impl.PageContent;
-import org.eclipse.birt.report.engine.emitter.IContentEmitter;
-import org.eclipse.birt.report.engine.layout.area.IArea;
 import org.eclipse.birt.report.engine.layout.area.IContainerArea;
-import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
-import org.eclipse.birt.report.engine.layout.area.impl.InlineContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.LineArea;
 import org.eclipse.birt.report.engine.layout.area.impl.PageArea;
-import org.eclipse.birt.report.engine.layout.area.impl.TextArea;
 
-public class PDFLineAreaLMTest extends EngineCase
+public class PDFLineAreaLMTest extends PDFLayoutTest
 {
+	/**
+	 * Test case for bugzilla bug <a
+	 * href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=168804">168804</a> :
+	 * Text only containing multiple line break are ignored in pdf
+	 * 
+	 * @throws EngineException
+	 */
+	public void testMutipleLineBreakHeight() throws EngineException
+	{
+		String designFile = "org/eclipse/birt/report/engine/layout/pdf/168804.xml";
+		IReportRunnable report = openReportDesign( designFile );
+		List pageAreas = getPageAreas( report );
+		
+ 		assertEquals( 1, pageAreas.size( ) );
+		PageArea pageArea = (PageArea)pageAreas.get( 0 );
+		Iterator logicContainers = pageArea.getBody( ).getChildren( );
+		IContainerArea blockContainer = (IContainerArea) logicContainers
+					.next( );
+		assertTrue("3 lines",blockContainer.getChildrenCount( )==3);
+		assertTrue("Line height is right", blockContainer.getHeight( )>=27000);
+	}
 
 	/**
 	 * Test case for bugzilla bug <a
@@ -66,114 +71,6 @@ public class PDFLineAreaLMTest extends EngineCase
 		assertEquals( "paragraph 22.", getText( lineArea, 5 ) );
 	}
 
-	protected boolean isEmpty( ContainerArea container )
-	{
-		int childrenCount = container.getChildrenCount( );
-		if ( childrenCount == 0 )
-		{
-			return true;
-		}
-		else if ( childrenCount == 1 )
-		{
-			Object children = container.getChildren( ).next( );
-			if ( children instanceof ContainerArea )
-			{
-				return isEmpty( (ContainerArea )children);
-			}
-		}
-		return false;
-	}
 	
-	protected IArea getChildren( ContainerArea container, int index )
-	{
-		int current = 0;
-		Iterator children = container.getChildren( );
-		while( children.hasNext( ) )
-		{
-			Object child = children.next( );
-			if ( current == index )
-			{
-				return (IArea)child;
-			}
-			++current;
-		}
-		return null;
-	}
-
-	protected String getText( LineArea line, int index )
-	{
-		InlineContainerArea inlineArea = (InlineContainerArea) getChildren(
-				line, index );
-		IArea area = getChildren( inlineArea, 0 );
-		if ( !(area instanceof TextArea) )
-		{
-			fail( "Child " + index + " of line doesn't contains text Area");
-		}
-		return ((TextArea)area).getText( );
-	}
 	
-	protected IReportRunnable openReportDesign( String designFile ) throws EngineException
-	{
-		useDesignFile( designFile );
-		IReportRunnable report = engine.openReportDesign( REPORT_DESIGN );
-		return report;
-	}
-	
-	protected List getPageAreas(IReportRunnable runnable ) throws EngineException
-	{
-		final List pageAreas = new ArrayList();
-		IEmitterMonitor monitor = new IEmitterMonitor(){
-			public void onMethod( Method method, Object[] args )
-			{
-				if ( "startPage".equals( method.getName( ) ))
-				{
-					PageContent pageContent = (PageContent) args[0];
-					pageAreas.add( pageContent
-							.getExtension( IContent.LAYOUT_EXTENSION ) );
-				}
-			}
-		};
-		IRunAndRenderTask runAndRenderTask = new TestRunAndRenderTask( engine,
-				runnable, monitor );
-		HTMLRenderOption options = new HTMLRenderOption( );
-		options.setOutputFormat( "pdf" );
-		options.setMasterPageContent( false );
-		runAndRenderTask.setRenderOption( options );
-		runAndRenderTask.run( );
-		runAndRenderTask.close( );
-		return pageAreas;
-	}
-}
-
-interface IEmitterMonitor
-{
-	void onMethod( Method method, Object[] args );
-}
-
-class TestRunAndRenderTask extends RunAndRenderTask
-{
-	IEmitterMonitor monitor;
-	
-	public TestRunAndRenderTask( IReportEngine engine,
-			IReportRunnable runnable, IEmitterMonitor monitor )
-	{
-		super( engine, runnable );
-		this.monitor = monitor;
-	}
-
-	protected IContentEmitter createContentEmitter( ) throws EngineException
-	{
-		final IContentEmitter emitter = super.createContentEmitter( );
-		return (IContentEmitter) Proxy.newProxyInstance(
-				emitter.getClass( ).getClassLoader( ), new Class[]{IContentEmitter.class},
-				new InvocationHandler( ) {
-
-					public Object invoke( Object proxy, Method method,
-							Object[] args ) throws Throwable
-					{
-						monitor.onMethod( method, args );
-						return method.invoke( emitter, args );
-					}
-				} );
-	}
 }

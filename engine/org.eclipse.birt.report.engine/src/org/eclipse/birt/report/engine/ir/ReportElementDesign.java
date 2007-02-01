@@ -19,7 +19,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 /**
  * base class of all elements in the report design.
  * 
- * @version $Revision: 1.9.12.1 $ $Date: 2006/09/07 12:56:52 $
  */
 public abstract class ReportElementDesign
 {

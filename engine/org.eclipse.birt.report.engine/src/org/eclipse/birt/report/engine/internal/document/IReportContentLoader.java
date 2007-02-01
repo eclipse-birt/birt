@@ -18,7 +18,6 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 /**
  * used to load the contents from the report document.
  *
- * @version $Revision: 1.2 $ $Date: 2006/09/06 03:22:15 $
  */
 public interface IReportContentLoader
 {

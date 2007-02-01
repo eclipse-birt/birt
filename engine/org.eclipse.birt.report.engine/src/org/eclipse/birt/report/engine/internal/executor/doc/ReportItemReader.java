@@ -1,6 +1,7 @@
 
 package org.eclipse.birt.report.engine.internal.executor.doc;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IListContent;
@@ -55,11 +56,18 @@ public class ReportItemReader implements IReportItemExecutor
 
 	public IContent execute( )
 	{
-		// load it from the content stream
-		loadContent( );
-		// setup the report design
-		initializeContent( );
-		return content;
+		try
+		{
+			// load it from the content stream
+			loadContent( );
+			// setup the report design
+			initializeContent( );
+			return content;
+		}
+		catch ( Exception ex )
+		{
+			return null;
+		}
 	}
 
 	public IReportItemExecutor getNextChild( )
@@ -189,7 +197,7 @@ public class ReportItemReader implements IReportItemExecutor
 	 * Each content can be intailzied only once.
 	 * 
 	 */
-	private void initializeContent( )
+	private void initializeContent( ) throws BirtException
 	{
 		assert content != null;
 		reader.initializeContent( content );

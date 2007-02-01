@@ -11,13 +11,11 @@
 
 package org.eclipse.birt.report.engine.ir;
 
-import java.util.ArrayList;
 
 
 /**
  * Master Page
  * 
- * @version $Revision: 1.8 $ $Date: 2005/11/11 06:26:41 $
  */
 abstract public class MasterPageDesign extends StyledElementDesign
 {
@@ -58,7 +56,6 @@ abstract public class MasterPageDesign extends StyledElementDesign
 
 	protected String bodyStyleName;
 	
-	protected ArrayList regions = new ArrayList();
 	/**
 	 * default constuctor use A4, 5mm margin.
 	 */
@@ -210,11 +207,6 @@ abstract public class MasterPageDesign extends StyledElementDesign
 	public void setBodyStyleName( String bodyStyleName)
 	{
 		this.bodyStyleName = bodyStyleName;
-	}
-	
-	public ArrayList getRegions()
-	{
-		return regions;
 	}
 
 }

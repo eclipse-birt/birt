@@ -16,7 +16,6 @@ package org.eclipse.birt.report.engine.ir;
  * 
  * @see TableItemDesign
  * @see GridItemDesign
- * @version $Revision: 1.8 $ $Date: 2006/05/17 05:42:10 $
  */
 public class ColumnDesign extends StyledElementDesign
 {

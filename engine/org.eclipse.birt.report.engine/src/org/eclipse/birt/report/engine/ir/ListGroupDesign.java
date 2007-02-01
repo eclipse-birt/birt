@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * List group
  * 
- * @version $Revision: 1.6 $ $Date: 2006/06/13 15:37:20 $
  */
 public class ListGroupDesign extends GroupDesign
 {

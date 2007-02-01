@@ -21,7 +21,6 @@ import java.util.ArrayList;
  * column define, serveral rows. and each row contains several cells(maximum to
  * column count defined in column define).
  * 
- * @version $Revision: 1.7 $ $Date: 2005/11/11 06:26:41 $
  */
 public class GridItemDesign extends ReportItemDesign
 {

@@ -66,6 +66,6 @@ public class GetParameterDefinitionTaskTest extends EngineCase
 				"NewCascadingParameterGroup", new Object[]{"1002"} ); //$NON-NLS-1$ //$NON-NLS-2$
 		content = list.toArray( );
 		assertEquals(
-				"ANG Resellers", ( SelectionChoiceUtil.getValue( content[0] ) ) ); //$NON-NLS-1$
+				"Atelier graphique", ( SelectionChoiceUtil.getValue( content[0] ) ) ); //$NON-NLS-1$
 	}
 }

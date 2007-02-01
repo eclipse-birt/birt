@@ -38,10 +38,14 @@ public interface IEngineTask {
 	public abstract void setLocale(ULocale locale);
 
 	/**
-	 * sets the task context
-	 * @param context - task contexts in a map. The map contains name-value pairs
+	 * sets the task context.
+	 * 
+	 * this method must be called before the run/render/execute etc.
+	 * 
+	 * @param context -
+	 *            task contexts in a map. The map contains name-value pairs
 	 */
-	public abstract void setAppContext(Map context);
+	public abstract void setAppContext( Map context );
 	
 	/**
 	 * returns the locale for running the task
@@ -56,7 +60,11 @@ public interface IEngineTask {
 	public abstract ULocale getULocale();
 	
 	/**
-	 * returns the context objects for the task
+	 * returns the context objects for the task.
+	 * 
+	 * The return appContext is read only, the user should never try to modify
+	 * the value.
+	 * 
 	 * @return the task contexts
 	 */
 	public abstract Map getAppContext();
@@ -71,6 +79,7 @@ public interface IEngineTask {
 	 * defines an additional Java object that is exposed to BIRT scripting at a per-task level
 	 * @param jsName the name that the object is referenced in JavaScript
 	 * @param obj the Java object that is wrapped and scripted
+	 * @deprecated user should add it to appContext.
 	 */
 	public void addScriptableJavaObject(String jsName, Object obj);
 	
@@ -157,6 +166,7 @@ public interface IEngineTask {
 	 * cancels the task with a signal.
 	 * you can't call this method in the same thread with runTask
 	 * The signal will be notified when the task finishes the cancel.
+	 * @deprecated user should use cancel() instead.
 	 */
 	public void cancel( Object signal );
 
@@ -193,6 +203,30 @@ public interface IEngineTask {
 	 * @return the status
 	 */
 	int getStatus();
+
+	/**
+	 * continue the task execution if there is an error.
+	 */
+	static final int CONTINUE_ON_ERROR = 0;
+	/**
+	 * cancel the task execution if there is an error.
+	 */
+	static final int CANCEL_ON_ERROR = 1;
+
+	/**
+	 * set the error handling mode for the first error.
+	 * 
+	 * If the options is set to cancel_on_error, the task is cancelled just like
+	 * the user calls cancel().
+	 * 
+	 * If the option is set the continue_on_erro, the task will continue and
+	 * saves the error into the error list.
+	 * 
+	 * @param option
+	 *            the error handling mode.
+	 * @return
+	 */
+	void setErrorHandlingOption( int option );
 	
 	/**
 	 * close the task, relese any resources. 

@@ -16,14 +16,28 @@ import java.util.List;
 /**
  * output settings for HTML output format
  */
-public class HTMLRenderOption extends RenderOptionBase  implements IHTMLRenderOption 
+public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption
 {
+
+	/**
+	 * constructor
+	 */
+	public HTMLRenderOption( IRenderOption options )
+	{
+		super( options );
+	}
+
+	public HTMLRenderOption( )
+	{
+		super( );
+	}
+
 	/**
 	 * @return Returns the instanceIDs.
 	 */
 	public List getInstanceIDs( )
 	{
-		Object list = options.get( INSTANCE_ID_LIST );
+		Object list = getOption( INSTANCE_ID_LIST );
 		if ( list instanceof List )
 		{
 			return (List) list;
@@ -37,14 +51,7 @@ public class HTMLRenderOption extends RenderOptionBase  implements IHTMLRenderOp
 	 */
 	public void setInstanceIDs( List instanceIDs )
 	{
-		options.put( INSTANCE_ID_LIST, instanceIDs );
-	}
-
-	/**
-	 * constructor
-	 */
-	public HTMLRenderOption( )
-	{
+		setOption( INSTANCE_ID_LIST, instanceIDs );
 	}
 
 	/**
@@ -57,9 +64,9 @@ public class HTMLRenderOption extends RenderOptionBase  implements IHTMLRenderOp
 	public void setEmbeddable( boolean embeddable )
 	{
 		if ( embeddable )
-			options.put( HTML_TYPE, HTML_NOCSS );
+			setOption( HTML_TYPE, HTML_NOCSS );
 		else
-			options.put( HTML_TYPE, HTML );
+			setOption( HTML_TYPE, HTML );
 	}
 
 	/**
@@ -67,8 +74,8 @@ public class HTMLRenderOption extends RenderOptionBase  implements IHTMLRenderOp
 	 */
 	public boolean getEmbeddable( )
 	{
-		String htmlType = (String) options.get( HTML_TYPE );
-		if ( htmlType != null && htmlType.compareTo( HTML_NOCSS ) == 0 )
+		String htmlType = getStringOption( HTML_TYPE );
+		if ( HTML_NOCSS.equals( htmlType ) )
 			return true;
 		return false;
 	}
@@ -79,7 +86,7 @@ public class HTMLRenderOption extends RenderOptionBase  implements IHTMLRenderOp
 	 */
 	public void setUserAgent( String userAgent )
 	{
-		options.put( USER_AGENT, userAgent );
+		setOption( USER_AGENT, userAgent );
 	}
 
 	/**
@@ -87,91 +94,74 @@ public class HTMLRenderOption extends RenderOptionBase  implements IHTMLRenderOp
 	 */
 	public String getUserAgent( )
 	{
-		return (String) options.get( USER_AGENT );
+		return getStringOption( USER_AGENT );
+	}
+
+	public void setUrlEncoding( String encoding )
+	{
+		setOption( URL_ENCODING, encoding );
+	}
+
+	/**
+	 * @return the user agent for the request
+	 */
+	public String getUrlEncoding( )
+	{
+		return getStringOption( URL_ENCODING );
 	}
 
 	public void setMasterPageContent( boolean show )
 	{
-		options.put( MASTER_PAGE_CONTENT, Boolean.valueOf( show ) );
+		setOption( MASTER_PAGE_CONTENT, Boolean.valueOf( show ) );
 	}
 
 	public boolean getMasterPageContent( )
 	{
-		Boolean value = (Boolean) options.get( MASTER_PAGE_CONTENT );
-		if ( value != null )
-		{
-			return value.booleanValue( );
-		}
-		return true;
+		return getBooleanOption( MASTER_PAGE_CONTENT, true );
 	}
 
 	public void setHtmlPagination( boolean paginate )
 	{
-		options.put( HTML_PAGINATION, Boolean.valueOf( paginate ) );
+		setOption( HTML_PAGINATION, Boolean.valueOf( paginate ) );
 	}
 
 	public boolean getHtmlPagination( )
 	{
-		Boolean value = (Boolean) options.get( HTML_PAGINATION );
-		if ( value != null )
-		{
-			return value.booleanValue( );
-		}
-		return false;
+		return getBooleanOption( HTML_PAGINATION, false );
 	}
 
-	public void setActionHandle( IHTMLActionHandler handler )
-	{
-		options.put( ACTION_HANDLER, handler );
-	}
-
-	public IHTMLActionHandler getActionHandle( )
-	{
-		return (IHTMLActionHandler) options.get( ACTION_HANDLER );
-	}
-	
 	/**
 	 * @deprecated includeSelectionHandle is replaced by eanableMetadata flag.
 	 */
-	public void setIncludeSelectionHandle(boolean option)
+	public void setIncludeSelectionHandle( boolean option )
 	{
-		options.put( HTML_INCLUDE_SELECTION_HANDLE, new Boolean(option) );
+		setOption( HTML_INCLUDE_SELECTION_HANDLE, new Boolean( option ) );
 	}
-	
+
 	/**
 	 * @deprecated includeSelectionHandle is replaced by eanableMetadata flag.
 	 */
-	public boolean getIncludeSelectionHandle()
+	public boolean getIncludeSelectionHandle( )
 	{
-		Boolean value = (Boolean) options.get( HTML_INCLUDE_SELECTION_HANDLE);
-		if ( value != null )
-		{
-			return value.booleanValue( );
-		}
-		return false;
+		return getBooleanOption( HTML_INCLUDE_SELECTION_HANDLE, false );
 	}
 
-	public void setHtmlRtLFlag( boolean option )
+	public void setHtmlRtLFlag( boolean flag )
 	{
-		options.put( HTML_RTL_FLAG, new Boolean( option ) );
+		setOption( HTML_RTL_FLAG, new Boolean( flag ) );
 	}
 
 	public boolean getHtmlRtLFlag( )
 	{
-		Boolean value = (Boolean) options.get( HTML_RTL_FLAG );
-		if ( value != null )
-		{
-			return value.booleanValue( );
-		}
-		return false;
+		return getBooleanOption( HTML_RTL_FLAG, false );
 	}
-	
+
 	/**
 	 * @param htmlTile
 	 */
-	public void setHtmlTitle( String htmlTile )
+	public void setHtmlTitle( String htmlTitle )
 	{
-		options.put( HTML_TITLE, htmlTile );
+		setOption( HTML_TITLE, htmlTitle );
 	}
 
 	/**
@@ -179,22 +169,17 @@ public class HTMLRenderOption extends RenderOptionBase  implements IHTMLRenderOp
 	 */
 	public String getHtmlTitle( )
 	{
-		return (String) options.get( HTML_TITLE );
+		return getStringOption( HTML_TITLE );
 	}
-	
-	public void setPageFooterFloatFlag( boolean option )
+
+	public void setPageFooterFloatFlag( boolean flag )
 	{
-		options.put( PAGEFOOTER_FLOAT_FLAG, new Boolean( option ) );
+		setOption( PAGEFOOTER_FLOAT_FLAG, new Boolean( flag ) );
 	}
 
 	public boolean getPageFooterFloatFlag( )
 	{
-		Boolean value = (Boolean) options.get( PAGEFOOTER_FLOAT_FLAG );
-		if ( value != null )
-		{
-			return value.booleanValue( );
-		}
-		return true;
+		return getBooleanOption( PAGEFOOTER_FLOAT_FLAG, true );
 	}
 
 	/**
@@ -205,7 +190,7 @@ public class HTMLRenderOption extends RenderOptionBase  implements IHTMLRenderOp
 	 */
 	public void setEnableMetadata( boolean enableMetadata )
 	{
-		options.put( HTML_ENABLE_METADATA, new Boolean( enableMetadata ) );
+		setOption( HTML_ENABLE_METADATA, new Boolean( enableMetadata ) );
 	}
 
 	/**
@@ -213,12 +198,7 @@ public class HTMLRenderOption extends RenderOptionBase  implements IHTMLRenderOp
 	 */
 	public boolean getEnableMetadata( )
 	{
-		Object value = options.get( HTML_ENABLE_METADATA );
-		if ( value instanceof Boolean )
-		{
-			return ( ( Boolean )value ).booleanValue( );
-		}
-		return false;
+		return getBooleanOption( HTML_ENABLE_METADATA, false );
 	}
 
 	/**
@@ -229,7 +209,7 @@ public class HTMLRenderOption extends RenderOptionBase  implements IHTMLRenderOp
 	 */
 	public void setDisplayFilterIcon( boolean displayFilterIcon )
 	{
-		options.put( HTML_DISPLAY_FILTER_ICON, new Boolean( displayFilterIcon ) );
+		setOption( HTML_DISPLAY_FILTER_ICON, new Boolean( displayFilterIcon ) );
 	}
 
 	/**
@@ -237,23 +217,19 @@ public class HTMLRenderOption extends RenderOptionBase  implements IHTMLRenderOp
 	 */
 	public boolean getDisplayFilterIcon( )
 	{
-		Object value = options.get( HTML_DISPLAY_FILTER_ICON );
-		if ( value instanceof Boolean )
-		{
-			return ( ( Boolean )value ).booleanValue( );
-		}
-		return false;
+		return getBooleanOption( HTML_DISPLAY_FILTER_ICON, false );
 	}
 
 	/**
-	 * Sets the flag indicationg that if group expand/collapse icons should be displayed.
+	 * Sets the flag indicationg that if group expand/collapse icons should be
+	 * displayed.
 	 * 
 	 * @param displayFilterIcon
 	 *            the flag
 	 */
 	public void setDisplayGroupIcon( boolean displayFilterIcon )
 	{
-		options.put( HTML_DISPLAY_GROUP_ICON, new Boolean( displayFilterIcon ) );
+		setOption( HTML_DISPLAY_GROUP_ICON, new Boolean( displayFilterIcon ) );
 	}
 
 	/**
@@ -261,11 +237,73 @@ public class HTMLRenderOption extends RenderOptionBase  implements IHTMLRenderOp
 	 */
 	public boolean getDisplayGroupIcon( )
 	{
-		Object value = options.get( HTML_DISPLAY_GROUP_ICON );
+		return getBooleanOption( HTML_DISPLAY_GROUP_ICON, false );
+	}
+
+	/**
+	 * returns the image directory that engine stores images and charts into
+	 * 
+	 * @return the image directory.
+	 */
+	public String getImageDirectory( )
+	{
+		return getStringOption( IMAGE_DIRECTROY );
+	}
+
+	/**
+	 * sets the image directory that engine stores images and charts into
+	 * 
+	 * @param imageDirectory
+	 *            the image directory that engine stores images and charts into
+	 */
+	public void setImageDirectory( String imageDirectory )
+	{
+		setOption( IMAGE_DIRECTROY, imageDirectory );
+	}
+
+	/**
+	 * returns the base url for creating image URL
+	 * 
+	 * @return Rreturn the abse image url
+	 */
+	public String getBaseImageURL( )
+	{
+		return getStringOption( BASE_IMAGE_URL );
+	}
+
+	/**
+	 * sets the base image URL for image handling
+	 * 
+	 * @param baseImageURL
+	 *            the base image URL
+	 */
+	public void setBaseImageURL( String baseImageURL )
+	{
+		setOption( BASE_IMAGE_URL, baseImageURL );
+	}
+	
+	/**
+	 * Sets the flag indicationg that if the top-level table should be wrapped.
+	 * 
+	 * @param displayFilterIcon
+	 *            the flag
+	 */
+	public void setWrapTemplateTable( boolean displayFilterIcon )
+	{
+		options.put( HTML_WRAP_TEMPLATE_TABLE, new Boolean( displayFilterIcon ) );
+	}
+
+	/**
+	 * @return the group expand/collapse icon flag value.
+	 */
+	public boolean getWrapTemplateTable( )
+	{
+		Object value = options.get( HTML_WRAP_TEMPLATE_TABLE );
 		if ( value instanceof Boolean )
 		{
-			return ( ( Boolean )value ).booleanValue( );
+			return ( (Boolean) value ).booleanValue( );
 		}
 		return false;
 	}
+
 }

@@ -19,6 +19,7 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.net.URLStreamHandlerFactory;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -51,7 +52,6 @@ public class OSGILauncher
 
 	// OSGi properties
 	private static final String PROP_OSGI_INSTALL_AREA = "osgi.install.area";//$NON-NLS-1$
-	private static final String PROP_OSGI_PARENTCLASSLOADER = "osgi.parentClassloader";//$NON-NLS-1$
 	private static final String PROP_OSGI_INSTANCE_AREA = "osgi.instance.area";//$NON-NLS-1$
 	private static final String PROP_OSGI_CONFIGURATION_AREA = "osgi.configuration.area";//$NON-NLS-1$
 	private static final String PROP_ECLIPSE_IGNOREAPP = "eclipse.ignoreApp";//$NON-NLS-1$
@@ -109,8 +109,8 @@ public class OSGILauncher
 		try
 		{
 			ClassLoader loader = this.getClass( ).getClassLoader( );
-			frameworkClassLoader = new URLClassLoader( new URL[]{osgiFramework},
-					loader );
+			frameworkClassLoader = new ChildFirstURLClassLoader(
+					new URL[]{osgiFramework}, loader );
 			// frameworkClassLoader = new OSGIClassLoader(
 			// new URL[]{frameworkUrl}, loader );
 
@@ -259,12 +259,6 @@ public class OSGILauncher
 
 		properties.put( PROP_ECLIPSE_IGNOREAPP, "true" );//$NON-NLS-1$ 
 		properties.put( PROP_OSGI_NOSHUTDOWN, "true" ); //$NON-NLS-1$ 
-		String parentClassLoader = getProperty( properties,
-				PROP_OSGI_PARENTCLASSLOADER );
-		if ( parentClassLoader == null )
-		{
-			properties.put( PROP_OSGI_PARENTCLASSLOADER, "fwk" ); //$NON-NLS-1$ 
-		}
 		
 		//set -clean if the user doens't define it.
 		String clean = getProperty(properties, PROP_OSGI_CLEAN);
@@ -586,28 +580,68 @@ public class OSGILauncher
 		}
 		return null;
 	}
-}
-
-class OSGIClassLoader extends ClassLoader
-{
-
-	ClassLoader parent;
-	ClassLoader urlClassLoader;
-
-	public OSGIClassLoader( URL[] urls, ClassLoader parent )
+	/**
+	 * The ChildFirstURLClassLoader alters regular ClassLoader delegation and
+	 * will check the URLs used in its initialization for matching classes
+	 * before delegating to it's parent. Sometimes also referred to as a
+	 * ParentLastClassLoader
+	 */
+	protected class ChildFirstURLClassLoader extends URLClassLoader
 	{
-		urlClassLoader = new URLClassLoader( urls, parent );
-	}
 
-	public Class loadClass( String name ) throws ClassNotFoundException
-	{
-		try
+		public ChildFirstURLClassLoader( URL[] urls )
 		{
-			return parent.loadClass( name );
+			super( urls );
 		}
-		catch ( ClassNotFoundException ex )
+
+		public ChildFirstURLClassLoader( URL[] urls, ClassLoader parent )
 		{
-			return urlClassLoader.loadClass( name );
+			super( urls, parent );
 		}
+
+		public ChildFirstURLClassLoader( URL[] urls, ClassLoader parent,
+				URLStreamHandlerFactory factory )
+		{
+			super( urls, parent, factory );
+		}
+
+		public URL getResource( String name )
+		{
+			URL resource = findResource( name );
+			if ( resource == null )
+			{
+				ClassLoader parent = getParent( );
+				if ( parent != null )
+					resource = parent.getResource( name );
+			}
+			return resource;
+		}
+
+		protected synchronized Class loadClass( String name, boolean resolve )
+				throws ClassNotFoundException
+		{
+			Class clazz = findLoadedClass( name );
+			if ( clazz == null )
+			{
+				try
+				{
+					clazz = findClass( name );
+				}
+				catch ( ClassNotFoundException e )
+				{
+					ClassLoader parent = getParent( );
+					if ( parent != null )
+						clazz = parent.loadClass( name );
+					else
+						clazz = getSystemClassLoader( ).loadClass( name );
+				}
+			}
+
+			if ( resolve )
+				resolveClass( clazz );
+
+			return clazz;
+		}
+
 	}
 }

@@ -16,7 +16,6 @@ import org.w3c.dom.css.CSSValue;
 /**
  * This singleton class represents the 'inherit' value.
  * 
- * @version $Id: InheritValue.java,v 1.1 2005/11/11 06:26:44 wyan Exp $
  */
 public class InheritValue extends Value
 {

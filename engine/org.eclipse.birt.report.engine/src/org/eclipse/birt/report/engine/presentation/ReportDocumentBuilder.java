@@ -51,6 +51,35 @@ import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
 import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
 import org.eclipse.birt.report.engine.toc.TOCTree;
 
+/**
+ * Used in run task. To builder the report document.
+ * 
+ * In builder, will call IReportLayoutEngine to lay out the report and create the document. 
+ * This means write page hint, page contents and all body contents to the document. 
+ * And in each page closing, we will call page handler's onPage() to do some sepcial process, 
+ * like write the current page's page hint, evaluate the OnpageBreak script, 
+ * reset the page row count to be 0 in layout engine.
+ * 
+ * Here are several main fields used in this class: 
+ *    CompositeContentEmitter, composite two emitters:
+ *       PageEmitter: 
+ *          used to write the the master page content  
+ *       OnPageBreakHandler.PageContentEmitter: 
+ *          used to collect the page mode which is used to call onPageBreak.
+ *    CompositeLayoutPageHandler, composite three page handler:
+ *       LayoutPageHandler: 
+ *          used to write the page hint, created by the handler.
+ *       OnPageBreakLayoutPageHandle: 
+ *          used to call the onPageBreak script, collected by its PageContentEmitter.
+ *       ContextPageBreakHandler: 
+ *          used to call the onPageBreak of IPageBreakListener to reset the page row count.
+ *    IContentEmitter:
+ *       ContentEmitter:
+ *          used to write the content stream.          
+ *    IPageHandler:
+ *       used to recevie the document page events, mostly implemented by user.
+ *          
+ */
 public class ReportDocumentBuilder
 {
 
@@ -121,16 +150,23 @@ public class ReportDocumentBuilder
 		this.document = document;
 		OnPageBreakLayoutPageHandle onPageBreakHandler = new OnPageBreakLayoutPageHandle(
 				context );
+		// output emitter is used to receive the layout content.
 		outputEmitters = new CompositeContentEmitter( );
+		// pageEmitter is used to write the the master page content  
 		outputEmitters.addEmitter( new PageEmitter( ) );
+		// onPageBreakHandler's emitter is used to collect the page mode which is used to call onPageBreak.
 		outputEmitters.addEmitter( onPageBreakHandler.getEmitter( ) );
 
+		// page handler is used to receive the layout engine's page event.
 		layoutPageHandler = new CompositeLayoutPageHandler( );
+		// used to write the page hint, created by itself.
 		layoutPageHandler.addPageHandler( new LayoutPageHandler( ) );
+		// used to call the onPageBreak script, collected by its PageContentEmitter.
 		layoutPageHandler.addPageHandler( onPageBreakHandler );
+		// used to call the onPageBreak of IPageBreakListener to reset the page row count.
 		layoutPageHandler.addPageHandler( new ContextPageBreakHandler(
 				executionContext ) );
-
+		// used to write the content stream.    
 		contentEmitter = new ContentEmitter( );
 	}
 
@@ -165,7 +201,6 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the report content into the content stream
 	 * 
-	 * @version $Revision: 1.15 $ $Date: 2006/09/21 09:39:19 $
 	 */
 	class ContentEmitter extends ContentEmitterAdapter
 	{
@@ -264,7 +299,6 @@ public class ReportDocumentBuilder
 	/**
 	 * emitter used to save the master page.
 	 * 
-	 * @version $Revision: 1.15 $ $Date: 2006/09/21 09:39:19 $
 	 */
 	class PageEmitter extends ContentEmitterAdapter
 	{
@@ -487,9 +521,13 @@ public class ReportDocumentBuilder
 				// notify the page handler
 				if ( pageHandler != null )
 				{
-					IReportDocumentInfo docInfo = new ReportDocumentInfo(
+					// if user has canceled the task, we should not do onPage.
+					if ( !htmlContext.getCancelFlag( ) )
+					{
+						IReportDocumentInfo docInfo = new ReportDocumentInfo(
 							executionContext, pageNumber, reportFinished );
-					pageHandler.onPage( (int) pageNumber, checkpoint, docInfo );
+						pageHandler.onPage( (int) pageNumber, checkpoint, docInfo );
+					}
 				}
 			}
 		}

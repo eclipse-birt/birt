@@ -191,11 +191,12 @@ public class ExtensionManager
 			EmitterInfo emitterInfo = (EmitterInfo)emitterExtensions.get(i);
 			if(format.equalsIgnoreCase(emitterInfo.getFormat( )))
 			{
-				if(id!=null && id.equalsIgnoreCase(emitterInfo.getIcon( )) || id==null)
+				if ( id == null
+						|| ( id != null && id.equalsIgnoreCase( emitterInfo.getID( ) ) ) )
 				{
 					config = emitterInfo.getEmitter( );
 					break;
-				}				
+				}
 			}
 		}
 		if (config != null)

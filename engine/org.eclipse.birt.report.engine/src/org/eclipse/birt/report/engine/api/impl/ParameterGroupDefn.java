@@ -22,7 +22,6 @@ import org.eclipse.birt.report.engine.api.IParameterGroupDefn;
  * <code>IParameterGroupDefn</code>. It is used to visually group report
  * parameters.
  * 
- * @version $Revision: 1.2 $ $Date: 2005/05/08 06:08:26 $
  */
 public class ParameterGroupDefn extends ParameterDefnBase implements IParameterGroupDefn
 {
