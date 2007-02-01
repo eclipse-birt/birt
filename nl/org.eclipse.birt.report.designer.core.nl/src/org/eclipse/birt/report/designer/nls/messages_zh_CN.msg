@@ -1382,12 +1382,13 @@ FormatDateTimePage.label.custom.settings=自定义设置
 FormatDateTimePage.label.format.code=格式代码:
 FormatDateTimePage.label.format.page=格式为(&F):
 FormatDateTimePage.label.general.preview.group=带格式预览
-FormatDateTimePage.label.guide.text=输入格式为 mm/dd/yyyy hh:mm:ss tt
+FormatDateTimePage.label.guide.text=输入格式为 MM/DD/YYYY hhmmss AM/PM
 FormatDateTimePage.label.preview.dateTime=要预览的日期时间: 
 FormatDateTimePage.label.preview.group=预览
 FormatDateTimePage.label.preview.label=带格式预览:
-FormatDateTimePage.label.table.column.format.code=示例格式
+FormatDateTimePage.label.table.column.format.name=示例格式
 FormatDateTimePage.label.table.column.format.result=示例格式结果
+FormatDateTimePage.label.table.column.format.code=Example code
 FormatDateTimePage.preview.invalid.dateTime=要预览的日期时间无效
 FormatDateTimePage.preview.invalid.formatCode=无效格式代码
 
@@ -3605,9 +3606,10 @@ ThumbnailBuilder.FileDialog.FileNameError.Message=您选择的文件不是图像。
 ###########################################################
 #FragmentResourceEntry properties
 FragmentResourceEntry.RootName=片段
+FragmentResourceEntry.RootDisplayName=Built-in Libraries
 
 ###########################################################
 #PathResourceEntry properties
 PathResourceEntry.RootName=资源文件夹
-
+PathResourceEntry.RootDisplayName=Shared Libraries
 

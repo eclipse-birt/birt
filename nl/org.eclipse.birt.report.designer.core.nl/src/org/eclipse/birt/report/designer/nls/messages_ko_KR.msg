@@ -1382,12 +1382,13 @@ FormatDateTimePage.label.custom.settings=사용자 지정 설정
 FormatDateTimePage.label.format.code=형식 코드:
 FormatDateTimePage.label.format.page=다음으로 형식 지정(&F):
 FormatDateTimePage.label.general.preview.group=형식 미리 보기
-FormatDateTimePage.label.guide.text=mm/dd/yyyy hh:mm:ss tt 형식으로 입력
+FormatDateTimePage.label.guide.text=MM/DD/YYYY hhmmss AM/PM 형식으로 입력
 FormatDateTimePage.label.preview.dateTime=미리 보기 날짜 시간: 
 FormatDateTimePage.label.preview.group=미리 보기
 FormatDateTimePage.label.preview.label=형식 미리 보기:
-FormatDateTimePage.label.table.column.format.code=예 형식
+FormatDateTimePage.label.table.column.format.name=예 형식
 FormatDateTimePage.label.table.column.format.result=예 형식 결과
+FormatDateTimePage.label.table.column.format.code=Example code
 FormatDateTimePage.preview.invalid.dateTime=잘못된 미리 보기 날짜 시간
 FormatDateTimePage.preview.invalid.formatCode=잘못된 형식 코드
 
@@ -3605,8 +3606,9 @@ ThumbnailBuilder.FileDialog.FileNameError.Message=선택한 파일이 이미지가 아닙니�
 ###########################################################
 #FragmentResourceEntry properties
 FragmentResourceEntry.RootName=조각
+FragmentResourceEntry.RootDisplayName=Built-in Libraries
 
 ###########################################################
 #PathResourceEntry properties
 PathResourceEntry.RootName=리소스 폴더
-
+PathResourceEntry.RootDisplayName=Shared Libraries

@@ -1382,12 +1382,13 @@ FormatDateTimePage.label.custom.settings=カスタム設定
 FormatDateTimePage.label.format.code=書式コード :
 FormatDateTimePage.label.format.page=書式設定(&F) :
 FormatDateTimePage.label.general.preview.group=書式付きプレビュー
-FormatDateTimePage.label.guide.text=yyyy/mm/dd hh:mm:ss の形式で入力してください。
+FormatDateTimePage.label.guide.text=YYYY/MM/DD hhmmss AM/PM の形式で入力してください。
 FormatDateTimePage.label.preview.dateTime=プレビューする日時 : 
 FormatDateTimePage.label.preview.group=プレビュー
 FormatDateTimePage.label.preview.label=書式付きプレビュー :
-FormatDateTimePage.label.table.column.format.code=サンプルの書式
+FormatDateTimePage.label.table.column.format.name=サンプルの書式
 FormatDateTimePage.label.table.column.format.result=サンプルの書式の結果
+FormatDateTimePage.label.table.column.format.code=Example code
 FormatDateTimePage.preview.invalid.dateTime=プレビューする日時形式が無効です。
 FormatDateTimePage.preview.invalid.formatCode=書式コードが無効です。
 
@@ -3605,8 +3606,9 @@ ThumbnailBuilder.FileDialog.FileNameError.Message=選択したファイルは、イメージで
 ###########################################################
 #FragmentResourceEntry properties
 FragmentResourceEntry.RootName=フラグメント
+FragmentResourceEntry.RootDisplayName=Built-in Libraries
 
 ###########################################################
 #PathResourceEntry properties
 PathResourceEntry.RootName=リソースフォルダ
-
+PathResourceEntry.RootDisplayName=Shared Libraries

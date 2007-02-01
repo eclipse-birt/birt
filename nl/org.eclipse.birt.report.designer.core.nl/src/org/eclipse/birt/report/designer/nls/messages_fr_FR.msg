@@ -1382,12 +1382,13 @@ FormatDateTimePage.label.custom.settings=Paramètres personnalisés
 FormatDateTimePage.label.format.code=Code de format :
 FormatDateTimePage.label.format.page=&Format :
 FormatDateTimePage.label.general.preview.group=Aperçu au format
-FormatDateTimePage.label.guide.text=Entrer au format mm/jj/aaaa hh:mm:ss tt
+FormatDateTimePage.label.guide.text=Entrer au format MM/JJ/AAAA hhmmss AM/PM
 FormatDateTimePage.label.preview.dateTime=Aperçu de date/heure : 
 FormatDateTimePage.label.preview.group=Aperçu
 FormatDateTimePage.label.preview.label=Aperçu au format :
-FormatDateTimePage.label.table.column.format.code=Format exemple
+FormatDateTimePage.label.table.column.format.name=Format exemple
 FormatDateTimePage.label.table.column.format.result=Exemple de résultat de format
+FormatDateTimePage.label.table.column.format.code=Example code
 FormatDateTimePage.preview.invalid.dateTime=Format de date/heure incorrect pour l'aperçu
 FormatDateTimePage.preview.invalid.formatCode=Code de format incorrect
 
@@ -3605,9 +3606,10 @@ ThumbnailBuilder.FileDialog.FileNameError.Message=Le fichier sélectionné n'est p
 ###########################################################
 #FragmentResourceEntry properties
 FragmentResourceEntry.RootName=Fragments
+FragmentResourceEntry.RootDisplayName=Built-in Libraries
 
 ###########################################################
 #PathResourceEntry properties
 PathResourceEntry.RootName=Dossier de ressources
-
+PathResourceEntry.RootDisplayName=Shared Libraries
 
