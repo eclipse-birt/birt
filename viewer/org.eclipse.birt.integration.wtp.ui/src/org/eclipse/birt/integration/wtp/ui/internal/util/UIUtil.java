@@ -98,6 +98,47 @@ public class UIUtil implements IBirtWizardConstants
 	}
 
 	/**
+	 * Create "BIRT_VIEWER_WORKING_FOLDER" configuration group
+	 * 
+	 * @param composite
+	 */
+	public Text createWorkingFolderGroup( Composite parent )
+	{
+		Text txtWorkingFolder = null;
+
+		// create folder selection group
+		FolderSelectionGroup group = new FolderSelectionGroup( );
+		group.setLabelText( BirtWTPMessages.BIRTConfiguration_working_label );
+		group
+				.setButtonText( BirtWTPMessages.BIRTConfiguration_folder_button_text );
+		group
+				.setDialogTitle( BirtWTPMessages.BIRTConfiguration_working_dialog_title );
+		group
+				.setDialogMessage( BirtWTPMessages.BIRTConfiguration_working_dialog_message );
+
+		// set default value
+		group.setTextValue( DataUtil.getString(
+				WebArtifactUtil.getContextParamValue( properties,
+						BIRT_WORKING_FOLDER_SETTING ), false ) );
+
+		group.create( parent );
+		txtWorkingFolder = group.getText( );
+
+		// add modify listener
+		txtWorkingFolder.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				WebArtifactUtil.setContextParamValue( properties,
+						BIRT_WORKING_FOLDER_SETTING, ( (Text) e.getSource( ) )
+								.getText( ) );
+			}
+		} );
+
+		return txtWorkingFolder;
+	}
+
+	/**
 	 * Create "BIRT_VIEWER_DOCUMENT_FOLDER" configuration group
 	 * 
 	 * @param composite
@@ -262,30 +303,30 @@ public class UIUtil implements IBirtWizardConstants
 	}
 
 	/**
-	 * Create "DOCUMENT_FOLDER_ACCESS_ONLY" configuration group
+	 * Create "WORKING_FOLDER_ACCESS_ONLY" configuration group
 	 * 
 	 * @param parent
 	 */
 	public Button createAccessOnlyGroup( Composite parent )
 	{
-		// checkbox for "DOCUMENT_FOLDER_ACCESS_ONLY" setting
+		// checkbox for "WORKING_FOLDER_ACCESS_ONLY" setting
 		Button btAccessOnly = new Button( parent, SWT.CHECK );
 
 		// set default value
 		boolean defaultValue = DataUtil.getBoolean( WebArtifactUtil
 				.getContextParamValue( properties,
-						BIRT_DOCUMENT_ACCESSONLY_SETTING ) );
+						BIRT_REPORT_ACCESSONLY_SETTING ) );
 
 		btAccessOnly.setSelection( defaultValue );
 		btAccessOnly
-				.setText( BirtWTPMessages.BIRTConfiguration_document_access_message );
+				.setText( BirtWTPMessages.BIRTConfiguration_report_access_message );
 		btAccessOnly.setLayoutData( new GridData( GridData.END ) );
 		btAccessOnly.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
 				WebArtifactUtil.setContextParamValue( properties,
-						BIRT_DOCUMENT_ACCESSONLY_SETTING, new String(
+						BIRT_REPORT_ACCESSONLY_SETTING, new String(
 								BLANK_STRING
 										+ ( (Button) e.getSource( ) )
 												.getSelection( ) ) );

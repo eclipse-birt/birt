@@ -86,6 +86,10 @@ public class BirtWTPMessages extends NLS
 	public static String BIRTConfiguration_resource_dialog_title;
 	public static String BIRTConfiguration_resource_dialog_message;
 	
+	public static String BIRTConfiguration_working_label;
+	public static String BIRTConfiguration_working_dialog_title;
+	public static String BIRTConfiguration_working_dialog_message;
+	
 	public static String BIRTConfiguration_document_label;
 	public static String BIRTConfiguration_document_dialog_title;
 	public static String BIRTConfiguration_document_dialog_message;
@@ -102,7 +106,7 @@ public class BirtWTPMessages extends NLS
 	public static String BIRTConfiguration_log_dialog_title;
 	public static String BIRTConfiguration_log_dialog_message;
 
-	public static String BIRTConfiguration_document_access_message;
+	public static String BIRTConfiguration_report_access_message;
 	public static String BIRTConfiguration_overwrite_message;
 	
 	public static String BIRTConfiguration_maxrows_label;
