@@ -22,9 +22,3 @@ ErrorDialog.text.StackTrace=Ablaufverfolgungsstapel:
 ErrorDialog.text.Ok=\ \ \ \ \ OK     
 ErrorDialog.text.CausedBy=\n\nVerursacht durch:
 
-SubtaskHistory.Tooltip.Back=Zurück zu {0}
-SubtaskHistory.Text.Back=Zurück
-SubtaskHistory.Tooltip.Forward=Weiter zu {0}
-SubtaskHistory.Text.Forward=Weiter
-SubtaskHistory.Text.Invalid=\#Ungültig
-

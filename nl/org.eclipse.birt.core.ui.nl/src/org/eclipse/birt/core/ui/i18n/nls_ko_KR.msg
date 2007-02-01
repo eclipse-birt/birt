@@ -21,9 +21,3 @@ ErrorDialog.text.ShowTrace=추적 표시...
 ErrorDialog.text.StackTrace=추적 누적:
 ErrorDialog.text.Ok=\ \ \ \ \ 확인     
 ErrorDialog.text.CausedBy=\n\n발생 원인:
-
-SubtaskHistory.Tooltip.Back={0}(으)로 돌아가기
-SubtaskHistory.Text.Back=뒤로
-SubtaskHistory.Tooltip.Forward={0} 앞으로 가기
-SubtaskHistory.Text.Forward=정방향
-SubtaskHistory.Text.Invalid=\#잘못됨

@@ -21,9 +21,3 @@ ErrorDialog.text.ShowTrace=Afficher la trace...
 ErrorDialog.text.StackTrace=Trace de la pile :
 ErrorDialog.text.Ok=\ \ \ \ \ OK     
 ErrorDialog.text.CausedBy=\n\nCausé par :
-
-SubtaskHistory.Tooltip.Back=Revenir à {0}
-SubtaskHistory.Text.Back=Précédent
-SubtaskHistory.Tooltip.Forward=Avancer à {0}
-SubtaskHistory.Text.Forward=Suivant
-SubtaskHistory.Text.Invalid=\#Non valide

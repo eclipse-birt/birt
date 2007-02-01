@@ -21,9 +21,3 @@ ErrorDialog.text.ShowTrace=トレースを表示...
 ErrorDialog.text.StackTrace=スタックトレース :
 ErrorDialog.text.Ok=\ \ \ \ \ OK     
 ErrorDialog.text.CausedBy=\n\n原因 :
-
-SubtaskHistory.Tooltip.Back={0} に戻る
-SubtaskHistory.Text.Back=戻る
-SubtaskHistory.Tooltip.Forward={0} に進む
-SubtaskHistory.Text.Forward=進む
-SubtaskHistory.Text.Invalid=\#無効

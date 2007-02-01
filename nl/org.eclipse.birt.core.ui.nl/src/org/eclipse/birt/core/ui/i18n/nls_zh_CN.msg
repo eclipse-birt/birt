@@ -21,9 +21,3 @@ ErrorDialog.text.ShowTrace=显示跟踪...
 ErrorDialog.text.StackTrace=堆栈跟踪:
 ErrorDialog.text.Ok=\ \ \ \ \ 确定     
 ErrorDialog.text.CausedBy=\n\n原因:
-
-SubtaskHistory.Tooltip.Back=后退到 {0}
-SubtaskHistory.Text.Back=后退
-SubtaskHistory.Tooltip.Forward=前进到 {0}
-SubtaskHistory.Text.Forward=前进
-SubtaskHistory.Text.Invalid=\#无效
