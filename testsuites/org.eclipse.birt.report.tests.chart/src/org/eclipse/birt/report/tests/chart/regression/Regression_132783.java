@@ -142,6 +142,7 @@ public class Regression_132783 extends ChartTestCase
 			// TODO Auto-generated catch block
 			e.printStackTrace( );
 		}
+		ULocale.setDefault( new ULocale( "en_US" ) );
 	}
 
 	public void test_regression_132783( ) throws Exception

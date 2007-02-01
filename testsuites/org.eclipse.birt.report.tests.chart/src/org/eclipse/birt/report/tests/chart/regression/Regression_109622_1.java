@@ -111,8 +111,7 @@ public class Regression_109622_1 extends ChartTestCase
 		Graphics2D g2d = (Graphics2D) g;
 		dRenderer.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, g2d );
 		dRenderer.setProperty( IDeviceRenderer.FILE_IDENTIFIER, this
-				.genOutputFile( OUTPUT )
-				  ); //$NON-NLS-1$
+				.genOutputFile( OUTPUT ) ); //$NON-NLS-1$
 		Bounds bo = BoundsImpl.create( 0, 0, 500, 500 );
 		bo.scale( 72d / dRenderer.getDisplayServer( ).getDpiResolution( ) );
 
@@ -219,6 +218,7 @@ public class Regression_109622_1 extends ChartTestCase
 		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes( )[0];
 		xAxisPrimary.setType( AxisType.DATE_TIME_LITERAL );
 		xAxisPrimary.setCategoryAxis( true );
+		xAxisPrimary.getLabel( ).getCaption( ).getFont( ).setRotation( 75 );
 
 		// Y-Axis
 		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis( xAxisPrimary );

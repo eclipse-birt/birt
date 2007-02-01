@@ -110,8 +110,7 @@ public class Regression_103787 extends ChartTestCase
 		Graphics2D g2d = (Graphics2D) g;
 		dRenderer.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, g2d );
 		dRenderer.setProperty( IDeviceRenderer.FILE_IDENTIFIER, this
-				.genOutputFile( OUTPUT )
-				  );
+				.genOutputFile( OUTPUT ) );
 
 		Bounds bo = BoundsImpl.create( 0, 0, 500, 500 );
 		bo.scale( 72d / dRenderer.getDisplayServer( ).getDpiResolution( ) );
@@ -172,6 +171,7 @@ public class Regression_103787 extends ChartTestCase
 		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
 		xAxisPrimary.getLabel( ).getCaption( ).setColor(
 				ColorDefinitionImpl.GREEN( ).darker( ) );
+		xAxisPrimary.getLabel( ).getCaption( ).getFont( ).setRotation( 75 );
 
 		// Y-Axis
 		Axis yAxisPrimary = ( (ChartWithAxesImpl) cwaBar )

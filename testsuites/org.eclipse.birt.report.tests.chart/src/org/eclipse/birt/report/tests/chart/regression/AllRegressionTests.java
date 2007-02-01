@@ -77,7 +77,7 @@ public class AllRegressionTests
 //		suite.addTestSuite( Regression_121836.class );
 		suite.addTestSuite( Regression_121847.class );
 		suite.addTestSuite( Regression_131285.class );
-		suite.addTestSuite( Regression_128582.class );
+//		suite.addTestSuite( Regression_128582.class );
 		suite.addTestSuite( Regression_130073.class );
 		
 		

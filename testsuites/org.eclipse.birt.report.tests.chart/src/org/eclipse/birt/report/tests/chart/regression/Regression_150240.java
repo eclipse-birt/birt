@@ -116,8 +116,7 @@ public class Regression_150240 extends ChartTestCase
 		Graphics2D g2d = (Graphics2D) g;
 		dRenderer.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, g2d );
 		dRenderer.setProperty( IDeviceRenderer.FILE_IDENTIFIER, this
-				.genOutputFile( OUTPUT )
-				  );
+				.genOutputFile( OUTPUT ) );
 
 		Bounds bo = BoundsImpl.create( 0, 0, 600, 600 );
 		bo.scale( 72d / dRenderer.getDisplayServer( ).getDpiResolution( ) );
@@ -196,6 +195,7 @@ public class Regression_150240 extends ChartTestCase
 		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
 		xAxisPrimary.getLabel( ).getCaption( ).setColor(
 				ColorDefinitionImpl.GREEN( ).darker( ) );
+		xAxisPrimary.getLabel( ).getCaption( ).getFont( ).setRotation( 75 );
 
 		xAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.BELOW_LITERAL );
 		xAxisPrimary.getMajorGrid( ).getLineAttributes( ).setStyle(

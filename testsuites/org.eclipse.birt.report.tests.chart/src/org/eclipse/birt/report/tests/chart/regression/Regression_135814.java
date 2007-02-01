@@ -110,8 +110,7 @@ public class Regression_135814 extends ChartTestCase
 		Graphics2D g2d = (Graphics2D) g;
 		dRenderer.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, g2d );
 		dRenderer.setProperty( IDeviceRenderer.FILE_IDENTIFIER, this
-				.genOutputFile( OUTPUT )
-				  ); //$NON-NLS-1$
+				.genOutputFile( OUTPUT ) ); //$NON-NLS-1$
 
 		Bounds bo = BoundsImpl.create( 0, 0, 500, 500 );
 		bo.scale( 72d / dRenderer.getDisplayServer( ).getDpiResolution( ) );
@@ -183,6 +182,7 @@ public class Regression_135814 extends ChartTestCase
 		yAxisPrimary.getLabel( ).getCaption( ).setValue( "Sales Growth" ); //$NON-NLS-1$
 		yAxisPrimary.getLabel( ).getCaption( ).setColor(
 				ColorDefinitionImpl.BLUE( ) );
+		xAxisPrimary.getLabel( ).getCaption( ).getFont( ).setRotation( 75 );
 
 		yAxisPrimary.getTitle( ).setVisible( false );
 		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
