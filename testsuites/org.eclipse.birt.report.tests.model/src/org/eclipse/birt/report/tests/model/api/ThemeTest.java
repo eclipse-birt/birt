@@ -35,6 +35,7 @@ public class ThemeTest extends BaseTestCase
    private String LibC="LibraryCIncludeTheme.xml";
    private String LibC1 ="LibraryCIncludeTheme_1.xml";
    private String LibCInclTheme = "LibraryCIncludeTheme.xml";
+   private String lib = "ThemeTest2_1.xml";
    
 	public ThemeTest(String name) {
 		super(name);
@@ -51,14 +52,14 @@ public class ThemeTest extends BaseTestCase
 		super.setUp();
 		removeResource( );
 	
-		copyInputToFile ( INPUT_FOLDER + "/" + LibA );
-		copyInputToFile ( INPUT_FOLDER + "/" + LibB );
-		copyInputToFile ( INPUT_FOLDER + "/" + LibC );
-		copyInputToFile ( INPUT_FOLDER + "/" + LibC1 );
-		copyInputToFile ( INPUT_FOLDER + "/" + "ThemeTest1.xml" );
-		copyInputToFile ( INPUT_FOLDER + "/" + "ThemeTest2.xml" );
-		copyInputToFile ( INPUT_FOLDER + "/" + "ThemeTest2_1.xml" );
-		copyInputToFile ( INPUT_FOLDER + "/" + LibCInclTheme );
+//		copyInputToFile ( INPUT_FOLDER + "/" + LibA );
+//		copyInputToFile ( INPUT_FOLDER + "/" + LibB );
+//		copyInputToFile ( INPUT_FOLDER + "/" + LibC );
+//		copyInputToFile ( INPUT_FOLDER + "/" + LibC1 );
+//		copyInputToFile ( INPUT_FOLDER + "/" + "ThemeTest1.xml" );
+//		copyInputToFile ( INPUT_FOLDER + "/" + "ThemeTest2.xml" );
+//		copyInputToFile ( INPUT_FOLDER + "/" + "ThemeTest2_1.xml" );
+//		copyInputToFile ( INPUT_FOLDER + "/" + LibCInclTheme );
 		//System.out.println("ThemeTest1.xml");
 	}
 	
@@ -164,9 +165,10 @@ public class ThemeTest extends BaseTestCase
 		   //drop custom styles in report design
 		   designHandle.getStyles().drop(RCS1);
 		   designHandle.getStyles().drop(RCS2);
-		   assertEquals("100%",table.getStringProperty(Style.FONT_SIZE_PROP));
-		   assertEquals("aqua",label.getStringProperty(Style.BACKGROUND_COLOR_PROP));
-		   designHandle.saveAs(this.getFullQualifiedClassName()+ "/"+ INPUT_FOLDER + "/" + "ThemeTest2_1.xml");
+		   assertEquals("10pt",table.getStringProperty(Style.FONT_SIZE_PROP));
+		   assertEquals("red",label.getStringProperty(Style.BACKGROUND_COLOR_PROP));
+
+		   //designHandle.saveAs(this.getFullQualifiedClassName()+ "/"+ INPUT_FOLDER + "/" + "ThemeTest2_1.xml");
 		       
 	       //drop custom styles in library
 	       libraryHandle.findTheme("theme1").getStyles().drop(LCS1);

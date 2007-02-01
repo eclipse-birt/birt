@@ -69,36 +69,6 @@ public class DesignElementHandleTest extends BaseTestCase
 		
 	}
 	
-	public void testGetXPath( ) throws Exception
-	{
-		openDesign(INPUT);
-	    
-		TextItemHandle textHandle = (TextItemHandle)designHandle.findElement( "myText" );
-		assertNotNull("Text should not be null", textHandle); 
-		TableHandle tableHandle = (TableHandle)designHandle.findElement( "myTable" );
-		assertNotNull("Table should not be null", tableHandle);
-		StyleHandle styleHandle = (StyleHandle)designHandle.findStyle( "myStyle" );
-		assertNotNull("Style should not be null", styleHandle);
-		DesignElementHandle parameterHandle = designHandle.findElement( "myPara" );
-		assertNotNull("Parameter should not be null", parameterHandle);
-		LabelHandle labelHandle = (LabelHandle)designHandle.findElement( "myLabel" );
-		assertNotNull("Label should not be null", labelHandle);
-		ImageHandle imageHandle = (ImageHandle)designHandle.findElement( "myImage" );
-		assertNotNull("Image should not be null", imageHandle);
-		DataItemHandle dataHandle = (DataItemHandle)designHandle.findElement( "myData" );
-		assertNotNull("Data should not be null", dataHandle); 
-		MasterPageHandle masterHeader = designHandle.findMasterPage( "myMasterPage" );
-		assertNotNull("MasterHeader should not be null", masterHeader);
-		
-		assertEquals( "/report/body[1]/text[1]", textHandle.getXPath( ) ); 
-		assertEquals( "/report/body[1]/table[1]", tableHandle.getXPath( ) ); 
-		assertEquals( "/report/styles[1]/style[1]", styleHandle.getXPath( ) ); 
-		assertEquals( "/report/body[1]/data[2]", parameterHandle.getXPath( ) ); 
-		assertEquals( "/report/body[1]/label[1]", labelHandle.getXPath( ) ); 
-	    assertEquals( "/report/body[1]/image[1]", imageHandle.getXPath( ) ); 
-		assertEquals( "/report/body[1]/data[1]", dataHandle.getXPath( ) ); 
-		assertEquals( "/report/page-setup[1]/simple-master-page[1]", masterHeader.getXPath() );
-	}
 	
 	public void testElementValidation( ) throws Exception
 	{

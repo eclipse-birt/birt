@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SimpleGroupElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -44,51 +45,52 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  */
 public class Regression_155943 extends BaseTestCase
 {
-    private String filename = "Regression_155943.xml"; //$NON-NLS-1$
-    private String libname = "Regression_155943_lib.xml";
-    
-    public void setUp( ) throws Exception
+
+	private String INPUT = "Regression_155943.xml"; //$NON-NLS-1$
+	private String LIBRARY = "Regression_155943_lib.xml";
+
+	public void setUp( ) throws Exception
 	{
 		super.setUp( );
 		removeResource( );
-		//copyResource_INPUT( filename , filename );
-		copyInputToFile ( INPUT_FOLDER + "/" + filename );
-		copyInputToFile ( INPUT_FOLDER + "/" + libname );
+		// copyResource_INPUT( filename , filename );
+		// copyInputToFile ( INPUT_FOLDER + "/" + filename );
+		// copyInputToFile ( INPUT_FOLDER + "/" + libname );
 	}
-	
+
 	public void tearDown( )
 	{
 		removeResource( );
 	}
 
 	/**
-	 * @throws DesignFileException 
-	 * @throws SemanticException 
-	 * 
+	 * @throws DesignFileException
+	 * @throws SemanticException
 	 */
 	public void test_regression_155943( ) throws DesignFileException, SemanticException
 	{
-        openDesign(filename);
-        libraryHandle = designHandle.getLibrary( "lib" ); //$NON-NLS-1$
-        DesignElementHandle chart = libraryHandle.findElement( "NewChart" ); //$NON-NLS-1$
-		DesignElementHandle rchart = designHandle.getElementFactory( ).newElementFrom( chart, "rchart" ); //$NON-NLS-1$
-        assertNotNull(rchart);
-		
-        List list = new ArrayList();
-        list.add( rchart );
-        SimpleGroupElementHandle group = new SimpleGroupElementHandle(designHandle, list);
-        
-        //No local properties for the simple group
-        assertFalse(group.hasLocalPropertiesForExtendedElements( ));
-		
-        //Set local properity
+		openDesign( INPUT );
+		//openLibrary(LIBRARY);
+		libraryHandle = designHandle.getLibrary( "Regression_155943_lib" ); //$NON-NLS-1$
+		ExtendedItemHandle chart = (ExtendedItemHandle) libraryHandle.findElement( "Chart" ); //$NON-NLS-1$
+		assertNotNull( chart );
+		DesignElementHandle rchart = designHandle.getElementFactory( ).newElementFrom( chart, "CHART2" ); //$NON-NLS-1$
+		assertNotNull( rchart );
+
+		List list = new ArrayList( );
+		list.add( rchart );
+		SimpleGroupElementHandle group = new SimpleGroupElementHandle( designHandle, list );
+
+		// No local properties for the simple group
+		assertFalse( group.hasLocalPropertiesForExtendedElements( ) );
+
+		// Set local properity
 		rchart.setProperty( ReportItemHandle.WIDTH_PROP, "20pt" ); //$NON-NLS-1$
-		assertTrue(group.hasLocalPropertiesForExtendedElements( ));
-		
-		//Clear local property
+		assertTrue( group.hasLocalPropertiesForExtendedElements( ) );
+
+		// Clear local property
 		group.clearLocalProperties( );
-		assertFalse(group.hasLocalPropertiesForExtendedElements( ));
-		
-		
+		assertFalse( group.hasLocalPropertiesForExtendedElements( ) );
+
 	}
 }

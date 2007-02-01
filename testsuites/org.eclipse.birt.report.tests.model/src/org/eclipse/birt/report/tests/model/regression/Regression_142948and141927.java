@@ -46,7 +46,7 @@ public class Regression_142948and141927 extends BaseTestCase
 		
 		// retrieve two input files from tests-model.jar file
 		
-		copyInputToFile ( INPUT_FOLDER + "/" + filename );
+		//copyInputToFile ( INPUT_FOLDER + "/" + filename );
 	}
 	/**
 	 * @throws DesignFileException

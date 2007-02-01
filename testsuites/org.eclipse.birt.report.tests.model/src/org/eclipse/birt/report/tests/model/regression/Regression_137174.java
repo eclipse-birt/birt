@@ -61,7 +61,7 @@ public class Regression_137174 extends BaseTestCase
 
 		infos = ModuleUtil.checkVersion( getClassFolder( ) + "/" + INPUT_FOLDER + "/"
 				+ "Regression_141218.xml" ); //$NON-NLS-1$
-		assertEquals( 0, infos.size( ) );
+		assertEquals( 1, infos.size( ) );
 	}
 
 }

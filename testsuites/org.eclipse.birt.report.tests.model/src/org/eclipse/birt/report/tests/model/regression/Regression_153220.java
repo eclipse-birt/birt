@@ -53,9 +53,9 @@ public class Regression_153220 extends BaseTestCase
 		super.setUp( );
 		removeResource( );
 			
-		copyInputToFile ( INPUT_FOLDER + "/" + filename );
-		copyInputToFile ( INPUT_FOLDER + "/" + lib1name );
-		copyInputToFile ( INPUT_FOLDER + "/" + lib2name );
+		//copyInputToFile ( INPUT_FOLDER + "/" + filename );
+		//copyInputToFile ( INPUT_FOLDER + "/" + lib1name );
+		//copyInputToFile ( INPUT_FOLDER + "/" + lib2name );
 	}
 	
 	public void tearDown( )
@@ -104,7 +104,7 @@ public class Regression_153220 extends BaseTestCase
 		libraryHandle = sessionHandle.openLibrary( lib1name );
 		libraryHandle.findElement( "table1" ).drop( ); //$NON-NLS-1$
 		//libraryHandle.save( );
-		libraryHandle.saveAs(lib1Output );
+		libraryHandle.saveAs( lib1Output );
 		
 		// reload lib2, no error, and table reference is unresolved
 		designHandle.reloadLibrary( lib2Output );

@@ -37,7 +37,7 @@ public class ExternalCssStyleSheet4Test extends BaseTestCase
 		super.setUp();
 		removeResource( );
 	
-		copyResource_INPUT( fileName , fileName );
+		//copyResource_INPUT( fileName , fileName );
 	//	Platform.initialize( null );
 		SessionHandle session = DesignEngine.newSession( ULocale.ENGLISH );
 		designHandle = session.openDesign(getClassFolder( ) + INPUT_FOLDER +"ExternalCssStyleSheetTest4.xml");

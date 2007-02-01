@@ -2,9 +2,8 @@
  * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
  * the accompanying materials are made available under the terms of the Eclipse
  * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: Actuate Corporation - initial API and implementation
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -43,7 +42,6 @@ import com.ibm.icu.util.ULocale;
  * <b>Actual result:</b>
  * <p>
  * Label lost in outline untill reopen the report
- * 
  * <p>
  * Test description:
  * <p>
@@ -60,15 +58,14 @@ public class Regression_134018 extends BaseTestCase
 	{
 		super.setUp( );
 		removeResource( );
-		
+
 		// retrieve two input files from tests-model.jar file
-		
-		//copyResource_INPUT( LIBRARY , LIBRARY );
-		copyInputToFile (INPUT_FOLDER+"/"+LIBRARY);
-		
-		
-		
+
+		// copyResource_INPUT( LIBRARY , LIBRARY );
+		copyInputToFile( INPUT_FOLDER + "/" + LIBRARY );
+
 	}
+
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
@@ -77,36 +74,36 @@ public class Regression_134018 extends BaseTestCase
 	public void test_regression_134018( ) throws DesignFileException, SemanticException
 	{
 		openLibrary( LIBRARY );
-		
+
 		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		
+
 		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
 		ReportDesignHandle designHandle = session.createDesign( );
-		
-		//designHandle.setFileName( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER
-		//		+ "/" + LIBRARY ); //$NON-NLS-1$
+
+		// designHandle.setFileName( this.getFullQualifiedClassName( ) + "/" +
+		// INPUT_FOLDER
+		// + "/" + LIBRARY ); //$NON-NLS-1$
 
 		// include the lib and extends lib.masterpage.
-		
-		
-		//designHandle.includeLibrary( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER	
-		//		+ "/" + LIBRARY, "regression_134018_lib" ); //$NON-NLS-1$
-		//designHandle.includeLibrary( LIBRARY, "regression_134018_lib" );
-		
+
+		// designHandle.includeLibrary( this.getFullQualifiedClassName( ) + "/"
+		// + INPUT_FOLDER
+		// + "/" + LIBRARY, "regression_134018_lib" ); //$NON-NLS-1$
+		// designHandle.includeLibrary( LIBRARY, "regression_134018_lib" );
+
 		LibraryHandle lib = designHandle.getLibrary( "regression_134018_lib" ); //$NON-NLS-1$
-		MasterPageHandle basePage = lib.findMasterPage( "basePage" ); //$NON-NLS-1$
+		MasterPageHandle basePage = lib.findMasterPage( "basePage" );
+		assertNull( basePage );//$NON-NLS-1$
 
 		ElementFactory factory = designHandle.getElementFactory( );
-		SimpleMasterPageHandle newPage = (SimpleMasterPageHandle) factory
-				.newElementFrom( basePage, "newMasterPage" ); //$NON-NLS-1$
+		SimpleMasterPageHandle newPage = (SimpleMasterPageHandle) factory.newElementFrom( basePage, "newMasterPage" ); //$NON-NLS-1$
 
 		designHandle.getMasterPages( ).add( newPage );
 
 		// Switch to library, change content of label to "bbb"
 
-		//openLibrary( LIBRARY );
-		LabelHandle baseLabel = (LabelHandle) ( (SimpleMasterPageHandle) libraryHandle
-				.findMasterPage( "basePage" ) ).getPageHeader( ).get( 0 ); //$NON-NLS-1$
+		// openLibrary( LIBRARY );
+		LabelHandle baseLabel = (LabelHandle) ( (SimpleMasterPageHandle) libraryHandle.findMasterPage( "basePage" ) ).getPageHeader( ).get( 0 ); //$NON-NLS-1$
 
 		assertEquals( "baseLabel", baseLabel.getName( ) ); //$NON-NLS-1$
 		assertEquals( "aaa", baseLabel.getText( ) ); //$NON-NLS-1$
@@ -116,8 +113,7 @@ public class Regression_134018 extends BaseTestCase
 		// refresh the report, reload the library.
 
 		designHandle.reloadLibrary( libraryHandle );
-		LabelHandle childLabel = (LabelHandle) ( (SimpleMasterPageHandle) designHandle
-				.findMasterPage( "newMasterPage" ) ).getPageHeader( ).get( 0 ); //$NON-NLS-1$
+		LabelHandle childLabel = (LabelHandle) ( (SimpleMasterPageHandle) designHandle.findMasterPage( "newMasterPage" ) ).getPageHeader( ).get( 0 ); //$NON-NLS-1$
 
 		assertNotNull( childLabel );
 

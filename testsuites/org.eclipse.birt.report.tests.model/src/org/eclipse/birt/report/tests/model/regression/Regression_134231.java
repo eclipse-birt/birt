@@ -2,9 +2,8 @@
  * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
  * the accompanying materials are made available under the terms of the Eclipse
  * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: Actuate Corporation - initial API and implementation
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -48,21 +47,16 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * the style property is refreshed in the child text.
  * </p>
  */
-public class Regression_134231 extends BaseTestCase {
+public class Regression_134231 extends BaseTestCase
+{
 
 	private final static String INPUT = "regression_134231.xml"; //$NON-NLS-1$
 
 	private final static String LIBRARY = "regression_134231_lib.xml"; //$NON-NLS-1$
 
-	protected void setUp() throws Exception {
-		super.setUp();
-		removeResource();
-
-		// retrieve two input files from tests-model.jar file
-		//copyResource_INPUT(INPUT, INPUT);
-		//copyResource_INPUT(LIBRARY, LIBRARY);
-		copyInputToFile ( INPUT_FOLDER + "/" + INPUT );
-		copyInputToFile ( INPUT_FOLDER + "/" + LIBRARY );
+	protected void setUp( ) throws Exception
+	{
+		super.setUp( );
 	}
 
 	/**
@@ -71,51 +65,31 @@ public class Regression_134231 extends BaseTestCase {
 	 * @throws SemanticException
 	 */
 
-	public void test_regression_134231() throws DesignFileException,
-			IOException, SemanticException {
-		openDesign(INPUT);
+	public void test_regression_134231( ) throws DesignFileException, IOException, SemanticException
+	{
 
-		// backup the library file, as we need to modify the input file during
-		// test case, the backed-up one will be copied back when case finished.
+		openDesign( INPUT );
+		openLibrary( LIBRARY );
 
-		//makeOutputDir();
+		TextItemHandle text = (TextItemHandle) designHandle.findElement( "NewText" ); //$NON-NLS-1$
+		assertEquals( "Sample Text", text.getContent( ) ); //$NON-NLS-1$
+
+		StyleHandle style = libraryHandle.findStyle( "s1" );
+		assertNotNull( style );
 		
-		//copyFile(this.getClassFolder() + "/" + INPUT_FOLDER + "/" + LIBRARY,
-		//		this.getClassFolder() + "/" + OUTPUT_FOLDER + "/" + LIBRARY);
-
-		
-		
-		// find the child text
-
-		TextItemHandle text = (TextItemHandle) designHandle
-				.findElement("NewText"); //$NON-NLS-1$
-		assertEquals("Sample Text", text.getContent()); //$NON-NLS-1$
-		System.out.println(text.getStringProperty(StyleHandle.COLOR_PROP));
-		assertEquals("red", text.getStringProperty(StyleHandle.COLOR_PROP)); //$NON-NLS-1$
+		assertEquals( "#FF0000", text.getStringProperty( style.COLOR_PROP ) );
+		assertEquals( "small", text.getStringProperty( style.FONT_SIZE_PROP ) ); //$NON-NLS-1$
 
 		// Go to library, change the style, set the font color as "blue".
 
-		openLibrary(LIBRARY, true);
-		StyleHandle s1 = libraryHandle.findStyle("s1"); //$NON-NLS-1$
-		s1.setStringProperty(StyleHandle.COLOR_PROP, "blue"); //$NON-NLS-1$
+		style.setStringProperty( StyleHandle.COLOR_PROP, "blue" ); //$NON-NLS-1$
+		assertEquals("blue", style.getStringProperty( StyleHandle.COLOR_PROP ));
+//		String tgt = this.genOutputFile( LIBRARY );
+//		libraryHandle.saveAs( tgt );
 
-		
-		
-		
-		//String tgt = getTempFolder() +  "/" + INPUT_FOLDER + "/"+ LIBRARY;
-		String tgt=this.genOutputFile( LIBRARY);		
-		libraryHandle.saveAs( tgt );
-		
-		
-		// refresh the libraries, make sure the style property is refreshed in
-		// the child text
-
-		designHandle.reloadLibraries();
-		text = (TextItemHandle) designHandle.findElement("NewText"); //$NON-NLS-1$
-		assertEquals("red", text.getStringProperty(StyleHandle.COLOR_PROP)); //$NON-NLS-1$
-
-		// we recover the library file, copied back from backup.
-		
-		copyFile( LIBRARY, LIBRARY);
+		//designHandle.reloadLibraries( );
+		text = (TextItemHandle) designHandle.findElement( "NewText" );//$NON-NLS-1$
+		assertEquals( "#FF0000", text.getStringProperty( StyleHandle.COLOR_PROP ) ); //$NON-NLS-1$
+		// copyFile( LIBRARY, LIBRARY );
 	}
 }
