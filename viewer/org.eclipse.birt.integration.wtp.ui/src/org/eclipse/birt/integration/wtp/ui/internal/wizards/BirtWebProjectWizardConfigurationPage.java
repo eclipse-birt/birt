@@ -39,11 +39,12 @@ import org.osgi.framework.Bundle;
  * <p>
  * <ol>
  * <li>BIRT_RESOURCE_PATH</li>
+ * <li>BIRT_VIEWER_WORKING_FOLDER</li>
  * <li>BIRT_VIEWER_DOCUMENT_FOLDER</li>
  * <li>BIRT_VIEWER_IMAGE_DIR</li>
  * <li>BIRT_VIEWER_SCRIPTLIB_DIR</li>
  * <li>BIRT_VIEWER_LOG_DIR</li>
- * <li>DOCUMENT_FOLDER_ACCESS_ONLY</li>
+ * <li>WORKING_FOLDER_ACCESS_ONLY</li>
  * <li>BIRT_OVERWRITE_DOCUMENT</li>
  * <li>BIRT_VIEWER_MAX_ROWS</li>
  * <li>BIRT_VIEWER_LOG_LEVEL</li>
@@ -66,12 +67,17 @@ public class BirtWebProjectWizardConfigurationPage extends WizardPage
 	protected Text txtResourceFolder;
 
 	/**
+	 * Value for "BIRT_VIEWER_WORKING_FOLDER" setting
+	 */
+	protected Text txtWorkingFolder;
+
+	/**
 	 * Value for "BIRT_VIEWER_DOCUMENT_FOLDER" setting
 	 */
 	protected Text txtDocumentFolder;
 
 	/**
-	 * Value for "DOCUMENT_FOLDER_ACCESS_ONLY" setting
+	 * Value for "WORKING_FOLDER_ACCESS_ONLY" setting
 	 */
 	protected Button btAccessOnly;
 
@@ -145,8 +151,7 @@ public class BirtWebProjectWizardConfigurationPage extends WizardPage
 		Group paths = new Group( composite, SWT.NULL );
 		paths.setLayout( new GridLayout( ) );
 		paths.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		paths
-				.setText( BirtWTPMessages.BIRTConfiguration_group_paths );
+		paths.setText( BirtWTPMessages.BIRTConfiguration_group_paths );
 		paths.setEnabled( true );
 
 		// Initialize UI Utility
@@ -154,6 +159,9 @@ public class BirtWebProjectWizardConfigurationPage extends WizardPage
 
 		// create resource folder setting group
 		this.txtResourceFolder = uit.createResourceFolderGroup( paths );
+
+		// create working folder setting group
+		this.txtWorkingFolder = uit.createWorkingFolderGroup( paths );
 
 		// create document folder setting group
 		this.txtDocumentFolder = uit.createDocumentFolderGroup( paths );
@@ -171,8 +179,7 @@ public class BirtWebProjectWizardConfigurationPage extends WizardPage
 		Group others = new Group( composite, SWT.NULL );
 		others.setLayout( new GridLayout( ) );
 		others.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		others
-				.setText( BirtWTPMessages.BIRTConfiguration_group_others );
+		others.setText( BirtWTPMessages.BIRTConfiguration_group_others );
 		others.setEnabled( true );
 
 		// create ifaccess only setting group
@@ -219,9 +226,11 @@ public class BirtWebProjectWizardConfigurationPage extends WizardPage
 		WebArtifactUtil.setContextParamValue( properties,
 				BIRT_RESOURCE_FOLDER_SETTING, txtResourceFolder.getText( ) );
 		WebArtifactUtil.setContextParamValue( properties,
+				BIRT_WORKING_FOLDER_SETTING, txtWorkingFolder.getText( ) );
+		WebArtifactUtil.setContextParamValue( properties,
 				BIRT_DOCUMENT_FOLDER_SETTING, txtDocumentFolder.getText( ) );
 		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_DOCUMENT_ACCESSONLY_SETTING, new String( BLANK_STRING
+				BIRT_REPORT_ACCESSONLY_SETTING, new String( BLANK_STRING
 						+ btAccessOnly.getSelection( ) ) );
 		WebArtifactUtil.setContextParamValue( properties,
 				BIRT_IMAGE_FOLDER_SETTING, txtImageFolder.getText( ) );
