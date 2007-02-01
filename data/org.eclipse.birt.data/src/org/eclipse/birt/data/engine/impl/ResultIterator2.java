@@ -166,4 +166,11 @@ class ResultIterator2 extends ResultIterator
 		}
 	}
 	
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.ResultIterator#goThroughGapRows(int)
+	 */
+	protected void goThroughGapRows( int groupLevel ) throws DataException,
+			BirtException
+	{
+	}
 }

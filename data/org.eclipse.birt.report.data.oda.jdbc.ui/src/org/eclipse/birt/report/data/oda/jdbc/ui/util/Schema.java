@@ -21,7 +21,7 @@ import java.util.Iterator;
  * This object represents a schema in the data base It contains methods to
  * retrieve the tables from the data base
  * 
- * @version $Revision: 1.2 $ $Date: 2005/02/06 06:33:32 $
+ * @version $Revision: 1.2 $ $Date: 2007/01/05 07:24:57 $
  */
 
 public class Schema implements Serializable

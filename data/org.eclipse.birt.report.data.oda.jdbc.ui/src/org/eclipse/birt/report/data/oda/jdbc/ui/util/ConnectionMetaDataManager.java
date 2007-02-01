@@ -19,7 +19,7 @@ import java.util.Properties;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.3 $ $Date: 2005/05/26 01:21:28 $
+ * @version $Revision: 1.2 $ $Date: 2007/01/05 07:24:57 $
  */
 
 public class ConnectionMetaDataManager implements Serializable

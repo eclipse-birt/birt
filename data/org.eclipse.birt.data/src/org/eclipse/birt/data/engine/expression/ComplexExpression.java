@@ -54,28 +54,31 @@ public final class ComplexExpression extends BytecodeExpression
 
 		ComplexExpression expr2 = (ComplexExpression) other;
 
-		Iterator iter = expr2.getSubExpressions( ).iterator( );
 		if ( m_subExpressions.size( ) != expr2.getSubExpressions( ).size( ) )
 			return false;
+		if ( m_tokenList.size( ) != expr2.getTokenList( ).size( ) )
+			return false;
+		if ( m_constantExpressions.size( ) != expr2.getConstantExpressions( )
+				.size( ) )
+			return false;
+	
 		//compare the sub expression
-		for ( int i = 0; i < m_subExpressions.size( ) && iter.hasNext( ); i++ )
+		Iterator iter = expr2.getSubExpressions( ).iterator( );
+		for ( int i = 0; i < m_subExpressions.size( ); i++ )
 		{
 			if ( !m_subExpressions.get( i ).equals( iter.next( ) ) )
 				return false;
 		}
 		//compare the token list
-		if ( m_tokenList.size( ) != expr2.getTokenList( ).size( ) )
-			return false;
-
 		Iterator tokenIterator = expr2.getTokenList( ).iterator( );
-		for ( int i = 0; i < m_tokenList.size( ) && tokenIterator.hasNext( ); i++ )
+		for ( int i = 0; i < m_tokenList.size( ); i++ )
 		{
 			if ( !m_tokenList.get( i ).equals( tokenIterator.next( ) ) )
 				return false;
 		}
-		//compare the constant expression list
+		// compare the constant expression list	
 		Iterator constantIterator = expr2.getConstantExpressions( ).iterator( );
-		for ( int i = 0; i < m_tokenList.size( ) && constantIterator.hasNext( ); i++ )
+		for ( int i = 0; i < m_constantExpressions.size( ); i++ )
 		{
 			if ( !m_constantExpressions.get( i )
 					.equals( constantIterator.next( ) ) )

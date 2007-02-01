@@ -16,7 +16,7 @@ import java.io.Serializable;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.3 $ $Date: 2005/04/23 03:21:32 $
+ * @version $Revision: 1.2 $ $Date: 2007/01/05 07:24:57 $
  */
 
 public class Column implements Serializable

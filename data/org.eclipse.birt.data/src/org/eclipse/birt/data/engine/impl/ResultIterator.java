@@ -18,14 +18,19 @@ import java.math.BigDecimal;
 import java.sql.Blob;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
@@ -34,6 +39,7 @@ import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.IDInfo;
 import org.eclipse.birt.data.engine.impl.document.IRDSave;
@@ -43,8 +49,6 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
-
-import org.eclipse.birt.core.data.ExpressionUtil;
 
 /**
  * An iterator on a result set from a prepared and executed report query.
@@ -110,10 +114,58 @@ public class ResultIterator implements IResultIterator
 		this.scope = scope;
 
 		this.context = rService.getContext( );
-
+		
+		this.validateManualBindingExpressions ( this.resultService.getQueryDefn().getResultSetExpressions() );
+		
 		this.start( );
 	}
 
+	/**
+	 * Test if there are column bindings that refer to inexist data set columns.
+	 * 
+	 * @param exprs
+	 * @throws DataException
+	 */
+	private void validateManualBindingExpressions( Map exprs )
+			throws DataException
+	{
+		Set validDataSetColumnNames = populateValidDataSetColumnNameSet( ); 
+		Iterator it = exprs.keySet().iterator();
+		while( it.hasNext() )
+		{
+			Object key = it.next();
+			IBaseExpression expr =  (IBaseExpression)exprs.get(key);
+			List usedDataSetExprs = ExpressionCompilerUtil.extractDataSetColumnExpression( expr );
+			for ( int j = 0; j < usedDataSetExprs.size( ); j++ )
+			{
+				if ( !( validDataSetColumnNames.contains( usedDataSetExprs.get( j ) ) || usedDataSetExprs.get( j )
+						.equals( "_rowPosition" ) ) )
+					throw new DataException( ResourceConstants.COLUMN_BINDING_REFER_TO_INEXIST_COLUMN,
+							new Object[]{
+									key,
+									usedDataSetExprs.get( j )
+							} );
+			}
+		}
+	}
+
+	/**
+	 * Populate all valid data set column names and alias.
+	 * 
+	 * @return
+	 * @throws DataException
+	 */
+	private Set populateValidDataSetColumnNameSet( ) throws DataException
+	{
+		Set validDataSetColumnNames = new HashSet();
+		for( int i = 1; i <= this.odiResult.getResultClass( ).getFieldCount( ); i++ )
+		{
+			validDataSetColumnNames.add( this.odiResult.getResultClass( ).getFieldName( i ) );
+			validDataSetColumnNames.add( this.odiResult.getResultClass( ).getFieldAlias( i ) );
+		}
+		return validDataSetColumnNames;
+	}
+	
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getScope()
 	 */
@@ -134,7 +186,6 @@ public class ResultIterator implements IResultIterator
 		// its first row. This iterator starts out with cursor BEFORE first row.
 		state = BEFORE_FIRST_ROW;
 		this.getRdSaveHelper( ).doSaveStart( );
-		
 	}
 	
 	/**
@@ -334,16 +385,16 @@ public class ResultIterator implements IResultIterator
 		int currRowIndex = this.odiResult.getCurrentResultIndex( );
 		if ( lastRowIndex < currRowIndex )
 		{
-			if ( bindingColumnsEvalUtil == null )
+			lastRowIndex = currRowIndex;
+			if( bindingColumnsEvalUtil == null )
 			{
-				bindingColumnsEvalUtil = new BindingColumnsEvalUtil( this.odiResult,
+				this.bindingColumnsEvalUtil = new BindingColumnsEvalUtil( this.odiResult,
 						this.scope,
 						this.getRdSaveHelper( ),
 						this.resultService.getAllBindingExprs( ),
 						this.resultService.getAllAutoBindingExprs( ) );
 			}
 			
-			lastRowIndex = currRowIndex;
 			boundColumnValueMap = bindingColumnsEvalUtil.getColumnsValue( );
 			
 			this.isFirstRowPepared = true;
@@ -417,14 +468,29 @@ public class ResultIterator implements IResultIterator
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#skipToEnd(int)
 	 */
-	public void skipToEnd( int groupLevel ) throws DataException
+	public void skipToEnd( int groupLevel ) throws BirtException
 	{
 		checkStarted( );
-		odiResult.last( groupLevel );
+		goThroughGapRows( groupLevel );
 		logger.logp( Level.FINER,
 				ResultIterator.class.getName( ),
 				"skipToEnd",
 				"skipping rows to the last row in the current group" );
+	}
+
+	/**
+	 * 
+	 * @param groupLevel
+	 * @throws DataException
+	 * @throws BirtException
+	 */
+	protected void goThroughGapRows( int groupLevel ) throws DataException,
+			BirtException
+	{
+		//try to keep all gap row when doing skip
+		while(	groupLevel!= odiResult.getEndingGroupLevel( )&& this.next( ) )
+		{			
+		}
 	}
 
 	/*
@@ -503,8 +569,14 @@ public class ResultIterator implements IResultIterator
 	 */
 	public void close( ) throws BirtException
 	{
-		// save results when neededs
-		this.getRdSaveHelper( ).doSaveFinish( );
+		if ( this.getRdSaveHelper( ).needsSaveToDoc( ) )
+		{
+    		// save all gap row
+			while ( this.next( ) )
+				;
+			// save results when neededs
+			this.getRdSaveHelper( ).doSaveFinish( );
+		}
 
 		if ( odiResult != null )
 				odiResult.close( );

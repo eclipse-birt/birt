@@ -38,7 +38,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.22 $ $Date: 2006/05/18 03:55:57 $
+ * @version $Revision: 1.2 $ $Date: 2007/01/05 07:24:57 $
  */
 public class Utility
 {

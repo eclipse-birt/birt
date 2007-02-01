@@ -25,7 +25,7 @@ import java.util.Properties;
  * This is a utility class for maintaining the meta data information for a
  * particular JDBC connection.
  * 
- * @version $Revision: 1.5 $ $Date: 2005/05/26 01:21:28 $
+ * @version $Revision: 1.2 $ $Date: 2007/01/05 07:24:57 $
  */
 
 public class ConnectionMetaData implements Serializable

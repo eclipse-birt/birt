@@ -19,7 +19,7 @@ import java.util.ArrayList;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.2 $ $Date: 2005/02/06 06:33:32 $
+ * @version $Revision: 1.2 $ $Date: 2007/01/05 07:24:54 $
  */
 
 public class Table implements Serializable

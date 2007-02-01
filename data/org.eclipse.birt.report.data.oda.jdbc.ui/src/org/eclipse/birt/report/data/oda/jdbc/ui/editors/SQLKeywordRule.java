@@ -19,7 +19,7 @@ import org.eclipse.jface.text.rules.Token;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.1 $ $Date: 2006/03/28 10:43:48 $
+ * @version $Revision: 1.2 $ $Date: 2007/01/05 07:25:00 $
  */
 
 public class SQLKeywordRule implements IPredicateRule

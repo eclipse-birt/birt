@@ -21,7 +21,7 @@ import org.eclipse.jface.text.source.SourceViewerConfiguration;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.1 $ $Date: 2005/02/05 06:30:14 $
+ * @version $Revision: 1.2 $ $Date: 2007/01/05 07:25:00 $
  */
 
 public class SQLSourceViewerConfiguration extends SourceViewerConfiguration

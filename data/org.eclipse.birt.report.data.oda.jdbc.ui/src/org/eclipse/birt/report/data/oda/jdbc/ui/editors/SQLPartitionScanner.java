@@ -23,7 +23,7 @@ import org.eclipse.jface.text.rules.Token;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.2 $ $Date: 2005/05/30 07:04:35 $
+ * @version $Revision: 1.2 $ $Date: 2007/01/05 07:24:59 $
  */
 
 public class SQLPartitionScanner extends RuleBasedPartitionScanner

@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.executor;
 
+import java.util.ArrayList;
+
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
@@ -102,7 +104,8 @@ class OdaResultSet implements IDataSetPopulator
 		 */
 		public IResultClass getResultClass( )
 		{
-			return null;
+			//return empty ResultClass object
+			return new ResultClass( new ArrayList( ) );
 		}
 
 		/*
