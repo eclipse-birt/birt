@@ -90,9 +90,11 @@ public class IEmitterServicesTest extends BaseEmitter
 		assertEquals( emitterConfig, service.getEmitterConfig( ).get(
 				EMITTER_HTML ) );
 
-		IReportExecutor executor = service.getExecutor( );
+/* method is deprecated		
+  
+  		IReportExecutor executor = service.getExecutor( );
 		assertNotNull( executor );
-		// TODO: how to check the correctness of executor.
+*/		
 
 		assertEquals( "emitter_html", service.getOption( "Format" ) );
 
@@ -119,9 +121,10 @@ public class IEmitterServicesTest extends BaseEmitter
 
 		IReportRunnable reportRunnable = service.getReportRunnable( );
 		assertEquals( service.getReportName( ), reportRunnable.getReportName( ) );
-
+/* method is deprecated
 		IEngineTask task = service.getTask( );
 		assertTrue( task instanceof IRunAndRenderTask );
+*/
 	}
 
 }

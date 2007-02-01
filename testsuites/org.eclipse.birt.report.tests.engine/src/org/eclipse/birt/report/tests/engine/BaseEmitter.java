@@ -12,6 +12,7 @@ import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
+import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.api.RenderOptionBase;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
@@ -59,7 +60,7 @@ public abstract class BaseEmitter extends EngineCase implements IContentEmitter
 	{
 		IReportRunnable reportRunnable = engine.openReportDesign( inPath + getReportName( ) );
 		IRunAndRenderTask task = engine.createRunAndRenderTask( reportRunnable );
-		RenderOptionBase options = new HTMLRenderOption( );
+		RenderOption options = new HTMLRenderOption( );
 		options.setOutputFormat( format );
 		if ( format.equals( EMITTER_HTML ) )
 		{
@@ -81,7 +82,7 @@ public abstract class BaseEmitter extends EngineCase implements IContentEmitter
 		this.run( getReportName() + ".rptdesign", getReportName()+".rptdocument" );
 		IReportDocument document=engine.openReportDocument( outPath+getReportName()+".rptdocument" );
 		IRenderTask task=engine.createRenderTask( document );
-		RenderOptionBase options = new HTMLRenderOption( );
+		RenderOption options = new HTMLRenderOption( );
 		options.setOutputFormat( format );
 		HashMap appContext=new HashMap();
 		appContext.put( "emitter_class", this );

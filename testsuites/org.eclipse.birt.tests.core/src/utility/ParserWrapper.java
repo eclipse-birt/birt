@@ -25,7 +25,7 @@ import org.xml.sax.SAXNotSupportedException;
 /**
  * Encapsulates a DOM parser.
  *
- * @version $Id: ParserWrapper.java,v 1.1 2006/07/24 03:00:09 cyu Exp $
+ * @version $Id: ParserWrapper.java,v 1.2 2007/01/07 13:23:12 anonymous Exp $
  */
 public interface ParserWrapper {
 

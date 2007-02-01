@@ -36,7 +36,7 @@ import org.xml.sax.SAXParseException;
  * 
  * @author Andy Clark, IBM
  * 
- * @version $Id: DomWriter.java,v 1.1 2006/07/24 03:00:09 cyu Exp $
+ * @version $Id: DomWriter.java,v 1.2 2007/01/07 13:23:12 anonymous Exp $
  */
 public class DomWriter
 {

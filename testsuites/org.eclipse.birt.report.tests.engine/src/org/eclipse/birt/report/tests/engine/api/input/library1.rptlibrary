@@ -533,174 +533,174 @@ header 1 with em
     <Visible>true</Visible>
   </Block>
   <Dimension>Two_Dimensional</Dimension>
-  <Script>/**
- * Called only once for each chart design in the report, befoer any
- * databinding occurred. Styles are already flattened in the design.
- * 
- * @param chart
- *            Chart Model
- * @param context
- *            IChartScriptContext
- */
-//function onPrepare( chart, context ){}
-
-/**
- * Called before populating the series dataset using the DataSetProcessor.
- * 
- * @param series
- *            Series
- * @param dataSetProcessor
- *            DataSetProcessor
- * @param context
- *            IChartScriptContext
- */
-//function beforeDataSetFilled( series, dataSetProcessor, context ){}
-
-/**
- * Called before generation of chart model to GeneratedChartState.
- * 
- * @param chart
- *            Chart Model
- * @param context
- *            IChartScriptContext
- */
-//function beforeGeneration( chart, context ){}
-
-/**
- * Called befoer the chart is rendered.
- * 
- * @param gcs
- *            GeneratedChartState
- * @param context
- *            IChartScriptContext
- */
-//function beforeRendering( gcs, context ){}
-
-/**
- * Called before drawing each block.
- * 
- * @param block
- *            Block
- * @param context
- *            IChartScriptContext
- */
-//function beforeDrawBlock( block, context ){}
-
-/**
- * Called befoer drawing each entry the legend.
- * 
- * @param label
- *            Label
- * @param context
- *            IChartScriptContext
- */
-//function beforeDrawLegendEntry( label, context ){}
-
-/**
- * Called before rendering Series.
- * 
- * @param series
- *            Series
- * @param seriesRenderer
- *            ISeriesRenderer
- * @param context
- *            IChartScriptContext
- */
-//function beforeDrawSeries( series, seriesRenderer, context ){}
-
-/**
- * Called before rendering the title of a Series.
- * 
- * @param series
- *            Series
- * @param label
- *            Label
- * @param context
- *            IChartScriptContext
- */
-//function beforeDrawSeriesTitle( series, label, context ){}
-
-/**
- * Called before drawing each marker line in an Axis.
- * 
- * @param axis
- *            Axis
- * @param markerLine
- *            MarkerLine
- * @param context
- *            IChartScriptContext
- */
-//function beforeDrawMarkerLine( axis, markerLine, context ){}
-
-/**
- * Called before drawing each marker range in an Axis.
- * 
- * @param axis
- *            Axis
- * @param markerRange
- *            MarkerRange
- * @param context
- *            IChartScriptContext
- */
-//function beforeDrawMarkerRange( axis, markerRange, context ){}
-
-/**
- * Called before drawing each datapoint graphical representation or marker.
- * 
- * @param dph
- *            DataPointHints
- * @param fill
- *            Fill
- * @param context
- *            IChartScriptContext
- */
-//function beforeDrawDataPoint( dph, fill, context ){}
-
-/**
- * Called before rendering the label for each datapoint.
- * 
- * @param dph
- *            DataPointHints
- * @param label
- *            Label
- * @param context
- *            IChartScriptContext
- */
-//function beforeDrawDataPointLabel( dph, label, context ){}
-
-/**
- * Called before rendering curve fitting.
- * 
- * @param cf
- *            CurveFitting
- * @param context
- *            IChartScriptContext
- */
-//function beforeDrawFittingCurve( cf, context ){}
-
-/**
- * Called before rendering each label on a given Axis.
- * 
- * @param axis
- *            Axis
- * @param label
- *            Label
- * @param context
- *            IChartScriptContext
- */
-//function beforeDrawAxisLable( axis, label, context ){}
-
-/**
- * Called before rendering the Title of an Axis.
- * 
- * @param axis
- *            Axis
- * @param label
- *            Title Label
- * @param context
- *            IChartScriptContext
- */
-//function beforeDrawAxisTitle( axis, label, context ){}
+  <Script>/**
+ * Called only once for each chart design in the report, befoer any
+ * databinding occurred. Styles are already flattened in the design.
+ * 
+ * @param chart
+ *            Chart Model
+ * @param context
+ *            IChartScriptContext
+ */
+//function onPrepare( chart, context ){}
+
+/**
+ * Called before populating the series dataset using the DataSetProcessor.
+ * 
+ * @param series
+ *            Series
+ * @param dataSetProcessor
+ *            DataSetProcessor
+ * @param context
+ *            IChartScriptContext
+ */
+//function beforeDataSetFilled( series, dataSetProcessor, context ){}
+
+/**
+ * Called before generation of chart model to GeneratedChartState.
+ * 
+ * @param chart
+ *            Chart Model
+ * @param context
+ *            IChartScriptContext
+ */
+//function beforeGeneration( chart, context ){}
+
+/**
+ * Called befoer the chart is rendered.
+ * 
+ * @param gcs
+ *            GeneratedChartState
+ * @param context
+ *            IChartScriptContext
+ */
+//function beforeRendering( gcs, context ){}
+
+/**
+ * Called before drawing each block.
+ * 
+ * @param block
+ *            Block
+ * @param context
+ *            IChartScriptContext
+ */
+//function beforeDrawBlock( block, context ){}
+
+/**
+ * Called befoer drawing each entry the legend.
+ * 
+ * @param label
+ *            Label
+ * @param context
+ *            IChartScriptContext
+ */
+//function beforeDrawLegendEntry( label, context ){}
+
+/**
+ * Called before rendering Series.
+ * 
+ * @param series
+ *            Series
+ * @param seriesRenderer
+ *            ISeriesRenderer
+ * @param context
+ *            IChartScriptContext
+ */
+//function beforeDrawSeries( series, seriesRenderer, context ){}
+
+/**
+ * Called before rendering the title of a Series.
+ * 
+ * @param series
+ *            Series
+ * @param label
+ *            Label
+ * @param context
+ *            IChartScriptContext
+ */
+//function beforeDrawSeriesTitle( series, label, context ){}
+
+/**
+ * Called before drawing each marker line in an Axis.
+ * 
+ * @param axis
+ *            Axis
+ * @param markerLine
+ *            MarkerLine
+ * @param context
+ *            IChartScriptContext
+ */
+//function beforeDrawMarkerLine( axis, markerLine, context ){}
+
+/**
+ * Called before drawing each marker range in an Axis.
+ * 
+ * @param axis
+ *            Axis
+ * @param markerRange
+ *            MarkerRange
+ * @param context
+ *            IChartScriptContext
+ */
+//function beforeDrawMarkerRange( axis, markerRange, context ){}
+
+/**
+ * Called before drawing each datapoint graphical representation or marker.
+ * 
+ * @param dph
+ *            DataPointHints
+ * @param fill
+ *            Fill
+ * @param context
+ *            IChartScriptContext
+ */
+//function beforeDrawDataPoint( dph, fill, context ){}
+
+/**
+ * Called before rendering the label for each datapoint.
+ * 
+ * @param dph
+ *            DataPointHints
+ * @param label
+ *            Label
+ * @param context
+ *            IChartScriptContext
+ */
+//function beforeDrawDataPointLabel( dph, label, context ){}
+
+/**
+ * Called before rendering curve fitting.
+ * 
+ * @param cf
+ *            CurveFitting
+ * @param context
+ *            IChartScriptContext
+ */
+//function beforeDrawFittingCurve( cf, context ){}
+
+/**
+ * Called before rendering each label on a given Axis.
+ * 
+ * @param axis
+ *            Axis
+ * @param label
+ *            Label
+ * @param context
+ *            IChartScriptContext
+ */
+//function beforeDrawAxisLable( axis, label, context ){}
+
+/**
+ * Called before rendering the Title of an Axis.
+ * 
+ * @param axis
+ *            Axis
+ * @param label
+ *            Title Label
+ * @param context
+ *            IChartScriptContext
+ */
+//function beforeDrawAxisTitle( axis, label, context ){}
 </Script>
   <Units>Points</Units>
   <SeriesThickness>10.0</SeriesThickness>
