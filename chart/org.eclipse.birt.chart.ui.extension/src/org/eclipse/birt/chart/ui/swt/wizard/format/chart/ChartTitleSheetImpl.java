@@ -11,6 +11,8 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.chart;
 
 import java.util.List;
 
+import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Interactivity;
 import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -53,8 +55,6 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 	private transient Button btnVisible;
 //	
 //	private transient Button btnTooltip;
-	
-	public static final int FONT_CHANGED_EVENT = 3;
 
 	public void createControl( Composite parent )
 	{
@@ -213,7 +213,17 @@ public class ChartTitleSheetImpl extends SubtaskSheetImpl implements
 		}
 		else if ( event.widget.equals( fdcFont ) )
 		{
-			event.type = FONT_CHANGED_EVENT;
+			if ( event.type == FontDefinitionComposite.FONT_CHANTED_EVENT )
+			{
+				getChart( ).getTitle( )
+						.getLabel( )
+						.getCaption( )
+						.setFont( (FontDefinition) ( (Object[]) event.data )[0] );
+				getChart( ).getTitle( )
+						.getLabel( )
+						.getCaption( )
+						.setColor( (ColorDefinition) ( (Object[]) event.data )[1] );
+			}
 		}
 
 	}
