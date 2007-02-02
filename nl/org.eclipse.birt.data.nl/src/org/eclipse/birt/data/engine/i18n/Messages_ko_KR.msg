@@ -41,7 +41,6 @@ data.engine.BadCloseScript=CustomDataSet의 closeScript 계산에 실패했습니다.
 data.engine.InvalidCustomFieldIdx=사용자 지정 필드 인덱스가 잘못되었습니다: {0}
 data.engine.InvalidGroupName=그룹 이름이 잘못되었습니다.
 data.engine.DuplicateGroupName=그룹 이름이 중복됩니다.
-
 data.engine.BadOpenScript=CustomDataSet의 openScript 계산에 실패했습니다.
 data.engine.DataSourceIsOpen=데이터 원본이 이미 열려 있습니다.
 data.engine.DataSourceNotOpen=데이터 원본이 열려 있지 않습니다.
@@ -90,7 +89,7 @@ data.engine.InvalidBoundColumnName=잘못된 바인딩된 열 이름: {0}.
 data.engine.InvalidGroupKey={1} 그룹의 "{0}" 그룹 키를 하위 그룹에 정의된 열 바인딩에 종속시킬 수 없습니다. 
 data.engine.ColumnBindingNotExist=열 바인딩 "{0}"이(가) 없습니다.
 data.engine.ColumnBindingCycle="{0}" 열 바인딩에 종속 사이클이 형성되어 있습니다.
-
+data.engine.ColumnBindingReferToInexistColumn=Column binding "{0}" has referred to a data set column "{1}" which is not exist.
 #computed column value
 data.engine.BadCompColExpr=계산된 열 "{0}"에 대한 식이 잘못되었습니다.
 data.engine.CompCol.WrongDataType=계산된 열 "{0}"의 데이터 형식이 {1}이지만 값 중 하나가 "{2}"이므로 {1}(으)로 변환할 수 없습니다.
@@ -140,7 +139,7 @@ data.engine.startError=다음 메서드를 먼저 호출해야 합니다.
 
 # query running based on report document
 data.engine.rd.errorfilters=쿼리에 정의된 필터는 지원되지 않습니다.
- 
+
 # other error
 data.engine.ScriptEvalError=스크립트 평가 중에 오류가 발생했습니다(원본: {0}, 줄: {1}:  {2}.
 data.engine.PreparedQueryClosed=PreparedQuery 인스턴스가 닫혔습니다.
@@ -174,8 +173,7 @@ data.engine.wrongStatus=잘못된 상태
 data.engine.wrongVersion=2.1 이전 버전에서는 지원되지 않습니다.
 data.engine.unsupportOperationException=지원되지 않는 연산
 data.engine.resultClassSaveError=열 바인딩 내의 일부 열 참조가 없습니다.
-
-# oda consumer error
+# oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=열 이름은 비워 두거나 널(null)이 될 수 없습니다.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.
 odaconsumer.ColumnAliasCannotBeEmpty=열 별칭은 빈 문자열이 될 수 없습니다.

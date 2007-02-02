@@ -41,7 +41,6 @@ data.engine.BadCloseScript=Error al evaluar closeScript en CustomDataSet.
 data.engine.InvalidCustomFieldIdx=Índice de campo personalizado no válido:{0}
 data.engine.InvalidGroupName=El nombre de grupo no es válido.
 data.engine.DuplicateGroupName=Los nombres de grupo están duplicados.
-
 data.engine.BadOpenScript=Error al evaluar openScript en CustomDataSet.
 data.engine.DataSourceIsOpen=La fuente de datos ya está abierta.
 data.engine.DataSourceNotOpen=La fuente de datos no está abierta.
@@ -90,7 +89,7 @@ data.engine.InvalidBoundColumnName=Nombre de columna enlazada no válido: {0}.
 data.engine.InvalidGroupKey=La clave de grupo "{0}" del grupo {1} no puede depender de los enlaces de columna definidos en el grupo inferior al mismo. 
 data.engine.ColumnBindingNotExist=El enlace de columna "{0}" no existe.
 data.engine.ColumnBindingCycle=El enlace de columna "{0}" tiene un ciclo de dependencia.
-
+data.engine.ColumnBindingReferToInexistColumn=Column binding "{0}" has referred to a data set column "{1}" which is not exist.
 #computed column value
 data.engine.BadCompColExpr=La expresión de la columna procesada "{0}" no es válida.
 data.engine.CompCol.WrongDataType=El tipo de datos de la columna procesada "{0}" es {1}, pero uno de sus valores es "{2}", que no se puede convertir en {1}.
@@ -174,8 +173,7 @@ data.engine.wrongStatus=Estado incorrecto.
 data.engine.wrongVersion=No admitido en versiones anteriores a la 2.1.
 data.engine.unsupportOperationException=Operación no admitida.
 data.engine.resultClassSaveError=Algunas referencias de columnas en el enlace de columna no existen.
-
-# oda consumer error
+# oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=El nombre de columna no puede ser nulo ni estar vacío.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.
 odaconsumer.ColumnAliasCannotBeEmpty=El alias de columna no puede ser una cadena vacía.

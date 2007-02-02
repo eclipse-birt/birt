@@ -41,7 +41,6 @@ data.engine.BadCloseScript=CustomDataSet の closeScript を評価できません。
 data.engine.InvalidCustomFieldIdx=カスタムフィールドのインデックスが無効です : {0}
 data.engine.InvalidGroupName=グループ名が無効です。
 data.engine.DuplicateGroupName=グループ名が重複しています。
-
 data.engine.BadOpenScript=CustomDataSet の openScript を評価できません。
 data.engine.DataSourceIsOpen=データソースがすでに開いています。
 data.engine.DataSourceNotOpen=データソースが開いていません。
@@ -90,7 +89,7 @@ data.engine.InvalidBoundColumnName=バインドされたカラムの名前が無効です : {0}
 data.engine.InvalidGroupKey=グループ {1} のグループキー "{0}" は、それより下位のグループで定義されているカラムバインドに依存させることはできません。 
 data.engine.ColumnBindingNotExist=列バインド "{0}" は存在しません。
 data.engine.ColumnBindingCycle=カラムバインド "{0}" の依存関係が循環参照になっています。
-
+data.engine.ColumnBindingReferToInexistColumn=Column binding "{0}" has referred to a data set column "{1}" which is not exist.
 #computed column value
 data.engine.BadCompColExpr=計算列 "{0}" の式が無効です。
 data.engine.CompCol.WrongDataType=計算列 "{0}" のデータ型は {1} ですが、このうち 1 つの値が "{2}" であるため、{1} に変換できません。
@@ -174,8 +173,7 @@ data.engine.wrongStatus=ステータスが正しくありません。
 data.engine.wrongVersion=2.1 よりも古いバージョンではサポートされていません。
 data.engine.unsupportOperationException=この操作はサポートされていません。
 data.engine.resultClassSaveError=列バインド内の列参照の一部が存在しません。
-
-# oda consumer error
+# oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=列名は空白または null にできません。
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.
 odaconsumer.ColumnAliasCannotBeEmpty=列のエイリアスは、空白文字列にすることができません。

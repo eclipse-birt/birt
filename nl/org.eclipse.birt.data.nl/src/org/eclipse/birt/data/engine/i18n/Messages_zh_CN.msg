@@ -41,7 +41,6 @@ data.engine.BadCloseScript=对 CustomDataSet 中的 closeScript 求值失败。
 data.engine.InvalidCustomFieldIdx=无效的自定义字段索引: {1}
 data.engine.InvalidGroupName=组名称无效。
 data.engine.DuplicateGroupName=组名称重复。
-
 data.engine.BadOpenScript=对 CustomDataSet 中的 openScript 求值失败。
 data.engine.DataSourceIsOpen=数据源已经打开。
 data.engine.DataSourceNotOpen=数据源未打开。
@@ -90,7 +89,7 @@ data.engine.InvalidBoundColumnName=无效的绑定列名称: {0}。
 data.engine.InvalidGroupKey=组 {1} 中的组关键字“{0}”不能依赖于在低于自身的组中定义的列绑定。 
 data.engine.ColumnBindingNotExist=列绑定“{0}”不存在。
 data.engine.ColumnBindingCycle=列绑定“{0}”具有相关性循环。
-
+data.engine.ColumnBindingReferToInexistColumn=Column binding "{0}" has referred to a data set column "{1}" which is not exist.
 #computed column value
 data.engine.BadCompColExpr=计算列 "{0}" 的表达式无效。
 data.engine.CompCol.WrongDataType=计算列 "{0}" 的数据类型为 {1}，但是其某个值为 "{2}"，不能转换为 {1}。
@@ -174,8 +173,7 @@ data.engine.wrongStatus=错误状态。
 data.engine.wrongVersion=在早于 2.1 的版本中不受支持。
 data.engine.unsupportOperationException=不支持的操作。
 data.engine.resultClassSaveError=列绑定中的某些列引用不存在。
-
-# oda consumer error
+# oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=列名称不能为空或 null。
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.
 odaconsumer.ColumnAliasCannotBeEmpty=列别名不能为空字符串。

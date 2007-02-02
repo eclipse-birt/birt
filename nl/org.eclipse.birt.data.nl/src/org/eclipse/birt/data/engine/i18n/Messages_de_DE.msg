@@ -41,7 +41,6 @@ data.engine.BadCloseScript=CloseScript in CustomDataSet konnte nicht ausgewertet
 data.engine.InvalidCustomFieldIdx=Ungültiger Index für benutzerdefiniertes Feld: {0}
 data.engine.InvalidGroupName=Der Gruppenname ist ungültig.
 data.engine.DuplicateGroupName=Die Gruppennamen sind doppelt vorhanden.
-
 data.engine.BadOpenScript=OpenScript in CustomDataSet konnte nicht ausgewertet werden.
 data.engine.DataSourceIsOpen=Datenquelle ist bereits geöffnet.
 data.engine.DataSourceNotOpen=Datenquelle ist nicht geöffnet.
@@ -90,7 +89,7 @@ data.engine.InvalidBoundColumnName=Ungültiger Name für gebundene Spalte: {0}.
 data.engine.InvalidGroupKey=Gruppenschlüssel "{0}" in Gruppe {1} darf nicht von Spaltenbindungen abhängen, die in einer geringeren Gruppe als der eigenen Gruppe definiert wurden. 
 data.engine.ColumnBindingNotExist=Die Spaltenbindung "{0}" existiert nicht.
 data.engine.ColumnBindingCycle=Die Spaltenbindung "{0}" hat einen Abhängigkeitszyklus.
-
+data.engine.ColumnBindingReferToInexistColumn=Column binding "{0}" has referred to a data set column "{1}" which is not exist.
 #computed column value
 data.engine.BadCompColExpr=Der Ausdruck für die berechnete Spalte "{0}" ist ungültig.
 data.engine.CompCol.WrongDataType=Der Datentyp der berechneten Spalte "{0}" lautet {1}, einer ihrer Werte ist jedoch "{2}". Dieser kann nicht in {1} konvertiert werden.
@@ -140,7 +139,7 @@ data.engine.startError=Die nächste Methode muss zuerst aufgerufen werden.
 
 # query running based on report document
 data.engine.rd.errorfilters=Die in der Abfrage definierten Filter werden nicht unterstützt.
- 
+
 # other error
 data.engine.ScriptEvalError=Fehler beim Auswerten des Skripts (Quelle:{0}, Zeile:{1}: {2}.)
 data.engine.PreparedQueryClosed=Instanz von PreparedQuery wurde geschlossen.
@@ -174,8 +173,7 @@ data.engine.wrongStatus=Falscher Status.
 data.engine.wrongVersion=In früheren Versionen als 2.1 nicht unterstützt.
 data.engine.unsupportOperationException=Nicht unterstützter Vorgang.
 data.engine.resultClassSaveError=Einige Spaltenverweise in der Spaltenbindung existieren nicht.
-
-# oda consumer error
+# oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Der Spaltenname darf nicht leer oder gleich Null sein.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.
 odaconsumer.ColumnAliasCannotBeEmpty=Bei dem Spaltenalias darf es sich nicht um eine leere Zeichenfolge handeln.
