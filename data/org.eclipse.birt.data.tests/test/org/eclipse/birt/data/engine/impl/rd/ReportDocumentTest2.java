@@ -23,6 +23,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -81,6 +82,130 @@ public class ReportDocumentTest2 extends APITestCase
 		this.preBasic( );
 		this.closeArchiveReader( );
 	}
+	
+	
+	/**
+	 * Inspite of without accessing all resultset iterator. All resultset
+	 * iterator should be kept in document.
+	 * @throws Exception 
+	 */
+	public void testHasGapRowInResultSet( ) throws Exception
+	{
+		String fileName = getOutputFolder( ) + "testData";
+		DataEngineContext deContext1 = newContext( DataEngineContext.MODE_GENERATION,
+				fileName );
+		myGenDataEngine = DataEngine.newDataEngine( deContext1 );
+		
+		myGenDataEngine.defineDataSource( this.dataSource );
+		myGenDataEngine.defineDataSet( this.dataSet );
+		
+		genHasGapRs();
+		this.closeArchiveWriter( );
+		
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		this.preBasic( );
+	}
+	
+	private void genHasGapRs( ) throws BirtException
+	{
+		Context context = Context.enter( );		
+		Scriptable scope = context.initStandardObjects( );		
+		Context.exit( );
+		
+		//------------generation----------------
+		QueryDefinition qd = newReportQuery( );
+		
+		// prepare
+		IBaseExpression[] rowBeArray = getRowExpr( );
+		IBaseExpression[] totalBeArray = getAggrExpr( );
+		prepareExprNameAndQuery( rowBeArray, totalBeArray, qd );
+		
+		// generation
+		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
+		
+		// important step
+		queryResultID = qr.getID( );
+		
+		IResultIterator ri = qr.getResultIterator( );		
+
+		//only access 0 and 3 resultIterator
+		ri.next( );
+		ri.moveTo( 3 );
+
+		ri.close( );
+		qr.close( );
+		myGenDataEngine.shutdown( );
+	}
+	
+	/**
+	 * Call skipToEnd() when using detail. Expected: all resultset should be
+	 * saved in report document.
+	 * 
+	 * @throws Exception
+	 */
+	public void testSkipToEndWhenUsingDetail( ) throws Exception
+	{
+		String fileName = getOutputFolder( ) + "testData";
+		DataEngineContext deContext1 = newContext( DataEngineContext.MODE_GENERATION,
+				fileName );
+		myGenDataEngine = DataEngine.newDataEngine( deContext1 );
+		
+		myGenDataEngine.defineDataSource( this.dataSource );
+		myGenDataEngine.defineDataSet( this.dataSet );
+		
+		genSkipToEnd( true );
+		this.closeArchiveWriter( );
+		
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		this.preBasic( );
+	}
+	
+	private void genSkipToEnd( boolean useDetails ) throws BirtException
+	{
+		Context context = Context.enter( );		
+		Scriptable scope = context.initStandardObjects( );		
+		Context.exit( );
+		
+		//------------generation----------------
+		QueryDefinition qd = newReportQuery( );
+		qd.setUsesDetails( useDetails );
+		GroupDefinition gd = new GroupDefinition( );
+		String columnBindingNameGroup = "COUNTRY";
+		IBaseExpression columnBindingExprGroup = new ScriptExpression( "dataSetRow.COUNTRY" );
+		gd.setKeyColumn( "COUNTRY" );
+		qd.addResultSetExpression( columnBindingNameGroup,
+				columnBindingExprGroup );
+		qd.addGroup( gd );
+		
+		// prepare
+		IBaseExpression[] rowBeArray = getRowExpr( );
+		IBaseExpression[] totalBeArray = getAggrExpr( );
+		prepareExprNameAndQuery( rowBeArray, totalBeArray, qd );
+		
+		// generation
+		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
+		
+		// important step
+		queryResultID = qr.getID( );
+		
+		IResultIterator ri = qr.getResultIterator( );		
+
+		//only access 0 and 3 resultIterator
+		ri.next( );
+		ri.moveTo( 4 );
+		ri.skipToEnd( 1 );
+
+		ri.close( );
+		qr.close( );
+		myGenDataEngine.shutdown( );
+	}
+	
 	
 	/**
 	 * @throws Exception

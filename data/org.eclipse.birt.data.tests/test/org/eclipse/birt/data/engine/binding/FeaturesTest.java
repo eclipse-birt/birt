@@ -1785,4 +1785,37 @@ public class FeaturesTest extends APITestCase
 		
 		checkOutputFile();
 	}
+	
+	public void testRefToInvalidDataSetColumn( )
+	{
+		String[] bindingNameRow = new String[1];		
+		bindingNameRow[0] = "ROW_COUNTRY";
+		IBaseExpression[] bindingExprRow = new IBaseExpression[1];
+		bindingExprRow[0] = new ScriptExpression( "dataSetRow.invalid" );
+		
+			
+		
+		try
+		{
+			createAndRunQuery( null,
+						null,
+						null,
+						null,
+						null,
+						null,
+						null,
+						null,
+						null,
+						bindingNameRow,
+						bindingExprRow );
+			fail("Should not arrive here");
+		}
+		catch ( Exception e )
+		{
+
+		}
+			
+
+	
+	}
 }
