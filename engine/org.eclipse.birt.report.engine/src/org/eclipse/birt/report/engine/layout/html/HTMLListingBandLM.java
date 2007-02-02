@@ -119,6 +119,10 @@ public class HTMLListingBandLM extends HTMLBlockStackingLM
 			{
 				return !( (IListContent) listContent ).isHeaderRepeat( );
 			}
+			if ( listContent instanceof ITableContent )
+			{
+				return !( (ITableContent) listContent ).isHeaderRepeat( );
+			}
 		}
 		else if ( type == IBandContent.BAND_GROUP_HEADER )
 		{
