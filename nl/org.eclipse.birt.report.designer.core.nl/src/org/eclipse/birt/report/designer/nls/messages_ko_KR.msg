@@ -78,7 +78,6 @@ AttributesBuilder.Label.AutoText=속성 편집기- AutoText
 
 ###########################################################
 #AttributeView properties
-
 AttributeView.dialg.Message.Warning = 경고
 AttributeView.dialg.Message.Yes=예(&E)
 AttributeView.dialg.Message.No=아니오(&O)
@@ -90,7 +89,6 @@ AttributeView.toolbar.tooltip.EditingToggleAction.DisabledActionMsg=로컬 요소에 
 AttributeView.view.message.Emptypage= 이 {0}이(가) 라이브러리 {2}의 {1}에서 확장됩니다. 이 보고서 디자인에서 이 {3}의 속성을 수정하려면, 속성 편집기의 도구 모음에서 편집 사용 단추를 누르십시오.
 AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=속성 복원
 AttributeView.defaultText.noAttributeView = 속성 편집기를 사용할 수 없습니다.
-
 ###########################################################
 #BackGroundPreferencePage properties
 
@@ -212,17 +210,18 @@ ButtonPaneComposite.tooltip.Normal=표준
 ButtonPaneComposite.tooltip.Ruler=눈금자
 
 ###########################################################
-#CachePreferencePage properties
+#SettingsPage properties
 
-CachePreferencePage.button.clear=캐시 지우기(&C)
-CachePreferencePage.checkBox.text=보고서 미리 보기용 데이터 집합 데이터 캐시(&H)
-CachePreferencePage.description=캐시 크기 정의:
-CachePreferencePage.Filter.Tooltip=데이터 집합 안이나 밖에서 캐시 사용
-CachePreferencePage.label.text=행
-CachePreferencePage.messageBox.info=캐시가 지워졌습니다.
-CachePreferencePage.messageBox.title=캐시 지우기
-CachePreferencePage.radioBox.entireNumText=전체 데이터 집합 캐시(&E)
-CachePreferencePage.radioBox.numText=먼저 캐시 후 사용(&U)
+SettingsPage.dataFetchSetting.label=Max number of rows to fetch from data source:
+SettingsPage.CachePreference.button.clear=캐시 지우기(&C)
+SettingsPage.CachePreference.checkBox.text=보고서 미리 보기용 데이터 집합 데이터 캐시(&H)
+SettingsPage.CachePreference.description=캐시 크기 정의:
+SettingsPage.CachePreference.Filter.Tooltip=데이터 집합 안이나 밖에서 캐시 사용
+SettingsPage.CachePreference.label.text=행
+SettingsPage.CachePreference.messageBox.info=캐시가 지워졌습니다.
+SettingsPage.CachePreference.messageBox.title=캐시 지우기
+SettingsPage.CachePreference.radioBox.entireNumText=전체 데이터 집합 캐시(&E)
+SettingsPage.CachePreference.radioBox.numText=먼저 캐시 후 사용(&U)
 
 ###########################################################
 #CascadingParametersDialog properties
@@ -281,6 +280,7 @@ CellPageGenerator.TabItem.map=맵
 ###########################################################
 #LabelPageGenerator properties
 LabelPageGenerator.TabItem.Highlights=강조
+
 
 ###########################################################
 #ChoiceSetFactory properties
@@ -395,12 +395,17 @@ DataPageGenerator.TabItem.map=맵
 #dataset properties
 
 dataset.edit=데이터 집합 편집 - {0}
-dataset.editor.cachePreference.errorNumberFormat=캐시 행 크기에 0보다 큰 숫자를 입력하십시오.
-dataset.editor.cachePreference=캐시 기본 설정
+
+dataset.editor.settings=Settings
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter a number larger than zero for row fetch limit
+dataset.editor.settings.dataFetchSetting=Data Fetch Setting
+dataset.editor.settings.cachePreference.errorNumberFormat=캐시 행 크기에 0보다 큰 숫자를 입력하십시오.
+dataset.editor.settings.cachePreference=캐시 기본 설정
 dataset.editor.computedColumns=계산 열
 dataset.editor.dataSource.Tooltip=데이터 원본 보기/변경
 dataset.editor.dataSource=데이터 원본
 dataset.editor.error.columnOrAliasNameAlreadyUsed=새 열 이름 또는 별칭({0})이 인덱스 {1}의 열에서 이미 사용되고 있습니다.
+dataset.editor.error.computedColumnNameAlreadyUsed=The new computed column name ({0}) is already used as column alias of column ({1}) in Output Columns.
 dataset.editor.error.duplicateParameterName=중복된 매개 변수 이름
 dataset.editor.error.emptyName=이름은 비워 둘 수 없습니다. 
 dataset.editor.error.missingComputedColumnExpression=계산된 열 {0}의 식이 널(null)이거나 비어 있을 수 없습니다.
@@ -1393,12 +1398,13 @@ FormatDateTimePage.label.custom.settings=사용자 지정 설정
 FormatDateTimePage.label.format.code=형식 코드:
 FormatDateTimePage.label.format.page=다음으로 형식 지정(&F):
 FormatDateTimePage.label.general.preview.group=형식 미리 보기
-FormatDateTimePage.label.guide.text=mm/dd/yyyy hh:mm:ss tt 형식으로 입력
+FormatDateTimePage.label.guide.text=Please enter as: MM/DD/YYYY hh:mm:ss AM/PM
 FormatDateTimePage.label.preview.dateTime=미리 보기 날짜 시간: 
 FormatDateTimePage.label.preview.group=미리 보기
 FormatDateTimePage.label.preview.label=형식 미리 보기:
-FormatDateTimePage.label.table.column.format.code=예 형식
+FormatDateTimePage.label.table.column.format.name=예 형식
 FormatDateTimePage.label.table.column.format.result=예 형식 결과
+FormatDateTimePage.label.table.column.format.code=Example code
 FormatDateTimePage.preview.invalid.dateTime=잘못된 미리 보기 날짜 시간
 FormatDateTimePage.preview.invalid.formatCode=잘못된 형식 코드
 
@@ -1669,7 +1675,7 @@ HyperlinkBuilder.DrillThroughStep1=1단계: 대상 보고서 선택
 HyperlinkBuilder.DrillThroughStep2=2단계: 대상 앵커 선택 
 HyperlinkBuilder.DrillThroughStep3=3단계: 대상 책갈피에 맞는 링크 식 생성
 HyperlinkBuilder.DrillThroughStep4=4단계: 대상 보고서 표시 
-HyperlinkBuilder.DrillThroughStep5=5: 대상 보고서 형식 지정 
+HyperlinkBuilder.DrillThroughStep5=Step 5: Select a format for target report
 HyperlinkBuilder.ParameterRequired=필수
 HyperlinkBuilder.Column.Values=값
 HyperlinkBuilder.DialogTitle=하이퍼링크 옵션
@@ -1700,6 +1706,7 @@ HyperlinkBuilder.BrowseForFile=파일 찾아보기
 HyperlinkBuilder.OpenExpression=식 빌더 열기
 HyperlinkBuilder.FileNameError.Title=오류
 HyperlinkBuilder.FileNameError.Message=선택한 파일이 잘못되었습니다.
+HyperlinkBuilder.TargetReportFormat=Format the target report in:
 
 ###########################################################
 #HyperLinkPage properties
@@ -1731,7 +1738,7 @@ ImageBuilder.DialogTitle.New=새 이미지 항목
 ImageBuilder.ErrorMessage.FileLoaded=이 파일은 이미 로드되었습니다.
 ImageBuilder.ErrorMessage.LoadingFailed=이미지를 제대로 로드할 수 없음.
 ImageBuilder.BrowserResourceDialog.Title=이미지 파일 찾아보기
-ImageBuilder.BrowserResourceDialog.Message=BIRT 리소스 경로 폴더에서 이미지 파일 선택
+ImageBuilder.BrowserResourceDialog.Message=Select the image files from Resource Path Folder
 ImageBuilder.ErrorMessage.OutOfMemory=이미지가 너무 커서 메모리에 맞지 않습니다.
 ImageBuilder.FileDialog.FilterMessage=지원되지 않는 이미지 파일
 ImageBuilder.Label.Binding=바인딩(&B)
@@ -1740,7 +1747,7 @@ ImageBuilder.Label.EnterExpr=동적 이미지 식 입력(&N):
 ImageBuilder.Label.EnterUri=URI 입력(&N):
 ImageBuilder.Label.Open=식 빌더(&X)...
 ImageBuilder.Label.SelectFrom=다음에서 사진 선택:
-ImageBuilder.ResourceFileType=BIRT 리소스 폴더의 이미지 파일
+ImageBuilder.ResourceFileType=Image file in resource folder
 ImageBuilder.Label.URI=URI(&U)
 ImageBuilder.Label.EnterResourceFile=리소스 파일 입력(&N):
 
@@ -2111,6 +2118,7 @@ MapPreferencePage.toolTipText.Down=맵 규칙 아래로 이동
 MapRuleBuilder.DialogTitle.New=새 맵 규칙
 MapRuleBuilder.DialogTitle.Edit=맵 규칙 편집
 
+
 MapRuleBuilderDialog.text.Between=사이에 있음
 MapRuleBuilderDialog.text.Condition=다음 조건이 참인 경우(&I): 
 MapRuleBuilderDialog.text.Display=다음 값 표시(&T): 
@@ -2307,6 +2315,7 @@ NewReportWizard.title.Template=TemplateChoicePage
 NewReportWizard.title.WizardPage=WizardPage
 NewReportWizard.widowTitle.new=새로 만들기
 
+
 ###########################################################
 #NewResourceFileDialog properties
 
@@ -2442,6 +2451,7 @@ ParameterDialog.Label.HelpText=도움말 텍스트(&H):
 ParameterDialog.Label.ListOfValue=값 목록:
 ParameterDialog.Label.Name=이름(&N):
 ParameterDialog.Label.None=<없음>
+ParameterDialog.Label.Null=Null
 ParameterDialog.Label.Preview=형식 미리 보기
 ParameterDialog.Label.PromptText=프롬프트 텍스트(&P):
 ParameterDialog.Label.SelectDataSet=데이터 집합(&A):
@@ -2721,7 +2731,7 @@ org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=C
 
 ###########################################################
 #Resource Preference page properties
-ResourecePreferencePage.title=라이브러리 탐색기에서 사용할 기본 리소스 폴더를 선택하십시오.
+ResourecePreferencePage.title=Please select the default Resource Folder to use for the library explorer,images,property files and etc.
 ResourecePreferencePage.folder=리소스 폴더(&R)
 ResourecePreferencePage.select=선택(&S)...
 ResourecePreferencePage.openDialogTitle=폴더 찾아보기
@@ -2800,6 +2810,7 @@ ReportPageGenerator.List.NamedExpressions=명명된 식
 ReportPageGenerator.List.UserProperties=사용자 속성
 ReportPageGenerator.List.Resources=리소스
 ReportPageGenerator.List.Resources.JarFile=Jar 파일:
+ReportPageGenerator.List.AdvancedProperty=Advanced
 
 #OdaDataSourceGenerator properties
 DataSourcePageGenerator.List.General=일반
@@ -3537,7 +3548,6 @@ DataSetColumnBindingsFormHandleProvider.NONE=해당 없음
 ###########################################################
 #DataSetColumnBindingsFormPage
 DataSetColumnBindingsFormPage.Button.RemoveUnused=사용하지 않는 열 제거
-
 ###########################################################
 #ResourceSelectionValidator
 ResourceSelectionValidator.ExtError=선택한 파일은 다음으로 끝나야 합니다. 
@@ -3557,6 +3567,7 @@ FormatStringPage.simpleTexZipCodeFormat=@@@-@@@
 FormatStringPage.simpleTexZipCode4Format=@@@-@@@
 FormatStringPage.phoneNumberFormat=(@@@)@@@@-@@@@
 FormatStringPage.securityNumberFormat=@@@-@@-@@@@
+
 
 ###########################################################
 #PublishLibraryDialog
@@ -3578,7 +3589,7 @@ PublishLibraryDialog.AddMessage=BIRT 리소스 폴더에 라이브러리 추가
 WizardLibrarySettingPage.ErrorMessage=폴더를 선택하십시오.
 
 WizardLibrarySettingPage.Resourcefile.Dialog.Title=리소스 폴더 찾아보기
-WizardLibrarySettingPage.Resourcefile.Dialog.Message=하위 폴더의 리소스 폴더를 선택하십시오.
+WizardLibrarySettingPage.Resourcefile.Dialog.Message=Please select the resource folder or its sub-folders.
 
 PublishLibraryDialog.AddLibrary=라이브러리 추가
 

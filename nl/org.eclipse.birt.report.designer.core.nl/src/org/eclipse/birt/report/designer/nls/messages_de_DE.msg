@@ -78,7 +78,6 @@ AttributesBuilder.Label.AutoText=Eigenschaftseditor - AutoText
 
 ###########################################################
 #AttributeView properties
-
 AttributeView.dialg.Message.Warning = Warnung
 AttributeView.dialg.Message.Yes=J&a
 AttributeView.dialg.Message.No=N&ein
@@ -90,7 +89,6 @@ AttributeView.toolbar.tooltip.EditingToggleAction.DisabledActionMsg=Diese Aktion
 AttributeView.view.message.Emptypage= {0} ist eine Erweiterung von {1} in Bibliothek {2}. Wenn Sie das Ändern der Eigenschaften von {3} in diesem Berichtdesign ermöglichen möchten, klicken Sie in der Symbolleiste des Eigenschaftseditors auf die Schaltfläche für das Aktivieren der Bearbeitungsfunktion.
 AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=Eigenschaften wiederherstellen
 AttributeView.defaultText.noAttributeView = Der Eigenschaftseditor ist nicht verfügbar.
-
 ###########################################################
 #BackGroundPreferencePage properties
 
@@ -212,17 +210,18 @@ ButtonPaneComposite.tooltip.Normal=Normal
 ButtonPaneComposite.tooltip.Ruler=Regler
 
 ###########################################################
-#CachePreferencePage properties
+#SettingsPage properties
 
-CachePreferencePage.button.clear=&Cache löschen
-CachePreferencePage.checkBox.text=&Daten aus Datensatz für Berichtvorschau zwischenspeichern
-CachePreferencePage.description=Cache-Größe festlegen:
-CachePreferencePage.Filter.Tooltip=Cache in Datensatz importieren oder daraus exportieren
-CachePreferencePage.label.text=Zeilen verwenden
-CachePreferencePage.messageBox.info=Der Cache wurde gelöscht
-CachePreferencePage.messageBox.title=Cache gelöscht
-CachePreferencePage.radioBox.entireNumText=&Kompletten Datensatz zwischenspeichern
-CachePreferencePage.radioBox.numText=&Zwischenspeichern und zuerst verwenden
+SettingsPage.dataFetchSetting.label=Max number of rows to fetch from data source:
+SettingsPage.CachePreference.button.clear=&Cache löschen
+SettingsPage.CachePreference.checkBox.text=&Daten aus Datensatz für Berichtvorschau zwischenspeichern
+SettingsPage.CachePreference.description=Cache-Größe festlegen:
+SettingsPage.CachePreference.Filter.Tooltip=Cache in Datensatz importieren oder daraus exportieren
+SettingsPage.CachePreference.label.text=Zeilen verwenden
+SettingsPage.CachePreference.messageBox.info=Der Cache wurde gelöscht
+SettingsPage.CachePreference.messageBox.title=Cache gelöscht
+SettingsPage.CachePreference.radioBox.entireNumText=&Kompletten Datensatz zwischenspeichern
+SettingsPage.CachePreference.radioBox.numText=&Zwischenspeichern und zuerst verwenden
 
 ###########################################################
 #CascadingParametersDialog properties
@@ -281,6 +280,7 @@ CellPageGenerator.TabItem.map=Zuordnung
 ###########################################################
 #LabelPageGenerator properties
 LabelPageGenerator.TabItem.Highlights=Kennzeichnungen
+
 
 ###########################################################
 #ChoiceSetFactory properties
@@ -395,12 +395,17 @@ DataPageGenerator.TabItem.map=Zuordnung
 #dataset properties
 
 dataset.edit=Datensatz bearbeiten - {0}
-dataset.editor.cachePreference.errorNumberFormat=Geben Sie für die Zeilengröße des Caches eine Zahl ein, die größer als Null ist.
-dataset.editor.cachePreference=Voreinstellungen für Cache
+
+dataset.editor.settings=Settings
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter a number larger than zero for row fetch limit
+dataset.editor.settings.dataFetchSetting=Data Fetch Setting
+dataset.editor.settings.cachePreference.errorNumberFormat=Geben Sie für die Zeilengröße des Caches eine Zahl ein, die größer als Null ist.
+dataset.editor.settings.cachePreference=Voreinstellungen für Cache
 dataset.editor.computedColumns=Berechnete Spalten
 dataset.editor.dataSource.Tooltip=Datenquelle anzeigen/ändern
 dataset.editor.dataSource=Datenquelle
 dataset.editor.error.columnOrAliasNameAlreadyUsed=Der neue Spaltenname oder -alias ({0}) wird bereits von der Spalte bei Index {1} verwendet.
+dataset.editor.error.computedColumnNameAlreadyUsed=The new computed column name ({0}) is already used as column alias of column ({1}) in Output Columns.
 dataset.editor.error.duplicateParameterName=Parametername doppelt vergeben
 dataset.editor.error.emptyName=Der Name darf nicht leer sein. 
 dataset.editor.error.missingComputedColumnExpression=Der Ausdruck der berechneten Spalte {0} darf nicht leer oder gleich Null sein.
@@ -1393,12 +1398,13 @@ FormatDateTimePage.label.custom.settings=Benutzerdefinierte Einstellungen
 FormatDateTimePage.label.format.code=Formatcode:
 FormatDateTimePage.label.format.page=&Formatieren als:
 FormatDateTimePage.label.general.preview.group=Vorschau mit Format
-FormatDateTimePage.label.guide.text=Eingeben als mm/tt/jjjj hh:mm:ss
+FormatDateTimePage.label.guide.text=Please enter as: MM/DD/YYYY hh:mm:ss AM/PM
 FormatDateTimePage.label.preview.dateTime=Datum/Uhrzeit für Vorschau: 
 FormatDateTimePage.label.preview.group=Vorschau
 FormatDateTimePage.label.preview.label=Vorschau mit Format:
-FormatDateTimePage.label.table.column.format.code=Beispielformat
+FormatDateTimePage.label.table.column.format.name=Beispielformat
 FormatDateTimePage.label.table.column.format.result=Beispiel-Formatergebnis
+FormatDateTimePage.label.table.column.format.code=Example code
 FormatDateTimePage.preview.invalid.dateTime=Ungültige(s) Datum/Uhrzeit für Vorschau
 FormatDateTimePage.preview.invalid.formatCode=Ungültiger Formatcode
 
@@ -1669,7 +1675,7 @@ HyperlinkBuilder.DrillThroughStep1=Schritt 1: Zielbericht auswählen
 HyperlinkBuilder.DrillThroughStep2=Schritt 2: Zielanker auswählen 
 HyperlinkBuilder.DrillThroughStep3=Schritt 3: Verknüpfungsausdruck erstellen, der mit dem Ziellesezeichen übereinstimmt
 HyperlinkBuilder.DrillThroughStep4=Schritt 4: Zielbericht anzeigen in 
-HyperlinkBuilder.DrillThroughStep5=Schritt 5: Zielbericht formatieren in 
+HyperlinkBuilder.DrillThroughStep5=Step 5: Select a format for target report
 HyperlinkBuilder.ParameterRequired=erforderlich
 HyperlinkBuilder.Column.Values=Werte
 HyperlinkBuilder.DialogTitle=Optionen für Hyperlink
@@ -1700,6 +1706,7 @@ HyperlinkBuilder.BrowseForFile=Nach Datei suchen
 HyperlinkBuilder.OpenExpression=Ausdruckserstellung öffnen
 HyperlinkBuilder.FileNameError.Title=Fehler
 HyperlinkBuilder.FileNameError.Message=Die ausgewählte Datei ist ungültig.
+HyperlinkBuilder.TargetReportFormat=Format the target report in:
 
 ###########################################################
 #HyperLinkPage properties
@@ -1731,7 +1738,7 @@ ImageBuilder.DialogTitle.New=Neues Bildobjekt
 ImageBuilder.ErrorMessage.FileLoaded=Diese Datei ist bereits geladen.
 ImageBuilder.ErrorMessage.LoadingFailed=Das Bild kann nicht korrekt geladen werden.
 ImageBuilder.BrowserResourceDialog.Title=Nach Bilddateien suchen
-ImageBuilder.BrowserResourceDialog.Message=Wählen Sie die Bilddateien aus dem BIRT-Ressourcenpfadordner aus.
+ImageBuilder.BrowserResourceDialog.Message=Select the image files from Resource Path Folder
 ImageBuilder.ErrorMessage.OutOfMemory=Das Bild ist zu groß für den verfügbaren Speicher.
 ImageBuilder.FileDialog.FilterMessage=Unterstützte Bilddatei
 ImageBuilder.Label.Binding=&Bindung
@@ -1740,7 +1747,7 @@ ImageBuilder.Label.EnterExpr=&Ausdruck für dynamisches Bild eingeben:
 ImageBuilder.Label.EnterUri=&URI eingeben:
 ImageBuilder.Label.Open=&Ausdruckserstellung...
 ImageBuilder.Label.SelectFrom=Bild auswählen aus:
-ImageBuilder.ResourceFileType=Bilddatei in BIRT-Ressourcenordner
+ImageBuilder.ResourceFileType=Image file in resource folder
 ImageBuilder.Label.URI=&URI
 ImageBuilder.Label.EnterResourceFile=Ressourcendatei ei&ngeben:
 
@@ -2111,6 +2118,7 @@ MapPreferencePage.toolTipText.Down=Zuordnungsregel nach unten verschieben
 MapRuleBuilder.DialogTitle.New=Neue Zuordnungsregel
 MapRuleBuilder.DialogTitle.Edit=Zuordnungsregel bearbeiten
 
+
 MapRuleBuilderDialog.text.Between=ist zwischen
 MapRuleBuilderDialog.text.Condition=&Wenn folgende Bedingung wahr ist: 
 MapRuleBuilderDialog.text.Display=&Dann wird folgender Wert angezeigt: 
@@ -2306,7 +2314,8 @@ NewReportWizard.title.ReportWizard=Berichtsassistent
 NewReportWizard.title.Template=TemplateChoicePage
 NewReportWizard.title.WizardPage=WizardPage
 NewReportWizard.widowTitle.new=Neu
-s
+
+
 ###########################################################
 #NewResourceFileDialog properties
 
@@ -2442,6 +2451,7 @@ ParameterDialog.Label.HelpText=&Hilfetext:
 ParameterDialog.Label.ListOfValue=Werteliste:
 ParameterDialog.Label.Name=&Name:
 ParameterDialog.Label.None=<Keine>
+ParameterDialog.Label.Null=Null
 ParameterDialog.Label.Preview=Vorschau mit Format
 ParameterDialog.Label.PromptText=&Aufforderungstext:
 ParameterDialog.Label.SelectDataSet=&Datensatz:
@@ -2721,7 +2731,7 @@ org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=C
 
 ###########################################################
 #Resource Preference page properties
-ResourecePreferencePage.title=Wählen Sie den Standard-Ressourcenordner für Bibliotheks-Explorer.
+ResourecePreferencePage.title=Please select the default Resource Folder to use for the library explorer,images,property files and etc.
 ResourecePreferencePage.folder=&Ressourcenordner
 ResourecePreferencePage.select=&Auswählen...
 ResourecePreferencePage.openDialogTitle=Nach Ordner suchen
@@ -2800,6 +2810,7 @@ ReportPageGenerator.List.NamedExpressions=Benannte Ausdrücke
 ReportPageGenerator.List.UserProperties=Benutzereigenschaften
 ReportPageGenerator.List.Resources=Ressourcen
 ReportPageGenerator.List.Resources.JarFile=JAR-Dateien:
+ReportPageGenerator.List.AdvancedProperty=Advanced
 
 #OdaDataSourceGenerator properties
 DataSourcePageGenerator.List.General=Allgemein
@@ -3537,7 +3548,6 @@ DataSetColumnBindingsFormHandleProvider.NONE=n.a.
 ###########################################################
 #DataSetColumnBindingsFormPage
 DataSetColumnBindingsFormPage.Button.RemoveUnused=Nicht verwendete Spalte entfernen
-
 ###########################################################
 #ResourceSelectionValidator
 ResourceSelectionValidator.ExtError=Ausgewählte Datei muss enden auf: 
@@ -3557,6 +3567,7 @@ FormatStringPage.simpleTexZipCodeFormat=@@@@@
 FormatStringPage.simpleTexZipCode4Format=@@@@@
 FormatStringPage.phoneNumberFormat=(@@@) @@@-@@@@
 FormatStringPage.securityNumberFormat=@@@-@@-@@@@
+
 
 ###########################################################
 #PublishLibraryDialog
@@ -3578,7 +3589,7 @@ PublishLibraryDialog.AddMessage=Bibliothek zum BIRT-Ressourcenordner hinzufügen
 WizardLibrarySettingPage.ErrorMessage=Wählen Sie einen Ordner aus.
 
 WizardLibrarySettingPage.Resourcefile.Dialog.Title=Ressourcenordner durchsuchen
-WizardLibrarySettingPage.Resourcefile.Dialog.Message=Wählen Sie den Ressourcenordner oder dessen Unterordner aus.
+WizardLibrarySettingPage.Resourcefile.Dialog.Message=Please select the resource folder or its sub-folders.
 
 PublishLibraryDialog.AddLibrary=Bibliothek hinzufügen
 

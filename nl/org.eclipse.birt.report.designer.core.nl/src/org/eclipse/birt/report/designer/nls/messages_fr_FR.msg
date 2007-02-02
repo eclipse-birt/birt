@@ -78,7 +78,6 @@ AttributesBuilder.Label.AutoText=Editeur de propriétés - AutoText
 
 ###########################################################
 #AttributeView properties
-
 AttributeView.dialg.Message.Warning = Avertissement
 AttributeView.dialg.Message.Yes=&Oui
 AttributeView.dialg.Message.No=&Non
@@ -90,7 +89,6 @@ AttributeView.toolbar.tooltip.EditingToggleAction.DisabledActionMsg=Cette action
 AttributeView.view.message.Emptypage= {0} s''étend à partir de {1} dans la bibliothèque {2}. Pour activer la modification des propriétés de {3} dans ce modèle d''état, cliquez sur le bouton Activer la modification dans la barre d''outils de l''Editeur de propriétés.
 AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=Restaurer les propriétés
 AttributeView.defaultText.noAttributeView = L'éditeur de propriétés n'est pas disponible.
-
 ###########################################################
 #BackGroundPreferencePage properties
 
@@ -212,17 +210,18 @@ ButtonPaneComposite.tooltip.Normal=Normal
 ButtonPaneComposite.tooltip.Ruler=Règle
 
 ###########################################################
-#CachePreferencePage properties
+#SettingsPage properties
 
-CachePreferencePage.button.clear=Vider le &cache
-CachePreferencePage.checkBox.text=Mettre en cac&he les données des jeux de données pour la prévisualisation de l'état
-CachePreferencePage.description=Définir la taille du cache :
-CachePreferencePage.Filter.Tooltip=Inclure ou exclure le cache de votre jeu de données
-CachePreferencePage.label.text=lignes
-CachePreferencePage.messageBox.info=Le cache a été vidé.
-CachePreferencePage.messageBox.title=Cache vide
-CachePreferencePage.radioBox.entireNumText=M&ettre en cache l'ensemble du jeu de données
-CachePreferencePage.radioBox.numText=Mettre en cache et &utiliser en premier
+SettingsPage.dataFetchSetting.label=Max number of rows to fetch from data source:
+SettingsPage.CachePreference.button.clear=Vider le &cache
+SettingsPage.CachePreference.checkBox.text=Mettre en cac&he les données des jeux de données pour la prévisualisation de l'état
+SettingsPage.CachePreference.description=Définir la taille du cache :
+SettingsPage.CachePreference.Filter.Tooltip=Inclure ou exclure le cache de votre jeu de données
+SettingsPage.CachePreference.label.text=lignes
+SettingsPage.CachePreference.messageBox.info=Le cache a été vidé.
+SettingsPage.CachePreference.messageBox.title=Cache vide
+SettingsPage.CachePreference.radioBox.entireNumText=M&ettre en cache l'ensemble du jeu de données
+SettingsPage.CachePreference.radioBox.numText=Mettre en cache et &utiliser en premier
 
 ###########################################################
 #CascadingParametersDialog properties
@@ -281,6 +280,7 @@ CellPageGenerator.TabItem.map=Mappage
 ###########################################################
 #LabelPageGenerator properties
 LabelPageGenerator.TabItem.Highlights=Surbrillances
+
 
 ###########################################################
 #ChoiceSetFactory properties
@@ -395,12 +395,17 @@ DataPageGenerator.TabItem.map=Mappage
 #dataset properties
 
 dataset.edit=Modifier le jeu de données - {0}
-dataset.editor.cachePreference.errorNumberFormat=Entrez un nombre supérieur à zéro pour la taille des lignes en cache
-dataset.editor.cachePreference=Préférences de cache
+
+dataset.editor.settings=Settings
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter a number larger than zero for row fetch limit
+dataset.editor.settings.dataFetchSetting=Data Fetch Setting
+dataset.editor.settings.cachePreference.errorNumberFormat=Entrez un nombre supérieur à zéro pour la taille des lignes en cache
+dataset.editor.settings.cachePreference=Préférences de cache
 dataset.editor.computedColumns=Colonnes de calcul
 dataset.editor.dataSource.Tooltip=Afficher/modifier la source de données
 dataset.editor.dataSource=Source de données
 dataset.editor.error.columnOrAliasNameAlreadyUsed=Le nouveau nom ou alias de colonne ({0}) est déjà utilisé par la colonne à l''index {1}.
+dataset.editor.error.computedColumnNameAlreadyUsed=The new computed column name ({0}) is already used as column alias of column ({1}) in Output Columns.
 dataset.editor.error.duplicateParameterName=Nom de paramètre en double
 dataset.editor.error.emptyName=Le nom ne doit pas rester vierge. 
 dataset.editor.error.missingComputedColumnExpression=L''expression de la colonne de calcul {0} ne peut être ni nulle, ni vide.
@@ -1393,12 +1398,13 @@ FormatDateTimePage.label.custom.settings=Paramètres personnalisés
 FormatDateTimePage.label.format.code=Code de format :
 FormatDateTimePage.label.format.page=&Format :
 FormatDateTimePage.label.general.preview.group=Aperçu au format
-FormatDateTimePage.label.guide.text=Entrer au format mm/jj/aaaa hh:mm:ss tt
+FormatDateTimePage.label.guide.text=Please enter as: MM/DD/YYYY hh:mm:ss AM/PM
 FormatDateTimePage.label.preview.dateTime=Aperçu de date/heure : 
 FormatDateTimePage.label.preview.group=Aperçu
 FormatDateTimePage.label.preview.label=Aperçu au format :
-FormatDateTimePage.label.table.column.format.code=Format exemple
+FormatDateTimePage.label.table.column.format.name=Format exemple
 FormatDateTimePage.label.table.column.format.result=Exemple de résultat de format
+FormatDateTimePage.label.table.column.format.code=Example code
 FormatDateTimePage.preview.invalid.dateTime=Format de date/heure incorrect pour l'aperçu
 FormatDateTimePage.preview.invalid.formatCode=Code de format incorrect
 
@@ -1669,7 +1675,7 @@ HyperlinkBuilder.DrillThroughStep1=Etape 1 : sélection d'un état cible
 HyperlinkBuilder.DrillThroughStep2=Etape 2 : sélection d'une ancre cible 
 HyperlinkBuilder.DrillThroughStep3=Etape 3 : création d'une expression de lien correspondant au signet cible
 HyperlinkBuilder.DrillThroughStep4=Etape 4 : affichage de l'état cible dans 
-HyperlinkBuilder.DrillThroughStep5=Etape 5 : formatage de l'état cible dans 
+HyperlinkBuilder.DrillThroughStep5=Step 5: Select a format for target report
 HyperlinkBuilder.ParameterRequired=requis
 HyperlinkBuilder.Column.Values=Valeurs
 HyperlinkBuilder.DialogTitle=Options de lien hypertexte
@@ -1700,6 +1706,7 @@ HyperlinkBuilder.BrowseForFile=Rechercher le fichier
 HyperlinkBuilder.OpenExpression=Ouvrir le Générateur d'expression
 HyperlinkBuilder.FileNameError.Title=Erreur
 HyperlinkBuilder.FileNameError.Message=Le fichier sélectionné n'est pas valide.
+HyperlinkBuilder.TargetReportFormat=Format the target report in:
 
 ###########################################################
 #HyperLinkPage properties
@@ -1731,7 +1738,7 @@ ImageBuilder.DialogTitle.New=Nouvel élément image
 ImageBuilder.ErrorMessage.FileLoaded=Ce fichier a déjà été chargé.
 ImageBuilder.ErrorMessage.LoadingFailed=L'image ne peut être chargée correctement.
 ImageBuilder.BrowserResourceDialog.Title=Parcourir les fichiers image
-ImageBuilder.BrowserResourceDialog.Message=Sélectionnez les fichiers image depuis le dossier de ressources BIRT
+ImageBuilder.BrowserResourceDialog.Message=Select the image files from Resource Path Folder
 ImageBuilder.ErrorMessage.OutOfMemory=La mémoire est insuffisante pour contenir l'image.
 ImageBuilder.FileDialog.FilterMessage=Fichier image pris en charge
 ImageBuilder.Label.Binding=&Liaison
@@ -1740,7 +1747,7 @@ ImageBuilder.Label.EnterExpr=E&ntrer une expression d'image dynamique :
 ImageBuilder.Label.EnterUri=E&ntrer l'URI :
 ImageBuilder.Label.Open=Générateur d'e&xpression...
 ImageBuilder.Label.SelectFrom=Sélectionner une image dans :
-ImageBuilder.ResourceFileType=Fichier image dans le dossier de ressources BIRT
+ImageBuilder.ResourceFileType=Image file in resource folder
 ImageBuilder.Label.URI=&URI
 ImageBuilder.Label.EnterResourceFile=E&ntrer le fichier de ressources :
 
@@ -2111,6 +2118,7 @@ MapPreferencePage.toolTipText.Down=Déplacer la règle de mappage vers le bas
 MapRuleBuilder.DialogTitle.New=Nouvelle règle de mappage
 MapRuleBuilder.DialogTitle.Edit=Modifier la règle de mappage
 
+
 MapRuleBuilderDialog.text.Between=est compris entre
 MapRuleBuilderDialog.text.Condition=S&i la condition suivante est vraie : 
 MapRuleBuilderDialog.text.Display=Alors afficher la valeur suivan&te : 
@@ -2307,6 +2315,7 @@ NewReportWizard.title.Template=TemplateChoicePage
 NewReportWizard.title.WizardPage=WizardPage
 NewReportWizard.widowTitle.new=Nouveau
 
+
 ###########################################################
 #NewResourceFileDialog properties
 
@@ -2442,6 +2451,7 @@ ParameterDialog.Label.HelpText=&Texte d'aide :
 ParameterDialog.Label.ListOfValue=Liste de valeurs :
 ParameterDialog.Label.Name=&Nom :
 ParameterDialog.Label.None=<Aucun>
+ParameterDialog.Label.Null=Null
 ParameterDialog.Label.Preview=Aperçu au format
 ParameterDialog.Label.PromptText=&Texte de l'invite :
 ParameterDialog.Label.SelectDataSet=&Jeu de données :
@@ -2721,7 +2731,7 @@ org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=C
 
 ###########################################################
 #Resource Preference page properties
-ResourecePreferencePage.title=Sélectionnez le dossier de ressources par défaut à utiliser pour l'Explorateur de bibliothèques.
+ResourecePreferencePage.title=Please select the default Resource Folder to use for the library explorer,images,property files and etc.
 ResourecePreferencePage.folder=Dossier de &ressources
 ResourecePreferencePage.select=&Sélectionner...
 ResourecePreferencePage.openDialogTitle=Parcourir le dossier
@@ -2800,6 +2810,7 @@ ReportPageGenerator.List.NamedExpressions=Expressions nommées
 ReportPageGenerator.List.UserProperties=Propriétés de l'utilisateur
 ReportPageGenerator.List.Resources=Ressources
 ReportPageGenerator.List.Resources.JarFile=Fichiers Jar :
+ReportPageGenerator.List.AdvancedProperty=Advanced
 
 #OdaDataSourceGenerator properties
 DataSourcePageGenerator.List.General=Général
@@ -3537,7 +3548,6 @@ DataSetColumnBindingsFormHandleProvider.NONE=N/A
 ###########################################################
 #DataSetColumnBindingsFormPage
 DataSetColumnBindingsFormPage.Button.RemoveUnused=Supprimer une colonne inutilisée
-
 ###########################################################
 #ResourceSelectionValidator
 ResourceSelectionValidator.ExtError=Le fichier sélectionné doit se terminer par 
@@ -3557,6 +3567,7 @@ FormatStringPage.simpleTexZipCodeFormat=@@@@@
 FormatStringPage.simpleTexZipCode4Format=@@@@@
 FormatStringPage.phoneNumberFormat=@@-@@-@@-@@-@@
 FormatStringPage.securityNumberFormat=@@@-@@-@@@@
+
 
 ###########################################################
 #PublishLibraryDialog
@@ -3578,7 +3589,7 @@ PublishLibraryDialog.AddMessage=Ajouter la bibliothèque dans le dossier de resso
 WizardLibrarySettingPage.ErrorMessage=Sélectionner un dossier
 
 WizardLibrarySettingPage.Resourcefile.Dialog.Title=Parcourir les dossiers de ressources
-WizardLibrarySettingPage.Resourcefile.Dialog.Message=Sélectionnez le dossier de ressources ou un de ses sous-dossiers.
+WizardLibrarySettingPage.Resourcefile.Dialog.Message=Please select the resource folder or its sub-folders.
 
 PublishLibraryDialog.AddLibrary=Ajouter une bibliothèque
 

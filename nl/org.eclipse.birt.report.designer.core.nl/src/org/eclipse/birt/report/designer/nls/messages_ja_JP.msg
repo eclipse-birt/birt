@@ -78,7 +78,6 @@ AttributesBuilder.Label.AutoText=プロパティエディタ - 定型句
 
 ###########################################################
 #AttributeView properties
-
 AttributeView.dialg.Message.Warning = 警告
 AttributeView.dialg.Message.Yes=はい(&E)
 AttributeView.dialg.Message.No=いいえ(&O)
@@ -90,7 +89,6 @@ AttributeView.toolbar.tooltip.EditingToggleAction.DisabledActionMsg=この操作は、
 AttributeView.view.message.Emptypage= このレポートデザインの {3} のプロパティを編集するには、プロパティエディタのツールバーにあるボタンをクリックして編集を有効にしてください。
 AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg=プロパティの復元
 AttributeView.defaultText.noAttributeView = プロパティエディタは使用できません。
-
 ###########################################################
 #BackGroundPreferencePage properties
 
@@ -212,17 +210,18 @@ ButtonPaneComposite.tooltip.Normal=標準
 ButtonPaneComposite.tooltip.Ruler=ルーラ
 
 ###########################################################
-#CachePreferencePage properties
+#SettingsPage properties
 
-CachePreferencePage.button.clear=キャッシュのクリア(&C)
-CachePreferencePage.checkBox.text=レポートをプレビューするためにデータセットのデータをキャッシュする(&H)
-CachePreferencePage.description=キャッシュサイズの定義 :
-CachePreferencePage.Filter.Tooltip=データセットのキャッシュを使用します。
-CachePreferencePage.label.text=行
-CachePreferencePage.messageBox.info=キャッシュがクリアされました。
-CachePreferencePage.messageBox.title=キャッシュのクリア
-CachePreferencePage.radioBox.entireNumText=データセット全体をキャッシュする(&E)
-CachePreferencePage.radioBox.numText=キャッシュして最初に使用する(&U)
+SettingsPage.dataFetchSetting.label=Max number of rows to fetch from data source:
+SettingsPage.CachePreference.button.clear=キャッシュのクリア(&C)
+SettingsPage.CachePreference.checkBox.text=レポートをプレビューするためにデータセットのデータをキャッシュする(&H)
+SettingsPage.CachePreference.description=キャッシュサイズの定義 :
+SettingsPage.CachePreference.Filter.Tooltip=データセットのキャッシュを使用します。
+SettingsPage.CachePreference.label.text=行
+SettingsPage.CachePreference.messageBox.info=キャッシュがクリアされました。
+SettingsPage.CachePreference.messageBox.title=キャッシュのクリア
+SettingsPage.CachePreference.radioBox.entireNumText=データセット全体をキャッシュする(&E)
+SettingsPage.CachePreference.radioBox.numText=キャッシュして最初に使用する(&U)
 
 ###########################################################
 #CascadingParametersDialog properties
@@ -281,6 +280,7 @@ CellPageGenerator.TabItem.map=マップ
 ###########################################################
 #LabelPageGenerator properties
 LabelPageGenerator.TabItem.Highlights=ハイライト
+
 
 ###########################################################
 #ChoiceSetFactory properties
@@ -395,12 +395,17 @@ DataPageGenerator.TabItem.map=マップ
 #dataset properties
 
 dataset.edit=データセットの編集 - {0}
-dataset.editor.cachePreference.errorNumberFormat=キャッシュの行サイズには、0 よりも大きい数値を入力してください。
-dataset.editor.cachePreference=キャッシュの設定
+
+dataset.editor.settings=Settings
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter a number larger than zero for row fetch limit
+dataset.editor.settings.dataFetchSetting=Data Fetch Setting
+dataset.editor.settings.cachePreference.errorNumberFormat=キャッシュの行サイズには、0 よりも大きい数値を入力してください。
+dataset.editor.settings.cachePreference=キャッシュの設定
 dataset.editor.computedColumns=計算列
 dataset.editor.dataSource.Tooltip=データソースの表示と変更
 dataset.editor.dataSource=データソース
 dataset.editor.error.columnOrAliasNameAlreadyUsed=新しい列の名前またはエイリアス ({0}) は、すでにインデックス {1} の列で使用されています。
+dataset.editor.error.computedColumnNameAlreadyUsed=The new computed column name ({0}) is already used as column alias of column ({1}) in Output Columns.
 dataset.editor.error.duplicateParameterName=パラメタ名が重複しています。
 dataset.editor.error.emptyName=名前は空白にできません。 
 dataset.editor.error.missingComputedColumnExpression=計算列 {0} の式は null または空白にできません。
@@ -1393,12 +1398,13 @@ FormatDateTimePage.label.custom.settings=カスタム設定
 FormatDateTimePage.label.format.code=書式コード :
 FormatDateTimePage.label.format.page=書式設定(&F) :
 FormatDateTimePage.label.general.preview.group=書式付きプレビュー
-FormatDateTimePage.label.guide.text=yyyy/mm/dd hh:mm:ss の形式で入力してください。
+FormatDateTimePage.label.guide.text=Please enter as: MM/DD/YYYY hh:mm:ss AM/PM
 FormatDateTimePage.label.preview.dateTime=プレビューする日時 : 
 FormatDateTimePage.label.preview.group=プレビュー
 FormatDateTimePage.label.preview.label=書式付きプレビュー :
-FormatDateTimePage.label.table.column.format.code=サンプルの書式
+FormatDateTimePage.label.table.column.format.name=サンプルの書式
 FormatDateTimePage.label.table.column.format.result=サンプルの書式の結果
+FormatDateTimePage.label.table.column.format.code=Example code
 FormatDateTimePage.preview.invalid.dateTime=プレビューする日時形式が無効です。
 FormatDateTimePage.preview.invalid.formatCode=書式コードが無効です。
 
@@ -1669,7 +1675,7 @@ HyperlinkBuilder.DrillThroughStep1=手順 1 : ターゲットレポートの選択
 HyperlinkBuilder.DrillThroughStep2=手順 2 : ターゲットアンカーの選択 
 HyperlinkBuilder.DrillThroughStep3=手順 3 : ターゲットのブックマークに一致するリンク式の作成
 HyperlinkBuilder.DrillThroughStep4=手順 4 : ターゲットのレポートの表示 
-HyperlinkBuilder.DrillThroughStep5=手順 5 : ターゲットのレポートの書式設定 
+HyperlinkBuilder.DrillThroughStep5=Step 5: Select a format for target report
 HyperlinkBuilder.ParameterRequired=必須
 HyperlinkBuilder.Column.Values=値
 HyperlinkBuilder.DialogTitle=ハイパーリンクのオプション
@@ -1700,6 +1706,7 @@ HyperlinkBuilder.BrowseForFile=ファイルの参照
 HyperlinkBuilder.OpenExpression=式ビルダを開く
 HyperlinkBuilder.FileNameError.Title=エラー
 HyperlinkBuilder.FileNameError.Message=選択したファイルは無効です。
+HyperlinkBuilder.TargetReportFormat=Format the target report in:
 
 ###########################################################
 #HyperLinkPage properties
@@ -1731,7 +1738,7 @@ ImageBuilder.DialogTitle.New=イメージ項目の新規作成
 ImageBuilder.ErrorMessage.FileLoaded=このファイルはすでに読み込まれています。
 ImageBuilder.ErrorMessage.LoadingFailed=イメージを正しく読み込めません。
 ImageBuilder.BrowserResourceDialog.Title=イメージファイルの参照
-ImageBuilder.BrowserResourceDialog.Message=BIRT リソースパスのフォルダからイメージファイルを選択してください。
+ImageBuilder.BrowserResourceDialog.Message=Select the image files from Resource Path Folder
 ImageBuilder.ErrorMessage.OutOfMemory=イメージが大きすぎるため、メモリに入りきりません。
 ImageBuilder.FileDialog.FilterMessage=サポートされているイメージファイル
 ImageBuilder.Label.Binding=バインド(&B)
@@ -1740,7 +1747,7 @@ ImageBuilder.Label.EnterExpr=動的なイメージの式を入力(&N) :
 ImageBuilder.Label.EnterUri=URI を入力(&N) :
 ImageBuilder.Label.Open=計算式ビルダ(&X)...
 ImageBuilder.Label.SelectFrom=図の選択元 :
-ImageBuilder.ResourceFileType=BIRT リソースフォルダ内のイメージファイル
+ImageBuilder.ResourceFileType=Image file in resource folder
 ImageBuilder.Label.URI=URI(&U)
 ImageBuilder.Label.EnterResourceFile=リソースファイルの入力(&N) :
 
@@ -2111,6 +2118,7 @@ MapPreferencePage.toolTipText.Down=マップの規則を下に移動
 MapRuleBuilder.DialogTitle.New=マップ規則の新規作成
 MapRuleBuilder.DialogTitle.Edit=マップ規則の編集
 
+
 MapRuleBuilderDialog.text.Between=値に挟まれる
 MapRuleBuilderDialog.text.Condition=次の条件が True の場合(&I) : 
 MapRuleBuilderDialog.text.Display=次の値を表示(&T) : 
@@ -2307,6 +2315,7 @@ NewReportWizard.title.Template=TemplateChoicePage
 NewReportWizard.title.WizardPage=WizardPage
 NewReportWizard.widowTitle.new=新規作成
 
+
 ###########################################################
 #NewResourceFileDialog properties
 
@@ -2442,6 +2451,7 @@ ParameterDialog.Label.HelpText=ヘルプテキスト(&H) :
 ParameterDialog.Label.ListOfValue=値リスト :
 ParameterDialog.Label.Name=名前(&N) :
 ParameterDialog.Label.None=<なし>
+ParameterDialog.Label.Null=Null
 ParameterDialog.Label.Preview=書式付きプレビュー
 ParameterDialog.Label.PromptText=プロンプトテキスト(&P) :
 ParameterDialog.Label.SelectDataSet=データセット(&A) :
@@ -2721,7 +2731,7 @@ org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=C
 
 ###########################################################
 #Resource Preference page properties
-ResourecePreferencePage.title=ライブラリエクスプローラで使用するデフォルトのリソースフォルダを選択してください。
+ResourecePreferencePage.title=Please select the default Resource Folder to use for the library explorer,images,property files and etc.
 ResourecePreferencePage.folder=リソースフォルダ(&R)
 ResourecePreferencePage.select=選択(&S)...
 ResourecePreferencePage.openDialogTitle=フォルダの参照
@@ -2800,6 +2810,7 @@ ReportPageGenerator.List.NamedExpressions=名前付き式
 ReportPageGenerator.List.UserProperties=ユーザのプロパティ
 ReportPageGenerator.List.Resources=リソース
 ReportPageGenerator.List.Resources.JarFile=JAR ファイル :
+ReportPageGenerator.List.AdvancedProperty=Advanced
 
 #OdaDataSourceGenerator properties
 DataSourcePageGenerator.List.General=全般
@@ -3537,7 +3548,6 @@ DataSetColumnBindingsFormHandleProvider.NONE=N/A
 ###########################################################
 #DataSetColumnBindingsFormPage
 DataSetColumnBindingsFormPage.Button.RemoveUnused=未使用のカラムの削除
-
 ###########################################################
 #ResourceSelectionValidator
 ResourceSelectionValidator.ExtError=選択したファイルの拡張子は次のようにしてください : 
@@ -3557,6 +3567,7 @@ FormatStringPage.simpleTexZipCodeFormat=@@@
 FormatStringPage.simpleTexZipCode4Format=@@@-@@@@
 FormatStringPage.phoneNumberFormat=(@@@)@@@-@@@@
 FormatStringPage.securityNumberFormat=@@@-@@-@@@@
+
 
 ###########################################################
 #PublishLibraryDialog
@@ -3578,7 +3589,7 @@ PublishLibraryDialog.AddMessage=BIRT リソースフォルダにライブラリを追加します。
 WizardLibrarySettingPage.ErrorMessage=フォルダを選択してください。
 
 WizardLibrarySettingPage.Resourcefile.Dialog.Title=リソースフォルダの参照
-WizardLibrarySettingPage.Resourcefile.Dialog.Message=サブフォルダからリソースフォルダを選択してください。
+WizardLibrarySettingPage.Resourcefile.Dialog.Message=Please select the resource folder or its sub-folders.
 
 PublishLibraryDialog.AddLibrary=ライブラリの追加
 
