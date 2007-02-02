@@ -116,5 +116,57 @@ grestore
     image
   } bind def
 } ifelse          % end of 'false' case
+
+% Define a serial number for creating unique XUIDs for TrueType fonts.
+% We used to use the checkSumAdjustment value from the font, but this is
+% not reliable, since some fonts don't set it correctly.
+% Note that we must do this in a string to make it immune to save/restore.
+/xuidstring <80000000> def
+/curxuid {		% - curxuid <int>
+  0 xuidstring { exch 8 bitshift exch add } forall
+} bind def
+/nextxuid {		% - nextxuid -
+  3 -1 0 {
+    xuidstring 1 index 2 copy get dup 255 ne {
+      1 add put pop exit
+    } if pop 0 put pop
+  } for
+} bind def
+
+/AddT42Char
+{
+  /CIDFont findresource
+  dup
+  /GlyphDirectory get
+	begin
+	  2 index
+	  4 2 roll
+	  def
+	end
+	exch /CIDMap get 3 1 roll put
+} def
+
+/CIDInit /ProcSet findresource begin
+  10 dict begin
+    begincmap
+      /CIDSystemInfo 3 dict dup begin
+        /Registry(Actuate)def
+        /Ordering(Engine)def
+        /Supplement 0 def
+      end def
+      /CMapType 0 def
+      /WMode 0 def
+      1 begincodespacerange
+        <0000><ffff>
+      endcodespacerange
+      1 begincidrange
+        <0000><ffff> 0
+      endcidrange
+    endcmap
+    /PeerCMap currentdict /CMap defineresource
+    pop
+  end
+end
+
 %%EndResource
 %%EndSetup
