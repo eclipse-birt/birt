@@ -488,8 +488,10 @@ public class ResultIterator implements IResultIterator
 			BirtException
 	{
 		//try to keep all gap row when doing skip
-		while(	groupLevel!= odiResult.getEndingGroupLevel( )&& this.next( ) )
-		{			
+		while ( groupLevel < odiResult.getEndingGroupLevel( )
+				&& odiResult.getEndingGroupLevel( ) != 0 && odiResult.next( ) )
+		{
+			this.prepareCurrentRow( );
 		}
 	}
 
