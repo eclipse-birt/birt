@@ -427,9 +427,11 @@ public class ResultIterator implements IResultIterator
 	protected void goThroughGapRows( int groupLevel ) throws DataException,
 			BirtException
 	{
-		//try to keep all gap row when doing skip
-		while(	groupLevel!= odiResult.getEndingGroupLevel( )&& this.next( ) )
-		{			
+		// try to keep all gap row when doing skip
+		while ( groupLevel < odiResult.getEndingGroupLevel( )
+				&& odiResult.getEndingGroupLevel( ) != 0 && odiResult.next( ) )
+		{
+			this.prepareCurrentRow( );
 		}
 	}
 	
