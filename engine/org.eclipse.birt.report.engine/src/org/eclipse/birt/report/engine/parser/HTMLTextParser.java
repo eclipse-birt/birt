@@ -132,38 +132,65 @@ public class HTMLTextParser
 		assert in != null;
 
 		Document doc = tidy.parseDOM( in, null );
-		Document desDoc = null;
 		try
 		{
-			desDoc = DocumentBuilderFactory.newInstance( ).newDocumentBuilder( )
+			Document desDoc = DocumentBuilderFactory.newInstance( )
+					.newDocumentBuilder( )
 					.newDocument( );
-			//After parsing with JTidy,normally the children nodes of the root
+			// After parsing with JTidy,normally the children nodes of the root
 			// are
 			// HTML entity, HTML element and comments node. And The children
 			// nodes of the
 			// element HTML are Head element and Body element. Only Body element
 			// and its descendant nodes are preserved.
-			//Entities in raw html are converted to text.
+			// Entities in raw html are converted to text.
 			Node html = getNodeByName( doc, "html" ); //$NON-NLS-1$
-			Node body = null;
 			if ( html != null )
 			{
-				body = getNodeByName( html, "body" ); //$NON-NLS-1$
+				Node desBody = desDoc.createElement( "body" ); //$NON-NLS-1$
+				desDoc.appendChild( desBody );
+				Node head = getNodeByName( html, "head" ); //$NON-NLS-1$
+				if ( head != null )
+				{
+					for ( Node child = head.getFirstChild( ); child != null; child = child.getNextSibling( ) )
+					{
+						if ( child.getNodeType( ) == Node.ELEMENT_NODE )
+						{
+							if ( "script".equalsIgnoreCase( child.getNodeName( ) ) )
+							{
+								// copy the element node
+								Element ele = null;
+								ele = desBody.getOwnerDocument( )
+										.createElement( child.getNodeName( ) );
+
+								// copy the attributes
+								for ( int i = 0; i < child.getAttributes( )
+										.getLength( ); i++ )
+								{
+									Node attr = child.getAttributes( ).item( i );
+									ele.setAttribute( attr.getNodeName( ),
+											attr.getNodeValue( ) );
+								}
+
+								desBody.appendChild( ele );
+								copyNode( child, ele );
+							}
+						}
+					}
+				}
+				Node body = getNodeByName( html, "body" ); //$NON-NLS-1$
+				if ( body != null )
+				{
+					copyNode( body, desBody );
+				}
 			}
-			//			doc.getLastChild( ).getLastChild( );
-			Node desBody = desDoc.createElement( "body" ); //$NON-NLS-1$
-			desDoc.appendChild( desBody );
-			if ( body != null )
-			{
-				copyNode( body, desBody );
-			}
+			return desDoc;
 		}
 		catch ( ParserConfigurationException e )
 		{
-		    logger.log( Level.SEVERE, e.getMessage(), e);
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 			return null;
 		}
-		return desDoc;
 	}
 
 	/**

@@ -31,6 +31,8 @@ public class AllTests
 		suite.addTestSuite( HTMLWriterTest.class );
 		suite.addTestSuite( HTMLReportEmitterTest.class );
 		suite.addTestSuite( MetadataEmitterTest.class );
+		suite.addTestSuite( TableLayoutTest.class );
+		suite.addTestSuite( ScriptTest.class );
 		
 		//$JUnit-END$
 		return suite;

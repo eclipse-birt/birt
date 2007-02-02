@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.10" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.0.qualifier Build &lt;@BUILD@></property>
+    <property name="units">in</property>
+    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <html-property name="description">Creates a blank report with no predefined content.</html-property>
+    <text-property name="displayName">Blank Report</text-property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2"/>
+    </page-setup>
+    <body>
+        <text id="4">
+            <property name="contentType">html</property>
+            <text-property name="content"><![CDATA[<html>
+<head>
+<script language="JavaScript">
+function test(test)
+{
+	var imgID = (myImage.id) ? "id='" + myImage.id + "' " : ""
+}
+</script>
+<script src="birt/ajax/ui/app/BirtToolbar.js" type="text/javascript"> </script>
+</head>
+<body>
+<script src="birt/ajax/ui/app/sdfsadfsadfasd.js" type="text/javascript"></script>
+</body>
+</html>]]></text-property>
+        </text>
+    </body>
+</report>
