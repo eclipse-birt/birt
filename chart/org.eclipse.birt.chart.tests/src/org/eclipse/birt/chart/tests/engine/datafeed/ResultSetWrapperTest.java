@@ -9,29 +9,30 @@
 
 package org.eclipse.birt.chart.tests.engine.datafeed;
 
-import java.util.Set;
-import java.util.HashSet;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 import junit.framework.TestCase;
 
-import org.eclipse.birt.chart.internal.datafeed.GroupKey;
+import org.eclipse.birt.chart.internal.datafeed.GroupingLookupHelper;
 import org.eclipse.birt.chart.internal.datafeed.ResultSetWrapper;
 
 public class ResultSetWrapperTest extends TestCase
 {
 
-	private String exp[] = {
-			"Product", "Manufacturer", "Month"};//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-	List list = new ArrayList( Arrays.asList( exp ) );
-	Set expressionKey = new HashSet( list );
+	private String dataExp[] = {
+			"Product", "Manufacturer", "Month", "Month"};//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+	List dataList = new ArrayList( Arrays.asList( dataExp ) );
+	private String aggExp[] = {
+			"Sum", "Sum", "Sum", "Avg"};//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+	List aggList = new ArrayList( Arrays.asList( aggExp ) );
 
 	List result = new ArrayList( );
 	Object[] oaTuple1 = new Object[]{
-			"A", "M1", new Integer( 10 )};//$NON-NLS-1$ //$NON-NLS-2$
+			"A", "M1", new Integer( 10 ), new Integer( 10 )};//$NON-NLS-1$ //$NON-NLS-2$
 	Object[] oaTuple2 = new Object[]{
-			"B", "M2", new Integer( 10 )};//$NON-NLS-1$ //$NON-NLS-2$
+			"B", "M2", new Integer( 8 ), new Integer( 8 )};//$NON-NLS-1$ //$NON-NLS-2$
 
 	ResultSetWrapper wrapper;
 
@@ -41,18 +42,21 @@ public class ResultSetWrapperTest extends TestCase
 		result.add( oaTuple1 );
 		result.add( oaTuple2 );
 
-		wrapper = new ResultSetWrapper( expressionKey, result, null );
+		wrapper = new ResultSetWrapper( new GroupingLookupHelper( dataList,
+				aggList ), result, null );
 	}
 
 	protected void tearDown( ) throws Exception
 	{
 		super.tearDown( );
 		result = null;
+		dataList = null;
+		aggList = null;
 	}
 
 	public void testGetColumnCount( )
 	{
-		assertEquals( 3, wrapper.getColumnCount( ) );
+		assertEquals( 4, wrapper.getColumnCount( ) );
 	}
 
 	public void testGetRowCount( )
@@ -68,6 +72,8 @@ public class ResultSetWrapperTest extends TestCase
 	public void testGetGroupKey( )
 	{
 		assertEquals( new Integer( 10 ), wrapper.getGroupKey( 0, 2 ) );
-		assertEquals( "A", wrapper.getGroupKey( 0, "Product" ) );//$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals( "A", wrapper.getGroupKey( 0, "Product", "Sum" ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		assertEquals( new Integer( 10 ),
+				wrapper.getGroupKey( 0, "Month", "Sum" ) );//$NON-NLS-1$ //$NON-NLS-2$
 	}
 }

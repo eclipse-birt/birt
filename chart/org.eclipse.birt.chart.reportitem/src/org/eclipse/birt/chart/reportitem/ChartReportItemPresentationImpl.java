@@ -291,7 +291,7 @@ public final class ChartReportItemPresentationImpl extends
 
 				if ( rtc != null )
 				{
-					drtc.setLocale( rtc.getLocale( ) );
+					drtc.setULocale( rtc.getULocale( ) );
 				}
 
 				rtc = drtc;

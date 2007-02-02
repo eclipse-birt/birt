@@ -28,7 +28,6 @@ import org.eclipse.birt.chart.device.swt.i18n.Messages;
 import org.eclipse.birt.chart.event.ArcRenderEvent;
 import org.eclipse.birt.chart.event.AreaRenderEvent;
 import org.eclipse.birt.chart.event.ClipRenderEvent;
-import org.eclipse.birt.chart.event.EventObjectCache;
 import org.eclipse.birt.chart.event.ImageRenderEvent;
 import org.eclipse.birt.chart.event.InteractionEvent;
 import org.eclipse.birt.chart.event.LineRenderEvent;
@@ -50,7 +49,6 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Position;
-import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.TriggerCondition;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.data.Trigger;
@@ -62,6 +60,7 @@ import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Path;
+import org.eclipse.swt.graphics.Pattern;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Region;
 import org.eclipse.swt.widgets.Composite;
@@ -384,136 +383,31 @@ public class SwtRendererImpl extends DeviceAdapter
 				(int) Math.ceil( bo.getWidth( ) * dScale ),
 				(int) Math.ceil( bo.getHeight( ) * dScale ) );
 
-		if ( flBackground instanceof ColorDefinition )
+		final Path pt = new Path( ( (SwtDisplayServer) _ids ).getDevice( ) );
+		pt.moveTo( r.x, r.y );
+		pt.lineTo( r.x, r.y + r.height );
+		pt.lineTo( r.x + r.width, r.y + r.height );
+		pt.lineTo( r.x + r.width, r.y );
+
+		try
 		{
-			final ColorDefinition cd = (ColorDefinition) flBackground;
-			// SKIP FULLY TRANSPARENT
-			if ( cd.isSetTransparency( ) && cd.getTransparency( ) == 0 )
-			{
-				return;
+			if ( flBackground instanceof ColorDefinition )
+			{				
+				fillPathColor( pt, (ColorDefinition) flBackground );
 			}
-			final Color cBG = (Color) _ids.getColor( cd );
-			final Color cPreviousBG = _gc.getBackground( );
-			_gc.setBackground( cBG );
-
-			R31Enhance.setAlpha( _gc, cd );
-
-			_gc.fillRectangle( r );
-
-			cBG.dispose( );
-			_gc.setBackground( cPreviousBG );
+			if ( flBackground instanceof Gradient )
+			{
+				fillPathGradient( pt, (Gradient) flBackground, r );
+			}
+			else if ( flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
+			{
+				fillPathImage( pt,
+						(org.eclipse.birt.chart.model.attribute.Image) flBackground );
+			}
 		}
-		else if ( flBackground instanceof Gradient )
+		finally
 		{
-			final Gradient g = (Gradient) flBackground;
-			final ColorDefinition cdStart = g.getStartColor( );
-			final ColorDefinition cdEnd = g.getEndColor( );
-			double dAngleInDegrees = g.getDirection( );
-
-			if ( dAngleInDegrees < -90 || dAngleInDegrees > 90 )
-			{
-				throw new ChartException( ChartDeviceSwtActivator.ID,
-						ChartException.RENDERING,
-						"SwtRendererImpl.exception.gradient.angle", //$NON-NLS-1$
-						new Object[]{
-							new Double( dAngleInDegrees )
-						},
-						Messages.getResourceBundle( getULocale( ) ) );
-			}
-
-			final Color cPreviousFG = _gc.getForeground( );
-			final Color cPreviousBG = _gc.getBackground( );
-			Color cFG = (Color) _ids.getColor( cdStart );
-			Color cBG = (Color) _ids.getColor( cdEnd );
-			final boolean bVertical = ( g.getDirection( ) < -45 || g.getDirection( ) > 45 );
-			final boolean bSwapped = ( g.getDirection( ) > 45 );
-			if ( bSwapped )
-			{
-				final Color c = cFG;
-				cFG = cBG;
-				cBG = c;
-			}
-			_gc.setForeground( cFG );
-			_gc.setBackground( cBG );
-
-			R31Enhance.setAlpha( _gc, g );
-
-			_gc.fillGradientRectangle( r.x, r.y, r.width, r.height, bVertical );
-
-			_gc.setForeground( cPreviousFG );
-			_gc.setBackground( cPreviousBG );
-			cFG.dispose( );
-			cBG.dispose( );
-		}
-		else if ( flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
-		{
-			org.eclipse.swt.graphics.Image img = null;
-
-			if ( flBackground instanceof EmbeddedImage )
-			{
-				try
-				{
-					ByteArrayInputStream bis = new ByteArrayInputStream( Base64.decodeBase64( ( (EmbeddedImage) flBackground ).getData( )
-							.getBytes( ) ) );
-
-					img = new org.eclipse.swt.graphics.Image( ( (SwtDisplayServer) _ids ).getDevice( ),
-							bis );
-				}
-				catch ( Exception ilex )
-				{
-					throw new ChartException( ChartDeviceSwtActivator.ID,
-							ChartException.RENDERING,
-							ilex );
-				}
-			}
-			else
-			{
-				final String sUrl = ( (org.eclipse.birt.chart.model.attribute.Image) flBackground ).getURL( );
-				try
-				{
-					img = (org.eclipse.swt.graphics.Image) _ids.loadImage( new URL( sUrl ) );
-				}
-				catch ( ChartException ilex )
-				{
-					throw new ChartException( ChartDeviceSwtActivator.ID,
-							ChartException.RENDERING,
-							ilex );
-				}
-				catch ( MalformedURLException muex )
-				{
-					throw new ChartException( ChartDeviceSwtActivator.ID,
-							ChartException.RENDERING,
-							muex );
-				}
-			}
-
-			final Region rgPreviousClip = new Region( );
-			_gc.getClipping( rgPreviousClip );
-
-			final Region rg = new Region( );
-			rg.add( rgPreviousClip );
-			rg.intersect( r );
-			_gc.setClipping( rg );
-
-			final Size szImage = _ids.getSize( img );
-			final int iXRepeat = (int) ( Math.ceil( r.width
-					/ szImage.getWidth( ) ) );
-			final int iYRepeat = (int) ( Math.ceil( r.height
-					/ szImage.getHeight( ) ) );
-			for ( int i = 0; i < iXRepeat; i++ )
-			{
-				for ( int j = 0; j < iYRepeat; j++ )
-				{
-					_gc.drawImage( img,
-							(int) ( r.x + i * szImage.getWidth( ) ),
-							(int) ( r.y + j * szImage.getHeight( ) ) );
-				}
-			}
-
-			img.dispose( );
-			_gc.setClipping( rgPreviousClip );
-			rg.dispose( );
-			rgPreviousClip.dispose( );
+			pt.dispose( );
 		}
 	}
 
@@ -594,41 +488,48 @@ public class SwtRendererImpl extends DeviceAdapter
 			return;
 		}
 
-		final Region rgPreviousClipping = new Region( );
-		_gc.getClipping( rgPreviousClipping );
-
-		final Region rg = new Region( );
-		rg.add( getCoordinatesAsInts( pre.getPoints( ),
+		final Bounds bo = normalizeBounds( pre.getBounds( ) );
+		final Rectangle r = new Rectangle( (int) ( ( bo.getLeft( ) + dTranslateX ) * dScale ),
+				(int) ( ( bo.getTop( ) + dTranslateY ) * dScale ),
+				(int) Math.ceil( bo.getWidth( ) * dScale ),
+				(int) Math.ceil( bo.getHeight( ) * dScale ) );
+		
+		float[] points = convertDoubleToFloat( getDoubleCoordinatesAsInts( pre.getPoints( ),
 				TRUNCATE,
 				dTranslateX,
 				dTranslateY,
 				dScale ) );
-		rg.intersect( rgPreviousClipping );
-		_gc.setClipping( rg );
-
-		RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) this ).getEventObject( pre.getSource( ),
-				RectangleRenderEvent.class );
-		rre.setBackground( flBackground );
+		if ( points.length < 1 )
+		{
+			return;
+		}
+		final Path pt = new Path( ( (SwtDisplayServer) _ids ).getDevice( ) );
+		pt.moveTo( points[0], points[1] );
+		for ( int i = 1; i < points.length / 2; i++ )
+		{
+			pt.lineTo( points[2 * i], points[2 * i + 1] );
+		}
+		
 		try
 		{
-			rre.setBounds( pre.getBounds( ) );
-			rre.setOutline( pre.getOutline( ) );
-
-			fillRectangle( rre );
-		}
-		catch ( ChartException ufex )
-		{
-			throw new ChartException( ChartDeviceSwtActivator.ID,
-					ChartException.RENDERING,
-					ufex );
+			if ( flBackground instanceof ColorDefinition )
+			{
+				fillPathColor( pt, (ColorDefinition) flBackground );
+			}
+			else if ( flBackground instanceof Gradient )
+			{
+				fillPathGradient( pt, (Gradient) flBackground, r );
+			}
+			else if ( flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
+			{
+				fillPathImage( pt,
+						(org.eclipse.birt.chart.model.attribute.Image) flBackground );
+			}
 		}
 		finally
 		{
-			_gc.setClipping( rgPreviousClipping );
-			rg.dispose( );
-			rgPreviousClipping.dispose( );
+			pt.dispose( );
 		}
-
 	}
 
 	/**
@@ -875,15 +776,19 @@ public class SwtRendererImpl extends DeviceAdapter
 			return;
 		}
 
+		Bounds bo = BoundsImpl.create( are.getTopLeft( ).getX( ),
+				are.getTopLeft( ).getY( ),
+				are.getWidth( ),
+				are.getHeight( ) );
+		final Rectangle r = new Rectangle( (int) ( ( bo.getLeft( ) + dTranslateX ) * dScale ),
+				(int) ( ( bo.getTop( ) + dTranslateY ) * dScale ),
+				(int) Math.ceil( bo.getWidth( ) * dScale ),
+				(int) Math.ceil( bo.getHeight( ) * dScale ) );
+		
 		if ( are.getInnerRadius( ) >= 0
 				&& ( are.getOuterRadius( ) > 0 && are.getInnerRadius( ) < are.getOuterRadius( ) )
 				|| ( are.getInnerRadius( ) > 0 && are.getOuterRadius( ) <= 0 ) )
 		{
-			Bounds bo = BoundsImpl.create( are.getTopLeft( ).getX( ),
-					are.getTopLeft( ).getY( ),
-					are.getWidth( ),
-					are.getHeight( ) );
-
 			Bounds rctOuter, rctInner;
 
 			if ( are.getOuterRadius( ) > 0 )
@@ -949,60 +854,26 @@ public class SwtRendererImpl extends DeviceAdapter
 
 			pt.lineTo( (float) xsOuter, (float) ysOuter );
 
-			if ( flBackground instanceof ColorDefinition )
+			try
 			{
-				final ColorDefinition cd = (ColorDefinition) flBackground;
-
-				// skip full transparency for optimization.
-				if ( !( cd.isSetTransparency( ) && cd.getTransparency( ) == 0 ) )
+				if ( flBackground instanceof ColorDefinition )
 				{
-					final Color cBG = (Color) _ids.getColor( cd );
-					final Color cPreviousBG = _gc.getBackground( );
-					_gc.setBackground( cBG );
-
-					R31Enhance.setAlpha( _gc, cd );
-
-					_gc.fillPath( pt );
-
-					cBG.dispose( );
-					_gc.setBackground( cPreviousBG );
+					fillPathColor( pt, (ColorDefinition) flBackground );
+				}
+				else if ( flBackground instanceof Gradient )
+				{
+					fillPathGradient( pt, (Gradient) flBackground, r );
+				}
+				else if ( flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
+				{
+					fillPathImage( pt,
+							(org.eclipse.birt.chart.model.attribute.Image) flBackground );
 				}
 			}
-			else if ( flBackground instanceof Gradient
-					|| flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
+			finally
 			{
-				Region previousClipping = new Region( );
-				_gc.getClipping( previousClipping );
-
-				// TODO intersect previous clipping with current path.
-				_gc.setClipping( pt );
-
-				RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) this ).getEventObject( are.getSource( ),
-						RectangleRenderEvent.class );
-				rre.setBackground( are.getBackground( ) );
-				try
-				{
-					rre.setBounds( are.getBounds( ) );
-					rre.setOutline( are.getOutline( ) );
-
-					fillRectangle( rre );
-				}
-				catch ( ChartException ufex )
-				{
-					pt.dispose( );
-					throw new ChartException( ChartDeviceSwtActivator.ID,
-							ChartException.RENDERING,
-							ufex );
-				}
-				finally
-				{
-					_gc.setClipping( previousClipping );
-					previousClipping.dispose( );
-				}
-
+				pt.dispose( );
 			}
-
-			pt.dispose( );
 		}
 		else
 		{
@@ -1070,33 +941,21 @@ public class SwtRendererImpl extends DeviceAdapter
 						pt.lineTo( (float) xc, (float) yc );
 						pt.lineTo( (float) xs, (float) ys );
 					}
-
-					Region previousClipping = new Region( );
-					_gc.getClipping( previousClipping );
-
-					// TODO intersect previous clipping with current path.
-					_gc.setClipping( pt );
-
-					RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) this ).getEventObject( are.getSource( ),
-							RectangleRenderEvent.class );
-					rre.setBackground( are.getBackground( ) );
+					
 					try
 					{
-						rre.setBounds( are.getBounds( ) );
-						rre.setOutline( are.getOutline( ) );
-
-						fillRectangle( rre );
-					}
-					catch ( ChartException ufex )
-					{
-						throw new ChartException( ChartDeviceSwtActivator.ID,
-								ChartException.RENDERING,
-								ufex );
+						if ( flBackground instanceof Gradient )
+						{
+							fillPathGradient( pt, (Gradient) flBackground, r );
+						}
+						else if ( flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
+						{
+							fillPathImage( pt,
+									(org.eclipse.birt.chart.model.attribute.Image) flBackground );
+						}
 					}
 					finally
 					{
-						_gc.setClipping( previousClipping );
-						previousClipping.dispose( );
 						pt.dispose( );
 					}
 				}
@@ -1125,61 +984,173 @@ public class SwtRendererImpl extends DeviceAdapter
 
 				pt.lineTo( (float) xs, (float) ys );
 
-				if ( flBackground instanceof ColorDefinition )
+				try
 				{
-					final ColorDefinition cd = (ColorDefinition) flBackground;
-
-					// skip full transparency for optimization.
-					if ( !( cd.isSetTransparency( ) && cd.getTransparency( ) == 0 ) )
+					if ( flBackground instanceof ColorDefinition )
 					{
-						final Color cBG = (Color) _ids.getColor( cd );
-						final Color cPreviousBG = _gc.getBackground( );
-						_gc.setBackground( cBG );
-
-						R31Enhance.setAlpha( _gc, cd );
-
-						_gc.fillPath( pt );
-
-						cBG.dispose( );
-						_gc.setBackground( cPreviousBG );
+						fillPathColor( pt, (ColorDefinition) flBackground );
+					}
+					else if ( flBackground instanceof Gradient )
+					{
+						fillPathGradient( pt, (Gradient) flBackground, r );
+					}
+					else if ( flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
+					{
+						fillPathImage( pt,
+								(org.eclipse.birt.chart.model.attribute.Image) flBackground );
 					}
 				}
-				else if ( flBackground instanceof Gradient
-						|| flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
+				finally
 				{
-					Region previousClipping = new Region( );
-					_gc.getClipping( previousClipping );
-
-					// TODO intersect previous clipping with current path.
-					_gc.setClipping( pt );
-
-					RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) this ).getEventObject( are.getSource( ),
-							RectangleRenderEvent.class );
-					rre.setBackground( are.getBackground( ) );
-					try
-					{
-						rre.setBounds( are.getBounds( ) );
-						rre.setOutline( are.getOutline( ) );
-
-						fillRectangle( rre );
-					}
-					catch ( ChartException ufex )
-					{
-						pt.dispose( );
-						throw new ChartException( ChartDeviceSwtActivator.ID,
-								ChartException.RENDERING,
-								ufex );
-					}
-					finally
-					{
-						_gc.setClipping( previousClipping );
-						previousClipping.dispose( );
-					}
+					pt.dispose( );
 				}
-
-				pt.dispose( );
 			}
 		}
+	}
+	
+	private final void fillPathColor( Path path, ColorDefinition g )
+			throws ChartException
+	{
+		// skip full transparency for optimization.
+		if ( !( g.isSetTransparency( ) && g.getTransparency( ) == 0 ) )
+		{
+			final Color cBG = (Color) _ids.getColor( g );
+			final Color cPreviousBG = _gc.getBackground( );
+			_gc.setBackground( cBG );
+
+			R31Enhance.setAlpha( _gc, g );
+
+			_gc.fillPath( path );
+
+			cBG.dispose( );
+			_gc.setBackground( cPreviousBG );
+		}
+	}
+	
+	private final void fillPathGradient( Path path, Gradient g, Rectangle r )
+			throws ChartException
+	{
+		final ColorDefinition cdStart = g.getStartColor( );
+		final ColorDefinition cdEnd = g.getEndColor( );
+		double dAngleInDegrees = g.getDirection( );
+
+		if ( dAngleInDegrees < -90 || dAngleInDegrees > 90 )
+		{
+			throw new ChartException( ChartDeviceSwtActivator.ID,
+					ChartException.RENDERING,
+					"SwtRendererImpl.exception.gradient.angle", //$NON-NLS-1$
+					new Object[]{
+						new Double( dAngleInDegrees )
+					},
+					Messages.getResourceBundle( getULocale( ) ) );
+		}
+
+		final Color cPreviousFG = _gc.getForeground( );
+		final Color cPreviousBG = _gc.getBackground( );
+		Color cFG = (Color) _ids.getColor( cdStart );
+		Color cBG = (Color) _ids.getColor( cdEnd );
+		
+		float x1, y1, x2, y2;
+		if ( dAngleInDegrees == 0 )
+		{
+			x1 = r.x;
+			x2 = r.x + r.width;
+			y1 = y2 = r.y;
+		}
+		else if ( dAngleInDegrees == 90 )
+		{
+			x1 = x2 = r.x;
+			y1 = r.y + r.height;
+			y2 = r.y;
+		}
+		else if ( dAngleInDegrees == -90 )
+		{
+			x1 = x2 = r.x;
+			y1 = r.y;
+			y2 = r.y + r.height;
+		}
+		else if ( dAngleInDegrees > 0 )
+		{
+			x1 = r.x;
+			y1 = r.y + r.height;
+			x2 = r.x + r.width;
+			y2 = r.y;
+		}
+		else
+		{
+			x1 = r.x;
+			y1 = r.y;
+			x2 = r.x + r.width;
+			y2 = r.y + r.height;
+		}
+		
+		_gc.setForeground( cFG );
+		_gc.setBackground( cBG );
+
+		R31Enhance.setAlpha( _gc, g );
+
+		Pattern pattern = new Pattern( _gc.getDevice( ),
+				x1,
+				y1,
+				x2,
+				y2,
+				cFG,
+				cdStart.getTransparency( ),
+				cBG,
+				cdEnd.getTransparency( ) );
+		_gc.setBackgroundPattern( pattern );
+		_gc.fillPath( path );
+
+		_gc.setForeground( cPreviousFG );
+		_gc.setBackground( cPreviousBG );
+		cFG.dispose( );
+		cBG.dispose( );
+		pattern.dispose( );
+	}
+	
+	private final void fillPathImage( Path path,
+			org.eclipse.birt.chart.model.attribute.Image g )
+			throws ChartException
+	{
+		org.eclipse.swt.graphics.Image img = null;
+		if ( g instanceof EmbeddedImage )
+		{
+			try
+			{
+				ByteArrayInputStream bis = new ByteArrayInputStream( Base64.decodeBase64( ( (EmbeddedImage) g ).getData( )
+						.getBytes( ) ) );
+
+				img = new org.eclipse.swt.graphics.Image( ( (SwtDisplayServer) _ids ).getDevice( ),
+						bis );
+			}
+			catch ( Exception ilex )
+			{
+				throw new ChartException( ChartDeviceSwtActivator.ID,
+						ChartException.RENDERING,
+						ilex );
+			}
+		}
+		else
+		{
+			final String sUrl = g.getURL( );
+			try
+			{
+				img = (org.eclipse.swt.graphics.Image) _ids.loadImage( new URL( sUrl ) );
+			}
+			catch ( MalformedURLException muex )
+			{
+				throw new ChartException( ChartDeviceSwtActivator.ID,
+						ChartException.RENDERING,
+						muex );
+			}
+		}
+
+		Pattern pattern = new Pattern( _gc.getDevice( ), img );
+		_gc.setBackgroundPattern( pattern );
+		_gc.fillPath( path );
+
+		pattern.dispose( );
+		img.dispose( );
 	}
 
 	/*
@@ -1434,7 +1405,7 @@ public class SwtRendererImpl extends DeviceAdapter
 		}
 
 		// BUILD THE GENERAL PATH STRUCTURE
-		final Path gp = new Path( ( (SwtDisplayServer) _ids ).getDevice( ) );
+		final Path pt = new Path( ( (SwtDisplayServer) _ids ).getDevice( ) );
 		PrimitiveRenderEvent pre;
 		for ( int i = 0; i < are.getElementCount( ); i++ )
 		{
@@ -1443,7 +1414,7 @@ public class SwtRendererImpl extends DeviceAdapter
 			{
 				final ArcRenderEvent acre = (ArcRenderEvent) pre;
 
-				gp.addArc( (float) acre.getTopLeft( ).getX( ),
+				pt.addArc( (float) acre.getTopLeft( ).getX( ),
 						(float) acre.getTopLeft( ).getY( ),
 						(float) acre.getWidth( ),
 						(float) acre.getHeight( ),
@@ -1455,72 +1426,38 @@ public class SwtRendererImpl extends DeviceAdapter
 				final LineRenderEvent lre = (LineRenderEvent) pre;
 				if ( i == 0 )
 				{
-					gp.moveTo( (float) lre.getStart( ).getX( ),
+					pt.moveTo( (float) lre.getStart( ).getX( ),
 							(float) lre.getStart( ).getY( ) );
 				}
-				gp.lineTo( (float) lre.getEnd( ).getX( ), (float) lre.getEnd( )
+				pt.lineTo( (float) lre.getEnd( ).getX( ), (float) lre.getEnd( )
 						.getY( ) );
 			}
 		}
-
-		// DRAW THE PATH
-		Region previousClipping = new Region( );
-		_gc.getClipping( previousClipping );
-
-		// TODO intersect previous clipping with current path.
-		_gc.setClipping( gp );
 
 		try
 		{
 			if ( flBackground instanceof ColorDefinition )
 			{
-				final ColorDefinition cd = (ColorDefinition) flBackground;
-
-				// skip full transparency for optimization.
-				if ( !( cd.isSetTransparency( ) && cd.getTransparency( ) == 0 ) )
-				{
-					final Color cBG = (Color) _ids.getColor( cd );
-					final Color cPreviousBG = _gc.getBackground( );
-					_gc.setBackground( cBG );
-
-					R31Enhance.setAlpha( _gc, cd );
-
-					_gc.fillPath( gp );
-
-					cBG.dispose( );
-					_gc.setBackground( cPreviousBG );
-				}
+				fillPathColor( pt, (ColorDefinition) flBackground );
 			}
-			else if ( flBackground instanceof Gradient
-					|| flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
+			else if ( flBackground instanceof Gradient )
 			{
-				RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) this ).getEventObject( are.getSource( ),
-						RectangleRenderEvent.class );
-				rre.setBackground( are.getBackground( ) );
-
-				try
-				{
-					rre.setBounds( are.getBounds( ) );
-					rre.setOutline( are.getOutline( ) );
-
-					fillRectangle( rre );
-				}
-				catch ( ChartException ufex )
-				{
-					throw new ChartException( ChartDeviceSwtActivator.ID,
-							ChartException.RENDERING,
-							ufex );
-				}
+				final Bounds bo = are.getBounds( );
+				final Rectangle r = new Rectangle( (int) ( ( bo.getLeft( ) + dTranslateX ) * dScale ),
+						(int) ( ( bo.getTop( ) + dTranslateY ) * dScale ),
+						(int) ( bo.getWidth( ) * dScale ),
+						(int) ( bo.getHeight( ) * dScale ) );
+				fillPathGradient( pt, (Gradient) flBackground, r );
+			}
+			else if ( flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
+			{
+				fillPathImage( pt,
+						(org.eclipse.birt.chart.model.attribute.Image) flBackground );
 			}
 		}
 		finally
 		{
-			// Restore state
-			_gc.setClipping( previousClipping );
-
-			// Free resource
-			previousClipping.dispose( );
-			gp.dispose( );
+			pt.dispose( );
 		}
 	}
 
@@ -1599,55 +1536,28 @@ public class SwtRendererImpl extends DeviceAdapter
 				(int) ( ( bo.getTop( ) + dTranslateY ) * dScale ),
 				(int) ( bo.getWidth( ) * dScale ),
 				(int) ( bo.getHeight( ) * dScale ) );
+		Path pt = new Path( ( (SwtDisplayServer) _ids ).getDevice( ) );
+		pt.addArc( r.x, r.y, r.width, r.height, 0, 360 );
 
-		if ( flBackground instanceof ColorDefinition )
+		try
 		{
-			final ColorDefinition cd = (ColorDefinition) flBackground;
-			final Color cBG = (Color) _ids.getColor( cd );
-			final Color cPreviousBG = _gc.getBackground( );
-			_gc.setBackground( cBG );
-
-			R31Enhance.setAlpha( _gc, cd );
-
-			_gc.fillOval( r.x, r.y, r.width, r.height );
-
-			cBG.dispose( );
-			_gc.setBackground( cPreviousBG );
+			if ( flBackground instanceof ColorDefinition )
+			{
+				fillPathColor( pt, (ColorDefinition) flBackground );
+			}
+			else if ( flBackground instanceof Gradient )
+			{
+				fillPathGradient( pt, (Gradient) flBackground, r );
+			}
+			else if ( flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
+			{
+				fillPathImage( pt,
+						(org.eclipse.birt.chart.model.attribute.Image) flBackground );
+			}
 		}
-		else if ( flBackground instanceof Gradient
-				|| flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
+		finally
 		{
-			Path pt = new Path( ( (SwtDisplayServer) _ids ).getDevice( ) );
-			pt.addArc( r.x, r.y, r.width, r.height, 0, 360 );
-
-			Region previousClipping = new Region( );
-			_gc.getClipping( previousClipping );
-
-			// TODO intersect previous clipping with current path.
-			_gc.setClipping( pt );
-
-			RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) this ).getEventObject( ore.getSource( ),
-					RectangleRenderEvent.class );
-			rre.setBackground( ore.getBackground( ) );
-			try
-			{
-				rre.setBounds( ore.getBounds( ) );
-				rre.setOutline( ore.getOutline( ) );
-
-				fillRectangle( rre );
-			}
-			catch ( ChartException ufex )
-			{
-				throw new ChartException( ChartDeviceSwtActivator.ID,
-						ChartException.RENDERING,
-						ufex );
-			}
-			finally
-			{
-				_gc.setClipping( previousClipping );
-				previousClipping.dispose( );
-				pt.dispose( );
-			}
+			pt.dispose( );
 		}
 	}
 
@@ -1706,21 +1616,40 @@ public class SwtRendererImpl extends DeviceAdapter
 	 * with a polygon's vertices as required in SWT.
 	 * 
 	 * @param la
-	 * @return
+	 * @return int array
 	 */
 	static final int[] getCoordinatesAsInts( Location[] la, int iRoundingStyle,
 			double dTranslateX, double dTranslateY, double dScale )
 	{
+		return convertDoubleToInt( getDoubleCoordinatesAsInts( la,
+				iRoundingStyle,
+				dTranslateX,
+				dTranslateY,
+				dScale ) );
+	}
+	
+	/**
+	 * Converts an array of high-res co-ordinates into a single dimensional
+	 * double array that represents consecutive X/Y co-ordinates associated
+	 * with a polygon's vertices as required in SWT.
+	 * 
+	 * @param la
+	 * @return double array
+	 */
+	static final double[] getDoubleCoordinatesAsInts( Location[] la,
+			int iRoundingStyle, double dTranslateX, double dTranslateY,
+			double dScale )
+	{
 		final int n = la.length * 2;
-		final int[] iaXY = new int[n];
+		final double[] iaXY = new double[n];
 
 		if ( iRoundingStyle == CEIL )
 		{
 			for ( int i = 0; i < n / 2; i++ )
 			{
-				iaXY[2 * i] = (int) Math.ceil( ( la[i].getX( ) + dTranslateX )
+				iaXY[2 * i] = Math.ceil( ( la[i].getX( ) + dTranslateX )
 						* dScale );
-				iaXY[2 * i + 1] = (int) Math.ceil( ( la[i].getY( ) + dTranslateY )
+				iaXY[2 * i + 1] = Math.ceil( ( la[i].getY( ) + dTranslateY )
 						* dScale );
 			}
 		}
@@ -1728,12 +1657,40 @@ public class SwtRendererImpl extends DeviceAdapter
 		{
 			for ( int i = 0; i < n / 2; i++ )
 			{
-				iaXY[2 * i] = (int) ( ( la[i].getX( ) + dTranslateX ) * dScale );
-				iaXY[2 * i + 1] = (int) ( ( la[i].getY( ) + dTranslateY ) * dScale );
+				iaXY[2 * i] = ( ( la[i].getX( ) + dTranslateX ) * dScale );
+				iaXY[2 * i + 1] = ( ( la[i].getY( ) + dTranslateY ) * dScale );
 			}
 		}
 
 		return iaXY;
+	}
+	
+	static final float[] convertDoubleToFloat( double[] da )
+	{
+		if ( da == null )
+		{
+			return null;
+		}
+		final float[] fa = new float[da.length];
+		for ( int i = 0; i < fa.length; i++ )
+		{
+			fa[i] = (float) da[i];
+		}
+		return fa;
+	}
+	
+	static final int[] convertDoubleToInt( double[] da )
+	{
+		if ( da == null )
+		{
+			return null;
+		}
+		final int[] fa = new int[da.length];
+		for ( int i = 0; i < fa.length; i++ )
+		{
+			fa[i] = (int) da[i];
+		}
+		return fa;
 	}
 
 	/*

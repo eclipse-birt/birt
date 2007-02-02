@@ -33,6 +33,15 @@
                isList="false"
                name="action"
                type="structure"/>
+         <overrideProperty
+               allowedChoices="in,cm,mm,pt,pc,em,ex,px"
+               propertyName="width">
+         </overrideProperty>
+         <overrideProperty
+               allowedChoices="in,cm,mm,pt,pc,em,ex,px"
+               propertyName="height">
+         </overrideProperty>
+         
       </reportItem>
    </extension>
    <extension
