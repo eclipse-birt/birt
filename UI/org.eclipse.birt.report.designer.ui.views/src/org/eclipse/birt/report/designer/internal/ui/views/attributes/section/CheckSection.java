@@ -85,7 +85,7 @@ public class CheckSection extends Section
 
 	public void load( )
 	{
-		check.load( );
+		if(check!=null && !check.getControl( ).isDisposed( ))check.load( );
 	}
 
 	public void setInput( Object input )

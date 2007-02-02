@@ -7,8 +7,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComboAndButtonSection;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.views.attributes.AttributeView;
-import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
@@ -19,7 +17,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
-import org.eclipse.ui.IViewPart;
 
 public class DataSetDescriptorProvider implements IDescriptorProvider
 {
@@ -110,8 +107,6 @@ public class DataSetDescriptorProvider implements IDescriptorProvider
 				section.getComboControl( ).setStringValue( load( ) == null ? ""
 						: load( ).toString( ) );
 		}
-		
-		refreshRestoreProperty();
 
 	}
 
@@ -241,16 +236,4 @@ public class DataSetDescriptorProvider implements IDescriptorProvider
 		}
 	}
 	
-	protected void refreshRestoreProperty( )
-	{
-		IViewPart view = UIUtil.getView( "org.eclipse.birt.report.designer.ui.attributes.AttributeView" );
-		if ( view != null
-				&& view instanceof AttributeView
-				&& ( (AttributeView) view ).getCurrentPage( ) instanceof AttributeViewPage )
-		{
-
-			( (AttributeViewPage) ( (AttributeView) view ).getCurrentPage( ) ).resetRestorePropertiesAction( DEUtil.getInputElements( input ) );
-
-		}
-	}
 }

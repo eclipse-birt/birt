@@ -160,7 +160,7 @@ public class FontSizeSection extends Section
 
 	public void load( )
 	{
-		fontSize.load( );
+		if(fontSize!=null && !fontSize.getControl( ).isDisposed( ))fontSize.load( );
 	}
 
 	public void setHidden( boolean isHidden )

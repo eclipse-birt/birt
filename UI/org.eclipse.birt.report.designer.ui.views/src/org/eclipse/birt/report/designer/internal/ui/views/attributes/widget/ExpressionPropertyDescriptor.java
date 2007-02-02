@@ -15,20 +15,25 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ExpressionPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.jface.viewers.CellEditor.LayoutData;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Text;
 
 /**
@@ -78,6 +83,7 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor
 			button.setEnabled( enable );
 			text.setEnabled( enable );
 		}
+		setExpressionButtonImage(button);
 		if ( deValue == null )
 		{
 			deValue = ""; //$NON-NLS-1$
@@ -142,10 +148,10 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor
 					.createButton( containerPane, SWT.PUSH, true );
 		else
 			button = new Button( containerPane, SWT.PUSH );
-		if ( buttonText != null )
-			button.setText( buttonText );
-		else
-			button.setText( Messages.getString( "ExpressionPropertyDescriptor.text.Edit" ) ); //$NON-NLS-1$
+//		if ( buttonText != null )
+//			button.setText( buttonText );
+//		else
+//			button.setText( Messages.getString( "ExpressionPropertyDescriptor.text.Edit" ) ); //$NON-NLS-1$
 		button.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -153,10 +159,40 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor
 				handleButtonSelectEvent( );
 			}
 		} );
+		
+		setExpressionButtonImage(button);
+
+				
 		button.setLayoutData( new GridData( ) );
 		return containerPane;
 	}
 
+	protected void setExpressionButtonImage(Button button)
+	{
+		String imageName;
+		if(button.isEnabled())
+		{
+			imageName = IReportGraphicConstants.ICON_ENABLE_EXPRESSION_BUILDERS;
+		}else
+		{
+			imageName = IReportGraphicConstants.ICON_DISABLE_EXPRESSION_BUILDERS;
+		}
+		Image image = ReportPlatformUIImages.getImage(imageName );
+		
+		GridData gd = new GridData();
+		gd.widthHint = 20;
+		gd.heightHint = 20;
+		button.setLayoutData(gd);
+		
+		button.setImage(image);
+		if(button.getImage() != null)
+		{
+			button.getImage().setBackground(button.getBackground());
+		}
+		
+	}
+
+	
 	protected void handleSelectEvent( )
 	{
 		newValue = text.getText( );
@@ -201,9 +237,9 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor
 
 	public void setButtonText( String text )
 	{
-		if ( button != null )
-			button.setText( text );
-		buttonText = text;
+//		if ( button != null )
+//			button.setText( text );
+//		buttonText = text;
 	}
 
 	public void setText( String text )

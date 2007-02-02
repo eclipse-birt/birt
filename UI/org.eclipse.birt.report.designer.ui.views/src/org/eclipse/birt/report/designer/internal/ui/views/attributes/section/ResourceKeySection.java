@@ -159,7 +159,7 @@ public class ResourceKeySection extends Section
 
 	public void load( )
 	{
-		resource.load( );
+		if(resource!=null && !resource.getControl( ).isDisposed( ))resource.load( );
 	}
 
 	public void setHidden( boolean isHidden )

@@ -16,8 +16,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.SortMap;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AdvancePropertyPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AlterPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BaseAttributePage;
@@ -38,6 +40,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.UserPr
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.VisibilityPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.HighlightDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Section;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormPropertyDescriptor;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.HighlightPropertyDescriptor;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -108,6 +111,8 @@ public class AttributesUtil
 	 * Category name for standard NamedExpression page.
 	 */
 	public static final String NAMEDEXPRESSIONS = CategoryProviderFactory.CATEGORY_KEY_NAMEDEXPRESSIONS; //$NON-NLS-1$
+	
+	public static final String ADVANCEPROPERTY = CategoryProviderFactory.CATEGORY_KEY_ADVANCEPROPERTY; //$NON-NLS-1$
 	/**
 	 * Category name for standard EventHandler page.
 	 */
@@ -139,6 +144,8 @@ public class AttributesUtil
 				"ReportPageGenerator.List.UserProperties", UserPropertiesPage.class ); //$NON-NLS-1$
 		addCategory( NAMEDEXPRESSIONS,
 				"ReportPageGenerator.List.NamedExpressions", NamedExpressionsPage.class ); //$NON-NLS-1$
+		addCategory( ADVANCEPROPERTY,
+				"ReportPageGenerator.List.AdvancedProperty", AdvancePropertyPage.class ); //$NON-NLS-1$
 	}
 
 	/**
@@ -428,7 +435,7 @@ public class AttributesUtil
 	 * pages. It also provide the capability to integrate the PropertyProcessor
 	 * mechanism with user customized pages.
 	 */
-	public abstract static class PageWrapper
+	public abstract static class PageWrapper implements IModelEventProcessor
 	{
 
 		private AttributePage page;
@@ -450,12 +457,24 @@ public class AttributesUtil
 						PageWrapper.this.buildUI( parent );
 					}
 
-					public void elementChanged( DesignElementHandle focus,
-							NotificationEvent ev )
+					public void addElementEvent( DesignElementHandle focus, NotificationEvent ev )
 					{
-						super.elementChanged( focus, ev );
+						PageWrapper.this.addElementEvent( focus, ev );
+					}
 
-						PageWrapper.this.elementChanged( ev );
+					public void clear( )
+					{
+						PageWrapper.this.clear( );
+					}
+
+					public void postElementEvent( )
+					{
+						PageWrapper.this.postElementEvent( );
+					}
+
+					public Object getAdapter( Class adapter )
+					{
+						return PageWrapper.this.getAdapter( adapter );
 					}
 
 					public void refresh( )
@@ -479,6 +498,27 @@ public class AttributesUtil
 				};
 			return page;
 		}
+
+		public void addElementEvent( DesignElementHandle focus, NotificationEvent ev )
+		{
+
+		}
+
+		public void clear( )
+		{
+
+		}
+
+		public void postElementEvent( )
+		{
+
+		}
+
+		public Object getAdapter( Class adapter )
+		{
+			return null;
+		}
+		
 
 		/**
 		 * Creates property page user content.
@@ -509,16 +549,6 @@ public class AttributesUtil
 		}
 
 		/**
-		 * Notifies if element changed.
-		 * 
-		 * @param ev
-		 */
-		public void elementChanged( NotificationEvent ev )
-		{
-			// default doing nothing.
-		}
-
-		/**
 		 * Notifies if parent UI disposed.
 		 */
 		public void dispose( )
@@ -526,5 +556,21 @@ public class AttributesUtil
 			// default doing nothing.
 		}
 
+	}
+
+	public static boolean containCategory( String categoryId )
+	{
+		// TODO Auto-generated method stub
+		return categoryMap.containsKey( categoryId );
+	}
+	
+	public static ICategoryPage getCategory( String categoryId )
+	{
+		return new CategoryPage(categoryId,Messages.getString(categoryMap.get( categoryId ).toString( )),(Class)paneClassMap.get( categoryId ));
+	}
+	
+	public static String getCategoryDisplayName( String categoryId )
+	{
+		return Messages.getString(categoryMap.get( categoryId ).toString( ));
 	}
 }

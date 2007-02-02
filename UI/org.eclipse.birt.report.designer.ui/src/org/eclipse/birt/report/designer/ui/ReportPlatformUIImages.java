@@ -61,6 +61,7 @@ public class ReportPlatformUIImages
 	public final static String WIZBAN_PATH = "wizban/";//$NON-NLS-1$
 	public final static String LINK_PATH = "lib/";//$NON-NLS-1$
 	public final static String DATA_PATH = "data/";
+	public final static String OTHERS_PATH = "others/";
 
 	static
 	{
@@ -571,6 +572,13 @@ public class ReportPlatformUIImages
 
 		declareImage( IReportGraphicConstants.ICON_TEMPLATE_NO_PREVIEW,
 				ICONS_PATH + MISC_PATH + "no_preview.gif" ); //$NON-NLS-1$
+		
+		// Other icons
+		declareImage( IReportGraphicConstants.ICON_DISABLE_EXPRESSION_BUILDERS,
+				ICONS_PATH + OTHERS_PATH + "exp-builder-fx-disabled.gif" ); //$NON-NLS-1$
+	
+		declareImage( IReportGraphicConstants.ICON_ENABLE_EXPRESSION_BUILDERS,
+				ICONS_PATH + OTHERS_PATH + "exp-builder-fx-enabled.gif" ); //$NON-NLS-1$
 	}
 
 	/**

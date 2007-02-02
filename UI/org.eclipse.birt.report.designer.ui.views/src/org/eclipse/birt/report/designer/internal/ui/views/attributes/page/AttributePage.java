@@ -15,15 +15,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.util.SortMap;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Section;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormWidgetFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.IPropertyDescriptor;
 import org.eclipse.birt.report.designer.ui.views.attributes.TabPage;
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
-import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
@@ -36,7 +36,8 @@ import org.eclipse.swt.widgets.Control;
  * implementation to DE model, and default refresh process after getting a
  * notify from DE.
  */
-public abstract class AttributePage extends TabPage implements Listener
+public abstract class AttributePage extends TabPage implements
+		IModelEventProcessor
 {
 
 	/**
@@ -57,16 +58,15 @@ public abstract class AttributePage extends TabPage implements Listener
 	 */
 	protected Object input;
 
-
 	public void refresh( )
 	{
-		if(this instanceof BindingPage)
-		for ( int i = 0; i < descriptorContainer.size( ); i++ )
-		{
-			IPropertyDescriptor descriptor = (IPropertyDescriptor) descriptorContainer.get( i );
-			descriptor.setInput( input );
-			descriptor.load( );
-		}
+		if ( this instanceof BindingPage )
+			for ( int i = 0; i < descriptorContainer.size( ); i++ )
+			{
+				IPropertyDescriptor descriptor = (IPropertyDescriptor) descriptorContainer.get( i );
+				descriptor.setInput( input );
+				descriptor.load( );
+			}
 
 		Section[] sectionArray = getSections( );
 		for ( int i = 0; i < sectionArray.length; i++ )
@@ -81,112 +81,28 @@ public abstract class AttributePage extends TabPage implements Listener
 
 	public void setInput( Object handle )
 	{
-		deRegisterListeners( );
+		deRegisterEventManager( );
 		input = handle;
-		registerListeners( );
+		registerEventManager( );
 	}
 
 	/**
 	 * Removes model change listener.
 	 */
-	protected void deRegisterListeners( )
+	protected void deRegisterEventManager( )
 	{
-		if ( input == null )
-			return;
-		for ( int i = 0; i < DEUtil.getInputSize( input ); i++ )
-		{
-			Object obj = DEUtil.getInputElement( input, i );
-			if ( obj instanceof DesignElementHandle )
-			{
-				DesignElementHandle element = (DesignElementHandle) obj;
-				element.removeListener( this );
-			}
-		}
+		if ( UIUtil.getModelEventManager( ) != null )
+			UIUtil.getModelEventManager( ).removeModelEventProcessor( this );
 	}
 
 	/**
 	 * Registers model change listener to DE elements.
 	 */
-	protected void registerListeners( )
+	protected void registerEventManager( )
 	{
-		if ( input == null )
-			return;
-		for ( int i = 0; i < DEUtil.getInputSize( input ); i++ )
-		{
-			Object obj = DEUtil.getInputElement( input, i );
-			if ( obj instanceof DesignElementHandle )
-			{
-				DesignElementHandle element = (DesignElementHandle) obj;
-				element.addListener( this );
-			}
-		}
+		if ( UIUtil.getModelEventManager( ) != null )
+			UIUtil.getModelEventManager( ).addModelEventProcessor( this );
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.model.core.Listener#elementChanged(org.eclipse.birt.model.core.DesignElement,
-	 *      org.eclipse.birt.model.activity.NotificationEvent) @note: For
-	 *      structure property pages, subclass should override this method, as
-	 *      well as refreshValues().
-	 */
-	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
-	{
-		for ( int i = 0; i < descriptorContainer.size( ); i++ )
-		{
-			IPropertyDescriptor descriptor = (IPropertyDescriptor) descriptorContainer.get( i );
-			descriptor.load( );
-		}
-
-		Section[] sectionArray = getSections( );
-		for ( int i = 0; i < sectionArray.length; i++ )
-		{
-			Section section = (Section) sectionArray[i];
-			section.load( );
-		}
-	}
-
-	/*
-	 * public void elementChanged( DesignElementHandle focus, NotificationEvent
-	 * ev ) { int eventType = ev.getEventType( ); if ( eventType ==
-	 * NotificationEvent.NAME_EVENT ) {
-	 * refreshDescriptor(DesignElementHandle.NAME_PROP); } else if ( eventType ==
-	 * NotificationEvent.PROPERTY_EVENT ) { PropertyEvent event =
-	 * (PropertyEvent) ev; String propertyName = event.getPropertyName( ); if (
-	 * StyleHandle.TEXT_ALIGN_PROP.equals( propertyName ) ) { propertyName =
-	 * AttributeConstant.HORIZONTAL_ALIGN; } refreshDescriptor(propertyName); }
-	 * else if ( eventType == NotificationEvent.STYLE_EVENT ) {
-	 * refreshDescriptor( ReportItemHandle.STYLE_PROP ); } else if ( eventType ==
-	 * NotificationEvent.THEME_EVENT) { refreshDescriptor(
-	 * ModuleHandle.THEME_PROP ) ; } else { return; } }
-	 * 
-	 * private void refreshDescriptor(String property){ for(int i=0;i<descriptorContainer.size(
-	 * );i++){ if(descriptorContainer.get( i ) instanceof
-	 * TestTextPropertyDescriptor){ String descriptorProperty =
-	 * ((TestTextPropertyDescriptor)descriptorContainer.get( i )).getProperty( );
-	 * if(descriptorProperty!=null && descriptorProperty.equals( property
-	 * ))((TestTextPropertyDescriptor)descriptorContainer.get( i )).load( ); } } }
-	 */
-
-	/*
-	 * public void elementChanged( DesignElementHandle focus, NotificationEvent
-	 * ev ) { int eventType = ev.getEventType( ); if ( eventType ==
-	 * NotificationEvent.NAME_EVENT ) { if ( propertiesMap.containsKey(
-	 * DesignElementHandle.NAME_PROP ) ) propertiesSet.add(
-	 * DesignElementHandle.NAME_PROP ); } else if ( eventType ==
-	 * NotificationEvent.PROPERTY_EVENT ) { PropertyEvent event =
-	 * (PropertyEvent) ev; String propertyName = event.getPropertyName( ); if (
-	 * StyleHandle.TEXT_ALIGN_PROP.equals( propertyName ) ) { propertyName =
-	 * AttributeConstant.HORIZONTAL_ALIGN; } if ( propertiesMap.containsKey(
-	 * propertyName ) ) propertiesSet.add( propertyName ); } else if ( eventType ==
-	 * NotificationEvent.STYLE_EVENT ) { if ( propertiesMap.containsKey(
-	 * ReportItemHandle.STYLE_PROP ) ) propertiesSet.add(
-	 * ReportItemHandle.STYLE_PROP ); } else if ( eventType ==
-	 * NotificationEvent.THEME_EVENT) { if ( propertiesMap.containsKey(
-	 * ModuleHandle.THEME_PROP ) ) propertiesSet.add( ModuleHandle.THEME_PROP ); }
-	 * else { return; } if ( refreshCount == input.size( ) - 1 ) { refreshCount =
-	 * 0; refreshValues( propertiesSet ); } else { refreshCount++; } }
-	 */
 
 	/*
 	 * (non-Javadoc)
@@ -195,9 +111,9 @@ public abstract class AttributePage extends TabPage implements Listener
 	 */
 	public void dispose( )
 	{
-		if(container != null || !container.isDisposed( ))
+		if ( container != null || !container.isDisposed( ) )
 			container.dispose( );
-		deRegisterListeners( );
+		deRegisterEventManager( );
 	}
 
 	protected SortMap sections = new SortMap( );
@@ -226,7 +142,7 @@ public abstract class AttributePage extends TabPage implements Listener
 
 	public void createSections( )
 	{
-		applyCustomSections();
+		applyCustomSections( );
 		Section[] sectionArray = getSections( );
 		for ( int i = 0; i < sectionArray.length; i++ )
 		{
@@ -237,7 +153,7 @@ public abstract class AttributePage extends TabPage implements Listener
 
 	protected void applyCustomSections( )
 	{
-		
+
 	}
 
 	public void layoutSections( )
@@ -277,24 +193,56 @@ public abstract class AttributePage extends TabPage implements Listener
 	{
 		return null;
 	}
-	
+
 	protected Composite container;
-	
-	public void buildUI(Composite parent){
-		container = new Composite(parent,SWT.NONE);
+
+	public void buildUI( Composite parent )
+	{
+		container = new Composite( parent, SWT.NONE );
 		container.addDisposeListener( new DisposeListener( ) {
 
 			public void widgetDisposed( DisposeEvent e )
 			{
-				deRegisterListeners( );
+				deRegisterEventManager( );
 			}
 		} );
 		if ( sections == null )
-			sections = new SortMap( );	
+			sections = new SortMap( );
 	}
-	
+
 	public Control getControl( )
 	{
 		return container;
+	}
+
+	public void addElementEvent( DesignElementHandle focus, NotificationEvent ev )
+	{
+
+	}
+
+	public void clear( )
+	{
+
+	}
+
+	public void postElementEvent( )
+	{
+		for ( int i = 0; i < descriptorContainer.size( ); i++ )
+		{
+			IPropertyDescriptor descriptor = (IPropertyDescriptor) descriptorContainer.get( i );
+			descriptor.load( );
+		}
+
+		Section[] sectionArray = getSections( );
+		for ( int i = 0; i < sectionArray.length; i++ )
+		{
+			Section section = (Section) sectionArray[i];
+			section.load( );
+		}
+	}
+
+	public Object getAdapter( Class adapter )
+	{
+		return null;
 	}
 }

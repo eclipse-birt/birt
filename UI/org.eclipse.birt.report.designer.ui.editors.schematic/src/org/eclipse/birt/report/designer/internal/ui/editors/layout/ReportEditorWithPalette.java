@@ -921,6 +921,12 @@ abstract public class ReportEditorWithPalette extends
 			AttributeViewPage page = new AttributeViewPage( );
 			return page;
 		}
+		
+		if ( type == ModelEventManager.class )
+		{
+			return manager;
+		}
+		
 		return super.getAdapter( type );
 	}
 

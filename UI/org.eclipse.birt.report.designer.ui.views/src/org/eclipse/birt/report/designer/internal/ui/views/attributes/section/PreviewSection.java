@@ -134,7 +134,7 @@ public class PreviewSection extends Section
 
 	public void load( )
 	{
-		preview.load( );
+		if(preview!=null && !preview.getControl( ).isDisposed( ))preview.load( );
 
 	}
 

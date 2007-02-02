@@ -139,7 +139,7 @@ public class WizardReportSettingPage extends WizardPage
 		} );
 
 		new Label( container, SWT.NONE ).setText( LABEL_IMAGE );
-		previewImageText = createText( container, 1, 1, SWT.BORDER );
+		previewImageText = createText( container, 1, 1, SWT.BORDER | SWT.READ_ONLY);
 		if ( module != null && module.getIconFile( ) != null )
 			previewImageText.setText( module.getIconFile( ) );
 		previewImageText.addModifyListener( new ModifyListener( ) {

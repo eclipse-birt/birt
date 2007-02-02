@@ -874,7 +874,7 @@ public class ReportPropertySheetPage extends Page implements
 	{
 		if ( !viewer.getTree( ).isDisposed( ) )
 		{
-			viewer.refresh( true );
+//			viewer.refresh( true );
 			if ( getControl( ).isFocusControl( ) )
 			{
 				IMemento memento = viewerMemento.getChild( PropertyMementoUtil.getElementType( (DesignElementHandle) focus ) );

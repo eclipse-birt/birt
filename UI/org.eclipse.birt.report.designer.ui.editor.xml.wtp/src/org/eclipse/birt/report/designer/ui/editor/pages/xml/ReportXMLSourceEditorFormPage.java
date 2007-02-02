@@ -534,14 +534,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		ModuleHandle model = ( (DesignerOutlinePage) request.getSource( ) ).getRoot( );
 		if ( !selectedObjects.isEmpty( ) )
 		{
-			if ( selectedObjects.get( 0 ) instanceof ReportElementHandle )
-			{
-				setHighlightLine( model.getLineNoByID( ( (ReportElementHandle) selectedObjects.get( 0 ) ).getID( ) ) );
-			}
-			if ( selectedObjects.get( 0 ) instanceof LibraryHandle )
-			{
-				setHighlightLine( model.getLineNoByID( ( (LibraryHandle) selectedObjects.get( 0 ) ).getID( ) ) );
-			}
+			setHighlightLine( model.getLineNo( selectedObjects.get( 0 ) ) );
 		}
 	}
 
@@ -576,8 +569,6 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		SessionHandleAdapter.getInstance( )
 				.getMediator( )
 				.notifyRequest( request );
-
-		registerOutlineSwitchAction( );
 		return true;
 	}
 
@@ -623,11 +614,13 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 				DesignerOutlinePage outlinePage = new DesignerOutlinePage( getModel( ) );
 				getModelEventManager( ).addModelEventProcessor( outlinePage.getModelProcessor( ) );
 				registerOutlineSwitchAction( );
+				getOutlineSwitchAction( ).setText( SWITCH_REPORT_OUTLINE );
 				return outlinePage;
 			}			
 		}
 		else if ( ContentOutlinePage.class.equals( required ) )
 		{
+			getOutlineSwitchAction( ).setText( SWITCH_REPORT_XML_OUTLINE );
 			return reportXMLEditor.getAdapter( IContentOutlinePage.class );
 		}
 		return super.getAdapter( required );
@@ -771,14 +764,6 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		public void run( )
 		{
 			getReportEditor( ).outlineSwitch( );
-			if ( getText( ).equals( SWITCH_REPORT_OUTLINE ) )
-			{
-				setText( SWITCH_REPORT_XML_OUTLINE );
-			}
-			else
-			{
-				setText( SWITCH_REPORT_OUTLINE );
-			}
 		}
 	}
 

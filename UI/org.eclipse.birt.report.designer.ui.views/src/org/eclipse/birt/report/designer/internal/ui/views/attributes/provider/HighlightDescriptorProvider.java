@@ -7,13 +7,12 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.HighlightHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.HighlightRuleBuilder;
-import org.eclipse.birt.report.designer.ui.views.attributes.AttributeView;
-import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
@@ -23,7 +22,6 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -35,7 +33,6 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.IViewPart;
 
 public class HighlightDescriptorProvider extends HighlightHandleProvider implements
 		PreviewPropertyDescriptorProvider
@@ -60,9 +57,9 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 	class HighlightContentProvider implements IStructuredContentProvider
 	{
 
-		private Listener listener;
+		private IModelEventProcessor listener;
 
-		public HighlightContentProvider( Listener listener )
+		public HighlightContentProvider( IModelEventProcessor listener )
 		{
 			this.listener = listener;
 		}
@@ -71,16 +68,8 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		{
 			Object[] elements = HighlightDescriptorProvider.this.getElements( inputElement );
 
-			for ( int i = 0; i < elements.length; i++ )
-			{
-				if ( elements[i] instanceof DesignElementHandle )
-				{
-					DesignElementHandle element = (DesignElementHandle) elements[i];
-					element.removeListener( listener );
-					element.addListener( listener );
-				}
-			}
-
+			deRegisterEventManager();
+			registerEventManager();
 			return elements;
 		}
 
@@ -91,18 +80,23 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 
 		public void dispose( )
 		{
-			Object[] elements = HighlightDescriptorProvider.this.getElements( DEUtil.getInputElements( input ) );
-
-			for ( int i = 0; i < elements.length; i++ )
-			{
-				if ( elements[i] instanceof DesignElementHandle )
-				{
-					DesignElementHandle element = (DesignElementHandle) elements[i];
-					element.removeListener( listener );
-				}
-			}
+			deRegisterEventManager();
 		}
 
+		protected void deRegisterEventManager( )
+		{
+			if ( UIUtil.getModelEventManager( ) != null )
+				UIUtil.getModelEventManager( ).removeModelEventProcessor( listener );
+		}
+
+		/**
+		 * Registers model change listener to DE elements.
+		 */
+		protected void registerEventManager( )
+		{
+			if ( UIUtil.getModelEventManager( ) != null )
+				UIUtil.getModelEventManager( ).addModelEventProcessor( listener );
+		}
 	}
 
 	public String getColumnText( Object element, int columnIndex )
@@ -176,7 +170,7 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		return true;
 	}
 
-	public IStructuredContentProvider getContentProvider( Listener listener )
+	public IStructuredContentProvider getContentProvider( IModelEventProcessor listener )
 	{
 		return new HighlightContentProvider( listener );
 	}
@@ -298,7 +292,6 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 			}
 			stack.commit( );
 
-			refreshRestoreProperty( );
 		}
 		catch ( Exception e )
 		{
@@ -328,7 +321,6 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 
 			stack.commit( );
 
-			refreshRestoreProperty( );
 		}
 		catch ( Exception e )
 		{
@@ -367,7 +359,6 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 
 			result = true;
 
-			refreshRestoreProperty( );
 		}
 		catch ( Exception e )
 		{
@@ -394,7 +385,6 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 
 			result = true;
 
-			refreshRestoreProperty( );
 		}
 		catch ( Exception e )
 		{
@@ -421,7 +411,6 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 			stack.commit( );
 
 			result = true;
-			refreshRestoreProperty( );
 		}
 		catch ( Exception e )
 		{
@@ -562,16 +551,5 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		return "";
 	}
 
-	protected void refreshRestoreProperty( )
-	{
-		IViewPart view = UIUtil.getView( "org.eclipse.birt.report.designer.ui.attributes.AttributeView" );
-		if ( view != null
-				&& view instanceof AttributeView
-				&& ( (AttributeView) view ).getCurrentPage( ) instanceof AttributeViewPage )
-		{
 
-			( (AttributeViewPage) ( (AttributeView) view ).getCurrentPage( ) ).resetRestorePropertiesAction( DEUtil.getInputElements( input ) );
-
-		}
-	}
 }

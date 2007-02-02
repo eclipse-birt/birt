@@ -333,7 +333,7 @@ public class TextAndTwoButtonSection extends Section
 
 	public void load( )
 	{
-		textField.load( );
+		if(textField!=null && !textField.getControl( ).isDisposed( ))textField.load( );
 	}
 
 	private int firstButtonWidth = 60;

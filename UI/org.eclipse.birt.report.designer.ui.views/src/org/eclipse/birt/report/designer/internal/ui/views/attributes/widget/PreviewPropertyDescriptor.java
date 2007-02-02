@@ -2,6 +2,7 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.PreviewLabel;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.LayoutTable;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.LayoutTable.ColumnsDescription;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -12,7 +13,6 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -32,7 +32,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.TableItem;
 
 public class PreviewPropertyDescriptor extends PropertyDescriptor implements
-		Listener
+		IModelEventProcessor
 {
 
 	public PreviewPropertyDescriptor( boolean formStyle )
@@ -208,8 +208,10 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements
 		if ( isFormStyle( ) )
 			style = SWT.NONE;
 		previewLabel = new PreviewLabel( content, style );
-		previewLabel.setText( provider.getText( 9 ) ); //$NON-NLS-1$		
-		previewLabel.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		previewLabel.setText( provider.getText( 9 ) ); //$NON-NLS-1$	
+		GridData gd = new GridData( GridData.FILL_VERTICAL );
+		gd.widthHint = 300;
+		previewLabel.setLayoutData( gd );
 		FormWidgetFactory.getInstance( ).adapt( previewLabel );
 		updateButtons( );
 
@@ -310,7 +312,7 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements
 	{
 		if ( fTableViewer.getTable( ).isDisposed( ) )
 			return;
-		
+
 		fDeleteButton.setEnabled( fTableViewer.getTable( ).getSelectionIndex( ) >= 0
 				&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
 						.getItemCount( ) );
@@ -329,7 +331,7 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements
 	{
 		if ( fTableViewer.getTable( ).isDisposed( ) )
 			return;
-		
+
 		for ( int i = 0; i < fTableViewer.getTable( ).getItemCount( ); i++ )
 		{
 			TableItem ti = fTableViewer.getTable( ).getItem( i );
@@ -428,4 +430,31 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements
 		content.setVisible( isVisible );
 	}
 
+	public void addElementEvent( DesignElementHandle focus, NotificationEvent ev )
+	{
+
+	}
+
+	public void clear( )
+	{
+
+	}
+
+	public void postElementEvent( )
+	{
+		if ( fTableViewer.getContentProvider( ) == null )
+		{
+			return;
+		}
+		if ( fTableViewer != null )
+		{
+			fTableViewer.setInput( input );
+			refreshTableItemView( );
+		}
+	}
+
+	public Object getAdapter( Class adapter )
+	{
+		return null;
+	}
 }

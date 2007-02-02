@@ -13,10 +13,11 @@ package org.eclipse.birt.report.designer.ui.views.attributes;
 
 import java.util.List;
 
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.AttributeExtensionManager;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.IExtension;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.GuiExtensionManager;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
+import org.eclipse.birt.report.designer.ui.views.IPageGenerator;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage.MessagePageGenerator;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage.ModelClassWrapper;
 import org.eclipse.birt.report.model.api.AutoTextHandle;
@@ -44,7 +45,6 @@ import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
-import org.eclipse.swt.custom.CTabFolder;
 
 /**
  * AttributesBuilder provides methods to create attribute page Generator
@@ -66,31 +66,14 @@ public class AttributesBuilder
 	private String typeInfo = Messages.getString( "AttributesBuilder.Label.None" ); //$NON-NLS-1$;
 
 	/**
-	 * Creates attribute pages correspond to the current selection.
-	 * 
-	 * @param tabFolder
-	 *            The TabFolder these attribute pages will reside in.
-	 * @param selection
-	 *            The current selection.
-	 */
-	public void createPages( CTabFolder tabFolder, List selection )
-	{
-		assert tabFolder != null;
-		if ( selection == null || selection.size( ) == 0 )
-			return;
-		getPageGenerator( selection );
-		pageGenerator.createTabItems( tabFolder, selection );
-	}
-
-	/**
 	 * Gets attribute pages generator correspond to the current selection.
 	 * 
 	 * @param selection
 	 *            The current selection.
 	 */
-	private void getPageGenerator( List selection )
+	public IPageGenerator getPageGenerator( List selection )
 	{
-		Class pageGeneratorClass = DefaultPageGenerator.class;
+		Class pageGeneratorClass = TabPageGenerator.class;
 		String oldTypeInfo = typeInfo;
 		if ( isSameType( selection ) == true )
 		{
@@ -98,33 +81,32 @@ public class AttributesBuilder
 
 			if ( selection.get( 0 ) instanceof ExtendedItemHandle )
 			{
-				// added by gao for support ExtendeItem
-				IExtension extension = new IExtension.Stub( ) {
 
-					public String getExtendsionIdentify( )
-					{
-						return AttributeExtensionManager.ATTRIBUTE;
-					}
-				};
 				Object element = null;
 				if ( !selection.isEmpty( ) )
 				{
 					element = selection.get( 0 );
 				}
-				Object obj = AttributeExtensionManager.doExtension( extension,
-						element );
-				if ( obj instanceof IPageGenerator )
+				Object adapter = ElementAdapterManager.getAdatper( element,
+						IPageGenerator.class );
+				if ( adapter instanceof IPageGenerator )
 				{
-					typeInfo = Messages.getFormattedString( "AttributesBuilder.Label.Generic", new String[]{AttributeExtensionManager.getExtensionDisplayName( selection.get( 0 ) )} ); //$NON-NLS-1$
-					IPageGenerator ng = (IPageGenerator) obj;
+					typeInfo = Messages.getFormattedString( "AttributesBuilder.Label.Generic", new String[]{GuiExtensionManager.getExtensionDisplayName( selection.get( 0 ) )} ); //$NON-NLS-1$
+					IPageGenerator ng = (IPageGenerator) adapter;
 
 					if ( pageGenerator == null
 							|| ( ng != null && pageGenerator.getClass( ) != ng.getClass( ) ) )
 					{
+						if ( pageGenerator != null
+								&& pageGenerator.getControl( ) != null
+								&& !pageGenerator.getControl( ).isDisposed( ) )
+						{
+							pageGenerator.getControl( ).dispose( );
+						}
 						pageGenerator = ng;
 					}
 
-					return;
+					return pageGenerator;
 				}
 
 			}
@@ -138,14 +120,18 @@ public class AttributesBuilder
 				{
 					if ( typeInfo.equals( oldTypeInfo ) )
 					{
-						return;
+						return pageGenerator;
 					}
 				}
 				else
 				{
-					return;
+					return pageGenerator;
 				}
 			}
+			if ( pageGenerator != null
+					&& pageGenerator.getControl( ) != null
+					&& !pageGenerator.getControl( ).isDisposed( ) )
+				pageGenerator.getControl( ).dispose( );
 			pageGenerator = (IPageGenerator) pageGeneratorClass.newInstance( );
 
 		}
@@ -153,6 +139,7 @@ public class AttributesBuilder
 		{
 			ExceptionHandler.handle( e );
 		}
+		return pageGenerator;
 	}
 
 	/**
@@ -270,7 +257,7 @@ public class AttributesBuilder
 		else
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.None" ); //$NON-NLS-1$
-			return DefaultPageGenerator.class;
+			return TabPageGenerator.class;
 		}
 		return CategoryPageGenerator.class;
 	}

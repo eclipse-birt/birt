@@ -8,10 +8,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.FormatChangeEvent;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.IFormatChangeListener;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.views.attributes.AttributeView;
-import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -23,7 +20,6 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
-import org.eclipse.ui.IViewPart;
 
 import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.util.Currency;
@@ -73,8 +69,6 @@ public class FormatNumberDescriptorProvider implements IDescriptorProvider
 				}
 			}
 			SessionHandleAdapter.getInstance( ).getCommandStack( ).commit( );
-			
-			refreshRestoreProperty( );
 		}
 	}
 
@@ -310,17 +304,5 @@ public class FormatNumberDescriptorProvider implements IDescriptorProvider
 		};
 	}
 	
-	protected void refreshRestoreProperty( )
-	{
-		IViewPart view = UIUtil.getView( "org.eclipse.birt.report.designer.ui.attributes.AttributeView" );
-		if ( view != null
-				&& view instanceof AttributeView
-				&& ( (AttributeView) view ).getCurrentPage( ) instanceof AttributeViewPage )
-		{
-
-			( (AttributeViewPage) ( (AttributeView) view ).getCurrentPage( ) ).resetRestorePropertiesAction( DEUtil.getInputElements( input ) );
-
-		}
-	}
 
 }

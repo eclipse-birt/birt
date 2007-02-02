@@ -25,6 +25,8 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.FilterHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.ui.widget.PopupSelectionList;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -57,6 +59,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormLayout;
@@ -367,11 +370,12 @@ public class FilterConditionBuilder extends BaseDialog
 		} );
 
 		Button expBuilder = new Button( condition, SWT.PUSH );
-		expBuilder.setText( "..." ); //$NON-NLS-1$
+//		expBuilder.setText( "..." ); //$NON-NLS-1$
 		gdata = new GridData( );
 		gdata.heightHint = 20;
 		gdata.widthHint = 20;
 		expBuilder.setLayoutData( gdata );
+		setExpressionButtonImage(expBuilder);
 		expBuilder.setToolTipText( Messages.getString( "FilterConditionBuilder.tooltip.ExpBuilder" ) ); //$NON-NLS-1$
 		expBuilder.addSelectionListener( new SelectionAdapter( ) {
 
@@ -1043,4 +1047,28 @@ public class FilterConditionBuilder extends BaseDialog
 
 	}
 
+	protected void setExpressionButtonImage(Button button)
+	{
+		String imageName;
+		if(button.isEnabled())
+		{
+			imageName = IReportGraphicConstants.ICON_ENABLE_EXPRESSION_BUILDERS;
+		}else
+		{
+			imageName = IReportGraphicConstants.ICON_DISABLE_EXPRESSION_BUILDERS;
+		}
+		Image image = ReportPlatformUIImages.getImage(imageName );
+		
+		GridData gd = new GridData();
+		gd.widthHint = 20;
+		gd.heightHint = 20;
+		button.setLayoutData(gd);
+		
+		button.setImage(image);
+		if(button.getImage() != null)
+		{
+			button.getImage().setBackground(button.getBackground());
+		}
+		
+	}
 }

@@ -123,7 +123,7 @@ public class MarignSection extends Section
 
 	public void load( )
 	{
-		marign.load( );
+		if(marign!=null && !marign.getControl( ).isDisposed( ))marign.load( );
 	}
 
 	public void setHidden( boolean isHidden )

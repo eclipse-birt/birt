@@ -6,6 +6,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IF
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.FormSection;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.GroupHandleProvider;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ControlAdapter;
@@ -67,7 +68,7 @@ public class FormPage extends AttributePage
 
 			public void widgetDisposed( DisposeEvent e )
 			{
-				deRegisterListeners( );
+				deRegisterEventManager( );
 			}
 		} );
 		
@@ -113,14 +114,23 @@ public class FormPage extends AttributePage
 		{
 			return;
 		}
-		for ( int i = 0; i < elements.length; i++ )
-		{
-			if ( elements[i] instanceof DesignElementHandle )
-			{
-				DesignElementHandle element = (DesignElementHandle) elements[i];
-				element.removeListener( FormPage.this );
-			}
-		}
+		deRegisterEventManager( );
 	}
+	
+	public void addElementEvent( DesignElementHandle focus, NotificationEvent ev )
+	{
+		formSection.getFormControl( ).addElementEvent( focus, ev );
+	}
+
+	public void clear( )
+	{
+		formSection.getFormControl( ).clear( );
+	}
+
+	public void postElementEvent( )
+	{
+		formSection.getFormControl( ).postElementEvent( );
+	}
+
 
 }

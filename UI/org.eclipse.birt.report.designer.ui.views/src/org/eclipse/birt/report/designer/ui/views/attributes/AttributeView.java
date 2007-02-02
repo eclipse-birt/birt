@@ -64,11 +64,13 @@ public class AttributeView extends PageBookView
 			initPage( (IPageBookViewPage) page );
 
 			( (IPageBookViewPage) page ).createControl( getPageBook( ) );
-			
+
 			return new PageRec( part, (IPageBookViewPage) page );
 		}
 		return null;
 	}
+	
+
 
 	/**
 	 * Destroys a page in the pagebook for a particular part. This page was

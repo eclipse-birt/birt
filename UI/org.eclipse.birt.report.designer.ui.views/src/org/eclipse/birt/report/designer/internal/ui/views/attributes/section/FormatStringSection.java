@@ -76,7 +76,7 @@ public class FormatStringSection extends Section
 
 	public void load( )
 	{
-		format.load( );
+		if(format!=null && !format.getControl( ).isDisposed( ))format.load( );
 	}
 
 	IDescriptorProvider provider;

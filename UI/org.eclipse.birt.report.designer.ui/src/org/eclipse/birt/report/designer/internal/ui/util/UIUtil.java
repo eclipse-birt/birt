@@ -29,6 +29,7 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.ImportLibraryDialog;
 import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.ModelEventManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GridEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
@@ -57,6 +58,7 @@ import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -95,6 +97,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IViewPart;
@@ -586,8 +589,8 @@ public class UIUtil
 		layout.marginHeight = layout.marginWidth = 0;
 		return layout;
 	}
-	
-	public static GridLayout createGridLayoutWithMargin( int margin)
+
+	public static GridLayout createGridLayoutWithMargin( int margin )
 	{
 		GridLayout layout = new GridLayout( );
 		layout.marginHeight = layout.marginWidth = margin;
@@ -651,7 +654,7 @@ public class UIUtil
 		}
 		if ( string.length( ) == 0 )
 		{
-			string = null; 
+			string = null;
 		}
 		return string;
 	}
@@ -1081,13 +1084,13 @@ public class UIUtil
 	 */
 	public static String getFragmentDirectory( )
 	{
-		Bundle bundle =  Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST );
-		if(bundle == null)
+		Bundle bundle = Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST );
+		if ( bundle == null )
 		{
 			return null;
 		}
 		URL url = bundle.getEntry( "/" ); //$NON-NLS-1$
-		if(url == null)
+		if ( url == null )
 		{
 			return null;
 		}
@@ -1102,7 +1105,7 @@ public class UIUtil
 		}
 		return directory;
 	}
-	
+
 	/**
 	 * Creates a blank label under the given parent.
 	 * 
@@ -1131,7 +1134,7 @@ public class UIUtil
 		String namespace = getLibraryNamespace( moduleHandle, libraryPath );
 		if ( namespace != null )
 		{
-			//is a filesystem file.
+			// is a filesystem file.
 			if ( libraryPath.startsWith( "file" ) || new File( libraryPath ).exists( ) ) //$NON-NLS-1$
 			{
 				moduleHandle.includeLibrary( DEUtil.getRelativedPath( ReportPlugin.getDefault( )
@@ -1139,7 +1142,7 @@ public class UIUtil
 						libraryPath ),
 						namespace );
 			}
-			//is a bundle resource
+			// is a bundle resource
 			else if ( libraryPath.startsWith( "bundleresource" ) ) //$NON-NLS-1$
 			{
 				try
@@ -1455,18 +1458,45 @@ public class UIUtil
 		}
 		return null;
 	}
-	
+
 	public static IEditorPart getEditor( String id )
 	{
 		IWorkbenchPage tPage = PlatformUI.getWorkbench( )
 				.getActiveWorkbenchWindow( )
 				.getActivePage( );
+		if ( tPage == null )
+			return null;
 		IEditorReference[] v = tPage.getEditorReferences( );
 		int i;
 		for ( i = 0; i < v.length; i++ )
 		{
 			if ( v[i].getId( ).equals( id ) )
 				return (IEditorPart) v[i].getPart( true );
+		}
+		return null;
+	}
+
+	public static IEditorPart getActiveEditor( String id )
+	{
+		IWorkbenchPage tPage = PlatformUI.getWorkbench( )
+				.getActiveWorkbenchWindow( )
+				.getActivePage( );
+		if ( tPage == null )
+			return null;
+		IEditorPart activeEditPart = PlatformUI.getWorkbench( )
+		.getActiveWorkbenchWindow( )
+		.getActivePage( )
+		.getActiveEditor( );
+		IEditorReference[] v = tPage.getEditorReferences( );
+		int i;
+		for ( i = 0; i < v.length; i++ )
+		{
+			if ( v[i].getId( ).equals( id ) )
+			{
+				IEditorPart temp = (IEditorPart) v[i].getPart( true );
+				if ( temp == activeEditPart )
+					return activeEditPart;
+			}
 		}
 		return null;
 	}
@@ -1511,5 +1541,16 @@ public class UIUtil
 		gc.copyArea( image, 0, 0 );
 		gc.dispose( );
 		return image;
+	}
+
+	public static ModelEventManager getModelEventManager( )
+	{
+		IEditorPart input = getActiveEditor( "org.eclipse.birt.report.designer.ui.editors.ReportEditor" );
+		if ( input == null )
+			return null;
+		Object adapter = input.getAdapter( ModelEventManager.class );
+		if ( adapter != null && adapter instanceof ModelEventManager )
+			return (ModelEventManager) adapter;
+		return null;
 	}
 }

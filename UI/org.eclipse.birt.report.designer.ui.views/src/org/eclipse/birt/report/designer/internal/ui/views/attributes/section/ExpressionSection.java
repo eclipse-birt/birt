@@ -50,8 +50,8 @@ public class ExpressionSection extends Section
 							expression = null;
 						}
 					} );
-			if ( buttonText != null )
-				expression.setButtonText( buttonText );
+//			if ( buttonText != null )
+//				expression.setButtonText( buttonText );
 		}
 		else
 		{
@@ -90,7 +90,7 @@ public class ExpressionSection extends Section
 
 	public void load( )
 	{
-		expression.load( );
+		if(expression!=null && !expression.getControl( ).isDisposed( ))expression.load( );
 
 	}
 

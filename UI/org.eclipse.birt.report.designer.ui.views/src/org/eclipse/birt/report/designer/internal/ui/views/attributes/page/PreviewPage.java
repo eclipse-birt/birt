@@ -23,10 +23,10 @@ public class PreviewPage extends AttributePage
 	{
 		super.buildUI( parent );
 		container.setLayout( WidgetUtil.createGridLayout( 1 ) );
-		PreviewSection previewSection = new PreviewSection( provider.getDisplayName( ),
-				container,
-				true,
-				isTabbed );
+		previewSection = new PreviewSection( provider.getDisplayName( ),
+						container,
+						true,
+						isTabbed );
 		previewSection.setPreview( preview );
 		previewSection.setProvider( provider );
 		previewSection.setFillPreview( true );
@@ -42,10 +42,15 @@ public class PreviewPage extends AttributePage
 	}
 
 	PreviewPropertyDescriptor preview;
+	private PreviewSection previewSection;
 
 	public void setPreview( PreviewPropertyDescriptor preview )
 	{
 		this.preview = preview;
 	}
 
+	public void postElementEvent( )
+	{
+		previewSection.getPreviewControl( ).postElementEvent( );
+	}
 }

@@ -2,19 +2,15 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.GroupHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.views.attributes.AttributeView;
-import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.ui.IViewPart;
 
 public abstract class AbstractFormHandleProvider implements IFormProvider
 {
@@ -45,7 +41,6 @@ public abstract class AbstractFormHandleProvider implements IFormProvider
 			return false;
 		}
 		stack.commit( );
-		refreshRestoreProperty();
 		return true;
 	}
 
@@ -71,7 +66,6 @@ public abstract class AbstractFormHandleProvider implements IFormProvider
 		{
 			stack.rollback( );
 		}
-		refreshRestoreProperty();
 	}
 
 	public void transModify( Object data, String property, Object value )
@@ -90,7 +84,6 @@ public abstract class AbstractFormHandleProvider implements IFormProvider
 			stack.rollback( );
 			throw new Exception( e );
 		}
-		refreshRestoreProperty();
 	}
 
 	private CommandStack getActionStack( )
@@ -98,8 +91,8 @@ public abstract class AbstractFormHandleProvider implements IFormProvider
 		return SessionHandleAdapter.getInstance( ).getCommandStack( );
 	}
 
-	public FormContentProvider getFormContentProvider( Listener listener,
-			IDescriptorProvider provider )
+	public FormContentProvider getFormContentProvider(
+			IModelEventProcessor listener, IDescriptorProvider provider )
 	{
 		return new FormContentProvider( listener, provider );
 	}
@@ -107,10 +100,10 @@ public abstract class AbstractFormHandleProvider implements IFormProvider
 	public class FormContentProvider implements IStructuredContentProvider
 	{
 
-		private Listener listener;
+		private IModelEventProcessor listener;
 		private IDescriptorProvider provider;
 
-		public FormContentProvider( Listener listener,
+		public FormContentProvider( IModelEventProcessor listener,
 				IDescriptorProvider provider )
 		{
 			this.listener = listener;
@@ -126,15 +119,8 @@ public abstract class AbstractFormHandleProvider implements IFormProvider
 		{
 			assert provider instanceof AbstractFormHandleProvider;
 			Object[] elements = ( (AbstractFormHandleProvider) provider ).getElements( inputElement );
-			for ( int i = 0; i < elements.length; i++ )
-			{
-				if ( elements[i] instanceof DesignElementHandle )
-				{
-					DesignElementHandle element = (DesignElementHandle) elements[i];
-					element.removeListener( listener );
-					element.addListener( listener );
-				}
-			}
+			registerEventManager( );
+			deRegisterEventManager( );
 			return elements;
 		}
 
@@ -154,14 +140,7 @@ public abstract class AbstractFormHandleProvider implements IFormProvider
 			{
 				return;
 			}
-			for ( int i = 0; i < elements.length; i++ )
-			{
-				if ( elements[i] instanceof DesignElementHandle )
-				{
-					DesignElementHandle element = (DesignElementHandle) elements[i];
-					element.removeListener( listener );
-				}
-			}
+			deRegisterEventManager( );
 		}
 
 		/*
@@ -174,6 +153,23 @@ public abstract class AbstractFormHandleProvider implements IFormProvider
 				Object newInput )
 		{
 		}
+
+		protected void deRegisterEventManager( )
+		{
+			if ( UIUtil.getModelEventManager( ) != null )
+				UIUtil.getModelEventManager( )
+						.removeModelEventProcessor( listener );
+		}
+
+		/**
+		 * Registers model change listener to DE elements.
+		 */
+		protected void registerEventManager( )
+		{
+			if ( UIUtil.getModelEventManager( ) != null )
+				UIUtil.getModelEventManager( )
+						.addModelEventProcessor( listener );
+		}
 	}
 
 	public Object load( )
@@ -184,19 +180,6 @@ public abstract class AbstractFormHandleProvider implements IFormProvider
 	public void save( Object value ) throws SemanticException
 	{
 
-	}
-	
-	protected void refreshRestoreProperty( )
-	{
-		IViewPart view = UIUtil.getView( "org.eclipse.birt.report.designer.ui.attributes.AttributeView" );
-		if ( view != null
-				&& view instanceof AttributeView
-				&& ( (AttributeView) view ).getCurrentPage( ) instanceof AttributeViewPage )
-		{
-
-			( (AttributeViewPage) ( (AttributeView) view ).getCurrentPage( ) ).resetRestorePropertiesAction( DEUtil.getInputElements( input ) );
-
-		}
 	}
 
 }

@@ -135,4 +135,11 @@ public class DescriptorToolkit
 		return descriptor;
 	}
 
+	public static AdvancePropertyDescriptor createAdvancePropertyDescriptor(
+			boolean formStyle )
+	{
+		AdvancePropertyDescriptor descriptor = new AdvancePropertyDescriptor( formStyle );
+		return descriptor;
+	}
+
 }

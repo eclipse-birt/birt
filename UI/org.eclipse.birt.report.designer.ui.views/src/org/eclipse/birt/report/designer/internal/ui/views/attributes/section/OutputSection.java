@@ -67,7 +67,7 @@ public class OutputSection extends Section
 
 	public void load( )
 	{
-		output.load( );
+		if(output!=null && !output.getControl( ).isDisposed( ))output.load( );
 	}
 
 	IDescriptorProvider provider;

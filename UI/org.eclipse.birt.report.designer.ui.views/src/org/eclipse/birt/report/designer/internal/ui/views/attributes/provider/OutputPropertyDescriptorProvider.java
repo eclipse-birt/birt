@@ -4,11 +4,8 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
-import org.eclipse.birt.report.designer.ui.views.attributes.AttributeView;
-import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.ReportEngine;
@@ -25,7 +22,6 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
-import org.eclipse.ui.IViewPart;
 
 public class OutputPropertyDescriptorProvider implements IDescriptorProvider
 {
@@ -314,7 +310,7 @@ public class OutputPropertyDescriptorProvider implements IDescriptorProvider
 
 		}
 		stack.commit( );
-		refreshRestoreProperty( );
+		
 	}
 
 	public void saveSpecialOutput( boolean[] selections, String[] expressions )
@@ -355,7 +351,7 @@ public class OutputPropertyDescriptorProvider implements IDescriptorProvider
 			}
 		}
 		stack.commit( );
-		refreshRestoreProperty( );
+		
 	}
 
 	public String getDisplayName( )
@@ -425,16 +421,4 @@ public class OutputPropertyDescriptorProvider implements IDescriptorProvider
 		return visibilityRulesIterator( getFirstElementHandle( ) );
 	}
 	
-	protected void refreshRestoreProperty( )
-	{
-		IViewPart view = UIUtil.getView( "org.eclipse.birt.report.designer.ui.attributes.AttributeView" );
-		if ( view != null
-				&& view instanceof AttributeView
-				&& ( (AttributeView) view ).getCurrentPage( ) instanceof AttributeViewPage )
-		{
-
-			( (AttributeViewPage) ( (AttributeView) view ).getCurrentPage( ) ).resetRestorePropertiesAction( DEUtil.getInputElements( input ) );
-
-		}
-	}
 }

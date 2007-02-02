@@ -1098,6 +1098,10 @@ public class DNDUtil
 			// {
 			// return CONTAIN_NO;
 			// }
+			if ( !childHandle.getElement( ).getDefn( ).canExtend( ) )
+			{
+				return CONTAIN_NO;
+			}
 			return targetHandle.getElementHandle( )
 					.canContain( targetHandle.getSlotID( ), childHandle ) ? CONTAIN_THIS
 					: CONTAIN_NO;

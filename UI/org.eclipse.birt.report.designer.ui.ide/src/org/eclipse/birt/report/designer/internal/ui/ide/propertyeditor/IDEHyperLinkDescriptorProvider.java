@@ -54,7 +54,6 @@ public class IDEHyperLinkDescriptorProvider extends HyperLinkDescriptorProvider
 			getActionStack( ).rollback( );
 			flag = false;
 		}
-		refreshRestoreProperty( );
 		return flag;
 	}
 

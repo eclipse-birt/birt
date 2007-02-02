@@ -666,9 +666,10 @@ public class ParameterDialog extends BaseDialog
 		{
 			try
 			{
-				defaultValue = convertToStandardFormat( DEUtil.convertToDate( defaultValue ) );
+				// defaultValue = convertToStandardFormat( DEUtil.convertToDate( defaultValue ) );
+				defaultValue = convertToStandardFormat( DataTypeUtil.toDate( defaultValue ) );
 			}
-			catch ( ParseException e )
+			catch ( BirtException e )
 			{
 				ExceptionHandler.handle( e );
 				return false;
@@ -717,13 +718,22 @@ public class ParameterDialog extends BaseDialog
 					}
 				}
 			}
-			else
+			else if ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) )
+					&& defaultValue != null )
 			{
-				if ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) )
-						&& defaultValue != null )
+				if ( defaultValue.equals( Boolean.toString( true ) )
+						|| defaultValue.equals( Boolean.toString( false ) ) )
+				{
+					defaultValue = null;
+				}
+				else
 				{
 					defaultValueEditor.setText( defaultValue );
 				}
+			}
+			else
+			{
+				defaultValue = null;
 			}
 			refreshValueTable( );
 		}
@@ -1032,6 +1042,7 @@ public class ParameterDialog extends BaseDialog
 				{
 					choices[0] = CONTROL_TYPE_CHOICE_SET.findChoice( DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX )
 							.getDisplayName( );
+					choices[1] = DISPLAY_NAME_CONTROL_COMBO;
 				}
 				else
 				{
@@ -1039,9 +1050,10 @@ public class ParameterDialog extends BaseDialog
 							.getDisplayName( );
 					// choices[1] = DISPLAY_NAME_CONTROL_LIST;
 					choices[1] = DISPLAY_NAME_CONTROL_COMBO;
+					choices[2] = DISPLAY_NAME_CONTROL_LIST;
 				}
 				// choices[choices.length - 2] = DISPLAY_NAME_CONTROL_COMBO;
-				choices[choices.length - 2] = DISPLAY_NAME_CONTROL_LIST;
+				// choices[choices.length - 2] = DISPLAY_NAME_CONTROL_LIST;
 				choices[choices.length - 1] = CONTROL_TYPE_CHOICE_SET.findChoice( DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON )
 						.getDisplayName( );
 
@@ -1132,6 +1144,7 @@ public class ParameterDialog extends BaseDialog
 			staticRadio.setEnabled( radioEnable );
 			dynamicRadio.setEnabled( radioEnable );
 		}
+		initFormatField( );
 	}
 
 	private void switchParamterType( )
@@ -1245,7 +1258,7 @@ public class ParameterDialog extends BaseDialog
 				boolean defaultValueRemoved = true;
 				String type = getSelectedDataType( );
 				List choices = new ArrayList( );
-				Map labelMap = new HashMap();
+				Map labelMap = new HashMap( );
 				for ( Iterator iter = choiceList.iterator( ); iter.hasNext( ); )
 				{
 					SelectionChoice choice = (SelectionChoice) iter.next( );
@@ -1266,8 +1279,8 @@ public class ParameterDialog extends BaseDialog
 						choice.setValue( importValues[i] );
 						if ( labelMap.get( importValues[i] ) != null )
 						{
-							choice.setLabel( (String)labelMap.get( importValues[i] ) );
-						}						
+							choice.setLabel( (String) labelMap.get( importValues[i] ) );
+						}
 						choiceList.add( choice );
 						if ( defaultValue != null
 								&& defaultValue.equals( importValues[i] ) )
@@ -1364,7 +1377,8 @@ public class ParameterDialog extends BaseDialog
 		} );
 
 		Button valueColumnExprButton = new Button( composite, SWT.PUSH );
-		valueColumnExprButton.setText( "..." ); //$NON-NLS-1$
+//		valueColumnExprButton.setText( "..." ); //$NON-NLS-1$
+		setExpressionButtonImage(valueColumnExprButton);
 		valueColumnExprButton.setToolTipText( Messages.getString( "ParameterDialog.toolTipText.OpenExprButton" ) );
 		valueColumnExprButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -1391,7 +1405,8 @@ public class ParameterDialog extends BaseDialog
 		displayTextChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		Button displayTextExprButton = new Button( composite, SWT.PUSH );
-		displayTextExprButton.setText( "..." ); //$NON-NLS-1$
+//		displayTextExprButton.setText( "..." ); //$NON-NLS-1$
+		setExpressionButtonImage(displayTextExprButton);
 		displayTextExprButton.setToolTipText( Messages.getString( "ParameterDialog.toolTipText.OpenExprButton" ) );
 		displayTextExprButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -1828,12 +1843,12 @@ public class ParameterDialog extends BaseDialog
 		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
 		{
 			if ( defaultValueEditor != null
-					&& ( !defaultValueEditor.isDisposed( ) ) 
-					&& defaultValueEditor.getText( ).length( ) != 0)
+					&& ( !defaultValueEditor.isDisposed( ) )
+					&& defaultValueEditor.getText( ).length( ) != 0 )
 			{
 				try
 				{
-					getValue( defaultValueEditor.getText( ));
+					getValue( defaultValueEditor.getText( ) );
 				}
 				catch ( BirtException e )
 				{
@@ -2058,16 +2073,16 @@ public class ParameterDialog extends BaseDialog
 		{
 			displayFormat = choiceSet.findChoice( formatCategroy )
 					.getDisplayName( );
+			if ( isCustom( ) )
+			{
+				displayFormat += ": " + formatPattern; //$NON-NLS-1$
+			}
 			if ( defaultValue != null )
 			{
 				previewString = format( defaultValue );
 			}
 			else
 			{
-				if ( isCustom( ) )
-				{
-					displayFormat += ": " + formatPattern; //$NON-NLS-1$
-				}
 				if ( type.equals( DesignChoiceConstants.PARAM_TYPE_DATETIME ) )
 				{
 					previewString = new DateFormatter( isCustom( ) ? formatPattern
@@ -2368,4 +2383,31 @@ public class ParameterDialog extends BaseDialog
 		}
 		chooser.setText( key );
 	}
+	
+	
+	protected void setExpressionButtonImage(Button button)
+	{
+		String imageName;
+		if(button.isEnabled())
+		{
+			imageName = IReportGraphicConstants.ICON_ENABLE_EXPRESSION_BUILDERS;
+		}else
+		{
+			imageName = IReportGraphicConstants.ICON_DISABLE_EXPRESSION_BUILDERS;
+		}
+		Image image = ReportPlatformUIImages.getImage(imageName );
+		
+		GridData gd = new GridData();
+		gd.widthHint = 20;
+		gd.heightHint = 20;
+		button.setLayoutData(gd);
+		
+		button.setImage(image);
+		if(button.getImage() != null)
+		{
+			button.getImage().setBackground(button.getBackground());
+		}
+		
+	}
+	
 }

@@ -11,6 +11,11 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
+import org.eclipse.birt.report.designer.internal.ui.util.ModelEventInfo;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFormHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
@@ -19,7 +24,6 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.ITableLabelProvider;
@@ -52,7 +56,7 @@ import org.eclipse.swt.widgets.TableItem;
  * 
  */
 public class FormPropertyDescriptor extends PropertyDescriptor implements
-		Listener
+		IModelEventProcessor
 {
 
 	/**
@@ -427,8 +431,9 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 			if ( btnEdit != null )
 				btnEdit.setEnabled( false );
 		}
-		
-		if(getDescriptorProvider( ) instanceof FilterHandleProvider){
+
+		if ( getDescriptorProvider( ) instanceof FilterHandleProvider )
+		{
 			btnUp.setVisible( false );
 			btnDown.setVisible( false );
 		}
@@ -478,8 +483,11 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 		{
 			tableViewer.setCellEditors( ( (IFormProvider) getDescriptorProvider( ) ).getEditors( table ) );
 			tableViewer.setCellModifier( new FormCellModifier( ) );
-		}else {
-			tableViewer.setCellModifier( new FormCellModifier( ){
+		}
+		else
+		{
+			tableViewer.setCellModifier( new FormCellModifier( ) {
+
 				public boolean canModify( Object element, String property )
 				{
 					return false;
@@ -489,7 +497,6 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 		tableViewer.setContentProvider( ( (AbstractFormHandleProvider) getDescriptorProvider( ) ).getFormContentProvider( this,
 				getDescriptorProvider( ) ) );
 		tableViewer.setLabelProvider( new FormLabelProvider( ) );
-		
 
 	}
 
@@ -716,19 +723,19 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 	 * @see org.eclipse.birt.model.core.Listener#elementChanged(org.eclipse.birt.model.core.DesignElement,
 	 *      org.eclipse.birt.model.activity.NotificationEvent)
 	 */
-	public void elementChanged( DesignElementHandle arg0,
-			NotificationEvent event )
-	{
-		if ( ( (IFormProvider) getDescriptorProvider( ) ).needRefreshed( event ) )
-		{
-			tableViewer.refresh( );
-			table.select( selectIndex );
-			table.setFocus( );
-			updateArraw( );
-			updateBindingParameters( );
-		}
-	}
-
+	// public void elementChanged( DesignElementHandle arg0,
+	// NotificationEvent event )
+	// {
+	// if ( ( (IFormProvider) getDescriptorProvider( ) ).needRefreshed( event )
+	// )
+	// {
+	// tableViewer.refresh( );
+	// table.select( selectIndex );
+	// table.setFocus( );
+	// updateArraw( );
+	// updateBindingParameters( );
+	// }
+	// }
 	private class FormLabelProvider extends LabelProvider implements
 			ITableLabelProvider
 	{
@@ -941,4 +948,42 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 		// TODO Auto-generated method stub
 
 	}
+
+	private List eventList = new LinkedList( );
+
+	public void addElementEvent( DesignElementHandle focus, NotificationEvent ev )
+	{
+		ModelEventInfo event = new ModelEventInfo( focus, ev );
+		eventList.add( event );
+	}
+
+	public void clear( )
+	{
+		eventList.clear( );
+	}
+
+	public void postElementEvent( )
+	{
+		while ( eventList.size( ) > 0 )
+		{
+			if ( ( (IFormProvider) getDescriptorProvider( ) ).needRefreshed( ( (ModelEventInfo) eventList.get( 0 ) ).getEvent( ) ) )
+			{
+				if ( getControl( ) != null && !getControl( ).isDisposed( ) )
+				{
+					tableViewer.refresh( );
+					table.select( selectIndex );
+					table.setFocus( );
+					updateArraw( );
+					updateBindingParameters( );
+				}
+			}
+			eventList.remove( 0 );
+		}
+	}
+
+	public Object getAdapter( Class adapter )
+	{
+		return null;
+	}
+
 }

@@ -350,12 +350,11 @@ public class HyperlinkBuilder extends BaseDialog
 
 	private Button sameWindowButton;
 	private Button newWindowButton;
-	// private Button htmlButton;
-	// private Button pdfButton;
-	private HashMap formatCheckBtns;
+	
 	private String[] supportedFormats;
 
-	private Combo anchorChooser;
+	private Combo anchorChooser, targetFormatsChooser;
+	private Button checkButton;
 	private Group targetGroup;
 
 	private boolean isIDE = false;
@@ -716,47 +715,49 @@ public class HyperlinkBuilder extends BaseDialog
 
 	private void createDrillthroughSelectFormat( Composite container )
 	{
-		Group group = new Group( container, SWT.NONE );
-		group.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		group.setText( Messages.getString( "HyperlinkBuilder.DrillThroughStep5" ) ); //$NON-NLS-1$
-		group.setLayout( new GridLayout( ) );
-
-		// htmlButton = new Button( group, SWT.RADIO );
-		// htmlButton.setText( Messages.getString(
-		// "HyperlinkBuilder.DrillThroughHtml" ) ); //$NON-NLS-1$
-		//
-		// pdfButton = new Button( group, SWT.RADIO );
-		// pdfButton.setText( Messages.getString(
-		// "HyperlinkBuilder.DrillThroughPdf" ) ); //$NON-NLS-1$
-
 		ReportEngine engine = new ReportEngine( new EngineConfig( ) );
 		supportedFormats = engine.getSupportedFormats( );
-		formatCheckBtns = new HashMap( );
+	
+		Group formatsGroup = new Group( container, SWT.NONE );
+		formatsGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		formatsGroup.setText( Messages.getString( "HyperlinkBuilder.DrillThroughStep5" ) ); //$NON-NLS-1$
+		formatsGroup.setLayout( new GridLayout( 3, false ) );
 
-		for ( int i = 0; i < supportedFormats.length; i++ )
-		{
-			Button btn = new Button( group, SWT.RADIO );
-			btn.setText( supportedFormats[i] ); //$NON-NLS-1$
-			formatCheckBtns.put( supportedFormats[i], btn );
-			// select format affects getting TOCTree from ReportDocument
-			btn.addSelectionListener( new SelectionListener( ) {
-
-				public void widgetSelected( SelectionEvent e )
+		checkButton = new Button( formatsGroup, SWT.CHECK );
+		checkButton.addSelectionListener( new SelectionAdapter(){
+			
+			public void widgetSelected( SelectionEvent e )
+			{
+				targetFormatsChooser.setEnabled( ( (Button)e.widget ).getSelection()  );
+				if ( ( (Button)e.widget ).getSelection() == false && targetFormatsChooser.getSelectionIndex() != -1 )
 				{
-					if ( tocButton.getSelection( )
-							&& targetReportHandle instanceof IReportDocument )
-					{
-						initAnchorChooser( targetReportHandle, true );
-					}
+					targetFormatsChooser.deselect( targetFormatsChooser.getSelectionIndex() );
 				}
+			}
+		});
+		new Label( formatsGroup, SWT.NONE ).setText( Messages.getString( "HyperlinkBuilder.TargetReportFormat" ) ); //$NON-NLS-1$
+		targetFormatsChooser = new Combo( formatsGroup, SWT.BORDER | SWT.READ_ONLY );
+		targetFormatsChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		targetFormatsChooser.setItems( supportedFormats );
+		targetFormatsChooser.setEnabled( false );
+		// select format affects getting TOCTree from ReportDocument
+		targetFormatsChooser.addSelectionListener( new SelectionListener( ) {
 
-				public void widgetDefaultSelected( SelectionEvent e )
+			public void widgetSelected( SelectionEvent e )
+			{
+				if ( tocButton.getSelection( )
+						&& targetReportHandle instanceof IReportDocument )
 				{
+					initAnchorChooser( targetReportHandle, true );
 				}
-			} );
-		}
+			}
+
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+			}
+		} );
 	}
-
+	
 	private void createBindingTable( Composite parent )
 	{
 		Label label = new Label( parent, SWT.NONE );
@@ -835,8 +836,9 @@ public class HyperlinkBuilder extends BaseDialog
 	private void createExpressionButton( Composite parent, final Text text )
 	{
 		Button button = new Button( parent, SWT.PUSH );
-		button.setLayoutData( new GridData( ) );
-		button.setText( "..." ); //$NON-NLS-1$
+//		button.setLayoutData( new GridData( ) );
+//		button.setText( "..." ); //$NON-NLS-1$
+		setExpressionButtonImage(button);
 		button.setToolTipText( TOOLTIP_EXPRESSION );
 		button.addSelectionListener( new SelectionAdapter( ) {
 
@@ -1083,21 +1085,21 @@ public class HyperlinkBuilder extends BaseDialog
 					inputHandle.setTargetWindow( DesignChoiceConstants.TARGET_NAMES_TYPE_BLANK );
 				}
 
-				// if ( htmlButton.getSelection( ) )
-				// {
-				// inputHandle.setFormatType( "html" ); //$NON-NLS-1$
-				// }
-				// else
-				// {
-				// inputHandle.setFormatType(
-				// DesignChoiceConstants.FORMAT_TYPE_PDF );
-				// }
-				for ( int i = 0; i < supportedFormats.length; i++ )
+//				for ( int i = 0; i < supportedFormats.length; i++ )
+//				{
+//					if ( ( (Button) formatCheckBtns.get( supportedFormats[i] ) ).getSelection( ) )
+//					{
+//						inputHandle.setFormatType( supportedFormats[i] );
+//					}
+//				}
+				int index = targetFormatsChooser.getSelectionIndex();
+				if ( checkButton.getSelection() && index != -1 )
 				{
-					if ( ( (Button) formatCheckBtns.get( supportedFormats[i] ) ).getSelection( ) )
-					{
-						inputHandle.setFormatType( supportedFormats[i] );
-					}
+					inputHandle.setFormatType( targetFormatsChooser.getItem( index ) );
+				}
+				else
+				{
+					inputHandle.setFormatType( null );
 				}
 			}
 			inputHandle.setLinkType( selectedType );
@@ -1270,23 +1272,18 @@ public class HyperlinkBuilder extends BaseDialog
 				sameWindowButton.setSelection( true );
 			}
 
-			// if ( DesignChoiceConstants.FORMAT_TYPE_PDF.equals(
-			// inputHandle.getFormatType( ) ) )
-			// {
-			// pdfButton.setSelection( true );
-			// }
-			// else
-			// {
-			// htmlButton.setSelection( true );
-			// }
-
 			if ( inputHandle.getFormatType( ) != null )
 			{
-				( (Button) formatCheckBtns.get( inputHandle.getFormatType( ) ) ).setSelection( true );
-			}
-			else
-			{
-				( (Button) formatCheckBtns.get( "html" ) ).setSelection( true );
+				for ( int index = 0; index < supportedFormats.length; index++ )
+				{
+					if ( supportedFormats[index].equals( inputHandle.getFormatType() ) )
+					{
+						checkButton.setSelection( true );
+						targetFormatsChooser.setEnabled( true );
+						targetFormatsChooser.select( index );
+						break;
+					}
+				}		
 			}
 		}
 		updateButtons( );
@@ -1395,13 +1392,9 @@ public class HyperlinkBuilder extends BaseDialog
 			if ( isToc )
 			{
 				String format = "html";
-				for ( int i = 0; i < supportedFormats.length; i++ )
+				if ( targetFormatsChooser.getSelectionIndex() != -1 )
 				{
-					if ( ( (Button) formatCheckBtns.get( supportedFormats[i] ) ).getSelection( ) )
-					{
-						format = supportedFormats[i];
-						break;
-					}
+					format = supportedFormats[targetFormatsChooser.getSelectionIndex()];
 				}
 				ITOCTree tocTree = ( (IReportDocument) handle ).getTOCTree( format,
 						SessionHandleAdapter.getInstance( )
@@ -1749,5 +1742,30 @@ public class HyperlinkBuilder extends BaseDialog
 			return fileSystemFile.getParent( );
 		}
 		return null;
+	}
+	
+	protected void setExpressionButtonImage(Button button)
+	{
+		String imageName;
+		if(button.isEnabled())
+		{
+			imageName = IReportGraphicConstants.ICON_ENABLE_EXPRESSION_BUILDERS;
+		}else
+		{
+			imageName = IReportGraphicConstants.ICON_DISABLE_EXPRESSION_BUILDERS;
+		}
+		Image image = ReportPlatformUIImages.getImage(imageName );
+		
+		GridData gd = new GridData();
+		gd.widthHint = 20;
+		gd.heightHint = 20;
+		button.setLayoutData(gd);
+		
+		button.setImage(image);
+		if(button.getImage() != null)
+		{
+			button.getImage().setBackground(button.getBackground());
+		}
+		
 	}
 }

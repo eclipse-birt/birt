@@ -3,17 +3,13 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
 import java.util.List;
 
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.views.attributes.AttributeView;
-import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.GroupElementHandle;
 import org.eclipse.birt.report.model.api.GroupPropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
-import org.eclipse.ui.IViewPart;
 
 public class PropertyDescriptorProvider implements IDescriptorProvider
 {
@@ -54,7 +50,6 @@ public class PropertyDescriptorProvider implements IDescriptorProvider
 			DEUtil.getGroupElementHandle( (List) input ).setProperty( property,
 					value );
 		}
-		refreshRestoreProperty( );
 	}
 
 	public String getDisplayName( )
@@ -127,17 +122,5 @@ public class PropertyDescriptorProvider implements IDescriptorProvider
 		return false;
 	}
 
-	protected void refreshRestoreProperty( )
-	{
-		IViewPart view = UIUtil.getView( "org.eclipse.birt.report.designer.ui.attributes.AttributeView" );
-		if ( view != null
-				&& view instanceof AttributeView
-				&& ( (AttributeView) view ).getCurrentPage( ) instanceof AttributeViewPage )
-		{
-
-			( (AttributeViewPage) ( (AttributeView) view ).getCurrentPage( ) ).resetRestorePropertiesAction( DEUtil.getInputElements( input ) );
-
-		}
-	}
 
 }

@@ -152,7 +152,7 @@
          <adapter type="org.eclipse.birt.report.designer.internal.ui.views.ILibraryProvider"/>
       </factory>
        <factory
-	        adaptableType="org.eclipse.birt.report.designer.ui.views.attributes.IPageGenerator"
+	        adaptableType="org.eclipse.birt.report.designer.ui.views.IPageGenerator"
 	        class="org.eclipse.birt.report.designer.internal.ui.ide.adapters.CategoryProviderFactoryAdapterFactory">
 	   	 <adapter type="org.eclipse.birt.report.designer.ui.views.attributes.providers.ICategoryProviderFactory"/>
 	   </factory>

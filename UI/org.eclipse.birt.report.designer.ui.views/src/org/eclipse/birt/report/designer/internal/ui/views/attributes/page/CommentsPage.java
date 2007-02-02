@@ -16,6 +16,9 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Tex
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -24,6 +27,8 @@ import org.eclipse.swt.widgets.Composite;
 public class CommentsPage extends AttributePage
 {
 
+	private TextSection commentSection;
+
 	public void buildUI( Composite parent  )
 	{
 		super.buildUI( parent );
@@ -31,20 +36,24 @@ public class CommentsPage extends AttributePage
 
 		TextPropertyDescriptorProvider commentProvider = new TextPropertyDescriptorProvider( ReportDesignHandle.COMMENTS_PROP,
 				ReportDesignConstants.REPORT_ITEM );
-		TextSection commentSection = new TextSection( commentProvider.getDisplayName( ),
-				container,
-				true );
+		commentSection = new TextSection( commentProvider.getDisplayName( ),
+						container,
+						true );
 		commentSection.setStyle( SWT.MULTI
 				| SWT.WRAP
 				| SWT.H_SCROLL
 				| SWT.V_SCROLL );
 		commentSection.setProvider( commentProvider );
+		
 		commentSection.setWidth( 500 );
+		commentSection.setHeight( 200 );
 		commentSection.setFillText( true );
+		
 		addSection( PageSectionId.COMMENTS_AUTHOR, commentSection );
-
 		createSections( );
 		layoutSections( );
 
 	}
+	
+	
 }

@@ -63,7 +63,7 @@ public class TextSection extends Section
 
 		if ( height > -1 )
 		{
-			gd.heightHint = width;
+			gd.heightHint = height;
 			gd.grabExcessVerticalSpace = false;
 			if ( displayLabel != null )
 			{
@@ -163,7 +163,7 @@ public class TextSection extends Section
 
 	public void load( )
 	{
-		textField.load( );
+		if(textField!=null && !textField.getControl( ).isDisposed( ))textField.load( );
 	}
 
 	IDescriptorProvider provider;

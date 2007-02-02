@@ -32,6 +32,8 @@ public class LibraryHandleAdapter extends ReportDesignHandleAdapter
 
 	private Object currentEditorModel;
 	
+	private Object oldEditorModel;
+	
 	public static final String CURRENTMODEL = "current model";
 	
 	public static final String CREATE_ELEMENT = "create element";
@@ -142,7 +144,7 @@ public class LibraryHandleAdapter extends ReportDesignHandleAdapter
 	 */
 	public void setCurrentEditorModel( Object current, String type)
 	{
-		Object old = this.currentEditorModel;
+		oldEditorModel = this.currentEditorModel;
 		if (current == null || current instanceof LibraryHandle)
 		{
 			this.currentEditorModel = new LibRootModel(current);
@@ -156,7 +158,11 @@ public class LibraryHandleAdapter extends ReportDesignHandleAdapter
 //		{
 //			return;
 //		}
-		PropertyChangeEvent event = new PropertyChangeEvent(this, type,old, this.currentEditorModel );
+		PropertyChangeEvent event = new PropertyChangeEvent(this, type,oldEditorModel, this.currentEditorModel );
 		firePropertyChangeEvent(event);
+	}
+
+	public Object getOldEditorModel() {
+		return oldEditorModel;
 	}
 }

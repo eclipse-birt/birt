@@ -10,10 +10,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.FormatChangeEvent;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.IFormatChangeListener;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.views.attributes.AttributeView;
-import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FormatDateTimePattern;
@@ -25,7 +22,6 @@ import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
-import org.eclipse.ui.IViewPart;
 
 public class FormatDataTimeDescriptorProvider implements IDescriptorProvider
 {
@@ -103,8 +99,7 @@ public class FormatDataTimeDescriptorProvider implements IDescriptorProvider
 				}
 			}
 			SessionHandleAdapter.getInstance( ).getCommandStack( ).commit( );
-			
-			refreshRestoreProperty( );
+
 		}
 
 	}
@@ -310,16 +305,4 @@ public class FormatDataTimeDescriptorProvider implements IDescriptorProvider
 	public String DATETIEM_FORMAT_TYPE_SHORT_TIME = DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME;
 
 	
-	protected void refreshRestoreProperty( )
-	{
-		IViewPart view = UIUtil.getView( "org.eclipse.birt.report.designer.ui.attributes.AttributeView" );
-		if ( view != null
-				&& view instanceof AttributeView
-				&& ( (AttributeView) view ).getCurrentPage( ) instanceof AttributeViewPage )
-		{
-
-			( (AttributeViewPage) ( (AttributeView) view ).getCurrentPage( ) ).resetRestorePropertiesAction( DEUtil.getInputElements( input ) );
-
-		}
-	}
 }

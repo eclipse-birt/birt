@@ -2,6 +2,7 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
@@ -17,11 +18,8 @@ import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.views.attributes.IPropertyDescriptor;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.command.PropertyEvent;
-import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.metadata.IColorConstants;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.swt.SWT;
@@ -35,7 +33,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 
-public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
+public class BorderPropertyDescriptor implements IPropertyDescriptor, IModelEventProcessor
 {
 
 	private boolean isFormStyle;
@@ -584,30 +582,50 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, Listener
 			allButton.setSelection( false );
 	}
 
-	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
+//	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
+//	{
+//		PropertyEvent event = (PropertyEvent) ev;
+//		String propertyName = event.getPropertyName( );
+//		if ( propertyName.equals( StyleHandle.BORDER_BOTTOM_WIDTH_PROP )
+//				|| propertyName.equals( StyleHandle.BORDER_TOP_WIDTH_PROP )
+//				|| propertyName.equals( StyleHandle.BORDER_LEFT_WIDTH_PROP )
+//				|| propertyName.equals( StyleHandle.BORDER_RIGHT_WIDTH_PROP ) )
+//		{
+//			load( );
+//		}
+//		else if ( propertyName.equals( StyleHandle.BORDER_BOTTOM_STYLE_PROP )
+//				|| propertyName.equals( StyleHandle.BORDER_TOP_STYLE_PROP )
+//				|| propertyName.equals( StyleHandle.BORDER_LEFT_STYLE_PROP )
+//				|| propertyName.equals( StyleHandle.BORDER_RIGHT_STYLE_PROP ) )
+//		{
+//			load( );
+//		}
+//		else if ( propertyName.equals( StyleHandle.BORDER_BOTTOM_COLOR_PROP )
+//				|| propertyName.equals( StyleHandle.BORDER_LEFT_COLOR_PROP )
+//				|| propertyName.equals( StyleHandle.BORDER_RIGHT_COLOR_PROP )
+//				|| propertyName.equals( StyleHandle.BORDER_TOP_COLOR_PROP ) )
+//		{
+//			load( );
+//		}
+//	}
+	
+	public void addElementEvent( DesignElementHandle focus, NotificationEvent ev )
 	{
-		PropertyEvent event = (PropertyEvent) ev;
-		String propertyName = event.getPropertyName( );
-		if ( propertyName.equals( StyleHandle.BORDER_BOTTOM_WIDTH_PROP )
-				|| propertyName.equals( StyleHandle.BORDER_TOP_WIDTH_PROP )
-				|| propertyName.equals( StyleHandle.BORDER_LEFT_WIDTH_PROP )
-				|| propertyName.equals( StyleHandle.BORDER_RIGHT_WIDTH_PROP ) )
-		{
-			load( );
-		}
-		else if ( propertyName.equals( StyleHandle.BORDER_BOTTOM_STYLE_PROP )
-				|| propertyName.equals( StyleHandle.BORDER_TOP_STYLE_PROP )
-				|| propertyName.equals( StyleHandle.BORDER_LEFT_STYLE_PROP )
-				|| propertyName.equals( StyleHandle.BORDER_RIGHT_STYLE_PROP ) )
-		{
-			load( );
-		}
-		else if ( propertyName.equals( StyleHandle.BORDER_BOTTOM_COLOR_PROP )
-				|| propertyName.equals( StyleHandle.BORDER_LEFT_COLOR_PROP )
-				|| propertyName.equals( StyleHandle.BORDER_RIGHT_COLOR_PROP )
-				|| propertyName.equals( StyleHandle.BORDER_TOP_COLOR_PROP ) )
-		{
-			load( );
-		}
+
+	}
+
+	public void clear( )
+	{
+
+	}
+
+	public void postElementEvent( )
+	{
+		load( );
+	}
+
+	public Object getAdapter( Class adapter )
+	{
+		return null;
 	}
 }

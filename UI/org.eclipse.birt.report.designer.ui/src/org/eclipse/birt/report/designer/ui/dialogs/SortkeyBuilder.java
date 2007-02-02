@@ -19,6 +19,8 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
@@ -44,6 +46,7 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
@@ -178,12 +181,14 @@ public class SortkeyBuilder extends BaseDialog
 		} );
 
 		Button btnExpression = new Button( content, SWT.NONE );
-		btnExpression.setText( "..." ); //$NON-NLS-1$
-		gdata = new GridData( );
-		gdata.heightHint = 20;
-		gdata.widthHint = 20;
-		btnExpression.setLayoutData( gdata );
+//		btnExpression.setText( "..." ); //$NON-NLS-1$
+//		gdata = new GridData( );
+//		gdata.heightHint = 20;
+//		gdata.widthHint = 20;		
+//		btnExpression.setLayoutData( gdata );
 		btnExpression.setToolTipText( Messages.getString( "SortkeyBuilder.DialogTitle.Button.ExpressionBuilder" ) ); //$NON-NLS-1$
+		setExpressionButtonImage(btnExpression);
+		
 		btnExpression.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -441,4 +446,28 @@ public class SortkeyBuilder extends BaseDialog
 		return true;
 	}
 
+	protected void setExpressionButtonImage(Button button)
+	{
+		String imageName;
+		if(button.isEnabled())
+		{
+			imageName = IReportGraphicConstants.ICON_ENABLE_EXPRESSION_BUILDERS;
+		}else
+		{
+			imageName = IReportGraphicConstants.ICON_DISABLE_EXPRESSION_BUILDERS;
+		}
+		Image image = ReportPlatformUIImages.getImage(imageName );
+		
+		GridData gd = new GridData();
+		gd.widthHint = 20;
+		gd.heightHint = 20;
+		button.setLayoutData(gd);
+		
+		button.setImage(image);
+		if(button.getImage() != null)
+		{
+			button.getImage().setBackground(button.getBackground());
+		}
+		
+	}
 }

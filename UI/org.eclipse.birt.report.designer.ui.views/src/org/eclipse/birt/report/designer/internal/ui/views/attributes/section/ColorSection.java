@@ -85,7 +85,7 @@ public class ColorSection extends Section
 
 	public void load( )
 	{
-		color.load( );
+		if(color!=null && !color.getControl( ).isDisposed( ))color.load( );
 
 	}
 

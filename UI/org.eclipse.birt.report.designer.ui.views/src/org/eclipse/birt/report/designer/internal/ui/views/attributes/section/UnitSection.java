@@ -86,7 +86,7 @@ public class UnitSection extends Section
 
 	public void load( )
 	{
-		unit.load( );
+		if(unit!=null && !unit.getControl( ).isDisposed( ))unit.load( );
 
 	}
 

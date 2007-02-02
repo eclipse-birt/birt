@@ -69,6 +69,8 @@ public class PageSectionId
 
 	public final static String FORM_FORM = "FORM_FORM";
 	
+	public final static String ADVANCE_PROPERTY = "ADVANCE_PROPERTY";
+	
 	public final static String GENERAL_LIBRARY = "GENERAL_LIBRARY";
 	public final static String GENERAL_SEPERATOR = "GENERAL_SEPERATOR";
 	

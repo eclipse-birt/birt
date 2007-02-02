@@ -22,6 +22,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -31,26 +32,23 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.views.IPageGenerator;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupElementHandle;
+import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -58,14 +56,11 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.INullSelectionListener;
 import org.eclipse.ui.IPageLayout;
-import org.eclipse.ui.IPartListener;
-import org.eclipse.ui.IViewSite;
+import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.part.Page;
-import org.eclipse.ui.part.ViewPart;
 
 /**
  * Attribute view shows the attributes of the selected control. If no control is
@@ -80,10 +75,10 @@ import org.eclipse.ui.part.ViewPart;
  */
 public class AttributeViewPage extends Page implements
 		INullSelectionListener,
-		IColleague
+		IColleague,
+		IModelEventProcessor
 {
 
-	
 	/**
 	 * WorkbenchPart ID list that attribute view interests in selection changing
 	 * occupied in these WorkbenchParts.
@@ -96,12 +91,6 @@ public class AttributeViewPage extends Page implements
 	} );
 
 	/**
-	 * TabFolder component contains Tab pages. After selection changed, the
-	 * TabFolder will reset its content.
-	 */
-	protected CTabFolder tabFolder;
-
-	/**
 	 * Keeps current selection When AttributeView is not on the top of window.
 	 */
 	private ISelection selection;
@@ -110,15 +99,6 @@ public class AttributeViewPage extends Page implements
 	 * Attribute view UI builder
 	 */
 	private AttributesBuilder builder;
-
-	/**
-	 * IPartListener to track the close event of graphical editor.
-	 */
-	//private IPartListener partListener;
-
-	// fields to remember the last selected tab (sticky behaviour)
-	private int tabIndex = 0;
-	private String tabText;
 
 	// add restore library properties action
 	private RestoreLibraryPropertiesAction restoreLibraryPropertiesAction;
@@ -158,56 +138,15 @@ public class AttributeViewPage extends Page implements
 					if ( ret == Window.OK )
 					{
 						resetLocalProperties( ret );
-						showPropertiesPage( );
+						pageGenerator = builder.getPageGenerator( getModelList( selection ) );
+						pageGenerator.createControl( container,
+								getModelList( selection ) );
 						setEnabled( false );
 					}
 				}
 
 			}
 		}
-	}
-
-	// selection listener to detect when user is switching tabs
-	private SelectionListener selectionListener = new SelectionAdapter( ) {
-
-		public void widgetSelected( SelectionEvent e )
-		{
-			// when the item selection is changing in the editor,
-			// a selection event is fired for the first created tabItem
-			// we ignore it (changingSelection=true)
-			// otherwise, the user is switching tabs, we remember the tabIndex,
-			// and text
-			if ( tabFolder != null )
-			{
-				if ( !changingSelection )
-				{
-					builder.createPages( tabFolder,
-							getModelList( new StructuredSelection( SessionHandleAdapter.getInstance( )
-									.getMediator( )
-									.getCurrentState( )
-									.getSelectionObject( ) ) ) );
-					tabIndex = tabFolder.getSelectionIndex( );
-					if ( tabFolder.getSelection( ) != null )
-					{
-						tabText = tabFolder.getSelection( ).getText( );
-					}
-				}
-			}
-		}
-	};
-
-	// boolean to indicate the ui editor selection is changing and that
-	// new tabs are being created for the new selected element
-	private boolean changingSelection = false;
-
-	/**
-	 * Return the selectionListener
-	 * 
-	 * @return
-	 */
-	public SelectionListener getSelectionListener( )
-	{
-		return selectionListener;
 	}
 
 	/**
@@ -255,58 +194,21 @@ public class AttributeViewPage extends Page implements
 	 * @param parent
 	 *            the parent control
 	 */
+	private Composite container;
+
 	public void createControl( Composite parent )
 	{
 		addActions( );
-
-		tabFolder = new CTabFolder( parent, SWT.TOP );
-		tabFolder.addSelectionListener( selectionListener );
-
+		container = new Composite( parent, SWT.NONE );
+		GridLayout layout = new GridLayout( );
+		layout.marginWidth = layout.marginHeight = 0;
+		container.setLayout( layout );
 		builder = new AttributesBuilder( );
-		
-		/*
-		partListener = new IPartListener( ) {
 
-			public void partActivated( IWorkbenchPart part )
-			{
-			}
-
-			public void partBroughtToTop( IWorkbenchPart part )
-			{
-			}
-
-			public void partClosed( IWorkbenchPart part )
-			{
-				if ( part != null
-						&& PART_IDS.contains( part.getSite( ).getId( ) ) )
-					resetTabFolder( null );
-			}
-
-			public void partDeactivated( IWorkbenchPart part )
-			{
-				if ( part != null && AttributeView.ID.equals( part.getSite( ).getId( ) ) )
-				{
-					Control control = Display.getCurrent( ).getFocusControl( );
-					if ( control != null )
-						control.notifyListeners( SWT.FocusOut, null );
-				}
-			}
-
-			public void partOpened( IWorkbenchPart part )
-			{
-			}
-		};
-
-		
-		page.addSelectionListener( this );
-		page.addPartListener( partListener );
-		
-		*/
 		IWorkbenchPage page = getSite( ).getPage( );
 		selection = page.getSelection( );
 		page.addSelectionListener( this );
 
-		// suport the mediator
 		SessionHandleAdapter.getInstance( )
 				.getMediator( )
 				.addGlobalColleague( this );
@@ -323,40 +225,6 @@ public class AttributeViewPage extends Page implements
 				.getToolBarManager( )
 				.add( restoreLibraryPropertiesAction );
 
-		// getViewSite( ).getActionBars( ).getToolBarManager( ).add(
-		// enableEditingToggleAction );
-
-		// GroupElementHandle handle = DEUtil.getGroupElementHandle(
-		// getModelList( new StructuredSelection(
-		// SessionHandleAdapter.getInstance( )
-		// .getMediator( )
-		// .getCurrentState( )
-		// .getSelectionObject( ) ) ) );
-		// if ( handle != null )
-		// {
-		// enableEditingToggleAction.setEnabled( handle.isExtendedElements( ) );
-		// }
-		//
-		// changeToolTip( );
-
-	}
-
-	/*
-	 * shows the attributes of the selected control
-	 */
-	private void showPropertiesPage( )
-	{
-		if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) != null )
-		{
-			handleGlobalAction( );
-			builder.createPages( tabFolder,
-					getModelList( new StructuredSelection( SessionHandleAdapter.getInstance( )
-							.getMediator( )
-							.getCurrentState( )
-							.getSelectionObject( ) ) ) );
-			selectStickyTab( );
-			setPartName( );
-		}
 	}
 
 	/**
@@ -369,38 +237,15 @@ public class AttributeViewPage extends Page implements
 	 */
 	public void setFocus( )
 	{
-		tabFolder.setFocus( );
-		if ( selection != null )
-		{
-			showPropertiesPage( );
-			selection = null;
-		}
-	}
-
-	/**
-	 * After selection changed, the attribute Tab Pages will re-compute to show
-	 * attributes of the selection.
-	 * 
-	 * @param selection
-	 *            The current selection.
-	 */
-	private void resetTabFolder( ISelection selection )
-	{
-		if ( tabFolder == null || tabFolder.isDisposed( ) )
-			return;
-
-		if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) != null )
-		{
-			handleGlobalAction( );
-			builder.createPages( tabFolder, getModelList( selection ) );
-			selectStickyTab( );
-		}
-		setPartName( );
+		handleSelectionChanged( selection );
 	}
 
 	private void setPartName( )
 	{
-		((AttributeView)UIUtil.getView( "org.eclipse.birt.report.designer.ui.attributes.AttributeView" )).setPartName( builder.getTypeInfo( ) );
+		String typeInfo = builder.getTypeInfo( );
+		IViewPart view = UIUtil.getView( "org.eclipse.birt.report.designer.ui.attributes.AttributeView" );
+		if ( view != null && typeInfo != null )
+			( (AttributeView) view ).setPartName( typeInfo );
 	}
 
 	private boolean hasLocalProperties( ISelection selection )
@@ -420,38 +265,6 @@ public class AttributeViewPage extends Page implements
 	public void resetRestorePropertiesAction( List modelList )
 	{
 		restoreLibraryPropertiesAction.setEnabled( hasLocalProperties( modelList ) );
-	}
-
-	/**
-	 * Sticky tab behaviour. We try to set the default selection on the previous
-	 * chosen tab by the user or the nearest one.
-	 */
-	private void selectStickyTab( )
-	{
-		CTabItem[] items = tabFolder.getItems( );
-		boolean tabFound = false;
-		for ( int i = 0; i < items.length; i++ )
-		{
-			if ( items[i].getText( ).equals( tabText ) )
-			{
-				tabFolder.setSelection( i );
-				tabFound = true;
-				break;
-			}
-		}
-		// we didn't find the tab, select the one with the closest tabIndex
-		// instead
-		if ( !tabFound )
-		{
-			if ( tabIndex > tabFolder.getItemCount( ) - 1 )
-			{
-				tabFolder.setSelection( tabFolder.getItemCount( ) - 1 );
-			}
-			else
-			{
-				tabFolder.setSelection( tabIndex );
-			}
-		}
 	}
 
 	/**
@@ -548,9 +361,10 @@ public class AttributeViewPage extends Page implements
 	 */
 	public void dispose( )
 	{
+		deRegisterEventManager( );
 		IWorkbenchPage page = getSite( ).getPage( );
 		page.removeSelectionListener( this );
-		//page.removePartListener( partListener );
+		// page.removePartListener( partListener );
 
 		// remove the mediator listener
 		SessionHandleAdapter.getInstance( )
@@ -767,17 +581,39 @@ public class AttributeViewPage extends Page implements
 	 */
 	List requesList = Collections.EMPTY_LIST;
 
+	private IPageGenerator pageGenerator;
+
 	public void performRequest( ReportRequest request )
 	{
 		if ( ReportRequest.SELECTION.equals( request.getType( ) ) )
 		{
 			if ( !requesList.equals( request.getSelectionModelList( ) ) )
 			{
+				deRegisterEventManager( );
 				requesList = request.getSelectionModelList( );
 				handleSelectionChanged( new StructuredSelection( requesList ) );
+				registerEventManager( );
 			}
 
 		}
+	}
+
+	/**
+	 * Removes model change listener.
+	 */
+	protected void deRegisterEventManager( )
+	{
+		if ( UIUtil.getModelEventManager( ) != null )
+			UIUtil.getModelEventManager( ).removeModelEventProcessor( this );
+	}
+
+	/**
+	 * Registers model change listener to DE elements.
+	 */
+	protected void registerEventManager( )
+	{
+		if ( UIUtil.getModelEventManager( ) != null )
+			UIUtil.getModelEventManager( ).addModelEventProcessor( this );
 	}
 
 	/**
@@ -799,31 +635,27 @@ public class AttributeViewPage extends Page implements
 
 	public void handleSelectionChanged( ISelection selection )
 	{
-		if(tabFolder == null || tabFolder.isDisposed( ))return;
-		this.selection = null;
-		if ( !tabFolder.isVisible( ) )
-		{
-			this.selection = selection;
+		List modelList = getModelList( selection );
+		if ( modelList == null || modelList.size( ) == 0 )
 			return;
+		pageGenerator = builder.getPageGenerator( modelList );
+		if ( container != null && !container.isDisposed( ) )
+			pageGenerator.createControl( container, modelList );
+		if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) != null )
+		{
+			restoreLibraryPropertiesAction.setEnabled( hasLocalProperties( selection ) );
+			handleGlobalAction( );
+			setPartName( );
 		}
-		changingSelection = true;
-		resetTabFolder( selection );
-
-		restoreLibraryPropertiesAction.setEnabled( hasLocalProperties( selection ) );
-		// enableEditingToggleAction.setEnabled(
-		// DEUtil.getGroupElementHandle(
-		// getModelList( selection ) ).isExtendedElements( ) );
-		// changeToolTip( );
-		changingSelection = false;
-		showPropertiesPage( );
+		this.selection = selection;
 	}
 
-	static class MessagePageGenerator extends DefaultPageGenerator
+	static class MessagePageGenerator extends TabPageGenerator
 	{
 
-		public void createTabItems( CTabFolder tabFolder, List input )
+		public void createTabItems( List input )
 		{
-			super.createTabItems( tabFolder, input );
+			super.createTabItems( input );
 			Composite pane = new Composite( tabFolder, SWT.NONE );
 			pane.setLayout( new FillLayout( ) );
 
@@ -914,9 +746,28 @@ public class AttributeViewPage extends Page implements
 		}
 	}
 
-
 	public Control getControl( )
 	{
-		return tabFolder;
+		return container;
+	}
+
+	public void addElementEvent( DesignElementHandle focus, NotificationEvent ev )
+	{
+
+	}
+
+	public void clear( )
+	{
+
+	}
+
+	public void postElementEvent( )
+	{
+		restoreLibraryPropertiesAction.setEnabled( hasLocalProperties( selection ) );
+	}
+
+	public Object getAdapter( Class adapter )
+	{
+		return null;
 	}
 }

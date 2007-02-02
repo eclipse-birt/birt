@@ -250,7 +250,7 @@ public class ComboAndButtonSection extends Section
 
 	public void load( )
 	{
-		combo.load( );
+		if(combo!=null && !combo.getControl( ).isDisposed( ))combo.load( );
 	}
 
 	private int buttonWidth = 60;

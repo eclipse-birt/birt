@@ -96,4 +96,17 @@
          <part id="org.eclipse.birt.report.designer.ui.editors.ReportEditor"/>
       </actionSetPartAssociation>
    </extension>
+   
+   <!-- used by extend item, for example: chart -->
+   <extension
+      	point="org.eclipse.core.expressions.propertyTesters">
+   		<propertyTester
+         	class="org.eclipse.birt.report.designer.internal.ui.extension.ExtendItemHandlePropertyTester"
+         	id="ExtendItemHandle"
+         	namespace="ExtendItemHandle"
+         	properties="extensionName"
+         	type="org.eclipse.birt.report.model.api.ExtendedItemHandle">
+   		</propertyTester>
+	</extension>
+	
 </plugin>

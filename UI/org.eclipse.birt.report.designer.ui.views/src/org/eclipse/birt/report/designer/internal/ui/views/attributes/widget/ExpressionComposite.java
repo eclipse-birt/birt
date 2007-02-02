@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.jface.dialogs.Dialog;
@@ -25,6 +27,7 @@ import org.eclipse.swt.accessibility.AccessibleTextAdapter;
 import org.eclipse.swt.accessibility.AccessibleTextEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
@@ -74,7 +77,7 @@ public class ExpressionComposite extends Composite
 		button = FormWidgetFactory.getInstance( ).createButton( this,
 				SWT.FLAT,
 				isFormStyle );
-		data = new GridData( );
+
 		button.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -94,8 +97,10 @@ public class ExpressionComposite extends Composite
 				}
 			}
 		} );
-		button.setLayoutData( data );
-		button.setText( "..." );//$NON-NLS-1$
+//		data = new GridData( );
+//		button.setLayoutData( data );
+//		button.setText( "..." );//$NON-NLS-1$
+		setExpressionButtonImage(button);
 		button.setToolTipText( Messages.getString( "ExpressionBuilder.toolTipText.Button" ) );
 		initAccessible( );
 	}
@@ -218,5 +223,30 @@ public class ExpressionComposite extends Composite
 	public void setExpressionProvider( IExpressionProvider provider )
 	{
 		this.provider = provider;
+	}
+	
+	protected void setExpressionButtonImage(Button button)
+	{
+		String imageName;
+		if(button.isEnabled())
+		{
+			imageName = IReportGraphicConstants.ICON_ENABLE_EXPRESSION_BUILDERS;
+		}else
+		{
+			imageName = IReportGraphicConstants.ICON_DISABLE_EXPRESSION_BUILDERS;
+		}
+		Image image = ReportPlatformUIImages.getImage(imageName );
+		
+		GridData gd = new GridData();
+		gd.widthHint = 20;
+		gd.heightHint = 20;
+		button.setLayoutData(gd);
+		
+		button.setImage(image);
+		if(button.getImage() != null)
+		{
+			button.getImage().setBackground(button.getBackground());
+		}
+		
 	}
 }

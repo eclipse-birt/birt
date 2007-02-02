@@ -3,11 +3,8 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.HyperlinkBuilder;
-import org.eclipse.birt.report.designer.ui.views.attributes.AttributeView;
-import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
@@ -16,7 +13,6 @@ import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.PlatformUI;
 
 public class HyperLinkDescriptorProvider implements ITextDescriptorProvider
@@ -121,7 +117,6 @@ public class HyperLinkDescriptorProvider implements ITextDescriptorProvider
 			getActionStack( ).rollback( );
 			flag = false;
 		}
-		refreshRestoreProperty( );
 		return flag;
 	}
 
@@ -142,16 +137,5 @@ public class HyperLinkDescriptorProvider implements ITextDescriptorProvider
 		return true;
 	}
 
-	protected void refreshRestoreProperty( )
-	{
-		IViewPart view = UIUtil.getView( "org.eclipse.birt.report.designer.ui.attributes.AttributeView" );
-		if ( view != null
-				&& view instanceof AttributeView
-				&& ( (AttributeView) view ).getCurrentPage( ) instanceof AttributeViewPage )
-		{
 
-			( (AttributeViewPage) ( (AttributeView) view ).getCurrentPage( ) ).resetRestorePropertiesAction( DEUtil.getInputElements( input ) );
-
-		}
-	}
 }

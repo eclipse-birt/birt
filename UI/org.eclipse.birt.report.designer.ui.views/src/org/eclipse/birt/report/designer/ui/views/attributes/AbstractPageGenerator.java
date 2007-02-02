@@ -6,14 +6,11 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.widgets.Composite;
 
 public class AbstractPageGenerator extends CategoryPageGenerator
 {
-
-	protected CTabFolder tabFolder;
 	protected List input;
 	protected HashMap itemMap = new HashMap( );
 
@@ -45,6 +42,9 @@ public class AbstractPageGenerator extends CategoryPageGenerator
 				((Composite)( (AttributePage) object ).getControl( )).layout( );
 			}
 			( (AttributePage) object ).refresh( );
+			
+			showPropertiesPage( );
 		}
 	}
+	
 }

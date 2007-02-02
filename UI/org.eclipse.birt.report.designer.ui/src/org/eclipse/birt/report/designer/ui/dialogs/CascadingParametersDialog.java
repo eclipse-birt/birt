@@ -749,7 +749,7 @@ public class CascadingParametersDialog extends BaseDialog
 		int index = valueTable.getTable( ).getSelectionIndex( );
 		ScalarParameterHandle choice = (ScalarParameterHandle) ( (IStructuredSelection) valueTable.getSelection( ) ).getFirstElement( );
 
-		if ( choice == null )
+		if ( choice == null || choice == newParameter )
 		{
 			return;
 		}

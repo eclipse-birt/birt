@@ -136,7 +136,7 @@ public abstract class BaseBorder extends AbstractBorder
 		Integer retValue = (Integer) ( styleMap.get( obj ) );
 		if ( retValue == null )
 		{
-			return SWT.LINE_DASH;
+			return SWT.LINE_SOLID;
 		}
 
 		return retValue.intValue( );

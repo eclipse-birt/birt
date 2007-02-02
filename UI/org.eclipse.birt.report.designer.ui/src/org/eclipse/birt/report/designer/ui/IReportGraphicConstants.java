@@ -337,6 +337,10 @@ public interface IReportGraphicConstants
 	public static final String ICON_ENABLE_RESTORE_PROPERTIES = "Enable Resotre Properties";
 
 	public static final String ICON_DISABLE_RESTORE_PROPERTIES = "Disable Restore Properties";
+	
+	public static final String ICON_ENABLE_EXPRESSION_BUILDERS = "Enable Expression Builder";
+
+	public static final String ICON_DISABLE_EXPRESSION_BUILDERS = "Disable Expression Builder";
 
 	// Template preview image
 	public static final String ICON_TEMPLATE_NO_PREVIEW = "no_preview";//$NON-NLS-1$

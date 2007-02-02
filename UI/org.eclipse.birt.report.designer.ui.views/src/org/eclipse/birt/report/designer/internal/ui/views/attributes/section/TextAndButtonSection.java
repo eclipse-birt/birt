@@ -222,7 +222,7 @@ public class TextAndButtonSection extends Section
 
 	public void load( )
 	{
-		textField.load( );
+		if(textField!=null && !textField.getControl( ).isDisposed( ))textField.load( );
 	}
 
 	private int buttonWidth = 60;

@@ -110,7 +110,9 @@ public class TogglesSection extends Section
 	public void load( )
 	{
 		for ( int i = 0; i < toggles.length; i++ )
-			toggles[i].load( );
+			{
+			if(toggles[i]!=null && !toggles[i].getControl( ).isDisposed( ))toggles[i].load( );
+			}
 	}
 
 	public void setInput( Object input )

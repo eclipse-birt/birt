@@ -164,7 +164,7 @@ public class MarginsSection extends Section
 
 	public void load( )
 	{
-		spinner.load( );
+		if(spinner!=null && !spinner.getControl( ).isDisposed( ))spinner.load( );
 	}
 
 	public void setHidden( boolean isHidden )

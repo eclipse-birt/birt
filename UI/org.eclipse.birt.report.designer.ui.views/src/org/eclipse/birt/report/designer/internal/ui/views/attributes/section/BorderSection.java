@@ -194,7 +194,7 @@ public class BorderSection extends Section
 
 	public void load( )
 	{
-		border.load( );
+		if(border!=null && !border.getControl( ).isDisposed( ))border.load( );
 
 	}
 

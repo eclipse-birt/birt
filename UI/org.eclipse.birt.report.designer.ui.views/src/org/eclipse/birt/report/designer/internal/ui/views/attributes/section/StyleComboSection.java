@@ -133,7 +133,7 @@ public class StyleComboSection extends Section
 
 	public void load( )
 	{
-		combo.load( );
+		if(combo!=null && !combo.getControl( ).isDisposed( ))combo.load( );
 	}
 
 	public void setHidden( boolean isHidden )

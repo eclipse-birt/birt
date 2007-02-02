@@ -1,8 +1,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 
@@ -15,7 +15,7 @@ public interface PreviewPropertyDescriptorProvider extends IDescriptorProvider
 
 	public LabelProvider getLabelProvider( );
 
-	public IStructuredContentProvider getContentProvider( Listener listener );
+	public IStructuredContentProvider getContentProvider( IModelEventProcessor processor);
 
 	public String getColumnText( Object element, int columnIndex );
 

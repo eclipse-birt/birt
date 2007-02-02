@@ -23,6 +23,8 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Composite;
 
 /**
  * Instances of ColumnPageGenerator take change of creating attribute page
@@ -78,11 +80,11 @@ public class DataPageGenerator extends AbstractPageGenerator
 		}
 	}
 
-	public void createTabItems( CTabFolder tabFolder, List input )
+	public void createTabItems( List input )
 	{
-		super.createTabItems( tabFolder, input );
+		super.createTabItems( input );
 		this.input = input;
-		this.tabFolder = tabFolder;
+		addSelectionListener( this );
 		createTabItem( 1,
 				Messages.getString( "ListPageGenerator.TabItem.Binding" ) );
 		createTabItem( 2, Messages.getString( "ListPageGenerator.TabItem.map" ) );
@@ -90,5 +92,11 @@ public class DataPageGenerator extends AbstractPageGenerator
 				Messages.getString( "ListPageGenerator.TabItem.Highlights" ) );
 		if ( tabFolder.getSelection( ) != null )
 			buildItemContent( tabFolder.getSelection( ) );
+	}
+	
+	public void createControl( Composite parent, Object input )
+	{
+		super.createControl( parent, input );
+		createTabItems( (List)input );
 	}
 }

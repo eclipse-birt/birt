@@ -194,7 +194,7 @@ public class FormSection extends Section
 
 	public void load( )
 	{
-		form.load( );
+		if(form!=null && !form.getControl( ).isDisposed( ))form.load( );
 
 	}
 

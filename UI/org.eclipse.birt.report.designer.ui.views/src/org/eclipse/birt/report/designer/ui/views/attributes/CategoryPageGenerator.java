@@ -16,17 +16,20 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BaseAttributePage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.CategoryProviderFactory;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.ICategoryProvider;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ICategoryProviderFactory;
 import org.eclipse.core.internal.runtime.AdapterManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Composite;
 
 /**
  * CategoryPageGenerator provides default implementation of ICategoryProvider.
  */
-public class CategoryPageGenerator extends DefaultPageGenerator
+public class CategoryPageGenerator extends TabPageGenerator
 {
 
 	/**
@@ -55,22 +58,39 @@ public class CategoryPageGenerator extends DefaultPageGenerator
 	 * @see org.eclipse.birt.report.designer.ui.views.attributes.IPageGenerator#createTabItems(org.eclipse.swt.widgets.TabFolder,
 	 *      java.util.List)
 	 */
-	public void createTabItems( CTabFolder tabFolder, List input )
+	public void createTabItems( List input )
 	{
-		if ( basicPage == null )
+		if ( basicPage == null || basicPage.getControl( ).isDisposed( ) )
 		{
-			super.createTabItems( tabFolder, input );
+			super.createTabItems( input );
 			tabFolder.setLayout( new FillLayout( ) );
-
 			basicPage = new BaseAttributePage( );
-			basicPage.buildUI( tabFolder  );
+			basicPage.buildUI( tabFolder );
 			CTabItem tabItem = new CTabItem( tabFolder, SWT.NONE );
 			tabItem.setText( Messages.getString( "CategoryPageGenerator.TabItem.Attributes" ) ); //$NON-NLS-1$
 			tabItem.setControl( basicPage.getControl( ) );
 
-			basicPage.setCategoryProvider( factory.getCategoryProvider( input ) );
+			if ( customProvider != null )
+				basicPage.setCategoryProvider( customProvider );
+			else
+				basicPage.setCategoryProvider( factory.getCategoryProvider( input ) );
 		}
 		basicPage.setInput( input );
+		addSelectionListener( this );
 		basicPage.refresh( );
 	}
+
+	public void createControl( Composite parent, Object input )
+	{
+		super.createControl( parent, input );
+		createTabItems( (List) input );
+	}
+
+	private ICategoryProvider customProvider;
+
+	public void setCategoryProvider( ICategoryProvider provider )
+	{
+		this.customProvider = provider;
+	}
+
 }

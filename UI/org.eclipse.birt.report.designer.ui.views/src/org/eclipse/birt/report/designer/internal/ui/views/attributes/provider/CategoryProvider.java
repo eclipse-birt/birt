@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.CategoryPage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.ICategoryPage;
@@ -49,6 +53,27 @@ public class CategoryProvider implements ICategoryProvider
 		}
 	}
 
+	public void addCategory(String categoryKey, String categorie,
+			Class pageClass){
+		
+		List temp = Arrays.asList( categories );
+		List list = new LinkedList();
+		list.addAll( temp );
+		list.add( new CategoryPage( categoryKey,Messages.getString(categorie), pageClass ) );
+		categories = new ICategoryPage[list.size()];
+		list.toArray( categories );
+	}
+	
+	public void addCategory(ICategoryPage category){
+		
+		List temp = Arrays.asList( categories );
+		List list = new LinkedList();
+		list.addAll( temp );
+		list.add( category );
+		categories = new ICategoryPage[list.size()];
+		list.toArray( categories );
+	}
+	
 	public ICategoryPage[] getCategories( )
 	{
 		return categories;

@@ -49,92 +49,88 @@ public class BordersPage extends AttributePage
 	public void buildUI( Composite parent )
 	{
 		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 1 ,15) );
+		container.setLayout( WidgetUtil.createGridLayout( 1, 15 ) );
 
-//		BorderStyleDescriptorProvider styleProvider = new BorderStyleDescriptorProvider( );
-//		styleProvider.setItems( styles );
-//		styleProvider.setIndex( styles[0] );
-//		StyleComboSection styleSection = new StyleComboSection( styleProvider.getDisplayName( ),
-//				container,
-//				true );
-//		styleSection.setProvider( styleProvider );
-//		styleSection.setLayoutNum( 2 );
-//		styleSection.setWidth( 200 );
-//		styleProvider.setIndex( styles[0] );
-//		addSection( PageSectionId.BORDERS_STYLE, styleSection );
-//
-//		BorderColorDescriptorProvider colorProvider = new BorderColorDescriptorProvider( );
-//		ColorSection colorSection = new ColorSection( colorProvider.getDisplayName( ),
-//				container,
-//				true );
-//		colorSection.setProvider( colorProvider );
-//		colorSection.setGridPlaceholder( 2, true );
-//		colorSection.setLayoutNum( 4 );
-//		colorSection.setWidth( 200 );
-//		colorProvider.setIndex( IColorConstants.BLACK );
-//		addSection( PageSectionId.BORDERS_COLOR, colorSection );
-//
-//		BorderWidthDescriptorProvider widthProvider = new BorderWidthDescriptorProvider( );
-//		StyleComboSection widthSection = new StyleComboSection( widthProvider.getDisplayName( ),
-//				container,
-//				true );
-//		widthSection.setProvider( widthProvider );
-//		widthSection.setGridPlaceholder( 4, true );
-//		widthSection.setWidth( 200 );
-//		widthProvider.setIndex( widthProvider.getItems( )[1].toString( ) );
-//		addSection( PageSectionId.BORDERS_WIDTH, widthSection );
-//
-//		BorderDescriptorProvider[] dependedProviders = new BorderDescriptorProvider[]{
-//				styleProvider, colorProvider, widthProvider
-//		};
-//
+		// BorderStyleDescriptorProvider styleProvider = new
+		// BorderStyleDescriptorProvider( );
+		// styleProvider.setItems( styles );
+		// styleProvider.setIndex( styles[0] );
+		// StyleComboSection styleSection = new StyleComboSection(
+		// styleProvider.getDisplayName( ),
+		// container,
+		// true );
+		// styleSection.setProvider( styleProvider );
+		// styleSection.setLayoutNum( 2 );
+		// styleSection.setWidth( 200 );
+		// styleProvider.setIndex( styles[0] );
+		// addSection( PageSectionId.BORDERS_STYLE, styleSection );
+		//
+		// BorderColorDescriptorProvider colorProvider = new
+		// BorderColorDescriptorProvider( );
+		// ColorSection colorSection = new ColorSection(
+		// colorProvider.getDisplayName( ),
+		// container,
+		// true );
+		// colorSection.setProvider( colorProvider );
+		// colorSection.setGridPlaceholder( 2, true );
+		// colorSection.setLayoutNum( 4 );
+		// colorSection.setWidth( 200 );
+		// colorProvider.setIndex( IColorConstants.BLACK );
+		// addSection( PageSectionId.BORDERS_COLOR, colorSection );
+		//
+		// BorderWidthDescriptorProvider widthProvider = new
+		// BorderWidthDescriptorProvider( );
+		// StyleComboSection widthSection = new StyleComboSection(
+		// widthProvider.getDisplayName( ),
+		// container,
+		// true );
+		// widthSection.setProvider( widthProvider );
+		// widthSection.setGridPlaceholder( 4, true );
+		// widthSection.setWidth( 200 );
+		// widthProvider.setIndex( widthProvider.getItems( )[1].toString( ) );
+		// addSection( PageSectionId.BORDERS_WIDTH, widthSection );
+		//
+		// BorderDescriptorProvider[] dependedProviders = new
+		// BorderDescriptorProvider[]{
+		// styleProvider, colorProvider, widthProvider
+		// };
+		//
 		providers = new BorderToggleDescriptorProvider[]{
-				new BorderToggleDescriptorProvider( StyleHandle.BORDER_TOP_STYLE_PROP),
-				new BorderToggleDescriptorProvider( StyleHandle.BORDER_BOTTOM_STYLE_PROP),
-				new BorderToggleDescriptorProvider( StyleHandle.BORDER_LEFT_STYLE_PROP),
-				new BorderToggleDescriptorProvider( StyleHandle.BORDER_RIGHT_STYLE_PROP)
+				new BorderToggleDescriptorProvider( StyleHandle.BORDER_TOP_STYLE_PROP ),
+				new BorderToggleDescriptorProvider( StyleHandle.BORDER_BOTTOM_STYLE_PROP ),
+				new BorderToggleDescriptorProvider( StyleHandle.BORDER_LEFT_STYLE_PROP ),
+				new BorderToggleDescriptorProvider( StyleHandle.BORDER_RIGHT_STYLE_PROP )
 		};
-//
-//		TogglesSection borderSection = new TogglesSection( container,
-//				LABEL_BORDER );
-//		borderSection.setProviders( providers );
-//		borderSection.setGridPlaceholder( 4, true );
-//		addSection( PageSectionId.BORDERS_BORDER_STYLE, borderSection );
+		//
+		// TogglesSection borderSection = new TogglesSection( container,
+		// LABEL_BORDER );
+		// borderSection.setProviders( providers );
+		// borderSection.setGridPlaceholder( 4, true );
+		// addSection( PageSectionId.BORDERS_BORDER_STYLE, borderSection );
 
-		borderSection = new BorderSection(LABEL_BORDER,container,true);
+		borderSection = new BorderSection( LABEL_BORDER, container, true );
 		BorderStyleDescriptorProvider styleProvider = new BorderStyleDescriptorProvider( );
 		styleProvider.setItems( styles );
 		styleProvider.setIndex( styles[0] );
 		borderSection.setStyleProvider( styleProvider );
-		
+
 		BorderColorDescriptorProvider colorProvider = new BorderColorDescriptorProvider( );
 		borderSection.setColorProvider( colorProvider );
-		
+
 		BorderWidthDescriptorProvider widthProvider = new BorderWidthDescriptorProvider( );
 		borderSection.setWidthProvider( widthProvider );
-		
+
 		borderSection.setToggleProviders( providers );
-		
+
 		addSection( PageSectionId.BORDERS_BORDER_STYLE, borderSection );
-		
+
 		createSections( );
 		layoutSections( );
 	}
 
-	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
+	public void postElementEvent( )
 	{
-
-		if ( ev.getEventType( ) == NotificationEvent.PROPERTY_EVENT )
-		{
-			borderSection.getBorderControl( ).elementChanged( focus, ev );
-			
-		}
-
-		if ( ev.getEventType( ) == NotificationEvent.CONTENT_EVENT )
-		{
-			super.refresh( );
-		}
-		
+		borderSection.getBorderControl( ).postElementEvent( );
 	}
 
 }

@@ -42,9 +42,11 @@ public class DeleteGroupAction extends DynamicItemAction
 	 * @param part
 	 */
 	public DeleteGroupAction( ReportElementEditPart editPart,GroupHandle handle)
-	{		this.handle = handle;
+	{
+		this.handle = handle;
 		this.editPart = editPart;
-		setId( ID );		setText( DEUtil.getEscapedMenuItemText( handle.getDisplayLabel( ) ) );
+		setId( ID );
+		setText( DEUtil.getEscapedMenuItemText( handle.getDisplayLabel( ) ) );
 	}
 
 	/*

@@ -39,6 +39,7 @@ public class DescriptionPage extends AttributePage
 				| SWT.V_SCROLL );
 		discriptorSection.setProvider( descriptorProvider );
 		discriptorSection.setWidth( 500 );
+		discriptorSection.setHeight( 200 );
 		discriptorSection.setFillText( true );
 		addSection( PageSectionId.DISCRIPTOR_DISCRIPTOR, discriptorSection );
 

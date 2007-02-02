@@ -22,6 +22,8 @@ import org.eclipse.birt.report.designer.core.runtime.ErrorStatus;
 import org.eclipse.birt.report.designer.core.runtime.GUIException;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.extensions.ExceptionHandlerRegistry;
+import org.eclipse.birt.report.designer.ui.extensions.IDesignerExceptionHandler;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.core.runtime.IStatus;
@@ -84,6 +86,16 @@ public class ExceptionHandler
 	 */
 	public static void handle( Throwable e )
 	{
+		IDesignerExceptionHandler customizeHandler = ExceptionHandlerRegistry.getInstance( )
+				.getExceptionHandler( );
+		if ( customizeHandler != null )
+		{
+			// Override the BIRT exception handler, handle exception with the
+			// customize one
+			customizeHandler.handle( e );
+			return;
+		}
+
 		String title = TITLE_ERROR;
 		String message = e.getLocalizedMessage( );
 		if ( e instanceof UnknownHostException )
