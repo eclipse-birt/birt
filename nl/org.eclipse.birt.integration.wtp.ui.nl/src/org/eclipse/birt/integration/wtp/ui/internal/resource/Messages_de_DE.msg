@@ -33,6 +33,10 @@ BIRTConfiguration_resource_label=&Ressourcenordner:
 BIRTConfiguration_resource_dialog_title=Nach Ressourcenordner suchen
 BIRTConfiguration_resource_dialog_message=Wählen Sie den Standard-Ressourcenordner:
 
+BIRTConfiguration_working_label=&Working Folder:
+BIRTConfiguration_working_dialog_title=Browse For Working Folder
+BIRTConfiguration_working_dialog_message=Please select the default working folder:
+
 BIRTConfiguration_document_label=&Dokumentordner:
 BIRTConfiguration_document_dialog_title=Nach Dokumentordner suchen
 BIRTConfiguration_document_dialog_message=Wählen Sie den Standard-Dokumentordner:
@@ -49,7 +53,7 @@ BIRTConfiguration_log_label=Protoko&llordner:
 BIRTConfiguration_log_dialog_title=Nach Protokollordner suchen
 BIRTConfiguration_log_dialog_message=Wählen Sie den Standard-Protokollordner:
 
-BIRTConfiguration_document_access_message=&Nur auf den Bericht und das Dokument im Dokumentordner zugreifen
+BIRTConfiguration_report_access_message=&Only access the report and document under working folder
 BIRTConfiguration_overwrite_message=Die erstellte Dokumentdatei &immer überschreiben
 
 BIRTConfiguration_maxrows_label=Maximale Zeilenanzahl für &Datensatz:

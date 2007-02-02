@@ -33,6 +33,10 @@ BIRTConfiguration_resource_label=リソースフォルダ(&R) :
 BIRTConfiguration_resource_dialog_title=リソースフォルダの参照
 BIRTConfiguration_resource_dialog_message=デフォルトのリソースフォルダを選択してください :
 
+BIRTConfiguration_working_label=&Working Folder:
+BIRTConfiguration_working_dialog_title=Browse For Working Folder
+BIRTConfiguration_working_dialog_message=Please select the default working folder:
+
 BIRTConfiguration_document_label=文書フォルダ(&D) :
 BIRTConfiguration_document_dialog_title=文書フォルダの参照
 BIRTConfiguration_document_dialog_message=デフォルトの文書フォルダを選択してください :
@@ -49,7 +53,7 @@ BIRTConfiguration_log_label=ログフォルダ(&L) :
 BIRTConfiguration_log_dialog_title=ログフォルダの参照
 BIRTConfiguration_log_dialog_message=デフォルトのログフォルダを選択してください :
 
-BIRTConfiguration_document_access_message=文書フォルダ内のレポートと文書だけにアクセスする(&O)
+BIRTConfiguration_report_access_message=&Only access the report and document under working folder
 BIRTConfiguration_overwrite_message=生成した文書ファイルを常に上書きする(&A)
 
 BIRTConfiguration_maxrows_label=データセットの最大行数(&D) :
