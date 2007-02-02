@@ -1041,13 +1041,16 @@ class EngineIRVisitor extends DesignVisitor
 			}
 		}
 		// if the group icon hasn't been set, set the icon to the default cell.
-		RowDesign row = (RowDesign) groupHeader.getContent( 0 );
-		if( null != row )
+		if ( groupHeader.getContentCount( ) > 0 )
 		{
-			CellDesign cell = row.getCell( 0 );
-			if( null != cell )
+			RowDesign row = (RowDesign) groupHeader.getContent( 0 );
+			if ( null != row )
 			{
-				cell.setDisplayGroupIcon( true );
+				CellDesign cell = row.getCell( 0 );
+				if ( null != cell )
+				{
+					cell.setDisplayGroupIcon( true );
+				}
 			}
 		}
 	}
