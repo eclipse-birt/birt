@@ -6,11 +6,10 @@
 	<!-- Set a meaningful default value for when it is not passed. -->
 	<property name="eclipse-home" value="${basedir}\..\.." />
 
-	<!-- sets the properties plugin-name, and library-file -->
+	<!-- sets the properties plugin-name -->
 	<property name="plugin-name" value="org.eclipse.birt.report.designer.tests" />
 	<property name="classname" value="org.eclipse.birt.core.AllTests" />
 	<property name="birt-tests-file" value="${eclipse-home}/plugins/org.eclipse.birt.tests_2.2.0/test.xml" />
-	<property name="library-file" value="${eclipse-home}/plugins/org.eclipse.test/library.xml" />
 
 	<!-- This target holds all initialization code that needs to be done for -->
 	<!-- all tests that are to be run. Initialization for individual tests -->
@@ -32,7 +31,6 @@
 		<delete dir="${junittempfolder}" quiet="true" />
 		<ant target="runbirttests" antfile="${birt-tests-file}" dir="${eclipse-home}">
 			<property name="eclipse-home" value="${eclipse-home}" />
-			<property name="library-file" value="${library-file}" />
 			<property name="junittempfolder" value="${junittempfolder}" />
 			<property name="plugin-name" value="${plugin-name}" />
 			<property name="classname" value="${classname}" />
