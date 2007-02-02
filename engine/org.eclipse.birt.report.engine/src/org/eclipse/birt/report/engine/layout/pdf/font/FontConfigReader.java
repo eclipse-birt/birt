@@ -128,10 +128,18 @@ public class FontConfigReader
 		String fontPath = null;
 		try
 		{
+		  	 //171369 patch provided by Arne Degenring <public@degenring.de>
 			fontPath = FileLocator.toFileURL( fileURL ).getPath( );
-			// truncate the first '/';
-			return fontPath.substring( 1 );
-
+			if ( fontPath != null && fontPath.length( ) >= 3
+					&& fontPath.charAt( 2 ) == ':' )
+			{
+				// truncate the first '/';
+				return fontPath.substring( 1 );
+			}
+			else
+			{
+				return fontPath;
+			}
 		}
 		catch ( IOException ioe )
 		{
