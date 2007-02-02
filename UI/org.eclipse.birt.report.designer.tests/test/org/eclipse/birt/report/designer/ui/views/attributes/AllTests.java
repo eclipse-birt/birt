@@ -25,7 +25,7 @@ public class AllTests
 	{
 		TestSuite suite = new TestSuite( "Test for org.eclipse.birt.report.designer.ui.views.attributes" );
 		//$JUnit-BEGIN$
-		suite.addTestSuite( DefaultPageGeneratorTest.class );
+		suite.addTestSuite( TabPageGeneratorTest.class );
 
 		//$JUnit-END$
 		return suite;
