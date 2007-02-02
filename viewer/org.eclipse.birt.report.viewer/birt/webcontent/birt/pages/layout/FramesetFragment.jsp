@@ -178,7 +178,7 @@
 		function init()
 		{		
 		<%
-		if ( attributeBean.isForceParameterPrompting( ) || attributeBean.isMissingParameter( ) )
+		if ( attributeBean.isShowParameterPage( ) )
 		{
 		%>
 			birtParameterDialog.__cb_bind( );

@@ -473,16 +473,6 @@ public class RequesterTag extends AbstractBaseTag
 	}
 
 	/**
-	 * @param allowMasterPage
-	 *            the allowMasterPage to set
-	 */
-	public void setAllowMasterPage( String allowMasterPage )
-	{
-		viewer.setAllowMasterPage( BirtTagUtil
-				.convertBooleanValue( allowMasterPage ) );
-	}
-
-	/**
 	 * @param resourceFolder
 	 *            the resourceFolder to set
 	 */

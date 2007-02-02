@@ -178,9 +178,9 @@ abstract public class BaseAttributeBean
 	protected boolean isShowNavigationbar = true;
 
 	/**
-	 * indicate whether force prompting the parameter dialog. Default to false.
+	 * indicate whether show parameter dialog or not..
 	 */
-	protected boolean isForceParameterPrompting = false;
+	protected boolean isShowParameterPage = false;
 
 	/**
 	 * Abstract methods.
@@ -526,11 +526,11 @@ abstract public class BaseAttributeBean
 	}
 
 	/**
-	 * @return the isForceParameterPrompting
+	 * @return the isShowParameterPage
 	 */
-	public boolean isForceParameterPrompting( )
+	public boolean isShowParameterPage( )
 	{
-		return isForceParameterPrompting;
+		return isShowParameterPage;
 	}
 
 }

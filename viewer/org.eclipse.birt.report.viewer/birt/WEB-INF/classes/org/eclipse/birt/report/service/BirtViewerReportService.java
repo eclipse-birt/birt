@@ -525,8 +525,12 @@ public class BirtViewerReportService implements IViewerReportService
 		IReportDocument doc = ReportEngineService.getInstance( )
 				.openReportDocument( getReportDesignName( options ), docName,
 						getModuleOptions( options ) );
-		long count = doc.getPageCount( );
-		doc.close( );
+		long count = 1L;
+		if ( doc != null )
+		{
+			count = doc.getPageCount( );
+			doc.close( );
+		}
 		return count;
 	}
 

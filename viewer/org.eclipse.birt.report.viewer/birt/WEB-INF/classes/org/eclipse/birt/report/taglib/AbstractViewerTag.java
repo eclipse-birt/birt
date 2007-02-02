@@ -516,23 +516,12 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 	}
 
 	/**
-	 * @param allowMasterPage
-	 *            the allowMasterPage to set
+	 * @param showParameterPage
+	 *            the showParameterPage to set
 	 */
-	public void setAllowMasterPage( String allowMasterPage )
+	public void setShowParameterPage( String showParameterPage )
 	{
-		viewer.setAllowMasterPage( BirtTagUtil
-				.convertBooleanValue( allowMasterPage ) );
-	}
-
-	/**
-	 * @param forceParameterPrompting
-	 *            the forceParameterPrompting to set
-	 */
-	public void setForceParameterPrompting( String forceParameterPrompting )
-	{
-		viewer.setForceParameterPrompting( BirtTagUtil
-				.convertBooleanValue( forceParameterPrompting ) );
+		viewer.setShowParameterPage( showParameterPage );
 	}
 
 	/**

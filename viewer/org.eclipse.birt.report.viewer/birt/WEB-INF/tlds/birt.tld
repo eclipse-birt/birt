@@ -235,15 +235,6 @@
 		</attribute>
 				
 		<attribute>
-			<name>allowMasterPage</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>
-				Specifies whether supports master page or not.
-			</description>			
-		</attribute>
-
-		<attribute>
 			<name>pageNum</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
@@ -283,16 +274,6 @@
 		</attribute>
 
 		<attribute>
-			<name>forceParameterPrompting</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>
-				Specifies whether forces to prompt the parameter dialog.
-				Default to false.
-			</description>			
-		</attribute>
-
-		<attribute>
 			<name>showTitle</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
@@ -322,7 +303,17 @@
 				Default to true.
 			</description>			
 		</attribute>
-				
+
+		<attribute>
+			<name>showParameterPage</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Specifies whether show the parameter dialog or not.
+				Default to true.
+			</description>			
+		</attribute>
+
 	</tag>
 
  	<!--**********************************************-->
@@ -527,26 +518,18 @@
 				Specifies whether supports rtl page or not.
 			</description>			
 		</attribute>
-				
-		<attribute>
-			<name>allowMasterPage</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>
-				Specifies whether supports master page or not.
-			</description>			
-		</attribute>
 
 		<attribute>
-			<name>forceParameterPrompting</name>
+			<name>showParameterPage</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 			<description>
-				Specifies whether forces to prompt the parameter dialog.
-				Default to false.
+				Specifies whether show the parameter dialog or not.
+				Default to true.
+				If report container is DIV, ignore this attribute.
 			</description>			
 		</attribute>
-										
+												
 		<attribute>
 			<name>resourceFolder</name>
 			<required>false</required>
@@ -873,15 +856,6 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>
 				Specifies whether supports rtl page or not.
-			</description>			
-		</attribute>
-		
-		<attribute>
-			<name>allowMasterPage</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>
-				Specifies whether supports master page or not.
 			</description>			
 		</attribute>
 							

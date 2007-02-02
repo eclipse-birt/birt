@@ -179,10 +179,6 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		this.isShowNavigationbar = ParameterAccessor
 				.isShowNavigationbar( request );
 
-		// Set whether force prompting the parameter dialog. Default to false.
-		this.isForceParameterPrompting = ParameterAccessor
-				.isForceParameterPrompting( request );
-
 		// get some module options
 		this.moduleOptions = BirtUtility.getModuleOptions( request );
 
@@ -229,6 +225,9 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			this.missingParameter = BirtUtility.validateParameters(
 					parameterDefList, this.parametersAsString );
 
+		// Check if show parameter page
+		this.isShowParameterPage = checkShowParameterPage( request );
+
 		// Get parameter default values map
 		this.defaultValues = getDefaultValues( this.reportDesignHandle,
 				parameterDefList, request, options );
@@ -247,6 +246,32 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		// Get parameters as String Map with default value
 		this.parametersAsString = getParsedParametersAsStringWithDefaultValue(
 				this.parametersAsString, parameterDefList, request, options );
+	}
+
+	/**
+	 * Check whether show parameter page or not
+	 * 
+	 * @param request
+	 * @return
+	 */
+	private boolean checkShowParameterPage( HttpServletRequest request )
+	{
+		if ( IBirtConstants.REQUEST_GET.equalsIgnoreCase( request.getMethod( ) ) )
+		{
+			String showParameterPage = ParameterAccessor
+					.getShowParameterPage( request );
+			if ( "false".equalsIgnoreCase( showParameterPage ) ) //$NON-NLS-1$
+			{
+				return false;
+			}
+
+			if ( "true".equalsIgnoreCase( showParameterPage ) ) //$NON-NLS-1$
+			{
+				return true;
+			}
+		}
+
+		return this.missingParameter;
 	}
 
 	/**

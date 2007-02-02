@@ -53,11 +53,11 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
  * <li>resourceFolder</li>
  * <li>maxRowsOfRecords</li>
  * <li>forceOverwriteDocument</li>
- * <li>forceParameterPrompting</li>
  * <li>showTitle</li>
  * <li>showToolBar</li>
  * <li>showNavigationBar</li>
  * <li>reportContainer</li>
+ * <li>showParameterPage</li>
  * </ol>
  */
 public class ViewerField implements Serializable, Cloneable, ITagConstants
@@ -101,11 +101,11 @@ public class ViewerField implements Serializable, Cloneable, ITagConstants
 	private String resourceFolder;
 	private int maxRowsOfRecords = -1;
 	private String forceOverwriteDocument;
-	private String forceParameterPrompting;
 
 	private String showTitle;
 	private String showToolBar;
 	private String showNavigationBar;
+	private String showParameterPage;
 
 	private String reportContainer = CONTAINER_IFRAME;
 
@@ -236,10 +236,6 @@ public class ViewerField implements Serializable, Cloneable, ITagConstants
 			uri += "&" + ParameterAccessor.PARAM_OVERWRITE + "=" //$NON-NLS-1$ //$NON-NLS-2$
 					+ urlParamValueEncode( forceOverwriteDocument );
 
-		// append parameter prompting setting
-		if ( forceParameterPrompting != null )
-			uri += "&" + ParameterAccessor.PARAM_PARAMETER_PROMPTING + "=" + urlParamValueEncode( forceParameterPrompting ); //$NON-NLS-1$ //$NON-NLS-2$
-
 		// append show toolbar setting
 		if ( usingFrameset && showToolBar != null )
 			uri += "&" + ParameterAccessor.PARAM_TOOLBAR + "=" + urlParamValueEncode( showToolBar ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -247,6 +243,10 @@ public class ViewerField implements Serializable, Cloneable, ITagConstants
 		// append show NavigationBar setting
 		if ( usingFrameset && showNavigationBar != null )
 			uri += "&" + ParameterAccessor.PARAM_NAVIGATIONBAR + "=" + urlParamValueEncode( showNavigationBar ); //$NON-NLS-1$ //$NON-NLS-2$
+
+		// append show ParameterPage setting
+		if ( showParameterPage != null )
+			uri += "&" + ParameterAccessor.PARAM_PARAMETER_PAGE + "=" + urlParamValueEncode( showParameterPage ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// append bookmark setting
 		if ( bookmark != null )
@@ -789,23 +789,6 @@ public class ViewerField implements Serializable, Cloneable, ITagConstants
 	}
 
 	/**
-	 * @return the forceParameterPrompting
-	 */
-	public String getForceParameterPrompting( )
-	{
-		return forceParameterPrompting;
-	}
-
-	/**
-	 * @param forceParameterPrompting
-	 *            the forceParameterPrompting to set
-	 */
-	public void setForceParameterPrompting( String forceParameterPrompting )
-	{
-		this.forceParameterPrompting = forceParameterPrompting;
-	}
-
-	/**
 	 * @return the showTitle
 	 */
 	public String getShowTitle( )
@@ -854,6 +837,23 @@ public class ViewerField implements Serializable, Cloneable, ITagConstants
 	public void setShowNavigationBar( String showNavigationBar )
 	{
 		this.showNavigationBar = showNavigationBar;
+	}
+
+	/**
+	 * @return the showParameterPage
+	 */
+	public String getShowParameterPage( )
+	{
+		return showParameterPage;
+	}
+
+	/**
+	 * @param showParameterPage
+	 *            the showParameterPage to set
+	 */
+	public void setShowParameterPage( String showParameterPage )
+	{
+		this.showParameterPage = showParameterPage;
 	}
 
 	/**

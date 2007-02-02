@@ -289,7 +289,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 						if( oIEC[5] && oIEC[5].id == 'isNotBlank' )
 						{
 							// not allow blank
-							if( birtUtility.trim( paramValue ) == '' )
+							if( birtUtility.trim( paramValue ) == '' && this.visible )
 							{
 								oIEC[2].focus( );
 								alert( paramName + ' cannot be blank' );
@@ -345,7 +345,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 					if( oIEC[4] && oIEC[4].id == 'isNotBlank' )
 					{
 						// not allow blank
-						if( birtUtility.trim( paramValue ) == '' )
+						if( birtUtility.trim( paramValue ) == '' && this.visible )
 						{
 							oIEC[1].focus( );
 							alert( paramName + ' cannot be blank' );
@@ -435,7 +435,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 				// check select
 				if( flag )
 				{
-					if ( oSEC[0].selectedIndex < 0 )
+					if ( oSEC[0].selectedIndex < 0 && this.visible )
 					{
 						oSEC[0].focus( );
 						alert( paramName + " should have a value" );
@@ -454,7 +454,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 						continue;
 					}
 
-					if ( this.__is_parameter_not_allowblank( oIEC ) && birtUtility.trim( tempValue ) == '' )
+					if ( this.__is_parameter_not_allowblank( oIEC ) && birtUtility.trim( tempValue ) == '' && this.visible )
 					{
 						oSEC[0].focus( );
 						alert( paramName + " cannot be blank" );
@@ -504,7 +504,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 						}
 						
 						// text value
-						if ( this.__is_parameter_not_allowblank( oIEC ) && birtUtility.trim( paramValue ) == '' )
+						if ( this.__is_parameter_not_allowblank( oIEC ) && birtUtility.trim( paramValue ) == '' && this.visible )
 						{
 							oIEC[4].focus( );
 							alert( paramName + " cannot be blank" );

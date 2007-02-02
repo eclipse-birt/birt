@@ -102,8 +102,7 @@ public class BirtEngineServlet extends BaseReportEngineServlet
 
 		if ( IBirtConstants.SERVLET_PATH_PREVIEW.equalsIgnoreCase( context
 				.getRequest( ).getServletPath( ) )
-				&& ( bean.isMissingParameter( ) || bean
-						.isForceParameterPrompting( ) ) )
+				&& bean.isShowParameterPage( ) )
 		{
 			requester.service( context.getRequest( ), context.getResponse( ) );
 		}

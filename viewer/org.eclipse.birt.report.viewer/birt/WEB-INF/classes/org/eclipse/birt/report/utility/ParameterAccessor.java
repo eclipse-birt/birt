@@ -76,7 +76,7 @@ public class ParameterAccessor
 	 * URL parameter name that specifies whether force prompting the parameter
 	 * dialog.
 	 */
-	public static final String PARAM_PARAMETER_PROMPTING = "__parameterprompting"; //$NON-NLS-1$
+	public static final String PARAM_PARAMETER_PAGE = "__parameterpage"; //$NON-NLS-1$
 
 	/**
 	 * URL parameter name that gives the report design name.
@@ -2002,22 +2002,15 @@ public class ParameterAccessor
 	}
 
 	/**
-	 * Check whether force prompting the parameter dialog. Default to false.
+	 * Check whether show parameter dialog or not. Default to false.
 	 * 
 	 * @param request
 	 * @return
 	 */
 
-	public static boolean isForceParameterPrompting( HttpServletRequest request )
+	public static String getShowParameterPage( HttpServletRequest request )
 	{
-		boolean isParameterPrompting = false;
-
-		if ( "true".equalsIgnoreCase( getParameter( request, PARAM_PARAMETER_PROMPTING ) ) ) //$NON-NLS-1$
-		{
-			isParameterPrompting = true;
-		}
-
-		return isParameterPrompting;
+		return getParameter( request, PARAM_PARAMETER_PAGE );
 	}
 
 	/**
