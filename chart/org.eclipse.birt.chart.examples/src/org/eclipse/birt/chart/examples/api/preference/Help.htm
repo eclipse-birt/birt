@@ -1,148 +1,224 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-<title>Untitled Document</title>
-<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
-</head>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0053)https://bugs.eclipse.org/bugs/attachment.cgi?id=56601 -->
+<HTML><HEAD><TITLE>Using JSPs and Servlets to render Charts and set Preferences</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META content="MSHTML 6.00.2900.3020" name=GENERATOR></HEAD>
+<BODY>
+<H1><A name=10>Using JSPs and Servlets to render Charts and set 
+Preferences</A></H1>
+<UL>
+  <LI><STRONG><FONT face="Arial, Helvetica, sans-serif" size=-1><A 
+  href="https://bugs.eclipse.org/bugs/attachment.cgi?id=56601#00">Configuring 
+  Eclipse to launch a Tomcat server</A></FONT></STRONG> 
+  <LI><STRONG><FONT face="Arial, Helvetica, sans-serif" size=-1><A 
+  href="https://bugs.eclipse.org/bugs/attachment.cgi?id=56601#01">Creating a 
+  Dynamic Web Project</A></FONT></STRONG> 
+  <LI><STRONG><FONT face="Arial, Helvetica, sans-serif" size=-1><A 
+  href="https://bugs.eclipse.org/bugs/attachment.cgi?id=56601#02">Developing 
+  your own chart pages via JSPs and Servlets</A></FONT></STRONG> </LI></UL>
+<HR>
 
-<body>
-<p>&nbsp;</p>
-<ul>
-  <li><strong><font size="-1" face="Arial, Helvetica, sans-serif"><a name="10"></a><a name="11"></a><a name="12"></a><a href="#00">Set 
-    up Eclipse to work with Tomcat</a></font></strong></li>
-  <li><strong><font size="-1" face="Arial, Helvetica, sans-serif"><a href="#01">How 
-    to run the Preference example?</a></font></strong></li>
-  <li><strong><font size="-1" face="Arial, Helvetica, sans-serif"><a href="#02"> 
-    How to develop your own chart pages via JSP &amp; Servlet?</a></font></strong></li>
-</ul>
-<hr>
-<p><font size="-1" face="Arial, Helvetica, sans-serif"><a name="00"></a>The following components 
-  are used to set up Eclipse to work with Tomcat. </font></p>
-<table border="1" cellspacing="0" cellpadding="0">
-  <tr height="30"> 
-    <td valign="middle"><p><font size="-1" face="Arial, Helvetica, sans-serif"><strong>Component</strong></font></p>
-      </td>
-    <td><p><font size="-1" face="Arial, Helvetica, sans-serif"><strong>Location 
-        on my local environment</strong></font></p>
-      </td>
-  </tr>
-  <tr> 
-    <td width="202"><font size="-1" face="Arial, Helvetica, sans-serif">Eclipse 
-      3.2M5</font></td>
-    <td width="493"><font size="-1" face="Arial, Helvetica, sans-serif">D:\Project\Eclipse_3.2</font></td>
-  </tr>
-  <tr> 
-    <td><font size="-1" face="Arial, Helvetica, sans-serif">Sun Java SDK1.4.2_08</font></td>
-    <td><font size="-1" face="Arial, Helvetica, sans-serif">C:\j2sdk1.4.2_08</font></td>
-  </tr>
-  <tr> 
-    <td><font size="-1" face="Arial, Helvetica, sans-serif">Tomcat 4.1.x</font></td>
-    <td><font size="-1" face="Arial, Helvetica, sans-serif">D:\Project\Tomcat</font></td>
-  </tr>
-  <tr> 
-    <td><font size="-1" face="Arial, Helvetica, sans-serif">Sysdeo tomcat plugin 
-      3.1.0</font></td>
-    <td><font size="-1" face="Arial, Helvetica, sans-serif">D:\Project\Eclipse_3.2\plugins\com.sysdeo.eclipse.tomcat_3.1.0</font></td>
-  </tr>
-</table>
-<p><font size="-1" face="Arial, Helvetica, sans-serif"><strong>Set Environment 
-  Variables</strong>:</font></p>
-<p><font size="-1" face="Arial, Helvetica, sans-serif">JAVA_HOME=C:\j2sdk1.4.2_08</font><br>
-<font size="-1" face="Arial, Helvetica, sans-serif">CATALINA_HOME=D:\Project\Tomcat</font><font size="-1" face="Arial, Helvetica, sans-serif"><br>
-  classpath=.;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar;%CATALINA_HOME%\common\lib\servlet.jar;</font></p>
-<p><font size="-1" face="Arial, Helvetica, sans-serif"><strong>Test whether Tomcat 
-  works properly:</strong></font></p>
-<p><font size="-1" face="Arial, Helvetica, sans-serif">Go to D:\Project\Tomcat\bin, 
-  run startup.bat;</font><br>
-  <font size="-1" face="Arial, Helvetica, sans-serif">Input URL: http://localhost:8080 
-  in the browser window. If the default Tomcat page appears, then the installation 
-  of Tomcat is successful.</font></p>
-<p><font size="-1" face="Arial, Helvetica, sans-serif"><strong>Set Eclipse to 
-  work with Tomcat:</strong></font></p>
-<p><font size="-1" face="Arial, Helvetica, sans-serif">Go to Window -&gt; Preferences...-&gt; 
-  Tomcat:</font>
-<br><font size="-1" face="Arial, Helvetica, sans-serif"> Set Tomcat version: 4.1.x; Tomcat 
-  home: D:\Project\Tomcat; Configuration file: D:\Project\Tomcat\conf\server.xml;</font></p>
-<p><font size="-1" face="Arial, Helvetica, sans-serif">Then go to JVM Setting: 
-  </font> <br>
-  <font size="-1" face="Arial, Helvetica, sans-serif">Add -DSTANDALONE and -Djava.awt.headless=true 
-  to JVM parameters;</font><br>
-  <font size="-1" face="Arial, Helvetica, sans-serif">C:\j2sdk1.4.2_08\lib\tools.jar 
-  in the Classpath.</font></p>
-<p><font size="-1" face="Arial, Helvetica, sans-serif">Till now, it is able to 
-  run Tomcat by clicking the &quot;Start Tomcat&quot; button in Eclipse toolbar. 
-  </font></p>
-<p><font size="-1" face="Arial, Helvetica, sans-serif"><a href="#10">BACK</a></font></p>
-<hr>
-<p><a name="01"><strong><font size="-1" face="Arial, Helvetica, sans-serif">JSP</font></strong></a></p>
-<p><font size="-1" face="Arial, Helvetica, sans-serif">Put the XXX.jsp pages at 
-  D:\Project\Tomcat\webapps\examples, then it could be accessed by inputting http://localhost:8080/examples/XXX.jsp 
-  in the browser window.</font></p>
-<p><font size="-1" face="Arial, Helvetica, sans-serif"><strong>Servlet</strong></font></p>
-<p><font size="-1" face="Arial, Helvetica, sans-serif">1. Add the required *.jar 
-  files to D:\Project\Tomcat\webapps\examples\WEB-INF\lib to render charts in 
-  your web pages. </font></p>
-<ul>
-  <li><font size="-1" face="Arial, Helvetica, sans-serif">com.ibm.icu_3.4.2.jar</font></li>
-  <li><font size="-1" face="Arial, Helvetica, sans-serif">core.jar</font></li>
-  <li><font size="-1" face="Arial, Helvetica, sans-serif">device-extension.jar</font></li>
-  <li><font size="-1" face="Arial, Helvetica, sans-serif">device-svg.jar</font></li>
-  <li><font size="-1" face="Arial, Helvetica, sans-serif">engine.jar</font></li>
-  <li><font size="-1" face="Arial, Helvetica, sans-serif">engine-extension.jar</font></li>
-  <li><font size="-1" face="Arial, Helvetica, sans-serif">org.eclipse.emf.common_2.2.0.jar</font></li>
-  <li><font size="-1" face="Arial, Helvetica, sans-serif">org.eclipse.emf.ecore_2.2.0.jar</font></li>
-  <li><font size="-1" face="Arial, Helvetica, sans-serif">js.jar</font></li>
-</ul>
-<p><font size="-1" face="Arial, Helvetica, sans-serif">All the jar files in the above are 
-  available in the BIRT build.</font></p>
-<p><font size="-1" face="Arial, Helvetica, sans-serif">2. Compile XXXServlet.java and ChartModels.java 
-  to XXX.class, then copy them to D:\Project\Tomcat\webapps\examples\WEB-INF\classes</font></p>
-<p><font size="-1" face="Arial, Helvetica, sans-serif">3. Add the Servlet to web.xml 
-  file ( D:\Project\Tomcat\webapps\examples\WEB-INF\web.xml )</font></p>
-<blockquote> 
-  <p> <font size="-1" face="Arial, Helvetica, sans-serif">&lt;servlet&gt;<br>
-    &lt;servlet-name&gt;PreferenceServlet&lt;/servlet-name&gt;<br>
-    &lt;servlet-class&gt;PreferenceServlet&lt;/servlet-class&gt;<br>
-    &lt;/servlet&gt;<br>
-    <br>
-    &lt;servlet-mapping&gt;<br>
-    &lt;servlet-name&gt;PreferenceServlet&lt;/servlet-name&gt;<br>
-    &lt;url-pattern&gt;/PreferenceServlet&lt;/url-pattern&gt;<br>
-    &lt;/servlet-mapping&gt;</font></p>
-</blockquote>
-<p><a href="#11"><font size="-1" face="Arial, Helvetica, sans-serif">BACK</font></a></p>
-<hr>
-<p><a name="02"></a><font size="-1" face="Arial, Helvetica, sans-serif">To generate a dynamic, 
-  revisable chart in your web pages, the required components include a JSP page, 
-  a Servlet and a chart model.</font></p>
-<p><font size="-1" face="Arial, Helvetica, sans-serif"><strong>JSP</strong></font></p>
-<p><font size="-1" face="Arial, Helvetica, sans-serif">Set action to connect Servlet: 
-  &lt;form action=&quot;PreferenceServlet&quot; method=&quot;POST&quot;&gt;</font><br>
-  <font size="-1" face="Arial, Helvetica, sans-serif">Give values to the selection 
-  or input components: &lt;option value=&quot;value&quot;&gt;XXX&lt;/option&gt;</font></p>
-<p><font size="-1" face="Arial, Helvetica, sans-serif"><strong>Servlet</strong></font></p>
-<p><font size="-1" face="Arial, Helvetica, sans-serif">1. Set rendering device: 
-  PluginSettings ps = PluginSettings.instance( ); IDeviceRenderer idr = ps.getDevice( 
-  &quot;dv.SWING&quot; );</font></p>
-<p><font size="-1" face="Arial, Helvetica, sans-serif">2. doGet()</font></p>
-<ul>
-  <li><font size="-1" face="Arial, Helvetica, sans-serif"> access to the chart 
-    model</font></li>
-  <li><font size="-1" face="Arial, Helvetica, sans-serif">modify the chart model 
-    according to the values from JSP</font></li>
-  <li><font size="-1" face="Arial, Helvetica, sans-serif">set output contect type</font></li>
-  <li><font size="-1" face="Arial, Helvetica, sans-serif">output the chart image</font></li>
-</ul>
-<p><font size="-1" face="Arial, Helvetica, sans-serif">3. Chart image rendering</font></p>
-<ul>
-  <li><font size="-1" face="Arial, Helvetica, sans-serif"> create a buffered image</font></li>
-  <li><font size="-1" face="Arial, Helvetica, sans-serif">build, then render a 
-    chart in the buffered image</font></li>
-  <li><font size="-1" face="Arial, Helvetica, sans-serif">output the chart image</font></li>
-</ul>
-<p><font size="-1" face="Arial, Helvetica, sans-serif"><strong>Chart Model</strong></font></p>
-<p><font size="-1" face="Arial, Helvetica, sans-serif">The chart model is absolutely 
-  same with other models in the chart examples plugin.</font></p>
-<p><a href="#12"><font size="-1" face="Arial, Helvetica, sans-serif">BACK</font></a></p>
-</body>
-</html>
+<H3><FONT face="Arial, Helvetica, sans-serif"><A name=00>Configuring Eclipse to 
+launch a Tomcat server</A></FONT></H3>
+<P><FONT face="Arial, Helvetica, sans-serif" size=-1>The following components 
+are required to run Tomcat from within Eclipse</FONT></P>
+<TABLE cellSpacing=0 cellPadding=0 border=1>
+  <TBODY>
+  <TR height=30>
+    <TD vAlign=center>
+      <P><FONT face="Arial, Helvetica, sans-serif" 
+      size=-1><STRONG>Component</STRONG></FONT></P></TD>
+    <TD>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=-1><STRONG>Location in 
+      the local environment</STRONG></FONT></P></TD></TR>
+  <TR>
+    <TD width=202><FONT face="Arial, Helvetica, sans-serif" size=-1>BIRT 2.2, 
+      Report Designer Full Eclipse Install (includes Eclipse 3.3, BIRT 2.2 and 
+      the required dependent plugins) </FONT></TD>
+    <TD width=493><FONT face="Arial, Helvetica, sans-serif" 
+      size=-1>C:\Eclipse_3.3</FONT></TD></TR>
+  <TR>
+    <TD><FONT face="Arial, Helvetica, sans-serif" size=-1>Sun Java 
+      JDK1.5.0_06</FONT></TD>
+    <TD><FONT face="Arial, Helvetica, sans-serif" 
+    size=-1>C:\jdk1.5.0_06</FONT></TD></TR>
+  <TR>
+    <TD><FONT face="Arial, Helvetica, sans-serif" size=-1>Tomcat 
+    5.5.x</FONT></TD>
+    <TD><FONT face="Arial, Helvetica, sans-serif" 
+  size=-1>C:\Tomcat</FONT></TD></TR></TBODY></TABLE>
+<P><FONT face="Arial, Helvetica, sans-serif" size=-1><STRONG>Configuring Tomcat 
+in the Eclipse Servers view </STRONG></FONT></P>
+<P><FONT face="Arial, Helvetica, sans-serif" size=-1>
+<OL>
+  <LI>Launch Eclipse. 
+  <LI>Open the J2EE Perspective, then the Servers view. 
+  <LI>Right-click from within the Servers view to bring up the context menu, 
+  then select New &gt; Server. 
+  <LI>Select the application server you have installed, in this example, Apache 
+  Tomcat v5.5 Server, then click Next. 
+  <LI>Browse to the directory where you installed the Apache Tomcat v5.5 Server, 
+  and make sure the Installed JRE is at least Java version 5 (Tomcat 5.5.x 
+  requires this.). Then click Finish. </LI></OL></FONT>
+<P></P>
+<P><FONT face="Arial, Helvetica, sans-serif" size=-1><STRONG>Starting Tomcat 
+from Eclipse</STRONG></FONT></P>
+<P><FONT face="Arial, Helvetica, sans-serif" size=-1>
+<OL>
+  <LI>Go to the Servers view and bring up the context menu from the server you 
+  just created. 
+  <LI>Select Start. 
+  <LI>The status in the Servers view should now say Started. Refer to the 
+  Console view if any problems occur. </LI></OL></FONT>
+<P><FONT face="Arial, Helvetica, sans-serif" size=-1><A 
+href="https://bugs.eclipse.org/bugs/attachment.cgi?id=56601#10">TOP</A></FONT></P>
+<HR>
+
+<H3><FONT face="Arial, Helvetica, sans-serif"><A name=01>Creating a Dynamic Web 
+Project</A></FONT></H3>
+<OL>
+  <P><FONT face="Arial, Helvetica, sans-serif" size=-1>
+  <LI>Select the context menu from within the Project Explorer view and select 
+  New &gt; Project. Select Web &gt; Dynamic Web Project, then click Next. 
+</FONT>
+  <P></P>
+  <P><FONT face="Arial, Helvetica, sans-serif" size=-1></P>
+  <LI>The Dynamic Web Project wizard appears. Give the project a name, for 
+  example, BirtChartExample, and make sure the target runtime is the Tomcat 
+  server you just created. Click Next. </FONT>
+  <P></P>
+  <P><FONT face="Arial, Helvetica, sans-serif" size=-1></P>
+  <LI>On the Project Facets page, select the BIRT Reporting Runtime Component 
+  checkbox. This adds the BIRT runtime libraries to the dynamic web application. 
+  Also make sure the Dynamic Web Module, and the Java project facet is checked. 
+  Click Next. On the Web Module page click Finish. 
+  <P></P>
+  <P><FONT face="Arial, Helvetica, sans-serif" size=-1></P>
+  <LI>Now the JSPs, servlet, Java files and some additional BIRT libraries need 
+  to be imported into the project. <BR>These additional libraries need to be 
+  added to the web application and are available from the BIRT All-in-One Report 
+  Designer download or the standalone Chart Engine download: </FONT></LI></OL>
+<BLOCKQUOTE>
+  <UL>
+    <LI><FONT face="Arial, Helvetica, sans-serif" 
+    size=-1>org.eclipse.birt.chart.device.extension_2.2.0vXXXXXXXX-XXXX.jar</FONT> 
+
+    <LI><FONT face="Arial, Helvetica, sans-serif" 
+    size=-1>org.eclipse.birt.chart.device.svg_2.2.0vXXXXXXXX-XXXX.jar</FONT> 
+    <LI><FONT face="Arial, Helvetica, sans-serif" 
+    size=-1>org.eclipse.birt.chart.engine.extension_2.2.0vXXXXXXXX-XXXX.jar</FONT> 
+    </LI></UL></BLOCKQUOTE>
+<OL start=5>
+  <P><FONT face="Arial, Helvetica, sans-serif" size=-1>
+  <LI>To add these libraries, expand the WebContent folder under the web 
+  application just created, and select the lib folder under the WEB-INF folder. 
+  Right-click the lib folder and select Import..., then General &gt; File 
+  System. Click Next. </FONT>
+  <P></P><FONT face="Arial, Helvetica, sans-serif" size=-1>Browse to the 
+  eclipse/plugins directory where the jar files listed above have been unpacked 
+  to. Select these jar files and import them into the web application's 
+  WebContent/WEB-INF/lib folder. Click Finish. (Note: A bug in the Project 
+  Explorer view prevents the files in the lib folder from being displayed. To 
+  double-check you imported them, switch to the Navigator view.) </FONT></LI></OL>
+<P><A name=01><STRONG><FONT face="Arial, Helvetica, sans-serif" 
+size=-1>Importing the JSPs, servlet and Java files</FONT></STRONG></A></P><FONT 
+face="Arial, Helvetica, sans-serif" size=-1>
+<OL>
+  <LI>
+  <P>From the Project Explorer view, select the WebContent folder at the top 
+  level of the web application and right-click it to import the JSPs. Import the 
+  JSPs to the WebContent folder from the file system as you did above. 
+  Alternately, you can copy the JSPs, chartImage.jsp, control.jsp, and 
+  UserPreference.jsp, to the WebContent folder. </P>
+  <LI>
+  <P>From the Project Explorer view select the Java Resources: src folder, bring 
+  up the context menu and select New &gt; Package. Create a package called 
+  org.eclipse.birt.chart.examples.api.preference. Now import or copy into this 
+  package these Java source files; </P>
+  <UL>
+    <LI>PreferenceServlet.java 
+    <LI>ChartModels.java 
+    <LI>LabelStyleProcessor.java </LI></UL>
+  <P>from the 
+  org.eclipse.birt.chart.examples/src/org/eclipse/birt/chart/examples/api/preference 
+  folder. </P></FONT></LI></OL>
+<P><FONT face="Arial, Helvetica, sans-serif" size=-1><STRONG>Edit the 
+web.xml</STRONG></FONT></P>
+<P><FONT face="Arial, Helvetica, sans-serif" size=-1>Edit the web.xml file under 
+the WebContent/WEB-INF folder to add the servlet mapping. This text should be 
+added after the &lt;-welcome-file-list&gt; and before the closing 
+&lt;web-app&gt; tag.</FONT></P>
+<BLOCKQUOTE>
+  <P><FONT face="Arial, Helvetica, sans-serif" 
+  size=-1>&lt;servlet&gt;<BR>&lt;servlet-name&gt;PreferenceServlet&lt;/servlet-name&gt;<BR>&lt;servlet-class&gt;org.eclipse.birt.chart.examples.api.preference.PreferenceServlet&lt;/servlet-class&gt;<BR>&lt;/servlet&gt;<BR><BR>&lt;servlet-mapping&gt;<BR>&lt;servlet-name&gt;PreferenceServlet&lt;/servlet-name&gt;<BR>&lt;url-pattern&gt;/PreferenceServlet&lt;/url-pattern&gt;<BR>&lt;/servlet-mapping&gt;</FONT></P></BLOCKQUOTE>
+<P><FONT face="Arial, Helvetica, sans-serif" size=-1><STRONG>Running the 
+JSPs</STRONG></FONT></P>
+<P><FONT face="Arial, Helvetica, sans-serif" size=-1>
+<OL>
+  <LI>From the Project Explorer view select the control.jsp file, and select Run 
+  As &gt; Run On Server from the context menu. 
+  <LI>In the Define a New Server page, select Choose an existing server, 
+  ensuring that the Tomcat server you set up earlier is selected. Check the Set 
+  server as project default checkbox, then click Next. 
+  <LI>In the Add and Remove Projects page, the Web project you are working with 
+  should be in the Configured Projects side. If it is not, add it to this side. 
+  Click Next. Do not check the Update context root for your Web module and click 
+  Finish. The page should appear, allowing for selection of font, size, style 
+  and color of the bar graph which appears when the Submit button is pushed. 
+  </LI></OL></FONT>
+<P></P>
+<P><A href="https://bugs.eclipse.org/bugs/attachment.cgi?id=56601#10"><FONT 
+face="Arial, Helvetica, sans-serif" size=-1>TOP</FONT></A></P>
+<HR>
+
+<H3><FONT face="Arial, Helvetica, sans-serif"><A name=02>Developing your own 
+chart pages via JSPs and Servlets</A></FONT></H3>
+<P><FONT face="Arial, Helvetica, sans-serif" size=-1>To generate a dynamic, 
+revisable chart in your web pages, the required components include a JSP page, a 
+Servlet and a chart model.</FONT></P>
+<P><FONT face="Arial, Helvetica, sans-serif" 
+size=-1><STRONG>JSPs</STRONG></FONT></P>
+<P><FONT face="Arial, Helvetica, sans-serif" size=-1>The JSP pages allow the 
+user to set the characteristics of the rendered chart by passing parameters to 
+the PreferenceServlet. </FONT></P>
+<P><FONT face="Arial, Helvetica, sans-serif" size=-1>1. Set the action for the 
+form to call the Servlet. 
+<BLOCKQUOTE>&lt;form action="PreferenceServlet" method="POST"&gt; 
+</BLOCKQUOTE></FONT><BR><FONT face="Arial, Helvetica, sans-serif" size=-1>2. 
+Assign values to the selection or input components 
+<BLOCKQUOTE>&lt;option value="value"&gt;XXX&lt;/option&gt; </BLOCKQUOTE></FONT>
+<P></P>
+<P><FONT face="Arial, Helvetica, sans-serif" 
+size=-1><STRONG>Servlet</STRONG></FONT></P>
+<P><FONT face="Arial, Helvetica, sans-serif" size=-1>1. Set the rendering device 
+in the constructor</P><FONT face="Arial, Helvetica, sans-serif" size=-1>
+<BLOCKQUOTE><FONT face="Arial, Helvetica, sans-serif" size=-1>PluginSettings 
+  ps = PluginSettings.instance( ); <BR>IDeviceRenderer idr = 
+  ps.getDevice("dv.SWING" ); </FONT></BLOCKQUOTE>
+<P><FONT face="Arial, Helvetica, sans-serif" size=-1>2. The doGet() 
+method</FONT></P>
+<UL>
+  <LI><FONT face="Arial, Helvetica, sans-serif" size=-1>Create a chart 
+  model</FONT> 
+  <LI><FONT face="Arial, Helvetica, sans-serif" size=-1>Modify the chart model 
+  according to the values from JSP</FONT> 
+  <LI><FONT face="Arial, Helvetica, sans-serif" size=-1>Set the output content 
+  type, in this case to a JPEG</FONT> 
+  <LI><FONT face="Arial, Helvetica, sans-serif" size=-1>Output the chart 
+  image</FONT> </LI></UL>
+<P><FONT face="Arial, Helvetica, sans-serif" size=-1>3. Chart image 
+rendering</FONT></P>
+<UL>
+  <LI><FONT face="Arial, Helvetica, sans-serif" size=-1>Create a buffered 
+  image</FONT> 
+  <LI><FONT face="Arial, Helvetica, sans-serif" size=-1>Build, then render a 
+  chart in the buffered image</FONT> 
+  <LI><FONT face="Arial, Helvetica, sans-serif" size=-1>Output the chart 
+  image</FONT> </LI></UL>
+<P><FONT face="Arial, Helvetica, sans-serif" size=-1><STRONG>Chart 
+Model</STRONG></FONT></P>
+<P><FONT face="Arial, Helvetica, sans-serif" size=-1>The ChartModel.java class 
+is the same class used in the other chart examples plugins.</FONT></P>
+<P><A href="https://bugs.eclipse.org/bugs/attachment.cgi?id=56601#10"><FONT 
+face="Arial, Helvetica, sans-serif" 
+size=-1>TOP</FONT></A></P></FONT></FONT></FONT></BODY></HTML>
