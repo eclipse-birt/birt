@@ -9,6 +9,7 @@ Shared.mne.Background_K=배경(&K):
 
 ChartWithAxesImpl.Z_Axis.title=Z축 제목
 ChartSheetImpl.Label.Outline=윤곽선:
+ChartLegendImpl.Group.Rotation=회전
 ChartSheetImpl.Label.Visible=표시(&V)
 ChartSheetImpl.Label.ColorBy=색상 기준(&C):
 ChartLegendSheetImpl.Label.Title=제목(&E):
@@ -19,7 +20,10 @@ ChartPlotSheetImpl.Label.Visible2=표시(&I)
 ChartPlotSheetImpl.Label.PlotArea=플롯 영역
 ChartPlotSheetImpl.Label.AreaFormat=영역 형식
 ChartPlotSheetImpl.Label.AreaFormat&=영역 형식(&A)
-ChartSheetImpl.Label.ChartTitle=차트 제목(&H):
+ChartTitleSheetImpl.Label.ChartTitle=차트 제목(&H):
+ChartTitleSheetImpl.Titel.Tooltip=Title Tooltip
+ChartTitleSheetImpl.Label.Tooltip=Tooltip:
+ChartLegendSheetImpl.Title.Tooltip=Legend Tooltip
 ChartSheetImpl.Label.Background=배경:
 
 ScriptSheetImpl.Lbl.Script=스크립트:
@@ -61,12 +65,11 @@ BaseAxisDataSheetImpl.Lbl.BaseAxis2=범주 축 ({0})
 BaseAxisAttributeSheetImpl.Lbl.GapWidth=간격 너비:
 BaseAxisAttributeSheetImpl.Lbl.MajorGrid=주 눈금
 BaseAxisAttributeSheetImpl.Lbl.MinorGrid=부 눈금
-
 BaseAxisAttributeSheetImpl.Lbl.Orientation=방향:
 BaseAxisAttributeSheetImpl.Lbl.PercentSign=%
-
 BaseAxisAttributeSheetImpl.Lbl.HideAxisLine=축 선 숨기기(&X)
 BaseAxisAttributeSheetImpl.Lbl.IsCategoryAxis=범주 축입니다.
+BaseAxisAttributeSheetImpl.Lbl.IsTickBetweenCategories=Cross between Categories
 BaseAxisAttributeSheetImpl.Lbl.AxisLineColor=축 선 색:
 BaseAxisAttributeSheetImpl.Exception.IllegalArgument=축 특성 시트에 대한 인수가 잘못되었습니다. 차트는 ChartWithAxes 형식이어야 합니다.
 BaseAxisAttributeSheetImpl.Title.SheetTitle=특성 > X축 - X축 특성 사용자 지정
@@ -86,14 +89,10 @@ BaseAxisMarkerAttributeSheetImpl.Lbl.AddRegion=영역 추가(&A)
 BaseAxisMarkerAttributeSheetImpl.Lbl.RemoveEntry=항목 제거(&R)
 BaseAxisMarkerAttributeSheetImpl.Lbl.StartValue=시작 값:(&S)
 BaseAxisMarkerAttributeSheetImpl.Lbl.EndValue=끝 값:(&E)
-
 BaseAxisMarkerAttributeSheetImpl.Lbl.RangeOutline=범위 윤곽선
 BaseAxisMarkerAttributeSheetImpl.Lbl.ForAxis=\ 축 
-
 BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerLineAttributes=표지 선 특성
-
 BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerProperties=표지 속성
-
 BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerLine=표지선 {0} {1}
 BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerRange=MarkerRange {0} {1}
 BaseAxisMarkerAttributeSheetImpl.Title.SheetTitle=특성 > X축 > 표지 - X축 표지 설정
@@ -137,7 +136,6 @@ OrthogonalAxisDataSheetImpl.Lbl.Title=축 제목:
 OrthogonalAxisDataSheetImpl.Lbl.Origin=기점(&O):
 OrthogonalAxisDataSheetImpl.Lbl.Value=값:
 OrthogonalAxisDataSheetImpl.Lbl.PrimaryAxis=주 축
-
 OrthogonalAxisDataSheetImpl.Lbl.Scale=배율
 OrthogonalAxisDataSheetImpl.Lbl.Minimum=최소:
 OrthogonalAxisDataSheetImpl.Lbl.Maximum=최대:
@@ -158,12 +156,10 @@ OrthogonalAxisLabelAttributeSheetImpl.Exception.IllegalArgument=레이블 특성 시트
 
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.Values=값:
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.Anchor=앵커:
-
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.AddLine=선 추가
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.AddRange=범위 추가
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.EndValue=끝 값:
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.ForAxis=\ 축 {0}
-
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.RemoveEntry=항목 제거
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.StartValue=시작 값:
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.RangeOutline=범위 윤곽선
@@ -171,9 +167,7 @@ OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerLine=MarkerLine {0, 숫자, 정수}
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerRange=MarkerRange 
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.Fill=채우기:
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerProperties=표지 속성
-
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerLineAttributes=표지선 특성
-
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerLabelProperties=표지 레이블 속성
 OrthogonalAxisMarkerAttributeSheetImpl.Exception.IllegalArgument=표지 특성 시트에 대한 인수가 잘못되었습니다. 차트는 ChartWithAxes 형식이어야 합니다.
 
@@ -288,6 +282,7 @@ LineChart.Txt.OverlayDescription=이중 선형 차트에는 각 계열의 선이 서로 독립적으
 LineSeriesAttributeComposite.Exception.IllegalArgument=형식 {0}의 계열은 LineSeriesAttributeComposite에 대한 잘못된 인수입니다.
 LineSeriesAttributeComposite.Lbl.ShowLinesAsCurves=선을 곡선으로 표시(&H)
 LineChart.Txt.HelpText=선은 렌더링되는 각 계열을 나타냅니다. 선택적인 표지를 사용하여 데이터를 그리는 시점을 강조할 수 있습니다. 누적된 선은 그 아래 있는 선 계열 데이터 요소의 위치에 상대적인 각 범주 요소를 표시합니다. 누적된 백분율 선은 해당 범주에 대한 백분율로 그려진 각 데이터 요소를 표시합니다.
+
 ScatterChart.Txt.Description=분산형 차트에는 범주와 값 데이터를 좌표로 사용하여 플롯 위에 정렬된 값이 표시됩니다. \n각 데이터 값은 표지로 표시됩니다.
 ScatterChart.Txt.HelpText=분산형 차트는 범주가 아닌 축에 연결된 임의로 배치된 데이터 값을 표시합니다. 각 데이터 요소는 X 및 Y 축 배율에 연결되어 있습니다.
 ScatterSeriesUIProvider.Lbl.SeriesDefinition=계열 정의
@@ -425,9 +420,11 @@ LabelAttributesComposite.Lbl.Outline=윤곽선
 LabelBlockAttributeSheetImpl.Lbl.Outline=윤곽선
 LabelBlockAttributeSheetImpl.Lbl.LabelProperties=레이블 속성
 LabelBlockAttributeSheetImpl.Lbl.LabelBlock=레이블 블록 
+
 DataDefinitionComposite.Tooltip.InvokeExpressionBuilder=연산식 빌더 호출
 DataDefinitionSelector.Exception.NotSupportedForMultipleAxes=\ 다중 축에는 지원되지 않습니다\!
 DataDefinitionComposite.Tooltip.InvokeRuleEditor=규칙 편집기 호출
+
 RuleEditorDialog.Title.RuleEditor=규칙 편집기 - {0}
 RuleEditorDialog.Lbl.Rules=규칙
 RuleEditorDialog.Lbl.Type=형식:
@@ -450,6 +447,7 @@ FillChooserComposite.Lbl.Auto=자동
 ClientAreaAttributeComposite.Lbl.Background=배경:
 ClientAreaAttributeComposite.Lbl.Shadow=그림자:
 ClientAreaAttributeComposite.Lbl.Outline=윤곽선
+
 InsetsComposite.Lbl.Insets=음각 ({0})
 InsetsComposite.Lbl.Top=위쪽:
 InsetsComposite.Lbl.Left=왼쪽:
@@ -467,6 +465,7 @@ ExternalizedTextEditorDialog.Lbl.DefaultValue=기본값(&D):
 ExternalizedTextEditorDialog.Lbl.ExternalizedValue=외부화된 값:
 ExternalizedTextEditorDialog.Warn.KeyNotFound=속성 파일에서 키를 찾을 수 없거나 속성 파일이 없습니다.
 ExternalizedTextEditorDialog.Lbl.Value=<키 ''{0}''의 값>
+
 FormatSpecifierComposite.error.Title=형식 지정자 오류
 FormatSpecifierComposite.error.Message=잘못된 형식 지정자 매개 변수 값: "{0}"
 FormatSpecifierComposite.Lbl.DataType=데이터 형식(&D):
@@ -491,7 +490,6 @@ FormatSpecifierComposite.Tooltip.FractionDigits=고급 속성: 근사값의 정밀도를 결�
 FormatSpecifierComposite.Lbl.MaxRecursionTimes=최대 분모 숫자(&O):
 FormatSpecifierComposite.Lbl.Fraction=분수(&F)
 FormatSpecifierDialog.Title.EditFormat=형식 편집
-
 FormatSpecifierComposite.Lbl.Advanced=고급(&A)
 FormatSpecifierComposite.Lbl.DatePattern=패턴(&P):
 FormatSpecifierComposite.Lbl.NumberPattern=패턴(&P):
@@ -564,10 +562,12 @@ TriggerDataComposite.Lbl.Script=스크립트(&P):
 TriggerDataComposite.Lbl.Target=대상:
 TriggerEditorComposite.Lbl.Update=<< 업데이트(&U)
 TriggerDataComposite.Lbl.TooltipText=도구 설명 텍스트(&X):
-TriggerDataComposite.Lbl.BaseURL=기본 URL:
+TriggerDataComposite.Lbl.BaseURL=기본 URL 편집:
+
 GradientEditorDialog.Lbl.GradientEditor=그라데이션 편집기
 GradientEditorDialog.Lbl.StartColor=시작 색:
 GradientEditorDialog.Lbl.Preview=미리 보기
+
 PaletteEditorComposite.Lbl.Add=추가(&A)
 PaletteEditorComposite.Lbl.Remove=제거(&R)
 PaletteEditorComposite.Lbl.Up=위로
@@ -577,6 +577,7 @@ LabelAttributesComposite.Lbl.Label=레이블
 LabelAttributesComposite.Lbl.Font=글꼴:
 LabelAttributesComposite.Lbl.Shadow=그림자:
 LabelBlockAttributeSheetImpl.Title.SheetTitle=레이아웃 > 레이블 블록 - 레이블 블록 영역 형식 지정
+
 BlockAttributeComposite.Lbl.IsBlockVisible=블록이 표시됩니다.
 BlockAttributeComposite.Lbl.Anchor=앵커(&A):
 BlockAttributeComposite.Lbl.Stretch=맞춤(&S):
@@ -710,12 +711,13 @@ AxisSheetImpl.Label.Color=색상
 AxisYSheetImpl.Label.Title=제목(&E):
 AxisYSheetImpl.Label.Scale=배율
 AxisYSheetImpl.Label.Scale&=배율(&S)
-AxisSheetImpl.Label.Rotation=회전
 AxisSheetImpl.Label.CategoryX=범주(X)
 AxisSheetImpl.Label.AncillaryZ=보조(Z)
 AxisXSheetImpl.Label.Visible=표시
-AxisYSheetImpl.Label.TextFormat=축 텍스트 서식
-AxisYSheetImpl.Label.TextFormat&=텍스트 서식(&T)
+AxisYSheetImpl.Label.LabelFormat=Format Axis Label
+AxisYSheetImpl.Label.LabelFormat&=레이블(&L)
+AxisYSheetImpl.Label.TitleFormat=Format Axis Title
+AxisYSheetImpl.Label.TitleFormat&=제목(&T)
 AxisYSheetImpl.Label.Gridlines=눈금선
 AxisYSheetImpl.Label.Gridlines&=눈금선(&G)
 AxisZSheetImpl.Label.Gridlines=눈금선(&G)
@@ -735,18 +737,23 @@ ChartLegendSheetImpl.Label.ShowValue=값 표시(&S)
 ChartPlotSheetImpl.Label.Background=배경:
 ChartPlotSheetImpl.Label.Background2=배경:
 ChartPlotSheetImpl.Label.ClientArea=클라이언트 영역
-ChartSheetImpl.Text.TitleFormat=제목 형식
-ChartSheetImpl.Text.TitleFormat&=제목 형식(&T)
+ChartTitleSheetImpl.Text.TitleBlock=제목 블록
+ChartTitleSheetImpl.Text.TitleBlock&=&Block
+ChartTitleSheetImpl.Text.TitleText=Title Text
+ChartTitleSheetImpl.Text.TitleText&=&Text
 ChartSheetImpl.Title.ChartTitle=차트 제목
 ChartSheetImpl.Title.ChartArea=차트 영역
-ChartLegendSheetImpl.Label.TextFormat=텍스트 형식(&T)
+ChartLegendSheetImpl.Label.TextFormat=&Block
+ChartLegendSheetImpl.Label.LegendTitle=제목(&T)
 ChartLegendSheetImpl.Title.LayoutLegend=레이아웃 범례
 ChartLegendSheetImpl.Tooltip.ShowDataPointValue=각 범례 항목에 대해 범례 아래 첫 번째 행의 데이터 요소 값을 표시합니다.
 ChartLegendSheetImpl.Title.FormatLegendText=범례 텍스트 형식 지정
+ChartLegendSheetImpl.Title.FormatLegendTitle=Format Legend Title
 ChartLegendSheetImpl.Label.Layout=레이아웃(&L)
 ChartLegendSheetImpl.Label.Legend=범례
 ChartPlotSheetImpl.Label.AreaIncludingAxes=축 포함 영역
-ChartSheetImpl.Label.EnableInPreview=미리 보기에서 사용(&E)
+ChartSheetImpl.Label.EnableInPreview=미리 보기(&P)
+ChartSheetImpl.Label.ResetValue=&Reset Value
 ChartPlotSheetImpl.Label.AreaWithinAxes=축 내 영역
 ChartSheetImpl.Label.Style=스타일(&S):
 ChartSheetImpl.Label.None=없음
@@ -759,8 +766,8 @@ ChartSheetImpl.Text.CustomProperties=사용자 지정 속성
 ChartSheetImpl.Text.CustomProperties&=사용자 지정 속성(&C)
 ChartSheetImpl.Text.ChartAreaInteractivity=차트 영역 대화형 작업(&A)
 ChartSheetImpl.Label.Interactivity=대화형 작업
-ChartSheetImpl.Label.InteractivityEnable=사용(&N)
-ChartSheetImpl.Label.LegendBehaviorType=범례 동작(&L):
+ChartSheetImpl.Label.InteractivityEnable=E&nable Chart Interactivity
+ChartLegendSheetImpl.Label.LegendBehaviorType=Behavior:
 SeriesSheetImpl.Label.Type=형식
 LegendTextSheet.Label.Font=글꼴:
 LegendTextSheet.Label.Separator=구분 기호
@@ -797,6 +804,7 @@ MarkerIconDialog.Lbl.Remove=제거
 MarkerIconDialog.Lbl.Description=로컬 이미지 파일에서 표지 아이콘을 가져옵니다.
 
 exception.data.DataBindingsAreNull=하나 이상의 데이터 바인딩이 널(null)입니다\!
+
 DialLabelSheet.Label.Format=서식:
 
 ImageDialog.label.SelectImageType=이미지 형식 선택:
@@ -836,7 +844,6 @@ GanttSeriesAttributeComposite.Lbl.EndMarker=종료 표지
 GanttSeriesAttributeComposite.Lbl.Line=연결 선
 GanttSeriesAttributeComposite.Lbl.Outline=윤곽선
 GanttSeriesAttributeComposite.Lbl.OutlineFill=윤곽선 채우기:
-GanttSeriesAttributeComposite.Lbl.UseDecoration=장식 레이블 사용
 GanttSeriesAttributeComposite.Lbl.LinePalette=색상표 선 색 사용
 
 DecorationSheet.Label.DecorationLabels=장식 레이블

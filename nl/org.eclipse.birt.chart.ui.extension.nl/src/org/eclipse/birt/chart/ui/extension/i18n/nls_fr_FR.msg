@@ -9,6 +9,7 @@ Shared.mne.Background_K=A&rrière-plan :
 
 ChartWithAxesImpl.Z_Axis.title=Titre de l'axe des z
 ChartSheetImpl.Label.Outline=Contour :
+ChartLegendImpl.Group.Rotation=Rotation
 ChartSheetImpl.Label.Visible=&Visibilité
 ChartSheetImpl.Label.ColorBy=&Couleur par :
 ChartLegendSheetImpl.Label.Title=Titr&e :
@@ -19,7 +20,10 @@ ChartPlotSheetImpl.Label.Visible2=V&isibilité
 ChartPlotSheetImpl.Label.PlotArea=Zone de tracé
 ChartPlotSheetImpl.Label.AreaFormat=Format de la zone
 ChartPlotSheetImpl.Label.AreaFormat&=&Format de la zone
-ChartSheetImpl.Label.ChartTitle=Titre du grap&hique :
+ChartTitleSheetImpl.Label.ChartTitle=Titre du grap&hique :
+ChartTitleSheetImpl.Titel.Tooltip=Title Tooltip
+ChartTitleSheetImpl.Label.Tooltip=Tooltip:
+ChartLegendSheetImpl.Title.Tooltip=Legend Tooltip
 ChartSheetImpl.Label.Background=Arrière-plan :
 
 ScriptSheetImpl.Lbl.Script=Script :
@@ -61,12 +65,11 @@ BaseAxisDataSheetImpl.Lbl.BaseAxis2=Axe de catégories ({0})
 BaseAxisAttributeSheetImpl.Lbl.GapWidth=Largeur de l'intervalle :
 BaseAxisAttributeSheetImpl.Lbl.MajorGrid=Grille principale
 BaseAxisAttributeSheetImpl.Lbl.MinorGrid=Grille secondaire
-
 BaseAxisAttributeSheetImpl.Lbl.Orientation=Orientation
 BaseAxisAttributeSheetImpl.Lbl.PercentSign=%
-
 BaseAxisAttributeSheetImpl.Lbl.HideAxisLine=Masquer la ligne d'a&xe
 BaseAxisAttributeSheetImpl.Lbl.IsCategoryAxis=Axe de catégorie
+BaseAxisAttributeSheetImpl.Lbl.IsTickBetweenCategories=Cross between Categories
 BaseAxisAttributeSheetImpl.Lbl.AxisLineColor=Couleur de la ligne de l'axe :
 BaseAxisAttributeSheetImpl.Exception.IllegalArgument=Argument non valide pour la feuille d'attribut d'axe... Le graphique doit être de type ChartWithAxes
 BaseAxisAttributeSheetImpl.Title.SheetTitle=Attributs > Axe horizontal - Personnaliser les attributs de l'axe horizontal
@@ -86,14 +89,10 @@ BaseAxisMarkerAttributeSheetImpl.Lbl.AddRegion=&Ajouter une zone
 BaseAxisMarkerAttributeSheetImpl.Lbl.RemoveEntry=&Retirer une entrée
 BaseAxisMarkerAttributeSheetImpl.Lbl.StartValue=V&aleur de début :
 BaseAxisMarkerAttributeSheetImpl.Lbl.EndValue=&Valeur de fin :
-
 BaseAxisMarkerAttributeSheetImpl.Lbl.RangeOutline=Contour de la gamme
 BaseAxisMarkerAttributeSheetImpl.Lbl.ForAxis=\ pour axe 
-
 BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerLineAttributes=Attributs de lignes de repères
-
 BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerProperties=Propriétés de repères
-
 BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerLine=MarkerLine {0} {1}
 BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerRange=MarkerRange {0} {1}
 BaseAxisMarkerAttributeSheetImpl.Title.SheetTitle=Attributs > Axe horizontal > Repères - Définir les repères de l'axe horizontal
@@ -137,7 +136,6 @@ OrthogonalAxisDataSheetImpl.Lbl.Title=Titre de l'axe :
 OrthogonalAxisDataSheetImpl.Lbl.Origin=&Origine :
 OrthogonalAxisDataSheetImpl.Lbl.Value=Valeur :
 OrthogonalAxisDataSheetImpl.Lbl.PrimaryAxis=Est l'axe principal
-
 OrthogonalAxisDataSheetImpl.Lbl.Scale=Echelle
 OrthogonalAxisDataSheetImpl.Lbl.Minimum=Min :
 OrthogonalAxisDataSheetImpl.Lbl.Maximum=Max :
@@ -158,12 +156,10 @@ OrthogonalAxisLabelAttributeSheetImpl.Exception.IllegalArgument=Argument non val
 
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.Values=Valeur :
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.Anchor=Ancre :
-
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.AddLine=Ajouter une ligne
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.AddRange=Ajouter une gamme
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.EndValue=Valeur de fin :
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.ForAxis=\ pour axe {0}
-
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.RemoveEntry=Retirer une entrée
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.StartValue=Valeur de début :
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.RangeOutline=Contour de la gamme
@@ -171,9 +167,7 @@ OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerLine=MarkerLine {0,chiffre,enti
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerRange=MarkerRange 
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.Fill=Remplissage :
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerProperties=Propriétés de repères
-
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerLineAttributes=Attributs de lignes de repères
-
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerLabelProperties=Propriétés de l'étiquette du repère
 OrthogonalAxisMarkerAttributeSheetImpl.Exception.IllegalArgument=Argument non valide pour la feuille d'attribut de repère d'axe... Le graphique doit être de type ChartWithAxes
 
@@ -288,6 +282,7 @@ LineChart.Txt.OverlayDescription=Les graphiques à lignes superposées affichent l
 LineSeriesAttributeComposite.Exception.IllegalArgument=La série de type {0} est un argument non valide pour LineSeriesAttributeComposite.
 LineSeriesAttributeComposite.Lbl.ShowLinesAsCurves=A&fficher les lignes sous la forme de courbes
 LineChart.Txt.HelpText=Une ligne représente chaque série en cours de rendu. Vous pouvez utiliser des repères facultatifs pour mettre en surbrillance les points pour lesquels les données sont tracées. Les lignes empilées affichent chaque point de catégorie par rapport à l'emplacement du point de données de série de la ligne inférieure. Les lignes de pourcentage empilées affichent chaque valeur de donnée sous la forme d'un pourcentage du total de la catégorie.
+
 ScatterChart.Txt.Description=Les graphiques en nuage de points affichent les valeurs disposées sur le tracé en utilisant les données de catégorie et de valeur comme coordonnées. \nChaque valeur de données est indiquée par un repère.
 ScatterChart.Txt.HelpText=Les graphiques en nuage de points affichent des valeurs de données espacées au hasard associées à des axes sans rapport avec les catégories. Chaque point de données est associé à l'échelle de l'axe des X et des Y.
 ScatterSeriesUIProvider.Lbl.SeriesDefinition=Définition de la série
@@ -425,9 +420,11 @@ LabelAttributesComposite.Lbl.Outline=Contour
 LabelBlockAttributeSheetImpl.Lbl.Outline=Contour
 LabelBlockAttributeSheetImpl.Lbl.LabelProperties=Propriétés de l'étiquette
 LabelBlockAttributeSheetImpl.Lbl.LabelBlock=Bloc de l'étiquette 
+
 DataDefinitionComposite.Tooltip.InvokeExpressionBuilder=Appeler le Générateur d'expression
 DataDefinitionSelector.Exception.NotSupportedForMultipleAxes=\ n'est pas pris en charge pour plusieurs axes\!
 DataDefinitionComposite.Tooltip.InvokeRuleEditor=Appeler l'éditeur de règles
+
 RuleEditorDialog.Title.RuleEditor=Editeur de règles - {0}
 RuleEditorDialog.Lbl.Rules=Règles
 RuleEditorDialog.Lbl.Type=Type :
@@ -450,6 +447,7 @@ FillChooserComposite.Lbl.Auto=Auto
 ClientAreaAttributeComposite.Lbl.Background=Arrière-plan :
 ClientAreaAttributeComposite.Lbl.Shadow=Ombre :
 ClientAreaAttributeComposite.Lbl.Outline=Contour
+
 InsetsComposite.Lbl.Insets=En 3D vers l''avant ({0})
 InsetsComposite.Lbl.Top=Haut :
 InsetsComposite.Lbl.Left=Gauche :
@@ -467,6 +465,7 @@ ExternalizedTextEditorDialog.Lbl.DefaultValue=&Valeur par défaut :
 ExternalizedTextEditorDialog.Lbl.ExternalizedValue=Valeur externalisée :
 ExternalizedTextEditorDialog.Warn.KeyNotFound=Impossible de trouver la clé dans le fichier de propriétés... ou le fichier de propriétés n'est pas présent.
 ExternalizedTextEditorDialog.Lbl.Value=<Valeur de la clé ''{0}''>
+
 FormatSpecifierComposite.error.Title=Erreur d'indicateur de format
 FormatSpecifierComposite.error.Message=Valeur du paramètre de l''indicateur de format incorrecte : "{0}"
 FormatSpecifierComposite.Lbl.DataType=Type &de données :
@@ -491,7 +490,6 @@ FormatSpecifierComposite.Tooltip.FractionDigits=Propriétés avancées : utilisé po
 FormatSpecifierComposite.Lbl.MaxRecursionTimes=Chiffres max. du dén&ominateur :
 FormatSpecifierComposite.Lbl.Fraction=&Fraction
 FormatSpecifierDialog.Title.EditFormat=Modifier le format
-
 FormatSpecifierComposite.Lbl.Advanced=&Avancé
 FormatSpecifierComposite.Lbl.DatePattern=&Correspondance :
 FormatSpecifierComposite.Lbl.NumberPattern=&Correspondance :
@@ -564,10 +562,12 @@ TriggerDataComposite.Lbl.Script=Scri&pt :
 TriggerDataComposite.Lbl.Target=Cible :
 TriggerEditorComposite.Lbl.Update=<< &Mettre à jour
 TriggerDataComposite.Lbl.TooltipText=Te&xte infobulle :
-TriggerDataComposite.Lbl.BaseURL=URL de base :
+TriggerDataComposite.Lbl.BaseURL=Modifier l'URL de base :
+
 GradientEditorDialog.Lbl.GradientEditor=Editeur de dégradé 
 GradientEditorDialog.Lbl.StartColor=Couleur de début :
 GradientEditorDialog.Lbl.Preview=Aperçu
+
 PaletteEditorComposite.Lbl.Add=&Ajouter
 PaletteEditorComposite.Lbl.Remove=&Supprimer
 PaletteEditorComposite.Lbl.Up=Vers le haut
@@ -711,12 +711,13 @@ AxisSheetImpl.Label.Color=Couleur
 AxisYSheetImpl.Label.Title=&Titre :
 AxisYSheetImpl.Label.Scale=Echelle
 AxisYSheetImpl.Label.Scale&=&Echelle :
-AxisSheetImpl.Label.Rotation=Rotation
 AxisSheetImpl.Label.CategoryX=Catégorie (X)
 AxisSheetImpl.Label.AncillaryZ=Auxiliaire (Z)
 AxisXSheetImpl.Label.Visible=Visibilité
-AxisYSheetImpl.Label.TextFormat=Format du texte de l'axe
-AxisYSheetImpl.Label.TextFormat&=&Format du texte
+AxisYSheetImpl.Label.LabelFormat=Format Axis Label
+AxisYSheetImpl.Label.LabelFormat&=&Etiquette
+AxisYSheetImpl.Label.TitleFormat=Format Axis Title
+AxisYSheetImpl.Label.TitleFormat&=&Titre
 AxisYSheetImpl.Label.Gridlines=Quadrillage
 AxisYSheetImpl.Label.Gridlines&=&Quadrillage
 AxisZSheetImpl.Label.Gridlines=&Quadrillage
@@ -736,18 +737,23 @@ ChartLegendSheetImpl.Label.ShowValue=Afficher la &valeur
 ChartPlotSheetImpl.Label.Background=Arrière-plan :
 ChartPlotSheetImpl.Label.Background2=Arrière-plan :
 ChartPlotSheetImpl.Label.ClientArea=Zone client
-ChartSheetImpl.Text.TitleFormat=Format du titre
-ChartSheetImpl.Text.TitleFormat&=F&ormat du titre
+ChartTitleSheetImpl.Text.TitleBlock=Bloc du titre
+ChartTitleSheetImpl.Text.TitleBlock&=&Block
+ChartTitleSheetImpl.Text.TitleText=Title Text
+ChartTitleSheetImpl.Text.TitleText&=&Text
 ChartSheetImpl.Title.ChartTitle=Titre du graphique
 ChartSheetImpl.Title.ChartArea=Zone graphique
-ChartLegendSheetImpl.Label.TextFormat=Format du &texte
+ChartLegendSheetImpl.Label.TextFormat=&Block
+ChartLegendSheetImpl.Label.LegendTitle=&Titre
 ChartLegendSheetImpl.Title.LayoutLegend=Mise en page de la légende
 ChartLegendSheetImpl.Tooltip.ShowDataPointValue=Affiche la valeur de point de données de la première ligne au-dessous du texte de légende saisi pour chaque entrée de légende.
 ChartLegendSheetImpl.Title.FormatLegendText=Formater le texte de légende
+ChartLegendSheetImpl.Title.FormatLegendTitle=Format Legend Title
 ChartLegendSheetImpl.Label.Layout=&Mise en page
 ChartLegendSheetImpl.Label.Legend=Légende
 ChartPlotSheetImpl.Label.AreaIncludingAxes=Zone contenant des axes
-ChartSheetImpl.Label.EnableInPreview=&Activer dans l'aperçu
+ChartSheetImpl.Label.EnableInPreview=&Aperçu
+ChartSheetImpl.Label.ResetValue=&Reset Value
 ChartPlotSheetImpl.Label.AreaWithinAxes=Zone délimitée par des axes
 ChartSheetImpl.Label.Style=&Style :
 ChartSheetImpl.Label.None=Aucun
@@ -760,8 +766,8 @@ ChartSheetImpl.Text.CustomProperties=Propriétés personnalisées
 ChartSheetImpl.Text.CustomProperties&=&Propriétés personnalisées
 ChartSheetImpl.Text.ChartAreaInteractivity=Interactivité de la &zone graphique
 ChartSheetImpl.Label.Interactivity=Interactivité 
-ChartSheetImpl.Label.InteractivityEnable=&Activer
-ChartSheetImpl.Label.LegendBehaviorType=Mode de &légende :
+ChartSheetImpl.Label.InteractivityEnable=E&nable Chart Interactivity
+ChartLegendSheetImpl.Label.LegendBehaviorType=Behavior:
 SeriesSheetImpl.Label.Type=Type
 LegendTextSheet.Label.Font=Police :
 LegendTextSheet.Label.Separator=Séparateur
@@ -798,6 +804,7 @@ MarkerIconDialog.Lbl.Remove=Supprimer
 MarkerIconDialog.Lbl.Description=Importer l'icône de repère à partir des fichiers image en local.
 
 exception.data.DataBindingsAreNull=Au moins une liaison de données est nulle.\
+
 DialLabelSheet.Label.Format=Format :
 
 ImageDialog.label.SelectImageType=Sélectionner un type d'image :
@@ -837,7 +844,6 @@ GanttSeriesAttributeComposite.Lbl.EndMarker=Repère de fin
 GanttSeriesAttributeComposite.Lbl.Line=Ligne de liaison
 GanttSeriesAttributeComposite.Lbl.Outline=Contour
 GanttSeriesAttributeComposite.Lbl.OutlineFill=Remplissage du contour :
-GanttSeriesAttributeComposite.Lbl.UseDecoration=Utiliser une étiquette de décoration
 GanttSeriesAttributeComposite.Lbl.LinePalette=Utiliser une couleur de trait de la palette
 
 DecorationSheet.Label.DecorationLabels=Etiquettes de décoration

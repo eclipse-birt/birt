@@ -9,6 +9,7 @@ Shared.mne.Background_K=”wŒi (&K):
 
 ChartWithAxesImpl.Z_Axis.title=Z ²‚Ìƒ^ƒCƒgƒ‹
 ChartSheetImpl.Label.Outline=ŠO˜g :
+ChartLegendImpl.Group.Rotation=‰ñ“]
 ChartSheetImpl.Label.Visible=‰Â‹(&V)
 ChartSheetImpl.Label.ColorBy=F•t‚¯‚ÌŠî€ (&C):
 ChartLegendSheetImpl.Label.Title=ƒ^ƒCƒgƒ‹ (&E):
@@ -19,7 +20,10 @@ ChartPlotSheetImpl.Label.Visible2=‰Â‹(&I)
 ChartPlotSheetImpl.Label.PlotArea=ƒvƒƒbƒg‚Ì—Ìˆæ
 ChartPlotSheetImpl.Label.AreaFormat=—Ìˆæ‚Ì‘®İ’è
 ChartPlotSheetImpl.Label.AreaFormat&=—Ìˆæ‚Ì‘®İ’è(&A)
-ChartSheetImpl.Label.ChartTitle=ƒOƒ‰ƒt‚Ìƒ^ƒCƒgƒ‹ (&H):
+ChartTitleSheetImpl.Label.ChartTitle=ƒOƒ‰ƒt‚Ìƒ^ƒCƒgƒ‹ (&H):
+ChartTitleSheetImpl.Titel.Tooltip=Title Tooltip
+ChartTitleSheetImpl.Label.Tooltip=Tooltip:
+ChartLegendSheetImpl.Title.Tooltip=Legend Tooltip
 ChartSheetImpl.Label.Background=”wŒi :
 
 ScriptSheetImpl.Lbl.Script=ƒXƒNƒŠƒvƒg :
@@ -61,12 +65,11 @@ BaseAxisDataSheetImpl.Lbl.BaseAxis2=ƒJƒeƒSƒŠ² ({0})
 BaseAxisAttributeSheetImpl.Lbl.GapWidth=ŠÔŠu‚Ì• :
 BaseAxisAttributeSheetImpl.Lbl.MajorGrid=–Ú·ü
 BaseAxisAttributeSheetImpl.Lbl.MinorGrid=•â•–Ú·ü
-
 BaseAxisAttributeSheetImpl.Lbl.Orientation=Œü‚« :
 BaseAxisAttributeSheetImpl.Lbl.PercentSign=%
-
 BaseAxisAttributeSheetImpl.Lbl.HideAxisLine=²ü‚ğ”ñ•\¦‚É‚·‚é(&X)
 BaseAxisAttributeSheetImpl.Lbl.IsCategoryAxis=ƒJƒeƒSƒŠ²
+BaseAxisAttributeSheetImpl.Lbl.IsTickBetweenCategories=Cross between Categories
 BaseAxisAttributeSheetImpl.Lbl.AxisLineColor=²ü‚ÌF :
 BaseAxisAttributeSheetImpl.Exception.IllegalArgument=²‚Ì‘®«ƒV[ƒg‚Ìˆø”‚ª–³Œø‚Å‚·BƒOƒ‰ƒt‚ÍAChartWithAxes Œ^‚Éw’è‚·‚é•K—v‚ª‚ ‚è‚Ü‚·B
 BaseAxisAttributeSheetImpl.Title.SheetTitle=‘®« > X ² - X ²‚Ì‘®«‚ÌƒJƒXƒ^ƒ}ƒCƒY
@@ -133,7 +136,6 @@ OrthogonalAxisDataSheetImpl.Lbl.Title=²ƒ^ƒCƒgƒ‹ :
 OrthogonalAxisDataSheetImpl.Lbl.Origin=Œ´“_ (&O):
 OrthogonalAxisDataSheetImpl.Lbl.Value=’l :
 OrthogonalAxisDataSheetImpl.Lbl.PrimaryAxis=å²
-
 OrthogonalAxisDataSheetImpl.Lbl.Scale=ƒXƒP[ƒ‹
 OrthogonalAxisDataSheetImpl.Lbl.Minimum=Å¬ :
 OrthogonalAxisDataSheetImpl.Lbl.Maximum=Å‘å :
@@ -154,12 +156,10 @@ OrthogonalAxisLabelAttributeSheetImpl.Exception.IllegalArgument=²ƒ‰ƒxƒ‹‚Ì‘®«ƒV
 
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.Values=’l :
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.Anchor=ƒAƒ“ƒJ[ :
-
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.AddLine=ü‚Ì’Ç‰Á
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.AddRange=”ÍˆÍ‚Ì’Ç‰Á
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.EndValue=I—¹’l :
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.ForAxis=\ - {0} ²
-
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.RemoveEntry=ƒGƒ“ƒgƒŠ‚Ìíœ
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.StartValue=ŠJn’l :
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.RangeOutline=”ÍˆÍ‚ÌŠO˜g
@@ -167,9 +167,7 @@ OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerLine=MarkerLine {0,number,integ
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerRange=MarkerRange 
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.Fill=Fill:
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerProperties=ƒ}[ƒJ‚ÌƒvƒƒpƒeƒB
-
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerLineAttributes=ƒ}[ƒJü‚Ì‘®«
-
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerLabelProperties=ƒ}[ƒJƒ‰ƒxƒ‹‚ÌƒvƒƒpƒeƒB
 OrthogonalAxisMarkerAttributeSheetImpl.Exception.IllegalArgument=²ƒ}[ƒJ‚Ì‘®«ƒV[ƒg‚Ìˆø”‚ª–³Œø‚Å‚·BƒOƒ‰ƒt‚ÍAChartWithAxes Œ^‚Éw’è‚·‚é•K—v‚ª‚ ‚è‚Ü‚·B
 
@@ -284,6 +282,7 @@ LineChart.Txt.OverlayDescription=ƒI[ƒo[ƒŒƒCüƒOƒ‰ƒtBŠeŒn—ñ‚ÌÜ‚êü‚ª‚»‚ê‚¼‚êŒ
 LineSeriesAttributeComposite.Exception.IllegalArgument={0} Œ^‚ÌŒn—ñ‚ÍALineSeriesAttributeComposite ‚Ìˆø”‚Æ‚µ‚Ä‚Íg—p‚Å‚«‚Ü‚¹‚ñB
 LineSeriesAttributeComposite.Lbl.ShowLinesAsCurves=’¼ü‚ğ‹Èü‚Å•\¦‚·‚é(&H)
 LineChart.Txt.HelpText=üƒOƒ‰ƒt‚ÍAƒŒƒ“ƒ_ƒŠƒ“ƒO‚³‚ê‚éŠeŒn—ñ‚ğ•\‚µ‚Ü‚·BƒIƒvƒVƒ‡ƒ“‚Ìƒ}[ƒJ‚ğg—p‚µ‚ÄAƒvƒƒbƒg’†‚Ìƒf[ƒ^‚É‘Î‰‚·‚éƒ|ƒCƒ“ƒg‚ğ‹­’²•\¦‚·‚é‚±‚Æ‚à‚Å‚«‚Ü‚·BÏ‚İã‚°üƒOƒ‰ƒt‚ÍAüŒn—ñ‚Ìƒf[ƒ^ƒ|ƒCƒ“ƒg‚É‘Î‚µ‚Ä’á‚¢ˆÊ’u‚É‚ ‚éƒJƒeƒSƒŠƒ|ƒCƒ“ƒg‚ğ•\‚µ‚Ü‚·BÏ‚İã‚°üƒOƒ‰ƒt (Š„‡) ‚Å‚ÍAŠeƒf[ƒ^’l‚ªAƒJƒeƒSƒŠ‚Ì‡Œv‚ÌŠ„‡‚Åƒvƒƒbƒg‚³‚ê‚Ü‚·B
+
 ScatterChart.Txt.Description=•ª•zƒOƒ‰ƒtBƒJƒeƒSƒŠƒf[ƒ^‚Æ’lƒf[ƒ^‚ğÀ•W‚Æ‚µA’l‚ğ“_‚Åƒvƒƒbƒg‚µ‚Ü‚·B\nŠeƒf[ƒ^’l‚Íƒ}[ƒJ‚Å¦‚µ‚Ü‚·B
 ScatterChart.Txt.HelpText=•ª•zƒOƒ‰ƒtBƒJƒeƒSƒŠ‚Ì‚È‚¢²‚É‘Î‰‚·‚éƒf[ƒ^’l‚ğƒ‰ƒ“ƒ_ƒ€‚ÈŠÔŠu‚Å•\¦‚µ‚Ü‚·BŠeƒf[ƒ^ƒ|ƒCƒ“ƒg‚ÍAX ²‚Æ Y ²‚ÌƒXƒP[ƒ‹‚É‘Î‰‚µ‚Ü‚·B
 ScatterSeriesUIProvider.Lbl.SeriesDefinition=Œn—ñ‚Ì’è‹`
@@ -421,9 +420,11 @@ LabelAttributesComposite.Lbl.Outline=ŠO˜g
 LabelBlockAttributeSheetImpl.Lbl.Outline=ŠO˜g
 LabelBlockAttributeSheetImpl.Lbl.LabelProperties=ƒ‰ƒxƒ‹‚ÌƒvƒƒpƒeƒB
 LabelBlockAttributeSheetImpl.Lbl.LabelBlock=ƒ‰ƒxƒ‹ƒuƒƒbƒN 
+
 DataDefinitionComposite.Tooltip.InvokeExpressionBuilder=ŒvZ®ƒrƒ‹ƒ_‚Ì‹N“®
 DataDefinitionSelector.Exception.NotSupportedForMultipleAxes=\ ‚ÍA•¡”²‚É‚Íg—p‚Å‚«‚Ü‚¹‚ñB\
 DataDefinitionComposite.Tooltip.InvokeRuleEditor=‹K‘¥ƒGƒfƒBƒ^‚Ì‹N“®
+
 RuleEditorDialog.Title.RuleEditor=‹K‘¥ƒGƒfƒBƒ^ - {0}
 RuleEditorDialog.Lbl.Rules=‹K‘¥
 RuleEditorDialog.Lbl.Type=Œ^ :
@@ -446,6 +447,7 @@ FillChooserComposite.Lbl.Auto=©“®
 ClientAreaAttributeComposite.Lbl.Background=”wŒi :
 ClientAreaAttributeComposite.Lbl.Shadow=‰e :
 ClientAreaAttributeComposite.Lbl.Outline=ŠO˜g
+
 InsetsComposite.Lbl.Insets=ƒCƒ“ƒZƒbƒg ({0})
 InsetsComposite.Lbl.Top=ã :
 InsetsComposite.Lbl.Left=¶ :
@@ -463,6 +465,7 @@ ExternalizedTextEditorDialog.Lbl.DefaultValue=ƒfƒtƒHƒ‹ƒg’l (&D):
 ExternalizedTextEditorDialog.Lbl.ExternalizedValue=ŠO•”‰»‚³‚ê‚½’l :
 ExternalizedTextEditorDialog.Warn.KeyNotFound=ƒL[‚ªƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹‚É‚È‚¢‚©AƒvƒƒpƒeƒBƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚Ü‚¹‚ñB
 ExternalizedTextEditorDialog.Lbl.Value=<ƒL[‚Ì’l ''{0}''>
+
 FormatSpecifierComposite.error.Title=‘®w’èq‚ÌƒGƒ‰[
 FormatSpecifierComposite.error.Message=–³Œø‚È‘®w’èq‚Ìƒpƒ‰ƒƒ^’l : "{0}"
 FormatSpecifierComposite.Lbl.DataType=ƒf[ƒ^Œ^ (&D):
@@ -487,7 +490,6 @@ FormatSpecifierComposite.Tooltip.FractionDigits=ƒvƒƒpƒeƒB‚ÌÚ×İ’è : ‹ß—’l‚Ì
 FormatSpecifierComposite.Lbl.MaxRecursionTimes=•ª•ê‚ÌÅ‘åŒ…” (&O):
 FormatSpecifierComposite.Lbl.Fraction=•ª”(&F)
 FormatSpecifierDialog.Title.EditFormat=‘®‚Ì•ÒW
-
 FormatSpecifierComposite.Lbl.Advanced=Ú×İ’è(&A)
 FormatSpecifierComposite.Lbl.DatePattern=ƒpƒ^[ƒ“ (&P):
 FormatSpecifierComposite.Lbl.NumberPattern=ƒpƒ^[ƒ“ (&P):
@@ -560,10 +562,12 @@ TriggerDataComposite.Lbl.Script=ƒXƒNƒŠƒvƒg (&P):
 TriggerDataComposite.Lbl.Target=ƒ^[ƒQƒbƒg :
 TriggerEditorComposite.Lbl.Update=<< XV(&U)
 TriggerDataComposite.Lbl.TooltipText=ƒc[ƒ‹ƒ`ƒbƒv‚ÌƒeƒLƒXƒg (&X):
-TriggerDataComposite.Lbl.BaseURL=Šî–{‚Ì URL :
+TriggerDataComposite.Lbl.BaseURL=ƒx[ƒX URL ‚Ì•ÒW :
+
 GradientEditorDialog.Lbl.GradientEditor=ƒOƒ‰ƒf[ƒVƒ‡ƒ“ƒGƒfƒBƒ^ 
 GradientEditorDialog.Lbl.StartColor=ŠJnF :
 GradientEditorDialog.Lbl.Preview=ƒvƒŒƒrƒ…[
+
 PaletteEditorComposite.Lbl.Add=’Ç‰Á(&A)
 PaletteEditorComposite.Lbl.Remove=íœ(&R)
 PaletteEditorComposite.Lbl.Up=ã‚Ö
@@ -707,12 +711,13 @@ AxisSheetImpl.Label.Color=ƒJƒ‰[
 AxisYSheetImpl.Label.Title=ƒ^ƒCƒgƒ‹ (&E):
 AxisYSheetImpl.Label.Scale=ƒXƒP[ƒ‹
 AxisYSheetImpl.Label.Scale&=ƒXƒP[ƒ‹(&S)
-AxisSheetImpl.Label.Rotation=‰ñ“]
 AxisSheetImpl.Label.CategoryX=ƒJƒeƒSƒŠ (X)
 AxisSheetImpl.Label.AncillaryZ=•â• (Z)
 AxisXSheetImpl.Label.Visible=‰Â‹
-AxisYSheetImpl.Label.TextFormat=²ƒeƒLƒXƒg‚Ì‘®İ’è
-AxisYSheetImpl.Label.TextFormat&=ƒeƒLƒXƒg‚Ì‘®İ’è(&T)
+AxisYSheetImpl.Label.LabelFormat=Format Axis Label
+AxisYSheetImpl.Label.LabelFormat&=ƒ‰ƒxƒ‹(&L)
+AxisYSheetImpl.Label.TitleFormat=Format Axis Title
+AxisYSheetImpl.Label.TitleFormat&=ƒ^ƒCƒgƒ‹(&T)
 AxisYSheetImpl.Label.Gridlines=ƒOƒŠƒbƒh
 AxisYSheetImpl.Label.Gridlines&=ƒOƒŠƒbƒh(&G)
 AxisZSheetImpl.Label.Gridlines=ƒOƒŠƒbƒh(&G)
@@ -732,18 +737,23 @@ ChartLegendSheetImpl.Label.ShowValue=’l‚Ì•\¦(&S)
 ChartPlotSheetImpl.Label.Background=”wŒi :
 ChartPlotSheetImpl.Label.Background2=”wŒi :
 ChartPlotSheetImpl.Label.ClientArea=ƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ
-ChartSheetImpl.Text.TitleFormat=ƒ^ƒCƒgƒ‹‚Ì‘®
-ChartSheetImpl.Text.TitleFormat&=ƒ^ƒCƒgƒ‹‚Ì‘®(&T)
+ChartTitleSheetImpl.Text.TitleBlock=ƒ^ƒCƒgƒ‹ƒuƒƒbƒN
+ChartTitleSheetImpl.Text.TitleBlock&=&Block
+ChartTitleSheetImpl.Text.TitleText=Title Text
+ChartTitleSheetImpl.Text.TitleText&=&Text
 ChartSheetImpl.Title.ChartTitle=ƒOƒ‰ƒt‚Ìƒ^ƒCƒgƒ‹
 ChartSheetImpl.Title.ChartArea=ƒOƒ‰ƒt‚Ì—Ìˆæ
-ChartLegendSheetImpl.Label.TextFormat=ƒeƒLƒXƒg‚Ì‘®(&T)
+ChartLegendSheetImpl.Label.TextFormat=&Block
+ChartLegendSheetImpl.Label.LegendTitle=ƒ^ƒCƒgƒ‹(&T)
 ChartLegendSheetImpl.Title.LayoutLegend=ƒŒƒCƒAƒEƒg‚Ì–}—á
 ChartLegendSheetImpl.Tooltip.ShowDataPointValue=Še–}—áƒGƒ“ƒgƒŠ‚É‚Â‚¢‚ÄA–}—áƒeƒLƒXƒg‚Ì‰º‚É 1 s–Ú‚Ìƒf[ƒ^ƒ|ƒCƒ“ƒg’l‚ğ•\¦‚µ‚Ü‚·B
 ChartLegendSheetImpl.Title.FormatLegendText=–}—áƒeƒLƒXƒg‚Ì‘®İ’è
+ChartLegendSheetImpl.Title.FormatLegendTitle=Format Legend Title
 ChartLegendSheetImpl.Label.Layout=ƒŒƒCƒAƒEƒg(&L)
 ChartLegendSheetImpl.Label.Legend=–}—á
 ChartPlotSheetImpl.Label.AreaIncludingAxes=²‚ğŠÜ‚ß‚½—Ìˆæ
-ChartSheetImpl.Label.EnableInPreview=ƒvƒŒƒrƒ…[‚Å—LŒø‚É‚·‚é(&E)
+ChartSheetImpl.Label.EnableInPreview=ƒvƒŒƒrƒ…[(&P)
+ChartSheetImpl.Label.ResetValue=&Reset Value
 ChartPlotSheetImpl.Label.AreaWithinAxes=²‚Ì“à‘¤
 ChartSheetImpl.Label.Style=ƒXƒ^ƒCƒ‹ (&S):
 ChartSheetImpl.Label.None=‚È‚µ
@@ -756,8 +766,8 @@ ChartSheetImpl.Text.CustomProperties=ƒJƒXƒ^ƒ€ƒvƒƒpƒeƒB
 ChartSheetImpl.Text.CustomProperties&=ƒJƒXƒ^ƒ€ƒvƒƒpƒeƒB(&C)
 ChartSheetImpl.Text.ChartAreaInteractivity=ƒOƒ‰ƒt—Ìˆæ‚Ì‘ŠŒİì—p(&A)
 ChartSheetImpl.Label.Interactivity=‘ŠŒİì—p 
-ChartSheetImpl.Label.InteractivityEnable=—LŒø(&N)
-ChartSheetImpl.Label.LegendBehaviorType=–}—á‚Ì•\¦ (&L):
+ChartSheetImpl.Label.InteractivityEnable=E&nable Chart Interactivity
+ChartLegendSheetImpl.Label.LegendBehaviorType=Behavior:
 SeriesSheetImpl.Label.Type=í—Ş
 LegendTextSheet.Label.Font=ƒtƒHƒ“ƒg–¼ :
 LegendTextSheet.Label.Separator=‹æØ‚è•¶š
@@ -794,6 +804,7 @@ MarkerIconDialog.Lbl.Remove=íœ
 MarkerIconDialog.Lbl.Description=ƒ[ƒJƒ‹‚ÌƒCƒ[ƒWƒtƒ@ƒCƒ‹‚©‚çƒ}[ƒJ‚ÌƒAƒCƒRƒ“‚ğƒCƒ“ƒ|[ƒg‚µ‚Ü‚·B
 
 exception.data.DataBindingsAreNull=1 ‚Â‚Ü‚½‚Í•¡”‚Ìƒf[ƒ^ƒoƒCƒ“ƒh‚ª NULL ‚Å‚·B
+
 DialLabelSheet.Label.Format=‘® :
 
 ImageDialog.label.SelectImageType=ƒCƒ[ƒW‚Ìí—Ş‚ğ‘I‘ğ :
@@ -833,7 +844,6 @@ GanttSeriesAttributeComposite.Lbl.EndMarker=I—¹ƒ}[ƒJ
 GanttSeriesAttributeComposite.Lbl.Line=Ú‘±ü
 GanttSeriesAttributeComposite.Lbl.Outline=ŠO˜g
 GanttSeriesAttributeComposite.Lbl.OutlineFill=ŠO˜g‚Ì“h‚è‚Â‚Ô‚µ :
-GanttSeriesAttributeComposite.Lbl.UseDecoration=•¶šü‚è‚Ìƒ‰ƒxƒ‹‚ğg—p‚·‚é
 GanttSeriesAttributeComposite.Lbl.LinePalette=ƒpƒŒƒbƒg‚ğü‚ÌF‚Æ‚µ‚Äg—p‚·‚é
 
 DecorationSheet.Label.DecorationLabels=•¶šü‚è‚Ìƒ‰ƒxƒ‹

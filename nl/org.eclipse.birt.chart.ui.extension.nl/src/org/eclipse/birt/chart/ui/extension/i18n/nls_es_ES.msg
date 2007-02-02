@@ -9,6 +9,7 @@ Shared.mne.Background_K=Fon&do:
 
 ChartWithAxesImpl.Z_Axis.title=Título del eje Z
 ChartSheetImpl.Label.Outline=Contorno:
+ChartLegendImpl.Group.Rotation=Rotación
 ChartSheetImpl.Label.Visible=&Visible
 ChartSheetImpl.Label.ColorBy=&Color por:
 ChartLegendSheetImpl.Label.Title=Títul&o:
@@ -19,7 +20,10 @@ ChartPlotSheetImpl.Label.Visible2=V&isible
 ChartPlotSheetImpl.Label.PlotArea=Área de dibujo
 ChartPlotSheetImpl.Label.AreaFormat=Formato del área
 ChartPlotSheetImpl.Label.AreaFormat&=&Formato del área
-ChartSheetImpl.Label.ChartTitle=T&ítulo del diagrama:
+ChartTitleSheetImpl.Label.ChartTitle=T&ítulo del diagrama:
+ChartTitleSheetImpl.Titel.Tooltip=Title Tooltip
+ChartTitleSheetImpl.Label.Tooltip=Tooltip:
+ChartLegendSheetImpl.Title.Tooltip=Legend Tooltip
 ChartSheetImpl.Label.Background=Fondo:
 
 ScriptSheetImpl.Lbl.Script=Script:
@@ -61,12 +65,11 @@ BaseAxisDataSheetImpl.Lbl.BaseAxis2=Eje de categoría ({0})
 BaseAxisAttributeSheetImpl.Lbl.GapWidth=Ancho del espacio:
 BaseAxisAttributeSheetImpl.Lbl.MajorGrid=Cuadrícula principal
 BaseAxisAttributeSheetImpl.Lbl.MinorGrid=Cuadrícula secundaria
-
 BaseAxisAttributeSheetImpl.Lbl.Orientation=Orientación:
 BaseAxisAttributeSheetImpl.Lbl.PercentSign=%
-
 BaseAxisAttributeSheetImpl.Lbl.HideAxisLine=Ocultar línea de ej&es
 BaseAxisAttributeSheetImpl.Lbl.IsCategoryAxis=Es eje de categoría
+BaseAxisAttributeSheetImpl.Lbl.IsTickBetweenCategories=Cross between Categories
 BaseAxisAttributeSheetImpl.Lbl.AxisLineColor=Color de línea del eje:
 BaseAxisAttributeSheetImpl.Exception.IllegalArgument=Argumento no válido para la hoja de atributos del eje...el diagrama deber ser del tipo ChartWithAxes
 BaseAxisAttributeSheetImpl.Title.SheetTitle=Atributos > Eje X - Personalizar atributos del eje X
@@ -86,14 +89,10 @@ BaseAxisMarkerAttributeSheetImpl.Lbl.AddRegion=&Añadir región
 BaseAxisMarkerAttributeSheetImpl.Lbl.RemoveEntry=&Eliminar entrada
 BaseAxisMarkerAttributeSheetImpl.Lbl.StartValue=V&alor de inicio:
 BaseAxisMarkerAttributeSheetImpl.Lbl.EndValue=&Valor de fin:
-
 BaseAxisMarkerAttributeSheetImpl.Lbl.RangeOutline=Contorno del intervalo
 BaseAxisMarkerAttributeSheetImpl.Lbl.ForAxis=\ para el eje 
-
 BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerLineAttributes=Atributos de línea de marcador
-
 BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerProperties=Propiedades del marcador
-
 BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerLine=MarkerLine {0} {1}
 BaseAxisMarkerAttributeSheetImpl.Lbl.MarkerRange=MarkerRange {0} {1}
 BaseAxisMarkerAttributeSheetImpl.Title.SheetTitle=Atributos > Eje X > Marcadores - Establecer marcadores del eje X
@@ -137,7 +136,6 @@ OrthogonalAxisDataSheetImpl.Lbl.Title=Título del eje:
 OrthogonalAxisDataSheetImpl.Lbl.Origin=&Origen:
 OrthogonalAxisDataSheetImpl.Lbl.Value=Valor:
 OrthogonalAxisDataSheetImpl.Lbl.PrimaryAxis=Es eje principal
-
 OrthogonalAxisDataSheetImpl.Lbl.Scale=Escala
 OrthogonalAxisDataSheetImpl.Lbl.Minimum=Mínimo:
 OrthogonalAxisDataSheetImpl.Lbl.Maximum=Máximo:
@@ -158,12 +156,10 @@ OrthogonalAxisLabelAttributeSheetImpl.Exception.IllegalArgument=Argumento no vál
 
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.Values=Valor:
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.Anchor=Delimitador:
-
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.AddLine=Añadir línea
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.AddRange=Añadir intervalo
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.EndValue=Valor de fin:
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.ForAxis=\ para el eje {0}
-
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.RemoveEntry=Eliminar entrada
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.StartValue=Valor de inicio:
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.RangeOutline=Contorno del intervalo
@@ -171,9 +167,7 @@ OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerLine=MarkerLine {0,número,enter
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerRange=MarkerRange 
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.Fill=Relleno:
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerProperties=Propiedades del marcador
-
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerLineAttributes=Atributos de línea de marcador
-
 OrthogonalAxisMarkerAttributeSheetImpl.Lbl.MarkerLabelProperties=Propiedades de la etiqueta del marcador
 OrthogonalAxisMarkerAttributeSheetImpl.Exception.IllegalArgument=Argumento no válido para la hoja de atributos de marcador del eje...el diagrama deber ser del tipo ChartWithAxes
 
@@ -426,9 +420,11 @@ LabelAttributesComposite.Lbl.Outline=Contorno
 LabelBlockAttributeSheetImpl.Lbl.Outline=Contorno
 LabelBlockAttributeSheetImpl.Lbl.LabelProperties=Propiedades de la etiqueta
 LabelBlockAttributeSheetImpl.Lbl.LabelBlock=Bloque de etiqueta 
+
 DataDefinitionComposite.Tooltip.InvokeExpressionBuilder=Llamar al compilador de expresiones 
 DataDefinitionSelector.Exception.NotSupportedForMultipleAxes=\ no se admite para ejes múltiples\!
 DataDefinitionComposite.Tooltip.InvokeRuleEditor=Llamar al editor de reglas
+
 RuleEditorDialog.Title.RuleEditor=Editor de reglas - {0}
 RuleEditorDialog.Lbl.Rules=Reglas
 RuleEditorDialog.Lbl.Type=Tipo:
@@ -451,6 +447,7 @@ FillChooserComposite.Lbl.Auto=Automático
 ClientAreaAttributeComposite.Lbl.Background=Fondo:
 ClientAreaAttributeComposite.Lbl.Shadow=Sombra:
 ClientAreaAttributeComposite.Lbl.Outline=Contorno
+
 InsetsComposite.Lbl.Insets=Bajos relieves ({0})
 InsetsComposite.Lbl.Top=Superior:
 InsetsComposite.Lbl.Left=Izquierdo:
@@ -468,6 +465,7 @@ ExternalizedTextEditorDialog.Lbl.DefaultValue=&Valor predeterminado:
 ExternalizedTextEditorDialog.Lbl.ExternalizedValue=Valor externalizado:
 ExternalizedTextEditorDialog.Warn.KeyNotFound=No se ha encontrado la clave en el archivo de propiedades... o el archivo de propiedades no está presente.
 ExternalizedTextEditorDialog.Lbl.Value=<Valor de clave ''{0}''>
+
 FormatSpecifierComposite.error.Title=Error de especificador de formato
 FormatSpecifierComposite.error.Message=Valor del parámetro de especificador de formato no válido: "{0}"
 FormatSpecifierComposite.Lbl.DataType=Tipo de &datos:
@@ -492,7 +490,6 @@ FormatSpecifierComposite.Tooltip.FractionDigits=Propiedades avanzadas: se utiliz
 FormatSpecifierComposite.Lbl.MaxRecursionTimes=Dígit&os máximos del denominador:
 FormatSpecifierComposite.Lbl.Fraction=&Fracción
 FormatSpecifierDialog.Title.EditFormat=Editar formato
-
 FormatSpecifierComposite.Lbl.Advanced=&Avanzado
 FormatSpecifierComposite.Lbl.DatePattern=&Patrón:
 FormatSpecifierComposite.Lbl.NumberPattern=&Patrón:
@@ -565,10 +562,12 @@ TriggerDataComposite.Lbl.Script=Scri&pt:
 TriggerDataComposite.Lbl.Target=Destino:
 TriggerEditorComposite.Lbl.Update=<< &Actualizar
 TriggerDataComposite.Lbl.TooltipText=Te&xto de información sobre herramientas:
-TriggerDataComposite.Lbl.BaseURL=URL base:
+TriggerDataComposite.Lbl.BaseURL=Editar URL base:
+
 GradientEditorDialog.Lbl.GradientEditor=Editor de gradientes
 GradientEditorDialog.Lbl.StartColor=Color de inicio:
 GradientEditorDialog.Lbl.Preview=Vista previa
+
 PaletteEditorComposite.Lbl.Add=&Añadir
 PaletteEditorComposite.Lbl.Remove=&Quitar
 PaletteEditorComposite.Lbl.Up=Arriba
@@ -712,12 +711,13 @@ AxisSheetImpl.Label.Color=Color
 AxisYSheetImpl.Label.Title=&Título:
 AxisYSheetImpl.Label.Scale=Escala
 AxisYSheetImpl.Label.Scale&=E&scala
-AxisSheetImpl.Label.Rotation=Rotación
 AxisSheetImpl.Label.CategoryX=Categoría (X)
 AxisSheetImpl.Label.AncillaryZ=Complementario (Z)
 AxisXSheetImpl.Label.Visible=Visible
-AxisYSheetImpl.Label.TextFormat=Texto del eje de formato
-AxisYSheetImpl.Label.TextFormat&=&Formato de texto
+AxisYSheetImpl.Label.LabelFormat=Format Axis Label
+AxisYSheetImpl.Label.LabelFormat&=&Etiqueta
+AxisYSheetImpl.Label.TitleFormat=Format Axis Title
+AxisYSheetImpl.Label.TitleFormat&=&Título
 AxisYSheetImpl.Label.Gridlines=Líneas de cuadrícula
 AxisYSheetImpl.Label.Gridlines&=&Líneas de cuadrícula
 AxisZSheetImpl.Label.Gridlines=&Líneas de cuadrícula
@@ -737,18 +737,23 @@ ChartLegendSheetImpl.Label.ShowValue=&Mostrar valor
 ChartPlotSheetImpl.Label.Background=Fondo:
 ChartPlotSheetImpl.Label.Background2=Fondo:
 ChartPlotSheetImpl.Label.ClientArea=Área del cliente
-ChartSheetImpl.Text.TitleFormat=Formato de título
-ChartSheetImpl.Text.TitleFormat&=Formato de &título
+ChartTitleSheetImpl.Text.TitleBlock=Bloque de título
+ChartTitleSheetImpl.Text.TitleBlock&=&Block
+ChartTitleSheetImpl.Text.TitleText=Title Text
+ChartTitleSheetImpl.Text.TitleText&=&Text
 ChartSheetImpl.Title.ChartTitle=Título de diagrama
 ChartSheetImpl.Title.ChartArea=Área del diagrama
-ChartLegendSheetImpl.Label.TextFormat=Formato de &texto
+ChartLegendSheetImpl.Label.TextFormat=&Block
+ChartLegendSheetImpl.Label.LegendTitle=&Título
 ChartLegendSheetImpl.Title.LayoutLegend=Diseño de leyenda
 ChartLegendSheetImpl.Tooltip.ShowDataPointValue=Muestra el valor punto de datos de la primera línea situada bajo el texto de entrada de la leyenda para cada entrada de leyenda.
 ChartLegendSheetImpl.Title.FormatLegendText=Formato del texto de leyenda
+ChartLegendSheetImpl.Title.FormatLegendTitle=Format Legend Title
 ChartLegendSheetImpl.Label.Layout=&Diseño
 ChartLegendSheetImpl.Label.Legend=Leyenda
 ChartPlotSheetImpl.Label.AreaIncludingAxes=Área incluidos ejes
-ChartSheetImpl.Label.EnableInPreview=&Activar en vista previa
+ChartSheetImpl.Label.EnableInPreview=Vista &previa
+ChartSheetImpl.Label.ResetValue=&Reset Value
 ChartPlotSheetImpl.Label.AreaWithinAxes=Área dentro de los ejes
 ChartSheetImpl.Label.Style=&Estilo:
 ChartSheetImpl.Label.None=Ninguno
@@ -761,8 +766,8 @@ ChartSheetImpl.Text.CustomProperties=Propiedades de personalización
 ChartSheetImpl.Text.CustomProperties&=Propiedades de personaliza&ción
 ChartSheetImpl.Text.ChartAreaInteractivity=Inter&actividad del área de diagrama
 ChartSheetImpl.Label.Interactivity=Interactividad
-ChartSheetImpl.Label.InteractivityEnable=&Activar
-ChartSheetImpl.Label.LegendBehaviorType=Comportamiento de &leyenda:
+ChartSheetImpl.Label.InteractivityEnable=E&nable Chart Interactivity
+ChartLegendSheetImpl.Label.LegendBehaviorType=Behavior:
 SeriesSheetImpl.Label.Type=Tipo
 LegendTextSheet.Label.Font=Fuente:
 LegendTextSheet.Label.Separator=Separador
@@ -799,6 +804,7 @@ MarkerIconDialog.Lbl.Remove=Quitar
 MarkerIconDialog.Lbl.Description=Importar el icono de marcador de los archivos de imagen local.
 
 exception.data.DataBindingsAreNull=Uno o varios enlaces de datos son nulos.
+
 DialLabelSheet.Label.Format=Formato:
 
 ImageDialog.label.SelectImageType=Seleccionar tipo de imagen:
@@ -838,7 +844,6 @@ GanttSeriesAttributeComposite.Lbl.EndMarker=Marcador de finalización
 GanttSeriesAttributeComposite.Lbl.Line=Línea de conexión
 GanttSeriesAttributeComposite.Lbl.Outline=Contorno
 GanttSeriesAttributeComposite.Lbl.OutlineFill=Relleno de contorno:
-GanttSeriesAttributeComposite.Lbl.UseDecoration=Usar etiqueta de decoración
 GanttSeriesAttributeComposite.Lbl.LinePalette=Usar color de línea de paleta
 
 DecorationSheet.Label.DecorationLabels=Etiquetas de decoración
