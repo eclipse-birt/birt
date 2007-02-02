@@ -187,7 +187,8 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 				{
 					List list = new ArrayList( );
 
-					list.add( ( (StructuredSelection) getSelection( ) ).getFirstElement( ) );
+					Object selectedObject = ( (StructuredSelection) getSelection( ) ).getFirstElement( );
+					list.add( selectedObject );
 
 					ReportRequest r = new ReportRequest( );
 					r.setType( ReportRequest.OPEN_EDITOR );
@@ -217,6 +218,29 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 					SessionHandleAdapter.getInstance( )
 							.getMediator( )
 							.notifyRequest( r );
+
+					try
+					{
+						Tree tree = (Tree) e.getSource( );
+						TreeItem[] selectedItems = tree.getSelection( );
+						if ( selectedItems.length > 0 )
+						{
+							if ( selectedItems[0].getExpanded( ) )
+							{
+								selectedItems[0].setExpanded( false );
+							}
+							else
+							{
+								getTreeViewer( ).expandToLevel( selectedObject,
+										selectedItems[0].getExpanded( ) ? 0 : 1 );
+							}
+						}
+					}
+					catch ( Exception e2 )
+					{
+
+					}
+
 				}
 			}
 
