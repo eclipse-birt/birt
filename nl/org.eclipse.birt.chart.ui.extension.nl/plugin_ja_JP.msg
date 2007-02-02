@@ -10,3 +10,4 @@ YAxis=Y ²
 ZAxis=Z ²
 Plot=ƒvƒƒbƒg
 Legend=–}—á
+Title=Title

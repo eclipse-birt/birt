@@ -10,3 +10,4 @@ YAxis=Y Öá
 ZAxis=Z Öá
 Plot=Í¼ÐÎ
 Legend=Í¼Àý
+Title=Title

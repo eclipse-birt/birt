@@ -10,3 +10,4 @@ YAxis=Y-Achse
 ZAxis=Z-Achse
 Plot=Diagramm
 Legend=Legende
+Title=Title
