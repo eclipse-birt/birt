@@ -1,5 +1,5 @@
 birt.web.category.name=ビジネスインテリジェンスとレポート作成ツール
-birt.web.project.name=BIRT Web プロジェクト 
+birt.web.project.name=Web Project 
 birt.web.project.description=BIRT ランタイムコンポーネントを含む Web プロジェクトを作成します。
 birt.web.actionsets.description=BIRT Web プロジェクトでの操作
 create.birt.web.module=BIRT Web モジュールの作成

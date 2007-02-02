@@ -1,5 +1,5 @@
 birt.web.category.name=Business Intelligence 및 보고 도구
-birt.web.project.name=BIRT 웹 프로젝트 
+birt.web.project.name=Web Project 
 birt.web.project.description=BIRT 런타임 구성 요소를 포함한 웹 프로젝트 생성
 birt.web.actionsets.description=BIRT 웹 프로젝트 작업
 create.birt.web.module=BIRT 웹 모듈 생성
