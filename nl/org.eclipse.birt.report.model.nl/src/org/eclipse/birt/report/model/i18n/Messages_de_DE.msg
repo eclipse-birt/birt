@@ -31,13 +31,17 @@ Property.points=Punkte
 Property.string=Zeichenfolge
 Property.uri=URI
 Property.xml=XML
-Property.element=Element
+Property.elementRef=element reference
 Property.column=Spalte
 Property.variant=Variante
 Property.structList=Strukturliste
 Property.extends=extends
 Property.script=Skript
 Property.list=Liste
+Property.memberKey=member key
+Property.literalString=literal string
+Property.element=Element
+Property.structRef=structure reference
 
 ###########################################################
 # Choice values
@@ -228,13 +232,13 @@ Choices.pageBreakBefore.auto=Automatisch
 Choices.pageBreakBefore.always=Immer
 Choices.pageBreakBefore.avoid=Vermeiden
 Choices.pageBreakBefore.alwaysExcludingFirst=Erstes Objekt immer ignorieren
-  
+
 #26.pageBreakAfter
 Choices.pageBreakAfter.auto=Automatisch
 Choices.pageBreakAfter.always=Immer
 Choices.pageBreakAfter.avoid=Vermeiden
 Choices.pageBreakAfter.alwaysExcludingLast=Letztes Objekt immer ignorieren
-  
+
 #27.actionLinkType
 Choices.actionLinkType.none=Kein Typ für Aktionsverknüpfung
 Choices.actionLinkType.hyperlink=HyperLink
@@ -244,7 +248,7 @@ Choices.actionLinkType.bookmark-link=Lesezeichen-Verknüpfung
 # actionFormatType
 Choices.actionFormatType.html=HTML
 Choices.actionFormatType.pdf=PDF
-    
+  
 #28.drillThroughLinkType
 Choices.drillThroughType.none=Kein Typ für Detailabfrage
 Choices.drillThroughType.bookmark-link=Lesezeichen-Verknüpfung
@@ -539,6 +543,10 @@ Choices.measureFunction.sum=Sum
 Choices.measureFunction.count=Count
 Choices.measureFunction.min=Min
 Choices.measureFunction.max=Max
+
+#71. levelType
+Choices.levelType.dynamic=Dynamisch
+Choices.levelType.mirrored=Mirrored
 
 ###########################################################
 # Classes
@@ -872,7 +880,6 @@ Class.Date.UTC.minutes=minutes
 Class.Date.UTC.seconds=seconds
 Class.Date.UTC.ms=ms
 
-
 #5. Math
 
 Class.Math=Mathematische Funktionen
@@ -1203,7 +1210,6 @@ Class.DataSet.dataSource=DataSource
 Class.DataSet.dataSource.toolTip=Gibt das von diesem Datensatz verwendete Datenquellenobjekt zurück.
 
 
-
 #18. DataRow
 
 Class.DataRow=DataRow-Klasse
@@ -1222,7 +1228,6 @@ Class.DataRow.schema=schema
 Class.DataRow.schema.toolTip=Gibt ein Array mit Spaltenbeschreibungen für die Datenzeile zurück
 Class.DataRow.columnDefns=columnDefns
 Class.DataRow.columnDefns.toolTip=Dabei handelt es sich um ein Array von "ColumnDefn", durch das die Spaltenmetadaten definiert werden. Es ist eine Verknüpfung zu "dataSet.columnDefns".
-
 
 #19. ColumnDefn
 
@@ -1503,7 +1508,6 @@ Class.Total.isBottomNPercent.expr=Wert
 Class.Total.isBottomNPercent.pct=Prozentsatz
 Class.Total.isBottomNPercent.filter=filter
 Class.Total.isBottomNPercent.group=group_level
-
 
 #27. Finance
 
@@ -1829,7 +1833,7 @@ Structure.HighlightRule.text.align=Textausrichtung
 Structure.HighlightRule.text.indent=Texteinzug
 Structure.HighlightRule.text.transform=Textumwandlung
 Structure.HighlightRule.style=Stil
-  
+
 #2.CustomColor
 Structure.CustomColor.name=Name
 Structure.CustomColor.color=Farbe
@@ -2053,6 +2057,11 @@ Structure.DimensionCondition=Dimension Condition
 Structure.DimensionCondition.primaryKeys=Primary Keys
 Structure.DimensionCondition.hierarchy=Hierarchy
 
+#30. Rule
+Structure.Rule=Rule
+Structure.Rule.ruleExpre=Rule Expression
+Structure.Rule.displayExpre=Display Expression
+
 ###########################################################
 # Element names
 
@@ -2112,6 +2121,7 @@ Element.Dimension=Dimension
 Element.Hierarchy=Hierarchy
 Element.Level=Level
 Element.Measure=Measure
+Element.MeasureGroup=Meausre Group
 
 ###########################################################
 # Element property names
@@ -2245,7 +2255,7 @@ Element.SimpleDataSet.afterClose.reportContext=Berichtkontext
 Element.SimpleDataSet.paramBindings=Parameterbindungen
 Element.SimpleDataSet.refTemplateParameter=Parameterdefinition für Referenzvorlage
 Element.SimpleDataSet.cachedRowCount=Zwischengespeicherte Zeilenzahl
- 
+  
 #5. JdbcSelectDataSet  ( prefix  Element.JdbcSelectDataSet )
 Element.JdbcSelectDataSet.statement=Anweisung
 Element.JdbcSelectDataSet.getStatement=Anweisung abrufen
@@ -2397,10 +2407,10 @@ Element.ReportItem.paramBindings=Parameterbindungen
 Element.ReportItem.refTemplateParameter=Parameterdefinition für Referenzvorlage
 Element.ReportItem.boundDataColumns=Gebundene Datenspalten
 Element.ReportItem.zIndex=Z-Index
-  
+
 #11.Label  ( prefix  Element.Label )
-Element.Label.text=Text
-Element.Label.textID=Textschlüssel
+Element.Label.text=Inhalt
+Element.Label.textID=Inhaltsschlüssel
 Element.Label.helpTextID=Hilfetextschlüssel
 Element.Label.helpText=Hilfetext
 Element.Label.action=Aktion
@@ -2599,7 +2609,7 @@ Element.Row.onRender.this=Zeileninstanz
 Element.Row.onRender.reportContext=Berichtkontext
 Element.Row.suppressDuplicates=Duplikate unterdrücken
 Element.Row.viewAction=Aktion anzeigen
-   
+  
 #22.Cell  ( prefix  Element.Cell )
 Element.Cell.column=Spalte
 Element.Cell.colSpan=Spaltenbereich
@@ -2623,7 +2633,7 @@ Element.Cell.onRender.toolTip=TBD
 Element.Cell.onRender.this=Zelleninstanz
 Element.Cell.onRender.reportContext=Berichtkontext
 Element.Cell.viewAction=Aktion anzeigen
-    
+  
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=Alternativer Text
 Element.Image.altTextID=Alternativtextschlüssel:
@@ -2867,27 +2877,38 @@ Element.AutoText.onPageBreak.reportContext=Berichtkontext
 
 #45. Cube ( prefix Element.Cube )
 Element.Cube.dataSet=Data Set
+Element.Cube.filter=Filter Conditions
 Element.Cube.dimensionConditions=Dimension Conditions
-Element.Cube.slot.dimensions=Dimensions
-Element.Cube.slot.measures=Measures
+Element.Cube.dimensions=Dimensions
+Element.Cube.measureGroups=Measure Groups
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=Is Time Type
-Element.Dimension.slot.hierarchies=Hierarchies
+Element.Dimension.hierarchies=Hierarchies
 
 #47. Hierarchy ( prefix Element.Hierarchy )
 Element.Hierarchy.dataSet=Data Set
+Element.Hierarchy.filter=Filter Conditions
 Element.Hierarchy.primaryKeys=Primary Key
-Element.Hierarchy.slot.levels=Levels
+Element.Hierarchy.levels=Levels
 
 #48. Level ( prefix Element.Level )
 Element.Level.columnName=Column Name
+Element.Level.Interval=Intervall
+Element.Level.intervalBase=Intervallbasis
+Element.Level.interval=Intervall
+Element.Level.intervalRange=Intervallbereich
+Element.Level.levelType=Level Type
+Element.Level.staticValues=Static Values
 Element.Level.attributes=Attributes
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=Function
 Element.Measure.isCalculated=Is Calculated
 Element.Measure.measureExpression=Measure Expression
+
+#50. MeasureGroup ( prefix Element.MeasureGroup )
+Element.MeasureGroup.measures=Measures
 
 ###########################################################
 # Predefined style
@@ -3122,6 +3143,7 @@ New.Dimension=NewDimension
 New.Hierarchy=NewHierarchy
 New.Level=NewLevel
 New.Measure=NewMeasure
+New.MeasureGroup=NewMeasureGroup
 
 ###########################################################
 #Default theme name.
@@ -3133,7 +3155,6 @@ Theme.defaultThemeName=defaultTheme
 #ContentException
 Error.ContentException.SLOT_NOT_FOUND={0} hat kein Feld (ID:{1}) definiert.
 Error.ContentException.WRONG_TYPE={1} ist in Feld ({2}) von {0} nicht zulässig.
-Error.ContentException.DROP_FORBIDDEN={1} kann nicht gelöscht werden, da es sich nicht in Feld ({2}) von {0} befindet.
 Error.ContentException.CONTENT_NOT_FOUND={0} wird nicht im Feld ({1}) von {2} angezeigt.
 Error.ContentException.NOT_CONTAINER={0} ist kein Container.
 Error.ContentException.SLOT_IS_FULL=Feld ({0}) von {1} ist voll.
@@ -3174,14 +3195,13 @@ Error.CircularExtendsException.CIRCULAR=Eine Kreiserweiterung wurde gefunden, we
 Error.ExtendsForbiddenException.PARENT_NOT_IN_COMPONENT=Das übergeordnete Element "{0}" ist in Komponenten kein Berichtobjekt auf oberster Ebene.
 Error.ExtendsForbiddenException.EXTENDS_FORBIDDEN=Element "{0}" kann nicht erweitert werden. Es befindet sich innerhalb eines untergeordneten Elements oder hat bereits ein übergeordnetes Element.
 Error.ExtendsForbiddenException.CANT_EXTEND=Das Element "{0}" darf keine Ableitungen aufweisen.
-       
+    
 #NameException
 Error.NameException.NAME_REQUIRED=Der Name von {0} ist erforderlich.
 Error.NameException.NAME_FORBIDDEN={0} darf keinen Namen aufweisen.
 Error.NameException.DUPLICATE=Der Name "{0}" ist bereits vorhanden. Bitte wählen Sie einen anderen Namen aus.
 Error.NameException.HAS_REFERENCES={0} verfügt über ein abgeleitetes Element, der Name kann nicht gelöscht werden.
 Error.NameException.DOT_FORBIDDEN=Der Name "{0}" ist unzulässig, da er das Zeichen "." enthält.
-
     
 #PropertyNameException
 Error.PropertyNameException.PROPERTY_NOT_VALID=Die Eigenschaft "{0}" für Element "{1}" ist ungültig.
@@ -3205,7 +3225,6 @@ Error.PropertyValueException.NEGATIVE_VALUE=Wert "{0}" für die Eigenschaft "{1}"
 Error.PropertyValueException.NON_POSITIVE_VALUE=Wert "{0}" für die Eigenschaft "{1}" ist ungültig, es muss sich um einen Positivwert handeln.
 Error.PropertyValueException.EXTENSION_SETTING_FORBIDDEN=Die Eigenschaft "{0}" von ExtendedItem "{1}" darf nicht von Befehlen festgelegt werden.
 Error.PropertyValueException.DOT_FORBIDDEN=Der Name "{0}" ist unzulässig, da er das Zeichen "." enthält.
-
     
 #SemanticError
 Error.SemanticError.INCONSISTENT_TABLE_COL_COUNT=Die Tabelle "{0}" weist eine nicht gleich bleibende Spaltenanzahl auf.

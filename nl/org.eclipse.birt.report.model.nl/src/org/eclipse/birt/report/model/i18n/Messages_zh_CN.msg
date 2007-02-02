@@ -31,13 +31,17 @@ Property.points=点
 Property.string=字符串
 Property.uri=uri
 Property.xml=xml
-Property.element=元素
+Property.elementRef=element reference
 Property.column=列
 Property.variant=变量
 Property.structList=结构列表
 Property.extends=extends
 Property.script=脚本
 Property.list=列表
+Property.memberKey=member key
+Property.literalString=literal string
+Property.element=元素
+Property.structRef=structure reference
 
 ###########################################################
 # Choice values
@@ -173,7 +177,7 @@ Choices.mapOperator.top-percent=最高百分比
 Choices.mapOperator.bottom-percent=最低百分比
 Choices.mapOperator.not-like=非类似于
 Choices.mapOperator.not-match=不匹配
-s
+  
 #15.imageRefType
 Choices.imageRefType.none=无图像
 Choices.imageRefType.url=URL
@@ -228,13 +232,13 @@ Choices.pageBreakBefore.auto=自动
 Choices.pageBreakBefore.always=始终
 Choices.pageBreakBefore.avoid=避免
 Choices.pageBreakBefore.alwaysExcludingFirst=始终排除第一个
-  
+
 #26.pageBreakAfter
 Choices.pageBreakAfter.auto=自动
 Choices.pageBreakAfter.always=始终
 Choices.pageBreakAfter.avoid=避免
 Choices.pageBreakAfter.alwaysExcludingLast=始终排除最后一个
-  
+
 #27.actionLinkType
 Choices.actionLinkType.none=无操作链接类型
 Choices.actionLinkType.hyperlink=超级链接
@@ -244,7 +248,7 @@ Choices.actionLinkType.bookmark-link=书签链接
 # actionFormatType
 Choices.actionFormatType.html=html
 Choices.actionFormatType.pdf=pdf
-    
+  
 #28.drillThroughLinkType
 Choices.drillThroughType.none=无追溯类型
 Choices.drillThroughType.bookmark-link=书签链接
@@ -539,6 +543,10 @@ Choices.measureFunction.sum=Sum
 Choices.measureFunction.count=Count
 Choices.measureFunction.min=Min
 Choices.measureFunction.max=Max
+
+#71. levelType
+Choices.levelType.dynamic=动态
+Choices.levelType.mirrored=Mirrored
 
 ###########################################################
 # Classes
@@ -872,7 +880,6 @@ Class.Date.UTC.minutes=minutes
 Class.Date.UTC.seconds=seconds
 Class.Date.UTC.ms=ms
 
-
 #5. Math
 
 Class.Math=数学函数
@@ -1203,7 +1210,6 @@ Class.DataSet.dataSource=DataSource
 Class.DataSet.dataSource.toolTip=返回此数据集使用的 DataSource 对象。
 
 
-
 #18. DataRow
 
 Class.DataRow=DataRow 类
@@ -1222,7 +1228,6 @@ Class.DataRow.schema=schema
 Class.DataRow.schema.toolTip=返回数据行的列描述数组 
 Class.DataRow.columnDefns=columnDefns
 Class.DataRow.columnDefns.toolTip=它是定义列元数据的 ColumnDefn 的数组。它是 dataSet.columnDefns 的快捷方式。
-
 
 #19. ColumnDefn
 
@@ -1503,7 +1508,6 @@ Class.Total.isBottomNPercent.expr=值
 Class.Total.isBottomNPercent.pct=百分比
 Class.Total.isBottomNPercent.filter=filter
 Class.Total.isBottomNPercent.group=group_level
-
 
 #27. Finance
 
@@ -1829,7 +1833,7 @@ Structure.HighlightRule.text.align=文本对齐
 Structure.HighlightRule.text.indent=文本缩进
 Structure.HighlightRule.text.transform=文本转换
 Structure.HighlightRule.style=样式
-  
+
 #2.CustomColor
 Structure.CustomColor.name=名称
 Structure.CustomColor.color=颜色
@@ -2053,6 +2057,11 @@ Structure.DimensionCondition=Dimension Condition
 Structure.DimensionCondition.primaryKeys=Primary Keys
 Structure.DimensionCondition.hierarchy=Hierarchy
 
+#30. Rule
+Structure.Rule=Rule
+Structure.Rule.ruleExpre=Rule Expression
+Structure.Rule.displayExpre=Display Expression
+
 ###########################################################
 # Element names
 
@@ -2112,6 +2121,7 @@ Element.Dimension=Dimension
 Element.Hierarchy=Hierarchy
 Element.Level=Level
 Element.Measure=Measure
+Element.MeasureGroup=Meausre Group
 
 ###########################################################
 # Element property names
@@ -2245,7 +2255,7 @@ Element.SimpleDataSet.afterClose.reportContext=报表上下文
 Element.SimpleDataSet.paramBindings=参数绑定
 Element.SimpleDataSet.refTemplateParameter=参考模板参数定义
 Element.SimpleDataSet.cachedRowCount=缓存行计数
- 
+  
 #5. JdbcSelectDataSet  ( prefix  Element.JdbcSelectDataSet )
 Element.JdbcSelectDataSet.statement=语句
 Element.JdbcSelectDataSet.getStatement=获取语句
@@ -2397,10 +2407,10 @@ Element.ReportItem.paramBindings=参数绑定
 Element.ReportItem.refTemplateParameter=参考模板参数定义
 Element.ReportItem.boundDataColumns=绑定的数据列
 Element.ReportItem.zIndex=Z 索引
-  
+
 #11.Label  ( prefix  Element.Label )
-Element.Label.text=文本
-Element.Label.textID=文本关键字
+Element.Label.text=内容
+Element.Label.textID=内容关键字
 Element.Label.helpTextID=帮助文本关键字
 Element.Label.helpText=帮助文本
 Element.Label.action=操作
@@ -2423,7 +2433,7 @@ Element.Label.onPageBreak.reportContext=报表上下文
   
 #12.Element.FreeForm  ( Prefix Element.FreeForm )
 Element.FreeForm.slot.reportItems=报表项
-   
+  
 #12.Container  ( prefix  Element.Container )
 Element.Container.slot.reportItems=报表项
   
@@ -2469,7 +2479,7 @@ Element.Text.onPageBreak=出现分页符时
 Element.Text.onPageBreak.toolTip=TBD
 Element.Text.onPageBreak.this=文本实例
 Element.Text.onPageBreak.reportContext=报表上下文
-   
+  
 #15.ListingGroup  ( prefix  Element.ListingGroup )
 Element.ListingGroup.keyExpr=关键字表达式
 Element.ListingGroup.sort=排序
@@ -2570,7 +2580,7 @@ Element.TableGroup.onPageBreak=出现分页符时
 Element.TableGroup.onPageBreak.toolTip=TBD
 Element.TableGroup.onPageBreak.this=表组
 Element.TableGroup.onPageBreak.reportContext=报表上下文
- 
+  
 #20.Column  ( prefix  Element.Column )
 Element.Column.repeat=重复
 Element.Column.width=宽度
@@ -2599,7 +2609,7 @@ Element.Row.onRender.this=行实例
 Element.Row.onRender.reportContext=报表上下文
 Element.Row.suppressDuplicates=抑制重复
 Element.Row.viewAction=查看操作
-   
+  
 #22.Cell  ( prefix  Element.Cell )
 Element.Cell.column=列
 Element.Cell.colSpan=列跨度
@@ -2623,7 +2633,7 @@ Element.Cell.onRender.toolTip=TBD
 Element.Cell.onRender.this=单元格实例
 Element.Cell.onRender.reportContext=报表上下文
 Element.Cell.viewAction=查看操作
- 
+  
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=替代文本
 Element.Image.altTextID=替代文本关键字
@@ -2678,7 +2688,7 @@ Element.Grid.onPageBreak.reportContext=报表上下文
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=方向
-    
+  
 #26.TextData  ( prefix  Element.TextData )
 Element.TextData.valueExpr=值表达式
 Element.TextData.contentType=内容类型
@@ -2867,27 +2877,38 @@ Element.AutoText.onPageBreak.reportContext=报表上下文
 
 #45. Cube ( prefix Element.Cube )
 Element.Cube.dataSet=Data Set
+Element.Cube.filter=Filter Conditions
 Element.Cube.dimensionConditions=Dimension Conditions
-Element.Cube.slot.dimensions=Dimensions
-Element.Cube.slot.measures=Measures
+Element.Cube.dimensions=Dimensions
+Element.Cube.measureGroups=Measure Groups
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=Is Time Type
-Element.Dimension.slot.hierarchies=Hierarchies
+Element.Dimension.hierarchies=Hierarchies
 
 #47. Hierarchy ( prefix Element.Hierarchy )
 Element.Hierarchy.dataSet=Data Set
+Element.Hierarchy.filter=Filter Conditions
 Element.Hierarchy.primaryKeys=Primary Key
-Element.Hierarchy.slot.levels=Levels
+Element.Hierarchy.levels=Levels
 
 #48. Level ( prefix Element.Level )
 Element.Level.columnName=Column Name
+Element.Level.Interval=间隔
+Element.Level.intervalBase=间隔基数
+Element.Level.interval=间隔
+Element.Level.intervalRange=间隔范围
+Element.Level.levelType=Level Type
+Element.Level.staticValues=Static Values
 Element.Level.attributes=Attributes
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=Function
 Element.Measure.isCalculated=Is Calculated
 Element.Measure.measureExpression=Measure Expression
+
+#50. MeasureGroup ( prefix Element.MeasureGroup )
+Element.MeasureGroup.measures=Measures
 
 ###########################################################
 # Predefined style
@@ -3122,6 +3143,7 @@ New.Dimension=NewDimension
 New.Hierarchy=NewHierarchy
 New.Level=NewLevel
 New.Measure=NewMeasure
+New.MeasureGroup=NewMeasureGroup
 
 ###########################################################
 #Default theme name.
@@ -3133,7 +3155,6 @@ Theme.defaultThemeName=defaultTheme
 #ContentException
 Error.ContentException.SLOT_NOT_FOUND={0} 没有已定义的属性框 (id:{1})。
 Error.ContentException.WRONG_TYPE={0} 的属性框 ({2}) 中不允许 {1}。
-Error.ContentException.DROP_FORBIDDEN=由于 {1} 不在 {0} 的属性框 ({2}) 中，不能删除。
 Error.ContentException.CONTENT_NOT_FOUND={0} 未显示在 {2} 的属性框 ({1}) 中。
 Error.ContentException.NOT_CONTAINER={0} 不是容器。
 Error.ContentException.SLOT_IS_FULL={1} 的属性框 ({0}) 已满。
@@ -3181,7 +3202,6 @@ Error.NameException.NAME_FORBIDDEN={0} 不允许具有名称。
 Error.NameException.DUPLICATE=名称 "{0}" 与现有名称重复。请选择一个不同的名称。
 Error.NameException.HAS_REFERENCES={0} 具有衍生元素，因此无法清除该名称。
 Error.NameException.DOT_FORBIDDEN=名称 "{0}" 无效，因为它包含字符 "."。
-
     
 #PropertyNameException
 Error.PropertyNameException.PROPERTY_NOT_VALID=属性 "{0}" 对元素 "{1}" 无效。
@@ -3205,7 +3225,6 @@ Error.PropertyValueException.NEGATIVE_VALUE=属性 "{1}" 的值 "{0}" 无效，该值不能
 Error.PropertyValueException.NON_POSITIVE_VALUE=属性 "{1}" 的值 "{0}" 无效，该值应为正值。
 Error.PropertyValueException.EXTENSION_SETTING_FORBIDDEN=ExtendedItem "{1}" 的属性 "{0}" 禁止通过命令设置。
 Error.PropertyValueException.DOT_FORBIDDEN=名称 "{0}" 无效，因为它包含字符 "."。
-
     
 #SemanticError
 Error.SemanticError.INCONSISTENT_TABLE_COL_COUNT=表 "{0}" 的列计数不一致。

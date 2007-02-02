@@ -31,13 +31,17 @@ Property.points=포인트
 Property.string=문자열
 Property.uri=uri
 Property.xml=xml
-Property.element=요소
+Property.elementRef=element reference
 Property.column=열
 Property.variant=변형
 Property.structList=구조 목록
 Property.extends=extends
 Property.script=스크립트
 Property.list=목록
+Property.memberKey=member key
+Property.literalString=literal string
+Property.element=요소
+Property.structRef=structure reference
 
 ###########################################################
 # Choice values
@@ -228,13 +232,13 @@ Choices.pageBreakBefore.auto=자동
 Choices.pageBreakBefore.always=항상
 Choices.pageBreakBefore.avoid=피하기
 Choices.pageBreakBefore.alwaysExcludingFirst=항상 먼저 제외하기
-  
+
 #26.pageBreakAfter
 Choices.pageBreakAfter.auto=자동
 Choices.pageBreakAfter.always=항상
 Choices.pageBreakAfter.avoid=피하기
 Choices.pageBreakAfter.alwaysExcludingLast=항상 마지막에 제외하기
-  
+
 #27.actionLinkType
 Choices.actionLinkType.none=작업 링크 형식 없음
 Choices.actionLinkType.hyperlink=하이퍼링크
@@ -244,7 +248,7 @@ Choices.actionLinkType.bookmark-link=책갈피 링크
 # actionFormatType
 Choices.actionFormatType.html=HTML
 Choices.actionFormatType.pdf=pdf
-    
+  
 #28.drillThroughLinkType
 Choices.drillThroughType.none=드릴스루 형식 없음
 Choices.drillThroughType.bookmark-link=책갈피 링크
@@ -539,6 +543,10 @@ Choices.measureFunction.sum=Sum
 Choices.measureFunction.count=Count
 Choices.measureFunction.min=Min
 Choices.measureFunction.max=Max
+
+#71. levelType
+Choices.levelType.dynamic=동적
+Choices.levelType.mirrored=Mirrored
 
 ###########################################################
 # Classes
@@ -872,7 +880,6 @@ Class.Date.UTC.minutes=minutes
 Class.Date.UTC.seconds=seconds
 Class.Date.UTC.ms=ms
 
-
 #5. Math
 
 Class.Math=Math 함수
@@ -1203,7 +1210,6 @@ Class.DataSet.dataSource=DataSource
 Class.DataSet.dataSource.toolTip=이 데이터 집합에서 사용된 데이터 원본 객체를 반환합니다.
 
 
-
 #18. DataRow
 
 Class.DataRow=DataRow 클래스
@@ -1222,7 +1228,6 @@ Class.DataRow.schema=schema
 Class.DataRow.schema.toolTip=데이터 행에 대한 열 설명의 배열을 반환합니다
 Class.DataRow.columnDefns=columnDefns
 Class.DataRow.columnDefns.toolTip=열 메타데이터를 정의하는 ColumnDefn 배열입니다. dataSet.columnDefns에 대한 바로 가기입니다.
-
 
 #19. ColumnDefn
 
@@ -1503,7 +1508,6 @@ Class.Total.isBottomNPercent.expr=값
 Class.Total.isBottomNPercent.pct=백분율
 Class.Total.isBottomNPercent.filter=filter
 Class.Total.isBottomNPercent.group=group_level
-
 
 #27. Finance
 
@@ -1829,7 +1833,7 @@ Structure.HighlightRule.text.align=텍스트 맞춤
 Structure.HighlightRule.text.indent=텍스트 들여쓰기
 Structure.HighlightRule.text.transform=텍스트 변환
 Structure.HighlightRule.style=스타일
-  
+
 #2.CustomColor
 Structure.CustomColor.name=이름
 Structure.CustomColor.color=색상
@@ -2053,6 +2057,11 @@ Structure.DimensionCondition=Dimension Condition
 Structure.DimensionCondition.primaryKeys=Primary Keys
 Structure.DimensionCondition.hierarchy=Hierarchy
 
+#30. Rule
+Structure.Rule=Rule
+Structure.Rule.ruleExpre=Rule Expression
+Structure.Rule.displayExpre=Display Expression
+
 ###########################################################
 # Element names
 
@@ -2112,6 +2121,7 @@ Element.Dimension=Dimension
 Element.Hierarchy=Hierarchy
 Element.Level=Level
 Element.Measure=Measure
+Element.MeasureGroup=Meausre Group
 
 ###########################################################
 # Element property names
@@ -2245,7 +2255,7 @@ Element.SimpleDataSet.afterClose.reportContext=보고서 컨텍스트
 Element.SimpleDataSet.paramBindings=매개 변수 바인딩
 Element.SimpleDataSet.refTemplateParameter=참조 템플릿 매개 변수 정의
 Element.SimpleDataSet.cachedRowCount=캐시된 행 수
- 
+  
 #5. JdbcSelectDataSet  ( prefix  Element.JdbcSelectDataSet )
 Element.JdbcSelectDataSet.statement=문
 Element.JdbcSelectDataSet.getStatement=문 가져오기
@@ -2397,10 +2407,10 @@ Element.ReportItem.paramBindings=매개 변수 바인딩
 Element.ReportItem.refTemplateParameter=참조 템플릿 매개 변수 정의
 Element.ReportItem.boundDataColumns=바인딩된 데이터 열
 Element.ReportItem.zIndex=Z 인덱스
-  
+
 #11.Label  ( prefix  Element.Label )
-Element.Label.text=텍스트
-Element.Label.textID=텍스트 키
+Element.Label.text=내용
+Element.Label.textID=내용 키
 Element.Label.helpTextID=도움말 텍스트 키
 Element.Label.helpText=도움말 텍스트
 Element.Label.action=작업
@@ -2423,7 +2433,7 @@ Element.Label.onPageBreak.reportContext=보고서 컨텍스트
   
 #12.Element.FreeForm  ( Prefix Element.FreeForm )
 Element.FreeForm.slot.reportItems=보고서 항목
-   
+  
 #12.Container  ( prefix  Element.Container )
 Element.Container.slot.reportItems=보고서 항목
   
@@ -2469,7 +2479,7 @@ Element.Text.onPageBreak=페이지 나누기
 Element.Text.onPageBreak.toolTip=TBD
 Element.Text.onPageBreak.this=텍스트 인스턴스
 Element.Text.onPageBreak.reportContext=보고서 컨텍스트
-   
+  
 #15.ListingGroup  ( prefix  Element.ListingGroup )
 Element.ListingGroup.keyExpr=키 식
 Element.ListingGroup.sort=정렬
@@ -2599,7 +2609,7 @@ Element.Row.onRender.this=행 인스턴스
 Element.Row.onRender.reportContext=보고서 컨텍스트
 Element.Row.suppressDuplicates=중복 항목 숨기기
 Element.Row.viewAction=작업 보기
-   
+  
 #22.Cell  ( prefix  Element.Cell )
 Element.Cell.column=열
 Element.Cell.colSpan=열 범위
@@ -2623,7 +2633,7 @@ Element.Cell.onRender.toolTip=TBD
 Element.Cell.onRender.this=셀 인스턴스
 Element.Cell.onRender.reportContext=보고서 컨텍스트
 Element.Cell.viewAction=작업 보기
-    
+  
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=대체 텍스트
 Element.Image.altTextID=대체 텍스트 키
@@ -2678,7 +2688,7 @@ Element.Grid.onPageBreak.reportContext=보고서 컨텍스트
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=방향
-    
+  
 #26.TextData  ( prefix  Element.TextData )
 Element.TextData.valueExpr=값 식
 Element.TextData.contentType=내용 형식
@@ -2867,27 +2877,38 @@ Element.AutoText.onPageBreak.reportContext=보고서 컨텍스트
 
 #45. Cube ( prefix Element.Cube )
 Element.Cube.dataSet=Data Set
+Element.Cube.filter=Filter Conditions
 Element.Cube.dimensionConditions=Dimension Conditions
-Element.Cube.slot.dimensions=Dimensions
-Element.Cube.slot.measures=Measures
+Element.Cube.dimensions=Dimensions
+Element.Cube.measureGroups=Measure Groups
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=Is Time Type
-Element.Dimension.slot.hierarchies=Hierarchies
+Element.Dimension.hierarchies=Hierarchies
 
 #47. Hierarchy ( prefix Element.Hierarchy )
 Element.Hierarchy.dataSet=Data Set
+Element.Hierarchy.filter=Filter Conditions
 Element.Hierarchy.primaryKeys=Primary Key
-Element.Hierarchy.slot.levels=Levels
+Element.Hierarchy.levels=Levels
 
 #48. Level ( prefix Element.Level )
 Element.Level.columnName=Column Name
+Element.Level.Interval=간격
+Element.Level.intervalBase=간격 기준
+Element.Level.interval=간격
+Element.Level.intervalRange=간격 범위
+Element.Level.levelType=Level Type
+Element.Level.staticValues=Static Values
 Element.Level.attributes=Attributes
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=Function
 Element.Measure.isCalculated=Is Calculated
 Element.Measure.measureExpression=Measure Expression
+
+#50. MeasureGroup ( prefix Element.MeasureGroup )
+Element.MeasureGroup.measures=Measures
 
 ###########################################################
 # Predefined style
@@ -3122,6 +3143,7 @@ New.Dimension=NewDimension
 New.Hierarchy=NewHierarchy
 New.Level=NewLevel
 New.Measure=NewMeasure
+New.MeasureGroup=NewMeasureGroup
 
 ###########################################################
 #Default theme name.
@@ -3133,7 +3155,6 @@ Theme.defaultThemeName=defaultTheme
 #ContentException
 Error.ContentException.SLOT_NOT_FOUND={0}에 슬롯(id:{1})이 정의되어 있지 않습니다.
 Error.ContentException.WRONG_TYPE={1}이(가) {0}의 슬롯({2})에서 허용되지 않습니다.
-Error.ContentException.DROP_FORBIDDEN={1}이(가) {0}의 슬롯({2})에 없으므로 삭제할 수 없습니다 
 Error.ContentException.CONTENT_NOT_FOUND={0}이(가) {2}의 슬롯({1}) 내에 나타나지 않습니다.
 Error.ContentException.NOT_CONTAINER={0}은(는) 컨테이너가 아닙니다.
 Error.ContentException.SLOT_IS_FULL={1}의 슬롯({0})이(가) 가득 찼습니다.
@@ -3174,15 +3195,14 @@ Error.CircularExtendsException.CIRCULAR={0}이(가) {1}에서 이미 확장되었으므로 순
 Error.ExtendsForbiddenException.PARENT_NOT_IN_COMPONENT=상위 요소 "{0}"이(가) 구성 요소에서 최상위 보고서 항목이 아닙니다.
 Error.ExtendsForbiddenException.EXTENDS_FORBIDDEN=요소 "{0}"은(는) 자식 요소 내부에 있거나 이미 부모가 있으므로 확장할 수 없습니다.
 Error.ExtendsForbiddenException.CANT_EXTEND=요소 "{0}"을(를) 파생할 수 없습니다.
-        
+    
 #NameException
 Error.NameException.NAME_REQUIRED={0}의 이름이 필요합니다.
 Error.NameException.NAME_FORBIDDEN={0}은(는) 이름을 가질 수 없습니다.
 Error.NameException.DUPLICATE=이름 "{0}"이(가) 기존 이름과 중복됩니다. 다른 이름을 선택하십시오.
 Error.NameException.HAS_REFERENCES={0}에 파생된 요소가 있어 이름을 지울 수 없습니다.
 Error.NameException.DOT_FORBIDDEN="." 문자를 포함하므로 "{0}" 이름이 잘못되었습니다.
-
-
+    
 #PropertyNameException
 Error.PropertyNameException.PROPERTY_NOT_VALID=속성 "{0}"은(는) 요소 "{1}"에 알맞지 않습니다.
 Error.PropertyNameException.MEMBER_NOT_VALID=구성원 "{0}"은(는) 구조 {1}"에 알맞지 않습니다.
@@ -3205,7 +3225,6 @@ Error.PropertyValueException.NEGATIVE_VALUE=속성 "{1}"에 대한 값 "{0}"이(가) 잘�
 Error.PropertyValueException.NON_POSITIVE_VALUE=속성 "{1}"에 대한 값 "{0}"이(가) 잘못되었습니다. 값은 양수여야 합니다.
 Error.PropertyValueException.EXTENSION_SETTING_FORBIDDEN=ExtendedItem "{1}"의 속성 "{0}"이(가) 명령으로 설정 금지되었습니다.
 Error.PropertyValueException.DOT_FORBIDDEN="." 문자를 포함하므로 "{0}" 이름이 잘못되었습니다.
-
     
 #SemanticError
 Error.SemanticError.INCONSISTENT_TABLE_COL_COUNT=테이블 "{0}"에 일치하지 않는 열 수가 있습니다.

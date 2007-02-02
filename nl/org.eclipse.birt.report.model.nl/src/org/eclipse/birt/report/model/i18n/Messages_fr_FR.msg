@@ -31,13 +31,17 @@ Property.points=points
 Property.string=chaîne
 Property.uri=uri
 Property.xml=xml
-Property.element=élément
+Property.elementRef=element reference
 Property.column=colonne
 Property.variant=variante
 Property.structList=listeStruct
 Property.extends=extends
 Property.script=Script
 Property.list=liste
+Property.memberKey=member key
+Property.literalString=literal string
+Property.element=élément
+Property.structRef=structure reference
 
 ###########################################################
 # Choice values
@@ -228,13 +232,13 @@ Choices.pageBreakBefore.auto=Auto
 Choices.pageBreakBefore.always=Toujours
 Choices.pageBreakBefore.avoid=Eviter
 Choices.pageBreakBefore.alwaysExcludingFirst=Toujours exclure en premier
-  
+
 #26.pageBreakAfter
 Choices.pageBreakAfter.auto=Auto
 Choices.pageBreakAfter.always=Toujours
 Choices.pageBreakAfter.avoid=Eviter
 Choices.pageBreakAfter.alwaysExcludingLast=Toujours exclure en dernier
-  
+
 #27.actionLinkType
 Choices.actionLinkType.none=Aucun type de lien d'action
 Choices.actionLinkType.hyperlink=Lien hypertexte
@@ -244,7 +248,7 @@ Choices.actionLinkType.bookmark-link=Lien signet
 # actionFormatType
 Choices.actionFormatType.html=html
 Choices.actionFormatType.pdf=pdf
-    
+  
 #28.drillThroughLinkType
 Choices.drillThroughType.none=Aucun type d'exploration
 Choices.drillThroughType.bookmark-link=Lien signet
@@ -539,6 +543,10 @@ Choices.measureFunction.sum=Sum
 Choices.measureFunction.count=Count
 Choices.measureFunction.min=Min
 Choices.measureFunction.max=Max
+
+#71. levelType
+Choices.levelType.dynamic=Dynamique
+Choices.levelType.mirrored=Mirrored
 
 ###########################################################
 # Classes
@@ -872,7 +880,6 @@ Class.Date.UTC.minutes=minutes
 Class.Date.UTC.seconds=seconds
 Class.Date.UTC.ms=ms
 
-
 #5. Math
 
 Class.Math=Fonctions Math
@@ -1203,7 +1210,6 @@ Class.DataSet.dataSource=DataSource
 Class.DataSet.dataSource.toolTip=Renvoie l'objet Source de données utilisé par ce jeu de données.
 
 
-
 #18. DataRow
 
 Class.DataRow=Classe DataRow
@@ -1222,7 +1228,6 @@ Class.DataRow.schema=schéma
 Class.DataRow.schema.toolTip=Renvoie un tableau de descriptions de colonnes pour la ligne de données
 Class.DataRow.columnDefns=columnDefns
 Class.DataRow.columnDefns.toolTip=Les métadonnées de colonne sont définies par un tableau ColumnDefn. Il s'agit d'un raccourci vers le fichier dataSet.columnDefns.
-
 
 #19. ColumnDefn
 
@@ -1503,7 +1508,6 @@ Class.Total.isBottomNPercent.expr=valeur
 Class.Total.isBottomNPercent.pct=pourcentage
 Class.Total.isBottomNPercent.filter=filter
 Class.Total.isBottomNPercent.group=group_level
-
 
 #27. Finance
 
@@ -1829,7 +1833,7 @@ Structure.HighlightRule.text.align=Alignement du texte
 Structure.HighlightRule.text.indent=Retrait du texte
 Structure.HighlightRule.text.transform=Transformation du texte
 Structure.HighlightRule.style=Style
-  
+
 #2.CustomColor
 Structure.CustomColor.name=Nom
 Structure.CustomColor.color=Couleur
@@ -2053,6 +2057,11 @@ Structure.DimensionCondition=Dimension Condition
 Structure.DimensionCondition.primaryKeys=Primary Keys
 Structure.DimensionCondition.hierarchy=Hierarchy
 
+#30. Rule
+Structure.Rule=Rule
+Structure.Rule.ruleExpre=Rule Expression
+Structure.Rule.displayExpre=Display Expression
+
 ###########################################################
 # Element names
 
@@ -2112,6 +2121,7 @@ Element.Dimension=Dimension
 Element.Hierarchy=Hierarchy
 Element.Level=Level
 Element.Measure=Measure
+Element.MeasureGroup=Meausre Group
 
 ###########################################################
 # Element property names
@@ -2245,7 +2255,7 @@ Element.SimpleDataSet.afterClose.reportContext=Contexte d'état
 Element.SimpleDataSet.paramBindings=Liaisons de paramètres
 Element.SimpleDataSet.refTemplateParameter=Définition de paramètre de modèle référencé
 Element.SimpleDataSet.cachedRowCount=Nombre de lignes en cache
-
+  
 #5. JdbcSelectDataSet  ( prefix  Element.JdbcSelectDataSet )
 Element.JdbcSelectDataSet.statement=Instruction
 Element.JdbcSelectDataSet.getStatement=Obtenir l'instruction
@@ -2397,10 +2407,10 @@ Element.ReportItem.paramBindings=Liaisons de paramètres
 Element.ReportItem.refTemplateParameter=Définition de paramètre de modèle référencé
 Element.ReportItem.boundDataColumns=Colonnes de données liées
 Element.ReportItem.zIndex=Index Z
-  
+
 #11.Label  ( prefix  Element.Label )
-Element.Label.text=Texte
-Element.Label.textID=Clé de texte
+Element.Label.text=Contenu
+Element.Label.textID=Clé de contenu
 Element.Label.helpTextID=Clé du texte d'aide
 Element.Label.helpText=Texte d'aide
 Element.Label.action=Action
@@ -2423,7 +2433,7 @@ Element.Label.onPageBreak.reportContext=Contexte d'état
   
 #12.Element.FreeForm  ( Prefix Element.FreeForm )
 Element.FreeForm.slot.reportItems=Eléments d'état
-   
+  
 #12.Container  ( prefix  Element.Container )
 Element.Container.slot.reportItems=Eléments d'état
   
@@ -2469,7 +2479,7 @@ Element.Text.onPageBreak=Saut de page
 Element.Text.onPageBreak.toolTip=A définir
 Element.Text.onPageBreak.this=Instance de texte
 Element.Text.onPageBreak.reportContext=Contexte d'état
-   
+  
 #15.ListingGroup  ( prefix  Element.ListingGroup )
 Element.ListingGroup.keyExpr=Expression clé
 Element.ListingGroup.sort=Trier
@@ -2599,7 +2609,7 @@ Element.Row.onRender.this=Instance de ligne
 Element.Row.onRender.reportContext=Contexte d'état
 Element.Row.suppressDuplicates=Supprimer les doubles
 Element.Row.viewAction=Afficher l'action
-   
+  
 #22.Cell  ( prefix  Element.Cell )
 Element.Cell.column=Colonne
 Element.Cell.colSpan=Plage de colonne
@@ -2623,7 +2633,7 @@ Element.Cell.onRender.toolTip=A définir
 Element.Cell.onRender.this=Instance de cellule
 Element.Cell.onRender.reportContext=Contexte d'état
 Element.Cell.viewAction=Afficher l'action
-    
+  
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=Autre texte
 Element.Image.altTextID=Clé d'autre texte
@@ -2675,10 +2685,10 @@ Element.Grid.onPageBreak=Saut de page
 Element.Grid.onPageBreak.toolTip=A définir
 Element.Grid.onPageBreak.this=Instance de grille
 Element.Grid.onPageBreak.reportContext=Contexte d'état
-
+  
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=Orientation
-    
+  
 #26.TextData  ( prefix  Element.TextData )
 Element.TextData.valueExpr=Expression de valeur
 Element.TextData.contentType=Type de contenu
@@ -2867,27 +2877,38 @@ Element.AutoText.onPageBreak.reportContext=Contexte d'état
 
 #45. Cube ( prefix Element.Cube )
 Element.Cube.dataSet=Data Set
+Element.Cube.filter=Filter Conditions
 Element.Cube.dimensionConditions=Dimension Conditions
-Element.Cube.slot.dimensions=Dimensions
-Element.Cube.slot.measures=Measures
+Element.Cube.dimensions=Dimensions
+Element.Cube.measureGroups=Measure Groups
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=Is Time Type
-Element.Dimension.slot.hierarchies=Hierarchies
+Element.Dimension.hierarchies=Hierarchies
 
 #47. Hierarchy ( prefix Element.Hierarchy )
 Element.Hierarchy.dataSet=Data Set
+Element.Hierarchy.filter=Filter Conditions
 Element.Hierarchy.primaryKeys=Primary Key
-Element.Hierarchy.slot.levels=Levels
+Element.Hierarchy.levels=Levels
 
 #48. Level ( prefix Element.Level )
 Element.Level.columnName=Column Name
+Element.Level.Interval=Intervalle
+Element.Level.intervalBase=Base d'intervalle
+Element.Level.interval=Intervalle
+Element.Level.intervalRange=Plage d'intervalles
+Element.Level.levelType=Level Type
+Element.Level.staticValues=Static Values
 Element.Level.attributes=Attributes
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=Function
 Element.Measure.isCalculated=Is Calculated
 Element.Measure.measureExpression=Measure Expression
+
+#50. MeasureGroup ( prefix Element.MeasureGroup )
+Element.MeasureGroup.measures=Measures
 
 ###########################################################
 # Predefined style
@@ -3122,6 +3143,7 @@ New.Dimension=NewDimension
 New.Hierarchy=NewHierarchy
 New.Level=NewLevel
 New.Measure=NewMeasure
+New.MeasureGroup=NewMeasureGroup
 
 ###########################################################
 #Default theme name.
@@ -3133,7 +3155,6 @@ Theme.defaultThemeName=defaultTheme
 #ContentException
 Error.ContentException.SLOT_NOT_FOUND=Aucun emplacement (id :{1}) défini pour {0}.
 Error.ContentException.WRONG_TYPE=L''élément {1} n''est pas autorisé dans l''emplacement ({2}) de {0}.
-Error.ContentException.DROP_FORBIDDEN=L''élément {1} ne peut pas être supprimé, car il n''est pas dans l''emplacement ({2}) de {0}.
 Error.ContentException.CONTENT_NOT_FOUND=L''élément {0} n''apparaît pas dans l''emplacement ({1}) de {2}.
 Error.ContentException.NOT_CONTAINER=L''élément {0} n''est pas un conteneur.
 Error.ContentException.SLOT_IS_FULL=L''emplacement ({0}) de {1} est plein.
@@ -3174,7 +3195,7 @@ Error.CircularExtendsException.CIRCULAR=L'extension circulaire est trouvée car l
 Error.ExtendsForbiddenException.PARENT_NOT_IN_COMPONENT=L'élément parent "{0}" n'est pas l'élément d'état de premier niveau parmi les composants.
 Error.ExtendsForbiddenException.EXTENDS_FORBIDDEN=L'élément "{0}" est contenu dans un élément enfant ou a déjà un élément parent. Il ne peut s'étendre.
 Error.ExtendsForbiddenException.CANT_EXTEND=L'élément "{0}" n'est pas autorisé à dériver.
-        
+    
 #NameException
 Error.NameException.NAME_REQUIRED=Le nom de {0} est requis.
 Error.NameException.NAME_FORBIDDEN=Le {0} n''est pas autorisé à porter un nom.
@@ -3204,7 +3225,6 @@ Error.PropertyValueException.NEGATIVE_VALUE=La valeur "{0}" pour la propriété "{
 Error.PropertyValueException.NON_POSITIVE_VALUE=La valeur "{0}" pour la propriété "{1}" est incorrecte, la valeur doit être positive.
 Error.PropertyValueException.EXTENSION_SETTING_FORBIDDEN=La propriété "{0}" de ExtendedItem "{1}" ne peut pas être définie par des commandes.
 Error.PropertyValueException.DOT_FORBIDDEN=Le nom "{0}" n''est pas valide car il contient le caractère ".".
-
     
 #SemanticError
 Error.SemanticError.INCONSISTENT_TABLE_COL_COUNT=La table "{0}" comporte un nombre de colonnes incohérent.

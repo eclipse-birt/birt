@@ -31,13 +31,17 @@ Property.points=puntos
 Property.string=string
 Property.uri=uri
 Property.xml=xml
-Property.element=elemento
+Property.elementRef=element reference
 Property.column=columna
 Property.variant=variante
 Property.structList=structList
 Property.extends=extends
 Property.script=Script
 Property.list=lista
+Property.memberKey=member key
+Property.literalString=literal string
+Property.element=elemento
+Property.structRef=structure reference
 
 ###########################################################
 # Choice values
@@ -228,13 +232,13 @@ Choices.pageBreakBefore.auto=Automático
 Choices.pageBreakBefore.always=Siempre
 Choices.pageBreakBefore.avoid=Evitar
 Choices.pageBreakBefore.alwaysExcludingFirst=Siempre salvo primero
-  
+
 #26.pageBreakAfter
 Choices.pageBreakAfter.auto=Automático
 Choices.pageBreakAfter.always=Siempre
 Choices.pageBreakAfter.avoid=Evitar
 Choices.pageBreakAfter.alwaysExcludingLast=Siempre salvo último
-  
+
 #27.actionLinkType
 Choices.actionLinkType.none=Sin tipo de link de acción
 Choices.actionLinkType.hyperlink=Hiperlink
@@ -244,7 +248,7 @@ Choices.actionLinkType.bookmark-link=Link de marcador
 # actionFormatType
 Choices.actionFormatType.html=html
 Choices.actionFormatType.pdf=pdf
-    
+  
 #28.drillThroughLinkType
 Choices.drillThroughType.none=Sin tipo de aumento
 Choices.drillThroughType.bookmark-link=Link de marcador
@@ -539,6 +543,10 @@ Choices.measureFunction.sum=Sum
 Choices.measureFunction.count=Count
 Choices.measureFunction.min=Min
 Choices.measureFunction.max=Max
+
+#71. levelType
+Choices.levelType.dynamic=Dinámico
+Choices.levelType.mirrored=Mirrored
 
 ###########################################################
 # Classes
@@ -872,7 +880,6 @@ Class.Date.UTC.minutes=minutes
 Class.Date.UTC.seconds=seconds
 Class.Date.UTC.ms=ms
 
-
 #5. Math
 
 Class.Math=Funciones matemáticas
@@ -1203,7 +1210,6 @@ Class.DataSet.dataSource=DataSource
 Class.DataSet.dataSource.toolTip=Devuelve el objeto DataSource utilizado por este conjunto de datos.
 
 
-
 #18. DataRow
 
 Class.DataRow=Clase DataRow
@@ -1222,7 +1228,6 @@ Class.DataRow.schema=schema
 Class.DataRow.schema.toolTip=Devuelve una matriz de descripciones de columnas para la fila de datos
 Class.DataRow.columnDefns=columnDefns
 Class.DataRow.columnDefns.toolTip=Es una matriz de ColumnDefn que define los metadatos de la columna. Es un acceso directo a dataSet.columnDefns.
-
 
 #19. ColumnDefn
 
@@ -1503,7 +1508,6 @@ Class.Total.isBottomNPercent.expr=valor
 Class.Total.isBottomNPercent.pct=porcentaje
 Class.Total.isBottomNPercent.filter=filter
 Class.Total.isBottomNPercent.group=group_level
-
 
 #27. Finance
 
@@ -1829,7 +1833,7 @@ Structure.HighlightRule.text.align=Alineación de texto
 Structure.HighlightRule.text.indent=Sangrado de texto
 Structure.HighlightRule.text.transform=Transformación de texto
 Structure.HighlightRule.style=Estilo
-  
+
 #2.CustomColor
 Structure.CustomColor.name=Nombre
 Structure.CustomColor.color=Color
@@ -2053,6 +2057,11 @@ Structure.DimensionCondition=Dimension Condition
 Structure.DimensionCondition.primaryKeys=Primary Keys
 Structure.DimensionCondition.hierarchy=Hierarchy
 
+#30. Rule
+Structure.Rule=Rule
+Structure.Rule.ruleExpre=Rule Expression
+Structure.Rule.displayExpre=Display Expression
+
 ###########################################################
 # Element names
 
@@ -2112,6 +2121,7 @@ Element.Dimension=Dimension
 Element.Hierarchy=Hierarchy
 Element.Level=Level
 Element.Measure=Measure
+Element.MeasureGroup=Meausre Group
 
 ###########################################################
 # Element property names
@@ -2245,7 +2255,7 @@ Element.SimpleDataSet.afterClose.reportContext=Contexto de informe
 Element.SimpleDataSet.paramBindings=Enlaces de parámetro
 Element.SimpleDataSet.refTemplateParameter=Definición de parámetro de plantilla a la que se hace referencia
 Element.SimpleDataSet.cachedRowCount=Recuento de filas en caché
-
+  
 #5. JdbcSelectDataSet  ( prefix  Element.JdbcSelectDataSet )
 Element.JdbcSelectDataSet.statement=Sentencia
 Element.JdbcSelectDataSet.getStatement=Obtener sentencia
@@ -2397,10 +2407,10 @@ Element.ReportItem.paramBindings=Enlaces de parámetro
 Element.ReportItem.refTemplateParameter=Definición de parámetro de plantilla a la que se hace referencia
 Element.ReportItem.boundDataColumns=Columnas de datos enlazados
 Element.ReportItem.zIndex=Índice Z
-  
+
 #11.Label  ( prefix  Element.Label )
-Element.Label.text=Texto
-Element.Label.textID=Clave de texto
+Element.Label.text=Contenido
+Element.Label.textID=Clave de contenido
 Element.Label.helpTextID=Clave de texto de ayuda:
 Element.Label.helpText=Texto de ayuda
 Element.Label.action=Acción
@@ -2423,7 +2433,7 @@ Element.Label.onPageBreak.reportContext=Contexto de informe
   
 #12.Element.FreeForm  ( Prefix Element.FreeForm )
 Element.FreeForm.slot.reportItems=Elementos de informe
-   
+  
 #12.Container  ( prefix  Element.Container )
 Element.Container.slot.reportItems=Elementos de informe
   
@@ -2469,7 +2479,7 @@ Element.Text.onPageBreak=En el salto de página
 Element.Text.onPageBreak.toolTip=TBD
 Element.Text.onPageBreak.this=Instancia de texto
 Element.Text.onPageBreak.reportContext=Contexto de informe
-   
+  
 #15.ListingGroup  ( prefix  Element.ListingGroup )
 Element.ListingGroup.keyExpr=Expresión clave:
 Element.ListingGroup.sort=Orden
@@ -2599,7 +2609,7 @@ Element.Row.onRender.this=Instancia de fila
 Element.Row.onRender.reportContext=Contexto de informe
 Element.Row.suppressDuplicates=Suprimir duplicados
 Element.Row.viewAction=Ver acción
-   
+  
 #22.Cell  ( prefix  Element.Cell )
 Element.Cell.column=Columna
 Element.Cell.colSpan=Extensión de columna
@@ -2623,7 +2633,7 @@ Element.Cell.onRender.toolTip=TBD
 Element.Cell.onRender.this=Instancia de celda
 Element.Cell.onRender.reportContext=Contexto de informe
 Element.Cell.viewAction=Ver acción
-    
+  
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=Texto alternativo
 Element.Image.altTextID=Clave de texto alternativo:
@@ -2678,7 +2688,7 @@ Element.Grid.onPageBreak.reportContext=Contexto de informe
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=Orientación
-    
+  
 #26.TextData  ( prefix  Element.TextData )
 Element.TextData.valueExpr=Expresión de valor
 Element.TextData.contentType=Tipo de contenido
@@ -2867,27 +2877,38 @@ Element.AutoText.onPageBreak.reportContext=Contexto de informe
 
 #45. Cube ( prefix Element.Cube )
 Element.Cube.dataSet=Data Set
+Element.Cube.filter=Filter Conditions
 Element.Cube.dimensionConditions=Dimension Conditions
-Element.Cube.slot.dimensions=Dimensions
-Element.Cube.slot.measures=Measures
+Element.Cube.dimensions=Dimensions
+Element.Cube.measureGroups=Measure Groups
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=Is Time Type
-Element.Dimension.slot.hierarchies=Hierarchies
+Element.Dimension.hierarchies=Hierarchies
 
 #47. Hierarchy ( prefix Element.Hierarchy )
 Element.Hierarchy.dataSet=Data Set
+Element.Hierarchy.filter=Filter Conditions
 Element.Hierarchy.primaryKeys=Primary Key
-Element.Hierarchy.slot.levels=Levels
+Element.Hierarchy.levels=Levels
 
 #48. Level ( prefix Element.Level )
 Element.Level.columnName=Column Name
+Element.Level.Interval=Intervalo
+Element.Level.intervalBase=Base de intervalo
+Element.Level.interval=Intervalo
+Element.Level.intervalRange=Rango del intervalo
+Element.Level.levelType=Level Type
+Element.Level.staticValues=Static Values
 Element.Level.attributes=Attributes
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=Function
 Element.Measure.isCalculated=Is Calculated
 Element.Measure.measureExpression=Measure Expression
+
+#50. MeasureGroup ( prefix Element.MeasureGroup )
+Element.MeasureGroup.measures=Measures
 
 ###########################################################
 # Predefined style
@@ -3122,6 +3143,7 @@ New.Dimension=NewDimension
 New.Hierarchy=NewHierarchy
 New.Level=NewLevel
 New.Measure=NewMeasure
+New.MeasureGroup=NewMeasureGroup
 
 ###########################################################
 #Default theme name.
@@ -3133,7 +3155,6 @@ Theme.defaultThemeName=defaultTheme
 #ContentException
 Error.ContentException.SLOT_NOT_FOUND=El valor {0} no tiene slot (id:{1}) definido.
 Error.ContentException.WRONG_TYPE=El valor {1} no se permite en el slot ({2}) de {0}.
-Error.ContentException.DROP_FORBIDDEN=El valor {1} no puede eliminarse porque no está en el slot ({2}) de {0}.
 Error.ContentException.CONTENT_NOT_FOUND=El valor {0} no aparece dentro del slot ({1}) del valor {2}.
 Error.ContentException.NOT_CONTAINER=El valor {0} no es un contenedor.
 Error.ContentException.SLOT_IS_FULL=El slot ({0}) de {1} está lleno.
@@ -3181,7 +3202,6 @@ Error.NameException.NAME_FORBIDDEN=No se permite al valor "{0}" tener nombre.
 Error.NameException.DUPLICATE=El nombre "{0}" duplica un nombre existente. Elija un nombre diferente.
 Error.NameException.HAS_REFERENCES=El valor {0} tiene un elemento derivado, el nombre no puede eliminarse.
 Error.NameException.DOT_FORBIDDEN=El nombre "{0}" no es válido, ya que contiene el carácter ".".
-
     
 #PropertyNameException
 Error.PropertyNameException.PROPERTY_NOT_VALID=La propiedad "{0}" no es válida para el elemento "{1}".
@@ -3205,7 +3225,6 @@ Error.PropertyValueException.NEGATIVE_VALUE=El valor "{0}" para la propiedad "{1
 Error.PropertyValueException.NON_POSITIVE_VALUE=El valor "{0}" para la propiedad "{1}" no es válido, el valor debe ser positivo.
 Error.PropertyValueException.EXTENSION_SETTING_FORBIDDEN=La propiedad "{0}" de ExtendedItem "{1}" está prohibida para establecerse por comandos.
 Error.PropertyValueException.DOT_FORBIDDEN=El nombre "{0}" no es válido, ya que contiene el carácter ".".
-
     
 #SemanticError
 Error.SemanticError.INCONSISTENT_TABLE_COL_COUNT=La tabla "{0}" tiene un recuento de columnas incoherente.
@@ -3268,10 +3287,10 @@ Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=Se ha encontrado la referencia de
 #StyleException
 Error.StyleException.FORBIDDEN=El valor {0} no puede tener ningún estilo.
 Error.StyleException.NOT_FOUND=No encuentra el estilo "{0}" usado por {1}.
-     
+    
 #ThemeException
 Error.ThemeException.NOT_FOUND=No se encuentra el tema "{0}" usado por {1}.    
-  
+    
 #DesignParserException
 Error.DesignParserException.FILE_NOT_FOUND=No se ha encontrado el archivo "{0}".
 Error.DesignParserException.FILE_FORMAT_NOT_SUPPORT=No se admite el formato del archivo "{0}".

@@ -31,13 +31,17 @@ Property.points=points
 Property.string=string
 Property.uri=uri
 Property.xml=xml
-Property.element=element
+Property.elementRef=element reference
 Property.column=column
 Property.variant=variant
 Property.structList=structList
 Property.extends=extends
 Property.script=Script
 Property.list=リスト
+Property.memberKey=member key
+Property.literalString=literal string
+Property.element=element
+Property.structRef=structure reference
 
 ###########################################################
 # Choice values
@@ -228,13 +232,13 @@ Choices.pageBreakBefore.auto=自動
 Choices.pageBreakBefore.always=全ページ
 Choices.pageBreakBefore.avoid=なし
 Choices.pageBreakBefore.alwaysExcludingFirst=1 ページ目を常に除外する
-  
+
 #26.pageBreakAfter
 Choices.pageBreakAfter.auto=自動
 Choices.pageBreakAfter.always=全ページ
 Choices.pageBreakAfter.avoid=なし
 Choices.pageBreakAfter.alwaysExcludingLast=最後のページを常に除外する
-  
+
 #27.actionLinkType
 Choices.actionLinkType.none=アクションリンクの種類なし
 Choices.actionLinkType.hyperlink=ハイパーリンク
@@ -244,7 +248,7 @@ Choices.actionLinkType.bookmark-link=ブックマークリンク
 # actionFormatType
 Choices.actionFormatType.html=HTML
 Choices.actionFormatType.pdf=PDF
-    
+  
 #28.drillThroughLinkType
 Choices.drillThroughType.none=ドリルスルーの種類なし
 Choices.drillThroughType.bookmark-link=ブックマークリンク
@@ -539,6 +543,10 @@ Choices.measureFunction.sum=Sum
 Choices.measureFunction.count=Count
 Choices.measureFunction.min=Min
 Choices.measureFunction.max=Max
+
+#71. levelType
+Choices.levelType.dynamic=動的
+Choices.levelType.mirrored=Mirrored
 
 ###########################################################
 # Classes
@@ -872,7 +880,6 @@ Class.Date.UTC.minutes=minutes
 Class.Date.UTC.seconds=seconds
 Class.Date.UTC.ms=ms
 
-
 #5. Math
 
 Class.Math=Math 関数
@@ -1203,7 +1210,6 @@ Class.DataSet.dataSource=DataSource
 Class.DataSet.dataSource.toolTip=このデータセットで使用されている DataSource オブジェクトを返します。
 
 
-
 #18. DataRow
 
 Class.DataRow=DataRow クラス
@@ -1222,7 +1228,6 @@ Class.DataRow.schema=schema
 Class.DataRow.schema.toolTip=データ行の列定義の配列を返します
 Class.DataRow.columnDefns=columnDefns
 Class.DataRow.columnDefns.toolTip=列のメタデータは、ColumnDefn の配列によって定義され、dataSet.columnDefns へのショートカットとなります。
-
 
 #19. ColumnDefn
 
@@ -1503,7 +1508,6 @@ Class.Total.isBottomNPercent.expr=値
 Class.Total.isBottomNPercent.pct=割合 (%)
 Class.Total.isBottomNPercent.filter=filter
 Class.Total.isBottomNPercent.group=group_level
-
 
 #27. Finance
 
@@ -1829,7 +1833,7 @@ Structure.HighlightRule.text.align=文字列の位置揃え
 Structure.HighlightRule.text.indent=文字列のインデント
 Structure.HighlightRule.text.transform=文字列の位置変更
 Structure.HighlightRule.style=種類
-  
+
 #2.CustomColor
 Structure.CustomColor.name=名前
 Structure.CustomColor.color=カラー
@@ -2053,6 +2057,11 @@ Structure.DimensionCondition=Dimension Condition
 Structure.DimensionCondition.primaryKeys=Primary Keys
 Structure.DimensionCondition.hierarchy=Hierarchy
 
+#30. Rule
+Structure.Rule=Rule
+Structure.Rule.ruleExpre=Rule Expression
+Structure.Rule.displayExpre=Display Expression
+
 ###########################################################
 # Element names
 
@@ -2112,6 +2121,7 @@ Element.Dimension=Dimension
 Element.Hierarchy=Hierarchy
 Element.Level=Level
 Element.Measure=Measure
+Element.MeasureGroup=Meausre Group
 
 ###########################################################
 # Element property names
@@ -2397,10 +2407,10 @@ Element.ReportItem.paramBindings=パラメタバインド
 Element.ReportItem.refTemplateParameter=参照先テンプレートのパラメタの定義
 Element.ReportItem.boundDataColumns=バインドされたデータカラム
 Element.ReportItem.zIndex=重ね順
-  
+
 #11.Label  ( prefix  Element.Label )
-Element.Label.text=テキスト
-Element.Label.textID=テキストキー
+Element.Label.text=コンテンツ
+Element.Label.textID=コンテンツキー
 Element.Label.helpTextID=ヘルプテキストキー
 Element.Label.helpText=ヘルプテキスト
 Element.Label.action=実行
@@ -2423,7 +2433,7 @@ Element.Label.onPageBreak.reportContext=レポートのコンテキスト
   
 #12.Element.FreeForm  ( Prefix Element.FreeForm )
 Element.FreeForm.slot.reportItems=レポート項目
-
+  
 #12.Container  ( prefix  Element.Container )
 Element.Container.slot.reportItems=レポート項目
   
@@ -2469,7 +2479,7 @@ Element.Text.onPageBreak=ページ区切り
 Element.Text.onPageBreak.toolTip=TBD
 Element.Text.onPageBreak.this=テキストインスタンス
 Element.Text.onPageBreak.reportContext=レポートのコンテキスト
-   
+  
 #15.ListingGroup  ( prefix  Element.ListingGroup )
 Element.ListingGroup.keyExpr=キーの式
 Element.ListingGroup.sort=ソート
@@ -2599,7 +2609,7 @@ Element.Row.onRender.this=行インスタンス
 Element.Row.onRender.reportContext=レポートのコンテキスト
 Element.Row.suppressDuplicates=重複を表示しない
 Element.Row.viewAction=アクションの表示
-   
+  
 #22.Cell  ( prefix  Element.Cell )
 Element.Cell.column=列
 Element.Cell.colSpan=列の幅
@@ -2623,7 +2633,7 @@ Element.Cell.onRender.toolTip=TBD
 Element.Cell.onRender.this=セルインスタンス
 Element.Cell.onRender.reportContext=レポートのコンテキスト
 Element.Cell.viewAction=アクションの表示
-    
+  
 #23.Image  ( prefix  Element.Image )
 Element.Image.altText=代替テキスト
 Element.Image.altTextID=代替テキストキー
@@ -2678,7 +2688,7 @@ Element.Grid.onPageBreak.reportContext=レポートのコンテキスト
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=向き
-    
+  
 #26.TextData  ( prefix  Element.TextData )
 Element.TextData.valueExpr=値式
 Element.TextData.contentType=コンテンツの種類
@@ -2867,27 +2877,38 @@ Element.AutoText.onPageBreak.reportContext=レポートのコンテキスト
 
 #45. Cube ( prefix Element.Cube )
 Element.Cube.dataSet=Data Set
+Element.Cube.filter=Filter Conditions
 Element.Cube.dimensionConditions=Dimension Conditions
-Element.Cube.slot.dimensions=Dimensions
-Element.Cube.slot.measures=Measures
+Element.Cube.dimensions=Dimensions
+Element.Cube.measureGroups=Measure Groups
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=Is Time Type
-Element.Dimension.slot.hierarchies=Hierarchies
+Element.Dimension.hierarchies=Hierarchies
 
 #47. Hierarchy ( prefix Element.Hierarchy )
 Element.Hierarchy.dataSet=Data Set
+Element.Hierarchy.filter=Filter Conditions
 Element.Hierarchy.primaryKeys=Primary Key
-Element.Hierarchy.slot.levels=Levels
+Element.Hierarchy.levels=Levels
 
 #48. Level ( prefix Element.Level )
 Element.Level.columnName=Column Name
+Element.Level.Interval=間隔
+Element.Level.intervalBase=間隔のベース
+Element.Level.interval=間隔
+Element.Level.intervalRange=間隔の範囲
+Element.Level.levelType=Level Type
+Element.Level.staticValues=Static Values
 Element.Level.attributes=Attributes
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=Function
 Element.Measure.isCalculated=Is Calculated
 Element.Measure.measureExpression=Measure Expression
+
+#50. MeasureGroup ( prefix Element.MeasureGroup )
+Element.MeasureGroup.measures=Measures
 
 ###########################################################
 # Predefined style
@@ -3122,6 +3143,7 @@ New.Dimension=NewDimension
 New.Hierarchy=NewHierarchy
 New.Level=NewLevel
 New.Measure=NewMeasure
+New.MeasureGroup=NewMeasureGroup
 
 ###########################################################
 #Default theme name.
@@ -3133,7 +3155,6 @@ Theme.defaultThemeName=defaultTheme
 #ContentException
 Error.ContentException.SLOT_NOT_FOUND={0} にはスロット (ID : {1}) が定義されていません。
 Error.ContentException.WRONG_TYPE={1} は {0} のスロット ({2}) では使用できません。
-Error.ContentException.DROP_FORBIDDEN={1} は {0} のスロット ({2}) にないため、削除できません。
 Error.ContentException.CONTENT_NOT_FOUND={0} は、{2} のスロット ({1}) に表示されません。
 Error.ContentException.NOT_CONTAINER={0} はコンテナではありません。
 Error.ContentException.SLOT_IS_FULL={1} のスロット ({0}) はいっぱいです。
@@ -3181,7 +3202,7 @@ Error.NameException.NAME_FORBIDDEN={0} には名前を指定できません。
 Error.NameException.DUPLICATE=この名前 "{0}" は、すでに使用されています。別の名前を付けてください。
 Error.NameException.HAS_REFERENCES={0} には、派生した要素があります。名前をクリアできません。
 Error.NameException.DOT_FORBIDDEN="{0}" は無効な名前です。名前には "." (ピリオド) を使用できません。
-
+    
 #PropertyNameException
 Error.PropertyNameException.PROPERTY_NOT_VALID=プロパティ "{0}" は、要素 "{1}" では使用できません。
 Error.PropertyNameException.MEMBER_NOT_VALID=メンバ "{0}" は、構造 "{1}" では使用できません。
@@ -3204,7 +3225,6 @@ Error.PropertyValueException.NEGATIVE_VALUE=プロパティ "{1}" の値 "{0}" が無効で
 Error.PropertyValueException.NON_POSITIVE_VALUE=プロパティ "{1}" の値 "{0}" が無効です。正の値を指定する必要があります。
 Error.PropertyValueException.EXTENSION_SETTING_FORBIDDEN=ExtendedItem "{1}" のプロパティ "{0}" は、コマンドによって指定することはできません。
 Error.PropertyValueException.DOT_FORBIDDEN="{0}" は無効な名前です。名前には "." (ピリオド) を使用できません。
-
     
 #SemanticError
 Error.SemanticError.INCONSISTENT_TABLE_COL_COUNT=テーブル "{0}" の列数に不整合があります。
