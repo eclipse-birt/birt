@@ -149,12 +149,8 @@ public class SimpleTask implements ITask
 		return sDesc;
 	}
 
-	/**
-	 * @deprecated For later use
-	 */
 	public Image getImage( )
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 

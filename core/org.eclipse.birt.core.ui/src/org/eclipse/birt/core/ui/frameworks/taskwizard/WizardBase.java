@@ -44,6 +44,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -206,20 +207,6 @@ public class WizardBase implements IRegistrationListener
 		// Update the context from the current task...if available
 		if ( sCurrentActiveTask != null )
 		{
-			String[] sErrors = getCurrentTask( ).getErrors( );
-			if ( sErrors != null && sErrors.length > 0 )
-			{
-				ErrorDialog ed = new ErrorDialog( shellParent,
-						Messages.getString( "WizardBase.error.ErrorsEncountered" ), //$NON-NLS-1$
-						Messages.getString( "WizardBase.error.FollowingErrorsReportedByTask" ), //$NON-NLS-1$
-						sErrors,
-						new String[]{} );
-				if ( ed.getOption( ) == ErrorDialog.OPTION_ACCEPT )
-				{
-					// Pressing OK will retain current task
-					return;
-				}
-			}
 			this.context = getCurrentTask( ).getContext( );
 		}
 
@@ -235,6 +222,7 @@ public class WizardBase implements IRegistrationListener
 		getCurrentTask( ).setContext( context );
 		// Clear errorHints
 		errorHints = null;
+		ErrorsManager.instance( ).removeErrors( );
 
 		// Clear any existing popup
 		detachPopup( );
@@ -344,6 +332,8 @@ public class WizardBase implements IRegistrationListener
 		// Initialize tasks manager...so that extensions get processed if they
 		// haven't already
 		TasksManager.instance( );
+		// Initialize error manager
+		ErrorsManager.instance( );
 		// Initialize instance variables
 		availableTasks = new LinkedHashMap( );
 		vTaskIDs = new Vector( );
@@ -353,7 +343,8 @@ public class WizardBase implements IRegistrationListener
 		if ( shell == null )
 		{
 			shell = new Shell( Display.getCurrent( ), SWT.DIALOG_TRIM
-					| SWT.RESIZE | SWT.APPLICATION_MODAL );
+					| SWT.RESIZE
+					| SWT.APPLICATION_MODAL );
 		}
 
 		dialog = new WizardBaseDialog( shell,
@@ -364,6 +355,7 @@ public class WizardBase implements IRegistrationListener
 
 		// dialog.setMessage( strHeader );
 		dialog.setTitleImage( imgHeader );
+		ErrorsManager.instance( ).registerWizard( this );
 	}
 
 	public WizardBase( )
@@ -397,6 +389,30 @@ public class WizardBase implements IRegistrationListener
 				Messages.getString( "WizardBase.error.ErrorsEncountered" ), //$NON-NLS-1$
 				Messages.getString( "WizardBase.error.FollowingErrorEncountered" ), //$NON-NLS-1$
 				t );
+	}
+
+	/**
+	 * Displays the exception in an Eclipse error mechanism.
+	 * 
+	 * @param t
+	 *            exception to be displayed to the user
+	 */
+	public static void showException( Throwable t )
+	{
+		ErrorsManager.instance( ).showErrors( t );
+	}
+
+	/**
+	 * Remove the error message in the dialog.
+	 */
+	public static void removeException( )
+	{
+		ErrorsManager.instance( ).removeErrors( );
+	}
+
+	public static String getErrors( )
+	{
+		return ErrorsManager.instance( ).getErrors( );
 	}
 
 	/**
@@ -517,12 +533,11 @@ public class WizardBase implements IRegistrationListener
 		dialog.packWizard( );
 	}
 
-	final class WizardBaseDialog extends TitleAreaDialog
-			implements
-				SelectionListener,
-				ControlListener,
-				DisposeListener,
-				IPageChangeProvider
+	final class WizardBaseDialog extends TitleAreaDialog implements
+			SelectionListener,
+			ControlListener,
+			DisposeListener,
+			IPageChangeProvider
 	{
 
 		private ListenerList pageChangedListeners = new ListenerList( );
@@ -557,7 +572,9 @@ public class WizardBase implements IRegistrationListener
 		protected void setShellStyle( int newShellStyle )
 		{
 			super.setShellStyle( newShellStyle
-					| SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL );
+					| SWT.DIALOG_TRIM
+					| SWT.RESIZE
+					| SWT.APPLICATION_MODAL );
 		}
 
 		private void configureTaskContext( String[] sTasks, String topTaskId )
@@ -616,6 +633,9 @@ public class WizardBase implements IRegistrationListener
 			{
 				// Create the blank tab item.
 				CTabItem item = new CTabItem( getTabContainer( ), SWT.NONE );
+				item.setImage( TasksManager.instance( )
+						.getTask( allTasks[i] )
+						.getImage( ) );
 				item.setText( TasksManager.instance( )
 						.getTask( allTasks[i] )
 						.getTitle( ) );
@@ -682,9 +702,18 @@ public class WizardBase implements IRegistrationListener
 
 			// Set width hint for message label in case the description message
 			// is too long
-			GridData layoutData = (GridData) getTitleImageLabel( ).getParent( )
+			Object layoutData = getTitleImageLabel( ).getParent( )
 					.getLayoutData( );
-			layoutData.widthHint = iWizardWidthMinimum;
+			if ( layoutData instanceof GridData )
+			{
+				// For eclipse jface 3.3
+				( (GridData) layoutData ).widthHint = iWizardWidthMinimum;
+			}
+			else if ( layoutData instanceof FormData )
+			{
+				// For eclipse jface 3.2
+				( (FormData) layoutData ).width = iWizardWidthMinimum;
+			}
 
 			return composite;
 		}
@@ -1007,7 +1036,8 @@ public class WizardBase implements IRegistrationListener
 			{
 				int x = 0;
 				if ( getShell( ).getLocation( ).x
-						+ getShell( ).getSize( ).x + shellPopup.getSize( ).x > getShell( ).getDisplay( )
+						+ getShell( ).getSize( ).x
+						+ shellPopup.getSize( ).x > getShell( ).getDisplay( )
 						.getClientArea( ).width )
 				{
 					// Avoid the popup exceeds the right border of the display
