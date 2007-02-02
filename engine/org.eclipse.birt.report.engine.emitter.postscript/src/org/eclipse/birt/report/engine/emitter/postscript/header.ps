@@ -10,22 +10,28 @@
 %%BeginSetup
 %%BeginResource: procset FOPprocs
 %%Title: Utility procedures
+/getCurrentFont {
+  currentfont dup
+  /FontBBox known not{
+    /FDepVector get 0 get
+  }if
+} def
+
 /getFontHeight {
-  0 currentfont dup
+  0 getCurrentFont dup 
   /FontBBox get 3 get exch
   /FontMatrix get dtransform exch pop
 } def
 
 /getUnderline {
   currentpoint pop 7 1 roll awidthshow currentpoint pop
-  sub 0 currentfont dup
+  sub 0 getCurrentFont dup
   /FontInfo get /UnderlineThickness get
   exch /FontMatrix get dtransform setlinewidth
-  0 currentfont dup
+  0 getCurrentFont dup
   /FontInfo get /UnderlinePosition get
   exch /FontMatrix get dtransform
 } def
-
 /mshow {
   /fontheight getFontHeight def
   0 fontheight -1 mul rmoveto
