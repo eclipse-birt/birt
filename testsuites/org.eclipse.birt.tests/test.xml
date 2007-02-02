@@ -1,4 +1,7 @@
 <project name="Automated Eclipse Testing" default=""  basedir="." >
+	
+	<property name="library-file" value="${eclipse-home}/plugins/org.eclipse.test_3.1.0/library.xml" />
+	
 	<target name="runbirttests">
 		<ant target="core-test" antfile="${library-file}" dir="${eclipse-home}">
 			<property name="data-dir" value="${junittempfolder}"/>
