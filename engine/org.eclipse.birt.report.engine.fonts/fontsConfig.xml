@@ -40,7 +40,7 @@
 		<mapping name="serif" font-family="Times-Roman"/>
 		<mapping name="sans-serif" font-family="Helvetica"/>
 		<mapping name="monospace" font-family="Courier"/>
-		<mapping name="cursive" font-family="Zapfdingbats"/>
+		<mapping name="cursive" font-family="Times-Roman"/>
 		<mapping name="fantasy" font-family="Times-Roman"/>
 	</font-mappings>
 	
