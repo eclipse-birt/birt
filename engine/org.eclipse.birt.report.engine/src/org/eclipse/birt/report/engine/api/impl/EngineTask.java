@@ -151,13 +151,12 @@ public abstract class EngineTask implements IEngineTask
 	{
 		taskID = id++;
 
+		this.engine = engine;
 		// create execution context used by java-script
 		executionContext = new ExecutionContext( this );
 		// Create IReportContext used by java-based script
 		executionContext.setReportContext( new ReportContextImpl(
 				executionContext ) );
-
-		setReportEngine( engine );
 
 		setReportRunnable( runnable );
 		// set the default app context
@@ -288,11 +287,6 @@ public abstract class EngineTask implements IEngineTask
 	public Map getAppContext( )
 	{
 		return executionContext.getAppContext( );
-	}
-
-	protected void setReportEngine( IReportEngine engine )
-	{
-		this.engine = engine;
 	}
 
 	/*
