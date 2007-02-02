@@ -381,13 +381,16 @@ public class CallStatement implements IAdvancedQuery
 	private java.sql.ResultSet getOutputParamResultSet( ) throws OdaException,
 			SQLException
 	{
-		for ( int i = 0; i < parameterDefn.getParameterCount( ); i++ )
+		if ( parameterDefn != null )
 		{
-			if ( parameterDefn.getParameterMode( i ) == IParameterMetaData.parameterModeOut )
+			for ( int i = 0; i < parameterDefn.getParameterCount( ); i++ )
 			{
-				Object expected = callStat.getObject( i + 1 );
-				if ( expected instanceof java.sql.ResultSet )
-					return (java.sql.ResultSet) expected;
+				if ( parameterDefn.getParameterMode( i ) == IParameterMetaData.parameterModeOut )
+				{
+					Object expected = callStat.getObject( i + 1 );
+					if ( expected instanceof java.sql.ResultSet )
+						return (java.sql.ResultSet) expected;
+				}
 			}
 		}
 
