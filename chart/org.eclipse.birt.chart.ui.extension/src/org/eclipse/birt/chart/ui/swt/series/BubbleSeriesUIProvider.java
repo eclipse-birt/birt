@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.chart.ui.swt.series;
 
-import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.AxisType;
@@ -80,35 +80,55 @@ public class BubbleSeriesUIProvider extends DefaultSeriesUIProvider
 		return new DefaultSelectDataComponent( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#getCompatibleAxisType(org.eclipse.birt.chart.model.component.Series)
 	 */
 	public AxisType[] getCompatibleAxisType( Series series )
 	{
 		return new AxisType[]{
 				AxisType.LINEAR_LITERAL,
-				AxisType.LOGARITHMIC_LITERAL
+				AxisType.LOGARITHMIC_LITERAL,
+				AxisType.DATE_TIME_LITERAL
 		};
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#validateSeriesBindingType(org.eclipse.birt.chart.model.component.Series, org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#validateSeriesBindingType(org.eclipse.birt.chart.model.component.Series,
+	 *      org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider)
 	 */
-	public void validateSeriesBindingType( Series series, IDataServiceProvider idsp ) throws ChartException
+	public void validateSeriesBindingType( Series series,
+			IDataServiceProvider idsp ) throws ChartException
 	{
-		Iterator iterEntries = series.getDataDefinition( ).iterator( );
-		while ( iterEntries.hasNext( ) )
+		List entries = series.getDataDefinition( );
+		if ( entries.size( ) >= 2 )
 		{
-			Query query = (Query) iterEntries.next( );
+			// Only check if Bubble size is numeric. Bubble value can support
+			// any types.
+			Query query = (Query) entries.get( 1 );
 			DataType dataType = idsp.getDataType( query.getDefinition( ) );
 			if ( dataType == DataType.TEXT_LITERAL
 					|| dataType == DataType.DATE_TIME_LITERAL )
 			{
 				throw new ChartException( ChartUIExtensionPlugin.ID,
 						ChartException.DATA_BINDING,
-						query.getDefinition( ) ); 
+						query.getDefinition( ) );
 			}
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#validationIndex(org.eclipse.birt.chart.model.component.Series)
+	 */
+	public int[] validationIndex( Series series )
+	{
+		return new int[]{
+				0, 1
+		};
+	}
 }

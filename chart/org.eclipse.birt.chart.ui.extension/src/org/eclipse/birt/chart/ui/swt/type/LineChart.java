@@ -51,6 +51,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.data.DefaultBaseSeriesComponent;
+import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
@@ -370,6 +371,10 @@ public class LineChart extends DefaultChartTypeImpl
 					{
 						if ( sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) )
 						{
+							if ( !ChartPreviewPainter.isLivePreviewActive( ) && !isNumbericAxis( (Axis) axes.get( i ) ) )
+							{
+								( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
+							}
 							( (Axis) axes.get( i ) ).setPercent( true );
 						}
 						else
@@ -382,6 +387,10 @@ public class LineChart extends DefaultChartTypeImpl
 							Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
 							if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
 							{
+								if ( !ChartPreviewPainter.isLivePreviewActive( ) && !isNumbericAxis( (Axis) axes.get( i ) ) )
+								{
+									( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
+								}
 								series.setStacked( true );
 							}
 							else
@@ -418,6 +427,10 @@ public class LineChart extends DefaultChartTypeImpl
 				{
 					if ( sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) )
 					{
+						if ( !ChartPreviewPainter.isLivePreviewActive( ) && !isNumbericAxis( (Axis) axes.get( i ) ) )
+						{
+							( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
+						}
 						( (Axis) axes.get( i ) ).setPercent( true );
 					}
 					else
@@ -432,6 +445,10 @@ public class LineChart extends DefaultChartTypeImpl
 						( (LineSeries) series ).setPaletteLineColor( true );
 						if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
 						{
+							if ( !ChartPreviewPainter.isLivePreviewActive( ) && !isNumbericAxis( (Axis) axes.get( i ) ) )
+							{
+								( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
+							}
 							series.setStacked( true );
 						}
 						else
@@ -633,6 +650,12 @@ public class LineChart extends DefaultChartTypeImpl
 		}
 
 		return currentChart;
+	}
+	
+	private boolean isNumbericAxis( Axis axis )
+	{
+		return ( axis.getType( ).getValue( ) == AxisType.LINEAR )
+				|| ( axis.getType( ).getValue( ) == AxisType.LOGARITHMIC );
 	}
 
 	private Series getConvertedSeries( Series series, int seriesIndex )

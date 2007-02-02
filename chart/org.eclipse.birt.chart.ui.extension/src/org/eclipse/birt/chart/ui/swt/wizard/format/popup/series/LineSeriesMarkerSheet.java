@@ -440,13 +440,20 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 				null,
 				false,
 				false );
+		boolean bException = false;
 		try
 		{
 			mr.draw( idrSWT );
 		}
 		catch ( ChartException ex )
 		{
-			WizardBase.displayException( ex );
+			bException = true;
+			WizardBase.showException( ex );
+		}
+
+		if ( !bException )
+		{
+			WizardBase.removeException( );
 		}
 	}
 

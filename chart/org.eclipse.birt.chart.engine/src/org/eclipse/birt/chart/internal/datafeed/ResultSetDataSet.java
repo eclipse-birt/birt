@@ -182,6 +182,20 @@ public final class ResultSetDataSet implements IResultSetDataSet
 		}
 		return IConstants.UNDEFINED;
 	}
+	
+	public int getDataType( int columnIndex )
+	{
+		if ( listMode )
+		{
+			return listDataType;
+		}
+
+		if ( columnIndex < iaColumnIndexes.length )
+		{
+			return rsw.getColumnDataType( iaColumnIndexes[columnIndex] );
+		}
+		return IConstants.UNDEFINED;
+	} 
 
 	/*
 	 * (non-Javadoc)

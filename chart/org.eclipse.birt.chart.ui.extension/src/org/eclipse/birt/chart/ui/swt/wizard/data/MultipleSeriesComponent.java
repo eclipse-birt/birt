@@ -136,7 +136,7 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 				Label lblRightYGrouping = new Label( cmpGroup, SWT.WRAP );
 				{
 					GridData gd = new GridData( );
-					gd.widthHint = getStandardWidth( ) * 16;
+					gd.widthHint = getStandardWidth( ) * 14;
 					lblRightYGrouping.setLayoutData( gd );
 					lblRightYGrouping.setText( strDesc );
 				}

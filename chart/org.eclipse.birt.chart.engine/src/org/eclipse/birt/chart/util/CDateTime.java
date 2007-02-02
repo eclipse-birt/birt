@@ -703,6 +703,7 @@ public class CDateTime extends GregorianCalendar
 			set( Calendar.MINUTE, 0 );
 			set( Calendar.HOUR, 0 );
 			set( Calendar.DATE, 1 );
+			set( Calendar.AM_PM, AM );
 			set( Calendar.MONTH, 0 );
 		}
 		else if ( iUnit == MONTH )
@@ -711,7 +712,21 @@ public class CDateTime extends GregorianCalendar
 			set( Calendar.SECOND, 0 );
 			set( Calendar.MINUTE, 0 );
 			set( Calendar.HOUR, 0 );
+			set( Calendar.AM_PM, AM );
 			set( Calendar.DATE, 1 );
+		}
+		else if ( iUnit == WEEK_OF_YEAR )
+		{
+			set( Calendar.MILLISECOND, 0 );
+			set( Calendar.SECOND, 0 );
+			set( Calendar.MINUTE, 0 );
+			set( Calendar.HOUR, 0 );
+			set( Calendar.AM_PM, AM );
+			
+			// Assume that Sunday is the first day, and other days will go back
+			// to current Sunday
+			int weekDay = get( DAY_OF_WEEK );			
+			add( DATE, 1 - weekDay );
 		}
 		else if ( iUnit == DATE )
 		{
@@ -719,6 +734,8 @@ public class CDateTime extends GregorianCalendar
 			set( Calendar.SECOND, 0 );
 			set( Calendar.MINUTE, 0 );
 			set( Calendar.HOUR, 0 );
+			// Must reset AM/PM
+			set( Calendar.AM_PM, AM );
 		}
 		else if ( iUnit == HOUR )
 		{
@@ -730,6 +747,10 @@ public class CDateTime extends GregorianCalendar
 		{
 			set( Calendar.MILLISECOND, 0 );
 			set( Calendar.SECOND, 0 );
+		}
+		else if ( iUnit == SECOND )
+		{
+			set( Calendar.MILLISECOND, 0 );
 		}
 	}
 

@@ -22,8 +22,28 @@
                showInDesigner="true"/>
       <outline
       		   icon="icons/pal/palette_icon.gif"/>
-      <propertyPage class="org.eclipse.birt.chart.reportitem.ui.ChartReportItemPropertyEditUIImpl"/>
-   </extension>
+    </extension>
+	
+	<extension
+      	point="org.eclipse.birt.report.designer.ui.elementAdapters">
+   		<adaptable
+         	class="org.eclipse.birt.report.model.api.ExtendedItemHandle">
+      		<adapter
+              factory="org.eclipse.birt.chart.reportitem.ui.PageGeneratorFactory"
+              id="ReportDesign.AttributeView.ChartPageGenerator"
+              priority="1"
+              singleton="false"
+              type="org.eclipse.birt.report.designer.ui.views.IPageGenerator">
+      			<enablement>
+            		<test
+                  		forcePluginActivation="true"
+                  		property="ExtendItemHandle.extensionName"
+                  		value="Chart">
+            		</test>
+         		</enablement>
+      		</adapter>
+   		</adaptable>
+   	</extension>
 
    <extension
          id="chart"

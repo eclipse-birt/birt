@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id$
+ * $Id: GanttSeriesImpl.java,v 1.1 2006/12/28 03:49:32 anonymous Exp $
  */
 
 package org.eclipse.birt.chart.model.type.impl;

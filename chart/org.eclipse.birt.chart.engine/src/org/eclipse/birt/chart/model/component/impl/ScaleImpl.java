@@ -35,6 +35,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getMinorGridsPerUnit <em>Minor Grids Per Unit</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#getStepNumber <em>Step Number</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#isShowOutside <em>Show Outside</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.ScaleImpl#isTickBetweenCategories <em>Tick Between Categories</em>}</li>
  * </ul>
  * </p>
  *
@@ -199,6 +200,35 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	 * @ordered
 	 */
 	protected boolean showOutsideESet = false;
+
+	/**
+	 * The default value of the '{@link #isTickBetweenCategories() <em>Tick Between Categories</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isTickBetweenCategories()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean TICK_BETWEEN_CATEGORIES_EDEFAULT = true;
+
+	/**
+	 * The cached value of the '{@link #isTickBetweenCategories() <em>Tick Between Categories</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isTickBetweenCategories()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean tickBetweenCategories = TICK_BETWEEN_CATEGORIES_EDEFAULT;
+
+	/**
+	 * This is true if the Tick Between Categories attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean tickBetweenCategoriesESet = false;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -639,6 +669,66 @@ public class ScaleImpl extends EObjectImpl implements Scale
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isTickBetweenCategories( )
+	{
+		return tickBetweenCategories;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTickBetweenCategories( boolean newTickBetweenCategories )
+	{
+		boolean oldTickBetweenCategories = tickBetweenCategories;
+		tickBetweenCategories = newTickBetweenCategories;
+		boolean oldTickBetweenCategoriesESet = tickBetweenCategoriesESet;
+		tickBetweenCategoriesESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					ComponentPackage.SCALE__TICK_BETWEEN_CATEGORIES,
+					oldTickBetweenCategories,
+					tickBetweenCategories,
+					!oldTickBetweenCategoriesESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetTickBetweenCategories( )
+	{
+		boolean oldTickBetweenCategories = tickBetweenCategories;
+		boolean oldTickBetweenCategoriesESet = tickBetweenCategoriesESet;
+		tickBetweenCategories = TICK_BETWEEN_CATEGORIES_EDEFAULT;
+		tickBetweenCategoriesESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					ComponentPackage.SCALE__TICK_BETWEEN_CATEGORIES,
+					oldTickBetweenCategories,
+					TICK_BETWEEN_CATEGORIES_EDEFAULT,
+					oldTickBetweenCategoriesESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetTickBetweenCategories( )
+	{
+		return tickBetweenCategoriesESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -675,6 +765,9 @@ public class ScaleImpl extends EObjectImpl implements Scale
 				return new Integer( getStepNumber( ) );
 			case ComponentPackage.SCALE__SHOW_OUTSIDE :
 				return isShowOutside( ) ? Boolean.TRUE : Boolean.FALSE;
+			case ComponentPackage.SCALE__TICK_BETWEEN_CATEGORIES :
+				return isTickBetweenCategories( ) ? Boolean.TRUE
+						: Boolean.FALSE;
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -708,6 +801,9 @@ public class ScaleImpl extends EObjectImpl implements Scale
 				return;
 			case ComponentPackage.SCALE__SHOW_OUTSIDE :
 				setShowOutside( ( (Boolean) newValue ).booleanValue( ) );
+				return;
+			case ComponentPackage.SCALE__TICK_BETWEEN_CATEGORIES :
+				setTickBetweenCategories( ( (Boolean) newValue ).booleanValue( ) );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -743,6 +839,9 @@ public class ScaleImpl extends EObjectImpl implements Scale
 			case ComponentPackage.SCALE__SHOW_OUTSIDE :
 				unsetShowOutside( );
 				return;
+			case ComponentPackage.SCALE__TICK_BETWEEN_CATEGORIES :
+				unsetTickBetweenCategories( );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -770,6 +869,8 @@ public class ScaleImpl extends EObjectImpl implements Scale
 				return isSetStepNumber( );
 			case ComponentPackage.SCALE__SHOW_OUTSIDE :
 				return isSetShowOutside( );
+			case ComponentPackage.SCALE__TICK_BETWEEN_CATEGORIES :
+				return isSetTickBetweenCategories( );
 		}
 		return super.eIsSet( featureID );
 	}
@@ -807,6 +908,11 @@ public class ScaleImpl extends EObjectImpl implements Scale
 		result.append( ", showOutside: " ); //$NON-NLS-1$
 		if ( showOutsideESet )
 			result.append( showOutside );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", tickBetweenCategories: " ); //$NON-NLS-1$
+		if ( tickBetweenCategoriesESet )
+			result.append( tickBetweenCategories );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );

@@ -23,7 +23,6 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportStyleProcessor;
-import org.eclipse.birt.chart.reportitem.QueryHelper;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartExpressionProvider;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
@@ -58,9 +57,8 @@ import com.ibm.icu.text.NumberFormat;
 /**
  * ChartReportItemBuilderImpl
  */
-public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
-		implements
-			IUIServiceProvider
+public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
+		IUIServiceProvider
 {
 
 	private static int iInstanceCount = 0;
@@ -126,7 +124,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 						Messages.getString( "ChartReportItemBuilderImpl.log.UnableToLocate" ) ); //$NON-NLS-1$
 				return Window.CANCEL;
 			}
-			
+
 			final CommandStack commandStack = eih.getRoot( ).getCommandStack( );
 			final String TRANS_NAME = "chart builder internal transaction"; //$NON-NLS-1$
 			commandStack.startTrans( TRANS_NAME );
@@ -269,10 +267,8 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IExpressionBuilder#invoke(java.lang.String)
+	/**
+	 * @deprecated
 	 */
 	public String invoke( String sExpression, Object oContext, String sTitle )
 	{
@@ -289,6 +285,9 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 		return sExpression;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public String invoke( String sExpression, Object oContext, String sTitle,
 			boolean isChartProvider )
 	{
@@ -323,7 +322,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 		}
 
 		// CHECK FOR UNDEFINED SERIES QUERIES (DO NOT NEED THE RUNTIME CONTEXT)
-		final QueryHelper.SeriesQueries[] qsqa = new QueryHelper( ).getSeriesQueryDefinitions( cm );
+		final QueryUIHelper.SeriesQueries[] qsqa = new QueryUIHelper( ).getSeriesQueryDefinitions( cm );
 		Collection co;
 		for ( int i = 0; i < qsqa.length; i++ )
 		{
@@ -433,7 +432,8 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 		{
 			case IUIServiceProvider.COMMAND_EXPRESSION :
 				shell = new Shell( Display.getDefault( ), SWT.DIALOG_TRIM
-						| SWT.RESIZE | SWT.APPLICATION_MODAL );
+						| SWT.RESIZE
+						| SWT.APPLICATION_MODAL );
 				ChartUIUtil.bindHelp( shell,
 						ChartHelpContextIds.DIALOG_EXPRESSION_BUILDER );
 				eb = new ExpressionBuilder( shell, value );
@@ -472,7 +472,8 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 				break;
 			case IUIServiceProvider.COMMAND_HYPERLINK :
 				shell = new Shell( Display.getDefault( ), SWT.DIALOG_TRIM
-						| SWT.RESIZE | SWT.APPLICATION_MODAL );
+						| SWT.RESIZE
+						| SWT.APPLICATION_MODAL );
 				ChartUIUtil.bindHelp( shell,
 						ChartHelpContextIds.DIALOG_EDIT_URL );
 				HyperlinkBuilder hb = new HyperlinkBuilder( shell ) {

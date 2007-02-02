@@ -15,20 +15,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
 import org.eclipse.birt.chart.datafeed.IResultSetDataSet;
-import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.IActionEvaluator;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.factory.RunTimeContext;
-import org.eclipse.birt.chart.log.ILogger;
-import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -42,6 +38,8 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.TextDataSet;
 import org.eclipse.birt.chart.model.data.Trigger;
+import org.eclipse.birt.chart.model.type.BubbleSeries;
+import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.util.PluginSettings;
@@ -49,7 +47,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import com.ibm.icu.util.Calendar;
-import com.ibm.icu.util.ULocale;
 
 /**
  * An internal class used for data binding, runtime series generating.
@@ -60,7 +57,147 @@ public class DataProcessor
 	private final RunTimeContext rtc;
 	private final IActionEvaluator iae;
 
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/trace" ); //$NON-NLS-1$
+	/**
+	 * 
+	 * To collect aggregation expressions and queries of each series. Note that
+	 * some special cases, bubble/gantt series, are handled by hardcode.
+	 * 
+	 */
+	class AggregationExpressionHelper
+	{
+
+		private List aggregationExpsList = new ArrayList( 3 );
+		private List querysList = new ArrayList( 3 );
+
+		//Group query for base aggregation
+		private List baseQueryList = new ArrayList( 3 );
+
+		public void addAggregation( String exp, List querys )
+		{
+			for ( int i = 0; i < querys.size( ); i++ )
+			{
+				aggregationExpsList.add( exp );
+				querysList.add( querys.get( i ) );
+			}
+		}
+
+		public String[] getAggregations( )
+		{
+			return (String[]) aggregationExpsList.toArray( new String[aggregationExpsList.size( )] );
+		}
+
+		public String[] getDataDefinitions( )
+		{
+			return (String[]) querysList.toArray( new String[querysList.size( )] );
+		}
+		
+		public List getDataDefinitionsForBaseGrouping()
+		{
+			return  baseQueryList;
+		}
+		
+		public void dispose( )
+		{
+			aggregationExpsList.clear( );
+			querysList.clear( );
+		}
+
+		public boolean isEmpty( )
+		{
+			return aggregationExpsList.isEmpty( ) || querysList.isEmpty( );
+		}
+
+		/**
+		 * 
+		 * @param elSD
+		 *            orthogonal series definitions list
+		 * @param lhmLookup
+		 */
+		public void addSeriesDefinitions( EList elSD, GroupingLookupHelper lhmLookup )
+		{
+			for ( int k = 0; k < elSD.size( ); k++ )
+			{
+				SeriesDefinition sdOrthogonal = (SeriesDefinition) elSD.get( k );
+				Series series = sdOrthogonal.getDesignTimeSeries( );
+				List qlist;
+
+				if ( series instanceof BubbleSeries )
+				{
+					qlist = getBubbleSeriesGroupingList( series );
+				}
+				else if ( series instanceof GanttSeries )
+				{
+					qlist = getGanttSeriesGroupingList( series );
+				}
+				else
+				{
+					qlist = getGeneralSeriesGroupingList( series );
+				}
+
+				String strOrtAgg = lhmLookup.getOrthogonalAggregationExpression( sdOrthogonal );
+				if ( strOrtAgg != null )
+				{
+					// cache orthogonal series grouping
+					addAggregation( strOrtAgg, qlist );
+				}
+				else
+				{
+					// If no orthogonal grouping, use base grouping
+					baseQueryList.addAll( qlist );
+				}
+			}
+		}
+		
+		private List getGeneralSeriesGroupingList( Series series )
+		{
+			ArrayList list = new ArrayList( 1 );
+			EList elDD = series.getDataDefinition( );
+			// FOR EACH QUERY
+			for ( int n = 0; n < elDD.size( ); n++ )
+			{
+				String sExpression = ( (Query) elDD.get( n ) ).getDefinition( );
+
+				if ( sExpression != null && sExpression.trim( ).length( ) > 0 )
+				{
+					// ADD NEW VALID EXPRESSION
+					list.add( sExpression );
+				}
+			}
+			return list;
+		}
+		
+		private List getBubbleSeriesGroupingList( Series series )
+		{
+			ArrayList list = new ArrayList( 1 );
+			String sExpression = ( (Query) series.getDataDefinition( )
+					.get( 1 ) ).getDefinition( );
+
+			// Only add size for grouping
+			if ( sExpression != null && sExpression.trim( ).length( ) > 0 )
+			{
+				list.add( sExpression );
+			}
+			return list;
+		}
+		
+		private List getGanttSeriesGroupingList( Series series )
+		{
+			ArrayList list = new ArrayList( 2 );
+			EList elDD = series.getDataDefinition( );
+			// Only add startDate and endDate for grouping
+			for ( int n = 0; n < elDD.size( ) && n < 2; n++ )
+			{
+				String sExpression = ( (Query) elDD.get( n ) ).getDefinition( );
+
+				if ( sExpression != null && sExpression.trim( ).length( ) > 0 )
+				{
+					// ADD NEW VALID EXPRESSION
+					list.add( sExpression );
+				}
+			}
+			return list;
+		}
+	}
 
 	/**
 	 * The constructor.
@@ -74,346 +211,9 @@ public class DataProcessor
 	}
 
 	/**
-	 * Returns all associated datarow expressions in chart model
-	 */
-	public static List getRowExpressions( Chart cm, IActionEvaluator iae )
-			throws ChartException
-	{
-		if ( cm instanceof ChartWithAxes )
-		{
-			return getRowExpressions( (ChartWithAxes) cm, iae );
-		}
-		else if ( cm instanceof ChartWithoutAxes )
-		{
-			return getRowExpressions( (ChartWithoutAxes) cm, iae );
-		}
-		return null;
-	}
-
-	private static List getRowExpressions( ChartWithoutAxes cwoa,
-			IActionEvaluator iae ) throws ChartException
-	{
-		final ArrayList alExpressions = new ArrayList( 4 );
-		EList elSD = cwoa.getSeriesDefinitions( );
-		if ( elSD.size( ) != 1 )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.DATA_BINDING,
-					"dataprocessor.exception.CannotDecipher", //$NON-NLS-1$
-					Messages.getResourceBundle( ) );
-		}
-
-		// PROJECT THE EXPRESSION ASSOCIATED WITH THE BASE SERIES DEFINITION
-		SeriesDefinition sd = (SeriesDefinition) elSD.get( 0 );
-		final Query qBaseSeriesDefinition = sd.getQuery( );
-		String sExpression = qBaseSeriesDefinition.getDefinition( );
-		if ( sExpression != null && sExpression.trim( ).length( ) > 0 )
-		{
-			// Ignore expression for base series definition
-			logger.log( ILogger.WARNING,
-					Messages.getString( "dataprocessor.log.baseSeriesDefn3", sExpression, ULocale.getDefault( ) ) ); //$NON-NLS-1$
-		}
-
-		// PROJECT THE EXPRESSION ASSOCIATED WITH THE BASE SERIES EXPRESSION
-		final Series seBase = sd.getDesignTimeSeries( );
-		EList elBaseSeries = seBase.getDataDefinition( );
-		if ( elBaseSeries.size( ) != 1 )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.DATA_BINDING,
-					"dataprocessor.exception.FoundDefnAssociatedWithX", //$NON-NLS-1$
-					new Object[]{
-						String.valueOf( elBaseSeries.size( ) )
-					},
-					null );
-		}
-
-		final Query qBaseSeries = (Query) elBaseSeries.get( 0 );
-		sExpression = qBaseSeries.getDefinition( );
-		if ( sExpression != null
-				&& sExpression.trim( ).length( ) > 0
-				&& !alExpressions.contains( sExpression ) )
-		{
-			alExpressions.add( sExpression );
-		}
-		else
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.DATA_BINDING,
-					"dataprocessor.exception.DefinitionUnspecified", //$NON-NLS-1$
-					Messages.getResourceBundle( ) );
-		}
-
-		// PROJECT ALL DATA DEFINITIONS ASSOCIATED WITH THE ORTHOGONAL SERIES
-		Query qOrthogonalSeriesDefinition, qOrthogonalSeries;
-		Series seOrthogonal;
-		EList elOrthogonalSeries;
-		elSD = sd.getSeriesDefinitions( ); // ALL ORTHOGONAL SERIES DEFINITIONS
-		int iCount = 0;
-		boolean bAnyQueries;
-		for ( int k = 0; k < elSD.size( ); k++ )
-		{
-			sd = (SeriesDefinition) elSD.get( k );
-			qOrthogonalSeriesDefinition = sd.getQuery( );
-			if ( qOrthogonalSeriesDefinition == null )
-			{
-				continue;
-			}
-			sExpression = qOrthogonalSeriesDefinition.getDefinition( );
-			if ( sExpression != null && sExpression.trim( ).length( ) > 0 )
-			{
-				// FILTER OUT DUPLICATE ENTRIES
-				if ( alExpressions.contains( sExpression ) )
-				{
-					int iRemovalIndex = alExpressions.indexOf( sExpression );
-					if ( iRemovalIndex > iCount )
-					{
-						alExpressions.remove( iRemovalIndex );
-						alExpressions.add( iCount++, sExpression );
-					}
-					else
-					{
-						// DON'T ADD IF PREVIOUSLY ADDED BEFORE 'iCount'
-						// continue;
-					}
-				}
-				else
-				{
-					// INSERT AT START
-					alExpressions.add( iCount++, sExpression );
-				}
-			}
-
-			seOrthogonal = sd.getDesignTimeSeries( );
-			elOrthogonalSeries = seOrthogonal.getDataDefinition( );
-			if ( elOrthogonalSeries.isEmpty( ) )
-			{
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.DATA_BINDING,
-						"dataprocessor.exception.DefnExpMustAssociateY", //$NON-NLS-1$
-						new Object[]{
-								String.valueOf( iCount ), seOrthogonal
-						},
-						Messages.getResourceBundle( ) );
-			}
-
-			bAnyQueries = false;
-			for ( int i = 0; i < elOrthogonalSeries.size( ); i++ )
-			{
-				qOrthogonalSeries = (Query) elOrthogonalSeries.get( i );
-				if ( qOrthogonalSeries == null ) // NPE PROTECTION
-				{
-					continue;
-				}
-
-				sExpression = qOrthogonalSeries.getDefinition( );
-				if ( sExpression != null && sExpression.trim( ).length( ) > 0 )
-				{
-					bAnyQueries = true;
-					if ( !alExpressions.contains( sExpression ) )
-					{
-						alExpressions.add( sExpression ); // APPEND AT END
-					}
-				}
-			}
-			if ( !bAnyQueries )
-			{
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.DATA_BINDING,
-						"dataprocessor.exception.AtLeastOneDefnExpMustAssociateY", //$NON-NLS-1$
-						new Object[]{
-								String.valueOf( iCount ), seOrthogonal
-						},
-						Messages.getResourceBundle( ) );
-			}
-
-			// Add orthogonal series trigger expressions.
-			String[] triggerExprs = getSeriesTriggerExpressions( seOrthogonal,
-					iae );
-			if ( triggerExprs != null )
-			{
-				for ( int t = 0; t < triggerExprs.length; t++ )
-				{
-					String tgexp = triggerExprs[t];
-					if ( !alExpressions.contains( tgexp ) )
-					{
-						alExpressions.add( tgexp ); // APPEND AT END
-					}
-				}
-			}
-		}
-
-		return alExpressions;
-	}
-
-	private static List getRowExpressions( ChartWithAxes cwa,
-			IActionEvaluator iae ) throws ChartException
-	{
-		final ArrayList alExpressions = new ArrayList( 4 );
-		final Axis axPrimaryBase = cwa.getPrimaryBaseAxes( )[0];
-		EList elSD = axPrimaryBase.getSeriesDefinitions( );
-		if ( elSD.size( ) != 1 )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.GENERATION,
-					"dataprocessor.exception.CannotDecipher2", //$NON-NLS-1$
-					Messages.getResourceBundle( ) );
-		}
-
-		// PROJECT THE EXPRESSION ASSOCIATED WITH THE BASE SERIES DEFINITION
-		SeriesDefinition sd = (SeriesDefinition) elSD.get( 0 );
-		final Query qBaseSeriesDefinition = sd.getQuery( );
-		String sExpression = qBaseSeriesDefinition.getDefinition( );
-		if ( sExpression != null && sExpression.trim( ).length( ) > 0 )
-		{
-			// ignore expression for base series definition
-			logger.log( ILogger.WARNING,
-					Messages.getString( "dataprocessor.log.XSeriesDefn", sExpression, ULocale.getDefault( ) ) ); //$NON-NLS-1$
-		}
-
-		// PROJECT THE EXPRESSION ASSOCIATED WITH THE BASE SERIES EXPRESSION
-		final Series seBase = sd.getDesignTimeSeries( );
-		EList elBaseSeries = seBase.getDataDefinition( );
-		if ( elBaseSeries.size( ) != 1 )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.DATA_BINDING,
-					"dataprocessor.exception.FoundMoreThanOneDefnAssociateX", //$NON-NLS-1$
-					new Object[]{
-						String.valueOf( elBaseSeries.size( ) )
-					},
-					Messages.getResourceBundle( ) );
-		}
-
-		final Query qBaseSeries = (Query) elBaseSeries.get( 0 );
-		sExpression = qBaseSeries.getDefinition( );
-		if ( sExpression != null
-				&& sExpression.trim( ).length( ) > 0
-				&& !alExpressions.contains( sExpression ) )
-		{
-			alExpressions.add( sExpression );
-		}
-		else
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.DATA_BINDING,
-					"dataprocessor.exception.definitionsAssociatedWithX", //$NON-NLS-1$
-					Messages.getResourceBundle( ) );
-		}
-
-		// PROJECT ALL DATA DEFINITIONS ASSOCIATED WITH THE ORTHOGONAL SERIES
-		Query qOrthogonalSeriesDefinition, qOrthogonalSeries;
-		Series seOrthogonal;
-		EList elOrthogonalSeries;
-		final Axis[] axaOrthogonal = cwa.getOrthogonalAxes( axPrimaryBase, true );
-		int iCount = 0;
-		boolean bAnyQueries;
-		for ( int j = 0; j < axaOrthogonal.length; j++ )
-		{
-			elSD = axaOrthogonal[j].getSeriesDefinitions( );
-			for ( int k = 0; k < elSD.size( ); k++ )
-			{
-				sd = (SeriesDefinition) elSD.get( k );
-				qOrthogonalSeriesDefinition = sd.getQuery( );
-				if ( qOrthogonalSeriesDefinition == null )
-				{
-					continue;
-				}
-
-				sExpression = qOrthogonalSeriesDefinition.getDefinition( );
-				if ( sExpression != null && sExpression.trim( ).length( ) > 0 )
-				{
-					// FILTER OUT DUPLICATE ENTRIES
-					if ( alExpressions.contains( sExpression ) )
-					{
-						int iRemovalIndex = alExpressions.indexOf( sExpression );
-						if ( iRemovalIndex > iCount )
-						{
-							alExpressions.remove( iRemovalIndex );
-							alExpressions.add( iCount++, sExpression );
-						}
-						else
-						{
-							// DON'T ADD IF PREVIOUSLY ADDED BEFORE 'iCount'
-							// continue;
-						}
-					}
-					else
-					{
-						// INSERT AT START
-						alExpressions.add( iCount++, sExpression );
-					}
-				}
-
-				seOrthogonal = sd.getDesignTimeSeries( );
-				elOrthogonalSeries = seOrthogonal.getDataDefinition( );
-				if ( elOrthogonalSeries.isEmpty( ) )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.DATA_BINDING,
-							"dataprocessor.exception.DefnExpMustAssociateY", //$NON-NLS-1$
-							new Object[]{
-									String.valueOf( iCount ), seOrthogonal
-							},
-							Messages.getResourceBundle( ) );
-				}
-
-				bAnyQueries = false;
-				for ( int i = 0; i < elOrthogonalSeries.size( ); i++ )
-				{
-					qOrthogonalSeries = (Query) elOrthogonalSeries.get( i );
-					if ( qOrthogonalSeries == null ) // NPE PROTECTION
-					{
-						continue;
-					}
-
-					sExpression = qOrthogonalSeries.getDefinition( );
-					if ( sExpression != null
-							&& sExpression.trim( ).length( ) > 0 )
-					{
-						bAnyQueries = true;
-						if ( !alExpressions.contains( sExpression ) )
-						{
-							alExpressions.add( sExpression ); // APPEND AT END
-						}
-					}
-				}
-
-				if ( !bAnyQueries )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.DATA_BINDING,
-							"dataprocessor.exception.AtLeastOneDefnExpMustAssociateY", //$NON-NLS-1$
-							new Object[]{
-									String.valueOf( iCount ), seOrthogonal
-							},
-							Messages.getResourceBundle( ) );
-				}
-
-				// Add orthogonal series trigger expressions.
-				String[] triggerExprs = getSeriesTriggerExpressions( seOrthogonal,
-						iae );
-				if ( triggerExprs != null )
-				{
-					for ( int t = 0; t < triggerExprs.length; t++ )
-					{
-						String tgexp = triggerExprs[t];
-						if ( !alExpressions.contains( tgexp ) )
-						{
-							alExpressions.add( tgexp ); // APPEND AT END
-						}
-					}
-				}
-			}
-		}
-
-		return alExpressions;
-	}
-
-	/**
 	 * Returns all valid trigger expressions from series.
 	 */
-	private static String[] getSeriesTriggerExpressions( Series se,
+	public static String[] getSeriesTriggerExpressions( Series se,
 			IActionEvaluator iae )
 	{
 		ArrayList rt = new ArrayList( );
@@ -450,20 +250,21 @@ public class DataProcessor
 		return null;
 	}
 
-	private GroupKey[] findGroupKeys( Chart cm )
+	private GroupKey[] findGroupKeys( Chart cm, GroupingLookupHelper lhmLookup )
 	{
 		if ( cm instanceof ChartWithAxes )
 		{
-			return findGroupKeys( (ChartWithAxes) cm );
+			return findGroupKeys( (ChartWithAxes) cm, lhmLookup );
 		}
 		else if ( cm instanceof ChartWithoutAxes )
 		{
-			return findGroupKeys( (ChartWithoutAxes) cm );
+			return findGroupKeys( (ChartWithoutAxes) cm, lhmLookup );
 		}
 		return null;
 	}
 
-	private GroupKey[] findGroupKeys( ChartWithoutAxes cwoa )
+	private GroupKey[] findGroupKeys( ChartWithoutAxes cwoa,
+			GroupingLookupHelper lhmLookup )
 	{
 		final List alKeys = new ArrayList( 4 );
 		EList elSD = cwoa.getSeriesDefinitions( );
@@ -487,11 +288,13 @@ public class DataProcessor
 			sExpression = qOrthogonalSeriesDefinition.getDefinition( );
 			if ( sExpression != null && sExpression.trim( ).length( ) > 0 )
 			{
-				GroupKey sortKey = new GroupKey( sExpression,
-						sd.isSetSorting( ) ? sd.getSorting( ) : null );
+				GroupKey sortKey = new GroupKey( sExpression, sd.isSetSorting( )
+						? sd.getSorting( ) : null );
 
 				if ( !alKeys.contains( sortKey ) )
 				{
+					sortKey.setKeyIndex( lhmLookup.findIndex( sExpression,
+							lhmLookup.getOrthogonalAggregationExpression( sd ) ) );
 					alKeys.add( sortKey );
 				}
 			}
@@ -500,7 +303,8 @@ public class DataProcessor
 		return (GroupKey[]) alKeys.toArray( new GroupKey[alKeys.size( )] );
 	}
 
-	private GroupKey[] findGroupKeys( ChartWithAxes cwa )
+	private GroupKey[] findGroupKeys( ChartWithAxes cwa,
+			GroupingLookupHelper lhmLookup )
 	{
 		final ArrayList alKeys = new ArrayList( 4 );
 
@@ -533,6 +337,8 @@ public class DataProcessor
 							sd.isSetSorting( ) ? sd.getSorting( ) : null );
 					if ( !alKeys.contains( sortKey ) )
 					{
+						sortKey.setKeyIndex( lhmLookup.findIndex( sExpression,
+								lhmLookup.getOrthogonalAggregationExpression( sd ) ) );
 						alKeys.add( sortKey );
 					}
 				}
@@ -553,24 +359,17 @@ public class DataProcessor
 			IDataRowExpressionEvaluator idre, Chart cm ) throws ChartException
 	{
 		// Collect all used data expressions
-		LinkedHashMap lhmLookup = new LinkedHashMap( );
-		Collection co = getRowExpressions( cm, iae );
-		Iterator it = co.iterator( );
-		String sxp;
-		int i = 0;
-		while ( it.hasNext( ) )
-		{
-			sxp = (String) it.next( );
-			lhmLookup.put( sxp, new Integer( i++ ) );
-		}
+		GroupingLookupHelper lhmLookup = new GroupingLookupHelper( cm, iae );
+		Collection co = lhmLookup.getExpressions( );
 
 		// WALK THROUGH RESULTS
-		final int iColumnCount = i;
+		final int iColumnCount = co.size( );
 		final List liResultSet = new ArrayList( );
 		Object[] oaTuple;
 		int iColumnIndex;
 		boolean hasFirst = idre.first( );
 
+		Iterator it;
 		if ( hasFirst )
 		{
 			do
@@ -589,118 +388,75 @@ public class DataProcessor
 		// idre.close( );
 
 		// Prepare orthogonal grouping keys
-		final GroupKey[] groupKeys = findGroupKeys( cm );
-
-		// update key index.
-		for ( i = 0; i < groupKeys.length; i++ )
-		{
-			groupKeys[i].setKeyIndex( ( (Integer) lhmLookup.get( groupKeys[i].getKey( ) ) ).intValue( ) );
-		}
+		final GroupKey[] groupKeys = findGroupKeys( cm, lhmLookup );
 
 		// create resultset wrapper
-		final ResultSetWrapper rsw = new ResultSetWrapper( lhmLookup.keySet( ),
+		final ResultSetWrapper rsw = new ResultSetWrapper( lhmLookup,
 				liResultSet,
 				groupKeys );
 
-		SeriesDefinition sdGrouping = null;
-		String[] saOrthogonalDataDefinitions = null;
+		SeriesDefinition sdBase = null;
+		boolean bBaseGrouping = false;
 
 		// TODO ??do we need processing trigger expr too?
 		// search all orthogonal series data definitions for base grouping
+		AggregationExpressionHelper aggHelper = new AggregationExpressionHelper( );
 		if ( cm instanceof ChartWithAxes )
 		{
-			ArrayList alODD = new ArrayList( 8 );
 			ChartWithAxes cwa = (ChartWithAxes) cm;
 			Axis[] axaBase = cwa.getBaseAxes( );
 			Axis[] axaOrthogonal = null;
-			Series SE;
-			String sExpression;
-			EList elSD, elDD;
 
 			// EACH BASE AXIS
 			for ( int j = 0; j < axaBase.length; j++ )
 			{
-				sdGrouping = (SeriesDefinition) axaBase[j].getSeriesDefinitions( )
+				sdBase = (SeriesDefinition) axaBase[j].getSeriesDefinitions( )
 						.get( 0 );
 				axaOrthogonal = cwa.getOrthogonalAxes( axaBase[j], true );
+				bBaseGrouping = rsw.getRowCount( ) > 0
+						&& sdBase.getGrouping( ) != null
+						&& sdBase.getGrouping( ).isEnabled( );
 
 				// EACH ORTHOGONAL AXIS
-				for ( i = 0; i < axaOrthogonal.length; i++ )
+				for ( int i = 0; i < axaOrthogonal.length; i++ )
 				{
-					elSD = axaOrthogonal[i].getSeriesDefinitions( );
 					// EACH ORTHOGONAL SERIES
-					for ( int k = 0; k < elSD.size( ); k++ )
-					{
-						SE = ( (SeriesDefinition) elSD.get( k ) ).getDesignTimeSeries( );
-
-						if ( SE != null )
-						{
-							elDD = SE.getDataDefinition( );
-							// FOR EACH QUERY
-							for ( int n = 0; n < elDD.size( ); n++ )
-							{
-								sExpression = ( (Query) elDD.get( n ) ).getDefinition( );
-
-								if ( sExpression != null
-										&& sExpression.trim( ).length( ) > 0
-										&& !alODD.contains( sExpression ) )
-								{
-									// ADD NEW VALID EXPRESSION
-									alODD.add( sExpression );
-								}
-							}
-						}
-					}
+					aggHelper.addSeriesDefinitions( axaOrthogonal[i].getSeriesDefinitions( ),
+							lhmLookup );
 				}
 			}
-
-			saOrthogonalDataDefinitions = (String[]) alODD.toArray( new String[alODD.size( )] );
 		}
 		else if ( cm instanceof ChartWithoutAxes )
 		{
-			ArrayList alODD = new ArrayList( 8 );
 			ChartWithoutAxes cwoa = (ChartWithoutAxes) cm;
-			Series SE;
-			String sExpression;
-			EList elSD, elDD;
-
-			sdGrouping = (SeriesDefinition) cwoa.getSeriesDefinitions( )
-					.get( 0 );
-			elSD = sdGrouping.getSeriesDefinitions( );
+			sdBase = (SeriesDefinition) cwoa.getSeriesDefinitions( ).get( 0 );
+			bBaseGrouping = rsw.getRowCount( ) > 0
+					&& sdBase.getGrouping( ) != null
+					&& sdBase.getGrouping( ).isEnabled( );
 
 			// EACH ORTHOGONAL SERIES
-			for ( int k = 0; k < elSD.size( ); k++ )
-			{
-				SE = ( (SeriesDefinition) elSD.get( k ) ).getDesignTimeSeries( );
-
-				if ( SE != null )
-				{
-					elDD = SE.getDataDefinition( );
-					// FOR EACH QUERY
-					for ( int n = 0; n < elDD.size( ); n++ )
-					{
-						sExpression = ( (Query) elDD.get( n ) ).getDefinition( );
-
-						if ( sExpression != null
-								&& sExpression.trim( ).length( ) > 0
-								&& !alODD.contains( sExpression ) )
-						{
-							// ADD NEW VALID EXPRESSION
-							alODD.add( sExpression );
-						}
-					}
-				}
-			}
-
-			saOrthogonalDataDefinitions = (String[]) alODD.toArray( new String[alODD.size( )] );
+			aggHelper.addSeriesDefinitions( sdBase.getSeriesDefinitions( ),
+					lhmLookup );
 		}
 
-		if ( rsw.getRowCount( ) > 0 )
+		if ( bBaseGrouping
+				&& aggHelper.getDataDefinitionsForBaseGrouping( ).size( ) > 0 )
 		{
-			// apply base series grouping
-			rsw.applyBaseSeriesSortingAndGrouping( sdGrouping,
-					saOrthogonalDataDefinitions );
+			// cache base series grouping
+			aggHelper.addAggregation( sdBase.getGrouping( )
+					.getAggregateExpression( ),
+					aggHelper.getDataDefinitionsForBaseGrouping( ) );
 		}
+
+		// apply all groupings
+		if ( !aggHelper.isEmpty( ) )
+		{
+			rsw.applyBaseSeriesSortingAndGrouping( sdBase,
+					aggHelper.getAggregations( ),
+					aggHelper.getDataDefinitions( ) );
+		}
+		aggHelper.dispose( );
+
 		return rsw;
 	}
 
@@ -734,8 +490,8 @@ public class DataProcessor
 		// POPULATE THE BASE RUNTIME SERIES
 		EList elSD = cwoa.getSeriesDefinitions( );
 		final SeriesDefinition sdBase = (SeriesDefinition) elSD.get( 0 );
-		final SortOption baseSorting = sdBase.isSetSorting( ) ? sdBase.getSorting( )
-				: null;
+		final SortOption baseSorting = sdBase.isSetSorting( )
+				? sdBase.getSorting( ) : null;
 		final Series seBaseDesignSeries = sdBase.getDesignTimeSeries( );
 		final Series seBaseRuntimeSeries = (Series) EcoreUtil.copy( seBaseDesignSeries );
 		sdBase.getSeries( ).add( seBaseRuntimeSeries );
@@ -749,7 +505,7 @@ public class DataProcessor
 		EList dda = sdBase.getDesignTimeSeries( ).getDataDefinition( );
 		if ( dda.size( ) > 0 )
 		{
-			List columns = getRowExpressions( cwoa, iae );
+			List columns = rsw.getLookupHelper( ).getExpressions( );
 			iBaseColumnIndex = columns.indexOf( ( (Query) dda.get( 0 ) ).getDefinition( ) );
 			if ( iBaseColumnIndex == -1 )
 			{
@@ -795,13 +551,15 @@ public class DataProcessor
 				// Retrieve trigger expressions.
 				String[] triggerExprs = getSeriesTriggerExpressions( seOrthogonalDesignSeries,
 						iae );
-
+				String aggExp = rsw.getLookupHelper( )
+						.getOrthogonalAggregationExpression( sdOrthogonal );
 				fillSeriesDataSet( cwoa,
 						seOrthogonalRuntimeSeries,
-						rsw.getSubset( seOrthogonalDesignSeries.getDataDefinition( ) ),
+						rsw.getSubset( seOrthogonalDesignSeries.getDataDefinition( ),
+								aggExp ),
 						triggerExprs, // Just use trigger expression as
 						// the key.
-						rsw.getSubset( triggerExprs ) );
+						rsw.getSubset( triggerExprs, aggExp ) );
 				seOrthogonalRuntimeSeries.setSeriesIdentifier( seOrthogonalDesignSeries.getSeriesIdentifier( ) );
 				sdOrthogonal.getSeries( ).add( seOrthogonalRuntimeSeries );
 			}
@@ -838,15 +596,17 @@ public class DataProcessor
 				// Retrieve trigger expressions.
 				String[] triggerExprs = getSeriesTriggerExpressions( seOrthogonalDesignSeries,
 						iae );
-
+				String aggExp = rsw.getLookupHelper( )
+						.getOrthogonalAggregationExpression( sdOrthogonal );
 				for ( int k = 0; k < iGroupCount; k++ )
 				{
 					seOrthogonalRuntimeSeries = (Series) EcoreUtil.copy( seOrthogonalDesignSeries );
 
 					Object[] odata = populateSeriesDataSet( seOrthogonalRuntimeSeries,
 							rsw.getSubset( k,
-									seOrthogonalDesignSeries.getDataDefinition( ) ),
-							rsw.getSubset( k, triggerExprs ) );
+									seOrthogonalDesignSeries.getDataDefinition( ),
+									aggExp ),
+							rsw.getSubset( k, triggerExprs, aggExp ) );
 
 					odata[3] = new Integer( rsw.getGroupRowCount( k ) );
 					odata[4] = new Integer( k );
@@ -888,7 +648,9 @@ public class DataProcessor
 			// SERIES DEFINITION
 			{
 				sdOrthogonal = (SeriesDefinition) elSD.get( j );
-
+				String aggExp = rsw.getLookupHelper( )
+						.getOrthogonalAggregationExpression( sdOrthogonal );
+				
 				for ( int k = 0; k < iGroupCount; k++ ) // FOR
 				// EACH
 				// ORTHOGONAL
@@ -909,7 +671,8 @@ public class DataProcessor
 						sExpression = IConstants.UNDEFINED_STRING;
 					// TODO format the group key.
 					seOrthogonalRuntimeSeries.setSeriesIdentifier( rsw.getGroupKey( k,
-							sExpression ) );
+							sExpression,
+							aggExp ) );
 					sdOrthogonal.getSeries( ).add( seOrthogonalRuntimeSeries );
 
 					odx++;
@@ -927,8 +690,8 @@ public class DataProcessor
 		final Axis axPrimaryBase = cwa.getPrimaryBaseAxes( )[0];
 		EList elSD = axPrimaryBase.getSeriesDefinitions( );
 		final SeriesDefinition sdBase = (SeriesDefinition) elSD.get( 0 );
-		final SortOption baseSorting = sdBase.isSetSorting( ) ? sdBase.getSorting( )
-				: null;
+		final SortOption baseSorting = sdBase.isSetSorting( )
+				? sdBase.getSorting( ) : null;
 		final Series seBaseDesignSeries = sdBase.getDesignTimeSeries( );
 		final Series seBaseRuntimeSeries = (Series) EcoreUtil.copy( seBaseDesignSeries );
 		sdBase.getSeries( ).add( seBaseRuntimeSeries );
@@ -943,7 +706,7 @@ public class DataProcessor
 		EList dda = sdBase.getDesignTimeSeries( ).getDataDefinition( );
 		if ( dda.size( ) > 0 )
 		{
-			List columns = getRowExpressions( cwa, iae );
+			List columns = rsw.getLookupHelper( ).getExpressions( );
 			iBaseColumnIndex = columns.indexOf( ( (Query) dda.get( 0 ) ).getDefinition( ) );
 			if ( iBaseColumnIndex == -1 )
 			{
@@ -995,14 +758,16 @@ public class DataProcessor
 					// Retrieve trigger expressions.
 					String[] triggerExprs = getSeriesTriggerExpressions( seOrthogonalDesignSeries,
 							iae );
-
+					String aggExp = rsw.getLookupHelper( )
+							.getOrthogonalAggregationExpression( sdOrthogonal );
 					// Add trigger to user datasets
 					fillSeriesDataSet( cwa,
 							seOrthogonalRuntimeSeries,
-							rsw.getSubset( seOrthogonalDesignSeries.getDataDefinition( ) ),
+							rsw.getSubset( seOrthogonalDesignSeries.getDataDefinition( ),
+									aggExp ),
 							triggerExprs, // Just use trigger expression as
 							// the key.
-							rsw.getSubset( triggerExprs ) );
+							rsw.getSubset( triggerExprs, aggExp ) );
 					seOrthogonalRuntimeSeries.setSeriesIdentifier( seOrthogonalDesignSeries.getSeriesIdentifier( ) );
 					sdOrthogonal.getSeries( ).add( seOrthogonalRuntimeSeries );
 				}
@@ -1042,15 +807,17 @@ public class DataProcessor
 					// Retrieve trigger expressions.
 					String[] triggerExprs = getSeriesTriggerExpressions( seOrthogonalDesignSeries,
 							iae );
-
+					String aggExp = rsw.getLookupHelper( )
+							.getOrthogonalAggregationExpression( sdOrthogonal );
 					for ( int k = 0; k < iGroupCount; k++ )
 					{
 						seOrthogonalRuntimeSeries = (Series) EcoreUtil.copy( seOrthogonalDesignSeries );
 
 						Object[] odata = populateSeriesDataSet( seOrthogonalRuntimeSeries,
 								rsw.getSubset( k,
-										seOrthogonalDesignSeries.getDataDefinition( ) ),
-								rsw.getSubset( k, triggerExprs ) );
+										seOrthogonalDesignSeries.getDataDefinition( ),
+										aggExp ),
+								rsw.getSubset( k, triggerExprs, aggExp ) );
 
 						odata[3] = new Integer( rsw.getGroupRowCount( k ) );
 						odata[4] = new Integer( k );
@@ -1095,7 +862,8 @@ public class DataProcessor
 				// SERIES DEFINITION
 				{
 					sdOrthogonal = (SeriesDefinition) elSD.get( j );
-
+					String aggExp = rsw.getLookupHelper( )
+							.getOrthogonalAggregationExpression( sdOrthogonal );
 					for ( int k = 0; k < iGroupCount; k++ ) // FOR
 					// EACH
 					// ORTHOGONAL
@@ -1110,13 +878,15 @@ public class DataProcessor
 								(DataSet[]) odata[6] );
 
 						qy = sdOrthogonal.getQuery( );
-						sExpression = ( qy == null ) ? IConstants.UNDEFINED_STRING
+						sExpression = ( qy == null )
+								? IConstants.UNDEFINED_STRING
 								: qy.getDefinition( );
 						if ( sExpression == null )
 							sExpression = IConstants.UNDEFINED_STRING;
 						// TODO format the group key.
 						seOrthogonalRuntimeSeries.setSeriesIdentifier( rsw.getGroupKey( k,
-								sExpression ) );
+								sExpression,
+								aggExp ) );
 						sdOrthogonal.getSeries( )
 								.add( seOrthogonalRuntimeSeries );
 

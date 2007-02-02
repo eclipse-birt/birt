@@ -216,9 +216,9 @@ public class Methods implements IConstants
 
 			);
 		}
-		if ( oValue instanceof Double )
+		if ( oValue instanceof Number )
 		{
-			return getLocation( sc, ( (Double) oValue ).doubleValue( ) );
+			return getLocation( sc, ( (Number) oValue ).doubleValue( ) );
 		}
 		else if ( oValue instanceof Calendar )
 		{

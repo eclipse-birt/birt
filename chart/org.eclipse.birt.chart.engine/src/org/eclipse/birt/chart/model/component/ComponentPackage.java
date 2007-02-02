@@ -1033,12 +1033,21 @@ public interface ComponentPackage extends EPackage
 	int SCALE__SHOW_OUTSIDE = 6;
 
 	/**
+	 * The feature id for the '<em><b>Tick Between Categories</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCALE__TICK_BETWEEN_CATEGORIES = 7;
+
+	/**
 	 * The number of structural features of the '<em>Scale</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCALE_FEATURE_COUNT = 7;
+	int SCALE_FEATURE_COUNT = 8;
 
 	/**
 	 * The feature id for the '<em><b>Visible</b></em>' attribute. <!--
@@ -2055,6 +2064,17 @@ public interface ComponentPackage extends EPackage
 	EAttribute getScale_ShowOutside( );
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Scale#isTickBetweenCategories <em>Tick Between Categories</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Tick Between Categories</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Scale#isTickBetweenCategories()
+	 * @see #getScale()
+	 * @generated
+	 */
+	EAttribute getScale_TickBetweenCategories( );
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.component.Series <em>Series</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Series</em>'.
@@ -2969,6 +2989,14 @@ public interface ComponentPackage extends EPackage
 		 * @generated
 		 */
 		EAttribute SCALE__SHOW_OUTSIDE = eINSTANCE.getScale_ShowOutside( );
+
+		/**
+		 * The meta object literal for the '<em><b>Tick Between Categories</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SCALE__TICK_BETWEEN_CATEGORIES = eINSTANCE.getScale_TickBetweenCategories( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.component.impl.SeriesImpl <em>Series</em>}' class.

@@ -414,26 +414,30 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements
 	 */
 	public void modifyText( ModifyEvent e )
 	{
-		if ( e.widget.equals( txtInnerRadius ) )
+		int markerIndex = getMarkerIndex( );
+		if ( markerIndex >= 0 )
 		{
-			if ( txtInnerRadius.isSetValue( ) )
+			if ( e.widget.equals( txtInnerRadius ) )
 			{
-				( (DialRegion) ( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ) ).setInnerRadius( txtInnerRadius.getValue( ) );
+				if ( txtInnerRadius.isSetValue( ) )
+				{
+					( (DialRegion) ( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ) ).setInnerRadius( txtInnerRadius.getValue( ) );
+				}
+				else
+				{
+					( (DialRegion) ( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ) ).unsetInnerRadius( );
+				}
 			}
-			else
+			else if ( e.widget.equals( txtOuterRadius ) )
 			{
-				( (DialRegion) ( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ) ).unsetInnerRadius( );
-			}
-		}
-		else if ( e.widget.equals( txtOuterRadius ) )
-		{
-			if ( txtOuterRadius.isSetValue( ) )
-			{
-				( (DialRegion) ( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ) ).setOuterRadius( txtOuterRadius.getValue( ) );
-			}
-			else
-			{
-				( (DialRegion) ( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ) ).unsetOuterRadius( );
+				if ( txtOuterRadius.isSetValue( ) )
+				{
+					( (DialRegion) ( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ) ).setOuterRadius( txtOuterRadius.getValue( ) );
+				}
+				else
+				{
+					( (DialRegion) ( getDialForProcessing( ).getDialRegions( ) ).get( getMarkerIndex( ) ) ).unsetOuterRadius( );
+				}
 			}
 		}
 	}

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.factory;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -58,6 +59,8 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.data.Query;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.model.layout.Plot;
@@ -298,11 +301,12 @@ public final class Generator
 					{
 						ins = InsetsImpl.create( 0, 0, 0, 0 );
 						( (Block) component ).setInsets( ins );
-					}
-					ins.setTop( ins.getTop( ) + padding.getTop( ) );
-					ins.setLeft( ins.getLeft( ) + padding.getLeft( ) );
-					ins.setBottom( ins.getBottom( ) + padding.getBottom( ) );
-					ins.setRight( ins.getRight( ) + padding.getRight( ) );
+						// Set the outside padding size directly
+						ins.setTop( padding.getTop( ) );
+						ins.setLeft( padding.getLeft( ) );
+						ins.setBottom( padding.getBottom( ) );
+						ins.setRight( padding.getRight( ) );
+					}					
 				}
 			}
 		}
@@ -484,7 +488,15 @@ public final class Generator
 	public List getRowExpressions( Chart cm, IActionEvaluator iae )
 			throws ChartException
 	{
-		return DataProcessor.getRowExpressions( cm, iae );
+		if ( cm instanceof ChartWithAxes )
+		{
+			return getRowExpressions( (ChartWithAxes) cm, iae );
+		}
+		else if ( cm instanceof ChartWithoutAxes )
+		{
+			return getRowExpressions( (ChartWithoutAxes) cm, iae );
+		}
+		return null;
 	}
 
 	/**
@@ -1382,5 +1394,323 @@ public final class Generator
 	{
 
 		SimpleStyle style = null;
+	}
+
+	private static List getRowExpressions( ChartWithoutAxes cwoa,
+			IActionEvaluator iae ) throws ChartException
+	{
+		final ArrayList alExpressions = new ArrayList( 4 );
+		EList elSD = cwoa.getSeriesDefinitions( );
+		if ( elSD.size( ) != 1 )
+		{
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.DATA_BINDING,
+					"dataprocessor.exception.CannotDecipher", //$NON-NLS-1$
+					Messages.getResourceBundle( ) );
+		}
+
+		// PROJECT THE EXPRESSION ASSOCIATED WITH THE BASE SERIES DEFINITION
+		SeriesDefinition sd = (SeriesDefinition) elSD.get( 0 );
+		final Query qBaseSeriesDefinition = sd.getQuery( );
+		String sExpression = qBaseSeriesDefinition.getDefinition( );
+		if ( sExpression != null && sExpression.trim( ).length( ) > 0 )
+		{
+			// Ignore expression for base series definition
+			logger.log( ILogger.WARNING,
+					Messages.getString( "dataprocessor.log.baseSeriesDefn3", sExpression, ULocale.getDefault( ) ) ); //$NON-NLS-1$
+		}
+
+		// PROJECT THE EXPRESSION ASSOCIATED WITH THE BASE SERIES EXPRESSION
+		final Series seBase = sd.getDesignTimeSeries( );
+		EList elBaseSeries = seBase.getDataDefinition( );
+		if ( elBaseSeries.size( ) != 1 )
+		{
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.DATA_BINDING,
+					"dataprocessor.exception.FoundDefnAssociatedWithX", //$NON-NLS-1$
+					new Object[]{
+						String.valueOf( elBaseSeries.size( ) )
+					},
+					null );
+		}
+
+		final Query qBaseSeries = (Query) elBaseSeries.get( 0 );
+		sExpression = qBaseSeries.getDefinition( );
+		if ( sExpression != null
+				&& sExpression.trim( ).length( ) > 0
+				&& !alExpressions.contains( sExpression ) )
+		{
+			alExpressions.add( sExpression );
+		}
+		else
+		{
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.DATA_BINDING,
+					"dataprocessor.exception.DefinitionUnspecified", //$NON-NLS-1$
+					Messages.getResourceBundle( ) );
+		}
+
+		// PROJECT ALL DATA DEFINITIONS ASSOCIATED WITH THE ORTHOGONAL SERIES
+		Query qOrthogonalSeriesDefinition, qOrthogonalSeries;
+		Series seOrthogonal;
+		EList elOrthogonalSeries;
+		elSD = sd.getSeriesDefinitions( ); // ALL ORTHOGONAL SERIES DEFINITIONS
+		int iCount = 0;
+		boolean bAnyQueries;
+		for ( int k = 0; k < elSD.size( ); k++ )
+		{
+			sd = (SeriesDefinition) elSD.get( k );
+			qOrthogonalSeriesDefinition = sd.getQuery( );
+			if ( qOrthogonalSeriesDefinition == null )
+			{
+				continue;
+			}
+			sExpression = qOrthogonalSeriesDefinition.getDefinition( );
+			if ( sExpression != null && sExpression.trim( ).length( ) > 0 )
+			{
+				// FILTER OUT DUPLICATE ENTRIES
+				if ( alExpressions.contains( sExpression ) )
+				{
+					int iRemovalIndex = alExpressions.indexOf( sExpression );
+					if ( iRemovalIndex > iCount )
+					{
+						alExpressions.remove( iRemovalIndex );
+						alExpressions.add( iCount++, sExpression );
+					}
+					else
+					{
+						// DON'T ADD IF PREVIOUSLY ADDED BEFORE 'iCount'
+						// continue;
+					}
+				}
+				else
+				{
+					// INSERT AT START
+					alExpressions.add( iCount++, sExpression );
+				}
+			}
+
+			seOrthogonal = sd.getDesignTimeSeries( );
+			elOrthogonalSeries = seOrthogonal.getDataDefinition( );
+			if ( elOrthogonalSeries.isEmpty( ) )
+			{
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.DATA_BINDING,
+						"dataprocessor.exception.DefnExpMustAssociateY", //$NON-NLS-1$
+						new Object[]{
+								String.valueOf( iCount ), seOrthogonal
+						},
+						Messages.getResourceBundle( ) );
+			}
+
+			bAnyQueries = false;
+			for ( int i = 0; i < elOrthogonalSeries.size( ); i++ )
+			{
+				qOrthogonalSeries = (Query) elOrthogonalSeries.get( i );
+				if ( qOrthogonalSeries == null ) // NPE PROTECTION
+				{
+					continue;
+				}
+
+				sExpression = qOrthogonalSeries.getDefinition( );
+				if ( sExpression != null && sExpression.trim( ).length( ) > 0 )
+				{
+					bAnyQueries = true;
+					if ( !alExpressions.contains( sExpression ) )
+					{
+						alExpressions.add( sExpression ); // APPEND AT END
+					}
+				}
+			}
+			if ( !bAnyQueries )
+			{
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.DATA_BINDING,
+						"dataprocessor.exception.AtLeastOneDefnExpMustAssociateY", //$NON-NLS-1$
+						new Object[]{
+								String.valueOf( iCount ), seOrthogonal
+						},
+						Messages.getResourceBundle( ) );
+			}
+
+			// Add orthogonal series trigger expressions.
+			String[] triggerExprs = DataProcessor.getSeriesTriggerExpressions( seOrthogonal,
+					iae );
+			if ( triggerExprs != null )
+			{
+				for ( int t = 0; t < triggerExprs.length; t++ )
+				{
+					String tgexp = triggerExprs[t];
+					if ( !alExpressions.contains( tgexp ) )
+					{
+						alExpressions.add( tgexp ); // APPEND AT END
+					}
+				}
+			}
+		}
+
+		return alExpressions;
+	}
+
+	private static List getRowExpressions( ChartWithAxes cwa,
+			IActionEvaluator iae ) throws ChartException
+	{
+		final ArrayList alExpressions = new ArrayList( 4 );
+		final Axis axPrimaryBase = cwa.getPrimaryBaseAxes( )[0];
+		EList elSD = axPrimaryBase.getSeriesDefinitions( );
+		if ( elSD.size( ) != 1 )
+		{
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.GENERATION,
+					"dataprocessor.exception.CannotDecipher2", //$NON-NLS-1$
+					Messages.getResourceBundle( ) );
+		}
+
+		// PROJECT THE EXPRESSION ASSOCIATED WITH THE BASE SERIES DEFINITION
+		SeriesDefinition sd = (SeriesDefinition) elSD.get( 0 );
+		final Query qBaseSeriesDefinition = sd.getQuery( );
+		String sExpression = qBaseSeriesDefinition.getDefinition( );
+		if ( sExpression != null && sExpression.trim( ).length( ) > 0 )
+		{
+			// ignore expression for base series definition
+			logger.log( ILogger.WARNING,
+					Messages.getString( "dataprocessor.log.XSeriesDefn", sExpression, ULocale.getDefault( ) ) ); //$NON-NLS-1$
+		}
+
+		// PROJECT THE EXPRESSION ASSOCIATED WITH THE BASE SERIES EXPRESSION
+		final Series seBase = sd.getDesignTimeSeries( );
+		EList elBaseSeries = seBase.getDataDefinition( );
+		if ( elBaseSeries.size( ) != 1 )
+		{
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.DATA_BINDING,
+					"dataprocessor.exception.FoundMoreThanOneDefnAssociateX", //$NON-NLS-1$
+					new Object[]{
+						String.valueOf( elBaseSeries.size( ) )
+					},
+					Messages.getResourceBundle( ) );
+		}
+
+		final Query qBaseSeries = (Query) elBaseSeries.get( 0 );
+		sExpression = qBaseSeries.getDefinition( );
+		if ( sExpression != null && sExpression.trim( ).length( ) > 0 )
+		{
+			alExpressions.add( sExpression );
+		}
+		else
+		{
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.DATA_BINDING,
+					"dataprocessor.exception.definitionsAssociatedWithX", //$NON-NLS-1$
+					Messages.getResourceBundle( ) );
+		}
+
+		// PROJECT ALL DATA DEFINITIONS ASSOCIATED WITH THE ORTHOGONAL SERIES
+		Query qOrthogonalSeriesDefinition, qOrthogonalSeries;
+		Series seOrthogonal;
+		EList elOrthogonalSeries;
+		final Axis[] axaOrthogonal = cwa.getOrthogonalAxes( axPrimaryBase, true );
+		int iCount = 0;
+		boolean bAnyQueries;
+		for ( int j = 0; j < axaOrthogonal.length; j++ )
+		{
+			elSD = axaOrthogonal[j].getSeriesDefinitions( );
+			for ( int k = 0; k < elSD.size( ); k++ )
+			{
+				sd = (SeriesDefinition) elSD.get( k );
+				qOrthogonalSeriesDefinition = sd.getQuery( );
+				if ( qOrthogonalSeriesDefinition == null )
+				{
+					continue;
+				}
+
+				sExpression = qOrthogonalSeriesDefinition.getDefinition( );
+				if ( sExpression != null && sExpression.trim( ).length( ) > 0 )
+				{
+					// FILTER OUT DUPLICATE ENTRIES
+					if ( alExpressions.contains( sExpression ) )
+					{
+						int iRemovalIndex = alExpressions.indexOf( sExpression );
+						if ( iRemovalIndex > iCount )
+						{
+							alExpressions.remove( iRemovalIndex );
+							alExpressions.add( iCount++, sExpression );
+						}
+						else
+						{
+							// DON'T ADD IF PREVIOUSLY ADDED BEFORE 'iCount'
+							// continue;
+						}
+					}
+					else
+					{
+						// INSERT AT START
+						alExpressions.add( iCount++, sExpression );
+					}
+				}
+
+				seOrthogonal = sd.getDesignTimeSeries( );
+				elOrthogonalSeries = seOrthogonal.getDataDefinition( );
+				if ( elOrthogonalSeries.isEmpty( ) )
+				{
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.DATA_BINDING,
+							"dataprocessor.exception.DefnExpMustAssociateY", //$NON-NLS-1$
+							new Object[]{
+									String.valueOf( iCount ), seOrthogonal
+							},
+							Messages.getResourceBundle( ) );
+				}
+
+				bAnyQueries = false;
+				for ( int i = 0; i < elOrthogonalSeries.size( ); i++ )
+				{
+					qOrthogonalSeries = (Query) elOrthogonalSeries.get( i );
+					if ( qOrthogonalSeries == null ) // NPE PROTECTION
+					{
+						continue;
+					}
+
+					sExpression = qOrthogonalSeries.getDefinition( );
+					if ( sExpression != null
+							&& sExpression.trim( ).length( ) > 0 )
+					{
+						bAnyQueries = true;
+						if ( !alExpressions.contains( sExpression ) )
+						{
+							alExpressions.add( sExpression ); // APPEND AT END
+						}
+					}
+				}
+
+				if ( !bAnyQueries )
+				{
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.DATA_BINDING,
+							"dataprocessor.exception.AtLeastOneDefnExpMustAssociateY", //$NON-NLS-1$
+							new Object[]{
+									String.valueOf( iCount ), seOrthogonal
+							},
+							Messages.getResourceBundle( ) );
+				}
+
+				// Add orthogonal series trigger expressions.
+				String[] triggerExprs = DataProcessor.getSeriesTriggerExpressions( seOrthogonal,
+						iae );
+				if ( triggerExprs != null )
+				{
+					for ( int t = 0; t < triggerExprs.length; t++ )
+					{
+						String tgexp = triggerExprs[t];
+						if ( !alExpressions.contains( tgexp ) )
+						{
+							alExpressions.add( tgexp ); // APPEND AT END
+						}
+					}
+				}
+			}
+		}
+
+		return alExpressions;
 	}
 }

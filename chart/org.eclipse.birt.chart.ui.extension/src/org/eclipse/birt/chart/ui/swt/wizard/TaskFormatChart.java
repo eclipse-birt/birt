@@ -40,11 +40,13 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIManager;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.TreeCompoundTask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ISubtaskSheet;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
@@ -708,4 +710,13 @@ public class TaskFormatChart extends TreeCompoundTask
 		}
 		previewPainter = null;
 	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.core.ui.frameworks.taskwizard.SimpleTask#getImage()
+	 */
+	public Image getImage( )
+	{
+		return UIHelper.getImage( "icons/obj16/selectformat.gif" ); //$NON-NLS-1$
+	}
+	
 }

@@ -80,21 +80,26 @@ public class DifferenceSeriesUIProvider extends DefaultSeriesUIProvider
 		return new DefaultSelectDataComponent( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#getCompatibleAxisType(org.eclipse.birt.chart.model.component.Series )
 	 */
 	public AxisType[] getCompatibleAxisType( Series series )
 	{
 		return new AxisType[]{
-				AxisType.LINEAR_LITERAL,
-				AxisType.LOGARITHMIC_LITERAL
+				AxisType.LINEAR_LITERAL, AxisType.LOGARITHMIC_LITERAL
 		};
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#validateSeriesBindingType(org.eclipse.birt.chart.model.component.Series, org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#validateSeriesBindingType(org.eclipse.birt.chart.model.component.Series,
+	 *      org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider)
 	 */
-	public void validateSeriesBindingType( Series series, IDataServiceProvider idsp ) throws ChartException
+	public void validateSeriesBindingType( Series series,
+			IDataServiceProvider idsp ) throws ChartException
 	{
 		Iterator iterEntries = series.getDataDefinition( ).iterator( );
 		while ( iterEntries.hasNext( ) )
@@ -110,4 +115,17 @@ public class DifferenceSeriesUIProvider extends DefaultSeriesUIProvider
 			}
 		}
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#validationIndex(org.eclipse.birt.chart.model.component.Series)
+	 */
+	public int[] validationIndex( Series series )
+	{
+		return new int[]{
+				0, 1
+		};
+	}
+
 }

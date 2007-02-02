@@ -15,6 +15,7 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
@@ -25,10 +26,18 @@ import org.eclipse.birt.chart.ui.swt.wizard.internal.ColorPalette;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.DataTextDropListener;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.SimpleTextTransfer;
+import org.eclipse.birt.chart.ui.util.ChartUIConstancts;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.ActionContributionItem;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IMenuCreator;
+import org.eclipse.jface.action.ToolBarManager;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
@@ -47,9 +56,12 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.ToolBar;
 
 
 public class BaseDataDefinitionComponent extends DefaultSelectDataComponent implements
@@ -88,6 +100,9 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 	/** Indicates button for group sorting will be created */
 	public static final int BUTTON_GROUP = 1;
+	
+	/** Indicates button for aggregation will be created */
+	public static final int BUTTON_AGGREGATION = 2;
 
 	public BaseDataDefinitionComponent( SeriesDefinition seriesdefinition,
 			Query query, ChartWizardContext context, String sTitle )
@@ -98,8 +113,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	/**
 	 * 
 	 * @param style
-	 *            Specify buttons by using '|'. See  
-	 *            {@link #BUTTON_GROUP}, {@link #BUTTON_NONE}
+	 *            Specify buttons by using '|'. See {@link #BUTTON_GROUP},
+	 *            {@link #BUTTON_NONE}, {@link #BUTTON_AGGREGATION}
 	 * @param seriesdefinition
 	 * @param query
 	 * @param context
@@ -126,6 +141,10 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		{
 			numColumns++;
 		}
+		if ( ( style & BUTTON_AGGREGATION ) == BUTTON_AGGREGATION )
+		{
+			numColumns++;
+		}
 		if ( ( style & BUTTON_GROUP ) == BUTTON_GROUP )
 		{
 			numColumns++;
@@ -148,6 +167,11 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			Label lblDesc = new Label( cmpTop, SWT.NONE );
 			lblDesc.setText( description );
 			lblDesc.setToolTipText( tooltipWhenBlank );
+		}
+		
+		if ( ( style & BUTTON_AGGREGATION ) == BUTTON_AGGREGATION )
+		{
+			createAggregationItem( cmpTop );
 		}
 
 		txtDefinition = new Text( cmpTop, SWT.BORDER | SWT.SINGLE );
@@ -396,5 +420,160 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	public void setTooltipWhenBlank( String tootipWhenBlank )
 	{
 		this.tooltipWhenBlank = tootipWhenBlank;
+	}
+	
+	private void createAggregationItem( Composite composite )
+	{	
+		class AggregationItemAction extends Action
+		{
+			final String expression;
+			
+			AggregationItemAction(String text, String expression)
+			{
+				super(text, IAction.AS_CHECK_BOX  );
+				this.expression = expression;
+			}
+			
+			public void run( )
+			{
+				SeriesGrouping currentGrouping = seriesdefinition.getGrouping( );
+				if ( this.isChecked( ) )
+				{
+					currentGrouping.setEnabled( true );
+					currentGrouping.setAggregateExpression( expression );
+
+				}
+				else
+				{
+					currentGrouping.setEnabled( false );
+					currentGrouping.setAggregateExpression( "" ); //$NON-NLS-1$
+				}	
+			}
+		}
+		
+		ToolBar toolBar = new ToolBar( composite, SWT.FLAT | SWT.NO_FOCUS );
+		ToolBarManager toolManager = new ToolBarManager( toolBar );
+		
+		class AggregationAction extends Action implements IMenuCreator
+		{
+
+			private Menu lastMenu;
+
+			public AggregationAction( )
+			{
+				super( "", IAction.AS_DROP_DOWN_MENU ); //$NON-NLS-1$
+				setImageDescriptor( ImageDescriptor.createFromURL( UIHelper.getURL( ChartUIConstancts.IMAGE_SIGMA ) ) );
+				setEnabled( getSDBase( ).getGrouping( ).isEnabled( ) );
+			}
+
+			public IMenuCreator getMenuCreator( )
+			{
+				return this;
+			}
+
+			public void dispose( )
+			{
+				if ( lastMenu != null )
+				{
+					lastMenu.dispose( );
+					lastMenu = null;
+				}
+			}
+
+			public Menu getMenu( Control parent )
+			{
+				if ( lastMenu != null )
+				{
+					lastMenu.dispose( );
+				}
+				lastMenu = new Menu( parent );
+				createEntries( lastMenu );
+				return lastMenu;
+			}
+
+			public Menu getMenu( Menu parent )
+			{
+				return null;
+			}
+
+			protected void addActionToMenu( Menu parent, IAction action )
+			{
+				ActionContributionItem item = new ActionContributionItem( action );
+				item.fill( parent, -1 );
+			}
+			
+			private SeriesDefinition getSDBase( )
+			{
+				return (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) )
+						.get( 0 );
+			}
+
+			protected void createEntries( Menu menu )
+			{
+				SeriesDefinition sdBase = getSDBase( );
+				if ( sdBase.getGrouping( ) == null
+						|| !sdBase.getGrouping( ).isEnabled( )
+						|| sdBase == seriesdefinition )
+				{
+					// If no base grouping or current series is base series,
+					// disable the orthogonal grouping
+					return;
+				}
+				
+				try
+				{
+					int selectedIndex = -1;
+					String[] aggNames = PluginSettings.instance( )
+							.getRegisteredAggregateFunctionDisplayNames( );
+					String[] aggData = PluginSettings.instance( )
+							.getRegisteredAggregateFunctions( );
+
+					SeriesGrouping grouping = seriesdefinition.getGrouping( );
+					if ( grouping.isEnabled( )
+							&& grouping.getAggregateExpression( ) != null )
+					{
+						int idx = getAggregateIndexByName( grouping.getAggregateExpression( ),
+								aggData );
+						if ( aggData.length > idx )
+						{
+							selectedIndex = idx;
+						}
+					}
+					
+					for ( int i = 0; i < aggNames.length; i++ )
+					{
+						IAction actionSum = new AggregationItemAction( aggNames[i],
+								aggData[i] );
+						if ( i == selectedIndex )
+						{
+							actionSum.setChecked( true );
+						}
+						addActionToMenu( menu, actionSum );
+					}
+
+				}
+				catch ( ChartException e )
+				{
+					e.printStackTrace( );
+				}
+			}
+			
+			private int getAggregateIndexByName( String name, String[] names )
+			{
+				for ( int i = 0; i < names.length; i++ )
+				{
+					if ( name.equals( names[i] ) )
+					{
+						return i;
+					}
+				}
+
+				return -1;
+			}
+		};
+		
+		
+		toolManager.add( new AggregationAction( ) );
+		toolManager.update( true );
 	}
 }

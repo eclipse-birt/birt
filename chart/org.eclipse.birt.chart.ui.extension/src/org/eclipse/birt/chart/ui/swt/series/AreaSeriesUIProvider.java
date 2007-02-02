@@ -73,7 +73,8 @@ public class AreaSeriesUIProvider extends DefaultSeriesUIProvider
 	{
 		if ( seriesType == ISelectDataCustomizeUI.ORTHOGONAL_SERIES )
 		{
-			return new BaseDataDefinitionComponent( seriesDefn,
+			return new BaseDataDefinitionComponent( BaseDataDefinitionComponent.BUTTON_AGGREGATION,
+					seriesDefn,
 					ChartUIUtil.getDataQuery( seriesDefn, 0 ),
 					context,
 					sTitle );

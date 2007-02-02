@@ -607,6 +607,8 @@
         outputs="org.eclipse.birt.chart.model.component.ecore#//Scale/stepNumber"/>
     <nested inputs="../../xsd/component.xsd#//Scale;XSDComplexTypeDefinition=6/XSDParticle/XSDModelGroup/XSDParticle=6"
         outputs="org.eclipse.birt.chart.model.component.ecore#//Scale/showOutside"/>
+    <nested inputs="../../xsd/component.xsd#//Scale;XSDComplexTypeDefinition=6/XSDParticle/XSDModelGroup/XSDParticle=7"
+        outputs="org.eclipse.birt.chart.model.component.ecore#//Scale/tickBetweenCategories"/>
   </nested>
   <nested inputs="../../xsd/attribute.xsd#//IntersectionType;XSDSimpleTypeDefinition=22"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//IntersectionType">

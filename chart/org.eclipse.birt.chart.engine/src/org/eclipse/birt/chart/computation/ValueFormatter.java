@@ -118,12 +118,21 @@ public final class ValueFormatter
 				}
 				else if ( oValue instanceof Calendar )
 				{
-					return DateFormat.getInstance( ).format( oValue );
+					return DateFormat.getDateTimeInstance( DateFormat.SHORT,
+							DateFormat.SHORT,
+							lcl ).format( oValue );
 				}
 				else if ( oValue instanceof DateTimeDataElement )
 				{
-					return DateFormat.getInstance( )
+					return DateFormat.getDateTimeInstance( DateFormat.SHORT,
+							DateFormat.SHORT,
+							lcl )
 							.format( ( (DateTimeDataElement) oValue ).getValueAsCalendar( ) );
+				}
+				else if ( oValue instanceof IDataPointEntry )
+				{
+					return ( (IDataPointEntry) oValue ).getFormattedString( null,
+							lcl );
 				}
 			}
 		}
@@ -173,11 +182,15 @@ public final class ValueFormatter
 			}
 			else if ( oValue instanceof Calendar )
 			{
-				return DateFormat.getInstance( ).format( oValue );
+				return DateFormat.getDateTimeInstance( DateFormat.SHORT,
+						DateFormat.SHORT,
+						lcl ).format( oValue );
 			}
 			else if ( oValue instanceof DateTimeDataElement )
 			{
-				return DateFormat.getInstance( )
+				return DateFormat.getDateTimeInstance( DateFormat.SHORT,
+						DateFormat.SHORT,
+						lcl )
 						.format( ( (DateTimeDataElement) oValue ).getValueAsCalendar( ) );
 			}
 		}

@@ -59,7 +59,6 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
@@ -324,7 +323,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		catch ( SemanticException e )
 		{
-			ChartWizard.displayException( e );
+			ChartWizard.showException( e );
 		}
 	}
 
@@ -342,7 +341,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	private List generateComputedColumns( ReportItemHandle handle )
 			throws SemanticException
 	{
-		Assert.isNotNull( handle );
 		DataSetHandle dataSetHandle = handle.getDataSet( );
 		if ( dataSetHandle == null )
 		{
@@ -452,7 +450,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				}
 				catch ( SemanticException e )
 				{
-					// WizardBase.displayException( e );
+					 ChartWizard.showException( e );
 				}
 			}
 
@@ -576,7 +574,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		catch ( SemanticException e )
 		{
-			ChartWizard.displayException( e );
+			ChartWizard.showException( e );
 		}
 	}
 

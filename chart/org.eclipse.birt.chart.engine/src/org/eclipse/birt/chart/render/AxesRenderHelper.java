@@ -254,6 +254,7 @@ public final class AxesRenderHelper
 		public ComputationContext( boolean isVertical )
 		{
 			this.isVertical = isVertical;
+
 		}
 	}
 
@@ -308,8 +309,7 @@ public final class AxesRenderHelper
 
 		public void initialize( ) throws ChartException
 		{
-			iDateTimeUnit = ( sc.getType( ) == IConstants.DATE_TIME )
-					? CDateTime.computeUnit( sc.getData( ) )
+			iDateTimeUnit = ( sc.getType( ) == IConstants.DATE_TIME ) ? CDateTime.computeUnit( sc.getData( ) )
 					: IConstants.UNDEFINED;
 			itmText = xs.getTextMetrics( la );
 			sc.getData( ).reset( );
@@ -426,9 +426,8 @@ public final class AxesRenderHelper
 
 	}
 
-	private final class LinearAxisTypeComputation
-			implements
-				IAxisTypeComputation
+	private final class LinearAxisTypeComputation implements
+			IAxisTypeComputation
 	{
 
 		double dAxisValue;
@@ -538,9 +537,8 @@ public final class AxesRenderHelper
 
 	}
 
-	private final class DatetimeAxisTypeComputation
-			implements
-				IAxisTypeComputation
+	private final class DatetimeAxisTypeComputation implements
+			IAxisTypeComputation
 	{
 
 		CDateTime cdt, cdtAxisValue;
@@ -627,14 +625,16 @@ public final class AxesRenderHelper
 		computation.initialize( );
 
 		// Offset for Text axis type
-		final double dOffset = computation instanceof TextAxisTypeComputation
-				? iDirection * sc.getUnitSize( ) / 2 : 0;
+		final double dOffset = axModel.isCategoryAxis( ) ? ( axModel.getScale( )
+				.isTickBetweenCategories( ) ? iDirection : -iDirection )
+				* sc.getUnitSize( )
+				/ 2 : 0;
 		// Tick size
-		final int length = computation instanceof TextAxisTypeComputation
-				? da.length - 1 : da.length;
+		final int length = computation instanceof TextAxisTypeComputation ? da.length - 1
+				: da.length;
 
-		final double x = ( iLabelLocation == IConstants.LEFT )
-				? context.dTick1 - 1 : context.dTick2 + 1;
+		final double x = ( iLabelLocation == IConstants.LEFT ) ? context.dTick1 - 1
+				: context.dTick2 + 1;
 		for ( int i = 0; i < length; i++ )
 		{
 			computation.handlePreEachTick( i );
@@ -646,10 +646,11 @@ public final class AxesRenderHelper
 			}
 			if ( ( iWhatToDraw & IConstants.AXIS ) == IConstants.AXIS )
 			{
-				double dXMinorTick1 = ( ( iMinorTickStyle & IConstants.TICK_LEFT ) == IConstants.TICK_LEFT )
-						? ( context.dX - IConstants.TICK_SIZE ) : context.dX;
-				double dXMinorTick2 = ( ( iMinorTickStyle & IConstants.TICK_RIGHT ) == IConstants.TICK_RIGHT )
-						? context.dX + IConstants.TICK_SIZE : context.dX;
+				double dXMinorTick1 = ( ( iMinorTickStyle & IConstants.TICK_LEFT ) == IConstants.TICK_LEFT ) ? ( context.dX - IConstants.TICK_SIZE )
+						: context.dX;
+				double dXMinorTick2 = ( ( iMinorTickStyle & IConstants.TICK_RIGHT ) == IConstants.TICK_RIGHT ) ? context.dX
+						+ IConstants.TICK_SIZE
+						: context.dX;
 				if ( dXMinorTick1 != dXMinorTick2 )
 				{
 					// RENDER THE MINOR TICKS FIRST (For ALL but the
@@ -800,15 +801,17 @@ public final class AxesRenderHelper
 		computation.initialize( );
 
 		// Offset for Text axis type
-		final double dOffset = computation instanceof TextAxisTypeComputation
-				? iDirection * sc.getUnitSize( ) / 2 : 0;
+		final double dOffset = axModel.isCategoryAxis( )?
+				( axModel.getScale( ).isTickBetweenCategories( ) ? iDirection:2*iDirection)
+				* sc.getUnitSize( )
+				/ 2 : 0;
 		// Tick size
-		final int length = computation instanceof TextAxisTypeComputation
-				? da.length - 1 : da.length;
+		final int length = computation instanceof TextAxisTypeComputation ? da.length - 1
+				: da.length;
 
-		double y = ( iLabelLocation == IConstants.ABOVE ) ? ( bRendering3D
-				? context.dTick1 + 1 : context.dTick1 - 1 ) : ( bRendering3D
-				? context.dTick2 - 1 : context.dTick2 + 1 );
+		double y = ( iLabelLocation == IConstants.ABOVE ) ? ( bRendering3D ? context.dTick1 + 1
+				: context.dTick1 - 1 )
+				: ( bRendering3D ? context.dTick2 - 1 : context.dTick2 + 1 );
 		for ( int i = 0; i < length; i++ )
 		{
 			computation.handlePreEachTick( i );
@@ -821,13 +824,13 @@ public final class AxesRenderHelper
 			}
 			if ( ( iWhatToDraw & IConstants.AXIS ) == IConstants.AXIS )
 			{
-				double dYMinorTick1 = ( ( iMinorTickStyle & IConstants.TICK_ABOVE ) == IConstants.TICK_ABOVE )
-						? ( bRendering3D ? context.dY + IConstants.TICK_SIZE
-								: context.dY - IConstants.TICK_SIZE )
+				double dYMinorTick1 = ( ( iMinorTickStyle & IConstants.TICK_ABOVE ) == IConstants.TICK_ABOVE ) ? ( bRendering3D ? context.dY
+						+ IConstants.TICK_SIZE
+						: context.dY - IConstants.TICK_SIZE )
 						: context.dY;
-				double dYMinorTick2 = ( ( iMinorTickStyle & IConstants.TICK_BELOW ) == IConstants.TICK_BELOW )
-						? ( bRendering3D ? context.dY - IConstants.TICK_SIZE
-								: context.dY + IConstants.TICK_SIZE )
+				double dYMinorTick2 = ( ( iMinorTickStyle & IConstants.TICK_BELOW ) == IConstants.TICK_BELOW ) ? ( bRendering3D ? context.dY
+						- IConstants.TICK_SIZE
+						: context.dY + IConstants.TICK_SIZE )
 						: context.dY;
 				if ( dYMinorTick1 != -dYMinorTick2 )
 				{
@@ -865,9 +868,11 @@ public final class AxesRenderHelper
 										LineRenderEvent.class );
 								lreMinor.setLineAttributes( liaMinorTick );
 								lreMinor.setStart( LocationImpl.create( x
-										+ iDirection * daMinor[k], dYMinorTick1 ) );
+										+ iDirection
+										* daMinor[k], dYMinorTick1 ) );
 								lreMinor.setEnd( LocationImpl.create( x
-										+ iDirection * daMinor[k], dYMinorTick2 ) );
+										+ iDirection
+										* daMinor[k], dYMinorTick2 ) );
 								ipr.drawLine( lreMinor );
 							}
 						}
@@ -1052,10 +1057,11 @@ public final class AxesRenderHelper
 				ipr.applyTransformation( trae );
 			}
 
-			context.dTick1 = ( ( iMajorTickStyle & IConstants.TICK_LEFT ) == IConstants.TICK_LEFT )
-					? ( context.dX - IConstants.TICK_SIZE ) : context.dX;
-			context.dTick2 = ( ( iMajorTickStyle & IConstants.TICK_RIGHT ) == IConstants.TICK_RIGHT )
-					? context.dX + IConstants.TICK_SIZE : context.dX;
+			context.dTick1 = ( ( iMajorTickStyle & IConstants.TICK_LEFT ) == IConstants.TICK_LEFT ) ? ( context.dX - IConstants.TICK_SIZE )
+					: context.dX;
+			context.dTick2 = ( ( iMajorTickStyle & IConstants.TICK_RIGHT ) == IConstants.TICK_RIGHT ) ? context.dX
+					+ IConstants.TICK_SIZE
+					: context.dX;
 
 			if ( ( iWhatToDraw & IConstants.AXIS ) == IConstants.AXIS
 					&& lia.isVisible( ) )
@@ -1385,7 +1391,8 @@ public final class AxesRenderHelper
 						ipr.drawText( tre );
 
 						tre.setBlockBounds( BoundsImpl.create( cbo.getLeft( )
-								+ cbo.getWidth( ) - bb.getWidth( ),
+								+ cbo.getWidth( )
+								- bb.getWidth( ),
 								cbo.getTop( ) + 30 * 2,
 								bb.getWidth( ),
 								bb.getHeight( ) ) );
@@ -1459,12 +1466,14 @@ public final class AxesRenderHelper
 				dZ = l3d.getZ( );
 			}
 
-			context.dTick1 = ( ( iMajorTickStyle & IConstants.TICK_ABOVE ) == IConstants.TICK_ABOVE )
-					? ( bRendering3D ? context.dY + IConstants.TICK_SIZE
-							: context.dY - IConstants.TICK_SIZE ) : context.dY;
-			context.dTick2 = ( ( iMajorTickStyle & IConstants.TICK_BELOW ) == IConstants.TICK_BELOW )
-					? ( bRendering3D ? context.dY - IConstants.TICK_SIZE
-							: context.dY + IConstants.TICK_SIZE ) : context.dY;
+			context.dTick1 = ( ( iMajorTickStyle & IConstants.TICK_ABOVE ) == IConstants.TICK_ABOVE ) ? ( bRendering3D ? context.dY
+					+ IConstants.TICK_SIZE
+					: context.dY - IConstants.TICK_SIZE )
+					: context.dY;
+			context.dTick2 = ( ( iMajorTickStyle & IConstants.TICK_BELOW ) == IConstants.TICK_BELOW ) ? ( bRendering3D ? context.dY
+					- IConstants.TICK_SIZE
+					: context.dY + IConstants.TICK_SIZE )
+					: context.dY;
 
 			if ( iv != null
 					&& iDimension == IConstants.TWO_5_D
@@ -1731,7 +1740,8 @@ public final class AxesRenderHelper
 									cbo.getTop( )
 											+ cbo.getHeight( )
 											- Math.min( bb.getHeight( ),
-													bb.getWidth( ) ) - 30,
+													bb.getWidth( ) )
+											- 30,
 									bb.getWidth( ),
 									bb.getHeight( ) ) );
 						}
@@ -1746,7 +1756,9 @@ public final class AxesRenderHelper
 									cbo.getTop( )
 											+ cbo.getHeight( )
 											- Math.min( bb.getHeight( ),
-													bb.getWidth( ) ) - 30 * 2,
+													bb.getWidth( ) )
+											- 30
+											* 2,
 									bb.getWidth( ),
 									bb.getHeight( ) ) );
 						}
@@ -1779,7 +1791,7 @@ public final class AxesRenderHelper
 							tre.setBlockAlignment( ChartUtil.transposeAlignment( la.getCaption( )
 									.getFont( )
 									.getAlignment( ) ) );
-						}				
+						}
 						tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
 						ipr.drawText( tre );
 					}

@@ -66,6 +66,12 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 
 	private transient Button btnTrendline;
 
+	private transient Button btnDialLabel;
+
+	private transient Button btnLabel;
+
+	private transient Button btnDecoration;
+
 	private transient Button cbVisible;
 
 	private transient Button cbDecoVisible;
@@ -156,10 +162,11 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 			popup = new DialLabelSheet( Messages.getString( "SeriesYSheetImpl.Label.Labels" ), //$NON-NLS-1$
 					getContext( ),
 					getSeriesDefinitionForProcessing( ) );
-			Button btnDialLabel = createToggleButton( cmp,
+			btnDialLabel = createToggleButton( cmp,
 					Messages.getString( "SeriesYSheetImpl.Label.Labels&" ), //$NON-NLS-1$
 					popup );
 			btnDialLabel.addSelectionListener( this );
+			btnDialLabel.setEnabled( cbVisible.getSelection( ) );
 
 			// Region
 			popup = new SeriesRegionSheet( Messages.getString( "SeriesYSheetImpl.Label.Region" ), //$NON-NLS-1$
@@ -194,10 +201,12 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 			popup = new SeriesLabelSheet( Messages.getString( "SeriesYSheetImpl.Label.Labels" ), //$NON-NLS-1$
 					getContext( ),
 					getSeriesDefinitionForProcessing( ) );
-			Button btnLabel = createToggleButton( cmp,
+			btnLabel = createToggleButton( cmp,
 					Messages.getString( "SeriesYSheetImpl.Label.Labels&" ), //$NON-NLS-1$
 					popup );
 			btnLabel.addSelectionListener( this );
+			btnLabel.setEnabled( cbVisible.getSelection( ) );
+
 		}
 
 		// Titles for Pie series
@@ -253,10 +262,11 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 			popup = new DecorationSheet( Messages.getString( "SeriesYSheetImpl.Label.Decoration" ), //$NON-NLS-1$
 					getContext( ),
 					(GanttSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) );
-			Button btnDecoration = createToggleButton( cmp,
+			btnDecoration = createToggleButton( cmp,
 					Messages.getString( "SeriesYSheetImpl.Label.Decoration&" ), //$NON-NLS-1$
 					popup );
 			btnDecoration.addSelectionListener( this );
+			btnDecoration.setEnabled( cbDecoVisible.getSelection( ) );
 		}
 
 		// Trendline
@@ -364,23 +374,48 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 		{
 			if ( isMeterSeries( ) )
 			{
+				btnDialLabel.setEnabled( cbVisible.getSelection( ) );
 				( (DialSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) ).getDial( )
 						.getLabel( )
 						.setVisible( cbVisible.getSelection( ) );
+				if ( !cbVisible.getSelection( ) && btnDialLabel.getSelection( ) )
+				{
+					btnDialLabel.setSelection( false );
+					detachPopup( btnDialLabel );
+				}
 			}
 			else
 			{
+				btnLabel.setEnabled( cbVisible.getSelection( ) );
 				getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
 						.getLabel( )
 						.setVisible( cbVisible.getSelection( ) );
+				if ( !cbVisible.getSelection( ) && btnLabel.getSelection( ) )
+				{
+					btnLabel.setSelection( false );
+					detachPopup( btnLabel );
+				}
 			}
-			refreshPopupSheet( );
+			if ( cbVisible.getSelection( ) )
+			{
+				refreshPopupSheet( );
+			}
+
 		}
 		else if ( e.widget.equals( cbDecoVisible ) )
 		{
+			btnDecoration.setEnabled( cbDecoVisible.getSelection( ) );
 			( (GanttSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) ).getDecorationLabel( )
 					.setVisible( cbDecoVisible.getSelection( ) );
-			refreshPopupSheet( );
+			if ( !cbDecoVisible.getSelection( ) && btnDecoration.getSelection( ) )
+			{
+				btnDecoration.setSelection( false );
+				detachPopup( btnDecoration );
+			}
+			else
+			{
+				refreshPopupSheet( );
+			}
 		}
 	}
 

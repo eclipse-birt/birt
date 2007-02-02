@@ -532,6 +532,11 @@
 					<xsd:documentation>Indicates if it shows values outside Axis range.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
+			<xsd:element name="TickBetweenCategories" type="xsd:boolean" default="true" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Specifes if the major tick is rendered at the category value or between two categories. This only affects the category and text style axis.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>			
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="ChartPreferences">

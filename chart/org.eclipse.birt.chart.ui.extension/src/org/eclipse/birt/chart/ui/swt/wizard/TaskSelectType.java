@@ -44,10 +44,10 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
-import org.eclipse.birt.chart.ui.swt.wizard.internal.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.SimpleTask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
@@ -61,6 +61,7 @@ import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowData;
@@ -74,7 +75,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.swt.widgets.Text;
 
 /**
  * TaskSelectType
@@ -483,6 +483,7 @@ public class TaskSelectType extends SimpleTask implements
 
 	private String[] getOutputFormats( )
 	{
+		boolean bException = false;
 		try
 		{
 			String[][] outputFormatArray = PluginSettings.instance( )
@@ -496,7 +497,12 @@ public class TaskSelectType extends SimpleTask implements
 		}
 		catch ( ChartException e )
 		{
-			ChartWizard.displayException( e );
+			bException = true;
+			ChartWizard.showException( e );
+		}
+		if ( !bException )
+		{
+			WizardBase.removeException( );
 		}
 		return new String[0];
 	}
@@ -506,6 +512,7 @@ public class TaskSelectType extends SimpleTask implements
 	{
 		for ( int i = 0; i < allSeriesTypes.length; i++ )
 		{
+			boolean bException = false;
 			try
 			{
 				Class seriesClass = Class.forName( allSeriesTypes[i] );
@@ -534,7 +541,12 @@ public class TaskSelectType extends SimpleTask implements
 			}
 			catch ( Exception e )
 			{
-				ChartWizard.displayException( e );
+				bException = true;
+				ChartWizard.showException( e );
+			}
+			if ( !bException )
+			{
+				WizardBase.removeException( );
 			}
 		}
 	}
@@ -829,6 +841,7 @@ public class TaskSelectType extends SimpleTask implements
 
 	private void changeOverlaySeriesType( )
 	{
+		boolean bException = false;
 		try
 		{
 			// CREATE A NEW SERIES INSTANCE OF APPROPRIATE TYPE...USING THE
@@ -867,12 +880,18 @@ public class TaskSelectType extends SimpleTask implements
 		}
 		catch ( Exception e )
 		{
-			ChartWizard.displayException( e );
+			bException = true;
+			ChartWizard.showException( e );
 		}
 		finally
 		{
 			// ENABLE NOTIFICATIONS IN CASE EXCEPTIONS OCCUR
 			ChartAdapter.endIgnoreNotifications( );
+		}
+		
+		if ( !bException )
+		{
+			ChartWizard.removeException( );
 		}
 	}
 
@@ -883,6 +902,7 @@ public class TaskSelectType extends SimpleTask implements
 		Series series = getSeriesDefinitionForProcessing( ).getDesignTimeSeries( );
 		if ( series.canParticipateInCombination( ) )
 		{
+			boolean bException = false;
 			try
 			{
 				populateSeriesTypes( PluginSettings.instance( )
@@ -890,7 +910,12 @@ public class TaskSelectType extends SimpleTask implements
 			}
 			catch ( ChartException e )
 			{
-				ChartWizard.displayException( e );
+				bException = true;
+				ChartWizard.showException( e );
+			}
+			if ( !bException )
+			{
+				WizardBase.removeException( );
 			}
 		}
 		else
@@ -1074,6 +1099,7 @@ public class TaskSelectType extends SimpleTask implements
 		// DISABLE PREVIEW REFRESH DURING CONVERSION
 		ChartAdapter.beginIgnoreNotifications( );
 		IChartType chartType = (IChartType) htTypes.get( sType );
+		boolean bException = false;
 		try
 		{
 			chartModel = chartType.getModel( sSubType,
@@ -1084,7 +1110,12 @@ public class TaskSelectType extends SimpleTask implements
 		}
 		catch ( Exception e )
 		{
-			ChartWizard.displayException( e );
+			bException = true;
+			ChartWizard.showException( e );
+		}
+		if ( !bException )
+		{
+			WizardBase.removeException( );
 		}
 
 		// RE-ENABLE PREVIEW REFRESH
@@ -1232,9 +1263,6 @@ public class TaskSelectType extends SimpleTask implements
 			if ( chartModel instanceof ChartWithAxes )
 			{
 				List sdList = new ArrayList( );
-				sdList.addAll( ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
-						.get( 0 ) ).getSeriesDefinitions( ) );
-
 				EList axisList = ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
 						.get( 0 ) ).getAssociatedAxes( );
 				for ( int i = 0; i < axisList.size( ); i++ )
@@ -1328,6 +1356,7 @@ public class TaskSelectType extends SimpleTask implements
 
 			if ( sSeries.equals( series.getClass( ).getName( ) ) )
 			{
+				boolean bException = false;
 				try
 				{
 					provider.validateSeriesBindingType( series,
@@ -1335,21 +1364,16 @@ public class TaskSelectType extends SimpleTask implements
 				}
 				catch ( ChartException ce )
 				{
-					if ( expression != null && expression.trim( ).length( ) > 0 )
-					{
-						Text text = DataDefinitionTextManager.getInstance( )
-								.findText( query );
-						if ( text != null )
-						{
-							// Display the text even if it's useless and will be
-							// changed
-							text.setText( query.getDefinition( ) );
-						}
-						WizardBase.displayException( new RuntimeException( Messages.getFormattedString( "TaskSelectData.Warning.TypeCheck",//$NON-NLS-1$
-								new String[]{
-										expression, sSeries
-								} ) ) );
-					}
+					bException = true;
+					WizardBase.showException( new RuntimeException( Messages.getFormattedString( "TaskSelectData.Warning.TypeCheck",//$NON-NLS-1$
+							new String[]{
+									expression, sSeries
+							} ) ) );
+				}
+				
+				if ( !bException )
+				{
+					WizardBase.removeException( );
 				}
 
 				if ( chartModel instanceof ChartWithAxes )
@@ -1494,6 +1518,14 @@ public class TaskSelectType extends SimpleTask implements
 					.size( );
 		}
 		return iTmp;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.core.ui.frameworks.taskwizard.SimpleTask#getImage()
+	 */
+	public Image getImage( )
+	{
+		return UIHelper.getImage( "icons/obj16/selecttype.gif" ); //$NON-NLS-1$
 	}
 
 }

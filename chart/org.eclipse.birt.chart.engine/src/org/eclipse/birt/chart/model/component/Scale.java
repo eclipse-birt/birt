@@ -34,6 +34,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.birt.chart.model.component.Scale#getMinorGridsPerUnit <em>Minor Grids Per Unit</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Scale#getStepNumber <em>Step Number</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Scale#isShowOutside <em>Show Outside</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Scale#isTickBetweenCategories <em>Tick Between Categories</em>}</li>
  * </ul>
  * </p>
  *
@@ -353,5 +354,59 @@ public interface Scale extends EObject
 	 * @generated
 	 */
 	boolean isSetShowOutside( );
+
+	/**
+	 * Returns the value of the '<em><b>Tick Between Categories</b></em>' attribute.
+	 * The default value is <code>"true"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Specifes if the major tick is rendered at the category value or between two categories. This only affects the category and text style axis.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Tick Between Categories</em>' attribute.
+	 * @see #isSetTickBetweenCategories()
+	 * @see #unsetTickBetweenCategories()
+	 * @see #setTickBetweenCategories(boolean)
+	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getScale_TickBetweenCategories()
+	 * @model default="true" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
+	 *        extendedMetaData="kind='element' name='TickBetweenCategories'"
+	 * @generated
+	 */
+	boolean isTickBetweenCategories( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#isTickBetweenCategories <em>Tick Between Categories</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Tick Between Categories</em>' attribute.
+	 * @see #isSetTickBetweenCategories()
+	 * @see #unsetTickBetweenCategories()
+	 * @see #isTickBetweenCategories()
+	 * @generated
+	 */
+	void setTickBetweenCategories( boolean value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Scale#isTickBetweenCategories <em>Tick Between Categories</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetTickBetweenCategories()
+	 * @see #isTickBetweenCategories()
+	 * @see #setTickBetweenCategories(boolean)
+	 * @generated
+	 */
+	void unsetTickBetweenCategories( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Scale#isTickBetweenCategories <em>Tick Between Categories</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Tick Between Categories</em>' attribute is set.
+	 * @see #unsetTickBetweenCategories()
+	 * @see #isTickBetweenCategories()
+	 * @see #setTickBetweenCategories(boolean)
+	 * @generated
+	 */
+	boolean isSetTickBetweenCategories( );
 
 } // Scale

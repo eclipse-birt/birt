@@ -766,12 +766,13 @@ public class FormatSpecifierComposite extends Composite
 				if ( suffix == null )
 				{
 					suffix = ""; //$NON-NLS-1$
-				}			
+				}	
+				int fDigits = ( (NumberFormatSpecifier) formatspecifier ).getFractionDigits( );
 				if ( ( (NumberFormatSpecifier) formatspecifier ).eIsSet( AttributePackage.eINSTANCE.getNumberFormatSpecifier_Multiplier( ) ) )
 				{
 					txtMultiplier.setValue( ( (NumberFormatSpecifier) formatspecifier ).getMultiplier( ) );
 				}
-				iscFractionDigits.setSelection( ( (NumberFormatSpecifier) formatspecifier ).getFractionDigits( ) );
+				iscFractionDigits.setSelection( fDigits );
 				txtPrefix.setText( prefix );
 				txtSuffix.setText( suffix );
 			}
@@ -980,14 +981,14 @@ public class FormatSpecifierComposite extends Composite
 		{
 			if ( formatspecifier instanceof JavaNumberFormatSpecifier )
 			{
-				if ( ( (JavaNumberFormatSpecifier) formatspecifier ).eIsSet( AttributePackage.eINSTANCE.getJavaNumberFormatSpecifier_Multiplier( ) ) )
-				{
-					txtAdvMultiplier.setValue( ( (JavaNumberFormatSpecifier) formatspecifier ).getMultiplier( ) );
-				}
 				String str = ( (JavaNumberFormatSpecifier) formatspecifier ).getPattern( );
 				if ( str == null )
 				{
 					str = ""; //$NON-NLS-1$
+				}
+				if ( ( (JavaNumberFormatSpecifier) formatspecifier ).eIsSet( AttributePackage.eINSTANCE.getJavaNumberFormatSpecifier_Multiplier( ) ) )
+				{
+					txtAdvMultiplier.setValue( ( (JavaNumberFormatSpecifier) formatspecifier ).getMultiplier( ) );
 				}
 				txtNumberPattern.setText( str );
 			}

@@ -16,7 +16,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
@@ -82,13 +81,7 @@ public final class ResultSetWrapper
 	 * A lookup table internally used to locate a numeric column index using the
 	 * associated expression
 	 */
-	private final Hashtable htLookup;
-
-	/**
-	 * Indicates whether base series grouping was applied on the resultset to
-	 * prevent duplicate grouping.
-	 */
-	private boolean bBaseGroupingApplied = false;
+	private final GroupingLookupHelper htLookup;
 
 	private final GroupKey[] oaGroupKeys;
 
@@ -98,12 +91,12 @@ public final class ResultSetWrapper
 	private static final int[] NO_GROUP_BREAKS = new int[0];
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/datafeed" ); //$NON-NLS-1$
-
+	
 	/**
 	 * The default constructor that allows creation of a resultset wrapper
 	 * 
-	 * @param stExpressionKeys
-	 *            The set of expressions associated with each column in the
+	 * @param hmLookup
+	 *            The map of expressions associated with each column in the
 	 *            resultset
 	 * @param liResultSet
 	 *            A list of rows that represent the actual resultset data
@@ -112,30 +105,31 @@ public final class ResultSetWrapper
 	 *            An array of orthogonal grouping keys, if it's null or
 	 *            zero-length, no orthogonal grouping used.
 	 */
-	public ResultSetWrapper( Collection stExpressionKeys, List liResultSet,
+	public ResultSetWrapper( GroupingLookupHelper hmLookup, List liResultSet,
 			GroupKey[] groupKeys )
 	{
+		htLookup = hmLookup;
 		rawResultSet = liResultSet;
 
 		workingResultSet = new ArrayList( );
 		workingResultSet.addAll( rawResultSet );
 
+		Collection stExpressionKeys = hmLookup.getExpressions( );
 		saExpressionKeys = (String[]) stExpressionKeys.toArray( new String[stExpressionKeys.size( )] );
 
 		iaDataTypes = new int[saExpressionKeys.length];
 
-		htLookup = new Hashtable( );
-		for ( int i = 0; i < saExpressionKeys.length; i++ )
-		{
-			htLookup.put( saExpressionKeys[i], new Integer( i ) );
-		}
-
 		oaGroupKeys = groupKeys;
 		iaGroupBreaks = findGroupBreaks( workingResultSet,
-				( oaGroupKeys != null && oaGroupKeys.length > 0 ) ? oaGroupKeys[0]
-						: null );
+				( oaGroupKeys != null && oaGroupKeys.length > 0 )
+						? oaGroupKeys[0] : null );
 
 		initializeMeta( );
+	}
+	
+	GroupingLookupHelper getLookupHelper( )
+	{
+		return htLookup;
 	}
 
 	/**
@@ -208,39 +202,33 @@ public final class ResultSetWrapper
 	 * 
 	 * @throws ChartException
 	 */
-	public void applyBaseSeriesSortingAndGrouping( SeriesDefinition sd,
-			String[] saExpressionKeys ) throws ChartException
+	public void applyBaseSeriesSortingAndGrouping( SeriesDefinition sdBase,
+			String[] aggregationExp, String[] saExpressionKeys )
+			throws ChartException
 	{
-		// PREVENT REDUNDANT GROUPING
-		if ( bBaseGroupingApplied )
-		{
-			return;
-		}
-		bBaseGroupingApplied = true;
-
 		boolean needBaseGrouping = true;
 
 		// VALIDATE SERIES GROUPING
-		final SeriesGrouping sg = sd.getGrouping( );
+		final SeriesGrouping sg = sdBase.getGrouping( );
 		if ( sg == null || !sg.isEnabled( ) )
 		{
 			needBaseGrouping = false;;
 		}
 
 		// Apply base series sorting.
-		final Series seBaseDesignTime = sd.getDesignTimeSeries( );
+		final Series seBaseDesignTime = sdBase.getDesignTimeSeries( );
 		final Query q = (Query) seBaseDesignTime.getDataDefinition( ).get( 0 );
-		final int iSortColumnIndex = ( (Integer) htLookup.get( q.getDefinition( ) ) ).intValue( );
+		final int iSortColumnIndex = htLookup.findIndex( q.getDefinition( ) );
 
 		SortOption so = null;
-		if ( !sd.isSetSorting( ) )
+		if ( !sdBase.isSetSorting( ) )
 		{
 			if ( needBaseGrouping )
 			{
 				logger.log( ILogger.WARNING,
 						Messages.getString( "warn.unspecified.sorting", //$NON-NLS-1$
 								new Object[]{
-									sd
+								sdBase
 								},
 								ULocale.getDefault( ) ) );
 
@@ -249,7 +237,7 @@ public final class ResultSetWrapper
 		}
 		else
 		{
-			so = sd.getSorting( );
+			so = sdBase.getSorting( );
 		}
 
 		new GroupingSorter( ).sort( workingResultSet,
@@ -264,7 +252,6 @@ public final class ResultSetWrapper
 		}
 
 		// LOOKUP AGGREGATE FUNCTION
-		final String sFunctionName = sg.getAggregateExpression( );
 		final int iOrthogonalSeriesCount = saExpressionKeys.length;
 		IAggregateFunction[] iafa = new IAggregateFunction[iOrthogonalSeriesCount];
 		try
@@ -272,7 +259,7 @@ public final class ResultSetWrapper
 			for ( int i = 0; i < iOrthogonalSeriesCount; i++ )
 			{
 				iafa[i] = PluginSettings.instance( )
-						.getAggregateFunction( sFunctionName );
+						.getAggregateFunction( aggregationExp[i] );
 				iafa[i].initialize( );
 			}
 		}
@@ -282,13 +269,20 @@ public final class ResultSetWrapper
 					ChartException.DATA_BINDING,
 					pex );
 		}
+		
+		int[] iaColumnIndexes = new int[iOrthogonalSeriesCount];
+		for ( int i = 0; i < iOrthogonalSeriesCount; i++ )
+		{
+			iaColumnIndexes[i] = getLookupHelper( ).findIndex( saExpressionKeys[i],
+					aggregationExp[i] );
+		}
 
 		final DataType dtGrouping = sg.getGroupType( );
 		if ( dtGrouping == DataType.NUMERIC_LITERAL )
 		{
 			groupNumerically( workingResultSet,
 					iSortColumnIndex,
-					saExpressionKeys,
+					iaColumnIndexes,
 					iaGroupBreaks,
 					null,
 					sg.getGroupingInterval( ),
@@ -298,7 +292,7 @@ public final class ResultSetWrapper
 		{
 			groupDateTime( workingResultSet,
 					iSortColumnIndex,
-					saExpressionKeys,
+					iaColumnIndexes,
 					iaGroupBreaks,
 					null,
 					sg.getGroupingInterval( ),
@@ -309,7 +303,7 @@ public final class ResultSetWrapper
 		{
 			groupTextually( workingResultSet,
 					iSortColumnIndex,
-					saExpressionKeys,
+					iaColumnIndexes,
 					iaGroupBreaks,
 					null,
 					sg.getGroupingInterval( ),
@@ -317,22 +311,17 @@ public final class ResultSetWrapper
 
 		}
 
-		// re-initialize meta since Aggretation could change data
+		// re-initialize meta since Aggregation could change data
 		// type(text->count)
 		initializeMeta( );
 	}
 
 	private void groupNumerically( List resultSet, int iBaseColumnIndex,
-			String[] saExpressionKeys, int[] iaBreaks,
+			int[] iaColumnIndexes, int[] iaBreaks,
 			NumberDataElement ndeBaseReference, long iGroupingInterval,
 			IAggregateFunction[] iafa ) throws ChartException
 	{
-		final int iOrthogonalSeriesCount = saExpressionKeys.length;
-		final int[] iaColumnIndexes = new int[iOrthogonalSeriesCount];
-		for ( int i = 0; i < iOrthogonalSeriesCount; i++ )
-		{
-			iaColumnIndexes[i] = ( (Integer) htLookup.get( saExpressionKeys[i] ) ).intValue( );
-		}
+		final int iOrthogonalSeriesCount = iaColumnIndexes.length;
 
 		int iStartIndex = 0, iEndIndex;
 		int totalGroupCount = iaBreaks == null ? 1 : ( iaBreaks.length + 1 );
@@ -516,25 +505,18 @@ public final class ResultSetWrapper
 	}
 
 	private void groupDateTime( List resultSet, int iBaseColumnIndex,
-			String[] saExpressionKeys, int[] iaBreaks,
+			int[] iaColumnIndexes, int[] iaBreaks,
 			CDateTime ndeBaseReference, long iGroupingInterval,
 			GroupingUnitType groupingUnit, IAggregateFunction[] iafa )
 			throws ChartException
 	{
-		final int iOrthogonalSeriesCount = saExpressionKeys.length;
-		final int[] iaColumnIndexes = new int[iOrthogonalSeriesCount];
-		for ( int i = 0; i < iOrthogonalSeriesCount; i++ )
-		{
-			iaColumnIndexes[i] = ( (Integer) htLookup.get( saExpressionKeys[i] ) ).intValue( );
-		}
+		final int iOrthogonalSeriesCount = iaColumnIndexes.length;
 
 		int cunit = groupingUnit2CDateUnit( groupingUnit );
 
 		int iStartIndex = 0, iEndIndex;
 		int totalGroupCount = iaBreaks == null ? 1 : ( iaBreaks.length + 1 );
 		int totalRowCount = resultSet.size( );
-
-		CDateTime lastReference;
 
 		for ( int k = 0; k < totalGroupCount; k++ )
 		{
@@ -573,12 +555,7 @@ public final class ResultSetWrapper
 				}
 			}
 
-			if ( iGroupingInterval != 0 )
-			{
-				// keep original date value if grouping interval=0
-				baseReference.clearBelow( cunit );
-			}
-			lastReference = (CDateTime) baseReference.clone( );
+			baseReference.clearBelow( cunit );
 
 			Object[] oaTuple, oaSummarizedTuple = null;
 			int iGroupIndex = 0, iLastGroupIndex = 0;
@@ -588,11 +565,9 @@ public final class ResultSetWrapper
 			for ( int j = iStartIndex; j < iEndIndex; j++ )
 			{
 				oaTuple = (Object[]) resultSet.get( j );
-
+				CDateTime dCurrentValue = null;
 				if ( oaTuple[iBaseColumnIndex] != null )
 				{
-					CDateTime dCurrentValue = null;
-
 					Object obj = oaTuple[iBaseColumnIndex];
 
 					// ASSIGN IT TO THE FIRST TYPLE'S GROUP EXPR VALUE
@@ -612,57 +587,28 @@ public final class ResultSetWrapper
 					{
 						dCurrentValue = new CDateTime( 0 );
 					}
-
-					if ( iGroupingInterval == 0 )
-					{
-						if ( !lastReference.equals( dCurrentValue ) )
-						{
-							iGroupIndex++;
-						}
-					}
-					else
-					{
-						// keep original date value if grouping interval=0
-						dCurrentValue.clearBelow( cunit );
-
-						double diff = CDateTime.computeDifference( dCurrentValue,
-								baseReference,
-								cunit,
-								true );
-
-						iGroupIndex = (int) Math.floor( Math.abs( diff
-								/ iGroupingInterval ) );
-					}
-
-					lastReference = (CDateTime) dCurrentValue.clone( );
+					
+					dCurrentValue.clearBelow( cunit );
 				}
 				else
 				{
 					// Treat null value as the smallest date.
-					CDateTime dCurrentValue = new CDateTime( 0 );
+					dCurrentValue = new CDateTime( 0 );
+				}
+				
+				// Save the approximate date in the runtime data, so they could
+				// be grouped by units in renderer
+				oaTuple[iBaseColumnIndex] = dCurrentValue;
 
-					if ( iGroupingInterval == 0 )
-					{
-						if ( !lastReference.equals( dCurrentValue ) )
-						{
-							iGroupIndex++;
-						}
-					}
-					else
-					{
-						// keep original date value if grouping interval=0
-						dCurrentValue.clearBelow( cunit );
-
-						double diff = CDateTime.computeDifference( dCurrentValue,
-								baseReference,
-								cunit,
-								true );
-
-						iGroupIndex = (int) Math.floor( Math.abs( diff
-								/ iGroupingInterval ) );
-					}
-
-					lastReference = (CDateTime) dCurrentValue.clone( );
+				double diff = CDateTime.computeDifference( dCurrentValue,
+						baseReference,
+						cunit,
+						true );
+				if ( diff != 0 )
+				{
+					iGroupIndex = iGroupingInterval == 0 ? iGroupIndex + 1
+							: (int) Math.floor( Math.abs( diff
+									/ iGroupingInterval ) );
 				}
 
 				if ( !bFirst )
@@ -702,12 +648,7 @@ public final class ResultSetWrapper
 							baseReference = new CDateTime( 0 );
 						}
 
-						if ( iGroupingInterval != 0 )
-						{
-							// keep original date value if grouping interval=0
-							baseReference.clearBelow( cunit );
-						}
-						lastReference = (CDateTime) baseReference.clone( );
+						baseReference.clearBelow( cunit );
 						iGroupIndex = 0;
 					}
 					else
@@ -771,16 +712,11 @@ public final class ResultSetWrapper
 	}
 
 	private void groupTextually( List resultSet, int iBaseColumnIndex,
-			String[] saExpressionKeys, int[] iaBreaks, String ndeBaseReference,
+			int[] iaColumnIndexes, int[] iaBreaks, String ndeBaseReference,
 			long iGroupingInterval, IAggregateFunction[] iafa )
 			throws ChartException
 	{
-		final int iOrthogonalSeriesCount = saExpressionKeys.length;
-		final int[] iaColumnIndexes = new int[iOrthogonalSeriesCount];
-		for ( int i = 0; i < iOrthogonalSeriesCount; i++ )
-		{
-			iaColumnIndexes[i] = ( (Integer) htLookup.get( saExpressionKeys[i] ) ).intValue( );
-		}
+		final int iOrthogonalSeriesCount = iaColumnIndexes.length;
 
 		int iStartIndex = 0, iEndIndex;
 		int totalGroupCount = iaBreaks == null ? 1 : ( iaBreaks.length + 1 );
@@ -991,14 +927,15 @@ public final class ResultSetWrapper
 	 * 
 	 * @return The group key value associated with the requested group index
 	 */
-	public Object getGroupKey( int iGroupIndex, String sExpressionKey )
+	public Object getGroupKey( int iGroupIndex, String sExpressionKey,
+			String aggExp )
 	{
-		if ( !htLookup.containsKey( sExpressionKey ) )
+		final int iColumnIndex = htLookup.findIndex( sExpressionKey, aggExp );
+		if ( iColumnIndex < 0 )
 		{
 			return IConstants.UNDEFINED_STRING;
 		}
-
-		final int iColumnIndex = ( (Integer) htLookup.get( sExpressionKey ) ).intValue( );
+		
 		final int iRow = ( iGroupIndex <= 0 ) ? 0
 				: iaGroupBreaks[iGroupIndex - 1];
 
@@ -1044,11 +981,12 @@ public final class ResultSetWrapper
 	 * 
 	 * @return An instance of the resultset subset
 	 */
-	public ResultSetDataSet getSubset( int iGroupIndex, String sExpressionKey )
+	public ResultSetDataSet getSubset( int iGroupIndex, String sExpressionKey,
+			String aggExp )
 	{
 		return new ResultSetDataSet( this,
 				new int[]{
-					( (Integer) htLookup.get( sExpressionKey ) ).intValue( )
+					htLookup.findIndex( sExpressionKey, aggExp )
 				},
 				( iGroupIndex <= 0 ) ? 0 : iaGroupBreaks[iGroupIndex - 1],
 				( iGroupIndex >= iaGroupBreaks.length - 1 ) ? getRowCount( )
@@ -1067,16 +1005,17 @@ public final class ResultSetWrapper
 	 * 
 	 * @return An instance of the resultset subset
 	 */
-	public ResultSetDataSet getSubset( int iGroupIndex, EList elExpressionKeys )
+	public ResultSetDataSet getSubset( int iGroupIndex, EList elExpressionKeys,
+			String aggExp )
 	{
 		final int n = elExpressionKeys.size( );
-		final int[] iaColumnIndexes = new int[n];
-		String sExpressionKey;
+		String[] sExpressionKey = new String[n];
 		for ( int i = 0; i < n; i++ )
 		{
-			sExpressionKey = ( (Query) elExpressionKeys.get( i ) ).getDefinition( );
-			iaColumnIndexes[i] = ( (Integer) htLookup.get( sExpressionKey ) ).intValue( );
+			sExpressionKey[i] = ( (Query) elExpressionKeys.get( i ) ).getDefinition( );
 		}
+		final int[] iaColumnIndexes = htLookup.findBatchIndex( sExpressionKey,
+				aggExp );
 
 		return new ResultSetDataSet( this,
 				iaColumnIndexes,
@@ -1097,22 +1036,16 @@ public final class ResultSetWrapper
 	 * 
 	 * @return An instance of the resultset subset
 	 */
-	public ResultSetDataSet getSubset( int iGroupIndex, String[] sExpressionKeys )
+	public ResultSetDataSet getSubset( int iGroupIndex,
+			String[] sExpressionKeys, String aggExp )
 	{
 		if ( sExpressionKeys == null )
 		{
 			return null;
 		}
 
-		final int n = sExpressionKeys.length;
-		final int[] iaColumnIndexes = new int[n];
-		String sExpressionKey;
-		for ( int i = 0; i < n; i++ )
-		{
-			sExpressionKey = sExpressionKeys[i];
-			iaColumnIndexes[i] = ( (Integer) htLookup.get( sExpressionKey ) ).intValue( );
-		}
-
+		final int[] iaColumnIndexes = htLookup.findBatchIndex( sExpressionKeys,
+				aggExp );
 		return new ResultSetDataSet( this,
 				iaColumnIndexes,
 				( iGroupIndex <= 0 ) ? 0 : iaGroupBreaks[iGroupIndex - 1],
@@ -1156,37 +1089,17 @@ public final class ResultSetWrapper
 	 * @return The resultset subset containing the requested columns and all
 	 *         rows of the resultset
 	 */
-	public ResultSetDataSet getSubset( EList elExpressions )
+	public ResultSetDataSet getSubset( EList elExpressions, String aggExp )
 			throws ChartException
 	{
 		final int n = elExpressions.size( );
-		final int[] iaColumnIndexes = new int[n];
-		String sExpression;
-		try
+		String[] sExpression = new String[n];
+		for ( int i = 0; i < n; i++ )
 		{
-			for ( int i = 0; i < n; i++ )
-			{
-				sExpression = ( (Query) elExpressions.get( i ) ).getDefinition( );
-				Integer columnIndex = ( (Integer) htLookup.get( sExpression ) );
-				if ( columnIndex != null )
-				{
-					iaColumnIndexes[i] = columnIndex.intValue( );
-				}
-				else
-				{
-					iaColumnIndexes[i] = -1;
-					//-1 will be ignored when quering.
-				}
-			}
+			sExpression[i] = ( (Query) elExpressions.get( i ) ).getDefinition( );
 		}
-		catch ( Exception e )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.VALIDATION,
-					"exception.base.orthogonal.null.datadefinition", //$NON-NLS-1$
-					Messages.getResourceBundle( ) );
-		}
-
+		final int[] iaColumnIndexes = htLookup.findBatchIndex( sExpression,
+				aggExp );
 		return new ResultSetDataSet( this, iaColumnIndexes, 0, getRowCount( ) );
 	}
 
@@ -1202,10 +1115,10 @@ public final class ResultSetWrapper
 	 * @return The resultset subset containing the requested column and all rows
 	 *         of the resultset
 	 */
-	public ResultSetDataSet getSubset( String sExpressionKey )
+	public ResultSetDataSet getSubset( String sExpressionKey, String aggExp )
 	{
 		return new ResultSetDataSet( this, new int[]{
-			( (Integer) htLookup.get( sExpressionKey ) ).intValue( )
+			htLookup.findIndex( sExpressionKey, aggExp )
 		}, 0, getRowCount( ) );
 	}
 
@@ -1221,7 +1134,7 @@ public final class ResultSetWrapper
 	 * @return The resultset subset containing the requested columns and all
 	 *         rows of the resultset
 	 */
-	public ResultSetDataSet getSubset( String[] sExpressionKeys )
+	public ResultSetDataSet getSubset( String[] sExpressionKeys, String aggExp )
 			throws ChartException
 	{
 		if ( sExpressionKeys == null )
@@ -1229,25 +1142,8 @@ public final class ResultSetWrapper
 			return null;
 		}
 
-		final int n = sExpressionKeys.length;
-		final int[] iaColumnIndexes = new int[n];
-		String sExpression;
-		try
-		{
-			for ( int i = 0; i < n; i++ )
-			{
-				sExpression = sExpressionKeys[i];
-				iaColumnIndexes[i] = ( (Integer) htLookup.get( sExpression ) ).intValue( );
-			}
-		}
-		catch ( Exception e )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.VALIDATION,
-					"exception.base.orthogonal.null.datadefinition", //$NON-NLS-1$
-					Messages.getResourceBundle( ) );
-		}
-
+		final int[] iaColumnIndexes = htLookup.findBatchIndex( sExpressionKeys,
+				aggExp );
 		return new ResultSetDataSet( this, iaColumnIndexes, 0, getRowCount( ) );
 	}
 
@@ -1673,5 +1569,6 @@ public final class ResultSetWrapper
 			return ascending ? ct : -ct;
 		}
 	}
+	
 
 }

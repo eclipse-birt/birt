@@ -53,8 +53,6 @@ public class GanttSeriesAttributeComposite extends Composite
 
 	private transient Group grpMarkerEnd = null;
 
-	private transient Button btnDecoration = null;
-
 	private transient Button btnPalette = null;
 
 	private transient FillChooserComposite fccFill = null;
@@ -205,13 +203,6 @@ public class GanttSeriesAttributeComposite extends Composite
 		 fccFill.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		 fccFill.addListener( this );*/
 
-		btnDecoration = new Button( cmpFill, SWT.CHECK );
-		{
-			btnDecoration.setText( Messages.getString( "GanttSeriesAttributeComposite.Lbl.UseDecoration" ) ); //$NON-NLS-1$
-			btnDecoration.setSelection( series.isUseDecorationLabelValue( ) );
-			btnDecoration.addSelectionListener( this );
-		}
-
 		btnPalette = new Button( cmpFill, SWT.CHECK );
 		{
 			btnPalette.setText( Messages.getString( "GanttSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
@@ -233,11 +224,7 @@ public class GanttSeriesAttributeComposite extends Composite
 	 */
 	public void widgetSelected( SelectionEvent e )
 	{
-		if ( e.getSource( ).equals( btnDecoration ) )
-		{
-			series.setUseDecorationLabelValue( btnDecoration.getSelection( ) );
-		}
-		else if ( e.getSource( ).equals( btnPalette ) )
+		if ( e.getSource( ).equals( btnPalette ) )
 		{
 			series.setPaletteLineColor( btnPalette.getSelection( ) );
 		}

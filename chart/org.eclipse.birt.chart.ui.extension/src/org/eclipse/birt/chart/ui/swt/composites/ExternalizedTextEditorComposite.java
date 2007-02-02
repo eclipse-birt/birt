@@ -15,6 +15,7 @@ import java.util.Vector;
 
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -109,7 +110,7 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
         GridData gdBTNDown = new GridData(GridData.VERTICAL_ALIGN_END);
         gdBTNDown.heightHint = iSize;
         gdBTNDown.widthHint = iSize;
-        btnDown.setText(" ... "); //$NON-NLS-1$
+        btnDown.setImage( UIHelper.getImage( "icons/obj16/externalizetext.gif" ) ); //$NON-NLS-1$
         btnDown.setToolTipText(Messages.getString("ExternalizedTextEditorComposite.Lbl.EditText")); //$NON-NLS-1$
         btnDown.setLayoutData(gdBTNDown);
         btnDown.addSelectionListener(this);

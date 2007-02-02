@@ -45,7 +45,7 @@ public class ChartWizard extends WizardBase
 
 	private static final String WIZARD_TITLE_EDIT = Messages.getString( "ChartWizard.Title.EditChart" ); //$NON-NLS-1$
 
-	private static final int CHART_WIZARD_WIDTH_MINMUM = 680;
+	private static final int CHART_WIZARD_WIDTH_MINMUM = 690;
 
 	private static final int CHART_WIZARD_HEIGHT_MINMUM = 670;
 

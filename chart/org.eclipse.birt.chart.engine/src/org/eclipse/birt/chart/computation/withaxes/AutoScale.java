@@ -1411,7 +1411,7 @@ public final class AutoScale extends Methods implements Cloneable
 			DecimalFormat df = null;
 			if ( fs == null ) // CREATE IF FORMAT SPECIFIER IS UNDEFINED
 			{
-				df = new DecimalFormat( getNumericPattern( ) );
+				df = computeDecimalFormat( dAxisValue, dAxisStep );
 			}
 			final NumberDataElement nde = NumberDataElementImpl.create( 0 );
 
@@ -1498,7 +1498,7 @@ public final class AutoScale extends Methods implements Cloneable
 				nde.setValue( dAxisValue );
 				if ( fs == null )
 				{
-					df = new DecimalFormat( getNumericPattern( dAxisValue ) );
+					df = computeDecimalFormat( dAxisValue, dAxisStep );
 				}
 				try
 				{
@@ -2069,75 +2069,11 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.dZoomFactor = zoomFactor;
 			sc.dPrecision = dPrecision;
 
-			// OVERRIDE MINIMUM IF SPECIFIED
-			if ( oMinimum != null )
-			{
-				if ( oMinimum instanceof NumberDataElement )
-				{
-					sc.oMinimum = new Double( ( (NumberDataElement) oMinimum ).getValue( ) );
-				}
-				/*
-				 * else if (oMinimum instanceof DateTimeDataElement) {
-				 * sc.oMinimum = ((DateTimeDataElement)
-				 * oMinimum).getValueAsCDateTime(); }
-				 */
-				else
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.GENERATION,
-							"exception.invalid.minimum.scale.value", //$NON-NLS-1$
-							new Object[]{
-									sc.oMinimum,
-									ax.getModelAxis( ).getType( ).getName( )
-							},
-							Messages.getResourceBundle( rtc.getULocale( ) ) );
-				}
-				sc.bMinimumFixed = true;
-			}
-
-			// OVERRIDE MAXIMUM IF SPECIFIED
-			if ( oMaximum != null )
-			{
-				if ( oMaximum instanceof NumberDataElement )
-				{
-					sc.oMaximum = new Double( ( (NumberDataElement) oMaximum ).getValue( ) );
-				}
-				/*
-				 * else if (oMaximum instanceof DateTimeDataElement) {
-				 * sc.oMaximum = ((DateTimeDataElement)
-				 * oMaximum).getValueAsCDateTime(); }
-				 */
-				else
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.GENERATION,
-							"exception.invalid.maximum.scale.value", //$NON-NLS-1$
-							new Object[]{
-									sc.oMaximum,
-									ax.getModelAxis( ).getType( ).getName( )
-							},
-							Messages.getResourceBundle( rtc.getULocale( ) ) );
-				}
-				sc.bMaximumFixed = true;
-			}
-
+			// OVERRIDE MIN OR MAX IF SPECIFIED
+			setNumberMinMaxToScale( sc, oMinimum, oMaximum, rtc, ax );
+			
 			// OVERRIDE STEP IF SPECIFIED
-			checkStep( sc, oStep, oStepNumber, rtc );
-
-			// VALIDATE OVERRIDDEN MIN/MAX
-			if ( sc.bMaximumFixed && sc.bMinimumFixed )
-			{
-				if ( ( (Double) sc.oMinimum ).doubleValue( ) > ( (Double) sc.oMaximum ).doubleValue( ) )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.GENERATION,
-							"exception.min.largerthan.max", //$NON-NLS-1$ 
-							new Object[]{
-									sc.oMinimum, sc.oMaximum
-							},
-							Messages.getResourceBundle( rtc.getULocale( ) ) );
-				}
-			}
+			setStepToScale( sc, oStep, oStepNumber, rtc );
 
 			oMinValue = new Double( dMinValue );
 			oMaxValue = new Double( dMaxValue );
@@ -2174,9 +2110,7 @@ public final class AutoScale extends Methods implements Cloneable
 				{
 					dMinValue = dMaxValue > 0 ? 1 : -1;
 				}
-			}
-			oMinValue = new Double( dMinValue );
-			oMaxValue = new Double( dMaxValue );
+			}			
 
 			sc = new AutoScale( iType,
 					new Double( 0 ),
@@ -2189,7 +2123,16 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.iLabelShowingInterval = ax.getLableShowingInterval( );
 			sc.dZoomFactor = zoomFactor;
 			sc.setData( dsi );
-			sc.setDirection( direction );
+			sc.setDirection( direction );			
+			
+			// OVERRIDE MIN OR MAX IF SPECIFIED
+			setNumberMinMaxToScale( sc, oMinimum, oMaximum, rtc, ax );
+			
+			// OVERRIDE STEP IF SPECIFIED
+			setStepToScale( sc, oStep, oStepNumber, rtc );
+			
+			oMinValue = new Double( dMinValue );
+			oMaxValue = new Double( dMaxValue );
 			sc.updateAxisMinMax( oMinValue, oMaxValue );
 			
 			if ( ( iType & PERCENT ) == PERCENT )
@@ -2311,9 +2254,6 @@ public final class AutoScale extends Methods implements Cloneable
 				sc.bMaximumFixed = true;
 			}
 
-			// OVERRIDE STEP IF SPECIFIED
-			checkStep( sc, oStep, oStepNumber, rtc );
-
 			// VALIDATE OVERRIDDEN MIN/MAX
 			if ( sc.bMaximumFixed && sc.bMinimumFixed )
 			{
@@ -2327,7 +2267,10 @@ public final class AutoScale extends Methods implements Cloneable
 							},
 							Messages.getResourceBundle( rtc.getULocale( ) ) );
 				}
-			}	
+			}
+			
+			// OVERRIDE STEP IF SPECIFIED
+			setStepToScale( sc, oStep, oStepNumber, rtc );
 		}
 		else
 		{
@@ -2354,7 +2297,8 @@ public final class AutoScale extends Methods implements Cloneable
 			boolean bFits = bFirstFit;
 			boolean bZoomSuccess = false;
 
-			while ( bFits == bFirstFit )
+			// Add limitation to avoid infinite loop
+			for ( int i = 0; bFits == bFirstFit && i < 50; i++ )
 			{
 				bZoomSuccess = true;
 				scCloned = (AutoScale) sc.clone( );
@@ -3291,7 +3235,7 @@ public final class AutoScale extends Methods implements Cloneable
 				DecimalFormat df = null;
 				if ( fs == null )
 				{
-					df = new DecimalFormat( getNumericPattern( ) );
+					df = computeDecimalFormat( dAxisValue, dAxisStep );
 				}
 				for ( int i = 0; i < da.length; i++ )
 				{
@@ -3331,7 +3275,7 @@ public final class AutoScale extends Methods implements Cloneable
 				{
 					if ( fs == null )
 					{
-						df = new DecimalFormat( getNumericPattern( dAxisValue ) );
+						df = computeDecimalFormat( dAxisValue, dAxisStep );
 					}
 					nde.setValue( dAxisValue );
 					try
@@ -3466,7 +3410,7 @@ public final class AutoScale extends Methods implements Cloneable
 				DecimalFormat df = null;
 				if ( fs == null )
 				{
-					df = new DecimalFormat( getNumericPattern( ) );
+					df = computeDecimalFormat( dAxisValue, dAxisStep );
 				}
 				for ( int i = 0; i < da.length; i++ )
 				{
@@ -3507,7 +3451,7 @@ public final class AutoScale extends Methods implements Cloneable
 				{
 					if ( fs == null )
 					{
-						df = new DecimalFormat( getNumericPattern( dAxisValue ) );
+						df = computeDecimalFormat( dAxisValue, dAxisStep );
 					}
 					nde.setValue( dAxisValue );
 					try
@@ -3614,7 +3558,7 @@ public final class AutoScale extends Methods implements Cloneable
 				DecimalFormat df = null;
 				if ( fs == null )
 				{
-					df = new DecimalFormat( getNumericPattern( ) );
+					df = computeDecimalFormat( dAxisValue, dAxisStep );
 				}
 				for ( int i = 0; i < da.length; i++ )
 				{
@@ -3655,7 +3599,7 @@ public final class AutoScale extends Methods implements Cloneable
 				{
 					if ( fs == null )
 					{
-						df = new DecimalFormat( getNumericPattern( dAxisValue ) );
+						df = computeDecimalFormat( dAxisValue, dAxisStep );
 					}
 					nde.setValue( dAxisValue );
 					try
@@ -3837,6 +3781,86 @@ public final class AutoScale extends Methods implements Cloneable
 	}
 	
 	/**
+	 * Updates AutoScale by checking min or max
+	 * 
+	 * @param sc
+	 * @param oMinimum
+	 * @param oMaximum
+	 * @param rtc
+	 * @param ax
+	 * @throws ChartException
+	 */
+	public static void setNumberMinMaxToScale( AutoScale sc, Object oMinimum,
+			Object oMaximum, final RunTimeContext rtc, final OneAxis ax )
+			throws ChartException
+	{
+		// OVERRIDE MINIMUM IF SPECIFIED
+		if ( oMinimum != null )
+		{
+			if ( oMinimum instanceof NumberDataElement )
+			{
+				sc.oMinimum = new Double( ( (NumberDataElement) oMinimum ).getValue( ) );
+			}
+			/*
+			 * else if (oMinimum instanceof DateTimeDataElement) { sc.oMinimum =
+			 * ((DateTimeDataElement) oMinimum).getValueAsCDateTime(); }
+			 */
+			else
+			{
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.GENERATION,
+						"exception.invalid.minimum.scale.value", //$NON-NLS-1$
+						new Object[]{
+								sc.oMinimum,
+								ax.getModelAxis( ).getType( ).getName( )
+						},
+						Messages.getResourceBundle( rtc.getULocale( ) ) );
+			}
+			sc.bMinimumFixed = true;
+		}
+
+		// OVERRIDE MAXIMUM IF SPECIFIED
+		if ( oMaximum != null )
+		{
+			if ( oMaximum instanceof NumberDataElement )
+			{
+				sc.oMaximum = new Double( ( (NumberDataElement) oMaximum ).getValue( ) );
+			}
+			/*
+			 * else if (oMaximum instanceof DateTimeDataElement) { sc.oMaximum =
+			 * ((DateTimeDataElement) oMaximum).getValueAsCDateTime(); }
+			 */
+			else
+			{
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.GENERATION,
+						"exception.invalid.maximum.scale.value", //$NON-NLS-1$
+						new Object[]{
+								sc.oMaximum,
+								ax.getModelAxis( ).getType( ).getName( )
+						},
+						Messages.getResourceBundle( rtc.getULocale( ) ) );
+			}
+			sc.bMaximumFixed = true;
+		}
+
+		// VALIDATE OVERRIDDEN MIN/MAX
+		if ( sc.bMaximumFixed && sc.bMinimumFixed )
+		{
+			if ( ( (Double) sc.oMinimum ).doubleValue( ) > ( (Double) sc.oMaximum ).doubleValue( ) )
+			{
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.GENERATION,
+						"exception.min.largerthan.max", //$NON-NLS-1$ 
+						new Object[]{
+								sc.oMinimum, sc.oMaximum
+						},
+						Messages.getResourceBundle( rtc.getULocale( ) ) );
+			}
+		}
+	}
+	
+	/**
 	 * Updates AutoScale by checking step size and step number
 	 * 
 	 * @param sc
@@ -3845,7 +3869,7 @@ public final class AutoScale extends Methods implements Cloneable
 	 * @param rtc
 	 * @throws ChartException
 	 */
-	public static void checkStep( AutoScale sc, Object oStep, Integer oStepNumber,
+	public static void setStepToScale( AutoScale sc, Object oStep, Integer oStepNumber,
 			RunTimeContext rtc ) throws ChartException
 	{
 		// OVERRIDE STEP IF SPECIFIED
@@ -3898,7 +3922,7 @@ public final class AutoScale extends Methods implements Cloneable
 	 */
 	public final DecimalFormat computeDecimalFormat( double dAxisValue,
 			double dAxisStep )
-	{
+	{	
 		// Use a more precise pattern
 		String valuePattern = getNumericPattern( dAxisValue );
 		String stepPattern = getNumericPattern( dAxisStep );

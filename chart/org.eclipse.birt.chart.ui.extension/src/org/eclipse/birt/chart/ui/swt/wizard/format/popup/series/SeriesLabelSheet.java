@@ -240,8 +240,9 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 	{
 		// Populate DataPoint Components List
 		String[] componentsDisplayName = LiteralHelper.dataPointComponentTypeSet.getDisplayNames( );
+		boolean bException = false;
 		try
-		{
+		{			
 			// Add series-specific datapoint components
 			IDataPointDefinition dpd = PluginSettings.instance( )
 					.getDataPointDefinition( getSeriesForProcessing( ).getClass( ) );
@@ -261,7 +262,12 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		}
 		catch ( ChartException e )
 		{
-			WizardBase.displayException( e );
+			bException = true;
+			WizardBase.showException( e );
+		}
+		if ( !bException )
+		{
+			WizardBase.removeException( );
 		}
 		cmbComponentTypes.setItems( componentsDisplayName );
 		cmbComponentTypes.select( 0 );
@@ -546,7 +552,9 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		}
 
 		// Selected DataPoint components list
-		lstComponents = new List( grpDataPoint, SWT.BORDER | SWT.SINGLE );
+		lstComponents = new List( grpDataPoint, SWT.BORDER
+				| SWT.SINGLE
+				| SWT.V_SCROLL );
 		GridData gdLSTComponents = new GridData( GridData.FILL_BOTH );
 		gdLSTComponents.horizontalSpan = 4;
 		lstComponents.setLayoutData( gdLSTComponents );
@@ -839,8 +847,16 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 	{
 		getSeriesForProcessing( ).getDataPoint( )
 				.getComponents( )
-				.remove( getIndexOfListItem( iComponentIndex ) );;
+				.remove( getIndexOfListItem( iComponentIndex ) );
 		dataPointIndex.remove( iComponentIndex );
+		if ( dataPointIndex.size( ) != 0 )
+		{
+			for ( int i = iComponentIndex; i < dataPointIndex.size( ); i++ )
+			{
+				dataPointIndex.set( i,
+						new Integer( ( (Integer) dataPointIndex.get( i ) ).intValue( ) - 1 ) );
+			}
+		}
 	}
 
 	private boolean isFlippedAxes( )

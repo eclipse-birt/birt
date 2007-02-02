@@ -313,13 +313,20 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 				null,
 				false,
 				false );
+		boolean bException = false;
 		try
 		{
 			mr.draw( idrSWT );
 		}
 		catch ( ChartException ex )
 		{
-			WizardBase.displayException( ex );
+			bException = true;
+			WizardBase.showException( ex );
+		}
+
+		if ( !bException )
+		{
+			WizardBase.removeException( );
 		}
 
 		// Render a boundary line to indicate focus

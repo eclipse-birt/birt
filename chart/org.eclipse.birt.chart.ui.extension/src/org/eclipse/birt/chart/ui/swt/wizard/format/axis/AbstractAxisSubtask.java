@@ -43,7 +43,8 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.InteractivitySheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisGridLinesSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisMarkersSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisScaleSheet;
-import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisTextSheet;
+import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisLabelSheet;
+import org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis.AxisTitleSheet;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
@@ -95,6 +96,10 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 	private transient FontDefinitionComposite fdcFont;
 
 	private transient Button cbStaggered;
+
+	private Button btnAxisTitle;
+
+	private Button btnAxisLabel;
 
 	AbstractAxisSubtask( )
 	{
@@ -283,8 +288,10 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 
 	private void setStateOfTitle( )
 	{
-		boolean enabled = getAxisForProcessing( ).getTitle( ).isVisible( );
-		txtTitle.setEnabled( enabled );
+		boolean isTitleEnabled = getAxisForProcessing( ).getTitle( )
+				.isVisible( );
+		txtTitle.setEnabled( isTitleEnabled );
+		btnAxisTitle.setEnabled( isTitleEnabled );
 	}
 
 	private void setStateOfLabel( )
@@ -293,17 +300,19 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 				.isVisible( );
 		fdcFont.setEnabled( isLabelEnabled );
 		cbStaggered.setEnabled( isLabelEnabled );
+		btnAxisLabel.setEnabled( isLabelEnabled );
 	}
 
 	private void createButtonGroup( Composite parent )
 	{
 		Composite cmp = new Composite( parent, SWT.NONE );
 		{
-			cmp.setLayout( new GridLayout( 5, false ) );
+			cmp.setLayout( new GridLayout( 6, false ) );
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			gridData.horizontalSpan = 2;
 			gridData.grabExcessVerticalSpace = true;
 			gridData.verticalAlignment = SWT.END;
+			gridData.horizontalAlignment = SWT.BEGINNING;
 			cmp.setLayoutData( gridData );
 		}
 
@@ -321,15 +330,27 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			btnScale.addSelectionListener( this );
 		}
 
-		// Text format
-		popup = new AxisTextSheet( Messages.getString( "AxisYSheetImpl.Label.TextFormat" ), //$NON-NLS-1$
+		// Title
+		popup = new AxisTitleSheet( Messages.getString( "AxisYSheetImpl.Label.TitleFormat" ), //$NON-NLS-1$
 				getContext( ),
 				getAxisForProcessing( ),
 				getAxisAngleType( ) );
-		Button btnAxisTitle = createToggleButton( cmp,
-				Messages.getString( "AxisYSheetImpl.Label.TextFormat&" ), //$NON-NLS-1$
+		btnAxisTitle = createToggleButton( cmp,
+				Messages.getString( "AxisYSheetImpl.Label.TitleFormat&" ), //$NON-NLS-1$
 				popup );
 		btnAxisTitle.addSelectionListener( this );
+		btnAxisTitle.setEnabled( btnTitleVisible.getSelection( ) );
+
+		// Label
+		popup = new AxisLabelSheet( Messages.getString( "AxisYSheetImpl.Label.LabelFormat" ), //$NON-NLS-1$
+				getContext( ),
+				getAxisForProcessing( ),
+				getAxisAngleType( ) );
+		btnAxisLabel = createToggleButton( cmp,
+				Messages.getString( "AxisYSheetImpl.Label.LabelFormat&" ), //$NON-NLS-1$
+				popup );
+		btnAxisLabel.addSelectionListener( this );
+		btnAxisLabel.setEnabled( btnLabelVisible.getSelection( ) );
 
 		// Gridlines
 		popup = new AxisGridLinesSheet( Messages.getString( "AxisYSheetImpl.Label.Gridlines" ), //$NON-NLS-1$
@@ -560,14 +581,32 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			getAxisForProcessing( ).getTitle( )
 					.setVisible( btnTitleVisible.getSelection( ) );
 			setStateOfTitle( );
-			refreshPopupSheet( );
+			if ( !btnTitleVisible.getSelection( )
+					&& btnAxisTitle.getSelection( ) )
+			{
+				btnAxisTitle.setSelection( false );
+				detachPopup( btnAxisTitle );
+			}
+			else
+			{
+				refreshPopupSheet( );
+			}
 		}
 		else if ( e.widget.equals( btnLabelVisible ) )
 		{
 			getAxisForProcessing( ).getLabel( )
 					.setVisible( btnLabelVisible.getSelection( ) );
 			setStateOfLabel( );
-			refreshPopupSheet( );
+			if ( !btnLabelVisible.getSelection( )
+					&& btnAxisLabel.getSelection( ) )
+			{
+				btnAxisLabel.setSelection( false );
+				detachPopup( btnAxisLabel );
+			}
+			else
+			{
+				refreshPopupSheet( );
+			}
 		}
 		else if ( e.widget.equals( btnFormatSpecifier ) )
 		{

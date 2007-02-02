@@ -10,7 +10,6 @@
 package org.eclipse.birt.chart.ui.swt.wizard.format.axis;
 
 import org.eclipse.birt.chart.model.ChartWithAxes;
-import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.AngleType;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
@@ -20,7 +19,6 @@ import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
-import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -59,7 +57,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_AXIS );
 
-		final int COLUMN_NUMBER = ChartUIUtil.is3DType( getChart( ) ) ? 5 : 4;
+		final int COLUMN_NUMBER = 4;
 		cmpContent = new Composite( parent, SWT.NONE ) {
 
 			public Point computeSize( int wHint, int hHint, boolean changed )
@@ -135,18 +133,6 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 			lblColor.setText( Messages.getString( "AxisSheetImpl.Label.Color" ) ); //$NON-NLS-1$
 		}
 
-		if ( ChartUIUtil.is3DType( getChart( ) ) )
-		{
-			Label lblRotation = new Label( cmpList, SWT.NONE );
-			{
-				GridData gd = new GridData( );
-				gd.horizontalAlignment = SWT.BEGINNING;
-				lblRotation.setLayoutData( gd );
-				lblRotation.setFont( JFaceResources.getBannerFont( ) );
-				lblRotation.setText( Messages.getString( "AxisSheetImpl.Label.Rotation" ) ); //$NON-NLS-1$
-			}
-		}
-
 		int treeIndex = 0;
 
 		new AxisOptionChoser( ChartUIUtil.getAxisXForProcessing( (ChartWithAxes) getChart( ) ),
@@ -180,7 +166,7 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 		private transient Combo cmbTypes;
 		private transient Button btnVisible;
 		private transient FillChooserComposite cmbColor;
-		private transient IntegerSpinControl iscRotation;
+//		private transient IntegerSpinControl iscRotation;
 		private transient Axis axis;
 		private transient String axisName;
 		private transient int angleType;
@@ -238,22 +224,6 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 				cmbColor.setLayoutData( gd );
 				cmbColor.addListener( this );
 			}
-
-			if ( ChartUIUtil.is3DType( getChart( ) ) )
-			{
-				iscRotation = new IntegerSpinControl( parent,
-						SWT.NONE,
-						(int) getAxisAngle( angleType ) );
-				{
-					GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-					gd.heightHint = iscRotation.getPreferredSize( ).y;
-					iscRotation.setLayoutData( gd );
-					iscRotation.setMaximum( 360 );
-					iscRotation.setMinimum( -360 );
-					iscRotation.setIncrement( 4 );
-					iscRotation.addListener( this );
-				}
-			}
 		}
 
 		public void widgetSelected( SelectionEvent e )
@@ -298,55 +268,6 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 							.setColor( (ColorDefinition) event.data );
 				}
 			}
-			else if ( event.widget.equals( iscRotation ) )
-			{
-				setAxisAngle( angleType, ( (Integer) event.data ).intValue( ) );
-			}
-		}
-
-		private double getAxisAngle( int angleType )
-		{
-			switch ( angleType )
-			{
-				case AngleType.X :
-					return getAngle3D( ).getXAngle( );
-				case AngleType.Y :
-					return getAngle3D( ).getYAngle( );
-				case AngleType.Z :
-					return getAngle3D( ).getZAngle( );
-				default :
-					return 0;
-			}
-		}
-
-		private void setAxisAngle( int angleType, int angleDegree )
-		{
-			Angle3D angle3D = getAngle3D( );
-			angle3D.setType( AngleType.NONE_LITERAL );
-			( (ChartWithAxes) getChart( ) ).getRotation( ).getAngles( ).clear( );
-			( (ChartWithAxes) getChart( ) ).getRotation( )
-					.getAngles( )
-					.add( angle3D );
-
-			switch ( angleType )
-			{
-				case AngleType.X :
-					angle3D.setXAngle( angleDegree );
-					break;
-				case AngleType.Y :
-					angle3D.setYAngle( angleDegree );
-					break;
-				case AngleType.Z :
-					angle3D.setZAngle( angleDegree );
-					break;
-			}
-		}
-
-		private Angle3D getAngle3D( )
-		{
-			return (Angle3D) ( (ChartWithAxes) getChart( ) ).getRotation( )
-					.getAngles( )
-					.get( 0 );
 		}
 
 		private void convertSampleData( AxisType axisType )

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id$
+ * $Id: DifferenceDataSetImpl.java,v 1.1 2006/12/28 03:49:28 anonymous Exp $
  */
 
 package org.eclipse.birt.chart.model.data.impl;

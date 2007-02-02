@@ -87,15 +87,20 @@
             displayName="%ZAxis"
             nodeIndex="24"
             nodePath="Chart.Axis.Z Axis"/>
+     <propertySheet
+            classDefinition="org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartTitleSheetImpl"
+            displayName="%Title"
+            nodeIndex="25"
+            nodePath="Chart.Title"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartPlotSheetImpl"
             displayName="%Plot"
-            nodeIndex="25"
+            nodeIndex="26"
             nodePath="Chart.Plot"/>
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartLegendSheetImpl"
             displayName="%Legend"
-            nodeIndex="26"
+            nodeIndex="27"
             nodePath="Chart.Legend"/>
 
    </extension>

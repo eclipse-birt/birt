@@ -12,12 +12,10 @@
 package org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart;
 
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
-import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
-import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.layout.Legend;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -26,9 +24,7 @@ import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierPreview;
 import org.eclipse.birt.chart.ui.swt.composites.InsetsComposite;
-import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
-import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite.LabelAttributesContext;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -55,11 +51,11 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 
 	private transient Composite cmpContent = null;
 
-	private transient LabelAttributesComposite lacTitle = null;
-
 	private transient FontDefinitionComposite fdcFont = null;
 
 	private transient LineAttributesComposite lineSeparator;
+	
+	private transient FillChooserComposite fccBackground;
 
 	private transient FillChooserComposite fccShadow;
 
@@ -82,33 +78,12 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 		
 		cmpContent = new Composite( parent, SWT.NONE );
 		{
-			GridLayout glMain = new GridLayout( 2, false );
+			GridLayout glMain = new GridLayout( );
 			glMain.horizontalSpacing = 5;
 			glMain.verticalSpacing = 5;
 			glMain.marginHeight = 7;
 			glMain.marginWidth = 7;
 			cmpContent.setLayout( glMain );
-		}
-
-		LabelAttributesContext attributesContext = new LabelAttributesContext( );
-		attributesContext.isVisibilityEnabled = false;
-		attributesContext.isFontAlignmentEnabled = false;
-		lacTitle = new LabelAttributesComposite( cmpContent,
-				SWT.NONE,
-				getContext( ),
-				attributesContext,
-				Messages.getString( "BaseAxisLabelAttributeSheetImpl.Lbl.Title" ),//$NON-NLS-1$
-				getLegend( ).getTitlePosition( ),
-				getLegend( ).getTitle( ),
-				getChart( ).getUnits( ),
-				LabelAttributesComposite.ALLOW_VERTICAL_POSITION
-						| LabelAttributesComposite.ALLOW_HORIZONTAL_POSITION );
-		{
-			GridData gdLACTitle = new GridData( GridData.FILL_BOTH );
-			gdLACTitle.verticalSpan = 2;
-			lacTitle.setLayoutData( gdLACTitle );
-			lacTitle.addListener( this );
-			lacTitle.setEnabled( getLegend( ).getTitle( ).isVisible( ) );
 		}
 
 		Group grpTxtArea = new Group( cmpContent, SWT.NONE );
@@ -195,6 +170,19 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 		GridData gdFCCShadow = new GridData( GridData.FILL_HORIZONTAL );
 		fccShadow.setLayoutData( gdFCCShadow );
 		fccShadow.addListener( this );
+		
+		Label lblBackground = new Label( grpTxtArea, SWT.NONE );
+		lblBackground.setText( Messages.getString( "Shared.mne.Background_K" ) ); //$NON-NLS-1$
+
+		fccBackground = new FillChooserComposite( grpTxtArea, SWT.DROP_DOWN
+				| SWT.READ_ONLY, getContext( ), getChart( ).getLegend( )
+				.getClientArea( )
+				.getBackground( ), true, true );
+		{
+			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+			fccBackground.setLayoutData( gridData );
+			fccBackground.addListener( this );
+		}
 
 		Group grpOutline = new Group( grpTxtArea, SWT.NONE );
 		GridData gdGRPOutline = new GridData( GridData.FILL_HORIZONTAL );
@@ -262,58 +250,7 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 	 */
 	public void handleEvent( Event event )
 	{
-		if ( event.widget.equals( lacTitle ) )
-		{
-			switch ( event.type )
-			{
-				case LabelAttributesComposite.VISIBILITY_CHANGED_EVENT :
-					getLegend( ).getTitle( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
-					break;
-				case LabelAttributesComposite.POSITION_CHANGED_EVENT :
-					getLegend( ).setTitlePosition( (Position) event.data );
-					break;
-				case LabelAttributesComposite.FONT_CHANGED_EVENT :
-					getLegend( ).getTitle( )
-							.getCaption( )
-							.setFont( (FontDefinition) ( (Object[]) event.data )[0] );
-					getLegend( ).getTitle( )
-							.getCaption( )
-							.setColor( (ColorDefinition) ( (Object[]) event.data )[1] );
-					break;
-				case LabelAttributesComposite.BACKGROUND_CHANGED_EVENT :
-					getLegend( ).getTitle( ).setBackground( (Fill) event.data );
-					break;
-				case LabelAttributesComposite.SHADOW_CHANGED_EVENT :
-					getLegend( ).getTitle( )
-							.setShadowColor( (ColorDefinition) event.data );
-					break;
-				case LabelAttributesComposite.OUTLINE_STYLE_CHANGED_EVENT :
-					getLegend( ).getTitle( )
-							.getOutline( )
-							.setStyle( (LineStyle) event.data );
-					break;
-				case LabelAttributesComposite.OUTLINE_WIDTH_CHANGED_EVENT :
-					getLegend( ).getTitle( )
-							.getOutline( )
-							.setThickness( ( (Integer) event.data ).intValue( ) );
-					break;
-				case LabelAttributesComposite.OUTLINE_COLOR_CHANGED_EVENT :
-					getLegend( ).getTitle( )
-							.getOutline( )
-							.setColor( (ColorDefinition) event.data );
-					break;
-				case LabelAttributesComposite.OUTLINE_VISIBILITY_CHANGED_EVENT :
-					getLegend( ).getTitle( )
-							.getOutline( )
-							.setVisible( ( (Boolean) event.data ).booleanValue( ) );
-					break;
-				case LabelAttributesComposite.INSETS_CHANGED_EVENT :
-					getLegend( ).getTitle( ).setInsets( (Insets) event.data );
-					break;
-			}
-		}
-		else if ( event.widget.equals( fdcFont ) )
+		if ( event.widget.equals( fdcFont ) )
 		{
 			getLegend( ).getText( )
 					.setFont( (FontDefinition) ( (Object[]) event.data )[0] );
@@ -324,6 +261,11 @@ public class LegendTextSheet extends AbstractPopupSheet implements Listener
 		{
 			getLegend( ).getClientArea( )
 					.setShadowColor( (ColorDefinition) event.data );
+		}
+		else if ( event.widget.equals( fccBackground ) )
+		{
+			getLegend( ).getClientArea( )
+					.setBackground( (ColorDefinition) event.data );
 		}
 		else if ( event.widget.equals( icText ) )
 		{

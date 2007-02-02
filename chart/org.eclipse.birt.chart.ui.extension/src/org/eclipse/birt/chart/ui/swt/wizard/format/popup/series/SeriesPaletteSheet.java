@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.popup.series;
 
+import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.PaletteEditorComposite;
@@ -38,7 +39,9 @@ public class SeriesPaletteSheet extends AbstractPopupSheet
 
 	private transient SeriesDefinition[] vSeriesDefns = null;
 
-	private transient boolean isGroupedPalette = false;
+	private transient ChartWizardContext context = null;
+
+	private transient boolean isGroupedSeries = false;
 
 	private transient StackLayout slPalette = null;
 
@@ -52,12 +55,14 @@ public class SeriesPaletteSheet extends AbstractPopupSheet
 
 	public SeriesPaletteSheet( String title, ChartWizardContext context,
 			SeriesDefinition cSeriesDefn, SeriesDefinition[] vSeriesDefns,
-			boolean isGroupedPalette )
+			boolean isGroupedSeries )
 	{
+
 		super( title, context, true );
+		this.context = context;
 		this.cSeriesDefn = cSeriesDefn;
 		this.vSeriesDefns = vSeriesDefns;
-		this.isGroupedPalette = isGroupedPalette;
+		this.isGroupedSeries = isGroupedSeries;
 	}
 
 	/*
@@ -118,7 +123,7 @@ public class SeriesPaletteSheet extends AbstractPopupSheet
 		}
 		tf.setSelection( 0 );
 
-		if ( isGroupedPalette )
+		if ( isGroupedSeries && isColoredByValue( ) )
 		{
 			slPalette.topControl = cmpMPE;
 		}
@@ -130,8 +135,18 @@ public class SeriesPaletteSheet extends AbstractPopupSheet
 		return cmpContent;
 	}
 
-	public void setGroupedPalette( boolean isGroupedPalette )
+	public void setGroupedPalette( boolean isGroupedSeries )
 	{
-		this.isGroupedPalette = isGroupedPalette;
+		this.isGroupedSeries = isGroupedSeries;
+	}
+
+	public void setCategorySeries( SeriesDefinition sd )
+	{
+		this.cSeriesDefn = sd;
+	}
+
+	private boolean isColoredByValue( )
+	{
+		return context.getModel( ).getLegend( ).getItemType( ).getValue( ) == LegendItemType.SERIES;
 	}
 }

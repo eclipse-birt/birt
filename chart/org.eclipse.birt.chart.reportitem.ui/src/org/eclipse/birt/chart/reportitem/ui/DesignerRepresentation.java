@@ -312,16 +312,13 @@ public final class DesignerRepresentation extends Figure
 				gc = new GC( imgChart );
 			}
 
-			final Color clrBG = new Color( d, 0x12, 0x34, 0x56 ); // TRANSPARENT
-			// COLOR INDEX
-			// (REVISIT?)
 			final Color clrPreviousBG = gc.getBackground( );
-			gc.setBackground( clrBG );
+			gc.setBackground( Display.getDefault( )
+					.getSystemColor( SWT.COLOR_WHITE ) );
 			gc.fillRectangle( 0,
 					0,
 					imgChart.getImageData( ).width,
 					imgChart.getImageData( ).height );
-			clrBG.dispose( ); // DISPOSE
 			gc.setBackground( clrPreviousBG ); // RESTORE
 
 			// SETUP THE RENDERING CONTEXT

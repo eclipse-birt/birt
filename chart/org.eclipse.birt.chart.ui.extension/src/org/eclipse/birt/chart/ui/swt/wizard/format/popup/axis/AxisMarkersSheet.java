@@ -68,7 +68,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -467,10 +466,6 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		populateLists( );
 
 		refreshButtons( );
-
-		setAllEnabled( !getAxisForProcessing( ).isCategoryAxis( )
-				|| getAxisForProcessing( ).getType( )
-						.equals( AxisType.TEXT_LITERAL ) );
 
 		return cmpContent;
 	}
@@ -1084,23 +1079,6 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 		{
 			return NumberDataElementImpl.create( 0.0 );
 		}
-	}
-
-	private void setEnabled( Control control, boolean isEnabled )
-	{
-		control.setEnabled( isEnabled && control.isEnabled( ) );
-	}
-
-	private void setAllEnabled( boolean isEnabled )
-	{
-		setState( isEnabled && lstMarkers.getItemCount( ) > 0 );
-
-		setEnabled( cmpContent, isEnabled );
-		setEnabled( btnAddLine, isEnabled );
-		setEnabled( btnAddRange, isEnabled );
-		setEnabled( btnRemove, isEnabled );
-
-		// TODO disable all?
 	}
 	
 	private boolean isFlippedAxes( )

@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis;
 
 import org.eclipse.birt.chart.model.attribute.AngleType;
+import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
@@ -64,6 +65,8 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 	private transient Button cbHidden = null;
 
 	private transient Button cbCategory = null;
+
+	private transient Button cbTickBetweenCategory = null;
 
 	private transient Group grpMajor = null;
 
@@ -134,6 +137,40 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		cmpContent = new Composite( parent, SWT.NONE );
 		cmpContent.setLayout( glContent );
 
+		// Choices composite
+		Composite choiceComposite = new Composite( cmpContent, SWT.NONE );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 2;
+		choiceComposite.setLayoutData( gd );
+		choiceComposite.setLayout( new GridLayout( 3, true ) );
+
+		// Axis Visibility
+		cbHidden = new Button( choiceComposite, SWT.CHECK );
+		cbHidden.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		cbHidden.setText( Messages.getString( "BaseAxisAttributeSheetImpl.Lbl.HideAxisLine" ) ); //$NON-NLS-1$
+		cbHidden.setSelection( !axis.getLineAttributes( ).isVisible( ) );
+		cbHidden.addSelectionListener( this );
+
+		// Axis as Category / Value type
+		cbCategory = new Button( choiceComposite, SWT.CHECK );
+		cbCategory.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING ) );
+		cbCategory.setText( Messages.getString( "BaseAxisAttributeSheetImpl.Lbl.IsCategoryAxis" ) ); //$NON-NLS-1$
+		cbCategory.setSelection( axis.isCategoryAxis( ) );
+		cbCategory.addSelectionListener( this );
+		cbCategory.setEnabled( ScatterChart.TYPE_LITERAL.equals( getChart( ).getType( ) )
+				|| AxisType.DATE_TIME_LITERAL.equals( axis.getType( ) ) );
+		cbCategory.setVisible( angleType == AngleType.X );
+
+		// Axis as Category / Value type
+		cbTickBetweenCategory = new Button( choiceComposite, SWT.CHECK );
+		cbTickBetweenCategory.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING ) );
+		cbTickBetweenCategory.setText( Messages.getString( "BaseAxisAttributeSheetImpl.Lbl.IsTickBetweenCategories" ) ); //$NON-NLS-1$
+		cbTickBetweenCategory.setSelection( axis.getScale( )
+				.isTickBetweenCategories( ) );
+		cbTickBetweenCategory.addSelectionListener( this );
+		cbTickBetweenCategory.setEnabled( axis.isCategoryAxis( ) );
+		cbTickBetweenCategory.setVisible( angleType == AngleType.X );
+
 		// General attributes composite
 		cmpGeneral = new Composite( cmpContent, SWT.NONE );
 		GridData gdCMPGeneral = new GridData( GridData.FILL_BOTH );
@@ -141,26 +178,6 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		gdCMPGeneral.grabExcessVerticalSpace = false;
 		cmpGeneral.setLayoutData( gdCMPGeneral );
 		cmpGeneral.setLayout( glGeneral );
-
-		// Axis Visibility
-		cbHidden = new Button( cmpGeneral, SWT.CHECK );
-		GridData gdCBVisible = new GridData( GridData.FILL_BOTH );
-		gdCBVisible.horizontalSpan = 5;
-		cbHidden.setLayoutData( gdCBVisible );
-		cbHidden.setText( Messages.getString( "BaseAxisAttributeSheetImpl.Lbl.HideAxisLine" ) ); //$NON-NLS-1$
-		cbHidden.setSelection( !axis.getLineAttributes( ).isVisible( ) );
-		cbHidden.addSelectionListener( this );
-
-		// Axis as Category / Value type
-		cbCategory = new Button( cmpGeneral, SWT.CHECK );
-		GridData gdCBCategory = new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING );
-		gdCBCategory.horizontalSpan = 5;
-		cbCategory.setLayoutData( gdCBCategory );
-		cbCategory.setText( Messages.getString( "BaseAxisAttributeSheetImpl.Lbl.IsCategoryAxis" ) ); //$NON-NLS-1$
-		cbCategory.setSelection( axis.isCategoryAxis( ) );
-		cbCategory.addSelectionListener( this );
-		cbCategory.setEnabled( ScatterChart.TYPE_LITERAL.equals( getChart( ).getType( ) ) );
-		cbCategory.setVisible( angleType == AngleType.X );
 
 		// Axis Line Color
 		Label lblColor = new Label( cmpGeneral, SWT.NONE );
@@ -210,7 +227,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 
 		iscGridCount = new Spinner( cmpGeneral, SWT.BORDER );
 		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.horizontalSpan = 3;
 			iscGridCount.setLayoutData( gd );
 			iscGridCount.setMinimum( 1 );
@@ -424,6 +441,14 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		{
 			// Process setting of category axis boolean
 			getAxisForProcessing( ).setCategoryAxis( cbCategory.getSelection( ) );
+
+			cbTickBetweenCategory.setEnabled( cbCategory.getSelection( ) );
+		}
+		else if ( oSource.equals( cbTickBetweenCategory ) )
+		{
+			// Process setting of cross categories
+			getAxisForProcessing( ).getScale( )
+					.setTickBetweenCategories( cbTickBetweenCategory.getSelection( ) );
 		}
 		if ( oSource.equals( iscGridCount ) )
 		{

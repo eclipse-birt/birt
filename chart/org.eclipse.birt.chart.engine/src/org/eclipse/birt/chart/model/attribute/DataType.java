@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DataType.java,v 1.3 2005/09/09 03:11:23 zqian Exp $
+ * $Id: DataType.java,v 1.1 2006/12/28 03:49:24 anonymous Exp $
  */
 
 package org.eclipse.birt.chart.model.attribute;

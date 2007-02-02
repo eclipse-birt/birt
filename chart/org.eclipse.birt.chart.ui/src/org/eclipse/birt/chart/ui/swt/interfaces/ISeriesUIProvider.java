@@ -88,10 +88,18 @@ public interface ISeriesUIProvider
 			IDataServiceProvider idsp ) throws ChartException;
 	
 	/**
-	 * 
+	 * Get the compatible axis type according to series type.
 	 * @param series
-	 * @return 
+	 * @return An array containing all possible axis types for the designated series.
 	 * @since 2.2
 	 */
 	public AxisType[] getCompatibleAxisType( Series series );
+	
+	/**
+	 * 
+	 * @param series
+	 * @return An array containing the index of all data definitions not allowed to be null. 
+	 * @since 2.2
+	 */
+	public int[] validationIndex( Series series );
 }

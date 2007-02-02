@@ -29,6 +29,9 @@ import org.eclipse.swt.widgets.Composite;
 public abstract class DefaultSeriesUIProvider implements ISeriesUIProvider
 {
 
+	/**
+	 * @deprecated
+	 */
 	public Composite getSeriesAttributeSheet( Composite parent, Series series )
 	{
 		return null;
@@ -40,6 +43,9 @@ public abstract class DefaultSeriesUIProvider implements ISeriesUIProvider
 		return null;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public Composite getSeriesDataSheet( Composite parent,
 			SeriesDefinition seriesdefinition, IUIServiceProvider builder,
 			Object oContext )
@@ -60,19 +66,38 @@ public abstract class DefaultSeriesUIProvider implements ISeriesUIProvider
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#validateSeriesBindingType(org.eclipse.birt.chart.model.component.Series, org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#validateSeriesBindingType(org.eclipse.birt.chart.model.component.Series,
+	 *      org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider)
 	 */
-	public void validateSeriesBindingType( Series series, IDataServiceProvider idsp ) throws ChartException
+	public void validateSeriesBindingType( Series series,
+			IDataServiceProvider idsp ) throws ChartException
 	{
-		//Do not validate series binding type by default.
+		// Do not validate series binding type by default.
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getCompatibleAxisType(org.eclipse.birt.chart.model.component.Series)
 	 */
 	public AxisType[] getCompatibleAxisType( Series series )
 	{
 		return null;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#validationIndex(org.eclipse.birt.chart.model.component.Series)
+	 */
+	public int[] validationIndex( Series series )
+	{
+		return new int[]{
+			0
+		};
+	}
+
 }

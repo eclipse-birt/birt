@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.ACC;
@@ -50,7 +51,7 @@ public class FontDefinitionComposite extends Composite
 
 	private transient FontCanvas cnvSelection = null;
 
-	private transient Button btnEllipsis = null;
+	private transient Button btnFont = null;
 
 	private transient FontDefinition fdCurrent = null;
 
@@ -137,14 +138,14 @@ public class FontDefinitionComposite extends Composite
 
 		} );
 
-		btnEllipsis = new Button( cmpContent, SWT.NONE );
+		btnFont = new Button( cmpContent, SWT.NONE );
 		GridData gdBEllipsis = new GridData( );
 		gdBEllipsis.widthHint = iSize - 2;
 		gdBEllipsis.heightHint = iSize + 4;
-		btnEllipsis.setLayoutData( gdBEllipsis );
-		btnEllipsis.setText( "..." ); //$NON-NLS-1$
-		btnEllipsis.setToolTipText( TOOLTIP ); 
-		btnEllipsis.addSelectionListener( new SelectionAdapter( ) {
+		btnFont.setLayoutData( gdBEllipsis );
+		btnFont.setImage( UIHelper.getImage( "icons/obj16/fonteditor.gif" ) ); //$NON-NLS-1$
+		btnFont.setToolTipText( TOOLTIP ); 
+		btnFont.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
@@ -156,7 +157,7 @@ public class FontDefinitionComposite extends Composite
 
 	public void setEnabled( boolean bState )
 	{
-		this.btnEllipsis.setEnabled( bState );
+		this.btnFont.setEnabled( bState );
 		this.cnvSelection.setEnabled( bState );
 		cnvSelection.redraw( );
 		this.bEnabled = bState;

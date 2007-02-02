@@ -29,6 +29,7 @@ import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.type.BubbleSeries;
 import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.GanttSeries;
@@ -46,6 +47,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.internal.CustomPreviewTable;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.SimpleTask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.ecore.EObject;
@@ -62,6 +64,7 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -74,13 +77,11 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.widgets.Text;
 
-public class TaskSelectData extends SimpleTask
-		implements
-			SelectionListener,
-			ITaskChangeListener,
-			Listener
+public class TaskSelectData extends SimpleTask implements
+		SelectionListener,
+		ITaskChangeListener,
+		Listener
 {
 
 	private final static int CENTER_WIDTH_HINT = 400;
@@ -130,6 +131,10 @@ public class TaskSelectData extends SimpleTask
 		else
 		{
 			customizeUI( );
+		}
+		if ( getChartModel( ) instanceof ChartWithAxes )
+		{
+			changeTask( null );
 		}
 		doLivePreview( );
 		// Refresh all data definition text
@@ -311,7 +316,9 @@ public class TaskSelectData extends SimpleTask
 		}
 
 		tablePreview = new CustomPreviewTable( composite, SWT.SINGLE
-				| SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION );
+				| SWT.H_SCROLL
+				| SWT.V_SCROLL
+				| SWT.FULL_SELECTION );
 		{
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			gridData.widthHint = CENTER_WIDTH_HINT;
@@ -530,13 +537,19 @@ public class TaskSelectData extends SimpleTask
 			{
 				return;
 			}
+			boolean bException = false;
 			try
 			{
 				switchDataSet( null );
 			}
 			catch ( ChartException e1 )
 			{
-				ChartWizard.displayException( e1 );
+				bException = true;
+				ChartWizard.showException( e1 );
+			}
+			if ( !bException )
+			{
+				WizardBase.removeException( );
 			}
 			cmbDataSet.add( BLANK_DATASET, 0 );
 			cmbDataSet.select( 0 );
@@ -556,7 +569,7 @@ public class TaskSelectData extends SimpleTask
 			{
 				return;
 			}
-
+			WizardBase.removeException( );
 			cmbDataSet.removeAll( );
 			cmbDataSet.add( BLANK_DATASET, 0 );
 
@@ -572,6 +585,7 @@ public class TaskSelectData extends SimpleTask
 		}
 		else if ( e.getSource( ).equals( cmbDataSet ) )
 		{
+			boolean bException = false;
 			try
 			{
 				ColorPalette.getInstance( ).restore( );
@@ -605,7 +619,12 @@ public class TaskSelectData extends SimpleTask
 			}
 			catch ( ChartException e1 )
 			{
+				bException = true;
 				ChartWizard.displayException( e1 );
+			}
+			if ( !bException )
+			{
+				WizardBase.removeException( );
 			}
 
 			btnNewData.setEnabled( getDataServiceProvider( ).isInvokingSupported( ) );
@@ -1006,7 +1025,8 @@ public class TaskSelectData extends SimpleTask
 			}
 		}
 		sb.append( Messages.getString( "TaskSelectData.Label.Series" ) //$NON-NLS-1$
-				+ ( seriesIndex + 1 ) + " (" + series.getDisplayName( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
+				+ ( seriesIndex + 1 )
+				+ " (" + series.getDisplayName( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
 		return sb.toString( );
 	}
 
@@ -1045,6 +1065,11 @@ public class TaskSelectData extends SimpleTask
 	{
 		if ( previewPainter != null )
 		{
+			if ( notification == null  )
+			{
+				checkDataForYSeries( );
+				return;
+			}
 			// Only data definition query (not group query) will be validated
 			if ( ( notification.getNotifier( ) instanceof Query && ( (Query) notification.getNotifier( ) ).eContainer( ) instanceof Series ) )
 			{
@@ -1068,10 +1093,17 @@ public class TaskSelectData extends SimpleTask
 				}
 			}
 
+			// Update Grouping aggregation button
+			if ( notification.getNewValue( ) instanceof SeriesGrouping )
+			{
+				getCustomizeUI( ).refreshLeftBindingArea( );
+			}
+
 			// Query and series change need to update Live Preview
 			if ( notification.getNotifier( ) instanceof Query
 					|| notification.getNotifier( ) instanceof Axis
-					|| notification.getNotifier( ) instanceof SeriesDefinition )
+					|| notification.getNotifier( ) instanceof SeriesDefinition
+					|| notification.getNotifier( ) instanceof SeriesGrouping )
 			{
 				doLivePreview( );
 			}
@@ -1117,6 +1149,7 @@ public class TaskSelectData extends SimpleTask
 
 			if ( sSeries.equals( series.getClass( ).getName( ) ) )
 			{
+				boolean bException = false;
 				try
 				{
 					provider.validateSeriesBindingType( series,
@@ -1124,34 +1157,29 @@ public class TaskSelectData extends SimpleTask
 				}
 				catch ( ChartException ce )
 				{
-					if ( expression != null && expression.trim( ).length( ) > 0 )
-					{
-						Text text = DataDefinitionTextManager.getInstance( )
-								.findText( query );
-						if ( text != null )
-						{
-							// Display the text even if it's useless and will be
-							// changed
-							text.setText( query.getDefinition( ) );
-						}
-						WizardBase.displayException( new RuntimeException( Messages.getFormattedString( "TaskSelectData.Warning.TypeCheck",//$NON-NLS-1$
-								new String[]{
-										ce.getMessage( ), sSeries
-								} ) ) );
-					}
+					bException = true;
+					WizardBase.showException( new RuntimeException( Messages.getFormattedString( "TaskSelectData.Warning.TypeCheck",//$NON-NLS-1$
+							new String[]{
+									ce.getMessage( ), sSeries
+							} ) ) );
 					if ( ce.getMessage( ).endsWith( expression ) )
 					{
+						ChartAdapter.beginIgnoreNotifications( );
 						query.setDefinition( "" ); //$NON-NLS-1$
-						DataDefinitionTextManager.getInstance( )
-								.updateText( query );
+						ChartAdapter.endIgnoreNotifications( );
 					}
+				}
+
+				if ( !bException )
+				{
+					WizardBase.removeException( );
 				}
 
 				if ( getChartModel( ) instanceof ChartWithAxes )
 				{
 					DataType dataType = getDataServiceProvider( ).getDataType( expression );
 					SeriesDefinition sd = (SeriesDefinition) ( ChartUIUtil.getBaseSeriesDefinitions( getChartModel( ) ).get( 0 ) );
-					if ( sd != null
+					if ( sd.eContainer( ) != axis
 							&& sd.getGrouping( ).isEnabled( )
 							&& ( sd.getGrouping( )
 									.getAggregateExpression( )
@@ -1160,6 +1188,7 @@ public class TaskSelectData extends SimpleTask
 									.getAggregateExpression( )
 									.equals( "DistinctCount" ) ) ) //$NON-NLS-1$
 					{
+						// Only check aggregation is count in Y axis
 						dataType = DataType.NUMERIC_LITERAL;
 					}
 
@@ -1342,4 +1371,28 @@ public class TaskSelectData extends SimpleTask
 		previewPainter.renderModel( getChartModel( ) );
 	}
 
+	private void checkDataForYSeries( )
+	{
+		Iterator axes = ( (Axis) ( (ChartWithAxes) getChartModel( ) ).getAxes( )
+				.get( 0 ) ).getAssociatedAxes( ).iterator( );
+		while ( axes.hasNext( ) )
+		{
+			Series[] series = ( (Axis) axes.next( ) ).getRuntimeSeries( );
+			for ( int i = 0; i < series.length; i++ )
+			{
+				checkDataType( (Query) series[i].getDataDefinition( ).get( 0 ),
+						series[i] );
+			}
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.core.ui.frameworks.taskwizard.SimpleTask#getImage()
+	 */
+	public Image getImage( )
+	{
+		return UIHelper.getImage( "icons/obj16/selectdata.gif" ); //$NON-NLS-1$
+	}
 }

@@ -49,9 +49,8 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  * end-user-doc -->
  * @generated
  */
-public class ComponentPackageImpl extends EPackageImpl
-		implements
-			ComponentPackage
+public class ComponentPackageImpl extends EPackageImpl implements
+		ComponentPackage
 {
 
 	/**
@@ -189,8 +188,7 @@ public class ComponentPackageImpl extends EPackageImpl
 			return (ComponentPackage) EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI );
 
 		// Obtain or create and register package
-		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( eNS_URI ) instanceof ComponentPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( eNS_URI )
+		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( eNS_URI ) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( eNS_URI )
 				: new ComponentPackageImpl( ) );
 
 		isInited = true;
@@ -199,37 +197,32 @@ public class ComponentPackageImpl extends EPackageImpl
 		XMLTypePackage.eINSTANCE.eClass( );
 
 		// Obtain or create and register interdependencies
-		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
-				: DataPackage.eINSTANCE );
-		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
+		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
 				: AttributePackage.eINSTANCE );
-		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
-				: ModelPackage.eINSTANCE );
-		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
-				: LayoutPackage.eINSTANCE );
-		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
+		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
+				: DataPackage.eINSTANCE );
+		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
 				: TypePackage.eINSTANCE );
+		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
+				: LayoutPackage.eINSTANCE );
+		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
+				: ModelPackage.eINSTANCE );
 
 		// Create package meta-data objects
 		theComponentPackage.createPackageContents( );
-		theDataPackage.createPackageContents( );
 		theAttributePackage.createPackageContents( );
-		theModelPackage.createPackageContents( );
-		theLayoutPackage.createPackageContents( );
+		theDataPackage.createPackageContents( );
 		theTypePackage.createPackageContents( );
+		theLayoutPackage.createPackageContents( );
+		theModelPackage.createPackageContents( );
 
 		// Initialize created meta-data
 		theComponentPackage.initializePackageContents( );
-		theDataPackage.initializePackageContents( );
 		theAttributePackage.initializePackageContents( );
-		theModelPackage.initializePackageContents( );
-		theLayoutPackage.initializePackageContents( );
+		theDataPackage.initializePackageContents( );
 		theTypePackage.initializePackageContents( );
+		theLayoutPackage.initializePackageContents( );
+		theModelPackage.initializePackageContents( );
 
 		// Mark meta-data to indicate it can't be changed
 		theComponentPackage.freeze( );
@@ -1070,6 +1063,16 @@ public class ComponentPackageImpl extends EPackageImpl
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getScale_TickBetweenCategories( )
+	{
+		return (EAttribute) scaleEClass.getEStructuralFeatures( ).get( 7 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1344,6 +1347,7 @@ public class ComponentPackageImpl extends EPackageImpl
 		createEAttribute( scaleEClass, SCALE__MINOR_GRIDS_PER_UNIT );
 		createEAttribute( scaleEClass, SCALE__STEP_NUMBER );
 		createEAttribute( scaleEClass, SCALE__SHOW_OUTSIDE );
+		createEAttribute( scaleEClass, SCALE__TICK_BETWEEN_CATEGORIES );
 
 		seriesEClass = createEClass( SERIES );
 		createEAttribute( seriesEClass, SERIES__VISIBLE );
@@ -1730,6 +1734,9 @@ public class ComponentPackageImpl extends EPackageImpl
 		initEAttribute( getScale_ShowOutside( ),
 				theXMLTypePackage.getBoolean( ),
 				"showOutside", "true", 1, 1, Scale.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute( getScale_TickBetweenCategories( ),
+				theXMLTypePackage.getBoolean( ),
+				"tickBetweenCategories", "true", 0, 1, Scale.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		initEClass( seriesEClass,
 				Series.class,
@@ -2163,6 +2170,10 @@ public class ComponentPackageImpl extends EPackageImpl
 		addAnnotation( getScale_ShowOutside( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "ShowOutside" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getScale_TickBetweenCategories( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "TickBetweenCategories" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( seriesEClass, source, new String[]{
 				"name", "Series", //$NON-NLS-1$ //$NON-NLS-2$

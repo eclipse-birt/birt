@@ -62,15 +62,14 @@ import org.eclipse.swt.widgets.ScrollBar;
  * of fill definitions. Entries may be updated, new entries added at the end or
  * the existing fill entries may be removed.
  */
-public final class PaletteEditorComposite extends Composite
-		implements
-			PaintListener,
-			ControlListener,
-			DisposeListener,
-			SelectionListener,
-			MouseListener,
-			Listener,
-			KeyListener
+public final class PaletteEditorComposite extends Composite implements
+		PaintListener,
+		ControlListener,
+		DisposeListener,
+		SelectionListener,
+		MouseListener,
+		Listener,
+		KeyListener
 {
 
 	/**
@@ -414,7 +413,8 @@ public final class PaletteEditorComposite extends Composite
 		{
 			// ADJUST LOWER END IF WE GO BEYOND
 			int iY = ( iIndex - iStartIndex )
-					* iItemHeight - ( iViewY % iItemHeight );
+					* iItemHeight
+					- ( iViewY % iItemHeight );
 			if ( iY + iItemHeight > iViewHeight ) // BELOW THE LOWER EDGE
 			{
 				iViewY += iY + iItemHeight - iViewHeight;
@@ -643,8 +643,12 @@ public final class PaletteEditorComposite extends Composite
 				}
 				else
 				{
-					vSeriesDefns[i].getSeriesPalette( ).getEntries( ).set( size
-							- i + iSelectedIndex,
+					int index = size - i + iSelectedIndex;
+					while ( index < 0 )
+					{
+						index += size;
+					}
+					vSeriesDefns[i].getSeriesPalette( ).getEntries( ).set( index,
 							EcoreUtil.copy( f ) );
 				}
 			}
@@ -670,7 +674,8 @@ public final class PaletteEditorComposite extends Composite
 				if ( i < size )
 				{
 					vSeriesDefns[i].getSeriesPalette( ).getEntries( ).add( size
-							- i - 1,
+							- i
+							- 1,
 							EcoreUtil.copy( fi ) );
 				}
 				else
@@ -716,19 +721,19 @@ public final class PaletteEditorComposite extends Composite
 		final Object o1 = elPaletteEntries1.get( iIndex1 );
 		final Object o2 = elPaletteEntries1.get( iIndex2 );
 
-		int iSmaller = Math.min( iIndex1, iIndex2 );
-		elPaletteEntries1.remove( iSmaller );
-		elPaletteEntries1.remove( iSmaller );
-
 		if ( iIndex1 < iIndex2 )
 		{
-			elPaletteEntries1.add( iSmaller, o1 );
-			elPaletteEntries1.add( iSmaller, o2 );
+			elPaletteEntries1.remove( iIndex2 );
+			elPaletteEntries1.add( iIndex1, o2 );
+			elPaletteEntries1.remove( iIndex2 );					
+			elPaletteEntries1.add( iIndex2, o1 );
 		}
 		else
 		{
-			elPaletteEntries1.add( iSmaller, o2 );
-			elPaletteEntries1.add( iSmaller, o1 );
+			elPaletteEntries1.remove( iIndex1 );
+			elPaletteEntries1.add( iIndex2, o1 );
+			elPaletteEntries1.remove( iIndex1 );
+			elPaletteEntries1.add( iIndex1, o2 );
 		}
 
 		if ( iSelectedIndex == iIndex1 )
@@ -772,15 +777,15 @@ public final class PaletteEditorComposite extends Composite
 				if ( index1 < index2 )
 				{
 					el.remove( index2 );
-					el.remove( index1 );
 					el.add( index1, o4 );
+					el.remove( index2 );					
 					el.add( index2, o3 );
 				}
 				else
 				{
 					el.remove( index1 );
-					el.remove( index2 );
 					el.add( index2, o3 );
+					el.remove( index1 );
 					el.add( index1, o4 );
 				}
 			}
@@ -881,7 +886,8 @@ public final class PaletteEditorComposite extends Composite
 				}
 				scrollToView( iSelectedIndex );
 				sb.setSelection( sb.getMaximum( )
-						* ( iSelectedIndex + 1 ) / elPaletteEntries1.size( ) );
+						* ( iSelectedIndex + 1 )
+						/ elPaletteEntries1.size( ) );
 				coPaletteEntries.redraw( );
 				break;
 			case SWT.PAGE_UP :
@@ -892,7 +898,8 @@ public final class PaletteEditorComposite extends Composite
 				}
 				scrollToView( iSelectedIndex );
 				sb.setSelection( sb.getMaximum( )
-						* iSelectedIndex / elPaletteEntries1.size( ) );
+						* iSelectedIndex
+						/ elPaletteEntries1.size( ) );
 				coPaletteEntries.redraw( );
 				break;
 			case SWT.TAB :

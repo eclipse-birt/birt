@@ -9,30 +9,32 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.chart;
 
-import java.util.List;
-
+import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.attribute.Angle3D;
+import org.eclipse.birt.chart.model.attribute.AngleType;
+import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Interactivity;
-import org.eclipse.birt.chart.model.attribute.LegendBehaviorType;
 import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
+import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
-import org.eclipse.birt.chart.ui.swt.composites.TriggerEditorDialog;
+import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
+import org.eclipse.birt.chart.ui.swt.wizard.format.popup.InteractivitySheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.BlockPropertiesSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.CustomPropertiesSheet;
-import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.MoreOptionsChartSheet;
-import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.TitlePropertiesSheet;
+import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.GeneralPropertiesChartSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
-import org.eclipse.birt.chart.util.LiteralHelper;
-import org.eclipse.birt.chart.util.NameSet;
+import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
@@ -44,7 +46,6 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-
 /**
  * @author Actuate Corporation
  * 
@@ -54,37 +55,37 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 		Listener
 {
 
-	private transient ExternalizedTextEditorComposite txtTitle = null;
-
 	private transient FillChooserComposite cmbBackground;
 
-	private transient Button btnTitleProp;
+	private transient FillChooserComposite fccWall;
 
-	private transient Button btnVisible;
-
-	private transient Button btnEnable;
+	private transient FillChooserComposite fccFloor;
 
 	private transient Combo cmbStyle;
 
-	private transient Combo cmbInteractivity;
-
 	private transient Button btnEnablePreview;
 
-	private transient Button btnTitleTriggers;
+	private transient Button btnResetValue;	
 
-	private transient Button btnChartAreaTriggers;
-
-	private transient Label lblLegendBehavior;
+	private transient Button btnEnable;
+	
+	private transient Button btnInteractivity;
+	
+	private AxisRotationChooser xChooser;
+	
+	private AxisRotationChooser yChooser;
+	
+	private AxisRotationChooser zChooser;
 
 	public void createControl( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_CHART );
-		
+
 		init( );
 
 		cmpContent = new Composite( parent, SWT.NONE );
 		{
-			GridLayout glContent = new GridLayout( );
+			GridLayout glContent = new GridLayout( 3, true );
 			cmpContent.setLayout( glContent );
 			GridData gd = new GridData( GridData.FILL_BOTH );
 			cmpContent.setLayoutData( gd );
@@ -93,40 +94,15 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 		Composite cmpBasic = new Composite( cmpContent, SWT.NONE );
 		{
 			cmpBasic.setLayout( new GridLayout( 3, false ) );
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			GridData gd = new GridData( GridData.FILL_BOTH );
+			gd.horizontalSpan = 2;
 			cmpBasic.setLayoutData( gd );
 		}
 
-		Label lblTitle = new Label( cmpBasic, SWT.NONE );
+		Composite cmp3D = new Composite( cmpContent, SWT.NONE );
 		{
-			lblTitle.setText( Messages.getString( "ChartSheetImpl.Label.ChartTitle" ) ); //$NON-NLS-1$
-		}
-
-		List keys = null;
-		if ( getContext( ).getUIServiceProvider( ) != null )
-		{
-			keys = getContext( ).getUIServiceProvider( ).getRegisteredKeys( );
-		}
-		txtTitle = new ExternalizedTextEditorComposite( cmpBasic,
-				SWT.BORDER,
-				-1,
-				-1,
-				keys,
-				getContext( ).getUIServiceProvider( ),
-				getChart( ).getTitle( ).getLabel( ).getCaption( ).getValue( ) );
-		{
-			GridData gdTXTTitle = new GridData( GridData.FILL_HORIZONTAL );
-			txtTitle.setLayoutData( gdTXTTitle );
-			if ( !getChart( ).getTitle( ).isVisible( ) )
-				txtTitle.setEnabled( false );
-			txtTitle.addListener( this );
-		}
-
-		btnVisible = new Button( cmpBasic, SWT.CHECK );
-		{
-			btnVisible.setText( Messages.getString( "ChartSheetImpl.Label.Visible" ) ); //$NON-NLS-1$
-			btnVisible.setSelection( getChart( ).getTitle( ).isVisible( ) );
-			btnVisible.addSelectionListener( this );
+			cmp3D.setLayout( new GridLayout( ) );
+			cmp3D.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		}
 
 		Label lblBackground = new Label( cmpBasic, SWT.NONE );
@@ -146,6 +122,41 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 
 		new Label( cmpBasic, SWT.NONE );
 
+		if ( hasWallAndFloor( ) )
+		{
+			Label lblWall = new Label( cmpBasic, SWT.NONE );
+			lblWall.setLayoutData( new GridData( ) );
+			lblWall.setText( Messages.getString( "AttributeSheetImpl.Lbl.ChartWall" ) ); //$NON-NLS-1$
+
+			fccWall = new FillChooserComposite( cmpBasic,
+					SWT.NONE,
+					getContext( ),
+					( (ChartWithAxes) getChart( ) ).getWallFill( ),
+					true,
+					true );
+			GridData gdFCCWall = new GridData( GridData.FILL_HORIZONTAL );
+			fccWall.setLayoutData( gdFCCWall );
+			fccWall.addListener( this );
+
+			new Label( cmpBasic, SWT.NONE );
+
+			Label lblFloor = new Label( cmpBasic, SWT.NONE );
+			lblFloor.setLayoutData( new GridData( ) );
+			lblFloor.setText( Messages.getString( "AttributeSheetImpl.Lbl.ChartFloor" ) ); //$NON-NLS-1$
+
+			fccFloor = new FillChooserComposite( cmpBasic,
+					SWT.NONE,
+					getContext( ),
+					( (ChartWithAxes) getChart( ) ).getFloorFill( ),
+					true,
+					true );
+			GridData gdFCCFloor = new GridData( GridData.FILL_HORIZONTAL );
+			fccFloor.setLayoutData( gdFCCFloor );
+			fccFloor.addListener( this );
+
+			new Label( cmpBasic, SWT.NONE );
+		}
+
 		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartSheetImpl.Label.Style" ) ); //$NON-NLS-1$
 
 		cmbStyle = new Combo( cmpBasic, SWT.DROP_DOWN | SWT.READ_ONLY );
@@ -162,53 +173,50 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 			btnEnablePreview.addSelectionListener( this );
 		}
 
-		Group cmpInteractivity = new Group( cmpBasic, SWT.NONE );
+		if ( ( getChart( ) instanceof ChartWithAxes )
+				&& ChartUIUtil.is3DType( getChart( ) ) )
 		{
-			GridLayout gl = new GridLayout( 2, false );
-			cmpInteractivity.setLayout( gl );
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.horizontalSpan = 2;
-			cmpInteractivity.setLayoutData( gd );
-			cmpInteractivity.setText( Messages.getString( "ChartSheetImpl.Label.Interactivity" ) ); //$NON-NLS-1$
-		}
+			Group cmpRotation = new Group( cmp3D, SWT.NONE );
+			{
+				GridLayout gl = new GridLayout( );
+				gl.marginTop = 0;
+				gl.verticalSpacing = 0;
+				cmpRotation.setLayout( gl );
+				cmpRotation.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+				cmpRotation.setText( Messages.getString( "ChartLegendImpl.Group.Rotation" ) ); //$NON-NLS-1$
+			}
 
-		btnEnable = new Button( cmpInteractivity, SWT.CHECK );
+			xChooser = new AxisRotationChooser( ChartUIUtil.getAxisXForProcessing( (ChartWithAxes) getChart( ) ),
+					AngleType.X );
+			xChooser.placeComponents( cmpRotation );
+
+			yChooser = new AxisRotationChooser( ChartUIUtil.getAxisYForProcessing( (ChartWithAxes) getChart( ),
+						0 ),
+						AngleType.Y );
+			yChooser.placeComponents( cmpRotation );
+
+			zChooser = new AxisRotationChooser( ChartUIUtil.getAxisZForProcessing( (ChartWithAxes) getChart( ) ),
+					AngleType.Z );
+			zChooser.placeComponents( cmpRotation );
+
+			btnResetValue = new Button( cmpRotation, SWT.PUSH );
+			{
+				btnResetValue.setText( Messages.getString( "ChartSheetImpl.Label.ResetValue" ) ); //$NON-NLS-1$
+				btnResetValue.setSelection( ChartPreviewPainter.isProcessorEnabled( ) );
+				btnResetValue.addSelectionListener( this );
+			}
+		}	
+		
+		 btnEnable = new Button( cmpBasic, SWT.CHECK );
 		{
 			GridData gridData = new GridData( );
-			gridData.horizontalSpan = 2;
+			gridData.horizontalSpan = 3;
 			btnEnable.setLayoutData( gridData );
 			btnEnable.setText( Messages.getString( "ChartSheetImpl.Label.InteractivityEnable" ) ); //$NON-NLS-1$
 			btnEnable.setSelection( getChart( ).getInteractivity( ).isEnable( ) );
 			btnEnable.addSelectionListener( this );
 		}
-
-		lblLegendBehavior = new Label( cmpInteractivity, SWT.NONE );
-		{
-			lblLegendBehavior.setText( Messages.getString( "ChartSheetImpl.Label.LegendBehaviorType" ) ); //$NON-NLS-1$
-		}
-
-		cmbInteractivity = new Combo( cmpInteractivity, SWT.DROP_DOWN
-				| SWT.READ_ONLY );
-		{
-			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
-			cmbInteractivity.setLayoutData( gridData );
-			cmbInteractivity.addSelectionListener( this );
-		}
-
-		btnTitleTriggers = new Button( cmpInteractivity, SWT.PUSH );
-		{
-			btnTitleTriggers.setText( Messages.getString( "ChartSheetImpl.Text.TitleInteractivity" ) ); //$NON-NLS-1$
-			btnTitleTriggers.addSelectionListener( this );
-		}
-
-		btnChartAreaTriggers = new Button( cmpInteractivity, SWT.PUSH );
-		{
-			btnChartAreaTriggers.setText( Messages.getString( "ChartSheetImpl.Text.ChartAreaInteractivity" ) ); //$NON-NLS-1$
-			btnChartAreaTriggers.addSelectionListener( this );
-		}
-
-		enableInteractivity( btnEnable.getSelection( ) );
-
+		
 		populateLists( );
 
 		createButtonGroup( cmpContent );
@@ -223,7 +231,6 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 			interactivity.eAdapters( ).addAll( getChart( ).eAdapters( ) );
 			getChart( ).setInteractivity( interactivity );
 		}
-
 	}
 
 	private void populateLists( )
@@ -249,12 +256,6 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 			String sStyle = idsp.getCurrentStyle( );
 			int idx = getStyleIndex( sStyle );
 			cmbStyle.select( idx + 1 );
-
-			NameSet nameSet = LiteralHelper.legendBehaviorTypeSet;
-			cmbInteractivity.setItems( nameSet.getDisplayNames( ) );
-			cmbInteractivity.select( nameSet.getSafeNameIndex( getChart( ).getInteractivity( )
-					.getLegendBehavior( )
-					.getName( ) ) );
 		}
 	}
 
@@ -282,19 +283,13 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 		{
 			cmp.setLayout( new GridLayout( 4, false ) );
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+			gridData.horizontalSpan = 3;
 			gridData.grabExcessVerticalSpace = true;
 			gridData.verticalAlignment = SWT.END;
 			cmp.setLayoutData( gridData );
 		}
 
 		ITaskPopupSheet popup;
-		popup = new TitlePropertiesSheet( Messages.getString( "ChartSheetImpl.Text.TitleFormat" ), //$NON-NLS-1$
-				getContext( ) );
-		btnTitleProp = createToggleButton( cmp,
-				Messages.getString( "ChartSheetImpl.Text.TitleFormat&" ), //$NON-NLS-1$
-				popup );
-		btnTitleProp.addSelectionListener( this );
-		btnTitleProp.setEnabled( getChart( ).getTitle( ).isVisible( ) );
 
 		popup = new BlockPropertiesSheet( Messages.getString( "ChartSheetImpl.Text.Outline" ), //$NON-NLS-1$
 				getContext( ) );
@@ -303,7 +298,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 				popup );
 		btnBlockProp.addSelectionListener( this );
 
-		popup = new MoreOptionsChartSheet( Messages.getString( "ChartSheetImpl.Text.GeneralProperties" ), //$NON-NLS-1$
+		popup = new GeneralPropertiesChartSheet( Messages.getString( "ChartSheetImpl.Text.GeneralProperties" ), //$NON-NLS-1$
 				getContext( ) );
 		Button btnGeneralProp = createToggleButton( cmp,
 				Messages.getString( "ChartSheetImpl.Text.GeneralProperties&" ), //$NON-NLS-1$
@@ -316,6 +311,18 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 				Messages.getString( "ChartSheetImpl.Text.CustomProperties&" ), //$NON-NLS-1$
 				popup );
 		btnCustomProp.addSelectionListener( this );
+		
+		// Interactivity
+		popup = new InteractivitySheet( Messages.getString( "SeriesYSheetImpl.Label.Interactivity" ), //$NON-NLS-1$
+				getContext( ),
+				getChart( ).getBlock( ).getTriggers( ),
+				false,
+				true );
+		btnInteractivity = createToggleButton( cmp,
+				Messages.getString( "SeriesYSheetImpl.Label.Interactivity&" ), //$NON-NLS-1$
+				popup );
+		btnInteractivity.addSelectionListener( this );
+		btnInteractivity.setEnabled( getChart( ).getInteractivity( ).isEnable( ) );
 	}
 
 	/*
@@ -325,18 +332,24 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 	 */
 	public void handleEvent( Event event )
 	{
-		if ( event.widget.equals( txtTitle ) )
-		{
-			getChart( ).getTitle( )
-					.getLabel( )
-					.getCaption( )
-					.setValue( txtTitle.getText( ) );
-		}
-		else if ( event.widget.equals( cmbBackground ) )
+		if ( event.widget.equals( cmbBackground ) )
 		{
 			getChart( ).getBlock( ).setBackground( (Fill) event.data );
 		}
-
+		else if ( event.widget.equals( fccWall ) )
+		{
+			if ( hasWallAndFloor( ) )
+			{
+				( (ChartWithAxes) getChart( ) ).setWallFill( (Fill) event.data );
+			}
+		}
+		else if ( event.widget.equals( fccFloor ) )
+		{
+			if ( hasWallAndFloor( ) )
+			{
+				( (ChartWithAxes) getChart( ) ).setFloorFill( (Fill) event.data );
+			}
+		}
 	}
 
 	public void widgetSelected( SelectionEvent e )
@@ -351,19 +364,8 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 		{
 			attachPopup( ( (Button) e.widget ).getText( ) );
 		}
-
-		if ( e.widget.equals( btnVisible ) )
-		{
-			getChart( ).getTitle( ).setVisible( btnVisible.getSelection( ) );
-			txtTitle.setEnabled( btnVisible.getSelection( ) );
-			btnTitleProp.setEnabled( btnVisible.getSelection( ) );
-
-			if ( btnTitleProp.getSelection( ) )
-			{
-				detachPopup( );
-			}
-		}
-		else if ( e.widget.equals( cmbStyle ) )
+		
+		if ( e.widget.equals( cmbStyle ) )
 		{
 			String[] allStyleNames = (String[]) cmbStyle.getData( );
 			String sStyle = null;
@@ -373,7 +375,10 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 				sStyle = allStyleNames[idx - 1];
 			}
 			getContext( ).getDataServiceProvider( ).setStyle( sStyle );
-			refreshPreview( );
+			if ( btnEnablePreview.getSelection( ) )
+			{
+				refreshPreview( );
+			}
 		}
 		else if ( e.widget.equals( btnEnablePreview ) )
 		{
@@ -384,36 +389,28 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 		{
 			getChart( ).getInteractivity( )
 					.setEnable( btnEnable.getSelection( ) );
-			enableInteractivity( btnEnable.getSelection( ) );
-		}
-		else if ( e.widget.equals( cmbInteractivity ) )
-		{
-			getChart( ).getInteractivity( )
-					.setLegendBehavior( LegendBehaviorType.getByName( LiteralHelper.legendBehaviorTypeSet.getNameByDisplayName( cmbInteractivity.getText( ) ) ) );
-		}
-		else if ( e.widget.equals( btnTitleTriggers ) )
-		{
-			new TriggerEditorDialog( cmpContent.getShell( ),
-					getChart( ).getTitle( ).getTriggers( ),
-					getContext( ),
-					Messages.getString( "ChartSheetImpl.Title.ChartTitle" ), false, true ).open( ); //$NON-NLS-1$
-		}
-		else if ( e.widget.equals( btnChartAreaTriggers ) )
-		{
-			new TriggerEditorDialog( cmpContent.getShell( ),
-					getChart( ).getBlock( ).getTriggers( ),
-					getContext( ),
-					Messages.getString( "ChartSheetImpl.Title.ChartArea" ), false, true ).open( ); //$NON-NLS-1$
-		}
+			btnInteractivity.setEnabled( btnEnable.getSelection( ) );
 
+			if ( btnInteractivity.getSelection( ) )
+			{
+				detachPopup( );
+			}
+		}
+		else if ( e.widget.equals( btnResetValue ) )
+		{
+			setAxisAngle( AngleType.X, -20);
+			xChooser.txtRotation.setValue( -20 );
+			setAxisAngle( AngleType.Y, 45);
+			yChooser.txtRotation.setValue( 45 );
+			setAxisAngle( AngleType.Z, 0);
+			zChooser.txtRotation.setValue( 0 );
+		}
 	}
-
-	private void enableInteractivity( boolean isEnabled )
+	
+	public void widgetDefaultSelected( SelectionEvent e )
 	{
-		lblLegendBehavior.setEnabled( isEnabled );
-		cmbInteractivity.setEnabled( isEnabled );
-		btnChartAreaTriggers.setEnabled( isEnabled );
-		btnTitleTriggers.setEnabled( isEnabled );
+		// TODO Auto-generated method stub
+
 	}
 
 	/**
@@ -423,16 +420,171 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 	private void refreshPreview( )
 	{
 		// Populate a model changed event to refresh the preview canvas.
-		boolean currentValue = btnVisible.getSelection( );
+		boolean currentValue = getChart( ).getTitle( ).isVisible( );
 		ChartAdapter.ignoreNotifications( true );
 		getChart( ).getTitle( ).setVisible( !currentValue );
 		ChartAdapter.ignoreNotifications( false );
 		getChart( ).getTitle( ).setVisible( currentValue );
 	}
 
-	public void widgetDefaultSelected( SelectionEvent e )
+	private boolean hasWallAndFloor( )
 	{
-		// TODO Auto-generated method stub
-
+		return ( getChart( ) instanceof ChartWithAxes )
+		&& ( getChart( ).getDimension( ).getValue( ) != ChartDimension.TWO_DIMENSIONAL );
 	}
+
+	private class AxisRotationChooser implements
+			SelectionListener,
+			ModifyListener
+	{
+
+		private transient Button btnAntiRotation;
+
+		private transient Button btnRotation;
+
+		private transient LocalizedNumberEditorComposite txtRotation;
+
+		private transient int angleType;
+
+		public AxisRotationChooser( Axis axis, int angleType )
+		{
+			this.angleType = angleType;
+		}
+
+		public void placeComponents( Composite parent )
+		{
+			Composite context = new Composite( parent, SWT.NONE );
+			{
+				context.setLayout( new GridLayout( 3, false ) );
+				context.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			}
+
+			btnAntiRotation = new Button( context, SWT.PUSH );
+			{
+				GridData gd = new GridData( );
+				gd.widthHint = 20;
+				gd.heightHint = 20;
+				btnAntiRotation.setLayoutData( gd );
+				btnAntiRotation.setImage( UIHelper.getImage( getImagePath( angleType,
+						true ) ) );
+				btnAntiRotation.addSelectionListener( this );
+			}
+
+			btnRotation = new Button( context, SWT.PUSH );
+			{
+				GridData gd = new GridData( );
+				gd.widthHint = 20;
+				gd.heightHint = 20;
+				btnRotation.setLayoutData( gd );
+				btnRotation.setImage( UIHelper.getImage( getImagePath( angleType,
+						false ) ) );
+				btnRotation.addSelectionListener( this );
+			}
+
+			txtRotation = new LocalizedNumberEditorComposite( context,
+					SWT.BORDER | SWT.SINGLE );
+			{
+				txtRotation.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+				txtRotation.setValue( getAxisAngle( angleType ) );
+				txtRotation.addModifyListener( this );
+			}		
+		}
+
+		public void widgetSelected( SelectionEvent e )
+		{
+			if ( e.widget.equals( btnAntiRotation ) )
+			{
+				setAxisAngle( angleType, (int) getAxisAngle( angleType ) - 10 );
+				txtRotation.setValue( getAxisAngle( angleType ) );			
+			}
+			else if ( e.widget.equals( btnRotation ) )
+			{
+				setAxisAngle( angleType, (int) getAxisAngle( angleType ) + 10 );
+				txtRotation.setValue( getAxisAngle( angleType ) );
+			}
+		}
+
+		public void widgetDefaultSelected( SelectionEvent e )
+		{
+			// TODO Auto-generated method stub
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
+		 */
+		public void modifyText( ModifyEvent e )
+		{
+			if ( e.widget.equals( txtRotation ) )
+			{
+				setAxisAngle( angleType, (int)txtRotation.getValue( ) );
+			}
+		}
+
+		private String getImagePath( int angleType, boolean bAntiRotation )
+		{
+			String basePath = "icons/obj16/"; //$NON-NLS-1$
+			String filename = null;
+			switch ( angleType )
+			{
+				case AngleType.X :
+					filename = bAntiRotation ? "x_rotation.gif" : "x_anti_rotation.gif"; //$NON-NLS-1$ //$NON-NLS-2$
+					break;
+				case AngleType.Y :
+					filename = bAntiRotation ? "y_rotation.gif" : "y_anti_rotation.gif"; //$NON-NLS-1$ //$NON-NLS-2$
+					break;
+				case AngleType.Z :
+					filename = bAntiRotation ? "z_rotation.gif" : "z_anti_rotation.gif"; //$NON-NLS-1$ //$NON-NLS-2$
+					break;
+			}
+			return basePath + filename;
+		}
+		
+		private double getAxisAngle( int angleType )
+		{
+			switch ( angleType )
+			{
+				case AngleType.X :
+					return getAngle3D( ).getXAngle( );
+				case AngleType.Y :
+					return getAngle3D( ).getYAngle( );
+				case AngleType.Z :
+					return getAngle3D( ).getZAngle( );
+				default :
+					return 0;
+			}
+		}
+	}
+	
+	private void setAxisAngle( int angleType, int angleDegree )
+	{
+		Angle3D angle3D = getAngle3D( );
+		angle3D.setType( AngleType.NONE_LITERAL );
+		( (ChartWithAxes) getChart( ) ).getRotation( ).getAngles( ).clear( );
+		( (ChartWithAxes) getChart( ) ).getRotation( )
+				.getAngles( )
+				.add( angle3D );
+
+		switch ( angleType )
+		{
+			case AngleType.X :
+				angle3D.setXAngle( angleDegree );
+				break;
+			case AngleType.Y :
+				angle3D.setYAngle( angleDegree );
+				break;
+			case AngleType.Z :
+				angle3D.setZAngle( angleDegree );
+				break;
+		}		
+	}		
+	
+	private Angle3D getAngle3D( )
+	{
+		return (Angle3D) ( (ChartWithAxes) getChart( ) ).getRotation( )
+				.getAngles( )
+				.get( 0 );
+	}
+
 }

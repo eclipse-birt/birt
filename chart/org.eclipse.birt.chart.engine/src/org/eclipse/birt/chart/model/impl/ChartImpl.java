@@ -11,7 +11,10 @@
 
 package org.eclipse.birt.chart.model.impl;
 
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.computation.IConstants;
@@ -21,6 +24,7 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.ModelPackage;
+import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ExtendedProperty;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
@@ -58,29 +62,32 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import com.ibm.icu.text.NumberFormat;
+import com.ibm.icu.text.SimpleDateFormat;
+
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
  * <em><b>Chart</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getVersion <em>Version</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getType <em>Type</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getSubType <em>Sub Type</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getDescription <em>Description</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getBlock <em>Block</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getDimension <em>Dimension</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getScript <em>Script</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getUnits <em>Units</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getSeriesThickness <em>Series Thickness</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getGridColumnCount <em>Grid Column Count</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getExtendedProperties <em>Extended Properties</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getSampleData <em>Sample Data</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getStyles <em>Styles</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getInteractivity <em>Interactivity</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getVersion <em>Version</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getType <em>Type</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getSubType <em>Sub Type</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getDescription <em>Description</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getBlock <em>Block</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getDimension <em>Dimension</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getScript <em>Script</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getUnits <em>Units</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getSeriesThickness <em>Series Thickness</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getGridColumnCount <em>Grid Column Count</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getExtendedProperties <em>Extended Properties</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getSampleData <em>Sample Data</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getStyles <em>Styles</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.impl.ChartImpl#getInteractivity <em>Interactivity</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class ChartImpl extends EObjectImpl implements Chart
@@ -92,8 +99,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/model.impl" ); //$NON-NLS-1$
 
 	/**
-	 * The default value of the '{@link #getVersion() <em>Version</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getVersion() <em>Version</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getVersion()
 	 * @generated
 	 * @ordered
@@ -101,8 +109,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 	protected static final String VERSION_EDEFAULT = "1.0.0"; //$NON-NLS-1$
 
 	/**
-	 * The cached value of the '{@link #getVersion() <em>Version</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getVersion() <em>Version</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getVersion()
 	 * @generated
 	 * @ordered
@@ -110,9 +119,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 	protected String version = VERSION_EDEFAULT;
 
 	/**
-	 * This is true if the Version attribute has been set.
-	 * <!-- begin-user-doc
+	 * This is true if the Version attribute has been set. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -121,6 +130,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -130,6 +140,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 	/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -137,8 +148,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 	protected String type = TYPE_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getSubType() <em>Sub Type</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getSubType() <em>Sub Type</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getSubType()
 	 * @generated
 	 * @ordered
@@ -146,8 +158,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 	protected static final String SUB_TYPE_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getSubType() <em>Sub Type</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getSubType() <em>Sub Type</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getSubType()
 	 * @generated
 	 * @ordered
@@ -155,8 +168,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 	protected String subType = SUB_TYPE_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getDescription() <em>Description</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getDescription() <em>Description</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getDescription()
 	 * @generated
 	 * @ordered
@@ -164,8 +178,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 	protected Text description = null;
 
 	/**
-	 * The cached value of the '{@link #getBlock() <em>Block</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getBlock() <em>Block</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getBlock()
 	 * @generated
 	 * @ordered
@@ -173,8 +188,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 	protected Block block = null;
 
 	/**
-	 * The default value of the '{@link #getDimension() <em>Dimension</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getDimension() <em>Dimension</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getDimension()
 	 * @generated
 	 * @ordered
@@ -182,8 +198,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 	protected static final ChartDimension DIMENSION_EDEFAULT = ChartDimension.TWO_DIMENSIONAL_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getDimension() <em>Dimension</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getDimension() <em>Dimension</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getDimension()
 	 * @generated
 	 * @ordered
@@ -191,17 +208,18 @@ public class ChartImpl extends EObjectImpl implements Chart
 	protected ChartDimension dimension = DIMENSION_EDEFAULT;
 
 	/**
-	 * This is true if the Dimension attribute has been set.
-	 * <!-- begin-user-doc
+	 * This is true if the Dimension attribute has been set. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean dimensionESet = false;
 
 	/**
-	 * The default value of the '{@link #getScript() <em>Script</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getScript() <em>Script</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getScript()
 	 * @generated
 	 * @ordered
@@ -209,8 +227,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 	protected static final String SCRIPT_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getScript() <em>Script</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getScript() <em>Script</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getScript()
 	 * @generated
 	 * @ordered
@@ -218,8 +237,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 	protected String script = SCRIPT_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getUnits() <em>Units</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getUnits() <em>Units</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getUnits()
 	 * @generated
 	 * @ordered
@@ -229,6 +249,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 	/**
 	 * The cached value of the '{@link #getUnits() <em>Units</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getUnits()
 	 * @generated
 	 * @ordered
@@ -267,8 +288,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 	protected boolean seriesThicknessESet = false;
 
 	/**
-	 * The default value of the '{@link #getGridColumnCount() <em>Grid Column Count</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getGridColumnCount() <em>Grid Column Count</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getGridColumnCount()
 	 * @generated
 	 * @ordered
@@ -276,8 +298,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 	protected static final int GRID_COLUMN_COUNT_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getGridColumnCount() <em>Grid Column Count</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getGridColumnCount() <em>Grid Column Count</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getGridColumnCount()
 	 * @generated
 	 * @ordered
@@ -294,8 +317,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 	protected boolean gridColumnCountESet = false;
 
 	/**
-	 * The cached value of the '{@link #getExtendedProperties() <em>Extended Properties</em>}' containment reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getExtendedProperties() <em>Extended Properties</em>}'
+	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getExtendedProperties()
 	 * @generated
 	 * @ordered
@@ -303,8 +327,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 	protected EList extendedProperties = null;
 
 	/**
-	 * The cached value of the '{@link #getSampleData() <em>Sample Data</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getSampleData() <em>Sample Data</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getSampleData()
 	 * @generated
 	 * @ordered
@@ -312,8 +337,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 	protected SampleData sampleData = null;
 
 	/**
-	 * The cached value of the '{@link #getStyles() <em>Styles</em>}' containment reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getStyles() <em>Styles</em>}'
+	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getStyles()
 	 * @generated
 	 * @ordered
@@ -321,8 +347,9 @@ public class ChartImpl extends EObjectImpl implements Chart
 	protected EList styles = null;
 
 	/**
-	 * The cached value of the '{@link #getInteractivity() <em>Interactivity</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getInteractivity() <em>Interactivity</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getInteractivity()
 	 * @generated
 	 * @ordered
@@ -331,6 +358,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected ChartImpl( )
@@ -340,6 +368,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -349,6 +378,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public String getVersion( )
@@ -358,6 +388,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setVersion( String newVersion )
@@ -377,6 +408,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetVersion( )
@@ -396,6 +428,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetVersion( )
@@ -405,6 +438,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public String getType( )
@@ -414,6 +448,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setType( String newType )
@@ -430,6 +465,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public String getSubType( )
@@ -439,6 +475,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setSubType( String newSubType )
@@ -455,6 +492,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Text getDescription( )
@@ -464,6 +502,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetDescription( Text newDescription,
@@ -488,6 +527,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setDescription( Text newDescription )
@@ -521,6 +561,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Block getBlock( )
@@ -530,6 +571,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetBlock( Block newBlock,
@@ -554,6 +596,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setBlock( Block newBlock )
@@ -585,6 +628,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public ChartDimension getDimension( )
@@ -594,6 +638,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setDimension( ChartDimension newDimension )
@@ -613,6 +658,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetDimension( )
@@ -632,6 +678,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetDimension( )
@@ -641,6 +688,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public String getScript( )
@@ -650,6 +698,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setScript( String newScript )
@@ -666,6 +715,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public String getUnits( )
@@ -675,6 +725,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setUnits( String newUnits )
@@ -691,6 +742,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public double getSeriesThickness( )
@@ -700,6 +752,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setSeriesThickness( double newSeriesThickness )
@@ -719,6 +772,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetSeriesThickness( )
@@ -738,6 +792,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetSeriesThickness( )
@@ -747,6 +802,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public int getGridColumnCount( )
@@ -756,6 +812,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setGridColumnCount( int newGridColumnCount )
@@ -775,6 +832,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void unsetGridColumnCount( )
@@ -794,6 +852,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean isSetGridColumnCount( )
@@ -803,6 +862,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EList getExtendedProperties( )
@@ -818,6 +878,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public SampleData getSampleData( )
@@ -827,6 +888,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetSampleData( SampleData newSampleData,
@@ -851,6 +913,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setSampleData( SampleData newSampleData )
@@ -884,6 +947,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EList getStyles( )
@@ -899,6 +963,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Interactivity getInteractivity( )
@@ -908,6 +973,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetInteractivity(
@@ -932,6 +998,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void setInteractivity( Interactivity newInteractivity )
@@ -964,8 +1031,8 @@ public class ChartImpl extends EObjectImpl implements Chart
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -992,8 +1059,8 @@ public class ChartImpl extends EObjectImpl implements Chart
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
@@ -1033,8 +1100,8 @@ public class ChartImpl extends EObjectImpl implements Chart
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void eSet( int featureID, Object newValue )
@@ -1090,8 +1157,8 @@ public class ChartImpl extends EObjectImpl implements Chart
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void eUnset( int featureID )
@@ -1145,8 +1212,8 @@ public class ChartImpl extends EObjectImpl implements Chart
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( int featureID )
@@ -1192,6 +1259,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -1374,10 +1442,21 @@ public class ChartImpl extends EObjectImpl implements Chart
 			// Clear any existing Runtime Series
 			chart.clearSections( IConstants.RUN_TIME );
 
+			String baseDataSetRepresentation = ( (BaseSampleData) sd.getBaseSampleData( )
+					.get( 0 ) ).getDataSetRepresentation( );
+			if ( chart instanceof ChartWithAxes )
+			{
+				baseDataSetRepresentation = getNewSampleData( ( (Axis) ( getBaseSeriesDefinitionForProcessing( ).eContainer( ) ) ).getType( ),
+						0 );
+			}
+			else
+			{
+				baseDataSetRepresentation = getNewSampleData( AxisType.TEXT_LITERAL,
+						0 );
+			}
 			// Get the BaseSampleData and use it to construct dataset
 			seriesBaseRuntime.setDataSet( ( PluginSettings.instance( ).getDataSetProcessor( getBaseSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
-					.getClass( ) ) ).fromString( ( (BaseSampleData) sd.getBaseSampleData( )
-					.get( 0 ) ).getDataSetRepresentation( ),
+					.getClass( ) ) ).fromString( baseDataSetRepresentation,
 					seriesBaseRuntime.getDataSet( ) ) );
 			getBaseSeriesDefinitionForProcessing( ).getSeries( )
 					.add( seriesBaseRuntime );
@@ -1426,20 +1505,27 @@ public class ChartImpl extends EObjectImpl implements Chart
 				// Clear existing values from the dataset
 				seriesOrthogonalRuntime.setDataSet( null );
 
+				String orthogonalDataSetRepresentation = osd.getDataSetRepresentation( );
+				if ( chart instanceof ChartWithAxes )
+				{
+					orthogonalDataSetRepresentation = getNewSampleData( ( (Axis) ( sdTmp.eContainer( ) ) ).getType( ),
+							iO );
+				}
+				else
+				{
+					orthogonalDataSetRepresentation = getNewSampleData( AxisType.LINEAR_LITERAL,
+							iO );
+				}
+
 				// Set the new dataset with sample values
 				seriesOrthogonalRuntime.setDataSet( ( PluginSettings.instance( ).getDataSetProcessor( sdTmp.getDesignTimeSeries( )
-						.getClass( ) ) ).fromString( osd.getDataSetRepresentation( ),
+						.getClass( ) ) ).fromString( orthogonalDataSetRepresentation,
 						seriesOrthogonalRuntime.getDataSet( ) ) );
 
 				// Set sample series identifiers
 				// Use the design time settings without consideration of group
 				seriesOrthogonalRuntime.setSeriesIdentifier( sdTmp.getDesignTimeSeries( )
 						.getSeriesIdentifier( ) );
-
-				// Set sample data definition
-				//				Query q = QueryImpl.create( "Data " //$NON-NLS-1$
-				//						+ ( sdTmp.getSeries( ).size( ) ) );
-				//				seriesOrthogonalRuntime.getDataDefinition( ).add( q );
 
 				sdTmp.getSeries( ).add( seriesOrthogonalRuntime );
 			}
@@ -1455,9 +1541,10 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 					seriesZRuntime.setDataSet( null );
 
+					String ancillaryDataSetRepresentation = getNewSampleData( ( (Axis) ( sdZ.eContainer( ) ) ).getType( ),
+							0 );
 					seriesZRuntime.setDataSet( ( PluginSettings.instance( ).getDataSetProcessor( sdZ.getDesignTimeSeries( )
-							.getClass( ) ) ).fromString( ( (BaseSampleData) sd.getAncillarySampleData( )
-							.get( 0 ) ).getDataSetRepresentation( ),
+							.getClass( ) ) ).fromString( ancillaryDataSetRepresentation,
 							seriesZRuntime.getDataSet( ) ) );
 					sdZ.getSeries( ).add( seriesZRuntime );
 
@@ -1470,6 +1557,105 @@ public class ChartImpl extends EObjectImpl implements Chart
 		{
 			logger.log( e1 );
 		}
+	}
+
+	/**
+	 * Creates new sample data according to specified axis type.
+	 * 
+	 * @param axisType
+	 *            axis type
+	 * @param index
+	 *            sample data index
+	 */
+	private String getNewSampleData( AxisType axisType, int index )
+	{
+		if ( axisType.equals( AxisType.DATE_TIME_LITERAL ) )
+		{
+			String dsRepresentation = "01/05/2000,02/01/2000,04/12/2000"; //$NON-NLS-1$
+			String[] strTok = getStringTokens( dsRepresentation );
+			StringBuffer sb = new StringBuffer( );
+			for ( int i = 0; i < strTok.length; i++ )
+			{
+				String strDataElement = strTok[i];
+				SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy" ); //$NON-NLS-1$
+
+				try
+				{
+					Date dateElement = sdf.parse( strDataElement );
+					dateElement.setTime( dateElement.getTime( )
+							+ ( dateElement.getTime( ) * index )
+							/ 10 );
+					sb.append( sdf.format( dateElement ) );
+				}
+				catch ( ParseException e1 )
+				{
+					e1.printStackTrace( );
+				}
+
+				if ( i < strTok.length - 1 )
+				{
+					sb.append( "," ); //$NON-NLS-1$
+				}
+			}
+			return sb.toString( );
+		}
+		else if ( axisType.equals( AxisType.TEXT_LITERAL ) )
+		{
+			return "'A','B','C'"; //$NON-NLS-1$
+		}
+
+		String dsRepresentation = "5,4,12"; //$NON-NLS-1$
+		String[] strTok = getStringTokens( dsRepresentation );
+		StringBuffer sb = new StringBuffer( );
+		for ( int i = 0; i < strTok.length; i++ )
+		{
+			String strDataElement = strTok[i];
+			NumberFormat nf = NumberFormat.getNumberInstance( );
+
+			try
+			{
+				Number numberElement = nf.parse( strDataElement );
+				sb.append( numberElement.doubleValue( ) * ( index + 1 ) );
+			}
+			catch ( ParseException e1 )
+			{
+				e1.printStackTrace( );
+			}
+
+			if ( i < strTok.length - 1 )
+			{
+				sb.append( "," ); //$NON-NLS-1$
+			}
+		}
+		return sb.toString( );
+	}
+
+	private String[] getStringTokens( String str )
+	{
+		// No ESC, return API results
+		if ( str.indexOf( "\\," ) < 0 ) //$NON-NLS-1$
+		{
+			return str.split( "," ); //$NON-NLS-1$
+		}
+
+		ArrayList list = new ArrayList( );
+		char[] charArray = ( str + "," ).toCharArray( ); //$NON-NLS-1$
+		int startIndex = 0;
+		for ( int i = 0; i < charArray.length; i++ )
+		{
+			char c = charArray[i];
+			if ( c == ',' )
+			{
+				if ( charArray[i - 1] != '\\' && i > 0 )
+				{
+					list.add( str.substring( startIndex, i )
+							.replaceAll( "\\\\,", "," ) //$NON-NLS-1$ //$NON-NLS-2$
+							.trim( ) );
+					startIndex = i + 1;
+				}
+			}
+		}
+		return (String[]) list.toArray( new String[list.size( )] );
 	}
 
 	/**

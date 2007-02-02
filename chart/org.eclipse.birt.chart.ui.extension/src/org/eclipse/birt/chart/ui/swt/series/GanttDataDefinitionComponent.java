@@ -28,8 +28,6 @@ public class GanttDataDefinitionComponent extends DefaultSelectDataComponent
 
 	public static final String SERIES_CLASS = "org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl"; //$NON-NLS-1$
 
-	private transient Label[] labelArray;
-
 	private transient ISelectDataComponent[] dataComArray;
 
 	private transient Composite cmpSeries = null;
@@ -53,16 +51,27 @@ public class GanttDataDefinitionComponent extends DefaultSelectDataComponent
 
 	private void init( )
 	{
-		labelArray = new Label[3];
 		dataComArray = new ISelectDataComponent[3];
 
-		for ( int i = 0; i < dataComArray.length; i++ )
-		{
-			dataComArray[i] = new BaseDataDefinitionComponent( seriesDefn,
-					ChartUIUtil.getDataQuery( seriesDefn, i ),
-					context,
-					sTitle );
-		}
+		// StartDate
+		dataComArray[0] = new BaseDataDefinitionComponent( BaseDataDefinitionComponent.BUTTON_AGGREGATION,
+				seriesDefn,
+				ChartUIUtil.getDataQuery( seriesDefn, 0 ),
+				context,
+				sTitle );
+
+		// EndDate
+		dataComArray[1] = new BaseDataDefinitionComponent( BaseDataDefinitionComponent.BUTTON_AGGREGATION,
+				seriesDefn,
+				ChartUIUtil.getDataQuery( seriesDefn, 1 ),
+				context,
+				sTitle );
+
+		// Decoration, no grouping
+		dataComArray[2] = new BaseDataDefinitionComponent( seriesDefn,
+				ChartUIUtil.getDataQuery( seriesDefn, 2 ),
+				context,
+				sTitle );
 	}
 
 	public Composite createArea( Composite parent )
@@ -78,13 +87,20 @@ public class GanttDataDefinitionComponent extends DefaultSelectDataComponent
 			cmpSeries.setLayout( gridLayout );
 		}
 
-		for ( int i = 0; i < dataComArray.length; i++ )
+		for ( int i = 0; i < 2; i++ )
 		{
-			labelArray[i] = new Label( cmpSeries, SWT.NONE );
-			labelArray[i].setText( ChartUIUtil.getGanttTitle( i ) );
+			Label labelArray = new Label( cmpSeries, SWT.NONE );
+			labelArray.setText( ChartUIUtil.getGanttTitle( i ) );
 			Composite cmpData = dataComArray[i].createArea( cmpSeries );
 			cmpData.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		}
+
+		( (BaseDataDefinitionComponent) dataComArray[2] ).setDescription( ChartUIUtil.getGanttTitle( 2 ) );
+		Composite cmpData = dataComArray[2].createArea( cmpSeries );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 2;
+		cmpData.setLayoutData( gd );
+		
 		return cmpSeries;
 	}
 

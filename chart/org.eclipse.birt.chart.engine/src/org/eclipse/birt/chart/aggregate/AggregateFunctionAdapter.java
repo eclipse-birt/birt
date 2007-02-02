@@ -98,6 +98,8 @@ public abstract class AggregateFunctionAdapter implements IAggregateFunction
 			final int iExistingType = iDataType;
 			if ( oValue == null )
 			{
+				// Set unknown type for null
+				iDataType = UNKNOWN;
 				return;
 			}
 			else if ( oValue instanceof Number )

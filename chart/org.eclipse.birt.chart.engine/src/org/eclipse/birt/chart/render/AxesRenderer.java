@@ -35,6 +35,7 @@ import org.eclipse.birt.chart.device.IPrimitiveRenderer;
 import org.eclipse.birt.chart.device.IStructureDefinitionListener;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.event.BlockGenerationEvent;
+import org.eclipse.birt.chart.event.ClipRenderEvent;
 import org.eclipse.birt.chart.event.EventObjectCache;
 import org.eclipse.birt.chart.event.InteractionEvent;
 import org.eclipse.birt.chart.event.Line3DRenderEvent;
@@ -95,6 +96,7 @@ import org.eclipse.birt.chart.model.layout.Plot;
 import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.script.ScriptHandler;
+import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.emf.common.util.EList;
 
@@ -1128,7 +1130,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					tre.setBlockAlignment( anchorToAlignment( anc ) );
 					tre.setLabel( la );
 					tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
-					idr.drawText( tre );
+					getDeferredCache( ).addLabel( tre );
 				}
 
 				if ( isInteractivityEnabled( ) )
@@ -2359,7 +2361,8 @@ public abstract class AxesRenderer extends BaseRenderer
 			DataPointHints dph, Integer markerSize, boolean bDeferred,
 			boolean bConsiderTranspostion ) throws ChartException
 	{
-		if ( dph != null && isNaN( dph.getOrthogonalValue( ) ) )
+		if ( dph != null
+				&& ( isNaN( dph.getOrthogonalValue( ) ) || dph.isOutside( ) ) )
 		{
 			return;
 		}
@@ -2830,7 +2833,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					tre.setBlockAlignment( null );
 					tre.setLabel( la );
 					tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
-					idr.drawText( tre );
+					getDeferredCache( ).addLabel( tre );
 				}
 
 				if ( isInteractivityEnabled( ) )
@@ -3076,6 +3079,8 @@ public abstract class AxesRenderer extends BaseRenderer
 	}
 
 	/**
+	 * Gets current model Axis
+	 * 
 	 * @return Returns the axis associated with current renderer.
 	 */
 	public final Axis getAxis( )
@@ -3084,229 +3089,226 @@ public abstract class AxesRenderer extends BaseRenderer
 	}
 
 	/**
-	 * Checks out-of-range data and remove or set boundary value for it. Note
-	 * that coordinates array may be modified and orthogonal value in
-	 * DataPointHints may be set null in out-of-range data point
+	 * Gets current internal OneAxis
 	 * 
+	 * @return internal OneAxis
+	 */
+	protected final OneAxis getAxisInternal( )
+	{
+		final AllAxes allAxes = ( (PlotWithAxes) getComputations( ) ).getAxes( );
+		if ( allAxes.getOverlayCount( ) == 0 )
+		{
+			return allAxes.getPrimaryOrthogonal( );
+		}
+		EList axesList = ( (Axis) getAxis( ).eContainer( ) ).getAssociatedAxes( );
+		int index = axesList.indexOf( getAxis( ) );
+		if ( index == 0 )
+		{
+			return allAxes.getPrimaryOrthogonal( );
+		}
+		return allAxes.getOverlay( index - 1 );
+	}
+	
+	/**
+	 * Checks out-of-range of each data point. If outside data is visible,
+	 * adjust the coordinates; otherwise, clip the plot area. Note that
+	 * coordinates array may be modified.
+	 * 
+	 * @param ipr
+	 *            renderer
 	 * @param srh
 	 *            SeriesRenderingHints
 	 * @param faX
 	 *            X coordinates
 	 * @param faY
 	 *            Y coordinates
+	 * @param bShowAsTape
+	 *            indicates if it's 2d+ chart
 	 */
-	protected final void handleOutsideDataPoints(
+	protected final void handleOutsideDataPoints( final IPrimitiveRenderer ipr,
 			final SeriesRenderingHints srh, final double[] faX,
-			final double[] faY )
+			final double[] faY, final boolean bShowAsTape )
 	{
+		final AutoScale scale = getAxisInternal( ).getScale( );
+		if ( ( scale.getType( ) & IConstants.PERCENT ) == IConstants.PERCENT )
+		{
+			// Always inside in percent type
+			return;
+		}
+		
 		final boolean bHideOutside = !getAxis( ).getScale( ).isShowOutside( );
-		final Bounds boClientArea = srh.getClientAreaBounds( true );
-		double dBaseLocation = srh.getPlotBaseLocation( );
 		final DataPointHints[] dpha = srh.getDataPoints( );
 		final boolean isCategory = srh.isCategoryScale( );
+		final Bounds boClientArea = srh.getClientAreaBounds( true );
+		// Adjust the position in 2d+
+		if ( bShowAsTape )
+		{
+			final double dSeriesThickness = srh.getSeriesThickness( );
+			boClientArea.delta( -dSeriesThickness, dSeriesThickness, 0, 0 );
+		}
+		
+		renderClipping( ipr, boClientArea );
+		
 		for ( int i = 0; i < dpha.length; i++ )
 		{
-			if ( dpha[i].getOrthogonalValue( ) == null )
-			{
-				continue;
-			}
 			// Skip out-of-X-range data when non-category scale
 			if ( !isCategory && dpha[i].getBaseValue( ) == null )
 			{
-				dpha[i].invalidateOrthogonalValue( );
-				faX[i] = Double.NaN;
-				faY[i] = Double.NaN;
+				dpha[i].markOutside( );
 				continue;
 			}
-			
-			if ( isTransposed( ) )
-			{
-				// RANGE CHECK (WITHOUT CLIPPING)
-				// =================================
-				// NOTE: use a wider precision check here to fix some incorrect
-				// rendering case.
-				// ==================================
-				if ( ChartUtil.mathLT( faX[i], boClientArea.getLeft( ) ) )
-				// LEFT EDGE
-				{
-					if ( bHideOutside
-							|| ChartUtil.mathLT( dBaseLocation,
-									boClientArea.getLeft( ) ) )
-					{
-						// BOTH ARE OUT OF RANGE
-						dpha[i].invalidateOrthogonalValue( );
-						faX[i] = Double.NaN;
-						faY[i] = Double.NaN;
-						continue;
-					}
-					faX[i] = boClientArea.getLeft( );
-				}
-				else if ( ChartUtil.mathLT( dBaseLocation,
-						boClientArea.getLeft( ) ) )
-				{
-					dBaseLocation = boClientArea.getLeft( );
-				}
 
-				if ( ChartUtil.mathGT( faX[i], boClientArea.getLeft( )
-						+ boClientArea.getWidth( ) ) )
-				// RIGHT EDGE
+			// 0 inside, 1 left outside, 2 right outside
+			int iOutside = 0;
+			
+			if ( dpha[i].getStackOrthogonalValue( ) != null )
+			{
+				// Stack value
+				double value = dpha[i].getStackOrthogonalValue( ).doubleValue( );
+				double min = Methods.asDouble( scale.getMinimum( ) )
+						.doubleValue( );
+				double max = Methods.asDouble( scale.getMaximum( ) )
+						.doubleValue( );
+				if ( value < min )
 				{
-					if ( bHideOutside
-							|| ChartUtil.mathGT( dBaseLocation,
-									boClientArea.getLeft( )
-											+ boClientArea.getWidth( ) ) )
-					{
-						// BOTH ARE OUT OF RANGE
-						dpha[i].invalidateOrthogonalValue( );
-						faX[i] = Double.NaN;
-						faY[i] = Double.NaN;
-						continue;
-					}
-					faX[i] = boClientArea.getLeft( ) + boClientArea.getWidth( );
+					iOutside = 1;
 				}
-				else if ( ChartUtil.mathGT( dBaseLocation,
-						boClientArea.getLeft( ) + boClientArea.getWidth( ) ) )
+				else if ( value > max )
 				{
-					dBaseLocation = boClientArea.getLeft( )
-							+ boClientArea.getWidth( );
+					iOutside = 2;
+				}
+			}
+			else if ( dpha[i].getOrthogonalValue( ) == null )
+			{
+				// Null entry displays in the base line
+				iOutside = 1;
+			}
+			else if ( dpha[i].getOrthogonalValue( ) instanceof Double )
+			{
+				// Double entry
+				double value = ( (Double) dpha[i].getOrthogonalValue( ) ).doubleValue( );
+				double min = Methods.asDouble( scale.getMinimum( ) )
+						.doubleValue( );
+				double max = Methods.asDouble( scale.getMaximum( ) )
+						.doubleValue( );
+				if ( value < min )
+				{
+					iOutside = 1;
+				}
+				else if ( value > max )
+				{
+					iOutside = 2;
+				}
+			}
+			else if ( dpha[i].getOrthogonalValue( ) instanceof CDateTime )
+			{
+				// Datetime entry
+				CDateTime value = (CDateTime) dpha[i].getOrthogonalValue( );
+				CDateTime min = Methods.asDateTime( scale.getMinimum( ) );
+				CDateTime max = Methods.asDateTime( scale.getMaximum( ) );
+				if ( value.before( min ) )
+				{
+					iOutside = 1;
+				}
+				else if ( value.after( max ) )
+				{
+					iOutside = 2;
 				}
 			}
 			else
 			{
-				// RANGE CHECK (WITHOUT CLIPPING)
-				if ( ChartUtil.mathLT( faY[i], boClientArea.getTop( ) ) ) // TOP
-				// EDGE
-				{
-					if ( bHideOutside
-							|| ChartUtil.mathLT( dBaseLocation,
-									boClientArea.getTop( ) ) )
-					{
-						// BOTH ARE OUT OF RANGE
-						dpha[i].invalidateOrthogonalValue( );
-						faX[i] = Double.NaN;
-						faY[i] = Double.NaN;
-						continue;
-					}
-					faY[i] = boClientArea.getTop( ); // - This causes
-					// clipping in output
-				}
-				else if ( ChartUtil.mathLT( dBaseLocation,
-						boClientArea.getTop( ) ) )
-				{
-					dBaseLocation = boClientArea.getTop( );
-				}
+				// Complex entry
+				iOutside = checkEntryInRange( dpha[i].getOrthogonalValue( ),
+						scale.getMinimum( ),
+						scale.getMaximum( ) );
+			}
 
-				if ( ChartUtil.mathGT( faY[i], boClientArea.getTop( )
-						+ boClientArea.getHeight( ) ) ) // BOTTOM
-				// EDGE
+			if ( iOutside > 0 )
+			{				
+				if ( bHideOutside )
 				{
-					if ( bHideOutside
-							|| ChartUtil.mathGT( dBaseLocation,
-									boClientArea.getTop( )
-											+ boClientArea.getHeight( ) ) )
-					{
-						// BOTH ARE OUT OF RANGE
-						dpha[i].invalidateOrthogonalValue( );
-						faX[i] = Double.NaN;
-						faY[i] = Double.NaN;
-						continue;
-					}
-					faY[i] = boClientArea.getTop( ) + boClientArea.getHeight( );
+					dpha[i].markOutside( );
 				}
-				else if ( ChartUtil.mathGT( dBaseLocation,
-						boClientArea.getTop( ) + boClientArea.getHeight( ) ) )
+				else
 				{
-					dBaseLocation = boClientArea.getTop( )
-							+ boClientArea.getHeight( );
+					if ( isTransposed( ) )
+					{
+						faX[i] = iOutside == 1 ? boClientArea.getLeft( )
+								: boClientArea.getLeft( )
+										+ boClientArea.getWidth( );
+					}
+					else
+					{
+						faY[i] = iOutside == 1 ? boClientArea.getTop( )
+								+ boClientArea.getHeight( )
+								: boClientArea.getTop( );
+					}
 				}
 			}
 		}
 	}
 	
 	/**
-	 * Checks out-of-range for the period of a data point.
+	 * Clips the renderer. Need to restore the clipping after the use.
 	 * 
-	 * @param dpha
-	 *            DataPointHints
-	 * @param dOpen
-	 *            the start point of the period
-	 * @param dClose
-	 *            the end point of the period
+	 * @param ipr
 	 * @param boClientArea
-	 *            plot bounds
-	 * @param dBaseLocation
-	 *            base location of the boundary
-	 * @param bHideOutside
-	 *            to hide outside or show it in boundary
-	 * @return out-of-range or not
 	 */
-	protected final boolean rangeCheck( final DataPointHints dpha,
-			double dOpen, double dClose, final Bounds boClientArea,
-			double dBaseLocation, boolean bHideOutside )
+	protected final void renderClipping( final IPrimitiveRenderer ipr,
+			final Bounds boClientArea )
 	{
-		if ( isTransposed( ) )
+		if ( !getAxis( ).getScale( ).isShowOutside( ) )
 		{
-			if ( ChartUtil.mathLT( Math.min( dOpen, dClose ),
-					boClientArea.getLeft( ) ) )
-			// LEFT EDGE
-			{
-				if ( bHideOutside
-						|| ChartUtil.mathLT( dBaseLocation,
-								boClientArea.getLeft( ) ) )
-				{
-					// BOTH ARE OUT OF RANGE
-					dpha.invalidateOrthogonalValue( );
-					return false;
-				}
-			}
-
-			if ( ChartUtil.mathGT( Math.max( dOpen, dClose ),
-					boClientArea.getLeft( ) + boClientArea.getWidth( ) ) )
-			// RIGHT EDGE
-			{
-				if ( bHideOutside
-						|| ChartUtil.mathGT( dBaseLocation,
-								boClientArea.getLeft( )
-										+ boClientArea.getWidth( ) ) )
-				{
-					// BOTH ARE OUT OF RANGE
-					dpha.invalidateOrthogonalValue( );
-					return false;
-				}
-			}
+			ClipRenderEvent clip = new ClipRenderEvent( this );
+			Location[] locations = new Location[4];
+			locations[0] = LocationImpl.create( boClientArea.getLeft( ),
+					boClientArea.getTop( ) );
+			locations[1] = LocationImpl.create( boClientArea.getLeft( ),
+					boClientArea.getTop( ) + boClientArea.getHeight( ) );
+			locations[2] = LocationImpl.create( boClientArea.getLeft( )
+					+ boClientArea.getWidth( ), boClientArea.getTop( )
+					+ boClientArea.getHeight( ) );
+			locations[3] = LocationImpl.create( boClientArea.getLeft( )
+					+ boClientArea.getWidth( ), boClientArea.getTop( ) );
+			clip.setVertices( locations );
+			ipr.setClip( clip );
 		}
-		else
-		{
-			// RANGE CHECK (WITHOUT CLIPPING)
-			if ( ChartUtil.mathLT( Math.min( dOpen, dClose ),
-					boClientArea.getTop( ) ) )
-			// TOP EDGE
-			{
-				if ( bHideOutside
-						|| ChartUtil.mathLT( dBaseLocation,
-								boClientArea.getTop( ) ) )
-				{
-					// BOTH ARE OUT OF RANGE
-					dpha.invalidateOrthogonalValue( );
-					return false;
-				}
-			}
-
-			if ( ChartUtil.mathGT( Math.max( dOpen, dClose ),
-					boClientArea.getTop( ) + boClientArea.getHeight( ) ) )
-			// BOTTOM EDGE
-			{
-				if ( bHideOutside
-						|| ChartUtil.mathGT( dBaseLocation,
-								boClientArea.getTop( )
-										+ boClientArea.getHeight( ) ) )
-				{
-					// BOTH ARE OUT OF RANGE
-					dpha.invalidateOrthogonalValue( );
-					return false;
-				}
-			}
-		}
-		return true;
 	}
+
+	/**
+	 * Restores the clipping
+	 * 
+	 * @param ipr
+	 * @throws ChartException
+	 */
+	protected void restoreClipping( final IPrimitiveRenderer ipr )
+			throws ChartException
+	{
+		if ( !getAxis( ).getScale( ).isShowOutside( ) )
+		{
+			getDeferredCache( ).flushPlaneAndLine( );
+			ClipRenderEvent clip = new ClipRenderEvent( this );
+			clip.setVertices( null );
+			ipr.setClip( clip );
+		}
+	}
+	
+	/**
+	 * Checks if the data point entry is in the range of plot area. Usually this
+	 * method is overriden for complex entry. Default result is 0, inside.
+	 * 
+	 * @param entry
+	 *            data point entry
+	 * @param min
+	 *            scale min
+	 * @param max
+	 *            scale max
+	 * @return int indicates if data point entry is in the range of plot area. 0
+	 *         inside, 1 left side, 2 outside
+	 */
+	protected int checkEntryInRange( Object entry, Object min, Object max )
+	{
+		return 0;
+	}
+	
 }

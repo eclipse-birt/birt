@@ -57,7 +57,8 @@ public class DifferenceDataDefinitionComponent extends
 
 		for ( int i = 0; i < dataComArray.length; i++ )
 		{
-			dataComArray[i] = new BaseDataDefinitionComponent( seriesDefn,
+			dataComArray[i] = new BaseDataDefinitionComponent( BaseDataDefinitionComponent.BUTTON_AGGREGATION,
+					seriesDefn,
 					ChartUIUtil.getDataQuery( seriesDefn, i ),
 					context,
 					sTitle );

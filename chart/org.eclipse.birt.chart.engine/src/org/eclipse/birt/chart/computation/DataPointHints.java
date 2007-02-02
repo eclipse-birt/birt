@@ -42,6 +42,8 @@ public final class DataPointHints
 	private Object oBaseValue;
 
 	private Object oOrthogonalValue;
+	
+	private Double oStackedOrthogonalValue;
 
 	private Object oSeriesValue;
 
@@ -56,6 +58,8 @@ public final class DataPointHints
 	private final double[] dSize;
 
 	private final DataPoint dp;
+	
+	private boolean bOutside = false;
 
 	private final FormatSpecifier fsBase, fsOrthogonal, fsSeries, fsPercentile;
 
@@ -308,12 +312,36 @@ public final class DataPointHints
 	}
 	
 	/**
-	 * Invalidates current orthogonal value to skip the rendering.
+	 * Returns the stacked orthogonal value.
+	 * 
+	 * @return stacked value or null if not stacked
+	 */
+	public final Double getStackOrthogonalValue( )
+	{
+		return oStackedOrthogonalValue;
+	}
+
+	public final void setStackOrthogonalValue( Double stackOrthogonalValue )
+	{
+		this.oStackedOrthogonalValue = stackOrthogonalValue;
+	}
+	
+	/**
+	 * Sets current data point is outside of plot area.
 	 * 
 	 */
-	public final void invalidateOrthogonalValue( )
+	public final void markOutside( )
 	{
-		this.oOrthogonalValue = null;
+		this.bOutside = true;
+	}
+
+	/**
+	 * Invalidates if current data point is outside of plot area.
+	 * 
+	 */
+	public final boolean isOutside( )
+	{
+		return this.bOutside;
 	}
 
 	/**

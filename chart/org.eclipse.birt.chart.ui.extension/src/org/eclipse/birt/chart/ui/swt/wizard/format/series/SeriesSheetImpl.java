@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -37,6 +38,7 @@ import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -59,9 +61,8 @@ import org.eclipse.swt.widgets.TreeItem;
  * series items in the naviagor tree.
  * 
  */
-public class SeriesSheetImpl extends SubtaskSheetImpl
-		implements
-			SelectionListener
+public class SeriesSheetImpl extends SubtaskSheetImpl implements
+		SelectionListener
 
 {
 
@@ -192,17 +193,19 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 		for ( int i = 0; i < seriesDefns.size( ); i++ )
 		{
 			new SeriesOptionChoser( ( (SeriesDefinition) seriesDefns.get( i ) ),
-					getChart( ) instanceof ChartWithAxes
-							? Messages.getString( "SeriesSheetImpl.Label.CategoryXSeries" ) : Messages.getString( "SeriesSheetImpl.Label.CategoryBaseSeries" ), //$NON-NLS-1$ //$NON-NLS-2$
+					getChart( ) instanceof ChartWithAxes ? Messages.getString( "SeriesSheetImpl.Label.CategoryXSeries" ) : Messages.getString( "SeriesSheetImpl.Label.CategoryBaseSeries" ), //$NON-NLS-1$ //$NON-NLS-2$
 					i,
 					treeIndex++ ).placeComponents( cmpList );
 		}
 
 		seriesDefns = ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChart( ) );
+		if ( getChart( ) instanceof ChartWithAxes )
+		{
+			treeIndex = 0;
+		}
 		for ( int i = 0; i < seriesDefns.size( ); i++ )
 		{
-			String text = getChart( ) instanceof ChartWithAxes
-					? Messages.getString( "SeriesSheetImpl.Label.ValueYSeries" ) : Messages.getString( "SeriesSheetImpl.Label.ValueOrthogonalSeries" ); //$NON-NLS-1$ //$NON-NLS-2$
+			String text = getChart( ) instanceof ChartWithAxes ? Messages.getString( "SeriesSheetImpl.Label.ValueYSeries" ) : Messages.getString( "SeriesSheetImpl.Label.ValueOrthogonalSeries" ); //$NON-NLS-1$ //$NON-NLS-2$		
 			new SeriesOptionChoser( ( (SeriesDefinition) seriesDefns.get( i ) ),
 					( seriesDefns.size( ) == 1 ? text
 							: ( text + " - " + ( i + 1 ) ) ), i, treeIndex++ ).placeComponents( cmpList ); //$NON-NLS-1$
@@ -227,7 +230,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 				getContext( ),
 				getCategorySeriesDefinition( ),
 				getValueSeriesDefinition( ),
-				isGroupedPalette( ) );
+				isGroupedSeries( ) );
 
 		Button btnSeriesPals = createToggleButton( cmp,
 				Messages.getString( "SeriesSheetImpl.Label.SeriesPalette&" ), //$NON-NLS-1$
@@ -296,10 +299,20 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 		{
 			Series series = seriesDefn.getDesignTimeSeries( );
 
-			linkSeries = new Link( parent, SWT.NONE );
+			if ( seriesName.equals( Messages.getString( "SeriesSheetImpl.Label.CategoryXSeries" ) ) ) //$NON-NLS-1$
 			{
-				linkSeries.setText( "<a>" + seriesName + "</a>" ); //$NON-NLS-1$//$NON-NLS-2$
-				linkSeries.addSelectionListener( this );
+				Label seriesLabel = new Label( parent, SWT.NONE );
+				{
+					seriesLabel.setText( seriesName );
+				}
+			}
+			else
+			{
+				linkSeries = new Link( parent, SWT.NONE );
+				{
+					linkSeries.setText( "<a>" + seriesName + "</a>" ); //$NON-NLS-1$//$NON-NLS-2$
+					linkSeries.addSelectionListener( this );
+				}
 			}
 
 			List keys = null;
@@ -422,6 +435,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 
 		private Series getNewSeries( String sSeriesName, final Series oldSeries )
 		{
+			boolean bException = false;
 			try
 			{
 				// Cache old series
@@ -448,7 +462,12 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 			}
 			catch ( Exception e )
 			{
-				WizardBase.displayException( e );
+				bException = true;
+				WizardBase.showException( e );
+			}
+			if ( !bException )
+			{
+				WizardBase.removeException( );
 			}
 			return null;
 		}
@@ -562,10 +581,30 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 
 		if ( e.widget.equals( cmbColorBy ) )
 		{
-			getChart( ).getLegend( )
-					.setItemType( LegendItemType.getByName( LiteralHelper.legendItemTypeSet.getNameByDisplayName( cmbColorBy.getText( ) ) ) );
-			( (SeriesPaletteSheet) popup ).setGroupedPalette( isGroupedPalette( ) );
-			refreshPopupSheet( );
+			if ( !getChart( ).getLegend( )
+					.getItemType( )
+					.getName( )
+					.equals( LiteralHelper.legendItemTypeSet.getNameByDisplayName( cmbColorBy.getText( ) ) ) )
+			{
+				getChart( ).getLegend( )
+						.setItemType( LegendItemType.getByName( LiteralHelper.legendItemTypeSet.getNameByDisplayName( cmbColorBy.getText( ) ) ) );
+				if ( ( getChart( ).getLegend( ).getItemType( ).getValue( ) == LegendItemType.CATEGORIES )
+						&& isGroupedSeries( ) )
+				{
+					for ( int i = 0; i < getValueSeriesDefinition( ).length; i++ )
+					{
+						getCategorySeriesDefinition( ).getSeriesPalette( )
+								.getEntries( )
+								.set( i,
+										EcoreUtil.copy( (Fill) getValueSeriesDefinition( )[i].getSeriesPalette( )
+												.getEntries( )
+												.get( 0 ) ) );
+					}
+					( (SeriesPaletteSheet) popup ).setCategorySeries( getCategorySeriesDefinition( ) );
+				}
+				( (SeriesPaletteSheet) popup ).setGroupedPalette( isGroupedSeries( ) );
+				refreshPopupSheet( );
+			}
 		}
 	}
 
@@ -575,12 +614,11 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 
 	}
 
-	private boolean isGroupedPalette( )
+	private boolean isGroupedSeries( )
 	{
 		return ( !getValueSeriesDefinition( )[0].getQuery( )
 				.getDefinition( )
 				.trim( )
-				.equals( "" ) ) //$NON-NLS-1$
-				&& ( getChart( ).getLegend( ).getItemType( ).getName( ).equals( LegendItemType.SERIES_LITERAL.getName( ) ) );
+				.equals( "" ) ); //$NON-NLS-1$ );
 	}
 }

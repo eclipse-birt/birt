@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id$
+ * $Id: EStringToDataSetMapEntryImpl.java,v 1.2 2007/01/16 03:37:34 anonymous Exp $
  */
 
 package org.eclipse.birt.chart.model.component.impl;
@@ -36,8 +36,9 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *
  * @generated
  */
-public class EStringToDataSetMapEntryImpl extends EObjectImpl implements
-		BasicEMap.Entry
+public class EStringToDataSetMapEntryImpl extends EObjectImpl
+		implements
+			BasicEMap.Entry
 {
 
 	/**

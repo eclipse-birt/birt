@@ -21,14 +21,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 
 public class BubbleDataDefinitionComponent extends DefaultSelectDataComponent
 {
 
 	public static final String SERIES_CLASS = "org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl"; //$NON-NLS-1$
-
-	private transient Label[] labelArray;
 
 	private transient ISelectDataComponent[] dataComArray;
 
@@ -52,16 +49,19 @@ public class BubbleDataDefinitionComponent extends DefaultSelectDataComponent
 
 	private void init( )
 	{
-		labelArray = new Label[2];
 		dataComArray = new ISelectDataComponent[2];
-
-		for ( int i = 0; i < dataComArray.length; i++ )
-		{
-			dataComArray[i] = new BaseDataDefinitionComponent( seriesDefn,
-					ChartUIUtil.getDataQuery( seriesDefn, i ),
-					context,
-					sTitle );
-		}
+		
+		//Value
+		dataComArray[0] = new BaseDataDefinitionComponent( seriesDefn,
+				ChartUIUtil.getDataQuery( seriesDefn, 0 ),
+				context,
+				sTitle );
+		//Size
+		dataComArray[1] = new BaseDataDefinitionComponent( BaseDataDefinitionComponent.BUTTON_AGGREGATION,
+				seriesDefn,
+				ChartUIUtil.getDataQuery( seriesDefn, 1 ),
+				context,
+				sTitle );
 	}
 
 	public Composite createArea( Composite parent )
@@ -71,7 +71,7 @@ public class BubbleDataDefinitionComponent extends DefaultSelectDataComponent
 			GridData gridData = new GridData( GridData.FILL_BOTH );
 			cmpSeries.setLayoutData( gridData );
 
-			GridLayout gridLayout = new GridLayout( 2, false );
+			GridLayout gridLayout = new GridLayout( 1, false );
 			gridLayout.marginWidth = 0;
 			gridLayout.marginHeight = 0;
 			cmpSeries.setLayout( gridLayout );
@@ -79,8 +79,7 @@ public class BubbleDataDefinitionComponent extends DefaultSelectDataComponent
 
 		for ( int i = 0; i < dataComArray.length; i++ )
 		{
-			labelArray[i] = new Label( cmpSeries, SWT.NONE );
-			labelArray[i].setText( ChartUIUtil.getBubbleTitle( i ) );
+			( (BaseDataDefinitionComponent) dataComArray[i] ).setDescription( ChartUIUtil.getBubbleTitle( i ) );
 			Composite cmpData = dataComArray[i].createArea( cmpSeries );
 			cmpData.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		}
