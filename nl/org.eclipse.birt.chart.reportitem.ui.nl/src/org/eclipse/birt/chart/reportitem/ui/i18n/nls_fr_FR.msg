@@ -14,7 +14,6 @@ ChartDataBindingPage.Msg.AskSaveDataSet=Souhaitez-vous modifier le jeu de donnée
 DesignerRepresentation.error.Error=Erreur : 
 DesignerRepresentation.error.Error=Erreur : 
 DesignerRepresentation.log.UnableToFind=Impossible de trouver le modèle de graphique pendant le rendu dans Designer.
-
 ChartReportItemBuilderImpl.problem.hasNotBeenFound=Le graphique n'a pas encore été lié à un jeu de données.
 ChartReportItemBuilderImpl.log.UnableToLocate=Impossible de localiser le wrapper d'élément d'état pour l'objet de graphique.
 
@@ -34,7 +33,5 @@ OpenChartTaskAction.Text.SelectChartType=&Sélectionner le type de graphique...
 OpenChartTaskAction.Text.SelectData=Sélectionner des d&onnées...
 OpenChartTaskAction.Text.FormatChart=&Formater le graphique...
 
-ChartGeneralTabUIImpl.category.general=Général
-ChartGeneralTabUIImpl.category.types=Types
-
 GeneralPage.Library.Included=Bibliothèque :
+ChartEventHandlerPage.dialog.Browse=&Browse...

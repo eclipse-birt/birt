@@ -14,7 +14,6 @@ ChartDataBindingPage.Msg.AskSaveDataSet=바인딩된 데이터 집합을 변경하시겠습니까?
 DesignerRepresentation.error.Error=오류: 
 DesignerRepresentation.error.Error=오류: 
 DesignerRepresentation.log.UnableToFind=디자이너에서 렌더링하는 동안에는 차트 모델을 찾을 수 없습니다.
-
 ChartReportItemBuilderImpl.problem.hasNotBeenFound=차트가 데이터 집합에 아직 바인딩되지 않았습니다.
 ChartReportItemBuilderImpl.log.UnableToLocate=차트 개체에 대한 보고서 항목 래퍼를 찾을 수 없습니다.
 
@@ -34,8 +33,5 @@ OpenChartTaskAction.Text.SelectChartType=차트 형식 선택(&S)...
 OpenChartTaskAction.Text.SelectData=데이터 선택(&A)...
 OpenChartTaskAction.Text.FormatChart=차트 형식 지정(&F)...
 
-ChartGeneralTabUIImpl.category.general=일반
-ChartGeneralTabUIImpl.category.types=형식
-
 GeneralPage.Library.Included=라이브러리:
-
+ChartEventHandlerPage.dialog.Browse=&Browse...

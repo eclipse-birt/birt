@@ -14,7 +14,6 @@ ChartDataBindingPage.Msg.AskSaveDataSet=バインドされたデータセットを変更しますか
 DesignerRepresentation.error.Error=エラー : 
 DesignerRepresentation.error.Error=エラー : 
 DesignerRepresentation.log.UnableToFind=デザイナで描画中に、グラフのモデルが見つかりません。
-
 ChartReportItemBuilderImpl.problem.hasNotBeenFound=グラフはデータセットにバインドされていません。
 ChartReportItemBuilderImpl.log.UnableToLocate=グラフオブジェクトのレポート項目ラッパーが見つかりません。
 
@@ -34,8 +33,5 @@ OpenChartTaskAction.Text.SelectChartType=グラフの種類の選択(&S)...
 OpenChartTaskAction.Text.SelectData=データの選択(&A)...
 OpenChartTaskAction.Text.FormatChart=グラフの書式設定(&F)...
 
-ChartGeneralTabUIImpl.category.general=全般
-ChartGeneralTabUIImpl.category.types=型
-
 GeneralPage.Library.Included=ライブラリ :
-
+ChartEventHandlerPage.dialog.Browse=&Browse...

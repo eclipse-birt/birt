@@ -14,7 +14,6 @@ ChartDataBindingPage.Msg.AskSaveDataSet=Möchten Sie den gebundenen Datensatz änd
 DesignerRepresentation.error.Error=Fehler: 
 DesignerRepresentation.error.Error=Fehler: 
 DesignerRepresentation.log.UnableToFind=Diagrammmodel konnte während des Renderns im Designer nicht gefunden werden.
-
 ChartReportItemBuilderImpl.problem.hasNotBeenFound=Das Diagramm wurde noch nicht mit einem Datensatz verknüpft.
 ChartReportItemBuilderImpl.log.UnableToLocate=Berichtobjekt-Wrapper für Diagrammobjekt kann nicht gefunden werden.
 
@@ -34,7 +33,5 @@ OpenChartTaskAction.Text.SelectChartType=&Diagrammtyp auswählen...
 OpenChartTaskAction.Text.SelectData=D&aten auswählen...
 OpenChartTaskAction.Text.FormatChart=Diagramm &formatieren...
 
-ChartGeneralTabUIImpl.category.general=Allgemein
-ChartGeneralTabUIImpl.category.types=Typen
-
 GeneralPage.Library.Included=Bibliothek:
+ChartEventHandlerPage.dialog.Browse=&Browse...

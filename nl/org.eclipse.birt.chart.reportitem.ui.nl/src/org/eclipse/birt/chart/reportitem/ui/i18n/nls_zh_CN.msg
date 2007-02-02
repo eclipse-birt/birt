@@ -14,7 +14,6 @@ ChartDataBindingPage.Msg.AskSaveDataSet=是否要更改绑定数据集？
 DesignerRepresentation.error.Error=错误: 
 DesignerRepresentation.error.Error=错误: 
 DesignerRepresentation.log.UnableToFind=设计器中执行呈现操作时无法找到图表模型
-
 ChartReportItemBuilderImpl.problem.hasNotBeenFound=该图表尚未绑定到数据集。
 ChartReportItemBuilderImpl.log.UnableToLocate=无法为图表对象找到报表项包装程序。
 
@@ -34,7 +33,5 @@ OpenChartTaskAction.Text.SelectChartType=选择图表类型(&S)...
 OpenChartTaskAction.Text.SelectData=选择数据(&A)...
 OpenChartTaskAction.Text.FormatChart=图表格式(&F)...
 
-ChartGeneralTabUIImpl.category.general=常规
-ChartGeneralTabUIImpl.category.types=类型
-
 GeneralPage.Library.Included=库:
+ChartEventHandlerPage.dialog.Browse=&Browse...

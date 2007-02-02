@@ -14,7 +14,6 @@ ChartDataBindingPage.Msg.AskSaveDataSet=¿Desea cambiar el conjunto de datos enla
 DesignerRepresentation.error.Error=Error: 
 DesignerRepresentation.error.Error=Error: 
 DesignerRepresentation.log.UnableToFind=No es posible encontrar el modelo de diagrama mientras se procesa en el diseñador.
-
 ChartReportItemBuilderImpl.problem.hasNotBeenFound=El diagrama no se ha enlazado aún a un conjunto de datos.
 ChartReportItemBuilderImpl.log.UnableToLocate=No se puede localizar el empaquetador de elementos de informe para el objeto de diagrama.
 
@@ -34,7 +33,5 @@ OpenChartTaskAction.Text.SelectChartType=&Seleccionar tipo de diagrama...
 OpenChartTaskAction.Text.SelectData=Seleccionar d&atos...
 OpenChartTaskAction.Text.FormatChart=&Formato de diagrama...
 
-ChartGeneralTabUIImpl.category.general=General
-ChartGeneralTabUIImpl.category.types=Tipos
-
 GeneralPage.Library.Included=Librería:
+ChartEventHandlerPage.dialog.Browse=&Browse...
