@@ -13,4 +13,4 @@ plugin@org.eclipse.birt.report.designer.ui.rcp=v20061221-1530,:pserver:anonymous
 plugin@org.eclipse.birt.report.designer.ui.views=v20061225-1650,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui.views
 plugin@org.eclipse.birt.report.designer.ui.editor.xml.wtp=v20070104-1300,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui.editor.xml.wtp
 
-plugin@org.eclipse.birt.report.designer.tests=v20061223,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.tests
+plugin@org.eclipse.birt.report.designer.tests=v20070202,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.tests
