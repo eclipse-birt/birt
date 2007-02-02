@@ -63,7 +63,7 @@
 							{
 						%>
 							<%= BirtResources.getMessage( "birt.viewer.navbar.prompt.one" )%>&nbsp;
-							<SPAN ID='pageNumber'><%= attributeBean.getReportPage( ) %></SPAN>&nbsp;
+							<SPAN ID='pageNumber'><%= ""+attributeBean.getReportPage( ) %></SPAN>&nbsp;
 							<%= BirtResources.getMessage( "birt.viewer.navbar.prompt.two" )%>&nbsp;
 							<SPAN ID='totalPage'></SPAN>
 						<%
