@@ -18,6 +18,8 @@ import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Tests parser compatibility.
  */
@@ -242,7 +244,7 @@ public class CompatibleBoundColumnsTest extends BaseTestCase
 		save( );
 		assertTrue( compareFile( "CompatibleRowsExpr_golden_1.xml" ) ); //$NON-NLS-1$
 
-		openDesign( "CompatibleRowsExpr_2.xml" ); //$NON-NLS-1$
+		openDesign( "CompatibleRowsExpr_2.xml" , ULocale.ENGLISH ); //$NON-NLS-1$
 		save( );
 		assertTrue( compareFile( "CompatibleRowsExpr_golden_2.xml" ) ); //$NON-NLS-1$
 

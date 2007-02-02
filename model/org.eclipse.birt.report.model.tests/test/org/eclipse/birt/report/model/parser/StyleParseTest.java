@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.Module;
@@ -652,8 +653,8 @@ public class StyleParseTest extends BaseTestCase
 		style
 				.setNumberFormatCategory( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY );
 
-		save();
-		assertTrue( compareFile( goldenFileName) );
+		save( );
+		assertTrue( compareFile( goldenFileName ) );
 	}
 
 	/**
@@ -813,11 +814,12 @@ public class StyleParseTest extends BaseTestCase
 		dimensionHandle = highlightHandle.getFontSize( );
 		dimensionHandle.setStringValue( "18pt" ); //$NON-NLS-1$
 
+		highlightHandle.setStyleName( "Empty Style" ); //$NON-NLS-1$
 		highlightHandle = (HighlightRuleHandle) highlightHandles.next( );
 		assertNull( highlightHandle );
 
-		save(); 
-		assertTrue( compareFile( "StyleParseTest_golden_1.xml") ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareFile( "StyleParseTest_golden_1.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -1084,8 +1086,12 @@ public class StyleParseTest extends BaseTestCase
 		dimensionHandle = highlightHandle.getTextIndent( );
 		assertNull( dimensionHandle.getStringValue( ) );
 
+		assertNull( highlightHandle.getStyle( ) );
+		assertEquals( "nonExistedStyle", highlightHandle //$NON-NLS-1$
+				.getProperty( HighlightRule.STYLE_MEMBER ) );
 		highlightHandle = (HighlightRuleHandle) highlightHandles.next( );
 		assertNull( highlightHandle );
+
 	}
 
 	/**
@@ -1152,23 +1158,23 @@ public class StyleParseTest extends BaseTestCase
 		String bkColor = label.getStringProperty( Style.BACKGROUND_COLOR_PROP );
 		assertEquals( "gray", bkColor ); //$NON-NLS-1$
 	}
-	
+
 	/**
-	 * Write page break inside
-	 * since 3.2.8
+	 * Write page break inside since 3.2.8
+	 * 
 	 * @throws Exception
 	 */
-	
+
 	public void testWriterPageBreak( ) throws Exception
 	{
 		openDesign( fileName );
 
 		LabelHandle label = (LabelHandle) designHandle.findElement( "label1" ); //$NON-NLS-1$
-		label.setProperty( IStyleModel.PAGE_BREAK_INSIDE_PROP , DesignChoiceConstants.PAGE_BREAK_INSIDE_AVOID );
-		
-		save();
-		assertTrue( compareFile(
-				"testWriterPageBreak_golden.xml") ); //$NON-NLS-1$  
+		label.setProperty( IStyleModel.PAGE_BREAK_INSIDE_PROP,
+				DesignChoiceConstants.PAGE_BREAK_INSIDE_AVOID );
+
+		save( );
+		assertTrue( compareFile( "testWriterPageBreak_golden.xml" ) ); //$NON-NLS-1$  
 
 	}
 
@@ -1182,7 +1188,7 @@ public class StyleParseTest extends BaseTestCase
 	{
 		openDesign( "StyleParseTest_obsolete.xml" ); //$NON-NLS-1$
 
-		save(); 
-		assertTrue( compareFile( "StyleParseTest_obsolete_golden.xml") ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareFile( "StyleParseTest_obsolete_golden.xml" ) ); //$NON-NLS-1$
 	}
 }

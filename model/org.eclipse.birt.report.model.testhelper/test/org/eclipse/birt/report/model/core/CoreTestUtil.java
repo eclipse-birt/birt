@@ -116,24 +116,39 @@ public class CoreTestUtil
 	 * @param session
 	 * @return the design list in the session
 	 */
-	
+
 	public static List getDesigns( DesignSession session )
 	{
 		if ( session == null )
 			return null;
 		return session.designs;
 	}
-	
+
 	/**
 	 * Gets the cached element definition.
+	 * 
 	 * @param element
 	 * @return
 	 */
-	
+
 	public static IElementDefn getCachedElementDefn( DesignElement element )
 	{
 		if ( element == null )
 			return null;
 		return element.cachedDefn;
+	}
+
+	/**
+	 * 
+	 * @param designElement
+	 * @param container
+	 * @param i
+	 */
+	public static void setContainer( DesignElement designElement,
+			DesignElement container, int i )
+	{
+		if ( designElement != null )
+			designElement.setContainer( container, i );
+
 	}
 }

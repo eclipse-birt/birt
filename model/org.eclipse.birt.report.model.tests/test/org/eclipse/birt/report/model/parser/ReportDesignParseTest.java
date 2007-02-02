@@ -15,16 +15,21 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.codec.binary.Base64;
+import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.ErrorDetail;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.IncludeScriptHandle;
 import org.eclipse.birt.report.model.api.IncludedLibraryHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ScriptLibHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
@@ -33,8 +38,6 @@ import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.elements.Cell;
-import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
@@ -804,12 +807,27 @@ public class ReportDesignParseTest extends BaseTestCase
 	{
 		openDesign( "LineNumberParseTest.xml" ); //$NON-NLS-1$
 		TableHandle table = (TableHandle) designHandle.findElement( "table1" );//$NON-NLS-1$
-		assertEquals( 373, design.getLineNoByID( table.getID( ) ) );
+		assertEquals( 373, designHandle.getLineNo( table ) );
 
-		Cell cell = (Cell) design.getElementByID( 45 );
-		assertEquals( 395, design.getLineNoByID( cell.getID( ) ) );
+		CellHandle cell = (CellHandle) designHandle.getElementByID( 45 );
+		assertEquals( 395, designHandle.getLineNo( cell ) );
 
-		ExtendedItem chart = (ExtendedItem) design.getElementByID( 34023 );
-		assertEquals( 400, design.getLineNoByID( chart.getID( ) ) );
+		ExtendedItemHandle chart = (ExtendedItemHandle) designHandle
+				.getElementByID( 34023 );
+		assertEquals( 400, designHandle.getLineNo( chart ) );
+
+		// test embedded image
+		EmbeddedImageHandle image = (EmbeddedImageHandle) designHandle
+				.getAllImages( ).get( 0 );
+		assertEquals( 407, designHandle.getLineNo( image ) );
+
+		// test include library
+		LibraryHandle library = (LibraryHandle) designHandle.getLibraries( )
+				.get( 0 );
+		assertEquals( 8, designHandle.getLineNo( library ) );
+
+		// test theme property
+		ThemeHandle theme = (ThemeHandle) designHandle.getTheme( );
+		assertEquals( 6, designHandle.getLineNo( theme ) );
 	}
 }

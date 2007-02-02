@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.TemplateElementHandle;
 import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
@@ -114,10 +115,11 @@ public class TemplateCommandTest extends BaseTestCase
 		design.getVersionManager( ).setVersion(
 				DesignSchemaConstants.REPORT_VERSION );
 
-		ContentCommand command = new ContentCommand( design, design );
-		command.add( designElement, ReportDesign.BODY_SLOT );
-		command.add( templateItem, ReportDesign.BODY_SLOT );
-		
+		ContentCommand command = new ContentCommand( design, new ContainerContext(
+				design, ReportDesign.BODY_SLOT ) );
+		command.add( designElement );
+		command.add( templateItem );
+
 		save( );
 		assertTrue( compareFile( GOLEAN_FILE ) );
 	}

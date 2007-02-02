@@ -106,6 +106,11 @@ public class SimpleMasterPageHandleTest extends BaseTestCase
 		assertFalse( mHandle.showHeaderOnFirst( ) );
 		assertTrue( mHandle.showFooterOnLast( ) );
 		assertTrue( mHandle.isFloatingFooter( ) );
+		
+		assertEquals( "0.5in" , mHandle.getHeaderHeight( ).getDisplayValue( ));
+		assertEquals( "in" , mHandle.getHeaderHeight( ).getDefaultUnit( ) );
+		assertEquals( "0.5in" , mHandle.getFooterHeight( ).getDisplayValue( ) );
+		assertEquals( "in" , mHandle.getFooterHeight( ).getDefaultUnit( ) );
 	}
 
 	/**

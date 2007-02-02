@@ -53,7 +53,7 @@ public class StringPropertyTypeTest extends PropertyTypeTestCase
 	{
         assertEquals( null, type.validateValue( design, propDefn, null ) );
         assertEquals( null, type.validateValue( design, propDefn, "" ) ); //$NON-NLS-1$
-		assertEquals( "    ", type.validateValue( design, propDefn, "    " ) ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( "", type.validateValue( design, propDefn, "    " ) ); //$NON-NLS-1$//$NON-NLS-2$
 		assertEquals( "abc", type.validateValue( design, propDefn, "abc" ) ); //$NON-NLS-1$//$NON-NLS-2$
 		assertEquals(
 				"123", type.validateValue( design, propDefn, new Integer( 123 ) ) ); //$NON-NLS-1$
@@ -83,7 +83,7 @@ public class StringPropertyTypeTest extends PropertyTypeTestCase
 	{
         assertEquals( null, type.validateValue( design, propDefn, null ) );
         assertEquals( null, type.validateValue( design, propDefn, "" ) ); //$NON-NLS-1$
-		assertEquals( "    ", type.validateValue( design, propDefn, "    " ) );  //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals( "", type.validateValue( design, propDefn, "    " ) );  //$NON-NLS-1$//$NON-NLS-2$
 		assertEquals(
 				"any-input", type.validateXml( design, propDefn, "any-input" ) ); //$NON-NLS-1$//$NON-NLS-2$
 	}

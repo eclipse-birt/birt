@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -123,16 +124,23 @@ public class GroupElementHandleTest extends BaseTestCase
 		MockupElementDefn elemDefn2 = new MockupElementDefn( );
 		MockupElementDefn elemDefn3 = new MockupElementDefn( );
 
+		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
+		PropertyType type = dd.getPropertyType( IPropertyType.STRING_TYPE );
 		ElementPropertyDefn prop1 = new SystemPropertyDefn( );
 		prop1.setName( "prop1" ); //$NON-NLS-1$
+		prop1.setType( type );
 		ElementPropertyDefn prop2 = new SystemPropertyDefn( );
 		prop2.setName( "prop2" ); //$NON-NLS-1$
+		prop2.setType( type );
 		ElementPropertyDefn prop3 = new SystemPropertyDefn( );
 		prop3.setName( "prop3" ); //$NON-NLS-1$
+		prop3.setType( type );
 		ElementPropertyDefn prop4 = new SystemPropertyDefn( );
 		prop4.setName( "prop4" ); //$NON-NLS-1$
+		prop4.setType( type );
 		ElementPropertyDefn prop5 = new SystemPropertyDefn( );
 		prop5.setName( "prop5" ); //$NON-NLS-1$
+		prop5.setType( type );
 
 		elemDefn1.addProperty( prop1 );
 		elemDefn1.addProperty( prop2 );

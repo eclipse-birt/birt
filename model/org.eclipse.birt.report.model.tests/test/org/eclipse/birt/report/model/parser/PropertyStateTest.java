@@ -115,7 +115,7 @@ public class PropertyStateTest extends BaseTestCase
 				.findElement( "data1" ); //$NON-NLS-1$
 		assertNull( dataHandle.getResultSetExpression( ) );
 		dataHandle.setResultSetColumn( "   a   " ); //$NON-NLS-1$
-		assertEquals( "   a   ", dataHandle.getResultSetColumn( ) ); //$NON-NLS-1$
+		assertEquals( "a", dataHandle.getResultSetColumn( ) ); //$NON-NLS-1$
 
 		// Test the image data value
 

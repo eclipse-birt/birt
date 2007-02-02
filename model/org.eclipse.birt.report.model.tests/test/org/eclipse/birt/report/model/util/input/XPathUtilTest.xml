@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.8" id="1">
+    <property name="author">W.C. Fields</property>
+    <property name="helpGuide">http://company.com/reportHelp.html</property>
+    <property name="createdBy">Whiz-Bang Plus</property>
+    <property name="base">c:\</property>
+    <text-property name="title" key="TITLE_ID">Sample Report</text-property>
+    <property name="comments">First sample report.</property>
+    <html-property name="description" key="DESCRIP_ID">This is a first sample report.</html-property>
+    <property name="refreshRate">30</property>
+    <list-property name="configVars">
+        <structure>
+            <property name="name">var1</property>
+            <property name="value">mumble.jpg</property>
+        </structure>
+        <structure>
+            <property name="name">var2</property>
+            <property name="value">abcdefg</property>
+        </structure>
+    </list-property>
+    <parameters>
+        <scalar-parameter name="Param 1" id="2">
+            <text-property name="displayName">State</text-property>
+        </scalar-parameter>
+        <parameter-group name="My Param Group" id="3">
+            <property name="comments">About my param group</property>
+            <text-property name="displayName">Group 1</text-property>
+            <property name="startExpanded">true</property>
+            <text-property name="helpText">This group contains a bunch of parameters.</text-property>
+            <parameters>
+                <scalar-parameter name="Param 2" id="4">
+                    <text-property name="displayName">Param 2</text-property>
+                </scalar-parameter>
+            </parameters>
+        </parameter-group>
+        <scalar-parameter name="Param 3" id="5">
+            <text-property name="displayName">City</text-property>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source name="extendedDataSource" id="6"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="firstDataSet" id="7">
+            <property name="dataSource">extendedDataSource</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">name</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">date</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">id</property>
+                    <property name="dataType">integer</property>
+                </structure>
+            </list-property>
+			<structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">name1</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">date1</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                </list-property>
+            </structure>                        
+        </oda-data-set>     
+    </data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page" id="8">
+            <property name="type">us-letter</property>
+            <property name="orientation">auto</property>
+            <property name="columns">1</property>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+        <image name="wrong" id="9">
+            <property name="source">file</property>
+            <expression name="uri">c:/nofile/nofile.data</expression>
+        </image>
+        <table name="My table1">
+            <property name="dataSet">firstDataSet</property>
+            <group>
+				<property name="keyExpr">row.state</property>
+                <header>
+                    <row>
+                        <cell>
+                            <property name="colSpan">2</property>
+                            <property name="drop">all</property>
+                        </cell>
+                        <cell>
+                        </cell>
+                    </row>
+                </header>
+            </group>
+            <detail>
+                <row>
+                    <cell>
+                    </cell>
+                    <cell>
+                    	<label name="My table1 nested label1"/>
+                    </cell>                    
+                </row>
+            </detail>
+        </table>               
+        <text name="My text1">
+            <text-property name="content" key="dynamic"><![CDATA[    text value expr    ]]></text-property>
+        </text>
+        <extended-item name="matrix1" extensionName="TestingMatrix"/>      
+        <list name="My list1">       
+            <detail>
+                <label/>
+            </detail>
+            <footer>
+                <label/>
+            </footer>
+        </list>          
+    </body>
+    <list-property name="images">
+        <structure>
+            <property name="name">image1</property>
+            <property name="type">image/bmp</property>
+            <property name="data">imagetesAAA=imagetesAAA=imagetesAAA=imagetesAAA=imagetesAAA=imagetesAAA=imagetes</property>
+        </structure>		
+    </list-property>    
+</report>

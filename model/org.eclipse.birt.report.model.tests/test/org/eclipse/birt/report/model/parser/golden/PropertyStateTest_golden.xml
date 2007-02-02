@@ -11,7 +11,7 @@
     <body>
         <label name="label1" id="5"/>
         <data name="data1" id="6">
-            <property name="resultSetColumn">   a   </property>
+            <property name="resultSetColumn">a</property>
         </data>
         <text name="text1" id="7">
             <property name="contentType">auto</property>

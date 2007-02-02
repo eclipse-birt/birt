@@ -103,7 +103,7 @@ public class LibraryChangeChartDataSetTest extends BaseTestCase
 	public void testChangeChartDataSet( ) throws SemanticException
 	{
 		ExtendedItemHandle itemHandle = (ExtendedItemHandle) designHandle
-				.findElement( "NewChart" ); //$NON-NLS-1$
+				.findElement( "NewTestingMatrix" ); //$NON-NLS-1$
 		assertNotNull( itemHandle );
 		
 		int count = getColumnBindingsCount( itemHandle.columnBindingsIterator( ) );

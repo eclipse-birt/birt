@@ -886,8 +886,8 @@ public class DesignElementTest extends BaseTestCase
 	 */
 	protected void setUp( ) throws Exception
 	{
-		super.setUp();
-		
+		super.setUp( );
+
 		sessionHandle = engine.newSessionHandle( ULocale.ENGLISH );
 		designElement = new TextItem( );
 		designElement.setName( "element" ); //$NON-NLS-1$
@@ -1149,10 +1149,7 @@ public class DesignElementTest extends BaseTestCase
 		assertNull( o );
 
 		// must let parent on the design tree if want to set extends
-
-		design.getSlot( IReportDesignModel.BODY_SLOT ).add( parent );
-		parent.setContainer( design, IReportDesignModel.BODY_SLOT );
-
+		design.add( parent, IReportDesignModel.BODY_SLOT );
 		designElement.setExtendsElement( parent );
 		o = designElement.getProperty( design, "MyProperty" );//$NON-NLS-1$
 		assertEquals( "userParent", o );//$NON-NLS-1$
@@ -1169,9 +1166,7 @@ public class DesignElementTest extends BaseTestCase
 		assertNull( o );
 
 		// must let parent on the design tree if want to set extends
-
-		design.getSlot( IReportDesignModel.BODY_SLOT ).add( grand );
-		grand.setContainer( design, IReportDesignModel.BODY_SLOT );
+		design.add( grand, IReportDesignModel.BODY_SLOT );
 
 		parent.setExtendsElement( grand );
 		o = designElement.getProperty( design,

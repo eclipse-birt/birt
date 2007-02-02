@@ -29,6 +29,7 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.elements.table.LayoutTableModel;
+import org.eclipse.birt.report.model.core.CoreTestUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
@@ -890,7 +891,7 @@ public class ActivityStackTest extends BaseTestCase
 	public void testNotification( )
 	{
 		DesignElement container = new MockupDesignElement( );
-		designElement.setContainer( container, 1 );
+		CoreTestUtil.setContainer( designElement, container, 1 );
 
 		MyActivityStackListener listener = new MyActivityStackListener( );
 		as.addListener( listener );

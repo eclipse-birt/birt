@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.extension;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.ActionHandle;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
@@ -28,7 +29,10 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IColorConstants;
+import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
@@ -39,7 +43,6 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionPropertyDefn;
-import org.eclipse.birt.report.model.metadata.ExtensionSlotDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
@@ -56,6 +59,9 @@ import com.ibm.icu.util.ULocale;
 public class PeerExtensionTest extends BaseTestCase
 {
 
+	protected static final String HEADER_PROP = "header"; //$NON-NLS-1$
+	protected static final String DETAIL_PROP = "detail"; //$NON-NLS-1$
+	protected static final String FOOTER_PROP = "footer"; //$NON-NLS-1$
 	protected static final String TESTING_BOX_NAME = "TestingBox"; //$NON-NLS-1$
 	private static final String FILE_NAME = "PeerExtensionTest.xml"; //$NON-NLS-1$
 	private static final String FILE_NAME_1 = "PeerExtensionTest_1.xml"; //$NON-NLS-1$
@@ -130,41 +136,41 @@ public class PeerExtensionTest extends BaseTestCase
 		assertEquals( PropertyType.LIST_TYPE, propDefn.getTypeCode( ) );
 		assertEquals( PropertyType.FLOAT_TYPE, propDefn.getSubTypeCode( ) );
 
-		// get the slot definitions
+		// get the slot property definitions
 		assertTrue( extDefn.isContainer( ) );
-		assertEquals( 3, extDefn.getSlotCount( ) );
+		assertEquals( 0, extDefn.getSlotCount( ) );
 		// header slot
-		ExtensionSlotDefn slotDefn = (ExtensionSlotDefn) extDefn.getSlot( 0 );
-		assertEquals( "header", slotDefn.getName( ) ); //$NON-NLS-1$
+		PropertyDefn slotPropertyDefn = (PropertyDefn) extDefn
+				.getProperty( HEADER_PROP );
+		assertEquals( IPropertyType.ELEMENT_TYPE, slotPropertyDefn
+				.getTypeCode( ) );
 		assertEquals(
-				"Element.TestingBox.slot.header", slotDefn.getDisplayNameID( ) ); //$NON-NLS-1$
-		assertEquals( "defaultHeader", slotDefn.getDisplayName( ) ); //$NON-NLS-1$
-		assertFalse( slotDefn.isMultipleCardinality( ) );
-		assertEquals( "header", slotDefn.getXmlName( ) ); //$NON-NLS-1$
-		assertEquals( "testing-box-header", slotDefn.getSelector( ) ); //$NON-NLS-1$
+				"Element.TestingBox.slot.header", slotPropertyDefn.getDisplayNameID( ) ); //$NON-NLS-1$
+		assertEquals( "defaultHeader", slotPropertyDefn.getDisplayName( ) ); //$NON-NLS-1$
+		assertFalse( slotPropertyDefn.isList( ) );
+		List allowedElements = slotPropertyDefn.getAllowedElements( false );
+		assertEquals( 3, allowedElements.size( ) );
+		assertTrue( allowedElements.contains( dd
+				.getElement( ReportDesignConstants.LABEL_ITEM ) ) );
+		assertTrue( allowedElements.contains( dd
+				.getElement( ReportDesignConstants.GRID_ITEM ) ) );
+		assertTrue( allowedElements.contains( dd.getElement( "TestingMatrix" ) ) ); //$NON-NLS-1$
 		// detail slot
-		slotDefn = (ExtensionSlotDefn) extDefn.getSlot( 1 );
-		assertEquals( "detail", slotDefn.getName( ) ); //$NON-NLS-1$
+		slotPropertyDefn = (PropertyDefn) extDefn.getProperty( DETAIL_PROP );
 		assertEquals(
-				"Element.TestingBox.slot.detail", slotDefn.getDisplayNameID( ) ); //$NON-NLS-1$
-		assertEquals( "defaultDetail", slotDefn.getDisplayName( ) ); //$NON-NLS-1$
-		assertTrue( slotDefn.isMultipleCardinality( ) );
-		assertEquals( "detail", slotDefn.getXmlName( ) ); //$NON-NLS-1$
-		assertEquals( "testing-box-detail", slotDefn.getSelector( ) ); //$NON-NLS-1$
+				"Element.TestingBox.slot.detail", slotPropertyDefn.getDisplayNameID( ) ); //$NON-NLS-1$
+		assertEquals( "defaultDetail", slotPropertyDefn.getDisplayName( ) ); //$NON-NLS-1$
+		assertTrue( slotPropertyDefn.isList( ) );
+		assertEquals( 4, slotPropertyDefn.getAllowedElements( false ).size( ) );
+		assertTrue( slotPropertyDefn.getAllowedElements( ).size( ) > 4 );
 		// footer slot
-		slotDefn = (ExtensionSlotDefn) extDefn.getSlot( 2 );
-		assertEquals( "footer", slotDefn.getName( ) ); //$NON-NLS-1$
+		slotPropertyDefn = (PropertyDefn) extDefn.getProperty( FOOTER_PROP );
+		assertEquals( "footer", slotPropertyDefn.getName( ) ); //$NON-NLS-1$
 		assertEquals(
-				"Element.TestingBox.slot.footer", slotDefn.getDisplayNameID( ) ); //$NON-NLS-1$
-		assertEquals( "defaultFooter", slotDefn.getDisplayName( ) ); //$NON-NLS-1$
-		assertFalse( slotDefn.isMultipleCardinality( ) );
-		assertEquals( "footer", slotDefn.getXmlName( ) ); //$NON-NLS-1$
-		assertEquals( "testing-box-footer", slotDefn.getSelector( ) ); //$NON-NLS-1$
+				"Element.TestingBox.slot.footer", slotPropertyDefn.getDisplayNameID( ) ); //$NON-NLS-1$
+		assertEquals( "defaultFooter", slotPropertyDefn.getDisplayName( ) ); //$NON-NLS-1$
+		assertFalse( slotPropertyDefn.isList( ) );
 
-		// test the predefined style
-		assertNotNull( dd.getPredefinedStyle( "testing-box-header" ) ); //$NON-NLS-1$
-		assertNotNull( dd.getPredefinedStyle( "testing-box-detail" ) ); //$NON-NLS-1$
-		assertNotNull( dd.getPredefinedStyle( "testing-box-footer" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -188,30 +194,37 @@ public class PeerExtensionTest extends BaseTestCase
 		assertEquals( 15.678, ( (Double) points.get( 2 ) ).doubleValue( ),
 				0.001 );
 
-		// test header slot
-		SlotHandle slot = extendedItem.getSlot( 0 );
-		ExtendedItemHandle contentExtendedItem = (ExtendedItemHandle) slot
-				.get( 0 );
+		// test header slot: value and the content element is added to namespace
+		// and id-map
+		Object slotPropertyVaiue = extendedItem.getProperty( HEADER_PROP );
+		ExtendedItemHandle contentExtendedItem = (ExtendedItemHandle) slotPropertyVaiue;
 		assertEquals( "headerMatrix", contentExtendedItem.getName( ) ); //$NON-NLS-1$
+		assertEquals( contentExtendedItem, designHandle
+				.findElement( "headerMatrix" ) ); //$NON-NLS-1$
+		assertEquals( contentExtendedItem, designHandle
+				.getElementByID( contentExtendedItem.getID( ) ) );
 		// it is a single slot, can not contain any item
-		assertTrue( slot.getDefn( ).canContain(
+		PropertyHandle propHandle = extendedItem
+				.getPropertyHandle( HEADER_PROP );
+		assertTrue( extendedItem.getPropertyDefn( HEADER_PROP ).canContain(
 				MetaDataDictionary.getInstance( ).getElement(
 						ReportDesignConstants.LABEL_ITEM ) ) );
-		assertFalse( slot.canContain( ReportDesignConstants.LABEL_ITEM ) );
+		assertFalse( propHandle.canContain( ReportDesignConstants.LABEL_ITEM ) );
 
 		// test detail slot
-		slot = extendedItem.getSlot( 1 );
-		TableHandle table = (TableHandle) slot.get( 0 );
+		propHandle = extendedItem.getPropertyHandle( DETAIL_PROP );
+		TableHandle table = (TableHandle) propHandle.get( 0 );
 		assertEquals( "testTable", table.getName( ) ); //$NON-NLS-1$
 		// get the cell content slot of the table detail row
 		// TODO getCell(int, int)
-		slot = table.getDetail( ).get( 0 ).getSlot( 0 ).get( 0 ).getSlot( 0 );
+		SlotHandle slot = table.getDetail( ).get( 0 ).getSlot( 0 ).get( 0 )
+				.getSlot( 0 );
 		contentExtendedItem = (ExtendedItemHandle) slot.get( 0 );
 		assertEquals( "detailBox", contentExtendedItem.getName( ) ); //$NON-NLS-1$
 
 		// test footer slot
-		slot = extendedItem.getSlot( 2 );
-		GridHandle grid = (GridHandle) slot.get( 0 );
+		propHandle = extendedItem.getPropertyHandle( FOOTER_PROP );
+		GridHandle grid = (GridHandle) propHandle.get( 0 );
 		assertEquals( "footerGrid", grid.getName( ) ); //$NON-NLS-1$
 
 		openDesign( FILE_NAME_4 );
@@ -242,13 +255,14 @@ public class PeerExtensionTest extends BaseTestCase
 		assertNotNull( extendedItem );
 
 		// add some items to detail slot and then save
-		SlotHandle slot = extendedItem.getSlot( 1 );
+		PropertyHandle propHandle = extendedItem
+				.getPropertyHandle( DETAIL_PROP );
 		LabelHandle label = designHandle.getElementFactory( ).newLabel(
 				"addLabel" ); //$NON-NLS-1$
-		slot.add( label );
+		propHandle.add( label );
 		IDesignElement clonedExtendedItem = extendedItem.copy( );
 		designHandle.rename( clonedExtendedItem.getHandle( design ) );
-		slot.paste( clonedExtendedItem );
+		propHandle.paste( clonedExtendedItem );
 
 		// add a testing table
 		ExtendedItemHandle extendedTable = designHandle.getElementFactory( )
@@ -298,24 +312,24 @@ public class PeerExtensionTest extends BaseTestCase
 				.getStringProperty( IStyleModel.FONT_FAMILY_PROP ) );
 		assertEquals( DesignChoiceConstants.FONT_SIZE_LARGER, table
 				.getStringProperty( IStyleModel.FONT_SIZE_PROP ) );
-		// table properties get from the extended-item detail slot selector
-		assertEquals( DesignChoiceConstants.FONT_WEIGHT_BOLD, table
-				.getStringProperty( IStyleModel.FONT_WEIGHT_PROP ) );
-		assertEquals( DesignChoiceConstants.FONT_STYLE_ITALIC, table
-				.getStringProperty( IStyleModel.FONT_STYLE_PROP ) );
+		// TODO:table properties get from the extended-item detail slot selector
+		// assertEquals( DesignChoiceConstants.FONT_WEIGHT_BOLD, table
+		// .getStringProperty( IStyleModel.FONT_WEIGHT_PROP ) );
+		// assertEquals( DesignChoiceConstants.FONT_STYLE_ITALIC, table
+		// .getStringProperty( IStyleModel.FONT_STYLE_PROP ) );
 
 		// test the label in the contained extended-item header slot
 		LabelHandle label = (LabelHandle) designHandle
 				.findElement( "testLabel" ); //$NON-NLS-1$
-		assertEquals( IColorConstants.BLUE, label
+		assertEquals( IColorConstants.RED, label
 				.getStringProperty( IStyleModel.COLOR_PROP ) );
 		assertEquals( DesignChoiceConstants.FONT_FAMILY_FANTASY, label
 				.getStringProperty( IStyleModel.FONT_FAMILY_PROP ) );
 		assertEquals( DesignChoiceConstants.FONT_SIZE_LARGER, label
 				.getStringProperty( IStyleModel.FONT_SIZE_PROP ) );
-		assertEquals( DesignChoiceConstants.FONT_WEIGHT_BOLD, label
+		assertEquals( DesignChoiceConstants.FONT_WEIGHT_NORMAL, label
 				.getStringProperty( IStyleModel.FONT_WEIGHT_PROP ) );
-		assertEquals( DesignChoiceConstants.FONT_STYLE_ITALIC, label
+		assertEquals( DesignChoiceConstants.FONT_STYLE_NORMAL, label
 				.getStringProperty( IStyleModel.FONT_STYLE_PROP ) );
 	}
 
@@ -352,41 +366,42 @@ public class PeerExtensionTest extends BaseTestCase
 		points.addItem( "18.9" ); //$NON-NLS-1$
 
 		// test header slot
-		SlotHandle slot = extendedItem.getSlot( 0 );
-		ExtendedItemHandle contentExtendedItem = (ExtendedItemHandle) slot
+		PropertyHandle propHandle = extendedItem
+				.getPropertyHandle( HEADER_PROP );
+		ExtendedItemHandle contentExtendedItem = (ExtendedItemHandle) propHandle
 				.get( 0 );
 		// it is a single slot, can not contain any item
 		LabelHandle label = designHandle.getElementFactory( ).newLabel(
 				"label1" ); //$NON-NLS-1$
 		try
 		{
-			slot.add( label );
+			propHandle.add( label );
 			fail( );
 		}
 		catch ( SemanticException e )
 		{
 		}
 		contentExtendedItem.drop( );
-		assertEquals( 0, slot.getCount( ) );
-		slot.add( label );
-		assertEquals( 1, slot.getCount( ) );
+		assertEquals( 0, propHandle.getContentCount( ) );
+		propHandle.add( label );
+		assertEquals( 1, propHandle.getContentCount( ) );
 		assertEquals( extendedItem, label.getContainer( ) );
 
 		// test detail slot
-		slot = extendedItem.getSlot( 1 );
-		TableHandle table = (TableHandle) slot.get( 0 );
+		propHandle = extendedItem.getPropertyHandle( DETAIL_PROP );
+		TableHandle table = (TableHandle) propHandle.get( 0 );
 		TableGroupHandle tableGroup = designHandle.getElementFactory( )
 				.newTableGroup( );
 		table.getGroups( ).add( tableGroup );
 		assertEquals( table, tableGroup.getContainer( ) );
 		ListHandle list = designHandle.getElementFactory( ).newList( "list" ); //$NON-NLS-1$
-		slot.add( list );
-		assertEquals( 2, slot.getCount( ) );
+		propHandle.add( list );
+		assertEquals( 2, propHandle.getContentCount( ) );
 		// add element to detail directly
 		save( );
 		assertTrue( compareFile( "PeerExtensionTest_golden_1.xml" ) ); //$NON-NLS-1$
 	}
-
+	
 	/**
 	 * 
 	 * @throws Exception
@@ -482,4 +497,53 @@ public class PeerExtensionTest extends BaseTestCase
 		assertNull( dd.getExtension( "wrongTestExtension" ) ); //$NON-NLS-1$
 	}
 
+	protected static final String TESTING_TABLE = "TestingTable"; //$NON-NLS-1$
+
+	protected static final String TABLE = "Table";//$NON-NLS-1$
+
+	/**
+	 * Tests extension allowed units.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testExtensionAllowedUnits( ) throws Exception
+	{
+		
+		//Test get allowed units in metadata.
+		
+		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
+
+		ExtensionElementDefn extDefn = (ExtensionElementDefn) dd
+				.getExtension( TESTING_TABLE );
+		IPropertyDefn defn = (IPropertyDefn) extDefn.getProperty( "width" ); //$NON-NLS-1$
+		IChoiceSet set = defn.getAllowedChoices( );
+		assertNotNull( set.findChoice( "in" ) );//$NON-NLS-1$
+		assertNotNull( set.findChoice( "cm" ) );//$NON-NLS-1$
+		assertNull( set.findChoice( "mm" ) );//$NON-NLS-1$
+		assertNull( set.findChoice( "pt" ) );//$NON-NLS-1$
+
+		set = dd.getElement( TABLE )
+				.findProperty( "width" ).getAllowedChoices( ); //$NON-NLS-1$
+
+		assertNotNull( set.findChoice( "in" ) );//$NON-NLS-1$
+		assertNotNull( set.findChoice( "cm" ) );//$NON-NLS-1$
+		assertNotNull( set.findChoice( "mm" ) );//$NON-NLS-1$
+		assertNotNull( set.findChoice( "pt" ) );//$NON-NLS-1$
+		
+		//Test 'getPropertyDefn' method in DesignElementHandle class.
+		
+		openDesign( FILE_NAME_4 );
+		ExtendedItemHandle extendedItem = (ExtendedItemHandle) designHandle
+				.findElement( "testTable" ); //$NON-NLS-1$
+		
+		defn = extendedItem.getPropertyDefn( "width" );
+		set = defn.getAllowedChoices( );
+		
+		assertNotNull( set.findChoice( "in" ) );//$NON-NLS-1$
+		assertNotNull( set.findChoice( "cm" ) );//$NON-NLS-1$
+		assertNull( set.findChoice( "mm" ) );//$NON-NLS-1$
+		assertNull( set.findChoice( "pt" ) );//$NON-NLS-1$
+		
+	}
 }

@@ -21,10 +21,12 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.command.ElementDeletedEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
+import org.eclipse.birt.report.model.core.CoreTestUtil;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TableRow;
+import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
 
 /**
  * Test event filter class
@@ -45,21 +47,27 @@ public class EventFilterTest extends BaseTestCase
 	protected void setUp( ) throws Exception
 	{
 		List conds = new ArrayList( );
-		conds.add( FilterConditionFactory.createFilterCondition( FilterConditionFactory.ELEMENT_ADDED_FILTER_CONDITION ) );
-		conds.add( FilterConditionFactory.createFilterCondition( FilterConditionFactory.ELEMENT_DELETED_FILTER_CONDITION ) );
-		conds.add( FilterConditionFactory.createFilterCondition( FilterConditionFactory.SAME_EVENT_FILTER_CONDITION ) );
+		conds
+				.add( FilterConditionFactory
+						.createFilterCondition( FilterConditionFactory.ELEMENT_ADDED_FILTER_CONDITION ) );
+		conds
+				.add( FilterConditionFactory
+						.createFilterCondition( FilterConditionFactory.ELEMENT_DELETED_FILTER_CONDITION ) );
+		conds
+				.add( FilterConditionFactory
+						.createFilterCondition( FilterConditionFactory.SAME_EVENT_FILTER_CONDITION ) );
 		filter = new EventFilter( conds );
-		
+
 		design = new ReportDesign( null );
 		grid = new GridItem( );
 		row = new TableRow( );
-		row.setContainer( grid, GridItem.ROW_SLOT );
+		CoreTestUtil.setContainer( row, grid, IGridItemModel.ROW_SLOT );
 
 		cell1 = new Cell( );
-		cell1.setContainer( row, TableRow.CONTENT_SLOT );
+		CoreTestUtil.setContainer( cell1, row, TableRow.CONTENT_SLOT );
 
 		cell2 = new Cell( );
-		cell2.setContainer( row, TableRow.CONTENT_SLOT );
+		CoreTestUtil.setContainer( cell2, row, TableRow.CONTENT_SLOT );
 	}
 
 	/**
@@ -134,13 +142,13 @@ public class EventFilterTest extends BaseTestCase
 		ReportDesign design = new ReportDesign( null );
 		GridItem grid = new GridItem( );
 		TableRow row = new TableRow( );
-		row.setContainer( grid, GridItem.ROW_SLOT );
+		CoreTestUtil.setContainer( row, grid, GridItem.ROW_SLOT );
 
 		Cell cell1 = new Cell( );
-		cell1.setContainer( row, TableRow.CONTENT_SLOT );
+		CoreTestUtil.setContainer( cell1, row, TableRow.CONTENT_SLOT );
 
 		Cell cell2 = new Cell( );
-		cell2.setContainer( row, TableRow.CONTENT_SLOT );
+		CoreTestUtil.setContainer( cell2, row, TableRow.CONTENT_SLOT );
 
 		List chain = new ArrayList( );
 

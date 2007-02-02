@@ -87,8 +87,8 @@ public class LabelHandleTest extends BaseTestCase
 
 		// Treats "" is as same as null.
 
-		label.setText( "" ); //$NON-NLS-1$
-		assertEquals( null, label.getText( ) );
+		label.setText( "" ); //$NON-NLS-1$ 
+		assertEquals( "", label.getText( ) ); //$NON-NLS-1$
 
 		// get font size default value.
 
@@ -121,7 +121,7 @@ public class LabelHandleTest extends BaseTestCase
 	{
 		LabelHandle handle10 = (LabelHandle) designHandle
 				.findElement( "label10" );//$NON-NLS-1$
-		assertNull( handle10.getDisplayText( ) );
+		assertEquals( "", handle10.getDisplayText( ) ); //$NON-NLS-1$
 		assertNull( handle10.getRoot( ).getMessage( handle10.getTextKey( ) ) );
 
 		LabelHandle handle11 = (LabelHandle) designHandle

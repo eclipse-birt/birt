@@ -46,6 +46,13 @@ public class DocumentUtilTest extends BaseTestCase
 	private static final String DESIGN_WITH_INDIRECT_REFERENCE = "DocumentUtilTest_2.xml"; //$NON-NLS-1$
 
 	/**
+	 * Design file name. Tests the shared style's name must not become element's
+	 * name.
+	 */
+
+	private static final String DESIGN_WITH_SHARED_STYLE = "DocumentUtilTest_3.xml"; //$NON-NLS-1$
+
+	/**
 	 * Tests the element property value localization.
 	 * 
 	 * @throws Exception
@@ -173,5 +180,22 @@ public class DocumentUtilTest extends BaseTestCase
 	{
 		os = new ByteArrayOutputStream( );
 		DocumentUtil.serialize( designHandle, os );
+	}
+
+	/**
+	 * If two non-named element refers the same shared style, their names should
+	 * not be style names.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testSerializeWithSharedStyle( ) throws Exception
+	{
+		openDesign( DESIGN_WITH_SHARED_STYLE );
+		assertNotNull( designHandle );
+
+		serializeDocument( );
+		
+		assertTrue( compareFile( "DocumentUtilTest_shared_style_golden.xml" ) ); //$NON-NLS-1$
 	}
 }

@@ -37,11 +37,11 @@
         	<property name="dataSet">firstDataSet</property>
             <property name="x">1.2mm</property>
             <property name="y">11.2mm</property>
-            <header>
+            <property name="header">
             	<extended-item extensionName="TestingMatrix" name="headerMatrix">
             	</extended-item>
-            </header>
-            <detail>
+            </property>
+            <property name="detail">
             	<table name="testTable">
             		<property name="fontFamily">fantasy</property>
             		<property name="fontSize">larger</property>
@@ -49,25 +49,25 @@
             			<row>
             				<cell>
             					<extended-item extensionName="TestingBox" name="detailBox">
-            						<header>
+            						<property name="header">
             							<label name="testLabel"/>
-            						</header>
-            						<detail>
+            						</property>
+            						<property name="detail">
             							<label/>
-            						</detail>
-            						<footer>
+            						</property>
+            						<property name="footer">
             							<label/>
-            						</footer>
+            						</property>
             					</extended-item>
             				</cell>
             			</row>
             		</detail>
             	</table>
-            </detail>
-            <footer>
+            </property>
+            <property name="footer">
             	<grid name="footerGrid">
             	</grid>
-            </footer>
+            </property>
         </extended-item>
     </body>
 </report>

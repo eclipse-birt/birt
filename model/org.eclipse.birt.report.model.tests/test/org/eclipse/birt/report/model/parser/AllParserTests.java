@@ -36,6 +36,7 @@ public class AllParserTests
 		test.addTestSuite( CompatibleBoundColumnsTest.class );
 		test.addTestSuite( ComponentScratchPadTest.class );
 		test.addTestSuite( CompoundExtendParserTest.class );
+		test.addTestSuite( CubeParserTest.class );
 		test.addTestSuite( DataItemParseTest.class );
 		test.addTestSuite( FreeFormParseTest.class );
 		test.addTestSuite( GridItemParseTest.class );

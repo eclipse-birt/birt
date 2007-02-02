@@ -43,7 +43,7 @@ public class ContentIteratorTest extends BaseTestCase
 	
 	public void testIterator() throws DesignFileException, IOException
 	{
-		Iterator contentIter = new ContentIterator( grid );
+		Iterator contentIter = new ContentIterator( design, grid );
 		
 		DesignElement next = null;
 		

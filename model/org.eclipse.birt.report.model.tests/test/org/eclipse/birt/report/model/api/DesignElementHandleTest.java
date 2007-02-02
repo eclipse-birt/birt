@@ -1551,37 +1551,37 @@ public class DesignElementHandleTest extends BaseTestCase
 	public void testGetPath( ) throws SemanticException
 	{
 		DesignElementHandle element = designHandle.findElement( "bodyLabel3" ); //$NON-NLS-1$
-		assertEquals( "/report/body[1]/label[3]", element.getXPath( ) ); //$NON-NLS-1$
+		assertEquals( "/report/body/label[@id=\"15\"]", element.getXPath( ) ); //$NON-NLS-1$
 
 		TableHandle table = (TableHandle) designHandle.findElement( "My table" ); //$NON-NLS-1$
 
 		// the second row in the table detail
 
 		RowHandle row = (RowHandle) table.getDetail( ).get( 1 );
-		assertEquals( "/report/body[1]/table[2]/detail[1]/row[2]", //$NON-NLS-1$
+		assertEquals( "/report/body/table[@id=\"22\"]/detail/row[@id=\"28\"]", //$NON-NLS-1$
 				row.getXPath( ) );
 
 		// the first cell in the above row
 
 		assertEquals(
-				"/report/body[1]/table[2]/detail[1]/row[2]/cells[1]/cell[1]", //$NON-NLS-1$
+				"/report/body/table[@id=\"22\"]/detail/row[@id=\"28\"]/cell[@id=\"29\"]", //$NON-NLS-1$
 				row.getCells( ).get( 0 ).getXPath( ) );
 
 		element = designHandle.findElement( "text2" ); //$NON-NLS-1$
 		assertEquals(
-				"/report/body[1]/table[1]/detail[1]/row[1]/cells[1]/cell[1]/content[1]/text[1]", //$NON-NLS-1$
+				"/report/body/table[@id=\"18\"]/detail/row/cell/text", //$NON-NLS-1$
 				element.getXPath( ) );
 
 		StyleHandle style = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
-		assertEquals( "/report/styles[1]/style[1]", //$NON-NLS-1$
+		assertEquals( "/report/styles/style[@id=\"4\"]", //$NON-NLS-1$
 				style.getXPath( ) );
 
 		style = designHandle.findStyle( "Style1" ); //$NON-NLS-1$
-		assertEquals( "/report/styles[1]/style[2]", //$NON-NLS-1$
+		assertEquals( "/report/styles/style[@id=\"5\"]", //$NON-NLS-1$
 				style.getXPath( ) );
 
 		MasterPageHandle page = designHandle.findMasterPage( "My Page" ); //$NON-NLS-1$
-		assertEquals( "/report/page-setup[1]/graphic-master-page[1]", //$NON-NLS-1$
+		assertEquals( "/report/page-setup/graphic-master-page", //$NON-NLS-1$
 				page.getXPath( ) );
 	}
 

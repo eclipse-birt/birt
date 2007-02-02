@@ -15,12 +15,14 @@ import java.util.Iterator;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ElementFactory;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FreeFormHandle;
 import org.eclipse.birt.report.model.api.GraphicMasterPageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
@@ -45,6 +47,7 @@ import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.core.BackRef;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
@@ -294,10 +297,14 @@ public class ContentCommandTest extends BaseTestCase
 					.getElementFactory( ).newSimpleMasterPage( "simplepage" ); //$NON-NLS-1$
 			designHandle.getMasterPages( ).add( pageHandle );
 
-			ContentCommand command = new ContentCommand( design, pageHandle
-					.getElement( ) );
-			command.add( new TextItem( ), SimpleMasterPage.PAGE_HEADER_SLOT );
-			command.add( new TextItem( ), SimpleMasterPage.PAGE_HEADER_SLOT );
+			ContentCommand command = new ContentCommand( design,
+					new ContainerContext( pageHandle.getElement( ),
+							SimpleMasterPage.PAGE_HEADER_SLOT ) );
+			command.add( new TextItem( ) );
+			command = new ContentCommand( design,
+					new ContainerContext( pageHandle.getElement( ),
+							SimpleMasterPage.PAGE_HEADER_SLOT ) );
+			command.add( new TextItem( ) );
 			fail( );
 		}
 		catch ( ContentException e )
@@ -324,8 +331,9 @@ public class ContentCommandTest extends BaseTestCase
 
 		try
 		{
-			ContentCommand command = new ContentCommand( design, new FreeForm( ) );
-			command.add( new Label( ), 999 );
+			ContentCommand command = new ContentCommand( design,
+					new ContainerContext( new FreeForm( ), 999 ) );
+			command.add( new Label( ) );
 			fail( );
 		}
 		catch ( ContentException e )
@@ -376,8 +384,9 @@ public class ContentCommandTest extends BaseTestCase
 
 		try
 		{
-			ContentCommand command = new ContentCommand( design, new Label( ) );
-			command.remove( new Label( ), 0 );
+			ContentCommand command = new ContentCommand( design,
+					new ContainerContext( new Label( ), 0 ) );
+			command.remove( new Label( ) );
 
 			fail( );
 		}
@@ -409,8 +418,10 @@ public class ContentCommandTest extends BaseTestCase
 
 		try
 		{
-			ContentCommand command = new ContentCommand( design, new FreeForm( ) );
-			command.remove( new Label( ), FreeForm.REPORT_ITEMS_SLOT );
+			ContentCommand command = new ContentCommand( design,
+					new ContainerContext( new FreeForm( ),
+							FreeForm.REPORT_ITEMS_SLOT ) );
+			command.remove( new Label( ) );
 
 			fail( );
 		}
@@ -432,8 +443,9 @@ public class ContentCommandTest extends BaseTestCase
 		form.setStyle( style );
 		assertNotNull( form.getStyle( ) );
 
-		ContentCommand command = new ContentCommand( design, design );
-		command.remove( style.getElement( ), IReportDesignModel.STYLE_SLOT );
+		ContentCommand command = new ContentCommand( design,
+				new ContainerContext( design, IReportDesignModel.STYLE_SLOT ) );
+		command.remove( style.getElement( ) );
 
 		assertNull( form.getStyle( ) );
 
@@ -450,8 +462,9 @@ public class ContentCommandTest extends BaseTestCase
 
 		table.setDataSet( dataSet );
 
-		command = new ContentCommand( design, design );
-		command.remove( dataSet.getElement( ), ReportDesign.DATA_SET_SLOT );
+		command = new ContentCommand( design, new ContainerContext( design,
+				ReportDesign.DATA_SET_SLOT ) );
+		command.remove( dataSet.getElement( ) );
 
 		assertNull( table.getDataSet( ) );
 	}
@@ -557,9 +570,9 @@ public class ContentCommandTest extends BaseTestCase
 
 		try
 		{
-			ContentCommand command = new ContentCommand( design, new Label( ) );
-
-			command.add( content, 0 );
+			ContentCommand command = new ContentCommand( design,
+					new ContainerContext( new Label( ), 0 ) );
+			command.add( content );
 			fail( );
 		}
 		catch ( SemanticException e )
@@ -643,9 +656,10 @@ public class ContentCommandTest extends BaseTestCase
 		// 1
 		try
 		{
-			ContentCommand command = new ContentCommand( design, new Label( ) );
+			ContentCommand command = new ContentCommand( design,
+					new ContainerContext( new Label( ), 0 ) );
 
-			command.move( content, 0, toContainer, 0 );
+			command.move( content, new ContainerContext( toContainer, 0 ) );
 			fail( );
 		}
 		catch ( ContentException e )
@@ -1468,16 +1482,10 @@ public class ContentCommandTest extends BaseTestCase
 				"cas1" ); //$NON-NLS-1$
 
 		ScalarParameter param1 = new ScalarParameter( "param1" ); //$NON-NLS-1$
-		cascadingGroup.getSlot( CascadingParameterGroup.PARAMETERS_SLOT ).add(
-				param1 );
-		param1.setContainer( cascadingGroup,
-				CascadingParameterGroup.PARAMETERS_SLOT );
+		cascadingGroup.add( param1, CascadingParameterGroup.PARAMETERS_SLOT );
 
 		ScalarParameter param2 = new ScalarParameter( "param2" ); //$NON-NLS-1$
-		cascadingGroup.getSlot( CascadingParameterGroup.PARAMETERS_SLOT ).add(
-				param2 );
-		param2.setContainer( cascadingGroup,
-				CascadingParameterGroup.PARAMETERS_SLOT );
+		cascadingGroup.add( param2, CascadingParameterGroup.PARAMETERS_SLOT );
 
 		testCopyAndPasteCompoundElement( cascadingGroup );
 
@@ -1583,11 +1591,10 @@ public class ContentCommandTest extends BaseTestCase
 		TableGroupHandle groupHandle = factory.newTableGroup( );
 		groupHandle.addListener( groupListener );
 
-		ContentCommand command = new ContentCommand( design, tableHandle
-				.getElement( ) );
-		command
-				.add( groupHandle.getElement( ),
-						IListingElementModel.GROUP_SLOT );
+		ContentCommand command = new ContentCommand( design,
+				new ContainerContext( tableHandle.getElement( ),
+						IListingElementModel.GROUP_SLOT ) );
+		command.add( groupHandle.getElement( ) );
 
 		assertEquals( PropertyEvent.PROPERTY_EVENT, groupListener.action );
 		assertTrue( groupListener.event instanceof PropertyEvent );
@@ -1633,6 +1640,53 @@ public class ContentCommandTest extends BaseTestCase
 		label.drop( );
 		assertNull( label.getRoot( ) );
 		assertEquals( 0, templateDefinitions.getCount( ) );
+	}
+
+	/**
+	 * Tests the content command for extended-item with element property.
+	 * 
+	 * @throws Exception
+	 */
+	public void testElementProperty( ) throws Exception
+	{
+		openDesign( "ContentCommandTest.xml" ); //$NON-NLS-1$
+		ExtendedItemHandle outExtendedItem = (ExtendedItemHandle) designHandle
+				.findElement( "testBox" ); //$NON-NLS-1$
+		ExtendedItemHandle innerExtendedItem = (ExtendedItemHandle) designHandle
+				.findElement( "detailBox" ); //$NON-NLS-1$
+		TableHandle innerTable = (TableHandle) designHandle
+				.findElement( "testTable" ); //$NON-NLS-1$
+
+		// drop out extended-item, check the contents drop too
+		CommandStack stack = designHandle.getCommandStack( );
+		outExtendedItem.drop( );
+		assertNull( outExtendedItem.getContainer( ) );
+		assertNull( innerTable.getContainer( ) );
+		assertNull( innerExtendedItem.getContainer( ) );
+		assertNull( designHandle.findElement( outExtendedItem.getName( ) ) );
+		assertNull( designHandle.findElement( innerTable.getName( ) ) );
+		assertNull( designHandle.findElement( innerExtendedItem.getName( ) ) );
+		assertNull( designHandle.getElementByID( outExtendedItem.getID( ) ) );
+		assertNull( designHandle.getElementByID( innerTable.getID( ) ) );
+		assertNull( designHandle.getElementByID( innerExtendedItem.getID( ) ) );
+
+		// undo-drop, then all containment is recovered
+		stack.undo( );
+		assertNotNull( outExtendedItem.getContainer( ) );
+		assertNotNull( innerTable.getContainer( ) );
+		assertNotNull( innerExtendedItem.getContainer( ) );
+		assertEquals( outExtendedItem, designHandle
+				.findElement( outExtendedItem.getName( ) ) );
+		assertEquals( innerTable, designHandle.findElement( innerTable
+				.getName( ) ) );
+		assertEquals( innerExtendedItem, designHandle
+				.findElement( innerExtendedItem.getName( ) ) );
+		assertEquals( outExtendedItem, designHandle
+				.getElementByID( outExtendedItem.getID( ) ) );
+		assertEquals( innerTable, designHandle.getElementByID( innerTable
+				.getID( ) ) );
+		assertEquals( innerExtendedItem, designHandle
+				.getElementByID( innerExtendedItem.getID( ) ) );
 	}
 
 	class MyGroupListener implements Listener

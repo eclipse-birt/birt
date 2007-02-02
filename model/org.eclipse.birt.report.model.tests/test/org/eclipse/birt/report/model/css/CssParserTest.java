@@ -24,7 +24,7 @@ import org.eclipse.birt.report.model.css.property.PropertyParser;
  * Test case
  * 
  * 
- * @version $Revision: 1.1 $ $Date: 2006/10/30 02:40:08 $
+ * @version $Revision: 1.2 $ $Date: 2007/01/07 15:22:01 $
  */
 public class CssParserTest extends TestCase
 {

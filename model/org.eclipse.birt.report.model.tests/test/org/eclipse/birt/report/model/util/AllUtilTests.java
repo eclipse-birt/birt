@@ -38,7 +38,8 @@ public class AllUtilTests
 		test.addTestSuite( StructureEqualsTest.class );
 		test.addTestSuite( URIUtilTest.class );
 		test.addTestSuite( VersionUtilTest.class );
-
+		test.addTestSuite( XPathUtilTest.class );
+		
 		// add all test classes here
 
 		return test;

@@ -25,6 +25,14 @@
     <cubes>
     	<cube name="testCube">
     		<property name="dataSet">firstDataSet</property>
+    		<list-property name="filter">
+                <structure>
+                    <property name="operator">lt</property>
+                    <expression name="expr">filter expression</expression>
+                    <expression name="value1">value1 expression</expression>
+                    <expression name="value2">value2 expression</expression>
+                </structure>
+            </list-property>
     		<list-property name="dimensionConditions">
     			<structure>
     				<property name="hierarchy">testHierarchy</property>
@@ -41,20 +49,42 @@
     				</simple-property-list>
     			</structure>
     		</list-property>
-    		<dimensions>
+    		<property name="dimensions">
     			<dimension name="testDimension">
     				<property name="isTimeType">true</property>
-    				<hierarchies>
+    				<property name="hierarchies">
     					<hierarchy name="testHierarchy">
     						<property name="dataSet">secondDataSet</property>
+    						<list-property name="filter">
+                				<structure>
+                    				<property name="operator">lt</property>
+                    				<expression name="expr">filter expression</expression>
+                    				<expression name="value1">value1 expression</expression>
+                    				<expression name="value2">value2 expression</expression>
+                				</structure>
+            				</list-property>
     						<simple-property-list name="primaryKeys">
     							<value>key</value>
     							<value>key2</value>
     							<value>key4</value>
     						</simple-property-list>
-    						<levels>
+    						<property name="levels">
     							<level name="testLevel">
     								<property name="columnName">column1</property>
+    								<property name="interval">week</property>
+                					<property name="intervalRange">3.0</property>
+                					<property name="intervalBase">Jan</property>
+                					<property name="levelType">dynamic</property>
+    								<list-property name="staticValues">
+    									<structure>
+            								<property name="ruleExpre">rule expression</property>
+            								<property name="displayExpre">display expression</property>
+        								</structure>
+       	 								<structure>
+            								<property name="ruleExpre">rule expression2</property>
+            								<property name="displayExpre">display expression2</property>
+        								</structure>
+    								</list-property>
     								<list-property name="attributes">
     									<structure>
             								<property name="name">var1</property>
@@ -66,18 +96,22 @@
         								</structure>
     								</list-property>
     							</level>
-    						</levels>
+    						</property>
     					</hierarchy>
-    				</hierarchies>
+    				</property>
     			</dimension>
-    		</dimensions>
-    		<measures>
-    			<measure name="testMeasure">
-    				<property name="function">min</property>
-    				<property name="measureExpression">column</property>
-    				<property name="isCalculated">false</property>
-    			</measure>
-    		</measures>
+    		</property>
+    		<property name="measureGroups">
+    			<measure-group name="testMeasureGroup">
+    				<property name="measures">
+    					<measure name="testMeasure">
+    						<property name="function">min</property>
+    						<property name="measureExpression">column</property>
+    						<property name="isCalculated">false</property>
+    					</measure>
+    				</property>
+    			</measure-group>
+    		</property>
     	</cube>
     </cubes>
 </report>

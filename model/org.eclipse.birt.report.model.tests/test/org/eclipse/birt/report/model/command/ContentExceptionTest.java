@@ -53,10 +53,6 @@ public class ContentExceptionTest extends BaseTestCase
 		print( error );
 
 		error = new ContentException( table, TableItem.COLUMN_SLOT, row,
-				ContentException.DESIGN_EXCEPTION_DROP_FORBIDDEN );
-		print( error );
-
-		error = new ContentException( table, TableItem.COLUMN_SLOT, row,
 				ContentException.DESIGN_EXCEPTION_CONTENT_NOT_FOUND );
 		print( error );
 

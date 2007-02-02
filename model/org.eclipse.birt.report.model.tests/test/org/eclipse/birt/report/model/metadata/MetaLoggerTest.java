@@ -62,7 +62,7 @@ public class MetaLoggerTest extends AbstractMetaTest
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	protected void setUp( ) throws Exception
-	{		
+	{
 		// don not call super.setUp().
 		// We wanna to hold the meta initialization.
 		errorList = null;
@@ -1172,7 +1172,7 @@ public class MetaLoggerTest extends AbstractMetaTest
 					MetaDataException.DESIGN_EXCEPTION_MISSING_ELEMENT_TYPE, e
 							.getErrorCode( ) );
 			assertEquals(
-					"Message:Missing element reference for element reference type property [prop1]. Error code:MISSING_ELEMENT_TYPE", //$NON-NLS-1$
+					"Message:Missing element type for elementRef property [prop1]. Error code:MISSING_ELEMENT_TYPE", //$NON-NLS-1$
 					e.getMessage( ).trim( ) );
 		}
 	}
@@ -1201,7 +1201,7 @@ public class MetaLoggerTest extends AbstractMetaTest
 					MetaDataException.DESIGN_EXCEPTION_UNDEFINED_ELEMENT_TYPE,
 					e.getErrorCode( ) );
 			assertEquals(
-					"Message:Element [none-exsit-element-ref] referenced by property [prop1] is not defined. Error code:UNDEFINED_ELEMENT_TYPE", //$NON-NLS-1$ 
+					"Message:Element [none-exsit-element-ref] specified by property [prop1] is not defined. Error code:UNDEFINED_ELEMENT_TYPE", //$NON-NLS-1$ 
 					e.getMessage( ).trim( ) );
 		}
 	}

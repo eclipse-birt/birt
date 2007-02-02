@@ -574,7 +574,7 @@ public class ElementExporterTest extends BaseTestCase
 	public void testExportingExtendItemWithSignificativeName( )
 			throws Exception
 	{
-		new PeerExtensionLoader( ).load( );
+		//new PeerExtensionLoader( ).load( );
 
 		testExportDesignToNewLibraryFile( "ElementExporterTest_4.xml", //$NON-NLS-1$
 				"ElementExporterTestLibrary_out_13.xml" ); //$NON-NLS-1$

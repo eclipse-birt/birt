@@ -1,6 +1,5 @@
 Error.ContentException.SLOT_NOT_FOUND                       The Table("customerTable") has no slot (id:4) defined.
 Error.ContentException.WRONG_TYPE                           The Row is not allowed in the slot (columns) of Table("customerTable").
-Error.ContentException.DROP_FORBIDDEN                       The Row cannot be deleted, because it is not in the slot (columns) of Table("customerTable").
 Error.ContentException.CONTENT_NOT_FOUND                    The Row does not appear within the slot (columns) of the Table("customerTable").
 Error.ContentException.NOT_CONTAINER                        The Table("customerTable") is not a container.
 Error.ContentException.RECURSIVE                            The Table("customerTable") has contained the Row at some level, so the former can not be moved into the later.
