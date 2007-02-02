@@ -169,6 +169,7 @@ Info.java.handler.loaded=Eine Diagramm-Java-Ereignis-Handler-Klasse [{0}] wurde 
 Info.invalid.java.handler=Eine ungültige Diagramm-Java-Ereignis-Handler-Klasse [{0}] wurde gefunden und ignoriert.
 Info.try.register.javascript.content=Diagramm-JavaScript-Inhalt wird geladen ...
 Info.javascript.content.registered=Diagramm-JavaScript-Inhalt wurde geladen.
+warn.unspecified.sorting=Sorting is not specified for {0}.
 
 ##################################################
 # Attributes 
@@ -340,7 +341,3 @@ dataprocessor.exception.FoundMoreThanOneDefnAssociateX={0} mit dem Datenreihenau
 edataprocessor.xception.definitionsAssociatedWithX=Es wurde keine Datendefinition für die X-Datenreihe angegeben.
 dataprocessor.exception.DefnExpMustAssociateY=Ein Datendefinitionsausdruck muss mit der durch {1} definierten Wert-(Y)-Datenreihe-{0} verknüpft sein.
 dataprocessor.log.baseSeriesDefnBeStatic=Kategorie-Datenreihendefinition ({0}) wird als statischer Ausdruck verwendet.
-
-
-
-

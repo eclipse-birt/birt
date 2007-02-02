@@ -169,6 +169,7 @@ Info.java.handler.loaded=已成功加载图表 Java 事件处理程序类 [{0}]。
 Info.invalid.java.handler=已检测到并忽略无效的图表 Java 事件处理程序类 [{0}]。
 Info.try.register.javascript.content=正在尝试加载图表 JavaScript 内容...
 Info.javascript.content.registered=已成功加载图表 JavaScript 内容。
+warn.unspecified.sorting=Sorting is not specified for {0}.
 
 ##################################################
 # Attributes 
@@ -340,6 +341,3 @@ dataprocessor.exception.FoundMoreThanOneDefnAssociateX=找到与 X 系列表达式关联的
 edataprocessor.xception.definitionsAssociatedWithX=未指定 X 系列的数据定义。
 dataprocessor.exception.DefnExpMustAssociateY=数据定义表达式必须与值 (Y) 系列关联 - {1} 定义的 {0}。
 dataprocessor.log.baseSeriesDefnBeStatic=类别系列定义 ({0}) 将用作静态表达式。
-
-
-

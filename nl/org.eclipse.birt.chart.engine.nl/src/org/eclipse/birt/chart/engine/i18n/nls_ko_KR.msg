@@ -169,6 +169,7 @@ Info.java.handler.loaded=차트 Java 이벤트 처리기 클래스 [{0}]이(가) 로드되었습니
 Info.invalid.java.handler=잘못된 차트 Java 이벤트 처리기 클래스 [{0}]이(가) 발견되어 무시되었습니다.
 Info.try.register.javascript.content=차트 JavaScript 내용을 로드하려는 중...
 Info.javascript.content.registered=차트 JavaScript 내용이 로드되었습니다.
+warn.unspecified.sorting=Sorting is not specified for {0}.
 
 ##################################################
 # Attributes 
@@ -340,7 +341,3 @@ dataprocessor.exception.FoundMoreThanOneDefnAssociateX=X 계열 식과 연결된 데이터
 edataprocessor.xception.definitionsAssociatedWithX=X 계열에 대한 데이터 정의가 지정되지 않았습니다.
 dataprocessor.exception.DefnExpMustAssociateY=데이터 정의 식은 {1}에서 정의된 값 (Y) 계열-{0}와(과) 연결되어야 합니다.
 dataprocessor.log.baseSeriesDefnBeStatic=범주 계열 정의 ({0})가 정적 식으로 사용됩니다.
-
-
-
-

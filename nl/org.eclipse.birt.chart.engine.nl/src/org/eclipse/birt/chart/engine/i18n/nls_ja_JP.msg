@@ -169,6 +169,7 @@ Info.java.handler.loaded=Chart Java ƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰‚ÌƒNƒ‰ƒX [{0}] ‚ğ“Ç‚İ‚İ‚Ü‚
 Info.invalid.java.handler=–³Œø‚È Chart Java ƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰‚ÌƒNƒ‰ƒX [{0}] ‚ªŒŸo‚³‚ê‚½‚©A–³‹‚³‚ê‚Ü‚µ‚½B
 Info.try.register.javascript.content=Chart JavaScript ‚ÌƒRƒ“ƒeƒ“ƒc‚ğ“Ç‚İ‚ñ‚Å‚¢‚Ü‚·...
 Info.javascript.content.registered=Chart JavaScript ‚ÌƒRƒ“ƒeƒ“ƒc‚ğ“Ç‚İ‚İ‚Ü‚µ‚½B
+warn.unspecified.sorting=Sorting is not specified for {0}.
 
 ##################################################
 # Attributes 
@@ -340,7 +341,3 @@ dataprocessor.exception.FoundMoreThanOneDefnAssociateX=X Œn—ñ‚Ì®‚ÉŠÖ˜A•t‚¯‚ç‚ê‚
 edataprocessor.xception.definitionsAssociatedWithX=X Œn—ñ‚Ìƒf[ƒ^‚Ì’è‹`‚ªw’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
 dataprocessor.exception.DefnExpMustAssociateY=ƒf[ƒ^’è‹`‚Ì®‚ÍA’l (Y) Œn—ñ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚è‚Ü‚· ({1} ‚Å’è‹`‚³‚ê‚½ {0})B
 dataprocessor.log.baseSeriesDefnBeStatic=ƒJƒeƒSƒŠŒn—ñ‚Ì’è‹` ({0}) ‚ªÃ“I‚È®‚Æ‚µ‚Äg—p‚³‚ê‚Ü‚·B
-
-
-
-

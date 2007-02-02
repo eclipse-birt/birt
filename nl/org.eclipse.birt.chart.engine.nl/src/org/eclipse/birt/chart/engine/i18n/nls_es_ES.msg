@@ -169,6 +169,7 @@ Info.java.handler.loaded=Se ha cargado correctamente una clase de controlador de
 Info.invalid.java.handler=Se ha detectado e ignorado una clase de controlador de evento Java de diagramas [{0}] no válida.
 Info.try.register.javascript.content=Intentando cargar contenido JavaScript de diagrama...
 Info.javascript.content.registered=El contenido JavaScript de diagrama se ha cargado correctamente.
+warn.unspecified.sorting=Sorting is not specified for {0}.
 
 ##################################################
 # Attributes 
@@ -340,7 +341,3 @@ dataprocessor.exception.FoundMoreThanOneDefnAssociateX=Se han encontrado {0} def
 edataprocessor.xception.definitionsAssociatedWithX=La definición de datos para la serie X no se ha especificado.
 dataprocessor.exception.DefnExpMustAssociateY=Se debe asociar una expresión de definición de datos a la serie (Y) del valor-{0} definida por {1}.
 dataprocessor.log.baseSeriesDefnBeStatic=La definición de serie de categoría ({0}) se utilizará como una expresión estática.
-
-
-
-

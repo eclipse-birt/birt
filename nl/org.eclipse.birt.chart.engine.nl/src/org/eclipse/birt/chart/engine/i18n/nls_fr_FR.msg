@@ -169,6 +169,7 @@ Info.java.handler.loaded=Une classe de gestionnaire d''événements Java de graphi
 Info.invalid.java.handler=Une classe de gestionnaire d''événements Java de graphique [{0}] non valide a été détectée et ignorée.
 Info.try.register.javascript.content=Tentative de chargement du contenu JavaScript de graphique...
 Info.javascript.content.registered=Le contenu JavaScript de graphique a été chargé.
+warn.unspecified.sorting=Sorting is not specified for {0}.
 
 ##################################################
 # Attributes 
@@ -340,7 +341,3 @@ dataprocessor.exception.FoundMoreThanOneDefnAssociateX=Détection de {0} définiti
 edataprocessor.xception.definitionsAssociatedWithX=La définition de données pour la série X n'a pas été spécifiée.
 dataprocessor.exception.DefnExpMustAssociateY=Une expression de définition de données doit être associée à la série verticale de valeurs {0} définie par {1}.
 dataprocessor.log.baseSeriesDefnBeStatic=La définition de série de catégories ({0}) sera utilisée en tant qu''expression statique.
-
-
-
-
