@@ -47,7 +47,6 @@ birt.viewer.navbar.lable.goto=Atteindre la page :
 birt.viewer.navbar.prompt.one=Affichage de la page
 birt.viewer.navbar.prompt.two=sur
 birt.viewer.navbar.error.blankpagenum=Entrez un numéro de page valide.
-
 ###############################################################################
 # progress bar
 ###############################################################################
@@ -106,7 +105,6 @@ birt.viewer.generalException.REPORT_FILE_ERROR=Le fichier d''état {0} n''existe 
 birt.viewer.generalException.REPORT_ACCESS_ERROR=Impossible d''accéder au fichier d''état {0}.
 birt.viewer.generalException.DOCUMENT_FILE_PROCESSING=Traitement du fichier de document en cours, veuillez réessayer ultérieurement.
 
-
 ###############################################################################
 # Report service exception
 ###############################################################################
@@ -114,6 +112,7 @@ birt.viewer.reportServiceException.EXTRACT_DATA_NO_DOCUMENT=Aucun fichier de doc
 birt.viewer.reportServiceException.EXTRACT_DATA_NO_RESULT_SET=Aucun ensemble de résultats disponible pour l'extraction des données.
 birt.viewer.reportServiceException.INVALID_TOC=Fichier TOC non valide.
 birt.viewer.reportServiceException.INVALID_PARAMETER=Paramètre non valide : {0} (non défini).
+birt.viewer.reportServiceException.STARTUP_REPORTENGINE_ERROR=Fatal error occurred when try to startup report engine.
 
 ###############################################################################
 # Birt action handler exception

@@ -47,7 +47,6 @@ birt.viewer.navbar.lable.goto=Ir a la página:
 birt.viewer.navbar.prompt.one=Mostrando página
 birt.viewer.navbar.prompt.two=de
 birt.viewer.navbar.error.blankpagenum=Introduzca un número de página válido.
-
 ###############################################################################
 # progress bar
 ###############################################################################
@@ -106,7 +105,6 @@ birt.viewer.generalException.REPORT_FILE_ERROR=El archivo de informe: {0} no exi
 birt.viewer.generalException.REPORT_ACCESS_ERROR=No se puede acceder al archivo de informe: {0}.
 birt.viewer.generalException.DOCUMENT_FILE_PROCESSING=Procesando archivo de documento, inténtelo más tarde.
 
-
 ###############################################################################
 # Report service exception
 ###############################################################################
@@ -114,6 +112,7 @@ birt.viewer.reportServiceException.EXTRACT_DATA_NO_DOCUMENT=No hay ningún archiv
 birt.viewer.reportServiceException.EXTRACT_DATA_NO_RESULT_SET=No hay ningún conjunto de resultados disponible para extraer los datos.
 birt.viewer.reportServiceException.INVALID_TOC=Consulta de TCD no válida.
 birt.viewer.reportServiceException.INVALID_PARAMETER=Parámetro no válido: {0}, ya que no está definido.
+birt.viewer.reportServiceException.STARTUP_REPORTENGINE_ERROR=Fatal error occurred when try to startup report engine.
 
 ###############################################################################
 # Birt action handler exception

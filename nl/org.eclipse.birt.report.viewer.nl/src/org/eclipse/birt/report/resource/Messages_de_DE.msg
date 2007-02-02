@@ -47,7 +47,6 @@ birt.viewer.navbar.lable.goto=Gehe zu Seite:
 birt.viewer.navbar.prompt.one=Angezeigte Seite: Seite
 birt.viewer.navbar.prompt.two=von
 birt.viewer.navbar.error.blankpagenum=Geben Sie eine gültige Seitenzahl ein.
-
 ###############################################################################
 # progress bar
 ###############################################################################
@@ -113,6 +112,7 @@ birt.viewer.reportServiceException.EXTRACT_DATA_NO_DOCUMENT=Für die Extrahierung
 birt.viewer.reportServiceException.EXTRACT_DATA_NO_RESULT_SET=Für die Extrahierung der Daten ist kein Ergebnis verfügbar.
 birt.viewer.reportServiceException.INVALID_TOC=Ungültige Inhaltsverzeichnis-Anfrage.
 birt.viewer.reportServiceException.INVALID_PARAMETER=Ungültiger Parameter: {0}; er ist nicht definiert.
+birt.viewer.reportServiceException.STARTUP_REPORTENGINE_ERROR=Fatal error occurred when try to startup report engine.
 
 ###############################################################################
 # Birt action handler exception

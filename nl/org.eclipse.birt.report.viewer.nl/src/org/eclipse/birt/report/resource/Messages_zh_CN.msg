@@ -47,7 +47,6 @@ birt.viewer.navbar.lable.goto=转到页:
 birt.viewer.navbar.prompt.one=显示页
 birt.viewer.navbar.prompt.two=/
 birt.viewer.navbar.error.blankpagenum=请输入有效页码。
-
 ###############################################################################
 # progress bar
 ###############################################################################
@@ -113,6 +112,7 @@ birt.viewer.reportServiceException.EXTRACT_DATA_NO_DOCUMENT=没有可供提取数据的文
 birt.viewer.reportServiceException.EXTRACT_DATA_NO_RESULT_SET=没有可供提取数据的结果集。
 birt.viewer.reportServiceException.INVALID_TOC=无效 TOC 查询。
 birt.viewer.reportServiceException.INVALID_PARAMETER=无效参数: {0}，因此它未定义。
+birt.viewer.reportServiceException.STARTUP_REPORTENGINE_ERROR=Fatal error occurred when try to startup report engine.
 
 ###############################################################################
 # Birt action handler exception

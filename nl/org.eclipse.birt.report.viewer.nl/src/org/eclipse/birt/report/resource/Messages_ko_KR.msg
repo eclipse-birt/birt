@@ -47,7 +47,6 @@ birt.viewer.navbar.lable.goto=페이지로 이동:
 birt.viewer.navbar.prompt.one=페이지 표시
 birt.viewer.navbar.prompt.two=/
 birt.viewer.navbar.error.blankpagenum=올바른 페이지 번호를 입력하십시오.
-
 ###############################################################################
 # progress bar
 ###############################################################################
@@ -113,6 +112,7 @@ birt.viewer.reportServiceException.EXTRACT_DATA_NO_DOCUMENT=데이터를 추출할 수 �
 birt.viewer.reportServiceException.EXTRACT_DATA_NO_RESULT_SET=데이터를 추출할 수 있는 결과 집합이 없습니다.
 birt.viewer.reportServiceException.INVALID_TOC=잘못된 TOC 쿼리
 birt.viewer.reportServiceException.INVALID_PARAMETER=잘못된 매개 변수: {0}, 정의되지 않음
+birt.viewer.reportServiceException.STARTUP_REPORTENGINE_ERROR=Fatal error occurred when try to startup report engine.
 
 ###############################################################################
 # Birt action handler exception
