@@ -44,8 +44,8 @@ plugin@org.apache.batik=v20060619-1400,:pserver:anonymous@dev.eclipse.org:/cvsro
 feature@org.apache.batik.pdf=v20060619-1400,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.gmf/features/org.apache.batik.pdf-feature 
 plugin@org.apache.batik.pdf=v20060619-1400,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.gmf/plugins/org.apache.batik.pdf 
 
-feature@org.apache.xerces.feature=HEAD,:pserver:anonymous@dev.eclipse.org:/home/webtools,,wst/components/xml/thirdparty/org.apache.xerces.feature 
-plugin@org.apache.xerces=HEAD,:pserver:anonymous@dev.eclipse.org:/home/webtools,,wst/components/xml/thirdparty/org.apache.xerces
+feature@org.apache.xerces.feature=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/webtools,,wst/components/xml/thirdparty/org.apache.xerces.feature 
+plugin@org.apache.xerces=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/webtools,,wst/components/xml/thirdparty/org.apache.xerces
 
 feature@com.lowagie.itext=v20061212,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/com.lowagie.itext.feature 
 plugin@com.lowagie.itext=v20061120-1200,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/com.lowagie.itext
