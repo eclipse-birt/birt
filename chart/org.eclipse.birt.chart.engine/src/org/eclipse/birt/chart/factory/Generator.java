@@ -342,18 +342,18 @@ public final class Generator
 
 		if ( externalProcessor != null )
 		{
-			while ( !updateHierarchyStyle( model,
+			while ( type!= null &&
+					!updateHierarchyStyle( model,
 					type,
 					externalProcessor,
-					rStyle )
-					&& type != null )
+					rStyle ) )
 			{
 				type = getParentType( type );
 			}
 		}
 
-		while ( !updateHierarchyStyle( model, type, implicitProcessor, rStyle )
-				&& type != null )
+		while ( type!= null && 
+				!updateHierarchyStyle( model, type, implicitProcessor, rStyle )	)
 		{
 			type = getParentType( type );
 		}
@@ -749,6 +749,32 @@ public final class Generator
 		}, rtc, externalProcessor );
 	}
 
+	/**
+	 * Builds and computes preferred sizes of various chart components offscreen
+	 * using the provided display server.
+	 * 
+	 * @param ids
+	 *            A display server using which the chart may be built.
+	 * @param cmDesignTime
+	 *            The design time chart model (bound to a dataset).
+	 * @param bo
+	 *            The bounds associated with the chart being built.
+	 * @param rtc
+	 *            Encapsulates the runtime environment for the build process.
+	 * @return An instance of a generated chart state that encapsulates built
+	 *         chart information that may be subsequently rendered.
+	 * 
+	 * @throws ChartException
+	 * @since 2.2
+	 */
+	public final GeneratedChartState build( IDisplayServer ids,
+			Chart cmDesignTime, Bounds bo,
+			RunTimeContext rtc ) throws ChartException
+	{
+		return build( ids, cmDesignTime, bo, null, rtc, null );
+	}
+	
+	
 	/**
 	 * Builds and computes preferred sizes of various chart components offscreen
 	 * using the provided display server.
