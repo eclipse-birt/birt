@@ -1171,6 +1171,7 @@ Element.Text.content=コンテンツ :
 Element.Text.contentID=コンテンツキー(&K) :
 Element.Text.contentType=コンテンツの種類(&P) :
 Element.TemplateElement.name=名前(&N)
+Element.Toc.Sytle=&Style
 
 ###########################################################
 #EmbeddedImageNodeProvider properties
@@ -1551,7 +1552,9 @@ GridProvider.action.text=行の挿入
 #GroupDialog properties
 
 GroupDialog.Dialog.GroupDetail=グループの詳細
-GroupDialog.Dialog.TOC=目次項目の式(&T) :
+GroupDialog.Dialog.TOCGroup=目次
+GroupDialog.Dialog.TOC=I&tem Expression:
+GroupDialog.Dialog.TOCStyle=St&yle:
 GroupDialog.DialogTitle.NoData=初期化エラー
 GroupDialog.DialogTitle.SemanticCheckFailed=Semantic Checker でエラーが発生しました。
 GroupDialog.ErrorMesaage.IllegalGroup=このグループは正しくありません。

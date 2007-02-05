@@ -1171,6 +1171,7 @@ Element.Text.content=内容:
 Element.Text.contentID=内容关键字(&K):
 Element.Text.contentType=内容类型(&P):
 Element.TemplateElement.name=名称(&N)
+Element.Toc.Sytle=&Style
 
 ###########################################################
 #EmbeddedImageNodeProvider properties
@@ -1551,7 +1552,9 @@ GridProvider.action.text=插入行
 #GroupDialog properties
 
 GroupDialog.Dialog.GroupDetail=组详细资料
-GroupDialog.Dialog.TOC=TOC 项目表达式(&T):
+GroupDialog.Dialog.TOCGroup=目录
+GroupDialog.Dialog.TOC=I&tem Expression:
+GroupDialog.Dialog.TOCStyle=St&yle:
 GroupDialog.DialogTitle.NoData=初始化失败
 GroupDialog.DialogTitle.SemanticCheckFailed=语义检查失败
 GroupDialog.ErrorMesaage.IllegalGroup=此组非法。

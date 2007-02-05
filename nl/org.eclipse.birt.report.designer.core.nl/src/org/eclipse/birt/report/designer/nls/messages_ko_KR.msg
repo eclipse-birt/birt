@@ -1171,6 +1171,7 @@ Element.Text.content=내용:
 Element.Text.contentID=내용 키(&K):
 Element.Text.contentType=내용 형식(&P):
 Element.TemplateElement.name=이름(&N)
+Element.Toc.Sytle=&Style
 
 ###########################################################
 #EmbeddedImageNodeProvider properties
@@ -1551,7 +1552,9 @@ GridProvider.action.text=행 삽입
 #GroupDialog properties
 
 GroupDialog.Dialog.GroupDetail=그룹 상세 정보
-GroupDialog.Dialog.TOC=TOC 항목 식(&T):
+GroupDialog.Dialog.TOCGroup=목차
+GroupDialog.Dialog.TOC=I&tem Expression:
+GroupDialog.Dialog.TOCStyle=St&yle:
 GroupDialog.DialogTitle.NoData=초기화 실패
 GroupDialog.DialogTitle.SemanticCheckFailed=의미 확인에 실패했습니다.
 GroupDialog.ErrorMesaage.IllegalGroup=이 그룹은 잘못되었습니다.

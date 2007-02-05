@@ -1171,6 +1171,7 @@ Element.Text.content=Contenu :
 Element.Text.contentID=&Clé de contenu :
 Element.Text.contentType=Ty&pe de contenu :
 Element.TemplateElement.name=&Nom
+Element.Toc.Sytle=&Style
 
 ###########################################################
 #EmbeddedImageNodeProvider properties
@@ -1551,7 +1552,9 @@ GridProvider.action.text=Insérer une ligne
 #GroupDialog properties
 
 GroupDialog.Dialog.GroupDetail=Détails du groupe
-GroupDialog.Dialog.TOC=Expression d'élément de &table des matières :
+GroupDialog.Dialog.TOCGroup=Table des matières
+GroupDialog.Dialog.TOC=I&tem Expression:
+GroupDialog.Dialog.TOCStyle=St&yle:
 GroupDialog.DialogTitle.NoData=Echec de l'initialisation
 GroupDialog.DialogTitle.SemanticCheckFailed=Echec de la vérification sémantique
 GroupDialog.ErrorMesaage.IllegalGroup=Ce groupe est incorrect.

@@ -1171,6 +1171,7 @@ Element.Text.content=Contenido:
 Element.Text.contentID=Clave de conteni&do:
 Element.Text.contentType=Tipo de conte&nido:
 Element.TemplateElement.name=&Nombre
+Element.Toc.Sytle=&Style
 
 ###########################################################
 #EmbeddedImageNodeProvider properties
@@ -1551,7 +1552,9 @@ GridProvider.action.text=Insertar fila
 #GroupDialog properties
 
 GroupDialog.Dialog.GroupDetail=Detalles de grupo
-GroupDialog.Dialog.TOC=Expresión de elemento de &TDC:
+GroupDialog.Dialog.TOCGroup=Tabla de contenido
+GroupDialog.Dialog.TOC=I&tem Expression:
+GroupDialog.Dialog.TOCStyle=St&yle:
 GroupDialog.DialogTitle.NoData=Error en la inicialización
 GroupDialog.DialogTitle.SemanticCheckFailed=Se ha producido un error en la comprobación semántica
 GroupDialog.ErrorMesaage.IllegalGroup=Este grupo no es válido.

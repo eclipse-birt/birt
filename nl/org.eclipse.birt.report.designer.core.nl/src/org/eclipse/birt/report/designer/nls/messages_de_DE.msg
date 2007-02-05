@@ -1171,6 +1171,7 @@ Element.Text.content=Inhalt:
 Element.Text.contentID=&Inhaltsschlüssel:
 Element.Text.contentType=&Inhaltstyp:
 Element.TemplateElement.name=&Name
+Element.Toc.Sytle=&Style
 
 ###########################################################
 #EmbeddedImageNodeProvider properties
@@ -1551,7 +1552,9 @@ GridProvider.action.text=Zeile einfügen
 #GroupDialog properties
 
 GroupDialog.Dialog.GroupDetail=Gruppendetails
-GroupDialog.Dialog.TOC=&Ausdruck für Element des Inhaltsverzeichnisses:
+GroupDialog.Dialog.TOCGroup=Inhaltsverzeichnis
+GroupDialog.Dialog.TOC=I&tem Expression:
+GroupDialog.Dialog.TOCStyle=St&yle:
 GroupDialog.DialogTitle.NoData=Initialisierungsfehler
 GroupDialog.DialogTitle.SemanticCheckFailed=Semantische Prüfung fehlgeschlagen
 GroupDialog.ErrorMesaage.IllegalGroup=Diese Gruppe ist unerlaubt.
