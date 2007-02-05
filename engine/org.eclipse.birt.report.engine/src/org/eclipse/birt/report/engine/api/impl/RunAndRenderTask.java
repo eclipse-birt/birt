@@ -204,6 +204,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 				}
 			}
 			closeRender( );
+			executionContext.closeDataEngine( );
 			closeFactory( );
 		}
 		catch ( EngineException e )
