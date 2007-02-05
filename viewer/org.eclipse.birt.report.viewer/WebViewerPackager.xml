@@ -390,8 +390,6 @@
 			<include name="org.eclipse.osgi_*.jar" />
 			<include name="org.eclipse.osgi.services_*.jar"/>
 			<include name="org.eclipse.update.configurator_*.jar" />
-			<include name="org.apache.xerces_*/**" />
-			
 		</fileset>
 	</copy>
 
@@ -402,6 +400,17 @@
 		<fileset dir="../com.lowagie.itext">
 			<include name="META-INF/MANIFEST.MF" />
 			<exclude name="lib/*.jar" />
+			<include name="about.html" />
+			<include name="about_files/**" />
+			<include name="plugin.*" />
+		</fileset>
+	</copy>
+	
+	<!-- org.apache.xerces -->
+	<copy todir="${export.dir}/plugins/org.apache.xerces">
+		<fileset dir="../org.apache.xerces">
+			<include name="META-INF/MANIFEST.MF" />
+			<include name="*.jar" />
 			<include name="about.html" />
 			<include name="about_files/**" />
 			<include name="plugin.*" />
