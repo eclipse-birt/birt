@@ -17,6 +17,13 @@ public class DescriptorToolkit
 		SimpleComboPropertyDescriptor descriptor = new SimpleComboPropertyDescriptor( formStyle );
 		return descriptor;
 	}
+	
+	public static SimpleComboPropertyDescriptor createTocSimpleComboPropertyDescriptor(
+			boolean formStyle )
+	{
+		SimpleComboPropertyDescriptor descriptor = new TocSimpleComboPropertyDescriptor( formStyle );
+		return descriptor;
+	}
 
 	public static ComboPropertyDescriptor createComboPropertyDescriptor(
 			boolean formStyle )

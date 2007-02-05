@@ -198,6 +198,7 @@ public class PageSectionId
 	public final static String TEXT_FONT_STYLE = "TEXT_FONT_STYLE";
 	
 	public final static String TOC_EXPRESSION_TOC = "TOC_EXPRESSION_TOC";
+	public final static String TOC_EXPRESSION_TOC_STYLE = "TOC_EXPRESSION_TOC_STYLE";
 	
 	public final static String USER_PROPERTIES = "USER_PROPERTIES";
 	

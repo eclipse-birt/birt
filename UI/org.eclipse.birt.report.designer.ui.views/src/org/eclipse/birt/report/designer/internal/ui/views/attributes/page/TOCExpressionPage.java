@@ -12,33 +12,62 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ExpressionPropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TocStylePropertyDescriptiorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ExpressionSection;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TocSimpleComboSection;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Text;
 
 /**
  * TOC expresion page.
  * 
  */
-public class TOCExpressionPage extends AttributePage
-{
+public class TOCExpressionPage extends AttributePage {
 
-	public void buildUI( Composite parent  )
-	{
-		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 1 ,15) );
+	TocSimpleComboSection styleSection;
+	ExpressionSection tocSection;
+	
+	public void buildUI(Composite parent) {
+		super.buildUI(parent);
+		container.setLayout(WidgetUtil.createGridLayout(2, 15));
 
-		ExpressionPropertyDescriptorProvider tocProvider = new ExpressionPropertyDescriptorProvider( IReportItemModel.TOC_PROP,
-				ReportDesignConstants.REPORT_ITEM );
-		ExpressionSection tocSection = new ExpressionSection( tocProvider.getDisplayName( ),
-				container,
-				true );
-		tocSection.setProvider( tocProvider );
-		tocSection.setWidth( 500 );
-		addSection( PageSectionId.TOC_EXPRESSION_TOC, tocSection );
-		createSections( );
-		layoutSections( );
+		ExpressionPropertyDescriptorProvider tocProvider = new ExpressionPropertyDescriptorProvider(
+				IReportItemModel.TOC_PROP, ReportDesignConstants.REPORT_ITEM);
+		tocSection = new ExpressionSection(tocProvider
+				.getDisplayName(), container, true);
+		tocSection.setProvider(tocProvider);
+		tocSection.setWidth(500);
+		addSection(PageSectionId.TOC_EXPRESSION_TOC, tocSection);
+		
+		TocStylePropertyDescriptiorProvider styleProvider = new TocStylePropertyDescriptiorProvider(
+				IReportItemModel.TOC_PROP, ReportDesignConstants.REPORT_ITEM);
+		styleSection = new TocSimpleComboSection(styleProvider
+				.getDisplayName(), container, true);
+		styleSection.setProvider(styleProvider);
+		styleSection.setWidth(200);
+		addSection(PageSectionId.TOC_EXPRESSION_TOC_STYLE, styleSection);
+
+		createSections();
+		layoutSections();
+		
+		final Text text = tocSection.getExpressionControl().getTextControl();
+		text.addModifyListener(new ModifyListener() {
+
+			public void modifyText(ModifyEvent e) {
+				if(text.getText().length() == 0)
+				{
+					styleSection.getSimpleComboControl().getControl().setEnabled(false);
+				}else
+				{
+					styleSection.getSimpleComboControl().getControl().setEnabled(true);
+				}
+			}
+
+		});
 	}
 	/*
 	 * protected void refreshValues( Set propertiesSet ) { if (
@@ -51,4 +80,22 @@ public class TOCExpressionPage extends AttributePage
 	 * children[i].setEnabled( !propertyHandle.isReadOnly( ) ); } }
 	 * super.refresh( ); }
 	 */
+	
+	public void refresh( )
+	{
+		super.refresh();
+		checkTocStyleEnable();
+	}
+	
+	private void checkTocStyleEnable()
+	{
+		Text text = tocSection.getExpressionControl().getTextControl();
+		if(text.getText().length() == 0)
+		{
+			styleSection.getSimpleComboControl().getControl().setEnabled(false);
+		}else
+		{
+			styleSection.getSimpleComboControl().getControl().setEnabled(true);
+		}
+	}
 }

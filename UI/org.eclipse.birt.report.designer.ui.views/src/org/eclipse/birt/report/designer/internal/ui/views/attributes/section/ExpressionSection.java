@@ -11,6 +11,7 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 
 public class ExpressionSection extends Section
 {
@@ -32,6 +33,17 @@ public class ExpressionSection extends Section
 
 	}
 
+
+	
+	protected Label getLabelControl( Composite parent )
+	{
+		Label label = super.getLabelControl(parent);
+		GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING | GridData.VERTICAL_ALIGN_BEGINNING);
+		gd.horizontalSpan = 2;
+		label.setLayoutData(gd);
+		
+		return label;
+	}
 	protected ExpressionPropertyDescriptor getExpressionControl(
 			Composite parent )
 	{
@@ -41,7 +53,9 @@ public class ExpressionSection extends Section
 			if ( getProvider( ) != null )
 				expression.setDescriptorProvider( getProvider( ) );
 			expression.createControl( parent );
-			expression.getControl( ).setLayoutData( new GridData( ) );
+			GridData gd =  new GridData( );
+			gd.horizontalSpan = 2;
+			expression.getControl( ).setLayoutData( gd );
 			expression.getControl( )
 					.addDisposeListener( new DisposeListener( ) {
 
@@ -72,8 +86,7 @@ public class ExpressionSection extends Section
 			gd.horizontalSpan = getLayoutNum( ) - 1 - placeholder;
 		else if ( ( (GridLayout) parent.getLayout( ) ).numColumns > -1
 				- placeholder )
-			gd.horizontalSpan = ( (GridLayout) parent.getLayout( ) ).numColumns
-					- 1
+			gd.horizontalSpan = ( (GridLayout) parent.getLayout( ) ).numColumns					
 					- placeholder;
 		gd.horizontalAlignment = SWT.FILL;
 		if ( width > -1 )
