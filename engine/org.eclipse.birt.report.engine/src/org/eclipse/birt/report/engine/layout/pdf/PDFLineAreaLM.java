@@ -119,10 +119,6 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 			{
 				return true;
 			}
-			else
-			{
-				endLine();
-			}
 		}
 		boolean childHasNext = false;
 		while ( executor.hasNextChild( ) || unfinishedExecutor!=null )
@@ -139,9 +135,9 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 			}
 			assert ( childExecutor != null );
 			childHasNext = handleChild( childExecutor ) || childHasNext;
-			if ( childHasNext && unfinishedExecutor!=null )
+			if ( childHasNext )
 			{
-				if ( lineFinished )
+				if ( lineFinished  )
 				{
 					return true;
 				}
@@ -173,6 +169,10 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 					if(currentIP<expectedIP)
 					{
 						currentIP = expectedIP;
+					}
+					if(!(childLM instanceof PDFStackingLM))
+					{
+						lineFinished = true;
 					}
 				}
 			}
