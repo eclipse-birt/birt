@@ -126,7 +126,7 @@ from CLASSICMODELS.EMPLOYEES</property>
     <body>
         <table name="TableSample1" id="6">
             <property name="marginTop">0pt</property>
-            <property name="width">100%</property>
+            <property name="width">6in</property>
             <property name="dataSet">Sample Data Set</property>
             <list-property name="boundDataColumns">
                 <structure>
@@ -255,7 +255,7 @@ from CLASSICMODELS.EMPLOYEES</property>
             </footer>
         </table>
         <table name="TableSample2" id="58">
-            <property name="width">100%</property>
+            <property name="width">6in</property>
             <property name="dataSet">Sample Data Set</property>
             <list-property name="boundDataColumns">
                 <structure>

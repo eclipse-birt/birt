@@ -1099,10 +1099,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		handleShrink( DISPLAY_BLOCK, mergedStyle, table.getHeight( ), table
 				.getWidth( ), styleBuffer );
 		
-		//build the table-layout
-		if( null != table.getWidth( ))
+		// build the table-layout
+		DimensionType tableWidth = table.getWidth( );
+		if ( null != tableWidth )
 		{
-			styleBuffer.append( " table-layout:fixed;" );
+			if ( !DimensionType.UNITS_PERCENTAGE.equals( tableWidth.getUnits( ) ) )
+			{
+				styleBuffer.append( " table-layout:fixed;" );
+			}
 		}
 		handleStyle( table, styleBuffer );
 
