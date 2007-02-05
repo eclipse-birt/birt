@@ -1064,9 +1064,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				.getWidth( ), styleBuffer );
 		
 		// build the table-layout
-		if( null != table.getWidth( ))
+		DimensionType tableWidth = table.getWidth( );
+		if ( null != tableWidth )
 		{
-			styleBuffer.append( " table-layout:fixed;" );
+			if ( !DimensionType.UNITS_PERCENTAGE.equals( tableWidth.getUnits( ) ) )
+			{
+				styleBuffer.append( " table-layout:fixed;" );
+			}
 		}
 		handleStyle( table, styleBuffer );
 
