@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.report.engine.api.EmitterInfo;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -492,4 +493,16 @@ public class ReportEngine implements IReportEngine
 						new Object[]{systemId, fileName, options} );
 		return helper.openReportDocument( systemId, fileName, options );
 	}
+	
+	public IReportDocument openReportDocument( String systemId,
+			IDocArchiveReader reader, Map options ) throws EngineException
+	{
+		logger
+				.log(
+						Level.FINE,
+						"ReportEngine.openReportDocument: systemId={0}, reader={1}, options={2} ",
+						new Object[]{systemId, reader, options} );
+		return helper.openReportDocument( systemId, reader, options );
+	}
+	
 }

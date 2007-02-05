@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.util.Map;
 import java.util.logging.Level;
 
+import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
@@ -255,6 +256,10 @@ public interface IReportEngine
 	 */
 	public IReportDocument openReportDocument( String systemId,
 			String fileName, Map options ) throws EngineException;
+	
+	public IReportDocument openReportDocument( String systemId,
+			IDocArchiveReader archiveReader, Map options )
+			throws EngineException;
 	/**
 	 * creates a task that allows data extraction from a report document
 	 * 
