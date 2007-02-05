@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.util.Map;
 import java.util.logging.Level;
 
+import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -321,5 +322,11 @@ public class ReportEngine implements IReportEngine
 			String fileName, Map options ) throws EngineException
 	{
 		return engine.openReportDocument( systemId, fileName, options );
+	}
+
+	public IReportDocument openReportDocument( String systemId,
+			IDocArchiveReader reader, Map options ) throws EngineException
+	{
+		return engine.openReportDocument( systemId, reader, options );
 	}
 }

@@ -128,12 +128,65 @@ public class IOUtil
 	{
 		assert bytes.length == 4;
 		
-		int ch1 = bytes[0];
-		int ch2 = bytes[1];
-		int ch3 = bytes[2];
-		int ch4 = bytes[3];
+		int ch1 = bytes[0] & 0xFF;
+		int ch2 = bytes[1] & 0xFF;
+		int ch3 = bytes[2] & 0xFF;
+		int ch4 = bytes[3] & 0xFF;
 		
 		return ( ( ch1 << 24 ) + ( ch2 << 16 ) + ( ch3 << 8 ) + ( ch4 << 0 ) );
+	}
+
+	/**
+	 * Assemble four bytes to an int value, make sure that the passed bytes
+	 * length is larger than 4.
+	 * 
+	 * @param bytes
+	 * @return int value of bytes
+	 */
+	public final static int bytesToInteger( byte[] b )
+	{
+		assert b.length >= 4;
+		return ( ( b[0] & 0xFF ) << 24 ) + ( ( b[1] & 0xFF ) << 16 )
+				+ ( ( b[2] & 0xFF ) << 8 ) + ( ( b[3] & 0xFF ) << 0 );
+	}
+
+	/**
+	 * Assemble eight bytes to an long value, make sure that the passed bytes
+	 * length larger than 8.
+	 * 
+	 * @param bytes
+	 * @return int value of bytes
+	 */
+	public final static long bytesToLong( byte[] b )
+	{
+		assert b.length >= 8;
+		return ( ( b[0] & 0xFFL ) << 56 ) + ( ( b[1] & 0xFFL ) << 48 )
+				+ ( ( b[2] & 0xFFL ) << 40 ) + ( ( b[3] & 0xFFL ) << 32 )
+				+ ( ( b[4] & 0xFFL ) << 24 ) + ( ( b[5] & 0xFFL ) << 16 )
+				+ ( ( b[6] & 0xFFL ) << 8 ) + ( ( b[7] & 0xFFL ) << 0 );
+
+	}
+
+	public final static void integerToBytes( int v, byte[] b )
+	{
+		assert b.length >= 4;
+		b[0] = (byte) ( ( v >>> 24 ) & 0xFF );
+		b[1] = (byte) ( ( v >>> 16 ) & 0xFF );
+		b[2] = (byte) ( ( v >>> 8 ) & 0xFF );
+		b[3] = (byte) ( ( v >>> 0 ) & 0xFF );
+	}
+
+	public final static void longToBytes( long v, byte[] b )
+	{
+		assert b.length >= 8;
+		b[0] = (byte) ( ( v >>> 56 ) & 0xFF );
+		b[1] = (byte) ( ( v >>> 48 ) & 0xFF );
+		b[2] = (byte) ( ( v >>> 40 ) & 0xFF );
+		b[3] = (byte) ( ( v >>> 32 ) & 0xFF );
+		b[4] = (byte) ( ( v >>> 24 ) & 0xFF );
+		b[5] = (byte) ( ( v >>> 16 ) & 0xFF );
+		b[6] = (byte) ( ( v >>> 8 ) & 0xFF );
+		b[7] = (byte) ( ( v >>> 0 ) & 0xFF );
 	}
 
 	/**
