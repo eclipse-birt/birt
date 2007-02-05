@@ -51,7 +51,7 @@ plugin@org.apache.batik.pdf=v20060619-1400,:pserver:anonymous@dev.eclipse.org:/c
 !*** Apache Xerces
 **************************************************************************** 
 feature@org.apache.xerces.feature=v200605151647,:pserver:anonymous@dev.eclipse.org:/cvsroot/webtools,,wst/components/xml/thirdparty/org.apache.xerces.feature 
-plugin@org.apache.xerces=v200606131651,:pserver:anonymous@dev.eclipse.org:/cvsroot/webtools,,wst/components/xml/thirdparty/org.apache.xerces
+plugin@org.apache.xerces=v200612131415,:pserver:anonymous@dev.eclipse.org:/cvsroot/webtools,,wst/components/xml/thirdparty/org.apache.xerces
 
 
 feature@com.lowagie.itext=v20061212,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/com.lowagie.itext.feature 
