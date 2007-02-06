@@ -21,7 +21,6 @@ import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.GridAttributesComposite;
-import org.eclipse.birt.chart.ui.swt.type.ScatterChart;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -157,8 +156,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		cbCategory.setText( Messages.getString( "BaseAxisAttributeSheetImpl.Lbl.IsCategoryAxis" ) ); //$NON-NLS-1$
 		cbCategory.setSelection( axis.isCategoryAxis( ) );
 		cbCategory.addSelectionListener( this );
-		cbCategory.setEnabled( ScatterChart.TYPE_LITERAL.equals( getChart( ).getType( ) )
-				|| AxisType.DATE_TIME_LITERAL.equals( axis.getType( ) ) );
+		cbCategory.setEnabled( !AxisType.TEXT_LITERAL.equals( axis.getType( ) ) );
 		cbCategory.setVisible( angleType == AngleType.X );
 
 		// Axis as Category / Value type
