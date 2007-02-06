@@ -33,7 +33,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -125,40 +124,57 @@ public class LineSeriesAttributeComposite extends Composite
 
 	private void placeComponents( )
 	{
-		// Layout for content composite
-		GridLayout glContent = new GridLayout( 3, false );
-		glContent.marginHeight = 2;
-		glContent.marginWidth = 2;
-
 		// Main content composite
-		this.setLayout( glContent );
-
+		this.setLayout( new GridLayout( ) );
+		
 		grpLine = new Group( this, SWT.NONE );
-		{
-			GridData gdGRPLine = new GridData( GridData.FILL_BOTH );
-			gdGRPLine.verticalSpan = 5;
-			grpLine.setLayout( new FillLayout( ) );
-			grpLine.setLayoutData( gdGRPLine );
-			grpLine.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.Line" ) ); //$NON-NLS-1$
-		}
+		GridLayout glLine = new GridLayout( 2, false );
+		glLine.horizontalSpacing = 0;
+		grpLine.setLayout( glLine );	
+		grpLine.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		grpLine.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.Line" ) ); //$NON-NLS-1$
 
-		liacLine = new LineAttributesComposite( grpLine,
+		Composite cmpLine = new Composite( grpLine, SWT.NONE );
+		{
+			GridLayout gl = new GridLayout( 2, false );
+			gl.marginHeight = 0;
+			gl.marginWidth = 0;
+			gl.horizontalSpacing = 0;
+			gl.verticalSpacing = 0;
+			cmpLine.setLayout( gl );
+			cmpLine.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		}
+		
+		liacLine = new LineAttributesComposite( cmpLine,
 				SWT.NONE,
 				context,
 				( (LineSeries) series ).getLineAttributes( ),
 				true,
 				true,
 				true );
+		GridData gdLIACLine = new GridData( GridData.FILL_HORIZONTAL );
+		gdLIACLine.horizontalSpan = 2;
+		liacLine.setLayoutData( gdLIACLine );
 		liacLine.addListener( this );
-
+		
 		if ( isShadowNeeded( ) )
 		{
-			lblShadow = new Label( this, SWT.NONE );
-			GridData gdLBLShadow = new GridData( );
-			lblShadow.setLayoutData( gdLBLShadow );
+			Composite cmpShadow = new Composite( cmpLine, SWT.NONE );
+			{
+				GridLayout gl = new GridLayout( 2, false );
+				gl.marginHeight = 0;
+				gl.marginBottom = 0;
+				gl.verticalSpacing = 0;
+				cmpShadow.setLayout( gl );
+				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+				gd.horizontalSpan = 2;
+				cmpShadow.setLayoutData( gd );
+			}
+			
+			lblShadow = new Label( cmpShadow, SWT.NONE );
 			lblShadow.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.ShadowColor" ) ); //$NON-NLS-1$
 
-			fccShadow = new FillChooserComposite( this,
+			fccShadow = new FillChooserComposite( cmpShadow,
 					SWT.NONE,
 					context,
 					( (LineSeries) series ).getShadowColor( ),
@@ -169,21 +185,18 @@ public class LineSeriesAttributeComposite extends Composite
 			fccShadow.addListener( this );
 		}
 
-		btnPalette = new Button( this, SWT.CHECK );
+		Composite cmp = new Composite( grpLine, SWT.NONE );
+		cmp.setLayout( new GridLayout( ) );
+
+		btnPalette = new Button( cmp, SWT.CHECK );
 		{
-			GridData gd = new GridData( );
-			gd.horizontalSpan = 2;
-			btnPalette.setLayoutData( gd );
 			btnPalette.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
 			btnPalette.setSelection( ( (LineSeries) series ).isPaletteLineColor( ) );
 			btnPalette.addSelectionListener( this );
 		}
 
-		btnCurve = new Button( this, SWT.CHECK );
+		btnCurve = new Button( cmp, SWT.CHECK );
 		{
-			GridData gd = new GridData( );
-			gd.horizontalSpan = 2;
-			btnCurve.setLayoutData( gd );
 			btnCurve.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.ShowLinesAsCurves" ) ); //$NON-NLS-1$
 			btnCurve.setSelection( ( (LineSeries) series ).isCurve( ) );
 			btnCurve.addSelectionListener( this );
@@ -191,11 +204,8 @@ public class LineSeriesAttributeComposite extends Composite
 
 		if ( !( series instanceof AreaSeries || series instanceof ScatterSeries ) )
 		{
-			btnMissingValue = new Button( this, SWT.CHECK );
+			btnMissingValue = new Button( cmp, SWT.CHECK );
 			{
-				GridData gd = new GridData( );
-				gd.horizontalSpan = 2;
-				btnMissingValue.setLayoutData( gd );
 				btnMissingValue.setText( Messages.getString( "LineSeriesAttributeComposite.Lbl.ConnectMissingValue" ) ); //$NON-NLS-1$
 				btnMissingValue.setSelection( ( (LineSeries) series ).isConnectMissingValue( ) );
 				btnMissingValue.addSelectionListener( this );

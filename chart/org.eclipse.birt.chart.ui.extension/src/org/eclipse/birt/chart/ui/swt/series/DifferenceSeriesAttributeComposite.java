@@ -109,17 +109,25 @@ public class DifferenceSeriesAttributeComposite extends Composite
 	private void placeComponents( )
 	{
 		// Layout for content composite
-		GridLayout glContent = new GridLayout( 4, false );
+		GridLayout glContent = new GridLayout( 2, false );
 		glContent.marginHeight = 2;
 		glContent.marginWidth = 2;
 
 		// Main content composite
 		this.setLayout( glContent );
+		
+		Group grpLine = new Group( this, SWT.NONE );
+		{
+			GridLayout glGroup = new GridLayout( 2, true );
+			glGroup.horizontalSpacing = 5;
+			grpLine.setLayout( glGroup );
+			grpLine.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+			grpLine.setText( Messages.getString( "DifferenceSeriesAttributeComposite.Lbl.Line" ) ); //$NON-NLS-1$
+		}
 
-		grpLine1 = new Group( this, SWT.NONE );
+		grpLine1 = new Group( grpLine, SWT.NONE );
 		{
 			GridData gdGRPLine = new GridData( GridData.FILL_BOTH );
-			gdGRPLine.verticalSpan = 5;
 			grpLine1.setLayout( new FillLayout( ) );
 			grpLine1.setLayoutData( gdGRPLine );
 			grpLine1.setText( Messages.getString( "DifferenceSeriesAttributeComposite.Lbl.PositiveLine" ) ); //$NON-NLS-1$
@@ -134,10 +142,9 @@ public class DifferenceSeriesAttributeComposite extends Composite
 				true );
 		liacLine1.addListener( this );
 		
-		grpLine2 = new Group( this, SWT.NONE );
+		grpLine2 = new Group( grpLine, SWT.NONE );
 		{
 			GridData gdGRPLine = new GridData( GridData.FILL_BOTH );
-			gdGRPLine.verticalSpan = 5;
 			grpLine2.setLayout( new FillLayout( ) );
 			grpLine2.setLayoutData( gdGRPLine );
 			grpLine2.setText( Messages.getString( "DifferenceSeriesAttributeComposite.Lbl.NegativeLine" ) ); //$NON-NLS-1$
@@ -152,21 +159,25 @@ public class DifferenceSeriesAttributeComposite extends Composite
 				true );
 		liacLine2.addListener( this );
 		
-		btnPalette = new Button( this, SWT.CHECK );
+		Composite cmpButton = new Composite( grpLine, SWT.NONE );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalSpan = 2;
-			btnPalette.setLayoutData( gd );
+			cmpButton.setLayoutData( gd );
+			cmpButton.setLayout( new GridLayout( 2, true ) );
+		}
+		
+		btnPalette = new Button( cmpButton, SWT.CHECK );
+		{
+			btnPalette.setLayoutData( new GridData( ) );
 			btnPalette.setText( Messages.getString( "DifferenceSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
 			btnPalette.setSelection( ( (LineSeries) series ).isPaletteLineColor( ) );
 			btnPalette.addSelectionListener( this );
 		}
 
-		btnCurve = new Button( this, SWT.CHECK );
+		btnCurve = new Button( cmpButton, SWT.CHECK );
 		{
-			GridData gd = new GridData( );
-			gd.horizontalSpan = 2;
-			btnCurve.setLayoutData( gd );
+			btnCurve.setLayoutData( new GridData( ) );
 			btnCurve.setText( Messages.getString( "DifferenceSeriesAttributeComposite.Lbl.ShowLinesAsCurves" ) ); //$NON-NLS-1$
 			btnCurve.setSelection( ( (DifferenceSeries) series ).isCurve( ) );
 			btnCurve.addSelectionListener( this );

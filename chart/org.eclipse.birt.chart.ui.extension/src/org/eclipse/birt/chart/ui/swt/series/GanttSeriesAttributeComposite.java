@@ -41,6 +41,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 public class GanttSeriesAttributeComposite extends Composite
@@ -48,11 +49,6 @@ public class GanttSeriesAttributeComposite extends Composite
 			SelectionListener,
 			Listener
 {
-
-	private transient Group grpMarkerStart = null;
-
-	private transient Group grpMarkerEnd = null;
-
 	private transient Button btnPalette = null;
 
 	private transient FillChooserComposite fccFill = null;
@@ -109,52 +105,55 @@ public class GanttSeriesAttributeComposite extends Composite
 	private void placeComponents( )
 	{
 		// Layout for content composite
-		GridLayout glContent = new GridLayout( );
-		glContent.numColumns = 8;
+		GridLayout glContent = new GridLayout( 2, false );
 		glContent.marginHeight = 2;
 		glContent.marginWidth = 2;
+		glContent.horizontalSpacing = 0;
 
 		// Main content composite
 		this.setLayout( glContent );
 
 		// Layout for the Marker group
-		GridLayout glMarker = new GridLayout( );
-		glMarker.marginHeight = 4;
-		glMarker.marginWidth = 4;
-		glMarker.verticalSpacing = 4;
-		glMarker.horizontalSpacing = 4;
-
+		
 		Composite cmpMarker = new Composite( this, SWT.NONE );
-		cmpMarker.setLayout( new GridLayout( ) );
-		GridData gdMarker = new GridData( GridData.FILL_BOTH );
-		gdMarker.horizontalSpan = 2;
-		cmpMarker.setLayoutData( gdMarker );
+		{
+			cmpMarker.setLayout( new GridLayout(  ));
+			cmpMarker.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		}
+		
+		Group grpMarker = new Group( cmpMarker, SWT.NONE );
+		grpMarker.setText( Messages.getString( "GanttSeriesAttributeComposite.Lbl.Marker" ) ); //$NON-NLS-1$
+		grpMarker.setLayout( new GridLayout( 2, false ) );
+		grpMarker.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
 		// Layout for the Start Marker
-		grpMarkerStart = new Group( cmpMarker, SWT.NONE );
-		grpMarkerStart.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		grpMarkerStart.setLayout( glMarker );
-		grpMarkerStart.setText( Messages.getString( "GanttSeriesAttributeComposite.Lbl.StartMarker" ) ); //$NON-NLS-1$
+		Label lblStart = new Label( grpMarker, SWT.NONE );
+		lblStart.setText( Messages.getString( "GanttSeriesAttributeComposite.Lbl.Start" ) ); //$NON-NLS-1$
 
-		new MarkerEditorComposite( grpMarkerStart,
+		new MarkerEditorComposite( grpMarker,
 				createMarker( series.getStartMarker( ) ) );
 
 		// Layout for the End Marker
-		grpMarkerEnd = new Group( cmpMarker, SWT.NONE );
-		grpMarkerEnd.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		grpMarkerEnd.setLayout( glMarker );
-		grpMarkerEnd.setText( Messages.getString( "GanttSeriesAttributeComposite.Lbl.EndMarker" ) ); //$NON-NLS-1$
+		Label lblEnd = new Label( grpMarker, SWT.NONE );
+		lblEnd.setText( Messages.getString( "GanttSeriesAttributeComposite.Lbl.End" ) ); //$NON-NLS-1$
 
-		new MarkerEditorComposite( grpMarkerEnd,
+		new MarkerEditorComposite( grpMarker,
 				createMarker( series.getEndMarker( ) ) );
 
+		Composite cmpGroup = new Composite( this, SWT.NONE );
+		{
+			GridLayout glGroup = new GridLayout(  2, true );
+			glGroup.marginWidth = 0;
+			glGroup.horizontalSpacing = 6;
+			cmpGroup.setLayout( glGroup );
+			cmpGroup.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		}
 		// Layout for Connection Line
-		grpLine = new Group( this, SWT.NONE );
+		grpLine = new Group( cmpGroup, SWT.NONE );
 		GridData gdGRPLine = new GridData( GridData.FILL_BOTH );
-		gdGRPLine.horizontalSpan = 2;
-		grpLine.setLayout( new FillLayout( ) );
+		grpLine.setLayout( new GridLayout( ) );
 		grpLine.setLayoutData( gdGRPLine );
-		grpLine.setText( Messages.getString( "GanttSeriesAttributeComposite.Lbl.Line" ) ); //$NON-NLS-1$
+		grpLine.setText( Messages.getString( "GanttSeriesAttributeComposite.Lbl.Bars" ) ); //$NON-NLS-1$
 
 		gliacGantt = new GanttLineAttributesComposite( grpLine,
 				context,
@@ -163,12 +162,22 @@ public class GanttSeriesAttributeComposite extends Composite
 				true,
 				true,
 				true );
+		gliacGantt.setLayoutData(  new GridData( GridData.FILL_HORIZONTAL ) );
 		gliacGantt.addListener( this );
+		
+		btnPalette = new Button( grpLine, SWT.CHECK );
+		{
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.horizontalIndent = 4;
+			btnPalette.setLayoutData( gd );
+			btnPalette.setText( Messages.getString( "GanttSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
+			btnPalette.setSelection( series.isPaletteLineColor( ) );
+			btnPalette.addSelectionListener( this );
+		}
 
 		// Layout for Outine
-		grpOutline = new Group( this, SWT.NONE );
+		grpOutline = new Group( cmpGroup, SWT.NONE );
 		GridData gdGRPOutline = new GridData( GridData.FILL_BOTH );
-		gdGRPOutline.horizontalSpan = 2;
 		grpOutline.setLayout( new FillLayout( ) );
 		grpOutline.setLayoutData( gdGRPOutline );
 		grpOutline.setText( Messages.getString( "GanttSeriesAttributeComposite.Lbl.Outline" ) ); //$NON-NLS-1$
@@ -181,35 +190,6 @@ public class GanttSeriesAttributeComposite extends Composite
 				true,
 				true );
 		oliacGantt.addListener( this );
-
-		Composite cmpFill = new Composite( this, SWT.NONE );
-		cmpFill.setLayout( new GridLayout( ) );
-		GridData gdFill = new GridData( GridData.FILL_BOTH
-				| GridData.VERTICAL_ALIGN_BEGINNING );
-		gdFill.horizontalSpan = 2;
-		cmpFill.setLayoutData( gdFill );
-
-		/*Label lblFill = new Label( cmpFill, SWT.NONE );
-		 GridData gdLBLFill = new GridData( );
-		 lblFill.setLayoutData( gdLBLFill );
-		 lblFill.setText( Messages.getString( "GanttSeriesAttributeComposite.Lbl.OutlineFill" ) ); //$NON-NLS-1$
-
-		 fccFill = new FillChooserComposite( cmpFill,
-		 SWT.NONE,
-		 context,
-		 ( (GanttSeries) series ).getOutlineFill( ),
-		 false,
-		 false );
-		 fccFill.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		 fccFill.addListener( this );*/
-
-		btnPalette = new Button( cmpFill, SWT.CHECK );
-		{
-			btnPalette.setText( Messages.getString( "GanttSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
-			btnPalette.setSelection( series.isPaletteLineColor( ) );
-			btnPalette.addSelectionListener( this );
-		}
-
 	}
 
 	public Point getPreferredSize( )
@@ -252,6 +232,7 @@ public class GanttSeriesAttributeComposite extends Composite
 			{
 				series.getConnectionLine( )
 						.setVisible( ( (Boolean) event.data ).booleanValue( ) );
+				btnPalette.setEnabled( ( (Boolean) event.data ).booleanValue( ) );
 			}
 			else if ( event.type == GanttLineAttributesComposite.STYLE_CHANGED_EVENT )
 			{

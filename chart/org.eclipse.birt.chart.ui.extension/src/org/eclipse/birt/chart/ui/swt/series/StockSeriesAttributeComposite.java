@@ -34,6 +34,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Spinner;
 
 /**
@@ -94,32 +95,20 @@ public class StockSeriesAttributeComposite extends Composite implements
 
 	private void placeComponents( )
 	{
-		// Layout for content composite
-		GridLayout glContent = new GridLayout( );
-		glContent.numColumns = series.isShowAsBarStick( ) ? 3 : 1;
-
 		// Main content composite
-		this.setLayout( glContent );
+		this.setLayout( new GridLayout( ) );
 
-		// // Candle Fill composite
-		// Label lblRiserOutline = new Label( this, SWT.NONE );
-		// GridData gdLBLRiserOutline = new GridData( );
-		// lblRiserOutline.setLayoutData( gdLBLRiserOutline );
-		// lblRiserOutline.setText( Messages.getString(
-		// "StockSeriesAttributeComposite.Lbl.CandleFill" ) ); //$NON-NLS-1$
-		//		
-		// this.fccCandle = new FillChooserComposite( this,
-		// SWT.NONE,
-		// series.getFill( ),
-		// true,
-		// true );
-		// GridData gdFCCRiserOutline = new GridData( GridData.FILL_HORIZONTAL
-		// );
-		// fccCandle.setLayoutData( gdFCCRiserOutline );
-		// fccCandle.addListener( this );
+		Group grpLine = new Group( this, SWT.NONE );
+		{
+			grpLine.setText(  Messages.getString( "StockSeriesAttributeComposite.Lbl.Line" ) ); //$NON-NLS-1$
+			GridLayout glLine = new GridLayout( );
+			glLine.numColumns = series.isShowAsBarStick( ) ? 3 : 1;
+			grpLine.setLayout( glLine );
+			grpLine.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		}
 
 		// Line Attributes composite
-		liacStock = new LineAttributesComposite( this,
+		liacStock = new LineAttributesComposite( grpLine,
 				SWT.NONE,
 				context,
 				series.getLineAttributes( ),
@@ -133,9 +122,9 @@ public class StockSeriesAttributeComposite extends Composite implements
 
 		if ( series.isShowAsBarStick( ) )
 		{
-			new Label( this, SWT.NONE ).setText( Messages.getString( "StockSeriesAttributeComposite.Lbl.StickLength" ) ); //$NON-NLS-1$
+			new Label( grpLine, SWT.NONE ).setText( Messages.getString( "StockSeriesAttributeComposite.Lbl.StickLength" ) ); //$NON-NLS-1$
 
-			iscStick = new Spinner( this, SWT.BORDER );
+			iscStick = new Spinner( grpLine, SWT.BORDER );
 			iscStick.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			iscStick.setMinimum( 0 );
 			iscStick.setMaximum( Integer.MAX_VALUE );

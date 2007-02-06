@@ -33,7 +33,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -114,7 +113,7 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 	private void placeComponents( )
 	{
 		// Layout for content composite
-		GridLayout glContent = new GridLayout( 4, false );
+		GridLayout glContent = new GridLayout( 3, true );
 		glContent.marginHeight = 2;
 		glContent.marginWidth = 2;
 
@@ -122,9 +121,9 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 		this.setLayout( glContent );
 
 		grpAccLine = new Group( this, SWT.NONE );
-		GridData gdGRPAccLine = new GridData( GridData.FILL_BOTH );
-		gdGRPAccLine.horizontalSpan = 1;
+		GridData gdGRPAccLine = new GridData( GridData.FILL_HORIZONTAL );
 		GridLayout glGRPAccline = new GridLayout( 2, false );
+		glGRPAccline.verticalSpacing = 0;
 		grpAccLine.setLayout( glGRPAccline );
 		grpAccLine.setLayoutData( gdGRPAccLine );
 		grpAccLine.setText( Messages.getString( "BubbleSeriesAttributeComposite.Lbl.AccLine" ) ); //$NON-NLS-1$
@@ -141,41 +140,71 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 		liacAccLine.setLayoutData( gdLIACAccLine );
 		liacAccLine.addListener( this );
 		
-		lblOrientation = new Label( grpAccLine, SWT.NONE );
+		Composite cmpOrientation = new Composite( grpAccLine, SWT.NONE );
+		{
+			GridLayout gl = new GridLayout( 2, false );
+			gl.marginHeight = 0;
+			gl.marginBottom = 0;
+			gl.verticalSpacing = 0;
+			cmpOrientation.setLayout( gl );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.horizontalSpan = 2;
+			cmpOrientation.setLayoutData( gd );
+		}
+		
+		lblOrientation = new Label( cmpOrientation, SWT.NONE );
 		lblOrientation.setText( Messages.getString( "BubbleSeriesAttributeComposite.Lbl.Orientation" ) ); //$NON-NLS-1$
 
-		cmbOrientation = new Combo( grpAccLine, SWT.DROP_DOWN | SWT.READ_ONLY );
+		cmbOrientation = new Combo( cmpOrientation, SWT.DROP_DOWN | SWT.READ_ONLY );
 		GridData gdCMBOrientation = new GridData( GridData.FILL_HORIZONTAL );
 		cmbOrientation.setLayoutData( gdCMBOrientation );
 		cmbOrientation.addSelectionListener( this );
 
 		grpLine = new Group( this, SWT.NONE );
-		GridData gdGRPLine = new GridData( GridData.FILL_BOTH );
-		gdGRPLine.horizontalSpan = 1;
-		grpLine.setLayout( new FillLayout( ) );
+		GridData gdGRPLine = new GridData( GridData.FILL_HORIZONTAL );
+		gdGRPLine.horizontalSpan = 2;
 		grpLine.setLayoutData( gdGRPLine );
+		GridLayout glLine = new GridLayout( 2, false );
+		glLine.horizontalSpacing = 0;
+		grpLine.setLayout( glLine );		
 		grpLine.setText( Messages.getString( "BubbleSeriesAttributeComposite.Lbl.Line" ) ); //$NON-NLS-1$
 
-		liacLine = new LineAttributesComposite( grpLine,
+		Composite cmpLine = new Composite( grpLine, SWT.NONE );
+		{
+			GridLayout gl = new GridLayout( 2, false );
+			gl.marginHeight = 0;
+			gl.marginWidth = 0;
+			gl.horizontalSpacing = 0;
+			gl.verticalSpacing = 0;
+			cmpLine.setLayout( gl );
+			cmpLine.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		}
+		
+		liacLine = new LineAttributesComposite( cmpLine,
 				SWT.NONE,
 				context,
 				( (BubbleSeries) series ).getLineAttributes( ),
 				true,
 				true,
 				true );
+		GridData gdLIACLine = new GridData( GridData.FILL_HORIZONTAL );
+		gdLIACLine.horizontalSpan = 2;
+		liacLine.setLayoutData( gdLIACLine );
 		liacLine.addListener( this );
-
-		Composite cmp = new Composite( this, SWT.NONE );
-		cmp.setLayout( new GridLayout( ) );
-		cmp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-
-		Composite cmpShadow = new Composite( cmp, SWT.NONE );
-		cmpShadow.setLayout( new GridLayout( 2, false ) );
-		cmpShadow.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-
+		
+		Composite cmpShadow = new Composite( cmpLine, SWT.NONE );
+		{
+			GridLayout gl = new GridLayout( 2, false );
+			gl.marginHeight = 0;
+			gl.marginBottom = 0;
+			gl.verticalSpacing = 0;
+			cmpShadow.setLayout( gl );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.horizontalSpan = 2;
+			cmpShadow.setLayoutData( gd );
+		}
+		
 		lblShadow = new Label( cmpShadow, SWT.NONE );
-		GridData gdLBLShadow = new GridData( );
-		lblShadow.setLayoutData( gdLBLShadow );
 		lblShadow.setText( Messages.getString( "BubbleSeriesAttributeComposite.Lbl.ShadowColor" ) ); //$NON-NLS-1$
 
 		fccShadow = new FillChooserComposite( cmpShadow,
@@ -185,17 +214,16 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 				false,
 				false );
 		GridData gdFCCShadow = new GridData( GridData.FILL_HORIZONTAL );
-		gdFCCShadow.widthHint = 100;
 		fccShadow.setLayoutData( gdFCCShadow );
 		fccShadow.addListener( this );
+
+		Composite cmp = new Composite( grpLine, SWT.NONE );
+		cmp.setLayout( new GridLayout( ) );
 
 		btnPalette = new Button( cmp, SWT.CHECK );
 		{
 			btnPalette.setText( Messages.getString( "BubbleSeriesAttributeComposite.Lbl.LinePalette" ) ); //$NON-NLS-1$
 			btnPalette.setSelection( ( (BubbleSeries) series ).isPaletteLineColor( ) );
-			GridData gdBTNPalette = new GridData( GridData.FILL_HORIZONTAL );
-			gdBTNPalette.horizontalSpan = 2;
-			btnPalette.setLayoutData( gdBTNPalette );
 			btnPalette.addSelectionListener( this );
 		}
 
@@ -203,9 +231,6 @@ public class BubbleSeriesAttributeComposite extends Composite implements
 		{
 			btnCurve.setText( Messages.getString( "BubbleSeriesAttributeComposite.Lbl.ShowLinesAsCurves" ) ); //$NON-NLS-1$
 			btnCurve.setSelection( ( (BubbleSeries) series ).isCurve( ) );
-			GridData gdBTNCurve = new GridData( GridData.FILL_HORIZONTAL );
-			gdBTNCurve.horizontalSpan = 2;
-			btnPalette.setLayoutData( gdBTNCurve );
 			btnCurve.addSelectionListener( this );
 		}
 
