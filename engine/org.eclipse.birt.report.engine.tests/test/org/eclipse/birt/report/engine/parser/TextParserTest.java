@@ -20,6 +20,7 @@ import org.w3c.dom.Node;
 /**
  * Test case for DOM parser.
  * 
+ * @version $Revision: 1.2 $ $Date: 2007/01/07 15:15:33 $
  */
 public class TextParserTest extends TestCase
 {
@@ -31,6 +32,8 @@ public class TextParserTest extends TestCase
 				.getResourceAsStream( "htmlparser_html.txt" ), "Auto" );
 		Element root = (Element) doc.getFirstChild( );
 		Node child = root.getFirstChild( );
+		assertTrue(child.getNodeName( ).equals( "script" ));
+		child = child.getNextSibling( );
 		String res = "";
 		for ( ; child.getNodeType( ) == Node.TEXT_NODE; child = child
 				.getNextSibling( ) )
