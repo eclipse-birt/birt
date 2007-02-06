@@ -25,7 +25,7 @@ echo "" >> $2/genReport.sh
 
 
 awk  'NR==1 {printf "export BIRTCLASSPATH=\"$BIRT_HOME/ReportEngine/lib/"$1}'  lib.path >> $2/genReport.sh
-awk  'NR>2  {printf ":$BIRT_HOME/ReportEngine/lib/"$1}'  lib.path >> $2/genReport.sh
+awk  'NR>=2  {printf ":$BIRT_HOME/ReportEngine/lib/"$1}'  lib.path >> $2/genReport.sh
 echo \" >> $2/genReport.sh
 
 echo "" >> $2/genReport.sh
@@ -55,7 +55,7 @@ echo "" >> $2/genReport.bat
 echo REM set the birt class path. >> $2/genReport.bat
 
 awk  'NR==1 {printf "SET BIRTCLASSPATH=%BIRT_HOME%\\ReportEngine\\lib\\"$1}'  lib.path >> $2/genReport.bat
-awk  'NR>2  {printf ";%BIRT_HOME%\\ReportEngine\\lib\\"$1}'  lib.path >> $2/genReport.bat
+awk  'NR>=2  {printf ";%BIRT_HOME%\\ReportEngine\\lib\\"$1}'  lib.path >> $2/genReport.bat
 echo \; >> $2/genReport.bat
 
 echo "" >> $2/genReport.bat

@@ -325,7 +325,7 @@
 	<!-- public part-->
 
 	<target name="updatePluginVersion" unless="not.update.plugin.version">
-		<versionUpdate projectPath="${projectPath}" suffix="${buildId}" checkFlag="N" />
+		<versionUpdate projectPath="${projectPath}" suffix=".${buildId}" checkFlag="N" />
 	</target>
 	<!-- public part -->
 	<target name="main" >
