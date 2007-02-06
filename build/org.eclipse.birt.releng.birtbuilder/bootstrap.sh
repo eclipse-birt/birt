@@ -15,7 +15,7 @@ export CVS_RSH USERNAME BASH_ENV LD_LIBRARY_PATH DISPLAY
 
 if [ "x"$ANT_HOME = "x" ]; then export ANT_HOME=/usr/local/apache-ant-1.6.5; fi
 if [ "x"$JAVA_HOME = "x" ]; then export JAVA_HOME=/usr/local/j2sdk1.4.2_13; fi
-export PATH=${PATH}:${ANT_HOME}/bin
+export PATH=${PATH}:${ANT_HOME}/bin:/usr/local/bin
 
 proc=$$
 
@@ -64,7 +64,7 @@ builderDir=/home/adb/releng/BIRTBuilder/
 buildType=I
 
 # directory where to copy build
-postingDirectory=/home/adb/rollingBuild/BIRTOutput/BIRT2.2-download
+postingDirectory=/home/adb/releng/BIRTOutput/BIRT2.2-download
 
 # flag to indicate if test build
 testBuild=""
