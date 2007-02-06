@@ -3139,6 +3139,7 @@ public abstract class AxesRenderer extends BaseRenderer
 		final boolean bHideOutside = !getAxis( ).getScale( ).isShowOutside( );
 		final DataPointHints[] dpha = srh.getDataPoints( );
 		final boolean isCategory = srh.isCategoryScale( );
+		final boolean bTransposed = isTransposed( );
 		final Bounds boClientArea = srh.getClientAreaBounds( true );
 		// Adjust the position in 2d+
 		if ( bShowAsTape )
@@ -3231,17 +3232,24 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 				else
 				{
-					if ( isTransposed( ) )
+					// Only set the location for non-null data
+					if ( bTransposed )
 					{
-						faX[i] = iOutside == 1 ? boClientArea.getLeft( )
-								: boClientArea.getLeft( )
-										+ boClientArea.getWidth( );
+						if ( !Double.isNaN( faX[i] ) )
+						{
+							faX[i] = iOutside == 1 ? boClientArea.getLeft( )
+									: boClientArea.getLeft( )
+											+ boClientArea.getWidth( );
+						}
 					}
 					else
 					{
-						faY[i] = iOutside == 1 ? boClientArea.getTop( )
-								+ boClientArea.getHeight( )
-								: boClientArea.getTop( );
+						if ( !Double.isNaN( faY[i] ) )
+						{
+							faY[i] = iOutside == 1 ? boClientArea.getTop( )
+									+ boClientArea.getHeight( )
+									: boClientArea.getTop( );
+						}
 					}
 				}
 			}
