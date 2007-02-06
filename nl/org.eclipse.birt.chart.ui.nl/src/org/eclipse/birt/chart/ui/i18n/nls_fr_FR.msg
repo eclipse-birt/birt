@@ -77,7 +77,8 @@ PreviewPanel.Title.Preview=Exemple de graphique
 ChartWizard.Label.SelectChartTypeDataFormat=Sélectionner le type de graphique, les données et le format.
 TaskSelectType.Caption.OverlayAxis1=Titre de l'axe des y
 ApplyButtonHandler.Label.Apply=Annuler
-ChartUIUtil.GanttExp.Label=Etiquette de décoration
+
+ChartUIUtil.GanttExp.Label=Task Label
 ChartUIUtil.GanttExp.Start=Date de début
 ChartUIUtil.GanttExp.End=Date de fin
 ChartUIUtil.BubbleExp.Label=Valeur Y

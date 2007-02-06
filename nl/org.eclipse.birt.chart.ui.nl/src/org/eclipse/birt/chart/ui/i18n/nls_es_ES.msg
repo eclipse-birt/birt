@@ -77,7 +77,8 @@ PreviewPanel.Title.Preview=Diagrama de muestra
 ChartWizard.Label.SelectChartTypeDataFormat=Seleccionar tipo de diagrama, datos y formato.
 TaskSelectType.Caption.OverlayAxis1=Título de eje Y
 ApplyButtonHandler.Label.Apply=Aplicar
-ChartUIUtil.GanttExp.Label=Etiqueta de decoración
+
+ChartUIUtil.GanttExp.Label=Task Label
 ChartUIUtil.GanttExp.Start=Fecha de inicio
 ChartUIUtil.GanttExp.End=Fecha de finalización
 ChartUIUtil.BubbleExp.Label=Valor Y
