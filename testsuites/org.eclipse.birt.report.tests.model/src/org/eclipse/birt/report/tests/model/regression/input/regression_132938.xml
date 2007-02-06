@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.4" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.v20060805-0630 Build &lt;20060807-0630></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.10" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.0.v20070202 Build &lt;2.2.0.v20070205-0630></property>
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
-     <list-property name="libraries">
+    <html-property name="description">Creates a blank report with no predefined content.</html-property>
+    <text-property name="displayName">Blank Report</text-property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <list-property name="libraries">
         <structure>
             <property name="fileName">regression_132938_libA.xml</property>
             <property name="namespace">regression_132938_libA</property>
@@ -21,6 +23,6 @@
         </simple-master-page>
     </page-setup>
     <body>
-        <label name="childlabel" id="4" extends="regression_132938_libA.NewLabel"/>
+        <label name="NewLabel" id="4" extends="regression_132938_libA.NewLabel"/>
     </body>
 </report>
