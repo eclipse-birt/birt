@@ -743,6 +743,21 @@ public class TaskSelectType extends SimpleTask implements
 			{
 				// Ensure populate list after chart model generated
 				populateSeriesTypesList( );
+				
+				// Auto rotates Axis title when changing chart type that may
+				// cause transposition
+				if ( chartModel instanceof ChartWithAxes )
+				{
+					rotateAxisTitle( (ChartWithAxes) chartModel );
+				}
+			}
+			else if ( oSelected.equals( cbOrientation ) )
+			{
+				// Auto rotates Axis title when transposing
+				if ( chartModel instanceof ChartWithAxes )
+				{
+					rotateAxisTitle( (ChartWithAxes) chartModel );
+				}
 			}
 			else if ( oSelected.equals( cbMultipleY ) && isTwoAxesEnabled( ) )
 			{
@@ -1526,6 +1541,42 @@ public class TaskSelectType extends SimpleTask implements
 	public Image getImage( )
 	{
 		return UIHelper.getImage( "icons/obj16/selecttype.gif" ); //$NON-NLS-1$
+	}
+	
+	/**
+	 * Rotates Axis Title when transposing
+	 * 
+	 * @param cwa
+	 *            chart model
+	 */
+	private void rotateAxisTitle( ChartWithAxes cwa )
+	{
+		boolean bRender = false;
+		ChartAdapter.beginIgnoreNotifications( );
+		boolean bVertical = orientation.getValue( ) == Orientation.VERTICAL;
+		Axis aX = ChartUIUtil.getAxisXForProcessing( cwa );
+		if ( aX.getTitle( ).isVisible( ) )
+		{
+			bRender = true;
+			aX.getTitle( ).getCaption( ).getFont( ).setRotation( bVertical ? 0
+					: 90 );
+		}
+		EList aYs = aX.getAssociatedAxes( );
+		for ( int i = 0; i < aYs.size( ); i++ )
+		{
+			Axis aY = (Axis) aYs.get( i );
+			if ( aY.getTitle( ).isVisible( ) )
+			{
+				bRender = true;
+				aY.getTitle( ).getCaption( ).getFont( ).setRotation( bVertical
+						? 90 : 0 );
+			}
+		}
+		ChartAdapter.endIgnoreNotifications( );
+		if ( bRender )
+		{
+			previewPainter.renderModel( chartModel );
+		}
 	}
 
 }
