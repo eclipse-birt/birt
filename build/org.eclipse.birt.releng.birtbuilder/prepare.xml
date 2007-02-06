@@ -16,7 +16,7 @@
                      command="checkout -P ${checkout.version} ${cvs.options}"
                      failonerror="yes" />
 
-                <copy todir="${work.dir}" failonerror="true">
+                <copy todir="${work.dir}" failonerror="true" overwrite="true">
                         <fileset dir="${cvs.dir}/source/org.eclipse.birt.releng.birtbuilder" >
                                 <include name="**"/>
                         </fileset>
