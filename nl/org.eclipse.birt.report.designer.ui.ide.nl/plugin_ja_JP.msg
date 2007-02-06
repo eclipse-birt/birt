@@ -32,10 +32,10 @@ LibraryEditor=ライブラリエディタ
 LibraryWizard=ライブラリ
 LibraryWizardDescription=このウィザードでは、新しいレポートライブラリを作成します。
 
-OdaRuntimeWizard=ODA Runtime Driver Plug-in Project
-OdaRuntimeWizardDesc=Create a new ODA runtime driver plug-in.
-OdaDesignerWizard=ODA Designer Plug-in Project
-OdaDesignerWizardDesc=Create a new ODA designer plug-in.
+OdaRuntimeWizard=ODA 実行時ドライバのプラグインプロジェクト
+OdaRuntimeWizardDesc=ODA 実行時ドライバの新しいプラグインを作成します。
+OdaDesignerWizard=ODA デザイナのプラグインプロジェクト
+OdaDesignerWizardDesc=ODA デザイナの新しいプラグインを作成します。
 
 ###############################################################################
 # Activities

@@ -137,8 +137,8 @@ birt.viewer.componentProcessorException.MISSING_OPERATOR=Error: Falta operador.
 # Exception dialog
 ###############################################################################
 birt.viewer.exceptionDialog.stackTrace=Apilar rastreo:
-birt.viewer.exceptionDialog.showStackTrace=Show Exception Stack Trace
-birt.viewer.exceptionDialog.hideStackTrace=Hide Exception Stack Trace
+birt.viewer.exceptionDialog.showStackTrace=Mostrar rastreo de pila de excepción
+birt.viewer.exceptionDialog.hideStackTrace=Ocultar rastreo de pila de excepción
 
 ###############################################################################
 # Birt Viewer JSP Taglib

@@ -17,8 +17,8 @@ exception.scale.null.location=Koordinate für Null-Wert auf Skala {0} kann nicht 
 exception.illegal.icon.palette.type.for.marker=''{0}'' ist kein gültiger Bildtyp für das Markierungssymbol.
 exception.illegal.filltype.crosshair.marker=Palettenfarbe kann auf Markierungs-CROSSHAIR nicht als {0} festgelegt werden
 exception.illegal.filltype.cross.marker=Palettenfarbe kann auf Markierungs-CROSS nicht als {0} festgelegt werden
-exception.invalid.step.size =Invalid ''step size({0}) <= 0'' specified for axis scale
-exception.invalid.step.number =Invalid ''step number({0}) < 2'' specified for axis scale
+exception.invalid.step.size =Ungültige "step size({0}) <= 0" für Achsenskala festgelegt
+exception.invalid.step.number =Ungültige ''step number({0}) < 1'' für Achsenskala festgelegt
 exception.curve.line.visibility.not.defined=Die Eigenschaft "Sichtbarkeit" der Kurvenlinie ist nicht korrekt definiert.
 exception.min.largerthan.max=Ungültige Einträge "min({0}) > max({1})" für Achsenskala festgelegt
 exception.combination.axis.label.position=Unerwartete Kombination von Achse={0} und Beschriftungsposition={1}
@@ -34,7 +34,7 @@ exception.unsupported.internal.fill={0} kann nicht intern über das Ereignis gefü
 exception.unsupported.chart.model=Durch Modell [{0}] definiertes Diagramm kann nicht berechnet werden
 exception.unsupported.bounds=Grenzen für Ereignis {0} können nicht berechnet werden
 exception.unsupported.copy=Kopie von Ereignis {0} kann nicht erstellt werden
-exception.unsupported.step.number=Step number is not supported for non-numeric value.
+exception.unsupported.step.number=Schrittnummer wird für nicht numerischen Wert nicht unterstützt.
 exception.undefined.data.point=Der mit der Datenreihendefinition verknüpfte DataPoint-Wert ist nicht definiert
 exception.unit.size.failure=Einheitengröße kann nicht berechnet werden, da Skalenkoordinaten nicht definiert sind
 exception.process.content.type=Als {0} festgelegte Datensatzinhalte für Typ {1} können nicht verarbeitet werden
@@ -99,7 +99,7 @@ exception.base.orthogonal.null.datapoint=Die angegebenen Datenpunkte enthalten e
 exception.base.orthogonal.null.datadefinition=Der angegebene Datendefinitionsausdruck ist ungültig..
 exception.dataset.non.numerical.to.numerical=Unerwarteter nicht numerischer Datentyp {0} in Datensatz gefunden; Umwandlung in numerischen Wert nicht möglich.
 exception.dataset.non.datetime=Der an die X-Achse gebundene Datentyp hat nicht das Format "Datum/Uhrzeit"
-exception.scale.tick.max=Rendern von zu vielen Häkchen nicht möglich. Passen Sie den Skalenschritt oder die Einheit an.
+exception.scale.tick.max=Rendern zu vieler Raster nicht möglich. Passen Sie den Skalenschritt oder die Skaleneinheit an.
 exception.unknown.axis.type.tick.computations=Achsentyp zur Berechnung der Skalenunterteilung kann nicht bestimmt werden
 exception.unsupported.compare.unknown.objects=Nicht unterstützte Datenelemente für Vergleich DE1={0} und DE2={1} angegeben
 exception.unsupported.compare.different.objects=Gemischte Datenelemente für Vergleich DE1={0} und DE2={1} angegeben

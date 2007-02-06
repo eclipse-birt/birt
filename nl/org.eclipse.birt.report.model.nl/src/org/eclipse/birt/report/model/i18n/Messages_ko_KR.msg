@@ -539,10 +539,10 @@ Choices.viewAction.Added=추가됨
 Choices.viewAction.Deleted=삭제됨
 
 #70. measureFunction
-Choices.measureFunction.sum=Sum
-Choices.measureFunction.count=Count
-Choices.measureFunction.min=Min
-Choices.measureFunction.max=Max
+Choices.measureFunction.sum=합
+Choices.measureFunction.count=카운트
+Choices.measureFunction.min=최소
+Choices.measureFunction.max=최대
 
 #71. levelType
 Choices.levelType.dynamic=동적
@@ -2053,9 +2053,9 @@ Structure.TOC.text.indent=텍스트 들여쓰기
 Structure.TOC.text.transform=텍스트 변환
 
 #29. DimensionCondition
-Structure.DimensionCondition=Dimension Condition
-Structure.DimensionCondition.primaryKeys=Primary Keys
-Structure.DimensionCondition.hierarchy=Hierarchy
+Structure.DimensionCondition=차원 조건
+Structure.DimensionCondition.primaryKeys=기본 키
+Structure.DimensionCondition.hierarchy=계층
 
 #30. Rule
 Structure.Rule=Rule
@@ -2116,11 +2116,11 @@ Element.TemplateElement=템플릿 요소
 Element.TemplateReportItem=템플릿 보고서 항목
 Element.TemplateDataSet=템플릿 데이터 집합
 Element.JointDataSet=조인 데이터 집합
-Element.Cube=Cube
-Element.Dimension=Dimension
-Element.Hierarchy=Hierarchy
-Element.Level=Level
-Element.Measure=Measure
+Element.Cube=큐브
+Element.Dimension=차원
+Element.Hierarchy=계층
+Element.Level=수준
+Element.Measure=측정
 Element.MeasureGroup=Meausre Group
 
 ###########################################################
@@ -2155,7 +2155,7 @@ Element.Library.slot.dataSets=데이터 집합
 Element.Library.slot.pageSetup=페이지 설정
 Element.Library.slot.components=구성 요소
 Element.Library.slot.themes=테마
-Element.Library.slot.cubes=Cubes
+Element.Library.slot.cubes=큐브
 
 #1. Report Design ( Prefix = Element.ReportDesign )
 Element.ReportDesign.refreshRate=새로 고침 빈도
@@ -2199,7 +2199,7 @@ Element.ReportDesign.slot.components=구성 요소
 Element.ReportDesign.slot.body=본문
 Element.ReportDesign.slot.scratchPad=스크래치 패드
 Element.ReportDesign.slot.templateParameterDefinitions=템플릿 매개 변수 정의
-Element.ReportDesign.slot.cubes=Cube Elements
+Element.ReportDesign.slot.cubes=큐브 요소
 Element.ReportDesign.initialize=초기화
 Element.ReportDesign.initialize.toolTip=보고서 실행 시작 시 호출됩니다.
 Element.ReportDesign.initialize.reportContext=보고서 컨텍스트
@@ -2876,36 +2876,36 @@ Element.AutoText.onPageBreak.this=AutoText 인스턴스
 Element.AutoText.onPageBreak.reportContext=보고서 컨텍스트
 
 #45. Cube ( prefix Element.Cube )
-Element.Cube.dataSet=Data Set
+Element.Cube.dataSet=데이터 집합
 Element.Cube.filter=Filter Conditions
-Element.Cube.dimensionConditions=Dimension Conditions
+Element.Cube.dimensionConditions=차원 조건
 Element.Cube.dimensions=Dimensions
 Element.Cube.measureGroups=Measure Groups
 
 #46. Dimension ( prefix Element.Dimension )
-Element.Dimension.isTimeType=Is Time Type
+Element.Dimension.isTimeType=시간 유형 조건
 Element.Dimension.hierarchies=Hierarchies
 
 #47. Hierarchy ( prefix Element.Hierarchy )
-Element.Hierarchy.dataSet=Data Set
+Element.Hierarchy.dataSet=데이터 집합
 Element.Hierarchy.filter=Filter Conditions
-Element.Hierarchy.primaryKeys=Primary Key
+Element.Hierarchy.primaryKeys=기본 키
 Element.Hierarchy.levels=Levels
 
 #48. Level ( prefix Element.Level )
-Element.Level.columnName=Column Name
+Element.Level.columnName=열 이름
 Element.Level.Interval=간격
 Element.Level.intervalBase=간격 기준
 Element.Level.interval=간격
 Element.Level.intervalRange=간격 범위
 Element.Level.levelType=Level Type
 Element.Level.staticValues=Static Values
-Element.Level.attributes=Attributes
+Element.Level.attributes=특성
 
 #49. Measure ( prefix Element.Measure )
-Element.Measure.function=Function
-Element.Measure.isCalculated=Is Calculated
-Element.Measure.measureExpression=Measure Expression
+Element.Measure.function=함수
+Element.Measure.isCalculated=계산 조건
+Element.Measure.measureExpression=측정 식
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=Measures

@@ -190,10 +190,10 @@ BordersPage.Tooltip.None=없음
 BordersPage.Tooltip.Right=오른쪽 테두리
 BordersPage.Tooltip.Top=위쪽 테두리
 BordersPage.text.Preview=미리 보기:
-BordersPage.Trans.SelectBorder=Select Border
-BordersPage.Trans.UnSelectBorder=Unselect Border
-BordersPage.Trans.SelectAllborders=Select all borders
-BordersPage.Trans.UnSelectAllborders=Unselect all borders
+BordersPage.Trans.SelectBorder=테두리 선택
+BordersPage.Trans.UnSelectBorder=테두리 선택 취소
+BordersPage.Trans.SelectAllborders=모든 테두리 선택
+BordersPage.Trans.UnSelectAllborders=모든 테두리 선택 취소
 
 ###########################################################
 #BoxPreferencePage properties
@@ -355,7 +355,7 @@ dataBinding.message.changeDataSet=요소 데이터 바인딩을 변경하려고 합니다.  \n\n�
 dataBinding.title.changeDataSet=데이터 집합을 변경하시겠습니까?
 dataBinding.title=데이터 바인딩
 
-parameterBinding.title=데이터 집합 매개 변수 바인딩
+parameterBinding.title=데이터 집합 매개 변수 바인딩...
 
 
 
@@ -751,8 +751,8 @@ DesignerOutlinePage.menu.Filters=필터
 
 ###########################################################
 #Content outline page switch action
-ContentOutlinePage.action.text.reportOutline=Switch to XML source outline
-ContentOutlinePage.action.text.reportXMLSourceOutline=Switch to report outline
+ContentOutlinePage.action.text.reportOutline=XML 소스 윤곽선으로 전환
+ContentOutlinePage.action.text.reportXMLSourceOutline=보고서 윤곽선으로 전환
 
 ###########################################################
 #DesignerPaletteFactory properties
@@ -1489,7 +1489,7 @@ FormatStringPreferencePage.formatString.title=문자열 형식
 
 FormPage.Button.Add=추가(&A)
 FormPage.Button.AddWithDialog=추가(&A)...
-FormPage.Button.Delete=삭제(&L)
+FormPage.Button.Delete=제거(&R)
 FormPage.Button.Down=아래로(&N)
 FormPage.Button.Edit=편집(&D)
 FormPage.Button.EditWithDialog=편집(&D)...
@@ -1643,7 +1643,7 @@ HighlightRuleBuilderDialog.displayText.None=없음
 #HighlightsPage properties
 
 HighlightsPage.Button.Add=추가(&A)...
-HighlightsPage.Button.Delete=삭제(&D)
+HighlightsPage.Button.Delete=제거(&R)
 HighlightsPage.Dialog.EditHighlight=강조 편집
 HighlightsPage.Dialog.NewHighlight=새 강조
 HighlightsPage.Label.Highlights=강조 목록:
@@ -1664,7 +1664,7 @@ HighlightsPreferencePage.displayname.Condition=조건
 HighlightsPreferencePage.displayname.Preview=미리 보기
 HighlightsPreferencePage.displayname.Title=강조
 HighlightsPreferencePage.text.Add=추가(&A)...
-HighlightsPreferencePage.text.Delete=삭제(&L)
+HighlightsPreferencePage.text.Delete=제거(&R)
 HighlightsPreferencePage.text.Description=강조 목록:
 HighlightsPreferencePage.text.Edit=편집(&D)...
 HighlightsPreferencePage.toolTipText.Up=강조 위로 이동
@@ -2091,7 +2091,7 @@ ListPageGenerator.TabItem.Sorting=정렬
 
 MapPage.label.add=추가(&A)...
 MapPage.label.condition=조건
-MapPage.label.delete=삭제(&L)
+MapPage.label.delete=제거(&R)
 MapPage.label.displayValue=값 표시:
 MapPage.label.mapList=맵 목록:
 MapPage.transName.addMapRule=맵 규칙 추가
@@ -2109,7 +2109,7 @@ MapPreferencePage.displayname.Condition=조건
 MapPreferencePage.displayname.DisplayValue=값 표시
 MapPreferencePage.displayname.Title=맵
 MapPreferencePage.text.Add=추가(&A)...
-MapPreferencePage.text.Delete=삭제(&L)
+MapPreferencePage.text.Delete=제거(&R)
 MapPreferencePage.text.Description=맵 규칙:
 MapPreferencePage.text.Edit=편집(&D)...
 MapPreferencePage.toolTipText.Up=맵 규칙 위로 이동

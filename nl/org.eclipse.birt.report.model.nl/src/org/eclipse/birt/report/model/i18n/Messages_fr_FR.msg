@@ -539,8 +539,8 @@ Choices.viewAction.Added=Ajouté
 Choices.viewAction.Deleted=Supprimé
 
 #70. measureFunction
-Choices.measureFunction.sum=Sum
-Choices.measureFunction.count=Count
+Choices.measureFunction.sum=Somme
+Choices.measureFunction.count=Nombre
 Choices.measureFunction.min=Min
 Choices.measureFunction.max=Max
 
@@ -2053,9 +2053,9 @@ Structure.TOC.text.indent=Retrait du texte
 Structure.TOC.text.transform=Transformation du texte
 
 #29. DimensionCondition
-Structure.DimensionCondition=Dimension Condition
-Structure.DimensionCondition.primaryKeys=Primary Keys
-Structure.DimensionCondition.hierarchy=Hierarchy
+Structure.DimensionCondition=Condition de dimension
+Structure.DimensionCondition.primaryKeys=Clés principales
+Structure.DimensionCondition.hierarchy=Hiérarchie
 
 #30. Rule
 Structure.Rule=Rule
@@ -2118,9 +2118,9 @@ Element.TemplateDataSet=Jeu de données de modèle
 Element.JointDataSet=Joindre le jeu de données
 Element.Cube=Cube
 Element.Dimension=Dimension
-Element.Hierarchy=Hierarchy
-Element.Level=Level
-Element.Measure=Measure
+Element.Hierarchy=Hiérarchie
+Element.Level=Niveau
+Element.Measure=Mesure
 Element.MeasureGroup=Meausre Group
 
 ###########################################################
@@ -2199,7 +2199,7 @@ Element.ReportDesign.slot.components=Composants
 Element.ReportDesign.slot.body=Corps
 Element.ReportDesign.slot.scratchPad=Zone de travail
 Element.ReportDesign.slot.templateParameterDefinitions=Définitions de paramètre de modèle
-Element.ReportDesign.slot.cubes=Cube Elements
+Element.ReportDesign.slot.cubes=Eléments de cube
 Element.ReportDesign.initialize=Initialiser
 Element.ReportDesign.initialize.toolTip=Commande appelée au début de l'exécution de l'état.
 Element.ReportDesign.initialize.reportContext=Contexte d'état
@@ -2876,36 +2876,36 @@ Element.AutoText.onPageBreak.this=Instance AutoText
 Element.AutoText.onPageBreak.reportContext=Contexte d'état
 
 #45. Cube ( prefix Element.Cube )
-Element.Cube.dataSet=Data Set
+Element.Cube.dataSet=Jeu de données
 Element.Cube.filter=Filter Conditions
-Element.Cube.dimensionConditions=Dimension Conditions
+Element.Cube.dimensionConditions=Conditions de dimension
 Element.Cube.dimensions=Dimensions
 Element.Cube.measureGroups=Measure Groups
 
 #46. Dimension ( prefix Element.Dimension )
-Element.Dimension.isTimeType=Is Time Type
+Element.Dimension.isTimeType=Est de type Heure
 Element.Dimension.hierarchies=Hierarchies
 
 #47. Hierarchy ( prefix Element.Hierarchy )
-Element.Hierarchy.dataSet=Data Set
+Element.Hierarchy.dataSet=Jeu de données
 Element.Hierarchy.filter=Filter Conditions
-Element.Hierarchy.primaryKeys=Primary Key
+Element.Hierarchy.primaryKeys=Clé principale
 Element.Hierarchy.levels=Levels
 
 #48. Level ( prefix Element.Level )
-Element.Level.columnName=Column Name
+Element.Level.columnName=Nom de colonne
 Element.Level.Interval=Intervalle
 Element.Level.intervalBase=Base d'intervalle
 Element.Level.interval=Intervalle
 Element.Level.intervalRange=Plage d'intervalles
 Element.Level.levelType=Level Type
 Element.Level.staticValues=Static Values
-Element.Level.attributes=Attributes
+Element.Level.attributes=Attributs
 
 #49. Measure ( prefix Element.Measure )
-Element.Measure.function=Function
-Element.Measure.isCalculated=Is Calculated
-Element.Measure.measureExpression=Measure Expression
+Element.Measure.function=Fonction
+Element.Measure.isCalculated=Est calculé
+Element.Measure.measureExpression=Expression de mesure
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=Measures
@@ -3138,11 +3138,11 @@ New.TemplateDataSet=Nouveau jeu de données de modèle
 New.TemplateReportItem=Nouvel élément d'état de modèle
 New.Theme=Nouveau thème
 New.AutoText=Nouveau texte auto
-New.Cube=NewCube
-New.Dimension=NewDimension
-New.Hierarchy=NewHierarchy
-New.Level=NewLevel
-New.Measure=NewMeasure
+New.Cube=Nouveau cube
+New.Dimension=Nouvelle dimension
+New.Hierarchy=Nouvelle hiérarchie
+New.Level=Nouveau niveau
+New.Measure=Nouvelle mesure
 New.MeasureGroup=NewMeasureGroup
 
 ###########################################################

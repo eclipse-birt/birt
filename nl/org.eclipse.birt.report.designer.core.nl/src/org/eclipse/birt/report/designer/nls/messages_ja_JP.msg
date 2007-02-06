@@ -190,10 +190,10 @@ BordersPage.Tooltip.None=なし
 BordersPage.Tooltip.Right=右罫線
 BordersPage.Tooltip.Top=上罫線
 BordersPage.text.Preview=プレビュー :
-BordersPage.Trans.SelectBorder=Select Border
-BordersPage.Trans.UnSelectBorder=Unselect Border
-BordersPage.Trans.SelectAllborders=Select all borders
-BordersPage.Trans.UnSelectAllborders=Unselect all borders
+BordersPage.Trans.SelectBorder=罫線の選択
+BordersPage.Trans.UnSelectBorder=罫線の選択解除
+BordersPage.Trans.SelectAllborders=すべての罫線を選択する
+BordersPage.Trans.UnSelectAllborders=すべての罫線の選択を解除する
 
 ###########################################################
 #BoxPreferencePage properties
@@ -355,7 +355,7 @@ dataBinding.message.changeDataSet=要素のデータバインドを変更しようとしています。
 dataBinding.title.changeDataSet=データセットを変更しますか ?
 dataBinding.title=データバインド
 
-parameterBinding.title=データセットパラメタのバインド
+parameterBinding.title=データセットパラメタのバインド...
 
 
 
@@ -751,8 +751,8 @@ DesignerOutlinePage.menu.Filters=フィルタ
 
 ###########################################################
 #Content outline page switch action
-ContentOutlinePage.action.text.reportOutline=Switch to XML source outline
-ContentOutlinePage.action.text.reportXMLSourceOutline=Switch to report outline
+ContentOutlinePage.action.text.reportOutline=XML ソースのアウトラインに切り換える
+ContentOutlinePage.action.text.reportXMLSourceOutline=レポートのアウトラインに切り換える
 
 ###########################################################
 #DesignerPaletteFactory properties
@@ -1489,7 +1489,7 @@ FormatStringPreferencePage.formatString.title=文字列の書式
 
 FormPage.Button.Add=追加(&A)
 FormPage.Button.AddWithDialog=追加(&A)...
-FormPage.Button.Delete=削除(&L)
+FormPage.Button.Delete=削除(&R)
 FormPage.Button.Down=下へ(&N)
 FormPage.Button.Edit=編集(&D)
 FormPage.Button.EditWithDialog=編集(&D)...
@@ -1643,7 +1643,7 @@ HighlightRuleBuilderDialog.displayText.None=なし
 #HighlightsPage properties
 
 HighlightsPage.Button.Add=追加(&A)...
-HighlightsPage.Button.Delete=削除(&D)
+HighlightsPage.Button.Delete=削除(&R)
 HighlightsPage.Dialog.EditHighlight=ハイライトの編集
 HighlightsPage.Dialog.NewHighlight=ハイライトの新規作成
 HighlightsPage.Label.Highlights=ハイライトの一覧 :
@@ -1664,7 +1664,7 @@ HighlightsPreferencePage.displayname.Condition=条件
 HighlightsPreferencePage.displayname.Preview=プレビュー
 HighlightsPreferencePage.displayname.Title=ハイライト
 HighlightsPreferencePage.text.Add=追加(&A)...
-HighlightsPreferencePage.text.Delete=削除(&L)
+HighlightsPreferencePage.text.Delete=削除(&R)
 HighlightsPreferencePage.text.Description=ハイライトの一覧 :
 HighlightsPreferencePage.text.Edit=編集(&D)...
 HighlightsPreferencePage.toolTipText.Up=ハイライト部分を上に移動
@@ -2091,7 +2091,7 @@ ListPageGenerator.TabItem.Sorting=ソート
 
 MapPage.label.add=追加(&A)...
 MapPage.label.condition=条件
-MapPage.label.delete=削除(&L)
+MapPage.label.delete=削除(&R)
 MapPage.label.displayValue=表示値 :
 MapPage.label.mapList=マップの一覧 :
 MapPage.transName.addMapRule=マップ規則の追加
@@ -2109,7 +2109,7 @@ MapPreferencePage.displayname.Condition=条件
 MapPreferencePage.displayname.DisplayValue=表示値
 MapPreferencePage.displayname.Title=マップ
 MapPreferencePage.text.Add=追加(&A)...
-MapPreferencePage.text.Delete=削除(&L)
+MapPreferencePage.text.Delete=削除(&R)
 MapPreferencePage.text.Description=マップ規則 :
 MapPreferencePage.text.Edit=編集(&D)...
 MapPreferencePage.toolTipText.Up=マップの規則を上に移動

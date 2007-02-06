@@ -190,10 +190,10 @@ BordersPage.Tooltip.None=Aucun
 BordersPage.Tooltip.Right=Bordure de droite
 BordersPage.Tooltip.Top=Bordure supérieure
 BordersPage.text.Preview=Aperçu :
-BordersPage.Trans.SelectBorder=Select Border
-BordersPage.Trans.UnSelectBorder=Unselect Border
-BordersPage.Trans.SelectAllborders=Select all borders
-BordersPage.Trans.UnSelectAllborders=Unselect all borders
+BordersPage.Trans.SelectBorder=Sélectionner une bordure
+BordersPage.Trans.UnSelectBorder=Désélectionner la bordure
+BordersPage.Trans.SelectAllborders=Sélectionner toutes les bordures
+BordersPage.Trans.UnSelectAllborders=Désélectionner toutes les bordures
 
 ###########################################################
 #BoxPreferencePage properties
@@ -355,7 +355,7 @@ dataBinding.message.changeDataSet=Vous allez modifier la liaison des données de 
 dataBinding.title.changeDataSet=Modifier le jeu de données ?
 dataBinding.title=Liaison de données
 
-parameterBinding.title=Liaison de paramètre de jeu de données
+parameterBinding.title=Liaison de paramètre de jeu de données...
 
 
 
@@ -751,8 +751,8 @@ DesignerOutlinePage.menu.Filters=Filtres
 
 ###########################################################
 #Content outline page switch action
-ContentOutlinePage.action.text.reportOutline=Switch to XML source outline
-ContentOutlinePage.action.text.reportXMLSourceOutline=Switch to report outline
+ContentOutlinePage.action.text.reportOutline=Passer au contour de la source XML
+ContentOutlinePage.action.text.reportXMLSourceOutline=Passer au contour de l'état
 
 ###########################################################
 #DesignerPaletteFactory properties

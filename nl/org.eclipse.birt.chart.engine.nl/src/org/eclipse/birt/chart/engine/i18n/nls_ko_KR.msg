@@ -17,8 +17,8 @@ exception.scale.null.location=배율 {0}의 널(null) 값에 대한 좌표를 찾을 수 없습�
 exception.illegal.icon.palette.type.for.marker=''{0}''은(는) 표지 아이콘에 대해 올바른 이미지 형식이 아닙니다.
 exception.illegal.filltype.crosshair.marker=표지 CROSSHAIR에 대한 색상표 색을 {0}(으)로 설정할 수 없습니다.
 exception.illegal.filltype.cross.marker=표지 CROSS에 대한 색상표 색을 {0}(으)로 설정할 수 없습니다.
-exception.invalid.step.size =Invalid ''step size({0}) <= 0'' specified for axis scale
-exception.invalid.step.number =Invalid ''step number({0}) < 2'' specified for axis scale
+exception.invalid.step.size =축 배율에 잘못된 ''step size({0}) <= 0''이 지정되었습니다.
+exception.invalid.step.number =축 배율에 잘못된 ''step number({0}) < 1''이 지정되었습니다.
 exception.curve.line.visibility.not.defined=곡선의 표시 유형 속성이 정확하게 정의되지 않았습니다.
 exception.min.largerthan.max=축 배율에 잘못된 항목 ''min({0}) > max({1})''가 지정되었습니다.
 exception.combination.axis.label.position=축={0} 및 레이블 위치={1}의 조합을 필요로 하지 않습니다.
@@ -34,7 +34,7 @@ exception.unsupported.internal.fill=이벤트를 통해 {0}을(를) 내부적으로 채울 수 �
 exception.unsupported.chart.model=모델 [{0}]에서 정의된 차트를 계산할 수 없습니다.
 exception.unsupported.bounds=이벤트 {0}에 대한 경계를 계산할 수 없습니다.
 exception.unsupported.copy=이벤트 {0}에 대한 복사본을 만들 수 없습니다.
-exception.unsupported.step.number=Step number is not supported for non-numeric value.
+exception.unsupported.step.number=숫자가 아닌 값에 대해 단계 번호가 지원되지 않습니다.
 exception.undefined.data.point=계열 정의와 연결된 DataPoint 값이 정의되지 않았습니다.
 exception.unit.size.failure=틱 좌표가 정의되지 않았기 때문에 단위 크기를 계산할 수 없습니다.
 exception.process.content.type=형식 {1}에 대해 {0}(으)로 지정된 데이터 집합 내용을 처리할 수 없습니다.
@@ -99,7 +99,7 @@ exception.base.orthogonal.null.datapoint=지정한 데이터 요소에 잘못된 널(null) 값
 exception.base.orthogonal.null.datadefinition=지정한 데이터 정의 식이 잘못되었습니다..
 exception.dataset.non.numerical.to.numerical=데이터 집합에 숫자가 아닌 예상치 못한 데이터 형식 {0}이(가) 있습니다. 숫자 값으로 변환할 수 없습니다.
 exception.dataset.non.datetime=X 축에 바인딩된 데이터 형식이 날짜 시간 형식이 아닙니다.
-exception.scale.tick.max=너무 많은 틱을 렌더링할 수 없습니다. 배율 단계나 단위를 조정하십시오.
+exception.scale.tick.max=단계가 너무 많아 렌더링할 수 없습니다. 배율 단계 또는 단위를 조정하십시오.
 exception.unknown.axis.type.tick.computations=틱을 계산하는 데 필요한 축 유형을 확인할 수 없습니다.
 exception.unsupported.compare.unknown.objects=비교 DE1={0} 및 DE2={1}에 지원되지 않은 데이터 요소가 제공되었습니다.
 exception.unsupported.compare.different.objects=비교 DE1={0} 및 DE2={1}에 혼합된 데이터 요소가 제공되었습니다.

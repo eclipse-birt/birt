@@ -539,8 +539,8 @@ Choices.viewAction.Added=Hinzugefügt
 Choices.viewAction.Deleted=Gelöscht
 
 #70. measureFunction
-Choices.measureFunction.sum=Sum
-Choices.measureFunction.count=Count
+Choices.measureFunction.sum=Summe
+Choices.measureFunction.count=Anzahl
 Choices.measureFunction.min=Min
 Choices.measureFunction.max=Max
 
@@ -2053,9 +2053,9 @@ Structure.TOC.text.indent=Texteinzug
 Structure.TOC.text.transform=Textumwandlung
 
 #29. DimensionCondition
-Structure.DimensionCondition=Dimension Condition
-Structure.DimensionCondition.primaryKeys=Primary Keys
-Structure.DimensionCondition.hierarchy=Hierarchy
+Structure.DimensionCondition=Dimensionsbedingung
+Structure.DimensionCondition.primaryKeys=Primärschlüssel
+Structure.DimensionCondition.hierarchy=Hierarchie
 
 #30. Rule
 Structure.Rule=Rule
@@ -2116,11 +2116,11 @@ Element.TemplateElement=Vorlagenelement
 Element.TemplateReportItem=Berichtobjekt für Vorlage
 Element.TemplateDataSet=Datensatz für Vorlage
 Element.JointDataSet=Verknüpfungsdatensatz
-Element.Cube=Cube
+Element.Cube=Quader
 Element.Dimension=Dimension
-Element.Hierarchy=Hierarchy
-Element.Level=Level
-Element.Measure=Measure
+Element.Hierarchy=Hierarchie
+Element.Level=Stufe
+Element.Measure=Maßeinheit
 Element.MeasureGroup=Meausre Group
 
 ###########################################################
@@ -2155,7 +2155,7 @@ Element.Library.slot.dataSets=Datensätze
 Element.Library.slot.pageSetup=Seite einrichten
 Element.Library.slot.components=Komponenten
 Element.Library.slot.themes=Designs
-Element.Library.slot.cubes=Cubes
+Element.Library.slot.cubes=Quader
 
 #1. Report Design ( Prefix = Element.ReportDesign )
 Element.ReportDesign.refreshRate=Aktualisierungsrate
@@ -2199,7 +2199,7 @@ Element.ReportDesign.slot.components=Komponenten
 Element.ReportDesign.slot.body=Text
 Element.ReportDesign.slot.scratchPad=Skizzenblock
 Element.ReportDesign.slot.templateParameterDefinitions=Parameterdefinitionen für Vorlage
-Element.ReportDesign.slot.cubes=Cube Elements
+Element.ReportDesign.slot.cubes=Quaderelemente
 Element.ReportDesign.initialize=Initialisieren
 Element.ReportDesign.initialize.toolTip=Wird zu Beginn der Berichtausführung aufgerufen.
 Element.ReportDesign.initialize.reportContext=Berichtkontext
@@ -2876,36 +2876,36 @@ Element.AutoText.onPageBreak.this=AutoText-Instanz
 Element.AutoText.onPageBreak.reportContext=Berichtkontext
 
 #45. Cube ( prefix Element.Cube )
-Element.Cube.dataSet=Data Set
+Element.Cube.dataSet=Datensatz
 Element.Cube.filter=Filter Conditions
-Element.Cube.dimensionConditions=Dimension Conditions
+Element.Cube.dimensionConditions=Dimensionsbedingungen
 Element.Cube.dimensions=Dimensions
 Element.Cube.measureGroups=Measure Groups
 
 #46. Dimension ( prefix Element.Dimension )
-Element.Dimension.isTimeType=Is Time Type
+Element.Dimension.isTimeType=Gleich Uhrzeitformat
 Element.Dimension.hierarchies=Hierarchies
 
 #47. Hierarchy ( prefix Element.Hierarchy )
-Element.Hierarchy.dataSet=Data Set
+Element.Hierarchy.dataSet=Datensatz
 Element.Hierarchy.filter=Filter Conditions
-Element.Hierarchy.primaryKeys=Primary Key
+Element.Hierarchy.primaryKeys=Primärschlüssel
 Element.Hierarchy.levels=Levels
 
 #48. Level ( prefix Element.Level )
-Element.Level.columnName=Column Name
+Element.Level.columnName=Spaltenname
 Element.Level.Interval=Intervall
 Element.Level.intervalBase=Intervallbasis
 Element.Level.interval=Intervall
 Element.Level.intervalRange=Intervallbereich
 Element.Level.levelType=Level Type
 Element.Level.staticValues=Static Values
-Element.Level.attributes=Attributes
+Element.Level.attributes=Attribute
 
 #49. Measure ( prefix Element.Measure )
-Element.Measure.function=Function
-Element.Measure.isCalculated=Is Calculated
-Element.Measure.measureExpression=Measure Expression
+Element.Measure.function=Funktion
+Element.Measure.isCalculated=Wird berechnet
+Element.Measure.measureExpression=Ausdruck für Maßeinheit
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=Measures
@@ -3138,11 +3138,11 @@ New.TemplateDataSet=Neuer_Datensatz_für_Vorlage
 New.TemplateReportItem=Neues_Berichtobjekt_für_Vorlage
 New.Theme=Neues_Thema
 New.AutoText=NewAutoText
-New.Cube=NewCube
-New.Dimension=NewDimension
-New.Hierarchy=NewHierarchy
-New.Level=NewLevel
-New.Measure=NewMeasure
+New.Cube=Neuer Quader
+New.Dimension=Neue Dimension
+New.Hierarchy=Neue Hierarchie
+New.Level=Neue Ebene
+New.Measure=Neue Maßeinheit
 New.MeasureGroup=NewMeasureGroup
 
 ###########################################################

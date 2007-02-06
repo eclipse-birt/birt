@@ -190,10 +190,10 @@ BordersPage.Tooltip.None=Keine
 BordersPage.Tooltip.Right=Rechter Rahmen
 BordersPage.Tooltip.Top=Oberer Rahmen
 BordersPage.text.Preview=Vorschau:
-BordersPage.Trans.SelectBorder=Select Border
-BordersPage.Trans.UnSelectBorder=Unselect Border
-BordersPage.Trans.SelectAllborders=Select all borders
-BordersPage.Trans.UnSelectAllborders=Unselect all borders
+BordersPage.Trans.SelectBorder=Rahmen auswählen
+BordersPage.Trans.UnSelectBorder=Auswahl des Rahmens aufheben
+BordersPage.Trans.SelectAllborders=Alle Rahmen auswählen
+BordersPage.Trans.UnSelectAllborders=Auswahl aller Rahmen aufheben
 
 ###########################################################
 #BoxPreferencePage properties
@@ -355,7 +355,7 @@ dataBinding.message.changeDataSet=Sie sind im Begriff, die Datenbindung des Elem
 dataBinding.title.changeDataSet=Datensatz ändern?
 dataBinding.title=Datenbindung
 
-parameterBinding.title=Parameterbindung für Datensatz
+parameterBinding.title=Parameterbindung für Datensatz...
 
 
 
@@ -751,8 +751,8 @@ DesignerOutlinePage.menu.Filters=Filter
 
 ###########################################################
 #Content outline page switch action
-ContentOutlinePage.action.text.reportOutline=Switch to XML source outline
-ContentOutlinePage.action.text.reportXMLSourceOutline=Switch to report outline
+ContentOutlinePage.action.text.reportOutline=Zu XML-Quellgliederung wechseln
+ContentOutlinePage.action.text.reportXMLSourceOutline=Zu Berichtsgliederung wechseln
 
 ###########################################################
 #DesignerPaletteFactory properties
@@ -1489,7 +1489,7 @@ FormatStringPreferencePage.formatString.title=Format Zeichenfolge
 
 FormPage.Button.Add=&Hinzufügen
 FormPage.Button.AddWithDialog=&Hinzufügen...
-FormPage.Button.Delete=&Löschen
+FormPage.Button.Delete=&Entfernen
 FormPage.Button.Down=Nach-&unten
 FormPage.Button.Edit=&Bearbeiten
 FormPage.Button.EditWithDialog=&Bearbeiten...
@@ -1643,7 +1643,7 @@ HighlightRuleBuilderDialog.displayText.None=Ohne
 #HighlightsPage properties
 
 HighlightsPage.Button.Add=&Hinzufügen...
-HighlightsPage.Button.Delete=&Löschen...
+HighlightsPage.Button.Delete=&Entfernen
 HighlightsPage.Dialog.EditHighlight=Markierung bearbeiten
 HighlightsPage.Dialog.NewHighlight=Neue Kennzeichnung
 HighlightsPage.Label.Highlights=Kennzeichnungsliste:
@@ -1664,7 +1664,7 @@ HighlightsPreferencePage.displayname.Condition=Bedingung
 HighlightsPreferencePage.displayname.Preview=Vorschau
 HighlightsPreferencePage.displayname.Title=Kennzeichnungen
 HighlightsPreferencePage.text.Add=&Hinzufügen...
-HighlightsPreferencePage.text.Delete=&Löschen
+HighlightsPreferencePage.text.Delete=&Entfernen
 HighlightsPreferencePage.text.Description=Kennzeichnungsliste:
 HighlightsPreferencePage.text.Edit=&Bearbeiten...
 HighlightsPreferencePage.toolTipText.Up=Markierung nach oben verschieben
@@ -2091,7 +2091,7 @@ ListPageGenerator.TabItem.Sorting=Sortierung
 
 MapPage.label.add=&Hinzufügen...
 MapPage.label.condition=Bedingung
-MapPage.label.delete=&Löschen
+MapPage.label.delete=&Entfernen
 MapPage.label.displayValue=Angezeigter Wert:
 MapPage.label.mapList=Zuordnungsliste:
 MapPage.transName.addMapRule=Zuordnungsregel hinzufügen
@@ -2109,7 +2109,7 @@ MapPreferencePage.displayname.Condition=Bedingung
 MapPreferencePage.displayname.DisplayValue=Angezeigter Wert
 MapPreferencePage.displayname.Title=Zuordnung
 MapPreferencePage.text.Add=&Hinzufügen...
-MapPreferencePage.text.Delete=&Löschen
+MapPreferencePage.text.Delete=&Entfernen
 MapPreferencePage.text.Description=Zuordnungsregeln:
 MapPreferencePage.text.Edit=&Bearbeiten...
 MapPreferencePage.toolTipText.Up=Zuordnungsregel nach oben verschieben

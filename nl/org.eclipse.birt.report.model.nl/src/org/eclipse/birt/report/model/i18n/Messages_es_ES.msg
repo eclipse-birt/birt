@@ -539,10 +539,10 @@ Choices.viewAction.Added=Añadido
 Choices.viewAction.Deleted=Eliminado
 
 #70. measureFunction
-Choices.measureFunction.sum=Sum
-Choices.measureFunction.count=Count
-Choices.measureFunction.min=Min
-Choices.measureFunction.max=Max
+Choices.measureFunction.sum=Suma
+Choices.measureFunction.count=Recuento
+Choices.measureFunction.min=Mín
+Choices.measureFunction.max=Máx
 
 #71. levelType
 Choices.levelType.dynamic=Dinámico
@@ -2053,9 +2053,9 @@ Structure.TOC.text.indent=sangrado de texto
 Structure.TOC.text.transform=transformación de texto
 
 #29. DimensionCondition
-Structure.DimensionCondition=Dimension Condition
-Structure.DimensionCondition.primaryKeys=Primary Keys
-Structure.DimensionCondition.hierarchy=Hierarchy
+Structure.DimensionCondition=Condición de dimensión
+Structure.DimensionCondition.primaryKeys=Claves primarias
+Structure.DimensionCondition.hierarchy=Jerarquía
 
 #30. Rule
 Structure.Rule=Rule
@@ -2116,11 +2116,11 @@ Element.TemplateElement=Elemento de plantilla
 Element.TemplateReportItem=Elemento de informe de plantilla
 Element.TemplateDataSet=Conjunto de datos de plantilla
 Element.JointDataSet=Conjunto de datos de combinación
-Element.Cube=Cube
-Element.Dimension=Dimension
-Element.Hierarchy=Hierarchy
-Element.Level=Level
-Element.Measure=Measure
+Element.Cube=Cubo
+Element.Dimension=Dimensión
+Element.Hierarchy=Jerarquía
+Element.Level=Nivel
+Element.Measure=Medida
 Element.MeasureGroup=Meausre Group
 
 ###########################################################
@@ -2155,7 +2155,7 @@ Element.Library.slot.dataSets=Conjuntos de datos
 Element.Library.slot.pageSetup=Configurar página
 Element.Library.slot.components=Componentes
 Element.Library.slot.themes=Temas
-Element.Library.slot.cubes=Cubes
+Element.Library.slot.cubes=Cubos
 
 #1. Report Design ( Prefix = Element.ReportDesign )
 Element.ReportDesign.refreshRate=Intervalo de actualización
@@ -2199,7 +2199,7 @@ Element.ReportDesign.slot.components=Componentes
 Element.ReportDesign.slot.body=Texto
 Element.ReportDesign.slot.scratchPad=Bloc de notas
 Element.ReportDesign.slot.templateParameterDefinitions=Definiciones de parámetro de plantilla
-Element.ReportDesign.slot.cubes=Cube Elements
+Element.ReportDesign.slot.cubes=Elementos de cubo
 Element.ReportDesign.initialize=Inicializar
 Element.ReportDesign.initialize.toolTip=Llamado al iniciar la ejecución del informe.
 Element.ReportDesign.initialize.reportContext=Contexto de informe
@@ -2876,36 +2876,36 @@ Element.AutoText.onPageBreak.this=Instancia de AutoText
 Element.AutoText.onPageBreak.reportContext=Contexto de informe
 
 #45. Cube ( prefix Element.Cube )
-Element.Cube.dataSet=Data Set
+Element.Cube.dataSet=Conjunto de datos
 Element.Cube.filter=Filter Conditions
-Element.Cube.dimensionConditions=Dimension Conditions
+Element.Cube.dimensionConditions=Condiciones de dimensiones
 Element.Cube.dimensions=Dimensions
 Element.Cube.measureGroups=Measure Groups
 
 #46. Dimension ( prefix Element.Dimension )
-Element.Dimension.isTimeType=Is Time Type
+Element.Dimension.isTimeType=Tipo Es tiempo
 Element.Dimension.hierarchies=Hierarchies
 
 #47. Hierarchy ( prefix Element.Hierarchy )
-Element.Hierarchy.dataSet=Data Set
+Element.Hierarchy.dataSet=Conjunto de datos
 Element.Hierarchy.filter=Filter Conditions
-Element.Hierarchy.primaryKeys=Primary Key
+Element.Hierarchy.primaryKeys=Clave primaria
 Element.Hierarchy.levels=Levels
 
 #48. Level ( prefix Element.Level )
-Element.Level.columnName=Column Name
+Element.Level.columnName=Nombre de la columna
 Element.Level.Interval=Intervalo
 Element.Level.intervalBase=Base de intervalo
 Element.Level.interval=Intervalo
 Element.Level.intervalRange=Rango del intervalo
 Element.Level.levelType=Level Type
 Element.Level.staticValues=Static Values
-Element.Level.attributes=Attributes
+Element.Level.attributes=Atributos
 
 #49. Measure ( prefix Element.Measure )
-Element.Measure.function=Function
-Element.Measure.isCalculated=Is Calculated
-Element.Measure.measureExpression=Measure Expression
+Element.Measure.function=Función
+Element.Measure.isCalculated=Se calcula
+Element.Measure.measureExpression=Expresión de medida
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=Measures
@@ -3138,11 +3138,11 @@ New.TemplateDataSet=NuevoConjuntoDatosPlantilla
 New.TemplateReportItem=NuevoElementoInformePlantilla
 New.Theme=NuevoTema
 New.AutoText=NuevoAutotexto
-New.Cube=NewCube
-New.Dimension=NewDimension
-New.Hierarchy=NewHierarchy
-New.Level=NewLevel
-New.Measure=NewMeasure
+New.Cube=Nuevo cubo
+New.Dimension=Nueva dimensión
+New.Hierarchy=Nueva jerarquía
+New.Level=Nuevo nivel
+New.Measure=Nueva medida
 New.MeasureGroup=NewMeasureGroup
 
 ###########################################################

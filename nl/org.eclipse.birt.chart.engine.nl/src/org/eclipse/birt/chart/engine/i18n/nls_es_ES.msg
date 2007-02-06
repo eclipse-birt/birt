@@ -17,8 +17,8 @@ exception.scale.null.location=No se puede localizar la coordenada para valor nul
 exception.illegal.icon.palette.type.for.marker=''{0}'' no es un tipo de imagen válida para el icono de marcador.
 exception.illegal.filltype.crosshair.marker=No se puede establecer un color de paleta como {0} en un CROSSHAIR de marcador
 exception.illegal.filltype.cross.marker=No se puede establecer un color de paleta como {0} en un CROSS de marcador
-exception.invalid.step.size =Invalid ''step size({0}) <= 0'' specified for axis scale
-exception.invalid.step.number =Invalid ''step number({0}) < 2'' specified for axis scale
+exception.invalid.step.size =''tamaño de paso ({0}) <= 0'' no válido especificado para la escala del eje
+exception.invalid.step.number =''número de paso({0}) < 1'' no válido especificado para la escala del eje
 exception.curve.line.visibility.not.defined=No se ha definido correctamente la propiedad de visibilidad de la línea curva.
 exception.min.largerthan.max=Entradas ''min({0}) > max({1})'' no válidas especificadas para la escala del eje
 exception.combination.axis.label.position=No se esperaba una combinación de eje={0} ni una posición de etiqueta={1}
@@ -34,7 +34,7 @@ exception.unsupported.internal.fill=No se puede rellenar {0} internamente a trav
 exception.unsupported.chart.model=No es posible procesar diagramas definidos por el modelo [{0}]
 exception.unsupported.bounds=Los límites podrían no procesarse para el evento {0}
 exception.unsupported.copy=Podría no crearse ninguna copia para el evento {0}
-exception.unsupported.step.number=Step number is not supported for non-numeric value.
+exception.unsupported.step.number=No se admite el número de paso para los valores no numéricos.
 exception.undefined.data.point=El valor DataPoint asociado con la definición de la serie no está definido
 exception.unit.size.failure=No puede procesarse el tamaño de la unidad porque las coordenadas de marca no están definidas
 exception.process.content.type=No es posible procesar el contenido del conjunto de datos especificado como {0} para el tipo {1}
@@ -99,7 +99,7 @@ exception.base.orthogonal.null.datapoint=Los datapoints indicados contienen un v
 exception.base.orthogonal.null.datadefinition=La expresión de definición de datos indicada no es válida..
 exception.dataset.non.numerical.to.numerical=Se ha encontrado un tipo de datos no numérico inesperado {0} en el conjunto de datos; no se puede convertir a un valor numérico
 exception.dataset.non.datetime=El tipo de datos enlazado al eje X no tiene un formato de fecha/hora
-exception.scale.tick.max=No es posible procesar demasiadas marcas. Ajuste la unidad o paso de escala.
+exception.scale.tick.max=No es posible procesar demasiados pasos. Ajuste la unidad o paso de escala.
 exception.unknown.axis.type.tick.computations=No es posible determinar un tipo de eje necesario para procesar las marcas
 exception.unsupported.compare.unknown.objects=Se han proporcionado elementos de datos no admitidos para comparar DE1={0} y DE2={1}
 exception.unsupported.compare.different.objects=Se han proporcionado elementos de datos mezclados para comparar DE1={0} y DE2={1}

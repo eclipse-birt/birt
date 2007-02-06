@@ -190,10 +190,10 @@ BordersPage.Tooltip.None=Ninguno
 BordersPage.Tooltip.Right=Borde derecho
 BordersPage.Tooltip.Top=Borde superior
 BordersPage.text.Preview=Vista previa:
-BordersPage.Trans.SelectBorder=Select Border
-BordersPage.Trans.UnSelectBorder=Unselect Border
-BordersPage.Trans.SelectAllborders=Select all borders
-BordersPage.Trans.UnSelectAllborders=Unselect all borders
+BordersPage.Trans.SelectBorder=Seleccionar borde
+BordersPage.Trans.UnSelectBorder=Descartar borde
+BordersPage.Trans.SelectAllborders=Seleccionar todos los bordes
+BordersPage.Trans.UnSelectAllborders=Descartar todos los bordes
 
 ###########################################################
 #BoxPreferencePage properties
@@ -355,7 +355,7 @@ dataBinding.message.changeDataSet=Va a cambiar el enlace de datos del elemento. 
 dataBinding.title.changeDataSet=¿Desea cambiar el conjunto de datos?
 dataBinding.title=Enlace de datos
 
-parameterBinding.title=Enlace de parámetros de conjunto de datos
+parameterBinding.title=Enlace de parámetros de conjunto de datos...
 
 
 
@@ -751,8 +751,8 @@ DesignerOutlinePage.menu.Filters=Filtros
 
 ###########################################################
 #Content outline page switch action
-ContentOutlinePage.action.text.reportOutline=Switch to XML source outline
-ContentOutlinePage.action.text.reportXMLSourceOutline=Switch to report outline
+ContentOutlinePage.action.text.reportOutline=Cambiar a contorno de fuente XML
+ContentOutlinePage.action.text.reportXMLSourceOutline=Cambiar a contorno de informe
 
 ###########################################################
 #DesignerPaletteFactory properties
@@ -1489,7 +1489,7 @@ FormatStringPreferencePage.formatString.title=Formato de string
 
 FormPage.Button.Add=&Añadir
 FormPage.Button.AddWithDialog=&Añadir...
-FormPage.Button.Delete=E&liminar
+FormPage.Button.Delete=&Quitar
 FormPage.Button.Down=&Abajo
 FormPage.Button.Edit=Ed&itar
 FormPage.Button.EditWithDialog=E&ditar...
@@ -1643,7 +1643,7 @@ HighlightRuleBuilderDialog.displayText.None=Ninguno
 #HighlightsPage properties
 
 HighlightsPage.Button.Add=&Añadir...
-HighlightsPage.Button.Delete=&Eliminar
+HighlightsPage.Button.Delete=&Quitar
 HighlightsPage.Dialog.EditHighlight=Editar resaltado
 HighlightsPage.Dialog.NewHighlight=Nuevo resaltado
 HighlightsPage.Label.Highlights=Resaltar lista:
@@ -1664,7 +1664,7 @@ HighlightsPreferencePage.displayname.Condition=Cláusula condicional
 HighlightsPreferencePage.displayname.Preview=Vista previa
 HighlightsPreferencePage.displayname.Title=Resaltados
 HighlightsPreferencePage.text.Add=&Añadir...
-HighlightsPreferencePage.text.Delete=E&liminar
+HighlightsPreferencePage.text.Delete=&Quitar
 HighlightsPreferencePage.text.Description=Resaltar lista:
 HighlightsPreferencePage.text.Edit=E&ditar...
 HighlightsPreferencePage.toolTipText.Up=Mover resaltado hacia arriba
@@ -2091,7 +2091,7 @@ ListPageGenerator.TabItem.Sorting=Ordenar
 
 MapPage.label.add=&Añadir...
 MapPage.label.condition=Cláusula condicional
-MapPage.label.delete=E&liminar
+MapPage.label.delete=&Quitar
 MapPage.label.displayValue=Mostrar valor:
 MapPage.label.mapList=Lista de asignación:
 MapPage.transName.addMapRule=Añadir regla de asignación
@@ -2109,7 +2109,7 @@ MapPreferencePage.displayname.Condition=Cláusula condicional
 MapPreferencePage.displayname.DisplayValue=Mostrar valor
 MapPreferencePage.displayname.Title=Asignar
 MapPreferencePage.text.Add=&Añadir...
-MapPreferencePage.text.Delete=E&liminar
+MapPreferencePage.text.Delete=&Quitar
 MapPreferencePage.text.Description=Reglas de asignación:
 MapPreferencePage.text.Edit=E&ditar...
 MapPreferencePage.toolTipText.Up=Mover regla de asignación hacia arriba

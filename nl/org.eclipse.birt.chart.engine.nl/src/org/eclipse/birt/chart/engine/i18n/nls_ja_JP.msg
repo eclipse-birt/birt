@@ -17,8 +17,8 @@ exception.scale.null.location=ƒXƒP[ƒ‹ {0} ‚Ì NULL ’l‚ÌÀ•W‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 exception.illegal.icon.palette.type.for.marker=''{0}'' Œ`®‚ÌƒCƒ[ƒW‚ÍAƒ}[ƒJ‚ÌƒAƒCƒRƒ“‚É‚Íg—p‚Å‚«‚Ü‚¹‚ñB
 exception.illegal.filltype.crosshair.marker=ƒ}[ƒJ CROSSHAIR ‚ÌƒpƒŒƒbƒg‚ÌF‚É‚Í {0} ‚ğİ’è‚Å‚«‚Ü‚¹‚ñB
 exception.illegal.filltype.cross.marker=ƒ}[ƒJ CROSS ‚ÌƒpƒŒƒbƒg‚ÌF‚É‚Í {0} ‚ğİ’è‚Å‚«‚Ü‚¹‚ñB
-exception.invalid.step.size =Invalid ''step size({0}) <= 0'' specified for axis scale
-exception.invalid.step.number =Invalid ''step number({0}) < 2'' specified for axis scale
+exception.invalid.step.size =²ƒXƒP[ƒ‹‚Éw’è‚µ‚½ ''step size({0}) <= 0'' ‚ª–³Œø‚Å‚·B
+exception.invalid.step.number =²ƒXƒP[ƒ‹‚Éw’è‚µ‚½ ''step number({0}) < 1'' ‚ª–³Œø‚Å‚·B
 exception.curve.line.visibility.not.defined=‹Èü‚Ì‰Â‹«ƒvƒƒpƒeƒB‚ª³‚µ‚­’è‹`‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
 exception.min.largerthan.max=²ƒXƒP[ƒ‹‚Éw’è‚µ‚½ƒGƒ“ƒgƒŠ ''min({0}) > max({1})'' ‚ª–³Œø‚Å‚·B
 exception.combination.axis.label.position=² = {0} ‚Æƒ‰ƒxƒ‹ˆÊ’u = {1} ‚Ì‘g‚İ‡‚í‚¹‚Í–³Œø‚Å‚·B
@@ -34,7 +34,7 @@ exception.unsupported.internal.fill=‚±‚ÌƒCƒxƒ“ƒg‚Å‚Í {0} ‚ğ“à•”‚Å“h‚Â‚Ô‚·‚±‚Æ‚ª‚
 exception.unsupported.chart.model=ƒ‚ƒfƒ‹ [{0}] ‚Å’è‹`‚µ‚½ƒOƒ‰ƒt‚ğŒvZ‚Å‚«‚Ü‚¹‚ñB
 exception.unsupported.bounds=ƒCƒxƒ“ƒg {0} ‚Ì”ÍˆÍ‚ğŒvZ‚Å‚«‚Ü‚¹‚ñB
 exception.unsupported.copy=ƒCƒxƒ“ƒg {0} ‚ÌƒRƒs[‚ğì¬‚Å‚«‚Ü‚¹‚ñB
-exception.unsupported.step.number=Step number is not supported for non-numeric value.
+exception.unsupported.step.number=ƒXƒeƒbƒv”Ô†‚É‚Í”’l‚µ‚©g—p‚Å‚«‚Ü‚¹‚ñB
 exception.undefined.data.point=Œn—ñ‚Ì’è‹`‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚é DataPoint ‚Ì’l‚ªw’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
 exception.unit.size.failure=–Ú·‚ÌÀ•W‚ª’è‹`‚³‚ê‚Ä‚¢‚È‚¢‚½‚ßA’PˆÊ‚ÌƒTƒCƒY‚ğŒvZ‚Å‚«‚Ü‚¹‚ñB
 exception.process.content.type={1} Œ^‚É {0} ‚Æ‚µ‚Äw’è‚µ‚½ƒf[ƒ^ƒZƒbƒg‚ÌƒRƒ“ƒeƒ“ƒc‚ğˆ—‚Å‚«‚Ü‚¹‚ñB
@@ -99,7 +99,7 @@ exception.base.orthogonal.null.datapoint=w’è‚µ‚½ƒf[ƒ^ƒ|ƒCƒ“ƒg‚É‚ÍA–³Œø‚È null
 exception.base.orthogonal.null.datadefinition=w’è‚µ‚½ƒf[ƒ^’è‹`‚Ì®‚Í–³Œø‚Å‚·B.
 exception.dataset.non.numerical.to.numerical=ƒf[ƒ^ƒZƒbƒg‚É”’lˆÈŠO‚Ìƒf[ƒ^Œ^ {0} ‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é‚½‚ßA”’l‚É•ÏŠ·‚Å‚«‚Ü‚¹‚ñB
 exception.dataset.non.datetime=X ²‚ÉƒoƒCƒ“ƒh‚³‚ê‚Ä‚¢‚éƒf[ƒ^Œ^‚ÍADateTime ‚Ì‘®‚Å‚Í‚ ‚è‚Ü‚¹‚ñB
-exception.scale.tick.max=–Ú·‚è‚ª‘½‚·‚¬‚Ä•\¦‚Å‚«‚Ü‚¹‚ñB–Ú·‚è‚ÌŠÔŠu‚©A’PˆÊ‚ğ’²®‚µ‚Ä‚­‚¾‚³‚¢B
+exception.scale.tick.max=ƒXƒeƒbƒv‚ª‘½‚·‚¬‚Ä•\¦‚Å‚«‚Ü‚¹‚ñB–Ú·‚è‚ÌŠÔŠu‚©A’PˆÊ‚ğ’²®‚µ‚Ä‚­‚¾‚³‚¢B
 exception.unknown.axis.type.tick.computations=–Ú·‚ğŒvZ‚·‚é‚½‚ß‚É•K—v‚È²‚ÌŒ^‚ğ¯•Ê‚Å‚«‚Ü‚¹‚ñB
 exception.unsupported.compare.unknown.objects=DE1={0} ‚Æ DE2={1} ‚ğ”äŠr‚·‚é‚½‚ß‚Éw’è‚µ‚½ƒf[ƒ^—v‘f‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
 exception.unsupported.compare.different.objects=DE1={0} ‚Æ DE2={1} ‚ğ”äŠr‚·‚é‚½‚ß‚Éw’è‚µ‚½ƒf[ƒ^—v‘f‚ª¬İ‚µ‚Ä‚Ü‚·B

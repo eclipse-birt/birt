@@ -539,10 +539,10 @@ Choices.viewAction.Added=追加済み
 Choices.viewAction.Deleted=削除済み
 
 #70. measureFunction
-Choices.measureFunction.sum=Sum
-Choices.measureFunction.count=Count
-Choices.measureFunction.min=Min
-Choices.measureFunction.max=Max
+Choices.measureFunction.sum=合計
+Choices.measureFunction.count=カウント
+Choices.measureFunction.min=最小
+Choices.measureFunction.max=最大
 
 #71. levelType
 Choices.levelType.dynamic=動的
@@ -2053,9 +2053,9 @@ Structure.TOC.text.indent=文字列のインデント
 Structure.TOC.text.transform=文字列の位置変更
 
 #29. DimensionCondition
-Structure.DimensionCondition=Dimension Condition
-Structure.DimensionCondition.primaryKeys=Primary Keys
-Structure.DimensionCondition.hierarchy=Hierarchy
+Structure.DimensionCondition=次元条件
+Structure.DimensionCondition.primaryKeys=プライマリキー
+Structure.DimensionCondition.hierarchy=階層
 
 #30. Rule
 Structure.Rule=Rule
@@ -2116,11 +2116,11 @@ Element.TemplateElement=テンプレートの要素
 Element.TemplateReportItem=テンプレートのレポート項目
 Element.TemplateDataSet=テンプレートのデータセット
 Element.JointDataSet=ジョイントデータセット
-Element.Cube=Cube
-Element.Dimension=Dimension
-Element.Hierarchy=Hierarchy
-Element.Level=Level
-Element.Measure=Measure
+Element.Cube=キューブ
+Element.Dimension=次元
+Element.Hierarchy=階層
+Element.Level=レベル
+Element.Measure=計測
 Element.MeasureGroup=Meausre Group
 
 ###########################################################
@@ -2155,7 +2155,7 @@ Element.Library.slot.dataSets=データセット
 Element.Library.slot.pageSetup=ページ設定
 Element.Library.slot.components=コンポーネント
 Element.Library.slot.themes=テーマ
-Element.Library.slot.cubes=Cubes
+Element.Library.slot.cubes=キューブ
 
 #1. Report Design ( Prefix = Element.ReportDesign )
 Element.ReportDesign.refreshRate=更新頻度
@@ -2199,7 +2199,7 @@ Element.ReportDesign.slot.components=コンポーネント
 Element.ReportDesign.slot.body=本文
 Element.ReportDesign.slot.scratchPad=スクラッチパッド
 Element.ReportDesign.slot.templateParameterDefinitions=テンプレートのパラメタの定義
-Element.ReportDesign.slot.cubes=Cube Elements
+Element.ReportDesign.slot.cubes=キューブ要素
 Element.ReportDesign.initialize=初期化 
 Element.ReportDesign.initialize.toolTip=レポートの実行を開始する際に呼び出されます。
 Element.ReportDesign.initialize.reportContext=レポートのコンテキスト
@@ -2876,36 +2876,36 @@ Element.AutoText.onPageBreak.this=定型句のインスタンス
 Element.AutoText.onPageBreak.reportContext=レポートのコンテキスト
 
 #45. Cube ( prefix Element.Cube )
-Element.Cube.dataSet=Data Set
+Element.Cube.dataSet=データセット
 Element.Cube.filter=Filter Conditions
-Element.Cube.dimensionConditions=Dimension Conditions
+Element.Cube.dimensionConditions=次元条件
 Element.Cube.dimensions=Dimensions
 Element.Cube.measureGroups=Measure Groups
 
 #46. Dimension ( prefix Element.Dimension )
-Element.Dimension.isTimeType=Is Time Type
+Element.Dimension.isTimeType=Is Time 型
 Element.Dimension.hierarchies=Hierarchies
 
 #47. Hierarchy ( prefix Element.Hierarchy )
-Element.Hierarchy.dataSet=Data Set
+Element.Hierarchy.dataSet=データセット
 Element.Hierarchy.filter=Filter Conditions
-Element.Hierarchy.primaryKeys=Primary Key
+Element.Hierarchy.primaryKeys=プライマリキー
 Element.Hierarchy.levels=Levels
 
 #48. Level ( prefix Element.Level )
-Element.Level.columnName=Column Name
+Element.Level.columnName=列見出し
 Element.Level.Interval=間隔
 Element.Level.intervalBase=間隔のベース
 Element.Level.interval=間隔
 Element.Level.intervalRange=間隔の範囲
 Element.Level.levelType=Level Type
 Element.Level.staticValues=Static Values
-Element.Level.attributes=Attributes
+Element.Level.attributes=属性
 
 #49. Measure ( prefix Element.Measure )
-Element.Measure.function=Function
+Element.Measure.function=関数
 Element.Measure.isCalculated=Is Calculated
-Element.Measure.measureExpression=Measure Expression
+Element.Measure.measureExpression=計測式
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=Measures
@@ -3138,11 +3138,11 @@ New.TemplateDataSet=新しいテンプレートのデータセット
 New.TemplateReportItem=新しいテンプレートのレポート項目
 New.Theme=新しいテーマ
 New.AutoText=新規定型句
-New.Cube=NewCube
-New.Dimension=NewDimension
-New.Hierarchy=NewHierarchy
-New.Level=NewLevel
-New.Measure=NewMeasure
+New.Cube=キューブの新規作成
+New.Dimension=次元の新規作成
+New.Hierarchy=階層の新規作成
+New.Level=レベルの新規作成
+New.Measure=計測の新規作成
 New.MeasureGroup=NewMeasureGroup
 
 ###########################################################
