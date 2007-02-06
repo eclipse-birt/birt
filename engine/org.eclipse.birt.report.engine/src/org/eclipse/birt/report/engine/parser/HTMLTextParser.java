@@ -137,6 +137,8 @@ public class HTMLTextParser
 			Document desDoc = DocumentBuilderFactory.newInstance( )
 					.newDocumentBuilder( )
 					.newDocument( );
+			Node desBody = desDoc.createElement( "body" ); //$NON-NLS-1$
+			desDoc.appendChild( desBody );
 			// After parsing with JTidy,normally the children nodes of the root
 			// are
 			// HTML entity, HTML element and comments node. And The children
@@ -147,8 +149,6 @@ public class HTMLTextParser
 			Node html = getNodeByName( doc, "html" ); //$NON-NLS-1$
 			if ( html != null )
 			{
-				Node desBody = desDoc.createElement( "body" ); //$NON-NLS-1$
-				desDoc.appendChild( desBody );
 				Node head = getNodeByName( html, "head" ); //$NON-NLS-1$
 				if ( head != null )
 				{
