@@ -1,10 +1,10 @@
 <project name="Checkout BIRT PDE Builder before build" default="checkout">
 
         <property name="working.dir" value="/home/adb/releng/BIRTBuilder"/>
-        <property name="cvsRoot" value=":pserver:anonymous@dev.eclipse.org:/cvsroot/birt"/>
+        <property name="cvsRoot" value=":ext:xgu@dev.eclipse.org:/cvsroot/birt"/>
         <property name="cvs.dir" value="/home/adb/releng/P4/dailybuild" />
         <property name="work.dir" value="/home/adb/releng/BIRTBuilder" />
-        <property name="checkout.version" value=" -r v20070129"/>
+        <property name="checkout.version" value=" "/>
         <property name="cvs.options" value=" "/>
 
         <target name="checkout" depends="clean">
@@ -33,5 +33,6 @@
                                 <include name="build.properties"/>
                         </fileset>
                 </delete>
+        		<delete dir="${cvs.dir}/source/org.eclipse.birt.releng.birtbuilder" failonerror="false" />
         </target>
 </project>

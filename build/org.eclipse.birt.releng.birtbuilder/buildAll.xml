@@ -53,6 +53,7 @@
 				<antcall target="buildBirtNLFeature"/>
 				<antcall target="generateJavaCrossReference"/>
 				<antcall target="generateDocumentCheck"/>
+				<antcall target="generateJavaDoc"/>
 			</sequential>
 		</parallel>
 		<!-- start birt JUnit test -->
@@ -384,5 +385,9 @@
         	target="generateDocumentCheck" >
         </ant>
 	</target>
-        	
+	
+    <target name="generateJavaDoc">
+        <ant antfile="${eclipse.build.configs}/../../extras/antJavadoc.xml"/>
+    </target>
+	
 </project>
