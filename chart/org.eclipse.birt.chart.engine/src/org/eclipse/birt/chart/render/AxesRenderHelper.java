@@ -625,10 +625,10 @@ public final class AxesRenderHelper
 		computation.initialize( );
 
 		// Offset for Text axis type
-		final double dOffset = axModel.isCategoryAxis( ) ? ( axModel.getScale( )
-				.isTickBetweenCategories( ) ? iDirection : -iDirection )
+		final double dOffset = computation instanceof TextAxisTypeComputation ? iDirection
 				* sc.getUnitSize( )
-				/ 2 : 0;
+				/ 2
+				: 0;
 		// Tick size
 		final int length = computation instanceof TextAxisTypeComputation ? da.length - 1
 				: da.length;
@@ -801,10 +801,11 @@ public final class AxesRenderHelper
 		computation.initialize( );
 
 		// Offset for Text axis type
-		final double dOffset = axModel.isCategoryAxis( )?
-				( axModel.getScale( ).isTickBetweenCategories( ) ? iDirection:2*iDirection)
+		final double dOffset = computation instanceof TextAxisTypeComputation ? iDirection
 				* sc.getUnitSize( )
-				/ 2 : 0;
+				/ 2
+				: 0;
+				
 		// Tick size
 		final int length = computation instanceof TextAxisTypeComputation ? da.length - 1
 				: da.length;
