@@ -1,13 +1,10 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *  Actuate Corporation  - initial API and implementation
- *******************************************************************************/
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
 
@@ -21,16 +18,16 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 /**
  * Regression description:
  * </p>
- * <b>142948:</b>
- * Invoke DefaultResourceLocator.findResource() with a url string like
- * "file:/....." will return null, even the file exists</p>
- * <b>141927:</b>
- * Resource locator doesn't work when set as "http://.."
+ * <b>142948:</b> Invoke DefaultResourceLocator.findResource() with a url
+ * string like "file:/....." will return null, even the file exists
+ * </p>
+ * <b>141927:</b> Resource locator doesn't work when set as "http://.."
  * </p>
  * Test description:
  * <p>
  * Find resource like "file:/.....", if it exists, won't return null. If it
- * doesn't exist, return null</p>
+ * doesn't exist, return null
+ * </p>
  * Find resource with HTTP protocol
  */
 
@@ -43,11 +40,12 @@ public class Regression_142948and141927 extends BaseTestCase
 	{
 		super.setUp( );
 		removeResource( );
-		
+
 		// retrieve two input files from tests-model.jar file
-		
-		//copyInputToFile ( INPUT_FOLDER + "/" + filename );
+
+		copyInputToFile ( INPUT_FOLDER + "/" + filename );
 	}
+
 	/**
 	 * @throws DesignFileException
 	 * @throws IOException
@@ -61,24 +59,24 @@ public class Regression_142948and141927 extends BaseTestCase
 				+ "/" + filename;
 
 		designHandle.setFileName( filePath );
-		URL url = designHandle
-				.findResource( filename, IResourceLocator.LIBRARY );
+		System.out.println( filePath );
+		assertNotNull( designHandle.getFileName( ) );
+		URL url = designHandle.findResource( filePath, IResourceLocator.LIBRARY );
 		assertNotNull( url );
-		
+
 		url = designHandle.findResource( "NoExistedDesign.xml", //$NON-NLS-1$
 				IResourceLocator.LIBRARY );
 		assertNull( url );
 
-		//Find resource with HTTP protocol
-		designHandle.getModule( ).setSystemId(
-				new URL( "http://www.eclipse.org/" ) ); //$NON-NLS-1$
+		// Find resource with HTTP protocol
+		designHandle.getModule( ).setSystemId( new URL( "http://www.eclipse.org/" ) ); //$NON-NLS-1$
 
 		url = designHandle.findResource( "images/EclipseBannerPic.jpg", //$NON-NLS-1$
 				IResourceLocator.IMAGE );
 
 		assertEquals( "http://www.eclipse.org/images/EclipseBannerPic.jpg", //$NON-NLS-1$
 				url.toString( ) );
-		
+
 	}
 
 }
