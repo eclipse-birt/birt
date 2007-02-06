@@ -299,7 +299,7 @@ public class TrueTypeFont
 	{
 	}
 
-	public TrueTypeFont( String ttFile ) throws DocumentException, IOException
+	TrueTypeFont( String ttFile ) throws DocumentException, IOException
 	{
 		this( ttFile, false );
 	}
@@ -560,11 +560,15 @@ public class TrueTypeFont
 			{
 				rf.seek( table_location[0] + startOfStorage + offset );
 				if ( platformID != 0 && platformID != 3 )
-					return readStandardString( length );
+				{
+					String name = readStandardString( length );
+					name = name.replace( ' ', '_' );
+					return name.replace( (char)0, '_' );
+				}
 			}
 		}
 		File file = new File( fileName );
-		return file.getName( ).replace( ' ', '-' );
+		return file.getName( ).replace( ' ', '_' );
 	}
 
 	/**
@@ -1300,7 +1304,7 @@ public class TrueTypeFont
 			}
 			int[] glyphLocation = (int[]) positionTables.get( "glyf" );
 			int dataOffset = dataOffsetRelativeToGlyfTable + glyphLocation[0];
-			byte[] result = new byte[dataLength + 8];
+			byte[] result = new byte[dataLength];
 			rf.seek( dataOffset );
 			rf.readFully( result );
 			return result;

@@ -18,9 +18,9 @@
 } def
 
 /getFontHeight {
-  0 getCurrentFont dup 
-  /FontBBox get 3 get exch
-  /FontMatrix get dtransform exch pop
+  0 getCurrentFont 
+  /FontBBox get 3 get
+  currentfont /FontMatrix get dtransform exch pop
 } def
 
 /getUnderline {
