@@ -189,12 +189,17 @@
 			<property name="packagenames" value="org.eclipse.birt.*"/>
 		</projectInfo>
 		<projectInfo>
+			<property name="projectName" value="org.eclipse.birt.report.designer.ui.preview" />
+			<property name="windowTitle" value="Birt Designer Core API" />
+			<property name="packagenames" value="org.eclipse.birt.*"/>
+		</projectInfo>
+		<projectInfo>
 			<property name="projectName" value="org.eclipse.birt.report.designer.ui.editors" />
 			<property name="windowTitle" value="Birt Designer Core API" />
 			<property name="packagenames" value="org.eclipse.birt.*"/>
 		</projectInfo>
 		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.report.designer.ui.editors.xml.wtp" />
+			<property name="projectName" value="org.eclipse.birt.report.designer.ui.editor.xml.wtp" />
 			<property name="windowTitle" value="Birt Designer Core API" />
 			<property name="packagenames" value="org.eclipse.birt.*"/>
 		</projectInfo>
@@ -218,11 +223,6 @@
 			<property name="projectName" value="org.eclipse.birt.report.model.adapter.oda" />
 			<property name="windowTitle" value="Birt Model ODA Adapter API (Provisional)" />
 			<property name="packagenames" value="org.eclipse.birt.report.model.adapter.oda.*"/>
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.report.model" />
-			<property name="windowTitle" value="Birt Model API (Provisional)" />
-			<property name="packagenames" value="org.eclipse.birt.report.model.*"/>
 		</projectInfo>
 	</projectList>
 	<projectList id="project.doctitle.list">
@@ -290,7 +290,14 @@
 			<dynamicProperty name="windowTitle" value="current.windowTitle" />
 			<antcall target="antJavaDoc"/>
 		</forEach>
+		<forEach iteratorId="project.doctitle.list" failonerror="false" failureProperty="task.status">
+			<dynamicProperty name="projectName" value="current.projectName" />
+			<dynamicProperty name="windowTitle" value="current.windowTitle" />
+			<dynamicProperty name="docTitle" value="current.doctitle"/>
+			<antcall target="antJavaDocWithDocTitle"/>
+		</forEach>
 		<!-- JavaDoc for viewer -->
+		<mkdir dir="${javadoc.dir}/org.eclipse.birt.report.viewer" />
 		<javadoc destdir="${javadoc.dir}/org.eclipse.birt.report.viewer" 
 				 author="true" 
 				 version="true" 
@@ -300,9 +307,49 @@
 				 classpath="${classpath}"
 				 packagenames="org.eclipse.birt.report.viewer.*">
 				<packageset dir="${buildDirectory}/plugins/org.eclipse.birt.report.viewer/src" defaultexcludes="yes" />
-				<packageset dir="${buildDirectory}/plugins/org.eclipse.birt.report.viewer/birt/WEB-INF/classes" defaultexcludes="yes" />
+				<packageset dir="${buildDirDectory}/plugins/org.eclipse.birt.report.viewer/birt/WEB-INF/classes" defaultexcludes="yes" />
 	 	        <bottom><![CDATA[<i>Copyright &#169;  2005 Actuate Corp. All rights reserved. </i>]]></bottom>
-		</javadoc>	
+		</javadoc>
+		<!-- JavaDoc for Chart Engine -->
+		<mkdir dir="${javadoc.dir}/org.eclipse.birt.chart.engine" />
+		<javadoc access="public" author="true" overview="${buildDirectory}/plugins/org.eclipse.birt.chart.engine/overview.html" doctitle="BIRT Chart Engine API (Provisional)" windowtitle="BIRT Chart Engine API" destdir="${javadoc.dir}" source="1.4" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false"
+			packagenames="
+						org.eclipse.birt.chart.model,
+						org.eclipse.birt.chart.model.data,
+						org.eclipse.birt.chart.model.type,
+						org.eclipse.birt.chart.model.layout,
+						org.eclipse.birt.chart.model.attribute,
+						org.eclipse.birt.chart.model.component,
+						org.eclipse.birt.chart.model.impl,
+						org.eclipse.birt.chart.model.data.impl,
+						org.eclipse.birt.chart.model.type.impl,
+						org.eclipse.birt.chart.model.layout.impl,
+						org.eclipse.birt.chart.model.attribute.impl,
+						org.eclipse.birt.chart.model.component.impl,
+						org.eclipse.birt.chart.event,
+						org.eclipse.birt.chart.device,
+						org.eclipse.birt.chart.datafeed,
+						org.eclipse.birt.chart.exception,
+						org.eclipse.birt.chart.log
+						"
+			sourcefiles="
+				${buildDirectory}/plugins/org.eclipse.birt.chart.engine/src/org/eclipse/birt/chart/aggregate/IAggregateFunction.java,
+				${buildDirectory}/plugins/org.eclipse.birt.chart.engine/src/org/eclipse/birt/chart/render/BaseRenderer.java,
+				${buildDirectory}/plugins/org.eclipse.birt.chart.engine/src/org/eclipse/birt/chart/render/AxesRenderer.java,
+				${buildDirectory}/plugins/org.eclipse.birt.chart.engine/src/org/eclipse/birt/chart/render/ISeriesRenderer.java,
+				${buildDirectory}/plugins/org.eclipse.birt.chart.engine/src/org/eclipse/birt/chart/render/ISeriesRenderingHints.java,
+				${buildDirectory}/plugins/org.eclipse.birt.chart.engine/src/org/eclipse/birt/chart/factory/Generator.java,
+				${buildDirectory}/plugins/org.eclipse.birt.chart.engine/src/org/eclipse/birt/chart/factory/GeneratedChartState.java,
+				${buildDirectory}/plugins/org.eclipse.birt.chart.engine/src/org/eclipse/birt/chart/factory/IMessageLookup.java,
+				${buildDirectory}/plugins/org.eclipse.birt.chart.engine/src/org/eclipse/birt/chart/factory/RunTimeContext.java,
+				${buildDirectory}/plugins/org.eclipse.birt.chart.engine/src/org/eclipse/birt/chart/util/CDateTime.java,
+				${buildDirectory}/plugins/org.eclipse.birt.chart.engine/src/org/eclipse/birt/chart/util/PluginSettings.java
+						"
+			sourcepath="${buildDirectory}/plugins/org.eclipse.birt.chart.engine/src" splitindex="true" use="true" failonerror="true" version="true">
+				<packageset dir="${buildDirectory}/plugins/org.eclipse.birt.chart.engine/src" defaultexcludes="yes" />
+				<classpath refid="${classpath}" />
+					<bottom><![CDATA[<i>Copyright &#169;  2005 Actuate Corp. All rights reserved. </i>]]></bottom>
+			</javadoc>
 	</target>
 
 	<target name="antJavaDoc" depends="checkProjectHasSrc" if="has.src">
@@ -319,6 +366,23 @@
 				<packageset dir="${buildDirectory}/plugins/${projectName}/src" defaultexcludes="yes" />
 	 	        <bottom><![CDATA[<i>Copyright &#169;  2005 Actuate Corp. All rights reserved. </i>]]></bottom>
 		</javadoc>	
+	</target>
+	
+	<target name="antJavaDocWithDocTitle" depends="checkProjectHasSrc" if="has.src">
+		<mkdir dir="${javadoc.dir}/${projectName}" />
+		<property file="${javadoc.dir}/classpath.properties"/>
+		<javadoc destdir="${javadoc.dir}/${projectName}" 
+				 author="true" 
+				 version="true" 
+				 use="true" 
+				 windowtitle="${windowTitle}" 
+				 source="${javacSource}"
+				 classpath="${classpath}"
+				doctitle="${docTitle}" 
+				 packagenames="${packagenames}">
+				<packageset dir="${buildDirectory}/plugins/${projectName}/src" defaultexcludes="yes" />
+	 	        <bottom><![CDATA[<i>Copyright &#169;  2005 Actuate Corp. All rights reserved. </i>]]></bottom>
+		</javadoc>
 	</target>
 	
 	<target name="checkProjectHasSrc">
