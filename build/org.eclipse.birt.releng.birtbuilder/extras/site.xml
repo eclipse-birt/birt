@@ -21,7 +21,7 @@
         <feature url="features/org.apache.derby.core_10.1.2.1.jar" id="org.apache.derby.core" version="10.1.2.1">
                 <category name="BIRT" />
         </feature>
-        <feature url="features/org.apache.xerces.feature_2.8.0.v200605151647--08422828353873.jar" id="org.apache.xerces.feature" version="2.8.0.v200605151647--08422828353873">
+        <feature url="features/org.apache.xerces.feature_@FEATURE.XERCES@.jar" id="org.apache.xerces.feature" version="@FEATURE.XERCES@">
                 <category name="BIRT" />
         </feature>
         <feature url="features/org.eclipse.birt_@FEATURE.BIRT@.jar" id="org.eclipse.birt" version="@FEATURE.BIRT@">
