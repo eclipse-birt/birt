@@ -41,7 +41,7 @@ import org.eclipse.ui.PlatformUI;
  * values for selection from the data set. It allows both multiple and single
  * selection. The default is single selection.
  * 
- * @version $Revision: 1.16 $ $Date: 2006/06/07 08:54:59 $
+ * @version $Revision: 1.17 $ $Date: 2006/06/22 03:41:18 $
  */
 public class SelectValueDialog extends BaseDialog
 {
@@ -61,7 +61,7 @@ public class SelectValueDialog extends BaseDialog
 	 */
 	public SelectValueDialog( Shell parentShell, String title )
 	{
-		super( parentShell, title);
+		super( parentShell, title );
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class SelectValueDialog extends BaseDialog
 	}
 
 	/**
-	 *  Set handles for binding parameters
+	 * Set handles for binding parameters
 	 */
 	public void setBindingParams( ParamBindingHandle[] handles )
 	{
@@ -159,7 +159,7 @@ public class SelectValueDialog extends BaseDialog
 	 */
 	protected void okPressed( )
 	{
-		selectedIndices = selectValueList.getSelectionIndices();
+		selectedIndices = selectValueList.getSelectionIndices( );
 		setResult( selectValueList.getSelection( ) );
 		super.okPressed( );
 	}
@@ -183,15 +183,12 @@ public class SelectValueDialog extends BaseDialog
 	}
 
 	/**
-	 * Return expression string value as expression required format.
-	 * For example
-	 * 	number type:
-	 * 		Integer value 1 to String value "1"
-	 *  Boolean type:
-	 *      Boolean value true to String value "true"
-	 * 	other types:
-	 * 		String value "abc" to String value "\"abc\""
-	 * 		Date value "2000-10-10" to String value "\"2000-10-10\""
+	 * Return expression string value as expression required format. For example
+	 * number type: Integer value 1 to String value "1" Boolean type: Boolean
+	 * value true to String value "true" other types: String value "abc" to
+	 * String value "\"abc\"" Date value "2000-10-10" to String value
+	 * "\"2000-10-10\""
+	 * 
 	 * @return expression value
 	 */
 	public String getSelectedExprValue( )
@@ -217,37 +214,39 @@ public class SelectValueDialog extends BaseDialog
 		}
 		return exprValue;
 	}
-	
+
 	private void populateList( )
 	{
 		try
 		{
 			getOkButton( ).setEnabled( false );
 			selectValueList.removeAll( );
-			viewerValueList.clear();
-			if ( modelValueList != null && modelValueList.size( ) > 0 )
+			viewerValueList.clear( );
+			if ( modelValueList != null )
 			{
-				Iterator iter = modelValueList.iterator();
-				while( iter.hasNext()){
-				Object candiateValue = iter.next();
-				if ( candiateValue != null )
+				Iterator iter = modelValueList.iterator( );
+				while ( iter.hasNext( ) )
 				{
-					String displayCandiateValue;
-					if ( candiateValue instanceof Date )
-						displayCandiateValue = ParameterValidationUtil.getDisplayValue( DesignChoiceConstants.PARAM_TYPE_DATETIME,
-								null,
-								candiateValue );
-					else
-						displayCandiateValue = DataTypeUtil.toString( candiateValue );
-					viewerValueList.add( displayCandiateValue );
-					selectValueList.add( displayCandiateValue );
-				}}
+					Object candiateValue = iter.next( );
+					if ( candiateValue != null )
+					{
+						String displayCandiateValue;
+						if ( candiateValue instanceof Date )
+							displayCandiateValue = ParameterValidationUtil.getDisplayValue( DesignChoiceConstants.PARAM_TYPE_DATETIME,
+									null,
+									candiateValue );
+						else
+							displayCandiateValue = DataTypeUtil.toString( candiateValue );
+						viewerValueList.add( displayCandiateValue );
+						selectValueList.add( displayCandiateValue );
+					}
+				}
 			}
 			else
 			{
 				selectValueList.removeAll( );
-				modelValueList.clear();
-				viewerValueList.clear();
+				modelValueList.clear( );
+				viewerValueList.clear( );
 				ExceptionHandler.openErrorMessageBox( Messages.getString( "SelectValueDialog.errorRetrievinglist" ), Messages.getString( "SelectValueDialog.noExpressionSet" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			if ( selectValueList.getItemCount( ) > 0 )
@@ -263,49 +262,49 @@ public class SelectValueDialog extends BaseDialog
 		}
 	}
 
-	//	private void populateList1( )
-	//	{
-	//		try
-	//		{
-	//			//Execute the query and populate this list
-	//			OdaDataSetDesign design = (OdaDataSetDesign)
+	// private void populateList1( )
+	// {
+	// try
+	// {
+	// //Execute the query and populate this list
+	// OdaDataSetDesign design = (OdaDataSetDesign)
 	// DataSetManager.getCurrentInstance( )
-	//					.getDataSetDesign( getDataSetHandle( ), true, false );
-	//			design.addComputedColumn( new ComputedColumn( "selectValue",
-	//					getExpression( ) ) );
-	//			QueryDefinition query = DataSetManager.getCurrentInstance( )
-	//					.getQueryDefinition( design );
-	//			ScriptExpression expression = new ScriptExpression(
+	// .getDataSetDesign( getDataSetHandle( ), true, false );
+	// design.addComputedColumn( new ComputedColumn( "selectValue",
+	// getExpression( ) ) );
+	// QueryDefinition query = DataSetManager.getCurrentInstance( )
+	// .getQueryDefinition( design );
+	// ScriptExpression expression = new ScriptExpression(
 	// "row[\"selectValue\"]" );
 	//
-	//			GroupDefinition defn = new GroupDefinition( );
-	//			defn.setKeyExpression( expression.getText( ) );
-	//			query.setUsesDetails( false );
-	//			query.addGroup( defn );
-	//			query.addExpression( expression, BaseTransform.BEFORE_FIRST_ROW );
+	// GroupDefinition defn = new GroupDefinition( );
+	// defn.setKeyExpression( expression.getText( ) );
+	// query.setUsesDetails( false );
+	// query.addGroup( defn );
+	// query.addExpression( expression, BaseTransform.BEFORE_FIRST_ROW );
 	//
-	//			IPreparedQuery preparedQuery = DataSetManager.getCurrentInstance( )
-	//					.getPreparedQuery( query );
-	//			IQueryResults results = preparedQuery.execute( null );
-	//			selectValueList.removeAll( );
-	//			if ( results != null )
-	//			{
-	//				IResultIterator iter = results.getResultIterator( );
-	//				if ( iter != null )
-	//				{
-	//					while ( iter.next( ) )
-	//					{
-	//						selectValueList.add( iter.getString( expression ) );
-	//					}
-	//				}
+	// IPreparedQuery preparedQuery = DataSetManager.getCurrentInstance( )
+	// .getPreparedQuery( query );
+	// IQueryResults results = preparedQuery.execute( null );
+	// selectValueList.removeAll( );
+	// if ( results != null )
+	// {
+	// IResultIterator iter = results.getResultIterator( );
+	// if ( iter != null )
+	// {
+	// while ( iter.next( ) )
+	// {
+	// selectValueList.add( iter.getString( expression ) );
+	// }
+	// }
 	//
-	//				results.close( );
-	//			}
-	//		}
-	//		catch ( Exception e )
-	//		{
-	//			e.printStackTrace( );
-	//			ExceptionHandler.handle( e );
-	//		}
-	//	}
+	// results.close( );
+	// }
+	// }
+	// catch ( Exception e )
+	// {
+	// e.printStackTrace( );
+	// ExceptionHandler.handle( e );
+	// }
+	// }
 }
