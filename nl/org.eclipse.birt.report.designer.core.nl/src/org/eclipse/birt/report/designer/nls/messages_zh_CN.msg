@@ -190,10 +190,10 @@ BordersPage.Tooltip.None=无
 BordersPage.Tooltip.Right=右框线
 BordersPage.Tooltip.Top=上框线
 BordersPage.text.Preview=预览:
-BordersPage.Trans.SelectBorder=Select Border
-BordersPage.Trans.UnSelectBorder=Unselect Border
-BordersPage.Trans.SelectAllborders=Select all borders
-BordersPage.Trans.UnSelectAllborders=Unselect all borders
+BordersPage.Trans.SelectBorder=选择边框
+BordersPage.Trans.UnSelectBorder=取消选择边框
+BordersPage.Trans.SelectAllborders=选择所有边框
+BordersPage.Trans.UnSelectAllborders=取消选择所有边框
 
 ###########################################################
 #BoxPreferencePage properties
@@ -355,7 +355,7 @@ dataBinding.message.changeDataSet=您将要更改元素的数据绑定。\n\n是否要清除全部现
 dataBinding.title.changeDataSet=是否更改数据集？
 dataBinding.title=数据绑定
 
-parameterBinding.title=数据集参数绑定
+parameterBinding.title=数据集参数绑定...
 
 
 
@@ -751,8 +751,8 @@ DesignerOutlinePage.menu.Filters=筛选器
 
 ###########################################################
 #Content outline page switch action
-ContentOutlinePage.action.text.reportOutline=Switch to XML source outline
-ContentOutlinePage.action.text.reportXMLSourceOutline=Switch to report outline
+ContentOutlinePage.action.text.reportOutline=切换至 XML 源大纲
+ContentOutlinePage.action.text.reportXMLSourceOutline=切换至报表大纲
 
 ###########################################################
 #DesignerPaletteFactory properties
@@ -1489,7 +1489,7 @@ FormatStringPreferencePage.formatString.title=字符串格式
 
 FormPage.Button.Add=添加(&A)
 FormPage.Button.AddWithDialog=添加(&A)...
-FormPage.Button.Delete=删除(&L)
+FormPage.Button.Delete=删除(&R)
 FormPage.Button.Down=下移(&N)
 FormPage.Button.Edit=编辑(&D)
 FormPage.Button.EditWithDialog=编辑(&D)...
@@ -1643,7 +1643,7 @@ HighlightRuleBuilderDialog.displayText.None=无
 #HighlightsPage properties
 
 HighlightsPage.Button.Add=添加(&A)...
-HighlightsPage.Button.Delete=删除(&D)
+HighlightsPage.Button.Delete=删除(&R)
 HighlightsPage.Dialog.EditHighlight=编辑突出显示
 HighlightsPage.Dialog.NewHighlight=新建突出显示
 HighlightsPage.Label.Highlights=突出显示列表:
@@ -1664,7 +1664,7 @@ HighlightsPreferencePage.displayname.Condition=条件
 HighlightsPreferencePage.displayname.Preview=预览
 HighlightsPreferencePage.displayname.Title=突出显示
 HighlightsPreferencePage.text.Add=添加(&A)...
-HighlightsPreferencePage.text.Delete=删除(&L)
+HighlightsPreferencePage.text.Delete=删除(&R)
 HighlightsPreferencePage.text.Description=突出显示列表:
 HighlightsPreferencePage.text.Edit=编辑(&D)...
 HighlightsPreferencePage.toolTipText.Up=突出显示上移
@@ -2091,7 +2091,7 @@ ListPageGenerator.TabItem.Sorting=排序
 
 MapPage.label.add=添加(&A)...
 MapPage.label.condition=条件
-MapPage.label.delete=删除(&L)
+MapPage.label.delete=删除(&R)
 MapPage.label.displayValue=显示值:
 MapPage.label.mapList=映射列表:
 MapPage.transName.addMapRule=添加映射规则
@@ -2109,7 +2109,7 @@ MapPreferencePage.displayname.Condition=条件
 MapPreferencePage.displayname.DisplayValue=显示值
 MapPreferencePage.displayname.Title=映射
 MapPreferencePage.text.Add=添加(&A)...
-MapPreferencePage.text.Delete=删除(&L)
+MapPreferencePage.text.Delete=删除(&R)
 MapPreferencePage.text.Description=映射规则:
 MapPreferencePage.text.Edit=编辑(&D)...
 MapPreferencePage.toolTipText.Up=映射规则上移

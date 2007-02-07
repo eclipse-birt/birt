@@ -28,7 +28,7 @@ exception.multi.orthogonal.3D.not.supported=三维图表不支持多个值轴。
 exception.scatter.3D.not.supported=三维图表不支持离散类别轴。
 exception.no.transposed.3D.chart=三维图表不支持置换。
 exception.no.transposed.stock.chart=股票图表不支持置换。
-exception.no.transposed.gantt.chart=Only transposition is supported by Gantt Chart.
+exception.no.transposed.gantt.chart=甘特图仅支持置换。
 exception.3D.points.length.less.than.3=对于三维绘制事件，点列表长度至少为 3 (>=3)。
 exception.empty.icon.list=标记图像选项板列表为空。
 info.sample.formats=例如\n数字: 1,2,3\n日期: 05-1-26,05-1-27,05-1-28\n文本: 'a,b,c'\n及所有用逗号隔开的多个值。

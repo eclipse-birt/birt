@@ -539,10 +539,10 @@ Choices.viewAction.Added=已添加
 Choices.viewAction.Deleted=已删除
 
 #70. measureFunction
-Choices.measureFunction.sum=Sum
-Choices.measureFunction.count=Count
-Choices.measureFunction.min=Min
-Choices.measureFunction.max=Max
+Choices.measureFunction.sum=求和
+Choices.measureFunction.count=计数
+Choices.measureFunction.min=最小值
+Choices.measureFunction.max=最大值
 
 #71. levelType
 Choices.levelType.dynamic=动态
@@ -2053,9 +2053,9 @@ Structure.TOC.text.indent=文本缩进
 Structure.TOC.text.transform=文本转换
 
 #29. DimensionCondition
-Structure.DimensionCondition=Dimension Condition
-Structure.DimensionCondition.primaryKeys=Primary Keys
-Structure.DimensionCondition.hierarchy=Hierarchy
+Structure.DimensionCondition=维条件
+Structure.DimensionCondition.primaryKeys=主键
+Structure.DimensionCondition.hierarchy=层次结构
 
 #30. Rule
 Structure.Rule=Rule
@@ -2116,11 +2116,11 @@ Element.TemplateElement=模板元素
 Element.TemplateReportItem=模板报表项
 Element.TemplateDataSet=模板数据集
 Element.JointDataSet=联接数据集
-Element.Cube=Cube
-Element.Dimension=Dimension
-Element.Hierarchy=Hierarchy
-Element.Level=Level
-Element.Measure=Measure
+Element.Cube=多维数据集
+Element.Dimension=维
+Element.Hierarchy=层次结构
+Element.Level=级别
+Element.Measure=度量
 Element.MeasureGroup=Meausre Group
 
 ###########################################################
@@ -2155,7 +2155,7 @@ Element.Library.slot.dataSets=数据集
 Element.Library.slot.pageSetup=页面设置
 Element.Library.slot.components=组件
 Element.Library.slot.themes=主题
-Element.Library.slot.cubes=Cubes
+Element.Library.slot.cubes=多维数据集
 
 #1. Report Design ( Prefix = Element.ReportDesign )
 Element.ReportDesign.refreshRate=刷新比率
@@ -2199,7 +2199,7 @@ Element.ReportDesign.slot.components=组件
 Element.ReportDesign.slot.body=正文
 Element.ReportDesign.slot.scratchPad=便笺簿
 Element.ReportDesign.slot.templateParameterDefinitions=模板参数定义
-Element.ReportDesign.slot.cubes=Cube Elements
+Element.ReportDesign.slot.cubes=多维数据集元素
 Element.ReportDesign.initialize=初始化
 Element.ReportDesign.initialize.toolTip=开始执行报表时调用。
 Element.ReportDesign.initialize.reportContext=报表上下文
@@ -2876,36 +2876,36 @@ Element.AutoText.onPageBreak.this=自动图文集实例
 Element.AutoText.onPageBreak.reportContext=报表上下文
 
 #45. Cube ( prefix Element.Cube )
-Element.Cube.dataSet=Data Set
+Element.Cube.dataSet=数据集
 Element.Cube.filter=Filter Conditions
-Element.Cube.dimensionConditions=Dimension Conditions
+Element.Cube.dimensionConditions=维条件
 Element.Cube.dimensions=Dimensions
 Element.Cube.measureGroups=Measure Groups
 
 #46. Dimension ( prefix Element.Dimension )
-Element.Dimension.isTimeType=Is Time Type
+Element.Dimension.isTimeType=是时间类型
 Element.Dimension.hierarchies=Hierarchies
 
 #47. Hierarchy ( prefix Element.Hierarchy )
-Element.Hierarchy.dataSet=Data Set
+Element.Hierarchy.dataSet=数据集
 Element.Hierarchy.filter=Filter Conditions
-Element.Hierarchy.primaryKeys=Primary Key
+Element.Hierarchy.primaryKeys=主键
 Element.Hierarchy.levels=Levels
 
 #48. Level ( prefix Element.Level )
-Element.Level.columnName=Column Name
+Element.Level.columnName=列名
 Element.Level.Interval=间隔
 Element.Level.intervalBase=间隔基数
 Element.Level.interval=间隔
 Element.Level.intervalRange=间隔范围
 Element.Level.levelType=Level Type
 Element.Level.staticValues=Static Values
-Element.Level.attributes=Attributes
+Element.Level.attributes=属性
 
 #49. Measure ( prefix Element.Measure )
-Element.Measure.function=Function
-Element.Measure.isCalculated=Is Calculated
-Element.Measure.measureExpression=Measure Expression
+Element.Measure.function=函数
+Element.Measure.isCalculated=是计算的
+Element.Measure.measureExpression=度量表达式
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=Measures
@@ -3138,11 +3138,11 @@ New.TemplateDataSet=新模板数据集
 New.TemplateReportItem=新模板报表项
 New.Theme=新主题
 New.AutoText=NewAutoText
-New.Cube=NewCube
-New.Dimension=NewDimension
-New.Hierarchy=NewHierarchy
-New.Level=NewLevel
-New.Measure=NewMeasure
+New.Cube=新多维数据集
+New.Dimension=新维
+New.Hierarchy=新层次结构
+New.Level=新级别
+New.Measure=新度量
 New.MeasureGroup=NewMeasureGroup
 
 ###########################################################

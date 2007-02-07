@@ -32,10 +32,10 @@ LibraryEditor=库编辑器
 LibraryWizard=库
 LibraryWizardDescription=此向导创建新报表库。
 
-OdaRuntimeWizard=ODA Runtime Driver Plug-in Project
-OdaRuntimeWizardDesc=Create a new ODA runtime driver plug-in.
-OdaDesignerWizard=ODA Designer Plug-in Project
-OdaDesignerWizardDesc=Create a new ODA designer plug-in.
+OdaRuntimeWizard=ODA 运行时驱动程序插件项目
+OdaRuntimeWizardDesc=创建新的 ODA 运行时驱动程序插件。
+OdaDesignerWizard=ODA 设计器插件项目
+OdaDesignerWizardDesc=创建新的 ODA 设计器插件。
 
 ###############################################################################
 # Activities
