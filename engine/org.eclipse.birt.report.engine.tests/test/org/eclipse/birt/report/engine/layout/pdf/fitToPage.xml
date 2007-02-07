@@ -501,13 +501,15 @@ from CLASSICMODELS.CUSTOMERS</property>
     </data-sets>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
+       	 	<property name="headerHeight">1cm</property>
+            <property name="footerHeight">1cm</property>
             <page-header>
                 <label id="100">
                     <text-property name="text">Header</text-property>
                 </label>
             </page-header>
             <page-footer>
-                <text id="3">
+                 <text id="3">
                     <property name="contentType">html</property>
                     <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
                 </text>
