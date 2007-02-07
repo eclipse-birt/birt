@@ -14,17 +14,8 @@ export PATH=${PATH}:${ANT_HOME}/bin:/usr/local/bin
 
 proc=$$
 
-tagMaps=""
-
-# directory in which to export builder projects
-builderDir=/home/adb/releng/org.eclipse.birt.releng.util/
-
 # buildtype determines whether map file tags are used as entered or are replaced with HEAD
 buildType=I
-
-# directory where to copy build
-postingDirectory=/home/adb/releng/src/BIRT2.2-download
-
 
 # value used in buildLabel and for text replacement in index.php template file
 builddate=`date +%Y%m%d`
@@ -54,11 +45,6 @@ fi
 mkdir $builderDir
 cd $builderDir
 
-
-
-mkdir -p $postingDirectory/$buildLabel
-chmod -R 755 $builderDir
-
 #default value of the bootclasspath attribute used in ant javac calls.  
 bootclasspath="/usr/local/j2sdk1.4.2_13/jre/lib/rt.jar:/usr/local/j2sdk1.4.2_13/jre/lib/jsse.jar"
 
@@ -71,7 +57,7 @@ echo "==========[antRunner]: $antRunner" >> adb.log
 
 
 #full command with args
-buildCommand="$antRunner -q -buildfile getSourceCodeByBuildTag.xml -DmapVersionTag=$mapVersionTag -DpostingDirectory=$postingDirectory -Dbootclasspath=$bootclasspath -DbuildType=I -D$buildType=true -DbuildId=$buildId -Dbuildid=$buildId -DbuildLabel=$buildId -Dtimestamp=$timestamp  -DlogExtension=.xml -DbuildDirectory=/home/adb/releng/src -DgroupConfiguration=true -DjavacSource=1.4 -DjavacTarget=1.4 -DjavacVerbose=true -Dbasebuilder=/home/adb/releng/org.ecliplse.releng.basebuilder -DpostPackage=BIRTOutput -DmapCvsRoot=:pserver:anonymous@dev.eclipse.org:/cvsroot/birt"
+buildCommand="$antRunner -q -buildfile getSourceCodeByBuildTag.xml -propertyfile build.properties -Dbootclasspath=$bootclasspath -DbuildType=I -D$buildType=true -DbuildId=$buildId -Dbuildid=$buildId -DbuildLabel=$buildId -Dtimestamp=$timestamp  -DlogExtension=.xml -DgroupConfiguration=true -DjavacSource=1.4 -DjavacTarget=1.4 -DjavacVerbose=true  -DpostPackage=BIRTOutput -DmapCvsRoot=:pserver:anonymous@dev.eclipse.org:/cvsroot/birt"
 
 #capture command used to run the build
 echo $buildCommand>command.txt
