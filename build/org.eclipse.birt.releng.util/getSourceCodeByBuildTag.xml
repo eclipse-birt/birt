@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<!--
+ *************************************************************************
+ * Copyright (c) 2004, 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *  
+ *************************************************************************
+-->
+<project name="Get Source Code By Build Tag" default="main" >
+
+    <target name="main" depends="init">
+        <antcall target="fetchBirtThirdPartyFeature"/>
+        <antcall target="fetchBirtFeature"/>
+        <antcall target="fetchBirtRCPFeature"/>
+        <antcall target="fetchBirtTestFeature"/>
+    </target>
+    
+	<target name="init">
+		<ant antfile="build.xml" target="init" />
+		<property file="${buildDirectory}/label.properties" />
+		
+		<condition property="fetchTag" value="HEAD">
+			<equals arg1="${buildType}" arg2="N" />
+		</condition>
+		<condition property="forceContextQualifier" value="${buildId}">
+			<equals arg1="${buildType}" arg2="N" />
+		</condition>
+		<!--compiler args-->
+		<property name="compilerArg" value="-enableJavadoc -encoding utf-8 -warn:-discouraged,forbidden" />
+		<property name="javacSource" value="1.4" />
+		<property name="javacTarget" value="1.4" />
+		<property name="javacDebugInfo" value="true" />
+		<property name="javacFailOnError" value="false" />
+		<property name="javacVerbose" value="false" />
+		<property name="logExtension" value=".xml" />
+		<!--this property required as of Eclipse 3.0 stream builds > 20031126 -->
+		<property name="buildingOSGi" value="true" />
+		<!--zip args-->
+		<property name="zipargs" value="-y -qq" />
+		<!--unzip args-->
+		<property name="unzipArgs" value="-qq" />
+	</target>
+	
+	<target name="fetchBirtThirdPartyFeature">
+		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
+			<property name="builder" value="${eclipse.build.configs}/birt.third.party" />
+		</ant>
+		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
+			<property name="builder" value="${eclipse.build.configs}/birt.third.party" />
+		</ant>
+	</target>
+	
+	<target name="fetchBirtFeature">
+		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
+			<property name="builder" value="${eclipse.build.configs}/birt" />
+		</ant>
+		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
+			<property name="builder" value="${eclipse.build.configs}/birt" />
+		</ant>
+	</target>
+	
+	<target name="fetchBirtRCPFeature">
+		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
+			<property name="builder" value="${eclipse.build.configs}/birt.rcp" />
+		</ant>
+		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
+			<property name="builder" value="${eclipse.build.configs}/birt.rcp" />
+		</ant>
+	</target>
+
+	<target name="fetchBirtTestFeature">
+		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
+			<property name="builder" value="${eclipse.build.configs}/birt.tests" />
+		</ant>
+		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
+			<property name="builder" value="${eclipse.build.configs}/birt.tests" />
+		</ant>
+	</target>
+	
+</project>
