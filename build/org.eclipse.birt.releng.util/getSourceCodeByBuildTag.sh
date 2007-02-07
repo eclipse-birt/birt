@@ -42,8 +42,6 @@ then
 		 buildLabel=$buildId
 fi
 
-mkdir $builderDir
-cd $builderDir
 
 #default value of the bootclasspath attribute used in ant javac calls.  
 bootclasspath="/usr/local/j2sdk1.4.2_13/jre/lib/rt.jar:/usr/local/j2sdk1.4.2_13/jre/lib/jsse.jar"
