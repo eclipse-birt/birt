@@ -49,22 +49,21 @@ public class Regression_148548 extends BaseTestCase
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( REPORT , REPORT );
+		// copyResource_INPUT( REPORT , REPORT );
 	}
-	
+
 	public void tearDown( )
 	{
 		removeResource( );
 	}
-	
+
 	public void test_regression_148548( ) throws DesignFileException
 	{
 		openDesign( REPORT );
-		ScriptDataSetHandle ds = (ScriptDataSetHandle) designHandle
-				.findDataSet( "Data Set" ); //$NON-NLS-1$
-		List resultSets = ds
-				.getListProperty( ScriptDataSetHandle.RESULT_SET_PROP );
+		ScriptDataSetHandle ds = (ScriptDataSetHandle) designHandle.findDataSet( "Data Set" ); //$NON-NLS-1$
+		assertNotNull( ds );
+		List resultSets = ds.getListProperty( ScriptDataSetHandle.RESULT_SET_PROP );
 
-		assertNull( resultSets );
+		assertNotNull( resultSets );
 	}
 }
