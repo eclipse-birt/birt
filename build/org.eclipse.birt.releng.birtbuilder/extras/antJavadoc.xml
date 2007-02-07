@@ -307,7 +307,7 @@
 				 classpath="${classpath}"
 				 packagenames="org.eclipse.birt.report.viewer.*">
 				<packageset dir="${buildDirectory}/plugins/org.eclipse.birt.report.viewer/src" defaultexcludes="yes" />
-				<packageset dir="${buildDirDectory}/plugins/org.eclipse.birt.report.viewer/birt/WEB-INF/classes" defaultexcludes="yes" />
+				<packageset dir="${buildDirectory}/plugins/org.eclipse.birt.report.viewer/birt/WEB-INF/classes" defaultexcludes="yes" />
 	 	        <bottom><![CDATA[<i>Copyright &#169;  2005 Actuate Corp. All rights reserved. </i>]]></bottom>
 		</javadoc>
 		<!-- JavaDoc for Chart Engine -->
