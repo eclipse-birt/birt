@@ -55,7 +55,7 @@ echo "==========[antRunner]: $antRunner" >> adb.log
 
 
 #full command with args
-buildCommand="$antRunner -q -buildfile getSourceCodeByBuildTag.xml -propertyfile build.properties -Dbootclasspath=$bootclasspath -DbuildType=I -D$buildType=true -DbuildId=$buildId -Dbuildid=$buildId -DbuildLabel=$buildId -Dtimestamp=$timestamp  -DlogExtension=.xml -DgroupConfiguration=true -DjavacSource=1.4 -DjavacTarget=1.4 -DjavacVerbose=true  -DpostPackage=BIRTOutput -DmapCvsRoot=:pserver:anonymous@dev.eclipse.org:/cvsroot/birt"
+buildCommand="$antRunner -q -buildfile getSourceCodeByBuildTag.xml -propertyfile build.properties -DbuildType=I -D$buildType=true -DbuildId=$buildId -Dbuildid=$buildId -DbuildLabel=$buildId -Dtimestamp=$timestamp  -DlogExtension=.xml -DgroupConfiguration=true -DjavacSource=1.4 -DjavacTarget=1.4 -DjavacVerbose=true  -DpostPackage=BIRTOutput -DmapCvsRoot=:pserver:anonymous@dev.eclipse.org:/cvsroot/birt"
 
 #capture command used to run the build
 echo $buildCommand>command.txt
