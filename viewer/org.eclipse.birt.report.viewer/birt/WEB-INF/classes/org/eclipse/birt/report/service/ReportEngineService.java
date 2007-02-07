@@ -883,6 +883,11 @@ public class ReportEngineService
 		}
 		catch ( BirtException e )
 		{
+			// clear document file
+			File doc = new File( documentName );
+			if( doc != null )
+				doc.delete( );
+			
 			// Any Birt exception.
 			AxisFault fault = new AxisFault( e.getLocalizedMessage( ), e );
 			fault

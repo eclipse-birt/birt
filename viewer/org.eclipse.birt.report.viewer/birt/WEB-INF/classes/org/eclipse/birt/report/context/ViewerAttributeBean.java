@@ -256,7 +256,10 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 */
 	private boolean checkShowParameterPage( HttpServletRequest request )
 	{
-		if ( IBirtConstants.REQUEST_GET.equalsIgnoreCase( request.getMethod( ) ) )
+		if ( !ParameterAccessor.HEADER_REQUEST_TYPE_SOAP
+				.equalsIgnoreCase( this.requestType )
+				&& !IBirtConstants.SERVLET_PATH_DOWNLOAD
+						.equalsIgnoreCase( request.getServletPath( ) ) )
 		{
 			String showParameterPage = ParameterAccessor
 					.getShowParameterPage( request );

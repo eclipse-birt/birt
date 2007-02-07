@@ -927,8 +927,8 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			}
 		}
 		
-		// replace __parameterprompting setting
-		var reg = new RegExp( "([&|?]{1})(__parameterprompting\s*=[^&|^#]*)","gi" );
+		// replace __parameterpage setting
+		var reg = new RegExp( "([&|?]{1})(__parameterpage\s*=[^&|^#]*)","gi" );
 		if ( action.search( reg ) > -1 )
 		{
 			action = action.replace( reg, "$1" );
