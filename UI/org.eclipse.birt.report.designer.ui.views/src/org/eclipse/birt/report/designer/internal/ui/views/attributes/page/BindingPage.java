@@ -129,10 +129,14 @@ public class BindingPage extends AttributePage
 
 	}
 
-
 	public void addElementEvent( DesignElementHandle focus, NotificationEvent ev )
 	{
-		dataSetFormSection.getFormControl( ).addElementEvent( focus, ev );
+		if ( dataSetFormSection != null
+				&& dataSetFormSection.getFormControl( ) != null
+				&& !dataSetFormSection.getFormControl( )
+						.getControl( )
+						.isDisposed( ) )
+			dataSetFormSection.getFormControl( ).addElementEvent( focus, ev );
 	}
 
 	public void clear( )

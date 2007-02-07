@@ -33,16 +33,15 @@ public class FormPage extends AttributePage
 		this.provider = provider;
 	}
 
-	public FormPage(int style, IFormProvider provider,
-			boolean withDialog )
+	public FormPage( int style, IFormProvider provider, boolean withDialog )
 	{
 		this.style = style;
 		this.provider = provider;
 		this.withDialog = withDialog;
 	}
 
-	public FormPage( int style, IFormProvider provider,
-			boolean withDialog, boolean isTabbed )
+	public FormPage( int style, IFormProvider provider, boolean withDialog,
+			boolean isTabbed )
 	{
 		this.style = style;
 		this.provider = provider;
@@ -50,12 +49,12 @@ public class FormPage extends AttributePage
 		this.isTabbed = isTabbed;
 	}
 
-	public void buildUI( Composite parent  )
+	public void buildUI( Composite parent )
 	{
-		container = new ScrolledComposite( parent,  SWT.V_SCROLL );
+		container = new ScrolledComposite( parent, SWT.V_SCROLL );
 		container.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		((ScrolledComposite)container).setExpandHorizontal( true );
-		((ScrolledComposite)container).setExpandVertical( true );
+		( (ScrolledComposite) container ).setExpandHorizontal( true );
+		( (ScrolledComposite) container ).setExpandVertical( true );
 		container.addControlListener( new ControlAdapter( ) {
 
 			public void controlResized( ControlEvent e )
@@ -63,7 +62,7 @@ public class FormPage extends AttributePage
 				computeSize( );
 			}
 		} );
-		
+
 		container.addDisposeListener( new DisposeListener( ) {
 
 			public void widgetDisposed( DisposeEvent e )
@@ -71,17 +70,17 @@ public class FormPage extends AttributePage
 				deRegisterEventManager( );
 			}
 		} );
-		
-		composite = new Composite(container,SWT.NONE);
-		composite.setLayoutData( new GridData(GridData.FILL_BOTH) );
-		
+
+		composite = new Composite( container, SWT.NONE );
+		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+
 		if ( sections == null )
-			sections = new SortMap( );	
+			sections = new SortMap( );
 		composite.setLayout( WidgetUtil.createGridLayout( 1 ) );
 		formSection = new FormSection( provider.getDisplayName( ),
 				composite,
-						true,
-						isTabbed );
+				true,
+				isTabbed );
 		formSection.setProvider( provider );
 		formSection.setButtonWithDialog( withDialog );
 		formSection.setStyle( style );
@@ -90,17 +89,17 @@ public class FormPage extends AttributePage
 
 		createSections( );
 		layoutSections( );
-		
-		((ScrolledComposite)container).setContent( composite );
-		
+
+		( (ScrolledComposite) container ).setContent( composite );
+
 	}
-	
+
 	private void computeSize( )
 	{
 		Point size = composite.computeSize( SWT.DEFAULT, SWT.DEFAULT );
-		((ScrolledComposite)container).setMinSize( size.x ,size.y+10 );
+		( (ScrolledComposite) container ).setMinSize( size.x, size.y + 10 );
 		container.layout( );
-		
+
 	}
 
 	public void dispose( )
@@ -116,10 +115,13 @@ public class FormPage extends AttributePage
 		}
 		deRegisterEventManager( );
 	}
-	
+
 	public void addElementEvent( DesignElementHandle focus, NotificationEvent ev )
 	{
-		formSection.getFormControl( ).addElementEvent( focus, ev );
+		if ( formSection != null
+				&& formSection.getFormControl( ) != null
+				&& !formSection.getFormControl( ).getControl( ).isDisposed( ) )
+			formSection.getFormControl( ).addElementEvent( focus, ev );
 	}
 
 	public void clear( )
@@ -131,6 +133,5 @@ public class FormPage extends AttributePage
 	{
 		formSection.getFormControl( ).postElementEvent( );
 	}
-
 
 }
