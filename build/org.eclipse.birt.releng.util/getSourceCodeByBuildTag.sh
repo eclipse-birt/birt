@@ -61,7 +61,6 @@ chmod -R 755 $builderDir
 
 #default value of the bootclasspath attribute used in ant javac calls.  
 bootclasspath="/usr/local/j2sdk1.4.2_13/jre/lib/rt.jar:/usr/local/j2sdk1.4.2_13/jre/lib/jsse.jar"
-bootclasspath_15="/usr/local/jdk1.5.0_02/jre/lib/rt.jar"
 
 cd /home/adb/releng/org.eclipse.birt.releng.util
 
@@ -72,7 +71,7 @@ echo "==========[antRunner]: $antRunner" >> adb.log
 
 
 #full command with args
-buildCommand="$antRunner -q -buildfile getSourceCodeByBuildTag.xml -DmapVersionTag=$mapVersionTag -DpostingDirectory=$postingDirectory -Dbootclasspath=$bootclasspath -DbuildType=I -D$buildType=true -DbuildId=$buildId -Dbuildid=$buildId -DbuildLabel=$buildId -Dtimestamp=$timestamp -DJ2SE-1.5=$bootclasspath_15  -DlogExtension=.xml -Djava15-home=$bootclasspath_15 -DbuildDirectory=/home/adb/releng/src -DgroupConfiguration=true -DjavacSource=1.4 -DjavacTarget=1.4 -DjavacVerbose=true -Dbasebuilder=/home/adb/releng/org.ecliplse.releng.basebuilder -DpostPackage=BIRTOutput -DmapCvsRoot=:pserver:anonymous@dev.eclipse.org:/cvsroot/birt"
+buildCommand="$antRunner -q -buildfile getSourceCodeByBuildTag.xml -DmapVersionTag=$mapVersionTag -DpostingDirectory=$postingDirectory -Dbootclasspath=$bootclasspath -DbuildType=I -D$buildType=true -DbuildId=$buildId -Dbuildid=$buildId -DbuildLabel=$buildId -Dtimestamp=$timestamp  -DlogExtension=.xml -DbuildDirectory=/home/adb/releng/src -DgroupConfiguration=true -DjavacSource=1.4 -DjavacTarget=1.4 -DjavacVerbose=true -Dbasebuilder=/home/adb/releng/org.ecliplse.releng.basebuilder -DpostPackage=BIRTOutput -DmapCvsRoot=:pserver:anonymous@dev.eclipse.org:/cvsroot/birt"
 
 #capture command used to run the build
 echo $buildCommand>command.txt
