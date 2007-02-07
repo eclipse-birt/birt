@@ -169,7 +169,7 @@ public class BirtGetCascadeParameterActionHandler
 		if ( params == null || params.size( ) == 0 )
 			return new HashMap( );
 
-		List[] listArray = null;
+		List paramList = null;
 		Map ret = new HashMap( );
 		List remainingParamNames = new ArrayList( );
 
@@ -215,42 +215,25 @@ public class BirtGetCascadeParameterActionHandler
 				}
 			}
 		}
-		// Query all lists.
+		// Query only the next cascading parameter.
 		try
 		{
 			if ( remainingParamNames.size( ) > 0 )
 			{
-				listArray = new List[remainingParamNames.size( )];
+				Object[] keyValue = new Object[params.size( )];
 
-				for ( int k = 0; k < remainingParamNames.size( ); k++ )
+				Set values = params.keySet( );
+				int i = 0;
+				for ( Iterator it = values.iterator( ); it.hasNext( ); )
 				{
-					Object[] keyValue = new Object[params.size( ) + k];
-
-					Set values = params.keySet( );
-					int i = 0;
-					for ( Iterator it = values.iterator( ); it.hasNext( ); )
-					{
-						keyValue[i] = params.get( it.next( ) );
-						i++;
-					}
-
-					for ( i = 0; i < k; i++ )
-					{
-						if ( listArray[i].isEmpty( ) )
-						{
-							keyValue[params.size( ) + i] = null;
-						}
-						else
-						{
-							keyValue[params.size( ) + i] = listArray[i].get( 0 );
-						}
-					}
-
-					listArray[k] = doQueryCascadeParameterSelectionList(
-							remainingParamNames.get( k ).toString( ), design,
-							group.getName( ), keyValue, options, attrBean );
-					ret.put( remainingParamNames.get( k ), listArray[k] );
+					keyValue[i] = params.get( it.next( ) );
+					i++;
 				}
+
+				paramList = doQueryCascadeParameterSelectionList(
+						remainingParamNames.get( 0 ).toString( ), design, group
+								.getName( ), keyValue, options, attrBean );
+				ret.put( remainingParamNames.get( 0 ), paramList );
 			}
 		}
 		catch ( RemoteException e )
