@@ -246,7 +246,7 @@
 		
 		<antcall target="createBirtSourceBuild"/>
 		
-		<!--antcall target="createIpotalLib" /-->
+		<antcall target="createIpotalLib" />
 		
 
 		<replace file="${OutputDir}\${birt.info}" token="#buildType#" value="Nightly"/>
@@ -334,57 +334,59 @@
 	</target>
 
 	<target name="createIpotalLib">
+		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
 		<copy todir="${iportal.tmp}">
-			<fileset dir="${all.in.one.file.dir}/eclipse/plugins" />
+			<fileset dir="${baseLocation}/plugins" />
 			<mapper type="regexp"  from="org.eclipse.core.contenttype_.*.jar" to="org.eclipse.core.contenttype.jar"/>
 		</copy>
 		<copy todir="${iportal.tmp}">
-			<fileset dir="${all.in.one.file.dir}/eclipse/plugins" />
+			<fileset dir="${baseLocation}/plugins" />
 			<mapper type="regexp"  from="org.eclipse.core.jobs_.*.jar" to="org.eclipse.core.jobs.jar"/>
 		</copy>
 		<copy todir="${iportal.tmp}">
-			<fileset dir="${all.in.one.file.dir}/eclipse/plugins" />
+			<fileset dir="${baseLocation}/plugins" />
 			<mapper type="regexp"  from="org.eclipse.core.runtime.compatibility_.*.jar" to="org.eclipse.core.runtime.compatibility.jar"/>
 		</copy>
 		<copy todir="${iportal.tmp}">
-			<fileset dir="${all.in.one.file.dir}/eclipse/plugins" />
+			<fileset dir="${baseLocation}/plugins" />
 			<mapper type="regexp"  from="org.eclipse.core.runtime_.*.jar" to="org.eclipse.core.runtime.jar"/>
 		</copy>
 		<copy todir="${iportal.tmp}">
-			<fileset dir="${all.in.one.file.dir}/eclipse/plugins" />
+			<fileset dir="${baseLocation}/plugins" />
 			<mapper type="regexp"  from="org.eclipse.datatools.connectivity.oda.design_.*.jar" to="org.eclipse.datatools.connectivity.oda.design.jar"/>
 		</copy>
 		<copy todir="${iportal.tmp}">
-			<fileset dir="${all.in.one.file.dir}/eclipse/plugins" />
+			<fileset dir="${baseLocation}/plugins" />
 			<mapper type="regexp"  from="org.eclipse.datatools.connectivity.oda_.*.jar" to="org.eclipse.datatools.connectivity.oda.jar"/>
 		</copy>
 		<copy todir="${iportal.tmp}">
-			<fileset dir="${all.in.one.file.dir}/eclipse/plugins" />
+			<fileset dir="${baseLocation}/plugins" />
 			<mapper type="regexp"  from="org.eclipse.emf_.*.jar" to="org.eclipse.emf.jar"/>
 		</copy>
 		<copy todir="${iportal.tmp}">
-			<fileset dir="${all.in.one.file.dir}/eclipse/plugins" />
+			<fileset dir="${baseLocation}/plugins" />
 			<mapper type="regexp"  from="org.eclipse.equinox.common_.*.jar" to="org.eclipse.equinox.common.jar"/>
 		</copy>
 		<copy todir="${iportal.tmp}">
-			<fileset dir="${all.in.one.file.dir}/eclipse/plugins" />
+			<fileset dir="${baseLocation}/plugins" />
 			<mapper type="regexp"  from="org.eclipse.equinox.preferences_.*.jar" to="org.eclipse.equinox.preferences.jar"/>
 		</copy>
 		<copy todir="${iportal.tmp}">
-			<fileset dir="${all.in.one.file.dir}/eclipse/plugins" />
+			<fileset dir="${baseLocation}/plugins" />
 			<mapper type="regexp"  from="org.eclipse.equinox.registry_.*.jar" to="org.eclipse.equinox.registry.jar"/>
 		</copy>
 		<copy todir="${iportal.tmp}">
-			<fileset dir="${all.in.one.file.dir}/eclipse/plugins" />
+			<fileset dir="${baseLocation}/plugins" />
 			<mapper type="regexp"  from="org.eclipse.osgi_.*.jar" to="org.eclipse.osgi.jar"/>
 		</copy>
-		<copy tofile="${iportal.tmp}/org.eclipse.birt.report.model.adapter.oda.jar"  	file="${deposit}/integrated/org.eclipse.birt.integrated/plugins/org.eclipse.birt.report.model.adapter.oda_${org.eclipse.birt.report.viewer.plugin.version}.jar"/>
-		<zip destfile="${workingDir}/${iportal.lib.name}">
+		<copy tofile="${iportal.tmp}/org.eclipse.birt.report.model.adapter.oda.jar"  	
+			file="${deposit}/eclipse/plugins/org.eclipse.birt.report.model.adapter.oda_${org.eclipse.birt.report.model.adapter.oda}.jar"/>
+		<zip destfile="${OutputDir}/${iportal.lib.name}">
 			<zipfileset dir="${iportal.tmp}" >
 				<include name="**/*"/>
 			</zipfileset>
             <!-- include nl bundles except designers into ipotal packages -->
-            <zipfileset dir="${deposit}/integrated/org.eclipse.birt.integrated/plugins" >
+            <zipfileset dir="${deposit}/language_pack/plugins" >
 				<include name="*.nl*.jar"/>
                 <exclude name="*.designer.*nl*.jar"/>
 				<exclude name="*debug.ui*nl*.jar"/>
