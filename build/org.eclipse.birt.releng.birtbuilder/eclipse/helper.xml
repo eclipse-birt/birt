@@ -366,7 +366,7 @@
         <p4sync view="//${p4.client}/Development/JRP/Dev/build/script/... 
                       //${p4.client}/Development/JRP/Dev/build/lib/... 
                       //${p4.client}/Development/JRP/3rdParty/iText/...
-        			  //${p4.client}/Development/JRP/Dev/AutomationLib/...
+        			  //${p4.client}/Development/JRP/Dev/build/AutomationLib/...
 			          //${p4.client}/Development/JRP/Dev/birt/org.eclipse.birt.report.data.oda.jdbc/jdbc-drivers/..." 
                     port="${p4.port}" 
                     user="${p4.user}" 
@@ -378,7 +378,7 @@
                 <fileset dir="${p4.workspace}/Development/JRP/3rdParty/iText/itext_1_3_0"/>
         </copy>
         <copy todir="${p4.home}/reportTestsLib"  overwrite="true" failonerror="true">
-                <fileset dir="${p4.workspace}/Development/JRP/3rdParty/AutomationLib"/>
+                <fileset dir="${p4.workspace}/Development/JRP/Dev/build/AutomationLib"/>
         </copy>
         <copy todir="${p4.home}/drivers"  overwrite="true" failonerror="true">
                 <fileset dir="${p4.workspace}/Development/JRP/Dev/birt/org.eclipse.birt.report.data.oda.jdbc/jdbc-drivers"/>
