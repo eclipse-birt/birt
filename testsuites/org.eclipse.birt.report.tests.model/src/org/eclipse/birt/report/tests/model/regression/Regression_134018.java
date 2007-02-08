@@ -8,6 +8,8 @@
 
 package org.eclipse.birt.report.tests.model.regression;
 
+import java.io.IOException;
+
 import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
@@ -52,7 +54,8 @@ import com.ibm.icu.util.ULocale;
 public class Regression_134018 extends BaseTestCase
 {
 
-	private final static String LIBRARY = "regression_134018_lib.xml"; //$NON-NLS-1$
+	private final static String INPUT = "regression_134018.xml";
+	private final static String LIBRARY = "regression_134018_lib.xml";//$NON-NLS-1$
 
 	protected void setUp( ) throws Exception
 	{
@@ -60,8 +63,7 @@ public class Regression_134018 extends BaseTestCase
 		removeResource( );
 
 		// retrieve two input files from tests-model.jar file
-
-		// copyResource_INPUT( LIBRARY , LIBRARY );
+		copyInputToFile( INPUT_FOLDER + "/" + INPUT );
 		copyInputToFile( INPUT_FOLDER + "/" + LIBRARY );
 
 	}
@@ -69,53 +71,45 @@ public class Regression_134018 extends BaseTestCase
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
+	 * @throws IOException
 	 */
 
-	public void test_regression_134018( ) throws DesignFileException, SemanticException
+	public void test_regression_134018( ) throws DesignFileException, SemanticException, IOException
 	{
-		openLibrary( LIBRARY );
 
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
+		String report = getTempFolder( ) + "/" + INPUT_FOLDER + "/" + INPUT;
+		String libA = getTempFolder( ) + "/" + INPUT_FOLDER + "/" + LIBRARY;
 
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle = session.createDesign( );
+		sessionHandle = new DesignEngine( new DesignConfig( ) ).newSessionHandle( ULocale.ENGLISH );
+		designHandle = sessionHandle.openDesign( report );
 
-		// designHandle.setFileName( this.getFullQualifiedClassName( ) + "/" +
-		// INPUT_FOLDER
-		// + "/" + LIBRARY ); //$NON-NLS-1$
+		designHandle.includeLibrary( LIBRARY, "regression_134018_lib" ); //$NON-NLS-1$
+		libraryHandle = designHandle.getLibrary( "regression_134018_lib" );
 
-		// include the lib and extends lib.masterpage.
-
-		// designHandle.includeLibrary( this.getFullQualifiedClassName( ) + "/"
-		// + INPUT_FOLDER
-		// + "/" + LIBRARY, "regression_134018_lib" ); //$NON-NLS-1$
-		// designHandle.includeLibrary( LIBRARY, "regression_134018_lib" );
-
-		LibraryHandle lib = designHandle.getLibrary( "regression_134018_lib" ); //$NON-NLS-1$
-		MasterPageHandle basePage = lib.findMasterPage( "basePage" );
-		assertNull( basePage );//$NON-NLS-1$
-
+		MasterPageHandle basePage = libraryHandle.findMasterPage( "basePage" );
+		assertNotNull( basePage );
 		ElementFactory factory = designHandle.getElementFactory( );
-		SimpleMasterPageHandle newPage = (SimpleMasterPageHandle) factory.newElementFrom( basePage, "newMasterPage" ); //$NON-NLS-1$
-
+		SimpleMasterPageHandle newPage = (SimpleMasterPageHandle) factory.newElementFrom( basePage, "rBasePage" );
+		assertNotNull( newPage );
 		designHandle.getMasterPages( ).add( newPage );
+		designHandle.saveAs( report );
 
-		// Switch to library, change content of label to "bbb"
-
-		// openLibrary( LIBRARY );
-		LabelHandle baseLabel = (LabelHandle) ( (SimpleMasterPageHandle) libraryHandle.findMasterPage( "basePage" ) ).getPageHeader( ).get( 0 ); //$NON-NLS-1$
-
+		libraryHandle = sessionHandle.openLibrary( libA );
+		LabelHandle baseLabel = (LabelHandle) ( (SimpleMasterPageHandle) libraryHandle.findMasterPage( "basePage" ) )
+				.getPageHeader( )
+				.get( 0 );
+		assertNotNull( baseLabel );
 		assertEquals( "baseLabel", baseLabel.getName( ) ); //$NON-NLS-1$
 		assertEquals( "aaa", baseLabel.getText( ) ); //$NON-NLS-1$
 
-		baseLabel.setText( "bbb" ); //$NON-NLS-1$
-
-		// refresh the report, reload the library.
-
+		baseLabel.setText( "bbb" );
+		libraryHandle.saveAs( getTempFolder( ) + "/" + INPUT_FOLDER + "/" + LIBRARY );
 		designHandle.reloadLibrary( libraryHandle );
-		LabelHandle childLabel = (LabelHandle) ( (SimpleMasterPageHandle) designHandle.findMasterPage( "newMasterPage" ) ).getPageHeader( ).get( 0 ); //$NON-NLS-1$
 
-		assertNotNull( childLabel );
+		LabelHandle baseLabel1 = (LabelHandle) ( (SimpleMasterPageHandle) libraryHandle
+				.findMasterPage( "basePage" ) ).getPageHeader( ).get( 0 );
+		assertNotNull( baseLabel1 );
+		assertEquals( "bbb", baseLabel1.getText( ) );
 
 	}
 }

@@ -175,7 +175,7 @@ public class ThemeTest extends BaseTestCase
 	       libraryHandle.findTheme("theme1").getStyles().drop(LCS2);
 	       libraryHandle.save();
 	       openDesign("ThemeTest2_1.xml");
-	       assertEquals("10pt",designHandle.findElement("mytable").getStringProperty(Style.FONT_SIZE_PROP));
+	       assertEquals("medium",designHandle.findElement("mytable").getStringProperty(Style.FONT_SIZE_PROP));
 	       assertEquals("red",designHandle.findElement("mylabel").getStringProperty(Style.BACKGROUND_COLOR_PROP));
 	       
 	       //drop selector styles in report design

@@ -11,10 +11,16 @@ package org.eclipse.birt.report.tests.model.regression;
 import java.io.IOException;
 import java.net.URL;
 
+import org.eclipse.birt.report.model.api.DesignConfig;
+import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.LabelHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Regression description:
@@ -54,10 +60,6 @@ public class Regression_132938 extends BaseTestCase
 		copyInputToFile( INPUT_FOLDER + "/" + INPUT );
 		copyInputToFile( INPUT_FOLDER + "/" + LIBRARY_A );
 		copyInputToFile( INPUT_FOLDER + "/" + LIBRARY_B );
-		// copyResource_INPUT( INPUT, INPUT );
-		// copyResource_INPUT( LIBRARY_A, LIBRARY_A );
-		// copyResource_INPUT( LIBRARY_B, LIBRARY_B );
-
 	}
 
 	/**
@@ -67,45 +69,33 @@ public class Regression_132938 extends BaseTestCase
 	 */
 	public void test_regression_132938( ) throws DesignFileException, SemanticException, IOException
 	{
+		String report = getTempFolder( ) + "/" + INPUT_FOLDER + "/" + INPUT;
+		String libB = getTempFolder( ) + "/" + INPUT_FOLDER + "/" + LIBRARY_B;
 
-		// backup the libraryB file, as we need to modify the input file during
-		// test case, the backed-up one will be copied back when case finished.
-		// copyFile( LIBRARY_A, LIBRARY_A );
-		// Open LibB, change the content of label to "bbb", write to disk.
+		sessionHandle = new DesignEngine( new DesignConfig( ) ).newSessionHandle( ULocale.ENGLISH );
+		designHandle = sessionHandle.openDesign( report );
 
-		// Check the default value of label in Report Design
+		designHandle.includeLibrary( LIBRARY_A, "lib1" ); //$NON-NLS-1$
+		libraryHandle = designHandle.getLibrary( "lib1" ); //$NON-NLS-1$
 
-		openDesign( INPUT );
+		LabelHandle label = (LabelHandle) libraryHandle.findElement( "NewLabel" );
+		assertNotNull( label );
 
-		LabelHandle label = (LabelHandle) designHandle.findElement( "NewLabel" );
-		assertEquals( "bbb", label.getText( ) );
+		ElementFactory factory = designHandle.getElementFactory( );
+		LabelHandle rLabel = (LabelHandle) factory.newElementFrom( label, "rLabel" );
+		assertEquals( "bbb", rLabel.getText( ) );
+		designHandle.saveAs( getTempFolder( ) + "/" + INPUT_FOLDER + "/" + INPUT );
 
-		// Check the default value of label in library A
-		openLibrary( LIBRARY_A );
-		LabelHandle label_A = (LabelHandle) libraryHandle.findElement( "NewLabel" );
-		assertEquals( "bbb", label_A.getText( ) );
+		libraryHandle = sessionHandle.openLibrary( libB );
+		LabelHandle label_lib2 = (LabelHandle) libraryHandle.findElement( "NewLabel" );
+		label_lib2.setText( "aaa" );
+		libraryHandle.saveAs( getTempFolder( ) + "/" + INPUT_FOLDER + "/" + LIBRARY_B );
 
-		// Check the default value of label in library A
-		openLibrary( LIBRARY_B );
-		LabelHandle label_B = (LabelHandle) libraryHandle.findElement( "NewLabel" ); //$NON-NLS-1$
-		assertEquals( "bbb", label_B.getText( ) );
+		designHandle.reloadLibrary( libraryHandle );
 
-		// set the text of label to "aaa"
-		label_B.setText( "aaa" ); //$NON-NLS-1$
-		libraryHandle.saveAs( getTempFolder( ) + "/" + GOLDEN_FOLDER + "/" + LIBRARY_B );
+		ElementFactory factory1 = designHandle.getElementFactory( );
+		LabelHandle l = (LabelHandle) factory1.newElementFrom( label, "rlabel" );
+		assertEquals( "aaa", l.getText( ) );
 
-		System.out.println( getResource( INPUT_FOLDER + "/" + LIBRARY_B ).toString( ) );
-
-		copyFile( getTempFolder( ) + "/" + GOLDEN_FOLDER + "/" + LIBRARY_B, LIBRARY_B );
-
-		designHandle.reloadLibraries( );
-
-		// Recover the libraryB file, copied back from backup.
-		LabelHandle label_1 = (LabelHandle) designHandle.findElement( "NewLabel" );
-		assertEquals( "aaa", label_1.getText( ) );
-
-		// designHandle.dropLibrary( libraryHandle );
-		copyFile( getTempFolder( ) + "/" + INPUT_FOLDER + "/" + LIBRARY_B, LIBRARY_B );
-		designHandle.reloadLibraries( );
 	}
 }
