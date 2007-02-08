@@ -72,7 +72,7 @@ public class FramesetFragment extends BirtBaseFragment
 	{
 		BaseAttributeBean attrBean = (BaseAttributeBean) request
 				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
-		if ( attrBean != null && !attrBean.isMissingParameter( )
+		if ( attrBean != null && !attrBean.isShowParameterPage( )
 				&& !this.__checkHTMLFormat( request ) )
 		{
 			this.doPreService( request, response );
