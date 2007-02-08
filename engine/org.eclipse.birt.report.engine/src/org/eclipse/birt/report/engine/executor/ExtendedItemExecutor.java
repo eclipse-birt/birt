@@ -220,7 +220,7 @@ public class ExtendedItemExecutor extends QueryItemExecutor
 				}
 			}
 		}
-		if (rowSets == null && rset != null)
+		if ( rowSets == null && rset != null && !rsetEmpty )
 		{
 			rowSets = new IRowSet[]{ new RowSet( rset, true ) };
 		}

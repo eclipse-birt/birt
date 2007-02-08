@@ -211,6 +211,10 @@ public abstract class AbstractDataEngine implements IDataEngine
 		}
 		else if ( query instanceof ISubqueryDefinition )
 		{
+			if ( parent == null )
+			{
+				return null;
+			}
 			return doExecuteSubQuery( (DteResultSet) parent, query );
 		}
 		return null;
