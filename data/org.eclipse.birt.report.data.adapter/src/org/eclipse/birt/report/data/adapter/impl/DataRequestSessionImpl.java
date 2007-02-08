@@ -17,12 +17,16 @@ package org.eclipse.birt.report.data.adapter.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
+import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
@@ -30,12 +34,14 @@ import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.api.IRequestInfo;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 
@@ -129,7 +135,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				boundColumnName,
 				null );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#getColumnValueSet(org.eclipse.birt.report.model.api.DataSetHandle, java.util.Iterator, java.util.Iterator, java.lang.String, int, int)
@@ -139,9 +145,18 @@ public class DataRequestSessionImpl extends DataRequestSession
 			String boundColumnName, IRequestInfo requestInfo )
 			throws BirtException
 	{
+		ArrayList temp = new ArrayList();
+		
+		while ( columnBindings.hasNext( ) )
+		{
+			temp.add( columnBindings.next( ) );
+		}
+		if ( referToAggregation( temp, boundColumnName ) )
+			return new ArrayList( );
+		
 		IQueryResults queryResults = getGroupingQueryResults( dataSet,
 				inputParamBindings,
-				columnBindings,
+				temp.iterator( ),
 				boundColumnName );
 		IResultIterator resultIt = queryResults.getResultIterator( );
 
@@ -164,7 +179,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		}
 		resultIt.close( );
 		queryResults.close( );
-		
+
 		return values;
 	}
 
@@ -178,7 +193,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				this.modelAdaptor,
 				this.sessionContext ).refreshMetaData( dataSetHandle );
 	}
-	
+
 	/*
 	 * 
 	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#refreshMetaData(org.eclipse.birt.report.model.api.DataSetHandle,
@@ -236,17 +251,18 @@ public class DataRequestSessionImpl extends DataRequestSession
 	{
 		if ( appContext == null )
 			// Use session app context
-			appContext = sessionContext.getAppContext();
+			appContext = sessionContext.getAppContext( );
 		return dataEngine.prepare( query, appContext );
 	}
 
 	/**
 	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#prepare(org.eclipse.birt.data.engine.api.IQueryDefinition)
 	 */
-	public IPreparedQuery prepare(IQueryDefinition query) throws BirtException
+	public IPreparedQuery prepare( IQueryDefinition query )
+			throws BirtException
 	{
 		// Use session app context
-		return dataEngine.prepare( query, this.sessionContext.getAppContext() );
+		return dataEngine.prepare( query, this.sessionContext.getAppContext( ) );
 	}
 
 	/*
@@ -288,15 +304,12 @@ public class DataRequestSessionImpl extends DataRequestSession
 			String boundColumnName ) throws BirtException
 	{
 		assert dataSet != null;
-		// TODO: this is the inefficient implementation
-		// Need to enhance the implementation to verify that the column is bound
-		// to a data set column
 
 		// Run a query with the provided binding information. Group by bound
 		// column so we can
 		// retrieve distinct values using the grouping feature
 		QueryDefinition query = new QueryDefinition( );
-		query.setDataSetName( dataSet.getQualifiedName() );
+		query.setDataSetName( dataSet.getQualifiedName( ) );
 		GroupDefinition group = new GroupDefinition( );
 		group.setKeyColumn( boundColumnName );
 		query.addGroup( group );
@@ -315,38 +328,80 @@ public class DataRequestSessionImpl extends DataRequestSession
 				columnBindings );
 		return results;
 	}
-	
+
+	/**
+	 * This method is used to validate the column binding to see if it contains aggregations.
+	 * If so then return true, else return false;
+	 * 
+	 * @param columnBindings
+	 * @param boundColumnName
+	 * @throws BirtException
+	 */
+	private boolean referToAggregation( List bindings,
+			String boundColumnName ) throws BirtException
+	{
+		if ( boundColumnName == null )
+			return true;
+		Iterator columnBindings = bindings.iterator( ); 
+		while ( columnBindings != null && columnBindings.hasNext( ) )
+		{
+			IComputedColumn column = this.modelAdaptor.adaptComputedColumn( (ComputedColumnHandle) columnBindings.next( ) );
+			if ( column.getName( ).equals( boundColumnName ) )
+			{
+				ScriptExpression sxp = (ScriptExpression) column.getExpression( );
+				if ( ExpressionUtil.hasAggregation( sxp.getText( ) ) )
+				{
+					return true;
+				}
+				else
+				{
+					Iterator columnBindingNameIt = ExpressionUtil.extractColumnExpressions( sxp.getText( ) )
+							.iterator( );
+					while ( columnBindingNameIt.hasNext( ) )
+					{
+						IColumnBinding columnBinding = (IColumnBinding)columnBindingNameIt.next( );
+						
+						if ( referToAggregation( bindings,
+								columnBinding.getResultSetColumnName( ) ) )
+							return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * Adapt all data sets and data sources defined in report design handle used
 	 * to initialize this session
 	 */
 	/*private void adaptAllDataElements( ) throws BirtException
-	{
-		ModuleHandle reportDesign = sessionContext.getModuleHandle( );
-		if ( reportDesign == null )
-			return;
+	 {
+	 ModuleHandle reportDesign = sessionContext.getModuleHandle( );
+	 if ( reportDesign == null )
+	 return;
 
-		List list = reportDesign.getAllDataSources( );
-		if ( list != null )
-		{
-			Iterator it = list.iterator( );
-			while ( it.hasNext( ) )
-			{
-				DataSourceHandle dataSource = (DataSourceHandle) it.next( );
-				defineDataSource( getModelAdaptor( ).adaptDataSource( dataSource ) );
-			}
-		}
+	 List list = reportDesign.getAllDataSources( );
+	 if ( list != null )
+	 {
+	 Iterator it = list.iterator( );
+	 while ( it.hasNext( ) )
+	 {
+	 DataSourceHandle dataSource = (DataSourceHandle) it.next( );
+	 defineDataSource( getModelAdaptor( ).adaptDataSource( dataSource ) );
+	 }
+	 }
 
-		list = reportDesign.getAllDataSets( );
-		if ( list != null )
-		{
-			Iterator it = list.iterator( );
-			while ( it.hasNext( ) )
-			{
-				DataSetHandle dataSet = (DataSetHandle) it.next( );
-				defineDataSet( getModelAdaptor( ).adaptDataSet( dataSet ) );
-			}
-		}
-	}
-*/
+	 list = reportDesign.getAllDataSets( );
+	 if ( list != null )
+	 {
+	 Iterator it = list.iterator( );
+	 while ( it.hasNext( ) )
+	 {
+	 DataSetHandle dataSet = (DataSetHandle) it.next( );
+	 defineDataSet( getModelAdaptor( ).adaptDataSet( dataSet ) );
+	 }
+	 }
+	 }
+	 */
 }
