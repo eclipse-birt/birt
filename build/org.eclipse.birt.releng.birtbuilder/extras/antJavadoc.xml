@@ -213,6 +213,12 @@
 			<property name="windowTitle" value="Birt Designer Core API" />
 			<property name="packagenames" value="org.eclipse.birt.*"/>
 		</projectInfo>
+		<projectInfo>
+			<property name="projectName" value="org.eclipse.birt.chart.engine" />
+			<property name="windowTitle" value="Birt Chart Report Engine API" />
+			<property name="packagenames" value="org.eclipse.birt.chart.engine.*"/>
+
+		</projectInfo>
 		<!-- model & viewer -->
 		<projectInfo>
 			<property name="projectName" value="org.eclipse.birt.integration.wtp.ui" />
@@ -310,46 +316,7 @@
 				<packageset dir="${buildDirectory}/plugins/org.eclipse.birt.report.viewer/birt/WEB-INF/classes" defaultexcludes="yes" />
 	 	        <bottom><![CDATA[<i>Copyright &#169;  2005 Actuate Corp. All rights reserved. </i>]]></bottom>
 		</javadoc>
-		<!-- JavaDoc for Chart Engine -->
-		<mkdir dir="${javadoc.dir}/org.eclipse.birt.chart.engine" />
-		<javadoc access="public" author="true" overview="${buildDirectory}/plugins/org.eclipse.birt.chart.engine/overview.html" doctitle="BIRT Chart Engine API (Provisional)" windowtitle="BIRT Chart Engine API" destdir="${javadoc.dir}" source="1.4" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false"
-			packagenames="
-						org.eclipse.birt.chart.model,
-						org.eclipse.birt.chart.model.data,
-						org.eclipse.birt.chart.model.type,
-						org.eclipse.birt.chart.model.layout,
-						org.eclipse.birt.chart.model.attribute,
-						org.eclipse.birt.chart.model.component,
-						org.eclipse.birt.chart.model.impl,
-						org.eclipse.birt.chart.model.data.impl,
-						org.eclipse.birt.chart.model.type.impl,
-						org.eclipse.birt.chart.model.layout.impl,
-						org.eclipse.birt.chart.model.attribute.impl,
-						org.eclipse.birt.chart.model.component.impl,
-						org.eclipse.birt.chart.event,
-						org.eclipse.birt.chart.device,
-						org.eclipse.birt.chart.datafeed,
-						org.eclipse.birt.chart.exception,
-						org.eclipse.birt.chart.log
-						"
-			sourcefiles="
-				${buildDirectory}/plugins/org.eclipse.birt.chart.engine/src/org/eclipse/birt/chart/aggregate/IAggregateFunction.java,
-				${buildDirectory}/plugins/org.eclipse.birt.chart.engine/src/org/eclipse/birt/chart/render/BaseRenderer.java,
-				${buildDirectory}/plugins/org.eclipse.birt.chart.engine/src/org/eclipse/birt/chart/render/AxesRenderer.java,
-				${buildDirectory}/plugins/org.eclipse.birt.chart.engine/src/org/eclipse/birt/chart/render/ISeriesRenderer.java,
-				${buildDirectory}/plugins/org.eclipse.birt.chart.engine/src/org/eclipse/birt/chart/render/ISeriesRenderingHints.java,
-				${buildDirectory}/plugins/org.eclipse.birt.chart.engine/src/org/eclipse/birt/chart/factory/Generator.java,
-				${buildDirectory}/plugins/org.eclipse.birt.chart.engine/src/org/eclipse/birt/chart/factory/GeneratedChartState.java,
-				${buildDirectory}/plugins/org.eclipse.birt.chart.engine/src/org/eclipse/birt/chart/factory/IMessageLookup.java,
-				${buildDirectory}/plugins/org.eclipse.birt.chart.engine/src/org/eclipse/birt/chart/factory/RunTimeContext.java,
-				${buildDirectory}/plugins/org.eclipse.birt.chart.engine/src/org/eclipse/birt/chart/util/CDateTime.java,
-				${buildDirectory}/plugins/org.eclipse.birt.chart.engine/src/org/eclipse/birt/chart/util/PluginSettings.java
-						"
-			sourcepath="${buildDirectory}/plugins/org.eclipse.birt.chart.engine/src" splitindex="true" use="true" failonerror="true" version="true">
-				<packageset dir="${buildDirectory}/plugins/org.eclipse.birt.chart.engine/src" defaultexcludes="yes" />
-				<classpath refid="${classpath}" />
-					<bottom><![CDATA[<i>Copyright &#169;  2005 Actuate Corp. All rights reserved. </i>]]></bottom>
-			</javadoc>
+
 	</target>
 
 	<target name="antJavaDoc" depends="checkProjectHasSrc" if="has.src">
