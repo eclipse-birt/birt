@@ -2884,16 +2884,19 @@ Element.Cube.measureGroups=Measure Groups
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=시간 유형 조건
+Element.Dimension.isDefault=Is Default
 Element.Dimension.hierarchies=Hierarchies
 
 #47. Hierarchy ( prefix Element.Hierarchy )
 Element.Hierarchy.dataSet=데이터 집합
+Element.Hierarchy.isDefault=Is Default
 Element.Hierarchy.filter=Filter Conditions
 Element.Hierarchy.primaryKeys=기본 키
 Element.Hierarchy.levels=Levels
 
 #48. Level ( prefix Element.Level )
 Element.Level.columnName=열 이름
+Element.Level.dataType=데이터 형식
 Element.Level.Interval=간격
 Element.Level.intervalBase=간격 기준
 Element.Level.interval=간격
@@ -2909,6 +2912,7 @@ Element.Measure.measureExpression=측정 식
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=Measures
+Element.MeasureGroup.isDefault=Is Default
 
 ###########################################################
 # Predefined style

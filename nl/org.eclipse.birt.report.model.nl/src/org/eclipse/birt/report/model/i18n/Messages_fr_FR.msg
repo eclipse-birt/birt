@@ -2884,16 +2884,19 @@ Element.Cube.measureGroups=Measure Groups
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=Est de type Heure
+Element.Dimension.isDefault=Is Default
 Element.Dimension.hierarchies=Hierarchies
 
 #47. Hierarchy ( prefix Element.Hierarchy )
 Element.Hierarchy.dataSet=Jeu de données
+Element.Hierarchy.isDefault=Is Default
 Element.Hierarchy.filter=Filter Conditions
 Element.Hierarchy.primaryKeys=Clé principale
 Element.Hierarchy.levels=Levels
 
 #48. Level ( prefix Element.Level )
 Element.Level.columnName=Nom de colonne
+Element.Level.dataType=Type de données
 Element.Level.Interval=Intervalle
 Element.Level.intervalBase=Base d'intervalle
 Element.Level.interval=Intervalle
@@ -2909,6 +2912,7 @@ Element.Measure.measureExpression=Expression de mesure
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=Measures
+Element.MeasureGroup.isDefault=Is Default
 
 ###########################################################
 # Predefined style

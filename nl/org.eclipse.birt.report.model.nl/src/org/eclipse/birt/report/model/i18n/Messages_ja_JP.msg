@@ -2884,16 +2884,19 @@ Element.Cube.measureGroups=Measure Groups
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=Is Time 型
+Element.Dimension.isDefault=Is Default
 Element.Dimension.hierarchies=Hierarchies
 
 #47. Hierarchy ( prefix Element.Hierarchy )
 Element.Hierarchy.dataSet=データセット
+Element.Hierarchy.isDefault=Is Default
 Element.Hierarchy.filter=Filter Conditions
 Element.Hierarchy.primaryKeys=プライマリキー
 Element.Hierarchy.levels=Levels
 
 #48. Level ( prefix Element.Level )
 Element.Level.columnName=列見出し
+Element.Level.dataType=データ型
 Element.Level.Interval=間隔
 Element.Level.intervalBase=間隔のベース
 Element.Level.interval=間隔
@@ -2909,6 +2912,7 @@ Element.Measure.measureExpression=計測式
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=Measures
+Element.MeasureGroup.isDefault=Is Default
 
 ###########################################################
 # Predefined style
