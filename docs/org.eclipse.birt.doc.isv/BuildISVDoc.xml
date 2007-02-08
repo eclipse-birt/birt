@@ -112,6 +112,9 @@
 		<fileset dir="../org.w3c.sac">
 			<include name="**/*.jar"/>
 		</fileset>
+		<fileset dir="../org.apache.commons.codec">
+			<include name="**/*.jar"/>
+		</fileset>
 		<fileset dir="../com.lowagie.itext">
 			<include name="**/*.jar"/>
 		</fileset>
@@ -121,11 +124,12 @@
 		<fileset dir="${engine.dir}/lib">
 			<include name="**/*.jar"/>
 		</fileset>
+		<pathelement path="../org.eclipse.birt.core/@dot"/>
 		<pathelement path="${engine.dir}/@dot"/>
 		<pathelement path="${core.dir}/@dot"/>
 		<pathelement path="${model.dir}/@dot"/>
 		<pathelement path="${data.dir}/@dot"/>
-		<pathelement path="${oda.old.dir}/@dot"/>
+		<!--pathelement path="${oda.old.dir}/@dot"/-->
 	</path>
 	
 	<target name="Jar" depends="Javadoc">
@@ -185,10 +189,11 @@
 	<!-- Generate the JavaDoc.
 	 -->
 	<target name="Javadoc">
+		<echo message="generating javadoc"/>
 	    <antcall target = "engineJavadoc"/>
 	    <antcall target = "engineScriptJavadoc"/>
     	<antcall target = "modelJavadoc"/>
-	    <antcall target = "odaoldJavadoc"/>
+	    <!--antcall target = "odaoldJavadoc"/-->
     	<antcall target = "dataJavadoc"/>
 	</target>
 	
