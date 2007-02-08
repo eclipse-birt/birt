@@ -21,6 +21,8 @@ import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.GridAttributesComposite;
+import org.eclipse.birt.chart.ui.swt.type.BarChart;
+import org.eclipse.birt.chart.ui.swt.type.StockChart;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractPopupSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -156,7 +158,9 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		cbCategory.setText( Messages.getString( "BaseAxisAttributeSheetImpl.Lbl.IsCategoryAxis" ) ); //$NON-NLS-1$
 		cbCategory.setSelection( axis.isCategoryAxis( ) );
 		cbCategory.addSelectionListener( this );
-		cbCategory.setEnabled( !AxisType.TEXT_LITERAL.equals( axis.getType( ) ) );
+		cbCategory.setEnabled( !AxisType.TEXT_LITERAL.equals( axis.getType( ) )
+				&& !BarChart.TYPE_LITERAL.equals( getChart( ).getType( ) )
+				&& !StockChart.TYPE_LITERAL.equals( getChart( ).getType( ) ) );
 		cbCategory.setVisible( angleType == AngleType.X );
 
 		// Axis as Category / Value type
