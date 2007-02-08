@@ -1183,7 +1183,7 @@ public abstract class EngineTask implements IEngineTask
 			if ( renderContext == null )
 			{
 				HTMLRenderContext htmlContext = new HTMLRenderContext( );
-				HTMLRenderOption htmlOptions = new HTMLRenderOption( );
+				HTMLRenderOption htmlOptions = new HTMLRenderOption( allOptions );
 				htmlContext.setBaseImageURL( htmlOptions.getBaseImageURL( ) );
 				htmlContext.setBaseURL( htmlOptions.getBaseURL( ) );
 				htmlContext
