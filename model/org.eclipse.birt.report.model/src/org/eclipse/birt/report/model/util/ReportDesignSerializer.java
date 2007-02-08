@@ -172,7 +172,7 @@ public class ReportDesignSerializer extends ElementVisitor
 			int slotCount = elementDefn.getSlotCount( );
 			if ( slotCount > 0 )
 				visitSlots( obj, newElement, slotCount );
-			List properties = elementDefn.getContainmentProperties( );
+			List properties = elementDefn.getContents( );
 			if ( properties.size( ) > 0 )
 				visitContainerProperties( obj, newElement, properties );
 		}
@@ -583,7 +583,7 @@ public class ReportDesignSerializer extends ElementVisitor
 	{
 		elements.push( newElement );
 		for ( int i = 0; i < slotCount; i++ )
-			visitContents( obj.getSlot( i ) );
+			visitContents( sourceDesign, new ContainerContext( obj, i ) );
 		elements.pop( );
 	}
 
@@ -601,11 +601,8 @@ public class ReportDesignSerializer extends ElementVisitor
 		for ( int i = 0; i < properties.size( ); i++ )
 		{
 			PropertyDefn propDefn = (PropertyDefn) properties.get( i );
-			List contents = new ContainerContext( obj, propDefn.getName( ) )
-					.getContents( sourceDesign );
-			Iterator iter = contents.iterator( );
-			while ( iter.hasNext( ) )
-				( (DesignElement) iter.next( ) ).apply( this );
+			visitContents( sourceDesign, new ContainerContext( obj, propDefn
+					.getName( ) ) );
 		}
 		elements.pop( );
 	}

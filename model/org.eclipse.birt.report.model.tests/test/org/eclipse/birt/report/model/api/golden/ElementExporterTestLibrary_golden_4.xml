@@ -19,19 +19,10 @@
                 <property name="groupName">NewTableGroup1</property>
                 <property name="interval">week</property>
                 <property name="intervalRange">3.0</property>
-                <property name="sortDirection">asc</property>
-                <property name="sortType">none</property>
                 <expression name="keyExpr">state</expression>
-                <property name="repeatHeader">true</property>
-                <property name="hideDetail">false</property>
                 <header>
                     <row id="7">
-                        <property name="suppressDuplicates">false</property>
                         <cell id="8">
-                            <property name="column">0</property>
-                            <property name="colSpan">1</property>
-                            <property name="rowSpan">1</property>
-                            <property name="drop">none</property>
                             <property name="fontWeight">normal</property>
                         </cell>
                     </row>
@@ -39,15 +30,9 @@
             </group>
             <detail>
                 <row id="9">
-                    <property name="suppressDuplicates">false</property>
                     <cell id="10">
-                        <property name="column">0</property>
-                        <property name="colSpan">1</property>
-                        <property name="rowSpan">1</property>
-                        <property name="drop">none</property>
                         <label name="innerLabel" id="11">
                             <property name="fontWeight">bolder</property>
-                            <property name="zIndex">0</property>
                         </label>
                     </cell>
                 </row>

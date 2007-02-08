@@ -42,9 +42,11 @@
             <property name="dimensions">
                 <dimension name="newtestDimension" id="8">
                     <property name="isTimeType">false</property>
+                    <property name="isDefault">false</property>
                     <property name="hierarchies">
                         <hierarchy name="newtestHierarchy" id="9">
                             <property name="dataSet">firstDataSet</property>
+                            <property name="isDefault">false</property>
                             <list-property name="filter">
                                 <structure>
                                     <property name="operator">lt</property>
@@ -61,6 +63,7 @@
                             <property name="levels">
                                 <level name="newtestLevel" id="10">
                                     <property name="columnName">updated column1</property>
+                                    <property name="dataType">string</property>
                                     <property name="intervalBase">updated Jan</property>
                                     <property name="interval">month</property>
                                     <property name="intervalRange">5.0</property>
@@ -100,6 +103,7 @@
             </property>
             <property name="measureGroups">
             	<measure-group name="newtestMeasureGroup" id="11">
+                	<property name="isDefault">false</property>
                 	<property name="measures">
                     	<measure name="newtestMeasure" id="12">
                         	<property name="function">count</property>

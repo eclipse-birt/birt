@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.extension;
 
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
-import org.eclipse.birt.report.model.metadata.PeerExtensionLoader;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
@@ -40,7 +39,6 @@ public class CompatibleReportItemExtensionTest extends BaseTestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
-		new PeerExtensionLoader( ).load( );
 		ThreadResources.setLocale( ULocale.ENGLISH );
 	}
 

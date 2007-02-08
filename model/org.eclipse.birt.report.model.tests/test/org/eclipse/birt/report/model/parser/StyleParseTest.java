@@ -492,8 +492,8 @@ public class StyleParseTest extends BaseTestCase
 				.getContent( 0 );
 		assertEquals( MasterPage.US_LETTER_WIDTH, page.getStringProperty(
 				design, MasterPage.WIDTH_PROP ) );
-		assertEquals( MasterPage.US_LETTER_WIDTH, page.getFactoryProperty(
-				design, MasterPage.WIDTH_PROP ).toString( ) );
+		assertEquals( null, page.getFactoryProperty( design,
+				MasterPage.WIDTH_PROP ) );
 		assertEquals(
 				"1", page.getStringProperty( design, GraphicMasterPage.COLUMNS_PROP ) ); //$NON-NLS-1$
 		assertEquals(

@@ -21,4 +21,10 @@ public interface IMeasureGroupModel
 	 * Name of the property that holds a list of measure elements.
 	 */
 	String MEASURES_PROP = "measures"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property which indicates whether this measure group is
+	 * default in cube.
+	 */
+	String IS_DEFAULT_PROP = "isDefault"; //$NON-NLS-1$
 }

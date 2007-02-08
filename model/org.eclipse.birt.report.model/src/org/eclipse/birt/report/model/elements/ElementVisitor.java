@@ -14,7 +14,7 @@ package org.eclipse.birt.report.model.elements;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.model.core.ContainerSlot;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyledElement;
@@ -486,16 +486,18 @@ public class ElementVisitor
 	}
 
 	/**
-	 * Visits the contents of the given slot. Allows a derived class to traverse
-	 * downward though the design tree.
+	 * Visits the contents of the given context. Allows a derived class to
+	 * traverse downward though the design tree.
 	 * 
-	 * @param slot
-	 *            the slot to traverse
+	 * @param module
+	 *            the module where the contents reside
+	 * @param context
+	 *            the container context where the contents reside
 	 */
 
-	public void visitContents( ContainerSlot slot )
+	public void visitContents( Module module, ContainerContext context )
 	{
-		List contents = slot.getContents( );
+		List contents = context.getContents( module );
 		Iterator iter = contents.iterator( );
 		while ( iter.hasNext( ) )
 			( (DesignElement) iter.next( ) ).apply( this );

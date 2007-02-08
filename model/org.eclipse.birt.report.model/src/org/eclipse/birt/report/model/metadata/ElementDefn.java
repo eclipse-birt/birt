@@ -514,11 +514,12 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		return (ElementPropertyDefn) cachedProperties.get( propName );
 	}
 
-	/**
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @return
+	 * @see org.eclipse.birt.report.model.api.metadata.IElementDefn#getContainers()
 	 */
-	public List getContainmentProperties( )
+	public List getContents( )
 	{
 		if ( cachedContainerProperties == null )
 		{

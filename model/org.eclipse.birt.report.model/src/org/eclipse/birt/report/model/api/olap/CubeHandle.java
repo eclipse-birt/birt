@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.api.olap;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
@@ -208,5 +209,48 @@ public class CubeHandle extends ReportElementHandle implements ICubeModel
 		PropertyHandle propHandle = getPropertyHandle( FILTER_PROP );
 		assert propHandle != null;
 		return propHandle.iterator( );
+	}
+
+	/**
+	 * Gets the default dimension for the cube. Return the first dimension that
+	 * is set to default if found, otherwise return the first dimension in the
+	 * list if exists, otherwise null.
+	 * 
+	 * @return the default dimension for this cube
+	 */
+	public DimensionHandle getDefaultDimension( )
+	{
+		List contents = getContents( DIMENSIONS_PROP );
+		if ( contents.isEmpty( ) )
+			return null;
+		for ( int i = 0; i < contents.size( ); i++ )
+		{
+			DimensionHandle dimension = (DimensionHandle) contents.get( i );
+			if ( dimension.isDefault( ) )
+				return dimension;
+		}
+		return (DimensionHandle) contents.get( 0 );
+	}
+
+	/**
+	 * Gets the default dimension for the cube. Return the first dimension that
+	 * is set to default if found, otherwise return the first dimension in the
+	 * list if exists, otherwise null.
+	 * 
+	 * @return the default dimension for this cube
+	 */
+	public MeasureGroupHandle getDefaultMeasureGroup( )
+	{
+		List contents = getContents( MEASURE_GROUPS_PROP );
+		if ( contents.isEmpty( ) )
+			return null;
+		for ( int i = 0; i < contents.size( ); i++ )
+		{
+			MeasureGroupHandle measureGroup = (MeasureGroupHandle) contents
+					.get( i );
+			if ( measureGroup.isDefault( ) )
+				return measureGroup;
+		}
+		return (MeasureGroupHandle) contents.get( 0 );
 	}
 }

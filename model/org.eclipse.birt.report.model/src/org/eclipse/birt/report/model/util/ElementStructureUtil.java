@@ -273,7 +273,7 @@ public class ElementStructureUtil
 		}
 
 		// copy top level properties
-		List properties = defn.getContainmentProperties( );
+		List properties = defn.getContents( );
 		for ( int i = 0; i < properties.size( ); i++ )
 		{
 			PropertyDefn propDefn = (PropertyDefn) properties.get( i );
@@ -370,7 +370,7 @@ public class ElementStructureUtil
 			new ContainerContext( element, i ).clearContents( );
 		}
 
-		List properties = defn.getContainmentProperties( );
+		List properties = defn.getContents( );
 		for ( int i = 0; i < properties.size( ); i++ )
 		{
 			PropertyDefn propDefn = (PropertyDefn) properties.get( i );

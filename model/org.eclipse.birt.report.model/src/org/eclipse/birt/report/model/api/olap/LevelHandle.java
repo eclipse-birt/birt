@@ -256,4 +256,54 @@ public class LevelHandle extends ReportElementHandle implements ILevelModel
 	{
 		setStringProperty( LEVEL_TYPE_PROP, levelType );
 	}
+
+	/**
+	 * Returns the data type of this level. The possible values are defined in
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are:
+	 * <ul>
+	 * <li>COLUMN_DATA_TYPE_ANY
+	 * <li>COLUMN_DATA_TYPE_INTEGER
+	 * <li>COLUMN_DATA_TYPE_STRING
+	 * <li>COLUMN_DATA_TYPE_DATETIME
+	 * <li>COLUMN_DATA_TYPE_DECIMAL
+	 * <li>COLUMN_DATA_TYPE_FLOAT
+	 * <li>COLUMN_DATA_TYPE_STRUCTURE
+	 * <li>COLUMN_DATA_TYPE_TABLE
+	 * </ul>
+	 * 
+	 * @return the data type of this level.
+	 */
+
+	public String getDataType( )
+	{
+		return getStringProperty( DATA_TYPE_PROP );
+	}
+
+	/**
+	 * Sets the data type of this level. The allowed values are defined in
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are:
+	 * <ul>
+	 * <li>COLUMN_DATA_TYPE_ANY
+	 * <li>COLUMN_DATA_TYPE_INTEGER
+	 * <li>COLUMN_DATA_TYPE_STRING
+	 * <li>COLUMN_DATA_TYPE_DATETIME
+	 * <li>COLUMN_DATA_TYPE_DECIMAL
+	 * <li>COLUMN_DATA_TYPE_FLOAT
+	 * <li>COLUMN_DATA_TYPE_STRUCTURE
+	 * <li>COLUMN_DATA_TYPE_TABLE
+	 * </ul>
+	 * 
+	 * @param dataType
+	 *            the data type to set
+	 * @throws SemanticException
+	 *             if the dataType is not in the choice list.
+	 */
+
+	public void setDataType( String dataType ) throws SemanticException
+	{
+		setStringProperty( DATA_TYPE_PROP, dataType );
+	}
+
 }

@@ -161,6 +161,14 @@ public interface IElementDefn extends IObjectDefn
 	public ISlotDefn getSlot( int slotID );
 
 	/**
+	 * Returns the property definitions for this element that can hold other
+	 * elements. Each one in the list is instance of <code>IPropertyDefn</code>.
+	 * 
+	 * @return
+	 */
+	public List getContents( );
+
+	/**
 	 * Reports whether the given slot can contain elements of the given type.
 	 * 
 	 * @param slot
@@ -222,7 +230,7 @@ public interface IElementDefn extends IObjectDefn
 	 */
 
 	public boolean isPropertyReadOnly( String propName );
-	
+
 	/**
 	 * Determines if the given element type is a kind of this type. It is if
 	 * either the given type is the same as this one, or if the given type
@@ -234,5 +242,5 @@ public interface IElementDefn extends IObjectDefn
 	 */
 
 	public boolean isKindOf( IElementDefn type );
-	
+
 }

@@ -66,19 +66,10 @@
                 <property name="groupName">NewTableGroup1</property>
                 <property name="interval">week</property>
                 <property name="intervalRange">3.0</property>
-                <property name="sortDirection">asc</property>
-                <property name="sortType">none</property>
                 <expression name="keyExpr">state</expression>
-                <property name="repeatHeader">true</property>
-                <property name="hideDetail">false</property>
                 <header>
                     <row id="18">
-                        <property name="suppressDuplicates">false</property>
                         <cell id="19">
-                            <property name="column">0</property>
-                            <property name="colSpan">1</property>
-                            <property name="rowSpan">1</property>
-                            <property name="drop">none</property>
                             <property name="fontWeight">normal</property>
                         </cell>
                     </row>
@@ -86,15 +77,9 @@
             </group>
             <detail>
                 <row id="20">
-                    <property name="suppressDuplicates">false</property>
                     <cell id="21">
-                        <property name="column">0</property>
-                        <property name="colSpan">1</property>
-                        <property name="rowSpan">1</property>
-                        <property name="drop">none</property>
                         <label name="innerLabel" id="22">
                             <property name="fontWeight">bolder</property>
-                            <property name="zIndex">0</property>
                         </label>
                     </cell>
                 </row>
@@ -117,7 +102,6 @@
                 <label name="labelInMasterPage" id="10">
                     <property name="x">1mm</property>
                     <property name="y">0.5mm</property>
-                    <property name="zIndex">0</property>
                     <property name="height">0.25mm</property>
                     <property name="width">2mm</property>
                     <text-property name="text">First Page</text-property>

@@ -16,7 +16,6 @@ import java.io.ByteArrayOutputStream;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.util.DocumentUtil;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
-import org.eclipse.birt.report.model.metadata.PeerExtensionLoader;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
@@ -156,8 +155,6 @@ public class DocumentUtilTest extends BaseTestCase
 
 	public void testExtendedItem( ) throws Exception
 	{
-		new PeerExtensionLoader( ).load( );
-
 		openDesign( "DocumentUtilTest_ExtendedItem.xml" ); //$NON-NLS-1$
 
 		assertNotNull( designHandle );

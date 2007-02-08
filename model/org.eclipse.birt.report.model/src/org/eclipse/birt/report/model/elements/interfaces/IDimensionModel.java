@@ -26,6 +26,12 @@ public interface IDimensionModel
 	static final String IS_TIME_TYPE_PROP = "isTimeType"; //$NON-NLS-1$
 
 	/**
+	 * Name of the property which indicates whether this dimension is default in
+	 * cube.
+	 */
+	static final String IS_DEFAULT_PROP = "isDefault"; //$NON-NLS-1$
+
+	/**
 	 * Identifier of the slot that holds a list of Hierarchy elements.
 	 */
 

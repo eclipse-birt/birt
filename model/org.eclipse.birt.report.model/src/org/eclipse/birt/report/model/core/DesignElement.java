@@ -2335,7 +2335,7 @@ public abstract class DesignElement
 					CircularExtendsException.DESIGN_EXCEPTION_CIRCULAR );
 		}
 		// TODO: if element has container properties, extends is forbidden
-		else if ( !( (ElementDefn) getDefn( ) ).getContainmentProperties( )
+		else if ( !( (ElementDefn) getDefn( ) ).getContents( )
 				.isEmpty( ) )
 		{
 			throw new ExtendsForbiddenException(
@@ -2699,7 +2699,7 @@ public abstract class DesignElement
 		// StyledElement class for the handling of style properties.
 
 		assert !prop.isStyleProperty( );
-		return getProperty( module, prop );
+		return getStrategy( ).getPropertyExceptRomDefault( module, this, prop );
 	}
 
 	/**

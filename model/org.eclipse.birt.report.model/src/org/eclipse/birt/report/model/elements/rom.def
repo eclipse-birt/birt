@@ -3593,12 +3593,18 @@
   	<Property displayNameID="Element.Dimension.isTimeType" name="isTimeType" runtimeSettable="false" since="2.2" type="boolean">
   	  <Default>false</Default>
   	</Property>
+  	<Property displayNameID="Element.Dimension.isDefault" name="isDefault" runtimeSettable="false" since="2.2" type="boolean">
+  	  <Default>false</Default>
+  	</Property>
   	<Property displayNameID="Element.Dimension.hierarchies" isList="true" name="hierarchies" runtimeSettable="false" since="2.2" type="element">
   	  <Type name="Hierarchy"/>
   	</Property>
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.Hierarchy" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.Hierarchy" name="Hierarchy" nameSpace="cube" since="2.2" xmlName="hierarchy">
   	<Property detailType="DataSet" displayNameID="Element.Hierarchy.dataSet" name="dataSet" runtimeSettable="false" since="2.2" type="elementRef" />
+  	<Property displayNameID="Element.Hierarchy.isDefault" name="isDefault" runtimeSettable="false" since="2.2" type="boolean">
+  	  <Default>false</Default>
+  	</Property>
   	<Property detailType="FilterCondition" displayNameID="Element.Hierarchy.filter" isList="true" name="filter" runtimeSettable="false" since="2.2" type="structure"/>
   	<Property subType="string" displayNameID="Element.Hierarchy.primaryKeys" name="primaryKeys" runtimeSettable="false" since="2.2" type="list" />
   	<Property displayNameID="Element.Hierarchy.levels" isList="true" name="levels" since="2.2" type="element">
@@ -3607,6 +3613,7 @@
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.Level" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.Level" name="Level" nameSpace="cube" since="2.2" xmlName="level">
   	<Property displayNameID="Element.Level.columnName" name="columnName" runtimeSettable="false" since="2.2" type="string" />
+  	<Property detailType="columnDataType" displayNameID="Element.Level.dataType" name="dataType" runtimeSettable="false" since="2.2" type="choice"/>
   	<PropertyGroup displayNameID="Element.Level.Interval">
 		<Property displayNameID="Element.Level.intervalBase" name="intervalBase" runtimeSettable="false" since="2.2" type="string" />
    		<Property detailType="interval" displayNameID="Element.Level.interval" name="interval" runtimeSettable="false" since="2.2" type="choice">
@@ -3619,6 +3626,9 @@
   	<Property detailType="ConfigVar" displayNameID="Element.Level.attributes" isList="true" name="attributes" runtimeSettable="false" since="2.2" type="structure" />
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.MeasureGroup" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.olap.MeasureGroup" name="MeasureGroup" nameSpace="cube" since="2.2" xmlName="measure-group">
+  	<Property displayNameID="Element.MeasureGroup.isDefault" name="isDefault" runtimeSettable="false" since="2.2" type="boolean">
+  	  <Default>false</Default>
+  	</Property>
   	<Property displayNameID="Element.MeasureGroup.measures" isList="true" name="measures" since="2.2" type="element">
       <Type name="Measure"/>
     </Property>

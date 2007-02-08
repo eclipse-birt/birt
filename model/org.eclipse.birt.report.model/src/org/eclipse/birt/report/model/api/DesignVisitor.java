@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.AutoText;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
@@ -520,7 +521,22 @@ public class DesignVisitor
 
 	protected void visitContents( SlotHandle slot )
 	{
-		forwarder.visitContents( slot.getSlot( ) );
+		forwarder.visitContents( slot.getModule( ), new ContainerContext( slot
+				.getElement( ), slot.getSlotID( ) ) );
+	}
+
+	/**
+	 * Visits the content of this property.
+	 * 
+	 * @param obj
+	 *            the container element where the contents reside
+	 * @param propName
+	 *            name of the property where the contents reside
+	 */
+	protected void visitContents( DesignElementHandle obj, String propName )
+	{
+		forwarder.visitContents( obj.getModule( ), new ContainerContext( obj
+				.getElement( ), propName ) );
 	}
 
 	/**
@@ -727,7 +743,7 @@ public class DesignVisitor
 	{
 		visitDesignElement( obj );
 	}
-	
+
 	/**
 	 * Visits the measure element.
 	 * 
@@ -739,7 +755,7 @@ public class DesignVisitor
 	{
 		visitDesignElement( obj );
 	}
-	
+
 	/**
 	 * A class forward the visit of an element to its handle.
 	 * 

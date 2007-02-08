@@ -14,7 +14,7 @@ package org.eclipse.birt.report.model.extension;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.ActionHandle;
-import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
@@ -516,7 +516,7 @@ public class PeerExtensionTest extends BaseTestCase
 
 		ExtensionElementDefn extDefn = (ExtensionElementDefn) dd
 				.getExtension( TESTING_TABLE );
-		IPropertyDefn defn = (IPropertyDefn) extDefn.getProperty( "width" ); //$NON-NLS-1$
+		IPropertyDefn defn = extDefn.getProperty( "width" ); //$NON-NLS-1$
 		IChoiceSet set = defn.getAllowedChoices( );
 		assertNotNull( set.findChoice( "in" ) );//$NON-NLS-1$
 		assertNotNull( set.findChoice( "cm" ) );//$NON-NLS-1$
@@ -537,7 +537,7 @@ public class PeerExtensionTest extends BaseTestCase
 		ExtendedItemHandle extendedItem = (ExtendedItemHandle) designHandle
 				.findElement( "testTable" ); //$NON-NLS-1$
 		
-		defn = extendedItem.getPropertyDefn( "width" );
+		defn = extendedItem.getPropertyDefn( "width" ); //$NON-NLS-1$
 		set = defn.getAllowedChoices( );
 		
 		assertNotNull( set.findChoice( "in" ) );//$NON-NLS-1$
@@ -545,5 +545,12 @@ public class PeerExtensionTest extends BaseTestCase
 		assertNull( set.findChoice( "mm" ) );//$NON-NLS-1$
 		assertNull( set.findChoice( "pt" ) );//$NON-NLS-1$
 		
+	}
+	
+	public void testCrosstab() throws Exception
+	{
+		openDesign("CrosstabSample.xml"); //$NON-NLS-1$
+		DesignElementHandle crosstab = designHandle.getBody( ).get( 0 );
+		assertTrue( crosstab != null );
 	}
 }

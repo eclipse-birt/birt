@@ -22,7 +22,6 @@ import org.eclipse.birt.report.model.api.util.ElementExportUtil;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.Library;
-import org.eclipse.birt.report.model.metadata.PeerExtensionLoader;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 import org.eclipse.birt.report.model.util.ModelUtil;
 

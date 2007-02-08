@@ -110,7 +110,7 @@ public class LevelContentIterator implements Iterator
 		}
 
 		// build properties
-		List properties = defn.getContainmentProperties( );
+		List properties = defn.getContents( );
 		for ( int i = 0; i < properties.size( ); i++ )
 		{
 			buildContentsList( module, new ContainerContext( element,

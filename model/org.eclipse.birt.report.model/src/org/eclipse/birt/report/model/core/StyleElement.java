@@ -303,7 +303,7 @@ public abstract class StyleElement extends ReferenceableElement
 				broadcastToSelectedElementsInSlot( module, new ContainerContext(
 						element, i ), selectorName );
 			}
-			List properties = elementDefn.getContainmentProperties( );
+			List properties = elementDefn.getContents( );
 			for ( int i = 0; i < properties.size( ); i++ )
 			{
 				PropertyDefn propDefn = (PropertyDefn) properties.get( i );

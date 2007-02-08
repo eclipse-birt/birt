@@ -11,14 +11,13 @@
 
 package org.eclipse.birt.report.model.api;
 
-import com.ibm.icu.util.ULocale;
-
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.metadata.PeerExtensionLoader;
 import org.eclipse.birt.report.model.util.BaseTestCase;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * The test case for element factory method.
@@ -488,8 +487,6 @@ public class ElementFactoryTest extends BaseTestCase
 
 	public void testNewExtendedItemFrom( ) throws Exception
 	{
-		new PeerExtensionLoader( ).load( );
-
 		openDesign( "ElementFactoryTest_2.xml" );//$NON-NLS-1$
 		LibraryHandle libraryHandle = designHandle
 				.getLibrary( "ElementFactoryLibTest" );//$NON-NLS-1$

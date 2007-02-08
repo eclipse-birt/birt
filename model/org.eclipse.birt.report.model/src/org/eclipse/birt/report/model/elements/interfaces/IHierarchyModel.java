@@ -24,7 +24,7 @@ public interface IHierarchyModel
 	 */
 
 	static final String DATA_SET_PROP = "dataSet"; //$NON-NLS-1$
-	
+
 	/**
 	 * Name of the property that defines a list of filter conditions.
 	 */
@@ -42,4 +42,10 @@ public interface IHierarchyModel
 	 */
 
 	static final String LEVELS_PROP = "levels"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property which indicates whether this hierarchy is default in
+	 * dimension.
+	 */
+	static final String IS_DEFAULT_PROP = "isDefault"; //$NON-NLS-1$
 }

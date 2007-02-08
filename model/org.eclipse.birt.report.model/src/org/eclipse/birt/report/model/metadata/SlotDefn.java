@@ -299,12 +299,43 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 
 	public final boolean canContain( IElementDefn type )
 	{
+		if ( type == null )
+			return false;
+
 		Iterator iter = contentElements.iterator( );
 		while ( iter.hasNext( ) )
 		{
 			ElementDefn element = (ElementDefn) iter.next( );
-			if ( type.isKindOf( element ) )
-				return true;
+
+			// if element is not "extended-item"
+			if ( !ReportDesignConstants.EXTENDED_ITEM
+					.equals( element.getName( ) ) )
+			{
+				if ( type.isKindOf( element ) )
+					return true;
+			}
+			else
+			{
+				// type is reportItemModel extension and is kind of ReportItem.
+				if ( type instanceof ExtensionElementDefn )
+				{
+					ExtensionElementDefn extensionDefn = (ExtensionElementDefn) type;
+					if ( PeerExtensionLoader.EXTENSION_POINT
+							.equals( extensionDefn.getExtensionPoint( ) )
+							&& extensionDefn
+									.isKindOf( MetaDataDictionary
+											.getInstance( )
+											.getElement(
+													ReportDesignConstants.REPORT_ITEM ) ) )
+						return true;
+				}
+
+				// type is "ExtendedItem" itself
+				if ( ReportDesignConstants.EXTENDED_ITEM
+						.equals( type.getName( ) ) )
+					return true;
+
+			}
 		}
 		return false;
 	}
@@ -509,6 +540,7 @@ public class SlotDefn implements ISlotDefn, ISemanticTriggerDefnSetProvider
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.metadata.IContainerDefn#getAllowedElements(boolean)
 	 */
 	public List getAllowedElements( boolean extractExtensions )

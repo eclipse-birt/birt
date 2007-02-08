@@ -68,7 +68,8 @@ public abstract class StyledElement extends DesignElement
 	 * @see java.lang.Object#clone()
 	 */
 
-	public Object doClone( CopyPolicy policy ) throws CloneNotSupportedException
+	public Object doClone( CopyPolicy policy )
+			throws CloneNotSupportedException
 	{
 		StyledElement element = (StyledElement) super.doClone( policy );
 		if ( style != null )
@@ -248,16 +249,11 @@ public abstract class StyledElement extends DesignElement
 	public Object getFactoryProperty( Module module, ElementPropertyDefn prop )
 	{
 		if ( !prop.isStyleProperty( ) )
-			return getProperty( module, prop );
+			return super.getFactoryProperty( module, prop );
 
 		// Get the value from this element and its parent.
 
-		Object value = getStrategy( ).getPropertyFromElement( module, this,
-				prop );
-		if ( value != null )
-			return value;
-
-		return null;
+		return getStrategy( ).getPropertyFromElement( module, this, prop );
 	}
 
 	/*

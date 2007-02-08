@@ -52,9 +52,11 @@
     		<property name="dimensions">
     			<dimension name="testDimension">
     				<property name="isTimeType">true</property>
+    				<property name="isDefault">true</property>
     				<property name="hierarchies">
     					<hierarchy name="testHierarchy">
     						<property name="dataSet">secondDataSet</property>
+    						<property name="isDefault">true</property>
     						<list-property name="filter">
                 				<structure>
                     				<property name="operator">lt</property>
@@ -71,6 +73,7 @@
     						<property name="levels">
     							<level name="testLevel">
     								<property name="columnName">column1</property>
+    								<property name="dataType">integer</property>
     								<property name="interval">week</property>
                 					<property name="intervalRange">3.0</property>
                 					<property name="intervalBase">Jan</property>
@@ -103,6 +106,7 @@
     		</property>
     		<property name="measureGroups">
     			<measure-group name="testMeasureGroup">
+    				<property name="isDefault">true</property>
     				<property name="measures">
     					<measure name="testMeasure">
     						<property name="function">min</property>

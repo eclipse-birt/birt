@@ -476,7 +476,7 @@ public abstract class PropertyDefn
 							.getElement( elementName );
 					if ( type == null )
 						throw new MetaDataException(
-								new String[]{(String) elementName, name},
+								new String[]{elementName, name},
 								MetaDataException.DESIGN_EXCEPTION_UNDEFINED_ELEMENT_TYPE );
 					elementTypes.add( type );
 				}
@@ -1546,7 +1546,7 @@ public abstract class PropertyDefn
 						contentsWithExtensions.add( extension );
 				}
 			}
-			return Collections.unmodifiableList( (List) contentsWithExtensions );
+			return Collections.unmodifiableList( contentsWithExtensions );
 		}
 
 		return Collections.EMPTY_LIST;
@@ -1562,16 +1562,46 @@ public abstract class PropertyDefn
 
 	public final boolean canContain( IElementDefn type )
 	{
+		if ( type == null )
+			return false;
+		
 		List contentElements = getAllowedElements( );
 		assert contentElements != null;
-		if ( contentElements.isEmpty( ) )
-			return false;
 		Iterator iter = contentElements.iterator( );
 		while ( iter.hasNext( ) )
 		{
 			ElementDefn element = (ElementDefn) iter.next( );
-			if ( type.isKindOf( element ) )
-				return true;
+
+			// if element is not "extended-item", then do no conversion
+			if ( !ReportDesignConstants.EXTENDED_ITEM
+					.equals( element.getName( ) ) )
+			{
+				if ( type.isKindOf( element ) )
+					return true;
+			}
+			else
+			{
+				// if element is "extended-item", then the type must be an
+				// extension of "reportItemModel" and is kind of ReportItem.
+				if ( type instanceof ExtensionElementDefn )
+				{
+					ExtensionElementDefn extensionDefn = (ExtensionElementDefn) type;
+					if ( PeerExtensionLoader.EXTENSION_POINT
+							.equals( extensionDefn.getExtensionPoint( ) )
+							&& extensionDefn
+									.isKindOf( MetaDataDictionary
+											.getInstance( )
+											.getElement(
+													ReportDesignConstants.REPORT_ITEM ) ) )
+						return true;
+				}
+				
+				// type is "ExtendedItem" itself
+				if ( ReportDesignConstants.EXTENDED_ITEM
+						.equals( type.getName( ) ) )
+					return true;
+
+			}
 		}
 		return false;
 	}

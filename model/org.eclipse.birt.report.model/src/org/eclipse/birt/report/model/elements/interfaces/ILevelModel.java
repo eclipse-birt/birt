@@ -58,4 +58,9 @@ public interface ILevelModel
 	 * or mirrored.
 	 */
 	String LEVEL_TYPE_PROP = "levelType"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property that gives the data type of this level.
+	 */
+	String DATA_TYPE_PROP = "dataType"; //$NON-NLS-1$
 }
