@@ -245,9 +245,6 @@
         <antcall target="createWTPIntegration"/>
 		
 		<antcall target="createBirtSourceBuild"/>
-		
-		<antcall target="createIpotalLib" />
-		
 
 		<replace file="${OutputDir}\${birt.info}" token="#buildType#" value="Nightly"/>
 		<replace file="${OutputDir}\${birt.info}" token="#timeStamp#" value="${buildId}"/>

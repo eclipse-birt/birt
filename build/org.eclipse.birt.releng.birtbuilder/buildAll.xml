@@ -56,6 +56,8 @@
 				<antcall target="generateJavaDoc"/>
 			</sequential>
 		</parallel>
+		<!-- iPortal-library creating, internal use only -->
+		<antcall target="iPortalSetup"/>
 		<!-- start birt JUnit test -->
 		<antcall target="runBirtTest"/>
 		<antcall target="runBirtPerformance"/>
@@ -155,6 +157,14 @@
 		<copy tofile="${postingDirectory}/../finalPluginsVersions.properties" file="${buildDirectory}/finalPluginsVersions.properties" overwrite="true" />
 		<!-- Send build ready mail to QA -->
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="InformQA"/>
+	</target>
+	
+	<target name="iPortalSetup">
+		<!-- create AllInOne,AllInOne for Linux, RCP, FrameworkSDK,Framework,Chart,BIRTSample,TestSuite,Database -->
+		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="createIpotalLib">
+			<property name="OutputDir" value="${postingDirectory}/${buildId}" />
+			<property name="deposit" value="${buildDirectory}/${buildId}" />
+		</ant>
 	</target>
 	
 	<target name="CreateUpdateSite">
