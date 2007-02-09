@@ -2,7 +2,7 @@
 plugin@org.eclipse.birt.chart.cshelp=v20061130,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.cshelp
 plugin@org.eclipse.birt.chart.doc.isv=v20061130,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.doc.isv
 plugin@org.eclipse.birt.cshelp=v20061120-1200,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.cshelp
-plugin@org.eclipse.birt.doc=v20061120-1200,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.doc
+plugin@org.eclipse.birt.doc=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.doc
 plugin@org.eclipse.birt.doc.isv=v20070208,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.doc.isv
 plugin@org.eclipse.birt.example=v20061130,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.example
 
