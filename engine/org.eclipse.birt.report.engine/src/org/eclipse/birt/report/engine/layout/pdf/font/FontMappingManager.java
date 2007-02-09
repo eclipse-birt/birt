@@ -187,7 +187,6 @@ public class FontMappingManager
 	protected BaseFont getMappedFontByFontName( char c,
 			CSSValueList fontFamilies, int fontStyle )
 	{
-		String fontName = null;
 		BaseFont candidateFont = null;
 		// Finds the font in the customer given font list.
 		for ( int i = 0; i < fontFamilies.getLength( ); i++ )
@@ -196,12 +195,25 @@ public class FontMappingManager
 			// Gets the font alias or if the font name is a generic font, use
 			// the mapped font.
 			// otherwise, use the original font name.
-			fontName = getMappedFont( fontFamilyName, fontMapping );
-			candidateFont = getBaseFont( fontName, c, fontStyle );
+			candidateFont = getMappedFont( c, fontStyle, fontFamilyName );
 			if ( null != candidateFont )
 				return candidateFont;
+
+			candidateFont = getMappedFont( c, fontStyle, FONT_NAME_ALL_FONTS );
+			if ( candidateFont != null )
+			{
+				return candidateFont;
+			}
 		}
 		return null;
+	}
+
+	private BaseFont getMappedFont( char c, int fontStyle, String fontFamilyName )
+	{
+		String fontName = getMappedFontName( fontFamilyName, fontMapping );
+		fontName = fontName == null ? fontFamilyName : fontName;
+		BaseFont candidateFont = getBaseFont( fontName, c, fontStyle );
+		return candidateFont;
 	}
 
 	/**
@@ -246,13 +258,14 @@ public class FontMappingManager
 		for ( int i = 0; i < fontFamilies.getLength( ); i++ )
 		{
 			String fontFamilyName = fontFamilies.item( i ).getCssText( );
-			String fontName = getMappedFont( fontFamilyName, defaultFonts );
+			String fontName = getMappedFontName( fontFamilyName, defaultFonts );
 			if ( fontName != null )
 				result = createFont( fontName, fontStyle );
 		}
 		if ( result == null )
 		{
-			result = createFont( DEFAULT_FONT, fontStyle );
+			result = createFont( getMappedFontName( FONT_NAME_ALL_FONTS,
+					defaultFonts ), fontStyle );
 		}
 		return result;
 	}
@@ -314,13 +327,9 @@ public class FontMappingManager
 		this.fontMapping.putAll( fontMapping );
 	}
 
-	private String getMappedFont( String fontFamilyName, Map fontMap )
+	private String getMappedFontName( String fontFamilyName, Map fontMap )
 	{
 		String mappedFontFamily = (String) fontMap.get( fontFamilyName );
-		if ( mappedFontFamily == null )
-		{
-			mappedFontFamily = (String) fontMap.get( FONT_NAME_ALL_FONTS );
-		}
 		return mappedFontFamily;
 	}
 

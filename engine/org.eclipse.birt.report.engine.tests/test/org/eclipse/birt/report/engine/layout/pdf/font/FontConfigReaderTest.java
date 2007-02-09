@@ -39,16 +39,28 @@ public class FontConfigReaderTest extends TestCase
 		String configFile = "fontsConfig.xml";
 		fontMappingManager = getFontMappingManager( configFile );
 
+		// Tests an exist font which is not mapped in fontmapping should not be
+		// mapped.
+		assertTrue( isMappedTo( '1', "Symbol", "Symbol" ) );
+
+		// Tests an unexist font which is not mapped in fontmapping should not be
+		// mapped to all-fonts-mapped font.
+		assertTrue( isMappedTo( '1', "Not exist", "Times Roman" ) );
+
+		// Tests an unexist font which is not mapped in fontmapping should not be
+		// mapped to all-fonts-mapped font.
+		assertTrue( isDefaultMappedTo( (char)0xe81, "Symbol", "ITC Zapf Dingbats" ) );
+
 		// Tests a font in font-mapping.
-		assertTrue( isMappedTo( (char) 1, "sans-serif", "Helvetica" ) );
+		assertTrue( isMappedTo( '1', "sans-serif", "Helvetica" ) );
 
 		// Tests a font which is not in font-mapping but in all-fonts mapping by
 		// font name.
-		assertTrue( isMappedTo( (char) 1, "block", "Courier" ) );
+		assertTrue( isMappedTo( '1', "block", "Courier" ) );
 
 		// Tests a font which is not in font-mapping but in all-fonts mapping by
 		// "all-fonts".
-		assertTrue( isMappedTo( (char) 1, "allfonts", "Times Roman" ) );
+		assertTrue( isMappedTo( '1', "allfonts", "Times Roman" ) );
 
 		// Tests a character which is not defined by any block is mapped to
 		// default.
