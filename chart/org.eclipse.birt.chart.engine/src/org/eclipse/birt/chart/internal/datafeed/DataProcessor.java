@@ -45,6 +45,7 @@ import org.eclipse.birt.chart.model.data.TextDataSet;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.script.ScriptHandler;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -60,7 +61,6 @@ public class DataProcessor
 
 	private final RunTimeContext rtc;
 	private final IActionEvaluator iae;
-	private static final int MAX_ROW_COUNT = 10000;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/trace" ); //$NON-NLS-1$
 
@@ -575,6 +575,7 @@ public class DataProcessor
 		if ( idre.first( ) )
 		{
 			int count = 0;
+			final int MAX_ROW_COUNT = ChartUtil.getSupportedMaxRowCount( );
 			do
 			{
 				if ( count++ > MAX_ROW_COUNT )

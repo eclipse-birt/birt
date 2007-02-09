@@ -30,6 +30,18 @@ public class ChartUtil
 	private static final double EPS = 1E-9;
 
 	/**
+	 * Default max row count that will be supported in charts.
+	 */
+	private static final int DEFAULT_MAX_ROW_COUNT = 10000;
+
+	private static int iMaxRountCount = 0;
+
+	/**
+	 * JVM argument for specifying supported max row count
+	 */
+	public static final String PROPERTY_MAX_ROW_COUNT = System.getProperty( "CHART_MAX_ROW" ); //$NON-NLS-1$	
+	
+	/**
 	 * Returns if the given color definition is totally transparent. e.g.
 	 * transparency==0.
 	 * 
@@ -283,5 +295,38 @@ public class ChartUtil
 		}
 
 		return String.valueOf( value );
+	}
+	
+	/**
+	 * Returns max row count that will be supported in charts. Users can set it
+	 * in JVM argument "CHART_MAX_ROW". Default value is 10000.
+	 * 
+	 * @return max row count that will be supported in charts.
+	 * @since 2.1.2
+	 */
+	public static int getSupportedMaxRowCount( )
+	{
+		if ( iMaxRountCount <= 0 )
+		{
+			// Only get property value in the first time
+			iMaxRountCount = DEFAULT_MAX_ROW_COUNT;
+			if ( PROPERTY_MAX_ROW_COUNT != null )
+			{
+				try
+				{
+					iMaxRountCount = Integer.parseInt( PROPERTY_MAX_ROW_COUNT );
+				}
+				catch ( NumberFormatException e )
+				{
+					iMaxRountCount = DEFAULT_MAX_ROW_COUNT;
+				}
+			}
+			// In case of negative value
+			if ( iMaxRountCount <= 0 )
+			{
+				iMaxRountCount = DEFAULT_MAX_ROW_COUNT;
+			}
+		}
+		return iMaxRountCount;
 	}
 }
