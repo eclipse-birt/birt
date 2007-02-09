@@ -131,29 +131,34 @@ public class BindingPage extends AttributePage
 
 	public void addElementEvent( DesignElementHandle focus, NotificationEvent ev )
 	{
-		if ( dataSetFormSection != null
-				&& dataSetFormSection.getFormControl( ) != null
-				&& !dataSetFormSection.getFormControl( )
-						.getControl( )
-						.isDisposed( ) )
+		if ( checkControl( dataSetFormSection ) )
 			dataSetFormSection.getFormControl( ).addElementEvent( focus, ev );
 	}
 
 	public void clear( )
 	{
-		dataSetFormSection.getFormControl( ).clear( );
+		if ( checkControl( dataSetFormSection ) )
+			dataSetFormSection.getFormControl( ).clear( );
 	}
 
 	public void postElementEvent( )
 	{
 
-		dataSetFormSection.getFormControl( ).postElementEvent( );
+		if ( checkControl( dataSetFormSection ) )
+			dataSetFormSection.getFormControl( ).postElementEvent( );
 
 	}
 
 	public void setInput( Object input )
 	{
 		super.setInput( input );
+	}
+
+	private boolean checkControl( FormSection form )
+	{
+		return form != null
+				&& form.getFormControl( ) != null
+				&& !form.getFormControl( ).getControl( ).isDisposed( );
 	}
 
 }

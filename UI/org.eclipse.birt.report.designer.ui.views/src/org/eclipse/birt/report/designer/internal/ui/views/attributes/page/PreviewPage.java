@@ -2,6 +2,7 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.PreviewPropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.BorderSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.PreviewSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.PreviewPropertyDescriptor;
 import org.eclipse.swt.widgets.Composite;
@@ -49,8 +50,18 @@ public class PreviewPage extends AttributePage
 		this.preview = preview;
 	}
 
+	private boolean checkControl( PreviewSection preview )
+	{
+		return preview != null
+				&& preview.getPreviewControl( ) != null
+				&& !preview.getPreviewControl( )
+						.getControl( )
+						.isDisposed( );
+	}
+	
 	public void postElementEvent( )
 	{
+		if ( checkControl( previewSection ) )
 		previewSection.getPreviewControl( ).postElementEvent( );
 	}
 }

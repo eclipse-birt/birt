@@ -613,6 +613,7 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 	 */
 	public boolean isDispose( )
 	{
-		return getTreeViewer( ).getTree( ).isDisposed( );
+		if(getTreeViewer( ) == null || getTreeViewer( ).getTree( )==null)return true;
+		else return getTreeViewer( ).getTree( ).isDisposed( );
 	}
 }

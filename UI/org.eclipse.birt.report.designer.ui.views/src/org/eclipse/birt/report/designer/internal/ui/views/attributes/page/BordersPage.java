@@ -18,6 +18,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.Bo
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.BorderWidthDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.BorderSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ColorSection;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.FormSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.StyleComboSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TogglesSection;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -128,9 +129,19 @@ public class BordersPage extends AttributePage
 		layoutSections( );
 	}
 
+	private boolean checkControl( BorderSection border )
+	{
+		return border != null
+				&& border.getBorderControl( ) != null
+				&& !border.getBorderControl( )
+						.getControl( )
+						.isDisposed( );
+	}
+
 	public void postElementEvent( )
 	{
-		borderSection.getBorderControl( ).postElementEvent( );
+		if ( checkControl( borderSection ) )
+			borderSection.getBorderControl( ).postElementEvent( );
 	}
 
 }

@@ -118,20 +118,32 @@ public class FormPage extends AttributePage
 
 	public void addElementEvent( DesignElementHandle focus, NotificationEvent ev )
 	{
-		if ( formSection != null
-				&& formSection.getFormControl( ) != null
-				&& !formSection.getFormControl( ).getControl( ).isDisposed( ) )
-			formSection.getFormControl( ).addElementEvent( focus, ev );
+		if ( checkControl( formSection ) )
+			if ( formSection != null
+					&& formSection.getFormControl( ) != null
+					&& !formSection.getFormControl( )
+							.getControl( )
+							.isDisposed( ) )
+				formSection.getFormControl( ).addElementEvent( focus, ev );
 	}
 
 	public void clear( )
 	{
-		formSection.getFormControl( ).clear( );
+		if ( checkControl( formSection ) )
+			formSection.getFormControl( ).clear( );
+	}
+
+	private boolean checkControl( FormSection form )
+	{
+		return form != null
+				&& form.getFormControl( ) != null
+				&& !form.getFormControl( ).getControl( ).isDisposed( );
 	}
 
 	public void postElementEvent( )
 	{
-		formSection.getFormControl( ).postElementEvent( );
+		if ( checkControl( formSection ) )
+			formSection.getFormControl( ).postElementEvent( );
 	}
 
 }
