@@ -60,6 +60,7 @@ public class DataProcessor
 
 	private final RunTimeContext rtc;
 	private final IActionEvaluator iae;
+	private static final int MAX_ROW_COUNT = 10000;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/trace" ); //$NON-NLS-1$
 
@@ -570,12 +571,23 @@ public class DataProcessor
 		final List liResultSet = new ArrayList( );
 		Object[] oaTuple;
 		int iColumnIndex;
-		boolean hasFirst = idre.first( );
 
-		if ( hasFirst )
+		if ( idre.first( ) )
 		{
+			int count = 0;
 			do
 			{
+				if ( count++ > MAX_ROW_COUNT )
+				{
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.DATA_BINDING,
+							"exception.data.max.row.count", //$NON-NLS-1$
+							new Object[]{
+								new Integer( MAX_ROW_COUNT )
+							},
+							Messages.getResourceBundle( ) );
+				}
+				
 				oaTuple = new Object[iColumnCount];
 				it = co.iterator( );
 				iColumnIndex = 0;
