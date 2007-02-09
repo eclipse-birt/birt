@@ -378,7 +378,8 @@ public class StructureState extends AbstractPropertyState
 		{
 			Class c = (Class) structDict.get( structDefn.getName( )
 					.toLowerCase( ) );
-			assert c != null;
+			if ( c == null )
+				return null;
 
 			struct = (IStructure) c.newInstance( );
 		}

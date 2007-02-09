@@ -28,7 +28,7 @@ import org.xml.sax.Attributes;
  * Parses the property content. The XML file is like:
  * 
  * <pre>
- *                        &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
+ *                            &lt;property-tag name=&quot;propName&quot;&gt;property value&lt;/property-tag&gt;
  * </pre>
  * 
  * The supported tags are:
@@ -169,7 +169,14 @@ public class PropertyContentState extends AbstractParseState
 		AbstractParseState state = null;
 
 		// general jump to
+
+		int maxJump = 5;
 		state = generalJumpTo( );
+		for ( int i = 1; i < maxJump; i++ )
+		{
+			if ( state != null && state.jumpTo( ) != null )
+				state = state.jumpTo( );
+		}
 		if ( state != null )
 			return state;
 
@@ -190,70 +197,64 @@ public class PropertyContentState extends AbstractParseState
 		if ( defn == null )
 			return new ContentNodeState( tagName, handler, parentNode,
 					attributes );
-		else
-		{
-			AbstractPropertyState state = null;
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
-			{
-				state = new PropertyState( handler, element );
-				state.setName( name );
-			}
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.LIST_PROPERTY_TAG ) )
-			{
-				state = new ListPropertyState( handler, element );
-				state.setName( name );
-			}
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.EXPRESSION_TAG ) )
-			{
-				state = new ExpressionState( handler, element );
-				state.setName( name );
-			}
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.XML_PROPERTY_TAG ) )
-			{
-				state = new XmlPropertyState( handler, element );
-				state.setName( name );
-			}
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STRUCTURE_TAG ) )
-			{
-				state = new StructureState( handler, element );
-				state.setName( name );
-			}
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.METHOD_TAG ) )
-			{
-				state = new PropertyState( handler, element );
-				state.setName( name );
-			}
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.TEXT_PROPERTY_TAG ) )
-			{
-				state = new TextPropertyState( handler, element );
-				state.setName( name );
-				( (TextPropertyState) state ).setKeyValue( (String) attributes
-						.get( DesignSchemaConstants.KEY_ATTRIB ) );
-			}
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.HTML_PROPERTY_TAG ) )
-			{
-				state = new TextPropertyState( handler, element );
-				state.setName( name );
-			}
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.ENCRYPTED_PROPERTY_TAG ) )
-			{
-				state = new EncryptedPropertyState( handler, element );
-				state.setName( name );
-			}
-			if ( tagName
-					.equalsIgnoreCase( DesignSchemaConstants.SIMPLE_PROPERTY_LIST_TAG ) )
-			{
-				state = new SimplePropertyListState( handler, element );
-				state.setName( name );
-			}
 
-			return state;
+		AbstractPropertyState state = null;
+		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
+		{
+			state = new PropertyState( handler, element );
+			state.setName( name );
 		}
+		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LIST_PROPERTY_TAG ) )
+		{
+			state = new ListPropertyState( handler, element );
+			state.setName( name );
+		}
+		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.EXPRESSION_TAG ) )
+		{
+			state = new ExpressionState( handler, element );
+			state.setName( name );
+		}
+		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.XML_PROPERTY_TAG ) )
+		{
+			state = new XmlPropertyState( handler, element );
+			state.setName( name );
+		}
+		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STRUCTURE_TAG ) )
+		{
+			state = new StructureState( handler, element );
+			state.setName( name );
+		}
+		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.METHOD_TAG ) )
+		{
+			state = new PropertyState( handler, element );
+			state.setName( name );
+		}
+		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_PROPERTY_TAG ) )
+		{
+			state = new TextPropertyState( handler, element );
+			state.setName( name );
+			( (TextPropertyState) state ).setKeyValue( (String) attributes
+					.get( DesignSchemaConstants.KEY_ATTRIB ) );
+		}
+		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.HTML_PROPERTY_TAG ) )
+		{
+			state = new TextPropertyState( handler, element );
+			state.setName( name );
+		}
+		if ( tagName
+				.equalsIgnoreCase( DesignSchemaConstants.ENCRYPTED_PROPERTY_TAG ) )
+		{
+			state = new EncryptedPropertyState( handler, element );
+			state.setName( name );
+		}
+		if ( tagName
+				.equalsIgnoreCase( DesignSchemaConstants.SIMPLE_PROPERTY_LIST_TAG ) )
+		{
+			state = new SimplePropertyListState( handler, element );
+			state.setName( name );
+		}
+
+		return state;
+
 	}
 }
