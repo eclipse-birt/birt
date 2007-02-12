@@ -70,13 +70,14 @@ public class Regression_132938 extends BaseTestCase
 	public void test_regression_132938( ) throws DesignFileException, SemanticException, IOException
 	{
 		String report = getTempFolder( ) + "/" + INPUT_FOLDER + "/" + INPUT;
+		String libA = getTempFolder( ) + "/" + INPUT_FOLDER + "/" + LIBRARY_A;
 		String libB = getTempFolder( ) + "/" + INPUT_FOLDER + "/" + LIBRARY_B;
 
 		sessionHandle = new DesignEngine( new DesignConfig( ) ).newSessionHandle( ULocale.ENGLISH );
 		designHandle = sessionHandle.openDesign( report );
 
-		designHandle.includeLibrary( LIBRARY_A, "lib1" ); //$NON-NLS-1$
-		libraryHandle = designHandle.getLibrary( "lib1" ); //$NON-NLS-1$
+		designHandle.includeLibrary( LIBRARY_A, "regression_132938_libA" ); //$NON-NLS-1$
+		libraryHandle = designHandle.getLibrary( "regression_132938_libA" ); //$NON-NLS-1$
 
 		LabelHandle label = (LabelHandle) libraryHandle.findElement( "NewLabel" );
 		assertNotNull( label );

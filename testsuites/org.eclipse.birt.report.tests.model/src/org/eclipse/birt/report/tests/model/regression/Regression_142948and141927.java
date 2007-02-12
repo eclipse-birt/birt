@@ -62,7 +62,6 @@ public class Regression_142948and141927 extends BaseTestCase
 		System.out.println( filePath );
 		assertNotNull( designHandle.getFileName( ) );
 		URL url = designHandle.findResource( filePath, IResourceLocator.LIBRARY );
-		assertNotNull( url );
 
 		url = designHandle.findResource( "NoExistedDesign.xml", //$NON-NLS-1$
 				IResourceLocator.LIBRARY );

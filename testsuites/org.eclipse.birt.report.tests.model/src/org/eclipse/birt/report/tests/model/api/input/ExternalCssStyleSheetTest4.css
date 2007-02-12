@@ -1,0 +1,37 @@
+
+STYLE1, STYLE2{
+	/* font */
+	border:10px solid #456; margin:1em; padding:1em; background:black url('images/header') no-repeat 50% top; font-family : "Bitstream Vera Sans", Tahoma, Verdana, "Myriad Web", Syntax, sans-serif; 
+    font-size : 2em;
+    font-style :italic; 
+    font-variant : small-caps ; 
+    font-weight : bold; 
+    
+    /* text */
+    text-align : justify; 
+    text-indent : 2em; 
+    text-decoration : underline     overline line-through;
+    letter-spacing : 1pt; 
+    word-spacing : 2pt ; 
+    text-transform : uppercase; 
+    white-space : pre;  
+    
+    /* margin */
+    /* padding */
+    /* background */
+    color : rgb(  0, 79, 147);
+    /* page media */
+    orphans : 1;  
+    widows : 3;  
+    display : inline;
+    page-break-before : always;  
+    page-break-after : always;  
+    page-break-inside : avoid;  
+    
+    /* visual */ 
+    vertical-align : middle;  
+    line-height : 120%;  
+    
+    /* border */ 
+     
+}
