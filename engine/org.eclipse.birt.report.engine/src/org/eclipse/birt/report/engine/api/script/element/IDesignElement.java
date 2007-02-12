@@ -8,12 +8,23 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.engine.api.script.element;
 
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 
+/**
+ * Script wrapper of DesignElementHandle
+ * 
+ */
 public interface IDesignElement
 {
+
+	/**
+	 * Gets design element style.
+	 * 
+	 * @return style
+	 */
 	IScriptStyleDesign getStyle( );
 
 	/**
@@ -28,13 +39,52 @@ public interface IDesignElement
 
 	String getQualifiedName( );
 
+	/**
+	 * Returns name of user property defined in this element.
+	 * 
+	 * @param name
+	 * @return name of user property
+	 */
 	String getNamedExpression( String name );
+
+	/**
+	 * Sets name of user property defined in this element.
+	 * 
+	 * @param name
+	 *            name of user property
+	 * @param exp
+	 *            name expression
+	 * @throws ScriptException
+	 */
 
 	void setNamedExpression( String name, String exp ) throws ScriptException;
 
+	/**
+	 * Returns user property defined in this element.
+	 * 
+	 * @param name
+	 * @return user property
+	 */
+
 	Object getUserProperty( String name );
 
+	/**
+	 * Sets user property defined in this element.
+	 * 
+	 * @param name
+	 * @param value
+	 * @throws ScriptException
+	 */
 	void setUserProperty( String name, String value ) throws ScriptException;
+
+	/**
+	 * Sets user property defined in this element.
+	 * 
+	 * @param name
+	 * @param value
+	 * @param type
+	 * @throws ScriptException
+	 */
 
 	void setUserProperty( String name, Object value, String type )
 			throws ScriptException;

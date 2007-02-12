@@ -111,5 +111,4 @@ public interface IReportElement extends IDesignElement
 
 	void setName( String name ) throws ScriptException;
 
-
 }

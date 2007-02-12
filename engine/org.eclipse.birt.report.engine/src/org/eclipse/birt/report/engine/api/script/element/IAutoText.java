@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.engine.api.script.element;
 
+/**
+ * Simple wrapper of AutoTextHandle
+ *
+ */
 
 public interface IAutoText extends IReportItem
 {

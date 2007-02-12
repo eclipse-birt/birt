@@ -6,6 +6,7 @@ import org.eclipse.birt.report.engine.api.script.ScriptException;
 /**
  * Represents a the design of a report item in the scripting environment
  */
+
 public interface IReportItem
 		extends
 			IReportElement
@@ -250,12 +251,14 @@ public interface IReportItem
 	/**
 	 * Adds high light rule.
 	 * @param rule
+	 * @throws ScriptException
 	 */
 	
 	void addHighlightRule( IHighlightRule rule) throws ScriptException;
 	
 	/**
 	 * Removes all high light rules.
+	 * @throws ScriptException
 	 */
 	
 	void removeHighlightRules() throws ScriptException;
@@ -263,6 +266,7 @@ public interface IReportItem
 	/**
 	 * Removes high light rule.
 	 * @param rule
+	 * @throws ScriptException
 	 */
 	
 	void removeHighlightRule( IHighlightRule rule) throws ScriptException;
@@ -270,7 +274,7 @@ public interface IReportItem
 	/**
 	 * Removes all hide rules that matches formatType.
 	 * 
-	 * @param formatType
+	 * @param rule
 	 * @exception ScriptException
 	 */
 

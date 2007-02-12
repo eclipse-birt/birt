@@ -273,26 +273,31 @@ public interface IImage extends IReportItem
 	/**
 	 * Sets the image url. The source type is <code>IMAGE_REF_TYPE_URL</code>, 
 	 * and will automatically set in this method. 
+	 * @param url
+	 * @throws ScriptException
 	 */
 	void setURL ( String url ) throws ScriptException;
 	
 	/** 
-	 * get the image url, 
+	 * Gets the image url, 
 	 * if the source type is not <code>IMAGE_REF_TYPE_URL</code> return null.
+	 * @return image url.
 	 */
 	String getURL( );
 	
 	/**
 	 * Sets the image file. The source type is <code>IMAGE_REF_TYPE_FILE</code>, 
-	 * and will automatically set in this method. 
+	 * and will automatically set in this method.
+	 * @param file 
+	 * @throws ScriptException 
 	 */
 	void setFile ( String file ) throws ScriptException;
 
 	/** 
-	 * get the image url, 
+	 * Returns the image file, 
 	 * if the source type is not <code>IMAGE_REF_TYPE_FILE</code> return null.
+	 * @return image file.
 	 */
 	String getFile( );
 
-	
 }

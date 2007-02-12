@@ -932,12 +932,14 @@ public interface IScriptStyleDesign
 
 	/**
 	 * Get the font color.
+	 * @return color
 	 * 
 	 */
 	String getColor( );
 
 	/**
 	 * Set the font color.
+	 * @param color
 	 * @throws ScriptException 
 	 * 
 	 */
@@ -945,12 +947,14 @@ public interface IScriptStyleDesign
 
 	/**
 	 * Get the background color.
+	 * @return background color
 	 * 
 	 */
 	String getBackgroundColor( );
 
 	/**
 	 * Set the background color.
+	 * @param color
 	 * @throws ScriptException 
 	 * 
 	 */
@@ -958,12 +962,14 @@ public interface IScriptStyleDesign
 
 	/**
 	 * Get the color of the top side of the border.
+	 * @return color of top border
 	 * 
 	 */
 	String getBorderTopColor( );
 
 	/**
 	 * Set the color of the top side of the border.
+	 * @param color
 	 * @throws ScriptException 
 	 * 
 	 */
@@ -971,12 +977,14 @@ public interface IScriptStyleDesign
 
 	/**
 	 * Get the color of the left side of the border.
+	 * @return color of left side of border
 	 * 
 	 */
 	String getBorderLeftColor( );
 
 	/**
 	 * Set the color of the left side of the border.
+	 * @param color
 	 * @throws ScriptException 
 	 * 
 	 */
@@ -984,248 +992,293 @@ public interface IScriptStyleDesign
 
 	/**
 	 * Get the color of the right side of the border.
+	 * @return color of right side of border
 	 */
 	String getBorderRightColor( );
 
 	/**
 	 * Set the color of the right side of the border.
+	 * @param color
 	 * @throws ScriptException 
 	 */
 	void setBorderRightColor( String color ) throws ScriptException;
 
 	/**
 	 * Get the color of the bottom side of the border.
+	 * @return color of bottom side of border
 	 */
 	String getBorderBottomColor( );
 
 	/**
 	 * Set the color of the bottom side of the border.
+	 * @param color
 	 * @throws ScriptException 
 	 */
 	void setBorderBottomColor( String color ) throws ScriptException;
 
 	/**
 	 * Get the x position for the background.
+	 * @return x position
 	 */
 	String getBackGroundPositionX( );
 
 	/**
 	 * Set the x position for the background.
+	 * @param x
 	 * @throws ScriptException 
 	 */
 	void setBackGroundPositionX( String x ) throws ScriptException;
 
 	/**
 	 * Get the y position for the background.
+	 * @return y position
 	 */
 	String getBackGroundPositionY( );
 
 	/**
 	 * Set the y position for the background.
+	 * @param y
 	 * @throws ScriptException 
 	 */
 	void setBackGroundPositionY( String y ) throws ScriptException;
 
 	/**
 	 * Get the spacing between individual letters.
+	 * @return spacing
 	 */
 	String getLetterSpacing( );
 
 	/**
 	 * Set the spacing between individual letters.
+	 * @param spacing
 	 * @throws ScriptException 
 	 */
 	void setLetterSpacing( String spacing ) throws ScriptException;
 
 	/**
 	 * Get the height of a line. Implies spacing between lines.
+	 * @return height of a line
 	 */
 	String getLineHeight( );
 
 	/**
 	 * Set the height of a line. Implies spacing between lines.
+	 * @param height
 	 * @throws ScriptException 
 	 */
 	void setLineHeight( String height ) throws ScriptException;
 
 	/**
 	 * Get the text indent.
+	 * @return text indent
 	 */
 	String getTextIndent( );
 
 	/**
 	 * Set the text indent.
+	 * @param indent
 	 * @throws ScriptException 
 	 */
 	void setTextIndent( String indent ) throws ScriptException;
 
 	/**
 	 * Get the spacing between two words.
+	 * @return spacing
 	 */
 	String getWordSpacing( );
 
 	/**
 	 * Set the spacing between two words.
+	 * @param spacing
 	 * @throws ScriptException 
 	 */
 	void setWordSpacing( String spacing ) throws ScriptException;
 
 	/**
 	 * Get the width of the top side of the border.
+	 * @return width of top side of border
 	 */
 	String getBorderTopWidth( );
 
 	/**
 	 * Set the width of the top side of the border.
+	 * @param width
 	 * @throws ScriptException 
 	 */
 	void setBorderTopWidth( String width ) throws ScriptException;
 
 	/**
 	 * Get the width of left side of the border.
+	 * @return width of left side of border
 	 */
 	String getBorderLeftWidth( );
 
 	/**
 	 * Set the width of left side of the border.
+	 * @param width
 	 * @throws ScriptException 
 	 */
 	void setBorderLeftWidth( String width ) throws ScriptException;
 
 	/**
 	 * Get the width of right side of the border.
+	 * @return width of right side of border
 	 */
 	String getBorderRightWidth( );
 
 	/**
 	 * Set the width of the right side of the border.
+	 * @param width
 	 * @throws ScriptException 
 	 */
 	void setBorderRightWidth( String width ) throws ScriptException;
 
 	/**
 	 * Get the width of the bottom side of the border.
+	 * @return width of bottom side of border
 	 */
 	String getBorderBottomWidth( );
 
 	/**
 	 * Set the width of the bottom side of the border.
+	 * @param width
 	 * @throws ScriptException 
 	 */
 	void setBorderBottomWidth( String width ) throws ScriptException;
 
 	/**
 	 * Get the margin of the top side.
+	 * @return margin of top side.
 	 */
 	String getMarginTop( );
 
 	/**
 	 * Set the margin of the top side.
+	 * @param margin
 	 * @throws ScriptException 
 	 */
 	void setMarginTop( String margin ) throws ScriptException;
 
 	/**
 	 * Get the margin of the right side.
+	 * @return margin of right side
 	 */
 	String getMarginRight( );
 
 	/**
 	 * Set the margin of the right side.
+	 * @param margin
 	 * @throws ScriptException 
 	 */
 	void setMarginRight( String margin ) throws ScriptException;
 
 	/**
 	 * Get the margin of the left side.
+	 * @return margin of left side
 	 */
 	String getMarginLeft( );
 
 	/**
 	 * Set the margin of the left side.
+	 * @param margin
 	 * @throws ScriptException 
 	 */
 	void setMarginLeft( String margin ) throws ScriptException;
 
 	/**
 	 * Get the margin of the bottom side.
+	 * @return margin of bottom side
 	 */
 	String getMarginBottom( );
 
 	/**
 	 * Set the margin of the bottom side.
+	 * @param margin
 	 * @throws ScriptException 
 	 */
 	void setMarginBottom( String margin ) throws ScriptException;
 
 	/**
 	 * Get the padding of the top side.
+	 * @return padding of top side
 	 */
 	String getPaddingTop( );
 
 	/**
 	 * Set the padding of the top side.
+	 * @param padding
 	 * @throws ScriptException 
 	 */
 	void setPaddingTop( String padding ) throws ScriptException;
 
 	/**
 	 * Get the padding of the right side.
+	 * @return padding of right side
 	 */
 	String getPaddingRight( );
 
 	/**
 	 * Set the padding of the right side.
+	 * @param padding
 	 * @throws ScriptException 
 	 */
 	void setPaddingRight( String padding ) throws ScriptException;
 
 	/**
 	 * Get the padding of the left side.
+	 * @return padding of left side
 	 */
 	String getPaddingLeft( );
 
 	/**
 	 * Set the padding of the left side.
+	 * @param padding
 	 * @throws ScriptException 
 	 */
 	void setPaddingLeft( String padding ) throws ScriptException;
 
 	/**
 	 * Get the padding of the bottom side.
+	 * @return padding of bottom side
 	 */
 	String getPaddingBottom( );
 
 	/**
 	 * Set the padding of the bottom side.
+	 * @param padding
 	 * @throws ScriptException 
 	 */
 	void setPaddingBottom( String padding ) throws ScriptException;
 
 	/**
 	 * Get the font size.
+	 * @return font size 
 	 */
 	String getFontSize( );
 
 	/**
 	 * Set the font size.
+	 * @param fontSize
 	 * @throws ScriptException 
 	 */
 	void setFontSize( String fontSize ) throws ScriptException;
 
 	/**
 	 * Get the font family.
+	 * @return font family
 	 */
 	String getFontFamily( );
 
 	/**
 	 * Set the font family.
+	 * @param fontFamily
 	 * @throws ScriptException 
 	 */
 	void setFontFamily( String fontFamily ) throws ScriptException;
 
 	/**
 	 * Get the weight of the font.
+	 * @return weight of font
 	 */
 	String getFontWeight( );
 

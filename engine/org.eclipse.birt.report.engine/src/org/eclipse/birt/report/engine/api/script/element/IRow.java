@@ -51,11 +51,11 @@ public interface IRow extends IDesignElement
 	 */
 
 	void setBookmark( String value ) throws ScriptException;
-	
+
 	/**
 	 * Removes all hide rules that matches formatType.
 	 * 
-	 * @param formatType
+	 * @param rule
 	 * @exception ScriptException
 	 */
 
@@ -85,32 +85,39 @@ public interface IRow extends IDesignElement
 	 */
 
 	void addHideRule( IHideRule rule ) throws ScriptException;
-	
+
 	/**
 	 * Gets all high light rules.
+	 * 
 	 * @return all high light rules
 	 */
-	
-	IHighlightRule[] getHighlightRules();
-	
+
+	IHighlightRule[] getHighlightRules( );
+
 	/**
 	 * Adds high light rule.
+	 * 
 	 * @param rule
+	 * @throws ScriptException
 	 */
-	
-	void addHighlightRule( IHighlightRule rule) throws ScriptException;
-	
+
+	void addHighlightRule( IHighlightRule rule ) throws ScriptException;
+
 	/**
 	 * Removes all high light rules.
+	 * 
+	 * @throws ScriptException
 	 */
-	
-	void removeHighlightRules() throws ScriptException;
-	
+
+	void removeHighlightRules( ) throws ScriptException;
+
 	/**
 	 * Removes high light rule.
+	 * 
 	 * @param rule
+	 * @throws ScriptException
 	 */
-	
-	void removeHighlightRule( IHighlightRule rule) throws ScriptException;
+
+	void removeHighlightRule( IHighlightRule rule ) throws ScriptException;
 
 }

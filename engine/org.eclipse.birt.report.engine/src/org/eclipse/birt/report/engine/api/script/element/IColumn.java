@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.api.script.element;
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 
 /**
- * Column script.
+ * Script wrapper of ColumnHandle.
  *
  */
 
@@ -23,7 +23,7 @@ public interface IColumn
 	/**
 	 * Removes all hide rules that matches formatType.
 	 * 
-	 * @param formatType
+	 * @param rule
 	 * @exception ScriptException
 	 */
 

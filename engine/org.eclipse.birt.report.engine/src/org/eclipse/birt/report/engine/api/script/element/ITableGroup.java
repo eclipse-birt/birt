@@ -10,6 +10,11 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.api.script.element;
 
+/**
+ * Script wrapper of TableGroupHandle
+ *
+ */
+
 public interface ITableGroup extends IGroup
 {
 

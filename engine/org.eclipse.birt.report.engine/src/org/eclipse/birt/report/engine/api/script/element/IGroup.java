@@ -13,6 +13,11 @@ package org.eclipse.birt.report.engine.api.script.element;
 
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 
+/**
+ * Script wrapper of GroupHandle
+ *
+ */
+
 public interface IGroup extends IDesignElement
 {
 
@@ -51,7 +56,7 @@ public interface IGroup extends IDesignElement
 	/**
 	 * Sets the group name.
 	 * 
-	 * @param theName
+	 * @param name
 	 *            the group name to set
 	 * @throws ScriptException
 	 *             if the name is duplicate or the property is locked.

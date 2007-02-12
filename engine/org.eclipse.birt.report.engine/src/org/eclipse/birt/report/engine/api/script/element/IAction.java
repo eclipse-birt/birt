@@ -12,6 +12,11 @@ package org.eclipse.birt.report.engine.api.script.element;
 
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 
+/**
+ * Script wrapper of <code>ActionHandle</code>
+ *
+ */
+
 public interface IAction
 {
 	/**
