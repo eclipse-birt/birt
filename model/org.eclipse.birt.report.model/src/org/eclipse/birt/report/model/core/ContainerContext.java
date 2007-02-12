@@ -199,14 +199,14 @@ public final class ContainerContext
 
 	public boolean isManagedByNameSpace( )
 	{
-		// TODO: if ismanagedby namespace is supported by property, then return
-		// this return check
-		if ( !isSlot )
-			return false;
-
 		// if this element is a pending node, return false
 		if ( container.getRoot( ) == null )
 			return false;
+
+		// TODO: if ismanagedby namespace is supported by property, then return
+		// this return check
+		if ( !isSlot )
+			return true;
 
 		// check the slot
 
@@ -300,24 +300,18 @@ public final class ContainerContext
 		{
 			return container.getSlot( containerSlotID ).getContents( );
 		}
-		else
+
+		ElementPropertyDefn defn = container.getPropertyDefn( containerProp );
+		Object value = container.getProperty( module, defn );
+		if ( defn == null || value == null )
+			return Collections.EMPTY_LIST;
+		if ( defn.isList( ) )
 		{
-			ElementPropertyDefn defn = container
-					.getPropertyDefn( containerProp );
-			Object value = container.getProperty( module, defn );
-			if ( defn == null || value == null )
-				return Collections.EMPTY_LIST;
-			if ( defn.isList( ) )
-			{
-				return (List) value;
-			}
-			else
-			{
-				List result = new ArrayList( );
-				result.add( value );
-				return result;
-			}
+			return (List) value;
 		}
+		List result = new ArrayList( );
+		result.add( value );
+		return result;
 	}
 
 	/**
@@ -350,11 +344,8 @@ public final class ContainerContext
 			List value = container.getListProperty( module, propName );
 			return (DesignElement) ( value == null ? null : value.get( posn ) );
 		}
-		else
-		{
-			return (DesignElement) ( posn == 0 ? container.getProperty( module,
-					defn ) : null );
-		}
+		return (DesignElement) ( posn == 0 ? container.getProperty( module,
+				defn ) : null );
 	}
 
 	/**
@@ -386,10 +377,7 @@ public final class ContainerContext
 			List value = container.getListProperty( module, propName );
 			return value == null ? 0 : value.size( );
 		}
-		else
-		{
-			return container.getProperty( module, defn ) == null ? 0 : 1;
-		}
+		return container.getProperty( module, defn ) == null ? 0 : 1;
 	}
 
 	/**
@@ -616,7 +604,7 @@ public final class ContainerContext
 			container.clearProperty( containerProp );
 		}
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -651,8 +639,8 @@ public final class ContainerContext
 		 *            the slot id
 		 * @param type
 		 *            the name of the element type, like "Table", "List", etc.
-		 * @return <code>true</code> if the slot can contain the an element with
-		 *         <code>type</code> type, otherwise <code>false</code>.
+		 * @return <code>true</code> if the slot can contain the an element
+		 *         with <code>type</code> type, otherwise <code>false</code>.
 		 * 
 		 * @see #canContain(int, DesignElementHandle)
 		 */
@@ -709,8 +697,8 @@ public final class ContainerContext
 			if ( !retValue )
 				return false;
 
-			// if the root of element is included by report/library. Do not allow
-			// drop.
+			// if the root of element is included by report/library. Do not
+			// allow drop.
 
 			if ( focus.getElement( ).isRootIncludedByModule( ) )
 				return false;
@@ -734,7 +722,8 @@ public final class ContainerContext
 				if ( container instanceof ListingElement
 						|| container instanceof MasterPage )
 				{
-					List errors = container.checkContent( module, this.focus, defn );
+					List errors = container.checkContent( module, this.focus,
+							defn );
 					return errors.isEmpty( );
 				}
 
@@ -761,9 +750,11 @@ public final class ContainerContext
 				return Collections.EMPTY_LIST;
 
 			boolean retValue = canContainInRom( element.getDefn( ) );
-			ContentException e = ContentExceptionFactory.createContentException(
-					focus, element,
-					ContentException.DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT );
+			ContentException e = ContentExceptionFactory
+					.createContentException(
+							focus,
+							element,
+							ContentException.DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT );
 
 			List errors = new ArrayList( );
 			if ( !retValue )
@@ -773,9 +764,9 @@ public final class ContainerContext
 			}
 
 			// if this element can not be contained in the module, return false;
-			// such as, template elements can not be contained in the libraries, so
-			// either a template table or a real tabel with a template image in one
-			// cell of it can never be contained in a libraries
+			// such as, template elements can not be contained in the libraries,
+			// so either a template table or a real tabel with a template image
+			// in one cell of it can never be contained in a libraries
 
 			if ( !canContainTemplateElement( module, element ) )
 			{
@@ -783,8 +774,8 @@ public final class ContainerContext
 				return errors;
 			}
 
-			// if the root of element is included by report/library. Do not allow
-			// drop.
+			// if the root of element is included by report/library. Do not
+			// allow drop.
 
 			if ( focus.getElement( ).isRootIncludedByModule( ) )
 			{
@@ -792,8 +783,8 @@ public final class ContainerContext
 				return errors;
 			}
 
-			// Can not change the structure of child element or a virtual element(
-			// inside the child ).
+			// Can not change the structure of child element or a virtual
+			// element( inside the child ).
 
 			if ( focus.getElement( ).isVirtualElement( )
 					|| focus.getElement( ).getExtendsName( ) != null )
@@ -819,7 +810,8 @@ public final class ContainerContext
 						|| container instanceof Theme
 						|| container instanceof MasterPage )
 				{
-					errors = container.checkContent( module, this.focus, element );
+					errors = container.checkContent( module, this.focus,
+							element );
 
 					return errors;
 				}
@@ -831,8 +823,8 @@ public final class ContainerContext
 
 		/**
 		 * Checks whether a type of elements can reside in the given slot of the
-		 * current element. Besides the type check, it also checks the cardinality
-		 * of this slot.
+		 * current element. Besides the type check, it also checks the
+		 * cardinality of this slot.
 		 * 
 		 * @param slotId
 		 *            the slot id of the current element
@@ -849,9 +841,9 @@ public final class ContainerContext
 			if ( !focus.canContainInRom( defn ) )
 				return false;
 
-			// if the canContain is check for create template, then jump the slot
-			// count check for the operation won't change the content count, it is a
-			// replace operation.
+			// if the canContain is check for create template, then jump the
+			// slot count check for the operation won't change the content
+			// count, it is a replace operation.
 
 			String name = defn.getName( );
 			if ( ReportDesignConstants.TEMPLATE_DATA_SET.equals( name )
@@ -876,18 +868,18 @@ public final class ContainerContext
 		 *            the slot ID to insert
 		 * @param element
 		 *            the element to insert
-		 * @return false if the module is a library and the element to insert is a
-		 *         template element or its content is a template element; or the
-		 *         container is report design and slot is component slot and the
-		 *         element to insert is a template element or its content is a
-		 *         template element; otherwise true
+		 * @return false if the module is a library and the element to insert is
+		 *         a template element or its content is a template element; or
+		 *         the container is report design and slot is component slot and
+		 *         the element to insert is a template element or its content is
+		 *         a template element; otherwise true
 		 */
 
 		private boolean canContainTemplateElement( Module module,
 				DesignElement element )
 		{
-			// if this element is a kind of template element or any its content is a
-			// kind of template element, return false
+			// if this element is a kind of template element or any its content
+			// is a kind of template element, return false
 
 			IElementDefn defn = MetaDataDictionary.getInstance( ).getElement(
 					ReportDesignConstants.TEMPLATE_ELEMENT );
@@ -915,21 +907,25 @@ public final class ContainerContext
 		 *            the slot ID to insert
 		 * @param defn
 		 *            the definition of element to insert
-		 * @return false if the module is a library and the element to insert is a
-		 *         template element or its content is a template element; or the
-		 *         container is report design and slot is component slot and the
-		 *         element to insert is a template element or its content is a
-		 *         template element; otherwise true
+		 * @return false if the module is a library and the element to insert is
+		 *         a template element or its content is a template element; or
+		 *         the container is report design and slot is component slot and
+		 *         the element to insert is a template element or its content is
+		 *         a template element; otherwise true
 		 */
 
-		private boolean canContainTemplateElement( Module module, IElementDefn defn )
+		private boolean canContainTemplateElement( Module module,
+				IElementDefn defn )
 		{
-			// if this element is a kind of template element or any its content is a
-			// kind of template element, return false
+			// if this element is a kind of template element or any its content
+			// is a kind of template element, return false
 
 			if ( defn != null
-					&& defn.isKindOf( MetaDataDictionary.getInstance( ).getElement(
-							ReportDesignConstants.TEMPLATE_ELEMENT ) ) )
+					&& defn
+							.isKindOf( MetaDataDictionary
+									.getInstance( )
+									.getElement(
+											ReportDesignConstants.TEMPLATE_ELEMENT ) ) )
 			{
 				// components in the design/library cannot contain template
 				// elements.
@@ -938,7 +934,8 @@ public final class ContainerContext
 				while ( containerInfo != null )
 				{
 					DesignElement container = containerInfo.getElement( );
-					if ( ( container instanceof Module && containerInfo.getSlotID( ) == IModuleModel.COMPONENT_SLOT )
+					if ( ( container instanceof Module && containerInfo
+							.getSlotID( ) == IModuleModel.COMPONENT_SLOT )
 							|| container instanceof Library )
 						return false;
 					containerInfo = container.getContainerInfo( );
