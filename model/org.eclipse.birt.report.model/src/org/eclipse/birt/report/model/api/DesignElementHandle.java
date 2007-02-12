@@ -220,54 +220,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 		DesignElement element = getElement( );
 		Object value = element.getProperty( module, propName );
-
-		if ( value == null )
-			return null;
-
-		if ( value instanceof ReferenceValue )
-			return ReferenceValueUtil.needTheNamespacePrefix(
-					(ReferenceValue) value, getModule( ) );
-
 		PropertyDefn defn = (PropertyDefn) getPropertyDefn( propName );
-		if ( value instanceof List && defn != null
-				&& defn.getSubTypeCode( ) == IPropertyType.LIST_TYPE )
-		{
-			List valueList = (List) value;
-			List names = new ArrayList( );
-			for ( int i = 0; i < valueList.size( ); i++ )
-			{
-				ElementRefValue item = (ElementRefValue) valueList.get( i );
-				names.add( ReferenceValueUtil.needTheNamespacePrefix( item,
-						getModule( ) ) );
-			}
-			return names;
-		}
-
-		// convert design element to handles
-		if ( defn != null && defn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
-		{
-			// TODO: getHandle -- module para is this.module or the
-			// value.getRoot
-			if ( value instanceof DesignElement )
-			{
-				return ( (DesignElement) value ).getHandle( module );
-			}
-			else if ( value instanceof List )
-			{
-				List items = (List) value;
-				List handles = new ArrayList( );
-				for ( int i = 0; i < items.size( ); i++ )
-				{
-					DesignElement item = (DesignElement) items.get( i );
-					handles.add( item.getHandle( module ) );
-				}
-				return handles;
-			}
-
-		}
-
-		return value;
-
+		return ModelUtil.getPropertyValueStrategy( value, module, defn );
 	}
 
 	/**

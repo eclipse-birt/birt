@@ -20,9 +20,9 @@ import org.eclipse.birt.report.model.command.ComplexPropertyCommand;
 import org.eclipse.birt.report.model.command.PropertyCommand;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.MemberRef;
-import org.eclipse.birt.report.model.metadata.ReferenceValue;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
-import org.eclipse.birt.report.model.util.ReferenceValueUtil;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * A handle to a member of a property structure. A structure list occurs in an
@@ -105,11 +105,9 @@ public class MemberHandle extends SimpleValueHandle
 	{
 		Object value = memberRef.getValue( getModule( ), getElement( ) );
 
-		if ( value instanceof ReferenceValue )
-			return ReferenceValueUtil.needTheNamespacePrefix(
-					(ReferenceValue) value, getElementHandle( ).getModule( ) );
+		return ModelUtil.getPropertyValueStrategy( value, getModule( ),
+				(PropertyDefn) getDefn( ) );
 
-		return value;
 	}
 
 	/*
@@ -135,9 +133,10 @@ public class MemberHandle extends SimpleValueHandle
 		cmd.removeItem( memberRef, posn );
 
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#addItem(java.lang.Object)
 	 */
 	public void addItem( Object item ) throws SemanticException
@@ -148,8 +147,8 @@ public class MemberHandle extends SimpleValueHandle
 			super.addItem( (IStructure) item );
 		else
 		{
-			ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
-					getElement( ) );
+			ComplexPropertyCommand cmd = new ComplexPropertyCommand(
+					getModule( ), getElement( ) );
 			cmd.addItem( memberRef, item );
 		}
 	}

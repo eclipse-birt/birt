@@ -98,6 +98,62 @@ import com.ibm.icu.util.ULocale;
 
 public class ModelUtil
 {
+	/**
+	 * Strategy of getting property
+	 * 
+	 * @param value
+	 * @param module
+	 * @param defn
+	 * @return value of a property as a generic object
+	 */
+
+	public static Object getPropertyValueStrategy( Object value, Module module,
+			PropertyDefn defn )
+	{
+		if ( value == null )
+			return null;
+
+		if ( value instanceof ReferenceValue )
+			return ReferenceValueUtil.needTheNamespacePrefix(
+					(ReferenceValue) value, module );
+
+		if ( value instanceof List && defn != null
+				&& defn.getSubTypeCode( ) == IPropertyType.LIST_TYPE )
+		{
+			List valueList = (List) value;
+			List names = new ArrayList( );
+			for ( int i = 0; i < valueList.size( ); i++ )
+			{
+				ElementRefValue item = (ElementRefValue) valueList.get( i );
+				names.add( ReferenceValueUtil.needTheNamespacePrefix( item,
+						module ) );
+			}
+			return names;
+		}
+
+		// convert design element to handles
+		
+		if ( defn != null && defn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
+		{
+			if ( value instanceof DesignElement )
+			{
+				return ( (DesignElement) value ).getHandle( module );
+			}
+			else if ( value instanceof List )
+			{
+				List items = (List) value;
+				List handles = new ArrayList( );
+				for ( int i = 0; i < items.size( ); i++ )
+				{
+					DesignElement item = (DesignElement) items.get( i );
+					handles.add( item.getHandle( module ) );
+				}
+				return handles;
+			}
+		}
+
+		return value;
+	}
 
 	/**
 	 * Duplicates the properties from source element to destination element.
@@ -397,26 +453,6 @@ public class ModelUtil
 			{
 				returnList.add( item );
 			}
-		}
-		return returnList;
-	}
-
-	/**
-	 * Copies a list of design elements.
-	 * 
-	 * @param value
-	 *            the value to copy
-	 * @return the cloned list of design elements
-	 */
-	private static List cloneElementList( List value )
-	{
-		if ( value == null )
-			return null;
-		ArrayList returnList = new ArrayList( );
-		for ( int i = 0; i < value.size( ); i++ )
-		{
-			DesignElement item = (DesignElement) value.get( i );
-			returnList.add( getCopy( item ) );
 		}
 		return returnList;
 	}
@@ -760,7 +796,8 @@ public class ModelUtil
 	/**
 	 * Determines whether there is a child in the given element, which is kind
 	 * of the given element definition.
-	 * @param module 
+	 * 
+	 * @param module
 	 * 
 	 * @param element
 	 *            the element to find
