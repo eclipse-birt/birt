@@ -542,6 +542,9 @@ public final class ErrorDetail
 	{
 		if ( lineNo == 0 )
 		{
+			if ( element == null )
+				return 1;
+
 			Module root = element.getRoot( );
 			if ( root != null )
 				return root.getLineNo( element );

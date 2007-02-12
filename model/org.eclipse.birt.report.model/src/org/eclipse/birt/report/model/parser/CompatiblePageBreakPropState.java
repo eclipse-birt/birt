@@ -13,8 +13,6 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.GroupElement;
-import org.eclipse.birt.report.model.elements.TableRow;
 import org.xml.sax.SAXException;
 
 /**
@@ -51,18 +49,17 @@ public class CompatiblePageBreakPropState extends CompatiblePropertyState
 
 	public void end( ) throws SAXException
 	{
-		// special case to delegate the property value to its container.
-		// Only when the row is in the Group.
-		
-		if ( element instanceof TableRow )
-			if ( element.getContainer( ) instanceof GroupElement )
-				element = element.getContainer( );
-
 		String value = text.toString( );
 		if ( value.equalsIgnoreCase( "left" ) //$NON-NLS-1$
 				|| value.equalsIgnoreCase( "right" ) ) //$NON-NLS-1$
+		{
 			value = DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS;
 
-		doEnd( value );
+			doEnd( value );
+		}
+		else
+		{
+			super.end( );
+		}
 	}
 }

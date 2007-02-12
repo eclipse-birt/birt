@@ -403,13 +403,27 @@ public class ParserCompatibilityTest extends BaseTestCase
 	{
 		openDesign( "CompatiblePageBreaks.xml" ); //$NON-NLS-1$
 		TableHandle table = (TableHandle) designHandle.findElement( "table1" ); //$NON-NLS-1$
-		assertEquals( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS,
-				( (GroupHandle) table.getGroups( ).get( 0 ) )
-						.getProperty( IStyleModel.PAGE_BREAK_AFTER_PROP ) );
+		
+		// test table
 		assertEquals( DesignChoiceConstants.PAGE_BREAK_AFTER_AUTO, table
 				.getProperty( IStyleModel.PAGE_BREAK_AFTER_PROP ) );
 		assertEquals( DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS, table
 				.getProperty( IStyleModel.PAGE_BREAK_BEFORE_PROP ) );
+		
+		// test group
+		assertEquals( DesignChoiceConstants.PAGE_BREAK_AFTER_AUTO,
+				( (GroupHandle) table.getGroups( ).get( 0 ) )
+						.getProperty( IStyleModel.PAGE_BREAK_AFTER_PROP ) );
+		
+		// test row
+		assertEquals( "inherit", //$NON-NLS-1$
+				( (GroupHandle) table.getGroups( ).get( 0 ) ).getHeader( ).get( 0 )
+						.getProperty( IStyleModel.PAGE_BREAK_AFTER_PROP ) );
+		
+		assertEquals( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS,
+				( (GroupHandle) table.getGroups( ).get( 0 ) ).getFooter( ).get( 0 )
+						.getProperty( IStyleModel.PAGE_BREAK_AFTER_PROP ) );
+		
 	}
 
 	/**

@@ -197,10 +197,12 @@ class PropertyState extends AbstractPropertyState
 			jmpDefn = struct.getDefn( ).getMember( name );
 		else
 			jmpDefn = element.getPropertyDefn( name );
-		
-		if ( jmpDefn != null && jmpDefn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
+
+		if ( jmpDefn != null
+				&& jmpDefn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
 		{
-			ElementPropertyState state = new ElementPropertyState( handler, element );
+			ElementPropertyState state = new ElementPropertyState( handler,
+					element );
 			state.setName( name );
 			return state;
 		}
@@ -294,16 +296,6 @@ class PropertyState extends AbstractPropertyState
 			if ( "onCreate".equalsIgnoreCase( name ) || //$NON-NLS-1$
 					"onRender".equalsIgnoreCase( name ) ) //$NON-NLS-1$
 				return new CompatibleIgnorePropertyState( handler, element );
-		}
-
-		if ( IStyleModel.PAGE_BREAK_BEFORE_PROP.equalsIgnoreCase( name )
-				|| IStyleModel.PAGE_BREAK_AFTER_PROP.equalsIgnoreCase( name )
-				|| IStyleModel.PAGE_BREAK_INSIDE_PROP.equalsIgnoreCase( name ) )
-		{
-			CompatiblePageBreakPropState state = new CompatiblePageBreakPropState(
-					handler, element );
-			state.setName( name );
-			return state;
 		}
 
 		if ( element instanceof ReportDesign
@@ -472,6 +464,16 @@ class PropertyState extends AbstractPropertyState
 			CompatibleMustMatchState state = new CompatibleMustMatchState(
 					handler, element );
 			state.setName( IScalarParameterModel.MUCH_MATCH_PROP );
+			return state;
+		}
+
+		if ( handler.versionNumber < VersionUtil.VERSION_3_0_0
+				&& ( IStyleModel.PAGE_BREAK_BEFORE_PROP.equalsIgnoreCase( name ) || IStyleModel.PAGE_BREAK_AFTER_PROP
+						.equalsIgnoreCase( name ) ) )
+		{
+			CompatiblePageBreakPropState state = new CompatiblePageBreakPropState(
+					handler, element );
+			state.setName( name );
 			return state;
 		}
 

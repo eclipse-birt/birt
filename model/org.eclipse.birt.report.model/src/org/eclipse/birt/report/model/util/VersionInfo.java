@@ -16,7 +16,7 @@ import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
- * Holds instrustions that inform the user if opening the old version design
+ * Holds instructions that inform the user if opening the old version design
  * file may cause some auto-conversion to the original design file.
  */
 
