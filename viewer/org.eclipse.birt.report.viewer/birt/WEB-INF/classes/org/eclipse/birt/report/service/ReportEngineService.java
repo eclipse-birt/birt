@@ -791,9 +791,7 @@ public class ReportEngineService
 			// only process parameters start with "__"
 			if ( name.startsWith( "__" ) ) //$NON-NLS-1$
 			{
-				name = name.substring( 2 );
-
-				config.put( name, entry.getValue( ) );
+				config.put( name.substring( 2 ), ParameterAccessor.getParameter( request, name ) );
 			}
 		}
 	}

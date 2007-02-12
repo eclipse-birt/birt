@@ -38,7 +38,7 @@ public class RenderOption implements IRenderOption
 	{
 		options = new HashMap( );
 	}
-	
+
 	public RenderOption( HashMap options )
 	{
 		this.options = options;
@@ -114,6 +114,10 @@ public class RenderOption implements IRenderOption
 		if ( value instanceof Boolean )
 		{
 			return ( (Boolean) value ).booleanValue( );
+		}
+		else if ( value instanceof String )
+		{
+			return "true".equalsIgnoreCase( (String) value ); //$NON-NLS-1$
 		}
 		return defaultValue;
 	}
