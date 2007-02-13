@@ -546,11 +546,4 @@ public class PeerExtensionTest extends BaseTestCase
 		assertNull( set.findChoice( "pt" ) );//$NON-NLS-1$
 		
 	}
-	
-	public void testCrosstab() throws Exception
-	{
-		openDesign("CrosstabSample.xml"); //$NON-NLS-1$
-		DesignElementHandle crosstab = designHandle.getBody( ).get( 0 );
-		assertTrue( crosstab != null );
-	}
 }

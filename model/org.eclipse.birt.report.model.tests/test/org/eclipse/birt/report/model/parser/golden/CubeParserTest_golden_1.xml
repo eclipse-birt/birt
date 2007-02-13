@@ -132,6 +132,73 @@
                     <property name="hierarchy">nonExistingHierarchy</property>
                 </structure>
             </list-property>
+            <property name="dimensions">
+                <dimension name="testDimension1" id="14">
+                    <property name="isTimeType">true</property>
+                    <property name="isDefault">true</property>
+                    <property name="hierarchies">
+                        <hierarchy name="testHierarchy1" id="15">
+                            <property name="dataSet">secondDataSet</property>
+                            <property name="isDefault">true</property>
+                            <list-property name="filter">
+                                <structure>
+                                    <property name="operator">lt</property>
+                                    <expression name="expr">filter expression</expression>
+                                    <expression name="value1">value1 expression</expression>
+                                    <expression name="value2">value2 expression</expression>
+                                </structure>
+                            </list-property>
+                            <simple-property-list name="primaryKeys">
+                                <value>key</value>
+                                <value>key2</value>
+                                <value>key4</value>
+                            </simple-property-list>
+                            <property name="levels">
+                                <level name="testLevel1" id="16">
+                                    <property name="columnName">column1</property>
+                                    <property name="dataType">integer</property>
+                                    <property name="intervalBase">Jan</property>
+                                    <property name="interval">week</property>
+                                    <property name="intervalRange">3.0</property>
+                                    <property name="levelType">dynamic</property>
+                                    <list-property name="staticValues">
+                                        <structure>
+                                            <expression name="ruleExpre">rule expression</expression>
+                                            <expression name="displayExpre">display expression</expression>
+                                        </structure>
+                                        <structure>
+                                            <expression name="ruleExpre">rule expression2</expression>
+                                            <expression name="displayExpre">display expression2</expression>
+                                        </structure>
+                                    </list-property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">var1</property>
+                                            <property name="value">mumble.jpg</property>
+                                        </structure>
+                                        <structure>
+                                            <property name="name">var2</property>
+                                            <property name="value">abcdefg</property>
+                                        </structure>
+                                    </list-property>
+                                </level>
+                            </property>
+                        </hierarchy>
+                    </property>
+                </dimension>
+            </property>
+            <property name="measureGroups">
+                <measure-group name="testMeasureGroup1" id="17">
+                    <property name="isDefault">true</property>
+                    <property name="measures">
+                        <measure name="testMeasure1" id="18">
+                            <property name="function">min</property>
+                            <property name="isCalculated">false</property>
+                            <expression name="measureExpression">column</expression>
+                        </measure>
+                    </property>
+                </measure-group>
+            </property>
         </cube>
     </cubes>
     <page-setup>

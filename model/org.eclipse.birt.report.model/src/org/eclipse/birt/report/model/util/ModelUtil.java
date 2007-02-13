@@ -418,10 +418,10 @@ public class ModelUtil
 				return refValue.copy( );
 
 			case IPropertyType.LIST_TYPE :
-				return ModelUtil.clonePropertyList( (List) value );
+				return clonePropertyList( (List) value );
 			case IPropertyType.ELEMENT_TYPE :
 				if ( propDefn.isList( ) )
-					return null;
+					return cloneElementList( (List) value );
 				return getCopy( (DesignElement) value );
 		}
 
@@ -453,6 +453,26 @@ public class ModelUtil
 			{
 				returnList.add( item );
 			}
+		}
+		return returnList;
+	}
+
+	/**
+	 * Copies a list of design elements.
+	 * 
+	 * @param value
+	 *            the value to copy
+	 * @return the cloned list of design elements
+	 */
+	private static List cloneElementList( List value )
+	{
+		if ( value == null )
+			return null;
+		ArrayList returnList = new ArrayList( );
+		for ( int i = 0; i < value.size( ); i++ )
+		{
+			DesignElement item = (DesignElement) value.get( i );
+			returnList.add( getCopy( item ) );
 		}
 		return returnList;
 	}
