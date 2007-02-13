@@ -8,7 +8,6 @@
 ###########################
 # filtet the comment line
 ###########################
-cp $1/mf.template  $1/bbb
 awk -F "#" '{if($1!="") print  $1 }' $1/mf.template > $1/mf.template.tmp
 
 ###########################
