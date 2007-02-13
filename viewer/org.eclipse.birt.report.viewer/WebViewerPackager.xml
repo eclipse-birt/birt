@@ -360,11 +360,6 @@
 	<!-- copy plugins needed in the system fold ./eclipse/plugins into the directory -->
 	<mkdir dir="${export.dir}/plugins" />
 
-	<!-- framework extension fragment -->
-	<jar destfile="${export.dir}/plugins/org.eclipse.birt.api_1.0.0.jar" 
-		manifest="../org.eclipse.birt.report.engine/sdk/manifest.mf.template"/>
-	
-
 	<copy todir="${export.dir}/plugins">
 		<fileset dir="${baseLocation}/plugins">
 			<include name="org.eclipse.core.runtime.compatibility.registry_*/**" />
@@ -550,6 +545,45 @@
 		<fileset dir="../org.w3c.sac/lib">
 			<include name="*.jar" />
 		</fileset>
+		<!-- Export Chart Engine -->
+		<fileset dir="${baseLocation}/plugins/">
+			<include name="org.eclipse.emf.common_*.jar" />
+			<include name="org.eclipse.emf.ecore.xmi_*.jar" />
+			<include name="org.eclipse.emf.ecore_*.jar" />
+		</fileset>
 	</copy>
-</target>
+	<copy todir="${export.dir}/lib">
+		<fileset dir="${integrate.dir}/plugins" />
+		<mapper type="regexp"  from="org.eclipse.birt.chart.engine_.*.jar" to="chartengineapi.jar"/>
+	</copy>
+	
+	<!-- creating manifest.mf.template for org.eclipse.birt.api -->
+	    <path id="javasrc.classpath">
+	        <fileset dir="${integrate.dir}/plugins" includes="org.eclipse.birt.report.engine_*.jar"/>
+	    </path>
+		<java classname="org.eclipse.birt.report.engine.util.ExportManifestUtils" 
+			output="../org.eclipse.birt.report.engine/sdk/mf.template">
+	        <classpath refid="javasrc.classpath" />
+	        <arg value="${buildDirectory}/plugins/org.eclipse.birt.report.viewer/birt_web/WEB-INF/platform/lib" />
+	    </java>
+		<antcall target="replaceManifest"/>
+	
+		<!-- framework extension fragment -->
+		<jar destfile="${export.dir}/plugins/org.eclipse.birt.api_1.0.0.jar" 
+			manifest="../org.eclipse.birt.report.engine/sdk/manifest.mf.template"/>
+
+    </target>
+	<target name="checkOS">
+        <condition property="linux" value="true">
+                <equals arg1="${osgi.os}" arg2="linux" />
+        </condition>
+	</target>
+	
+	<target name="replaceManifest" depends="checkOS" if="linux">
+        <exec executable="${buildDirectory}/plugins/org.eclipse.birt.report.engine/sdk/templateGenerator.sh">
+                <arg line="${buildDirectory}/plugins/org.eclipse.birt.report.engine/sdk" />
+                <arg line="${buildDirectory}/plugins/org.eclipse.birt.report.engine/sdk/manifest.mf" />
+        		<arg line="${buildDirectory}/plugins/org.eclipse.birt.report.engine/sdk/manifest.mf.template" />
+        </exec>
+	</target>
 </project>
