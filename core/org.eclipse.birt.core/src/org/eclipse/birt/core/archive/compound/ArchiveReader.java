@@ -31,8 +31,8 @@ public class ArchiveReader implements IDocArchiveReader
 
 	public ArchiveReader( String archiveName ) throws IOException
 	{
-		archive = new ArchiveFile( archiveName, "r" );
 		shareArchive = false;
+		archive = new ArchiveFile( archiveName, "r" );
 	}
 
 	public void close( ) throws IOException

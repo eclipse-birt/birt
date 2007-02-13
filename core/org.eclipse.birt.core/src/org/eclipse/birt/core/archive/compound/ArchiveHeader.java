@@ -20,19 +20,8 @@ import java.io.IOException;
 /**
  * Contains the report archive file 's head information.
  */
-class ArchiveHeader
+class ArchiveHeader implements ArchiveConstants
 {
-
-	/** The magic tag for Compound RDF File, the HEX of RPTARC */
-	static final long MAGIC_TAG = 0x525054414243L;
-
-	/** The file format version */
-	static final long VERSION_0 = 0;
-
-	static final int HEADER_BLOCK = 0;
-
-	static final int FILE_STATUS_OFFSET = 16;
-
 	protected ArchiveFile af;
 	/**
 	 * the file status of the archive
@@ -54,7 +43,6 @@ class ArchiveHeader
 	static ArchiveHeader createHeader( ArchiveFile af ) throws IOException
 	{
 		ArchiveHeader header = new ArchiveHeader( af );
-		header.flush( );
 		return header;
 	}
 
@@ -63,7 +51,16 @@ class ArchiveHeader
 		ArchiveHeader header = new ArchiveHeader( af );
 		header.refresh( );
 		return header;
+	}
 
+	int getStatus( )
+	{
+		return fileStatus;
+	}
+
+	void setStatus( int status )
+	{
+		this.fileStatus = status;
 	}
 
 	/**
@@ -78,16 +75,16 @@ class ArchiveHeader
 
 		DataInputStream in = new DataInputStream( new ByteArrayInputStream( b ) );
 		long magicTag = in.readLong( );
-		if ( magicTag != MAGIC_TAG )
+		if ( magicTag != DOCUMENT_TAG )
 		{
 			throw new IOException( "Not a compound file, the magic code is "
 					+ magicTag );
 		}
 		long version = in.readLong( );
-		if ( version != VERSION_0 )
+		if ( version != DOCUMENT_VERSION )
 		{
 			throw new IOException( "Unsupported compound archive version "
-					+ VERSION_0 );
+					+ DOCUMENT_VERSION );
 		}
 		fileStatus = in.readInt( );
 	}
@@ -101,8 +98,8 @@ class ArchiveHeader
 	{
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream( );
 		DataOutputStream out = new DataOutputStream( buffer );
-		out.writeLong( MAGIC_TAG );
-		out.writeLong( VERSION_0 );
+		out.writeLong( DOCUMENT_TAG );
+		out.writeLong( DOCUMENT_VERSION );
 		out.writeInt( fileStatus );
 
 		byte[] b = buffer.toByteArray( );

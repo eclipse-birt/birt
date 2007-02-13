@@ -10,38 +10,41 @@ import junit.framework.TestCase;
 public class ArchivePerformanceTest extends TestCase
 {
 
-	int STREAM_COUNT = 1024;
-	int STREAM_SIZE = 4096*2;
-	int BUFFER_SIZE = 1024;
+	int STREAM_COUNT = 127;
+	int STREAM_SIZE = 4097 * 7;
+	int BUFFER_SIZE = 64;
 
 	long readSize = 0;
 	long writeSize = 0;
 
 	public void testPerformance( ) throws IOException
 	{
-		removeFile( new File( "./utest/" ) );
-		long start, end;
-		start = System.currentTimeMillis( );
-		doFileWrite( );
-		end = System.currentTimeMillis( );
-		System.out.println( "FILE WRITE:" + ( end - start ) );
+		for ( int i = 0; i < 5; i++ )
+		{
+			removeFile( new File( "./utest/" ) );
+			long start, end;
+			start = System.currentTimeMillis( );
+			doFileWrite( );
+			end = System.currentTimeMillis( );
+			System.out.println( "FILE WRITE:" + ( end - start ) );
 
-		start = System.currentTimeMillis( );
-		doArchiveWrite( );
-		end = System.currentTimeMillis( );
-		System.out.println( "ARCHIVE WRITE:" + ( end - start ) );
+			start = System.currentTimeMillis( );
+			doArchiveWrite( );
+			end = System.currentTimeMillis( );
+			System.out.println( "ARCHIVE WRITE:" + ( end - start ) );
 
-		start = System.currentTimeMillis( );
-		doFileRead( );
-		end = System.currentTimeMillis( );
-		System.out.println( "FILE READ:" + ( end - start ) );
+/*			start = System.currentTimeMillis( );
+			doFileRead( );
+			end = System.currentTimeMillis( );
+			System.out.println( "FILE READ:" + ( end - start ) );
 
-		start = System.currentTimeMillis( );
-		doArchiveRead( );
-		end = System.currentTimeMillis( );
-		System.out.println( "ARCHIVE READ:" + ( end - start ) );
+			start = System.currentTimeMillis( );
+			doArchiveRead( );
+			end = System.currentTimeMillis( );
+			System.out.println( "ARCHIVE READ:" + ( end - start ) );*/
 
-		removeFile( new File( "./utest/" ) );
+			removeFile( new File( "./utest/" ) );
+		}
 	}
 
 	void doFileWrite( ) throws IOException
