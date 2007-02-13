@@ -17,20 +17,16 @@ import java.io.IOException;
 import org.eclipse.birt.core.archive.RAInputStream;
 
 /**
- * An InputStream wraper for RandomAccessStreamImpl.
+ * RAInputStream implementation based on the ArchiveEntry.
  * 
- * @version $Revision: #1 $ $Date: 2006/08/18 $
  */
-
 public class ArchiveEntryInputStream extends RAInputStream
 {
 
-	/** the stream item */
-
-	protected ArchiveEntry entry;
+	/** the archive entry */
+	private ArchiveEntry entry;
 
 	/** the current input position */
-
 	private long offset;
 
 	/**
@@ -41,13 +37,16 @@ public class ArchiveEntryInputStream extends RAInputStream
 	 * @param stream
 	 *            the stream item.
 	 */
-	public ArchiveEntryInputStream( ArchiveEntry entry )
+	ArchiveEntryInputStream( ArchiveEntry entry )
 	{
 		this.entry = entry;
 		this.offset = 0;
 	}
 
-	byte[] buffer = new byte[8];
+	/**
+	 * buffer used to read the int/long
+	 */
+	private byte[] buffer = new byte[8];
 
 	/*
 	 * (non-Javadoc)
@@ -83,9 +82,23 @@ public class ArchiveEntryInputStream extends RAInputStream
 
 	public void readFully( byte[] b, int off, int len ) throws IOException
 	{
-		entry.read( offset, b, off, len );
-		offset += len;
+		int n = 0;
+		do
+		{
+			int count = read( b, off + n, len - n );
+			if ( count < 0 )
+				throw new EOFException( );
+			n += count;
+		} while ( n < len );
 	}
+	
+    public int read( byte b[], int off, int len ) throws IOException
+	{
+		int readSize = entry.read( offset, b, off, len );
+		offset += readSize;
+		return readSize;
+	}
+	
 
 	public int readInt( ) throws IOException
 	{

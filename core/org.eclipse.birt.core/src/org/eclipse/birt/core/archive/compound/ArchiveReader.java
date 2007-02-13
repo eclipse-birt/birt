@@ -19,6 +19,7 @@ import org.eclipse.birt.core.archive.RAInputStream;
 
 public class ArchiveReader implements IDocArchiveReader
 {
+
 	protected ArchiveFile archive;
 	protected boolean shareArchive;
 
@@ -30,8 +31,8 @@ public class ArchiveReader implements IDocArchiveReader
 
 	public ArchiveReader( String archiveName ) throws IOException
 	{
-		archive = new ArchiveFile( archiveName, "r" );
 		shareArchive = false;
+		archive = new ArchiveFile( archiveName, "r" );
 	}
 
 	public void close( ) throws IOException

@@ -19,17 +19,8 @@ import java.io.RandomAccessFile;
  * index block or stream data block.
  */
 
-class Block
+class Block implements ArchiveConstants
 {
-
-	/** Size of a physical block, counted in bytes */
-	static final int BLOCK_SIZE = 4096;
-	static final int BLOCK_SHIFT_SIZE = 12;
-
-	static final int TYPE_UNUSED = -1;
-	static final int TYPE_HEAD = 0;
-	static final int TYPE_ALLOC = 1;
-	static final int TYPE_ENTRY = 2;
 
 	/** The physical ID -- the NO of this block */
 	int id;
@@ -78,6 +69,10 @@ class Block
 	void refresh( RandomAccessFile rf ) throws IOException
 	{
 		blockSize = 0;
+		if (id < 0)
+		{
+			assert false;
+		}
 		rf.seek( ( (long) id ) * BLOCK_SIZE );
 		do
 		{
@@ -96,7 +91,7 @@ class Block
 	{
 		if ( dirtyEnd != dirtyStart )
 		{
-			file.seek( ( (long) id * BLOCK_SIZE ) + dirtyStart );
+ 			file.seek( ( (long) id * BLOCK_SIZE ) + dirtyStart );
 			file.write( blockData, dirtyStart, dirtyEnd - dirtyStart );
 		}
 		dirtyEnd = dirtyStart = 0;

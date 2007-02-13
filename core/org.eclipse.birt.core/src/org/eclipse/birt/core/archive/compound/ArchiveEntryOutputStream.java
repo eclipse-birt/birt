@@ -19,7 +19,6 @@ import org.eclipse.birt.core.util.IOUtil;
 /**
  * An OutputStream wraper for RandomAccessStreamImpl.
  * 
- * @version $Revision: #1 $ $Date: 2006/08/18 $
  */
 
 public class ArchiveEntryOutputStream extends RAOutputStream
@@ -41,7 +40,7 @@ public class ArchiveEntryOutputStream extends RAOutputStream
 	 * @param stream
 	 *            the stream item.
 	 */
-	public ArchiveEntryOutputStream( ArchiveEntry entry )
+	ArchiveEntryOutputStream( ArchiveEntry entry )
 	{
 		this.entry = entry;
 		this.offset = 0;
@@ -58,7 +57,7 @@ public class ArchiveEntryOutputStream extends RAOutputStream
 		offset = localPos;
 	}
 
-	byte[] b = new byte[8];
+	private byte[] b = new byte[8];
 
 	public void write( int b ) throws IOException
 	{

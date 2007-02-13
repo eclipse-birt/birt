@@ -13,15 +13,15 @@ package org.eclipse.birt.core.archive.compound;
 
 import java.io.IOException;
 
-public class ArchiveEntry
+public class ArchiveEntry implements ArchiveConstants
 {
 
 	protected int cachId;
 	protected ArchiveFile af;
-	protected EntryTable.Entry entry;
-	protected AllocationTable.Entry index;
+	protected NameEntry entry;
+	protected AllocEntry index;
 
-	ArchiveEntry( ArchiveFile af, EntryTable.Entry entry ) throws IOException
+	ArchiveEntry( ArchiveFile af, NameEntry entry ) throws IOException
 	{
 		this.af = af;
 		this.entry = entry;
@@ -44,12 +44,12 @@ public class ArchiveEntry
 
 	public void flush( ) throws IOException
 	{
-		// TODO: must support flush
+		// TODO: support flush in future
 	}
 
 	public void refresh( ) throws IOException
 	{
-		// TODO: support refresh later.
+		// TODO: support refresh in future.
 	}
 
 	public Object lock( ) throws IOException
@@ -75,11 +75,16 @@ public class ArchiveEntry
 		{
 			len = (int) ( length - pos );
 		}
+		
+		if ( len == 0 )
+		{
+			return 0;
+		}
 
 		// read first block
-		int blockId = (int) ( pos / Block.BLOCK_SIZE );
-		int blockOff = (int) ( pos % Block.BLOCK_SIZE );
-		int readSize = Block.BLOCK_SIZE - blockOff;
+		int blockId = (int) ( pos / BLOCK_SIZE );
+		int blockOff = (int) ( pos % BLOCK_SIZE );
+		int readSize = BLOCK_SIZE - blockOff;
 		if ( len < readSize )
 		{
 			readSize = len;
@@ -89,13 +94,13 @@ public class ArchiveEntry
 		int remainSize = len - readSize;
 
 		// read blocks
-		while ( remainSize >= Block.BLOCK_SIZE )
+		while ( remainSize >= BLOCK_SIZE )
 		{
 			blockId++;
 			phyBlockId = index.getBlock( blockId );
-			af.read( phyBlockId, 0, b, off + readSize, Block.BLOCK_SIZE );
-			readSize += Block.BLOCK_SIZE;
-			remainSize -= Block.BLOCK_SIZE;
+			af.read( phyBlockId, 0, b, off + readSize, BLOCK_SIZE );
+			readSize += BLOCK_SIZE;
+			remainSize -= BLOCK_SIZE;
 		}
 
 		// read remain blocks
@@ -115,10 +120,14 @@ public class ArchiveEntry
 	{
 		ensureSize( pos + len );
 
-		int blockId = (int) ( pos / Block.BLOCK_SIZE );
+		if ( len == 0 )
+		{
+			return;
+		}
+		int blockId = (int) ( pos / BLOCK_SIZE );
 		int phyBlockId = index.getBlock( blockId );
-		int blockOff = (int) ( pos % Block.BLOCK_SIZE );
-		int writeSize = Block.BLOCK_SIZE - blockOff;
+		int blockOff = (int) ( pos % BLOCK_SIZE );
+		int writeSize = BLOCK_SIZE - blockOff;
 		if ( len < writeSize )
 		{
 			writeSize = len;
@@ -127,13 +136,13 @@ public class ArchiveEntry
 		int remainSize = len - writeSize;
 
 		// write blocks
-		while ( remainSize >= Block.BLOCK_SIZE )
+		while ( remainSize >= BLOCK_SIZE )
 		{
 			blockId++;
 			phyBlockId = index.getBlock( blockId );
-			af.write( phyBlockId, 0, b, off + writeSize, Block.BLOCK_SIZE );
-			writeSize += Block.BLOCK_SIZE;
-			remainSize -= Block.BLOCK_SIZE;
+			af.write( phyBlockId, 0, b, off + writeSize, BLOCK_SIZE );
+			writeSize += BLOCK_SIZE;
+			remainSize -= BLOCK_SIZE;
 		}
 
 		// write remain blocks
@@ -163,7 +172,12 @@ public class ArchiveEntry
 		int totalBlock = index.getTotalBlocks( );
 		if ( blockCount > totalBlock )
 		{
-			index.allocBlocks( blockCount - totalBlock );
+			while ( totalBlock < blockCount )
+			{
+				int freeBlock = af.allocTbl.getFreeBlock( );
+				index.appendBlock( freeBlock );
+				totalBlock++;
+			}
 		}
 	}
 }
