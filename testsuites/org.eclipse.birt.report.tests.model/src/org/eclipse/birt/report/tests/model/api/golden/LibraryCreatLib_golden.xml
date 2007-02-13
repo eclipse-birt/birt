@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.2" id="1">
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.10" id="1">
     <property name="theme">defaultTheme</property>
     <parameters>
         <scalar-parameter name="Parameter1" id="30">
@@ -62,48 +62,23 @@ from ROOT.SAMPLEDATA</property>
                     <expression name="expression">dataSetRow["VALUE2"]</expression>
                 </structure>
             </list-property>
-            <column id="26">
-                <property name="repeat">1</property>
-                <property name="suppressDuplicates">false</property>
-            </column>
-            <column id="27">
-                <property name="repeat">1</property>
-                <property name="suppressDuplicates">false</property>
-            </column>
-            <column id="28">
-                <property name="repeat">1</property>
-                <property name="suppressDuplicates">false</property>
-            </column>
+            <column id="26"/>
+            <column id="27"/>
+            <column id="28"/>
             <header>
                 <row id="8">
-                    <property name="suppressDuplicates">false</property>
                     <cell id="9">
-                        <property name="column">0</property>
-                        <property name="colSpan">1</property>
-                        <property name="rowSpan">1</property>
-                        <property name="drop">none</property>
                         <label id="10">
-                            <property name="zIndex">0</property>
                             <text-property name="text">CATEGORY</text-property>
                         </label>
                     </cell>
                     <cell id="11">
-                        <property name="column">0</property>
-                        <property name="colSpan">1</property>
-                        <property name="rowSpan">1</property>
-                        <property name="drop">none</property>
                         <label id="12">
-                        	<property name="zIndex">0</property> 
                             <text-property name="text">VALUE1</text-property>
                         </label>
                     </cell>
                     <cell id="13">
-                        <property name="column">0</property>
-                        <property name="colSpan">1</property>
-                        <property name="rowSpan">1</property>
-                        <property name="drop">none</property>
                         <label id="14">
-                        	<property name="zIndex">0</property> 
                             <text-property name="text">VALUE2</text-property>
                         </label>
                     </cell>
@@ -111,34 +86,18 @@ from ROOT.SAMPLEDATA</property>
             </header>
             <detail>
                 <row id="15">
-                    <property name="suppressDuplicates">false</property>
                     <cell id="16">
-                        <property name="column">0</property>
-                        <property name="colSpan">1</property>
-                        <property name="rowSpan">1</property>
-                        <property name="drop">none</property>
                         <data id="17">
-                        	<property name="zIndex">0</property> 
                             <property name="resultSetColumn">CATEGORY</property>
                         </data>
                     </cell>
                     <cell id="18">
-                        <property name="column">0</property>
-                        <property name="colSpan">1</property>
-                        <property name="rowSpan">1</property>
-                        <property name="drop">none</property>
                         <data id="19">
-                        	<property name="zIndex">0</property> 
                             <property name="resultSetColumn">VALUE1</property>
                         </data>
                     </cell>
                     <cell id="20">
-                        <property name="column">0</property>
-                        <property name="colSpan">1</property>
-                        <property name="rowSpan">1</property>
-                        <property name="drop">none</property>
                         <data id="21">
-                        	<property name="zIndex">0</property> 
                             <property name="resultSetColumn">VALUE2</property>
                         </data>
                     </cell>
@@ -146,31 +105,15 @@ from ROOT.SAMPLEDATA</property>
             </detail>
             <footer>
                 <row id="22">
-                    <property name="suppressDuplicates">false</property>
-                    <cell id="23">
-                        <property name="column">0</property>
-                        <property name="colSpan">1</property>
-                        <property name="rowSpan">1</property>
-                        <property name="drop">none</property>
-                    </cell>
-                    <cell id="24">
-                        <property name="column">0</property>
-                        <property name="colSpan">1</property>
-                        <property name="rowSpan">1</property>
-                        <property name="drop">none</property>
-                    </cell>
-                    <cell id="25">
-                        <property name="column">0</property>
-                        <property name="colSpan">1</property>
-                        <property name="rowSpan">1</property>
-                        <property name="drop">none</property>
-                    </cell>
+                    <cell id="23"/>
+                    <cell id="24"/>
+                    <cell id="25"/>
                 </row>
             </footer>
         </table>
         <image name="myImage" id="31">
-           <property name="source">url</property>
-           <expression name="uri">http://www.actuate.com/images/birt_flying_logo.jpg</expression>
+            <property name="source">url</property>
+            <expression name="uri">http://www.actuate.com/images/birt_flying_logo.jpg</expression>
         </image>
         <data name="myData" id="32">
             <list-property name="boundDataColumns">
