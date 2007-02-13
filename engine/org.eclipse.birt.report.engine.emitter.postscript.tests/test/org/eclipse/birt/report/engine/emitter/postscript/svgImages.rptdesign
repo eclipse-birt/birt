@@ -14,7 +14,7 @@
             <property name="height">79px</property>
             <property name="width">123px</property>
             <property name="source">url</property>
-            <expression name="uri">"file:///D:/__test$picture$tmp$/simple.svg"</expression>
+            <expression name="uri">"file:///D:/__test$picture$tmp$/affine.svg"</expression>
         </image>
     </body>
 </report>

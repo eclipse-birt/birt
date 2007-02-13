@@ -1241,7 +1241,7 @@ public class TrueTypeFont
 				out.println( "/UnderlinePosition " + underlinePosition );
 				out.println( "/UnderlineThickness " + underlineThickness );
 			}
-			out.println( ".dicttomark" );
+			out.println( ">>" );
 			out.println( "/XUID [107 42 curxuid]" );
 			outputSfnts( out );
 			out.println( "/CIDFontName " + psFontName );
@@ -1250,8 +1250,8 @@ public class TrueTypeFont
 			out.println( "  /Registry (Actuate)" );
 			out.println( "  /Ordering (China)" );
 			out.println( "  /Supplement 0" );
-			out.println( ".dicttomark" );
-			out.println( "/CharStrings mark /.notdef 0 .dicttomark" );
+			out.println( ">>" );
+			out.println( "/CharStrings mark /.notdef 0 >>" );
 			int[] tableLocation = (int[]) positionTables.get( "loca" );
 			int locaLength = tableLocation[1];
 			int glyphCount = locaLength / head.locaBytesPerEntry + 1;
@@ -1260,7 +1260,7 @@ public class TrueTypeFont
 			out.println( "/PaintType 0" );
 			out.println( "/FontType 42" );
 			out.println( "/GDBytes 2" );
-			out.println( ".dicttomark" );
+			out.println( ">>" );
 			out
 					.println( "dup /CIDFontName get cvn exch /CIDFont defineresource pop" );
 		}
