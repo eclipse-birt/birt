@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.10" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.1.1.qualifier Build &lt;@BUILD@></property>
+    <property name="units">in</property>
+    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2"/>
+    </page-setup>
+    <body>
+        <label id="102">
+            <text-property name="text">PAGE-1</text-property>
+        </label>
+        <data id="104">
+            <property name="pageBreakAfter">always</property>
+            <property name="pageBreakBefore">always</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">data item</property>
+                    <expression name="expression">ExprWithError</expression>
+                    <property name="dataType">any</property>
+                </structure>
+            </list-property>
+            <property name="resultSetColumn">data item</property>
+        </data>
+        <label id="105">
+            <text-property name="text">PAGE-3</text-property>
+        </label>
+    </body>
+</report>
