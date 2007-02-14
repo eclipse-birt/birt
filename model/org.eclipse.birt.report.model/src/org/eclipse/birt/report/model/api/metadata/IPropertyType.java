@@ -168,10 +168,17 @@ public interface IPropertyType
 	public static final int ELEMENT_TYPE = 23;
 
 	/**
+	 * Type code for element attribute type. This is different from
+	 * ELEMENT_TYPE. Its behavior like STRUCT_TYPE and isList=true.
+	 */
+
+	public static final int CONTENT_ELEMENT_TYPE = 24;
+
+	/**
 	 * Number of types defined.
 	 */
 
-	public static final int TYPE_COUNT = 24;
+	public static final int TYPE_COUNT = 25;
 
 	/**
 	 * Name of the String property type.
@@ -322,6 +329,13 @@ public interface IPropertyType
 	 */
 	public static final String ELEMENT_TYPE_NAME = "element"; //$NON-NLS-1$
 
+	/**
+	 * Type code for element attribute type. This is different from
+	 * ELEMENT_TYPE. Its behavior like STRUCT_TYPE and isList=true.
+	 */
+
+	public static final String CONTENT_ELEMENT_TYPE_NAME = "contentElement"; //$NON-NLS-1$
+	
 	/**
 	 * Returns the localized display name.
 	 * 

@@ -253,4 +253,17 @@ public class CubeHandle extends ReportElementHandle implements ICubeModel
 		}
 		return (MeasureGroupHandle) contents.get( 0 );
 	}
+
+	/**
+	 * Returns an iterator for the access controls. Each object returned is of
+	 * type <code>AccessControlHandle</code>.
+	 * 
+	 * @return the iterator for user accesses defined on this cube.
+	 */
+
+	public Iterator accessControlsIterator( )
+	{
+		PropertyHandle propHandle = getPropertyHandle( ACCESS_CONTROLS_PROP );
+		return propHandle.getContents( ).iterator( );
+	}
 }

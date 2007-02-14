@@ -306,4 +306,17 @@ public class LevelHandle extends ReportElementHandle implements ILevelModel
 		setStringProperty( DATA_TYPE_PROP, dataType );
 	}
 
+	/**
+	 * Returns an iterator for the value access controls. Each object returned
+	 * is of type <code>ValueAccessControlHandle</code>.
+	 * 
+	 * @return the iterator for user accesses defined on this cube.
+	 */
+
+	public Iterator valueAccessControlsIterator( )
+	{
+		PropertyHandle propHandle = getPropertyHandle( VALUE_ACCESS_CONTROLS_PROP );
+		return propHandle.getContents( ).iterator( );
+	}
+
 }
