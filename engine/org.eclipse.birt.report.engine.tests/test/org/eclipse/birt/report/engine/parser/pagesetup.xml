@@ -20,5 +20,7 @@
                 </label>
             </page-header>
         </simple-master-page>
+        <simple-master-page name="default">
+        </simple-master-page>
     </page-setup>
 </report>

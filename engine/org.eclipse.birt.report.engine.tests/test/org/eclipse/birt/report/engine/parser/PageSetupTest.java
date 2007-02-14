@@ -51,7 +51,7 @@ public class PageSetupTest extends TestCase
 	public void testMasterPage( ) throws Exception
 	{
 		PageSetupDesign pageSetup = report.getPageSetup( );
-		assertEquals( pageSetup.getMasterPageCount( ), 1 );
+		assertEquals( pageSetup.getMasterPageCount( ), 2 );
 		
 		// We do not support graphic master page now. So change it to be simple master page.
 		SimpleMasterPageDesign page = (SimpleMasterPageDesign) pageSetup
@@ -67,13 +67,14 @@ public class PageSetupTest extends TestCase
 		assertEquals( "0.5cm", page.getLeftMargin( ).toString( ) );
 		assertEquals( "0.5cm", page.getRightMargin( ).toString( ) );
 
-		/*
-		assertEquals( page.get.getContentCount( ), 2 );
-		LabelItemDesign label = (LabelItemDesign) page.getContent( 0 );
-		assertEquals( "0cm", label.getX( ).toString( ) );
-		assertEquals( "10cm", label.getY( ).toString( ) );
-		assertEquals( "1.2cm", label.getHeight( ).toString( ) );
-		assertEquals( "10cm", label.getWidth( ).toString( ) );
-		*/
+		//test default value of master page
+		page = (SimpleMasterPageDesign) pageSetup.getMasterPage( 1 );
+		assertEquals( "default", page.getName( ) );
+		assertEquals( "1in", page.getBottomMargin( ).toString( ) );
+		assertEquals( "1in", page.getTopMargin( ).toString( ) );
+		assertEquals( "1.25in", page.getLeftMargin( ).toString( ) );
+		assertEquals( "1.25in", page.getRightMargin( ).toString( ) );
+		assertEquals( "0.5in", page.getHeaderHeight( ).toString( ) );
+		assertEquals( "0.5in", page.getFooterHeight( ).toString( ) );
 	}
 }
