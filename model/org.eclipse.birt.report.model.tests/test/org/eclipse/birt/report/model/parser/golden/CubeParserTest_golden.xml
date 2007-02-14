@@ -88,48 +88,82 @@
                                             <property name="value">mumble.jpg</property>
                                         </structure>
                                     </list-property>
+                                    <property name="valueAccessControls">
+                                        <value-access-control id="22">
+                                            <simple-property-list name="userNames">
+                                                <value>new level user1</value>
+                                                <value>new level user2</value>
+                                            </simple-property-list>
+                                            <simple-property-list name="roles">
+                                                <value>new level role1</value>
+                                                <value>new level role2</value>
+                                            </simple-property-list>
+                                            <simple-property-list name="values">
+                                                <value>new level value1</value>
+                                                <value>new level value2</value>
+                                            </simple-property-list>
+                                            <property name="permission">allow</property>
+                                        </value-access-control>
+                                    </property>
                                 </level>
-                                <level name="NewLevel" id="16"/>
+                                <level name="NewLevel" id="21"/>
+                            </property>
+                            <property name="accessControls">
+                                <access-control id="20">
+                                    <simple-property-list name="userNames">
+                                        <value>new hierarchy user1</value>
+                                        <value>new hierarchy user2</value>
+                                    </simple-property-list>
+                                    <simple-property-list name="roles">
+                                        <value>new hierarchy role1</value>
+                                        <value>new hierarchy role2</value>
+                                    </simple-property-list>
+                                    <property name="permission">disallow</property>
+                                </access-control>
                             </property>
                         </hierarchy>
-                        <hierarchy name="NewHierarchy1" id="15"/>
+                        <hierarchy name="NewHierarchy1" id="19"/>
                     </property>
                 </dimension>
-                <dimension name="NewDimension" id="13">
+                <dimension name="NewDimension" id="17">
                     <property name="hierarchies">
-                        <hierarchy name="NewHierarchy" id="14"/>
+                        <hierarchy name="NewHierarchy" id="18"/>
                     </property>
                 </dimension>
             </property>
             <property name="measureGroups">
-            	<measure-group name="newtestMeasureGroup" id="11">
-                	<property name="isDefault">false</property>
-                	<property name="measures">
-                    	<measure name="newtestMeasure" id="12">
-                        	<property name="function">count</property>
-                        	<property name="isCalculated">true</property>
-                        	<expression name="measureExpression">updated column</expression>
-                    	</measure>
-                    	<measure name="NewMeasure" id="18"/>
-                	</property>
-            	</measure-group>
-            	<measure-group id="17"/>
+                <measure-group name="newtestMeasureGroup" id="13">
+                    <property name="isDefault">false</property>
+                    <property name="measures">
+                        <measure name="newtestMeasure" id="14">
+                            <property name="function">count</property>
+                            <property name="isCalculated">true</property>
+                            <expression name="measureExpression">updated column</expression>
+                        </measure>
+                        <measure name="NewMeasure" id="24"/>
+                    </property>
+                </measure-group>
+                <measure-group id="23"/>
+            </property>
+            <property name="accessControls">
+                <access-control id="16">
+                    <simple-property-list name="userNames">
+                        <value>new cube user1</value>
+                        <value>new cube user2</value>
+                    </simple-property-list>
+                    <simple-property-list name="roles">
+                        <value>new cube role1</value>
+                        <value>new cube role2</value>
+                    </simple-property-list>
+                    <property name="permission">allow</property>
+                </access-control>
             </property>
         </cube>
     </cubes>
     <page-setup>
         <graphic-master-page name="My Page" id="2">
             <contents>
-                <data id="3">
-                    <list-property name="boundDataColumns">
-                        <structure>
-                            <property name="name">[myParam]</property>
-                            <expression name="expression">[myParam]</expression>
-                        </structure>
-                    </list-property>
-                    <property name="resultSetColumn">[myParam]</property>
-                    <text-property name="helpText">Shows what parameter was used.</text-property>
-                </data>
+                <data id="3"/>
             </contents>
         </graphic-master-page>
     </page-setup>
