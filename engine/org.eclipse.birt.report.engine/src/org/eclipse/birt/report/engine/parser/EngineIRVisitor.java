@@ -389,10 +389,10 @@ class EngineIRVisitor extends DesignVisitor
 		page.setOrientation( handle.getOrientation( ) );
 
 		// Master page margins
-		DimensionType top = createDimension( handle.getTopMargin( ) );
-		DimensionType left = createDimension( handle.getLeftMargin( ) );
-		DimensionType bottom = createDimension( handle.getBottomMargin( ) );
-		DimensionType right = createDimension( handle.getRightMargin( ) );
+		DimensionType top = createDimension( handle.getTopMargin( ), true );
+		DimensionType left = createDimension( handle.getLeftMargin( ), true );
+		DimensionType bottom = createDimension( handle.getBottomMargin( ), true  );
+		DimensionType right = createDimension( handle.getRightMargin( ), true  );
 		page.setMargin( top, left, bottom, right );
 	}
 
@@ -410,7 +410,7 @@ class EngineIRVisitor extends DesignVisitor
 
 		// Multi-column properties
 		page.setColumns( handle.getColumnCount( ) );
-		DimensionType spacing = createDimension( handle.getColumnSpacing( ) );
+		DimensionType spacing = createDimension( handle.getColumnSpacing( ), true );
 		page.setColumnSpacing( spacing );
 
 		// Master page content
@@ -437,8 +437,8 @@ class EngineIRVisitor extends DesignVisitor
 		// setup the base master page property.
 		setupMasterPage( page, handle );
 		
-		page.setHeaderHeight( createDimension( handle.getHeaderHeight( ) ) );
-		page.setFooterHeight( createDimension( handle.getFooterHeight( ) ) );
+		page.setHeaderHeight( createDimension( handle.getHeaderHeight( ), true  ));
+		page.setFooterHeight( createDimension( handle.getFooterHeight( ), true  ) );
 		page.setShowFooterOnLast( handle.showFooterOnLast( ) );
 		page.setShowHeaderOnFirst( handle.showHeaderOnFirst( ) );
 		page.setFloatingFooter( handle.isFloatingFooter( ) );
@@ -1034,7 +1034,7 @@ class EngineIRVisitor extends DesignVisitor
 		setupStyledElement( col, handle );
 
 		// Column Width
-		DimensionType width = createDimension( handle.getWidth( ) );
+		DimensionType width = createDimension( handle.getWidth( ), false );
 		col.setWidth( width );
 		
 		boolean supress = handle.suppressDuplicates( );
@@ -1057,7 +1057,7 @@ class EngineIRVisitor extends DesignVisitor
 		setupStyledElement( row, handle );
 
 		// Row Height
-		DimensionType height = createDimension( handle.getHeight( ) );
+		DimensionType height = createDimension( handle.getHeight( ), false );
 		row.setHeight( height );
 
 		// Book mark
@@ -1478,10 +1478,10 @@ class EngineIRVisitor extends DesignVisitor
 		setupStyledElement( item, handle );
 
 		// x, y, width & height
-		DimensionType height = createDimension( handle.getHeight( ) );
-		DimensionType width = createDimension( handle.getWidth( ) );
-		DimensionType x = createDimension( handle.getX( ) );
-		DimensionType y = createDimension( handle.getY( ) );
+		DimensionType height = createDimension( handle.getHeight( ), false );
+		DimensionType width = createDimension( handle.getWidth( ), false );
+		DimensionType x = createDimension( handle.getX( ), false );
+		DimensionType y = createDimension( handle.getY( ), false );
 		item.setHeight( height );
 		item.setWidth( width );
 		item.setX( x );
@@ -2219,9 +2219,11 @@ class EngineIRVisitor extends DesignVisitor
 		return style;
 	}
 
-	protected DimensionType createDimension( DimensionHandle handle )
+	
+	
+	protected DimensionType createDimension( DimensionHandle handle, boolean useDefault )
 	{
-		if ( handle == null || !handle.isSet( ) )
+		if ( handle == null  || !useDefault && !handle.isSet( ))
 		{
 			return null;
 		}
