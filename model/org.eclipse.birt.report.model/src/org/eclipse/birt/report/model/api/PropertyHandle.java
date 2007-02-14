@@ -516,7 +516,7 @@ public class PropertyHandle extends SimpleValueHandle
 	 */
 	public ArrayList getListValue( )
 	{
-		if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
+		if ( propDefn.isElementType( ) )
 		{
 			Object value = getValue( );
 			if ( value == null )
@@ -545,7 +545,7 @@ public class PropertyHandle extends SimpleValueHandle
 
 	public List getContents( )
 	{
-		if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
+		if ( propDefn.isElementType( ) )
 			return getListValue( );
 		return Collections.EMPTY_LIST;
 	}
@@ -712,7 +712,7 @@ public class PropertyHandle extends SimpleValueHandle
 
 	public void drop( int posn ) throws SemanticException
 	{
-		if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
+		if ( propDefn.isElementType( ) )
 		{
 			DesignElementHandle content = (DesignElementHandle) get( posn );
 			drop( content );
@@ -758,6 +758,7 @@ public class PropertyHandle extends SimpleValueHandle
 	 *            the index where the content resides
 	 * @return
 	 */
+
 	public DesignElementHandle getContent( int posn )
 	{
 		Object value = get( posn );
@@ -766,5 +767,4 @@ public class PropertyHandle extends SimpleValueHandle
 
 		return null;
 	}
-
 }

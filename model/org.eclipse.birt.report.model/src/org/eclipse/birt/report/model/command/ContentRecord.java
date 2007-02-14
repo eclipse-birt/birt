@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.command.ElementDeletedEvent;
+import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.elements.table.LayoutUtil;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -180,6 +181,9 @@ public class ContentRecord extends SimpleRecord
 
 	public DesignElement getTarget( )
 	{
+		if ( eventTarget != null )
+			return eventTarget.getElement( );
+
 		return containerInfo.getElement( );
 	}
 
@@ -220,7 +224,7 @@ public class ContentRecord extends SimpleRecord
 
 			if ( content.getRoot( ) != null )
 				module.manageId( content, false );
-			
+
 			containerInfo.remove( module, content );
 		}
 	}
@@ -288,6 +292,20 @@ public class ContentRecord extends SimpleRecord
 			{
 				retValue.add( new LayoutRecordTask( module, compoundElement ) );
 			}
+		}
+
+		// if the element works like properties, return property event instead
+		// of content event.
+		
+		if ( eventTarget != null )
+		{
+			NotificationEvent event = new PropertyEvent( eventTarget
+					.getElement( ), eventTarget.getPropName( ) );
+
+			retValue.add( new NotificationRecordTask( container, event ) );
+			content.clearListeners( );
+
+			return retValue;
 		}
 
 		// Send the content changed event to the container.

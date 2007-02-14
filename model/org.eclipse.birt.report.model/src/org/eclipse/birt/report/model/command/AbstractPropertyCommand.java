@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.validators.StructureListValidator;
 import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
@@ -427,7 +428,7 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 
 		return;
 	}
-	
+
 	/**
 	 * The property is a simple value list. If property is a list property, the
 	 * method will check to see if the current element has the local list value,
@@ -465,11 +466,14 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 		// Set the list value on the element itself.
 
 		PropertyRecord propRecord = new PropertyRecord( element, prop, value );
+
+		propRecord.setEventTarget( getEventTarget( prop ) );
+
 		getActivityStack( ).execute( propRecord );
 		return;
 
 	}
-	
+
 	/**
 	 * Validates the values of the item members.
 	 * 
@@ -505,5 +509,21 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 		// }
 		return result;
 
+	}
+
+	/**
+	 * Returns the target element for the notification event.
+	 * 
+	 * @param element
+	 *            the design element
+	 * @param propDefn
+	 *            the property definition
+	 * 
+	 * @return the event target.
+	 */
+
+	protected EventTarget getEventTarget( PropertyDefn propDefn )
+	{
+		return ModelUtil.getEventTarget( element, propDefn );
 	}
 }

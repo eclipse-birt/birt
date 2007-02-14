@@ -958,7 +958,7 @@ class MetaDataHandler extends XMLParserHandler
 
 			int typeCode = typeDefn.getTypeCode( );
 			if ( typeCode == IPropertyType.STRUCT_TYPE
-					|| typeCode == IPropertyType.ELEMENT_TYPE )
+					|| propDefn.isElementType( ) )
 				propDefn.setIsList( getBooleanAttrib( attrs, IS_LIST_ATTRIB,
 						false ) );
 
@@ -1001,8 +1001,8 @@ class MetaDataHandler extends XMLParserHandler
 		{
 			// if property is element type, then set list of allowed type names
 			// to the details
-			if ( propDefn != null
-					&& propDefn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
+
+			if ( propDefn != null && propDefn.isElementType( ) )
 			{
 				propDefn.setDetails( propertyTypes );
 			}

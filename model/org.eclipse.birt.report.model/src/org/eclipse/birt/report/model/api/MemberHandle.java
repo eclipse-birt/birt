@@ -105,8 +105,8 @@ public class MemberHandle extends SimpleValueHandle
 	{
 		Object value = memberRef.getValue( getModule( ), getElement( ) );
 
-		return ModelUtil.getPropertyValueStrategy( value, getModule( ),
-				(PropertyDefn) getDefn( ) );
+		return ModelUtil.wrapPropertyValue( getModule( ), (PropertyDefn) getDefn( ),
+				value );
 
 	}
 

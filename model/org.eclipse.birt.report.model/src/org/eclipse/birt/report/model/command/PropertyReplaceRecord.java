@@ -133,6 +133,9 @@ public class PropertyReplaceRecord extends SimpleRecord
 	 */
 	public DesignElement getTarget( )
 	{
+		if ( eventTarget != null )
+			return eventTarget.getElement( );
+
 		return element;
 	}
 
@@ -144,6 +147,10 @@ public class PropertyReplaceRecord extends SimpleRecord
 
 	public NotificationEvent getEvent( )
 	{
+		if ( eventTarget != null )
+			return new PropertyEvent( eventTarget.getElement( ), eventTarget
+					.getPropName( ) );
+		
 		return new PropertyEvent( element, listRef.getPropDefn( ).getName( ) );
 	}
 

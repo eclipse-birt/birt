@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.GroupNameValidator;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
@@ -319,6 +320,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 		}
 
 		PropertyRecord record = new PropertyRecord( element, prop, value );
+		record.setEventTarget( getEventTarget( prop ) );
+
 		getActivityStack( ).execute( record );
 
 	}
@@ -549,6 +552,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 		makeLocalCompositeValue( ref );
 
 		MemberRecord record = new MemberRecord( module, element, ref, value );
+
+		record.setEventTarget( getEventTarget( ref.getPropDefn( ) ) );
 		stack.execute( record );
 
 		Structure structure = ref.getStructure( module, element );

@@ -112,6 +112,7 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 		MemberRef insertRef = new CachedMemberRef( ref, list.size( ) );
 		PropertyListRecord record = new PropertyListRecord( element, insertRef,
 				insertRef.getList( module, element ), item );
+		record.setEventTarget( getEventTarget( insertRef.getPropDefn( ) ) );
 		stack.execute( record );
 		stack.commit( );
 
@@ -173,6 +174,8 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 
 		SimplePropertyListRecord record = new SimplePropertyListRecord(
 				element, prop, list, value, list.size( ) );
+		record.setEventTarget( getEventTarget( ref.getPropDefn( ) ) );
+
 		stack.execute( record );
 
 		stack.commit( );
@@ -240,6 +243,8 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 
 		SimplePropertyListRecord record = new SimplePropertyListRecord(
 				element, prop, list, value, list.size( ) );
+		record.setEventTarget( getEventTarget( prop ) );
+
 		stack.execute( record );
 
 		if ( value instanceof ElementRefValue )
@@ -322,6 +327,7 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 		MemberRef insertRef = new CachedMemberRef( ref, posn );
 		PropertyListRecord record = new PropertyListRecord( element, insertRef,
 				list, item );
+		record.setEventTarget( getEventTarget( insertRef.getPropDefn( ) ) );
 
 		stack.execute( record );
 		stack.commit( );
@@ -494,6 +500,9 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 
 		SimplePropertyListRecord record = new SimplePropertyListRecord(
 				element, prop, list, posn );
+
+		record.setEventTarget( getEventTarget( prop ) );
+
 		stack.execute( record );
 
 		if ( item instanceof ElementRefValue )
@@ -547,6 +556,9 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 
 		SimplePropertyListRecord record = new SimplePropertyListRecord(
 				element, prop, list, posn );
+
+		record.setEventTarget( getEventTarget( prop ) );
+
 		stack.execute( record );
 
 		stack.commit( );
@@ -581,6 +593,7 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 
 		PropertyListRecord record = new PropertyListRecord( element, structRef,
 				list );
+		record.setEventTarget( getEventTarget( structRef.getPropDefn( ) ) );
 		stack.execute( record );
 		stack.commit( );
 	}
@@ -649,6 +662,8 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 
 		PropertyReplaceRecord record = new PropertyReplaceRecord( element, ref,
 				list, index, newItem );
+		
+		record.setEventTarget( getEventTarget( propDefn ) );
 		stack.execute( record );
 
 		if ( oldItem.isReferencable( ) )
@@ -756,6 +771,7 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 
 		MoveListItemRecord record = new MoveListItemRecord( element, ref, list,
 				oldPosn, adjustedNewPosn );
+		record.setEventTarget( getEventTarget( ref.getPropDefn( ) ) );
 
 		stack.execute( record );
 		stack.commit( );

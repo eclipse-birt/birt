@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.report.model.command.EventTarget;
 import org.eclipse.birt.report.model.core.DesignElement;
 
 /**
@@ -32,6 +33,12 @@ import org.eclipse.birt.report.model.core.DesignElement;
 
 public abstract class SimpleRecord extends AbstractElementRecord
 {
+
+	/**
+	 * The destination of the event. 
+	 */
+	
+	protected EventTarget eventTarget;
 
 	/*
 	 * (non-Javadoc)
@@ -104,6 +111,19 @@ public abstract class SimpleRecord extends AbstractElementRecord
 		retList.addAll( super.getPostTasks( ) );
 		retList.add( new ValidationRecordTask( element.getRoot( ) ) );
 		return retList;
+	}
+
+	/**
+	 * Sets the event destination. This is used when the command need to specify
+	 * what event should be sent out.
+	 * 
+	 * @param eventTarget
+	 *            the target
+	 */
+
+	public void setEventTarget( EventTarget eventTarget )
+	{
+		this.eventTarget = eventTarget;
 	}
 
 }

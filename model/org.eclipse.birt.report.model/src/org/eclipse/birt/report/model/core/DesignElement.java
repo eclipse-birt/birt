@@ -3093,7 +3093,8 @@ public abstract class DesignElement
 
 			// if the property is element type, then set-up the container
 			// relationship
-			if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
+
+			if ( propDefn.isElementType( ) )
 			{
 				if ( propDefn.isList( ) )
 				{

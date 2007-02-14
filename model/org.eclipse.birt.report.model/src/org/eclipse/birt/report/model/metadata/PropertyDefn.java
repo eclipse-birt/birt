@@ -458,6 +458,7 @@ public abstract class PropertyDefn
 
 				break;
 			case IPropertyType.ELEMENT_TYPE :
+			case IPropertyType.CONTENT_ELEMENT_TYPE :
 				// must define detail types
 				if ( !( details instanceof List ) )
 					throw new MetaDataException(
@@ -503,6 +504,7 @@ public abstract class PropertyDefn
 
 		if ( getTypeCode( ) != IPropertyType.STRUCT_TYPE
 				&& getTypeCode( ) != IPropertyType.ELEMENT_TYPE
+				&& getTypeCode( ) != IPropertyType.CONTENT_ELEMENT_TYPE
 				&& isList == true )
 		{
 			// only support list of structures.
@@ -1514,8 +1516,7 @@ public abstract class PropertyDefn
 	 */
 	public List getAllowedElements( boolean extractExtensions )
 	{
-		if ( details instanceof List
-				&& type.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
+		if ( details instanceof List && isElementType( ) )
 		{
 			// if not extract extension definitions, return details directly
 			if ( !extractExtensions )
@@ -1564,7 +1565,7 @@ public abstract class PropertyDefn
 	{
 		if ( type == null )
 			return false;
-		
+
 		List contentElements = getAllowedElements( );
 		assert contentElements != null;
 		Iterator iter = contentElements.iterator( );
@@ -1595,7 +1596,7 @@ public abstract class PropertyDefn
 													ReportDesignConstants.REPORT_ITEM ) ) )
 						return true;
 				}
-				
+
 				// type is "ExtendedItem" itself
 				if ( ReportDesignConstants.EXTENDED_ITEM
 						.equals( type.getName( ) ) )
@@ -1619,4 +1620,20 @@ public abstract class PropertyDefn
 		return canContain( content.getDefn( ) );
 	}
 
+	/**
+	 * Checks whether the property type is a kind of element types.
+	 * 
+	 * @return <code>true</code> if the type is element/content element type.
+	 *         Otherwise <code>false</code>.
+	 */
+
+	public final boolean isElementType( )
+	{
+		int typeCode = getTypeCode( );
+		if ( typeCode == IPropertyType.ELEMENT_TYPE
+				|| typeCode == IPropertyType.CONTENT_ELEMENT_TYPE )
+			return true;
+
+		return false;
+	}
 }

@@ -678,8 +678,31 @@ public class ElementVisitor
 	 * @param obj
 	 *            the measure group to traverse
 	 */
+
 	public void visitMeasureGroup( MeasureGroup obj )
 	{
 		visitDesignElement( obj );
+	}
+
+	/**
+	 * Visits the access control element.
+	 * 
+	 * @param obj
+	 *            the access control element
+	 */
+
+	public void visitAccessControl( AccessControl obj )
+	{
+	}
+
+	/**
+	 * Visits the value access control element.
+	 * 
+	 * @param obj
+	 *            the value access control element
+	 */
+
+	public void visitValueAccessControl( ValueAccessControl obj )
+	{
 	}
 }

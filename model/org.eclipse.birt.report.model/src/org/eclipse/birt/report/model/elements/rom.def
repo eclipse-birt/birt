@@ -492,6 +492,10 @@
     <Choice displayNameID="Choices.levelType.dynamic" name="dynamic"/>
     <Choice displayNameID="Choices.levelType.mirrored" name="mirrored"/>
   </ChoiceType>
+  <ChoiceType name="accessPermission">
+    <Choice displayNameID="Choices.accessPermission.allow" name="allow"/>
+    <Choice displayNameID="Choices.accessPermission.disallow" name="disallow"/>
+  </ChoiceType>  
   <Class displayNameID="Class.String" name="String" native="true" toolTipID="Class.String.toolTip">
     <Constructor displayNameID="Class.String.String" name="String" returnType="String" toolTipID="Class.String.String.toolTip">
       <Argument name="object" tagID="Class.String.String.object" type="Object"/>
@@ -3589,7 +3593,18 @@
   	<Property displayNameID="Element.Cube.measureGroups" isList="true" name="measureGroups" runtimeSettable="false" since="2.2" type="element">
   	  <Type name="MeasureGroup"/>
   	</Property>
+  	<Property displayNameID="Element.Cube.accessControls" isList="true" name="accessControls" runtimeSettable="false" since="2.2" type="contentElement" >
+  	  <Type name="AccessControl"/>
+  	</Property>  	
   </Element>
+  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.AccessControl" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.AccessControl" name="AccessControl" nameSpace="none" since="2.2" xmlName="access-control">
+    <Property displayNameID="Element.AccessControl.userNames" name="userNames" since="2.2" subType="string" type="list"/>
+    <Property displayNameID="Element.AccessControl.roles" name="roles" since="2.2" subType="string" type="list"/>    
+	<Property detailType="accessPermission" displayNameID="Element.AccessControl.permission" name="permission" since="2.2" type="choice"/>        
+  </Element>  
+  <Element allowsUserProperties="false" canExtend="false" extends="AccessControl" displayNameID="Element.ValueAccessControl" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.ValueAccessControl" name="ValueAccessControl" nameSpace="none" since="2.2" xmlName="value-access-control">
+    <Property displayNameID="Element.ValueAccessControl.values" name="values" since="2.2" subType="string" type="list"/>
+  </Element>    
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.Dimension" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.Dimension" name="Dimension" nameSpace="cube" since="2.2" xmlName="dimension">
   	<Property displayNameID="Element.Dimension.isTimeType" name="isTimeType" runtimeSettable="false" since="2.2" type="boolean">
   	  <Default>false</Default>
@@ -3611,6 +3626,9 @@
   	<Property displayNameID="Element.Hierarchy.levels" isList="true" name="levels" since="2.2" type="element">
   	  <Type name="Level"/>	
   	</Property>
+  	<Property displayNameID="Element.Hierarchy.accessControls" isList="true" name="accessControls" runtimeSettable="false" since="2.2" type="contentElement" >
+  	  <Type name="AccessControl"/>
+  	</Property>    	
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.Level" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.Level" name="Level" nameSpace="cube" since="2.2" xmlName="level">
   	<Property displayNameID="Element.Level.columnName" name="columnName" runtimeSettable="false" since="2.2" type="string" />
@@ -3625,6 +3643,9 @@
     <Property detailType="levelType" displayNameID="Element.Level.levelType" name="levelType" runtimeSettable="false" since="2.2" type="choice" />
   	<Property detailType="Rule" displayNameID="Element.Level.staticValues" isList="true" name="staticValues" runtimeSettable="false" since="2.2" type="structure"/>
   	<Property detailType="ConfigVar" displayNameID="Element.Level.attributes" isList="true" name="attributes" runtimeSettable="false" since="2.2" type="structure" />
+  	<Property displayNameID="Element.Level.valueAccessControls" isList="true" name="valueAccessControls" runtimeSettable="false" since="2.2" type="contentElement" >
+  	  <Type name="ValueAccessControl"/>
+  	</Property>      	
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.MeasureGroup" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.olap.MeasureGroup" name="MeasureGroup" nameSpace="cube" since="2.2" xmlName="measure-group">
   	<Property displayNameID="Element.MeasureGroup.isDefault" name="isDefault" runtimeSettable="false" since="2.2" type="boolean">

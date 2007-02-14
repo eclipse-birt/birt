@@ -285,7 +285,8 @@ public class ListPropertyState extends AbstractPropertyState
 			}
 
 		}
-		if ( IScalarParameterModel.BOUND_DATA_COLUMNS_PROP.equalsIgnoreCase( name )
+		if ( IScalarParameterModel.BOUND_DATA_COLUMNS_PROP
+				.equalsIgnoreCase( name )
 				&& element instanceof ScalarParameter )
 		{
 			CompatibleBoundColumnState state = new CompatibleBoundColumnState(
@@ -293,7 +294,7 @@ public class ListPropertyState extends AbstractPropertyState
 			state.setName( name );
 			return state;
 		}
-		
+
 		if ( IReportItemModel.BOUND_DATA_COLUMNS_PROP.equalsIgnoreCase( name )
 				&& element instanceof ReportItem )
 		{
@@ -331,7 +332,8 @@ public class ListPropertyState extends AbstractPropertyState
 			}
 		}
 		else if ( handler.versionNumber < VersionUtil.VERSION_3_2_0
-				&& ( IReportItemModel.BOUND_DATA_COLUMNS_PROP.equalsIgnoreCase( name ) )
+				&& ( IReportItemModel.BOUND_DATA_COLUMNS_PROP
+						.equalsIgnoreCase( name ) )
 				&& element instanceof ReportItem )
 		{
 			CompatibleBoundColumnState state = new CompatibleBoundColumnState(
@@ -358,7 +360,7 @@ public class ListPropertyState extends AbstractPropertyState
 
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_4
 				&& element instanceof ScriptDataSet
-				&& "resultSet".equals( name ) ) //$NON-NLS-1$
+				&& "resultSet".equals( name ) && struct == null ) //$NON-NLS-1$
 		{
 			CompatibleRenameListPropertyState state = new CompatibleRenameListPropertyState(
 					handler, element, name );

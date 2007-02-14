@@ -127,6 +127,9 @@ public class PropertyRecord extends SimpleRecord
 
 	public DesignElement getTarget( )
 	{
+		if ( eventTarget != null )
+			return eventTarget.getElement( );
+
 		return element;
 	}
 
@@ -151,6 +154,16 @@ public class PropertyRecord extends SimpleRecord
 				return new ExtensionPropertyDefinitionEvent( element );
 			}
 		}
+
+		// if the element works like properties, return property event for the
+		// top element.
+
+		if ( eventTarget != null )
+		{
+			return new PropertyEvent( eventTarget.getElement( ), eventTarget
+					.getPropName( ) );
+		}
+
 		return new PropertyEvent( element, propDefn.getName( ) );
 	}
 
@@ -215,7 +228,7 @@ public class PropertyRecord extends SimpleRecord
 			return retValue;
 
 		retValue.add( new LayoutRecordTask( compoundElement.getRoot( ),
-				compoundElement ) );	
+				compoundElement ) );
 		return retValue;
 	}
 }

@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.AccessControl;
 import org.eclipse.birt.report.model.elements.AutoText;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.Cell;
@@ -55,6 +56,7 @@ import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.ValueAccessControl;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
@@ -1147,12 +1149,36 @@ public class ElementFactory
 	 * 
 	 * @param name
 	 *            the optional measure group name.
-	 * @return
+	 * @return the measure group element
 	 */
 	public MeasureGroupHandle newMeasureGroup( String name )
 	{
 		MeasureGroup element = new MeasureGroup( name );
 		module.makeUniqueName( element );
 		return element.handle( module );
+	}
+
+	/**
+	 * Creates an access control element.
+	 * 
+	 * @return the access control element
+	 */
+
+	public AccessControlHandle newAccessControl( )
+	{
+		AccessControl element = new AccessControl( );
+		return element.handle( module );
+	}
+
+	/**
+	 * Creates a value access control element.
+	 * 
+	 * @return the value access control element
+	 */
+
+	public ValueAccessControlHandle newValueAccessControl( )
+	{
+		AccessControl element = new ValueAccessControl( );
+		return (ValueAccessControlHandle) element.handle( module );
 	}
 }

@@ -47,4 +47,10 @@ public interface ICubeModel
 	 */
 
 	static final String MEASURE_GROUPS_PROP = "measureGroups"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the property that specifies a list of privilige of users.
+	 */
+
+	static final String ACCESS_CONTROLS_PROP = "accessControls"; //$NON-NLS-1$
 }

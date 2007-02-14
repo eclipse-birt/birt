@@ -121,6 +121,9 @@ public class MoveListItemRecord extends SimpleRecord
 
 	public DesignElement getTarget( )
 	{
+		if ( eventTarget != null )
+			return eventTarget.getElement( );
+
 		return element;
 	}
 
@@ -132,6 +135,10 @@ public class MoveListItemRecord extends SimpleRecord
 
 	public NotificationEvent getEvent( )
 	{
+		if ( eventTarget != null )
+			return new PropertyEvent( eventTarget.getElement( ), eventTarget
+					.getPropName( ) );
+
 		// Use the same notification for the done/redone and undone states.
 
 		return new PropertyEvent( element, itemRef.getPropDefn( ).getName( ) );

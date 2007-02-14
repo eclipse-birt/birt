@@ -198,8 +198,7 @@ class PropertyState extends AbstractPropertyState
 		else
 			jmpDefn = element.getPropertyDefn( name );
 
-		if ( jmpDefn != null
-				&& jmpDefn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
+		if ( jmpDefn != null && ( (PropertyDefn) jmpDefn ).isElementType( ) )
 		{
 			ElementPropertyState state = new ElementPropertyState( handler,
 					element );

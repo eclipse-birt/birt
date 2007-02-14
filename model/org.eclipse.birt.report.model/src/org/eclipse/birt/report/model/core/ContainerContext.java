@@ -154,7 +154,7 @@ public final class ContainerContext
 		if ( isSlot )
 			return container.getDefn( ).getSlot( containerSlotID );
 		PropertyDefn defn = container.getPropertyDefn( containerProp );
-		if ( defn != null && defn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
+		if ( defn != null && defn.isElementType( ) )
 			return defn;
 		return null;
 	}
@@ -698,7 +698,8 @@ public final class ContainerContext
 				return false;
 
 			// if the root of element is included by report/library. Do not
-			// allow drop.
+			// allow
+			// drop.
 
 			if ( focus.getElement( ).isRootIncludedByModule( ) )
 				return false;
@@ -765,8 +766,10 @@ public final class ContainerContext
 
 			// if this element can not be contained in the module, return false;
 			// such as, template elements can not be contained in the libraries,
-			// so either a template table or a real tabel with a template image
-			// in one cell of it can never be contained in a libraries
+			// so
+			// either a template table or a real tabel with a template image in
+			// one
+			// cell of it can never be contained in a libraries
 
 			if ( !canContainTemplateElement( module, element ) )
 			{
@@ -775,7 +778,8 @@ public final class ContainerContext
 			}
 
 			// if the root of element is included by report/library. Do not
-			// allow drop.
+			// allow
+			// drop.
 
 			if ( focus.getElement( ).isRootIncludedByModule( ) )
 			{
@@ -784,7 +788,8 @@ public final class ContainerContext
 			}
 
 			// Can not change the structure of child element or a virtual
-			// element( inside the child ).
+			// element(
+			// inside the child ).
 
 			if ( focus.getElement( ).isVirtualElement( )
 					|| focus.getElement( ).getExtendsName( ) != null )
@@ -842,8 +847,10 @@ public final class ContainerContext
 				return false;
 
 			// if the canContain is check for create template, then jump the
-			// slot count check for the operation won't change the content
-			// count, it is a replace operation.
+			// slot
+			// count check for the operation won't change the content count, it
+			// is a
+			// replace operation.
 
 			String name = defn.getName( );
 			if ( ReportDesignConstants.TEMPLATE_DATA_SET.equals( name )
@@ -879,7 +886,8 @@ public final class ContainerContext
 				DesignElement element )
 		{
 			// if this element is a kind of template element or any its content
-			// is a kind of template element, return false
+			// is a
+			// kind of template element, return false
 
 			IElementDefn defn = MetaDataDictionary.getInstance( ).getElement(
 					ReportDesignConstants.TEMPLATE_ELEMENT );
@@ -918,7 +926,8 @@ public final class ContainerContext
 				IElementDefn defn )
 		{
 			// if this element is a kind of template element or any its content
-			// is a kind of template element, return false
+			// is a
+			// kind of template element, return false
 
 			if ( defn != null
 					&& defn

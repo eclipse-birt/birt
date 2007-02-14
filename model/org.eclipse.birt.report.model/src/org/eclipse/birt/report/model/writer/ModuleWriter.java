@@ -51,6 +51,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.elements.AccessControl;
 import org.eclipse.birt.report.model.elements.AutoText;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.Cell;
@@ -94,6 +95,8 @@ import org.eclipse.birt.report.model.elements.TemplateReportItem;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.Translation;
+import org.eclipse.birt.report.model.elements.ValueAccessControl;
+import org.eclipse.birt.report.model.elements.interfaces.IAccessControlModel;
 import org.eclipse.birt.report.model.elements.interfaces.IAutoTextModel;
 import org.eclipse.birt.report.model.elements.interfaces.ICascadingParameterGroupModel;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
@@ -137,6 +140,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITemplateParameterDefinitionModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITextDataItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITextItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IValueAccessControlModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.elements.olap.Hierarchy;
@@ -3314,6 +3318,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		writeContents( obj, ICubeModel.DIMENSIONS_PROP );
 		writeContents( obj, ICubeModel.MEASURE_GROUPS_PROP );
+		writeContents( obj, ICubeModel.ACCESS_CONTROLS_PROP );
 
 		writer.endElement( );
 	}
@@ -3350,6 +3355,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		writeSimplePropertyList( obj, IHierarchyModel.PRIMARY_KEYS_PROP );
 
 		writeContents( obj, IHierarchyModel.LEVELS_PROP );
+		writeContents( obj, ICubeModel.ACCESS_CONTROLS_PROP );
 
 		writer.endElement( );
 	}
@@ -3371,6 +3377,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, ILevelModel.LEVEL_TYPE_PROP );
 		writeStructureList( obj, ILevelModel.STATIC_VALUES_PROP );
 		writeStructureList( obj, ILevelModel.ATTRIBUTES_PROP );
+		writeContents( obj, ILevelModel.VALUE_ACCESS_CONTROLS_PROP );
 
 		writer.endElement( );
 	}
@@ -3403,6 +3410,49 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IMeasureModel.FUNCTION_PROP );
 		property( obj, IMeasureModel.IS_CALCULATED_PROP );
 		property( obj, IMeasureModel.MEASURE_EXPRESSION_PROP );
+
+		writer.endElement( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitAccessControl(org.eclipse.birt.report.model.elements.AccessControl)
+	 */
+
+	public void visitAccessControl( AccessControl obj )
+	{
+		writer.startElement( DesignSchemaConstants.ACCESS_CONTROL_TAG );
+		markLineNumber( obj );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
+				.getID( ) ).toString( ) );
+
+		super.visitAccessControl( obj );
+		writeSimplePropertyList( obj, IAccessControlModel.USER_NAMES_PROP );
+		writeSimplePropertyList( obj, IAccessControlModel.ROLES_PROP );
+		property( obj, IAccessControlModel.PERMISSION_PROP );
+
+		writer.endElement( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitValueAccessControl(org.eclipse.birt.report.model.elements.ValueAccessControl)
+	 */
+
+	public void visitValueAccessControl( ValueAccessControl obj )
+	{
+		writer.startElement( DesignSchemaConstants.VALUE_ACCESS_CONTROL_TAG );
+		markLineNumber( obj );
+		writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long( obj
+				.getID( ) ).toString( ) );
+
+		super.visitAccessControl( obj );
+		writeSimplePropertyList( obj, IValueAccessControlModel.USER_NAMES_PROP );
+		writeSimplePropertyList( obj, IValueAccessControlModel.ROLES_PROP );
+		writeSimplePropertyList( obj, IValueAccessControlModel.VALUES_PROP );
+		property( obj, IValueAccessControlModel.PERMISSION_PROP );
 
 		writer.endElement( );
 	}

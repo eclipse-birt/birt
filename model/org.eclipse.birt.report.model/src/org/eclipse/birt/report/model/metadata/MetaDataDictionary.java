@@ -238,6 +238,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 		addPropertyType( new ListPropertyType( ) );
 		addPropertyType( new MemberKeyPropertyType( ) );
 		addPropertyType( new ElementPropertyType( ) );
+		addPropertyType( new ContentElementPropertyType( ) );
 	}
 
 	/**

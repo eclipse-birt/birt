@@ -71,7 +71,10 @@ public interface ReportDesignConstants
 	String LEVEL_ELEMENT = "Level"; //$NON-NLS-1$
 	String MEASURE_ELEMENT = "Measure"; //$NON-NLS-1$
 	String MEASURE_GROUP_ELEMENT = "MeasureGroup"; //$NON-NLS-1$
-
+	String ACCESS_CONTROL = "AccessControl"; //$NON-NLS-1$
+	String VALUE_ACCESS_CONTROL = "ValueAccessControl"; //$NON-NLS-1$
+	
+	
 	/**
 	 * @deprecated by {@link #TEXT_DATA_ITEM}
 	 */

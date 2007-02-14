@@ -1546,8 +1546,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 		}
 		super.addProperty( property );
-		if ( property.getType( ) != null
-				&& property.getTypeCode( ) == IPropertyType.ELEMENT_TYPE
+		if ( property.getType( ) != null && property.isElementType( )
 				&& !isContainer )
 			isContainer = true;
 	}

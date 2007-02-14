@@ -221,7 +221,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		DesignElement element = getElement( );
 		Object value = element.getProperty( module, propName );
 		PropertyDefn defn = (PropertyDefn) getPropertyDefn( propName );
-		return ModelUtil.getPropertyValueStrategy( value, module, defn );
+		return ModelUtil.wrapPropertyValue( module, defn, value );
 	}
 
 	/**

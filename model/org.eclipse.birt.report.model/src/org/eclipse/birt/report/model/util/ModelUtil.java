@@ -54,7 +54,9 @@ import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.ElementExportUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
+import org.eclipse.birt.report.model.command.EventTarget;
 import org.eclipse.birt.report.model.core.BackRef;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
@@ -98,17 +100,24 @@ import com.ibm.icu.util.ULocale;
 
 public class ModelUtil
 {
+
 	/**
-	 * Strategy of getting property
+	 * Returns the wrapped value that is visible to API level. For example,
+	 * element reference value is returned as string; element value is returned
+	 * as DesignElementHandle.
 	 * 
-	 * @param value
 	 * @param module
+	 *            the root
 	 * @param defn
-	 * @return value of a property as a generic object
+	 *            the property definition
+	 * @param value
+	 *            the property value
+	 * 
+	 * @return value of a property as a API level object
 	 */
 
-	public static Object getPropertyValueStrategy( Object value, Module module,
-			PropertyDefn defn )
+	public static Object wrapPropertyValue( Module module, PropertyDefn defn,
+			Object value )
 	{
 		if ( value == null )
 			return null;
@@ -132,8 +141,8 @@ public class ModelUtil
 		}
 
 		// convert design element to handles
-		
-		if ( defn != null && defn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
+
+		if ( defn != null && defn.isElementType( ) )
 		{
 			if ( value instanceof DesignElement )
 			{
@@ -1524,5 +1533,42 @@ public class ModelUtil
 
 				return DesignSchemaConstants.PROPERTY_TAG;
 		}
+	}
+
+	/**
+	 * Returns the target element for the notification event.
+	 * 
+	 * @param element
+	 *            the design element
+	 * @param propDefn
+	 *            the property definition
+	 * 
+	 * @return the event target.
+	 */
+
+	public static EventTarget getEventTarget( DesignElement element,
+			PropertyDefn propDefn )
+	{
+		DesignElement tmpElement = element;
+		PropertyDefn tmpPropDefn = propDefn;
+
+		while ( tmpElement != null && tmpPropDefn != null )
+		{
+			if ( tmpPropDefn.getTypeCode( ) == IPropertyType.CONTENT_ELEMENT_TYPE )
+			{
+				return new EventTarget( tmpElement, tmpPropDefn );
+			}
+
+			ContainerContext context = tmpElement.getContainerInfo( );
+			if ( context == null )
+				return null;
+
+			String propName = context.getPropertyName( );
+
+			tmpElement = tmpElement.getContainer( );
+			tmpPropDefn = tmpElement.getPropertyDefn( propName );
+		}
+
+		return null;
 	}
 }

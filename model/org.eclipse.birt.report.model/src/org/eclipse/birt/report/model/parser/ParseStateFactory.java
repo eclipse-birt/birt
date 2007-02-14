@@ -14,12 +14,12 @@ package org.eclipse.birt.report.model.parser;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
-import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PeerExtensionLoader;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.parser.treebuild.ContentNode;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 
@@ -88,10 +88,10 @@ public class ParseStateFactory
 			IElementDefn allowedElementDefn, ModuleParserHandler handler,
 			DesignElement container, IPropertyDefn propDefn )
 	{
-		if ( propDefn == null
-				|| propDefn.getTypeCode( ) != IPropertyType.ELEMENT_TYPE
+		if ( propDefn == null || !( (PropertyDefn) propDefn ).isElementType( )
 				|| allowedElementDefn == null )
 			return null;
+
 		String elementName = allowedElementDefn.getName( );
 		// support that allowedElementDefn refers to extension definition
 		// directly, so add this handler
@@ -155,6 +155,14 @@ public class ParseStateFactory
 			if ( ReportDesignConstants.MEASURE_ELEMENT
 					.equalsIgnoreCase( elementName ) )
 				return new MeasureState( handler, container, propName );
+			if ( ReportDesignConstants.ACCESS_CONTROL
+					.equalsIgnoreCase( elementName ) )
+				return new AccessControlState( handler, container, propName );
+			if ( ReportDesignConstants.VALUE_ACCESS_CONTROL
+					.equalsIgnoreCase( elementName ) )
+				return new ValueAccessControlState( handler, container,
+						propName );
+
 		}
 		return null;
 	}

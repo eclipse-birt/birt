@@ -48,4 +48,10 @@ public interface IHierarchyModel
 	 * dimension.
 	 */
 	static final String IS_DEFAULT_PROP = "isDefault"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the property that specifies a list of privilige of users.
+	 */
+
+	static final String ACCESS_CONTROLS_PROP = "accessControls"; //$NON-NLS-1$
 }

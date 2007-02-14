@@ -749,4 +749,12 @@ public interface DesignChoiceConstants
 	String CHOICE_LEVEL_TYPE = "levelType"; //$NON-NLS-1$
 	String LEVEL_TYPE_DYNAMIC = "dynamic"; //$NON-NLS-1$
 	String LEVEL_TYPE_MIRRORED = "mirrored"; //$NON-NLS-1$
+	
+	/**
+	 * measure Function -- measure function type.
+	 */
+	
+	public static final String CHOICE_ACCESS_PERMISSION = "accessPermission"; //$NON-NLS-1$
+	public static final String ACCESS_PERMISSION_ALLOW = "allow"; //$NON-NLS-1$
+	public static final String ACCESS_PERMISSION_DISALLOW = "disallow"; //$NON-NLS-1$
 };

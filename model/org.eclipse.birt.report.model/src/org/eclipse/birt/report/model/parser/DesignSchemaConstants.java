@@ -31,6 +31,8 @@ public interface DesignSchemaConstants
 
 	final static int REPORT_VERSION_NUMBER = 3021000;
 
+	static final String ACCESS_CONTROL_TAG = "access-control"; //$NON-NLS-1$
+	static final String AUTO_TEXT_TAG = "auto-text"; //$NON-NLS-1$
 	static final String BACKGROUND_ATTACHMENT_ATTRIB = "background-attachment"; //$NON-NLS-1$
 	static final String BACKGROUND_COLOR_ATTRIB = "background-color"; //$NON-NLS-1$
 	static final String BACKGROUND_IMAGE_ATTRIB = "background-image"; //$NON-NLS-1$
@@ -197,13 +199,13 @@ public interface DesignSchemaConstants
 	static final String TOC_TAG = "toc"; //$NON-NLS-1$ 
 	static final String TRANSLATION_TAG = "translation"; //$NON-NLS-1$
 	static final String TRANSLATIONS_TAG = "translations"; //$NON-NLS-1$
+	static final String VALUE_ACCESS_CONTROL_TAG = "value-access-control"; //$NON-NLS-1$
 	static final String VALUE_TAG = "value"; //$NON-NLS-1$
 	static final String VERTICAL_ALIGN_ATTRIB = "vertical-align"; //$NON-NLS-1$
 	static final String VERSION_ATTRIB = "version"; //$NON-NLS-1$
 	static final String VIEW_ACTION_ATTRIB = "viewAction"; //$NON-NLS-1$
 	static final String XML_PROPERTY_TAG = "xml-property"; //$NON-NLS-1$
 	static final String XMLNS_ATTRIB = "xmlns"; //$NON-NLS-1$
-	static final String AUTO_TEXT_TAG = "auto-text"; //$NON-NLS-1$
 	/**
 	 * @deprecated by the {@link #TEXT_DATA_TAG}
 	 */

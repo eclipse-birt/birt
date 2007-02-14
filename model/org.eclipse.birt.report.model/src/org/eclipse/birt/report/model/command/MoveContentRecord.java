@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.activity.LayoutRecordTask;
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
+import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.elements.table.LayoutUtil;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -79,8 +80,8 @@ public class MoveContentRecord extends SimpleRecord
 	 *            the new position of the content element.
 	 */
 
-	public MoveContentRecord( Module theModule, ContainerContext containerInfor,
-			DesignElement obj, int posn )
+	public MoveContentRecord( Module theModule,
+			ContainerContext containerInfor, DesignElement obj, int posn )
 	{
 		module = theModule;
 		focus = containerInfor;
@@ -121,6 +122,9 @@ public class MoveContentRecord extends SimpleRecord
 
 	public DesignElement getTarget( )
 	{
+		if ( eventTarget != null )
+			return eventTarget.getElement( );
+
 		return focus.getElement( );
 	}
 
@@ -132,6 +136,15 @@ public class MoveContentRecord extends SimpleRecord
 
 	public NotificationEvent getEvent( )
 	{
+		// if the element works like properties, return property event instead
+		// of content event.
+
+		if ( eventTarget != null )
+		{
+			return new PropertyEvent( eventTarget.getElement( ), eventTarget
+					.getPropName( ) );
+		}
+
 		return new ContentEvent( focus, content, ContentEvent.SHIFT );
 	}
 
