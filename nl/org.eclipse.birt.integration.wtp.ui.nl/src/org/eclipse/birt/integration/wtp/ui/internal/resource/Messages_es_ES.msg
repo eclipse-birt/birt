@@ -33,9 +33,9 @@ BIRTConfiguration_resource_label=&Carpeta de recursos:
 BIRTConfiguration_resource_dialog_title=Buscar carpeta de recursos
 BIRTConfiguration_resource_dialog_message=Seleccione la carpeta de recursos predeterminada:
 
-BIRTConfiguration_working_label=&Working Folder:
-BIRTConfiguration_working_dialog_title=Browse For Working Folder
-BIRTConfiguration_working_dialog_message=Please select the default working folder:
+BIRTConfiguration_working_label=&Carpeta de trabajo:
+BIRTConfiguration_working_dialog_title=Buscar carpeta de trabajo
+BIRTConfiguration_working_dialog_message=Seleccione la carpeta de trabajo predeterminada:
 
 BIRTConfiguration_document_label=Carpeta de &documentos:
 BIRTConfiguration_document_dialog_title=Buscar carpeta de documentos
@@ -53,7 +53,7 @@ BIRTConfiguration_log_label=Carpeta de &registro:
 BIRTConfiguration_log_dialog_title=Buscar carpeta de registro
 BIRTConfiguration_log_dialog_message=Seleccione la carpeta de registro predeterminada:
 
-BIRTConfiguration_report_access_message=&Only access the report and document under working folder
+BIRTConfiguration_report_access_message=Acceder sól&o al informe y documento de la carpeta de trabajo
 BIRTConfiguration_overwrite_message=Sobrescribir siempre el &archivo de documento generado
 
 BIRTConfiguration_maxrows_label=Número máximo de filas de conjunto de &datos:

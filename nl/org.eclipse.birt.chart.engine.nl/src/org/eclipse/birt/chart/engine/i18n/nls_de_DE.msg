@@ -169,7 +169,7 @@ Info.java.handler.loaded=Eine Diagramm-Java-Ereignis-Handler-Klasse [{0}] wurde 
 Info.invalid.java.handler=Eine ungültige Diagramm-Java-Ereignis-Handler-Klasse [{0}] wurde gefunden und ignoriert.
 Info.try.register.javascript.content=Diagramm-JavaScript-Inhalt wird geladen ...
 Info.javascript.content.registered=Diagramm-JavaScript-Inhalt wurde geladen.
-warn.unspecified.sorting=Sorting is not specified for {0}.
+warn.unspecified.sorting=Keine Sortierung angegeben für {0}.
 
 ##################################################
 # Attributes 

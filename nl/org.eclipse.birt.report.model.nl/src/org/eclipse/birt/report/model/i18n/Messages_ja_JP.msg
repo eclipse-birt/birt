@@ -31,17 +31,17 @@ Property.points=points
 Property.string=string
 Property.uri=uri
 Property.xml=xml
-Property.elementRef=element reference
+Property.elementRef=要素参照
 Property.column=column
 Property.variant=variant
 Property.structList=structList
 Property.extends=extends
 Property.script=Script
 Property.list=リスト
-Property.memberKey=member key
-Property.literalString=literal string
-Property.element=element
-Property.structRef=structure reference
+Property.memberKey=メンバキー
+Property.literalString=リテラル文字列
+Property.element=要素
+Property.structRef=構造参照
 Property.contentElement=element as property value
 
 ###########################################################
@@ -547,7 +547,7 @@ Choices.measureFunction.max=最大
 
 #71. levelType
 Choices.levelType.dynamic=動的
-Choices.levelType.mirrored=Mirrored
+Choices.levelType.mirrored=ミラー化
 
 #72. accessPermission
 Choices.accessPermission.allow=Allow
@@ -2064,9 +2064,9 @@ Structure.DimensionCondition.primaryKeys=プライマリキー
 Structure.DimensionCondition.hierarchy=階層
 
 #30. Rule
-Structure.Rule=Rule
-Structure.Rule.ruleExpre=Rule Expression
-Structure.Rule.displayExpre=Display Expression
+Structure.Rule=規則
+Structure.Rule.ruleExpre=規則式
+Structure.Rule.displayExpre=表示式
 
 ###########################################################
 # Element names
@@ -2127,7 +2127,7 @@ Element.Dimension=次元
 Element.Hierarchy=階層
 Element.Level=レベル
 Element.Measure=計測
-Element.MeasureGroup=Meausre Group
+Element.MeasureGroup=計測グループ
 Element.AccessControl=Access Control
 Element.ValueAccessControl=Value Access Control
 
@@ -2885,10 +2885,10 @@ Element.AutoText.onPageBreak.reportContext=レポートのコンテキスト
 
 #45. Cube ( prefix Element.Cube )
 Element.Cube.dataSet=データセット
-Element.Cube.filter=Filter Conditions
+Element.Cube.filter=フィルタ条件
 Element.Cube.dimensionConditions=次元条件
 Element.Cube.dimensions=Dimensions
-Element.Cube.measureGroups=Measure Groups
+Element.Cube.measureGroups=計測グループ
 Element.Cube.accessControls=Access controls
 
 #46. Dimension ( prefix Element.Dimension )
@@ -2899,7 +2899,7 @@ Element.Dimension.hierarchies=Hierarchies
 #47. Hierarchy ( prefix Element.Hierarchy )
 Element.Hierarchy.dataSet=データセット
 Element.Hierarchy.isDefault=Is Default
-Element.Hierarchy.filter=Filter Conditions
+Element.Hierarchy.filter=フィルタ条件
 Element.Hierarchy.primaryKeys=プライマリキー
 Element.Hierarchy.levels=Levels
 Element.Hierarchy.accessControls=Access controls
@@ -2908,11 +2908,11 @@ Element.Hierarchy.accessControls=Access controls
 Element.Level.columnName=列見出し
 Element.Level.dataType=データ型
 Element.Level.Interval=間隔
-Element.Level.intervalBase=間隔のベース
+Element.Level.intervalBase=間隔の基準
 Element.Level.interval=間隔
 Element.Level.intervalRange=間隔の範囲
-Element.Level.levelType=Level Type
-Element.Level.staticValues=Static Values
+Element.Level.levelType=レベルの型
+Element.Level.staticValues=静的な値
 Element.Level.attributes=属性
 Element.Level.valueAccessControls=Value access controls
 
@@ -2922,7 +2922,7 @@ Element.Measure.isCalculated=Is Calculated
 Element.Measure.measureExpression=計測式
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
-Element.MeasureGroup.measures=Measures
+Element.MeasureGroup.measures=計測
 Element.MeasureGroup.isDefault=Is Default
 
 #51. AccessControl ( prefix Element.AccessControl )
@@ -3166,7 +3166,7 @@ New.Dimension=次元の新規作成
 New.Hierarchy=階層の新規作成
 New.Level=レベルの新規作成
 New.Measure=計測の新規作成
-New.MeasureGroup=NewMeasureGroup
+New.MeasureGroup=計測グループの新規作成
 
 ###########################################################
 #Default theme name.

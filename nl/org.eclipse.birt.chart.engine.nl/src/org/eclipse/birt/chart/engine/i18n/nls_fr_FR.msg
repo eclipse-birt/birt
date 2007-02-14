@@ -169,7 +169,7 @@ Info.java.handler.loaded=Une classe de gestionnaire d''événements Java de graphi
 Info.invalid.java.handler=Une classe de gestionnaire d''événements Java de graphique [{0}] non valide a été détectée et ignorée.
 Info.try.register.javascript.content=Tentative de chargement du contenu JavaScript de graphique...
 Info.javascript.content.registered=Le contenu JavaScript de graphique a été chargé.
-warn.unspecified.sorting=Sorting is not specified for {0}.
+warn.unspecified.sorting=Le tri n''est pas spécifié pour {0}.
 
 ##################################################
 # Attributes 

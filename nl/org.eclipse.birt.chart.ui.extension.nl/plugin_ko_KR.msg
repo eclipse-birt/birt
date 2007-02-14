@@ -10,4 +10,4 @@ YAxis=Y축
 ZAxis=Z축
 Plot=그리기
 Legend=범례
-Title=Title
+Title=제목

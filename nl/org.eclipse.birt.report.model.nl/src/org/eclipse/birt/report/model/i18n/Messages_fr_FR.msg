@@ -31,17 +31,17 @@ Property.points=points
 Property.string=chaîne
 Property.uri=uri
 Property.xml=xml
-Property.elementRef=element reference
+Property.elementRef=référence d'élément
 Property.column=colonne
 Property.variant=variante
 Property.structList=listeStruct
 Property.extends=extends
 Property.script=Script
 Property.list=liste
-Property.memberKey=member key
-Property.literalString=literal string
+Property.memberKey=clé de membre
+Property.literalString=littéral de chaîne
 Property.element=élément
-Property.structRef=structure reference
+Property.structRef=référence de structure
 Property.contentElement=element as property value
 
 ###########################################################
@@ -547,7 +547,7 @@ Choices.measureFunction.max=Max
 
 #71. levelType
 Choices.levelType.dynamic=Dynamique
-Choices.levelType.mirrored=Mirrored
+Choices.levelType.mirrored=En miroir
 
 #72. accessPermission
 Choices.accessPermission.allow=Allow
@@ -2064,9 +2064,9 @@ Structure.DimensionCondition.primaryKeys=Clés principales
 Structure.DimensionCondition.hierarchy=Hiérarchie
 
 #30. Rule
-Structure.Rule=Rule
-Structure.Rule.ruleExpre=Rule Expression
-Structure.Rule.displayExpre=Display Expression
+Structure.Rule=Règle
+Structure.Rule.ruleExpre=Expression de règle
+Structure.Rule.displayExpre=Expression d'affichage
 
 ###########################################################
 # Element names
@@ -2127,7 +2127,7 @@ Element.Dimension=Dimension
 Element.Hierarchy=Hiérarchie
 Element.Level=Niveau
 Element.Measure=Mesure
-Element.MeasureGroup=Meausre Group
+Element.MeasureGroup=Groupe de mesure
 Element.AccessControl=Access Control
 Element.ValueAccessControl=Value Access Control
 
@@ -2885,10 +2885,10 @@ Element.AutoText.onPageBreak.reportContext=Contexte d'état
 
 #45. Cube ( prefix Element.Cube )
 Element.Cube.dataSet=Jeu de données
-Element.Cube.filter=Filter Conditions
+Element.Cube.filter=Conditions de filtre
 Element.Cube.dimensionConditions=Conditions de dimension
 Element.Cube.dimensions=Dimensions
-Element.Cube.measureGroups=Measure Groups
+Element.Cube.measureGroups=Groupes de mesure
 Element.Cube.accessControls=Access controls
 
 #46. Dimension ( prefix Element.Dimension )
@@ -2899,7 +2899,7 @@ Element.Dimension.hierarchies=Hierarchies
 #47. Hierarchy ( prefix Element.Hierarchy )
 Element.Hierarchy.dataSet=Jeu de données
 Element.Hierarchy.isDefault=Is Default
-Element.Hierarchy.filter=Filter Conditions
+Element.Hierarchy.filter=Conditions de filtre
 Element.Hierarchy.primaryKeys=Clé principale
 Element.Hierarchy.levels=Levels
 Element.Hierarchy.accessControls=Access controls
@@ -2911,8 +2911,8 @@ Element.Level.Interval=Intervalle
 Element.Level.intervalBase=Base d'intervalle
 Element.Level.interval=Intervalle
 Element.Level.intervalRange=Plage d'intervalles
-Element.Level.levelType=Level Type
-Element.Level.staticValues=Static Values
+Element.Level.levelType=Type de niveau
+Element.Level.staticValues=Valeurs statiques
 Element.Level.attributes=Attributs
 Element.Level.valueAccessControls=Value access controls
 
@@ -2922,7 +2922,7 @@ Element.Measure.isCalculated=Est calculé
 Element.Measure.measureExpression=Expression de mesure
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
-Element.MeasureGroup.measures=Measures
+Element.MeasureGroup.measures=Mesures
 Element.MeasureGroup.isDefault=Is Default
 
 #51. AccessControl ( prefix Element.AccessControl )
@@ -3166,7 +3166,7 @@ New.Dimension=Nouvelle dimension
 New.Hierarchy=Nouvelle hiérarchie
 New.Level=Nouveau niveau
 New.Measure=Nouvelle mesure
-New.MeasureGroup=NewMeasureGroup
+New.MeasureGroup=Groupe de nouvelles mesures
 
 ###########################################################
 #Default theme name.

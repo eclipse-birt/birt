@@ -33,9 +33,9 @@ BIRTConfiguration_resource_label=Dossier de &ressources :
 BIRTConfiguration_resource_dialog_title=Parcourir le dossier de ressources
 BIRTConfiguration_resource_dialog_message=Sélectionnez le dossier de ressources par défaut :
 
-BIRTConfiguration_working_label=&Working Folder:
-BIRTConfiguration_working_dialog_title=Browse For Working Folder
-BIRTConfiguration_working_dialog_message=Please select the default working folder:
+BIRTConfiguration_working_label=&Dossier de travail :
+BIRTConfiguration_working_dialog_title=Parcourir le dossier de travail
+BIRTConfiguration_working_dialog_message=Sélectionnez le dossier de travail par défaut :
 
 BIRTConfiguration_document_label=&Dossier de documents :
 BIRTConfiguration_document_dialog_title=Parcourir le dossier de documents
@@ -53,7 +53,7 @@ BIRTConfiguration_log_label=Dossier du journa&l :
 BIRTConfiguration_log_dialog_title=Parcourir le dossier du journal
 BIRTConfiguration_log_dialog_message=Sélectionnez le dossier du journal par défaut :
 
-BIRTConfiguration_report_access_message=&Only access the report and document under working folder
+BIRTConfiguration_report_access_message=Accéder uniquement aux états et d&ocuments du dossier de travail
 BIRTConfiguration_overwrite_message=Toujours écr&aser le document généré
 
 BIRTConfiguration_maxrows_label=Lignes max. de jeux de &données :

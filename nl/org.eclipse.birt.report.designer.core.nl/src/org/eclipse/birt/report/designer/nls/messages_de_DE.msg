@@ -212,7 +212,7 @@ ButtonPaneComposite.tooltip.Ruler=Regler
 ###########################################################
 #SettingsPage properties
 
-SettingsPage.dataFetchSetting.label=Max number of rows to fetch from data source:
+SettingsPage.dataFetchSetting.label=Maximale Anzahl der aus Datenquelle abzurufenden Zeilen:
 SettingsPage.CachePreference.button.clear=&Cache löschen
 SettingsPage.CachePreference.checkBox.text=&Daten aus Datensatz für Berichtvorschau zwischenspeichern
 SettingsPage.CachePreference.description=Cache-Größe festlegen:
@@ -396,16 +396,16 @@ DataPageGenerator.TabItem.map=Zuordnung
 
 dataset.edit=Datensatz bearbeiten - {0}
 
-dataset.editor.settings=Settings
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter a number larger than zero for row fetch limit
-dataset.editor.settings.dataFetchSetting=Data Fetch Setting
+dataset.editor.settings=Einstellungen
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Geben Sie für die maximal abzurufende Zeilenanzahl eine Zahl ein, die größer als Null ist.
+dataset.editor.settings.dataFetchSetting=Einstellung für den Abruf von Daten
 dataset.editor.settings.cachePreference.errorNumberFormat=Geben Sie für die Zeilengröße des Caches eine Zahl ein, die größer als Null ist.
 dataset.editor.settings.cachePreference=Voreinstellungen für Cache
 dataset.editor.computedColumns=Berechnete Spalten
 dataset.editor.dataSource.Tooltip=Datenquelle anzeigen/ändern
 dataset.editor.dataSource=Datenquelle
 dataset.editor.error.columnOrAliasNameAlreadyUsed=Der neue Spaltenname oder -alias ({0}) wird bereits von der Spalte bei Index {1} verwendet.
-dataset.editor.error.computedColumnNameAlreadyUsed=The new computed column name ({0}) is already used as column alias of column ({1}) in Output Columns.
+dataset.editor.error.computedColumnNameAlreadyUsed=Der neu berechnete Spaltenname ({0}) wird unter "Ausgabespalten" bereits als Spaltenalias für Spalte ({1}) verwendet.
 dataset.editor.error.duplicateParameterName=Parametername doppelt vergeben
 dataset.editor.error.emptyName=Der Name darf nicht leer sein. 
 dataset.editor.error.missingComputedColumnExpression=Der Ausdruck der berechneten Spalte {0} darf nicht leer oder gleich Null sein.
@@ -1171,7 +1171,7 @@ Element.Text.content=Inhalt:
 Element.Text.contentID=&Inhaltsschlüssel:
 Element.Text.contentType=&Inhaltstyp:
 Element.TemplateElement.name=&Name
-Element.Toc.Sytle=&Style
+Element.Toc.Sytle=&Stil
 
 ###########################################################
 #EmbeddedImageNodeProvider properties
@@ -1399,13 +1399,13 @@ FormatDateTimePage.label.custom.settings=Benutzerdefinierte Einstellungen
 FormatDateTimePage.label.format.code=Formatcode:
 FormatDateTimePage.label.format.page=&Formatieren als:
 FormatDateTimePage.label.general.preview.group=Vorschau mit Format
-FormatDateTimePage.label.guide.text=Please enter as: MM/DD/YYYY hh:mm:ss AM/PM
+FormatDateTimePage.label.guide.text=Im Format MM/TT/JJJJ hh:mm:ss AM/PM eingeben
 FormatDateTimePage.label.preview.dateTime=Datum/Uhrzeit für Vorschau: 
 FormatDateTimePage.label.preview.group=Vorschau
 FormatDateTimePage.label.preview.label=Vorschau mit Format:
 FormatDateTimePage.label.table.column.format.name=Beispielformat
 FormatDateTimePage.label.table.column.format.result=Beispiel-Formatergebnis
-FormatDateTimePage.label.table.column.format.code=Example code
+FormatDateTimePage.label.table.column.format.code=Beispielcode
 FormatDateTimePage.preview.invalid.dateTime=Ungültige(s) Datum/Uhrzeit für Vorschau
 FormatDateTimePage.preview.invalid.formatCode=Ungültiger Formatcode
 
@@ -1553,8 +1553,8 @@ GridProvider.action.text=Zeile einfügen
 
 GroupDialog.Dialog.GroupDetail=Gruppendetails
 GroupDialog.Dialog.TOCGroup=Inhaltsverzeichnis
-GroupDialog.Dialog.TOC=I&tem Expression:
-GroupDialog.Dialog.TOCStyle=St&yle:
+GroupDialog.Dialog.TOC=Elemen&tausdruck:
+GroupDialog.Dialog.TOCStyle=St&il:
 GroupDialog.DialogTitle.NoData=Initialisierungsfehler
 GroupDialog.DialogTitle.SemanticCheckFailed=Semantische Prüfung fehlgeschlagen
 GroupDialog.ErrorMesaage.IllegalGroup=Diese Gruppe ist unerlaubt.
@@ -1678,7 +1678,7 @@ HyperlinkBuilder.DrillThroughStep1=Schritt 1: Zielbericht auswählen
 HyperlinkBuilder.DrillThroughStep2=Schritt 2: Zielanker auswählen 
 HyperlinkBuilder.DrillThroughStep3=Schritt 3: Verknüpfungsausdruck erstellen, der mit dem Ziellesezeichen übereinstimmt
 HyperlinkBuilder.DrillThroughStep4=Schritt 4: Zielbericht anzeigen in 
-HyperlinkBuilder.DrillThroughStep5=Step 5: Select a format for target report
+HyperlinkBuilder.DrillThroughStep5=Schritt 5: Format für Zielbericht auswählen
 HyperlinkBuilder.ParameterRequired=erforderlich
 HyperlinkBuilder.Column.Values=Werte
 HyperlinkBuilder.DialogTitle=Optionen für Hyperlink
@@ -1709,7 +1709,7 @@ HyperlinkBuilder.BrowseForFile=Nach Datei suchen
 HyperlinkBuilder.OpenExpression=Ausdruckserstellung öffnen
 HyperlinkBuilder.FileNameError.Title=Fehler
 HyperlinkBuilder.FileNameError.Message=Die ausgewählte Datei ist ungültig.
-HyperlinkBuilder.TargetReportFormat=Format the target report in:
+HyperlinkBuilder.TargetReportFormat=Zielbericht formatieren in:
 
 ###########################################################
 #HyperLinkPage properties
@@ -1741,7 +1741,7 @@ ImageBuilder.DialogTitle.New=Neues Bildobjekt
 ImageBuilder.ErrorMessage.FileLoaded=Diese Datei ist bereits geladen.
 ImageBuilder.ErrorMessage.LoadingFailed=Das Bild kann nicht korrekt geladen werden.
 ImageBuilder.BrowserResourceDialog.Title=Nach Bilddateien suchen
-ImageBuilder.BrowserResourceDialog.Message=Select the image files from Resource Path Folder
+ImageBuilder.BrowserResourceDialog.Message=Wählen Sie die Bilddateien aus dem Ressourcenpfadordner aus.
 ImageBuilder.ErrorMessage.OutOfMemory=Das Bild ist zu groß für den verfügbaren Speicher.
 ImageBuilder.FileDialog.FilterMessage=Unterstützte Bilddatei
 ImageBuilder.Label.Binding=&Bindung
@@ -1750,7 +1750,7 @@ ImageBuilder.Label.EnterExpr=&Ausdruck für dynamisches Bild eingeben:
 ImageBuilder.Label.EnterUri=&URI eingeben:
 ImageBuilder.Label.Open=&Ausdruckserstellung...
 ImageBuilder.Label.SelectFrom=Bild auswählen aus:
-ImageBuilder.ResourceFileType=Image file in resource folder
+ImageBuilder.ResourceFileType=Bilddatei in Ressourcenordner
 ImageBuilder.Label.URI=&URI
 ImageBuilder.Label.EnterResourceFile=Ressourcendatei ei&ngeben:
 
@@ -2734,7 +2734,7 @@ org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=C
 
 ###########################################################
 #Resource Preference page properties
-ResourecePreferencePage.title=Please select the default Resource Folder to use for the library explorer,images,property files and etc.
+ResourecePreferencePage.title=Wählen Sie den Standard-Ressourcenordner für Bibliotheks-Explorer, Bilder, Eigenschaftendateien usw. aus.
 ResourecePreferencePage.folder=&Ressourcenordner
 ResourecePreferencePage.select=&Auswählen...
 ResourecePreferencePage.openDialogTitle=Nach Ordner suchen
@@ -2813,7 +2813,7 @@ ReportPageGenerator.List.NamedExpressions=Benannte Ausdrücke
 ReportPageGenerator.List.UserProperties=Benutzereigenschaften
 ReportPageGenerator.List.Resources=Ressourcen
 ReportPageGenerator.List.Resources.JarFile=JAR-Dateien:
-ReportPageGenerator.List.AdvancedProperty=Advanced
+ReportPageGenerator.List.AdvancedProperty=Erweitert
 
 #OdaDataSourceGenerator properties
 DataSourcePageGenerator.List.General=Allgemein
@@ -3592,7 +3592,7 @@ PublishLibraryDialog.AddMessage=Bibliothek zum BIRT-Ressourcenordner hinzufügen
 WizardLibrarySettingPage.ErrorMessage=Wählen Sie einen Ordner aus.
 
 WizardLibrarySettingPage.Resourcefile.Dialog.Title=Ressourcenordner durchsuchen
-WizardLibrarySettingPage.Resourcefile.Dialog.Message=Please select the resource folder or its sub-folders.
+WizardLibrarySettingPage.Resourcefile.Dialog.Message=Wählen Sie den Ressourcenordner oder dessen Unterordner aus.
 
 PublishLibraryDialog.AddLibrary=Bibliothek hinzufügen
 

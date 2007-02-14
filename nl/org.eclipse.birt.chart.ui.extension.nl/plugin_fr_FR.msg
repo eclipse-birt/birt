@@ -10,4 +10,4 @@ YAxis=Axe vertical
 ZAxis=Axe de profondeur
 Plot=Tracé
 Legend=Légende
-Title=Title
+Title=Titre

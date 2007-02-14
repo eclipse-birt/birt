@@ -1,5 +1,5 @@
 birt.web.category.name=Business Intelligence & Reporting Tools
-birt.web.project.name=Web Project 
+birt.web.project.name=Webprojekt 
 birt.web.project.description=Ein Webprojekt mit der BIRT Runtime-Komponente erstellen
 birt.web.actionsets.description=Aktionen für BIRT-Webprojekt
 create.birt.web.module=BIRT-Webmodul erstellen

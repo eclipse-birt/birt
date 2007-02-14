@@ -1,5 +1,5 @@
 birt.web.category.name=Outils de reporting et de Business Intelligence
-birt.web.project.name=Web Project 
+birt.web.project.name=Projet Web 
 birt.web.project.description=Créer un projet Web contenant le composant d'exécution BIRT
 birt.web.actionsets.description=Actions pour le projet Web BIRT
 create.birt.web.module=Créer un module Web BIRT

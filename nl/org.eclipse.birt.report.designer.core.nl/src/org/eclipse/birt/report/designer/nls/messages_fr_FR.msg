@@ -212,7 +212,7 @@ ButtonPaneComposite.tooltip.Ruler=Règle
 ###########################################################
 #SettingsPage properties
 
-SettingsPage.dataFetchSetting.label=Max number of rows to fetch from data source:
+SettingsPage.dataFetchSetting.label=Nombre maximum de lignes à récupérer à partir de la source de données :
 SettingsPage.CachePreference.button.clear=Vider le &cache
 SettingsPage.CachePreference.checkBox.text=Mettre en cac&he les données des jeux de données pour la prévisualisation de l'état
 SettingsPage.CachePreference.description=Définir la taille du cache :
@@ -396,16 +396,16 @@ DataPageGenerator.TabItem.map=Mappage
 
 dataset.edit=Modifier le jeu de données - {0}
 
-dataset.editor.settings=Settings
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter a number larger than zero for row fetch limit
-dataset.editor.settings.dataFetchSetting=Data Fetch Setting
+dataset.editor.settings=Paramètres
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Entrez un nombre supérieur à zéro pour la limite de récupération de ligne.
+dataset.editor.settings.dataFetchSetting=Paramètre de récupération de données
 dataset.editor.settings.cachePreference.errorNumberFormat=Entrez un nombre supérieur à zéro pour la taille des lignes en cache
 dataset.editor.settings.cachePreference=Préférences de cache
 dataset.editor.computedColumns=Colonnes de calcul
 dataset.editor.dataSource.Tooltip=Afficher/modifier la source de données
 dataset.editor.dataSource=Source de données
 dataset.editor.error.columnOrAliasNameAlreadyUsed=Le nouveau nom ou alias de colonne ({0}) est déjà utilisé par la colonne à l''index {1}.
-dataset.editor.error.computedColumnNameAlreadyUsed=The new computed column name ({0}) is already used as column alias of column ({1}) in Output Columns.
+dataset.editor.error.computedColumnNameAlreadyUsed=Le nouveau nom de la colonne de calcul ({0}) est déjà utilisé comme alias pour la colonne ({1}) dans les Colonnes de sortie.
 dataset.editor.error.duplicateParameterName=Nom de paramètre en double
 dataset.editor.error.emptyName=Le nom ne doit pas rester vierge. 
 dataset.editor.error.missingComputedColumnExpression=L''expression de la colonne de calcul {0} ne peut être ni nulle, ni vide.
@@ -1399,13 +1399,13 @@ FormatDateTimePage.label.custom.settings=Paramètres personnalisés
 FormatDateTimePage.label.format.code=Code de format :
 FormatDateTimePage.label.format.page=&Format :
 FormatDateTimePage.label.general.preview.group=Aperçu au format
-FormatDateTimePage.label.guide.text=Please enter as: MM/DD/YYYY hh:mm:ss AM/PM
+FormatDateTimePage.label.guide.text=Saisissez les valeurs de date selon le modèle suivant : JJ/MM/AAAA hh:mm:ss
 FormatDateTimePage.label.preview.dateTime=Aperçu de date/heure : 
 FormatDateTimePage.label.preview.group=Aperçu
 FormatDateTimePage.label.preview.label=Aperçu au format :
 FormatDateTimePage.label.table.column.format.name=Format exemple
 FormatDateTimePage.label.table.column.format.result=Exemple de résultat de format
-FormatDateTimePage.label.table.column.format.code=Example code
+FormatDateTimePage.label.table.column.format.code=Exemple de code
 FormatDateTimePage.preview.invalid.dateTime=Format de date/heure incorrect pour l'aperçu
 FormatDateTimePage.preview.invalid.formatCode=Code de format incorrect
 
@@ -1553,8 +1553,8 @@ GridProvider.action.text=Insérer une ligne
 
 GroupDialog.Dialog.GroupDetail=Détails du groupe
 GroupDialog.Dialog.TOCGroup=Table des matières
-GroupDialog.Dialog.TOC=I&tem Expression:
-GroupDialog.Dialog.TOCStyle=St&yle:
+GroupDialog.Dialog.TOC=Express&ion d'élément :
+GroupDialog.Dialog.TOCStyle=St&yle :
 GroupDialog.DialogTitle.NoData=Echec de l'initialisation
 GroupDialog.DialogTitle.SemanticCheckFailed=Echec de la vérification sémantique
 GroupDialog.ErrorMesaage.IllegalGroup=Ce groupe est incorrect.
@@ -1678,7 +1678,7 @@ HyperlinkBuilder.DrillThroughStep1=Etape 1 : sélection d'un état cible
 HyperlinkBuilder.DrillThroughStep2=Etape 2 : sélection d'une ancre cible 
 HyperlinkBuilder.DrillThroughStep3=Etape 3 : création d'une expression de lien correspondant au signet cible
 HyperlinkBuilder.DrillThroughStep4=Etape 4 : affichage de l'état cible dans 
-HyperlinkBuilder.DrillThroughStep5=Step 5: Select a format for target report
+HyperlinkBuilder.DrillThroughStep5=Etape 5 : choix du format de l'état cible
 HyperlinkBuilder.ParameterRequired=requis
 HyperlinkBuilder.Column.Values=Valeurs
 HyperlinkBuilder.DialogTitle=Options de lien hypertexte
@@ -1709,7 +1709,7 @@ HyperlinkBuilder.BrowseForFile=Rechercher le fichier
 HyperlinkBuilder.OpenExpression=Ouvrir le Générateur d'expression
 HyperlinkBuilder.FileNameError.Title=Erreur
 HyperlinkBuilder.FileNameError.Message=Le fichier sélectionné n'est pas valide.
-HyperlinkBuilder.TargetReportFormat=Format the target report in:
+HyperlinkBuilder.TargetReportFormat=Formatage de l'état cible dans :
 
 ###########################################################
 #HyperLinkPage properties
@@ -1741,7 +1741,7 @@ ImageBuilder.DialogTitle.New=Nouvel élément image
 ImageBuilder.ErrorMessage.FileLoaded=Ce fichier a déjà été chargé.
 ImageBuilder.ErrorMessage.LoadingFailed=L'image ne peut être chargée correctement.
 ImageBuilder.BrowserResourceDialog.Title=Parcourir les fichiers image
-ImageBuilder.BrowserResourceDialog.Message=Select the image files from Resource Path Folder
+ImageBuilder.BrowserResourceDialog.Message=Sélectionnez les fichiers image depuis le dossier de ressources
 ImageBuilder.ErrorMessage.OutOfMemory=La mémoire est insuffisante pour contenir l'image.
 ImageBuilder.FileDialog.FilterMessage=Fichier image pris en charge
 ImageBuilder.Label.Binding=&Liaison
@@ -1750,7 +1750,7 @@ ImageBuilder.Label.EnterExpr=E&ntrer une expression d'image dynamique :
 ImageBuilder.Label.EnterUri=E&ntrer l'URI :
 ImageBuilder.Label.Open=Générateur d'e&xpression...
 ImageBuilder.Label.SelectFrom=Sélectionner une image dans :
-ImageBuilder.ResourceFileType=Image file in resource folder
+ImageBuilder.ResourceFileType=Fichier image dans le dossier de ressources
 ImageBuilder.Label.URI=&URI
 ImageBuilder.Label.EnterResourceFile=E&ntrer le fichier de ressources :
 
@@ -2454,7 +2454,7 @@ ParameterDialog.Label.HelpText=&Texte d'aide :
 ParameterDialog.Label.ListOfValue=Liste de valeurs :
 ParameterDialog.Label.Name=&Nom :
 ParameterDialog.Label.None=<Aucun>
-ParameterDialog.Label.Null=Null
+ParameterDialog.Label.Null=Nul
 ParameterDialog.Label.Preview=Aperçu au format
 ParameterDialog.Label.PromptText=&Texte de l'invite :
 ParameterDialog.Label.SelectDataSet=&Jeu de données :
@@ -2734,7 +2734,7 @@ org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=C
 
 ###########################################################
 #Resource Preference page properties
-ResourecePreferencePage.title=Please select the default Resource Folder to use for the library explorer,images,property files and etc.
+ResourecePreferencePage.title=Sélectionnez le dossier de ressources par défaut à utiliser pour l'explorateur de bibliothèques, les images, les fichiers de propriété, etc.
 ResourecePreferencePage.folder=Dossier de &ressources
 ResourecePreferencePage.select=&Sélectionner...
 ResourecePreferencePage.openDialogTitle=Parcourir le dossier
@@ -2813,7 +2813,7 @@ ReportPageGenerator.List.NamedExpressions=Expressions nommées
 ReportPageGenerator.List.UserProperties=Propriétés de l'utilisateur
 ReportPageGenerator.List.Resources=Ressources
 ReportPageGenerator.List.Resources.JarFile=Fichiers Jar :
-ReportPageGenerator.List.AdvancedProperty=Advanced
+ReportPageGenerator.List.AdvancedProperty=Avancé
 
 #OdaDataSourceGenerator properties
 DataSourcePageGenerator.List.General=Général
@@ -3592,7 +3592,7 @@ PublishLibraryDialog.AddMessage=Ajouter la bibliothèque dans le dossier de resso
 WizardLibrarySettingPage.ErrorMessage=Sélectionner un dossier
 
 WizardLibrarySettingPage.Resourcefile.Dialog.Title=Parcourir les dossiers de ressources
-WizardLibrarySettingPage.Resourcefile.Dialog.Message=Please select the resource folder or its sub-folders.
+WizardLibrarySettingPage.Resourcefile.Dialog.Message=Sélectionnez le dossier de ressources ou un de ses sous-dossiers.
 
 PublishLibraryDialog.AddLibrary=Ajouter une bibliothèque
 

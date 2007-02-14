@@ -212,7 +212,7 @@ ButtonPaneComposite.tooltip.Ruler=ルーラ
 ###########################################################
 #SettingsPage properties
 
-SettingsPage.dataFetchSetting.label=Max number of rows to fetch from data source:
+SettingsPage.dataFetchSetting.label=データソースからフェッチする最大行数 :
 SettingsPage.CachePreference.button.clear=キャッシュのクリア(&C)
 SettingsPage.CachePreference.checkBox.text=レポートをプレビューするためにデータセットのデータをキャッシュする(&H)
 SettingsPage.CachePreference.description=キャッシュサイズの定義 :
@@ -396,16 +396,16 @@ DataPageGenerator.TabItem.map=マップ
 
 dataset.edit=データセットの編集 - {0}
 
-dataset.editor.settings=Settings
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter a number larger than zero for row fetch limit
-dataset.editor.settings.dataFetchSetting=Data Fetch Setting
+dataset.editor.settings=設定
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=フェッチする最大行数には、0 よりも大きい数値を入力してください。
+dataset.editor.settings.dataFetchSetting=データフェッチの設定
 dataset.editor.settings.cachePreference.errorNumberFormat=キャッシュの行サイズには、0 よりも大きい数値を入力してください。
 dataset.editor.settings.cachePreference=キャッシュの設定
 dataset.editor.computedColumns=計算列
 dataset.editor.dataSource.Tooltip=データソースの表示と変更
 dataset.editor.dataSource=データソース
 dataset.editor.error.columnOrAliasNameAlreadyUsed=新しい列の名前またはエイリアス ({0}) は、すでにインデックス {1} の列で使用されています。
-dataset.editor.error.computedColumnNameAlreadyUsed=The new computed column name ({0}) is already used as column alias of column ({1}) in Output Columns.
+dataset.editor.error.computedColumnNameAlreadyUsed=新しい計算列の名前 ({0}) は、すでに [出力列] の列のエイリアス ({1}) として使用されています。
 dataset.editor.error.duplicateParameterName=パラメタ名が重複しています。
 dataset.editor.error.emptyName=名前は空白にできません。 
 dataset.editor.error.missingComputedColumnExpression=計算列 {0} の式は null または空白にできません。
@@ -1171,7 +1171,7 @@ Element.Text.content=コンテンツ :
 Element.Text.contentID=コンテンツキー(&K) :
 Element.Text.contentType=コンテンツの種類(&P) :
 Element.TemplateElement.name=名前(&N)
-Element.Toc.Sytle=&Style
+Element.Toc.Sytle=スタイル(&S)
 
 ###########################################################
 #EmbeddedImageNodeProvider properties
@@ -1399,13 +1399,13 @@ FormatDateTimePage.label.custom.settings=カスタム設定
 FormatDateTimePage.label.format.code=書式コード :
 FormatDateTimePage.label.format.page=書式設定(&F) :
 FormatDateTimePage.label.general.preview.group=書式付きプレビュー
-FormatDateTimePage.label.guide.text=Please enter as: MM/DD/YYYY hh:mm:ss AM/PM
+FormatDateTimePage.label.guide.text=YYYY/MM/DD HH:MM:SS の形式で入力してください。
 FormatDateTimePage.label.preview.dateTime=プレビューする日時 : 
 FormatDateTimePage.label.preview.group=プレビュー
 FormatDateTimePage.label.preview.label=書式付きプレビュー :
 FormatDateTimePage.label.table.column.format.name=サンプルの書式
 FormatDateTimePage.label.table.column.format.result=サンプルの書式の結果
-FormatDateTimePage.label.table.column.format.code=Example code
+FormatDateTimePage.label.table.column.format.code=サンプルコード
 FormatDateTimePage.preview.invalid.dateTime=プレビューする日時形式が無効です。
 FormatDateTimePage.preview.invalid.formatCode=書式コードが無効です。
 
@@ -1553,8 +1553,8 @@ GridProvider.action.text=行の挿入
 
 GroupDialog.Dialog.GroupDetail=グループの詳細
 GroupDialog.Dialog.TOCGroup=目次
-GroupDialog.Dialog.TOC=I&tem Expression:
-GroupDialog.Dialog.TOCStyle=St&yle:
+GroupDialog.Dialog.TOC=項目の式(&T) :
+GroupDialog.Dialog.TOCStyle=スタイル(&Y) :
 GroupDialog.DialogTitle.NoData=初期化エラー
 GroupDialog.DialogTitle.SemanticCheckFailed=Semantic Checker でエラーが発生しました。
 GroupDialog.ErrorMesaage.IllegalGroup=このグループは正しくありません。
@@ -1678,7 +1678,7 @@ HyperlinkBuilder.DrillThroughStep1=手順 1 : ターゲットレポートの選択
 HyperlinkBuilder.DrillThroughStep2=手順 2 : ターゲットアンカーの選択 
 HyperlinkBuilder.DrillThroughStep3=手順 3 : ターゲットのブックマークに一致するリンク式の作成
 HyperlinkBuilder.DrillThroughStep4=手順 4 : ターゲットのレポートの表示 
-HyperlinkBuilder.DrillThroughStep5=Step 5: Select a format for target report
+HyperlinkBuilder.DrillThroughStep5=手順 5 : ターゲットレポートの書式設定
 HyperlinkBuilder.ParameterRequired=必須
 HyperlinkBuilder.Column.Values=値
 HyperlinkBuilder.DialogTitle=ハイパーリンクのオプション
@@ -1709,7 +1709,7 @@ HyperlinkBuilder.BrowseForFile=ファイルの参照
 HyperlinkBuilder.OpenExpression=式ビルダを開く
 HyperlinkBuilder.FileNameError.Title=エラー
 HyperlinkBuilder.FileNameError.Message=選択したファイルは無効です。
-HyperlinkBuilder.TargetReportFormat=Format the target report in:
+HyperlinkBuilder.TargetReportFormat=ターゲットレポートの書式設定 :
 
 ###########################################################
 #HyperLinkPage properties
@@ -1741,7 +1741,7 @@ ImageBuilder.DialogTitle.New=イメージ項目の新規作成
 ImageBuilder.ErrorMessage.FileLoaded=このファイルはすでに読み込まれています。
 ImageBuilder.ErrorMessage.LoadingFailed=イメージを正しく読み込めません。
 ImageBuilder.BrowserResourceDialog.Title=イメージファイルの参照
-ImageBuilder.BrowserResourceDialog.Message=Select the image files from Resource Path Folder
+ImageBuilder.BrowserResourceDialog.Message=リソースパスのフォルダからイメージファイルを選択してください。
 ImageBuilder.ErrorMessage.OutOfMemory=イメージが大きすぎるため、メモリに入りきりません。
 ImageBuilder.FileDialog.FilterMessage=サポートされているイメージファイル
 ImageBuilder.Label.Binding=バインド(&B)
@@ -1750,7 +1750,7 @@ ImageBuilder.Label.EnterExpr=動的なイメージの式を入力(&N) :
 ImageBuilder.Label.EnterUri=URI を入力(&N) :
 ImageBuilder.Label.Open=計算式ビルダ(&X)...
 ImageBuilder.Label.SelectFrom=図の選択元 :
-ImageBuilder.ResourceFileType=Image file in resource folder
+ImageBuilder.ResourceFileType=リソースフォルダ内のイメージファイル
 ImageBuilder.Label.URI=URI(&U)
 ImageBuilder.Label.EnterResourceFile=リソースファイルの入力(&N) :
 
@@ -2734,7 +2734,7 @@ org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=C
 
 ###########################################################
 #Resource Preference page properties
-ResourecePreferencePage.title=Please select the default Resource Folder to use for the library explorer,images,property files and etc.
+ResourecePreferencePage.title=ライブラリエクスプローラ、イメージ、プロパティファイルなどに使用するデフォルトのリソースフォルダを選択してください。
 ResourecePreferencePage.folder=リソースフォルダ(&R)
 ResourecePreferencePage.select=選択(&S)...
 ResourecePreferencePage.openDialogTitle=フォルダの参照
@@ -2813,7 +2813,7 @@ ReportPageGenerator.List.NamedExpressions=名前付き式
 ReportPageGenerator.List.UserProperties=ユーザのプロパティ
 ReportPageGenerator.List.Resources=リソース
 ReportPageGenerator.List.Resources.JarFile=JAR ファイル :
-ReportPageGenerator.List.AdvancedProperty=Advanced
+ReportPageGenerator.List.AdvancedProperty=使用頻度 : 中
 
 #OdaDataSourceGenerator properties
 DataSourcePageGenerator.List.General=全般
@@ -3592,7 +3592,7 @@ PublishLibraryDialog.AddMessage=BIRT リソースフォルダにライブラリを追加します。
 WizardLibrarySettingPage.ErrorMessage=フォルダを選択してください。
 
 WizardLibrarySettingPage.Resourcefile.Dialog.Title=リソースフォルダの参照
-WizardLibrarySettingPage.Resourcefile.Dialog.Message=Please select the resource folder or its sub-folders.
+WizardLibrarySettingPage.Resourcefile.Dialog.Message=リソースフォルダまたはそのサブフォルダを選択してください。
 
 PublishLibraryDialog.AddLibrary=ライブラリの追加
 

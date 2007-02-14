@@ -169,7 +169,7 @@ Info.java.handler.loaded=Se ha cargado correctamente una clase de controlador de
 Info.invalid.java.handler=Se ha detectado e ignorado una clase de controlador de evento Java de diagramas [{0}] no válida.
 Info.try.register.javascript.content=Intentando cargar contenido JavaScript de diagrama...
 Info.javascript.content.registered=El contenido JavaScript de diagrama se ha cargado correctamente.
-warn.unspecified.sorting=Sorting is not specified for {0}.
+warn.unspecified.sorting=No se ha especificado el orden para {0}.
 
 ##################################################
 # Attributes 

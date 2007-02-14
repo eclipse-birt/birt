@@ -33,9 +33,9 @@ BIRTConfiguration_resource_label=리소스 폴더(&R):
 BIRTConfiguration_resource_dialog_title=리소스 폴더 찾아보기
 BIRTConfiguration_resource_dialog_message=기본 리소스 폴더를 선택하십시오.
 
-BIRTConfiguration_working_label=&Working Folder:
-BIRTConfiguration_working_dialog_title=Browse For Working Folder
-BIRTConfiguration_working_dialog_message=Please select the default working folder:
+BIRTConfiguration_working_label=작업 폴더(&W):
+BIRTConfiguration_working_dialog_title=작업 폴더 찾아보기
+BIRTConfiguration_working_dialog_message=기본 작업 폴더를 선택하십시오.
 
 BIRTConfiguration_document_label=문서 폴더(&D):
 BIRTConfiguration_document_dialog_title=문서 폴더 찾아보기
@@ -53,7 +53,7 @@ BIRTConfiguration_log_label=로그 폴더(&L):
 BIRTConfiguration_log_dialog_title=로그 폴더 찾아보기
 BIRTConfiguration_log_dialog_message=기본 로그 폴더를 선택하십시오.
 
-BIRTConfiguration_report_access_message=&Only access the report and document under working folder
+BIRTConfiguration_report_access_message=작업 폴더의 보고서 및 문서에만 액세스(&O)
 BIRTConfiguration_overwrite_message=생성된 문서 파일 항상 덮어쓰기(&A) 
 
 BIRTConfiguration_maxrows_label=데이터 집합 최대 행(&D):

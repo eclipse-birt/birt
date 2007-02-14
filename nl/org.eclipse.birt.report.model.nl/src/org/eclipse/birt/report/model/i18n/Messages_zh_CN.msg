@@ -31,17 +31,17 @@ Property.points=点
 Property.string=字符串
 Property.uri=uri
 Property.xml=xml
-Property.elementRef=element reference
+Property.elementRef=元素引用
 Property.column=列
 Property.variant=变量
 Property.structList=结构列表
 Property.extends=extends
 Property.script=脚本
 Property.list=列表
-Property.memberKey=member key
-Property.literalString=literal string
+Property.memberKey=成员键
+Property.literalString=文字字符串
 Property.element=元素
-Property.structRef=structure reference
+Property.structRef=结构引用
 Property.contentElement=element as property value
 
 ###########################################################
@@ -547,7 +547,7 @@ Choices.measureFunction.max=最大值
 
 #71. levelType
 Choices.levelType.dynamic=动态
-Choices.levelType.mirrored=Mirrored
+Choices.levelType.mirrored=镜像
 
 #72. accessPermission
 Choices.accessPermission.allow=Allow
@@ -2064,9 +2064,9 @@ Structure.DimensionCondition.primaryKeys=主键
 Structure.DimensionCondition.hierarchy=层次结构
 
 #30. Rule
-Structure.Rule=Rule
-Structure.Rule.ruleExpre=Rule Expression
-Structure.Rule.displayExpre=Display Expression
+Structure.Rule=规则
+Structure.Rule.ruleExpre=规则表达式
+Structure.Rule.displayExpre=显示表达式
 
 ###########################################################
 # Element names
@@ -2127,7 +2127,7 @@ Element.Dimension=维
 Element.Hierarchy=层次结构
 Element.Level=级别
 Element.Measure=度量
-Element.MeasureGroup=Meausre Group
+Element.MeasureGroup=度量组
 Element.AccessControl=Access Control
 Element.ValueAccessControl=Value Access Control
 
@@ -2885,10 +2885,10 @@ Element.AutoText.onPageBreak.reportContext=报表上下文
 
 #45. Cube ( prefix Element.Cube )
 Element.Cube.dataSet=数据集
-Element.Cube.filter=Filter Conditions
+Element.Cube.filter=筛选条件
 Element.Cube.dimensionConditions=维条件
 Element.Cube.dimensions=Dimensions
-Element.Cube.measureGroups=Measure Groups
+Element.Cube.measureGroups=度量组
 Element.Cube.accessControls=Access controls
 
 #46. Dimension ( prefix Element.Dimension )
@@ -2899,7 +2899,7 @@ Element.Dimension.hierarchies=Hierarchies
 #47. Hierarchy ( prefix Element.Hierarchy )
 Element.Hierarchy.dataSet=数据集
 Element.Hierarchy.isDefault=Is Default
-Element.Hierarchy.filter=Filter Conditions
+Element.Hierarchy.filter=筛选条件
 Element.Hierarchy.primaryKeys=主键
 Element.Hierarchy.levels=Levels
 Element.Hierarchy.accessControls=Access controls
@@ -2911,8 +2911,8 @@ Element.Level.Interval=间隔
 Element.Level.intervalBase=间隔基数
 Element.Level.interval=间隔
 Element.Level.intervalRange=间隔范围
-Element.Level.levelType=Level Type
-Element.Level.staticValues=Static Values
+Element.Level.levelType=级别类型
+Element.Level.staticValues=静态值
 Element.Level.attributes=属性
 Element.Level.valueAccessControls=Value access controls
 
@@ -2922,7 +2922,7 @@ Element.Measure.isCalculated=是计算的
 Element.Measure.measureExpression=度量表达式
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
-Element.MeasureGroup.measures=Measures
+Element.MeasureGroup.measures=度量
 Element.MeasureGroup.isDefault=Is Default
 
 #51. AccessControl ( prefix Element.AccessControl )
@@ -3166,7 +3166,7 @@ New.Dimension=新维
 New.Hierarchy=新层次结构
 New.Level=新级别
 New.Measure=新度量
-New.MeasureGroup=NewMeasureGroup
+New.MeasureGroup=新度量组
 
 ###########################################################
 #Default theme name.

@@ -10,4 +10,4 @@ YAxis=Eje Y
 ZAxis=Eje Z
 Plot=Dibujo
 Legend=Leyenda
-Title=Title
+Title=Título

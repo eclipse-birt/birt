@@ -212,7 +212,7 @@ ButtonPaneComposite.tooltip.Ruler=Regla
 ###########################################################
 #SettingsPage properties
 
-SettingsPage.dataFetchSetting.label=Max number of rows to fetch from data source:
+SettingsPage.dataFetchSetting.label=Número máximo de filas que recuperar de la fuente de datos:
 SettingsPage.CachePreference.button.clear=&Borrar caché
 SettingsPage.CachePreference.checkBox.text=Los datos de la cac&hé establecen los datos para la vista previa del informe
 SettingsPage.CachePreference.description=Definir tamaño de caché:
@@ -396,16 +396,16 @@ DataPageGenerator.TabItem.map=Asignar
 
 dataset.edit=Editar conjunto de datos - {0}
 
-dataset.editor.settings=Settings
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter a number larger than zero for row fetch limit
-dataset.editor.settings.dataFetchSetting=Data Fetch Setting
+dataset.editor.settings=Ajustes
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Introduzca un número mayor que cero para el límite de recuperación de línea
+dataset.editor.settings.dataFetchSetting=Ajustes de recuperación de datos
 dataset.editor.settings.cachePreference.errorNumberFormat=Introduzca un número mayor que cero para el tamaño de la fila de caché
 dataset.editor.settings.cachePreference=Preferencia de caché
 dataset.editor.computedColumns=Columnas procesadas
 dataset.editor.dataSource.Tooltip=Ver/cambiar fuente de datos
 dataset.editor.dataSource=Fuente de datos
 dataset.editor.error.columnOrAliasNameAlreadyUsed=El nuevo nombre o alias de columna ({0}) ya se está utilizando en la columna del índice {1}.
-dataset.editor.error.computedColumnNameAlreadyUsed=The new computed column name ({0}) is already used as column alias of column ({1}) in Output Columns.
+dataset.editor.error.computedColumnNameAlreadyUsed=El nuevo nombre de columna procesada ({0}) ya se está utilizando como alias de la columna ({1}) en Columnas de salida.
 dataset.editor.error.duplicateParameterName=Nombre del parámetro duplicado
 dataset.editor.error.emptyName=El nombre no puede estar en blanco. 
 dataset.editor.error.missingComputedColumnExpression=La expresión de la columna procesada {0} no puede ser nula ni estar en blanco.
@@ -1171,7 +1171,7 @@ Element.Text.content=Contenido:
 Element.Text.contentID=Clave de conteni&do:
 Element.Text.contentType=Tipo de conte&nido:
 Element.TemplateElement.name=&Nombre
-Element.Toc.Sytle=&Style
+Element.Toc.Sytle=&Estilo
 
 ###########################################################
 #EmbeddedImageNodeProvider properties
@@ -1399,13 +1399,13 @@ FormatDateTimePage.label.custom.settings=Ajustes personalizados
 FormatDateTimePage.label.format.code=Código de formato:
 FormatDateTimePage.label.format.page=&Formato como:
 FormatDateTimePage.label.general.preview.group=Vista previa con formato
-FormatDateTimePage.label.guide.text=Please enter as: MM/DD/YYYY hh:mm:ss AM/PM
+FormatDateTimePage.label.guide.text=Introducir como: MM/DD/AAAA hh:mm:ss AM/PM
 FormatDateTimePage.label.preview.dateTime=Fecha/hora para vista previa: 
 FormatDateTimePage.label.preview.group=Vista previa
 FormatDateTimePage.label.preview.label=Vista previa con formato:
 FormatDateTimePage.label.table.column.format.name=Formato de ejemplo
 FormatDateTimePage.label.table.column.format.result=Resultado de formato de ejemplo
-FormatDateTimePage.label.table.column.format.code=Example code
+FormatDateTimePage.label.table.column.format.code=Código de ejemplo
 FormatDateTimePage.preview.invalid.dateTime=Fecha/hora no válida para vista previa
 FormatDateTimePage.preview.invalid.formatCode=Código de formato no válido
 
@@ -1553,8 +1553,8 @@ GridProvider.action.text=Insertar fila
 
 GroupDialog.Dialog.GroupDetail=Detalles de grupo
 GroupDialog.Dialog.TOCGroup=Tabla de contenido
-GroupDialog.Dialog.TOC=I&tem Expression:
-GroupDialog.Dialog.TOCStyle=St&yle:
+GroupDialog.Dialog.TOC=Expresión de elemen&to:
+GroupDialog.Dialog.TOCStyle=Est&ilo:
 GroupDialog.DialogTitle.NoData=Error en la inicialización
 GroupDialog.DialogTitle.SemanticCheckFailed=Se ha producido un error en la comprobación semántica
 GroupDialog.ErrorMesaage.IllegalGroup=Este grupo no es válido.
@@ -1678,7 +1678,7 @@ HyperlinkBuilder.DrillThroughStep1=Paso 1: seleccionar un informe de destino
 HyperlinkBuilder.DrillThroughStep2=Paso 2: seleccionar un delimitador de destino 
 HyperlinkBuilder.DrillThroughStep3=Paso 3: crear una expresión de link que coincida con el marcador de destino
 HyperlinkBuilder.DrillThroughStep4=Paso 4: mostrar informe de destino en 
-HyperlinkBuilder.DrillThroughStep5=Step 5: Select a format for target report
+HyperlinkBuilder.DrillThroughStep5=Paso 5: seleccionar un formato para el informe de destino
 HyperlinkBuilder.ParameterRequired=requerido
 HyperlinkBuilder.Column.Values=Valores
 HyperlinkBuilder.DialogTitle=Opciones de hiperlink
@@ -1709,7 +1709,7 @@ HyperlinkBuilder.BrowseForFile=Buscar archivo
 HyperlinkBuilder.OpenExpression=Abrir el compilador de expresiones
 HyperlinkBuilder.FileNameError.Title=Error
 HyperlinkBuilder.FileNameError.Message=El archivo seleccionado no es válido.
-HyperlinkBuilder.TargetReportFormat=Format the target report in:
+HyperlinkBuilder.TargetReportFormat=Dar formato al informe de destino en:
 
 ###########################################################
 #HyperLinkPage properties
@@ -1741,7 +1741,7 @@ ImageBuilder.DialogTitle.New=Nuevo elemento de imagen:
 ImageBuilder.ErrorMessage.FileLoaded=Este archivo ya se ha cargado.
 ImageBuilder.ErrorMessage.LoadingFailed=La imagen no se puede cargar correctamente.
 ImageBuilder.BrowserResourceDialog.Title=Buscar archivos de imagen
-ImageBuilder.BrowserResourceDialog.Message=Select the image files from Resource Path Folder
+ImageBuilder.BrowserResourceDialog.Message=Seleccione los archivos de imagen de la carpeta de ruta de recursos
 ImageBuilder.ErrorMessage.OutOfMemory=La imagen no se puede guardar en la memoria.
 ImageBuilder.FileDialog.FilterMessage=Archivo de imagen admitido
 ImageBuilder.Label.Binding=&Enlace
@@ -1750,7 +1750,7 @@ ImageBuilder.Label.EnterExpr=Introduci&r expresión de imagen dinámica:
 ImageBuilder.Label.EnterUri=Introducir &URI:
 ImageBuilder.Label.Open=Compilador de ex&presiones...
 ImageBuilder.Label.SelectFrom=Seleccionar imagen de:
-ImageBuilder.ResourceFileType=Image file in resource folder
+ImageBuilder.ResourceFileType=Archivo de imagen en carpeta de recursos
 ImageBuilder.Label.URI=U&RI
 ImageBuilder.Label.EnterResourceFile=&Introducir archivo de recursos:
 
@@ -2454,7 +2454,7 @@ ParameterDialog.Label.HelpText=Texto de ayu&da:
 ParameterDialog.Label.ListOfValue=Lista de valores:
 ParameterDialog.Label.Name=&Nombre:
 ParameterDialog.Label.None=<Ninguno>
-ParameterDialog.Label.Null=Null
+ParameterDialog.Label.Null=Nulo
 ParameterDialog.Label.Preview=Vista previa con formato
 ParameterDialog.Label.PromptText=Texto de solicit&ud:
 ParameterDialog.Label.SelectDataSet=Conjunto de &datos:
@@ -2734,7 +2734,7 @@ org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=C
 
 ###########################################################
 #Resource Preference page properties
-ResourecePreferencePage.title=Please select the default Resource Folder to use for the library explorer,images,property files and etc.
+ResourecePreferencePage.title=Seleccione la carpeta de recursos predeterminada que desea utilizar para el explorador de librería, imágenes, propiedades de archivos, etc.
 ResourecePreferencePage.folder=Carpeta de &recursos
 ResourecePreferencePage.select=Sel&eccionar...
 ResourecePreferencePage.openDialogTitle=Buscar carpeta
@@ -2813,7 +2813,7 @@ ReportPageGenerator.List.NamedExpressions=Expresiones con nombre
 ReportPageGenerator.List.UserProperties=Propiedades de usuario
 ReportPageGenerator.List.Resources=Recursos
 ReportPageGenerator.List.Resources.JarFile=Archivos Jar:
-ReportPageGenerator.List.AdvancedProperty=Advanced
+ReportPageGenerator.List.AdvancedProperty=Avanzada
 
 #OdaDataSourceGenerator properties
 DataSourcePageGenerator.List.General=General
@@ -3592,7 +3592,7 @@ PublishLibraryDialog.AddMessage=Añadir librería a carpeta de recursos de BIRT
 WizardLibrarySettingPage.ErrorMessage=Seleccione una carpeta
 
 WizardLibrarySettingPage.Resourcefile.Dialog.Title=Examinar carpetas de recursos
-WizardLibrarySettingPage.Resourcefile.Dialog.Message=Please select the resource folder or its sub-folders.
+WizardLibrarySettingPage.Resourcefile.Dialog.Message=Seleccione la carpeta de recursos o sus subcarpetas.
 
 PublishLibraryDialog.AddLibrary=Añadir librería
 

@@ -1,5 +1,5 @@
 birt.web.category.name=业务智能和报告工具
-birt.web.project.name=Web Project 
+birt.web.project.name=Web 项目 
 birt.web.project.description=创建包含 BIRT 运行时组件的 web 项目
 birt.web.actionsets.description=对 BIRT Web 项目的操作
 create.birt.web.module=创建 BIRT Web 模块

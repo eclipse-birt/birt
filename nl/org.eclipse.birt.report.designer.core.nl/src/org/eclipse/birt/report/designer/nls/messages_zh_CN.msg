@@ -212,7 +212,7 @@ ButtonPaneComposite.tooltip.Ruler=±ê³ß
 ###########################################################
 #SettingsPage properties
 
-SettingsPage.dataFetchSetting.label=Max number of rows to fetch from data source:
+SettingsPage.dataFetchSetting.label=´ÓÊı¾İÔ´ÌáÈ¡µÄ×î´óĞĞÊı:
 SettingsPage.CachePreference.button.clear=Çå³ı»º´æ(&C)
 SettingsPage.CachePreference.checkBox.text=»º´æÊı¾İ¼¯Êı¾İÒÔ±ã½øĞĞ±¨±íÔ¤ÀÀ(&H)
 SettingsPage.CachePreference.description=¶¨Òå»º´æ´óĞ¡:
@@ -396,16 +396,16 @@ DataPageGenerator.TabItem.map=Ó³Éä
 
 dataset.edit=±à¼­Êı¾İ¼¯ - {0}
 
-dataset.editor.settings=Settings
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter a number larger than zero for row fetch limit
-dataset.editor.settings.dataFetchSetting=Data Fetch Setting
+dataset.editor.settings=ÉèÖÃ
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=ÇëÎªĞĞÌáÈ¡ÏŞÖÆÊäÈëÒ»¸ö´óÓÚÁãµÄÊı¡£
+dataset.editor.settings.dataFetchSetting=Êı¾İÌáÈ¡ÉèÖÃ
 dataset.editor.settings.cachePreference.errorNumberFormat=ÇëÎª»º´æĞĞ´óĞ¡ÊäÈëÒ»¸ö´óÓÚÁãµÄÊı¡£
 dataset.editor.settings.cachePreference=»º´æÊ×Ñ¡Ïî
 dataset.editor.computedColumns=¼ÆËãÁĞ
 dataset.editor.dataSource.Tooltip=²é¿´/¸ü¸ÄÊı¾İÔ´
 dataset.editor.dataSource=Êı¾İÔ´
 dataset.editor.error.columnOrAliasNameAlreadyUsed=ĞÂµÄÁĞÃû³Æ»ò±ğÃû ({0}) ÒÑ¾­ÓÉË÷Òı {1} ´¦µÄÁĞÊ¹ÓÃ¡£
-dataset.editor.error.computedColumnNameAlreadyUsed=The new computed column name ({0}) is already used as column alias of column ({1}) in Output Columns.
+dataset.editor.error.computedColumnNameAlreadyUsed=ĞÂµÄ¼ÆËãÁĞÃû³Æ ({0}) ÒÑ¾­ÓÃ×÷Êä³öÁĞÖĞÁĞ ({1}) µÄÁĞ±ğÃû¡£
 dataset.editor.error.duplicateParameterName=ÖØ¸´µÄ²ÎÊıÃû³Æ
 dataset.editor.error.emptyName=Ãû³Æ²»ÄÜÎª¿Õ°×¡£ 
 dataset.editor.error.missingComputedColumnExpression=¼ÆËãÁĞ {0} µÄ±í´ïÊ½²»ÄÜÎª¿Õ»ò¿Õ°×¡£
@@ -1171,7 +1171,7 @@ Element.Text.content=ÄÚÈİ:
 Element.Text.contentID=ÄÚÈİ¹Ø¼ü×Ö(&K):
 Element.Text.contentType=ÄÚÈİÀàĞÍ(&P):
 Element.TemplateElement.name=Ãû³Æ(&N)
-Element.Toc.Sytle=&Style
+Element.Toc.Sytle=ÑùÊ½(&S)
 
 ###########################################################
 #EmbeddedImageNodeProvider properties
@@ -1399,13 +1399,13 @@ FormatDateTimePage.label.custom.settings=×Ô¶¨ÒåÉèÖÃ
 FormatDateTimePage.label.format.code=¸ñÊ½´úÂë:
 FormatDateTimePage.label.format.page=¸ñÊ½Îª(&F):
 FormatDateTimePage.label.general.preview.group=´ø¸ñÊ½Ô¤ÀÀ
-FormatDateTimePage.label.guide.text=Please enter as: MM/DD/YYYY hh:mm:ss AM/PM
+FormatDateTimePage.label.guide.text=Çë°´ÒÔÏÂ¸ñÊ½ÊäÈë: MM/DD/YYYY hh:mm:ss AM/PM
 FormatDateTimePage.label.preview.dateTime=ÒªÔ¤ÀÀµÄÈÕÆÚÊ±¼ä: 
 FormatDateTimePage.label.preview.group=Ô¤ÀÀ
 FormatDateTimePage.label.preview.label=´ø¸ñÊ½Ô¤ÀÀ:
 FormatDateTimePage.label.table.column.format.name=Ê¾Àı¸ñÊ½
 FormatDateTimePage.label.table.column.format.result=Ê¾Àı¸ñÊ½½á¹û
-FormatDateTimePage.label.table.column.format.code=Example code
+FormatDateTimePage.label.table.column.format.code=Ê¾Àı´úÂë
 FormatDateTimePage.preview.invalid.dateTime=ÒªÔ¤ÀÀµÄÈÕÆÚÊ±¼äÎŞĞ§
 FormatDateTimePage.preview.invalid.formatCode=ÎŞĞ§¸ñÊ½´úÂë
 
@@ -1553,8 +1553,8 @@ GridProvider.action.text=²åÈëĞĞ
 
 GroupDialog.Dialog.GroupDetail=×éÏêÏ¸×ÊÁÏ
 GroupDialog.Dialog.TOCGroup=Ä¿Â¼
-GroupDialog.Dialog.TOC=I&tem Expression:
-GroupDialog.Dialog.TOCStyle=St&yle:
+GroupDialog.Dialog.TOC=ÏîÄ¿±í´ïÊ½(&T)
+GroupDialog.Dialog.TOCStyle=ÑùÊ½(&Y):
 GroupDialog.DialogTitle.NoData=³õÊ¼»¯Ê§°Ü
 GroupDialog.DialogTitle.SemanticCheckFailed=ÓïÒå¼ì²éÊ§°Ü
 GroupDialog.ErrorMesaage.IllegalGroup=´Ë×é·Ç·¨¡£
@@ -1678,7 +1678,7 @@ HyperlinkBuilder.DrillThroughStep1=µÚ 1 ²½: Ñ¡ÔñÄ¿±ê±¨±í
 HyperlinkBuilder.DrillThroughStep2=µÚ 2 ²½: Ñ¡ÔñÄ¿±ê¶¨Î»±ê¼Ç 
 HyperlinkBuilder.DrillThroughStep3=µÚ 3 ²½: ´´½¨ÓëÄ¿±êÊéÇ©Æ¥ÅäµÄÁ´½Ó±í´ïÊ½
 HyperlinkBuilder.DrillThroughStep4=µÚ 4 ²½: ÏÔÊ¾Ä¿±ê±¨±í 
-HyperlinkBuilder.DrillThroughStep5=Step 5: Select a format for target report
+HyperlinkBuilder.DrillThroughStep5=µÚ 5 ²½:ÎªÄ¿±ê±¨±íÑ¡Ôñ¸ñÊ½
 HyperlinkBuilder.ParameterRequired=±ØĞè
 HyperlinkBuilder.Column.Values=Öµ
 HyperlinkBuilder.DialogTitle=³¬¼¶Á´½ÓÑ¡Ïî
@@ -1709,7 +1709,7 @@ HyperlinkBuilder.BrowseForFile=ä¯ÀÀÎÄ¼ş
 HyperlinkBuilder.OpenExpression=´ò¿ª±í´ïÊ½Éú³ÉÆ÷
 HyperlinkBuilder.FileNameError.Title=´íÎó
 HyperlinkBuilder.FileNameError.Message=Ñ¡ÔñµÄÎÄ¼şÎŞĞ§¡£
-HyperlinkBuilder.TargetReportFormat=Format the target report in:
+HyperlinkBuilder.TargetReportFormat=¸ñÊ½»¯ÒÔÏÂÎ»ÖÃµÄÄ¿±ê±¨±í:
 
 ###########################################################
 #HyperLinkPage properties
@@ -1741,7 +1741,7 @@ ImageBuilder.DialogTitle.New=ĞÂ½¨Í¼ÏñÏî
 ImageBuilder.ErrorMessage.FileLoaded=ÒÑ¼ÓÔØ´ËÎÄ¼ş¡£
 ImageBuilder.ErrorMessage.LoadingFailed=ÎŞ·¨ÕıÈ·¼ÓÔØÍ¼Ïñ¡£
 ImageBuilder.BrowserResourceDialog.Title=ä¯ÀÀÍ¼ÏñÎÄ¼ş
-ImageBuilder.BrowserResourceDialog.Message=Select the image files from Resource Path Folder
+ImageBuilder.BrowserResourceDialog.Message=´Ó×ÊÔ´Â·¾¶ÎÄ¼ş¼ĞÖĞÑ¡ÔñÍ¼ÏñÎÄ¼ş
 ImageBuilder.ErrorMessage.OutOfMemory=¸ÃÍ¼ÏñÌ«´ó£¬ÎŞ·¨×°ÈëÄÚ´æ¡£
 ImageBuilder.FileDialog.FilterMessage=Ö§³ÖµÄÍ¼ÏñÎÄ¼ş
 ImageBuilder.Label.Binding=°ó¶¨(&B)
@@ -1750,7 +1750,7 @@ ImageBuilder.Label.EnterExpr=ÊäÈë¶¯Ì¬Í¼Ïñ±í´ïÊ½(&N):
 ImageBuilder.Label.EnterUri=ÊäÈë URI(&N):
 ImageBuilder.Label.Open=±í´ïÊ½Éú³ÉÆ÷(&X)...
 ImageBuilder.Label.SelectFrom=Ñ¡ÔñÍ¼Æ¬×Ô:
-ImageBuilder.ResourceFileType=Image file in resource folder
+ImageBuilder.ResourceFileType=×ÊÔ´ÎÄ¼ş¼ĞÖĞµÄÍ¼ÏñÎÄ¼ş
 ImageBuilder.Label.URI=&URI
 ImageBuilder.Label.EnterResourceFile=ÊäÈë×ÊÔ´ÎÄ¼ş(&N):
 
@@ -2454,7 +2454,7 @@ ParameterDialog.Label.HelpText=°ïÖúÎÄ±¾(&H):
 ParameterDialog.Label.ListOfValue=ÖµÁĞ±í:
 ParameterDialog.Label.Name=Ãû³Æ(&N):
 ParameterDialog.Label.None=<ÎŞ>
-ParameterDialog.Label.Null=Null
+ParameterDialog.Label.Null=NULL
 ParameterDialog.Label.Preview=´ø¸ñÊ½Ô¤ÀÀ
 ParameterDialog.Label.PromptText=ÌáÊ¾ÎÄ±¾(&P):
 ParameterDialog.Label.SelectDataSet=Êı¾İ¼¯(&A):
@@ -2734,7 +2734,7 @@ org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=°
 
 ###########################################################
 #Resource Preference page properties
-ResourecePreferencePage.title=Please select the default Resource Folder to use for the library explorer,images,property files and etc.
+ResourecePreferencePage.title=ÇëÑ¡ÔñÒªÓÃÓÚ¿â×ÊÔ´¹ÜÀíÆ÷¡¢Í¼Ïñ¡¢ÊôĞÔÎÄ¼şµÈµÄÄ¬ÈÏ×ÊÔ´ÎÄ¼ş¼Ğ¡£
 ResourecePreferencePage.folder=×ÊÔ´ÎÄ¼ş¼Ğ(&R)
 ResourecePreferencePage.select=Ñ¡Ôñ(&S)...
 ResourecePreferencePage.openDialogTitle=ä¯ÀÀÎÄ¼ş¼Ğ
@@ -2813,7 +2813,7 @@ ReportPageGenerator.List.NamedExpressions=ÃüÃû±í´ïÊ½
 ReportPageGenerator.List.UserProperties=ÓÃ»§ÊôĞÔ
 ReportPageGenerator.List.Resources=×ÊÔ´
 ReportPageGenerator.List.Resources.JarFile=Jar ÎÄ¼ş:
-ReportPageGenerator.List.AdvancedProperty=Advanced
+ReportPageGenerator.List.AdvancedProperty=¸ß¼¶
 
 #OdaDataSourceGenerator properties
 DataSourcePageGenerator.List.General=³£¹æ
@@ -3592,7 +3592,7 @@ PublishLibraryDialog.AddMessage=½«¿âÌí¼Óµ½ BIRT ×ÊÔ´ÎÄ¼ş¼Ğ
 WizardLibrarySettingPage.ErrorMessage=ÇëÑ¡ÔñÎÄ¼ş¼Ğ
 
 WizardLibrarySettingPage.Resourcefile.Dialog.Title=ä¯ÀÀ×ÊÔ´ÎÄ¼ş¼Ğ
-WizardLibrarySettingPage.Resourcefile.Dialog.Message=Please select the resource folder or its sub-folders.
+WizardLibrarySettingPage.Resourcefile.Dialog.Message=ÇëÑ¡Ôñ×ÊÔ´ÎÄ¼ş¼Ğ»òÆä×ÓÎÄ¼ş¼Ğ¡£
 
 PublishLibraryDialog.AddLibrary=Ìí¼Ó¿â
 

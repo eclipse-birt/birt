@@ -10,4 +10,4 @@ YAxis=Y 軸
 ZAxis=Z 軸
 Plot=プロット
 Legend=凡例
-Title=Title
+Title=タイトル

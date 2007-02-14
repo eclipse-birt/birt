@@ -169,7 +169,7 @@ Info.java.handler.loaded=已成功加载图表 Java 事件处理程序类 [{0}]。
 Info.invalid.java.handler=已检测到并忽略无效的图表 Java 事件处理程序类 [{0}]。
 Info.try.register.javascript.content=正在尝试加载图表 JavaScript 内容...
 Info.javascript.content.registered=已成功加载图表 JavaScript 内容。
-warn.unspecified.sorting=Sorting is not specified for {0}.
+warn.unspecified.sorting=未为 {0} 指定排序。
 
 ##################################################
 # Attributes 

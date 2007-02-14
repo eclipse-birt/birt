@@ -169,7 +169,7 @@ Info.java.handler.loaded=Chart Java ƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰‚ÌƒNƒ‰ƒX [{0}] ‚ğ“Ç‚İ‚İ‚Ü‚
 Info.invalid.java.handler=–³Œø‚È Chart Java ƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰‚ÌƒNƒ‰ƒX [{0}] ‚ªŒŸo‚³‚ê‚½‚©A–³‹‚³‚ê‚Ü‚µ‚½B
 Info.try.register.javascript.content=Chart JavaScript ‚ÌƒRƒ“ƒeƒ“ƒc‚ğ“Ç‚İ‚ñ‚Å‚¢‚Ü‚·...
 Info.javascript.content.registered=Chart JavaScript ‚ÌƒRƒ“ƒeƒ“ƒc‚ğ“Ç‚İ‚İ‚Ü‚µ‚½B
-warn.unspecified.sorting=Sorting is not specified for {0}.
+warn.unspecified.sorting={0} ‚Éƒ\[ƒg‡‚ªw’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
 
 ##################################################
 # Attributes 

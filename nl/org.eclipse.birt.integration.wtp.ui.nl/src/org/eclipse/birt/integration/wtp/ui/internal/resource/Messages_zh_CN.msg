@@ -33,9 +33,9 @@ BIRTConfiguration_resource_label=资源文件夹(&R):
 BIRTConfiguration_resource_dialog_title=浏览资源文件夹
 BIRTConfiguration_resource_dialog_message=请选择默认资源文件夹:
 
-BIRTConfiguration_working_label=&Working Folder:
-BIRTConfiguration_working_dialog_title=Browse For Working Folder
-BIRTConfiguration_working_dialog_message=Please select the default working folder:
+BIRTConfiguration_working_label=工作文件夹(&W):
+BIRTConfiguration_working_dialog_title=浏览工作文件夹
+BIRTConfiguration_working_dialog_message=请选择默认工作文件夹:
 
 BIRTConfiguration_document_label=文档文件夹(&D):
 BIRTConfiguration_document_dialog_title=浏览文档文件夹
@@ -53,7 +53,7 @@ BIRTConfiguration_log_label=日志文件夹(&L):
 BIRTConfiguration_log_dialog_title=浏览日志文件夹
 BIRTConfiguration_log_dialog_message=请选择默认日志文件夹:
 
-BIRTConfiguration_report_access_message=&Only access the report and document under working folder
+BIRTConfiguration_report_access_message=仅访问工作文件夹下的报表和文档(&O)
 BIRTConfiguration_overwrite_message=始终覆盖生成的文档文件(&A)
 
 BIRTConfiguration_maxrows_label=数据集最大行数(&D):
