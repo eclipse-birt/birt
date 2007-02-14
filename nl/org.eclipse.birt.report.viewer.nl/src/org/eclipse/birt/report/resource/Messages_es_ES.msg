@@ -112,7 +112,7 @@ birt.viewer.reportServiceException.EXTRACT_DATA_NO_DOCUMENT=No hay ningún archiv
 birt.viewer.reportServiceException.EXTRACT_DATA_NO_RESULT_SET=No hay ningún conjunto de resultados disponible para extraer los datos.
 birt.viewer.reportServiceException.INVALID_TOC=Consulta de TCD no válida.
 birt.viewer.reportServiceException.INVALID_PARAMETER=Parámetro no válido: {0}, ya que no está definido.
-birt.viewer.reportServiceException.STARTUP_REPORTENGINE_ERROR=Fatal error occurred when try to startup report engine.
+birt.viewer.reportServiceException.STARTUP_REPORTENGINE_ERROR=Se ha producido un error fatal al intentar iniciar el motor de informes.
 
 ###############################################################################
 # Birt action handler exception

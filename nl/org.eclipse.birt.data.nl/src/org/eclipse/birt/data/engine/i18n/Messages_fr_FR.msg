@@ -89,7 +89,7 @@ data.engine.InvalidBoundColumnName=Nom de colonne liée incorrecte : {0}.
 data.engine.InvalidGroupKey=La clé de groupe "{0}" du groupe {1} ne peut pas dépendre des liaisons de colonne du groupe inférieur. 
 data.engine.ColumnBindingNotExist=La liaison de colonne "{0}" n'existe pas.
 data.engine.ColumnBindingCycle=La liaison de colonne "{0}" possède un cycle de dépendance.
-data.engine.ColumnBindingReferToInexistColumn=Column binding "{0}" has referred to a data set column "{1}" which is not exist.
+data.engine.ColumnBindingReferToInexistColumn=La liaison de colonne "{0}" a renvoyé vers une colonne de jeu de données "{1}" qui n''existe pas.
 #computed column value
 data.engine.BadCompColExpr=L''expression de la colonne de calcul "{0}" est incorrecte.
 data.engine.CompCol.WrongDataType=Le type de données de la colonne de calcul "{0}" est {1}, mais l''une de ses valeurs est "{2}" et ne peut pas être convertie en {1}.

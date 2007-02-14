@@ -112,7 +112,7 @@ birt.viewer.reportServiceException.EXTRACT_DATA_NO_DOCUMENT=데이터를 추출할 수 �
 birt.viewer.reportServiceException.EXTRACT_DATA_NO_RESULT_SET=데이터를 추출할 수 있는 결과 집합이 없습니다.
 birt.viewer.reportServiceException.INVALID_TOC=잘못된 TOC 쿼리
 birt.viewer.reportServiceException.INVALID_PARAMETER=잘못된 매개 변수: {0}, 정의되지 않음
-birt.viewer.reportServiceException.STARTUP_REPORTENGINE_ERROR=Fatal error occurred when try to startup report engine.
+birt.viewer.reportServiceException.STARTUP_REPORTENGINE_ERROR=보고서 엔진 시작 시 치명적인 오류가 발생했습니다.
 
 ###############################################################################
 # Birt action handler exception

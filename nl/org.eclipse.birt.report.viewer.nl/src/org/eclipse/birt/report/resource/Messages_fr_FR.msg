@@ -112,7 +112,7 @@ birt.viewer.reportServiceException.EXTRACT_DATA_NO_DOCUMENT=Aucun fichier de doc
 birt.viewer.reportServiceException.EXTRACT_DATA_NO_RESULT_SET=Aucun ensemble de résultats disponible pour l'extraction des données.
 birt.viewer.reportServiceException.INVALID_TOC=Fichier TOC non valide.
 birt.viewer.reportServiceException.INVALID_PARAMETER=Paramètre non valide : {0} (non défini).
-birt.viewer.reportServiceException.STARTUP_REPORTENGINE_ERROR=Fatal error occurred when try to startup report engine.
+birt.viewer.reportServiceException.STARTUP_REPORTENGINE_ERROR=Une erreur fatale s'est produite lors de la tentative de lancement du moteur d'états.
 
 ###############################################################################
 # Birt action handler exception

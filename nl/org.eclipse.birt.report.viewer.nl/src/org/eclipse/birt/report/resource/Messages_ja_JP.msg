@@ -112,7 +112,7 @@ birt.viewer.reportServiceException.EXTRACT_DATA_NO_DOCUMENT=データを抽出する文書
 birt.viewer.reportServiceException.EXTRACT_DATA_NO_RESULT_SET=データを抽出する結果セットがありません。
 birt.viewer.reportServiceException.INVALID_TOC=目次のクエリが無効です。
 birt.viewer.reportServiceException.INVALID_PARAMETER=パラメタ {0} は定義されていないため、無効です。
-birt.viewer.reportServiceException.STARTUP_REPORTENGINE_ERROR=Fatal error occurred when try to startup report engine.
+birt.viewer.reportServiceException.STARTUP_REPORTENGINE_ERROR=レポートエンジンの開始時に重大なエラーが発生しました。
 
 ###############################################################################
 # Birt action handler exception

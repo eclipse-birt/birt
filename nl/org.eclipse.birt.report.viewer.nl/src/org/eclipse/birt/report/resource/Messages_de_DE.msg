@@ -112,7 +112,7 @@ birt.viewer.reportServiceException.EXTRACT_DATA_NO_DOCUMENT=Für die Extrahierung
 birt.viewer.reportServiceException.EXTRACT_DATA_NO_RESULT_SET=Für die Extrahierung der Daten ist kein Ergebnis verfügbar.
 birt.viewer.reportServiceException.INVALID_TOC=Ungültige Inhaltsverzeichnis-Anfrage.
 birt.viewer.reportServiceException.INVALID_PARAMETER=Ungültiger Parameter: {0}; er ist nicht definiert.
-birt.viewer.reportServiceException.STARTUP_REPORTENGINE_ERROR=Fatal error occurred when try to startup report engine.
+birt.viewer.reportServiceException.STARTUP_REPORTENGINE_ERROR=Beim Versuch, die Berichts-Engine zu starten, ist ein nicht behebbarer Fehler aufgetreten.
 
 ###############################################################################
 # Birt action handler exception
