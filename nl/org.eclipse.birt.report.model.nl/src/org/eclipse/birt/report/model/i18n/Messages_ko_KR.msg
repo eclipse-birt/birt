@@ -42,6 +42,7 @@ Property.memberKey=member key
 Property.literalString=literal string
 Property.element=요소
 Property.structRef=structure reference
+Property.contentElement=element as property value
 
 ###########################################################
 # Choice values
@@ -547,6 +548,10 @@ Choices.measureFunction.max=최대
 #71. levelType
 Choices.levelType.dynamic=동적
 Choices.levelType.mirrored=Mirrored
+
+#72. accessPermission
+Choices.accessPermission.allow=Allow
+Choices.accessPermission.disallow=Disallow
 
 ###########################################################
 # Classes
@@ -1897,6 +1902,7 @@ Structure.ResultSetColumn.nativeDataType=고유 데이터 형식 코드
 
 #15. ComputedColumn
 Structure.ComputedColumn.name=열 이름
+Structure.ComputedColumn.displayName=Column Display Name
 Structure.ComputedColumn.expression=식
 Structure.ComputedColumn.dataType=데이터 형식
 Structure.ComputedColumn.aggregateOn=AggregateOn 식
@@ -2122,6 +2128,8 @@ Element.Hierarchy=계층
 Element.Level=수준
 Element.Measure=측정
 Element.MeasureGroup=Meausre Group
+Element.AccessControl=Access Control
+Element.ValueAccessControl=Value Access Control
 
 ###########################################################
 # Element property names
@@ -2881,6 +2889,7 @@ Element.Cube.filter=Filter Conditions
 Element.Cube.dimensionConditions=차원 조건
 Element.Cube.dimensions=Dimensions
 Element.Cube.measureGroups=Measure Groups
+Element.Cube.accessControls=Access controls
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=시간 유형 조건
@@ -2893,6 +2902,7 @@ Element.Hierarchy.isDefault=Is Default
 Element.Hierarchy.filter=Filter Conditions
 Element.Hierarchy.primaryKeys=기본 키
 Element.Hierarchy.levels=Levels
+Element.Hierarchy.accessControls=Access controls
 
 #48. Level ( prefix Element.Level )
 Element.Level.columnName=열 이름
@@ -2904,6 +2914,7 @@ Element.Level.intervalRange=간격 범위
 Element.Level.levelType=Level Type
 Element.Level.staticValues=Static Values
 Element.Level.attributes=특성
+Element.Level.valueAccessControls=Value access controls
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=함수
@@ -2913,6 +2924,14 @@ Element.Measure.measureExpression=측정 식
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=Measures
 Element.MeasureGroup.isDefault=Is Default
+
+#51. AccessControl ( prefix Element.AccessControl )
+Element.AccessControl.userNames=User names
+Element.AccessControl.roles=Roles
+Element.AccessControl.permission=Access permission
+
+#51. ValueAccessControl ( prefix Element.ValueAccessControl )
+Element.ValueAccessControl.values=Values
 
 ###########################################################
 # Predefined style

@@ -42,6 +42,7 @@ Property.memberKey=member key
 Property.literalString=literal string
 Property.element=元素
 Property.structRef=structure reference
+Property.contentElement=element as property value
 
 ###########################################################
 # Choice values
@@ -547,6 +548,10 @@ Choices.measureFunction.max=最大值
 #71. levelType
 Choices.levelType.dynamic=动态
 Choices.levelType.mirrored=Mirrored
+
+#72. accessPermission
+Choices.accessPermission.allow=Allow
+Choices.accessPermission.disallow=Disallow
 
 ###########################################################
 # Classes
@@ -1897,6 +1902,7 @@ Structure.ResultSetColumn.nativeDataType=本地数据类型代码
 
 #15. ComputedColumn
 Structure.ComputedColumn.name=列名
+Structure.ComputedColumn.displayName=Column Display Name
 Structure.ComputedColumn.expression=表达式
 Structure.ComputedColumn.dataType=数据类型
 Structure.ComputedColumn.aggregateOn=AggregateOn 表达式
@@ -2122,6 +2128,8 @@ Element.Hierarchy=层次结构
 Element.Level=级别
 Element.Measure=度量
 Element.MeasureGroup=Meausre Group
+Element.AccessControl=Access Control
+Element.ValueAccessControl=Value Access Control
 
 ###########################################################
 # Element property names
@@ -2881,6 +2889,7 @@ Element.Cube.filter=Filter Conditions
 Element.Cube.dimensionConditions=维条件
 Element.Cube.dimensions=Dimensions
 Element.Cube.measureGroups=Measure Groups
+Element.Cube.accessControls=Access controls
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=是时间类型
@@ -2893,6 +2902,7 @@ Element.Hierarchy.isDefault=Is Default
 Element.Hierarchy.filter=Filter Conditions
 Element.Hierarchy.primaryKeys=主键
 Element.Hierarchy.levels=Levels
+Element.Hierarchy.accessControls=Access controls
 
 #48. Level ( prefix Element.Level )
 Element.Level.columnName=列名
@@ -2904,6 +2914,7 @@ Element.Level.intervalRange=间隔范围
 Element.Level.levelType=Level Type
 Element.Level.staticValues=Static Values
 Element.Level.attributes=属性
+Element.Level.valueAccessControls=Value access controls
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=函数
@@ -2913,6 +2924,14 @@ Element.Measure.measureExpression=度量表达式
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=Measures
 Element.MeasureGroup.isDefault=Is Default
+
+#51. AccessControl ( prefix Element.AccessControl )
+Element.AccessControl.userNames=User names
+Element.AccessControl.roles=Roles
+Element.AccessControl.permission=Access permission
+
+#51. ValueAccessControl ( prefix Element.ValueAccessControl )
+Element.ValueAccessControl.values=Values
 
 ###########################################################
 # Predefined style

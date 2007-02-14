@@ -42,6 +42,7 @@ Property.memberKey=member key
 Property.literalString=literal string
 Property.element=élément
 Property.structRef=structure reference
+Property.contentElement=element as property value
 
 ###########################################################
 # Choice values
@@ -547,6 +548,10 @@ Choices.measureFunction.max=Max
 #71. levelType
 Choices.levelType.dynamic=Dynamique
 Choices.levelType.mirrored=Mirrored
+
+#72. accessPermission
+Choices.accessPermission.allow=Allow
+Choices.accessPermission.disallow=Disallow
 
 ###########################################################
 # Classes
@@ -1897,6 +1902,7 @@ Structure.ResultSetColumn.nativeDataType=Code de type de données natives
 
 #15. ComputedColumn
 Structure.ComputedColumn.name=Nom de colonne
+Structure.ComputedColumn.displayName=Column Display Name
 Structure.ComputedColumn.expression=Expression
 Structure.ComputedColumn.dataType=Type de données
 Structure.ComputedColumn.aggregateOn=Expression AggregateOn
@@ -2122,6 +2128,8 @@ Element.Hierarchy=Hiérarchie
 Element.Level=Niveau
 Element.Measure=Mesure
 Element.MeasureGroup=Meausre Group
+Element.AccessControl=Access Control
+Element.ValueAccessControl=Value Access Control
 
 ###########################################################
 # Element property names
@@ -2881,6 +2889,7 @@ Element.Cube.filter=Filter Conditions
 Element.Cube.dimensionConditions=Conditions de dimension
 Element.Cube.dimensions=Dimensions
 Element.Cube.measureGroups=Measure Groups
+Element.Cube.accessControls=Access controls
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=Est de type Heure
@@ -2893,6 +2902,7 @@ Element.Hierarchy.isDefault=Is Default
 Element.Hierarchy.filter=Filter Conditions
 Element.Hierarchy.primaryKeys=Clé principale
 Element.Hierarchy.levels=Levels
+Element.Hierarchy.accessControls=Access controls
 
 #48. Level ( prefix Element.Level )
 Element.Level.columnName=Nom de colonne
@@ -2904,6 +2914,7 @@ Element.Level.intervalRange=Plage d'intervalles
 Element.Level.levelType=Level Type
 Element.Level.staticValues=Static Values
 Element.Level.attributes=Attributs
+Element.Level.valueAccessControls=Value access controls
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=Fonction
@@ -2913,6 +2924,14 @@ Element.Measure.measureExpression=Expression de mesure
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=Measures
 Element.MeasureGroup.isDefault=Is Default
+
+#51. AccessControl ( prefix Element.AccessControl )
+Element.AccessControl.userNames=User names
+Element.AccessControl.roles=Roles
+Element.AccessControl.permission=Access permission
+
+#51. ValueAccessControl ( prefix Element.ValueAccessControl )
+Element.ValueAccessControl.values=Values
 
 ###########################################################
 # Predefined style
