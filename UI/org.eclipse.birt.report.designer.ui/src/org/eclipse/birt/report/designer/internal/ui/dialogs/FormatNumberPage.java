@@ -110,7 +110,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 
 	private static String[] symbols = {
 			// "none", "��","$", "?", "��"
-			Messages.getString( "FormatNumberPage.currency.symbol.none" ), "\uffe5", "$", "\u20ac", "\uffe1" //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+			Messages.getString( "FormatNumberPage.currency.symbol.none" ), "\u00A5", "$", "\u20ac", "\u00A3" //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 	};
 
 	private Combo typeChoicer;
