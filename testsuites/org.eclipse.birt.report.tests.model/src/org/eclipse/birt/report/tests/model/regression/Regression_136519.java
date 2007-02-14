@@ -64,7 +64,7 @@ public class Regression_136519 extends BaseTestCase
 		openDesign( INPUT );
 		LabelHandle label = (LabelHandle) designHandle.findElement( "l1" ); //$NON-NLS-1$
 		
-		assertEquals( "always", label.getStringProperty( StyleHandle.PAGE_BREAK_AFTER_PROP )); //$NON-NLS-1$
-		assertEquals( "always", label.getStringProperty( StyleHandle.PAGE_BREAK_BEFORE_PROP )); //$NON-NLS-1$
+		assertEquals( "left", label.getStringProperty( StyleHandle.PAGE_BREAK_AFTER_PROP )); //$NON-NLS-1$
+		assertEquals( "right", label.getStringProperty( StyleHandle.PAGE_BREAK_BEFORE_PROP )); //$NON-NLS-1$
 	}
 }
