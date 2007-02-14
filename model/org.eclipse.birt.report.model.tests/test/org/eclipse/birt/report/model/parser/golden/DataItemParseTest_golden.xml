@@ -53,6 +53,7 @@
             <list-property name="boundDataColumns">
                 <structure>
                     <property name="name">column1</property>
+                    <property name="displayName">New Display Name</property>
                     <expression name="expression">column1 expr</expression>
                     <property name="dataType">integer</property>
                     <property name="aggregateOn">column1 aggre</property>

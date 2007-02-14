@@ -51,6 +51,17 @@ public class ComputedColumnHandle extends StructureHandle
 	}
 
 	/**
+	 * Returns column display name.
+	 * 
+	 * @return column display name.
+	 */
+
+	public String getDisplayName( )
+	{
+		return getStringProperty( ComputedColumn.DISPLAY_NAME_MEMBER );
+	}
+
+	/**
 	 * Returns the column name.
 	 * 
 	 * @return the column name
@@ -71,6 +82,22 @@ public class ComputedColumnHandle extends StructureHandle
 
 	public void setColumnName( String columnName )
 	{
+	}
+
+	/**
+	 * Sets the column display name.
+	 * 
+	 * @param columnDisplayName
+	 *            the column display name to set.
+	 * @throws SemanticException
+	 *             if the new column display name duplicates with the existed
+	 *             ones.
+	 * 
+	 */
+
+	public void setDisplayName( String columnDisplayName ) throws SemanticException
+	{
+		setProperty( ComputedColumn.DISPLAY_NAME_MEMBER, columnDisplayName );
 	}
 
 	/**

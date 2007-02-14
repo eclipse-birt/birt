@@ -11,10 +11,22 @@
 
 package org.eclipse.birt.report.model.util;
 
+import org.eclipse.birt.report.model.api.command.ExtendsException;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.ReferencableStructure;
+import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ElementRefPropertyType;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
+import org.eclipse.birt.report.model.metadata.StructRefPropertyType;
+import org.eclipse.birt.report.model.metadata.StructRefValue;
 
 /**
  * Collection of <code>ReferenceValue</code> utilities.
@@ -129,5 +141,224 @@ public class ReferenceValueUtil
 			Module root )
 	{
 		return needTheNamespacePrefix( refValue, root, null );
+	}
+	
+	/**
+	 * Resolves the parent element reference.
+	 * 
+	 * @param module
+	 *            the module information needed for the check
+	 * @param element
+	 *            design element
+	 * @param extendsRef
+	 *            extended reference
+	 */
+
+	public static void resloveExtends( Module module, DesignElement element,
+			ElementRefValue extendsRef )
+	{
+
+		if ( extendsRef == null || module == null )
+			return;
+
+		if ( extendsRef.isResolved( ) )
+			return;
+
+		// The parent exist and is not resolved. Try to resolve it.
+		// If it is now resolved, cache the back pointer.
+		// Note that this is a safe operation to do without the
+		// use of the command stack. We are not changing the meaning
+		// of the property: we are only changing the form: from name
+		// to element pointer.
+
+		ElementDefn metaData = (ElementDefn) element.getDefn( );
+		PropertyDefn propDefn = (PropertyDefn) metaData
+				.getProperty( IDesignElementModel.EXTENDS_PROP );
+		int ns = metaData.getNameSpaceID( );
+		DesignElement resolvedParent = module
+				.resolveElement( ReferenceValueUtil.needTheNamespacePrefix(
+						extendsRef, module ), ns, propDefn );
+
+		try
+		{
+			element.checkExtends( resolvedParent );
+			if ( resolvedParent != null )
+			{
+				extendsRef.resolve( resolvedParent );
+				resolvedParent.addDerived( element );
+			}
+		}
+		catch ( ExtendsException e )
+		{
+			// Do nothing.
+		}
+	}
+
+	/**
+	 * Resolves a property element reference. The reference is the value of a
+	 * property of type property element reference.
+	 * 
+	 * @param module
+	 *            the module information needed for the check, and records any
+	 *            errors
+	 * @param element
+	 *            design element
+	 * @param prop
+	 *            the property whose type is element reference
+	 * @param value
+	 *            the element reference value to resolve
+	 * @return the element reference value is always returned, which contains
+	 *         the information of element resolution.
+	 */
+
+	public static ElementRefValue resolveElementReference( Module module,
+			DesignElement element, ElementPropertyDefn prop,
+			ElementRefValue value )
+	{
+		ElementRefValue ref = value;
+		if ( ref.isResolved( ) )
+			return ref;
+
+		// The element exist and is not resolved. Try to resolve it.
+		// If it is now resolved, cache the back pointer.
+		// Note that this is a safe operation to do without the
+		// use of the command stack. We are not changing the meaning
+		// of the property: we are only changing the form: from name
+		// to element pointer.
+
+		// property may be a list type of element reference or the element
+		// reference type
+
+		assert prop.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE
+				|| prop.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE;
+
+		ElementRefPropertyType refType = null;
+		if ( prop.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
+			refType = (ElementRefPropertyType) prop.getType( );
+		else
+			refType = (ElementRefPropertyType) prop.getSubType( );
+
+		refType.resolve( module, prop, ref );
+		if ( ref.isResolved( ) )
+			ref.getTargetElement( ).addClient( element, prop.getName( ) );
+
+		return ref;
+	}
+
+	/**
+	 * Resolves a property structure reference. The reference is the value of a
+	 * property of type property structure reference.
+	 * 
+	 * @param module
+	 *            the module information needed for the check, and records any
+	 *            errors
+	 * @param element
+	 *            design element
+	 * @param prop
+	 *            the property whose type is structure reference
+	 * @param value
+	 *            structure property value
+	 * @return the resolved value if the resolve operation is successful,
+	 *         otherwise the unresolved value
+	 */
+
+	public static StructRefValue resolveStructReference( Module module,
+			DesignElement element, ElementPropertyDefn prop,
+			StructRefValue value )
+	{
+		StructRefValue ref = value;
+		if ( ref.isResolved( ) )
+			return ref;
+
+		// The element exist and is not resolved. Try to resolve it.
+		// If it is now resolved, cache the back pointer.
+		// Note that this is a safe operation to do without the
+		// use of the command stack. We are not changing the meaning
+		// of the property: we are only changing the form: from name
+		// to element pointer.
+
+		StructRefPropertyType refType = (StructRefPropertyType) prop.getType( );
+		refType.resolve( module, prop, ref );
+		if ( ref.isResolved( ) )
+			ref.getTargetStructure( ).addClient( element, prop.getName( ) );
+
+		return ref;
+	}
+
+	/**
+	 * Implements to cache a back-pointer from referenced structure or
+	 * referenced element.
+	 * 
+	 * @param element
+	 *            design element
+	 * @param oldRef
+	 *            the old reference, if any
+	 * @param newRef
+	 *            the new reference, if any
+	 * @param prop
+	 *            definition of the property
+	 */
+
+	public static void updateReference( DesignElement element,
+			ReferenceValue oldRef, ReferenceValue newRef,
+			ElementPropertyDefn prop )
+	{
+		if ( oldRef == null && newRef == null )
+			return;
+		if ( oldRef instanceof ElementRefValue
+				|| newRef instanceof ElementRefValue )
+		{
+			ReferenceableElement target;
+			// Drop the old reference. Clear the back pointer from the
+			// referenced
+			// element to this element.
+
+			if ( oldRef != null )
+			{
+				target = ( (ElementRefValue) oldRef ).getTargetElement( );
+				if ( target != null )
+					target.dropClient( element );
+			}
+
+			// Add the new reference. Cache a back pointer from the referenced
+			// element to this element. Include the property name so we know
+			// which
+			// property to adjust it the target is deleted.
+
+			if ( newRef != null )
+			{
+				target = ( (ElementRefValue) newRef ).getTargetElement( );
+				if ( target != null )
+					target.addClient( element, prop.getName( ) );
+			}
+		}
+
+		if ( oldRef instanceof StructRefValue
+				|| newRef instanceof StructRefValue )
+		{
+			ReferencableStructure target;
+			// Drop the old reference. Clear the back pointer from the
+			// referenced
+			// structure to this element.
+
+			if ( oldRef != null )
+			{
+				target = ( (StructRefValue) oldRef ).getTargetStructure( );
+				if ( target != null )
+					target.dropClient( element );
+			}
+
+			// Add the new reference. Cache a back pointer from the referenced
+			// element to this element. Include the property name so we know
+			// which
+			// property to adjust it the target is deleted.
+
+			if ( newRef != null )
+			{
+				target = ( (StructRefValue) newRef ).getTargetStructure( );
+				if ( target != null )
+					target.addClient( element, prop.getName( ) );
+			}
+		}
 	}
 }

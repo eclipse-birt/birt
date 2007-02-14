@@ -68,6 +68,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.parser.DesignParserException;
 import org.eclipse.birt.report.model.parser.LibraryReader;
@@ -2129,9 +2130,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 			units = (String) value;
 		else if ( THEME_PROP.equals( propName ) )
 		{
-			updateReference( theme, (ElementRefValue) value,
-					getPropertyDefn( THEME_PROP ) );
-
+			ReferenceValueUtil.updateReference( this, theme, (ReferenceValue) value, getPropertyDefn( THEME_PROP ) );
 			theme = (ElementRefValue) value;
 		}
 		else

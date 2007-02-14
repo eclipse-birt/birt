@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
 /**
  * Records an insertion into, or deletion from a name space.
@@ -158,7 +159,7 @@ public class NameSpaceRecord extends SimpleRecord
 
 				referred.dropClient( client );
 
-				client.resolveElementReference( root, client
+				client.resolveElementReference( root , client
 						.getPropertyDefn( ref.propName ) );
 			}
 			else if ( value instanceof List )
@@ -171,7 +172,7 @@ public class NameSpaceRecord extends SimpleRecord
 					{
 						item.unresolved( item.getName( ) );
 						referred.dropClient( client );
-						client.resolveElementReference( root, client
+						ReferenceValueUtil.resolveElementReference( root, client , client
 								.getPropertyDefn( ref.propName ), item );
 						break;
 					}

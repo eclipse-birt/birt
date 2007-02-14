@@ -118,6 +118,7 @@ public class DataItemParseTest extends BaseTestCase
 				.next( );
 		assertEquals( "column1", column.getName( ) ); //$NON-NLS-1$
 		assertEquals( "column1 expr", column.getExpression( ) ); //$NON-NLS-1$
+		assertEquals( "Display data value" , column.getDisplayName( ) );//$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER, column
 				.getDataType( ) );
 		assertEquals( "column1 aggre", column.getAggregateOn( ) );  //$NON-NLS-1$
@@ -172,6 +173,11 @@ public class DataItemParseTest extends BaseTestCase
 
 		action = dataHandle.getActionHandle( );
 		assertNotNull( action );
+		
+		Iterator columnBindings = dataHandle.columnBindingsIterator( );
+		ComputedColumnHandle column = (ComputedColumnHandle) columnBindings
+				.next( );
+		column.setDisplayName( "New Display Name" );//$NON-NLS-1$
 
 		save();
 		assertTrue( compareFile( goldenFileName) );
