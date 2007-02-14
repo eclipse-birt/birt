@@ -56,6 +56,12 @@ public class ComputedColumn extends Structure
 	 */
 
 	public static final String NAME_MEMBER = "name"; //$NON-NLS-1$
+	
+	/**
+	 * DisplayName of the column name member.
+	 */
+
+	public static final String DISPLAY_NAME_MEMBER = "displayName"; //$NON-NLS-1$
 
 	/**
 	 * Name of the column name member.
@@ -96,6 +102,13 @@ public class ComputedColumn extends Structure
 	 */
 
 	private String columnName = null;
+	
+	/**
+	 * The column display name.
+	 */
+	
+	private String columnDisplayName = null;
+	
 
 	/**
 	 * The expression for this computed column.
@@ -142,6 +155,8 @@ public class ComputedColumn extends Structure
 			return dataType;
 		if ( AGGREGRATEON_MEMBER.equalsIgnoreCase( memberName ) )
 			return aggregrateOn;
+		if( DISPLAY_NAME_MEMBER.equalsIgnoreCase( memberName ))
+			return columnDisplayName;
 
 		assert false;
 		return null;
@@ -165,6 +180,8 @@ public class ComputedColumn extends Structure
 			dataType = (String) value;
 		else if ( AGGREGRATEON_MEMBER.equals( propName ) )
 			aggregrateOn = (String) value;
+		else if( DISPLAY_NAME_MEMBER.equalsIgnoreCase( propName ))
+			columnDisplayName = (String)value;
 		else
 			assert false;
 	}
@@ -190,6 +207,30 @@ public class ComputedColumn extends Structure
 	public String getName( )
 	{
 		return (String) getProperty( null, NAME_MEMBER );
+	}
+	
+	/**
+	 * Returns column display name.
+	 * 
+	 * @return column display name.
+	 */
+
+	public String getDisplayName( )
+	{
+		return (String)getProperty( null , ComputedColumn.DISPLAY_NAME_MEMBER );
+	}
+	
+	/**
+	 * Sets the column display name.
+	 * 
+	 * @param columnDisplayName
+	 *            the column display name to set.
+	 * 
+	 */
+
+	public void setDisplayName( String columnDisplayName )
+	{
+		setProperty( ComputedColumn.DISPLAY_NAME_MEMBER, columnDisplayName );
 	}
 
 	/**

@@ -60,6 +60,33 @@ public class ComputedColumnHandle extends StructureHandle
 	{
 		return getStringProperty( ComputedColumn.NAME_MEMBER );
 	}
+	
+	/**
+	 * Returns column display name.
+	 * 
+	 * @return column display name.
+	 */
+
+	public String getDisplayName( )
+	{
+		return getStringProperty( ComputedColumn.DISPLAY_NAME_MEMBER );
+	}
+	
+	/**
+	 * Sets the column display name.
+	 * 
+	 * @param columnDisplayName
+	 *            the column display name to set.
+	 * @throws SemanticException
+	 *             if the new column display name duplicates with the existed
+	 *             ones.
+	 * 
+	 */
+
+	public void setDisplayName( String columnDisplayName ) throws SemanticException
+	{
+		setProperty( ComputedColumn.DISPLAY_NAME_MEMBER, columnDisplayName );
+	}
 
 	/**
 	 * Sets the column name.

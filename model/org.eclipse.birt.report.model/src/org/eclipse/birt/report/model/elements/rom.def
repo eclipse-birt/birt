@@ -1808,6 +1808,7 @@
   </Structure>
   <Structure displayNameID="Structure.ComputedColumn" name="ComputedColumn" since="1.0">
     <Member displayNameID="Structure.ComputedColumn.name" isIntrinsic="true" name="name" runtimeSettable="false" since="1.0" type="memberKey" valueRequired="true"/>
+  	<Member displayNameID="Structure.ComputedColumn.displayName" isIntrinsic="true" name="displayName" runtimeSettable="false" since="2.2" type="string"/>
   	<Member context="factory" displayNameID="Structure.ComputedColumn.expression" isIntrinsic="true" name="expression" returnType="any" runtimeSettable="false" since="1.0" type="expression" valueRequired="true"/>
   	<Member detailType="columnDataType" displayNameID="Structure.ComputedColumn.dataType" isIntrinsic="true" name="dataType" runtimeSettable="false" since="2.0" type="choice">
 		<Default>any</Default>
