@@ -118,6 +118,8 @@ public class ColumnBindingDialog extends BaseDialog
 	// "ColumnBindingDialog.Button.Generate" ); //$NON-NLS-1$
 	private static final String COLUMN_NAME = Messages.getString( "ColumnBindingDialog.Column.Name" ); //$NON-NLS-1$
 
+	private static final String COLUMN_DISPLAYNAME = Messages.getString( "ColumnBindingDialog.Column.displayName" );
+
 	private static final String COLUMN_DATATYPE = Messages.getString( "ColumnBindingDialog.Column.DataType" ); //$NON-NLS-1$
 
 	private static final String COLUMN_EXPRESSION = Messages.getString( "ColumnBindingDialog.Column.Expression" ); //$NON-NLS-1$
@@ -197,13 +199,16 @@ public class ColumnBindingDialog extends BaseDialog
 					text = handle.getName( );
 					break;
 				case 2 :
+					text = handle.getDisplayName( );
+					break;
+				case 3 :
 					text = ChoiceSetFactory.getDisplayNameFromChoiceSet( handle.getDataType( ),
 							DATA_TYPE_CHOICE_SET );
 					break;
-				case 3 :
+				case 4 :
 					text = handle.getExpression( );
 					break;
-				case 4 :
+				case 5 :
 					String value = handle.getAggregateOn( );
 					String groupType = DEUtil.getGroupControlType( inputElement );
 					if ( value == null )
@@ -311,6 +316,10 @@ public class ColumnBindingDialog extends BaseDialog
 			if ( COLUMN_NAME.equals( property ) )
 			{
 				value = handle.getName( );
+			}
+			else if ( COLUMN_DISPLAYNAME.equals( property ) )
+			{
+				value = handle.getDisplayName( );
 			}
 			else if ( COLUMN_DATATYPE.equals( property ) )
 			{
@@ -690,12 +699,13 @@ public class ColumnBindingDialog extends BaseDialog
 		columns = new String[]{
 				null,
 				COLUMN_NAME,
+				COLUMN_DISPLAYNAME,
 				COLUMN_DATATYPE,
 				COLUMN_EXPRESSION,
 				COLUMN_AGGREGATEON
 		};
 		columnWidth = new int[]{
-				canSelect ? 25 : 20, 150, 70, 150, 150,
+				canSelect ? 25 : 20, 150, 150, 70, 150, 150,
 		};
 
 		groups = new String[groupList.size( ) + 1];
@@ -1052,7 +1062,8 @@ public class ColumnBindingDialog extends BaseDialog
 		boolean okEnable = false;
 		if ( !canSelect
 				|| ( selectedColumnName != null && getDataSetName( ) != null )
-				|| ( selectedColumnName != null && DEUtil.getBindingHolder( inputElement ).getDataSet( ) != null ) )
+				|| ( selectedColumnName != null && DEUtil.getBindingHolder( inputElement )
+						.getDataSet( ) != null ) )
 		{
 			okEnable = true;
 		}

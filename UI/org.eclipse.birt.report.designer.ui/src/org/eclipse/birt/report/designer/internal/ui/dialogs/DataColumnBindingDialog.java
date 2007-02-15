@@ -16,9 +16,9 @@ import org.eclipse.swt.widgets.Control;
 public class DataColumnBindingDialog extends DataItemBindingDialog
 {
 
-	public DataColumnBindingDialog( boolean isCreateNew)
+	public DataColumnBindingDialog( boolean isCreateNew )
 	{
-		super( isCreateNew==true?NEW_DATAITEM_TITLE:EDIT_DATAITEM_TITLE );
+		super( isCreateNew == true ? NEW_DATAITEM_TITLE : EDIT_DATAITEM_TITLE );
 	}
 
 	public void setInput( ReportItemHandle input )
@@ -40,7 +40,7 @@ public class DataColumnBindingDialog extends DataItemBindingDialog
 		bindingColumn = bindingHandle;
 		try
 		{
-			if ( isCreateNew || bindingColumn == null)
+			if ( isCreateNew || bindingColumn == null )
 			{
 				createColumnName( input, DEFAULT_ITEM_NAME );
 				setTypeSelect( dataTypes[0] );
@@ -50,6 +50,7 @@ public class DataColumnBindingDialog extends DataItemBindingDialog
 				// Add data set items.
 
 				setName( bindingColumn.getName( ) );
+				setDisplayName( bindingColumn.getDisplayName( ) );
 				setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice( bindingColumn.getDataType( ) )
 						.getDisplayName( ) );
 				setExpression( bindingColumn.getExpression( ) );

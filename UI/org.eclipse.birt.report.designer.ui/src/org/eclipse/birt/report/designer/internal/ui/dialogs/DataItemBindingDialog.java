@@ -45,6 +45,8 @@ public class DataItemBindingDialog extends BaseDialog
 {
 
 	protected static final String NAME = Messages.getString( "DataItemBindingDialog.text.Name" );
+	
+	protected static final String DISPLAY_NAME = Messages.getString( "DataItemBindingDialog.text.displayName" );
 
 	protected static final String DATA_TYPE = Messages.getString( "DataItemBindingDialog.text.DataType" );
 
@@ -87,6 +89,8 @@ public class DataItemBindingDialog extends BaseDialog
 
 	private Text itemName;
 
+	private Text itemDisplayName;
+	
 	private Combo itemAggregateOn;
 
 	private Text itemExpression;
@@ -163,6 +167,13 @@ public class DataItemBindingDialog extends BaseDialog
 			}
 
 		} );
+		
+		new Label( composite, SWT.NONE ).setText( DISPLAY_NAME );
+		itemDisplayName = new Text( composite, SWT.BORDER );
+		int width = itemDisplayName.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
+		gd.widthHint = width < 250 ? 250 : width;
+		itemDisplayName.setLayoutData( gd );
+		WidgetUtil.createGridPlaceholder( composite, 1, false );
 
 		new Label( composite, SWT.NONE ).setText( DATA_TYPE );
 		itemType = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
@@ -279,6 +290,7 @@ public class DataItemBindingDialog extends BaseDialog
 	{
 		initDataTypes( );
 		initName( );
+		initDisplayName( );
 		initAggregateOns( );
 		initExpression( );
 	}
@@ -321,6 +333,16 @@ public class DataItemBindingDialog extends BaseDialog
 		if ( name != null && itemName != null )
 			itemName.setText( name );
 	}
+	
+	private String displayName;
+
+	private void initDisplayName( )
+	{
+		if ( displayName != null && itemDisplayName != null )
+		{
+			itemDisplayName.setText( displayName );
+		}
+	}
 
 	protected void save( ) throws SemanticException
 	{
@@ -335,6 +357,7 @@ public class DataItemBindingDialog extends BaseDialog
 					return;
 				}
 				newBinding.setName( itemName.getText( ) );
+				newBinding.setDisplayName( itemDisplayName.getText( ) );
 				for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 				{
 					if ( DATA_TYPE_CHOICES[i].getDisplayName( )
@@ -500,6 +523,12 @@ public class DataItemBindingDialog extends BaseDialog
 		this.name = name;
 		initName( );
 	}
+	
+	public void setDisplayName( String displayName )
+	{
+		this.displayName = displayName;
+		initDisplayName( );
+	}
 
 	private ComputedColumn newBinding;
 
@@ -531,6 +560,7 @@ public class DataItemBindingDialog extends BaseDialog
 				if ( bindingColumn != null )
 				{
 					setName( bindingColumn.getName( ) );
+					setDisplayName( bindingColumn.getDisplayName( ) );
 					setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice( bindingColumn.getDataType( ) )
 							.getDisplayName( ) );
 					setExpression( bindingColumn.getExpression( ) );
