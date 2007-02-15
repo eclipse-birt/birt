@@ -264,6 +264,74 @@ public final class LegendBuilder implements IConstants
 			calculateExtraLegend( cm, rtc, legendData );
 		}
 
+		// consider legend title size.
+		Label lgTitle = lg.getTitle( );
+
+		Size titleSize = null;
+		BoundingBox titleBounding = null;
+		int iTitlePos = -1;
+
+		if ( lgTitle != null && lgTitle.isSetVisible( ) && lgTitle.isVisible( ) )
+		{
+			lgTitle = LabelImpl.copyInstance( lgTitle );
+
+			// handle external resource string
+			final String sPreviousValue = lgTitle.getCaption( ).getValue( );
+			lgTitle.getCaption( )
+					.setValue( rtc.externalizedMessage( sPreviousValue ) );
+
+			try
+			{
+				titleBounding = Methods.computeBox( xs,
+						IConstants.ABOVE,
+						lgTitle,
+						0,
+						0 );
+			}
+			catch ( IllegalArgumentException uiex )
+			{
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.RENDERING,
+						uiex );
+			}
+
+			iTitlePos = lg.getTitlePosition( ).getValue( );
+
+			// swap left/right
+			if ( rtc.isRightToLeft( ) )
+			{
+				if ( iTitlePos == Position.LEFT )
+				{
+					iTitlePos = Position.RIGHT;
+				}
+				else if ( iTitlePos == Position.RIGHT )
+				{
+					iTitlePos = Position.LEFT;
+				}
+			}
+
+			double shadowness = 3 * legendData.dScale;
+
+			switch ( iTitlePos )
+			{
+				case Position.ABOVE :
+				case Position.BELOW :
+					legendData.dAvailableHeight -= titleBounding.getHeight( )
+							+ 2
+							* shadowness;
+					break;
+				case Position.LEFT :
+				case Position.RIGHT :
+					legendData.dAvailableWidth -= titleBounding.getWidth( )
+							+ 2
+							* shadowness;
+					break;
+			}
+
+			titleSize = SizeImpl.create( titleBounding.getWidth( )
+					+ 2
+					* shadowness, titleBounding.getHeight( ) + 2 * shadowness );
+		}
 		double[] size = null;
 		// COMPUTATIONS HERE MUST BE IN SYNC WITH THE ACTUAL RENDERER
 		if ( orientation.getValue( ) == Orientation.VERTICAL )
@@ -367,47 +435,8 @@ public final class LegendBuilder implements IConstants
 		}
 
 		double dWidth = size[0], dHeight = size[1];
-
-		// consider legend title size.
-		Label lgTitle = lg.getTitle( );
-
-		Size titleSize = null;
-
-		if ( lgTitle != null && lgTitle.isSetVisible( ) && lgTitle.isVisible( ) )
+		if ( iTitlePos != -1 )
 		{
-			lgTitle = LabelImpl.copyInstance( lgTitle );
-
-			// handle external resource string
-			final String sPreviousValue = lgTitle.getCaption( ).getValue( );
-			lgTitle.getCaption( )
-					.setValue( rtc.externalizedMessage( sPreviousValue ) );
-
-			BoundingBox bb = null;
-			try
-			{
-				bb = Methods.computeBox( xs, IConstants.ABOVE, lgTitle, 0, 0 );
-			}
-			catch ( IllegalArgumentException uiex )
-			{
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.RENDERING,
-						uiex );
-			}
-
-			int iTitlePos = lg.getTitlePosition( ).getValue( );
-
-			// swap left/right
-			if ( rtc.isRightToLeft( ) )
-			{
-				if ( iTitlePos == Position.LEFT )
-				{
-					iTitlePos = Position.RIGHT;
-				}
-				else if ( iTitlePos == Position.RIGHT )
-				{
-					iTitlePos = Position.LEFT;
-				}
-			}
 
 			double shadowness = 3 * legendData.dScale;
 
@@ -415,20 +444,19 @@ public final class LegendBuilder implements IConstants
 			{
 				case Position.ABOVE :
 				case Position.BELOW :
-					dHeight += bb.getHeight( ) + 2 * shadowness;
-					dWidth = Math.max( dWidth, bb.getWidth( ) + 2 * shadowness );
+					dHeight += titleBounding.getHeight( ) + 2 * shadowness;
+					dWidth = Math.max( dWidth, titleBounding.getWidth( )
+							+ 2
+							* shadowness );
 					break;
 				case Position.LEFT :
 				case Position.RIGHT :
-					dWidth += bb.getWidth( ) + 2 * shadowness;
-					dHeight = Math.max( dHeight, bb.getHeight( )
+					dWidth += titleBounding.getWidth( ) + 2 * shadowness;
+					dHeight = Math.max( dHeight, titleBounding.getHeight( )
 							+ 2
 							* shadowness );
 					break;
 			}
-
-			titleSize = SizeImpl.create( bb.getWidth( ) + 2 * shadowness,
-					bb.getHeight( ) + 2 * shadowness );
 		}
 
 		itm.dispose( ); // DISPOSE RESOURCE AFTER USE
@@ -1031,7 +1059,7 @@ public final class LegendBuilder implements IConstants
 							dW = newMetrics[0];
 							dFHeightV = newMetrics[1];
 						}
-						
+
 						dW = Math.max( dW, itm.getFullWidth( ) );
 
 						dExtraHeight = Math.max( itm.getFullHeight( ),
