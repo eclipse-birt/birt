@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.6" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.1.2.qualifier Build &lt;@BUILD@></property>
+    <property name="units">in</property>
+    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <data-sources>
+        <script-data-source name="Data Source" id="4"/>
+    </data-sources>
+    <data-sets>
+        <script-data-set name="Data Set" id="5">
+            <list-property name="resultSetHints">
+                <structure>
+                    <property name="position">0</property>
+                    <property name="name">Key</property>
+                    <property name="dataType">any</property>
+                </structure>
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">Name</property>
+                    <property name="dataType">any</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">Value</property>
+                    <property name="dataType">any</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">Key</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Name</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Value</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">Key</property>
+                        <property name="dataType">any</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">Name</property>
+                        <property name="dataType">any</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">Value</property>
+                        <property name="dataType">any</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <method name="open"><![CDATA[_rowId = 0;
+_rows = new Array( 
+	new Array("a1","b1", "c1"),
+	new Array("a2", "b1", "c1"),
+	new Array("a2", "b1", "c2"));]]></method>
+            <method name="fetch"><![CDATA[if (_rowId < _rows.length)
+{
+	row["Key"] = _rows[_rowId][0];
+	row["Name"] = _rows[_rowId][1];
+	row["Value"] = _rows[_rowId][2];
+	_rowId++;
+	return true;
+}
+return false;]]></method>
+        </script-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table id="6">
+            <property name="width">100%</property>
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">Key</property>
+                    <expression name="expression">dataSetRow["Key"]</expression>
+                    <property name="dataType">any</property>
+                </structure>
+                <structure>
+                    <property name="name">Name</property>
+                    <expression name="expression">dataSetRow["Name"]</expression>
+                    <property name="dataType">any</property>
+                </structure>
+                <structure>
+                    <property name="name">Value</property>
+                    <expression name="expression">dataSetRow["Value"]</expression>
+                    <property name="dataType">any</property>
+                </structure>
+            </list-property>
+            <column id="25"/>
+            <column id="26">
+                <property name="suppressDuplicates">true</property>
+            </column>
+            <column id="27">
+                <property name="suppressDuplicates">true</property>
+            </column>
+            <header>
+                <row id="7">
+                    <cell id="8">
+                        <label id="9">
+                            <text-property name="text">Key</text-property>
+                        </label>
+                    </cell>
+                    <cell id="10">
+                        <label id="11">
+                            <text-property name="text">Name</text-property>
+                        </label>
+                    </cell>
+                    <cell id="12">
+                        <label id="13">
+                            <text-property name="text">Value</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <group id="28">
+                <property name="groupName">NewTableGroup1</property>
+                <property name="interval">none</property>
+                <property name="sortDirection">asc</property>
+                <expression name="keyExpr">row["Key"]</expression>
+                <property name="repeatHeader">true</property>
+                <property name="hideDetail">false</property>
+                <property name="pageBreakAfter">auto</property>
+                <property name="pageBreakBefore">auto</property>
+                <header>
+                    <row id="29">
+                        <cell id="30">
+                            <data id="37">
+                                <property name="resultSetColumn">Key</property>
+                            </data>
+                        </cell>
+                        <cell id="31"/>
+                        <cell id="32"/>
+                    </row>
+                </header>
+                <footer>
+                    <row id="33">
+                        <cell id="34"/>
+                        <cell id="35"/>
+                        <cell id="36"/>
+                    </row>
+                </footer>
+            </group>
+            <detail>
+                <row id="14">
+                    <cell id="15">
+                        <data id="16">
+                            <property name="resultSetColumn">Key</property>
+                        </data>
+                    </cell>
+                    <cell id="17">
+                        <data id="18">
+                            <property name="resultSetColumn">Name</property>
+                        </data>
+                    </cell>
+                    <cell id="19">
+                        <data id="20">
+                            <property name="resultSetColumn">Value</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="21">
+                    <cell id="22"/>
+                    <cell id="23"/>
+                    <cell id="24"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>
