@@ -9,8 +9,6 @@ import org.eclipse.birt.report.engine.ir.BandDesign;
 import org.eclipse.birt.report.engine.ir.GroupDesign;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 abstract public class GroupExecutor extends ReportItemExecutor
@@ -131,8 +129,10 @@ abstract public class GroupExecutor extends ReportItemExecutor
 	
 	protected void prepareToExecuteChildren()
 	{
-		//prepare the bands to be executed. 
-		collectExecutableElements();
+		// prepare the bands to be executed.
+		collectExecutableElements( );
+		// clear the duplicate flags in the group
+		clearDuplicateFlags( );
 	}
 	
 	void collectExecutableElements()
@@ -320,5 +320,18 @@ abstract public class GroupExecutor extends ReportItemExecutor
 			pList.needPageBreak = true;
 		}
 	}
-		
+	
+	protected void clearDuplicateFlags( )
+	{
+		GroupDesign groupDesign = (GroupDesign) getDesign( );
+		ListingDesign listingDesign = (ListingDesign) listingExecutor
+				.getDesign( );
+		for ( int i = groupDesign.getGroupLevel( ); i < listingDesign
+				.getGroupCount( ); i++ )
+		{
+			GroupDesign group = listingDesign.getGroup( i );
+			listingExecutor.clearDuplicateFlags( group );
+		}
+		listingExecutor.clearDuplicateFlags( listingDesign.getDetail( ) );
+	}
 }

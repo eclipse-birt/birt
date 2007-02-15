@@ -19,7 +19,6 @@ import org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl;
 import org.eclipse.birt.report.engine.ir.FreeFormItemDesign;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
 import org.eclipse.birt.report.engine.ir.GroupDesign;
-import org.eclipse.birt.report.engine.ir.ListBandDesign;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
 import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -131,7 +130,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	 * 
 	 * @param list
 	 */
-	protected void clearDuplicateFlags( ListingDesign list )
+	protected void clearDuplicateFlags( ReportItemDesign list )
 	{
 		list.accept( new ClearDuplicateFlagVisitor( ), null );
 	}
@@ -220,7 +219,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 			return value;
 		}
 
-		public Object visitBand( ListBandDesign band, Object value )
+		public Object visitBand(BandDesign band, Object value)
 		{
 			for ( int i = 0; i < band.getContentCount( ); i++ )
 			{
@@ -334,6 +333,9 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		{
 			collectExecutableElements( );
 		}
+		
+		// clear the duplicate flag in the listing
+		clearDuplicateFlags( listingDesign );
 	}
 
 	void collectExecutableElements( )
