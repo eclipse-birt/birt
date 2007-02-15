@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.archive.ArchiveUtil;
+
 /**
  * the archive file contains following mode:
  * <li> "r" open the file for read only.
@@ -158,6 +160,12 @@ public class ArchiveFile implements ArchiveConstants
 
 	public ArchiveFile( String fileName, String mode ) throws IOException
 	{
+		if ( fileName == null || fileName.length( ) == 0 )
+			throw new IOException( "The file name is null or empty string." );
+
+		File fd = new File( fileName );
+		fileName = fd.getCanonicalPath( ); // make sure the file name is an
+		// absolute path
 		this.archiveName = fileName;
 
 		setupArchiveMode( mode );
@@ -223,7 +231,11 @@ public class ArchiveFile implements ArchiveConstants
 		}
 		catch ( IOException ex )
 		{
-			rf.close( );
+			if ( rf != null )
+			{
+				rf.close( );
+				rf = null;
+			}
 			throw ex;
 		}
 	}
@@ -235,17 +247,36 @@ public class ArchiveFile implements ArchiveConstants
 	 */
 	private void createDocument( ) throws IOException
 	{
-		if ( !isTransient )
+		try
 		{
-			rf = new RandomAccessFile( archiveName, "rw" );
-			rf.setLength( 0 );
+			if ( !isTransient )
+			{
+				// try to create the parent folder
+				File parentFile = new File( archiveName ).getParentFile( );
+				if ( parentFile != null && !parentFile.exists( ) )
+				{
+					parentFile.mkdirs( );
+				}
+
+				rf = new RandomAccessFile( archiveName, "rw" );
+				rf.setLength( 0 );
+			}
+			totalBlocks = 3;
+			totalDiskBlocks = 0;
+			head = ArchiveHeader.createHeader( this );
+			allocTbl = AllocTable.createTable( this );
+			entryTbl = NameTable.createTable( this );
+			entries = new HashMap( );
 		}
-		totalBlocks = 3;
-		totalDiskBlocks = 0;
-		head = ArchiveHeader.createHeader( this );
-		allocTbl = AllocTable.createTable( this );
-		entryTbl = NameTable.createTable( this );
-		entries = new HashMap( );
+		catch ( IOException ex )
+		{
+			if ( rf != null )
+			{
+				rf.close( );
+				rf = null;
+			}
+			throw ex;
+		}
 	}
 
 	/**
@@ -285,6 +316,7 @@ public class ArchiveFile implements ArchiveConstants
 		if ( rf != null )
 		{
 			rf.close( );
+			rf = null;
 		}
 		if ( isTransient )
 		{
@@ -363,11 +395,17 @@ public class ArchiveFile implements ArchiveConstants
 
 	public synchronized boolean exists( String name )
 	{
+		if ( !name.startsWith( ArchiveUtil.UNIX_SEPERATOR ) )
+			name = ArchiveUtil.UNIX_SEPERATOR + name;
+
 		return entries.containsKey( name );
 	}
 
 	public synchronized ArchiveEntry getEntry( String name )
 	{
+		if ( !name.startsWith( ArchiveUtil.UNIX_SEPERATOR ) )
+			name = ArchiveUtil.UNIX_SEPERATOR + name;
+
 		return (ArchiveEntry) entries.get( name );
 	}
 
@@ -378,7 +416,7 @@ public class ArchiveFile implements ArchiveConstants
 		while ( iter.hasNext( ) )
 		{
 			String name = (String) iter.next( );
-			if ( name.startsWith( namePattern ) )
+			if ( namePattern == null || name.startsWith( namePattern ) )
 			{
 				list.add( name );
 			}
@@ -390,6 +428,10 @@ public class ArchiveFile implements ArchiveConstants
 			throws IOException
 	{
 		assertWritable( );
+
+		if ( !name.startsWith( ArchiveUtil.UNIX_SEPERATOR ) )
+			name = ArchiveUtil.UNIX_SEPERATOR + name;
+
 		ArchiveEntry entry = (ArchiveEntry) entries.get( name );
 		if ( entry != null )
 		{
@@ -405,6 +447,10 @@ public class ArchiveFile implements ArchiveConstants
 	public synchronized boolean removeEntry( String name ) throws IOException
 	{
 		assertWritable( );
+
+		if ( !name.startsWith( ArchiveUtil.UNIX_SEPERATOR ) )
+			name = ArchiveUtil.UNIX_SEPERATOR + name;
+
 		ArchiveEntry entry = (ArchiveEntry) entries.get( name );
 		if ( entry != null )
 		{
@@ -569,6 +615,13 @@ public class ArchiveFile implements ArchiveConstants
 			{
 				if ( rf == null )
 				{
+					// try to create the parent folder
+					File parentFile = new File( archiveName ).getParentFile( );
+					if ( parentFile != null && !parentFile.exists( ) )
+					{
+						parentFile.mkdirs( );
+					}
+
 					rf = new RandomAccessFile( archiveName, "rw" );
 					rf.setLength( 0 );
 				}

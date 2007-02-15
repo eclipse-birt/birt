@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.core.archive.ArchiveUtil;
 
 /**
  * The AllocationTable defines the FAT table in the archive file.
@@ -240,7 +240,7 @@ class AllocTable implements ArchiveConstants
 		int phyBlockId = getFATBlock( blockId );
 		byte[] b = new byte[4];
 		af.read( phyBlockId, off, b, 0, 4 );
-		return IOUtil.bytesToInteger( b );
+		return ArchiveUtil.bytesToInteger( b );
 	}
 
 	void writeFATInt( long offset, int block ) throws IOException
@@ -259,7 +259,7 @@ class AllocTable implements ArchiveConstants
 		}
 		int phyBlockId = getFATBlock( blockId );
 		byte[] b = new byte[4];
-		IOUtil.integerToBytes( block, b );
+		ArchiveUtil.integerToBytes( block, b );
 		af.write( phyBlockId, off, b, 0, 4 );
 	}
 

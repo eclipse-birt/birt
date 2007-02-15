@@ -13,8 +13,8 @@ package org.eclipse.birt.core.archive.compound;
 
 import java.io.IOException;
 
+import org.eclipse.birt.core.archive.ArchiveUtil;
 import org.eclipse.birt.core.archive.RAOutputStream;
-import org.eclipse.birt.core.util.IOUtil;
 
 /**
  * An OutputStream wraper for RandomAccessStreamImpl.
@@ -68,14 +68,14 @@ public class ArchiveEntryOutputStream extends RAOutputStream
 
 	public void writeInt( int value ) throws IOException
 	{
-		IOUtil.integerToBytes( value, b );
+		ArchiveUtil.integerToBytes( value, b );
 		entry.write( offset, b, 0, 4 );
 		offset += 4;
 	}
 
 	public void writeLong( long value ) throws IOException
 	{
-		IOUtil.longToBytes( value, b );
+		ArchiveUtil.longToBytes( value, b );
 		entry.write( offset, b, 0, 8 );
 		offset += 8;
 	}

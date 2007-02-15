@@ -21,6 +21,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.archive.compound.ArchiveReader;
+
 /**
  * file based archive reader.
  * It reads multiple streams from a single physical file. the file
@@ -32,6 +34,10 @@ public class FileArchiveReader implements IDocArchiveReader
 	 * file name of the archive.
 	 */
 	private String fileName;
+	/**
+	 * the file archive reader
+	 */
+	private ArchiveReader reader;
 	/**
 	 * random file used to access the file
 	 */
@@ -64,7 +70,6 @@ public class FileArchiveReader implements IDocArchiveReader
 		}
 
 		this.fileName = fd.getCanonicalPath( ); // make sure the file name is an absolute path
-
 	}
 
 	/*
@@ -84,21 +89,35 @@ public class FileArchiveReader implements IDocArchiveReader
 	 */
 	public void open( ) throws IOException
 	{
-		// open the file
-		file = new RandomAccessFile( new File( fileName ), "r" ); //$NON-NLS-1$
-		
-		// restore the in-memory lookup map
+		if ( file != null || reader != null)
+		{
+			// has been opend
+			return;
+		}
+		// try to open the file as archive file
 		try
 		{
-			readFileTable( );
+			reader = new ArchiveReader( fileName );
 		}
-		catch(IOException ex)
+		catch ( IOException ioex )
 		{
-			close( );
-			throw ex;
+			// try to open the file as old format
+			file = new RandomAccessFile( new File( fileName ), "r" ); //$NON-NLS-1$
+			// restore the in-memory lookup map
+			try
+			{
+				readFileTable( );
+			}
+			catch ( IOException ex )
+			{
+				file.close( );
+				file = null;
+				throw ex;
+			}
 		}
 	}
 	
+
 	/**
 	 * read the stream table from the archive file.
 	 * the stream table is in the begining of the file, it contains:
@@ -130,6 +149,11 @@ public class FileArchiveReader implements IDocArchiveReader
 
 	public void close( ) throws IOException
 	{
+		if ( reader != null )
+		{
+			reader.close( );
+			reader = null;
+		}
 		if ( file != null )
 		{
 			file.close( );
@@ -139,6 +163,10 @@ public class FileArchiveReader implements IDocArchiveReader
 
 	public RAInputStream getStream( String relativePath ) throws IOException
 	{
+		if ( reader != null )
+		{
+			return reader.getStream( relativePath );
+		}
 		if ( !relativePath.startsWith( ArchiveUtil.UNIX_SEPERATOR ) )
 			relativePath = ArchiveUtil.UNIX_SEPERATOR + relativePath;
 
@@ -156,6 +184,10 @@ public class FileArchiveReader implements IDocArchiveReader
 
 	public boolean exists( String relativePath )
 	{
+		if ( reader != null )
+		{
+			return reader.exists( relativePath );
+		}
 		if ( !relativePath.startsWith( ArchiveUtil.UNIX_SEPERATOR ) )
 			relativePath = ArchiveUtil.UNIX_SEPERATOR + relativePath;
 
@@ -167,6 +199,10 @@ public class FileArchiveReader implements IDocArchiveReader
 	 */
 	public List listStreams( String relativeStoragePath ) throws IOException
 	{
+		if ( reader != null )
+		{
+			return reader.listStreams( relativeStoragePath );
+		}
 		ArrayList streamList = new ArrayList( );
 		if ( !relativeStoragePath.startsWith( ArchiveUtil.UNIX_SEPERATOR ) )
 			relativeStoragePath = ArchiveUtil.UNIX_SEPERATOR
@@ -207,7 +243,7 @@ public class FileArchiveReader implements IDocArchiveReader
 		ArchiveUtil.DeleteAllFiles( folder ); // Clean up the folder if it exists.					
 		folder.mkdirs(); 					  // Create archive folder
 				
-		List streamList = getAllStreams();
+		List streamList = getAllStreams( );
 		for ( int i=0; i<streamList.size(); i++ )
 		{
 			String streamPath = (String)streamList.get( i );
@@ -227,6 +263,11 @@ public class FileArchiveReader implements IDocArchiveReader
 	 */
 	private List getAllStreams()
 	{
+		if ( reader != null )
+		{
+			return reader.getArchive( ).listEntries( "/" );
+		}
+		
 		ArrayList streamList = new ArrayList( );
 		
 		// loop through the lookup map
@@ -263,6 +304,10 @@ public class FileArchiveReader implements IDocArchiveReader
 	
 	public Object lock( String stream ) throws IOException
 	{
+		if ( reader != null )
+		{
+			return reader.lock( stream );
+		}
 		return stream.toString( );
 	}
 
@@ -273,6 +318,10 @@ public class FileArchiveReader implements IDocArchiveReader
 	 */
 	public void unlock( Object lock )
 	{
+		if ( reader != null )
+		{
+			reader.unlock( lock );
+		}
 	}
 
 }

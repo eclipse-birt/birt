@@ -35,6 +35,11 @@ public class ArchiveWriter implements IDocArchiveWriter
 		shareArchive = true;
 	}
 
+	public ArchiveFile getArchive( )
+	{
+		return archive;
+	}
+
 	public RAOutputStream createRandomAccessStream( String relativePath )
 			throws IOException
 	{
@@ -89,6 +94,10 @@ public class ArchiveWriter implements IDocArchiveWriter
 	public Object lock( String stream ) throws IOException
 	{
 		ArchiveEntry entry = archive.getEntry( stream );
+		if ( entry == null )
+		{
+			entry = archive.createEntry( stream );
+		}
 		if ( entry != null )
 		{
 			return archive.lockEntry( entry );

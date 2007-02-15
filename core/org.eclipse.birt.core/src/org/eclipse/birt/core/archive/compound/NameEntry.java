@@ -17,7 +17,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.core.archive.ArchiveUtil;
 
 /**
  * name entry in the entry table. Each entry represents a stream in the file.
@@ -88,7 +88,7 @@ class NameEntry implements ArchiveConstants
 	{
 		byte[] b = new byte[ENTRY_ITEM_SIZE];
 		tbl.readSlot( slotId, b, 0 );
-		usedSlots = IOUtil.bytesToInteger( b );
+		usedSlots = ArchiveUtil.bytesToInteger( b );
 		if ( usedSlots <= 0 )
 		{
 			return;

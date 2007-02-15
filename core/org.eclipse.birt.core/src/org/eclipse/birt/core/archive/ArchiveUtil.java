@@ -20,7 +20,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
@@ -29,6 +28,10 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
+
+import org.eclipse.birt.core.archive.compound.ArchiveEntry;
+import org.eclipse.birt.core.archive.compound.ArchiveFile;
+
 import com.ibm.icu.text.SimpleDateFormat;
 
 public class ArchiveUtil
@@ -350,19 +353,74 @@ public class ArchiveUtil
 	static public void archive( String folderName, IStreamSorter sorter,
 			String fileName ) throws IOException
 	{
-		// Create the file
-		ArchiveUtil.DeleteAllFiles( new File( fileName ) ); // Delete existing
-															// file or
-		// folder that has the same
+		// Delete existing file or folder that has the same
 		// name of the file archive.
-		RandomAccessFile compoundFile = new RandomAccessFile( fileName, "rw" ); //$NON-NLS-1$
+		ArchiveUtil.DeleteAllFiles( new File( fileName ) );
+
+		ArrayList fileList = new ArrayList( );
+
+		folderName = new File( folderName ).getCanonicalPath( );
+		getAllFiles( new File( folderName ), fileList );
+
+		if ( sorter != null )
+		{
+			ArrayList streamNameList = new ArrayList( );
+			for ( int i = 0; i < fileList.size( ); i++ )
+			{
+				File file = (File) fileList.get( i );
+				streamNameList.add( ArchiveUtil.generateRelativePath(
+						folderName, file.getAbsolutePath( ) ) );
+			}
+
+			// Sort the streams by using the stream sorter (if any).
+			ArrayList sortedNameList = sorter.sortStream( streamNameList );
+
+			if ( sortedNameList != null )
+			{
+				fileList.clear( );
+				for ( int i = 0; i < sortedNameList.size( ); i++ )
+				{
+					String name = ArchiveUtil.generateFullPath( folderName,
+							(String) sortedNameList.get( i ) );
+					fileList.add( new File( name ) );
+				}
+			}
+		}
+
+		ArchiveFile archive = new ArchiveFile( fileName, "rw" );
+		byte[] buf = new byte[4096];
 		try
 		{
-			archive( folderName, sorter, compoundFile );
+			for ( int i = 0; i < fileList.size( ); i++ )
+			{
+				File file = (File) fileList.get( i );
+				String relativePath = ArchiveUtil.generateRelativePath(
+						folderName, file.getAbsolutePath( ) );
+				if ( !needSkip( relativePath ) )
+				{
+					ArchiveEntry entry = archive.createEntry( relativePath );
+					long pos = 0;
+					FileInputStream fis = new FileInputStream( file );
+					try
+					{
+						int readSize = fis.read( buf );
+						while ( readSize != -1 )
+						{
+							entry.write( pos, buf, 0, readSize );
+							pos += readSize;
+							readSize = fis.read( buf );
+						}
+					}
+					finally
+					{
+						fis.close( );
+					}
+				}
+			}
 		}
 		finally
 		{
-			compoundFile.close( );
+			archive.close( );
 		}
 	}
 
@@ -385,117 +443,6 @@ public class ArchiveUtil
 			}
 		}
 		return false;
-	}
-
-	static void archive( String folderName, IStreamSorter streamSorter,
-			RandomAccessFile compoundFile ) throws IOException
-	{
-		compoundFile.setLength( 0 );
-		compoundFile.seek( 0 );
-
-		compoundFile.writeLong( 0 ); // reserve a spot for writing the start
-										// position of the stream data section
-										// in the file
-		compoundFile.writeLong( 0 ); // reserve a sopt for writing the entry
-										// number of the lookup map.
-
-		ArrayList fileList = new ArrayList( );
-		
-		folderName = new File( folderName ).getCanonicalPath( );
-		getAllFiles( new File( folderName ), fileList );
-
-		if ( streamSorter != null )
-		{
-			ArrayList streamNameList = new ArrayList( );
-			for ( int i = 0; i < fileList.size( ); i++ )
-			{
-				File file = (File) fileList.get( i );
-				streamNameList.add( ArchiveUtil.generateRelativePath(
-						folderName, file.getAbsolutePath( ) ) );
-			}
-
-			// Sort the streams by using the stream sorter (if any).
-			ArrayList sortedNameList = streamSorter.sortStream( streamNameList ); 
-
-			if ( sortedNameList != null )
-			{
-				fileList.clear( );
-				for ( int i = 0; i < sortedNameList.size( ); i++ )
-				{
-					String fileName = ArchiveUtil.generateFullPath( folderName,
-							(String) sortedNameList.get( i ) );
-					fileList.add( new File( fileName ) );
-				}
-			}
-		}
-
-		// Generate the in-memory lookup map and serialize it to the compound
-		// file.
-		long streamRelativePosition = 0;
-		long entryNum = 0;
-		for ( int i = 0; i < fileList.size( ); i++ )
-		{
-			File file = (File) fileList.get( i );
-			String relativePath = ArchiveUtil.generateRelativePath( folderName,
-					file.getAbsolutePath( ) );
-			if ( !needSkip( relativePath ) )
-			{
-				compoundFile.writeUTF( relativePath );
-				compoundFile.writeLong( streamRelativePosition );
-				compoundFile.writeLong( file.length( ) );
-
-				streamRelativePosition += file.length( );
-				entryNum++;
-			}
-		}
-
-		// Write the all of the streams to the stream data section in the
-		// compound file
-		long streamSectionPos = compoundFile.getFilePointer( );
-		for ( int i = 0; i < fileList.size( ); i++ )
-		{
-			File file = (File) fileList.get( i );
-			String relativePath = ArchiveUtil.generateRelativePath( folderName,
-					file.getAbsolutePath( ) );
-			if ( !needSkip( relativePath ) )
-			{
-				copyFileIntoTheArchive( file, compoundFile );
-			}
-		}
-
-		// go back and write the start position of the stream data section and
-		// the entry number of the lookup map
-		compoundFile.seek( 0 );
-		compoundFile.writeLong( streamSectionPos );
-		compoundFile.writeLong( entryNum );
-	}
-
-	/**
-	 * Copy files from in to out
-	 * 
-	 * @param in -
-	 *            input file
-	 * @param out -
-	 *            output compound file. Since the input is only part of the
-	 *            file, the compound file output should be be closed by caller.
-	 * @throws Exception
-	 */
-	static private long copyFileIntoTheArchive( File in, RandomAccessFile out )
-			throws IOException
-	{
-		long totalBytesWritten = 0;
-		FileInputStream fis = new FileInputStream( in );
-		byte[] buf = new byte[1024 * 5];
-
-		int i = 0;
-		while ( ( i = fis.read( buf ) ) != -1 )
-		{
-			out.write( buf, 0, i );
-			totalBytesWritten += i;
-		}
-		fis.close( );
-
-		return totalBytesWritten;
 	}
 
 	/**
@@ -542,5 +489,58 @@ public class ArchiveUtil
 		{
 			reader.close( );
 		}
+	}
+
+	/**
+	 * Assemble four bytes to an int value, make sure that the passed bytes
+	 * length is larger than 4.
+	 * 
+	 * @param bytes
+	 * @return int value of bytes
+	 */
+	public final static int bytesToInteger( byte[] b )
+	{
+		assert b.length >= 4;
+		return ( ( b[0] & 0xFF ) << 24 ) + ( ( b[1] & 0xFF ) << 16 )
+				+ ( ( b[2] & 0xFF ) << 8 ) + ( ( b[3] & 0xFF ) << 0 );
+	}
+
+	/**
+	 * Assemble eight bytes to an long value, make sure that the passed bytes
+	 * length larger than 8.
+	 * 
+	 * @param bytes
+	 * @return int value of bytes
+	 */
+	public final static long bytesToLong( byte[] b )
+	{
+		assert b.length >= 8;
+		return ( ( b[0] & 0xFFL ) << 56 ) + ( ( b[1] & 0xFFL ) << 48 )
+				+ ( ( b[2] & 0xFFL ) << 40 ) + ( ( b[3] & 0xFFL ) << 32 )
+				+ ( ( b[4] & 0xFFL ) << 24 ) + ( ( b[5] & 0xFFL ) << 16 )
+				+ ( ( b[6] & 0xFFL ) << 8 ) + ( ( b[7] & 0xFFL ) << 0 );
+
+	}
+
+	public final static void integerToBytes( int v, byte[] b )
+	{
+		assert b.length >= 4;
+		b[0] = (byte) ( ( v >>> 24 ) & 0xFF );
+		b[1] = (byte) ( ( v >>> 16 ) & 0xFF );
+		b[2] = (byte) ( ( v >>> 8 ) & 0xFF );
+		b[3] = (byte) ( ( v >>> 0 ) & 0xFF );
+	}
+
+	public final static void longToBytes( long v, byte[] b )
+	{
+		assert b.length >= 8;
+		b[0] = (byte) ( ( v >>> 56 ) & 0xFF );
+		b[1] = (byte) ( ( v >>> 48 ) & 0xFF );
+		b[2] = (byte) ( ( v >>> 40 ) & 0xFF );
+		b[3] = (byte) ( ( v >>> 32 ) & 0xFF );
+		b[4] = (byte) ( ( v >>> 24 ) & 0xFF );
+		b[5] = (byte) ( ( v >>> 16 ) & 0xFF );
+		b[6] = (byte) ( ( v >>> 8 ) & 0xFF );
+		b[7] = (byte) ( ( v >>> 0 ) & 0xFF );
 	}
 }
