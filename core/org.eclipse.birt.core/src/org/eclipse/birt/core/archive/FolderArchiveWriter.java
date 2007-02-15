@@ -13,7 +13,6 @@ package org.eclipse.birt.core.archive;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -123,11 +122,6 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 		ArchiveUtil.archive( folderName, streamSorter, fileArchiveName );
 	}
 	
-	public void toFileArchive( RandomAccessFile compoundFile ) throws IOException
-	{
-		ArchiveUtil.archive( folderName, streamSorter, compoundFile );
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.core.archive.IDocArchiveWriter#flush()

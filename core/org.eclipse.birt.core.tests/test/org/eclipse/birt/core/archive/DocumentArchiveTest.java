@@ -224,7 +224,7 @@ public class DocumentArchiveTest extends TestCase
 	}
 
 	int runningThread;
-	int THREAD_COUNT = 100;
+	int THREAD_COUNT = 5;
 	int VALUE_COUNT = 10000;
 
 	public void testReadMutipleThreads( ) throws IOException

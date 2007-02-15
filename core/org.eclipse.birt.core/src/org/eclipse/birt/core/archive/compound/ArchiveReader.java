@@ -12,8 +12,11 @@
 package org.eclipse.birt.core.archive.compound;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.archive.ArchiveUtil;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.RAInputStream;
 
@@ -44,6 +47,11 @@ public class ArchiveReader implements IDocArchiveReader
 
 	}
 
+	public ArchiveFile getArchive( )
+	{
+		return archive;
+	}
+
 	public boolean exists( String relativePath )
 	{
 		return archive.exists( relativePath );
@@ -64,9 +72,25 @@ public class ArchiveReader implements IDocArchiveReader
 		return null;
 	}
 
-	public List listStreams( String relativeStoragePath ) throws IOException
+	public List listStreams( String namePattern ) throws IOException
 	{
-		return archive.listEntries( relativeStoragePath );
+		ArrayList list = new ArrayList( );
+		Iterator iter = archive.listEntries( "/" ).iterator( );
+		while ( iter.hasNext( ) )
+		{
+			String name = (String) iter.next( );
+			if ( name.startsWith( namePattern )
+					&& !name.equalsIgnoreCase( namePattern ) )
+			{
+				String diffString = ArchiveUtil.generateRelativePath(
+						namePattern, name );
+				if ( diffString.lastIndexOf( ArchiveUtil.UNIX_SEPERATOR ) == 0 )
+				{
+					list.add( name );
+				}
+			}
+		}
+		return list;
 	}
 
 	public void open( ) throws IOException
