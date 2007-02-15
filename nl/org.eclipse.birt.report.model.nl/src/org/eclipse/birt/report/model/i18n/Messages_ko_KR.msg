@@ -2889,16 +2889,16 @@ Element.Cube.filter=필터 조건
 Element.Cube.dimensionConditions=차원 조건
 Element.Cube.dimensions=Dimensions
 Element.Cube.measureGroups=측정 그룹
+Element.Cube.defaultMeasureGroup=Default Measure Group
 Element.Cube.accessControls=Access controls
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=시간 유형 조건
-Element.Dimension.isDefault=Is Default
+Element.Dimension.defaultHierarchy=Default Hierarchy
 Element.Dimension.hierarchies=Hierarchies
 
 #47. Hierarchy ( prefix Element.Hierarchy )
 Element.Hierarchy.dataSet=데이터 집합
-Element.Hierarchy.isDefault=Is Default
 Element.Hierarchy.filter=필터 조건
 Element.Hierarchy.primaryKeys=기본 키
 Element.Hierarchy.levels=Levels
@@ -2923,7 +2923,6 @@ Element.Measure.measureExpression=측정 식
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=측정값
-Element.MeasureGroup.isDefault=Is Default
 
 #51. AccessControl ( prefix Element.AccessControl )
 Element.AccessControl.userNames=User names

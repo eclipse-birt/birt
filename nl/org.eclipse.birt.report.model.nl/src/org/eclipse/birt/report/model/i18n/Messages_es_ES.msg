@@ -2889,16 +2889,16 @@ Element.Cube.filter=Condiciones de filtro
 Element.Cube.dimensionConditions=Condiciones de dimensiones
 Element.Cube.dimensions=Dimensions
 Element.Cube.measureGroups=Grupos de medida
+Element.Cube.defaultMeasureGroup=Default Measure Group
 Element.Cube.accessControls=Access controls
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=Tipo Es tiempo
-Element.Dimension.isDefault=Is Default
+Element.Dimension.defaultHierarchy=Default Hierarchy
 Element.Dimension.hierarchies=Hierarchies
 
 #47. Hierarchy ( prefix Element.Hierarchy )
 Element.Hierarchy.dataSet=Conjunto de datos
-Element.Hierarchy.isDefault=Is Default
 Element.Hierarchy.filter=Condiciones de filtro
 Element.Hierarchy.primaryKeys=Clave primaria
 Element.Hierarchy.levels=Levels
@@ -2923,7 +2923,6 @@ Element.Measure.measureExpression=Expresión de medida
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=Medidas
-Element.MeasureGroup.isDefault=Is Default
 
 #51. AccessControl ( prefix Element.AccessControl )
 Element.AccessControl.userNames=User names

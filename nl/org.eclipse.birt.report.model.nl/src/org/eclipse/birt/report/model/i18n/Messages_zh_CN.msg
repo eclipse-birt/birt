@@ -2889,16 +2889,16 @@ Element.Cube.filter=筛选条件
 Element.Cube.dimensionConditions=维条件
 Element.Cube.dimensions=Dimensions
 Element.Cube.measureGroups=度量组
+Element.Cube.defaultMeasureGroup=Default Measure Group
 Element.Cube.accessControls=Access controls
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=是时间类型
-Element.Dimension.isDefault=Is Default
+Element.Dimension.defaultHierarchy=Default Hierarchy
 Element.Dimension.hierarchies=Hierarchies
 
 #47. Hierarchy ( prefix Element.Hierarchy )
 Element.Hierarchy.dataSet=数据集
-Element.Hierarchy.isDefault=Is Default
 Element.Hierarchy.filter=筛选条件
 Element.Hierarchy.primaryKeys=主键
 Element.Hierarchy.levels=Levels
@@ -2923,7 +2923,6 @@ Element.Measure.measureExpression=度量表达式
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=度量
-Element.MeasureGroup.isDefault=Is Default
 
 #51. AccessControl ( prefix Element.AccessControl )
 Element.AccessControl.userNames=User names

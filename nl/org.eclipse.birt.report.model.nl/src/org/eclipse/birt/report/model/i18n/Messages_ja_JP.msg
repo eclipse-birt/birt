@@ -2889,16 +2889,16 @@ Element.Cube.filter=フィルタ条件
 Element.Cube.dimensionConditions=次元条件
 Element.Cube.dimensions=Dimensions
 Element.Cube.measureGroups=計測グループ
+Element.Cube.defaultMeasureGroup=Default Measure Group
 Element.Cube.accessControls=Access controls
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=Is Time 型
-Element.Dimension.isDefault=Is Default
+Element.Dimension.defaultHierarchy=Default Hierarchy
 Element.Dimension.hierarchies=Hierarchies
 
 #47. Hierarchy ( prefix Element.Hierarchy )
 Element.Hierarchy.dataSet=データセット
-Element.Hierarchy.isDefault=Is Default
 Element.Hierarchy.filter=フィルタ条件
 Element.Hierarchy.primaryKeys=プライマリキー
 Element.Hierarchy.levels=Levels
@@ -2923,7 +2923,6 @@ Element.Measure.measureExpression=計測式
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=計測
-Element.MeasureGroup.isDefault=Is Default
 
 #51. AccessControl ( prefix Element.AccessControl )
 Element.AccessControl.userNames=User names
