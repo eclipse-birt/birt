@@ -574,13 +574,16 @@
 
     </target>
 	<target name="checkOS">
-        <condition property="linux" value="true">
+        <condition property="generator" value="templateGenerator.sh">
                 <equals arg1="${osgi.os}" arg2="linux" />
+        </condition>
+        <condition property="generator" value="templateGenerator.bat">
+                <equals arg1="${osgi.os}" arg2="windows" />
         </condition>
 	</target>
 	
-	<target name="replaceManifest" depends="checkOS" if="linux">
-        <exec executable="${buildDirectory}/plugins/org.eclipse.birt.report.engine/sdk/templateGenerator.sh">
+	<target name="replaceManifest" depends="checkOS">
+        <exec executable="${buildDirectory}/plugins/org.eclipse.birt.report.engine/sdk/${generator}">
                 <arg line="${buildDirectory}/plugins/org.eclipse.birt.report.engine/sdk" />
                 <arg line="${buildDirectory}/plugins/org.eclipse.birt.report.engine/sdk/manifest.mf" />
         		<arg line="${buildDirectory}/plugins/org.eclipse.birt.report.engine/sdk/manifest.mf.template" />
