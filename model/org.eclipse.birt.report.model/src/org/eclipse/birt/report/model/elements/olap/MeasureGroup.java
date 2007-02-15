@@ -14,15 +14,17 @@ package org.eclipse.birt.report.model.elements.olap;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
-import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
 import org.eclipse.birt.report.model.elements.interfaces.IMeasureGroupModel;
 
 /**
  * Represents a group for list of Measure elements.
  */
-public class MeasureGroup extends DesignElement implements IMeasureGroupModel
+public class MeasureGroup extends ReferenceableElement
+		implements
+			IMeasureGroupModel
 {
 
 	/**

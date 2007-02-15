@@ -3313,6 +3313,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.startElement( DesignSchemaConstants.CUBE_TAG );
 		super.visitCube( obj );
 		property( obj, ICubeModel.DATA_SET_PROP );
+		property( obj, ICubeModel.DEFAULT_MEASURE_GROUP_PROP );
 		writeStructureList( obj, ICubeModel.FILTER_PROP );
 		writeStructureList( obj, ICubeModel.DIMENSION_CONDITIONS_PROP );
 
@@ -3333,7 +3334,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.startElement( DesignSchemaConstants.DIMENSION_TAG );
 		super.visitDimension( obj );
 		property( obj, IDimensionModel.IS_TIME_TYPE_PROP );
-		property( obj, IDimensionModel.IS_DEFAULT_PROP );
+		property( obj, IDimensionModel.DEFAULT_HIERARCHY_PROP );
 
 		writeContents( obj, IDimensionModel.HIERARCHIES_PROP );
 
@@ -3350,7 +3351,6 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.startElement( DesignSchemaConstants.HIERARCHY_TAG );
 		super.visitHierarchy( obj );
 		property( obj, IHierarchyModel.DATA_SET_PROP );
-		property( obj, IHierarchyModel.IS_DEFAULT_PROP );
 		writeStructureList( obj, ICubeModel.FILTER_PROP );
 		writeSimplePropertyList( obj, IHierarchyModel.PRIMARY_KEYS_PROP );
 
@@ -3392,7 +3392,6 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.startElement( DesignSchemaConstants.MEASURE_GROUP_TAG );
 		super.visitMeasureGroup( obj );
 
-		property( obj, IMeasureGroupModel.IS_DEFAULT_PROP );
 		writeContents( obj, IMeasureGroupModel.MEASURES_PROP );
 
 		writer.endElement( );

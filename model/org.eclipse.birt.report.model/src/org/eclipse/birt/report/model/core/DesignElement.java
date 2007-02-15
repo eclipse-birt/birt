@@ -3377,4 +3377,17 @@ public abstract class DesignElement
 		return ReferenceValueUtil.resolveStructReference( module, this, prop,
 				(StructRefValue) value );
 	}
+	
+	/**
+	 * Gets the position where this element resides in its container.
+	 * @param module 
+	 * 
+	 * @return the index where this element resides in its container, otherwise
+	 *         -1 if this element has no container
+	 */
+	public int getIndex( Module module )
+	{
+		ContainerContext containerContext = getContainerInfo( );
+		return containerContext == null ? -1 : containerContext.indexOf( module, this );
+	}
 }

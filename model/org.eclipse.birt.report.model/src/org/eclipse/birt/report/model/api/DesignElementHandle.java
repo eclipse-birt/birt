@@ -2308,9 +2308,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 */
 	public int getIndex( )
 	{
-		ContainerContext containerContext = getElement( ).getContainerInfo( );
-		return containerContext == null ? -1 : containerContext
-				.indexOf( getElement( ) );
+		return getElement( ).getIndex( module );
 	}
 
 	/**

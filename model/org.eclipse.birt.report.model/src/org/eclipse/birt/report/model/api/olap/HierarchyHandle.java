@@ -162,29 +162,6 @@ public class HierarchyHandle extends ReportElementHandle
 	}
 
 	/**
-	 * Indicates whether this hierarchy is default in the dimension.
-	 * 
-	 * @return true if this dimension is default in the cube, otherwise false
-	 */
-	public boolean isDefault( )
-	{
-		return getBooleanProperty( IS_DEFAULT_PROP );
-	}
-
-	/**
-	 * Sets the status to indicate whether this hierarchy is default in the
-	 * dimension.
-	 * 
-	 * @param isDefault
-	 *            status whether this hierarchy is default in the dimension
-	 * @throws SemanticException
-	 */
-	public void setDefault( boolean isDefault ) throws SemanticException
-	{
-		setProperty( IS_DEFAULT_PROP, Boolean.valueOf( isDefault ) );
-	}
-	
-	/**
 	 * Returns an iterator for the access controls. Each object returned is of
 	 * type <code>AccessControlHandle</code>.
 	 * 

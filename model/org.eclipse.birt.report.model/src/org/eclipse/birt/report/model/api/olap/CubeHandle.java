@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.api.olap;
 
 import java.util.Iterator;
-import java.util.List;
 
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
@@ -27,6 +26,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
+import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.elements.olap.Measure;
 
@@ -212,46 +212,29 @@ public class CubeHandle extends ReportElementHandle implements ICubeModel
 	}
 
 	/**
-	 * Gets the default dimension for the cube. Return the first dimension that
-	 * is set to default if found, otherwise return the first dimension in the
-	 * list if exists, otherwise null.
+	 * Gets the default measure group for the cube.
 	 * 
-	 * @return the default dimension for this cube
-	 */
-	public DimensionHandle getDefaultDimension( )
-	{
-		List contents = getContents( DIMENSIONS_PROP );
-		if ( contents.isEmpty( ) )
-			return null;
-		for ( int i = 0; i < contents.size( ); i++ )
-		{
-			DimensionHandle dimension = (DimensionHandle) contents.get( i );
-			if ( dimension.isDefault( ) )
-				return dimension;
-		}
-		return (DimensionHandle) contents.get( 0 );
-	}
-
-	/**
-	 * Gets the default dimension for the cube. Return the first dimension that
-	 * is set to default if found, otherwise return the first dimension in the
-	 * list if exists, otherwise null.
-	 * 
-	 * @return the default dimension for this cube
+	 * @return the default measure group
 	 */
 	public MeasureGroupHandle getDefaultMeasureGroup( )
 	{
-		List contents = getContents( MEASURE_GROUPS_PROP );
-		if ( contents.isEmpty( ) )
-			return null;
-		for ( int i = 0; i < contents.size( ); i++ )
-		{
-			MeasureGroupHandle measureGroup = (MeasureGroupHandle) contents
-					.get( i );
-			if ( measureGroup.isDefault( ) )
-				return measureGroup;
-		}
-		return (MeasureGroupHandle) contents.get( 0 );
+		DesignElement measureGroup = ( (Cube) getElement( ) )
+				.getDefaultMeasureGroup( module );
+		return measureGroup == null ? null : (MeasureGroupHandle) measureGroup
+				.getHandle( module );
+	}
+
+	/**
+	 * Sets the default measure group for this cube.
+	 * 
+	 * @param defaultMeasureGroup
+	 *            the default measure group to set
+	 * @throws SemanticException
+	 */
+	public void setDefaultMeasureGroup( MeasureGroupHandle defaultMeasureGroup )
+			throws SemanticException
+	{
+		setProperty( DEFAULT_MEASURE_GROUP_PROP, defaultMeasureGroup );
 	}
 
 	/**

@@ -42,12 +42,6 @@ public interface IHierarchyModel
 	 */
 
 	static final String LEVELS_PROP = "levels"; //$NON-NLS-1$
-
-	/**
-	 * Name of the property which indicates whether this hierarchy is default in
-	 * dimension.
-	 */
-	static final String IS_DEFAULT_PROP = "isDefault"; //$NON-NLS-1$
 	
 	/**
 	 * Name of the property that specifies a list of privilige of users.

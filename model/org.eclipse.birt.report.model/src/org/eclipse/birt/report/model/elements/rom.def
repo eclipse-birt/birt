@@ -3585,6 +3585,7 @@
   	<Property detailType="DataSet" displayNameID="Element.Cube.dataSet" name="dataSet" runtimeSettable="false" since="2.2" type="elementRef">
   	  <Trigger validator="DataSetRequiredValidator"/>
   	</Property>
+  	<Property detailType="MeasureGroup" displayNameID="Element.Cube.defaultMeasureGroup" name="defaultMeasureGroup" runtimeSettable="false" since="2.2" type="elementRef"/>
   	<Property detailType="FilterCondition" displayNameID="Element.Cube.filter" isList="true" name="filter" runtimeSettable="false" since="2.2" type="structure"/>
   	<Property detailType="DimensionCondition" displayNameID="Element.Cube.dimensionConditions" isList="true" name="dimensionConditions" runtimeSettable="false" since="2.2" type="structure" />
   	<Property displayNameID="Element.Cube.dimensions" isList="true" name="dimensions" runtimeSettable="false" since="2.2" type="element" >
@@ -3609,18 +3610,13 @@
   	<Property displayNameID="Element.Dimension.isTimeType" name="isTimeType" runtimeSettable="false" since="2.2" type="boolean">
   	  <Default>false</Default>
   	</Property>
-  	<Property displayNameID="Element.Dimension.isDefault" name="isDefault" runtimeSettable="false" since="2.2" type="boolean">
-  	  <Default>false</Default>
-  	</Property>
-  	<Property displayNameID="Element.Dimension.hierarchies" isList="true" name="hierarchies" runtimeSettable="false" since="2.2" type="element">
+  	<Property detailType="Hierarchy" displayNameID="Element.Dimension.defaultHierarchy" name="defaultHierarchy" runtimeSettable="false" since="2.2" type="elementRef"/>
+    <Property displayNameID="Element.Dimension.hierarchies" isList="true" name="hierarchies" runtimeSettable="false" since="2.2" type="element">
   	  <Type name="Hierarchy"/>
   	</Property>
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.Hierarchy" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.Hierarchy" name="Hierarchy" nameSpace="cube" since="2.2" xmlName="hierarchy">
   	<Property detailType="DataSet" displayNameID="Element.Hierarchy.dataSet" name="dataSet" runtimeSettable="false" since="2.2" type="elementRef" />
-  	<Property displayNameID="Element.Hierarchy.isDefault" name="isDefault" runtimeSettable="false" since="2.2" type="boolean">
-  	  <Default>false</Default>
-  	</Property>
   	<Property detailType="FilterCondition" displayNameID="Element.Hierarchy.filter" isList="true" name="filter" runtimeSettable="false" since="2.2" type="structure"/>
   	<Property subType="string" displayNameID="Element.Hierarchy.primaryKeys" name="primaryKeys" runtimeSettable="false" since="2.2" type="list" />
   	<Property displayNameID="Element.Hierarchy.levels" isList="true" name="levels" since="2.2" type="element">
@@ -3647,10 +3643,7 @@
   	  <Type name="ValueAccessControl"/>
   	</Property>      	
   </Element>
-  <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.MeasureGroup" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.olap.MeasureGroup" name="MeasureGroup" nameSpace="cube" since="2.2" xmlName="measure-group">
-  	<Property displayNameID="Element.MeasureGroup.isDefault" name="isDefault" runtimeSettable="false" since="2.2" type="boolean">
-  	  <Default>false</Default>
-  	</Property>
+  <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.MeasureGroup" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.MeasureGroup" name="MeasureGroup" nameSpace="cube" since="2.2" xmlName="measure-group">
   	<Property displayNameID="Element.MeasureGroup.measures" isList="true" name="measures" since="2.2" type="element">
       <Type name="Measure"/>
     </Property>

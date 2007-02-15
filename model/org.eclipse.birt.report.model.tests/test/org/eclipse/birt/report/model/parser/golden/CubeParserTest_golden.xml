@@ -14,6 +14,7 @@
     <cubes>
         <cube name="newtestCube" id="7">
             <property name="dataSet">secondDataSet</property>
+            <property name="defaultMeasureGroup">testDefaultMeasureGroup</property>
             <list-property name="filter">
                 <structure>
                     <property name="operator">lt</property>
@@ -42,11 +43,10 @@
             <property name="dimensions">
                 <dimension name="newtestDimension" id="8">
                     <property name="isTimeType">false</property>
-                    <property name="isDefault">false</property>
+                    <property name="defaultHierarchy">testDefaultHierarchy</property>
                     <property name="hierarchies">
                         <hierarchy name="newtestHierarchy" id="9">
                             <property name="dataSet">firstDataSet</property>
-                            <property name="isDefault">false</property>
                             <list-property name="filter">
                                 <structure>
                                     <property name="operator">lt</property>
@@ -132,18 +132,17 @@
                 </dimension>
             </property>
             <property name="measureGroups">
-                <measure-group name="newtestMeasureGroup" id="13">
-                    <property name="isDefault">false</property>
+            	<measure-group name="newtestMeasureGroup" id="13">
                     <property name="measures">
-                        <measure name="newtestMeasure" id="14">
-                            <property name="function">count</property>
-                            <property name="isCalculated">true</property>
-                            <expression name="measureExpression">updated column</expression>
-                        </measure>
-                        <measure name="NewMeasure" id="24"/>
-                    </property>
-                </measure-group>
-                <measure-group id="23"/>
+                    	<measure name="newtestMeasure" id="14">
+                        	<property name="function">count</property>
+                        	<property name="isCalculated">true</property>
+                        	<expression name="measureExpression">updated column</expression>
+                    	</measure>
+                    	<measure name="NewMeasure" id="24"/>
+                	</property>
+            	</measure-group>
+            	<measure-group name="NewMeasureGroup" id="23"/>
             </property>
             <property name="accessControls">
                 <access-control id="16">

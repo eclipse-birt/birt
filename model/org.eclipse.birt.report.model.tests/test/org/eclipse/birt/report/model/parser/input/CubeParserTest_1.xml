@@ -22,6 +22,7 @@
     <cubes>
     	<cube name="testCube">
     		<property name="dataSet">firstDataSet</property>
+    		<property name="defaultMeasureGroup">testMeasureGroup</property>
     		<list-property name="filter">
                 <structure>
                     <property name="operator">lt</property>
@@ -48,7 +49,7 @@
     		</list-property>
     		<property name="dimensions">
     			<dimension name="testDimension">
-    				<property name="isTimeType">true</property>
+    				<property name="defaultHierarchy">testHierarchy</property>
     				<property name="hierarchies">
     					<hierarchy name="testHierarchy">
     						<property name="dataSet">secondDataSet</property>
@@ -140,7 +141,7 @@
     			</measure-group>
     		</property>  
             <property name="accessControls">
-                <access-control id="16">
+                <access-control>
                     <simple-property-list name="userNames">
                         <value>new cube user1</value>
                         <value>new cube user2</value>

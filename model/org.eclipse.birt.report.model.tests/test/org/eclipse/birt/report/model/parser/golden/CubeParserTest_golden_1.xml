@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.10" id="1">
     <data-sources>
-        <script-data-source name="myDataSource" id="25"/>
+        <script-data-source name="myDataSource" id="4"/>
     </data-sources>
     <data-sets>
-        <script-data-set name="firstDataSet" id="26">
+        <script-data-set name="firstDataSet" id="5">
             <property name="dataSource">myDataSource</property>
         </script-data-set>
-        <script-data-set name="secondDataSet" id="27">
+        <script-data-set name="secondDataSet" id="6">
             <property name="dataSource">myDataSource</property>
         </script-data-set>
     </data-sets>
     <cubes>
-        <cube name="testCube" id="28">
+        <cube name="testCube" id="7">
             <property name="dataSet">firstDataSet</property>
+            <property name="defaultMeasureGroup">testMeasureGroup</property>
             <list-property name="filter">
                 <structure>
                     <property name="operator">lt</property>
@@ -39,10 +40,11 @@
                 </structure>
             </list-property>
             <property name="dimensions">
-                <dimension name="testDimension" id="29">
+                <dimension name="testDimension" id="8">
                     <property name="isTimeType">true</property>
+                    <property name="defaultHierarchy">testHierarchy</property>
                     <property name="hierarchies">
-                        <hierarchy name="testHierarchy" id="30">
+                        <hierarchy name="testHierarchy" id="9">
                             <property name="dataSet">secondDataSet</property>
                             <list-property name="filter">
                                 <structure>
@@ -58,8 +60,9 @@
                                 <value>key4</value>
                             </simple-property-list>
                             <property name="levels">
-                                <level name="testLevel" id="31">
+                                <level name="testLevel" id="10">
                                     <property name="columnName">column1</property>
+                                    <property name="dataType">integer</property>
                                     <property name="intervalBase">Jan</property>
                                     <property name="interval">week</property>
                                     <property name="intervalRange">3.0</property>
@@ -85,35 +88,35 @@
                                         </structure>
                                     </list-property>
                                     <property name="valueAccessControls">
-                                        <value-access-control id="22">
+                                        <value-access-control id="11">
                                             <simple-property-list name="userNames">
-                                                <value>new level user1</value>
-                                                <value>new level user2</value>
+                                                <value>level user1</value>
+                                                <value>level user2</value>
                                             </simple-property-list>
                                             <simple-property-list name="roles">
-                                                <value>new level role1</value>
-                                                <value>new level role2</value>
+                                                <value>level role1</value>
+                                                <value>level role2</value>
                                             </simple-property-list>
                                             <simple-property-list name="values">
-                                                <value>new level value1</value>
-                                                <value>new level value2</value>
+                                                <value>level value1</value>
+                                                <value>level value2</value>
                                             </simple-property-list>
-                                            <property name="permission">allow</property>
+                                            <property name="permission">disallow</property>
                                         </value-access-control>
                                     </property>
                                 </level>
                             </property>
                             <property name="accessControls">
-                                <access-control id="20">
+                                <access-control id="12">
                                     <simple-property-list name="userNames">
-                                        <value>new hierarchy user1</value>
-                                        <value>new hierarchy user2</value>
+                                        <value>hierarchy user1</value>
+                                        <value>hierarchy user2</value>
                                     </simple-property-list>
                                     <simple-property-list name="roles">
-                                        <value>new hierarchy role1</value>
-                                        <value>new hierarchy role2</value>
+                                        <value>hierarchy role1</value>
+                                        <value>hierarchy role2</value>
                                     </simple-property-list>
-                                    <property name="permission">disallow</property>
+                                    <property name="permission">allow</property>
                                 </access-control>
                             </property>
                         </hierarchy>
@@ -121,9 +124,9 @@
                 </dimension>
             </property>
             <property name="measureGroups">
-                <measure-group name="testMeasureGroup" id="32">
+                <measure-group name="testMeasureGroup" id="13">
                     <property name="measures">
-                        <measure name="testMeasure" id="33">
+                        <measure name="testMeasure" id="14">
                             <property name="function">min</property>
                             <property name="isCalculated">false</property>
                             <expression name="measureExpression">column</expression>
@@ -132,21 +135,22 @@
                 </measure-group>
             </property>
             <property name="accessControls">
-                <access-control id="16">
+                <access-control id="15">
                     <simple-property-list name="userNames">
-                        <value>new cube user1</value>
-                        <value>new cube user2</value>
+                        <value>cube user1</value>
+                        <value>cube user2</value>
                     </simple-property-list>
                     <simple-property-list name="roles">
-                        <value>new cube role1</value>
-                        <value>new cube role2</value>
+                        <value>cube role1</value>
+                        <value>cube role2</value>
                     </simple-property-list>
-                    <property name="permission">allow</property>
+                    <property name="permission">disallow</property>
                 </access-control>
             </property>
         </cube>
-        <cube name="testCube1" id="34">
+        <cube name="testCube1" id="16">
             <property name="dataSet">firstDataSet</property>
+            <property name="defaultMeasureGroup">testMeasureGroup1</property>
             <list-property name="filter">
                 <structure>
                     <property name="operator">lt</property>
@@ -172,10 +176,11 @@
                 </structure>
             </list-property>
             <property name="dimensions">
-                <dimension name="testDimension1" id="35">
+                <dimension name="testDimension1" id="17">
                     <property name="isTimeType">true</property>
+                    <property name="defaultHierarchy">testHierarchy1</property>
                     <property name="hierarchies">
-                        <hierarchy name="testHierarchy1" id="36">
+                        <hierarchy name="testHierarchy1" id="18">
                             <property name="dataSet">secondDataSet</property>
                             <list-property name="filter">
                                 <structure>
@@ -191,8 +196,9 @@
                                 <value>key4</value>
                             </simple-property-list>
                             <property name="levels">
-                                <level name="testLevel1" id="37">
+                                <level name="testLevel1" id="19">
                                     <property name="columnName">column1</property>
+                                    <property name="dataType">integer</property>
                                     <property name="intervalBase">Jan</property>
                                     <property name="interval">week</property>
                                     <property name="intervalRange">3.0</property>
@@ -218,35 +224,35 @@
                                         </structure>
                                     </list-property>
                                     <property name="valueAccessControls">
-                                        <value-access-control id="22">
+                                        <value-access-control id="11">
                                             <simple-property-list name="userNames">
-                                                <value>new level user1</value>
-                                                <value>new level user2</value>
+                                                <value>level user1</value>
+                                                <value>level user2</value>
                                             </simple-property-list>
                                             <simple-property-list name="roles">
-                                                <value>new level role1</value>
-                                                <value>new level role2</value>
+                                                <value>level role1</value>
+                                                <value>level role2</value>
                                             </simple-property-list>
                                             <simple-property-list name="values">
-                                                <value>new level value1</value>
-                                                <value>new level value2</value>
+                                                <value>level value1</value>
+                                                <value>level value2</value>
                                             </simple-property-list>
-                                            <property name="permission">allow</property>
+                                            <property name="permission">disallow</property>
                                         </value-access-control>
                                     </property>
                                 </level>
                             </property>
                             <property name="accessControls">
-                                <access-control id="20">
+                                <access-control id="12">
                                     <simple-property-list name="userNames">
-                                        <value>new hierarchy user1</value>
-                                        <value>new hierarchy user2</value>
+                                        <value>hierarchy user1</value>
+                                        <value>hierarchy user2</value>
                                     </simple-property-list>
                                     <simple-property-list name="roles">
-                                        <value>new hierarchy role1</value>
-                                        <value>new hierarchy role2</value>
+                                        <value>hierarchy role1</value>
+                                        <value>hierarchy role2</value>
                                     </simple-property-list>
-                                    <property name="permission">disallow</property>
+                                    <property name="permission">allow</property>
                                 </access-control>
                             </property>
                         </hierarchy>
@@ -254,9 +260,9 @@
                 </dimension>
             </property>
             <property name="measureGroups">
-                <measure-group name="testMeasureGroup1" id="38">
+                <measure-group name="testMeasureGroup1" id="20">
                     <property name="measures">
-                        <measure name="testMeasure1" id="39">
+                        <measure name="testMeasure1" id="21">
                             <property name="function">min</property>
                             <property name="isCalculated">false</property>
                             <expression name="measureExpression">column</expression>
@@ -265,24 +271,24 @@
                 </measure-group>
             </property>
             <property name="accessControls">
-                <access-control id="16">
+                <access-control id="15">
                     <simple-property-list name="userNames">
-                        <value>new cube user1</value>
-                        <value>new cube user2</value>
+                        <value>cube user1</value>
+                        <value>cube user2</value>
                     </simple-property-list>
                     <simple-property-list name="roles">
-                        <value>new cube role1</value>
-                        <value>new cube role2</value>
+                        <value>cube role1</value>
+                        <value>cube role2</value>
                     </simple-property-list>
-                    <property name="permission">allow</property>
+                    <property name="permission">disallow</property>
                 </access-control>
             </property>
         </cube>
     </cubes>
     <page-setup>
-        <graphic-master-page name="My Page" id="23">
+        <graphic-master-page name="My Page" id="2">
             <contents>
-                <data id="24"/>
+                <data id="3"/>
             </contents>
         </graphic-master-page>
     </page-setup>

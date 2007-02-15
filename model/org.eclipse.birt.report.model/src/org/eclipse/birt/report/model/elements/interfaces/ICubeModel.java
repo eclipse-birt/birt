@@ -35,6 +35,12 @@ public interface ICubeModel
 	 * Name of the property that defines a list of filter conditions.
 	 */
 	static final String FILTER_PROP = "filter"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the property which indicates whether this measure group is
+	 * default in cube.
+	 */
+	String DEFAULT_MEASURE_GROUP_PROP = "defaultMeasureGroup"; //$NON-NLS-1$
 
 	/**
 	 * Identifier of the slot that holds dimension list in cube element.
