@@ -43,6 +43,8 @@ public class DataItemBindingDialog extends BaseDialog
 
 	protected static final String NAME = Messages.getString( "DataItemBindingDialog.text.Name" );
 
+	protected static final String DISPLAY_NAME = Messages.getString( "DataItemBindingDialog.text.displayName" );
+
 	protected static final String DATA_TYPE = Messages.getString( "DataItemBindingDialog.text.DataType" );
 
 	protected static final String EXPRESSION = Messages.getString( "DataItemBindingDialog.text.Expression" );
@@ -83,6 +85,8 @@ public class DataItemBindingDialog extends BaseDialog
 	private Combo itemType;
 
 	private Text itemName;
+
+	private Text itemDisplayName;
 
 	private Combo itemAggregateOn;
 
@@ -157,6 +161,13 @@ public class DataItemBindingDialog extends BaseDialog
 			}
 
 		} );
+
+		new Label( composite, SWT.NONE ).setText( DISPLAY_NAME );
+		itemDisplayName = new Text( composite, SWT.BORDER );
+		width = itemDisplayName.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
+		data.widthHint = width < 250 ? 250 : width;
+		itemDisplayName.setLayoutData( data );
+		WidgetUtil.createGridPlaceholder( composite, 1, false );
 
 		new Label( composite, SWT.NONE ).setText( DATA_TYPE );
 		itemType = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
@@ -253,7 +264,7 @@ public class DataItemBindingDialog extends BaseDialog
 		}
 		return null;
 	}
-	
+
 	private int getItemIndex( String[] items, String item )
 	{
 		for ( int i = 0; i < items.length; i++ )
@@ -268,6 +279,7 @@ public class DataItemBindingDialog extends BaseDialog
 	{
 		initDataTypes( );
 		initName( );
+		initDisplayName( );
 		initAggregateOns( );
 		initExpression( );
 	}
@@ -311,6 +323,16 @@ public class DataItemBindingDialog extends BaseDialog
 			itemName.setText( name );
 	}
 
+	private String displayName;
+
+	private void initDisplayName( )
+	{
+		if ( displayName != null && itemDisplayName != null )
+		{
+			itemDisplayName.setText( displayName );
+		}
+	}
+
 	protected void save( ) throws SemanticException
 	{
 		if ( itemName.getText( ) != null
@@ -319,11 +341,13 @@ public class DataItemBindingDialog extends BaseDialog
 
 			if ( bindingColumn == null )
 			{
-				if(itemExpression.getText( ) == null || itemExpression.getText( ).length( ) == 0)
+				if ( itemExpression.getText( ) == null
+						|| itemExpression.getText( ).length( ) == 0 )
 				{
 					return;
 				}
 				newBinding.setName( itemName.getText( ) );
+				newBinding.setDisplayName( itemDisplayName.getText( ) );
 				for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 				{
 					if ( DATA_TYPE_CHOICES[i].getDisplayName( )
@@ -349,23 +373,29 @@ public class DataItemBindingDialog extends BaseDialog
 			}
 			else
 			{
-				if(itemExpression.getText( ) != null && itemExpression.getText( ).length( ) == 0)
+				if ( itemExpression.getText( ) != null
+						&& itemExpression.getText( ).length( ) == 0 )
 				{
-					DataItemHandle itemHandle = (DataItemHandle)getBindingObject( );
+					DataItemHandle itemHandle = (DataItemHandle) getBindingObject( );
 					String resultSetName = itemHandle.getResultSetColumn( );
-					if( bindingColumn.getName( ).equals( resultSetName ))
+					if ( bindingColumn.getName( ).equals( resultSetName ) )
 					{
 						itemHandle.setResultSetColumn( null );
 					}
-					itemHandle.getColumnBindings( ).removeItem( bindingColumn.getStructure( ) );
+					itemHandle.getColumnBindings( )
+							.removeItem( bindingColumn.getStructure( ) );
 					bindingColumn = null;
 					return;
 				}
 
-				 
 				if ( !( bindingColumn.getName( ) != null && bindingColumn.getName( )
 						.equals( itemName.getText( ).trim( ) ) ) )
 					bindingColumn.setName( itemName.getText( ) );
+
+				if ( !( bindingColumn.getDisplayName( ) != null && bindingColumn.getDisplayName( )
+						.equals( itemDisplayName.getText( ).trim( ) ) ) )
+					bindingColumn.setDisplayName( itemDisplayName.getText( ) );
+
 				for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 				{
 					if ( DATA_TYPE_CHOICES[i].getDisplayName( )
@@ -490,6 +520,12 @@ public class DataItemBindingDialog extends BaseDialog
 		initName( );
 	}
 
+	public void setDisplayName( String displayName )
+	{
+		this.displayName = displayName;
+		initDisplayName( );
+	}
+
 	private ComputedColumn newBinding;
 
 	protected void createColumnName( ReportItemHandle input, String name )
@@ -520,6 +556,7 @@ public class DataItemBindingDialog extends BaseDialog
 				if ( bindingColumn != null )
 				{
 					setName( bindingColumn.getName( ) );
+					setDisplayName( bindingColumn.getDisplayName( ) );
 					setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice( bindingColumn.getDataType( ) )
 							.getDisplayName( ) );
 					setExpression( bindingColumn.getExpression( ) );
@@ -527,7 +564,8 @@ public class DataItemBindingDialog extends BaseDialog
 				}
 				else
 				{
-					createColumnName( input,  ( (DataItemHandle) input ).getResultSetColumn( ) );
+					createColumnName( input,
+							( (DataItemHandle) input ).getResultSetColumn( ) );
 					setTypeSelect( dataTypes[0] );
 				}
 			}
@@ -549,7 +587,7 @@ public class DataItemBindingDialog extends BaseDialog
 	{
 		return itemName.getText( ).trim( );
 	}
-	
+
 	public String getExpression( )
 	{
 		return itemExpression.getText( );
@@ -599,5 +637,4 @@ public class DataItemBindingDialog extends BaseDialog
 		return bindingColumn;
 	}
 
-	
 }

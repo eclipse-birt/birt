@@ -50,8 +50,8 @@ public class DataColumnBindingDialog extends DataItemBindingDialog
 			else
 			{
 				// Add data set items.
-
 				setName( bindingColumn.getName( ) );
+				setDisplayName( bindingColumn.getDisplayName( ) );
 				setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice( bindingColumn.getDataType( ) )
 						.getDisplayName( ) );
 				setExpression( bindingColumn.getExpression( ) );
@@ -73,7 +73,7 @@ public class DataColumnBindingDialog extends DataItemBindingDialog
 	protected Control createDialogArea( Composite parent )
 	{
 		Control control = super.createDialogArea( parent );
-		UIUtil.bindHelp(control, IHelpContextIds.DATA_COLUMN_BINDING_DIALOG);
+		UIUtil.bindHelp( control, IHelpContextIds.DATA_COLUMN_BINDING_DIALOG );
 		return control;
 	}
 	protected static final String DEFAULT_ITEM_NAME = "data column";
