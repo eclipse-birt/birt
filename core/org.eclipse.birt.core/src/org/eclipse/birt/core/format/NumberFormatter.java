@@ -188,6 +188,11 @@ public class NumberFormatter
 			{
 				return Long.toHexString( new Double( num ).longValue( ) );
 			}
+			
+			if ( num == 0 )
+			{
+				num = 0;
+			}
 
 			return numberFormat.format( num );
 
@@ -245,6 +250,12 @@ public class NumberFormatter
 			{
 				return Long.toHexString( number.longValue( ) );
 			}
+			
+			if ( number instanceof Double || number instanceof Float )
+			{
+				return format( number.doubleValue( ) );
+			}
+			
 			if ( this.formatPattern == null && number instanceof BigDecimal )
 			{
 				return decimalFormat.format( number );
