@@ -170,9 +170,8 @@ public class DataItemBindingDialog extends BaseDialog
 		
 		new Label( composite, SWT.NONE ).setText( DISPLAY_NAME );
 		itemDisplayName = new Text( composite, SWT.BORDER );
-		int width = itemDisplayName.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
-		gd.widthHint = width < 250 ? 250 : width;
-		itemDisplayName.setLayoutData( gd );
+		itemDisplayName.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
+				| GridData.GRAB_HORIZONTAL ) );
 		WidgetUtil.createGridPlaceholder( composite, 1, false );
 
 		new Label( composite, SWT.NONE ).setText( DATA_TYPE );
@@ -400,6 +399,11 @@ public class DataItemBindingDialog extends BaseDialog
 				if ( !( bindingColumn.getName( ) != null && bindingColumn.getName( )
 						.equals( itemName.getText( ).trim( ) ) ) )
 					bindingColumn.setName( itemName.getText( ) );
+				
+				if ( !( bindingColumn.getDisplayName( ) != null && bindingColumn.getDisplayName( )
+						.equals( itemDisplayName.getText( ).trim( ) ) ) )
+					bindingColumn.setDisplayName( itemDisplayName.getText( ) );
+				
 				for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 				{
 					if ( DATA_TYPE_CHOICES[i].getDisplayName( )
