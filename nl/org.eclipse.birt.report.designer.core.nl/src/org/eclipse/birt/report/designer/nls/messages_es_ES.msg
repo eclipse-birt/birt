@@ -146,6 +146,7 @@ ColumnBindingDialog.Label.DataSet=Conjunto de datos:
 ColumnBindingDialog.Column.Expression=Expresión
 ColumnBindingDialog.DialogTitle=Seleccionar enlace de datos
 ColumnBindingDialog.Column.Name=Nombre
+ColumnBindingDialog.Column.displayName=Nombre en pantalla
 ColumnBindingDialog.InputPrompt=<Introduzca el nuevo valor aquí...>
 ColumnBindingDialog.Button.Generate=Generar enlaces de columna
 ColumnBindingDialog.Column.DataType=Tipo de datos
@@ -3540,6 +3541,7 @@ IDEFileReportProvider.ReadOnlyEncounter.Message=El archivo ''{0}'' es de sólo le
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=Nombre
+DataSetColumnBindingsFormHandleProvider.Column.displayName=Nombre en pantalla
 DataSetColumnBindingsFormHandleProvider.TableTitle=Enlace de columna de datos:
 DataSetColumnBindingsFormHandleProvider.NewBinding=Nuevo enlace  
 DataSetColumnBindingsFormHandleProvider.Column.DataType=Tipo de datos
@@ -3625,6 +3627,7 @@ AddImageResourceFileFolderSelectionDialog.Message=Seleccione una imagen:
 #DataItemBindingDialog properties
 
 DataItemBindingDialog.text.Name=Nombre:
+DataItemBindingDialog.text.displayName=Display Name:
 DataItemBindingDialog.text.DataType=Tipo de datos:
 DataItemBindingDialog.text.Expression=Expresión:
 DataItemBindingDialog.text.AggregateOn=Agregar en:

@@ -146,6 +146,7 @@ ColumnBindingDialog.Label.DataSet=Jeu de données :
 ColumnBindingDialog.Column.Expression=Expression
 ColumnBindingDialog.DialogTitle=Sélectionner la liaison de données
 ColumnBindingDialog.Column.Name=Nom
+ColumnBindingDialog.Column.displayName=Nom d'affichage
 ColumnBindingDialog.InputPrompt=<Entrer la nouvelle valeur ici...>
 ColumnBindingDialog.Button.Generate=Générer des liaisons de colonne
 ColumnBindingDialog.Column.DataType=Type de données
@@ -3540,6 +3541,7 @@ IDEFileReportProvider.ReadOnlyEncounter.Message=Le fichier ''{0}'' est en lectur
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=Nom
+DataSetColumnBindingsFormHandleProvider.Column.displayName=Nom d'affichage
 DataSetColumnBindingsFormHandleProvider.TableTitle=Liaison de colonne de données :
 DataSetColumnBindingsFormHandleProvider.NewBinding=Nouvelle liaison  
 DataSetColumnBindingsFormHandleProvider.Column.DataType=Type de données
@@ -3625,6 +3627,7 @@ AddImageResourceFileFolderSelectionDialog.Message=Veuillez sélectionner une imag
 #DataItemBindingDialog properties
 
 DataItemBindingDialog.text.Name=Nom :
+DataItemBindingDialog.text.displayName=Display Name:
 DataItemBindingDialog.text.DataType=Type de données :
 DataItemBindingDialog.text.Expression=Expression :
 DataItemBindingDialog.text.AggregateOn=Regrouper par :

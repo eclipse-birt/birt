@@ -146,6 +146,7 @@ ColumnBindingDialog.Label.DataSet=데이터 집합:
 ColumnBindingDialog.Column.Expression=식
 ColumnBindingDialog.DialogTitle=데이터 바인딩 선택
 ColumnBindingDialog.Column.Name=이름
+ColumnBindingDialog.Column.displayName=표시 이름
 ColumnBindingDialog.InputPrompt=<여기에 새 값 입력...>
 ColumnBindingDialog.Button.Generate=열 바인딩 생성
 ColumnBindingDialog.Column.DataType=데이터 형식
@@ -3540,6 +3541,7 @@ IDEFileReportProvider.ReadOnlyEncounter.Message=''{0}'' 파일은 읽기 전용입니다. 
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=이름
+DataSetColumnBindingsFormHandleProvider.Column.displayName=표시 이름
 DataSetColumnBindingsFormHandleProvider.TableTitle=데이터 열 바인딩:
 DataSetColumnBindingsFormHandleProvider.NewBinding=새 바인딩  
 DataSetColumnBindingsFormHandleProvider.Column.DataType=데이터 형식
@@ -3625,6 +3627,7 @@ AddImageResourceFileFolderSelectionDialog.Message=이미지를 선택하십시오.
 #DataItemBindingDialog properties
 
 DataItemBindingDialog.text.Name=이름:
+DataItemBindingDialog.text.displayName=Display Name:
 DataItemBindingDialog.text.DataType=데이터 형식:
 DataItemBindingDialog.text.Expression=식:
 DataItemBindingDialog.text.AggregateOn=집계 대상:

@@ -146,6 +146,7 @@ ColumnBindingDialog.Label.DataSet=Datensatz:
 ColumnBindingDialog.Column.Expression=Ausdruck
 ColumnBindingDialog.DialogTitle=Datenbindung auswählen
 ColumnBindingDialog.Column.Name=Name
+ColumnBindingDialog.Column.displayName=Angezeigter Name
 ColumnBindingDialog.InputPrompt=<Hier den neuen Wert eingeben...>
 ColumnBindingDialog.Button.Generate=Spaltenbindungen generieren
 ColumnBindingDialog.Column.DataType=Datentyp
@@ -3540,6 +3541,7 @@ IDEFileReportProvider.ReadOnlyEncounter.Message=Datei ''{0}'' ist schreibgeschüt
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=Name
+DataSetColumnBindingsFormHandleProvider.Column.displayName=Angezeigter Name
 DataSetColumnBindingsFormHandleProvider.TableTitle=Datenspaltenbindung:
 DataSetColumnBindingsFormHandleProvider.NewBinding=Neue Bindung  
 DataSetColumnBindingsFormHandleProvider.Column.DataType=Datentyp
@@ -3625,6 +3627,7 @@ AddImageResourceFileFolderSelectionDialog.Message=Wählen Sie ein Bild aus:
 #DataItemBindingDialog properties
 
 DataItemBindingDialog.text.Name=Name:
+DataItemBindingDialog.text.displayName=Display Name:
 DataItemBindingDialog.text.DataType=Datentyp:
 DataItemBindingDialog.text.Expression=Ausdruck:
 DataItemBindingDialog.text.AggregateOn=Aggregat ein:

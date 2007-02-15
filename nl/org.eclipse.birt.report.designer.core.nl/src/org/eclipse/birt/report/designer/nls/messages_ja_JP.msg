@@ -146,6 +146,7 @@ ColumnBindingDialog.Label.DataSet=ƒf[ƒ^ƒZƒbƒg :
 ColumnBindingDialog.Column.Expression=®
 ColumnBindingDialog.DialogTitle=ƒf[ƒ^ƒoƒCƒ“ƒh‚Ì‘I‘ğ
 ColumnBindingDialog.Column.Name=–¼‘O
+ColumnBindingDialog.Column.displayName=•\¦–¼
 ColumnBindingDialog.InputPrompt=<‚±‚±‚ÉV‚µ‚¢’l‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢...>
 ColumnBindingDialog.Button.Generate=ƒJƒ‰ƒ€ƒoƒCƒ“ƒh‚Ì¶¬
 ColumnBindingDialog.Column.DataType=ƒf[ƒ^Œ^
@@ -3540,6 +3541,7 @@ IDEFileReportProvider.ReadOnlyEncounter.Message=ƒtƒ@ƒCƒ‹ ''{0}'' ‚Í“Ç‚İæ‚èê—p‚
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=–¼‘O
+DataSetColumnBindingsFormHandleProvider.Column.displayName=•\¦–¼
 DataSetColumnBindingsFormHandleProvider.TableTitle=ƒf[ƒ^ƒJƒ‰ƒ€‚ÌƒoƒCƒ“ƒh :
 DataSetColumnBindingsFormHandleProvider.NewBinding=V‹KƒoƒCƒ“ƒh  
 DataSetColumnBindingsFormHandleProvider.Column.DataType=ƒf[ƒ^Œ^
@@ -3625,6 +3627,7 @@ AddImageResourceFileFolderSelectionDialog.Message=ƒCƒ[ƒW‚Ì‘I‘ğ :
 #DataItemBindingDialog properties
 
 DataItemBindingDialog.text.Name=–¼‘O :
+DataItemBindingDialog.text.displayName=Display Name:
 DataItemBindingDialog.text.DataType=ƒf[ƒ^Œ^ :
 DataItemBindingDialog.text.Expression=® :
 DataItemBindingDialog.text.AggregateOn=WŒvğŒ :
