@@ -137,7 +137,10 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 	 */
 	protected void clearDuplicateFlags( ReportItemDesign list )
 	{
-		list.accept( new ClearDuplicateFlagVisitor( ), null );
+		if ( list != null )
+		{
+			list.accept( new ClearDuplicateFlagVisitor( ), null );
+		}
 	}
 
 	protected class ClearDuplicateFlagVisitor
