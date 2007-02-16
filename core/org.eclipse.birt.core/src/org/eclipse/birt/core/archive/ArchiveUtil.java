@@ -505,6 +505,13 @@ public class ArchiveUtil
 				+ ( ( b[2] & 0xFF ) << 8 ) + ( ( b[3] & 0xFF ) << 0 );
 	}
 
+	public final static int bytesToInteger( byte[] b, int off )
+	{
+		assert b.length - off >= 4;
+		return ( ( b[off++] & 0xFF ) << 24 ) + ( ( b[off++] & 0xFF ) << 16 )
+				+ ( ( b[off++] & 0xFF ) << 8 ) + ( ( b[off] & 0xFF ) << 0 );
+	}
+
 	/**
 	 * Assemble eight bytes to an long value, make sure that the passed bytes
 	 * length larger than 8.
@@ -522,6 +529,17 @@ public class ArchiveUtil
 
 	}
 
+	public final static long bytesToLong( byte[] b, int off )
+	{
+		assert b.length - off >= 8;
+		return ( ( b[off++] & 0xFFL ) << 56 ) + ( ( b[off++] & 0xFFL ) << 48 )
+				+ ( ( b[off++] & 0xFFL ) << 40 )
+				+ ( ( b[off++] & 0xFFL ) << 32 )
+				+ ( ( b[off++] & 0xFFL ) << 24 )
+				+ ( ( b[off++] & 0xFFL ) << 16 ) + ( ( b[off++] & 0xFFL ) << 8 )
+				+ ( ( b[off] & 0xFFL ) << 0 );
+	}
+	
 	public final static void integerToBytes( int v, byte[] b )
 	{
 		assert b.length >= 4;
@@ -531,6 +549,15 @@ public class ArchiveUtil
 		b[3] = (byte) ( ( v >>> 0 ) & 0xFF );
 	}
 
+	public final static void integerToBytes( int v, byte[] b, int off )
+	{
+		assert b.length - off >= 4;
+		b[off++] = (byte) ( ( v >>> 24 ) & 0xFF );
+		b[off++] = (byte) ( ( v >>> 16 ) & 0xFF );
+		b[off++] = (byte) ( ( v >>> 8 ) & 0xFF );
+		b[off] = (byte) ( ( v >>> 0 ) & 0xFF );
+	}
+	
 	public final static void longToBytes( long v, byte[] b )
 	{
 		assert b.length >= 8;
@@ -543,4 +570,18 @@ public class ArchiveUtil
 		b[6] = (byte) ( ( v >>> 8 ) & 0xFF );
 		b[7] = (byte) ( ( v >>> 0 ) & 0xFF );
 	}
+	
+	public final static void longToBytes( long v, byte[] b, int off )
+	{
+		assert b.length - off >= 8;
+		b[off++] = (byte) ( ( v >>> 56 ) & 0xFF );
+		b[off++] = (byte) ( ( v >>> 48 ) & 0xFF );
+		b[off++] = (byte) ( ( v >>> 40 ) & 0xFF );
+		b[off++] = (byte) ( ( v >>> 32 ) & 0xFF );
+		b[off++] = (byte) ( ( v >>> 24 ) & 0xFF );
+		b[off++] = (byte) ( ( v >>> 16 ) & 0xFF );
+		b[off++] = (byte) ( ( v >>> 8 ) & 0xFF );
+		b[off] = (byte) ( ( v >>> 0 ) & 0xFF );
+	}
+	
 }

@@ -215,6 +215,10 @@ public class DataSourceCompareTest extends EngineCase
 			}
 			task.run( documentFile );
 			task.close( );
+			if ( dataSource != null )
+			{
+				dataSource.close( );
+			}
 			engine.shutdown( );
 		}
 
@@ -247,6 +251,11 @@ public class DataSourceCompareTest extends EngineCase
 			}
 			// execute the report to create the report document.
 			task.render( );
+			reportDoc.close( );
+			if ( dataSource != null )
+			{
+				dataSource.close( );
+			}
 			// close the task, release the resource.
 			task.close( );
 			engine.shutdown( );

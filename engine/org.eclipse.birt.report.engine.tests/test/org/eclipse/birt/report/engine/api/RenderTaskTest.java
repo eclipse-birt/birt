@@ -12,7 +12,11 @@
 package org.eclipse.birt.report.engine.api;
 
 import java.io.File;
+import java.util.HashMap;
 
+import org.eclipse.birt.core.archive.compound.ArchiveFile;
+import org.eclipse.birt.core.archive.compound.ArchiveReader;
+import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 import org.eclipse.birt.report.engine.EngineCase;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 
@@ -36,6 +40,43 @@ public class RenderTaskTest extends EngineCase
 		engine.shutdown( );
 		removeFile( REPORT_DESIGN );
 		removeFile( REPORT_DOCUMENT );
+	}
+
+	public void testRenderOnTransientFile( ) throws Exception
+	{
+		ArchiveFile archive = new ArchiveFile( REPORT_DOCUMENT, "rw" );
+		// open the report runnable to execute.
+		IReportRunnable report = engine.openReportDesign( REPORT_DESIGN );
+		// create an IRunTask
+		IRunTask task = engine.createRunTask( report );
+		// execute the report to create the report document.
+		ArchiveWriter writer = new ArchiveWriter( archive );
+		task.run( writer );
+		// close the task, release the resource.
+		task.close( );
+
+		archive.saveAs( "test.archive");
+		
+		// open the document in the archive.
+		ArchiveReader reader = new ArchiveReader( archive );
+		IReportDocument reportDoc = engine.openReportDocument( null, reader,
+				new HashMap( ) );
+		assertTrue( reportDoc.getVersion( ).equals(
+				ReportDocumentConstants.REPORT_DOCUMENT_VERSION_2_1_0 ) );
+		// create an RenderTask using the report document
+		IRenderTask renderTask = engine.createRenderTask( reportDoc );
+		// get the page number
+		long pageNumber = reportDoc.getPageCount( );
+		assertEquals( 3, pageNumber );
+
+		for ( long i = 1; i <= pageNumber; i++ )
+		{
+			renderTask.setPageNumber( i );
+			assertRender( renderTask, "page" + i + ".html" );
+		}
+		
+		archive.close( );
+
 	}
 
 	public void testRender( )

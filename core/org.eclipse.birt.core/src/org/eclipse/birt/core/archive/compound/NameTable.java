@@ -46,7 +46,7 @@ class NameTable implements ArchiveConstants
 		return table;
 	}
 
-	void refresh( ) throws IOException
+	synchronized void refresh( ) throws IOException
 	{
 		// refresh the index
 		index.refresh( af.allocTbl );
@@ -81,7 +81,7 @@ class NameTable implements ArchiveConstants
 		assert slots.size( ) == lastSlot;
 	}
 
-	void flush( ) throws IOException
+	synchronized void flush( ) throws IOException
 	{
 		ensureSlots( slots.size( ) + 1 );
 		Iterator iter = slots.iterator( );
@@ -99,7 +99,7 @@ class NameTable implements ArchiveConstants
 		lastEntry.write( this );
 	}
 
-	void removeEntry( NameEntry entry ) throws IOException
+	synchronized void removeEntry( NameEntry entry ) throws IOException
 	{
 		int slotId = entry.getSlotID( );
 		int usedSlots = entry.getUsedSlots( );
@@ -118,7 +118,7 @@ class NameTable implements ArchiveConstants
 	 * @throws IOException
 	 */
 
-	NameEntry createEntry( String name ) throws IOException
+	synchronized NameEntry createEntry( String name ) throws IOException
 	{
 		int lastSlot = slots.size( );
 		NameEntry entry = new NameEntry( lastSlot, name );
@@ -131,7 +131,7 @@ class NameTable implements ArchiveConstants
 		return entry;
 	}
 
-	Collection listEntries( )
+	synchronized Collection listEntries( )
 	{
 		ArrayList entries = new ArrayList( );
 		Iterator iter = slots.iterator( );

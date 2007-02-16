@@ -23,7 +23,7 @@ public class ProgressiveViewingTest extends EngineCase
 	// static final String REPORT_DESIGN_RESOURCE =
 	// "org/eclipse/birt/report/engine/api/empty_page.rptdesign";
 	static final String REPORT_DESIGN = "progressive_viewing.rptdesign";
-	static final String REPORT_DOCUMENT = "./reportdocument.folder/";
+	static final String REPORT_DOCUMENT = "./reportdocument";
 
 	protected IReportEngine engine;
 
