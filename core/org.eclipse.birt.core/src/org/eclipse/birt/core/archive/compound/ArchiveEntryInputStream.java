@@ -27,6 +27,13 @@ public class ArchiveEntryInputStream extends RAInputStream
 	/** the archive entry */
 	private ArchiveEntry entry;
 
+	/**
+	 * buffer used to read the int/long
+	 */
+	private byte[] buffer;
+	private int buffer_size;
+	private int buffer_offset;
+
 	/** the current input position */
 	private long offset;
 
@@ -42,12 +49,10 @@ public class ArchiveEntryInputStream extends RAInputStream
 	{
 		this.entry = entry;
 		this.offset = 0;
+		this.buffer = new byte[4096];
+		this.buffer_size = 0;
+		this.buffer_offset = 0;
 	}
-
-	/**
-	 * buffer used to read the int/long
-	 */
-	private byte[] buffer = new byte[8];
 
 	/*
 	 * (non-Javadoc)
@@ -56,18 +61,20 @@ public class ArchiveEntryInputStream extends RAInputStream
 	 */
 	public int read( ) throws IOException
 	{
-		int size = entry.read( offset, buffer, 0, 1 );
-		if ( size == -1 )
+		if ( buffer_offset >= buffer_size )
+		{
+			refreshBuffer( );
+		}
+		if ( buffer_offset >= buffer_size )
 		{
 			return -1;
 		}
-		offset++;
-		return buffer[0] & 0xff;
+		return buffer[buffer_offset++] & 0xff;
 	}
 
 	public int available( ) throws IOException
 	{
-		long av = entry.getLength( ) - offset;
+		long av = entry.getLength( ) - getOffset( );;
 		if ( av > Integer.MAX_VALUE )
 		{
 			return Integer.MAX_VALUE;
@@ -77,7 +84,7 @@ public class ArchiveEntryInputStream extends RAInputStream
 
 	public long getOffset( ) throws IOException
 	{
-		return offset;
+		return offset + buffer_offset;
 	}
 
 	public long length( ) throws IOException
@@ -99,6 +106,21 @@ public class ArchiveEntryInputStream extends RAInputStream
 
 	public int read( byte b[], int off, int len ) throws IOException
 	{
+		// we need first read from the cache
+		if ( buffer_offset < buffer_size )
+		{
+			int size = buffer_size - buffer_offset;
+			if ( size > len )
+			{
+				size = len;
+			}
+			System.arraycopy( buffer, buffer_offset, b, off, size );
+			buffer_offset += size;
+			return size;
+		}
+		offset += buffer_offset;
+		buffer_offset = 0;
+		buffer_size = 0;
 		int size = entry.read( offset, b, off, len );
 		if ( size != -1 )
 		{
@@ -109,38 +131,87 @@ public class ArchiveEntryInputStream extends RAInputStream
 
 	public int readInt( ) throws IOException
 	{
-		int size = entry.read( offset, buffer, 0, 4 );
-		if ( size != 4 )
+		if ( buffer_offset + 4 > buffer_size )
 		{
-			throw new EOFException( );
+			refreshBuffer( );
+			if ( buffer_offset + 4 > buffer_size )
+			{
+				throw new EOFException( );
+			}
 		}
-		offset += 4;
-		return ArchiveUtil.bytesToInteger( buffer );
+		int v = ArchiveUtil.bytesToInteger( buffer, buffer_offset );
+		buffer_offset += 4;
+		return v;
 	}
 
 	public long readLong( ) throws IOException
 	{
-		int size = entry.read( offset, buffer, 0, 8 );
-		if ( size != 8 )
+		if ( buffer_offset + 8 > buffer_size )
 		{
-			throw new EOFException( );
+			refreshBuffer( );
+			if ( buffer_offset + 8 > buffer_size )
+			{
+				throw new EOFException( );
+			}
 		}
-		offset += 8;
-		return ArchiveUtil.bytesToLong( buffer );
+		long v = ArchiveUtil.bytesToLong( buffer, buffer_offset );
+		buffer_offset += 8;
+		return v;
+	}
+
+	private void refreshBuffer( ) throws IOException
+	{
+		if ( buffer_offset < buffer_size )
+		{
+			System.arraycopy( buffer, buffer_offset, buffer, 0, buffer_size
+					- buffer_offset );
+			offset += buffer_offset;
+			buffer_size = buffer_size - buffer_offset;
+			buffer_offset = 0;
+		}
+		else
+		{
+			offset += buffer_size;
+			buffer_size = 0;
+			buffer_offset = 0;
+		}
+		int readSize = entry.read( offset + buffer_size, buffer, buffer_size, buffer.length
+				- buffer_size);
+		if ( readSize != -1 )
+		{
+			buffer_size += readSize;
+		}
 	}
 
 	public void refresh( ) throws IOException
 	{
+		offset += buffer_offset;
+		buffer_offset = 0;
+		buffer_size = 0;
 		entry.refresh( );
 	}
 
 	public void seek( long localPos ) throws IOException
 	{
+		if ( localPos < 0 )
+		{
+			throw new IOException( "Invalid seek offset " + localPos );
+		}
+		
 		if ( localPos >= entry.getLength( ) )
 		{
 			throw new EOFException( "exceed the file length" );
 		}
-		offset = localPos;
+		
+		if ( localPos < offset || localPos > offset + buffer_size )
+		{
+			offset = localPos;
+			buffer_size = 0;
+			buffer_offset = 0;
+			return;
+		}
+
+		buffer_offset = (int) ( localPos - offset );
 	}
 
 }

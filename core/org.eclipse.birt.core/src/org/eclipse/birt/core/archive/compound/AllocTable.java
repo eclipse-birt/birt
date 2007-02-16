@@ -85,7 +85,6 @@ class AllocTable implements ArchiveConstants
 	static AllocTable createTable( ArchiveFile af ) throws IOException
 	{
 		AllocTable table = new AllocTable( af );
-		table.flush( );
 		return table;
 	}
 
@@ -101,7 +100,7 @@ class AllocTable implements ArchiveConstants
 	 * 
 	 * @throws IOException
 	 */
-	void flush( ) throws IOException
+	synchronized void flush( ) throws IOException
 	{
 		// flush all entries in the table
 		Iterator iter = entries.values( ).iterator( );
@@ -138,7 +137,7 @@ class AllocTable implements ArchiveConstants
 	 * 
 	 * @throws IOException
 	 */
-	void refresh( ) throws IOException
+	synchronized void refresh( ) throws IOException
 	{
 		// reload the fat tables
 		int lastBlockId = allocBlocks[totalAllocBlocks - 1];
@@ -169,7 +168,7 @@ class AllocTable implements ArchiveConstants
 	 * @return the block id.
 	 * @throws IOException
 	 */
-	int getFreeBlock( ) throws IOException
+	synchronized int getFreeBlock( ) throws IOException
 	{
 		// get the free block
 		if ( totalFreeBlocks > 0 )
@@ -189,7 +188,7 @@ class AllocTable implements ArchiveConstants
 		}
 	}
 
-	AllocEntry createEntry( ) throws IOException
+	synchronized AllocEntry createEntry( ) throws IOException
 	{
 		int blockId = getFreeBlock( );
 		AllocEntry entry = new AllocEntry( blockId );
@@ -197,7 +196,7 @@ class AllocTable implements ArchiveConstants
 		return entry;
 	}
 
-	AllocEntry loadEntry( int blockId ) throws IOException
+	synchronized AllocEntry loadEntry( int blockId ) throws IOException
 	{
 		AllocEntry entry = (AllocEntry) entries.get( new Integer( blockId ) );
 		if ( entry == null )
@@ -216,7 +215,7 @@ class AllocTable implements ArchiveConstants
 	 *            the entry to be removed.
 	 * @throws IOException
 	 */
-	void removeEntry( AllocEntry entry ) throws IOException
+	synchronized void removeEntry( AllocEntry entry ) throws IOException
 	{
 		int totalBlocks = entry.getTotalBlocks( );
 		ensureFreeBlocks( totalFreeBlocks + totalBlocks );
