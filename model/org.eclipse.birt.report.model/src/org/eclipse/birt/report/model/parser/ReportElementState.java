@@ -436,9 +436,7 @@ public abstract class ReportElementState extends DesignParseState
 			setProperty( IDesignElementModel.VIEW_ACTION_PROP, viewAction );
 		}
 
-		if ( !addToSlot( container, slotID, element ) )
-			return;
-
+		addToSlot( container, slotID, element );
 	}
 
 	/**

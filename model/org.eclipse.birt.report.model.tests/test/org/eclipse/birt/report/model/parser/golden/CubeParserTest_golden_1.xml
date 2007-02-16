@@ -224,7 +224,7 @@
                                         </structure>
                                     </list-property>
                                     <property name="valueAccessControls">
-                                        <value-access-control id="11">
+                                        <value-access-control id="20">
                                             <simple-property-list name="userNames">
                                                 <value>level user1</value>
                                                 <value>level user2</value>
@@ -243,7 +243,7 @@
                                 </level>
                             </property>
                             <property name="accessControls">
-                                <access-control id="12">
+                                <access-control id="21">
                                     <simple-property-list name="userNames">
                                         <value>hierarchy user1</value>
                                         <value>hierarchy user2</value>
@@ -260,9 +260,9 @@
                 </dimension>
             </property>
             <property name="measureGroups">
-                <measure-group name="testMeasureGroup1" id="20">
+                <measure-group name="testMeasureGroup1" id="22">
                     <property name="measures">
-                        <measure name="testMeasure1" id="21">
+                        <measure name="testMeasure1" id="23">
                             <property name="function">min</property>
                             <property name="isCalculated">false</property>
                             <expression name="measureExpression">column</expression>
@@ -271,7 +271,7 @@
                 </measure-group>
             </property>
             <property name="accessControls">
-                <access-control id="15">
+                <access-control id="24">
                     <simple-property-list name="userNames">
                         <value>cube user1</value>
                         <value>cube user2</value>

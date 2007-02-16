@@ -429,6 +429,7 @@ public class ModelUtil
 			case IPropertyType.LIST_TYPE :
 				return clonePropertyList( (List) value );
 			case IPropertyType.ELEMENT_TYPE :
+			case IPropertyType.CONTENT_ELEMENT_TYPE :
 				if ( propDefn.isList( ) )
 					return cloneElementList( (List) value );
 				return getCopy( (DesignElement) value );
