@@ -94,7 +94,7 @@ public class OSGILauncher
 		{
 			throw new BirtException(
 					PluginId,
-					"Could not find the Framework - {0}", new Object[]{"org.eclipse.osgi"} ); //$NON-NLS-1$
+					"Could not find the Framework - {0}", "org.eclipse.osgi" ); //$NON-NLS-1$
 		}
 		try
 		{

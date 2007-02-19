@@ -496,7 +496,7 @@ public class BirtException extends Exception
 		Locale locale = null;
 		if ( rb == null )
 		{
-			localizedMessage = "$NO-RB$ " + errorCode; // $NON-NLS-1$
+			localizedMessage = errorCode; 
 		}
 		else
 		{
