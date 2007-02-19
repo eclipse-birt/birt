@@ -117,13 +117,17 @@ public final class UIHelper
 		}
 		else
 		{
-			try
+			url = UIHelper.class.getResource( "/" + sPluginRelativePath );
+			if ( url == null )
 			{
-				url = new URL( "file:///" + new File( sPluginRelativePath ).getAbsolutePath( ) ); //$NON-NLS-1$
-			}
-			catch ( MalformedURLException e )
-			{
-				WizardBase.displayException( e );
+				try
+				{
+					url = new URL( "file:///" + new File( sPluginRelativePath ).getAbsolutePath( ) ); //$NON-NLS-1$
+				}
+				catch ( MalformedURLException e )
+				{
+					WizardBase.displayException( e );
+				}
 			}
 		}
 

@@ -113,15 +113,23 @@ public final class UIHelper
 		}
 		else
 		{
-			try
+			url = UIHelper.class.getResource(  "/" + sPluginRelativePath );
+			if ( url == null )
 			{
-				url = new URL( "file:///" + new File( sPluginRelativePath ).getAbsolutePath( ) ); //$NON-NLS-1$
+				try
+
+				{
+					url = new URL( "file:///" + new File( sPluginRelativePath ).getAbsolutePath( ) ); //$NON-NLS-1$
+				}
+				catch ( MalformedURLException e )
+				{
+					logger.log( e );
+				}
 			}
-			catch ( MalformedURLException e )
-			{
-				logger.log( e );
-			}
+			
+
 		}
+		
 
 		return url;
 	}
@@ -133,8 +141,10 @@ public final class UIHelper
 		{
 			try
 			{
-				img = new Image( Display.getCurrent( ),
-						getURL( sPluginRelativePath ).openStream( ) );
+				URL url = getURL( sPluginRelativePath ) ;
+				if ( url != null )
+					img = new Image( Display.getCurrent( ), url.openStream( ) );
+						 
 			}
 			catch ( MalformedURLException e1 )
 			{
