@@ -9,5 +9,22 @@
       <toc
             file="ChartRefToc.xml" />
    </extension>
+    <extension
+          point="org.eclipse.pde.core.javadoc">
+       <javadoc
+             archive="true"
+             path="doc.zip!/chart/api">
+          <plugin
+                id="org.eclipse.birt.chart.engine">
+          </plugin>
+       </javadoc>
+       <javadoc
+             archive="true"
+             path="doc.zip!/chartui/api/">
+          <plugin
+                id="org.eclipse.birt.chart.ui">
+          </plugin>
+       </javadoc>
+    </extension>
 
 </plugin>

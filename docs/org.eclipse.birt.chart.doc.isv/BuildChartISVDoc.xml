@@ -212,7 +212,7 @@
 				<include name="overview.html"/>
 			</fileset>
 		</copy>
-		<javadoc access="public" author="true" overview="overview.html" doctitle="BIRT Chart Engine API (Provisional)" windowtitle="BIRT Chart Engine API" destdir="${chartengine.javadoc.dir}" source="1.4" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false"
+		<javadoc access="public" author="true" overview="overview.html" doctitle="BIRT Eclipse Chart Engine&lt;br&gt;API Specification v 2.2" windowtitle="BIRT Chart Engine API" destdir="${chartengine.javadoc.dir}" source="1.4" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false"
 		packagenames="
 					org.eclipse.birt.chart.model,
 					org.eclipse.birt.chart.model.data,
@@ -248,7 +248,7 @@
 		sourcepath="${chartengine.dir}/src" splitindex="true" use="true" failonerror="true" version="true">
 			<packageset dir="${chartengine.dir}/src" defaultexcludes="yes" />
 			<classpath refid="class.path" />
-			<bottom><![CDATA[<i>Copyright &#169;  2005 Actuate Corp. All rights reserved. </i>]]></bottom>
+			<bottom><![CDATA[<i>Copyright &#169;  2005-2007 Actuate Corp. All rights reserved. </i>]]></bottom>
 		</javadoc>
 
 	</target>
@@ -261,11 +261,12 @@
 				 version="true" 
 				 use="true" 
 				 windowtitle="BIRT Chart UI Extension Interfaces"
-				 doctitle="BIRT Chart UI Extension API (Provisional)" 
+				 doctitle="BIRT Chart User Interface&lt;br&gt;API Specification v 2.2" 
 				 source="1.4"
 				 packagenames="org.eclipse.birt.chart.ui.swt.interfaces"
-				 sourcepath="${chartui.dir}/src" defaultexcludes="yes" >
-	 	        <bottom><![CDATA[<i>Copyright &#169;  2005 Actuate Corp. All rights reserved. </i>]]></bottom>
+				 sourcepath="${chartui.dir}/src" defaultexcludes="yes" 
+				 noindex="false">
+	 	        <bottom><![CDATA[<i>Copyright &#169;  2005-2007 Actuate Corp. All rights reserved. </i>]]></bottom>
 				<classpath refid="class.path" />
 		</javadoc>
   </target>
