@@ -11,17 +11,22 @@
 
 package org.eclipse.birt.chart.event;
 
+import java.util.Iterator;
+
 import org.eclipse.birt.chart.computation.Object3D;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
+import org.eclipse.birt.chart.model.attribute.Gradient;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
+import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+
 
 /**
  * A rendering event type for rendering 3D Polygon object.
@@ -117,29 +122,45 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 		return dBrightness;
 	}
 
+	protected void applyBrightness( ColorDefinition cdf, double brightness )
+	{
+		cdf.set( (int) ( cdf.getRed( ) * dBrightness ),
+				(int) ( cdf.getGreen( ) * dBrightness ),
+				(int) ( cdf.getBlue( ) * dBrightness ),
+				cdf.getTransparency( ));
+	}
+	protected void applyBrightnessToFill( Fill fill , double brightness )
+	{
+		if ( fill instanceof ColorDefinition )
+		{
+			ColorDefinition cdf = (ColorDefinition)fill;
+			applyBrightness( cdf, dBrightness );
+		}
+		else if ( fill instanceof Gradient )
+		{
+			Gradient gradient = (Gradient)fill;
+			applyBrightness( gradient.getStartColor( ), dBrightness );
+			applyBrightness( gradient.getEndColor( ), dBrightness );
+			
+		}
+		else if ( fill instanceof MultipleFill )
+		{
+			for ( Iterator iter = ((MultipleFill)fill).getFills( ).iterator( ); iter.hasNext( ); )
+			{
+				applyBrightnessToFill( (Fill)iter.next( ), brightness );
+			}
+		}
+	}
+	
 	/**
 	 * Sets the brightness of this polygon, the value ranges 0.0 - 1.0.
 	 */
 	public void setBrightness( double value )
 	{
 		dBrightness = value;
-
-		if ( _ifBackground instanceof ColorDefinition )
-		{
-			ColorDefinition cdf = ColorDefinitionImpl.copyInstance( (ColorDefinition) _ifBackground );
-
-			cdf.set( (int) ( cdf.getRed( ) * dBrightness ),
-					(int) ( cdf.getGreen( ) * dBrightness ),
-					(int) ( cdf.getBlue( ) * dBrightness ) );
-
-			// Also copy transparency setting
-			if ( ( (ColorDefinition) _ifBackground ).isSetTransparency( ) )
-			{
-				cdf.setTransparency( ( (ColorDefinition) _ifBackground ).getTransparency( ) );
-			}
-
-			runtimeBackground = cdf;
-		}
+		Fill fill = (Fill) EcoreUtil.copy( _ifBackground );
+		applyBrightnessToFill( fill, dBrightness );
+		runtimeBackground = fill;
 	}
 
 	/**
@@ -155,6 +176,22 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 	 */
 	public final void setPoints3D( Location3D[] loa ) throws ChartException
 	{
+		setPoints3D( loa, false );
+	}
+	/**
+	 * Note that setPoints3D must be called with the points in the right order:
+	 * that is needed for the right orientation of the polygon. Points must be
+	 * given in anti-clockwise order if looking at the face from outside the
+	 * enclosed volume, and so that two adjacent points define a line of the
+	 * polygon. A minimum of three points is required, less will throw an
+	 * IllegalArgumentException, three consecutive points cannot be aligned.
+	 * 
+	 * @param la
+	 *            Sets the co-ordinates for each point that defines the polygon
+	 * @param inverted Inverts the orientation of the surface if true
+	 */
+	public final void setPoints3D( Location3D[] loa, boolean inverted ) throws ChartException
+	{
 
 		if ( loa.length < 3 )
 		{
@@ -163,9 +200,9 @@ public final class Polygon3DRenderEvent extends PolygonRenderEvent implements
 					"exception.3D.points.length.less.than.3", //$NON-NLS-1$
 					Messages.getResourceBundle( ) );
 		}
-		object3D = new Object3D( loa );
+		object3D = new Object3D( loa, inverted );
 	}
-
+	
 	/**
 	 * @return Returns the co-ordinates for each point in the polygon
 	 */

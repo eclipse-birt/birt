@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.computation;
 import org.eclipse.birt.chart.internal.computations.Matrix;
 import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.Location3D;
+import org.eclipse.birt.chart.util.ChartUtil;
 
 /**
  * A Vector class used to perform 3D computation.
@@ -139,9 +140,13 @@ public class Vector
 		this.v[0] += v.v[0];
 		this.v[1] += v.v[1];
 		this.v[2] += v.v[2];
-		this.v[3] += v.v[3];
+		
 	}
 
+	public Vector getAdd( Vector v )
+	{
+		return new Vector( this.v[0] + v.v[0], this.v[1] + v.v[1], this.v[2] + v.v[2], false );
+	}
 	/**
 	 * @param v
 	 */
@@ -150,9 +155,13 @@ public class Vector
 		this.v[0] -= v.v[0];
 		this.v[1] -= v.v[1];
 		this.v[2] -= v.v[2];
-		this.v[3] -= v.v[3];
+		
 	}
 
+	public Vector getSub( Vector v )
+	{
+		return new Vector( this.v[0] - v.v[0], this.v[1] - v.v[1], this.v[2] - v.v[2], false );
+	}
 	/**
 	 * @param f
 	 */
@@ -328,6 +337,36 @@ public class Vector
 			return "X:" + v[0] + ",Y:" + v[1] + ",Z:" + v[2] + ",PV:" + v[3]; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		}
 		return super.toString( );
+	}
+	
+	public double getNorm( )
+	{
+		return Math.sqrt( this.scalarProduct( this ) );
+	}
+	public Vector getNormalized( )
+	{
+		double norm = getNorm();
+		if ( ChartUtil.mathEqual( norm, 0 ) )
+		{
+			return new Vector( 0, 0 , 0 , false );
+		}
+		else
+		{
+			return new Vector( v[0] / norm, v[1] / norm, v[2] / norm, false );
+		}
+	}
+
+	public void normalize( )
+	{
+		double norm = getNorm();
+		if ( !ChartUtil.mathEqual( norm, 0 ) )
+		{
+			for ( int i = 0 ; i < 3 ; i++ )
+			{
+				v[i] /= norm;
+			}
+		}
+		
 	}
 
 }

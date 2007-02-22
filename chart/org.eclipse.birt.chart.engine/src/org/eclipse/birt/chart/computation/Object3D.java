@@ -32,6 +32,10 @@ public class Object3D
 
 	private double zMax, zMin;
 
+	private int iZmin;
+
+	private int iZmax;
+
 	/**
 	 * Construction by an empty array of coordinates
 	 */
@@ -52,17 +56,39 @@ public class Object3D
 
 	/**
 	 * Construction by an array of 3d coordinates
+	 * @param the points that constitue the 3D object. If there are more than 2 points
+	 * the order of points decides the orientation of the surface.
+	 * Only the outside face is painted, unless the object is double-sided. Note that
+	 * polygons making a volume should not be double-sided.
 	 */
 	public Object3D( Location3D[] loa )
 	{
+		this( loa, false );
+	}
+
+	/**
+	 * Construction by an array of 3d coordinates
+	 * @param inverted: invert the order of points to change the surface orientation
+	 */
+	public Object3D( Location3D[] loa, boolean inverted )
+	{
+
 		va = new Vector[loa.length];
 		for ( int i = 0; i < va.length; i++ )
 		{
-			va[i] = new Vector( loa[i] );
-			loa[i].linkToVector( va[i] );
+			if ( !inverted )
+			{
+				va[i] = new Vector( loa[i] );
+				loa[i].linkToVector( va[i] );
+			}
+			else
+			{
+				va[ va.length - 1 - i ] = new Vector( loa[i] );
+				loa[i].linkToVector( va[ va.length - 1 -i ] );
+			}
 		}
+		
 	}
-
 	/**
 	 * Construction by another Object3D object
 	 */
@@ -86,6 +112,8 @@ public class Object3D
 		yMin = original.yMin;
 		xMax = original.xMax;
 		xMin = original.xMin;
+		iZmin = 0;
+		iZmax = 0;
 	}
 
 	/**
@@ -168,8 +196,26 @@ public class Object3D
 		this.yMin = 0;
 		this.xMax = 0;
 		this.xMin = 0;
+		this.iZmin = 0;
+		this.iZmax = 0;
 	}
 
+	/*
+	 * Returns the point with the fursthest z
+	 */
+	public Vector getZMaxPoint( )
+	{
+		return va[iZmax];
+	}
+	/*
+	 * Returns the point with the nearest z
+	 */
+	
+	public Vector getZMinPoint( )
+	{
+		return va[iZmin];
+	}
+	
 	/**
 	 * Returns maximum X value for this object
 	 */
@@ -256,8 +302,19 @@ public class Object3D
 			yMin = Math.min( yMin, va[i].get( 1 ) );
 			yMax = Math.max( yMax, va[i].get( 1 ) );
 
-			zMin = Math.min( zMin, va[i].get( 2 ) );
-			zMax = Math.max( zMax, va[i].get( 2 ) );
+			
+			if ( zMin > va[i].get( 2 ) )
+			{
+				zMin = va[i].get( 2 );
+				iZmin = i;
+			}
+			if ( zMax < va[i].get( 2 ) )
+			{
+				zMax = va[i].get( 2 );
+				iZmax = i;
+			}
+			
+			
 		}
 	}
 
@@ -416,171 +473,175 @@ public class Object3D
 		return locations;
 	}
 
-	private Vector getLineNormalToPlane( Vector p1, Vector p2, Object3D plane )
-	{
-		Vector dv = new Vector( p1 );
-		dv.sub( p2 );
-
-		int status = 0;
-
-		if ( dv.get( 0 ) == 0 )
-		{
-			status |= 1;
-		}
-		if ( dv.get( 1 ) == 0 )
-		{
-			status |= 2;
-		}
-		if ( dv.get( 2 ) == 0 )
-		{
-			status |= 4;
-		}
-
-		// plane equation:
-		// pn0*X + pn1*Y + pn2*Z + delta = 0
-		Vector pn = plane.getNormal( );
-		double delta = -plane.getViewerVectors( )[0].scalarProduct( pn );
-
-		switch ( status )
-		{
-			case 0 :
-				// no projection is zero
-				// line equation:
-				// (X-p1x)/dv0 = (Y-p1y)/dv1 = (Z-p1z)/dv2
-				break;
-			case 1 :
-				// X projection is Zero
-				// line equation:
-				// X=p1x; (Y-p1y)/dv1 = (Z-p1z)/dv2
-				break;
-			case 2 :
-				// Y projection is Zero
-				// line equation:
-				// Y=p1y; (X-p1x)/dv0 = (Z-p1z)/dv2
-				break;
-			case 4 :
-				// Z projection is Zero
-				// line equation:
-				// Z=p1z; (X-p1x)/dv0 = (Y-p1y)/dv1
-				break;
-			default :
-				// more than one projections are zero, shouldn't go here
-				assert false;
-				break;
-		}
-
-		return null;
-	}
+	
 
 	/**
 	 * Returns if current object is totally aside the given object. "outside" is
 	 * along the direction of the viewer vector.
 	 */
-	protected boolean testAside( Object3D obj, boolean outside, Engine3D engine )
+	protected boolean testAside( Object3D comparedObj, boolean outside, Engine3D engine )
 	{
-		if ( viewVa.length == 0 || obj.getViewerVectors( ).length == 0 )
+		int thisPointsNumber = viewVa.length;
+		int comparedPointsNumber = comparedObj.getViewerVectors( ).length ;
+		Vector[] thisPoints = viewVa;
+		Vector[] comparedPoints = comparedObj.getViewerVectors( );
+		
+		if ( thisPointsNumber == 0 || comparedPointsNumber == 0 )
 		{
 			// skip empty object.
 			return true;
 		}
 
-		if ( viewVa.length < 3 && obj.getViewerVectors( ).length < 3 )
+		if ( thisPointsNumber < 3 && comparedPointsNumber < 3 )
 		{
-			// handle two lines case
-			// if ( viewVa.length == 2 && obj.getViewerVectors( ).length == 2 )
-			// {
-			// Vector pv1 = new Vector( viewVa[0] );
-			// Vector pv2 = new Vector( viewVa[1] );
-			// Vector qv1 = new Vector( obj.getViewerVectors( )[0] );
-			// Vector qv2 = new Vector( obj.getViewerVectors( )[1] );
-			//
-			// pv1.sub( qv1 );
-			// pv2.sub( qv1 );
-			// qv2.sub( qv1 );
-			//
-			// return pv1.crossProduct( qv2 )
-			// .scalarProduct( qv2.crossProduct( pv2 ) ) >= 0;
-			// }
-
-			// TODO test two lines or point in a line.
+			//  test two lines or point in a line.
 			return true;
 		}
 
+		
 		Vector normal = null;
 		Vector ov = viewVa[0];
-		Vector[] tva = obj.getViewerVectors( );
-		Vector viewDirection = new Vector( 0, 0, 1 );
-
-		if ( viewVa.length < 3 )
+		
+		
+		double d = 0;
+		if ( thisPointsNumber < 3 || comparedPointsNumber < 3 )
 		{
-			// if ( viewVa.length == 2 )
-			// {
-			// // / find a proper normal vector for this line.
-			// Vector v1 = new Vector( obj.getViewerVectors( )[1] );
-			// v1.sub( obj.getViewerVectors( )[0] );
-			//
-			// // test line and polygon
-			// Vector lva = new Vector( viewVa[1] );
-			// lva.sub( viewVa[0] );
-			//
-			// Vector vv = engine.view2model( lva );
-			// Vector nn = engine.view2model( obj.getNormal( ) );
-			//
-			// Vector tt = new Vector( 3, 0, 0, false );
-			// Vector tt2 = new Vector( 0, 3, 3, false );
-			//
-			// double cos = Math.abs( tt.cosineValue( tt2 ) );
-			// System.out.println( "cosine: " + cos );
-			//
-			// Matrix mm = engine.getTransformMatrix( );
-			//
-			// tt = tt.getMultiply( mm );
-			// tt2 = tt2.getMultiply( mm );
-			// cos = Math.abs( tt.cosineValue( tt2 ) );
-			//
-			// tt = engine.model2View( tt );
-			// tt2 = engine.model2View( tt2 );
-			//
-			// cos = Math.abs( tt.cosineValue( tt2 ) );
-			//
-			// if ( ChartUtil.mathEqual( cos, 1 ) )
-			// {
-			// normal = v1;
-			// }
-			// else
-			// {
-			// Vector plva = lva.crossProduct( obj.getNormal( ) );
-			// normal = plva.crossProduct( lva );
-			// }
-			//
-			// // normal = new Vector( obj.getNormal( ) );
-			// }
-			// else if ( viewVa.length == 1 )
+			return true;
+			/*
+			if ( thisPointsNumber >=3 && comparedPointsNumber == 2 )
 			{
-				// test point and polygon
-				// TODO
-				normal = new Vector( obj.getNormal( ) );
+				return false;// this=line other=polygon. Return false to trigger next test which is enough.
 			}
+			
+			if ( thisPointsNumber == 2 && comparedPointsNumber >= 3)
+			{
+			
+				// Case: Line could obscure polygon or not
+				
+				Vector lineDirection = new Vector( thisPoints[1] );
+				lineDirection.sub(  thisPoints[0] );
+				//lineDirection.normalize();
+				Vector viewDirection = this.getCenter( );
+				
+				Vector nearPoint = thisPoints[0];
+				Vector farPoint = thisPoints[1];
+				if ( farPoint.get( 2 ) < nearPoint.get( 2 ) )
+				{
+					lineDirection.inverse( );
+					farPoint = thisPoints[0];
+					nearPoint = thisPoints[1];
+				}
+				// Case line parallel to plan, easy case, use the parallel plane
+				if ( ChartUtil.mathEqual( lineDirection.scalarProduct( comparedObj.getNormal( ) ), 0 ) )
+				{
+
+					normal = new Vector( comparedObj.getNormal() );
+					d = -normal.scalarProduct( ov );
+					
+					return testPolygon( normal, d, comparedObj, outside );
+				}
+				else
+				{
+					// look for intersection point
+					
+					Vector N = comparedObj.getNormal( );
+					
+					if ( N.scalarProduct( viewDirection  ) < 0 )
+						N.inverse( );
+					Vector planPoint = new Vector( comparedPoints[0] );
+					
+					// compute u = N dot(planPoint-nearPoint)/ N dot( farPoint-nearPoint)
+					// that gives P = nearPoint + u  (farPoint-nearPoint) - intersection line plan.
+					
+					
+					double u = N.scalarProduct( planPoint.getSub( nearPoint ) ) / N.scalarProduct( farPoint.getSub( nearPoint ) );
+					Vector intersectionPoint = new Vector( farPoint );
+					intersectionPoint.sub( nearPoint );
+					intersectionPoint.scale( u );
+					intersectionPoint.add( nearPoint );
+					
+					// u tells where is the intersection point in the line.
+					// if it's outside the segment, near the viewer : <0
+					// if it's in the segment: 0<=u<=1)
+					// if it's outside the segment, far from the viewer: >1
+					
+						if ( u > 1 )
+							return !outside;
+						else if ( u < 0 )
+							return outside;
+						else 
+						{
+							Object3D nearSegment = new Object3D( 2 );
+							nearSegment.getVectors( )[0] = nearPoint;
+							nearSegment.getVectors( )[1] = intersectionPoint;
+							nearSegment.prepareZSort( );
+							//boolean intersect = ( nearSegment.testXOverlap( comparedObj ) && nearSegment.testYOverlap( comparedObj ));
+							boolean intersect = nearSegment.testIntersect(comparedObj, engine );
+							if ( intersect )
+								return !outside;
+							else
+								return outside;
+							
+						}
+					
+					
+						
+				}
+					
+			}
+			else
+			{
+				// line/line
+				return true;
+			}
+			*/
+			
 		}
 		else
 		{
+			// case: polygon obscures polygon
+		
 			normal = new Vector( getNormal( ) );
+			// 	necessary for the plan equation ax+by+cz+d=0	
+			d = -normal.scalarProduct( ov );
+			
+			return testPolygon( normal, d, comparedObj, outside );
 		}
+	
+	}
+		
+	protected boolean testPolygon( Vector normal, double d, Object3D obj,
+			boolean outside )
+	{
+		// Tests if a polygon is inside or outside another one, based on the
+		// viewing direction
 
+		Vector[] tva = obj.getViewerVectors( );
+		Vector viewDirection = obj.getCenter( ).getNormalized( );
 		// check if the normal vector of face points to the same direction
 		// of the viewing direction
-		if ( normal.scalarProduct( viewDirection ) <= 0 )
+
+		if ( normal.getNormalized( ).scalarProduct( viewDirection ) < 0 )
 		{
 			normal.inverse( );
+			d = -d;
 		}
-
-		double d = -normal.scalarProduct( ov );
-
+		boolean sameSide = false;
+		if (ChartUtil.mathEqual( normal.scalarProduct( viewDirection ), 0 ) )
+			sameSide = true; // as long as all the points are all on the same side, it's good. there is no outside/inside concept
+		
+		double oldP = 0;
 		for ( int i = 0; i < tva.length; i++ )
 		{
 			double p = tva[i].scalarProduct( normal ) + d;
-
-			if ( outside )
+			if ( sameSide )
+			{
+				if (oldP * p < 0 )
+					return false;
+				oldP = p;
+			}
+			else
+			if ( !outside )
 			{
 				if ( ChartUtil.mathLT( p, 0 ) )
 				{
@@ -632,7 +693,7 @@ public class Object3D
 	 */
 	protected boolean testXOverlap( Object3D near )
 	{
-		return ( ( this.getXMax( ) >= near.getXMax( ) && this.getXMin( ) < near.getXMax( ) ) || ( this.getXMax( ) < near.getXMax( ) && this.getXMax( ) > near.getXMin( ) ) );
+		return ( ( this.getXMax( ) > near.getXMax( ) && this.getXMin( ) < near.getXMax( ) ) || ( this.getXMax( ) < near.getXMax( ) && this.getXMax( ) > near.getXMin( ) ) );
 	}
 
 	/**
@@ -640,7 +701,7 @@ public class Object3D
 	 */
 	protected boolean testYOverlap( Object3D near )
 	{
-		return ( ( this.getYMax( ) >= near.getYMax( ) && this.getYMin( ) < near.getYMax( ) ) || ( this.getYMax( ) < near.getYMax( ) && this.getYMax( ) > near.getYMin( ) ) );
+		return ( ( this.getYMax( ) > near.getYMax( ) && this.getYMin( ) < near.getYMax( ) ) || ( this.getYMax( ) < near.getYMax( ) && this.getYMax( ) > near.getYMin( ) ) );
 	}
 
 	/**
@@ -649,12 +710,17 @@ public class Object3D
 	public boolean testSwap( Object3D near, Engine3D engine )
 	{
 		Object3D far = this;
+		/*if ( this.getZMax( ) < near.getZMax( ) )
+		{
+			far = near;
+			near = this;
+		}*/
 		boolean swap = false;
 		if ( far.testXOverlap( near ) && far.testYOverlap( near ) )
 		{
-			if ( !( near.testAside( far, true, engine ) ) )
+			if ( !( far.testAside( near, true, engine ) ) )
 			{
-				if ( !( far.testAside( near, false, engine ) ) )
+				if ( !( near.testAside( far, false, engine ) ) )
 				{
 					if ( far.testIntersect( near, engine ) )
 					{
