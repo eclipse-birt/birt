@@ -147,8 +147,20 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		this.bookmark = ParameterAccessor.getBookmark( request );
 		this.reportPage = ParameterAccessor.getPage( request );
 		this.reportPageRange = ParameterAccessor.getPageRange( request );
-		this.reportDocumentName = ParameterAccessor.getReportDocument( request,
-				null, true );
+
+		// If use frameset pattern, generate document from design file
+		if ( IBirtConstants.SERVLET_PATH_FRAMESET.equalsIgnoreCase( request
+				.getServletPath( ) ) )
+		{
+			this.reportDocumentName = ParameterAccessor.getReportDocument(
+					request, null, true );
+		}
+		else
+		{
+			this.reportDocumentName = ParameterAccessor.getReportDocument(
+					request, null, false );
+		}
+
 		this.reportDesignName = ParameterAccessor.getReport( request, null );
 		this.format = ParameterAccessor.getFormat( request );
 		this.maxRows = ParameterAccessor.getMaxRows( request );
@@ -570,6 +582,9 @@ public class ViewerAttributeBean extends BaseAttributeBean
 				.equalsIgnoreCase( this.requestType )
 				|| IBirtConstants.SERVLET_PATH_DOWNLOAD
 						.equalsIgnoreCase( request.getServletPath( ) ) )
+			return;
+
+		if ( this.reportDocumentName == null )
 			return;
 
 		File reportDocFile = new File( this.reportDocumentName );

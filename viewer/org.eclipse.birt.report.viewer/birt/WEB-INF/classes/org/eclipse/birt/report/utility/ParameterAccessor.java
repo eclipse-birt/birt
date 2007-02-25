@@ -1444,7 +1444,9 @@ public class ParameterAccessor
 
 	public static boolean isValidFilePath( String filePath )
 	{
-		assert filePath != null;
+		if ( filePath == null )
+			return false;
+
 		if ( isWorkingFolderAccessOnly )
 		{
 			File docFile = new File( filePath );

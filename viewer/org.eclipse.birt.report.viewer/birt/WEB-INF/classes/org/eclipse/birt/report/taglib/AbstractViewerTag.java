@@ -231,13 +231,16 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 				+ paramContainerId + "\");\n" ); //$NON-NLS-1$
 		writer
 				.write( "var oParams = paramContainer.getElementsByTagName('input');\n" ); //$NON-NLS-1$
-		writer.write( "for( var i=0;i<oParams.length;i++ )  \n" ); //$NON-NLS-1$
+		writer.write( "if( oParams )\n" ); //$NON-NLS-1$
 		writer.write( "{\n" ); //$NON-NLS-1$
-		writer.write( "  var param = document.createElement( \"INPUT\" );\n" ); //$NON-NLS-1$
-		writer.write( "  formObj.appendChild( param );\n" ); //$NON-NLS-1$
-		writer.write( "  param.TYPE = \"HIDDEN\";\n" ); //$NON-NLS-1$
-		writer.write( "  param.name= oParams[i].name;\n" ); //$NON-NLS-1$
-		writer.write( "  param.value= oParams[i].value;\n" ); //$NON-NLS-1$
+		writer.write( "  for( var i=0;i<oParams.length;i++ )  \n" ); //$NON-NLS-1$
+		writer.write( "  {\n" ); //$NON-NLS-1$
+		writer.write( "    var param = document.createElement( \"INPUT\" );\n" ); //$NON-NLS-1$
+		writer.write( "    formObj.appendChild( param );\n" ); //$NON-NLS-1$
+		writer.write( "    param.TYPE = \"HIDDEN\";\n" ); //$NON-NLS-1$
+		writer.write( "    param.name= oParams[i].name;\n" ); //$NON-NLS-1$
+		writer.write( "    param.value= oParams[i].value;\n" ); //$NON-NLS-1$
+		writer.write( "  }\n" ); //$NON-NLS-1$
 		writer.write( "}\n" ); //$NON-NLS-1$
 
 		writer.write( "formObj.action = \"" + src + "\";\n" ); //$NON-NLS-1$ //$NON-NLS-2$
