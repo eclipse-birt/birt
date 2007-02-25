@@ -20,6 +20,7 @@ import java.util.List;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
 import org.eclipse.birt.chart.datafeed.IResultSetDataSet;
+import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.IActionEvaluator;
@@ -42,6 +43,7 @@ import org.eclipse.birt.chart.model.type.BubbleSeries;
 import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.script.ScriptHandler;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -367,13 +369,25 @@ public class DataProcessor
 		final List liResultSet = new ArrayList( );
 		Object[] oaTuple;
 		int iColumnIndex;
-		boolean hasFirst = idre.first( );
 
 		Iterator it;
-		if ( hasFirst )
+		if ( idre.first( ) )
 		{
+			int count = 0;
+			final int MAX_ROW_COUNT = ChartUtil.getSupportedMaxRowCount( );
 			do
 			{
+				if ( count++ > MAX_ROW_COUNT )
+				{
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.DATA_BINDING,
+							"exception.data.max.row.count", //$NON-NLS-1$
+							new Object[]{
+								new Integer( MAX_ROW_COUNT )
+							},
+							Messages.getResourceBundle( ) );
+				}
+				
 				oaTuple = new Object[iColumnCount];
 				it = co.iterator( );
 				iColumnIndex = 0;
