@@ -84,6 +84,13 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 	{
 		try
 		{
+			// 0 represents null value in DimensionHandle. Only change them when
+			// Dimension is not null
+			double dHeightInPixels = 0;
+			double dWidthInPixels = 0;
+			double dHeightInPoints = 0;
+			double dWidthInPoints = 0;
+			
 			final DimensionHandle dhHeight = eih.getHeight( );
 			final DimensionHandle dhWidth = eih.getWidth( );
 
@@ -93,71 +100,69 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 			double dOriginalWidth = dhWidth.getMeasure( );
 			String sWidthUnits = dhWidth.getUnits( );
 
-			if ( sHeightUnits == null || sWidthUnits == null )
-			{
-				// check invalid case
-				return;
-			}
-
 			// USE THE SWT DISPLAY SERVER TO CONVERT POINTS TO PIXELS
-			final IDisplayServer idsSWT = ChartUIUtil.getDisplayServer( ); // REUSE
-			// Convert from pixels to points first...since DimensionUtil does
-			// not
-			// provide conversion services to and from
-			// Pixels
-			if ( sHeightUnits == DesignChoiceConstants.UNITS_PX )
-			{
-				dOriginalHeight = ChartUtil.convertPixelsToPoints( idsSWT,
-						dOriginalHeight );
-				sHeightUnits = DesignChoiceConstants.UNITS_PT;
-			}
-			// convert percentage to points
-			if ( sHeightUnits == DesignChoiceConstants.UNITS_PERCENTAGE )
-			{
-				IFigure parentFigure = ifg.getParent( );
-				if ( parentFigure != null )
+			final IDisplayServer idsSWT = ChartUIUtil.getDisplayServer( ); 
+			
+			if ( sHeightUnits != null )
+			{				
+				// Convert from pixels to points first...since DimensionUtil does
+				// not provide conversion services to and from Pixels
+				if ( sHeightUnits == DesignChoiceConstants.UNITS_PX )
 				{
-					int height = (int) ( ( parentFigure.getSize( ).height - parentFigure.getInsets( )
-							.getHeight( ) )
-							* dOriginalHeight / 100 );
 					dOriginalHeight = ChartUtil.convertPixelsToPoints( idsSWT,
-							height );
+							dOriginalHeight );
 					sHeightUnits = DesignChoiceConstants.UNITS_PT;
 				}
-			}
-			double dHeightInPoints = DimensionUtil.convertTo( dOriginalHeight,
-					sHeightUnits,
-					DesignChoiceConstants.UNITS_PT ).getMeasure( );
-			// Convert from pixels to points first...since DimensionUtil does
-			// not
-			// provide conversion services to and from
-			// Pixels
-			if ( sWidthUnits == DesignChoiceConstants.UNITS_PX )
-			{
-				dOriginalWidth = ( dOriginalWidth * 72d )
-						/ idsSWT.getDpiResolution( );
-				sWidthUnits = DesignChoiceConstants.UNITS_PT;
-			}
-			// convert percentage to points
-			if ( sWidthUnits == DesignChoiceConstants.UNITS_PERCENTAGE )
-			{
-				IFigure parentFigure = ifg.getParent( );
-				if ( parentFigure != null )
+				// convert percentage to points
+				if ( sHeightUnits == DesignChoiceConstants.UNITS_PERCENTAGE )
 				{
-
-					int width = (int) ( ( parentFigure.getSize( ).width - parentFigure.getInsets( )
-							.getWidth( ) )
-							* dOriginalWidth / 100 );
-					dOriginalWidth = ChartUtil.convertPixelsToPoints( idsSWT,
-							width );
+					IFigure parentFigure = ifg.getParent( );
+					if ( parentFigure != null )
+					{
+						int height = (int) ( ( parentFigure.getSize( ).height - parentFigure.getInsets( )
+								.getHeight( ) )
+								* dOriginalHeight / 100 );
+						dOriginalHeight = ChartUtil.convertPixelsToPoints( idsSWT,
+								height );
+						sHeightUnits = DesignChoiceConstants.UNITS_PT;
+					}
+				}
+				dHeightInPoints = DimensionUtil.convertTo( dOriginalHeight,
+						sHeightUnits,
+						DesignChoiceConstants.UNITS_PT ).getMeasure( );
+				dHeightInPixels = ( idsSWT.getDpiResolution( ) * dHeightInPoints ) / 72d;
+			}
+			
+			if ( sWidthUnits != null )
+			{
+				// Convert from pixels to points first...since DimensionUtil
+				// does not provide conversion services to and from Pixels
+				if ( sWidthUnits == DesignChoiceConstants.UNITS_PX )
+				{
+					dOriginalWidth = ( dOriginalWidth * 72d )
+							/ idsSWT.getDpiResolution( );
 					sWidthUnits = DesignChoiceConstants.UNITS_PT;
 				}
+				// convert percentage to points
+				if ( sWidthUnits == DesignChoiceConstants.UNITS_PERCENTAGE )
+				{
+					IFigure parentFigure = ifg.getParent( );
+					if ( parentFigure != null )
+					{
+
+						int width = (int) ( ( parentFigure.getSize( ).width - parentFigure.getInsets( )
+								.getWidth( ) )
+								* dOriginalWidth / 100 );
+						dOriginalWidth = ChartUtil.convertPixelsToPoints( idsSWT,
+								width );
+						sWidthUnits = DesignChoiceConstants.UNITS_PT;
+					}
+				}
+				dWidthInPoints = DimensionUtil.convertTo( dOriginalWidth,
+						sWidthUnits,
+						DesignChoiceConstants.UNITS_PT ).getMeasure( );
+				dWidthInPixels = ( idsSWT.getDpiResolution( ) * dWidthInPoints ) / 72d;
 			}
-			double dWidthInPoints = DimensionUtil.convertTo( dOriginalWidth,
-					sWidthUnits,
-					DesignChoiceConstants.UNITS_PT ).getMeasure( );
-			final double dHeightInPixels = ( idsSWT.getDpiResolution( ) * dHeightInPoints ) / 72d;
-			final double dWidthInPixels = ( idsSWT.getDpiResolution( ) * dWidthInPoints ) / 72d;
 
 			final ChartReportItemImpl crii;
 			// UPDATE THE MODEL
