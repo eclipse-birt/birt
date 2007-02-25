@@ -401,7 +401,13 @@ public final class ChartReportItemPresentationImpl extends
 				cm.setScript( javaHandlerClass );
 			}
 
-			BIRTDataRowEvaluator rowAdapter = new BIRTDataRowEvaluator( irsa[0] );
+			IRowSet rowSet = irsa[0];
+			if ( rowSet == null || rowSet.isEmpty( ) )
+			{
+				// Do nothing when RowSet is empty or null
+				return null;
+			}
+			BIRTDataRowEvaluator rowAdapter = new BIRTDataRowEvaluator( rowSet );
 			Generator.instance( ).bindData( rowAdapter,
 					new BIRTActionEvaluator( ),
 					cm,

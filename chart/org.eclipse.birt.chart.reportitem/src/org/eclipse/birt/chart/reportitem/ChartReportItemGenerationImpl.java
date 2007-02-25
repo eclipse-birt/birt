@@ -149,6 +149,7 @@ public class ChartReportItemGenerationImpl extends ReportItemGenerationBase
 		if ( rowSets == null
 				|| rowSets.length != 1
 				|| rowSets[0] == null
+				|| rowSets[0].isEmpty( )
 				|| queries == null
 				|| queries[0] == null )
 		{
