@@ -1,36 +1,36 @@
 !***************  FEATURE CONTRIBUTION  ******************************************************
-feature@org.eclipse.birt.sdk=v20070209-1000,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.sdk.feature
+feature@org.eclipse.birt.sdk=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.sdk.feature
 plugin@org.eclipse.birt.sdk=v20061130,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.sdk
 
-feature@org.eclipse.birt=v20070209-1000,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.feature
+feature@org.eclipse.birt=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.feature
 plugin@org.eclipse.birt=v20061130,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt
 
 !*************** DOC ***********
-feature@org.eclipse.birt.chart.cshelp=v20070209-1000,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.cshelp.feature
-feature@org.eclipse.birt.chart.doc.isv=v20070209-1000,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.doc.isv.feature
-feature@org.eclipse.birt.cshelp=v20070209-1000,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.cshelp.feature
-feature@org.eclipse.birt.doc.isv=v20070209-1000,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.doc.isv.feature
-feature@org.eclipse.birt.doc=v20070209-1000,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.doc.feature
-feature@org.eclipse.birt.example=v20070209-1000,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.example.feature
+feature@org.eclipse.birt.chart.cshelp=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.cshelp.feature
+feature@org.eclipse.birt.chart.doc.isv=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.doc.isv.feature
+feature@org.eclipse.birt.cshelp=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.cshelp.feature
+feature@org.eclipse.birt.doc.isv=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.doc.isv.feature
+feature@org.eclipse.birt.doc=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.doc.feature
+feature@org.eclipse.birt.example=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.example.feature
 
 !*************** BIRT  ***********
-feature@org.eclipse.birt.chart.runtime=v20070209-1000,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.runtime.feature
+feature@org.eclipse.birt.chart.runtime=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.runtime.feature
 plugin@org.eclipse.birt.chart.runtime=v20061120-1200,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.runtime
 
-feature@org.eclipse.birt.chart=v20070209-1000,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.feature
+feature@org.eclipse.birt.chart=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.feature
 plugin@org.eclipse.birt.chart=v20061130,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart
 
-feature@org.eclipse.birt.report.designer=v20070209-1000,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.feature
+feature@org.eclipse.birt.report.designer=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.feature
 plugin@org.eclipse.birt.report.designer=v20061130,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer
 
-feature@org.eclipse.birt.report.runtime=v20070209-1000,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.runtime.feature
+feature@org.eclipse.birt.report.runtime=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.runtime.feature
 plugin@org.eclipse.birt.report.runtime=v20061130,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.runtime
 
 feature@org.eclipse.birt.testhelper=v20070202,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.testhelper.feature
 feature@org.eclipse.birt.tests=v20070202,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.tests.feature
 plugin@org.eclipse.birt.tests=v20070202,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.tests
 
-feature@org.eclipse.birt.integration.wtp=v20070209-1000,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.integration.wtp.feature
+feature@org.eclipse.birt.integration.wtp=v20070225,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.integration.wtp.feature
 feature@org.eclipse.birt.rcp=v20061212,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.rcp.feature
 
 !*************** Third Party Features  ***********
@@ -56,17 +56,17 @@ plugin@org.apache.xerces=v200612131415,:pserver:anonymous@dev.eclipse.org:/cvsro
 feature@org.apache.xerces.feature=v20070215,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.xerces.feature 
 
 
-feature@com.lowagie.itext=v20070209-1000,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/com.lowagie.itext.feature 
+feature@com.lowagie.itext=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/com.lowagie.itext.feature 
 plugin@com.lowagie.itext=v20061120-1200,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/com.lowagie.itext
 
-feature@org.apache.commons.codec=v20070209-1000,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.commons.codec.feature 
+feature@org.apache.commons.codec=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.commons.codec.feature 
 plugin@org.apache.commons.codec=v20061120-1200,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.commons.codec
 
-feature@org.apache.derby.core=v20070209-1000,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.derby.core.feature 
+feature@org.apache.derby.core=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.derby.core.feature 
 plugin@org.apache.derby.core=v20061120-1200,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.derby.core
 
-feature@org.mozilla.rhino=v20070209-1000,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.mozilla.rhino.feature 
+feature@org.mozilla.rhino=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.mozilla.rhino.feature 
 plugin@org.mozilla.rhino=v20061120-1200,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.mozilla.rhino
 
-feature@org.w3c.sac=v20070209-1000,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.w3c.sac.feature 
+feature@org.w3c.sac=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.w3c.sac.feature 
 plugin@org.w3c.sac=v20061120-1200,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.w3c.sac
