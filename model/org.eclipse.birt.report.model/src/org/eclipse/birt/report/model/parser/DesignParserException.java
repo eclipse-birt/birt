@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.parser;
 import org.eclipse.birt.report.model.api.ModelException;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.util.ErrorCodes;
 
 /**
  * This class describes a parse error. Many errors are reported using the same
@@ -21,7 +22,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
  * 
  */
 
-public class DesignParserException extends ModelException
+public class DesignParserException extends ModelException implements ErrorCodes
 {
 
 	/**
@@ -162,12 +163,6 @@ public class DesignParserException extends ModelException
 	 */
 
 	public static final String DESIGN_EXCEPTION_UNSUPPORTED_ENCODING = MessageConstants.DESIGN_PARSER_EXCEPTION_UNSUPPORTED_ENCODING;
-
-	/**
-	 * The report version is unsupported.
-	 */
-
-	public static final String DESIGN_EXCEPTION_UNSUPPORTED_VERSION = MessageConstants.DESIGN_PARSER_EXCEPTION_UNSUPPORTED_VERSION;
 
 	/**
 	 * The report version is invalid.
