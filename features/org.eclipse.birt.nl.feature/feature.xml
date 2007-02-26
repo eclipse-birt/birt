@@ -260,6 +260,15 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
+    
+    <plugin
+         id="org.eclipse.birt.integration.wtp.ui.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+         
    <plugin
          id="org.eclipse.datatools.connectivity.nl"
          download-size="0"
@@ -338,5 +347,22 @@
          install-size="0"
          version="0.0.0"
          fragment="true"
-         unpack="false"/>         
+         unpack="false"/>
+         
+   <plugin
+         id="org.eclipse.datatools.enablement.oda.xml.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+         
+    <plugin
+         id="org.eclipse.datatools.enablement.oda.xml.ui.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+         
 </feature>

@@ -36,7 +36,7 @@ feature@org.eclipse.birt.rcp=v20061212,:pserver:anonymous@dev.eclipse.org:/cvsro
 !*************** Third Party Features  ***********
 feature@org.eclipse.birt.thirdparty=v20070202,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.thirdparty.feature
 plugin@org.eclipse.birt.thirdparty=v20061120-1200,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.thirdparty
-feature@org.eclipse.birt.nl=v20061212,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.nl.feature
+feature@org.eclipse.birt.nl=v20070225,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.nl.feature
 
 !*** Apache Batik features
 ***************************************************************************
