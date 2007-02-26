@@ -159,10 +159,10 @@
 			<include name="org.eclipse.birt.chart.device.swt*.jar" />
 			<include name="org.eclipse.birt.chart.engine.extension*.jar" />
 			<include name="org.eclipse.birt.chart.engine*.jar" />
-			<include name="org.eclipse.birt.chart.runtime*.jar" />
+			<include name="org.eclipse.birt.chart.runtime_*/**" />
 			<include name="org.eclipse.birt.chart.ui.extension*.jar" />
 			<include name="org.eclipse.birt.chart.ui*.jar" />
-			<include name="org.eclipse.birt.chart_*.jar" />
+			<include name="org.eclipse.birt.chart_*/**" />
 			<include name="org.eclipse.birt.core*.jar" />
 			<include name="org.eclipse.birt.core.ui*.jar" />
 			<include name="org.eclipse.birt.doc*.jar" />
@@ -171,6 +171,7 @@
 			<include name="org.eclipse.birt.doc*.jar" />
 			<include name="org.eclipse.birt.chart.cshelp*/**"/>
 			<include name="org.eclipse.birt.chart.doc.isv*/**"/>
+			<include name="org.eclipse.birt.chart.examples_*.jar"/>
 		</patternset>
 
 		<!--Define the engine runtime plugins-->
