@@ -341,3 +341,5 @@ dataprocessor.exception.FoundMoreThanOneDefnAssociateX=Se han encontrado {0} def
 edataprocessor.xception.definitionsAssociatedWithX=La definición de datos para la serie X no se ha especificado.
 dataprocessor.exception.DefnExpMustAssociateY=Se debe asociar una expresión de definición de datos a la serie (Y) del valor-{0} definida por {1}.
 dataprocessor.log.baseSeriesDefnBeStatic=La definición de serie de categoría ({0}) se utilizará como una expresión estática.
+
+exception.data.max.row.count=Unable to render a chart that binds over {0} rows of data.

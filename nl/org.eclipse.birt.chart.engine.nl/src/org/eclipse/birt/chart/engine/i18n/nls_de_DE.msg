@@ -341,3 +341,5 @@ dataprocessor.exception.FoundMoreThanOneDefnAssociateX={0} mit dem Datenreihenau
 edataprocessor.xception.definitionsAssociatedWithX=Es wurde keine Datendefinition für die X-Datenreihe angegeben.
 dataprocessor.exception.DefnExpMustAssociateY=Ein Datendefinitionsausdruck muss mit der durch {1} definierten Wert-(Y)-Datenreihe-{0} verknüpft sein.
 dataprocessor.log.baseSeriesDefnBeStatic=Kategorie-Datenreihendefinition ({0}) wird als statischer Ausdruck verwendet.
+
+exception.data.max.row.count=Unable to render a chart that binds over {0} rows of data.

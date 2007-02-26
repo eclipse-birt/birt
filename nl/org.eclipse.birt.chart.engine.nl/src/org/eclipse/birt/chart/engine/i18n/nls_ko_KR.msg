@@ -341,3 +341,5 @@ dataprocessor.exception.FoundMoreThanOneDefnAssociateX=X 계열 식과 연결된 데이터
 edataprocessor.xception.definitionsAssociatedWithX=X 계열에 대한 데이터 정의가 지정되지 않았습니다.
 dataprocessor.exception.DefnExpMustAssociateY=데이터 정의 식은 {1}에서 정의된 값 (Y) 계열-{0}와(과) 연결되어야 합니다.
 dataprocessor.log.baseSeriesDefnBeStatic=범주 계열 정의 ({0})가 정적 식으로 사용됩니다.
+
+exception.data.max.row.count=Unable to render a chart that binds over {0} rows of data.
