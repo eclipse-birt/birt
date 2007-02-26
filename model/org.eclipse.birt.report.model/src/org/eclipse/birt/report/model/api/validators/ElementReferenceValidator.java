@@ -127,7 +127,7 @@ public class ElementReferenceValidator extends AbstractPropertyValidator
 	 *            the module
 	 * @param element
 	 *            the element holding this element reference property
-	 * @param propName
+	 * @param containmentPropName
 	 *            the name of the property
 	 * @return <code>true</code> if the property is resolved;
 	 *         <code>false</code> otherwise.

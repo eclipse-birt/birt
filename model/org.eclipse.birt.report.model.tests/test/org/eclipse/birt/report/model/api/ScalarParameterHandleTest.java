@@ -21,7 +21,6 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
-
 /**
  * Test ReportItemHandle.
  * 
@@ -75,6 +74,8 @@ public class ScalarParameterHandleTest extends BaseTestCase
 
 	/**
 	 * Tests to read properties on scalar parameters.
+	 * 
+	 * @throws SemanticException
 	 */
 
 	public void testGetsPropertiesOnParameter( ) throws SemanticException
@@ -89,10 +90,9 @@ public class ScalarParameterHandleTest extends BaseTestCase
 		assertFalse( handle.isConcealValue( ) );
 		assertEquals( "State", handle.getDefaultValue( ) ); //$NON-NLS-1$
 
-		assertTrue( handle.allowNull( ) );
-		assertFalse( handle.allowBlank( ) );
+		assertFalse( handle.isRequired( ) );
 
-		assertEquals( "##,###.##", handle.getFormat( ) ); //$NON-NLS-1$
+		assertEquals( "##,###.##", handle.getPattern( ) ); //$NON-NLS-1$
 
 		assertEquals( DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX, handle
 				.getControlType( ) );
@@ -125,9 +125,8 @@ public class ScalarParameterHandleTest extends BaseTestCase
 				.getDataType( ) );
 		assertFalse( handle.isConcealValue( ) );
 		assertNull( handle.getDefaultValue( ) );
-		assertFalse( handle.allowNull( ) );
-		assertFalse( handle.allowBlank( ) );
-		assertNull( handle.getFormat( ) );
+		assertTrue( handle.isRequired( ) );
+		assertNull( handle.getPattern( ) );
 		assertNull( handle.getControlType( ) );
 		assertEquals( DesignChoiceConstants.SCALAR_PARAM_ALIGN_AUTO, handle
 				.getAlignment( ) );
@@ -150,7 +149,7 @@ public class ScalarParameterHandleTest extends BaseTestCase
 		assertEquals( "dataset 1", handle.getDataSetName( ) ); //$NON-NLS-1$
 		DataSetHandle dataSet = handle.getDataSet( );
 		assertEquals( "dataset 1", dataSet.getName( ) ); //$NON-NLS-1$
-		
+
 		assertEquals( "value column", handle.getValueExpr( ) ); //$NON-NLS-1$
 		assertEquals( "label column", handle.getLabelExpr( ) ); //$NON-NLS-1$
 
@@ -231,14 +230,11 @@ public class ScalarParameterHandleTest extends BaseTestCase
 		handle.setDefaultValue( "new default value" ); //$NON-NLS-1$
 		assertEquals( "new default value", handle.getDefaultValue( ) ); //$NON-NLS-1$
 
-		handle.setAllowNull( false );
-		assertFalse( handle.allowNull( ) );
+		handle.setIsRequired( false );
+		assertFalse( handle.isRequired( ) );
 
-		handle.setAllowBlank( true );
-		assertTrue( handle.allowBlank( ) );
-
-		handle.setFormat( "$***,***.**" ); //$NON-NLS-1$
-		assertEquals( "$***,***.**", handle.getFormat( ) ); //$NON-NLS-1$
+		handle.setPattern( "$***,***.**" ); //$NON-NLS-1$
+		assertEquals( "$***,***.**", handle.getPattern( ) ); //$NON-NLS-1$
 
 		handle
 				.setControlType( DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON );

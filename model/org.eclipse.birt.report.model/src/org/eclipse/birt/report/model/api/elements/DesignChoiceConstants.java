@@ -757,4 +757,12 @@ public interface DesignChoiceConstants
 	public static final String CHOICE_ACCESS_PERMISSION = "accessPermission"; //$NON-NLS-1$
 	public static final String ACCESS_PERMISSION_ALLOW = "allow"; //$NON-NLS-1$
 	public static final String ACCESS_PERMISSION_DISALLOW = "disallow"; //$NON-NLS-1$
+		
+	/**
+	 * Parameter sort values -- can be value or display text.
+	 */
+	
+	public static final String CHOICE_PARAM_SORT_VALUES = "paramSortValues"; //$NON-NLS-1$
+	public static final String PARAM_SORT_VALUES_VALUE = "value"; //$NON-NLS-1$
+	public static final String PARAM_SORT_VALUES_LABEL = "label"; //$NON-NLS-1$
 };

@@ -16,11 +16,13 @@
             <method name="validate">the validation test</method>
             <property name="dataType">decimal</property>
 	        <property name="valueType">static</property>
-            <property name="allowBlank">false</property>
-            <property name="allowNull">true</property>
+            <property name="isRequired">true</property>
             <property name="controlType">check-box</property>
             <property name="dataSetName">dataset 2</property>
             <property name="displayPrompt">2005.4.12</property>
+            <property name="distinct">false</property>
+            <property name="sortDirection">desc</property>
+            <property name="sortBy">value</property>            
             <expression name="valueExpr">value column</expression>
             <expression name="labelExpr">label column</expression>
             <expression name="defaultValue">State</expression>

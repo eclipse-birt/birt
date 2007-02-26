@@ -43,12 +43,16 @@ public interface IScalarParameterModel
 
 	/**
 	 * Name of the allow-null property.
+	 * 
+	 * @deprecated by {@link #IS_REQUIRED_PROP} since BIRT 2.2
 	 */
 
 	public static final String ALLOW_NULL_PROP = "allowNull"; //$NON-NLS-1$
 
 	/**
 	 * Name of the allow-blank property.
+	 * 
+	 * @deprecated by {@link #IS_REQUIRED_PROP} since BIRT 2.2
 	 */
 
 	public static final String ALLOW_BLANK_PROP = "allowBlank"; //$NON-NLS-1$
@@ -106,31 +110,60 @@ public interface IScalarParameterModel
 	 */
 
 	public static final String SELECTION_LIST_PROP = "selectionList"; //$NON-NLS-1$ 
-	
+
 	/**
 	 * Name of the prompt text property
 	 */
 	public static final String PROMPT_TEXT_PROP = "promptText"; //$NON-NLS-1$
-	
+
 	/**
-	 * Name of the prompt text ID property. This property contains the message ID
-	 * used to localize property prompt text ID.
+	 * Name of the prompt text ID property. This property contains the message
+	 * ID used to localize property prompt text ID.
 	 */
 
 	public static final String PROMPT_TEXT_ID_PROP = "promptTextID"; //$NON-NLS-1$
-	
-	
+
 	/**
 	 * Name of the Limited-list property
 	 */
 	public static final String LIST_LIMIT_PROP = "listLimit"; //$NON-NLS-1$
-	
+
 	/**
-	 * The property name of the bound columns that bind the report element
-	 * with the data set columns.
+	 * The property name of the bound columns that bind the report element with
+	 * the data set columns.
 	 */
 
 	public static final String BOUND_DATA_COLUMNS_PROP = "boundDataColumns"; //$NON-NLS-1$
-	
-	
+
+	/**
+	 * Name of the is-required property. If it is true, the user cannot enter
+	 * "null" value.
+	 * 
+	 */
+
+	public static final String IS_REQUIRED_PROP = "isRequired"; //$NON-NLS-1$
+
+	/**
+	 * Name of the distinct property. If it is true, Engine checks duplicate
+	 * values.
+	 * 
+	 */
+
+	public static final String DISTINCT_PROP = "distinct"; //$NON-NLS-1$
+
+	/**
+	 * Name of the sortDirection property. Can be null, "asc" or "desc".
+	 * 
+	 */
+
+	public static final String SORT_DIRECTION_PROP = "sortDirection"; //$NON-NLS-1$
+
+	/**
+	 * Name of the sortKey property. It indicates the sort key is value or the
+	 * display text.
+	 * 
+	 */
+
+	public static final String SORT_BY_PROP = "sortBy"; //$NON-NLS-1$
+
 }

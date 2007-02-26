@@ -15,6 +15,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -682,6 +683,45 @@ public abstract class BaseTestCase extends TestCase
 		if ( moduleHandle != null )
 			moduleHandle.serialize( os );
 		os.close( );
+	}
+	
+	/**
+	 * Saves the output stream into the output file.
+	 * 
+	 * @param fileName
+	 *            the resource name. Based on the class folder.
+	 * @throws Exception
+	 */
+
+	protected void saveOutputFile( String fileName ) throws Exception
+	{
+		String folder = getTempFolder( ) + OUTPUT_FOLDER;
+		File tmpFolder = new File( folder );
+		if ( !tmpFolder.exists( ) )
+			tmpFolder.mkdirs( );
+
+		String strDesign = os.toString( );
+		FileOutputStream fos = new FileOutputStream( folder + fileName );
+		fos.write( strDesign.getBytes( "UTF-8" ) ); //$NON-NLS-1$
+
+		fos.close( );
+	}
+	
+	/**
+	 * Gets the temp folder of this class.
+	 * 
+	 * @return temp folder of this class
+	 */
+
+	protected String getTempFolder( )
+	{
+		String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
+		if ( !tempDir.endsWith( File.separator ) )
+			tempDir += File.separator;
+
+		String outputPath = tempDir + "org.eclipse.birt.report.model.adapter.oda" //$NON-NLS-1$
+				+ getFullQualifiedClassName( );
+		return outputPath;
 	}
 
 }

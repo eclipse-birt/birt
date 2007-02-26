@@ -12,21 +12,18 @@
             <parameters>
                 <scalar-parameter name="NewParameter" id="9">
                     <property name="valueType">dynamic</property>
-                    <property name="allowNull">false</property>
                     <property name="format">Unformatted:</property>
                     <property name="controlType">list-box</property>
                     <expression name="valueExpr">open_dt</expression>
                 </scalar-parameter>
                 <scalar-parameter name="NewParameter1" id="10">
                     <property name="valueType">dynamic</property>
-                    <property name="allowNull">false</property>
                     <property name="format">Unformatted</property>
                     <property name="controlType">list-box</property>
                     <expression name="valueExpr">account_id</expression>
                 </scalar-parameter>
                 <scalar-parameter name="NewParameter2" id="11">
                     <property name="valueType">dynamic</property>
-                    <property name="allowNull">false</property>
                     <property name="format">Unformatted</property>
                     <property name="controlType">list-box</property>
                     <expression name="valueExpr">account_nm</expression>

@@ -16,7 +16,6 @@ import java.util.Iterator;
 import org.eclipse.birt.report.model.adapter.oda.ModelOdaAdapter;
 import org.eclipse.birt.report.model.adapter.oda.model.DesignValues;
 import org.eclipse.birt.report.model.adapter.oda.model.ModelFactory;
-import org.eclipse.birt.report.model.adapter.oda.model.util.SerializerImpl;
 import org.eclipse.birt.report.model.adapter.oda.util.BaseTestCase;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
@@ -69,9 +68,9 @@ public class ReportParameterAdapterTest extends BaseTestCase
 		DesignValues values = ModelFactory.eINSTANCE.createDesignValues( );
 		values.setDataSetParameters( setDesign.getParameters( ) );
 
-		saveDesignValuesToFile( values);
+		saveDesignValuesToFile( values );
 
-		assertTrue( compareTextFile( "DataSetParamWithReportParam_golden.xml") ); //$NON-NLS-1$
+		assertTrue( compareTextFile( "DataSetParamWithReportParam_golden.xml" ) ); //$NON-NLS-1$
 
 	}
 
@@ -117,8 +116,8 @@ public class ReportParameterAdapterTest extends BaseTestCase
 		new ModelOdaAdapter( )
 				.updateDataSetHandle( setDesign, setHandle, false );
 
-		save( ); 
-		compareTextFile( "OdaDataSetConvertReportParamTest_golden.xml"); //$NON-NLS-1$
+		save( );
+		compareTextFile( "OdaDataSetConvertReportParamTest_golden.xml" ); //$NON-NLS-1$
 
 		openDesign( "OdaDataSetConvertReportParamTest_1.xml" ); //$NON-NLS-1$
 		setHandle = (OdaDataSetHandle) designHandle.findDataSet( "myDataSet1" ); //$NON-NLS-1$
@@ -126,7 +125,7 @@ public class ReportParameterAdapterTest extends BaseTestCase
 		// get the latest data set design.
 
 		setDesign = new ModelOdaAdapter( ).createDataSetDesign( setHandle );
-		
+
 		DesignUtil.validateObject( setDesign );
 
 		// oda data set design changed, update ROM values. still keep report
@@ -143,7 +142,9 @@ public class ReportParameterAdapterTest extends BaseTestCase
 				.updateDataSetHandle( setDesign, setHandle, false );
 
 		save( );
-		compareTextFile( "OdaDataSetConvertReportParamTest_1_golden.xml"); //$NON-NLS-1$
+		
+		saveOutputFile( "OdaDataSetConvertReportParamTest_1_out.xml" );
+		compareTextFile( "OdaDataSetConvertReportParamTest_1_golden.xml" ); //$NON-NLS-1$
 
 		openDesign( "OdaDataSetConvertReportParamTest_1.xml" ); //$NON-NLS-1$
 		setHandle = (OdaDataSetHandle) designHandle.findDataSet( "myDataSet1" ); //$NON-NLS-1$
@@ -164,7 +165,7 @@ public class ReportParameterAdapterTest extends BaseTestCase
 		new ModelOdaAdapter( )
 				.updateDataSetHandle( setDesign, setHandle, false );
 
-		save( ); 
+		save( );
 		compareTextFile( "OdaDataSetConvertReportParamTest_2_golden.xml" ); //$NON-NLS-1$
 
 		// the oda data set design is not changed. ROM values are changed.
@@ -193,7 +194,7 @@ public class ReportParameterAdapterTest extends BaseTestCase
 		new ModelOdaAdapter( )
 				.updateDataSetHandle( setDesign, setHandle, false );
 
-		save( ); 
+		save( );
 		compareTextFile( "OdaDataSetConvertReportParamTest_3_golden.xml" ); //$NON-NLS-1$
 
 		// when convert data set design to data set handle, report parameters's

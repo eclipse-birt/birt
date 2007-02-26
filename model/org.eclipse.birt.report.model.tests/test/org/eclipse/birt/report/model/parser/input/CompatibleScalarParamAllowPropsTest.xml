@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.3">
+	<data-sources>
+        <oda-data-source name="DataSource"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="ds1">
+            <property name="dataSource">DataSource</property>
+        </oda-data-set>
+    </data-sets>
+    <parameters>
+        <scalar-parameter name="Param 1">
+            <property name="dataType">decimal</property>
+	        <property name="valueType">static</property>
+            <property name="allowBlank">false</property>
+            <property name="allowNull">true</property>
+        </scalar-parameter>
+	    <scalar-parameter name="Param 2">
+            <property name="dataType">decimal</property>
+            <property name="allowBlank">true</property>
+            <property name="allowNull">false</property>
+        </scalar-parameter>        
+	    <scalar-parameter name="Param 3">
+            <property name="dataType">string</property>
+            <property name="allowBlank">false</property>
+            <property name="allowNull">true</property>
+        </scalar-parameter>
+	    <scalar-parameter name="Param 4">
+            <property name="dataType">string</property>
+            <property name="allowBlank">true</property>
+            <property name="allowNull">false</property>
+		</scalar-parameter>   
+	    <scalar-parameter name="Param 5">
+            <property name="dataType">string</property>
+            <property name="allowBlank">false</property>
+            <property name="allowNull">false</property>
+		</scalar-parameter>  				         
+    </parameters>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <contents>
+                <label>
+                    <property name="x">1mm</property>
+                    <property name="y">0.5mm</property>
+                    <property name="height">0.25mm</property>
+                    <property name="width">2mm</property>
+                    <text-property name="text">First Page</text-property>
+                </label>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+</report>

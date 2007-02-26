@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.ParameterFormatValue;
@@ -188,11 +189,13 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * 
 	 * @return <code>true</code> if the value can be <code>null</code>,
 	 *         <code>false</code> if the value can not be <code>null</code>.
+	 * 
+	 * @deprecated by {@link #isRequired()}
 	 */
 
 	public boolean allowNull( )
 	{
-		return getBooleanProperty( ALLOW_NULL_PROP );
+		return !getBooleanProperty( IS_REQUIRED_PROP );
 	}
 
 	/**
@@ -204,11 +207,13 @@ public class ScalarParameterHandle extends ParameterHandle
 	 *            <code>false</code> if the value can not be <code>null</code>.
 	 * @throws SemanticException
 	 *             if the property is locked.
+	 * 
+	 * @deprecated by {@link #setIsRequired(boolean)}
 	 */
 
 	public void setAllowNull( boolean allowNull ) throws SemanticException
 	{
-		setProperty( ALLOW_NULL_PROP, Boolean.valueOf( allowNull ) );
+		setProperty( IS_REQUIRED_PROP, Boolean.valueOf( !allowNull ) );
 	}
 
 	/**
@@ -216,27 +221,39 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * 
 	 * @return <code>true</code> if the value can be <code>null</code>,
 	 *         <code>false</code> if the value can not be <code>null</code>.
+	 * 
+	 * @deprecated by {@link #isRequired()}
 	 */
 
 	public boolean allowBlank( )
 	{
-		return getBooleanProperty( ALLOW_BLANK_PROP );
+		String dataType = getStringProperty( DATA_TYPE_PROP );
+		if ( DesignChoiceConstants.PARAM_TYPE_STRING
+				.equalsIgnoreCase( dataType ) )
+			return !getBooleanProperty( IS_REQUIRED_PROP );
+
+		return false;
 	}
 
 	/**
 	 * Sets the flag that indicates whether the string value of the parameter
 	 * can be <code>null</code>.
 	 * 
-	 * @param allowNull
+	 * @param allowBlank
 	 *            <code>true</code> if the value can be <code>null</code>,
 	 *            <code>false</code> if the value can not be <code>null</code>.
 	 * @throws SemanticException
 	 *             if the property is locked.
+	 * 
+	 * @deprecated by {@link #setIsRequired(boolean)}
 	 */
 
-	public void setAllowBlank( boolean allowNull ) throws SemanticException
+	public void setAllowBlank( boolean allowBlank ) throws SemanticException
 	{
-		setProperty( ALLOW_BLANK_PROP, Boolean.valueOf( allowNull ) );
+		String dataType = getStringProperty( DATA_TYPE_PROP );
+		if ( DesignChoiceConstants.PARAM_TYPE_STRING
+				.equalsIgnoreCase( dataType ) )
+			setProperty( IS_REQUIRED_PROP, Boolean.valueOf( !allowBlank ) );
 	}
 
 	/**
@@ -957,7 +974,8 @@ public class ScalarParameterHandle extends ParameterHandle
 			return (ComputedColumnHandle) getPropertyHandle(
 					BOUND_DATA_COLUMNS_PROP ).addItem( addColumn );
 		String aggregateOn = addColumn.getAggregateOn( );
-		ComputedColumn column = DataBoundColumnUtil.getColumn( columns, expr , aggregateOn );
+		ComputedColumn column = DataBoundColumnUtil.getColumn( columns, expr,
+				aggregateOn );
 		if ( column != null && !inForce )
 		{
 			return (ComputedColumnHandle) column.handle(
@@ -979,5 +997,142 @@ public class ScalarParameterHandle extends ParameterHandle
 	public void removedUnusedColumnBindings( ) throws SemanticException
 	{
 		UnusedBoundColumnsMgr.removedUnusedBoundColumns( this );
+	}
+
+	/**
+	 * Sets the flag that indicates whether the value of the parameter is
+	 * required. For string type parameter, if the value is required, it cannot
+	 * be <code>null</code> or empty. For other type parameters, required
+	 * value cannot be <code>null</code>.
+	 * 
+	 * @param isRequired
+	 *            <code>true</code> if the value is required. Otherwise
+	 *            <code>false</code>.
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setIsRequired( boolean isRequired ) throws SemanticException
+	{
+		setProperty( IS_REQUIRED_PROP, Boolean.valueOf( isRequired ) );
+	}
+
+	/**
+	 * Tests whether the string value of the parameter is required. For string
+	 * type parameter, if the value is required, it cannot be <code>null</code>
+	 * or empty. For other type parameters, required value cannot be
+	 * <code>null</code>.
+	 * 
+	 * @return <code>true</code> if the value is required. Otherwise
+	 *         <code>false</code>.
+	 */
+
+	public boolean isRequired( )
+	{
+		return getBooleanProperty( IS_REQUIRED_PROP );
+	}
+
+	/**
+	 * Sets the flag that indicates whether duplicate values should be shown
+	 * when preview.
+	 * 
+	 * @param distinct
+	 *            <code>true</code> if duplicate values only show once.
+	 *            Otherwise <code>false</code>.
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setDistinct( boolean distinct ) throws SemanticException
+	{
+		setProperty( DISTINCT_PROP, Boolean.valueOf( distinct ) );
+	}
+
+	/**
+	 * Checks whether duplicate values should be shown when preview.
+	 * 
+	 * @return <code>true</code> if duplicate values only show once. Otherwise
+	 *         <code>false</code>.
+	 */
+
+	public boolean distinct( )
+	{
+		return getBooleanProperty( DISTINCT_PROP );
+	}
+
+	/**
+	 * Sets the sort order for parameter values when preview. The input argument
+	 * can be
+	 * 
+	 * <ul>
+	 * <li>DesignChoiceConstants.SORT_DIRECTION_ASC
+	 * <li>DesignChoiceConstants.SORT_DIRECTION_DESC
+	 * <li><code>null</code>
+	 * </ul>
+	 * 
+	 * @param direction
+	 * 
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setSortDirection( String direction ) throws SemanticException
+	{
+		setProperty( SORT_DIRECTION_PROP, direction );
+	}
+
+	/**
+	 * Gets the sort order for parameter values when preview. The return value
+	 * can be
+	 * 
+	 * <ul>
+	 * <li>DesignChoiceConstants.SORT_DIRECTION_ASC
+	 * <li>DesignChoiceConstants.SORT_DIRECTION_DESC
+	 * <li><code>null</code>
+	 * </ul>
+	 * 
+	 * @return the sort order for parameter values
+	 */
+
+	public String getSortDirection( )
+	{
+		return getStringProperty( SORT_DIRECTION_PROP );
+	}
+
+	/**
+	 * Sets the sort key for parameter values when preview. The input argument
+	 * can be
+	 * 
+	 * <ul>
+	 * <li>DesignChoiceConstants.PARAM_SORT_VALUES_VALUE
+	 * <li>DesignChoiceConstants.PARAM_SORT_VALUES_LABEL
+	 * </ul>
+	 * 
+	 * @param sortValue
+	 * 
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setSortBy( String sortValue ) throws SemanticException
+	{
+		setProperty( SORT_BY_PROP, sortValue );
+	}
+
+	/**
+	 * Gets the sort key for parameter values when preview. The return value can
+	 * be
+	 * 
+	 * <ul>
+	 * <li>DesignChoiceConstants.PARAM_SORT_VALUES_VALUE
+	 * <li>DesignChoiceConstants.PARAM_SORT_VALUES_LABEL
+	 * </ul>
+	 * 
+	 * @return the sort key for parameter values
+	 */
+
+	public String getSortBy( )
+	{
+		return getStringProperty( SORT_BY_PROP );
 	}
 }

@@ -344,6 +344,18 @@ class PropertyState extends AbstractPropertyState
 
 	protected AbstractParseState versionConditionalJumpTo( )
 	{
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_11
+				&& propDefn == null
+				&& element instanceof ScalarParameter
+				&& ( "allowNull".equalsIgnoreCase( name ) || "allowBlank" //$NON-NLS-1$ //$NON-NLS-2$
+						.equalsIgnoreCase( name ) ) )
+		{
+			CompatibleParamAllowMumbleState state = new CompatibleParamAllowMumbleState(
+					handler, element, name );
+
+			state.setName( ScalarParameter.IS_REQUIRED_PROP );
+			return state;
+		}
 
 		if ( handler.versionNumber <= VersionUtil.VERSION_3_2_10
 				&& propDefn == null

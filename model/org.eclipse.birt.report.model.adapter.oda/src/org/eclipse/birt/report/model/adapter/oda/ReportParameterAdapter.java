@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.DataElementUIHints;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
@@ -57,6 +58,22 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 public class ReportParameterAdapter
 {
+
+	/**
+	 * Deprecated allowNull property.
+	 * 
+	 * @deprecated
+	 */
+
+	private static final String ALLOW_NULL_PROP_NAME = IScalarParameterModel.ALLOW_NULL_PROP;
+
+	/**
+	 * Deprecated allowBlank property.
+	 * 
+	 * @deprecated
+	 */
+
+	private static final String ALLOW_BLANK_PROP_NAME = IScalarParameterModel.ALLOW_BLANK_PROP;
 
 	/**
 	 * Default constructor.
@@ -93,8 +110,10 @@ public class ReportParameterAdapter
 			return true;
 
 		DataElementAttributes dataAttrs = odaParam.getAttributes( );
-		boolean allowNull = reportParam.allowNull( );
 		Boolean odaAllowNull = getROMNullability( dataAttrs.getNullability( ) );
+		boolean allowNull = getReportParamAllowMumble( reportParam,
+				ALLOW_NULL_PROP_NAME );
+
 		if ( odaAllowNull != null && allowNull != odaAllowNull.booleanValue( ) )
 			return false;
 
@@ -527,7 +546,10 @@ public class ReportParameterAdapter
 		boolean allowsNull = dataAttrs.allowsNull( );
 		if ( cachedDataAttrs == null
 				|| cachedDataAttrs.allowsNull( ) != allowsNull )
-			reportParam.setAllowNull( dataAttrs.allowsNull( ) );
+			setReportParamIsRequired( reportParam, ALLOW_NULL_PROP_NAME,
+					dataAttrs.allowsNull( ) );
+
+		// reportParam.setAllowNull( dataAttrs.allowsNull( ) );
 
 		DataElementUIHints dataUiHints = dataAttrs.getUiHints( );
 		DataElementUIHints cachedDataUiHints = ( cachedDataAttrs == null
@@ -653,7 +675,10 @@ public class ReportParameterAdapter
 		Boolean cachedIsOptional = cachedElementAttrs == null ? null : Boolean
 				.valueOf( cachedElementAttrs.isOptional( ) );
 		if ( cachedIsOptional == null || !cachedIsOptional.equals( isOptional ) )
-			reportParam.setAllowBlank( isOptional.booleanValue( ) );
+			setReportParamIsRequired( reportParam, ALLOW_BLANK_PROP_NAME,
+					isOptional.booleanValue( ) );
+
+		// reportParam.setAllowBlank( isOptional.booleanValue( ) );
 
 		// update conceal value
 
@@ -808,9 +833,9 @@ public class ReportParameterAdapter
 			if ( target instanceof OdaDataSetHandle && target != setHandle )
 				new ModelOdaAdapter( ).updateDataSetHandle( valueQuery
 						.getDataSetDesign( ), (OdaDataSetHandle) target, false );
-			
+
 			// if there is no corresponding data set, creates a new one.
-			
+
 			if ( target == null )
 			{
 				OdaDataSetHandle nestedDataSet = new ModelOdaAdapter( )
@@ -879,8 +904,12 @@ public class ReportParameterAdapter
 			retDataAttrs = DesignFactory.eINSTANCE
 					.createDataElementAttributes( );
 
+		// retDataAttrs.setNullability( DataSetParameterAdapter
+		// .newElementNullability( paramHandle.allowNll( ) ) );
+
 		retDataAttrs.setNullability( DataSetParameterAdapter
-				.newElementNullability( paramHandle.allowNull( ) ) );
+				.newElementNullability( getReportParamAllowMumble( paramHandle,
+						ALLOW_NULL_PROP_NAME ) ) );
 
 		DataElementUIHints uiHints = DesignFactory.eINSTANCE
 				.createDataElementUIHints( );
@@ -897,7 +926,7 @@ public class ReportParameterAdapter
 	 * Creates a ODA InputParameterAttributes with the given ROM report
 	 * parameter.
 	 * 
-	 * @param paramDefn
+	 * @param paramHandle
 	 *            the ROM report parameter.
 	 * @param dataSetDesign
 	 * 
@@ -906,7 +935,7 @@ public class ReportParameterAdapter
 
 	private InputParameterAttributes updateInputElementAttrs(
 			InputParameterAttributes inputParamAttrs,
-			ScalarParameterHandle paramDefn, DataSetDesign dataSetDesign )
+			ScalarParameterHandle paramHandle, DataSetDesign dataSetDesign )
 	{
 		InputParameterAttributes retInputParamAttrs = inputParamAttrs;
 
@@ -919,12 +948,15 @@ public class ReportParameterAdapter
 		if ( inputAttrs == null )
 			inputAttrs = DesignFactory.eINSTANCE.createInputElementAttributes( );
 
-		inputAttrs.setDefaultScalarValue( paramDefn.getDefaultValue( ) );
-		inputAttrs.setOptional( paramDefn.allowBlank( ) );
-		inputAttrs.setMasksValue( paramDefn.isConcealValue( ) );
+		inputAttrs.setDefaultScalarValue( paramHandle.getDefaultValue( ) );
+		// inputAttrs.setOptional( paramHandle.allowBlank( ) );
+		inputAttrs.setOptional( getReportParamAllowMumble( paramHandle,
+				ALLOW_BLANK_PROP_NAME ) );
+
+		inputAttrs.setMasksValue( paramHandle.isConcealValue( ) );
 
 		ScalarValueChoices staticChoices = null;
-		Iterator selectionList = paramDefn.choiceIterator( );
+		Iterator selectionList = paramHandle.choiceIterator( );
 		while ( selectionList.hasNext( ) )
 		{
 			if ( staticChoices == null )
@@ -942,9 +974,9 @@ public class ReportParameterAdapter
 		}
 		inputAttrs.setStaticValueChoices( staticChoices );
 
-		DataSetHandle setHandle = paramDefn.getDataSet( );
-		String valueExpr = paramDefn.getValueExpr( );
-		String labelExpr = paramDefn.getLabelExpr( );
+		DataSetHandle setHandle = paramHandle.getDataSet( );
+		String valueExpr = paramHandle.getValueExpr( );
+		String labelExpr = paramHandle.getLabelExpr( );
 
 		if ( setHandle instanceof OdaDataSetHandle
 				&& ( valueExpr != null || labelExpr != null ) )
@@ -974,13 +1006,13 @@ public class ReportParameterAdapter
 
 		InputElementUIHints uiHints = DesignFactory.eINSTANCE
 				.createInputElementUIHints( );
-		uiHints.setPromptStyle( newPromptStyle( paramDefn.getControlType( ),
-				paramDefn.isMustMatch( ) ) );
+		uiHints.setPromptStyle( newPromptStyle( paramHandle.getControlType( ),
+				paramHandle.isMustMatch( ) ) );
 		inputAttrs.setUiHints( uiHints );
 
-		if ( paramDefn.getContainer( ) instanceof ParameterGroupHandle )
+		if ( paramHandle.getContainer( ) instanceof ParameterGroupHandle )
 		{
-			ParameterGroupHandle groupHandle = (ParameterGroupHandle) paramDefn
+			ParameterGroupHandle groupHandle = (ParameterGroupHandle) paramHandle
 					.getContainer( );
 
 			InputParameterUIHints paramUiHints = DesignFactory.eINSTANCE
@@ -1032,5 +1064,60 @@ public class ReportParameterAdapter
 			type = InputPromptControlStyle.TEXT_FIELD;
 
 		return InputPromptControlStyle.get( type );
+	}
+
+	/**
+	 * Returns the boolean value of allowMumble properties. Only support
+	 * "allowNull" and "allowBlank" properties.
+	 * <p>
+	 * "allowMumble" properties has been removed ROM. However, to do conversion,
+	 * still need to know their values.
+	 * 
+	 * @param param
+	 *            the parameter
+	 * @param propName
+	 *            either "allowNull" or "allowBlank".
+	 * @return <code>true</code> if the parameter allows the value. Otherwise
+	 *         <code>false</code>.
+	 */
+
+	private boolean getReportParamAllowMumble( ScalarParameterHandle param,
+			String propName )
+	{
+		if ( ALLOW_NULL_PROP_NAME.equalsIgnoreCase( propName ) )
+			return param.allowNull( );
+		else if ( ALLOW_BLANK_PROP_NAME.equalsIgnoreCase( propName ) )
+			return param.allowBlank( );
+		else
+		{
+			assert false;
+			return false;
+		}
+	}
+
+	/**
+	 * Returns the boolean value of allowMumble properties. Only support
+	 * "allowNull" and "allowBlank" properties.
+	 * <p>
+	 * "allowMumble" properties has been removed ROM. However, to do conversion,
+	 * still need to know their values.
+	 * 
+	 * @param param
+	 *            the parameter
+	 * @param obsoletePropName
+	 *            either "allowNull" or "allowBlank".
+	 */
+
+	private void setReportParamIsRequired( ScalarParameterHandle param,
+			String obsoletePropName, boolean value ) throws SemanticException
+	{
+		if ( ALLOW_NULL_PROP_NAME.equalsIgnoreCase( obsoletePropName ) )
+			param.setAllowNull( value );
+		else if ( ALLOW_BLANK_PROP_NAME.equalsIgnoreCase( obsoletePropName ) )
+			param.setAllowBlank( value );
+		else
+		{
+			assert false;
+		}
 	}
 }

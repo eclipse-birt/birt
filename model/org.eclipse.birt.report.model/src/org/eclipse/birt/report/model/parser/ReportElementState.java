@@ -72,7 +72,7 @@ public abstract class ReportElementState extends DesignParseState
 	 * Name of the property that is defined in the container and is of element
 	 * type.
 	 */
-	protected String propName = null;
+	protected String containmentPropName = null;
 
 	/**
 	 * Constructs the report element state with the design parser handler, the
@@ -111,7 +111,7 @@ public abstract class ReportElementState extends DesignParseState
 	{
 		super( handler );
 		container = theContainer;
-		propName = prop;
+		containmentPropName = prop;
 	}
 
 	/**
@@ -142,10 +142,10 @@ public abstract class ReportElementState extends DesignParseState
 		// they indicate parser design errors since they can be prevented
 		// with the right syntax checks.
 		assert containerDefn.isContainer( );
-		if ( !StringUtil.isBlank( propName ) )
+		if ( !StringUtil.isBlank( containmentPropName ) )
 		{
 			PropertyDefn propDefn = (PropertyDefn) containerDefn
-					.getProperty( propName );
+					.getProperty( containmentPropName );
 			assert propDefn != null;
 			assert propDefn.canContain( content );
 
@@ -160,7 +160,7 @@ public abstract class ReportElementState extends DesignParseState
 						.semanticWarning(
 								new ContentException(
 										container,
-										propName,
+										containmentPropName,
 										content,
 										ContentException.DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN ) );
 				return false;
@@ -169,7 +169,7 @@ public abstract class ReportElementState extends DesignParseState
 			// If this is a single-item slot, ensure that the slot is empty.
 
 			if ( !propDefn.isList( )
-					&& new ContainerContext( container, propName )
+					&& new ContainerContext( container, containmentPropName )
 							.getContentCount( handler.module ) > 0 )
 			{
 				handler
@@ -177,7 +177,7 @@ public abstract class ReportElementState extends DesignParseState
 						.semanticError(
 								new ContentException(
 										container,
-										propName,
+										containmentPropName,
 										ContentException.DESIGN_EXCEPTION_SLOT_IS_FULL ) );
 				return false;
 			}
@@ -193,20 +193,20 @@ public abstract class ReportElementState extends DesignParseState
 		// element
 		// or it is within a child element.
 
-		if ( container.getExtendsElement( ) != null )
-		{
-			handler
-					.getErrorHandler( )
-					.semanticWarning(
-							new ContentException(
-									container,
-									slotID,
-									content,
-									ContentException.DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN ) );
-			return false;
-		}
+			if ( container.getExtendsElement( ) != null )
+			{
+				handler
+						.getErrorHandler( )
+						.semanticWarning(
+								new ContentException(
+										container,
+										slotID,
+										content,
+										ContentException.DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN ) );
+				return false;
+			}
 
-		// If this is a single-item slot, ensure that the slot is empty.
+			// If this is a single-item slot, ensure that the slot is empty.
 
 		if ( !slotInfo.isMultipleCardinality( )
 				&& container.getSlot( slotID ).getCount( ) > 0 )
@@ -278,9 +278,9 @@ public abstract class ReportElementState extends DesignParseState
 		}
 
 		// Add the item to the container.
-		if ( !StringUtil.isBlank( propName ) )
+		if ( !StringUtil.isBlank( containmentPropName ) )
 		{
-			container.add( handler.module, content, propName );
+			container.add( handler.module, content, containmentPropName );
 		}
 		else
 		{

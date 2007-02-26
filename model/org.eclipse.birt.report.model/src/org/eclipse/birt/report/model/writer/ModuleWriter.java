@@ -2106,8 +2106,7 @@ public abstract class ModuleWriter extends ElementVisitor
 				IScalarParameterModel.PROMPT_TEXT_PROP );
 		property( obj, IScalarParameterModel.LIST_LIMIT_PROP );
 		property( obj, IScalarParameterModel.CONCEAL_VALUE_PROP );
-		property( obj, IScalarParameterModel.ALLOW_BLANK_PROP );
-		property( obj, IScalarParameterModel.ALLOW_NULL_PROP );
+		property( obj, IScalarParameterModel.IS_REQUIRED_PROP );
 		property( obj, IScalarParameterModel.CONTROL_TYPE_PROP );
 		property( obj, IScalarParameterModel.ALIGNMENT_PROP );
 		property( obj, IScalarParameterModel.DATASET_NAME_PROP );
@@ -2116,6 +2115,9 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IScalarParameterModel.MUCH_MATCH_PROP );
 		property( obj, IScalarParameterModel.FIXED_ORDER_PROP );
 		property( obj, IScalarParameterModel.DEFAULT_VALUE_PROP );
+		property( obj, IScalarParameterModel.DISTINCT_PROP );
+		property( obj, IScalarParameterModel.SORT_BY_PROP );
+		property( obj, IScalarParameterModel.SORT_DIRECTION_PROP );
 
 		writeStructure( obj, IScalarParameterModel.FORMAT_PROP );
 		writeStructureList( obj, IScalarParameterModel.SELECTION_LIST_PROP );

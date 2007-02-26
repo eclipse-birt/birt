@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import org.eclipse.birt.report.model.util.VersionUtil;
+
 /**
  * This class holds the set of design XML schema element and attribute names.
  * 
@@ -23,13 +25,13 @@ public interface DesignSchemaConstants
 	 * The version of report design.
 	 */
 
-	public final static String REPORT_VERSION = "3.2.10"; //$NON-NLS-1$
+	public final static String REPORT_VERSION = "3.2.11"; //$NON-NLS-1$
 
 	/**
 	 * The number representation for the current version string.
 	 */
 
-	final static int REPORT_VERSION_NUMBER = 3021000;
+	final static int REPORT_VERSION_NUMBER = VersionUtil.VERSION_3_2_11;
 
 	static final String ACCESS_CONTROL_TAG = "access-control"; //$NON-NLS-1$
 	static final String AUTO_TEXT_TAG = "auto-text"; //$NON-NLS-1$

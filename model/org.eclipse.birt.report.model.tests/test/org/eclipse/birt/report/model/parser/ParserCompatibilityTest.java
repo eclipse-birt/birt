@@ -589,4 +589,42 @@ public class ParserCompatibilityTest extends BaseTestCase
 		assertTrue( compareFile( "CompatibleOdaPrivateProps_golden.xml" ) ); //$NON-NLS-1$
 	}
 
+	/**
+	 * allowNull and allowBlank on ScalarParameter have been replaced by
+	 * "isRequired". Rules are:
+	 * 
+	 * <table>
+	 * <th align="left">
+	 * For string data type
+	 * </th>
+	 * <tr><td>
+	 * Set isRequired=true; if allowBlank=false
+	 * </td></tr>
+	 * <tr><td>
+	 * Set isRequired=false, if allowBalnk=true
+	 * </td></tr>
+	 * <br>
+	 * 
+	 * <th align="left">
+	 * For non string data type
+	 * </th>
+	 * <tr><td>
+	 * Set isRequired=true; if allowNull=false
+	 * </td></tr>
+	 * <tr><td>
+	 * Set isRequired=false, if allowNull=true
+	 * </td></tr>
+	 * </table>
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testScalarParamAllowProps( ) throws Exception
+	{
+		openDesign( "CompatibleScalarParamAllowPropsTest.xml" ); //$NON-NLS-1$
+		save( );
+		
+		compareFile( "CompatibleScalarParamAllowPropsTest_golden.xml" ); //$NON-NLS-1$
+	}
+
 }

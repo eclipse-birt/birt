@@ -496,6 +496,10 @@
     <Choice displayNameID="Choices.accessPermission.allow" name="allow"/>
     <Choice displayNameID="Choices.accessPermission.disallow" name="disallow"/>
   </ChoiceType>  
+  <ChoiceType name="paramSortValues">
+    <Choice displayNameID="Choices.paramSortValues.value" name="value"/>
+    <Choice displayNameID="Choices.paramSortValues.label" name="label"/>
+  </ChoiceType>  
   <Class displayNameID="Class.String" name="String" native="true" toolTipID="Class.String.toolTip">
     <Constructor displayNameID="Class.String.String" name="String" returnType="String" toolTipID="Class.String.String.toolTip">
       <Argument name="object" tagID="Class.String.String.object" type="Object"/>
@@ -2265,12 +2269,12 @@
     <Property displayNameID="Element.ScalarParameter.concealValue" name="concealValue" runtimeSettable="false" since="1.0" type="boolean">
       <Default>false</Default>
     </Property>
-    <Property displayNameID="Element.ScalarParameter.allowNull" name="allowNull" runtimeSettable="false" since="1.0" type="boolean">
+    <Property displayNameID="Element.ScalarParameter.isRequired" name="isRequired" runtimeSettable="false" since="2.2" type="boolean">
       <Default>false</Default>
     </Property>
-    <Property displayNameID="Element.ScalarParameter.allowBlank" name="allowBlank" runtimeSettable="false" since="1.0" type="boolean">
-      <Default>false</Default>
-    </Property>
+    <Property displayNameID="Element.ScalarParameter.distinct" name="distinct" runtimeSettable="false" since="2.2" type="boolean">
+      <Default>true</Default>
+    </Property>    
     <Property detailType="ParameterFormatValue" displayNameID="Element.ScalarParameter.format" name="format" runtimeSettable="false" since="1.0" type="structure"/>
     <Property detailType="paramControl" displayNameID="Element.ScalarParameter.controlType" name="controlType" runtimeSettable="false" since="1.0" type="choice"/>
     <Property displayNameID="Element.ScalarParameter.promptText" name="promptText" runtimeSettable="false" since="2.0" type="string"/>
@@ -2279,6 +2283,8 @@
     <Property detailType="scalarParamAlign" displayNameID="Element.ScalarParameter.alignment" name="alignment" runtimeSettable="false" since="1.0" type="choice">
       <Default>auto</Default>
     </Property>
+    <Property detailType="sortDirection" displayNameID="Element.ScalarParameter.sortDirection" name="sortDirection" runtimeSettable="false" since="2.2" type="choice"/>      
+    <Property detailType="paramSortValues" displayNameID="Element.ScalarParameter.sortBy" name="sortBy" runtimeSettable="false" since="2.2" type="choice"/>          
     <Property displayNameID="Element.ScalarParameter.defaultValue" name="defaultValue" runtimeSettable="false" since="1.0" type="literalString"/>
     <PropertyGroup displayNameID="Element.ScalarParameter.dynamicList">
       <Property detailType="DataSet" displayNameID="Element.ScalarParameter.dynamicList.dataSetName" name="dataSetName" runtimeSettable="false" since="2.0" type="elementRef">
@@ -2300,7 +2306,7 @@
       </Property>
       <Property detailType="SelectionChoice" displayNameID="Element.ScalarParameter.selectionList.selectionList" isList="true" name="selectionList" runtimeSettable="false" since="1.0" type="structure"/>
     </PropertyGroup>
-    <Property detailType="ComputedColumn" displayNameID="Element.ScalarParameter.boundDataColumns" name="boundDataColumns" since="2.1" isList="true" type="structure"/>	  
+    <Property detailType="ComputedColumn" displayNameID="Element.ScalarParameter.boundDataColumns" name="boundDataColumns" since="2.1" isList="true" type="structure"/>    
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.ParameterGroup" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ParameterGroup" name="ParameterGroup" nameSpace="parameter" since="1.0" xmlName="parameter-group">
     <Property displayNameID="Element.ParameterGroup.startExpanded" name="startExpanded" runtimeSettable="false" since="1.0" type="boolean">

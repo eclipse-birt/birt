@@ -8,7 +8,7 @@
         <design:name></design:name>
         <design:position>1</design:position>
         <design:nativeDataTypeCode>2</design:nativeDataTypeCode>
-        <design:nullability>Nullable</design:nullability>
+        <design:nullability>Unknown</design:nullability>
         <design:uiHints>
           <design:displayName>param1 prompt text</design:displayName>
           <design:description>scalar para help</design:description>
@@ -110,14 +110,14 @@
       <design:attributes>
         <design:name></design:name>
         <design:position>2</design:position>
-        <design:nullability>Unknown</design:nullability>
+        <design:nullability>Nullable</design:nullability>
         <design:uiHints>
           <design:displayName>City</design:displayName>
         </design:uiHints>
       </design:attributes>
       <design:inputAttributes>
         <design:elementAttributes>
-          <design:optional>false</design:optional>
+          <design:optional>true</design:optional>
           <design:masksValue>false</design:masksValue>
           <design:dynamicValueChoices>
             <design:dataSetDesign>
@@ -187,7 +187,7 @@
             <design:displayNameColumn>test column</design:displayNameColumn>
           </design:dynamicValueChoices>
           <design:uiHints>
-            <design:promptStyle>SelectableListWithTextField</design:promptStyle>
+            <design:promptStyle>SelectableList</design:promptStyle>
           </design:uiHints>
         </design:elementAttributes>
       </design:inputAttributes>
@@ -197,15 +197,15 @@
       <design:attributes>
         <design:name></design:name>
         <design:position>3</design:position>
-        <design:nullability>Unknown</design:nullability>
+        <design:nullability>Nullable</design:nullability>
         <design:uiHints>
           <design:displayName>City</design:displayName>
         </design:uiHints>
       </design:attributes>
       <design:inputAttributes>
         <design:elementAttributes>
-          <design:defaultScalarValue>default value param 3</design:defaultScalarValue>
-          <design:optional>false</design:optional>
+          <design:defaultScalarValue>&quot;default value param 3&quot;</design:defaultScalarValue>
+          <design:optional>true</design:optional>
           <design:masksValue>false</design:masksValue>
           <design:dynamicValueChoices>
             <design:dataSetDesign>

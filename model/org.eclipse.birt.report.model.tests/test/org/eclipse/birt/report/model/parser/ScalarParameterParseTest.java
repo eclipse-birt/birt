@@ -89,11 +89,19 @@ public class ScalarParameterParseTest extends BaseTestCase
 		handle1.setDefaultValue( "new default value" ); //$NON-NLS-1$
 		assertEquals( "new default value", handle1.getDefaultValue( ) ); //$NON-NLS-1$
 
-		handle1.setAllowNull( false );
-		assertFalse( handle1.allowNull( ) );
+		handle1.setIsRequired( false );
+		assertFalse( handle1.isRequired( ) );
 
-		handle1.setAllowBlank( true );
-		assertTrue( handle1.allowBlank( ) );
+		handle1.setDistinct( false );
+		assertFalse( handle1.distinct( ) );
+
+		handle1.setSortDirection( DesignChoiceConstants.SORT_DIRECTION_ASC );
+		assertEquals( DesignChoiceConstants.SORT_DIRECTION_ASC, handle1
+				.getSortDirection( ) );
+
+		handle1.setSortBy( DesignChoiceConstants.PARAM_SORT_VALUES_LABEL );
+		assertEquals( DesignChoiceConstants.PARAM_SORT_VALUES_LABEL, handle1
+				.getSortBy( ) );
 
 		handle1.setCategory( "Custom" ); //$NON-NLS-1$
 		assertEquals( "Custom", handle1.getCategory( ) ); //$NON-NLS-1$
@@ -101,8 +109,8 @@ public class ScalarParameterParseTest extends BaseTestCase
 		handle1.setPattern( "aaaaa" ); //$NON-NLS-1$
 		assertEquals( "aaaaa", handle1.getPattern( ) ); //$NON-NLS-1$
 
-		handle1.setFormat( "$***,***.**" ); //$NON-NLS-1$
-		assertEquals( "$***,***.**", handle1.getFormat( ) ); //$NON-NLS-1$
+		handle1.setPattern( "$***,***.**" ); //$NON-NLS-1$
+		assertEquals( "$***,***.**", handle1.getPattern( ) ); //$NON-NLS-1$
 
 		handle1
 				.setControlType( DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON );
@@ -138,8 +146,8 @@ public class ScalarParameterParseTest extends BaseTestCase
 		handle2.setPromptText( "new Text" ); //$NON-NLS-1$
 		handle2.setListlimit( 300 );
 
-		save(); 
-		assertTrue( compareFile( "ScalarParameterParseTest_golden.xml") ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareFile( "ScalarParameterParseTest_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -165,10 +173,10 @@ public class ScalarParameterParseTest extends BaseTestCase
 		assertFalse( handle.isConcealValue( ) );
 		assertEquals( "State", handle.getDefaultValue( ) ); //$NON-NLS-1$
 
-		assertTrue( handle.allowNull( ) );
-		assertFalse( handle.allowBlank( ) );
+		assertTrue( handle.isRequired( ) );
+		assertFalse( handle.distinct( ) );
 
-		assertEquals( "##,###.##", handle.getFormat( ) ); //$NON-NLS-1$
+		assertEquals( "##,###.##", handle.getPattern( ) ); //$NON-NLS-1$
 
 		assertEquals( DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX, handle
 				.getControlType( ) );
@@ -176,7 +184,12 @@ public class ScalarParameterParseTest extends BaseTestCase
 		assertEquals( DesignChoiceConstants.SCALAR_PARAM_ALIGN_AUTO, handle
 				.getAlignment( ) );
 
-		assertTrue( handle.isMustMatch( ) ); 
+		assertEquals( DesignChoiceConstants.SORT_DIRECTION_DESC, handle
+				.getSortDirection( ) );
+		assertEquals( DesignChoiceConstants.PARAM_SORT_VALUES_VALUE, handle
+				.getSortBy( ) );
+
+		assertTrue( handle.isMustMatch( ) );
 		assertTrue( handle.isFixedOrder( ) );
 
 		StructureHandle[] choices = new StructureHandle[3];
@@ -210,10 +223,10 @@ public class ScalarParameterParseTest extends BaseTestCase
 		handle.setPromptText( "new Text" ); //$NON-NLS-1$
 		assertEquals( "new Text", handle.getPromptText( ) ); //$NON-NLS-1$
 
-		assertEquals( 100, handle.getListlimit( ) ); 
+		assertEquals( 100, handle.getListlimit( ) );
 
 		handle.setListlimit( 200 );
-		assertEquals( 200, handle.getListlimit( ) ); 
+		assertEquals( 200, handle.getListlimit( ) );
 
 	}
 

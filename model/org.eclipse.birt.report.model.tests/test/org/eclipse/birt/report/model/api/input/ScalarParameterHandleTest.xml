@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.3">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.11">
 	<data-sets>
         <oda-data-set name="dataset 1" />	
 	</data-sets>		
@@ -10,9 +10,10 @@
             <text-property name="helpText" key="help">scalar para help</text-property>
             <property name="dataType">decimal</property>
             <property name="concealValue">false</property>
-            <property name="allowBlank">false</property>
-            <property name="allowNull">true</property>
-            <property name="format">##,###.##</property>
+            <property name="isRequired">false</property>
+            <structure name="format">
+            	<property name="pattern">##,###.##</property>
+            </structure>
             <property name="controlType">check-box</property>
             <property name="alignment">left</property>
             <expression name="defaultValue">State</expression>
@@ -22,18 +23,16 @@
             <property name="dataSetName">dataset 1</property>
             <expression name="valueExpr">value column</expression>
             <expression name="labelExpr">label column</expression>
+            <property name="isRequired">true</property>
         </scalar-parameter>
         <scalar-parameter name="Param 3">
             <text-property name="helpText" key="help">scalar para help</text-property>
-            <property name="allowBlank">false</property>
-            <property name="allowNull">false</property>
-            <property name="mustMatch">false</property>
+            <property name="mustMatch">true</property>
             <property name="fixedOrder">false</property>
             <expression name="defaultValue">State</expression>
         </scalar-parameter>
         <scalar-parameter name="Param 4">
             <text-property name="helpText" key="help">scalar para help</text-property>
-            <property name="allowBlank">false</property>
             <list-property name="selectionList">
                 <structure>
                     <property name="value">option 1</property>

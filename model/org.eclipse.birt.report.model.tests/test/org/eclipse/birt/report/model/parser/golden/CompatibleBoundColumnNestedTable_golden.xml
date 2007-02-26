@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.10" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.11" id="1">
     <parameters>
         <scalar-parameter name="Param 1" id="65">
             <expression name="valueExpr">value column</expression>

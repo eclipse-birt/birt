@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.11" id="1">
+    <parameters>
+        <scalar-parameter name="Param 1" id="4">
+            <property name="valueType">static</property>
+            <property name="dataType">decimal</property>
+            <property name="isRequired">false</property>
+        </scalar-parameter>
+        <scalar-parameter name="Param 2" id="5">
+            <property name="dataType">decimal</property>
+            <property name="isRequired">true</property>
+        </scalar-parameter>
+        <scalar-parameter name="Param 3" id="6">
+            <property name="dataType">string</property>
+            <property name="isRequired">false</property>
+        </scalar-parameter>
+        <scalar-parameter name="Param 4" id="7">
+            <property name="dataType">string</property>
+            <property name="isRequired">false</property>
+        </scalar-parameter>
+        <scalar-parameter name="Param 5" id="8">
+            <property name="dataType">string</property>
+            <property name="isRequired">true</property>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source name="DataSource" id="2"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set name="ds1" id="3">
+            <property name="dataSource">DataSource</property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page" id="9">
+            <contents>
+                <label id="10">
+                    <property name="x">1mm</property>
+                    <property name="y">0.5mm</property>
+                    <property name="height">0.25mm</property>
+                    <property name="width">2mm</property>
+                    <text-property name="text">First Page</text-property>
+                </label>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+</report>

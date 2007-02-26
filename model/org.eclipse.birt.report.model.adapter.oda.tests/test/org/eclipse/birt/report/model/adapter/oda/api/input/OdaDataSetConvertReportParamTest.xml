@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.0" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.11" id="1">
     <data-sources>
         <oda-data-source name="myDataSource1" extensionID="org.eclipse.birt.report.data.oda.jdbc" id="2">
 			<text-property name="displayName">My Data Source One</text-property>
@@ -92,9 +92,8 @@
             <method name="validate">the validation test</method>
             <property name="dataType">decimal</property>
 	        <property name="valueType">static</property>
-            <property name="allowBlank">false</property>
 			<property name="concealValue">true</property>
-            <property name="allowNull">true</property>
+            <property name="isRequired">true</property>
             <property name="controlType">check-box</property>
             <property name="dataSetName">myDataSet2</property>
             <property name="promptText">param1 prompt text</property>
