@@ -17,6 +17,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -29,6 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
+import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.ICascadingParameterGroup;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
@@ -692,6 +694,19 @@ public class BirtViewerReportService implements IViewerReportService
 				throw new ReportServiceException( e.getLocalizedMessage( ), e );
 			}
 		}
+
+		// set AppConext
+		if ( task != null )
+		{
+			HttpServletRequest request = (HttpServletRequest) options
+					.getOption( InputOptions.OPT_REQUEST );
+			HashMap context = new HashMap( );
+			context.put(
+					EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST,
+					request );
+			task.setAppContext( context );
+		}
+
 		return task;
 	}
 
