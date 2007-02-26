@@ -23,13 +23,16 @@ import java.util.TreeSet;
 import org.eclipse.birt.report.debug.internal.ui.launcher.IReportLauncherSettings;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Preferences;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.jdt.launching.IVMInstallType;
 import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
+import org.eclipse.pde.core.plugin.ModelEntry;
 import org.eclipse.pde.internal.core.ExternalModelManager;
-import org.eclipse.pde.internal.core.ModelEntry;
+import org.eclipse.pde.internal.core.ICoreConstants;
 import org.eclipse.pde.internal.core.PDECore;
 
 /**
@@ -56,6 +59,12 @@ public class ReportLauncherUtils
 		return getAutoStartPlugins( useDefault, customAutoStart );
 	}
 
+
+	public static IPath getEclipseHome() {
+		        Preferences preferences = PDECore.getDefault().getPluginPreferences();
+		         return new Path(preferences.getString(ICoreConstants.PLATFORM_PATH));
+		     }
+	
 	public static HashMap getAutoStartPlugins( boolean useDefault,
 			String customAutoStart )
 	{
@@ -70,7 +79,7 @@ public class ReportLauncherUtils
 			String bundles = null;
 			if ( useDefault )
 			{
-				Properties prop = getConfigIniProperties( ExternalModelManager.getEclipseHome( )
+				Properties prop = getConfigIniProperties( getEclipseHome()
 						.toOSString( ),
 						"configuration/config.ini" ); //$NON-NLS-1$
 				if ( prop != null )
@@ -136,9 +145,9 @@ public class ReportLauncherUtils
 		ModelEntry entry = PDECore.getDefault( )
 				.getModelManager( )
 				.findEntry( "org.eclipse.osgi" ); //$NON-NLS-1$
-		if ( entry != null )
+		if ( entry != null && entry.getActiveModels( ).length > 0)
 		{
-			IPluginModelBase model = entry.getActiveModel( );
+			IPluginModelBase model = entry.getActiveModels( )[0];
 			if ( model.getUnderlyingResource( ) != null )
 			{
 				return model.getUnderlyingResource( )
@@ -173,7 +182,7 @@ public class ReportLauncherUtils
 		boolean isOSGi = true;
 		// PDECore.getDefault( ).getModelManager( ).isOSGiRuntime( );
 		String filename = isOSGi ? "configuration/config.ini" : "install.ini"; //$NON-NLS-1$ //$NON-NLS-2$
-		Properties properties = getConfigIniProperties( ExternalModelManager.getEclipseHome( )
+		Properties properties = getConfigIniProperties( getEclipseHome( )
 				.toOSString( ),
 				filename );
 
