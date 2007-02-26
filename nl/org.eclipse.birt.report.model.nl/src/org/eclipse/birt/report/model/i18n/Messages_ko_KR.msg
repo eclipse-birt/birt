@@ -553,6 +553,11 @@ Choices.levelType.mirrored=미러
 Choices.accessPermission.allow=Allow
 Choices.accessPermission.disallow=Disallow
 
+#73. paramSortValues
+Choices.paramSortValues.value=값
+Choices.paramSortValues.label=Display Text
+
+
 ###########################################################
 # Classes
 
@@ -2281,8 +2286,7 @@ Element.ScalarParameter.type=형식
 Element.ScalarParameter.dataType=데이터 형식
 Element.ScalarParameter.displayPrompt=프롬프트 표시
 Element.ScalarParameter.concealValue=값 숨기기
-Element.ScalarParameter.allowNull=널(null) 허용
-Element.ScalarParameter.allowBlank=빈 값 허용
+Element.ScalarParameter.isRequired=Is required
 Element.ScalarParameter.format=서식
 Element.ScalarParameter.controlType=컨트롤 형식
 Element.ScalarParameter.alignment=맞춤
@@ -2299,6 +2303,9 @@ Element.ScalarParameter.promptText=프롬프트 텍스트
 Element.ScalarParameter.promptTextID=프롬프트 텍스트 키
 Element.ScalarParameter.listLimit=목록 제한
 Element.ScalarParameter.boundDataColumns=바인딩된 데이터 열
+Element.ScalarParameter.distinct=Distinct
+Element.ScalarParameter.sortDirection=Sort direction
+Element.ScalarParameter.sortBy=Sort by
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=시작 확장됨

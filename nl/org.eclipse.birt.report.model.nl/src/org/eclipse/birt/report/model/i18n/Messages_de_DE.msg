@@ -553,6 +553,11 @@ Choices.levelType.mirrored=Gespiegelt
 Choices.accessPermission.allow=Allow
 Choices.accessPermission.disallow=Disallow
 
+#73. paramSortValues
+Choices.paramSortValues.value=Wert
+Choices.paramSortValues.label=Display Text
+
+
 ###########################################################
 # Classes
 
@@ -2281,8 +2286,7 @@ Element.ScalarParameter.type=Typ
 Element.ScalarParameter.dataType=Datentyp
 Element.ScalarParameter.displayPrompt=Anzeige-Aufforderung
 Element.ScalarParameter.concealValue=Wert verbergen
-Element.ScalarParameter.allowNull=Nullwert zulässig
-Element.ScalarParameter.allowBlank=Leerwert zulässig
+Element.ScalarParameter.isRequired=Is required
 Element.ScalarParameter.format=Format
 Element.ScalarParameter.controlType=Steuerelementtyp
 Element.ScalarParameter.alignment=Ausrichtung
@@ -2299,6 +2303,9 @@ Element.ScalarParameter.promptText=Aufforderungstext
 Element.ScalarParameter.promptTextID=Aufforderungstextschlüssel
 Element.ScalarParameter.listLimit=Listenbeschränkung
 Element.ScalarParameter.boundDataColumns=Gebundene Datenspalten
+Element.ScalarParameter.distinct=Distinct
+Element.ScalarParameter.sortDirection=Sort direction
+Element.ScalarParameter.sortBy=Sort by
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=Erweiterte starten

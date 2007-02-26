@@ -553,6 +553,11 @@ Choices.levelType.mirrored=ミラー化
 Choices.accessPermission.allow=Allow
 Choices.accessPermission.disallow=Disallow
 
+#73. paramSortValues
+Choices.paramSortValues.value=値
+Choices.paramSortValues.label=Display Text
+
+
 ###########################################################
 # Classes
 
@@ -2281,8 +2286,7 @@ Element.ScalarParameter.type=型
 Element.ScalarParameter.dataType=データ型
 Element.ScalarParameter.displayPrompt=プロンプトの表示
 Element.ScalarParameter.concealValue=値を隠す
-Element.ScalarParameter.allowNull=Null を許可する
-Element.ScalarParameter.allowBlank=空白を許可する
+Element.ScalarParameter.isRequired=Is required
 Element.ScalarParameter.format=書式
 Element.ScalarParameter.controlType=コントロール型
 Element.ScalarParameter.alignment=配置
@@ -2299,6 +2303,9 @@ Element.ScalarParameter.promptText=プロンプトテキスト
 Element.ScalarParameter.promptTextID=プロンプトテキストキー
 Element.ScalarParameter.listLimit=一覧の制限
 Element.ScalarParameter.boundDataColumns=バインドされたデータカラム
+Element.ScalarParameter.distinct=Distinct
+Element.ScalarParameter.sortDirection=Sort direction
+Element.ScalarParameter.sortBy=Sort by
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=開始時に展開

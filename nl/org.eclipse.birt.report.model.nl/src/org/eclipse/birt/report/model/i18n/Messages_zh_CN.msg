@@ -553,6 +553,11 @@ Choices.levelType.mirrored=镜像
 Choices.accessPermission.allow=Allow
 Choices.accessPermission.disallow=Disallow
 
+#73. paramSortValues
+Choices.paramSortValues.value=值
+Choices.paramSortValues.label=Display Text
+
+
 ###########################################################
 # Classes
 
@@ -2281,8 +2286,7 @@ Element.ScalarParameter.type=类型
 Element.ScalarParameter.dataType=数据类型
 Element.ScalarParameter.displayPrompt=显示提示
 Element.ScalarParameter.concealValue=隐藏值
-Element.ScalarParameter.allowNull=允许 Null
-Element.ScalarParameter.allowBlank=允许为空
+Element.ScalarParameter.isRequired=Is required
 Element.ScalarParameter.format=格式
 Element.ScalarParameter.controlType=控件类型
 Element.ScalarParameter.alignment=对齐
@@ -2299,6 +2303,9 @@ Element.ScalarParameter.promptText=提示文本
 Element.ScalarParameter.promptTextID=提示文本关键字
 Element.ScalarParameter.listLimit=列表限制
 Element.ScalarParameter.boundDataColumns=绑定的数据列
+Element.ScalarParameter.distinct=Distinct
+Element.ScalarParameter.sortDirection=Sort direction
+Element.ScalarParameter.sortBy=Sort by
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=开始展开
