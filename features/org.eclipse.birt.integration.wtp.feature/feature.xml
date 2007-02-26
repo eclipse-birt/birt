@@ -38,7 +38,7 @@
       <import feature="org.eclipse.jst.enterprise_ui.feature" version="1.0.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.jst.web_core.feature" version="1.0.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.jst.web_ui.feature" version="1.0.0" match="greaterOrEqual"/>
-      <import feature="org.eclipse.jem" version="1.2" match="greaterOrEqual"/>
+      <import feature="org.eclipse.wst.common_core.feature" version="1.0.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
