@@ -607,21 +607,14 @@ public class ScriptEvalTest extends TestCase
 				IConditionalExpression.OP_BETWEEN,
 				new Integer( 9 ),
 				new Double( 20.0 ) );
-		assertResult( result, true );			
+		assertResult( result, false );			
 		
-		//the case when either op1.value or op2.value is unconvertible to obj
-		try
-		{
-			result = ScriptEvalUtil.evalConditionalExpr( calendar.getTime( ),
-					IConditionalExpression.OP_BETWEEN,
-					ExprTextAndValue.newInstance( "\"01/01/03\"", "01/01/03" ),
-					ExprTextAndValue.newInstance( "01/01/04", new Double( 0.25 ) ) );
-			fail("exception expected");
-		}
-		catch ( DataException e )
-		{	
-			assertEquals("01/01/04 can not be converted to class java.util.Date.", e.getMessage());
-		}
+		result = ScriptEvalUtil.evalConditionalExpr( calendar.getTime( ),
+				IConditionalExpression.OP_BETWEEN,
+				ExprTextAndValue.newInstance( "\"01/01/03\"", "01/01/03" ),
+				ExprTextAndValue.newInstance( "01/01/04", new Double( 0.25 ) ) );
+		assertResult( result, false );
+		
 	}
 
 	/**
