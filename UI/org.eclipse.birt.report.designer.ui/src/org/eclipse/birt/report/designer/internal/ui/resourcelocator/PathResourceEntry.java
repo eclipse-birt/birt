@@ -15,14 +15,21 @@ import java.io.File;
 import java.io.FileFilter;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.IModuleOption;
 import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
@@ -182,7 +189,7 @@ public class PathResourceEntry extends BaseResourceEntity
 	{
 		return this.displayName;
 	}
-	
+
 	public Image getImage( )
 	{
 		if ( this.isFolder || this.isRoot )
@@ -211,7 +218,7 @@ public class PathResourceEntry extends BaseResourceEntity
 	{
 		return this.isRoot;
 	}
-	
+
 	public void dispose( )
 	{
 		if ( this.library != null )
@@ -237,9 +244,23 @@ public class PathResourceEntry extends BaseResourceEntity
 			{
 				try
 				{
-					this.library = SessionHandleAdapter.getInstance( )
-							.getSessionHandle( )
-							.openLibrary( getURL( ).toString( ) );
+					String projectFolder = UIUtil.getProjectFolder( );
+					if ( projectFolder != null )
+					{
+						Map properties = new HashMap( );
+						properties.put( IModuleOption.RESOURCE_FOLDER_KEY,
+								projectFolder );
+						this.library = SessionHandleAdapter.getInstance( )
+								.getSessionHandle( )
+								.openLibrary( getURL( ).toString( ),
+										new ModuleOption( properties ) );
+					}
+					else
+					{
+						this.library = SessionHandleAdapter.getInstance( )
+								.getSessionHandle( )
+								.openLibrary( getURL( ).toString( ) );
+					}
 				}
 				catch ( DesignFileException e )
 				{

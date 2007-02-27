@@ -47,6 +47,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.IModuleOption;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
@@ -100,6 +101,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IPathEditorInput;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbench;
@@ -1484,9 +1486,9 @@ public class UIUtil
 		if ( tPage == null )
 			return null;
 		IEditorPart activeEditPart = PlatformUI.getWorkbench( )
-		.getActiveWorkbenchWindow( )
-		.getActivePage( )
-		.getActiveEditor( );
+				.getActiveWorkbenchWindow( )
+				.getActivePage( )
+				.getActiveEditor( );
 		IEditorReference[] v = tPage.getEditorReferences( );
 		int i;
 		for ( i = 0; i < v.length; i++ )
@@ -1551,6 +1553,40 @@ public class UIUtil
 		Object adapter = input.getAdapter( ModelEventManager.class );
 		if ( adapter != null && adapter instanceof ModelEventManager )
 			return (ModelEventManager) adapter;
+		return null;
+	}
+
+	/**
+	 * Return the project folder if current edited report file is in eclipse project, 
+	 * else return the report file's folder.
+	 * 
+	 * This method is used for set IModuleOption.RESOURCE_FOLDER_KEY property when open report.
+	 * @return
+	 */
+	public static String getProjectFolder( )
+	{
+		FormEditor editor = getActiveReportEditor( );
+		if ( editor != null )
+		{
+			IEditorInput input = editor.getEditorInput( );
+			if ( input != null )
+			{
+				Object fileAdapter = input.getAdapter( IFile.class );
+				IFile file = null;
+				if ( fileAdapter != null )
+					file = (IFile) fileAdapter;
+				if ( file != null && file.getProject( ) != null )
+				{
+					return file.getProject( ).getLocation( ).toOSString( );
+				}
+				if ( input instanceof IPathEditorInput )
+				{
+					File fileSystemFile = ( (IPathEditorInput) input ).getPath( )
+							.toFile( );
+					return fileSystemFile.getParent( );
+				}
+			}
+		}
 		return null;
 	}
 }
