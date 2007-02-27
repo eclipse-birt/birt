@@ -26,8 +26,7 @@
             <property name="dataType">float</property>
             <property name="listLimit">5</property>
             <property name="concealValue">false</property>
-            <property name="allowBlank">false</property>
-            <property name="allowNull">true</property>
+            <property name="isRequired">false</property>
             <property name="controlType">list-box</property>
             <property name="alignment">left</property>
             <property name="dataSetName">dataset2</property>
