@@ -32,15 +32,12 @@ import org.eclipse.birt.data.engine.impl.LogUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
-import com.ibm.icu.text.Collator;
 
 /**
  * Static utility methods to help evaluating Javascript expressions 
  */
 public class ScriptEvalUtil
-{
-	private static Collator myCollator = Collator.getInstance( );
-	
+{	
 	private static Logger logger = Logger.getLogger( ScriptEvalUtil.class.getName( ) );
 	
 	/**
@@ -243,19 +240,12 @@ public class ScriptEvalUtil
 				}
 				else if ( obj1 instanceof Comparable )
 				{
-					if ( obj1 instanceof String )
-					{
-						return myCollator.compare( obj1, obj2 );
-					}
-					else
-					{
-						return ( (Comparable) obj1 ).compareTo( obj2 );
-					}
+					return ( (Comparable) obj1 ).compareTo( obj2 );
 				}
 				// most judgements should end here
 				else
 				{
-					return myCollator.compare( obj1.toString( ), obj2.toString( ) );
+					return obj1.toString( ).compareTo( obj2.toString( ) );
 				}
 			}
 			else if ( MiscUtil.isNumericOrString( obj1 ) && MiscUtil.isNumericOrString( obj2 ) )
@@ -691,83 +681,95 @@ public class ScriptEvalUtil
 		 * @throws DataException
 		 */
 		private static Object[] formatToComparable( Object obj,
-				ExprTextAndValue op1, ExprTextAndValue op2 ) throws DataException
+				ExprTextAndValue op1, ExprTextAndValue op2 )
+				throws DataException
 		{
 			Object[] obArray = new Object[3];
 			obArray[0] = obj;
 			obArray[1] = op1.value;
 			obArray[2] = op2.value;
 
-			String expr4Exception = "";
-
 			// obj will always be considered as the default data type
 			// skip if op2.value!=null but is not same type as obj
 			if ( isSameType( obj, obArray[1] ) )
 			{
-				if ( obArray[2] == null	|| ( obArray[2] != null && isSameType( obj, obArray[2] ) ) )
+				if ( obArray[2] == null
+						|| ( obArray[2] != null && isSameType( obj, obArray[2] ) ) )
 				{
 					return obArray;
 				}
 			}
 
-			if ( obj instanceof Number )
+			try
 			{
-				try
+				if ( obj instanceof Number )
 				{
+
 					obArray[0] = DataTypeUtil.toDouble( obj );
-					expr4Exception = op1.exprText;
+
 					obArray[1] = DataTypeUtil.toDouble( obArray[1] );
 					if ( obArray[2] != null )
 					{
-						expr4Exception = op2.exprText;
+
 						obArray[2] = DataTypeUtil.toDouble( obArray[2] );
 					}
+
 				}
-				catch ( BirtException e )
+				else if ( obj instanceof Date )
 				{
-					throw DataException.wrap( e );
-				}
-			}
-			else if ( obj instanceof Date )
-			{
-				try
-				{
+
 					obArray[0] = DataTypeUtil.toDate( obj );
-					expr4Exception = op1.exprText;
+
 					obArray[1] = DataTypeUtil.toDate( obArray[1] );
 					if ( obArray[2] != null )
 					{
-						expr4Exception = op2.exprText;
+
 						obArray[2] = DataTypeUtil.toDate( obArray[2] );
 					}
+
 				}
-				catch ( BirtException e )
-				{
-					throw new DataException( ResourceConstants.CONVERT_TO_DATATYPE_ERROR,
-							new Object[]{
-									expr4Exception, Date.class
-							} );
-				}
-			}
-			else if ( obj instanceof Boolean )
-			{
-				try
+				else if ( obj instanceof Boolean )
 				{
 					obArray[0] = DataTypeUtil.toBoolean( obj );
-					expr4Exception = op1.exprText;
+
 					obArray[1] = DataTypeUtil.toBoolean( obArray[1] );
+
 				}
-				catch ( BirtException e )
-				{ // should never get here
-					throw new DataException( ResourceConstants.CONVERT_TO_DATATYPE_ERROR,
-							new Object[]{
-									expr4Exception, Boolean.class
-							} );
+				else 
+				{
+					makeObjectArrayStringArray( obArray );
 				}
 			}
-
-			// obArray will remain the same if obj is String rather than Date,Number or Boolean
+			catch ( BirtException e )
+			{
+				// If failed to convert to same date type for comparation,
+				// simply convert them to String.
+				try
+				{
+					makeObjectArrayStringArray( obArray );
+				}
+				catch ( BirtException e1 )
+				{
+					//should never reach here.
+				}
+			}
+			// obArray will remain the same if obj is String rather than
+			// Date,Number or Boolean
 			return obArray;
+		}
+
+		/**
+		 * 
+		 * @param obArray
+		 * @throws BirtException 
+		 */
+		private static void makeObjectArrayStringArray( Object[] obArray ) throws BirtException
+		{
+			for ( int i = 0; i < obArray.length; i++ )
+			{
+				if ( obArray[i] != null )
+					obArray[i] = DataTypeUtil.toString( obArray[i] );
+			}
 		}
 		
 		/**
