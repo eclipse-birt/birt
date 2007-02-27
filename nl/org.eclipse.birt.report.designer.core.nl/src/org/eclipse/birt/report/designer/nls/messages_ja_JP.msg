@@ -3627,7 +3627,7 @@ AddImageResourceFileFolderSelectionDialog.Message=イメージの選択 :
 #DataItemBindingDialog properties
 
 DataItemBindingDialog.text.Name=名前 :
-DataItemBindingDialog.text.displayName=Display Name:
+DataItemBindingDialog.text.displayName=表示名 :
 DataItemBindingDialog.text.DataType=データ型 :
 DataItemBindingDialog.text.Expression=式 :
 DataItemBindingDialog.text.AggregateOn=集計条件 :

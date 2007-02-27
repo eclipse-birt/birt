@@ -42,7 +42,7 @@ Property.memberKey=구성원 키
 Property.literalString=리터럴 문자열
 Property.element=요소
 Property.structRef=구조 참조
-Property.contentElement=element as property value
+Property.contentElement=속성 값 요소
 
 ###########################################################
 # Choice values
@@ -550,8 +550,8 @@ Choices.levelType.dynamic=동적
 Choices.levelType.mirrored=미러
 
 #72. accessPermission
-Choices.accessPermission.allow=Allow
-Choices.accessPermission.disallow=Disallow
+Choices.accessPermission.allow=허용
+Choices.accessPermission.disallow=허용 안 함
 
 #73. paramSortValues
 Choices.paramSortValues.value=값
@@ -1907,7 +1907,7 @@ Structure.ResultSetColumn.nativeDataType=고유 데이터 형식 코드
 
 #15. ComputedColumn
 Structure.ComputedColumn.name=열 이름
-Structure.ComputedColumn.displayName=Column Display Name
+Structure.ComputedColumn.displayName=열 표시 이름
 Structure.ComputedColumn.expression=식
 Structure.ComputedColumn.dataType=데이터 형식
 Structure.ComputedColumn.aggregateOn=AggregateOn 식
@@ -2133,8 +2133,8 @@ Element.Hierarchy=계층
 Element.Level=수준
 Element.Measure=측정
 Element.MeasureGroup=측정 그룹
-Element.AccessControl=Access Control
-Element.ValueAccessControl=Value Access Control
+Element.AccessControl=액세스 컨트롤
+Element.ValueAccessControl=값 액세스 컨트롤
 
 ###########################################################
 # Element property names
@@ -2896,12 +2896,12 @@ Element.Cube.filter=필터 조건
 Element.Cube.dimensionConditions=차원 조건
 Element.Cube.dimensions=Dimensions
 Element.Cube.measureGroups=측정 그룹
-Element.Cube.defaultMeasureGroup=Default Measure Group
-Element.Cube.accessControls=Access controls
+Element.Cube.defaultMeasureGroup=기본 측정 그룹
+Element.Cube.accessControls=액세스 컨트롤
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=시간 유형 조건
-Element.Dimension.defaultHierarchy=Default Hierarchy
+Element.Dimension.defaultHierarchy=기본 계층 구조
 Element.Dimension.hierarchies=Hierarchies
 
 #47. Hierarchy ( prefix Element.Hierarchy )
@@ -2909,7 +2909,7 @@ Element.Hierarchy.dataSet=데이터 집합
 Element.Hierarchy.filter=필터 조건
 Element.Hierarchy.primaryKeys=기본 키
 Element.Hierarchy.levels=Levels
-Element.Hierarchy.accessControls=Access controls
+Element.Hierarchy.accessControls=액세스 컨트롤
 
 #48. Level ( prefix Element.Level )
 Element.Level.columnName=열 이름
@@ -2921,7 +2921,7 @@ Element.Level.intervalRange=간격 범위
 Element.Level.levelType=수준 형식
 Element.Level.staticValues=정적 값
 Element.Level.attributes=특성
-Element.Level.valueAccessControls=Value access controls
+Element.Level.valueAccessControls=값 액세스 컨트롤
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=함수
@@ -2932,12 +2932,12 @@ Element.Measure.measureExpression=측정 식
 Element.MeasureGroup.measures=측정값
 
 #51. AccessControl ( prefix Element.AccessControl )
-Element.AccessControl.userNames=User names
-Element.AccessControl.roles=Roles
-Element.AccessControl.permission=Access permission
+Element.AccessControl.userNames=사용자 이름
+Element.AccessControl.roles=역할
+Element.AccessControl.permission=액세스 권한
 
 #51. ValueAccessControl ( prefix Element.ValueAccessControl )
-Element.ValueAccessControl.values=Values
+Element.ValueAccessControl.values=값
 
 ###########################################################
 # Predefined style

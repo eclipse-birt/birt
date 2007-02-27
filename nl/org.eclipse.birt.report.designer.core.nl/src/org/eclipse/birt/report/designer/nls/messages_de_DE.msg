@@ -3627,7 +3627,7 @@ AddImageResourceFileFolderSelectionDialog.Message=Wählen Sie ein Bild aus:
 #DataItemBindingDialog properties
 
 DataItemBindingDialog.text.Name=Name:
-DataItemBindingDialog.text.displayName=Display Name:
+DataItemBindingDialog.text.displayName=Anzeigename:
 DataItemBindingDialog.text.DataType=Datentyp:
 DataItemBindingDialog.text.Expression=Ausdruck:
 DataItemBindingDialog.text.AggregateOn=Aggregat ein:

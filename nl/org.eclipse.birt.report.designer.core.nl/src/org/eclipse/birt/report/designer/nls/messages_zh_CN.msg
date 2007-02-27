@@ -3627,7 +3627,7 @@ AddImageResourceFileFolderSelectionDialog.Message=请选择图像:
 #DataItemBindingDialog properties
 
 DataItemBindingDialog.text.Name=名称:
-DataItemBindingDialog.text.displayName=Display Name:
+DataItemBindingDialog.text.displayName=显示名称:
 DataItemBindingDialog.text.DataType=数据类型:
 DataItemBindingDialog.text.Expression=表达式:
 DataItemBindingDialog.text.AggregateOn=聚合条件:

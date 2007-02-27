@@ -3627,7 +3627,7 @@ AddImageResourceFileFolderSelectionDialog.Message=이미지를 선택하십시오.
 #DataItemBindingDialog properties
 
 DataItemBindingDialog.text.Name=이름:
-DataItemBindingDialog.text.displayName=Display Name:
+DataItemBindingDialog.text.displayName=표시 이름:
 DataItemBindingDialog.text.DataType=데이터 형식:
 DataItemBindingDialog.text.Expression=식:
 DataItemBindingDialog.text.AggregateOn=집계 대상:

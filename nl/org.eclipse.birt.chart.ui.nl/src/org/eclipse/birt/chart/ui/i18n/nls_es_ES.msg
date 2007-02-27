@@ -78,7 +78,7 @@ ChartWizard.Label.SelectChartTypeDataFormat=Seleccionar tipo de diagrama, datos 
 TaskSelectType.Caption.OverlayAxis1=Título de eje Y
 ApplyButtonHandler.Label.Apply=Aplicar
 
-ChartUIUtil.GanttExp.Label=Task Label
+ChartUIUtil.GanttExp.Label=Etiqueta de tarea
 ChartUIUtil.GanttExp.Start=Fecha de inicio
 ChartUIUtil.GanttExp.End=Fecha de finalización
 ChartUIUtil.BubbleExp.Label=Valor Y

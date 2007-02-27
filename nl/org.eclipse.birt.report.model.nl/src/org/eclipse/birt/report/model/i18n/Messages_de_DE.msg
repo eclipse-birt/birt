@@ -42,7 +42,7 @@ Property.memberKey=Mitgliederschlüssel
 Property.literalString=Literalzeichenfolge
 Property.element=Element
 Property.structRef=Strukturbezug
-Property.contentElement=element as property value
+Property.contentElement=Element als Eigenschaftswert
 
 ###########################################################
 # Choice values
@@ -550,8 +550,8 @@ Choices.levelType.dynamic=Dynamisch
 Choices.levelType.mirrored=Gespiegelt
 
 #72. accessPermission
-Choices.accessPermission.allow=Allow
-Choices.accessPermission.disallow=Disallow
+Choices.accessPermission.allow=Zulassen
+Choices.accessPermission.disallow=Nicht zulassen
 
 #73. paramSortValues
 Choices.paramSortValues.value=Wert
@@ -1907,7 +1907,7 @@ Structure.ResultSetColumn.nativeDataType=Programmeigener Datentypcode
 
 #15. ComputedColumn
 Structure.ComputedColumn.name=Spaltenname
-Structure.ComputedColumn.displayName=Column Display Name
+Structure.ComputedColumn.displayName=Spaltenanzeigename
 Structure.ComputedColumn.expression=Ausdruck
 Structure.ComputedColumn.dataType=Datentyp
 Structure.ComputedColumn.aggregateOn=Ausdruck "AggregateOn"
@@ -2133,8 +2133,8 @@ Element.Hierarchy=Hierarchie
 Element.Level=Stufe
 Element.Measure=Maßeinheit
 Element.MeasureGroup=Maßeinheitsgruppe
-Element.AccessControl=Access Control
-Element.ValueAccessControl=Value Access Control
+Element.AccessControl=Zugriffssteuerung
+Element.ValueAccessControl=Wertzugriffsteuerung
 
 ###########################################################
 # Element property names
@@ -2896,12 +2896,12 @@ Element.Cube.filter=Filterbedingungen
 Element.Cube.dimensionConditions=Dimensionsbedingungen
 Element.Cube.dimensions=Dimensions
 Element.Cube.measureGroups=Maßeinheitsgruppen
-Element.Cube.defaultMeasureGroup=Default Measure Group
-Element.Cube.accessControls=Access controls
+Element.Cube.defaultMeasureGroup=Standard-Maßeinheitsgruppe
+Element.Cube.accessControls=Zugriffssteuerungen
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=Gleich Uhrzeitformat
-Element.Dimension.defaultHierarchy=Default Hierarchy
+Element.Dimension.defaultHierarchy=Standardhierarchie
 Element.Dimension.hierarchies=Hierarchies
 
 #47. Hierarchy ( prefix Element.Hierarchy )
@@ -2909,7 +2909,7 @@ Element.Hierarchy.dataSet=Datensatz
 Element.Hierarchy.filter=Filterbedingungen
 Element.Hierarchy.primaryKeys=Primärschlüssel
 Element.Hierarchy.levels=Levels
-Element.Hierarchy.accessControls=Access controls
+Element.Hierarchy.accessControls=Zugriffssteuerungen
 
 #48. Level ( prefix Element.Level )
 Element.Level.columnName=Spaltenname
@@ -2921,7 +2921,7 @@ Element.Level.intervalRange=Intervallbereich
 Element.Level.levelType=Stufentyp
 Element.Level.staticValues=Statische Werte
 Element.Level.attributes=Attribute
-Element.Level.valueAccessControls=Value access controls
+Element.Level.valueAccessControls=Wertzugriffsteuerungen
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=Funktion
@@ -2932,12 +2932,12 @@ Element.Measure.measureExpression=Ausdruck für Maßeinheit
 Element.MeasureGroup.measures=Einheiten
 
 #51. AccessControl ( prefix Element.AccessControl )
-Element.AccessControl.userNames=User names
-Element.AccessControl.roles=Roles
-Element.AccessControl.permission=Access permission
+Element.AccessControl.userNames=Benutzernamen
+Element.AccessControl.roles=Rollen
+Element.AccessControl.permission=Zugriffsberechtigung
 
 #51. ValueAccessControl ( prefix Element.ValueAccessControl )
-Element.ValueAccessControl.values=Values
+Element.ValueAccessControl.values=Werte
 
 ###########################################################
 # Predefined style

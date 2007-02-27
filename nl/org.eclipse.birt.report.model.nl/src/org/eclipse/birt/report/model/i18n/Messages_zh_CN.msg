@@ -42,7 +42,7 @@ Property.memberKey=成员键
 Property.literalString=文字字符串
 Property.element=元素
 Property.structRef=结构引用
-Property.contentElement=element as property value
+Property.contentElement=元素为属性值
 
 ###########################################################
 # Choice values
@@ -550,8 +550,8 @@ Choices.levelType.dynamic=动态
 Choices.levelType.mirrored=镜像
 
 #72. accessPermission
-Choices.accessPermission.allow=Allow
-Choices.accessPermission.disallow=Disallow
+Choices.accessPermission.allow=允许
+Choices.accessPermission.disallow=禁止
 
 #73. paramSortValues
 Choices.paramSortValues.value=值
@@ -1907,7 +1907,7 @@ Structure.ResultSetColumn.nativeDataType=本地数据类型代码
 
 #15. ComputedColumn
 Structure.ComputedColumn.name=列名
-Structure.ComputedColumn.displayName=Column Display Name
+Structure.ComputedColumn.displayName=列显示名称
 Structure.ComputedColumn.expression=表达式
 Structure.ComputedColumn.dataType=数据类型
 Structure.ComputedColumn.aggregateOn=AggregateOn 表达式
@@ -2133,8 +2133,8 @@ Element.Hierarchy=层次结构
 Element.Level=级别
 Element.Measure=度量
 Element.MeasureGroup=度量组
-Element.AccessControl=Access Control
-Element.ValueAccessControl=Value Access Control
+Element.AccessControl=访问控制
+Element.ValueAccessControl=值访问控制
 
 ###########################################################
 # Element property names
@@ -2896,12 +2896,12 @@ Element.Cube.filter=筛选条件
 Element.Cube.dimensionConditions=维条件
 Element.Cube.dimensions=Dimensions
 Element.Cube.measureGroups=度量组
-Element.Cube.defaultMeasureGroup=Default Measure Group
-Element.Cube.accessControls=Access controls
+Element.Cube.defaultMeasureGroup=默认度量组
+Element.Cube.accessControls=访问控制
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=是时间类型
-Element.Dimension.defaultHierarchy=Default Hierarchy
+Element.Dimension.defaultHierarchy=默认层次结构
 Element.Dimension.hierarchies=Hierarchies
 
 #47. Hierarchy ( prefix Element.Hierarchy )
@@ -2909,7 +2909,7 @@ Element.Hierarchy.dataSet=数据集
 Element.Hierarchy.filter=筛选条件
 Element.Hierarchy.primaryKeys=主键
 Element.Hierarchy.levels=Levels
-Element.Hierarchy.accessControls=Access controls
+Element.Hierarchy.accessControls=访问控制
 
 #48. Level ( prefix Element.Level )
 Element.Level.columnName=列名
@@ -2921,7 +2921,7 @@ Element.Level.intervalRange=间隔范围
 Element.Level.levelType=级别类型
 Element.Level.staticValues=静态值
 Element.Level.attributes=属性
-Element.Level.valueAccessControls=Value access controls
+Element.Level.valueAccessControls=值访问控制
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=函数
@@ -2932,12 +2932,12 @@ Element.Measure.measureExpression=度量表达式
 Element.MeasureGroup.measures=度量
 
 #51. AccessControl ( prefix Element.AccessControl )
-Element.AccessControl.userNames=User names
-Element.AccessControl.roles=Roles
-Element.AccessControl.permission=Access permission
+Element.AccessControl.userNames=用户名
+Element.AccessControl.roles=角色
+Element.AccessControl.permission=访问权限
 
 #51. ValueAccessControl ( prefix Element.ValueAccessControl )
-Element.ValueAccessControl.values=Values
+Element.ValueAccessControl.values=值
 
 ###########################################################
 # Predefined style

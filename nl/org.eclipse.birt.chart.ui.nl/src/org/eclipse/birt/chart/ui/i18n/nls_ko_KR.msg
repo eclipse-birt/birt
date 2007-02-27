@@ -78,7 +78,7 @@ ChartWizard.Label.SelectChartTypeDataFormat=차트 형식, 데이터 및 형식 선택
 TaskSelectType.Caption.OverlayAxis1=Y축 제목
 ApplyButtonHandler.Label.Apply=적용
 
-ChartUIUtil.GanttExp.Label=Task Label
+ChartUIUtil.GanttExp.Label=작업 레이블
 ChartUIUtil.GanttExp.Start=시작 날짜
 ChartUIUtil.GanttExp.End=종료 날짜
 ChartUIUtil.BubbleExp.Label=Y 값

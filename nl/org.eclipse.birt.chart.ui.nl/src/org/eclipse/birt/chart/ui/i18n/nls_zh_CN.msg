@@ -78,7 +78,7 @@ ChartWizard.Label.SelectChartTypeDataFormat=选择图表类型、数据和格式。
 TaskSelectType.Caption.OverlayAxis1=Y 轴标题
 ApplyButtonHandler.Label.Apply=应用
 
-ChartUIUtil.GanttExp.Label=Task Label
+ChartUIUtil.GanttExp.Label=任务标签
 ChartUIUtil.GanttExp.Start=开始日期
 ChartUIUtil.GanttExp.End=结束日期
 ChartUIUtil.BubbleExp.Label=Y 值

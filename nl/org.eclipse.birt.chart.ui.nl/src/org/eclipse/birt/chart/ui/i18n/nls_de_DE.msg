@@ -78,7 +78,7 @@ ChartWizard.Label.SelectChartTypeDataFormat=Wählen Sie Diagrammtyp, Daten und Fo
 TaskSelectType.Caption.OverlayAxis1=Titel der Y-Achse
 ApplyButtonHandler.Label.Apply=Übernehmen
 
-ChartUIUtil.GanttExp.Label=Task Label
+ChartUIUtil.GanttExp.Label=Beschriftung für Aufgabe
 ChartUIUtil.GanttExp.Start=Startdatum
 ChartUIUtil.GanttExp.End=Enddatum
 ChartUIUtil.BubbleExp.Label=Y-Wert

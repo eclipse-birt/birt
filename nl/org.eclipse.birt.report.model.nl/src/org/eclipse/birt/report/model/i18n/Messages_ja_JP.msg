@@ -42,7 +42,7 @@ Property.memberKey=メンバキー
 Property.literalString=リテラル文字列
 Property.element=要素
 Property.structRef=構造参照
-Property.contentElement=element as property value
+Property.contentElement=プロパティ値としての要素
 
 ###########################################################
 # Choice values
@@ -550,8 +550,8 @@ Choices.levelType.dynamic=動的
 Choices.levelType.mirrored=ミラー化
 
 #72. accessPermission
-Choices.accessPermission.allow=Allow
-Choices.accessPermission.disallow=Disallow
+Choices.accessPermission.allow=許可する
+Choices.accessPermission.disallow=許可しない
 
 #73. paramSortValues
 Choices.paramSortValues.value=値
@@ -1907,7 +1907,7 @@ Structure.ResultSetColumn.nativeDataType=ネイティブのデータ型コード
 
 #15. ComputedColumn
 Structure.ComputedColumn.name=列名
-Structure.ComputedColumn.displayName=Column Display Name
+Structure.ComputedColumn.displayName=列の表示名
 Structure.ComputedColumn.expression=式
 Structure.ComputedColumn.dataType=データ型
 Structure.ComputedColumn.aggregateOn=AggregateOn 式
@@ -2133,8 +2133,8 @@ Element.Hierarchy=階層
 Element.Level=レベル
 Element.Measure=計測
 Element.MeasureGroup=計測グループ
-Element.AccessControl=Access Control
-Element.ValueAccessControl=Value Access Control
+Element.AccessControl=アクセスコントロール
+Element.ValueAccessControl=値へのアクセスコントロール
 
 ###########################################################
 # Element property names
@@ -2896,12 +2896,12 @@ Element.Cube.filter=フィルタ条件
 Element.Cube.dimensionConditions=次元条件
 Element.Cube.dimensions=Dimensions
 Element.Cube.measureGroups=計測グループ
-Element.Cube.defaultMeasureGroup=Default Measure Group
-Element.Cube.accessControls=Access controls
+Element.Cube.defaultMeasureGroup=デフォルトの計測グループ
+Element.Cube.accessControls=アクセスコントロール
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=Is Time 型
-Element.Dimension.defaultHierarchy=Default Hierarchy
+Element.Dimension.defaultHierarchy=デフォルトの階層
 Element.Dimension.hierarchies=Hierarchies
 
 #47. Hierarchy ( prefix Element.Hierarchy )
@@ -2909,7 +2909,7 @@ Element.Hierarchy.dataSet=データセット
 Element.Hierarchy.filter=フィルタ条件
 Element.Hierarchy.primaryKeys=プライマリキー
 Element.Hierarchy.levels=Levels
-Element.Hierarchy.accessControls=Access controls
+Element.Hierarchy.accessControls=アクセスコントロール
 
 #48. Level ( prefix Element.Level )
 Element.Level.columnName=列見出し
@@ -2921,7 +2921,7 @@ Element.Level.intervalRange=間隔の範囲
 Element.Level.levelType=レベルの型
 Element.Level.staticValues=静的な値
 Element.Level.attributes=属性
-Element.Level.valueAccessControls=Value access controls
+Element.Level.valueAccessControls=値へのアクセスコントロール
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=関数
@@ -2932,12 +2932,12 @@ Element.Measure.measureExpression=計測式
 Element.MeasureGroup.measures=計測
 
 #51. AccessControl ( prefix Element.AccessControl )
-Element.AccessControl.userNames=User names
-Element.AccessControl.roles=Roles
-Element.AccessControl.permission=Access permission
+Element.AccessControl.userNames=ユーザ名
+Element.AccessControl.roles=役割
+Element.AccessControl.permission=アクセス権限
 
 #51. ValueAccessControl ( prefix Element.ValueAccessControl )
-Element.ValueAccessControl.values=Values
+Element.ValueAccessControl.values=値
 
 ###########################################################
 # Predefined style
