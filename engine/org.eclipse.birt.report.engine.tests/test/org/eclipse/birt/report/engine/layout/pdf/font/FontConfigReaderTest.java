@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.layout.pdf.font;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Map;
 
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
@@ -33,54 +34,114 @@ public class FontConfigReaderTest extends TestCase
 
 	private FontMappingManager fontMappingManager = null;
 
-	public void testFont( ) throws IOException, FactoryConfigurationError,
-			ParserConfigurationException, SAXException
+	public void testFontMapWhenAllFontsNotDefined( ) throws IOException,
+			FactoryConfigurationError, ParserConfigurationException,
+			SAXException
 	{
-		String configFile = "fontsConfig.xml";
-		fontMappingManager = getFontMappingManager( configFile );
+		fontMappingManager = getFontMappingManager( "fontsConfig2.xml" );
 
-		// Tests an exist font which is not mapped in fontmapping should not be
-		// mapped.
-		assertTrue( isMappedTo( '1', "Symbol", "Symbol" ) );
+		// alias: defined; compsoite-font: defined; block: defined; character:
+		// defined by the block font.
+		assertTrue( isMappedTo( '1', "alias1", "Courier" ) );
+		// alias: defined; compsoite-font: defined; block: defined; character:
+		// not defined by the block font.
+		assertTrue( isMappedTo( (char) 0xe81, "alias1", "Times Roman" ) );
+		// alias: defined; compsoite-font: defined; block: not; character:
+		// not defined by the logical font.
+		assertTrue( isMappedTo( (char) 0x80, "alias1", "Times Roman" ) );
+		// alias: defined; compsoite-font: not; character: defined by the
+		// logical font.
+		assertTrue( isMappedTo( '1', "alias2", "Helvetica" ) );
 
-		// Tests an unexist font which is not mapped in fontmapping should not be
-		// mapped to all-fonts-mapped font.
-		assertTrue( isMappedTo( '1', "Not exist", "Times Roman" ) );
-
-		// Tests an unexist font which is not mapped in fontmapping should not be
-		// mapped to all-fonts-mapped font.
-		assertTrue( isDefaultMappedTo( (char)0xe81, "Symbol", "ITC Zapf Dingbats" ) );
-
-		// Tests a font in font-mapping.
-		assertTrue( isMappedTo( '1', "sans-serif", "Helvetica" ) );
-
-		// Tests a font which is not in font-mapping but in all-fonts mapping by
-		// font name.
-		assertTrue( isMappedTo( '1', "block", "Courier" ) );
-
-		// Tests a font which is not in font-mapping but in all-fonts mapping by
-		// "all-fonts".
-		assertTrue( isMappedTo( '1', "allfonts", "Times Roman" ) );
-
-		// Tests a character which is not defined by any block is mapped to
-		// default.
-		assertTrue( isDefaultMappedTo( (char) 0x501, "onlyInDefault",
-				"Helvetica" ) );
-
-		// Tests a character which is not defined by any block is mapped to
-		// default.
-		assertTrue( isDefaultMappedTo( (char) 0x501, "defaultAllFonts",
-				"ITC Zapf Dingbats" ) );
+		// alias: not; compsoite-font: defined; block: defined; character:
+		// defined by the block font.
+		assertTrue( isMappedTo( '1', "Symbol", "Courier" ) );
+		// alias: not; compsoite-font: defined; block: defined; character:
+		// not defined by the block font.
+		assertTrue( isMappedTo( (char) 0xe81, "Symbol", "Times Roman" ) );
+		// alias: not; compsoite-font: defined; block: not; character:
+		// not defined by the logical font.
+		assertTrue( isMappedTo( (char) 0x80, "Symbol", "Times Roman" ) );
+		// alias: not; compsoite-font: not; character: defined by the logical
+		// font.
+		assertTrue( isMappedTo( '1', "Helvetica", "Helvetica" ) );
 	}
 
-	private boolean isDefaultMappedTo( char c, String from, String to )
+	public void testFontMapWhenAllFontsDefined( ) throws IOException,
+			FactoryConfigurationError, ParserConfigurationException,
+			SAXException
 	{
-		CSSValueList fonts = createCssValueList( from );
-		int style = Font.NORMAL;
-		if ( fontMappingManager.getMappedFont( c, fonts, style ) != null )
-			return false;
-		BaseFont font = fontMappingManager.getDefaultFont( fonts, style );
-		return isIn( to, font.getFullFontName( ) );
+		fontMappingManager = getFontMappingManager( "fontsConfig1.xml" );
+
+		// alias defined, composite font defined, block defined, and character
+		// is defined by the block font.
+		assertTrue( isMappedTo( '1', "alias1", "Courier" ) );
+		// alias defined, composite font not defined, and character
+		// is defined by the logical font.
+		assertTrue( isMappedTo( '1', "alias2", "Helvetica" ) );
+
+		// alias not defined, composite font defined, and character
+		// is defined by the block font.
+		assertTrue( isMappedTo( '1', "Symbol", "Courier" ) );
+		// alias not defined, composite font not defined, and character
+		// is defined by the logical font.
+		assertTrue( isMappedTo( '1', "Helvetica", "Helvetica" ) );
+
+		// alias: defined; compsoite-font: defined; block: defined; character:
+		// not defined by the block font.
+		// all-fonts:define the block
+		assertTrue( isMappedTo( (char) 0xe81, "Symbol", "Helvetica" ) );
+		// alias: defined; compsoite-font: defined; block: defined; character:
+		// not defined by the block font.
+		// all-fonts:not define the block
+		assertTrue( isMappedTo( (char) 0xf01, "Symbol", "Times Roman" ) );
+	}
+
+	public void testCompatibleParser( ) throws IOException,
+			FactoryConfigurationError, ParserConfigurationException,
+			SAXException
+	{
+		fontMappingManager = getFontMappingManager( "fontsConfigCompatible.xml" );
+		Map fontAliases = fontMappingManager.getFontAliases( );
+		assertEquals( 7, fontAliases.size( ) );
+		assertEquals( "font alias in font-aliases", fontAliases
+				.get( "font alias overridden" ) );
+		assertEquals( "font alias in font-mappings", fontAliases
+				.get( "font alias not overridden" ) );
+
+		Map compositeFonts = fontMappingManager.getCompositeFonts( );
+		assertEquals( 3, compositeFonts.size( ) );
+		Map overriddenFont = (Map) compositeFonts.get( "font overridden" );
+		assertEquals( 1, overriddenFont.size( ) );
+		assertEquals( "font in composite-font", overriddenFont
+				.get( new Integer( 0 ) ) );
+		Map notOverriddenFont = (Map) compositeFonts
+				.get( "font not overridden" );
+		assertEquals( 1, notOverriddenFont.size( ) );
+		assertEquals( "font in all-fonts", notOverriddenFont.get( new Integer(
+				0 ) ) );
+		Map allFonts = (Map) compositeFonts.get( "all-fonts" );
+		assertEquals( 3, allFonts.size( ) );
+		assertEquals( "Times-Roman", allFonts.get( new Integer( 0 ) ) );
+		assertEquals( "Helvetica", allFonts.get( new Integer( 1 ) ) );
+		assertEquals( "Helvetica", allFonts.get( "default" ) );
+	}
+
+	public void testFontConfigParser( ) throws IOException,
+			FactoryConfigurationError, ParserConfigurationException,
+			SAXException
+	{
+		fontMappingManager = getFontMappingManager( "fontsConfigParser.xml" );
+		Map fontAliases = fontMappingManager.getFontAliases( );
+		assertEquals( 6, fontAliases.size( ) );
+		assertEquals( "Times-Roman", fontAliases.get( "test alias" ) );
+
+		Map compositeFonts = fontMappingManager.getCompositeFonts( );
+		assertEquals( 1, compositeFonts.size( ) );
+		Map testFont = (Map) compositeFonts.get( "test font" );
+		assertEquals( 2, testFont.size( ) );
+		assertEquals( "Symbol", testFont.get( new Integer( 0 ) ) );
+		assertEquals( "Helvetica", testFont.get( "default" ) );
 	}
 
 	private boolean isMappedTo( char c, String from, String to )

@@ -34,6 +34,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -46,11 +47,14 @@ public class FontConfigReader
 	/** The config xml file name */
 	private static final String CONFIG_FILE_PATH = "/fontsConfig.xml"; //$NON-NLS-1$
 
+	private static final String TAG_COMPOSITE_FONT = "composite-font"; //$NON-NLS-1$
+	private static final String TAG_ALL_FONTS = "all-fonts"; //$NON-NLS-1$
 	private static final String TAG_BLOCK = "block"; //$NON-NLS-1$
 	private static final String TAG_MAPPING = "mapping"; //$NON-NLS-1$
 	private static final String TAG_PATH = "path"; //$NON-NLS-1$
 	private static final String TAG_ENCODING = "encoding"; //$NON-NLS-1$
 	private static final String TAG_FONT_MAPPINGS = "font-mappings"; //$NON-NLS-1$
+	private static final String TAG_FONT_ALIASES = "font-aliases"; //$NON-NLS-1$
 
 	private static final String PROP_BLOCK_INDEX = "index"; //$NON-NLS-1$
 	private static final String PROP_NAME = "name"; //$NON-NLS-1$
@@ -105,7 +109,7 @@ public class FontConfigReader
 			Document doc = db.parse( new InputSource( r ) );
 
 			handleFontMappings( doc );
-			handleAllFonts( doc );
+			handleCompositeFonts( doc );
 			handleFontPaths( doc );
 			handleFontEncodings( doc );
 		}
@@ -128,7 +132,7 @@ public class FontConfigReader
 		String fontPath = null;
 		try
 		{
-		  	 //171369 patch provided by Arne Degenring <public@degenring.de>
+			// 171369 patch provided by Arne Degenring <public@degenring.de>
 			fontPath = FileLocator.toFileURL( fileURL ).getPath( );
 			if ( fontPath != null && fontPath.length( ) >= 3
 					&& fontPath.charAt( 2 ) == ':' )
@@ -189,12 +193,22 @@ public class FontConfigReader
 
 	private void handleFontMappings( Document doc )
 	{
-		HashMap fontMappingResult = new HashMap( );
-		NodeList fontMappings = doc.getDocumentElement( ).getElementsByTagName(
-				TAG_FONT_MAPPINGS );
-		assert ( fontMappings != null && fontMappings.getLength( ) > 0 );
+		Element documentElement = doc.getDocumentElement( );
+		processFontMappings( documentElement
+				.getElementsByTagName( TAG_FONT_MAPPINGS ) );
+		processFontMappings( documentElement
+				.getElementsByTagName( TAG_FONT_ALIASES ) );
+	}
+
+	private void processFontMappings( NodeList fontMappings )
+	{
+		if ( fontMappings == null || fontMappings.getLength( ) <= 0 )
+		{
+			return;
+		}
 		Node fontMapping = fontMappings.item( 0 );
 		NodeList childNodes = fontMapping.getChildNodes( );
+		HashMap fontMappingResult = new HashMap( );
 		for ( int i = 0; i < childNodes.getLength( ); i++ )
 		{
 			Node node = childNodes.item( i );
@@ -211,51 +225,103 @@ public class FontConfigReader
 		fontMappingManager.addFontMapping( fontMappingResult );
 	}
 
-	private void handleAllFonts( Document doc )
+	private void handleCompositeFonts( Document doc )
 	{
-		NodeList blocks = doc.getDocumentElement( ).getElementsByTagName(
-				TAG_BLOCK );
+		handleAllFontsNode( doc );
+		handleCompositeFontsNode( doc );
+	}
+
+	private void handleCompositeFontsNode( Document doc )
+	{
+		NodeList allFonts = doc.getDocumentElement( ).getElementsByTagName(
+				TAG_COMPOSITE_FONT );
+		for ( int i = 0; i < allFonts.getLength( ); i++ )
+		{
+			Node node = allFonts.item( i );
+			String fontName = getProperty( node, PROP_NAME );
+			Map blockMap = parseComsiteFont( node );
+			fontMappingManager.addCompositeFonts( fontName, blockMap );
+		}
+	}
+
+	private void handleAllFontsNode( Document doc )
+	{
+		NodeList allFonts = doc.getDocumentElement( ).getElementsByTagName(
+				TAG_ALL_FONTS );
+		if ( allFonts.getLength( ) != 0 )
+		{
+			Node node = allFonts.item( 0 );
+			NodeList blocks = node.getChildNodes( );
+			for ( int i = 0; i < blocks.getLength( ); i++ )
+			{
+				Node blockNode = blocks.item( i );
+				if ( !TAG_BLOCK.equals( blockNode.getNodeName( ) ) )
+				{
+					continue;
+				}
+				String blockIndex = getProperty( blockNode, PROP_BLOCK_INDEX );
+				if ( isValidValue( blockIndex ) )
+				{
+					int index = Integer.parseInt( blockIndex );
+					processAllFontsMapping( blockNode, new Integer( index ) );
+					continue;
+				}
+				String blockName = getProperty( blockNode, PROP_NAME );
+				if ( DEFAULT_BLOCK.equalsIgnoreCase( blockName ) )
+				{
+					processAllFontsMapping( blockNode, DEFAULT_BLOCK );
+				}
+			}
+		}
+	}
+
+	private void processAllFontsMapping( Node blockNode, Object blockId )
+	{
+		NodeList mappings = blockNode.getChildNodes( );
+		for ( int j = 0; j < mappings.getLength( ); j++ )
+		{
+
+			Node mapping = mappings.item( j );
+			if ( mapping.getNodeType( ) != Node.ELEMENT_NODE )
+				continue;
+
+			String name = getProperty( mapping, PROP_NAME );
+			String fontFamily = getProperty( mapping, PROP_FONT_FAMILY );
+			if ( isValidValue( fontFamily ) )
+			{
+				fontMappingManager.addBlockToCompositeFont( name, blockId,
+						fontFamily );
+			}
+		}
+	}
+
+	private Map parseComsiteFont( Node node )
+	{
+		NodeList blocks = node.getChildNodes( );
+		Map blockMap = new HashMap( );
 		for ( int i = 0; i < blocks.getLength( ); i++ )
 		{
 			Node blockNode = blocks.item( i );
+			if ( !TAG_BLOCK.equals( blockNode.getNodeName( ) ) )
+			{
+				continue;
+			}
 			String blockIndex = getProperty( blockNode, PROP_BLOCK_INDEX );
 			if ( isValidValue( blockIndex ) )
 			{
 				int index = Integer.parseInt( blockIndex );
-				NodeList mappings = blockNode.getChildNodes( );
-				Map mappingResult = getMappings( mappings );
-				fontMappingManager.setFontMappingByBlockIndex( index,
-						mappingResult );
+				String font = getProperty( blockNode, PROP_FONT_FAMILY );
+				blockMap.put( new Integer( index ), font );
 				continue;
 			}
 			String blockName = getProperty( blockNode, PROP_NAME );
 			if ( DEFAULT_BLOCK.equalsIgnoreCase( blockName ) )
 			{
-				NodeList mappings = blockNode.getChildNodes( );
-				Map mappingResult = getMappings( mappings );
-				fontMappingManager.addDefaultFont( mappingResult );
+				String font = getProperty( blockNode, PROP_FONT_FAMILY );
+				blockMap.put( DEFAULT_BLOCK, font );
 			}
 		}
-	}
-
-	private Map getMappings( NodeList mappings )
-	{
-		Map mappingResult = new HashMap( );
-		for ( int j = 0; j < mappings.getLength( ); j++ )
-		{
-
-			Node node = mappings.item( j );
-			if ( node.getNodeType( ) != Node.ELEMENT_NODE )
-				continue;
-
-			String name = getProperty( node, PROP_NAME );
-			String fontFamily = getProperty( node, PROP_FONT_FAMILY );
-			if ( isValidValue( fontFamily ) )
-			{
-				mappingResult.put( name, fontFamily );
-			}
-		}
-		return mappingResult;
+		return blockMap;
 	}
 
 	private boolean isValidValue( String propertyName )

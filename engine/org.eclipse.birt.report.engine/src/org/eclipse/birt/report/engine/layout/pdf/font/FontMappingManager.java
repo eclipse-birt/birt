@@ -48,7 +48,7 @@ public class FontMappingManager
 	private static final String DEFAULT_FANTASY_FONT = BaseFont.TIMES_ROMAN;
 
 	/** all fonts key */
-	private static final String FONT_NAME_ALL_FONTS = "all-fonts";
+	public static final String FONT_NAME_ALL_FONTS = "all-fonts";
 
 	/** The number of unicode blocks */
 	private static final int UNICODE_BLOCK_NUMBER = 154;
@@ -56,8 +56,9 @@ public class FontMappingManager
 	/** default fonts */
 	private static final String DEFAULT_FONT = BaseFont.TIMES_ROMAN;
 
+	private static final String BLOCK_DEFAULT = "default";
 	/** The font-family replacement */
-	private HashMap fontMapping = null;
+	private HashMap fontAliases = null;
 
 	/** The encoding for the fonts */
 	private HashMap fontEncoding = null;
@@ -69,26 +70,23 @@ public class FontMappingManager
 	 * The array maintaining the font list which can display the character in
 	 * the given unicode block.
 	 */
-	private Map[] fontNodes = new HashMap[UNICODE_BLOCK_NUMBER];
-
-	private Map defaultFonts;
+	private Map compositeFonts = new HashMap( );
 
 	FontMappingManager( )
 	{
 		initializeFontMapping( );
 		initializeFontEncoding( );
-		this.defaultFonts = new HashMap( );
 	}
 
 	protected void initializeFontMapping( )
 	{
-		fontMapping = new HashMap( );
+		fontAliases = new HashMap( );
 
-		fontMapping.put( SERIF, DEFAULT_SERIF_FONT );
-		fontMapping.put( SANS_SERIF, DEFAULT_SANS_SERIF_FONT );
-		fontMapping.put( CURSIVE, DEFAULT_CURSIVE_FONT );
-		fontMapping.put( MONOSPACE, DEFAULT_MONOSPACE_FONT );
-		fontMapping.put( FANTASY, DEFAULT_FANTASY_FONT );
+		fontAliases.put( SERIF, DEFAULT_SERIF_FONT );
+		fontAliases.put( SANS_SERIF, DEFAULT_SANS_SERIF_FONT );
+		fontAliases.put( CURSIVE, DEFAULT_CURSIVE_FONT );
+		fontAliases.put( MONOSPACE, DEFAULT_MONOSPACE_FONT );
+		fontAliases.put( FANTASY, DEFAULT_FANTASY_FONT );
 	}
 
 	protected void initializeFontEncoding( )
@@ -154,167 +152,88 @@ public class FontMappingManager
 	public BaseFont getMappedFont( char c, CSSValueList fontFamilies,
 			int fontStyle )
 	{
-		BaseFont result = getMappedFontByFontName( c, fontFamilies, fontStyle );
-		if ( result != null )
-			return result;
-
-		// No fonts in the customer given font list can display this
-		// character,
-		// search the fontMapping table to try to find a font.
-		// No font is suitable to the character. we will use the
-		// DEFAULT_FONT.
-		result = getMappedFontByCharacterCode( c, fontFamilies, fontStyle );
-		if ( result != null )
-			return result;
-		return result;
-	}
-
-	protected BaseFont getMappedFontByCharacterCode( char c,
-			CSSValueList fontFamilies, int fontStyle )
-	{
-		// Finds the font in the customer given font list.
 		for ( int i = 0; i < fontFamilies.getLength( ); i++ )
 		{
 			String fontFamilyName = fontFamilies.item( i ).getCssText( );
-			BaseFont font = getMappedFontByCharacterCode( c, fontFamilyName,
-					fontStyle );
-			if ( null != font )
-				return font;
-		}
-		return getMappedFontByCharacterCode( c, FONT_NAME_ALL_FONTS, fontStyle );
-	}
+			String logicalFont = getLogicalFont( fontFamilyName );
 
-	protected BaseFont getMappedFontByFontName( char c,
-			CSSValueList fontFamilies, int fontStyle )
-	{
-		BaseFont candidateFont = null;
-		// Finds the font in the customer given font list.
-		for ( int i = 0; i < fontFamilies.getLength( ); i++ )
-		{
-			String fontFamilyName = fontFamilies.item( i ).getCssText( );
-			// Gets the font alias or if the font name is a generic font, use
-			// the mapped font.
-			// otherwise, use the original font name.
-			candidateFont = getMappedFont( c, fontStyle, fontFamilyName );
-			if ( null != candidateFont )
-				return candidateFont;
-
-			candidateFont = getMappedFont( c, fontStyle, FONT_NAME_ALL_FONTS );
-			if ( candidateFont != null )
+			String physicalFont = getPhysicalFont( c, logicalFont, logicalFont );
+			if ( isCharDefinedInFont( c, physicalFont, fontStyle ) )
 			{
-				return candidateFont;
+				return createFont( physicalFont, fontStyle );
 			}
 		}
-		return null;
+		String physicalFont = getPhysicalFont( c, FONT_NAME_ALL_FONTS,
+				DEFAULT_FONT );
+		return createFont( physicalFont, fontStyle );
 	}
 
-	private BaseFont getMappedFont( char c, int fontStyle, String fontFamilyName )
+	private String getPhysicalFont( char c, String logicalFont,
+			String defaultFont )
 	{
-		String fontName = getMappedFontName( fontFamilyName, fontMapping );
-		fontName = fontName == null ? fontFamilyName : fontName;
-		BaseFont candidateFont = getBaseFont( fontName, c, fontStyle );
-		return candidateFont;
+		if ( isCompositeFont( logicalFont ) )
+		{
+			Map compositeFont = (Map) compositeFonts.get( logicalFont );
+			String blockFont = getBlockFont( compositeFont, c );
+			if ( blockFont != null )
+			{
+				return blockFont;
+			}
+		}
+		return defaultFont;
 	}
 
-	/**
-	 * Finds the block related with the charactor and return the respective
-	 * font.
-	 */
-	protected BaseFont getMappedFontByCharacterCode( char c,
-			String fontFamilyName, int fontStyle )
+	private String getBlockFont( Map compositeFont, char c )
 	{
 		int blockIndex = getBlockIndex( c );
-		if ( blockIndex < 0 )
+		String blockFont = (String) compositeFont
+				.get( new Integer( blockIndex ) );
+		if ( blockFont == null )
 		{
-			return null;
+			blockFont = (String) compositeFont.get( BLOCK_DEFAULT );
 		}
-		// There is no font defined for this unicode block.
-		if ( null == fontNodes[blockIndex] )
-		{
-			return null;
-		}
-		String fontName = (String) fontNodes[blockIndex].get( fontFamilyName );
-		BaseFont result = null;
-		if ( fontName != null )
-		{
-			result = getBaseFont( fontName, c, fontStyle );
-		}
-		// No font is suitable to the character. we will use the DEFAULT_FONT.
-		return result;
+		return blockFont;
 	}
 
-	/**
-	 * Gets font for the character which is not listed in "all-fonts" blocks.
-	 * 
-	 * @param fontFamilies
-	 *            the font families used for the character
-	 * @param fontStyle
-	 *            the font style.
-	 * @return the default font.
-	 */
-	public BaseFont getDefaultFont( CSSValueList fontFamilies, int fontStyle )
+	private boolean isCompositeFont( String logicalFont )
 	{
-		BaseFont result = null;
-		for ( int i = 0; i < fontFamilies.getLength( ); i++ )
-		{
-			String fontFamilyName = fontFamilies.item( i ).getCssText( );
-			String fontName = getMappedFontName( fontFamilyName, defaultFonts );
-			if ( fontName != null )
-				result = createFont( fontName, fontStyle );
-		}
-		if ( result == null )
-		{
-			result = createFont( getMappedFontName( FONT_NAME_ALL_FONTS,
-					defaultFonts ), fontStyle );
-		}
-		return result;
+		return compositeFonts.containsKey( logicalFont );
 	}
 
-	/**
-	 * Add a default font.
-	 * 
-	 * @param keyFont
-	 *            the key font.
-	 * @param valueFont
-	 *            the default font to which the key font which is mapped.
-	 */
-	public void addDefaultFont( String keyFont, String valueFont )
+	private String getLogicalFont( String fontFamilyName )
 	{
-		defaultFonts.put( keyFont, valueFont );
+		String fontName = getMappedFontName( fontFamilyName, fontAliases );
+		return fontName == null ? fontFamilyName : fontName;
 	}
 
-	/**
-	 * Adds default fonts.
-	 * 
-	 * @param defaultFonts
-	 *            a set of default fonts.
-	 */
-	public void addDefaultFont( Map defaultFonts )
+	public void addCompositeFonts( String fontName, Map blocks )
 	{
-		this.defaultFonts.putAll( defaultFonts );
-	}
-
-	/**
-	 * Adds a font family to the font list of a Unicode block.
-	 * 
-	 * @param blockIndex
-	 *            the block index.
-	 * @param fontFamily
-	 *            the font family name.
-	 */
-	public void setFontMappingByBlockIndex( int blockIndex, Map mappings )
-	{
-		assert ( mappings != null );
-		if ( blockIndex < 0 )
-			return;
-		if ( fontNodes[blockIndex] == null )
+		Map existedBlocks = (Map) compositeFonts.get( fontName );
+		if ( existedBlocks == null )
 		{
-			fontNodes[blockIndex] = mappings;
+			compositeFonts.put( fontName, blocks );
 		}
 		else
 		{
-			fontNodes[blockIndex].putAll( mappings );
+			existedBlocks.putAll( blocks );
 		}
+	}
+
+	public void addBlockToCompositeFont( String fontName, Object blockId,
+			String fontMappedTo )
+	{
+		Map blocks = (Map) compositeFonts.get( fontName );
+		if ( blocks == null )
+		{
+			blocks = new HashMap( );
+			compositeFonts.put( fontName, blocks );
+		}
+		blocks.put( blockId, fontMappedTo );
+	}
+
+	public Map getFontAliases( )
+	{
+		return fontAliases;
 	}
 
 	public void addFontEncoding( HashMap fontEncoding )
@@ -324,7 +243,12 @@ public class FontMappingManager
 
 	public void addFontMapping( HashMap fontMapping )
 	{
-		this.fontMapping.putAll( fontMapping );
+		this.fontAliases.putAll( fontMapping );
+	}
+
+	public Map getCompositeFonts( )
+	{
+		return compositeFonts;
 	}
 
 	private String getMappedFontName( String fontFamilyName, Map fontMap )
@@ -380,13 +304,10 @@ public class FontMappingManager
 		}
 	}
 
-	private BaseFont getBaseFont( String fontName, char c, int fontStyle )
+	private boolean isCharDefinedInFont( char c, String fontName, int fontStyle )
 	{
 		BaseFont bf = createFont( fontName, fontStyle );
-		if ( null != bf && bf.charExists( c ) )
-			return bf;
-		else
-			return null;
+		return null != bf && bf.charExists( c );
 	}
 
 	/** The edge of each unicode block */

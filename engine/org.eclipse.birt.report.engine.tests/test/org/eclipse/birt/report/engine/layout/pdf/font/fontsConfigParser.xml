@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!-- 
+	The default behavior:
+   	1. 	PDF emitter loads the font files from the fonts folder of the plug-in 
+   		"org.ecllipse.birt.report.engine.fonts". and then the system defined font
+    	folder. If the section <font-paths> is set in fontsConfig.xml, the system 
+    	defined font folder will be ignored, and the font files specified in section 
+		<font-paths> will be loaded instead.
+   
+   	2. 	PDF emitter tries to use the font specified in design-time to render the pdf. 
+   		If the font is a generic family, it will be mapped to a PDF embeded type1 font. 	
+		"serif" to "Times-Roman" 
+		"fantasy" to "Times-Roman" 
+		"sans-serif" to "Helvetica"
+		"monospace" to "Courier"
+		"cursive" to "ZapfDingbats"
+		If the font can not be built, it will go to the unicode block of that character,
+		and try the font defined in that block.
+		If this also fails, the character will be replaced with '?' using the default font, 
+		currently "Times-Roman", to denote a place of missing character. 
+-->
+
+<font>
+<!--
+	In <font-mappings> section, you can:
+	a. Define a mapping from a generic family to a font family.
+		for example: the following defines a mapping from generic family "serif" to a Type1 font
+		family "Times-Roman".
+			<mapping name="serif" font-family="Times-Roman"/>
+			
+	b. Define a mapping from a font family to another font family.
+		This is useful if you want to use a font for PDF rendering which differs from the font used
+	in design-time. 
+		for example: the following defines to replace "simsun" with "Arial Unicode MS".
+			<mapping name="simsun" font-family="Arial Unicode MS"/>
+-->
+	<font-aliases>
+		<mapping name="test alias" font-family="Times-Roman"/>
+	</font-aliases>
+	
+<!--
+	In <all-fonts> section, each <block> section corresponds to a unicode block.
+	In each block, a substitute font family name is specified for a character in
+	that block which can not be displayed by the customer defined font.
+	You can also add 
+		<mapping name="all-fonts" font-family="YOUR_FONT"/>
+	to define your own mapping.
+	If any language can't be displayed. Please find the respective block entry by
+	language name and substitue the "font-family" attribute of the "mapping" entry
+	with the required font name.
+-->
+
+	<composite-font name="test font">
+		<block name="Basic Latin" range-start="0" range-end="7f" index="0" font-family="Symbol"/>
+		<block name="default" font-family="Helvetica"/>
+	</composite-font>
+
+
+<!--
+	For <font-paths> section, If you just need to use the system defined font folder, you can simply
+	ignore this. 
+	In this section, you can set the font path you want PDF emitter to read, ranging from one font
+	file to a whole font folder.
+		for example: 
+		add a font folder
+		<path path="c:/windows/fonts"/>
+		add a font file
+		<path path="/usr/X11R6/lib/X11/fonts/TTF/arial.ttf"/>
+
+	But please NOTE:
+ 		If this section is set, PDF emitter will ONLY load the font files in these paths and ignore
+	the system defined font folder. If you want to use the system font folder as well, please include
+	it in this section. 
+ 	
+ 	On some systems, BIRT PDF emitter may not recognize the system defined font folder. If you encounter
+	this issue, please add the font path to this section.
+-->
+	<font-paths>
+		<path path="C:/windows/fonts"/>
+		<path path="d:/windows/fonts"/>
+		<path path="e:/windows/fonts"/>
+		<path path="f:/windows/fonts"/>
+		<path path="g:/windows/fonts"/>
+		<path path="C:/WINNT/fonts"/>
+		<path path="d:/WINNT/fonts"/>
+		<path path="e:/WINNT/fonts"/>
+		<path path="f:/WINNT/fonts"/>
+		<path path="g:/WINNT/fonts"/>
+
+		<path path="/usr/X/lib/X11/fonts/TrueType"/>
+		<path path="/usr/share/fonts/default/TrueType"/>
+
+		<path path="/usr/openwin/lib/X11/fonts/TrueType"/>
+		<path path="/usr/openwin/lib/locale/euro_fonts/X11/fonts/TrueType"/>
+		<path path="/usr/openwin/lib/locale/iso_8859_2/X11/fonts/TrueType"/>
+		<path path="/usr/openwin/lib/locale/iso_8859_5/X11/fonts/TrueType"/>
+		<path path="/usr/openwin/lib/locale/iso_8859_7/X11/fonts/TrueType"/>
+		<path path="/usr/openwin/lib/locale/iso_8859_8/X11/fonts/TrueType"/>
+		<path path="/usr/openwin/lib/locale/iso_8859_9/X11/fonts/TrueType"/>
+		<path path="/usr/openwin/lib/locale/iso_8859_13/X11/fonts/TrueType"/>
+		<path path="/usr/openwin/lib/locale/iso_8859_15/X11/fonts/TrueType"/>
+		<path path="/usr/openwin/lib/locale/ar/X11/fonts/TrueType"/>
+		<path path="/usr/openwin/lib/locale/hi_IN.UTF-8/X11/fonts/TrueType"/>
+		<path path="/usr/openwin/lib/locale/ja/X11/fonts/TT"/>
+		<path path="/usr/openwin/lib/locale/ko/X11/fonts/TrueType"/>
+		<path path="/usr/openwin/lib/locale/ko.UTF-8/X11/fonts/TrueType"/>
+		<path path="/usr/openwin/lib/locale/KOI8-R/X11/fonts/TrueType"/>
+		<path path="/usr/openwin/lib/locale/ru.ansi-1251/X11/fonts/TrueType"/>
+		<path path="/usr/openwin/lib/locale/th_TH/X11/fonts/TrueType"/>
+		<path path="/usr/openwin/lib/locale/zh_TW/X11/fonts/TrueType"/>
+		<path path="/usr/openwin/lib/locale/zh_TW.BIG5/X11/fonts/TT"/>
+		<path path="/usr/openwin/lib/locale/zh_HK.BIG5HK/X11/fonts/TT"/>
+		<path path="/usr/openwin/lib/locale/zh_CN.GB18030/X11/fonts/TrueType"/>
+		<path path="/usr/openwin/lib/locale/zh/X11/fonts/TrueType"/>
+		<path path="/usr/openwin/lib/locale/zh.GBK/X11/fonts/TrueType"/>
+		   
+		<path path="/usr/X11R6/lib/X11/fonts/TrueType"/>
+		<path path="/usr/X11R6/lib/X11/fonts/truetype"/>
+		<path path="/usr/X11R6/lib/X11/fonts/tt"/>
+		<path path="/usr/X11R6/lib/X11/fonts/TTF"/>
+		<path path="/usr/X11R6/lib/X11/fonts/OTF"/>
+		<path path="/usr/share/fonts/ja/TrueType"/>
+		<path path="/usr/share/fonts/truetype"/>
+		<path path="/usr/share/fonts/ko/TrueType"/>
+		<path path="/usr/share/fonts/zh_CN/TrueType"/>
+		<path path="/usr/share/fonts/zh_TW/TrueType"/>
+		<path path="/var/lib/defoma/x-ttcidfont-conf.d/dirs/TrueType"/>
+	</font-paths>
+<!--
+	For <font-encodings> section,
+	In most cases, you need not use this section, unless you are trying to use a non true-type font for
+	PDF rendering.
+-->
+	<font-encodings>
+		<encoding font-family="Times-Roman" encoding="Cp1252"/>
+		<encoding font-family="Helvetica" encoding="Cp1252"/>
+		<encoding font-family="Courier" encoding="Cp1252"/>
+		<encoding font-family="Zapfdingbats" encoding="Cp1252"/>
+		<encoding font-family="Symbol" encoding="Cp1252"/>
+		<encoding font-family="STSong-Light" encoding="UniGB-UCS2-H"/>
+		<encoding font-family="STSongStd-Light" encoding="UniGB-UCS2-H"/>
+		<encoding font-family="MHei-Medium" encoding="UniCNS-UCS2-H"/>
+		<encoding font-family="MSung-Light" encoding="UniCNS-UCS2-H"/>
+		<encoding font-family="MSungStd-Light" encoding="UniCNS-UCS2-H"/>
+		<encoding font-family="HeiseiMin-W3" encoding="UniJIS-UCS2-H"/>
+		<encoding font-family="HeiseiKakuGo-W5" encoding="UniJIS-UCS2-H"/>
+		<encoding font-family="KozMinPro-Regular" encoding="UniJIS-UCS2-H"/>
+		<encoding font-family="HYGoThic-Medium" encoding="UniKS-UCS2-H"/>
+		<encoding font-family="HYSMyeongJo-Medium" encoding="UniKS-UCS2-H"/>
+		<encoding font-family="HYSMyeongJoStd" encoding="UniKS-UCS2-H"/>
+	</font-encodings>
+</font>

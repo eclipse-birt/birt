@@ -274,17 +274,9 @@ public class FontHandler
 	{
 		BaseFont candidateFont = fontMappingManager.getMappedFont( character,
 				fontFamilies, fontStyle );
-		if ( null == candidateFont )
-		{
-			checkFontStatus( fontMappingManager.getDefaultFont( fontFamilies,
-					fontStyle ) );
-			return false;
-		}
-		else
-		{
-			checkFontStatus( candidateFont );
-			return true;
-		}
+		assert( candidateFont != null );
+		checkFontStatus( candidateFont );
+		return candidateFont.charExists( character );
 	}
 
 	private void checkFontStatus( BaseFont candidateFont )
