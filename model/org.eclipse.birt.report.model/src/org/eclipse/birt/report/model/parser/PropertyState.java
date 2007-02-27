@@ -478,7 +478,7 @@ class PropertyState extends AbstractPropertyState
 			return state;
 		}
 
-		if ( handler.versionNumber < VersionUtil.VERSION_3_0_0
+		if ( handler.versionNumber < VersionUtil.VERSION_3_1_0
 				&& ( IStyleModel.PAGE_BREAK_BEFORE_PROP.equalsIgnoreCase( name ) || IStyleModel.PAGE_BREAK_AFTER_PROP
 						.equalsIgnoreCase( name ) ) )
 		{
