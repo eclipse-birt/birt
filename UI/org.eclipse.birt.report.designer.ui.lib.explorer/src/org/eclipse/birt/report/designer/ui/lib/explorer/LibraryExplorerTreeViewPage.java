@@ -18,7 +18,6 @@ import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntr
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceLocator;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.outline.ItemSorter;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.lib.explorer.dnd.LibraryDragListener;
@@ -44,6 +43,7 @@ import org.eclipse.core.runtime.preferences.IEclipsePreferences.PreferenceChange
 import org.eclipse.gef.dnd.TemplateTransfer;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
@@ -170,7 +170,18 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	{
 		createContextMenus( );
 
-		treeViewer.setSorter( new ItemSorter( ) );
+		treeViewer.setSorter( new ViewerSorter( ) {
+
+			public int category( Object element )
+			{
+				if ( element instanceof LibraryHandle )
+				{
+					return 1;
+				}
+				return super.category( element );
+			}
+
+		} );
 		treeViewer.getTree( ).addMouseTrackListener( new MouseTrackAdapter( ) {
 
 			public void mouseHover( MouseEvent event )
@@ -328,7 +339,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 					&& file.toURI( ).toString( ).indexOf( resource.toURI( )
 							.toString( ) ) > -1 )
 			{
-				if(!isDisposed( ))
+				if ( !isDisposed( ) )
 				{
 					refreshRoot( );
 				}
