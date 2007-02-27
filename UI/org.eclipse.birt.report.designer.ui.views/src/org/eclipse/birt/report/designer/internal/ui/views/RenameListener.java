@@ -36,7 +36,8 @@ import org.eclipse.swt.widgets.TreeItem;
 
 public class RenameListener extends KeyAdapter implements
 		MouseListener,
-		SelectionListener, IDoubleClickListener
+		SelectionListener,
+		IDoubleClickListener
 {
 
 	private TreeViewer sourceViewer;
@@ -60,7 +61,7 @@ public class RenameListener extends KeyAdapter implements
 		sourceViewer.getTree( ).addSelectionListener( this );
 		sourceViewer.getTree( ).addKeyListener( this );
 		//sourceViewer.getTree( ).addMouseListener( this );
-        sourceViewer.addDoubleClickListener(this);
+		sourceViewer.addDoubleClickListener( this );
 	}
 
 	public void remove( )
@@ -68,7 +69,7 @@ public class RenameListener extends KeyAdapter implements
 		sourceViewer.getTree( ).removeSelectionListener( this );
 		sourceViewer.getTree( ).removeKeyListener( this );
 		//sourceViewer.getTree( ).removeMouseListener( this );
-        sourceViewer.removeDoubleClickListener(this);
+		sourceViewer.removeDoubleClickListener( this );
 	}
 
 	/*
@@ -126,7 +127,7 @@ public class RenameListener extends KeyAdapter implements
 						} );
 			}
 			//wait for double time to check if it is a double click
-			}, Display.getCurrent( ).getDoubleClickTime( ) + 100 );
+		}, Display.getCurrent( ).getDoubleClickTime( ) + 100 );
 
 	}
 
@@ -142,7 +143,9 @@ public class RenameListener extends KeyAdapter implements
 		{
 			if ( selectedItem != null )
 			{
-				new RenameAction( sourceViewer ).run( );
+				RenameAction action = new RenameAction( sourceViewer );
+				if ( action.isEnabled( ) && action.isHandled( ) )
+					action.run( );
 			}
 		}
 	}
@@ -198,17 +201,17 @@ public class RenameListener extends KeyAdapter implements
 		cancelTimer( );
 	}
 
-    /* (non-Javadoc)
-     * @see org.eclipse.jface.viewers.IDoubleClickListener#doubleClick(org.eclipse.jface.viewers.DoubleClickEvent)
-     */
-    public void doubleClick(DoubleClickEvent event)
-    {
-        //perform edit
-        cancelTimer( );
-        if ( selectedItem != null && !selectedItem.isDisposed( ) )
-        {//ignore multiple selection or invalid
-            // selection
-            new EditAction( selectedItem.getData( ) ).run( );
-        }
-    }
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.viewers.IDoubleClickListener#doubleClick(org.eclipse.jface.viewers.DoubleClickEvent)
+	 */
+	public void doubleClick( DoubleClickEvent event )
+	{
+		//perform edit
+		cancelTimer( );
+		if ( selectedItem != null && !selectedItem.isDisposed( ) )
+		{//ignore multiple selection or invalid
+			// selection
+			new EditAction( selectedItem.getData( ) ).run( );
+		}
+	}
 }
