@@ -250,13 +250,29 @@ public class ScriptEvalUtil
 			}
 			else if ( MiscUtil.isNumericOrString( obj1 ) && MiscUtil.isNumericOrString( obj2 ) )
 			{
-				return DataTypeUtil.toDouble( obj1 ).compareTo(
+				try
+				{
+					return DataTypeUtil.toDouble( obj1 ).compareTo(
 						DataTypeUtil.toDouble( obj2 ) );
+				}
+				catch (Exception e )
+				{
+					return DataTypeUtil.toString( obj1 ).compareTo(
+							DataTypeUtil.toString( obj2 ) );
+				}
 			}
 			else if ( MiscUtil.isDateOrString( obj1 ) && MiscUtil.isDateOrString( obj2 ) )
 			{
-				return DataTypeUtil.toDate( obj1 ).compareTo(
-						DataTypeUtil.toDate( obj2 ) );
+			    try
+				{
+					return DataTypeUtil.toDate( obj1 )
+							.compareTo( DataTypeUtil.toDate( obj2 ) );
+				}
+				catch ( Exception e )
+				{
+					return DataTypeUtil.toString( obj1 )
+							.compareTo( DataTypeUtil.toString( obj2 ) );
+				}
 			}
 			else
 				throw new DataException( ResourceConstants.INVALID_TYPE_IN_EXPR );
@@ -734,10 +750,6 @@ public class ScriptEvalUtil
 
 					obArray[1] = DataTypeUtil.toBoolean( obArray[1] );
 
-				}
-				else 
-				{
-					makeObjectArrayStringArray( obArray );
 				}
 			}
 			catch ( BirtException e )
