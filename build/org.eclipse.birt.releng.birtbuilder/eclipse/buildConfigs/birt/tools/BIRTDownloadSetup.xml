@@ -942,9 +942,6 @@
 				<include name="org.apache.batik_*/**"/>
 				<include name="org.apache.batik.pdf_*/**"/>
 				<include name="org.apache.xerces_*/**"/>
-			</fileset>
-			<fileset dir="${deposit}/eclipse/plugins" >
-				<include name="org.eclipse.birt.chart.examples*.jar" />
 			</fileset>				
 		</copy>
 		
