@@ -542,11 +542,19 @@
 		<mkdir dir="${buildDirectory}/${buildId}/birt_web"/>
 		<ant antfile="WebViewerPackager.xml" dir="${buildDirectory}/plugins/org.eclipse.birt.report.viewer" target="Jar">
 			<property name="integrate.dir" value="${buildDirectory}/${buildId}/eclipse"/>
+			<!-- 
+			Add baselocation.emf to enable runtime download be packaged with emf version 
+			from other location other than baseLocation
+			 -->
+			<!--
+			<property name="baseLocation.emf" value="${baseLocation}"/>
+			-->
 		</ant>
 		<ant antfile="WebViewerPackager.xml" dir="${buildDirectory}/plugins/org.eclipse.birt.report.viewer" target="Export">
 			<property name="export.dir" value="${buildDirectory}/${buildId}/birt_web"/>
 		</ant>
 		<!-- copy extra chartengine and emf -->
+		<!--
 		<copy todir="${buildDirectory}/${buildId}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF/platform/lib">
 			<fileset dir="${baseLocation}/plugins/">
 				<include name="org.eclipse.emf.common_*.jar" />
@@ -558,9 +566,12 @@
 			<fileset dir="${buildDirectory}/${buildId}/eclipse/plugins" />
 			<mapper type="regexp"  from="org.eclipse.birt.chart.engine_.*.jar" to="chartengineapi.jar"/>
 		</copy>
+		-->
 		<copy todir="${buildDirectory}/${buildId}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF/lib">
-			<fileset dir="${buildDirectory}/${buildId}/eclipse/plugins" />
-			<mapper type="regexp"  from="org.eclipse.birt.chart.engine_.*.jar" to="chartengineapi.jar"/>
+			<fileset dir="${buildDirectory}/${buildId}/eclipse/plugins" >
+				<include name="org.eclipse.birt.chart.engine_.*.jar"/>
+				<mapper type="regexp"  from="org.eclipse.birt.chart.engine_.*.jar" to="chartengineapi.jar"/>
+			</fileset>
 		</copy>
 	</target>
 	
