@@ -607,7 +607,7 @@ public class ScriptEvalTest extends TestCase
 				IConditionalExpression.OP_BETWEEN,
 				new Integer( 9 ),
 				new Double( 20.0 ) );
-		assertResult( result, false );			
+		assertResult( result, true );			
 		
 		result = ScriptEvalUtil.evalConditionalExpr( calendar.getTime( ),
 				IConditionalExpression.OP_BETWEEN,
