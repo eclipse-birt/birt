@@ -92,9 +92,9 @@ public class ScriptDataSetRuntime extends DataSetRuntime
 					return scriptEventHandler.handleFetch( this,
 							this.getDataRow( ) );
 				}
-				catch ( BirtException e )
+				catch ( Exception e )
 				{
-					throw DataException.wrap( e );
+					throw new DataException(e.getMessage( ));
 				}
 			}
 		}

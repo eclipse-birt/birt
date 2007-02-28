@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.data.engine.executor;
 
+import org.eclipse.birt.core.data.DataType.AnyType;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.CacheUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -43,6 +44,19 @@ public class ResultObject implements IResultObject
 		
 		try
 		{
+			if ( resultClass.hasAnyTYpe( ))
+			{
+				for ( int i = 1; i <= resultClass.getFieldCount( ); i++ )
+				{
+					if( resultClass.getFieldValueClass( i ).getName( ).equals( AnyType.class.getName() ))
+					{
+						if( fields[i-1]!= null)
+						{
+							((ResultClass)resultClass).getFieldMetaData( i ).setDataType( fields[i-1].getClass( ) );
+						}
+					}
+				}
+			}
 			if ( resultClass.hasClobOrBlob( ) )
 				this.fields = convertClobAndBlob( fields,
 						resultClass.getClobFieldIndexes( ),

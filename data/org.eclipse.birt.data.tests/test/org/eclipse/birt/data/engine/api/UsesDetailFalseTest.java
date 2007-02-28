@@ -61,6 +61,7 @@ public class UsesDetailFalseTest extends APITestCase
 	 * 		aggregation value list
 	 * 		starting group level list
 	 * 		ending group level list
+	 * @throws Exception 
 	 * @throws Exception
 	 */
 	public void test( ) throws Exception
@@ -71,6 +72,36 @@ public class UsesDetailFalseTest extends APITestCase
 		IResultIterator resultIt = executeQuery( queryDefn );
 		// step3: extract data from specifiled column, get result list
 		List[] resultList = getQueryResult( resultIt );
+		
+		baseTest( resultList );
+		
+	}
+
+	/**
+	 * Test whether result list value can be correctly gotten
+	 * Result list includes:
+	 * 		row data list
+	 * 		aggregation value list
+	 * 		starting group level list
+	 * 		ending group level list
+	 * @throws Exception 
+	 * @throws Exception
+	 */
+	public void test2( ) throws Exception
+	{
+		// step1: prepare querydefn, get IReportQueryDefn
+		IQueryDefinition queryDefn = prepareReportQueryDefn( dataSet.getName( ) );
+		// step2: execute query, get IResultIterator
+		IResultIterator resultIt = executeQuery( queryDefn );
+
+		resultIt.next( );
+		resultIt.skipToEnd( 0 );
+		assertFalse( resultIt.next( ));
+	}
+
+	public void baseTest( List[] resultList ) throws Exception
+	{
+		
 		
 		List rowList = resultList[0];		
 		List sumList = resultList[1];
@@ -222,5 +253,4 @@ public class UsesDetailFalseTest extends APITestCase
 				rowList, sumList, sglList, eglList, subList
 		};
 	}
-
 }

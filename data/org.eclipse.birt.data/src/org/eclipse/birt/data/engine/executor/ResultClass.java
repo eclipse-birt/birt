@@ -18,10 +18,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.birt.core.data.DataType.AnyType;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetUtil;
@@ -40,12 +42,15 @@ public class ResultClass implements IResultClass
 	private String[] fieldNames;
 	private int[] fieldDriverPositions;
 	private ResultClassHelper resultClassHelper;
+	private boolean hasAny;
+	private List originalAnyTypeField;
 	
 	public ResultClass( List projectedColumns )
 	{	
 		assert( projectedColumns != null );
 		
 		initColumnsInfo( projectedColumns );
+		
 	}
 	
 	/**
@@ -56,12 +61,16 @@ public class ResultClass implements IResultClass
 		m_fieldCount = projectedColumns.size( );
 		projectedCols = new ResultFieldMetadata[m_fieldCount];
 		nameToIdMapping = new HashMap( );
-
+		this.originalAnyTypeField = new ArrayList();
 		for ( int i = 0, n = projectedColumns.size( ); i < n; i++ )
 		{
 			projectedCols[i] = (ResultFieldMetadata) projectedColumns.get( i );
 			ResultFieldMetadata column = projectedCols[i];
-
+			if( isOfAnyType( column ))
+			{
+				this.hasAny = true;
+				this.originalAnyTypeField.add( Integer.valueOf( i + 1 ) );
+			}
 			String upperCaseName = column.getName( );
 			//if ( upperCaseName != null )
 			//	upperCaseName = upperCaseName.toUpperCase( );
@@ -91,6 +100,16 @@ public class ResultClass implements IResultClass
 				nameToIdMapping.put( upperCaseAlias, index );
 			}
 		}
+	}
+
+	/**
+	 * 
+	 * @param column
+	 * @return
+	 */
+	private boolean isOfAnyType( ResultFieldMetadata column )
+	{
+		return column.getDataType( ).getName( ).equals( AnyType.class.getName( ) );
 	}
 	
 	/**
@@ -352,6 +371,59 @@ public class ResultClass implements IResultClass
 		if ( resultClassHelper == null )
 			resultClassHelper = new ResultClassHelper( this );
 		return resultClassHelper;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IResultClass#hasAny()
+	 */
+	public boolean hasAnyTYpe( ) throws DataException
+	{
+		if( this.hasAny )
+		{
+			for ( int i = 0; i < projectedCols.length; i++ )
+			{
+				if( this.isOfAnyType( projectedCols[i] ) )
+					return this.hasAny;
+			}
+			this.hasAny = false;	
+		}
+		
+		return this.hasAny;
+	}
+	
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 * @throws DataException
+	 */
+	public boolean wasAnyType( String name ) throws DataException
+	{
+		Iterator it = this.originalAnyTypeField.iterator( );
+		while ( it.hasNext( ) )
+		{
+			int index = ((Integer)it.next( )).intValue( );
+			if ( this.getFieldName( index ).equals( name ) || this.getFieldAlias( index ).equals( name ))
+				return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * 
+	 * @param index
+	 * @return
+	 */
+	public boolean wasAnyType( int index )
+	{
+		Iterator it = this.originalAnyTypeField.iterator( );
+		while ( it.hasNext( ) )
+		{
+			if ( index == ((Integer)it.next( )).intValue( ))
+				return true;
+		}	
+		return false;
 	}
 	
 }
