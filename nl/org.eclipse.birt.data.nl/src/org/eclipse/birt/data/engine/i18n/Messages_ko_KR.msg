@@ -172,6 +172,7 @@ data.engine.document.notSupportInPresentation=프리젠테이션에서 지원되지 않습니다
 data.engine.wrongStatus=잘못된 상태
 data.engine.wrongVersion=2.1 이전 버전에서는 지원되지 않습니다.
 data.engine.unsupportOperationException=지원되지 않는 연산
+data.engine.possibleMixedDataTypeInColumn=An error happen during population of data. This might be caused by including data of mixed type in a column of "ANY" type.
 data.engine.resultClassSaveError=열 바인딩 내의 일부 열 참조가 없습니다.
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=열 이름은 비워 두거나 널(null)이 될 수 없습니다.

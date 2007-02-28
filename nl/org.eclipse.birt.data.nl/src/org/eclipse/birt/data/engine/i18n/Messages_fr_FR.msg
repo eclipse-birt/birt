@@ -172,6 +172,7 @@ data.engine.document.notSupportInPresentation=Non pris en charge dans la présent
 data.engine.wrongStatus=Etat incorrect.
 data.engine.wrongVersion=Non pris en charge dans les versions antérieures à la version 2.1.
 data.engine.unsupportOperationException=Opération non prise en charge.
+data.engine.possibleMixedDataTypeInColumn=An error happen during population of data. This might be caused by including data of mixed type in a column of "ANY" type.
 data.engine.resultClassSaveError=Certaines références de colonne dans la liaison de colonne n'existent pas.
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Le nom de colonne ne peut être ni vide ni nul.
