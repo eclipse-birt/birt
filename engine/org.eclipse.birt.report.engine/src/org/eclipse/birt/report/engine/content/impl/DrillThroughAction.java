@@ -54,6 +54,11 @@ public class DrillThroughAction implements IDrillThroughAction
 	 */
 	protected String target;
 	
+	/**
+	 * The type of the target file.
+	 */
+	protected String targetFileType = null;
+	
 	public DrillThroughAction( )
 	{
 		
@@ -61,7 +66,7 @@ public class DrillThroughAction implements IDrillThroughAction
 	
 	public DrillThroughAction( String bookmark, boolean isBookmark,
 				String reportName, Map parameterBindings, Map searchCriteria,
-				String target, String format )
+				String target, String format, String targetFileType )
 	{
 		this.bookmark = bookmark;
 		this.isBookmark = isBookmark;
@@ -70,6 +75,7 @@ public class DrillThroughAction implements IDrillThroughAction
 		this.searchCriteria = searchCriteria;
 		this.target = target;
 		this.format = format;
+		this.targetFileType = targetFileType;
 	}
 	
 	public String getBookmark( )
@@ -140,5 +146,25 @@ public class DrillThroughAction implements IDrillThroughAction
 	public void setFormat( String format )
 	{
 		this.format = format;
+	}
+	
+	/**
+	 * Sets target report file type for a drill-through action. The format type
+	 * for action are defined in DesignChoiceConstants.
+	 * 
+	 * @param targetFileType
+	 *            the type of the target report file.
+	 */
+	public void setTargetFileType( String targetFileType )
+	{
+		this.targetFileType = targetFileType;
+	}
+
+	/**
+	 * @return the type of the target report file.
+	 */
+	public String getTargetFileType( )
+	{
+		return targetFileType;
 	}
 }

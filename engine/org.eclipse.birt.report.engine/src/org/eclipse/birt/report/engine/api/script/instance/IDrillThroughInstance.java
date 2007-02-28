@@ -106,4 +106,14 @@ public interface IDrillThroughInstance
 	 * Set the targetWindow string.
 	 */
 	void setTargetWindow( String target );
+	
+	/**
+	 * Sets target report file type for a drill-through action.
+	 */
+	void setTargetFileType( String targetFileType );
+
+	/**
+	 * @return the type of the target report file.
+	 */
+	String getTargetFileType( );
 }

@@ -58,7 +58,7 @@ public class ReportContentReaderAndWriterTest extends EngineCase
 		Map attr = new HashMap( );
 		attr.put( "test", "1" );
 		hyperlink.setDrillThrough( "bookmartTest", true, "reportTest", attr,
-				attr, "target", "html" );
+				attr, "target", "html", null );
 		content.setHyperlinkAction( hyperlink );
 		/*
 		 * StyleDeclaration inlineStyle = new StyleDeclaration();
@@ -81,7 +81,7 @@ public class ReportContentReaderAndWriterTest extends EngineCase
 		Map attr = new HashMap( );
 		attr.put( "test", "4" );
 		hyperlink.setDrillThrough( "bookmartTest", true, "reportTest", attr,
-				attr, "target", "html" );
+				attr, "target", "html", null );
 		content.setHyperlinkAction( hyperlink );
 		return content;
 	}
@@ -169,7 +169,7 @@ public class ReportContentReaderAndWriterTest extends EngineCase
 		Map attr = new HashMap( );
 		attr.put( "test", "1" );
 		hyperlink.setDrillThrough( "bookmartTest", true, "reportTest", attr,
-				attr, "target", "html" );
+				attr, "target", "html", null );
 		content.setHyperlinkAction( hyperlink );
 		return content;
 	}

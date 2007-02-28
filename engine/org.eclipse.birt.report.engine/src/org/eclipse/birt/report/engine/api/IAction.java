@@ -94,4 +94,9 @@ public interface IAction
 	 * Checks if the action is point to a bookmark.
 	 */
 	public boolean isBookmark();
+	
+	/**
+	 * @return the type of the target report file.
+	 */
+	public String getTargetFileType( );
 }

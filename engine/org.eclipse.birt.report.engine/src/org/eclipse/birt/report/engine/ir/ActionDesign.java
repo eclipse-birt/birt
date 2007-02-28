@@ -53,6 +53,11 @@ public class ActionDesign
 	 * The name of a frame where a document is to be opened.
 	 */
 	protected String target = null;
+	
+	/**
+	 * The type of the target file.
+	 */
+	protected String targetFileType = null;
 
 	/**
 	 * @return Returns the bookmark.
@@ -135,5 +140,24 @@ public class ActionDesign
 	{
 		this.target = target;
 	}
+	
+	/**
+	 * Sets target report file type for a drill-through action. The format type
+	 * for action are defined in DesignChoiceConstants.
+	 * 
+	 * @param targetFileType
+	 *            the type of the target report file.
+	 */
+	public void setTargetFileType( String targetFileType )
+	{
+		this.targetFileType = targetFileType;
+	}
 
+	/**
+	 * @return the type of the target report file.
+	 */
+	public String getTargetFileType( )
+	{
+		return targetFileType;
+	}
 }

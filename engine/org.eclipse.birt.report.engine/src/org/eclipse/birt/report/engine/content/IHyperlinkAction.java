@@ -94,9 +94,23 @@ public interface IHyperlinkAction
 
 	public void setBookmarkType( boolean isBookmark );
 
+	/**
+	 * @deprecated
+	 * @param bookmark
+	 * @param isBookmark
+	 * @param reportName
+	 * @param parameterBindings
+	 * @param searchCriteria
+	 * @param target
+	 * @param format
+	 */
 	public void setDrillThrough( String bookmark, boolean isBookmark,
 			String reportName, Map parameterBindings, Map searchCriteria,
 			String target, String format );
+	
+	public void setDrillThrough( String bookmark, boolean isBookmark,
+			String reportName, Map parameterBindings, Map searchCriteria,
+			String target, String format, String targetFileType );
 	
 	public IDrillThroughAction getDrillThrough( );
 	

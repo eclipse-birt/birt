@@ -64,6 +64,7 @@ public interface IActionInstance
 	String getTargetWindow( );
 
 	/**
+	 * @deprecated
 	 * Create a drillThrough instance.
 	 * And set the parameters of the drillthrough:
 	 * @param bookmark
@@ -77,6 +78,22 @@ public interface IActionInstance
 	IDrillThroughInstance createDrillThrough( String bookmark, boolean isBookmark,
 			String reportName, Map parameterBindings, Map searchCriteria,
 			String target, String format );
+	
+	/**
+	 * Create a drillThrough instance.
+	 * And set the parameters of the drillthrough:
+	 * @param bookmark
+	 * @param isBookmark
+	 * @param reportName
+	 * @param parameterBindings
+	 * @param searchCriteria
+	 * @param target
+	 * @param format
+	 * @param targetFileType
+	 */
+	IDrillThroughInstance createDrillThrough( String bookmark, boolean isBookmark,
+			String reportName, Map parameterBindings, Map searchCriteria,
+			String target, String format, String targetFileType );
 	
 	/**
 	 * create a empty drillThrough instance.

@@ -122,7 +122,8 @@ public class ActionInstance implements IActionInstance
 
 	IDrillThroughInstance drillThroughInstance;
 	
-	/*
+	/**
+	 * @deprecated
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.IActionInstance#setDrillThrough()
@@ -131,9 +132,22 @@ public class ActionInstance implements IActionInstance
 			String reportName, Map parameterBindings, Map searchCriteria,
 			String target, String format )
 	{
+		return createDrillThrough( bookmark, isBookmark, reportName, parameterBindings,
+				searchCriteria, target, format, null );
+	}	
+	
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IActionInstance#setDrillThrough()
+	 */
+	public IDrillThroughInstance createDrillThrough( String bookmark, boolean isBookmark,
+			String reportName, Map parameterBindings, Map searchCriteria,
+			String target, String format, String targetFileType )
+	{
 		IDrillThroughAction drillThrough = new DrillThroughAction( bookmark,
 				isBookmark, reportName, parameterBindings, searchCriteria,
-				target, format );
+				target, format, targetFileType );
 		return new DrillThroughInstance( drillThrough );
 	}	
 

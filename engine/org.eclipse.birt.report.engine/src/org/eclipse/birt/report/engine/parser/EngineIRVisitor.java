@@ -1602,6 +1602,7 @@ class EngineIRVisitor extends DesignVisitor
 				.equals( linkType ) )
 		{
 			action.setTargetWindow( handle.getTargetWindow( ) );
+			action.setTargetFileType( handle.getTargetFileType( ) );
 			DrillThroughActionDesign drillThrough = new DrillThroughActionDesign( );
 			action.setDrillThrough( drillThrough );
 

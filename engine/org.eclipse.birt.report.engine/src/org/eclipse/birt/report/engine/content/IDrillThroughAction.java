@@ -81,4 +81,14 @@ public interface IDrillThroughAction
 	void setTargetWindow( String target );
 
 	void setFormat( String format );
+	
+	/**
+	 * Sets target report file type for a drill-through action.
+	 */
+	public void setTargetFileType( String targetFileType );
+
+	/**
+	 * @return the type of the target report file.
+	 */
+	public String getTargetFileType( );
 }

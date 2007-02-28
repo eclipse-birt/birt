@@ -84,6 +84,7 @@ public class ActionContent implements IHyperlinkAction
 	}
 
 	/**
+	 * @deprecated
 	 * Constructor for drill-through action type
 	 * 
 	 * @param bookmark
@@ -103,9 +104,35 @@ public class ActionContent implements IHyperlinkAction
 			String reportName, Map parameterBindings, Map searchCriteria,
 			String target, String format )
 	{
+		setDrillThrough( bookmark, isBookmark, reportName, parameterBindings,
+				searchCriteria, target, format, null );
+	}
+	
+	/**
+	 * Constructor for drill-through action type
+	 * 
+	 * @param bookmark
+	 *            the bookmark string
+	 * @param bookmarkType
+	 *            the bookmark type
+	 * @param reportName
+	 *            the report name navigated
+	 * @param parameterBindings
+	 *            the parameters of the report navigated
+	 * @param searchCriteria
+	 *            the search criteria
+	 * @param target
+	 *            the target window
+	 * @param targetFileType
+	 *            the target file type
+	 */
+	public void setDrillThrough( String bookmark, boolean isBookmark,
+			String reportName, Map parameterBindings, Map searchCriteria,
+			String target, String format, String targetFileType )
+	{
 		this.type = IHyperlinkAction.ACTION_DRILLTHROUGH;
 		drillThrough = new DrillThroughAction( bookmark, isBookmark,
-				reportName, parameterBindings, searchCriteria, target, format );
+				reportName, parameterBindings, searchCriteria, target, format, targetFileType );
 	}
 
 	/*
@@ -230,6 +257,7 @@ public class ActionContent implements IHyperlinkAction
 	final static int FIELD_TARGET = 6;
 	final static int FIELD_FORMAT = 7;
 	final static int FIELD_ISBOOKMARK = 8;
+	final static int FIELD_TARGETFILETYPE = 9;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
@@ -294,7 +322,11 @@ public class ActionContent implements IHyperlinkAction
 			IOUtil.writeInt( out, FIELD_FORMAT );
 			IOUtil.writeString( out, drillThrough.getFormat( ) );
 		}
-
+		if ( isDrillThrough( ) && drillThrough.getTargetFileType( ) != null )
+		{
+			IOUtil.writeInt( out, FIELD_TARGETFILETYPE );
+			IOUtil.writeString( out, drillThrough.getTargetFileType( ) );
+		}
 	}
 
 	protected void readField( int version, int filedId, DataInputStream in )
@@ -360,6 +392,12 @@ public class ActionContent implements IHyperlinkAction
 				if ( isDrillThrough( ) )
 				{					
 					drillThrough.setBookmarkType( IOUtil.readBool( in ) );
+				}
+				break;
+			case FIELD_TARGETFILETYPE:
+				if ( isDrillThrough( ) )
+				{					
+					drillThrough.setTargetFileType( IOUtil.readString( in ) );
 				}
 				break;
 		}

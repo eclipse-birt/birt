@@ -364,7 +364,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 					// XXX Do not support Search criteria
 					IHyperlinkAction obj = report.createActionContent( );
 					obj.setDrillThrough( bookmark, isBookmark, reportName, paramsVal, null,
-							action.getTargetWindow( ), format );
+							action.getTargetWindow( ), format, action.getTargetFileType( ) );
 
 					itemContent.setHyperlinkAction( obj );
 					break;

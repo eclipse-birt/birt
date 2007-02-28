@@ -75,7 +75,7 @@ public class EmbeddedHyperlinkProcessorTest extends TestCase
 
 		IHyperlinkAction action = new ActionContent( );
 		action.setDrillThrough( bookmark, true, reportName, params, null,
-				"_blank", "html" );//$NON-NLS-1$
+				"_blank", "html", null );//$NON-NLS-1$
 		IAction act = new Action( action );
 		String url = processor.getURL( act, context );
 

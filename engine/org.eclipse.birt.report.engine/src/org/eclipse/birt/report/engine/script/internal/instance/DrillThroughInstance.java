@@ -203,6 +203,27 @@ public class DrillThroughInstance implements IDrillThroughInstance
 	{
 		drillThrough.setTargetWindow( target );
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IDrillThroughInstance#setTargetFileType(
+	 *      java.lang.String )
+	 */
+	public void setTargetFileType( String targetFileType )
+	{
+		drillThrough.setTargetFileType( targetFileType );
+	}
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IDrillThroughInstance#getTargetFileType(
+	 *      java.lang.String )
+	 */
+	public String getTargetFileType( )
+	{
+		return drillThrough.getTargetFileType( );
+	}
 
 	/**
 	 * @return this.hyperlink, HyperlinkAction

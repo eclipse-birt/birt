@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.api.impl;
 import java.util.Map;
 
 import org.eclipse.birt.report.engine.api.IAction;
+import org.eclipse.birt.report.engine.content.IDrillThroughAction;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 
 /**
@@ -110,5 +111,21 @@ public class Action implements IAction
 	public boolean isBookmark( )
 	{
 		return content.isBookmark( );
+	}
+	
+	/**
+	 * @return the type of the target report file.
+	 */
+	public String getTargetFileType( )
+	{
+		IDrillThroughAction drillThrough = content.getDrillThrough( );
+		if ( null == drillThrough )
+		{
+			return null;
+		}
+		else
+		{
+			return drillThrough.getTargetFileType( );
+		}
 	}
 }
