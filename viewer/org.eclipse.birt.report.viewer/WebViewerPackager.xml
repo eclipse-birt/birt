@@ -582,7 +582,7 @@
         </condition>
 	</target>
 	
-	<target name="replaceManifest" depends="checkOS">
+	<target name="replaceManifest" depends="checkOS" if="generator" >
         <exec executable="${buildDirectory}/plugins/org.eclipse.birt.report.engine/sdk/${generator}">
                 <arg line="${buildDirectory}/plugins/org.eclipse.birt.report.engine/sdk" />
                 <arg line="${buildDirectory}/plugins/org.eclipse.birt.report.engine/sdk/manifest.mf" />
