@@ -177,7 +177,7 @@ public interface IReportEngine
 	public String getMIMEType( String format );
 
 	/**
-	 * shuts down the report engine
+	 * shut down the engine, release all the resources.
 	 */
 	public void destroy( );
 
@@ -272,6 +272,8 @@ public interface IReportEngine
 
 	/**
 	 * shut down the engine, release all the resources.
+	 * 
+	 * @deprecated
 	 */
 	public void shutdown( );
 }

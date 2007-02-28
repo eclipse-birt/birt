@@ -423,10 +423,12 @@ public class ReportEngine implements IReportEngine
 
 	/**
 	 * shut down the engine, release all the resources.
+	 * 
+	 * @deprecated
 	 */
 	public void shutdown( )
 	{
-		logger.fine( "ReportEngine.shutdown");
+		destroy();
 	}
 
 	public IReportDocument openReportDocument( String systemId,

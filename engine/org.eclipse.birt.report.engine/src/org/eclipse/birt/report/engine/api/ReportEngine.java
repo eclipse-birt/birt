@@ -291,6 +291,8 @@ public class ReportEngine implements IReportEngine
 
 	/**
 	 * shut down the engine, release all the resources.
+	 * 
+	 * @deprecated
 	 */
 	public void shutdown( )
 	{
