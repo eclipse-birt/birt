@@ -135,38 +135,45 @@ public class OdiAdapter
 	 */
 	IResultObject fetch( ) throws DataException
 	{
-		if ( odaResultSet != null )
+		try
 		{
-			return odaResultSet.fetch( );
-		}
-		if ( datasetCache != null )
-		{
-			return datasetCache.fetch( );
-		}
-		else if ( customDataSet != null )
-		{
-			return customDataSet.fetch( );
-		}
-		else if ( resultIterator != null )
-		{
-			if(!riStarted)
-				riStarted = true;
+			if ( odaResultSet != null )
+			{
+				return odaResultSet.fetch( );
+			}
+			if ( datasetCache != null )
+			{
+				return datasetCache.fetch( );
+			}
+			else if ( customDataSet != null )
+			{
+				return customDataSet.fetch( );
+			}
+			else if ( resultIterator != null )
+			{
+				if ( !riStarted )
+					riStarted = true;
+				else
+					this.resultIterator.next( );
+
+				return this.resultIterator.getCurrentResult( );
+			}
+			else if ( roReader != null )
+			{
+				return roReader.fetch( );
+			}
+			else if ( populator != null )
+			{
+				return populator.next( );
+			}
 			else
-				this.resultIterator.next();
-			
-			return this.resultIterator.getCurrentResult();
+			{
+				return resultSetCache.fetch( );
+			}
 		}
-		else if ( roReader != null )
+		catch ( IllegalArgumentException e )
 		{
-			return roReader.fetch( );
-		}
-		else if ( populator != null )
-		{
-			return populator.next( );
-		}
-		else
-		{
-			return resultSetCache.fetch( );
+			throw new DataException( e.getLocalizedMessage( ) );
 		}
 	}
 

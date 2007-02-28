@@ -172,5 +172,6 @@ class ResultIterator2 extends ResultIterator
 	protected void goThroughGapRows( int groupLevel ) throws DataException,
 			BirtException
 	{
+		this.odiResult.last( groupLevel );
 	}
 }

@@ -20,6 +20,8 @@ import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.script.IDataRow;
 import org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.ResultClass;
+import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime;
 import org.eclipse.birt.data.engine.impl.ResultMetaData;
@@ -103,7 +105,24 @@ public class DataRow implements IDataRow
 		Class fieldClass = obj.getResultClass().getFieldValueClass( index );
 		if ( fieldClass != DataType.AnyType.class )
 		{
-			value = DataTypeUtil.convert( value, fieldClass);
+			try
+			{
+				value = DataTypeUtil.convert( value, fieldClass );
+			}
+			catch ( BirtException e )
+			{
+				if ( obj.getResultClass( ) instanceof ResultClass )
+				{
+					if ( obj.getResultClass( ).wasAnyType( index ))
+						throw new IllegalArgumentException( DataResourceHandle.getInstance( )
+							.getMessage( ResourceConstants.POSSIBLE_MIXED_DATA_TYPE_IN_COLUMN ) );
+				}
+				else
+				{
+					throw e;
+				}
+
+			}
 		}
 		obj.setCustomFieldValue( index, value );
 	}
@@ -122,7 +141,24 @@ public class DataRow implements IDataRow
 		Class fieldClass = obj.getResultClass().getFieldValueClass( name );
 		if ( fieldClass != DataType.AnyType.class )
 		{
-			value = DataTypeUtil.convert( value, fieldClass);
+			try
+			{
+				value = DataTypeUtil.convert( value, fieldClass );
+			}
+			catch ( BirtException e )
+			{
+				if ( obj.getResultClass( ) instanceof ResultClass )
+				{
+					if( obj.getResultClass( ).wasAnyType( name ))
+						throw new IllegalArgumentException( DataResourceHandle.getInstance( )
+							.getMessage( ResourceConstants.POSSIBLE_MIXED_DATA_TYPE_IN_COLUMN ) );
+				}
+				else
+				{
+					throw e;
+				}
+
+			}
 		}
 		obj.setCustomFieldValue( name, value );
 	}

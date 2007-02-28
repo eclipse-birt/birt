@@ -148,6 +148,35 @@ public interface IResultClass
 	public boolean hasClobOrBlob( ) throws DataException;
 
 	/**
+	 * Indicate whether there are column of "ANY" type in Result Class.Please note
+	 * that the column, if is of "ANY" type, might be changed to
+     * other type, that is, the type of first not-null value of the column. After the
+     * column type is changed, we can trace its original type
+	 * use wasAnyType() methods.
+	 * @return
+	 * @throws DataException
+	 */
+	public boolean hasAnyTYpe( ) throws DataException;
+	
+	/**
+	 * Indicate whether the column with given name is of Any type when the
+	 * result class is firstly set.
+	 * 
+	 * @param name
+	 * @return
+	 * @throws DataException
+	 */
+	public boolean wasAnyType( String name ) throws DataException;
+	
+	/**
+	 * Indicate whether the column with given index is of Any type when the
+	 * result class is firstly set.
+	 * @param index
+	 * @return
+	 * @throws DataException
+	 */
+	public boolean wasAnyType( int index ) throws DataException;
+	/**
 	 * Gets indexes of all Clob fileds
 	 * 
 	 * @return
