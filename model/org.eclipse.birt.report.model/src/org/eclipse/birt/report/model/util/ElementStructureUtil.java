@@ -239,7 +239,7 @@ public class ElementStructureUtil
 	 * 
 	 */
 
-	public static boolean duplicateStructure( DesignElement source,
+	private static boolean duplicateStructure( DesignElement source,
 			DesignElement target )
 	{
 		if ( source == null || target == null )
@@ -308,7 +308,12 @@ public class ElementStructureUtil
 				}
 			}
 		}
-
+		
+		if ( target instanceof TableItem )
+		{
+			( (TableItem) target ).refreshRenderModel( target.getRoot( ) );
+		}
+		
 		return true;
 	}
 
@@ -332,38 +337,6 @@ public class ElementStructureUtil
 		{
 			ContainerSlot sourceSlot = element.getSlot( i );
 			sourceSlot.clear( );
-		}
-	}
-
-	/**
-	 * Updates layout structures of content elements in the given element. If
-	 * one element can find its extends parent, use parent's layout structure.
-	 * Otherwise, its layout strcuture is cleared.
-	 * 
-	 * @param element
-	 *            the element
-	 * @param module
-	 *            the module
-	 * 
-	 */
-
-	public static void updateContentStructures( DesignElement element,
-			Module module )
-	{
-		ContentIterator contentIter = new ContentIterator( element );
-		while ( contentIter.hasNext( ) )
-		{
-			DesignElement content = (DesignElement) contentIter.next( );
-			ElementDefn metaData = (ElementDefn) content.getDefn( );
-			if ( !metaData.canExtend( ) )
-				continue;
-
-			// try to resolve extends
-
-			if ( content.getExtendsElement( ) != null )
-				refreshStructureFromParent( module, content );
-			else
-				clearStructure( content );
 		}
 	}
 
@@ -427,13 +400,8 @@ public class ElementStructureUtil
 
 		// Copies top level slots from cloned element to the target element.
 
-		boolean result = ElementStructureUtil.updateStructureFromParent(
+		return ElementStructureUtil.updateStructureFromParent(
 				element, parent );
-		if ( element instanceof TableItem )
-		{
-			( (TableItem) element ).refreshRenderModel( module );
-		}
-		return result;
 	}
 
 	/**
