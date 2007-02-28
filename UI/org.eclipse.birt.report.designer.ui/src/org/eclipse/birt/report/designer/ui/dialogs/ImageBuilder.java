@@ -25,6 +25,8 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.BirtImageLoader;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.ImageCanvas;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.ImageManager;
@@ -399,8 +401,9 @@ public class ImageBuilder extends BaseDialog
 		}
 
 		Button inputButton = new Button( innerComp, SWT.PUSH );
-		inputButton.setText( Messages.getString( "ImageBuilder.Label.Open" ) ); //$NON-NLS-1$
-		inputButton.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
+//		inputButton.setText( Messages.getString( "ImageBuilder.Label.Open" ) ); //$NON-NLS-1$
+//		inputButton.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
+		setExpressionButtonImage(inputButton);
 		inputButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent event )
@@ -897,4 +900,25 @@ public class ImageBuilder extends BaseDialog
 		return false;
 	}
 
+	protected void setExpressionButtonImage(Button button) {
+		String imageName;
+		if (button.isEnabled()) {
+			imageName = IReportGraphicConstants.ICON_ENABLE_EXPRESSION_BUILDERS;
+		} else {
+			imageName = IReportGraphicConstants.ICON_DISABLE_EXPRESSION_BUILDERS;
+		}
+		Image image = ReportPlatformUIImages.getImage(imageName);
+
+		GridData gd = new GridData(GridData.VERTICAL_ALIGN_END);
+		gd.widthHint = 20;
+		gd.heightHint = 20;
+		button.setLayoutData(gd);
+
+		button.setImage(image);
+		if (button.getImage() != null) {
+			button.getImage().setBackground(button.getBackground());
+		}
+
+	}
+	
 }

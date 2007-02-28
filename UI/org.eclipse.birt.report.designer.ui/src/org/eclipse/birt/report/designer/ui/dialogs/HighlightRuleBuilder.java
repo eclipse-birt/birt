@@ -907,7 +907,7 @@ public class HighlightRuleBuilder extends BaseDialog
 	 */
 	private void updateButtons( )
 	{
-		enableInput( isExpressionOK( ) );
+		enableInput( isExpressionOK( )  );
 
 		getOkButton( ).setEnabled( isConditionOK( ) );
 	}
@@ -915,7 +915,9 @@ public class HighlightRuleBuilder extends BaseDialog
 	private void enableInput( boolean val )
 	{
 		boolean val2 = val;
-		if ( !stylesChooser.getText( ).equals( NONE_DISPLAY_TEXT ) )
+		
+		stylesChooser.setEnabled(val);
+		if ( (!stylesChooser.getText( ).equals( NONE_DISPLAY_TEXT )) || (stylesChooser.isEnabled() == false))
 		{
 			val2 = false;
 		}
@@ -974,6 +976,7 @@ public class HighlightRuleBuilder extends BaseDialog
 
 		return checkValues( );
 	}
+	
 
 	/**
 	 * Gets if the values of the condition is(are) available.
