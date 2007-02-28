@@ -247,10 +247,15 @@ public interface IHTMLRenderOption extends IRenderOption
 	 */
 	public void setBaseImageURL( String baseImageURL );
 	/**
-	 * Should the the top-level template table be wrapped. Only effect if the
+	 * Should the top-level template table be wrapped. Only effect if the
 	 * enable metadata is setting to <code>Boolea.TRUE</code>. The default
 	 * value is <code>Boolean.FALSE</code>
 	 */
 	public static final String HTML_WRAP_TEMPLATE_TABLE = "wrapTemplateTable"; //$NON-NLS-1$//false
+	/**
+	 * Should the table be outed as fixed. The default
+	 * value is <code>Boolean.FALSE</code>
+	 */
+	public static final String HTML_LAYOUT_PREFERENCE = "layoutPreference"; //$NON-NLS-1$//false
 
 }

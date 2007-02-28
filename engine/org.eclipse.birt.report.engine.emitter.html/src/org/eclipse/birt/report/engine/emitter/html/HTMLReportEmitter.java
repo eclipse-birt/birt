@@ -319,6 +319,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 */
 	private boolean cellFilled = false;
 	
+	private String layoutPreference;
+	
 	/**
 	 * the constructor
 	 */
@@ -427,6 +429,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			enableMetadata = htmlOption.getEnableMetadata( );
 			ouputInstanceIDs = htmlOption.getInstanceIDs( );
 			metadataEmitter = new MetadataEmitter( writer, htmlOption, idGenerator );
+			layoutPreference = htmlOption.getLayoutPreference( );
 		}
 	}
 
@@ -1099,15 +1102,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		handleShrink( DISPLAY_BLOCK, mergedStyle, table.getHeight( ), table
 				.getWidth( ), styleBuffer );
 		
-		// build the table-layout
-		DimensionType tableWidth = table.getWidth( );
-		if ( null != tableWidth )
+		if ( "fixed".equals( layoutPreference ) )
 		{
-			if ( !DimensionType.UNITS_PERCENTAGE.equals( tableWidth.getUnits( ) ) )
-			{
-				styleBuffer.append( " table-layout:fixed;" );
-			}
+			// build the table-layout
+			styleBuffer.append( " table-layout:fixed;" );
 		}
+
 		handleStyle( table, styleBuffer );
 
 		// bookmark
@@ -1142,31 +1142,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 	protected void writeColumns( ITableContent table )
 	{
-		int widthArraySize = table.getColumnCount( );
-		DimensionType widthArray[] = new DimensionType[ widthArraySize ];
-		// put all the column width into the array.
-		for ( int i = 0; i < table.getColumnCount( ); i++ )
-		{
-			IColumn column = table.getColumn( i );
-			if ( isColumnHidden( column ) )
-			{
-				widthArray[ i ] = new DimensionType( 0, DimensionType.UNITS_IN );
-				continue;
-			}
-			DimensionType value = column.getWidth( );
-			if( null != value )
-			{
-				widthArray[ i ] = new DimensionType( value.getMeasure( ), value.getUnits( ) );
-			}
-			else
-			{
-				widthArray[ i ] =  null ;
-			}
-		}
-		// resize the column width
-		resizeWidth( widthArray, widthArraySize );
-	
-		//write the columns
 		for ( int i = 0; i < table.getColumnCount( ); i++ )
 		{
 			IColumn column = table.getColumn( i );
@@ -1183,7 +1158,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			// width
 			StringBuffer styleBuffer = new StringBuffer( );
 			AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_WIDTH,
-					widthArray[ i ] );
+					column.getWidth( ) );
 			if ( isEmbeddable )
 			{
 				// output in-line style
@@ -1210,52 +1185,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			}
 			
 			writer.closeNoEndTag( );
-		}
-	}
-	
-	/**
-	 * Resize the columns' width. 
-	 * All the fixed value won't be changed. All the null value will be reset to a percentage
-	 * value. If the percentage value existing, the sum of all the percentage value will be 100%.
-	 * @param widthArray: array to store the solumn width
-	 * @param size: the size of the array widthArray
-	 * @return
-	 */
-	private void resizeWidth( DimensionType widthArray[], int size )
-	{
-		double percentSum = 0;//the sum of the origin percentage values.
-		int NullNum = 0;//the number of the null values.
-		for ( int i = 0; i < size; i++ )
-		{
-			if( null == widthArray[ i ] )
-			{
-				NullNum++;
-			}
-			else if( DimensionType.UNITS_PERCENTAGE.equals( widthArray[ i ].getUnits( ) ) )
-			{
-				percentSum += widthArray[ i ].getMeasure( );
-			}
-		}
-		for ( int i = 0; i < size; i++ )
-		{
-			if( null == widthArray[ i ] )
-			{
-				if( percentSum >= 100 )
-				{
-					widthArray[ i ] = new DimensionType( 0, DimensionType.UNITS_PERCENTAGE );
-				}
-				else
-				{
-					widthArray[ i ] = new DimensionType( ((100 - percentSum) / NullNum), DimensionType.UNITS_PERCENTAGE );
-				}
-			}
-			else if( DimensionType.UNITS_PERCENTAGE.equals( widthArray[ i ].getUnits( ) ) )
-			{
-				if( ( percentSum > 100 ) || (( percentSum < 100 ) && ( 0 == NullNum )))
-				{
-					widthArray[ i ] = new DimensionType( ((widthArray[ i ].getMeasure( ) * 100)/percentSum), DimensionType.UNITS_PERCENTAGE );
-				}
-			}
 		}
 	}
 	

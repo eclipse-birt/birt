@@ -46,7 +46,7 @@ public class TableLayoutTest extends HTMLReportEmitterTestCase
 		//the default cell to place the group icon is the first cell.
 		String designFile = "org/eclipse/birt/report/engine/emitter/html/TableColumnWidth.xml";
 		HTMLRenderOption options = new HTMLRenderOption( );
-		options.setDisplayGroupIcon( true );
+		options.setLayoutPreference( "fixed" );
 		
 		ByteArrayOutputStream output = new ByteArrayOutputStream( );
 		List instanceIDs = new ArrayList( );
@@ -61,18 +61,10 @@ public class TableLayoutTest extends HTMLReportEmitterTestCase
 		output.close( );
 		
 		content = content.replaceAll( "\n", "\"\n\"+\\\\n" );
-		String regex = "<col[^<>]*width: 2in;[^<>]*>"
-			+"[^<>]*<col[^<>]*width: 25%;[^<>]*>"
-			+"[^<>]*<col[^<>]*width: 25%;[^<>]*>"
-			+"[^<>]*<col[^<>]*width: 50%;[^<>]*>";
+		String regex = "table-layout:fixed";
 		Matcher matcher = Pattern.compile( regex ).matcher( content );
 		assertEquals( true, matcher.find( ) );
-		
-		regex = "<col[^<>]*width: 1in;[^<>]*>"
-			+"[^<>]*<col[^<>]*width: 50%;[^<>]*>"
-			+"[^<>]*<col[^<>]*width: 50%;[^<>]*>";
-		matcher = Pattern.compile( regex ).matcher( content );
-		assertEquals( true, matcher.find( ) );
+
 	}
 
 }
