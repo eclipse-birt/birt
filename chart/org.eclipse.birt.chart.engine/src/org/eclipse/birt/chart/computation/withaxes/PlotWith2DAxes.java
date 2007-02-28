@@ -1684,21 +1684,31 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			{
 				dpc = (DataPointComponent) el.get( i );
 				dpct = dpc.getType( );
-				
+				if ( DataPointComponentType.BASE_VALUE_LITERAL.equals( dpct ) )
+				{
 					fsBase = dpc.getFormatSpecifier( );
 					if ( fsBase == null ) // BACKUP
 					{
 						fsBase = sdBase.getFormatSpecifier( );
 					}
+				}
+				if ( DataPointComponentType.ORTHOGONAL_VALUE_LITERAL.equals( dpct ) )
+				{
 					fsOrthogonal = dpc.getFormatSpecifier( );
 					if ( fsOrthogonal == null
 							&& seOrthogonal.eContainer( ) instanceof SeriesDefinition )
 					{
 						fsOrthogonal = ( (SeriesDefinition) seOrthogonal.eContainer( ) ).getFormatSpecifier( );
 					}
+				}
+				if ( DataPointComponentType.SERIES_VALUE_LITERAL.equals( dpct ) )
+				{
 					fsSeries = dpc.getFormatSpecifier( );
+				}
+				if ( DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL.equals( dpct ) )
+				{
 					fsPercentile = dpc.getFormatSpecifier( );
-				
+				}
 			}
 
 			dsiDataBase.reset( );

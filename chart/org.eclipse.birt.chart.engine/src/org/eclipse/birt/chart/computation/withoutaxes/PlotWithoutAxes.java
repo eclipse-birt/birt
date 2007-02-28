@@ -241,21 +241,31 @@ public final class PlotWithoutAxes
 			{
 				dpc = (DataPointComponent) el.get( i );
 				dpct = dpc.getType( );
-				
+				if ( DataPointComponentType.BASE_VALUE_LITERAL.equals( dpct ) )
+				{
 					fsBase = dpc.getFormatSpecifier( );
 					if ( fsBase == null ) // BACKUP
 					{
 						fsBase = sd.getFormatSpecifier( );
 					}
+				}
+				if ( DataPointComponentType.ORTHOGONAL_VALUE_LITERAL.equals( dpct ) )
+				{
 					fsOrthogonal = dpc.getFormatSpecifier( );
 					if ( fsOrthogonal == null
 							&& seOrthogonal.eContainer( ) instanceof SeriesDefinition )
 					{
 						fsOrthogonal = ( (SeriesDefinition) seOrthogonal.eContainer( ) ).getFormatSpecifier( );
 					}
+				}
+				if ( DataPointComponentType.SERIES_VALUE_LITERAL.equals( dpct ) )
+				{
 					fsSeries = dpc.getFormatSpecifier( );
+				}
+				if ( DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL.equals( dpct ) )
+				{
 					fsPercentile = dpc.getFormatSpecifier( );
-				
+				}
 			}
 
 			UserDataSetHints udsh = new UserDataSetHints( seOrthogonal.getDataSets( ) );
@@ -301,7 +311,7 @@ public final class PlotWithoutAxes
 				}
 				else
 				{
-					percentileValue = new Double ( 0 );
+					percentileValue = new Double( 0 );
 				}
 
 				dpha[i] = new DataPointHints( dsiBaseValues.next( ),
