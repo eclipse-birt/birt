@@ -69,7 +69,7 @@ public class ResultClass implements IResultClass
 			if( isOfAnyType( column ))
 			{
 				this.hasAny = true;
-				this.originalAnyTypeField.add( Integer.valueOf( i + 1 ) );
+				this.originalAnyTypeField.add( new Integer( i + 1 ) );
 			}
 			String upperCaseName = column.getName( );
 			//if ( upperCaseName != null )
