@@ -557,6 +557,10 @@ Choices.accessPermission.disallow=許可しない
 Choices.paramSortValues.value=値
 Choices.paramSortValues.label=Display Text
 
+#74. reportLayoutPreference
+Choices.reportLayoutPreference.fixedLayout=Fixed Layout
+Choices.reportLayoutPreference.autoLayout=Auto Layout
+
 
 ###########################################################
 # Classes
@@ -2195,6 +2199,7 @@ Element.ReportDesign.displayName=表示名
 Element.ReportDesign.iconFile=アイコンファイル
 Element.ReportDesign.cheatSheet=ガイドの表示
 Element.ReportDesign.thumbnail=サムネール
+Element.ReportDesign.layoutPreference=Layout preference
 Element.ReportDesign.beforeFactory.toolTip=Factory での処理を開始する際に、initialize( ) メソッドを実行した後で、レポート文書 (該当する場合) を開く前に呼び出されます
 Element.ReportDesign.afterFactory.toolTip=Factory での処理が終了した際に、レポート文書 (該当する場合) を閉じた後に呼び出されます。これは、Factory で呼び出される最後のメソッドです
 Element.ReportDesign.beforeOpenDoc.toolTip=Factory でレポート文書を開く直前に呼び出されます
@@ -2498,6 +2503,7 @@ Element.Text.onPageBreak.reportContext=レポートのコンテキスト
 #15.ListingGroup  ( prefix  Element.ListingGroup )
 Element.ListingGroup.keyExpr=キーの式
 Element.ListingGroup.sort=ソート
+Element.ListingGroup.bookmark=ブックマーク
 Element.ListingGroup.toc=目次
 Element.ListingGroup.hideDetail=詳細の非表示
 Element.ListingGroup.groupName=名前

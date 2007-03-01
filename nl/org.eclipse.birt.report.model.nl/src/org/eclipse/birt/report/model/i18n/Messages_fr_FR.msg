@@ -557,6 +557,10 @@ Choices.accessPermission.disallow=Refuser
 Choices.paramSortValues.value=Valeur
 Choices.paramSortValues.label=Display Text
 
+#74. reportLayoutPreference
+Choices.reportLayoutPreference.fixedLayout=Fixed Layout
+Choices.reportLayoutPreference.autoLayout=Auto Layout
+
 
 ###########################################################
 # Classes
@@ -2195,6 +2199,7 @@ Element.ReportDesign.displayName=Nom d'affichage
 Element.ReportDesign.iconFile=Fichier icône
 Element.ReportDesign.cheatSheet=Feuille de fraude
 Element.ReportDesign.thumbnail=Miniature
+Element.ReportDesign.layoutPreference=Layout preference
 Element.ReportDesign.beforeFactory.toolTip=Commande appelée au début du processus de génération après la méthode d'initialisation( ) mais avant l'ouverture de l'état (le cas échéant)
 Element.ReportDesign.afterFactory.toolTip=Commande appelée à la fin du processus de génération, après fermeture de l'état (le cas échéant). Il s'agit de la dernière méthode appelée au cours du processus de génération
 Element.ReportDesign.beforeOpenDoc.toolTip=Commande appelée juste avant l'ouverture de l'état pendant le processus de génération
@@ -2498,6 +2503,7 @@ Element.Text.onPageBreak.reportContext=Contexte d'état
 #15.ListingGroup  ( prefix  Element.ListingGroup )
 Element.ListingGroup.keyExpr=Expression clé
 Element.ListingGroup.sort=Trier
+Element.ListingGroup.bookmark=Signet
 Element.ListingGroup.toc=Sommaire
 Element.ListingGroup.hideDetail=Masquer les détails
 Element.ListingGroup.groupName=Nom

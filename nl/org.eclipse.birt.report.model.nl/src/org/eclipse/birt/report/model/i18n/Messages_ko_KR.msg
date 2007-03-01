@@ -557,6 +557,10 @@ Choices.accessPermission.disallow=허용 안 함
 Choices.paramSortValues.value=값
 Choices.paramSortValues.label=Display Text
 
+#74. reportLayoutPreference
+Choices.reportLayoutPreference.fixedLayout=Fixed Layout
+Choices.reportLayoutPreference.autoLayout=Auto Layout
+
 
 ###########################################################
 # Classes
@@ -2195,6 +2199,7 @@ Element.ReportDesign.displayName=표시 이름
 Element.ReportDesign.iconFile=아이콘 파일
 Element.ReportDesign.cheatSheet=치트 시트
 Element.ReportDesign.thumbnail=Thumbnail
+Element.ReportDesign.layoutPreference=Layout preference
 Element.ReportDesign.beforeFactory.toolTip=초기화() 메서드 이후 및 보고서 문서(있는 경우) 열기 이전 공장 시작 시 호출됩니다
 Element.ReportDesign.afterFactory.toolTip=보고서 문서(있는 경우) 닫기 이후 공장 종료 시 호출됩니다. 공장에서 호출된 마지막 메서드입니다
 Element.ReportDesign.beforeOpenDoc.toolTip=공장에서 보고서 문서를 열기 직전 호출됩니다
@@ -2498,6 +2503,7 @@ Element.Text.onPageBreak.reportContext=보고서 컨텍스트
 #15.ListingGroup  ( prefix  Element.ListingGroup )
 Element.ListingGroup.keyExpr=키 식
 Element.ListingGroup.sort=정렬
+Element.ListingGroup.bookmark=책갈피
 Element.ListingGroup.toc=목차
 Element.ListingGroup.hideDetail=상세 정보 숨기기
 Element.ListingGroup.groupName=이름

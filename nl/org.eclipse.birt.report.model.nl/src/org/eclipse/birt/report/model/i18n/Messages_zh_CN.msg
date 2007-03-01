@@ -557,6 +557,10 @@ Choices.accessPermission.disallow=禁止
 Choices.paramSortValues.value=值
 Choices.paramSortValues.label=Display Text
 
+#74. reportLayoutPreference
+Choices.reportLayoutPreference.fixedLayout=Fixed Layout
+Choices.reportLayoutPreference.autoLayout=Auto Layout
+
 
 ###########################################################
 # Classes
@@ -2195,6 +2199,7 @@ Element.ReportDesign.displayName=显示名称
 Element.ReportDesign.iconFile=图标文件
 Element.ReportDesign.cheatSheet=备忘单
 Element.ReportDesign.thumbnail=缩略图
+Element.ReportDesign.layoutPreference=Layout preference
 Element.ReportDesign.beforeFactory.toolTip=调用时间为：开始出厂时，初始化 ( ) 方法后，打开报表文档（如果有）前
 Element.ReportDesign.afterFactory.toolTip=调用时间为出厂结束时、关闭报表文档（如果有）后。 这是工厂中调用的最后一个方法
 Element.ReportDesign.beforeOpenDoc.toolTip=仅在工厂中打开报表文档前调用
@@ -2498,6 +2503,7 @@ Element.Text.onPageBreak.reportContext=报表上下文
 #15.ListingGroup  ( prefix  Element.ListingGroup )
 Element.ListingGroup.keyExpr=关键字表达式
 Element.ListingGroup.sort=排序
+Element.ListingGroup.bookmark=书签
 Element.ListingGroup.toc=目录
 Element.ListingGroup.hideDetail=隐藏明细数据
 Element.ListingGroup.groupName=名称

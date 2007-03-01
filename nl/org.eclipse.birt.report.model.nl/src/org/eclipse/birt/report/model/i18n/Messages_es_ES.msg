@@ -557,6 +557,10 @@ Choices.accessPermission.disallow=Rechazar
 Choices.paramSortValues.value=Valor
 Choices.paramSortValues.label=Display Text
 
+#74. reportLayoutPreference
+Choices.reportLayoutPreference.fixedLayout=Fixed Layout
+Choices.reportLayoutPreference.autoLayout=Auto Layout
+
 
 ###########################################################
 # Classes
@@ -2195,6 +2199,7 @@ Element.ReportDesign.displayName=Nombre en pantalla
 Element.ReportDesign.iconFile=Archivo de icono
 Element.ReportDesign.cheatSheet=Consejos útiles
 Element.ReportDesign.thumbnail=Miniatura
+Element.ReportDesign.layoutPreference=Layout preference
 Element.ReportDesign.beforeFactory.toolTip=Llamado al inicio de fábrica, después del método de inicialización ( ) y antes de abrir el documento de informes (si existen)
 Element.ReportDesign.afterFactory.toolTip=Llamado al final de fábrica, después de cerrar el documento de informes (si existen). Este es el último método llamado en la fábrica
 Element.ReportDesign.beforeOpenDoc.toolTip=Llamado justo antes de abrir el documento de informe en la fábrica
@@ -2498,6 +2503,7 @@ Element.Text.onPageBreak.reportContext=Contexto de informe
 #15.ListingGroup  ( prefix  Element.ListingGroup )
 Element.ListingGroup.keyExpr=Expresión clave:
 Element.ListingGroup.sort=Orden
+Element.ListingGroup.bookmark=Marcador
 Element.ListingGroup.toc=TDC
 Element.ListingGroup.hideDetail=Ocultar detalle
 Element.ListingGroup.groupName=Nombre
