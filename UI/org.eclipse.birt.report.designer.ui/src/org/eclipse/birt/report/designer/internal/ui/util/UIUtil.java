@@ -1547,7 +1547,22 @@ public class UIUtil
 
 	public static ModelEventManager getModelEventManager( )
 	{
-		IEditorPart input = getActiveEditor( "org.eclipse.birt.report.designer.ui.editors.ReportEditor" );
+		IEditorPart input = null;
+		String ids[] = {
+				"org.eclipse.birt.report.designer.ui.editors.ReportEditor",
+				"org.eclipse.birt.report.designer.ui.editors.LibraryEditor",
+				"org.eclipse.birt.report.designer.ui.editors.TemplateEditor"
+		};
+		
+		for(int i = 0; i < ids.length; i ++)
+		{
+			input = getActiveEditor( ids[i] );
+			if(input != null)
+			{
+				break;
+			}
+		}			
+		
 		if ( input == null )
 			return null;
 		Object adapter = input.getAdapter( ModelEventManager.class );
