@@ -2956,6 +2956,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IGroupElementModel.SORT_TYPE_PROP );
 		property( obj, IGroupElementModel.KEY_EXPR_PROP );
 
+		property( obj, IGroupElementModel.BOOKMARK_PROP );
 		writeStructure( obj, IGroupElementModel.TOC_PROP );
 
 		property( obj, IDesignElementModel.EVENT_HANDLER_CLASS_PROP );

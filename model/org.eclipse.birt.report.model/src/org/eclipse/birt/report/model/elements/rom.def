@@ -2994,6 +2994,7 @@
     <Property detailType="SortKey" displayNameID="Element.ListingGroup.sort" isList="true" name="sort" runtimeSettable="false" since="reserved" type="structure"/>
     <Property detailType="FilterCondition" displayNameID="Element.ListingGroup.filter" isList="true" name="filter" runtimeSettable="false" since="reserved" type="structure"/>
     <Property detailType="TOCStructure" displayNameID="Element.ListingGroup.toc" name="toc" since="2.2" type="structure"  />
+    <Property displayNameID="Element.ListingGroup.bookmark" name="bookmark" returnType="string" since="2.2" type="expression"/>    
     <Property displayNameID="Element.ListingGroup.hideDetail" name="hideDetail" runtimeSettable="false" since="2.1" type="boolean">
       <Default>false</Default>
     </Property>

@@ -149,4 +149,12 @@ public interface IGroupElementModel
 	 */
 
 	public static final String BOUND_DATA_COLUMNS_PROP = "boundDataColumns"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the bookmark property. The bookmark is the target of hyperlinks
+	 * within the report.
+	 */
+
+	public static final String BOOKMARK_PROP = "bookmark"; //$NON-NLS-1$
+
 }

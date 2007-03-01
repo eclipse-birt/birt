@@ -779,4 +779,29 @@ public abstract class GroupHandle extends ReportElementHandle
 		return (TOCHandle) toc
 				.getHandle( getPropertyHandle( IGroupElementModel.TOC_PROP ) );
 	}
+	
+	/**
+	 * Returns the bookmark of listing group.
+	 * 
+	 * @return the book mark as a string
+	 */
+
+	public String getBookmark( )
+	{
+		return getStringProperty( IGroupElementModel.BOOKMARK_PROP );
+	}
+	
+	/**
+	 * Sets the bookmark of listing group.
+	 * 
+	 * @param value
+	 *            the property value to be set.
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setBookmark( String value ) throws SemanticException
+	{
+		setStringProperty( IGroupElementModel.BOOKMARK_PROP, value );
+	}
 }

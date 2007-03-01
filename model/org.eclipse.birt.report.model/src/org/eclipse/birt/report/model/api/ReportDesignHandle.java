@@ -591,6 +591,8 @@ public class ReportDesignHandle extends ModuleHandle
 
 	public List getAllBookmarks( )
 	{
+		//bookmark value in row, report item and listing group are the same now.
+		
 		return ( (ReportDesign) module ).collectPropValues( BODY_SLOT,
 				IReportItemModel.BOOKMARK_PROP );
 	}
