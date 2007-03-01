@@ -248,12 +248,12 @@ public class HTMLRenderOption extends RenderOptionBase  implements IHTMLRenderOp
 	/**
 	 * Sets the flag indicationg that if group expand/collapse icons should be displayed.
 	 * 
-	 * @param displayFilterIcon
+	 * @param displayGroupIcon
 	 *            the flag
 	 */
-	public void setDisplayGroupIcon( boolean displayFilterIcon )
+	public void setDisplayGroupIcon( boolean displayGroupIcon )
 	{
-		options.put( HTML_DISPLAY_GROUP_ICON, new Boolean( displayFilterIcon ) );
+		options.put( HTML_DISPLAY_GROUP_ICON, new Boolean( displayGroupIcon ) );
 	}
 
 	/**
@@ -272,12 +272,12 @@ public class HTMLRenderOption extends RenderOptionBase  implements IHTMLRenderOp
 	/**
 	 * Sets the flag indicationg that if the top-level table should be wrapped.
 	 * 
-	 * @param displayFilterIcon
+	 * @param wrapTemplateTable
 	 *            the flag
 	 */
-	public void setWrapTemplateTable( boolean displayFilterIcon )
+	public void setWrapTemplateTable( boolean wrapTemplateTable )
 	{
-		options.put( HTML_WRAP_TEMPLATE_TABLE, new Boolean( displayFilterIcon ) );
+		options.put( HTML_WRAP_TEMPLATE_TABLE, new Boolean( wrapTemplateTable ) );
 	}
 
 	/**
@@ -291,5 +291,29 @@ public class HTMLRenderOption extends RenderOptionBase  implements IHTMLRenderOp
 			return ( (Boolean) value ).booleanValue( );
 		}
 		return false;
+	}
+	
+	/**
+	 * Sets the flag indicationg that if the table should be outed as fixed.
+	 * 
+	 * @param layoutPreference
+	 *            the flag
+	 */
+	public void setLayoutPreference( String layoutPreference )
+	{
+		options.put( HTML_LAYOUT_PREFERENCE, layoutPreference );
+	}
+
+	/**
+	 * @return the table layout fixed flag value.
+	 */
+	public String getLayoutPreference( )
+	{
+		Object value = options.get( HTML_LAYOUT_PREFERENCE );
+		if ( value instanceof String )
+		{
+			return (String)value;
+		}
+		return null;
 	}
 }
