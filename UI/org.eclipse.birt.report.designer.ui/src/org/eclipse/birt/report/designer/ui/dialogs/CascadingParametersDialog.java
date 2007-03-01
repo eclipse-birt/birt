@@ -204,6 +204,7 @@ public class CascadingParametersDialog extends BaseDialog
 	private Table table;
 	private TableViewer valueTable;
 	private CellEditor[] cellEditors;
+	private boolean givenName;
 
 	private static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
 			.getElement( ReportDesignConstants.SCALAR_PARAMETER_ELEMENT )
@@ -450,7 +451,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 		createLabel( propertiesGroup, LABEL_PARAM_NAME, maxStrLengthProperty );
 
-		paramNameEditor = new Text( propertiesGroup, SWT.BORDER );
+		paramNameEditor = new Text( propertiesGroup, SWT.BORDER | SWT.READ_ONLY );
 		paramNameEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		paramNameEditor.addModifyListener( new ModifyListener( ) {
 
@@ -883,6 +884,7 @@ public class CascadingParametersDialog extends BaseDialog
 			{
 				newParameter = DesignElementFactory.getInstance( )
 						.newScalarParameter( null ); //$NON-NLS-1$
+				givenName = false;
 				try
 				{
 					newParameter.setControlType( DesignChoiceConstants.PARAM_CONTROL_LIST_BOX );
@@ -929,7 +931,18 @@ public class CascadingParametersDialog extends BaseDialog
 			{
 				if ( columnIndex == 0 )
 				{
-					value = LABEL_CREATE_NEW_PARAMETER;
+					String paramName;
+					paramName = paramHandle.getName( );
+
+					if ( !givenName )
+					{
+						value = LABEL_CREATE_NEW_PARAMETER;
+					}
+					else
+					{
+						value = getDummyText( paramHandle ) + paramName;
+					}
+
 				}
 				else if ( columnIndex == 1 )
 				{
@@ -1070,10 +1083,16 @@ public class CascadingParametersDialog extends BaseDialog
 
 		public boolean canModify( Object element, String property )
 		{
-			if ( element != selectedParameter || property.equals( COLUMN_NAME ) )
+			if ( element != selectedParameter )
 			{
 				return false;
 			}
+
+			if ( property.equals( COLUMN_NAME ) )
+			{
+				return true;
+			}
+
 			if ( COLUMN_DATA_SET.equals( property ) )
 			{
 				if ( isSingle( ) && getFirstParameter( ) != element )
@@ -1125,14 +1144,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 				if ( COLUMN_NAME.equals( property ) )
 				{
-					if ( element == newParameter )
-					{
-						value = ""; //$NON-NLS-1$
-					}
-					else
-					{
-						value = parameter.getName( );
-					}
+					value = parameter.getName( );
 				}
 				else if ( COLUMN_DATA_SET.equals( property ) )
 				{
@@ -1182,14 +1194,8 @@ public class CascadingParametersDialog extends BaseDialog
 			{
 				try
 				{
-					if ( actualElement == newParameter )
-					{
-						( (ScalarParameterHandle) actualElement ).setName( newParameter.getName( ) );
-					}
-					else
-					{
-						( (ScalarParameterHandle) actualElement ).setName( (String) value );
-					}
+					( (ScalarParameterHandle) actualElement ).setName( (String) value );
+					givenName = true;
 				}
 				catch ( NameException e )
 				{
@@ -1239,7 +1245,9 @@ public class CascadingParametersDialog extends BaseDialog
 
 			if ( actualElement == newParameter )
 			{
-				if ( isSingle( ) || newParameter.getDataSetName( ) != null )
+				if ( ( isSingle( ) || ( newParameter.getDataSetName( ) != null && newParameter.getDataSetName( )
+						.length( ) > 0 ) )
+						&& ( !COLUMN_NAME.equals( property ) ) )
 				{
 					try
 					{
@@ -1262,6 +1270,7 @@ public class CascadingParametersDialog extends BaseDialog
 	private void clearNewParameter( )
 	{
 		newParameter = null;
+		givenName = false;
 	}
 
 	protected int getTableIndex( Object element )
@@ -1693,7 +1702,7 @@ public class CascadingParametersDialog extends BaseDialog
 			ResultSetColumnHandle columnHandle )
 	{
 		String type = handle.getDataType( );
-		if ( handle == selectedParameter && dataTypeChooser.isEnabled( ))
+		if ( handle == selectedParameter && dataTypeChooser.isEnabled( ) )
 		{
 			type = getSelectedDataType( );
 		}
