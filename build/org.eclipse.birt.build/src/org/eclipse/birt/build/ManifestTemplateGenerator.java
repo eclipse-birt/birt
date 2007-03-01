@@ -71,13 +71,16 @@ public class ManifestTemplateGenerator{
 			    strb.append(myString);
 			    strb.append("\n"); 
 			} 
-			int lastDelimer = strb.lastIndexOf(";");
+			int lastDelimer = strb.lastIndexOf(",");
+			
+			
 			String result = strb.substring(0, lastDelimer);
 			result.concat("\n");
+			System.out.println(result);
 			
 			FileOutputStream Result = new FileOutputStream (mainfestRslt);
-			byte [] writeByte = new byte[strb.length()+1];
-			writeByte = strb.toString().getBytes();
+			byte [] writeByte = new byte[result.length()+1];
+			writeByte = result.getBytes();
 			Result.write(writeByte);
 			
 		}catch(Exception e){
