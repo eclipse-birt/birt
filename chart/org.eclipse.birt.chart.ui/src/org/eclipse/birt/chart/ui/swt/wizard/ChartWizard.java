@@ -17,7 +17,6 @@ import java.util.Map;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
-import org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl;
 import org.eclipse.birt.chart.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
@@ -53,9 +52,6 @@ public class ChartWizard extends WizardBase
 
 	public static final double DEFAULT_CHART_BLOCK_WIDTH = 212;
 
-	public static final double DEFAULT_CHART_WITHOUT_AXIS_BLOCK_HEIGHT = 130;
-
-	public static final double DEFAULT_CHART_WITHOUT_AXIS_BLOCK_WIDTH = 212;
 
 	/**
 	 * Indicates whether the popup is being closed by users
@@ -116,20 +112,10 @@ public class ChartWizard extends WizardBase
 				|| chartModelCurrent.getBlock( ).getBounds( ).getWidth( ) == 0
 				|| chartModelCurrent.getBlock( ).getBounds( ).getHeight( ) == 0 )
 		{
-			if ( chartModelCurrent instanceof ChartWithoutAxesImpl )
-			{
-				chartModelCurrent.getBlock( ).setBounds( BoundsImpl.create( 0,
-						0,
-						DEFAULT_CHART_WITHOUT_AXIS_BLOCK_WIDTH,
-						DEFAULT_CHART_WITHOUT_AXIS_BLOCK_HEIGHT ) );
-			}
-			else
-			{
-				chartModelCurrent.getBlock( ).setBounds( BoundsImpl.create( 0,
-						0,
-						DEFAULT_CHART_BLOCK_WIDTH,
-						DEFAULT_CHART_BLOCK_HEIGHT ) );
-			}
+			chartModelCurrent.getBlock( ).setBounds( BoundsImpl.create( 0,
+					0,
+					DEFAULT_CHART_BLOCK_WIDTH,
+					DEFAULT_CHART_BLOCK_HEIGHT ) );
 		}
 	}
 

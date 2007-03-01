@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.report.designer.ui.extensions.ReportItemFigureProvider;
@@ -84,12 +85,9 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 	{
 		try
 		{
-			// 0 represents null value in DimensionHandle. Only change them when
-			// Dimension is not null
-			double dHeightInPixels = 0;
-			double dWidthInPixels = 0;
-			double dHeightInPoints = 0;
-			double dWidthInPoints = 0;
+			// Default size for null dimension
+			double dHeightInPoints = ChartWizard.DEFAULT_CHART_BLOCK_HEIGHT;
+			double dWidthInPoints = ChartWizard.DEFAULT_CHART_BLOCK_WIDTH;		
 			
 			final DimensionHandle dhHeight = eih.getHeight( );
 			final DimensionHandle dhWidth = eih.getWidth( );
@@ -129,8 +127,7 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 				}
 				dHeightInPoints = DimensionUtil.convertTo( dOriginalHeight,
 						sHeightUnits,
-						DesignChoiceConstants.UNITS_PT ).getMeasure( );
-				dHeightInPixels = ( idsSWT.getDpiResolution( ) * dHeightInPoints ) / 72d;
+						DesignChoiceConstants.UNITS_PT ).getMeasure( );				
 			}
 			
 			if ( sWidthUnits != null )
@@ -160,9 +157,11 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 				}
 				dWidthInPoints = DimensionUtil.convertTo( dOriginalWidth,
 						sWidthUnits,
-						DesignChoiceConstants.UNITS_PT ).getMeasure( );
-				dWidthInPixels = ( idsSWT.getDpiResolution( ) * dWidthInPoints ) / 72d;
+						DesignChoiceConstants.UNITS_PT ).getMeasure( );				
 			}
+			
+			final double dHeightInPixels = ( idsSWT.getDpiResolution( ) * dHeightInPoints ) / 72d;
+			final double dWidthInPixels = ( idsSWT.getDpiResolution( ) * dWidthInPoints ) / 72d;
 
 			final ChartReportItemImpl crii;
 			// UPDATE THE MODEL
