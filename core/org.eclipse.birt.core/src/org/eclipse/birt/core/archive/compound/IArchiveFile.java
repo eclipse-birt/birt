@@ -12,21 +12,30 @@
 package org.eclipse.birt.core.archive.compound;
 
 import java.io.IOException;
+import java.util.List;
 
-abstract public class ArchiveEntry
+interface IArchiveFile
 {
 
-	abstract public long getLength( ) throws IOException;
+	public String getName( );
 
-	abstract public void setLength( long length ) throws IOException;
+	public void close( ) throws IOException;
 
-	abstract public void flush( ) throws IOException;
+	public void flush( ) throws IOException;
 
-	abstract public void refresh( ) throws IOException;
+	public void refresh( ) throws IOException;
 
-	abstract public int read( long pos, byte[] b, int off, int len )
-			throws IOException;
+	public boolean exists( String name );
 
-	abstract public void write( long pos, byte[] b, int off, int len )
-			throws IOException;
+	public ArchiveEntry getEntry( String name );
+
+	public List listEntries( String namePattern );
+
+	public ArchiveEntry createEntry( String name ) throws IOException;
+
+	public boolean removeEntry( String name ) throws IOException;
+
+	public Object lockEntry( ArchiveEntry entry ) throws IOException;
+
+	public void unlockEntry( Object locker ) throws IOException;
 }

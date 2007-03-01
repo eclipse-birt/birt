@@ -67,7 +67,11 @@ public class ArchiveEntryOutputStream extends RAOutputStream
 		{
 			throw new IOException( "Invalid seek offset " + localPos );
 		}
-		entry.ensureSize( localPos );
+		if ( localPos > entry.getLength( ) )
+		{
+			entry.setLength( localPos );
+		}
+		//entry.ensureSize( localPos );
 
 		if ( offset + buffer_offset != localPos )
 		{

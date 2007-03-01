@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.core.archive.compound;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -34,6 +35,27 @@ public class ArchiveReader implements IDocArchiveReader
 
 	public ArchiveReader( String archiveName ) throws IOException
 	{
+		if ( archiveName == null || archiveName.length( ) == 0 )
+		{
+			throw new IOException(
+					"The file archive name is null or empty string." );
+		}
+
+		File fd = new File( archiveName );
+		if ( !fd.isFile( ) )
+		{
+			throw new IOException(
+					"The specified name is not a file name. The FileArchiveReader is expecting a valid file archive name." );
+		}
+		if ( !fd.exists( ) )
+		{
+			throw new IOException( "The specified file do not exist." );
+		}
+
+		archiveName = fd.getCanonicalPath( ); // make sure the file name is an
+		
+		// absolute path
+		
 		shareArchive = false;
 		archive = new ArchiveFile( archiveName, "r" );
 	}
@@ -54,6 +76,8 @@ public class ArchiveReader implements IDocArchiveReader
 
 	public boolean exists( String relativePath )
 	{
+		if ( !relativePath.startsWith( ArchiveUtil.UNIX_SEPERATOR ) )
+			relativePath = ArchiveUtil.UNIX_SEPERATOR + relativePath;
 		return archive.exists( relativePath );
 	}
 
@@ -64,12 +88,21 @@ public class ArchiveReader implements IDocArchiveReader
 
 	public RAInputStream getStream( String relativePath ) throws IOException
 	{
+		if ( !relativePath.startsWith( ArchiveUtil.UNIX_SEPERATOR ) )
+			relativePath = ArchiveUtil.UNIX_SEPERATOR + relativePath;
 		ArchiveEntry entry = archive.getEntry( relativePath );
 		if ( entry != null )
 		{
 			return new ArchiveEntryInputStream( entry );
 		}
 		return null;
+	}
+
+	public List listAllStreams( ) throws IOException
+	{
+		ArrayList list = new ArrayList( );
+		list.addAll( archive.listEntries( "/" ) );
+		return list;
 	}
 
 	public List listStreams( String namePattern ) throws IOException

@@ -153,6 +153,11 @@ public class FolderArchive implements IDocArchiveWriter, IDocArchiveReader
 	{
 		return reader.listStreams( relativeStoragePath );
 	}
+	
+	public List listAllStreams( ) throws IOException
+	{
+		return reader.listAllStreams( );
+	}
 
 	/*
 	 * (non-Javadoc)

@@ -24,23 +24,23 @@ class NameTable implements ArchiveConstants
 
 	protected ArrayList slots;
 	protected AllocEntry index;
-	protected ArchiveFile af;
+	protected ArchiveFileV2 af;
 
-	private NameTable( ArchiveFile af ) throws IOException
+	private NameTable( ArchiveFileV2 af ) throws IOException
 	{
 		this.af = af;
 		slots = new ArrayList( );
 		index = af.allocTbl.loadEntry( ENTRY_TABLE_BLOCK );
 	}
 
-	static NameTable loadTable( ArchiveFile af ) throws IOException
+	static NameTable loadTable( ArchiveFileV2 af ) throws IOException
 	{
 		NameTable table = new NameTable( af );
 		table.refresh( );
 		return table;
 	}
 
-	static NameTable createTable( ArchiveFile af ) throws IOException
+	static NameTable createTable( ArchiveFileV2 af ) throws IOException
 	{
 		NameTable table = new NameTable( af );
 		return table;

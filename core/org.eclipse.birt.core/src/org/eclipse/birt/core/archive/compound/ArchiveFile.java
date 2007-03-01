@@ -14,149 +14,18 @@ package org.eclipse.birt.core.archive.compound;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.nio.channels.FileLock;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.core.archive.ArchiveUtil;
-
-/**
- * the archive file contains following mode:
- * <li> "r" open the file for read only.
- * <li> "rw" create the file for read/write
- * <li> "rw+" open file is open for read/write
- * <li> "rwt" create the trainsnt file, it will be removed after closing.
- */
-public class ArchiveFile implements ArchiveConstants
+public class ArchiveFile
 {
-
-	/** the physical file correspond to this compound file system */
-	protected RandomAccessFile rf;
-
-	/**
-	 * if the file is closed.
-	 */
-	protected boolean isClosed;
-	/**
-	 * the archive file is writable.
-	 */
-	protected boolean isWritable;
-
-	/**
-	 * the archive file is transient.
-	 */
-	protected boolean isTransient;
-
-	/**
-	 * the archive file is appended.
-	 */
-	protected boolean isAppend;
 
 	/**
 	 * the archive file name.
 	 */
 	protected String archiveName;
 
-	/**
-	 * header status
-	 */
-	protected ArchiveHeader head;
-	/**
-	 * allocation table of the archive file
-	 */
-	protected AllocTable allocTbl;
-	/**
-	 * entry table of the archive file
-	 */
-	protected NameTable entryTbl;
-	/**
-	 * archive entries in the table
-	 */
-	protected HashMap entries;
-
-	/**
-	 * cache manager of the archive file.
-	 */
-	protected BlockManager caches;
-
-	/**
-	 * the total blocks exits in this file
-	 */
-	protected int totalBlocks;
-
-	/**
-	 * the total blocks exits in the disk
-	 */
-	protected int totalDiskBlocks;
-
-	/**
-	 * if the caches is enabled, used for debug.
-	 */
-	private boolean enableCache = true;
-
-	/**
-	 * setup the flags used to open the archive.
-	 * <p>
-	 * 
-	 * the mode can be either of:
-	 * <li>r</li>
-	 * open the archive file for read only, the file must exits.
-	 * <li>rw</li>
-	 * open the archive file for read and write, if the file is exits, create a
-	 * new one.
-	 * <li>rw+</li>
-	 * open the archive file for read and wirte, if the file is exits, open the
-	 * file.
-	 * <li>rwt</li>
-	 * open the archive file for read and write. The exits file will be removed.
-	 * The file will be removed after close.
-	 * 
-	 * @param mode
-	 *            the open mode.
-	 */
-	private void setupArchiveMode( String mode )
-	{
-		if ( "r".equals( mode ) )
-		{
-			isWritable = false;
-			isTransient = false;
-			isAppend = false;
-		}
-		else if ( "rw".equals( mode ) )
-		{
-			isWritable = true;
-			isTransient = false;
-			isAppend = false;
-		}
-		else if ( "rw+".equals( mode ) )
-		{
-			isWritable = true;
-			isTransient = false;
-			isAppend = true;
-		}
-		else if ( "rwt".equals( mode ) )
-		{
-			isWritable = true;
-			isTransient = true;
-			isAppend = false;
-		}
-		else
-		{
-			throw new IllegalArgumentException( );
-		}
-	}
-
-	/**
-	 * create the archive file.
-	 * 
-	 * @param fileName
-	 *            file name.
-	 * @param mode
-	 *            open mode.
-	 * @throws IOException
-	 */
+	protected IArchiveFile af;
 
 	public ArchiveFile( String fileName, String mode ) throws IOException
 	{
@@ -164,118 +33,77 @@ public class ArchiveFile implements ArchiveConstants
 			throw new IOException( "The file name is null or empty string." );
 
 		File fd = new File( fileName );
-		fileName = fd.getCanonicalPath( ); // make sure the file name is an
-		// absolute path
+		// make sure the file name is an absolute path
+		fileName = fd.getCanonicalPath( );
 		this.archiveName = fileName;
 
-		setupArchiveMode( mode );
-
-		caches = new BlockManager( new CacheEventAdapter( ) );
-
-		if ( isWritable && !isAppend )
+		if ( "r".equals( mode ) )
 		{
-			createDocument( );
+			openArchiveForReading( );
+		}
+		else if ( "rw+".equals( mode ) )
+		{
+			openArchiveForAppending( );
 		}
 		else
 		{
-			openDocument( );
+			//rwt, rw mode
+			af = new ArchiveFileV2( fileName, mode );
 		}
-
-		isClosed = false;
 	}
 
-	/**
-	 * set up the cache size.
-	 * 
-	 * the actually cache size is round to block size.
-	 * 
-	 * @param cacheSize
-	 *            cache size in bytes
-	 */
-	public void setCacheSize( int cacheSize )
+	protected void openArchiveForReading( ) throws IOException
 	{
-		int blockCount = ( cacheSize + BLOCK_SIZE - 1 ) / BLOCK_SIZE;
-		caches.setPoolSize( blockCount );
-	}
-
-	/**
-	 * open the archive file for read or rw.
-	 * 
-	 * @throws IOException
-	 */
-	private void openDocument( ) throws IOException
-	{
+		// test if we need upgrade the document
+		RandomAccessFile rf = new RandomAccessFile( archiveName, "r" );
 		try
 		{
-			if ( !isWritable && !useNativeLock )
+			long magicTag = rf.readLong( );
+			if ( magicTag != ArchiveFileV2.DOCUMENT_TAG )
 			{
-				rf = new RandomAccessFile( archiveName, "r" );
+				af = new ArchiveFileV1( archiveName, rf );
 			}
 			else
 			{
-				rf = new RandomAccessFile( archiveName, "rw" );
-			}
-			totalBlocks = (int) ( ( rf.length( ) + BLOCK_SIZE - 1 ) / BLOCK_SIZE );
-			totalDiskBlocks = totalBlocks;
-			head = ArchiveHeader.loadHeader( this );
-			allocTbl = AllocTable.loadTable( this );
-			entryTbl = NameTable.loadTable( this );
-			entries = new HashMap( );
-			Iterator iter = entryTbl.listEntries( ).iterator( );
-			while ( iter.hasNext( ) )
-			{
-				NameEntry nameEnt = (NameEntry) iter.next( );
-				entries.put( nameEnt.getName( ), new ArchiveEntry( this,
-						nameEnt ) );
+				af = new ArchiveFileV2( archiveName, rf, "r" );
 			}
 		}
 		catch ( IOException ex )
 		{
-			if ( rf != null )
-			{
-				rf.close( );
-				rf = null;
-			}
+			rf.close( );
 			throw ex;
 		}
 	}
 
-	/**
-	 * create the document
-	 * 
-	 * @throws IOException
-	 */
-	private void createDocument( ) throws IOException
+	protected void openArchiveForAppending( ) throws IOException
 	{
-		try
+		// we need upgrade the document
+		RandomAccessFile rf = new RandomAccessFile( archiveName, "rw" );
+		if ( rf.length( ) == 0 )
 		{
-			if ( !isTransient )
-			{
-				// try to create the parent folder
-				File parentFile = new File( archiveName ).getParentFile( );
-				if ( parentFile != null && !parentFile.exists( ) )
-				{
-					parentFile.mkdirs( );
-				}
-
-				rf = new RandomAccessFile( archiveName, "rw" );
-				rf.setLength( 0 );
-			}
-			totalBlocks = 3;
-			totalDiskBlocks = 0;
-			head = ArchiveHeader.createHeader( this );
-			allocTbl = AllocTable.createTable( this );
-			entryTbl = NameTable.createTable( this );
-			entries = new HashMap( );
+			// this is a empty file
+			af = new ArchiveFileV2( archiveName, rf, "rw" );
 		}
-		catch ( IOException ex )
+		else
 		{
-			if ( rf != null )
+			try
+			{
+				long magicTag = rf.readLong( );
+				if ( magicTag == ArchiveFileV2.DOCUMENT_TAG )
+				{
+					af = new ArchiveFileV2( archiveName, "rw+" );
+					return;
+				}
+				rf.close( );
+				upgradeArchiveV1( );
+				af = new ArchiveFileV2( archiveName, rf, "rw+" );
+				return;
+			}
+			catch ( IOException ex )
 			{
 				rf.close( );
-				rf = null;
+				throw ex;
 			}
-			throw ex;
 		}
 	}
 
@@ -305,24 +133,11 @@ public class ArchiveFile implements ArchiveConstants
 	 */
 	public void close( ) throws IOException
 	{
-		if ( isWritable )
+		if ( af != null )
 		{
-			head.setStatus( FILE_STATUS_FINISHED );
-			if ( !isTransient )
-			{
-				flush( );
-			}
+			af.close( );
+			af = null;
 		}
-		if ( rf != null )
-		{
-			rf.close( );
-			rf = null;
-		}
-		if ( isTransient )
-		{
-			new File( archiveName ).delete( );
-		}
-		isClosed = true;
 	}
 
 	/**
@@ -333,8 +148,7 @@ public class ArchiveFile implements ArchiveConstants
 	 */
 	public void saveAs( String fileName ) throws IOException
 	{
-		assertOpen( );
-		ArchiveFile file = new ArchiveFile( fileName, "rw" );
+		ArchiveFileV2 file = new ArchiveFileV2( fileName, "rw" );
 		try
 		{
 			List entries = listEntries( "/" );
@@ -367,279 +181,82 @@ public class ArchiveFile implements ArchiveConstants
 		}
 	}
 
-	public synchronized void flush( ) throws IOException
+	synchronized public void flush( ) throws IOException
 	{
-		assertWritable( );
-		if ( !isTransient )
-		{
-			head.flush( );
-			entryTbl.flush( );
-			allocTbl.flush( );
-			caches.flush( );
-		}
+		af.flush( );
 	}
 
-	public synchronized void refresh( ) throws IOException
+	synchronized public void refresh( ) throws IOException
 	{
-		assertOpen( );
-		if ( !isWritable )
-		{
-			totalBlocks = (int) ( ( rf.length( ) + BLOCK_SIZE - 1 ) / BLOCK_SIZE );
-			totalDiskBlocks = totalBlocks;
-			head.refresh( );
-			allocTbl.refresh( );
-			entryTbl.refresh( );
-		}
-
+		af.refresh( );
 	}
 
-	public synchronized boolean exists( String name )
+	synchronized public boolean exists( String name )
 	{
-		if ( !name.startsWith( ArchiveUtil.UNIX_SEPERATOR ) )
-			name = ArchiveUtil.UNIX_SEPERATOR + name;
-
-		return entries.containsKey( name );
+		return af.exists( name );
 	}
 
-	public synchronized ArchiveEntry getEntry( String name )
+	synchronized public ArchiveEntry getEntry( String name )
 	{
-		if ( !name.startsWith( ArchiveUtil.UNIX_SEPERATOR ) )
-			name = ArchiveUtil.UNIX_SEPERATOR + name;
-
-		return (ArchiveEntry) entries.get( name );
+		return af.getEntry( name );
 	}
 
-	public synchronized List listEntries( String namePattern )
+	synchronized public List listEntries( String namePattern )
 	{
-		ArrayList list = new ArrayList( );
-		Iterator iter = entries.keySet( ).iterator( );
-		while ( iter.hasNext( ) )
-		{
-			String name = (String) iter.next( );
-			if ( namePattern == null || name.startsWith( namePattern ) )
-			{
-				list.add( name );
-			}
-		}
-		return list;
+		return af.listEntries( namePattern );
 	}
 
-	public synchronized ArchiveEntry createEntry( String name )
+	synchronized public ArchiveEntry createEntry( String name )
 			throws IOException
 	{
-		assertWritable( );
-
-		if ( !name.startsWith( ArchiveUtil.UNIX_SEPERATOR ) )
-			name = ArchiveUtil.UNIX_SEPERATOR + name;
-
-		ArchiveEntry entry = (ArchiveEntry) entries.get( name );
-		if ( entry != null )
-		{
-			entry.setLength( 0L );
-			return entry;
-		}
-		NameEntry nameEnt = entryTbl.createEntry( name );
-		entry = new ArchiveEntry( this, nameEnt );
-		entries.put( name, entry );
-		return entry;
+		return af.createEntry( name );
 	}
 
-	public synchronized boolean removeEntry( String name ) throws IOException
+	synchronized public boolean removeEntry( String name ) throws IOException
 	{
-		assertWritable( );
+		return af.removeEntry( name );
+	}
 
-		if ( !name.startsWith( ArchiveUtil.UNIX_SEPERATOR ) )
-			name = ArchiveUtil.UNIX_SEPERATOR + name;
+	public Object lockEntry( ArchiveEntry entry ) throws IOException
+	{
+		return af.lockEntry( entry );
+	}
 
-		ArchiveEntry entry = (ArchiveEntry) entries.get( name );
-		if ( entry != null )
-		{
-			entries.remove( name );
-			entryTbl.removeEntry( entry.entry );
-			if ( entry.index != null )
-			{
-				allocTbl.removeEntry( entry.index );
-			}
-			return true;
-		}
-		return false;
+	public void unlockEntry( Object locker ) throws IOException
+	{
+		af.unlockEntry( locker );
 	}
 
 	/**
-	 * should use the native file lock to synchronize the reader/writer
-	 */
-	private boolean useNativeLock = false;
-
-	Object lockEntry( ArchiveEntry entry ) throws IOException
-	{
-		assertOpen( );
-		if ( useNativeLock )
-		{
-			if ( !isTransient )
-			{
-				entry.ensureSize( 1 );
-				int blockId = entry.index.getBlock( 0 );
-				return rf.getChannel( ).lock( blockId * Block.BLOCK_SIZE, 1,
-						false );
-			}
-		}
-		return entry;
-	}
-
-	void unlockEntry( Object locker ) throws IOException
-	{
-		assertOpen( );
-		if ( locker instanceof FileLock )
-		{
-			FileLock flck = (FileLock) locker;
-			flck.release( );
-		}
-		if ( !( locker instanceof ArchiveEntry ) )
-		{
-			throw new IOException( "Invalide lock type:" + locker );
-		}
-	}
-
-	/**
-	 * return the total blocks of the archive file.
+	 * upgrade the archive file to the latest version
 	 * 
-	 * @return
 	 * @throws IOException
 	 */
-	int getTotalBlocks( )
+	private void upgradeArchiveV1( ) throws IOException
 	{
-		return totalBlocks;
-	}
-
-	int allocateBlock( ) throws IOException
-	{
-		assertWritable( );
-		return totalBlocks++;
-	}
-
-	private void assertWritable( ) throws IOException
-	{
-		assertOpen( );
-		if ( !isWritable )
+		ArchiveFileV1 reader = new ArchiveFileV1( archiveName );
+		try
 		{
-			throw new IOException( "Archive must be opend for write" );
-		}
-	}
-
-	private void assertOpen( ) throws IOException
-	{
-		if ( isClosed )
-		{
-			throw new IOException( "The archive is closed" );
-		}
-	}
-
-	/**
-	 * read the data from cache.
-	 * 
-	 * This API read <code>len</code> bytes from <code>blockOff</code> in
-	 * block <code>blockId</code>, store the data into <code>b</code> from
-	 * <code>off</code>. The read cache is identified by <code>slotId</code>
-	 * 
-	 * @param blockId
-	 *            the block id
-	 * @param blockOff
-	 *            the block offset
-	 * @param b
-	 *            read buffer
-	 * @param off
-	 *            buffer offset
-	 * @param len
-	 *            read length
-	 * @throws IOException
-	 */
-	synchronized void read( int blockId, int blockOff, byte[] b, int off,
-			int len ) throws IOException
-	{
-		assertOpen( );
-		if ( enableCache )
-		{
-			Block block = caches.getBlock( blockId );
-			block.read( blockOff, b, off, len );
-		}
-		else
-		{
-			long pos = blockId * Block.BLOCK_SIZE + blockOff;
-			rf.seek( pos );
-			rf.readFully( b, off, len );
-		}
-	}
-
-	/**
-	 * write the data into cache.
-	 * 
-	 * The API saves <code>len</code> bytes in <code>b</code> from
-	 * <code>off</code> to block <code>blockId</code> from
-	 * <code>blockOff</code>
-	 * 
-	 * @param blockId
-	 *            block id.
-	 * @param blockOff
-	 *            offset in the block.
-	 * @param b
-	 *            data to be saved
-	 * @param off
-	 *            offset.
-	 * @param len
-	 *            write size.
-	 * @throws IOException
-	 */
-	synchronized void write( int blockId, int blockOff, byte[] b, int off,
-			int len ) throws IOException
-	{
-		assertWritable( );
-		if ( enableCache )
-		{
-			Block block = caches.getBlock( blockId );
-			block.write( blockOff, b, off, len );
-		}
-		else
-		{
-			long pos = blockId * Block.BLOCK_SIZE + blockOff;
-			rf.seek( pos );
-			rf.write( b, off, len );
-		}
-	}
-
-	class CacheEventAdapter extends BlockManagerEventAdapter
-	{
-
-		public void flush( Block block ) throws IOException
-		{
-			if ( isWritable )
+			File tempFile = File.createTempFile( "temp_", ".archive" );
+			tempFile.deleteOnExit( );
+			ArchiveFile writer = new ArchiveFile( tempFile.getAbsolutePath( ),
+					"rwt" );
+			List streams = reader.listEntries( "" );
+			Iterator iter = streams.iterator( );
+			while ( iter.hasNext( ) )
 			{
-				if ( rf == null )
-				{
-					// try to create the parent folder
-					File parentFile = new File( archiveName ).getParentFile( );
-					if ( parentFile != null && !parentFile.exists( ) )
-					{
-						parentFile.mkdirs( );
-					}
-
-					rf = new RandomAccessFile( archiveName, "rw" );
-					rf.setLength( 0 );
-				}
-				block.flush( rf );
-				if ( block.id > totalDiskBlocks )
-				{
-					totalDiskBlocks = block.id;
-				}
+				String name = (String) iter.next( );
+				ArchiveEntry src = reader.getEntry( name );
+				ArchiveEntry tgt = writer.createEntry( name );
+				copyEntry( src, tgt );
 			}
+			reader.close( );
+			writer.saveAs( archiveName );
+			writer.close( );
 		}
-
-		public void refresh( Block block ) throws IOException
+		finally
 		{
-			assertOpen( );
-			if ( block.id < totalDiskBlocks )
-			{
-				block.refresh( rf );
-			}
+			reader.close( );
 		}
 	}
 }

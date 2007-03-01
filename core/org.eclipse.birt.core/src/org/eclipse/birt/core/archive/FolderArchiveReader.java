@@ -134,6 +134,25 @@ public class FolderArchiveReader implements IDocArchiveReader
 		return streamList;
 	}
 
+	public List listAllStreams( ) throws IOException
+	{
+		ArrayList list = new ArrayList( );
+		ArchiveUtil.listAllFiles( new File( folderName ), list );
+
+		ArrayList streams = new ArrayList( );
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			File file = (File) list.get( i );
+			String relativePath = ArchiveUtil.generateRelativePath( folderName,
+					file.getPath( ) );
+			if ( !ArchiveUtil.needSkip( relativePath ) )
+			{
+				streams.add( relativePath );
+			}
+		}
+		return streams;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

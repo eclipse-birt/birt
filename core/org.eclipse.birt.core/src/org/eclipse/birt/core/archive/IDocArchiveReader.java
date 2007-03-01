@@ -72,6 +72,14 @@ public interface IDocArchiveReader {
 	public List listStreams(String relativeStoragePath) throws IOException;
 	
 	/**
+	 * get all the stream in the archive file.
+	 * 
+	 * @return
+	 * @throws IOException
+	 */
+	public List listAllStreams( ) throws IOException;
+
+	/**
 	 * This function must be called after the reader is used.
 	 * close the archive.
 	 */
