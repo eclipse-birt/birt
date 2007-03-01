@@ -121,21 +121,21 @@ import org.eclipse.birt.report.model.util.LevelContentIterator;
  * </ul>
  * 
  * <pre>
- *            // Include one library
- *            
- *            ReportDesignHandle designHandle = ...;
- *            designHandle.includeLibrary( &quot;libA.rptlibrary&quot;, &quot;LibA&quot; );
- *            LibraryHandle libraryHandle = designHandle.getLibrary(&quot;LibA&quot;);
+ *             // Include one library
  *             
- *            // Create one label based on the one in library
- *           
- *            LabelHandle labelHandle = (LabelHandle) libraryHandle.findElement(&quot;companyNameLabel&quot;);
- *            LabelHandle myLabelHandle = (LabelHandle) designHandle.getElementFactory().newElementFrom( labelHandle, &quot;myLabel&quot; );
- *           
- *            // Add the new label into design file
- *           
- *            designHandle.getBody().add(myLabelHandle);
- *         
+ *             ReportDesignHandle designHandle = ...;
+ *             designHandle.includeLibrary( &quot;libA.rptlibrary&quot;, &quot;LibA&quot; );
+ *             LibraryHandle libraryHandle = designHandle.getLibrary(&quot;LibA&quot;);
+ *              
+ *             // Create one label based on the one in library
+ *            
+ *             LabelHandle labelHandle = (LabelHandle) libraryHandle.findElement(&quot;companyNameLabel&quot;);
+ *             LabelHandle myLabelHandle = (LabelHandle) designHandle.getElementFactory().newElementFrom( labelHandle, &quot;myLabel&quot; );
+ *            
+ *             // Add the new label into design file
+ *            
+ *             designHandle.getBody().add(myLabelHandle);
+ *          
  * </pre>
  * 
  * @see org.eclipse.birt.report.model.elements.ReportDesign
@@ -536,7 +536,7 @@ public class ReportDesignHandle extends ModuleHandle
 	{
 		return getStringProperty( CHEAT_SHEET_PROP );
 	}
-	
+
 	/**
 	 * Sets the thumbnail image encoded in ISO-8859-1.
 	 * 
@@ -568,7 +568,7 @@ public class ReportDesignHandle extends ModuleHandle
 	{
 		return ( (ReportDesign) module ).getThumbnail( );
 	}
-	
+
 	/**
 	 * Deletes the thumbnail image in the design.
 	 * 
@@ -656,5 +656,39 @@ public class ReportDesignHandle extends ModuleHandle
 
 			findTemplateItemIn( children, addTo );
 		}
+	}
+
+	/**
+	 * Gets the layout preference of this report design. It can be one of the
+	 * following:
+	 * 
+	 * <ul>
+	 * <li><code>DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT</code>
+	 * <li><code>DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT</code>
+	 * </ul>
+	 * 
+	 * @return
+	 */
+	public String getLayoutPreference( )
+	{
+		return getStringProperty( LAYOUT_PREFERENCE_PROP );
+	}
+
+	/**
+	 * Sets the layout preference of this report design. The input layout can be
+	 * one of the following:
+	 * <ul>
+	 * <li><code>DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT</code>
+	 * <li><code>DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT</code>
+	 * </ul>
+	 * 
+	 * @param layout
+	 *            the layout to set
+	 * @throws SemanticException
+	 *             if value is invalid
+	 */
+	public void setLayoutPreference( String layout ) throws SemanticException
+	{
+		setStringProperty( LAYOUT_PREFERENCE_PROP, layout );
 	}
 }

@@ -730,5 +730,12 @@ public interface DesignChoiceConstants
 	public static final String VIEW_ACTION_CHANGED = "Changed"; //$NON-NLS-1$
 	public static final String VIEW_ACTION_ADDED = "Added"; //$NON-NLS-1$
 	public static final String VIEW_ACTION_DELETED = "Deleted"; //$NON-NLS-1$
+	
+	/**
+	 * Report layout preference -- layout type for report design.
+	 */
+	public static final String CHOICE_REPORT_LAYOUT_PREFERENCE = "reportLayoutPreference"; //$NON-NLS-1$
+	public static final String REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT = "fixed layout"; //$NON-NLS-1$
+	public static final String REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT = "auto layout"; //$NON-NLS-1$
 
 };

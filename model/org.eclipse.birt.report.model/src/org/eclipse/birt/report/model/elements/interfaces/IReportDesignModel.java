@@ -70,6 +70,12 @@ public interface IReportDesignModel
 	public static final String THUMBNAIL_PROP = "thumbnail"; //$NON-NLS-1$
 	
 	/**
+	 * Name of the property that defines the layout format of this report
+	 * design.
+	 */
+	public static final String LAYOUT_PREFERENCE_PROP = "layoutPreference"; //$NON-NLS-1$
+	
+	/**
 	 * Encoding mode for the thumbnail image.
 	 */
 
