@@ -887,11 +887,12 @@ public class ReportDesignHandleTest extends BaseTestCase
 		openDesign( "ReportDesignBookmark.xml" ); //$NON-NLS-1$
 		List bookmarks = designHandle.getAllBookmarks( );
 
-		assertEquals( 3, bookmarks.size( ) );
+		assertEquals( 4, bookmarks.size( ) );
 		assertEquals( "bookmark_label", bookmarks.get( 0 ) ); //$NON-NLS-1$
-		assertEquals( "bookmark_detail_row", bookmarks.get( 1 ) ); //$NON-NLS-1$
-		assertEquals( "bookmark_detail_text", bookmarks.get( 2 ) ); //$NON-NLS-1$
-
+		assertEquals( "\"bookmark_group\"", bookmarks.get( 1 ) ); //$NON-NLS-1$
+		assertEquals( "bookmark_detail_row", bookmarks.get( 2 ) ); //$NON-NLS-1$
+		assertEquals( "bookmark_detail_text", bookmarks.get( 3 ) ); //$NON-NLS-1$
+		
 		List tocs = designHandle.getAllTocs( );
 		assertEquals( 3, tocs.size( ) );
 		assertEquals( "Toc_label", tocs.get( 0 ) ); //$NON-NLS-1$

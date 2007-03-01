@@ -247,7 +247,10 @@ public class ListItemParseTest extends ParserTestCase
 
 		assertEquals( "birthday", sortKeyHandle.getKey( ) ); //$NON-NLS-1$
 		assertEquals( "desc", sortKeyHandle.getDirection( ) ); //$NON-NLS-1$
-
+		
+		//test bookmark property in group
+		
+		assertEquals( "\"bookmark\"" , groupHandle.getBookmark( ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -274,6 +277,9 @@ public class ListItemParseTest extends ParserTestCase
 		groupHandle.setTocExpression( "toc1" ); //$NON-NLS-1$
 		groupHandle.setSortType( "none" ); //$NON-NLS-1$
 		groupHandle.setOnPageBreak( "new page break" );//$NON-NLS-1$
+		
+		assertEquals( "\"bookmark\"" , groupHandle.getBookmark( ) ); //$NON-NLS-1$
+		groupHandle.setBookmark( "\"newbookmark\"" );//$NON-NLS-1$
 
 		save();
 		assertTrue( compareFile( goldenFileName) );

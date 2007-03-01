@@ -25,6 +25,7 @@
             </header>
             <group id="22">
                 <property name="groupName">new_group</property>
+                <expression name="bookmark">"bookmark_group"</expression>
                 <property name="interval">none</property>
                 <property name="sortDirection">asc</property>
                 <expression name="toc">DateTimeSpan.days(2005/01/01, 2006/01/01)</expression>

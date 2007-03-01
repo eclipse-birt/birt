@@ -49,6 +49,7 @@
             </header>
             <group>
                 <property name="groupName">group test</property>
+                <expression name="bookmark">"bookmark"</expression>
                 <property name="interval">week</property>
                 <property name="intervalRange">3.0</property>
                 <property name="sortDirection">desc</property>

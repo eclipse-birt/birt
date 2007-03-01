@@ -53,6 +53,7 @@
                 <property name="sortDirection">desc</property>
                 <property name="sortType">none</property>
                 <expression name="keyExpr">[Country]</expression>
+                <expression name="bookmark">"newbookmark"</expression>
                 <structure name="toc">
             		<expression name="expressionValue">toc1</expression>
             	</structure>
