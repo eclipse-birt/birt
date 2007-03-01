@@ -540,15 +540,14 @@
 	<!-- Build BIRT Web Viewer -->
 	<target name="BuildWebViewer" depends="init">
 		<mkdir dir="${buildDirectory}/${buildId}/birt_web"/>
+		<property name="baseLocation.emf" value="${baseLocation}"/>
 		<ant antfile="WebViewerPackager.xml" dir="${buildDirectory}/plugins/org.eclipse.birt.report.viewer" target="Jar">
 			<property name="integrate.dir" value="${buildDirectory}/${buildId}/eclipse"/>
 			<!-- 
 			Add baselocation.emf to enable runtime download be packaged with emf version 
 			from other location other than baseLocation
 			 -->
-			<!--
-			<property name="baseLocation.emf" value="${baseLocation}"/>
-			-->
+			<property name="baseLocation.emf" value="${baseLocation.emf}"/>
 		</ant>
 		<ant antfile="WebViewerPackager.xml" dir="${buildDirectory}/plugins/org.eclipse.birt.report.viewer" target="Export">
 			<property name="export.dir" value="${buildDirectory}/${buildId}/birt_web"/>
