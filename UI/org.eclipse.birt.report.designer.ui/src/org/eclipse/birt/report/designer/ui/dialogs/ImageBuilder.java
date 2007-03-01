@@ -48,6 +48,7 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -199,6 +200,7 @@ public class ImageBuilder extends BaseDialog
 
 		Composite composite = new Composite( topCompostie, SWT.NONE );
 		composite.setLayout( new GridLayout( 2, false ) );
+		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
 		createInputArea( composite );
 		createPreviewArea( composite );
@@ -318,6 +320,8 @@ public class ImageBuilder extends BaseDialog
 
 		}
 		inputArea.layout( );
+		
+		resize( );
 	}
 
 	/**
@@ -367,6 +371,8 @@ public class ImageBuilder extends BaseDialog
 				preview( removeQuoteString( uriEditor.getText( ) ) );
 			}
 		} );
+
+		resize( );
 
 		initURIEditor( );
 	}
@@ -445,7 +451,21 @@ public class ImageBuilder extends BaseDialog
 			}
 		} );
 
+		resize( );
+
 		initURIEditor( );
+	}
+
+	private void resize( )
+	{
+		GridData gd = (GridData) inputArea.getLayoutData( );
+		int oldWidth = inputArea.getSize( ).x;
+		gd.widthHint = Math.max( 300, inputArea.computeSize( SWT.DEFAULT,
+				SWT.DEFAULT ).x );
+		inputArea.setLayoutData( gd );
+		Point size = getShell( ).getSize( );
+		getShell( ).setSize( size.x + gd.widthHint - oldWidth, size.y );
+		getShell( ).layout( );
 	}
 
 	protected void openResourceBrowser( )
@@ -615,6 +635,8 @@ public class ImageBuilder extends BaseDialog
 		// }
 		// } );
 
+		resize( );
+		
 		initList( );
 	}
 
