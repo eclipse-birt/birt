@@ -92,6 +92,7 @@ public class DesignWriter extends ModuleWriter
 		property( obj, IReportDesignModel.ICON_FILE_PROP );
 		property( obj, IReportDesignModel.CHEAT_SHEET_PROP );
 		property( obj, IDesignElementModel.EVENT_HANDLER_CLASS_PROP );
+		property( obj, IReportDesignModel.LAYOUT_PREFERENCE_PROP );
 
 		// include libraries and scripts
 

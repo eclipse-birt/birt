@@ -14,6 +14,7 @@
     <text-property name="displayName" key="display name key">display name</text-property>
     <property name="iconFile">iconFile</property>
     <property name="cheatSheet">cheatSheet</property>
+    <property name="layoutPreference">fixed layout</property>
     <method name="initialize"><![CDATA[script of initialize]]></method>
     <method name="beforeFactory"><![CDATA[script of beforeFactory]]></method>
     <method name="afterFactory"><![CDATA[script of afterFactory]]></method>

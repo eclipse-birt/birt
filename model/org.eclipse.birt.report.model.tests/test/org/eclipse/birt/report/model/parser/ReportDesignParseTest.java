@@ -191,6 +191,11 @@ public class ReportDesignParseTest extends BaseTestCase
 		assertEquals(
 				"on_Event", design.getStringProperty( design, ReportDesign.EVENT_HANDLER_CLASS_PROP ) ); //$NON-NLS-1$
 
+		// layout preference
+		assertEquals(
+				DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT,
+				designHandle.getLayoutPreference( ) );
+
 		// keywords is not implemented
 		// include libraries
 
@@ -346,6 +351,10 @@ public class ReportDesignParseTest extends BaseTestCase
 		designHandle.setThumbnail( Base64.decodeBase64( new String(
 				"newthumbnailimageAAA" ) //$NON-NLS-1$
 				.getBytes( IReportDesignModel.CHARSET ) ) );
+
+		// set layout preference
+		designHandle
+				.setLayoutPreference( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT );
 
 		save( );
 		assertTrue( compareFile( goldenFileName ) );
@@ -827,7 +836,7 @@ public class ReportDesignParseTest extends BaseTestCase
 		assertEquals( 8, designHandle.getLineNo( library ) );
 
 		// test theme property
-		ThemeHandle theme = (ThemeHandle) designHandle.getTheme( );
+		ThemeHandle theme = designHandle.getTheme( );
 		assertEquals( 6, designHandle.getLineNo( theme ) );
 	}
 }
