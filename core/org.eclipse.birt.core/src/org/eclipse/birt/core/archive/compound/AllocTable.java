@@ -48,7 +48,7 @@ class AllocTable implements ArchiveConstants
 	/**
 	 * the archive file which use this allocation table.
 	 */
-	protected ArchiveFile af;
+	protected ArchiveFileV2 af;
 
 	/**
 	 * the list saves the blocks of the allocat table.
@@ -68,7 +68,7 @@ class AllocTable implements ArchiveConstants
 
 	protected HashMap entries = new HashMap( );
 
-	AllocTable( ArchiveFile af )
+	AllocTable( ArchiveFileV2 af )
 	{
 		this.af = af;
 		allocBlocks = new int[BLOCK_COUNT_INCREASE];
@@ -82,13 +82,13 @@ class AllocTable implements ArchiveConstants
 				ENTRY_TABLE_BLOCK ) );
 	}
 
-	static AllocTable createTable( ArchiveFile af ) throws IOException
+	static AllocTable createTable( ArchiveFileV2 af ) throws IOException
 	{
 		AllocTable table = new AllocTable( af );
 		return table;
 	}
 
-	static AllocTable loadTable( ArchiveFile af ) throws IOException
+	static AllocTable loadTable( ArchiveFileV2 af ) throws IOException
 	{
 		AllocTable table = new AllocTable( af );
 		table.refresh( );

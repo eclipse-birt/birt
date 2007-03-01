@@ -23,14 +23,12 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Random;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
-
-import org.eclipse.birt.core.archive.compound.ArchiveEntry;
-import org.eclipse.birt.core.archive.compound.ArchiveFile;
 
 import com.ibm.icu.text.SimpleDateFormat;
 
@@ -332,6 +330,46 @@ public class ArchiveUtil
 		}
 	}
 
+	static public void copy( IDocArchiveReader reader, IDocArchiveWriter writer )
+			throws IOException
+	{
+		List streamList = reader.listAllStreams( );
+		for ( int i = 0; i < streamList.size( ); i++ )
+		{
+			String streamPath = (String) streamList.get( i );
+			RAInputStream in = reader.getStream( streamPath );
+			try
+			{
+				RAOutputStream out = writer
+						.createRandomAccessStream( streamPath );
+				try
+				{
+					copyStream( in, out );
+				}
+				finally
+				{
+					out.close( );
+				}
+			}
+			finally
+			{
+				in.close( );
+			}
+		}
+	}
+
+	static private void copyStream( RAInputStream in, RAOutputStream out )
+			throws IOException
+	{
+		byte[] buf = new byte[4096];
+		int readSize = in.read( buf );
+		while ( readSize != -1 )
+		{
+			out.write( buf, 0, readSize );
+			readSize = in.read( buf );
+		}
+	}
+
 	static public void archive( String folder, String file ) throws IOException
 	{
 		archive( folder, null, file );
@@ -355,72 +393,26 @@ public class ArchiveUtil
 	{
 		// Delete existing file or folder that has the same
 		// name of the file archive.
-		ArchiveUtil.DeleteAllFiles( new File( fileName ) );
-
-		ArrayList fileList = new ArrayList( );
-
 		folderName = new File( folderName ).getCanonicalPath( );
-		getAllFiles( new File( folderName ), fileList );
-
-		if ( sorter != null )
-		{
-			ArrayList streamNameList = new ArrayList( );
-			for ( int i = 0; i < fileList.size( ); i++ )
-			{
-				File file = (File) fileList.get( i );
-				streamNameList.add( ArchiveUtil.generateRelativePath(
-						folderName, file.getAbsolutePath( ) ) );
-			}
-
-			// Sort the streams by using the stream sorter (if any).
-			ArrayList sortedNameList = sorter.sortStream( streamNameList );
-
-			if ( sortedNameList != null )
-			{
-				fileList.clear( );
-				for ( int i = 0; i < sortedNameList.size( ); i++ )
-				{
-					String name = ArchiveUtil.generateFullPath( folderName,
-							(String) sortedNameList.get( i ) );
-					fileList.add( new File( name ) );
-				}
-			}
-		}
-
-		ArchiveFile archive = new ArchiveFile( fileName, "rw" );
-		byte[] buf = new byte[4096];
+		FolderArchiveReader reader = new FolderArchiveReader( folderName );
 		try
 		{
-			for ( int i = 0; i < fileList.size( ); i++ )
+			reader.open( );
+			ArchiveUtil.DeleteAllFiles( new File( fileName ) );
+			FileArchiveWriter writer = new FileArchiveWriter( fileName );
+			try
 			{
-				File file = (File) fileList.get( i );
-				String relativePath = ArchiveUtil.generateRelativePath(
-						folderName, file.getAbsolutePath( ) );
-				if ( !needSkip( relativePath ) )
-				{
-					ArchiveEntry entry = archive.createEntry( relativePath );
-					long pos = 0;
-					FileInputStream fis = new FileInputStream( file );
-					try
-					{
-						int readSize = fis.read( buf );
-						while ( readSize != -1 )
-						{
-							entry.write( pos, buf, 0, readSize );
-							pos += readSize;
-							readSize = fis.read( buf );
-						}
-					}
-					finally
-					{
-						fis.close( );
-					}
-				}
+				writer.initialize( );
+				copy( reader, writer );
+			}
+			finally
+			{
+				writer.finish( );
 			}
 		}
 		finally
 		{
-			archive.close( );
+			reader.close( );
 		}
 	}
 
@@ -454,7 +446,7 @@ public class ArchiveUtil
 	 * @param fileList -
 	 *            the fileList to be returned
 	 */
-	static void getAllFiles( File dir, ArrayList fileList )
+	public static void listAllFiles( File dir, ArrayList fileList )
 	{
 		if ( dir.exists( ) && dir.isDirectory( ) )
 		{
@@ -471,7 +463,7 @@ public class ArchiveUtil
 				}
 				else if ( file.isDirectory( ) )
 				{
-					getAllFiles( file, fileList );
+					listAllFiles( file, fileList );
 				}
 			}
 		}

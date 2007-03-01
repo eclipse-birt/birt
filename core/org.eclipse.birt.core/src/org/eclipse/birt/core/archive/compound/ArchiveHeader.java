@@ -22,7 +22,7 @@ import java.io.IOException;
  */
 class ArchiveHeader implements ArchiveConstants
 {
-	protected ArchiveFile af;
+	protected ArchiveFileV2 af;
 	/**
 	 * the file status of the archive
 	 */
@@ -34,19 +34,19 @@ class ArchiveHeader implements ArchiveConstants
 	 * @param fs
 	 *            the corresponding compound file system
 	 */
-	private ArchiveHeader( ArchiveFile af )
+	private ArchiveHeader( ArchiveFileV2 af )
 	{
 		this.af = af;
 		this.fileStatus = 0;
 	}
 
-	static ArchiveHeader createHeader( ArchiveFile af ) throws IOException
+	static ArchiveHeader createHeader( ArchiveFileV2 af ) throws IOException
 	{
 		ArchiveHeader header = new ArchiveHeader( af );
 		return header;
 	}
 
-	static ArchiveHeader loadHeader( ArchiveFile af ) throws IOException
+	static ArchiveHeader loadHeader( ArchiveFileV2 af ) throws IOException
 	{
 		ArchiveHeader header = new ArchiveHeader( af );
 		header.refresh( );
