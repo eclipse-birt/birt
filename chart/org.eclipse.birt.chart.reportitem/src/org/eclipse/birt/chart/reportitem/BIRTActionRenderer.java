@@ -177,6 +177,11 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 							return null;
 						}
 
+						public String getTargetFileType( )
+						{
+							return handle.getTargetFileType( );
+						}
+
 					},
 							context );
 				}
@@ -280,6 +285,11 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 								return mod.getFileName( );
 							}
 							return null;
+						}
+
+						public String getTargetFileType( )
+						{
+							return handle.getTargetFileType( );
 						}
 
 					},
