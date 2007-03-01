@@ -534,6 +534,10 @@ Choices.viewAction.Changed=已更改
 Choices.viewAction.Added=已添加
 Choices.viewAction.Deleted=已删除
 
+#70. reportLayoutPreference
+Choices.reportLayoutPreference.fixedLayout=Fixed Layout
+Choices.reportLayoutPreference.autoLayout=Auto Layout
+
 ###########################################################
 # Classes
 
@@ -2120,6 +2124,7 @@ Element.ReportDesign.displayName=显示名称
 Element.ReportDesign.iconFile=图标文件
 Element.ReportDesign.cheatSheet=备忘单
 Element.ReportDesign.thumbnail=缩略图
+Element.ReportDesign.layoutPreference=Layout preference
 Element.ReportDesign.beforeFactory.toolTip=调用时间为：开始出厂时，初始化 ( ) 方法后，打开报表文档（如果有）前
 Element.ReportDesign.afterFactory.toolTip=调用时间为出厂结束时、关闭报表文档（如果有）后。 这是工厂中调用的最后一个方法
 Element.ReportDesign.beforeOpenDoc.toolTip=仅在工厂中打开报表文档前调用

@@ -534,6 +534,10 @@ Choices.viewAction.Changed=Geändert
 Choices.viewAction.Added=Hinzugefügt
 Choices.viewAction.Deleted=Gelöscht
 
+#70. reportLayoutPreference
+Choices.reportLayoutPreference.fixedLayout=Fixed Layout
+Choices.reportLayoutPreference.autoLayout=Auto Layout
+
 ###########################################################
 # Classes
 
@@ -2120,6 +2124,7 @@ Element.ReportDesign.displayName=Anzeigename
 Element.ReportDesign.iconFile=Symboldatei
 Element.ReportDesign.cheatSheet=Spickzettel
 Element.ReportDesign.thumbnail=Miniatur
+Element.ReportDesign.layoutPreference=Layout preference
 Element.ReportDesign.beforeFactory.toolTip=Wird zu Beginn der Factory nach der Methode "initialize( )" und (gegebenenfalls) vor dem Öffnen des Berichtsdokuments aufgerufen
 Element.ReportDesign.afterFactory.toolTip=Wird zu Ende der Factory (gegebenenfalls) nach dem Schließen des Berichtsdokuments aufgerufen. Dies ist die letzte in der Factory aufgerufene Methode
 Element.ReportDesign.beforeOpenDoc.toolTip=Wird kurz vor Öffnen des Berichtsdokuments in der Factory aufgerufen

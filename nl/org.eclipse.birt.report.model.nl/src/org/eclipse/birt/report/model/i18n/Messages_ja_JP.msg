@@ -534,6 +534,10 @@ Choices.viewAction.Changed=変更済み
 Choices.viewAction.Added=追加済み
 Choices.viewAction.Deleted=削除済み
 
+#70. reportLayoutPreference
+Choices.reportLayoutPreference.fixedLayout=Fixed Layout
+Choices.reportLayoutPreference.autoLayout=Auto Layout
+
 ###########################################################
 # Classes
 
@@ -2120,6 +2124,7 @@ Element.ReportDesign.displayName=表示名
 Element.ReportDesign.iconFile=アイコンファイル
 Element.ReportDesign.cheatSheet=ガイドの表示
 Element.ReportDesign.thumbnail=サムネール
+Element.ReportDesign.layoutPreference=Layout preference
 Element.ReportDesign.beforeFactory.toolTip=Factory での処理を開始する際に、initialize( ) メソッドを実行した後で、レポート文書 (該当する場合) を開く前に呼び出されます
 Element.ReportDesign.afterFactory.toolTip=Factory での処理が終了した際に、レポート文書 (該当する場合) を閉じた後に呼び出されます。これは、Factory で呼び出される最後のメソッドです
 Element.ReportDesign.beforeOpenDoc.toolTip=Factory でレポート文書を開く直前に呼び出されます

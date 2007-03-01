@@ -534,6 +534,10 @@ Choices.viewAction.Changed=Cambiado
 Choices.viewAction.Added=Añadido
 Choices.viewAction.Deleted=Eliminado
 
+#70. reportLayoutPreference
+Choices.reportLayoutPreference.fixedLayout=Fixed Layout
+Choices.reportLayoutPreference.autoLayout=Auto Layout
+
 ###########################################################
 # Classes
 
@@ -2120,6 +2124,7 @@ Element.ReportDesign.displayName=Nombre en pantalla
 Element.ReportDesign.iconFile=Archivo de icono
 Element.ReportDesign.cheatSheet=Consejos útiles
 Element.ReportDesign.thumbnail=Miniatura
+Element.ReportDesign.layoutPreference=Layout preference
 Element.ReportDesign.beforeFactory.toolTip=Llamado al inicio de fábrica, después del método de inicialización ( ) y antes de abrir el documento de informes (si existen)
 Element.ReportDesign.afterFactory.toolTip=Llamado al final de fábrica, después de cerrar el documento de informes (si existen). Este es el último método llamado en la fábrica
 Element.ReportDesign.beforeOpenDoc.toolTip=Llamado justo antes de abrir el documento de informe en la fábrica
