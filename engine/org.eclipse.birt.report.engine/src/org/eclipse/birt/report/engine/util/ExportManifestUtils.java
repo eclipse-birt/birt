@@ -26,7 +26,8 @@ public class ExportManifestUtils
 		"org.eclipse.emf.ecore.xmi_.*.jar", 
 		"org.eclipse.emf.ecore_.*.jar",
 		"sac.jar", 
-		"scriptapi.jar"
+		"scriptapi.jar",
+		"modelodaapi.jar"
 	};
 
 	static public void main( String[] args ) throws IOException
