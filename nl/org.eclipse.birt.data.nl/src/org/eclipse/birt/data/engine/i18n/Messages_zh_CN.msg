@@ -90,6 +90,7 @@ data.engine.InvalidGroupKey=组 {1} 中的组关键字“{0}”不能依赖于在低于自身的组中
 data.engine.ColumnBindingNotExist=列绑定“{0}”不存在。
 data.engine.ColumnBindingCycle=列绑定“{0}”具有相关性循环。
 data.engine.ColumnBindingReferToInexistColumn=列绑定“{0}”引用了一个不存在的数据集列“{1}”。
+data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=Column Binding "{0}" is incorrect:the parent query column bindings which include aggregations cannot be used in column bindings of subquery.
 #computed column value
 data.engine.BadCompColExpr=计算列 "{0}" 的表达式无效。
 data.engine.CompCol.WrongDataType=计算列 "{0}" 的数据类型为 {1}，但是其某个值为 "{2}"，不能转换为 {1}。

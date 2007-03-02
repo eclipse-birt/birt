@@ -90,6 +90,7 @@ data.engine.InvalidGroupKey=La clé de groupe "{0}" du groupe {1} ne peut pas dép
 data.engine.ColumnBindingNotExist=La liaison de colonne "{0}" n'existe pas.
 data.engine.ColumnBindingCycle=La liaison de colonne "{0}" possède un cycle de dépendance.
 data.engine.ColumnBindingReferToInexistColumn=La liaison de colonne "{0}" a renvoyé vers une colonne de jeu de données "{1}" qui n''existe pas.
+data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=Column Binding "{0}" is incorrect:the parent query column bindings which include aggregations cannot be used in column bindings of subquery.
 #computed column value
 data.engine.BadCompColExpr=L''expression de la colonne de calcul "{0}" est incorrecte.
 data.engine.CompCol.WrongDataType=Le type de données de la colonne de calcul "{0}" est {1}, mais l''une de ses valeurs est "{2}" et ne peut pas être convertie en {1}.

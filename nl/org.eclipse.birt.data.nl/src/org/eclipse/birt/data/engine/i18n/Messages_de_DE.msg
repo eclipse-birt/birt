@@ -90,6 +90,7 @@ data.engine.InvalidGroupKey=Gruppenschlüssel "{0}" in Gruppe {1} darf nicht von 
 data.engine.ColumnBindingNotExist=Die Spaltenbindung "{0}" existiert nicht.
 data.engine.ColumnBindingCycle=Die Spaltenbindung "{0}" hat einen Abhängigkeitszyklus.
 data.engine.ColumnBindingReferToInexistColumn=Spaltenbindung "{0}" hat auf eine Datensatzspalte "{1}" verwiesen, die nicht existiert.
+data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=Column Binding "{0}" is incorrect:the parent query column bindings which include aggregations cannot be used in column bindings of subquery.
 #computed column value
 data.engine.BadCompColExpr=Der Ausdruck für die berechnete Spalte "{0}" ist ungültig.
 data.engine.CompCol.WrongDataType=Der Datentyp der berechneten Spalte "{0}" lautet {1}, einer ihrer Werte ist jedoch "{2}". Dieser kann nicht in {1} konvertiert werden.

@@ -90,6 +90,7 @@ data.engine.InvalidGroupKey=グループ {1} のグループキー "{0}" は、それより下位の
 data.engine.ColumnBindingNotExist=列バインド "{0}" は存在しません。
 data.engine.ColumnBindingCycle=カラムバインド "{0}" の依存関係が循環参照になっています。
 data.engine.ColumnBindingReferToInexistColumn=列バインド "{0}" は、存在しないデータセット列 "{1}" を参照しています。
+data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=Column Binding "{0}" is incorrect:the parent query column bindings which include aggregations cannot be used in column bindings of subquery.
 #computed column value
 data.engine.BadCompColExpr=計算列 "{0}" の式が無効です。
 data.engine.CompCol.WrongDataType=計算列 "{0}" のデータ型は {1} ですが、このうち 1 つの値が "{2}" であるため、{1} に変換できません。
