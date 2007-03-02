@@ -177,21 +177,16 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 			return new CategoryProvider( new String[]{
 					CATEGORY_KEY_GENERAL,
 					CATEGORY_KEY_FONT,
-					CATEGORY_KEY_BORDERS,
 					CATEGORY_KEY_VISIBILITY,
 					CATEGORY_KEY_ADVANCEPROPERTY,
 			},new String[]{
 					"ColumnPageGenerator.List.General", //$NON-NLS-1$
-					// "ColumnPageGenerator.List.CellPadding" , //$NON-NLS-1$
 					"ColumnPageGenerator.List.Font", //$NON-NLS-1$
-					"ColumnPageGenerator.List.Borders",//$NON-NLS-1$
 					"ColumnPageGenerator.List.Visibility",//$NON-NLS-1$
 					"ReportPageGenerator.List.AdvancedProperty",
 			}, new Class[]{
 					ColumnPage.class,
-					// CellPaddingPage.class,
 					FontPage.class,
-					BordersPage.class,
 					VisibilityPage.class,
 					AdvancePropertyPage.class,
 			} );
