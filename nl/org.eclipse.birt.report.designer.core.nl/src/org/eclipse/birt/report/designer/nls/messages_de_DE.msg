@@ -3418,7 +3418,7 @@ WizardTemplateChoicePage.title.SimpleListing=Einfache Liste
 
 XMLSourcePage.Error.Dialog.Message.InvalidFile=Bevor andere Seiten verwendet werden können, muss der Fehler in der XML-Quellseite behoben werden.
 XMLSourcePage.Error.Dialog.Message.SaveFile=Die XML-Quellseite wurde geändert. Bevor andere Seiten verwendet werden können, muss die XML-Quellseite gespeichert werden.
-XMLSourcePage.Error.Dialog.title=Warnung
+XMLSourcePage.Error.Dialog.title=Fehler
 XMLSourcePage.Error.Dialog.Message.PromptMsg=Die XML-Quelle für das Bericht-Design wurde geändert. Möchten Sie die Änderungen speichern?
 XMLSourcePage.Error.Dialog.Message.Yes=Ja
 XMLSourcePage.Error.Dialog.Message.No=Nein

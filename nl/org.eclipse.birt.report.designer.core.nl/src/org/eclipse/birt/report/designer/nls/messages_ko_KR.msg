@@ -3418,7 +3418,7 @@ WizardTemplateChoicePage.title.SimpleListing=간단한 목록
 
 XMLSourcePage.Error.Dialog.Message.InvalidFile=XML 소스 페이지의 오류를 해결해야 다른 페이지를 사용할 수 있습니다.
 XMLSourcePage.Error.Dialog.Message.SaveFile=XML 소스 페이지에 변경 사항이 있습니다. XML 소스를 저장해야 다른 페이지를 사용할 수 있습니다.
-XMLSourcePage.Error.Dialog.title=경고
+XMLSourcePage.Error.Dialog.title=오류
 XMLSourcePage.Error.Dialog.Message.PromptMsg=XML 보고서 디자인 원본에 변경 사항이 있습니다. 변경 사항을 저장하시겠습니까?
 XMLSourcePage.Error.Dialog.Message.Yes=예
 XMLSourcePage.Error.Dialog.Message.No=아니오

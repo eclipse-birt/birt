@@ -3418,7 +3418,7 @@ WizardTemplateChoicePage.title.SimpleListing=簡易リスト
 
 XMLSourcePage.Error.Dialog.Message.InvalidFile=XML のソースページにあるエラーを修正しないと、他のページを使用できません。
 XMLSourcePage.Error.Dialog.Message.SaveFile=XML のソースページが変更されました。XML のソースページを保存しないと、他のページを使用できません。
-XMLSourcePage.Error.Dialog.title=警告
+XMLSourcePage.Error.Dialog.title=エラー
 XMLSourcePage.Error.Dialog.Message.PromptMsg=XML レポートデザインのソースが変更されました。変更内容を保存しますか ?
 XMLSourcePage.Error.Dialog.Message.Yes=はい
 XMLSourcePage.Error.Dialog.Message.No=いいえ

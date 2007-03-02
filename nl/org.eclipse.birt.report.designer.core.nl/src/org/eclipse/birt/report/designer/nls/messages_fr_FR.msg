@@ -3418,7 +3418,7 @@ WizardTemplateChoicePage.title.SimpleListing=Listes simples
 
 XMLSourcePage.Error.Dialog.Message.InvalidFile=Une erreur dans la page XML source doit être corrigée avant l'utilisation d'autres pages.
 XMLSourcePage.Error.Dialog.Message.SaveFile=La page XML source a été modifiée. Les autres pages ne pourront être utilisées qu'une fois la source XML enregistrée.
-XMLSourcePage.Error.Dialog.title=Avertissement
+XMLSourcePage.Error.Dialog.title=Erreur
 XMLSourcePage.Error.Dialog.Message.PromptMsg=La source du modèle d'état XML a été modifiée. Voulez-vous enregistrer les modifications ?
 XMLSourcePage.Error.Dialog.Message.Yes=Oui
 XMLSourcePage.Error.Dialog.Message.No=Non
