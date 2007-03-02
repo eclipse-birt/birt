@@ -229,16 +229,20 @@ class ComputedColumnHelperInstance
 						}
 
 						value = DataTypeUtil.convert( value,
-								resultClass.getFieldValueClass( columnIndexArray[i] ) );
+							resultClass.getFieldValueClass( columnIndexArray[i] ) );
 					}
 					catch ( BirtException e )
 					{
+						if ( resultClass.wasAnyType( columnIndexArray[i] ) )
+							throw new DataException( ResourceConstants.POSSIBLE_MIXED_DATA_TYPE_IN_COLUMN );
+						
 						String fieldName = resultClass.getFieldName( columnIndexArray[i] );
 						if ( fieldName != null
 								&& fieldName.startsWith( "_{$TEMP_" ) )
 						{
 							// Data Type of computed column is not correct
 							throw new DataException( ResourceConstants.WRONG_DATA_TYPE_SCRIPT_RESULT,
+									e,
 									new Object[]{
 											resultClass.getFieldValueClass( columnIndexArray[i] )
 													.getName( ),
@@ -248,6 +252,7 @@ class ComputedColumnHelperInstance
 						}
 						// Data Type of computed column is not correct
 						throw new DataException( ResourceConstants.WRONG_DATA_TYPE_COMPUTED_COLUMN,
+								e,
 								new Object[]{
 										resultClass.getFieldName( columnIndexArray[i] ),
 										resultClass.getFieldValueClass( columnIndexArray[i] )
