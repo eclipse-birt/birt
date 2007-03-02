@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.model.adapter.oda.plugin;
 
 import org.eclipse.birt.core.plugin.BIRTPlugin;
+import org.eclipse.birt.report.model.adapter.oda.ODAFactory;
+import org.osgi.framework.BundleContext;
 
 /**
  * The class to use the eclipse tracing facilities.
@@ -19,4 +21,18 @@ import org.eclipse.birt.core.plugin.BIRTPlugin;
 
 public class ModelAdapterOdaPlugin extends BIRTPlugin
 {
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.core.plugin.BIRTPlugin#start(org.osgi.framework.BundleContext)
+	 */
+
+	public void start( BundleContext context ) throws Exception
+	{
+		super.start( context );
+
+		ODAFactory
+				.setODAFactory( new org.eclipse.birt.report.model.adapter.oda.plugin.ODAFactory( ) );
+	}
 }
