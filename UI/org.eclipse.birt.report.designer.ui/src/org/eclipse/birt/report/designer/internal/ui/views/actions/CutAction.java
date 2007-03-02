@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
+import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -77,16 +78,25 @@ public class CutAction extends AbstractViewAction
 	 */
 	public void run( )
 	{
-		if ( Policy.TRACING_ACTIONS )
+//		if ( Policy.TRACING_ACTIONS )
+//		{
+//			System.out.println( "Cut action >> Cut " + getSelection( ) ); //$NON-NLS-1$
+//		}
+//		Object cloneElements = DNDUtil.cloneSource( getSelection( ) );
+//		DeleteAction action = createDeleteAction( getSelection( ) );
+//		action.run( );
+//		if ( action.hasExecuted( ) )
+//		{
+//			Clipboard.getDefault( ).setContents( cloneElements );
+//		}
+		
+		try
 		{
-			System.out.println( "Cut action >> Cut " + getSelection( ) ); //$NON-NLS-1$
+			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.cutCommand", null );
 		}
-		Object cloneElements = DNDUtil.cloneSource( getSelection( ) );
-		DeleteAction action = createDeleteAction( getSelection( ) );
-		action.run( );
-		if ( action.hasExecuted( ) )
+		catch ( Exception e )
 		{
-			Clipboard.getDefault( ).setContents( cloneElements );
+			e.printStackTrace();
 		}
 	}
 

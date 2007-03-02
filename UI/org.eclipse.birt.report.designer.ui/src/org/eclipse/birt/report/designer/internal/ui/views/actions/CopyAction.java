@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
+import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DNDUtil;
@@ -33,6 +34,10 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TemplateElementHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.commands.NotEnabledException;
+import org.eclipse.core.commands.NotHandledException;
+import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.gef.ui.actions.Clipboard;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
@@ -88,8 +93,32 @@ public class CopyAction extends AbstractViewAction
 		{
 			System.out.println( "Copy action >> Copy " + getSelection( ) ); //$NON-NLS-1$
 		}
-		Object cloneElements = DNDUtil.cloneSource( getSelection( ) );
-		Clipboard.getDefault( ).setContents( cloneElements );
+//		Object cloneElements = DNDUtil.cloneSource( getSelection( ) );
+//		Clipboard.getDefault( ).setContents( cloneElements );
+		try
+		{
+			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.copyAction" );
+		}
+		catch ( ExecutionException e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch ( NotDefinedException e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch ( NotEnabledException e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch ( NotHandledException e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/*

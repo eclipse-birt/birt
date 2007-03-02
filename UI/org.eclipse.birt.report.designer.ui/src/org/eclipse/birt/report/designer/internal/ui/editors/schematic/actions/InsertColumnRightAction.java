@@ -11,6 +11,11 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
+import org.eclipse.birt.report.designer.internal.ui.command.ICommandParameterNameContants;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.ui.IWorkbenchPart;
@@ -18,10 +23,10 @@ import org.eclipse.ui.IWorkbenchPart;
 /**
  * Action of inserting a column on the left of current column
  */
-public class InsertColumnRightAction extends InsertColumnAction
-{
+public class InsertColumnRightAction extends InsertColumnAction {
 
-	private static final String ACTION_MSG_COLUMN_TO_THE_RIGHT = Messages.getString( "InsertColumnRightAction.actionMsg.columnToRight" ); //$NON-NLS-1$
+	private static final String ACTION_MSG_COLUMN_TO_THE_RIGHT = Messages
+			.getString("InsertColumnRightAction.actionMsg.columnToRight"); //$NON-NLS-1$
 
 	/** action ID */
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertColumnRightAction"; //$NON-NLS-1$
@@ -32,11 +37,10 @@ public class InsertColumnRightAction extends InsertColumnAction
 	 * @param part
 	 *            current work bench part
 	 */
-	public InsertColumnRightAction( IWorkbenchPart part )
-	{
-		super( part );
-		setId( ID );
-		setText( ACTION_MSG_COLUMN_TO_THE_RIGHT );
+	public InsertColumnRightAction(IWorkbenchPart part) {
+		super(part);
+		setId(ID);
+		setText(ACTION_MSG_COLUMN_TO_THE_RIGHT);
 	}
 
 	/*
@@ -44,25 +48,26 @@ public class InsertColumnRightAction extends InsertColumnAction
 	 * 
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
-	protected boolean calculateEnabled( )
-	{
-		return super.calculateEnabled( );
+	protected boolean calculateEnabled() {
+		return super.calculateEnabled();
 	}
 
 	/**
 	 * Runs action.
-	 *  
+	 * 
 	 */
-	public void run( )
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Insert column to right action >> Run ..." ); //$NON-NLS-1$
-		}
-		if ( getTableEditPart( ) != null && !getColumnHandles( ).isEmpty( ) )
-		{
-			// has combined two behavior into one.
-			getTableEditPart( ).insertColumns( 1, getColumnNumbers( ) );
+	public void run() {
+		CommandUtils.setVariable(
+				ICommandParameterNameContants.INSERT_COLUMN_POSITION,
+				new Integer(1));
+
+		try {
+			CommandUtils
+					.executeCommand(
+							"org.eclipse.birt.report.designer.ui.command.insertColumnCommand",
+							null);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }

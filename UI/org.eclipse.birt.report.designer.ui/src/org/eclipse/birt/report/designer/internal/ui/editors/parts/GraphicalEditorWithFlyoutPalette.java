@@ -86,20 +86,6 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 
-/**
- * This class serves as a quick starting point for clients who are new to GEF.
- * It will create an Editor with a flyout palette. The flyout palette will only
- * be visible when the palette view is not open.
- * <p>
- * <EM>IMPORTANT</EM> This class should only be used as a reference for
- * creating your own EditorPart implementation. This class will not suit
- * everyone's needs, and may change in the future. Clients may copy the
- * implementation.
- * 
- * @author Pratik Shah
- * @since 3.0
- * @version $Revision: 1.32.6.1 $ $Date: 2006/11/21 07:20:34 $
- */
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor implements
 		EditorSelectionProvider,
 		IColleague

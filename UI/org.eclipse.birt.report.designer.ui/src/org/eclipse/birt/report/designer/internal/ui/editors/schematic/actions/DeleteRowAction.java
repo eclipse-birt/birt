@@ -14,6 +14,8 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
+import org.eclipse.birt.report.designer.internal.ui.command.ICommandParameterNameContants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -95,12 +97,14 @@ public class DeleteRowAction extends ContextSelectionAction
 		{
 			System.out.println( "Delete row action >> Run ..." ); //$NON-NLS-1$
 		}
-		TableEditPart part = getTableEditPart( );
-		if ( part != null )
+		
+		try
 		{
-			EditPartViewer viewer = part.getViewer( );
-			part.deleteRow( getRowNumbers( ) );
-			viewer.select( part );
+			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.deleteRowCommand",null );
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace();
 		}
 	}
 

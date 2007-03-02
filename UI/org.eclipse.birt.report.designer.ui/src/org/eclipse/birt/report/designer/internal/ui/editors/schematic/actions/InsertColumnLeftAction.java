@@ -11,6 +11,11 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
+import org.eclipse.birt.report.designer.internal.ui.command.ICommandParameterNameContants;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.ui.IWorkbenchPart;
@@ -55,14 +60,17 @@ public class InsertColumnLeftAction extends InsertColumnAction
 	 */
 	public void run( )
 	{
-		if ( Policy.TRACING_ACTIONS )
+		
+		CommandUtils.setVariable(ICommandParameterNameContants.INSERT_COLUMN_POSITION, new Integer(-1));
+
+		try
 		{
-			System.out.println( "Insert column to left action >> Run ..." ); //$NON-NLS-1$
+			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.insertColumnCommand", null );
 		}
-		if ( getTableEditPart( ) != null && !getColumnHandles( ).isEmpty( ) )
+		catch ( Exception e )
 		{
-			// has combined two behavior into one.
-			getTableEditPart( ).insertColumns( -1, getColumnNumbers( ) );
+			e.printStackTrace();
 		}
+		
 	}
 }

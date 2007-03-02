@@ -1221,6 +1221,38 @@ public class InsertInLayoutUtil
 		}
 		return new StructuredSelection( resultList );
 	}
+	
+	
+	/**
+	 * Converts edit part selection into model selection.
+	 * 
+	 * @param selection
+	 *            edit part
+	 * @return model, return Collections.EMPTY_LIST if selection is null or
+	 *         empty.
+	 */
+	public static IStructuredSelection editPart2Model( List selection )
+	{
+		if ( selection == null || ( selection.size( ) == 0 ) )
+			return new StructuredSelection( Collections.EMPTY_LIST );
+		List list = selection;
+		List resultList = new ArrayList( );
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			Object obj = list.get( i );
+			if ( obj instanceof ReportElementEditPart )
+			{
+				Object model = ( (ReportElementEditPart) obj ).getModel( );
+				if ( model instanceof ListBandProxy )
+				{
+					model = ( (ListBandProxy) model ).getSlotHandle( );
+				}
+				resultList.add( model );
+			}
+		}
+		return new StructuredSelection( resultList );
+	}
+	
 	private static String getDisplayName( ResultSetColumnHandle column )
 	{
 		DataSetHandle dataset = (DataSetHandle) column.getElementHandle( );

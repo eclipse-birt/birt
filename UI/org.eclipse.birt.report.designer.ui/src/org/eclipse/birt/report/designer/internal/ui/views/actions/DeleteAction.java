@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
+import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DeleteWarningDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -40,16 +41,6 @@ import org.eclipse.ui.PlatformUI;
  */
 public class DeleteAction extends AbstractElementAction
 {
-
-	public static final String CONFIRM_PARAM_DELETE_TITLE = Messages.getString( "DefaultNodeProvider.ParameterGroup.ConfirmTitle" ); //$NON-NLS-1$
-
-	public static final String CONFIRM_PARAM_DELETE_MESSAGE = Messages.getString( "DefaultNodeProvider.ParameterGroup.ConfirmMessage" ); //$NON-NLS-1$
-
-	public static final String DLG_CONFIRM_MSG = Messages.getString( "DefaultNodeProvider.Dlg.Confirm" ); //$NON-NLS-1$
-
-	public static final String DLG_HAS_FOLLOWING_CLIENTS_MSG = Messages.getString( "DefaultNodeProvider.Tree.Clients" ); //$NON-NLS-1$
-
-	public static final String DLG_REFERENCE_FOUND_TITLE = Messages.getString( "DefaultNodeProvider.Tree.Reference" ); //$NON-NLS-1$
 
 	private static final String DEFAULT_TEXT = Messages.getString( "DeleteAction.text" ); //$NON-NLS-1$
 
@@ -87,12 +78,20 @@ public class DeleteAction extends AbstractElementAction
 
 	protected boolean doAction( ) throws Exception
 	{
-		hasExecuted = isOKPressed( getSelection( ) );
-		if ( hasExecuted( ) )
+
+		Object exeResult = null;
+		try
 		{
-			createDeleteCommand( getSelection( ) ).execute( );
+			exeResult = CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.deleteCommand", null );
 		}
-		return hasExecuted( );
+		catch ( Exception e )
+		{
+			e.printStackTrace();
+		}		
+		
+		hasExecuted = ((Boolean)exeResult).booleanValue( );
+		
+		return Boolean.TRUE.equals( exeResult );
 	}
 
 	/*
@@ -108,83 +107,7 @@ public class DeleteAction extends AbstractElementAction
 		return cmd.canExecute( );
 	}
 
-	protected boolean isOKPressed( Object model )
-	{
-		if ( model instanceof IStructuredSelection )
-		{
-			for ( Iterator itor = ( (IStructuredSelection) model ).iterator( ); itor.hasNext( ); )
-			{
-				Object obj = itor.next( );
-				if ( !isOKPressed( obj ) )
-				{
-					return false;
-				}
-			}
-			return true;
-		}
-		else if ( model instanceof DesignElementHandle )
-		{
-			DesignElementHandle handle = (DesignElementHandle) model;
-			if ( handle instanceof ParameterGroupHandle )
-			{
-				if ( ( (ParameterGroupHandle) handle ).getParameters( )
-						.getCount( ) > 0 )
-				{
-					if ( !MessageDialog.openQuestion( PlatformUI.getWorkbench( )
-							.getDisplay( )
-							.getActiveShell( ),
-							CONFIRM_PARAM_DELETE_TITLE,
-							CONFIRM_PARAM_DELETE_MESSAGE ) )
-					{
-						return false;
-					}
-					for ( Iterator iter = ( (ParameterGroupHandle) handle ).getParameters( )
-							.iterator( ); iter.hasNext( ); )
-					{
-						Object obj = iter.next( );
-						if ( obj instanceof ParameterHandle )
-						{
-							ParameterHandle parameter = (ParameterHandle) obj;
-							ConfigVariable cv = parameter.getModuleHandle( )
-									.findConfigVariable( parameter.getName( ) );
-							try
-							{
-								if ( cv != null )
-								{
-									parameter.getModuleHandle( )
-											.getPropertyHandle( ReportDesignHandle.CONFIG_VARS_PROP )
-											.removeItem( cv );
-								}
-							}
-							catch ( SemanticException e )
-							{
-								ExceptionHandler.handle( e );
-							}
-						}
-					}
-				}
-			}
-			ArrayList referenceList = new ArrayList( );
-			for ( Iterator itor = handle.clientsIterator( ); itor.hasNext( ); )
-			{
-				referenceList.add( itor.next( ) );
-			}
-			if ( !referenceList.isEmpty( ) )
-			{
-				DeleteWarningDialog dialog = new DeleteWarningDialog( PlatformUI.getWorkbench( )
-						.getDisplay( )
-						.getActiveShell( ),
-						DLG_REFERENCE_FOUND_TITLE,
-						referenceList );
-				dialog.setPreString( DEUtil.getDisplayLabel( handle )
-						+ DLG_HAS_FOLLOWING_CLIENTS_MSG );
-				dialog.setSufString( DLG_CONFIRM_MSG );
-				return dialog.open( ) != Dialog.CANCEL;
-			}
-			return true;
-		}
-		return true;
-	}
+
 
 	/*
 	 * (non-Javadoc)

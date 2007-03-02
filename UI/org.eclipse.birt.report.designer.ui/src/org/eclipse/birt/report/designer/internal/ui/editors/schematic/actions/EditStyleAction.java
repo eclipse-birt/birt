@@ -11,12 +11,19 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
+import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
+import org.eclipse.birt.report.designer.internal.ui.command.ICommandParameterNameContants;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction.DynamicItemAction;
 import org.eclipse.birt.report.designer.ui.dialogs.StyleBuilder;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.commands.NotEnabledException;
+import org.eclipse.core.commands.NotHandledException;
+import org.eclipse.core.commands.ParameterValueConversionException;
+import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.ui.PlatformUI;
 
 /**
@@ -76,13 +83,17 @@ public class EditStyleAction extends DynamicItemAction
 	 */
 	public void run( )
 	{
-		if ( Policy.TRACING_ACTIONS )
+		
+		CommandUtils.setVariable(ICommandParameterNameContants.EDIT_STYLE_SHARED_STYLE_HANDLE_NAME, handle);
+		try
 		{
-			System.out.println( "Edit style action >> Run ..." ); //$NON-NLS-1$
+			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.editStyleCommand", null );
 		}
-		StyleBuilder builder = new StyleBuilder( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getActiveShell( ), handle, StyleBuilder.DLG_TITLE_EDIT );
-		builder.open( );
+		catch ( Exception e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		};
+		
 	}
 }

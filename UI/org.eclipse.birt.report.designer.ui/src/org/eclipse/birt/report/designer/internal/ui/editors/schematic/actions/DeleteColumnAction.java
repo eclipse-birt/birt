@@ -14,12 +14,10 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
-
+import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.ColumnHandle;
-import org.eclipse.gef.EditPartViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
@@ -92,13 +90,15 @@ public class DeleteColumnAction extends ContextSelectionAction
 		if ( Policy.TRACING_ACTIONS )
 		{
 			System.out.println( "Delete column action >> Run ..." ); //$NON-NLS-1$
-		}
-		TableEditPart part = getTableEditPart( );
-		if ( part != null )
+		}		
+		
+		try
 		{
-			EditPartViewer viewer = part.getViewer( );
-			part.deleteColumn( getColumnNumbers( ) );
-			viewer.select( part );
+			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.deleteColumnCommand",null );
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace();
 		}
 	}
 

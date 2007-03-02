@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction.DynamicItemAction;
@@ -19,6 +20,11 @@ import org.eclipse.birt.report.designer.ui.dialogs.GroupDialog;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.commands.NotEnabledException;
+import org.eclipse.core.commands.NotHandledException;
+import org.eclipse.core.commands.ParameterValueConversionException;
+import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.jface.window.Window;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
@@ -30,10 +36,10 @@ import org.eclipse.ui.PlatformUI;
 public class EditGroupAction extends DynamicItemAction
 {
 
-	private static final String STACK_MSG_EDIT_GROUP = Messages.getString( "EditGroupAction.stackMsg.editGroup" ); //$NON-NLS-1$
 
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditGroupAction"; //$NON-NLS-1$
 
+	public static final String GROUP_HANDLE_NAME = "EditGroupAction.GroupHandleName";
 	private GroupHandle handle;
 
 	/**
@@ -72,35 +78,18 @@ public class EditGroupAction extends DynamicItemAction
 	 */
 	public void run( )
 	{
-		if ( Policy.TRACING_ACTIONS )
+		
+		CommandUtils.setVariable(GROUP_HANDLE_NAME, handle);
+		try
 		{
-			System.out.println( "Edit group action >> Run ..." ); //$NON-NLS-1$
+			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.editGroupCommand", null );
 		}
-		CommandStack stack = getActiveCommandStack( );
-		stack.startTrans( STACK_MSG_EDIT_GROUP ); //$NON-NLS-1$
-
-		GroupDialog dialog = new GroupDialog( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getActiveShell( ), GroupDialog.GROUP_DLG_TITLE_EDIT );
-		dialog.setInput( handle );
-
-		if ( dialog.open( ) == Window.OK )
+		catch (Exception e )
 		{
-			stack.commit( );
-		}
-		else
-		{
-			stack.rollbackAll( );
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
-	/**
-	 * Gets the activity stack of the report
-	 * 
-	 * @return returns the stack
-	 */
-	protected CommandStack getActiveCommandStack( )
-	{
-		return SessionHandleAdapter.getInstance( ).getCommandStack( );
-	}
+
 }

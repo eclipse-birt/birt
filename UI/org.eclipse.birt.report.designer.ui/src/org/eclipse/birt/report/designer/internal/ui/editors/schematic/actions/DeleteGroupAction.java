@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
+import org.eclipse.birt.report.designer.internal.ui.command.ICommandParameterNameContants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
@@ -42,11 +44,9 @@ public class DeleteGroupAction extends DynamicItemAction
 	 * @param part
 	 */
 	public DeleteGroupAction( ReportElementEditPart editPart,GroupHandle handle)
-	{
-		this.handle = handle;
+	{		this.handle = handle;
 		this.editPart = editPart;
-		setId( ID );
-		setText( DEUtil.getEscapedMenuItemText( handle.getDisplayLabel( ) ) );
+		setId( ID );		setText( DEUtil.getEscapedMenuItemText( handle.getDisplayLabel( ) ) );
 	}
 
 	/*
@@ -71,36 +71,19 @@ public class DeleteGroupAction extends DynamicItemAction
 			System.out.println( "Delete group action >> Run ..." ); //$NON-NLS-1$
 		}
 
-		CommandStack stack = getActiveCommandStack( );
-		stack.startTrans( STACK_MSG_DELETE_GROUP ); //$NON-NLS-1$
+		CommandUtils.setVariable(ICommandParameterNameContants.DELETE_GROUP_HANDLE,handle);
+		CommandUtils.setVariable(ICommandParameterNameContants.DELETE_GROUP_EDIT_PART,editPart);
 		
-		if ( handle.canDrop( ) )
+		try
 		{
-			EditPartViewer viewer = editPart.getViewer( );
-			try
-			{
-				handle.drop( );
-				stack.commit( );
-			}
-			catch ( SemanticException e )
-			{				
-				stack.rollbackAll( );
-				ExceptionHandler.handle( e );
-			}
-			viewer.select( editPart );
-		}				
+			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.deleteGroupCommand",null );
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace();
+		}	
 
 		
 	}
 
-	/**
-	 * Gets the activity stack of the report
-	 * 
-	 * @return returns the stack
-	 */
-	protected CommandStack getActiveCommandStack( )
-	{
-		return SessionHandleAdapter.getInstance( ).getCommandStack( );
-	}
-	
 }

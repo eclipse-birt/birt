@@ -14,6 +14,8 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
+import org.eclipse.birt.report.designer.internal.ui.command.ICommandParameterNameContants;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.RowHandle;
@@ -59,9 +61,9 @@ public class InsertRowAction extends ContextSelectionAction
 		return !getRowHandles( ).isEmpty( ) && canDrop(getRowHandles());
 	}
 	
-	private boolean canDrop( List columnHandles )
+	private boolean canDrop( List rowHandles )
 	{
-		for ( Iterator it = columnHandles.iterator( ); it.hasNext( ); )
+		for ( Iterator it = rowHandles.iterator( ); it.hasNext( ); )
 		{
 			if ( !canDrop( (RowHandle)it.next( ) ) )
 			{
@@ -86,6 +88,15 @@ public class InsertRowAction extends ContextSelectionAction
 		{
 			System.out.println( "Insert row action >> Run ..." ); //$NON-NLS-1$
 		}
-		// nothing.
+		CommandUtils.setVariable(ICommandParameterNameContants.INSERT_ROW_POSITION, new Integer(-1));
+		
+		try
+		{
+			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.insertRowCommand",null );
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace();
+		}
 	}
 }

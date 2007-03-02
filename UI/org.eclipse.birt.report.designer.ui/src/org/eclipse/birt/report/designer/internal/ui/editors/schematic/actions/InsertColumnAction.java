@@ -14,6 +14,8 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
+import org.eclipse.birt.report.designer.internal.ui.command.ICommandParameterNameContants;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.ColumnHandle;
@@ -23,7 +25,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * Action of inserting a column into table.
  * 
  * @author Dazhen Gao
- * @version $Revision: 1.4 $ $Date: 2005/07/14 09:13:33 $
+ * @version $Revision: 1.5 $ $Date: 2005/11/16 10:51:24 $
  */
 public class InsertColumnAction extends ContextSelectionAction
 {
@@ -83,9 +85,16 @@ public class InsertColumnAction extends ContextSelectionAction
 		{
 			System.out.println( "Insert column action >> Run ..." ); //$NON-NLS-1$
 		}
-		if ( getTableEditPart( ) != null && getColumnHandles( ).size( ) == 1 )
+
+		CommandUtils.setVariable(ICommandParameterNameContants.INSERT_COLUMN_POSITION, new Integer(-1));
+
+		try
 		{
-			getTableEditPart( ).insertColumn( getColumnNumber( getColumnHandles( ).get( 0 ) ) );
+			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.insertColumnCommand", null );
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace();
 		}
 	}
 

@@ -55,7 +55,7 @@ public class InsertAction extends AbstractElementAction
 	 * 
 	 * @param selectedObject
 	 *            the selected object,which cannot be null
-	 *  
+	 * 
 	 */
 	public InsertAction( Object selectedObject )
 	{
@@ -131,13 +131,13 @@ public class InsertAction extends AbstractElementAction
 	private SlotHandle getDefaultSlotHandle( )
 	{
 		Object obj = getSelection( );
-//		if ( obj instanceof ReportElementModel )
-//		{
-//			return ( (ReportElementModel) obj ).getSlotHandle( );
-//		}else 
-		if(obj instanceof SlotHandle)
+		// if ( obj instanceof ReportElementModel )
+		// {
+		// return ( (ReportElementModel) obj ).getSlotHandle( );
+		// }else
+		if ( obj instanceof SlotHandle )
 		{
-			return (SlotHandle)obj;
+			return (SlotHandle) obj;
 		}
 		DesignElementHandle handle = (DesignElementHandle) obj;
 		if ( position == CURRENT )
@@ -158,7 +158,7 @@ public class InsertAction extends AbstractElementAction
 	 */
 	protected boolean doAction( ) throws Exception
 	{
-		Request request = new Request( IRequestConstants.REQUEST_TYPE_INSERT );
+		 Request request = new Request( IRequestConstants.REQUEST_TYPE_INSERT );
 		Map extendsData = new HashMap( );
 		extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_SLOT, slotHandle );
 
@@ -169,20 +169,43 @@ public class InsertAction extends AbstractElementAction
 		extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_POSITION,
 				position );
 		request.setExtendedData( extendsData );
-		boolean bool =  ProviderFactory.createProvider( getSelection( ) )
+		boolean bool = ProviderFactory.createProvider( getSelection( ) )
 				.performRequest( getSelection( ), request );
-		if (bool)
-		{	
-			List list = new ArrayList();
+		if ( bool )
+		{
+			List list = new ArrayList( );
 
-			list.add(request.getExtendedData( ).get( IRequestConstants.REQUEST_KEY_RESULT ));
-			ReportRequest r = new ReportRequest();
-			r.setType(ReportRequest.CREATE_ELEMENT);
-			
-			r.setSelectionObject(list);
-			SessionHandleAdapter.getInstance().getMediator().notifyRequest(r);
-			
+			list.add( request.getExtendedData( )
+					.get( IRequestConstants.REQUEST_KEY_RESULT ) );
+			ReportRequest r = new ReportRequest( );
+			r.setType( ReportRequest.CREATE_ELEMENT );
+
+			r.setSelectionObject( list );
+			SessionHandleAdapter.getInstance( )
+					.getMediator( )
+					.notifyRequest( r );
+
 		}
 		return bool;
+
+// CommandUtils.getHandlerService( )
+//				.getCurrentState( )
+//				.addVariable( "position", position );
+//
+//		if ( type != null )
+//			CommandUtils.getHandlerService( )
+//					.getCurrentState( )
+//					.addVariable( "type", type );
+//
+//		Object returnVlaue = CommandUtils.executeCommand( "insert" );
+//
+//		CommandUtils.getHandlerService( )
+//				.getCurrentState( )
+//				.removeVariable( "position" );
+//		CommandUtils.getHandlerService( )
+//				.getCurrentState( )
+//				.removeVariable( "type" );
+//
+//		return Boolean.TRUE.equals( returnVlaue );
 	}
 }

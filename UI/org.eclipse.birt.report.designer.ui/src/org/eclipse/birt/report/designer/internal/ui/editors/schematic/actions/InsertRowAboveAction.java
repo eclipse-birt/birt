@@ -11,8 +11,18 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
+import org.eclipse.birt.report.designer.internal.ui.command.ICommandParameterNameContants;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.commands.NotEnabledException;
+import org.eclipse.core.commands.NotHandledException;
+import org.eclipse.core.commands.ParameterValueConversionException;
+import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
@@ -47,14 +57,28 @@ public class InsertRowAboveAction extends InsertRowAction
 	 */
 	public void run( )
 	{
-		if ( Policy.TRACING_ACTIONS )
+//		if ( Policy.TRACING_ACTIONS )
+//		{
+//			System.out.println( "Insert row above action >> Run ..." ); //$NON-NLS-1$
+//		}
+//		if ( getTableEditPart( ) != null && !getRowHandles( ).isEmpty( ) )
+//		{
+//			// has combined two behavior into one.
+//			getTableEditPart( ).insertRows( -1, getRowNumbers( ) );
+//		}
+		
+		
+		CommandUtils.setVariable(ICommandParameterNameContants.INSERT_ROW_POSITION, new Integer(-1));
+		
+		try
 		{
-			System.out.println( "Insert row above action >> Run ..." ); //$NON-NLS-1$
+			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.insertRowCommand",null );
 		}
-		if ( getTableEditPart( ) != null && !getRowHandles( ).isEmpty( ) )
+		catch ( Exception e )
 		{
-			// has combined two behavior into one.
-			getTableEditPart( ).insertRows( -1, getRowNumbers( ) );
+			e.printStackTrace();
 		}
+
+	//	return Boolean.TRUE.equals( returnVlaue );
 	}
 }

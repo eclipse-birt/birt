@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
@@ -85,31 +86,14 @@ public class EditBindingAction extends InsertRowAction
 		{
 			System.out.println( "Edit binding action >> Run ..." ); //$NON-NLS-1$
 		}
-		// Get the first item in the list and pass the model object to the
-		// dialog
-		TableEditPart editPart = getTableEditPart( );
-		
-		ListEditPart listPart = getListEditPart( );
-		
-		if ( editPart != null || listPart!=null)
+
+		try
 		{
-			CommandStack stack = SessionHandleAdapter.getInstance( )
-					.getCommandStack( );
-
-			stack.startTrans( Messages.getString( "DesignerActionBarContributor.menu.element.editDataBinding" ) ); //$NON-NLS-1$
-			DataBindingDialog dialog = new DataBindingDialog( PlatformUI.getWorkbench( )
-					.getDisplay( )
-					.getActiveShell( ),
-					getSelectedElement( ) );
-
-			if ( dialog.open( ) == Dialog.OK )
-			{
-				stack.commit( );
-			}
-			else
-			{
-				stack.rollback( );
-			}
+			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.editBindingCommand",null );
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace();
 		}
 	}
 }

@@ -11,10 +11,13 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
+import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
+import org.eclipse.birt.report.designer.internal.ui.command.ICommandParameterNameContants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GridEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
@@ -33,6 +36,11 @@ import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.commands.NotEnabledException;
+import org.eclipse.core.commands.NotHandledException;
+import org.eclipse.core.commands.ParameterValueConversionException;
+import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.jface.action.Action;
 
 /**
@@ -107,10 +115,7 @@ public class InsertGroupActionFactory
 
 abstract class InsertPositionGroupAction extends Action
 {
-
-	private static final String STACK_MSG_ADD_GROUP = Messages
-			.getString( "AddGroupAction.stackMsg.addGroup" ); //$NON-NLS-1$
-
+	
 	private Object currentModel;
 
 	private List selection;
@@ -162,29 +167,44 @@ abstract class InsertPositionGroupAction extends Action
 	 */
 	public void run( )
 	{
-		if ( Policy.TRACING_ACTIONS )
+//		if ( Policy.TRACING_ACTIONS )
+//		{
+//			System.out.println( "Insert group action >> Run ..." ); //$NON-NLS-1$
+//		}
+//		CommandStack stack = getActiveCommandStack( );
+//		stack.startTrans( STACK_MSG_ADD_GROUP );
+//		boolean retValue = false;
+//		if ( getTableEditPart( ) != null )
+//		{
+//			retValue = getTableEditPart( ).insertGroup( getPosition( ) );
+//		}
+//		else
+//		{
+//			retValue = getListEditPart( ).insertGroup( getPosition( ) );
+//		}
+//		if ( retValue )
+//		{
+//			stack.commit( );
+//		}
+//		else
+//		{
+//			stack.rollbackAll( );
+//		}
+		
+		CommandUtils.setVariable(ICommandParameterNameContants.INSERT_GROUP_CURRENT_MODEL_NAME, currentModel);
+		
+		CommandUtils.setVariable(ICommandParameterNameContants.INSERT_GROUP_POSITION, new Integer(getPosition()));
+		try
 		{
-			System.out.println( "Insert group action >> Run ..." ); //$NON-NLS-1$
+			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.insertGroupCommand", null );
 		}
-		CommandStack stack = getActiveCommandStack( );
-		stack.startTrans( STACK_MSG_ADD_GROUP );
-		boolean retValue = false;
-		if ( getTableEditPart( ) != null )
+		catch ( Exception e )
 		{
-			retValue = getTableEditPart( ).insertGroup( getPosition( ) );
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		else
-		{
-			retValue = getListEditPart( ).insertGroup( getPosition( ) );
-		}
-		if ( retValue )
-		{
-			stack.commit( );
-		}
-		else
-		{
-			stack.rollbackAll( );
-		}
+		
+		
 	}
 
 	protected boolean isGroup( )
@@ -362,15 +382,7 @@ abstract class InsertPositionGroupAction extends Action
 		return null;
 	}
 
-	/**
-	 * Gets the activity stack of the report
-	 * 
-	 * @return returns the stack
-	 */
-	protected CommandStack getActiveCommandStack( )
-	{
-		return SessionHandleAdapter.getInstance( ).getCommandStack( );
-	}
+
 
 	/**
 	 * Returns the current position of the selected part
