@@ -78,6 +78,7 @@ public class TextAndTwoButtonSection extends Section
 				gd.widthHint = firstButton.computeSize( -1, -1 ).x;
 		}
 		
+		gd = (GridData) secondButton.getLayoutData( );
 		if ( secondButtonWidth > -1 )
 		{
 			if ( !isComputeSize )
