@@ -53,8 +53,9 @@ public class ResultSetUtil
 		for ( int i = 1; i <= count; i++ )
 		{
 			if ( nameSet != null
-					&& nameSet.contains( resultObject.getResultClass( )
-							.getFieldName( i ) ) )
+					&& (nameSet.contains( resultObject.getResultClass( )
+							.getFieldName( i ) ) || nameSet.contains( resultObject.getResultClass( )
+							.getFieldAlias( i ) ) ))
 				IOUtil.writeObject( dos, resultObject.getFieldValue( i ) );
 		}
 	}
