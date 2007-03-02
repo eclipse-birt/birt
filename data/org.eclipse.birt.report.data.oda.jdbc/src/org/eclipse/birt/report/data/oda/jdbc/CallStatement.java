@@ -36,6 +36,7 @@ import org.eclipse.datatools.connectivity.oda.IResultSet;
 import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.SortSpec;
+import org.eclipse.datatools.connectivity.oda.util.manifest.ConnectionProfileProperty;
 
 /**
  * 
@@ -197,6 +198,12 @@ public class CallStatement implements IAdvancedQuery
 							e );
 				}
 			}
+		}
+		else if ( name.equals( ConnectionProfileProperty.PROFILE_NAME_PROP_KEY )
+				|| name.equals( ConnectionProfileProperty.PROFILE_STORE_FILE_PROP_KEY )
+				|| name.equals( ConnectionProfileProperty.PROFILE_STORE_FILE_PATH_PROP_KEY ) )
+		{
+			// do nothing
 		}
 		else
 		{
