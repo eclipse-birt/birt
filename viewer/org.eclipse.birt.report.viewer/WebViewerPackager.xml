@@ -500,6 +500,7 @@
 			<include name="org.eclipse.birt.report.engine.emitter.wpml_*.jar" />
 			<include name="org.eclipse.birt.report.engine.fonts_*/**" />
 			<include name="org.eclipse.birt.report.model_*.jar" />
+			<include name="org.eclipse.birt.report.model.adapter.oda_*.jar" />
 		</fileset>
 	</copy>
 
@@ -528,6 +529,9 @@
 		</fileset>
 		<fileset dir="../org.eclipse.birt.report.model">
 			<include name="modelapi.jar" />
+		</fileset>
+		<fileset dir="../org.eclipse.birt.report.model.adapter.oda">
+			<include name="modelodaapi.jar" />
 		</fileset>
 		<fileset dir="../org.eclipse.birt.report.engine">
 			<include name="engineapi.jar" />
