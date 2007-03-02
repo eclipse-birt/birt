@@ -237,10 +237,10 @@ public abstract class BoundColumnsMgr
 		if ( value != null )
 			handleBoundsForValue( element, module, value );
 
-		value = (String) element.getLocalProperty( module,
+		TOC toc = (TOC) element.getLocalProperty( module,
 				IGroupElementModel.TOC_PROP );
-		if ( value != null )
-			handleBoundsForValue( element, module, value );
+		if ( toc != null )
+			handleBoundsForValue( element, module, toc.getExpression( ) );
 
 		List values = (List) element.getLocalProperty( module,
 				IGroupElementModel.FILTER_PROP );
