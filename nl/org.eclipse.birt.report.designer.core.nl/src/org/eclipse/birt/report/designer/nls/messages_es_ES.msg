@@ -3464,7 +3464,7 @@ WizardTemplateChoicePage.title.SimpleListing=Listado simple
 
 XMLSourcePage.Error.Dialog.Message.InvalidFile=Se debe corregir el error de la página fuente XML antes de poder utilizar otras páginas.
 XMLSourcePage.Error.Dialog.Message.SaveFile=La página fuente XML se ha modificado. No se pueden utilizar otras páginas hasta que se guarde la fuente.
-XMLSourcePage.Error.Dialog.title=Advertencia
+XMLSourcePage.Error.Dialog.title=Error
 XMLSourcePage.Error.Dialog.Message.PromptMsg=La fuente del diseño de informe XML se ha modificado. ¿Desea guardar los cambios?
 XMLSourcePage.Error.Dialog.Message.Yes=Sí
 XMLSourcePage.Error.Dialog.Message.No=No

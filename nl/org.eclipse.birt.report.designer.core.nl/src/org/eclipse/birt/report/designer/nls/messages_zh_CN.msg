@@ -3464,7 +3464,7 @@ WizardTemplateChoicePage.title.SimpleListing=简易列表
 
 XMLSourcePage.Error.Dialog.Message.InvalidFile=必须先改正 XML 源页中的错误，然后才能使用其它页。
 XMLSourcePage.Error.Dialog.Message.SaveFile=XML 源页已更改。 直到保存 XML 源之后才能使用其它页。
-XMLSourcePage.Error.Dialog.title=警告
+XMLSourcePage.Error.Dialog.title=错误
 XMLSourcePage.Error.Dialog.Message.PromptMsg=XML 报表设计源已更改。 是否要保存这些更改？
 XMLSourcePage.Error.Dialog.Message.Yes=是
 XMLSourcePage.Error.Dialog.Message.No=否
