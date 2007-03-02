@@ -233,6 +233,9 @@ class ComputedColumnHelperInstance
 					}
 					catch ( BirtException e )
 					{
+						if ( resultClass.wasAnyType( columnIndexArray[i] ) )
+							throw new DataException( ResourceConstants.POSSIBLE_MIXED_DATA_TYPE_IN_COLUMN );
+						
 						String fieldName = resultClass.getFieldName( columnIndexArray[i] );
 						if ( fieldName != null
 								&& fieldName.startsWith( "_{$TEMP_" ) )
