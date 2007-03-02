@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -70,7 +71,7 @@ public class GroupDefnUtil
 	 * @return
 	 * @throws DataException 
 	 */
-	static List loadGroupDefn( InputStream inputStream )
+	static List loadGroupDefn( InputStream inputStream, IBaseQueryDefinition parent )
 			throws DataException
 	{
 		List groupList = new ArrayList( );
@@ -93,7 +94,7 @@ public class GroupDefnUtil
 				groupDefn.getFilters( ).addAll( FilterDefnUtil.loadFilterDefn( dis ) );
 				groupDefn.getSorts( ).addAll( QueryDefnUtil.loadSorts( dis ) );
 				groupDefn.getSubqueries( )
-						.addAll( QueryDefnUtil.loadSubQuery( dis ) );
+						.addAll( QueryDefnUtil.loadSubQuery( dis, parent ) );
 				groupList.add( groupDefn );
 			}
 		}

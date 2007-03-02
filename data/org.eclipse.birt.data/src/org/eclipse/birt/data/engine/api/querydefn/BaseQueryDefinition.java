@@ -32,7 +32,7 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 {
 	protected List 		        groups = new ArrayList();
 	protected boolean 			hasDetail = true;
-	protected BaseQueryDefinition 	parentQuery;
+	protected IBaseQueryDefinition 	parentQuery;
 	protected int				maxRowCount = 0;
 	
 	//	 order might be sensitive, use LinkedHashMap instead of HashMap
@@ -41,7 +41,7 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	/**
 	 * Constructs an instance with parent set to the specified <code>BaseQueryDefinition</code>
 	 */
-	BaseQueryDefinition(BaseQueryDefinition parent)
+	BaseQueryDefinition( IBaseQueryDefinition parent )
 	{
 		parentQuery = parent;
 	}

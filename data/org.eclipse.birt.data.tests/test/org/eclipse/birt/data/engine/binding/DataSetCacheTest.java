@@ -615,7 +615,7 @@ public class DataSetCacheTest extends APITestCase
 				bindingExprRow,
 				qd );
 
-		SubqueryDefinition subqueryDefn = new SubqueryDefinition( "IAMTEST" );
+		SubqueryDefinition subqueryDefn = new SubqueryDefinition( "IAMTEST",qd );
 		subqueryDefn.addResultSetExpression( "COL1",
 				new ScriptExpression( "dataSetRow.CITY" ) );
 		subqueryDefn.setApplyOnGroupFlag( false );

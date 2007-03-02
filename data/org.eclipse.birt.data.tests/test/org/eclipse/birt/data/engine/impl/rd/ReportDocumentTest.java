@@ -931,7 +931,7 @@ public class ReportDocumentTest extends RDTestCase
 		
 		prepareExprNameAndQuery( rowExprName, rowBeArray, totalExprName, totalBeArray,queryDefn );
 		
-		SubqueryDefinition subQueryDefn = new SubqueryDefinition( subQueryName );
+		SubqueryDefinition subQueryDefn = new SubqueryDefinition( subQueryName, queryDefn );
 		groupDefn.addSubquery( subQueryDefn );
 
 		// sort on sub query
@@ -1019,7 +1019,7 @@ public class ReportDocumentTest extends RDTestCase
 	{
 		QueryDefinition queryDefn = newReportQuery( );
 
-		SubqueryDefinition subQueryDefn = new SubqueryDefinition( subQueryName );
+		SubqueryDefinition subQueryDefn = new SubqueryDefinition( subQueryName, queryDefn );
 		queryDefn.addSubquery( subQueryDefn );
 		
 		// prepare
@@ -1097,7 +1097,7 @@ public class ReportDocumentTest extends RDTestCase
 	{
 		QueryDefinition queryDefn = newReportQuery( );
 		
-		SubqueryDefinition subQueryDefn = new SubqueryDefinition( subQueryName );
+		SubqueryDefinition subQueryDefn = new SubqueryDefinition( subQueryName, queryDefn );
 		subQueryDefn.setApplyOnGroupFlag( false );
 		queryDefn.addSubquery( subQueryDefn );
 		
@@ -1188,7 +1188,7 @@ public class ReportDocumentTest extends RDTestCase
 		groupDefn.setKeyColumn( "COUNTRY" );
 		queryDefn.addGroup( groupDefn );
 		queryDefn.addResultSetExpression("COUNTRY", new ScriptExpression("dataSetRow.COUNTRY"));
-		SubqueryDefinition subQueryDefn = new SubqueryDefinition( subQueryName );
+		SubqueryDefinition subQueryDefn = new SubqueryDefinition( subQueryName, queryDefn );
 		groupDefn.addSubquery( subQueryDefn );
 
 		// add sub query of sub query
@@ -1196,7 +1196,7 @@ public class ReportDocumentTest extends RDTestCase
 		subGroupDefn.setKeyColumn( "CITY" );
 		subQueryDefn.addGroup( subGroupDefn );
 		subQueryDefn.addResultSetExpression("CITY", new ScriptExpression("dataSetRow.CITY"));
-		SubqueryDefinition subOfSubQueryDefn = new SubqueryDefinition( subOfSubQueryName );
+		SubqueryDefinition subOfSubQueryDefn = new SubqueryDefinition( subOfSubQueryName, subQueryDefn );
 		subGroupDefn.addSubquery( subOfSubQueryDefn );
 
 		// prepare

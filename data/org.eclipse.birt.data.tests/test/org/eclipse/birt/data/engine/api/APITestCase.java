@@ -526,7 +526,7 @@ abstract public class APITestCase extends BaseTestCase
 			GroupDefinition groupDefn = (GroupDefinition) queryDefn.getGroups().get(1);
 			
 			// ---------- begin sub query ----------
-			SubqueryDefinition subqueryDefn = new SubqueryDefinition( "IAMTEST" );
+			SubqueryDefinition subqueryDefn = new SubqueryDefinition( "IAMTEST", queryDefn );
 			groupDefn.addSubquery( subqueryDefn );
 			
 			String[] bindingNameGroup = new String[1];
@@ -550,7 +550,7 @@ abstract public class APITestCase extends BaseTestCase
 			populateQueryExprMapping(subqueryDefn);
 			
 				// --- sub query of sub query
-				SubqueryDefinition subSubqueryDefn = new SubqueryDefinition( "IAMTEST2" );
+				SubqueryDefinition subSubqueryDefn = new SubqueryDefinition( "IAMTEST2", queryDefn );
 				subGroupDefn[0].addSubquery( subSubqueryDefn );
 				
 				bindingNameGroup = new String[1];

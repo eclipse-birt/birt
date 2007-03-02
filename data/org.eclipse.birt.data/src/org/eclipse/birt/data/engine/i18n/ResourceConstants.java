@@ -100,6 +100,7 @@ public class ResourceConstants
 	public final static String COLUMN_BINDING_NOT_EXIST = "data.engine.ColumnBindingNotExist";
 	public final static String COLUMN_BINDING_CYCLE = "data.engine.ColumnBindingCycle";
 	public final static String COLUMN_BINDING_REFER_TO_INEXIST_COLUMN = "data.engine.ColumnBindingReferToInexistColumn";
+	public final static String COLUMN_BINDING_REFER_TO_AGGREGATION_COLUMN_BINDING_IN_PARENT_QUERY = "data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery";
 	// computed column value
 	public final static String EXPR_INVALID_COMPUTED_COLUMN= "data.engine.BadCompColExpr";
 	// Data Type of computed column is not correct

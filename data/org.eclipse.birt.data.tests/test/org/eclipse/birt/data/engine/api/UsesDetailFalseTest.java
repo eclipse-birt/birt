@@ -181,7 +181,7 @@ public class UsesDetailFalseTest extends APITestCase
 		queryDefn.addResultSetExpression( aggrName1, aggrExpr1 );
 		
 		// sub query
-		SubqueryDefinition subqueryDefn = new SubqueryDefinition( "IAMTEST" );
+		SubqueryDefinition subqueryDefn = new SubqueryDefinition( "IAMTEST", queryDefn );
 		subqueryDefn.setUsesDetails( false );
 		
 		GroupDefinition[] subGroupDefn = new GroupDefinition[]{

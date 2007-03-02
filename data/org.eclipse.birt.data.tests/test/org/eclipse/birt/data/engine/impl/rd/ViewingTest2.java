@@ -1679,7 +1679,7 @@ public class ViewingTest2 extends RDTestCase
 	{
 		QueryDefinition qd = new QueryDefinition( );
 		qd.addResultSetExpression("abc", new ScriptExpression("1"));
-		SubqueryDefinition sub = new SubqueryDefinition( "sub" );
+		SubqueryDefinition sub = new SubqueryDefinition( "sub", qd );
 		sub.addResultSetExpression("abc1", new ScriptExpression("1.1"));
 		qd.addSubquery( sub );
 		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
@@ -1721,7 +1721,7 @@ public class ViewingTest2 extends RDTestCase
 		qd.addResultSetExpression("def", new ScriptExpression("2"));
 		qd.setQueryResultsID( this.GEN_queryResultID );
 
-		sub = new SubqueryDefinition( "sub" );
+		sub = new SubqueryDefinition( "sub", qd );
 		sub.addResultSetExpression("abc1", new ScriptExpression("1.1"));
 		sub.addResultSetExpression("def1", new ScriptExpression("2.1"));
 		qd.addSubquery( sub );
@@ -1758,7 +1758,7 @@ public class ViewingTest2 extends RDTestCase
 		qd.setQueryResultsID( this.GEN_queryResultID );
 		qd.setQueryResultsID( this.UPDATE_queryResultID );
 
-		sub = new SubqueryDefinition( "sub" );
+		sub = new SubqueryDefinition( "sub", qd );
 		sub.addResultSetExpression("abc1", new ScriptExpression("1.1"));
 		sub.addResultSetExpression("def1", new ScriptExpression("2.1"));
 		
@@ -1793,7 +1793,7 @@ public class ViewingTest2 extends RDTestCase
 	{
 		QueryDefinition qd = new QueryDefinition( );
 		qd.addResultSetExpression("abc", new ScriptExpression("1"));
-		SubqueryDefinition sub = new SubqueryDefinition( "sub" );
+		SubqueryDefinition sub = new SubqueryDefinition( "sub", qd );
 		sub.addResultSetExpression("abc1", new ScriptExpression("1.1"));
 		qd.addSubquery( sub );
 		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
@@ -1835,7 +1835,7 @@ public class ViewingTest2 extends RDTestCase
 		qd.addResultSetExpression("def", new ScriptExpression("2"));
 		qd.setQueryResultsID( this.GEN_queryResultID );
 
-		sub = new SubqueryDefinition( "sub" );
+		sub = new SubqueryDefinition( "sub", qd );
 		sub.addResultSetExpression("abc1", new ScriptExpression("1.1"));
 		
 		qd.addSubquery( sub );
@@ -1872,7 +1872,7 @@ public class ViewingTest2 extends RDTestCase
 		qd.setQueryResultsID( this.GEN_queryResultID );
 		qd.setQueryResultsID( this.UPDATE_queryResultID );
 
-		sub = new SubqueryDefinition( "sub" );
+		sub = new SubqueryDefinition( "sub", qd );
 		sub.addResultSetExpression("abc1", new ScriptExpression("1.1"));
 		
 		
@@ -1907,7 +1907,7 @@ public class ViewingTest2 extends RDTestCase
 	{
 		QueryDefinition qd = new QueryDefinition( );
 		qd.addResultSetExpression("abc", new ScriptExpression("1"));
-		SubqueryDefinition sub = new SubqueryDefinition( "sub" );
+		SubqueryDefinition sub = new SubqueryDefinition( "sub",qd );
 		sub.addResultSetExpression("abc1", new ScriptExpression("1.1"));
 		qd.addSubquery( sub );
 		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
@@ -1949,7 +1949,7 @@ public class ViewingTest2 extends RDTestCase
 		
 		qd.setQueryResultsID( this.GEN_queryResultID );
 
-		sub = new SubqueryDefinition( "sub" );
+		sub = new SubqueryDefinition( "sub",qd );
 		sub.addResultSetExpression("abc1", new ScriptExpression("1.1"));
 		sub.addResultSetExpression("def1", new ScriptExpression("2.1"));
 		qd.addSubquery( sub );
@@ -1986,7 +1986,7 @@ public class ViewingTest2 extends RDTestCase
 		qd.setQueryResultsID( this.GEN_queryResultID );
 		qd.setQueryResultsID( this.UPDATE_queryResultID );
 
-		sub = new SubqueryDefinition( "sub" );
+		sub = new SubqueryDefinition( "sub", qd );
 		sub.addResultSetExpression("abc1", new ScriptExpression("1.1"));
 		sub.addResultSetExpression("def1", new ScriptExpression("2.1"));
 		
@@ -2021,7 +2021,7 @@ public class ViewingTest2 extends RDTestCase
 	{
 		QueryDefinition qd = new QueryDefinition( );
 		qd.addResultSetExpression("abc", new ScriptExpression("1"));
-		SubqueryDefinition sub = new SubqueryDefinition( "sub" );
+		SubqueryDefinition sub = new SubqueryDefinition( "sub", qd );
 		sub.addResultSetExpression("abc1", new ScriptExpression("1.1"));
 		qd.addSubquery( sub );
 		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
@@ -2063,7 +2063,7 @@ public class ViewingTest2 extends RDTestCase
 		
 		qd.setQueryResultsID( this.GEN_queryResultID );
 
-		sub = new SubqueryDefinition( "sub" );
+		sub = new SubqueryDefinition( "sub", qd );
 		sub.addResultSetExpression("abc1", new ScriptExpression("1.1"));
 		sub.addResultSetExpression("def1", new ScriptExpression("2.1"));
 		qd.addSubquery( sub );
@@ -2103,7 +2103,7 @@ public class ViewingTest2 extends RDTestCase
 		
 		qd.setQueryResultsID( this.GEN_queryResultID );
 
-		sub = new SubqueryDefinition( "sub" );
+		sub = new SubqueryDefinition( "sub", qd );
 		sub.addResultSetExpression("abc1", new ScriptExpression("1.1"));
 		sub.addResultSetExpression("def1", new ScriptExpression("2.1"));
 		sub.addResultSetExpression("ghi1", new ScriptExpression("3.1"));
@@ -2142,7 +2142,7 @@ public class ViewingTest2 extends RDTestCase
 		qd.setQueryResultsID( this.GEN_queryResultID );
 		qd.setQueryResultsID( this.UPDATE_queryResultID );
 
-		sub = new SubqueryDefinition( "sub" );
+		sub = new SubqueryDefinition( "sub", qd );
 		sub.addResultSetExpression("abc1", new ScriptExpression("1.1"));
 		sub.addResultSetExpression("def1", new ScriptExpression("2.1"));
 		sub.addResultSetExpression("ghi1", new ScriptExpression("3.1"));
@@ -2475,7 +2475,7 @@ public class ViewingTest2 extends RDTestCase
 			
 			if ( this.GEN_add_subquery == true )
 			{
-				SubqueryDefinition subqueryDefn = new SubqueryDefinition( subQueryName1 );
+				SubqueryDefinition subqueryDefn = new SubqueryDefinition( subQueryName1, qd );
 
 				subRowExprName1 = new String[3];
 				subRowExprName1[0] = "sub1";
@@ -2758,7 +2758,7 @@ public class ViewingTest2 extends RDTestCase
 			}
 			if ( this.UPDATE_add_subquery == 1 )
 			{
-				SubqueryDefinition subqueryDefn = new SubqueryDefinition( subQueryName1 );
+				SubqueryDefinition subqueryDefn = new SubqueryDefinition( subQueryName1, qd );
 
 				subRowExprName1 = new String[3];
 				subRowExprName1[0] = "sub1";
@@ -2781,7 +2781,7 @@ public class ViewingTest2 extends RDTestCase
 			
 			if ( this.UPDATE_add_subquery == 2 )
 			{
-				SubqueryDefinition subqueryDefn = new SubqueryDefinition( subQueryName2 );
+				SubqueryDefinition subqueryDefn = new SubqueryDefinition( subQueryName2, qd );
 
 				subRowExprName2 = new String[2];
 				subRowExprName2[0] = "sub1";

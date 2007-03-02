@@ -426,11 +426,7 @@ abstract public class APITestCase extends BaseTestCase
 	{
 		return Util.instance.getBindingExpressionName( );
 	}
-	
-	protected void populateQueryExprMapping(SubqueryDefinition subqueryDefn) 
-	{
-		Util.instance.populateQueryExprMapping(subqueryDefn);
-	}
+
 	/**
 	 * Utility
 	 */
@@ -545,7 +541,7 @@ abstract public class APITestCase extends BaseTestCase
 			GroupDefinition groupDefn = (GroupDefinition) queryDefn.getGroups().get(2);
 			
 			// ---------- begin sub query ----------
-			SubqueryDefinition subqueryDefn = new SubqueryDefinition( "IAMTEST" );
+			SubqueryDefinition subqueryDefn = new SubqueryDefinition( "IAMTEST", queryDefn );
 			groupDefn.addSubquery( subqueryDefn );
 			
 			String[] bindingNameGroup = new String[1];
@@ -566,10 +562,10 @@ abstract public class APITestCase extends BaseTestCase
 				for (int i = 0; i < subGroupDefn.length; i++)
 					subqueryDefn.addGroup(subGroupDefn[i]);
 			}
-			populateQueryExprMapping(subqueryDefn);
+		//	populateQueryExprMapping(subqueryDefn);
 			
 				// --- sub query of sub query
-				SubqueryDefinition subSubqueryDefn = new SubqueryDefinition( "IAMTEST2" );
+				SubqueryDefinition subSubqueryDefn = new SubqueryDefinition( "IAMTEST2", subqueryDefn );
 				subGroupDefn[0].addSubquery( subSubqueryDefn );
 				
 				bindingNameGroup = new String[1];
@@ -591,7 +587,7 @@ abstract public class APITestCase extends BaseTestCase
 					for ( int i = 0; i < subSubGroupDefn.length; i++ )
 						subSubqueryDefn.addGroup( subSubGroupDefn[i] );
 				}
-				populateQueryExprMapping(subSubqueryDefn);
+				//populateQueryExprMapping(subSubqueryDefn);
 				// --- sub query of sub query
 			
 			// ---------- end sub query ----------
@@ -599,13 +595,13 @@ abstract public class APITestCase extends BaseTestCase
 			return queryDefn;
 		}
 
-		protected void populateQueryExprMapping(SubqueryDefinition subqueryDefn) {
+		/*protected void populateQueryExprMapping(SubqueryDefinition subqueryDefn) {
 			/////TODO remove in future
 			for ( int i = 0; i < bindingNameRow.length; i++ )
 				subqueryDefn.addResultSetExpression( bindingNameRow[i],
 						expressions[i] );
 			/////////////////////////
-		}
+		}*/
 		
 		/**
 		 * Get default query expressions

@@ -609,7 +609,7 @@ public class ColumnBindingTest extends APITestCase
 			
 			// sub query
 			String subQueryName = "TEST";
-			SubqueryDefinition subQueryDefn = new SubqueryDefinition( subQueryName );
+			SubqueryDefinition subQueryDefn = new SubqueryDefinition( subQueryName, queryDefn );
 			for ( int i = 0; i < name.length; i++ )
 				subQueryDefn.addResultSetExpression( name[i],
 						new ScriptExpression( "row._outer." + name[i],
@@ -1187,7 +1187,7 @@ public class ColumnBindingTest extends APITestCase
 		prepareExprNameAndQuery( rowBeArray, null, qd );
 		
 		// prepare sub query		
-		SubqueryDefinition subQueryDefn = new SubqueryDefinition( subName );
+		SubqueryDefinition subQueryDefn = new SubqueryDefinition( subName, qd );
 		qd.addSubquery( subQueryDefn );
 		IBaseExpression[] rowBeArray2 = getDummyRowExpr( );
 		prepareExprNameAndQuery( rowBeArray2, null, subQueryDefn );

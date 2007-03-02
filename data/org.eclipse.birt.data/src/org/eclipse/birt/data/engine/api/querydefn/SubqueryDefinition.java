@@ -13,6 +13,7 @@
  */ 
 package org.eclipse.birt.data.engine.api.querydefn;
 
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 
 /**
@@ -27,6 +28,9 @@ public class SubqueryDefinition extends BaseQueryDefinition implements ISubquery
 	 * Constructs a SubqueryDefn. A name must be provided that uniquely
 	 * identifies the subquery within the report query that contains it.
 	 * 
+	 * This constructor is deprecated for all the sub query definition should be assigned a
+	 * parent query.
+	 * @deprecated
 	 * @param name
 	 */
 	public SubqueryDefinition( String name )
@@ -42,7 +46,7 @@ public class SubqueryDefinition extends BaseQueryDefinition implements ISubquery
 	 * The outer query (parent) can be another query, or a sub query.
 	 * @param name
 	 */
-	public SubqueryDefinition( String name, BaseQueryDefinition parent )
+	public SubqueryDefinition( String name, IBaseQueryDefinition parent )
 	{
 		super( parent );
 		this.name = name;

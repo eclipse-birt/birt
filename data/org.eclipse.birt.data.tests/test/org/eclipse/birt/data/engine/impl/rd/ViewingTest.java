@@ -465,7 +465,7 @@ public class ViewingTest extends RDTestCase
 		prepareExprNameAndQuery( rowBeArray, totalBeArray, qd );
 
 		//		 ---------- begin sub query ----------
-		SubqueryDefinition subqueryDefn = new SubqueryDefinition( "IAMTEST" );
+		SubqueryDefinition subqueryDefn = new SubqueryDefinition( "IAMTEST", qd );
 		if( GEN_subquery_on_group )
 		{
 			((GroupDefinition)qd.getGroups().get(0)).addSubquery( subqueryDefn );
@@ -531,7 +531,7 @@ public class ViewingTest extends RDTestCase
 		QueryDefinition qd = newPreIVReportQuery( );
 		qd.setQueryResultsID( this.queryResultID );
 		
-		SubqueryDefinition subqueryDefn = new SubqueryDefinition( "IAMTEST" );
+		SubqueryDefinition subqueryDefn = new SubqueryDefinition( "IAMTEST", qd );
 		((GroupDefinition)qd.getGroups( ).get(0)).addSubquery( subqueryDefn );
 		subRowExprName = new String[3];
 		subRowExprName[0] = "sub1";

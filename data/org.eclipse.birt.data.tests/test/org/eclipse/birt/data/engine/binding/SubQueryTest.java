@@ -166,7 +166,7 @@ public class SubQueryTest extends APITestCase
 		// prepare query and sub query
 		QueryDefinition queryDefn = (QueryDefinition) getDefaultQueryDefn( dataSet.getName( ) );
 
-		SubqueryDefinition subqueryDefn = new SubqueryDefinition( "IAMTEST" );
+		SubqueryDefinition subqueryDefn = new SubqueryDefinition( "IAMTEST", queryDefn );
 		if ( onGroup == false )
 			subqueryDefn.setApplyOnGroupFlag( false );
 		
@@ -228,7 +228,7 @@ public class SubQueryTest extends APITestCase
 		// prepare query and sub query
 		QueryDefinition queryDefn = (QueryDefinition) getDefaultQueryDefn( dataSet.getName( ) );
 
-		SubqueryDefinition subqueryDefn = new SubqueryDefinition( "IAMTEST" );
+		SubqueryDefinition subqueryDefn = new SubqueryDefinition( "IAMTEST", queryDefn );
 		subqueryDefn.setMaxRows( 10 );
 		
 		String[] bindingNameGroup = new String[1];
@@ -248,7 +248,7 @@ public class SubQueryTest extends APITestCase
 			for (int i = 0; i < subGroupDefn.length; i++)
 				subqueryDefn.addGroup(subGroupDefn[i]);
 		}
-		this.populateQueryExprMapping( subqueryDefn );
+		/*this.populateQueryExprMapping( subqueryDefn );*/
 		
 		FilterDefinition exprFilter = new FilterDefinition(
 				new ScriptExpression("row.ROW_COL0+row.ROW_COL2>0"));
@@ -285,9 +285,144 @@ public class SubQueryTest extends APITestCase
 		// check whether output is correct
 		checkOutputFile();
 	}
+	
+	/**
+	 * Test case in which the sub query column binding uses column binding defined in 
+	 * parent query.
+	 * @throws Exception 
+	 * 
+	 * @throws Exception
+	 */
+	public void testUseParentColumnBindings( ) throws Exception
+	{
+		this.useParentColumnBindings( false );
+		checkOutputFile( );
+	}
+	
+	/**
+	 * 
+	 */
+	public void testUseParentColumnBindingWithAggregation( )
+	{
+		try
+		{
+			this.useParentColumnBindings( true );
+			fail( "Should not arrive here!");
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace( );
+		}
+	}
+	
+	private void useParentColumnBindings( boolean includeTotal ) throws Exception
+	{
+		QueryDefinition qd = new QueryDefinition( );
+		qd.setDataSetName( dataSet.getName( ) );
+
+		bindingNameRow = new String[4];
+		bindingNameRow[0] = "ROW_COL0";
+		bindingNameRow[1] = "ROW_COL1";
+		bindingNameRow[2] = "ROW_COL2";
+		bindingNameRow[3] = "ROW_COL3";
+		// 2.3: ExpressionKey
+		expressions = new BaseExpression[]{
+				new ScriptExpression( "dataSetRow.COL0", 0 ),
+				new ScriptExpression( "dataSetRow.COL1", 0 ),
+				new ScriptExpression( "dataSetRow.COL2", 0 ),
+				new ScriptExpression( "dataSetRow.COL3", 0 )
+		};
+
+		for ( int i = 0; i < bindingNameRow.length; i++ )
+		{
+			qd.addResultSetExpression( bindingNameRow[i], expressions[i] );
+		}
+
+		GroupDefinition groupDefn = new GroupDefinition( );
+		groupDefn.setKeyExpression( "row.ROW_COL0" );
+		qd.addGroup( groupDefn );
+
+		// ---------- begin sub query ----------
+		SubqueryDefinition subqueryDefn = new SubqueryDefinition( "IAMTEST", qd );
+		groupDefn.addSubquery( subqueryDefn );
+
+		String[] bindingNameGroup = new String[1];
+		bindingNameGroup[0] = "sub1Group";
+		IBaseExpression[] bindingExprGroup = new IBaseExpression[1];
+		bindingExprGroup[0] = new ScriptExpression( "row.ROW_COL1" );
+		GroupDefinition subGroupDefn = new GroupDefinition( "group2" );
+		subGroupDefn.setKeyExpression( "row.sub1Group" );
+
+		if ( bindingNameGroup != null )
+			for ( int i = 0; i < bindingNameGroup.length; i++ )
+				subqueryDefn.addResultSetExpression( bindingNameGroup[i],
+						bindingExprGroup[i] );
+
+		subqueryDefn.addGroup( subGroupDefn );
+		subqueryDefn.addResultSetExpression( "sub1Binding1",
+				new ScriptExpression( includeTotal?"Total.sum(row.ROW_COL2,null,1)":"row.ROW_COL2" ) );
+
+		// populateQueryExprMapping(subqueryDefn);
+
+		// --- sub query of sub query
+		SubqueryDefinition subSubqueryDefn = new SubqueryDefinition( "IAMTEST2",
+				subqueryDefn );
+		subGroupDefn.addSubquery( subSubqueryDefn );
+		subSubqueryDefn.addResultSetExpression( "subsubBinding1",
+				new ScriptExpression( "row.sub1Group" ) );
+		subSubqueryDefn.addResultSetExpression( "subsubBinding2",
+				new ScriptExpression( "row.ROW_COL2" ) );
+		subSubqueryDefn.addResultSetExpression( "subsubBinding3",
+				new ScriptExpression( "row.sub1Binding1" ) );
+
+		IResultIterator resultIt = executeQuery( qd );
+
+		resultIt.next( );
+
+		String outputStr = "";
+		for ( int i = 0; i < expressions.length; i++ )
+		{
+			Object object = resultIt.getValue( bindingNameRow[i] );
+			outputStr += object.toString( ) + "    ";
+		}
+		testPrintln( outputStr );
+		IResultIterator subIt = resultIt.getSecondaryIterator( "IAMTEST", null );
+		subIt.next( );
+
+		outputStr = "	";
+		for ( int i = 0; i < expressions.length; i++ )
+		{
+			Object object = subIt.getValue( bindingNameRow[i] );
+			outputStr += object.toString( ) + "    ";
+		}
+		outputStr += subIt.getValue( "sub1Binding1" ).toString( );
+		testPrintln( outputStr );
+		IResultIterator subsubIt = subIt.getSecondaryIterator( "IAMTEST2", null );
+		{
+			while ( subsubIt.next( ) )
+			{
+				outputStr = "		";
+				for ( int i = 0; i < expressions.length; i++ )
+				{
+					Object object = subsubIt.getValue( bindingNameRow[i] );
+					outputStr += object.toString( ) + "    ";
+				}
+				outputStr += subsubIt.getValue( "sub1Binding1" ).toString( )
+						+ "	";
+				outputStr += subsubIt.getValue( "subsubBinding1" ).toString( )
+						+ "	";
+				outputStr += subsubIt.getValue( "subsubBinding2" ).toString( )
+						+ "	";
+				outputStr += subsubIt.getValue( "subsubBinding3" ).toString( )
+						+ "	";
+				testPrintln( outputStr );
+			}
+		}
+	}
 
 	/**
-	 * Output row data 
+	 * Output row data
+	 * 
 	 * @param resultIt
 	 * @throws DataException
 	 */
