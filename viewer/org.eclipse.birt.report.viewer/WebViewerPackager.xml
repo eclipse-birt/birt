@@ -580,9 +580,11 @@
         <condition property="generator" value="templateGenerator.sh">
                 <equals arg1="${osgi.os}" arg2="linux" />
         </condition>
+		<!--
         <condition property="generator" value="templateGenerator.bat">
                 <equals arg1="${osgi.os}" arg2="windows" />
         </condition>
+        -->
 	</target>
 	
 	<target name="replaceManifest" depends="checkOS" if="generator" >
