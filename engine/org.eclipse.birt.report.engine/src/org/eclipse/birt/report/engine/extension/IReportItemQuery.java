@@ -37,5 +37,10 @@ public interface IReportItemQuery {
      * @throws BirtException throwed when the extension fails to construct the query array 
      */
     public IBaseQueryDefinition[] getReportQueries(IBaseQueryDefinition parent) throws BirtException;   
+    
+    /**
+     * set query context
+     */
+    void setQueryContext( IQueryContext context );
 
 }

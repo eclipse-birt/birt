@@ -21,6 +21,9 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 public class ReportItemQueryBase implements IReportItemQuery{
 
 	protected ExtendedItemHandle modelHandle;
+	
+	protected IQueryContext context;
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.extension.IReportItemQuery#setModelObject(org.eclipse.birt.report.model.api.ExtendedItemHandle)
 	 */
@@ -33,6 +36,11 @@ public class ReportItemQueryBase implements IReportItemQuery{
 	 */
 	public IBaseQueryDefinition[] getReportQueries(IBaseQueryDefinition parent) throws BirtException {
 		return null;
+	}
+
+	public void setQueryContext( IQueryContext context )
+	{
+		this.context = context;
 	}
 
 }

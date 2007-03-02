@@ -16,7 +16,9 @@ import java.io.OutputStream;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 
 /**
  * Represents the extended item generation extension, which processes the report
@@ -69,6 +71,7 @@ public interface IReportItemGeneration
 	 * @throws BirtException
 	 *             throws exception when there is a problem processing the
 	 *             extended item
+	 * @deprecated
 	 */
 	public abstract void onRowSets( IRowSet[] rowSets ) throws BirtException;
 
@@ -78,6 +81,7 @@ public interface IReportItemGeneration
 	 * 
 	 * @return whether the extended item needs to serialize state information at
 	 *         generation time
+	 * @deprecated
 	 */
 	public abstract boolean needSerialization( );
 
@@ -91,7 +95,8 @@ public interface IReportItemGeneration
 	 *            the output stream to write the generation time state of the
 	 *            extended item to
 	 * @throws BirtException
-	 *             when there is a problem serializing the extended item state
+	 *             when there is a problem serializing the extended item state	 
+	 * @deprecated
 	 */
 	public abstract void serialize( OutputStream ostream ) throws BirtException;
 
@@ -112,4 +117,17 @@ public interface IReportItemGeneration
 	 * Performs clean up work
 	 */
 	public void finish( );
+	
+	/**
+	 * pass the parent report item executor to the current generating item
+	 * @param parent
+	 *      parent report item executor
+	 */
+	void setParentExecutor( IReportItemExecutor parent );
+	
+	/**
+	 * create IReportItemExecutor of this handler
+	 */
+    public IReportItemExecutor createExecutor( IExecuteContext context, ReportElementHandle modelHandle);
+
 }
