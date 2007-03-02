@@ -120,6 +120,13 @@
 				<exclude name="**/*Test.class"/>
 			</fileset>
 		</jar>
+		
+		<jar destfile="modelodaapi.jar" >
+			<fileset dir="${build.dir}">
+				<exclude name="org/eclipse/birt/report/model/adapter/oda/plugin/"/>
+			</fileset>
+		</jar>
+					
 	</target>
 
 	
