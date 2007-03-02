@@ -20,13 +20,14 @@ import java.sql.Timestamp;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
+import org.eclipse.datatools.connectivity.oda.IQuery;
 import org.eclipse.datatools.connectivity.oda.IResultSet;
 import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
-import org.eclipse.datatools.connectivity.oda.IQuery;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.SortSpec;
-import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
+import org.eclipse.datatools.connectivity.oda.util.manifest.ConnectionProfileProperty;
 
 
 /**
@@ -170,6 +171,12 @@ public class Statement implements IQuery
 					logger.log( Level.FINE, "Statement.setQueryTimeout failed", e );
 				}
 			}
+		}
+		else if (name.equals(ConnectionProfileProperty.PROFILE_NAME_PROP_KEY)
+				|| name.equals(ConnectionProfileProperty.PROFILE_STORE_FILE_PROP_KEY)
+				|| name.equals( ConnectionProfileProperty.PROFILE_STORE_FILE_PATH_PROP_KEY))
+		{
+			//do nothing here. These are valid ODA properties. See Eclipse bug 176140
 		}
 		else
 		{
