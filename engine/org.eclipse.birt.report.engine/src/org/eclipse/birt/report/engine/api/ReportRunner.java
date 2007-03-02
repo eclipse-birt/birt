@@ -443,7 +443,16 @@ public class ReportRunner
 		}
 		if ( results.hasOption( 'p' ) )
 		{
-			pageNumber = Long.parseLong( results.getOptionValue( 'p' ) );
+			String paramPageNumber = results.getOptionValue( 'p' );
+			try
+			{
+				pageNumber = Long.parseLong( paramPageNumber );
+			}
+			catch(NumberFormatException nfe)
+			{
+				logger.log(Level.SEVERE,
+						"Can not parse parameter(page number) \"" + paramPageNumber + "\"" ); //$NON-NLS-1$
+			}
 		}
 		parseParameterOptions( );
 
