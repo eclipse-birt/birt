@@ -40,7 +40,6 @@ import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
 import org.eclipse.core.resources.IMarker;
@@ -97,6 +96,8 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 	private ActivityStackListener commandStackListener;
 	private OutlineSwitchAction outlineSwitchAction;
 
+	private ErrorDetail errorDetail;
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -119,6 +120,8 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 
 	private int getErrorLIine( boolean checkReport )
 	{
+		errorDetail = null;
+
 		IEditorInput input = getEditorInput( );
 
 		if ( !( input instanceof IPathEditorInput ) )
@@ -197,6 +200,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 			Object element = iter.next( );
 			if ( element instanceof ErrorDetail )
 			{
+				errorDetail = (ErrorDetail)element;
 				return ( (ErrorDetail) element ).getLineNo( );
 			}
 		}
@@ -214,6 +218,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 				if ( obj instanceof ErrorDetail )
 				{
 					ErrorDetail errorDetail = (ErrorDetail) list.get( i );
+					this.errorDetail = errorDetail;
 					return errorDetail.getLineNo( );
 				}
 			}
@@ -265,10 +270,18 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 
 		if ( errorLine > -1 )
 		{
-			// Display.getCurrent( ).beep( );
-			MessageDialog.openError( Display.getCurrent( ).getActiveShell( ),
-					Messages.getString( "XMLSourcePage.Error.Dialog.title" ), //$NON-NLS-1$
-					Messages.getString( "XMLSourcePage.Error.Dialog.Message.InvalidFile" ) ); //$NON-NLS-1$
+			if(errorDetail != null && errorDetail.getErrorCode( ).equals( ErrorDetail.DESIGN_EXCEPTION_UNSUPPORTED_VERSION ))
+			{
+				MessageDialog.openError( Display.getCurrent( ).getActiveShell( ),
+						Messages.getString( "XMLSourcePage.Error.Dialog.title" ), //$NON-NLS-1$
+						errorDetail.getMessage( ) ); //$NON-NLS-1$
+			}else
+			{
+				// Display.getCurrent( ).beep( );
+				MessageDialog.openError( Display.getCurrent( ).getActiveShell( ),
+						Messages.getString( "XMLSourcePage.Error.Dialog.title" ), //$NON-NLS-1$
+						Messages.getString( "XMLSourcePage.Error.Dialog.Message.InvalidFile" ) ); //$NON-NLS-1$
+			}
 			setFocus( );
 			setHighlightLine( errorLine );
 

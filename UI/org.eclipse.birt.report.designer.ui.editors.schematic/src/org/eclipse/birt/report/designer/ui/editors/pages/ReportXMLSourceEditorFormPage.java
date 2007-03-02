@@ -70,6 +70,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 	private int staleType;
 
 	private int index;
+	private ErrorDetail errorDetail;
 
 	/*
 	 * (non-Javadoc)
@@ -112,6 +113,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 
 	private int getErrorLIine( boolean checkReport )
 	{
+		errorDetail = null;
 		IEditorInput input = getEditorInput( );
 
 		if ( !( input instanceof IPathEditorInput ) )
@@ -190,6 +192,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 			Object element = iter.next( );
 			if ( element instanceof ErrorDetail )
 			{
+				errorDetail = (ErrorDetail)element;
 				return ( (ErrorDetail) element ).getLineNo( );
 			}
 		}
@@ -207,6 +210,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 				if ( obj instanceof ErrorDetail )
 				{
 					ErrorDetail errorDetail = (ErrorDetail) list.get( i );
+					this.errorDetail = errorDetail;
 					return errorDetail.getLineNo( );
 				}
 			}
@@ -294,10 +298,18 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 
 		if ( errorLine > -1 )
 		{
-			// Display.getCurrent( ).beep( );
-			MessageDialog.openError( Display.getCurrent( ).getActiveShell( ),
-					Messages.getString( "XMLSourcePage.Error.Dialog.title" ), //$NON-NLS-1$
-					Messages.getString( "XMLSourcePage.Error.Dialog.Message.InvalidFile" ) ); //$NON-NLS-1$
+			if(errorDetail != null && errorDetail.getErrorCode( ).equals( ErrorDetail.DESIGN_EXCEPTION_UNSUPPORTED_VERSION ))
+			{
+				MessageDialog.openError( Display.getCurrent( ).getActiveShell( ),
+						Messages.getString( "XMLSourcePage.Error.Dialog.title" ), //$NON-NLS-1$
+						errorDetail.getMessage( ) ); //$NON-NLS-1$
+			}else
+			{
+				// Display.getCurrent( ).beep( );
+				MessageDialog.openError( Display.getCurrent( ).getActiveShell( ),
+						Messages.getString( "XMLSourcePage.Error.Dialog.title" ), //$NON-NLS-1$
+						Messages.getString( "XMLSourcePage.Error.Dialog.Message.InvalidFile" ) ); //$NON-NLS-1$
+			}
 			setFocus( );
 			setHighlightLine( errorLine );
 

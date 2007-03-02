@@ -54,6 +54,10 @@ public class NewParameterAction extends Action
 	{
 		if ( action == null )
 		{
+			if(SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) == null)
+			{
+				return false;
+			}
 			action = new InsertAction( SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( )
 					.getParameters( ),
