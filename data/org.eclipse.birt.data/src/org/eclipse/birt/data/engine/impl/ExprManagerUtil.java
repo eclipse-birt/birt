@@ -17,7 +17,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.data.IColumnBinding;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -47,13 +51,13 @@ public class ExprManagerUtil
 	 * @return
 	 * @throws DataException
 	 */
-	public static void validateColumnBinding( ExprManager exprManager )
-			throws DataException
+	public static void validateColumnBinding( ExprManager exprManager,
+			IBaseQueryDefinition baseQueryDefn ) throws DataException
 	{
 		ExprManagerUtil util = new ExprManagerUtil( exprManager );
 		
-		util.checkColumnBindingExpression();
-		util.checkDependencyCycle( ); 
+		util.checkColumnBindingExpression( baseQueryDefn );
+		util.checkDependencyCycle( );
 		util.checkGroupNameValidation( );
 	}
 
@@ -168,7 +172,7 @@ public class ExprManagerUtil
 	 * @return
 	 * @throws DataException
 	 */
-	private void checkColumnBindingExpression( ) throws DataException
+	private void checkColumnBindingExpression( IBaseQueryDefinition baseQueryDefn ) throws DataException
 	{
 		List list = this.getColumnNames( );
 		for ( int i = 0; i < list.size( ); i++ )
@@ -205,6 +209,23 @@ public class ExprManagerUtil
 						checkColumnBindingExist( l.get( j ).toString( ), list );
 					}
 				}
+				List usedBindings = null;
+
+				if ( expr instanceof IScriptExpression )
+				{
+					try
+					{
+						usedBindings = ExpressionUtil.extractColumnExpressions( ( (IScriptExpression) expr ).getText( ),
+								true );
+					}
+					catch ( BirtException e )
+					{
+						return;
+					}
+					validateReferredColumnBinding( name,
+							usedBindings,
+							baseQueryDefn );
+				}
 			}
 		}
 	}
@@ -229,6 +250,80 @@ public class ExprManagerUtil
 		}
 		throw new DataException( ResourceConstants.COLUMN_BINDING_NOT_EXIST,
 				bindingName );
+	}
+	
+	/**
+	 * 
+	 * @param map
+	 * @param usedBindings
+	 * @throws DataException
+	 */
+	private void validateReferredColumnBinding( String bindingName,
+			List usedBindings, IBaseQueryDefinition baseQueryDefn )
+			throws DataException
+	{
+		List nameList = this.getColumnNames( );
+		for ( int i = 0; i < usedBindings.size( ); i++ )
+		{
+			IColumnBinding cb = (IColumnBinding) usedBindings.get( i );
+			if ( useDefinedKeyWord( cb ) )
+				continue;
+
+			String name = ( (IColumnBinding) usedBindings.get( i ) ).getResultSetColumnName( );
+			if ( !nameList.contains( name ) && baseQueryDefn != null )
+			{
+				String expr = findExpression( name,
+						baseQueryDefn.getParentQuery( ) );
+				if ( expr == null )
+				{
+					throw new DataException( ResourceConstants.COLUMN_BINDING_REFER_TO_INEXIST_COLUMN );
+				}
+				else if ( ExpressionUtil.hasAggregation( expr ) )
+				{
+					throw new DataException( ResourceConstants.COLUMN_BINDING_REFER_TO_AGGREGATION_COLUMN_BINDING_IN_PARENT_QUERY,
+							bindingName );
+				}
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param columnBindingName
+	 * @param queryDefn
+	 * @return
+	 */
+	private String findExpression ( String columnBindingName, IBaseQueryDefinition queryDefn )
+	{
+		if ( queryDefn == null )
+		{
+			return null;
+		}
+		
+		if ( queryDefn.getResultSetExpressions( ).get( columnBindingName ) == null )
+		{
+			return findExpression ( columnBindingName, queryDefn.getParentQuery( ));
+		}
+		
+		IBaseExpression expr = (IBaseExpression)queryDefn.getResultSetExpressions( ).get( columnBindingName );
+		if ( expr instanceof IScriptExpression )
+			return ((IScriptExpression)expr).getText( );
+		else 
+			return null;
+	}
+
+	/**
+	 * 
+	 * @param cb
+	 * @return
+	 */
+	private boolean useDefinedKeyWord( IColumnBinding cb )
+	{
+		return cb.getOuterLevel( ) > 0
+				|| cb.getResultSetColumnName( )
+						.equals( "__rownum" )
+				|| cb.getResultSetColumnName( )
+						.equals( "_rowPosition" );
 	}
 
 	/**

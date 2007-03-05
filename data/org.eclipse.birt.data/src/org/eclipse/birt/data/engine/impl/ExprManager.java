@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ColumnReferenceExpression;
@@ -33,17 +34,19 @@ public class ExprManager
 	private Map autoBindingExprMap;
 
 	private int entryLevel;
+	private IBaseQueryDefinition baseQueryDefn;
 
 	public final static int OVERALL_GROUP = 0;
 
 	/**
 	 * 
 	 */
-	public ExprManager( )
+	public ExprManager( IBaseQueryDefinition baseQueryDefn)
 	{
 		bindingExprs = new ArrayList( );
 		autoBindingExprMap = new HashMap( );
 		entryLevel = OVERALL_GROUP;
+		this.baseQueryDefn = baseQueryDefn;
 	}
 
 	/**
@@ -168,7 +171,7 @@ public class ExprManager
 	 */
 	public void validateColumnBinding( ) throws DataException
 	{
-		ExprManagerUtil.validateColumnBinding( this );
+		ExprManagerUtil.validateColumnBinding( this, baseQueryDefn );
 	}
 	
 }

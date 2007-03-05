@@ -26,8 +26,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
-import org.eclipse.birt.core.data.IColumnBinding;
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
@@ -101,7 +99,7 @@ final class PreparedQuery
 		this.queryService = queryService;
 		this.appContext = appContext;
 		
-		this.exprManager = new ExprManager( );
+		this.exprManager = new ExprManager( baseQueryDefn );
 		this.subQueryMap = new HashMap( );
 		this.subQueryDefnMap = new HashMap( );
 		this.aggrTable = new AggregateTable( this.session.getSharedScope( ),
@@ -171,8 +169,6 @@ final class PreparedQuery
 										icbe.getGroupName( ), key
 								} );
 					}
-					
-					validateColumnBinding( key.toString( ), map, icbe );
 				}
 			}
 
@@ -187,103 +183,6 @@ final class PreparedQuery
 		{			
 		    Context.exit();
 		}
-	}
-
-	/**
-	 * 
-	 * @param map
-	 * @param icbe
-	 * @throws DataException
-	 */
-	private void validateColumnBinding( String bindingName, Map map, IBaseExpression icbe )
-			throws DataException
-	{
-		if ( icbe instanceof IScriptExpression )
-		{
-			List usedBindings = null;
-			try
-			{
-				usedBindings = ExpressionUtil.extractColumnExpressions( ( (IScriptExpression) icbe ).getText( ),
-						true );
-			}
-			catch ( BirtException e )
-			{
-				throw DataException.wrap( e );
-			}
-			validateReferredColumnBinding( bindingName, map, usedBindings );
-			
-		}
-	}
-
-	/**
-	 * 
-	 * @param map
-	 * @param usedBindings
-	 * @throws DataException
-	 */
-	private void validateReferredColumnBinding( String bindingName, Map map, List usedBindings )
-			throws DataException
-	{
-		for ( int i = 0; i < usedBindings.size( ); i++ )
-		{
-			IColumnBinding cb = (IColumnBinding) usedBindings.get( i );
-			if ( useDefinedKeyWord( cb ) )
-				continue;
-			
-			String name = ( (IColumnBinding) usedBindings.get( i ) ).getResultSetColumnName( );
-			if ( map.get( name ) == null )
-			{
-				String expr = findExpression( name,
-						baseQueryDefn.getParentQuery( ) );
-				if ( expr == null )
-				{
-					throw new DataException( ResourceConstants.COLUMN_BINDING_REFER_TO_INEXIST_COLUMN );
-				}
-				else if ( ExpressionUtil.hasAggregation( expr ) )
-				{
-					throw new DataException( ResourceConstants.COLUMN_BINDING_REFER_TO_AGGREGATION_COLUMN_BINDING_IN_PARENT_QUERY, bindingName );
-				}
-			}
-		}
-	}
-
-	/**
-	 * 
-	 * @param cb
-	 * @return
-	 */
-	private boolean useDefinedKeyWord( IColumnBinding cb )
-	{
-		return cb.getOuterLevel( ) > 0
-				|| cb.getResultSetColumnName( )
-						.equals( "__rownum" )
-				|| cb.getResultSetColumnName( )
-						.equals( "_rowPosition" );
-	}
-
-	/**
-	 * 
-	 * @param columnBindingName
-	 * @param queryDefn
-	 * @return
-	 */
-	private String findExpression ( String columnBindingName, IBaseQueryDefinition queryDefn )
-	{
-		if ( queryDefn == null )
-		{
-			return null;
-		}
-		
-		if ( queryDefn.getResultSetExpressions( ).get( columnBindingName ) == null )
-		{
-			return findExpression ( columnBindingName, queryDefn.getParentQuery( ));
-		}
-		
-		IBaseExpression expr = (IBaseExpression)queryDefn.getResultSetExpressions( ).get( columnBindingName );
-		if ( expr instanceof IScriptExpression )
-			return ((IScriptExpression)expr).getText( );
-		else 
-			return null;
 	}
 	
 	/**

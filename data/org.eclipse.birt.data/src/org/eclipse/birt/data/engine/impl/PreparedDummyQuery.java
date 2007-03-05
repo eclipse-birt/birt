@@ -102,7 +102,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 
 		this.context = context;
 		this.sharedScope = sharedScope;
-		this.exprManager = new ExprManager( );
+		this.exprManager = new ExprManager( queryDefn );
 		this.exprManager.addBindingExpr( null, queryDefn.getResultSetExpressions( ),
 				0 );
 	}
