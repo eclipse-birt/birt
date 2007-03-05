@@ -104,7 +104,7 @@ public class PDFRendererImpl extends SVGRendererImpl {
 		{
 			try
 			{
-				transcode2PDF( dom,
+				transcode2PDF( new StringReader( serializeGeneratedDocumentToString( dom ) ),
 						(OutputStream) oOutputIdentifier );
 			}
 			catch ( Exception ex )

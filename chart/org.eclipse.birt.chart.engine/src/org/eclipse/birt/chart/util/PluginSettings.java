@@ -168,7 +168,12 @@ public final class PluginSettings
 					"org.eclipse.birt.chart.device.svg.SVGRendererImpl", //$NON-NLS-1$
 					"SVG", //$NON-NLS-1$
 					null
-			}
+			}, {
+				"dv.PDF", //$NON-NLS-1$
+				"org.eclipse.birt.chart.device.pdf.PDFRendererImpl", //$NON-NLS-1$
+				"PDF", //$NON-NLS-1$
+				null
+		}
 	};
 
 	/**
@@ -183,6 +188,9 @@ public final class PluginSettings
 			},
 			{
 					"ds.SVG", "org.eclipse.birt.chart.device.svg.SVGDisplayServer" //$NON-NLS-1$ //$NON-NLS-2$
+			},
+			{
+					"ds.PDF", "org.eclipse.birt.chart.device.pdf.PDFDisplayServer" //$NON-NLS-1$ //$NON-NLS-2$
 			}
 	};
 
@@ -195,6 +203,24 @@ public final class PluginSettings
 			},
 			{
 					"Average", "Average", "org.eclipse.birt.chart.aggregate.Average" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			},
+			{
+					"Count", "Count", "org.eclipse.birt.chart.aggregate.Count" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			},
+			{
+					"DistinctCount", "DistinctCount", "org.eclipse.birt.chart.aggregate.DistinctCount" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			},
+			{
+					"First", "First", "org.eclipse.birt.chart.aggregate.First" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			},
+			{
+					"Last", "Last", "org.eclipse.birt.chart.aggregate.Last" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			},
+			{
+					"Min", "Min", "org.eclipse.birt.chart.aggregate.Min" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			},
+			{
+					"Max", "Max", "org.eclipse.birt.chart.aggregate.Max" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			}
 	};
 	
