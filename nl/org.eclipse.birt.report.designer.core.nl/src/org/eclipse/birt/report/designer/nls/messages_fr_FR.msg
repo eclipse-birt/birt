@@ -2740,6 +2740,7 @@ ResourecePreferencePage.folder=Dossier de &ressources
 ResourecePreferencePage.select=&Sélectionner...
 ResourecePreferencePage.openDialogTitle=Parcourir le dossier
 ResourecePreferencePage.openDialogMessage=Sélectionnez le dossier de ressources par défaut :
+ResourecePreferencePage.defaultResourceFolder.dispaly=<Current Project Folder>
 
 ###########################################################
 #ReportAdvancedLauncherTab properties

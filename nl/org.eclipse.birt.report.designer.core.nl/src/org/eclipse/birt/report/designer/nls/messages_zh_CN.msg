@@ -2740,6 +2740,7 @@ ResourecePreferencePage.folder=资源文件夹(&R)
 ResourecePreferencePage.select=选择(&S)...
 ResourecePreferencePage.openDialogTitle=浏览文件夹
 ResourecePreferencePage.openDialogMessage=请选择默认资源文件夹:
+ResourecePreferencePage.defaultResourceFolder.dispaly=<Current Project Folder>
 
 ###########################################################
 #ReportAdvancedLauncherTab properties

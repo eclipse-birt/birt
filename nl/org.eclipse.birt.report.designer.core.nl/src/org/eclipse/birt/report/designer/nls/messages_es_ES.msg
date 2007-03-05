@@ -2740,6 +2740,7 @@ ResourecePreferencePage.folder=Carpeta de &recursos
 ResourecePreferencePage.select=Sel&eccionar...
 ResourecePreferencePage.openDialogTitle=Buscar carpeta
 ResourecePreferencePage.openDialogMessage=Seleccione la carpeta de recursos predeterminada:
+ResourecePreferencePage.defaultResourceFolder.dispaly=<Current Project Folder>
 
 ###########################################################
 #ReportAdvancedLauncherTab properties

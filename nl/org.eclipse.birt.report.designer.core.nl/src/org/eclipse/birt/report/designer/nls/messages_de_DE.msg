@@ -2740,6 +2740,7 @@ ResourecePreferencePage.folder=&Ressourcenordner
 ResourecePreferencePage.select=&Auswählen...
 ResourecePreferencePage.openDialogTitle=Nach Ordner suchen
 ResourecePreferencePage.openDialogMessage=Wählen Sie den Standard-Ressourcenordner:
+ResourecePreferencePage.defaultResourceFolder.dispaly=<Current Project Folder>
 
 ###########################################################
 #ReportAdvancedLauncherTab properties

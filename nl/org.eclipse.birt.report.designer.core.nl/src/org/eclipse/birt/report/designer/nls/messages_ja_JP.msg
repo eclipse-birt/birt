@@ -2740,6 +2740,7 @@ ResourecePreferencePage.folder=リソースフォルダ(&R)
 ResourecePreferencePage.select=選択(&S)...
 ResourecePreferencePage.openDialogTitle=フォルダの参照
 ResourecePreferencePage.openDialogMessage=デフォルトのリソースフォルダを選択してください :
+ResourecePreferencePage.defaultResourceFolder.dispaly=<Current Project Folder>
 
 ###########################################################
 #ReportAdvancedLauncherTab properties

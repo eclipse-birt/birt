@@ -2740,6 +2740,7 @@ ResourecePreferencePage.folder=리소스 폴더(&R)
 ResourecePreferencePage.select=선택(&S)...
 ResourecePreferencePage.openDialogTitle=폴더 찾아보기
 ResourecePreferencePage.openDialogMessage=기본 리소스 폴더를 선택하십시오.
+ResourecePreferencePage.defaultResourceFolder.dispaly=<Current Project Folder>
 
 ###########################################################
 #ReportAdvancedLauncherTab properties
