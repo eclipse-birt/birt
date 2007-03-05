@@ -530,8 +530,8 @@ public class PDFEmitter implements IContentEmitter
 			else 
 				curPos = new ContainerPosition(0, 0);
 			//set default spacing for text
-			int x = curPos.x + textArea.getX() + (int)(textArea.getFontInfo( ).getFontSize( ) * hTextSpace);
-			int y = curPos.y + textArea.getY() + (int)(textArea.getFontInfo( ).getFontSize( ) * vTextSpace);
+			int x = curPos.x + textArea.getX();
+			int y = curPos.y + textArea.getY();
 			drawTextAt(textArea, x, y, cb, pageHeight);
 			//Checks if itself is the destination of a bookmark.
 			//if so, make a bookmark; if not, do nothing
@@ -972,6 +972,8 @@ public class PDFEmitter implements IContentEmitter
 			
 		    //style.getFontVariant();     	small-caps or normal
 		    //FIXME does NOT support small-caps now
+			textX += (int)(text.getFontInfo( ).getFontSize( ) * hTextSpace);
+			textY += (int)(text.getFontInfo( ).getFontSize( ) * vTextSpace);
 			float fontSize = text.getFontInfo().getFontSize() * scale ;
 			float characterSpacing = pdfMeasure( PropertyUtil.getDimensionValue(
 		        	style.getProperty(StyleConstants.STYLE_LETTER_SPACING)) );
