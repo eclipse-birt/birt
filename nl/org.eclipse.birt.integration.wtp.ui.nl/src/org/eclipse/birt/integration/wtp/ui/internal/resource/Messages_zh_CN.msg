@@ -58,6 +58,15 @@ BIRTConfiguration_overwrite_message=始终覆盖生成的文档文件(&A)
 
 BIRTConfiguration_maxrows_label=数据集最大行数(&D):
 BIRTConfiguration_loglevel_label=选择日志级别(&S):
+BIRTConfiguration_loglevel_all=ALL
+BIRTConfiguration_loglevel_severe=SEVERE
+BIRTConfiguration_loglevel_warning=WARNING
+BIRTConfiguration_loglevel_info=INFO
+BIRTConfiguration_loglevel_config=CONFIG
+BIRTConfiguration_loglevel_fine=FINE
+BIRTConfiguration_loglevel_finer=FINER
+BIRTConfiguration_loglevel_finest=FINEST
+BIRTConfiguration_loglevel_off=OFF
 
 BIRTConfiguration_import_clear_message=清除旧的 BIRT 运行时文件(&C)。
 

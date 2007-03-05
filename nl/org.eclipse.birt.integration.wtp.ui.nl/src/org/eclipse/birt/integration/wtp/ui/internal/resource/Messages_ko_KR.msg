@@ -58,6 +58,15 @@ BIRTConfiguration_overwrite_message=생성된 문서 파일 항상 덮어쓰기(&A)
 
 BIRTConfiguration_maxrows_label=데이터 집합 최대 행(&D):
 BIRTConfiguration_loglevel_label=로그 수준 선택(&S):
+BIRTConfiguration_loglevel_all=ALL
+BIRTConfiguration_loglevel_severe=SEVERE
+BIRTConfiguration_loglevel_warning=WARNING
+BIRTConfiguration_loglevel_info=INFO
+BIRTConfiguration_loglevel_config=CONFIG
+BIRTConfiguration_loglevel_fine=FINE
+BIRTConfiguration_loglevel_finer=FINER
+BIRTConfiguration_loglevel_finest=FINEST
+BIRTConfiguration_loglevel_off=OFF
 
 BIRTConfiguration_import_clear_message=오래된 BIRT 런타임 파일 지우기(&C)
 

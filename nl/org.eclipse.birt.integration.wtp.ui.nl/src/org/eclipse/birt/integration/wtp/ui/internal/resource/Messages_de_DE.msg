@@ -58,6 +58,15 @@ BIRTConfiguration_overwrite_message=Die erstellte Dokumentdatei &immer überschre
 
 BIRTConfiguration_maxrows_label=Maximale Zeilenanzahl für &Datensatz:
 BIRTConfiguration_loglevel_label=Protokollebene au&swählen:
+BIRTConfiguration_loglevel_all=ALL
+BIRTConfiguration_loglevel_severe=SEVERE
+BIRTConfiguration_loglevel_warning=WARNING
+BIRTConfiguration_loglevel_info=INFO
+BIRTConfiguration_loglevel_config=CONFIG
+BIRTConfiguration_loglevel_fine=FINE
+BIRTConfiguration_loglevel_finer=FINER
+BIRTConfiguration_loglevel_finest=FINEST
+BIRTConfiguration_loglevel_off=OFF
 
 BIRTConfiguration_import_clear_message=&Alte BIRT Runtime-Dateien löschen.
 
