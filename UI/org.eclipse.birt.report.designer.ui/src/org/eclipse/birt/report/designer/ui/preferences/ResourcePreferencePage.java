@@ -51,6 +51,8 @@ public class ResourcePreferencePage extends PreferencePage implements
 	public static final String OPEN_DIALOG_TITLE = Messages.getString( "ResourecePreferencePage.openDialogTitle" ); //$NON-NLS-1$
 	public static final String OPEN_DILAOG_MESSAGE = Messages.getString( "ResourecePreferencePage.openDialogMessage" ); //$NON-NLS-1$
 	public static final String DIRCTORY = "resource"; //$NON-NLS-1$
+	public static final String DEFAULT_RESOURCE_FOLDER_DISPLAY = Messages.getString( "ResourecePreferencePage.defaultResourceFolder.dispaly" );
+
 
 	/*
 	 * (non-Javadoc)
@@ -136,8 +138,13 @@ public class ResourcePreferencePage extends PreferencePage implements
 		data.widthHint = 250;
 		resourceText.setLayoutData( data );
 
-		resourceText.setText( ReportPlugin.getDefault( )
-				.getResourcePreference( ) );
+		String resouceString = ReportPlugin.getDefault( )
+		.getResourcePreference( );
+		if(resouceString == null || resouceString.equals( ReportPlugin.getDefault( ).getDefaultResourcePreference( ) ))
+		{
+			resouceString = DEFAULT_RESOURCE_FOLDER_DISPLAY;
+		}
+		resourceText.setText( resouceString );
 		resourceText.addVerifyListener(
 
 		new VerifyListener( ) {
@@ -193,8 +200,7 @@ public class ResourcePreferencePage extends PreferencePage implements
 	 */
 	protected void performDefaults( )
 	{
-		resourceText.setText( ReportPlugin.getDefault( )
-				.getDefaultResourcePreference( ) );
+		resourceText.setText( DEFAULT_RESOURCE_FOLDER_DISPLAY );
 	}
 
 	/*
@@ -204,15 +210,20 @@ public class ResourcePreferencePage extends PreferencePage implements
 	 */
 	public boolean performOk( )
 	{
-
-		ReportPlugin.getDefault( )
-				.setResourcePreference( resourceText.getText( ) );
+		String resourceString = resourceText.getText( );
+		if ( resourceText.getText( ).equals( DEFAULT_RESOURCE_FOLDER_DISPLAY ) )
+		{
+			resourceString = ReportPlugin.getDefault( )
+					.getDefaultResourcePreference( );
+		}
+		
+		ReportPlugin.getDefault( ).setResourcePreference( resourceString );
 		SessionHandleAdapter.getInstance( )
 				.getSessionHandle( )
-				.setBirtResourcePath( resourceText.getText( ) );
+				.setBirtResourcePath( resourceString );
 		SessionHandleAdapter.getInstance( )
 				.getSessionHandle( )
-				.setResourceFolder( resourceText.getText( ) );
+				.setResourceFolder( resourceString );
 		return super.performOk( );
 	}
 
