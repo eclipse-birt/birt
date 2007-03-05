@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -866,10 +865,14 @@ public class BirtWizardUtil implements IBirtWizardConstants
 	 */
 	public static String[] getLogLevels( )
 	{
-		return new String[]{Level.ALL.getName( ), Level.SEVERE.getName( ),
-				Level.WARNING.getName( ), Level.INFO.getName( ),
-				Level.CONFIG.getName( ), Level.FINE.getName( ),
-				Level.FINER.getName( ), Level.FINEST.getName( ),
-				Level.OFF.getName( )};
+		return new String[]{BirtWTPMessages.BIRTConfiguration_loglevel_all,
+				BirtWTPMessages.BIRTConfiguration_loglevel_severe,
+				BirtWTPMessages.BIRTConfiguration_loglevel_warning,
+				BirtWTPMessages.BIRTConfiguration_loglevel_info,
+				BirtWTPMessages.BIRTConfiguration_loglevel_config,
+				BirtWTPMessages.BIRTConfiguration_loglevel_fine,
+				BirtWTPMessages.BIRTConfiguration_loglevel_finer,
+				BirtWTPMessages.BIRTConfiguration_loglevel_finest,
+				BirtWTPMessages.BIRTConfiguration_loglevel_off};
 	}
 }
