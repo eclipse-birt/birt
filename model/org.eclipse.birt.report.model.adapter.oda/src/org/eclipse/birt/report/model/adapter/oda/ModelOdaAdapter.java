@@ -44,7 +44,6 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSetParameters;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
-import org.eclipse.datatools.connectivity.oda.design.DesignFactory;
 import org.eclipse.datatools.connectivity.oda.design.DesignerState;
 import org.eclipse.datatools.connectivity.oda.design.Properties;
 import org.eclipse.datatools.connectivity.oda.design.Property;
@@ -80,7 +79,7 @@ public class ModelOdaAdapter
 		if ( sourceHandle == null )
 			return null;
 
-		DataSourceDesign sourceDesign = DesignFactory.eINSTANCE
+		DataSourceDesign sourceDesign = ODADesignFactory.getFactory()
 				.createDataSourceDesign( );
 		updateDataSourceDesign( sourceHandle, sourceDesign );
 		return sourceDesign;
@@ -100,7 +99,7 @@ public class ModelOdaAdapter
 		if ( setHandle == null )
 			return null;
 
-		DataSetDesign setDesign = DesignFactory.eINSTANCE.createDataSetDesign( );
+		DataSetDesign setDesign = ODADesignFactory.getFactory().createDataSetDesign( );
 		updateDataSetDesign( setHandle, setDesign );
 		return setDesign;
 	}
@@ -528,7 +527,7 @@ public class ModelOdaAdapter
 		for ( int i = 0; i < propDefns.size( ); i++ )
 		{
 			if ( retProps == null )
-				retProps = DesignFactory.eINSTANCE.createProperties( );
+				retProps = ODADesignFactory.getFactory().createProperties( );
 			IPropertyDefn propDefn = (IPropertyDefn) propDefns.get( i );
 			String propName = propDefn.getName( );
 			String propValue = element.getStringProperty( propName );
@@ -552,7 +551,7 @@ public class ModelOdaAdapter
 		if ( props == null || !props.hasNext( ) )
 			return null;
 
-		Properties retProps = DesignFactory.eINSTANCE.createProperties( );
+		Properties retProps = ODADesignFactory.getFactory().createProperties( );
 		for ( ; props.hasNext( ); )
 		{
 			ExtendedPropertyHandle propHandle = (ExtendedPropertyHandle) props
@@ -925,7 +924,7 @@ public class ModelOdaAdapter
 							.getDataSetParameters( );
 					if ( dsParams == null )
 					{
-						dsParams = DesignFactory.eINSTANCE
+						dsParams = ODADesignFactory.getFactory()
 								.createDataSetParameters( );
 						designerValues.setDataSetParameters( dsParams );
 					}
@@ -1126,32 +1125,6 @@ public class ModelOdaAdapter
 
 		names.clear( );
 		newNames.clear( );
-	}
-
-	/**
-	 * Updates a strucutre list with the corresponding property handle.
-	 * 
-	 * @param propHandle
-	 *            the property handle
-	 * @param structList
-	 *            the structure list
-	 * @throws SemanticException
-	 *             if any strucutre has invalid value.
-	 */
-
-	private void updateROMDataSetParamList( OdaDataSetHandle setHandle,
-			List structList ) throws SemanticException
-	{
-		setHandle.setProperty( OdaDataSetHandle.PARAMETERS_PROP, null );
-
-		if ( structList == null || structList.isEmpty( ) )
-			return;
-
-		PropertyHandle propHandle = setHandle
-				.getPropertyHandle( OdaDataSetHandle.PARAMETERS_PROP );
-
-		for ( int i = 0; i < structList.size( ); i++ )
-			propHandle.addItem( structList.get( i ) );
 	}
 
 	/**

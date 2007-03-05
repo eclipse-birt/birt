@@ -35,7 +35,6 @@ import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.DataElementUIHints;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSetParameters;
-import org.eclipse.datatools.connectivity.oda.design.DesignFactory;
 import org.eclipse.datatools.connectivity.oda.design.DynamicValuesQuery;
 import org.eclipse.datatools.connectivity.oda.design.ElementNullability;
 import org.eclipse.datatools.connectivity.oda.design.InputElementAttributes;
@@ -140,10 +139,10 @@ public class ReportParameterAdapter
 			}
 		}
 		else
-			tmpParamDefn = DesignFactory.eINSTANCE
+			tmpParamDefn = ODADesignFactory.getFactory()
 					.createInputParameterAttributes( );
 
-		InputParameterAttributes tmpParamDefn1 = DesignFactory.eINSTANCE
+		InputParameterAttributes tmpParamDefn1 = ODADesignFactory.getFactory()
 				.createInputParameterAttributes( );
 
 		updateInputElementAttrs( tmpParamDefn1, reportParam, null );
@@ -806,12 +805,12 @@ public class ReportParameterAdapter
 			DataElementAttributes dataAttrs, ScalarParameterHandle paramHandle )
 	{
 		if ( dataAttrs == null )
-			dataAttrs = DesignFactory.eINSTANCE.createDataElementAttributes( );
+			dataAttrs = ODADesignFactory.getFactory().createDataElementAttributes( );
 
 		dataAttrs.setNullability( DataSetParameterAdapter
 				.newElementNullability( paramHandle.allowNull( ) ) );
 
-		DataElementUIHints uiHints = DesignFactory.eINSTANCE
+		DataElementUIHints uiHints = ODADesignFactory.getFactory()
 				.createDataElementUIHints( );
 		uiHints.setDisplayName( paramHandle.getPromptText( ) );
 		uiHints.setDescription( paramHandle.getHelpText( ) );
@@ -838,13 +837,13 @@ public class ReportParameterAdapter
 			ScalarParameterHandle paramDefn, DataSetDesign dataSetDesign )
 	{
 		if ( inputParamAttrs == null )
-			inputParamAttrs = DesignFactory.eINSTANCE
+			inputParamAttrs = ODADesignFactory.getFactory()
 					.createInputParameterAttributes( );
 
 		InputElementAttributes inputAttrs = inputParamAttrs
 				.getElementAttributes( );
 		if ( inputAttrs == null )
-			inputAttrs = DesignFactory.eINSTANCE.createInputElementAttributes( );
+			inputAttrs = ODADesignFactory.getFactory().createInputElementAttributes( );
 
 		inputAttrs.setDefaultScalarValue( paramDefn.getDefaultValue( ) );
 		inputAttrs.setOptional( paramDefn.allowBlank( ) );
@@ -855,12 +854,12 @@ public class ReportParameterAdapter
 		while ( selectionList.hasNext( ) )
 		{
 			if ( staticChoices == null )
-				staticChoices = DesignFactory.eINSTANCE
+				staticChoices = ODADesignFactory.getFactory()
 						.createScalarValueChoices( );
 			SelectionChoiceHandle choice = (SelectionChoiceHandle) selectionList
 					.next( );
 
-			ScalarValueDefinition valueDefn = DesignFactory.eINSTANCE
+			ScalarValueDefinition valueDefn = ODADesignFactory.getFactory()
 					.createScalarValueDefinition( );
 			valueDefn.setValue( choice.getValue( ) );
 			valueDefn.setDisplayName( choice.getLabel( ) );
@@ -876,7 +875,7 @@ public class ReportParameterAdapter
 		if ( setHandle instanceof OdaDataSetHandle
 				&& ( valueExpr != null || labelExpr != null ) )
 		{
-			DynamicValuesQuery valueQuery = DesignFactory.eINSTANCE
+			DynamicValuesQuery valueQuery = ODADesignFactory.getFactory()
 					.createDynamicValuesQuery( );
 			if ( dataSetDesign != null )
 			{
@@ -899,7 +898,7 @@ public class ReportParameterAdapter
 			inputAttrs.setDynamicValueChoices( valueQuery );
 		}
 
-		InputElementUIHints uiHints = DesignFactory.eINSTANCE
+		InputElementUIHints uiHints = ODADesignFactory.getFactory()
 				.createInputElementUIHints( );
 		uiHints.setPromptStyle( newPromptStyle( paramDefn.getControlType( ),
 				paramDefn.isMustMatch( ) ) );
@@ -910,7 +909,7 @@ public class ReportParameterAdapter
 			ParameterGroupHandle groupHandle = (ParameterGroupHandle) paramDefn
 					.getContainer( );
 
-			InputParameterUIHints paramUiHints = DesignFactory.eINSTANCE
+			InputParameterUIHints paramUiHints = ODADesignFactory.getFactory()
 					.createInputParameterUIHints( );
 			paramUiHints.setGroupPromptDisplayName( groupHandle
 					.getDisplayName( ) );

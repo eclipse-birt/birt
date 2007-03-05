@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.adapter.oda.plugin;
 
 import org.eclipse.birt.core.plugin.BIRTPlugin;
+import org.eclipse.birt.report.model.adapter.oda.ODADesignFactory;
 import org.eclipse.birt.report.model.adapter.oda.ODAFactory;
 import org.osgi.framework.BundleContext;
 
@@ -34,5 +35,8 @@ public class ModelAdapterOdaPlugin extends BIRTPlugin
 
 		ODAFactory
 				.setODAFactory( new org.eclipse.birt.report.model.adapter.oda.plugin.ODAFactory( ) );
+
+		ODADesignFactory
+				.setFactory( new org.eclipse.birt.report.model.adapter.oda.plugin.ODADesignFactory( ) );
 	}
 }
