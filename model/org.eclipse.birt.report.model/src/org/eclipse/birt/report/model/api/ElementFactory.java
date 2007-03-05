@@ -1071,6 +1071,7 @@ public class ElementFactory
 
 		// add a measure group
 		MeasureGroup measureGroup = new MeasureGroup( );
+		module.makeUniqueName( measureGroup );
 		element.add( module, measureGroup, ICubeModel.MEASURE_GROUPS_PROP );
 
 		return element.handle( module );
