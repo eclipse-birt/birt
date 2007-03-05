@@ -213,7 +213,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public void setAllowNull( boolean allowNull ) throws SemanticException
 	{
-		setProperty( IS_REQUIRED_PROP, Boolean.valueOf( !allowNull ) );
+		setProperty( ALLOW_NULL_PROP, Boolean.valueOf( allowNull ) );
 	}
 
 	/**
@@ -250,10 +250,7 @@ public class ScalarParameterHandle extends ParameterHandle
 
 	public void setAllowBlank( boolean allowBlank ) throws SemanticException
 	{
-		String dataType = getStringProperty( DATA_TYPE_PROP );
-		if ( DesignChoiceConstants.PARAM_TYPE_STRING
-				.equalsIgnoreCase( dataType ) )
-			setProperty( IS_REQUIRED_PROP, Boolean.valueOf( !allowBlank ) );
+		setProperty( ALLOW_BLANK_PROP, Boolean.valueOf( allowBlank ) );
 	}
 
 	/**
@@ -1134,5 +1131,74 @@ public class ScalarParameterHandle extends ParameterHandle
 	public String getSortBy( )
 	{
 		return getStringProperty( SORT_BY_PROP );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#setProperty(java.lang.String,
+	 *      java.lang.Object)
+	 */
+
+	public void setProperty( String propName, Object value )
+			throws SemanticException
+	{
+		if ( ALLOW_BLANK_PROP.equalsIgnoreCase( propName )
+				|| ALLOW_NULL_PROP.equalsIgnoreCase( propName ) )
+		{
+			Boolean newValue = (Boolean) value;
+			if ( newValue != null )
+			{
+				newValue = Boolean
+						.valueOf( !( (Boolean) value ).booleanValue( ) );
+			}
+			
+			// allowBlank only applies to string type.
+			
+			if ( ALLOW_BLANK_PROP.equalsIgnoreCase( propName ) )
+			{
+				String dataType = super.getStringProperty( DATA_TYPE_PROP );
+				if ( DesignChoiceConstants.PARAM_TYPE_STRING
+						.equalsIgnoreCase( dataType ) )
+					super.setProperty( IS_REQUIRED_PROP, newValue );
+				
+				return;
+			}
+			
+			super.setProperty( IS_REQUIRED_PROP, newValue );
+			
+			return;
+		}
+
+		super.setProperty( propName, value );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getProperty(java.lang.String)
+	 */
+
+	public Object getProperty( String propName )
+	{
+		if ( ALLOW_BLANK_PROP.equalsIgnoreCase( propName ) )
+		{
+			Boolean retValue = null;
+			String dataType = super.getStringProperty( DATA_TYPE_PROP );
+			if ( DesignChoiceConstants.PARAM_TYPE_STRING
+					.equalsIgnoreCase( dataType ) )
+				retValue = Boolean
+						.valueOf( !getBooleanProperty( IS_REQUIRED_PROP ) );
+			else
+				retValue = Boolean.FALSE;
+
+			return retValue;
+		}
+		else if ( ALLOW_NULL_PROP.equalsIgnoreCase( propName ) )
+		{
+			return Boolean.valueOf( !getBooleanProperty( IS_REQUIRED_PROP ) );
+		}
+
+		return super.getProperty( propName );
 	}
 }

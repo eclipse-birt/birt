@@ -288,4 +288,37 @@ public class APICompatibleTest extends BaseTestCase
 		labelHandle.setTocExpression( "toc2" ); //$NON-NLS-1$
 		assertEquals( "toc2", labelHandle.getTocExpression( ) ); //$NON-NLS-1$
 	}
+
+	/**
+	 * Backward allowNull and allowBlank property. Now it is isRequired property
+	 * since the version 3.2.10.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testScalarParamAllowProps( ) throws Exception
+	{
+		createDesign( );
+
+		ScalarParameterHandle param = designHandle.getElementFactory( )
+				.newScalarParameter( "param1" ); //$NON-NLS-1$
+		designHandle.getParameters( ).add( param );
+
+		param.setAllowBlank( false );
+		assertEquals( false, param.allowBlank( ) );
+		assertEquals( true, param.isRequired( ) );
+
+		param.setAllowBlank( true );
+		assertEquals( true, param.allowBlank( ) );
+		assertEquals( false, param.isRequired( ) );
+
+		param.setAllowNull( false );
+		assertEquals( false, param.allowNull( ) );
+		assertEquals( true, param.isRequired( ) );
+
+		param.setAllowNull( true );
+		assertEquals( true, param.allowNull( ) );
+		assertEquals( false, param.isRequired( ) );
+
+	}
 }

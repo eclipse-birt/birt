@@ -379,38 +379,6 @@ public class ElementStructureUtil
 	}
 
 	/**
-	 * Updates layout structures of content elements in the given element. If
-	 * one element can find its extends parent, use parent's layout structure.
-	 * Otherwise, its layout strcuture is cleared.
-	 * 
-	 * @param element
-	 *            the element
-	 * @param module
-	 *            the module
-	 * 
-	 */
-
-	public static void updateContentStructures( DesignElement element,
-			Module module )
-	{
-		ContentIterator contentIter = new ContentIterator( module, element );
-		while ( contentIter.hasNext( ) )
-		{
-			DesignElement content = (DesignElement) contentIter.next( );
-			ElementDefn metaData = (ElementDefn) content.getDefn( );
-			if ( !metaData.canExtend( ) )
-				continue;
-
-			// try to resolve extends
-
-			if ( content.getExtendsElement( ) != null )
-				refreshStructureFromParent( module, content );
-			else
-				clearStructure( content );
-		}
-	}
-
-	/**
 	 * Add the virtual elements name into the module namespace.
 	 * 
 	 * @param element
