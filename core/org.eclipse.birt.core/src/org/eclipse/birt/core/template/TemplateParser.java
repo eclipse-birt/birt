@@ -155,8 +155,11 @@ public class TemplateParser
 				int length = value.length( );
 				if ( length > 2 )
 				{
-					// remove the first and last quote
-					value = value.substring( 1, length - 1 );
+					if ( value.charAt( 0 ) == '"' || value.charAt( 0 ) == '\'' )
+					{
+						// remove the first and last quote
+						value = value.substring( 1, length - 1 );
+					}
 				}
 			}
 			return value;
