@@ -473,7 +473,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 * @return the cube element, if found, otherwise null
 	 */
 
-	public DesignElement findCube( String name )
+	public DesignElement findOLAPElement( String name )
 	{
 		return resolveNativeElement( name, CUBE_NAME_SPACE );
 	}

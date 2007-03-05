@@ -174,7 +174,7 @@ public class CubeHandle extends ReportElementHandle implements ICubeModel
 	 */
 	public DimensionHandle getDimension( String dimensionName )
 	{
-		DesignElement dimension = module.findCube( dimensionName );
+		DesignElement dimension = module.findOLAPElement( dimensionName );
 		if ( dimension instanceof Dimension
 				&& dimension.isContentOf( getElement( ) ) )
 			return (DimensionHandle) dimension.getHandle( module );
@@ -190,7 +190,7 @@ public class CubeHandle extends ReportElementHandle implements ICubeModel
 	 */
 	public MeasureHandle getMeasure( String measureName )
 	{
-		DesignElement measure = module.findCube( measureName );
+		DesignElement measure = module.findOLAPElement( measureName );
 		if ( measure instanceof Measure && measure.isContentOf( getElement( ) ) )
 			return (MeasureHandle) measure.getHandle( module );
 		return null;

@@ -690,10 +690,13 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	public DesignElementHandle findCube( String name )
 	{
-		DesignElement element = module.findCube( name );
+		DesignElement element = module.findOLAPElement( name );
 		if ( element == null )
 			return null;
-		return element.getHandle( element.getRoot( ) );
+		return element.getDefn( ).isKindOf(
+				MetaDataDictionary.getInstance( ).getElement(
+						ReportDesignConstants.CUBE_ELEMENT ) ) ? element
+				.getHandle( element.getRoot( ) ) : null;
 	}
 
 	/**

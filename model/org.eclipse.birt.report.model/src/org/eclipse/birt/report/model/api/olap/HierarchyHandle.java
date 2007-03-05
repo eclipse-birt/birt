@@ -15,16 +15,17 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IHierarchyModel;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
  * Represents a Hierarchy.
@@ -124,11 +125,13 @@ public class HierarchyHandle extends ReportElementHandle
 	 */
 	public LevelHandle getLevel( String levelName )
 	{
-		DesignElementHandle levelHandle = this.getModuleHandle( ).findCube(
-				levelName );
-		if ( levelHandle instanceof LevelHandle
-				&& levelHandle.getContainer( ) == this )
-			return (LevelHandle) levelHandle;
+		DesignElement level = module.findOLAPElement( levelName );
+		if ( level != null
+				&& level.getDefn( ).isKindOf(
+						MetaDataDictionary.getInstance( ).getElement(
+								ReportDesignConstants.LEVEL_ELEMENT ) )
+				&& level.isContentOf( getElement( ) ) )
+			return (LevelHandle) level.getHandle( module );
 		return null;
 	}
 
