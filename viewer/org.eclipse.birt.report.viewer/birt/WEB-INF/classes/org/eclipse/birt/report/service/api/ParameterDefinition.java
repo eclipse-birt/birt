@@ -59,6 +59,8 @@ public class ParameterDefinition
 
 	private int dataType;
 
+	private String valueExpr;
+
 	private int controlType;
 
 	private boolean hidden;
@@ -77,10 +79,10 @@ public class ParameterDefinition
 
 	public ParameterDefinition( long id, String name, String pattern,
 			String displayFormat, String displayName, String helpText,
-			String promptText, int dataType, int controlType, boolean hidden,
-			boolean allowNull, boolean allowBlank, boolean mustMatch,
-			boolean concealValue, ParameterGroupDefinition group,
-			Collection selectionList )
+			String promptText, int dataType, String valueExpr, int controlType,
+			boolean hidden, boolean allowNull, boolean allowBlank,
+			boolean mustMatch, boolean concealValue,
+			ParameterGroupDefinition group, Collection selectionList )
 	{
 		this.id = id;
 		this.name = name;
@@ -90,6 +92,7 @@ public class ParameterDefinition
 		this.helpText = helpText;
 		this.promptText = promptText;
 		this.dataType = dataType;
+		this.valueExpr = valueExpr;
 		this.controlType = controlType;
 		this.hidden = hidden;
 		this.allowNull = allowNull;
@@ -141,6 +144,11 @@ public class ParameterDefinition
 	public int getDataType( )
 	{
 		return dataType;
+	}
+
+	public String getValueExpr( )
+	{
+		return valueExpr;
 	}
 
 	public int getControlType( )

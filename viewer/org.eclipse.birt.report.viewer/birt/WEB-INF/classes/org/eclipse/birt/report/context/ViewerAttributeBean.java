@@ -389,9 +389,23 @@ public class ViewerAttributeBean extends BaseAttributeBean
 							if ( cachedDateType == null
 									|| !cachedDateType
 											.equalsIgnoreCase( dataType ) )
-							{
 								continue;
-							}
+
+							// find cached parameter value expression
+							String exprVarName = configVar.getName( ) + "_" //$NON-NLS-1$
+									+ IBirtConstants.PROP_EXPR;
+							ConfigVariable exprVar = handle
+									.findConfigVariable( exprVarName );
+							String cachedExpr = null;
+							if ( exprVar != null )
+								cachedExpr = exprVar.getValue( );
+
+							if ( cachedExpr == null )
+								cachedExpr = ""; //$NON-NLS-1$
+
+							// if value expression changed,skip it
+							if ( !cachedExpr.equals( parameter.getValueExpr( ) ) )
+								continue;
 
 							this.configMap.put( paramName, paramValue );
 						}

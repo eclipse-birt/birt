@@ -86,6 +86,9 @@ public interface IBirtConstants
 	// Property -- type
 	public static final String PROP_TYPE = "type"; //$NON-NLS-1$
 	
+	// Property -- value expression
+	public static final String PROP_EXPR = "expr"; //$NON-NLS-1$	
+	
 	// Task Map
 	public static final String TASK_MAP = "tasks"; //$NON-NLS-1$
 	

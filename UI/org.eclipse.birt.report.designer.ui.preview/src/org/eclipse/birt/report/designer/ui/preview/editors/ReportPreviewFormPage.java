@@ -63,6 +63,9 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 	// property type
 	public static final String PROP_TYPE = "type"; //$NON-NLS-1$
 
+	// Property -- value expression
+	public static final String PROP_EXPR = "expr"; //$NON-NLS-1$	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -406,9 +409,26 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 										|| !dataType
 												.equalsIgnoreCase( parameter
 														.getDataType( ) ) )
-								{
 									continue;
-								}
+
+								// find cached parameter value expression
+								String exprVarName = configVar.getName( ) + "_" //$NON-NLS-1$
+										+ PROP_EXPR;
+								ConfigVariable exprVar = handle
+										.findConfigVariable( exprVarName );
+								String expr = parameter.getValueExpr( );
+								String cachedExpr = null;
+								if ( exprVar != null )
+									cachedExpr = exprVar.getValue( );
+
+								if ( cachedExpr == null )
+									cachedExpr = ""; //$NON-NLS-1$
+								if ( expr == null )
+									expr = ""; //$NON-NLS-1$
+
+								// if value expression changed,skip it
+								if ( !cachedExpr.equals( expr ) )
+									continue;
 							}
 
 							if ( paramName != null && paramName.length( ) > 0 )
