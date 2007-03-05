@@ -77,6 +77,7 @@ import com.lowagie.text.Image;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.PdfAction;
 import com.lowagie.text.pdf.PdfAnnotation;
+import com.lowagie.text.pdf.PdfBorderDictionary;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfDestination;
 import com.lowagie.text.pdf.PdfOutline;
@@ -1140,12 +1141,18 @@ public class PDFEmitter implements IContentEmitter
 				//img.setDpi(5*img.getDpiX(),5*img.getDpiY());
 				// add the image to the given contentByte
 
+				float width = pdfMeasure( image.getWidth( ) );
+				float height = pdfMeasure( image.getHeight( ) );
+				float x = layoutAreaX2PDF( imageX );
+				float y = layoutAreaY2PDF( imageY, image.getHeight( ) );
 				
 				if(!isSvg) {
-					cb.addImage(img, 
-							pdfMeasure(image.getWidth()), 0f, 0f, pdfMeasure(image.getHeight()),
-							layoutAreaX2PDF(imageX), 
-							layoutAreaY2PDF(imageY, image.getHeight()));
+					cb.addImage( img, width, 0f, 0f, height, x, y );
+					String helpText = imageContent.getHelpText( );
+					if ( helpText != null )
+					{
+						showHelpText( x, y, width, height, helpText );
+					}
 				} else {
 					
 					try {
@@ -1153,11 +1160,6 @@ public class PDFEmitter implements IContentEmitter
 						if(ti!=null)
 						{
 
-							double width = pdfMeasure(image.getWidth());
-							double height = pdfMeasure(image.getHeight());
-							double x = layoutAreaX2PDF(imageX);
-							double y = layoutAreaY2PDF(imageY, image.getHeight());
-							
 				            PdfTemplate template = cb.createTemplate(new Float(width).floatValue(), new Float(height).floatValue());
 				            Graphics2D g2 = template.createGraphics(new Float(width).floatValue(), new Float(height).floatValue());
 				            
@@ -1204,9 +1206,25 @@ public class PDFEmitter implements IContentEmitter
 			//handle hyper-link action
 			handleHyperlinkAction(image, curPos);
 		}
+
+		private void showHelpText( float x, float y, float width, float height,
+				String helpText )
+		{
+			Rectangle rectangle = new Rectangle( x, y, x + width, y + height );
+			PdfAnnotation annotation = PdfAnnotation.createSquareCircle( writer,
+					rectangle, helpText, true );
+			PdfBorderDictionary borderStyle = new PdfBorderDictionary( 0,
+					PdfBorderDictionary.STYLE_SOLID, null );
+			annotation.setBorderStyle( borderStyle );
+			annotation.setFlags( 288 );
+			writer.addAnnotation( annotation );
+		}
+
 		/**
 		 * Draws the borders of a container.
-		 * @param borders		the border info
+		 * 
+		 * @param borders
+		 *            the border info
 		 */
 		private void drawBorder(BorderInfo border)
 		{
