@@ -50,7 +50,7 @@ public class ItemMarginPage extends AttributePage
 					true );
 			marginSection.setProvider( provider );
 			marginSection.setGridPlaceholder( 3, true );
-			marginSection.setWidth( 400 );
+//			marginSection.setWidth( 400 );
 			addSection( padIDs[i], marginSection );
 		}
 		createSections( );

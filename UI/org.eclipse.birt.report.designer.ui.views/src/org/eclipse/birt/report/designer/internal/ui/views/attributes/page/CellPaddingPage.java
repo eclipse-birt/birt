@@ -53,7 +53,7 @@ public class CellPaddingPage extends AttributePage
 					true );
 
 			section.setProvider( provider );
-			section.setLayoutNum( 5 );
+//			section.setLayoutNum( 5 );
 			section.setGridPlaceholder( 3, true );
 
 			addSection( sectionKeys[i], section );

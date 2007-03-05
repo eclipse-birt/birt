@@ -65,11 +65,11 @@ public class MarignPropertyDescriptor extends PropertyDescriptor
 	public Control createControl( Composite parent )
 	{
 		container = new Composite( parent, SWT.NONE );
-		GridLayout layout = new GridLayout( 2, false );
+		GridLayout layout = new GridLayout( );
 		layout.marginHeight = 2;
 		layout.marginWidth = 2;
 		layout.horizontalSpacing = 4;
-		layout.verticalSpacing = 2;
+		layout.numColumns = 2;
 		container.setLayout( layout );
 
 		SelectionListener listener = new SelectionListener( ) {
@@ -128,17 +128,27 @@ public class MarignPropertyDescriptor extends PropertyDescriptor
 		unitCombo = new CCombo( container, SWT.FLAT | SWT.READ_ONLY );
 		unitCombo.addSelectionListener( listener );
 
+//		GridData data = new GridData( );
+//		data.grabExcessHorizontalSpace = true;
+//		data.horizontalAlignment = GridData.FILL;
+//		valueCombo.setLayoutData( data );
+//		data = new GridData( );
+//
+//		data.grabExcessHorizontalSpace = true;
+//		data.horizontalAlignment = GridData.FILL;
+//		data.widthHint = valueCombo.getSize( ).x + 4;
+//		unitCombo.setLayoutData( data );
+
 		GridData data = new GridData( );
-		data.grabExcessHorizontalSpace = true;
-		data.horizontalAlignment = GridData.FILL;
+		data.widthHint = (int) ( unitCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x * 1.5 );
+		if ( valueCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y < unitCombo.computeSize( SWT.DEFAULT,
+				SWT.DEFAULT ).y )
+			data.heightHint = unitCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y - 2;
 		valueCombo.setLayoutData( data );
-		data = new GridData( );
 
-		data.grabExcessHorizontalSpace = true;
-		data.horizontalAlignment = GridData.FILL;
-		data.widthHint = valueCombo.getSize( ).x + 4;
+		data = new GridData( GridData.FILL_HORIZONTAL );
 		unitCombo.setLayoutData( data );
-
+		
 		return container;
 	}
 
