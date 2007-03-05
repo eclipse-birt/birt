@@ -39,7 +39,7 @@ public class ExprManagerUtilTest extends TestCase
 	public void testValidateNodes1( ) throws DataException
 	{
 
-		ExprManager em = new ExprManager( );
+		ExprManager em = new ExprManager( null );
 		Map m = new HashMap( );
 		m.put( "COL0",
 				new ScriptExpression( "row[\"COL1\"]+row[\"COL2\"]+row[\"COL3\"]" ) );
@@ -52,7 +52,7 @@ public class ExprManagerUtilTest extends TestCase
 		em.addBindingExpr( null, m, 0 );
 		try
 		{
-			ExprManagerUtil.validateColumnBinding( em );
+			ExprManagerUtil.validateColumnBinding( em, null );
 		}
 		catch ( DataException e )
 		{
@@ -64,7 +64,7 @@ public class ExprManagerUtilTest extends TestCase
 	public void testValidateNodes2( ) throws DataException
 	{
 
-		ExprManager em = new ExprManager( );
+		ExprManager em = new ExprManager( null );
 		Map m = new HashMap( );
 		m.put( "COL0",
 				new ScriptExpression( "row[\"COL1\"]+row[\"COL2\"]+row[\"COL3\"]" ) );
@@ -78,7 +78,7 @@ public class ExprManagerUtilTest extends TestCase
 		
 		try
 		{
-			ExprManagerUtil.validateColumnBinding( em );
+			ExprManagerUtil.validateColumnBinding( em, null );
 			fail( "Should not arrive here" );
 		}
 		catch ( DataException e )
@@ -90,7 +90,7 @@ public class ExprManagerUtilTest extends TestCase
 	public void testValidateNodes3( ) throws DataException
 	{
 
-		ExprManager em = new ExprManager( );
+		ExprManager em = new ExprManager( null );
 		Map m = new HashMap( );
 		m.put( "COL0",
 				new ScriptExpression( "row[\"COL1\"]+row[\"COL2\"]+row[\"COL3\"]" ) );
@@ -103,7 +103,7 @@ public class ExprManagerUtilTest extends TestCase
 		em.addBindingExpr( null, m, 0 );
 		try
 		{
-			ExprManagerUtil.validateColumnBinding( em );
+			ExprManagerUtil.validateColumnBinding( em, null );
 			fail( "Should not arrive here" );
 		}
 		catch ( DataException e )
@@ -115,7 +115,7 @@ public class ExprManagerUtilTest extends TestCase
 	public void testValidateNodes4( ) throws DataException
 	{
 
-		ExprManager em = new ExprManager( );
+		ExprManager em = new ExprManager( null );
 		Map m = new HashMap( );
 		m.put( "COL0",
 				new ScriptExpression( "row[\"COL1\"]+row[\"COL2\"]+row[\"COL3\"]" ) );
@@ -128,7 +128,7 @@ public class ExprManagerUtilTest extends TestCase
 		em.addBindingExpr( null, m, 0 );
 		try
 		{
-			ExprManagerUtil.validateColumnBinding( em );
+			ExprManagerUtil.validateColumnBinding( em, null );
 			fail( "Should not arrive here" );
 		}
 		catch ( DataException e )
@@ -142,7 +142,7 @@ public class ExprManagerUtilTest extends TestCase
 	 */
 	public void testValidateNodes5( ) throws DataException
 	{
-		ExprManager em = new ExprManager( );
+		ExprManager em = new ExprManager( null );
 		Map m = new HashMap( );
 		m.put( "COL0",
 				new ScriptExpression( "row[\"COL1\"]+row[\"COL2\"]+row[\"COL3\"]" ) );
@@ -178,7 +178,7 @@ public class ExprManagerUtilTest extends TestCase
 		
 		try
 		{
-			ExprManagerUtil.validateColumnBinding( em );
+			ExprManagerUtil.validateColumnBinding( em, null );
 		}
 		catch ( DataException e )
 		{
@@ -193,7 +193,7 @@ public class ExprManagerUtilTest extends TestCase
 	 */
 	public void testValidateNodes6( ) throws DataException
 	{
-		ExprManager em = new ExprManager( );
+		ExprManager em = new ExprManager( null );
 		Map m = new HashMap( );
 		m.put( "COL0",
 				new ScriptExpression( "row[\"COL1\"]+row[\"COL2\"]+row[\"COL3\"]" ) );
@@ -204,7 +204,7 @@ public class ExprManagerUtilTest extends TestCase
 		m.put( "COL4", new ScriptExpression( "row[\"COL2\"]" ) );
 
 		em.addBindingExpr( "COL0", m, 1 );
-		
+
 		m = new HashMap( );
 		m.put( "COL5",
 				new ScriptExpression( "row[\"COL1\"]+row[\"COL2\"]+row[\"COL3\"]" ) );
@@ -229,7 +229,7 @@ public class ExprManagerUtilTest extends TestCase
 		
 		try
 		{
-			ExprManagerUtil.validateColumnBinding( em );
+			ExprManagerUtil.validateColumnBinding( em, null );
 			fail( "Should not arrive here" );
 		}
 		catch ( DataException e )
@@ -244,7 +244,7 @@ public class ExprManagerUtilTest extends TestCase
 	 */
 	public void testValidateNodes7( ) throws DataException
 	{
-		ExprManager em = new ExprManager( );
+		ExprManager em = new ExprManager( null );
 		Map m = new HashMap( );
 		m.put( "COL0",
 				new ScriptExpression( "row[\"COL1\"]+row[\"COL2\"]+row[\"COL3\"]" ) );
@@ -280,7 +280,7 @@ public class ExprManagerUtilTest extends TestCase
 		
 		try
 		{
-			ExprManagerUtil.validateColumnBinding( em );
+			ExprManagerUtil.validateColumnBinding( em, null );
 		}
 		catch ( DataException e )
 		{
@@ -295,7 +295,7 @@ public class ExprManagerUtilTest extends TestCase
 	 */
 	public void testValidateNodes8( ) throws DataException
 	{
-		ExprManager em = new ExprManager( );
+		ExprManager em = new ExprManager( null );
 		Map m = new HashMap( );
 		m.put( "COL0",
 				new ScriptExpression( "row[\"COL1\"]+row[\"COL2\"]+row[\"COL3\"]" ) );
@@ -331,7 +331,7 @@ public class ExprManagerUtilTest extends TestCase
 		
 		try
 		{
-			ExprManagerUtil.validateColumnBinding( em );
+			ExprManagerUtil.validateColumnBinding( em, null );
 			fail( "Should not arrive here" );
 		}
 		catch ( DataException e )
@@ -346,7 +346,7 @@ public class ExprManagerUtilTest extends TestCase
 	 */
 	public void testValidateNodes9( ) throws DataException
 	{
-		ExprManager em = new ExprManager( );
+		ExprManager em = new ExprManager( null );
 		Map m = new HashMap( );
 		m.put( "COL0",
 				new ScriptExpression( "row[\"COL1\"]+row[\"COL11\"]+row[\"COL3\"]" ) );
@@ -382,7 +382,7 @@ public class ExprManagerUtilTest extends TestCase
 		
 		try
 		{
-			ExprManagerUtil.validateColumnBinding( em );
+			ExprManagerUtil.validateColumnBinding( em, null );
 			fail( "Should not arrive here" );
 		}
 		catch ( DataException e )
@@ -397,7 +397,7 @@ public class ExprManagerUtilTest extends TestCase
 	public void testValidateNodes10( ) throws DataException
 	{
 
-		ExprManager em = new ExprManager( );
+		ExprManager em = new ExprManager( null );
 		Map m = new HashMap( );
 		m.put( "COL0",
 				new ScriptExpression( "row[\"COL1\"]+row[\"COL2\"]+row[\"COL3\"]" ) );
@@ -406,12 +406,14 @@ public class ExprManagerUtilTest extends TestCase
 				new ScriptExpression( "row[\"COL2\"]+row[\"COL3\"]+dataSetRow[\"COL3\"]" ) );
 		m.put( "COL3", new ScriptExpression( "row[\"COL2\"]+row[\"COL4\"]" ) );
 		m.put( "COL4", new ScriptExpression( "row[\"COL2\"]" ) );
-		m.put( "COL5", new ConditionalExpression( "row[\"COL2\"]", IConditionalExpression.OP_EQ,"2" ));
+		m.put( "COL5", new ConditionalExpression( "row[\"COL2\"]",
+				IConditionalExpression.OP_EQ,
+				"2" ) );
 
 		em.addBindingExpr( null, m, 0 );
 		try
 		{
-			ExprManagerUtil.validateColumnBinding( em );
+			ExprManagerUtil.validateColumnBinding( em, null );
 		}
 		catch ( DataException e )
 		{
@@ -426,7 +428,7 @@ public class ExprManagerUtilTest extends TestCase
 	public void testValidateNodes11( ) throws DataException
 	{
 
-		ExprManager em = new ExprManager( );
+		ExprManager em = new ExprManager( null );
 		Map m = new HashMap( );
 		m.put( "COL0",
 				new ScriptExpression( "row[\"COL1\"]+row[\"COL2\"]+row[\"COL3\"]" ) );
@@ -435,12 +437,14 @@ public class ExprManagerUtilTest extends TestCase
 				new ScriptExpression( "row[\"COL2\"]+row[\"COL3\"]+dataSetRow[\"COL3\"]" ) );
 		m.put( "COL3", new ScriptExpression( "row[\"COL2\"]+row[\"COL4\"]" ) );
 		m.put( "COL4", new ScriptExpression( "row[\"COL2\"]" ) );
-		m.put( "COL5", new ConditionalExpression( "row[\"COL5\"]", IConditionalExpression.OP_EQ,"2" ));
+		m.put( "COL5", new ConditionalExpression( "row[\"COL5\"]",
+				IConditionalExpression.OP_EQ,
+				"2" ) );
 
 		em.addBindingExpr( null, m, 0 );
 		try
 		{
-			ExprManagerUtil.validateColumnBinding( em );
+			ExprManagerUtil.validateColumnBinding( em, null );
 			fail( "Should not arrive here" );
 		}
 		catch ( DataException e )
@@ -456,10 +460,10 @@ public class ExprManagerUtilTest extends TestCase
 	public void testValidateNodes12( ) throws DataException
 	{
 
-		ExprManager em = new ExprManager( );
+		ExprManager em = new ExprManager( null );
 		Map m = new HashMap( );
 		m.put( "COL0",
-				new ScriptExpression( "11111row[\"COL1\"]+row[\"COL2\"]+row[\"COL3\"]" ) );
+				new ScriptExpression( "1111row[\"COL1\"]+row[\"COL2\"]+row[\"COL3\"]" ) );
 		m.put( "COL2", new ScriptExpression( "dataSetRow[\"COL2\"]" ) );
 		m.put( "COL1",
 				new ScriptExpression( "row[\"COL2\"]+row[\"COL3\"]+dataSetRow[\"COL3\"]" ) );
@@ -469,7 +473,7 @@ public class ExprManagerUtilTest extends TestCase
 		em.addBindingExpr( null, m, 0 );
 		try
 		{
-			ExprManagerUtil.validateColumnBinding( em );
+			ExprManagerUtil.validateColumnBinding( em, null );
 		}
 		catch ( DataException e )
 		{
@@ -485,7 +489,7 @@ public class ExprManagerUtilTest extends TestCase
 	public void testValidateNodes13( ) throws DataException
 	{
 
-		ExprManager em = new ExprManager( );
+		ExprManager em = new ExprManager( null );
 		Map m = new HashMap( );
 		m.put( "COL0", new ScriptExpression( "row[\"COL1\"]" ) );
 		m.put( "COL1", new ScriptExpression( "row[\"COL2\"]" ) );
@@ -496,7 +500,7 @@ public class ExprManagerUtilTest extends TestCase
 		em.addBindingExpr( null, m, 0 );
 		try
 		{
-			ExprManagerUtil.validateColumnBinding( em );
+			ExprManagerUtil.validateColumnBinding( em, null );
 			fail( "Should not arrive here" );
 		}
 		catch ( DataException e )
