@@ -220,7 +220,7 @@ public class ExprManagerUtil
 					}
 					catch ( BirtException e )
 					{
-						return;
+						continue;
 					}
 					validateReferredColumnBinding( name,
 							usedBindings,
