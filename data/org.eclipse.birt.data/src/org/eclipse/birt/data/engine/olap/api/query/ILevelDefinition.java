@@ -12,10 +12,14 @@
 package org.eclipse.birt.data.engine.olap.api.query;
 
 /**
- * 
+ * ILevelDefinition defines Levels that are used in hierarchy.
  */
 
 public interface ILevelDefinition extends INamedObject
 {
+	/**
+	 * Return the hierarchy this level belongs to.
+	 * @return
+	 */
 	public IHierarchyDefinition getHierarchy();
 }

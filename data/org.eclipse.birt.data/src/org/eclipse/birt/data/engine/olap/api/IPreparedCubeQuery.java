@@ -15,11 +15,21 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.mozilla.javascript.Scriptable;
 
 /**
- * 
+ * The IPreparedCubeQuery provides methods to acquire ICubeQueryResults instance from an ICubeQueryDefinition
  */
 
 public interface IPreparedCubeQuery
 {
+	/**
+	 * Return the CubeCursor as defined by ICubeQueryDefinition.
+	 * @param scope
+	 * @return
+	 */
 	public ICubeQueryResults execute( Scriptable scope );
+	
+	/**
+	 * Return the query definition which is used to generate current IPreparedCubeQuery instance.
+	 * @return
+	 */
 	public ICubeQueryDefinition getCubeQueryDefinition();
 }

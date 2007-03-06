@@ -16,10 +16,14 @@ import javax.olap.cursor.CubeCursor;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 
 /**
- * 
+ * The new interface ICubeQueryResults is used for acquiring of a CubeCursor.
  */
 
 public interface ICubeQueryResults extends IBaseQueryResults
 {
+	/**
+	 * Return the CubeCursor instance that is created by the ICubeQueryResults instance.
+	 * @return
+	 */
 	public CubeCursor getCubeCursor();
 }

@@ -7,8 +7,9 @@ Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.birt.data.engine.plugin.DataEnginePlugin
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
-Export-Package: javax.jmi.corbaidltypes,
+Export-Package: javax.olap,
  javax.olap.cursor,
+ javax.olap.query.querycoremodel,
  org.eclipse.birt.data.engine.aggregation;x-friends:="org.eclipse.birt.data.tests",
  org.eclipse.birt.data.engine.api,
  org.eclipse.birt.data.engine.api.aggregation,

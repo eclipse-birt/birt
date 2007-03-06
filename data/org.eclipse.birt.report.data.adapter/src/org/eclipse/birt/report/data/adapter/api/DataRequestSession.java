@@ -25,8 +25,12 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
+import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 
 /**
  * Main entry point to Data Engine functionalities. Each data request session can be used
@@ -237,6 +241,44 @@ public abstract class DataRequestSession
 	 */
 	public abstract IQueryResults getQueryResults( String queryResultID )
 			throws BirtException;
+	
+	/**
+	 * Defines a cube. A cube must be defined with the data engine before it can
+	 * be used in a query. If the cube has already been defined, its definition
+	 * will be replaced by the new cube design.
+	 * 
+	 * @param cubeDesign
+	 */
+	public void defineCube( CubeHandle cubeDesign )
+	{
+		//TODO implement me.
+	}
+	
+	/**
+	 * Prepare an ICubeQueryDefinition intstance, return an IPreparedCubeQuery
+	 * instance, which is inturn used to acquire cube cursor.
+	 * 
+	 * @param query
+	 * @return
+	 */
+	public IPreparedCubeQuery prepare( ICubeQueryDefinition query )
+	{
+		//TODO implement me.
+		return null;
+	}
+	
+	/**
+	 * Get the ICubeQueryResults instance that is stored in report document
+	 * based on the given id. This is for presentation time only.
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public ICubeQueryResults getCubeQueryResults(String id)
+	{
+		//TODO implement me
+		return null;
+	}
 	
 	/**
 	 * Prepares a data query, and returns an IPreparedQuery instance which can

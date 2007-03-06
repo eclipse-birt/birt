@@ -24,18 +24,9 @@ import org.eclipse.birt.data.engine.core.DataException;
  * Beyond Release 1, this would include methods to save and restore
  * results in a persisted Report Document.
  */
-public interface IQueryResults
+public interface IQueryResults extends IBaseQueryResults
 {
 	/**
-	 * Every query results has a unique id. This ID will be used to retrieve a
-	 * stored query results from report document. Meantime, it might be used as
-	 * a data source ID to define a query definition.
-	 * 
-	 * @return a unique ID
-	 */
-	public String getID( );
-	
-    /**
      * Returns the {@link org.eclipse.birt.data.engine.api.IPreparedQuery}
      *  that produced this instance.
      */
