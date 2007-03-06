@@ -2137,6 +2137,12 @@ Element.Hierarchy=层次结构
 Element.Level=级别
 Element.Measure=度量
 Element.MeasureGroup=度量组
+Element.TabularCube=Tabular Cube
+Element.TabularDimension=Tabular Dimension
+Element.TabularHierarchy=Tabular Hierarchy
+Element.TabularLevel=Tabular Level
+Element.TabularMeasure=Tabular Measure
+Element.TabularMeasureGroup=Tabular Meausre Group
 Element.AccessControl=访问控制
 Element.ValueAccessControl=值访问控制
 
@@ -3179,6 +3185,12 @@ New.Hierarchy=新层次结构
 New.Level=新级别
 New.Measure=新度量
 New.MeasureGroup=新度量组
+New.TabularCube=NewTabularCube
+New.TabularDimension=NewTabularDimension
+New.TabularHierarchy=NewTabularHierarchy
+New.TabularLevel=NewTabularLevel
+New.TabularMeasure=NewTabularMeasure
+New.TabularMeasureGroup=NewTabularMeasureGroup
 
 ###########################################################
 #Default theme name.

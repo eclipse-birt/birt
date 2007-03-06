@@ -2137,6 +2137,12 @@ Element.Hierarchy=계층
 Element.Level=수준
 Element.Measure=측정
 Element.MeasureGroup=측정 그룹
+Element.TabularCube=Tabular Cube
+Element.TabularDimension=Tabular Dimension
+Element.TabularHierarchy=Tabular Hierarchy
+Element.TabularLevel=Tabular Level
+Element.TabularMeasure=Tabular Measure
+Element.TabularMeasureGroup=Tabular Meausre Group
 Element.AccessControl=액세스 컨트롤
 Element.ValueAccessControl=값 액세스 컨트롤
 
@@ -3179,6 +3185,12 @@ New.Hierarchy=NewHierarchy
 New.Level=NewLevel
 New.Measure=NewMeasure
 New.MeasureGroup=NewMeasureGroup
+New.TabularCube=NewTabularCube
+New.TabularDimension=NewTabularDimension
+New.TabularHierarchy=NewTabularHierarchy
+New.TabularLevel=NewTabularLevel
+New.TabularMeasure=NewTabularMeasure
+New.TabularMeasureGroup=NewTabularMeasureGroup
 
 ###########################################################
 #Default theme name.

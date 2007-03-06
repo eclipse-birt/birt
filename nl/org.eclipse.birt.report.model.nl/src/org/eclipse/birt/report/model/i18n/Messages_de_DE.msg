@@ -2137,6 +2137,12 @@ Element.Hierarchy=Hierarchie
 Element.Level=Stufe
 Element.Measure=Maﬂeinheit
 Element.MeasureGroup=Maﬂeinheitsgruppe
+Element.TabularCube=Tabular Cube
+Element.TabularDimension=Tabular Dimension
+Element.TabularHierarchy=Tabular Hierarchy
+Element.TabularLevel=Tabular Level
+Element.TabularMeasure=Tabular Measure
+Element.TabularMeasureGroup=Tabular Meausre Group
 Element.AccessControl=Zugriffssteuerung
 Element.ValueAccessControl=Wertzugriffsteuerung
 
@@ -3179,6 +3185,12 @@ New.Hierarchy=Neue Hierarchie
 New.Level=Neue Ebene
 New.Measure=Neue Maﬂeinheit
 New.MeasureGroup=NeueMaﬂeinheitsgruppe
+New.TabularCube=NewTabularCube
+New.TabularDimension=NewTabularDimension
+New.TabularHierarchy=NewTabularHierarchy
+New.TabularLevel=NewTabularLevel
+New.TabularMeasure=NewTabularMeasure
+New.TabularMeasureGroup=NewTabularMeasureGroup
 
 ###########################################################
 #Default theme name.

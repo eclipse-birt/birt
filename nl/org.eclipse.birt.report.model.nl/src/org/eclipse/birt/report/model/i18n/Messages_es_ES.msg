@@ -2137,6 +2137,12 @@ Element.Hierarchy=Jerarquía
 Element.Level=Nivel
 Element.Measure=Medida
 Element.MeasureGroup=Grupo de medida
+Element.TabularCube=Tabular Cube
+Element.TabularDimension=Tabular Dimension
+Element.TabularHierarchy=Tabular Hierarchy
+Element.TabularLevel=Tabular Level
+Element.TabularMeasure=Tabular Measure
+Element.TabularMeasureGroup=Tabular Meausre Group
 Element.AccessControl=Control de acceso
 Element.ValueAccessControl=Control de acceso de valor
 
@@ -3179,6 +3185,12 @@ New.Hierarchy=Nueva jerarquía
 New.Level=Nuevo nivel
 New.Measure=Nueva medida
 New.MeasureGroup=Nuevo grupo de medida
+New.TabularCube=NewTabularCube
+New.TabularDimension=NewTabularDimension
+New.TabularHierarchy=NewTabularHierarchy
+New.TabularLevel=NewTabularLevel
+New.TabularMeasure=NewTabularMeasure
+New.TabularMeasureGroup=NewTabularMeasureGroup
 
 ###########################################################
 #Default theme name.

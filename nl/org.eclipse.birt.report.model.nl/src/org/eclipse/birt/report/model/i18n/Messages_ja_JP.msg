@@ -2137,6 +2137,12 @@ Element.Hierarchy=階層
 Element.Level=レベル
 Element.Measure=計測
 Element.MeasureGroup=計測グループ
+Element.TabularCube=Tabular Cube
+Element.TabularDimension=Tabular Dimension
+Element.TabularHierarchy=Tabular Hierarchy
+Element.TabularLevel=Tabular Level
+Element.TabularMeasure=Tabular Measure
+Element.TabularMeasureGroup=Tabular Meausre Group
 Element.AccessControl=アクセスコントロール
 Element.ValueAccessControl=値へのアクセスコントロール
 
@@ -3179,6 +3185,12 @@ New.Hierarchy=階層の新規作成
 New.Level=レベルの新規作成
 New.Measure=計測の新規作成
 New.MeasureGroup=計測グループの新規作成
+New.TabularCube=NewTabularCube
+New.TabularDimension=NewTabularDimension
+New.TabularHierarchy=NewTabularHierarchy
+New.TabularLevel=NewTabularLevel
+New.TabularMeasure=NewTabularMeasure
+New.TabularMeasureGroup=NewTabularMeasureGroup
 
 ###########################################################
 #Default theme name.
