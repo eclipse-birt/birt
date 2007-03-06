@@ -36,6 +36,7 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
 import org.eclipse.birt.data.engine.expression.ExpressionCompiler;
@@ -205,13 +206,31 @@ final class PreparedQuery
 						{
 							if ( baseQueryDefn.getResultSetExpressions( )
 									.get( o ) == null )
+							{	
 								baseQueryDefn.getResultSetExpressions( )
-										.put( o, expr );
+										.put( o, copyScriptExpr( expr ) );
+							}
 						}
 					}
 				}
 			}
 		}
+	}
+
+	/**
+	 * Colon a script expression, however do not populate the "AggregateOn" field. All the column binding that inherit
+	 * from parent query by sub query should have no "AggregateOn" field, for they could not be aggregations. However, 
+	 * if an aggregateOn field is set to an expression without aggregation, we should also make it inheritable by sub query
+	 * for the expression actually involves no aggregations.
+	 * 
+	 * @param expr
+	 * @return
+	 */
+	private ScriptExpression copyScriptExpr( IBaseExpression expr )
+	{
+		ScriptExpression se = new ScriptExpression( ( (IScriptExpression) expr ).getText( ),
+				( (IScriptExpression) expr ).getDataType( ) );
+		return se;
 	}
 	
 	/**
