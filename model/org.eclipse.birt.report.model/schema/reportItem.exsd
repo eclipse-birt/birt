@@ -154,7 +154,6 @@
 choice:
 list:
 structure, elementRef and element
-
                </documentation>
             </annotation>
             <simpleType>
@@ -198,6 +197,8 @@ structure, elementRef and element
                   <enumeration value="elementRef">
                   </enumeration>
                   <enumeration value="element">
+                  </enumeration>
+                  <enumeration value="contentElement">
                   </enumeration>
                </restriction>
             </simpleType>

@@ -479,6 +479,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 					extPropDefn.setDetails( detailType );
 					break;
 				case IPropertyType.ELEMENT_TYPE :
+				case IPropertyType.CONTENT_ELEMENT_TYPE :
 					isList = getBooleanAttrib( propTag, IS_LIST_ATTRIB, false );
 					extPropDefn.setIsList( isList );
 					extPropDefn.setDetails( elementTypes );
@@ -862,6 +863,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 					case IPropertyType.STRUCT_TYPE :
 					case IPropertyType.ELEMENT_REF_TYPE :
 					case IPropertyType.ELEMENT_TYPE :
+					case IPropertyType.CONTENT_ELEMENT_TYPE :
 						allowedPropertyTypes.add( propType );
 						break;
 					default :
