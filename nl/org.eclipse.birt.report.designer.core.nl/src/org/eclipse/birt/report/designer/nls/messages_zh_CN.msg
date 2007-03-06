@@ -3675,3 +3675,76 @@ BIRTGotoMarker.Error.Message=报表元素不存在。
 ###########################################################
 #TabbedList properties
 TabbedPropertyList.properties.not.available=属性不可用。
+
+###########################################################
+#Cube treeNode properties
+DefaultNodeProvider.Tree.Cubes=Cubes
+cube.new=New Cube
+cube.edit=Edit Cube
+CubeNodeProvider.menu.text=编辑
+cube.dimension.new=New Cube Dimension
+cube.dimension.edit=Edit Cube Dimension
+CubeDimensionNodeProvider.menu.text=编辑
+cube.level.new=New Cube Level
+cube.level.edit=Edit Cube Level
+CubeLevelNodeProvider.menu.text=编辑
+cube.measure.new=New Cube Measure
+cube.measure.edit=Edit Cube Measure
+CubeMeasureNodeProvider.menu.text=编辑
+cube.measuregroup.new=New Cube Measure Group
+cube.measure.edit=Edit Cube Measure Group
+CubeMeasureGroupNodeProvider.menu.text=编辑
+
+###########################################################
+#Cube Builder Dialog properties
+CubeBuilder.Title=OLAP Cube Builder
+DatasetPage.Title=Dataset
+DimensionPage.Title=Dimension
+MeasurePage.Title=Measures
+DatasetPage.Label.Name=Cube name:
+DatasetPage.Label.PrimaryDataset=Primary dataset:
+DatasetPage.Button.Filter=Filter...
+DatasetPage.Button.Joint=Add joint datasets...
+DimensionPage.Label.Title=Dimension:
+DimensionPage.Button.Add=添加(&A)
+DimensionPage.Button.Edit=&Edit
+DimensionPage.Button.Delete=删除(&D)
+DimensionPage.Button.Property=&Property
+MeasuresPage.Label.DataField=Available data fields:
+MeasuresPage.Label.Measures=Measures:
+MeasuresPage.Button.Add=添加
+MeasuresPage.Label.Name=名称(&N):
+MeasuresPage.Label.Function=&Function:
+MeasuresPage.Label.Expression=表达式(&E):
+DatasetDialog.Title.Label=Add Datasets
+DatasetDialog.Title.OKButton.Text=添加
+DimensionDialog.Title=OLAP Cube Builder
+DimensionDialog.Button.Primary=Use primary dataset as Dimension dataset
+DimensionDialog.Button.Other=Use other dataset as Dimension dataset:
+DimensionDialog.Label.DatasetField=Available data fields:
+DimensionDialog.Label.Dimensions=Dimensions:
+DimensionDialog.Label.Name=Dimension Name:
+DimensionDialog.Label.Add=Add Dimension
+DimensionDialog.Label.Edit=Edit Dimension
+CubeDialog.Title=插入
+CubeDialog.Label.Select=Selected data for Cross Tab:
+CubeDialog.Button.Define=Define data for Cross Tab
+LevelDialog.Title=OLAP Cube Builder
+LevelDialog.Label.Name=名称:
+LevelDialog.Label.Field=Choose Field:
+LevelDialog.Label.Info=Selected Key:
+LevelDialog.Label.Add=Add Level
+LevleDialog.Label.Edit=Edit Level
+LevelPropertyDialog.Title=Level
+LevelPropertyDialog.MSG.CreateNew=<Create New Parameter>
+LevelPropertyDialog.Label.Name=名称:
+LevelPropertyDialog.Label.Interval=间隔:
+LevelPropertyDialog.Label.Range=Range:
+LevelPropertyDialog.Button.IntervalBase=Use fixed base value for interval:
+LevelPropertyDialog.Label.Info=Selected Key:
+LevelPropertyDialog.Button.Dynamic=Dynamic
+LevelPropertyDialog.Button.Static=Static
+LevelPropertyDialog.Label.Property=Level Property
+LevelPropertyDialog.Label.Attribute=Attribute
+LevelPropertyDialog.Label.Name=名称:
+LevelPropertyDialog.Label.Expression=表达式

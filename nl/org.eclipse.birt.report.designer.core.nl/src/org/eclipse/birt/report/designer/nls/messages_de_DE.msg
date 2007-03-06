@@ -3675,3 +3675,76 @@ BIRTGotoMarker.Error.Message=Das Berichtelement ist nicht vorhanden.
 ###########################################################
 #TabbedList properties
 TabbedPropertyList.properties.not.available=Eigenschaften sind nicht verfügbar.
+
+###########################################################
+#Cube treeNode properties
+DefaultNodeProvider.Tree.Cubes=Cubes
+cube.new=New Cube
+cube.edit=Edit Cube
+CubeNodeProvider.menu.text=Bearbeiten
+cube.dimension.new=New Cube Dimension
+cube.dimension.edit=Edit Cube Dimension
+CubeDimensionNodeProvider.menu.text=Bearbeiten
+cube.level.new=New Cube Level
+cube.level.edit=Edit Cube Level
+CubeLevelNodeProvider.menu.text=Bearbeiten
+cube.measure.new=New Cube Measure
+cube.measure.edit=Edit Cube Measure
+CubeMeasureNodeProvider.menu.text=Bearbeiten
+cube.measuregroup.new=New Cube Measure Group
+cube.measure.edit=Edit Cube Measure Group
+CubeMeasureGroupNodeProvider.menu.text=Bearbeiten
+
+###########################################################
+#Cube Builder Dialog properties
+CubeBuilder.Title=OLAP Cube Builder
+DatasetPage.Title=Dataset
+DimensionPage.Title=Dimension
+MeasurePage.Title=Measures
+DatasetPage.Label.Name=Cube name:
+DatasetPage.Label.PrimaryDataset=Primary dataset:
+DatasetPage.Button.Filter=Filter...
+DatasetPage.Button.Joint=Add joint datasets...
+DimensionPage.Label.Title=Dimension:
+DimensionPage.Button.Add=&Hinzufügen
+DimensionPage.Button.Edit=&Edit
+DimensionPage.Button.Delete=&Löschen
+DimensionPage.Button.Property=&Property
+MeasuresPage.Label.DataField=Available data fields:
+MeasuresPage.Label.Measures=Measures:
+MeasuresPage.Button.Add=Hinzufügen
+MeasuresPage.Label.Name=&Name:
+MeasuresPage.Label.Function=&Function:
+MeasuresPage.Label.Expression=&Ausdruck:
+DatasetDialog.Title.Label=Add Datasets
+DatasetDialog.Title.OKButton.Text=Hinzufügen
+DimensionDialog.Title=OLAP Cube Builder
+DimensionDialog.Button.Primary=Use primary dataset as Dimension dataset
+DimensionDialog.Button.Other=Use other dataset as Dimension dataset:
+DimensionDialog.Label.DatasetField=Available data fields:
+DimensionDialog.Label.Dimensions=Dimensions:
+DimensionDialog.Label.Name=Dimension Name:
+DimensionDialog.Label.Add=Add Dimension
+DimensionDialog.Label.Edit=Edit Dimension
+CubeDialog.Title=Einfügen
+CubeDialog.Label.Select=Selected data for Cross Tab:
+CubeDialog.Button.Define=Define data for Cross Tab
+LevelDialog.Title=OLAP Cube Builder
+LevelDialog.Label.Name=Name:
+LevelDialog.Label.Field=Choose Field:
+LevelDialog.Label.Info=Selected Key:
+LevelDialog.Label.Add=Add Level
+LevleDialog.Label.Edit=Edit Level
+LevelPropertyDialog.Title=Level
+LevelPropertyDialog.MSG.CreateNew=<Create New Parameter>
+LevelPropertyDialog.Label.Name=Name:
+LevelPropertyDialog.Label.Interval=Intervall:
+LevelPropertyDialog.Label.Range=Range:
+LevelPropertyDialog.Button.IntervalBase=Use fixed base value for interval:
+LevelPropertyDialog.Label.Info=Selected Key:
+LevelPropertyDialog.Button.Dynamic=Dynamic
+LevelPropertyDialog.Button.Static=Static
+LevelPropertyDialog.Label.Property=Level Property
+LevelPropertyDialog.Label.Attribute=Attribute
+LevelPropertyDialog.Label.Name=Name:
+LevelPropertyDialog.Label.Expression=Ausdruck
