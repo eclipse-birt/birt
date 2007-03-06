@@ -85,6 +85,7 @@
 	<property name="emf.common.dir" value="org.eclipse.emf.common" />
 	<property name="emf.ecore.dir" value="org.eclipse.emf.ecore" />
 	<property name="emf.ecore.xmi.dir" value="org.eclipse.emf.ecore.xmi" />
+	<property name="baseLocation.emf" value="${baseLocation}"/> 
 
 	<path id="class.path">
 		<!--pathelement path="${dir.bin}"/-->				
@@ -93,17 +94,19 @@
 			<include name="org.eclipse.core.runtime*.jar"/>
 			<include name="org.eclipse.osgi_*/*.jar"/>
 			<include name="org.eclipse.osgi*.jar"/>
+			<include name="com.ibm.icu_*.jar"/>
+			<include name="org.eclipse.swt*.jar"/>
+		</fileset>
+		<fileset dir="../org.mozilla.rhino">
+				<include name="**/*.jar"/>
+		</fileset>
+		<fileset dir="${baseLocation.emf}/plugins">
 			<include name="${emf.common.dir}_*/runtime/common.jar"/>
 			<include name="${emf.ecore.dir}_*/runtime/ecore.jar"/>
 			<include name="${emf.ecore.xmi.dir}_*/runtime/ecore.xmi.jar"/>
 			<include name="org.eclipse.emf.common_*.jar"/>
 			<include name="org.eclipse.emf.ecore_*.jar"/>
 			<include name="org.eclipse.emf.ecore.xmi_*.jar"/>
-			<include name="com.ibm.icu_*.jar"/>
-			<include name="org.eclipse.swt*.jar"/>
-		</fileset>
-		<fileset dir="../org.mozilla.rhino">
-				<include name="**/*.jar"/>
 		</fileset>
 		<pathelement path="${core.dir}/@dot"/>
 		<pathelement path="${core.ui.dir}/@dot"/>
