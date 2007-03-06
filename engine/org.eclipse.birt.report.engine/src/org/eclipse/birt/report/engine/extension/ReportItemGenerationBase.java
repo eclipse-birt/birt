@@ -16,9 +16,7 @@ import java.io.OutputStream;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
-import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.ReportElementHandle;
 
 /**
  * Implements a default generation peer that does nothing
@@ -30,7 +28,6 @@ public class ReportItemGenerationBase implements IReportItemGeneration
 	protected ClassLoader appClassLoader;
 	protected IReportContext context;
 	protected IBaseQueryDefinition[] queries;
-	protected IReportItemExecutor parentExecutor;
 
 	/**
 	 * Constructor that does nothing
@@ -110,17 +107,6 @@ public class ReportItemGenerationBase implements IReportItemGeneration
 	public boolean needSerialization( )
 	{
 		return false;
-	}
-
-	public IReportItemExecutor createExecutor( IExecuteContext context,
-			ReportElementHandle modelHandle )
-	{
-		return null;
-	}
-
-	public void setParentExecutor( IReportItemExecutor parent )
-	{
-		parentExecutor = parent;
 	}
 
 }
