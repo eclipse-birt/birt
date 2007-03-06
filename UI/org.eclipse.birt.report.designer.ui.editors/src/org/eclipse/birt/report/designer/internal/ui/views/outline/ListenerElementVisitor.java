@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.api.DesignVisitor;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
+import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
  * Applies visitor to the report element and the children element
@@ -77,6 +78,12 @@ public class ListenerElementVisitor extends DesignVisitor
 		{
 			visitContents( obj.getSlot( i ) );
 		}
+		
+		for ( int i = 0; i < obj.getDefn( ).getContents( ).size( ); i++ )
+		{
+			visitContents( obj,((PropertyDefn)obj.getDefn( ).getContents( ).get( i )).getName( ) );
+		}
+		
 	}
 	
 	

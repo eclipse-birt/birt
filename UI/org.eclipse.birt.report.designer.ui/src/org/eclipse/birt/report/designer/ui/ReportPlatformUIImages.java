@@ -579,6 +579,21 @@ public class ReportPlatformUIImages
 	
 		declareImage( IReportGraphicConstants.ICON_ENABLE_EXPRESSION_BUILDERS,
 				ICONS_PATH + OTHERS_PATH + "exp-builder-fx-enabled.gif" ); //$NON-NLS-1$
+		
+		declareImage( IReportGraphicConstants.ICON_CUBE_CUBES,
+				ICONS_PATH + OBJ16_PATH + "cubes.gif" ); //$NON-NLS-1$
+		
+		declareImage( IReportGraphicConstants.ICON_CUBE_CUBE,
+				ICONS_PATH + OBJ16_PATH + "cube.gif" ); //$NON-NLS-1$
+		
+		declareImage( IReportGraphicConstants.ICON_CUBE_DIMENSION,
+				ICONS_PATH + OBJ16_PATH + "dimension.gif" ); //$NON-NLS-1$
+		
+		declareImage( IReportGraphicConstants.ICON_CUBE_MEASUREGROUP,
+				ICONS_PATH + OBJ16_PATH + "measure_group.gif" ); //$NON-NLS-1$
+		
+		declareImage( IReportGraphicConstants.ICON_CUBE_LEVEL,
+				ICONS_PATH + OBJ16_PATH + "level.gif" ); //$NON-NLS-1$
 	}
 
 	/**

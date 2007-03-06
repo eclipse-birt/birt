@@ -331,7 +331,7 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 		SlotHandle sets =  getRoot( ).getDataSets( ) ;
 		SlotHandle parameters =  getRoot( ).getParameters( );
 		getTreeViewer( ).setInput( new Object[]{
-				sources, sets, parameters
+				sources, sets, parameters,getRoot( ).getCubes( )
 		} );
 		getListenerElementVisitor( ).addListener( getRoot( ) );
 	}

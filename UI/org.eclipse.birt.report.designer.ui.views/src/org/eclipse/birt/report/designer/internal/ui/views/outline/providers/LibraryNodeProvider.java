@@ -50,6 +50,7 @@ public class LibraryNodeProvider extends ReportDesignNodeProvider
 			list.add( handle.getDataSources( )  );
 			list.add( handle.getDataSets( ));
 			list.add( handle.getParameters( )  );
+			list.add( handle.getCubes( ) );
 			// Add the children handle - Components
 			// list.add( new ReportElementModel( handle.getComponents( ) ) );
 			list.add( handle.getComponents( ) );

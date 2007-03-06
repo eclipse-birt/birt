@@ -51,14 +51,16 @@ public class ReportDesignNodeProvider extends DefaultNodeProvider
 		ReportDesignHandle handle = ( (ReportDesignHandle) model );
 		ArrayList list = new ArrayList( );
 
-		list.add(handle.getParameters( ) );
+		list.add( handle.getParameters( ) );
+
+		list.add( handle.getCubes( ) );
 
 		// Add the children handle - Body
 		list.add( handle.getBody( ) );
 		// Add the children handle - Master Pages
 		list.add( handle.getMasterPages( ) );
 		// Add the children handle - Styles
-		list.add(  handle.getStyles( ) );
+		list.add( handle.getStyles( ) );
 		// Add the children handle - Embedded Images
 		list.add( new EmbeddedImageNode( handle ) );
 
