@@ -635,7 +635,11 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
         {
             for( var j = 0; j < this.__cascadingParameter[i].length; j++ )
             {
-                if( this.__cascadingParameter[i][j].name == Event.element( event ).id.substr( 0, Event.element( event ).id.length - 10 ) )
+            	var paramName = this.__cascadingParameter[i][j].name;
+            	if( paramName == this.__isnull )
+            		paramName = this.__cascadingParameter[i][j].value;
+            		
+                if( paramName == Event.element( event ).id.substr( 0, Event.element( event ).id.length - 10 ) )
                 {
                 	var tempText = Event.element( event ).options[Event.element( event ).selectedIndex].text;
 
@@ -647,6 +651,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
                 	}
                 	else
                 	{
+                		this.__cascadingParameter[i][j].name = paramName;
                 	    this.__cascadingParameter[i][j].value = Event.element( event ).options[Event.element( event ).selectedIndex].value;
                 	}
                 	
