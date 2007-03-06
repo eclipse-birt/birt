@@ -12,7 +12,7 @@
         </script-data-set>
     </data-sets>
     <cubes>
-        <cube name="newtestCube" id="7">
+        <tabular-cube name="newtestCube" id="7">
             <property name="dataSet">secondDataSet</property>
             <property name="defaultMeasureGroup">testDefaultMeasureGroup</property>
             <list-property name="filter">
@@ -41,11 +41,11 @@
                 </structure>
             </list-property>
             <property name="dimensions">
-                <dimension name="newtestDimension" id="8">
+                <tabular-dimension name="newtestDimension" id="8">
                     <property name="isTimeType">false</property>
                     <property name="defaultHierarchy">testDefaultHierarchy</property>
                     <property name="hierarchies">
-                        <hierarchy name="newtestHierarchy" id="9">
+                        <tabular-hierarchy name="newtestHierarchy" id="9">
                             <property name="dataSet">firstDataSet</property>
                             <list-property name="filter">
                                 <structure>
@@ -61,7 +61,7 @@
                                 <value>updated key</value>
                             </simple-property-list>
                             <property name="levels">
-                                <level name="newtestLevel" id="10">
+                                <tabular-level name="newtestLevel" id="10">
                                     <property name="columnName">updated column1</property>
                                     <property name="dataType">string</property>
                                     <property name="intervalBase">updated Jan</property>
@@ -112,8 +112,8 @@
                                         </value-access-control>
                                         <value-access-control id="22"/>
                                     </property>
-                                </level>
-                                <level name="NewLevel" id="21"/>
+                                </tabular-level>
+                                <tabular-level name="NewTabularLevel" id="21"/>
                             </property>
                             <property name="accessControls">
                                 <access-control id="12">
@@ -133,28 +133,28 @@
                                 </access-control>
                                 <access-control id="20"/>
                             </property>
-                        </hierarchy>
-                        <hierarchy name="NewHierarchy1" id="19"/>
+                        </tabular-hierarchy>
+                        <tabular-hierarchy name="NewTabularHierarchy1" id="19"/>
                     </property>
-                </dimension>
-                <dimension name="NewDimension" id="17">
+                </tabular-dimension>
+                <tabular-dimension name="NewTabularDimension" id="17">
                     <property name="hierarchies">
-                        <hierarchy name="NewHierarchy" id="18"/>
+                        <tabular-hierarchy name="NewTabularHierarchy" id="18"/>
                     </property>
-                </dimension>
+                </tabular-dimension>
             </property>
             <property name="measureGroups">
-                <measure-group name="newtestMeasureGroup" id="13">
+                <tabular-measure-group name="newtestMeasureGroup" id="13">
                     <property name="measures">
-                        <measure name="newtestMeasure" id="14">
+                        <tabular-measure name="newtestMeasure" id="14">
                             <property name="function">count</property>
                             <property name="isCalculated">true</property>
                             <expression name="measureExpression">updated column</expression>
-                        </measure>
-                        <measure name="NewMeasure" id="24"/>
+                        </tabular-measure>
+                        <tabular-measure name="NewTabularMeasure" id="24"/>
                     </property>
-                </measure-group>
-                <measure-group name="NewMeasureGroup" id="23"/>
+                </tabular-measure-group>
+                <tabular-measure-group name="NewTabularMeasureGroup" id="23"/>
             </property>
             <property name="accessControls">
                 <access-control id="15">
@@ -174,7 +174,7 @@
                 </access-control>
                 <access-control id="16"/>
             </property>
-        </cube>
+        </tabular-cube>
     </cubes>
     <page-setup>
         <graphic-master-page name="My Page" id="2">

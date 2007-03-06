@@ -1395,6 +1395,30 @@ public class ModelUtil
 		else if ( DesignSchemaConstants.MULTI_LINE_DATA_TAG
 				.equalsIgnoreCase( xmlName ) )
 			return ReportDesignConstants.TEXT_DATA_ITEM;
+		else if ( DesignSchemaConstants.TABULAR_CUBE_TAG
+				.equalsIgnoreCase( xmlName ) )
+			return ReportDesignConstants.TABULAR_CUBE_ELEMENT;
+		else if ( DesignSchemaConstants.TABULAR_DIMENSION_TAG
+				.equalsIgnoreCase( xmlName ) )
+			return ReportDesignConstants.TABULAR_DIMENSION_ELEMENT;
+		else if ( DesignSchemaConstants.TABULAR_HIERARCHY_TAG
+				.equalsIgnoreCase( xmlName ) )
+			return ReportDesignConstants.TABULAR_HIERARCHY_ELEMENT;
+		else if ( DesignSchemaConstants.TABULAR_LEVEL_TAG
+				.equalsIgnoreCase( xmlName ) )
+			return ReportDesignConstants.TABULAR_LEVEL_ELEMENT;
+		else if ( DesignSchemaConstants.TABULAR_MEASURE_TAG
+				.equalsIgnoreCase( xmlName ) )
+			return ReportDesignConstants.TABULAR_MEASURE_ELEMENT;
+		else if ( DesignSchemaConstants.TABULAR_MEASURE_GROUP_TAG
+				.equalsIgnoreCase( xmlName ) )
+			return ReportDesignConstants.TABULAR_MEASURE_GROUP_ELEMENT;
+		else if ( DesignSchemaConstants.ACCESS_CONTROL_TAG
+				.equalsIgnoreCase( xmlName ) )
+			return ReportDesignConstants.ACCESS_CONTROL;
+		else if ( DesignSchemaConstants.VALUE_ACCESS_CONTROL_TAG
+				.equalsIgnoreCase( xmlName ) )
+			return ReportDesignConstants.VALUE_ACCESS_CONTROL;
 
 		return null;
 	}

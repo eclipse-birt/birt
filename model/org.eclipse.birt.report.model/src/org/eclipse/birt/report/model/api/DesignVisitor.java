@@ -17,6 +17,12 @@ import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
+import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
+import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
+import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
+import org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle;
+import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.AutoText;
@@ -55,12 +61,12 @@ import org.eclipse.birt.report.model.elements.TemplateReportItem;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.Theme;
-import org.eclipse.birt.report.model.elements.olap.Cube;
-import org.eclipse.birt.report.model.elements.olap.Dimension;
-import org.eclipse.birt.report.model.elements.olap.Hierarchy;
-import org.eclipse.birt.report.model.elements.olap.Level;
-import org.eclipse.birt.report.model.elements.olap.Measure;
-import org.eclipse.birt.report.model.elements.olap.MeasureGroup;
+import org.eclipse.birt.report.model.elements.olap.TabularCube;
+import org.eclipse.birt.report.model.elements.olap.TabularDimension;
+import org.eclipse.birt.report.model.elements.olap.TabularHierarchy;
+import org.eclipse.birt.report.model.elements.olap.TabularLevel;
+import org.eclipse.birt.report.model.elements.olap.TabularMeasure;
+import org.eclipse.birt.report.model.elements.olap.TabularMeasureGroup;
 
 /**
  * Applies logic customized to each type of report element. This is an
@@ -691,6 +697,78 @@ public class DesignVisitor
 	 *            the cube element to traverse
 	 */
 
+	protected void visitTabularCube( TabularCubeHandle obj )
+	{
+		visitCube( obj );
+	}
+
+	/**
+	 * Visits the dimension element.
+	 * 
+	 * @param obj
+	 *            the dimension element to traverse
+	 */
+
+	protected void visitTabularDimension( TabularDimensionHandle obj )
+	{
+		visitDimension( obj );
+	}
+
+	/**
+	 * Visits the hierarchy element.
+	 * 
+	 * @param obj
+	 *            the hierarchy element to traverse
+	 */
+
+	protected void visitTabularHierarchy( TabularHierarchyHandle obj )
+	{
+		visitHierarchy( obj );
+	}
+
+	/**
+	 * Visits the level element.
+	 * 
+	 * @param obj
+	 *            the level element to traverse
+	 */
+
+	protected void visitTabularLevel( TabularLevelHandle obj )
+	{
+		visitLevel( obj );
+	}
+
+	/**
+	 * Visits the measure element.
+	 * 
+	 * @param obj
+	 *            the measure element to traverse
+	 */
+
+	protected void visitTabularMeasure( TabularMeasureHandle obj )
+	{
+		visitMeasure( obj );
+	}
+
+	/**
+	 * Visits the measure element.
+	 * 
+	 * @param obj
+	 *            the measure element to traverse
+	 */
+
+	protected void visitTabularMeasureGroup( TabularMeasureGroupHandle obj )
+	{
+		visitMeasureGroup( obj );
+	}
+
+	/**
+	 * Visits the cube element.
+	 * 
+	 * @param obj
+	 *            the cube element to traverse
+	 */
+
 	protected void visitCube( CubeHandle obj )
 	{
 		visitDesignElement( obj );
@@ -1213,9 +1291,9 @@ public class DesignVisitor
 		 *            the cube element
 		 */
 
-		public void visitCube( Cube obj )
+		public void visitTabularCube( TabularCube obj )
 		{
-			DesignVisitor.this.visitCube( obj.handle( module ) );
+			DesignVisitor.this.visitTabularCube( obj.handle( module ) );
 		}
 
 		/**
@@ -1225,9 +1303,9 @@ public class DesignVisitor
 		 *            the dimension element
 		 */
 
-		public void visitDimension( Dimension obj )
+		public void visitTabularDimension( TabularDimension obj )
 		{
-			DesignVisitor.this.visitDimension( obj.handle( module ) );
+			DesignVisitor.this.visitTabularDimension( obj.handle( module ) );
 		}
 
 		/**
@@ -1237,9 +1315,9 @@ public class DesignVisitor
 		 *            the hierarchy element
 		 */
 
-		public void visitHierarchy( Hierarchy obj )
+		public void visitTabularHierarchy( TabularHierarchy obj )
 		{
-			DesignVisitor.this.visitHierarchy( obj.handle( module ) );
+			DesignVisitor.this.visitTabularHierarchy( obj.handle( module ) );
 		}
 
 		/**
@@ -1249,9 +1327,9 @@ public class DesignVisitor
 		 *            the level element
 		 */
 
-		public void visitLevel( Level obj )
+		public void visitTabularLevel( TabularLevel obj )
 		{
-			DesignVisitor.this.visitLevel( obj.handle( module ) );
+			DesignVisitor.this.visitTabularLevel( obj.handle( module ) );
 		}
 
 		/**
@@ -1261,9 +1339,9 @@ public class DesignVisitor
 		 *            the measure element
 		 */
 
-		public void visitMeasure( Measure obj )
+		public void visitTabularMeasure( TabularMeasure obj )
 		{
-			DesignVisitor.this.visitMeasure( obj.handle( module ) );
+			DesignVisitor.this.visitTabularMeasure( obj.handle( module ) );
 		}
 
 		/**
@@ -1272,9 +1350,9 @@ public class DesignVisitor
 		 * @param obj
 		 *            the measure group
 		 */
-		public void visitMeasureGroup( MeasureGroup obj )
+		public void visitTabularMeasureGroup( TabularMeasureGroup obj )
 		{
-			DesignVisitor.this.visitMeasureGroup( obj.handle( module ) );
+			DesignVisitor.this.visitTabularMeasureGroup( obj.handle( module ) );
 		}
 	}
 }

@@ -13,11 +13,9 @@ package org.eclipse.birt.report.model.elements.olap;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
-import org.eclipse.birt.report.model.elements.interfaces.IMeasureModel;
 
 /**
  * This class represents a Measure element. Measure is a quantity that you are
@@ -27,16 +25,14 @@ import org.eclipse.birt.report.model.elements.interfaces.IMeasureModel;
  * 
  */
 
-public abstract class Measure extends ReferenceableElement
-		implements
-			IMeasureModel
+public class TabularMeasure extends Measure
 {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public Measure( )
+	public TabularMeasure( )
 	{
 
 	}
@@ -48,7 +44,7 @@ public abstract class Measure extends ReferenceableElement
 	 *            the optional name of the measure element
 	 */
 
-	public Measure( String name )
+	public TabularMeasure( String name )
 	{
 		super( name );
 	}
@@ -60,7 +56,7 @@ public abstract class Measure extends ReferenceableElement
 	 */
 	public void apply( ElementVisitor visitor )
 	{
-		visitor.visitMeasure( this );
+		visitor.visitTabularMeasure( this );
 	}
 
 	/*
@@ -70,6 +66,34 @@ public abstract class Measure extends ReferenceableElement
 	 */
 	public String getElementName( )
 	{
-		return ReportDesignConstants.MEASURE_ELEMENT;
+		return ReportDesignConstants.TABULAR_MEASURE_ELEMENT;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.birt.report.model.core.Module)
+	 */
+	public DesignElementHandle getHandle( Module module )
+	{
+		return handle( module );
+	}
+
+	/**
+	 * Returns an API handle for this element.
+	 * 
+	 * @param module
+	 *            the module of the measure
+	 * 
+	 * @return an API handle for this element.
+	 */
+
+	public TabularMeasureHandle handle( Module module )
+	{
+		if ( handle == null )
+		{
+			handle = new TabularMeasureHandle( module, this );
+		}
+		return (TabularMeasureHandle) handle;
 	}
 }

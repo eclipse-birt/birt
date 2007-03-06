@@ -147,6 +147,12 @@ import org.eclipse.birt.report.model.elements.olap.Hierarchy;
 import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.birt.report.model.elements.olap.Measure;
 import org.eclipse.birt.report.model.elements.olap.MeasureGroup;
+import org.eclipse.birt.report.model.elements.olap.TabularCube;
+import org.eclipse.birt.report.model.elements.olap.TabularDimension;
+import org.eclipse.birt.report.model.elements.olap.TabularHierarchy;
+import org.eclipse.birt.report.model.elements.olap.TabularLevel;
+import org.eclipse.birt.report.model.elements.olap.TabularMeasure;
+import org.eclipse.birt.report.model.elements.olap.TabularMeasureGroup;
 import org.eclipse.birt.report.model.extension.oda.ODAProvider;
 import org.eclipse.birt.report.model.extension.oda.OdaDummyProvider;
 import org.eclipse.birt.report.model.metadata.Choice;
@@ -3311,9 +3317,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	 * 
 	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitCube(org.eclipse.birt.report.model.elements.olap.Cube)
 	 */
+
 	public void visitCube( Cube obj )
 	{
-		writer.startElement( DesignSchemaConstants.CUBE_TAG );
 		super.visitCube( obj );
 		property( obj, ICubeModel.DATA_SET_PROP );
 		property( obj, ICubeModel.DEFAULT_MEASURE_GROUP_PROP );
@@ -3323,8 +3329,6 @@ public abstract class ModuleWriter extends ElementVisitor
 		writeContents( obj, ICubeModel.DIMENSIONS_PROP );
 		writeContents( obj, ICubeModel.MEASURE_GROUPS_PROP );
 		writeContents( obj, ICubeModel.ACCESS_CONTROLS_PROP );
-
-		writer.endElement( );
 	}
 
 	/*
@@ -3334,14 +3338,11 @@ public abstract class ModuleWriter extends ElementVisitor
 	 */
 	public void visitDimension( Dimension obj )
 	{
-		writer.startElement( DesignSchemaConstants.DIMENSION_TAG );
 		super.visitDimension( obj );
 		property( obj, IDimensionModel.IS_TIME_TYPE_PROP );
 		property( obj, IDimensionModel.DEFAULT_HIERARCHY_PROP );
 
 		writeContents( obj, IDimensionModel.HIERARCHIES_PROP );
-
-		writer.endElement( );
 	}
 
 	/*
@@ -3351,7 +3352,6 @@ public abstract class ModuleWriter extends ElementVisitor
 	 */
 	public void visitHierarchy( Hierarchy obj )
 	{
-		writer.startElement( DesignSchemaConstants.HIERARCHY_TAG );
 		super.visitHierarchy( obj );
 		property( obj, IHierarchyModel.DATA_SET_PROP );
 		writeStructureList( obj, ICubeModel.FILTER_PROP );
@@ -3359,8 +3359,6 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		writeContents( obj, IHierarchyModel.LEVELS_PROP );
 		writeContents( obj, ICubeModel.ACCESS_CONTROLS_PROP );
-
-		writer.endElement( );
 	}
 
 	/*
@@ -3370,7 +3368,6 @@ public abstract class ModuleWriter extends ElementVisitor
 	 */
 	public void visitLevel( Level obj )
 	{
-		writer.startElement( DesignSchemaConstants.LEVEL_TAG );
 		super.visitLevel( obj );
 		property( obj, ILevelModel.COLUMN_NAME_PROP );
 		property( obj, ILevelModel.DATA_TYPE_PROP );
@@ -3382,7 +3379,6 @@ public abstract class ModuleWriter extends ElementVisitor
 		writeStructureList( obj, ILevelModel.ATTRIBUTES_PROP );
 		writeContents( obj, ILevelModel.VALUE_ACCESS_CONTROLS_PROP );
 
-		writer.endElement( );
 	}
 
 	/*
@@ -3392,12 +3388,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	 */
 	public void visitMeasureGroup( MeasureGroup obj )
 	{
-		writer.startElement( DesignSchemaConstants.MEASURE_GROUP_TAG );
 		super.visitMeasureGroup( obj );
 
 		writeContents( obj, IMeasureGroupModel.MEASURES_PROP );
-
-		writer.endElement( );
 	}
 
 	/*
@@ -3407,13 +3400,10 @@ public abstract class ModuleWriter extends ElementVisitor
 	 */
 	public void visitMeasure( Measure obj )
 	{
-		writer.startElement( DesignSchemaConstants.MEASURE_TAG );
 		super.visitMeasure( obj );
 		property( obj, IMeasureModel.FUNCTION_PROP );
 		property( obj, IMeasureModel.IS_CALCULATED_PROP );
 		property( obj, IMeasureModel.MEASURE_EXPRESSION_PROP );
-
-		writer.endElement( );
 	}
 
 	/*
@@ -3455,6 +3445,86 @@ public abstract class ModuleWriter extends ElementVisitor
 		writeSimplePropertyList( obj, IValueAccessControlModel.ROLES_PROP );
 		writeSimplePropertyList( obj, IValueAccessControlModel.VALUES_PROP );
 		property( obj, IValueAccessControlModel.PERMISSION_PROP );
+
+		writer.endElement( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitTabularCube(org.eclipse.birt.report.model.elements.olap.TabularCube)
+	 */
+	public void visitTabularCube( TabularCube obj )
+	{
+		writer.startElement( DesignSchemaConstants.TABULAR_CUBE_TAG );
+		super.visitTabularCube( obj );
+
+		writer.endElement( );
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitTabularDimension(org.eclipse.birt.report.model.elements.olap.TabularDimension)
+	 */
+	public void visitTabularDimension( TabularDimension obj )
+	{
+		writer.startElement( DesignSchemaConstants.TABULAR_DIMENSION_TAG );
+		super.visitTabularDimension( obj );
+
+		writer.endElement( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitTabularHierarchy(org.eclipse.birt.report.model.elements.olap.TabularHierarchy)
+	 */
+	public void visitTabularHierarchy( TabularHierarchy obj )
+	{
+		writer.startElement( DesignSchemaConstants.TABULAR_HIERARCHY_TAG );
+		super.visitTabularHierarchy( obj );
+
+		writer.endElement( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitTabularLevel(org.eclipse.birt.report.model.elements.olap.TabularLevel)
+	 */
+	public void visitTabularLevel( TabularLevel obj )
+	{
+		writer.startElement( DesignSchemaConstants.TABULAR_LEVEL_TAG );
+		super.visitTabularLevel( obj );
+
+		writer.endElement( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitTabularMeasure(org.eclipse.birt.report.model.elements.olap.TabularMeasure)
+	 */
+	public void visitTabularMeasure( TabularMeasure obj )
+	{
+		writer.startElement( DesignSchemaConstants.TABULAR_MEASURE_TAG );
+		super.visitTabularMeasure( obj );
+
+		writer.endElement( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitTabularMeasureGroup(org.eclipse.birt.report.model.elements.olap.TabularMeasureGroup)
+	 */
+
+	public void visitTabularMeasureGroup( TabularMeasureGroup obj )
+	{
+		writer.startElement( DesignSchemaConstants.TABULAR_MEASURE_GROUP_TAG );
+		super.visitTabularMeasureGroup( obj );
 
 		writer.endElement( );
 	}

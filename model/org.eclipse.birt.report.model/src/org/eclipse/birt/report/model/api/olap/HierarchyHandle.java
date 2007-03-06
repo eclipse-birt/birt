@@ -14,14 +14,9 @@ package org.eclipse.birt.report.model.api.olap;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.LibraryHandle;
-import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IHierarchyModel;
@@ -33,7 +28,7 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
  * @see org.eclipse.birt.report.model.elements.olap.Hierarchy
  */
 
-public class HierarchyHandle extends ReportElementHandle
+public abstract class HierarchyHandle extends ReportElementHandle
 		implements
 			IHierarchyModel
 {
@@ -52,46 +47,6 @@ public class HierarchyHandle extends ReportElementHandle
 	public HierarchyHandle( Module module, DesignElement element )
 	{
 		super( module, element );
-	}
-
-	/**
-	 * Returns the data set of this hierarchy.
-	 * 
-	 * @return the handle to the data set
-	 */
-
-	public DataSetHandle getDataSet( )
-	{
-		return (DataSetHandle) getElementProperty( DATA_SET_PROP );
-	}
-
-	/**
-	 * Sets the data set of this hierarchy.
-	 * 
-	 * @param handle
-	 *            the handle of the data set
-	 * 
-	 * @throws SemanticException
-	 *             if the property is locked, or the data-set is invalid.
-	 */
-
-	public void setDataSet( DataSetHandle handle ) throws SemanticException
-	{
-		if ( handle == null )
-			setStringProperty( DATA_SET_PROP, null );
-		else
-		{
-			ModuleHandle moduleHandle = handle.getRoot( );
-			String valueToSet = handle.getName( );
-			if ( moduleHandle instanceof LibraryHandle )
-			{
-				String namespace = ( (LibraryHandle) moduleHandle )
-						.getNamespace( );
-				valueToSet = StringUtil.buildQualifiedReference( namespace,
-						handle.getName( ) );
-			}
-			setStringProperty( DATA_SET_PROP, valueToSet );
-		}
 	}
 
 	/**

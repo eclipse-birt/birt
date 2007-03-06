@@ -13,42 +13,38 @@ package org.eclipse.birt.report.model.elements.olap;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
-import org.eclipse.birt.report.model.elements.interfaces.IMeasureModel;
 
 /**
- * This class represents a Measure element. Measure is a quantity that you are
- * interested in measures.Use the
- * {@link org.eclipse.birt.report.model.api.olap.MeasureHandle}class to change
- * the properties.
+ * This class represents a Dimension element. Dimension contains a list of
+ * hierarchy elements and a foreign key. Use the
+ * {@link org.eclipse.birt.report.model.api.olap.DimensionHandle}class to
+ * change the properties.
  * 
  */
 
-public abstract class Measure extends ReferenceableElement
-		implements
-			IMeasureModel
+public class TabularDimension extends Dimension
 {
 
 	/**
 	 * Default constructor.
+	 * 
 	 */
 
-	public Measure( )
+	public TabularDimension( )
 	{
-
 	}
 
 	/**
-	 * Constructs the measure element with a given name.
+	 * Constructs the dimension with the given name.
 	 * 
 	 * @param name
-	 *            the optional name of the measure element
+	 *            name given for this dimension
 	 */
 
-	public Measure( String name )
+	public TabularDimension( String name )
 	{
 		super( name );
 	}
@@ -60,7 +56,7 @@ public abstract class Measure extends ReferenceableElement
 	 */
 	public void apply( ElementVisitor visitor )
 	{
-		visitor.visitMeasure( this );
+		visitor.visitTabularDimension( this );
 	}
 
 	/*
@@ -70,6 +66,34 @@ public abstract class Measure extends ReferenceableElement
 	 */
 	public String getElementName( )
 	{
-		return ReportDesignConstants.MEASURE_ELEMENT;
+		return ReportDesignConstants.TABULAR_DIMENSION_ELEMENT;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.birt.report.model.core.Module)
+	 */
+	public DesignElementHandle getHandle( Module module )
+	{
+		return handle( module );
+	}
+
+	/**
+	 * Returns an API handle for this element.
+	 * 
+	 * @param module
+	 *            the module of the dimension
+	 * 
+	 * @return an API handle for this element.
+	 */
+
+	public TabularDimensionHandle handle( Module module )
+	{
+		if ( handle == null )
+		{
+			handle = new TabularDimensionHandle( module, this );
+		}
+		return (TabularDimensionHandle) handle;
 	}
 }

@@ -11,9 +11,7 @@
 
 package org.eclipse.birt.report.model.elements.olap;
 
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -31,7 +29,7 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
  * 
  */
 
-public class Cube extends ReferenceableElement implements ICubeModel
+public abstract class Cube extends ReferenceableElement implements ICubeModel
 {
 
 	/**
@@ -74,35 +72,6 @@ public class Cube extends ReferenceableElement implements ICubeModel
 	public String getElementName( )
 	{
 		return ReportDesignConstants.CUBE_ELEMENT;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.birt.report.model.core.Module)
-	 */
-
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
-	}
-
-	/**
-	 * Returns an API handle for this element.
-	 * 
-	 * @param module
-	 *            the module of the cube
-	 * 
-	 * @return an API handle for this element.
-	 */
-
-	public CubeHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new CubeHandle( module, this );
-		}
-		return (CubeHandle) handle;
 	}
 
 	/**

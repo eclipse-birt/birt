@@ -31,7 +31,9 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
  * 
  */
 
-public class Dimension extends ReferenceableElement implements IDimensionModel
+public abstract class Dimension extends ReferenceableElement
+		implements
+			IDimensionModel
 {
 
 	/**
@@ -75,34 +77,6 @@ public class Dimension extends ReferenceableElement implements IDimensionModel
 		return ReportDesignConstants.DIMENSION_ELEMENT;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.birt.report.model.core.Module)
-	 */
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
-	}
-
-	/**
-	 * Returns an API handle for this element.
-	 * 
-	 * @param module
-	 *            the module of the dimension
-	 * 
-	 * @return an API handle for this element.
-	 */
-
-	public DimensionHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new DimensionHandle( module, this );
-		}
-		return (DimensionHandle) handle;
-	}
-
 	/**
 	 * Gets the default hierarchy in this dimension.
 	 * 
@@ -130,7 +104,7 @@ public class Dimension extends ReferenceableElement implements IDimensionModel
 	{
 		DesignElement element = (DesignElement) super.doClone( policy );
 
-		Module module = getRoot( );		
+		Module module = getRoot( );
 		DesignElement hierarchy = getDefaultHierarchy( module );
 		if ( hierarchy != null )
 		{

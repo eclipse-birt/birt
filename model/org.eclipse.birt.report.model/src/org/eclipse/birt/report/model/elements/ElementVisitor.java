@@ -24,6 +24,12 @@ import org.eclipse.birt.report.model.elements.olap.Hierarchy;
 import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.birt.report.model.elements.olap.Measure;
 import org.eclipse.birt.report.model.elements.olap.MeasureGroup;
+import org.eclipse.birt.report.model.elements.olap.TabularCube;
+import org.eclipse.birt.report.model.elements.olap.TabularDimension;
+import org.eclipse.birt.report.model.elements.olap.TabularHierarchy;
+import org.eclipse.birt.report.model.elements.olap.TabularLevel;
+import org.eclipse.birt.report.model.elements.olap.TabularMeasure;
+import org.eclipse.birt.report.model.elements.olap.TabularMeasureGroup;
 
 /**
  * The base class for defining algorithms that traverse the design tree. The
@@ -704,5 +710,77 @@ public class ElementVisitor
 
 	public void visitValueAccessControl( ValueAccessControl obj )
 	{
+	}
+	
+	/**
+	 * Visits the cube element.
+	 * 
+	 * @param obj
+	 *            the cube element to traverse
+	 */
+
+	public void visitTabularCube( TabularCube obj )
+	{
+		visitCube( obj );
+	}
+
+	/**
+	 * Visists the dimension element.
+	 * 
+	 * @param obj
+	 *            the dimension element to traverse
+	 */
+
+	public void visitTabularDimension( TabularDimension obj )
+	{
+		visitDimension( obj );
+	}
+
+	/**
+	 * Visists the hierarchy element.
+	 * 
+	 * @param obj
+	 *            the hierarchy element to traverse
+	 */
+
+	public void visitTabularHierarchy( TabularHierarchy obj )
+	{
+		visitHierarchy( obj );
+	}
+
+	/**
+	 * Visists the level element.
+	 * 
+	 * @param obj
+	 *            the level element to traverse
+	 */
+
+	public void visitTabularLevel( TabularLevel obj )
+	{
+		visitLevel( obj );
+	}
+
+	/**
+	 * Visists the measure element.
+	 * 
+	 * @param obj
+	 *            the measure element to traverse
+	 */
+
+	public void visitTabularMeasure( TabularMeasure obj )
+	{
+		visitMeasure( obj );
+	}
+
+	/**
+	 * Visits the measure group element.
+	 * 
+	 * @param obj
+	 *            the measure group to traverse
+	 */
+
+	public void visitTabularMeasureGroup( TabularMeasureGroup obj )
+	{
+		visitMeasureGroup( obj );
 	}
 }

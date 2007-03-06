@@ -11,10 +11,11 @@
 
 package org.eclipse.birt.report.model.elements.olap;
 
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.core.ReferenceableElement;
+import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
-import org.eclipse.birt.report.model.elements.interfaces.IHierarchyModel;
 
 /**
  * This class represents a Hierarchy element. Hierarchy contains list of Level
@@ -25,14 +26,14 @@ import org.eclipse.birt.report.model.elements.interfaces.IHierarchyModel;
  * 
  */
 
-public abstract class Hierarchy extends ReferenceableElement implements IHierarchyModel
+public class TabularHierarchy extends Hierarchy
 {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public Hierarchy( )
+	public TabularHierarchy( )
 	{
 	}
 
@@ -43,7 +44,7 @@ public abstract class Hierarchy extends ReferenceableElement implements IHierarc
 	 *            name of the hierarchy element
 	 */
 
-	public Hierarchy( String name )
+	public TabularHierarchy( String name )
 	{
 		super( name );
 	}
@@ -55,7 +56,7 @@ public abstract class Hierarchy extends ReferenceableElement implements IHierarc
 	 */
 	public void apply( ElementVisitor visitor )
 	{
-		visitor.visitHierarchy( this );
+		visitor.visitTabularHierarchy( this );
 	}
 
 	/*
@@ -65,6 +66,36 @@ public abstract class Hierarchy extends ReferenceableElement implements IHierarc
 	 */
 	public String getElementName( )
 	{
-		return ReportDesignConstants.HIERARCHY_ELEMENT;
+		return ReportDesignConstants.TABULAR_HIERARCHY_ELEMENT;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.birt.report.model.core.Module)
+	 */
+	public DesignElementHandle getHandle( Module module )
+	{
+		return handle( module );
+	}
+
+	/**
+	 * Returns an API handle for this element.
+	 * 
+	 * @param module
+	 *            the module of the hierarchy
+	 * 
+	 * @return an API handle for this element.
+	 */
+
+	public TabularHierarchyHandle handle( Module module )
+	{
+		if ( handle == null )
+		{
+			handle = new TabularHierarchyHandle( module, this );
+		}
+		return (TabularHierarchyHandle) handle;
+	}
+	
+	
 }

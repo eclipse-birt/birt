@@ -16,12 +16,12 @@ import java.util.Iterator;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.command.InvalidParentException;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
-import org.eclipse.birt.report.model.api.olap.CubeHandle;
-import org.eclipse.birt.report.model.api.olap.DimensionHandle;
-import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
-import org.eclipse.birt.report.model.api.olap.LevelHandle;
-import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
-import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
+import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
+import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
+import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
+import org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle;
+import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.AccessControl;
@@ -65,12 +65,12 @@ import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
-import org.eclipse.birt.report.model.elements.olap.Cube;
-import org.eclipse.birt.report.model.elements.olap.Dimension;
-import org.eclipse.birt.report.model.elements.olap.Hierarchy;
-import org.eclipse.birt.report.model.elements.olap.Level;
-import org.eclipse.birt.report.model.elements.olap.Measure;
-import org.eclipse.birt.report.model.elements.olap.MeasureGroup;
+import org.eclipse.birt.report.model.elements.olap.TabularCube;
+import org.eclipse.birt.report.model.elements.olap.TabularDimension;
+import org.eclipse.birt.report.model.elements.olap.TabularHierarchy;
+import org.eclipse.birt.report.model.elements.olap.TabularLevel;
+import org.eclipse.birt.report.model.elements.olap.TabularMeasure;
+import org.eclipse.birt.report.model.elements.olap.TabularMeasureGroup;
 import org.eclipse.birt.report.model.extension.oda.ODAProviderFactory;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
@@ -1064,17 +1064,17 @@ public class ElementFactory
 	 * @return a handle to the cube element
 	 */
 
-	public CubeHandle newCube( String name )
+	public TabularCubeHandle newTabularCube( String name )
 	{
-		Cube element = new Cube( name );
+		TabularCube element = new TabularCube( name );
 		module.makeUniqueName( element );
 
 		// add a measure group
-		MeasureGroup measureGroup = new MeasureGroup( );
+		TabularMeasureGroup measureGroup = new TabularMeasureGroup( );
 		module.makeUniqueName( measureGroup );
 		element.add( module, measureGroup, ICubeModel.MEASURE_GROUPS_PROP );
 
-		return element.handle( module );
+		return (TabularCubeHandle) element.handle( module );
 	}
 
 	/**
@@ -1086,12 +1086,12 @@ public class ElementFactory
 	 * @return a handle to the dimension element
 	 */
 
-	public DimensionHandle newDimension( String name )
+	public TabularDimensionHandle newTabularDimension( String name )
 	{
 		// add a hierarchy element to the dimension
-		Dimension element = new Dimension( name );
+		TabularDimension element = new TabularDimension( name );
 		module.makeUniqueName( element );
-		Hierarchy hierarchy = new Hierarchy( );
+		TabularHierarchy hierarchy = new TabularHierarchy( );
 		element.add( module, hierarchy, IDimensionModel.HIERARCHIES_PROP );
 		module.makeUniqueName( hierarchy );
 		return element.handle( module );
@@ -1106,11 +1106,11 @@ public class ElementFactory
 	 * @return a handle to the hierarchy element
 	 */
 
-	public HierarchyHandle newHierarchy( String name )
+	public TabularHierarchyHandle newTabularHierarchy( String name )
 	{
-		Hierarchy element = new Hierarchy( name );
+		TabularHierarchy element = new TabularHierarchy( name );
 		module.makeUniqueName( element );
-		return element.handle( module );
+		return (TabularHierarchyHandle) element.handle( module );
 	}
 
 	/**
@@ -1122,11 +1122,12 @@ public class ElementFactory
 	 * @return a handle to the level element
 	 */
 
-	public LevelHandle newLevel( String name )
+	public TabularLevelHandle newTabularLevel( String name )
 	{
-		Level element = new Level( name );
+		TabularLevel element = new TabularLevel( name );
 		module.makeUniqueName( element );
-		return element.handle( module );
+		return (TabularLevelHandle) element.handle( module );
+
 	}
 
 	/**
@@ -1138,11 +1139,11 @@ public class ElementFactory
 	 * @return a handle to the measure element
 	 */
 
-	public MeasureHandle newMeasure( String name )
+	public TabularMeasureHandle newTabularMeasure( String name )
 	{
-		Measure element = new Measure( name );
+		TabularMeasure element = new TabularMeasure( name );
 		module.makeUniqueName( element );
-		return element.handle( module );
+		return (TabularMeasureHandle) element.handle( module );
 	}
 
 	/**
@@ -1152,11 +1153,11 @@ public class ElementFactory
 	 *            the optional measure group name.
 	 * @return the measure group element
 	 */
-	public MeasureGroupHandle newMeasureGroup( String name )
+	public TabularMeasureGroupHandle newTabularMeasureGroup( String name )
 	{
-		MeasureGroup element = new MeasureGroup( name );
+		TabularMeasureGroup element = new TabularMeasureGroup( name );
 		module.makeUniqueName( element );
-		return element.handle( module );
+		return (TabularMeasureGroupHandle) element.handle( module );
 	}
 
 	/**

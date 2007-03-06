@@ -73,7 +73,12 @@ public interface ReportDesignConstants
 	String MEASURE_GROUP_ELEMENT = "MeasureGroup"; //$NON-NLS-1$
 	String ACCESS_CONTROL = "AccessControl"; //$NON-NLS-1$
 	String VALUE_ACCESS_CONTROL = "ValueAccessControl"; //$NON-NLS-1$
-	
+	String TABULAR_CUBE_ELEMENT = "TabularCube"; //$NON-NLS-1$
+	String TABULAR_DIMENSION_ELEMENT = "TabularDimension"; //$NON-NLS-1$
+	String TABULAR_HIERARCHY_ELEMENT = "TabularHierarchy"; //$NON-NLS-1$
+	String TABULAR_LEVEL_ELEMENT = "TabularLevel"; //$NON-NLS-1$
+	String TABULAR_MEASURE_ELEMENT = "TabularMeasure"; //$NON-NLS-1$
+	String TABULAR_MEASURE_GROUP_ELEMENT = "TabularMeasureGroup"; //$NON-NLS-1$
 	
 	/**
 	 * @deprecated by {@link #TEXT_DATA_ITEM}

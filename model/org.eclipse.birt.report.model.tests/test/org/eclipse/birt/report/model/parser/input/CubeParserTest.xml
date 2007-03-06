@@ -20,7 +20,7 @@
         </script-data-set>
     </data-sets>
     <cubes>
-    	<cube name="testCube">
+    	<tabular-cube name="testCube">
     		<property name="dataSet">firstDataSet</property>
     		<property name="defaultMeasureGroup">testMeasureGroup</property>
     		<list-property name="filter">
@@ -48,11 +48,11 @@
     			</structure>
     		</list-property>
     		<property name="dimensions">
-    			<dimension name="testDimension">
+    			<tabular-dimension name="testDimension">
     				<property name="isTimeType">true</property>
     				<property name="defaultHierarchy">testHierarchy</property>
     				<property name="hierarchies">
-    					<hierarchy name="testHierarchy">
+    					<tabular-hierarchy name="testHierarchy">
     						<property name="dataSet">secondDataSet</property>
     						<list-property name="filter">
                 				<structure>
@@ -68,7 +68,7 @@
     							<value>key4</value>
     						</simple-property-list>
     						<property name="levels">
-    							<level name="testLevel">
+    							<tabular-level name="testLevel">
     								<property name="columnName">column1</property>
     								<property name="dataType">integer</property>
     								<property name="interval">week</property>
@@ -112,7 +112,7 @@
 											</simple-property-list>
 										</value-access-control>
 									</property>     								
-    							</level>
+    							</tabular-level>
     						</property>
     						<property name="accessControls">
 								<access-control>
@@ -127,20 +127,20 @@
 									<property name="permission">allow</property>
 								</access-control>
 							</property>    	
-    					</hierarchy>
+    					</tabular-hierarchy>
     				</property>
-    			</dimension>
+    			</tabular-dimension>
     		</property>
     		<property name="measureGroups">
-    			<measure-group name="testMeasureGroup">
+    			<tabular-measure-group name="testMeasureGroup">
     				<property name="measures">
-    					<measure name="testMeasure">
+    					<tabular-measure name="testMeasure">
     						<property name="function">min</property>
     						<property name="measureExpression">column</property>
     						<property name="isCalculated">false</property>
-    					</measure>
+    					</tabular-measure>
     				</property>
-    			</measure-group>
+    			</tabular-measure-group>
     		</property>
 			<property name="accessControls">
 				<access-control>
@@ -155,6 +155,6 @@
 					<property name="permission">disallow</property>
 				</access-control>
 			</property>    		
-    	</cube>
+    	</tabular-cube>
     </cubes>
 </report>

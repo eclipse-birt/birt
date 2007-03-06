@@ -193,8 +193,8 @@ public class ReportState extends ModuleState
 
 		public AbstractParseState startElement( String tagName )
 		{
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.CUBE_TAG ) )
-				return new CubeState( handler, module,
+			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TABULAR_CUBE_TAG ) )
+				return new TabularCubeState( handler, module,
 						IReportDesignModel.CUBE_SLOT );
 			return super.startElement( tagName );
 		}

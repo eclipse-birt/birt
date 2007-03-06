@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.metadata.PeerExtensionLoader;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.parser.treebuild.ContentNode;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Factory class to create a parse state.
@@ -107,8 +108,14 @@ public class ParseStateFactory
 		}
 
 		String propName = propDefn.getName( );
+		String tagElementName = ModelUtil.getElementNameFromXmlName( tagName );
+		ElementDefn tagElementDefn = (ElementDefn) MetaDataDictionary
+				.getInstance( ).getElement( tagElementName );
+
 		if ( tagName.equalsIgnoreCase( ( (ElementDefn) allowedElementDefn )
-				.getXmlName( ) ) )
+				.getXmlName( ) )
+				|| ( tagElementDefn != null && tagElementDefn
+						.isKindOf( allowedElementDefn ) ) )
 		{
 			if ( ReportDesignConstants.TEXT_ITEM.equalsIgnoreCase( elementName ) )
 				return new TextItemState( handler, container, propName );

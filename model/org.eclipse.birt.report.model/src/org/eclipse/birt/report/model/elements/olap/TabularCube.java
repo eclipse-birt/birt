@@ -13,42 +13,38 @@ package org.eclipse.birt.report.model.elements.olap;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
-import org.eclipse.birt.report.model.elements.interfaces.IMeasureModel;
 
 /**
- * This class represents a Measure element. Measure is a quantity that you are
- * interested in measures.Use the
- * {@link org.eclipse.birt.report.model.api.olap.MeasureHandle}class to change
+ * This class represents a Cube element. Cube is collection of dimensions and
+ * measures. It specifies a dataset to refer to o outside data set element.Use
+ * the {@link org.eclipse.birt.report.model.api.olap.CubeHandle}class to change
  * the properties.
  * 
  */
 
-public abstract class Measure extends ReferenceableElement
-		implements
-			IMeasureModel
+public class TabularCube extends Cube
 {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public Measure( )
+	public TabularCube( )
 	{
-
 	}
 
 	/**
-	 * Constructs the measure element with a given name.
+	 * Constructs a cube element with the given name.
 	 * 
 	 * @param name
-	 *            the optional name of the measure element
+	 *            the name given for the element
 	 */
 
-	public Measure( String name )
+	public TabularCube( String name )
 	{
 		super( name );
 	}
@@ -58,9 +54,10 @@ public abstract class Measure extends ReferenceableElement
 	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
 	 */
+
 	public void apply( ElementVisitor visitor )
 	{
-		visitor.visitMeasure( this );
+		visitor.visitTabularCube( this );
 	}
 
 	/*
@@ -68,8 +65,38 @@ public abstract class Measure extends ReferenceableElement
 	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
+
 	public String getElementName( )
 	{
-		return ReportDesignConstants.MEASURE_ELEMENT;
+		return ReportDesignConstants.TABULAR_CUBE_ELEMENT;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.birt.report.model.core.Module)
+	 */
+
+	public DesignElementHandle getHandle( Module module )
+	{
+		return handle( module );
+	}
+
+	/**
+	 * Returns an API handle for this element.
+	 * 
+	 * @param module
+	 *            the module of the cube
+	 * 
+	 * @return an API handle for this element.
+	 */
+
+	public TabularCubeHandle handle( Module module )
+	{
+		if ( handle == null )
+		{
+			handle = new TabularCubeHandle( module, this );
+		}
+		return (TabularCubeHandle) handle;
 	}
 }

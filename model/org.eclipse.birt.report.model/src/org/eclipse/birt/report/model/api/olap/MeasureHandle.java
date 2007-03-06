@@ -21,7 +21,9 @@ import org.eclipse.birt.report.model.elements.interfaces.IMeasureModel;
  * This class represents a measure element.
  */
 
-public class MeasureHandle extends ReportElementHandle implements IMeasureModel
+public abstract class MeasureHandle extends ReportElementHandle
+		implements
+			IMeasureModel
 {
 
 	/**
@@ -110,7 +112,7 @@ public class MeasureHandle extends ReportElementHandle implements IMeasureModel
 	 * @throws SemanticException
 	 *             property is locked
 	 */
-	
+
 	public void setCalculated( boolean isCalculated ) throws SemanticException
 	{
 		setProperty( IS_CALCULATED_PROP, Boolean.valueOf( isCalculated ) );

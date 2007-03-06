@@ -11,10 +11,7 @@
 
 package org.eclipse.birt.report.model.elements.olap;
 
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.api.olap.LevelHandle;
-import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
 import org.eclipse.birt.report.model.elements.interfaces.ILevelModel;
@@ -27,7 +24,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ILevelModel;
  * 
  */
 
-public class Level extends ReferenceableElement implements ILevelModel
+public abstract class Level extends ReferenceableElement implements ILevelModel
 {
 
 	/**
@@ -69,33 +66,5 @@ public class Level extends ReferenceableElement implements ILevelModel
 	public String getElementName( )
 	{
 		return ReportDesignConstants.LEVEL_ELEMENT;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.birt.report.model.core.Module)
-	 */
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
-	}
-
-	/**
-	 * Returns an API handle for this element.
-	 * 
-	 * @param module
-	 *            the module of the level
-	 * 
-	 * @return an API handle for this element.
-	 */
-
-	public LevelHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new LevelHandle( module, this );
-		}
-		return (LevelHandle) handle;
 	}
 }

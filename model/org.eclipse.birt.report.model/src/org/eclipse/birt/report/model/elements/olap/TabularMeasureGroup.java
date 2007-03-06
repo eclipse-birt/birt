@@ -11,39 +11,32 @@
 
 package org.eclipse.birt.report.model.elements.olap;
 
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.core.ReferenceableElement;
+import org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
-import org.eclipse.birt.report.model.elements.interfaces.IHierarchyModel;
 
 /**
- * This class represents a Hierarchy element. Hierarchy contains list of Level
- * elements. It also can define its own dataset which can join with the outer
- * dataset defined on the cube by the foreign key defined on dimension. Use the
- * {@link org.eclipse.birt.report.model.api.olap.HierarchyHandle}class to
- * change the properties.
- * 
+ * Represents a group for list of Measure elements.
  */
-
-public abstract class Hierarchy extends ReferenceableElement implements IHierarchyModel
+public class TabularMeasureGroup extends MeasureGroup
 {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public Hierarchy( )
+	public TabularMeasureGroup( )
 	{
 	}
 
 	/**
-	 * Constructs the hierarchy with a name.
+	 * Constructs measure group with optional name.
 	 * 
 	 * @param name
-	 *            name of the hierarchy element
 	 */
-
-	public Hierarchy( String name )
+	public TabularMeasureGroup( String name )
 	{
 		super( name );
 	}
@@ -55,7 +48,7 @@ public abstract class Hierarchy extends ReferenceableElement implements IHierarc
 	 */
 	public void apply( ElementVisitor visitor )
 	{
-		visitor.visitHierarchy( this );
+		visitor.visitTabularMeasureGroup( this );
 	}
 
 	/*
@@ -65,6 +58,35 @@ public abstract class Hierarchy extends ReferenceableElement implements IHierarc
 	 */
 	public String getElementName( )
 	{
-		return ReportDesignConstants.HIERARCHY_ELEMENT;
+		return ReportDesignConstants.TABULAR_MEASURE_GROUP_ELEMENT;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.birt.report.model.core.Module)
+	 */
+	public DesignElementHandle getHandle( Module module )
+	{
+		return handle( module );
+	}
+
+	/**
+	 * Returns an API handle for this element.
+	 * 
+	 * @param module
+	 *            the module of the cube
+	 * 
+	 * @return an API handle for this element.
+	 */
+
+	public TabularMeasureGroupHandle handle( Module module )
+	{
+		if ( handle == null )
+		{
+			handle = new TabularMeasureGroupHandle( module, this );
+		}
+		return (TabularMeasureGroupHandle) handle;
+	}
+
 }

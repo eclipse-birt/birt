@@ -11,17 +11,15 @@
 
 package org.eclipse.birt.report.model.api.olap;
 
-import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.interfaces.IMeasureGroupModel;
 
 /**
- * Handle class for MeasureGroup. It holds a list of MeasureHandle.
+ * This class represents a measure element.
  */
-public abstract class MeasureGroupHandle extends ReportElementHandle
-		implements
-			IMeasureGroupModel
+
+public class TabularMeasureHandle extends MeasureHandle
 {
 
 	/**
@@ -35,7 +33,7 @@ public abstract class MeasureGroupHandle extends ReportElementHandle
 	 *            the model representation of the element
 	 */
 
-	public MeasureGroupHandle( Module module, DesignElement element )
+	public TabularMeasureHandle( Module module, DesignElement element )
 	{
 		super( module, element );
 	}

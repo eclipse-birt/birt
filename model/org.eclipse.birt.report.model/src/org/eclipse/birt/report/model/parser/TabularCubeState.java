@@ -12,41 +12,39 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.olap.Level;
-import org.eclipse.birt.report.model.elements.olap.TabularLevel;
+import org.eclipse.birt.report.model.elements.olap.TabularCube;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 
 /**
- * This class parses a Level element within a hierarchy.
- * 
+ * This class parses a cube element within a report design.
  */
 
-public class LevelState extends ReportElementState
+public class TabularCubeState extends ReportElementState
 {
 
 	/**
-	 * The level being created.
+	 * The cube being created.
 	 */
 
-	protected Level element = null;
+	protected TabularCube element = null;
 
 	/**
-	 * Constructs level state with the design parser handler, the container
-	 * element and the container property name of the report element.
+	 * Constructs the cube state with the design parser handler, the container
+	 * element and the container slot of the cube.
 	 * 
 	 * @param handler
 	 *            the design file parser handler
 	 * @param theContainer
 	 *            the element that contains this one
-	 * @param prop
+	 * @param slot
 	 *            the slot in which this element appears
 	 */
 
-	public LevelState( ModuleParserHandler handler, DesignElement theContainer,
-			String prop )
+	public TabularCubeState( ModuleParserHandler handler,
+			DesignElement theContainer, int slot )
 	{
-		super( handler, theContainer, prop );
+		super( handler, theContainer, slot );
 	}
 
 	/*
@@ -68,7 +66,7 @@ public class LevelState extends ReportElementState
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
 	{
-		element = new TabularLevel( );
-		initElement( attrs, false );
+		element = new TabularCube( );
+		initElement( attrs, true );
 	}
 }

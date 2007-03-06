@@ -175,6 +175,12 @@ public interface DesignSchemaConstants
 	static final String STYLES_TAG = "styles"; //$NON-NLS-1$ 
 	static final String TABLE_PARAMETER_TAG = "table-parameter"; //$NON-NLS-1$ 
 	static final String TABLE_TAG = "table"; //$NON-NLS-1$ 
+	static final String TABULAR_CUBE_TAG = "tabular-cube"; //$NON-NLS-1$
+	static final String TABULAR_DIMENSION_TAG = "tabular-dimension"; //$NON-NLS-1$
+	static final String TABULAR_HIERARCHY_TAG = "tabular-hierarchy"; //$NON-NLS-1$
+	static final String TABULAR_LEVEL_TAG = "tabular-level"; //$NON-NLS-1$
+	static final String TABULAR_MEASURE_TAG = "tabular-measure"; //$NON-NLS-1$
+	static final String TABULAR_MEASURE_GROUP_TAG = "tabular-measure-group"; //$NON-NLS-1$
 	static final String TEMPLATE_TAG = "template"; //$NON-NLS-1$ 
 	static final String TEMPLATE_PARAMETER_DEFINITION_TAG = "template-parameter-definition"; //$NON-NLS-1$
 	static final String TEMPLATE_PARAMETER_DEFINITIONS_TAG = "template-parameter-definitions"; //$NON-NLS-1$

@@ -24,7 +24,7 @@ import org.eclipse.birt.report.model.elements.olap.Dimension;
  * @see org.eclipse.birt.report.model.elements.olap.Dimension
  */
 
-public class DimensionHandle extends ReportElementHandle
+public abstract class DimensionHandle extends ReportElementHandle
 		implements
 			IDimensionModel
 {

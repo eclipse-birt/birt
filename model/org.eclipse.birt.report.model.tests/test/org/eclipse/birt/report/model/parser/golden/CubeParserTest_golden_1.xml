@@ -12,7 +12,7 @@
         </script-data-set>
     </data-sets>
     <cubes>
-        <cube name="testCube" id="7">
+        <tabular-cube name="testCube" id="7">
             <property name="dataSet">firstDataSet</property>
             <property name="defaultMeasureGroup">testMeasureGroup</property>
             <list-property name="filter">
@@ -40,11 +40,11 @@
                 </structure>
             </list-property>
             <property name="dimensions">
-                <dimension name="testDimension" id="8">
+                <tabular-dimension name="testDimension" id="8">
                     <property name="isTimeType">true</property>
                     <property name="defaultHierarchy">testHierarchy</property>
                     <property name="hierarchies">
-                        <hierarchy name="testHierarchy" id="9">
+                        <tabular-hierarchy name="testHierarchy" id="9">
                             <property name="dataSet">secondDataSet</property>
                             <list-property name="filter">
                                 <structure>
@@ -60,7 +60,7 @@
                                 <value>key4</value>
                             </simple-property-list>
                             <property name="levels">
-                                <level name="testLevel" id="10">
+                                <tabular-level name="testLevel" id="10">
                                     <property name="columnName">column1</property>
                                     <property name="dataType">integer</property>
                                     <property name="intervalBase">Jan</property>
@@ -104,7 +104,7 @@
                                             <property name="permission">disallow</property>
                                         </value-access-control>
                                     </property>
-                                </level>
+                                </tabular-level>
                             </property>
                             <property name="accessControls">
                                 <access-control id="12">
@@ -119,20 +119,20 @@
                                     <property name="permission">allow</property>
                                 </access-control>
                             </property>
-                        </hierarchy>
+                        </tabular-hierarchy>
                     </property>
-                </dimension>
+                </tabular-dimension>
             </property>
             <property name="measureGroups">
-                <measure-group name="testMeasureGroup" id="13">
+                <tabular-measure-group name="testMeasureGroup" id="13">
                     <property name="measures">
-                        <measure name="testMeasure" id="14">
+                        <tabular-measure name="testMeasure" id="14">
                             <property name="function">min</property>
                             <property name="isCalculated">false</property>
                             <expression name="measureExpression">column</expression>
-                        </measure>
+                        </tabular-measure>
                     </property>
-                </measure-group>
+                </tabular-measure-group>
             </property>
             <property name="accessControls">
                 <access-control id="15">
@@ -147,8 +147,8 @@
                     <property name="permission">disallow</property>
                 </access-control>
             </property>
-        </cube>
-        <cube name="testCube1" id="16">
+        </tabular-cube>
+        <tabular-cube name="testCube1" id="16">
             <property name="dataSet">firstDataSet</property>
             <property name="defaultMeasureGroup">testMeasureGroup1</property>
             <list-property name="filter">
@@ -176,11 +176,11 @@
                 </structure>
             </list-property>
             <property name="dimensions">
-                <dimension name="testDimension1" id="17">
+                <tabular-dimension name="testDimension1" id="17">
                     <property name="isTimeType">true</property>
                     <property name="defaultHierarchy">testHierarchy1</property>
                     <property name="hierarchies">
-                        <hierarchy name="testHierarchy1" id="18">
+                        <tabular-hierarchy name="testHierarchy1" id="18">
                             <property name="dataSet">secondDataSet</property>
                             <list-property name="filter">
                                 <structure>
@@ -196,7 +196,7 @@
                                 <value>key4</value>
                             </simple-property-list>
                             <property name="levels">
-                                <level name="testLevel1" id="19">
+                                <tabular-level name="testLevel1" id="19">
                                     <property name="columnName">column1</property>
                                     <property name="dataType">integer</property>
                                     <property name="intervalBase">Jan</property>
@@ -240,7 +240,7 @@
                                             <property name="permission">disallow</property>
                                         </value-access-control>
                                     </property>
-                                </level>
+                                </tabular-level>
                             </property>
                             <property name="accessControls">
                                 <access-control id="21">
@@ -255,20 +255,20 @@
                                     <property name="permission">allow</property>
                                 </access-control>
                             </property>
-                        </hierarchy>
+                        </tabular-hierarchy>
                     </property>
-                </dimension>
+                </tabular-dimension>
             </property>
             <property name="measureGroups">
-                <measure-group name="testMeasureGroup1" id="22">
+                <tabular-measure-group name="testMeasureGroup1" id="22">
                     <property name="measures">
-                        <measure name="testMeasure1" id="23">
+                        <tabular-measure name="testMeasure1" id="23">
                             <property name="function">min</property>
                             <property name="isCalculated">false</property>
                             <expression name="measureExpression">column</expression>
-                        </measure>
+                        </tabular-measure>
                     </property>
-                </measure-group>
+                </tabular-measure-group>
             </property>
             <property name="accessControls">
                 <access-control id="24">
@@ -283,7 +283,7 @@
                     <property name="permission">disallow</property>
                 </access-control>
             </property>
-        </cube>
+        </tabular-cube>
     </cubes>
     <page-setup>
         <graphic-master-page name="My Page" id="2">

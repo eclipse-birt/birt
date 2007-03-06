@@ -11,10 +11,7 @@
 
 package org.eclipse.birt.report.model.elements.olap;
 
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
-import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.elements.ElementVisitor;
 import org.eclipse.birt.report.model.elements.interfaces.IMeasureGroupModel;
@@ -22,7 +19,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IMeasureGroupModel;
 /**
  * Represents a group for list of Measure elements.
  */
-public class MeasureGroup extends ReferenceableElement
+public abstract class MeasureGroup extends ReferenceableElement
 		implements
 			IMeasureGroupModel
 {
@@ -64,33 +61,4 @@ public class MeasureGroup extends ReferenceableElement
 	{
 		return ReportDesignConstants.MEASURE_GROUP_ELEMENT;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.birt.report.model.core.Module)
-	 */
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
-	}
-
-	/**
-	 * Returns an API handle for this element.
-	 * 
-	 * @param module
-	 *            the module of the cube
-	 * 
-	 * @return an API handle for this element.
-	 */
-
-	public MeasureGroupHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new MeasureGroupHandle( module, this );
-		}
-		return (MeasureGroupHandle) handle;
-	}
-
 }

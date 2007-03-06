@@ -26,7 +26,9 @@ import org.eclipse.birt.report.model.elements.interfaces.ILevelModel;
  * @see org.eclipse.birt.report.model.elements.olap.Level
  */
 
-public class LevelHandle extends ReportElementHandle implements ILevelModel
+public abstract class LevelHandle extends ReportElementHandle
+		implements
+			ILevelModel
 {
 
 	/**

@@ -13,16 +13,12 @@ package org.eclipse.birt.report.model.api.olap;
 
 import java.util.Iterator;
 
-import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
-import org.eclipse.birt.report.model.api.LibraryHandle;
-import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
@@ -36,7 +32,9 @@ import org.eclipse.birt.report.model.elements.olap.Measure;
  * @see org.eclipse.birt.report.model.elements.olap.Cube
  */
 
-public class CubeHandle extends ReportElementHandle implements ICubeModel
+public abstract class CubeHandle extends ReportElementHandle
+		implements
+			ICubeModel
 {
 
 	/**
@@ -53,46 +51,6 @@ public class CubeHandle extends ReportElementHandle implements ICubeModel
 	public CubeHandle( Module module, DesignElement element )
 	{
 		super( module, element );
-	}
-
-	/**
-	 * Returns the data set of this cube.
-	 * 
-	 * @return the handle to the data set
-	 */
-
-	public DataSetHandle getDataSet( )
-	{
-		return (DataSetHandle) getElementProperty( DATA_SET_PROP );
-	}
-
-	/**
-	 * Sets the data set of this cube.
-	 * 
-	 * @param handle
-	 *            the handle of the data set
-	 * 
-	 * @throws SemanticException
-	 *             if the property is locked, or the data-set is invalid.
-	 */
-
-	public void setDataSet( DataSetHandle handle ) throws SemanticException
-	{
-		if ( handle == null )
-			setStringProperty( DATA_SET_PROP, null );
-		else
-		{
-			ModuleHandle moduleHandle = handle.getRoot( );
-			String valueToSet = handle.getName( );
-			if ( moduleHandle instanceof LibraryHandle )
-			{
-				String namespace = ( (LibraryHandle) moduleHandle )
-						.getNamespace( );
-				valueToSet = StringUtil.buildQualifiedReference( namespace,
-						handle.getName( ) );
-			}
-			setStringProperty( DATA_SET_PROP, valueToSet );
-		}
 	}
 
 	/**
