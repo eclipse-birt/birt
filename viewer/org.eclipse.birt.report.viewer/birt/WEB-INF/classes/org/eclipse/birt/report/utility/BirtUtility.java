@@ -61,31 +61,37 @@ public class BirtUtility
 		if ( request == null || task == null )
 			return;
 
-		// get task id
-		BaseAttributeBean attrBean = (BaseAttributeBean) request
-				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
-		if ( attrBean == null )
-			return;
-
-		String taskid = attrBean.getTaskId( );
-
-		// get task map
-		HttpSession session = request.getSession( true );
-		Map map = (Map) session.getAttribute( IBirtConstants.TASK_MAP );
-		if ( map == null )
+		try
 		{
-			map = new HashMap( );
-			session.setAttribute( IBirtConstants.TASK_MAP, map );
-		}
+			// get task id
+			BaseAttributeBean attrBean = (BaseAttributeBean) request
+					.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
+			if ( attrBean == null )
+				return;
 
-		// add task
-		synchronized ( map )
-		{
-			if ( taskid != null )
+			String taskid = attrBean.getTaskId( );
+			if ( taskid == null )
+				return;
+
+			// get task map
+			HttpSession session = request.getSession( true );
+			Map map = (Map) session.getAttribute( IBirtConstants.TASK_MAP );
+			if ( map == null )
+			{
+				map = new HashMap( );
+				session.setAttribute( IBirtConstants.TASK_MAP, map );
+			}
+
+			// add task
+			synchronized ( map )
 			{
 				BaseTaskBean bean = new BaseTaskBean( taskid, task );
 				map.put( taskid, bean );
 			}
+		}
+		catch ( Exception e )
+		{
+
 		}
 	}
 
@@ -108,6 +114,8 @@ public class BirtUtility
 				return;
 
 			String taskid = attrBean.getTaskId( );
+			if ( taskid == null )
+				return;
 
 			// get task map
 			HttpSession session = request.getSession( true );
@@ -118,8 +126,7 @@ public class BirtUtility
 			// remove task
 			synchronized ( map )
 			{
-				if ( taskid != null )
-					map.remove( taskid );
+				map.remove( taskid );
 			}
 		}
 		catch ( Exception e )
