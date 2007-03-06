@@ -6,6 +6,7 @@ package javax.olap.cursor;
 
 public interface Clob extends javax.olap.query.querycoremodel.NamedObject
 {
+
 	public long length( ) throws javax.olap.OLAPException;
 
 	public java.lang.String getSubString( long arg0, int arg1 )
