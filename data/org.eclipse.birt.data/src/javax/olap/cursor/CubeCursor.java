@@ -6,7 +6,6 @@ package javax.olap.cursor;
 
 public interface CubeCursor
 		extends
-			javax.olap.query.querytransaction.TransactionalObject,
 			javax.olap.cursor.RowDataAccessor,
 			javax.olap.cursor.Cursor
 {

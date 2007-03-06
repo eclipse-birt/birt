@@ -25,11 +25,11 @@ public interface DimensionCursor
 	public void setEdgeCursor( javax.olap.cursor.EdgeCursor value )
 			throws javax.olap.OLAPException;
 
-	public javax.olap.query.querycoremodel.DimensionStepManager getCurrentDimensionStepManager( )
+	/*public javax.olap.query.querycoremodel.DimensionStepManager getCurrentDimensionStepManager( )
 			throws javax.olap.OLAPException;
 
 	public void setCurrentDimensionStepManager(
 			javax.olap.query.querycoremodel.DimensionStepManager value )
-			throws javax.olap.OLAPException;
+			throws javax.olap.OLAPException;*/
 
 }

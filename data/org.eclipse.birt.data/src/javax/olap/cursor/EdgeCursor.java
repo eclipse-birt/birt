@@ -24,10 +24,10 @@ public interface EdgeCursor
 	public void setOrdinateOwner( javax.olap.cursor.CubeCursor value )
 			throws javax.olap.OLAPException;
 
-	public javax.olap.query.querycoremodel.Segment getCurrentSegment( )
+	/*public javax.olap.query.querycoremodel.Segment getCurrentSegment( )
 			throws javax.olap.OLAPException;
 
 	public void setCurrentSegment( javax.olap.query.querycoremodel.Segment value )
-			throws javax.olap.OLAPException;
+			throws javax.olap.OLAPException;*/
 
 }
