@@ -663,8 +663,14 @@ public class ReportEngineService
 		option.setOutputFormat( format );
 		option.setMasterPageContent( masterPage );
 		option.setHtmlRtLFlag( rtl );
-		option.setActionHandle( new ViewerHTMLActionHandler( locale, rtl,
-				masterPage, format ) );
+
+		ViewerHTMLActionHandler handler = new ViewerHTMLActionHandler( locale,
+				rtl, masterPage, format );
+		String resourceFolder = ParameterAccessor.getParameter( request,
+				ParameterAccessor.PARAM_RESOURCE_FOLDER );
+		handler.setResourceFolder( resourceFolder );
+		option.setActionHandle( handler );
+
 		if ( reportTitle != null )
 			option.setHtmlTitle( reportTitle );
 
@@ -791,7 +797,8 @@ public class ReportEngineService
 			// only process parameters start with "__"
 			if ( name.startsWith( "__" ) ) //$NON-NLS-1$
 			{
-				config.put( name.substring( 2 ), ParameterAccessor.getParameter( request, name ) );
+				config.put( name.substring( 2 ), ParameterAccessor
+						.getParameter( request, name ) );
 			}
 		}
 	}
@@ -883,9 +890,9 @@ public class ReportEngineService
 		{
 			// clear document file
 			File doc = new File( documentName );
-			if( doc != null )
+			if ( doc != null )
 				doc.delete( );
-			
+
 			// Any Birt exception.
 			AxisFault fault = new AxisFault( e.getLocalizedMessage( ), e );
 			fault
@@ -1044,11 +1051,11 @@ public class ReportEngineService
 		HTMLRenderOption setting = new HTMLRenderOption( );
 		setting.setOutputStream( out );
 		setting.setOutputFormat( format );
+		ViewerHTMLActionHandler handler = null;
 		if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_PDF ) )
 		{
-			setting.setActionHandle( new ViewerHTMLActionHandler(
-					reportDocument, pageNumber, locale, false, rtl, masterPage,
-					format ) );
+			handler = new ViewerHTMLActionHandler( reportDocument, pageNumber,
+					locale, false, rtl, masterPage, format );
 		}
 		else
 		{
@@ -1062,10 +1069,13 @@ public class ReportEngineService
 			setting.setHtmlRtLFlag( rtl );
 			setting.setInstanceIDs( activeIds );
 			setting.setMasterPageContent( masterPage );
-			setting.setActionHandle( new ViewerHTMLActionHandler(
-					reportDocument, pageNumber, locale, isEmbeddable, rtl,
-					masterPage, format ) );
+			handler = new ViewerHTMLActionHandler( reportDocument, pageNumber,
+					locale, isEmbeddable, rtl, masterPage, format );
 		}
+		String resourceFolder = ParameterAccessor.getParameter( request,
+				ParameterAccessor.PARAM_RESOURCE_FOLDER );
+		handler.setResourceFolder( resourceFolder );
+		setting.setActionHandle( handler );
 
 		renderTask.setRenderOption( setting );
 		renderTask.setLocale( locale );
@@ -1191,13 +1201,12 @@ public class ReportEngineService
 		// Render option
 		HTMLRenderOption setting = new HTMLRenderOption( );
 		setting.setOutputStream( out );
+		ViewerHTMLActionHandler handler = null;
 		if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_PDF ) )
 		{
 			setting.setOutputFormat( IBirtConstants.PDF_RENDER_FORMAT );
-			setting
-					.setActionHandle( new ViewerHTMLActionHandler(
-							reportDocument, -1, locale, false, rtl, masterPage,
-							format ) );
+			handler = new ViewerHTMLActionHandler( reportDocument, -1, locale,
+					false, rtl, masterPage, format );
 		}
 		else
 		{
@@ -1212,10 +1221,13 @@ public class ReportEngineService
 			setting.setHtmlRtLFlag( rtl );
 			setting.setInstanceIDs( activeIds );
 			setting.setMasterPageContent( masterPage );
-			setting.setActionHandle( new ViewerHTMLActionHandler(
-					reportDocument, -1, locale, isEmbeddable, rtl, masterPage,
-					format ) );
+			handler = new ViewerHTMLActionHandler( reportDocument, -1, locale,
+					isEmbeddable, rtl, masterPage, format );
 		}
+		String resourceFolder = ParameterAccessor.getParameter( request,
+				ParameterAccessor.PARAM_RESOURCE_FOLDER );
+		handler.setResourceFolder( resourceFolder );
+		setting.setActionHandle( handler );
 
 		renderTask.setRenderOption( setting );
 		renderTask.setLocale( locale );

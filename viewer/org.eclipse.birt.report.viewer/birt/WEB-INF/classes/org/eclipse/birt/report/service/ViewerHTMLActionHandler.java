@@ -78,11 +78,16 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	 */
 
 	protected boolean isMasterPageContent = true;
-	
+
 	/**
-	 * 
+	 * host format
 	 */
 	protected String hostFormat = null;
+
+	/**
+	 * resource folder setting
+	 */
+	protected String resourceFolder = null;
 
 	/**
 	 * Constructor.
@@ -100,7 +105,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	 * @param isEmbeddable
 	 * @param isRtl
 	 * @param isMasterPageContent
-	 * @param format 
+	 * @param format
 	 */
 
 	public ViewerHTMLActionHandler( IReportDocument document, long page,
@@ -300,10 +305,27 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		}
 
 		// add isMasterPageContent
-
 		link.append( ParameterAccessor.getQueryParameterString(
 				ParameterAccessor.PARAM_MASTERPAGE, String
 						.valueOf( this.isMasterPageContent ) ) );
+
+		try
+		{
+			if ( resourceFolder != null )
+				resourceFolder = URLEncoder.encode( resourceFolder,
+						ParameterAccessor.UTF_8_ENCODE );
+		}
+		catch ( UnsupportedEncodingException e )
+		{
+		}
+
+		// append resource folder setting
+		if ( resourceFolder != null )
+		{
+			link.append( ParameterAccessor.getQueryParameterString(
+					ParameterAccessor.PARAM_RESOURCE_FOLDER,
+					this.resourceFolder ) );
+		}
 
 		if ( realBookmark )
 		{
@@ -439,10 +461,27 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 			}
 
 			// add isMasterPageContent
-
 			link.append( ParameterAccessor.getQueryParameterString(
 					ParameterAccessor.PARAM_MASTERPAGE, String
 							.valueOf( this.isMasterPageContent ) ) );
+
+			try
+			{
+				if ( resourceFolder != null )
+					resourceFolder = URLEncoder.encode( resourceFolder,
+							ParameterAccessor.UTF_8_ENCODE );
+			}
+			catch ( UnsupportedEncodingException e )
+			{
+			}
+
+			// append resource folder setting
+			if ( resourceFolder != null )
+			{
+				link.append( ParameterAccessor.getQueryParameterString(
+						ParameterAccessor.PARAM_RESOURCE_FOLDER,
+						this.resourceFolder ) );
+			}
 
 			// add bookmark
 			if ( action.getBookmark( ) != null )
@@ -452,7 +491,8 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 				{
 					// In PREVIEW mode or pdf format, don't support bookmark as
 					// parameter
-					if ( baseURL.lastIndexOf( IBirtConstants.SERVLET_PATH_PREVIEW ) > 0
+					if ( baseURL
+							.lastIndexOf( IBirtConstants.SERVLET_PATH_PREVIEW ) > 0
 							|| IBirtConstants.PDF_RENDER_FORMAT
 									.equalsIgnoreCase( format ) )
 					{
@@ -505,4 +545,22 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		}
 		return reportName;
 	}
+
+	/**
+	 * @return the resourceFolder
+	 */
+	public String getResourceFolder( )
+	{
+		return resourceFolder;
+	}
+
+	/**
+	 * @param resourceFolder
+	 *            the resourceFolder to set
+	 */
+	public void setResourceFolder( String resourceFolder )
+	{
+		this.resourceFolder = resourceFolder;
+	}
+
 }
