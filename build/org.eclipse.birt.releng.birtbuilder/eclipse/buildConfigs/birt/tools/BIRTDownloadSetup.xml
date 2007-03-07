@@ -163,8 +163,8 @@
 			<include name="org.eclipse.birt.chart.ui.extension*.jar" />
 			<include name="org.eclipse.birt.chart.ui*.jar" />
 			<include name="org.eclipse.birt.chart_*/**" />
-			<include name="org.eclipse.birt.core*.jar" />
-			<include name="org.eclipse.birt.core.ui*.jar" />
+			<include name="org.eclipse.birt.core_*.jar" />
+			<!--include name="org.eclipse.birt.core.ui*.jar" /-->
 			<include name="org.eclipse.birt.doc*.jar" />
 			<include name="org.mozilla.rhino*/**" />
 			<include name="org.apache.commons.codec*/**" />
