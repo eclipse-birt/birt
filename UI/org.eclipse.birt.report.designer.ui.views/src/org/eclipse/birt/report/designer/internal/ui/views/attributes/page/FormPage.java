@@ -51,7 +51,7 @@ public class FormPage extends AttributePage
 
 	public void buildUI( Composite parent )
 	{
-		container = new ScrolledComposite( parent, SWT.V_SCROLL );
+		container = new ScrolledComposite( parent, SWT.V_SCROLL | SWT.H_SCROLL );
 		container.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		( (ScrolledComposite) container ).setExpandHorizontal( true );
 		( (ScrolledComposite) container ).setExpandVertical( true );
