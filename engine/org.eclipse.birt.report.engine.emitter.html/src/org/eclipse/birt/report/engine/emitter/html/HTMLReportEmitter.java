@@ -86,6 +86,7 @@ import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -569,6 +570,25 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				IStyle style =  report.findStyle( reportStyleName );
 				//style.removeProperty( "text-align" );
 				style.setTextAlign( "right" );
+			}
+		}
+		
+		if ( null == layoutPreference )
+		{
+			// get the layout preference from the report design.
+			if ( report != null )
+			{
+				Report reportDesign = report.getDesign( );
+				ReportDesignHandle designHandle = reportDesign.getReportDesign( );
+				String reportLayoutPreference = designHandle.getLayoutPreference( );
+				if ( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals( reportLayoutPreference ) )
+				{
+					layoutPreference = HTMLRenderOption.LAYOUT_PREFERENCE_FIXED;
+				}
+				else if ( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT.equals( reportLayoutPreference ) )
+				{
+					layoutPreference = HTMLRenderOption.LAYOUT_PREFERENCE_AUTO;
+				}
 			}
 		}
 		
@@ -1102,7 +1122,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		handleShrink( DISPLAY_BLOCK, mergedStyle, table.getHeight( ), table
 				.getWidth( ), styleBuffer );
 		
-		if ( "fixed".equals( layoutPreference ) )
+		if ( HTMLRenderOption.LAYOUT_PREFERENCE_FIXED.equals( layoutPreference ) )
 		{
 			// build the table-layout
 			styleBuffer.append( " table-layout:fixed;" );

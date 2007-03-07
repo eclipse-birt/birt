@@ -97,6 +97,10 @@ public interface IHTMLRenderOption extends IRenderOption
 	public static final String IMAGE_DIRECTROY = "imageDirectory";
 
 	public static final String BASE_IMAGE_URL = "baseImageURL";
+	
+	public static final String LAYOUT_PREFERENCE_FIXED = "fixed"; //$NON-NLS-1$
+
+	public static final String LAYOUT_PREFERENCE_AUTO = "auto"; //$NON-NLS-1$
 
 	/**
 	 * @return Returns the instanceIDs.
