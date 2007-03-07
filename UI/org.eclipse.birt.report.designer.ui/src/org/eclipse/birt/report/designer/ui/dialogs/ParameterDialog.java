@@ -666,7 +666,8 @@ public class ParameterDialog extends BaseDialog
 		{
 			try
 			{
-				// defaultValue = convertToStandardFormat( DEUtil.convertToDate( defaultValue ) );
+				// defaultValue = convertToStandardFormat( DEUtil.convertToDate(
+				// defaultValue ) );
 				defaultValue = convertToStandardFormat( DataTypeUtil.toDate( defaultValue ) );
 			}
 			catch ( BirtException e )
@@ -730,10 +731,6 @@ public class ParameterDialog extends BaseDialog
 				{
 					defaultValueEditor.setText( defaultValue );
 				}
-			}
-			else
-			{
-				defaultValue = null;
 			}
 			refreshValueTable( );
 		}
@@ -1377,8 +1374,8 @@ public class ParameterDialog extends BaseDialog
 		} );
 
 		Button valueColumnExprButton = new Button( composite, SWT.PUSH );
-//		valueColumnExprButton.setText( "..." ); //$NON-NLS-1$
-		setExpressionButtonImage(valueColumnExprButton);
+		// valueColumnExprButton.setText( "..." ); //$NON-NLS-1$
+		setExpressionButtonImage( valueColumnExprButton );
 		valueColumnExprButton.setToolTipText( Messages.getString( "ParameterDialog.toolTipText.OpenExprButton" ) );
 		valueColumnExprButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -1405,8 +1402,8 @@ public class ParameterDialog extends BaseDialog
 		displayTextChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		Button displayTextExprButton = new Button( composite, SWT.PUSH );
-//		displayTextExprButton.setText( "..." ); //$NON-NLS-1$
-		setExpressionButtonImage(displayTextExprButton);
+		// displayTextExprButton.setText( "..." ); //$NON-NLS-1$
+		setExpressionButtonImage( displayTextExprButton );
 		displayTextExprButton.setToolTipText( Messages.getString( "ParameterDialog.toolTipText.OpenExprButton" ) );
 		displayTextExprButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -2383,31 +2380,31 @@ public class ParameterDialog extends BaseDialog
 		}
 		chooser.setText( key );
 	}
-	
-	
-	protected void setExpressionButtonImage(Button button)
+
+	protected void setExpressionButtonImage( Button button )
 	{
 		String imageName;
-		if(button.isEnabled())
+		if ( button.isEnabled( ) )
 		{
 			imageName = IReportGraphicConstants.ICON_ENABLE_EXPRESSION_BUILDERS;
-		}else
+		}
+		else
 		{
 			imageName = IReportGraphicConstants.ICON_DISABLE_EXPRESSION_BUILDERS;
 		}
-		Image image = ReportPlatformUIImages.getImage(imageName );
-		
-		GridData gd = new GridData();
+		Image image = ReportPlatformUIImages.getImage( imageName );
+
+		GridData gd = new GridData( );
 		gd.widthHint = 20;
 		gd.heightHint = 20;
-		button.setLayoutData(gd);
-		
-		button.setImage(image);
-		if(button.getImage() != null)
+		button.setLayoutData( gd );
+
+		button.setImage( image );
+		if ( button.getImage( ) != null )
 		{
-			button.getImage().setBackground(button.getBackground());
+			button.getImage( ).setBackground( button.getBackground( ) );
 		}
-		
+
 	}
-	
+
 }
