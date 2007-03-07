@@ -271,6 +271,21 @@
 				<include name="*/**"/>
 			</fileset>
 		</copy>
+		<!-- Delete EMF 2.3 jars working folder -->
+		<delete failonerror="false" >
+			<fileset dir="${javadoc.dir}/eclipse/plugins">
+				<include name="org.eclipse.emf*.jar"/>
+				<include name="org.eclipse.emf*/**"/>
+				<include name="org.eclipse.xsd*jar"/>
+				<include name="org.eclipse.xsd*/**"/>
+			</fileset>
+		</delete>
+		<!-- Copy EMF 2.2 jars to working folder -->
+		<copy todir="${javadoc.dir}/eclipse/plugins">
+			<fileset dir="${baseLocation.emf}/plugins">
+				<include name="*/**"/>
+			</fileset>
+		</copy>
 	</target>
 		
 	<target name="GenClasspath">
