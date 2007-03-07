@@ -177,5 +177,7 @@ Export-Package: org.eclipse.birt.chart.aggregate,
  org.eclipse.birt.report.engine.api.script.element,
  org.eclipse.birt.report.engine.api.script.eventadapter,
  org.eclipse.birt.report.engine.api.script.eventhandler,
- org.eclipse.birt.report.engine.api.script.instance
+ org.eclipse.birt.report.engine.api.script.instance,
+ org.eclipse.datatools.connectivity.oda.design
+
 
