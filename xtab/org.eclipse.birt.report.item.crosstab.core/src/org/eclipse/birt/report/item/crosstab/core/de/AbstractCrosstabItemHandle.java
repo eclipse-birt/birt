@@ -1,0 +1,171 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.item.crosstab.core.de;
+
+import java.util.logging.Logger;
+
+import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
+import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
+import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.extension.IReportItem;
+import org.eclipse.birt.report.model.api.extension.ReportItem;
+
+/**
+ * Abstract report item class for all crosstab items.
+ */
+
+public class AbstractCrosstabItemHandle extends ReportItem
+		implements
+			ICrosstabConstants
+{
+
+	/**
+	 * The cached design element handle.
+	 */
+	protected ExtendedItemHandle handle;
+
+	/**
+	 * The module handle of the extended item.
+	 */
+	protected ModuleHandle moduleHandle;
+
+	/**
+	 * Log instance.
+	 */
+	protected static Logger logger = Logger
+			.getLogger( AbstractCrosstabItemHandle.class.getName( ) );
+
+	/**
+	 * 
+	 * @param handle
+	 */
+	protected AbstractCrosstabItemHandle( DesignElementHandle element )
+	{
+		if ( !( element instanceof ExtendedItemHandle ) )
+			throw new IllegalArgumentException(
+					"the element is not valid ExtendedItemHandle!" ); //$NON-NLS-1$
+		this.handle = (ExtendedItemHandle) element;
+		this.moduleHandle = element.getModuleHandle( );
+	}
+
+	/**
+	 * Returns the model handle for this report item
+	 * 
+	 * @return the design element handle of this view
+	 */
+	public DesignElementHandle getModelHandle( )
+	{
+		return handle;
+	}
+
+	/**
+	 * Finds the extended item handle. The returned item must have the same name
+	 * as the given one and its extension name is the same as the given one too.
+	 * 
+	 * @param name
+	 *            the item name to search
+	 * @param extensionName
+	 * @return the extended item handle if found, otherwise null
+	 */
+	protected IReportItem findExtendedItem( String name, String extensionName )
+	{
+		if ( extensionName == null )
+			throw new IllegalArgumentException(
+					"extension name can not be null" ); //$NON-NLS-1$
+		DesignElementHandle element = moduleHandle.findElement( name );
+		return CrosstabUtil.getReportItem( element, extensionName );
+	}
+
+	/**
+	 * Gets the commands stack.
+	 * 
+	 * @return command stack
+	 */
+	protected CommandStack getCommandStack( )
+	{
+		return moduleHandle.getCommandStack( );
+	}
+
+	/**
+	 * Gets the nearest crosstab container handle.
+	 * 
+	 * @return the nearest crosstab container if found, otherwise null
+	 */
+	public DesignElementHandle getCrosstabHandle( )
+	{
+		DesignElementHandle e = handle;
+		while ( e != null )
+		{
+			if ( ICrosstabConstants.CROSSTAB_EXTENSION_NAME
+					.equals( e
+							.getStringProperty( ExtendedItemHandle.EXTENSION_NAME_PROP ) ) )
+				return e;
+			e = e.getContainer( );
+		}
+		return null;
+	}
+
+	/**
+	 * Gets the crosstab report item.
+	 * 
+	 * @return
+	 */
+	public CrosstabReportItemHandle getCrosstab( )
+	{
+		return (CrosstabReportItemHandle) CrosstabUtil
+				.getReportItem( getCrosstabHandle( ) );
+	}
+
+	/**
+	 * Returns the container for current handle.
+	 * 
+	 * @return the container as AbstractCrosstabItemHandle
+	 */
+	public AbstractCrosstabItemHandle getContainer( )
+	{
+		if ( handle != null )
+		{
+			DesignElementHandle deh = handle.getContainer( );
+
+			if ( !( deh instanceof ExtendedItemHandle ) )
+			{
+				return null;
+			}
+
+			String exName = deh
+					.getStringProperty( ExtendedItemHandle.EXTENSION_NAME_PROP );
+
+			if ( CROSSTAB_EXTENSION_NAME.equals( exName )
+					|| CROSSTAB_VIEW_EXTENSION_NAME.equals( exName )
+					|| DIMENSION_VIEW_EXTENSION_NAME.equals( exName )
+					|| LEVEL_VIEW_EXTENSION_NAME.equals( exName )
+					|| MEASURE_VIEW_EXTENSION_NAME.equals( exName ) )
+			{
+				try
+				{
+					return (AbstractCrosstabItemHandle) ( (ExtendedItemHandle) deh )
+							.getReportItem( );
+				}
+				catch ( ExtendedElementException e )
+				{
+					return null;
+				}
+			}
+		}
+
+		return null;
+	}
+}
