@@ -13,6 +13,8 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.provider;
 
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
@@ -38,15 +40,15 @@ public class CubeLabelProvider extends LabelProvider
 
 	private static final Image IMG_DATAFIELD = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_DATA_COLUMN );
 	
-	private static final Image IMG_CUBE = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_CUBE_CUBE);
+	private static final Image IMG_CUBE = UIHelper.getImage( BuilderConstancts.IMAGE_CUBE );
 
-	private static final Image IMG_DIMENSION = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_CUBE_DIMENSION );
+	private static final Image IMG_DIMENSION = UIHelper.getImage( BuilderConstancts.IMAGE_DIMENSION );
 
 	private static final Image IMG_MEASURE = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_DATA_COLUMN );
 	
-	private static final Image IMG_MEASUREGROUP = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_CUBE_MEASUREGROUP);
+	private static final Image IMG_MEASUREGROUP = UIHelper.getImage( BuilderConstancts.IMAGE_MEASUREGROUP );
 	
-	private static final Image IMG_LEVEL= ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_CUBE_LEVEL );
+	private static final Image IMG_LEVEL= UIHelper.getImage( BuilderConstancts.IMAGE_LEVEL );
 
 	/*
 	 * (non-Javadoc)

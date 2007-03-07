@@ -18,6 +18,8 @@ import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.actions.ShowPropertyAction;
 import org.eclipse.birt.report.designer.ui.cubebuilder.action.EditCubeLevelAction;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.LevelDialog;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
@@ -26,6 +28,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IWorkbenchActionConstants;
 
 /**
@@ -117,8 +120,8 @@ public class TabularLevelNodeProvider extends DefaultNodeProvider
 		return dialog.open( ) == Dialog.OK;
 	}
 
-	public String getIconName( Object model )
+	public Image getNodeIcon( Object model )
 	{
-		return IReportGraphicConstants.ICON_CUBE_LEVEL;
+		return UIHelper.getImage( BuilderConstancts.IMAGE_LEVEL );
 	}
 }

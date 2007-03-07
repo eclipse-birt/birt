@@ -17,10 +17,13 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.actions.ShowPropertyAction;
 import org.eclipse.birt.report.designer.ui.cubebuilder.action.EditCubeMeasureGroupAction;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IWorkbenchActionConstants;
 
 /**
@@ -82,13 +85,8 @@ public class TabularMeasureGroupNodeProvider extends DefaultNodeProvider
 			return "MEASURES(Measures)";
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getIconName(java.lang.Object)
-	 */
-	public String getIconName( Object model )
+	public Image getNodeIcon( Object model )
 	{
-		return IReportGraphicConstants.ICON_CUBE_MEASUREGROUP;
+		return UIHelper.getImage( BuilderConstancts.IMAGE_MEASUREGROUP );
 	}
 }

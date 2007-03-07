@@ -15,9 +15,12 @@ import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.cubebuilder.action.NewCubeAction;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.swt.graphics.Image;
 
 /**
  * Provider for the data sets node
@@ -65,13 +68,8 @@ public class CubesNodeProvider extends DefaultNodeProvider
 		return Messages.getString( "DefaultNodeProvider.Tree.Cubes" );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getIconName(java.lang.Object)
-	 */
-	public String getIconName( Object model )
+	public Image getNodeIcon( Object model )
 	{
-		return IReportGraphicConstants.ICON_CUBE_CUBES;
+		return UIHelper.getImage( BuilderConstancts.IMAGE_CUBES );
 	}
 }
