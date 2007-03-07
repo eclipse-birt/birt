@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.adapter.oda.api;
 
 import java.util.Iterator;
 
+import org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter;
 import org.eclipse.birt.report.model.adapter.oda.ModelOdaAdapter;
 import org.eclipse.birt.report.model.adapter.oda.model.DesignValues;
 import org.eclipse.birt.report.model.adapter.oda.model.ModelFactory;
@@ -78,7 +79,7 @@ public class DataSetParameterAdapterTest extends BaseTestCase
 
 		// Parameters defined in DataSetDesign , but not in DataSetHandle
 
-		ModelOdaAdapter adapter = new ModelOdaAdapter( );
+		IModelOdaAdapter adapter = new ModelOdaAdapter( );
 		adapter.updateDataSetHandle( setDesign, setHandle, false );
 		testParametersCount( setHandle, 3 );
 

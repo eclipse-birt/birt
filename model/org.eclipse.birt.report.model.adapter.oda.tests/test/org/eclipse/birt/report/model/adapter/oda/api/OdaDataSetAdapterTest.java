@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.adapter.oda.api;
 
+import org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter;
 import org.eclipse.birt.report.model.adapter.oda.ModelOdaAdapter;
 import org.eclipse.birt.report.model.adapter.oda.util.BaseTestCase;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
@@ -388,7 +389,7 @@ public class OdaDataSetAdapterTest extends BaseTestCase
 		DataSourceHandle parent = designHandle
 				.getLibrary( "lib" ).findDataSource( "Data Source" ); //$NON-NLS-1$ //$NON-NLS-2$
 		assertNotNull( parent );
-		ModelOdaAdapter adapter = new ModelOdaAdapter( );
+		IModelOdaAdapter adapter = new ModelOdaAdapter( );
 
 		OdaDataSourceHandle dataSource = (OdaDataSourceHandle) designHandle
 				.getElementFactory( ).newElementFrom( parent, "testSource" ); //$NON-NLS-1$ 
