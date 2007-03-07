@@ -428,7 +428,7 @@
 	<target name="createAllInOneForLinux">
 		<!--  Make birt all-in-one ZIP file-->
 
-		<tar destfile="${OutputDir}/${allinone.linux.zip.name}">
+		<tar destfile="${OutputDir}/${allinone.linux.zip.name}" longfile="gnu">
 			<tarfileset dir="${deposit}/eclipse/plugins" prefix="${ZipPrefix}">
 				<include name="**/*" />
 				<exclude name="**/org.eclipse.birt.report.designer.ui.rcp*/**" />
