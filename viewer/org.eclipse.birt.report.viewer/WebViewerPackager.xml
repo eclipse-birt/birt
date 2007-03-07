@@ -382,6 +382,7 @@
 			<include name="org.eclipse.osgi_*.jar" />
 			<include name="org.eclipse.osgi.services_*.jar"/>
 			<include name="org.eclipse.update.configurator_*.jar" />
+			<include name="org.apache.xerces*/**"/>
 		</fileset>
 		<fileset dir="${baseLocation.emf}/plugins">
 			<include name="org.eclipse.emf.common_*.jar" />
@@ -405,6 +406,7 @@
 	</copy>
 	
 	<!-- org.apache.xerces -->
+	<!--
 	<copy todir="${export.dir}/plugins/org.apache.xerces">
 		<fileset dir="../org.apache.xerces">
 			<include name="META-INF/MANIFEST.MF" />
@@ -414,6 +416,7 @@
 			<include name="plugin.*" />
 		</fileset>
 	</copy>
+	-->
 
 	<!-- org.apache.commons.codec -->
 	<copy todir="${export.dir}/plugins/org.apache.commons.codec">
