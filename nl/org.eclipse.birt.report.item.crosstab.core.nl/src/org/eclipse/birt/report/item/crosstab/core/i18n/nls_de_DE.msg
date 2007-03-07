@@ -1,0 +1,7 @@
+Element.Crosstab=Cross Table
+
+###########################################################
+# Crosstab exception
+Error.CrosstabException.DUPLICATE_DIMENSION=Cube dimension element {0} has duplicate applied for dimension view in Crosstab {1}.
+Error.CrosstabException.DUPLICATE_MEASURE=Cube measure element {0} has duplicate applied for measure view in Crosstab {1}.
+Error.CrosstabException.DUPLICATE_LEVEL=

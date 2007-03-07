@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Nl Fragment
+Bundle-SymbolicName: org.eclipse.birt.report.item.crosstab.core.nl1
+Bundle-Version: 1.0.0
+Fragment-Host: org.eclipse.birt.report.item.crosstab.core;bundle-version="1.0.0"
+Bundle-Localization: nl_fragment
