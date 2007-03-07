@@ -2,4 +2,10 @@
 <?eclipse version="3.2"?>
 <plugin>
     
+   <extension
+         id="AdapterFactory"
+         name="AdapterFactory"
+         point="org.eclipse.birt.core.FactoryService">
+      <factory class="org.eclipse.birt.report.model.adapter.oda.impl.AdapterFactory"/>
+   </extension>
 </plugin>

@@ -35,6 +35,7 @@
 		<jar destfile="${basedir}/modelodaapi.jar" >
 			<fileset dir="@dot">
 				<exclude name="org/eclipse/birt/report/model/adapter/oda/plugin/"/>
+				<exclude name="org/eclipse/birt/report/model/adapter/oda/impl/"/>								
 			</fileset>
 		</jar>
 
