@@ -55,8 +55,12 @@ public class EngineLogger {
 		
 		if ( logLevel != null )
 			logger.setLevel( logLevel );
-				
-		createLogFile( logger );
+		
+		//if the log lever is OFF, we wont create log file
+		if ( logger.getLevel( ) != Level.OFF )
+		{
+			createLogFile( logger );
+		}
 	}
 
 	/**
