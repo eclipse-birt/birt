@@ -43,7 +43,7 @@ public interface IHTMLRenderOption extends IRenderOption
 	public static final String INSTANCE_ID_LIST = "InstanceIdList"; //$NON-NLS-1$
 	/**
 	 * Should the report contains paginations The value is a Boolean object,
-	 * default is <code>Boolean.TRUE</code>.
+	 * default is <code>Boolean.FALSE</code>.
 	 */
 	public static final String HTML_PAGINATION = "htmlPagination"; //$NON-NLS-1$
 	/**
