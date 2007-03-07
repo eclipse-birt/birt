@@ -23,8 +23,6 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -37,12 +35,14 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
+import com.ibm.icu.text.SimpleDateFormat;
+
 /**
  * This dialog takes an expression and a data set and shows a list of unique
  * values for selection from the data set. It allows both multiple and single
  * selection. The default is single selection.
  * 
- * @version $Revision: 1.17 $ $Date: 2006/06/22 03:41:18 $
+ * @version $Revision: 1.18 $ $Date: 2006/12/05 07:41:46 $
  */
 public class SelectValueDialog extends BaseDialog
 {
@@ -221,36 +221,42 @@ public class SelectValueDialog extends BaseDialog
 		return exprValue;
 	}
 	
+	/**
+	 * populate all available value in selectValueList
+	 */
 	private void populateList( )
 	{
 		try
 		{
 			getOkButton( ).setEnabled( false );
 			selectValueList.removeAll( );
-			viewerValueList.clear();
+			viewerValueList.clear( );
 			if ( modelValueList != null && modelValueList.size( ) > 0 )
 			{
-				Iterator iter = modelValueList.iterator();
-				while( iter.hasNext()){
-				Object candiateValue = iter.next();
-				if ( candiateValue != null )
+				Iterator iter = modelValueList.iterator( );
+				while ( iter.hasNext( ) )
 				{
-					String displayCandiateValue;
-					if ( candiateValue instanceof Date )
-						displayCandiateValue = ParameterValidationUtil.getDisplayValue( DesignChoiceConstants.PARAM_TYPE_DATETIME,
-								null,
-								candiateValue );
-					else
-						displayCandiateValue = DataTypeUtil.toString( candiateValue );
-					viewerValueList.add( displayCandiateValue );
-					selectValueList.add( displayCandiateValue );
-				}}
+					Object candiateValue = iter.next( );
+					if ( candiateValue != null )
+					{
+						String displayCandiateValue;
+						if ( candiateValue instanceof Date )
+						{
+							SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss.S" );
+							displayCandiateValue = sdf.format( (Date) candiateValue );
+						}
+						else
+							displayCandiateValue = DataTypeUtil.toString( candiateValue );
+						viewerValueList.add( displayCandiateValue );
+						selectValueList.add( displayCandiateValue );
+					}
+				}
 			}
 			else
 			{
 				selectValueList.removeAll( );
-				modelValueList.clear();
-				viewerValueList.clear();
+				modelValueList.clear( );
+				viewerValueList.clear( );
 				ExceptionHandler.openErrorMessageBox( Messages.getString( "SelectValueDialog.errorRetrievinglist" ), Messages.getString( "SelectValueDialog.noExpressionSet" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			if ( selectValueList.getItemCount( ) > 0 )
@@ -258,57 +264,10 @@ public class SelectValueDialog extends BaseDialog
 				selectValueList.select( 0 );
 				getOkButton( ).setEnabled( true );
 			}
-
 		}
 		catch ( Exception e )
 		{
 			ExceptionHandler.handle( e );
 		}
 	}
-
-	//	private void populateList1( )
-	//	{
-	//		try
-	//		{
-	//			//Execute the query and populate this list
-	//			OdaDataSetDesign design = (OdaDataSetDesign)
-	// DataSetManager.getCurrentInstance( )
-	//					.getDataSetDesign( getDataSetHandle( ), true, false );
-	//			design.addComputedColumn( new ComputedColumn( "selectValue",
-	//					getExpression( ) ) );
-	//			QueryDefinition query = DataSetManager.getCurrentInstance( )
-	//					.getQueryDefinition( design );
-	//			ScriptExpression expression = new ScriptExpression(
-	// "row[\"selectValue\"]" );
-	//
-	//			GroupDefinition defn = new GroupDefinition( );
-	//			defn.setKeyExpression( expression.getText( ) );
-	//			query.setUsesDetails( false );
-	//			query.addGroup( defn );
-	//			query.addExpression( expression, BaseTransform.BEFORE_FIRST_ROW );
-	//
-	//			IPreparedQuery preparedQuery = DataSetManager.getCurrentInstance( )
-	//					.getPreparedQuery( query );
-	//			IQueryResults results = preparedQuery.execute( null );
-	//			selectValueList.removeAll( );
-	//			if ( results != null )
-	//			{
-	//				IResultIterator iter = results.getResultIterator( );
-	//				if ( iter != null )
-	//				{
-	//					while ( iter.next( ) )
-	//					{
-	//						selectValueList.add( iter.getString( expression ) );
-	//					}
-	//				}
-	//
-	//				results.close( );
-	//			}
-	//		}
-	//		catch ( Exception e )
-	//		{
-	//			e.printStackTrace( );
-	//			ExceptionHandler.handle( e );
-	//		}
-	//	}
 }
