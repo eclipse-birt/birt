@@ -84,6 +84,11 @@ class ArchiveFileV1 implements IArchiveFile
 		}
 	}
 
+	public void setCacheSize( int cacheSize )
+	{
+		// V1 doesn't support the cache size
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

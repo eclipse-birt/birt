@@ -26,6 +26,8 @@ interface IArchiveFile
 	public void refresh( ) throws IOException;
 
 	public boolean exists( String name );
+	
+	public void setCacheSize( int cacheSize );
 
 	public ArchiveEntry getEntry( String name );
 
