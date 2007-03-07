@@ -3,9 +3,10 @@ package org.eclipse.birt.report.engine.internal.executor.l18n;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
+import org.eclipse.birt.report.engine.executor.ReportItemExecutorBase;
 import org.eclipse.birt.report.engine.presentation.LocalizedContentVisitor;
 
-class LocalizedReportItemExecutor implements IReportItemExecutor
+class LocalizedReportItemExecutor extends ReportItemExecutorBase
 {
 
 	LocalizedContentVisitor l18nVisitor;

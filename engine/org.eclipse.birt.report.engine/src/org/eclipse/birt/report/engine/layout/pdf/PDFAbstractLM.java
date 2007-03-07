@@ -25,6 +25,7 @@ import org.eclipse.birt.report.engine.css.engine.value.ListValue;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
+import org.eclipse.birt.report.engine.executor.ReportItemExecutorBase;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
@@ -412,7 +413,7 @@ public abstract class PDFAbstractLM implements ILayoutManager
 	}
 
 
-	protected class ReportStackingExecutor implements IReportItemExecutor
+	protected class ReportStackingExecutor extends ReportItemExecutorBase
 	{
 
 		IReportExecutor executor;

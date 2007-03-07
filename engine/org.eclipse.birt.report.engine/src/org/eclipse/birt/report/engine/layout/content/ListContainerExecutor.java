@@ -7,6 +7,7 @@ import org.eclipse.birt.report.engine.content.IListBandContent;
 import org.eclipse.birt.report.engine.content.IListContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
+import org.eclipse.birt.report.engine.executor.ReportItemExecutorBase;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
 
 
@@ -33,7 +34,7 @@ public class ListContainerExecutor extends BlockStackingExecutor
 		}
 	}
 	
-	protected class ExecutorList implements IReportItemExecutor
+	protected class ExecutorList extends ReportItemExecutorBase
 	{
 		protected IReportItemExecutor currentRunIn = null;
 		protected IReportItemExecutor executor = null;

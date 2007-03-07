@@ -52,7 +52,7 @@ import org.eclipse.birt.report.engine.toc.TOCEntry;
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
  */
-public abstract class ReportItemExecutor implements IReportItemExecutor
+public abstract class ReportItemExecutor extends ReportItemExecutorBase
 {
 
 	/**
@@ -76,11 +76,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	 */
 	protected ExecutionContext context;
 
-	/**
-	 * parent executor
-	 */
-	protected ReportItemExecutor parent;
-	
+
 	/**
 	 * the executed report design
 	 */
@@ -183,16 +179,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		tocEntry = null;
 	}
 	
-	void setParent(ReportItemExecutor parent)
-	{
-		this.parent = parent;
-	}
-	
-	ReportItemExecutor getParent()
-	{
-		return parent;
-	}
-	
+
 	IContent getParentContent()
 	{
 		if (parent != null)
@@ -213,7 +200,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		return design;
 	}
 	
-	IContent getContent()
+	public IContent getContent()
 	{
 		return content;
 	}
@@ -511,13 +498,14 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	
 	TOCEntry getParentTOCEntry()
 	{
-		if (parent != null)
+		if (parent instanceof ReportItemExecutor)
 		{
-			if (parent.tocEntry != null)
+			ReportItemExecutor parentExecutor = (ReportItemExecutor)parent;
+			if (parentExecutor.tocEntry != null)
 			{
-				return parent.tocEntry;
+				return parentExecutor.tocEntry;
 			}
-			return parent.getParentTOCEntry();
+			return parentExecutor.getParentTOCEntry();
 		}
 		return null;
 	}
@@ -617,12 +605,13 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	
 	IResultSet getParentResultSet()
 	{
-		if (parent != null)
+		if (parent instanceof ReportItemExecutor)
 		{
-			IResultSet rset = parent.getResultSet( );
+			ReportItemExecutor parentExecutor = (ReportItemExecutor)parent;
+			IResultSet rset = parentExecutor.getResultSet( );
 			if (rset == null)
 			{
-				rset = parent.getParentResultSet( );
+				rset = parentExecutor.getParentResultSet( );
 			}
 			return rset;
 		}

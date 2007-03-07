@@ -2,9 +2,10 @@ package org.eclipse.birt.report.engine.layout.content;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
+import org.eclipse.birt.report.engine.executor.ReportItemExecutorBase;
 
 
-public class ItemExecutorWrapper implements IReportItemExecutor
+public class ItemExecutorWrapper extends ReportItemExecutorBase
 {
 	protected IReportItemExecutor executor;
 	protected IContent content;

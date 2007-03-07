@@ -160,6 +160,11 @@ public class ExtendedItemExecutor extends QueryItemExecutor
 			}
 			closeQueries( rowSets );
 		}
+		else
+		{
+			// TODO: review. If itemGeneration is null. we should create a text item for it. and set the alttext as its text. 
+			
+		}
 		content.setRawType( IForeignContent.EXTERNAL_TYPE );
 		content.setRawValue( generationStatus );
 	}
