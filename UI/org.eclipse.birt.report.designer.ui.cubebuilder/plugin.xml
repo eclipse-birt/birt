@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+<extension
+      point="org.eclipse.birt.report.designer.ui.elementAdapters">
+   <adaptable
+         class="org.eclipse.birt.report.model.api.olap.TabularCubeHandle">
+      <adapter
+            class="org.eclipse.birt.report.designer.ui.cubebuilder.provider.TabularCubeNodeProvider"
+            id="CubeHandle.NodeProvider"
+            priority="2"
+            type="org.eclipse.birt.report.designer.ui.views.INodeProvider">
+    </adapter>
+   </adaptable>
+   <adaptable
+         class="org.eclipse.birt.report.model.api.olap.TabularDimensionHandle">
+      <adapter
+            class="org.eclipse.birt.report.designer.ui.cubebuilder.provider.TabularDimensionNodeProvider"
+            id="DimensionHandle.NodeProvider"
+            priority="2"
+            type="org.eclipse.birt.report.designer.ui.views.INodeProvider">
+    </adapter>
+   </adaptable>
+   <adaptable
+         class="org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle">
+      <adapter
+            class="org.eclipse.birt.report.designer.ui.cubebuilder.provider.TabularMeasureGroupNodeProvider"
+            id="MeasureGroupHandle.NodeProvider"
+            priority="2"
+            type="org.eclipse.birt.report.designer.ui.views.INodeProvider">
+    </adapter>
+   </adaptable>
+   <adaptable
+         class="org.eclipse.birt.report.model.api.olap.TabularLevelHandle">
+      <adapter
+            class="org.eclipse.birt.report.designer.ui.cubebuilder.provider.TabularLevelNodeProvider"
+            id="LevelHandle.NodeProvider"
+            priority="2"
+            type="org.eclipse.birt.report.designer.ui.views.INodeProvider">
+    </adapter>
+   </adaptable>
+   <adaptable
+         class="org.eclipse.birt.report.model.api.olap.TabularMeasureHandle">
+      <adapter
+            class="org.eclipse.birt.report.designer.ui.cubebuilder.provider.TabularMeasureNodeProvider"
+            id="MeasureHandle.NodeProvider"
+            priority="2"
+            type="org.eclipse.birt.report.designer.ui.views.INodeProvider">
+    </adapter>
+   </adaptable>
+   <adaptable class="org.eclipse.birt.report.model.api.SlotHandle">
+  		<adapter class="org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubesNodeProvider" id="NodeProvider.CubesSlot" type="org.eclipse.birt.report.designer.ui.views.INodeProvider">
+			<enablement>
+				<or>
+ 					<and>
+  						<test property="SlotHandle.id" value="9" /> 
+  						<test property="SlotHandle.element" value="ReportDesign" /> 
+  					</and>
+					<and>
+  						<test property="SlotHandle.id" value="6" /> 
+  						<test property="SlotHandle.element" value="Library" /> 
+  					</and>
+  				</or>
+  			</enablement>
+  		</adapter>
+  	</adaptable>
+  
+</extension>
+</plugin>
