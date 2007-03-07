@@ -102,4 +102,8 @@ public interface IHTMLRenderOption
 	 * Should the table be outed as fixed. 
 	 */
 	public static final String HTML_LAYOUT_PREFERENCE = "layoutPreference"; //$NON-NLS-1$
+	
+	public static final String LAYOUT_PREFERENCE_FIXED = "fixed"; //$NON-NLS-1$
+
+	public static final String LAYOUT_PREFERENCE_AUTO = "auto"; //$NON-NLS-1$
 }
