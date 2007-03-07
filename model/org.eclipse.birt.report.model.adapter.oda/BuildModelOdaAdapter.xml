@@ -124,7 +124,9 @@
 		<jar destfile="modelodaapi.jar" >
 			<fileset dir="${build.dir}">
 				<exclude name="org/eclipse/birt/report/model/adapter/oda/plugin/"/>
-				<exclude name="org/eclipse/birt/report/model/adapter/oda/impl/"/>				
+				<exclude name="org/eclipse/birt/report/model/adapter/oda/impl/"/>	
+				<exclude name="org/eclipse/birt/report/model/adapter/oda/model/"/>	
+				<exclude name="org/eclipse/birt/report/model/adapter/oda/util/"/>				
 			</fileset>
 		</jar>
 					
