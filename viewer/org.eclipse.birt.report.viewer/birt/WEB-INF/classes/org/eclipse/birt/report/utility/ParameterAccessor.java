@@ -27,6 +27,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.PropertyResourceBundle;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -2123,6 +2125,28 @@ public class ParameterAccessor
 	}
 
 	/**
+	 * convert path from System Properties Definition. For example:
+	 * ${java.io.tmpdir}
+	 * 
+	 * @param path
+	 * @return
+	 */
+	protected static String convertSystemPath( String path )
+	{
+		// parse System Properties
+		Pattern p = Pattern.compile( "\\$\\s*\\{([^\\}]*)\\}\\s*(.*)", //$NON-NLS-1$
+				Pattern.CASE_INSENSITIVE );
+		Matcher m = p.matcher( path );
+		if ( m.find( ) )
+		{
+			String sysPath = trimSep( System.getProperty( m.group( 1 ).trim( ) ) );
+			return DataUtil.trimString( sysPath ) + m.group( 2 ).trim( );
+		}
+
+		return path;
+	}
+
+	/**
 	 * Process working folder setting. If path is a relative path, first
 	 * relative to context.
 	 * 
@@ -2133,7 +2157,7 @@ public class ParameterAccessor
 	public static String processWorkingFolder( ServletContext context,
 			String path )
 	{
-		path = DataUtil.trimString( path );
+		path = convertSystemPath( DataUtil.trimString( path ) );
 		String realPath = null;
 
 		// If path is a relative path
@@ -2176,6 +2200,8 @@ public class ParameterAccessor
 		{
 			path = DataUtil.trimString( defaultPath );
 		}
+
+		path = convertSystemPath( path );
 
 		// If path is a relative path
 		if ( isRelativePath( path ) )
