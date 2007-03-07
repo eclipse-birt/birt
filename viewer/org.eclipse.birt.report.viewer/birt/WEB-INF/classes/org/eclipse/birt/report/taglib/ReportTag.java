@@ -702,7 +702,8 @@ public class ReportTag extends AbstractViewerTag
 
 		// check if document file path is valid
 		boolean isValidDocument = ParameterAccessor
-				.isValidFilePath( documentFile );
+				.isValidFilePath( ParameterAccessor.getParameter( request,
+						ParameterAccessor.PARAM_REPORT_DOCUMENT ) );
 		if ( documentFile != null && isValidDocument )
 		{
 			// open the document instance
@@ -735,7 +736,8 @@ public class ReportTag extends AbstractViewerTag
 			}
 
 			// check if the report file path is valid
-			if ( !ParameterAccessor.isValidFilePath( designFile ) )
+			if ( !ParameterAccessor.isValidFilePath( ParameterAccessor
+					.getParameter( request, ParameterAccessor.PARAM_REPORT ) ) )
 			{
 				throw new ViewerException(
 						ResourceConstants.GENERAL_EXCEPTION_REPORT_ACCESS_ERROR,

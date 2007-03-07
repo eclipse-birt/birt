@@ -484,7 +484,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		{
 			// check if document file path is valid
 			boolean isValidDocument = ParameterAccessor
-					.isValidFilePath( this.reportDocumentName );
+					.isValidFilePath( ParameterAccessor.getParameter( request,
+							ParameterAccessor.PARAM_REPORT_DOCUMENT ) );
 
 			if ( isValidDocument )
 			{
@@ -514,8 +515,9 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		else if ( isReportExist )
 		{
 			if ( isDocumentExist
-					&& !ParameterAccessor
-							.isValidFilePath( this.reportDocumentName ) )
+					&& !ParameterAccessor.isValidFilePath( ParameterAccessor
+							.getParameter( request,
+									ParameterAccessor.PARAM_REPORT_DOCUMENT ) ) )
 			{
 				throw new ViewerException(
 						ResourceConstants.GENERAL_EXCEPTION_DOCUMENT_ACCESS_ERROR,
@@ -535,7 +537,9 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			if ( reportRunnable == null )
 			{
 				// check if the report path is valid
-				if ( !ParameterAccessor.isValidFilePath( this.reportDesignName ) )
+				if ( !ParameterAccessor
+						.isValidFilePath( ParameterAccessor.getParameter(
+								request, ParameterAccessor.PARAM_REPORT ) ) )
 				{
 					throw new ViewerException(
 							ResourceConstants.GENERAL_EXCEPTION_REPORT_ACCESS_ERROR,
