@@ -197,11 +197,14 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 			handle.addConfigVariable( typeVar );
 
 			// add parameter value expression
-			ConfigVariable exprVar = new ConfigVariable( );
-			exprVar.setName( paramName + "_" + parameter.getId( ) + "_" //$NON-NLS-1$//$NON-NLS-2$
-					+ IBirtConstants.PROP_EXPR );
-			exprVar.setValue( parameter.getValueExpr( ) );
-			handle.addConfigVariable( exprVar );
+			if ( parameter.getValueExpr( ) != null )
+			{
+				ConfigVariable exprVar = new ConfigVariable( );
+				exprVar.setName( paramName + "_" + parameter.getId( ) + "_" //$NON-NLS-1$//$NON-NLS-2$
+						+ IBirtConstants.PROP_EXPR );
+				exprVar.setValue( parameter.getValueExpr( ) );
+				handle.addConfigVariable( exprVar );
+			}
 		}
 
 		// save config file

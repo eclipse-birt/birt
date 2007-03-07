@@ -1139,7 +1139,7 @@ public class BirtViewerReportService implements IViewerReportService
 		String helpText = engineParam.getHelpText( );
 		String promptText = engineParam.getPromptText( );
 		int dataType = engineParam.getDataType( );
-		String valueExpr = scalarParamHandle == null ? "" : scalarParamHandle
+		String valueExpr = scalarParamHandle == null ? null : scalarParamHandle
 				.getValueExpr( );
 		int controlType = engineParam.getControlType( );
 		boolean hidden = engineParam.isHidden( );

@@ -399,12 +399,15 @@ public class ViewerAttributeBean extends BaseAttributeBean
 							String cachedExpr = null;
 							if ( exprVar != null )
 								cachedExpr = exprVar.getValue( );
-
 							if ( cachedExpr == null )
 								cachedExpr = ""; //$NON-NLS-1$
 
+							String expr = parameter.getValueExpr( );
+							if ( expr == null )
+								expr = ""; //$NON-NLS-1$
+
 							// if value expression changed,skip it
-							if ( !cachedExpr.equals( parameter.getValueExpr( ) ) )
+							if ( !cachedExpr.equals( expr ) )
 								continue;
 
 							this.configMap.put( paramName, paramValue );
