@@ -3692,7 +3692,7 @@ cube.measure.new=New Cube Measure
 cube.measure.edit=Edit Cube Measure
 CubeMeasureNodeProvider.menu.text=Bearbeiten
 cube.measuregroup.new=New Cube Measure Group
-cube.measure.edit=Edit Cube Measure Group
+cube.measure.edit=Edit Cube Measure
 CubeMeasureGroupNodeProvider.menu.text=Bearbeiten
 
 ###########################################################
@@ -3734,7 +3734,7 @@ LevelDialog.Label.Name=Name:
 LevelDialog.Label.Field=Choose Field:
 LevelDialog.Label.Info=Selected Key:
 LevelDialog.Label.Add=Add Level
-LevleDialog.Label.Edit=Edit Level
+LevelDialog.Label.Edit=Edit Level
 LevelPropertyDialog.Title=Level
 LevelPropertyDialog.MSG.CreateNew=<Create New Parameter>
 LevelPropertyDialog.Label.Name=Name:
