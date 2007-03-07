@@ -17,7 +17,7 @@ import java.io.RandomAccessFile;
 import java.util.Iterator;
 import java.util.List;
 
-public class ArchiveFile
+public class ArchiveFile implements IArchiveFile
 {
 
 	/**
@@ -140,6 +140,10 @@ public class ArchiveFile
 		}
 	}
 
+	public void setCacheSize( int cacheSize )
+	{
+		af.setCacheSize( cacheSize );
+	}
 	/**
 	 * save the
 	 * 

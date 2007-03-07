@@ -29,6 +29,7 @@ public class ArchiveFileTest extends TestCase
 	public void testArchiveFile( ) throws IOException
 	{
 		ArchiveFile archive = new ArchiveFile( ARCHIVE_FILE, "rw" );
+		archive.setCacheSize( 64 * 1024 );
 		createArchive( archive );
 		checkArchive( archive );
 		archive.close( );
@@ -101,7 +102,6 @@ public class ArchiveFileTest extends TestCase
 	void checkArchive( ArchiveFile archive ) throws IOException
 	{
 		int entryCount = 1024;
-		byte[] b = new byte[entryCount];
 		for ( int i = 0; i < entryCount; i++ )
 		{
 			ArchiveEntry entry = archive.getEntry( "/entry/" + i );
