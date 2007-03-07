@@ -359,8 +359,7 @@ public class TableAreaLayout
 		for(int i=0; i<columnNumber; i++)
 		{
 			CellArea cell = row.getCell( start + i );
-			assert(cell!=null);
-			if(cell.getRowSpan( )==dropValue)
+			if(cell!=null && cell.getRowSpan( )==dropValue)
 			{
 				height = Math.max( height, cell.getHeight( ) );
 				needResolve = true;
@@ -374,6 +373,10 @@ public class TableAreaLayout
 			for(int i=0; i<columnNumber; i++)
 			{
 				CellArea cell = row.getCell( start + i );
+				if(cell==null)
+				{
+					continue;
+				}
 				if(cell.getRowSpan( )==dropValue)
 				{
 					if(cell instanceof DummyCell)
@@ -430,20 +433,23 @@ public class TableAreaLayout
 		for(int i=0; i<columnNumber; i++)
 		{
 			CellArea cell = lastRow.getCell( start + i );
-			int rowSpan = cell.getRowSpan( );
-			if(rowSpan< 0 || rowSpan>1)
+			if(cell!=null)
 			{
-				//FIXME resolve conflict?
-				unfinishedRow.addUnresolvedCell( (ICellContent) cell
-						.getContent( ), getLeftRowSpan(
-								lastRow.finished, rowSpan ) );
-			}
-			else if(rowSpan==1)
-			{
-				if(!lastRow.finished)
+				int rowSpan = cell.getRowSpan( );
+				if(rowSpan< 0 || rowSpan>1)
 				{
+					//FIXME resolve conflict?
 					unfinishedRow.addUnresolvedCell( (ICellContent) cell
-							.getContent( ), 1 );
+							.getContent( ), getLeftRowSpan(
+									lastRow.finished, rowSpan ) );
+				}
+				else if(rowSpan==1)
+				{
+					if(!lastRow.finished)
+					{
+						unfinishedRow.addUnresolvedCell( (ICellContent) cell
+								.getContent( ), 1 );
+					}
 				}
 			}
 				
@@ -471,11 +477,13 @@ public class TableAreaLayout
 		for(int i=0; i<columnNumber; i++)
 		{
 			CellArea cell = row.getCell( start + i );
-			assert(cell!=null);
-			if(cell.getRowSpan( )< 0 || cell.getRowSpan( )>1 )
+			if(cell!=null)
 			{
-				height = Math.max( height, cell.getHeight( ) );
-				hasDropCell = true;
+				if(cell.getRowSpan( )< 0 || cell.getRowSpan( )>1 )
+				{
+					height = Math.max( height, cell.getHeight( ) );
+					hasDropCell = true;
+				}
 			}
 		}
 		
@@ -487,7 +495,10 @@ public class TableAreaLayout
 			for(int i=0; i<columnNumber; i++)
 			{
 				CellArea cell = row.getCell( start + i );
-				assert(cell!=null);
+				if(cell==null)
+				{
+					continue;
+				}
 				int rowSpan = cell.getRowSpan( );
 				if(rowSpan< 0 || rowSpan>1)
 				{
@@ -580,29 +591,32 @@ public class TableAreaLayout
 		for(int i=0; i<columnNumber; i++)
 		{
 			CellArea cell = row.getCell( start + i );
-			if(cell instanceof DummyCell)
+			if(cell!=null)
 			{
-				CellArea ref = ((DummyCell)cell).getCell( );
-				if(!cells.contains( ref ))
+				if(cell instanceof DummyCell)
 				{
-					int width = resolveBottomBorder( ref );
-					if(width>0)
+					CellArea ref = ((DummyCell)cell).getCell( );
+					if(!cells.contains( ref ))
 					{
-						ref.setHeight( ref.getHeight( ) + width );
+						int width = resolveBottomBorder( ref );
+						if(width>0)
+						{
+							ref.setHeight( ref.getHeight( ) + width );
+						}
+						cells.add( ref );
 					}
-					cells.add( ref );
 				}
-			}
-			else
-			{
-				if(!cells.contains( cell ))
+				else
 				{
-					int width = resolveBottomBorder( cell );
-					if(width>0)
+					if(!cells.contains( cell ))
 					{
-						cell.setHeight( cell.getHeight( ) + width );
+						int width = resolveBottomBorder( cell );
+						if(width>0)
+						{
+							cell.setHeight( cell.getHeight( ) + width );
+						}
+						cells.add( cell );
 					}
-					cells.add( cell );
 				}
 			}
 		}
