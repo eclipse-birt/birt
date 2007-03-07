@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.Iterator;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -35,14 +36,14 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
-import com.ibm.icu.text.SimpleDateFormat;
+import com.ibm.icu.util.ULocale;
 
 /**
  * This dialog takes an expression and a data set and shows a list of unique
  * values for selection from the data set. It allows both multiple and single
  * selection. The default is single selection.
  * 
- * @version $Revision: 1.18 $ $Date: 2006/12/05 07:41:46 $
+ * @version $Revision: 1.19 $ $Date: 2007/03/07 02:56:52 $
  */
 public class SelectValueDialog extends BaseDialog
 {
@@ -242,8 +243,9 @@ public class SelectValueDialog extends BaseDialog
 						String displayCandiateValue;
 						if ( candiateValue instanceof Date )
 						{
-							SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss.S" );
-							displayCandiateValue = sdf.format( (Date) candiateValue );
+							DateFormatter formatter = new DateFormatter( ULocale.US );
+							formatter.applyPattern( "yyyy-MM-dd HH:mm:ss.S" );
+							displayCandiateValue = formatter.format( (Date) candiateValue );
 						}
 						else
 							displayCandiateValue = DataTypeUtil.toString( candiateValue );
