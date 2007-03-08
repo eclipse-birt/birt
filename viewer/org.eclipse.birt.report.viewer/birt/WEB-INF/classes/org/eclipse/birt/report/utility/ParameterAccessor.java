@@ -2194,6 +2194,7 @@ public class ParameterAccessor
 			String defaultPath, boolean canWrite )
 	{
 		String realPath = null;
+		boolean isRelative = false;
 
 		// Using default path
 		if ( path == null || path.trim( ).length( ) <= 0 )
@@ -2206,34 +2207,47 @@ public class ParameterAccessor
 		// If path is a relative path
 		if ( isRelativePath( path ) )
 		{
+			isRelative = true;
 			if ( !path.startsWith( "/" ) ) //$NON-NLS-1$
 				path = "/" + path; //$NON-NLS-1$
 
-			realPath = getRealPath( path, context );
-			if ( realPath != null && makeDir( realPath ) )
-			{
-				if ( !canWrite )
-					return trimSep( realPath );
-
-				// check if the folder is writable
-				try
-				{
-					if ( canWrite && new File( realPath ).canWrite( ) )
-						return trimSep( realPath );
-				}
-				catch ( Exception e )
-				{
-
-				}
-			}
-
-			// try to create folder in ${java.io.tmpdir}
-			realPath = trimSep( System.getProperty( "java.io.tmpdir" ) ) + path; //$NON-NLS-1$
+			realPath = trimSep( getRealPath( path, context ) );
 		}
 		else
 		{
 			// Path is an absolute path
 			realPath = trimSep( path );
+		}
+
+		boolean flag = makeDir( realPath );
+
+		// don't need writable
+		if ( !canWrite )
+			return realPath;
+
+		// check if the folder is writable
+		if ( flag )
+		{
+			try
+			{
+				if ( canWrite && new File( realPath ).canWrite( ) )
+					return realPath;
+			}
+			catch ( Exception e )
+			{
+			}
+		}
+
+		// try to create folder in ${java.io.tmpdir}
+		if ( isRelative )
+		{
+			realPath = trimSep( System.getProperty( "java.io.tmpdir" ) ) + path; //$NON-NLS-1$
+		}
+		else
+		{
+			// if absolute path, create default path in temp folder
+			if ( defaultPath != null )
+				realPath = trimSep( System.getProperty( "java.io.tmpdir" ) ) + File.separator + defaultPath; //$NON-NLS-1$
 		}
 
 		// try to create folder
