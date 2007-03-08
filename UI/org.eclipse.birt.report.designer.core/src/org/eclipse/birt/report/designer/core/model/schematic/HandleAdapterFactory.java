@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.api.AutoTextHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
@@ -39,6 +40,7 @@ import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
+import org.eclipse.core.runtime.IAdaptable;
 
 /**
  * Adapter factory class Populate HandleAdapter
@@ -74,6 +76,10 @@ public class HandleAdapterFactory
 			Object obj, IModelAdapterHelper mark )
 	{
 
+		if (obj instanceof IAdaptable)
+		{
+			obj = ((IAdaptable)obj).getAdapter( DesignElementHandle.class );
+		}
 		if ( obj instanceof ReportDesignHandle )
 		{
 			return getReportDesignHandleAdapter( );

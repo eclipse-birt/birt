@@ -79,6 +79,7 @@ import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
+import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
@@ -216,6 +217,31 @@ public class DEUtil
 		}
 		return DEUtil.findPos( parent, slotID, element );
 	}
+	
+	/**
+	 * Find the position of the element. If the element is null, the position is
+	 * last
+	 * @param parent
+	 * @param element
+	 * @param content
+	 * @return
+	 */
+	public static int findInsertPosition( DesignElementHandle parent,
+			DesignElementHandle element, String content )
+	{
+		if ( element == null )
+		{
+			return parent.getContentCount( content );
+//			SlotHandle slotHandle = parent.getSlot( slotID );
+//			if ( slotHandle != null )
+//			{
+//				return slotHandle.getCount( );
+//			}
+//			return -1;
+		}
+		return element.getIndex( );
+	}
+	
 
 	/**
 	 * Finds the position of the child element in the parent element with the
@@ -344,6 +370,23 @@ public class DEUtil
 		return account;
 	}
 
+	/**Gets the default content property name.
+	 * @param parent
+	 * @return
+	 */
+	//TODO this a temp resolve method.
+	public static String getDefaultContentName(Object parent)
+	{
+		if (parent instanceof DesignElementHandle)
+		{
+			List propDefns = ((DesignElementHandle)parent).getDefn( ).getContents( );
+			if (!propDefns.isEmpty( ))
+			{
+				return ( (IPropertyDefn) propDefns.get( 0 ) ) .getName( );
+			}
+		}
+		return "";
+	}
 	/**
 	 * Get default slot id of give container element
 	 * 

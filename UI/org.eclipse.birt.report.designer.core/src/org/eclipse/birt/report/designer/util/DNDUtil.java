@@ -58,6 +58,7 @@ import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -715,6 +716,10 @@ public class DNDUtil
 		{
 			return ( (ListBandProxy) obj ).getSlotHandle( );
 		}
+		if ( obj instanceof IAdaptable )
+		{
+			return ( (IAdaptable) obj ).getAdapter( DesignElementHandle.class );
+		}
 		return obj;
 	}
 
@@ -1153,6 +1158,11 @@ public class DNDUtil
 		{
 			return CONTAIN_THIS;
 		}
+		//add for the cross tab 
+		else if (targetHandle.canContain( DEUtil.getDefaultContentName( targetHandle ), childHandle ))
+		{
+			return CONTAIN_THIS;
+		}
 		// else if ( targetHandle instanceof RowHandle
 		// && childHandle instanceof RowHandle )
 		// {
@@ -1168,7 +1178,18 @@ public class DNDUtil
 			{
 				return CONTAIN_NO;
 			}
-			if ( !targetHandle.getContainer( )
+			if ( targetHandle.getContainerSlotHandle( ) == null )
+			{
+				if ( !targetHandle.getContainerPropertyHandle( )
+						.getDefn( )
+						.isList( ) )
+				{
+					return CONTAIN_NO;
+
+				}
+			}
+
+			else if ( !targetHandle.getContainer( )
 					.getDefn( )
 					.getSlot( targetHandle.getContainerSlotHandle( )
 							.getSlotID( ) )
