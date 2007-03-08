@@ -15,8 +15,8 @@ import java.io.File;
 import java.rmi.RemoteException;
 
 import org.apache.axis.AxisFault;
+import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.IContext;
-import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
@@ -72,7 +72,7 @@ public class BirtGetPageActionHandler extends AbstractGetPageActionHandler
 		else
 		{
 			// If document isn't completed, throw Exception
-			ViewerAttributeBean bean = (ViewerAttributeBean) context.getBean( );
+			BaseAttributeBean bean = (BaseAttributeBean) context.getBean( );
 			if ( bean.isDocumentProcessing( ) )
 			{
 				AxisFault fault = new AxisFault( );

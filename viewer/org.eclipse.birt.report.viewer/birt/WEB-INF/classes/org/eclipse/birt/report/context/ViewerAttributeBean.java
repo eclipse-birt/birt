@@ -90,11 +90,6 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	private Map moduleOptions = null;
 
 	/**
-	 * If document generated completely
-	 */
-	private boolean isDocumentProcessing = false;
-
-	/**
 	 * Request Type
 	 */
 	private String requestType;
@@ -1004,14 +999,6 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	public Map getModuleOptions( )
 	{
 		return moduleOptions;
-	}
-
-	/**
-	 * @return the isDocumentProcessing
-	 */
-	public boolean isDocumentProcessing( )
-	{
-		return isDocumentProcessing;
 	}
 
 	/**

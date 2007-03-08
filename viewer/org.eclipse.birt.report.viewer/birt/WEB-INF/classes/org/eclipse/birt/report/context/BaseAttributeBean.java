@@ -183,6 +183,11 @@ abstract public class BaseAttributeBean
 	protected boolean isShowParameterPage = false;
 
 	/**
+	 * If document generated completely
+	 */
+	protected boolean isDocumentProcessing = false;
+
+	/**
 	 * Abstract methods.
 	 */
 	abstract protected void __init( HttpServletRequest request )
@@ -533,4 +538,11 @@ abstract public class BaseAttributeBean
 		return isShowParameterPage;
 	}
 
+	/**
+	 * @return the isDocumentProcessing
+	 */
+	public boolean isDocumentProcessing( )
+	{
+		return isDocumentProcessing;
+	}
 }

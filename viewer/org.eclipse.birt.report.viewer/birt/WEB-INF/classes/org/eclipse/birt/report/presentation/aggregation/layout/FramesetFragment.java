@@ -29,6 +29,8 @@ import org.eclipse.birt.report.context.BirtContext;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
 import org.eclipse.birt.report.presentation.aggregation.control.ToolbarFragment;
+import org.eclipse.birt.report.resource.BirtResources;
+import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.service.ReportEngineService;
 import org.eclipse.birt.report.service.actionhandler.BirtRenderReportActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtRunReportActionHandler;
@@ -173,6 +175,16 @@ public class FramesetFragment extends BirtBaseFragment
 				BirtRunReportActionHandler runReport = new BirtRunReportActionHandler(
 						context, op, upResponse );
 				runReport.execute( );
+			}
+
+			// If document isn't completed, throw Exception
+			if ( attrBean.isDocumentProcessing( ) )
+			{
+				AxisFault fault = new AxisFault( );
+				fault
+						.setFaultReason( BirtResources
+								.getMessage( ResourceConstants.GENERAL_EXCEPTION_DOCUMENT_FILE_PROCESSING ) );
+				throw fault;
 			}
 
 			BirtRenderReportActionHandler renderReport = new BirtRenderReportActionHandler(
