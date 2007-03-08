@@ -31,6 +31,10 @@ fragment@org.eclipse.birt.report.model.nl=HEAD,:pserver:anonymous@dev.eclipse.or
 fragment@org.eclipse.birt.report.viewer.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.report.viewer.nl
 fragment@org.eclipse.birt.resources.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.resources.nl
 fragment@org.eclipse.birt.integration.wtp.ui.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.integration.wtp.ui.nl
+fragment@org.eclipse.birt.report.item.crosstab.core.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.report.item.crosstab.core.nl
+fragment@org.eclipse.birt.report.designer.ui.editor.xml.wtp.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.report.designer.ui.editor.xml.wtp.nl
+fragment@org.eclipse.birt.report.designer.ui.views.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.report.designer.ui.views.nl
+
 
 !***************DATATOOLS NL*****************
 fragment@org.eclipse.datatools.connectivity.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.connectivity/nl/org.eclipse.datatools.connectivity.nl
