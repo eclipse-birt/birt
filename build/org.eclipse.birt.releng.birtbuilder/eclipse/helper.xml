@@ -489,6 +489,7 @@
 			<include name="org.eclipse.datatools.enablement.oda.designer.finfo_*.jar"/>
 			<include name="org.eclipse.datatools.enablement.oda.finfo_*.jar"/>
 			<include name="org.eclipse.datatools.oda.cshelp_*.jar"/>
+			<include name="org.apache.xerces_*/**"/>
 		</patternset>
 		<patternset id="oda.runtime.features">
 			<include name="org.eclipse.datatools.connectivity.oda.designer.feature_*/**" />
