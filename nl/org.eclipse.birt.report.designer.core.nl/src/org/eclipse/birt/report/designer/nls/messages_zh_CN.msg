@@ -3748,3 +3748,17 @@ LevelPropertyDialog.Label.Property=Level Property
 LevelPropertyDialog.Label.Attribute=Attribute
 LevelPropertyDialog.Label.Name=名称:
 LevelPropertyDialog.Label.Expression=表达式
+
+###########################################################
+#Sample Reports View properties
+SampleReportsView.defautDescription=Please select an sample report from the categories
+SampleReportsView.Text.Explorer=Sample Reports
+SampleReportsView.Text.Preview=预览
+SampleReportsView.Text.Description=说明
+SampleReportsView.MessageDialog.Title=问题
+SampleReportsView.MessageDialog.Message=The ''{0}'' already exists. Do you want to replace it?
+SampleReportsView.Action.exportSampleReport=保存
+SampleReportsView.Action.openSampleReport=Open
+SampleReportsView.Action.exportSampleReport.toolTipText=Export selected sample report
+SampleReportsView.Action.openSampleReport.toolTipText.ide=Create a report project and place the report into the project folder
+SampleReportsView.Action.openSampleReport.toolTipText.rcp=Export the selected sample report into RCP workspace folder directly

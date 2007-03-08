@@ -3748,3 +3748,17 @@ LevelPropertyDialog.Label.Property=Level Property
 LevelPropertyDialog.Label.Attribute=Attribute
 LevelPropertyDialog.Label.Name=이름:
 LevelPropertyDialog.Label.Expression=식
+
+###########################################################
+#Sample Reports View properties
+SampleReportsView.defautDescription=Please select an sample report from the categories
+SampleReportsView.Text.Explorer=Sample Reports
+SampleReportsView.Text.Preview=미리 보기
+SampleReportsView.Text.Description=설명
+SampleReportsView.MessageDialog.Title=질문
+SampleReportsView.MessageDialog.Message=The ''{0}'' already exists. Do you want to replace it?
+SampleReportsView.Action.exportSampleReport=저장
+SampleReportsView.Action.openSampleReport=Open
+SampleReportsView.Action.exportSampleReport.toolTipText=Export selected sample report
+SampleReportsView.Action.openSampleReport.toolTipText.ide=Create a report project and place the report into the project folder
+SampleReportsView.Action.openSampleReport.toolTipText.rcp=Export the selected sample report into RCP workspace folder directly
