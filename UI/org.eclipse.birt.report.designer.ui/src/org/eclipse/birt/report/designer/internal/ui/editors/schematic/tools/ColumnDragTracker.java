@@ -12,6 +12,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.draw2d.Cursors;
@@ -123,5 +124,41 @@ public class ColumnDragTracker extends TableDragGuideTracker
 	protected void setCursor( Cursor cursor )
 	{
 		super.setCursor( cursor );
+	}
+	
+	/**Gets the column width
+	 * @param columnNumber
+	 * @return
+	 */
+	protected int getColumnWidth( int columnNumber )
+	{
+		Object column = getTableEditPart( ).getColumn( columnNumber );
+		if ( column == null )
+		{
+			return HandleAdapterFactory.getInstance( )
+					.getTableHandleAdapter( getTableEditPart( ).getModel( ) )
+					.getDefaultWidth( columnNumber );
+		}
+
+		return getColumnWidth( column );
+	}
+	
+	/**Gets the column width
+	 * @param column
+	 * @return
+	 */
+	protected int getColumnWidth( Object column )
+	{
+		return TableUtil.caleVisualWidth( getTableEditPart( ), column );
+	}
+	
+	/**
+	 * Gets the TableEditPart
+	 * 
+	 * @return
+	 */
+	protected TableEditPart getTableEditPart( )
+	{
+		return (TableEditPart) getSourceEditPart( );
 	}
 }

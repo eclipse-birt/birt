@@ -9,9 +9,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools;
 
-import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
@@ -82,7 +79,7 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker
 	{
 
 		resize( );
-		TableEditPart part = (TableEditPart) getSourceEditPart( );
+		EditPart part = getSourceEditPart( );
 		part.getViewer( ).setSelection( part.getViewer( ).getSelection( ) );
 	}
 
@@ -210,45 +207,5 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker
 			value = dimension.height;
 		}
 		return value;
-	}
-
-	protected int getRowHeight( Object row )
-	{
-
-		return TableUtil.caleVisualHeight( getTableEditPart( ), row );
-	}
-
-	protected int getColumnWidth( Object column )
-	{
-		return TableUtil.caleVisualWidth( getTableEditPart( ), column );
-	}
-
-	protected int getRowHeight( int rowNumber )
-	{
-		Object row = getTableEditPart( ).getRow( rowNumber );
-		return getRowHeight( row );
-	}
-
-	protected int getColumnWidth( int columnNumber )
-	{
-		Object column = getTableEditPart( ).getColumn( columnNumber );
-		if ( column == null )
-		{
-			return HandleAdapterFactory.getInstance( )
-					.getTableHandleAdapter( getTableEditPart( ).getModel( ) )
-					.getDefaultWidth( columnNumber );
-		}
-
-		return getColumnWidth( column );
-	}
-
-	/**
-	 * Gets the TableEditPart
-	 * 
-	 * @return
-	 */
-	protected TableEditPart getTableEditPart( )
-	{
-		return (TableEditPart) getSourceEditPart( );
 	}
 }

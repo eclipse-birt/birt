@@ -26,7 +26,6 @@ import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
-import org.eclipse.birt.report.designer.internal.ui.palette.ReportCombinedTemplateCreationEntry;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -41,6 +40,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
+import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.gef.ui.actions.CopyTemplateAction;
@@ -86,6 +86,12 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 
+/**
+ * This class serves as a quick starting point for clients who are new to GEF.
+ * It will create an Editor with a flyout palette. The flyout palette will only
+ * be visible when the palette view is not open.
+ * <p>
+ */
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor implements
 		EditorSelectionProvider,
 		IColleague
@@ -236,11 +242,11 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 					{
 						EditPart editPart = viewer.findObjectAt( new Point( e.x,
 								e.y ) );
-						ReportCombinedTemplateCreationEntry entry = null;
+						CombinedTemplateCreationEntry entry = null;
 						if ( editPart != null
-								&& editPart.getModel( ) instanceof ReportCombinedTemplateCreationEntry )
+								&& editPart.getModel( ) instanceof CombinedTemplateCreationEntry )
 						{
-							entry = (ReportCombinedTemplateCreationEntry) editPart.getModel( );
+							entry = (CombinedTemplateCreationEntry) editPart.getModel( );
 						}
 						if ( entry == null )
 							return;

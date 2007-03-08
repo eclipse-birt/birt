@@ -19,7 +19,9 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.Libr
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
 import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.DataSetColumnToolExtends;
 import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.DataSetToolExtends;
+import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.DimensionHandleToolExtends;
 import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.ImageToolExtends;
+import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.MeasureHandleToolExtends;
 import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.ParameterToolExtends;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -41,6 +43,8 @@ import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.Request;
@@ -138,6 +142,16 @@ public class ReportTemplateTransferDropTargetListener extends
 			{
 				isScalarparameter = true;
 				preHandle = new ParameterToolExtends( );
+			}
+			//for cross tab
+			else if (objectType instanceof DimensionHandle)
+			{
+				preHandle = new DimensionHandleToolExtends( );
+			}
+			else if (objectType instanceof MeasureHandle)
+			{
+				preHandle = new MeasureHandleToolExtends( );
+				
 			}
 		}
 		else if ( handleValidateLibrary( template ) )
@@ -298,11 +312,26 @@ public class ReportTemplateTransferDropTargetListener extends
 	 */
 	private boolean handleValidateInsert( Object template )
 	{
+		//add by gao for test the cross tab
+		if (template instanceof Object[])
+		{
+			Object[] temp = (Object[])template;
+			if (temp != null  && temp.length >0 && isCrossType( temp[0] ))
+			{
+				return true;
+			}
+		}
 		return InsertInLayoutUtil.handleValidateInsert( template )
 				&& ( getTargetEditPart( ) == null || InsertInLayoutUtil.handleValidateInsertToLayout( template,
 						getTargetEditPart( ) ) );
 	}
 
+	//test for the crosstab
+	private boolean isCrossType(Object obj)
+	{
+		return obj instanceof DimensionHandle 
+			|| obj instanceof MeasureHandle;
+	}
 	/**
 	 * Validates drag source of outline view and drop target of layout
 	 * 
@@ -420,6 +449,15 @@ public class ReportTemplateTransferDropTargetListener extends
 	public void dragOver( DropTargetEvent event )
 	{
 		super.dragOver( event );
+		Object template = TemplateTransfer.getInstance( ).getTemplate( );
+		if (template instanceof Object[])
+		{
+			Object[] temp = (Object[])template;
+			if (temp != null  && temp.length >0 && isCrossType( temp[0] ))
+			{
+				return;
+			}
+		}
 		if ( !handleValidateDrag( TemplateTransfer.getInstance( ).getTemplate( ) ) )
 		{
 			event.detail = DND.DROP_NONE;

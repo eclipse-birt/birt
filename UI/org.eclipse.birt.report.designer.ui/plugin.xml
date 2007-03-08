@@ -7,7 +7,7 @@
    <extension-point id="reportitemUI" name="%designer.ui.extensionPointName" schema="schema/reportitemUI.exsd"/>
    <extension-point id="menuBuilders" name="%extension.menuBuilders" schema="schema/menuBuilders.exsd"/>
    <extension-point id="elementAdapters" name="elementAdapters" schema="schema/elementAdapters.exsd"/>
-   
+   <extension-point id="reportItemEditpart" name="BIRT Designer Report Item EditPart extension" schema="schema/reportItemEditpart.exsd"/>
 
    
    <!-- ActionSets -->

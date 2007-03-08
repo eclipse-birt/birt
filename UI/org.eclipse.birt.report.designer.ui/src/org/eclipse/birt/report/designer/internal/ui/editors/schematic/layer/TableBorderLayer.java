@@ -14,7 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.layer;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BorderUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.TableBorderHelper;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractTableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
 import org.eclipse.birt.report.designer.internal.ui.layout.TableLayout;
 import org.eclipse.birt.report.designer.util.ColorManager;
@@ -32,7 +32,7 @@ import org.eclipse.gef.LayerConstants;
 public class TableBorderLayer extends FreeformLayer
 {
 
-	private TableEditPart source;
+	private AbstractTableEditPart source;
 
 	private int rowCount, colCount;
 
@@ -48,7 +48,7 @@ public class TableBorderLayer extends FreeformLayer
 	 * 
 	 * @param source
 	 */
-	public TableBorderLayer( TableEditPart source )
+	public TableBorderLayer( AbstractTableEditPart source )
 	{
 		super( );
 		this.source = source;
@@ -64,6 +64,7 @@ public class TableBorderLayer extends FreeformLayer
 	protected void paintFigure( Graphics graphics )
 	{
 		IFigure figure = source.getLayer( LayerConstants.PRIMARY_LAYER );
+		
 		TableBorderHelper helper = ( (TableLayout) figure.getLayoutManager( ) ).getBorderHelper( );
 
 		if ( helper == null )

@@ -39,6 +39,7 @@ import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 
 /**
  * ChoiceSetFactory provides common interface to access all kinds of collection
@@ -557,6 +558,27 @@ public class ChoiceSetFactory
 		{
 			DataSetHandle DataSetHandle = (DataSetHandle) iterator.next( );
 			list.add( DataSetHandle.getQualifiedName( ) );
+		}
+
+		return (String[]) list.toArray( new String[0] );
+	}
+	
+	/**
+	 * Gets all the Cubes available.
+	 * 
+	 * @return A String array contains all the Cubs.
+	 */
+	public static String[] getCubes( )
+	{
+		ArrayList list = new ArrayList( );
+
+		ModuleHandle handle = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+
+		for ( Iterator iterator = handle.getVisibleCubes().iterator( ); iterator.hasNext( ); )
+		{
+			CubeHandle CubeHandle = (CubeHandle) iterator.next( );
+			list.add( CubeHandle.getQualifiedName( ) );
 		}
 
 		return (String[]) list.toArray( new String[0] );

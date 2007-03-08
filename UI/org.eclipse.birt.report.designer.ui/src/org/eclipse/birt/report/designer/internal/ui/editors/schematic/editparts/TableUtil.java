@@ -20,7 +20,10 @@ import org.eclipse.birt.report.designer.core.model.schematic.ColumnHandleAdapter
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.CellDragTracker;
+import org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutCell;
+import org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner;
 import org.eclipse.birt.report.designer.internal.ui.layout.TableLayout;
+import org.eclipse.birt.report.engine.css.dom.AbstractStyle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -90,12 +93,12 @@ public class TableUtil
 		{
 			return new Rectangle( );
 		}
-		IFigure figure = ( (TableCellEditPart) list.get( 0 ) ).getFigure( );
+		IFigure figure = ( (GraphicalEditPart) list.get( 0 ) ).getFigure( );
 		Rectangle retValue = figure.getBounds( ).getCopy( );
 
 		for ( int i = 1; i < size; i++ )
 		{
-			TableCellEditPart cellPart = (TableCellEditPart) list.get( i );
+			GraphicalEditPart cellPart = (GraphicalEditPart) list.get( i );
 			retValue.union( cellPart.getFigure( ).getBounds( ) );
 		}
 		retValue.shrink( 2, 2 );
@@ -154,7 +157,7 @@ public class TableUtil
 	 * @param i
 	 * @return
 	 */
-	public static int caleY( TableEditPart part, int row )
+	public static int caleY( AbstractTableEditPart part, int row )
 	{
 		IFigure figure = part.getLayer( LayerConstants.PRIMARY_LAYER );
 		TableLayout.WorkingData data = (TableLayout.WorkingData) figure.getLayoutManager( )
@@ -235,7 +238,7 @@ public class TableUtil
 	 * @param i
 	 * @return
 	 */
-	public static int caleX( TableEditPart part, int column )
+	public static int caleX( AbstractTableEditPart part, int column )
 	{
 
 		IFigure figure = part.getLayer( LayerConstants.PRIMARY_LAYER );
@@ -259,7 +262,7 @@ public class TableUtil
 	 * @param part
 	 * @return
 	 */
-	public static List getSelectionCells( TableEditPart part )
+	public static List getSelectionCells( ITableLayoutOwner part )
 	{
 		List list = part.getViewer( ).getSelectedEditParts( );
 		List temp = new ArrayList( );
@@ -267,7 +270,7 @@ public class TableUtil
 		int size = list.size( );
 		for ( int i = 0; i < size; i++ )
 		{
-			if ( list.get( i ) instanceof TableCellEditPart )
+			if ( list.get( i ) instanceof AbstractCellEditPart )
 			{
 				temp.add( list.get( i ) );
 			}
@@ -339,7 +342,7 @@ public class TableUtil
 	 * @param rowNumber
 	 * @return
 	 */
-	public static int getMinHeight( TableEditPart part, int rowNumber )
+	public static int getMinHeight( AbstractTableEditPart part, int rowNumber )
 	{
 
 		IFigure figure = part.getLayer( LayerConstants.PRIMARY_LAYER );
@@ -363,7 +366,7 @@ public class TableUtil
 	 * @param columnNumber
 	 * @return
 	 */
-	public static int getMinWidth( TableEditPart part, int columnNumber )
+	public static int getMinWidth( AbstractTableEditPart part, int columnNumber )
 	{
 
 		IFigure figure = part.getLayer( LayerConstants.PRIMARY_LAYER );

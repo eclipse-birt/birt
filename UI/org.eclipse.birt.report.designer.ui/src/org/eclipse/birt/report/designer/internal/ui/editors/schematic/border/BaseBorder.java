@@ -27,6 +27,8 @@ import org.eclipse.swt.SWT;
 
 public abstract class BaseBorder extends AbstractBorder
 {
+	
+	public static final String STYLE_NONO = "none";
 
 	/**
 	 * Bottom border width.
@@ -95,7 +97,7 @@ public abstract class BaseBorder extends AbstractBorder
 		styleMap.put( "dotted", new Integer( SWT.LINE_DOT ) );//$NON-NLS-1$
 		styleMap.put( "dashed", new Integer( SWT.LINE_DASH ) );//$NON-NLS-1$
 		styleMap.put( "double", new Integer( -2 ) );//$NON-NLS-1$
-		styleMap.put( "none", new Integer( 0 ) );//$NON-NLS-1$
+		styleMap.put( STYLE_NONO, new Integer( 0 ) );//$NON-NLS-1$
 
 		widthMap.put( "thin", new Integer( 1 ) );//$NON-NLS-1$
 		widthMap.put( "medium", new Integer( 2 ) );//$NON-NLS-1$
@@ -136,7 +138,9 @@ public abstract class BaseBorder extends AbstractBorder
 		Integer retValue = (Integer) ( styleMap.get( obj ) );
 		if ( retValue == null )
 		{
+			//fix bug 168627.the default style is silid.
 			return SWT.LINE_SOLID;
+			//return SWT.LINE_DASH;
 		}
 
 		return retValue.intValue( );

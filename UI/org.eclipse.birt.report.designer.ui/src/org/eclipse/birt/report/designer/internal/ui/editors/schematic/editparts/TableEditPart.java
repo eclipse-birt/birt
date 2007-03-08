@@ -36,8 +36,8 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolici
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.TableFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.AbstractGuideHandle;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.TableGuideHandle;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.layer.TableBorderLayer;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.layer.TableGridLayer;
+import org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner;
 import org.eclipse.birt.report.designer.internal.ui.layout.TableLayout;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -48,6 +48,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -63,12 +64,10 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.GridLayer;
 import org.eclipse.gef.editparts.GuideLayer;
-import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -80,22 +79,14 @@ import org.eclipse.swt.widgets.Display;
  * </p>
  * 
  */
-public class TableEditPart extends ReportElementEditPart implements
-		LayerConstants,
+public class TableEditPart extends AbstractTableEditPart implements
 		ITableAdapterHelper
 {
-
-	public static final String BORDER_LAYER = "Table Border layer"; //$NON-NLS-1$
-
 	private static final String RESIZE_COLUMN_TRANS_LABEL = Messages.getString( "TableEditPart.Label.ResizeColumn" ); //$NON-NLS-1$
 
 	private static final String MERGE_TRANS_LABEL = Messages.getString( "TableEditPart.Label.Merge" ); //$NON-NLS-1$
 
 	private static final String GUIDEHANDLE_TEXT = Messages.getString( "TableEditPart.GUIDEHANDLE_TEXT" ); //$NON-NLS-1$
-
-	protected FreeformLayeredPane innerLayers;
-
-	protected LayeredPane printableLayers;
 
 	private Rectangle selectRowAndColumnRect = null;
 
@@ -122,21 +113,7 @@ public class TableEditPart extends ReportElementEditPart implements
 		return handle;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
-	 */
-	protected IFigure createFigure( )
-	{
-		TableFigure viewport = new TableFigure( );
-		viewport.setOpaque( false );
-
-		innerLayers = new FreeformLayeredPane( );
-		createLayers( innerLayers );
-		viewport.setContents( innerLayers );
-		return viewport;
-	}
+	
 
 	/*
 	 * (non-Javadoc)
@@ -210,19 +187,6 @@ public class TableEditPart extends ReportElementEditPart implements
 		SessionHandleAdapter.getInstance( )
 				.getMediator( )
 				.notifyRequest( request );
-	}
-
-	/**
-	 * Re-layouts table.
-	 */
-	public void reLayout( )
-	{
-		//layoutManagerLayout( );
-		notifyModelChange( );
-		getFigure( ).invalidateTree( );
-		//getFigure( ).getUpdateManager( ).addInvalidFigure( getFigure( ) );
-		getFigure( ).revalidate( );
-		
 	}
 
 	/*
@@ -334,23 +298,23 @@ public class TableEditPart extends ReportElementEditPart implements
 				leftTopPart, rightTopPart, leftBottomPart, rightBottomPart
 		};
 	}
-
-	/**
-	 * Returns the layer indicated by the key. Searches all layered panes.
+	
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @see LayerManager#getLayer(Object)
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
-	public IFigure getLayer( Object key )
+	protected IFigure createFigure( )
 	{
-		if ( innerLayers == null )
-			return null;
-		IFigure layer = innerLayers.getLayer( key );
-		if ( layer != null )
-			return layer;
-		if ( printableLayers == null )
-			return null;
-		return printableLayers.getLayer( key );
+		TableFigure viewport = new TableFigure( );
+		viewport.setOpaque( false );
+
+		innerLayers = new FreeformLayeredPane( );
+		createLayers( innerLayers );
+		viewport.setContents( innerLayers );
+		return viewport;
 	}
+	
 
 	/**
 	 * Creates the top-most set of layers on the given layered pane.
@@ -380,36 +344,6 @@ public class TableEditPart extends ReportElementEditPart implements
 		GridLayer grid = new TableGridLayer( this );
 		grid.setOpaque( false );
 		return grid;
-	}
-
-	/**
-	 * Creates a layered pane and the layers that should be printed.
-	 * 
-	 * @see org.eclipse.gef.print.PrintGraphicalViewerOperation
-	 * @return a new LayeredPane containing the printable layers
-	 */
-	protected LayeredPane createPrintableLayers( )
-	{
-		FreeformLayeredPane layeredPane = new FreeformLayeredPane( );
-		FreeformLayer layer = new FreeformLayer( );
-		
-
-		layer.setLayoutManager( new TableLayout( this ) );
-		layeredPane.add( layer, PRIMARY_LAYER );
-		layeredPane.add( new TableBorderLayer( this ), BORDER_LAYER );
-		return layeredPane;
-	}
-
-	/**
-	 * this layer may be a un-useful layer.
-	 * 
-	 * @return the layered pane containing all printable content
-	 */
-	protected LayeredPane getPrintableLayers( )
-	{
-		if ( printableLayers == null )
-			printableLayers = createPrintableLayers( );
-		return printableLayers;
 	}
 
 	/**
@@ -488,7 +422,7 @@ public class TableEditPart extends ReportElementEditPart implements
 			int rowNumber = getTableAdapter( ).getRowCount( );
 			for ( int j = 0; j < rowNumber; j++ )
 			{
-				TableCellEditPart part = getCell( j + 1, numbers[i] );
+				AbstractCellEditPart part = getCell( j + 1, numbers[i] );
 				if ( part != null )
 				{
 					list.add( part );
@@ -588,7 +522,7 @@ public class TableEditPart extends ReportElementEditPart implements
 			int columnNumber = getTableAdapter( ).getColumnCount( );
 			for ( int j = 0; j < columnNumber; j++ )
 			{
-				TableCellEditPart part = getCell( numbers[i], j + 1 );
+				AbstractCellEditPart part = getCell( numbers[i], j + 1 );
 
 				if ( part != null )
 				{
@@ -643,19 +577,9 @@ public class TableEditPart extends ReportElementEditPart implements
 	}
 
 	/**
-	 * The contents' Figure will be added to the PRIMARY_LAYER.
-	 * 
-	 * @see org.eclipse.gef.GraphicalEditPart#getContentPane()
-	 */
-	public IFigure getContentPane( )
-	{
-		return getLayer( PRIMARY_LAYER );
-	}
-
-	/**
 	 * @return the table adapter
 	 */
-	protected TableHandleAdapter getTableAdapter( )
+	public TableHandleAdapter getTableAdapter( )
 	{
 		return (TableHandleAdapter) getModelAdapter( );
 	}
@@ -777,7 +701,7 @@ public class TableEditPart extends ReportElementEditPart implements
 	 * @param rowNumber
 	 * @param columnNumber
 	 */
-	public TableCellEditPart getCell( int rowNumber, int columnNumber )
+	public AbstractCellEditPart getCell( int rowNumber, int columnNumber )
 	{
 		Object cell = getTableAdapter( ).getCell( rowNumber, columnNumber );
 		return (TableCellEditPart) getViewer( ).getEditPartRegistry( )
@@ -1287,6 +1211,9 @@ public class TableEditPart extends ReportElementEditPart implements
 	}
 
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#showTargetFeedback(org.eclipse.gef.Request)
+	 */
 	public void showTargetFeedback( Request request )
 	{
 		if ( this.getSelected( ) == 0
@@ -1308,6 +1235,9 @@ public class TableEditPart extends ReportElementEditPart implements
 		super.showTargetFeedback( request );
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#eraseTargetFeedback(org.eclipse.gef.Request)
+	 */
 	public void eraseTargetFeedback( Request request )
 	{
 		if ( isActive( ) )
@@ -1317,6 +1247,9 @@ public class TableEditPart extends ReportElementEditPart implements
 		super.eraseTargetFeedback( request );
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#addChildVisual(org.eclipse.gef.EditPart, int)
+	 */
 	protected void addChildVisual( EditPart part, int index )
 	{
 		// make sure we don't keep a select cell cursor after new contents
@@ -1446,5 +1379,74 @@ public class TableEditPart extends ReportElementEditPart implements
 		}
 		return super.isinterest( model );
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getColumnWidth(int)
+	 */
+	public ITableLayoutOwner.DimensionInfomation getColumnWidth( int number )
+	{
+		Object obj = getColumn( number );
+		ColumnHandleAdapter adapt = HandleAdapterFactory.getInstance( )
+				.getColumnHandleAdapter( obj );
+
+		//add to handle percentage case.
+		DimensionHandle handle = ((ColumnHandle)adapt.getHandle( )).getWidth( );
+		return new  ITableLayoutOwner.DimensionInfomation(handle.getMeasure( ), handle.getUnits( ));
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getRowHeight(int)
+	 */
+	public ITableLayoutOwner.DimensionInfomation getRowHeight( int number )
+	{
+		Object obj = getRow( number );
+		RowHandleAdapter adapt = HandleAdapterFactory.getInstance( )
+				.getRowHandleAdapter( obj );
+		
+		//return  ( (RowHandle) adapt.getHandle( ) ).getHeight( );
+		DimensionHandle handle = ( (RowHandle) adapt.getHandle( ) ).getHeight( );
+		return new  ITableLayoutOwner.DimensionInfomation(handle.getMeasure( ), handle.getUnits( ));
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getDefinedWidth()
+	 */
+	public String getDefinedWidth( )
+	{
+		TableHandleAdapter tadp = HandleAdapterFactory.getInstance( ).getTableHandleAdapter(getModel( ));
+		return tadp.getDefinedWidth( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getRawWidth(int)
+	 */
+	public String getRawWidth( int columNumber )
+	{
+		Object obj = getColumn( columNumber );
+		ColumnHandleAdapter adapt = HandleAdapterFactory.getInstance( )
+				.getColumnHandleAdapter( obj );
+		return adapt.getRawWidth( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getColumnWidthValue(int)
+	 */
+	public int getColumnWidthValue( int number )
+	{
+		Object obj = getColumn( number );
+		ColumnHandleAdapter adapt = HandleAdapterFactory.getInstance( )
+				.getColumnHandleAdapter( obj );
+		return adapt.getWidth( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getRowHeightValue(int)
+	 */
+	public int getRowHeightValue( int number )
+	{
+		Object obj = getRow( number );
+		RowHandleAdapter adapt = HandleAdapterFactory.getInstance( )
+				.getRowHandleAdapter( obj );
+		return adapt.getHeight( );
+	}
 }

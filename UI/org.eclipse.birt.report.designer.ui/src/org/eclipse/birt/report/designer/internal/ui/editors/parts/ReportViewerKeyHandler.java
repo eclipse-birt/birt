@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.parts;
 
 
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractCellEditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.KeyStroke;
@@ -83,7 +83,7 @@ public class ReportViewerKeyHandler extends GraphicalViewerKeyHandler
 		/**
 		 * Hacks Table Cell key behaviors.
 		 */
-		if ( part instanceof TableCellEditPart )
+		if ( part instanceof AbstractCellEditPart )
 		{
 			return tableCellKeyPressed( event );
 		}

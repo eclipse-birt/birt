@@ -88,7 +88,7 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 	 * @param insertionReference
 	 * @return command
 	 */
-	private Command createAddCommand( EditPart parent, EditPart child,
+	protected Command createAddCommand( EditPart parent, EditPart child,
 			EditPart insertionReference )
 	{
 		Object parentModel = null;

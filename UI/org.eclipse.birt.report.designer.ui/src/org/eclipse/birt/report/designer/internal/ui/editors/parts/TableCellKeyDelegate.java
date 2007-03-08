@@ -18,8 +18,9 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.SelectColumnAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.SelectRowAction;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractCellEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractTableEditPart;
+
 import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PositionConstants;
@@ -474,7 +475,7 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler
 		 * Hacks the algorithm of findSibling when current editPart is
 		 * TableCellEditPart.
 		 */
-		if ( epStart instanceof TableCellEditPart )
+		if ( epStart instanceof AbstractCellEditPart )
 		{
 			if ( ( event.stateMask & SWT.SHIFT ) != 0 )
 			{
@@ -595,7 +596,7 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler
 	protected GraphicalEditPart findTableCellSibling( List siblings,
 			Point pStart, int direction, EditPart exclude )
 	{
-		TableCellEditPart start = (TableCellEditPart) exclude;
+		AbstractCellEditPart start = (AbstractCellEditPart) exclude;
 
 		int nRow = start.getRowNumber( );
 		int nCol = start.getColumnNumber( );
@@ -620,7 +621,7 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler
 				break;
 		}
 
-		TableEditPart parent = (TableEditPart) start.getParent( );
+		AbstractTableEditPart parent = (AbstractTableEditPart) start.getParent( );
 
 		if ( nRow < 1 )
 		{
@@ -657,15 +658,15 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler
 	protected List findTableCellSiblings( List siblings, Point pStart,
 			int direction, EditPart exclude )
 	{
-		TableCellEditPart start = (TableCellEditPart) exclude;
-		TableEditPart parent = (TableEditPart) start.getParent( );
+		AbstractCellEditPart start = (AbstractCellEditPart) exclude;
+		AbstractTableEditPart parent = (AbstractTableEditPart) start.getParent( );
 
 		StructuredSelection selection = (StructuredSelection) getViewer( ).getSelection( );
 		Object obj = selection.getFirstElement( );
 
-		if ( obj instanceof TableCellEditPart )
+		if ( obj instanceof AbstractCellEditPart )
 		{
-			TableCellEditPart first = (TableCellEditPart) obj;
+			AbstractCellEditPart first = (AbstractCellEditPart) obj;
 			Rectangle constraint = TableCellSelectionHelper.getSelectionRectangle( first,
 					selection.toList( ) );
 
@@ -697,7 +698,7 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler
 	 * @param rect
 	 * @param direction
 	 */
-	void translateRectangle( TableEditPart table, Rectangle rect, int direction )
+	void translateRectangle( AbstractTableEditPart table, Rectangle rect, int direction )
 	{
 		boolean HMovable = true;
 		boolean VMovable = true;
@@ -716,7 +717,7 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler
 		{
 			for ( int j = ystart; j <= yend; j++ )
 			{
-				TableCellEditPart cell = table.getCell( j, i );
+				AbstractCellEditPart cell = table.getCell( j, i );
 
 				if ( HMovable && cell.getColSpan( ) >= xend - xstart + 1 )
 				{
@@ -744,7 +745,7 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler
 
 				for ( int j = ystart; j <= yend; j++ )
 				{
-					TableCellEditPart cell = table.getCell( j, i - 1 );
+					AbstractCellEditPart cell = table.getCell( j, i - 1 );
 
 					if ( cell.getColumnNumber( ) + cell.getColSpan( ) - 1 >= i )
 					{
@@ -782,7 +783,7 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler
 
 				for ( int j = xstart; j <= xend; j++ )
 				{
-					TableCellEditPart cell = table.getCell( i - 1, j );
+					AbstractCellEditPart cell = table.getCell( i - 1, j );
 
 					if ( cell.getRowNumber( ) + cell.getRowSpan( ) - 1 >= i )
 					{
@@ -846,7 +847,7 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler
 	 * @param direction
 	 * @param table
 	 */
-	void alterRectangle( Rectangle rect, int direction, TableEditPart table )
+	void alterRectangle( Rectangle rect, int direction, AbstractTableEditPart table )
 	{
 		switch ( direction )
 		{

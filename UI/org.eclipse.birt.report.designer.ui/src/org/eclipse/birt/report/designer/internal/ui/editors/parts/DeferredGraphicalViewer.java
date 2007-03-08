@@ -127,46 +127,14 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 	 */
 	private List flitterEditpart( List editparts )
 	{
-		int size = editparts.size( );
 		List copy = new ArrayList( editparts );
+		int size = editparts.size( );
 		for ( int i = 0; i < size; i++ )
 		{
 			EditPart part = (EditPart) editparts.get( i );
-			if ( part instanceof AreaEditPart)
+			if (part.getAdapter( ISelectionFlitter.class ) != null)
 			{
-				copy.remove( part );
-			} 
-		}
-		boolean hasCell = false;
-		boolean hasOther = false;
-		for ( int i = 0; i < size; i++ )
-		{
-			Object obj = ( (EditPart) editparts.get( i ) ).getModel( );
-			if ( obj instanceof CellHandle
-					|| obj instanceof RowHandle
-					|| obj instanceof ColumnHandle )
-			{
-				hasCell = true;
-			}
-			else
-			{
-				hasOther = true;
-			}
-		}
-		if ( hasCell && hasOther )
-		{
-			
-			for ( int i = 0; i < size; i++ )
-			{
-				EditPart part = (EditPart) editparts.get( i );
-				Object obj = part.getModel( );
-
-				if ( obj instanceof CellHandle
-						|| obj instanceof RowHandle
-						|| obj instanceof ColumnHandle )
-				{
-					copy.remove( part );
-				} 
+				copy = ((ISelectionFlitter)part.getAdapter( ISelectionFlitter.class )).flitterEditpart( copy );
 			}
 		}
 		editparts = copy;
@@ -275,7 +243,7 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 		}
 
 		// Merge selection handles if any to the exposeRegion
-		List handles = ( (TableResizeEditPolice) policy ).getHandles( );
+		List handles = ( (ISelectionHandlesEditPolicy) policy ).getHandles( );
 		for ( Iterator iter = handles.iterator( ); iter.hasNext( ); )
 		{
 			AbstractHandle handle = (AbstractHandle) iter.next( );

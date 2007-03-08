@@ -95,9 +95,21 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 					+ model );
 		}
 		setModel( model );
-		peer = creatDesignElementHandleAdapter( );
+		
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#setModel(java.lang.Object)
+	 */
+	public void setModel( Object model )
+	{
+		super.setModel( model );
+		peer = creatDesignElementHandleAdapter( );
+	}
+	
+	/**
+	 * @return
+	 */
 	public DesignElementHandleAdapter creatDesignElementHandleAdapter( )
 	{
 		HandleAdapterFactory.getInstance( ).remove( getModel( ) );

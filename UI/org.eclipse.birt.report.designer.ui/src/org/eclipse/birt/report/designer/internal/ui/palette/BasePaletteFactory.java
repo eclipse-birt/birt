@@ -48,6 +48,8 @@ import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.gef.palette.MarqueeToolEntry;
 import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteGroup;
@@ -828,6 +830,126 @@ public class BasePaletteFactory
 			return false;
 		}
 	}
+	
+	/**for cross tab
+	 * Provides element building support for data set.
+	 */
+	public static class DimensionHandleToolExtends extends AbstractToolHandleExtends
+	{
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.IToolHandleExtends#preHandleMouseDown()
+		 */
+		public boolean preHandleMouseUp( )
+		{
+			if ( getRequest( ).getNewObjectType( ) instanceof DimensionHandle )
+			{
+
+//				try
+//				{
+
+					// add extended dataset element.
+					Object newObj = getRequest( ).getNewObject( );
+					if ( newObj instanceof Object[]
+							&& ( (Object[]) newObj ).length > 0 )
+					{
+						newObj = ( (Object[]) newObj )[0];
+					}
+					DesignElementHandle elementHandle = (DesignElementHandle) newObj;
+//					ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
+//							.getReportDesignHandle( );
+//					// element comes from library and not to itself.
+//					
+//					Object newHandle = InsertInLayoutUtil.performInsert( elementHandle,
+//							getTargetEditPart( ) );
+					if ( elementHandle == null )
+						return false;
+					setModel( elementHandle );
+
+					return super.preHandleMouseUp( );
+			//	}
+//				catch ( SemanticException e )
+//				{
+//					ExceptionHandler.handle( e );
+//				}
+			}
+			return false;
+		}
+		
+		
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends#preHandleMouseDown()
+		 */
+		public boolean preHandleMouseDown( )
+		{
+			return false;
+		}
+	}
+	
+	
+	
+	public static class MeasureHandleToolExtends extends AbstractToolHandleExtends
+	{
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.IToolHandleExtends#preHandleMouseDown()
+		 */
+		public boolean preHandleMouseUp( )
+		{
+			if ( getRequest( ).getNewObjectType( ) instanceof MeasureHandle )
+			{
+
+//				try
+//				{
+
+					// add extended dataset element.
+					Object newObj = getRequest( ).getNewObject( );
+					if ( newObj instanceof Object[]
+							&& ( (Object[]) newObj ).length > 0 )
+					{
+						newObj = ( (Object[]) newObj )[0];
+					}
+					DesignElementHandle elementHandle = (DesignElementHandle) newObj;
+//					ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
+//							.getReportDesignHandle( );
+//					// element comes from library and not to itself.
+//					
+//					Object newHandle = InsertInLayoutUtil.performInsert( elementHandle,
+//							getTargetEditPart( ) );
+					if ( elementHandle == null )
+						return false;
+					setModel( elementHandle );
+
+					return super.preHandleMouseUp( );
+			//	}
+//				catch ( SemanticException e )
+//				{
+//					ExceptionHandler.handle( e );
+//				}
+			}
+			return false;
+		}
+		
+		
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends#preHandleMouseDown()
+		 */
+		public boolean preHandleMouseDown( )
+		{
+			return false;
+		}
+	}
+
 
 	/**
 	 * Provides element building support for data set column.

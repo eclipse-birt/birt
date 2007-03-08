@@ -11,12 +11,14 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.schematic.CellHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.ISelectionFlitter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.CellBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportComponentEditPolicy;
@@ -28,14 +30,15 @@ import org.eclipse.birt.report.designer.internal.ui.layout.ReportFlowLayout;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -48,7 +51,7 @@ import org.eclipse.gef.RequestConstants;
  * </p>
  *  
  */
-public class TableCellEditPart extends ReportElementEditPart
+public class TableCellEditPart extends AbstractCellEditPart
 {
 
 	/**
@@ -182,20 +185,13 @@ public class TableCellEditPart extends ReportElementEditPart
 		{
 			TableHandleAdapter tha = ( (TableEditPart) getParent( ) )
 					.getTableAdapter( );
-			//
-			//			int col = ( tha.getColumnCount( ) + 1 ) / 2;
-			//			if ( col < 1 )
-			//			{
-			//				col = 1;
-			//			}
-
 			if ( 1 == getColumnNumber( ) )
 			{
 				RowHandleAdapter rha = HandleAdapterFactory.getInstance( )
 						.getRowHandleAdapter( tha.getRow( getRowNumber( ) ) );
 
 				( (CellFigure) getFigure( ) ).setBlankString( rha
-						.getTypeString( ) );
+							.getTypeString( ) );
 			}
 			else
 			{
@@ -231,20 +227,6 @@ public class TableCellEditPart extends ReportElementEditPart
 	public DragTracker getDragTracker( Request req )
 	{
 		return new CellDragTracker( this );
-	}
-
-	/*
-	 * Gets the paint layer (non-Javadoc)
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getLayer(java.lang.Object)
-	 */
-	public IFigure getLayer( Object key )
-	{
-		if ( getParent( ) instanceof TableEditPart )
-		{
-			return ( (TableEditPart) getParent( ) ).getLayer( key );
-		}
-		return super.getLayer( key );
 	}
 
 	/**
@@ -331,15 +313,6 @@ public class TableCellEditPart extends ReportElementEditPart
 		return super.getTargetEditPart( request );
 	}
 
-	/**
-	 * Gets the edit part bounds
-	 * 
-	 * @return the edit part bounds
-	 */
-	public Rectangle getBounds( )
-	{
-		return getFigure( ).getBounds( );
-	}
 
 	protected CellHandleAdapter getCellAdapter( )
 	{
@@ -438,5 +411,67 @@ public class TableCellEditPart extends ReportElementEditPart
 				updateRightBorder( parent, border );
 			}
 		}
+	}
+	
+	public Object getAdapter( Class key )
+	{
+		if (key == ISelectionFlitter.class)
+		{
+			return new ISelectionFlitter()
+			{
+				public List flitterEditpart( List editparts )
+				{
+					int size = editparts.size( );
+					List copy = new ArrayList( editparts );
+					for ( int i = 0; i < size; i++ )
+					{
+						EditPart part = (EditPart) editparts.get( i );
+						if ( part instanceof AreaEditPart)
+						{
+							copy.remove( part );
+						} 
+					}
+					boolean hasCell = false;
+					boolean hasOther = false;
+					for ( int i = 0; i < size; i++ )
+					{
+						Object obj = ( (EditPart) editparts.get( i ) ).getModel( );
+						if ( obj instanceof CellHandle
+								|| obj instanceof RowHandle
+								|| obj instanceof ColumnHandle )
+						{
+							hasCell = true;
+						}
+						else
+						{
+							hasOther = true;
+						}
+					}
+					if ( hasCell && hasOther )
+					{
+						
+						for ( int i = 0; i < size; i++ )
+						{
+							EditPart part = (EditPart) editparts.get( i );
+							Object obj = part.getModel( );
+
+							if ( obj instanceof CellHandle
+									|| obj instanceof RowHandle
+									|| obj instanceof ColumnHandle )
+							{
+								copy.remove( part );
+							} 
+						}
+					}
+					//editparts = copy;
+					//move the above logic to the TableCellEditPart?
+					
+					editparts = copy;
+					return editparts;
+				}
+				
+			};
+		}
+		return super.getAdapter( key );
 	}
 }

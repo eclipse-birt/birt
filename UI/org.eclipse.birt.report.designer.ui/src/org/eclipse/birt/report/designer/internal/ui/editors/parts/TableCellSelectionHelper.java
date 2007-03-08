@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractCellEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractTableEditPart;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -36,7 +36,7 @@ public class TableCellSelectionHelper
 	 * @param selection
 	 * @return
 	 */
-	public static Rectangle getSelectionRectangle( TableCellEditPart first,
+	public static Rectangle getSelectionRectangle( AbstractCellEditPart first,
 			List selection )
 	{
 		Rectangle rect = new Rectangle( );
@@ -56,13 +56,13 @@ public class TableCellSelectionHelper
 		{
 			EditPart part = (EditPart) itr.next( );
 
-			if ( !( part instanceof TableCellEditPart )
+			if ( !( part instanceof AbstractCellEditPart )
 					|| part.getParent( ) != oparent )
 			{
 				continue;
 			}
 
-			TableCellEditPart sel = (TableCellEditPart) part;
+			AbstractCellEditPart sel = (AbstractCellEditPart) part;
 
 			if ( sel == first )
 			{
@@ -163,7 +163,7 @@ public class TableCellSelectionHelper
 	 * @return
 	 */
 	public static List getRectangleSelection( Rectangle rect,
-			TableEditPart table )
+			AbstractTableEditPart table )
 	{
 		ArrayList al = new ArrayList( );
 
@@ -183,7 +183,7 @@ public class TableCellSelectionHelper
 		{
 			for ( int j = ystart; j <= yend; j++ )
 			{
-				TableCellEditPart cell = table.getCell( j, i );
+				AbstractCellEditPart cell = table.getCell( j, i );
 				if ( !al.contains( cell ) )
 				{
 					al.add( cell );
@@ -202,7 +202,7 @@ public class TableCellSelectionHelper
 	 * @return
 	 */
 	public static boolean increaseSelectionRectangle( Rectangle rect,
-			TableEditPart table )
+			AbstractTableEditPart table )
 	{
 		Rectangle nRect = rect.getCopy( );
 
@@ -298,7 +298,7 @@ public class TableCellSelectionHelper
 	 * @param constraint
 	 * @return
 	 */
-	private static boolean checkAndIncreaseCellRectangle( TableEditPart table,
+	private static boolean checkAndIncreaseCellRectangle( AbstractTableEditPart table,
 			int rowNumber, int columnNumber, Rectangle constraint )
 	{
 		boolean refined = false;
@@ -315,7 +315,7 @@ public class TableCellSelectionHelper
 			return false;
 		}
 
-		TableCellEditPart cell = table.getCell( rowNumber, columnNumber );
+		AbstractCellEditPart cell = table.getCell( rowNumber, columnNumber );
 
 		/**
 		 * Extracts one diagonal point.
@@ -460,7 +460,7 @@ public class TableCellSelectionHelper
 	 * @return
 	 */
 	public static boolean decreaseSelectionRectangle( Rectangle rect,
-			TableEditPart table, int direction )
+			AbstractTableEditPart table, int direction )
 	{
 		Rectangle nRect = rect.getCopy( );
 
@@ -561,7 +561,7 @@ public class TableCellSelectionHelper
 	 * @param direction
 	 * @return
 	 */
-	private static boolean checkAndDecreaseCellRectangle( TableEditPart table,
+	private static boolean checkAndDecreaseCellRectangle( AbstractTableEditPart table,
 			int rowNumber, int columnNumber, Rectangle constraint, int direction )
 	{
 		Point pt1, pt2;
@@ -577,7 +577,7 @@ public class TableCellSelectionHelper
 			return false;
 		}
 
-		TableCellEditPart cell = table.getCell( rowNumber, columnNumber );
+		AbstractCellEditPart cell = table.getCell( rowNumber, columnNumber );
 
 		/**
 		 * Extracts the two diagonal point of the Cell.

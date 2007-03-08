@@ -18,6 +18,9 @@ import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedEditPart;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIPoint;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
+import org.eclipse.birt.report.designer.internal.ui.extension.experimental.CommandCombinedTemplateCreationEntry;
+import org.eclipse.birt.report.designer.internal.ui.extension.experimental.EditpartExtensionManager;
+import org.eclipse.birt.report.designer.internal.ui.extension.experimental.PaletteEntryExtension;
 import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory;
 import org.eclipse.birt.report.designer.internal.ui.palette.PaletteCategory;
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportCombinedTemplateCreationEntry;
@@ -43,7 +46,7 @@ public class GuiExtensionManager
 	public static final String PALETTE_MASTERPAGE = "pallet_masterpage"; //$NON-NLS-1$
 
 	public static final String DESIGNER_FACTORY = "designer_factory"; //$NON-NLS-1$
-	
+
 	private static final String EXT_MGR_LABEL = Messages.getString( "GuiExtensionManager.label.name" ); //$NON-NLS-1$
 
 	/**
@@ -70,12 +73,9 @@ public class GuiExtensionManager
 		{
 			retValue = doDesignerFactory( object );
 		}
-		
 
 		return retValue;
 	}
-
-	
 
 	private static Object doDesignerFactory( Object object )
 	{
@@ -207,7 +207,24 @@ public class GuiExtensionManager
 				root.add( entry );
 			}
 			entry.add( combined );
+
 		}
+
+		//experimental
+//		PaletteEntryExtension[] entries = EditpartExtensionManager.getPaletteEntries( );
+//		for ( int i = 0; i < entries.length; i++ )
+//		{
+//			String category = entries[i].getCategory( );
+//			PaletteContainer entry = findCategory( list, category );
+//			if ( entry == null )
+//			{
+//				entry = new PaletteCategory( category, category, null );
+//				root.add( entry );
+//			}
+//
+//			CombinedTemplateCreationEntry combined = new CommandCombinedTemplateCreationEntry( entries[i] );
+//			entry.add( combined );
+//		}
 		return root;
 	}
 

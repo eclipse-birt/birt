@@ -13,8 +13,8 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.border;
 
 import java.util.Iterator;
 
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
+import org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutCell;
+import org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner;
 import org.eclipse.birt.report.designer.util.TableBorderCollisionArbiter;
 import org.eclipse.draw2d.geometry.Insets;
 
@@ -25,7 +25,7 @@ import org.eclipse.draw2d.geometry.Insets;
 public class TableBorderHelper
 {
 
-	private TableEditPart owner;
+	private ITableLayoutOwner owner;
 
 	private int[][] heights, widths;
 
@@ -41,7 +41,7 @@ public class TableBorderHelper
 	 * 
 	 * @param owner
 	 */
-	public TableBorderHelper( TableEditPart owner )
+	public TableBorderHelper( ITableLayoutOwner owner )
 	{
 		this.owner = owner;
 	}
@@ -105,7 +105,7 @@ public class TableBorderHelper
 		// initialize all other border data.
 		for ( Iterator itr = owner.getChildren( ).iterator( ); itr.hasNext( ); )
 		{
-			TableCellEditPart cellPart = (TableCellEditPart) itr.next( );
+			ITableLayoutCell cellPart = (ITableLayoutCell) itr.next( );
 
 			int rowIndex = cellPart.getRowNumber( );
 			int colIndex = cellPart.getColumnNumber( );
@@ -292,7 +292,7 @@ public class TableBorderHelper
 
 		for ( Iterator itr = owner.getChildren( ).iterator( ); itr.hasNext( ); )
 		{
-			TableCellEditPart cellPart = (TableCellEditPart) itr.next( );
+			ITableLayoutCell cellPart = (ITableLayoutCell) itr.next( );
 
 			int rowIndex = cellPart.getRowNumber( );
 			int colIndex = cellPart.getColumnNumber( );

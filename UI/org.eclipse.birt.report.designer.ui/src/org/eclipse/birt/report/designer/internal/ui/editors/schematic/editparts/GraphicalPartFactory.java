@@ -12,6 +12,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.GuiExtensionManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.IExtension;
+import org.eclipse.birt.report.designer.internal.ui.extension.experimental.EditpartExtensionManager;
 import org.eclipse.birt.report.model.api.AutoTextHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
@@ -57,9 +58,11 @@ public class GraphicalPartFactory implements EditPartFactory
 	public EditPart createEditPart( EditPart context, Object model )
 	{
 		EditPart editPart = new DummyEditpart( model );
-		if (model instanceof ReportItemHandle && !((ReportItemHandle)model).isValidLayoutForCompoundElement( ))
+
+		if ( model instanceof ReportItemHandle
+				&& !( (ReportItemHandle) model ).isValidLayoutForCompoundElement( ) )
 		{
-			return new DestroyEditPart(model);
+			return new DestroyEditPart( model );
 		}
 		else if ( model instanceof ReportDesignHandle )
 		{
@@ -103,16 +106,17 @@ public class GraphicalPartFactory implements EditPartFactory
 		{
 			return new TextDataEditPart( model );
 		}
-//		if ( model instanceof ReportElementModel &&
-//			(((ReportElementModel)model).getElementHandle() instanceof SimpleMasterPageHandle))
-//		{
-//			return new AreaEditPart( model );
-//		}
-		if ( model instanceof SlotHandle &&
-				(((SlotHandle)model).getElementHandle() instanceof SimpleMasterPageHandle))
-			{
-				return new AreaEditPart( model );
-			}
+
+		//		if ( model instanceof ReportElementModel &&
+		//			(((ReportElementModel)model).getElementHandle() instanceof SimpleMasterPageHandle))
+		//		{
+		//			return new AreaEditPart( model );
+		//		}
+		if ( model instanceof SlotHandle
+				&& ( ( (SlotHandle) model ).getElementHandle( ) instanceof SimpleMasterPageHandle ) )
+		{
+			return new AreaEditPart( model );
+		}
 		if ( model instanceof GridHandle )
 		{
 			return new GridEditPart( model );
@@ -128,21 +132,11 @@ public class GraphicalPartFactory implements EditPartFactory
 		if ( model instanceof TemplateElementHandle )
 		{
 			return new PlaceHolderEditPart( model );
-		}		
-
-		IExtension extension = new IExtension.Stub( ) 
-		{
-
-			public String getExtendsionIdentify( )
-			{
-				return GuiExtensionManager.DESIGNER_FACTORY;
-			}
-		};
-		Object obj =  GuiExtensionManager.doExtension( extension, model );
-		if (obj != null)
-		{
-			return (EditPart)obj;
 		}
+
+		EditPart eep = EditpartExtensionManager.createEditPart( context, model );
+		if ( eep != null )
+			return eep;
 		return editPart;
 	}
 }

@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.TableCellSelectionHelper;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractCellEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractTableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
@@ -244,9 +244,9 @@ public class CellDragTracker extends DragEditPartsTracker implements
 		 */
 	}
 
-	private void performShiftSelect( )
+	protected void performShiftSelect( )
 	{
-		TableEditPart parent = (TableEditPart) getSourceEditPart( ).getParent( );
+		AbstractTableEditPart parent = (AbstractTableEditPart) getSourceEditPart( ).getParent( );
 
 		/**
 		 * Checks viewer consistency.
@@ -271,7 +271,7 @@ public class CellDragTracker extends DragEditPartsTracker implements
 			nlst = new ArrayList( slst );
 		}
 
-		Rectangle constraint = TableCellSelectionHelper.getSelectionRectangle( (TableCellEditPart) getSourceEditPart( ),
+		Rectangle constraint = TableCellSelectionHelper.getSelectionRectangle( (AbstractCellEditPart) getSourceEditPart( ),
 				nlst );
 
 		boolean refined = TableCellSelectionHelper.increaseSelectionRectangle( constraint,
