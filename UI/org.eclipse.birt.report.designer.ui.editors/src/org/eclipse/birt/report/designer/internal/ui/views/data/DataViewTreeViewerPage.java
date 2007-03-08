@@ -11,14 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.data;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
-import org.eclipse.birt.report.designer.core.util.mediator.request.IRequestConvert;
-import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
+import org.eclipse.birt.report.designer.data.ui.util.ReportDataHandle;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -140,48 +134,50 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 						}
 					}
 				} );
-		getTreeViewer( ).getTree( ).addSelectionListener( new SelectionListener( ) {
+		getTreeViewer( ).getTree( )
+				.addSelectionListener( new SelectionListener( ) {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				// Do nothing
-
-			}
-
-			// Handle double click event
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-				if ( getSelection( ) instanceof StructuredSelection )
-				{
-
-					Object selectedObject = ( (StructuredSelection) getSelection( ) ).getFirstElement( );
-
-					try
+					public void widgetSelected( SelectionEvent e )
 					{
-						Tree tree = (Tree) e.getSource( );
-						TreeItem[] selectedItems = tree.getSelection( );
-						if ( selectedItems.length > 0 )
+						// Do nothing
+
+					}
+
+					// Handle double click event
+					public void widgetDefaultSelected( SelectionEvent e )
+					{
+						if ( getSelection( ) instanceof StructuredSelection )
 						{
-							if ( selectedItems[0].getExpanded( ) )
+
+							Object selectedObject = ( (StructuredSelection) getSelection( ) ).getFirstElement( );
+
+							try
 							{
-								selectedItems[0].setExpanded( false );
+								Tree tree = (Tree) e.getSource( );
+								TreeItem[] selectedItems = tree.getSelection( );
+								if ( selectedItems.length > 0 )
+								{
+									if ( selectedItems[0].getExpanded( ) )
+									{
+										selectedItems[0].setExpanded( false );
+									}
+									else
+									{
+										getTreeViewer( ).expandToLevel( selectedObject,
+												selectedItems[0].getExpanded( ) ? 0
+														: 1 );
+									}
+								}
 							}
-							else
+							catch ( Exception e2 )
 							{
-								getTreeViewer( ).expandToLevel( selectedObject,
-										selectedItems[0].getExpanded( ) ? 0 : 1 );
+
 							}
+
 						}
 					}
-					catch ( Exception e2 )
-					{
 
-					}
-
-				}
-			}
-
-		} );
+				} );
 	}
 
 	private String getTooltip( TreeItem item )
@@ -327,12 +323,7 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 	 */
 	private void initRoot( )
 	{
-		SlotHandle sources =  getRoot( ).getDataSources( );
-		SlotHandle sets =  getRoot( ).getDataSets( ) ;
-		SlotHandle parameters =  getRoot( ).getParameters( );
-		getTreeViewer( ).setInput( new Object[]{
-				sources, sets, parameters,getRoot( ).getCubes( )
-		} );
+		getTreeViewer( ).setInput( new ReportDataHandle( getRoot( ) ) );
 		getListenerElementVisitor( ).addListener( getRoot( ) );
 	}
 

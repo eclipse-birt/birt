@@ -366,10 +366,4 @@ public interface IReportGraphicConstants
 	};
 
 	public static final String REPORT_KEY_WORD = "report";
-	
-	public final static String ICON_CUBE_CUBE = "Cube"; //$NON-NLS-1$
-	public final static String ICON_CUBE_CUBES = "Cubes"; //$NON-NLS-1$
-	public final static String ICON_CUBE_MEASUREGROUP = "MeasureGroup"; //$NON-NLS-1$
-	public final static String ICON_CUBE_DIMENSION = "Dimension"; //$NON-NLS-1$
-	public final static String ICON_CUBE_LEVEL = "Level"; //$NON-NLS-1$
 }

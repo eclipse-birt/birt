@@ -64,6 +64,33 @@
   			</enablement>
   		</adapter>
   	</adaptable>
-  
+  	<adaptable
+         class="org.eclipse.birt.report.model.api.ReportDesignHandle"
+         >
+      <adapter
+            class="org.eclipse.birt.report.designer.ui.cubebuilder.provider.ReportCubesNodeProvider"
+            id="ReportDesign.NodeProvider.Cubes"
+            priority="2"
+            type="org.eclipse.birt.report.designer.ui.views.INodeProvider">
+      </adapter>
+   </adaptable>
+   	<adaptable
+         class="org.eclipse.birt.report.model.api.LibraryHandle"
+         >
+      <adapter
+            class="org.eclipse.birt.report.designer.ui.cubebuilder.provider.LibraryCubesNodeProvider"
+            id="Library.NodeProvider.Cubes"
+            priority="2"
+            type="org.eclipse.birt.report.designer.ui.views.INodeProvider">
+      </adapter>
+   </adaptable>
+    <adaptable class="org.eclipse.birt.report.designer.data.ui.util.ReportDataHandle">
+       <adapter
+             class="org.eclipse.birt.report.designer.ui.cubebuilder.provider.DataCubeNodeProvider"
+             id="DataExplorer.NodeProvider.Cubes"
+             priority="2"
+             type="org.eclipse.birt.report.designer.ui.views.INodeProvider"/>
+    </adaptable>
 </extension>
+   
 </plugin>

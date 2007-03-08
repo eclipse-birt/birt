@@ -53,8 +53,6 @@ public class ReportDesignNodeProvider extends DefaultNodeProvider
 
 		list.add( handle.getParameters( ) );
 
-		list.add( handle.getCubes( ) );
-
 		// Add the children handle - Body
 		list.add( handle.getBody( ) );
 		// Add the children handle - Master Pages

@@ -47,10 +47,7 @@ public class LibraryNodeProvider extends ReportDesignNodeProvider
 		ArrayList list = new ArrayList( );
 		if ( handle.getNamespace( ) == null )
 		{
-			list.add( handle.getDataSources( )  );
-			list.add( handle.getDataSets( ));
 			list.add( handle.getParameters( )  );
-			list.add( handle.getCubes( ) );
 			// Add the children handle - Components
 			// list.add( new ReportElementModel( handle.getComponents( ) ) );
 			list.add( handle.getComponents( ) );
