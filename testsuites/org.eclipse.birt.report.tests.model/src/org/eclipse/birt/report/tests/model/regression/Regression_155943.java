@@ -13,11 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignConfig;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
-import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.GroupElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SimpleGroupElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -73,38 +72,33 @@ public class Regression_155943 extends BaseTestCase
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public void test_regression_155943( ) throws DesignFileException, SemanticException, IOException
 	{
 		String report = getTempFolder( ) + "/" + INPUT_FOLDER + "/" + INPUT;
 		String libA = getTempFolder( ) + "/" + INPUT_FOLDER + "/" + LIBRARY;
 
-		sessionHandle = new DesignEngine( new DesignConfig( ) ).newSessionHandle( ULocale.ENGLISH );
-		designHandle = sessionHandle.openDesign( report );
+		// sessionHandle = new DesignEngine( new DesignConfig( )
+		// ).newSessionHandle( ULocale.ENGLISH );
+		// designHandle = sessionHandle.openDesign( INPUT );
+		openDesign( INPUT );
 
-		//DesignElementHandle chart = designHandle.getComponents( ).get( 0 );
 		ExtendedItemHandle chart = (ExtendedItemHandle) designHandle.findElement( "NewChart" );
 		assertNotNull( chart );
 		assertEquals( "NewChart", chart.getName( ) );
-		// assertNotNull(chart);
 
-		// ElementFactory factory = designHandle.getElementFactory( );
-		// DesignElementHandle rchart = (DesignElementHandle)
-		// factory.newElementFrom( chart, "CHART2" ); //$NON-NLS-1$
-		// assertNotNull( rchart );
+		List elements = new ArrayList( );
+		elements.add( chart );
+		GroupElementHandle group = new SimpleGroupElementHandle( designHandle, elements );
 
-		List list = new ArrayList( );
-		list.add( chart );
-		SimpleGroupElementHandle group = new SimpleGroupElementHandle( designHandle, list );
-
-		// No local properties for the simple group
+		// Get local properity
+		assertEquals( "212pt", chart.getProperty( ReportItemHandle.WIDTH_PROP ).toString( ) );
 		assertFalse( group.hasLocalPropertiesForExtendedElements( ) );
 
 		// Set local properity
-		chart.setProperty( ReportItemHandle.WIDTH_PROP, "212pt" ); //$NON-NLS-1$
-		assertEquals("212pt", chart.getProperty( ReportItemHandle.WIDTH_PROP ).toString( ));
-		assertTrue( group.hasLocalPropertiesForExtendedElements( ) );
+		chart.setProperty( ReportItemHandle.WIDTH_PROP, "210pt" );
+		assertFalse( group.hasLocalPropertiesForExtendedElements( ) );
 
 		// Clear local property
 		group.clearLocalProperties( );

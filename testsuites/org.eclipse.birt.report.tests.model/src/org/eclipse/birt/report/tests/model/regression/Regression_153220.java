@@ -70,12 +70,6 @@ public class Regression_153220 extends BaseTestCase
 		String report = getTempFolder( ) + "/" + INPUT_FOLDER + "/" + INPUT;
 		String libA = getTempFolder( ) + "/" + INPUT_FOLDER + "/" + LIBRARY_A;
 		String libB = getTempFolder( ) + "/" + INPUT_FOLDER + "/" + LIBRARY_B;
-		// String tempReport = this.genOutputFile( INPUT );
-		// saveAs( tempReport );
-		// String tempLibA = this.genOutputFile( LIBRARY_A );
-		// saveAs( tempLibA );
-		// String tempLibB = this.genOutputFile( LIBRARY_B );
-		// saveAs( tempLibB );
 
 		sessionHandle = new DesignEngine( new DesignConfig( ) ).newSessionHandle( ULocale.ENGLISH );
 		designHandle = sessionHandle.openDesign( report );
