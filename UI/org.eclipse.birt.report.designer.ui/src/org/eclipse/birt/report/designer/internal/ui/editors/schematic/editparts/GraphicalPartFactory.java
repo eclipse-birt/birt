@@ -133,7 +133,21 @@ public class GraphicalPartFactory implements EditPartFactory
 		{
 			return new PlaceHolderEditPart( model );
 		}
+		
+		IExtension extension = new IExtension.Stub( ) {
 
+			public String getExtendsionIdentify( )
+			{
+				return GuiExtensionManager.DESIGNER_FACTORY;
+			}
+		};
+		
+		Object obj = GuiExtensionManager.doExtension( extension, model );
+		if ( obj != null )
+		{
+			return (EditPart) obj;
+		}
+		
 		EditPart eep = EditpartExtensionManager.createEditPart( context, model );
 		if ( eep != null )
 			return eep;
