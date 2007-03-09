@@ -267,39 +267,45 @@ public class BirtGetCascadeParameterActionHandler
 			{
 				ParameterSelectionChoice item = (ParameterSelectionChoice) iList
 						.next( );
-				if ( item != null && item.getValue( ) != null )
+
+				if ( item == null )
+					continue;
+
+				Object value = item.getValue( );
+				if ( value == null )
+					continue;
+
+				// try convert value to parameter definition data type
+				try
+				{
+					value = DataUtil.convert( value, parameter.getDataType( ) );
+				}
+				catch ( Exception e )
+				{
+
+				}
+
+				// Convert parameter value using standard format
+				String displayValue = DataUtil.getDisplayValue( value );
+				if ( displayValue == null )
+					continue;
+
+				String label = item.getLabel( );
+				if ( label == null || label.length( ) <= 0 )
+				{
+					// If label is null or blank, then use the format
+					// parameter value for display
+					label = ParameterValidationUtil.getDisplayValue( null,
+							parameter.getPattern( ), value, attrBean
+									.getLocale( ) );
+				}
+
+				if ( label != null )
 				{
 					SelectItemChoice selectItemChoice = new SelectItemChoice( );
-					Object value = item.getValue( );
-					String label = item.getLabel( );
-
-					if ( value == null )
-						continue;
-
-					if ( label == null || label.length( ) <= 0 )
-					{
-						// If label is null or blank, then use the format
-						// parameter
-						// value for display
-						label = ParameterValidationUtil.getDisplayValue( null,
-								parameter.getPattern( ), value, attrBean
-										.getLocale( ) );
-					}
-					else
-					{
-						// Format display text of dynamic parameter
-						label = ParameterValidationUtil.getDisplayValue( null,
-								parameter.getPattern( ), label, attrBean
-										.getLocale( ) );
-					}
-
-					if ( label != null )
-					{
-						selectItemChoice.setLabel( label );
-						selectItemChoice.setValue( DataUtil
-								.getDisplayValue( value ) );
-						selectionList.add( index++, selectItemChoice );
-					}
+					selectItemChoice.setLabel( label );
+					selectItemChoice.setValue( displayValue );
+					selectionList.add( index++, selectItemChoice );
 				}
 			}
 		}

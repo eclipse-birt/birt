@@ -102,11 +102,23 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 				ParameterSelectionChoice selectionItem = (ParameterSelectionChoice) iter
 						.next( );
 
-				// Convert parameter value using standard format
-				String value = DataUtil.getDisplayValue( selectionItem
-						.getValue( ) );
-
+				Object value = selectionItem.getValue( );
 				if ( value == null )
+					continue;
+				
+				// try convert value to parameter definition data type
+				try
+				{
+					value = DataUtil.convert( value, paramDef.getDataType( ) );
+				}
+				catch ( Exception e )
+				{
+
+				}
+
+				// Convert parameter value using standard format
+				String displayValue = DataUtil.getDisplayValue( value );
+				if ( displayValue == null )
 					continue;
 
 				String label = selectionItem.getLabel( );
@@ -115,24 +127,24 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 					// If label is null or blank, then use the format parameter
 					// value for display
 					label = ParameterValidationUtil.getDisplayValue( null,
-							paramDef.getPattern( ), selectionItem.getValue( ),
-							locale );
+							paramDef.getPattern( ), value, locale );
 				}
 
 				if ( label != null )
 				{
 					parameterBean.getSelectionList( ).add( label );
-					parameterBean.getSelectionTable( ).put( label, value );
+					parameterBean.getSelectionTable( )
+							.put( label, displayValue );
 				}
 
 				// If parameter value is in the selection list
-				if ( value.equals( parameterBean.getValue( ) ) )
+				if ( displayValue.equals( parameterBean.getValue( ) ) )
 				{
 					parameterBean.setValueInList( true );
 				}
 
 				// If parameter default value is in the selection list
-				if ( value.equals( parameterBean.getDefaultValue( ) ) )
+				if ( displayValue.equals( parameterBean.getDefaultValue( ) ) )
 				{
 					parameterBean.setDefaultValueInList( true );
 				}

@@ -13,6 +13,11 @@ package org.eclipse.birt.report.utility;
 
 import java.math.BigDecimal;
 import java.util.Locale;
+
+import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.exception.CoreException;
+import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.ValidationValueException;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
@@ -46,12 +51,12 @@ public class DataUtil
 	 */
 	public static String trimString( String str )
 	{
-		if( str == null )
+		if ( str == null )
 			return ""; //$NON-NLS-1$
-		
+
 		return str.trim( );
 	}
-	
+
 	/**
 	 * 
 	 * Convert parameter to Object
@@ -147,5 +152,52 @@ public class DataUtil
 			return value.toString( );
 		}
 		return ParameterValidationUtil.getDisplayValue( value );
+	}
+
+	/**
+	 * Try convert an object to given type Types supported:
+	 * <p>
+	 * <ul>
+	 * <li>IScalarParameterDefn.TYPE_INTEGER</li>
+	 * <li>IScalarParameterDefn.TYPE_DECIMAL</li>
+	 * <li>IScalarParameterDefn.TYPE_BOOLEAN</li>
+	 * <li>IScalarParameterDefn.TYPE_DATE_TIME</li>
+	 * <li>IScalarParameterDefn.TYPE_FLOAT</li>
+	 * <li>IScalarParameterDefn.TYPE_STRING</li>
+	 * <ul>
+	 * </p>
+	 * 
+	 * @param source
+	 * @param toType
+	 * @return
+	 * @throws BirtException
+	 */
+	public static Object convert( Object source, int toType )
+			throws BirtException
+	{
+		if ( source == null )
+			return null;
+
+		// if any type, return directly.
+		if ( toType == IScalarParameterDefn.TYPE_ANY )
+			return source;
+
+		switch ( toType )
+		{
+			case IScalarParameterDefn.TYPE_INTEGER :
+				return DataTypeUtil.toInteger( source );
+			case IScalarParameterDefn.TYPE_DECIMAL :
+				return DataTypeUtil.toBigDecimal( source );
+			case IScalarParameterDefn.TYPE_BOOLEAN :
+				return DataTypeUtil.toBoolean( source );
+			case IScalarParameterDefn.TYPE_DATE_TIME :
+				return DataTypeUtil.toDate( source );
+			case IScalarParameterDefn.TYPE_FLOAT :
+				return DataTypeUtil.toDouble( source );
+			case IScalarParameterDefn.TYPE_STRING :
+				return DataTypeUtil.toString( source );
+			default :
+				throw new CoreException( "Invalid type." ); //$NON-NLS-1$
+		}
 	}
 }
