@@ -2133,6 +2133,9 @@ public class ParameterAccessor
 	 */
 	protected static String convertSystemPath( String path )
 	{
+		if ( path == null )
+			return path;
+
 		// parse System Properties
 		Pattern p = Pattern.compile( "\\$\\s*\\{([^\\}]*)\\}\\s*(.*)", //$NON-NLS-1$
 				Pattern.CASE_INSENSITIVE );
@@ -2196,13 +2199,13 @@ public class ParameterAccessor
 		String realPath = null;
 		boolean isRelative = false;
 
+		path = convertSystemPath( path );
+
 		// Using default path
 		if ( path == null || path.trim( ).length( ) <= 0 )
 		{
 			path = DataUtil.trimString( defaultPath );
 		}
-
-		path = convertSystemPath( path );
 
 		// If path is a relative path
 		if ( isRelativePath( path ) )
