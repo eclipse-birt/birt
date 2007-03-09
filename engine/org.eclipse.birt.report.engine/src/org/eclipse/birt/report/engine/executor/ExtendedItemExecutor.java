@@ -25,6 +25,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.data.IResultSet;
+import org.eclipse.birt.report.engine.emitter.ContentEmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IReportItemGeneration;
 import org.eclipse.birt.report.engine.extension.IRowSet;
@@ -44,6 +45,8 @@ public class ExtendedItemExecutor extends QueryItemExecutor
 	protected static Logger logger = Logger
 			.getLogger( ExtendedItemExecutor.class.getName( ) );
 
+	protected IReportItemExecutor executor;
+	
 	/**
 	 * @param context
 	 *            the engine execution context
@@ -70,6 +73,36 @@ public class ExtendedItemExecutor extends QueryItemExecutor
 	 */
 	
 	public IContent execute( )
+	{
+		// create user-defined generation-time helper object
+		ExtendedItemHandle handle = (ExtendedItemHandle) design.getHandle( );
+		String tagName = handle.getExtensionName( );
+
+		executor = ExtensionManager.getInstance( ).createReportItemExecutor(
+				tagName );
+		if ( executor != null )
+		{
+			//user implement the IReportItemExecutor.
+			executor.setContext( executorContext );
+			executor.setModelObject( handle );
+			executor.setParent( parent );
+			content = executor.execute( );
+			if ( emitter != null )
+			{
+				ContentEmitterUtil.startContent( content, emitter );
+			}
+			return content;
+		}
+		else
+		{
+			return doExecute( );
+		}
+	}
+	
+	/**
+	 * do execute by inner implement
+	 */
+	IContent doExecute()
 	{
 		ExtendedItemDesign extDesign = (ExtendedItemDesign) design;
 
@@ -101,10 +134,39 @@ public class ExtendedItemExecutor extends QueryItemExecutor
 		return extContent;
 	}
 	
+	public boolean hasNextChild( )
+	{
+		if ( executor != null )
+		{
+			return executor.hasNextChild( );
+		}
+		return false;
+	}
+
+	public IReportItemExecutor getNextChild( )
+	{
+		if ( executor != null )
+		{
+			return executor.getNextChild( );
+		}
+		return null;
+	}	
+	
 	public void close( )
 	{
-		finishTOCEntry( );
-		closeQuery( );
+		if ( executor != null )
+		{
+			executor.close( );
+			if ( emitter != null )
+			{
+				ContentEmitterUtil.endContent( content, emitter );
+			}
+		}
+		else
+		{
+			finishTOCEntry( );
+			closeQuery( );
+		}
 		manager.releaseExecutor( ExecutorManager.EXTENDEDITEM, this );
 	}
 	

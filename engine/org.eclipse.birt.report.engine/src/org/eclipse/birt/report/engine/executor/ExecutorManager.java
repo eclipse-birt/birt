@@ -15,6 +15,7 @@ import java.util.LinkedList;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.extension.IExecutorContext;
 import org.eclipse.birt.report.engine.ir.AutoTextItemDesign;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
@@ -91,6 +92,8 @@ public class ExecutorManager
 	 * array of free list
 	 */
 	protected LinkedList[] freeList = new LinkedList[NUMBER];
+	
+	private IExecutorContext executorContext;
 
 	/**
 	 * constructor
@@ -98,10 +101,11 @@ public class ExecutorManager
 	 * @param context
 	 * @param visitor
 	 */
-	public ExecutorManager( ExecutionContext context, IContentEmitter emitter )
+	public ExecutorManager( ExecutionContext context, IContentEmitter emitter, IExecutorContext executorContext )
 	{
 		this.context = context;
 		this.emitter = emitter;
+		this.executorContext = executorContext;
 		for ( int i = 0; i < NUMBER; i++ )
 		{
 			freeList[i] = new LinkedList( );
@@ -166,11 +170,12 @@ public class ExecutorManager
 		}
 	}
 
-	public ReportItemExecutor createExecutor(ReportItemExecutor parent, ReportItemDesign design)
+	public ReportItemExecutor createExecutor(IReportItemExecutor parent, ReportItemDesign design )
 	{
 		ReportItemExecutor executor = executorFactory.createExecutor( design );
 		if (executor != null)
 		{
+			executor.setContext( executorContext );
 			executor.setParent( parent );
 			executor.setDesign( design );
 		}

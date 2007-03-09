@@ -16,10 +16,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
+import org.eclipse.birt.report.engine.parser.EngineIRVisitor;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.w3c.dom.css.CSSStyleDeclaration;
 
 /**
@@ -85,6 +88,11 @@ public class Report
 	 */
 	protected HashMap mapReportItemToQuery;
 
+	/*
+	 * map query to report element handle
+	 */
+	protected HashMap mapQueryToReportElementHandle;
+	
 	/**
 	 * css engine used in this
 	 */
@@ -115,6 +123,42 @@ public class Report
 			mapReportItemToQuery = new HashMap( );
 		}
 		return mapReportItemToQuery;
+	}
+	
+	/**
+	 * set query to report item
+	 * 
+	 * @param reportItem
+	 *            the report item
+	 * @param query
+	 *            query definition
+	 */
+	public void setQueryToReportHandle( ReportElementHandle handle,
+			IBaseQueryDefinition[] queries )
+	{
+		if ( mapQueryToReportElementHandle == null )
+		{
+			mapQueryToReportElementHandle = new HashMap( );
+		}
+		mapQueryToReportElementHandle.put( handle, queries );
+	}
+
+	/**
+	 * get query by report item
+	 * 
+	 * @param reportItem
+	 *            the report item
+	 * @param query
+	 *            query definition
+	 */
+	public IBaseQueryDefinition[] getQueryByReportHandle(
+			ReportElementHandle handle )
+	{
+		if ( mapQueryToReportElementHandle != null )
+		{
+			return (IBaseQueryDefinition[]) mapQueryToReportElementHandle.get( handle );
+		}
+		return null;
 	}
 
 	/**
@@ -326,5 +370,22 @@ public class Report
 	public List getErrors( )
 	{
 		return this.reportDesign.getErrorList( );
+	}	
+
+	public ReportItemDesign findDesign( ReportElementHandle handle )
+	{
+		ReportElementDesign elementDesign = getReportItemByID( handle
+				.getID( ) );
+		if ( elementDesign != null )
+		{
+			return (ReportItemDesign) elementDesign;
+		}
+		else
+		{
+			return new EngineIRVisitor( reportDesign ).translate( handle,
+					this );
+		}
 	}
+
+
 }

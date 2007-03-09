@@ -144,7 +144,7 @@ import org.eclipse.core.runtime.Assert;
  * as the default style.
  * 
  */
-class EngineIRVisitor extends DesignVisitor
+public class EngineIRVisitor extends DesignVisitor
 {
 	/**
 	 * The prefix of style name
@@ -217,7 +217,7 @@ class EngineIRVisitor extends DesignVisitor
 	 *            the entry point to the DE report design IR
 	 * 
 	 */
-	EngineIRVisitor( ReportDesignHandle handle )
+	public EngineIRVisitor( ReportDesignHandle handle )
 	{
 		super( );
 		this.handle = handle;
@@ -235,6 +235,16 @@ class EngineIRVisitor extends DesignVisitor
 		report.setReportDesign( handle );
 		apply( handle );
 		return report;
+	}
+	
+	public ReportItemDesign translate( ReportElementHandle handle, Report report )
+	{
+		this.report = report;
+		cssEngine = report.getCSSEngine( );
+		newCellId = handle.getID( ) * -100000000;
+		apply( handle );
+		assert currentElement instanceof ReportItemDesign;
+		return (ReportItemDesign)currentElement;
 	}
 
 	/*
@@ -752,7 +762,6 @@ class EngineIRVisitor extends DesignVisitor
 			{
 				TableGroupDesign group = (TableGroupDesign) currentElement;
 				group.setGroupLevel( i );
-				locateGroupIcon( group );
 				table.addGroup( group );
 			}
 		}

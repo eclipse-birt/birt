@@ -29,7 +29,7 @@ import com.ibm.icu.text.MessageFormat;
 public class ReportContextImpl implements IReportContext
 {
 
-	private ExecutionContext context;
+	protected ExecutionContext context;
 
 	public ReportContextImpl( ExecutionContext context )
 	{

@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -24,7 +23,6 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
-import org.eclipse.birt.data.engine.api.IBaseTransform;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
@@ -89,6 +87,7 @@ import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.SortKeyHandle;
@@ -107,11 +106,46 @@ public class ReportQueryBuilder
 			.getName( ) );
 
 	private ExpressionUtil expressionUtil;
+	
+	private QueryBuilderVisitor queryBuilder;
+	
+	/**
+	 * query and it's IDs
+	 */
+	protected HashMap queryIDs;
+	
+	/**
+	 * query and result metaData
+	 */
+	protected HashMap resultMetaData;
+	
+	/**
+	 * a collection of all the queries
+	 */
+	protected Collection queries;
+
+	/**
+	 * entry point to the report
+	 */
+	protected Report report;
+	
+	/**
+	 * the execution context
+	 */
+	protected ExecutionContext context;
+	
+	/**
+	 * the max rows per query
+	 */
+	protected int maxRows = 0;
+
 
 	public ReportQueryBuilder( )
 	{
 		expressionUtil = new ExpressionUtil( );
-	}
+		queryBuilder = new QueryBuilderVisitor( );
+		
+	}	
 
 	/**
 	 * @param report
@@ -119,15 +153,152 @@ public class ReportQueryBuilder
 	 * @param context
 	 *            the execution context
 	 */
-	public void build( Report report, ExecutionContext context )
+	public ReportQueryBuilder( Report report, ExecutionContext context )
+	{
+		expressionUtil = new ExpressionUtil( );
+		queryBuilder = new QueryBuilderVisitor( );
+		this.report = report;
+		this.context = context;
+		
+		// get max rows per query
+		if( null != this.context )
+		{
+			IReportEngine engine = this.context.getEngine( );
+			if( null != engine)
+			{
+				EngineConfig engineConfig = engine.getConfig( );
+				if( null != engineConfig)
+				{
+					maxRows = engineConfig.getMaxRowsPerQuery( );
+				}
+			}			
+		}
+	}
+
+	public void build( )
 	{
 		synchronized ( report )
 		{
 			if ( report.getQueries( ).isEmpty( ) )
-			{
-				new QueryBuilderVisitor( ).buildQuery( report, context );
+			{				
+				queries = report.getQueries( );
+				// first clear the collection in case the caller call this function
+				// more than once.
+				queries.clear( );
+
+				queryIDs = report.getQueryIDs( );
+				queryIDs.clear( );
+				
+				resultMetaData = report.getResultMetaData( );
+				resultMetaData.clear( );
+
+				// visit master page
+				for ( int i = 0; i < report.getPageSetup( ).getMasterPageCount( ); i++ )
+				{
+					MasterPageDesign masterPage = report.getPageSetup( )
+							.getMasterPage( i );
+					if ( masterPage != null )
+					{
+						SimpleMasterPageDesign pageDesign = (SimpleMasterPageDesign) masterPage;
+						for ( int j = 0; j < pageDesign.getHeaderCount( ); j++ )
+						{
+							build( null, pageDesign.getHeader( j ) );
+						}
+						for ( int j = 0; j < pageDesign.getFooterCount( ); j++ )
+						{
+							build( null, pageDesign.getFooter( j ) );
+						}
+					}
+				}
+
+				// visit report
+				for ( int i = 0; i < report.getContentCount( ); i++ )
+					build( null, report.getContent( i ) );
+				
 			}
 		}
+	}
+	
+	/**
+	 * @param parentQuery
+	 *      parent query
+	 * @param design
+	 *      current root design
+	 * @return
+	 *      queries array of this design
+	 */
+	public IBaseQueryDefinition[] build( IBaseQueryDefinition parentQuery, ReportItemDesign design )
+	{
+		synchronized ( report )
+		{
+			//new QueryBuilderVisitor( ).buildQuery( parent, design, report, context );
+			
+			Object result = design.accept( queryBuilder, parentQuery );
+			
+			if ( result instanceof IBaseQueryDefinition[] )
+			{
+				IBaseQueryDefinition[] queries = (IBaseQueryDefinition[]) result;
+				
+				design.setQueries( queries );
+				for ( int i = 0; i < queries.length; i++ )
+				{
+					IBaseQueryDefinition query = queries[i];
+					if ( query != null )
+					{						
+						this.queryIDs.put( query, String.valueOf( design
+								.getID( ) )
+								+ "_" + String.valueOf( i ) );
+						ResultMetaData metaData = new ResultMetaData( query );
+						resultMetaData.put( query, metaData );
+						registerQueryAndElement( query, design );
+						if ( query instanceof IQueryDefinition )
+						{
+							this.queries.add( query );
+						}
+						else if ( query instanceof ISubqueryDefinition )
+						{
+							// TODO: chart engine make a mistake here
+							if ( parentQuery != null )
+							{
+								if ( !parentQuery.getSubqueries( ).contains( query ) )
+								{
+									parentQuery.getSubqueries( ).add( query );
+								}
+							}
+						}
+					}
+				}
+				registerQueryToHandle( design, queries );
+				return queries;	
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * link the query and report item
+	 * @param query
+	 * @param reportItem
+	 */
+	private void registerQueryAndElement( IBaseQueryDefinition query,
+			ReportItemDesign reportItem )
+	{
+		assert query != null && reportItem != null;
+		HashMap map = report.getReportItemToQueryMap( );
+		assert map != null;
+		map.put( query, reportItem );
+	}
+	
+	/**
+	 * register the query to handle
+	 * @param handle
+	 * @param query
+	 */
+	private void registerQueryToHandle( ReportItemDesign reportItem, IBaseQueryDefinition[] queries )
+	{
+		DesignElementHandle handle = reportItem.getHandle( );
+		assert handle instanceof ReportElementHandle;
+		report.setQueryToReportHandle( (ReportElementHandle)handle, queries );
 	}
 
 	/**
@@ -135,147 +306,6 @@ public class ReportQueryBuilder
 	 */
 	protected class QueryBuilderVisitor extends DefaultReportItemVisitorImpl
 	{
-
-		/**
-		 * query and it's IDs
-		 */
-		protected HashMap queryIDs;
-		
-		/**
-		 * query and result metaData
-		 */
-		protected HashMap resultMetaData;
-		
-		/**
-		 * a collection of all the queries
-		 */
-		protected Collection queries;
-
-		/**
-		 * the query stack. The top stores the query that is currently prepared.
-		 * Needed because we could have nested queries
-		 */
-		protected LinkedList queryStack = new LinkedList( );
-		
-		/**
-		 * the current condition stack which may be used in creating sub queries . 
-		 * The top stores true if the currently prepared is included in the group( header or footer ) 
-		 * or flase in the detail.
-		 */
-		protected LinkedList currentConditionStack = new LinkedList( );
-		
-		/*
-		 * report item query stack
-		 * 
-		 */
-		protected LinkedList reportItemQueryStack;
-		/**
-		 * entry point to the report
-		 */
-		protected Report report;
-
-		/**
-		 * the execution context
-		 */
-		protected ExecutionContext context;
-		
-		/**
-		 * the max rows per query
-		 */
-		protected int maxRows = 0;
-
-		/**
-		 * create report query definitions for this report.
-		 * 
-		 * @param report
-		 *            entry point to the report
-		 * @param context
-		 *            the execution context
-		 */
-		public void buildQuery( Report report, ExecutionContext context )
-		{
-			this.report = report;
-			this.context = context;
-			
-			// get max rows per query
-			if( null != this.context )
-			{
-				IReportEngine engine = this.context.getEngine( );
-				if( null != engine)
-				{
-					EngineConfig engineConfig = engine.getConfig( );
-					if( null != engineConfig)
-					{
-						maxRows = engineConfig.getMaxRowsPerQuery( );
-					}
-				}
-				
-			}
-
-			queries = report.getQueries( );
-			// first clear the collection in case the caller call this function
-			// more than once.
-			queries.clear( );
-
-			queryIDs = report.getQueryIDs( );
-			queryIDs.clear( );
-			
-			resultMetaData = report.getResultMetaData( );
-			resultMetaData.clear( );
-
-			// visit master page
-			for ( int i = 0; i < report.getPageSetup( ).getMasterPageCount( ); i++ )
-			{
-				MasterPageDesign masterPage = report.getPageSetup( )
-						.getMasterPage( i );
-				if ( masterPage != null )
-				{
-					SimpleMasterPageDesign pageDesign = (SimpleMasterPageDesign) masterPage;
-					for ( int j = 0; j < pageDesign.getHeaderCount( ); j++ )
-					{
-						pageDesign.getHeader( j ).accept( this, null );
-					}
-					for ( int j = 0; j < pageDesign.getFooterCount( ); j++ )
-					{
-						pageDesign.getFooter( j ).accept( this, null );
-					}
-				}
-			}
-
-			// visit report
-			for ( int i = 0; i < report.getContentCount( ); i++ )
-				report.getContent( i ).accept( this, null );
-		}
-
-		/**
-		 * Handles query creation and initialization with report-item related
-		 * expressions
-		 * 
-		 * @param item
-		 *            report item
-		 */
-		private BaseQueryDefinition prepareVisit( ReportItemDesign item )
-		{
-			BaseQueryDefinition tempQuery = createQuery( item );
-			if ( tempQuery != null )
-			{
-				pushQuery( tempQuery );
-			}
-			transformExpressions( item );
-			return tempQuery;
-		}
-
-		/**
-		 * Clean up stack after visiting a report item
-		 */
-		private void finishVisit( BaseQueryDefinition query )
-		{
-			if ( query != null )
-			{
-				popQuery( );
-			}
-		}
-
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -284,13 +314,17 @@ public class ReportQueryBuilder
 		public Object visitFreeFormItem( FreeFormItemDesign container,
 				Object value )
 		{
-			BaseQueryDefinition query = prepareVisit( container );
+			BaseQueryDefinition query = createQuery( container, value );
 
 			for ( int i = 0; i < container.getItemCount( ); i++ )
-				container.getItem( i ).accept( this, value );
+				container.getItem( i ).accept( this, query );
 
-			finishVisit( query );
-			return value;
+			finishVisit( container, query );			
+			if ( query != value )
+			{
+				return new IBaseQueryDefinition[]{ query };
+			}
+			return null;
 		}
 
 		/*
@@ -300,15 +334,19 @@ public class ReportQueryBuilder
 		 */
 		public Object visitGridItem( GridItemDesign grid, Object value )
 		{
-			BaseQueryDefinition query = prepareVisit( grid );
+			BaseQueryDefinition query = createQuery( grid, value );
 
 			for ( int i = 0; i < grid.getRowCount( ); i++ )
 			{
-				grid.getRow( i ).accept( this, value );
+				grid.getRow( i ).accept( this, query );
 			}
-
-			finishVisit( query );
-			return value;
+			
+			finishVisit( grid, query );			
+			if ( query != value )
+			{
+				return new IBaseQueryDefinition[]{ query };
+			}
+			return null;
 		}
 
 		/*
@@ -318,27 +356,31 @@ public class ReportQueryBuilder
 		 */
 		public Object visitImageItem( ImageItemDesign image, Object value )
 		{
-			BaseQueryDefinition query = prepareVisit( image );
+			BaseQueryDefinition query = createQuery( image, value );
 
 			if ( image.getImageSource( ) == ImageItemDesign.IMAGE_EXPRESSION )
 			{
-				String newImageExpression = transformExpression( image.getImageExpression( ) );
-				String newImageFormat = transformExpression( image.getImageFormat( ) );
+				String newImageExpression = transformExpression( image.getImageExpression( ), query, null );
+				String newImageFormat = transformExpression( image.getImageFormat( ), query, null );
 				image.setImageExpression( newImageExpression, newImageFormat );
 			}
 			else if ( image.getImageSource( ) == ImageItemDesign.IMAGE_URI )
 			{
-				String newImageUri = transformExpression( image.getImageUri( ) );
+				String newImageUri = transformExpression( image.getImageUri( ), query, null );
 				image.setImageUri( newImageUri );
 			}
 			else if ( image.getImageSource( ) == ImageItemDesign.IMAGE_FILE )
 			{
-				String newImageUri = transformExpression( image.getImageUri( ) );
+				String newImageUri = transformExpression( image.getImageUri( ), query, null );
 				image.setImageFile( newImageUri );
 			}
 
-			finishVisit( query );
-			return value;
+			finishVisit( image, query );
+			if ( query != value )
+			{
+				return new IBaseQueryDefinition[]{ query };
+			}
+			return null;
 		}
 
 		/*
@@ -348,9 +390,13 @@ public class ReportQueryBuilder
 		 */
 		public Object visitLabelItem( LabelItemDesign label, Object value )
 		{
-			BaseQueryDefinition query = prepareVisit( label );
-			finishVisit( query );
-			return value;
+			BaseQueryDefinition query = createQuery( label, value );
+			finishVisit( label, query );
+			if ( query != value )
+			{
+				return new IBaseQueryDefinition[]{ query };
+			}
+			return null;
 		}
 
 		/*
@@ -371,8 +417,12 @@ public class ReportQueryBuilder
 			IReportItemQuery itemQuery = ExtensionManager.getInstance( )
 					.createQueryItem( tagName );
 			IBaseQueryDefinition[] queries = null;
-			IBaseQueryDefinition parentQuery = getParentQuery( );
-			IBaseTransform parentTrans = getTransform( );
+			IBaseQueryDefinition parentQuery = null;
+			if ( value instanceof IBaseQueryDefinition )
+			{
+				parentQuery = (IBaseQueryDefinition)value;
+			}
+			//IBaseTransform parentTrans = getTransform( );
 			if ( itemQuery != null )
 			{
 				try
@@ -387,46 +437,25 @@ public class ReportQueryBuilder
 					logger.log( Level.WARNING, ex.getMessage( ), ex );
 				}
 				if ( queries != null )
-				{
-					item.setQueries( queries );
-					for ( int i = 0; i < queries.length; i++ )
-					{
-						if ( queries[i] != null )
-						{
-							this.queryIDs.put( queries[i], String
-									.valueOf( item.getID( ) )
-									+ "_" + String.valueOf( i ) );
-							ResultMetaData metaData = new ResultMetaData( queries[i] );
-							resultMetaData.put( queries[i], metaData );
-							registerQueryAndElement( queries[i], item );
-							if ( queries[i] instanceof IQueryDefinition )
-							{
-								this.queries.add( queries[i] );
-							}
-							else if ( queries[i] instanceof ISubqueryDefinition )
-							{
-								// TODO: chart engine make a mistake here
-								if ( parentTrans != null )
-								{
-									parentTrans.getSubqueries( ).add(
-											queries[i] );
-								}
-							}
-						}
-					}
+				{					
 					if ( queries.length > 0 )
 					{
 						IBaseQueryDefinition query = queries[0];
 						if ( query != null )
 						{
-							transformExpressions( item );			
+							transformExpressions( item, query, null );			
 						}
 					}
+					return queries;
 				}
 			}
-			BaseQueryDefinition query = prepareVisit( item );
-			finishVisit( query );
-			return value;
+			BaseQueryDefinition query = createQuery( item, parentQuery );
+			finishVisit( item, query );
+			if ( query != value )
+			{
+				return new IBaseQueryDefinition[]{ query };
+			}
+			return null;
 		}
 
 		/*
@@ -436,23 +465,16 @@ public class ReportQueryBuilder
 		 */
 		public Object visitListItem( ListItemDesign list, Object value )
 		{
-			BaseQueryDefinition query = prepareVisit( list );
+			BaseQueryDefinition query = createQuery( list, value );
 			if ( query == null )
 			{
-				pushCurrentCondition( true );
-				handleListingBand( list.getHeader( ), value );
-				popCurrentCondition( );
-				
-				pushCurrentCondition( true );
-				handleListingBand( list.getFooter( ), value );
-				popCurrentCondition( );
+				handleListingBand( list.getHeader( ), query, true, null );	
+				handleListingBand( list.getFooter( ), query, true, null );				
 			}
 			else
 			{
-				pushReportItemQuery( query );
-				transformExpressions( list );
-				pushCurrentCondition( true );
-				handleListingBand( list.getHeader( ), value );
+				//transformExpressions( list, query, null );
+				handleListingBand( list.getHeader( ), query, true, null );
 				
 				SlotHandle groupsSlot = ( (ListHandle) list.getHandle( ) )
 						.getGroups( );
@@ -460,26 +482,25 @@ public class ReportQueryBuilder
 				for ( int i = 0; i < list.getGroupCount( ); i++ )
 				{
 					handleListingGroup( list.getGroup( i ),
-							(GroupHandle) groupsSlot.get( i ), value );
+							(GroupHandle) groupsSlot.get( i ), query );
 				}
-				popCurrentCondition( );
 
 				BandDesign detail = list.getDetail( );
 				if ( detail == null || detail.getContentCount( ) == 0 )
 				{
 					query.setUsesDetails( false );
 				}
-				pushCurrentCondition( false );
-				handleListingBand( list.getDetail( ), value );
-				popCurrentCondition( );
+				handleListingBand( detail, query, false, null );
 				
-				pushCurrentCondition( true );
-				handleListingBand( list.getFooter( ), value );
-				popCurrentCondition( );
-				popReportItemQuery( );
+				handleListingBand( list.getFooter( ), query, true, null );
+				
 			}
-			finishVisit( query );
-			return value;
+			finishVisit( list, query );
+			if ( query != value )
+			{
+				return new IBaseQueryDefinition[]{ query };
+			}
+			return null;
 		}
 
 		/*
@@ -489,7 +510,7 @@ public class ReportQueryBuilder
 		 */
 		public Object visitTextItem( TextItemDesign text, Object value )
 		{
-			BaseQueryDefinition query = prepareVisit( text );
+			BaseQueryDefinition query = createQuery( text, value );
 			HashMap exprs = text.getExpressions( );
 			if ( exprs != null )
 			{
@@ -498,13 +519,17 @@ public class ReportQueryBuilder
 				{
 					Map.Entry entry = (Map.Entry) ite.next( );
 					assert entry.getValue( ) instanceof String;
-					String newExpr = transformExpression( entry.getValue( ).toString( ) );
+					String newExpr = transformExpression( entry.getValue( ).toString( ), query, null );
 					entry.setValue( newExpr );
 				}				
 			}
 
-			finishVisit( query );
-			return value;
+			finishVisit( text, query );
+			if ( query != value )
+			{
+				return new IBaseQueryDefinition[]{ query };
+			}
+			return null;
 		}
 
 		/*
@@ -512,9 +537,9 @@ public class ReportQueryBuilder
 		 * 
 		 * @see org.eclipse.birt.report.engine.ir.ReportItemVisitor#visitTableItem(org.eclipse.birt.report.engine.ir.TableItemDesign)
 		 */
-		public void handleColumn( ColumnDesign column )
+		public void handleColumn( ColumnDesign column, IBaseQueryDefinition query )
 		{
-			transformColumnExpressions( column );
+			transformColumnExpressions( column, query, null );
 		}
 		
 		/*
@@ -524,28 +549,23 @@ public class ReportQueryBuilder
 		 */
 		public Object visitTableItem( TableItemDesign table, Object value )
 		{
-			BaseQueryDefinition query = prepareVisit( table );
+			BaseQueryDefinition query = createQuery( table, value );
 			if ( query == null )
 			{
-				pushCurrentCondition( true );
-				handleListingBand( table.getHeader( ), value );
-				popCurrentCondition( );
+				handleListingBand( table.getHeader( ), query, true, null );				
 				
-				pushCurrentCondition( true );
-				handleListingBand( table.getFooter( ), value );
-				popCurrentCondition( );				
+				handleListingBand( table.getFooter( ), query, true, null );
 			}
 			else
 			{
-				transformExpressions( table );
+				//transformExpressions( table, query, null );
 				
 				for( int i = 0; i < table.getColumnCount( ); i++ )
 				{
-					handleColumn( table.getColumn( i ) );
+					handleColumn( table.getColumn( i ), query );
 				}
 				
-				pushCurrentCondition( true );
-				handleListingBand( table.getHeader( ), value );
+				handleListingBand( table.getHeader( ), query, true, null );
 				
 				SlotHandle groupsSlot = ( (TableHandle) table.getHandle( ) )
 						.getGroups( );
@@ -553,39 +573,21 @@ public class ReportQueryBuilder
 				for ( int i = 0; i < table.getGroupCount( ); i++ )
 				{
 					handleListingGroup( table.getGroup( i ),
-							(GroupHandle) groupsSlot.get( i ), value );
+							(GroupHandle) groupsSlot.get( i ), query );
 				}
-				popCurrentCondition( );
 
 				BandDesign detail = table.getDetail( );
 				if ( detail == null || detail.getContentCount( ) == 0 )
 				{
 					query.setUsesDetails( false );
-				}
-				
-				pushCurrentCondition( false );
-				handleListingBand( table.getDetail( ), value );
-				popCurrentCondition( );
-				
-				pushCurrentCondition( true );				
-				handleListingBand( table.getFooter( ), value );
-				popCurrentCondition( );
-			}
-			finishVisit( query );
-			return value;
-		}
+				}				
+				handleListingBand( detail, query, false, null );
 
-		/*
-		 * associate query with Table, List and Chart item design.
-		 */
-		private void registerQueryAndElement( IBaseQueryDefinition query,
-				ReportItemDesign reportItem )
-		{
-			assert query != null && reportItem != null;
-			HashMap map = report.getReportItemToQueryMap( );
-			assert map != null;
-			map.put( query, reportItem );
-		}
+				handleListingBand( table.getFooter( ), query, true, null );
+			}
+			finishVisit( table, query );
+			return new IBaseQueryDefinition[]{ query };
+		}		
 
 		/*
 		 * (non-Javadoc)
@@ -595,11 +597,15 @@ public class ReportQueryBuilder
 		public Object visitDynamicTextItem( DynamicTextItemDesign dynamicText,
 				Object value )
 		{
-			BaseQueryDefinition query = prepareVisit( dynamicText );
-			String newContent = transformExpression( dynamicText.getContent( ) );
+			BaseQueryDefinition query = createQuery( dynamicText, value );
+			String newContent = transformExpression( dynamicText.getContent( ), query, null );
 			dynamicText.setContent( newContent );
-			finishVisit( query );
-			return value;
+			finishVisit( dynamicText, query );
+			if ( query != value )
+			{
+				return new IBaseQueryDefinition[]{ query };
+			}
+			return null;
 		}
 
 		/*
@@ -609,25 +615,47 @@ public class ReportQueryBuilder
 		 */
 		public Object visitDataItem( DataItemDesign data, Object value )
 		{
-			BaseQueryDefinition query = prepareVisit( data );
-			//we needn't transfer the data expression as it must be row[''].
-//			String newValue = transformExpression( data.getValue( ) );
-//			data.setValue( newValue );
-			finishVisit( query );
-			return value;
+			BaseQueryDefinition query = createQuery( data, value );
+
+			finishVisit( data, query );
+			if ( query != value )
+			{
+				return new IBaseQueryDefinition[]{ query };
+			}
+			return null;
 		}	
 		
 		/**
 		 * @param band
 		 *            the list band
 		 */
-		public void handleListingBand( BandDesign band, Object value )
+		public void handleListingBand( BandDesign band, IBaseQueryDefinition query, boolean onGroup, IGroupDefinition groupDefn )
 		{
 			if ( band != null )
 			{
+				ArrayList subQueries = (ArrayList)( (ArrayList)query.getSubqueries( ) ).clone( );
 				for ( int i = 0; i < band.getContentCount( ); i++ )
 				{
-					band.getContent( i ).accept( this, value );
+					// here should return queries
+					build( query, band.getContent( i ) );
+				}
+				ArrayList subQueriesChanged = (ArrayList)query.getSubqueries( );
+				if ( subQueriesChanged != null )
+				{
+					for ( int i = 0; i < subQueriesChanged.size( ); i++ )
+					{
+						SubqueryDefinition subQuery = (SubqueryDefinition)subQueriesChanged.get( i );
+						if ( !subQueries.contains( subQuery ) 
+								&& subQuery instanceof SubqueryDefinition )
+						{
+							( (SubqueryDefinition)subQuery ).setApplyOnGroupFlag( onGroup );
+							if ( groupDefn != null )
+							{
+								subQueriesChanged.remove( subQuery );
+								groupDefn.getSubqueries( ).add( subQuery );
+							}
+						}
+					}
 				}
 			}
 		}
@@ -641,20 +669,21 @@ public class ReportQueryBuilder
 		protected void handleListingGroup( GroupDesign group,
 				GroupHandle handle, Object value )
 		{
-			IGroupDefinition groupDefn = handleGroup( group, handle );
+			assert value instanceof IBaseQueryDefinition;
+			IBaseQueryDefinition query = (IBaseQueryDefinition)value;
+			
+			IGroupDefinition groupDefn = handleGroup( group, handle, query );
 
-			pushQuery( groupDefn );
-			transformExpressions( group );
-			handleListingBand( group.getHeader( ), value );
-			handleListingBand( group.getFooter( ), value );
-			popQuery( );
-		}
+			transformExpressions( group, query, groupDefn.getName( ) );
+			handleListingBand( group.getHeader( ), query, true, groupDefn );
+			handleListingBand( group.getFooter( ), query, true, groupDefn );
+		}		
 
 		/**
 		 * processes a table/list group
 		 */
 		protected IGroupDefinition handleGroup( GroupDesign group,
-				GroupHandle handle )
+				GroupHandle handle, IBaseQueryDefinition query )
 		{
 			GroupDefinition groupDefn = new GroupDefinition( group.getName( ) );
 			groupDefn.setKeyExpression( handle.getKeyExpr( ) );
@@ -677,7 +706,7 @@ public class ReportQueryBuilder
 			groupDefn.getSorts( ).addAll( createSorts( handle ) );
 			groupDefn.getFilters( ).addAll( createFilters( handle ) );
 
-			getParentQuery( ).getGroups( ).add( groupDefn );
+			query.getGroups( ).add( groupDefn );
 
 			return groupDefn;
 		}
@@ -687,14 +716,18 @@ public class ReportQueryBuilder
 		 */
 		public Object visitRow(RowDesign row, Object value)
 		{
-			BaseQueryDefinition query = prepareVisit( row );
+			BaseQueryDefinition query = createQuery( row, value );
 			for ( int i = 0; i < row.getCellCount( ); i++ )
 			{
 				CellDesign cell = row.getCell( i );
-				cell.accept( this, value );
+				build( query, cell );
 			}
-			finishVisit( query );
-			return value;
+			finishVisit( row, query );
+			if ( query != value )
+			{
+				return new IBaseQueryDefinition[]{ query };
+			}
+			return null;
 		}
 
 		/**
@@ -702,130 +735,20 @@ public class ReportQueryBuilder
 		 */
 		public Object visitCell( CellDesign cell, Object value )
 		{
-			BaseQueryDefinition query = prepareVisit( cell );
+			BaseQueryDefinition query = createQuery( cell, value );			
 			for ( int i = 0; i < cell.getContentCount( ); i++ )
 			{
-				cell.getContent( i ).accept( this, value );
+				build( query, cell.getContent( i ) );
 			}
-			finishVisit( query );
-			return value;
-		}		
+			finishVisit( cell, query );
 
-		protected void pushReportItemQuery( IBaseQueryDefinition query )
-		{
-			if ( this.reportItemQueryStack == null )
+			if ( query != value )
 			{
-				this.reportItemQueryStack = new LinkedList( );
-			}
-			this.reportItemQueryStack.addLast( query );
-		}
-
-		protected void popReportItemQuery( )
-		{
-			assert this.reportItemQueryStack.isEmpty( ) == false;
-			this.reportItemQueryStack.removeLast( );
-		}
-		
-		/**
-		 * A helper function for adding a query to query stack
-		 */
-		protected void pushCurrentCondition( boolean currentCondition )
-		{
-			this.currentConditionStack.addLast( String.valueOf( currentCondition ) );
-		}
-
-		/**
-		 * A helper function for removing a query from query stack
-		 */
-		protected void popCurrentCondition( )
-		{
-			assert !currentConditionStack.isEmpty( );
-			currentConditionStack.removeLast( );
-		}
-
-		/**
-		 * @return topmost element on query stack
-		 */
-		protected String getCurrentCondition( )
-		{
-			if ( currentConditionStack.isEmpty( ) )
-				return String.valueOf( false );
-			return ( String ) currentConditionStack.getLast( );
-		}
-
-		/**
-		 * A helper function for adding a query to query stack
-		 */
-		protected void pushQuery( IBaseTransform query )
-		{
-			this.queryStack.addLast( query );
-		}
-
-		/**
-		 * A helper function for removing a query from query stack
-		 */
-		protected void popQuery( )
-		{
-			assert !queryStack.isEmpty( );
-			queryStack.removeLast( );
-		}
-
-		/**
-		 * @return topmost element on query stack
-		 */
-		protected IBaseTransform getTransform( )
-		{
-			if ( queryStack.isEmpty( ) )
-				return null;
-			return (IBaseTransform) queryStack.getLast( );
-		}
-
-		/**
-		 * @return the parent query for the current report item
-		 */
-		protected BaseQueryDefinition getParentQuery( )
-		{
-			if ( queryStack.isEmpty( ) )
-				return null;
-
-			for ( int i = queryStack.size( ) - 1; i >= 0; i-- )
-			{
-				if ( queryStack.get( i ) instanceof BaseQueryDefinition )
-					return (BaseQueryDefinition) queryStack.get( i );
-			}
-			return null;
-
-		}		
-		
-		/**
-		 * @return the current group which the current report item be included
-		 */
-		protected GroupDefinition getCurrentGroup( )
-		{
-			if ( queryStack.isEmpty( ) )
-				return null;
-
-			if ( queryStack.getLast( ) instanceof GroupDefinition )
-			{
-				return (GroupDefinition) queryStack.getLast( );
-			}
-			return null;
-
-		}	
-		
-		/**
-		 * @return the name of the current group 
-		 * which the current report item be included
-		 */
-		protected String getCurrentGroupName( )
-		{
-			GroupDefinition group = getCurrentGroup( );
-			if ( group != null )
-			{
-				return group.getName( );
+				return new IBaseQueryDefinition[]{ query };
 			}
 			return null;
 		}
+		
 
 		protected void addColumBinding( IBaseQueryDefinition transfer,
 				ComputedColumnHandle binding )
@@ -838,7 +761,7 @@ public class ReportQueryBuilder
 			dbExpr.setGroupName( binding.getAggregateOn( ) );
 			transfer.getResultSetExpressions( ).put( name, dbExpr );
 		}
-
+		
 		/**
 		 * create query for non-listing report item
 		 * 
@@ -846,17 +769,23 @@ public class ReportQueryBuilder
 		 *            report item
 		 * @return a report query
 		 */
-		protected BaseQueryDefinition createQuery( ReportItemDesign item )
+		protected BaseQueryDefinition createQuery( ReportItemDesign item, Object value )
 		{
+			BaseQueryDefinition parentQuery = null;
+			if ( value instanceof BaseQueryDefinition )
+			{
+				parentQuery = (BaseQueryDefinition)value;
+			}
 			DesignElementHandle handle = item.getHandle( );
 			if ( ! ( handle instanceof ReportItemHandle ) )
 			{
-				if ( !needQuery( item ) )
+				if ( !needQuery( item, parentQuery ) )
 				{
-					return null;
+					// return the parentQuery as the current query.
+					return parentQuery;
 				}
 				// we have column binding, create a sub query.
-				return createSubQuery( item );
+				return createSubQuery( item, parentQuery );
 			}
 
 			ReportItemHandle designHandle = (ReportItemHandle) handle;
@@ -878,17 +807,18 @@ public class ReportQueryBuilder
 				// we has data set name defined, so test if we have column
 				// binding here.
 
-				if ( !needQuery( item ) )
+				if ( !needQuery( item, parentQuery ) )
 				{
-					return null;
+					// return the parentQuery as the current query.
+					return parentQuery;
 				}
 				
 				// we have column binding, create a sub query.
-				return createSubQuery( item );
+				return createSubQuery( item, parentQuery );
 			}
 			// The report item has a data set definition, must creat a query for
 			// it.
-			QueryDefinition query = new QueryDefinition( getParentQuery( ) );
+			QueryDefinition query = new QueryDefinition( parentQuery );
 			query.setDataSetName( dsHandle.getQualifiedName( ) );
 
 			// bind the query with parameters
@@ -898,23 +828,54 @@ public class ReportQueryBuilder
 			// set max rows
 			query.setMaxRows( maxRows );
 
-			this.queryIDs.put( query, String.valueOf( item.getID( ) ) );
-			this.queries.add( query );
-			registerQueryAndElement( query, item );
-
 			Iterator iter = designHandle.columnBindingsIterator( );
 			while ( iter.hasNext( ) )
 			{
 				ComputedColumnHandle binding = (ComputedColumnHandle) iter.next( );
 				addColumBinding( query, binding );
 			}
-
-			item.setQuery( query );
 			
 			addSortAndFilter( item, query );
 			
-			ResultMetaData metaData = new ResultMetaData( query );
-			resultMetaData.put( query, metaData );
+			return query;
+		}
+
+		protected BaseQueryDefinition createSubQuery( ReportItemDesign item, BaseQueryDefinition parentQuery )
+		{
+			BaseQueryDefinition query = null;
+			// sub query must be defined in a transform
+			if ( parentQuery == null )
+			{
+				// no parent query exits, so create a empty query for it.
+				query = new QueryDefinition( null );
+			}
+			else
+			{
+				// create a sub query
+				String name = String.valueOf( item.getID( ) );
+				query = new SubqueryDefinition( name, parentQuery );
+				parentQuery.getSubqueries( ).add( query );				
+			}
+			
+			// set max rows
+			query.setMaxRows( maxRows );
+
+			if ( item.getHandle( ) instanceof ReportItemHandle )
+			{
+				ReportItemHandle designHandle = (ReportItemHandle) item
+						.getHandle( );
+
+				Iterator iter = designHandle.columnBindingsIterator( );
+				while ( iter.hasNext( ) )
+				{
+					ComputedColumnHandle binding = (ComputedColumnHandle) iter
+							.next( );
+					addColumBinding( query, binding );
+				}
+			}
+
+			addSortAndFilter( item, query );			
+		
 			return query;
 		}
 
@@ -928,7 +889,7 @@ public class ReportQueryBuilder
 		 *            the item.
 		 * @return true if it needs query.
 		 */
-		private boolean needQuery( ReportItemDesign item )
+		private boolean needQuery( ReportItemDesign item, IBaseQueryDefinition query )
 		{
 			DesignElementHandle handle = item.getHandle( );
 			if ( handle instanceof ReportItemHandle )
@@ -944,7 +905,7 @@ public class ReportQueryBuilder
 				}
 			}
 			HighlightDesign highlight = item.getHighlight( );
-			if ( getParentQuery( ) == null && highlight != null
+			if ( query == null && highlight != null
 					&& highlight.getRuleCount( ) > 0 )
 			{
 				return true;
@@ -968,66 +929,6 @@ public class ReportQueryBuilder
 			}
 		}
 
-		protected BaseQueryDefinition createSubQuery( ReportItemDesign item )
-		{
-			BaseQueryDefinition query = null;
-			IBaseTransform parentQuery = getTransform( );
-			// sub query must be defined in a transform
-			if ( parentQuery == null )
-			{
-				// no parent query exits, so create a empty query for it.
-				query = new QueryDefinition( getParentQuery( ) );
-				this.queryIDs.put( query, String.valueOf( item.getID( ) ) );
-				this.queries.add( query );	
-				registerQueryAndElement( query, item );
-			}
-			else
-			{
-				// create a sub query
-				String name = String.valueOf( item.getID( ) );
-				query = new SubqueryDefinition( name, getParentQuery( ) );
-				parentQuery.getSubqueries( ).add( query );
-				
-				this.queryIDs.put( query, String.valueOf( item.getID( ) ) );
-				registerQueryAndElement( query, item );
-				
-				String currentCondition = getCurrentCondition( );
-				
-				if ( currentCondition.equals( String.valueOf( true ) ) )
-				{
-					( (SubqueryDefinition)query ).setApplyOnGroupFlag( true );
-				}
-				else
-				{
-					( (SubqueryDefinition)query ).setApplyOnGroupFlag( false );
-				}
-			}
-			
-			// set max rows
-			query.setMaxRows( maxRows );
-
-			item.setQuery( query );
-			if ( item.getHandle( ) instanceof ReportItemHandle )
-			{
-				ReportItemHandle designHandle = (ReportItemHandle) item
-						.getHandle( );
-
-				Iterator iter = designHandle.columnBindingsIterator( );
-				while ( iter.hasNext( ) )
-				{
-					ComputedColumnHandle binding = (ComputedColumnHandle) iter
-							.next( );
-					addColumBinding( query, binding );
-				}
-			}
-
-			addSortAndFilter( item, query );
-			
-			ResultMetaData metaData = new ResultMetaData( query );
-			resultMetaData.put( query, metaData );
-		
-			return query;
-		}
 
 		/**
 		 * get Localized string by the resouce key and <code>Locale</code>
@@ -1340,12 +1241,12 @@ public class ReportQueryBuilder
 		 * @param item
 		 *            the report design.
 		 */
-		private void transformExpressions( ReportItemDesign item )
+		private void transformExpressions( ReportItemDesign item,
+				IBaseQueryDefinition query, String groupName )
 		{
-			IBaseQueryDefinition query = getParentQuery( );
 			if ( query != null )
 			{
-				ITotalExprBindings totalExpressionBindings = getNewExpressionBindings( item );
+				ITotalExprBindings totalExpressionBindings = getNewExpressionBindings( item, query, groupName );
 				addNewColumnBindings( query, totalExpressionBindings );
 				replaceOldExpressions( item, totalExpressionBindings );
 			}
@@ -1357,19 +1258,19 @@ public class ReportQueryBuilder
 		 * @param expr expression to be transfered.
 		 * return the transfered expression
 		 */
-		protected String transformExpression( String expr )
+		protected String transformExpression( String expr,
+				IBaseQueryDefinition query, String groupName )
 		{
 			if ( expr == null )
 			{
 				return null;
 			}
-			IBaseQueryDefinition query = getParentQuery( );
 			if ( query != null )
 			{
 				List expressions = new ArrayList( );
 				expressions.add( expr );	
 				ITotalExprBindings totalExpressionBinding = expressionUtil
-					.prepareTotalExpressions( expressions, getCurrentGroupName( ) );
+					.prepareTotalExpressions( expressions, groupName );
 				
 				addNewColumnBindings( query, totalExpressionBinding );
 				
@@ -1384,9 +1285,9 @@ public class ReportQueryBuilder
 		 * it to the Query. And create new visibility and hightlight expressions to replace
 		 * the old.
 		 */
-		private void transformColumnExpressions( ColumnDesign column )
+		private void transformColumnExpressions( ColumnDesign column,
+				IBaseQueryDefinition query, String groupName )
 		{
-			IBaseQueryDefinition query = getParentQuery( );
 			if ( query == null )
 			{
 				return;
@@ -1414,8 +1315,7 @@ public class ReportQueryBuilder
 				}
 			}
 			ITotalExprBindings totalExpressionBindings = expressionUtil
-					.prepareTotalExpressions( expressions,
-							getCurrentGroupName( ) );
+					.prepareTotalExpressions( expressions, groupName );
 
 			// add new column bindings to the query
 			addNewColumnBindings( query, totalExpressionBindings );
@@ -1533,7 +1433,9 @@ public class ReportQueryBuilder
 			}
 		}
 
-		private ITotalExprBindings getNewExpressionBindings( ReportItemDesign item )
+		private ITotalExprBindings getNewExpressionBindings(
+				ReportItemDesign item, IBaseQueryDefinition query,
+				String groupName )
 		{
 			List expressions = new ArrayList( );
 			expressions.add( item.getTOC( ) );
@@ -1620,7 +1522,7 @@ public class ReportQueryBuilder
 			}
 			
 			ITotalExprBindings totalExpressionBindings = expressionUtil
-					.prepareTotalExpressions( expressions, getCurrentGroupName( ) );
+					.prepareTotalExpressions( expressions, groupName );
 			return totalExpressionBindings;
 		}
 
@@ -1653,6 +1555,19 @@ public class ReportQueryBuilder
 					toDteFilterOperator( rule.getOperator( ) ), rule.getValue1( ),
 					rule.getValue2( ) );
 			return ExpressionUtil.transformConditionalExpression( expression );
+		}
+
+		/**
+		 * finish the current visit. transform the expressions of the query.
+		 * @param item
+		 * @param query
+		 */
+		private void finishVisit( ReportItemDesign item, IBaseQueryDefinition query )
+		{			
+			if( query != null )
+			{
+				transformExpressions( item, query, null );
+			}
 		}
 	}
 
@@ -1704,4 +1619,5 @@ public class ReportQueryBuilder
 
 		return IConditionalExpression.OP_NONE;
 	}
+
 }

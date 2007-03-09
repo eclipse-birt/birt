@@ -149,6 +149,7 @@ public abstract class ReportItemExecutor extends ReportItemExecutorBase
 				break;
 			}
 			ReportItemExecutor child = (ReportItemExecutor) getNextChild( );
+			child.setContext( executorContext );
 			child.execute( child.getDesign( ), emitter );
 		}
 		close( );
@@ -601,6 +602,11 @@ public abstract class ReportItemExecutor extends ReportItemExecutorBase
 	IResultSet getResultSet()
 	{
 		return rset;
+	}
+	
+	public IResultSet[] getResultSets()
+	{
+		return new IResultSet[]{ rset };
 	}
 	
 	IResultSet getParentResultSet()

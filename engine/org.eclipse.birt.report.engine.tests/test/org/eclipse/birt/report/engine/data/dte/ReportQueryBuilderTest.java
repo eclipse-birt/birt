@@ -57,7 +57,7 @@ public class ReportQueryBuilderTest extends TestCase
 		ReportParser parser = new ReportParser( );
 		Report report = parser.parse( "", in );
 		assertTrue( report != null );
-		new ReportQueryBuilder( ).build( report, new ExecutionContext( ) );
+		new ReportQueryBuilder( report, new ExecutionContext( ) ).build( );
 		testGrid( report, report.getContent( 2 ) );
 		testList( report, report.getContent( 1 ) );
 		testTable( report, report.getContent( 0 ) );

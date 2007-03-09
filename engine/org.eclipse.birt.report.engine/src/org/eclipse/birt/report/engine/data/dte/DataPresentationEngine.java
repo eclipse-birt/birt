@@ -81,7 +81,7 @@ public class DataPresentationEngine extends AbstractDataEngine
 	public void prepare( Report report, Map appContext )
 	{
 		// build report queries
-		new ReportQueryBuilder( ).build( report, context );
+		new ReportQueryBuilder( report, context ).build( );
 
 		doPrepareQuery( report, appContext );
 	}

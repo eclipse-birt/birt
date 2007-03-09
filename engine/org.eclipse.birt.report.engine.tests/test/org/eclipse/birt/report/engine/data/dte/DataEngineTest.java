@@ -223,8 +223,10 @@ public class DataEngineTest extends TestCase
 		String goldenFile = "NestedDataSet.txt";
 		String goldenStr = loadResource( goldenFile );
 		String resultStr = "";
-		IQueryDefinition parentQuery = (IQueryDefinition) iter.next( );
+		// now the sequence of query be stored in report has been changed.
+		// the children will first be stored then the parent.
 		IQueryDefinition childQuery = (IQueryDefinition) iter.next( );
+		IQueryDefinition parentQuery = (IQueryDefinition) iter.next( );
 		IResultSet parentRSet = null;
 		IResultSet childRSet = null;
 
@@ -272,8 +274,8 @@ public class DataEngineTest extends TestCase
 		String goldenStr = loadResource( goldenFile );
 
 		String resultStr = "";
-		IQueryDefinition parentQuery = (IQueryDefinition) iter.next( );
 		IQueryDefinition childQuery = (IQueryDefinition) iter.next( );
+		IQueryDefinition parentQuery = (IQueryDefinition) iter.next( );
 		IResultSet parentRSet = null;
 		IResultSet childRSet = null;
 

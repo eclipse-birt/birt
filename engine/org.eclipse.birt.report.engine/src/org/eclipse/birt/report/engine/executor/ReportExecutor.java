@@ -20,6 +20,8 @@ import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.emitter.DOMBuilderEmitter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.extension.IExecutorContext;
+import org.eclipse.birt.report.engine.extension.internal.ExecutorContext;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -68,6 +70,8 @@ public class ReportExecutor implements IReportExecutor
 	
 	private ReportContent reportContent;
 	
+	private IExecutorContext executorContext;
+	
 	/**
 	 * constructor
 	 * 
@@ -80,9 +84,10 @@ public class ReportExecutor implements IReportExecutor
 	public ReportExecutor( ExecutionContext context, Report report, IContentEmitter emitter )
 	{
 		this.context = context;
-		this.manager = new ExecutorManager(context, emitter);
+		this.manager = new ExecutorManager(context, emitter, executorContext);
 		this.report = report;
 		this.emitter = emitter;
+		this.executorContext = new ExecutorContext( context );
 	}
 	
 	public IReportContent execute( )
@@ -151,6 +156,7 @@ public class ReportExecutor implements IReportExecutor
 			}
 			ReportItemExecutor executor = (ReportItemExecutor) getNextChild( );
 			ReportItemDesign design = executor.getDesign( );
+			executor.setContext( executorContext );
 			executor.execute( design, emitter );
 		}
 		close( );
@@ -185,7 +191,7 @@ public class ReportExecutor implements IReportExecutor
 			header.setParent( pageContent );
 			IContentEmitter domEmitter = new DOMBuilderEmitter( header);
 			
-			ExecutorManager manager = new ExecutorManager( context, domEmitter);
+			ExecutorManager manager = new ExecutorManager( context, domEmitter, executorContext );
 			for ( int i = 0; i < pageDesign.getHeaderCount( ); i++ )
 			{
 				ReportItemDesign design = pageDesign.getHeader( i );
@@ -206,7 +212,7 @@ public class ReportExecutor implements IReportExecutor
 			footer.setParent( pageContent );
 
 			domEmitter = new DOMBuilderEmitter( footer);
-			manager = new ExecutorManager( context, domEmitter);
+			manager = new ExecutorManager( context, domEmitter, executorContext);
 			for ( int i = 0; i < pageDesign.getFooterCount( ); i++ )
 			{
 				ReportItemDesign design = pageDesign.getFooter( i );

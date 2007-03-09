@@ -73,7 +73,7 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	/**
 	 * query used to create the data set.
 	 */
-	transient protected IBaseQueryDefinition query;
+	transient protected IBaseQueryDefinition[] queries;
 	/**
 	 * execution state associated with this design
 	 */
@@ -180,18 +180,37 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	}
 	
 	/**
+	 * @return Returns the queries.
+	 */
+	public IBaseQueryDefinition[] getQueries( )
+	{
+		return queries;
+	}
+	/**
+	 * @param query The queries to set.
+	 */
+	public void setQueries( IBaseQueryDefinition[] queries )
+	{
+		this.queries = queries;
+	}
+	
+	/**
 	 * @return Returns the query.
 	 */
 	public IBaseQueryDefinition getQuery( )
 	{
-		return query;
+		if ( queries != null && queries.length > 0 )
+		{
+			return queries[0];
+		}
+		return null;
 	}
 	/**
 	 * @param query The query to set.
 	 */
-	public void setQuery( IBaseQueryDefinition query )
+	public void setQueries( IBaseQueryDefinition query )
 	{
-		this.query = query;
+		this.queries = new IBaseQueryDefinition[]{ query };
 	}
 	
 	

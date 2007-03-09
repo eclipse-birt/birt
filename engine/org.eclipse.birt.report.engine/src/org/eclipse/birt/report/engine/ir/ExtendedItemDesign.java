@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.ir;
 
-import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 
 /**
  * Extended Item. 
@@ -19,8 +18,7 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
  */
 public class ExtendedItemDesign extends ReportItemDesign
 {
-	IBaseQueryDefinition[] queries;
-	
+
 	/**
 	 * Text associated with this extendedItem, used for default locale.
 	 */
@@ -37,16 +35,6 @@ public class ExtendedItemDesign extends ReportItemDesign
 	public Object accept( IReportItemVisitor visitor , Object value)
 	{
 		return visitor.visitExtendedItem( this, value);
-	}
-	
-	public void setQueries(IBaseQueryDefinition[] queries)
-	{
-		this.queries = queries;
-	}
-	
-	public IBaseQueryDefinition[] getQueries()
-	{
-		return this.queries;
 	}
 	
 	/**
