@@ -1553,6 +1553,7 @@ GridProvider.action.text=Insérer une ligne
 #GroupDialog properties
 
 GroupDialog.Dialog.GroupDetail=Détails du groupe
+GroupDialog.Label.Bookmark=Boorkmark:
 GroupDialog.Dialog.TOCGroup=Table des matières
 GroupDialog.Dialog.TOC=Express&ion d'élément :
 GroupDialog.Dialog.TOCStyle=St&yle :

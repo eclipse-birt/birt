@@ -1553,6 +1553,7 @@ GridProvider.action.text=Zeile einfügen
 #GroupDialog properties
 
 GroupDialog.Dialog.GroupDetail=Gruppendetails
+GroupDialog.Label.Bookmark=Boorkmark:
 GroupDialog.Dialog.TOCGroup=Inhaltsverzeichnis
 GroupDialog.Dialog.TOC=Elemen&tausdruck:
 GroupDialog.Dialog.TOCStyle=St&il:

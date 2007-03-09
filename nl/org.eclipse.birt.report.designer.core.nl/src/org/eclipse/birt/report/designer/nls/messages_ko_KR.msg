@@ -1553,6 +1553,7 @@ GridProvider.action.text=행 삽입
 #GroupDialog properties
 
 GroupDialog.Dialog.GroupDetail=그룹 상세 정보
+GroupDialog.Label.Bookmark=Boorkmark:
 GroupDialog.Dialog.TOCGroup=목차
 GroupDialog.Dialog.TOC=항목 식(&T):
 GroupDialog.Dialog.TOCStyle=스타일(&Y)

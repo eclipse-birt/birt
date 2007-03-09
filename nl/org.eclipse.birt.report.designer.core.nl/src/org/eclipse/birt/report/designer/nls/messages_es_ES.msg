@@ -1553,6 +1553,7 @@ GridProvider.action.text=Insertar fila
 #GroupDialog properties
 
 GroupDialog.Dialog.GroupDetail=Detalles de grupo
+GroupDialog.Label.Bookmark=Boorkmark:
 GroupDialog.Dialog.TOCGroup=Tabla de contenido
 GroupDialog.Dialog.TOC=Expresión de elemen&to:
 GroupDialog.Dialog.TOCStyle=Est&ilo:

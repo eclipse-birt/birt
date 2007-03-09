@@ -1553,6 +1553,7 @@ GridProvider.action.text=行の挿入
 #GroupDialog properties
 
 GroupDialog.Dialog.GroupDetail=グループの詳細
+GroupDialog.Label.Bookmark=Boorkmark:
 GroupDialog.Dialog.TOCGroup=目次
 GroupDialog.Dialog.TOC=項目の式(&T) :
 GroupDialog.Dialog.TOCStyle=スタイル(&Y) :

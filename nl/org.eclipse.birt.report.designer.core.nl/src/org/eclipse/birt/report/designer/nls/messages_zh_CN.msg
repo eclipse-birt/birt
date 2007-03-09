@@ -1553,6 +1553,7 @@ GridProvider.action.text=插入行
 #GroupDialog properties
 
 GroupDialog.Dialog.GroupDetail=组详细资料
+GroupDialog.Label.Bookmark=Boorkmark:
 GroupDialog.Dialog.TOCGroup=目录
 GroupDialog.Dialog.TOC=项目表达式(&T)
 GroupDialog.Dialog.TOCStyle=样式(&Y):
