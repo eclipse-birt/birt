@@ -218,7 +218,8 @@ public class RenderTask extends EngineTask implements IRenderTask
 				initializeContentEmitter( emitter, executor );
 				IReportLayoutEngine layoutEngine = createReportLayoutEngine(
 						format, renderOptions );
-
+				
+				layoutEngine.setLocale( executionContext.getLocale( ) );
 				OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
 						executionContext );
 				layoutEngine.setPageHandler( handle );
@@ -298,9 +299,10 @@ public class RenderTask extends EngineTask implements IRenderTask
 				executionContext.setExecutor( executor );
 				initializeContentEmitter( emitter, executor );
 
-				IReportLayoutEngine layoutEngine = layoutEngine = createReportLayoutEngine(
+				IReportLayoutEngine layoutEngine = createReportLayoutEngine(
 						format, renderOptions );
-
+				
+				layoutEngine.setLocale( executionContext.getLocale( ) );
 				OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
 						executionContext );
 				layoutEngine.setPageHandler( handle );
@@ -390,6 +392,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 					IReportLayoutEngine layoutEngine = createReportLayoutEngine(
 							format, renderOptions );
 
+					layoutEngine.setLocale( executionContext.getLocale( ) );
 					OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
 							executionContext );
 					layoutEngine.setPageHandler( handle );

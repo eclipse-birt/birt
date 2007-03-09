@@ -515,8 +515,8 @@ public class PDFEmitter implements IContentEmitter
 				curPos = (ContainerPosition)containerStack.peek();	
 			else 
 				curPos = new ContainerPosition(0, 0);
-			int x = curPos.x + textArea.getX() + (int)(textArea.getFontInfo( ).getFontSize( ) * hTextSpace);
-			int y = curPos.y + textArea.getY() + (int)(textArea.getFontInfo( ).getFontSize( ) * vTextSpace);
+			int x = curPos.x + textArea.getX();
+			int y = curPos.y + textArea.getY();
 			drawTextAt(textArea, x, y, cb, pageHeight);
 			//Checks if itself is the destination of a bookmark.
 			//if so, make a bookmark; if not, do nothing
@@ -842,7 +842,7 @@ public class PDFEmitter implements IContentEmitter
 		 * @param contentByte			the content byte to draw the text.
 		 * @param contentByteHeight		the height of the content byte.
 		 */
-		protected void drawTextAt( ITextArea text, int textX, int textY, 
+		protected void drawTextAt( ITextArea text, int tx, int ty, 
 				PdfContentByte contentByte, float contentByteHeight )
 		{	 
 			IStyle style = text.getStyle();
@@ -851,12 +851,22 @@ public class PDFEmitter implements IContentEmitter
 		    //style.getFontVariant();     	small-caps or normal
 		    //FIXME does NOT support small-caps now
 			float fontSize = text.getFontInfo().getFontSize() * scale ;
+			int textX = tx + (int)(text.getFontInfo( ).getFontSize( ) * hTextSpace);
+			int textY = ty + (int)(text.getFontInfo( ).getFontSize( ) * vTextSpace);
+			
 			float characterSpacing = pdfMeasure( PropertyUtil.getDimensionValue(
 		        	style.getProperty(StyleConstants.STYLE_LETTER_SPACING)) );
 			float wordSpacing = pdfMeasure( PropertyUtil.getDimensionValue(
 		        	style.getProperty(StyleConstants.STYLE_WORD_SPACING)) );
 			contentByte.saveState();
+			
 			//start drawing the text content
+			float x = layoutAreaX2PDF(tx);
+			float y = layoutAreaY2PDFEx(ty, text.getHeight( ), contentByteHeight);
+			contentByte.clip( );
+			contentByte.rectangle( x, y, pdfMeasure( text.getWidth( ) ), pdfMeasure( text.getHeight( ) ) );
+			contentByte.newPath( );
+			
 			contentByte.beginText();
 			Color color = PropertyUtil.getColor(style.getProperty(StyleConstants.STYLE_COLOR));   
 			if (null != color)

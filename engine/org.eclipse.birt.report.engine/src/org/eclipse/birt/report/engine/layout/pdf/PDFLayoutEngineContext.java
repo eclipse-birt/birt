@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.layout.pdf;
 
+import java.util.Locale;
+
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContainerContent;
@@ -59,6 +61,8 @@ public class PDFLayoutEngineContext
 	protected boolean cancel = false;
 	
 	protected IReportContent report;
+	
+	protected Locale locale;
 	
 	public IReportContent getReport()
 	{
@@ -440,6 +444,18 @@ public class PDFLayoutEngineContext
 	public int getPreferenceWidth()
 	{
 		return this.preferenceWidth;
+	}
+
+	
+	public Locale getLocale( )
+	{
+		return locale;
+	}
+
+	
+	public void setLocale( Locale locale )
+	{
+		this.locale = locale;
 	}
 
 }
