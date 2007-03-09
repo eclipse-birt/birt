@@ -134,6 +134,11 @@ public class GraphicalPartFactory implements EditPartFactory
 			return new PlaceHolderEditPart( model );
 		}
 		
+		
+		EditPart eep = EditpartExtensionManager.createEditPart( context, model );
+		if ( eep != null )
+			return eep;
+		
 		IExtension extension = new IExtension.Stub( ) {
 
 			public String getExtendsionIdentify( )
@@ -147,10 +152,6 @@ public class GraphicalPartFactory implements EditPartFactory
 		{
 			return (EditPart) obj;
 		}
-		
-		EditPart eep = EditpartExtensionManager.createEditPart( context, model );
-		if ( eep != null )
-			return eep;
 		return editPart;
 	}
 }
