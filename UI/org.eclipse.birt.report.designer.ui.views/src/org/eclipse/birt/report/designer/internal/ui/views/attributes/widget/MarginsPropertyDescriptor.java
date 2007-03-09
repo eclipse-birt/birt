@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
 import java.math.BigDecimal;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
@@ -19,6 +21,8 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.Ma
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -41,6 +45,10 @@ public class MarginsPropertyDescriptor extends PropertyDescriptor
 	protected CCombo combo;
 
 	protected Composite container;
+
+	private boolean isKeyPressed = false;
+
+	private Timer timer;
 
 	/**
 	 * @param propertyProcessor
@@ -83,7 +91,8 @@ public class MarginsPropertyDescriptor extends PropertyDescriptor
 			combo.deselectAll( );
 			return;
 		}
-		if ( !provider.getUnitDisplayName( comboValue ).equals( combo.getText( ) ) )
+		if ( !provider.getUnitDisplayName( comboValue )
+				.equals( combo.getText( ) ) )
 		{
 			combo.deselectAll( );
 			combo.setText( provider.getUnitDisplayName( comboValue ) );
@@ -114,7 +123,9 @@ public class MarginsPropertyDescriptor extends PropertyDescriptor
 			layout.marginHeight = 1;
 			layout.marginWidth = 2;
 			layout.spacing = 4;
-		}else{
+		}
+		else
+		{
 			layout.marginHeight = 0;
 			layout.marginWidth = 0;
 			layout.spacing = 0;
@@ -125,8 +136,11 @@ public class MarginsPropertyDescriptor extends PropertyDescriptor
 				isFormStyle( ) );
 		label.setText( provider.getDisplayName( ) );
 
-		if(isFormStyle( ))spinner = FormWidgetFactory.getInstance( ).createSpinner( container );
-		else spinner = new Spinner(container,SWT.BORDER);
+		if ( isFormStyle( ) )
+			spinner = FormWidgetFactory.getInstance( )
+					.createSpinner( container );
+		else
+			spinner = new Spinner( container, SWT.BORDER );
 		spinner.setDigits( 2 );
 		spinner.setMaximum( 10000 );
 		spinner.setMinimum( -10000 );
@@ -143,6 +157,39 @@ public class MarginsPropertyDescriptor extends PropertyDescriptor
 			{
 				handleSelectedEvent( );
 			}
+		} );
+
+		spinner.addKeyListener( new KeyListener( ) {
+
+			public void keyPressed( KeyEvent e )
+			{
+				isKeyPressed = true;
+				timer = new Timer( );
+				// Handle the input digits after 1200 million sec.
+				
+				timer.schedule( new TimerTask( ) {
+
+					public void run( )
+					{
+						spinner.getDisplay( ).asyncExec( new Runnable( ) {
+
+							public void run( )
+							{
+								spinner.setEnabled( false );
+								handleSelectedEvent( );
+								spinner.setEnabled( true );
+							}
+						} );
+					}
+				}, 1200 );
+			}
+
+			public void keyReleased( KeyEvent e )
+			{
+				// TODO Auto-generated method stub
+
+			}
+
 		} );
 
 		if ( !isFormStyle( ) )
@@ -173,8 +220,13 @@ public class MarginsPropertyDescriptor extends PropertyDescriptor
 
 	protected void handleSelectedEvent( )
 	{
-		BigDecimal bigValue = new BigDecimal( spinner.getSelection( ) );
+		if ( isKeyPressed == true )
+		{
+			isKeyPressed = false;
+			return;
+		}
 
+		BigDecimal bigValue = new BigDecimal( spinner.getSelection( ) );
 		bigValue = bigValue.movePointLeft( spinner.getDigits( ) );
 
 		String value = bigValue.toString( );
