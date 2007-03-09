@@ -345,7 +345,10 @@ public class ReportEngine implements IReportEngine
 	public void destroy( )
 	{
 		logger.fine( "ReportEngine.destroy" );
-		helper.stopLogging( );
+		if ( helper != null )
+		{
+			helper.stopLogging( );
+		}
 		rootScope = null;
 		helper = null;
 		if ( config != null )
