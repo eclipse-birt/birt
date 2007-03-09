@@ -56,9 +56,16 @@ public class EngineIRReader implements IOConstants
 	 * The version wrote in EngineIRWriter.
 	 */
 	protected long version;
+	
+	protected boolean checkDesignVersion = true;
 
 	public EngineIRReader( )
 	{
+	}
+	
+	public EngineIRReader( boolean checkDesignVersion )
+	{
+		this.checkDesignVersion = checkDesignVersion;
 	}
 
 	public Report read( InputStream in ) throws IOException
@@ -73,7 +80,7 @@ public class EngineIRReader implements IOConstants
 		}
 
 		String designVersion = IOUtil.readString( dis );
-		if ( !DesignSchemaConstants.REPORT_VERSION.equals( designVersion ) )
+		if ( checkDesignVersion && !DesignSchemaConstants.REPORT_VERSION.equals( designVersion ) )
 		{
 			throw new IOException( "un-compatable design version" //$NON-NLS-1$
 					+ designVersion );

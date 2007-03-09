@@ -69,7 +69,7 @@ public class EngineIRReaderTest extends EngineCase
 
 		// load it from the stream
 		InputStream in = new ByteArrayInputStream( out.toByteArray( ) );
-		EngineIRReader reader = new EngineIRReader( );
+		EngineIRReader reader = new EngineIRReader( false );
 		Report report2 = reader.read( in );
 
 		ByteArrayOutputStream out2 = new ByteArrayOutputStream( );
@@ -85,7 +85,7 @@ public class EngineIRReaderTest extends EngineCase
 	{
 		InputStream in = this.getClass( ).getResourceAsStream( fileName );
 		assertTrue( in != null );
-		EngineIRReader reader = new EngineIRReader( );
+		EngineIRReader reader = new EngineIRReader( false );
 		Report report = reader.read( in );
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream( );
 		ReportDesignWriter writer = new ReportDesignWriter( );
