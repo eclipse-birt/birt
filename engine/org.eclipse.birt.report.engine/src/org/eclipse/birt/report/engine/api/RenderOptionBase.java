@@ -39,7 +39,19 @@ public class RenderOptionBase implements IRenderOption
 
 	public static final String LOCALE = "locale"; //$NON-NLS-1$
 	
+	/**
+	 * The option is used to control if page scaling applies.
+	 * If this option is set to true, the whole page content will be scaled based on page size 
+	 * when the content size exceeds the page size. 
+	 * Default value of the option is false, and the oversized contents will overflow.
+	 */
 	public static final String FIT_TO_PAGE = "fitToPage";
+	
+	/**
+	 * The option is used to control pagination of layout engine based on fixed-size. 
+	 * If this option is set to true, layout engine will ignore all page-break based on fixed-size. 
+	 * The default value is false.
+	 */
 	public static final String PAGEBREAK_PAGINATION_ONLY = "pagebreakPaginationOnly";
 
 	/**
