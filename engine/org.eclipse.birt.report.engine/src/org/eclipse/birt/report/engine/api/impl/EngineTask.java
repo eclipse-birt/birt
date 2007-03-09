@@ -980,7 +980,7 @@ public abstract class EngineTask implements IEngineTask
 		try
 		{
 			ReportDocumentReader document = new ReportDocumentReader( engine,
-					dataSource );
+					dataSource, true );
 			Map values = document.getParameterValues( );
 			Map texts = document.getParameterDisplayTexts( );
 			setParameterValues( values );

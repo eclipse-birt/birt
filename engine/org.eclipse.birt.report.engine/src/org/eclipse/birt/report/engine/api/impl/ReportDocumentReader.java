@@ -83,19 +83,34 @@ public class ReportDocumentReader
 	private int checkpoint = CHECKPOINT_INIT;
 
 	private long pageCount;
+	
+	private boolean sharedArchive;
+
+	public ReportDocumentReader( IReportEngine engine, IDocArchiveReader archive, boolean sharedArchive )
+		throws EngineException
+	{
+		this( null, engine, archive, sharedArchive );
+	}
 
 	public ReportDocumentReader( IReportEngine engine, IDocArchiveReader archive )
-			throws EngineException
+		throws EngineException
 	{
-		this( null, engine, archive );
+		this( null, engine, archive, false );
 	}
 
 	public ReportDocumentReader( String systemId, IReportEngine engine,
 			IDocArchiveReader archive ) throws EngineException
 	{
+		this( systemId, engine, archive, false );
+	}
+	
+	public ReportDocumentReader( String systemId, IReportEngine engine,
+		IDocArchiveReader archive, boolean sharedArchive ) throws EngineException
+	{
 		this.engine = engine;
 		this.archive = archive;
 		this.systemId = systemId;
+		this.sharedArchive = sharedArchive;
 		this.moduleOptions = new HashMap( );
 		this.moduleOptions.put( ModuleOption.PARSER_SEMANTIC_CHECK_KEY,
 				Boolean.FALSE );
@@ -343,7 +358,10 @@ public class ReportDocumentReader
 				pageHintReader.close( );
 			}
 			pageHintReader = null;
-			archive.close( );
+			if ( !sharedArchive )
+			{
+				archive.close( );
+			}
 		}
 		catch ( IOException e )
 		{
