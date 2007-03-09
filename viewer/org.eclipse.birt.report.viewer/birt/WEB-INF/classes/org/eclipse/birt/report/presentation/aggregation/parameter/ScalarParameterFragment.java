@@ -22,8 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.ScalarParameterBean;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
-import org.eclipse.birt.report.model.api.ScalarParameterHandle;
-import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
@@ -131,18 +129,14 @@ public class ScalarParameterFragment extends BirtBaseFragment
 		assert attrBean != null;
 
 		// parameter value.
-		Object paramValueObj = null;
 		String parameterValue = null;
 
 		if ( attrBean.getParametersAsString( ) != null )
-			paramValueObj = attrBean.getParametersAsString( ).get(
+			parameterValue = (String) attrBean.getParametersAsString( ).get(
 					parameterBean.getName( ) );
 
-		if ( paramValueObj != null )
-		{
-			parameterValue = paramValueObj.toString( );
-		}
-		else if ( !parameter.allowNull( ) && parameter.allowBlank( ) )
+		if ( parameterValue == null && !parameter.allowNull( )
+				&& parameter.allowBlank( ) )
 		{
 			parameterValue = ""; //$NON-NLS-1$
 		}
@@ -171,27 +165,8 @@ public class ScalarParameterFragment extends BirtBaseFragment
 			}
 			default :
 			{
-				parameterBean.setRequired( paramValueObj == null );
+				parameterBean.setRequired( parameterValue == null );
 				break;
-			}
-		}
-
-		// Get Scalar parameter handle
-		ScalarParameterHandle parameterHandle = (ScalarParameterHandle) attrBean
-				.findParameter( parameter.getName( ) );
-
-		Map configMap = attrBean.getParameters( );
-
-		if ( configMap != null && configMap.containsKey( parameter.getName( ) ) )
-		{
-			Object configObj = configMap.get( parameter.getName( ) );
-			// If parameter is Text, format value
-			if ( configObj != null
-					&& parameter.getControlType( ) == ParameterDefinition.TEXT_BOX )
-			{
-				parameterValue = ParameterValidationUtil.getDisplayValue( null,
-						parameterHandle.getPattern( ), configObj, attrBean
-								.getLocale( ) );
 			}
 		}
 
@@ -199,9 +174,13 @@ public class ScalarParameterFragment extends BirtBaseFragment
 		parameterBean.setValue( parameterValue );
 
 		// Set parameter default value
-		parameterBean.setDefaultValue( DataUtil.getDefaultValue(
-				parameterHandle.getDataType( ), parameterHandle
-						.getDefaultValue( ) ) );
+		Map defaultValues = attrBean.getDefaultValues( );
+		Object defaultValue = defaultValues.get( parameter.getName( ) );
+		if ( defaultValue != null )
+		{
+			parameterBean.setDefaultValue( DataUtil
+					.getDisplayValue( defaultValue ) );
+		}
 	}
 
 	protected void prepareParameterBean( HttpServletRequest request,

@@ -964,8 +964,8 @@ public class BirtViewerReportService implements IViewerReportService
 		ScalarParameterHandle scalarParamHandle = null;
 		if ( handle instanceof ScalarParameterHandle )
 			scalarParamHandle = (ScalarParameterHandle) handle;
+		long id = scalarParamHandle != null ? scalarParamHandle.getID( ) : 0L;
 		String name = engineParam.getName( );
-
 		String pattern = scalarParamHandle == null ? "" : scalarParamHandle //$NON-NLS-1$
 				.getPattern( );
 		String displayFormat = engineParam.getDisplayFormat( );
@@ -982,7 +982,7 @@ public class BirtViewerReportService implements IViewerReportService
 				: scalarParamHandle.isMustMatch( );
 		boolean concealValue = engineParam.isValueConcealed( );
 
-		ParameterDefinition param = new ParameterDefinition( name, pattern,
+		ParameterDefinition param = new ParameterDefinition( id, name, pattern,
 				displayFormat, displayName, helpText, promptText, dataType,
 				controlType, hidden, allowNull, allowBlank, mustMatch,
 				concealValue, group, null );

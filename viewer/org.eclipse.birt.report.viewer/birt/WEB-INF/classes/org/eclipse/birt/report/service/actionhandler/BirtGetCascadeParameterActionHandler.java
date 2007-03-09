@@ -23,12 +23,12 @@ import java.util.Set;
 
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
-import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
+import org.eclipse.birt.report.service.ParameterDataTypeConverter;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
@@ -92,18 +92,19 @@ public class BirtGetCascadeParameterActionHandler
 				paramMap.put( param.getValue( ), null );
 				continue;
 			}
-			
+
 			// convert parameter using standard format
 			// Get Scalar parameter handle
-			ScalarParameterHandle parameterHandle = (ScalarParameterHandle) attrBean
-					.findParameter( paramName );
+			ParameterDefinition parameter = attrBean
+					.findParameterDefinition( paramName );
 
-			if ( parameterHandle == null )
+			if ( parameter == null )
 				continue;
 
 			// Convert string to object using default local
 			String format = null;
-			String dataType = parameterHandle.getDataType( );
+			String dataType = ParameterDataTypeConverter
+					.ConvertDataType( parameter.getDataType( ) );
 			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
 					.equalsIgnoreCase( dataType ) )
 			{
@@ -273,9 +274,9 @@ public class BirtGetCascadeParameterActionHandler
 
 		if ( list != null && list.size( ) > 0 )
 		{
-			// Get Scalar parameter handle
-			ScalarParameterHandle parameterHandle = (ScalarParameterHandle) attrBean
-					.findParameter( paramName );
+			// Get parameter definition
+			ParameterDefinition parameter = attrBean
+					.findParameterDefinition( paramName );
 
 			Iterator iList = list.iterator( );
 			int index = 0;
@@ -283,39 +284,45 @@ public class BirtGetCascadeParameterActionHandler
 			{
 				ParameterSelectionChoice item = (ParameterSelectionChoice) iList
 						.next( );
-				if ( item != null && item.getValue( ) != null )
+
+				if ( item == null )
+					continue;
+
+				Object value = item.getValue( );
+				if ( value == null )
+					continue;
+
+				// try convert value to parameter definition data type
+				try
+				{
+					value = DataUtil.convert( value, parameter.getDataType( ) );
+				}
+				catch ( Exception e )
+				{
+
+				}
+
+				// Convert parameter value using standard format
+				String displayValue = DataUtil.getDisplayValue( value );
+				if ( displayValue == null )
+					continue;
+
+				String label = item.getLabel( );
+				if ( label == null || label.length( ) <= 0 )
+				{
+					// If label is null or blank, then use the format
+					// parameter value for display
+					label = ParameterValidationUtil.getDisplayValue( null,
+							parameter.getPattern( ), value, attrBean
+									.getLocale( ) );
+				}
+
+				if ( label != null )
 				{
 					SelectItemChoice selectItemChoice = new SelectItemChoice( );
-					Object value = item.getValue( );
-					String label = item.getLabel( );
-
-					if ( value == null )
-						continue;
-
-					if ( label == null || label.length( ) <= 0 )
-					{
-						// If label is null or blank, then use the format
-						// parameter
-						// value for display
-						label = ParameterValidationUtil.getDisplayValue( null,
-								parameterHandle.getPattern( ), value, attrBean
-										.getLocale( ) );
-					}
-					else
-					{
-						// Format display text of dynamic parameter
-						label = ParameterValidationUtil.getDisplayValue( null,
-								parameterHandle.getPattern( ), label, attrBean
-										.getLocale( ) );
-					}
-
-					if ( label != null )
-					{
-						selectItemChoice.setLabel( label );
-						selectItemChoice.setValue( DataUtil
-								.getDisplayValue( value ) );
-						selectionList.add( index++, selectItemChoice );
-					}
+					selectItemChoice.setLabel( label );
+					selectItemChoice.setValue( displayValue );
+					selectionList.add( index++, selectItemChoice );
 				}
 			}
 		}

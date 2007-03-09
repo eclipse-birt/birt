@@ -18,12 +18,13 @@ import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
+import org.eclipse.birt.report.service.ParameterDataTypeConverter;
 import org.eclipse.birt.report.service.api.IViewerReportService;
+import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.soapengine.api.Data;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
@@ -93,22 +94,20 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 				String paramName = op[i].getName( );
 				String paramValue = op[i].getValue( );
 
-				ScalarParameterHandle parameter = null;
-
 				// if pass a null parameter
 				if ( paramName
 						.equalsIgnoreCase( ParameterAccessor.PARAM_ISNULL )
 						&& paramValue != null )
 				{
-					parameter = (ScalarParameterHandle) attrBean
-							.findParameter( paramValue );
+					ParameterDefinition parameter = attrBean
+							.findParameterDefinition( paramValue );
 					if ( parameter != null )
 					{
 						// add null parameter to config file
 						configVar.setName( ParameterAccessor.PARAM_ISNULL
-								+ "_" + parameter.getID( ) ); //$NON-NLS-1$
+								+ "_" + parameter.getId( ) ); //$NON-NLS-1$
 						configVar.setValue( paramValue
-								+ "_" + parameter.getID( ) ); //$NON-NLS-1$
+								+ "_" + parameter.getId( ) ); //$NON-NLS-1$
 						handle.addConfigVariable( configVar );
 					}
 
@@ -117,13 +116,13 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 				else if ( ( displayTextParam = ParameterAccessor
 						.isDisplayText( paramName ) ) != null )
 				{
-					parameter = (ScalarParameterHandle) attrBean
-							.findParameter( displayTextParam );
+					ParameterDefinition parameter = attrBean
+							.findParameterDefinition( displayTextParam );
 					if ( parameter != null )
 					{
 						// add display text of select parameter to config file
 						configVar
-								.setName( paramName + "_" + parameter.getID( ) ); //$NON-NLS-1$
+								.setName( paramName + "_" + parameter.getId( ) ); //$NON-NLS-1$
 						configVar.setValue( paramValue );
 						handle.addConfigVariable( configVar );
 					}
@@ -132,8 +131,8 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 				}
 
 				// find the parameter
-				parameter = (ScalarParameterHandle) attrBean
-						.findParameter( paramName );
+				ParameterDefinition parameter = attrBean
+						.findParameterDefinition( paramName );
 
 				// convert the parameter from current locale to default
 				// locale format
@@ -143,7 +142,8 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 					try
 					{
 						String pattern = parameter.getPattern( );
-						dataType = parameter.getDataType( );
+						dataType = ParameterDataTypeConverter
+								.ConvertDataType( parameter.getDataType( ) );
 
 						Object paramValueObj = ParameterValidationUtil
 								.validate( dataType, pattern, paramValue,
@@ -156,7 +156,7 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 						{
 							pattern = null;
 						}
-						else if( DesignChoiceConstants.PARAM_TYPE_DATETIME
+						else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
 								.equalsIgnoreCase( dataType ) )
 						{
 							pattern = ParameterValidationUtil.DEFAULT_DATETIME_FORMAT;
@@ -172,13 +172,13 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 					}
 
 					// add parameter to config file
-					configVar.setName( paramName + "_" + parameter.getID( ) ); //$NON-NLS-1$
+					configVar.setName( paramName + "_" + parameter.getId( ) ); //$NON-NLS-1$
 					configVar.setValue( paramValue );
 					handle.addConfigVariable( configVar );
 
 					// add parameter type
 					ConfigVariable typeVar = new ConfigVariable( );
-					typeVar.setName( paramName + "_" + parameter.getID( ) + "_" //$NON-NLS-1$//$NON-NLS-2$
+					typeVar.setName( paramName + "_" + parameter.getId( ) + "_" //$NON-NLS-1$//$NON-NLS-2$
 							+ IBirtConstants.PROP_TYPE );
 					typeVar.setValue( dataType );
 					handle.addConfigVariable( typeVar );

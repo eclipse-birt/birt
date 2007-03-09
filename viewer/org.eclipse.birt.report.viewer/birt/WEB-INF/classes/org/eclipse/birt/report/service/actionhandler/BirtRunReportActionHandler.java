@@ -16,11 +16,12 @@ import java.util.Map;
 
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
-import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
+import org.eclipse.birt.report.service.ParameterDataTypeConverter;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
+import org.eclipse.birt.report.service.api.ParameterDefinition;
 import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
@@ -85,8 +86,8 @@ public class BirtRunReportActionHandler extends AbstractBaseActionHandler
 						&& paramValue != null )
 				{
 					// find the parameter
-					ScalarParameterHandle parameter = (ScalarParameterHandle) attrBean
-							.findParameter( paramValue.toString( ) );
+					ParameterDefinition parameter = attrBean
+							.findParameterDefinition( paramValue.toString( ) );
 
 					if ( parameter != null )
 					{
@@ -103,15 +104,18 @@ public class BirtRunReportActionHandler extends AbstractBaseActionHandler
 				}
 
 				// find the parameter
-				ScalarParameterHandle parameter = (ScalarParameterHandle) attrBean
-						.findParameter( paramName );
+				ParameterDefinition parameter = attrBean
+						.findParameterDefinition( paramName );
 
 				if ( parameter != null && paramValue != null )
 				{
+					String dataType = ParameterDataTypeConverter
+							.ConvertDataType( parameter.getDataType( ) );
+
 					// convert parameter to Object
-					paramValue = DataUtil.validate( parameter.getDataType( ),
-							parameter.getPattern( ), paramValue.toString( ),
-							attrBean.getLocale( ) );
+					paramValue = DataUtil.validate( dataType, parameter
+							.getPattern( ), paramValue.toString( ), attrBean
+							.getLocale( ) );
 				}
 
 				if ( parameter != null )
