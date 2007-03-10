@@ -4,22 +4,7 @@
 
      <extension
          point="org.eclipse.datatools.connectivity.connectionProfile">
-      <category
-            id="%oda.data.source.id"
-            name="%oda.data.source.name"
-            parentCategory="%oda.parent.category.id"/>
-      <connectionProfile
-            category="%oda.data.source.id"
-            icon="icons/file.gif"
-            id="%oda.data.source.id"
-            name="%connection.profile.name"
-            pingFactory="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory"/>
-      <connectionFactory
-            id="org.eclipse.datatools.connectivity.oda.IConnection"
-            name="%oda.connection.factory.name"
-            class="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory"
-            profile="%oda.data.source.id"/>
-      <newWizard
+		<newWizard
             id="%oda.data.source.id"
             name="%newwizard.name"
             class="org.eclipse.datatools.connectivity.oda.design.ui.wizards.NewDataSourceWizard"

@@ -9,7 +9,7 @@
             driverClass="org.eclipse.birt.report.data.oda.sampledb.SampleDBDriver"
             defaultDisplayName="%datasource.name"
             setThreadContextClassLoader="false"
-            id="org.eclipse.birt.report.data.oda.sampledb">
+            id="%oda.data.source.id">
             <properties>
             <propertyGroup
                   defaultDisplayName="Connection Properties"
@@ -128,7 +128,26 @@
                   nativeDataTypeCode="-4"
                   odaScalarDataType="String"/><!--Blob"/>-->
       </dataSet>
+
    </extension>
+        <extension
+         point="org.eclipse.datatools.connectivity.connectionProfile">
+      <category
+            id="%oda.data.source.id"
+            name="%oda.data.source.name"
+            parentCategory="%oda.parent.category.id"/>
+      <connectionProfile
+            category="%oda.data.source.id"
+            id="%oda.data.source.id"
+            name="%connection.profile.name"
+            pingFactory="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory"/>
+      <connectionFactory
+            id="org.eclipse.datatools.connectivity.oda.IConnection"
+            name="%oda.connection.factory.name"
+            class="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory"
+            profile="%oda.data.source.id"/>
+   </extension>
+   
    <extension
          point="org.eclipse.birt.report.data.oda.jdbc.driverinfo">
       <jdbcDriver
