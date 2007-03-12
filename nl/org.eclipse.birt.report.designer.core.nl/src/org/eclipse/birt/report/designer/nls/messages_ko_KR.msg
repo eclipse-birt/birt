@@ -31,6 +31,18 @@ AddLibraryAction.Text=라이브러리 추가...
 AddLibraryAction.Dialog.Tilte=라이브러리 선택
 
 ###########################################################
+#AddCSSAction properties
+AddCSSAction.Text=Add CSS File...
+
+###########################################################
+#PublishCSSAction properties
+PublishCSSAction.wizard.errorTitle=오류
+PublishCSSAction.wizard.message=Unable to publish the CSS file to the diretory where it exists, please choose another directory to publish.
+PublishCSSAction.wizard.message.SourceFileNotExist=원본 파일이 없습니다.
+PublishCSSAction.wizard.notvalidfolder=Resource folder defined in preference is not valid.
+
+
+###########################################################
 #DeleteLibraryAction properties
 DeleteLibraryAction.Text=삭제
 ###########################################################
@@ -1553,7 +1565,7 @@ GridProvider.action.text=행 삽입
 #GroupDialog properties
 
 GroupDialog.Dialog.GroupDetail=그룹 상세 정보
-GroupDialog.Label.Bookmark=Boorkmark:
+GroupDialog.Label.Bookmark=책갈피:
 GroupDialog.Dialog.TOCGroup=목차
 GroupDialog.Dialog.TOC=항목 식(&T):
 GroupDialog.Dialog.TOCStyle=스타일(&Y)
@@ -2087,6 +2099,31 @@ ListPageGenerator.TabItem.Groups=그룹
 ListPageGenerator.TabItem.Highlights=강조
 ListPageGenerator.TabItem.map=맵
 ListPageGenerator.TabItem.Sorting=정렬
+
+
+###########################################################
+#GrossTabPageGenerator properties
+CrosstabPageGenerator.List.General=일반
+CrosstabPageGenerator.List.Margin=여백
+CrosstabPageGenerator.List.Font=글꼴
+CrosstabPageGenerator.List.Borders=테두리
+CrosstabPageGenerator.List.Section=페이지 나누기
+CrosstabPageGenerator.List.Visibility=표시 유형
+CrosstabPageGenerator.List.TOC=목차
+CrosstabPageGenerator.List.Bookmark=책갈피
+CrosstabPageGenerator.List.NamedExpressions=명명된 식
+CrosstabPageGenerator.List.UserProperties=사용자 속성
+CrosstabPageGenerator.List.AdvancedProperty=고급
+
+CrosstabPageGenerator.TabItem.Binding=바인딩
+CrosstabPageGenerator.TabItem.RowArea=Row Area
+CrosstabPageGenerator.TabItem.ColumnArea=Column Area
+CrosstabPageGenerator.TabItem.DetailArea=Detail Area
+CrosstabPageGenerator.TabItem.Filters=필터
+CrosstabPageGenerator.TabItem.Highlights=강조
+CrosstabPageGenerator.TabItem.map=맵
+CrosstabPageGenerator.TabItem.Sorting=정렬
+
 
 ###########################################################
 #MapPage properties
@@ -3599,6 +3636,13 @@ WizardLibrarySettingPage.Resourcefile.Dialog.Title=리소스 폴더 찾아보기
 WizardLibrarySettingPage.Resourcefile.Dialog.Message=리소스 폴더 또는 해당 하위 폴더를 선택하십시오.
 
 PublishLibraryDialog.AddLibrary=라이브러리 추가
+
+
+###########################################################
+#PublishCSSDialog
+PublishCSSDialog.ShellText=Publish CSS File
+PublishCSSDialog.TitleArea=Publish CSS File to Resource Folder
+PublishCSSDialog.Message=Select a CSS file to imporst styles to resource folder
 
 ###########################################################
 #EmbeddedImagesNodeProvider

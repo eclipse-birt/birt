@@ -31,6 +31,18 @@ AddLibraryAction.Text=添加库...
 AddLibraryAction.Dialog.Tilte=选择库
 
 ###########################################################
+#AddCSSAction properties
+AddCSSAction.Text=Add CSS File...
+
+###########################################################
+#PublishCSSAction properties
+PublishCSSAction.wizard.errorTitle=错误
+PublishCSSAction.wizard.message=Unable to publish the CSS file to the diretory where it exists, please choose another directory to publish.
+PublishCSSAction.wizard.message.SourceFileNotExist=源文件不存在。
+PublishCSSAction.wizard.notvalidfolder=Resource folder defined in preference is not valid.
+
+
+###########################################################
 #DeleteLibraryAction properties
 DeleteLibraryAction.Text=删除
 ###########################################################
@@ -1553,7 +1565,7 @@ GridProvider.action.text=插入行
 #GroupDialog properties
 
 GroupDialog.Dialog.GroupDetail=组详细资料
-GroupDialog.Label.Bookmark=Boorkmark:
+GroupDialog.Label.Bookmark=书签:
 GroupDialog.Dialog.TOCGroup=目录
 GroupDialog.Dialog.TOC=项目表达式(&T)
 GroupDialog.Dialog.TOCStyle=样式(&Y):
@@ -2087,6 +2099,31 @@ ListPageGenerator.TabItem.Groups=组
 ListPageGenerator.TabItem.Highlights=突出显示
 ListPageGenerator.TabItem.map=映射
 ListPageGenerator.TabItem.Sorting=排序
+
+
+###########################################################
+#GrossTabPageGenerator properties
+CrosstabPageGenerator.List.General=常规
+CrosstabPageGenerator.List.Margin=边距
+CrosstabPageGenerator.List.Font=字体
+CrosstabPageGenerator.List.Borders=边框
+CrosstabPageGenerator.List.Section=分页符
+CrosstabPageGenerator.List.Visibility=可见性
+CrosstabPageGenerator.List.TOC=目录
+CrosstabPageGenerator.List.Bookmark=书签
+CrosstabPageGenerator.List.NamedExpressions=命名表达式
+CrosstabPageGenerator.List.UserProperties=用户属性
+CrosstabPageGenerator.List.AdvancedProperty=高级
+
+CrosstabPageGenerator.TabItem.Binding=绑定
+CrosstabPageGenerator.TabItem.RowArea=Row Area
+CrosstabPageGenerator.TabItem.ColumnArea=Column Area
+CrosstabPageGenerator.TabItem.DetailArea=Detail Area
+CrosstabPageGenerator.TabItem.Filters=筛选器
+CrosstabPageGenerator.TabItem.Highlights=突出显示
+CrosstabPageGenerator.TabItem.map=映射
+CrosstabPageGenerator.TabItem.Sorting=排序
+
 
 ###########################################################
 #MapPage properties
@@ -3599,6 +3636,13 @@ WizardLibrarySettingPage.Resourcefile.Dialog.Title=浏览资源文件夹
 WizardLibrarySettingPage.Resourcefile.Dialog.Message=请选择资源文件夹或其子文件夹。
 
 PublishLibraryDialog.AddLibrary=添加库
+
+
+###########################################################
+#PublishCSSDialog
+PublishCSSDialog.ShellText=Publish CSS File
+PublishCSSDialog.TitleArea=Publish CSS File to Resource Folder
+PublishCSSDialog.Message=Select a CSS file to imporst styles to resource folder
 
 ###########################################################
 #EmbeddedImagesNodeProvider

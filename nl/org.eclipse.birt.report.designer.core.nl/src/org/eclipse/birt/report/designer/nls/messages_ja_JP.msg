@@ -31,6 +31,18 @@ AddLibraryAction.Text=ライブラリの追加...
 AddLibraryAction.Dialog.Tilte=ライブラリの選択
 
 ###########################################################
+#AddCSSAction properties
+AddCSSAction.Text=Add CSS File...
+
+###########################################################
+#PublishCSSAction properties
+PublishCSSAction.wizard.errorTitle=エラー
+PublishCSSAction.wizard.message=Unable to publish the CSS file to the diretory where it exists, please choose another directory to publish.
+PublishCSSAction.wizard.message.SourceFileNotExist=ソースファイルが存在しません。
+PublishCSSAction.wizard.notvalidfolder=Resource folder defined in preference is not valid.
+
+
+###########################################################
 #DeleteLibraryAction properties
 DeleteLibraryAction.Text=削除
 ###########################################################
@@ -1553,7 +1565,7 @@ GridProvider.action.text=行の挿入
 #GroupDialog properties
 
 GroupDialog.Dialog.GroupDetail=グループの詳細
-GroupDialog.Label.Bookmark=Boorkmark:
+GroupDialog.Label.Bookmark=ブックマーク :
 GroupDialog.Dialog.TOCGroup=目次
 GroupDialog.Dialog.TOC=項目の式(&T) :
 GroupDialog.Dialog.TOCStyle=スタイル(&Y) :
@@ -2087,6 +2099,31 @@ ListPageGenerator.TabItem.Groups=グループ
 ListPageGenerator.TabItem.Highlights=ハイライト
 ListPageGenerator.TabItem.map=マップ
 ListPageGenerator.TabItem.Sorting=ソート
+
+
+###########################################################
+#GrossTabPageGenerator properties
+CrosstabPageGenerator.List.General=全般
+CrosstabPageGenerator.List.Margin=余白
+CrosstabPageGenerator.List.Font=フォント
+CrosstabPageGenerator.List.Borders=罫線
+CrosstabPageGenerator.List.Section=ページ区切り
+CrosstabPageGenerator.List.Visibility=表示/非表示
+CrosstabPageGenerator.List.TOC=目次
+CrosstabPageGenerator.List.Bookmark=ブックマーク
+CrosstabPageGenerator.List.NamedExpressions=名前付き式
+CrosstabPageGenerator.List.UserProperties=ユーザのプロパティ
+CrosstabPageGenerator.List.AdvancedProperty=使用頻度 : 中
+
+CrosstabPageGenerator.TabItem.Binding=バインド
+CrosstabPageGenerator.TabItem.RowArea=Row Area
+CrosstabPageGenerator.TabItem.ColumnArea=Column Area
+CrosstabPageGenerator.TabItem.DetailArea=Detail Area
+CrosstabPageGenerator.TabItem.Filters=フィルタ
+CrosstabPageGenerator.TabItem.Highlights=ハイライト
+CrosstabPageGenerator.TabItem.map=マップ
+CrosstabPageGenerator.TabItem.Sorting=ソート
+
 
 ###########################################################
 #MapPage properties
@@ -3599,6 +3636,13 @@ WizardLibrarySettingPage.Resourcefile.Dialog.Title=リソースフォルダの参照
 WizardLibrarySettingPage.Resourcefile.Dialog.Message=リソースフォルダまたはそのサブフォルダを選択してください。
 
 PublishLibraryDialog.AddLibrary=ライブラリの追加
+
+
+###########################################################
+#PublishCSSDialog
+PublishCSSDialog.ShellText=Publish CSS File
+PublishCSSDialog.TitleArea=Publish CSS File to Resource Folder
+PublishCSSDialog.Message=Select a CSS file to imporst styles to resource folder
 
 ###########################################################
 #EmbeddedImagesNodeProvider

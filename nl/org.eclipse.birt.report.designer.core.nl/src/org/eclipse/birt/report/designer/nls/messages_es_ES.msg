@@ -31,6 +31,18 @@ AddLibraryAction.Text=Añadir librería...
 AddLibraryAction.Dialog.Tilte=Seleccione una librería
 
 ###########################################################
+#AddCSSAction properties
+AddCSSAction.Text=Add CSS File...
+
+###########################################################
+#PublishCSSAction properties
+PublishCSSAction.wizard.errorTitle=Error
+PublishCSSAction.wizard.message=Unable to publish the CSS file to the diretory where it exists, please choose another directory to publish.
+PublishCSSAction.wizard.message.SourceFileNotExist=El archivo fuente no existe.
+PublishCSSAction.wizard.notvalidfolder=Resource folder defined in preference is not valid.
+
+
+###########################################################
 #DeleteLibraryAction properties
 DeleteLibraryAction.Text=Eliminar
 ###########################################################
@@ -1553,7 +1565,7 @@ GridProvider.action.text=Insertar fila
 #GroupDialog properties
 
 GroupDialog.Dialog.GroupDetail=Detalles de grupo
-GroupDialog.Label.Bookmark=Boorkmark:
+GroupDialog.Label.Bookmark=Marcador:
 GroupDialog.Dialog.TOCGroup=Tabla de contenido
 GroupDialog.Dialog.TOC=Expresión de elemen&to:
 GroupDialog.Dialog.TOCStyle=Est&ilo:
@@ -2087,6 +2099,31 @@ ListPageGenerator.TabItem.Groups=Grupos
 ListPageGenerator.TabItem.Highlights=Resaltados
 ListPageGenerator.TabItem.map=Asignar
 ListPageGenerator.TabItem.Sorting=Ordenar
+
+
+###########################################################
+#GrossTabPageGenerator properties
+CrosstabPageGenerator.List.General=General
+CrosstabPageGenerator.List.Margin=Margen
+CrosstabPageGenerator.List.Font=Fuente
+CrosstabPageGenerator.List.Borders=Borde
+CrosstabPageGenerator.List.Section=Salto de página
+CrosstabPageGenerator.List.Visibility=Visibilidad
+CrosstabPageGenerator.List.TOC=Tabla de contenido
+CrosstabPageGenerator.List.Bookmark=Marcador
+CrosstabPageGenerator.List.NamedExpressions=Expresiones con nombre
+CrosstabPageGenerator.List.UserProperties=Propiedades de usuario
+CrosstabPageGenerator.List.AdvancedProperty=Avanzada
+
+CrosstabPageGenerator.TabItem.Binding=Enlace
+CrosstabPageGenerator.TabItem.RowArea=Row Area
+CrosstabPageGenerator.TabItem.ColumnArea=Column Area
+CrosstabPageGenerator.TabItem.DetailArea=Detail Area
+CrosstabPageGenerator.TabItem.Filters=Filtros
+CrosstabPageGenerator.TabItem.Highlights=Resaltados
+CrosstabPageGenerator.TabItem.map=Asignar
+CrosstabPageGenerator.TabItem.Sorting=Ordenar
+
 
 ###########################################################
 #MapPage properties
@@ -3599,6 +3636,13 @@ WizardLibrarySettingPage.Resourcefile.Dialog.Title=Examinar carpetas de recursos
 WizardLibrarySettingPage.Resourcefile.Dialog.Message=Seleccione la carpeta de recursos o sus subcarpetas.
 
 PublishLibraryDialog.AddLibrary=Añadir librería
+
+
+###########################################################
+#PublishCSSDialog
+PublishCSSDialog.ShellText=Publish CSS File
+PublishCSSDialog.TitleArea=Publish CSS File to Resource Folder
+PublishCSSDialog.Message=Select a CSS file to imporst styles to resource folder
 
 ###########################################################
 #EmbeddedImagesNodeProvider
