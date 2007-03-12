@@ -70,7 +70,7 @@ public class PDFImageLMTest extends PDFLayoutTest
 				39140,
 				40920,
 				12009,
-				"run?__report=%2FD%3A%2FPrograms%2Feclipse%2F120358.rptdesign&__overwrite=true",
+				"run\\?__report=.*F120358.rptdesign&__overwrite=true",
 				null, "_self", (ContainerArea) logicContainers.next( ) );
 		checkChart( 161589, 39140, 40920, 12009, "120358.rptdesign", null,
 				"_self", (ContainerArea) logicContainers.next( ) );
@@ -96,7 +96,7 @@ public class PDFImageLMTest extends PDFLayoutTest
 		assertEquals( y, map.getY( ) );
 		assertEquals( width, map.getWidth( ) );
 		assertEquals( height, map.getHeight( ) );
-		assertEquals( hyperlink, link.getHyperlink( ) );
+		assertTrue( link.getHyperlink( ).matches( hyperlink ) );
 		assertEquals( bookmark, link.getBookmark( ) );
 		assertEquals( targetWindow, link.getTargetWindow( ) );
 	}
