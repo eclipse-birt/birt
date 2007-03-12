@@ -36,7 +36,7 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor
 
 	protected CCombo combo;
 
-	private String oldValue;
+	protected String oldValue;
 
 	private int style = SWT.BORDER;
 
@@ -153,7 +153,7 @@ public class SimpleComboPropertyDescriptor extends PropertyDescriptor
 		this.style |= style;
 	}
 
-	void refresh( String value )
+	protected void refresh( String value )
 	{
 		if ( getDescriptorProvider( ) instanceof SimpleComboPropertyDescriptorProvider )
 		{
