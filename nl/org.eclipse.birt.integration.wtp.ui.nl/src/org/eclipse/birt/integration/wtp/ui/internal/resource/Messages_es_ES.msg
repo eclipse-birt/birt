@@ -20,7 +20,7 @@ BIRTProjectConfigurationPage_desc=Configurar ajustes de implantación de BIRT def
 ###############################################################################
 # BIRT Configuration Dialog
 ###############################################################################
-BIRTConfigurationDialog_title=Configurar ajustes de implantación de BIRT
+BIRTConfigurationDialog_title=Configure BIRT Deployment Settings
 
 ###############################################################################
 # BIRT Configuration Components

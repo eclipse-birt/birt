@@ -20,7 +20,7 @@ BIRTProjectConfigurationPage_desc=配置 web.xml 中定义的 BIRT 部署设置
 ###############################################################################
 # BIRT Configuration Dialog
 ###############################################################################
-BIRTConfigurationDialog_title=配置 BIRT 部署设置
+BIRTConfigurationDialog_title=Configure BIRT Deployment Settings
 
 ###############################################################################
 # BIRT Configuration Components

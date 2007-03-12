@@ -20,7 +20,7 @@ BIRTProjectConfigurationPage_desc=In Datei "web.xml" definierte Einstellungen fü
 ###############################################################################
 # BIRT Configuration Dialog
 ###############################################################################
-BIRTConfigurationDialog_title=Einstellungen für BIRT-Bereitstellung konfigurieren
+BIRTConfigurationDialog_title=Configure BIRT Deployment Settings
 
 ###############################################################################
 # BIRT Configuration Components

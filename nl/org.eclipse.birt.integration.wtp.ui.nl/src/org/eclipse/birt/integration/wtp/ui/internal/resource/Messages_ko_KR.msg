@@ -20,7 +20,7 @@ BIRTProjectConfigurationPage_desc=web.xml에서 정의된 BIRT 배포 설정 구성
 ###############################################################################
 # BIRT Configuration Dialog
 ###############################################################################
-BIRTConfigurationDialog_title=BIRT 배포 설정 구성
+BIRTConfigurationDialog_title=Configure BIRT Deployment Settings
 
 ###############################################################################
 # BIRT Configuration Components

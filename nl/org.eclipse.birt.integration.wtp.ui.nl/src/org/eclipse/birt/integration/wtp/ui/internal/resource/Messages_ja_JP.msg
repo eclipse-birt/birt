@@ -20,7 +20,7 @@ BIRTProjectConfigurationPage_desc=BIRT の配布設定を web.xml に定義します。
 ###############################################################################
 # BIRT Configuration Dialog
 ###############################################################################
-BIRTConfigurationDialog_title=BIRT の配布設定
+BIRTConfigurationDialog_title=Configure BIRT Deployment Settings
 
 ###############################################################################
 # BIRT Configuration Components
