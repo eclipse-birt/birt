@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.executor.cache;
 import java.io.File;
 import java.io.IOException;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
@@ -219,14 +220,21 @@ public class CacheUtil
 			Comparable comp2 = (Comparable) ob2;
 			
 			// Integer can not be compared with Double.
-				if ( ob1.getClass( ) != ob2.getClass( )
-					&& ob1 instanceof Number
-					&& ob2 instanceof Number )
+			if ( ob1.getClass( ) != ob2.getClass( ) )
 			{
 				try
 				{
-					comp1 = (Comparable) DataTypeUtil.toDouble( ob1 );
-					comp2 = (Comparable) DataTypeUtil.toDouble( ob2 );
+					if ( ob1 instanceof Number && ob2 instanceof Number )
+					{
+
+						comp1 = DataTypeUtil.toDouble( ob1 );
+						comp2 = DataTypeUtil.toDouble( ob2 );
+					}
+					else if ( ob1 instanceof Date && ob2 instanceof Date )
+					{
+						comp1 = DataTypeUtil.toDate( ob1 );
+						comp2 = DataTypeUtil.toDate( ob1 );
+					}
 				}
 				catch ( BirtException ex )
 				{
@@ -234,7 +242,7 @@ public class CacheUtil
 				}
 			}
 				
-				result = comp1.compareTo( comp2 );					
+			result = comp1.compareTo( comp2 );					
 		}
 		else if ( ob1 instanceof Boolean
 				&& ob2 instanceof Boolean )
