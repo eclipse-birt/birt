@@ -317,7 +317,7 @@ public class ReportQueryBuilder
 			BaseQueryDefinition query = createQuery( container, value );
 
 			for ( int i = 0; i < container.getItemCount( ); i++ )
-				container.getItem( i ).accept( this, query );
+				build( query, container.getItem( i ) );
 
 			finishVisit( container, query );			
 			if ( query != value )
@@ -338,7 +338,7 @@ public class ReportQueryBuilder
 
 			for ( int i = 0; i < grid.getRowCount( ); i++ )
 			{
-				grid.getRow( i ).accept( this, query );
+				build( query, grid.getRow( i ) );
 			}
 			
 			finishVisit( grid, query );			
