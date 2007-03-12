@@ -459,6 +459,29 @@ public class CrosstabTableEditPart extends AbstractTableEditPart
 		return px;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.core.model.IModelAdaptHelper#getPreferredSize()
+	 */
+	public Dimension getPreferredSize( )
+	{
+		Dimension retValue = getFigure( ).getParent( )
+				.getClientArea( )
+				.getSize( );
+		Rectangle rect = getBounds( );
+
+		if ( rect.width > 0 )
+		{
+			retValue.width = rect.width;
+		}
+		if ( rect.height > 0 )
+		{
+			retValue.height = rect.height;
+		}
+		return retValue;
+	}
+	
 	/**
 	 * Get the default width.
 	 * 
@@ -468,7 +491,7 @@ public class CrosstabTableEditPart extends AbstractTableEditPart
 	 */
 	public int getDefaultWidth( int colNumber )
 	{
-		Dimension size = getFigure( ).getPreferredSize( )
+		Dimension size = getPreferredSize( )
 				.shrink( getFigure( ).getInsets( ).getWidth( ),
 						getFigure( ).getInsets( ).getHeight( ) );;
 		if ( getRowCount( ) == 0 )

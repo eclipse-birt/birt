@@ -19,13 +19,10 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.util.mediator.request.IRequestConvert;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AreaEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ISelectionHandlesEditPolicy;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.TableResizeEditPolice;
-import org.eclipse.birt.report.model.api.CellHandle;
-import org.eclipse.birt.report.model.api.ColumnHandle;
-import org.eclipse.birt.report.model.api.RowHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Locator;
@@ -389,7 +386,15 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 				}
 				else
 				{
-					retValue.add( part.getModel( ) );
+					Object model = part.getModel( );
+					if (model instanceof IAdaptable)
+					{
+						Object temp = ((IAdaptable)model).getAdapter( DesignElementHandle.class );
+						model = temp==null?model:temp;
+					}
+					
+					retValue.add(model);
+					
 				}
 			}
 
