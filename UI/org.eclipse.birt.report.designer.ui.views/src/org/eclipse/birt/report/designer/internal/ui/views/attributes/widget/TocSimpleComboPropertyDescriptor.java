@@ -22,22 +22,5 @@ public class TocSimpleComboPropertyDescriptor extends
 		super(formStyle);
 		// TODO Auto-generated constructor stub
 	}
-	
-	void refresh( String value )
-	{
-		super.refresh(value);
-//		IDescriptorProvider provider = getDescriptorProvider( );
-//		if(provider instanceof TocStylePropertyDescriptiorProvider)
-//		{
-//			TocStylePropertyDescriptiorProvider tocProvider = (TocStylePropertyDescriptiorProvider)provider;
-//			if(tocProvider.getTocHandle() == null)
-//			{
-//				getControl( ).setEnabled(false);
-//			}else
-//			{
-//				getControl( ).setEnabled(true);
-//			}
-//		}
-	}
 
 }
