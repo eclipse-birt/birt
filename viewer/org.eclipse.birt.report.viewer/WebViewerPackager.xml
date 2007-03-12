@@ -512,9 +512,13 @@
 	<!-- org.eclipse.datatools.connectivity_0.7.0.200602241 -->
 	<copy todir="${export.dir}/plugins">
 		<fileset dir="${baseLocation}/plugins">
-			<include name="org.eclipse.datatools.connectivity_*/**" />
-			<include name="org.eclipse.datatools.connectivity.oda*/**" />
-			<include name="org.eclipse.datatools.enablement.oda.xml_*/**" />
+			<include name="org.eclipse.datatools.connectivity_*.jar" />
+			<include name="org.eclipse.datatools.connectivity.oda.consumer_*.jar" />
+			<include name="org.eclipse.datatools.connectivity.oda.flatfile_*.jar" />
+			<include name="org.eclipse.datatools.connectivity.oda.profile_*.jar" />
+			<include name="org.eclipse.datatools.connectivity.oda.design_*.jar" />
+			<include name="org.eclipse.datatools.connectivity.oda_*.jar" />
+			<include name="org.eclipse.datatools.enablement.oda.xml_*.jar" />
 		</fileset>
 	</copy>
 

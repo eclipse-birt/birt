@@ -555,11 +555,6 @@
 				<exclude name="**/*.nl1_*/**"/>
 				<exclude name="**/*.nl/**" />
 				<exclude name="**/*.nl1_*.jar"/>
-				<exclude name="**/org.eclipse.datatools.connectivity*finfo*.jar" />
-				<exclude name="**/org.eclipse.datatools.connectivity*design*.jar"/>
-				<exclude name="**/org.eclipse.datatools.connectivity*.ui*.jar"/>
-				<exclude name="**/org.eclipse.datatools.connectivity.oda.profile_*.jar"/>
-				<exclude name="**/org.eclipse.datatools.connectivity_*/**"/>
 				<exclude name="**/org.junit*/**"/>
 			</fileset>
 		</copy>
@@ -599,11 +594,6 @@
 				<exclude name="**/*.nl1_*/**"/>
 				<exclude name="**/*.nl/**" />
 				<exclude name="**/*.nl1_*.jar"/>
-				<exclude name="**/org.eclipse.datatools.connectivity*finfo*.jar" />
-				<exclude name="**/org.eclipse.datatools.connectivity*design*.jar"/>
-				<exclude name="**/org.eclipse.datatools.connectivity*.ui*.jar"/>
-				<exclude name="**/org.eclipse.datatools.connectivity.oda.profile_*.jar"/>
-				<exclude name="**/org.eclipse.datatools.connectivity_*/**"/>
 				<exclude name="**/org.junit*/**"/>
 			</fileset>
 		</copy>
