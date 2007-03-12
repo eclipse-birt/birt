@@ -96,53 +96,61 @@ public class GetParameterDefinitionTaskTest extends EngineCase
 	/**
 	 * API test on IScalarParameterDefn.allowNull( ) method
 	 */
-	public void testAllowNull( )
-	{
-		String[] paramArray = new String[]
-		{
-			"paramAllowNullAndBlank",
-			"paramString",
-			"paramBoolean",
-			"paramDatetimeFormat",
-			"paramList",
-			"paramComboSort",
-			"paramListDynamic"
-		};
-		boolean[] results = new boolean[]
-		{
-			true,
-			false,
-			true,
-			true,
-			true,
-			true,
-			true
-		};
-		assertTrue( paramArray.length == results.length );
-		for ( int size = paramArray.length, index = 0; index < size; index++ )
-		{
-			scalarParam = (IScalarParameterDefn) gpdTask
-					.getParameterDefn( paramArray[index] );
-			assertTrue( results[index] == scalarParam.allowNull( ) );
-		}
-	}
+	/*
+	 * allowNull() method is deprecated in model API
+	 * the return value of allowBlank() is depends on isRequired()
+	 */
+//	public void testAllowNull( )
+//	{
+//		String[] paramArray = new String[]
+//		{
+//			"paramAllowNullAndBlank",
+//			"paramString",
+//			"paramBoolean",
+//			"paramDatetimeFormat",
+//			"paramList",
+//			"paramComboSort",
+//			"paramListDynamic"
+//		};
+//		boolean[] results = new boolean[]
+//		{
+//			true,
+//			true,
+//			true,
+//			true,
+//			true,
+//			true,
+//			true
+//		};
+//		assertTrue( paramArray.length == results.length );
+//		for ( int size = paramArray.length, index = 0; index < size; index++ )
+//		{
+//			scalarParam = (IScalarParameterDefn) gpdTask
+//					.getParameterDefn( paramArray[index] );
+//			assertTrue( results[index] == scalarParam.allowNull( ) );
+//		}
+//	}
 
 	/**
 	 * API test IScalarParameterDefn.allowBlank( ) method
 	 */
-	public void testAllowBlank( )
-	{
-		String[] paramArray = new String[]{"paramString",
-				"paramDispFormatString", "paramListDynamic"};
-		boolean[] results = new boolean[]{true, true, true};
-		assertTrue( paramArray.length == results.length );
-		for ( int size = paramArray.length, index = 0; index < size; index++ )
-		{
-			scalarParam = (IScalarParameterDefn) gpdTask
-					.getParameterDefn( paramArray[index] );
-			assertTrue( scalarParam.allowBlank( ) );
-		}
-	}
+	/*
+	 * allowBlank() method is deprecated in model API
+	 * the return value of allowBlank() is depends on isRequired()
+	 */
+//	public void testAllowBlank( )
+//	{
+//		String[] paramArray = new String[]{"paramString",
+//				"paramDispFormatString", "paramListDynamic"};
+//		boolean[] results = new boolean[]{true, true, true};
+//		assertTrue( paramArray.length == results.length );
+//		for ( int size = paramArray.length, index = 0; index < size; index++ )
+//		{
+//			scalarParam = (IScalarParameterDefn) gpdTask
+//					.getParameterDefn( paramArray[index] );
+//			assertTrue( scalarParam.allowBlank( ) );
+//		}
+//	}
 
 	/**
 	 * API test on IScalarParameterDefn.getDisplayFormat( ) method
