@@ -94,6 +94,7 @@
 
 	<!-- Prepare some extension and eclipse jars -->
 	<target name="extensions">
+		<echo message="copy resources from : ${integrate.dir}/plugins"/>
 		<copy todir="${birt.dir}/WEB-INF/lib" failonerror="true" flatten="true">
 			<fileset dir="${integrate.dir}/plugins">
 				<include name="org.eclipse.birt.core_*.jar" />
@@ -103,7 +104,7 @@
 				<include name="org.eclipse.birt.chart.device.svg_*.jar" />
 				<include name="org.eclipse.birt.chart.device.pdf_*.jar" />
 				<include name="org.eclipse.birt.chart.device.swt_*.jar" />
-				<include name="org.mozilla.rhino_*/*.jar" />
+				<include name="org.mozilla.rhino_*/lib/*.jar" />
 			</fileset>
 			<fileset dir="${eclipse.home}/plugins">
 				<include name="org.eclipse.emf.common_*.jar" />
