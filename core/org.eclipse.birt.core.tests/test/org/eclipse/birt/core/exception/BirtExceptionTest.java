@@ -49,7 +49,7 @@ public class BirtExceptionTest extends TestCase {
     public void testNoRBException( )
 	{
 		String errorCode = "No RB {0}";
-		String error = "$NO-RB$ No RB Message";
+		String error = "No RB Message";
 		BirtException e = new BirtException( testPluginId, errorCode, "Message" );
 		assertEquals( errorCode, e.getErrorCode( ) );
 		assertEquals( error, e.getLocalizedMessage( ) );
@@ -59,7 +59,7 @@ public class BirtExceptionTest extends TestCase {
     public void testCorruptFormatException()
     {
 		String errorCode = "No RB {0";
-		String error = "$NO-RB$ No RB {0";
+		String error = "No RB {0";
 		BirtException e = new BirtException( testPluginId, errorCode, "Message" );
 		assertEquals( errorCode, e.getErrorCode( ) );
 		assertEquals( error, e.getLocalizedMessage( ) );
