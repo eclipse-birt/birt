@@ -1,19 +1,25 @@
 ###############################################################################
-# Copyright (c) 2004,2005 Actuate Corporation.
+# Copyright (c) 2004, 2007 Actuate Corporation.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v1.0
 # which accompanies this distribution, and is available at
 # http://www.eclipse.org/legal/epl-v10.html
 #
 # Contributors:
-#  Actuate Corporation  - initial API and implementation
+#  Actuate Corporation - initial API and implementation
+#
 ###############################################################################
-
-
+# Plug-in Configuration
+#
+oda.data.source.id=org.eclipse.birt.report.data.oda.jdbc
+oda.parent.category.id=org.eclipse.datatools.connectivity.oda.profileCategory
+#
 ###############################################################################
 # NLS String
 ###############################################################################
 datasource.name=JDBC-Datenquelle
+oda.data.source.name=BIRT JDBC Data Source
+connection.profile.name=BIRT JDBC Data Source Connection Profile
 
 datasource.property.odaDriverClass=JDBC-Treiber-Klasse
 datasource.property.odaURL=JDBC-Treiber-URL
@@ -24,3 +30,7 @@ datasource.property.odaPassword=Kennwort
 dataset.query.sqltype=SQL Select-Abfrage
 dataset.query.sptype=Gespeicherte SQL-Prozedurabfrage
 dataset.property.queryTimeOut=Abfrage-Zeitüberschreitung (in Sekunden)
+#
+#  Below NLS messages apply to all ODA data sources; should be re-factored
+#
+oda.connection.factory.name=ODA Connection Factory
