@@ -34,7 +34,13 @@ public final class ExpressionUtil
 	
 	/** prefix for parameter */
 	public static final String PARAMETER_INDICATOR = "params";//$NON-NLS-1$
-
+	
+	/** prefix for measure */
+	public static final String MEASURE_INDICATOR = "measure";
+	
+	/** prefix for dimension */
+	public static final String DIMENSION_INDICATOR = "dimension";
+	
 	private static String PREFIX = "COLUMN_";
 	
 	private static int suffix = 0;
@@ -71,14 +77,53 @@ public final class ExpressionUtil
 	 */
 	public static String createJSRowExpression( String rowName )
 	{
-		return ROW_INDICATOR
-				+ "[\""
-				+ ( rowName == null
-						? ""
-						: JavascriptEvalUtil.transformToJsConstants( rowName.trim( ) ) )
-				+ "\"]";
+		return ROW_INDICATOR + createJSExprComponent( rowName );
 	}
 
+	/**
+	 * Return a JS measure expression text according to given measure name.
+	 * 
+	 * @param measureName
+	 * @return
+	 */
+	public static String createJSMeasureExpression( String measureName )
+	{
+		return MEASURE_INDICATOR + createJSExprComponent( measureName );
+	}
+
+	/**
+	 * Return a JS dimension expression text according to given dimension and
+	 * measure name.By default it is reference to "ID" attribute of that level.
+	 * 
+	 * @param dimensionName
+	 * @param levelName
+	 * @return
+	 */
+	public static String createJSDimensionExpression( String dimensionName,
+			String levelName )
+	{
+		return DIMENSION_INDICATOR
+				+ createJSExprComponent( dimensionName )
+				+ createJSExprComponent( levelName )
+				+ createJSExprComponent( "ID" );
+	}
+	
+	/**
+	 * Return a JS dimension expression text according to given dimension and
+	 * measure name.
+	 * 
+	 * @param dimensionName
+	 * @param levelName
+	 * @param attributeName
+	 * @return
+	 */
+	public static String createJSDimensionExpression( String dimensionName, String levelName, String attributeName )
+	{
+		return DIMENSION_INDICATOR
+			+ createJSExprComponent( dimensionName )
+			+ createJSExprComponent( levelName )
+			+ createJSExprComponent( attributeName );
+	}
 	/**
 	 * Return a JS dataSetRow expression text according to given row name.
 	 * 
@@ -87,12 +132,7 @@ public final class ExpressionUtil
 	 */
 	public static String createJSDataSetRowExpression( String rowName )
 	{
-		return DATASET_ROW_INDICATOR
-				+ "[\""
-				+ ( rowName == null
-						? ""
-						: JavascriptEvalUtil.transformToJsConstants( rowName.trim( ) ) )
-				+ "\"]";
+		return DATASET_ROW_INDICATOR + createJSExprComponent( rowName );
 	}
 	
 	/**
@@ -103,14 +143,18 @@ public final class ExpressionUtil
 	 */
 	public static String createJSParameterExpression( String parameterName )
 	{
-		return PARAMETER_INDICATOR
-				+ "[\""
-				+ ( parameterName == null
-						? ""
-						: JavascriptEvalUtil.transformToJsConstants( parameterName.trim( ) ) )
-				+ "\"]";
+		return PARAMETER_INDICATOR + createJSExprComponent( parameterName );
 	}
 
+	private static String createJSExprComponent( String value )
+	{
+		return "[\""
+		+ ( value == null
+				? ""
+				: JavascriptEvalUtil.transformToJsConstants( value.trim( ) ) )
+		+ "\"]";
+	}
+	
 	/**
 	 * Return a row expression text according to given row index, which is
 	 * 1-based.

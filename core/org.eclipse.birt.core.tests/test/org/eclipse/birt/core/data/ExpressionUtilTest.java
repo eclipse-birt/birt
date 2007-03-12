@@ -151,4 +151,35 @@ public class ExpressionUtilTest extends TestCase
 		assertTrue( ExpressionUtil.getColumnBindingName( "row[\"col1\"]+ row[\"col2\"]" ) == null );
 
 	}
+	
+	public void testCreateJSRowExpression( ) throws BirtException
+	{
+		assertEquals( ExpressionUtil.createJSRowExpression( "abc" ), "row[\"abc\"]");
+		assertEquals( ExpressionUtil.createJSRowExpression( null ), "row[\"\"]");
+	}
+	
+	public void testCreateJSDataSetRowExpression( ) throws BirtException
+	{
+		assertEquals( ExpressionUtil.createJSDataSetRowExpression( "abc" ), "dataSetRow[\"abc\"]");
+		assertEquals( ExpressionUtil.createJSDataSetRowExpression( null ), "dataSetRow[\"\"]");
+	}
+	
+	public void testCreateJSParameterExpression( ) throws BirtException
+	{
+		assertEquals( ExpressionUtil.createJSParameterExpression( "abc" ), "params[\"abc\"]");
+		assertEquals( ExpressionUtil.createJSParameterExpression( null ), "params[\"\"]");
+	}
+	
+	public void testCreateJSMeasureExpression( ) throws BirtException
+	{
+		assertEquals( ExpressionUtil.createJSMeasureExpression( "abc" ), "measure[\"abc\"]");
+		assertEquals( ExpressionUtil.createJSMeasureExpression( null ), "measure[\"\"]");
+	}
+	
+	public void testCreateJSDimensionExpression( ) throws BirtException
+	{
+		assertEquals( ExpressionUtil.createJSDimensionExpression( "abc", "def" ), "dimension[\"abc\"][\"def\"][\"ID\"]");
+		assertEquals( ExpressionUtil.createJSDimensionExpression( null, null ), "dimension[\"\"][\"\"][\"ID\"]");
+		assertEquals( ExpressionUtil.createJSDimensionExpression( "abc", "def", "ghi"),"dimension[\"abc\"][\"def\"][\"ghi\"]");
+	}
 }
