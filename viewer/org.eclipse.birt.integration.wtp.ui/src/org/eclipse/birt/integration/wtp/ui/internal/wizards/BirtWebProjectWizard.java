@@ -18,6 +18,7 @@ import org.eclipse.birt.integration.wtp.ui.internal.exception.BirtCoreException;
 import org.eclipse.birt.integration.wtp.ui.internal.resource.BirtWTPMessages;
 import org.eclipse.birt.integration.wtp.ui.internal.util.Logger;
 import org.eclipse.birt.integration.wtp.ui.internal.util.WebArtifactUtil;
+import org.eclipse.birt.integration.wtp.ui.internal.webapplication.WebAppBean;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -206,6 +207,9 @@ public class BirtWebProjectWizard extends WebProjectWizard
 		SimpleImportOverwriteQuery query = new SimpleImportOverwriteQuery( );
 
 		// configure WebArtifact
+		WebArtifactUtil.configureWebApp( (WebAppBean) properties
+				.get( EXT_WEBAPP ), project, query, monitor );		
+		
 		WebArtifactUtil.configureContextParam( (Map) properties
 				.get( EXT_CONTEXT_PARAM ), project, query, monitor );
 

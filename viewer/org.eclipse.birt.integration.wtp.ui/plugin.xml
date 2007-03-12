@@ -186,61 +186,76 @@
 		
 		<!-- Web Deployment Settings -->
 		<webapp
-			id="org.eclipse.birt.integration.wtp.ui.defaultBirtWebappDefinition">
-			<context-param 
-				name="BIRT_VIEWER_LOCALE"
-				value="en-US"/>
+			id="org.eclipse.birt.integration.wtp.ui.defaultBirtWebappDefinition"
+			description="Deployment Descriptor for BIRT Viewer. Please check and specify the following settings.">
 				
 			<context-param 
-				name="BIRT_RESOURCE_PATH"
-				value=""/>				
-
+				name="BIRT_VIEWER_LOCALE"
+				value="en-US"
+				description="Default locale setting"/>
+				
 			<context-param 
 				name="BIRT_VIEWER_WORKING_FOLDER"
-				value=""/>	
+				value=""
+				description="Report resources(design files or document files) directory for preview. Default to ${Context Root}"/>	
 				
 			<context-param 
 				name="BIRT_VIEWER_DOCUMENT_FOLDER"
-				value="documents"/>		
+				value="documents"
+				description="The generated document files directory. Default to ${Context Root}/documents"/>		
 						
 			<context-param 
 				name="BIRT_VIEWER_IMAGE_DIR"
-				value="report/images"/>
+				value="report/images"
+				description="Output images/charts directory. Default to ${Context Root}/report/images"/>
 
 			<context-param 
 				name="BIRT_VIEWER_SCRIPTLIB_DIR"
-				value="scriptlib"/>
+				value="scriptlib"
+				description="Directory to store all birt report script libraries (JARs). Default to ${Context Root}/scriptlib"/>
 				
 			<context-param 
 				name="BIRT_VIEWER_LOG_DIR"
-				value="logs"/>
+				value="logs"
+				description="Report Engine logs directory. Default to ${Context Root}/logs"/>
+
+			<context-param 
+				name="BIRT_RESOURCE_PATH"
+				value=""
+				description="Resource location directory(library files, images files or others). Default to ${Context Root}"/>				
 
 			<context-param 
 				name="WORKING_FOLDER_ACCESS_ONLY"
-				value="false"/>
+				value="false"
+				description="If usr can only access the reprot resources under working folder. Default is false"/>
 
 			<context-param 
 				name="BIRT_OVERWRITE_DOCUMENT"
-				value="true"/>
+				value="true"
+				description="If always overwrite generated document file. Default to true"/>
 
 			<context-param 
 				name="BIRT_VIEWER_MAX_ROWS"
-				value=""/>
+				value=""
+				description="Dataset rows limited when preview report. Default to return all rows"/>
 
 			<context-param 
 				name="BIRT_VIEWER_LOG_LEVEL"
-				value="WARNING"/>
+				value="WARNING"
+				description="Report engine log level.( ALL|SEVERE|WARNING|INFO|CONFIG|FINE|FINER|FINEST|OFF )"/>
 			
 			<context-param 
 				name="BIRT_VIEWER_CONFIG_FILE"
-				value="WEB-INF/viewer.properties"/>
+				value="WEB-INF/viewer.properties"
+				description="BIRT viewer extended configuration file"/>
 			
 			<listener class="org.eclipse.birt.report.listener.ViewerServletContextListener"/>
 			<listener class="org.eclipse.birt.report.listener.ViewerHttpSessionListener"/>
 			
 			<servlet
 				name="ViewerServlet"
-				class="org.eclipse.birt.report.servlet.ViewerServlet"/>			
+				class="org.eclipse.birt.report.servlet.ViewerServlet"
+				description="Support Ajax to retrieve report content"/>			
 
 			<servlet
 				name="EngineServlet"

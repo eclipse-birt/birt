@@ -19,6 +19,7 @@ import org.eclipse.birt.integration.wtp.ui.internal.dialogs.BirtConfigurationDia
 import org.eclipse.birt.integration.wtp.ui.internal.resource.BirtWTPMessages;
 import org.eclipse.birt.integration.wtp.ui.internal.util.Logger;
 import org.eclipse.birt.integration.wtp.ui.internal.util.WebArtifactUtil;
+import org.eclipse.birt.integration.wtp.ui.internal.webapplication.WebAppBean;
 import org.eclipse.birt.integration.wtp.ui.internal.wizards.BirtWizardUtil;
 import org.eclipse.birt.integration.wtp.ui.internal.wizards.IBirtWizardConstants;
 import org.eclipse.birt.integration.wtp.ui.internal.wizards.SimpleImportOverwriteQuery;
@@ -283,6 +284,9 @@ public class ImportBirtRuntimeAction extends Action
 		SimpleImportOverwriteQuery query = new SimpleImportOverwriteQuery( );
 
 		// configure WebArtifact
+		WebArtifactUtil.configureWebApp( (WebAppBean) properties
+				.get( EXT_WEBAPP ), project, query, monitor );
+
 		WebArtifactUtil.configureContextParam( (Map) properties
 				.get( EXT_CONTEXT_PARAM ), project, query, monitor );
 

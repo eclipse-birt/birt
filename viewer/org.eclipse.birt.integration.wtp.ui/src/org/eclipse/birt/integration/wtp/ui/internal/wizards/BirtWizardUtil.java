@@ -35,6 +35,7 @@ import org.eclipse.birt.integration.wtp.ui.internal.webapplication.ListenerBean;
 import org.eclipse.birt.integration.wtp.ui.internal.webapplication.ServletBean;
 import org.eclipse.birt.integration.wtp.ui.internal.webapplication.ServletMappingBean;
 import org.eclipse.birt.integration.wtp.ui.internal.webapplication.TagLibBean;
+import org.eclipse.birt.integration.wtp.ui.internal.webapplication.WebAppBean;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -411,10 +412,17 @@ public class BirtWizardUtil implements IBirtWizardConstants
 		if ( elements == null || elements.length <= 0 )
 			return map;
 
+		// web appliction
+		WebAppBean webAppBean = new WebAppBean( );
+
 		for ( int i = 0; i < elements.length; i++ )
 		{
 			if ( !EXT_WEBAPP.equalsIgnoreCase( elements[i].getName( ) ) )
 				continue;
+
+			String webappDesc = elements[i].getAttribute( EXTATTR_DESCRIPTION );
+			if ( webappDesc != null )
+				webAppBean.setDescription( webappDesc );
 
 			IConfigurationElement[] contextParams = elements[i]
 					.getChildren( EXT_CONTEXT_PARAM );
@@ -552,6 +560,8 @@ public class BirtWizardUtil implements IBirtWizardConstants
 				map.put( EXT_TAGLIB, son );
 			}
 		}
+
+		map.put( EXT_WEBAPP, webAppBean );
 
 		return map;
 	}

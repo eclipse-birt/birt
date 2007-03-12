@@ -21,6 +21,7 @@ import org.eclipse.birt.integration.wtp.ui.internal.webapplication.ListenerBean;
 import org.eclipse.birt.integration.wtp.ui.internal.webapplication.ServletBean;
 import org.eclipse.birt.integration.wtp.ui.internal.webapplication.ServletMappingBean;
 import org.eclipse.birt.integration.wtp.ui.internal.webapplication.TagLibBean;
+import org.eclipse.birt.integration.wtp.ui.internal.webapplication.WebAppBean;
 import org.eclipse.birt.integration.wtp.ui.internal.wizards.IBirtWizardConstants;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -49,6 +50,46 @@ public class WebArtifactUtil implements IBirtWizardConstants
 {
 
 	/**
+	 * Configure the web application general descriptions
+	 * 
+	 * @param webApp
+	 * @param project
+	 * @param query
+	 * @param monitor
+	 * @throws CoreException
+	 */
+	public static void configureWebApp( WebAppBean webAppBean,
+			IProject project, IOverwriteQuery query, IProgressMonitor monitor )
+			throws CoreException
+	{
+		// cancel progress
+		if ( monitor.isCanceled( ) )
+			return;
+
+		if ( webAppBean == null || project == null )
+		{
+			return;
+		}
+
+		// create WebArtifact
+		WebArtifactEdit webEdit = WebArtifactEdit
+				.getWebArtifactEditForWrite( project );
+		if ( webEdit == null )
+			return;
+
+		try
+		{
+			WebApp webapp = (WebApp) webEdit.getDeploymentDescriptorRoot( );
+			webapp.setDescription( webAppBean.getDescription( ) );
+			webEdit.saveIfNecessary( monitor );
+		}
+		finally
+		{
+			webEdit.dispose( );
+		}
+	}
+
+	/**
 	 * Configure the context param settings
 	 * 
 	 * @param map
@@ -62,7 +103,6 @@ public class WebArtifactUtil implements IBirtWizardConstants
 			throws CoreException
 	{
 		// cancel progress
-
 		if ( monitor.isCanceled( ) )
 			return;
 
@@ -240,13 +280,14 @@ public class WebArtifactUtil implements IBirtWizardConstants
 				ListenerBean bean = (ListenerBean) map.get( name );
 				if ( bean == null )
 					continue;
-								
+
 				String className = bean.getClassName( );
 				String description = bean.getDescription( );
 
 				// if listener existed in web.xml, skip it
-				Object obj = getListenerByClassName( webapp.getListeners( ), className );
-				if( obj != null )
+				Object obj = getListenerByClassName( webapp.getListeners( ),
+						className );
+				if ( obj != null )
 					continue;
 
 				// create Listener object
@@ -284,7 +325,8 @@ public class WebArtifactUtil implements IBirtWizardConstants
 		{
 			// get listener object
 			Listener listener = (Listener) it.next( );
-			if ( listener != null && className.equals( listener.getListenerClassName( ) ) )
+			if ( listener != null
+					&& className.equals( listener.getListenerClassName( ) ) )
 			{
 				return listener;
 			}
@@ -292,7 +334,7 @@ public class WebArtifactUtil implements IBirtWizardConstants
 
 		return null;
 	}
-	
+
 	/**
 	 * Configure the servlet settings
 	 * 

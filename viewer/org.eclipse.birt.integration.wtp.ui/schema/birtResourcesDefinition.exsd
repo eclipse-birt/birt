@@ -69,6 +69,13 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="description" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 
@@ -90,6 +97,13 @@
             <annotation>
                <documentation>
                   (no description available)
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="description" type="string">
+            <annotation>
+               <documentation>
+                  
                </documentation>
             </annotation>
          </attribute>
@@ -131,6 +145,13 @@
             <annotation>
                <documentation>
                   (no description available)
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="description" type="string">
+            <annotation>
+               <documentation>
+                  
                </documentation>
             </annotation>
          </attribute>
@@ -255,7 +276,8 @@
 
    &lt;context-param 
     name=&quot;BIRT_VIEWER_DOCUMENT_FOLDER&quot;
-    value=&quot;&quot;/&gt;  
+    value=&quot;&quot;
+    description=&quot;Folder setting for output document files&quot;/&gt;  
          
    &lt;listener class=&quot;org.eclipse.birt.report.listener.ViewerServletContextListener&quot;/&gt;
    

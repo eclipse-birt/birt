@@ -66,4 +66,7 @@ public interface IBirtWizardConstants
 	public final static String EXT_CONFLICT="conflict"; //$NON-NLS-1$
 	public final static String EXT_FOLDER="folder"; //$NON-NLS-1$
 	public final static String EXT_FILE="file"; //$NON-NLS-1$
+	
+	// Attribute for Extension Item
+	public final static String EXTATTR_DESCRIPTION = "description"; //$NON-NLS-1$
 }
