@@ -11,9 +11,7 @@
 
 package org.eclipse.birt.report.model.elements.olap;
 
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -92,6 +90,17 @@ public abstract class Dimension extends ReferenceableElement
 		if ( hierarchy == null || hierarchy.getContainer( ) != this )
 			return null;
 		return hierarchy;
+	}
+
+	/**
+	 * Sets the default hierarchy for this dimension.
+	 * 
+	 * @param defaultHierarchy
+	 */
+	public void setDefaultHierarchy( Hierarchy defaultHierarchy )
+	{
+		setProperty( Dimension.DEFAULT_HIERARCHY_PROP, new ElementRefValue(
+				null, defaultHierarchy ) );
 	}
 
 	/*

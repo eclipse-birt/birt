@@ -91,6 +91,17 @@ public abstract class Cube extends ReferenceableElement implements ICubeModel
 		return measureGroup;
 	}
 
+	/**
+	 * Sets the default measure group for this cube.
+	 * 
+	 * @param defaultMeasureGroup
+	 */
+	public void setDefaultMeasureGroup( MeasureGroup defaultMeasureGroup )
+	{
+		setProperty( Cube.DEFAULT_MEASURE_GROUP_PROP, new ElementRefValue(
+				null, defaultMeasureGroup ) );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

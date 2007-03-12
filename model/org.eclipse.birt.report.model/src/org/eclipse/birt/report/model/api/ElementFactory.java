@@ -1069,12 +1069,13 @@ public class ElementFactory
 		TabularCube element = new TabularCube( name );
 		module.makeUniqueName( element );
 
-		// add a measure group
+		// add a measure group and set default
 		TabularMeasureGroup measureGroup = new TabularMeasureGroup( );
 		module.makeUniqueName( measureGroup );
 		element.add( module, measureGroup, ICubeModel.MEASURE_GROUPS_PROP );
+		element.setDefaultMeasureGroup( measureGroup );
 
-		return (TabularCubeHandle) element.handle( module );
+		return element.handle( module );
 	}
 
 	/**
@@ -1088,12 +1089,15 @@ public class ElementFactory
 
 	public TabularDimensionHandle newTabularDimension( String name )
 	{
-		// add a hierarchy element to the dimension
 		TabularDimension element = new TabularDimension( name );
 		module.makeUniqueName( element );
+
+		// add a hierarchy element to the dimension
 		TabularHierarchy hierarchy = new TabularHierarchy( );
 		element.add( module, hierarchy, IDimensionModel.HIERARCHIES_PROP );
 		module.makeUniqueName( hierarchy );
+		// set default hierarchy
+		element.setDefaultHierarchy( hierarchy );
 		return element.handle( module );
 	}
 
@@ -1110,7 +1114,7 @@ public class ElementFactory
 	{
 		TabularHierarchy element = new TabularHierarchy( name );
 		module.makeUniqueName( element );
-		return (TabularHierarchyHandle) element.handle( module );
+		return element.handle( module );
 	}
 
 	/**
@@ -1126,7 +1130,7 @@ public class ElementFactory
 	{
 		TabularLevel element = new TabularLevel( name );
 		module.makeUniqueName( element );
-		return (TabularLevelHandle) element.handle( module );
+		return element.handle( module );
 
 	}
 
@@ -1143,7 +1147,7 @@ public class ElementFactory
 	{
 		TabularMeasure element = new TabularMeasure( name );
 		module.makeUniqueName( element );
-		return (TabularMeasureHandle) element.handle( module );
+		return element.handle( module );
 	}
 
 	/**
@@ -1157,7 +1161,7 @@ public class ElementFactory
 	{
 		TabularMeasureGroup element = new TabularMeasureGroup( name );
 		module.makeUniqueName( element );
-		return (TabularMeasureGroupHandle) element.handle( module );
+		return element.handle( module );
 	}
 
 	/**

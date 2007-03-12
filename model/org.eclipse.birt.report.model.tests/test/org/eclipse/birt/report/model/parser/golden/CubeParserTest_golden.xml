@@ -138,6 +138,7 @@
                     </property>
                 </tabular-dimension>
                 <tabular-dimension name="NewTabularDimension" id="17">
+                	<property name="defaultHierarchy">NewTabularHierarchy</property>
                     <property name="hierarchies">
                         <tabular-hierarchy name="NewTabularHierarchy" id="18"/>
                     </property>
