@@ -23,7 +23,7 @@ import org.eclipse.birt.core.archive.FileArchiveReader;
 import org.eclipse.birt.core.archive.FileArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
-import org.eclipse.birt.core.archive.RAFileInputStream;
+import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.report.engine.EngineCase;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportEngine;
@@ -84,7 +84,7 @@ public class ReportDocumentTest extends EngineCase
 					.openReportDocument( REPORT_DOCUMENT );
 			InputStream inputStream = rptDoc.getDesignStream( );
 			assertTrue( inputStream != null );
-			int streamLength = ( (RAFileInputStream) inputStream ).available( );
+			int streamLength = ( (RAInputStream) inputStream ).available( );
 			assertTrue( streamLength > 0 );
 		}
 		catch ( Exception ex )
