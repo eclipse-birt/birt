@@ -2534,7 +2534,6 @@ public final class AutoScale extends Methods implements Cloneable
 		setTickCordinates( null );
 		setEndPoints( dStart, dEnd );
 		setTickCordinates( da );
-		System.out.println( da );
 
 		baTickLabelVisible = checkTickLabelsVisibility( xs, la, iLabelLocation );
 
