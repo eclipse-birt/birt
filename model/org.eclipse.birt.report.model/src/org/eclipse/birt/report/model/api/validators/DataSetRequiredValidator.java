@@ -22,9 +22,9 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.ListingElement;
-import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITabularCubeModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
@@ -91,7 +91,7 @@ public class DataSetRequiredValidator extends AbstractElementValidator
 		{
 			String propName = toValidate instanceof ExtendedItem
 					? IReportItemModel.DATA_SET_PROP
-					: ICubeModel.DATA_SET_PROP;
+					: ITabularCubeModel.DATA_SET_PROP;
 			if ( toValidate.getReferenceProperty( module, propName ) != null )
 			{
 				dataSetFound = true;

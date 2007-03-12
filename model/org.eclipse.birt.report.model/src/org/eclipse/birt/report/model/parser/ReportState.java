@@ -196,6 +196,11 @@ public class ReportState extends ModuleState
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TABULAR_CUBE_TAG ) )
 				return new TabularCubeState( handler, module,
 						IReportDesignModel.CUBE_SLOT );
+			
+			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.ODA_CUBE_TAG ) )
+				return new OdaCubeState( handler, module,
+						IReportDesignModel.CUBE_SLOT );
+			
 			return super.startElement( tagName );
 		}
 	}

@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.interfaces.ITabularCubeModel;
 
 /**
  * Represents a cube.
@@ -25,7 +26,7 @@ import org.eclipse.birt.report.model.core.Module;
  * @see org.eclipse.birt.report.model.elements.olap.Cube
  */
 
-public class TabularCubeHandle extends CubeHandle
+public class TabularCubeHandle extends CubeHandle implements ITabularCubeModel
 {
 
 	/**

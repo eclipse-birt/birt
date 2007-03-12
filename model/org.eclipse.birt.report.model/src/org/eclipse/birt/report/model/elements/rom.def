@@ -3596,24 +3596,33 @@
     </Slot>
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.Cube" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.Cube" name="Cube" nameSpace="cube" since="2.2" xmlName="cube">
-  	<Property detailType="DataSet" displayNameID="Element.Cube.dataSet" name="dataSet" runtimeSettable="false" since="2.2" type="elementRef">
-  	  <Trigger validator="DataSetRequiredValidator"/>
-  	</Property>
   	<Property detailType="MeasureGroup" displayNameID="Element.Cube.defaultMeasureGroup" name="defaultMeasureGroup" runtimeSettable="false" since="2.2" type="elementRef"/>
   	<Property detailType="FilterCondition" displayNameID="Element.Cube.filter" isList="true" name="filter" runtimeSettable="false" since="2.2" type="structure"/>
   	<Property detailType="DimensionCondition" displayNameID="Element.Cube.dimensionConditions" isList="true" name="dimensionConditions" runtimeSettable="false" since="2.2" type="structure" />
-  	<Property displayNameID="Element.Cube.dimensions" isList="true" name="dimensions" runtimeSettable="false" since="2.2" type="element" >
-  	  <Type name="Dimension"/>
-  	</Property>
-  	<Property displayNameID="Element.Cube.measureGroups" isList="true" name="measureGroups" runtimeSettable="false" since="2.2" type="element">
-  	  <Type name="MeasureGroup"/>
-  	</Property>
   	<Property displayNameID="Element.Cube.accessControls" isList="true" name="accessControls" runtimeSettable="false" since="2.2" type="contentElement" >
   	  <Type name="AccessControl"/>
   	</Property>  	
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.TabularCube" extends="Cube" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.TabularCube" name="TabularCube" since="2.2" xmlName="tabular-cube"> 
+  	<Property detailType="DataSet" displayNameID="Element.TabularCubedataSet" name="dataSet" runtimeSettable="false" since="2.2" type="elementRef">
+  	  <Trigger validator="DataSetRequiredValidator"/>
+  	</Property>	  
+  	<Property displayNameID="Element.TabularCube.dimensions" isList="true" name="dimensions" runtimeSettable="false" since="2.2" type="element" >
+  	  <Type name="TabularDimension"/>
+  	</Property>	  
+  	<Property displayNameID="Element.TabularCube.measureGroups" isList="true" name="measureGroups" runtimeSettable="false" since="2.2" type="element">
+  	  <Type name="TabularMeasureGroup"/>
+  	</Property>	  
   </Element>  
+  <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.OdaCube" extends="Cube" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.OdaCube" name="OdaCube" since="2.2" xmlName="oda-cube"> 
+  	<Property displayNameID="Element.OdaCube.dimensions" isList="true" name="dimensions" runtimeSettable="false" since="2.2" type="element" >
+  	  <Type name="OdaDimension"/>
+  	</Property>		  
+  	<Property displayNameID="Element.OdaCube.measureGroups" isList="true" name="measureGroups" runtimeSettable="false" since="2.2" type="element">
+  	  <Type name="OdaMeasureGroup"/>
+  	</Property>	  
+    <Property displayNameID="Element.OdaCube.nativeName" name="nativeName" since="2.2" type="string"/>
+  </Element>	
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.AccessControl" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.AccessControl" name="AccessControl" nameSpace="none" since="2.2" xmlName="access-control">
     <Property displayNameID="Element.AccessControl.userNames" name="userNames" since="2.2" subType="string" type="list"/>
     <Property displayNameID="Element.AccessControl.roles" name="roles" since="2.2" subType="string" type="list"/>    
@@ -3627,25 +3636,37 @@
   	  <Default>false</Default>
   	</Property>
   	<Property detailType="Hierarchy" displayNameID="Element.Dimension.defaultHierarchy" name="defaultHierarchy" runtimeSettable="false" since="2.2" type="elementRef"/>
-    <Property displayNameID="Element.Dimension.hierarchies" isList="true" name="hierarchies" runtimeSettable="false" since="2.2" type="element">
-  	  <Type name="Hierarchy"/>
-  	</Property>
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.TabularDimension" extends="Dimension" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.TabularDimension" name="TabularDimension" since="2.2" xmlName="tabular-dimension">
+    <Property displayNameID="Element.TabularDimension.hierarchies" isList="true" name="hierarchies" runtimeSettable="false" since="2.2" type="element">
+  	  <Type name="TabularHierarchy"/>
+  	</Property>	  
   </Element>  
+  <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.OdaDimension" extends="Dimension" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.OdaDimension" name="OdaDimension" since="2.2" xmlName="oda-dimension">
+    <Property displayNameID="Element.OdaDimension.hierarchies" isList="true" name="hierarchies" runtimeSettable="false" since="2.2" type="element">
+  	  <Type name="OdaHierarchy"/>
+  	</Property>
+    <Property displayNameID="Element.OdaCube.nativeName" name="nativeName" since="2.2" type="string"/>	  	 	  
+  </Element>  	
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.Hierarchy" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.Hierarchy" name="Hierarchy" nameSpace="cube" since="2.2" xmlName="hierarchy">
-  	<Property detailType="DataSet" displayNameID="Element.Hierarchy.dataSet" name="dataSet" runtimeSettable="false" since="2.2" type="elementRef" />
   	<Property detailType="FilterCondition" displayNameID="Element.Hierarchy.filter" isList="true" name="filter" runtimeSettable="false" since="2.2" type="structure"/>
   	<Property subType="string" displayNameID="Element.Hierarchy.primaryKeys" name="primaryKeys" runtimeSettable="false" since="2.2" type="list" />
-  	<Property displayNameID="Element.Hierarchy.levels" isList="true" name="levels" since="2.2" type="element">
-  	  <Type name="Level"/>	
-  	</Property>
   	<Property displayNameID="Element.Hierarchy.accessControls" isList="true" name="accessControls" runtimeSettable="false" since="2.2" type="contentElement" >
   	  <Type name="AccessControl"/>
   	</Property>    	
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.TabularHierarchy" extends="Hierarchy" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.TabularHierarchy" name="TabularHierarchy" since="2.2" xmlName="tabular-hierarchy">
-  </Element>    
+  	<Property detailType="DataSet" displayNameID="Element.TabularHierarchy.dataSet" name="dataSet" runtimeSettable="false" since="2.2" type="elementRef" />	  
+  	<Property displayNameID="Element.TabularHierarchy.levels" isList="true" name="levels" since="2.2" type="element">
+  	  <Type name="TabularLevel"/>	
+  	</Property>	  
+  </Element>   
+  <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.OdaHierarchy" extends="Hierarchy" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.OdaHierarchy" name="OdaHierarchy" since="2.2" xmlName="oda-hierarchy">
+  	<Property displayNameID="Element.OdaHierarchy.levels" isList="true" name="levels" since="2.2" type="element">
+  	  <Type name="OdaLevel"/>	
+  	</Property>
+    <Property displayNameID="Element.OdaCube.nativeName" name="nativeName" since="2.2" type="string"/>	  
+  </Element>    	 
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.Level" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.Level" name="Level" nameSpace="cube" since="2.2" xmlName="level">
   	<Property displayNameID="Element.Level.columnName" name="columnName" runtimeSettable="false" since="2.2" type="string" />
   	<Property detailType="columnDataType" displayNameID="Element.Level.dataType" name="dataType" runtimeSettable="false" since="2.2" type="choice"/>
@@ -3665,13 +3686,20 @@
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.TabularLevel" extends="Level" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.TabularLevel" name="TabularLevel" since="2.2" xmlName="tabular-level">
   </Element>  
+  <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.OdaLevel" extends="Level" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.OdaLevel" name="OdaLevel" since="2.2" xmlName="oda-level">
+  </Element>  	
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.MeasureGroup" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.MeasureGroup" name="MeasureGroup" nameSpace="cube" since="2.2" xmlName="measure-group">
-  	<Property displayNameID="Element.MeasureGroup.measures" isList="true" name="measures" since="2.2" type="element">
-      <Type name="Measure"/>
-    </Property>
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.TabularMeasureGroup" extends="MeasureGroup" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.TabularMeasureGroup" name="TabularMeasureGroup" since="2.2" xmlName="tabular-measure-group">
+  	<Property displayNameID="Element.MeasureGroup.measures" isList="true" name="measures" since="2.2" type="element">
+      <Type name="TabularMeasure"/>
+    </Property>	  
   </Element>  
+  <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.OdaMeasureGroup" extends="MeasureGroup" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.OdaMeasureGroup" name="OdaMeasureGroup" since="2.2" xmlName="oda-measure-group">
+  	<Property displayNameID="Element.MeasureGroup.measures" isList="true" name="measures" since="2.2" type="element">
+      <Type name="OdaMeasure"/>
+    </Property>	  	  
+  </Element>  	
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.Measure" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.Measure" name="Measure" nameSpace="cube" since="2.2" xmlName="measure">
   	<Property detailType="measureFunction" displayNameID="Element.Measure.function" name="function" runtimeSettable="false" since="2.2" type="choice" />
   	<Property displayNameID="Element.Measure.measureExpression" name="measureExpression" runtimeSettable="false" since="2.2" type="expression" />
@@ -3681,6 +3709,8 @@
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.TabularMeasure" extends="Measure" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.TabularMeasure" name="TabularMeasure" since="2.2" xmlName="tabular-measure">
   </Element>    
+  <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.OdaMeasure" extends="Measure" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.OdaMeasure" name="OdaMeasure" since="2.2" xmlName="oda-measure">
+  </Element>  	
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.TemplateParameterDefinition" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.TemplateParameterDefinition" name="TemplateParameterDefinition" nameSpace="templateParameterDefinition" since="2.0" xmlName="template-parameter-definition">
   	<Property canInherit="false" displayNameID="Element.TemplateParameterDefinition.name" isIntrinsic="true" name="name" runtimeSettable="false" since="2.0" type="name"/>
   	<Property canInherit="false" detailType="templateElementType" displayNameID="Element.TemplateParameterDefinition.allowedType" name="allowedType" runtimeSettable="false" since="2.0" type="choice"/>

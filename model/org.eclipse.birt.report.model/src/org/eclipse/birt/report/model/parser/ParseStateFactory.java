@@ -22,7 +22,6 @@ import org.eclipse.birt.report.model.metadata.PeerExtensionLoader;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.parser.treebuild.ContentNode;
 import org.eclipse.birt.report.model.util.AbstractParseState;
-import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Factory class to create a parse state.
@@ -108,9 +107,8 @@ public class ParseStateFactory
 		}
 
 		String propName = propDefn.getName( );
-		String tagElementName = ModelUtil.getElementNameFromXmlName( tagName );
 		ElementDefn tagElementDefn = (ElementDefn) MetaDataDictionary
-				.getInstance( ).getElement( tagElementName );
+				.getInstance( ).getElementByXmlName( tagName );
 
 		if ( tagName.equalsIgnoreCase( ( (ElementDefn) allowedElementDefn )
 				.getXmlName( ) )
@@ -147,21 +145,38 @@ public class ParseStateFactory
 					.equalsIgnoreCase( elementName ) )
 				return new TemplateReportItemState( handler, container,
 						propName );
-			if ( ReportDesignConstants.DIMENSION_ELEMENT
+			if ( ReportDesignConstants.TABULAR_DIMENSION_ELEMENT
 					.equalsIgnoreCase( elementName ) )
-				return new DimensionState( handler, container, propName );
-			if ( ReportDesignConstants.HIERARCHY_ELEMENT
+				return new TabularDimensionState( handler, container, propName );
+			if ( ReportDesignConstants.TABULAR_HIERARCHY_ELEMENT
 					.equalsIgnoreCase( elementName ) )
-				return new HierarchyState( handler, container, propName );
-			if ( ReportDesignConstants.LEVEL_ELEMENT
+				return new TabularHierarchyState( handler, container, propName );
+			if ( ReportDesignConstants.TABULAR_LEVEL_ELEMENT
 					.equalsIgnoreCase( elementName ) )
-				return new LevelState( handler, container, propName );
-			if ( ReportDesignConstants.MEASURE_GROUP_ELEMENT
+				return new TabularLevelState( handler, container, propName );
+			if ( ReportDesignConstants.TABULAR_MEASURE_GROUP_ELEMENT
 					.equalsIgnoreCase( elementName ) )
-				return new MeasureGroupState( handler, container, propName );
-			if ( ReportDesignConstants.MEASURE_ELEMENT
+				return new TabularMeasureGroupState( handler, container,
+						propName );
+			if ( ReportDesignConstants.TABULAR_MEASURE_ELEMENT
 					.equalsIgnoreCase( elementName ) )
-				return new MeasureState( handler, container, propName );
+				return new TabularMeasureState( handler, container, propName );
+			if ( ReportDesignConstants.ODA_DIMENSION_ELEMENT
+					.equalsIgnoreCase( elementName ) )
+				return new OdaDimensionState( handler, container, propName );
+			if ( ReportDesignConstants.ODA_HIERARCHY_ELEMENT
+					.equalsIgnoreCase( elementName ) )
+				return new OdaHierarchyState( handler, container, propName );
+			if ( ReportDesignConstants.ODA_LEVEL_ELEMENT
+					.equalsIgnoreCase( elementName ) )
+				return new OdaLevelState( handler, container, propName );
+			if ( ReportDesignConstants.ODA_MEASURE_GROUP_ELEMENT
+					.equalsIgnoreCase( elementName ) )
+				return new OdaMeasureGroupState( handler, container,
+						propName );
+			if ( ReportDesignConstants.ODA_MEASURE_ELEMENT
+					.equalsIgnoreCase( elementName ) )
+				return new OdaMeasureState( handler, container, propName );
 			if ( ReportDesignConstants.ACCESS_CONTROL
 					.equalsIgnoreCase( elementName ) )
 				return new AccessControlState( handler, container, propName );

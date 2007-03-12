@@ -113,6 +113,12 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	private HashMap elementNameMap = new HashMap( );
 
 	/**
+	 * Provides the list of design elements keyed by their xml names.
+	 */
+
+	private Map elementXmlNameMap = new HashMap( );
+
+	/**
 	 * Provides the list of extension elements registered in our meta-data keyed
 	 * by their internal names.
 	 */
@@ -285,6 +291,20 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	}
 
 	/**
+	 * Finds the element definition by its xm name.
+	 * 
+	 * @param name
+	 *            The element xml name.
+	 * @return The element definition, or null if the name was not found in the
+	 *         dictionary.
+	 */
+
+	public IElementDefn getElementByXmlName( String name )
+	{
+		return (IElementDefn) elementXmlNameMap.get( name );
+	}
+
+	/**
 	 * Internal method to build the cached semantic data for the dictionary.
 	 * Looks up "extends" references, looks up display names given message IDs,
 	 * and so on.
@@ -297,8 +317,28 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	{
 		buildPropertyTypes( );
 		buildElementDefinitions( );
+		buildXmlNameMaps( );
 		validateConstants( );
 		buildStructures( );
+	}
+
+	/**
+	 * Creates a map. The key is the element xml-name. The value is the element
+	 * definition.
+	 */
+
+	private void buildXmlNameMaps( )
+	{
+		// Build the element metadata.
+
+		// for extension element, the tag name is always "extended-item".
+		
+		Iterator iter = elementNameMap.values( ).iterator( );
+		while ( iter.hasNext( ) )
+		{
+			ElementDefn tmpDefn = (ElementDefn) iter.next( );
+			elementXmlNameMap.put( tmpDefn.getXmlName( ), tmpDefn );
+		}
 	}
 
 	/**
@@ -378,7 +418,8 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 		Iterator iter = elementNameMap.values( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
-			( (ElementDefn) iter.next( ) ).build( );
+			ElementDefn tmpDefn = (ElementDefn) iter.next( );
+			tmpDefn.build( );
 		}
 	}
 

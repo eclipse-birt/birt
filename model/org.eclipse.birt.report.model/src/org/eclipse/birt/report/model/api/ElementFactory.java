@@ -16,6 +16,12 @@ import java.util.Iterator;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.command.InvalidParentException;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.olap.OdaCubeHandle;
+import org.eclipse.birt.report.model.api.olap.OdaDimensionHandle;
+import org.eclipse.birt.report.model.api.olap.OdaHierarchyHandle;
+import org.eclipse.birt.report.model.api.olap.OdaLevelHandle;
+import org.eclipse.birt.report.model.api.olap.OdaMeasureGroupHandle;
+import org.eclipse.birt.report.model.api.olap.OdaMeasureHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
@@ -65,6 +71,12 @@ import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
+import org.eclipse.birt.report.model.elements.olap.OdaCube;
+import org.eclipse.birt.report.model.elements.olap.OdaDimension;
+import org.eclipse.birt.report.model.elements.olap.OdaHierarchy;
+import org.eclipse.birt.report.model.elements.olap.OdaLevel;
+import org.eclipse.birt.report.model.elements.olap.OdaMeasure;
+import org.eclipse.birt.report.model.elements.olap.OdaMeasureGroup;
 import org.eclipse.birt.report.model.elements.olap.TabularCube;
 import org.eclipse.birt.report.model.elements.olap.TabularDimension;
 import org.eclipse.birt.report.model.elements.olap.TabularHierarchy;
@@ -1187,4 +1199,110 @@ public class ElementFactory
 		AccessControl element = new ValueAccessControl( );
 		return (ValueAccessControlHandle) element.handle( module );
 	}
+	
+	/**
+	 * Creates a new cube element. The name is required. If the
+	 * <code>name</code> is null, we will make a unique name for it.
+	 * 
+	 * @param name
+	 *            the cube element name.
+	 * @return a handle to the cube element
+	 */
+
+	public OdaCubeHandle newOdaCube( String name )
+	{
+		OdaCube element = new OdaCube( name );
+		module.makeUniqueName( element );
+
+		// add a measure group
+		OdaMeasureGroup measureGroup = new OdaMeasureGroup( );
+		module.makeUniqueName( measureGroup );
+		element.add( module, measureGroup, ICubeModel.MEASURE_GROUPS_PROP );
+
+		return element.handle( module );
+	}
+
+	/**
+	 * Creates a new dimension element. The name is required. If the
+	 * <code>name</code> is null, we will make a unique name for it.
+	 * 
+	 * @param name
+	 *            the dimension name
+	 * @return a handle to the dimension element
+	 */
+
+	public OdaDimensionHandle newOdaDimension( String name )
+	{
+		// add a hierarchy element to the dimension
+		OdaDimension element = new OdaDimension( name );
+		module.makeUniqueName( element );
+		OdaHierarchy hierarchy = new OdaHierarchy( );
+		element.add( module, hierarchy, IDimensionModel.HIERARCHIES_PROP );
+		module.makeUniqueName( hierarchy );
+		return element.handle( module );
+	}
+
+	/**
+	 * Creates a new hierarchy element. The name is required. If the
+	 * <code>name</code> is null, we will make a unique name for it.
+	 * 
+	 * @param name
+	 *            hierarchy name
+	 * @return a handle to the hierarchy element
+	 */
+
+	public OdaHierarchyHandle newOdaHierarchy( String name )
+	{
+		OdaHierarchy element = new OdaHierarchy( name );
+		module.makeUniqueName( element );
+		return element.handle( module );
+	}
+
+	/**
+	 * Creates a new level element. The name is required. If the
+	 * <code>name</code> is null, we will make a unique name for it.
+	 * 
+	 * @param name
+	 *            the level name
+	 * @return a handle to the level element
+	 */
+
+	public OdaLevelHandle newOdaLevel( String name )
+	{
+		OdaLevel element = new OdaLevel( name );
+		module.makeUniqueName( element );
+		return element.handle( module );
+
+	}
+
+	/**
+	 * Creates a new measure element. The name is required. If the
+	 * <code>name</code> is null, we will make a unique name for it.
+	 * 
+	 * @param name
+	 *            the measure name
+	 * @return a handle to the measure element
+	 */
+
+	public OdaMeasureHandle newOdaMeasure( String name )
+	{
+		OdaMeasure element = new OdaMeasure( name );
+		module.makeUniqueName( element );
+		return element.handle( module );
+	}
+
+	/**
+	 * Creates a new measure group.
+	 * 
+	 * @param name
+	 *            the optional measure group name.
+	 * @return the measure group element
+	 */
+	public OdaMeasureGroupHandle newOdaMeasureGroup( String name )
+	{
+		OdaMeasureGroup element = new OdaMeasureGroup( name );
+		module.makeUniqueName( element );
+		return element.handle( module );
+	}
+
 }

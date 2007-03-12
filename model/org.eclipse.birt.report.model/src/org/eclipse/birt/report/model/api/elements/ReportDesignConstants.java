@@ -79,6 +79,12 @@ public interface ReportDesignConstants
 	String TABULAR_LEVEL_ELEMENT = "TabularLevel"; //$NON-NLS-1$
 	String TABULAR_MEASURE_ELEMENT = "TabularMeasure"; //$NON-NLS-1$
 	String TABULAR_MEASURE_GROUP_ELEMENT = "TabularMeasureGroup"; //$NON-NLS-1$
+	String ODA_CUBE_ELEMENT = "OdaCube"; //$NON-NLS-1$
+	String ODA_DIMENSION_ELEMENT = "OdaDimension"; //$NON-NLS-1$
+	String ODA_HIERARCHY_ELEMENT = "OdaHierarchy"; //$NON-NLS-1$
+	String ODA_LEVEL_ELEMENT = "OdaLevel"; //$NON-NLS-1$
+	String ODA_MEASURE_ELEMENT = "OdaMeasure"; //$NON-NLS-1$
+	String ODA_MEASURE_GROUP_ELEMENT = "OdaMeasureGroup"; //$NON-NLS-1$
 	
 	/**
 	 * @deprecated by {@link #TEXT_DATA_ITEM}

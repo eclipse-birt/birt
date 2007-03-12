@@ -13,7 +13,6 @@
     </data-sets>
     <cubes>
         <tabular-cube name="testCube" id="7">
-            <property name="dataSet">firstDataSet</property>
             <property name="defaultMeasureGroup">testMeasureGroup</property>
             <list-property name="filter">
                 <structure>
@@ -45,7 +44,6 @@
                     <property name="defaultHierarchy">testHierarchy</property>
                     <property name="hierarchies">
                         <tabular-hierarchy name="testHierarchy" id="9">
-                            <property name="dataSet">secondDataSet</property>
                             <list-property name="filter">
                                 <structure>
                                     <property name="operator">lt</property>
@@ -119,6 +117,7 @@
                                     <property name="permission">allow</property>
                                 </access-control>
                             </property>
+                            <property name="dataSet">secondDataSet</property>							
                         </tabular-hierarchy>
                     </property>
                 </tabular-dimension>
@@ -147,9 +146,9 @@
                     <property name="permission">disallow</property>
                 </access-control>
             </property>
+            <property name="dataSet">firstDataSet</property>			
         </tabular-cube>
         <tabular-cube name="testCube1" id="16">
-            <property name="dataSet">firstDataSet</property>
             <property name="defaultMeasureGroup">testMeasureGroup1</property>
             <list-property name="filter">
                 <structure>
@@ -181,7 +180,6 @@
                     <property name="defaultHierarchy">testHierarchy1</property>
                     <property name="hierarchies">
                         <tabular-hierarchy name="testHierarchy1" id="18">
-                            <property name="dataSet">secondDataSet</property>
                             <list-property name="filter">
                                 <structure>
                                     <property name="operator">lt</property>
@@ -255,6 +253,7 @@
                                     <property name="permission">allow</property>
                                 </access-control>
                             </property>
+                            <property name="dataSet">secondDataSet</property>							
                         </tabular-hierarchy>
                     </property>
                 </tabular-dimension>
@@ -283,6 +282,7 @@
                     <property name="permission">disallow</property>
                 </access-control>
             </property>
+            <property name="dataSet">firstDataSet</property>			
         </tabular-cube>
     </cubes>
     <page-setup>

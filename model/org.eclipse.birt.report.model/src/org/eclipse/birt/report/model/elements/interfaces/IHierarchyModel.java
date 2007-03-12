@@ -17,14 +17,6 @@ package org.eclipse.birt.report.model.elements.interfaces;
 
 public interface IHierarchyModel
 {
-
-	/**
-	 * Name of the property that defines its own dataset for a hierarchy. It can
-	 * be used by the sub levels.
-	 */
-
-	static final String DATA_SET_PROP = "dataSet"; //$NON-NLS-1$
-
 	/**
 	 * Name of the property that defines a list of filter conditions.
 	 */

@@ -19,7 +19,6 @@ import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.parser.treebuild.ContentNode;
 import org.eclipse.birt.report.model.util.AbstractParseState;
-import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
 import org.xml.sax.Attributes;
@@ -149,41 +148,36 @@ public class ContentNodeState extends AbstractParseState
 			node.setAttribute( name, value );
 		}
 
-		// handler the name and id to avoid the duplicate
-		String elementName = ModelUtil.getElementNameFromXmlName( node
-				.getName( ) );
-		if ( !StringUtil.isBlank( elementName ) )
+		ElementDefn elementDefn = (ElementDefn) MetaDataDictionary
+				.getInstance( ).getElementByXmlName( node.getName( ) );
+
+		if ( elementDefn != null )
 		{
+			String name = (String) node
+					.getAttribute( DesignSchemaConstants.NAME_ATTRIB );
+			String idString = (String) node
+					.getAttribute( DesignSchemaConstants.ID_ATTRIB );
 
-			ElementDefn elementDefn = (ElementDefn) MetaDataDictionary
-					.getInstance( ).getElement( elementName );
-			if ( elementDefn != null )
+			// handler name
+			if ( !StringUtil.isBlank( name ) )
+				handler.module.getNameManager( ).addContentName(
+						elementDefn.getNameSpaceID( ), name );
+			// handler id
+			if ( !StringUtil.isBlank( idString ) )
 			{
-				String name = (String) node
-						.getAttribute( DesignSchemaConstants.NAME_ATTRIB );
-				String idString = (String) node
-						.getAttribute( DesignSchemaConstants.ID_ATTRIB );
-
-				// handler name
-				if ( !StringUtil.isBlank( name ) )
-					handler.module.getNameManager( ).addContentName(
-							elementDefn.getNameSpaceID( ), name );
-				// handler id
-				if ( !StringUtil.isBlank( idString ) )
+				try
 				{
-					try
-					{
-						long id = Long.parseLong( idString );
-						if ( id > DesignElement.NO_ID )
-							handler.module.addElementID( id );
-					}
-					catch ( NumberFormatException e )
-					{
-						// do nothing
-					}
+					long id = Long.parseLong( idString );
+					if ( id > DesignElement.NO_ID )
+						handler.module.addElementID( id );
+				}
+				catch ( NumberFormatException e )
+				{
+					// do nothing
 				}
 			}
 		}
+
 	}
 
 	/*

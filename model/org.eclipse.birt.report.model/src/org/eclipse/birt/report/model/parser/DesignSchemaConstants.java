@@ -129,8 +129,14 @@ public interface DesignSchemaConstants
 	static final String NAME_ATTRIB = "name"; //$NON-NLS-1$ 
 	static final String NUMBER_ALIGN_ATTRIB = "number-align"; //$NON-NLS-1$ 
 	static final String NUMBER_FORMAT_ATTRIB = "number-format"; //$NON-NLS-1$
+	static final String ODA_CUBE_TAG = "oda-cube"; //$NON-NLS-1$	
 	static final String ODA_DATA_SET_TAG = "oda-data-set"; //$NON-NLS-1$
 	static final String ODA_DATA_SOURCE_TAG = "oda-data-source"; //$NON-NLS-1$
+	static final String ODA_DIMENSION_TAG = "oda-dimension"; //$NON-NLS-1$
+	static final String ODA_HIERARCHY_TAG = "oda-hierarchy"; //$NON-NLS-1$
+	static final String ODA_LEVEL_TAG = "oda-level"; //$NON-NLS-1$
+	static final String ODA_MEASURE_TAG = "oda-measure"; //$NON-NLS-1$
+	static final String ODA_MEASURE_GROUP_TAG = "oda-measure-group"; //$NON-NLS-1$		
 	static final String OVERRIDDEN_VALUES_TAG = "overridden-values"; //$NON-NLS-1$
 	static final String PADDING_BOTTOM_ATTRIB = "padding-bottom"; //$NON-NLS-1$
 	static final String PADDING_LEFT_ATTRIB = "padding-left"; //$NON-NLS-1$

@@ -124,6 +124,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IMeasureModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSourceModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IOdaOlapElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IParameterGroupModel;
 import org.eclipse.birt.report.model.elements.interfaces.IParameterModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
@@ -137,6 +138,8 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITabularCubeModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITabularHierarchyModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITemplateParameterDefinitionModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITextDataItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITextItemModel;
@@ -147,6 +150,12 @@ import org.eclipse.birt.report.model.elements.olap.Hierarchy;
 import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.birt.report.model.elements.olap.Measure;
 import org.eclipse.birt.report.model.elements.olap.MeasureGroup;
+import org.eclipse.birt.report.model.elements.olap.OdaCube;
+import org.eclipse.birt.report.model.elements.olap.OdaDimension;
+import org.eclipse.birt.report.model.elements.olap.OdaHierarchy;
+import org.eclipse.birt.report.model.elements.olap.OdaLevel;
+import org.eclipse.birt.report.model.elements.olap.OdaMeasure;
+import org.eclipse.birt.report.model.elements.olap.OdaMeasureGroup;
 import org.eclipse.birt.report.model.elements.olap.TabularCube;
 import org.eclipse.birt.report.model.elements.olap.TabularDimension;
 import org.eclipse.birt.report.model.elements.olap.TabularHierarchy;
@@ -3321,7 +3330,6 @@ public abstract class ModuleWriter extends ElementVisitor
 	public void visitCube( Cube obj )
 	{
 		super.visitCube( obj );
-		property( obj, ICubeModel.DATA_SET_PROP );
 		property( obj, ICubeModel.DEFAULT_MEASURE_GROUP_PROP );
 		writeStructureList( obj, ICubeModel.FILTER_PROP );
 		writeStructureList( obj, ICubeModel.DIMENSION_CONDITIONS_PROP );
@@ -3353,7 +3361,6 @@ public abstract class ModuleWriter extends ElementVisitor
 	public void visitHierarchy( Hierarchy obj )
 	{
 		super.visitHierarchy( obj );
-		property( obj, IHierarchyModel.DATA_SET_PROP );
 		writeStructureList( obj, ICubeModel.FILTER_PROP );
 		writeSimplePropertyList( obj, IHierarchyModel.PRIMARY_KEYS_PROP );
 
@@ -3454,11 +3461,13 @@ public abstract class ModuleWriter extends ElementVisitor
 	 * 
 	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitTabularCube(org.eclipse.birt.report.model.elements.olap.TabularCube)
 	 */
+	
 	public void visitTabularCube( TabularCube obj )
 	{
 		writer.startElement( DesignSchemaConstants.TABULAR_CUBE_TAG );
 		super.visitTabularCube( obj );
-
+		
+		property( obj, ITabularCubeModel.DATA_SET_PROP );
 		writer.endElement( );
 
 	}
@@ -3485,6 +3494,8 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		writer.startElement( DesignSchemaConstants.TABULAR_HIERARCHY_TAG );
 		super.visitTabularHierarchy( obj );
+		
+		property( obj, ITabularHierarchyModel.DATA_SET_PROP );
 
 		writer.endElement( );
 	}
@@ -3525,6 +3536,90 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		writer.startElement( DesignSchemaConstants.TABULAR_MEASURE_GROUP_TAG );
 		super.visitTabularMeasureGroup( obj );
+
+		writer.endElement( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitOdaCube(org.eclipse.birt.report.model.elements.olap.OdaCube)
+	 */
+	public void visitOdaCube( OdaCube obj )
+	{
+		writer.startElement( DesignSchemaConstants.ODA_CUBE_TAG );
+		super.visitOdaCube( obj );
+
+		property( obj, IOdaOlapElementModel.NATIVE_NAME_PROP );
+		writer.endElement( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitOdaDimension(org.eclipse.birt.report.model.elements.olap.OdaDimension)
+	 */
+
+	public void visitOdaDimension( OdaDimension obj )
+	{
+		writer.startElement( DesignSchemaConstants.ODA_DIMENSION_TAG );
+		super.visitOdaDimension( obj );
+
+		property( obj, IOdaOlapElementModel.NATIVE_NAME_PROP );
+		writer.endElement( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitOdaHierarchy(org.eclipse.birt.report.model.elements.olap.OdaHierarchy)
+	 */
+	public void visitOdaHierarchy( OdaHierarchy obj )
+	{
+		writer.startElement( DesignSchemaConstants.ODA_HIERARCHY_TAG );
+		super.visitOdaHierarchy( obj );
+
+		property( obj, IOdaOlapElementModel.NATIVE_NAME_PROP );
+		writer.endElement( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitOdaLevel(org.eclipse.birt.report.model.elements.olap.OdaLevel)
+	 */
+	public void visitOdaLevel( OdaLevel obj )
+	{
+		writer.startElement( DesignSchemaConstants.ODA_LEVEL_TAG );
+		super.visitOdaLevel( obj );
+
+		writer.endElement( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitOdaMeasure(org.eclipse.birt.report.model.elements.olap.OdaMeasure)
+	 */
+	public void visitOdaMeasure( OdaMeasure obj )
+	{
+		writer.startElement( DesignSchemaConstants.ODA_MEASURE_TAG );
+		super.visitOdaMeasure( obj );
+
+		writer.endElement( );
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitOdaMeasureGroup(org.eclipse.birt.report.model.elements.olap.OdaMeasureGroup)
+	 */
+	
+	public void visitOdaMeasureGroup( OdaMeasureGroup obj )
+	{
+		writer.startElement( DesignSchemaConstants.ODA_MEASURE_GROUP_TAG );
+		super.visitOdaMeasureGroup( obj );
 
 		writer.endElement( );
 	}

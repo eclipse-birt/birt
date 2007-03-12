@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.11" id="1">
-    <data-sources>
-        <script-data-source name="myDataSource" id="4"/>
-    </data-sources>
-    <data-sets>
-        <script-data-set name="firstDataSet" id="5">
-            <property name="dataSource">myDataSource</property>
-        </script-data-set>
-        <script-data-set name="secondDataSet" id="6">
-            <property name="dataSource">myDataSource</property>
-        </script-data-set>
-    </data-sets>
     <cubes>
-        <tabular-cube name="newtestCube" id="7">
+        <oda-cube name="newtestCube" id="4">
             <property name="defaultMeasureGroup">testDefaultMeasureGroup</property>
             <list-property name="filter">
                 <structure>
@@ -40,11 +29,11 @@
                 </structure>
             </list-property>
             <property name="dimensions">
-                <tabular-dimension name="newtestDimension" id="8">
+                <oda-dimension name="newtestDimension" id="5">
                     <property name="isTimeType">false</property>
                     <property name="defaultHierarchy">testDefaultHierarchy</property>
                     <property name="hierarchies">
-                        <tabular-hierarchy name="newtestHierarchy" id="9">
+                        <oda-hierarchy name="newtestHierarchy" id="6">
                             <list-property name="filter">
                                 <structure>
                                     <property name="operator">lt</property>
@@ -59,7 +48,7 @@
                                 <value>updated key</value>
                             </simple-property-list>
                             <property name="levels">
-                                <tabular-level name="newtestLevel" id="10">
+                                <oda-level name="newtestLevel" id="7">
                                     <property name="columnName">updated column1</property>
                                     <property name="dataType">string</property>
                                     <property name="intervalBase">updated Jan</property>
@@ -87,7 +76,7 @@
                                         </structure>
                                     </list-property>
                                     <property name="valueAccessControls">
-                                        <value-access-control id="11">
+                                        <value-access-control id="8">
                                             <simple-property-list name="userNames">
                                                 <value>level user1</value>
                                                 <value>level user2</value>
@@ -108,13 +97,13 @@
                                             </simple-property-list>
                                             <property name="permission">allow</property>
                                         </value-access-control>
-                                        <value-access-control id="22"/>
+                                        <value-access-control id="19"/>
                                     </property>
-                                </tabular-level>
-                                <tabular-level name="NewTabularLevel" id="21"/>
+                                </oda-level>
+                                <oda-level name="NewOdaLevel" id="18"/>
                             </property>
                             <property name="accessControls">
-                                <access-control id="12">
+                                <access-control id="9">
                                     <simple-property-list name="userNames">
                                         <value>hierarchy user1</value>
                                         <value>hierarchy user2</value>
@@ -129,35 +118,33 @@
                                     </simple-property-list>
                                     <property name="permission">disallow</property>
                                 </access-control>
-                                <access-control id="20"/>
+                                <access-control id="17"/>
                             </property>
-                            <property name="dataSet">firstDataSet</property>							
-                        </tabular-hierarchy>
-                        <tabular-hierarchy name="NewTabularHierarchy1" id="19"/>
+                        </oda-hierarchy>
+                        <oda-hierarchy name="NewOdaHierarchy1" id="16"/>
                     </property>
-                </tabular-dimension>
-                <tabular-dimension name="NewTabularDimension" id="17">
-                	<property name="defaultHierarchy">NewTabularHierarchy</property>
+                </oda-dimension>
+                <oda-dimension name="NewOdaDimension" id="14">
                     <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy" id="18"/>
+                        <oda-hierarchy name="NewOdaHierarchy" id="15"/>
                     </property>
-                </tabular-dimension>
+                </oda-dimension>
             </property>
             <property name="measureGroups">
-                <tabular-measure-group name="newtestMeasureGroup" id="13">
+                <oda-measure-group name="newtestMeasureGroup" id="10">
                     <property name="measures">
-                        <tabular-measure name="newtestMeasure" id="14">
+                        <oda-measure name="newtestMeasure" id="11">
                             <property name="function">count</property>
                             <property name="isCalculated">true</property>
                             <expression name="measureExpression">updated column</expression>
-                        </tabular-measure>
-                        <tabular-measure name="NewTabularMeasure" id="24"/>
+                        </oda-measure>
+                        <oda-measure name="NewOdaMeasure" id="21"/>
                     </property>
-                </tabular-measure-group>
-                <tabular-measure-group name="NewTabularMeasureGroup" id="23"/>
+                </oda-measure-group>
+                <oda-measure-group name="NewOdaMeasureGroup" id="20"/>
             </property>
             <property name="accessControls">
-                <access-control id="15">
+                <access-control id="12">
                     <simple-property-list name="userNames">
                         <value>cube user1</value>
                         <value>cube user2</value>
@@ -172,10 +159,9 @@
                     </simple-property-list>
                     <property name="permission">allow</property>
                 </access-control>
-                <access-control id="16"/>
+                <access-control id="13"/>
             </property>
-            <property name="dataSet">secondDataSet</property>			
-        </tabular-cube>
+        </oda-cube>
     </cubes>
     <page-setup>
         <graphic-master-page name="My Page" id="2">

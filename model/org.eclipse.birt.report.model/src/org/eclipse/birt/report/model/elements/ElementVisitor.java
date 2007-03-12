@@ -24,6 +24,12 @@ import org.eclipse.birt.report.model.elements.olap.Hierarchy;
 import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.birt.report.model.elements.olap.Measure;
 import org.eclipse.birt.report.model.elements.olap.MeasureGroup;
+import org.eclipse.birt.report.model.elements.olap.OdaCube;
+import org.eclipse.birt.report.model.elements.olap.OdaDimension;
+import org.eclipse.birt.report.model.elements.olap.OdaHierarchy;
+import org.eclipse.birt.report.model.elements.olap.OdaLevel;
+import org.eclipse.birt.report.model.elements.olap.OdaMeasure;
+import org.eclipse.birt.report.model.elements.olap.OdaMeasureGroup;
 import org.eclipse.birt.report.model.elements.olap.TabularCube;
 import org.eclipse.birt.report.model.elements.olap.TabularDimension;
 import org.eclipse.birt.report.model.elements.olap.TabularHierarchy;
@@ -780,6 +786,78 @@ public class ElementVisitor
 	 */
 
 	public void visitTabularMeasureGroup( TabularMeasureGroup obj )
+	{
+		visitMeasureGroup( obj );
+	}
+	
+	/**
+	 * Visits the cube element.
+	 * 
+	 * @param obj
+	 *            the cube element to traverse
+	 */
+
+	public void visitOdaCube( OdaCube obj )
+	{
+		visitCube( obj );
+	}
+
+	/**
+	 * Visists the dimension element.
+	 * 
+	 * @param obj
+	 *            the dimension element to traverse
+	 */
+
+	public void visitOdaDimension( OdaDimension obj )
+	{
+		visitDimension( obj );
+	}
+
+	/**
+	 * Visists the hierarchy element.
+	 * 
+	 * @param obj
+	 *            the hierarchy element to traverse
+	 */
+
+	public void visitOdaHierarchy( OdaHierarchy obj )
+	{
+		visitHierarchy( obj );
+	}
+
+	/**
+	 * Visists the level element.
+	 * 
+	 * @param obj
+	 *            the level element to traverse
+	 */
+
+	public void visitOdaLevel( OdaLevel obj )
+	{
+		visitLevel( obj );
+	}
+
+	/**
+	 * Visists the measure element.
+	 * 
+	 * @param obj
+	 *            the measure element to traverse
+	 */
+
+	public void visitOdaMeasure( OdaMeasure obj )
+	{
+		visitMeasure( obj );
+	}
+
+	/**
+	 * Visits the measure group element.
+	 * 
+	 * @param obj
+	 *            the measure group to traverse
+	 */
+
+	public void visitOdaMeasureGroup( OdaMeasureGroup obj )
 	{
 		visitMeasureGroup( obj );
 	}

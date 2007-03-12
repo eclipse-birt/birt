@@ -17,6 +17,12 @@ import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.api.olap.OdaCubeHandle;
+import org.eclipse.birt.report.model.api.olap.OdaDimensionHandle;
+import org.eclipse.birt.report.model.api.olap.OdaHierarchyHandle;
+import org.eclipse.birt.report.model.api.olap.OdaLevelHandle;
+import org.eclipse.birt.report.model.api.olap.OdaMeasureGroupHandle;
+import org.eclipse.birt.report.model.api.olap.OdaMeasureHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
@@ -61,6 +67,12 @@ import org.eclipse.birt.report.model.elements.TemplateReportItem;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.olap.OdaCube;
+import org.eclipse.birt.report.model.elements.olap.OdaDimension;
+import org.eclipse.birt.report.model.elements.olap.OdaHierarchy;
+import org.eclipse.birt.report.model.elements.olap.OdaLevel;
+import org.eclipse.birt.report.model.elements.olap.OdaMeasure;
+import org.eclipse.birt.report.model.elements.olap.OdaMeasureGroup;
 import org.eclipse.birt.report.model.elements.olap.TabularCube;
 import org.eclipse.birt.report.model.elements.olap.TabularDimension;
 import org.eclipse.birt.report.model.elements.olap.TabularHierarchy;
@@ -769,6 +781,79 @@ public class DesignVisitor
 	 *            the cube element to traverse
 	 */
 
+	protected void visitOdaCube( OdaCubeHandle obj )
+	{
+		visitCube( obj );
+	}
+
+	/**
+	 * Visits the dimension element.
+	 * 
+	 * @param obj
+	 *            the dimension element to traverse
+	 */
+
+	protected void visitOdaDimension( OdaDimensionHandle obj )
+	{
+		visitDimension( obj );
+	}
+
+	/**
+	 * Visits the hierarchy element.
+	 * 
+	 * @param obj
+	 *            the hierarchy element to traverse
+	 */
+
+	protected void visitOdaHierarchy( OdaHierarchyHandle obj )
+	{
+		visitHierarchy( obj );
+	}
+
+	/**
+	 * Visits the level element.
+	 * 
+	 * @param obj
+	 *            the level element to traverse
+	 */
+
+	protected void visitOdaLevel( OdaLevelHandle obj )
+	{
+		visitLevel( obj );
+	}
+
+	/**
+	 * Visits the measure element.
+	 * 
+	 * @param obj
+	 *            the measure element to traverse
+	 */
+
+	protected void visitOdaMeasure( OdaMeasureHandle obj )
+	{
+		visitMeasure( obj );
+	}
+
+	/**
+	 * Visits the measure element.
+	 * 
+	 * @param obj
+	 *            the measure element to traverse
+	 */
+
+	protected void visitOdaMeasureGroup( OdaMeasureGroupHandle obj )
+	{
+		visitMeasureGroup( obj );
+	}
+
+	
+	/**
+	 * Visits the cube element.
+	 * 
+	 * @param obj
+	 *            the cube element to traverse
+	 */
+
 	protected void visitCube( CubeHandle obj )
 	{
 		visitDesignElement( obj );
@@ -1353,6 +1438,77 @@ public class DesignVisitor
 		public void visitTabularMeasureGroup( TabularMeasureGroup obj )
 		{
 			DesignVisitor.this.visitTabularMeasureGroup( obj.handle( module ) );
+		}
+		
+		/**
+		 * Visits the cube element.
+		 * 
+		 * @param obj
+		 *            the cube element
+		 */
+
+		public void visitOdaCube( OdaCube obj )
+		{
+			DesignVisitor.this.visitOdaCube( obj.handle( module ) );
+		}
+
+		/**
+		 * Visits the dimension element.
+		 * 
+		 * @param obj
+		 *            the dimension element
+		 */
+
+		public void visitOdaDimension( OdaDimension obj )
+		{
+			DesignVisitor.this.visitOdaDimension( obj.handle( module ) );
+		}
+
+		/**
+		 * Visits the hierarchy element.
+		 * 
+		 * @param obj
+		 *            the hierarchy element
+		 */
+
+		public void visitOdaHierarchy( OdaHierarchy obj )
+		{
+			DesignVisitor.this.visitOdaHierarchy( obj.handle( module ) );
+		}
+
+		/**
+		 * Visits the level element.
+		 * 
+		 * @param obj
+		 *            the level element
+		 */
+
+		public void visitOdaLevel( OdaLevel obj )
+		{
+			DesignVisitor.this.visitOdaLevel( obj.handle( module ) );
+		}
+
+		/**
+		 * Visits the measure element.
+		 * 
+		 * @param obj
+		 *            the measure element
+		 */
+
+		public void visitOdaMeasure( OdaMeasure obj )
+		{
+			DesignVisitor.this.visitOdaMeasure( obj.handle( module ) );
+		}
+
+		/**
+		 * Visits the measure group.
+		 * 
+		 * @param obj
+		 *            the measure group
+		 */
+		public void visitOdaMeasureGroup( OdaMeasureGroup obj )
+		{
+			DesignVisitor.this.visitOdaMeasureGroup( obj.handle( module ) );
 		}
 	}
 }

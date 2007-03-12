@@ -12,27 +12,27 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.olap.Level;
-import org.eclipse.birt.report.model.elements.olap.TabularLevel;
+import org.eclipse.birt.report.model.elements.olap.Dimension;
+import org.eclipse.birt.report.model.elements.olap.OdaDimension;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 
 /**
- * This class parses a Level element within a hierarchy.
+ * This class parses a Dimension element within a cube.
  * 
  */
 
-public class LevelState extends ReportElementState
+public class OdaDimensionState extends ReportElementState
 {
 
 	/**
-	 * The level being created.
+	 * The dimension being created.
 	 */
 
-	protected Level element = null;
+	protected Dimension element = null;
 
 	/**
-	 * Constructs level state with the design parser handler, the container
+	 * Constructs dimension state with the design parser handler, the container
 	 * element and the container property name of the report element.
 	 * 
 	 * @param handler
@@ -43,8 +43,8 @@ public class LevelState extends ReportElementState
 	 *            the slot in which this element appears
 	 */
 
-	public LevelState( ModuleParserHandler handler, DesignElement theContainer,
-			String prop )
+	public OdaDimensionState( ModuleParserHandler handler,
+			DesignElement theContainer, String prop )
 	{
 		super( handler, theContainer, prop );
 	}
@@ -68,7 +68,7 @@ public class LevelState extends ReportElementState
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
 	{
-		element = new TabularLevel( );
-		initElement( attrs, false );
+		element = new OdaDimension( );
+		initElement( attrs, true );
 	}
 }
