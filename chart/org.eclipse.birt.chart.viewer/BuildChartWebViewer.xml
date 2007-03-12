@@ -95,15 +95,16 @@
 	<!-- Prepare some extension and eclipse jars -->
 	<target name="extensions">
 		<copy todir="${birt.dir}/WEB-INF/lib" failonerror="true" flatten="true">
-			<fileset file="../org.eclipse.birt.core/org.eclipse.birt.core_*.jar" />
-			<fileset file="../org.eclipse.birt.chart.engine/org.eclipse.birt.chart.engine_*.jar" />
-			<fileset file="../org.eclipse.birt.chart.engine.extension/org.eclipse.birt.chart.engine.extension_*.jar" />
-			<fileset file="../org.eclipse.birt.chart.device.extension/org.eclipse.birt.chart.device.extension_*.jar" />
-			<fileset file="../org.eclipse.birt.chart.device.svg/org.eclipse.birt.chart.device.svg_*.jar" />
-			<fileset file="../org.eclipse.birt.chart.device.pdf/org.eclipse.birt.chart.device.pdf_*.jar" />
-			<fileset file="../org.eclipse.birt.chart.device.swt/org.eclipse.birt.chart.device.swt_*.jar" />
-			<fileset file="../org.mozilla.rhino/lib/js.jar" />
-
+			<fileset dir="${integrate.dir}/plugins">
+				<include name="org.eclipse.birt.core_*.jar" />
+				<include name="org.eclipse.birt.chart.engine_*.jar" />
+				<include name="org.eclipse.birt.chart.engine.extension_*.jar" />
+				<include name="org.eclipse.birt.chart.device.extension_*.jar" />
+				<include name="org.eclipse.birt.chart.device.svg_*.jar" />
+				<include name="org.eclipse.birt.chart.device.pdf_*.jar" />
+				<include name="org.eclipse.birt.chart.device.swt_*.jar" />
+				<include name="org.mozilla.rhino_*/*.jar" />
+			</fileset>
 			<fileset dir="${eclipse.home}/plugins">
 				<include name="org.eclipse.emf.common_*.jar" />
 				<include name="org.eclipse.emf.ecore.xmi_*.jar" />
@@ -111,8 +112,8 @@
 				<include name="org.apache.xerces_*.jar" />
 				<include name="com.ibm.icu_*.jar" />
 				<include name="org.eclipse.tomcat_*/servlet.jar" />
-				<include name="org.apache.batik_*/lib/*.jar" />
-				<include name="org.apache.batik.pdf_*/lib/*.jar" />
+				<include name="org.apache.batik_*/*.jar" />
+				<include name="org.apache.batik.pdf_*/*.jar" />
 			</fileset>
 		</copy>
 	</target>
@@ -154,19 +155,19 @@
 	-->
 	<target name="Export" depends="Jar">
 		<property file="META-INF/MANIFEST.MF" />
-		<property name="plugin.package" value="${module.name}_${Bundle-Version}" />
+		<property name="plugin.package" value="${module.name}" />
 		<echo message="Export Chart Web Viewer version = ${Bundle-Version}" />
 
-		<copy todir="${export.dir}/${plugin.package}" failonerror="false">
+		<copy todir="./${plugin.package}" failonerror="false">
 			<fileset dir="." includes="${birt.dir}/**" />
 		</copy>
-		<rename src="${export.dir}/${plugin.package}/${birt.dir}" dest="${export.dir}/${plugin.package}/${war.folder}" />
-		<copy todir="${export.dir}/${plugin.package}/${war.folder}/WEB-INF/lib" failonerror="false">
+		<rename src="./${plugin.package}/${birt.dir}" dest="./${plugin.package}/${war.folder}" />
+		<copy todir="./${plugin.package}/${war.folder}/WEB-INF/lib" failonerror="false">
 			<fileset dir="." includes="${jar.name}" />
 		</copy>
 
-		<jar destfile="${war.name}">
-			<fileset dir="${export.dir}/${plugin.package}/${war.folder}">
+		<jar destfile="${export.dir}/${war.name}">
+			<fileset dir="${plugin.package}/${war.folder}">
 				<include name="*.*" />
 				<include name="*/**" />
 			</fileset>
