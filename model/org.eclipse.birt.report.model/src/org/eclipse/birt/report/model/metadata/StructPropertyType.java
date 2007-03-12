@@ -84,10 +84,7 @@ public class StructPropertyType extends PropertyType
 	{
 
 		if ( value == null )
-		{
-			logger.log( Level.WARNING, "The value of the structure is null" ); //$NON-NLS-1$
 			return null;
-		}
 		
 		//Now support empty list if structure property is list.
 
@@ -106,7 +103,6 @@ public class StructPropertyType extends PropertyType
 		}
 		if ( value instanceof Structure )
 		{
-			logger.log( Level.INFO, "Validate the structure value for each of its member " ); //$NON-NLS-1$
 			Iterator iter = ( (Structure) value ).getDefn( )
 					.propertiesIterator( );
 			while ( iter.hasNext( ) )
