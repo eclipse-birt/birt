@@ -52,6 +52,8 @@ public final class OneAxis
 
 	private boolean bCategoryScale = false;
 
+	private boolean bTickBwteenCategories = true;
+
 	private final Axis axModel;
 
 	private final int axisType;
@@ -96,12 +98,13 @@ public final class OneAxis
 	 * @param _iAxisLocation
 	 */
 	void set( int _iOrientation, int _iLabelPosition, int _iTitlePosition,
-			boolean _bCategoryScale )
+			boolean _bCategoryScale, boolean _bTickBwteenCategories )
 	{
 		iOrientation = _iOrientation;
 		iLabelPosition = _iLabelPosition;
 		iTitlePosition = _iTitlePosition;
 		bCategoryScale = _bCategoryScale;
+		bTickBwteenCategories = _bTickBwteenCategories;
 	}
 
 	void setAxisCoordinate( double _dAxisRenderingCoordinate )
@@ -212,6 +215,11 @@ public final class OneAxis
 	public final boolean isCategoryScale( )
 	{
 		return bCategoryScale;
+	}
+
+	public final boolean isTickBwtweenCategories( )
+	{
+		return bTickBwteenCategories;
 	}
 
 	/**

@@ -140,6 +140,8 @@ public final class AxesRenderHelper
 	private Text3DRenderEvent t3dre;
 	private Line3DRenderEvent l3dre;
 
+	private boolean bTickBetweenCategories;
+
 	private AxesRenderHelper( )
 	{
 
@@ -224,6 +226,8 @@ public final class AxesRenderHelper
 		lo3d = null;
 		t3dre = null;
 		l3dre = null;
+
+		bTickBetweenCategories = axModel.getScale( ).isTickBetweenCategories( );
 	}
 
 	private RunTimeContext getRunTimeContext( )
@@ -411,11 +415,17 @@ public final class AxesRenderHelper
 		{
 			if ( bRenderAxisLabels )
 			{
-				la.getCaption( )
-						.setValue( sc.formatCategoryValue( sc.getType( ),
-								sc.getData( ).next( ),
-								iDateTimeUnit ) );
-
+				if ( !bTickBetweenCategories && i == 0 )
+				{
+					la.getCaption( ).setValue( "" ); //$NON-NLS-1$
+				}
+				else
+				{
+					la.getCaption( )
+							.setValue( sc.formatCategoryValue( sc.getType( ),
+									sc.getData( ).next( ),
+									iDateTimeUnit ) );
+				}
 				if ( sc.isTickLabelVisible( i ) )
 				{
 					itmText.reuse( la ); // RECYCLED
@@ -625,9 +635,8 @@ public final class AxesRenderHelper
 		computation.initialize( );
 
 		// Offset for Text axis type
-		final double dOffset = computation instanceof TextAxisTypeComputation ? iDirection
-				* sc.getUnitSize( )
-				/ 2
+		final double dOffset = computation instanceof TextAxisTypeComputation
+				&& bTickBetweenCategories ? iDirection * sc.getUnitSize( ) / 2
 				: 0;
 		// Tick size
 		final int length = computation instanceof TextAxisTypeComputation ? da.length - 1
@@ -801,11 +810,10 @@ public final class AxesRenderHelper
 		computation.initialize( );
 
 		// Offset for Text axis type
-		final double dOffset = computation instanceof TextAxisTypeComputation ? iDirection
-				* sc.getUnitSize( )
-				/ 2
+		final double dOffset = computation instanceof TextAxisTypeComputation
+				&& bTickBetweenCategories ? iDirection * sc.getUnitSize( ) / 2
 				: 0;
-				
+
 		// Tick size
 		final int length = computation instanceof TextAxisTypeComputation ? da.length - 1
 				: da.length;

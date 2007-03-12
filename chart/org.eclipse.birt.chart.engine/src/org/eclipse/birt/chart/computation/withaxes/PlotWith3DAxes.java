@@ -80,7 +80,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 	private Bounds cachedAdjustedBounds;
 
 	protected double dZAxisPlotSpacing = 0;
-	
+
 	/**
 	 * @param _ids
 	 * @param _cwa
@@ -161,8 +161,8 @@ public class PlotWith3DAxes extends PlotWithAxes
 	{
 		if ( engine == null )
 		{
-			//TODO read custom light direction setting
-			
+			// TODO read custom light direction setting
+
 			// Use a fixed light direction here.
 			Vector lightDirection = new Vector( -1, 1, -1, false );
 
@@ -989,18 +989,29 @@ public class PlotWith3DAxes extends PlotWithAxes
 		{
 			dOrthogonalZero = getLocation( scOrthogonal, 0 );
 		}
-		else
+		else if ( oaxOrthogonal.isTickBwtweenCategories( ) )
 		{
 			dOrthogonalZero = scOrthogonal.getStart( );
 		}
+		else
+		{
+			dOrthogonalZero = scOrthogonal.getStart( )
+					+ scOrthogonal.getStartShift( );
+		}
+
 		double dAncillaryZero = 0;
 		if ( ( scAncillary.getType( ) & NUMERICAL ) == NUMERICAL )
 		{
 			dAncillaryZero = getLocation( scAncillary, 0 );
 		}
-		else
+		else if ( oaxAncillaryBase.isTickBwtweenCategories( ) )
 		{
 			dAncillaryZero = scAncillary.getStart( );
+		}
+		else
+		{
+			dAncillaryZero = scAncillary.getStart( )
+					+ scAncillary.getStartShift( );
 		}
 
 		double dX = 0, dY = 0, dZ = 0, dXLength = 0, dZLength = 0;
@@ -1153,6 +1164,10 @@ public class PlotWith3DAxes extends PlotWithAxes
 							dZ = daZTickCoordinates[0]
 									+ dZUnitSize
 									* seriesIndex;
+							if ( !scAncillary.isTickBetweenCategories( ) )
+							{
+								dZ += dZUnitSize / 2;
+							}
 						}
 						else
 						{
@@ -1187,12 +1202,19 @@ public class PlotWith3DAxes extends PlotWithAxes
 					else
 					{
 						dX = daXTickCoordinates[0] + dXUnitSize * i;
-
+						if ( !oaxBase.isTickBwtweenCategories( ) )
+						{
+							dX += dXUnitSize / 2;
+						}
 						if ( bZCategoryTextStyle )
 						{
 							dZ = daZTickCoordinates[0]
 									+ dZUnitSize
 									* seriesIndex;
+							if ( !scAncillary.isTickBetweenCategories( ) )
+							{
+								dZ += dZUnitSize / 2;
+							}
 						}
 						else
 						{
@@ -1351,7 +1373,8 @@ public class PlotWith3DAxes extends PlotWithAxes
 				transposeLabelPosition( IConstants.BASE,
 						getLabelPosition( axPrimaryBase.getTitlePosition( ) ) ),
 				axPrimaryBase.isSetCategoryAxis( )
-						&& axPrimaryBase.isCategoryAxis( ) );
+						&& axPrimaryBase.isCategoryAxis( ),
+				axPrimaryBase.getScale( ).isTickBetweenCategories( ) );
 		oaxPrimaryBase.setGridProperties( axPrimaryBase.getMajorGrid( )
 				.getLineAttributes( ),
 				axPrimaryBase.getMinorGrid( ).getLineAttributes( ),
@@ -1377,7 +1400,8 @@ public class PlotWith3DAxes extends PlotWithAxes
 				transposeLabelPosition( IConstants.ORTHOGONAL,
 						getLabelPosition( axPrimaryOrthogonal.getTitlePosition( ) ) ),
 				axPrimaryOrthogonal.isSetCategoryAxis( )
-						&& axPrimaryOrthogonal.isCategoryAxis( ) );
+						&& axPrimaryOrthogonal.isCategoryAxis( ),
+				axPrimaryOrthogonal.getScale( ).isTickBetweenCategories( ) );
 		oaxPrimaryOrthogonal.setGridProperties( axPrimaryOrthogonal.getMajorGrid( )
 				.getLineAttributes( ),
 				axPrimaryOrthogonal.getMinorGrid( ).getLineAttributes( ),
@@ -1402,7 +1426,8 @@ public class PlotWith3DAxes extends PlotWithAxes
 				getLabelPosition( axAncillaryBase.getLabelPosition( ) ),
 				getLabelPosition( axAncillaryBase.getTitlePosition( ) ),
 				axAncillaryBase.isSetCategoryAxis( )
-						&& axAncillaryBase.isCategoryAxis( ) );
+						&& axAncillaryBase.isCategoryAxis( ),
+				axAncillaryBase.getScale( ).isTickBetweenCategories( ) );
 		oaxAncillaryBase.setGridProperties( axAncillaryBase.getMajorGrid( )
 				.getLineAttributes( ),
 				axAncillaryBase.getMinorGrid( ).getLineAttributes( ),

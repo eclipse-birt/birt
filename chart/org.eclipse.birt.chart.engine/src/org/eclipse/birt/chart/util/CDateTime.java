@@ -54,6 +54,14 @@ public class CDateTime extends GregorianCalendar
 			Calendar.YEAR
 	};
 
+	private static int[] iaCalendarUnits = {
+			Calendar.SECOND,
+			Calendar.MINUTE,
+			Calendar.HOUR_OF_DAY,
+			Calendar.DATE,
+			Calendar.MONTH,
+	};
+
 	private static final SimpleDateFormat _sdf = new SimpleDateFormat( "MM-dd-yyyy HH:mm:ss" ); //$NON-NLS-1$
 
 	/**
@@ -400,6 +408,30 @@ public class CDateTime extends GregorianCalendar
 	}
 
 	/**
+	 * Returns a preferred format specifier for given data-time values will be
+	 * computed based on the difference between minDateTime and maxDateTime
+	 * 
+	 * @param minDateTime
+	 *            The minimum data-time value
+	 * @param maxDateTime
+	 *            The maximum data-time value
+	 * @return A preferred datetime unit for the given values
+	 */
+	public final static int getPreferredUnit( CDateTime minDateTime,
+			CDateTime maxDateTime )
+	{
+		for ( int i = 0; i < iaCalendarUnits.length; i++ )
+		{
+			int pUnit = iaCalendarUnits[i];
+			if ( computeDifference( maxDateTime, minDateTime, pUnit ) <= 95 )
+			{
+				return pUnit;
+			}
+		}
+		return Calendar.YEAR;
+	}
+
+	/**
 	 * Computes the difference between two given datetime values as a fraction
 	 * for the requested field.
 	 * 
@@ -722,10 +754,10 @@ public class CDateTime extends GregorianCalendar
 			set( Calendar.MINUTE, 0 );
 			set( Calendar.HOUR, 0 );
 			set( Calendar.AM_PM, AM );
-			
+
 			// Assume that Sunday is the first day, and other days will go back
 			// to current Sunday
-			int weekDay = get( DAY_OF_WEEK );			
+			int weekDay = get( DAY_OF_WEEK );
 			add( DATE, 1 - weekDay );
 		}
 		else if ( iUnit == DATE )
@@ -783,7 +815,7 @@ public class CDateTime extends GregorianCalendar
 	{
 		return _sdf.format( getTime( ) );
 	}
-	
+
 	public boolean after( Object when )
 	{
 		if ( when == null )

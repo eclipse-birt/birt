@@ -57,7 +57,7 @@ public final class AutoScale extends Methods implements Cloneable
 	private Object oMaximum;
 
 	private Object oStep;
-	
+
 	private Integer oStepNumber;
 
 	private Object oUnit;
@@ -80,8 +80,10 @@ public final class AutoScale extends Methods implements Cloneable
 
 	private transient boolean bCategoryScale = false;
 
+	private transient boolean bTickBetweenCategories = false;
+
 	private RunTimeContext rtc;;
-	
+
 	/** Indicates the max boundary of axis ticks. */
 	private static final int TICKS_MAX = 100;
 
@@ -190,9 +192,8 @@ public final class AutoScale extends Methods implements Cloneable
 	{
 		iType = _iType;
 		oMinimum = _oMinimum;
-		oMaximum = _oMaximum;		
+		oMaximum = _oMaximum;
 	}
-
 
 	final void setFixed( boolean _bMinimum, boolean _bMaximum, boolean _bStep )
 	{
@@ -251,6 +252,8 @@ public final class AutoScale extends Methods implements Cloneable
 		sc.baTickLabelStaggered = baTickLabelStaggered;
 		sc.bAxisLabelStaggered = bAxisLabelStaggered;
 		sc.iLabelShowingInterval = iLabelShowingInterval;
+		sc.bTickBetweenCategories = bTickBetweenCategories;
+
 		return sc;
 	}
 
@@ -305,7 +308,7 @@ public final class AutoScale extends Methods implements Cloneable
 				final double oldStep = dStep;
 				if ( bIntegralZoom )
 				{
-					
+
 					double dPower = ( Math.log( dStep ) / LOG_10 );
 					dPower = Math.floor( dPower );
 					dPower = Math.pow( 10.0, dPower );
@@ -340,13 +343,13 @@ public final class AutoScale extends Methods implements Cloneable
 					dStep /= 2;
 					oStep = new Double( dStep );
 				}
-				if ( ((Number) oStep ).doubleValue( ) < dPrecision )
+				if ( ( (Number) oStep ).doubleValue( ) < dPrecision )
 				{
 					oStep = new Double( oldStep ); // revert step
 					return false; // CANNOT ZOOM ANY MORE
 				}
 			}
-			
+
 		}
 		else if ( ( iType & DATE_TIME ) == DATE_TIME )
 		{
@@ -804,6 +807,15 @@ public final class AutoScale extends Methods implements Cloneable
 	 * 
 	 * @return
 	 */
+	public final boolean isTickBetweenCategories( )
+	{
+		return bTickBetweenCategories;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
 	public final double[] getTickCordinates( )
 	{
 		return daTickCoordinates;
@@ -931,13 +943,17 @@ public final class AutoScale extends Methods implements Cloneable
 				return this.oStepNumber.intValue( ) + 1;
 			}
 		}
-		
+
 		int nTicks = 2;
 		if ( ( iType & TEXT ) == TEXT || bCategoryScale )
 		{
 			if ( dsiData != null )
 			{
 				nTicks = dsiData.size( ) + 1;
+				if ( !bTickBetweenCategories )
+				{
+					nTicks++;
+				}
 			}
 		}
 		else if ( ( iType & NUMERICAL ) == NUMERICAL )
@@ -1068,7 +1084,7 @@ public final class AutoScale extends Methods implements Cloneable
 	{
 		this.oStep = o;
 	}
-	
+
 	/**
 	 * 
 	 * @return step number
@@ -1223,16 +1239,14 @@ public final class AutoScale extends Methods implements Cloneable
 		else
 		{
 			// Linear axis type
-			final double dMinValue = bMinimumFixed
-					? ( (Double) oMinimum ).doubleValue( )
+			final double dMinValue = bMinimumFixed ? ( (Double) oMinimum ).doubleValue( )
 					: asDouble( oMinValue ).doubleValue( );
-			final double dMaxValue = bMaximumFixed
-					? ( (Double) oMaximum ).doubleValue( )
+			final double dMaxValue = bMaximumFixed ? ( (Double) oMaximum ).doubleValue( )
 					: asDouble( oMaxValue ).doubleValue( );
 			final double dStep;
 			double dMinAxis = dMinValue;
 			double dMaxAxis = dMaxValue;
-			
+
 			if ( bStepFixed && oStepNumber != null )
 			{
 				// Compute step size
@@ -1246,10 +1260,10 @@ public final class AutoScale extends Methods implements Cloneable
 				// Auto adjust min and max by step if step number is not fixed
 				final double dAbsMax = Math.abs( dMaxValue );
 				final double dAbsMin = Math.abs( dMinValue );
-				
+
 				dMinAxis = ( ( dStep > 1 ) ? Math.floor( dAbsMin / dStep )
 						: Math.round( dAbsMin / dStep ) )
-						* dStep;			
+						* dStep;
 				if ( dMinAxis == dAbsMin )
 				{
 					dMinAxis += dStep;
@@ -1276,7 +1290,7 @@ public final class AutoScale extends Methods implements Cloneable
 
 				dMaxAxis = ( ( dStep > 1 ) ? Math.floor( dAbsMax / dStep )
 						: Math.round( dAbsMax / dStep ) )
-						* dStep;			
+						* dStep;
 				if ( dMaxAxis == dAbsMax )
 				{
 					dMaxAxis += dStep;
@@ -1315,7 +1329,7 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 				}
 			}
-			
+
 			// handle special case for min/max are both zero
 			if ( dMinValue == 0 && dMaxValue == 0 )
 			{
@@ -1419,7 +1433,7 @@ public final class AutoScale extends Methods implements Cloneable
 			{
 				// TODO special logic for last datapoint in non-equal scale unit
 				// case.
-				// Ignore the top label for better auto scale. 
+				// Ignore the top label for better auto scale.
 
 				nde.setValue( dAxisValue );
 				try
@@ -1976,8 +1990,8 @@ public final class AutoScale extends Methods implements Cloneable
 	 */
 	static final AutoScale computeScale( IDisplayServer xs, OneAxis ax,
 			DataSetIterator dsi, int iType, double dStart, double dEnd,
-			Scale scModel, FormatSpecifier fs, RunTimeContext rtc, int direction,
-			double zoomFactor ) throws ChartException
+			Scale scModel, FormatSpecifier fs, RunTimeContext rtc,
+			int direction, double zoomFactor ) throws ChartException
 	{
 		final Label la = ax.getLabel( );
 		final int iLabelLocation = ax.getLabelPosition( );
@@ -1985,9 +1999,9 @@ public final class AutoScale extends Methods implements Cloneable
 		final DataElement oMinimum = scModel.getMin( );
 		final DataElement oMaximum = scModel.getMax( );
 		final Double oStep = scModel.isSetStep( ) ? new Double( scModel.getStep( ) )
-				: null;	
-		final Integer oStepNumber = scModel.isSetStepNumber( )
-				? new Integer( scModel.getStepNumber( ) ) : null;
+				: null;
+		final Integer oStepNumber = scModel.isSetStepNumber( ) ? new Integer( scModel.getStepNumber( ) )
+				: null;
 
 		AutoScale sc = null;
 		AutoScale scCloned = null;
@@ -2001,6 +2015,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.bCategoryScale = true;
 			sc.bAxisLabelStaggered = ax.isAxisLabelStaggered( );
 			sc.iLabelShowingInterval = ax.getLableShowingInterval( );
+			sc.bTickBetweenCategories = ax.isTickBwtweenCategories( );
 			sc.dZoomFactor = zoomFactor;
 			sc.setData( dsi );
 			sc.setDirection( direction );
@@ -2012,7 +2027,7 @@ public final class AutoScale extends Methods implements Cloneable
 					dEnd,
 					false,
 					null );
-			
+
 			// To initialize final fields
 			oMinValue = null;
 			oMaxValue = null;
@@ -2049,15 +2064,14 @@ public final class AutoScale extends Methods implements Cloneable
 			double dStep = Math.max( dAbsMax, dAbsMin );
 			dStep = Math.floor( Math.log( dDelta ) / LOG_10 );
 			dStep = Math.pow( 10, dStep );
-			// The automatic step should never be more precise than the data itself
+			// The automatic step should never be more precise than the data
+			// itself
 			if ( dStep < dPrecision )
 			{
 				dStep = dPrecision;
 			}
 
-			sc = new AutoScale( iType,
-					new Double( 0 ),
-					new Double( 0 ) );
+			sc = new AutoScale( iType, new Double( 0 ), new Double( 0 ) );
 			sc.oStep = new Double( dStep );
 			sc.oStepNumber = oStepNumber;
 			sc.setData( dsi );
@@ -2066,12 +2080,13 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.rtc = rtc; // LOCALE
 			sc.bAxisLabelStaggered = ax.isAxisLabelStaggered( );
 			sc.iLabelShowingInterval = ax.getLableShowingInterval( );
+			sc.bTickBetweenCategories = ax.isTickBwtweenCategories( );
 			sc.dZoomFactor = zoomFactor;
 			sc.dPrecision = dPrecision;
 
 			// OVERRIDE MIN OR MAX IF SPECIFIED
 			setNumberMinMaxToScale( sc, oMinimum, oMaximum, rtc, ax );
-			
+
 			// OVERRIDE STEP IF SPECIFIED
 			setStepToScale( sc, oStep, oStepNumber, rtc );
 
@@ -2110,37 +2125,36 @@ public final class AutoScale extends Methods implements Cloneable
 				{
 					dMinValue = dMaxValue > 0 ? 1 : -1;
 				}
-			}			
+			}
 
-			sc = new AutoScale( iType,
-					new Double( 0 ),
-					new Double( 0 ) );
-			sc.oStep = new Double(10);
+			sc = new AutoScale( iType, new Double( 0 ), new Double( 0 ) );
+			sc.oStep = new Double( 10 );
 			sc.oStepNumber = oStepNumber;
 			sc.fs = fs; // FORMAT SPECIFIER
 			sc.rtc = rtc; // LOCALE
 			sc.bAxisLabelStaggered = ax.isAxisLabelStaggered( );
 			sc.iLabelShowingInterval = ax.getLableShowingInterval( );
+			sc.bTickBetweenCategories = ax.isTickBwtweenCategories( );
 			sc.dZoomFactor = zoomFactor;
 			sc.setData( dsi );
-			sc.setDirection( direction );			
-			
+			sc.setDirection( direction );
+
 			// OVERRIDE MIN OR MAX IF SPECIFIED
 			setNumberMinMaxToScale( sc, oMinimum, oMaximum, rtc, ax );
-			
+
 			// OVERRIDE STEP IF SPECIFIED
 			setStepToScale( sc, oStep, oStepNumber, rtc );
-			
+
 			oMinValue = new Double( dMinValue );
 			oMaxValue = new Double( dMaxValue );
 			sc.updateAxisMinMax( oMinValue, oMaxValue );
-			
+
 			if ( ( iType & PERCENT ) == PERCENT )
 			{
 				sc.bStepFixed = true;
 				sc.bMaximumFixed = true;
 				sc.bMinimumFixed = true;
-				
+
 				sc.computeTicks( xs,
 						ax.getLabel( ),
 						iLabelLocation,
@@ -2150,7 +2164,7 @@ public final class AutoScale extends Methods implements Cloneable
 						false,
 						null );
 				return sc;
-			}	
+			}
 		}
 		else if ( ( iType & DATE_TIME ) == DATE_TIME )
 		{
@@ -2187,21 +2201,20 @@ public final class AutoScale extends Methods implements Cloneable
 			}
 			else
 			{
-				iUnit = CDateTime.getDifference( (CDateTime)oMinValue, (CDateTime)oMaxValue );
+				iUnit = CDateTime.getPreferredUnit( (CDateTime) oMinValue,
+						(CDateTime) oMaxValue );
 			}
 
 			// Can't detect a difference, assume ms
 			if ( iUnit == 0 )
 				iUnit = CDateTime.SECOND;
 
-			CDateTime cdtMinAxis = ((CDateTime)oMinValue).backward( iUnit, 1 );
-			CDateTime cdtMaxAxis = ((CDateTime)oMaxValue).forward( iUnit, 1 );
+			CDateTime cdtMinAxis = ( (CDateTime) oMinValue ).backward( iUnit, 1 );
+			CDateTime cdtMaxAxis = ( (CDateTime) oMaxValue ).forward( iUnit, 1 );
 			cdtMinAxis.clearBelow( iUnit );
 			cdtMaxAxis.clearBelow( iUnit );
 
-			sc = new AutoScale( DATE_TIME,
-					cdtMinAxis,
-					cdtMaxAxis );
+			sc = new AutoScale( DATE_TIME, cdtMinAxis, cdtMaxAxis );
 			sc.oStep = new Integer( 1 );
 			sc.oStepNumber = oStepNumber;
 			sc.oUnit = new Integer( iUnit );
@@ -2210,6 +2223,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.rtc = rtc; // LOCALE
 			sc.bAxisLabelStaggered = ax.isAxisLabelStaggered( );
 			sc.iLabelShowingInterval = ax.getLableShowingInterval( );
+			sc.bTickBetweenCategories = ax.isTickBwtweenCategories( );
 			sc.dZoomFactor = zoomFactor;
 
 			// OVERRIDE MINIMUM IF SPECIFIED
@@ -2268,7 +2282,7 @@ public final class AutoScale extends Methods implements Cloneable
 							Messages.getResourceBundle( rtc.getULocale( ) ) );
 				}
 			}
-			
+
 			// OVERRIDE STEP IF SPECIFIED
 			setStepToScale( sc, oStep, oStepNumber, rtc );
 		}
@@ -2278,7 +2292,7 @@ public final class AutoScale extends Methods implements Cloneable
 			oMinValue = null;
 			oMaxValue = null;
 		}
-		
+
 		// Compute the scale of non-category axis
 		if ( ( iType & TEXT ) != TEXT && !ax.isCategoryScale( ) )
 		{
@@ -2291,8 +2305,8 @@ public final class AutoScale extends Methods implements Cloneable
 					false,
 					null );
 			dStart = sc.dStart;
-			dEnd = sc.dEnd;		
-			
+			dEnd = sc.dEnd;
+
 			boolean bFirstFit = sc.checkFit( xs, la, iLabelLocation );
 			boolean bFits = bFirstFit;
 			boolean bZoomSuccess = false;
@@ -2325,7 +2339,7 @@ public final class AutoScale extends Methods implements Cloneable
 				if ( !bZoomSuccess )
 					break;
 
-				sc.updateAxisMinMax( oMinValue, oMaxValue );				
+				sc.updateAxisMinMax( oMinValue, oMaxValue );
 				sc.computeTicks( xs,
 						la,
 						iLabelLocation,
@@ -2354,16 +2368,16 @@ public final class AutoScale extends Methods implements Cloneable
 	}
 
 	/**
-	 * Computes value precision if more precise than existing one
-	 * For instance 3.4 has a precision of 0.1 and
-	 * 1400 has a precision of 100. That is the position where the first 
-	 * significant digit appears, or in double representation, the value of the
-	 * exponent
+	 * Computes value precision if more precise than existing one For instance
+	 * 3.4 has a precision of 0.1 and 1400 has a precision of 100. That is the
+	 * position where the first significant digit appears, or in double
+	 * representation, the value of the exponent
+	 * 
 	 * @param precision
 	 * @param value
 	 * @return
 	 */
-	protected static double getPrecision(double precision, double value)
+	protected static double getPrecision( double precision, double value )
 	{
 		if ( value == 0 )
 		{
@@ -2372,17 +2386,18 @@ public final class AutoScale extends Methods implements Cloneable
 			else if ( precision >= 0 )
 				return 1;
 		}
-		if (precision == 0)
+		if ( precision == 0 )
 		{
 			// precision not initialized yet
 			// use worst precision for the double value
-			precision = Math.pow( 10, Math.floor( Math.log( value )/Math.log( 10 ) ) ); 
+			precision = Math.pow( 10, Math.floor( Math.log( value )
+					/ Math.log( 10 ) ) );
 		}
-		// divide number by precision. If precision good enough, it's an 
+		// divide number by precision. If precision good enough, it's an
 		// integer
 		double check = value / precision;
 		int loopCounter = 0;
-		while (Math.floor(check) != check && loopCounter < 20 )
+		while ( Math.floor( check ) != check && loopCounter < 20 )
 		{
 			// avoid infinite loops. It should never take more than
 			// 20 loops to get the right precision
@@ -2391,8 +2406,9 @@ public final class AutoScale extends Methods implements Cloneable
 			precision /= 10;
 			check = value / precision;
 		}
-		if (loopCounter == 20 )
-			logger.log( ILogger.WARNING, "Autoscale precision not found for " + value);//$NON-NLS-1$
+		if ( loopCounter == 20 )
+			logger.log( ILogger.WARNING,
+					"Autoscale precision not found for " + value );//$NON-NLS-1$
 		return precision;
 	}
 
@@ -2461,7 +2477,7 @@ public final class AutoScale extends Methods implements Cloneable
 				dEnd += dEndShift * -iDirection;
 			}
 		}
-		
+
 		// Update member variables
 		this.dStart = dStart;
 		this.dEnd = dEnd;
@@ -2475,18 +2491,18 @@ public final class AutoScale extends Methods implements Cloneable
 		{
 			double dMax = asDouble( oMaximum ).doubleValue( );
 			double dMin = asDouble( oMinimum ).doubleValue( );
-			
+
 			if ( bStepFixed && oStepNumber != null )
 			{
 				// Use step number
-				dTickGap = dLength
-						/ ( oStepNumber.intValue( ) ) * iDirection;
+				dTickGap = dLength / ( oStepNumber.intValue( ) ) * iDirection;
 			}
 			else
 			{
 				double dStepSize = asDouble( oStep ).doubleValue( );
 				dTickGap = Math.min( Math.abs( dStepSize
-						/ ( dMax - dMin ) * dLength ), dLength )
+						/ ( dMax - dMin )
+						* dLength ), dLength )
 						* iDirection;
 			}
 		}
@@ -2505,11 +2521,11 @@ public final class AutoScale extends Methods implements Cloneable
 					"exception.scale.tick.max", //$NON-NLS-1$
 					Messages.getResourceBundle( rtc.getULocale( ) ) );
 		}
-		
+
 		double d = dStart + dTickGap;
 		final double[] da = new double[nTicks];
 
-		for ( int i = 1; i < nTicks - 1; i++, d += dTickGap )
+		for ( int i = 1; i < nTicks; i++, d += dTickGap )
 		{
 			da[i] = d;
 		}
@@ -2518,6 +2534,7 @@ public final class AutoScale extends Methods implements Cloneable
 		setTickCordinates( null );
 		setEndPoints( dStart, dEnd );
 		setTickCordinates( da );
+		System.out.println( da );
 
 		baTickLabelVisible = checkTickLabelsVisibility( xs, la, iLabelLocation );
 
@@ -3779,7 +3796,7 @@ public final class AutoScale extends Methods implements Cloneable
 	{
 		this.rtc = context;
 	}
-	
+
 	/**
 	 * Updates AutoScale by checking min or max
 	 * 
@@ -3859,7 +3876,7 @@ public final class AutoScale extends Methods implements Cloneable
 			}
 		}
 	}
-	
+
 	/**
 	 * Updates AutoScale by checking step size and step number
 	 * 
@@ -3869,8 +3886,8 @@ public final class AutoScale extends Methods implements Cloneable
 	 * @param rtc
 	 * @throws ChartException
 	 */
-	public static void setStepToScale( AutoScale sc, Object oStep, Integer oStepNumber,
-			RunTimeContext rtc ) throws ChartException
+	public static void setStepToScale( AutoScale sc, Object oStep,
+			Integer oStepNumber, RunTimeContext rtc ) throws ChartException
 	{
 		// OVERRIDE STEP IF SPECIFIED
 		if ( oStep != null )
@@ -3890,7 +3907,7 @@ public final class AutoScale extends Methods implements Cloneable
 						Messages.getResourceBundle( rtc.getULocale( ) ) );
 			}
 		}
-		
+
 		if ( oStepNumber != null )
 		{
 			sc.oStepNumber = oStepNumber;
@@ -3909,7 +3926,7 @@ public final class AutoScale extends Methods implements Cloneable
 			}
 		}
 	}
-	
+
 	/**
 	 * Computes the default DecimalFormat pattern for axis according to axis
 	 * value and scale steps.
@@ -3922,7 +3939,7 @@ public final class AutoScale extends Methods implements Cloneable
 	 */
 	public final DecimalFormat computeDecimalFormat( double dAxisValue,
 			double dAxisStep )
-	{	
+	{
 		// Use a more precise pattern
 		String valuePattern = getNumericPattern( dAxisValue );
 		String stepPattern = getNumericPattern( dAxisStep );
@@ -3939,5 +3956,5 @@ public final class AutoScale extends Methods implements Cloneable
 		}
 		return new DecimalFormat( valuePattern );
 	}
-	
+
 }

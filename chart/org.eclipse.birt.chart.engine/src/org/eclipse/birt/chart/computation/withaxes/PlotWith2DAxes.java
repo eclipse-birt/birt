@@ -143,7 +143,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 						// :
 						axPrimaryBase.getTitlePosition( ) ) ),
 				axPrimaryBase.isSetCategoryAxis( )
-						&& axPrimaryBase.isCategoryAxis( ) );
+						&& axPrimaryBase.isCategoryAxis( ),
+				axPrimaryBase.getScale( ).isTickBetweenCategories( ) );
 		oaxPrimaryBase.setGridProperties( axPrimaryBase.getMajorGrid( )
 				.getLineAttributes( ),
 				axPrimaryBase.getMinorGrid( ).getLineAttributes( ),
@@ -179,7 +180,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 						getLabelPosition( !isTransposed ? switchPosition( axPrimaryOrthogonal.getTitlePosition( ) )
 								: axPrimaryOrthogonal.getTitlePosition( ) ) ),
 				axPrimaryOrthogonal.isSetCategoryAxis( )
-						&& axPrimaryOrthogonal.isCategoryAxis( ) );
+						&& axPrimaryOrthogonal.isCategoryAxis( ),
+				axPrimaryOrthogonal.getScale( ).isTickBetweenCategories( ) );
 		oaxPrimaryOrthogonal.setGridProperties( axPrimaryOrthogonal.getMajorGrid( )
 				.getLineAttributes( ),
 				axPrimaryOrthogonal.getMinorGrid( ).getLineAttributes( ),
@@ -226,7 +228,9 @@ public final class PlotWith2DAxes extends PlotWithAxes
 							getLabelPosition( !isTransposed ? switchPosition( axaOverlayOrthogonal[i].getTitlePosition( ) )
 									: axaOverlayOrthogonal[i].getTitlePosition( ) ) ),
 					axaOverlayOrthogonal[i].isSetCategoryAxis( )
-							&& axaOverlayOrthogonal[i].isCategoryAxis( ) );
+							&& axaOverlayOrthogonal[i].isCategoryAxis( ),
+					axaOverlayOrthogonal[i].getScale( )
+							.isTickBetweenCategories( ) );
 			oaxOverlayOrthogonal.setGridProperties( axaOverlayOrthogonal[i].getMajorGrid( )
 					.getLineAttributes( ),
 					axaOverlayOrthogonal[i].getMinorGrid( ).getLineAttributes( ),
@@ -1642,13 +1646,28 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		{
 			dOrthogonalZero = scOrthogonal.getStart( );
 		}
-		double dBaseZero = ( ( scBase.getType( ) & NUMERICAL ) == IConstants.NUMERICAL && !oaxBase.isCategoryScale( ) ) ? getLocation( scBase,
-				0 )
-				: scBase.getStart( );
+		double dBaseZero = 0;
+		if ( ( scBase.getType( ) & NUMERICAL ) == IConstants.NUMERICAL
+				&& !oaxBase.isCategoryScale( ) )
+		{
+			dBaseZero = getLocation( scBase, 0 );
+		}
+		else if ( oaxBase.isTickBwtweenCategories( ) )
+		{
+			dBaseZero = scBase.getStart( );
+		}
+		else
+		{
+			dBaseZero = scBase.getStart( ) + scBase.getStartShift( );
+		}
 
 		if ( scBase.getType( ) == TEXT || oaxBase.isCategoryScale( ) )
 		{
 			iUnitCount--;
+			if ( oaxBase.isTickBwtweenCategories( ) )
+			{
+				iUnitCount--;
+			}
 		}
 
 		double dX = 0, dY = 0, dLength = 0;
@@ -1771,7 +1790,12 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					}
 					else
 					{
+
 						dX = daTickCoordinates[0] + dUnitSize * i;
+						if ( !oaxBase.isTickBwtweenCategories( ) )
+						{
+							dX += dUnitSize / 2;
+						}
 						try
 						{
 							dY = getLocation( scOrthogonal, oDataOrthogonal );
