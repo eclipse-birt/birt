@@ -2145,6 +2145,12 @@ Element.TabularMeasure=Tabular Measure
 Element.TabularMeasureGroup=Tabular Meausre Group
 Element.AccessControl=访问控制
 Element.ValueAccessControl=值访问控制
+Element.OdaCube=ODA Cube
+Element.OdaDimension=ODA Dimension
+Element.OdaHierarchy=ODA Hierarchy
+Element.OdaLevel=ODA Level
+Element.OdaMeasure=ODA Measure
+Element.OdaMeasureGroup=ODA Meausre Group
 
 ###########################################################
 # Element property names
@@ -2903,24 +2909,18 @@ Element.AutoText.onPageBreak.this=自动图文集实例
 Element.AutoText.onPageBreak.reportContext=报表上下文
 
 #45. Cube ( prefix Element.Cube )
-Element.Cube.dataSet=数据集
 Element.Cube.filter=筛选条件
 Element.Cube.dimensionConditions=维条件
-Element.Cube.dimensions=Dimensions
-Element.Cube.measureGroups=度量组
 Element.Cube.defaultMeasureGroup=默认度量组
 Element.Cube.accessControls=访问控制
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=是时间类型
 Element.Dimension.defaultHierarchy=默认层次结构
-Element.Dimension.hierarchies=Hierarchies
 
 #47. Hierarchy ( prefix Element.Hierarchy )
-Element.Hierarchy.dataSet=数据集
 Element.Hierarchy.filter=筛选条件
 Element.Hierarchy.primaryKeys=主键
-Element.Hierarchy.levels=Levels
 Element.Hierarchy.accessControls=访问控制
 
 #48. Level ( prefix Element.Level )
@@ -2950,6 +2950,31 @@ Element.AccessControl.permission=访问权限
 
 #51. ValueAccessControl ( prefix Element.ValueAccessControl )
 Element.ValueAccessControl.values=值
+
+#52. TabularCube ( prefix Element.TabularCube )
+Element.TabularCubedataSet=数据集
+Element.TabularCube.dimensions=设计文件是使用较早版本的 BIRT 创建的。单击“确定”将它转换为该产品当前版本支持的格式。
+Element.TabularCube.measureGroups=设计文件是使用较早版本的 BIRT 创建的。单击“确定”将它转换为该产品当前版本支持的格式。
+
+#53. TabularDimension ( prefix Element.TabularDimension )
+Element.TabularDimension.hierarchies=设计文件是使用较早版本的 BIRT 创建的。单击“确定”将它转换为该产品当前版本支持的格式。
+
+#54. TabularHierarchy ( prefix Element.TabularHierarchy )
+Element.TabularHierarchy.dataSet=数据集
+Element.TabularHierarchy.levels=设计文件是使用较早版本的 BIRT 创建的。单击“确定”将它转换为该产品当前版本支持的格式。
+
+#55. OdaCube ( prefix Element.OdaCube )
+Element.OdaCube.dimensions=设计文件是使用较早版本的 BIRT 创建的。单击“确定”将它转换为该产品当前版本支持的格式。
+Element.OdaCube.measureGroups=设计文件是使用较早版本的 BIRT 创建的。单击“确定”将它转换为该产品当前版本支持的格式。
+Element.OdaCube.nativeName=本地名称
+
+#56. OdaDimension ( prefix Element.OdaDimension )
+Element.OdaDimension.hierarchies=设计文件是使用较早版本的 BIRT 创建的。单击“确定”将它转换为该产品当前版本支持的格式。
+Element.OdaDimension.nativeName=本地名称
+
+#57. OdaHierarchy ( prefix Element.OdaHierarchy )
+Element.OdaHierarchy.levels=设计文件是使用较早版本的 BIRT 创建的。单击“确定”将它转换为该产品当前版本支持的格式。
+Element.OdaHierarchy.nativeName=本地名称
 
 ###########################################################
 # Predefined style
@@ -3179,18 +3204,18 @@ New.TemplateDataSet=新模板数据集
 New.TemplateReportItem=新模板报表项
 New.Theme=新主题
 New.AutoText=NewAutoText
-New.Cube=新多维数据集
-New.Dimension=新维
-New.Hierarchy=新层次结构
-New.Level=新级别
-New.Measure=新度量
-New.MeasureGroup=新度量组
 New.TabularCube=NewTabularCube
 New.TabularDimension=NewTabularDimension
 New.TabularHierarchy=NewTabularHierarchy
 New.TabularLevel=NewTabularLevel
 New.TabularMeasure=NewTabularMeasure
 New.TabularMeasureGroup=NewTabularMeasureGroup
+New.OdaCube=NewOdaCube
+New.OdaDimension=NewOdaDimension
+New.OdaHierarchy=NewOdaHierarchy
+New.OdaLevel=NewOdaLevel
+New.OdaMeasure=NewOdaMeasure
+New.OdaMeasureGroup=NewOdaMeasureGroup
 
 ###########################################################
 #Default theme name.

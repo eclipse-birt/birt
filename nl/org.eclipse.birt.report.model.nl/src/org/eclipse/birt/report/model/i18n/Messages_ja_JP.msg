@@ -2145,6 +2145,12 @@ Element.TabularMeasure=Tabular Measure
 Element.TabularMeasureGroup=Tabular Meausre Group
 Element.AccessControl=アクセスコントロール
 Element.ValueAccessControl=値へのアクセスコントロール
+Element.OdaCube=ODA Cube
+Element.OdaDimension=ODA Dimension
+Element.OdaHierarchy=ODA Hierarchy
+Element.OdaLevel=ODA Level
+Element.OdaMeasure=ODA Measure
+Element.OdaMeasureGroup=ODA Meausre Group
 
 ###########################################################
 # Element property names
@@ -2903,24 +2909,18 @@ Element.AutoText.onPageBreak.this=定型句のインスタンス
 Element.AutoText.onPageBreak.reportContext=レポートのコンテキスト
 
 #45. Cube ( prefix Element.Cube )
-Element.Cube.dataSet=データセット
 Element.Cube.filter=フィルタ条件
 Element.Cube.dimensionConditions=次元条件
-Element.Cube.dimensions=Dimensions
-Element.Cube.measureGroups=計測グループ
 Element.Cube.defaultMeasureGroup=デフォルトの計測グループ
 Element.Cube.accessControls=アクセスコントロール
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=Is Time 型
 Element.Dimension.defaultHierarchy=デフォルトの階層
-Element.Dimension.hierarchies=Hierarchies
 
 #47. Hierarchy ( prefix Element.Hierarchy )
-Element.Hierarchy.dataSet=データセット
 Element.Hierarchy.filter=フィルタ条件
 Element.Hierarchy.primaryKeys=プライマリキー
-Element.Hierarchy.levels=Levels
 Element.Hierarchy.accessControls=アクセスコントロール
 
 #48. Level ( prefix Element.Level )
@@ -2950,6 +2950,31 @@ Element.AccessControl.permission=アクセス権限
 
 #51. ValueAccessControl ( prefix Element.ValueAccessControl )
 Element.ValueAccessControl.values=値
+
+#52. TabularCube ( prefix Element.TabularCube )
+Element.TabularCubedataSet=データセット
+Element.TabularCube.dimensions=このデザインファイルは、以前のバージョンの BIRT で作成されています。[OK] をクリックすると、現在のバージョンでサポートされている形式に変換されます。
+Element.TabularCube.measureGroups=このデザインファイルは、以前のバージョンの BIRT で作成されています。[OK] をクリックすると、現在のバージョンでサポートされている形式に変換されます。
+
+#53. TabularDimension ( prefix Element.TabularDimension )
+Element.TabularDimension.hierarchies=このデザインファイルは、以前のバージョンの BIRT で作成されています。[OK] をクリックすると、現在のバージョンでサポートされている形式に変換されます。
+
+#54. TabularHierarchy ( prefix Element.TabularHierarchy )
+Element.TabularHierarchy.dataSet=データセット
+Element.TabularHierarchy.levels=このデザインファイルは、以前のバージョンの BIRT で作成されています。[OK] をクリックすると、現在のバージョンでサポートされている形式に変換されます。
+
+#55. OdaCube ( prefix Element.OdaCube )
+Element.OdaCube.dimensions=このデザインファイルは、以前のバージョンの BIRT で作成されています。[OK] をクリックすると、現在のバージョンでサポートされている形式に変換されます。
+Element.OdaCube.measureGroups=このデザインファイルは、以前のバージョンの BIRT で作成されています。[OK] をクリックすると、現在のバージョンでサポートされている形式に変換されます。
+Element.OdaCube.nativeName=ネイティブの名前
+
+#56. OdaDimension ( prefix Element.OdaDimension )
+Element.OdaDimension.hierarchies=このデザインファイルは、以前のバージョンの BIRT で作成されています。[OK] をクリックすると、現在のバージョンでサポートされている形式に変換されます。
+Element.OdaDimension.nativeName=ネイティブの名前
+
+#57. OdaHierarchy ( prefix Element.OdaHierarchy )
+Element.OdaHierarchy.levels=このデザインファイルは、以前のバージョンの BIRT で作成されています。[OK] をクリックすると、現在のバージョンでサポートされている形式に変換されます。
+Element.OdaHierarchy.nativeName=ネイティブの名前
 
 ###########################################################
 # Predefined style
@@ -3179,18 +3204,18 @@ New.TemplateDataSet=新しいテンプレートのデータセット
 New.TemplateReportItem=新しいテンプレートのレポート項目
 New.Theme=新しいテーマ
 New.AutoText=新規定型句
-New.Cube=キューブの新規作成
-New.Dimension=次元の新規作成
-New.Hierarchy=階層の新規作成
-New.Level=レベルの新規作成
-New.Measure=計測の新規作成
-New.MeasureGroup=計測グループの新規作成
 New.TabularCube=NewTabularCube
 New.TabularDimension=NewTabularDimension
 New.TabularHierarchy=NewTabularHierarchy
 New.TabularLevel=NewTabularLevel
 New.TabularMeasure=NewTabularMeasure
 New.TabularMeasureGroup=NewTabularMeasureGroup
+New.OdaCube=NewOdaCube
+New.OdaDimension=NewOdaDimension
+New.OdaHierarchy=NewOdaHierarchy
+New.OdaLevel=NewOdaLevel
+New.OdaMeasure=NewOdaMeasure
+New.OdaMeasureGroup=NewOdaMeasureGroup
 
 ###########################################################
 #Default theme name.

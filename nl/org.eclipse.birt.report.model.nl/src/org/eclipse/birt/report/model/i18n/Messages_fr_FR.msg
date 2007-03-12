@@ -2145,6 +2145,12 @@ Element.TabularMeasure=Tabular Measure
 Element.TabularMeasureGroup=Tabular Meausre Group
 Element.AccessControl=Contrôle d'accès
 Element.ValueAccessControl=Contrôle d'accès aux valeurs
+Element.OdaCube=ODA Cube
+Element.OdaDimension=ODA Dimension
+Element.OdaHierarchy=ODA Hierarchy
+Element.OdaLevel=ODA Level
+Element.OdaMeasure=ODA Measure
+Element.OdaMeasureGroup=ODA Meausre Group
 
 ###########################################################
 # Element property names
@@ -2903,24 +2909,18 @@ Element.AutoText.onPageBreak.this=Instance AutoText
 Element.AutoText.onPageBreak.reportContext=Contexte d'état
 
 #45. Cube ( prefix Element.Cube )
-Element.Cube.dataSet=Jeu de données
 Element.Cube.filter=Conditions de filtre
 Element.Cube.dimensionConditions=Conditions de dimension
-Element.Cube.dimensions=Dimensions
-Element.Cube.measureGroups=Groupes de mesure
 Element.Cube.defaultMeasureGroup=Groupe de mesure par défaut
 Element.Cube.accessControls=Contrôles d'accès
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=Est de type Heure
 Element.Dimension.defaultHierarchy=Hiérarchie par défaut
-Element.Dimension.hierarchies=Hierarchies
 
 #47. Hierarchy ( prefix Element.Hierarchy )
-Element.Hierarchy.dataSet=Jeu de données
 Element.Hierarchy.filter=Conditions de filtre
 Element.Hierarchy.primaryKeys=Clé principale
-Element.Hierarchy.levels=Levels
 Element.Hierarchy.accessControls=Contrôles d'accès
 
 #48. Level ( prefix Element.Level )
@@ -2950,6 +2950,31 @@ Element.AccessControl.permission=Autorisation d'accès
 
 #51. ValueAccessControl ( prefix Element.ValueAccessControl )
 Element.ValueAccessControl.values=Valeurs
+
+#52. TabularCube ( prefix Element.TabularCube )
+Element.TabularCubedataSet=Jeu de données
+Element.TabularCube.dimensions=Le fichier modèle a été créé à l'aide d'une version antérieure de BIRT. Cliquez sur OK pour le convertir dans un format pris en charge par la version actuelle du produit.
+Element.TabularCube.measureGroups=Le fichier modèle a été créé à l'aide d'une version antérieure de BIRT. Cliquez sur OK pour le convertir dans un format pris en charge par la version actuelle du produit.
+
+#53. TabularDimension ( prefix Element.TabularDimension )
+Element.TabularDimension.hierarchies=Le fichier modèle a été créé à l'aide d'une version antérieure de BIRT. Cliquez sur OK pour le convertir dans un format pris en charge par la version actuelle du produit.
+
+#54. TabularHierarchy ( prefix Element.TabularHierarchy )
+Element.TabularHierarchy.dataSet=Jeu de données
+Element.TabularHierarchy.levels=Le fichier modèle a été créé à l'aide d'une version antérieure de BIRT. Cliquez sur OK pour le convertir dans un format pris en charge par la version actuelle du produit.
+
+#55. OdaCube ( prefix Element.OdaCube )
+Element.OdaCube.dimensions=Le fichier modèle a été créé à l'aide d'une version antérieure de BIRT. Cliquez sur OK pour le convertir dans un format pris en charge par la version actuelle du produit.
+Element.OdaCube.measureGroups=Le fichier modèle a été créé à l'aide d'une version antérieure de BIRT. Cliquez sur OK pour le convertir dans un format pris en charge par la version actuelle du produit.
+Element.OdaCube.nativeName=Nom natif
+
+#56. OdaDimension ( prefix Element.OdaDimension )
+Element.OdaDimension.hierarchies=Le fichier modèle a été créé à l'aide d'une version antérieure de BIRT. Cliquez sur OK pour le convertir dans un format pris en charge par la version actuelle du produit.
+Element.OdaDimension.nativeName=Nom natif
+
+#57. OdaHierarchy ( prefix Element.OdaHierarchy )
+Element.OdaHierarchy.levels=Le fichier modèle a été créé à l'aide d'une version antérieure de BIRT. Cliquez sur OK pour le convertir dans un format pris en charge par la version actuelle du produit.
+Element.OdaHierarchy.nativeName=Nom natif
 
 ###########################################################
 # Predefined style
@@ -3179,18 +3204,18 @@ New.TemplateDataSet=Nouveau jeu de données de modèle
 New.TemplateReportItem=Nouvel élément d'état de modèle
 New.Theme=Nouveau thème
 New.AutoText=Nouveau texte auto
-New.Cube=Nouveau cube
-New.Dimension=Nouvelle dimension
-New.Hierarchy=Nouvelle hiérarchie
-New.Level=Nouveau niveau
-New.Measure=Nouvelle mesure
-New.MeasureGroup=Groupe de nouvelles mesures
 New.TabularCube=NewTabularCube
 New.TabularDimension=NewTabularDimension
 New.TabularHierarchy=NewTabularHierarchy
 New.TabularLevel=NewTabularLevel
 New.TabularMeasure=NewTabularMeasure
 New.TabularMeasureGroup=NewTabularMeasureGroup
+New.OdaCube=NewOdaCube
+New.OdaDimension=NewOdaDimension
+New.OdaHierarchy=NewOdaHierarchy
+New.OdaLevel=NewOdaLevel
+New.OdaMeasure=NewOdaMeasure
+New.OdaMeasureGroup=NewOdaMeasureGroup
 
 ###########################################################
 #Default theme name.

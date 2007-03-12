@@ -2145,6 +2145,12 @@ Element.TabularMeasure=Tabular Measure
 Element.TabularMeasureGroup=Tabular Meausre Group
 Element.AccessControl=액세스 컨트롤
 Element.ValueAccessControl=값 액세스 컨트롤
+Element.OdaCube=ODA Cube
+Element.OdaDimension=ODA Dimension
+Element.OdaHierarchy=ODA Hierarchy
+Element.OdaLevel=ODA Level
+Element.OdaMeasure=ODA Measure
+Element.OdaMeasureGroup=ODA Meausre Group
 
 ###########################################################
 # Element property names
@@ -2903,24 +2909,18 @@ Element.AutoText.onPageBreak.this=AutoText 인스턴스
 Element.AutoText.onPageBreak.reportContext=보고서 컨텍스트
 
 #45. Cube ( prefix Element.Cube )
-Element.Cube.dataSet=데이터 집합
 Element.Cube.filter=필터 조건
 Element.Cube.dimensionConditions=차원 조건
-Element.Cube.dimensions=Dimensions
-Element.Cube.measureGroups=측정 그룹
 Element.Cube.defaultMeasureGroup=기본 측정 그룹
 Element.Cube.accessControls=액세스 컨트롤
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=시간 유형 조건
 Element.Dimension.defaultHierarchy=기본 계층 구조
-Element.Dimension.hierarchies=Hierarchies
 
 #47. Hierarchy ( prefix Element.Hierarchy )
-Element.Hierarchy.dataSet=데이터 집합
 Element.Hierarchy.filter=필터 조건
 Element.Hierarchy.primaryKeys=기본 키
-Element.Hierarchy.levels=Levels
 Element.Hierarchy.accessControls=액세스 컨트롤
 
 #48. Level ( prefix Element.Level )
@@ -2950,6 +2950,31 @@ Element.AccessControl.permission=액세스 권한
 
 #51. ValueAccessControl ( prefix Element.ValueAccessControl )
 Element.ValueAccessControl.values=값
+
+#52. TabularCube ( prefix Element.TabularCube )
+Element.TabularCubedataSet=데이터 집합
+Element.TabularCube.dimensions=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
+Element.TabularCube.measureGroups=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
+
+#53. TabularDimension ( prefix Element.TabularDimension )
+Element.TabularDimension.hierarchies=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
+
+#54. TabularHierarchy ( prefix Element.TabularHierarchy )
+Element.TabularHierarchy.dataSet=데이터 집합
+Element.TabularHierarchy.levels=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
+
+#55. OdaCube ( prefix Element.OdaCube )
+Element.OdaCube.dimensions=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
+Element.OdaCube.measureGroups=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
+Element.OdaCube.nativeName=고유 이름
+
+#56. OdaDimension ( prefix Element.OdaDimension )
+Element.OdaDimension.hierarchies=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
+Element.OdaDimension.nativeName=고유 이름
+
+#57. OdaHierarchy ( prefix Element.OdaHierarchy )
+Element.OdaHierarchy.levels=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
+Element.OdaHierarchy.nativeName=고유 이름
 
 ###########################################################
 # Predefined style
@@ -3179,18 +3204,18 @@ New.TemplateDataSet=새 템플릿 데이터 집합
 New.TemplateReportItem=새 템플릿 보고서 항목
 New.Theme=새 테마
 New.AutoText=NewAuto Text
-New.Cube=NewCube
-New.Dimension=NewDimension
-New.Hierarchy=NewHierarchy
-New.Level=NewLevel
-New.Measure=NewMeasure
-New.MeasureGroup=NewMeasureGroup
 New.TabularCube=NewTabularCube
 New.TabularDimension=NewTabularDimension
 New.TabularHierarchy=NewTabularHierarchy
 New.TabularLevel=NewTabularLevel
 New.TabularMeasure=NewTabularMeasure
 New.TabularMeasureGroup=NewTabularMeasureGroup
+New.OdaCube=NewOdaCube
+New.OdaDimension=NewOdaDimension
+New.OdaHierarchy=NewOdaHierarchy
+New.OdaLevel=NewOdaLevel
+New.OdaMeasure=NewOdaMeasure
+New.OdaMeasureGroup=NewOdaMeasureGroup
 
 ###########################################################
 #Default theme name.

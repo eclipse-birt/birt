@@ -2145,6 +2145,12 @@ Element.TabularMeasure=Tabular Measure
 Element.TabularMeasureGroup=Tabular Meausre Group
 Element.AccessControl=Zugriffssteuerung
 Element.ValueAccessControl=Wertzugriffsteuerung
+Element.OdaCube=ODA Cube
+Element.OdaDimension=ODA Dimension
+Element.OdaHierarchy=ODA Hierarchy
+Element.OdaLevel=ODA Level
+Element.OdaMeasure=ODA Measure
+Element.OdaMeasureGroup=ODA Meausre Group
 
 ###########################################################
 # Element property names
@@ -2903,24 +2909,18 @@ Element.AutoText.onPageBreak.this=AutoText-Instanz
 Element.AutoText.onPageBreak.reportContext=Berichtkontext
 
 #45. Cube ( prefix Element.Cube )
-Element.Cube.dataSet=Datensatz
 Element.Cube.filter=Filterbedingungen
 Element.Cube.dimensionConditions=Dimensionsbedingungen
-Element.Cube.dimensions=Dimensions
-Element.Cube.measureGroups=Maßeinheitsgruppen
 Element.Cube.defaultMeasureGroup=Standard-Maßeinheitsgruppe
 Element.Cube.accessControls=Zugriffssteuerungen
 
 #46. Dimension ( prefix Element.Dimension )
 Element.Dimension.isTimeType=Gleich Uhrzeitformat
 Element.Dimension.defaultHierarchy=Standardhierarchie
-Element.Dimension.hierarchies=Hierarchies
 
 #47. Hierarchy ( prefix Element.Hierarchy )
-Element.Hierarchy.dataSet=Datensatz
 Element.Hierarchy.filter=Filterbedingungen
 Element.Hierarchy.primaryKeys=Primärschlüssel
-Element.Hierarchy.levels=Levels
 Element.Hierarchy.accessControls=Zugriffssteuerungen
 
 #48. Level ( prefix Element.Level )
@@ -2950,6 +2950,31 @@ Element.AccessControl.permission=Zugriffsberechtigung
 
 #51. ValueAccessControl ( prefix Element.ValueAccessControl )
 Element.ValueAccessControl.values=Werte
+
+#52. TabularCube ( prefix Element.TabularCube )
+Element.TabularCubedataSet=Datensatz
+Element.TabularCube.dimensions=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
+Element.TabularCube.measureGroups=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
+
+#53. TabularDimension ( prefix Element.TabularDimension )
+Element.TabularDimension.hierarchies=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
+
+#54. TabularHierarchy ( prefix Element.TabularHierarchy )
+Element.TabularHierarchy.dataSet=Datensatz
+Element.TabularHierarchy.levels=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
+
+#55. OdaCube ( prefix Element.OdaCube )
+Element.OdaCube.dimensions=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
+Element.OdaCube.measureGroups=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
+Element.OdaCube.nativeName=Programmeigener Name
+
+#56. OdaDimension ( prefix Element.OdaDimension )
+Element.OdaDimension.hierarchies=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
+Element.OdaDimension.nativeName=Programmeigener Name
+
+#57. OdaHierarchy ( prefix Element.OdaHierarchy )
+Element.OdaHierarchy.levels=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
+Element.OdaHierarchy.nativeName=Programmeigener Name
 
 ###########################################################
 # Predefined style
@@ -3179,18 +3204,18 @@ New.TemplateDataSet=Neuer_Datensatz_für_Vorlage
 New.TemplateReportItem=Neues_Berichtobjekt_für_Vorlage
 New.Theme=Neues_Thema
 New.AutoText=NewAutoText
-New.Cube=Neuer Quader
-New.Dimension=Neue Dimension
-New.Hierarchy=Neue Hierarchie
-New.Level=Neue Ebene
-New.Measure=Neue Maßeinheit
-New.MeasureGroup=NeueMaßeinheitsgruppe
 New.TabularCube=NewTabularCube
 New.TabularDimension=NewTabularDimension
 New.TabularHierarchy=NewTabularHierarchy
 New.TabularLevel=NewTabularLevel
 New.TabularMeasure=NewTabularMeasure
 New.TabularMeasureGroup=NewTabularMeasureGroup
+New.OdaCube=NewOdaCube
+New.OdaDimension=NewOdaDimension
+New.OdaHierarchy=NewOdaHierarchy
+New.OdaLevel=NewOdaLevel
+New.OdaMeasure=NewOdaMeasure
+New.OdaMeasureGroup=NewOdaMeasureGroup
 
 ###########################################################
 #Default theme name.
