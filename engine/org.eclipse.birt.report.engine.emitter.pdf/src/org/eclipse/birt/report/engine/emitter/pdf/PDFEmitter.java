@@ -48,6 +48,7 @@ import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.layout.area.IArea;
@@ -73,12 +74,14 @@ import com.lowagie.text.DocumentException;
 import com.lowagie.text.Font;
 import com.lowagie.text.Image;
 import com.lowagie.text.Rectangle;
+import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfAction;
 import com.lowagie.text.pdf.PdfAnnotation;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfDestination;
 import com.lowagie.text.pdf.PdfOutline;
 import com.lowagie.text.pdf.PdfTemplate;
+import com.lowagie.text.pdf.PdfTextArray;
 import com.lowagie.text.pdf.PdfWriter;
 
 
@@ -314,7 +317,7 @@ public class PDFEmitter implements IContentEmitter
 		 */
 		public static final float LAYOUT_TO_PDF_RATIO = 1000f;
 		
-		public static final  int H_TEXT_SPACE = 70;
+		public static final  int H_TEXT_SPACE = 30;
 		
 		public static final int V_TEXT_SPACE = 100;
 		
@@ -359,7 +362,7 @@ public class PDFEmitter implements IContentEmitter
 		
 		protected float scale;
 		
-		protected  int hTextSpace = 70;
+		protected  int hTextSpace = 30;
 		
 		protected int vTextSpace = 100;
 		
@@ -874,16 +877,49 @@ public class PDFEmitter implements IContentEmitter
 		    	contentByte.setColorFill(color);
 		    	contentByte.setColorStroke( color );
 		    }
-			contentByte.setFontAndSize(text.getFontInfo().getBaseFont(), fontSize); 
+			BaseFont font = text.getFontInfo().getBaseFont();
+			contentByte.setFontAndSize(font, fontSize); 
 			contentByte.setCharacterSpacing(characterSpacing);
 			contentByte.setWordSpacing(wordSpacing);
 		    placeText(contentByte, text.getFontInfo(), layoutAreaX2PDF(textX), 
 		    		layoutAreaY2PDFEx(textY, text.getFontInfo().getBaseline(), contentByteHeight));
-		    contentByte.showText(text.getText());
-		    contentByte.endText();
-		    contentByte.restoreState();
+		    CSSValue align = text.getStyle( ).getProperty(
+					StyleConstants.STYLE_TEXT_ALIGN );
+			if ( ( font.getFontType( ) == BaseFont.FONT_TYPE_TTUNI )
+					&& IStyle.JUSTIFY_VALUE.equals( align ) && wordSpacing > 0 )
+			{
+				String s = text.getText( );
+				int idx = s.indexOf( ' ' );
+				if ( idx >= 0 )
+				{
+					float spaceCorrection = -wordSpacing * 1000 / fontSize;
+					PdfTextArray textArray = new PdfTextArray( s.substring( 0,
+							idx ) );
+					int lastIdx = idx;
+					while ( ( idx = s.indexOf( ' ', lastIdx + 1 ) ) >= 0 )
+					{
+						textArray.add( spaceCorrection );
+						textArray.add( s.substring( lastIdx, idx ) );
+						lastIdx = idx;
+					}
+					textArray.add( spaceCorrection );
+					textArray.add( s.substring( lastIdx ) );
+					contentByte.showText( textArray );
+				}
+				else
+				{
+					contentByte.showText( s );
+				}
+			}
+			else
+			{
+				contentByte.showText( text.getText( ) );
+			}
+			contentByte.endText( );
+			contentByte.restoreState( );
 		        
-			//draw the overline,throughline or underline for the text if it has any. 
+			// draw the overline,throughline or underline for the text if it has
+			// any.
 		    
 			if ( IStyle.LINE_THROUGH_VALUE.equals( style
 					.getProperty( IStyle.STYLE_TEXT_LINETHROUGH ) ) )
