@@ -68,7 +68,7 @@
 		<block name="Spacing Modifier Letters" range-start="2b0" range-end="2ff" index="5" font-family="HYGoThic-Medium"/>
 		<block name="Combining Diacritical Marks" range-start="300" range-end="36f" index="6" font-family="HeiseiKakuGo-W5"/>
 		<block name="Greek and Coptic" range-start="370" range-end="3ff" index="7" font-family="HeiseiKakuGo-W5"/>
-		<block name="Cyrillic" range-start="400" range-end="4ff" index="8" font-family="HeiseiKakuGo-W5"/>
+		<block name="Cyrillic" range-start="400" range-end="4ff" index="8" font-family="Times New Roman"/>
 		<block name="Lao" range-start="e80" range-end="eff" index="28" font-family="HeiseiKakuGo-W5"/>
 		<block name="Latin Extended Additional" range-start="1e00" range-end="1eff" index="54" font-family="MSung-Light"/>
 		<block name="General Punctuation" range-start="2000" range-end="206f" index="56" font-family="HeiseiKakuGo-W5"/>
