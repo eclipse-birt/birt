@@ -168,4 +168,14 @@ public class AbstractCrosstabItemHandle extends ReportItem
 
 		return null;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.extension.ReportItem#copy()
+	 */
+	public IReportItem copy( )
+	{
+		return null;
+	}
 }
