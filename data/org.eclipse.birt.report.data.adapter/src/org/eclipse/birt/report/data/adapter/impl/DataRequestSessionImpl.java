@@ -33,6 +33,8 @@ import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
@@ -320,17 +322,54 @@ public class DataRequestSessionImpl extends DataRequestSession
 		return results;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#execute(org.eclipse.birt.data.engine.api.IBasePreparedQuery, org.eclipse.birt.data.engine.api.IBaseQueryResults, org.mozilla.javascript.Scriptable)
+	 */
 	public IBaseQueryResults execute( IBasePreparedQuery query,
 			IBaseQueryResults outerResults, Scriptable scope )
+			throws AdapterException
 	{
-		// TODO Auto-generated method stub
-		return null;
+		try
+		{
+			if ( query instanceof IPreparedQuery )
+			{
+				return ( (IPreparedQuery) query ).execute( (IQueryResults) outerResults,
+						scope );
+			}
+			else if ( query instanceof IPreparedCubeQuery )
+			{
+				return ( (IPreparedCubeQuery) query ).execute( scope );
+			}
+			return null;
+		}
+		catch ( BirtException e )
+		{
+			throw new AdapterException( e.getLocalizedMessage( ) );
+		}
 	}
 
-	public IBasePreparedQuery prepare( IDataQueryDefinition query )
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#prepare(org.eclipse.birt.data.engine.api.IDataQueryDefinition)
+	 */
+	public IBasePreparedQuery prepare( IDataQueryDefinition query,
+			Map appContext ) throws AdapterException
 	{
-		// TODO Auto-generated method stub
-		return null;
+
+		try
+		{
+			if ( query instanceof IQueryDefinition )
+				return prepare( (IQueryDefinition) query, appContext );
+			else if ( query instanceof ICubeQueryDefinition )
+				return prepare( (ICubeQueryDefinition) query );
+			else
+				return null;
+		}
+		catch ( BirtException e )
+		{
+			throw new AdapterException( e.getLocalizedMessage( ) );
+		}
 	}
 	
 	/**

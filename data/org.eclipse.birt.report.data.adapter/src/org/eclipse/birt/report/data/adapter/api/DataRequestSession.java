@@ -195,19 +195,20 @@ public abstract class DataRequestSession
 	
 	
 	/**
-     * Prepare a base data query, and return an IBasePreparedQuery instance which can
-     * be subsequently executed to produce query results.
-     */
+	 * Prepare a base data query, and return an IBasePreparedQuery instance
+	 * which can be subsequently executed to produce query results.
+	 */
 
-    public abstract IBasePreparedQuery prepare( IDataQueryDefinition query );
+	public abstract IBasePreparedQuery prepare( IDataQueryDefinition query,
+			Map appContext ) throws AdapterException;
 
-    
-
-    /**
-     * Execute a base prepared query, return an IBaseQueryResults instance which can in
-     * turn be used to get Result Iterator or Cube cursor.
-     */
-    public abstract IBaseQueryResults execute( IBasePreparedQuery query, IBaseQueryResults outerResults, Scriptable scope );
+	/**
+	 * Execute a base prepared query, return an IBaseQueryResults instance which
+	 * can in turn be used to get Result Iterator or Cube cursor.
+	 */
+	public abstract IBaseQueryResults execute( IBasePreparedQuery query,
+			IBaseQueryResults outerResults, Scriptable scope )
+			throws AdapterException;
 
 
 	/**
