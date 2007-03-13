@@ -397,6 +397,9 @@ public class TaskSelectData extends SimpleTask implements
 				&& getDataServiceProvider( ).isInvokingSupported( ) );
 		btnBinding.setEnabled( hasDataSet( )
 				&& getDataServiceProvider( ).isInvokingSupported( ) );
+		btnFilters.setVisible( getDataServiceProvider( ).isEclipseModeSupported( ) );
+		btnParameters.setVisible( getDataServiceProvider( ).isEclipseModeSupported( ) );
+		btnBinding.setVisible( getDataServiceProvider( ).isEclipseModeSupported( ) );
 	}
 
 	private void useReportDataSet( boolean bDS )
@@ -407,6 +410,7 @@ public class TaskSelectData extends SimpleTask implements
 		cmbDataSet.setEnabled( !bDS );
 		btnNewData.setEnabled( !bDS
 				&& getDataServiceProvider( ).isInvokingSupported( ) );
+		btnNewData.setVisible( getDataServiceProvider( ).isEclipseModeSupported( ) );
 
 		if ( bDS )
 		{
@@ -561,6 +565,9 @@ public class TaskSelectData extends SimpleTask implements
 					&& getDataServiceProvider( ).isInvokingSupported( ) );
 			btnBinding.setEnabled( hasDataSet( )
 					&& getDataServiceProvider( ).isInvokingSupported( ) );
+			btnFilters.setVisible( getDataServiceProvider( ).isEclipseModeSupported( ) );
+			btnParameters.setVisible( getDataServiceProvider( ).isEclipseModeSupported( ) );
+			btnBinding.setVisible( getDataServiceProvider( ).isEclipseModeSupported( ) );
 		}
 		else if ( e.getSource( ).equals( btnUseDataSet ) )
 		{
@@ -582,6 +589,7 @@ public class TaskSelectData extends SimpleTask implements
 			cmbDataSet.select( 0 );
 			cmbDataSet.setEnabled( true );
 			btnNewData.setEnabled( getDataServiceProvider( ).isInvokingSupported( ) );
+			btnNewData.setVisible( getDataServiceProvider( ).isEclipseModeSupported( ) );
 		}
 		else if ( e.getSource( ).equals( cmbDataSet ) )
 		{
@@ -634,6 +642,10 @@ public class TaskSelectData extends SimpleTask implements
 					&& getDataServiceProvider( ).isInvokingSupported( ) );
 			btnBinding.setEnabled( hasDataSet( )
 					&& getDataServiceProvider( ).isInvokingSupported( ) );
+			btnFilters.setVisible( getDataServiceProvider( ).isEclipseModeSupported( ) );
+			btnParameters.setVisible( getDataServiceProvider( ).isEclipseModeSupported( ) );
+			btnBinding.setVisible( getDataServiceProvider( ).isEclipseModeSupported( ) );
+			btnNewData.setVisible( getDataServiceProvider( ).isEclipseModeSupported( ) );
 		}
 		else if ( e.getSource( ).equals( btnNewData ) )
 		{

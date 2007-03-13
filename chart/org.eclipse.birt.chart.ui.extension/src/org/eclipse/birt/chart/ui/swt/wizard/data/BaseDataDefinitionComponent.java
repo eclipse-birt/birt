@@ -213,6 +213,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			btnBuilder.getImage( ).setBackground( btnBuilder.getBackground( ) );
 			btnBuilder.setEnabled( context.getUIServiceProvider( )
 					.isInvokingSupported( ) );
+			btnBuilder.setVisible( context.getUIServiceProvider( )
+					.isEclipseModeSupported( ) );
 		}
 
 		if ( ( style & BUTTON_GROUP ) == BUTTON_GROUP )

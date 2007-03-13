@@ -178,4 +178,10 @@ public interface IUIServiceProvider
 	 */
 	public double getConvertedValue( double dOriginalValue, String sFromUnits,
 			String sToUnits );
+	
+	/**
+	 * Returns whether the application is running under Eclipse Mode
+	 * @since 2.2
+	 */
+	public boolean isEclipseModeSupported( );
 }

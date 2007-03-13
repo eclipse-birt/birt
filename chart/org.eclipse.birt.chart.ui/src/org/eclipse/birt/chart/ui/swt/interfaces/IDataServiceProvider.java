@@ -150,6 +150,11 @@ public interface IDataServiceProvider
 	 */
 	public boolean isInvokingSupported( );
 	
+	/**
+	 * Returns whether the application is running under Eclipse Mode.
+	 * @since 2.2
+	 */
+	public boolean isEclipseModeSupported( );
 
 	/**
 	 * Returns the data type according to the query expression.

@@ -39,6 +39,7 @@ public final class UIHelper
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui/util" ); //$NON-NLS-1$
 
+	private static boolean STANDALONE_MODE = System.getProperty( "STANDALONE" ) != null; //$NON-NLS-1$
 	/**
 	 * This is a helper method created to get the location on screen of a
 	 * composite. It does not take into account multiple monitors.
@@ -187,5 +188,14 @@ public final class UIHelper
 			registry.put( sPluginRelativePath, image );
 		}
 		return image;
+	}
+	
+	/**
+	 * Returns if running in eclipse mode or stand-alone mode currently.
+	 * 
+	 */
+	public static boolean isEclipseMode( )
+	{
+		return ( !STANDALONE_MODE && Platform.getExtensionRegistry( ) != null );
 	}
 }

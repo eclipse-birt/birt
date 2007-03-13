@@ -513,4 +513,9 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 	{
 		return true;
 	}
+	
+	public boolean isEclipseModeSupported( )
+	{
+		return true;
+	}
 }

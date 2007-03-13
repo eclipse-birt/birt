@@ -197,6 +197,11 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 		return false;
 	}
 
+	public boolean isEclipseModeSupported( )
+	{
+		return false;
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#getDataType(java.lang.String)
 	 */

@@ -631,6 +631,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	{
 		return true;
 	}
+	
+	public boolean isEclipseModeSupported( )
+	{
+		return true;
+	}
 
 	private ClassLoader getCustomScriptClassLoader( ClassLoader parent )
 	{
