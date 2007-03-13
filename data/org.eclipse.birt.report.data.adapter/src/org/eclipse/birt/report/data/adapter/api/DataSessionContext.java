@@ -48,6 +48,7 @@ public class DataSessionContext
 	/** Indicates Direct Presentation (Generation/Presentation) mode for data requests */
 	public final static int MODE_DIRECT_PRESENTATION  = DataEngineContext.DIRECT_PRESENTATION;
 	
+	public final static int MODE_UPDATE = DataEngineContext.MODE_UPDATE;
 	/**
 	 * AppContext and Data Set cache count setting decide whether cache is used,
 	 * which is default value for data engine context.
@@ -116,7 +117,9 @@ public class DataSessionContext
 	public DataSessionContext( int mode, ModuleHandle moduleHandle, Scriptable topScope )
 		throws BirtException
 	{
-		if ( !( mode == MODE_GENERATION || mode == MODE_PRESENTATION || mode == MODE_DIRECT_PRESENTATION ) )
+		if ( !( mode == MODE_GENERATION
+				|| mode == MODE_PRESENTATION
+				|| mode == MODE_DIRECT_PRESENTATION || mode == MODE_UPDATE ) )
 			throw new AdapterException( ResourceConstants.ADAPTER_INVALID_MODE,
 					new Integer( mode ) );
 		
