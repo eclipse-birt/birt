@@ -51,7 +51,7 @@ public class PDFLineAreaLMTest extends PDFLayoutTest
 	 * 
 	 * @throws EngineException
 	 */
-	public void testForeignContent( ) throws EngineException
+	public void estForeignContent( ) throws EngineException
 	{
 		String designFile = "org/eclipse/birt/report/engine/layout/pdf/LineAreaLMTest-157189.xml";
 		IReportRunnable report = openReportDesign( designFile );

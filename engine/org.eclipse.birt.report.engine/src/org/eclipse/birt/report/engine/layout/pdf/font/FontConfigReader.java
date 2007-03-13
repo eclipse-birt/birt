@@ -17,9 +17,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,11 +40,10 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import com.lowagie.text.FontFactory;
+
 public class FontConfigReader
 {
-
-	/** The config xml file name */
-	private static final String CONFIG_FILE_PATH = "/fontsConfig.xml"; //$NON-NLS-1$
 
 	private static final String TAG_COMPOSITE_FONT = "composite-font"; //$NON-NLS-1$
 	private static final String TAG_ALL_FONTS = "all-fonts"; //$NON-NLS-1$
@@ -63,32 +61,88 @@ public class FontConfigReader
 	private static final String PROP_PATH = "path"; //$NON-NLS-1$
 	private static final String DEFAULT_BLOCK = "default";
 
-	private FontMappingManager fontMappingManager = new FontMappingManager( );
+	/** Prefix of config xml file name */
+	private static final String CONFIG_FILE_PREFIX = "/fontsConfig"; //$NON-NLS-1$
 
-	private ArrayList fontPaths = new ArrayList( );
+	private static final String CONFIG_FILE_SUFFIX = ".xml"; //$NON-NLS-1$
+
+	private static final String CONFIG_FILE_SEPERATOR = "_"; //$NON-NLS-1$
+
+	private FontMappingManager fontMappingManager = new FontMappingManager( );
 
 	/** the logger logging the error, debug, warning messages. */
 	protected static Logger logger = Logger.getLogger( FontConfigReader.class
 			.getName( ) );
 
-	public boolean parseConfigFile( )
+	public void initialize( )
+	{
+		// read the embeded font path.
+		String embededFontPath = getEmbededFontPath( );
+		if ( null != embededFontPath )
+		{
+			FontFactory.registerDirectory( embededFontPath );
+		}
+		parseFormatUnrelatedConfigFile( );
+	}
+
+	public void parseFormatUnrelatedConfigFile( )
+	{
+		String defaultConfig = CONFIG_FILE_PREFIX + CONFIG_FILE_SUFFIX;
+		parseConfigFile( defaultConfig );
+
+		String platformConfigPrefix = getPlatformConfig( );
+		String platformConfig = platformConfigPrefix + CONFIG_FILE_SUFFIX;
+		parseConfigFile( platformConfig );
+
+		Locale locale = Locale.getDefault( );
+		String languageConfigPrefix = platformConfigPrefix
+				+ CONFIG_FILE_SEPERATOR + locale.getLanguage( );
+		String languageConfig = languageConfigPrefix + CONFIG_FILE_SUFFIX;
+		parseConfigFile( languageConfig );
+
+		String countryConfig = languageConfigPrefix + CONFIG_FILE_SEPERATOR
+				+ locale.getCountry( ) + CONFIG_FILE_SUFFIX;
+		parseConfigFile( countryConfig );
+	}
+
+	private static String getPlatformConfig( )
+	{
+		String osName = System.getProperty( "os.name" );
+		osName = osName.replaceAll( " ", CONFIG_FILE_SEPERATOR );
+		return CONFIG_FILE_PREFIX + CONFIG_FILE_SEPERATOR + osName;
+	}
+
+	public boolean parseFormatRelatedConfigFile( String format )
+	{
+		String configFile = CONFIG_FILE_PREFIX + CONFIG_FILE_SEPERATOR + format
+				+ CONFIG_FILE_SUFFIX;
+		return parseConfigFile( configFile );
+	}
+
+	public boolean parseConfigFile( String configFile )
+			throws FactoryConfigurationError
 	{
 		try
 		{
-			Bundle bundle = Platform
-					.getBundle( "org.eclipse.birt.report.engine.fonts" ); //$NON-NLS-1$
-			if ( bundle == null )
-				return false;
-
-			URL fileURL = bundle.getEntry( CONFIG_FILE_PATH );
+			URL fileURL = getURL( configFile );
 			return parseConfigFile( fileURL );
-
 		}
 		catch ( Exception se )
 		{
 			logger.log( Level.WARNING, se.getMessage( ), se );
 		}
 		return false;
+	}
+
+	protected URL getURL( String configFile )
+	{
+		Bundle bundle = Platform
+				.getBundle( "org.eclipse.birt.report.engine.fonts" ); //$NON-NLS-1$
+		if ( bundle == null )
+			return null;
+
+		URL fileURL = bundle.getEntry( configFile );
+		return fileURL;
 	}
 
 	public boolean parseConfigFile( URL fileURL ) throws IOException,
@@ -152,14 +206,14 @@ public class FontConfigReader
 		}
 	}
 
-	public List getTrueTypeFontPaths( )
-	{
-		return this.fontPaths;
-	}
-
 	public FontMappingManager getFontMappingManager( )
 	{
-		return fontMappingManager;
+		return new FontMappingManager( fontMappingManager );
+	}
+
+	public void reset( )
+	{
+		fontMappingManager.reset( );
 	}
 
 	private void handleFontEncodings( Document doc )
@@ -187,7 +241,7 @@ public class FontConfigReader
 			Node node = paths.item( i );
 			String path = getProperty( node, PROP_PATH );
 			if ( isValidValue( path ) )
-				fontPaths.add( path );
+				fontMappingManager.addFontPath( path );
 		}
 	}
 

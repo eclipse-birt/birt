@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<font>
+	<font-aliases>
+		<mapping name="common" font-family="lower priority"/>
+		<mapping name="lower priority" font-family="lower priority"/>
+	</font-aliases>
+	
+	<composite-font name="common">
+		<block name="Basic Latin" range-start="0" range-end="7f" index="0" font-family="Courier"/>
+		<block name="Lao" range-start="e80" range-end="eff" index="28" font-family="Courier"/>
+	</composite-font>
+
+	<composite-font name="lower priority">
+		<block name="Basic Latin" range-start="0" range-end="7f" index="0" font-family="Courier"/>
+	</composite-font>
+
+	<font-encodings>
+		<encoding font-family="common" encoding="lower priority"/>
+		<encoding font-family="lower priority" encoding="lower priority"/>
+	</font-encodings>
+</font>

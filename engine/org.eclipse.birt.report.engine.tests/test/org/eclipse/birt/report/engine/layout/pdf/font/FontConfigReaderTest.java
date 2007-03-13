@@ -144,6 +144,48 @@ public class FontConfigReaderTest extends TestCase
 		assertEquals( "Helvetica", testFont.get( "default" ) );
 	}
 
+	public void testConfigFilePriority( )
+	{
+		testPriority( "default_os" );
+		testPriority( "os_language" );
+		testPriority( "language_country" );
+	}
+
+	private void testPriority( final String testDir )
+	{
+		FontConfigReader reader = new FontConfigReader( ) {
+
+			protected URL getURL( String configFile )
+			{
+				URL fileURL = getClass( ).getResource(
+						"/org/eclipse/birt/report/engine/layout/pdf/font/"
+								+ testDir + "/" + configFile );
+				return fileURL;
+			}
+		};
+		reader.initialize( );
+		FontMappingManager manager = reader.getFontMappingManager( );
+		testMergedProperty( manager.getFontAliases( ), 8 );
+		testMergedProperty( manager.getFontEncodings( ), 9 );
+
+		Map compositeFonts = manager.getCompositeFonts( );
+		assertEquals( 3, compositeFonts.size( ) );
+		String fontName = "common";
+		compositeFonts.get( fontName );
+		Map compositeFont1 = (Map) compositeFonts.get( fontName );
+		assertEquals( 1, compositeFont1.size( ) );
+		assertTrue( compositeFonts.containsKey( "higher priority" ) );
+		assertTrue( compositeFonts.containsKey( "lower priority" ) );
+	}
+
+	private void testMergedProperty( Map map, int size )
+	{
+		assertEquals( size, map.size( ) );
+		assertEquals( "higher priority", map.get( "common" ) );
+		assertEquals( "higher priority", map.get( "higher priority" ) );
+		assertEquals( "lower priority", map.get( "lower priority" ) );
+	}
+
 	private boolean isMappedTo( char c, String from, String to )
 	{
 		BaseFont font = fontMappingManager.getMappedFont( c,

@@ -38,19 +38,14 @@ public class FontSplitter implements ISplitter
 	private FontInfo lastFontInfo = null;
 	
 	private boolean encounteredReturn = false;
-	
-	public FontSplitter(Chunk inputChunk, ITextContent textContent)
+
+	public FontSplitter(Chunk inputChunk, ITextContent textContent, String format )
 	{
 		this.chunkText = inputChunk.getText().toCharArray();
 		baseOffset = inputChunk.getOffset();
 		baseLevel = inputChunk.getBaseLevel();
 		runDirection = inputChunk.getRunDirection();
-		createFontHandler(textContent);
-	}
-	
-	private void createFontHandler(ITextContent textContent)
-	{
-		this.fh = new FontHandler(textContent);
+		this.fh = new FontHandler(textContent, format );
 	}
 	
 	private Chunk buildChunk()

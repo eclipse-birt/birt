@@ -230,7 +230,7 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 		public Compositor()
 		{
 			this.content = textContent;
-			cg = new ChunkGenerator(content);
+			cg = new ChunkGenerator( content, context.getFormat( ) );
 			this.isInline = PropertyUtil.isInlineElement(content);
 			this.maxLineSpace = lineLM.maxAvaWidth;		
 			IStyle style = content.getComputedStyle();

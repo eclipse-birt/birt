@@ -21,14 +21,17 @@ public class ChunkGenerator
 	
 	private ISplitter bidiSplitter = null;
 	private ISplitter fontSplitter = null;
+	private String format = null;
 	
-	public ChunkGenerator(ITextContent textContent)
+	public ChunkGenerator(ITextContent textContent, String format )
 	{
 		this.textContent = textContent;
 		bidiSplitter = new BidiSplitter(new Chunk(textContent.getText()));
+		this.format = format;
 		if (bidiSplitter.hasMore())
 		{
-			fontSplitter = new FontSplitter(bidiSplitter.getNext(), textContent);
+			fontSplitter = new FontSplitter( bidiSplitter.getNext( ),
+					textContent, format );
 		}
 	}
 	
@@ -56,7 +59,8 @@ public class ChunkGenerator
 				fontSplitter = null;
 			}
 			if (bidiSplitter.hasMore()){
-				fontSplitter = new FontSplitter(bidiSplitter.getNext(), textContent);
+				fontSplitter = new FontSplitter( bidiSplitter.getNext( ),
+						textContent, format );
 			}else{
 				return null;
 			}	

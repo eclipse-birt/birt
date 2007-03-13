@@ -331,11 +331,12 @@ public class PDFPageLM extends PDFBlockContainerLM
 			totalPageContent.setText( nf.format( pageNumber ) );
 
 			IArea totalPageArea = null;
-			ChunkGenerator cg = new ChunkGenerator( totalPageContent );
+			String format = context.getFormat( );
+			ChunkGenerator cg = new ChunkGenerator( totalPageContent, format );
 			if ( cg.hasMore( ) )
 			{
 				FontSplitter fontSplitter = new FontSplitter( cg.getNext( ),
-						totalPageContent );
+						totalPageContent, format );
 				if ( fontSplitter.hasMore( ) )
 				{
 					Chunk c = fontSplitter.getNext( );

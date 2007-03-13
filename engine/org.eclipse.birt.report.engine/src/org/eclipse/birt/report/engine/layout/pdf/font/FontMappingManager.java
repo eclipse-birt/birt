@@ -11,8 +11,12 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.font;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -57,14 +61,15 @@ public class FontMappingManager
 	private static final String DEFAULT_FONT = BaseFont.TIMES_ROMAN;
 
 	private static final String BLOCK_DEFAULT = "default";
-	/** The font-family replacement */
-	private HashMap fontAliases = null;
-
-	/** The encoding for the fonts */
-	private HashMap fontEncoding = null;
 
 	protected static Logger logger = Logger.getLogger( FontMappingManager.class
 			.getName( ) );
+
+    /** The font-family replacement */
+	private Map fontAliases = new HashMap( );;
+
+	/** The encoding for the fonts */
+	private Map fontEncodings = new HashMap( );;
 
 	/**
 	 * The array maintaining the font list which can display the character in
@@ -72,16 +77,34 @@ public class FontMappingManager
 	 */
 	private Map compositeFonts = new HashMap( );
 
+	private Set fontPaths = new HashSet( );
+	
 	FontMappingManager( )
 	{
 		initializeFontMapping( );
 		initializeFontEncoding( );
 	}
 
+	FontMappingManager(FontMappingManager fontManager)
+	{
+		fontAliases.putAll( fontManager.fontAliases );
+		fontEncodings.putAll( fontManager.fontEncodings );
+		compositeFonts.putAll( fontManager.compositeFonts );
+		fontPaths.addAll( fontManager.fontPaths );
+	}
+	
+	public FontMappingManager merge(FontMappingManager fontManager)
+	{
+		FontMappingManager result = new FontMappingManager(this);
+		result.fontAliases.putAll( fontManager.fontAliases );
+		result.fontEncodings.putAll( fontManager.fontEncodings );
+		result.compositeFonts.putAll( fontManager.compositeFonts );
+		result.fontPaths.addAll( fontManager.fontPaths );
+		return result;
+	}
+	
 	protected void initializeFontMapping( )
 	{
-		fontAliases = new HashMap( );
-
 		fontAliases.put( SERIF, DEFAULT_SERIF_FONT );
 		fontAliases.put( SANS_SERIF, DEFAULT_SANS_SERIF_FONT );
 		fontAliases.put( CURSIVE, DEFAULT_CURSIVE_FONT );
@@ -91,14 +114,12 @@ public class FontMappingManager
 
 	protected void initializeFontEncoding( )
 	{
-		fontEncoding = new HashMap( );
-
-		fontEncoding.put( BaseFont.TIMES_ROMAN, BaseFont.WINANSI );
-		fontEncoding.put( BaseFont.HELVETICA, BaseFont.WINANSI );
-		fontEncoding.put( BaseFont.COURIER, BaseFont.WINANSI );
-		fontEncoding.put( BaseFont.SYMBOL, BaseFont.WINANSI );
-		fontEncoding.put( BaseFont.ZAPFDINGBATS, BaseFont.WINANSI );
-		fontEncoding.put( "Times", BaseFont.WINANSI ); //$NON-NLS-1$
+		fontEncodings.put( BaseFont.TIMES_ROMAN, BaseFont.WINANSI );
+		fontEncodings.put( BaseFont.HELVETICA, BaseFont.WINANSI );
+		fontEncodings.put( BaseFont.COURIER, BaseFont.WINANSI );
+		fontEncodings.put( BaseFont.SYMBOL, BaseFont.WINANSI );
+		fontEncodings.put( BaseFont.ZAPFDINGBATS, BaseFont.WINANSI );
+		fontEncodings.put( "Times", BaseFont.WINANSI ); //$NON-NLS-1$
 	}
 
 	/**
@@ -168,6 +189,27 @@ public class FontMappingManager
 		return createFont( physicalFont, fontStyle );
 	}
 
+	public void addFontPath( String path )
+	{
+		File file = new File(path);
+		if ( file.exists( ) )
+		{
+			try
+			{
+				fontPaths.add( file.getCanonicalPath( ) );
+			}
+			catch ( IOException e )
+			{
+				logger.log( Level.WARNING, e.getMessage( ) );
+			}
+		}
+	}
+	
+	public Set getFontPaths()
+	{
+		return fontPaths;
+	}
+	
 	private String getPhysicalFont( char c, String logicalFont,
 			String defaultFont )
 	{
@@ -208,15 +250,7 @@ public class FontMappingManager
 
 	public void addCompositeFonts( String fontName, Map blocks )
 	{
-		Map existedBlocks = (Map) compositeFonts.get( fontName );
-		if ( existedBlocks == null )
-		{
-			compositeFonts.put( fontName, blocks );
-		}
-		else
-		{
-			existedBlocks.putAll( blocks );
-		}
+		compositeFonts.put( fontName, blocks );
 	}
 
 	public void addBlockToCompositeFont( String fontName, Object blockId,
@@ -238,7 +272,7 @@ public class FontMappingManager
 
 	public void addFontEncoding( HashMap fontEncoding )
 	{
-		this.fontEncoding.putAll( fontEncoding );
+		this.fontEncodings.putAll( fontEncoding );
 	}
 
 	public void addFontMapping( HashMap fontMapping )
@@ -251,15 +285,27 @@ public class FontMappingManager
 		return compositeFonts;
 	}
 
+	public Map getFontEncodings( )
+	{
+		return fontEncodings;
+	}
+	
+	public void reset()
+	{
+		fontAliases.clear( );
+		fontEncodings.clear( );
+		compositeFonts.clear( );
+		fontPaths.clear( );
+	}
+	
 	private String getMappedFontName( String fontFamilyName, Map fontMap )
 	{
-		String mappedFontFamily = (String) fontMap.get( fontFamilyName );
-		return mappedFontFamily;
+		return (String) fontMap.get( fontFamilyName );
 	}
 
 	private String getEncoding( String fontFamilyName )
 	{
-		String encoding = (String) fontEncoding.get( fontFamilyName );
+		String encoding = (String) fontEncodings.get( fontFamilyName );
 		return ( null == encoding ) ? BaseFont.IDENTITY_H : encoding;
 	}
 
@@ -466,4 +512,5 @@ public class FontMappingManager
 			0xF0000, 0xFFFFF, // Supplementary Private Use Area-A
 			0x100000, 0x10FFFF // Supplementary Private Use Area-B
 	};
+
 }
