@@ -56,15 +56,4 @@ public interface IQueryResults extends IBaseQueryResults
      * @throws 	DataException if error occurs in Data Engine
      */
     public IResultIterator getResultIterator() throws BirtException;
-
-    /**
-     * Closes all query result set(s) associated with this object;  
-     * provides a hint to the query that it can safely release
-     * all associated resources. 
-     * The query results might have iterators open on them. 
-     * Iterators associated with the query result sets are invalidated
-     * and can no longer be used.
-     * @throws BirtException 
-     */
-    public void close( ) throws BirtException;
-}
+ }

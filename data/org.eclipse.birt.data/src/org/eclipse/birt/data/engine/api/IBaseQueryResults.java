@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.api;
 
+import org.eclipse.birt.core.exception.BirtException;
+
 /**
  * The new IBaseQueryResults is an interface which will be extends by IQueryResults and ICubeQueryResults interfaces. It provides service for
  * client to get/set query results id.
@@ -26,4 +28,16 @@ public interface IBaseQueryResults
 	 * @return a unique ID
 	 */
 	public String getID();
+	
+	  /**
+     * Closes all query result set(s) associated with this object;  
+     * provides a hint to the query that it can safely release
+     * all associated resources. 
+     * The query results might have iterators open on them. 
+     * Iterators associated with the query result sets are invalidated
+     * and can no longer be used.
+     * @throws BirtException 
+     */
+    public void close( ) throws BirtException;
+
 }
