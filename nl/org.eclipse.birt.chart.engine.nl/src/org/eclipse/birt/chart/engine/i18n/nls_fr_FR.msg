@@ -342,4 +342,4 @@ edataprocessor.xception.definitionsAssociatedWithX=La définition de données pour
 dataprocessor.exception.DefnExpMustAssociateY=Une expression de définition de données doit être associée à la série verticale de valeurs {0} définie par {1}.
 dataprocessor.log.baseSeriesDefnBeStatic=La définition de série de catégories ({0}) sera utilisée en tant qu''expression statique.
 
-exception.data.max.row.count=Unable to render a chart that binds over {0} rows of data.
+exception.data.max.row.count=Impossible de rendre un graphique qui lie {0} lignes de données.

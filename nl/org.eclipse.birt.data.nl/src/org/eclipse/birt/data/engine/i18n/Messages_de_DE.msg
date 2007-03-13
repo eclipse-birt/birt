@@ -90,7 +90,7 @@ data.engine.InvalidGroupKey=Gruppenschlüssel "{0}" in Gruppe {1} darf nicht von 
 data.engine.ColumnBindingNotExist=Die Spaltenbindung "{0}" existiert nicht.
 data.engine.ColumnBindingCycle=Die Spaltenbindung "{0}" hat einen Abhängigkeitszyklus.
 data.engine.ColumnBindingReferToInexistColumn=Spaltenbindung "{0}" hat auf eine Datensatzspalte "{1}" verwiesen, die nicht existiert.
-data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=Column Binding "{0}" is incorrect:the parent query column bindings which include aggregations cannot be used in column bindings of subquery.
+data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=Die Spaltenbindung "{0}" ist nicht korrekt: die übergeordneten Abfragespaltenbindungen, zu denen Aggregate gehören, können nicht als Spaltenbindung von Teilabfragen verwendet werden.
 #computed column value
 data.engine.BadCompColExpr=Der Ausdruck für die berechnete Spalte "{0}" ist ungültig.
 data.engine.CompCol.WrongDataType=Der Datentyp der berechneten Spalte "{0}" lautet {1}, einer ihrer Werte ist jedoch "{2}". Dieser kann nicht in {1} konvertiert werden.
@@ -173,7 +173,7 @@ data.engine.document.notSupportInPresentation=In Präsentation nicht unterstützt.
 data.engine.wrongStatus=Falscher Status.
 data.engine.wrongVersion=In früheren Versionen als 2.1 nicht unterstützt.
 data.engine.unsupportOperationException=Nicht unterstützter Vorgang.
-data.engine.possibleMixedDataTypeInColumn=An error happen during population of data. This might be caused by including data of mixed type in a column of "ANY" type.
+data.engine.possibleMixedDataTypeInColumn=Beim Übernehmen der Daten ist ein Fehler aufgetreten. Mögliche Ursache: Verschiedene Datentypen in einer Spalte des Typs "BELIEBIG".
 data.engine.resultClassSaveError=Einige Spaltenverweise in der Spaltenbindung existieren nicht.
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Der Spaltenname darf nicht leer oder gleich Null sein.

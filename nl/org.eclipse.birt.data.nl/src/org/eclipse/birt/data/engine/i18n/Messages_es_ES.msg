@@ -90,7 +90,7 @@ data.engine.InvalidGroupKey=La clave de grupo "{0}" del grupo {1} no puede depen
 data.engine.ColumnBindingNotExist=El enlace de columna "{0}" no existe.
 data.engine.ColumnBindingCycle=El enlace de columna "{0}" tiene un ciclo de dependencia.
 data.engine.ColumnBindingReferToInexistColumn=El enlace de columna "{0}" hace referencia a una columna de conjunto de datos "{1}" que no existe.
-data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=Column Binding "{0}" is incorrect:the parent query column bindings which include aggregations cannot be used in column bindings of subquery.
+data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=El enlace de columna "{0}" es incorrecto: los enlaces de la columna de consulta principal que incluyen agregaciones no pueden utilizarse en enlaces de columnas de subconsulta.
 #computed column value
 data.engine.BadCompColExpr=La expresión de la columna procesada "{0}" no es válida.
 data.engine.CompCol.WrongDataType=El tipo de datos de la columna procesada "{0}" es {1}, pero uno de sus valores es "{2}", que no se puede convertir en {1}.
@@ -173,7 +173,7 @@ data.engine.document.notSupportInPresentation=No admitido en la presentación.
 data.engine.wrongStatus=Estado incorrecto.
 data.engine.wrongVersion=No admitido en versiones anteriores a la 2.1.
 data.engine.unsupportOperationException=Operación no admitida.
-data.engine.possibleMixedDataTypeInColumn=An error happen during population of data. This might be caused by including data of mixed type in a column of "ANY" type.
+data.engine.possibleMixedDataTypeInColumn=Se ha producido un error durante la aplicación de los datos. Esto se puede deber a la inclusión de datos de distinto tipo en una columna de tipo "CUALQUIERA".
 data.engine.resultClassSaveError=Algunas referencias de columnas en el enlace de columna no existen.
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=El nombre de columna no puede ser nulo ni estar vacío.

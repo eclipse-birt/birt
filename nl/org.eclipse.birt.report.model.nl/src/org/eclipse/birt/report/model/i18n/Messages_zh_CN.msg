@@ -555,11 +555,11 @@ Choices.accessPermission.disallow=禁止
 
 #73. paramSortValues
 Choices.paramSortValues.value=值
-Choices.paramSortValues.label=Display Text
+Choices.paramSortValues.label=显示文本
 
 #74. reportLayoutPreference
-Choices.reportLayoutPreference.fixedLayout=Fixed Layout
-Choices.reportLayoutPreference.autoLayout=Auto Layout
+Choices.reportLayoutPreference.fixedLayout=混合布局
+Choices.reportLayoutPreference.autoLayout=自动布局
 
 
 ###########################################################
@@ -2211,7 +2211,7 @@ Element.ReportDesign.displayName=显示名称
 Element.ReportDesign.iconFile=图标文件
 Element.ReportDesign.cheatSheet=备忘单
 Element.ReportDesign.thumbnail=缩略图
-Element.ReportDesign.layoutPreference=Layout preference
+Element.ReportDesign.layoutPreference=布局首选项
 Element.ReportDesign.beforeFactory.toolTip=调用时间为：开始出厂时，初始化 ( ) 方法后，打开报表文档（如果有）前
 Element.ReportDesign.afterFactory.toolTip=调用时间为出厂结束时、关闭报表文档（如果有）后。 这是工厂中调用的最后一个方法
 Element.ReportDesign.beforeOpenDoc.toolTip=仅在工厂中打开报表文档前调用
@@ -2303,7 +2303,7 @@ Element.ScalarParameter.type=类型
 Element.ScalarParameter.dataType=数据类型
 Element.ScalarParameter.displayPrompt=显示提示
 Element.ScalarParameter.concealValue=隐藏值
-Element.ScalarParameter.isRequired=Is required
+Element.ScalarParameter.isRequired=必需
 Element.ScalarParameter.format=格式
 Element.ScalarParameter.controlType=控件类型
 Element.ScalarParameter.alignment=对齐
@@ -2320,9 +2320,9 @@ Element.ScalarParameter.promptText=提示文本
 Element.ScalarParameter.promptTextID=提示文本关键字
 Element.ScalarParameter.listLimit=列表限制
 Element.ScalarParameter.boundDataColumns=绑定的数据列
-Element.ScalarParameter.distinct=Distinct
-Element.ScalarParameter.sortDirection=Sort direction
-Element.ScalarParameter.sortBy=Sort by
+Element.ScalarParameter.distinct=特异
+Element.ScalarParameter.sortDirection=排序方向
+Element.ScalarParameter.sortBy=排序依据
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=开始展开

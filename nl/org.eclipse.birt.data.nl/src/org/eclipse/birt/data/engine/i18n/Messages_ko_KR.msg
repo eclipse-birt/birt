@@ -90,7 +90,7 @@ data.engine.InvalidGroupKey={1} 그룹의 "{0}" 그룹 키를 하위 그룹에 정의된 열 바�
 data.engine.ColumnBindingNotExist=열 바인딩 "{0}"이(가) 없습니다.
 data.engine.ColumnBindingCycle="{0}" 열 바인딩에 종속 사이클이 형성되어 있습니다.
 data.engine.ColumnBindingReferToInexistColumn=열 바인딩 "{0}"이(가) 존재하지 않는 데이터 집합 열 "{1}"을(를) 참조했습니다.
-data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=Column Binding "{0}" is incorrect:the parent query column bindings which include aggregations cannot be used in column bindings of subquery.
+data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=열 바인딩"{0}"이 잘못되었습니다:집계를 포함한 부모 쿼리 열 바인딩은 하위 쿼리 열 바인딩에 사용될 수 없습니다.
 #computed column value
 data.engine.BadCompColExpr=계산된 열 "{0}"에 대한 식이 잘못되었습니다.
 data.engine.CompCol.WrongDataType=계산된 열 "{0}"의 데이터 형식이 {1}이지만 값 중 하나가 "{2}"이므로 {1}(으)로 변환할 수 없습니다.
@@ -173,7 +173,7 @@ data.engine.document.notSupportInPresentation=프리젠테이션에서 지원되지 않습니다
 data.engine.wrongStatus=잘못된 상태
 data.engine.wrongVersion=2.1 이전 버전에서는 지원되지 않습니다.
 data.engine.unsupportOperationException=지원되지 않는 연산
-data.engine.possibleMixedDataTypeInColumn=An error happen during population of data. This might be caused by including data of mixed type in a column of "ANY" type.
+data.engine.possibleMixedDataTypeInColumn=데이터 모집단 중에 오류가 발생했습니다. 이는 "모든" 형식 열에 혼합된 형식의 데이터가 포함되어 발생했을 수 있습니다.
 data.engine.resultClassSaveError=열 바인딩 내의 일부 열 참조가 없습니다.
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=열 이름은 비워 두거나 널(null)이 될 수 없습니다.

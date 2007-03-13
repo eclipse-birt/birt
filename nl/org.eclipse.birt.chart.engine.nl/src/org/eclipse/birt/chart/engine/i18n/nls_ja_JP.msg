@@ -342,4 +342,4 @@ edataprocessor.xception.definitionsAssociatedWithX=X Œn—ñ‚Ìƒf[ƒ^‚Ì’è‹`‚ªw’è‚³‚
 dataprocessor.exception.DefnExpMustAssociateY=ƒf[ƒ^’è‹`‚Ì®‚ÍA’l (Y) Œn—ñ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚é•K—v‚ª‚ ‚è‚Ü‚· ({1} ‚Å’è‹`‚³‚ê‚½ {0})B
 dataprocessor.log.baseSeriesDefnBeStatic=ƒJƒeƒSƒŠŒn—ñ‚Ì’è‹` ({0}) ‚ªÃ“I‚È®‚Æ‚µ‚Äg—p‚³‚ê‚Ü‚·B
 
-exception.data.max.row.count=Unable to render a chart that binds over {0} rows of data.
+exception.data.max.row.count={0} sˆÈã‚Ìƒf[ƒ^‚ğƒoƒCƒ“ƒh‚·‚éƒOƒ‰ƒt‚ÍƒŒƒ“ƒ_ƒŠƒ“ƒO‚Å‚«‚Ü‚¹‚ñB

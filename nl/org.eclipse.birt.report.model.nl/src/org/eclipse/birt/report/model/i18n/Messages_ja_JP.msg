@@ -555,11 +555,11 @@ Choices.accessPermission.disallow=許可しない
 
 #73. paramSortValues
 Choices.paramSortValues.value=値
-Choices.paramSortValues.label=Display Text
+Choices.paramSortValues.label=表示テキスト
 
 #74. reportLayoutPreference
-Choices.reportLayoutPreference.fixedLayout=Fixed Layout
-Choices.reportLayoutPreference.autoLayout=Auto Layout
+Choices.reportLayoutPreference.fixedLayout=修正したレイアウト
+Choices.reportLayoutPreference.autoLayout=自動レイアウト
 
 
 ###########################################################
@@ -2211,7 +2211,7 @@ Element.ReportDesign.displayName=表示名
 Element.ReportDesign.iconFile=アイコンファイル
 Element.ReportDesign.cheatSheet=ガイドの表示
 Element.ReportDesign.thumbnail=サムネール
-Element.ReportDesign.layoutPreference=Layout preference
+Element.ReportDesign.layoutPreference=レイアウトの設定
 Element.ReportDesign.beforeFactory.toolTip=Factory での処理を開始する際に、initialize( ) メソッドを実行した後で、レポート文書 (該当する場合) を開く前に呼び出されます
 Element.ReportDesign.afterFactory.toolTip=Factory での処理が終了した際に、レポート文書 (該当する場合) を閉じた後に呼び出されます。これは、Factory で呼び出される最後のメソッドです
 Element.ReportDesign.beforeOpenDoc.toolTip=Factory でレポート文書を開く直前に呼び出されます
@@ -2303,7 +2303,7 @@ Element.ScalarParameter.type=型
 Element.ScalarParameter.dataType=データ型
 Element.ScalarParameter.displayPrompt=プロンプトの表示
 Element.ScalarParameter.concealValue=値を隠す
-Element.ScalarParameter.isRequired=Is required
+Element.ScalarParameter.isRequired=必須
 Element.ScalarParameter.format=書式
 Element.ScalarParameter.controlType=コントロール型
 Element.ScalarParameter.alignment=配置
@@ -2321,8 +2321,8 @@ Element.ScalarParameter.promptTextID=プロンプトテキストキー
 Element.ScalarParameter.listLimit=一覧の制限
 Element.ScalarParameter.boundDataColumns=バインドされたデータカラム
 Element.ScalarParameter.distinct=Distinct
-Element.ScalarParameter.sortDirection=Sort direction
-Element.ScalarParameter.sortBy=Sort by
+Element.ScalarParameter.sortDirection=ソート方向
+Element.ScalarParameter.sortBy=方向
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=開始時に展開

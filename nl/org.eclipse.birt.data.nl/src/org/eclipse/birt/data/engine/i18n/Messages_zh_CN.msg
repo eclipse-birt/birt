@@ -90,7 +90,7 @@ data.engine.InvalidGroupKey=组 {1} 中的组关键字“{0}”不能依赖于在低于自身的组中
 data.engine.ColumnBindingNotExist=列绑定“{0}”不存在。
 data.engine.ColumnBindingCycle=列绑定“{0}”具有相关性循环。
 data.engine.ColumnBindingReferToInexistColumn=列绑定“{0}”引用了一个不存在的数据集列“{1}”。
-data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=Column Binding "{0}" is incorrect:the parent query column bindings which include aggregations cannot be used in column bindings of subquery.
+data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=列绑定“{0}”不正确: 包含聚合的父查询列绑定不能用于子查询的列绑定。
 #computed column value
 data.engine.BadCompColExpr=计算列 "{0}" 的表达式无效。
 data.engine.CompCol.WrongDataType=计算列 "{0}" 的数据类型为 {1}，但是其某个值为 "{2}"，不能转换为 {1}。
@@ -173,7 +173,7 @@ data.engine.document.notSupportInPresentation=在展示中不受支持。
 data.engine.wrongStatus=错误状态。
 data.engine.wrongVersion=在早于 2.1 的版本中不受支持。
 data.engine.unsupportOperationException=不支持的操作。
-data.engine.possibleMixedDataTypeInColumn=An error happen during population of data. This might be caused by including data of mixed type in a column of "ANY" type.
+data.engine.possibleMixedDataTypeInColumn=填充数据期间出错。原因可能是在 "ANY" 类型的列中包含混合类型的数据。
 data.engine.resultClassSaveError=列绑定中的某些列引用不存在。
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=列名称不能为空或 null。

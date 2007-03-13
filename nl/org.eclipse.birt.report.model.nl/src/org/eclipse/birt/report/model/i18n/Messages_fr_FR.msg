@@ -555,11 +555,11 @@ Choices.accessPermission.disallow=Refuser
 
 #73. paramSortValues
 Choices.paramSortValues.value=Valeur
-Choices.paramSortValues.label=Display Text
+Choices.paramSortValues.label=Texte d'affichage
 
 #74. reportLayoutPreference
-Choices.reportLayoutPreference.fixedLayout=Fixed Layout
-Choices.reportLayoutPreference.autoLayout=Auto Layout
+Choices.reportLayoutPreference.fixedLayout=Mise en page fixe
+Choices.reportLayoutPreference.autoLayout=Mise en page automatique
 
 
 ###########################################################
@@ -2211,7 +2211,7 @@ Element.ReportDesign.displayName=Nom d'affichage
 Element.ReportDesign.iconFile=Fichier icône
 Element.ReportDesign.cheatSheet=Feuille de fraude
 Element.ReportDesign.thumbnail=Miniature
-Element.ReportDesign.layoutPreference=Layout preference
+Element.ReportDesign.layoutPreference=Préférence de mise en page
 Element.ReportDesign.beforeFactory.toolTip=Commande appelée au début du processus de génération après la méthode d'initialisation( ) mais avant l'ouverture de l'état (le cas échéant)
 Element.ReportDesign.afterFactory.toolTip=Commande appelée à la fin du processus de génération, après fermeture de l'état (le cas échéant). Il s'agit de la dernière méthode appelée au cours du processus de génération
 Element.ReportDesign.beforeOpenDoc.toolTip=Commande appelée juste avant l'ouverture de l'état pendant le processus de génération
@@ -2303,7 +2303,7 @@ Element.ScalarParameter.type=Type
 Element.ScalarParameter.dataType=Type de données
 Element.ScalarParameter.displayPrompt=Afficher une invite
 Element.ScalarParameter.concealValue=Masquer la valeur
-Element.ScalarParameter.isRequired=Is required
+Element.ScalarParameter.isRequired=Est requis
 Element.ScalarParameter.format=Format
 Element.ScalarParameter.controlType=Type de contrôle
 Element.ScalarParameter.alignment=Alignement
@@ -2321,8 +2321,8 @@ Element.ScalarParameter.promptTextID=Clé du texte de l'invite
 Element.ScalarParameter.listLimit=Limite de liste
 Element.ScalarParameter.boundDataColumns=Colonnes de données liées
 Element.ScalarParameter.distinct=Distinct
-Element.ScalarParameter.sortDirection=Sort direction
-Element.ScalarParameter.sortBy=Sort by
+Element.ScalarParameter.sortDirection=Direction du tri
+Element.ScalarParameter.sortBy=Trier par
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=Lancement développé

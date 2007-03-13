@@ -555,11 +555,11 @@ Choices.accessPermission.disallow=허용 안 함
 
 #73. paramSortValues
 Choices.paramSortValues.value=값
-Choices.paramSortValues.label=Display Text
+Choices.paramSortValues.label=표시 텍스트
 
 #74. reportLayoutPreference
-Choices.reportLayoutPreference.fixedLayout=Fixed Layout
-Choices.reportLayoutPreference.autoLayout=Auto Layout
+Choices.reportLayoutPreference.fixedLayout=고정된 레이아웃
+Choices.reportLayoutPreference.autoLayout=자동 레이아웃
 
 
 ###########################################################
@@ -2211,7 +2211,7 @@ Element.ReportDesign.displayName=표시 이름
 Element.ReportDesign.iconFile=아이콘 파일
 Element.ReportDesign.cheatSheet=치트 시트
 Element.ReportDesign.thumbnail=Thumbnail
-Element.ReportDesign.layoutPreference=Layout preference
+Element.ReportDesign.layoutPreference=레이아웃 기본 설정
 Element.ReportDesign.beforeFactory.toolTip=초기화() 메서드 이후 및 보고서 문서(있는 경우) 열기 이전 공장 시작 시 호출됩니다
 Element.ReportDesign.afterFactory.toolTip=보고서 문서(있는 경우) 닫기 이후 공장 종료 시 호출됩니다. 공장에서 호출된 마지막 메서드입니다
 Element.ReportDesign.beforeOpenDoc.toolTip=공장에서 보고서 문서를 열기 직전 호출됩니다
@@ -2303,7 +2303,7 @@ Element.ScalarParameter.type=형식
 Element.ScalarParameter.dataType=데이터 형식
 Element.ScalarParameter.displayPrompt=프롬프트 표시
 Element.ScalarParameter.concealValue=값 숨기기
-Element.ScalarParameter.isRequired=Is required
+Element.ScalarParameter.isRequired=가 필요합니다.
 Element.ScalarParameter.format=서식
 Element.ScalarParameter.controlType=컨트롤 형식
 Element.ScalarParameter.alignment=맞춤
@@ -2320,9 +2320,9 @@ Element.ScalarParameter.promptText=프롬프트 텍스트
 Element.ScalarParameter.promptTextID=프롬프트 텍스트 키
 Element.ScalarParameter.listLimit=목록 제한
 Element.ScalarParameter.boundDataColumns=바인딩된 데이터 열
-Element.ScalarParameter.distinct=Distinct
-Element.ScalarParameter.sortDirection=Sort direction
-Element.ScalarParameter.sortBy=Sort by
+Element.ScalarParameter.distinct=고유
+Element.ScalarParameter.sortDirection=정렬 방향
+Element.ScalarParameter.sortBy=정렬 기준
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=시작 확장됨

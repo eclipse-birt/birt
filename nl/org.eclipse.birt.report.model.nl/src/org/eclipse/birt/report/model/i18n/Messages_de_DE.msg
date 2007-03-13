@@ -555,11 +555,11 @@ Choices.accessPermission.disallow=Nicht zulassen
 
 #73. paramSortValues
 Choices.paramSortValues.value=Wert
-Choices.paramSortValues.label=Display Text
+Choices.paramSortValues.label=Text anzeigen
 
 #74. reportLayoutPreference
-Choices.reportLayoutPreference.fixedLayout=Fixed Layout
-Choices.reportLayoutPreference.autoLayout=Auto Layout
+Choices.reportLayoutPreference.fixedLayout=Festes Layout
+Choices.reportLayoutPreference.autoLayout=Automatisches Layout
 
 
 ###########################################################
@@ -2211,7 +2211,7 @@ Element.ReportDesign.displayName=Anzeigename
 Element.ReportDesign.iconFile=Symboldatei
 Element.ReportDesign.cheatSheet=Spickzettel
 Element.ReportDesign.thumbnail=Miniatur
-Element.ReportDesign.layoutPreference=Layout preference
+Element.ReportDesign.layoutPreference=Layoutvoreinstellungen
 Element.ReportDesign.beforeFactory.toolTip=Wird zu Beginn der Factory nach der Methode "initialize( )" und (gegebenenfalls) vor dem Öffnen des Berichtsdokuments aufgerufen
 Element.ReportDesign.afterFactory.toolTip=Wird zu Ende der Factory (gegebenenfalls) nach dem Schließen des Berichtsdokuments aufgerufen. Dies ist die letzte in der Factory aufgerufene Methode
 Element.ReportDesign.beforeOpenDoc.toolTip=Wird kurz vor Öffnen des Berichtsdokuments in der Factory aufgerufen
@@ -2303,7 +2303,7 @@ Element.ScalarParameter.type=Typ
 Element.ScalarParameter.dataType=Datentyp
 Element.ScalarParameter.displayPrompt=Anzeige-Aufforderung
 Element.ScalarParameter.concealValue=Wert verbergen
-Element.ScalarParameter.isRequired=Is required
+Element.ScalarParameter.isRequired=Erforderlich
 Element.ScalarParameter.format=Format
 Element.ScalarParameter.controlType=Steuerelementtyp
 Element.ScalarParameter.alignment=Ausrichtung
@@ -2321,8 +2321,8 @@ Element.ScalarParameter.promptTextID=Aufforderungstextschlüssel
 Element.ScalarParameter.listLimit=Listenbeschränkung
 Element.ScalarParameter.boundDataColumns=Gebundene Datenspalten
 Element.ScalarParameter.distinct=Distinct
-Element.ScalarParameter.sortDirection=Sort direction
-Element.ScalarParameter.sortBy=Sort by
+Element.ScalarParameter.sortDirection=Sortierreihenfolge
+Element.ScalarParameter.sortBy=Sortieren nach
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=Erweiterte starten

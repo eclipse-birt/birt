@@ -90,7 +90,7 @@ data.engine.InvalidGroupKey=グループ {1} のグループキー "{0}" は、それより下位の
 data.engine.ColumnBindingNotExist=列バインド "{0}" は存在しません。
 data.engine.ColumnBindingCycle=カラムバインド "{0}" の依存関係が循環参照になっています。
 data.engine.ColumnBindingReferToInexistColumn=列バインド "{0}" は、存在しないデータセット列 "{1}" を参照しています。
-data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=Column Binding "{0}" is incorrect:the parent query column bindings which include aggregations cannot be used in column bindings of subquery.
+data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=列バインド "{0}" が正しくありません。親クエリの列バインドに総計が含まれていますが、サブクエリの列バインドには使用できません。
 #computed column value
 data.engine.BadCompColExpr=計算列 "{0}" の式が無効です。
 data.engine.CompCol.WrongDataType=計算列 "{0}" のデータ型は {1} ですが、このうち 1 つの値が "{2}" であるため、{1} に変換できません。
@@ -173,7 +173,7 @@ data.engine.document.notSupportInPresentation=プレゼンテーションではサポートされ
 data.engine.wrongStatus=ステータスが正しくありません。
 data.engine.wrongVersion=2.1 よりも古いバージョンではサポートされていません。
 data.engine.unsupportOperationException=この操作はサポートされていません。
-data.engine.possibleMixedDataTypeInColumn=An error happen during population of data. This might be caused by including data of mixed type in a column of "ANY" type.
+data.engine.possibleMixedDataTypeInColumn=データを収集中にエラーが発生しました。これは、"ANY" 型の列に複数の型のデータを混合させたことが原因と思われます。
 data.engine.resultClassSaveError=列バインド内の列参照の一部が存在しません。
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=列名は空白または null にできません。

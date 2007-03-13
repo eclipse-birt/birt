@@ -555,11 +555,11 @@ Choices.accessPermission.disallow=Rechazar
 
 #73. paramSortValues
 Choices.paramSortValues.value=Valor
-Choices.paramSortValues.label=Display Text
+Choices.paramSortValues.label=Mostrar texto
 
 #74. reportLayoutPreference
-Choices.reportLayoutPreference.fixedLayout=Fixed Layout
-Choices.reportLayoutPreference.autoLayout=Auto Layout
+Choices.reportLayoutPreference.fixedLayout=Diseño fijo
+Choices.reportLayoutPreference.autoLayout=Diseño automático
 
 
 ###########################################################
@@ -2211,7 +2211,7 @@ Element.ReportDesign.displayName=Nombre en pantalla
 Element.ReportDesign.iconFile=Archivo de icono
 Element.ReportDesign.cheatSheet=Consejos útiles
 Element.ReportDesign.thumbnail=Miniatura
-Element.ReportDesign.layoutPreference=Layout preference
+Element.ReportDesign.layoutPreference=Preferencia de diseño
 Element.ReportDesign.beforeFactory.toolTip=Llamado al inicio de fábrica, después del método de inicialización ( ) y antes de abrir el documento de informes (si existen)
 Element.ReportDesign.afterFactory.toolTip=Llamado al final de fábrica, después de cerrar el documento de informes (si existen). Este es el último método llamado en la fábrica
 Element.ReportDesign.beforeOpenDoc.toolTip=Llamado justo antes de abrir el documento de informe en la fábrica
@@ -2303,7 +2303,7 @@ Element.ScalarParameter.type=Tipo
 Element.ScalarParameter.dataType=Tipo de datos
 Element.ScalarParameter.displayPrompt=Mostrar solicitud
 Element.ScalarParameter.concealValue=Ocultar valor
-Element.ScalarParameter.isRequired=Is required
+Element.ScalarParameter.isRequired=Es necesario
 Element.ScalarParameter.format=Formato
 Element.ScalarParameter.controlType=Tipo de control
 Element.ScalarParameter.alignment=Alineación
@@ -2320,9 +2320,9 @@ Element.ScalarParameter.promptText=Texto de solicitud
 Element.ScalarParameter.promptTextID=Solicitar clave de texto
 Element.ScalarParameter.listLimit=Límite de lista
 Element.ScalarParameter.boundDataColumns=Columnas de datos enlazados
-Element.ScalarParameter.distinct=Distinct
-Element.ScalarParameter.sortDirection=Sort direction
-Element.ScalarParameter.sortBy=Sort by
+Element.ScalarParameter.distinct=Diferenciación
+Element.ScalarParameter.sortDirection=Dirección de orden
+Element.ScalarParameter.sortBy=Ordenar por
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=Iniciar expandido
