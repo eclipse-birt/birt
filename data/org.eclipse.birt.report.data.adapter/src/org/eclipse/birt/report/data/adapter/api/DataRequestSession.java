@@ -20,6 +20,9 @@ import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.core.framework.PlatformConfig;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
+import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
+import org.eclipse.birt.data.engine.api.IBaseQueryResults;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
@@ -31,6 +34,7 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.mozilla.javascript.Scriptable;
 
 /**
  * Main entry point to Data Engine functionalities. Each data request session can be used
@@ -189,6 +193,23 @@ public abstract class DataRequestSession
 			Iterator inputParamBindings, Iterator columnBindings,
 			String boundColumnName ) throws BirtException;
 	
+	
+	/**
+     * Prepare a base data query, and return an IBasePreparedQuery instance which can
+     * be subsequently executed to produce query results.
+     */
+
+    public abstract IBasePreparedQuery prepare( IDataQueryDefinition query );
+
+    
+
+    /**
+     * Execute a base prepared query, return an IBaseQueryResults instance which can in
+     * turn be used to get Result Iterator or Cube cursor.
+     */
+    public abstract IBaseQueryResults execute( IBasePreparedQuery query, IBaseQueryResults outerResults, Scriptable scope );
+
+
 	/**
 	 * Retrieves all distinct values of a data set column based on searchInfo
 	 * and return in a Collection.

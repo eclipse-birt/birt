@@ -21,7 +21,7 @@ import java.util.Map;
  * Represents attributes common to a data engine query and a subquery.
  *
  */
-public interface IBaseQueryDefinition extends IBaseTransform
+public interface IBaseQueryDefinition extends IBaseTransform, IDataQueryDefinition
 {
 	/**
 	 * Returns the group definitions as an ordered collection of 

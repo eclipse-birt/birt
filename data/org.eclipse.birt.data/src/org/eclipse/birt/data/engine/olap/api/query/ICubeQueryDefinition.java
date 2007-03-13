@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.olap.api.query;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 
@@ -22,7 +23,7 @@ import org.eclipse.birt.data.engine.api.ISortDefinition;
  * edges, bindings, etc. for the cube query.
  */
 
-public interface ICubeQueryDefinition extends INamedObject
+public interface ICubeQueryDefinition extends INamedObject, IDataQueryDefinition
 {
 
 	// The row edge type

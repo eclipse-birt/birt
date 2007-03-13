@@ -23,6 +23,9 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
+import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
+import org.eclipse.birt.data.engine.api.IBaseQueryResults;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
@@ -38,6 +41,7 @@ import org.eclipse.birt.report.data.adapter.api.IRequestInfo;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.mozilla.javascript.Scriptable;
 
 /**
  * Implementation of DataRequestSession
@@ -314,6 +318,19 @@ public class DataRequestSessionImpl extends DataRequestSession
 				null,
 				columnBindings );
 		return results;
+	}
+
+	public IBaseQueryResults execute( IBasePreparedQuery query,
+			IBaseQueryResults outerResults, Scriptable scope )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public IBasePreparedQuery prepare( IDataQueryDefinition query )
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	/**

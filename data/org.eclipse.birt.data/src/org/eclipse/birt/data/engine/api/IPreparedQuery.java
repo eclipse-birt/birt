@@ -22,7 +22,7 @@ import org.mozilla.javascript.Scriptable;
  * A prepared data engine query ready for execution. An instance of this class is compiled from the static
  * definition of an {@link org.eclipse.birt.data.engine.api.IQueryDefinition} object. 
  */
-public interface IPreparedQuery
+public interface IPreparedQuery extends IBasePreparedQuery
 {
     /**
      * Returns the same {@link org.eclipse.birt.data.engine.api.IQueryDefinition} 
