@@ -171,9 +171,35 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 					name, handle.getElement( ).getIdentifier( )},
 					MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND );
 		}
-		dimensionView.handle.drop( );
-		// TODO: when the dimension view is deleted, need to handle the
-		// cells in measure slot?
+
+		CommandStack stack = getCommandStack( );
+		stack.startTrans( null );
+
+		try
+		{
+			// adjust measure aggregations and then remove dimension view from
+			// the design tree, the order can not reversed
+			CrosstabReportItemHandle crosstab = getCrosstab( );
+			if ( crosstab != null )
+			{
+				for ( int i = 0; i < dimensionView.getLevelCount( ); i++ )
+				{
+					LevelViewHandle levelView = dimensionView.getLevel( i );
+					CrosstabUtil.adjustForLevelView( crosstab, levelView, name,
+							levelView.getCubeLevelName( ), getAxisType( ),
+							false );
+				}
+			}
+
+			dimensionView.handle.drop( );
+		}
+		catch ( SemanticException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
+
+		stack.commit( );
 
 	}
 
@@ -186,7 +212,45 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 	 */
 	public void removeDimension( int index ) throws SemanticException
 	{
-		getViewsProperty( ).drop( index );
+		DimensionViewHandle dimensionView = getDimension( index );
+		if ( dimensionView == null )
+		{
+			logger.log( Level.SEVERE,
+					MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND,
+					String.valueOf( index ) );
+			return;
+		}
+
+		CommandStack stack = getCommandStack( );
+		stack.startTrans( null );
+
+		try
+		{
+			// adjust measure aggregations and then remove dimension view from
+			// the design tree, the order can not reversed
+			CrosstabReportItemHandle crosstab = getCrosstab( );
+			if ( crosstab != null )
+			{
+				for ( int i = 0; i < dimensionView.getLevelCount( ); i++ )
+				{
+					LevelViewHandle levelView = dimensionView.getLevel( i );
+					CrosstabUtil
+							.adjustForLevelView( crosstab, levelView,
+									dimensionView.getCubeDimensionName( ),
+									levelView.getCubeLevelName( ),
+									getAxisType( ), false );
+				}
+			}
+
+			dimensionView.handle.drop( );
+		}
+		catch ( SemanticException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
+
+		stack.commit( );
 	}
 
 	/**

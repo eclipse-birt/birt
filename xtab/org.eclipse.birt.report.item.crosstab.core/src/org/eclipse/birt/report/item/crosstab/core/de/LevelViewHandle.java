@@ -209,6 +209,10 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Sets page break before property value of this level
+	 * 
+	 * @param value
+	 *            the page break before option to set
+	 * @throws SemanticException
 	 */
 	public void setPageBreakBefore( String value ) throws SemanticException
 	{
@@ -216,7 +220,12 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 	}
 
 	/**
-	 * Sets page break after property value of this level
+	 * Sets page break after property value of this level.
+	 * 
+	 * @param value
+	 *            the page break after option to set
+	 * @throws SemanticException
+	 * 
 	 */
 	public void setPageBreakAfter( String value ) throws SemanticException
 	{

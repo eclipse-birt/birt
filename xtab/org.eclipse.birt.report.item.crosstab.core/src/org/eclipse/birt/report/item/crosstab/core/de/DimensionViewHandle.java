@@ -146,36 +146,31 @@ public class DimensionViewHandle extends AbstractCrosstabItemHandle
 		if ( extendedItemHandle == null )
 			return null;
 
-		// must specify the cube level handle
-		if ( levelHandle == null || levelHandle.getRoot( ) == null )
+		if ( levelHandle != null )
 		{
-			// TODO: add exception
-			logger.log( Level.WARNING,
-					"Level view must define a cube level element explicitly!" ); //$NON-NLS-1$
-			return null;
-		}
+			// if cube dimension container of this cube level element is not
+			// what is referred by this dimension view, then the insertion is
+			// forbidden
+			if ( !levelHandle.getContainer( ).getContainer( )
+					.getQualifiedName( ).equals( getCubeDimensionName( ) ) )
+			{
+				// TODO: throw exception
+				logger.log( Level.WARNING, "" ); //$NON-NLS-1$
+				return null;
+			}
 
-		// if cube dimension container of this cube level element is not what is
-		// referred by this dimension view, then the insertion is forbidden
-		if ( !levelHandle.getContainer( ).getContainer( ).getQualifiedName( )
-				.equals( getCubeDimension( ) ) )
-		{
-			// TODO: throw exception
-			logger.log( Level.WARNING, "" ); //$NON-NLS-1$
-			return null;
-		}
-
-		// if this level handle has referred by an existing level view,
-		// then log error and do nothing
-		if ( getLevel( levelHandle.getQualifiedName( ) ) != null )
-		{
-			logger.log( Level.SEVERE,
-					MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_LEVEL,
-					levelHandle.getQualifiedName( ) );
-			throw new CrosstabException( handle.getElement( ), new String[]{
-					levelHandle.getQualifiedName( ),
-					handle.getElement( ).getIdentifier( )},
-					MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_LEVEL );
+			// if this level handle has referred by an existing level view,
+			// then log error and do nothing
+			if ( getLevel( levelHandle.getQualifiedName( ) ) != null )
+			{
+				logger.log( Level.SEVERE,
+						MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_LEVEL,
+						levelHandle.getQualifiedName( ) );
+				throw new CrosstabException( handle.getElement( ),
+						new String[]{levelHandle.getQualifiedName( ),
+								handle.getElement( ).getIdentifier( )},
+						MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_LEVEL );
+			}
 		}
 
 		CommandStack stack = getCommandStack( );
@@ -185,52 +180,19 @@ public class DimensionViewHandle extends AbstractCrosstabItemHandle
 		try
 		{
 			getLevelsProperty( ).add( extendedItemHandle, index );
-			levelView = (LevelViewHandle) CrosstabUtil.getReportItem(
-					extendedItemHandle, LEVEL_VIEW_EXTENSION_NAME );
 
-			// TODO: adjust aggregations in measures if it resides in a crosstab
-			CrosstabReportItemHandle crosstab = getCrosstab( );
-			if ( levelView != null && crosstab != null )
+			// if level handle is specified, then adjust aggregations
+			if ( levelHandle != null )
 			{
-				int axisType = getAxisType( );
-				if ( levelView.isInnerMost( ) )
+				levelView = (LevelViewHandle) CrosstabUtil.getReportItem(
+						extendedItemHandle, LEVEL_VIEW_EXTENSION_NAME );
+
+				CrosstabReportItemHandle crosstab = getCrosstab( );
+				if ( levelView != null && crosstab != null )
 				{
-					// if originally there is no levels and grand total, then
-					// remove the aggregations for the axis type and the counter
-					// axis level aggregations
-					if ( CrosstabUtil.getAllLevelCount( crosstab, axisType ) <= 1 )
-					{
-
-					}
-					else
-					{
-						// add aggregations for this level and all counter axis
-						// type levels except the innermost one
-						CrosstabUtil.adjustMeasureAggregations( crosstab,
-								axisType, getCubeDimensionName( ), levelHandle
-										.getQualifiedName( ), true, true );
-						// add one aggregation: the original innermost level
-						// before this level is added and the innermost level in
-						// the counter axis if the orginal innermost has
-						// aggregation header
-						LevelViewHandle precedingLevel = CrosstabUtil.getPrecedingLevel( levelView );
-						assert precedingLevel != null;
-						
-
-					}
-				}
-				else
-				{
-					// if the added level view is not innermost and has
-					// aggregation header, then add aggregations for this level
-					// view and all counterpart axis levels and grand total
-					if ( levelView.getAggregationHeader( ) != null )
-					{
-						CrosstabUtil.adjustMeasureAggregations( crosstab,
-								axisType, getCubeDimensionName( ), levelHandle
-										.getQualifiedName( ), false, true );
-
-					}
+					CrosstabUtil.adjustForLevelView( crosstab, levelView,
+							getCubeDimensionName( ), levelHandle
+									.getQualifiedName( ), getAxisType( ), true );
 				}
 			}
 		}
@@ -255,12 +217,32 @@ public class DimensionViewHandle extends AbstractCrosstabItemHandle
 	public void removeLevel( String name ) throws SemanticException
 	{
 		LevelViewHandle levelView = getLevel( name );
-		// TODO: add checks if the dimension view is not child of crosstab, then
-		// do nothing
 		if ( levelView != null )
 		{
-			// TODO: adjust measure cells
-			levelView.handle.drop( );
+			CommandStack stack = getCommandStack( );
+			stack.startTrans( null );
+
+			try
+			{
+				// adjust measure aggregations and then remove level view from
+				// the design tree, the order can not reversed
+				CrosstabReportItemHandle crosstab = getCrosstab( );
+				if ( crosstab != null )
+				{
+					CrosstabUtil.adjustForLevelView( crosstab, levelView,
+							getCubeDimensionName( ), name, getAxisType( ),
+							false );
+				}
+
+				levelView.handle.drop( );
+			}
+			catch ( SemanticException e )
+			{
+				stack.rollback( );
+				throw e;
+			}
+
+			stack.commit( );
 		}
 	}
 
@@ -274,8 +256,36 @@ public class DimensionViewHandle extends AbstractCrosstabItemHandle
 	 */
 	public void removeLevel( int index ) throws SemanticException
 	{
-		// TODO: adjust measure cells
-		getLevelsProperty( ).drop( index );
+		LevelViewHandle levelView = getLevel( index );
+		if ( levelView != null )
+		{
+			CommandStack stack = getCommandStack( );
+			stack.startTrans( null );
+
+			try
+			{
+				// adjust measure aggregations and then remove level view from
+				// the design tree, the order can not reversed
+				CrosstabReportItemHandle crosstab = getCrosstab( );
+				if ( crosstab != null )
+				{
+					CrosstabUtil
+							.adjustForLevelView( crosstab, levelView,
+									getCubeDimensionName( ), levelView
+											.getCubeLevelName( ),
+									getAxisType( ), false );
+				}
+
+				levelView.handle.drop( );
+			}
+			catch ( SemanticException e )
+			{
+				stack.rollback( );
+				throw e;
+			}
+
+			stack.commit( );
+		}
 	}
 
 	/**
