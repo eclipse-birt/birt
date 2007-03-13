@@ -10,14 +10,14 @@
 	<!-- Servlet Context Listener -->
 	<listener>
 		<listener-class>
-			org.eclipse.birt.chart.viewer.listener.ChartServletContextListener
+			org.eclipse.birt.chart.viewer.internal.listener.ChartServletContextListener
 		</listener-class>
 	</listener>
 
 	<!-- Http Session Listener -->
 	<listener>
 		<listener-class>
-			org.eclipse.birt.chart.viewer.listener.ChartHttpSessionListener
+			org.eclipse.birt.chart.viewer.internal.listener.ChartHttpSessionListener
 		</listener-class>
 	</listener>
 

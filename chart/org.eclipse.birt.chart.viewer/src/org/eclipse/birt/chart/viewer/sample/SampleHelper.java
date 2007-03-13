@@ -62,7 +62,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import com.ibm.icu.util.ULocale;
 
 /**
- * 
+ * Utility for sample viewer
  */
 
 public class SampleHelper
@@ -274,6 +274,8 @@ public class SampleHelper
 	}
 
 	/**
+	 * Gets a sample Style processor
+	 * 
 	 * @return
 	 */
 	synchronized public static StyleProcessor getSampleStyleProcessor( )
@@ -286,6 +288,12 @@ public class SampleHelper
 		return instance;
 	}
 
+	/**
+	 * Creates a sample RunTimeContext
+	 * 
+	 * @param locale
+	 * @return
+	 */
 	public static RunTimeContext createSampleRuntimeContext( ULocale locale )
 	{
 		RunTimeContext rtc = new RunTimeContext( );
@@ -294,6 +302,11 @@ public class SampleHelper
 		return rtc;
 	}
 
+	/**
+	 * Creates a sample chart model
+	 * 
+	 * @return chart model
+	 */
 	public static Chart createSampleChart( )
 	{
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );

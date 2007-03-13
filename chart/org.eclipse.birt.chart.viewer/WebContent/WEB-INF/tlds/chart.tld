@@ -17,7 +17,7 @@
 	<tag>
 		<name>renderChart</name>
 		<tag-class>
-			org.eclipse.birt.chart.viewer.ChartRendererTag
+			org.eclipse.birt.chart.viewer.internal.ChartRendererTag
 		</tag-class>
 		<body-content>JSP</body-content>
 		<description>
