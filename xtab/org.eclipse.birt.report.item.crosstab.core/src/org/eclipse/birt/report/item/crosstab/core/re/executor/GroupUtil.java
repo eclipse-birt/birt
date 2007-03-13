@@ -48,11 +48,54 @@ public class GroupUtil implements ICrosstabConstants
 	 *            dimension.
 	 * @return
 	 */
-	public static int mapGroupIndex( CrosstabReportItemHandle crosstabItem,
+	public static int getGroupIndex( CrosstabReportItemHandle crosstabItem,
 			int axisType, int dimensionIndex, int levelIndex )
 	{
 		List groups = getGroups( crosstabItem, axisType );
 
+		if ( levelIndex < 0 )
+		{
+			for ( int i = groups.size( ) - 1; i >= 0; i-- )
+			{
+				EdgeGroup gp = (EdgeGroup) groups.get( i );
+
+				if ( gp.dimensionIndex == dimensionIndex )
+				{
+					return i;
+				}
+			}
+		}
+		else
+		{
+			for ( int i = 0; i < groups.size( ); i++ )
+			{
+				EdgeGroup gp = (EdgeGroup) groups.get( i );
+
+				if ( gp.dimensionIndex == dimensionIndex
+						&& gp.levelIndex == levelIndex )
+				{
+					return i;
+				}
+			}
+		}
+
+		return -1;
+	}
+
+	/**
+	 * Returns the accumulated group index for current level element from given
+	 * group list.
+	 * 
+	 * @param groups
+	 * @param dimensionIndex
+	 * @param levelIndex
+	 *            If this is negative(<0), means the last level index in given
+	 *            dimension.
+	 * @return
+	 */
+	public static int getGroupIndex( List groups, int dimensionIndex,
+			int levelIndex )
+	{
 		if ( levelIndex < 0 )
 		{
 			for ( int i = groups.size( ) - 1; i >= 0; i-- )
@@ -286,15 +329,25 @@ public class GroupUtil implements ICrosstabConstants
 	{
 		for ( int i = groupIndex + 1; i < groupCursors.size( ); i++ )
 		{
-			DimensionCursor dc = (DimensionCursor) groupCursors.get( groupIndex );
+			DimensionCursor dc = (DimensionCursor) groupCursors.get( i );
 
-			if ( dc.getEdgeStart( ) != -1 || dc.getEdgeEnd( ) != -1 )
+			if ( !isDummyGroup( dc ) )
 			{
 				return false;
 			}
 		}
 
 		return true;
+	}
+
+	/**
+	 * Checks if given dimension cusor is associated with a dummy group
+	 */
+	public static boolean isDummyGroup( DimensionCursor dc )
+			throws OLAPException
+	{
+		// check special edge start/end value for dummy group
+		return dc.getEdgeStart( ) == -1 && dc.getEdgeEnd( ) == -1;
 	}
 
 	/**
@@ -443,12 +496,18 @@ public class GroupUtil implements ICrosstabConstants
 			{
 				span++;
 
-				// TODO skip dummy group
 				for ( int i = rowGroups.size( ) - 1; i > groupIndex; i-- )
 				{
 					dc = (DimensionCursor) rowEdgeCursor.getDimensionCursor( )
 							.get( i );
 
+					// skip dummy groups
+					if ( isDummyGroup( dc ) )
+					{
+						continue;
+					}
+
+					// check for each group end
 					if ( currentPosition == dc.getEdgeEnd( ) )
 					{
 						EdgeGroup gp = (EdgeGroup) rowGroups.get( i - 1 );

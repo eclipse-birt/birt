@@ -43,6 +43,7 @@ public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor
 			blankStarted;
 	private boolean hasLast;
 
+	private int currentGroupIndex;
 	private int nextGroupIndex;
 	private boolean isFirst;
 	private IReportItemExecutor nextExecutor;
@@ -107,6 +108,10 @@ public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor
 			}
 		}
 
+		currentGroupIndex = GroupUtil.getGroupIndex( columnGroups,
+				currentDimensionIndex,
+				currentLevelIndex );
+
 		nextGroupIndex = GroupUtil.getNextGroupIndex( columnGroups,
 				currentDimensionIndex,
 				currentLevelIndex );
@@ -118,6 +123,27 @@ public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor
 		currentChangeType = ColumnEvent.UNKNOWN_CHANGE;
 
 		walker.reload( );
+	}
+
+	private boolean isForceEmpty( )
+	{
+		try
+		{
+			EdgeCursor columnEdgeCursor = getColumnEdgeCursor( );
+
+			columnEdgeCursor.setPosition( currentEdgePosition );
+
+			DimensionCursor dc = (DimensionCursor) columnEdgeCursor.getDimensionCursor( )
+					.get( currentGroupIndex );
+
+			return GroupUtil.isDummyGroup( dc );
+		}
+		catch ( OLAPException e )
+		{
+			e.printStackTrace( );
+		}
+
+		return false;
 	}
 
 	private boolean isMeetEdgeEnd( ColumnEvent ev )
@@ -139,7 +165,10 @@ public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor
 				DimensionCursor dc = (DimensionCursor) columnEdgeCursor.getDimensionCursor( )
 						.get( nextGroupIndex );
 
-				return currentEdgePosition < dc.getEdgeStart( );
+				if ( !GroupUtil.isDummyGroup( dc ) )
+				{
+					return currentEdgePosition < dc.getEdgeStart( );
+				}
 			}
 			catch ( OLAPException e )
 			{
@@ -239,6 +268,8 @@ public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor
 									currentColIndex - colSpan + 1 );
 
 							( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+							
+							( (CrosstabCellExecutor) nextExecutor ).setForceEmpty( isForceEmpty( ) );
 
 							edgeStarted = false;
 							hasLast = false;
@@ -364,6 +395,8 @@ public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor
 						currentColIndex - colSpan + 1 );
 
 				( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+				
+				( (CrosstabCellExecutor) nextExecutor ).setForceEmpty( isForceEmpty( ) );
 
 				edgeStarted = false;
 			}

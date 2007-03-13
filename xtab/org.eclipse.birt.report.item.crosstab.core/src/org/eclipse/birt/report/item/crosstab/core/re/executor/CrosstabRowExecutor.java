@@ -64,7 +64,7 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 	public void close( )
 	{
 		super.close( );
-		
+
 		nextExecutor = null;
 	}
 
@@ -133,7 +133,30 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 		return null;
 	}
 
-	private boolean isRowEdgeNeedStart( ColumnEvent ev )
+	private boolean isForceEmpty( )
+	{
+		try
+		{
+			EdgeCursor rowEdgeCursor = getRowEdgeCursor( );
+
+			int groupIndex = GroupUtil.getGroupIndex( rowGroups,
+					lastDimensionIndex,
+					lastLevelIndex );
+
+			DimensionCursor dc = (DimensionCursor) rowEdgeCursor.getDimensionCursor( )
+					.get( groupIndex );
+
+			return GroupUtil.isDummyGroup( dc );
+		}
+		catch ( OLAPException e )
+		{
+			e.printStackTrace( );
+		}
+
+		return false;
+	}
+
+	private boolean isRowEdgeNeedStart( ColumnEvent ev ) throws OLAPException
 	{
 		if ( rowEdgeStarted || ev.type != ColumnEvent.ROW_EDGE_CHANGE )
 		{
@@ -154,7 +177,10 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 				groupFound = true;
 			}
 
-			if ( groupFound )
+			// only check with non-leaf groups
+			if ( groupFound
+					&& !GroupUtil.isLeafGroup( getRowEdgeCursor( ).getDimensionCursor( ),
+							i ) )
 			{
 				DimensionViewHandle dv = crosstabItem.getDimension( ROW_AXIS_TYPE,
 						gp.dimensionIndex );
@@ -181,7 +207,8 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 				DimensionCursor dc = (DimensionCursor) rowEdgeCursor.getDimensionCursor( )
 						.get( gdx );
 
-				if ( rowEdgeCursor.getPosition( ) != dc.getEdgeStart( ) )
+				if ( !GroupUtil.isDummyGroup( dc )
+						&& rowEdgeCursor.getPosition( ) != dc.getEdgeStart( ) )
 				{
 					return false;
 				}
@@ -219,6 +246,8 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 									rowSpan,
 									colSpan,
 									currentColIndex - colSpan + 1 );
+
+							( (CrosstabCellExecutor) nextExecutor ).setForceEmpty( isForceEmpty( ) );
 
 							rowEdgeStarted = false;
 							hasLast = false;
@@ -331,6 +360,8 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 								rowSpan,
 								colSpan,
 								currentColIndex - colSpan + 1 );
+
+						( (CrosstabCellExecutor) nextExecutor ).setForceEmpty( isForceEmpty( ) );
 
 						rowEdgeStarted = false;
 					}

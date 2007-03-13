@@ -139,6 +139,17 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 		}
 	}
 
+	private boolean isLastLevelLeafGroup( ) throws OLAPException
+	{
+		if ( currentGroupIndex > 0 && rowCursor != null )
+		{
+			return GroupUtil.isLeafGroup( rowCursor.getDimensionCursor( ),
+					currentGroupIndex - 1 );
+		}
+
+		return false;
+	}
+
 	private void handleGroupPageBreakBefore( ) throws OLAPException
 	{
 		EdgeGroup currentGroup = (EdgeGroup) groups.get( currentGroupIndex );
@@ -220,7 +231,8 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 		{
 			DimensionCursor dc = (DimensionCursor) groupCursors.get( i );
 
-			if ( dc.getEdgeStart( ) == rowCursor.getPosition( ) )
+			if ( GroupUtil.isDummyGroup( dc )
+					|| dc.getEdgeStart( ) == rowCursor.getPosition( ) )
 			{
 				return i;
 			}
@@ -234,7 +246,8 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 		{
 			DimensionCursor dc = (DimensionCursor) groupCursors.get( i );
 
-			if ( dc.getEdgeEnd( ) == rowCursor.getPosition( ) )
+			if ( GroupUtil.isDummyGroup( dc )
+					|| dc.getEdgeEnd( ) == rowCursor.getPosition( ) )
 			{
 				return i;
 			}
@@ -257,7 +270,8 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 			{
 				if ( lastLevel != null
 						&& lastLevel.getAggregationHeader( ) != null
-						&& AGGREGATION_HEADER_LOCATION_BEFORE.equals( lastLevel.getAggregationHeaderLocation( ) ) )
+						&& AGGREGATION_HEADER_LOCATION_BEFORE.equals( lastLevel.getAggregationHeaderLocation( ) )
+						&& !isLastLevelLeafGroup( ) )
 				{
 					// header
 					CrosstabGroupBandExecutor bandExecutor = new CrosstabGroupBandExecutor( this,
@@ -301,7 +315,8 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 			{
 				if ( lastLevel != null
 						&& lastLevel.getAggregationHeader( ) != null
-						&& AGGREGATION_HEADER_LOCATION_AFTER.equals( lastLevel.getAggregationHeaderLocation( ) ) )
+						&& AGGREGATION_HEADER_LOCATION_AFTER.equals( lastLevel.getAggregationHeaderLocation( ) )
+						&& !isLastLevelLeafGroup( ) )
 				{
 					// footer
 					CrosstabGroupBandExecutor bandExecutor = new CrosstabGroupBandExecutor( this,
@@ -358,7 +373,8 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 						{
 							if ( lastLevel != null
 									&& lastLevel.getAggregationHeader( ) != null
-									&& AGGREGATION_HEADER_LOCATION_AFTER.equals( lastLevel.getAggregationHeaderLocation( ) ) )
+									&& AGGREGATION_HEADER_LOCATION_AFTER.equals( lastLevel.getAggregationHeaderLocation( ) )
+									&& !isLastLevelLeafGroup( ) )
 							{
 								// footer
 								CrosstabGroupBandExecutor bandExecutor = new CrosstabGroupBandExecutor( this,

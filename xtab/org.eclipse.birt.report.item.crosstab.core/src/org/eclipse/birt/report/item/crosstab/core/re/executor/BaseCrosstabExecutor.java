@@ -47,20 +47,26 @@ public abstract class BaseCrosstabExecutor implements
 	private Object modelHandle;
 	private IReportItemExecutor parentExecutor;
 
-	protected BaseCrosstabExecutor( BaseCrosstabExecutor parent )
+	protected BaseCrosstabExecutor( )
 	{
-		this( parent.context, parent.crosstabItem, parent );
-		this.rowCounter = parent.rowCounter;
-		this.walker = parent.walker;
+		this.rowCounter = new int[1];
 	}
 
 	protected BaseCrosstabExecutor( IExecutorContext context,
 			CrosstabReportItemHandle item, IReportItemExecutor parentExecutor )
 	{
+		this( );
+
 		this.context = context;
 		this.crosstabItem = item;
-		this.rowCounter = new int[1];
 		this.parentExecutor = parentExecutor;
+	}
+
+	protected BaseCrosstabExecutor( BaseCrosstabExecutor parent )
+	{
+		this( parent.context, parent.crosstabItem, parent );
+		this.rowCounter = parent.rowCounter;
+		this.walker = parent.walker;
 	}
 
 	protected void executeQuery( AbstractCrosstabItemHandle handle )
@@ -277,7 +283,7 @@ public abstract class BaseCrosstabExecutor implements
 
 	public void setModelObject( Object handle )
 	{
-		//TODO init crosstab item
+		// TODO init crosstab item
 		modelHandle = handle;
 	}
 

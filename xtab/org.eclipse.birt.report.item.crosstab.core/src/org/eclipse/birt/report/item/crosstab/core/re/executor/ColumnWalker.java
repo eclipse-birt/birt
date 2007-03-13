@@ -102,6 +102,8 @@ class ColumnWalker implements ICrosstabConstants, IColumnWalker
 
 				if ( rowGroups.size( ) > 0 )
 				{
+					//TODO how to skip dummy groups?
+					
 					// process row dimension header column if available
 					for ( int i = groupIndex; i < rowGroups.size( ); i++ )
 					{

@@ -36,6 +36,7 @@ public class CrosstabCellExecutor extends BaseCrosstabExecutor
 	private int currentChild;
 
 	private long position = -1;
+	private boolean isForceEmpty;
 
 	public CrosstabCellExecutor( BaseCrosstabExecutor parent,
 			CrosstabCellHandle handle, int rowSpan, int colSpan, int colIndex )
@@ -58,6 +59,11 @@ public class CrosstabCellExecutor extends BaseCrosstabExecutor
 	public void setPosition( long pos )
 	{
 		this.position = pos;
+	}
+
+	public void setForceEmpty( boolean isEmpty )
+	{
+		this.isForceEmpty = isEmpty;
 	}
 
 	// TODO tmp
@@ -132,6 +138,11 @@ public class CrosstabCellExecutor extends BaseCrosstabExecutor
 
 	public IReportItemExecutor getNextChild( )
 	{
+		if ( isForceEmpty )
+		{
+			return null;
+		}
+
 		// TODO reset data position
 		if ( position != -1 )
 		{
@@ -151,6 +162,11 @@ public class CrosstabCellExecutor extends BaseCrosstabExecutor
 
 	public boolean hasNextChild( )
 	{
+		if ( isForceEmpty )
+		{
+			return false;
+		}
+
 		if ( contents != null )
 		{
 			return currentChild < contents.size( );

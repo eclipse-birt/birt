@@ -60,7 +60,7 @@ class ContentUtil
 	{
 		ReportItemHandle modelHandle = getReportItemHandle( handle );
 
-		if ( modelHandle == null )
+		if ( modelHandle == null || evaluator == null )
 		{
 			return;
 		}
@@ -113,7 +113,7 @@ class ContentUtil
 	{
 		ReportItemHandle modelHandle = getReportItemHandle( handle );
 
-		if ( modelHandle == null )
+		if ( modelHandle == null || evaluator == null )
 		{
 			return;
 		}
