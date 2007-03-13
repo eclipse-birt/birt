@@ -210,7 +210,7 @@
             name="editStyleCommand">
       </command>
       <command
-            defaultHandler="org.eclipse.birt.report.designer.internal.ui.views.actions.ImportCSSStyleAction"
+            defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.ImpotCSSStyleHandler"
             id="org.eclipse.birt.report.designer.ui.command.importCSSCommand"
             name="importCSSCommand">
       </command>

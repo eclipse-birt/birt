@@ -1,0 +1,48 @@
+/*******************************************************************************
+ * Copyright (c) 2007 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.designer.internal.ui.command;
+
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.SelectCssStyleWizard;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.wizards.PublishTemplateWizard;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.ui.PlatformUI;
+
+/**
+ * 
+ */
+
+public class ImpotCSSStyleHandler extends SelectionHandler
+{
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 */
+	public Object execute( ExecutionEvent event ) throws ExecutionException
+	{
+		boolean retBoolean = true;
+		super.execute( event );
+
+		Dialog dialog = new WizardDialog( PlatformUI.getWorkbench( )
+				.getDisplay( )
+				.getActiveShell( ), new SelectCssStyleWizard( getSelection() ) );
+		dialog.open( );
+
+		return new Boolean( retBoolean );
+	}
+}
