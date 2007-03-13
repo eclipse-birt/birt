@@ -81,6 +81,8 @@ import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -918,6 +920,28 @@ public class DEUtil
 			// ) + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
 			return ExpressionUtil.createJSParameterExpression( ( (ParameterHandle) model ).getQualifiedName( ) );
 		}
+		//add for the cross tab
+		if (model instanceof LevelHandle)
+		{
+			LevelHandle handle = (LevelHandle)model;
+			DesignElementHandle temp = handle.getContainer( );
+			String dimensionName = "";
+			while(temp != null)
+			{
+				if (temp instanceof org.eclipse.birt.report.model.api.olap.DimensionHandle)
+				{
+					dimensionName = ((org.eclipse.birt.report.model.api.olap.DimensionHandle)temp).getName( );
+					break;
+				}
+				temp = temp.getContainer( );
+			}
+			return ExpressionUtil.createJSDimensionExpression( dimensionName, handle.getName( ) );
+		}
+		if (model instanceof MeasureHandle)
+		{
+			return ExpressionUtil.createJSMeasureExpression( (((MeasureHandle)model)).getName( ) );
+		}
+		
 		if ( model instanceof DataSetItemModel )
 		{
 			String colName = ( (DataSetItemModel) model ).getAlias( );

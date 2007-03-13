@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.model;
 
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
@@ -56,7 +57,7 @@ public class CrosstabAdaptUtil
 				levelHandle.getName( ));
 		
 		bindingColumn.setDataType( DesignChoiceConstants. COLUMN_DATA_TYPE_ANY);
-		//TODO bindingColumn.setExpression( DEUtil.getExpression( levelHandle ) );
+		bindingColumn.setExpression( DEUtil.getExpression( levelHandle ) );
 		
 		return bindingColumn;
 	}
@@ -72,7 +73,7 @@ public class CrosstabAdaptUtil
 				measureHandle.getName( ));
 		
 		bindingColumn.setDataType( DesignChoiceConstants. COLUMN_DATA_TYPE_ANY);
-		//TODO bindingColumn.setExpression( DEUtil.getExpression( levelHandle ) );
+		bindingColumn.setExpression( DEUtil.getExpression( measureHandle ) );
 		
 		return bindingColumn;
 	}

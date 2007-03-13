@@ -14,13 +14,16 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.editors.action;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
@@ -66,6 +69,7 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 		}
 		return null;
 	}
+	
 
 	/*
 	 * (non-Javadoc)
@@ -77,6 +81,8 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 		transStar( NAME );
 		try
 		{
+			CrosstabReportItemHandle reportHandle = viewHandle.getCrosstab( );
+			
 			int viewCount = viewHandle.getLevelCount( );
 			DimensionHandle dimensionHandle = viewHandle.getCubeDimension( );
 			HierarchyHandle hierarchyHandle = dimensionHandle.getDefaultHierarchy( );
@@ -90,12 +96,14 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 
 			LevelViewHandle levelViewHandle = viewHandle.insertLevel( levelHandle,
 					viewCount );
-
+			ComputedColumn bindingColumn = CrosstabAdaptUtil.createComputedColumn( (ExtendedItemHandle)reportHandle.getModelHandle( ), levelHandle );
+			
 			CrosstabCellHandle cellHandle = levelViewHandle.getCell( );
 
 			// TODO create a data bingding dataitem
 			DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 					.newDataItem( levelHandle.getName( ) );
+			dataHandle.setResultSetColumn( bindingColumn.getName( ) );
 
 			cellHandle.addContent( dataHandle );
 		}
@@ -107,6 +115,7 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 		transEnd( );
 	}
 
+	
 	private ExtendedItemHandle getExtendedItemHandle( DesignElementHandle handle )
 	{
 		// DesignElementHandle temp = handle;

@@ -16,7 +16,6 @@ import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphi
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportFigureUtilities;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DataEditPart;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.figures.FirstLevelHandleDataItemFigure;
-import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.draw2d.IFigure;
@@ -34,6 +33,7 @@ import org.eclipse.swt.widgets.Menu;
  */
 public class FirstLevelHandleDataItemEditPart extends DataEditPart
 {
+	
 	/**Constructor
 	 * @param model
 	 */
@@ -121,15 +121,6 @@ public class FirstLevelHandleDataItemEditPart extends DataEditPart
 		Point center = figure.getCenterPoint( bounds );
 
 		figure.translateToAbsolute( center );
-		return ReportFigureUtilities.isInTriangle( center, bounds.height, pt );
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DataEditPart#getText()
-	 */
-	protected String getText( )
-	{
-		String text = ( (DataItemHandle) getModel( ) ).getDisplayLabel( );
-		return text;
+		return ReportFigureUtilities.isInTriangle( center, FirstLevelHandleDataItemFigure.TRIANGLE_HEIGHT, pt );
 	}
 }

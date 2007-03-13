@@ -34,6 +34,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editpolicies.CrosstabXYLayoutEditPolicy;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabHandleAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
+import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -52,6 +53,7 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.GuideLayer;
+import org.eclipse.swt.graphics.Image;
 
 /**
  * Crosstab item editpart.The modle is extended handle.
@@ -125,7 +127,9 @@ public class CrosstabTableEditPart extends AbstractTableEditPart
 	{
 		TableGuideHandle handle = new TableGuideHandle( this );
 		handle.setIndicatorLabel( GUIDEHANDLE_TEXT );
-		handle.setIndicatorIcon( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_TABLE ) );
+		Image image = CrosstabUIHelper.getImage( CrosstabUIHelper.CROSSTAB_IMAGE );
+		handle.setIndicatorIcon( image );
+		//handle.setIndicatorIcon( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_TABLE ) );
 		return handle;
 	}
 

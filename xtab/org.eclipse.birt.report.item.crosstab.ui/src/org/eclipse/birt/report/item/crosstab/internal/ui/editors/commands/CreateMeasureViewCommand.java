@@ -91,7 +91,7 @@ public class CreateMeasureViewCommand extends AbstractCrosstabCommand
 			cellHandle.addContent( dataHandle );
 			
 			LabelHandle labelHandle = DesignElementFactory.getInstance( ).newLabel(  null );
-			labelHandle.setDisplayName( measureHandle.getName( ) );
+			labelHandle.setText( measureHandle.getName( ) );
 
 			measureViewHandle.getHeader( ).addContent( labelHandle );
 		}
