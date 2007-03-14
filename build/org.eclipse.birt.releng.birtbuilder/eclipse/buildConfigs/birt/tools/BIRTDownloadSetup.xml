@@ -164,14 +164,14 @@
 			<include name="org.eclipse.birt.chart.ui*.jar" />
 			<include name="org.eclipse.birt.chart_*/**" />
 			<include name="org.eclipse.birt.core_*.jar" />
-			<!--include name="org.eclipse.birt.core.ui*.jar" /-->
+			<!--<include name="org.eclipse.birt.core.ui*.jar" />-->
 			<include name="org.eclipse.birt.doc*.jar" />
 			<include name="org.mozilla.rhino*/**" />
 			<include name="org.apache.commons.codec*/**" />
 			<include name="org.eclipse.birt.doc*.jar" />
 			<include name="org.eclipse.birt.chart.cshelp*/**"/>
 			<include name="org.eclipse.birt.chart.doc.isv*/**"/>
-			<include name="org.eclipse.birt.chart.examples_*.jar"/>
+            <include name="org.eclipse.birt.chart.examples_*.jar"/>
 		</patternset>
 
 		<!--Define the engine runtime plugins-->
@@ -265,9 +265,9 @@
 		<zip destfile="${OutputDir}/${sdk.zip.name}">
 			<zipfileset dir="${deposit}/eclipse/plugins" prefix="${ZipPrefix}">
 				<include name="**/*" />
-				<exclude name="org.eclipse.birt.report.designer.ui.rcp*/**" />
-				<exclude name="org.eclipse.birt.report.designer.ui.samples.rcp_*/**" />
-				<exclude name="org.eclipse.birt.sample.reportitem.rotatedtext*.jar" />
+				<exclude name="**/org.eclipse.birt.report.designer.ui.rcp*/**" />
+				<exclude name="**/org.eclipse.birt.report.designer.ui.samples.rcp_*/**" />
+				<exclude name="**/org.eclipse.birt.sample.reportitem.rotatedtext*.jar" />
 				<exclude name="org.eclipse.birt.thirdparty*/**"/>
 				<patternset refid="exclude.jars" />
 			</zipfileset>
@@ -298,8 +298,8 @@
 		<zip destfile="${OutputDir}/${framework.zip.name}">
 			<zipfileset dir="${deposit}/eclipse/plugins" prefix="${ZipPrefix}">
 				<include name="**/*" />
-				<exclude name="org.eclipse.birt.report.designer.ui.rcp*/**" />
-				<exclude name="org.eclipse.birt.report.designer.ui.samples.rcp_*/**" />
+				<exclude name="**/org.eclipse.birt.report.designer.ui.rcp*/**" />
+				<exclude name="**/org.eclipse.birt.report.designer.ui.samples.rcp_*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp*/**"/>
 				<exclude name="org.eclipse.birt.sample.reportitem.rotatedtext*/**" />
 				<exclude name="org.eclipse.birt.sdk*/**" />
@@ -432,8 +432,8 @@
 		<tar destfile="${OutputDir}/${allinone.linux.zip.name}" longfile="gnu">
 			<tarfileset dir="${deposit}/eclipse/plugins" prefix="${ZipPrefix}">
 				<include name="**/*" />
-				<exclude name="org.eclipse.birt.report.designer.ui.rcp*/**" />
-				<exclude name="org.eclipse.birt.report.designer.ui.samples.rcp_*/**" />
+				<exclude name="**/org.eclipse.birt.report.designer.ui.rcp*/**" />
+				<exclude name="**/org.eclipse.birt.report.designer.ui.samples.rcp_*/**" />
 				<exclude name="org.eclipse.birt.sample.reportitem.rotatedtext*/**" />
 				<exclude name="org.eclipse.datatools.connectivity_*/**"/>
 				<exclude name="org.eclipse.datatools.connectivity.ui_*/**"/>
@@ -518,7 +518,7 @@
 		<delete dir="${runtime.tmp}" />
 	</target>
 	
-	<target name="createBirtRuntime"  depends="createWAR">
+	<target name="createBirtRuntime"  depends="createWAR,createChartViewer">
 		<!--   Zip Engine runtime file    -->
 		<copy todir="${runtime.tmp}/ChartEngine" flatten="true">
 			<fileset dir="${deposit}/eclipse/plugins">
@@ -707,6 +707,18 @@
 		<delete dir="${test.suite.dir}"/>
 	</target>	
 	
+	<target name="createChartViewer">
+		<!-- compile chart.viewer -->
+		<ant antfile="BuildChartWebViewer.xml" dir="${buildDirectory}/plugins/org.eclipse.birt.chart.viewer" target="Jar">
+                        <property name="integrate.dir" value="${buildDirectory}/${buildId}/eclipse"/>
+		</ant>
+		<!-- export chart.viewer war -->
+		<ant antfile="BuildChartWebViewer.xml" dir="${buildDirectory}/plugins/org.eclipse.birt.chart.viewer" target="Export">
+			<property name="export.dir" value="${runtime.tmp}" />
+                        <property name="integrate.dir" value="${buildDirectory}/${buildId}/eclipse"/>
+	        </ant>
+	</target>
+
 	<target name="createWAR">
 	   <mkdir dir="${runtime.tmp}" />
 	   <mkdir dir="${war.tmp}/birt" />
@@ -714,11 +726,6 @@
        		<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web" >
        			<exclude name="plugins/**" />
        			<patternset refid="exclude.jars" />
-				<exclude name="**/org.eclipse.datatools.connectivity*finfo*.jar"/>
-				<exclude name="**/org.eclipse.datatools.connectivity*design*.jar"/>
-				<exclude name="**/org.eclipse.datatools.connectivity*.ui*.jar"/>
-				<exclude name="**/org.eclipse.datatools.connectivity.oda.profile_*.jar"/>
-				<exclude name="**/org.eclipse.datatools.connectivity_*/**"/>
 				<exclude name="**/*.nl1_*/**"/>
 				<exclude name="**/*.nl/**" />
 				<exclude name="**/*.nl1_*.jar"/>
@@ -935,7 +942,7 @@
 				<include name="org.apache.batik_*/**"/>
 				<include name="org.apache.batik.pdf_*/**"/>
 				<include name="org.apache.xerces_*/**"/>
-			</fileset>				
+			</fileset>
 		</copy>
 		
 

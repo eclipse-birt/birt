@@ -44,6 +44,7 @@
 		<antcall target="buildBirtWebViewer"/>
 		<parallel failonany="true">
 			<sequential>
+				<antcall target="BuildChartViewer"/>
 				<antcall target="CreateDistribute"/>
 				<ant antfile="${eclipse.build.configs}/../helper.xml" target="verifyCompile" />
 				<antcall target="CreateUpdateSite"/>
@@ -303,6 +304,15 @@
 		</ant>           
     </target>
 
+	<target name="BuildChartViewer">
+		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
+			<property name="builder" value="${eclipse.build.configs}/birt.chart.viewer" />
+		</ant>
+		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
+			<property name="builder" value="${eclipse.build.configs}/birt.chart.viewer" />
+		</ant>
+	</target>
+
 	<target name="buildBirtNLFeature">
 		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
 			<property name="builder" value="${eclipse.build.configs}/birt.nl" />
@@ -311,7 +321,6 @@
 			<property name="builder" value="${eclipse.build.configs}/birt.nl" />
 		</ant>
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="buildLanguagePack" />
-		
 	</target>
 	
 	<target name="buildUpdateSite" if="updateSite">
