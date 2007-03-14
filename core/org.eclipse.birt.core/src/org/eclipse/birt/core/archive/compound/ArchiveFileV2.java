@@ -215,6 +215,11 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		int blockCount = ( cacheSize + BLOCK_SIZE - 1 ) / BLOCK_SIZE;
 		caches.setPoolSize( blockCount );
 	}
+	
+	public int getUsedCache( )
+	{
+		return caches.getUsedPool( ) * BLOCK_SIZE;
+	}
 
 	/**
 	 * open the archive file for read or rw.
@@ -346,6 +351,7 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		{
 			new File( archiveName ).delete( );
 		}
+		caches.reset( );
 		isClosed = true;
 	}
 

@@ -32,7 +32,10 @@ public class ArchiveFileTest extends TestCase
 		archive.setCacheSize( 64 * 1024 );
 		createArchive( archive );
 		checkArchive( archive );
+		assertTrue( archive.getUsedCache( ) > 0 );
+		assertTrue( archive.getUsedCache( ) < 64 * 1024 );
 		archive.close( );
+		assertTrue( archive.getUsedCache( ) == 0 );
 
 		archive = new ArchiveFile( ARCHIVE_FILE, "r" );
 		checkArchive( archive );

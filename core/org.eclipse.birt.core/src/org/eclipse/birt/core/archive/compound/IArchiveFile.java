@@ -28,6 +28,8 @@ interface IArchiveFile
 	public boolean exists( String name );
 	
 	public void setCacheSize( int cacheSize );
+	
+	public int getUsedCache( );
 
 	public ArchiveEntry getEntry( String name );
 

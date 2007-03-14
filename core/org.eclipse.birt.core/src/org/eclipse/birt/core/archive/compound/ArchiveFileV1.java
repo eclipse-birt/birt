@@ -88,6 +88,12 @@ class ArchiveFileV1 implements IArchiveFile
 	{
 		// V1 doesn't support the cache size
 	}
+	
+	public int getUsedCache( )
+	{
+		return 0;
+
+	}
 
 	/*
 	 * (non-Javadoc)
