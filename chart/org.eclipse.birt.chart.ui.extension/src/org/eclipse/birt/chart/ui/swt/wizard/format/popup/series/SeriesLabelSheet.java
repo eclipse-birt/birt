@@ -563,6 +563,8 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		// Remove DataPoint component button
 		btnFormatSpecifier = new Button( grpDataPoint, SWT.PUSH );
 		GridData gdBTNFormatSpecifier = new GridData( );
+		gdBTNFormatSpecifier.widthHint = 20;
+		gdBTNFormatSpecifier.heightHint = 20;
 		btnFormatSpecifier.setLayoutData( gdBTNFormatSpecifier );
 		btnFormatSpecifier.setToolTipText( Messages.getString( "Shared.Tooltip.FormatSpecifier" ) ); //$NON-NLS-1$
 		btnFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$

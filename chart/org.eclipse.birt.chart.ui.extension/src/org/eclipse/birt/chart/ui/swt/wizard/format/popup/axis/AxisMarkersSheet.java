@@ -283,8 +283,8 @@ public class AxisMarkersSheet extends AbstractPopupSheet
 
 		btnLineFormatSpecifier = new Button( cmpLine, SWT.PUSH );
 		GridData gdBTNLineFormatSpecifier = new GridData( );
-		gdBTNLineFormatSpecifier.heightHint = 18;
-		gdBTNLineFormatSpecifier.widthHint = 18;
+		gdBTNLineFormatSpecifier.heightHint = 20;
+		gdBTNLineFormatSpecifier.widthHint = 20;
 		btnLineFormatSpecifier.setLayoutData( gdBTNLineFormatSpecifier );
 		btnLineFormatSpecifier.setToolTipText( Messages.getString( "Shared.Tooltip.FormatSpecifier" ) ); //$NON-NLS-1$
 		btnLineFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$

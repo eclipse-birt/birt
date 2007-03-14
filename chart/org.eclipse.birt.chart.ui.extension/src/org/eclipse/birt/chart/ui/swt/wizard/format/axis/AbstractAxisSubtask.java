@@ -182,6 +182,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			{
 				GridData gdBTNFormatSpecifier = new GridData( );
 				gdBTNFormatSpecifier.widthHint = 20;
+				gdBTNFormatSpecifier.heightHint = 20;
 				gdBTNFormatSpecifier.horizontalIndent = -3;
 				btnFormatSpecifier.setLayoutData( gdBTNFormatSpecifier );
 				btnFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$

@@ -140,8 +140,8 @@ public class FontDefinitionComposite extends Composite
 
 		btnFont = new Button( cmpContent, SWT.NONE );
 		GridData gdBEllipsis = new GridData( );
-		gdBEllipsis.widthHint = iSize - 2;
-		gdBEllipsis.heightHint = iSize + 4;
+		gdBEllipsis.widthHint = 20;
+		gdBEllipsis.heightHint = 20;
 		btnFont.setLayoutData( gdBEllipsis );
 		btnFont.setImage( UIHelper.getImage( "icons/obj16/fonteditor.gif" ) ); //$NON-NLS-1$
 		btnFont.setToolTipText( TOOLTIP ); 
