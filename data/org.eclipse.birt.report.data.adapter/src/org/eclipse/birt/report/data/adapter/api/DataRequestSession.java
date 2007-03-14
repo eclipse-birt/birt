@@ -270,11 +270,9 @@ public abstract class DataRequestSession
 	 * will be replaced by the new cube design.
 	 * 
 	 * @param cubeDesign
+	 * @throws BirtException 
 	 */
-	public void defineCube( CubeHandle cubeDesign )
-	{
-		//TODO implement me.
-	}
+	public abstract void defineCube( CubeHandle cubeDesign ) throws BirtException;
 	
 	/**
 	 * Prepare an ICubeQueryDefinition intstance, return an IPreparedCubeQuery
@@ -283,11 +281,7 @@ public abstract class DataRequestSession
 	 * @param query
 	 * @return
 	 */
-	public IPreparedCubeQuery prepare( ICubeQueryDefinition query )
-	{
-		//TODO implement me.
-		return null;
-	}
+	public abstract IPreparedCubeQuery prepare( ICubeQueryDefinition query ) throws BirtException;
 	
 	/**
 	 * Get the ICubeQueryResults instance that is stored in report document
