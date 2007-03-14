@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -324,7 +325,8 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	public Iterator visibilityRulesIterator( )
 	{
 		PropertyHandle propHandle = getPropertyHandle( IReportItemModel.VISIBILITY_PROP );
-		assert propHandle != null;
+		if ( propHandle == null )
+			return Collections.EMPTY_LIST.iterator( );
 		return propHandle.iterator( );
 	}
 
@@ -399,7 +401,8 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	public Iterator paramBindingsIterator( )
 	{
 		PropertyHandle propHandle = getPropertyHandle( IReportItemModel.PARAM_BINDINGS_PROP );
-		assert propHandle != null;
+		if ( propHandle == null )
+			return Collections.EMPTY_LIST.iterator( );
 		return propHandle.iterator( );
 	}
 
@@ -526,6 +529,8 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	public Iterator columnBindingsIterator( )
 	{
 		PropertyHandle propHandle = getPropertyHandle( BOUND_DATA_COLUMNS_PROP );
+		if ( propHandle == null )
+			return Collections.EMPTY_LIST.iterator( );
 		return propHandle.iterator( );
 	}
 
@@ -612,6 +617,8 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	public TOCHandle getTOC( )
 	{
 		PropertyHandle propHandle = getPropertyHandle( IReportItemModel.TOC_PROP );
+		if ( propHandle == null )
+			return null;
 		TOC toc = (TOC) propHandle.getValue( );
 
 		if ( toc == null )

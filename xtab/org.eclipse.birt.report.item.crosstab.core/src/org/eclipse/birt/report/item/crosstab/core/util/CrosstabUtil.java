@@ -11,10 +11,13 @@
 
 package org.eclipse.birt.report.item.crosstab.core.util;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.report.item.crosstab.core.IAggregationCellConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
@@ -24,10 +27,12 @@ import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
@@ -648,6 +653,11 @@ public class CrosstabUtil implements ICrosstabConstants
 		column.addAggregateOn( rowLevel );
 		column.addAggregateOn( colLevel );
 
+		// add the computed column to crosstab
+		ComputedColumnHandle columnHandle = ( (ReportItemHandle) crosstab
+				.getModelHandle( ) ).addColumnBinding( column, false );
+
+		// add a data-item to the measure aggregations
 		AggregationCellHandle cell = measureView.getAggregationCell(
 				rowDimension, rowLevel, colDimension, colLevel );
 		if ( cell == null )
@@ -655,10 +665,10 @@ public class CrosstabUtil implements ICrosstabConstants
 			cell = measureView.addAggregation( rowDimension, rowLevel,
 					colDimension, colLevel );
 		}
-
+		// set the data-item result set the the name of the column handle
 		DataItemHandle dataItem = crosstab.getModuleHandle( )
 				.getElementFactory( ).newDataItem( null );
-		dataItem.setResultSetColumn( column.getName( ) );
+		dataItem.setResultSetColumn( columnHandle.getName( ) );
 		cell.addContent( dataItem );
 	}
 
@@ -784,5 +794,45 @@ public class CrosstabUtil implements ICrosstabConstants
 			stack.rollback( );
 			return null;
 		}
+	}
+
+	/**
+	 * Gets the measure view list that define aggregations for the given level
+	 * view. Each item in the list is instance of <code>MeasureViewHandle</code>.
+	 * 
+	 * @param levelView
+	 * @return
+	 */
+	public static List getAggregationMeasures( LevelViewHandle levelView )
+	{
+		// if level view is null, or aggregation header is not set, or cube
+		// level is not set, then return empty
+		if ( levelView == null || levelView.getAggregationHeader( ) == null
+				|| levelView.getCubeLevelName( ) == null
+				|| levelView.getCubeLevelName( ).length( ) <= 0 )
+			return Collections.EMPTY_LIST;
+		CrosstabReportItemHandle crosstab = levelView.getCrosstab( );
+		if ( crosstab == null )
+			return Collections.EMPTY_LIST;
+
+		int axisType = levelView.getAxisType( );
+		String propName = null;
+		if ( axisType == ICrosstabConstants.COLUMN_AXIS_TYPE )
+			propName = IAggregationCellConstants.AGGREGATION_ON_COLUMN_PROP;
+		else if ( axisType == ICrosstabConstants.ROW_AXIS_TYPE )
+			propName = IAggregationCellConstants.AGGREGATION_ON_ROW_PROP;
+		List measures = new ArrayList( );
+		for ( int i = 0; i < crosstab.getMeasureCount( ); i++ )
+		{
+			MeasureViewHandle measureView = crosstab.getMeasure( i );
+			for ( int j = 0; j < measureView.getAggregationCount( ); j++ )
+			{
+				AggregationCellHandle cell = measureView.getAggregationCell( j );
+				if ( levelView.getCubeLevelName( ).equals(
+						cell.getModelHandle( ).getStringProperty( propName ) ) )
+					measures.add( measureView );
+			}
+		}
+		return measures;
 	}
 }
