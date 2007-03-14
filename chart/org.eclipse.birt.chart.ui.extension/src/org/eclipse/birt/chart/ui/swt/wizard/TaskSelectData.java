@@ -549,7 +549,7 @@ public class TaskSelectData extends SimpleTask implements
 			catch ( ChartException e1 )
 			{
 				bException = true;
-				ChartWizard.showException( e1 );
+				ChartWizard.showException( e1.getLocalizedMessage( ) );
 			}
 			if ( !bException )
 			{
@@ -1170,10 +1170,10 @@ public class TaskSelectData extends SimpleTask implements
 				catch ( ChartException ce )
 				{
 					bException = true;
-					WizardBase.showException( new RuntimeException( Messages.getFormattedString( "TaskSelectData.Warning.TypeCheck",//$NON-NLS-1$
+					WizardBase.showException( Messages.getFormattedString( "TaskSelectData.Warning.TypeCheck",//$NON-NLS-1$
 							new String[]{
-									ce.getMessage( ), sSeries
-							} ) ) );
+									ce.getLocalizedMessage( ), series.getDisplayName( )
+							} ) );
 					if ( ce.getMessage( ).endsWith( expression ) )
 					{
 						ChartAdapter.beginIgnoreNotifications( );

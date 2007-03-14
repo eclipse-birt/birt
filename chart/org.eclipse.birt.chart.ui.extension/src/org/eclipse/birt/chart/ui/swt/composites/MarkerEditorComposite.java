@@ -321,7 +321,7 @@ public class MarkerEditorComposite extends Composite implements MouseListener
 		catch ( ChartException ex )
 		{
 			bException = true;
-			WizardBase.showException( ex );
+			WizardBase.showException( ex.getLocalizedMessage( ) );
 		}
 
 		if ( !bException )

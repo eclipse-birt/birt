@@ -448,7 +448,7 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 		catch ( ChartException ex )
 		{
 			bException = true;
-			WizardBase.showException( ex );
+			WizardBase.showException( ex.getLocalizedMessage( ) );
 		}
 
 		if ( !bException )

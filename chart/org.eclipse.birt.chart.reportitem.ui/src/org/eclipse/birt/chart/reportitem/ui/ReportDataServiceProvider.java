@@ -323,7 +323,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		catch ( SemanticException e )
 		{
-			ChartWizard.showException( e );
+			ChartWizard.showException( e.getLocalizedMessage( ) );
 		}
 	}
 
@@ -450,7 +450,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				}
 				catch ( SemanticException e )
 				{
-					 ChartWizard.showException( e );
+					 ChartWizard.showException( e.getLocalizedMessage( ) );
 				}
 			}
 
@@ -574,7 +574,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		catch ( SemanticException e )
 		{
-			ChartWizard.showException( e );
+			ChartWizard.showException( e.getLocalizedMessage( ) );
 		}
 	}
 

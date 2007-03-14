@@ -463,7 +463,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			catch ( Exception e )
 			{
 				bException = true;
-				WizardBase.showException( e );
+				WizardBase.showException( e.getLocalizedMessage( ) );
 			}
 			if ( !bException )
 			{

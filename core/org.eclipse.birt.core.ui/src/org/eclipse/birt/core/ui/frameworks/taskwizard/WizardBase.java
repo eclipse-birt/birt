@@ -397,9 +397,9 @@ public class WizardBase implements IRegistrationListener
 	 * @param t
 	 *            exception to be displayed to the user
 	 */
-	public static void showException( Throwable t )
+	public static void showException( String errorMessage )
 	{
-		ErrorsManager.instance( ).showErrors( t );
+		ErrorsManager.instance( ).showErrors( errorMessage );
 	}
 
 	/**

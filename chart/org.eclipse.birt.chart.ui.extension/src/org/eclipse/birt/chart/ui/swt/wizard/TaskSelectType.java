@@ -498,7 +498,7 @@ public class TaskSelectType extends SimpleTask implements
 		catch ( ChartException e )
 		{
 			bException = true;
-			ChartWizard.showException( e );
+			ChartWizard.showException( e.getLocalizedMessage( ) );
 		}
 		if ( !bException )
 		{
@@ -542,7 +542,7 @@ public class TaskSelectType extends SimpleTask implements
 			catch ( Exception e )
 			{
 				bException = true;
-				ChartWizard.showException( e );
+				ChartWizard.showException( e.getLocalizedMessage( ) );
 			}
 			if ( !bException )
 			{
@@ -896,7 +896,7 @@ public class TaskSelectType extends SimpleTask implements
 		catch ( Exception e )
 		{
 			bException = true;
-			ChartWizard.showException( e );
+			ChartWizard.showException( e.getLocalizedMessage( ) );
 		}
 		finally
 		{
@@ -926,7 +926,7 @@ public class TaskSelectType extends SimpleTask implements
 			catch ( ChartException e )
 			{
 				bException = true;
-				ChartWizard.showException( e );
+				ChartWizard.showException( e.getLocalizedMessage( ) );
 			}
 			if ( !bException )
 			{
@@ -1126,7 +1126,7 @@ public class TaskSelectType extends SimpleTask implements
 		catch ( Exception e )
 		{
 			bException = true;
-			ChartWizard.showException( e );
+			ChartWizard.showException( e.getLocalizedMessage( ) );
 		}
 		if ( !bException )
 		{
@@ -1380,10 +1380,10 @@ public class TaskSelectType extends SimpleTask implements
 				catch ( ChartException ce )
 				{
 					bException = true;
-					WizardBase.showException( new RuntimeException( Messages.getFormattedString( "TaskSelectData.Warning.TypeCheck",//$NON-NLS-1$
+					WizardBase.showException( Messages.getFormattedString( "TaskSelectData.Warning.TypeCheck",//$NON-NLS-1$
 							new String[]{
-									expression, sSeries
-							} ) ) );
+									ce.getLocalizedMessage( ), series.getDisplayName( )
+							} ) );
 				}
 				
 				if ( !bException )

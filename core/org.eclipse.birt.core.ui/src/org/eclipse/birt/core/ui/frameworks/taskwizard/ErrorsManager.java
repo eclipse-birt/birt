@@ -64,9 +64,9 @@ public class ErrorsManager
 	 * @param t
 	 *            Exception
 	 */
-	public void showErrors( Throwable t )
+	public void showErrors( String errorMessage )
 	{
-		this.errorMessage = t.getMessage( );
+		this.errorMessage = errorMessage;
 		wizard.getDialog( ).setErrorMessage( errorMessage );
 	}
 

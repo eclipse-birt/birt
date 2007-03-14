@@ -263,7 +263,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		catch ( ChartException e )
 		{
 			bException = true;
-			WizardBase.showException( e );
+			WizardBase.showException( e.getLocalizedMessage( ) );
 		}
 		if ( !bException )
 		{
