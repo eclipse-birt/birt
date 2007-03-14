@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.11" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.0.qualifier Build &lt;@BUILD@></property>
+    <property name="units">in</property>
+    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <html-property name="description">Creates a blank report with no predefined content.</html-property>
+    <text-property name="displayName">Blank Report</text-property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <grid id="4">
+            <property name="height">0.2395833333in</property>
+            <property name="width">5.0729166667in</property>
+            <column id="5">
+                <property name="width">1.4270833333in</property>
+            </column>
+            <column id="6">
+                <property name="width">1.9583333333in</property>
+            </column>
+            <column id="7">
+                <property name="width">1.6875in</property>
+            </column>
+            <row id="8">
+                <property name="height">0.2395833333in</property>
+                <cell id="9">
+                    <label id="12">
+                        <text-property name="text">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</text-property>
+                    </label>
+                </cell>
+                <cell id="10">
+                    <label id="13">
+                        <text-property name="text">AAAAAAAAAAAAAA AAAAAAAAAAAAAAA</text-property>
+                    </label>
+                </cell>
+                <cell id="11">
+                    <label id="14">
+                        <text-property name="text">中文测试中文测试中文测试中文测试</text-property>
+                    </label>
+                </cell>
+            </row>
+        </grid>
+    </body>
+</report>

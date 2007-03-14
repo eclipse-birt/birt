@@ -31,8 +31,9 @@ import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.layout.pdf.hyphen.DefaultHyphenationManager;
-import org.eclipse.birt.report.engine.layout.pdf.hyphen.DefaultWordRecognizer;
+import org.eclipse.birt.report.engine.layout.pdf.hyphen.DummyHyphenationManager;
 import org.eclipse.birt.report.engine.layout.pdf.hyphen.Hyphenation;
+import org.eclipse.birt.report.engine.layout.pdf.hyphen.ICUWordRecognizer;
 import org.eclipse.birt.report.engine.layout.pdf.hyphen.IHyphenationManager;
 import org.eclipse.birt.report.engine.layout.pdf.hyphen.IWordRecognizer;
 import org.eclipse.birt.report.engine.layout.pdf.hyphen.Word;
@@ -53,7 +54,8 @@ import com.ibm.icu.text.ArabicShapingException;
  */
 public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 {
-
+	public static boolean ENABLE_HYPHENATION = false;
+	
 	private PDFLineAreaLM lineLM;
 
 	/**
@@ -327,7 +329,7 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 						return;
 					}
 					currentPos = 0;
-					this.wr = new DefaultWordRecognizer(chunk.getText());
+					wr = new ICUWordRecognizer(chunk.getText( ), context.getLocale( ));
 				}
 				else
 				{
@@ -444,7 +446,15 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 					return;
 				}
 				// does hyphenation.
-				IHyphenationManager hm = new DefaultHyphenationManager();
+				IHyphenationManager hm;
+				if(ENABLE_HYPHENATION)
+				{
+					hm = new DefaultHyphenationManager();
+				}
+				else
+				{
+					hm = new DummyHyphenationManager();
+				}
 				Hyphenation hyph = hm.getHyphenation(str);
 				
 				int endHyphenIndex = hyphen( 0, freeSpace-prevAreaWidth, hyph, chunk.getFontInfo() );

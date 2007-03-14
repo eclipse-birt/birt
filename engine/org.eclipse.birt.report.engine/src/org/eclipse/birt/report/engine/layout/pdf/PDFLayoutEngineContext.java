@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.layout.pdf;
 
+import java.util.Locale;
+
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContainerContent;
@@ -62,6 +64,8 @@ public class PDFLayoutEngineContext
 	
 	//FIXME default value should be true;
 	protected boolean autoPageBreak = false;
+	
+	protected Locale locale;
 	
 	public void setAutoPageBreak(boolean autoBreak)
 	{
@@ -454,6 +458,18 @@ public class PDFLayoutEngineContext
 	public int getPreferenceWidth()
 	{
 		return this.preferenceWidth;
+	}
+
+	
+	public Locale getLocale( )
+	{
+		return locale;
+	}
+
+	
+	public void setLocale( Locale locale )
+	{
+		this.locale = locale;
 	}
 
 

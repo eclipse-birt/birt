@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.layout.pdf;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -33,6 +34,7 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 	protected PDFLayoutManagerFactory factory;
 	protected ILayoutPageHandler handle;
 	protected HashMap options;
+	protected Locale locale;
 
 	public PDFReportLayoutEngine( )
 	{
@@ -69,6 +71,14 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 		IReportContent report = executor.execute( );
 		context.setReport( report );
 		setupLayoutOptions();
+		if(locale!=null)
+		{
+			context.setLocale(locale);
+		}
+		else
+		{
+			context.setLocale(Locale.getDefault( ));
+		}
 		if ( output != null )
 		{
 			context.setFormat( output.getOutputFormat( ) );
@@ -149,6 +159,9 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 		return options.get(name);
 	}
 
-
+	public void setLocale(Locale locale)
+	{
+		this.locale = locale;
+	}
 
 }

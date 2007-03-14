@@ -10,6 +10,8 @@
  ***********************************************************************/
 package org.eclipse.birt.report.engine.layout;
 
+import java.util.Locale;
+
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
@@ -31,5 +33,7 @@ public interface IReportLayoutEngine
 	void setOption(String name, Object value);
 	
 	Object getOption(String name);
+	
+	void setLocale(Locale locale);
 
 }

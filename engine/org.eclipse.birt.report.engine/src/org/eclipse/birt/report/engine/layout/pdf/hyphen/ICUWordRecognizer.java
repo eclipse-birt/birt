@@ -1,7 +1,8 @@
 package org.eclipse.birt.report.engine.layout.pdf.hyphen;
 
+import java.util.Locale;
+
 import com.ibm.icu.text.BreakIterator;
-import com.ibm.icu.util.ULocale;
 
 
 public class ICUWordRecognizer implements IWordRecognizer
@@ -13,7 +14,7 @@ public class ICUWordRecognizer implements IWordRecognizer
 	int end;
 	
 	
-	public ICUWordRecognizer( String text, ULocale locale )
+	public ICUWordRecognizer( String text, Locale locale )
 	{
 		if(locale!=null)
 		{
@@ -21,7 +22,7 @@ public class ICUWordRecognizer implements IWordRecognizer
 		}
 		else
 		{
-			wordBreaker = BreakIterator.getWordInstance(ULocale.getDefault( ));
+			wordBreaker = BreakIterator.getWordInstance(Locale.getDefault( ));
 		}
 		this.text = text;
 		wordBreaker.setText( text);

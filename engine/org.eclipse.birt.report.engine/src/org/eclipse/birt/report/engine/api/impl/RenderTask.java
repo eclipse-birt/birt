@@ -40,7 +40,6 @@ import org.eclipse.birt.report.engine.internal.executor.doc.ReportletReader;
 import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExecutor;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
-import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
 import org.eclipse.birt.report.engine.layout.html.HTMLTableLayoutNestEmitter;
 
 public class RenderTask extends EngineTask implements IRenderTask
@@ -382,7 +381,8 @@ public class RenderTask extends EngineTask implements IRenderTask
 					initializeContentEmitter( emitter, executor );
 					IReportLayoutEngine layoutEngine = createReportLayoutEngine(
 							pagination, renderOptions );
-
+					
+					layoutEngine.setLocale( executionContext.getLocale( ) );
 					OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
 							executionContext );
 					layoutEngine.setPageHandler( handle );

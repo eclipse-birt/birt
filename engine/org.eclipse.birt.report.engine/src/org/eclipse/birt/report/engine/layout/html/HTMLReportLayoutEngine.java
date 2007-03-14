@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.layout.html;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
@@ -46,6 +47,8 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 	protected IReportExecutor executor;
 	
 	protected HashMap options;
+	
+	protected Locale locale;
 
 	public HTMLReportLayoutEngine( )
 	{
@@ -154,6 +157,11 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 	public Object getOption(String name)
 	{
 		return options.get(name);
+	}
+	
+	public void setLocale(Locale locale)
+	{
+		this.locale = locale;
 	}
 
 }

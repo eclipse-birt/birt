@@ -186,6 +186,8 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 
 				if ( layoutEngine != null )
 				{
+					layoutEngine.setLocale( executionContext.getLocale( ) );
+					
 					CompositeLayoutPageHandler layoutPageHandler = new CompositeLayoutPageHandler( );
 					OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
 												executionContext );

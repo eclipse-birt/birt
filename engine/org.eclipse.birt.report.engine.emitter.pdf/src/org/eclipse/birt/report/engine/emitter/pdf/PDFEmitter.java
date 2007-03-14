@@ -960,12 +960,12 @@ public class PDFEmitter implements IContentEmitter
 		/**
 		 * Draws a chunk of text at the pdf.
 		 * @param text					the textArea to be drawed.
-		 * @param textX					the X position of the textArea relative to current page.
-		 * @param textY					the Y position of the textArea relative to current page.
+		 * @param tx					the X position of the textArea relative to current page.
+		 * @param ty					the Y position of the textArea relative to current page.
 		 * @param contentByte			the content byte to draw the text.
 		 * @param contentByteHeight		the height of the content byte.
 		 */
-		protected void drawTextAt( ITextArea text, int textX, int textY, 
+		protected void drawTextAt( ITextArea text, int tx, int ty, 
 				PdfContentByte contentByte, float contentByteHeight )
 		{	 
 			IStyle style = text.getStyle();
@@ -973,14 +973,22 @@ public class PDFEmitter implements IContentEmitter
 			
 		    //style.getFontVariant();     	small-caps or normal
 		    //FIXME does NOT support small-caps now
-			textX += (int)(text.getFontInfo( ).getFontSize( ) * hTextSpace);
-			textY += (int)(text.getFontInfo( ).getFontSize( ) * vTextSpace);
+			int textX = tx + (int)(text.getFontInfo( ).getFontSize( ) * hTextSpace);
+			int textY = ty + (int)(text.getFontInfo( ).getFontSize( ) * vTextSpace);
 			float fontSize = text.getFontInfo().getFontSize() * scale ;
 			float characterSpacing = pdfMeasure( PropertyUtil.getDimensionValue(
 		        	style.getProperty(StyleConstants.STYLE_LETTER_SPACING)) );
 			float wordSpacing = pdfMeasure( PropertyUtil.getDimensionValue(
 		        	style.getProperty(StyleConstants.STYLE_WORD_SPACING)) );
 			contentByte.saveState();
+			
+			//clip the text 
+			float x = layoutAreaX2PDF(tx);
+			float y = layoutAreaY2PDFEx(ty, text.getHeight( ), contentByteHeight);
+			contentByte.clip( );
+			contentByte.rectangle( x, y, pdfMeasure( text.getWidth( ) ), pdfMeasure( text.getHeight( ) ) );
+			contentByte.newPath( );
+			
 			//start drawing the text content
 			contentByte.beginText();
 			Color color = PropertyUtil.getColor(style.getProperty(StyleConstants.STYLE_COLOR));   
