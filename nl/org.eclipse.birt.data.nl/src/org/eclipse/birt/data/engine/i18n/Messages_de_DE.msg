@@ -286,3 +286,19 @@ odaconsumer.manager.PrepareFailed=Vorbereitung fehlgeschlagen.
 odaconsumer.manager.CannotGetResultSetMdBeforePrepare=Metadaten für Ergebnisse können erst nach Vorbereitung der Anweisung abgerufen werden.
 odaconsumer.manager.CannotExecuteBeforePrepare=Die Anweisung kann erst ausgeführt werden, nachdem sie vorbereitet wurde.
 odaconsumer.CannotFindLogDirectory=Protokollverzeichnis kann nicht gefunden werden.
+
+# Data Olap error code
+data.olap.OlapDirCreateFail=Fail to create directory {0}.
+data.olap.OlapFileCreateFail=Fail to create file {0}.
+data.olap.OlapFileNotFound=Olap file {0} is not be found.
+data.olap.OlapFileFormatInvalid=The file format is invalid. Data object name is: {0}
+data.olap.DimensionNotExist=The dimension {0} doesn't exist.
+data.olap.OlapFileDataError=There are invalid data in data object {0}.
+data.olap.DocumentObjectAlreadyExists =The document object already exists. Fail to creat data object: {0}.
+data.olap.FacttableRowNotDistinct=The rows should be distinct in fact table. "{0}" occur more than one time.
+data.olap.FacttableNullMeasureValue=The value of a measure column is null. "{0}" 
+data.olap.InvalidDimensionPositionFacttableRow=The row "{0}" have not valid dimension information for dimension: {1}.
+data.olap.measureNameNotFound=The measure name "{0}" is not found.
+data.olap.levelNameNotFound=The level name "{0}" is not found.
+data.olap.cursorPositionError=The cursor cannot navigate to target position.
+data.olap.cursorSeekError=The cursor cannot navigate to seeking position.
