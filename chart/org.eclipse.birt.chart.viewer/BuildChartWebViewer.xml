@@ -71,11 +71,12 @@
 
 	<!-- Path properties -->
 	<property name="module.name" value="org.eclipse.birt.chart.viewer" />
-	<property name="birt.dir" value="WebContent" />
+	<property name="birt.dir" value="${basedir}/WebContent" />
 	<property name="bin" value="${birt.dir}/WEB-INF/classes" />
 	<property name="jar.name" value="chart-viewer.jar" />
 	<property name="war.name" value="chart-viewer-sample.war" />
 	<property name="war.folder" value="ChartViewerSample" />
+	<property name="src" value="${basedir}/src"/>
 
 	<!-- set platform related properties-->
 	<condition property="basews" value="win32">
@@ -95,6 +96,8 @@
 	<!-- Prepare some extension and eclipse jars -->
 	<target name="extensions">
 		<echo message="copy resources from : ${integrate.dir}/plugins"/>
+		<echo message="copy resources to : ${birt.dir}/WEB-INF/lib"/>
+		
 		<copy todir="${birt.dir}/WEB-INF/lib" failonerror="true" flatten="true">
 			<fileset dir="${integrate.dir}/plugins">
 				<include name="org.eclipse.birt.core_*.jar" />
@@ -105,31 +108,35 @@
 				<include name="org.eclipse.birt.chart.device.pdf_*.jar" />
 				<include name="org.eclipse.birt.chart.device.swt_*.jar" />
 				<include name="org.mozilla.rhino_*/lib/*.jar" />
+				<include name="org.apache.batik_*/*.jar" />
+				<include name="org.apache.batik.pdf_*/*.jar" />
 			</fileset>
-			<fileset dir="${eclipse.home}/plugins">
-				<include name="org.eclipse.emf.common_*.jar" />
-				<include name="org.eclipse.emf.ecore.xmi_*.jar" />
-				<include name="org.eclipse.emf.ecore_*.jar" />
+			<fileset dir="${baseLocation}/plugins">
 				<include name="org.apache.xerces_*.jar" />
 				<include name="com.ibm.icu_*.jar" />
 				<include name="org.eclipse.tomcat_*/servlet.jar" />
-				<include name="org.apache.batik_*/*.jar" />
-				<include name="org.apache.batik.pdf_*/*.jar" />
+			</fileset>
+			<fileset dir="${baseLocation.emf}/plugins">
+				<include name="org.eclipse.emf.common_*.jar" />
+				<include name="org.eclipse.emf.ecore.xmi_*.jar" />
+				<include name="org.eclipse.emf.ecore_*.jar" />
 			</fileset>
 		</copy>
 	</target>
 
 	<!-- Precompile the jsp pages -->
 	<target name="precompile" depends="init,extensions" description="Precompile jsp pages.">
+		<echo message="compile bin: ${bin}"/>
+		<echo message="compile src: ${src}"/>
+
 		<mkdir dir="${bin}" />
 		<javac destdir="${bin}" source="1.4">
-			<compilerarg line="${compilerArg}" />
 			<classpath>
 				<fileset dir="${birt.dir}/WEB-INF/lib">
 					<include name="*.jar" />
 				</fileset>
 			</classpath>
-			<src path="src" />
+			<src path="${src}" />
 		</javac>
 	</target>
 
@@ -159,16 +166,12 @@
 		<property name="plugin.package" value="${module.name}" />
 		<echo message="Export Chart Web Viewer version = ${Bundle-Version}" />
 
-		<copy todir="./${plugin.package}" failonerror="false">
-			<fileset dir="." includes="${birt.dir}/**" />
-		</copy>
-		<rename src="./${plugin.package}/${birt.dir}" dest="./${plugin.package}/${war.folder}" />
-		<copy todir="./${plugin.package}/${war.folder}/WEB-INF/lib" failonerror="false">
+		<copy todir="${birt.dir}/WEB-INF/lib" failonerror="false">
 			<fileset dir="." includes="${jar.name}" />
 		</copy>
 
 		<jar destfile="${export.dir}/${war.name}">
-			<fileset dir="${plugin.package}/${war.folder}">
+			<fileset dir="${birt.dir}">
 				<include name="*.*" />
 				<include name="*/**" />
 			</fileset>
