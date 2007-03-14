@@ -27,6 +27,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jst.j2ee.common.CommonFactory;
+import org.eclipse.jst.j2ee.common.Description;
 import org.eclipse.jst.j2ee.common.Listener;
 import org.eclipse.jst.j2ee.common.ParamValue;
 import org.eclipse.jst.j2ee.jsp.JSPConfig;
@@ -187,7 +188,13 @@ public class WebArtifactUtil implements IBirtWizardConstants
 					param.setName( name );
 					param.setValue( value );
 					if ( description != null )
+					{
+						Description descriptionObj = CommonFactory.eINSTANCE
+								.createDescription( );
+						descriptionObj.setValue( description );
+						param.getDescriptions( ).add( descriptionObj );
 						param.setDescription( description );
+					}
 
 					// add into list
 					webapp.getContextParams( ).add( param );
