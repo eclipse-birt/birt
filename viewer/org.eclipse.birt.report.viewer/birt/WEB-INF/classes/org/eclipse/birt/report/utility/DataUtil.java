@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.utility;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.Locale;
 
@@ -55,6 +56,23 @@ public class DataUtil
 			return ""; //$NON-NLS-1$
 
 		return str.trim( );
+	}
+
+	/**
+	 * Trim the end separator
+	 * 
+	 * @param path
+	 * @return
+	 */
+	public static String trimSepEnd( String path )
+	{
+		path = trimString( path );
+		if ( path.endsWith( File.separator ) )
+		{
+			path = path.substring( 0, path.length( ) - 1 );
+		}
+
+		return path;
 	}
 
 	/**

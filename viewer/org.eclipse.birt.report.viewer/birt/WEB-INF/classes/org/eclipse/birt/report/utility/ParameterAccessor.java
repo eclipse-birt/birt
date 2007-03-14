@@ -1453,7 +1453,12 @@ public class ParameterAccessor
 		{
 			File docFile = new File( filePath );
 			if ( !docFile.isAbsolute( ) )
+			{
+				if ( filePath.indexOf( ".." ) != -1 ) //$NON-NLS-1$
+					return false;
+
 				return true;
+			}
 
 			File docFolder = new File( workingFolder );
 			if ( docFolder.isAbsolute( ) )
@@ -2108,23 +2113,6 @@ public class ParameterAccessor
 	}
 
 	/**
-	 * Trim the end separator
-	 * 
-	 * @param path
-	 * @return
-	 */
-	protected static String trimSep( String path )
-	{
-		path = DataUtil.trimString( path );
-		if ( path.endsWith( File.separator ) )
-		{
-			path = path.substring( 0, path.length( ) - 1 );
-		}
-
-		return path;
-	}
-
-	/**
 	 * convert path from System Properties Definition. For example:
 	 * ${java.io.tmpdir}
 	 * 
@@ -2142,7 +2130,8 @@ public class ParameterAccessor
 		Matcher m = p.matcher( path );
 		if ( m.find( ) )
 		{
-			String sysPath = trimSep( System.getProperty( m.group( 1 ).trim( ) ) );
+			String sysPath = DataUtil.trimSepEnd( System.getProperty( m.group(
+					1 ).trim( ) ) );
 			return DataUtil.trimString( sysPath ) + m.group( 2 ).trim( );
 		}
 
@@ -2168,7 +2157,7 @@ public class ParameterAccessor
 		{
 			realPath = getRealPath( path, context );
 			makeDir( realPath );
-			return trimSep( path );
+			return DataUtil.trimSepEnd( path );
 		}
 		else
 		{
@@ -2179,7 +2168,7 @@ public class ParameterAccessor
 		// try to create folder
 		makeDir( realPath );
 
-		return trimSep( realPath );
+		return DataUtil.trimSepEnd( realPath );
 	}
 
 	/**
@@ -2214,12 +2203,12 @@ public class ParameterAccessor
 			if ( !path.startsWith( "/" ) ) //$NON-NLS-1$
 				path = "/" + path; //$NON-NLS-1$
 
-			realPath = trimSep( getRealPath( path, context ) );
+			realPath = DataUtil.trimSepEnd( getRealPath( path, context ) );
 		}
 		else
 		{
 			// Path is an absolute path
-			realPath = trimSep( path );
+			realPath = DataUtil.trimSepEnd( path );
 		}
 
 		boolean flag = makeDir( realPath );
@@ -2244,13 +2233,15 @@ public class ParameterAccessor
 		// try to create folder in ${java.io.tmpdir}
 		if ( isRelative )
 		{
-			realPath = trimSep( System.getProperty( "java.io.tmpdir" ) ) + path; //$NON-NLS-1$
+			realPath = DataUtil.trimSepEnd( System
+					.getProperty( "java.io.tmpdir" ) ) + path; //$NON-NLS-1$
 		}
 		else
 		{
 			// if absolute path, create default path in temp folder
 			if ( defaultPath != null )
-				realPath = trimSep( System.getProperty( "java.io.tmpdir" ) ) + File.separator + defaultPath; //$NON-NLS-1$
+				realPath = DataUtil.trimSepEnd( System
+						.getProperty( "java.io.tmpdir" ) ) + File.separator + defaultPath; //$NON-NLS-1$
 		}
 
 		// try to create folder

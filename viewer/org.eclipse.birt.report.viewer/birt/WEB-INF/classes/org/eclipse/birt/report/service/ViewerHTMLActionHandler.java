@@ -530,7 +530,10 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		assert action != null;
 		String reportName = action.getReportName( );
 		IReportRunnable runnable = context.getReportRunnable( );
-		if ( runnable != null )
+
+		// if WORKING_FOLDER_ACCESS_ONLY is false, return absolute path.
+		// else, return relative path.
+		if ( runnable != null && !ParameterAccessor.isWorkingFolderAccessOnly( ) )
 		{
 			ModuleHandle moduleHandle = runnable.getDesignHandle( )
 					.getModuleHandle( );
