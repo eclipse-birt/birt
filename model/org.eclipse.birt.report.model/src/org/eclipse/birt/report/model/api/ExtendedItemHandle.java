@@ -150,7 +150,8 @@ public class ExtendedItemHandle extends ReportItemHandle
 	public Iterator filtersIterator( )
 	{
 		PropertyHandle propHandle = getPropertyHandle( FILTER_PROP );
-		assert propHandle != null;
+		if ( propHandle == null )
+			return Collections.EMPTY_LIST.iterator( );
 		return propHandle.iterator( );
 	}
 
