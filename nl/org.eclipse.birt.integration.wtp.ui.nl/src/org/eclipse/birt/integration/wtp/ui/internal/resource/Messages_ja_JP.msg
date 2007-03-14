@@ -27,7 +27,7 @@ BIRTConfigurationDialog_title=Configure BIRT Deployment Settings
 ###############################################################################
 BIRTConfiguration_group_paths=配布フォルダの設定
 BIRTConfiguration_group_others=その他の設定
-BIRTConfiguration_folder_button_text=フォルダの選択(&S)...
+BIRTConfiguration_folder_button_text=&Browse...
 
 BIRTConfiguration_resource_label=リソースフォルダ(&R) :
 BIRTConfiguration_resource_dialog_title=リソースフォルダの参照

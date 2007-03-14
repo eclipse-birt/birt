@@ -27,7 +27,7 @@ BIRTConfigurationDialog_title=Configure BIRT Deployment Settings
 ###############################################################################
 BIRTConfiguration_group_paths=Einstellungen für Bereitstellungsordner
 BIRTConfiguration_group_others=Andere Einstellungen
-BIRTConfiguration_folder_button_text=Ordner au&swählen...
+BIRTConfiguration_folder_button_text=&Browse...
 
 BIRTConfiguration_resource_label=&Ressourcenordner:
 BIRTConfiguration_resource_dialog_title=Nach Ressourcenordner suchen

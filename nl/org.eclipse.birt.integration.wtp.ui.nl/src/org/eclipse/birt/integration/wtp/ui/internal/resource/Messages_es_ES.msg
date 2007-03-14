@@ -27,7 +27,7 @@ BIRTConfigurationDialog_title=Configure BIRT Deployment Settings
 ###############################################################################
 BIRTConfiguration_group_paths=Ajustes de carpeta de implantación
 BIRTConfiguration_group_others=Otros ajustes
-BIRTConfiguration_folder_button_text=&Seleccionar carpeta...
+BIRTConfiguration_folder_button_text=&Browse...
 
 BIRTConfiguration_resource_label=&Carpeta de recursos:
 BIRTConfiguration_resource_dialog_title=Buscar carpeta de recursos

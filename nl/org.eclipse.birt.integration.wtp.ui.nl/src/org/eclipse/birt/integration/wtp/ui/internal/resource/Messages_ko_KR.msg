@@ -27,7 +27,7 @@ BIRTConfigurationDialog_title=Configure BIRT Deployment Settings
 ###############################################################################
 BIRTConfiguration_group_paths=배포 폴더 설정
 BIRTConfiguration_group_others=기타 설정
-BIRTConfiguration_folder_button_text=폴더 선택(&S)...
+BIRTConfiguration_folder_button_text=&Browse...
 
 BIRTConfiguration_resource_label=리소스 폴더(&R):
 BIRTConfiguration_resource_dialog_title=리소스 폴더 찾아보기

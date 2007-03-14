@@ -27,7 +27,7 @@ BIRTConfigurationDialog_title=Configure BIRT Deployment Settings
 ###############################################################################
 BIRTConfiguration_group_paths=Paramètres du dossier de déploiement
 BIRTConfiguration_group_others=Autres paramètres
-BIRTConfiguration_folder_button_text=&Sélectionner un dossier...
+BIRTConfiguration_folder_button_text=&Browse...
 
 BIRTConfiguration_resource_label=Dossier de &ressources :
 BIRTConfiguration_resource_dialog_title=Parcourir le dossier de ressources
