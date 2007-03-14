@@ -144,10 +144,15 @@ public class ArchiveFile implements IArchiveFile
 	{
 		af.setCacheSize( cacheSize );
 	}
-	
+
 	public int getUsedCache( )
 	{
 		return af.getUsedCache( );
+	}
+
+	static public int getTotalUsedCache( )
+	{
+		return BlockManager.totalPoolSize * BlockManager.BLOCK_SIZE;
 	}
 	/**
 	 * save the
