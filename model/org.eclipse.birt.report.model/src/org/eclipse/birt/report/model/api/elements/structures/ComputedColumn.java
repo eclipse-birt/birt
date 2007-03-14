@@ -514,11 +514,73 @@ public class ComputedColumn extends Structure
 	 *            the name of a single group.
 	 */
 
-	public void removeAggregateOn( String aggreValue ) 
+	public void removeAggregateOn( String aggreValue )
 	{
 		if ( aggregrateOn == null )
 			return;
 
 		aggregrateOn.remove( aggreValue );
+	}
+
+	/**
+	 * Returns the expression used to define this computed column.
+	 * 
+	 * @return the expression used to define this computed column
+	 */
+
+	public String getAggregateFunction( )
+	{
+		return (String) getProperty( null,
+				ComputedColumn.AGGREGATEON_FUNCTION_MEMBER );
+	}
+
+	/**
+	 * Returns additional arguments to the aggregate function.
+	 * 
+	 * @return a list containing additional arguments
+	 */
+
+	public List getArgumentList( )
+	{
+		return (List) getProperty( null, AGGREGATEON_MEMBER );
+	}
+
+	/**
+	 * Returns the expression used to define this computed column.
+	 * 
+	 * @return the expression used to define this computed column
+	 */
+
+	public String getFilterExpression( )
+	{
+		return (String) getProperty( null, ComputedColumn.FILTER_MEMBER );
+	}
+
+	/**
+	 * Sets the expression used to define this computed column.
+	 * 
+	 * @param expression
+	 *            the expression to set
+	 * @throws SemanticException
+	 *             value required exception
+	 */
+
+	public void setAggregateFunction( String expression )
+	{
+		setProperty( ComputedColumn.AGGREGATEON_FUNCTION_MEMBER, expression );
+	}
+
+	/**
+	 * Sets the expression used to define this computed column.
+	 * 
+	 * @param expression
+	 *            the expression to set
+	 * @throws SemanticException
+	 *             value required exception
+	 */
+
+	public void setFilterExpression( String expression )
+	{
+		setProperty( ComputedColumn.FILTER_MEMBER, expression );
 	}
 }
