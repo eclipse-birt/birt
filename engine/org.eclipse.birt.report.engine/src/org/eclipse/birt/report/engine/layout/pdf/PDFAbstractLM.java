@@ -265,9 +265,9 @@ public abstract class PDFAbstractLM implements ILayoutManager
 
 		if ( IStyle.CSS_ALWAYS_VALUE == pageBreak
 				|| IStyle.CSS_LEFT_VALUE == pageBreak
-				|| IStyle.CSS_RIGHT_VALUE == pageBreak)
+				|| IStyle.CSS_RIGHT_VALUE == pageBreak
+				|| IStyle.CSS_SOFT_VALUE == pageBreak)
 		{
-			//style.setPageBreakBefore( IStyle.CSS_AUTO_VALUE );
 			return true;
 		}
 
@@ -280,7 +280,6 @@ public abstract class PDFAbstractLM implements ILayoutManager
 				|| IStyle.CSS_LEFT_VALUE == pageBreak
 				|| IStyle.CSS_RIGHT_VALUE == pageBreak )
 		{
-			//style.setPageBreakAfter( IStyle.CSS_AUTO_VALUE );
 			return true;
 		}
 		return false;
