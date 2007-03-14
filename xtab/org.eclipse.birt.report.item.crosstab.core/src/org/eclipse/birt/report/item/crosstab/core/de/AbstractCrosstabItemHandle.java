@@ -94,7 +94,7 @@ public class AbstractCrosstabItemHandle extends ReportItem
 	 * 
 	 * @return command stack
 	 */
-	protected CommandStack getCommandStack( )
+	public CommandStack getCommandStack( )
 	{
 		return moduleHandle.getCommandStack( );
 	}
@@ -177,5 +177,25 @@ public class AbstractCrosstabItemHandle extends ReportItem
 	public IReportItem copy( )
 	{
 		return null;
+	}
+
+	/**
+	 * Gets the logger instance for this class.
+	 * 
+	 * @return
+	 */
+	public Logger getLogger( )
+	{
+		return logger;
+	}
+
+	/**
+	 * Gets the module handle for this report item.
+	 * 
+	 * @return
+	 */
+	public ModuleHandle getModuleHandle( )
+	{
+		return this.moduleHandle;
 	}
 }

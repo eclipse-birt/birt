@@ -11,15 +11,26 @@
 
 package org.eclipse.birt.report.item.crosstab.core.util;
 
+import java.util.List;
+import java.util.logging.Level;
+
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
+import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
+import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 
@@ -444,6 +455,334 @@ public class CrosstabUtil implements ICrosstabConstants
 						dimensionName, levelName, false, isAdd );
 
 			}
+		}
+	}
+
+	/**
+	 * 
+	 * @param levelView
+	 * @param function
+	 * @param measures
+	 * @return
+	 */
+	public static CrosstabCellHandle addAggregationHeader(
+			LevelViewHandle levelView, String function, List measures )
+	{
+		if ( levelView == null )
+			return null;
+
+		// can not add aggregation if this level is innermost
+		if ( levelView.isInnerMost( ) )
+		{
+			levelView
+					.getLogger( )
+					.log(
+							Level.WARNING,
+							"This level: [" + levelView.getModelHandle( ).getName( ) + "] can not add aggregation for it is innermost" ); //$NON-NLS-1$//$NON-NLS-2$
+			return null;
+		}
+		if ( levelView.getAggregationHeader( ) != null )
+		{
+			levelView.getLogger( ).log( Level.INFO,
+					"the aggregation header is set" ); //$NON-NLS-1$
+			return levelView.getAggregationHeader( );
+		}
+
+		CommandStack stack = levelView.getCommandStack( );
+		stack.startTrans( null );
+		try
+		{
+			levelView.getAggregationHeaderProperty( ).add(
+					CrosstabExtendedItemFactory.createCrosstabCell( levelView
+							.getModuleHandle( ) ) );
+
+			// adjust the measure aggregations
+			CrosstabReportItemHandle crosstab = levelView.getCrosstab( );
+			if ( crosstab != null )
+			{
+				addMeasureAggregations( crosstab, levelView.getAxisType( ),
+						( (DimensionViewHandle) levelView.getContainer( ) )
+								.getCubeDimensionName( ), levelView
+								.getCubeLevelName( ), function, measures );
+			}
+		}
+		catch ( SemanticException e )
+		{
+			levelView.getLogger( ).log( Level.WARNING, e.getMessage( ), e );
+			stack.rollback( );
+		}
+
+		stack.commit( );
+		return levelView.getAggregationHeader( );
+	}
+
+	/**
+	 * Adjusts the measure aggregations when row/column dimension or level is
+	 * changed.
+	 * 
+	 * @param crosstab
+	 * @param axisType
+	 *            the axis type where the dimension or level is changed or the
+	 *            grand total is changed
+	 * @param dimensionName
+	 * @param levelName
+	 * @param isLevelInnerMost
+	 * @param isAdd
+	 * @throws SemanticException
+	 */
+	private static void addMeasureAggregations(
+			CrosstabReportItemHandle crosstab, int axisType,
+			String dimensionName, String levelName, String function,
+			List measures ) throws SemanticException
+	{
+		if ( crosstab == null
+				|| ( axisType != ROW_AXIS_TYPE && axisType != COLUMN_AXIS_TYPE ) )
+			return;
+		int counterAxisType = CrosstabUtil.getOppositeAxisType( axisType );
+
+		// justifies whether the counterAxis has no level and grand total
+		boolean isCounterAxisEmpty = true;
+
+		// add aggregations for all level views
+		for ( int i = 0; i < measures.size( ); i++ )
+		{
+			MeasureViewHandle measureView = (MeasureViewHandle) measures
+					.get( i );
+			if ( measureView.getCrosstab( ) != crosstab )
+				continue;
+
+			for ( int dimension = 0; dimension < crosstab
+					.getDimensionCount( counterAxisType ); dimension++ )
+			{
+				DimensionViewHandle dimensionView = crosstab.getDimension(
+						counterAxisType, dimension );
+				for ( int level = 0; level < dimensionView.getLevelCount( ); level++ )
+				{
+					// one level exists in this crosstab, then set
+					// isCounterAxisEmpty to false
+					isCounterAxisEmpty = false;
+
+					LevelViewHandle levelView = dimensionView.getLevel( level );
+					String rowDimension = null;
+					String rowLevel = null;
+					String colDimension = null;
+					String colLevel = null;
+					if ( counterAxisType == ROW_AXIS_TYPE )
+					{
+						rowDimension = dimensionView.getCubeDimensionName( );
+						rowLevel = levelView.getCubeLevelName( );
+						colDimension = dimensionName;
+						colLevel = levelName;
+					}
+					else if ( counterAxisType == COLUMN_AXIS_TYPE )
+					{
+						rowDimension = dimensionName;
+						rowLevel = levelName;
+						colDimension = dimensionView.getCubeDimensionName( );
+						colLevel = levelView.getCubeLevelName( );
+					}
+
+					// add aggregation for those is innermost or has aggregation
+					// levels in counter axis
+					if ( levelView.isInnerMost( )
+							|| levelView.getAggregationHeader( ) != null )
+					{
+						addDataItem( crosstab, measureView, function,
+								rowDimension, rowLevel, colDimension, colLevel );
+					}
+				}
+			}
+
+			// add aggregation for crosstab grand total; or there is no levels
+			// and no grand total, we still need to add one aggregation
+			if ( crosstab.getGrandTotal( counterAxisType ) != null
+					|| isCounterAxisEmpty )
+			{
+				String rowDimension = null;
+				String rowLevel = null;
+				String colDimension = null;
+				String colLevel = null;
+				if ( counterAxisType == ROW_AXIS_TYPE )
+				{
+					colDimension = dimensionName;
+					colLevel = levelName;
+				}
+				else if ( counterAxisType == COLUMN_AXIS_TYPE )
+				{
+					rowDimension = dimensionName;
+					rowLevel = levelName;
+				}
+				addDataItem( crosstab, measureView, function, rowDimension,
+						rowLevel, colDimension, colLevel );
+			}
+		}
+	}
+
+	/**
+	 * 
+	 * @param crosstab
+	 * @param measureView
+	 * @param function
+	 * @param aggregationOnColumn
+	 * @param aggregationOnRow
+	 * @throws SemanticException
+	 */
+	private static void addDataItem( CrosstabReportItemHandle crosstab,
+			MeasureViewHandle measureView, String function,
+			String rowDimension, String rowLevel, String colDimension,
+			String colLevel ) throws SemanticException
+	{
+		if ( crosstab == null || measureView == null )
+			return;
+
+		// create a computed column and set some properties
+		String name = generateComputedColumnName( measureView, colLevel,
+				rowLevel );
+		ComputedColumn column = StructureFactory.newComputedColumn( crosstab
+				.getModelHandle( ), name );
+		column
+				.setExpression( ExpressionUtil
+						.createJSMeasureExpression( measureView
+								.getCubeMeasureName( ) ) );
+		column.setAggregateFunction( function );
+		column.addAggregateOn( rowLevel );
+		column.addAggregateOn( colLevel );
+
+		AggregationCellHandle cell = measureView.getAggregationCell(
+				rowDimension, rowLevel, colDimension, colLevel );
+		if ( cell == null )
+		{
+			cell = measureView.addAggregation( rowDimension, rowLevel,
+					colDimension, colLevel );
+		}
+
+		DataItemHandle dataItem = crosstab.getModuleHandle( )
+				.getElementFactory( ).newDataItem( null );
+		dataItem.setResultSetColumn( column.getName( ) );
+		cell.addContent( dataItem );
+	}
+
+	/**
+	 * Generates an meaningful and unique computed column name for a measure
+	 * aggregation.
+	 * 
+	 * @param measureView
+	 * @param aggregationOnColumn
+	 * @param aggregationOnRow
+	 * @return
+	 */
+	private static String generateComputedColumnName(
+			MeasureViewHandle measureView, String aggregationOnColumn,
+			String aggregationOnRow )
+	{
+		String name = ""; //$NON-NLS-1$
+		String temp = measureView.getCubeMeasureName( );
+		if ( temp != null && temp.length( ) > 0 )
+			name = name + temp;
+
+		if ( aggregationOnRow != null && aggregationOnRow.length( ) > 0 )
+		{
+			if ( name.length( ) > 0 )
+			{
+				name = name + "_" + aggregationOnRow; //$NON-NLS-1$
+			}
+			else
+			{
+				name = name + aggregationOnRow;
+			}
+		}
+		if ( aggregationOnColumn != null && aggregationOnColumn.length( ) > 0 )
+		{
+			if ( name.length( ) > 0 )
+			{
+				name = name + "_" + aggregationOnColumn; //$NON-NLS-1$
+			}
+			else
+			{
+				name = name + aggregationOnColumn;
+			}
+		}
+		if ( name.length( ) <= 0 )
+		{
+			name = "measure"; //$NON-NLS-1$
+		}
+
+		return name;
+	}
+
+	/**
+	 * 
+	 * @param crosstab
+	 * @param axisType
+	 * @param function
+	 * @param measures
+	 * @return
+	 */
+	public static CrosstabCellHandle addGrandTotal(
+			CrosstabReportItemHandle crosstab, int axisType, String function,
+			List measures )
+	{
+		if ( crosstab == null || !isValidAxisType( axisType ) )
+			return null;
+		CrosstabViewHandle crosstabView = crosstab.getCrosstabView( axisType );
+		if ( crosstabView == null )
+		{
+			CommandStack stack = crosstab.getCommandStack( );
+			stack.startTrans( null );
+
+			crosstabView = crosstab.addCrosstabView( axisType );
+			CrosstabCellHandle grandTotal = addGrandTotal( crosstabView,
+					function, measures );
+
+			stack.commit( );
+
+			return grandTotal;
+		}
+		return addGrandTotal( crosstabView, function, measures );
+	}
+
+	/**
+	 * 
+	 * @param crosstabView
+	 * @param function
+	 * @param measures
+	 * @return
+	 */
+	private static CrosstabCellHandle addGrandTotal(
+			CrosstabViewHandle crosstabView, String function, List measures )
+	{
+		if ( crosstabView == null )
+			return null;
+		PropertyHandle propHandle = crosstabView.getGrandTotalProperty( );
+
+		if ( propHandle.getContentCount( ) > 0 )
+			return crosstabView.getGrandTotal( );
+
+		CommandStack stack = crosstabView.getCommandStack( );
+		try
+		{
+			stack.startTrans( null );
+
+			ExtendedItemHandle grandTotal = CrosstabExtendedItemFactory
+					.createCrosstabCell( crosstabView.getModuleHandle( ) );
+			propHandle.add( grandTotal );
+
+			// adjust the measure aggregations
+			CrosstabReportItemHandle crosstab = crosstabView.getCrosstab( );
+			if ( crosstab != null )
+			{
+				addMeasureAggregations( crosstab, crosstabView.getAxisType( ),
+						null, null, function, measures );
+			}
+
+			stack.commit( );
+			return (CrosstabCellHandle) getReportItem( grandTotal );
+		}
+		catch ( SemanticException e )
+		{
+			crosstabView.getLogger( ).log( Level.INFO, e.getMessage( ), e );
+			stack.rollback( );
+			return null;
 		}
 	}
 }

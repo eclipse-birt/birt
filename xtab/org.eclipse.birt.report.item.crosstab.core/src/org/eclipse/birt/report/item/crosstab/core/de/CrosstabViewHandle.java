@@ -50,7 +50,7 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 	 * 
 	 * @return grand total property handle
 	 */
-	PropertyHandle getGrandTotalProperty( )
+	public PropertyHandle getGrandTotalProperty( )
 	{
 		return handle.getPropertyHandle( GRAND_TOTAL_PROP );
 	}

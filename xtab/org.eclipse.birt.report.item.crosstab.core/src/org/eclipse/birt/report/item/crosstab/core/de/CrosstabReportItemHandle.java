@@ -137,7 +137,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * @param axisType
 	 * @return
 	 */
-	protected CrosstabViewHandle getCrosstabView( int axisType )
+	public CrosstabViewHandle getCrosstabView( int axisType )
 	{
 		PropertyHandle propHandle = getCrosstabViewProperty( axisType );
 		if ( propHandle == null || propHandle.getContentCount( ) <= 0 )
@@ -152,9 +152,10 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>.
 	 * 
 	 * @param axisType
+	 * @return
 	 * 
 	 */
-	protected CrosstabViewHandle addCrosstabView( int axisType )
+	public CrosstabViewHandle addCrosstabView( int axisType )
 	{
 		PropertyHandle propHandle = getCrosstabViewProperty( axisType );
 		if ( propHandle == null || propHandle.getContentCount( ) > 0 )

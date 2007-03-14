@@ -272,7 +272,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 	 * 
 	 * @return the member property handle
 	 */
-	PropertyHandle getMemberProperty( )
+	public PropertyHandle getMemberProperty( )
 	{
 		return handle.getPropertyHandle( MEMBER_PROP );
 	}
@@ -282,7 +282,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 	 * 
 	 * @return the aggregation header property handle
 	 */
-	PropertyHandle getAggregationHeaderProperty( )
+	public PropertyHandle getAggregationHeaderProperty( )
 	{
 		return handle.getPropertyHandle( AGGREGATION_HEADER_PROP );
 	}
