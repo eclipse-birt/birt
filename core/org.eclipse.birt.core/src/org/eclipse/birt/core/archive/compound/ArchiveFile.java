@@ -144,6 +144,11 @@ public class ArchiveFile implements IArchiveFile
 	{
 		af.setCacheSize( cacheSize );
 	}
+	
+	public int getUsedCache( )
+	{
+		return af.getUsedCache( );
+	}
 	/**
 	 * save the
 	 * 
