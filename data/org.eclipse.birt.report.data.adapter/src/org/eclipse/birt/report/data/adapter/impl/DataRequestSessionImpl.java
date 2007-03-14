@@ -14,11 +14,9 @@
 
 package org.eclipse.birt.report.data.adapter.impl;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -35,15 +33,8 @@ import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
-import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
-import org.eclipse.birt.data.engine.olap.data.api.CubeElementFactory;
-import org.eclipse.birt.data.engine.olap.data.api.CubeMaterializer;
-import org.eclipse.birt.data.engine.olap.data.api.IDatasetIterator;
-import org.eclipse.birt.data.engine.olap.data.api.IDimension;
-import org.eclipse.birt.data.engine.olap.data.api.IHierarchy;
-import org.eclipse.birt.data.engine.olap.data.api.ILevelDefn;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
@@ -52,12 +43,6 @@ import org.eclipse.birt.report.data.adapter.api.IRequestInfo;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.olap.CubeHandle;
-import org.eclipse.birt.report.model.api.olap.DimensionHandle;
-import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
-import org.eclipse.birt.report.model.api.olap.LevelHandle;
-import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
-import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -375,8 +360,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		try
 		{
 			if ( query instanceof IQueryDefinition )
-				return prepare( (IQueryDefinition) query, appContext == null
-						? this.sessionContext.getAppContext( ) : appContext );
+				return prepare( (IQueryDefinition) query, appContext );
 			else if ( query instanceof ICubeQueryDefinition )
 				return prepare( (ICubeQueryDefinition) query );
 			else
@@ -421,152 +405,4 @@ public class DataRequestSessionImpl extends DataRequestSession
 		}
 	}
 */
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.data.engine.api.DataEngine#defineCube(org.eclipse.birt.report.model.api.olap.CubeHandle)
-	 */
-	public void defineCube( CubeHandle cubeHandle ) throws BirtException
-	{
-		try
-		{
-			CubeMaterializer o = new CubeMaterializer( this.sessionContext.getDataEngineContext( )
-					.getTmpdir( ),
-					"abc" );
-			List dims = new ArrayList( );
-			List dimHandles = cubeHandle.getContents( CubeHandle.DIMENSIONS_PROP );
-			for ( int i = 0; i < dimHandles.size( ); i++ )
-			{
-				DimensionHandle dim = (DimensionHandle) dimHandles.get( i );
-				List hiers = dim.getContents( DimensionHandle.HIERARCHIES_PROP );
-
-				for ( int j = 0; j < hiers.size( ); j++ )
-				{
-					HierarchyHandle hierhandle = (HierarchyHandle) hiers.get( j );
-					List levels = hierhandle.getContents( HierarchyHandle.LEVELS_PROP );
-					ILevelDefn[] levelInHier = new ILevelDefn[hierhandle.getLevelCount( )];
-					for ( int k = 0; k < levels.size( ); k++ )
-					{
-						LevelHandle level = (LevelHandle) levels.get( k );
-						levelInHier[k] = CubeElementFactory.createLevelDefinition( level.getName( ),
-								new String[]{
-									level.getColumnName( )
-								},
-								this.toStringArray( level.attributesIterator( ) ) );
-					}
-					hiers.add( o.createHierarchy( hierhandle.getName( ),
-							this.getDataSetIterator( hierhandle.getProperty( HierarchyHandle.DATA_SET_PROP )
-									.toString( ) ),
-							levelInHier ) );
-				}
-				dims.add( o.createDimension( dim.getName( ),
-						(IHierarchy) hiers.get( 0 ) ) );
-			}
-			List measureNames = new ArrayList( );
-			List measureGroups = cubeHandle.getContents( CubeHandle.MEASURE_GROUPS_PROP );
-			for ( int i = 0; i < measureGroups.size( ); i++ )
-			{
-				MeasureGroupHandle mgh = (MeasureGroupHandle) measureGroups.get( i );
-				List measures = mgh.getContents( MeasureGroupHandle.MEASURES_PROP );
-				for ( int j = 0; j < measures.size( ); j++ )
-				{
-					MeasureHandle measure = (MeasureHandle) measures.get( j );
-					measureNames.add( measure.getName( ) );
-				}
-			}
-
-			IDimension[] dimArray = new IDimension[dimHandles.size( )];
-			for ( int i = 0; i < dims.size( ); i++ )
-			{
-				dimArray[i] = (IDimension) dims.get( i );
-			}
-			o.createCube( cubeHandle.getName( ),
-					dimArray,
-					this.getDataSetIterator( cubeHandle.getProperty( CubeHandle.DATA_SET_PROP )
-							.toString( ) ),
-					this.toStringArray( measureNames ),
-					null );
-		
-		}
-		catch ( IOException e )
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace( );
-		}
-
-	}
-	
-	private IDatasetIterator getDataSetIterator( String dataSetName )
-			throws DataException, BirtException
-	{
-		QueryDefinition query = new QueryDefinition( );
-		query.setAutoBinding( true );
-		query.setDataSetName( dataSetName );
-		final IResultIterator it = this.prepare( query )
-				.execute( null )
-				.getResultIterator( );
-		return new IDatasetIterator( ) {
-
-			public void close( ) throws BirtException
-			{
-				it.close( );
-
-			}
-
-			public int getFieldIndex( String name ) throws BirtException
-			{
-				for ( int i = 1; i <= it.getResultMetaData( ).getColumnCount( ); i++ )
-				{
-					if ( name.equals( it.getResultMetaData( ).getColumnName( i ) ) )
-					{
-						return i;
-					}
-				}
-				return -1;
-			}
-
-			public int getFieldType( String name ) throws BirtException
-			{
-				return it.getResultMetaData( )
-						.getColumnType( this.getFieldIndex( name ) );
-			}
-
-			public Object getValue( int fieldIndex ) throws BirtException
-			{
-				return it.getValue( it.getResultMetaData( )
-						.getColumnName( fieldIndex ) );
-			}
-
-			public boolean next( ) throws BirtException
-			{
-				return it.next( );
-			}
-		};
-	}
-	
-	private String[] toStringArray( List object )
-	{
-		String[] result = new String[object.size( )];
-		for( int i = 0; i < object.size( ); i ++ )
-		{
-			result[i] = object.get( i ).toString();
-		}
-		return result;
-	}
-	
-	private String[] toStringArray( Iterator it )
-	{
-		List temp = new ArrayList( );
-		while ( it.hasNext( ) )
-		{
-			temp.add( it.next( ).toString( ) );
-		}
-		String[] result = new String[temp.size( )];
-		for ( int m = 0; m < temp.size( ); m++ )
-		{
-			result[m] = temp.get( m ).toString( );
-		}
-		return result;
-	}
-	
 }
