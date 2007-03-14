@@ -28,6 +28,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertInLayoutAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DNDUtil;
+import org.eclipse.birt.report.designer.util.IVirtualValidator;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -143,16 +144,7 @@ public class ReportTemplateTransferDropTargetListener extends
 				isScalarparameter = true;
 				preHandle = new ParameterToolExtends( );
 			}
-			//for cross tab
-			else if (objectType instanceof DimensionHandle)
-			{
-				preHandle = new DimensionHandleToolExtends( );
-			}
-			else if (objectType instanceof MeasureHandle)
-			{
-				preHandle = new MeasureHandleToolExtends( );
-				
-			}
+
 		}
 		else if ( handleValidateLibrary( template ) )
 		{
@@ -191,6 +183,19 @@ public class ReportTemplateTransferDropTargetListener extends
 			{
 				isEmbeddImage = true;
 				preHandle = new ImageToolExtends( );
+			}
+
+			// for cross tab
+			transName = InsertInLayoutAction.DISPLAY_TEXT;
+			Object objectType = getFactory( template ).getObjectType( );
+			if ( objectType instanceof DimensionHandle )
+			{
+				preHandle = new DimensionHandleToolExtends( );
+			}
+			else if ( objectType instanceof MeasureHandle )
+			{
+				preHandle = new MeasureHandleToolExtends( );
+
 			}
 		}
 
@@ -312,26 +317,17 @@ public class ReportTemplateTransferDropTargetListener extends
 	 */
 	private boolean handleValidateInsert( Object template )
 	{
-		//add by gao for test the cross tab
-		if (template instanceof Object[])
-		{
-			Object[] temp = (Object[])template;
-			if (temp != null  && temp.length >0 && isCrossType( temp[0] ))
-			{
-				return true;
-			}
-		}
 		return InsertInLayoutUtil.handleValidateInsert( template )
 				&& ( getTargetEditPart( ) == null || InsertInLayoutUtil.handleValidateInsertToLayout( template,
 						getTargetEditPart( ) ) );
 	}
 
-	//test for the crosstab
-	private boolean isCrossType(Object obj)
+	// test for the crosstab
+	private boolean isCrossType( Object obj )
 	{
-		return obj instanceof DimensionHandle 
-			|| obj instanceof MeasureHandle;
+		return obj instanceof DimensionHandle || obj instanceof MeasureHandle;
 	}
+
 	/**
 	 * Validates drag source of outline view and drop target of layout
 	 * 
@@ -339,6 +335,15 @@ public class ReportTemplateTransferDropTargetListener extends
 	 */
 	private boolean handleValidateOutline( Object dragSource )
 	{
+		EditPart targetEditPart = getTargetEditPart( );
+
+		if ( targetEditPart == null )
+		{
+			return true;
+		}
+
+		System.out.println( targetEditPart.getModel( ) );
+
 		if ( dragSource != null )
 		{
 			Object[] dragObjs;
@@ -363,6 +368,11 @@ public class ReportTemplateTransferDropTargetListener extends
 								.getRoot( ) instanceof LibraryHandle ) )
 				{
 					return true;
+				}
+				else if ( isCrossType( dragObjs[i] )
+						&& targetEditPart.getModel( ) instanceof IVirtualValidator )
+				{
+					return ( (IVirtualValidator) targetEditPart.getModel( ) ).handleValidate( dragObjs[i] );
 				}
 				else
 				{
@@ -449,15 +459,19 @@ public class ReportTemplateTransferDropTargetListener extends
 	public void dragOver( DropTargetEvent event )
 	{
 		super.dragOver( event );
+		EditPart targetEditPart = getTargetEditPart( );
 		Object template = TemplateTransfer.getInstance( ).getTemplate( );
-		if (template instanceof Object[])
-		{
-			Object[] temp = (Object[])template;
-			if (temp != null  && temp.length >0 && isCrossType( temp[0] ))
-			{
-				return;
-			}
-		}
+		// if (template instanceof Object[])
+		// {
+		// Object[] temp = (Object[])template;
+		// if (temp != null && temp.length >0 && isCrossType( temp[0] ))
+		// {
+		// targetEditPart.getModel( ) in
+		//					
+		// return;
+		// }
+		// }
+
 		if ( !handleValidateDrag( TemplateTransfer.getInstance( ).getTemplate( ) ) )
 		{
 			event.detail = DND.DROP_NONE;
