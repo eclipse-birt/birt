@@ -63,11 +63,29 @@ public class OutputSection extends Section
 		else
 			gd.horizontalSpan = ( (GridLayout) parent.getLayout( ) ).numColumns
 					- placeholder;
+		if ( height > -1 )
+		{
+			gd.heightHint = height;
+			gd.grabExcessVerticalSpace = false;
+			if ( displayLabel != null )
+			{
+				gd = (GridData) displayLabel.getLayoutData( );
+				gd.verticalAlignment = GridData.VERTICAL_ALIGN_FILL;
+			}
+		}
+	}
+
+	private int height = -1;
+
+	public void setHeight( int height )
+	{
+		this.height = height;
 	}
 
 	public void load( )
 	{
-		if(output!=null && !output.getControl( ).isDisposed( ))output.load( );
+		if ( output != null && !output.getControl( ).isDisposed( ) )
+			output.load( );
 	}
 
 	IDescriptorProvider provider;

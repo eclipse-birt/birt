@@ -28,6 +28,8 @@ public class VisibilityPage extends AttributePage
 
 		OutputPropertyDescriptorProvider provider = new OutputPropertyDescriptorProvider( );
 		OutputSection output = new OutputSection( container, true );
+		// To fix Bugzilla 175785, remain vertical space in advance
+		output.setHeight( 300 );
 		output.setProvider( provider );
 		addSection( PageSectionId.VISIBILITY_OUTPUT, output );
 
