@@ -214,7 +214,7 @@ public abstract class BoundColumnsMgr
 			for ( int i = 0; i < jsExprs.size( ); i++ )
 				handleBoundsForValue( element, module, (String) jsExprs.get( i ) );
 
-			Map updatedExprs = DataBoundColumnUtil.handleJavaExpression(
+			Map updatedExprs = BoundDataColumnUtil.handleJavaExpression(
 					jsExprs, element, module, null );
 			( (ICompatibleReportItem) reportItem )
 					.updateRowExpressions( updatedExprs );
@@ -699,9 +699,9 @@ public abstract class BoundColumnsMgr
 		if ( StringUtil.isBlank( content ) )
 			return;
 
-		List jsExprs = DataBoundColumnUtil.getExpressions( content, element,
+		List jsExprs = BoundDataColumnUtil.getExpressions( content, element,
 				module );
-		DataBoundColumnUtil.handleJavaExpression( jsExprs, element, module,
+		BoundDataColumnUtil.handleJavaExpression( jsExprs, element, module,
 				null );
 	}
 

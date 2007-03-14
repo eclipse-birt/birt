@@ -17,9 +17,9 @@ import org.eclipse.birt.report.model.api.elements.structures.CachedMetaData;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
-import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
+import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
@@ -46,7 +46,7 @@ import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
-import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
+import org.eclipse.birt.report.model.util.BoundDataColumnUtil;
 
 /**
  * Provides the factory method to create empty structures.
@@ -476,7 +476,7 @@ public class StructureFactory
 				|| element instanceof ScalarParameterHandle || element instanceof GroupHandle ) )
 			return null;
 
-		String tmpName = DataBoundColumnUtil.makeUniqueName( element, newName,
+		String tmpName = BoundDataColumnUtil.makeUniqueName( element, newName,
 				null );
 
 		ComputedColumn column = new ComputedColumn( );

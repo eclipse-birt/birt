@@ -118,10 +118,18 @@ public class DataItemParseTest extends BaseTestCase
 				.next( );
 		assertEquals( "column1", column.getName( ) ); //$NON-NLS-1$
 		assertEquals( "column1 expr", column.getExpression( ) ); //$NON-NLS-1$
-		assertEquals( "Display data value" , column.getDisplayName( ) );//$NON-NLS-1$
+		assertEquals( "Display data value", column.getDisplayName( ) );//$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER, column
 				.getDataType( ) );
-		assertEquals( "column1 aggre", column.getAggregateOn( ) );  //$NON-NLS-1$
+		assertEquals( "column1 aggre1", column.getAggregateOn( ) ); //$NON-NLS-1$
+		assertEquals( "column1 aggre1, column1 aggre2", //$NON-NLS-1$
+				serializeStringList( column.getAggregateOnList( ) ) );
+
+		assertEquals( "column1 argument1, column1 argument2", //$NON-NLS-1$
+				serializeStringList( column.getArgumentList( ) ) );
+
+		assertEquals( "Sum(*)", column.getAggregateFunction( ) ); //$NON-NLS-1$
+		assertEquals( "colmn1 filter expr", column.getFilterExpression( ) ); //$NON-NLS-1$
 
 		// reads in a data that exists in the components.
 
@@ -173,14 +181,14 @@ public class DataItemParseTest extends BaseTestCase
 
 		action = dataHandle.getActionHandle( );
 		assertNotNull( action );
-		
+
 		Iterator columnBindings = dataHandle.columnBindingsIterator( );
 		ComputedColumnHandle column = (ComputedColumnHandle) columnBindings
 				.next( );
 		column.setDisplayName( "New Display Name" );//$NON-NLS-1$
 
-		save();
-		assertTrue( compareFile( goldenFileName) );
+		save( );		
+		assertTrue( compareFile( goldenFileName ) );
 
 	}
 

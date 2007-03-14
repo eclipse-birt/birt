@@ -48,7 +48,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.util.BoundColumnsMgr;
-import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
+import org.eclipse.birt.report.model.util.BoundDataColumnUtil;
 import org.eclipse.birt.report.model.util.LevelContentIterator;
 
 /**
@@ -118,7 +118,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 			// do nothing
 		}
 
-		DesignElement target = DataBoundColumnUtil.findTargetOfBoundColumns(
+		DesignElement target = BoundDataColumnUtil.findTargetOfBoundColumns(
 				element, module );
 
 		if ( target instanceof GroupElement )
@@ -136,7 +136,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 				if ( newExpression == null )
 					continue;
 
-				DataBoundColumnUtil.createBoundDataColumn( target, boundColumn
+				BoundDataColumnUtil.createBoundDataColumn( target, boundColumn
 						.getResultSetColumnName( ), newExpression, module );
 			}
 		}
@@ -267,7 +267,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 
 		if ( newExprs != null && newExprs.size( ) >= 1 )
 		{
-			DesignElement target = DataBoundColumnUtil
+			DesignElement target = BoundDataColumnUtil
 					.findTargetElementOfParamBinding( element, module );
 
 			for ( int i = 0; i < newExprs.size( ); i++ )
@@ -277,7 +277,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 				if ( newExpression == null )
 					continue;
 
-				DataBoundColumnUtil.createBoundDataColumn( target, boundColumn
+				BoundDataColumnUtil.createBoundDataColumn( target, boundColumn
 						.getResultSetColumnName( ), newExpression, module );
 			}
 		}
@@ -327,7 +327,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 			// do nothing
 		}
 
-		DesignElement target = DataBoundColumnUtil.findTargetOfBoundColumns(
+		DesignElement target = BoundDataColumnUtil.findTargetOfBoundColumns(
 				obj, module );
 
 		if ( newExprs != null && newExprs.size( ) == 1 )
@@ -342,7 +342,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 			}
 			else
 			{
-				newName = DataBoundColumnUtil.createBoundDataColumn( target,
+				newName = BoundDataColumnUtil.createBoundDataColumn( target,
 						newName, column.getBoundExpression( ), module );
 			}
 
@@ -377,7 +377,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 					if ( newExpression == null )
 						continue;
 
-					DataBoundColumnUtil.createBoundDataColumn( target,
+					BoundDataColumnUtil.createBoundDataColumn( target,
 							boundColumn.getResultSetColumnName( ),
 							newExpression, module );
 				}
@@ -392,7 +392,7 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 		}
 		else
 		{
-			newName = DataBoundColumnUtil.createBoundDataColumn( target,
+			newName = BoundDataColumnUtil.createBoundDataColumn( target,
 					valueExpr, valueExpr, module );
 		}
 

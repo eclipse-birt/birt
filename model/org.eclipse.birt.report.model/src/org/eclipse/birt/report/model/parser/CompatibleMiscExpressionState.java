@@ -24,7 +24,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
+import org.eclipse.birt.report.model.util.BoundDataColumnUtil;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.xml.sax.SAXException;
 
@@ -82,7 +82,7 @@ class CompatibleMiscExpressionState extends CompatibleExpressionState
 		if ( value == null )
 			return;
 
-		DesignElement target = DataBoundColumnUtil.findTargetOfBoundColumns(
+		DesignElement target = BoundDataColumnUtil.findTargetOfBoundColumns(
 				element, handler.module );
 
 		// if the value is on elements like data set and data source. Not
@@ -178,7 +178,7 @@ class CompatibleMiscExpressionState extends CompatibleExpressionState
 
 		if ( !outerColumns.isEmpty( ) )
 		{
-			DesignElement tmpTarget = DataBoundColumnUtil
+			DesignElement tmpTarget = BoundDataColumnUtil
 					.findTargetOfBoundColumns( target, handler.module, 1 );
 			addBoundColumnsToTarget( tmpTarget, outerColumns );
 		}
@@ -214,7 +214,7 @@ class CompatibleMiscExpressionState extends CompatibleExpressionState
 			if ( newExpression == null )
 				continue;
 
-			DataBoundColumnUtil.createBoundDataColumn( target, boundColumn
+			BoundDataColumnUtil.createBoundDataColumn( target, boundColumn
 					.getResultSetColumnName( ), newExpression, handler.module );
 		}
 	}

@@ -18,7 +18,7 @@ import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.GroupElement;
-import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
+import org.eclipse.birt.report.model.util.BoundDataColumnUtil;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.xml.sax.SAXException;
 
@@ -68,7 +68,7 @@ class CompatibleDataValueExprState extends CompatibleMiscExpressionState
 			// do nothing
 		}
 
-		DesignElement target = DataBoundColumnUtil.findTargetOfBoundColumns(
+		DesignElement target = BoundDataColumnUtil.findTargetOfBoundColumns(
 				element, handler.module );
 
 		if ( newExprs != null && newExprs.size( ) == 1 )
@@ -87,7 +87,7 @@ class CompatibleDataValueExprState extends CompatibleMiscExpressionState
 				}
 				else
 				{
-					newName = DataBoundColumnUtil.createBoundDataColumn(
+					newName = BoundDataColumnUtil.createBoundDataColumn(
 							target, newName, column.getBoundExpression( ),
 							handler.getModule( ) );
 				}
@@ -126,7 +126,7 @@ class CompatibleDataValueExprState extends CompatibleMiscExpressionState
 		}
 		else
 		{
-			newName = DataBoundColumnUtil.createBoundDataColumn( target,
+			newName = BoundDataColumnUtil.createBoundDataColumn( target,
 					trimmedValue, trimmedValue, handler.getModule( ) );
 		}
 

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api.elements.structures;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -56,7 +57,7 @@ public class ComputedColumn extends Structure
 	 */
 
 	public static final String NAME_MEMBER = "name"; //$NON-NLS-1$
-	
+
 	/**
 	 * DisplayName of the column name member.
 	 */
@@ -95,14 +96,29 @@ public class ComputedColumn extends Structure
 	 * @deprecated
 	 */
 
-	public static final String AGGREGRATEON_MEMBER = AGGREGATEON_MEMBER;
+	public static final String AGGREGRATEON_MEMBER = "aggregrateOn"; //$NON-NLS-1$
+
+	/**
+	 * Name of the aggregateOn member.
+	 */
+	public static final String AGGREGATEON_FUNCTION_MEMBER = "aggregateFunction"; //$NON-NLS-1$
+
+	/**
+	 * Name of arguments of function member.
+	 */
+	public static final String ARGUMENTS_MEMBER = "arguments"; //$NON-NLS-1$
+
+	/**
+	 * Name of the filter member.
+	 */
+	public static final String FILTER_MEMBER = "filterExpr"; //$NON-NLS-1$
 
 	/**
 	 * The column display name.
 	 */
-	
+
 	private String columnDisplayName = null;
-	
+
 	/**
 	 * The column name.
 	 */
@@ -116,16 +132,30 @@ public class ComputedColumn extends Structure
 	private String expression = null;
 
 	/**
-	 * The aggregrateOn expression for the computed column.
-	 */
-
-	private String aggregrateOn = null;
-
-	/**
 	 * The data type of this column.
 	 */
 
 	private String dataType = null;
+
+	/**
+	 * The column name.
+	 */
+	private String aggregateFunc = null;
+
+	/**
+	 * The aggregrateOn expression for the computed column.
+	 */
+	private List aggregrateOn = null;
+
+	/**
+	 * The column display name.
+	 */
+	private List arguments = null;
+
+	/**
+	 * The expression for this computed column.
+	 */
+	private String filterexpr = null;
 
 	/*
 	 * (non-Javadoc)
@@ -148,14 +178,26 @@ public class ComputedColumn extends Structure
 	{
 		if ( NAME_MEMBER.equals( memberName ) )
 			return columnName;
-		if ( EXPRESSION_MEMBER.equals( memberName ) )
+		else if ( EXPRESSION_MEMBER.equals( memberName ) )
 			return expression;
-		if ( DATA_TYPE_MEMBER.equals( memberName ) )
+		else if ( DATA_TYPE_MEMBER.equals( memberName ) )
 			return dataType;
-		if ( AGGREGRATEON_MEMBER.equalsIgnoreCase( memberName ) )
-			return aggregrateOn;
-		if( DISPLAY_NAME_MEMBER.equalsIgnoreCase( memberName ))
+		else if ( AGGREGRATEON_MEMBER.equalsIgnoreCase( memberName ) )
+		{
+			if ( aggregrateOn == null || aggregrateOn.isEmpty( ) )
+				return null;
+			return aggregrateOn.get( 0 );
+		}
+		else if ( DISPLAY_NAME_MEMBER.equalsIgnoreCase( memberName ) )
 			return columnDisplayName;
+		else if ( AGGREGATEON_MEMBER.equals( memberName ) )
+			return aggregrateOn;
+		else if ( AGGREGATEON_FUNCTION_MEMBER.equalsIgnoreCase( memberName ) )
+			return aggregateFunc;
+		else if ( ARGUMENTS_MEMBER.equalsIgnoreCase( memberName ) )
+			return arguments;
+		else if ( FILTER_MEMBER.equalsIgnoreCase( memberName ) )
+			return filterexpr;
 
 		assert false;
 		return null;
@@ -177,10 +219,28 @@ public class ComputedColumn extends Structure
 			expression = (String) value;
 		else if ( DATA_TYPE_MEMBER.equals( propName ) )
 			dataType = (String) value;
-		else if ( AGGREGRATEON_MEMBER.equals( propName ) )
-			aggregrateOn = (String) value;
-		else if( DISPLAY_NAME_MEMBER.equalsIgnoreCase( propName ))
-			columnDisplayName = (String)value;
+		else if ( DISPLAY_NAME_MEMBER.equalsIgnoreCase( propName ) )
+			columnDisplayName = (String) value;
+		else if ( AGGREGATEON_MEMBER.equals( propName )
+				|| AGGREGRATEON_MEMBER.equals( propName ) )
+		{
+			List tmpList = null;
+			if ( value instanceof String )
+			{
+				tmpList = new ArrayList( );
+				tmpList.add( value );
+			}
+			else if ( value instanceof List )
+				tmpList = (List) value;
+
+			aggregrateOn = tmpList;
+		}
+		else if ( AGGREGATEON_FUNCTION_MEMBER.equalsIgnoreCase( propName ) )
+			aggregateFunc = (String) value;
+		else if ( ARGUMENTS_MEMBER.equalsIgnoreCase( propName ) )
+			arguments = (List) value;
+		else if ( FILTER_MEMBER.equalsIgnoreCase( propName ) )
+			filterexpr = (String) value;
 		else
 			assert false;
 	}
@@ -207,7 +267,7 @@ public class ComputedColumn extends Structure
 	{
 		return (String) getProperty( null, NAME_MEMBER );
 	}
-	
+
 	/**
 	 * Returns column display name.
 	 * 
@@ -216,9 +276,9 @@ public class ComputedColumn extends Structure
 
 	public String getDisplayName( )
 	{
-		return (String)getProperty( null , ComputedColumn.DISPLAY_NAME_MEMBER );
+		return (String) getProperty( null, ComputedColumn.DISPLAY_NAME_MEMBER );
 	}
-	
+
 	/**
 	 * Sets the column display name.
 	 * 
@@ -374,7 +434,7 @@ public class ComputedColumn extends Structure
 
 	public String getAggregrateOn( )
 	{
-		return (String) getProperty( null, AGGREGRATEON_MEMBER );
+		return getAggregateOn( );
 	}
 
 	/**
@@ -395,11 +455,27 @@ public class ComputedColumn extends Structure
 	 * Returns the aggregateOn expression to compute.
 	 * 
 	 * @return the aggregateOn expression to compute.
+	 * 
 	 */
 
 	public String getAggregateOn( )
 	{
-		return (String) getProperty( null, AGGREGATEON_MEMBER );
+		List aggres = getAggregateOnList( );
+		if ( aggres == null || aggres.isEmpty( ) )
+			return null;
+
+		return (String) aggres.get( 0 );
+	}
+
+	/**
+	 * Returns the list containing levels to be aggregated on.
+	 * 
+	 * @return the list containing levels to be aggregated on
+	 */
+
+	public List getAggregateOnList( )
+	{
+		return (List) getProperty( null, AGGREGATEON_MEMBER );
 	}
 
 	/**
@@ -412,5 +488,37 @@ public class ComputedColumn extends Structure
 	public void setAggregateOn( String aggregateOn )
 	{
 		setProperty( AGGREGATEON_MEMBER, aggregateOn );
+	}
+
+	/**
+	 * Adds an aggregate level to the list.
+	 * 
+	 * @param aggreValue
+	 *            the aggregate name. For listing elements, this can be "All" or
+	 *            the name of a single group.
+	 */
+
+	public void addAggregateOn( String aggreValue )
+	{
+		if ( aggregrateOn == null )
+			aggregrateOn = new ArrayList( );
+
+		aggregrateOn.add( aggreValue );
+	}
+
+	/**
+	 * Removes an aggregate level from the list.
+	 * 
+	 * @param aggreValue
+	 *            the aggregate name. For listing elements, this can be "All" or
+	 *            the name of a single group.
+	 */
+
+	public void removeAggregateOn( String aggreValue ) 
+	{
+		if ( aggregrateOn == null )
+			return;
+
+		aggregrateOn.remove( aggreValue );
 	}
 }

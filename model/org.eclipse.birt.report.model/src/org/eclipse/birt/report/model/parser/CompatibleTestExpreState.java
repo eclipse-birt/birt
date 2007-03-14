@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
+import org.eclipse.birt.report.model.util.BoundDataColumnUtil;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.xml.sax.SAXException;
 
@@ -126,7 +126,7 @@ public class CompatibleTestExpreState extends CompatibleMiscExpressionState
 			handler.tempValue.put( tempVeluekey, value );
 			return;
 		}
-		DesignElement target = DataBoundColumnUtil.findTargetOfBoundColumns(
+		DesignElement target = BoundDataColumnUtil.findTargetOfBoundColumns(
 				element, handler.module );
 
 		setupBoundDataColumns( target, value, true );

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2">
+	<data-sets>
+        <oda-data-set name="MyDataSet" />
+	</data-sets>
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <contents>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+    <body>
+		<list name="MyList1">
+			<list-property name="boundDataColumns">
+				<structure>
+					<property name="name">COLUMN_1</property>
+					<expression name="expression">column1 expr</expression>						
+					<property name="dataType">integer</property>	
+					<property name="aggregateOn">COLUMN_1_GROUP</property>	
+				</structure>
+				<structure>
+					<property name="name">COLUMN_2</property>
+					<expression name="expression">column1 expr</expression>						
+					<property name="dataType">integer</property>	
+					<property name="aggregateOn">COLUMN_2_GROUP</property>											
+				</structure>	
+				<structure>
+					<property name="name">COLUMN_6</property>
+					<expression name="expression">column1 expr</expression>						
+					<property name="dataType">integer</property>												
+					<property name="aggregateOn">COLUMN_6_GROUP</property>
+				</structure>						
+			</list-property>					
+			<detail>
+				<data name="InnerData2">
+					<list-property name="boundDataColumns">
+						<structure>
+							<property name="name">COLUMN_3</property>
+							<expression name="expression">column1 expr</expression>						
+							<property name="dataType">integer</property>	
+							<property name="aggregateOn">COLUMN_3_GROUP</property>											
+						</structure>
+					</list-property>
+				</data>
+			</detail>
+		</list>
+    </body>
+</report>

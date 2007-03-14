@@ -66,7 +66,16 @@
 					<property name="displayName">Display data value</property>
 					<expression name="expression">column1 expr</expression>						
 					<property name="dataType">integer</property>	
-					<property name="aggregateOn">column1 aggre</property>											
+					<simple-property-list name="aggregateOn">
+						<value>column1 aggre1</value>
+						<value>column1 aggre2</value>
+					</simple-property-list>	
+					<property name="aggregateFunction">Sum(*)</property>							
+					<property name="filterExpr">colmn1 filter expr</property>												
+					<simple-property-list name="arguments">
+						<value>column1 argument1</value>
+						<value>column1 argument2</value>
+					</simple-property-list>						
 				</structure>
 			</list-property>
         </data>

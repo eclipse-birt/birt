@@ -6,12 +6,16 @@
                 <structure>
                     <property name="name">valueData</property>
                     <expression name="expression">dataSetRow["valueData"]</expression>
-                    <property name="aggregateOn">NewTableGroup1</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>NewTableGroup1</value>
+                    </simple-property-list>
                 </structure>
                 <structure>
                     <property name="name">valueData_1</property>
                     <expression name="expression">dataSetRow["valueData"]</expression>
-                    <property name="aggregateOn">NewTableGroup2</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>NewTableGroup2</value>
+                    </simple-property-list>
                 </structure>
             </list-property>
             <column id="15"/>

@@ -906,4 +906,26 @@ public abstract class BaseTestCase extends TestCase
 
 		fos.close( );
 	}
+
+	/**
+	 * @param strs
+	 * @return
+	 */
+
+	protected static String serializeStringList( List strs )
+	{
+		if ( strs == null )
+			return null;
+
+		StringBuffer sb = new StringBuffer( );
+		for ( int i = 0; i < strs.size( ); i++ )
+		{
+			sb.append( (String) strs.get( i ) );
+
+			if ( i != strs.size( ) - 1 )
+				sb.append( ", " ); //$NON-NLS-1$
+		}
+
+		return sb.toString( );
+	}
 }

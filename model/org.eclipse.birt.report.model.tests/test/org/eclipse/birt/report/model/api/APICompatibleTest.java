@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
@@ -234,6 +236,8 @@ public class APICompatibleTest extends BaseTestCase
 				data );
 
 		save( );
+		
+		saveOutputFile( "CompatibleExpression_out_2.xml" );
 		assertTrue( compareFile( "CompatibleExpression_golden_2.xml" ) ); //$NON-NLS-1$		
 	}
 
@@ -320,5 +324,35 @@ public class APICompatibleTest extends BaseTestCase
 		assertEquals( true, param.allowNull( ) );
 		assertEquals( false, param.isRequired( ) );
 
+	}
+
+	/**
+	 * Backward for aggregate properties on ComputedColumn since the version
+	 * 3.2.11.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testComputedColumnAggregates( ) throws Exception
+	{
+		ComputedColumn column = StructureFactory.createComputedColumn( );
+		column.setName( "column 1" ); //$NON-NLS-1$
+		column.setAggregateOn( "aggregate on 1" ); //$NON-NLS-1$
+		assertEquals( "aggregate on 1", column.getAggregateOn( ) ); //$NON-NLS-1$
+		column.setExpression( "expression1" ); //$NON-NLS-1$
+		createDesign( );
+
+		DataItemHandle data = designHandle.getElementFactory( ).newDataItem(
+				"data1" ); //$NON-NLS-1$
+		ComputedColumnHandle columnHandle = data.addColumnBinding( column,
+				false );
+		columnHandle.setAggregateOn( "new aggregate on" ); //$NON-NLS-1$
+		assertEquals( "new aggregate on", columnHandle.getAggregateOn( ) ); //$NON-NLS-1$
+
+		columnHandle.setProperty( ComputedColumn.AGGREGATEON_MEMBER,
+				"new aggregate on1" ); //$NON-NLS-1$
+		List values = (List) columnHandle 
+				.getProperty( ComputedColumn.AGGREGATEON_MEMBER );
+		assertTrue( "new aggregate on1".equals( values.get( 0 ) ) ); //$NON-NLS-1$
 	}
 }

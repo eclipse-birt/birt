@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.interfaces.ITextItemModel;
-import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
+import org.eclipse.birt.report.model.util.BoundDataColumnUtil;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
@@ -118,9 +118,9 @@ public class TextItemState extends ReportItemState
 		if ( StringUtil.isBlank( content ) )
 			return;
 
-		List jsExprs = DataBoundColumnUtil.getExpressions( content, element,
+		List jsExprs = BoundDataColumnUtil.getExpressions( content, element,
 				handler.getModule( ) );
-		updateExpressions( content, DataBoundColumnUtil.handleJavaExpression(
+		updateExpressions( content, BoundDataColumnUtil.handleJavaExpression(
 				jsExprs, element, handler.getModule( ), handler.tempValue ) );
 	}
 
@@ -150,7 +150,7 @@ public class TextItemState extends ReportItemState
 
 		TextTemplate template = new TemplateParser( ).parse( contentText );
 
-		DataBoundColumnUtil.ContentVisitor templateVisitor = new DataBoundColumnUtil.ContentVisitor(
+		BoundDataColumnUtil.ContentVisitor templateVisitor = new BoundDataColumnUtil.ContentVisitor(
 				template, updatedExprs );
 
 		String content = templateVisitor.execute( );

@@ -403,27 +403,27 @@ public class ParserCompatibilityTest extends BaseTestCase
 	{
 		openDesign( "CompatiblePageBreaks.xml" ); //$NON-NLS-1$
 		TableHandle table = (TableHandle) designHandle.findElement( "table1" ); //$NON-NLS-1$
-		
+
 		// test table
 		assertEquals( DesignChoiceConstants.PAGE_BREAK_AFTER_AUTO, table
 				.getProperty( IStyleModel.PAGE_BREAK_AFTER_PROP ) );
 		assertEquals( DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS, table
 				.getProperty( IStyleModel.PAGE_BREAK_BEFORE_PROP ) );
-		
+
 		// test group
 		assertEquals( DesignChoiceConstants.PAGE_BREAK_AFTER_AUTO,
 				( (GroupHandle) table.getGroups( ).get( 0 ) )
 						.getProperty( IStyleModel.PAGE_BREAK_AFTER_PROP ) );
-		
+
 		// test row
 		assertEquals( "inherit", //$NON-NLS-1$
-				( (GroupHandle) table.getGroups( ).get( 0 ) ).getHeader( ).get( 0 )
-						.getProperty( IStyleModel.PAGE_BREAK_AFTER_PROP ) );
-		
+				( (GroupHandle) table.getGroups( ).get( 0 ) ).getHeader( ).get(
+						0 ).getProperty( IStyleModel.PAGE_BREAK_AFTER_PROP ) );
+
 		assertEquals( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS,
-				( (GroupHandle) table.getGroups( ).get( 0 ) ).getFooter( ).get( 0 )
-						.getProperty( IStyleModel.PAGE_BREAK_AFTER_PROP ) );
-		
+				( (GroupHandle) table.getGroups( ).get( 0 ) ).getFooter( ).get(
+						0 ).getProperty( IStyleModel.PAGE_BREAK_AFTER_PROP ) );
+
 	}
 
 	/**
@@ -594,26 +594,22 @@ public class ParserCompatibilityTest extends BaseTestCase
 	 * "isRequired". Rules are:
 	 * 
 	 * <table>
-	 * <th align="left">
-	 * For string data type
-	 * </th>
-	 * <tr><td>
-	 * Set isRequired=true; if allowBlank=false
-	 * </td></tr>
-	 * <tr><td>
-	 * Set isRequired=false, if allowBalnk=true
-	 * </td></tr>
+	 * <th align="left"> For string data type </th>
+	 * <tr>
+	 * <td> Set isRequired=true; if allowBlank=false </td>
+	 * </tr>
+	 * <tr>
+	 * <td> Set isRequired=false, if allowBalnk=true </td>
+	 * </tr>
 	 * <br>
 	 * 
-	 * <th align="left">
-	 * For non string data type
-	 * </th>
-	 * <tr><td>
-	 * Set isRequired=true; if allowNull=false
-	 * </td></tr>
-	 * <tr><td>
-	 * Set isRequired=false, if allowNull=true
-	 * </td></tr>
+	 * <th align="left"> For non string data type </th>
+	 * <tr>
+	 * <td> Set isRequired=true; if allowNull=false </td>
+	 * </tr>
+	 * <tr>
+	 * <td> Set isRequired=false, if allowNull=true </td>
+	 * </tr>
 	 * </table>
 	 * 
 	 * @throws Exception
@@ -623,8 +619,24 @@ public class ParserCompatibilityTest extends BaseTestCase
 	{
 		openDesign( "CompatibleScalarParamAllowPropsTest.xml" ); //$NON-NLS-1$
 		save( );
-		
+
 		compareFile( "CompatibleScalarParamAllowPropsTest_golden.xml" ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Since the design file version 3.2.11. THe aggregate on becomes the
+	 * simple-property-list. The previous type is string.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testColumnBinding( ) throws Exception
+	{
+		openDesign( "CompatibleColumnBindingTest.xml" ); //$NON-NLS-1$
+
+		save( );
+
+		compareFile( "CompatibleColumnBindingTest_golden.xml" ); //$NON-NLS-1$
 	}
 
 }

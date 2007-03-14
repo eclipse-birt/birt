@@ -24,7 +24,7 @@ import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
-import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
+import org.eclipse.birt.report.model.util.BoundDataColumnUtil;
 import org.eclipse.birt.report.model.util.UnusedBoundColumnsMgr;
 
 /**
@@ -436,7 +436,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 		{
 			tocHandle.setExpression( expression );
 		}
-	
+
 	}
 
 	/**
@@ -573,9 +573,10 @@ public abstract class ReportItemHandle extends ReportElementHandle
 		if ( columns == null )
 			return (ComputedColumnHandle) getPropertyHandle(
 					BOUND_DATA_COLUMNS_PROP ).addItem( addColumn );
-		
+
 		String aggregateOn = addColumn.getAggregateOn( );
-		ComputedColumn column = DataBoundColumnUtil.getColumn( columns, expr , aggregateOn );
+		ComputedColumn column = BoundDataColumnUtil.getColumn( columns, expr,
+				aggregateOn );
 
 		if ( column != null && !inForce )
 		{
@@ -658,7 +659,6 @@ public abstract class ReportItemHandle extends ReportElementHandle
 		return (TOCHandle) toc
 				.getHandle( getPropertyHandle( IReportItemModel.TOC_PROP ) );
 	}
-
 
 	/**
 	 * Gets the item's z position as an integer.

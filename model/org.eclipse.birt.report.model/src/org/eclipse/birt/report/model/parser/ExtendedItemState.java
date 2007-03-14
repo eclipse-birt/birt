@@ -20,7 +20,7 @@ import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.util.AbstractParseState;
-import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
+import org.eclipse.birt.report.model.util.BoundDataColumnUtil;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
@@ -150,7 +150,7 @@ public class ExtendedItemState extends ReportItemState
 		{
 			List jsExprs = ( (ICompatibleReportItem) reportItem )
 					.getRowExpressions( );
-			Map updatedExprs = DataBoundColumnUtil.handleJavaExpression(
+			Map updatedExprs = BoundDataColumnUtil.handleJavaExpression(
 					jsExprs, element, handler.module, handler.tempValue );
 			( (ICompatibleReportItem) reportItem )
 					.updateRowExpressions( updatedExprs );

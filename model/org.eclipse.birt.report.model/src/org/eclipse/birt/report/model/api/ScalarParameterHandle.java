@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
-import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
+import org.eclipse.birt.report.model.util.BoundDataColumnUtil;
 import org.eclipse.birt.report.model.util.UnusedBoundColumnsMgr;
 
 /**
@@ -971,7 +971,7 @@ public class ScalarParameterHandle extends ParameterHandle
 			return (ComputedColumnHandle) getPropertyHandle(
 					BOUND_DATA_COLUMNS_PROP ).addItem( addColumn );
 		String aggregateOn = addColumn.getAggregateOn( );
-		ComputedColumn column = DataBoundColumnUtil.getColumn( columns, expr,
+		ComputedColumn column = BoundDataColumnUtil.getColumn( columns, expr,
 				aggregateOn );
 		if ( column != null && !inForce )
 		{

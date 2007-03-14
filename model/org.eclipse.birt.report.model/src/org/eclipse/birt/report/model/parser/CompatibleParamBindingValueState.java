@@ -18,7 +18,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
+import org.eclipse.birt.report.model.util.BoundDataColumnUtil;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.xml.sax.SAXException;
 
@@ -82,7 +82,7 @@ public class CompatibleParamBindingValueState
 			return;
 		}
 
-		DesignElement target = DataBoundColumnUtil
+		DesignElement target = BoundDataColumnUtil
 				.findTargetElementOfParamBinding( element, handler.getModule( ) );
 
 		addBoundColumnsToTarget( target, newExprs );

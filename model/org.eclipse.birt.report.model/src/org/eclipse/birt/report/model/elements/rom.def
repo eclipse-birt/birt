@@ -1834,7 +1834,10 @@
   	<Member detailType="columnDataType" displayNameID="Structure.ComputedColumn.dataType" isIntrinsic="true" name="dataType" runtimeSettable="false" since="2.0" type="choice">
 		<Default>any</Default>
 	</Member>
-    <Member displayNameID="Structure.ComputedColumn.aggregateOn" isIntrinsic="true" name="aggregateOn" since="2.1" type="string" />	  
+    <Member displayNameID="Structure.ComputedColumn.aggregateOn" isIntrinsic="true" name="aggregateOn" since="2.2" subType="string" type="list" />	  
+    <Member displayNameID="Structure.ComputedColumn.aggregateFunction" isIntrinsic="true" name="aggregateFunction" since="2.2" type="string" />	  	  
+    <Member displayNameID="Structure.ComputedColumn.arguments" isIntrinsic="true" name="arguments" since="2.2" subType="expression" type="list" />	  	  	  	  
+    <Member displayNameID="Structure.ComputedColumn.filterExpr" isIntrinsic="true" name="filterExpr" since="2.2" type="expression" />	  	  	  	  
   </Structure>
   <Structure displayNameID="Structure.ColumnHint" name="ColumnHint" since="1.0">
     <Member displayNameID="Structure.ColumnHint.columnName" name="columnName" runtimeSettable="false" since="1.0" type="string" valueRequired="true"/>

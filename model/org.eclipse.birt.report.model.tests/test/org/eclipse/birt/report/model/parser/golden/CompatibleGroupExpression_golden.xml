@@ -54,22 +54,30 @@ from dbo.rpt100
                 <structure>
                     <property name="name">Total.sum(row["QTR1"], row["SubCat"] == 1)</property>
                     <expression name="expression">Total.sum(row["QTR1"], row["SubCat"] == 1)</expression>
-                    <property name="aggregateOn">Category</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Category</value>
+                    </simple-property-list>					
                 </structure>
                 <structure>
                     <property name="name">Total.sum(row["QTR1"], row["SubCat"] == 2)</property>
                     <expression name="expression">Total.sum(row["QTR1"], row["SubCat"] == 2)</expression>
-                    <property name="aggregateOn">Category</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Category</value>
+                    </simple-property-list>					
                 </structure>
                 <structure>
                     <property name="name">Total.sum(row["QTR1"], row["SubCat"] == 3)</property>
                     <expression name="expression">Total.sum(row["QTR1"], row["SubCat"] == 3)</expression>
-                    <property name="aggregateOn">Category</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Category</value>
+                    </simple-property-list>					
                 </structure>
                 <structure>
                     <property name="name">Total.sum(row["QTR1"], row["SubCat"] == 5)</property>
                     <expression name="expression">Total.sum(row["QTR1"], row["SubCat"] == 5)</expression>
-                    <property name="aggregateOn">Category</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Category</value>
+                    </simple-property-list>					
                 </structure>
                 <structure>
                     <property name="name">CUSTOMERNUMBER</property>

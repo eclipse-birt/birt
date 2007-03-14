@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
-import org.eclipse.birt.report.model.util.DataBoundColumnUtil;
+import org.eclipse.birt.report.model.util.BoundDataColumnUtil;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
@@ -115,7 +115,7 @@ public class DataColumnNameValidator extends AbstractElementValidator
 	private static boolean hasCorrespondingColumnBinding( Module module,
 			DesignElement target, String columnBindingName )
 	{
-		DesignElement tmpElement = DataBoundColumnUtil
+		DesignElement tmpElement = BoundDataColumnUtil
 				.findTargetOfBoundColumns( target, module );
 
 		if ( tmpElement instanceof GroupElement )

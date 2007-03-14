@@ -33,7 +33,9 @@
                 <structure>
                     <property name="name">Total.sum(row["CREDITLIMIT"])</property>
                     <expression name="expression">Total.sum(row["CREDITLIMIT"])</expression>
-                    <property name="aggregateOn">NewTableGroup1</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>NewTableGroup1</value>
+                    </simple-property-list>					
                 </structure>
             </list-property>
             <list-property name="filter">
