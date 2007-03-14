@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.action;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
@@ -18,15 +22,15 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
+import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.LevelViewDialog;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
-import org.eclipse.birt.report.model.api.olap.DimensionHandle;
-import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.jface.window.Window;
 
 /**
  * This is a test action.Add next level handle to the dimension handle.
@@ -69,7 +73,6 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 		}
 		return null;
 	}
-	
 
 	/*
 	 * (non-Javadoc)
@@ -81,31 +84,32 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 		transStar( NAME );
 		try
 		{
-			CrosstabReportItemHandle reportHandle = viewHandle.getCrosstab( );
-			
+			LevelViewDialog dialog = new LevelViewDialog(UIUtil.getDefaultShell( ));
+			List showLevels = new ArrayList();
 			int viewCount = viewHandle.getLevelCount( );
-			DimensionHandle dimensionHandle = viewHandle.getCubeDimension( );
-			HierarchyHandle hierarchyHandle = dimensionHandle.getDefaultHierarchy( );
-			int count = hierarchyHandle.getLevelCount( );
-			if ( count == 0 || viewCount >= count )
+			for (int i=0; i<viewCount; i++)
 			{
-				rollBack( );
-				return;
+				LevelViewHandle levelHandle = viewHandle.getLevel( i );
+				showLevels.add( levelHandle.getCubeLevel( ) );
 			}
-			LevelHandle levelHandle = hierarchyHandle.getLevel( viewCount );
-
-			LevelViewHandle levelViewHandle = viewHandle.insertLevel( levelHandle,
-					viewCount );
-			ComputedColumn bindingColumn = CrosstabAdaptUtil.createComputedColumn( (ExtendedItemHandle)reportHandle.getModelHandle( ), levelHandle );
-			
-			CrosstabCellHandle cellHandle = levelViewHandle.getCell( );
-
-			// TODO create a data bingding dataitem
-			DataItemHandle dataHandle = DesignElementFactory.getInstance( )
-					.newDataItem( levelHandle.getName( ) );
-			dataHandle.setResultSetColumn( bindingColumn.getName( ) );
-
-			cellHandle.addContent( dataHandle );
+			dialog.setInput( viewHandle.getCubeDimension( ), showLevels );
+			if ( dialog.open( ) == Window.OK )
+			{
+				List result = dialog.getResult( );
+				if (!isDifferent( showLevels, result ))
+				{
+					return;
+				}
+				for (int i=viewCount-1; i>=0; i--)
+				{
+					viewHandle.removeLevel( i );
+				}
+				for (int i=0; i<result.size( ); i++)
+				{
+					LevelHandle tempHandle = (LevelHandle)result.get(i );
+					insertLevelHandle( viewHandle, tempHandle );
+				}
+			}
 		}
 		catch ( SemanticException e )
 		{
@@ -115,7 +119,44 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 		transEnd( );
 	}
 
+	private boolean isDifferent(List list1, List list2)
+	{
+		if (list1.size( ) != list2.size( ))
+		{
+			return true;
+		}
+		for (int i=0; i<list1.size( ); i++)
+		{
+			if (list1.get( i ) != list2.get( i ))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 	
+	private void insertLevelHandle( DimensionViewHandle handle,
+			LevelHandle levelHandle ) throws SemanticException
+	{
+
+		CrosstabReportItemHandle reportHandle = viewHandle.getCrosstab( );
+		int viewCount = viewHandle.getLevelCount( );
+		LevelViewHandle levelViewHandle = viewHandle.insertLevel( levelHandle,
+				viewCount );
+		ComputedColumn bindingColumn = CrosstabAdaptUtil.createComputedColumn( (ExtendedItemHandle) reportHandle.getModelHandle( ),
+				levelHandle );
+
+		CrosstabCellHandle cellHandle = levelViewHandle.getCell( );
+
+		// TODO create a data bingding dataitem
+		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
+				.newDataItem( levelHandle.getName( ) );
+		dataHandle.setResultSetColumn( bindingColumn.getName( ) );
+
+		cellHandle.addContent( dataHandle );
+
+	}
+
 	private ExtendedItemHandle getExtendedItemHandle( DesignElementHandle handle )
 	{
 		// DesignElementHandle temp = handle;
