@@ -459,18 +459,6 @@ public class ReportTemplateTransferDropTargetListener extends
 	public void dragOver( DropTargetEvent event )
 	{
 		super.dragOver( event );
-		EditPart targetEditPart = getTargetEditPart( );
-		Object template = TemplateTransfer.getInstance( ).getTemplate( );
-		// if (template instanceof Object[])
-		// {
-		// Object[] temp = (Object[])template;
-		// if (temp != null && temp.length >0 && isCrossType( temp[0] ))
-		// {
-		// targetEditPart.getModel( ) in
-		//					
-		// return;
-		// }
-		// }
 
 		if ( !handleValidateDrag( TemplateTransfer.getInstance( ).getTemplate( ) ) )
 		{
