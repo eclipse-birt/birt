@@ -147,8 +147,8 @@ public class FontCanvas extends Canvas implements
 
 			Bounds bo = BoundsImpl.create( 0,
 					0,
-					this.getSize( ).x,
-					this.getSize( ).y );
+					this.getSize( ).x - 3,
+					this.getSize( ).y - 3 );
 			tre.setBlockBounds( bo );
 
 			String fontName = ChartUIUtil.getFontName( fdCurrent );
