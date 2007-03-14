@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.layout.pdf;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -19,7 +20,9 @@ import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.PDFRenderOption;
+import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.PageArea;
+import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
 
 
 public class PDFPageLMTest extends PDFLayoutTest
@@ -91,5 +94,57 @@ public class PDFPageLMTest extends PDFLayoutTest
 		}
 	}
 
+	/**
+	 * Tests page break interval works in PDF.
+	 * @throws EngineException
+	 */
+	public void testPageBreakInterval( ) throws EngineException
+	{
+		String designFile = "org/eclipse/birt/report/engine/layout/pdf/PageBreakIntervalTest.xml";
+		List pageAreas = getPageAreas( designFile );
+		assertEquals( 3, pageAreas.size( ) );
+		int[] recordNumberInEachPage = {3, 3, 1};
+		for ( int i = 0; i < recordNumberInEachPage.length; i++ )
+		{
+			TableArea table = getTableArea( (ContainerArea) pageAreas.get( i ) );
+			assertNotNull( table );
+			assertEquals( recordNumberInEachPage[i], table.getChildrenCount( ) );
+		}
+	}
+	
+	/**
+	 * Tests page break interval count is reset when page is broken by other
+	 * page break events.
+	 * 
+	 * In this case, a page break interval 3 is set on table, while the page
+	 * break set on table group will broken page every 2 records. So the page
+	 * break interval takes no effect.
+	 * 
+	 * @throws EngineException
+	 */
+	public void testPageBreakInterval2( ) throws EngineException
+	{
+		String designFile = "org/eclipse/birt/report/engine/layout/pdf/PageBreakIntervalAndGroupPageBreak.xml";
+		List pageAreas = getPageAreas( designFile );
+		assertEquals( 3, pageAreas.size( ) );
+	}
 
+	private TableArea getTableArea( ContainerArea container )
+	{
+		Iterator children = container.getChildren( );
+		while( children.hasNext( ) )
+		{
+			Object child = children.next( );
+			if ( child instanceof TableArea )
+			{
+				return (TableArea) child;
+			}
+			TableArea result = getTableArea( (ContainerArea) child );
+			if ( result != null )
+			{
+				return result;
+			}
+		}
+		return null;
+	}
 }

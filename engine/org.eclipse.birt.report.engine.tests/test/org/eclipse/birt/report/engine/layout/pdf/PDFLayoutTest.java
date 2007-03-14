@@ -93,6 +93,12 @@ public abstract class  PDFLayoutTest extends EngineCase
 		return ((TextArea)area).getText( );
 	}
 	
+	protected List getPageAreas( String designFile) throws EngineException
+	{
+		IReportRunnable report = openReportDesign( designFile );
+		return getPageAreas( report );
+	}
+	
 	protected IReportRunnable openReportDesign( String designFile ) throws EngineException
 	{
 		useDesignFile( designFile );
