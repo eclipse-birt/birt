@@ -36,6 +36,9 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.QueryResults;
+import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.impl.PreparedCubeQuery;
 import org.eclipse.birt.data.engine.script.JSDataSources;
 import org.mozilla.javascript.Scriptable;
 
@@ -50,6 +53,7 @@ public class DataEngineImpl extends DataEngine
 	// Map of data set name (string) to IBaseDataSetDesign, for defined data sets
 	private HashMap					dataSetDesigns = new HashMap();
 	
+	//private HashMap					cubeDesign = new HashMap();
 	/** Scripable object implementing "report.dataSources" array */
 	private Scriptable				dataSourcesJSObject;
 
@@ -521,5 +525,15 @@ public class DataEngineImpl extends DataEngine
 			dataSourcesJSObject = new JSDataSources( this.dataSources );
 		}
 		return dataSourcesJSObject;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.DataEngine#prepare(org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition, java.util.Map)
+	 */
+	public IPreparedCubeQuery prepare( ICubeQueryDefinition query,
+			Map appContext ) throws BirtException
+	{
+		return new PreparedCubeQuery( query, this.session.getSharedScope( ));
 	}
 }

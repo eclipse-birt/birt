@@ -34,13 +34,13 @@ public class OLAPException extends java.lang.Exception
 
 	public int getErrorCode( )
 	{
-		int retval = 0;
+		int retval = 0; 
 		return ( retval );
 	}
 
 	public OLAPException getNextException( )
 	{
-		return ( new OLAPException( ) );
+		return ( new OLAPException( ) ); 
 	}
 
 	public void setNextException( OLAPException exception )

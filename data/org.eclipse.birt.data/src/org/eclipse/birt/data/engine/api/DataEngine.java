@@ -17,12 +17,14 @@ package org.eclipse.birt.data.engine.api;
 import java.io.File;
 import java.util.Map;
 
-import org.mozilla.javascript.Scriptable;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.core.framework.PlatformConfig;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.mozilla.javascript.Scriptable;
 
 /**
  * Data Engine API class.
@@ -235,6 +237,16 @@ abstract public class DataEngine
 	 */
 	abstract public void closeDataSource( String dataSourceName )
 			throws BirtException;
+	
+	/**
+	 * Prepare the cube query definition, return an IPreparedCubeQuery instance 
+	 * @param query
+	 * @param appContext
+	 * @return
+	 * @throws BirtException
+	 */
+	abstract public IPreparedCubeQuery prepare( ICubeQueryDefinition query,
+			Map appContext ) throws BirtException;
 	
 	/**
 	 * Shuts down this instance of data engine, and releases all associated resources.

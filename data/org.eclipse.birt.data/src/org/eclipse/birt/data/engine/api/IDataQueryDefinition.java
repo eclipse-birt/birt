@@ -10,6 +10,7 @@
 
 package org.eclipse.birt.data.engine.api;
 
+
 /**
  *	General interface for Query definition. 
  *

@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.olap.api;
 import javax.olap.cursor.CubeCursor;
 
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
+import org.eclipse.birt.data.engine.core.DataException;
 
 /**
  * The new interface ICubeQueryResults is used for acquiring of a CubeCursor.
@@ -22,8 +23,11 @@ import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 public interface ICubeQueryResults extends IBaseQueryResults
 {
 	/**
-	 * Return the CubeCursor instance that is created by the ICubeQueryResults instance.
+	 * Return the CubeCursor instance that is created by the ICubeQueryResults
+	 * instance.
+	 * 
 	 * @return
+	 * @throws DataException
 	 */
-	public CubeCursor getCubeCursor();
+	public CubeCursor getCubeCursor() throws DataException;
 }

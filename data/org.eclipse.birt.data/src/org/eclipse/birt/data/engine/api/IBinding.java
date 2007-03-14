@@ -1,4 +1,3 @@
-
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
@@ -9,6 +8,7 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.data.engine.api;
 
 import java.util.List;
@@ -16,20 +16,32 @@ import java.util.List;
 /**
  * 
  */
-
 public interface IBinding
 {
-	public int getDataType( );
-	public void setDataType ( int type );
-	public String getExpression( );
-	public void setExpression( String expr );
-	public List getAggregatOns();
-	public void addAggregateOn(String levelName );
-	public List getArguments();
-	public void addArgument( IBaseExpression expr );
-	public void setFilter( IBaseExpression expr );
-	public IBaseExpression getFilter();
-	public String getAggrFunction();
-	public void setAggrFunction( String functionName );
+	public String getBindingName();
 	
+	public int getDataType( );
+
+	public void setDataType( int type );
+
+	public String getExpression( );
+
+	public void setExpression( String expr );
+
+	public List getAggregatOns( );
+
+	public void addAggregateOn( String levelName );
+
+	public List getArguments( );
+
+	public void addArgument( IBaseExpression expr );
+
+	public void setFilter( IBaseExpression expr );
+
+	public IBaseExpression getFilter( );
+
+	public String getAggrFunction( );
+
+	public void setAggrFunction( String functionName );
+
 }
