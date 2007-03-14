@@ -350,7 +350,7 @@ public class HyperlinkBuilder extends BaseDialog
 
 	private Button sameWindowButton;
 	private Button newWindowButton;
-	
+
 	private String[] supportedFormats;
 
 	private Combo anchorChooser, targetFormatsChooser;
@@ -717,26 +717,28 @@ public class HyperlinkBuilder extends BaseDialog
 	{
 		ReportEngine engine = new ReportEngine( new EngineConfig( ) );
 		supportedFormats = engine.getSupportedFormats( );
-	
+
 		Group formatsGroup = new Group( container, SWT.NONE );
 		formatsGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		formatsGroup.setText( Messages.getString( "HyperlinkBuilder.DrillThroughStep5" ) ); //$NON-NLS-1$
 		formatsGroup.setLayout( new GridLayout( 3, false ) );
 
 		checkButton = new Button( formatsGroup, SWT.CHECK );
-		checkButton.addSelectionListener( new SelectionAdapter(){
-			
+		checkButton.addSelectionListener( new SelectionAdapter( ) {
+
 			public void widgetSelected( SelectionEvent e )
 			{
-				targetFormatsChooser.setEnabled( ( (Button)e.widget ).getSelection()  );
-				if ( ( (Button)e.widget ).getSelection() == false && targetFormatsChooser.getSelectionIndex() != -1 )
+				targetFormatsChooser.setEnabled( ( (Button) e.widget ).getSelection( ) );
+				if ( ( (Button) e.widget ).getSelection( ) == false
+						&& targetFormatsChooser.getSelectionIndex( ) != -1 )
 				{
-					targetFormatsChooser.deselect( targetFormatsChooser.getSelectionIndex() );
+					targetFormatsChooser.deselect( targetFormatsChooser.getSelectionIndex( ) );
 				}
 			}
-		});
+		} );
 		new Label( formatsGroup, SWT.NONE ).setText( Messages.getString( "HyperlinkBuilder.TargetReportFormat" ) ); //$NON-NLS-1$
-		targetFormatsChooser = new Combo( formatsGroup, SWT.BORDER | SWT.READ_ONLY );
+		targetFormatsChooser = new Combo( formatsGroup, SWT.BORDER
+				| SWT.READ_ONLY );
 		targetFormatsChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		targetFormatsChooser.setItems( supportedFormats );
 		targetFormatsChooser.setEnabled( false );
@@ -757,7 +759,7 @@ public class HyperlinkBuilder extends BaseDialog
 			}
 		} );
 	}
-	
+
 	private void createBindingTable( Composite parent )
 	{
 		Label label = new Label( parent, SWT.NONE );
@@ -836,9 +838,9 @@ public class HyperlinkBuilder extends BaseDialog
 	private void createExpressionButton( Composite parent, final Text text )
 	{
 		Button button = new Button( parent, SWT.PUSH );
-//		button.setLayoutData( new GridData( ) );
-//		button.setText( "..." ); //$NON-NLS-1$
-		setExpressionButtonImage(button);
+		//		button.setLayoutData( new GridData( ) );
+		//		button.setText( "..." ); //$NON-NLS-1$
+		setExpressionButtonImage( button );
 		button.setToolTipText( TOOLTIP_EXPRESSION );
 		button.addSelectionListener( new SelectionAdapter( ) {
 
@@ -1085,15 +1087,15 @@ public class HyperlinkBuilder extends BaseDialog
 					inputHandle.setTargetWindow( DesignChoiceConstants.TARGET_NAMES_TYPE_BLANK );
 				}
 
-//				for ( int i = 0; i < supportedFormats.length; i++ )
-//				{
-//					if ( ( (Button) formatCheckBtns.get( supportedFormats[i] ) ).getSelection( ) )
-//					{
-//						inputHandle.setFormatType( supportedFormats[i] );
-//					}
-//				}
-				int index = targetFormatsChooser.getSelectionIndex();
-				if ( checkButton.getSelection() && index != -1 )
+				//				for ( int i = 0; i < supportedFormats.length; i++ )
+				//				{
+				//					if ( ( (Button) formatCheckBtns.get( supportedFormats[i] ) ).getSelection( ) )
+				//					{
+				//						inputHandle.setFormatType( supportedFormats[i] );
+				//					}
+				//				}
+				int index = targetFormatsChooser.getSelectionIndex( );
+				if ( checkButton.getSelection( ) && index != -1 )
 				{
 					inputHandle.setFormatType( targetFormatsChooser.getItem( index ) );
 				}
@@ -1276,14 +1278,14 @@ public class HyperlinkBuilder extends BaseDialog
 			{
 				for ( int index = 0; index < supportedFormats.length; index++ )
 				{
-					if ( supportedFormats[index].equals( inputHandle.getFormatType() ) )
+					if ( supportedFormats[index].equals( inputHandle.getFormatType( ) ) )
 					{
 						checkButton.setSelection( true );
 						targetFormatsChooser.setEnabled( true );
 						targetFormatsChooser.select( index );
 						break;
 					}
-				}		
+				}
 			}
 		}
 		updateButtons( );
@@ -1392,9 +1394,9 @@ public class HyperlinkBuilder extends BaseDialog
 			if ( isToc )
 			{
 				String format = "html";
-				if ( targetFormatsChooser.getSelectionIndex() != -1 )
+				if ( targetFormatsChooser.getSelectionIndex( ) != -1 )
 				{
-					format = supportedFormats[targetFormatsChooser.getSelectionIndex()];
+					format = supportedFormats[targetFormatsChooser.getSelectionIndex( )];
 				}
 				ITOCTree tocTree = ( (IReportDocument) handle ).getTOCTree( format,
 						SessionHandleAdapter.getInstance( )
@@ -1725,47 +1727,32 @@ public class HyperlinkBuilder extends BaseDialog
 
 	protected String getProjectFolder( )
 	{
-		IEditorInput input = UIUtil.getEditor( "org.eclipse.birt.report.designer.ui.editors.ReportEditor" )
-				.getEditorInput( );
-		Object fileAdapter = input.getAdapter( IFile.class );
-		IFile file = null;
-		if ( fileAdapter != null )
-			file = (IFile) fileAdapter;
-		if ( file != null && file.getProject( ) != null )
-		{
-			return file.getProject( ).getLocation( ).toOSString( );
-		}
-		if ( input instanceof IPathEditorInput )
-		{
-			File fileSystemFile = ( (IPathEditorInput) input ).getPath( )
-					.toFile( );
-			return fileSystemFile.getParent( );
-		}
-		return null;
+		return UIUtil.getProjectFolder( );
 	}
-	
-	protected void setExpressionButtonImage(Button button)
+
+	protected void setExpressionButtonImage( Button button )
 	{
 		String imageName;
-		if(button.isEnabled())
+		if ( button.isEnabled( ) )
 		{
 			imageName = IReportGraphicConstants.ICON_ENABLE_EXPRESSION_BUILDERS;
-		}else
+		}
+		else
 		{
 			imageName = IReportGraphicConstants.ICON_DISABLE_EXPRESSION_BUILDERS;
 		}
-		Image image = ReportPlatformUIImages.getImage(imageName );
-		
-		GridData gd = new GridData();
+		Image image = ReportPlatformUIImages.getImage( imageName );
+
+		GridData gd = new GridData( );
 		gd.widthHint = 20;
 		gd.heightHint = 20;
-		button.setLayoutData(gd);
-		
-		button.setImage(image);
-		if(button.getImage() != null)
+		button.setLayoutData( gd );
+
+		button.setImage( image );
+		if ( button.getImage( ) != null )
 		{
-			button.getImage().setBackground(button.getBackground());
+			button.getImage( ).setBackground( button.getBackground( ) );
 		}
-		
+
 	}
 }
