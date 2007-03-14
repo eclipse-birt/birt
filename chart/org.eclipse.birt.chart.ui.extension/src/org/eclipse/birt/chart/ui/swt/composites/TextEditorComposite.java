@@ -255,22 +255,31 @@ public class TextEditorComposite extends Composite implements
 			}
 		}
 
+		Event e = new Event( );
+		e.data = this.sText;
+		e.widget = this;
+		e.type = TEXT_MODIFIED;
+		notifyListeners( e.type, e );
+
+		if ( isFractionConverted )
+		{
+			e = new Event( );
+			e.data = this.sText;
+			e.widget = this;
+			e.type = TEXT_FRACTION_CONVERTED;
+			notifyListeners( e.type, e );
+		}
+	}
+	
+	public void notifyListeners( int eventType, Event event )
+	{
 		for ( int i = 0; i < vListeners.size( ); i++ )
 		{
 			Event e = new Event( );
 			e.data = this.sText;
 			e.widget = this;
-			e.type = TEXT_MODIFIED;
-			( (Listener) vListeners.get( i ) ).handleEvent( e );
-
-			if ( isFractionConverted )
-			{
-				e = new Event( );
-				e.data = this.sText;
-				e.widget = this;
-				e.type = TEXT_FRACTION_CONVERTED;
-				( (Listener) vListeners.get( i ) ).handleEvent( e );
-			}
+			e.type = eventType;
+			( (Listener) vListeners.get( i ) ).handleEvent( event );
 		}
 	}
 

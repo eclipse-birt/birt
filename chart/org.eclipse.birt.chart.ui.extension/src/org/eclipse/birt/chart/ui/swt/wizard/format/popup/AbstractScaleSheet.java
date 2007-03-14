@@ -11,19 +11,17 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.popup;
 
-import java.text.ParseException;
-import java.util.Date;
-
 import org.eclipse.birt.chart.model.attribute.ScaleUnitType;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.component.Scale;
 import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
-import org.eclipse.birt.chart.model.data.impl.DateTimeDataElementImpl;
-import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.composites.DateTimeDataElementComposite;
+import org.eclipse.birt.chart.ui.swt.composites.NumberDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
+import org.eclipse.birt.chart.ui.swt.interfaces.IDataElementComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -41,11 +39,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Spinner;
 
-import com.ibm.icu.text.NumberFormat;
-import com.ibm.icu.text.SimpleDateFormat;
-import com.ibm.icu.util.Calendar;
-import com.ibm.icu.util.TimeZone;
-
 /**
  * 
  */
@@ -55,33 +48,31 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 			Listener
 {
 
-	private static final SimpleDateFormat _sdf = new SimpleDateFormat( "MM-dd-yyyy HH:mm:ss" ); //$NON-NLS-1$
+	protected Label lblMin = null;
 
-	protected transient Label lblMin = null;
+	protected IDataElementComposite txtScaleMin = null;
 
-	protected transient TextEditorComposite txtScaleMin = null;
+	protected Label lblMax = null;
 
-	protected transient Label lblMax = null;
+	protected IDataElementComposite txtScaleMax = null;
 
-	protected transient TextEditorComposite txtScaleMax = null;
+	protected Button btnStepSize = null;
 
-	protected transient Button btnStepSize = null;
+	protected Button btnStepNumber = null;
 
-	protected transient Button btnStepNumber = null;
-	
-	protected transient Button btnStepAuto = null;
+	protected Button btnStepAuto = null;
 
-	protected transient TextEditorComposite txtStepSize = null;
+	protected TextEditorComposite txtStepSize = null;
 
-	protected transient Label lblUnit = null;
+	protected Label lblUnit = null;
 
-	protected transient Combo cmbScaleUnit = null;
+	protected Combo cmbScaleUnit = null;
 
-	protected transient Label lblStepNumber = null;
+	protected Label lblStepNumber = null;
 
-	protected transient Spinner spnStepNumber = null;
+	protected Spinner spnStepNumber = null;
 
-	protected transient Button btnShowOutside = null;
+	protected Button btnShowOutside = null;
 
 	public AbstractScaleSheet( String title, ChartWizardContext context )
 	{
@@ -116,7 +107,7 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 			grpScale.setLayout( glScale );
 			grpScale.setText( Messages.getString( "AbstractScaleSheet.Label.Step" ) ); //$NON-NLS-1$
 		}
-		
+
 		btnStepAuto = new Button( grpScale, SWT.RADIO );
 		{
 			GridData gd = new GridData( );
@@ -187,31 +178,13 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 		lblMin = new Label( cmpContent, SWT.NONE );
 		lblMin.setText( Messages.getString( "BaseAxisDataSheetImpl.Lbl.Minimum" ) ); //$NON-NLS-1$
 
-		txtScaleMin = new TextEditorComposite( cmpContent, SWT.BORDER
-				| SWT.SINGLE, getValueType( ) );
-		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.widthHint = 80;
-			txtScaleMin.setLayoutData( gd );
-			txtScaleMin.setText( getValue( getScale( ).getMin( ) ) );
-			txtScaleMin.addListener( this );
-			txtScaleMin.setDefaultValue( "" ); //$NON-NLS-1$
-		}
+		txtScaleMin = createValuePicker( cmpContent, getScale( ).getMin( ) );
 
 		lblMax = new Label( cmpContent, SWT.NONE );
 		lblMax.setText( Messages.getString( "BaseAxisDataSheetImpl.Lbl.Maximum" ) ); //$NON-NLS-1$
 
-		txtScaleMax = new TextEditorComposite( cmpContent, SWT.BORDER
-				| SWT.SINGLE, getValueType( ) );
-		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.widthHint = 80;
-			txtScaleMax.setLayoutData( gd );
-			txtScaleMax.setText( getValue( getScale( ).getMax( ) ) );
-			txtScaleMax.addListener( this );
-			txtScaleMax.setDefaultValue( "" ); //$NON-NLS-1$
-		}
-		
+		txtScaleMax = createValuePicker( cmpContent, getScale( ).getMax( ) );
+
 		btnShowOutside = new Button( cmpContent, SWT.CHECK );
 		{
 			GridData gd = new GridData( );
@@ -223,8 +196,8 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 			// Only visible in number type
 			btnShowOutside.setVisible( getValueType( ) == TextEditorComposite.TYPE_NUMBERIC );
 		}
-		
-		// Set checkbox selection. 
+
+		// Set checkbox selection.
 		btnStepSize.setSelection( getScale( ).isSetStep( ) );
 		if ( !btnStepSize.getSelection( ) )
 		{
@@ -237,7 +210,7 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 				// Only numeric value support step number
 				btnStepNumber.setSelection( getScale( ).isSetStepNumber( ) );
 				btnStepAuto.setSelection( !getScale( ).isSetStep( )
-						&& !getScale( ).isSetStepNumber( ) );				
+						&& !getScale( ).isSetStepNumber( ) );
 			}
 		}
 
@@ -279,6 +252,31 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 		setState( true );
 	}
 
+	protected IDataElementComposite createValuePicker( Composite parent,
+			DataElement data )
+	{
+		IDataElementComposite picker = null;
+		if ( getValueType( ) == TextEditorComposite.TYPE_NUMBERIC )
+		{
+			picker = new NumberDataElementComposite( parent,
+					(NumberDataElement) data );
+		}
+		else if ( getValueType( ) == TextEditorComposite.TYPE_DATETIME )
+		{
+			picker = new DateTimeDataElementComposite( parent,
+					(DateTimeDataElement) data );
+		}
+		if ( picker != null )
+		{
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.horizontalSpan = 3;
+			picker.setLayoutData( gd );
+			picker.addListener( this );
+		}
+
+		return picker;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -288,33 +286,27 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 	{
 		if ( event.widget.equals( txtScaleMin ) )
 		{
-			if ( txtScaleMin.getText( ).length( ) == 0 )
+			DataElement data = txtScaleMin.getDataElement( );
+			if ( data == null )
 			{
 				getScale( ).eUnset( ComponentPackage.eINSTANCE.getScale_Min( ) );
 			}
 			else
 			{
-				DataElement de = getTypedDataElement( txtScaleMin.getText( ) );
-				if ( de != null )
-				{
-					getScale( ).setMin( de );
-				}
+				getScale( ).setMin( data );
 			}
 			setState( );
 		}
 		else if ( event.widget.equals( txtScaleMax ) )
 		{
-			if ( txtScaleMax.getText( ).length( ) == 0 )
+			DataElement data = txtScaleMax.getDataElement( );
+			if ( data == null )
 			{
 				getScale( ).eUnset( ComponentPackage.eINSTANCE.getScale_Max( ) );
 			}
 			else
 			{
-				DataElement de = getTypedDataElement( txtScaleMax.getText( ) );
-				if ( de != null )
-				{
-					getScale( ).setMax( de );
-				}
+				getScale( ).setMax( data );
 			}
 			setState( );
 		}
@@ -353,20 +345,20 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 		{
 			getScale( ).unsetStepNumber( );
 			getScale( ).unsetStep( );
-			setState( );			
+			setState( );
 		}
 		else if ( event.widget.equals( btnStepSize ) )
 		{
 			getScale( ).unsetStepNumber( );
 			// Set step size by notification
 			txtStepSize.notifyListeners( SWT.Modify, null );
-			setState( );			
+			setState( );
 		}
 		else if ( event.widget.equals( btnStepNumber ) )
 		{
 			getScale( ).unsetStep( );
 			getScale( ).setStepNumber( spnStepNumber.getSelection( ) );
-			setState( );			
+			setState( );
 		}
 		else if ( event.widget.equals( btnShowOutside ) )
 		{
@@ -375,48 +367,6 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 		else if ( event.widget.equals( spnStepNumber ) )
 		{
 			getScale( ).setStepNumber( spnStepNumber.getSelection( ) );
-		}
-	}
-
-	private String getValue( DataElement de )
-	{
-		if ( de instanceof DateTimeDataElement )
-		{
-			Date dt = ( (DateTimeDataElement) de ).getValueAsCalendar( )
-					.getTime( );
-			return _sdf.format( dt );
-		}
-		else if ( de instanceof NumberDataElement )
-		{
-			return ChartUIUtil.getDefaultNumberFormatInstance( )
-					.format( ( (NumberDataElement) de ).getValue( ) );
-		}
-		return ""; //$NON-NLS-1$
-	}
-
-	private DataElement getTypedDataElement( String strDataElement )
-	{
-		NumberFormat nf = ChartUIUtil.getDefaultNumberFormatInstance( );
-		try
-		{
-			// First try Date
-			Date dateElement = _sdf.parse( strDataElement );
-			Calendar cal = Calendar.getInstance( TimeZone.getDefault( ) );
-			cal.setTime( dateElement );
-			return DateTimeDataElementImpl.create( cal );
-		}
-		catch ( ParseException e )
-		{
-			// Next try double
-			try
-			{
-				Number numberElement = nf.parse( strDataElement );
-				return NumberDataElementImpl.create( numberElement.doubleValue( ) );
-			}
-			catch ( ParseException e1 )
-			{
-				return null;
-			}
 		}
 	}
 
