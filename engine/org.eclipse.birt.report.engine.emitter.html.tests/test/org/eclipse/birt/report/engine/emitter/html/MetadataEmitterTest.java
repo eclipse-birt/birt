@@ -61,7 +61,7 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 	 */
 	public void testAllItems( ) throws EngineException, IOException
 	{
-		String designFile = "org/eclipse/birt/report/engine/emitter/html/activeId_Test.xml";
+		String designFile = "org/eclipse/birt/report/engine/emitter/html/ActiveId_Test.xml";
 		String[][] bookmarksWithMetadata = {{"label", "LABEL"},
 				{"table", "TABLE"}, {"chart", "EXTENDED"}, {"list", "LIST"},
 				{"AUTOGENBOOKMARK_1", "TEMPLATE"},
