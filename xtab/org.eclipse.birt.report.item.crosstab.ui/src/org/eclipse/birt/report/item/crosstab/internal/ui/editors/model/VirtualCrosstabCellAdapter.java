@@ -14,14 +14,17 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.editors.model;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.util.IVirtualValidator;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
+import org.eclipse.birt.report.model.api.DimensionHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 
 /**
  * Virtual cell adapter ,when the four area(Left conner, row area, column area,
  * measure area) has no children.
  */
-public class VirtualCrosstabCellAdapter extends CrosstabCellAdapter
+public class VirtualCrosstabCellAdapter extends CrosstabCellAdapter implements IVirtualValidator
 {
 
 	public static final int IMMACULATE_TYPE = -1;
@@ -78,5 +81,39 @@ public class VirtualCrosstabCellAdapter extends CrosstabCellAdapter
 	public int getType( )
 	{
 		return type;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.util.IVirtualValidator#handleValidate(java.lang.Object)
+	 */
+	public boolean handleValidate( Object obj )
+	{
+		if (obj instanceof Object[])
+		{
+			Object[] objects = (Object[])obj;
+			int len = objects.length;
+			if (len != 1)
+			{
+				return false;
+			}
+			return handleValidate( objects[0] );
+		}
+		//TODO there may be judge the dimension handle parent
+		if (getType( ) == ICrosstabConstants.ROW_AXIS_TYPE
+				||getType( ) == ICrosstabConstants.COLUMN_AXIS_TYPE)
+		{
+			if (obj instanceof DimensionHandle)
+			{
+				return true;
+			}
+		}
+		if (getType( ) == MEASURE_TYPE)
+		{
+			if (obj instanceof MeasureHandle)
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }
