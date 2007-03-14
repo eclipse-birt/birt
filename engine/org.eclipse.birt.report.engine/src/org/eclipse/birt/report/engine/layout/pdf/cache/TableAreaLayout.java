@@ -580,14 +580,15 @@ public class TableAreaLayout
 		}
 	}
 	
-	public void resolveBottomBorder()
+	public int resolveBottomBorder()
 	{
 		if(rows.size()==0)
 		{
-			return;
+			return 0;
 		}
 		Row row = (Row)rows.getCurrent( );
 		HashSet cells = new HashSet();
+		int result = 0;
 		for(int i=0; i<columnNumber; i++)
 		{
 			CellArea cell = row.getCell( start + i );
@@ -599,6 +600,8 @@ public class TableAreaLayout
 					if(!cells.contains( ref ))
 					{
 						int width = resolveBottomBorder( ref );
+						if ( width > result )
+							result = width;
 						if(width>0)
 						{
 							ref.setHeight( ref.getHeight( ) + width );
@@ -611,6 +614,8 @@ public class TableAreaLayout
 					if(!cells.contains( cell ))
 					{
 						int width = resolveBottomBorder( cell );
+						if ( width > result )
+							result = width;
 						if(width>0)
 						{
 							cell.setHeight( cell.getHeight( ) + width );
@@ -620,7 +625,7 @@ public class TableAreaLayout
 				}
 			}
 		}
-		
+		return result;
 	}
 	
 	protected void mergeDropCell(RowArea row)

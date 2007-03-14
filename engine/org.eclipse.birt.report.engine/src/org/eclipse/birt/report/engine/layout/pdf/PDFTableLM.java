@@ -258,14 +258,15 @@ public class PDFTableLM extends PDFBlockStackingLM
 		 * 1. resolve all unresolved cell 2. resolve table bottom border 3.
 		 * update height of Root area 4. update the status of TableAreaLayout
 		 */
+		int borderHeight = 0;
 		if ( layout != null )
 		{
 			layout.resolveAll( );
-			layout.resolveBottomBorder( );
+			borderHeight = layout.resolveBottomBorder( );
 			layout.remove( (TableArea) root );
 		}
 		// update dimension of table area
-		root.setHeight( getCurrentBP( ) + getOffsetY( ) );
+		root.setHeight( getCurrentBP( ) + getOffsetY( ) + borderHeight );
 
 	}
 

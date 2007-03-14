@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.11" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.0.v20070305-0630 Build &lt;2.2.0.v20070305-0630></property>
+    <property name="units">in</property>
+    <text-property name="displayName">Blank Report</text-property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2"/>
+    </page-setup>
+    <body>
+        <grid id="4">
+            <property name="borderBottomColor">#FF0000</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">medium</property>
+            <property name="borderLeftColor">#FF0000</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">medium</property>
+            <property name="borderRightColor">#FF0000</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">medium</property>
+            <property name="borderTopColor">#FF0000</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">medium</property>
+            <property name="marginTop">0pt</property>
+            <property name="width">100%</property>
+            <column id="5"/>
+            <row id="6">
+                <cell id="7">
+                    <label id="46">
+                        <text-property name="text">grid1</text-property>
+                    </label>
+                </cell>
+            </row>
+        </grid>
+        <grid id="56">
+            <property name="borderBottomColor">#0000FF</property>
+            <property name="borderBottomStyle">dotted</property>
+            <property name="borderBottomWidth">medium</property>
+            <property name="borderLeftColor">#0000FF</property>
+            <property name="borderLeftStyle">dotted</property>
+            <property name="borderLeftWidth">medium</property>
+            <property name="borderRightColor">#0000FF</property>
+            <property name="borderRightStyle">dotted</property>
+            <property name="borderRightWidth">medium</property>
+            <property name="borderTopColor">#0000FF</property>
+            <property name="borderTopStyle">dotted</property>
+            <property name="borderTopWidth">medium</property>
+            <property name="marginTop">0pt</property>
+            <property name="width">100%</property>
+            <column id="57"/>
+            <row id="58">
+                <cell id="59">
+                    <label id="60">
+                        <text-property name="text">grid2</text-property>
+                    </label>
+                </cell>
+            </row>
+        </grid>
+    </body>
+</report>

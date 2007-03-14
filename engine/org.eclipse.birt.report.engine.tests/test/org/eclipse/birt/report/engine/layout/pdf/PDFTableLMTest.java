@@ -73,6 +73,28 @@ public class PDFTableLMTest extends PDFLayoutTest
 		table = (TableArea) iter.next( );
 		validateColumnWidth(table, new int[]{50, 10, 40});
 	}
+
+	/**
+	 * Test case for bugzilla bug <a
+	 * href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=176794">176794</a> :
+	 * Border in pdf is overlapped.
+	 * 
+	 * @throws EngineException
+	 */
+	public void testBorder( ) throws EngineException
+	{
+		String designFile = "org/eclipse/birt/report/engine/layout/pdf/176794.xml";
+		IReportRunnable report = openReportDesign( designFile );
+		List pageAreas = getPageAreas( report );
+		
+		//17847
+		PageArea page = (PageArea)pageAreas.get( 0 );
+		Iterator children = page.getBody( ).getChildren( );
+		TableArea table1 = (TableArea)children.next( );
+		TableArea table2 = (TableArea)children.next( );
+		assertEquals( 17847, table1.getHeight( ) );
+		assertEquals( 17847, table2.getY( ) );
+	}
 	
 	
 	private void validateColumnWidth(TableArea table, int[] cols)
