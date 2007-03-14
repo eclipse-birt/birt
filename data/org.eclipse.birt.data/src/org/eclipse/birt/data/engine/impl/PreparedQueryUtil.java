@@ -352,11 +352,11 @@ class PreparedQueryUtil
 	 */
 	private static boolean isTwoExpressionEqual( IBaseExpression obj1, IBaseExpression obj2 )
 	{
-		if( obj1 == null || obj2!= null )
+		if ( obj1 == null && obj2 != null )
 			return false;
-		if( obj1 != null || obj2 == null )
+		if ( obj1 != null && obj2 == null )
 			return false;
-		if( !obj1.getClass( ).equals( obj2.getClass( ) ))
+		if ( !obj1.getClass( ).equals( obj2.getClass( ) ) )
 			return false;
 		
 		if( obj1 instanceof IScriptExpression )
