@@ -1915,6 +1915,9 @@ Structure.ComputedColumn.displayName=Spaltenanzeigename
 Structure.ComputedColumn.expression=Ausdruck
 Structure.ComputedColumn.dataType=Datentyp
 Structure.ComputedColumn.aggregateOn=Ausdruck "AggregateOn"
+Structure.ComputedColumn.aggregateFunction=AggregateOn Function
+Structure.ComputedColumn.arguments=AggregateOn Function Arguments
+Structure.ComputedColumn.filterExpr=Fiilter Expression
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=Spaltenname

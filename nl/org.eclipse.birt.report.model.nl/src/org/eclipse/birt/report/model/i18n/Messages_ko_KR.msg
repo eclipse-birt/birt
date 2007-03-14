@@ -1915,6 +1915,9 @@ Structure.ComputedColumn.displayName=열 표시 이름
 Structure.ComputedColumn.expression=식
 Structure.ComputedColumn.dataType=데이터 형식
 Structure.ComputedColumn.aggregateOn=AggregateOn 식
+Structure.ComputedColumn.aggregateFunction=AggregateOn Function
+Structure.ComputedColumn.arguments=AggregateOn Function Arguments
+Structure.ComputedColumn.filterExpr=Fiilter Expression
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=열 이름

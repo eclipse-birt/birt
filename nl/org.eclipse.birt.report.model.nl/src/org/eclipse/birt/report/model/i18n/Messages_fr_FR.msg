@@ -1915,6 +1915,9 @@ Structure.ComputedColumn.displayName=Nom d'affichage de la colonne
 Structure.ComputedColumn.expression=Expression
 Structure.ComputedColumn.dataType=Type de données
 Structure.ComputedColumn.aggregateOn=Expression AggregateOn
+Structure.ComputedColumn.aggregateFunction=AggregateOn Function
+Structure.ComputedColumn.arguments=AggregateOn Function Arguments
+Structure.ComputedColumn.filterExpr=Fiilter Expression
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=Nom de colonne

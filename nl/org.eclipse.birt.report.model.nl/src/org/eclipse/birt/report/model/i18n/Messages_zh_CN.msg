@@ -1915,6 +1915,9 @@ Structure.ComputedColumn.displayName=列显示名称
 Structure.ComputedColumn.expression=表达式
 Structure.ComputedColumn.dataType=数据类型
 Structure.ComputedColumn.aggregateOn=AggregateOn 表达式
+Structure.ComputedColumn.aggregateFunction=AggregateOn Function
+Structure.ComputedColumn.arguments=AggregateOn Function Arguments
+Structure.ComputedColumn.filterExpr=Fiilter Expression
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=列名
