@@ -95,7 +95,7 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 			dialog.setInput( viewHandle.getCubeDimension( ), showLevels );
 			if ( dialog.open( ) == Window.OK )
 			{
-				List result = dialog.getResult( );
+				List result = (List)dialog.getResult( );
 				if (!isDifferent( showLevels, result ))
 				{
 					return;
