@@ -44,18 +44,13 @@ public class PDFPageLMTest extends PDFLayoutTest
 	
 	public void testPagebreakPaginationOnlyFalse() throws EngineException
 	{
-		assertEquals( 9, getPages(false, false).size( ) );
+		assertEquals( 8, getPages(false, false).size( ) );
 	}
 	
 	public void testPagebreakPaginationOnlyTrue() throws EngineException
 	{
 		assertEquals( 4, getPages(false, true).size( ) );
 	}
-	
-	
-	
-	
-	
 	
 	public void testFitToPageFalse() throws EngineException
 	{
@@ -77,7 +72,7 @@ public class PDFPageLMTest extends PDFLayoutTest
 	public void testFitToPageTrue() throws EngineException
 	{
 		List pages = getPages(true, false);
-		float[] scales = new float[]{0.75f, 0.75f, 0.75f, 0.75f, 0.75f, 0.75f, 0.75f, 0.75f, 0.75f};
+		float[] scales = new float[]{0.75f, 0.75f, 0.75f, 0.75f, 0.75f, 0.75f, 0.75f, 0.75f};
 		assertTrue(pages.size( )==scales.length);
 		for(int i=0; i<pages.size( ); i++)
 		{
@@ -86,7 +81,7 @@ public class PDFPageLMTest extends PDFLayoutTest
 		}
 		
 		pages = getPages(true, true);
-		scales = new float[]{0.75f, 0.75f, 0.75f, 0.227f};
+		scales = new float[]{0.75f, 0.75f, 0.75f, 0.229f};
 		assertTrue(pages.size( )==scales.length);
 		for(int i=0; i<pages.size( ); i++)
 		{
