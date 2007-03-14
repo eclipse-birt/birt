@@ -297,11 +297,12 @@ public class PDFTableLM extends PDFBlockStackingLM
 			this.table = table;
 		}
 		
-		protected void formalize(DimensionType[] columns)
+		protected void formalize(DimensionType[] columns, int tableWidth)
 		{
 			ArrayList percentageList = new ArrayList();
 			ArrayList unsetList = new ArrayList();
 			double total = 0.0f;
+			int fixedLength = 0;
 			for(int i=0; i<columns.length; i++)
 			{
 				if(columns[i]==null)
@@ -313,48 +314,69 @@ public class PDFTableLM extends PDFBlockStackingLM
 					percentageList.add(new Integer(i));
 					total += columns[i].getMeasure();
 				}
+				else
+				{
+					int len = PDFTableLM.this.getDimensionValue(columns[i], tableWidth);
+					fixedLength += len;
+				}
 			}
 			
-			
-			if(unsetList.isEmpty())
+			if(fixedLength>=tableWidth)
 			{
-				double ratio = 100/total;
+				for(int i=0; i<unsetList.size(); i++)
+				{
+					Integer index = (Integer)unsetList.get(i);
+					columns[index.intValue()] = new DimensionType(0d, EngineIRConstants.UNITS_PT);
+				}
 				for(int i=0; i<percentageList.size(); i++)
 				{
 					Integer index = (Integer)percentageList.get(i);
-					columns[index.intValue()] = new DimensionType(columns[index
-							.intValue()].getMeasure()
-							* ratio, columns[index.intValue()].getUnits());
+					columns[index.intValue()] = new DimensionType(0d, EngineIRConstants.UNITS_PT);
 				}
 			}
 			else
 			{
-				
-				if(total<100f)
+				float leftPercentage = (((float)(tableWidth - fixedLength)) /tableWidth)*100.0f;
+				if(unsetList.isEmpty())
 				{
-					double delta = 100 - total;
-					for(int i=0; i<unsetList.size(); i++)
-					{
-						Integer index = (Integer)unsetList.get(i);
-						columns[index.intValue()] = new DimensionType(delta
-								/ (double) unsetList.size(),
-								EngineIRConstants.UNITS_PERCENTAGE);
-					}
-				}
-				else
-				{
-					double ratio = 100/total;
-					for(int i=0; i<unsetList.size(); i++)
-					{
-						Integer index = (Integer)unsetList.get(i);
-						columns[index.intValue()] = new DimensionType(0d, EngineIRConstants.UNITS_PT);
-					}
+					double ratio = leftPercentage/total;
 					for(int i=0; i<percentageList.size(); i++)
 					{
 						Integer index = (Integer)percentageList.get(i);
 						columns[index.intValue()] = new DimensionType(columns[index
 								.intValue()].getMeasure()
 								* ratio, columns[index.intValue()].getUnits());
+					}
+				}
+				else
+				{
+					
+					if(total<leftPercentage)
+					{
+						double delta = leftPercentage - total;
+						for(int i=0; i<unsetList.size(); i++)
+						{
+							Integer index = (Integer)unsetList.get(i);
+							columns[index.intValue()] = new DimensionType(delta
+									/ (double) unsetList.size(),
+									EngineIRConstants.UNITS_PERCENTAGE);
+						}
+					}
+					else
+					{
+						double ratio = leftPercentage/total;
+						for(int i=0; i<unsetList.size(); i++)
+						{
+							Integer index = (Integer)unsetList.get(i);
+							columns[index.intValue()] = new DimensionType(0d, EngineIRConstants.UNITS_PT);
+						}
+						for(int i=0; i<percentageList.size(); i++)
+						{
+							Integer index = (Integer)percentageList.get(i);
+							columns[index.intValue()] = new DimensionType(columns[index
+									.intValue()].getMeasure()
+									* ratio, columns[index.intValue()].getUnits());
+						}
 					}
 				}
 			}
@@ -386,11 +408,31 @@ public class PDFTableLM extends PDFBlockStackingLM
 			else
 			{
 				int delta = tableWidth - total;
+				boolean hasPercentage = false;
 				for(int i=0; i<columns.length; i++)
 				{
 					if(EngineIRConstants.UNITS_PERCENTAGE.equals(columns[i].getUnits()))
 					{
-						cols[i] = (int)(delta * columns[i].getMeasure()/100.0d);
+						cols[i] = (int)(tableWidth * columns[i].getMeasure()/100.0d);
+						hasPercentage = true;
+					}
+				}
+				if(!hasPercentage)
+				{
+					int size = 0;
+					for(int i=0; i<columns.length; i++)
+					{
+						if(cols[i]>0)
+						{
+							size++;
+						}
+					}
+					for(int i=0; i<columns.length; i++)
+					{
+						if(cols[i]>0)
+						{
+							cols[i] += delta/size;
+						}
 					}
 				}
 			}
@@ -424,11 +466,17 @@ public class PDFTableLM extends PDFBlockStackingLM
 				}
 			}
 			
-			formalize(columns);
-			
 			int specifiedWidth = getDimensionValue( tableContent.getWidth( ), maxWidth );
-			int tableWidth = Math.max(specifiedWidth, maxWidth);
-			
+			int tableWidth;
+			if(specifiedWidth>0)
+			{
+				tableWidth = specifiedWidth;
+			}
+			else
+			{
+				tableWidth = maxWidth;
+			}
+			formalize(columns, tableWidth);
 			return resolve(tableWidth, columns);
 		}
 		

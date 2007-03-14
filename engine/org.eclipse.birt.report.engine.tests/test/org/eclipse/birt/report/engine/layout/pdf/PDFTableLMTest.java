@@ -35,41 +35,45 @@ public class PDFTableLMTest extends PDFLayoutTest
  		assertEquals( 1, pageAreas.size( ) );
 		PageArea pageArea = (PageArea)pageAreas.get( 0 );
 		ContainerArea body = (ContainerArea)pageArea.getBody( );
-		assertTrue(body.getChildrenCount( )==10);
+		assertTrue(body.getChildrenCount( )==11);
 		
 		Iterator iter = body.getChildren( );
 		
 		
 		TableArea table = (TableArea) iter.next( );
-		validateColumnWidth(table, new int[]{144000, 288000, 0});
+		validateColumnWidth(table, new int[]{144, 288, 0});
 		
 		table = (TableArea) iter.next( );
-		validateColumnWidth(table, new int[]{144000, 108000, 180000});
+		validateColumnWidth(table, new int[]{144, 108, 180});
 		
 		table = (TableArea) iter.next( );
-		validateColumnWidth(table, new int[]{144000, 177230, 110769});
+		validateColumnWidth(table, new int[]{144, 177, 111});
 		
 		table = (TableArea) iter.next( );
-		validateColumnWidth(table, new int[]{144000, 144000, 144000});
+		validateColumnWidth(table, new int[]{144, 72, 216});
 		
 		table = (TableArea) iter.next( );
-		validateColumnWidth(table, new int[]{108000, 108000, 216000});
+		validateColumnWidth(table, new int[]{108, 108, 216});
 		
 		table = (TableArea) iter.next( );
-		validateColumnWidth(table, new int[]{144000, 208000, 80000});
+		validateColumnWidth(table, new int[]{144, 208, 80});
 		
 		table = (TableArea) iter.next( );
-		validateColumnWidth(table, new int[]{432000, 0, 0});
+		validateColumnWidth(table, new int[]{432, 0, 0});
 		
 		table = (TableArea) iter.next( );
-		validateColumnWidth(table, new int[]{216000, 432000, 0});
+		validateColumnWidth(table, new int[]{216, 432, 0});
 		
 		table = (TableArea) iter.next( );
-		validateColumnWidth(table, new int[]{216000, 432000, 0});
+		validateColumnWidth(table, new int[]{216, 432, 0});
 		
 		table = (TableArea) iter.next( );
-		validateColumnWidth(table, new int[]{216000, 216000, 0});
+		validateColumnWidth(table, new int[]{216, 216, 0});
+		
+		table = (TableArea) iter.next( );
+		validateColumnWidth(table, new int[]{50, 10, 40});
 	}
+	
 	
 	private void validateColumnWidth(TableArea table, int[] cols)
 	{
@@ -80,7 +84,7 @@ public class PDFTableLMTest extends PDFLayoutTest
 		for(int i=0; i<cols.length; i++)
 		{
 			CellArea cell = (CellArea)iter.next();
-			assertEquals(new Integer(cols[i]), new Integer(cell.getWidth()));
+			assertEquals(new Integer(cols[i]), new Integer((cell.getWidth()+499)/1000));
 		}
 			
 	}
