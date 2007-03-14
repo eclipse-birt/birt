@@ -14,12 +14,12 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.dialogs;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeContentProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeLabelProvider;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IHierarchyModel;
-import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
 import org.eclipse.jface.viewers.ICheckStateListener;
@@ -31,28 +31,18 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TreeItem;
 
-/**
- * LevelViewDialog
- */
-public class LevelViewDialog extends TrayDialog
+public class LevelViewDialog extends BaseDialog
 {
 
-	/**Constructor
-	 * @param shell
-	 */
 	public LevelViewDialog( Shell shell )
 	{
-		super( shell );
+		super( "Show/Hide Group Levels" );
 	}
 
 	private DimensionHandle dimension;
 	private List showLevels;
 	private CheckboxTreeViewer levelViewer;
 
-	/**
-	 * @param dimension
-	 * @param showLevels
-	 */
 	public void setInput( DimensionHandle dimension, List showLevels )
 	{
 		this.dimension = dimension;
@@ -60,12 +50,8 @@ public class LevelViewDialog extends TrayDialog
 		this.showLevels.addAll( showLevels );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
-	 */
 	protected Control createDialogArea( Composite parent )
 	{
-		getShell( ).setText( "Show/Hide Group Levels" );
 		Composite dialogArea = (Composite) super.createDialogArea( parent );
 
 		Label infoLabel = new Label( dialogArea, SWT.NONE );
@@ -73,15 +59,12 @@ public class LevelViewDialog extends TrayDialog
 
 		createLevelViewer( dialogArea );
 
-		initDialog( );
+		init( );
 
 		return dialogArea;
 	}
 
-	/**
-	 * 
-	 */
-	private void initDialog( )
+	private void init( )
 	{
 		if ( dimension != null )
 		{
@@ -89,6 +72,7 @@ public class LevelViewDialog extends TrayDialog
 			levelViewer.expandToLevel( dimension.getDefaultHierarchy( )
 					.getContentCount( IHierarchyModel.LEVELS_PROP ) );
 		}
+		checkOKButtonStatus( );
 		if ( showLevels == null || showLevels.size( ) == 0 )
 			return;
 		TreeItem item = levelViewer.getTree( ).getItem( 0 );
@@ -104,11 +88,9 @@ public class LevelViewDialog extends TrayDialog
 			else
 				item = null;
 		}
+
 	}
 
-	/**
-	 * @param parent
-	 */
 	private void createLevelViewer( Composite parent )
 	{
 		levelViewer = new CheckboxTreeViewer( parent, SWT.SINGLE | SWT.BORDER );
@@ -136,16 +118,29 @@ public class LevelViewDialog extends TrayDialog
 					if ( showLevels.contains( item ) )
 						showLevels.remove( item );
 				}
+
+				checkOKButtonStatus( );
 			}
 
 		} );
 	}
 
-	/**
-	 * @return
-	 */
-	public List getResult( )
+	public Object getResult( )
 	{
 		return showLevels;
+	}
+
+	private void checkOKButtonStatus( )
+	{
+		if ( showLevels == null || showLevels.size( ) == 0 )
+		{
+			if ( getOkButton( ) != null )
+				getOkButton( ).setEnabled( false );
+		}
+		else
+		{
+			if ( getOkButton( ) != null )
+				getOkButton( ).setEnabled( true );
+		}
 	}
 }
