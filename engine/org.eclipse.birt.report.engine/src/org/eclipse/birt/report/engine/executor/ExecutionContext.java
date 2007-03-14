@@ -297,6 +297,8 @@ public class ExecutionContext
 		{
 			scriptContext = new ScriptContext( );
 		}
+		
+		scriptContext.getContext( ).setLocale( locale );
 
 		initailizeScriptContext( scriptContext.getContext( ), scriptContext
 				.getRootScope( ) );
@@ -658,6 +660,7 @@ public class ExecutionContext
 	public void setLocale( Locale locale )
 	{
 		this.locale = locale;
+		this.scriptContext.getContext( ).setLocale( locale );
 	}
 
 	/**
