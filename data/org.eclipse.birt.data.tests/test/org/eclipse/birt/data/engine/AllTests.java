@@ -101,6 +101,49 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.data.engine.regre.FeatureTest.class);
 		suite.addTestSuite( org.eclipse.birt.data.engine.regre.SortTest.class);
 
+		/* in package org.eclipse.birt.data.engine.olap.api */
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.api.CubeFeaturesTest.class);
+		
+		/* in package org.eclipse.birt.data.engine.olap.data.document*/
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.document.BufferedRandomAccessObjectTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.document.CachedDocumentObjectManagerTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.document.DocumentManagerTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.document.FileDocumentManagerTest.class );
+		
+		/* in package org.eclipse.birt.data.engine.olap.data.impl*/
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.CubeAggregationTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.DimensionKeyTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.LevelMemberTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.TraversalorTest.class );
+		
+		/* in package org.eclipse.birt.data.engine.olap.data.impl.dimension */
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionTest2.class );
+		
+		/* in package org.eclipse.birt.data.engine.olap.data.impl.facttable */
+/*		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.facttable.DimensionSegmentsTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableHelperTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableHelperTest2.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableRowTest.class );
+*/		
+		/* in package org.eclipse.birt.data.engine.olap.data.util */
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArrayTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.util.BufferedRandomAccessFileTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArrayTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.util.DiskIndexTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.util.DiskSortedStackTest.class );
+
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.util.ObjectArrayUtilTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.util.PrimaryDiskArrayTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.util.PrimarySortedStackTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.util.SetUtilTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.util.StructureDiskArrayTest.class );
+		
+		/* in package org.eclipse.birt.data.engine.olap.cursor */
+
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.cursor.CursorNavigatorTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.cursor.CursorModelTest.class );
+		
 		return suite;
 	}
 	
