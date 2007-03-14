@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.birt.sdk"
       label="%featureName"
-      version="2.1.2.qualifier"
+      version="2.1.3.qualifier"
       provider-name="%providerName"
       plugin="org.eclipse.birt.sdk"
       image="eclipse_update_120.jpg">
