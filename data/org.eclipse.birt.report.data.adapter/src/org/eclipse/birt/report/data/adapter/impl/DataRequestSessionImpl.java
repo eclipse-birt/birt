@@ -54,11 +54,11 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
-import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
+import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -448,7 +448,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 					ILevelDefn[] levelInHier = new ILevelDefn[hierhandle.getLevelCount( )];
 					for ( int k = 0; k < levels.size( ); k++ )
 					{
-						LevelHandle level = (LevelHandle) levels.get( k );
+						TabularLevelHandle level = (TabularLevelHandle) levels.get( k );
 						levelInHier[k] = CubeElementFactory.createLevelDefinition( level.getName( ),
 								new String[]{
 									level.getColumnName( )
