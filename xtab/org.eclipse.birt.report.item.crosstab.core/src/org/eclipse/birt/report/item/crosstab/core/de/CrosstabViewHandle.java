@@ -298,7 +298,7 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 			if ( crosstab != null )
 			{
 				CrosstabUtil.adjustMeasureAggregations( crosstab,
-						getAxisType( ), null, null, false, true );
+						getAxisType( ), null, null, null, false, true );
 			}
 
 			stack.commit( );
@@ -333,7 +333,7 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 				if ( crosstab != null )
 				{
 					CrosstabUtil.adjustMeasureAggregations( crosstab,
-							getAxisType( ), null, null, false, false );
+							getAxisType( ), null, null, null, false, false );
 				}
 
 			}

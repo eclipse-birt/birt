@@ -350,7 +350,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 			if ( crosstab != null )
 			{
 				CrosstabUtil.adjustMeasureAggregations( crosstab,
-						getAxisType( ),
+						getAxisType( ), this,
 						( (DimensionViewHandle) getContainer( ) )
 								.getCubeDimensionName( ), getCubeLevelName( ),
 						false, true );
@@ -385,7 +385,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 				if ( crosstab != null )
 				{
 					CrosstabUtil.adjustMeasureAggregations( crosstab,
-							getAxisType( ),
+							getAxisType( ), this,
 							( (DimensionViewHandle) getContainer( ) )
 									.getCubeDimensionName( ),
 							getCubeLevelName( ), isInnerMost( ), false );

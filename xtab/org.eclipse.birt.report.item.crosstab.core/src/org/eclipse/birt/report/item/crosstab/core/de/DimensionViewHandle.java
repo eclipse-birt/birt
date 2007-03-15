@@ -51,7 +51,7 @@ public class DimensionViewHandle extends AbstractCrosstabItemHandle
 	 * @return levels property handle of this dimension view
 	 */
 
-	PropertyHandle getLevelsProperty( )
+	public PropertyHandle getLevelsProperty( )
 	{
 		return handle.getPropertyHandle( LEVELS_PROP );
 	}
