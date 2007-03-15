@@ -25,6 +25,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -108,7 +109,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 				1,
 				columnBase );
 		list.add( 0, first );
-		// debug("all", list);
+		//debug("all", list);
 
 		Collections.sort( list, new ModelComparator( ) );
 
@@ -211,21 +212,28 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 				AggregationCellHandle cell = measureHandle.getAggregationCell( j );
 				LevelViewHandle levelViewHandle = cell.getLevelView( ICrosstabConstants.COLUMN_AXIS_TYPE );
 
+				int measureCount = count;
+				
 				Integer temp;
 				if ( levelViewHandle == null )// grand cell
 				{
 					temp = (Integer) map.get( COLUMNAREA_COLUMN );
+					measureCount = CrosstabUtil.getAggregationMeasures(crosstab,ICrosstabConstants.COLUMN_AXIS_TYPE  ).size( );
 				}
 				else
 				{
 					temp = (Integer) map.get( levelViewHandle );
-
+					measureCount = CrosstabUtil.getAggregationMeasures( levelViewHandle ).size( );
 				}
 				if ( temp == null )
 				{
 					throw new RuntimeException( "build error" );
 				}
-				int column = temp.intValue( ) - ( count - i ) + 1;
+				if (temp.intValue( ) <= count)
+				{
+					measureCount = count;
+				}
+				int column = temp.intValue( ) - ( measureCount - i ) + 1;
 
 				levelViewHandle = cell.getLevelView( ICrosstabConstants.ROW_AXIS_TYPE );
 				if ( levelViewHandle == null )// grand cell
@@ -310,7 +318,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 
 				// add the sub total
 				if ( preLevelHandle != null
-						&& preLevelHandle.getAggregationHeader( ) != null )
+						&& preLevelHandle.getAggregationHeader( ) != null && CrosstabUtil.getAggregationMeasures( preLevelHandle ).size( ) > 0)
 				{
 					CrosstabCellHandle preCellHandle = preLevelHandle.getAggregationHeader( );
 					rowNumber = rowNumber + 1;
@@ -334,9 +342,8 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 		// add the grand cell
 
 		CrosstabCellHandle grandCell = handle.getGrandTotal( ICrosstabConstants.ROW_AXIS_TYPE );
-		if ( grandCell != null && !retValue.isEmpty( ) )
+		if ( grandCell != null && !retValue.isEmpty( ) && CrosstabUtil.getAggregationMeasures( handle, ICrosstabConstants.ROW_AXIS_TYPE  ).size( ) > 0)
 		{
-
 			CrosstabCellAdapter grandCellAdapter = factory.createCrosstabCellAdapter( ICrosstabCellAdapterFactory.CELL_GRAND_TOTAL,
 					grandCell,
 					rowNumber + 1,
@@ -419,25 +426,30 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 				if ( preLevelHandle != null
 						&& preLevelHandle.getAggregationHeader( ) != null )
 				{
-					CrosstabCellHandle preCellHandle = preLevelHandle.getAggregationHeader( );
-
-					CrosstabCellAdapter preCellAdapter = factory.createCrosstabCellAdapter( ICrosstabCellAdapterFactory.CELL_SUB_TOTAL,
-							preCellHandle,
-							rowNumber,
-							rowNumber - ( measureCount == 0 ? 0 : 1 ),
-							columnNumber + 1,
-							measureCount == 0 ? 1 : measureCount );
-
-					retValue.add( preCellAdapter );
-					// add subtotal measure handle
-					if ( measureCount != 0 )
+					List list = CrosstabUtil.getAggregationMeasures( preLevelHandle );
+					if ( list.size( ) != 0 )
 					{
-						addMesureHeaderInColumn( retValue, columnNumber );
-						columnNumber = columnNumber + measureCount;
-					}
-					else
-					{
-						columnNumber = columnNumber + 1;
+						int preMeasureCount = list.size( );
+						CrosstabCellHandle preCellHandle = preLevelHandle.getAggregationHeader( );
+
+						CrosstabCellAdapter preCellAdapter = factory.createCrosstabCellAdapter( ICrosstabCellAdapterFactory.CELL_SUB_TOTAL,
+								preCellHandle,
+								rowNumber,
+								rowNumber - 1,
+								columnNumber + 1,
+								preMeasureCount );
+
+						retValue.add( preCellAdapter );
+						// add subtotal measure handle
+						//if ( measureCount != 0 )
+						//{
+							addMesureHeaderInColumn( retValue, columnNumber, list );
+							columnNumber = columnNumber + preMeasureCount;
+						//}
+//						else
+//						{
+//							columnNumber = columnNumber + 1;
+//						}
 					}
 
 				}
@@ -452,23 +464,21 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 		CrosstabCellHandle grandCell = handle.getGrandTotal( ICrosstabConstants.COLUMN_AXIS_TYPE );
 		if ( grandCell != null && !retValue.isEmpty( ) )
 		{
-			CrosstabCellAdapter grandCellAdapter = factory.createCrosstabCellAdapter( ICrosstabCellAdapterFactory.CELL_GRAND_TOTAL,
-					grandCell,
-					rowNumber,
-					rowNumber - ( measureCount == 0 ? 0 : 1 ),
-					columnNumber + 1,
-					measureCount == 0 ? 1 : measureCount );
-
-			retValue.add( grandCellAdapter );
-			// add subtotal measure handle
-			if ( measureCount != 0 )
+			List list = CrosstabUtil.getAggregationMeasures(  handle, ICrosstabConstants.COLUMN_AXIS_TYPE );
+			int size = list.size( );
+			if (size > 0)
 			{
-				addMesureHeaderInColumn( retValue, columnNumber );
-				columnNumber = columnNumber + measureCount;
-			}
-			else
-			{
-				columnNumber = columnNumber + 1;
+				CrosstabCellAdapter grandCellAdapter = factory.createCrosstabCellAdapter( ICrosstabCellAdapterFactory.CELL_GRAND_TOTAL,
+						grandCell,
+						rowNumber,
+						rowNumber - 1,
+						columnNumber + 1,
+						size );
+	
+				retValue.add( grandCellAdapter );
+				// add subtotal measure handle
+				addMesureHeaderInColumn( retValue, columnNumber,list );
+				columnNumber = columnNumber + size;
 			}
 		}
 		// put the row number to the map
@@ -526,6 +536,27 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 		for ( int k = 0; k < measureCount; k++ )
 		{
 			MeasureViewHandle preMmeasureHandle = handle.getMeasure( k );
+			CrosstabCellHandle preMeasureCellHandle = preMmeasureHandle.getHeader( );
+
+			CrosstabCellAdapter measureCellAdapt = factory.createCrosstabCellAdapter( ICrosstabCellAdapterFactory.CELL_MEASURE_HEADER,
+					preMeasureCellHandle,
+					1,
+					-1,
+					baseColumn + k + 1,
+					-1 );
+
+			list.add( measureCellAdapt );
+		}
+
+	}
+	
+	private void addMesureHeaderInColumn( List list, int baseColumn, List measures )
+	{
+		//CrosstabReportItemHandle handle = getCrosstabReportItemHandle( );
+		int measureCount = measures.size( );
+		for ( int k = 0; k < measureCount; k++ )
+		{
+			MeasureViewHandle preMmeasureHandle = (MeasureViewHandle)measures.get( k );
 			CrosstabCellHandle preMeasureCellHandle = preMmeasureHandle.getHeader( );
 
 			CrosstabCellAdapter measureCellAdapt = factory.createCrosstabCellAdapter( ICrosstabCellAdapterFactory.CELL_MEASURE_HEADER,
@@ -695,6 +726,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 
 	private void debug( String area, List list )
 	{
+		System.out.println("///////////////////////////////////");
 		for ( int i = 0; i < list.size( ); i++ )
 		{
 			CrosstabCellAdapter adapter = (CrosstabCellAdapter) list.get( i );
@@ -713,6 +745,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 					+ "           "
 					+ classNmae );
 		}
+		System.out.println("///////////////////////////////////");
 	}
 
 	/**

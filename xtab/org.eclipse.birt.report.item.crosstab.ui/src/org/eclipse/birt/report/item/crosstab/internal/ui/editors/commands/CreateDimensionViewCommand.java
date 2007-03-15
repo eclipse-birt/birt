@@ -11,11 +11,15 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabHandleAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
@@ -136,6 +140,15 @@ public class CreateDimensionViewCommand extends AbstractCrosstabCommand
 			
 	
 			((ExtendedItemHandle)reportHandle.getModelHandle( )).addColumnBinding( bindingColumn, false );
+			
+//			List list = new ArrayList();
+//			int measureCount = reportHandle.getMeasureCount( );
+//			for (int i=0; i<measureCount; i++)
+//			{
+//				MeasureViewHandle measureHandle = reportHandle.getMeasure( i );
+//				list.add( measureHandle );
+//			}
+			
 			LevelViewHandle levelViewHandle = viewHandle.insertLevel( levelHandle,
 					0 );
 

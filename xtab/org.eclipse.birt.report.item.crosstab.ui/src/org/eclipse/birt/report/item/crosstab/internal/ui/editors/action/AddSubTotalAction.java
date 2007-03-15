@@ -11,15 +11,21 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.action;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 /**
  * Add the sub total to the level handle.
@@ -90,12 +96,26 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 		transStar( NAME );
 		try
 		{
-			viewHandle.addAggregationHeader( );
-			CrosstabCellHandle cellHandle = viewHandle.getAggregationHeader( );
+			String funString = DesignChoiceConstants.MEASURE_FUNCTION_SUM;
+			CrosstabReportItemHandle reportHandle = viewHandle.getCrosstab( );
+			List list = new ArrayList();
+			int measureCount = reportHandle.getMeasureCount( );
+			for (int i=0; i<measureCount; i++)
+			{
+				MeasureViewHandle measureHandle = reportHandle.getMeasure( i );
+				list.add( measureHandle );
+			}
+			
+			CrosstabCellHandle cellHandle = CrosstabUtil.addAggregationHeader( viewHandle, funString, list );
+			if (cellHandle == null)
+			{
+				return;
+			}
 			LabelHandle dataHandle = DesignElementFactory.getInstance( )
 			.newLabel(null );
 			//Label name is a compand name.
 			dataHandle.setText( "[" + viewHandle.getCubeLevelName( )+ "]" + DISPALY_NAME);
+			
 			cellHandle.addContent( dataHandle );
 		}
 		catch ( SemanticException e )
