@@ -293,6 +293,7 @@ data.olap.OlapFileCreateFail=Fail to create file {0}.
 data.olap.OlapFileNotFound=Olap file {0} is not be found.
 data.olap.OlapFileFormatInvalid=The file format is invalid. Data object name is: {0}
 data.olap.DimensionNotExist=The dimension {0} doesn't exist.
+data.olap.KeyValueCanNotBeNull=The value of key column can not be null. Key column: {0}.
 data.olap.OlapFileDataError=There are invalid data in data object {0}.
 data.olap.DocumentObjectAlreadyExists =The document object already exists. Fail to creat data object: {0}.
 data.olap.FacttableRowNotDistinct=The rows should be distinct in fact table. "{0}" occur more than one time.
