@@ -97,57 +97,89 @@ public class CursorNavigatorTest extends TestCase
 		DimensionCursor timeCursor = (DimensionCursor) rowCursor.getDimensionCursor( )
 				.get( 0 );
 
+		//Test edgeCursor navigator
+		//-------------------------------edgeCursor beforeFirst()--------------
 		columnCursor.beforeFirst( );
 		assertTrue( countryCursor.isBeforeFirst( ) );
 		assertTrue( cityCursor.isBeforeFirst( ) );
 		assertTrue( productCursor.isBeforeFirst( ) );
+
+		//-------------------------------edgeCursor afterFirst()--------------
+		columnCursor.afterLast( );
+		assertTrue( countryCursor.isAfterLast( ) );
+		assertTrue( cityCursor.isAfterLast( ) );
+		assertTrue( productCursor.isAfterLast( ) );
+
+		//-------------------------------edgeCursor first()--------------
+		columnCursor.first( );
+		assertTrue( columnCursor.isFirst( ) );
+		assertTrue( countryCursor.isFirst( ) );
+		assertTrue( cityCursor.isFirst( ) );
+		assertTrue( productCursor.isFirst( ) );
 		
+		//-------------------------------edgeCursor last()-------------
+		columnCursor.last( );
+		assertTrue( columnCursor.last( ) );
+		assertTrue( countryCursor.last( ) );
+		assertTrue( cityCursor.last( ) );
+		assertTrue( productCursor.last( ) );	
+
+		//-------------------------------edgeCursor setPosition()--------------
 		columnCursor.setPosition( 5 );
 		assertTrue( countryCursor.getObject( "level11" ).equals( "CN" ) );
 		assertTrue( cityCursor.getObject( "level12" ).equals( "SZ" ) );
-		assertTrue( productCursor.getObject( "level13" ).equals( "XXX" ) );
+		assertTrue( productCursor.getObject( "level13" ).equals( "S2" ) );
 		
+		//-------------------------------edgeCursor previous()--------------
 		columnCursor.previous( );
 		assertTrue( countryCursor.getObject( "level11" ).equals( "CN" ) );
 		assertTrue( cityCursor.getObject( "level12" ).equals( "SZ" ) );
-		assertTrue( productCursor.getObject( "level13" ).equals( "CCC" ) );	
+		assertTrue( productCursor.getObject( "level13" ).equals( "S1" ) );	
 		
+		//-------------------------------edgeCursor setPosition()--------------
+		columnCursor.setPosition( 13 );
 		try
 		{
-			columnCursor.setPosition( 100 );
-			fail( "should not get here" );
+			countryCursor.getObject( "level11" );
 		}
 		catch ( OLAPException e )
 		{
 		}
-		
+
+		//-------------------------------edgeCursor relative()--------------
 		columnCursor.beforeFirst( );
 		columnCursor.relative( 6 );
 		assertTrue( countryCursor.getObject( "level11" ).equals( "CN" ) );
 		assertTrue( cityCursor.getObject( "level12" ).equals( "SZ" ) );
-		assertTrue( productCursor.getObject( "level13" ).equals( "XXX" ) );
+		assertTrue( productCursor.getObject( "level13" ).equals( "S2" ) );
 		
-		
+		//-------------------------------edgeCursor beforeFirst(),next(),setPosition()--------------
 		columnCursor.beforeFirst( );
 		columnCursor.next( );
+		columnCursor.next( );
+		columnCursor.next( );		
+		columnCursor.setPosition( 1 );
+		assertTrue( countryCursor.getObject( "level11" ).equals( "CN" ) );
+		assertTrue( cityCursor.getObject( "level12" ).equals( "BJ" ) );
+		assertTrue( productCursor.getObject( "level13" ).equals( "HD" ) );
+
+		//------------------------------dimensionCursor setPosition()--------------
+		columnCursor.beforeFirst( );
+		columnCursor.next( );
+		columnCursor.next( );
+		columnCursor.next( );		
 		productCursor.setPosition( 1 );
 		assertTrue( countryCursor.getObject( "level11" ).equals( "CN" ) );
-		assertTrue( cityCursor.getObject( "level12" ).equals( "BJ" ) );
-		assertTrue( productCursor.getObject( "level13" ).equals( "PUDIAN" ) );
-		
+		assertTrue( cityCursor.getObject( "level12" ).equals( "SH" ) );
+		assertTrue( productCursor.getObject( "level13" ).equals( "ZJ" ) );
+
+		//------------------------------dimensionCursor next()--------------
 		columnCursor.beforeFirst( );
 		columnCursor.next( );
-		productCursor.setPosition( 100 );
-		assertTrue( countryCursor.getObject( "level11" ).equals( "CN" ) );
-		assertTrue( cityCursor.getObject( "level12" ).equals( "BJ" ) );
-		try
-		{
-			productCursor.getObject( "level13" ).equals( "PUDIAN" );
-			fail("should not get here");
-		}
-		catch ( OLAPException e )
-		{
-		}
+		countryCursor.next( );
+		assertTrue( countryCursor.getObject( "level11" ).equals( "JP" ) );
+		assertTrue( cityCursor.getObject( "level12" ).equals( "IL" ) );
+		assertTrue( productCursor.getObject( "level13" ).equals( "P1" ) );
 		
 		columnCursor.afterLast( );		
 		try
@@ -157,7 +189,54 @@ public class CursorNavigatorTest extends TestCase
 		}
 		catch ( OLAPException e )
 		{
-		}	
+		}
+		
+		//------------------------------dimensionCursor setPosition(),getEdgeStart(),getEdgeEnd()--------------
+		columnCursor.beforeFirst( );
+		columnCursor.setPosition( 1 );
+		assertTrue( countryCursor.getEdgeStart( ) == 0 );
+		assertTrue( countryCursor.getEdgeEnd( ) == 5 );
+
+		assertTrue( cityCursor.getEdgeStart( ) == 0 );
+		assertTrue( cityCursor.getEdgeEnd( ) == 1 );
+			
+		assertTrue( productCursor.getEdgeStart( )==1 );
+		assertTrue( productCursor.getEdgeEnd( ) ==1 );
+		
+		columnCursor.setPosition( 6 );
+		assertTrue( countryCursor.getEdgeStart( ) == 6 );
+		assertTrue( countryCursor.getEdgeEnd( ) == 7 );
+
+		assertTrue( cityCursor.getEdgeStart( ) == 6 );
+		assertTrue( cityCursor.getEdgeEnd( ) == 6 );
+			
+		assertTrue( productCursor.getEdgeStart( )==6 );
+		assertTrue( productCursor.getEdgeEnd( ) ==6 );
+		
+		columnCursor.setPosition( 4 );
+		assertTrue( countryCursor.getEdgeStart( ) == 0 );
+		assertTrue( countryCursor.getEdgeEnd( ) == 5 );
+
+		assertTrue( cityCursor.getEdgeStart( ) == 4 );
+		assertTrue( cityCursor.getEdgeEnd( ) == 5 );
+			
+		assertTrue( productCursor.getEdgeStart( )==4 );
+		assertTrue( productCursor.getEdgeEnd( ) ==4 );
+
+		columnCursor.setPosition( 12 );
+		assertTrue( countryCursor.getEdgeStart( ) == 10 );
+		assertTrue( countryCursor.getEdgeEnd( ) == 12 );
+
+		assertTrue( cityCursor.getEdgeStart( ) == 12 );
+		assertTrue( cityCursor.getEdgeEnd( ) == 12 );
+
+		assertTrue( productCursor.getEdgeStart( ) == 12 );
+		assertTrue( productCursor.getEdgeEnd( ) == 12 );
+		
+		columnCursor.beforeFirst( );
+		columnCursor.setPosition( 13 );
+		assertTrue( countryCursor.getEdgeStart( ) == -1 );
+		assertTrue( countryCursor.getEdgeEnd( ) == -1 );
 								
 		columnCursor.beforeFirst( );
 		Object obj1, obj2, obj3;
@@ -174,14 +253,11 @@ public class CursorNavigatorTest extends TestCase
 		try
 		{
 			countryCursor.getObject( "level11" );
-			fail("should not get here");
+			fail( "should not get here" );
 		}
 		catch ( OLAPException e )
 		{
 		}
-		
-
-		
 	}
 	
 	private void print( Object value )
