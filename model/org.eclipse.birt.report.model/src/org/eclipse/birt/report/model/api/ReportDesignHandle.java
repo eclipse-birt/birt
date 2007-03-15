@@ -23,8 +23,10 @@ import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
+import org.eclipse.birt.report.model.command.CssCommand;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.css.CssStyleSheet;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
@@ -123,21 +125,21 @@ import org.eclipse.birt.report.model.util.LevelContentIterator;
  * </ul>
  * 
  * <pre>
- *                  // Include one library
- *                  
- *                  ReportDesignHandle designHandle = ...;
- *                  designHandle.includeLibrary( &quot;libA.rptlibrary&quot;, &quot;LibA&quot; );
- *                  LibraryHandle libraryHandle = designHandle.getLibrary(&quot;LibA&quot;);
+ *                      // Include one library
+ *                      
+ *                      ReportDesignHandle designHandle = ...;
+ *                      designHandle.includeLibrary( &quot;libA.rptlibrary&quot;, &quot;LibA&quot; );
+ *                      LibraryHandle libraryHandle = designHandle.getLibrary(&quot;LibA&quot;);
+ *                       
+ *                      // Create one label based on the one in library
+ *                     
+ *                      LabelHandle labelHandle = (LabelHandle) libraryHandle.findElement(&quot;companyNameLabel&quot;);
+ *                      LabelHandle myLabelHandle = (LabelHandle) designHandle.getElementFactory().newElementFrom( labelHandle, &quot;myLabel&quot; );
+ *                     
+ *                      // Add the new label into design file
+ *                     
+ *                      designHandle.getBody().add(myLabelHandle);
  *                   
- *                  // Create one label based on the one in library
- *                 
- *                  LabelHandle labelHandle = (LabelHandle) libraryHandle.findElement(&quot;companyNameLabel&quot;);
- *                  LabelHandle myLabelHandle = (LabelHandle) designHandle.getElementFactory().newElementFrom( labelHandle, &quot;myLabel&quot; );
- *                 
- *                  // Add the new label into design file
- *                 
- *                  designHandle.getBody().add(myLabelHandle);
- *               
  * </pre>
  * 
  * @see org.eclipse.birt.report.model.elements.ReportDesign
@@ -393,22 +395,66 @@ public class ReportDesignHandle extends ModuleHandle
 	 * that the order of the styles within the slot is unimportant.
 	 * 
 	 * @return A handle for working with the styles.
+	 * 
 	 */
 	public SlotHandle getStyles( )
 	{
 		return getSlot( IReportDesignModel.STYLE_SLOT );
 	}
 
-	/*
+	/**
+	 * Gets all css styles sheet 
+	 * @return each item is <code>CssStyleSheetHandle</code>
+	 */
+	
+	public List getAllCssStyleSheets() 
+	{
+		ReportDesign design = (ReportDesign)getElement();
+		List allStyles = new ArrayList();
+		List csses = design.getCsses( );
+		for( int i =0; csses!= null && i< csses.size( ) ; ++ i )
+		{
+			CssStyleSheet sheet = (CssStyleSheet)csses.get(i);
+			allStyles.add( sheet.handle( getModule( ) ) );
+		}
+		return allStyles;
+	}
+
+	/**
+	 * Find style by style name
+	 * 
+	 * @param style
+	 *            name
+	 * @return style handle
+	 */
+
+	public SharedStyleHandle findStyle( String name )
+	{
+		List styles = getAllStyles( );
+		for ( int i = 0; i < styles.size( ); ++i )
+		{
+			SharedStyleHandle style = (SharedStyleHandle) styles.get( i );
+			if ( style.getName( ).equals( name ) )
+			{
+				return style;
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.model.api.ModuleHandle#importCssStyles(org.eclipse.birt.report.model.api.css.CssStyleSheetHandle,
 	 *      java.util.List)
+	 * @deprecated
 	 */
 
 	public void importCssStyles( CssStyleSheetHandle stylesheet,
 			List selectedStyles )
 	{
+		// do nothing now.
+
 		ActivityStack stack = module.getActivityStack( );
 		stack.startTrans( );
 		for ( int i = 0; i < selectedStyles.size( ); i++ )
@@ -434,6 +480,7 @@ public class ReportDesignHandle extends ModuleHandle
 		}
 
 		stack.commit( );
+
 	}
 
 	/**
@@ -591,8 +638,9 @@ public class ReportDesignHandle extends ModuleHandle
 
 	public List getAllBookmarks( )
 	{
-		//bookmark value in row, report item and listing group are the same now.
-		
+		// bookmark value in row, report item and listing group are the same
+		// now.
+
 		return ( (ReportDesign) module ).collectPropValues( BODY_SLOT,
 				IReportItemModel.BOOKMARK_PROP );
 	}
@@ -695,7 +743,7 @@ public class ReportDesignHandle extends ModuleHandle
 	 * <li><code>DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT</code>
 	 * </ul>
 	 * 
-	 * @return
+	 * @return layout preference of report design
 	 */
 	public String getLayoutPreference( )
 	{
@@ -719,4 +767,111 @@ public class ReportDesignHandle extends ModuleHandle
 	{
 		setStringProperty( LAYOUT_PREFERENCE_PROP, layout );
 	}
+
+	/**
+	 * Returns the iterator over all included css style sheets. Each one is the
+	 * instance of <code>IncludedCssStyleSheetHandle</code>
+	 * 
+	 * @return the iterator over all included css style sheets.
+	 */
+
+	public Iterator includeCssesIterator( )
+	{
+		PropertyHandle propHandle = getPropertyHandle( IReportDesignModel.CSSES_PROP );
+		assert propHandle != null;
+		return propHandle.iterator( );
+	}
+
+	/**
+	 * Includes one css with the given css file name. The new css will be
+	 * appended to the css list.
+	 * 
+	 * @param fileName
+	 *            css file name
+	 * @param namespace
+	 *            css namespace
+	 * @throws DesignFileException
+	 *             if the css file is not found, or has fatal error.
+	 * @throws SemanticException
+	 *             if error is encountered when handling <code>IncludeCss</code>
+	 *             structure list.
+	 */
+
+	public void addCss( String fileName ) throws DesignFileException,
+			SemanticException
+	{
+		if ( fileName == null )
+			return;
+
+		CssCommand command = new CssCommand( module, getElement( ) );
+		command.addCss( fileName );
+	}
+
+	/**
+	 * Drops the given css style sheet of this design file.
+	 * 
+	 * @param cssHandle
+	 *            the css to drop
+	 * @throws SemanticException
+	 *             if error is encountered when handling
+	 *             <code>IncludeCssStyleSheet</code> structure list. Or it
+	 *             maybe because that the given css is not found in the design.
+	 *             Or that the css has descedents in the current module
+	 */
+
+	public void dropCss( IncludedCssStyleSheetHandle cssHandle )
+			throws SemanticException
+	{
+		if ( cssHandle == null )
+			return;
+
+		CssCommand command = new CssCommand( module, getElement( ) );
+		command.dropCss( cssHandle.getFileName( ) );
+	}
+
+	/**
+	 * Reloads all css style sheets this module included.
+	 * 
+	 * @throws SemanticException
+	 * @throws DesignFileException
+	 */
+
+//	public void reloadCsses( ) throws SemanticException, DesignFileException
+//	{
+//		List csses = getListProperty( IReportDesignModel.CSSES_PROP );
+//		if ( csses == null || csses.isEmpty( ) )
+//			return;
+//		for ( int i = 0; i < csses.size( ); i++ )
+//		{
+//			IncludedCssStyleSheet css = (IncludedCssStyleSheet) csses.get( i );
+//			reloadCss( css.getFileName( ) );
+//		}
+//	}
+
+	/**
+	 * Reloads the css with the given css file path. If the css style sheet
+	 * already is included directly or indirectly, reload it. If the css is not
+	 * included, exception will be thrown.
+	 * 
+	 * @param reloadPath
+	 *            this is supposed to be an absolute path, not in url form.
+	 * @throws SemanticException
+	 *             if error is encountered when handling
+	 *             <code>IncludeCssStyleSheet</code> structure list. Or it
+	 *             maybe because that the given css is not found in the design.
+	 *             Or that the css has descedents in the current module
+	 * @throws DesignFileException
+	 *             if the css file is not found, or has fatal error.
+	 */
+
+//	public void reloadCss( String reloadPath ) throws SemanticException,
+//			DesignFileException
+//	{
+//		if ( StringUtil.isEmpty( reloadPath ) )
+//			return;
+//
+//		CssCommand command = new CssCommand( module, getElement( ) );
+//		command.reloadCss( reloadPath );
+//	}
+
 }

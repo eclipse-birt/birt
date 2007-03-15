@@ -35,7 +35,6 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.css.property.ParseException;
 import org.eclipse.birt.report.model.css.property.PropertyParser;
-import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -382,9 +381,10 @@ public final class StyleSheetLoader
 						return;
 					DesignElement style = styleSheet.findStyle( name );
 					if ( style == null )
-						style = new Style( name );
+						style = new CssStyle( name );
 					else
 						styleSheet.removeStyle( name );
+					//set css style sheet
 					if ( !buildProperties )
 					{
 						properties = buildProperties( declaration, errors );
@@ -405,7 +405,6 @@ public final class StyleSheetLoader
 						ret.addAll( errors );
 					}
 					styleSheet.addStyle( style );
-
 				}
 			}
 			catch ( CSSException e )

@@ -22,15 +22,18 @@ import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.IncludeScriptHandle;
+import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.IncludedLibraryHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ScriptLibHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.CssException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
@@ -302,6 +305,40 @@ public class ReportDesignParseTest extends BaseTestCase
 		assertEquals( "script of beforeRender", designHandle.getBeforeRender( ) ); //$NON-NLS-1$
 		assertEquals( "script of afterRender", designHandle.getAfterRender( ) ); //$NON-NLS-1$
 
+		//test parser css in report design
+		Iterator iterator = designHandle.includeCssesIterator( );
+		IncludedCssStyleSheetHandle css = (IncludedCssStyleSheetHandle) iterator
+				.next( );
+		assertEquals( "base.css", css.getFileName( ) );//$NON-NLS-1$
+		List styles = designHandle.getAllStyles( );
+		assertEquals( 5 , styles.size( ) );
+		
+		//Check styles in css
+		
+		assertEquals( "code" , ((StyleHandle)styles.get( 0 )).getName( ) );//$NON-NLS-1$
+		assertEquals( "captionfigcolumn" , ((StyleHandle)styles.get( 1 )).getName( ) );//$NON-NLS-1$
+		assertEquals( "note" , ((StyleHandle)styles.get( 2 )).getName( ) );//$NON-NLS-1$
+		assertEquals( "uilabel" , ((StyleHandle)styles.get( 3 )).getName( ) );//$NON-NLS-1$
+		assertEquals( "codename" , ((StyleHandle)styles.get( 4 )).getName( ) );//$NON-NLS-1$
+		
+		StyleHandle style = (StyleHandle)styles.get(0);
+		assertEquals( "left" , style.getTextAlign( ));//$NON-NLS-1$
+	
+	}
+	
+	/**
+	 * Tests design file with css file that can't be found
+	 * @throws Exception
+	 */
+	
+	public void testOpenBadCssFile() throws Exception
+	{
+		openDesign( "ReportDesignParseTest_BadCss.xml");//$NON-NLS-1$
+		List errorList = design.getAllErrors( );
+		assertEquals( 1 , errorList.size( ) );
+		
+		String errorCode = ((ErrorDetail)errorList.get( 0 )).getErrorCode( );
+		assertEquals( errorCode , CssException.DESIGN_EXCEPTION_CSS_NOT_FOUND );
 	}
 
 	/**
@@ -355,7 +392,7 @@ public class ReportDesignParseTest extends BaseTestCase
 		// set layout preference
 		designHandle
 				.setLayoutPreference( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT );
-
+	
 		save( );
 		assertTrue( compareFile( goldenFileName ) );
 	}

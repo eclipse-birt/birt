@@ -244,7 +244,7 @@ public abstract class ReferenceableElement extends DesignElement
 
 			// for the style, send out a event to let UI repaint the element.
 			// otherwise, try to resolve it.
-
+			//TODO send css event if css style?
 			if ( IStyledElementModel.STYLE_PROP.equalsIgnoreCase( ref.propName ) )
 				client.broadcast( new StyleEvent( client ) );
 			else

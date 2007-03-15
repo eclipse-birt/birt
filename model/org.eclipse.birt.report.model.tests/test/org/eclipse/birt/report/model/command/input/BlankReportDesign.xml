@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="3.2.11">
+	<list-property name="cssStyleSheets">
+    	<structure>
+    		<property name="fileName">base.css</property>
+    	</structure>
+    </list-property>
+	<body>
+		<label id="3" name="label">
+			<property name="style">note</property>
+		</label>
+	</body>
+</report>

@@ -15,7 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
+import org.eclipse.birt.report.model.api.IllegalOperationException;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.CssException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -25,6 +27,7 @@ import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.css.CssStyle;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -78,7 +81,7 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 			throws SemanticException
 	{
 		assert ref != null;
-
+		checkAllowedOperation( );
 		if ( item == null )
 			return;
 
@@ -142,7 +145,7 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 	public void addItem( MemberRef ref, Object item ) throws SemanticException
 	{
 		assert ref != null;
-
+		checkAllowedOperation( );
 		if ( item == null )
 			return;
 
@@ -206,7 +209,7 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 			throws PropertyValueException
 	{
 		assert prop != null;
-
+		checkAllowedOperation( );
 		if ( item == null )
 			return;
 
@@ -291,7 +294,7 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 			throws SemanticException
 	{
 		assert ref != null;
-
+		checkAllowedOperation( );
 		if ( item == null )
 			return;
 
@@ -361,7 +364,7 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 			throws PropertyValueException
 	{
 		assert ref != null;
-
+		checkAllowedOperation( );
 		PropertyDefn propDefn = ref.getPropDefn( );
 		assert propDefn != null;
 		assertExtendedElement( module, element, propDefn );
@@ -410,6 +413,7 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 	public void removeItem( MemberRef ref, IStructure structure )
 			throws PropertyValueException
 	{
+		checkAllowedOperation( );
 		PropertyDefn propDefn = ref.getPropDefn( );
 		assert propDefn != null;
 		assertExtendedElement( module, element, propDefn );
@@ -458,7 +462,7 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 			throws PropertyValueException
 	{
 		assert prop != null;
-
+		checkAllowedOperation( );
 		// TODO: if the property is "style", jump to the style command
 
 		assertExtendedElement( module, element, prop );
@@ -625,7 +629,7 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 			IStructure newItem ) throws SemanticException
 	{
 		assert ref != null;
-
+		checkAllowedOperation( );
 		PropertyDefn propDefn = ref.getPropDefn( );
 		assert propDefn != null;
 		assertExtendedElement( module, element, propDefn );
@@ -662,7 +666,7 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 
 		PropertyReplaceRecord record = new PropertyReplaceRecord( element, ref,
 				list, index, newItem );
-		
+
 		record.setEventTarget( getEventTarget( propDefn ) );
 		stack.execute( record );
 
@@ -685,6 +689,7 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 
 	public void removeAllItems( MemberRef ref ) throws SemanticException
 	{
+		checkAllowedOperation( );
 		checkListMemberRef( ref );
 
 		PropertyDefn propDefn = ref.getPropDefn( );
@@ -743,7 +748,7 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 			throws PropertyValueException
 	{
 		assert ref != null;
-
+		checkAllowedOperation( );
 		PropertyDefn propDefn = ref.getPropDefn( );
 		assert propDefn != null;
 		checkListMemberRef( ref );
@@ -792,6 +797,20 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 		if ( prop.getTypeCode( ) != IPropertyType.LIST_TYPE )
 			throw new PropertyValueException( element, prop, null,
 					PropertyValueException.DESIGN_EXCEPTION_NOT_LIST_TYPE );
+	}
+
+	/**
+	 * Check operation is allowed or not. Now if element is css style instance ,
+	 * forbidden its operation.
+	 * 
+	 */
+
+	private void checkAllowedOperation( )
+	{
+		if ( element != null && element instanceof CssStyle )
+		{
+			throw new IllegalOperationException( CssException.DESIGN_EXCEPTION_READONLY );
+		}
 	}
 
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<library xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="1">
+	<themes>
+		<theme name="theme1">
+			<styles>
+				<style name="label">
+					<property name="color">red</property>											
+				</style>	
+				<style name="libStyle1">
+					<property name="color">lime</property>											
+				</style>	
+				<style name="list">
+					<property name="color">gray</property>	
+				</style>						
+			</styles>
+			<list-property name="cssStyleSheets">
+    			<structure>
+    				<property name="fileName">base.css</property>
+    			</structure>
+   			</list-property>
+		</theme>
+	</themes>
+</library>

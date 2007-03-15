@@ -30,6 +30,7 @@ import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
+import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.JoinCondition;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
@@ -493,6 +494,9 @@ public class StructureState extends AbstractPropertyState
 
 		structDict.put( ScriptLib.STRUCTURE_NAME.toLowerCase( ),
 				ScriptLib.class );
+		
+		structDict.put( IncludedCssStyleSheet.INCLUDED_CSS_STRUCT.toLowerCase( ),
+				IncludedCssStyleSheet.class );
 
 		structDict.put( TOC.TOC_STRUCT.toLowerCase( ), TOC.class );
 		structDict.put( DimensionCondition.DIMENSION_CONDITION_STRUCT

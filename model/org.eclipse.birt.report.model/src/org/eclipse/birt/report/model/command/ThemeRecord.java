@@ -12,21 +12,19 @@
 package org.eclipse.birt.report.model.command;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ThemeEvent;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
-import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.ReferenceableElement;
-import org.eclipse.birt.report.model.core.StyleElement;
-import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
+import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
-import org.eclipse.birt.report.model.util.LevelContentIterator;
 
 /**
  * Records a change to the theme of a report design.
@@ -135,17 +133,14 @@ public class ThemeRecord extends SimpleRecord
 
 		if ( !theme.isResolved( ) )
 			return;
-
-		Iterator iter = new LevelContentIterator( module, new ContainerContext(
-				theme.getElement( ), IThemeModel.STYLES_SLOT ), 1 );
-		while ( iter.hasNext( ) )
+		
+		Theme t = (Theme) theme.getElement( );
+		List styles = t.getAllStyles( );
+		Iterator iter = styles.iterator( );
+		while( iter.hasNext() )
 		{
-			DesignElement element = (DesignElement) iter.next( );
-			assert element instanceof StyleElement;
-
-			ReferenceableElement referenceableElement = (ReferenceableElement) element;
-
-			referenceableElement.updateClientReferences( );
+			Style style = (Style) iter.next();
+			style.updateClientReferences( );
 		}
 	}
 }

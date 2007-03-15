@@ -182,13 +182,17 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 
 		return theme.getStyles( );
 	}
+	
+	//TODO should we support for public List getAllStyles() method?
 
-	/*
+	/**
+	 * Import css file to theme.
 	 * 
-	 * 
-	 * @see org.eclipse.birt.report.model.api.ModuleHandle#importCssStyles(org.eclipse.birt.report.model.api.css.CssStyleSheetHandle,
-	 *      java.util.List)
-	 * 
+	 * @param stylesheet
+	 *            the style sheet handle that contains all the selected styles
+	 * @param selectedStyles
+	 *            the selected style list
+	 * @deprecated
 	 */
 
 	public void importCssStyles( CssStyleSheetHandle stylesheet,
@@ -264,7 +268,6 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 	 *            the selected style list
 	 * @param themeName
 	 *            the name of the theme to put styles
-	 * 
 	 */
 
 	public void importCssStyles( CssStyleSheetHandle stylesheet,

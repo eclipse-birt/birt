@@ -806,7 +806,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	/**
 	 * Finds a style by its name in this module. The style with the same name,
 	 * which is defined the included module, will never be returned.
-	 * 
+	 * TODO change logic of find native style or not?
 	 * @param name
 	 *            name of the style
 	 * @return a handle to the style, or <code>null</code> if the style is not
@@ -918,7 +918,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	/**
 	 * Gets the slot handle to work with all cube elements within the report.
 	 * 
-	 * @return
+	 * @return cube slot handle
 	 */
 	public abstract SlotHandle getCubes( );
 
@@ -1627,7 +1627,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	{
 		List elementList = module.getModuleNameSpace( Module.STYLE_NAME_SPACE )
 				.getElements( IAccessControl.ARBITARY_LEVEL );
-
+		
 		return generateHandleList( elementList );
 	}
 
@@ -1743,7 +1743,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 * Gets all the cube elements from the given element list.
 	 * 
 	 * @param elements
-	 * @return
+	 * @return all cube elements
 	 */
 	private List getCubeList( List elements )
 	{
@@ -1859,7 +1859,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		while ( iter.hasNext( ) )
 		{
 			DesignElement element = (DesignElement) iter.next( );
-
+			
 			Module root = element.getRoot( );
 			assert root != null;
 

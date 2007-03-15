@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.CssException;
 import org.eclipse.birt.report.model.api.command.CustomMsgException;
 import org.eclipse.birt.report.model.api.core.AttributeEvent;
 import org.eclipse.birt.report.model.api.core.DisposeEvent;
@@ -34,6 +35,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.FreeForm;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.SimpleMasterPage;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
@@ -91,6 +93,10 @@ import com.ibm.icu.util.ULocale;
  * <td>{@link #testTranslations()}</td>
  * <td>Tests to get translations.</td>
  * <td>Information of translations matches with the input design file.</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>Test add / drop css style sheet 
  * </tr>
  * 
  * </table>
@@ -197,6 +203,54 @@ public class ReportDesignHandleTest extends BaseTestCase
 					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND, e
 							.getErrorCode( ) );
 		}
+	}
+
+	/**
+	 * Tests css style sheet.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testCssStyleSheet( ) throws Exception
+	{
+		openDesign( "BlankReportDesign.xml" ); //$NON-NLS-1$
+
+		// test add css
+
+		designHandle.addCss( "base.css" );//$NON-NLS-1$
+		List styles = designHandle.getAllStyles( );
+		assertEquals( 5, styles.size( ) );
+
+		try
+		{
+			designHandle.addCss( "base.css" );//$NON-NLS-1$
+			fail( );
+		}
+		catch ( CssException e )
+		{
+			assertEquals( CssException.DESIGN_EXCEPTION_DUPLICATE_CSS, e
+					.getErrorCode( ) );
+		}
+
+		// label use it
+		LabelHandle labelHandle = designHandle.getElementFactory( ).newLabel(
+				"label" );//$NON-NLS-1$
+		designHandle.getBody( ).add( labelHandle );
+		labelHandle.setStyle( (SharedStyleHandle) styles.get( 0 ) );
+		
+		// drop css
+		IncludedCssStyleSheetHandle sheetHandle = (IncludedCssStyleSheetHandle) designHandle
+				.includeCssesIterator( ).next( );
+		
+		// before drop , element is resolved. after drop element is unresolved
+		ElementRefValue value = (ElementRefValue) labelHandle.getElement( )
+				.getLocalProperty( designHandle.getModule( ), "style" );//$NON-NLS-1$
+		assertTrue( value.isResolved( ) );
+
+		designHandle.dropCss( sheetHandle );
+		assertFalse( value.isResolved( ) );
+		assertNull( designHandle.includeCssesIterator( ).next( ) );
+		assertNull( labelHandle.getStyle( ) );
 	}
 
 	/**
@@ -892,7 +946,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 		assertEquals( "\"bookmark_group\"", bookmarks.get( 1 ) ); //$NON-NLS-1$
 		assertEquals( "bookmark_detail_row", bookmarks.get( 2 ) ); //$NON-NLS-1$
 		assertEquals( "bookmark_detail_text", bookmarks.get( 3 ) ); //$NON-NLS-1$
-		
+
 		List tocs = designHandle.getAllTocs( );
 		assertEquals( 3, tocs.size( ) );
 		assertEquals( "Toc_label", tocs.get( 0 ) ); //$NON-NLS-1$
@@ -918,26 +972,27 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 		Map properties = new HashMap( );
 		String createdBy = "test initialize"; //$NON-NLS-1$
-		
-		//bad property key value.
-		
-		properties.put( "Build" , "2006-12-25" );//$NON-NLS-1$//$NON-NLS-2$
-		
-		//good property key value.
-		
+
+		// bad property key value.
+
+		properties.put( "Build", "2006-12-25" );//$NON-NLS-1$//$NON-NLS-2$
+
+		// good property key value.
+
 		properties.put( ReportDesign.CREATED_BY_PROP, createdBy );
-	
+
 		designHandle.initializeModule( properties );
-		
+
 		assertEquals( 0, designHandle.getMasterPages( ).getCount( ) );
-		assertNull( designHandle.getProperty("Build") );//$NON-NLS-1$
-		assertEquals( createdBy , designHandle.getProperty( ReportDesign.CREATED_BY_PROP ) );
+		assertNull( designHandle.getProperty( "Build" ) );//$NON-NLS-1$
+		assertEquals( createdBy, designHandle
+				.getProperty( ReportDesign.CREATED_BY_PROP ) );
 
 		CommandStack stack = designHandle.getCommandStack( );
 
 		assertFalse( stack.canRedo( ) );
 		assertFalse( stack.canUndo( ) );
-		
+
 	}
 
 	/**

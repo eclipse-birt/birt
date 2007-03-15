@@ -23,6 +23,12 @@ public interface IThemeModel
 	 */
 
 	public static final int STYLES_SLOT = 0;
+	
+	/**
+	 * css file property
+	 */
+	
+	public static final String CSSES_PROP = "cssStyleSheets";//$NON-NLS-1$
 
 	/**
 	 * The name of the default theme.

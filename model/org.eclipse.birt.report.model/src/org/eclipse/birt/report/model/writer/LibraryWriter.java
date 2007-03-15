@@ -122,9 +122,10 @@ public class LibraryWriter extends ModuleWriter
 		writer.startElement( DesignSchemaConstants.THEME_TAG );
 
 		super.visitDesignElement( obj );
-
+		
 		writeContents( obj, IThemeModel.STYLES_SLOT,
 				DesignSchemaConstants.STYLES_TAG );
+		writeStructureList( obj , IThemeModel.CSSES_PROP );
 		writer.endElement( );
 	}
 }

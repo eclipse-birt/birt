@@ -1886,6 +1886,9 @@
     <Member displayNameID="Structure.IncludedLibrary.fileName" isIntrinsic="true" name="fileName" since="1.0" type="string"/>
     <Member displayNameID="Structure.IncludedLibrary.namespace" isIntrinsic="true" name="namespace" since="2.0" type="string"/>
   </Structure>
+  <Structure displayNameID="Structure.IncludedCssStyleSheet" name="IncludedCssStyleSheet" since="2.2">
+  	<Member displayNameID="Structure.IncludedCssStyleSheet.fileName" isIntrinsic="true" name="fileName" since="2.2" type="string"/>
+  </Structure>
   <Structure displayNameID="Structure.CachedMetaData" name="CachedMetaData" since="1.0">
     <Member detailType="DataSetParam" displayNameID="Structure.CachedMetaData.parameters" isList="true" name="parameters" since="1.0" type="structure"/>
     <Member detailType="ResultSetColumn" displayNameID="Structure.CachedMetaData.resultSet" isList="true" name="resultSet" since="1.0" type="structure"/>		
@@ -2022,6 +2025,7 @@
     <Property detailType="reportLayoutPreference" displayNameID="Element.ReportDesign.layoutPreference" name="layoutPreference" runtimeSettable="false" since="2.2" type="choice">
 	  <Default>auto layout</Default>	
     </Property>
+    <Property canInherit="false" detailType="IncludedCssStyleSheet" displayNameID="Element.ReportDesign.cssStyleSheets" isList="true" name="cssStyleSheets" runtimeSettable="false" since="2.2" type="structure"/>
     <Method context="startup" displayNameID="Element.ReportDesign.initialize" name="initialize" since="1.0" toolTipID="Element.ReportDesign.initialize.toolTip">
 		<Argument name="reportContext" tagID="Element.ReportDesign.initialize.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
     </Method>  
@@ -3597,6 +3601,7 @@
       <Type name="Style"/>
 	  <Trigger validator="ThemeStyleNameValidator"/>		
     </Slot>
+    <Property canInherit="false" detailType="IncludedCssStyleSheet" displayNameID="Element.Theme.cssStyleSheets" isList="true" name="cssStyleSheets" runtimeSettable="false" since="2.2" type="structure"/>
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.Cube" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.Cube" name="Cube" nameSpace="cube" since="2.2" xmlName="cube">
   	<Property detailType="MeasureGroup" displayNameID="Element.Cube.defaultMeasureGroup" name="defaultMeasureGroup" runtimeSettable="false" since="2.2" type="elementRef"/>

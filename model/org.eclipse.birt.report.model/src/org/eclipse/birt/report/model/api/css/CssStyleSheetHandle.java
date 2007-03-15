@@ -62,7 +62,7 @@ public class CssStyleSheetHandle extends ElementDetailHandle
 
 	CssStyleSheet getStyleSheet( )
 	{
-		return this.styleSheet;
+		return styleSheet;
 	}
 
 	/**
@@ -153,6 +153,16 @@ public class CssStyleSheetHandle extends ElementDetailHandle
 	public List getParserWarnings( )
 	{
 		return styleSheet.getErrorHandler( ).getParserWarnings( );
+	}
+	
+	/**
+	 * Gets css file name
+	 * @return css file name
+	 */
+	
+	public String getFileName()
+	{
+		return styleSheet.getFileName( );
 	}
 
 }

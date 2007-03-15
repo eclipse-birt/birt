@@ -270,6 +270,12 @@ public interface MessageConstants
 	public static final String LIBRARY_EXCEPTION_LIBRARY_HAS_DESCENDENTS = "Error.LibraryException.LIBRARY_HAS_DESCENDENTS"; //$NON-NLS-1$
 	public static final String LIBRARY_EXCEPTION_LIBRARY_ALREADY_INCLUDED = "Error.LibraryException.LIBRARY_ALREADY_INCLUDED"; //$NON-NLS-1$
 
+	//IncludedCssStyleSheetException
+	public static final String CSS_EXCEPTION_CSS_NOT_FOUND = "Error.CSSException.CSS_NOT_FOUND"; //$NON-NLS-1$
+	public static final String CSS_EXCEPTION_DUPLICATE_CSS = "Error.CSSException.DUPLICATE_CSS"; //$NON-NLS-1$
+	public static final String CSS_EXCEPTION_BADCSSFILE = "Error.CSSException.BADCSSFILE";//$NON-NLS-1$
+	public static final String CSS_EXCEPTION_READONLY = "Error.CssException.READONLY";//$NON-NLS-1$
+	
 	// StyleSheetException
 	public static final String STYLE_SHEET_EXCEPTION_STYLE_SHEET_NOT_FOUND = "Error.StyleSheetException.STYLE_SHEET_NOT_FOUND"; //$NON-NLS-1$
 	public static final String STYLE_SHEET_EXCEPTION_SYNTAX_ERROR = "Error.StyleSheetException.SYNTAX_ERROR"; //$NON-NLS-1$

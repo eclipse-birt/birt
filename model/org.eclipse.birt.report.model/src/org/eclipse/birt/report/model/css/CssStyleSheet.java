@@ -60,6 +60,12 @@ public final class CssStyleSheet
 	 */
 
 	private CssErrorHandler errorHandler = null;
+	
+	/**
+	 * Css style url resource file name
+	 */
+	
+	private String fileName = null;
 
 	/**
 	 * Return a handle to deal with the style sheet.
@@ -116,7 +122,7 @@ public final class CssStyleSheet
 
 	/**
 	 * Gets all the styles in the style sheet. Each one in the list is instance
-	 * of <code>CSSStyle</code>.
+	 * of <code>StyleElement</code>.
 	 * 
 	 * @return all the styles in the style sheet
 	 */
@@ -228,4 +234,25 @@ public final class CssStyleSheet
 		this.errorHandler = errorHandler;
 	}
 
+	/**
+	 * Gets css file name
+	 * @return css file name
+	 */
+	
+	public String getFileName( )
+	{
+		return fileName;
+	}
+
+	/**
+	 * Sets css file name
+	 * @param fileName
+	 */
+	
+	public void setFileName( String fileName )
+	{
+		this.fileName = fileName;
+	}
+	
 }
+

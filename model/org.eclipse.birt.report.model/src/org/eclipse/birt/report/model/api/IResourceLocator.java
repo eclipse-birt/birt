@@ -70,6 +70,12 @@ public interface IResourceLocator
 	public final static int MESSAGE_FILE = 5;
 	
 	/**
+	 * The type for css file.
+	 */
+	
+	public final static int CSS_FILE = 6;
+	
+	/**
 	 * The other types.
 	 */
 	

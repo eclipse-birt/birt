@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.11" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.0.qualifier Build &lt;@BUILD@></property>
+    <list-property name="cssStyleSheets">
+        <structure>
+            <property name="fileName">badfile.css</property>
+        </structure>
+    </list-property>
+    <page-setup>
+        <simple-master-page name="NewSimpleMasterPage" id="2"/>
+    </page-setup>
+</report>

@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.GroupElement;
+import org.eclipse.birt.report.model.elements.ICssStyleSheetOperation;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
@@ -29,8 +30,10 @@ import org.eclipse.birt.report.model.elements.ScriptDataSet;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSourceModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
+import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.VersionUtil;
@@ -282,9 +285,10 @@ public class ListPropertyState extends AbstractPropertyState
 						handler, element );
 				state.setName( IModuleModel.LIBRARIES_PROP );
 				return state;
-			}
+			}	
 
 		}
+		
 		if ( IScalarParameterModel.BOUND_DATA_COLUMNS_PROP
 				.equalsIgnoreCase( name )
 				&& element instanceof ScalarParameter )
@@ -294,7 +298,7 @@ public class ListPropertyState extends AbstractPropertyState
 			state.setName( name );
 			return state;
 		}
-
+		
 		if ( IReportItemModel.BOUND_DATA_COLUMNS_PROP.equalsIgnoreCase( name )
 				&& element instanceof ReportItem )
 		{
@@ -302,6 +306,18 @@ public class ListPropertyState extends AbstractPropertyState
 					handler, element );
 			state.setName( name );
 			return state;
+		}
+		
+		if( element instanceof ICssStyleSheetOperation )
+		{
+			if(  IReportDesignModel.CSSES_PROP.equalsIgnoreCase( name )
+					|| IThemeModel.CSSES_PROP.equalsIgnoreCase( name ) )
+			{
+				AbstractPropertyState state = new IncludedCssStyleSheetListState(
+						handler, element );
+				state.setName( IReportDesignModel.CSSES_PROP );
+				return state;
+			}
 		}
 
 		return super.generalJumpTo( );

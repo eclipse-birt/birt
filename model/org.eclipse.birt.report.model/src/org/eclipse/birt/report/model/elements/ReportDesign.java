@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.elements;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -25,6 +26,7 @@ import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.css.CssStyleSheet;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.util.ContentIterator;
 import org.eclipse.birt.report.model.writer.DesignWriter;
@@ -40,8 +42,17 @@ import org.eclipse.birt.report.model.writer.ModuleWriter;
  * 
  */
 
-public class ReportDesign extends Module implements IReportDesignModel
+public class ReportDesign extends Module
+		implements
+			IReportDesignModel,
+			ICssStyleSheetOperation
 {
+
+	/**
+	 * All csses which are included in this module.
+	 */
+
+	private List csses = null;
 
 	/**
 	 * Default constructor.
@@ -259,4 +270,53 @@ public class ReportDesign extends Module implements IReportDesignModel
 		return options;
 	}
 
+	/**
+	 * Drops the given css from css list.
+	 * 
+	 * @param css
+	 *            the css to drop
+	 * @return the position of the css to drop
+	 */
+
+	public int dropCss( CssStyleSheet css )
+	{
+		assert csses != null;
+		assert csses.contains( css );
+
+		int posn = csses.indexOf( css );
+		csses.remove( css );
+
+		return posn;
+	}
+
+	/**
+	 * Adds the given css to css style sheets list.
+	 * 
+	 * @param css
+	 *            the css to insert
+	 */
+
+	public void addCss( CssStyleSheet css )
+	{
+		if ( csses == null )
+			csses = new ArrayList( );
+
+		csses.add( css );
+	}
+
+	/**
+	 * Returns only csses this module includes directly.
+	 * 
+	 * @return list of csses. each item is <code>CssStyleSheet</code>
+	 */
+
+	public List getCsses( )
+	{
+		if( csses == null )
+			return Collections.EMPTY_LIST;
+		return Collections.unmodifiableList( csses );
+	}
+
 }
+
+

@@ -15,14 +15,17 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ElementFactory;
+import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
+import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.command.CssException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.command.ThemeException;
 import org.eclipse.birt.report.model.api.core.IAccessControl;
@@ -49,6 +52,82 @@ public class LibraryThemeTest extends BaseTestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
+	}
+	
+	/**
+	 * Tests css style sheet in library theme.
+	 * <tr>
+	 * <td>	add css file 
+	 * <td> check reference is unreslove or not
+	 * </tr>
+	 * 
+	 * <tr>
+	 * <td> drop css file
+	 * <td> check reference is unreslove or not
+	 * </tr>
+	 * @throws Exception
+	 */
+
+	public void testCssStyleSheet( ) throws Exception
+	{
+		openLibrary( "BlankLibrary.xml" ); //$NON-NLS-1$
+		
+		ThemeHandle themeHandle = (ThemeHandle)libraryHandle.getThemes( ).get( 0 );
+		
+		themeHandle.addCss( "base.css" );//$NON-NLS-1$
+		List styles = themeHandle.getAllStyles( );
+		assertEquals( 5, styles.size( ) );
+
+		try
+		{
+			themeHandle.addCss( "base.css" );//$NON-NLS-1$
+			fail( );
+		}
+		catch ( CssException e )
+		{
+			assertEquals( CssException.DESIGN_EXCEPTION_DUPLICATE_CSS, e
+					.getErrorCode( ) );
+		}
+		
+		// label use it
+		LabelHandle labelHandle = libraryHandle.getElementFactory( ).newLabel(
+				"label" );//$NON-NLS-1$
+		libraryHandle.getComponents( ).add( labelHandle );
+		labelHandle.setStyle( (SharedStyleHandle) styles.get( 0 ) );
+
+		// drop css
+		IncludedCssStyleSheetHandle sheetHandle = (IncludedCssStyleSheetHandle) themeHandle
+				.includeCssesIterator( ).next( );
+		
+		assertNotNull( labelHandle.getStyle( ) );
+		
+		// before drop , style is null
+
+		themeHandle.dropCss( sheetHandle );
+		assertNull( themeHandle.includeCssesIterator( ).next( ) );
+		assertNull( labelHandle.getStyle( ) );
+		
+		assertNull( labelHandle.getElement( ).getStyle( ) );
+	}
+	
+	/**
+	 * Test change theme with css style
+	 * @throws Exception
+	 */
+	public void testChangeTheme() throws Exception
+	{
+		openDesign("LibraryThemeTest_ChangeTheme.xml"); //$NON-NLS-1$
+		LabelHandle labelHandle = (LabelHandle)designHandle.findElement( "label" );//$NON-NLS-1$
+		
+		assertEquals( "left" , labelHandle.getStyle( ).getTextAlign( ));//$NON-NLS-1$
+		
+		LibraryHandle libHandle = designHandle.getLibrary( "LibraryThemeTest_TwoTheme"  );;//$NON-NLS-1$
+		ThemeHandle themeHandle = (ThemeHandle)libHandle.getThemes( ).get( 1 );
+		assertEquals( "theme2" , themeHandle.getName( ) );;//$NON-NLS-1$
+		
+		//change theme
+		designHandle.setTheme( themeHandle );
+		assertEquals( "center" , labelHandle.getStyle( ).getTextAlign( ));//$NON-NLS-1$
 	}
 
 	/**
@@ -398,9 +477,10 @@ public class LibraryThemeTest extends BaseTestCase
 		designHandle.setTheme( theme2 );
 
 		save( );
+		
 		assertTrue( compareFile( "DesignWithThemeInLibrary_golden.xml" ) ); //$NON-NLS-1$
 	}
-
+	
 	/**
 	 * @throws Exception
 	 */
@@ -514,7 +594,7 @@ public class LibraryThemeTest extends BaseTestCase
 		assertEquals( 0, clonedTheme1.getStyles( ).getCount( ) );
 
 	}
-
+	
 	/**
 	 * @throws Exception
 	 */

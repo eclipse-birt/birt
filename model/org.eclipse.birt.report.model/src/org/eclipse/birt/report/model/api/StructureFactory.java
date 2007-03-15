@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
+import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.JoinCondition;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
@@ -185,6 +186,17 @@ public class StructureFactory
 	public static IncludedLibrary createIncludeLibrary( )
 	{
 		return new IncludedLibrary( );
+	}
+
+	/**
+	 * Create an empty include css style sheet ststructure.
+	 * 
+	 * @return an empty include css style sheet structure.
+	 */
+
+	public static IncludedCssStyleSheet createIncludedCssStyleSheet( )
+	{
+		return new IncludedCssStyleSheet( );
 	}
 
 	/**

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="3.2.11">
+	<property name="theme">LibraryThemeTest_TwoTheme.theme1</property>
+	<list-property name="libraries">
+		<structure>
+			<property name="fileName">LibraryThemeTest_TwoTheme.xml</property>
+	        <property name="namespace">LibraryThemeTest_TwoTheme</property>
+		</structure>
+    </list-property>
+    <body>
+	    <label id="3" name="label">
+	         <property name="style">code</property>
+	         <text-property name="text">label</text-property>
+	    </label>
+	</body>
+</report>

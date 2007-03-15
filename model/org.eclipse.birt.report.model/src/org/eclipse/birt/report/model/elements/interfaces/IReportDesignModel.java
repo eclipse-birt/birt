@@ -74,6 +74,12 @@ public interface IReportDesignModel
 	 * design.
 	 */
 	public static final String LAYOUT_PREFERENCE_PROP = "layoutPreference"; //$NON-NLS-1$
+	
+	/**
+	 * Css file property
+	 */
+	
+	public static final String CSSES_PROP = "cssStyleSheets";//$NON-NLS-1$
 
 	/**
 	 * Encoding mode for the thumbnail image.

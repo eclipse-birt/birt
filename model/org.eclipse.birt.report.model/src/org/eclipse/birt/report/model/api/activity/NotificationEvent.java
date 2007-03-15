@@ -163,6 +163,18 @@ public abstract class NotificationEvent
 	 */
 
 	public static final int LIBRARY_CHANGE_EVENT = 20;
+	
+	/**
+	 * The event type of css reload event
+	 */
+	
+	public static final int CSS_RELOADED_EVENT = 21;
+	
+	/**
+	 * The event type of css CRUD event
+	 */
+
+	public static final int CSS_EVENT = 22;
 
 	// List of delivery modes. The modes tell the listener the route
 	// by which the event reached that listener.

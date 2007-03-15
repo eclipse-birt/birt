@@ -32,6 +32,11 @@
             <property name="namespace">LibC</property>
         </structure>
     </list-property>
+    <list-property name="cssStyleSheets">
+    	<structure>
+    		<property name="fileName">base.css</property>
+    	</structure>
+    </list-property>
     <list-property name="includeScripts">
         <property>script first</property>
         <property>script second</property>

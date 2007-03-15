@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.elements;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -23,15 +25,28 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.StyleElement;
+import org.eclipse.birt.report.model.css.CssNameManager;
+import org.eclipse.birt.report.model.css.CssStyleSheet;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * This class represents a theme in the library.
  * 
  */
 
-public class Theme extends ReferenceableElement implements IThemeModel
+public class Theme extends ReferenceableElement
+		implements
+			IThemeModel,
+			ICssStyleSheetOperation
 {
+
+	/**
+	 * All csses which are included in this module.
+	 */
+
+	private List csses = null;
+
 	/**
 	 * Constructor.
 	 */
@@ -54,7 +69,7 @@ public class Theme extends ReferenceableElement implements IThemeModel
 		super( theName );
 		initSlots( );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -119,6 +134,41 @@ public class Theme extends ReferenceableElement implements IThemeModel
 	}
 
 	/**
+	 * Gets all styles including styles in css file.
+	 * 
+	 * @return all styles
+	 */
+
+	public List getAllStyles( )
+	{
+		List styleList = new ArrayList( );
+
+		// add style in css file
+		
+		styleList.addAll( CssNameManager.getStyles( this ));
+		
+		// add style in theme slot
+
+		for ( int i = 0; i < slots[STYLES_SLOT].getCount( ); i++ )
+		{
+			StyleElement tmpStyle = (StyleElement) slots[STYLES_SLOT]
+					.getContent( i );
+			int pos = ModelUtil
+					.getStylePotision( styleList, tmpStyle.getName( ) );
+			if ( pos == -1 )
+			{
+				styleList.add( tmpStyle );
+			}
+			else
+			{
+				styleList.remove( pos );
+				styleList.add( tmpStyle );
+			}
+		}
+		return styleList;
+	}
+
+	/**
 	 * Returns the style with the given name.
 	 * 
 	 * @param styleName
@@ -128,28 +178,30 @@ public class Theme extends ReferenceableElement implements IThemeModel
 
 	public StyleElement findStyle( String styleName )
 	{
-		StyleElement style = null;
-
-		for ( int i = 0; i < slots[STYLES_SLOT].getCount( ); i++ )
+		if ( styleName == null )
+			return null;
+		List styles = getAllStyles( );
+		for ( int i = 0; i < styles.size( ); ++i )
 		{
-			StyleElement tmpStyle = (StyleElement) slots[STYLES_SLOT]
-					.getContent( i );
-			if ( tmpStyle.getName( ).equalsIgnoreCase( styleName ) )
+			StyleElement style = (StyleElement) styles.get( i );
+			if ( styleName.equals( style.getName( ) ) )
 			{
-				style = tmpStyle;
-				break;
+				return style;
 			}
 		}
-		return style;
+		return null;
 	}
-	
-	
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.core.DesignElement#checkContent(org.eclipse.birt.report.model.core.Module, org.eclipse.birt.report.model.core.ContainerInfo, org.eclipse.birt.report.model.core.DesignElement)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#checkContent(org.eclipse.birt.report.model.core.Module,
+	 *      org.eclipse.birt.report.model.core.ContainerInfo,
+	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
-	public List checkContent( Module module, ContainerContext containerInfo, DesignElement content )
+
+	public List checkContent( Module module, ContainerContext containerInfo,
+			DesignElement content )
 	{
 		List tmpErrors = super.checkContent( module, containerInfo, content );
 		if ( !tmpErrors.isEmpty( ) )
@@ -162,4 +214,52 @@ public class Theme extends ReferenceableElement implements IThemeModel
 		return tmpErrors;
 
 	}
+
+	/**
+	 * Drops the given css from css list.
+	 * 
+	 * @param css
+	 *            the css to drop
+	 * @return the position of the css to drop
+	 */
+
+	public int dropCss( CssStyleSheet css )
+	{
+		assert csses != null;
+		assert csses.contains( css );
+
+		int posn = csses.indexOf( css );
+		csses.remove( css );
+
+		return posn;
+	}
+
+	/**
+	 * Adds the given css to css list.
+	 * 
+	 * @param css
+	 *            the css to insert
+	 */
+
+	public void addCss( CssStyleSheet css )
+	{
+		if ( csses == null )
+			csses = new ArrayList( );
+
+		csses.add( css );
+	}
+
+	/**
+	 * Returns only csses this module includes directly.
+	 * 
+	 * @return list of csses. each item is <code>CssStyleSheet</code>
+	 */
+
+	public List getCsses( )
+	{
+		if( csses == null )
+			return Collections.EMPTY_LIST;
+		return Collections.unmodifiableList( csses );
+	}
+
 }

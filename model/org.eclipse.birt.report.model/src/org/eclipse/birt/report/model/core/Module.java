@@ -31,6 +31,7 @@ import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.CssException;
 import org.eclipse.birt.report.model.api.command.ResourceChangeEvent;
 import org.eclipse.birt.report.model.api.core.AttributeEvent;
 import org.eclipse.birt.report.model.api.core.DisposeEvent;
@@ -40,6 +41,7 @@ import org.eclipse.birt.report.model.api.core.IDisposeListener;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.INameManager;
 import org.eclipse.birt.report.model.api.core.IResourceChangeListener;
+import org.eclipse.birt.report.model.api.css.StyleSheetException;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
@@ -52,6 +54,9 @@ import org.eclipse.birt.report.model.api.validators.IValidationListener;
 import org.eclipse.birt.report.model.api.validators.ValidationEvent;
 import org.eclipse.birt.report.model.core.namespace.IModuleNameScope;
 import org.eclipse.birt.report.model.core.namespace.ModuleNameScopeFactory;
+import org.eclipse.birt.report.model.css.CssStyle;
+import org.eclipse.birt.report.model.css.CssStyleSheet;
+import org.eclipse.birt.report.model.css.StyleSheetLoader;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateElement;
@@ -2130,7 +2135,8 @@ public abstract class Module extends DesignElement implements IModuleModel
 			units = (String) value;
 		else if ( THEME_PROP.equals( propName ) )
 		{
-			ReferenceValueUtil.updateReference( this, theme, (ReferenceValue) value, getPropertyDefn( THEME_PROP ) );
+			ReferenceValueUtil.updateReference( this, theme,
+					(ReferenceValue) value, getPropertyDefn( THEME_PROP ) );
 			theme = (ElementRefValue) value;
 		}
 		else
@@ -2698,5 +2704,57 @@ public abstract class Module extends DesignElement implements IModuleModel
 	public String getNamespace( )
 	{
 		return null;
+	}
+
+	/**
+	 * Loads css with the given css file name. This file name can be absolute or
+	 * relative. If the css doesn't exist or fatal error occurs when opening
+	 * css,.
+	 * 
+	 * @param element
+	 *            design element
+	 * @param fileName
+	 *            css file name
+	 * @return the loaded css
+	 * @throws DesignFileException
+	 *             if the css file has fatal error.
+	 * @throws SemanticException
+	 */
+
+	public CssStyleSheet loadCss( DesignElement element, String fileName )
+			throws SemanticException
+	{
+		URL url = findResource( fileName, IResourceLocator.CSS_FILE );
+		if ( url == null )
+		{
+			CssException ex = new CssException( this, CssException.DESIGN_EXCEPTION_CSS_NOT_FOUND );
+			throw ex;
+		}
+		try
+		{
+			StyleSheetLoader loader = new StyleSheetLoader( );
+			CssStyleSheet sheet = loader.load( this, url.openStream( ) );
+			sheet.setFileName( url.getFile( ) );
+			
+			List styles = sheet.getStyles( );
+			for( int i =0; styles!= null && i < styles.size( ) ; ++ i )
+			{
+				CssStyle style = (CssStyle)styles.get( i );
+				style.setCssStyleSheet( sheet );
+				style.setContainer( element );
+			}
+			return sheet;
+		}
+		catch ( StyleSheetException e )
+		{
+			CssException ex = new CssException( this,
+					CssException.DESIGN_EXCEPTION_BADCSSFILE );
+			throw ex;
+		}
+		catch ( IOException e )
+		{
+			CssException ex = new CssException( this, CssException.DESIGN_EXCEPTION_BADCSSFILE );
+			throw ex;
+		}
 	}
 }

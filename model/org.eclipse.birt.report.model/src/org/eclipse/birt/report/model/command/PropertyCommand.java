@@ -16,9 +16,11 @@ import java.util.List;
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.IllegalOperationException;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.CssException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.command.PropertyNameException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
@@ -32,11 +34,11 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.GroupNameValidator;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
-import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.css.CssStyle;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.GroupElement;
@@ -93,6 +95,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 	public void setProperty( String propName, Object value )
 			throws SemanticException
 	{
+		checkAllowedOperation( );
 		propName = StringUtil.trimString( propName );
 
 		// Ensure that the property is defined.
@@ -123,6 +126,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 	public void setProperty( ElementPropertyDefn prop, Object value )
 			throws SemanticException
 	{
+		checkAllowedOperation( );
+		
 		// Backward for TOC expression.
 
 		String propName = prop.getName( );
@@ -239,6 +244,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 	private void clearRefTemplateParameterProp( ElementPropertyDefn prop,
 			Object value ) throws SemanticException
 	{
+		checkAllowedOperation( );
 		assert prop != null;
 		assert IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP.equals( prop
 				.getName( ) );
@@ -405,6 +411,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 	private void setIntrinsicProperty( ElementPropertyDefn prop, Object value )
 			throws SemanticException
 	{
+		checkAllowedOperation( );
 		String propName = prop.getName( );
 
 		if ( IDesignElementModel.NAME_PROP.equals( propName ) )
@@ -510,6 +517,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 	public void setMember( MemberRef ref, Object value )
 			throws SemanticException
 	{
+		checkAllowedOperation( );
 		PropertyDefn memberDefn = ref.getMemberDefn( );
 		PropertyDefn propDefn = ref.getPropDefn( );
 		assert propDefn != null;
@@ -567,4 +575,19 @@ public class PropertyCommand extends AbstractPropertyCommand
 		stack.commit( );
 
 	}
+	
+	/**
+	 * Check operation is allowed or not. Now if element is css style instance ,
+	 * forbidden its operation.
+	 * 
+	 */
+	
+	private void checkAllowedOperation( )
+	{
+		//	read-only for css style.
+		
+		if( element != null && element instanceof CssStyle )
+			throw new IllegalOperationException( CssException.DESIGN_EXCEPTION_READONLY );
+	}
 }
+
