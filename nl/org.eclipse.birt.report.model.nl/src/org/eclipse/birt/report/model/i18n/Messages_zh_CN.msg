@@ -1802,6 +1802,7 @@ Structure.JoinCondition=Áª½ÓÌõ¼ş
 Structure.ParameterFormatValue=²ÎÊı¸ñÊ½Öµ
 Structure.OdaDesignerState=Oda Designer State
 Structure.ScriptLib=½Å±¾¿â
+Structure.IncludedCssStyleSheet=Included css style sheet
 
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression
@@ -1941,6 +1942,9 @@ Structure.SelectionChoice.labelID=±êÇ©×ÊÔ´¹Ø¼ü×Ö
 #13. IncludedLibrary
 Structure.IncludedLibrary.fileName=ÎÄ¼şÃû
 Structure.IncludedLibrary.namespace=Ãû³Æ¿Õ¼ä
+
+#14. IncludedCssStyleSheet
+Structure.IncludedCssStyleSheet.fileName=File name
 
 #15. DataSetParam
 Structure.DataSetParam.name=Ãû³Æ
@@ -2236,6 +2240,7 @@ Element.ReportDesign.slot.cubes=¶àÎ¬Êı¾İ¼¯ÔªËØ
 Element.ReportDesign.initialize=³õÊ¼»¯
 Element.ReportDesign.initialize.toolTip=¿ªÊ¼Ö´ĞĞ±¨±íÊ±µ÷ÓÃ¡£
 Element.ReportDesign.initialize.reportContext=±¨±íÉÏÏÂÎÄ
+Element.ReportDesign.cssStyleSheets=Css style sheets
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=ÏÔÊ¾Ãû³Æ
@@ -2867,6 +2872,7 @@ Element.DesignElement.userProperties=ÓÃ»§ÊôĞÔ
 
 #38 Theme ( Prefix Element.Theme )
 Element.Theme.slot.styles=ÑùÊ½
+Element.Theme.cssStyleSheets=Css style sheets
 
 #39 TemplateParameterDefinition ( Prefix Element.TemplateParameterDefinition )
 Element.TemplateParameterDefinition.name=Ãû³Æ
@@ -2913,7 +2919,6 @@ Element.AutoText.onPageBreak.reportContext=±¨±íÉÏÏÂÎÄ
 
 #45. Cube ( prefix Element.Cube )
 Element.Cube.filter=É¸Ñ¡Ìõ¼ş
-Element.Cube.dimensionConditions=Î¬Ìõ¼ş
 Element.Cube.defaultMeasureGroup=Ä¬ÈÏ¶ÈÁ¿×é
 Element.Cube.accessControls=·ÃÎÊ¿ØÖÆ
 
@@ -2923,11 +2928,9 @@ Element.Dimension.defaultHierarchy=Ä¬ÈÏ²ã´Î½á¹¹
 
 #47. Hierarchy ( prefix Element.Hierarchy )
 Element.Hierarchy.filter=É¸Ñ¡Ìõ¼ş
-Element.Hierarchy.primaryKeys=Ö÷¼ü
 Element.Hierarchy.accessControls=·ÃÎÊ¿ØÖÆ
 
 #48. Level ( prefix Element.Level )
-Element.Level.columnName=ÁĞÃû
 Element.Level.dataType=Êı¾İÀàĞÍ
 Element.Level.Interval=¼ä¸ô
 Element.Level.intervalBase=¼ä¸ô»ùÊı
@@ -2955,9 +2958,10 @@ Element.AccessControl.permission=·ÃÎÊÈ¨ÏŞ
 Element.ValueAccessControl.values=Öµ
 
 #52. TabularCube ( prefix Element.TabularCube )
-Element.TabularCubedataSet=Êı¾İ¼¯
+Element.TabularCube.dataSet=Êı¾İ¼¯
 Element.TabularCube.dimensions=Éè¼ÆÎÄ¼şÊÇÊ¹ÓÃ½ÏÔç°æ±¾µÄ BIRT ´´½¨µÄ¡£µ¥»÷¡°È·¶¨¡±½«Ëü×ª»»Îª¸Ã²úÆ·µ±Ç°°æ±¾Ö§³ÖµÄ¸ñÊ½¡£
 Element.TabularCube.measureGroups=Éè¼ÆÎÄ¼şÊÇÊ¹ÓÃ½ÏÔç°æ±¾µÄ BIRT ´´½¨µÄ¡£µ¥»÷¡°È·¶¨¡±½«Ëü×ª»»Îª¸Ã²úÆ·µ±Ç°°æ±¾Ö§³ÖµÄ¸ñÊ½¡£
+Element.TabularCube.dimensionConditions=Î¬Ìõ¼ş
 
 #53. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=Éè¼ÆÎÄ¼şÊÇÊ¹ÓÃ½ÏÔç°æ±¾µÄ BIRT ´´½¨µÄ¡£µ¥»÷¡°È·¶¨¡±½«Ëü×ª»»Îª¸Ã²úÆ·µ±Ç°°æ±¾Ö§³ÖµÄ¸ñÊ½¡£
@@ -2965,17 +2969,21 @@ Element.TabularDimension.hierarchies=Éè¼ÆÎÄ¼şÊÇÊ¹ÓÃ½ÏÔç°æ±¾µÄ BIRT ´´½¨µÄ¡£µ¥»÷¡
 #54. TabularHierarchy ( prefix Element.TabularHierarchy )
 Element.TabularHierarchy.dataSet=Êı¾İ¼¯
 Element.TabularHierarchy.levels=Éè¼ÆÎÄ¼şÊÇÊ¹ÓÃ½ÏÔç°æ±¾µÄ BIRT ´´½¨µÄ¡£µ¥»÷¡°È·¶¨¡±½«Ëü×ª»»Îª¸Ã²úÆ·µ±Ç°°æ±¾Ö§³ÖµÄ¸ñÊ½¡£
+Element.TabularHierarchy.primaryKeys=Ö÷¼ü
 
-#55. OdaCube ( prefix Element.OdaCube )
+#55. TabularLevel ( prefix Element.TabularLevel )
+Element.TabularLevel.columnName=ÁĞÃû
+
+#56. OdaCube ( prefix Element.OdaCube )
 Element.OdaCube.dimensions=Éè¼ÆÎÄ¼şÊÇÊ¹ÓÃ½ÏÔç°æ±¾µÄ BIRT ´´½¨µÄ¡£µ¥»÷¡°È·¶¨¡±½«Ëü×ª»»Îª¸Ã²úÆ·µ±Ç°°æ±¾Ö§³ÖµÄ¸ñÊ½¡£
 Element.OdaCube.measureGroups=Éè¼ÆÎÄ¼şÊÇÊ¹ÓÃ½ÏÔç°æ±¾µÄ BIRT ´´½¨µÄ¡£µ¥»÷¡°È·¶¨¡±½«Ëü×ª»»Îª¸Ã²úÆ·µ±Ç°°æ±¾Ö§³ÖµÄ¸ñÊ½¡£
 Element.OdaCube.nativeName=±¾µØÃû³Æ
 
-#56. OdaDimension ( prefix Element.OdaDimension )
+#57. OdaDimension ( prefix Element.OdaDimension )
 Element.OdaDimension.hierarchies=Éè¼ÆÎÄ¼şÊÇÊ¹ÓÃ½ÏÔç°æ±¾µÄ BIRT ´´½¨µÄ¡£µ¥»÷¡°È·¶¨¡±½«Ëü×ª»»Îª¸Ã²úÆ·µ±Ç°°æ±¾Ö§³ÖµÄ¸ñÊ½¡£
 Element.OdaDimension.nativeName=±¾µØÃû³Æ
 
-#57. OdaHierarchy ( prefix Element.OdaHierarchy )
+#58. OdaHierarchy ( prefix Element.OdaHierarchy )
 Element.OdaHierarchy.levels=Éè¼ÆÎÄ¼şÊÇÊ¹ÓÃ½ÏÔç°æ±¾µÄ BIRT ´´½¨µÄ¡£µ¥»÷¡°È·¶¨¡±½«Ëü×ª»»Îª¸Ã²úÆ·µ±Ç°°æ±¾Ö§³ÖµÄ¸ñÊ½¡£
 Element.OdaHierarchy.nativeName=±¾µØÃû³Æ
 
@@ -3439,6 +3447,12 @@ Error.LibraryException.LIBRARY_ALREADY_INCLUDED=ÒÑ°üÀ¨¿â "{0}"£¬Ò»¸ö¿â²»ÄÜÌí¼ÓÁ½
 #StyleSheetException
 Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=Î´ÕÒµ½ÑùÊ½±í×ÊÔ´¡£
 Error.StyleSheetException.SYNTAX_ERROR=´æÔÚÄ³Ğ©Óë CSS2 ²»Ò»ÖÂµÄÓï·¨´íÎó¡£
+
+#IncludedCssStyleSheetException
+Error.CSSException.CSS_NOT_FOUND=Î´ÕÒµ½ÑùÊ½±í×ÊÔ´¡£
+Error.CSSException.DUPLICATE_CSS=Css style sheet duplicates.
+Error.CSSException.BADCSSFILE=There is some syntax errors in css file.
+Error.CssException.READONLY=Style in css file is read-only.
 
 #StyleSheetParserException
 Error.StyleSheetParserException.RULE_NOT_SUPPORTED=²»Ö§³Ö¹æÔò "{0}"¡£

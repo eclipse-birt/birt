@@ -1802,6 +1802,7 @@ Structure.JoinCondition=ƒWƒ‡ƒCƒ“‚ÌğŒ
 Structure.ParameterFormatValue=ƒpƒ‰ƒƒ^‚Ì‘®‚Ì’l
 Structure.OdaDesignerState=Oda Designer State
 Structure.ScriptLib=ƒXƒNƒŠƒvƒgƒ‰ƒCƒuƒ‰ƒŠ
+Structure.IncludedCssStyleSheet=Included css style sheet
 
 #0.MapRule
 Structure.MapRule.testExpr=ƒeƒXƒg®
@@ -1941,6 +1942,9 @@ Structure.SelectionChoice.labelID=ƒ‰ƒxƒ‹‚ÌƒŠƒ\[ƒXƒL[
 #13. IncludedLibrary
 Structure.IncludedLibrary.fileName=ƒtƒ@ƒCƒ‹–¼
 Structure.IncludedLibrary.namespace=–¼‘O‹óŠÔ
+
+#14. IncludedCssStyleSheet
+Structure.IncludedCssStyleSheet.fileName=File name
 
 #15. DataSetParam
 Structure.DataSetParam.name=–¼‘O
@@ -2236,6 +2240,7 @@ Element.ReportDesign.slot.cubes=ƒLƒ…[ƒu—v‘f
 Element.ReportDesign.initialize=‰Šú‰» 
 Element.ReportDesign.initialize.toolTip=ƒŒƒ|[ƒg‚ÌÀs‚ğŠJn‚·‚éÛ‚ÉŒÄ‚Ño‚³‚ê‚Ü‚·B
 Element.ReportDesign.initialize.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
+Element.ReportDesign.cssStyleSheets=Css style sheets
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=•\¦–¼
@@ -2867,6 +2872,7 @@ Element.DesignElement.userProperties=ƒ†[ƒU‚ÌƒvƒƒpƒeƒB
 
 #38 Theme ( Prefix Element.Theme )
 Element.Theme.slot.styles=ƒXƒ^ƒCƒ‹
+Element.Theme.cssStyleSheets=Css style sheets
 
 #39 TemplateParameterDefinition ( Prefix Element.TemplateParameterDefinition )
 Element.TemplateParameterDefinition.name=–¼‘O
@@ -2913,7 +2919,6 @@ Element.AutoText.onPageBreak.reportContext=ƒŒƒ|[ƒg‚ÌƒRƒ“ƒeƒLƒXƒg
 
 #45. Cube ( prefix Element.Cube )
 Element.Cube.filter=ƒtƒBƒ‹ƒ^ğŒ
-Element.Cube.dimensionConditions=ŸŒ³ğŒ
 Element.Cube.defaultMeasureGroup=ƒfƒtƒHƒ‹ƒg‚ÌŒv‘ªƒOƒ‹[ƒv
 Element.Cube.accessControls=ƒAƒNƒZƒXƒRƒ“ƒgƒ[ƒ‹
 
@@ -2923,11 +2928,9 @@ Element.Dimension.defaultHierarchy=ƒfƒtƒHƒ‹ƒg‚ÌŠK‘w
 
 #47. Hierarchy ( prefix Element.Hierarchy )
 Element.Hierarchy.filter=ƒtƒBƒ‹ƒ^ğŒ
-Element.Hierarchy.primaryKeys=ƒvƒ‰ƒCƒ}ƒŠƒL[
 Element.Hierarchy.accessControls=ƒAƒNƒZƒXƒRƒ“ƒgƒ[ƒ‹
 
 #48. Level ( prefix Element.Level )
-Element.Level.columnName=—ñŒ©o‚µ
 Element.Level.dataType=ƒf[ƒ^Œ^
 Element.Level.Interval=ŠÔŠu
 Element.Level.intervalBase=ŠÔŠu‚ÌŠî€
@@ -2955,9 +2958,10 @@ Element.AccessControl.permission=ƒAƒNƒZƒXŒ ŒÀ
 Element.ValueAccessControl.values=’l
 
 #52. TabularCube ( prefix Element.TabularCube )
-Element.TabularCubedataSet=ƒf[ƒ^ƒZƒbƒg
+Element.TabularCube.dataSet=ƒf[ƒ^ƒZƒbƒg
 Element.TabularCube.dimensions=‚±‚ÌƒfƒUƒCƒ“ƒtƒ@ƒCƒ‹‚ÍAˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚Ì BIRT ‚Åì¬‚³‚ê‚Ä‚¢‚Ü‚·B[OK] ‚ğƒNƒŠƒbƒN‚·‚é‚ÆAŒ»İ‚Ìƒo[ƒWƒ‡ƒ“‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éŒ`®‚É•ÏŠ·‚³‚ê‚Ü‚·B
 Element.TabularCube.measureGroups=‚±‚ÌƒfƒUƒCƒ“ƒtƒ@ƒCƒ‹‚ÍAˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚Ì BIRT ‚Åì¬‚³‚ê‚Ä‚¢‚Ü‚·B[OK] ‚ğƒNƒŠƒbƒN‚·‚é‚ÆAŒ»İ‚Ìƒo[ƒWƒ‡ƒ“‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éŒ`®‚É•ÏŠ·‚³‚ê‚Ü‚·B
+Element.TabularCube.dimensionConditions=ŸŒ³ğŒ
 
 #53. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=‚±‚ÌƒfƒUƒCƒ“ƒtƒ@ƒCƒ‹‚ÍAˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚Ì BIRT ‚Åì¬‚³‚ê‚Ä‚¢‚Ü‚·B[OK] ‚ğƒNƒŠƒbƒN‚·‚é‚ÆAŒ»İ‚Ìƒo[ƒWƒ‡ƒ“‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éŒ`®‚É•ÏŠ·‚³‚ê‚Ü‚·B
@@ -2965,17 +2969,21 @@ Element.TabularDimension.hierarchies=‚±‚ÌƒfƒUƒCƒ“ƒtƒ@ƒCƒ‹‚ÍAˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚Ì 
 #54. TabularHierarchy ( prefix Element.TabularHierarchy )
 Element.TabularHierarchy.dataSet=ƒf[ƒ^ƒZƒbƒg
 Element.TabularHierarchy.levels=‚±‚ÌƒfƒUƒCƒ“ƒtƒ@ƒCƒ‹‚ÍAˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚Ì BIRT ‚Åì¬‚³‚ê‚Ä‚¢‚Ü‚·B[OK] ‚ğƒNƒŠƒbƒN‚·‚é‚ÆAŒ»İ‚Ìƒo[ƒWƒ‡ƒ“‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éŒ`®‚É•ÏŠ·‚³‚ê‚Ü‚·B
+Element.TabularHierarchy.primaryKeys=ƒvƒ‰ƒCƒ}ƒŠƒL[
 
-#55. OdaCube ( prefix Element.OdaCube )
+#55. TabularLevel ( prefix Element.TabularLevel )
+Element.TabularLevel.columnName=—ñ–¼
+
+#56. OdaCube ( prefix Element.OdaCube )
 Element.OdaCube.dimensions=‚±‚ÌƒfƒUƒCƒ“ƒtƒ@ƒCƒ‹‚ÍAˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚Ì BIRT ‚Åì¬‚³‚ê‚Ä‚¢‚Ü‚·B[OK] ‚ğƒNƒŠƒbƒN‚·‚é‚ÆAŒ»İ‚Ìƒo[ƒWƒ‡ƒ“‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éŒ`®‚É•ÏŠ·‚³‚ê‚Ü‚·B
 Element.OdaCube.measureGroups=‚±‚ÌƒfƒUƒCƒ“ƒtƒ@ƒCƒ‹‚ÍAˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚Ì BIRT ‚Åì¬‚³‚ê‚Ä‚¢‚Ü‚·B[OK] ‚ğƒNƒŠƒbƒN‚·‚é‚ÆAŒ»İ‚Ìƒo[ƒWƒ‡ƒ“‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éŒ`®‚É•ÏŠ·‚³‚ê‚Ü‚·B
 Element.OdaCube.nativeName=ƒlƒCƒeƒBƒu‚Ì–¼‘O
 
-#56. OdaDimension ( prefix Element.OdaDimension )
+#57. OdaDimension ( prefix Element.OdaDimension )
 Element.OdaDimension.hierarchies=‚±‚ÌƒfƒUƒCƒ“ƒtƒ@ƒCƒ‹‚ÍAˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚Ì BIRT ‚Åì¬‚³‚ê‚Ä‚¢‚Ü‚·B[OK] ‚ğƒNƒŠƒbƒN‚·‚é‚ÆAŒ»İ‚Ìƒo[ƒWƒ‡ƒ“‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éŒ`®‚É•ÏŠ·‚³‚ê‚Ü‚·B
 Element.OdaDimension.nativeName=ƒlƒCƒeƒBƒu‚Ì–¼‘O
 
-#57. OdaHierarchy ( prefix Element.OdaHierarchy )
+#58. OdaHierarchy ( prefix Element.OdaHierarchy )
 Element.OdaHierarchy.levels=‚±‚ÌƒfƒUƒCƒ“ƒtƒ@ƒCƒ‹‚ÍAˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚Ì BIRT ‚Åì¬‚³‚ê‚Ä‚¢‚Ü‚·B[OK] ‚ğƒNƒŠƒbƒN‚·‚é‚ÆAŒ»İ‚Ìƒo[ƒWƒ‡ƒ“‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éŒ`®‚É•ÏŠ·‚³‚ê‚Ü‚·B
 Element.OdaHierarchy.nativeName=ƒlƒCƒeƒBƒu‚Ì–¼‘O
 
@@ -3439,6 +3447,12 @@ Error.LibraryException.LIBRARY_ALREADY_INCLUDED=ƒ‰ƒCƒuƒ‰ƒŠ "{0}" ‚Í‚·‚Å‚ÉƒCƒ“ƒNƒ
 #StyleSheetException
 Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=ƒXƒ^ƒCƒ‹ƒV[ƒg‚ÌƒŠƒ\[ƒX‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 Error.StyleSheetException.SYNTAX_ERROR=CSS2 ‚É]‚Á‚Ä‚¢‚È‚¢\•¶ƒGƒ‰[‚ª‚ ‚è‚Ü‚·B
+
+#IncludedCssStyleSheetException
+Error.CSSException.CSS_NOT_FOUND=ƒXƒ^ƒCƒ‹ƒV[ƒg‚ÌƒŠƒ\[ƒX‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
+Error.CSSException.DUPLICATE_CSS=Css style sheet duplicates.
+Error.CSSException.BADCSSFILE=There is some syntax errors in css file.
+Error.CssException.READONLY=Style in css file is read-only.
 
 #StyleSheetParserException
 Error.StyleSheetParserException.RULE_NOT_SUPPORTED=‹K‘¥ "{0}" ‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB

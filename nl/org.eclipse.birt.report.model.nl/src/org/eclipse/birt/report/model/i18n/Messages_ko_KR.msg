@@ -1802,6 +1802,7 @@ Structure.JoinCondition=조인 조건
 Structure.ParameterFormatValue=매개 변수 형식 값
 Structure.OdaDesignerState=Oda Designer State
 Structure.ScriptLib=스크립트 Lib
+Structure.IncludedCssStyleSheet=Included css style sheet
 
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression
@@ -1941,6 +1942,9 @@ Structure.SelectionChoice.labelID=레이블 리소스 키
 #13. IncludedLibrary
 Structure.IncludedLibrary.fileName=파일 이름
 Structure.IncludedLibrary.namespace=네임스페이스
+
+#14. IncludedCssStyleSheet
+Structure.IncludedCssStyleSheet.fileName=File name
 
 #15. DataSetParam
 Structure.DataSetParam.name=이름
@@ -2236,6 +2240,7 @@ Element.ReportDesign.slot.cubes=큐브 요소
 Element.ReportDesign.initialize=초기화
 Element.ReportDesign.initialize.toolTip=보고서 실행 시작 시 호출됩니다.
 Element.ReportDesign.initialize.reportContext=보고서 컨텍스트
+Element.ReportDesign.cssStyleSheets=Css style sheets
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=표시 이름
@@ -2867,6 +2872,7 @@ Element.DesignElement.userProperties=사용자 속성
 
 #38 Theme ( Prefix Element.Theme )
 Element.Theme.slot.styles=스타일
+Element.Theme.cssStyleSheets=Css style sheets
 
 #39 TemplateParameterDefinition ( Prefix Element.TemplateParameterDefinition )
 Element.TemplateParameterDefinition.name=이름
@@ -2913,7 +2919,6 @@ Element.AutoText.onPageBreak.reportContext=보고서 컨텍스트
 
 #45. Cube ( prefix Element.Cube )
 Element.Cube.filter=필터 조건
-Element.Cube.dimensionConditions=차원 조건
 Element.Cube.defaultMeasureGroup=기본 측정 그룹
 Element.Cube.accessControls=액세스 컨트롤
 
@@ -2923,11 +2928,9 @@ Element.Dimension.defaultHierarchy=기본 계층 구조
 
 #47. Hierarchy ( prefix Element.Hierarchy )
 Element.Hierarchy.filter=필터 조건
-Element.Hierarchy.primaryKeys=기본 키
 Element.Hierarchy.accessControls=액세스 컨트롤
 
 #48. Level ( prefix Element.Level )
-Element.Level.columnName=열 이름
 Element.Level.dataType=데이터 형식
 Element.Level.Interval=간격
 Element.Level.intervalBase=간격 기준
@@ -2955,9 +2958,10 @@ Element.AccessControl.permission=액세스 권한
 Element.ValueAccessControl.values=값
 
 #52. TabularCube ( prefix Element.TabularCube )
-Element.TabularCubedataSet=데이터 집합
+Element.TabularCube.dataSet=데이터 집합
 Element.TabularCube.dimensions=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
 Element.TabularCube.measureGroups=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
+Element.TabularCube.dimensionConditions=차원 조건
 
 #53. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
@@ -2965,17 +2969,21 @@ Element.TabularDimension.hierarchies=이전 버전의 BIRT에서 만든 디자인 파일입니다
 #54. TabularHierarchy ( prefix Element.TabularHierarchy )
 Element.TabularHierarchy.dataSet=데이터 집합
 Element.TabularHierarchy.levels=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
+Element.TabularHierarchy.primaryKeys=기본 키
 
-#55. OdaCube ( prefix Element.OdaCube )
+#55. TabularLevel ( prefix Element.TabularLevel )
+Element.TabularLevel.columnName=열 이름
+
+#56. OdaCube ( prefix Element.OdaCube )
 Element.OdaCube.dimensions=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
 Element.OdaCube.measureGroups=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
 Element.OdaCube.nativeName=고유 이름
 
-#56. OdaDimension ( prefix Element.OdaDimension )
+#57. OdaDimension ( prefix Element.OdaDimension )
 Element.OdaDimension.hierarchies=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
 Element.OdaDimension.nativeName=고유 이름
 
-#57. OdaHierarchy ( prefix Element.OdaHierarchy )
+#58. OdaHierarchy ( prefix Element.OdaHierarchy )
 Element.OdaHierarchy.levels=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
 Element.OdaHierarchy.nativeName=고유 이름
 
@@ -3439,6 +3447,12 @@ Error.LibraryException.LIBRARY_ALREADY_INCLUDED=라이브러리 "{0}"이(가) 이미 포함
 #StyleSheetException
 Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=스타일시트 리소스가 없습니다.
 Error.StyleSheetException.SYNTAX_ERROR=CSS2와 일치하지 않는 일부 구문 오류가 있습니다.
+
+#IncludedCssStyleSheetException
+Error.CSSException.CSS_NOT_FOUND=스타일시트 리소스가 없습니다.
+Error.CSSException.DUPLICATE_CSS=Css style sheet duplicates.
+Error.CSSException.BADCSSFILE=There is some syntax errors in css file.
+Error.CssException.READONLY=Style in css file is read-only.
 
 #StyleSheetParserException
 Error.StyleSheetParserException.RULE_NOT_SUPPORTED=규칙 "{0}"이(가) 지원되지 않습니다.

@@ -1802,6 +1802,7 @@ Structure.JoinCondition=Verknüpfungsbedingung
 Structure.ParameterFormatValue=Wert für Parameterformat
 Structure.OdaDesignerState=Oda Designer State
 Structure.ScriptLib=Skriptbibliothek
+Structure.IncludedCssStyleSheet=Included css style sheet
 
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression
@@ -1941,6 +1942,9 @@ Structure.SelectionChoice.labelID=Beschreibungsressourcenschlüssel
 #13. IncludedLibrary
 Structure.IncludedLibrary.fileName=Dateiname
 Structure.IncludedLibrary.namespace=Namespace
+
+#14. IncludedCssStyleSheet
+Structure.IncludedCssStyleSheet.fileName=File name
 
 #15. DataSetParam
 Structure.DataSetParam.name=Name
@@ -2236,6 +2240,7 @@ Element.ReportDesign.slot.cubes=Quaderelemente
 Element.ReportDesign.initialize=Initialisieren
 Element.ReportDesign.initialize.toolTip=Wird zu Beginn der Berichtausführung aufgerufen.
 Element.ReportDesign.initialize.reportContext=Berichtkontext
+Element.ReportDesign.cssStyleSheets=Css style sheets
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=Anzeigename
@@ -2867,6 +2872,7 @@ Element.DesignElement.userProperties=Benutzereigenschaften
 
 #38 Theme ( Prefix Element.Theme )
 Element.Theme.slot.styles=Stile
+Element.Theme.cssStyleSheets=Css style sheets
 
 #39 TemplateParameterDefinition ( Prefix Element.TemplateParameterDefinition )
 Element.TemplateParameterDefinition.name=Name
@@ -2913,7 +2919,6 @@ Element.AutoText.onPageBreak.reportContext=Berichtkontext
 
 #45. Cube ( prefix Element.Cube )
 Element.Cube.filter=Filterbedingungen
-Element.Cube.dimensionConditions=Dimensionsbedingungen
 Element.Cube.defaultMeasureGroup=Standard-Maßeinheitsgruppe
 Element.Cube.accessControls=Zugriffssteuerungen
 
@@ -2923,11 +2928,9 @@ Element.Dimension.defaultHierarchy=Standardhierarchie
 
 #47. Hierarchy ( prefix Element.Hierarchy )
 Element.Hierarchy.filter=Filterbedingungen
-Element.Hierarchy.primaryKeys=Primärschlüssel
 Element.Hierarchy.accessControls=Zugriffssteuerungen
 
 #48. Level ( prefix Element.Level )
-Element.Level.columnName=Spaltenname
 Element.Level.dataType=Datentyp
 Element.Level.Interval=Intervall
 Element.Level.intervalBase=Intervallbasis
@@ -2955,9 +2958,10 @@ Element.AccessControl.permission=Zugriffsberechtigung
 Element.ValueAccessControl.values=Werte
 
 #52. TabularCube ( prefix Element.TabularCube )
-Element.TabularCubedataSet=Datensatz
+Element.TabularCube.dataSet=Datensatz
 Element.TabularCube.dimensions=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
 Element.TabularCube.measureGroups=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
+Element.TabularCube.dimensionConditions=Dimensionsbedingungen
 
 #53. TabularDimension ( prefix Element.TabularDimension )
 Element.TabularDimension.hierarchies=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
@@ -2965,17 +2969,21 @@ Element.TabularDimension.hierarchies=Die Designdatei wurde von einer früheren Ve
 #54. TabularHierarchy ( prefix Element.TabularHierarchy )
 Element.TabularHierarchy.dataSet=Datensatz
 Element.TabularHierarchy.levels=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
+Element.TabularHierarchy.primaryKeys=Primärschlüssel
 
-#55. OdaCube ( prefix Element.OdaCube )
+#55. TabularLevel ( prefix Element.TabularLevel )
+Element.TabularLevel.columnName=Spaltenname
+
+#56. OdaCube ( prefix Element.OdaCube )
 Element.OdaCube.dimensions=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
 Element.OdaCube.measureGroups=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
 Element.OdaCube.nativeName=Programmeigener Name
 
-#56. OdaDimension ( prefix Element.OdaDimension )
+#57. OdaDimension ( prefix Element.OdaDimension )
 Element.OdaDimension.hierarchies=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
 Element.OdaDimension.nativeName=Programmeigener Name
 
-#57. OdaHierarchy ( prefix Element.OdaHierarchy )
+#58. OdaHierarchy ( prefix Element.OdaHierarchy )
 Element.OdaHierarchy.levels=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
 Element.OdaHierarchy.nativeName=Programmeigener Name
 
@@ -3439,6 +3447,12 @@ Error.LibraryException.LIBRARY_ALREADY_INCLUDED=Die Bibliothek "{0}" ist bereits
 #StyleSheetException
 Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=Die Stilvorlagen-Ressource wurde nicht gefunden.
 Error.StyleSheetException.SYNTAX_ERROR=Syntaxfehler aufgrund von Inkonsistenzen mit CSS2.
+
+#IncludedCssStyleSheetException
+Error.CSSException.CSS_NOT_FOUND=Die Stilvorlagen-Ressource wurde nicht gefunden.
+Error.CSSException.DUPLICATE_CSS=Css style sheet duplicates.
+Error.CSSException.BADCSSFILE=There is some syntax errors in css file.
+Error.CssException.READONLY=Style in css file is read-only.
 
 #StyleSheetParserException
 Error.StyleSheetParserException.RULE_NOT_SUPPORTED=Die Regel "{0}" wird nicht unterstützt.
