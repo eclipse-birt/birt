@@ -1,4 +1,4 @@
-design.xmlsource=XML Source
-template.xmlsource=XML Source
-library.xmlsource=XML Source
-pageSet.source=&XML source page
+design.xmlsource=Fuente XML
+template.xmlsource=Fuente XML
+library.xmlsource=Fuente XML
+pageSet.source=&Página fuente XML

@@ -18,6 +18,6 @@ Build=@BUILD@
 # General Info
 ###############################################################################
 
-QuickEditView=Property Editor
-ReportViews=Report Design
-DataExplorerView=Data Explorer
+QuickEditView=Eigenschaftseditor
+ReportViews=Berichtdesign
+DataExplorerView=Daten-Explorer
