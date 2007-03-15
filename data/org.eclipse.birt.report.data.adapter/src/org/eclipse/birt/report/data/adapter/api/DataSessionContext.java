@@ -69,6 +69,7 @@ public class DataSessionContext
 	private Scriptable topScope;
 	private IDocArchiveReader docReader; 
 	private IDocArchiveWriter docWriter;
+	private boolean cacheSet = false;
 	private int cacheOption = CACHE_USE_DEFAULT;
 	private int cacheCount = 0;
 	private ModuleHandle moduleHandle;
@@ -158,7 +159,7 @@ public class DataSessionContext
 		if ( !( option == CACHE_USE_DEFAULT || option == CACHE_USE_DISABLE || option == CACHE_USE_ALWAYS ) )
 			throw new AdapterException( ResourceConstants.INVALID_CAHCE_OPTION,
 					new Integer( option ) );
-		
+		this.cacheSet = true;
 		this.cacheOption = option;
 		this.cacheCount = cacheCount;
 	}
@@ -170,7 +171,9 @@ public class DataSessionContext
 	{
 		DataEngineContext context = DataEngineContext.newInstance(
 				mode, getTopScope(), docReader, docWriter);
-		context.setCacheOption( cacheOption, cacheCount);
+		
+		if ( cacheSet )
+			context.setCacheOption( cacheOption, cacheCount);
 		return context;
 	}
 
