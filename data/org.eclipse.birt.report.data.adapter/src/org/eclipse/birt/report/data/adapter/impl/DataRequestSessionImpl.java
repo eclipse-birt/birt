@@ -37,13 +37,13 @@ import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
-import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.cube.CubeElementFactory;
 import org.eclipse.birt.data.engine.olap.api.cube.CubeMaterializer;
 import org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.api.cube.IHierarchy;
 import org.eclipse.birt.data.engine.olap.api.cube.ILevelDefn;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
@@ -54,10 +54,11 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
-import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
+import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -442,8 +443,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 
 				for ( int j = 0; j < hiers.size( ); j++ )
 				{
-					HierarchyHandle hierhandle = (HierarchyHandle) hiers.get( j );
-					List levels = hierhandle.getContents( HierarchyHandle.LEVELS_PROP );
+					TabularHierarchyHandle hierhandle = (TabularHierarchyHandle) hiers.get( j );
+					List levels = hierhandle.getContents( TabularHierarchyHandle.LEVELS_PROP );
 					ILevelDefn[] levelInHier = new ILevelDefn[hierhandle.getLevelCount( )];
 					for ( int k = 0; k < levels.size( ); k++ )
 					{
@@ -455,7 +456,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 								this.toStringArray( level.attributesIterator( ) ) );
 					}
 					hiers.add( o.createHierarchy( hierhandle.getName( ),
-							this.getDataSetIterator( hierhandle.getProperty( HierarchyHandle.DATA_SET_PROP )
+							this.getDataSetIterator( hierhandle.getProperty( TabularHierarchyHandle.DATA_SET_PROP )
 									.toString( ) ),
 							levelInHier ) );
 				}
@@ -482,7 +483,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 			}
 			o.createCube( cubeHandle.getName( ),
 					dimArray,
-					this.getDataSetIterator( cubeHandle.getProperty( CubeHandle.DATA_SET_PROP )
+					this.getDataSetIterator( cubeHandle.getProperty( TabularCubeHandle.DATA_SET_PROP )
 							.toString( ) ),
 					this.toStringArray( measureNames ),
 					null );
