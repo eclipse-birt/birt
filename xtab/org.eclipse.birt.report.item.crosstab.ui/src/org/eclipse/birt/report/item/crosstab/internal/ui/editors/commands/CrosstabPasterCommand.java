@@ -30,6 +30,7 @@ public class CrosstabPasterCommand extends Command
 {
 
 	private DesignElementHandle sourceHandle;
+	private IDesignElement cloneElement;
 
 	private DesignElementHandle newContainer;
 
@@ -56,6 +57,7 @@ public class CrosstabPasterCommand extends Command
 			DesignElementHandle newContainer, DesignElementHandle afterHandle )
 	{
 		this.sourceHandle = sourceHandle;
+		this.cloneElement = sourceHandle.copy( );
 		this.newContainer = newContainer;
 		this.afterHandle = afterHandle;
 	}
@@ -82,7 +84,7 @@ public class CrosstabPasterCommand extends Command
 			calculatePositionAndSlotId( );
 			ModuleHandle currentDesignHandle = SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( );
-			DesignElementHandle newHandle = copyNewHandle( sourceHandle.copy( ),
+			DesignElementHandle newHandle = copyNewHandle( cloneElement,
 					currentDesignHandle );
 
 			// Adds new handle to report
