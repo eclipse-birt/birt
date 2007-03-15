@@ -601,8 +601,6 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			HandleAdapterFactory.getInstance( ).getRowHandleAdapter(
 					getRow( rowCount ) ).setHeight( lastRowHeight );
 		}
-		HandleAdapterFactory.getInstance( ).getRowHandleAdapter(
-				getRow( rowCount ) ).setHeight( lastRowHeight );
 
 		setSize( new Dimension( samColumnWidth + lastColumnWidth, samRowHeight
 				+ lastRowHeight ).expand( tableHelper.getInsets( ).getWidth( ),
