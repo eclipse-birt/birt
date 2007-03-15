@@ -26,7 +26,7 @@
 		<param-value></param-value>
 	</context-param>
 
-	<!-- If usr can only access the reprot resources under working folder. Default is false -->
+	<!-- If usr can only access the report resources under working folder. Default is false -->
 	<context-param>
 		<param-name>WORKING_FOLDER_ACCESS_ONLY</param-name>
 		<param-value>false</param-value>
@@ -68,7 +68,7 @@
 		<param-value></param-value>
 	</context-param>
 
-	<!-- If always overwrite generated document file.For designer,defalult to false -->
+	<!-- If always overwrite generated document file.For designer,default to false -->
 	<context-param>
 		<param-name>BIRT_OVERWRITE_DOCUMENT</param-name>
 		<param-value>false</param-value>
