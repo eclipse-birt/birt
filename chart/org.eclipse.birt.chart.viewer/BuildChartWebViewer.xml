@@ -77,6 +77,7 @@
 	<property name="war.name" value="chart-viewer-sample.war" />
 	<property name="war.folder" value="ChartViewerSample" />
 	<property name="src" value="${basedir}/src"/>
+	<property name="baseLocation.emf" value="${baseLocation}" />
 
 	<!-- set platform related properties-->
 	<condition property="basews" value="win32">
@@ -108,8 +109,8 @@
 				<include name="org.eclipse.birt.chart.device.pdf_*.jar" />
 				<include name="org.eclipse.birt.chart.device.swt_*.jar" />
 				<include name="org.mozilla.rhino_*/lib/*.jar" />
-				<include name="org.apache.batik_*/*.jar" />
-				<include name="org.apache.batik.pdf_*/*.jar" />
+				<include name="org.apache.batik_*/lib/*.jar" />
+				<include name="org.apache.batik.pdf_*/lib/*.jar" />
 			</fileset>
 			<fileset dir="${baseLocation}/plugins">
 				<include name="org.apache.xerces_*.jar" />
