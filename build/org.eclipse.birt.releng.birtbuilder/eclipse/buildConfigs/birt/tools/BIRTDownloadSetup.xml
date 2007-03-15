@@ -785,7 +785,6 @@
 				<include name="org.eclipse.birt.chart.device.svg.nl1_*.jar" />
 				<include name="org.eclipse.birt.chart.engine.extension.nl1_*.jar" />
 				<include name="org.eclipse.birt.chart.engine.nl1_*.jar" />
-				<include name="org.eclipse.birt.core.ui.nl1_*.jar" />
 				<include name="org.eclipse.birt.core.nl1_*.jar" />
 			</zipfileset>
 			<zipfileset dir="${deposit}/language_pack/plugins" prefix="${birt.runtime.dir.prefix}/ReportEngine/plugins">
@@ -804,6 +803,8 @@
 				<include name="org.eclipse.datatools.connectivity.oda.nl1*.jar" />
 				<include name="org.eclipse.datatools.connectivity.oda.consumer.nl1*.jar" />
 				<include name="org.eclipse.datatools.connectivity.oda.flatfile.nl1*.jar" />
+				<include name="org.eclipse.datatools.connectivity.oda.design.nl1*.jar" />
+				<include name="org.eclipse.datatools.connectivity.oda.profile.nl1*.jar" />
 				<include name="org.eclipse.birt.report.viewer.nl1_*.jar" />
 			</zipfileset>
 			<zipfileset dir="${deposit}/language_pack/plugins" prefix="${birt.runtime.dir.prefix}/WebViewerExample/WEB-INF/platform/plugins">
