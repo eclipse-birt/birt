@@ -17,6 +17,7 @@ import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.api.cube.IHierarchy;
 import org.eclipse.birt.data.engine.olap.api.cube.ILevelDefn;
@@ -514,7 +515,8 @@ public class Hierarchy implements IHierarchy
 			{
 				levelMembers[i] = getLevelMember( iterator,
 						levelKeyColumnIndex[i],
-						levelAttributesIndex[i] );
+						levelAttributesIndex[i],
+						levelDefs[i] );
 			}
 			result.push( new DimensionRow( levelMembers ) );
 		}
@@ -530,13 +532,18 @@ public class Hierarchy implements IHierarchy
 	 * @throws BirtException
 	 */
 	private static Member getLevelMember( IDatasetIterator iterator,
-			int[] keyCols, int[] attributeCols ) throws BirtException
+			int[] keyCols, int[] attributeCols, ILevelDefn levelDefn ) throws BirtException
 	{
 		Member levelMember = new Member( );
 		levelMember.keyValues = new Object[keyCols.length];
 		for ( int i = 0; i < keyCols.length; i++ )
 		{
 			levelMember.keyValues[i] = iterator.getValue( keyCols[i] );
+			if (levelMember.keyValues[i] == null )
+			{
+				throw new DataException( ResourceConstants.KEY_VALUE_CANNOT_BE_NULL,
+						levelDefn.getKeyColumns( )[i] );
+			}
 		}
 		if ( attributeCols != null )
 		{
