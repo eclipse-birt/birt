@@ -64,6 +64,8 @@ public class ExprEvaluateUtil
 
 			try
 			{
+				if ( value instanceof BirtException )
+					throw (BirtException) value;
 				exprValue = DataTypeUtil.convert( value, dataExpr.getDataType( ) );
 			}
 			catch ( BirtException e )
