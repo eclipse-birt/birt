@@ -594,6 +594,30 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	}
 
 	/**
+	 * Finds a column binding with the given name.
+	 * 
+	 * @param name
+	 *            name of the binding to find
+	 * @return column binding with the given name if found, otherwise null
+	 */
+	public ComputedColumnHandle findColumnBinding( String name )
+	{
+		if ( name == null )
+			return null;
+		List columns = (List) getProperty( BOUND_DATA_COLUMNS_PROP );
+		if ( columns == null )
+			return null;
+		for ( int i = 0; i < columns.size( ); i++ )
+		{
+			ComputedColumn column = (ComputedColumn) columns.get( i );
+			if ( name.equals( column.getName( ) ) )
+				return (ComputedColumnHandle) column.handle(
+						getPropertyHandle( BOUND_DATA_COLUMNS_PROP ), i );
+		}
+		return null;
+	}
+
+	/**
 	 * Removes unused bound columns from the element. Bound columns of nested
 	 * elements will not be removed. For example, if calls this method for a
 	 * list thaat contains a text-data, unused bound columns on list are

@@ -537,9 +537,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 					name, handle.getElement( ).getIdentifier( )},
 					MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND );
 		}
-		dimensionView.handle.drop( );
-		// TODO: when the dimension view is deleted, need to handle the
-		// cells in measure slot?
+		removeDimension( dimensionView.getAxisType( ), dimensionView.getIndex( ) );
 	}
 
 	/**
@@ -626,6 +624,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 					MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND );
 		}
 		moveDimension( dimensionView.handle, targetAxisType, targetIndex );
+		// TODO: adjust measure aggregations
 	}
 
 	/**
@@ -708,6 +707,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 			return;
 		}
 		moveDimension( dimensionView.handle, targetAxisType, targetIndex );
+		// TODO: adjust measure aggregations
 	}
 
 	/**

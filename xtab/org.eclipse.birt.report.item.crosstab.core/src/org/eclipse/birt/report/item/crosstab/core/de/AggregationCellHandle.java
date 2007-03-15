@@ -41,7 +41,7 @@ public class AggregationCellHandle extends CrosstabCellHandle
 	 * 
 	 * @return the referred row cube level
 	 */
-	protected LevelHandle getAggregationOnRow( )
+	public LevelHandle getAggregationOnRow( )
 	{
 		return (LevelHandle) handle
 				.getElementProperty( AGGREGATION_ON_ROW_PROP );
@@ -52,7 +52,7 @@ public class AggregationCellHandle extends CrosstabCellHandle
 	 * 
 	 * @return the referred column cube level
 	 */
-	protected LevelHandle getAggregationOnColumn( )
+	public LevelHandle getAggregationOnColumn( )
 	{
 		return (LevelHandle) handle
 				.getElementProperty( AGGREGATION_ON_COLUMN_PROP );
