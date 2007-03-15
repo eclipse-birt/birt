@@ -20,17 +20,34 @@ import java.util.Date;
 
 public class DataType
 {
-	public static final int UNKNOWN_TYPE = -1;
-	public static final int BOOLEAN_TYPE = 0;
-	public static final int INTEGER_TYPE = 1;
-	public static final int DOUBLE_TYPE = 2;
-	public static final int STRING_TYPE = 3;
-	public static final int DATE_TYPE = 4;
-	public static final int BIGDECIMAL_TYPE = 5;
-	public static final int BYTES_TYPE = 6;
+
+	public static final int UNKNOWN_TYPE = org.eclipse.birt.core.data.DataType.UNKNOWN_TYPE;
+	public static final int BOOLEAN_TYPE = org.eclipse.birt.core.data.DataType.BOOLEAN_TYPE;
+	public static final int INTEGER_TYPE = org.eclipse.birt.core.data.DataType.INTEGER_TYPE;
+	public static final int DOUBLE_TYPE = org.eclipse.birt.core.data.DataType.DOUBLE_TYPE;
+	public static final int STRING_TYPE = org.eclipse.birt.core.data.DataType.STRING_TYPE;
+	public static final int DATE_TYPE = org.eclipse.birt.core.data.DataType.DATE_TYPE;
+	public static final int BIGDECIMAL_TYPE = 101;
+	public static final int BYTES_TYPE = 102;
 
 	private static final String[] names = {
-			"Boolean", "Integer", "Double", "String", "Date", "BigDecimal", "Bytes"
+			"Boolean",
+			"Integer",
+			"Double",
+			"String",
+			"Date",
+			"BigDecimal",
+			"Bytes"
+	};
+
+	private static final int[] typeCodes = {
+			BOOLEAN_TYPE,
+			INTEGER_TYPE,
+			DOUBLE_TYPE,
+			STRING_TYPE,
+			DATE_TYPE,
+			BIGDECIMAL_TYPE,
+			BYTES_TYPE
 	};
 
 	public static final String BOOLEAN_TYPE_NAME = names[0];
@@ -53,21 +70,33 @@ public class DataType
 
 	/**
 	 * Gets the description of a data type.
-	 * @param typeCode Data type enumeration value
-	 * @return Textual description of data type. "Unknown" if an undefined data type is passed in.
+	 * 
+	 * @param typeCode
+	 *            Data type enumeration value
+	 * @return Textual description of data type. "Unknown" if an undefined data
+	 *         type is passed in.
 	 */
 	public static String getName( int typeCode )
 	{
-		if ( typeCode < 0 || typeCode >= names.length )
+		if ( typeCode < 0 || typeCode >= typeCodes.length )
 		{
 			return new String( "Unknown" );
 		}
-		return names[typeCode];
+		for ( int i = 0; i < typeCodes.length; i++ )
+		{
+			if ( typeCodes[i] == typeCode )
+			{
+				return names[i];
+			}
+		}
+		return null;
 	}
 
 	/**
 	 * Gets the Java class used to represent the specified data type.
-	 * @return Class for the specified data type. If data type is unknown or ANY, returns null. 
+	 * 
+	 * @return Class for the specified data type. If data type is unknown or
+	 *         ANY, returns null.
 	 */
 	public static Class getClass( int typeCode )
 	{
@@ -75,16 +104,28 @@ public class DataType
 		{
 			return null;
 		}
-		return classes[typeCode];
+		for ( int i = 0; i < typeCodes.length; i++ )
+		{
+			if ( typeCodes[i] == typeCode )
+			{
+				return classes[i];
+			}
+		}
+		return null;
 	}
 
+	/**
+	 * 
+	 * @param objClass
+	 * @return
+	 */
 	public static int getDataType( Class objClass )
 	{
 		for ( int i = 0; i < classes.length; i++ )
 		{
 			if ( classes[i].equals( objClass ) )
 			{
-				return i;
+				return typeCodes[i];
 			}
 		}
 		return UNKNOWN_TYPE;
