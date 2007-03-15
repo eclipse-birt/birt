@@ -189,7 +189,7 @@ public class PieSeriesAttributeComposite extends Composite implements
 		Label lblLeaderSize = new Label( cmpStyle, SWT.NONE );
 		GridData gdLBLLeaderSize = new GridData( );
 		lblLeaderSize.setLayoutData( gdLBLLeaderSize );
-		lblLeaderSize.setText( Messages.getString( "PieSeriesAttributeComposite.Lbl.LeaderLineSize" ) ); //$NON-NLS-1$
+		lblLeaderSize.setText( Messages.getString( "PieSeriesAttributeComposite.Lbl.LeaderLineLength" ) ); //$NON-NLS-1$
 
 		iscLeaderLength = new Spinner( cmpStyle, SWT.BORDER );
 		GridData gdISCLeaderLength = new GridData( GridData.FILL_HORIZONTAL );

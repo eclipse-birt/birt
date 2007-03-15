@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.LeaderLineStyle;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -421,7 +422,9 @@ public class PieChart extends DefaultChartTypeImpl
 		if ( pieseries == null )
 		{
 			pieseries = (PieSeries) PieSeriesImpl.create( );
-			pieseries.setExplosion( 10 );
+			pieseries.setExplosion( 0 );
+			pieseries.setLeaderLineLength( 10.0 );
+			pieseries.setLeaderLineStyle( LeaderLineStyle.FIXED_LENGTH_LITERAL );	
 		}
 
 		// Copy generic series properties
