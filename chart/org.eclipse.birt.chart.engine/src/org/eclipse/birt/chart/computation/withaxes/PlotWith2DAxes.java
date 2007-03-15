@@ -1849,8 +1849,16 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					}
 				}
 				lo = LocationImpl.create( dX, dY );
-				dLength = ( i < iTickCount - 1 ) ? daTickCoordinates[i + 1]
-						- daTickCoordinates[i] : 0;
+				dLength = 0;
+				for ( int j = 0; j < iTickCount - 1; j++ )
+				{
+					if ( dX < daTickCoordinates[j + 1]
+							&& dX >= daTickCoordinates[j] )
+					{
+						dLength = daTickCoordinates[j + 1]
+								- daTickCoordinates[j];
+					}
+				}
 
 				Object percentileValue = null;
 
