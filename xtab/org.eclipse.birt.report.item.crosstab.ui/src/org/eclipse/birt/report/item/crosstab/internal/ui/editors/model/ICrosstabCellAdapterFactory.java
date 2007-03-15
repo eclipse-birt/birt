@@ -37,7 +37,7 @@ public interface ICrosstabCellAdapterFactory
 	// share the one AbstractCrosstabItemHandle
 	public static final String CELL_MEASURE_HEADER = "measure_header";
 
-	public static final String CELL_MEASURE = "measure_header";
+	public static final String CELL_MEASURE = "cell_measure";
 
 	public static final String CELL_MEASURE_AGGREGATION = "measure_aggregation";
 

@@ -144,6 +144,15 @@ public class ReportTemplateTransferDropTargetListener extends
 				isScalarparameter = true;
 				preHandle = new ParameterToolExtends( );
 			}
+			else if ( objectType instanceof DimensionHandle )
+			{
+				preHandle = new DimensionHandleToolExtends( );
+			}
+			else if ( objectType instanceof MeasureHandle )
+			{
+				preHandle = new MeasureHandleToolExtends( );
+
+			}
 
 		}
 		else if ( handleValidateLibrary( template ) )
@@ -183,19 +192,6 @@ public class ReportTemplateTransferDropTargetListener extends
 			{
 				isEmbeddImage = true;
 				preHandle = new ImageToolExtends( );
-			}
-
-			// for cross tab
-			transName = InsertInLayoutAction.DISPLAY_TEXT;
-			Object objectType = getFactory( template ).getObjectType( );
-			if ( objectType instanceof DimensionHandle )
-			{
-				preHandle = new DimensionHandleToolExtends( );
-			}
-			else if ( objectType instanceof MeasureHandle )
-			{
-				preHandle = new MeasureHandleToolExtends( );
-
 			}
 		}
 
@@ -342,8 +338,6 @@ public class ReportTemplateTransferDropTargetListener extends
 			return true;
 		}
 
-		System.out.println( targetEditPart.getModel( ) );
-
 		if ( dragSource != null )
 		{
 			Object[] dragObjs;
@@ -368,11 +362,6 @@ public class ReportTemplateTransferDropTargetListener extends
 								.getRoot( ) instanceof LibraryHandle ) )
 				{
 					return true;
-				}
-				else if ( isCrossType( dragObjs[i] )
-						&& targetEditPart.getModel( ) instanceof IVirtualValidator )
-				{
-					return ( (IVirtualValidator) targetEditPart.getModel( ) ).handleValidate( dragObjs[i] );
 				}
 				else
 				{
@@ -459,7 +448,6 @@ public class ReportTemplateTransferDropTargetListener extends
 	public void dragOver( DropTargetEvent event )
 	{
 		super.dragOver( event );
-
 		if ( !handleValidateDrag( TemplateTransfer.getInstance( ).getTemplate( ) ) )
 		{
 			event.detail = DND.DROP_NONE;

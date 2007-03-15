@@ -1296,6 +1296,7 @@ public class DNDUtil
 		else
 			return false;
 
+		if(slotId == -1)return targetHandle.canContain( DEUtil.getDefaultContentName( targetObj ), dragObjType );
 		return targetHandle.canContain( slotId, dragObjType );
 	}
 

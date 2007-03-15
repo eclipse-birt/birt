@@ -27,12 +27,14 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
+import org.eclipse.birt.report.designer.util.IVirtualValidator;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FreeFormHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
@@ -53,6 +55,9 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.ISelection;
@@ -847,10 +852,41 @@ public class InsertInLayoutUtil
 			return handleValidateDataSetColumn( (ResultSetColumnHandle) insertObj,
 					targetPart );
 		}
+		else if ( insertObj instanceof DimensionHandle )
+		{
+			return handleValidateDimension( (DimensionHandle) insertObj,
+					targetPart );
+		}
+		else if ( insertObj instanceof MeasureHandle )
+		{
+			return handleValidateMeasure( (MeasureHandle) insertObj,
+					targetPart );
+		}
+		else if ( insertObj instanceof LabelHandle )
+		{
+			return handleValidateLabel( (LabelHandle) insertObj,
+					targetPart );
+		}
+		else if ( insertObj instanceof ResultSetColumnHandle )
+		{
+			return handleValidateDataSetColumn( (ResultSetColumnHandle) insertObj,
+					targetPart );
+		}
 		else if ( insertObj instanceof ScalarParameterHandle )
 		{
 			return isHandleValid( (ScalarParameterHandle) insertObj )
 					&& handleValidateParameter( targetPart );
+		}
+		return false;
+	}
+
+	private static boolean handleValidateLabel( LabelHandle handle, EditPart targetPart )
+	{
+		if(targetPart.getModel( ) instanceof IAdaptable){
+			Object obj = ((IAdaptable)targetPart.getModel( )).getAdapter( DesignElementHandle.class );
+			if(obj instanceof ExtendedItemHandle){
+				return ((ExtendedItemHandle)obj).canContain( DEUtil.getDefaultContentName( obj ), handle );
+			}
 		}
 		return false;
 	}
@@ -958,6 +994,25 @@ public class InsertInLayoutUtil
 				|| container instanceof MasterPageHandle || dropPart.getModel( ) instanceof ModuleHandle );
 	}
 
+	protected static boolean handleValidateMeasureDropContainer(
+			MeasureHandle measure, EditPart dropPart )
+	{
+		if(dropPart.getModel( ) instanceof IVirtualValidator){
+			return ((IVirtualValidator)dropPart.getModel( )).handleValidate( measure );
+		}
+		return false;
+	}
+	
+	protected static boolean handleValidateDimensionDropContainer(
+			DimensionHandle dimension, EditPart dropPart )
+	{
+		if(dropPart.getModel( ) instanceof IVirtualValidator){
+			return ((IVirtualValidator)dropPart.getModel( )).handleValidate( dimension );
+		}
+		return false;
+	}
+
+	
 	/**
 	 * Validates container of drop target from scalar parameter in data view
 	 * 
@@ -990,6 +1045,16 @@ public class InsertInLayoutUtil
 						ReportDesignConstants.TABLE_ITEM );
 	}
 
+	protected static boolean handleValidateDimension(
+			DimensionHandle insertObj, EditPart target ){
+		return handleValidateDimensionDropContainer( insertObj,target );
+	}
+	
+	protected static boolean handleValidateMeasure(
+			MeasureHandle insertObj, EditPart target ){
+		return handleValidateMeasureDropContainer( insertObj,target );
+	}
+	
 	/**
 	 * Validates drop target from data set column in data view.
 	 * 
@@ -1086,7 +1151,7 @@ public class InsertInLayoutUtil
 			return DataSetUIUtil.hasMetaData( (DataSetHandle) insertObj );
 		}
 		return insertObj instanceof ResultSetColumnHandle
-				|| insertObj instanceof ScalarParameterHandle;
+				|| insertObj instanceof ScalarParameterHandle || insertObj instanceof DimensionHandle || insertObj instanceof MeasureHandle;
 	}
 
 	protected static void insertToCell( DataSetHandle model,
