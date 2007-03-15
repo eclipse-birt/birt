@@ -60,7 +60,7 @@
                         <value>column1 aggre1</value>
                         <value>column1 aggre2</value>
                     </simple-property-list>
-                    <property name="aggregateFunction">Sum(*)</property>
+                    <property name="aggregateFunction">count</property>
                     <simple-property-list name="arguments">
                         <value>column1 argument1</value>
                         <value>column1 argument2</value>

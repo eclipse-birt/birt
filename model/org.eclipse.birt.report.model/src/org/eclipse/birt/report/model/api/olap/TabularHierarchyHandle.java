@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.api.olap;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -85,5 +87,17 @@ public class TabularHierarchyHandle extends HierarchyHandle
 			}
 			setStringProperty( DATA_SET_PROP, valueToSet );
 		}
+	}
+
+	/**
+	 * Returns the list of primary keys. The element in the list is a
+	 * <code>String</code>.
+	 * 
+	 * @return a list of primary keys if set, otherwise null
+	 */
+	
+	public List getPrimaryKeys( )
+	{
+		return getListProperty( PRIMARY_KEYS_PROP );
 	}
 }

@@ -40,6 +40,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
+import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.interfaces.ILevelModel;
 import org.eclipse.jface.resource.JFaceColors;
@@ -135,7 +136,7 @@ public class LevelPropertyDialog extends BaseDialog
 	private void initLevelDialog( )
 	{
 		if ( input != null )
-			infoLabel.setText( infoLabel.getText( ) + input.getColumnName( ) );
+			infoLabel.setText( infoLabel.getText( ) + ((TabularLevelHandle)input).getColumnName( ) );
 
 		Iterator valuesIter = input.staticValuesIterator( );
 		if ( ( valuesIter == null || !valuesIter.hasNext( ) )
@@ -758,7 +759,7 @@ public class LevelPropertyDialog extends BaseDialog
 			list.remove( handle.getName( ) );
 		}
 
-		list.remove( input.getColumnName( ) );
+		list.remove( ((TabularLevelHandle)input).getColumnName( ) );
 		String[] temps = new String[list.size( )];
 		list.toArray( temps );
 		editor.setItems( temps );

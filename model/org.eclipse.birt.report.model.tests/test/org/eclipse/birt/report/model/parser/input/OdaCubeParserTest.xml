@@ -19,22 +19,6 @@
                     <expression name="value2">value2 expression</expression>
                 </structure>
             </list-property>
-    		<list-property name="dimensionConditions">
-    			<structure>
-    				<property name="hierarchy">testHierarchy</property>
-    				<simple-property-list name="primaryKeys">
-    					<value>column</value>
-    					<value>column2</value>
-    					<value>column4</value>
-    				</simple-property-list>
-    			</structure>
-    			<structure>
-    				<property name="hierarchy">nonExistingHierarchy</property>
-    				<simple-property-list name="primaryKeys">
-    					<value>column</value>
-    				</simple-property-list>
-    			</structure>
-    		</list-property>
     		<property name="dimensions">
     			<oda-dimension name="testDimension">
     				<property name="isTimeType">true</property>
@@ -49,14 +33,8 @@
                     				<expression name="value2">value2 expression</expression>
                 				</structure>
             				</list-property>
-    						<simple-property-list name="primaryKeys">
-    							<value>key</value>
-    							<value>key2</value>
-    							<value>key4</value>
-    						</simple-property-list>
     						<property name="levels">
     							<oda-level name="testLevel">
-    								<property name="columnName">column1</property>
     								<property name="dataType">integer</property>
     								<property name="interval">week</property>
                 					<property name="intervalRange">3.0</property>

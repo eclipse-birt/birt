@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.report.model.api.olap;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.interfaces.ITabularLevelModel;
 
 /**
  * Represents a level element.
@@ -21,6 +23,8 @@ import org.eclipse.birt.report.model.core.Module;
  */
 
 public class TabularLevelHandle extends LevelHandle
+		implements
+			ITabularLevelModel
 {
 
 	/**
@@ -37,6 +41,30 @@ public class TabularLevelHandle extends LevelHandle
 	public TabularLevelHandle( Module module, DesignElement element )
 	{
 		super( module, element );
+	}
+
+	/**
+	 * Gets the column name of this level.
+	 * 
+	 * @return column name of this level
+	 */
+	public String getColumnName( )
+	{
+		return getStringProperty( COLUMN_NAME_PROP );
+	}
+
+	/**
+	 * Sets the column name for this level.
+	 * 
+	 * @param columnName
+	 *            the column name to set
+	 * @throws SemanticException
+	 *             property is locked
+	 */
+
+	public void setColumnName( String columnName ) throws SemanticException
+	{
+		setStringProperty( COLUMN_NAME_PROP, columnName );
 	}
 
 }

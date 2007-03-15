@@ -250,7 +250,15 @@ public class ComputedColumnHandle extends StructureHandle
 	}
 
 	/**
-	 * Returns the expression used to define this computed column.
+	 * Returns the expression used to define this computed column. The function
+	 * is one of following values:
+	 * 
+	 * <ul>
+	 * <li>DesignChoiceConstants.MEASURE_FUNCTION_SUM
+	 * <li>DesignChoiceConstants.MEASURE_FUNCTION_COUNT
+	 * <li>DesignChoiceConstants.MEASURE_FUNCTION_MIN
+	 * <li>DesignChoiceConstants.MEASURE_FUNCTION_MAX
+	 * </ul>
 	 * 
 	 * @return the expression used to define this computed column
 	 */
@@ -346,12 +354,21 @@ public class ComputedColumnHandle extends StructureHandle
 	}
 
 	/**
-	 * Sets the expression used to define this computed column.
+	 * Sets the expression used to define this computed column. The function is
+	 * one of following values:
+	 * 
+	 * <ul>
+	 * <li>DesignChoiceConstants.MEASURE_FUNCTION_SUM
+	 * <li>DesignChoiceConstants.MEASURE_FUNCTION_COUNT
+	 * <li>DesignChoiceConstants.MEASURE_FUNCTION_MIN
+	 * <li>DesignChoiceConstants.MEASURE_FUNCTION_MAX
+	 * </ul>
+	 * 
 	 * 
 	 * @param expression
 	 *            the expression to set
 	 * @throws SemanticException
-	 *             value required exception
+	 *             if the <code>expression</code> is not one of above values.
 	 */
 
 	public void setAggregateFunction( String expression )

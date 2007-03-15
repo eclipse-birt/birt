@@ -20,6 +20,14 @@ package org.eclipse.birt.report.model.elements.interfaces;
 public interface ITabularCubeModel 
 {
 	/**
+	 * Name of the property that specifies a list of joints with some
+	 * hierarchies.
+	 */
+
+	static final String DIMENSION_CONDITIONS_PROP = "dimensionConditions"; //$NON-NLS-1$
+
+	
+	/**
 	 * Name of the property that specifies the data-set in cube element.
 	 */
 

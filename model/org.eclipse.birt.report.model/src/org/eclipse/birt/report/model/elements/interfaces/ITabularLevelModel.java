@@ -17,18 +17,12 @@ package org.eclipse.birt.report.model.elements.interfaces;
  *
  */
 
-public interface ITabularHierarchyModel
+public interface ITabularLevelModel
 {
+
 	/**
-	 * Name of the property that refers a list of column name from the dataset
-	 * defined in this hierarchy.
+	 * Name of the property that refers a column name in the dataset.
 	 */
 
-	static final String PRIMARY_KEYS_PROP = "primaryKeys"; //$NON-NLS-1$
-	
-	/**
-	 * Name of the property that specifies the data-set in cube element.
-	 */
-
-	static final String DATA_SET_PROP = "dataSet"; //$NON-NLS-1$
+	String COLUMN_NAME_PROP = "columnName"; //$NON-NLS-1$
 }

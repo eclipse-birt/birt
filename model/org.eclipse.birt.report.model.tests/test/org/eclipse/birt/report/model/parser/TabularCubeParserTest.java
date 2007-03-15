@@ -42,6 +42,7 @@ import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
+import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IAccessControlModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IValueAccessControlModel;
@@ -175,7 +176,8 @@ public class TabularCubeParserTest extends BaseTestCase
 				.getContentCount( TabularHierarchyHandle.LEVELS_PROP ) );
 
 		// level
-		LevelHandle level = (LevelHandle) propHandle.getContent( 0 );
+		TabularLevelHandle level = (TabularLevelHandle) propHandle
+				.getContent( 0 );
 		assertEquals( level, hierarchy.getContent(
 				TabularHierarchyHandle.LEVELS_PROP, 0 ) );
 		assertEquals( "testLevel", level.getName( ) ); //$NON-NLS-1$
@@ -357,7 +359,7 @@ public class TabularCubeParserTest extends BaseTestCase
 		// level
 		hierarchy.add( TabularHierarchyHandle.LEVELS_PROP, factory
 				.newTabularLevel( null ) );
-		LevelHandle level = (LevelHandle) hierarchy.getContent(
+		TabularLevelHandle level = (TabularLevelHandle) hierarchy.getContent(
 				TabularHierarchyHandle.LEVELS_PROP, 0 );
 		level.setName( namePrix + level.getName( ) );
 		level.setColumnName( valuePrix + level.getColumnName( ) );
@@ -423,8 +425,7 @@ public class TabularCubeParserTest extends BaseTestCase
 		measure.setCalculated( true );
 
 		save( );
-	
-		saveOutputFile( "CubeParserTest_out.xml" ) ; //$NON-NLS-1$
+
 		assertTrue( compareFile( "CubeParserTest_golden.xml" ) ); //$NON-NLS-1$
 	}
 
@@ -473,9 +474,7 @@ public class TabularCubeParserTest extends BaseTestCase
 
 		// save
 		save( );
-		
-		saveOutputFile( "CubeParserTest_out_1.xml" ) ; //$NON-NLS-1$
-		
+
 		assertTrue( compareFile( "CubeParserTest_golden_1.xml" ) ); //$NON-NLS-1$		
 	}
 

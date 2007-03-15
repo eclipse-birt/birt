@@ -128,7 +128,8 @@ public class DataItemParseTest extends BaseTestCase
 		assertEquals( "column1 argument1, column1 argument2", //$NON-NLS-1$
 				serializeStringList( column.getArgumentList( ) ) );
 
-		assertEquals( "Sum(*)", column.getAggregateFunction( ) ); //$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.MEASURE_FUNCTION_SUM, column
+				.getAggregateFunction( ) );
 		assertEquals( "colmn1 filter expr", column.getFilterExpression( ) ); //$NON-NLS-1$
 
 		// reads in a data that exists in the components.
@@ -186,8 +187,9 @@ public class DataItemParseTest extends BaseTestCase
 		ComputedColumnHandle column = (ComputedColumnHandle) columnBindings
 				.next( );
 		column.setDisplayName( "New Display Name" );//$NON-NLS-1$
-
-		save( );		
+		column
+				.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_COUNT );
+		save( );
 		assertTrue( compareFile( goldenFileName ) );
 
 	}

@@ -22,23 +22,6 @@
                     <expression name="value2">value2 expression</expression>
                 </structure>
             </list-property>
-            <list-property name="dimensionConditions">
-                <structure>
-                    <simple-property-list name="primaryKeys">
-                        <value>column</value>
-                        <value>updated column</value>
-                    </simple-property-list>
-                    <property name="hierarchy">updated nonExistingHierarchy</property>
-                </structure>
-                <structure>
-                    <simple-property-list name="primaryKeys">
-                        <value>updated key</value>
-                        <value>updated key2</value>
-                        <value>updated key4</value>
-                    </simple-property-list>
-                    <property name="hierarchy">updated hierarchy</property>
-                </structure>
-            </list-property>
             <property name="dimensions">
                 <tabular-dimension name="newtestDimension" id="8">
                     <property name="isTimeType">false</property>
@@ -53,14 +36,8 @@
                                     <expression name="value2">value2 expression</expression>
                                 </structure>
                             </list-property>
-                            <simple-property-list name="primaryKeys">
-                                <value>key</value>
-                                <value>key4</value>
-                                <value>updated key</value>
-                            </simple-property-list>
                             <property name="levels">
                                 <tabular-level name="newtestLevel" id="10">
-                                    <property name="columnName">updated column1</property>
                                     <property name="dataType">string</property>
                                     <property name="intervalBase">updated Jan</property>
                                     <property name="interval">month</property>
@@ -110,6 +87,7 @@
                                         </value-access-control>
                                         <value-access-control id="22"/>
                                     </property>
+                                    <property name="columnName">updated column1</property>
                                 </tabular-level>
                                 <tabular-level name="NewTabularLevel" id="21"/>
                             </property>
@@ -131,13 +109,18 @@
                                 </access-control>
                                 <access-control id="20"/>
                             </property>
-                            <property name="dataSet">firstDataSet</property>							
+                            <property name="dataSet">firstDataSet</property>
+                            <simple-property-list name="primaryKeys">
+                                <value>key</value>
+                                <value>key4</value>
+                                <value>updated key</value>
+                            </simple-property-list>
                         </tabular-hierarchy>
                         <tabular-hierarchy name="NewTabularHierarchy1" id="19"/>
                     </property>
                 </tabular-dimension>
                 <tabular-dimension name="NewTabularDimension" id="17">
-                	<property name="defaultHierarchy">NewTabularHierarchy</property>
+                    <property name="defaultHierarchy">NewTabularHierarchy</property>
                     <property name="hierarchies">
                         <tabular-hierarchy name="NewTabularHierarchy" id="18"/>
                     </property>
@@ -174,7 +157,24 @@
                 </access-control>
                 <access-control id="16"/>
             </property>
-            <property name="dataSet">secondDataSet</property>			
+            <property name="dataSet">secondDataSet</property>
+            <list-property name="dimensionConditions">
+                <structure>
+                    <simple-property-list name="primaryKeys">
+                        <value>column</value>
+                        <value>updated column</value>
+                    </simple-property-list>
+                    <property name="hierarchy">updated nonExistingHierarchy</property>
+                </structure>
+                <structure>
+                    <simple-property-list name="primaryKeys">
+                        <value>updated key</value>
+                        <value>updated key2</value>
+                        <value>updated key4</value>
+                    </simple-property-list>
+                    <property name="hierarchy">updated hierarchy</property>
+                </structure>
+            </list-property>
         </tabular-cube>
     </cubes>
     <page-setup>

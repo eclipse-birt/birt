@@ -27,12 +27,6 @@ public interface ILevelModel
 	String ATTRIBUTES_PROP = "attributes"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property that refers a column name in the dataset.
-	 */
-
-	String COLUMN_NAME_PROP = "columnName"; //$NON-NLS-1$
-
-	/**
 	 * Name of the property that is used to create static group based on the
 	 * rules define in this property.
 	 */

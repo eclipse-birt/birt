@@ -1,21 +1,17 @@
+
 package org.eclipse.birt.report.model.parser;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import org.eclipse.birt.report.model.api.AccessControlHandle;
 import org.eclipse.birt.report.model.api.ConfigVariableHandle;
-import org.eclipse.birt.report.model.api.DimensionConditionHandle;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
-import org.eclipse.birt.report.model.api.MemberHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.RuleHandle;
 import org.eclipse.birt.report.model.api.ValueAccessControlHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
-import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
 import org.eclipse.birt.report.model.api.elements.structures.Rule;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
@@ -27,10 +23,9 @@ import org.eclipse.birt.report.model.elements.interfaces.IAccessControlModel;
 import org.eclipse.birt.report.model.elements.interfaces.IValueAccessControlModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
-
 /**
  * Tests case for parsing and writing ODA OLAP elements.
- *
+ * 
  */
 
 public class OdaCubeParseTest extends BaseTestCase
@@ -42,48 +37,29 @@ public class OdaCubeParseTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	
+
 	public void testParser( ) throws Exception
 	{
 		openDesign( FILE_NAME );
 		assertNotNull( designHandle );
-	
+
 		// cube
-		
-		OdaCubeHandle cube = (OdaCubeHandle) designHandle
-				.findCube( "testCube" ); //$NON-NLS-1$
+
+		OdaCubeHandle cube = (OdaCubeHandle) designHandle.findCube( "testCube" ); //$NON-NLS-1$
 
 		// filter
 		Iterator iter = cube.filtersIterator( );
 		FilterConditionHandle filterConditionHandle = (FilterConditionHandle) iter
 				.next( );
 		assertEquals( "filter expression", filterConditionHandle.getExpr( ) ); //$NON-NLS-1$
-		// join condition
-		iter = cube.joinConditionsIterator( );
-		DimensionConditionHandle cubeJoinConditionHandle = (DimensionConditionHandle) iter
-				.next( );
-		assertEquals(
-				design.findOLAPElement( "testHierarchy" ), cubeJoinConditionHandle.getHierarchy( ).getElement( ) ); //$NON-NLS-1$		
-		List primaryKeys = cubeJoinConditionHandle.getPrimaryKeys( );
-		assertEquals( 3, primaryKeys.size( ) );
-		assertEquals( "column", primaryKeys.get( 0 ) ); //$NON-NLS-1$
-		assertEquals( "column2", primaryKeys.get( 1 ) ); //$NON-NLS-1$
-		assertEquals( "column4", primaryKeys.get( 2 ) ); //$NON-NLS-1$
-		cubeJoinConditionHandle = (DimensionConditionHandle) iter.next( );
-		assertNull( cubeJoinConditionHandle.getHierarchy( ) );
-		assertEquals(
-				"nonExistingHierarchy", cubeJoinConditionHandle.getHierarchyName( ) ); //$NON-NLS-1$
-		primaryKeys = cubeJoinConditionHandle.getPrimaryKeys( );
-		assertEquals( 1, primaryKeys.size( ) );
-		assertEquals( "column", primaryKeys.get( 0 ) ); //$NON-NLS-1$
-	
+
 		// access controls
-	
+
 		// access controls on cube.
-	
+
 		Iterator iter1 = cube.accessControlsIterator( );
 		AccessControlHandle accessControl = (AccessControlHandle) iter1.next( );
-	
+
 		assertEquals( "cube user1; cube user2", accessControl //$NON-NLS-1$
 				.getPropertyHandle( IAccessControlModel.USER_NAMES_PROP )
 				.getStringValue( ) );
@@ -92,13 +68,12 @@ public class OdaCubeParseTest extends BaseTestCase
 				.getStringValue( ) );
 		assertEquals( DesignChoiceConstants.ACCESS_PERMISSION_DISALLOW,
 				accessControl.getPermission( ) );
-	
+
 		PropertyHandle propHandle = cube
 				.getPropertyHandle( OdaCubeHandle.DIMENSIONS_PROP );
 		assertEquals( 1, propHandle.getContentCount( ) );
-		assertEquals( 1, cube
-				.getContentCount( OdaCubeHandle.DIMENSIONS_PROP ) );
-	
+		assertEquals( 1, cube.getContentCount( OdaCubeHandle.DIMENSIONS_PROP ) );
+
 		// dimension
 		DimensionHandle dimension = (DimensionHandle) propHandle.getContent( 0 );
 		assertEquals( dimension, cube.getContent(
@@ -110,7 +85,7 @@ public class OdaCubeParseTest extends BaseTestCase
 		assertEquals( 1, propHandle.getContentCount( ) );
 		assertEquals( 1, dimension
 				.getContentCount( DimensionHandle.HIERARCHIES_PROP ) );
-	
+
 		// hierarchy
 		OdaHierarchyHandle hierarchy = (OdaHierarchyHandle) propHandle
 				.getContent( 0 );
@@ -119,12 +94,12 @@ public class OdaCubeParseTest extends BaseTestCase
 		// test getDefaultHierarchy in dimension
 		assertEquals( hierarchy, dimension.getDefaultHierarchy( ) );
 		assertEquals( "testHierarchy", hierarchy.getName( ) ); //$NON-NLS-1$
-	
+
 		// access controls on hierarchy.
-	
+
 		iter1 = hierarchy.accessControlsIterator( );
 		accessControl = (AccessControlHandle) iter1.next( );
-	
+
 		assertEquals( "hierarchy user1; hierarchy user2", accessControl //$NON-NLS-1$
 				.getPropertyHandle( IAccessControlModel.USER_NAMES_PROP )
 				.getStringValue( ) );
@@ -133,33 +108,27 @@ public class OdaCubeParseTest extends BaseTestCase
 				.getStringValue( ) );
 		assertEquals( DesignChoiceConstants.ACCESS_PERMISSION_ALLOW,
 				accessControl.getPermission( ) );
-	
+
 		propHandle = cube.getPropertyHandle( OdaCubeHandle.DIMENSIONS_PROP );
 		assertEquals( 1, propHandle.getContentCount( ) );
-		assertEquals( 1, cube
-				.getContentCount( OdaCubeHandle.DIMENSIONS_PROP ) );
-	
+		assertEquals( 1, cube.getContentCount( OdaCubeHandle.DIMENSIONS_PROP ) );
+
 		// filter
 		iter = hierarchy.filtersIterator( );
 		filterConditionHandle = (FilterConditionHandle) iter.next( );
 		assertEquals( "filter expression", filterConditionHandle.getExpr( ) ); //$NON-NLS-1$
-		primaryKeys = hierarchy.getPrimaryKeys( );
-		assertEquals( 3, primaryKeys.size( ) );
-		assertEquals( "key", primaryKeys.get( 0 ) ); //$NON-NLS-1$
-		assertEquals( "key2", primaryKeys.get( 1 ) ); //$NON-NLS-1$
-		assertEquals( "key4", primaryKeys.get( 2 ) ); //$NON-NLS-1$
+
 		propHandle = hierarchy
 				.getPropertyHandle( OdaHierarchyHandle.LEVELS_PROP );
 		assertEquals( 1, propHandle.getContentCount( ) );
 		assertEquals( 1, hierarchy
 				.getContentCount( OdaHierarchyHandle.LEVELS_PROP ) );
-	
+
 		// level
 		LevelHandle level = (LevelHandle) propHandle.getContent( 0 );
 		assertEquals( level, hierarchy.getContent(
 				OdaHierarchyHandle.LEVELS_PROP, 0 ) );
 		assertEquals( "testLevel", level.getName( ) ); //$NON-NLS-1$
-		assertEquals( "column1", level.getColumnName( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER, level
 				.getDataType( ) );
 		assertEquals( "week", level.getInterval( ) ); //$NON-NLS-1$
@@ -181,13 +150,13 @@ public class OdaCubeParseTest extends BaseTestCase
 		attribute = (ConfigVariableHandle) iter.next( );
 		assertEquals( "var2", attribute.getName( ) ); //$NON-NLS-1$
 		assertEquals( "abcdefg", attribute.getValue( ) ); //$NON-NLS-1$
-	
+
 		// access controls on level.
-	
+
 		iter1 = level.valueAccessControlsIterator( );
 		ValueAccessControlHandle valueAccessControl = (ValueAccessControlHandle) iter1
 				.next( );
-	
+
 		assertEquals( "level user1; level user2", valueAccessControl //$NON-NLS-1$
 				.getPropertyHandle( IAccessControlModel.USER_NAMES_PROP )
 				.getStringValue( ) );
@@ -199,10 +168,9 @@ public class OdaCubeParseTest extends BaseTestCase
 				.getStringValue( ) );
 		assertEquals( DesignChoiceConstants.ACCESS_PERMISSION_DISALLOW,
 				valueAccessControl.getPermission( ) );
-	
+
 		// measure group
-		propHandle = cube
-				.getPropertyHandle( OdaCubeHandle.MEASURE_GROUPS_PROP );
+		propHandle = cube.getPropertyHandle( OdaCubeHandle.MEASURE_GROUPS_PROP );
 		assertEquals( 1, propHandle.getContentCount( ) );
 		assertEquals( 1, cube
 				.getContentCount( OdaCubeHandle.MEASURE_GROUPS_PROP ) );
@@ -215,7 +183,7 @@ public class OdaCubeParseTest extends BaseTestCase
 		assertEquals( measureGroup, cube.getDefaultMeasureGroup( ) );
 		propHandle = measureGroup
 				.getPropertyHandle( MeasureGroupHandle.MEASURES_PROP );
-	
+
 		// measure
 		MeasureHandle measure = (MeasureHandle) propHandle.getContent( 0 );
 		assertEquals( "testMeasure", measure.getName( ) ); //$NON-NLS-1$
@@ -223,7 +191,7 @@ public class OdaCubeParseTest extends BaseTestCase
 		assertEquals( DesignChoiceConstants.MEASURE_FUNCTION_MIN, measure
 				.getFunction( ) );
 		assertFalse( measure.isCalculated( ) );
-	
+
 	}
 
 	/**
@@ -237,108 +205,81 @@ public class OdaCubeParseTest extends BaseTestCase
 		String namePrix = "new"; //$NON-NLS-1$
 		String valuePrix = "updated "; //$NON-NLS-1$
 		ElementFactory factory = designHandle.getElementFactory( );
-	
+
 		// cube
-		OdaCubeHandle cube = (OdaCubeHandle) designHandle
-				.findCube( "testCube" ); //$NON-NLS-1$
+		OdaCubeHandle cube = (OdaCubeHandle) designHandle.findCube( "testCube" ); //$NON-NLS-1$
 		cube.setName( namePrix + cube.getName( ) );
 		cube.setDefaultMeasureGroup( factory
 				.newOdaMeasureGroup( "testDefaultMeasureGroup" ) ); //$NON-NLS-1$
-		PropertyHandle propHandle = cube
-				.getPropertyHandle( OdaCubeHandle.DIMENSION_CONDITIONS_PROP );
-		propHandle.removeItem( 0 );
-		DimensionCondition condition = new DimensionCondition( );
-		List keys = new ArrayList( );
-		keys.add( valuePrix + "key" ); //$NON-NLS-1$
-		keys.add( valuePrix + "key2" ); //$NON-NLS-1$
-		condition.setPrimaryKeys( keys );
-		cube.addDimensionCondition( condition );
-		DimensionConditionHandle structHandle = (DimensionConditionHandle) propHandle
-				.get( 1 );
-		MemberHandle memberHandle = structHandle
-				.getMember( DimensionCondition.HIERARCHY_MEMBER );
-		memberHandle.setValue( valuePrix + "hierarchy" ); //$NON-NLS-1$
-		structHandle.addPrimaryKey( valuePrix + "key4" ); //$NON-NLS-1$
-		structHandle = (DimensionConditionHandle) propHandle.get( 0 );
-		memberHandle = structHandle
-				.getMember( DimensionCondition.HIERARCHY_MEMBER );
-		memberHandle.setValue( valuePrix + memberHandle.getStringValue( ) );
-		memberHandle = structHandle
-				.getMember( DimensionCondition.PRIMARY_KEYS_MEMBER );
-		memberHandle.addItem( valuePrix + "column" ); //$NON-NLS-1$
-	
+
 		// access controls on cube.
-	
+
 		AccessControlHandle accessControl = (AccessControlHandle) cube
 				.accessControlsIterator( ).next( );
-	
+
 		accessControl.addUserName( "new cube user1" ); //$NON-NLS-1$
 		accessControl.addUserName( "new cube user2" ); //$NON-NLS-1$
-	
+
 		accessControl.addRole( "new cube role1" ); //$NON-NLS-1$
 		accessControl.addRole( "new cube role2" ); //$NON-NLS-1$
-	
+
 		accessControl
 				.setPermission( DesignChoiceConstants.ACCESS_PERMISSION_ALLOW );
-	
+
 		// add a new access control
-	
-		propHandle = cube
+
+		PropertyHandle propHandle = cube
 				.getPropertyHandle( OdaCubeHandle.ACCESS_CONTROLS_PROP );
-	
+
 		accessControl = designHandle.getElementFactory( ).newAccessControl( );
 		propHandle.add( accessControl );
-	
+
 		// dimension
-		cube.add( OdaCubeHandle.DIMENSIONS_PROP, factory
-				.newOdaDimension( null ) );
+		cube
+				.add( OdaCubeHandle.DIMENSIONS_PROP, factory
+						.newOdaDimension( null ) );
 		DimensionHandle dimension = (DimensionHandle) cube.getContent(
 				OdaCubeHandle.DIMENSIONS_PROP, 0 );
 		dimension.setName( namePrix + dimension.getName( ) );
 		dimension.setTimeType( false );
 		dimension.setDefaultHierarchy( factory
 				.newOdaHierarchy( "testDefaultHierarchy" ) ); //$NON-NLS-1$
-	
+
 		// hierarchy
 		dimension.add( DimensionHandle.HIERARCHIES_PROP, factory
 				.newOdaHierarchy( null ) );
 		OdaHierarchyHandle hierarchy = (OdaHierarchyHandle) dimension
 				.getContent( DimensionHandle.HIERARCHIES_PROP, 0 );
 		hierarchy.setName( namePrix + hierarchy.getName( ) );
-		propHandle = hierarchy
-				.getPropertyHandle( OdaHierarchyHandle.PRIMARY_KEYS_PROP );
-		propHandle.removeItem( "key2" ); //$NON-NLS-1$
-		propHandle.addItem( valuePrix + "key" ); //$NON-NLS-1$
-	
+
 		// access controls on hierarchy.
-	
+
 		accessControl = (AccessControlHandle) hierarchy
 				.accessControlsIterator( ).next( );
-	
+
 		accessControl.addUserName( "new hierarchy user1" ); //$NON-NLS-1$
 		accessControl.addUserName( "new hierarchy user2" ); //$NON-NLS-1$
-	
+
 		accessControl.addRole( "new hierarchy role1" ); //$NON-NLS-1$
 		accessControl.addRole( "new hierarchy role2" ); //$NON-NLS-1$
-	
+
 		accessControl
 				.setPermission( DesignChoiceConstants.ACCESS_PERMISSION_DISALLOW );
-	
+
 		// add a new access control
-	
+
 		propHandle = hierarchy
 				.getPropertyHandle( OdaHierarchyHandle.ACCESS_CONTROLS_PROP );
-	
+
 		accessControl = designHandle.getElementFactory( ).newAccessControl( );
 		propHandle.add( accessControl );
-	
+
 		// level
 		hierarchy.add( OdaHierarchyHandle.LEVELS_PROP, factory
 				.newOdaLevel( null ) );
 		LevelHandle level = (LevelHandle) hierarchy.getContent(
 				OdaHierarchyHandle.LEVELS_PROP, 0 );
 		level.setName( namePrix + level.getName( ) );
-		level.setColumnName( valuePrix + level.getColumnName( ) );
 		level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING );
 		level.setInterval( DesignChoiceConstants.INTERVAL_MONTH );
 		level.setIntervalRange( 5 );
@@ -356,39 +297,39 @@ public class OdaCubeParseTest extends BaseTestCase
 		config.setName( "var3" ); //$NON-NLS-1$
 		config.setValue( "var3 value" ); //$NON-NLS-1$
 		propHandle.insertItem( config, 0 );
-	
+
 		// access controls on hierarchy.
-	
+
 		ValueAccessControlHandle valueAccess = (ValueAccessControlHandle) level
 				.valueAccessControlsIterator( ).next( );
-	
+
 		valueAccess.addUserName( "new level user1" ); //$NON-NLS-1$
 		valueAccess.addUserName( "new level user2" ); //$NON-NLS-1$
-	
+
 		valueAccess.addRole( "new level role1" ); //$NON-NLS-1$
 		valueAccess.addRole( "new level role2" ); //$NON-NLS-1$
-	
+
 		valueAccess.addValue( "new level value1" ); //$NON-NLS-1$
 		valueAccess.addValue( "new level value2" ); //$NON-NLS-1$
-	
+
 		valueAccess
 				.setPermission( DesignChoiceConstants.ACCESS_PERMISSION_ALLOW );
-	
+
 		// add a new value access control
-	
+
 		propHandle = level
 				.getPropertyHandle( LevelHandle.VALUE_ACCESS_CONTROLS_PROP );
-	
+
 		valueAccess = designHandle.getElementFactory( ).newValueAccessControl( );
 		propHandle.add( valueAccess );
-	
+
 		// measure group
 		cube.add( OdaCubeHandle.MEASURE_GROUPS_PROP, factory
 				.newOdaMeasureGroup( null ) );
 		MeasureGroupHandle measureGroup = (MeasureGroupHandle) cube.getContent(
 				OdaCubeHandle.MEASURE_GROUPS_PROP, 0 );
 		measureGroup.setName( namePrix + measureGroup.getName( ) );
-	
+
 		// measure
 		measureGroup.add( MeasureGroupHandle.MEASURES_PROP, factory
 				.newOdaMeasure( null ) );
@@ -399,11 +340,10 @@ public class OdaCubeParseTest extends BaseTestCase
 				+ measure.getMeasureExpression( ) );
 		measure.setFunction( DesignChoiceConstants.MEASURE_FUNCTION_COUNT );
 		measure.setCalculated( true );
-	
+
 		save( );
-	
+		
 		assertTrue( compareFile( "OdaCubeParserTest_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 }
- 

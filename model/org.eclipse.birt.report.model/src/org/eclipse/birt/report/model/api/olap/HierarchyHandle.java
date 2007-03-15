@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.model.api.olap;
 
 import java.util.Iterator;
-import java.util.List;
 
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
@@ -47,18 +46,6 @@ public abstract class HierarchyHandle extends ReportElementHandle
 	public HierarchyHandle( Module module, DesignElement element )
 	{
 		super( module, element );
-	}
-
-	/**
-	 * Returns the list of primary keys. The element in the list is a
-	 * <code>String</code>.
-	 * 
-	 * @return a list of primary keys if set, otherwise null
-	 */
-
-	public List getPrimaryKeys( )
-	{
-		return getListProperty( PRIMARY_KEYS_PROP );
 	}
 
 	/**

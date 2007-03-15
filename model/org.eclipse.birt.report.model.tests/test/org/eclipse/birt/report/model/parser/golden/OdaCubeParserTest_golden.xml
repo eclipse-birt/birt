@@ -11,23 +11,6 @@
                     <expression name="value2">value2 expression</expression>
                 </structure>
             </list-property>
-            <list-property name="dimensionConditions">
-                <structure>
-                    <simple-property-list name="primaryKeys">
-                        <value>column</value>
-                        <value>updated column</value>
-                    </simple-property-list>
-                    <property name="hierarchy">updated nonExistingHierarchy</property>
-                </structure>
-                <structure>
-                    <simple-property-list name="primaryKeys">
-                        <value>updated key</value>
-                        <value>updated key2</value>
-                        <value>updated key4</value>
-                    </simple-property-list>
-                    <property name="hierarchy">updated hierarchy</property>
-                </structure>
-            </list-property>
             <property name="dimensions">
                 <oda-dimension name="newtestDimension" id="5">
                     <property name="isTimeType">false</property>
@@ -42,14 +25,8 @@
                                     <expression name="value2">value2 expression</expression>
                                 </structure>
                             </list-property>
-                            <simple-property-list name="primaryKeys">
-                                <value>key</value>
-                                <value>key4</value>
-                                <value>updated key</value>
-                            </simple-property-list>
                             <property name="levels">
                                 <oda-level name="newtestLevel" id="7">
-                                    <property name="columnName">updated column1</property>
                                     <property name="dataType">string</property>
                                     <property name="intervalBase">updated Jan</property>
                                     <property name="interval">month</property>

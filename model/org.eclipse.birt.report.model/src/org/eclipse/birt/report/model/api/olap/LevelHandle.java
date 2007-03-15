@@ -48,29 +48,6 @@ public abstract class LevelHandle extends ReportElementHandle
 	}
 
 	/**
-	 * Gets the column name of this level.
-	 * 
-	 * @return column name of this level
-	 */
-	public String getColumnName( )
-	{
-		return getStringProperty( COLUMN_NAME_PROP );
-	}
-
-	/**
-	 * Sets the column name for this level.
-	 * 
-	 * @param columnName
-	 *            the column name to set
-	 * @throws SemanticException
-	 *             property is locked
-	 */
-	public void setColumnName( String columnName ) throws SemanticException
-	{
-		setStringProperty( COLUMN_NAME_PROP, columnName );
-	}
-
-	/**
 	 * Returns the iterator of attributes. The element in the iterator is a
 	 * <code>StructureHandle</code>.
 	 * 

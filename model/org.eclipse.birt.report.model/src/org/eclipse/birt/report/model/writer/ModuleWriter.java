@@ -140,6 +140,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITabularCubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITabularHierarchyModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITabularLevelModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITemplateParameterDefinitionModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITextDataItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITextItemModel;
@@ -3332,7 +3333,6 @@ public abstract class ModuleWriter extends ElementVisitor
 		super.visitCube( obj );
 		property( obj, ICubeModel.DEFAULT_MEASURE_GROUP_PROP );
 		writeStructureList( obj, ICubeModel.FILTER_PROP );
-		writeStructureList( obj, ICubeModel.DIMENSION_CONDITIONS_PROP );
 
 		writeContents( obj, ICubeModel.DIMENSIONS_PROP );
 		writeContents( obj, ICubeModel.MEASURE_GROUPS_PROP );
@@ -3362,7 +3362,6 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		super.visitHierarchy( obj );
 		writeStructureList( obj, ICubeModel.FILTER_PROP );
-		writeSimplePropertyList( obj, IHierarchyModel.PRIMARY_KEYS_PROP );
 
 		writeContents( obj, IHierarchyModel.LEVELS_PROP );
 		writeContents( obj, ICubeModel.ACCESS_CONTROLS_PROP );
@@ -3376,7 +3375,6 @@ public abstract class ModuleWriter extends ElementVisitor
 	public void visitLevel( Level obj )
 	{
 		super.visitLevel( obj );
-		property( obj, ILevelModel.COLUMN_NAME_PROP );
 		property( obj, ILevelModel.DATA_TYPE_PROP );
 		property( obj, ILevelModel.INTERVAL_BASE_PROP );
 		property( obj, ILevelModel.INTERVAL_PROP );
@@ -3468,6 +3466,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		super.visitTabularCube( obj );
 		
 		property( obj, ITabularCubeModel.DATA_SET_PROP );
+		writeStructureList( obj, ITabularCubeModel.DIMENSION_CONDITIONS_PROP );		
 		writer.endElement( );
 
 	}
@@ -3496,7 +3495,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		super.visitTabularHierarchy( obj );
 		
 		property( obj, ITabularHierarchyModel.DATA_SET_PROP );
-
+		writeSimplePropertyList( obj, ITabularHierarchyModel.PRIMARY_KEYS_PROP );
 		writer.endElement( );
 	}
 
@@ -3510,6 +3509,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.startElement( DesignSchemaConstants.TABULAR_LEVEL_TAG );
 		super.visitTabularLevel( obj );
 
+		property( obj, ITabularLevelModel.COLUMN_NAME_PROP );
 		writer.endElement( );
 	}
 

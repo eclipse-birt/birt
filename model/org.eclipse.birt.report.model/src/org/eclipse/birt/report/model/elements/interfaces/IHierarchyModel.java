@@ -23,13 +23,6 @@ public interface IHierarchyModel
 	static final String FILTER_PROP = "filter"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property that refers a list of column name from the dataset
-	 * defined in this hierarchy.
-	 */
-
-	static final String PRIMARY_KEYS_PROP = "primaryKeys"; //$NON-NLS-1$
-
-	/**
 	 * Identifier of the slot that holds all the level elements.
 	 */
 

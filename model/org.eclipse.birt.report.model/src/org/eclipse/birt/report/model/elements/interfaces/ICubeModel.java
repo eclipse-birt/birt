@@ -18,13 +18,6 @@ package org.eclipse.birt.report.model.elements.interfaces;
 public interface ICubeModel
 {
 	/**
-	 * Name of the property that specifies a list of joints with some
-	 * hierarchies.
-	 */
-
-	static final String DIMENSION_CONDITIONS_PROP = "dimensionConditions"; //$NON-NLS-1$
-
-	/**
 	 * Name of the property that defines a list of filter conditions.
 	 */
 	static final String FILTER_PROP = "filter"; //$NON-NLS-1$
