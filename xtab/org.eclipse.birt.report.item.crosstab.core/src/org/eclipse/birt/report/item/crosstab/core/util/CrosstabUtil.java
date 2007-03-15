@@ -957,8 +957,10 @@ public class CrosstabUtil implements ICrosstabConstants
 					break;
 
 				AggregationCellHandle cell = measureView.getAggregationCell( j );
-				if ( cell.getAggregationOnColumn( ) == null
-						&& cell.getAggregationOnRow( ) == null )
+				if ( ( axisType == COLUMN_AXIS_TYPE && cell
+						.getAggregationOnColumn( ) == null )
+						|| ( axisType == ROW_AXIS_TYPE && cell
+								.getAggregationOnRow( ) == null ) )
 					measures.add( measureView );
 			}
 		}
@@ -1033,8 +1035,10 @@ public class CrosstabUtil implements ICrosstabConstants
 			for ( int j = 0; j < measureView.getAggregationCount( ); j++ )
 			{
 				AggregationCellHandle cell = measureView.getAggregationCell( j );
-				if ( cell.getAggregationOnColumn( ) == null
-						&& cell.getAggregationOnRow( ) == null )
+				if ( ( axisType == COLUMN_AXIS_TYPE && cell
+						.getAggregationOnColumn( ) == null )
+						|| ( axisType == ROW_AXIS_TYPE && cell
+								.getAggregationOnRow( ) == null ) )
 				{
 					String function = getAggregationFunction( crosstab, cell );
 					if ( function != null )
