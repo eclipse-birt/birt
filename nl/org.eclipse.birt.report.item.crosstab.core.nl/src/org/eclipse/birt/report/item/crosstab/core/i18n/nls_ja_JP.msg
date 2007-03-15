@@ -1,7 +1,7 @@
-Element.Crosstab=Cross Table
+Element.Crosstab=クロスタブ
 
 ###########################################################
 # Crosstab exception
-Error.CrosstabException.DUPLICATE_DIMENSION=Cube dimension element {0} has duplicate applied for dimension view in Crosstab {1}.
-Error.CrosstabException.DUPLICATE_MEASURE=Cube measure element {0} has duplicate applied for measure view in Crosstab {1}.
+Error.CrosstabException.DUPLICATE_DIMENSION=重複するキューブの次元要素 {0} が、クロスタブ {1} の次元ビューに適用されています。
+Error.CrosstabException.DUPLICATE_MEASURE=重複するキューブの計測要素 {0} が、クロスタブ {1} の計測ビューに適用されています。
 Error.CrosstabException.DUPLICATE_LEVEL=
