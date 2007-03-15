@@ -32,8 +32,8 @@ public class TotalTest extends TestCase
     private boolean[] doubleArray1TopBottom = {false, false, false,false,false,true,false,false,false,true,true,true,false,false,true};
     private double[] doubleArray2 = {4, -43, 4, 23, -15, -6, 4, -6, 3, 63, 33, -6, -23, 34};
     private Double[] doubleArray3 = {Double.valueOf( "100" ),Double.valueOf( "20" ),null,Double.valueOf( "300" ),null,Double.valueOf( "40" ),Double.valueOf( "10" ), Double.valueOf( "10" )};
-    private int[] doubleArray3RankDec = {2, 4, 7, 1, 7, 3,5,5 };
-    private int[] doubleArray3RankAsc = {7, 5, 1, 8, 1, 6,3,3};
+    private int[] doubleArray3RankDec = {2, 4, 6, 1, 6, 3, 5, 5 };
+    private int[] doubleArray3RankAsc = {5, 3, 1, 6, 1, 4, 2, 2 };
     private int[] doubleArray3PercentRank = {857,571,0,1000,0,714,285,285};
     private Object[] doubleArray3PercentSum = {new Integer(208),new Integer(41), null, new Integer(625),null,new Integer(83),new Integer(20),new Integer(20)};
     private String[] str1 = {"4", "-43", "4", "23", "-15", "-6", "4", "-6", "3", "63", "33", "-6", "-23", "34"};
@@ -41,6 +41,15 @@ public class TotalTest extends TestCase
     private Date[] dates = new Date[]
                             {
             new Date(1000000L),
+            new Date(2000000L),
+            new Date(3000000L),
+            new Date(4000000L)
+                            };
+    
+    private Date[] dates2 = new Date[]
+                            {
+            new Date(1000000L),
+            new Date(2000000L),
             new Date(2000000L),
             new Date(3000000L),
             new Date(4000000L)
@@ -506,6 +515,24 @@ public class TotalTest extends TestCase
         {
             assertTrue(true);
         }
+        
+        //median test for Date
+        //1:
+        ac.start();
+	    for ( int i = 0; i < dates.length; i++ )
+		{
+			ac.onRow( new Object[]{dates[i]} );
+		}
+        ac.finish();
+        assertEquals( ac.getValue(), new Date(2500000L) );
+        //2:
+        ac.start();
+	    for ( int i = 0; i < dates2.length; i++ )
+		{
+			ac.onRow( new Object[]{dates2[i]} );
+		}
+        ac.finish();
+        assertEquals( ac.getValue(),  new Date(2000000L) );
 
     }
     
@@ -563,6 +590,23 @@ public class TotalTest extends TestCase
         ac.onRow( new Double[]{ new Double(3)} );
         ac.finish();
         assertEquals( ac.getValue(), new Double(4) );
+        //mode test for Date
+        //1: no mode date
+        ac.start();
+	    for ( int i = 0; i < dates.length; i++ )
+		{
+			ac.onRow( new Object[]{dates[i]} );
+		}
+        ac.finish();
+        assertEquals( ac.getValue(), null );
+        //2: mode date is  new Date(2000000L)
+        ac.start();
+	    for ( int i = 0; i < dates2.length; i++ )
+		{
+			ac.onRow( new Object[]{dates2[i]} );
+		}
+        ac.finish();
+        assertEquals( ac.getValue(),  new Date(2000000L) );
 
     }
     
@@ -1086,6 +1130,22 @@ public class TotalTest extends TestCase
         	assertEquals(doubleArray3PercentSum[i], ac.getValue().equals( "" )?null:new Integer((int)(new Double(ac.getValue().toString()).doubleValue( )*1000)));
         }
         ac.finish();
+        //DataException should be throwed if the parameter is non-numeric
+        ac.start( );
+		for ( int i = 0; i < str2.length; i++ )
+		{
+			try
+			{
+				ac.onRow( new Object[]{
+					str2[i]
+				} );
+				fail( );
+			}
+			catch ( DataException e )
+			{
+			}
+		}
+		ac.finish( );
     }
     
     public void testTotalPercentile() throws Exception
@@ -1153,6 +1213,30 @@ public class TotalTest extends TestCase
              fail("should not arrive here");
         }catch ( DataException e )
         {}
+        
+        //test the parameter boundary, which should be not less than 0 and greater than 4 
+        ac.start();
+        for(int i=0; i<doubleArray3.length; i++)
+        {
+        	try
+			{
+        		ac.onRow(new Object[]{doubleArray3[i], new Double(-0.9)});
+        		fail();
+			}
+			catch ( DataException e )
+			{
+			}
+			
+			try
+			{
+        		ac.onRow(new Object[]{doubleArray3[i], new Double(4.1)});
+        		fail();
+			}
+			catch ( DataException e )
+			{
+			}
+        }
+        ac.finish();
      }
     
     public void testTotalQuartile() throws Exception
