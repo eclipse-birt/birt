@@ -180,6 +180,7 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.report.engine.layout.pdf.PDFTableLMTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.layout.pdf.PDFPageLMTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.layout.pdf.PDFTextLMTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.layout.pdf.PDFTableGroupLM.class );
 		
 		/* in package: org.eclipse.birt.report.engine.layout.pdf.hyphen */
 		suite.addTestSuite( org.eclipse.birt.report.engine.layout.pdf.hyphen.DefaultWordRecognizerTest.class );

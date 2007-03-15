@@ -97,16 +97,6 @@ public class PDFTableLM extends PDFBlockStackingLM
 		columnNumber = tableContent.getColumnCount( );
 	}
 
-	public int getRepeatCount( )
-	{
-		return repeatRowCount;
-	}
-
-	public void setRepeatCount( int repeatRowCount )
-	{
-		this.repeatRowCount = repeatRowCount;
-	}
-
 	protected boolean traverseChildren( )
 	{
 		if ( isNewArea )

@@ -55,7 +55,6 @@ public class PDFTableBandLM extends PDFBlockStackingLM
 				groupContent.getChildren( ).add( content );
 				this.executor = new DOMReportItemExecutor( content );
 				this.executor.execute( );
-				((PDFTableGroupLM)parent).setRepeatCount(content.getChildren( ).size( ));
 			}
 		}
 		else if ( pContent instanceof ITableContent )
@@ -72,7 +71,6 @@ public class PDFTableBandLM extends PDFBlockStackingLM
 				tableContent.getChildren( ).add( content );
 				this.executor = new DOMReportItemExecutor( content );
 				this.executor.execute( );
-				tbl.setRepeatCount( content.getChildren( ).size( ) );
 			}
 		}
 
