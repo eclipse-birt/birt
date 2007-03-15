@@ -65,16 +65,20 @@ public class DirectoryDocumentManager implements IDocumentManager
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.olap.data.document.IDocumentManager#createDocumentObject(java.lang.String)
 	 */
-	public boolean createDocumentObject( String documentObjectName ) throws IOException
+	public IDocumentObject createDocumentObject( String documentObjectName ) throws IOException
 	{
 		File file =  new File(documentDir + File.separatorChar + documentObjectName);
 		if ( file.exists( ) )
 		{
-			return true;
+			return null;
 		}
 		else
 		{
-			return file.createNewFile( );
+			if ( !file.createNewFile( ) )
+			{
+				return null;
+			}
+			return new DocumentObject( new SimpleRandomAccessObject(file, "rw") );
 		}
 	}
 
@@ -102,6 +106,11 @@ public class DirectoryDocumentManager implements IDocumentManager
 	{
 		File file =  new File(documentDir + File.separatorChar + documentObjectName);
 		return file.exists( );
+	}
+
+	public void flush( ) throws IOException
+	{
+		
 	}
 
 }

@@ -23,10 +23,10 @@ public interface IDocumentManager
 	 * Create a document object by name.
 	 * 
 	 * @param pathName
-	 * @return true if the named document object was successfully created; false
-	 *         if the named file already exists
+	 * @return document object if the named document object was successfully
+	 *         created; null if the named file already exists
 	 */
-	public boolean createDocumentObject( String documentObjectName ) throws IOException;
+	public IDocumentObject createDocumentObject( String documentObjectName ) throws IOException;
 	
 	/**
 	 * Check the named document object whether exists or not
@@ -42,6 +42,12 @@ public interface IDocumentManager
 	 * @return
 	 */
 	public IDocumentObject openDocumentObject( String documentObjectName ) throws IOException;
+	
+	/**
+	 * 
+	 * @throws IOException
+	 */
+	public void flush( ) throws IOException;
 	
 	/**
 	 * Close this document manager and releases any system resources associated

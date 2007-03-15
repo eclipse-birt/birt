@@ -51,10 +51,10 @@ public class DocumentManagerTest extends TestCase
 	public void testFilesDocumentManager( ) throws IOException, DataException
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
-		assertTrue( documentManager.createDocumentObject( "dimension_student" ) );
-		assertTrue( documentManager.createDocumentObject( "dimension_student_index_ID" ) );
-		assertTrue( documentManager.createDocumentObject( "dimension_time" ) );
-		assertTrue( documentManager.createDocumentObject( "dimension_level_year" ) );
+		assertTrue( documentManager.createDocumentObject( "dimension_student" )!=null );
+		assertTrue( documentManager.createDocumentObject( "dimension_student_index_ID" )!=null );
+		assertTrue( documentManager.createDocumentObject( "dimension_time" )!=null );
+		assertTrue( documentManager.createDocumentObject( "dimension_level_year" )!=null );
 		IDocumentObject documentObject = documentManager.openDocumentObject( "dimension_student" );
 		assertTrue( documentObject != null );
 		testDocumentObject1( documentObject );
@@ -76,7 +76,7 @@ public class DocumentManagerTest extends TestCase
 	public void testFilesDocumentManager2( ) throws IOException, DataException
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
-		assertTrue( documentManager.createDocumentObject( "dimension_student" ) );
+		assertTrue( documentManager.createDocumentObject( "dimension_student" )!=null );
 		IDocumentObject documentObject = documentManager.openDocumentObject( "dimension_student" );
 		assertTrue( documentObject != null );
 		documentObject.writeInt( 4 );
@@ -87,7 +87,7 @@ public class DocumentManagerTest extends TestCase
 	public void testFilesDocumentManager3( ) throws IOException, DataException
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
-		assertTrue( documentManager.createDocumentObject( "dimension_student" ) );
+		assertTrue( documentManager.createDocumentObject( "dimension_student" )!=null );
 		IDocumentObject documentObject = documentManager.openDocumentObject( "dimension_student" );
 		assertTrue( documentObject != null );
 		documentObject.writeInt( 4 );
@@ -98,7 +98,7 @@ public class DocumentManagerTest extends TestCase
 	public void testFilesDocumentManager4( ) throws IOException, DataException
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
-		assertTrue( documentManager.createDocumentObject( "dimension_student" ) );
+		assertTrue( documentManager.createDocumentObject( "dimension_student" )!=null );
 		IDocumentObject documentObject = documentManager.openDocumentObject( "dimension_student" );
 		assertTrue( documentObject != null );
 		byte[] b = new byte[100000];

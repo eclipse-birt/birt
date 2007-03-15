@@ -233,8 +233,7 @@ public class FactTableAccessor
 			DimensionInfo[] dimensionInfo, MeasureInfo[] measureInfo,
 			int segmentNumber ) throws IOException, BirtException
 	{
-		documentManager.createDocumentObject( factTableName );
-		IDocumentObject documentObject = documentManager.openDocumentObject( factTableName );
+		IDocumentObject documentObject = documentManager.createDocumentObject( factTableName );
 		// write dimension name and dimension member count
 		documentObject.writeInt( dimensionInfo.length );
 		for ( int i = 0; i < dimensionInfo.length; i++ )

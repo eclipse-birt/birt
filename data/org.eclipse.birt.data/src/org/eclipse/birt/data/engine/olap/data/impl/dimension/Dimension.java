@@ -58,8 +58,7 @@ public class Dimension implements IDimension
 		this.name = name;
 		this.documentManager = documentManager;
 		this.isTime = isTime;
-		documentManager.createDocumentObject( NamingUtil.getDimensionDocName( name ) );
-		documentObj = documentManager.openDocumentObject( NamingUtil.getDimensionDocName( name ) );
+		documentObj = documentManager.createDocumentObject( NamingUtil.getDimensionDocName( name ) );
 		documentObj.writeBoolean( isTime );
 		
 		this.hierarchy =  (Hierarchy)hierarchy;

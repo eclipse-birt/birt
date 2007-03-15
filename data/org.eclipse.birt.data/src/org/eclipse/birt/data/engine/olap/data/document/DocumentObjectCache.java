@@ -71,8 +71,7 @@ public class DocumentObjectCache
 		IDocumentObject newDocumentObject = documentManager.openDocumentObject( name );
 		if ( newDocumentObject == null )
 		{
-			documentManager.createDocumentObject( name );
-			newDocumentObject = documentManager.openDocumentObject( name );
+			newDocumentObject = documentManager.createDocumentObject( name );
 		}
 		newDocumentObject.seek( newDocumentObject.length( ) );
 		map.put( name, newDocumentObject );

@@ -180,7 +180,7 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.olap.data.document.IDocumentManager#createDocumentObject(java.lang.String)
 	 */
-	public boolean createDocumentObject( String documentObjectName ) throws IOException
+	public IDocumentObject createDocumentObject( String documentObjectName ) throws IOException
 	{
 		ObjectStructure objectStructure = new ObjectStructure( );
 		objectStructure.name = documentObjectName;
@@ -188,7 +188,11 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 		objectStructure.length = 0;
 		writeObjectStructure( objectStructure );
 		this.documentObjectMap.put( objectStructure.name, objectStructure );
-		return true;
+		return new DocumentObject( new BlockRandomAccessObject( dataFile,
+				documentObjectName,
+				objectStructure.firstBlock,
+				objectStructure.length,
+				this ) );
 	}
 	
 	/**
@@ -296,6 +300,13 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 		objectStructure.length = length;
 		objectFile.seek( objectStructure.fileOffset );
 		objectFile.writeLong( length );
+	}
+
+	public void flush( ) throws IOException
+	{
+		objectFile.flush( );
+		OatFile.flush( );
+		dataFile.flush( );
 	}
 }
 

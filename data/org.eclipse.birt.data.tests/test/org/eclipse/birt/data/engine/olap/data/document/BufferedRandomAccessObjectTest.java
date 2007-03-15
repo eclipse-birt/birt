@@ -58,7 +58,7 @@ public class BufferedRandomAccessObjectTest extends TestCase
 	public void testInteger( ) throws IOException
 	{
 		int objectNumber = 1001;
-		assertTrue(documentManager.createDocumentObject( "testInteger" ));
+		assertTrue(documentManager.createDocumentObject( "testInteger" )!=null);
 		IDocumentObject documentObject = documentManager.openDocumentObject( "testInteger" );
 		for ( int i = 0; i < objectNumber; i++ )
 		{
@@ -158,7 +158,7 @@ public class BufferedRandomAccessObjectTest extends TestCase
 	public void testString( ) throws IOException
 	{
 		int objectNumber = 3000;
-		assertTrue(documentManager.createDocumentObject( "testString" ));
+		assertTrue(documentManager.createDocumentObject( "testString" )!=null);
 		IDocumentObject documentObject = documentManager.openDocumentObject( "testString" );
 		for ( int i = 0; i < objectNumber; i++ )
 		{
@@ -175,7 +175,7 @@ public class BufferedRandomAccessObjectTest extends TestCase
 	public void testBigDecimal( ) throws IOException
 	{
 		int objectNumber = 3000;
-		assertTrue(documentManager.createDocumentObject( "testBigDecimal" ));
+		assertTrue(documentManager.createDocumentObject( "testBigDecimal" )!=null);
 		IDocumentObject documentObject = documentManager.openDocumentObject( "testBigDecimal" );
 		for ( int i = 0; i < objectNumber; i++ )
 		{
@@ -193,7 +193,7 @@ public class BufferedRandomAccessObjectTest extends TestCase
 	public void testDate( ) throws IOException
 	{
 		int objectNumber = 4101;
-		assertTrue(documentManager.createDocumentObject( "testDate" ));
+		assertTrue(documentManager.createDocumentObject( "testDate" )!=null);
 		IDocumentObject documentObject = documentManager.openDocumentObject( "testDate" );
 		for ( int i = 0; i < objectNumber; i++ )
 		{
@@ -210,7 +210,7 @@ public class BufferedRandomAccessObjectTest extends TestCase
 	public void testMixed( ) throws IOException
 	{
 		int objectNumber = 1001;
-		assertTrue(documentManager.createDocumentObject( "testMixed" ));
+		assertTrue(documentManager.createDocumentObject( "testMixed" )!=null);
 		IDocumentObject documentObject = documentManager.openDocumentObject( "testMixed" );
 		for ( int i = 0; i < objectNumber; i++ )
 		{

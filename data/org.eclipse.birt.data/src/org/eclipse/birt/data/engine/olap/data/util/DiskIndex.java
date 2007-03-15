@@ -14,12 +14,12 @@ package org.eclipse.birt.data.engine.olap.data.util;
 import java.io.IOException;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.data.api.ISelection;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentObjectUtil;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentObject;
 import org.eclipse.birt.data.engine.olap.data.impl.Constants;
-import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
  * A disk based index. The index is n-tree which can be used to find element
@@ -389,21 +389,21 @@ public class DiskIndex
 	 */
 	private void createDocumentObject( ) throws IOException, DataException
 	{
-		if ( !documentManager.createDocumentObject( name ) )
+		documentObject = documentManager.createDocumentObject( name );
+		if ( documentObject == null )
 		{
 			// throw new OlapException(
 			// ResourceConstants.DOCUMENTOJBECT_ALWAYS_EXIST,
 			// name );
 		}
-		documentObject = documentManager.openDocumentObject( name );
 
-		if ( !documentManager.createDocumentObject( getOffsetDocName( name ) ) )
+		offsetDocumentObject = documentManager.createDocumentObject( getOffsetDocName( name ) );
+		if ( offsetDocumentObject == null )
 		{
 			// throw new OlapException(
 			// ResourceConstants.DOCUMENTOJBECT_ALWAYS_EXIST,
 			// name );
 		}
-		offsetDocumentObject = documentManager.openDocumentObject( getOffsetDocName( name ) );
 	}
 
 	/**

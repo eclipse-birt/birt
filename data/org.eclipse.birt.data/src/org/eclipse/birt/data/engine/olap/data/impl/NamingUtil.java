@@ -17,12 +17,13 @@ package org.eclipse.birt.data.engine.olap.data.impl;
 
 public class NamingUtil
 {
-	private static final String CUBE_PREFIX = "cube_";
-	private static final String DIMENSION_PREFIX = "dim_";
-	private static final String HIERARCHY_PREFIX = "hierarchy_";
-	private static final String LEVEL_INDEX = "level_index_";
-	private static final String LEVEL_OFFSET = "level_offset_";
-	private static final String FACT_TABLE = "fact_table_";
+	private static final String OLAP_PREFIX = "olap/";
+	private static final String CUBE_PREFIX = OLAP_PREFIX + "cube_";
+	private static final String DIMENSION_PREFIX = OLAP_PREFIX + "dim_";
+	private static final String HIERARCHY_PREFIX = OLAP_PREFIX + "hierarchy_";
+	private static final String LEVEL_INDEX = OLAP_PREFIX + "level_index_";
+	private static final String LEVEL_OFFSET = OLAP_PREFIX + "level_offset_";
+	private static final String FACT_TABLE = OLAP_PREFIX + "fact_table_";
 
 	/**
 	 * 

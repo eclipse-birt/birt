@@ -63,8 +63,7 @@ public class Cube implements ICube
 			String[] measureColumnName, StopSign stopSign ) throws IOException,
 			BirtException
 	{
-		documentManager.createDocumentObject( NamingUtil.getCubeDocName( name ) );
-		documentObject = documentManager.openDocumentObject( NamingUtil.getCubeDocName( name ) );
+		documentObject = documentManager.createDocumentObject( NamingUtil.getCubeDocName( name ) );
 		documentObject.writeString( name );
 		documentObject.writeInt( dimension.length );
 		for ( int i = 0; i < dimension.length; i++ )

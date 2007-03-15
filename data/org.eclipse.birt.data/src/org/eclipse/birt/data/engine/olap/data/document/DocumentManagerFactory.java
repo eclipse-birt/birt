@@ -14,6 +14,8 @@ package org.eclipse.birt.data.engine.olap.data.document;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.birt.core.archive.IDocArchiveReader;
+import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
@@ -53,9 +55,39 @@ public class DocumentManagerFactory
 		return FileDocumentManager.createManager( tmpPath, DEFAULT_CUB_MANAGER_NAME );
 	}
 	
+	/**
+	 * 
+	 * @return
+	 * @throws DataException
+	 * @throws IOException
+	 */
 	static public IDocumentManager loadFileDocumentManager( ) throws DataException, IOException
 	{
 		return FileDocumentManager.loadManager( tmpPath, DEFAULT_CUB_MANAGER_NAME );
+	}
+	
+	/**
+	 * 
+	 * @param docArchiveReader
+	 * @return
+	 * @throws DataException
+	 * @throws IOException
+	 */
+	static public IDocumentManager createRAReaderManager( IDocArchiveReader docArchiveReader ) throws DataException, IOException
+	{
+		return new RAReaderManager( docArchiveReader );
+	}
+	
+	/**
+	 * 
+	 * @param docArchiveWriter
+	 * @return
+	 * @throws DataException
+	 * @throws IOException
+	 */
+	static public IDocumentManager createRAWriterManager( IDocArchiveWriter docArchiveWriter ) throws DataException, IOException
+	{
+		return new RAWriterManager( docArchiveWriter );
 	}
 	
 	/**
