@@ -822,6 +822,8 @@
 				<include name="org.eclipse.datatools.connectivity.oda.nl1*.jar" />
 				<include name="org.eclipse.datatools.connectivity.oda.consumer.nl1*.jar" />
 				<include name="org.eclipse.datatools.connectivity.oda.flatfile.nl1*.jar" />
+				<include name="org.eclipse.datatools.connectivity.oda.design.nl1*.jar" />
+				<include name="org.eclipse.datatools.connectivity.oda.profile.nl1*.jar" />
 			</zipfileset>
 			<zipfileset dir="${deposit}/language_pack/plugins" prefix="${birt.runtime.dir.prefix}/WebViewerExample/WEB-INF/lib">
 				<include name="org.eclipse.birt.report.viewer.nl1_*.jar" />
