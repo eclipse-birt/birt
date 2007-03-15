@@ -917,6 +917,10 @@ public class CrosstabUtil implements ICrosstabConstants
 			MeasureViewHandle measureView = crosstab.getMeasure( i );
 			for ( int j = 0; j < measureView.getAggregationCount( ); j++ )
 			{
+				// if this measure view is added to the list, break
+				if ( measures.contains( measureView ) )
+					break;
+
 				AggregationCellHandle cell = measureView.getAggregationCell( j );
 				if ( levelView.getCubeLevelName( ).equals(
 						cell.getModelHandle( ).getStringProperty( propName ) ) )
@@ -948,6 +952,10 @@ public class CrosstabUtil implements ICrosstabConstants
 			MeasureViewHandle measureView = crosstab.getMeasure( i );
 			for ( int j = 0; j < measureView.getAggregationCount( ); j++ )
 			{
+				// if this measure view is added to the list, break
+				if ( measures.contains( measureView ) )
+					break;
+
 				AggregationCellHandle cell = measureView.getAggregationCell( j );
 				if ( cell.getAggregationOnColumn( ) == null
 						&& cell.getAggregationOnRow( ) == null )
