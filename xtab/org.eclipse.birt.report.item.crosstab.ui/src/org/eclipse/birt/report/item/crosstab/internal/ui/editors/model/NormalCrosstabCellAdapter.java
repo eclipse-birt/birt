@@ -11,12 +11,15 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.model;
 
+import org.eclipse.birt.report.designer.util.IVirtualValidator;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 
 /**
  * The default cell adapter
  */
-public class NormalCrosstabCellAdapter extends CrosstabCellAdapter
+public class NormalCrosstabCellAdapter extends CrosstabCellAdapter implements IVirtualValidator
 {
 
 	/**
@@ -55,5 +58,27 @@ public class NormalCrosstabCellAdapter extends CrosstabCellAdapter
 			return getCrosstabItemHandle( ) == ( (CrosstabHandleAdapter) obj ).getCrosstabItemHandle( );
 		}
 		return super.equals( obj );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.util.IVirtualValidator#handleValidate(java.lang.Object)
+	 */
+	public boolean handleValidate( Object obj )
+	{
+		if (obj instanceof DimensionHandle)
+		{
+			if (getPositionType( ) .equals( ICrosstabCellAdapterFactory.CELL_LEVEL_HANDLE))
+			{
+				return true;
+			}
+		}
+		if (obj instanceof MeasureHandle)
+		{
+			if (getPositionType( ).equals( ICrosstabCellAdapterFactory.CELL_MEASURE ));
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }
