@@ -1,8 +1,8 @@
-cheatsheet.category=Business Intelligence and Reporting Tools
-cheatsheet.simplelisting=Simple Listing Report
-cheatsheet.groupedlisting=Grouped Listing Report
-cheatsheet.dualcolumnlisting=Dual Column Listing Report
-cheatsheet.chartlisting=Chart & Listing Report
-cheatsheet.sidebysidechartlisting=Side by side Chart Listing Report
-cheatsheet.dualcolumnchartlisting=Dual Column Chart Listing Report
-cheatsheet.firstreport=My First Report
+cheatsheet.category=Outils de reporting et de Business Intelligence
+cheatsheet.simplelisting=Etat - Listes simples
+cheatsheet.groupedlisting=Etat - Listes groupées
+cheatsheet.dualcolumnlisting=Etat - Listes de colonnes doubles
+cheatsheet.chartlisting=Etat - Graphiques et listes
+cheatsheet.sidebysidechartlisting=Etat - Graphiques et listes juxtaposés
+cheatsheet.dualcolumnchartlisting=Etat - Graphiques et listes de colonnes doubles
+cheatsheet.firstreport=Mon premier état
