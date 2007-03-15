@@ -292,7 +292,15 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>         
-                        
+ 
+    <plugin
+         id="org.eclipse.birt.report.data.adapter.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/> 
+                                 
    <plugin
          id="org.eclipse.datatools.connectivity.nl"
          download-size="0"
