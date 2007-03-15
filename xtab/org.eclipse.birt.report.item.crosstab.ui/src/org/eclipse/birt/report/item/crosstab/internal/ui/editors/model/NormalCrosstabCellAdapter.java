@@ -67,14 +67,16 @@ public class NormalCrosstabCellAdapter extends CrosstabCellAdapter implements IV
 	{
 		if (obj instanceof DimensionHandle)
 		{
-			if (getPositionType( ) .equals( ICrosstabCellAdapterFactory.CELL_LEVEL_HANDLE))
+			if (getPositionType( ) .equals( ICrosstabCellAdapterFactory.CELL_LEVEL_HANDLE)
+					||getPositionType( ) .equals( ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE)	)
 			{
 				return true;
 			}
 		}
+
 		if (obj instanceof MeasureHandle)
 		{
-			if (getPositionType( ).equals( ICrosstabCellAdapterFactory.CELL_MEASURE ));
+			if (getPositionType( ).equals( ICrosstabCellAdapterFactory.CELL_MEASURE ))
 			{
 				return true;
 			}
