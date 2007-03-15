@@ -58,15 +58,15 @@ BIRTConfiguration_overwrite_message=Toujours écr&aser le document généré
 
 BIRTConfiguration_maxrows_label=Lignes max. de jeux de &données :
 BIRTConfiguration_loglevel_label=&Sélectionnez le niveau de journalisation :
-BIRTConfiguration_loglevel_all=ALL
+BIRTConfiguration_loglevel_all=TOUT
 BIRTConfiguration_loglevel_severe=SEVERE
-BIRTConfiguration_loglevel_warning=WARNING
-BIRTConfiguration_loglevel_info=INFO
+BIRTConfiguration_loglevel_warning=AVERTISSEMENT
+BIRTConfiguration_loglevel_info=INFOS
 BIRTConfiguration_loglevel_config=CONFIG
-BIRTConfiguration_loglevel_fine=FINE
-BIRTConfiguration_loglevel_finer=FINER
-BIRTConfiguration_loglevel_finest=FINEST
-BIRTConfiguration_loglevel_off=OFF
+BIRTConfiguration_loglevel_fine=BIEN
+BIRTConfiguration_loglevel_finer=MIEUX
+BIRTConfiguration_loglevel_finest=MEILLEUR
+BIRTConfiguration_loglevel_off=DESACTIVE
 
 BIRTConfiguration_import_clear_message=&Effacer les anciens fichiers d'exécution BIRT.
 

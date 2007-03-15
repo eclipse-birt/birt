@@ -58,15 +58,15 @@ BIRTConfiguration_overwrite_message=Sobrescribir siempre el &archivo de document
 
 BIRTConfiguration_maxrows_label=Número máximo de filas de conjunto de &datos:
 BIRTConfiguration_loglevel_label=&Seleccionar nivel de registro:
-BIRTConfiguration_loglevel_all=ALL
-BIRTConfiguration_loglevel_severe=SEVERE
-BIRTConfiguration_loglevel_warning=WARNING
-BIRTConfiguration_loglevel_info=INFO
-BIRTConfiguration_loglevel_config=CONFIG
-BIRTConfiguration_loglevel_fine=FINE
-BIRTConfiguration_loglevel_finer=FINER
-BIRTConfiguration_loglevel_finest=FINEST
-BIRTConfiguration_loglevel_off=OFF
+BIRTConfiguration_loglevel_all=TODOS
+BIRTConfiguration_loglevel_severe=GRAVE
+BIRTConfiguration_loglevel_warning=ADVERTENCIA
+BIRTConfiguration_loglevel_info=INFORMACIÓN
+BIRTConfiguration_loglevel_config=CONFIG.
+BIRTConfiguration_loglevel_fine=BUENO
+BIRTConfiguration_loglevel_finer=MEJOR
+BIRTConfiguration_loglevel_finest=ÓPTIMO
+BIRTConfiguration_loglevel_off=DESACTIVAR
 
 BIRTConfiguration_import_clear_message=Eliminar los ar&chivos de tiempo de ejecución BIRT antiguos.
 
