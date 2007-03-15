@@ -13,8 +13,8 @@ package org.eclipse.birt.report.item.crosstab.core.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -504,7 +504,7 @@ public class CrosstabUtil implements ICrosstabConstants
 
 			// adjust the measure aggregations
 			CrosstabReportItemHandle crosstab = levelView.getCrosstab( );
-			if ( crosstab != null )
+			if ( crosstab != null && measures != null )
 			{
 				addMeasureAggregations( crosstab, levelView.getAxisType( ),
 						( (DimensionViewHandle) levelView.getContainer( ) )
@@ -541,8 +541,8 @@ public class CrosstabUtil implements ICrosstabConstants
 			String dimensionName, String levelName, boolean isInnerMost,
 			String function, List measures ) throws SemanticException
 	{
-		if ( crosstab == null
-				|| ( axisType != ROW_AXIS_TYPE && axisType != COLUMN_AXIS_TYPE ) )
+		if ( crosstab == null || !isValidAxisType( axisType )
+				|| measures == null || measures.isEmpty( ) )
 			return;
 		int counterAxisType = CrosstabUtil.getOppositeAxisType( axisType );
 
@@ -785,7 +785,7 @@ public class CrosstabUtil implements ICrosstabConstants
 
 			// adjust the measure aggregations
 			CrosstabReportItemHandle crosstab = crosstabView.getCrosstab( );
-			if ( crosstab != null )
+			if ( crosstab != null && measures != null )
 			{
 				addMeasureAggregations( crosstab, crosstabView.getAxisType( ),
 						null, null, false, function, measures );
@@ -996,13 +996,58 @@ public class CrosstabUtil implements ICrosstabConstants
 	 * @param dimensionView
 	 * @param axisType
 	 * @param index
+	 * @param measureListMap
+	 * @param functionMap
+	 * @throws SemanticException
 	 */
 	public static void insertDimension( CrosstabReportItemHandle crosstab,
-			DimensionViewHandle dimensionView, int axisType, int index )
+			DimensionViewHandle dimensionView, int axisType, int index,
+			Map measureListMap, Map functionMap ) throws SemanticException
 	{
-		if ( crosstab == null || dimensionView == null )
+		if ( crosstab == null || dimensionView == null
+				|| !isValidAxisType( axisType ) )
 			return;
 
 		CommandStack stack = crosstab.getCommandStack( );
+		stack.startTrans( null );
+
+		try
+		{
+			CrosstabViewHandle crosstabView = crosstab
+					.getCrosstabView( axisType );
+
+			if ( crosstabView == null )
+			{
+				// if the crosstab view is null, then create and add a crosstab
+				// view first, and then add the dimension to it second;
+				crosstabView = crosstab.addCrosstabView( axisType );
+			}
+			crosstabView.getViewsProperty( ).add(
+					dimensionView.getModelHandle( ), index );
+
+			String dimensionName = dimensionView.getCubeDimensionName( );
+			// adjust measure aggregations
+			for ( int i = 0; i < dimensionView.getLevelCount( ); i++ )
+			{
+				LevelViewHandle levelView = dimensionView.getLevel( i );
+				String levelName = levelView.getCubeLevelName( );
+				List measures = (List) ( measureListMap == null
+						? null
+						: measureListMap.get( levelName ) );
+				String function = (String) ( functionMap == null
+						? null
+						: functionMap.get( levelName ) );
+				addMeasureAggregations( crosstab, axisType, dimensionName,
+						levelView.getCubeLevelName( ), false, function,
+						measures );
+			}
+		}
+		catch ( SemanticException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
+
+		stack.commit( );
 	}
 }

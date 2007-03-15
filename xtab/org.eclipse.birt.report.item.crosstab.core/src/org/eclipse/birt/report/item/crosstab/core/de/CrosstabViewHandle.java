@@ -60,7 +60,7 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 	 * 
 	 * @return dimension views property handle.
 	 */
-	PropertyHandle getViewsProperty( )
+	public PropertyHandle getViewsProperty( )
 	{
 		return handle.getPropertyHandle( VIEWS_PROP );
 	}
