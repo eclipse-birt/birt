@@ -15,6 +15,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.Advanc
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AlterPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BookMarkExpressionPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BordersPage;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FontPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.ItemMarginPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.NamedExpressionsPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.SectionPage;
@@ -85,9 +86,9 @@ public class CrosstabCategoryProviderFactory extends CategoryProviderFactory {
 					"CrosstabPageGenerator.List.AdvancedProperty", //$NON-NLS-1$
 			}, new Class[]{
 					CrosstabGeneralPage.class,
-					BordersPage.class,
 					ItemMarginPage.class,
-					AlterPage.class,
+					FontPage.class,
+					BordersPage.class,					
 					SectionPage.class,
 					VisibilityPage.class,
 					TOCExpressionPage.class,
