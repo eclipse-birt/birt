@@ -104,8 +104,7 @@ public final class ExpressionUtil
 	{
 		return DIMENSION_INDICATOR
 				+ createJSExprComponent( dimensionName )
-				+ createJSExprComponent( levelName )
-				+ createJSExprComponent( "ID" );
+				+ createJSExprComponent( levelName );
 	}
 	
 	/**

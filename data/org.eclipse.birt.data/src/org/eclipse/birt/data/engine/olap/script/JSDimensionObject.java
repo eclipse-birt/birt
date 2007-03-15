@@ -38,7 +38,9 @@ public class JSDimensionObject extends ScriptableObject
 		this.levels = new HashMap();
 		for( int i = 0; i < levelNames.size( ); i++ )
 		{
-			this.levels.put( levelNames.get( i ), new JSLevelObject((DimensionCursor)dimensionCursor.get( i )) );
+			this.levels.put( levelNames.get( i ),
+					new JSLevelObject( (DimensionCursor) dimensionCursor.get( i ),
+							levelNames.get( i ).toString( ) ) );
 		}
 	}
 	

@@ -144,6 +144,9 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.data.engine.olap.cursor.CursorNavigatorTest.class );
 		suite.addTestSuite( org.eclipse.birt.data.engine.olap.cursor.CursorModelTest.class );
 		
+		/* in package org.eclipse.birt.data.engine.olap.util */
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.util.OlapExpressionUtilTest.class );
+		
 		return suite;
 	}
 	

@@ -29,10 +29,12 @@ public class JSLevelObject extends ScriptableObject
 	 */
 	private static final long serialVersionUID = 1L;
 	private DimensionCursor cursor;
+	private String levelName;
 	
-	JSLevelObject( DimensionCursor cursor )
+	JSLevelObject( DimensionCursor cursor, String levelName )
 	{
 		this.cursor = cursor;
+		this.levelName = levelName;
 	}
 	
 	public String getClassName( )
@@ -40,15 +42,11 @@ public class JSLevelObject extends ScriptableObject
 		return "JSLevelObject";
 	}
 
-	/*
-	 * @see org.mozilla.javascript.ScriptableObject#get(int,
-	 *      org.mozilla.javascript.Scriptable)
-	 */
-	public Object get( int index, Scriptable start )
+	public Object getKeyValue( )
 	{
 		try
 		{
-			return this.cursor.getObject( index );
+			return this.cursor.getObject( this.levelName );
 		}
 		catch ( OLAPException e )
 		{

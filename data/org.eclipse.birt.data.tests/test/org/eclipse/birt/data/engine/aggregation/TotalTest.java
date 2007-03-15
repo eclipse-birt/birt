@@ -32,8 +32,8 @@ public class TotalTest extends TestCase
     private boolean[] doubleArray1TopBottom = {false, false, false,false,false,true,false,false,false,true,true,true,false,false,true};
     private double[] doubleArray2 = {4, -43, 4, 23, -15, -6, 4, -6, 3, 63, 33, -6, -23, 34};
     private Double[] doubleArray3 = {Double.valueOf( "100" ),Double.valueOf( "20" ),null,Double.valueOf( "300" ),null,Double.valueOf( "40" ),Double.valueOf( "10" ), Double.valueOf( "10" )};
-    private int[] doubleArray3RankDec = {2, 4, 6, 1, 6, 3, 5, 5 };
-    private int[] doubleArray3RankAsc = {5, 3, 1, 6, 1, 4, 2, 2 };
+    private int[] doubleArray3RankDec = {2, 4, 7, 1, 7, 3, 5, 5 };
+    private int[] doubleArray3RankAsc = {7, 5, 1, 8, 1, 6, 3, 3 };
     private int[] doubleArray3PercentRank = {857,571,0,1000,0,714,285,285};
     private Object[] doubleArray3PercentSum = {new Integer(208),new Integer(41), null, new Integer(625),null,new Integer(83),new Integer(20),new Integer(20)};
     private String[] str1 = {"4", "-43", "4", "23", "-15", "-6", "4", "-6", "3", "63", "33", "-6", "-23", "34"};

@@ -19,8 +19,6 @@ import java.util.List;
 import javax.olap.cursor.CubeCursor;
 import javax.olap.cursor.EdgeCursor;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
@@ -73,22 +71,22 @@ public class CubeFeaturesTest extends BaseTestCase
 		
 		IBinding binding1 = new Binding( "edge1level1");
 		
-		binding1.setExpression( "dimension[\"dimension1\"][\"level11\"][\"level11\"]" );
+		binding1.setExpression( "dimension[\"dimension1\"][\"level11\"]" );
 		cqd.addBinding( binding1 );
 		
 		IBinding binding2 = new Binding( "edge1level2");
 		
-		binding2.setExpression( "dimension[\"dimension1\"][\"level12\"][\"level12\"]" );
+		binding2.setExpression( "dimension[\"dimension1\"][\"level12\"]" );
 		cqd.addBinding( binding2 );
 		
 		IBinding binding3 = new Binding( "edge1level3");
 		
-		binding3.setExpression( "dimension[\"dimension1\"][\"level13\"][\"level13\"]" );
+		binding3.setExpression( "dimension[\"dimension1\"][\"level13\"]" );
 		cqd.addBinding( binding3 );
 		
 		IBinding binding4 = new Binding( "edge2level1");
 		
-		binding4.setExpression( "dimension[\"dimension2\"][\"level21\"][\"level21\"]" );
+		binding4.setExpression( "dimension[\"dimension2\"][\"level21\"]" );
 		cqd.addBinding( binding4 );
 		
 		IBinding binding5 = new Binding( "measure1" );
@@ -129,17 +127,17 @@ public class CubeFeaturesTest extends BaseTestCase
 		
 		IBinding binding1 = new Binding( "edge1level1");
 		
-		binding1.setExpression( "dimension[\"dimension1\"][\"level11\"][\"level11\"]" );
+		binding1.setExpression( "dimension[\"dimension1\"][\"level11\"]" );
 		cqd.addBinding( binding1 );
 		
 		IBinding binding2 = new Binding( "edge1level2");
 		
-		binding2.setExpression( "dimension[\"dimension1\"][\"level12\"][\"level12\"]" );
+		binding2.setExpression( "dimension[\"dimension1\"][\"level12\"]" );
 		cqd.addBinding( binding2 );
 		
 		IBinding binding4 = new Binding( "edge2level1");
 		
-		binding4.setExpression( "dimension[\"dimension2\"][\"level21\"][\"level21\"]" );
+		binding4.setExpression( "dimension[\"dimension2\"][\"level21\"]" );
 		cqd.addBinding( binding4 );
 		
 		IBinding binding5 = new Binding( "measure1" );
