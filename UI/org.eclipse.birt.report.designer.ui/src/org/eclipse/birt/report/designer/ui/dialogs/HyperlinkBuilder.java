@@ -37,6 +37,7 @@ import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.model.api.ActionHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
@@ -1621,11 +1622,13 @@ public class HyperlinkBuilder extends BaseDialog
 	 * 
 	 * @param input
 	 *            the serialized string
+	 * @param handle
+	 * 				DesignElementHandle
 	 * @throws DesignFileException
 	 */
-	public void setInputString( String input ) throws DesignFileException
+	public void setInputString( String input, DesignElementHandle handle ) throws DesignFileException
 	{
-		setInput( ModuleUtil.deserializeAction( input ) );
+		setInput( ModuleUtil.deserializeAction( input, handle ) );
 	}
 
 	/**
