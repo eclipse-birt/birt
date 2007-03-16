@@ -337,7 +337,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 	 * 
 	 * @see org.eclipse.birt.report.designer.ui.preview.extension.IViewer#getUI()
 	 */
-	public Composite getUI( )
+	public Control getUI( )
 	{
 		return this.form;
 	}
