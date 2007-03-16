@@ -64,6 +64,10 @@ public class DocumentObject implements IDocumentObject
 	 */
 	public BigDecimal readBigDecimal( ) throws IOException
 	{
+		if( delegate.readByte( ) == 0 )
+		{
+			return null;
+		}
 		return delegate.readBigDecimal( );
 	}
 
@@ -82,6 +86,10 @@ public class DocumentObject implements IDocumentObject
 	 */
 	public Date readDate( ) throws IOException
 	{
+		if( delegate.readByte( ) == 0 )
+		{
+			return null;
+		}
 		return delegate.readDate( );
 	}
 
@@ -118,6 +126,10 @@ public class DocumentObject implements IDocumentObject
 	 */
 	public String readString( ) throws IOException
 	{
+		if( delegate.readByte( ) == 0 )
+		{
+			return null;
+		}
 		return delegate.readUTF( );
 	}
 
@@ -163,6 +175,15 @@ public class DocumentObject implements IDocumentObject
 	 */
 	public void writeBigDecimal( BigDecimal value ) throws IOException
 	{
+		if( value == null )
+		{
+			delegate.writeByte( 0 );
+			return;
+		}
+		else
+		{
+			delegate.writeByte( 1 );
+		}
 		delegate.writeBigDecimal( value );
 	}
 
@@ -181,6 +202,15 @@ public class DocumentObject implements IDocumentObject
 	 */
 	public void writeDate( Date value ) throws IOException
 	{
+		if( value == null )
+		{
+			delegate.writeByte( 0 );
+			return;
+		}
+		else
+		{
+			delegate.writeByte( 1 );
+		}
 		delegate.writeDate( value );
 	}
 
@@ -217,6 +247,15 @@ public class DocumentObject implements IDocumentObject
 	 */
 	public void writeString( String value ) throws IOException
 	{
+		if( value == null )
+		{
+			delegate.writeByte( 0 );
+			return;
+		}
+		else
+		{
+			delegate.writeByte( 1 );
+		}
 		delegate.writeUTF( value );
 	}
 
@@ -262,6 +301,10 @@ public class DocumentObject implements IDocumentObject
 	 */
 	public Bytes readBytes( ) throws IOException
 	{
+		if( delegate.readByte( ) == 0 )
+		{
+			return null;
+		}
 		return delegate.readBytes( );
 	}
 
@@ -271,6 +314,15 @@ public class DocumentObject implements IDocumentObject
 	 */
 	public void writeBytes( Bytes b ) throws IOException
 	{
+		if( b == null )
+		{
+			delegate.writeByte( 0 );
+			return;
+		}
+		else
+		{
+			delegate.writeByte( 1 );
+		}
 		delegate.writeBytes( b );
 	}
 
