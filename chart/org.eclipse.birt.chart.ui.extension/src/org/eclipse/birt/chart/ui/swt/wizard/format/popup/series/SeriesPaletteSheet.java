@@ -87,7 +87,7 @@ public class SeriesPaletteSheet extends AbstractPopupSheet
 		slPalette = new StackLayout( );
 
 		grpPalette = new Group( cmpContent, SWT.NONE );
-		GridData gdGRPPalette = new GridData( GridData.FILL_HORIZONTAL );
+		GridData gdGRPPalette = new GridData( GridData.FILL_BOTH );
 		gdGRPPalette.heightHint = 300;
 		grpPalette.setLayoutData( gdGRPPalette );
 		grpPalette.setLayout( slPalette );
