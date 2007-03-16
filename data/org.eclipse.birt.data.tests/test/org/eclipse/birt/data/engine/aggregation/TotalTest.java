@@ -32,11 +32,13 @@ public class TotalTest extends TestCase
     private boolean[] doubleArray1TopBottom = {false, false, false,false,false,true,false,false,false,true,true,true,false,false,true};
     private double[] doubleArray2 = {4, -43, 4, 23, -15, -6, 4, -6, 3, 63, 33, -6, -23, 34};
     private Double[] doubleArray3 = {Double.valueOf( "100" ),Double.valueOf( "20" ),null,Double.valueOf( "300" ),null,Double.valueOf( "40" ),Double.valueOf( "10" ), Double.valueOf( "10" )};
-    private int[] doubleArray3RankDec = {2, 4, 7, 1, 7, 3, 5, 5 };
-    private int[] doubleArray3RankAsc = {7, 5, 1, 8, 1, 6, 3, 3 };
+    private int[] doubleArray3RankDec = {2, 4, 6, 1, 6, 3, 5, 5 };
+    private int[] doubleArray3RankAsc = {5, 3, 1, 6, 1, 4, 2, 2 };
     private int[] doubleArray3PercentRank = {857,571,0,1000,0,714,285,285};
     private Object[] doubleArray3PercentSum = {new Integer(208),new Integer(41), null, new Integer(625),null,new Integer(83),new Integer(20),new Integer(20)};
     private String[] str1 = {"4", "-43", "4", "23", "-15", "-6", "4", "-6", "3", "63", "33", "-6", "-23", "34"};
+    private double[] doubleArray4 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    private double[] doubleArray5 = {1, 2, 2, 3, 1, 3, 4, 1, 2};
     
     private Date[] dates = new Date[]
                             {
@@ -559,7 +561,24 @@ public class TotalTest extends TestCase
             ac.onRow(new Double[]{new Double(doubleArray2[i])});
         }
         ac.finish();
+        assertEquals(new Double(4.0), ac.getValue());
+        
+        // double4: unique numbers
+        ac.start();
+        for(int i=0; i<doubleArray4.length; i++)
+        {
+            ac.onRow(new Double[]{new Double(doubleArray4[i])});
+        }
+        ac.finish();
         assertEquals(null, ac.getValue());
+        //double 5: mutiple mode, return the first appeared mode
+        ac.start();
+        for(int i=0; i<doubleArray5.length; i++)
+        {
+            ac.onRow(new Double[]{new Double(doubleArray5[i])});
+        }
+        ac.finish();
+        assertEquals(new Double(1.0), ac.getValue());
         
         ac.start();
         for(int i=0; i<str1.length; i++)
@@ -567,7 +586,7 @@ public class TotalTest extends TestCase
             ac.onRow(new Object[]{str1[i]});
         }
         ac.finish();
-        assertEquals(null, ac.getValue());
+        assertEquals(new Double(4.0), ac.getValue());
         
         ac.start();
         ac.finish();
