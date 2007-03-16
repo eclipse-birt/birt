@@ -38,10 +38,8 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.report.data.oda.jdbc.ParameterMetaDataTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.data.oda.jdbc.ResultSetMetaDataTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.data.oda.jdbc.ResultSetTest.class );
-		suite.addTestSuite( org.eclipse.birt.report.data.oda.jdbc.SQLFormatterTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.data.oda.jdbc.StatementTest.class );
 		
 		return suite;
 	}
-	
 }

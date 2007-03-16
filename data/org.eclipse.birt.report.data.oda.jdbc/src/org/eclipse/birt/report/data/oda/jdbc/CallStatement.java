@@ -144,9 +144,8 @@ public class CallStatement implements IAdvancedQuery
 			 * callableStatement
 			 */
 			procedureName = getProcedureName( command );
-			String queryText = SQLFormatter.formatQueryText( command );
-			this.callStat = conn.prepareCall( queryText );
-			paramUtil = new SPParameterPositionUtil( queryText, '@' );
+			this.callStat = conn.prepareCall( command );
+			paramUtil = new SPParameterPositionUtil( command, '@' );
 		}
 		catch ( SQLException e )
 		{
