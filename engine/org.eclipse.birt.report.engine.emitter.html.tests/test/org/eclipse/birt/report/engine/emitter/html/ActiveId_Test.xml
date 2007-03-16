@@ -1,67 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.3" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.11" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.qualifier Build &lt;@BUILD@></property>
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
     <template-parameter-definitions>
-        <template-parameter-definition name="NewTemplateParameterDefinition" id="54">
-            <property name="allowedType">Table</property>
-            <text-property name="description">templateTable</text-property>
-            <default>
-                <table id="55">
-                    <property name="width">100%</property>
-                    <property name="dataSet">Data Set</property>
-                    <list-property name="boundDataColumns">
-                        <structure>
-                            <property name="name">CUSTOMERNAME</property>
-                            <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
-                            <property name="dataType">string</property>
-                        </structure>
-                    </list-property>
-                    <column id="64"/>
-                    <header>
-                        <row id="56">
-                            <cell id="57">
-                                <label id="58">
-                                    <text-property name="text">CUSTOMERNAME</text-property>
-                                </label>
-                            </cell>
-                        </row>
-                    </header>
-                    <detail>
-                        <row id="59">
-                            <cell id="60">
-                                <data id="61">
-                                    <property name="resultSetColumn">CUSTOMERNAME</property>
-                                </data>
-                            </cell>
-                        </row>
-                    </detail>
-                    <footer>
-                        <row id="62">
-                            <cell id="63"/>
-                        </row>
-                    </footer>
-                </table>
-            </default>
-        </template-parameter-definition>
-        <template-parameter-definition name="NewTemplateParameterDefinition1" id="78">
-            <property name="allowedType">Label</property>
-            <default>
-                <label id="79">
-                    <text-property name="text">label</text-property>
-                </label>
-            </default>
-        </template-parameter-definition>
-        <template-parameter-definition name="NewTemplateParameterDefinition3" id="103">
-            <property name="allowedType">Label</property>
-            <default>
-                <label id="104">
-                    <text-property name="text">template label</text-property>
-                </label>
-            </default>
-        </template-parameter-definition>
         <template-parameter-definition name="NewTemplateParameterDefinition4" id="110">
             <property name="allowedType">Label</property>
             <default>
@@ -152,6 +94,7 @@
                 <image id="120">
                     <property name="height">109px</property>
                     <property name="width">137px</property>
+                    <property name="source">embed</property>
                     <property name="imageName">chinamap_1.gif</property>
                 </image>
             </default>
@@ -171,7 +114,21 @@
         <template-parameter-definition name="NewTemplateParameterDefinition8" id="133">
             <property name="allowedType">List</property>
             <default>
-                <list id="134"/>
+                <list id="134">
+                    <property name="dataSet">Data Set</property>
+                    <list-property name="boundDataColumns">
+                        <structure>
+                            <property name="name">ORDERNUMBER</property>
+                            <expression name="expression">dataSetRow["ORDERNUMBER"]</expression>
+                            <property name="dataType">integer</property>
+                        </structure>
+                        <structure>
+                            <property name="name">ORDERDATE</property>
+                            <expression name="expression">dataSetRow["ORDERDATE"]</expression>
+                            <property name="dataType">date-time</property>
+                        </structure>
+                    </list-property>
+                </list>
             </default>
         </template-parameter-definition>
         <template-parameter-definition name="NewTemplateParameterDefinition9" id="144">
@@ -179,6 +136,19 @@
             <default>
                 <table id="145">
                     <property name="width">100%</property>
+                    <property name="dataSet">Data Set</property>
+                    <list-property name="boundDataColumns">
+                        <structure>
+                            <property name="name">ORDERNUMBER</property>
+                            <expression name="expression">dataSetRow["ORDERNUMBER"]</expression>
+                            <property name="dataType">integer</property>
+                        </structure>
+                        <structure>
+                            <property name="name">ORDERDATE</property>
+                            <expression name="expression">dataSetRow["ORDERDATE"]</expression>
+                            <property name="dataType">date-time</property>
+                        </structure>
+                    </list-property>
                     <column id="152"/>
                     <header>
                         <row id="146">
@@ -202,6 +172,20 @@
             <property name="allowedType">TextData</property>
             <default>
                 <text-data id="156">
+                    <property name="dataSet">Data Set</property>
+                    <list-property name="boundDataColumns">
+                        <structure>
+                            <property name="name">ORDERNUMBER</property>
+                            <expression name="expression">dataSetRow["ORDERNUMBER"]</expression>
+                            <property name="dataType">integer</property>
+                        </structure>
+                        <structure>
+                            <property name="name">ORDERDATE</property>
+                            <expression name="expression">dataSetRow["ORDERDATE"]</expression>
+                            <property name="dataType">date-time</property>
+                        </structure>
+                    </list-property>
+                    <expression name="valueExpr">row["ORDERNUMBER"]</expression>
                     <property name="contentType">html</property>
                 </text-data>
             </default>
@@ -209,77 +193,7 @@
         <template-parameter-definition name="NewTemplateParameterDefinition11" id="159">
             <property name="allowedType">ExtendedItem</property>
             <default>
-                <extended-item extensionName="Chart" id="160">
-                    <property name="height">130pt</property>
-                    <property name="width">212pt</property>
-                    <property name="dataSet">Data Set</property>
-                    <list-property name="boundDataColumns">
-                        <structure>
-                            <property name="name">CUSTOMERNUMBER</property>
-                            <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
-                            <property name="dataType">integer</property>
-                        </structure>
-                        <structure>
-                            <property name="name">CUSTOMERNAME</property>
-                            <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
-                            <property name="dataType">string</property>
-                        </structure>
-                        <structure>
-                            <property name="name">CONTACTLASTNAME</property>
-                            <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
-                            <property name="dataType">string</property>
-                        </structure>
-                        <structure>
-                            <property name="name">CONTACTFIRSTNAME</property>
-                            <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
-                            <property name="dataType">string</property>
-                        </structure>
-                        <structure>
-                            <property name="name">PHONE</property>
-                            <expression name="expression">dataSetRow["PHONE"]</expression>
-                            <property name="dataType">string</property>
-                        </structure>
-                        <structure>
-                            <property name="name">ADDRESSLINE1</property>
-                            <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
-                            <property name="dataType">string</property>
-                        </structure>
-                        <structure>
-                            <property name="name">ADDRESSLINE2</property>
-                            <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
-                            <property name="dataType">string</property>
-                        </structure>
-                        <structure>
-                            <property name="name">CITY</property>
-                            <expression name="expression">dataSetRow["CITY"]</expression>
-                            <property name="dataType">string</property>
-                        </structure>
-                        <structure>
-                            <property name="name">STATE</property>
-                            <expression name="expression">dataSetRow["STATE"]</expression>
-                            <property name="dataType">string</property>
-                        </structure>
-                        <structure>
-                            <property name="name">POSTALCODE</property>
-                            <expression name="expression">dataSetRow["POSTALCODE"]</expression>
-                            <property name="dataType">string</property>
-                        </structure>
-                        <structure>
-                            <property name="name">COUNTRY</property>
-                            <expression name="expression">dataSetRow["COUNTRY"]</expression>
-                            <property name="dataType">string</property>
-                        </structure>
-                        <structure>
-                            <property name="name">SALESREPEMPLOYEENUMBER</property>
-                            <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
-                            <property name="dataType">integer</property>
-                        </structure>
-                        <structure>
-                            <property name="name">CREDITLIMIT</property>
-                            <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
-                            <property name="dataType">float</property>
-                        </structure>
-                    </list-property>
+                <extended-item extensionName="Chart" name="NewChart" id="160">
                     <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
@@ -1068,6 +982,76 @@
 </model:ChartWithAxes>
 ]]></xml-property>
                     <property name="outputFormat">SVG</property>
+                    <property name="dataSet">Data Set</property>
+                    <property name="height">130pt</property>
+                    <property name="width">212pt</property>
+                    <list-property name="boundDataColumns">
+                        <structure>
+                            <property name="name">CUSTOMERNUMBER</property>
+                            <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                            <property name="dataType">integer</property>
+                        </structure>
+                        <structure>
+                            <property name="name">CUSTOMERNAME</property>
+                            <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                            <property name="dataType">string</property>
+                        </structure>
+                        <structure>
+                            <property name="name">CONTACTLASTNAME</property>
+                            <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
+                            <property name="dataType">string</property>
+                        </structure>
+                        <structure>
+                            <property name="name">CONTACTFIRSTNAME</property>
+                            <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
+                            <property name="dataType">string</property>
+                        </structure>
+                        <structure>
+                            <property name="name">PHONE</property>
+                            <expression name="expression">dataSetRow["PHONE"]</expression>
+                            <property name="dataType">string</property>
+                        </structure>
+                        <structure>
+                            <property name="name">ADDRESSLINE1</property>
+                            <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                            <property name="dataType">string</property>
+                        </structure>
+                        <structure>
+                            <property name="name">ADDRESSLINE2</property>
+                            <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                            <property name="dataType">string</property>
+                        </structure>
+                        <structure>
+                            <property name="name">CITY</property>
+                            <expression name="expression">dataSetRow["CITY"]</expression>
+                            <property name="dataType">string</property>
+                        </structure>
+                        <structure>
+                            <property name="name">STATE</property>
+                            <expression name="expression">dataSetRow["STATE"]</expression>
+                            <property name="dataType">string</property>
+                        </structure>
+                        <structure>
+                            <property name="name">POSTALCODE</property>
+                            <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                            <property name="dataType">string</property>
+                        </structure>
+                        <structure>
+                            <property name="name">COUNTRY</property>
+                            <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                            <property name="dataType">string</property>
+                        </structure>
+                        <structure>
+                            <property name="name">SALESREPEMPLOYEENUMBER</property>
+                            <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
+                            <property name="dataType">integer</property>
+                        </structure>
+                        <structure>
+                            <property name="name">CREDITLIMIT</property>
+                            <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
+                            <property name="dataType">float</property>
+                        </structure>
+                    </list-property>
                 </extended-item>
             </default>
         </template-parameter-definition>
@@ -1092,6 +1076,82 @@
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="5">
             <text-property name="displayName">Data Set</text-property>
+            <list-property name="filter">
+                <structure>
+                    <expression name="expr">row["COUNTRY"]</expression>
+                    <expression name="value1">"Australia"</expression>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">CUSTOMERNUMBER</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">CUSTOMERNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">CONTACTLASTNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">CONTACTFIRSTNAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">PHONE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">ADDRESSLINE1</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">ADDRESSLINE2</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">CITY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">STATE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">POSTALCODE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">COUNTRY</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">SALESREPEMPLOYEENUMBER</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">CREDITLIMIT</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
@@ -1172,82 +1232,6 @@
                     <property name="nativeDataType">8</property>
                 </structure>
             </list-property>
-            <list-property name="filter">
-                <structure>
-                    <expression name="expr">row["COUNTRY"]</expression>
-                    <expression name="value1">"Australia"</expression>
-                </structure>
-            </list-property>
-            <structure name="cachedMetaData">
-                <list-property name="resultSet">
-                    <structure>
-                        <property name="position">1</property>
-                        <property name="name">CUSTOMERNUMBER</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">2</property>
-                        <property name="name">CUSTOMERNAME</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">3</property>
-                        <property name="name">CONTACTLASTNAME</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">4</property>
-                        <property name="name">CONTACTFIRSTNAME</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">5</property>
-                        <property name="name">PHONE</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">6</property>
-                        <property name="name">ADDRESSLINE1</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">7</property>
-                        <property name="name">ADDRESSLINE2</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">8</property>
-                        <property name="name">CITY</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">9</property>
-                        <property name="name">STATE</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">10</property>
-                        <property name="name">POSTALCODE</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">11</property>
-                        <property name="name">COUNTRY</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">12</property>
-                        <property name="name">SALESREPEMPLOYEENUMBER</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">13</property>
-                        <property name="name">CREDITLIMIT</property>
-                        <property name="dataType">float</property>
-                    </structure>
-                </list-property>
-            </structure>
-            <property name="dataSource">Data Source</property>
             <property name="queryText">select *
 from CLASSICMODELS.CUSTOMERS</property>
         </oda-data-set>
@@ -1269,51 +1253,6 @@ from CLASSICMODELS.CUSTOMERS</property>
         </label>
         <table id="82">
             <property name="width">100%</property>
-            <expression name="bookmark">"table"</expression>
-            <column id="89"/>
-            <detail>
-                <row id="85">
-                    <cell id="86"/>
-                </row>
-            </detail>
-        </table>
-        <grid id="163">
-            <property name="width">100%</property>
-            <expression name="bookmark">"grid"</expression>
-            <column id="164"/>
-            <row id="165">
-                <cell id="166"/>
-            </row>
-        </grid>
-        <list id="172">
-            <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">placeHolder</property>
-                    <expression name="expression">"place holder"</expression>
-                    <property name="dataType">string</property>
-                </structure>
-            </list-property>
-            <expression name="bookmark">"list"</expression>
-            <detail>
-                <data id="176">
-                    <property name="resultSetColumn">placeHolder</property>
-                </data>
-            </detail>
-        </list>
-        <text-data id="91">
-            <expression name="bookmark">"dynamic text"</expression>
-            <expression name="valueExpr">"dynamic text"</expression>
-            <property name="contentType">html</property>
-        </text-data>
-        <image id="162">
-            <property name="height">103px</property>
-            <property name="width">163px</property>
-            <expression name="bookmark">"image"</expression>
-            <property name="imageName">chinamap_1.gif</property>
-        </image>
-        <extended-item extensionName="Chart" id="94">
-            <property name="height">130pt</property>
-            <property name="width">212pt</property>
             <property name="dataSet">Data Set</property>
             <list-property name="boundDataColumns">
                 <structure>
@@ -1382,7 +1321,116 @@ from CLASSICMODELS.CUSTOMERS</property>
                     <property name="dataType">float</property>
                 </structure>
             </list-property>
-            <expression name="bookmark">"chart"</expression>
+            <expression name="bookmark">"table"</expression>
+            <column id="89"/>
+            <detail>
+                <row id="85">
+                    <cell id="86"/>
+                </row>
+            </detail>
+        </table>
+        <grid id="163">
+            <property name="width">100%</property>
+            <expression name="bookmark">"grid"</expression>
+            <column id="164"/>
+            <row id="165">
+                <cell id="166"/>
+            </row>
+        </grid>
+        <list id="172">
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">CUSTOMERNUMBER</property>
+                    <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">CUSTOMERNAME</property>
+                    <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CONTACTLASTNAME</property>
+                    <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CONTACTFIRSTNAME</property>
+                    <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">PHONE</property>
+                    <expression name="expression">dataSetRow["PHONE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE1</property>
+                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE2</property>
+                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CITY</property>
+                    <expression name="expression">dataSetRow["CITY"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">STATE</property>
+                    <expression name="expression">dataSetRow["STATE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">POSTALCODE</property>
+                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">COUNTRY</property>
+                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">SALESREPEMPLOYEENUMBER</property>
+                    <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">CREDITLIMIT</property>
+                    <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">placeHolder</property>
+                    <expression name="expression">row["CUSTOMERNUMBER"]</expression>
+                    <property name="dataType">any</property>
+                </structure>
+            </list-property>
+            <expression name="bookmark">"list"</expression>
+            <detail>
+                <data id="176">
+                    <property name="resultSetColumn">placeHolder</property>
+                </data>
+            </detail>
+        </list>
+        <text-data id="91">
+            <expression name="bookmark">"dynamic text"</expression>
+            <expression name="valueExpr">"dynamic text"</expression>
+            <property name="contentType">html</property>
+        </text-data>
+        <image id="162">
+            <property name="height">103px</property>
+            <property name="width">163px</property>
+            <expression name="bookmark">"image"</expression>
+            <property name="source">embed</property>
+            <property name="imageName">chinamap_1.gif</property>
+        </image>
+        <extended-item extensionName="Chart" name="NewChart1" id="94">
             <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
@@ -2171,6 +2219,77 @@ from CLASSICMODELS.CUSTOMERS</property>
 </model:ChartWithAxes>
 ]]></xml-property>
             <property name="outputFormat">SVG</property>
+            <expression name="bookmark">"chart"</expression>
+            <property name="dataSet">Data Set</property>
+            <property name="height">130pt</property>
+            <property name="width">212pt</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">CUSTOMERNUMBER</property>
+                    <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">CUSTOMERNAME</property>
+                    <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CONTACTLASTNAME</property>
+                    <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CONTACTFIRSTNAME</property>
+                    <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">PHONE</property>
+                    <expression name="expression">dataSetRow["PHONE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE1</property>
+                    <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">ADDRESSLINE2</property>
+                    <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CITY</property>
+                    <expression name="expression">dataSetRow["CITY"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">STATE</property>
+                    <expression name="expression">dataSetRow["STATE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">POSTALCODE</property>
+                    <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">COUNTRY</property>
+                    <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">SALESREPEMPLOYEENUMBER</property>
+                    <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">CREDITLIMIT</property>
+                    <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+            </list-property>
         </extended-item>
         <text id="173">
             <expression name="bookmark">"static text"</expression>
@@ -2194,7 +2313,7 @@ from CLASSICMODELS.CUSTOMERS</property>
         <template-report-item name="template label" id="112">
             <property name="refTemplateParameter">NewTemplateParameterDefinition4</property>
         </template-report-item>
-        <template-report-item name="template data" id="116">
+        <template-report-item id="178">
             <property name="refTemplateParameter">NewTemplateParameterDefinition5</property>
         </template-report-item>
         <template-report-item name="template image" id="121">
@@ -2203,13 +2322,13 @@ from CLASSICMODELS.CUSTOMERS</property>
         <template-report-item name="template grid" id="131">
             <property name="refTemplateParameter">NewTemplateParameterDefinition7</property>
         </template-report-item>
-        <template-report-item name="template list" id="135">
+        <template-report-item id="191">
             <property name="refTemplateParameter">NewTemplateParameterDefinition8</property>
         </template-report-item>
-        <template-report-item name="template table" id="153">
+        <template-report-item id="189">
             <property name="refTemplateParameter">NewTemplateParameterDefinition9</property>
         </template-report-item>
-        <template-report-item name="template dynamic text" id="157">
+        <template-report-item id="195">
             <property name="refTemplateParameter">NewTemplateParameterDefinition10</property>
         </template-report-item>
         <template-report-item name="template chart" id="161">
