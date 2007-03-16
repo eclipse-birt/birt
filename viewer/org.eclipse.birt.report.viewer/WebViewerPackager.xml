@@ -382,7 +382,10 @@
 			<include name="org.eclipse.osgi_*.jar" />
 			<include name="org.eclipse.osgi.services_*.jar"/>
 			<include name="org.eclipse.update.configurator_*.jar" />
-			<include name="org.apache.xerces*/**"/>
+			<!-- orbit project -->
+			<include name="org.apache.xerces_*.jar"/>
+			<include name="org.w3c.dom_*.jar"/>
+			<include name="org.apache.xml.resolver_*.jar"/>
 		</fileset>
 		<fileset dir="${baseLocation.emf}/plugins">
 			<include name="org.eclipse.emf.common_*.jar" />

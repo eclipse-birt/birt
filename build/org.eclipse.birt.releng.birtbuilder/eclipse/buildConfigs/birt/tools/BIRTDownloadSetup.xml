@@ -193,7 +193,13 @@
 			<include name="org.eclipse.birt.core*/core.jar" />
 			<include name="org.eclipse.birt.report.model*/model.jar" />
 		</patternset>
-
+		
+		<!-- Define the Orbit project jars -->
+		<patternset id="orbit.include.jars">
+			<include name="org.apache.xerces_*.jar" />
+			<include name="org.apache.xml.resolver_*.jar" />
+			<include name="org.w3c.dom_*.jar"/>
+		</patternset>
 		<!--Exclude jar file pattern set-->
 
 		<patternset id="exclude.jars">
@@ -279,11 +285,10 @@
 			<zipfileset dir="${all.in.one.file.dir}/eclipse/plugins" prefix="${ZipPrefix}">
 				<include name="org.eclipse.datatools*/**" />
 				<include name="org.eclipse.datatools*.jar" />
-				<include name="*xerces*/**"/>
+				<patternset refid="orbit.include.jars" />
 			</zipfileset>
 			<zipfileset dir="${all.in.one.file.dir}/eclipse/features" prefix="${FeautrePrefix}">
 				<include name="org.eclipse.datatools*/*" />
-				<include name="*xerces*/**"/>
 			</zipfileset>
 			<zipfileset dir="${template.dir}/legal" prefix="eclipse">
 				<include name="**/*" />
@@ -319,11 +324,10 @@
 			<zipfileset dir="${all.in.one.file.dir}/eclipse/plugins" prefix="${ZipPrefix}">
 				<include name="org.eclipse.datatools*/**" />
 				<include name="org.eclipse.datatools*.jar" />
-				<include name="*xerces*/**"/>
+				<patternset refid="orbit.include.jars" />
 			</zipfileset>
 			<zipfileset dir="${all.in.one.file.dir}/eclipse/features" prefix="${FeautrePrefix}">
 				<include name="org.eclipse.datatools*/*" />
-				<include name="*xerces*/**"/>
 			</zipfileset>
 			<zipfileset dir="${template.dir}/legal" prefix="eclipse">
 				<include name="**/*" />
@@ -677,10 +681,7 @@
 				<exclude name="**/datatools*.jar" />
 			</zipfileset>
 			<zipfileset dir="${all.in.one.file.dir}/eclipse/plugins" prefix="${birt.rcp.dir.prefix}/plugins">
-				<include name="*xerces*/**"/>
-			</zipfileset>
-			<zipfileset dir="${all.in.one.file.dir}/eclipse/features" prefix="${birt.rcp.dir.prefix}/features">
-				<include name="*xerces*/**"/>
+				<patternset refid="orbit.include.jars" />
 			</zipfileset>
 			<zipfileset dir="${template.dir}/legal" prefix="${birt.rcp.dir.prefix}">
 				<include name="**/*" />
@@ -805,6 +806,7 @@
 				<include name="org.eclipse.datatools.connectivity.oda.flatfile.nl1*.jar" />
 				<include name="org.eclipse.datatools.connectivity.oda.design.nl1*.jar" />
 				<include name="org.eclipse.datatools.connectivity.oda.profile.nl1*.jar" />
+				<include name="org.eclipse.datatools.enablement.oda.xml.nl1*.jar"/>	
 				<include name="org.eclipse.birt.report.viewer.nl1_*.jar" />
 			</zipfileset>
 			<zipfileset dir="${deposit}/language_pack/plugins" prefix="${birt.runtime.dir.prefix}/WebViewerExample/WEB-INF/platform/plugins">
@@ -825,6 +827,7 @@
 				<include name="org.eclipse.datatools.connectivity.oda.flatfile.nl1*.jar" />
 				<include name="org.eclipse.datatools.connectivity.oda.design.nl1*.jar" />
 				<include name="org.eclipse.datatools.connectivity.oda.profile.nl1*.jar" />
+				<include name="org.eclipse.datatools.enablement.oda.xml.nl1*.jar"/>
 			</zipfileset>
 			<zipfileset dir="${deposit}/language_pack/plugins" prefix="${birt.runtime.dir.prefix}/WebViewerExample/WEB-INF/lib">
 				<include name="org.eclipse.birt.report.viewer.nl1_*.jar" />
