@@ -188,12 +188,12 @@ public class ReportExamples
 					else if ( item.getText( ).equals( "Contribute Samples" ) )
 					{
 						description.setText( DescriptionMessages.getDescription( "Contribute_Samples" ) );
-						setSelectedElement( item.getData( ) );
+						setSelectedElement( item );
 					}
 					else
 					{
 						description.setText( Messages.getString( "SampleReportsView.defautDescription" ) );
-						setSelectedElement( item.getData( ) );
+						setSelectedElement( item );
 					}
 				}
 			}
