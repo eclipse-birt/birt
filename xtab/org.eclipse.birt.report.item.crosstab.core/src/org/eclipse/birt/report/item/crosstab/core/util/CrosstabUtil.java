@@ -1374,4 +1374,147 @@ public class CrosstabUtil implements ICrosstabConstants
 		// }
 		// }
 	}
+
+	/**
+	 * Gets the aggregation function for the level view sub-total. If the level
+	 * view is null or not define any sub-total, return null.
+	 * 
+	 * @param levelView
+	 * @param measureView
+	 * @param function
+	 * @return
+	 * @throws SemanticException 
+	 */
+	public static void setAggregationFunction( LevelViewHandle levelView,
+			MeasureViewHandle measureView, String function )
+			throws SemanticException
+	{
+		// if level view is null, or aggregation header is not set, or cube
+		// level is not set, then return empty
+		if ( levelView == null || levelView.getAggregationHeader( ) == null
+				|| levelView.getCubeLevelName( ) == null
+				|| levelView.getCubeLevelName( ).length( ) <= 0
+				|| measureView == null )
+			return;
+
+		// if crosstab is not found, or level and measure not reside in the same
+		// one then return null
+		CrosstabReportItemHandle crosstab = levelView.getCrosstab( );
+		if ( crosstab == null || crosstab != measureView.getCrosstab( ) )
+			return;
+
+		String levelName = levelView.getCubeLevelName( );
+		int axisType = levelView.getAxisType( );
+		String propName = null;
+		if ( axisType == ICrosstabConstants.COLUMN_AXIS_TYPE )
+			propName = IAggregationCellConstants.AGGREGATION_ON_COLUMN_PROP;
+		else if ( axisType == ICrosstabConstants.ROW_AXIS_TYPE )
+			propName = IAggregationCellConstants.AGGREGATION_ON_ROW_PROP;
+
+		CommandStack stack = crosstab.getCommandStack( );
+		stack.startTrans( null );
+
+		try
+		{
+			// retrieve all aggregations for the measure a
+			for ( int j = 0; j < measureView.getAggregationCount( ); j++ )
+			{
+				AggregationCellHandle cell = measureView.getAggregationCell( j );
+				if ( levelName.equals( cell.getModelHandle( )
+						.getStringProperty( propName ) ) )
+				{
+					setAggregationFunction( crosstab, cell, function );
+				}
+			}
+		}
+		catch ( SemanticException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
+
+		stack.commit( );
+	}
+
+	/**
+	 * Gets the aggregation function for the row/column grand total in the
+	 * crosstab.
+	 * 
+	 * @param crosstab
+	 * @param axisType
+	 * @param measureView
+	 * @param function
+	 * @return
+	 * @throws SemanticException
+	 */
+	public static void setAggregationFunction(
+			CrosstabReportItemHandle crosstab, int axisType,
+			MeasureViewHandle measureView, String function )
+			throws SemanticException
+	{
+		// if crosstab is null or not define any grand total, then return null
+		if ( crosstab == null || crosstab.getGrandTotal( axisType ) == null
+				|| measureView == null || crosstab != measureView.getCrosstab( ) )
+			return;
+
+		CommandStack stack = crosstab.getCommandStack( );
+		stack.startTrans( null );
+
+		try
+		{
+			for ( int j = 0; j < measureView.getAggregationCount( ); j++ )
+			{
+				AggregationCellHandle cell = measureView.getAggregationCell( j );
+				if ( ( axisType == COLUMN_AXIS_TYPE && cell
+						.getAggregationOnColumn( ) == null )
+						|| ( axisType == ROW_AXIS_TYPE && cell
+								.getAggregationOnRow( ) == null ) )
+				{
+					setAggregationFunction( crosstab, cell, function );
+				}
+			}
+		}
+		catch ( SemanticException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
+
+		stack.commit( );
+	}
+
+	/**
+	 * Gets the aggregation function for this cell.
+	 * 
+	 * @param crosstab
+	 * @param cell
+	 * @return
+	 */
+	private static void setAggregationFunction(
+			CrosstabReportItemHandle crosstab, AggregationCellHandle cell,
+			String function ) throws SemanticException
+	{
+		assert crosstab != null;
+		assert cell != null;
+		assert cell.getCrosstab( ) == crosstab;
+
+		ReportItemHandle crosstabModel = (ReportItemHandle) crosstab
+				.getModelHandle( );
+		List contents = cell.getContents( );
+		for ( int index = 0; index < contents.size( ); index++ )
+		{
+			DesignElementHandle content = (DesignElementHandle) contents
+					.get( index );
+			if ( content instanceof DataItemHandle )
+			{
+				String columnName = ( (DataItemHandle) content )
+						.getResultSetColumn( );
+				ComputedColumnHandle columnHandle = crosstabModel
+						.findColumnBinding( columnName );
+				if ( columnHandle != null )
+					columnHandle.setAggregateFunction( function );
+			}
+		}
+	}
+
 }
