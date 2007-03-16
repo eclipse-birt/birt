@@ -1,0 +1,498 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.engine.data.dte;
+
+import java.math.BigDecimal;
+import java.sql.Blob;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IBaseQueryResults;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
+import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.api.IResultMetaData;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
+import org.eclipse.birt.report.engine.api.DataSetID;
+import org.eclipse.birt.report.engine.data.IDataEngine;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.engine.extension.IQueryResultSet;
+
+public class QueryResultSet implements IQueryResultSet
+{
+
+	protected IBaseResultSet parent;
+
+	protected DataSetID id;
+
+	protected long rowId = -1;
+
+	/**
+	 * result iterator object
+	 */
+	protected IResultIterator rs = null;
+
+	protected long[] rowIdOfGroups;
+
+	/**
+	 * data engine
+	 */
+	protected IDataEngine dataEngine = null;
+
+	private ExecutionContext context;
+
+	private IBaseQueryDefinition queryDefn;
+
+	private IQueryResults queryResults;
+
+	private static IResultMetaData emptyResultMetaData = new EmptyResultMetaData( );
+
+	/**
+	 * 
+	 */
+	protected static Logger logger = Logger.getLogger( QueryResultSet.class
+			.getName( ) );
+
+	// Top level query results
+	public QueryResultSet( IDataEngine dataEngine, ExecutionContext context,
+			IQueryDefinition queryDefn, IQueryResults rsets )
+			throws BirtException
+	{
+		this.parent = null;
+		this.context = context;
+		this.dataEngine = dataEngine;
+		this.queryDefn = queryDefn;
+		this.id = new DataSetID( rsets.getID( ) );
+		this.rs = rsets.getResultIterator( );
+		this.queryResults = rsets;
+		initializeRowIdOfGroups( getGroupCount( ) );
+	}
+
+	// Nest query
+	public QueryResultSet( IDataEngine dataEngine, ExecutionContext context,
+			IBaseResultSet parent, IQueryDefinition queryDefn,
+			IQueryResults rsets ) throws BirtException
+	{
+		assert parent != null;
+		this.parent = parent;
+		this.id = new DataSetID( rsets.getID( ) );
+		this.context = context;
+		this.dataEngine = dataEngine;
+		this.queryDefn = queryDefn;
+		this.rs = rsets.getResultIterator( );
+		this.queryResults = rsets;
+		initializeRowIdOfGroups( getGroupCount( ) );
+	}
+
+	// subquery results
+	public QueryResultSet( QueryResultSet parent,
+			ISubqueryDefinition queryDefn, IResultIterator ri ) // subqury
+	{
+		assert parent != null;
+		assert queryDefn != null;
+		this.parent = parent;
+		this.id = new DataSetID( parent.getID( ), parent.getRowIndex( ),
+				queryDefn.getName( ) );
+		this.context = parent.context;
+		this.dataEngine = parent.dataEngine;
+		this.queryDefn = queryDefn;
+		this.rs = ri;
+		this.queryResults = new SubQueryResults( rs );
+		initializeRowIdOfGroups( queryDefn.getGroups( ).size( ) );
+	}
+
+	private void initializeRowIdOfGroups( int groupCount )
+	{
+		this.rowIdOfGroups = new long[groupCount + 2];
+	}
+
+	private int getGroupCount( )
+	{
+		if ( queryDefn instanceof IQueryDefinition )
+		{
+			List groups = ( (IQueryDefinition) queryDefn ).getGroups( );
+			assert groups != null;
+			return groups.size( );
+		}
+		return 0;
+	}
+
+	public IBaseQueryResults getQueryResults( )
+	{
+		return queryResults;
+	}
+
+	public IResultIterator getResultIterator( )
+	{
+		return rs;
+	}
+
+	public long getRowIndex( )
+	{
+		return rowId;
+	}
+
+	public boolean next( ) throws BirtException
+	{
+		boolean flag;
+		flag = rs == null ? false : rs.next( );
+		if ( flag )
+		{
+			rowId++;
+			updateRowIdOfGroups( );
+		}
+		return flag;
+	}
+
+	private void updateRowIdOfGroups( )
+	{
+		try
+		{
+			int startingGroup = rs.getStartingGroupLevel( );
+			for ( int i = startingGroup; i < rowIdOfGroups.length; i++ )
+			{
+				rowIdOfGroups[i] = rowId;
+			}
+		}
+		catch ( BirtException e )
+		{
+			e.printStackTrace( );
+		}
+	}
+
+	public boolean skipTo( long rowIndex ) throws BirtException
+	{
+		if ( rs == null )
+		{
+			return false;
+		}
+		long oldRowId = rowId;
+		rs.moveTo( (int) rowIndex );
+		rowId = rowIndex;
+		updateRowIdOfGroupsAfterSkip( oldRowId );
+		return true;
+	}
+
+	private void updateRowIdOfGroupsAfterSkip( long oldRowId )
+	{
+		long incremetal = rowId - oldRowId;
+		if ( incremetal == 1 )
+		{
+			updateRowIdOfGroups( );
+		}
+		else if ( incremetal > 1 )
+		{
+			resetRowIdOfGroups( );
+		}
+	}
+
+	private void resetRowIdOfGroups( )
+	{
+		for ( int i = 0; i < rowIdOfGroups.length; i++ )
+		{
+			rowIdOfGroups[i] = rowId;
+		}
+	}
+
+	public String getGroupId( int groupLevel )
+	{
+		return String.valueOf( groupLevel ) + "." + getRowId( groupLevel ); //$NON-NLS-1$
+	}
+
+	private String getRowId( int groupLevel )
+	{
+		assert rowIdOfGroups.length > 0;
+		int level = groupLevel >= rowIdOfGroups.length
+				? rowIdOfGroups.length - 1
+				: groupLevel;
+		level = groupLevel < 0 ? 0 : groupLevel;
+		return String.valueOf( rowIdOfGroups[level] );
+	}
+
+	String baseRSetID;
+
+	public void setBaseRSetID( String id )
+	{
+		baseRSetID = id;
+	}
+
+	public String getBaseRSetID( )
+	{
+		if ( baseRSetID == null && parent instanceof QueryResultSet )
+		{
+			return ( (QueryResultSet) parent ).getBaseRSetID( );
+		}
+		return baseRSetID;
+	}
+
+	public void close( )
+	{
+		// remove the data set from the data set list
+		dataEngine.close( this );
+		try
+		{
+			if ( rs != null )
+			{
+				rs.close( );
+			}
+			if ( queryResults != null )
+			{
+				queryResults.close( );
+			}
+		}
+		catch ( BirtException ex )
+		{
+			logger.log( Level.SEVERE, ex.getMessage( ), ex );
+			// context.addException( ex );
+		}
+	}
+
+	public Object evaluate( String expr ) throws BirtException
+	{
+		// FIXME: use the RSet to evaluate is diffent with
+		// the context evaluate.
+		return context.evaluate( expr );
+	}
+
+	public Object evaluate( IBaseExpression expr ) throws BirtException
+	{
+		if ( expr instanceof IScriptExpression )
+		{
+			return context.evaluate( ( (IScriptExpression) expr ).getText( ) );
+		}
+		if ( expr instanceof IConditionalExpression )
+		{
+			return context.evaluateCondExpr( (IConditionalExpression) expr );
+		}
+		return null;
+	}
+
+	public DataSetID getID( )
+	{
+		return id;
+	}
+
+	public IBaseResultSet getParent( )
+	{
+		return parent;
+	}
+
+	public String getRawID( ) throws BirtException
+	{
+		return String.valueOf( rs.getRowId( ) );
+	}
+
+	public int getType( )
+	{
+		return QUERY_RESULTSET;
+	}
+
+	public Object getValue( String column ) throws BirtException
+	{
+		return rs.getValue( column );
+	}
+
+	public int getEndingGroupLevel( ) throws BirtException
+	{
+		return rs.getEndingGroupLevel( );
+	}
+
+	public int getStartingGroupLevel( ) throws BirtException
+	{
+		return rs.getStartingGroupLevel( );
+	}
+
+	public Boolean getBoolean( String name ) throws BirtException
+	{
+		return rs.getBoolean( name );
+	}
+
+	public Integer getInteger( String name ) throws BirtException
+	{
+		return rs.getInteger( name );
+	}
+
+	public Double getDouble( String name ) throws BirtException
+	{
+		return rs.getDouble( name );
+	}
+
+	public String getString( String name ) throws BirtException
+	{
+		return rs.getString( name );
+	}
+
+	public BigDecimal getBigDecimal( String name ) throws BirtException
+	{
+		return rs.getBigDecimal( name );
+	}
+
+	public Date getDate( String name ) throws BirtException
+	{
+		return rs.getDate( name );
+	}
+
+	public Blob getBlob( String name ) throws BirtException
+	{
+		return rs.getBlob( name );
+	}
+
+	public byte[] getBytes( String name ) throws BirtException
+	{
+		return rs.getBytes( name );
+	}
+
+	public IResultMetaData getResultMetaData( ) throws BirtException
+	{
+		if ( null == rs )
+			return emptyResultMetaData;
+		else
+			return rs.getResultMetaData( );
+	}
+
+	public boolean isEmpty( ) throws BirtException
+	{
+		if ( rs == null )
+		{
+			return true;
+		}
+		return rs.isEmpty( );
+	}
+
+	private static class EmptyResultMetaData implements IResultMetaData
+	{
+
+		/**
+		 * Returns the number of columns in a detail row of the result set.
+		 * 
+		 * @return the number of columns in a detail row.
+		 */
+		public int getColumnCount( )
+		{
+			return 0;
+		}
+
+		/**
+		 * Returns the column name at the specified index.
+		 * 
+		 * @param index
+		 *            The projected column index.
+		 * @return The name of the specified column.
+		 * @throws BirtException
+		 *             if given index is invalid.
+		 */
+		public String getColumnName( int index ) throws BirtException
+		{
+			return null;
+		}
+
+		/**
+		 * Returns the column alias at the specified index. An alias is given to
+		 * a column as a programmatic convenience. A column can be referred
+		 * using a name or an alias interchangeably.
+		 * 
+		 * @param index
+		 *            The projected column index.
+		 * @return The alias of the specified column. Null if none is defined.
+		 * @throws BirtException
+		 *             if given index is invalid.
+		 */
+		public String getColumnAlias( int index ) throws BirtException
+		{
+			return null;
+		}
+
+		/**
+		 * Returns the data type of the column at the specified index.
+		 * 
+		 * @param index
+		 *            The projected column index.
+		 * @return The data type of the specified column, as an integer defined
+		 *         in org.eclipse.birt.data.engine.api.DataType.
+		 * @throws BirtException
+		 *             if given index is invalid.
+		 */
+		public int getColumnType( int index ) throws BirtException
+		{
+			return 0;
+		}
+
+		/**
+		 * Returns the Data Engine data type name of the column at the specified
+		 * index.
+		 * 
+		 * @param index
+		 *            The projected column index.
+		 * @return The Data Engine data type name of the specified column.
+		 * @throws BirtException
+		 *             if given index is invalid.
+		 */
+		public String getColumnTypeName( int index ) throws BirtException
+		{
+			return null;
+		}
+
+		/**
+		 * Returns the data provider specific data type name of the specified
+		 * column.
+		 * 
+		 * @return the data type name as defined by the data provider.
+		 * @throws BirtException
+		 *             if given index is invalid.
+		 */
+		public String getColumnNativeTypeName( int index ) throws BirtException
+		{
+			return null;
+		}
+
+		/**
+		 * Gets the label or display name of the column at the specified index.
+		 * 
+		 * @param index
+		 *            The projected column index.
+		 * @return The label of the specified column.
+		 * @throws BirtException
+		 *             if given index is invalid.
+		 */
+		public String getColumnLabel( int index ) throws BirtException
+		{
+			return null;
+		}
+
+		/**
+		 * Indicates whether the specified projected column is defined as a
+		 * computed column. A computed column is one that is not retrieved from
+		 * the underlying data provider. Only those computed columns declared
+		 * explicitly in a data set design are considered as "computed" columns.
+		 * 
+		 * @param index
+		 *            The projected column index.
+		 * @return true if the given column is a computed column; false
+		 *         otherwise.
+		 * @throws BirtException
+		 *             if given index is invalid.
+		 */
+		public boolean isComputedColumn( int index ) throws BirtException
+		{
+			return false;
+		}
+	}
+
+}
