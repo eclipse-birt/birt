@@ -549,16 +549,16 @@ public class CrosstabUtil implements ICrosstabConstants
 	/**
 	 * 
 	 * @param levelView
-	 * @param function
+	 * @param functions
 	 * @param measures
 	 * @return
 	 * @throws SemanticException
 	 */
 	public static CrosstabCellHandle addAggregationHeader(
-			LevelViewHandle levelView, String function, List measures )
+			LevelViewHandle levelView, List functions, List measures )
 			throws SemanticException
 	{
-		if ( levelView == null )
+		if ( levelView == null || !isValidParameters( functions, measures ) )
 			return null;
 
 		// can not add aggregation if this level is innermost
@@ -593,7 +593,7 @@ public class CrosstabUtil implements ICrosstabConstants
 				addMeasureAggregations( crosstab, levelView.getAxisType( ),
 						levelView, ( (DimensionViewHandle) levelView
 								.getContainer( ) ).getCubeDimensionName( ),
-						levelView.getCubeLevelName( ), false, function,
+						levelView.getCubeLevelName( ), false, functions,
 						measures, false );
 			}
 		}
@@ -625,14 +625,15 @@ public class CrosstabUtil implements ICrosstabConstants
 	private static void addMeasureAggregations(
 			CrosstabReportItemHandle crosstab, int axisType,
 			LevelViewHandle theLevelView, String dimensionName,
-			String levelName, boolean isInnerMost, String function,
+			String levelName, boolean isInnerMost, List functions,
 			List measures, boolean checkCounterMeasureList )
 			throws SemanticException
 	{
-		if ( crosstab == null || !isValidAxisType( axisType )
-				|| measures == null || measures.isEmpty( ) )
+		if ( crosstab == null || measures == null || measures.isEmpty( )
+				|| !isValidAxisType( axisType ) )
 			return;
-		int counterAxisType = CrosstabUtil.getOppositeAxisType( axisType );
+
+		int counterAxisType = getOppositeAxisType( axisType );
 
 		// justifies whether the counterAxis has no level and grand total
 		boolean isCounterAxisEmpty = true;
@@ -684,6 +685,9 @@ public class CrosstabUtil implements ICrosstabConstants
 					{
 						MeasureViewHandle measureView = (MeasureViewHandle) measures
 								.get( i );
+						String function = functions == null
+								? null
+								: (String) functions.get( i );
 						if ( measureView.getCrosstab( ) != crosstab )
 							continue;
 
@@ -727,6 +731,9 @@ public class CrosstabUtil implements ICrosstabConstants
 							.get( i );
 					if ( measureView.getCrosstab( ) != crosstab )
 						continue;
+					String function = functions == null
+							? null
+							: (String) functions.get( i );
 					// if checkCounterMeasureList is true, then we need to
 					// check the counter level view is aggregated on the
 					// measure, otherwise do nothing
@@ -843,13 +850,13 @@ public class CrosstabUtil implements ICrosstabConstants
 	 * 
 	 * @param crosstab
 	 * @param axisType
-	 * @param function
+	 * @param functions
 	 * @param measures
 	 * @return
 	 * @throws SemanticException
 	 */
 	public static CrosstabCellHandle addGrandTotal(
-			CrosstabReportItemHandle crosstab, int axisType, String function,
+			CrosstabReportItemHandle crosstab, int axisType, List functions,
 			List measures ) throws SemanticException
 	{
 		if ( crosstab == null || !isValidAxisType( axisType ) )
@@ -864,7 +871,7 @@ public class CrosstabUtil implements ICrosstabConstants
 			try
 			{
 				crosstabView = crosstab.addCrosstabView( axisType );
-				grandTotal = addGrandTotal( crosstabView, function, measures );
+				grandTotal = addGrandTotal( crosstabView, functions, measures );
 			}
 			catch ( SemanticException e )
 			{
@@ -876,7 +883,7 @@ public class CrosstabUtil implements ICrosstabConstants
 
 			return grandTotal;
 		}
-		return addGrandTotal( crosstabView, function, measures );
+		return addGrandTotal( crosstabView, functions, measures );
 	}
 
 	/**
@@ -887,10 +894,10 @@ public class CrosstabUtil implements ICrosstabConstants
 	 * @return
 	 */
 	private static CrosstabCellHandle addGrandTotal(
-			CrosstabViewHandle crosstabView, String function, List measures )
+			CrosstabViewHandle crosstabView, List functions, List measures )
 			throws SemanticException
 	{
-		if ( crosstabView == null )
+		if ( crosstabView == null || !isValidParameters( functions, measures ) )
 			return null;
 		PropertyHandle propHandle = crosstabView.getGrandTotalProperty( );
 
@@ -911,7 +918,7 @@ public class CrosstabUtil implements ICrosstabConstants
 			if ( crosstab != null && measures != null )
 			{
 				addMeasureAggregations( crosstab, crosstabView.getAxisType( ),
-						null, null, null, false, function, measures, false );
+						null, null, null, false, functions, measures, false );
 			}
 
 			stack.commit( );
@@ -923,6 +930,14 @@ public class CrosstabUtil implements ICrosstabConstants
 			stack.rollback( );
 			throw e;
 		}
+	}
+
+	private static boolean isValidParameters( List functions, List measures )
+	{
+		if ( functions != null && measures != null
+				&& measures.size( ) != functions.size( ) )
+			return false;
+		return true;
 	}
 
 	/**
@@ -1022,20 +1037,24 @@ public class CrosstabUtil implements ICrosstabConstants
 	 * view is null or not define any sub-total, return null.
 	 * 
 	 * @param levelView
+	 * @param measureView
 	 * @return
 	 */
-	public static String getAggregationFunction( LevelViewHandle levelView )
+	public static String getAggregationFunction( LevelViewHandle levelView,
+			MeasureViewHandle measureView )
 	{
 		// if level view is null, or aggregation header is not set, or cube
 		// level is not set, then return empty
 		if ( levelView == null || levelView.getAggregationHeader( ) == null
 				|| levelView.getCubeLevelName( ) == null
-				|| levelView.getCubeLevelName( ).length( ) <= 0 )
+				|| levelView.getCubeLevelName( ).length( ) <= 0
+				|| measureView == null )
 			return null;
 
-		// if crosstab is not found, then return null
+		// if crosstab is not found, or level and measure not reside in the same
+		// one then return null
 		CrosstabReportItemHandle crosstab = levelView.getCrosstab( );
-		if ( crosstab == null )
+		if ( crosstab == null || crosstab != measureView.getCrosstab( ) )
 			return null;
 
 		String levelName = levelView.getCubeLevelName( );
@@ -1046,21 +1065,19 @@ public class CrosstabUtil implements ICrosstabConstants
 		else if ( axisType == ICrosstabConstants.ROW_AXIS_TYPE )
 			propName = IAggregationCellConstants.AGGREGATION_ON_ROW_PROP;
 
-		for ( int i = 0; i < crosstab.getMeasureCount( ); i++ )
+		// retrieve all aggregations for the measure a
+		for ( int j = 0; j < measureView.getAggregationCount( ); j++ )
 		{
-			MeasureViewHandle measureView = crosstab.getMeasure( i );
-			for ( int j = 0; j < measureView.getAggregationCount( ); j++ )
+			AggregationCellHandle cell = measureView.getAggregationCell( j );
+			if ( levelName.equals( cell.getModelHandle( ).getStringProperty(
+					propName ) ) )
 			{
-				AggregationCellHandle cell = measureView.getAggregationCell( j );
-				if ( levelName.equals( cell.getModelHandle( )
-						.getStringProperty( propName ) ) )
-				{
-					String function = getAggregationFunction( crosstab, cell );
-					if ( function != null )
-						return function;
-				}
+				String function = getAggregationFunction( crosstab, cell );
+				if ( function != null )
+					return function;
 			}
 		}
+
 		return null;
 	}
 
@@ -1070,30 +1087,29 @@ public class CrosstabUtil implements ICrosstabConstants
 	 * 
 	 * @param crosstab
 	 * @param axisType
+	 * @param measureView
 	 * @return
 	 */
 	public static String getAggregationFunction(
-			CrosstabReportItemHandle crosstab, int axisType )
+			CrosstabReportItemHandle crosstab, int axisType,
+			MeasureViewHandle measureView )
 	{
 		// if crosstab is null or not define any grand total, then return null
-		if ( crosstab == null || crosstab.getGrandTotal( axisType ) == null )
+		if ( crosstab == null || crosstab.getGrandTotal( axisType ) == null
+				|| measureView == null || crosstab != measureView.getCrosstab( ) )
 			return null;
 
-		for ( int i = 0; i < crosstab.getMeasureCount( ); i++ )
+		for ( int j = 0; j < measureView.getAggregationCount( ); j++ )
 		{
-			MeasureViewHandle measureView = crosstab.getMeasure( i );
-			for ( int j = 0; j < measureView.getAggregationCount( ); j++ )
+			AggregationCellHandle cell = measureView.getAggregationCell( j );
+			if ( ( axisType == COLUMN_AXIS_TYPE && cell
+					.getAggregationOnColumn( ) == null )
+					|| ( axisType == ROW_AXIS_TYPE && cell
+							.getAggregationOnRow( ) == null ) )
 			{
-				AggregationCellHandle cell = measureView.getAggregationCell( j );
-				if ( ( axisType == COLUMN_AXIS_TYPE && cell
-						.getAggregationOnColumn( ) == null )
-						|| ( axisType == ROW_AXIS_TYPE && cell
-								.getAggregationOnRow( ) == null ) )
-				{
-					String function = getAggregationFunction( crosstab, cell );
-					if ( function != null )
-						return function;
-				}
+				String function = getAggregationFunction( crosstab, cell );
+				if ( function != null )
+					return function;
 			}
 		}
 		return null;
@@ -1180,12 +1196,12 @@ public class CrosstabUtil implements ICrosstabConstants
 				List measures = (List) ( measureListMap == null
 						? null
 						: measureListMap.get( levelName ) );
-				String function = (String) ( functionMap == null
+				List functions = (List) ( functionMap == null
 						? null
 						: functionMap.get( levelName ) );
 				addMeasureAggregations( crosstab, axisType, levelView,
 						dimensionName, levelView.getCubeLevelName( ), false,
-						function, measures, true );
+						functions, measures, true );
 			}
 		}
 		catch ( SemanticException e )
