@@ -93,11 +93,6 @@ public class CubeResultSet implements ICubeResultSet
 		return cellId;
 	}
 
-	public void skipto( String cellIndex )
-	{
-
-	}
-
 	public void close( )
 	{
 		// remove the data set from the data set list

@@ -20,6 +20,6 @@ public interface ICubeResultSet extends IBaseResultSet
 
 	String getCellIndex( );
 
-	void skipto( String cellIndex );
+	void skipTo( String cellIndex );
 
 }
