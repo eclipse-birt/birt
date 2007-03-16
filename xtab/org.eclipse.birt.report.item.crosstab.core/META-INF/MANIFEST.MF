@@ -5,6 +5,7 @@ Bundle-SymbolicName: org.eclipse.birt.report.item.crosstab.core;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.birt.data,
+ org.eclipse.birt.report.data.adapter,
  org.eclipse.birt.report.engine
 Export-Package: org.eclipse.birt.report.item.crosstab.core,
  org.eclipse.birt.report.item.crosstab.core.de,

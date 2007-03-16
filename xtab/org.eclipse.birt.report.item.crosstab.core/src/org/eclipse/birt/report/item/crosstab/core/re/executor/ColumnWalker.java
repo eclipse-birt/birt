@@ -168,7 +168,8 @@ class ColumnWalker implements ICrosstabConstants, IColumnWalker
 								if ( !GroupUtil.isLeafGroup( columnDimensionCursors,
 										i ) )
 								{
-									DimensionCursor dc = (DimensionCursor) columnDimensionCursors.get( i + 1 );
+									//TODO edge
+									DimensionCursor dc = (DimensionCursor) columnDimensionCursors.get( i /*+ 1*/ );
 
 									if ( dc.getEdgeStart( ) == columnEdgeCursor.getPosition( ) )
 									{
@@ -273,7 +274,8 @@ class ColumnWalker implements ICrosstabConstants, IColumnWalker
 								if ( !GroupUtil.isLeafGroup( columnDimensionCursors,
 										i ) )
 								{
-									DimensionCursor dc = (DimensionCursor) columnDimensionCursors.get( i + 1 );
+									//TODO edge
+									DimensionCursor dc = (DimensionCursor) columnDimensionCursors.get( i /*+ 1*/ );
 
 									if ( dc.getEdgeEnd( ) == columnEdgeCursor.getPosition( ) )
 									{

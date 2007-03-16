@@ -22,6 +22,10 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.extension.IExecutorContext;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.re.ExecutorContextWrapper;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.extension.IReportItem;
 
 /**
  * CrosstabReportItemExecutor
@@ -31,6 +35,11 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 
 	private List children;
 	private int currentChild;
+
+	public CrosstabReportItemExecutor( )
+	{
+		super( );
+	}
 
 	public CrosstabReportItemExecutor( CrosstabReportItemHandle item,
 			IExecutorContext context, IReportItemExecutor parentExecutor )
@@ -45,6 +54,34 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 		closeQuery( );
 
 		children = null;
+	}
+
+	// TODO tmp
+	public void setContext( IExecutorContext context )
+	{
+		super.setContext( new ExecutorContextWrapper( context, crosstabItem ) );
+	}
+
+	public void setModelObject( Object handle )
+	{
+		super.setModelObject( handle );
+
+		if ( handle instanceof ExtendedItemHandle )
+		{
+			ExtendedItemHandle exHandle = (ExtendedItemHandle) handle;
+			IReportItem item = null;
+
+			try
+			{
+				item = exHandle.getReportItem( );
+			}
+			catch ( ExtendedElementException e )
+			{
+				// TODO logger.log( e );
+			}
+
+			crosstabItem = (CrosstabReportItemHandle) item;
+		}
 	}
 
 	public IContent execute( )

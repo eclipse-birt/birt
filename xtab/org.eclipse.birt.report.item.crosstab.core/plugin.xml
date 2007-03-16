@@ -391,7 +391,7 @@
    <extension
          point="org.eclipse.birt.report.engine.reportitemGeneration">
       <reportItem
-            class="org.eclipse.birt.report.item.crosstab.core.re.CrosstabReportItemGeneration"
+            class="org.eclipse.birt.report.item.crosstab.core.re.executor.CrosstabReportItemExecutor"
             name="Crosstab">
       </reportItem>
    </extension>

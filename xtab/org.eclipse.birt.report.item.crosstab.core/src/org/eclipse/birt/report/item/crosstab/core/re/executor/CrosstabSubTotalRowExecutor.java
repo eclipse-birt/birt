@@ -41,6 +41,8 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 	private int lastDimensionIndex;
 	private int lastLevelIndex;
 	private int totalMeasureCount;
+	
+	private long currentEdgePosition;
 
 	private int nextDimensionIndex;
 	private int nextLevelIndex;
@@ -179,9 +181,11 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 			}
 
 			// check start edge position
-			int gdx = GroupUtil.getNextGroupIndex( rowGroups,
+			//TODO edge
+			/*int gdx = GroupUtil.getNextGroupIndex( rowGroups,
 					ev.dimensionIndex,
-					ev.levelIndex );
+					ev.levelIndex );*/
+			int gdx = GroupUtil.getGroupIndex( rowGroups, ev.dimensionIndex, ev.levelIndex );
 
 			if ( gdx != -1 )
 			{
@@ -273,6 +277,9 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 								rowSpan,
 								colSpan,
 								currentColIndex - colSpan + 1 );
+						
+						( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+						
 						hasLast = false;
 						break;
 				}
@@ -323,6 +330,7 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 				}
 
 				currentChangeType = ev.type;
+				currentEdgePosition = ev.dataPosition;
 				colSpan++;
 				currentColIndex++;
 
@@ -394,6 +402,9 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 							rowSpan,
 							colSpan,
 							currentColIndex - colSpan + 1 );
+					
+					( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+					
 					break;
 			}
 		}

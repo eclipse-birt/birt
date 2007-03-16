@@ -45,6 +45,8 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 
 	private boolean rowEdgeStarted;
 	private boolean hasLast;
+	
+	private long currentEdgePosition;
 
 	private int factor;
 	private boolean isFirst;
@@ -195,9 +197,11 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 		}
 
 		// check start edge position
-		int gdx = GroupUtil.getNextGroupIndex( rowGroups,
+		//TODO edge
+		/*int gdx = GroupUtil.getNextGroupIndex( rowGroups,
 				ev.dimensionIndex,
-				ev.levelIndex );
+				ev.levelIndex );*/
+		int gdx = GroupUtil.getGroupIndex( rowGroups, ev.dimensionIndex, ev.levelIndex );
 
 		if ( gdx != -1 )
 		{
@@ -274,6 +278,9 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 								rowSpan,
 								colSpan,
 								currentColIndex - colSpan + 1 );
+						
+						( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+						
 						hasLast = false;
 						break;
 					case ColumnEvent.COLUMN_TOTAL_CHANGE :
@@ -288,6 +295,9 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 								rowSpan,
 								colSpan,
 								currentColIndex - colSpan + 1 );
+						
+						( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+						
 						hasLast = false;
 						break;
 				}
@@ -326,6 +336,7 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 				}
 
 				currentChangeType = ev.type;
+				currentEdgePosition = ev.dataPosition;
 				colSpan++;
 				currentColIndex++;
 
@@ -386,6 +397,9 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 							rowSpan,
 							colSpan,
 							currentColIndex - colSpan + 1 );
+					
+					( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+
 					break;
 				case ColumnEvent.COLUMN_TOTAL_CHANGE :
 				case ColumnEvent.GRAND_TOTAL_CHANGE :
@@ -399,6 +413,9 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 							rowSpan,
 							colSpan,
 							currentColIndex - colSpan + 1 );
+					
+					( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+					
 					break;
 			}
 		}

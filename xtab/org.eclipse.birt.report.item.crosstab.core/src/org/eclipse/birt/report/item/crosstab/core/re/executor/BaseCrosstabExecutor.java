@@ -283,7 +283,6 @@ public abstract class BaseCrosstabExecutor implements
 
 	public void setModelObject( Object handle )
 	{
-		// TODO init crosstab item
 		modelHandle = handle;
 	}
 

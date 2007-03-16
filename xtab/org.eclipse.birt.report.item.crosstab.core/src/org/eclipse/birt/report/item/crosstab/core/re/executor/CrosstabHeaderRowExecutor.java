@@ -33,6 +33,7 @@ public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor
 	private List columnGroups;
 
 	private long currentEdgePosition;
+	
 	private int currentDimensionIndex, currentLevelIndex;
 	private int lastDimensionIndex, lastLevelIndex;
 	private int subTotalDimensionIndex, subTotalLevelIndex;
@@ -162,8 +163,9 @@ public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor
 
 				columnEdgeCursor.setPosition( ev.dataPosition );
 
+				//TODO edge
 				DimensionCursor dc = (DimensionCursor) columnEdgeCursor.getDimensionCursor( )
-						.get( nextGroupIndex );
+						.get( currentGroupIndex /*nextGroupIndex*/ );
 
 				if ( !GroupUtil.isDummyGroup( dc ) )
 				{

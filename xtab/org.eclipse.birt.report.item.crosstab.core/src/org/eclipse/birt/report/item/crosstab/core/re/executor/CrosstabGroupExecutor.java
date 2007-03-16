@@ -106,7 +106,9 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 
 				handleGroupPageBreakBefore( );
 
-				( (ITableGroupContent) getContent( ) ).setGroupLevel( currentGroupIndex );
+				// TODO tmp
+				// ( (ITableGroupContent) getContent( ) ).setGroupLevel(
+				// currentGroupIndex );
 
 				if ( currentGroupIndex > 0 )
 				{
@@ -227,31 +229,76 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 
 	private int getStartingGroupLevel( ) throws OLAPException
 	{
-		for ( int i = 0; i < groupCursors.size( ); i++ )
+		// for ( int i = 0; i < groupCursors.size( ) ; i++ )
+		// {
+		// DimensionCursor dc = (DimensionCursor) groupCursors.get( i );
+		//
+		// if ( GroupUtil.isDummyGroup( dc )
+		// || dc.getEdgeStart( ) == rowCursor.getPosition( ) )
+		// {
+		// return i;
+		// }
+		// }
+
+		// TODO edge
+		if ( rowCursor.isFirst( ) )
+		{
+			return 0;
+		}
+
+		for ( int i = 0; i < groupCursors.size( ) - 1; i++ )
 		{
 			DimensionCursor dc = (DimensionCursor) groupCursors.get( i );
 
-			if ( GroupUtil.isDummyGroup( dc )
-					|| dc.getEdgeStart( ) == rowCursor.getPosition( ) )
+			if ( GroupUtil.isDummyGroup( dc ) )
 			{
 				return i;
 			}
+
+			if ( dc.getEdgeStart( ) == rowCursor.getPosition( ) )
+			{
+				return i + 1;
+			}
 		}
+
 		return groupCursors.size( );
 	}
 
 	private int getEndingGroupLevel( ) throws OLAPException
 	{
-		for ( int i = 0; i < groupCursors.size( ); i++ )
+		// for ( int i = 0; i < groupCursors.size( ); i++ )
+		// {
+		// DimensionCursor dc = (DimensionCursor) groupCursors.get( i );
+		//
+		// if ( GroupUtil.isDummyGroup( dc )
+		// || dc.getEdgeEnd( ) == rowCursor.getPosition( ) )
+		// {
+		// return i;
+		// }
+		// }
+
+		// TODO edge
+
+		if ( rowCursor.isLast( ) )
+		{
+			return 0;
+		}
+
+		for ( int i = 0; i < groupCursors.size( ) - 1; i++ )
 		{
 			DimensionCursor dc = (DimensionCursor) groupCursors.get( i );
 
-			if ( GroupUtil.isDummyGroup( dc )
-					|| dc.getEdgeEnd( ) == rowCursor.getPosition( ) )
+			if ( GroupUtil.isDummyGroup( dc ) )
 			{
 				return i;
 			}
+
+			if ( dc.getEdgeEnd( ) == rowCursor.getPosition( ) )
+			{
+				return i + 1;
+			}
 		}
+
 		return groupCursors.size( );
 	}
 

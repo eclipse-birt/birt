@@ -11,17 +11,14 @@
 
 package org.eclipse.birt.report.item.crosstab.core.re.executor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.olap.OLAPException;
-import javax.olap.cursor.EdgeCursor;
 
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
-import org.eclipse.birt.report.model.api.ReportElementHandle;
 
 /**
  * CrosstabCellExecutor
@@ -29,8 +26,7 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 public class CrosstabCellExecutor extends BaseCrosstabExecutor
 {
 
-	// TODO tmp
-	public CrosstabCellHandle cellHandle;
+	private CrosstabCellHandle cellHandle;
 	private int rowSpan, colSpan, colIndex;
 	private List contents;
 	private int currentChild;
@@ -50,10 +46,6 @@ public class CrosstabCellExecutor extends BaseCrosstabExecutor
 		this.rowSpan = rowSpan;
 		this.colSpan = colSpan;
 		this.colIndex = colIndex;
-
-		// TODO tmp
-		contents = new ArrayList( );
-		contents.add( null );
 	}
 
 	public void setPosition( long pos )
@@ -64,24 +56,6 @@ public class CrosstabCellExecutor extends BaseCrosstabExecutor
 	public void setForceEmpty( boolean isEmpty )
 	{
 		this.isForceEmpty = isEmpty;
-	}
-
-	// TODO tmp
-	public IContent getContent( )
-	{
-		return super.getContent( );
-	}
-
-	// TODO tmp
-	public EdgeCursor getColumnEdgeCursor( ) throws OLAPException
-	{
-		return super.getColumnEdgeCursor( );
-	}
-
-	// TODO tmp
-	public EdgeCursor getRowEdgeCursor( ) throws OLAPException
-	{
-		return super.getRowEdgeCursor( );
 	}
 
 	public IContent execute( )
@@ -143,7 +117,7 @@ public class CrosstabCellExecutor extends BaseCrosstabExecutor
 			return null;
 		}
 
-		// TODO reset data position
+		// must reset data position
 		if ( position != -1 )
 		{
 			try
@@ -156,8 +130,10 @@ public class CrosstabCellExecutor extends BaseCrosstabExecutor
 			}
 		}
 
-		return context.createExecutor( this,
-				(ReportElementHandle) contents.get( currentChild++ ) );
+		IReportItemExecutor executor = context.createExecutor( this,
+				contents.get( currentChild++ ) );
+
+		return executor;
 	}
 
 	public boolean hasNextChild( )
