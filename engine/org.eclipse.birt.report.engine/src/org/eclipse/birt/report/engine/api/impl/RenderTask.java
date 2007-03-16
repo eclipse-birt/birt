@@ -517,19 +517,14 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 		protected void load( ReportContentLoader loader, IContentEmitter emitter )
 		{
-			IRenderOption renderOptions = executionContext.getRenderOption( ); 
+			IRenderOption renderOptions = executionContext.getRenderOption( );
 			int pageType = IReportContentLoader.MULTI_PAGES;
-
-			if ( renderOptions.hasOption( HTMLRenderOption.HTML_PAGINATION ) )
+			HTMLRenderOption htmlOption = new HTMLRenderOption( renderOptions );
+			if ( !htmlOption.getHtmlPagination( ) )
 			{
-				HTMLRenderOption htmlOptions = new HTMLRenderOption(
-						renderOptions );
-				boolean htmlPagination = htmlOptions.getHtmlPagination( );
-				if ( !htmlPagination )
-				{
-					pageType = IReportContentLoader.SINGLE_PAGE;
-				}
+				pageType = IReportContentLoader.SINGLE_PAGE;
 			}
+
 			loader.loadPageRange( pageRange, pageType, emitter );
 		}
 	}
