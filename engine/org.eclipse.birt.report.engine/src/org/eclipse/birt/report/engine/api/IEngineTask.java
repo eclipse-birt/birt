@@ -25,6 +25,19 @@ import com.ibm.icu.util.ULocale;
  * performs to get a unit of work done.  
  */
 public interface IEngineTask {
+	
+	public static final int TASK_UNKNOWN = -1;
+	
+	public static final int TASK_GETPARAMETERDEFINITION = 0;
+	
+	public static final int TASK_RUN = 1;
+	
+	public static final int TASK_RENDER = 2;
+	
+	public static final int TASK_RUNANDRENDER = 3;
+	
+	public static final int TASK_DATAEXTRACTION = 4;
+	
 	/**
 	 * sets the task locale
 	 * @param locale the task locale
@@ -246,4 +259,16 @@ public interface IEngineTask {
 	 * @return the errors list.
 	 */
 	public List getErrors( );
+	
+	/**
+	 * Gets the type of the engine.
+	 * @return task type including:
+	 * <li><b>0</b> for GetParameterDefinition Task</li>
+	 * <li><b>1</b> for Run Task</li>
+	 * <li><b>2</b> for Render Task</li>
+	 * <li><b>3</b> for Run and Render Task</li>
+	 * <li><b>4</b> for DataExtraction Task</li>
+	 * <li><b>-1</b> default value for unknown task</li>
+	 */
+	public int getTaskType( );
 }

@@ -19,6 +19,7 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
+import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
@@ -59,7 +60,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 	public RenderTask( IReportEngine engine, IReportRunnable runnable,
 			IReportDocument reportDoc )
 	{
-		super( engine, runnable );
+		super( engine, runnable, IEngineTask.TASK_RENDER );
 
 		executionContext.setFactoryMode( false );
 		executionContext.setPresentationMode( true );

@@ -20,6 +20,7 @@ import org.eclipse.birt.core.archive.FolderArchive;
 import org.eclipse.birt.core.archive.FolderArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IPageHandler;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
@@ -48,7 +49,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	 */
 	public RunTask( IReportEngine engine, IReportRunnable runnable )
 	{
-		super( engine, runnable );
+		super( engine, runnable, IEngineTask.TASK_RUN );
 		executionContext.setFactoryMode( true );
 		executionContext.setPresentationMode( false );
 	}

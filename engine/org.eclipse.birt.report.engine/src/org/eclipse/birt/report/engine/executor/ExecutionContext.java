@@ -46,6 +46,7 @@ import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IHTMLImageHandler;
 import org.eclipse.birt.report.engine.api.IRenderOption;
@@ -1256,7 +1257,7 @@ public class ExecutionContext
 	 */
 	public boolean isInFactory( )
 	{
-		return true;
+		return factoryMode;
 	}
 
 	/**
@@ -1756,5 +1757,10 @@ public class ExecutionContext
 		{
 			pageBreakListeners.remove( listener );
 		}
+	}
+	
+	public IEngineTask getEngineTask()
+	{
+		return task;
 	}
 }

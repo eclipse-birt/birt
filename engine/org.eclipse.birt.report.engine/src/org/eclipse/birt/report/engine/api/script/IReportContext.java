@@ -183,5 +183,16 @@ public interface IReportContext
 	 *         <code>null</code> if resoueceKey is blank.
 	 */
 	String getMessage( String key, Locale locale, Object[] params );
-
+	
+	/**
+	 * Get the type of the current task.
+	 * @return task type including:
+	 * <li><b>0</b> for GetParameterDefinition Task</li>
+	 * <li><b>1</b> for Run Task</li>
+	 * <li><b>2</b> for Render Task</li>
+	 * <li><b>3</b> for Run and Render Task</li>
+	 * <li><b>4</b> for DataExtraction Task</li>
+	 * <li><b>-1</b> default value for unknown task</li>
+	 */
+	int getTaskType();
 }

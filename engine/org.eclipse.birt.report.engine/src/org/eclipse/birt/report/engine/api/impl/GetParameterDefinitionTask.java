@@ -28,6 +28,7 @@ import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IParameterGroupDefn;
@@ -86,7 +87,7 @@ public class GetParameterDefinitionTask extends EngineTask
 	public GetParameterDefinitionTask( IReportEngine engine,
 			IReportRunnable runnable )
 	{
-		super( engine, runnable );
+		super( engine, runnable, IEngineTask.TASK_GETPARAMETERDEFINITION);
 	}
 
 	/*

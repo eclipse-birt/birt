@@ -138,6 +138,11 @@ public abstract class EngineTask implements IEngineTask
 	protected HashMap runValues = new HashMap( );
 
 	/**
+	 * Engine task type. for usage in BIRT scripting.
+	 */
+	protected int taskType = IEngineTask.TASK_UNKNOWN;
+	
+	/**
 	 * @param engine
 	 *            reference to report engine
 	 * @param appContext
@@ -164,6 +169,13 @@ public abstract class EngineTask implements IEngineTask
 		
 		cancelFlag = false;
 		runningStatus = RUNNING_STATUS_START;
+	}
+	
+	protected EngineTask( IReportEngine engine, IReportRunnable runnable,
+			int taskType )
+	{
+		this( engine, runnable );
+		this.taskType = taskType;
 	}
 
 	/**
@@ -1211,4 +1223,8 @@ public abstract class EngineTask implements IEngineTask
 		emitter.initialize( services );
 	}
 	
+	public int getTaskType( )
+	{
+		return taskType;
+	}
 }

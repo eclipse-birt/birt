@@ -16,6 +16,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.eclipse.birt.report.engine.api.EngineConstants;
+import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
@@ -150,5 +151,15 @@ public class ReportContextImpl implements IReportContext
 	public void setParameterDisplayText( String name, String displayText )
 	{
 		context.setParameterDisplayText( name, displayText );
+	}
+	
+	public int getTaskType()
+	{
+		IEngineTask task = context.getEngineTask( );
+		if ( task != null )
+		{
+			return task.getTaskType( );
+		}
+		return IEngineTask.TASK_UNKNOWN;
 	}
 }

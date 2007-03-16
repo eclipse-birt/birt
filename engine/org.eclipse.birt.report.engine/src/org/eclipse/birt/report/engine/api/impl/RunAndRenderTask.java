@@ -17,6 +17,7 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
+import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
@@ -34,7 +35,6 @@ import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExec
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.layout.CompositeLayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
-import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
 import org.eclipse.birt.report.engine.layout.html.HTMLTableLayoutNestEmitter;
 
 /**
@@ -54,7 +54,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	 */
 	public RunAndRenderTask( IReportEngine engine, IReportRunnable runnable )
 	{
-		super( engine, runnable );
+		super( engine, runnable, IEngineTask.TASK_RUNANDRENDER );
 	}
 
 	protected IContentEmitter createContentEmitter( ) throws EngineException

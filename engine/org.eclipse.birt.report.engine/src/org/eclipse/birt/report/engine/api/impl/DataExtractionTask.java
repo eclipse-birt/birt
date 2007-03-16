@@ -39,6 +39,7 @@ import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
+import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportEngine;
@@ -127,7 +128,7 @@ public class DataExtractionTask extends EngineTask
 	public DataExtractionTask( IReportEngine engine, IReportRunnable runnable,
 			IReportDocument reader ) throws EngineException
 	{
-		super( engine, runnable );
+		super( engine, runnable, IEngineTask.TASK_DATAEXTRACTION );
 		
 		this.report = ((ReportRunnable)runnable).getReportIR( );
 
