@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.extension;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
 /**
@@ -36,6 +37,16 @@ public class ReportItemQueryBase implements IReportItemQuery{
 	 */
 	public IBaseQueryDefinition[] getReportQueries(IBaseQueryDefinition parent) throws BirtException {
 		return null;
+	}
+	
+	public IDataQueryDefinition[] createReportQueries(
+			IDataQueryDefinition parent ) throws BirtException
+	{
+		if ( parent instanceof IBaseQueryDefinition )
+		{
+			return getReportQueries( (IBaseQueryDefinition) parent );
+		}
+		return getReportQueries( null );
 	}
 
 	public void setQueryContext( IQueryContext context )

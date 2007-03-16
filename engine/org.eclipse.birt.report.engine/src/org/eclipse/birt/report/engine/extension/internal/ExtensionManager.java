@@ -24,7 +24,8 @@ import org.eclipse.birt.core.framework.IExtensionRegistry;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.engine.api.EmitterInfo;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
-import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
+import org.eclipse.birt.report.engine.executor.ExtendedItemGenerationExecutor;
+import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.extension.IReportItemGeneration;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
 import org.eclipse.birt.report.engine.extension.IReportItemQuery;
@@ -41,17 +42,11 @@ public class ExtensionManager
 	public final static String EXTENSION_POINT_GENERATION = "org.eclipse.birt.report.engine.reportitemGeneration"; //$NON-NLS-1$
 	public final static String EXTENSION_POINT_PRESENTATION = "org.eclipse.birt.report.engine.reportitemPresentation"; //$NON-NLS-1$
 	public final static String EXTENSION_POINT_QUERY = "org.eclipse.birt.report.engine.reportitemQuery"; //$NON-NLS-1$
-	public final static String EXTENSION_POINT_EXECUTOR = "org.eclipse.birt.report.engine.reportitemExecutor"; //$NON-NLS-1$
 	
 	/**
 	 * the singleton isntance
 	 */
 	static protected ExtensionManager sm_instance;
-	
-	/**
-	 * stores references to all the generation extensions
-	 */
-	protected HashMap executorExtensions = new HashMap();
 	
 	/**
 	 * stores references to all the generation extensions
@@ -133,7 +128,7 @@ public class ExtensionManager
 	 */
 	public IReportItemExecutor createReportItemExecutor(String itemType)
 	{
-		IConfigurationElement config = (IConfigurationElement) executorExtensions
+		IConfigurationElement config = (IConfigurationElement) generationExtensions
 				.get( itemType );
 		if ( config != null )
 		{
@@ -142,23 +137,9 @@ public class ExtensionManager
 			{
 				return (IReportItemExecutor) object;
 			}
-		}
-		return null;
-	}
-	
-	/**
-	 * @param itemType 
-	 * @return an object that is used for generation time extended item processing 
-	 */
-	public IReportItemGeneration createGenerationItem(String itemType)
-	{
-		IConfigurationElement config = (IConfigurationElement)generationExtensions.get(itemType);
-		if (config != null)
-		{
-			Object object = createObject(config, "class"); //$NON-NLS-1$
-			if (object instanceof IReportItemGeneration)
+			else if (object instanceof IReportItemGeneration)
 			{
-				return (IReportItemGeneration)object;
+				return new ExtendedItemGenerationExecutor( (IReportItemGeneration)object);
 			}
 		}
 		return null;
@@ -316,32 +297,6 @@ public class ExtensionManager
 		return null;
 	}
 
-	/**
-	 * load report item generation extension definitions 
-	 */
-	protected void loadExecutorExtensionDefns( )
-	{
-		IExtensionRegistry registry = Platform.getExtensionRegistry( );
-		IExtensionPoint extPoint = registry
-				.getExtensionPoint( EXTENSION_POINT_EXECUTOR );
-		if ( extPoint == null )
-			return;
-
-		IExtension[] exts = extPoint.getExtensions( );
-		logger.log( Level.FINE, "Start load extension point: {0}", EXTENSION_POINT_EXECUTOR ); //$NON-NLS-1$
-		for ( int i = 0; i < exts.length; i++ )
-		{
-			IConfigurationElement[] configs = exts[i]
-					.getConfigurationElements( );
-			for ( int j = 0; j < configs.length; j++ )
-			{
-				String itemName = configs[j].getAttribute( "name" ); //$NON-NLS-1$
-				executorExtensions.put( itemName, configs[j] );
-				logger.log( Level.FINE,
-						"Load generation extension: {0}", itemName ); //$NON-NLS-1$
-			}
-		}
-	}
 	/**
 	 * load report item generation extension definitions 
 	 */

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.extension;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
 /**
@@ -34,10 +35,12 @@ public interface IReportItemQuery {
      * @param parent an <I>in</I> parameter specifying the parent query for the queries generated
      * for this extended item. Could be null if the extended item defines its own data set  
      * @return an array of report queries that is used for data preparation, null if no queries
-     * @throws BirtException throwed when the extension fails to construct the query array 
+     * @throws BirtException throwed when the extension fails to construct the query array
+     * @deprecated since 2.2 
      */
     public IBaseQueryDefinition[] getReportQueries(IBaseQueryDefinition parent) throws BirtException;   
     
+    public IDataQueryDefinition[] createReportQueries(IDataQueryDefinition parent) throws BirtException;   
     /**
      * set query context
      */

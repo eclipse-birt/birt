@@ -1,23 +1,33 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
 package org.eclipse.birt.report.engine.extension;
 
-import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IReportContent;
-import org.eclipse.birt.report.engine.data.IResultSet;
-import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
-
 
 public interface IExecutorContext extends IReportContext
 {
+
 	/**
 	 * get the class loader used to load user defined classes.
 	 */
 	ClassLoader getApplicationClassLoader( );
-	
+
 	/**
 	 * create IReportItemExecutor of handle, the extendedItem is child.
 	 */
-	IReportItemExecutor createExecutor( IReportItemExecutor parent, Object handle );
+	IReportItemExecutor createExecutor( IReportItemExecutor parent,
+			Object handle );
 
 	/**
 	 * return IReportContent. User can use it to create content for
@@ -28,12 +38,14 @@ public interface IExecutorContext extends IReportContext
 	/**
 	 * execute query
 	 */
-	IResultSet executeQuery( IResultSet parent, IBaseQueryDefinition query );
-	
+	IBaseResultSet executeQuery( IBaseResultSet parent,
+			IDataQueryDefinition query );
+
 	/**
 	 * get the queries of the handle
+	 * 
 	 * @param handle
 	 * @return queries
 	 */
-	IBaseQueryDefinition[] getQueries( Object handle );
+	IDataQueryDefinition[] getQueries( Object handle );
 }

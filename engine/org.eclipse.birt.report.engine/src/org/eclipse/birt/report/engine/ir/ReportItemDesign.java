@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.ir;
 
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 
 /**
  * Report Item
@@ -73,7 +74,7 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	/**
 	 * query used to create the data set.
 	 */
-	transient protected IBaseQueryDefinition[] queries;
+	transient protected IDataQueryDefinition[] queries;
 	/**
 	 * execution state associated with this design
 	 */
@@ -182,14 +183,14 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	/**
 	 * @return Returns the queries.
 	 */
-	public IBaseQueryDefinition[] getQueries( )
+	public IDataQueryDefinition[] getQueries( )
 	{
 		return queries;
 	}
 	/**
 	 * @param query The queries to set.
 	 */
-	public void setQueries( IBaseQueryDefinition[] queries )
+	public void setQueries( IDataQueryDefinition[] queries )
 	{
 		this.queries = queries;
 	}
@@ -197,7 +198,7 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	/**
 	 * @return Returns the query.
 	 */
-	public IBaseQueryDefinition getQuery( )
+	public IDataQueryDefinition getQuery( )
 	{
 		if ( queries != null && queries.length > 0 )
 		{

@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.api.IReportDocument;
@@ -32,12 +32,13 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.impl.LabelContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.data.IDataEngine;
-import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
-import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
+import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.engine.extension.IQueryResultSet;
+import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.document.v3.CachedReportContentReaderV3;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
@@ -171,7 +172,7 @@ public abstract class AbstractReportReader implements IReportExecutor
 		context.setContent( content );
 	}
 
-	protected IResultSet openQuery( IResultSet rset, IContent content )
+	protected IBaseResultSet openQuery( IBaseResultSet rset, IContent content )
 			throws BirtException
 	{
 		Object generateBy = content.getGenerateBy( );
@@ -179,7 +180,7 @@ public abstract class AbstractReportReader implements IReportExecutor
 		if ( generateBy instanceof ReportItemDesign )
 		{
 			ReportItemDesign design = (ReportItemDesign) generateBy;
-			IBaseQueryDefinition query = design.getQuery( );
+			IDataQueryDefinition query = design.getQuery( );
 			if ( query != null )
 			{
 				InstanceID iid = content.getInstanceID( );
@@ -197,19 +198,27 @@ public abstract class AbstractReportReader implements IReportExecutor
 						if ( dataSetId != null )
 						{
 							DataSetID parentSetId = dataSetId.getParentID( );
-							long parentRowId = dataSetId.getRowID( );
-							if ( parentSetId != null && parentRowId != -1 )
+							// the parent exist.							
+							if ( rset != null )
 							{
-								// the parent exist.
-								if ( rset != null )
+								if ( rset.getType( ) == IBaseResultSet.QUERY_RESULTSET )
 								{
-									// the parent query's result set is
-									// not null, skip to the right row
-									// according row id.
-									if ( parentRowId != rset
-											.getCurrentPosition( ) )
+									IQueryResultSet qRset = (IQueryResultSet) rset;
+									long parentRowId = dataSetId.getRowID( );
+									if ( parentSetId != null
+											&& parentRowId != -1 )
 									{
-										rset.skipTo( parentRowId );
+										// the parent query's result set is not
+										// null, skip to the right row according
+										// row id.
+										if ( parentRowId != qRset.getRowIndex( ) )
+										{
+											qRset.skipTo( parentRowId );
+										}
+									}
+									else
+									{
+										// FIXME: for cubeResultSet
 									}
 								}
 							}
@@ -236,17 +245,27 @@ public abstract class AbstractReportReader implements IReportExecutor
 			{
 				if ( rset != null )
 				{
-					long rowId = dataId.getRowID( );
-					
-					//rowId should not be -1. If rowId equals to -1 that means the result set is empty.
-					//call IResultIterator.next() to force result set start.
-					if ( rowId == -1 )
+					if ( rset.getType( ) == IBaseResultSet.QUERY_RESULTSET )
 					{
-						rset.next( );
+						IQueryResultSet qRset = (IQueryResultSet)rset;
+						long rowId = dataId.getRowID( );
+
+						// rowId should not be -1. If rowId equals to -1 that
+						// means the result set is empty.
+						// call IResultIterator.next() to force result set
+						// start.
+						if ( rowId == -1 )
+						{
+							qRset.next( );
+						}
+						if ( rowId != -1 && rowId != qRset.getRowIndex( ) )
+						{
+							qRset.skipTo( rowId );
+						}
 					}
-					if ( rowId != -1 && rowId != rset.getCurrentPosition( ) )
+					else
 					{
-						rset.skipTo( rowId );
+						// FIXME: for cubeResultSet
 					}
 				}
 			}
@@ -254,7 +273,7 @@ public abstract class AbstractReportReader implements IReportExecutor
 		return rset;
 	}
 
-	protected void closeQuery( IResultSet rset )
+	protected void closeQuery( IBaseResultSet rset )
 	{
 		if ( rset != null )
 		{
@@ -314,12 +333,12 @@ public abstract class AbstractReportReader implements IReportExecutor
 					String bindingColumn = design.getBindingColumn( );
 					if ( bindingColumn != null )
 					{
-						IResultSet rset = context.getResultSet( );
+						IBaseResultSet rset = context.getResultSet( );
 						if ( rset != null )
 						{
 							try
 							{
-								Object dataValue = rset
+								Object dataValue = ( (IQueryResultSet) rset )
 										.getValue( bindingColumn );
 								data.setValue( dataValue );
 							}

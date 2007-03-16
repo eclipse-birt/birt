@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
@@ -134,7 +134,7 @@ public class Report
 	 *            query definition
 	 */
 	public void setQueryToReportHandle( ReportElementHandle handle,
-			IBaseQueryDefinition[] queries )
+			IDataQueryDefinition[] queries )
 	{
 		if ( mapQueryToReportElementHandle == null )
 		{
@@ -151,12 +151,12 @@ public class Report
 	 * @param query
 	 *            query definition
 	 */
-	public IBaseQueryDefinition[] getQueryByReportHandle(
+	public IDataQueryDefinition[] getQueryByReportHandle(
 			ReportElementHandle handle )
 	{
 		if ( mapQueryToReportElementHandle != null )
 		{
-			return (IBaseQueryDefinition[]) mapQueryToReportElementHandle.get( handle );
+			return (IDataQueryDefinition[]) mapQueryToReportElementHandle.get( handle );
 		}
 		return null;
 	}

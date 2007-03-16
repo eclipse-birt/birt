@@ -14,7 +14,8 @@ package org.eclipse.birt.report.engine.extension.internal;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.report.engine.api.DataSetID;
-import org.eclipse.birt.report.engine.data.IResultSet;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.extension.IRowMetaData;
 import org.eclipse.birt.report.engine.extension.IRowSet;
 
@@ -25,19 +26,22 @@ import org.eclipse.birt.report.engine.extension.IRowSet;
 public class RowSet implements IRowSet
 {
 
-	protected IResultSet rset;
+	protected IQueryResultSet rset;
 	protected IRowMetaData metaData;
 	protected boolean closed;
 	private boolean isOutterResultSet;
 	private boolean isFirstRecord = true;
+	private ExecutionContext context;
 
-	public RowSet( IResultSet rset )
+	public RowSet( ExecutionContext context, IQueryResultSet rset )
 	{
-		this( rset, false );
+		this( context, rset, false );
 	}
 
-	public RowSet( IResultSet rset, boolean isOutterResultSet )
+	public RowSet( ExecutionContext context, IQueryResultSet rset,
+			boolean isOutterResultSet )
 	{
+		this.context = context;
 		this.isOutterResultSet = isOutterResultSet;
 		closed = false;
 		this.rset = rset;
@@ -58,19 +62,17 @@ public class RowSet implements IRowSet
 				return -1;
 			}
 		};
-
-		try
+		if ( rset != null )
 		{
-			if ( rset != null)
+			try
 			{
 				metaData = new RowMetaData( rset.getResultMetaData( ) );
 			}
+			catch ( BirtException ex )
+			{
+				context.addException( ex );
+			}
 		}
-		catch ( BirtException ex )
-		{
-
-		}
-
 	}
 
 	public DataSetID getID( )
@@ -107,6 +109,7 @@ public class RowSet implements IRowSet
 			}
 			catch ( BirtException ex )
 			{
+				context.addException( ex );
 				return false;
 			}
 		}
@@ -115,18 +118,32 @@ public class RowSet implements IRowSet
 
 	public Object evaluate( String expr )
 	{
-		if ( rset != null )
+		try
 		{
-			return rset.evaluate( expr );
+			if ( rset != null )
+			{
+				return rset.evaluate( expr );
+			}
+		}
+		catch ( BirtException ex )
+		{
+			context.addException( ex );
 		}
 		return null;
 	}
 
 	public Object evaluate( IBaseExpression expr )
 	{
-		if ( rset != null )
+		try
 		{
-			return rset.evaluate( expr );
+			if ( rset != null )
+			{
+				return rset.evaluate( expr );
+			}
+		}
+		catch ( BirtException ex )
+		{
+			context.addException( ex );
 		}
 		return null;
 	}
@@ -156,6 +173,7 @@ public class RowSet implements IRowSet
 			}
 			catch ( BirtException ex )
 			{
+				context.addException( ex );
 			}
 		}
 		return 0;
@@ -176,6 +194,7 @@ public class RowSet implements IRowSet
 			}
 			catch ( BirtException ex )
 			{
+				context.addException( ex );
 
 			}
 		}
@@ -184,6 +203,10 @@ public class RowSet implements IRowSet
 
 	public void close( )
 	{
+		if ( closed )
+		{
+			return;
+		}
 		// If the result set is from extended item, it should be closed outside.
 		if ( isOutterResultSet )
 		{
@@ -205,7 +228,6 @@ public class RowSet implements IRowSet
 		{
 			return true;
 		}
-			
 		return rset.isEmpty( );
 	}
 

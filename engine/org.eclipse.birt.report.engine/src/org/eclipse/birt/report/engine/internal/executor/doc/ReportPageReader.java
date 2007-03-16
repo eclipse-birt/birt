@@ -15,9 +15,9 @@ import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
-import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
-import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
+import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 import org.eclipse.birt.report.engine.internal.document.IReportContentLoader;
 import org.eclipse.birt.report.engine.internal.document.v2.PageHintReaderV2;
@@ -315,7 +315,7 @@ public class ReportPageReader extends ReportReader
 	}
 
 	private void loadFullContent( CachedReportContentReaderV3 reader,
-			IContent parent, IResultSet prset ) throws IOException, BirtException
+			IContent parent, IBaseResultSet prset ) throws IOException, BirtException
 	{
 		DocumentExtension docExt = (DocumentExtension) parent
 				.getExtension( IContent.DOCUMENT_EXTENSION );
@@ -324,7 +324,7 @@ public class ReportPageReader extends ReportReader
 		{
 			IContent content = reader.loadContent( offset );
 			initializeContent( content );
-			IResultSet rset = openQuery( prset, content );
+			IBaseResultSet rset = openQuery( prset, content );
 			// execute extra intialization
 			initalizeContentVisitor.visit( content, null );
 

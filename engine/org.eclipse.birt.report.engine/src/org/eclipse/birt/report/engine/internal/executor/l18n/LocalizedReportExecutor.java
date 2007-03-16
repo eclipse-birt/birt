@@ -8,7 +8,7 @@ import org.eclipse.birt.report.engine.emitter.ContentEmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
-import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
+import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.presentation.LocalizedContentVisitor;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;

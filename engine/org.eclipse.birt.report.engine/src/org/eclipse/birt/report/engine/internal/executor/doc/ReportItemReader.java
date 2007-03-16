@@ -6,9 +6,9 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IListContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
-import org.eclipse.birt.report.engine.data.IResultSet;
-import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
-import org.eclipse.birt.report.engine.executor.ReportItemExecutorBase;
+import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
+import org.eclipse.birt.report.engine.extension.ReportItemExecutorBase;
 import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 import org.eclipse.birt.report.engine.ir.GroupDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
@@ -47,7 +47,7 @@ public class ReportItemReader extends ReportItemExecutorBase
 	long offset;
 	IContent content;
 	long child;
-	IResultSet rset;
+	IBaseResultSet rset;
 
 	public void close( )
 	{
@@ -143,7 +143,7 @@ public class ReportItemReader extends ReportItemExecutorBase
 		return -1;
 	}
 
-	protected IResultSet getResultSet( )
+	protected IBaseResultSet getResultSet( )
 	{
 		if ( rset == null )
 		{
@@ -248,7 +248,7 @@ public class ReportItemReader extends ReportItemExecutorBase
 			}
 		}
 
-		IResultSet prset = parent == null ? null : parent.getResultSet( );
+		IBaseResultSet prset = parent == null ? null : parent.getResultSet( );
 		//restore the parent result set
 		reader.context.setResultSet(prset);
 		// open the query used by the content, locate the resource

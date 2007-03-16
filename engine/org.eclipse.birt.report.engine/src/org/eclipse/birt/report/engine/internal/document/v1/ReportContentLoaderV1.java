@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.api.IReportDocument;
@@ -51,10 +51,11 @@ import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.content.impl.DataContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.data.IDataEngine;
-import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.internal.document.IReportContentLoader;
 import org.eclipse.birt.report.engine.ir.BandDesign;
 import org.eclipse.birt.report.engine.ir.CellDesign;
@@ -739,10 +740,10 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 			if ( !( generateBy instanceof ExtendedItemDesign ) )
 			{
 				ReportItemDesign design = (ReportItemDesign) generateBy;
-				IBaseQueryDefinition query = design.getQuery( );
+				IDataQueryDefinition query = design.getQuery( );
 				if ( query != null )
 				{
-					IResultSet rset = dataEngine.execute( query );
+					IBaseResultSet rset = dataEngine.execute( query );
 					resultSets.push( rset );
 				}
 			}
@@ -760,11 +761,11 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 			{
 				if ( !resultSets.isEmpty( ) )
 				{
-					IResultSet rset = (IResultSet) resultSets.peek( );
+					IQueryResultSet rset = (IQueryResultSet) resultSets.peek( );
 					if ( rset != null )
 					{
 						long rowId = dataId.getRowID( );
-						if ( rowId != -1 && rowId != rset.getCurrentPosition( ) )
+						if ( rowId != -1 && rowId != rset.getRowIndex( ) )
 						{
 							rset.skipTo( rowId );
 						}
@@ -791,7 +792,7 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 		}
 	}
 
-	protected void checkDataSet( DataID dataId, IResultSet rset )
+	protected void checkDataSet( DataID dataId, IQueryResultSet rset )
 	{
 		DataSetID dsetId = rset.getID( );
 		DataSetID rsetId = dataId.getDataSetID( );
@@ -808,10 +809,10 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 			if ( !( generateBy instanceof ExtendedItemDesign ) )
 			{
 				ReportItemDesign design = (ReportItemDesign) generateBy;
-				IBaseQueryDefinition query = design.getQuery( );
+				IDataQueryDefinition query = design.getQuery( );
 				if ( query != null )
 				{
-					IResultSet rset = (IResultSet) resultSets.pop( );
+					IQueryResultSet rset = (IQueryResultSet) resultSets.pop( );
 					if ( rset != null )
 					{
 						rset.close( );
