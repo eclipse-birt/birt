@@ -21,6 +21,7 @@ import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.emitter.DOMBuilderEmitter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IExecutorContext;
+import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.extension.internal.ExecutorContext;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.Report;
@@ -84,10 +85,10 @@ public class ReportExecutor implements IReportExecutor
 	public ReportExecutor( ExecutionContext context, Report report, IContentEmitter emitter )
 	{
 		this.context = context;
+		this.executorContext = new ExecutorContext( context );
 		this.manager = new ExecutorManager(context, emitter, executorContext);
 		this.report = report;
 		this.emitter = emitter;
-		this.executorContext = new ExecutorContext( context );
 	}
 	
 	public IReportContent execute( )

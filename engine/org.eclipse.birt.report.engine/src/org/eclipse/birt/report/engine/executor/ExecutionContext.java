@@ -40,8 +40,8 @@ import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
 import org.eclipse.birt.core.script.CoreJavaScriptWrapper;
 import org.eclipse.birt.core.script.IJavascriptWrapper;
 import org.eclipse.birt.core.script.ScriptContext;
-import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.eclipse.birt.report.engine.api.EngineConstants;
@@ -63,7 +63,7 @@ import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.data.DataEngineFactory;
 import org.eclipse.birt.report.engine.data.IDataEngine;
-import org.eclipse.birt.report.engine.data.IResultSet;
+import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -204,7 +204,7 @@ public class ExecutionContext
 	/**
 	 * the current opened result set 
 	 */
-	private IResultSet rset; 
+	private IBaseResultSet rset; 
 
 	/**
 	 * A stack of handle objects, with the current one on the top
@@ -1619,20 +1619,20 @@ public class ExecutionContext
 		return dataSource;
 	}
 	
-	public IResultSet executeQuery( IResultSet parent,
-			IBaseQueryDefinition query ) throws BirtException
+	public IBaseResultSet executeQuery( IBaseResultSet parent,
+			IDataQueryDefinition query ) throws BirtException
 	{
 		IDataEngine dataEngine = getDataEngine( );
-		rset = dataEngine.execute( parent, query );
+		rset = (IBaseResultSet)dataEngine.execute( parent, query );
 		return rset;
 	}
 
-	public IResultSet getResultSet( )
+	public IBaseResultSet getResultSet( )
 	{
 		return rset;
 	}
 	
-	public void setResultSet(IResultSet rset)
+	public void setResultSet(IBaseResultSet rset)
 	{
 		this.rset = rset;
 	}

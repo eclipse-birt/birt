@@ -13,7 +13,7 @@ package org.eclipse.birt.report.engine.layout.pdf;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IGroupContent;
-import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
+import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
 
 public abstract class PDFGroupLM extends PDFBlockStackingLM

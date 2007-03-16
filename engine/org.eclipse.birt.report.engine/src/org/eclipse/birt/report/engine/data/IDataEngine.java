@@ -11,10 +11,13 @@
 
 package org.eclipse.birt.report.engine.data;
 
+import java.io.DataInputStream;
+import java.util.ArrayList;
 import java.util.Map;
 
-import org.eclipse.birt.data.engine.api.DataEngine;
-import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 
@@ -66,7 +69,7 @@ public interface IDataEngine
 	 *            query to be executed
 	 * @return IResultSet object or null if the query is null
 	 */
-	IResultSet execute( IBaseQueryDefinition query );
+	IBaseResultSet execute( IDataQueryDefinition query );
 	
 	/**
 	 * execute the query in the parent result
@@ -74,12 +77,12 @@ public interface IDataEngine
 	 * @param query query to be executed
 	 * @return result.
 	 */
-	IResultSet execute (IResultSet parent, IBaseQueryDefinition query);
+	IBaseResultSet execute (IBaseResultSet parent, IDataQueryDefinition query);
 
 	/**
 	 * close the IResultSet of the last executing operator
 	 */
-	void close( IResultSet rs );
+	void close( IBaseResultSet rs );
 
 	/**
 	 * shut down the data engine
@@ -87,9 +90,11 @@ public interface IDataEngine
 	void shutdown( );
 
 	/**
-	 * return the DTE's data engine.
+	 * return the DTE's data session.
 	 * 
-	 * @return retuan a dataEngine of DTE.
+	 * @return retuan a dataSession of DTE.
 	 */
-	DataEngine getDataEngine( );
+	DataRequestSession getDTESession( );
+	
+	ArrayList loadDteMetaInfo( DataInputStream dis );
 }

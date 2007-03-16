@@ -13,8 +13,9 @@ package org.eclipse.birt.report.engine.data.dte;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
-import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.Scriptable;
 
@@ -29,7 +30,7 @@ public class NativeRowObject implements Scriptable
 	ExecutionContext context;
 	Scriptable prototype;
 	Scriptable parent;
-	IResultSet rset;
+	IQueryResultSet rset;
 
 	static final String JS_CLASS_NAME = "DataSetRow";
 
@@ -48,24 +49,31 @@ public class NativeRowObject implements Scriptable
 		this.context = context;
 	}
 
-	public NativeRowObject( Scriptable parent, IResultSet rset )
+	public NativeRowObject( Scriptable parent, IQueryResultSet rset )
 	{
 		setParentScope( parent );
 		this.rset = rset;
 	}
 
-	protected IResultSet getResultSet()
+	protected IQueryResultSet getResultSet( )
 	{
-		if (rset == null)
+		if ( rset == null )
 		{
-			return context.getResultSet( );
+			IBaseResultSet ctxRset = context.getResultSet( );
+			if ( ctxRset != null )
+			{
+				if ( ctxRset.getType( ) == IBaseResultSet.QUERY_RESULTSET )
+				{
+					return (IQueryResultSet) ctxRset;
+				}
+			}
 		}
 		return rset;
 	}
-	
+
 	public Object get( String name, Scriptable start )
 	{
-		IResultSet rset = getResultSet( );
+		IQueryResultSet rset = getResultSet( );
 		if ( rset == null )
 		{
 			return null;
@@ -73,19 +81,25 @@ public class NativeRowObject implements Scriptable
 
 		if ( "_outer".equals( name ) )
 		{
-			IResultSet parent = rset.getParent( );
-			if ( parent != null )
+			IBaseResultSet parent = rset.getParent( );
+			if ( parent != null
+					&& parent.getType( ) == IBaseResultSet.QUERY_RESULTSET )
 			{
-				return new NativeRowObject( start, parent );
+				return new NativeRowObject( start, (IQueryResultSet) parent );
+			}
+			else
+			{
+				// TODO: return cuber object used in script
+				// return new NativeCubeObject(start, parent);
 			}
 			return null;
 		}
-		if ( "__rownum".equals( name ) )
-		{
-			return new Long( rset.getCurrentPosition( ) );
-		}
 		try
 		{
+			if ( "__rownum".equals( name ) )
+			{
+				return new Long( rset.getRowIndex( ) );
+			}
 			return rset.getValue( name );
 		}
 		catch ( BirtException ex )
@@ -106,7 +120,7 @@ public class NativeRowObject implements Scriptable
 
 	public boolean has( String name, Scriptable start )
 	{
-		IResultSet rset = getResultSet( );
+		IQueryResultSet rset = getResultSet( );
 		if ( rset == null )
 		{
 			return false;
@@ -174,7 +188,7 @@ public class NativeRowObject implements Scriptable
 
 	public Object[] getIds( )
 	{
-		IResultSet rset = getResultSet( );
+		IQueryResultSet rset = getResultSet( );
 		if ( rset == null )
 		{
 			return null;

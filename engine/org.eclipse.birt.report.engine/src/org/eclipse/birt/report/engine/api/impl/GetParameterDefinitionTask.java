@@ -19,7 +19,6 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
@@ -27,6 +26,7 @@ import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
@@ -441,7 +441,7 @@ public class GetParameterDefinitionTask extends EngineTask
 			try
 			{
 				IDataEngine dataEngine = executionContext.getDataEngine( );
-				DataEngine dteDataEngine = getDataEngine();
+				DataRequestSession dteSession = getDataSession();
 				// Define data source and data set
 				dataEngine.defineDataSet(dataSet);
 				ScriptExpression labelExpr = null;
@@ -483,7 +483,7 @@ public class GetParameterDefinitionTask extends EngineTask
 				
 				queryDefn.setAutoBinding( true );
 
-				IPreparedQuery query = dteDataEngine.prepare( queryDefn,
+				IPreparedQuery query = dteSession.prepare( queryDefn,
 						getAppContext( ) );
 
 				IQueryResults result = query.execute( executionContext
@@ -568,7 +568,7 @@ public class GetParameterDefinitionTask extends EngineTask
 			try
 			{
 				// Handle data source and data set
-				DataEngine dteDataEngine = getDataEngine( );
+				DataRequestSession dteSession = getDataSession( );
 				IDataEngine dataEngine = executionContext.getDataEngine( );
 				dataEngine.defineDataSet( dataSet );
 
@@ -629,7 +629,7 @@ public class GetParameterDefinitionTask extends EngineTask
 
 				queryDefn.setAutoBinding( true );
 				
-				IPreparedQuery query = dteDataEngine.prepare( queryDefn,
+				IPreparedQuery query = dteSession.prepare( queryDefn,
 						getAppContext( ) );
 				IQueryResults result = query.execute( executionContext
 						.getSharedScope( ) );

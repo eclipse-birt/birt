@@ -30,6 +30,10 @@ public class DataSetID
 	 */
 	long rowId;
 	/**
+	 * cell id of the parent data set
+	 */
+	String cellId;
+	/**
 	 * name of the query which create this data set.
 	 */
 	String queryName;
@@ -60,6 +64,22 @@ public class DataSetID
 		}
 		this.parent = parent;
 		this.rowId = rowId;
+		this.queryName = queryName;
+	}
+
+	public DataSetID( DataSetID parent, String cellId, String queryName )
+	{
+		if ( null == parent )
+		{
+			throw new IllegalArgumentException( "The parent can't be null!" );
+		}
+		if ( null == queryName )
+		{
+			throw new IllegalArgumentException( "The queryName can't be null!" );
+		}
+		this.parent = parent;
+		this.rowId = -1;
+		this.cellId = cellId;
 		this.queryName = queryName;
 	}
 
@@ -101,6 +121,11 @@ public class DataSetID
 	public long getRowID( )
 	{
 		return rowId;
+	}
+	
+	public String getCellID()
+	{
+		return cellId;
 	}
 
 	/**
@@ -182,7 +207,6 @@ public class DataSetID
 				// get the rowId
 				String strRowId = new String( buffer, ptr + 1, offset + length
 						- ptr - 1 );
-				long rowId = Long.parseLong( strRowId );
 				ptr--; // skip the current '.'
 				if ( ptr >= offset && buffer[ptr] == '}'
 						&& buffer[offset] == '{' )
@@ -196,7 +220,16 @@ public class DataSetID
 								+ 1 );
 						if ( parent != null )
 						{
-							return new DataSetID( parent, rowId, queryName );
+							try
+							{
+								long rowId = Long.parseLong( strRowId );
+								return new DataSetID( parent, rowId, queryName );
+							}
+							catch ( Exception ex )
+							{
+								
+							}
+							return new DataSetID( parent, strRowId, queryName );
 						}
 					}
 				}

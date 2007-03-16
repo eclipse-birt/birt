@@ -24,10 +24,10 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IInputParameterBinding;
-import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
@@ -227,7 +227,7 @@ public class ReportQueryBuilder
 	 * @return
 	 *      queries array of this design
 	 */
-	public IBaseQueryDefinition[] build( IBaseQueryDefinition parentQuery, ReportItemDesign design )
+	public IDataQueryDefinition[] build( IDataQueryDefinition parentQuery, ReportItemDesign design )
 	{
 		synchronized ( report )
 		{
@@ -235,44 +235,55 @@ public class ReportQueryBuilder
 			
 			Object result = design.accept( queryBuilder, parentQuery );
 			
-			if ( result instanceof IBaseQueryDefinition[] )
+			if ( result == null )
 			{
-				IBaseQueryDefinition[] queries = (IBaseQueryDefinition[]) result;
+				return null;
+			}
+			IDataQueryDefinition[] queries = (IDataQueryDefinition[]) result;
 				
-				design.setQueries( queries );
-				for ( int i = 0; i < queries.length; i++ )
-				{
-					IBaseQueryDefinition query = queries[i];
-					if ( query != null )
-					{						
-						this.queryIDs.put( query, String.valueOf( design
-								.getID( ) )
-								+ "_" + String.valueOf( i ) );
-						ResultMetaData metaData = new ResultMetaData( query );
+			design.setQueries( queries );
+			for ( int i = 0; i < queries.length; i++ )
+			{
+				IDataQueryDefinition query = queries[i];
+				if ( query != null )
+				{						
+					this.queryIDs.put( query, String.valueOf( design
+							.getID( ) )
+							+ "_" + String.valueOf( i ) );
+					// we do not support cube's metaData now. And we so do support CUB data's extration.
+					if ( query instanceof IBaseQueryDefinition )
+					{
+						ResultMetaData metaData = new ResultMetaData( (IBaseQueryDefinition)query );
 						resultMetaData.put( query, metaData );
-						registerQueryAndElement( query, design );
-						if ( query instanceof IQueryDefinition )
+					}
+					registerQueryAndElement( query, design );
+					if ( !( query instanceof ISubqueryDefinition ) )
+					{
+						this.queries.add( query );
+					}
+					else if ( query instanceof ISubqueryDefinition )
+					{
+						// TODO: chart engine make a mistake here
+						if ( !( parentQuery instanceof IBaseQueryDefinition ) )
 						{
-							this.queries.add( query );
+							context.addException( new EngineException(
+									"subquery can only be created in another subquery/query"
+											+ design.getID( ) ) );
 						}
-						else if ( query instanceof ISubqueryDefinition )
+						
+						IBaseQueryDefinition pQuery = (IBaseQueryDefinition)parentQuery;
+						Collection subQueries = pQuery.getSubqueries( );
+						if ( !subQueries.contains( query ) )
 						{
-							// TODO: chart engine make a mistake here
-							if ( parentQuery != null )
-							{
-								if ( !parentQuery.getSubqueries( ).contains( query ) )
-								{
-									parentQuery.getSubqueries( ).add( query );
-								}
-							}
+						subQueries.add( query );
 						}
+						
 					}
 				}
 				registerQueryToHandle( design, queries );
-				return queries;	
 			}
+			return queries;
 		}
-		return null;
 	}
 	
 	/**
@@ -280,7 +291,7 @@ public class ReportQueryBuilder
 	 * @param query
 	 * @param reportItem
 	 */
-	private void registerQueryAndElement( IBaseQueryDefinition query,
+	private void registerQueryAndElement( IDataQueryDefinition query,
 			ReportItemDesign reportItem )
 	{
 		assert query != null && reportItem != null;
@@ -294,7 +305,7 @@ public class ReportQueryBuilder
 	 * @param handle
 	 * @param query
 	 */
-	private void registerQueryToHandle( ReportItemDesign reportItem, IBaseQueryDefinition[] queries )
+	private void registerQueryToHandle( ReportItemDesign reportItem, IDataQueryDefinition[] queries )
 	{
 		DesignElementHandle handle = reportItem.getHandle( );
 		assert handle instanceof ReportElementHandle;
@@ -416,12 +427,9 @@ public class ReportQueryBuilder
 
 			IReportItemQuery itemQuery = ExtensionManager.getInstance( )
 					.createQueryItem( tagName );
-			IBaseQueryDefinition[] queries = null;
-			IBaseQueryDefinition parentQuery = null;
-			if ( value instanceof IBaseQueryDefinition )
-			{
-				parentQuery = (IBaseQueryDefinition)value;
-			}
+			IDataQueryDefinition[] queries = null;
+			IDataQueryDefinition parentQuery = (IDataQueryDefinition) value;
+			
 			//IBaseTransform parentTrans = getTransform( );
 			if ( itemQuery != null )
 			{
@@ -429,7 +437,7 @@ public class ReportQueryBuilder
 				{
 					itemQuery.setModelObject( handle );
 
-					queries = itemQuery.getReportQueries( parentQuery );
+					queries = itemQuery.createReportQueries( parentQuery );
 
 				}
 				catch ( BirtException ex )
@@ -440,10 +448,10 @@ public class ReportQueryBuilder
 				{					
 					if ( queries.length > 0 )
 					{
-						IBaseQueryDefinition query = queries[0];
-						if ( query != null )
+						IDataQueryDefinition query = queries[0];
+						if ( query instanceof IBaseQueryDefinition )
 						{
-							transformExpressions( item, query, null );			
+							transformExpressions( item, (IBaseQueryDefinition)query, null );			
 						}
 					}
 					return queries;

@@ -22,6 +22,7 @@ import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.core.template.TextTemplate;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.api.CachedImage;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.IHTMLImageHandler;
@@ -42,9 +43,10 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
-import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.template.TemplateExecutor;
+import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
 import org.eclipse.birt.report.engine.extension.IRowSet;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
@@ -583,12 +585,12 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 			itemPresentation.setApplicationClassLoader( context
 					.getApplicationClassLoader( ) );
 			itemPresentation.setScriptContext( context.getReportContext( ) );
-			IBaseQueryDefinition[] queries = design.getQueries( );
+			IBaseQueryDefinition[] queries = (IBaseQueryDefinition[])design.getQueries( );
 			if ( queries == null )
 			{
 				if ( design.getQuery( ) != null )
 				{
-					queries = new IBaseQueryDefinition[]{design.getQuery( )};
+					queries = new IBaseQueryDefinition[]{(IBaseQueryDefinition)design.getQuery( )};
 				}
 			}
 			itemPresentation.setReportQueries( queries );
@@ -638,7 +640,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 						.deserialize( new ByteArrayInputStream( values ) );
 			}
 
-			IResultSet parent = context.getResultSet( );
+			IBaseResultSet parent = context.getResultSet( );
 			if (parent != null)
 			{
 				parent = parent.getParent( );
@@ -800,11 +802,11 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		return out.toByteArray( );
 	}
 	
-	protected IRowSet[] executeQueries( IResultSet parent, ExtendedItemDesign extItem )
+	protected IRowSet[] executeQueries( IBaseResultSet parent, ExtendedItemDesign extItem )
 	{
 		IRowSet[] rowSets = null;
 		
-		IBaseQueryDefinition[] queries = extItem.getQueries( );
+		IDataQueryDefinition[] queries = extItem.getQueries( );
 		if ( queries != null )
 		{
 			rowSets = new IRowSet[queries.length];
@@ -812,9 +814,9 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 			{
 				try
 				{
-					IResultSet rset = context.executeQuery( parent, queries[i] );
+					IBaseResultSet rset = context.executeQuery( parent, queries[i] );
 					assert rset != null;
-					rowSets[i] = new RowSet( rset );
+					rowSets[i] = new RowSet( context, (IQueryResultSet)rset );
 				}
 				catch ( BirtException ex )
 				{
@@ -825,13 +827,13 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		}
 		if ( rowSets == null )
 		{
-			IBaseQueryDefinition query = extItem.getQuery( );
+			IDataQueryDefinition query = extItem.getQuery( );
 			if ( query != null )
 			{
 				try
 				{
-					IResultSet rset = context.executeQuery( parent, query );
-					rowSets = new IRowSet[]{ new RowSet( rset ) };
+					IBaseResultSet rset = context.executeQuery( parent, query );
+					rowSets = new IRowSet[]{ new RowSet( context, (IQueryResultSet)rset ) };
 				}
 				catch(BirtException ex)
 				{

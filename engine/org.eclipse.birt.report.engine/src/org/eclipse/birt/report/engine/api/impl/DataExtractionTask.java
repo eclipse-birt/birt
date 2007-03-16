@@ -24,9 +24,8 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.util.IOUtil;
-import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
@@ -35,6 +34,7 @@ import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -220,49 +220,56 @@ public class DataExtractionTask extends EngineTask
 					.getStream( ReportDocumentConstants.DATA_META_STREAM ) );
 
 			HashMap queryCounts = new HashMap( );
-			while ( true )
+			
+			IDataEngine dataEngine = executionContext.getDataEngine( );
+			ArrayList result = dataEngine.loadDteMetaInfo( dis );			
+			
+			if ( result != null )
 			{
-				// skip the parent restset id
-				IOUtil.readString( dis );
-				// skip the row id
-				IOUtil.readLong( dis );
-				// this is the query id
-				String queryId = IOUtil.readString( dis );
-				// this is the rest id
-				String rsetId = IOUtil.readString( dis );
 				
-				IQueryDefinition query = getQuery( queryId );
+				for ( int i = 0; i < result.size( ); i++ )
+				{
 				
-				rsetId2queryIdMapping.put( rsetId, queryId );
+					String[] rsetRelation = (String[])result.get( i );
+					// this is the query id
+					String queryId = rsetRelation[2];
+					// this is the rest id
+					String rsetId = rsetRelation[3];
 				
-				if ( !isMasterQuery ( query ) )
-				{
-					continue;
-				}
+					IQueryDefinition query = getQuery( queryId );
 				
-				int count = -1;
-				Integer countObj = (Integer) queryCounts.get( queryId );
-				if ( countObj != null )
-				{
-					count = countObj.intValue( );
-				}
-				count++;
-				String rsetName = getQueryName( queryId );
-				if( count > 0)
-				{
-					rsetName = rsetName + "_" + count;
-				}
-				queryCounts.put( queryId, new Integer( count ) );
-				rsetName2IdMapping.put( rsetName, rsetId );
-
-				if ( null != query2ResultMetaData )
-				{
-					ResultMetaData metaData = (ResultMetaData) query2ResultMetaData.get( query );
-					if ( metaData.getColumnCount( ) > 0 )
+					rsetId2queryIdMapping.put( rsetId, queryId );
+				
+					if ( !isMasterQuery ( query ) )
 					{
-						IResultSetItem resultItem = new ResultSetItem( rsetName,
-								metaData );
-						resultMetaList.add( resultItem );
+						continue;
+					}
+				
+					int count = -1;
+					Integer countObj = (Integer) queryCounts.get( queryId );
+					if ( countObj != null )
+					{
+						count = countObj.intValue( );
+					}
+					count++;
+					String rsetName = getQueryName( queryId );
+					if ( count > 0 )
+					{
+						rsetName = rsetName + "_" + count;
+					}
+					queryCounts.put( queryId, new Integer( count ) );
+					rsetName2IdMapping.put( rsetName, rsetId );
+
+					if ( null != query2ResultMetaData )
+					{
+						ResultMetaData metaData = (ResultMetaData) query2ResultMetaData
+								.get( query );
+						if ( metaData.getColumnCount( ) > 0 )
+						{
+							IResultSetItem resultItem = new ResultSetItem(
+									rsetName, metaData );
+							resultMetaList.add( resultItem );
+						}
 					}
 				}
 			}
@@ -521,8 +528,7 @@ public class DataExtractionTask extends EngineTask
 
 		prepareMetaData( );
 
-		DataEngine dataEngine = executionContext.getDataEngine( )
-				.getDataEngine( );
+		DataRequestSession dataSession = executionContext.getDataEngine( ).getDTESession( );
 		try
 		{
 			String rsetId = rsetName2Id( rsetName );
@@ -531,7 +537,7 @@ public class DataExtractionTask extends EngineTask
 				IQueryResults results = null;
 				if(null == filterExpressions)
 				{
-					results = dataEngine.getQueryResults( rsetId );
+					results = dataSession.getQueryResults( rsetId );
 				}
 				else
 				{
@@ -554,7 +560,7 @@ public class DataExtractionTask extends EngineTask
 					// get new result
 					newQuery.setQueryResultsID( rsetId );
 					Scriptable scope = executionContext.getSharedScope( );
-					IPreparedQuery preparedQuery = dataEngine.prepare( newQuery);
+					IPreparedQuery preparedQuery = dataSession.prepare( newQuery);
 					results = preparedQuery.execute( scope );
 				}
 			
@@ -582,8 +588,7 @@ public class DataExtractionTask extends EngineTask
 		DataID dataId = iid.getDataID( );
 		DataSetID dataSetId = dataId.getDataSetID( );
 
-		DataEngine dataEngine = executionContext.getDataEngine( )
-				.getDataEngine( );
+		DataRequestSession dataSession = executionContext.getDataEngine( ).getDTESession( );
 		Scriptable scope = executionContext.getSharedScope( );
 		IResultIterator dataIter = null;
 		IBaseQueryDefinition query = null;
@@ -591,7 +596,7 @@ public class DataExtractionTask extends EngineTask
 		{
 			if(null == filterExpressions)
 			{
-				dataIter = getResultSetIterator( dataEngine, dataSetId, scope );
+				dataIter = getResultSetIterator( dataSession, dataSetId, scope );
 			}
 			else
 			{
@@ -599,10 +604,15 @@ public class DataExtractionTask extends EngineTask
 				//get query
 				long id = iid.getComponentID( );
 				ReportItemDesign design = (ReportItemDesign) report.getReportItemByID( id );
-				query = design.getQuery( );
-				if ( null == query )
+				IDataQueryDefinition dataQuery = design.getQuery( );
+				if ( ! ( dataQuery instanceof IBaseQueryDefinition ) )
 				{
+					//TODO: handle the cube query
 					return null;
+				}
+				else
+				{
+					query = (IBaseQueryDefinition)dataQuery;
 				}
 				
 				// add filter
@@ -624,10 +634,10 @@ public class DataExtractionTask extends EngineTask
 				String queryId = (String) queryIds.get( rootQuery );
 				String rsetId =  queryId2rsetId( queryId );
 				newRootQuery.setQueryResultsID( rsetId );
-				IPreparedQuery preparedQuery = dataEngine.prepare( newRootQuery);
+				IPreparedQuery preparedQuery = dataSession.prepare( newRootQuery);
 				IQueryResults rootResults = preparedQuery.execute( scope );
 				
-				dataIter = getFilterResultSetIterator( dataEngine, dataSetId, scope, rootResults );
+				dataIter = getFilterResultSetIterator( dataSession, dataSetId, scope, rootResults );
 			}
 		}
 		catch ( BirtException e )
@@ -666,7 +676,7 @@ public class DataExtractionTask extends EngineTask
 		IResultMetaData metaData = null;
 		long id = iid.getComponentID( );
 		ReportItemDesign design = (ReportItemDesign) report.getReportItemByID( id );
-		IBaseQueryDefinition query = design.getQuery( );
+		IDataQueryDefinition query = design.getQuery( );
 
 		if ( null == query )
 		{
@@ -682,7 +692,7 @@ public class DataExtractionTask extends EngineTask
 		return metaData;
 	}
 
-	private IResultIterator getResultSetIterator( DataEngine dataEngine,
+	private IResultIterator getResultSetIterator( DataRequestSession dataSession,
 			DataSetID dataSet, Scriptable scope ) throws BirtException
 	{
 		DataSetID parent = dataSet.getParentID( );
@@ -690,12 +700,12 @@ public class DataExtractionTask extends EngineTask
 		{
 			String rsetName = dataSet.getDataSetName( );
 			assert rsetName != null;
-			IQueryResults rset = dataEngine.getQueryResults( rsetName );
+			IQueryResults rset = dataSession.getQueryResults( rsetName );
 			return rset.getResultIterator( );
 		}
 		else
 		{
-			IResultIterator iter = getResultSetIterator( dataEngine, parent, scope );
+			IResultIterator iter = getResultSetIterator( dataSession, parent, scope );
 			long rowId = dataSet.getRowID( );
 			String queryName = dataSet.getQueryName( );
 			assert rowId != -1;
@@ -706,7 +716,7 @@ public class DataExtractionTask extends EngineTask
 		}
 	}
 	
-	private IResultIterator getFilterResultSetIterator( DataEngine dataEngine,
+	private IResultIterator getFilterResultSetIterator( DataRequestSession dataSession,
 			DataSetID dataSet, Scriptable scope, IQueryResults rset ) throws BirtException
 	{
 		DataSetID parent = dataSet.getParentID( );
@@ -716,7 +726,7 @@ public class DataExtractionTask extends EngineTask
 		}
 		else
 		{
-			IResultIterator iter = getFilterResultSetIterator( dataEngine, parent, scope, rset );
+			IResultIterator iter = getFilterResultSetIterator( dataSession, parent, scope, rset );
 			long rowId = dataSet.getRowID( );
 			String queryName = dataSet.getQueryName( );
 			assert rowId != -1;

@@ -6,7 +6,8 @@ import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IListBandContent;
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.data.IResultSet;
+import org.eclipse.birt.report.engine.extension.IQueryResultSet;
+import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.ir.BandDesign;
 import org.eclipse.birt.report.engine.ir.ListBandDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -22,17 +23,17 @@ public class ListBandExecutor extends StyledItemExecutor
 	
 	protected DataID getDataID( )
 	{
-		IResultSet curRset = getResultSet( );
-		if (curRset == null)
+		IQueryResultSet curRset = getResultSet( );
+		if ( curRset == null )
 		{
-			curRset = getParentResultSet( );
+			curRset = (IQueryResultSet) getParentResultSet( );
 		}
 		if ( curRset != null )
 		{
 			DataSetID dataSetID = curRset.getID( );
-			long position = curRset.getCurrentPosition( );
+			long position = curRset.getRowIndex( );
 			return new DataID( dataSetID, position );
-		}		
+		}
 		return null;
 	}
 

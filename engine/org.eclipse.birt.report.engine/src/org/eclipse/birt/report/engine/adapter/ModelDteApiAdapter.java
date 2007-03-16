@@ -25,7 +25,6 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
-import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
@@ -59,6 +58,7 @@ import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSourceEventHandler;
 import org.eclipse.birt.data.engine.api.script.IScriptDataSetEventHandler;
 import org.eclipse.birt.data.engine.api.script.IScriptDataSourceEventHandler;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
@@ -105,7 +105,7 @@ public class ModelDteApiAdapter
 
 	private Scriptable jsScope;
 	
-	private DataEngine dteEngine;
+	private DataRequestSession dteSession;
 
 	/**
 	 * @deprecated Construct an instance of this class directly
@@ -219,12 +219,12 @@ public class ModelDteApiAdapter
 	 * @param dteEngine
 	 * @throws BirtException
 	 */
-	public void defineDataSet( DataSetHandle dataSet, DataEngine dteEngine )
+	public void defineDataSet( DataSetHandle dataSet, DataRequestSession dteSession )
 			throws BirtException
 	{
-		if ( dataSet == null || dteEngine == null )
+		if ( dataSet == null || dteSession == null )
 			return;
-		this.dteEngine = dteEngine;
+		this.dteSession = dteSession;
 		DataSourceHandle dataSource = dataSet.getDataSource( );
 		if ( dataSource != null )
 		{
@@ -241,7 +241,7 @@ public class ModelDteApiAdapter
 	private void doDefineDataSource( DataSourceHandle dataSource )
 			throws BirtException
 	{
-		dteEngine.defineDataSource( createDataSourceDesign( dataSource ) );
+		dteSession.defineDataSource( createDataSourceDesign( dataSource ) );
 	}
 
 	/**
@@ -271,7 +271,7 @@ public class ModelDteApiAdapter
 			}
 
 		}
-		dteEngine.defineDataSet( createDataSetDesign( dataSet ) );
+		dteSession.defineDataSet( createDataSetDesign( dataSet ) );
 	}
 
 	/**

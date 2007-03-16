@@ -16,8 +16,8 @@ import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
-import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
-import org.eclipse.birt.report.engine.executor.ReportItemExecutorBase;
+import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
+import org.eclipse.birt.report.engine.extension.ReportItemExecutorBase;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 

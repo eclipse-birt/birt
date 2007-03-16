@@ -5,7 +5,8 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.data.IResultSet;
+import org.eclipse.birt.report.engine.extension.IQueryResultSet;
+import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.ir.BandDesign;
 import org.eclipse.birt.report.engine.ir.GroupDesign;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
@@ -14,6 +15,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 abstract public class GroupExecutor extends ReportItemExecutor
 {
+
 	boolean endOfGroup;
 	boolean hiddenDetail;
 	boolean needPageBreak;
@@ -24,21 +26,21 @@ abstract public class GroupExecutor extends ReportItemExecutor
 	{
 		super( manager );
 	}
-	
+
 	protected DataID getDataID( )
 	{
-		//FIXME: overide the getDataId from the reportItemExecutor.
-		IResultSet curRset = getResultSet( );
-		if (curRset == null)
+		// FIXME: overide the getDataId from the reportItemExecutor.
+		IQueryResultSet curRset = getResultSet( );
+		if ( curRset == null )
 		{
-			curRset = getParentResultSet( );
+			curRset = (IQueryResultSet) getParentResultSet( );
 		}
 		if ( curRset != null )
 		{
 			DataSetID dataSetID = curRset.getID( );
-			long position = curRset.getCurrentPosition( );
+			long position = curRset.getRowIndex( );
 			return new DataID( dataSetID, position );
-		}		
+		}
 		return null;
 	}
 
@@ -50,14 +52,14 @@ abstract public class GroupExecutor extends ReportItemExecutor
 		needPageBreak = false;
 		listingExecutor = null;
 	}
-	
-	void setLisingExecutor(ListingElementExecutor executor)
+
+	void setLisingExecutor( ListingElementExecutor executor )
 	{
 		listingExecutor = executor;
 		rset = listingExecutor.rset;
 	}
-	
-	public boolean hasNextChild()
+
+	public boolean hasNextChild( )
 	{
 		if ( currentElement < totalElements )
 		{
@@ -67,13 +69,13 @@ abstract public class GroupExecutor extends ReportItemExecutor
 		{
 			return false;
 		}
-		
+
 		try
 		{
 			// FIXME: is it right? (hiden detail)
 			while ( !endOfGroup )
 			{
-				IResultSet rset = listingExecutor.getResultSet( );
+				IQueryResultSet rset = listingExecutor.getResultSet( );
 				GroupDesign groupDesign = (GroupDesign) getDesign( );
 				int endGroup = rset.getEndingGroupLevel( );
 				int groupLevel = groupDesign.getGroupLevel( ) + 1;
@@ -106,7 +108,7 @@ abstract public class GroupExecutor extends ReportItemExecutor
 		}
 		return false;
 	}
-	
+
 	public IReportItemExecutor getNextChild( )
 	{
 		if ( hasNextChild( ) )
@@ -116,10 +118,10 @@ abstract public class GroupExecutor extends ReportItemExecutor
 
 			ReportItemExecutor nextExecutor = manager.createExecutor( this,
 					nextDesign );
-			
-			if (nextExecutor instanceof GroupExecutor )
+
+			if ( nextExecutor instanceof GroupExecutor )
 			{
-				GroupExecutor groupExecutor = (GroupExecutor)nextExecutor;
+				GroupExecutor groupExecutor = (GroupExecutor) nextExecutor;
 				groupExecutor.setLisingExecutor( listingExecutor );
 			}
 
@@ -127,22 +129,22 @@ abstract public class GroupExecutor extends ReportItemExecutor
 		}
 		return null;
 	}
-	
-	//bands to be execute in current row.
+
+	// bands to be execute in current row.
 	ReportItemDesign[] executableElements = new ReportItemDesign[3];
-	//total bands in the executabelBands
+	// total bands in the executabelBands
 	int totalElements;
-	//band to be executed
+	// band to be executed
 	int currentElement;
-	
-	protected void prepareToExecuteChildren() 
+
+	protected void prepareToExecuteChildren( )
 	{
 		// prepare the bands to be executed.
 		collectExecutableElements( );
 		// clear the duplicate flags in the group
 		clearDuplicateFlags( );
 	}
-	
+
 	void collectExecutableElements( )
 	{
 		currentElement = 0;
@@ -153,7 +155,7 @@ abstract public class GroupExecutor extends ReportItemExecutor
 		{
 			ListingDesign listingDesign = (ListingDesign) listingExecutor
 					.getDesign( );
-			IResultSet rset = listingExecutor.getResultSet( );
+			IQueryResultSet rset = listingExecutor.getResultSet( );
 			GroupDesign groupDesign = (GroupDesign) getDesign( );
 			int groupCount = listingDesign.getGroupCount( );
 			// compare with the start group, the start group
@@ -209,7 +211,7 @@ abstract public class GroupExecutor extends ReportItemExecutor
 			context.addException( ex );
 		}
 	}
-	
+
 	/**
 	 * handle the page-break-before of group. AUTO:
 	 * page-break-always-excluding_fist for top level group, none for others.
@@ -265,13 +267,12 @@ abstract public class GroupExecutor extends ReportItemExecutor
 			if ( DesignChoiceConstants.PAGE_BREAK_INSIDE_AVOID
 					.equals( pageBreakInside ) )
 			{
-				content.getStyle( ).setProperty( IStyle.STYLE_PAGE_BREAK_INSIDE,
-						IStyle.AVOID_VALUE );
+				content.getStyle( ).setProperty(
+						IStyle.STYLE_PAGE_BREAK_INSIDE, IStyle.AVOID_VALUE );
 			}
 		}
 	}
-	
-	
+
 	protected void handlePageBreakAfterOfGroup( )
 	{
 		boolean needPageBreak = false;
@@ -291,23 +292,25 @@ abstract public class GroupExecutor extends ReportItemExecutor
 			}
 		}
 	}
-	
+
 	protected void handlePageBreakAfter( )
 	{
-//		if(IStyle.ALWAYS_VALUE.equals( content.getStyle( ).getProperty( IStyle.STYLE_PAGE_BREAK_AFTER) ))
-//		{
-//			listingExecutor.clearSoftBreak( );
-//		}
+		// if(IStyle.ALWAYS_VALUE.equals( content.getStyle( ).getProperty(
+		// IStyle.STYLE_PAGE_BREAK_AFTER) ))
+		// {
+		// listingExecutor.clearSoftBreak( );
+		// }
 	}
-	
-	protected void handlePageBreakBefore()
+
+	protected void handlePageBreakBefore( )
 	{
-//		if(IStyle.ALWAYS_VALUE.equals( content.getStyle( ).getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE) ))
-//		{
-//			listingExecutor.clearSoftBreak( );
-//		}
+		// if(IStyle.ALWAYS_VALUE.equals( content.getStyle( ).getProperty(
+		// IStyle.STYLE_PAGE_BREAK_BEFORE) ))
+		// {
+		// listingExecutor.clearSoftBreak( );
+		// }
 	}
-	
+
 	protected void handlePageBreakAfterExclusingLast( )
 	{
 		try
@@ -333,43 +336,45 @@ abstract public class GroupExecutor extends ReportItemExecutor
 			context.addException( ex );
 		}
 	}
-	
+
 	protected void handlePageBreakAfterOfPreviousGroup( )
 	{
-		if (parent instanceof GroupExecutor)
+		if ( parent instanceof GroupExecutor )
 		{
-			GroupExecutor pGroup = (GroupExecutor)parent; 
-			if (pGroup.needPageBreak)
+			GroupExecutor pGroup = (GroupExecutor) parent;
+			if ( pGroup.needPageBreak )
 			{
-				content.getStyle( ).setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE, IStyle.ALWAYS_VALUE);
+				content.getStyle( ).setProperty(
+						IStyle.STYLE_PAGE_BREAK_BEFORE, IStyle.ALWAYS_VALUE );
 				pGroup.needPageBreak = false;
 			}
 		}
-		else if (parent instanceof ListingElementExecutor)
+		else if ( parent instanceof ListingElementExecutor )
 		{
-			ListingElementExecutor pList = (ListingElementExecutor)parent;
-			if (pList.needPageBreak)
+			ListingElementExecutor pList = (ListingElementExecutor) parent;
+			if ( pList.needPageBreak )
 			{
-				content.getStyle( ).setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE, IStyle.ALWAYS_VALUE);
+				content.getStyle( ).setProperty(
+						IStyle.STYLE_PAGE_BREAK_BEFORE, IStyle.ALWAYS_VALUE );
 				pList.needPageBreak = false;
 			}
 		}
 	}
-	
-	protected void setPageBreakBeforeForNextGroup()
+
+	protected void setPageBreakBeforeForNextGroup( )
 	{
-		if (parent instanceof GroupExecutor)
+		if ( parent instanceof GroupExecutor )
 		{
-			GroupExecutor pGroup = (GroupExecutor)parent; 
+			GroupExecutor pGroup = (GroupExecutor) parent;
 			pGroup.needPageBreak = true;
 		}
-		else if (parent instanceof ListingElementExecutor)
+		else if ( parent instanceof ListingElementExecutor )
 		{
-			ListingElementExecutor pList = (ListingElementExecutor)parent;
+			ListingElementExecutor pList = (ListingElementExecutor) parent;
 			pList.needPageBreak = true;
 		}
 	}
-	
+
 	protected void clearDuplicateFlags( )
 	{
 		GroupDesign groupDesign = (GroupDesign) getDesign( );

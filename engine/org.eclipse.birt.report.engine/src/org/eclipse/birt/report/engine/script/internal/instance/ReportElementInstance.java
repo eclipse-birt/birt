@@ -18,8 +18,8 @@ import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.instance.IReportElementInstance;
 import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -223,7 +223,7 @@ public class ReportElementInstance implements IReportElementInstance
 				if ( handle instanceof ReportItemHandle )
 				{
 					// get the current data set
-					IResultSet rset = context.getResultSet( );
+					IBaseResultSet rset = context.getResultSet( );
 					// using the handle and the rste to create the row data.
 					rowData = new RowData( rset, (ReportItemHandle) handle );
 					return rowData;

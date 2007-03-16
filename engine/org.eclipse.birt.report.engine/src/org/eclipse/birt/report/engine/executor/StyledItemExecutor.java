@@ -48,6 +48,11 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	{
 		super( manager );
 	}
+	
+	protected StyledItemExecutor()
+	{
+		super();
+	}
 
 	/**
 	 * Gets the style from the original design object, calculates the highlight

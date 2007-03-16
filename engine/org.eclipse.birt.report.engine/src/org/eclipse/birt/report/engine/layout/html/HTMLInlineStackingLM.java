@@ -16,7 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
-import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
+import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.ILayoutManager;
 
 public abstract class HTMLInlineStackingLM extends HTMLStackingLM

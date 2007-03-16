@@ -25,6 +25,8 @@ public class DataID
 	 * id of the row.
 	 */
 	protected long rowId;
+	
+	protected String cellId;
 
 	/**
 	 * creat the new data id instance.
@@ -38,6 +40,12 @@ public class DataID
 	{
 		this.dataSet = dataSet;
 		this.rowId = rowId;
+	}
+
+	public DataID( DataSetID dataSet, String cellId )
+	{
+		this.dataSet = dataSet;
+		this.cellId = cellId;
 	}
 
 	/**
@@ -58,6 +66,11 @@ public class DataID
 	public long getRowID( )
 	{
 		return rowId;
+	}
+	
+	public String getCellID()
+	{
+		return cellId;
 	}
 
 	/**
@@ -108,7 +121,6 @@ public class DataID
 			// we found the row Id
 			String strRowId = new String( buffer, ptr + 1, offset + length
 					- ptr - 1 );
-			long rowId = Long.parseLong( strRowId );
 			ptr--; // skip the current ':'
 			if ( ptr >= offset )
 			{
@@ -116,7 +128,16 @@ public class DataID
 						- offset + 1 );
 				if ( dataSetId != null )
 				{
-					return new DataID( dataSetId, rowId );
+					try
+					{
+						long rowId = Long.parseLong( strRowId );
+						return new DataID( dataSetId, rowId );
+					}
+					catch ( Exception ex )
+					{
+						
+					}
+					return new DataID( dataSetId, strRowId );
 				}
 			}
 		}

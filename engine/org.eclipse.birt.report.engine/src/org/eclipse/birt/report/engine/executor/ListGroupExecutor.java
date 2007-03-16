@@ -4,6 +4,7 @@ package org.eclipse.birt.report.engine.executor;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IListGroupContent;
+import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.ir.ListGroupDesign;
 
 public class ListGroupExecutor extends GroupExecutor

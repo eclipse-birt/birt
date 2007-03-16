@@ -14,8 +14,9 @@ package org.eclipse.birt.report.engine.executor;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
-import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 
 /**
@@ -87,15 +88,15 @@ public class DataItemExecutor extends QueryItemExecutor
 		processVisibility( dataDesign, dataContent );
 		
 		Object value = null;
-		IResultSet rset = context.getResultSet( );
-		if ( rset != null )
+		IBaseResultSet rset = context.getResultSet( );
+		if ( rset != null && rset.getType( ) == IBaseResultSet.QUERY_RESULTSET)
 		{
 			String bindingColumn = dataDesign.getBindingColumn( );
 			if ( bindingColumn != null )
 			{
 				try
 				{
-					value = rset.getValue( bindingColumn );
+					value = ( (IQueryResultSet) rset ).getValue( bindingColumn );
 				}
 				catch ( BirtException ex )
 				{

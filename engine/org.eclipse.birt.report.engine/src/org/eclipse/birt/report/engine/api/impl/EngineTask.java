@@ -25,8 +25,8 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderContext;
@@ -381,9 +381,9 @@ public abstract class EngineTask implements IEngineTask
 		return this.emitterID;
 	}
 	
-	public DataEngine getDataEngine( )
+	public DataRequestSession getDataSession( )
 	{
-		return executionContext.getDataEngine( ).getDataEngine( );
+		return executionContext.getDataEngine( ).getDTESession( );
 	}
 
 	/*

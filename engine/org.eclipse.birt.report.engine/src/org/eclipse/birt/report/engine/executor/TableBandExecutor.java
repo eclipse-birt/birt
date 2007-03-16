@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.executor;
 
@@ -6,7 +16,8 @@ import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
-import org.eclipse.birt.report.engine.data.IResultSet;
+import org.eclipse.birt.report.engine.extension.IQueryResultSet;
+import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.ir.TableBandDesign;
 import org.w3c.dom.css.CSSValue;
@@ -22,15 +33,15 @@ public class TableBandExecutor extends StyledItemExecutor
 	protected DataID getDataID( )
 	{
 		//FIXME: overide the getDataId from the reportItemExecutor.
-		IResultSet curRset = getResultSet( );
-		if (curRset == null)
+		IQueryResultSet curRset = getResultSet( );
+		if ( curRset == null )
 		{
-			curRset = getParentResultSet( );
+			curRset = (IQueryResultSet) getParentResultSet( );
 		}
 		if ( curRset != null )
 		{
 			DataSetID dataSetID = curRset.getID( );
-			long position = curRset.getCurrentPosition( );
+			long position = curRset.getRowIndex( );
 			return new DataID( dataSetID, position );
 		}		
 		return null;

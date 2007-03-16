@@ -19,7 +19,8 @@ import java.util.regex.Pattern;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.script.IRowData;
 import org.eclipse.birt.report.engine.api.script.ScriptException;
-import org.eclipse.birt.report.engine.data.IResultSet;
+import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 
@@ -37,7 +38,7 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 public class RowData implements IRowData
 {
 
-	private IResultSet rset;
+	private IBaseResultSet rset;
 	private ArrayList bindingNames = new ArrayList( );
 
 	private static final Pattern rowWithIndex = Pattern.compile( "(row\\[\\d+\\])",
@@ -46,7 +47,7 @@ public class RowData implements IRowData
 	private static final Pattern rowWithWord = Pattern.compile( "(row\\[\\w+\\])",
 			Pattern.CASE_INSENSITIVE );
 
-	public RowData( IResultSet rset, ReportItemHandle element )
+	public RowData( IBaseResultSet rset, ReportItemHandle element )
 	{
 		this.rset = rset;
 		// intialize the bindings and bindingNames
@@ -86,7 +87,16 @@ public class RowData implements IRowData
 			throws ScriptException
 	{
 		expression = process( expression );
-		return rset.evaluate( expression );
+		try
+		{
+			return rset.evaluate( expression );
+		}
+		catch ( BirtException e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	/**
@@ -137,7 +147,17 @@ public class RowData implements IRowData
 	{
 		try
 		{
-			return rset.getValue( name );
+			if ( rset != null )
+			{
+				if ( rset.getType( ) == IBaseResultSet.QUERY_RESULTSET )
+				{
+					return ( (IQueryResultSet) rset ).getValue( name );
+				}
+				else
+				{
+					// FIXME: if the rset is ICubeResultSet
+				}
+			}
 		}
 		catch ( BirtException e )
 		{

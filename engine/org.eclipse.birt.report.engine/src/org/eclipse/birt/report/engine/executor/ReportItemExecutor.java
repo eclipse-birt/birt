@@ -26,8 +26,11 @@ import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.impl.Column;
-import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.engine.extension.IExecutorContext;
+import org.eclipse.birt.report.engine.extension.IQueryResultSet;
+import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.ir.ActionDesign;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DrillThroughActionDesign;
@@ -52,7 +55,7 @@ import org.eclipse.birt.report.engine.toc.TOCEntry;
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
  */
-public abstract class ReportItemExecutor extends ReportItemExecutorBase
+public abstract class ReportItemExecutor implements IReportItemExecutor
 {
 
 	/**
@@ -94,7 +97,7 @@ public abstract class ReportItemExecutor extends ReportItemExecutorBase
 	/**
 	 * rset used to execute the parent
 	 */
-	protected IResultSet rset;
+	protected IQueryResultSet rset;
 	
 	/**
 	 * toc created by this report item
@@ -105,6 +108,21 @@ public abstract class ReportItemExecutor extends ReportItemExecutorBase
 	 * 
 	 */
 	protected OnCreateScriptVisitor onCreateVisitor;
+
+	/**
+	 * IExecutorContext
+	 */
+	protected IExecutorContext executorContext;
+
+	/**
+	 * model handle
+	 */
+	protected Object handle;
+
+	/**
+	 * parent executor
+	 */
+	protected IReportItemExecutor parent;
 
 	/**
 	 * construct a report item executor by giving execution context and report
@@ -122,6 +140,40 @@ public abstract class ReportItemExecutor extends ReportItemExecutorBase
 		this.context = manager.context;
 		this.report = context.getReportContent( );
 		this.onCreateVisitor = new OnCreateScriptVisitor( context );
+	}
+	
+	protected ReportItemExecutor(  )
+	{
+	}
+	
+	public void setContext( IExecutorContext context )
+	{
+		this.executorContext = context;
+	}
+
+	public void setModelObject( Object handle )
+	{
+		this.handle = handle;
+	}
+
+	public void setParent( IReportItemExecutor parent )
+	{
+		this.parent = parent;
+	}
+
+	public IExecutorContext getContext( )
+	{
+		return executorContext;
+	}
+
+	public Object getModelObject( )
+	{
+		return handle;
+	}
+
+	public IReportItemExecutor getParent( )
+	{
+		return parent;
 	}
 
 	/**
@@ -470,11 +522,11 @@ public abstract class ReportItemExecutor extends ReportItemExecutorBase
 	
 	protected DataID getDataID( )
 	{
-		IResultSet curRset = getResultSet( );
+		IQueryResultSet curRset = getResultSet( );
 		if ( curRset != null )
 		{
 			DataSetID dataSetID = curRset.getID( );
-			long position = curRset.getCurrentPosition( );
+			long position = curRset.getRowIndex( );
 			return new DataID( dataSetID, position );
 		}
 		return null;
@@ -594,32 +646,36 @@ public abstract class ReportItemExecutor extends ReportItemExecutorBase
 		}
 	}
 	
-	void setResultSet(IResultSet rset)
+	void setResultSet(IQueryResultSet rset)
 	{
 		this.rset = rset;
 	}
 	
-	IResultSet getResultSet()
+	IQueryResultSet getResultSet()
 	{
 		return rset;
 	}
 	
-	public IResultSet[] getResultSets()
+	public IBaseResultSet[] getQueryResults( )
 	{
-		return new IResultSet[]{ rset };
+		if ( rset != null )
+		{
+			return new IBaseResultSet[]{rset};
+		}
+		return null;
 	}
 	
-	IResultSet getParentResultSet()
+	IBaseResultSet getParentResultSet( )
 	{
-		if (parent instanceof ReportItemExecutor)
+		IReportItemExecutor pExecutor = parent;
+		while ( pExecutor != null )
 		{
-			ReportItemExecutor parentExecutor = (ReportItemExecutor)parent;
-			IResultSet rset = parentExecutor.getResultSet( );
-			if (rset == null)
+			IBaseResultSet[] rsets = pExecutor.getQueryResults( );
+			if ( rsets != null && rsets.length > 0 )
 			{
-				rset = parentExecutor.getParentResultSet( );
+				return rsets[0];
 			}
-			return rset;
+			pExecutor = pExecutor.getParent( );
 		}
 		return null;
 	}

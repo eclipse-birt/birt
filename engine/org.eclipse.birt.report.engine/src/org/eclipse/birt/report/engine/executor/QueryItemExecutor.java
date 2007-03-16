@@ -2,9 +2,10 @@
 package org.eclipse.birt.report.engine.executor;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
-import org.eclipse.birt.report.engine.data.IResultSet;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 
 abstract public class QueryItemExecutor extends StyledItemExecutor
@@ -14,6 +15,10 @@ abstract public class QueryItemExecutor extends StyledItemExecutor
 	protected QueryItemExecutor( ExecutorManager manager )
 	{
 		super( manager );
+	}
+	
+	protected QueryItemExecutor( )
+	{
 	}
 
 	/**
@@ -51,14 +56,15 @@ abstract public class QueryItemExecutor extends StyledItemExecutor
 	protected void executeQuery( )
 	{
 		rset = null;
-		IBaseQueryDefinition query = design.getQuery( );
-		IResultSet parentRset = getParentResultSet( );
+		IDataQueryDefinition query = design.getQuery( );
+		IBaseResultSet parentRset = getParentResultSet( );
 		context.setResultSet( parentRset );
 		if ( query != null )
 		{
 			try
 			{
-				rset = context.executeQuery( parentRset, query );
+				rset = (IQueryResultSet) context.executeQuery( parentRset,
+						query );
 				if ( rset != null )
 				{
 					rsetEmpty = !rset.next( );

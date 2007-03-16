@@ -1,8 +1,8 @@
 package org.eclipse.birt.report.engine.layout.content;
 
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
-import org.eclipse.birt.report.engine.executor.ReportItemExecutorBase;
+import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
+import org.eclipse.birt.report.engine.extension.ReportItemExecutorBase;
 
 
 public class ItemExecutorWrapper extends ReportItemExecutorBase
