@@ -338,7 +338,9 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 			{
 				int spacing = height - child.getAllocatedHeight( );
 				assert ( spacing >= 0 );
-				if ( CSSConstants.CSS_BOTTOM_VALUE.equalsIgnoreCase( vAlign ))
+				if ( CSSConstants.CSS_BOTTOM_VALUE.equalsIgnoreCase( vAlign )
+						|| CSSConstants.CSS_BASELINE_VALUE
+								.equalsIgnoreCase( vAlign ) )
 				{
 					child.setPosition( child.getX( ), spacing + child.getY( ) );
 				}
