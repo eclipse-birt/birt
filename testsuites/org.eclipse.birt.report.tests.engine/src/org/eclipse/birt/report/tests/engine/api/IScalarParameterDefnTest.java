@@ -104,7 +104,7 @@ public class IScalarParameterDefnTest extends EngineCase
 	{
 		scalarDefn = (IScalarParameterDefn) paramTask
 				.getParameterDefn( "p_allowbn" );
-		assertFalse( "AllowBlank method failed", scalarDefn.allowBlank( ) );
+		assertTrue( "AllowBlank method failed", scalarDefn.allowBlank( ) );
 
 		scalarDefn = (IScalarParameterDefn) paramTask
 				.getParameterDefn( "p_string" );

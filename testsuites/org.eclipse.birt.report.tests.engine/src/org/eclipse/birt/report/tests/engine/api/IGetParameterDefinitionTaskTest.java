@@ -19,6 +19,8 @@ import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
 
 import org.eclipse.birt.report.tests.engine.EngineCase;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * <b>IGetParameterDefinitionTask API</b>
  * <p>
@@ -53,6 +55,7 @@ public class IGetParameterDefinitionTaskTest extends EngineCase
 		copyResource_INPUT( name, name );
 		IReportRunnable reportRunnable = engine.openReportDesign( input );
 		task = engine.createGetParameterDefinitionTask( reportRunnable );
+		task.setLocale(ULocale.ENGLISH);
 		assertTrue( task.getErrors( ).size( ) == 0 );
 	}
 
@@ -269,7 +272,7 @@ public class IGetParameterDefinitionTaskTest extends EngineCase
 		// Cascading parameters with multiple datasets
 		selist = (ArrayList) task.getSelectionList( "p61_country" );
 		se = (IParameterSelectionChoice) selist.get( 0 );
-		assertEquals( "Australia", se.getValue( ).toString( ) );
+		assertEquals( "USA", se.getValue( ).toString( ) );
 		task.setValue( "p61_country", "UK" );
 
 		selist = (ArrayList) task.getSelectionList( "p62_customernumber" );
