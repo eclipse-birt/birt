@@ -20,6 +20,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.AddDimensionViewHandleCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.AddMeasureViewHandleCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.CrosstabCellCreateCommand;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.CrosstabFlowMoveChildCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.CrosstabPasterCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabTableEditPart;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
@@ -119,5 +120,24 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 		return new CrosstabPasterCommand( (DesignElementHandle) DNDUtil.unwrapToModel( source ),
 				(DesignElementHandle) DNDUtil.unwrapToModel( parentObj ),
 				(DesignElementHandle) DNDUtil.unwrapToModel( afterObj ) );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.editpolicies.OrderedLayoutEditPolicy#createMoveChildCommand(org.eclipse.gef.EditPart,
+	 *      org.eclipse.gef.EditPart)
+	 */
+	protected Command createMoveChildCommand( EditPart child, EditPart after )
+	{
+		Object afterModel = null;
+		if ( after != null )
+		{
+			afterModel = after.getModel( );
+		}
+		CrosstabFlowMoveChildCommand command = new CrosstabFlowMoveChildCommand( child.getModel( ),
+				afterModel,
+				child.getParent( ).getModel( ) );
+		return command;
 	}
 }

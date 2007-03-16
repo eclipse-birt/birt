@@ -476,6 +476,32 @@ public class DEUtil
 
 		return slotID;
 	}
+	
+	/**
+	 * Get the slot id of child If the slot id was not found, returns the
+	 * default slot id
+	 * 
+	 * @param parent
+	 * @param child
+	 * @return slot id
+	 */
+	public static String getContentProperty( Object parent, Object child )
+	{
+		assert parent instanceof DesignElementHandle;
+
+		String  retValue = "";
+
+		if ( child != null )
+		{
+			retValue = ((DesignElementHandle)child).getContainerPropertyHandle( ).getDefn( ).getName( );
+		}
+		else
+		{
+			retValue = getDefaultContentName( parent );
+		}
+
+		return retValue;
+	}
 
 	/**
 	 * Find the position of the element. If the element is null, the position is
