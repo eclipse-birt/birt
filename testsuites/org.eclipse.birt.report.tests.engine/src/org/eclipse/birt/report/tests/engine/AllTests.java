@@ -13,17 +13,15 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.tests.engine.api.AllApiTests;
-import org.eclipse.birt.report.tests.engine.regression.AllRegressionTests;
-import org.eclipse.birt.report.tests.engine.smoke.AllSmokeTests;
 
 public class AllTests
 {
 	public static Test suite( )
 	{
 		TestSuite test = new TestSuite( );
-		test.addTest( AllRegressionTests.suite( ) );
+//		test.addTest( AllRegressionTests.suite( ) );
 //		test.addTest( AllCompatibilityTests.suite( ) );
-		test.addTest( AllSmokeTests.suite( ) );
+//		test.addTest( AllSmokeTests.suite( ) );
 		test.addTest( AllApiTests.suite( ) );
 		return test;
 	}
