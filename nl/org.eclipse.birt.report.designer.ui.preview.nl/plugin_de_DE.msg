@@ -5,8 +5,8 @@ designer.preview.previewtoolbarmenuaction.label=Bericht anzeigen
 designer.preview.previewcascadingmenugroup.label=Bericht anzeigen
 ActionSet.Preview=Vorschau
 
-template.preview=Vorschau
-design.preview=Vorschau
+template.preview=New Preview Prototype
+design.preview=New Preview Prototype
 
 preference.preview=Vorschau
 preference.preview.server=Vorschau-Server

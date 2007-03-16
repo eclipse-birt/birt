@@ -5,8 +5,8 @@ designer.preview.previewtoolbarmenuaction.label=Ver informe
 designer.preview.previewcascadingmenugroup.label=Ver informe
 ActionSet.Preview=Vista previa
 
-template.preview=Vista previa
-design.preview=Vista previa
+template.preview=New Preview Prototype
+design.preview=New Preview Prototype
 
 preference.preview=Vista previa
 preference.preview.server=Servidor de vista previa
