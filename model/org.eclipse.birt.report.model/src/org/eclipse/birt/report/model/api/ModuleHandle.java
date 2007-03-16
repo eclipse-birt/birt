@@ -2383,7 +2383,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	{
 		StyleSheetLoader loader = new StyleSheetLoader( );
 		CssStyleSheet sheet = loader.load( module, fileName );
-		sheet.setFileName( fileName );
+		URL url = module.findResource( fileName ,
+				IResourceLocator.CASCADING_STYLE_SHEET );
+		sheet.setFileName( url.getFile( ) );
 		return sheet.handle( module );
 	}
 

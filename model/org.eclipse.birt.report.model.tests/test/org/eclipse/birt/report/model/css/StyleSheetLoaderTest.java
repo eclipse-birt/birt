@@ -64,14 +64,16 @@ public class StyleSheetLoaderTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	
+
 	public void testCssStyleSheetFileName( ) throws Exception
 	{
 		openDesign( "BlankStyleSheetLoaderTest.xml" ); //$NON-NLS-1$
-		
+
 		fileName = "base.css"; //$NON-NLS-1$
-		CssStyleSheetHandle sheetHandle = designHandle.openCssStyleSheet( fileName );
-		assertEquals( "base.css", sheetHandle.getFileName( ) ); //$NON-NLS-1$
+		CssStyleSheetHandle sheetHandle = designHandle
+				.openCssStyleSheet( fileName );
+		assertEquals(
+				"/org/eclipse/birt/report/model/css/input/base.css", sheetHandle.getFileName( ) ); //$NON-NLS-1$
 
 	}
 
