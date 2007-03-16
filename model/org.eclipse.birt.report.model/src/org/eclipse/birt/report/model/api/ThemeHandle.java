@@ -68,39 +68,41 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 	{
 		return getSlot( IThemeModel.STYLES_SLOT );
 	}
-	
+
 	/**
 	 * Gets all styles in theme,include css file.
+	 * 
 	 * @return all styles.each item is <code>StyleHandle</code>
 	 */
-	
-	public List getAllStyles()
+
+	public List getAllStyles( )
 	{
 		Theme theme = (Theme) getElement( );
-		List styles = new ArrayList();
+		List styles = new ArrayList( );
 		List styleList = theme.getAllStyles( );
 		Iterator iter = styleList.iterator( );
-		while( iter.hasNext( ) )
+		while ( iter.hasNext( ) )
 		{
-			StyleElement style = (StyleElement)iter.next( );
+			StyleElement style = (StyleElement) iter.next( );
 			styles.add( style.getHandle( module ) );
 		}
 		return styles;
 	}
-	
+
 	/**
-	 * Gets all css styles sheet 
+	 * Gets all css styles sheet
+	 * 
 	 * @return each item is <code>CssStyleSheetHandle</code>
 	 */
-	
-	public List getAllCssStyleSheets() 
+
+	public List getAllCssStyleSheets( )
 	{
-		Theme theme = (Theme)getElement();
-		List allStyles = new ArrayList();
+		Theme theme = (Theme) getElement( );
+		List allStyles = new ArrayList( );
 		List csses = theme.getCsses( );
-		for( int i =0; csses!= null && i< csses.size( ) ; ++ i )
+		for ( int i = 0; csses != null && i < csses.size( ); ++i )
 		{
-			CssStyleSheet sheet = (CssStyleSheet)csses.get(i);
+			CssStyleSheet sheet = (CssStyleSheet) csses.get( i );
 			allStyles.add( sheet.handle( getModule( ) ) );
 		}
 		return allStyles;
@@ -145,23 +147,23 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 			set.add( style.getName( ) );
 		}
 
-		//Should different from css file name 
-		
+		// Should different from css file name
+
 		PropertyHandle propHandle = getPropertyHandle( IThemeModel.CSSES_PROP );
 		Iterator iterator = propHandle.iterator( );
-		while( iterator.hasNext() )
+		while ( iterator.hasNext( ) )
 		{
-			CssStyleSheetHandle handle = (CssStyleSheetHandle)iterator.next( );
+			CssStyleSheetHandle handle = (CssStyleSheetHandle) iterator.next( );
 			set.add( handle.getFileName( ) );
 		}
-		
+
 		// Add a numeric suffix that makes the name unique.
 
 		int index = 0;
 		String baseName = name;
 		while ( set.contains( name ) )
 		{
-			name = baseName + ++index; 
+			name = baseName + ++index;
 		}
 		return name;
 	}
@@ -201,8 +203,8 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 	}
 
 	/**
-	 * Includes one css with the given css file name. The new css
-	 * will be appended to the css list.
+	 * Includes one css with the given css file name. The new css will be
+	 * appended to the css list.
 	 * 
 	 * @param fileName
 	 *            css file name
@@ -213,31 +215,32 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 	 *             <code>IncludeCssStyleSheet</code> structure list.
 	 */
 
-	public void addCss( String fileName )
-			throws DesignFileException, SemanticException
+	public void addCss( String fileName ) throws SemanticException
 	{
-		CssCommand command = new CssCommand( module , getElement( ) );
+		CssCommand command = new CssCommand( module, getElement( ) );
 		command.addCss( fileName );
 	}
 
 	/**
-	 * Drops the given css from the included css style sheets of this design file.
+	 * Drops the given css from the included css style sheets of this design
+	 * file.
 	 * 
 	 * @param cssHandle
 	 *            the css to drop
 	 * @throws SemanticException
 	 *             if error is encountered when handling
-	 *             <code>IncludeCssStyleSheet</code> structure list. Or it maybe
-	 *             because that the given css is not found in the design. Or
-	 *             that the css has descedents in the current module
+	 *             <code>IncludeCssStyleSheet</code> structure list. Or it
+	 *             maybe because that the given css is not found in the design.
+	 *             Or that the css has descedents in the current module
 	 */
 
-	public void dropCss( IncludedCssStyleSheetHandle cssHandle ) throws SemanticException
+	public void dropCss( IncludedCssStyleSheetHandle cssHandle )
+			throws SemanticException
 	{
 		if ( cssHandle == null )
 			return;
-		
-		CssCommand command = new CssCommand( module , getElement( ) );
+
+		CssCommand command = new CssCommand( module, getElement( ) );
 		command.dropCss( cssHandle.getFileName( ) );
 	}
 
@@ -245,46 +248,39 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 	 * Reloads all css style sheets this module included.
 	 * 
 	 * @throws SemanticException
-	 * @throws DesignFileException
 	 */
 
-//	public void reloadCsses( ) throws SemanticException,
-//			DesignFileException
-//	{
-//		List csses = getListProperty( IThemeModel.CSSES_PROP );
-//		if ( csses == null || csses.isEmpty( ) )
-//			return;
-//		for ( int i = 0; i < csses.size( ); i++ )
-//		{
-//			IncludedCssStyleSheet css = ( IncludedCssStyleSheet ) csses.get( i );
-//			reloadCss( css.getFileName( ) );
-//		}
-//	}
-
+	// public void reloadCsses( ) throws SemanticException
+	// {
+	// List csses = getListProperty( IThemeModel.CSSES_PROP );
+	// if ( csses == null || csses.isEmpty( ) )
+	// return;
+	// for ( int i = 0; i < csses.size( ); i++ )
+	// {
+	// IncludedCssStyleSheet css = (IncludedCssStyleSheet) csses.get( i );
+	// reloadCss( css.getFileName( ) );
+	// }
+	// }
 	/**
-	 * Reloads the css with the given css file path. If the css
-	 * already is included directly, reload it. If the css is not
-	 * included, exception will be thrown.
+	 * Reloads the css with the given css file path. If the css already is
+	 * included directly, reload it. If the css is not included, exception will
+	 * be thrown.
 	 * 
 	 * @param reloadPath
 	 *            this is supposed to be an absolute path, not in url form.
 	 * @throws SemanticException
 	 *             if error is encountered when handling
-	 *             <code>IncludeCssStyleSheet</code> structure list. Or it maybe
-	 *             because that the given css is not found in the design. Or
-	 *             that the css has descedents in the current module
-	 * @throws DesignFileException
-	 *             if the css file is not found, or has fatal error.
+	 *             <code>IncludeCssStyleSheet</code> structure list. Or it
+	 *             maybe because that the given css is not found in the design.
+	 *             Or that the css has descedents in the current module
 	 */
 
-//	public void reloadCss( String reloadPath ) throws SemanticException,
-//			DesignFileException
-//	{
-//		if ( StringUtil.isEmpty( reloadPath ) )
-//			return;
-//
-//		CssCommand command = new CssCommand( module , getElement() );
-//		command.reloadCss( reloadPath );
-//	}
-	
+	// public void reloadCss( String reloadPath ) throws SemanticException
+	// {
+	// if ( StringUtil.isEmpty( reloadPath ) )
+	// return;
+	//
+	// CssCommand command = new CssCommand( module, getElement( ) );
+	// command.reloadCss( reloadPath );
+	// }
 }

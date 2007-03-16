@@ -60,6 +60,22 @@ public class StyleSheetLoaderTest extends BaseTestCase
 	}
 
 	/**
+	 * Tests get css style sheet's file name when load css file.
+	 * 
+	 * @throws Exception
+	 */
+	
+	public void testCssStyleSheetFileName( ) throws Exception
+	{
+		openDesign( "BlankStyleSheetLoaderTest.xml" ); //$NON-NLS-1$
+		
+		fileName = "base.css"; //$NON-NLS-1$
+		CssStyleSheetHandle sheetHandle = designHandle.openCssStyleSheet( fileName );
+		assertEquals( "base.css", sheetHandle.getFileName( ) ); //$NON-NLS-1$
+
+	}
+
+	/**
 	 * Tests a normal input css file, and all the input is loaded into the
 	 * report.
 	 * 

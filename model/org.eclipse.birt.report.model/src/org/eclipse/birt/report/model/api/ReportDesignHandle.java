@@ -797,8 +797,7 @@ public class ReportDesignHandle extends ModuleHandle
 	 *             structure list.
 	 */
 
-	public void addCss( String fileName ) throws DesignFileException,
-			SemanticException
+	public void addCss( String fileName ) throws SemanticException
 	{
 		if ( fileName == null )
 			return;
@@ -833,10 +832,9 @@ public class ReportDesignHandle extends ModuleHandle
 	 * Reloads all css style sheets this module included.
 	 * 
 	 * @throws SemanticException
-	 * @throws DesignFileException
 	 */
 
-//	public void reloadCsses( ) throws SemanticException, DesignFileException
+//	public void reloadCsses( ) throws SemanticException
 //	{
 //		List csses = getListProperty( IReportDesignModel.CSSES_PROP );
 //		if ( csses == null || csses.isEmpty( ) )
@@ -860,12 +858,9 @@ public class ReportDesignHandle extends ModuleHandle
 	 *             <code>IncludeCssStyleSheet</code> structure list. Or it
 	 *             maybe because that the given css is not found in the design.
 	 *             Or that the css has descedents in the current module
-	 * @throws DesignFileException
-	 *             if the css file is not found, or has fatal error.
 	 */
 
-//	public void reloadCss( String reloadPath ) throws SemanticException,
-//			DesignFileException
+//	public void reloadCss( String reloadPath ) throws SemanticException
 //	{
 //		if ( StringUtil.isEmpty( reloadPath ) )
 //			return;

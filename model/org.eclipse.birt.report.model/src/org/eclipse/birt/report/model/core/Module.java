@@ -2724,7 +2724,7 @@ public abstract class Module extends DesignElement implements IModuleModel
 	public CssStyleSheet loadCss( DesignElement element, String fileName )
 			throws SemanticException
 	{
-		URL url = findResource( fileName, IResourceLocator.CSS_FILE );
+		URL url = findResource( fileName, IResourceLocator.CASCADING_STYLE_SHEET );
 		if ( url == null )
 		{
 			CssException ex = new CssException( this, CssException.DESIGN_EXCEPTION_CSS_NOT_FOUND );

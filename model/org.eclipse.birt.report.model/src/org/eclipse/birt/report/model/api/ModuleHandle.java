@@ -60,6 +60,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.core.namespace.IModuleNameScope;
+import org.eclipse.birt.report.model.css.CssStyleSheet;
 import org.eclipse.birt.report.model.css.StyleSheetLoader;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.DataSet;
@@ -806,7 +807,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	/**
 	 * Finds a style by its name in this module. The style with the same name,
 	 * which is defined the included module, will never be returned.
-	 * TODO change logic of find native style or not?
+	 * 
 	 * @param name
 	 *            name of the style
 	 * @return a handle to the style, or <code>null</code> if the style is not
@@ -1627,7 +1628,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	{
 		List elementList = module.getModuleNameSpace( Module.STYLE_NAME_SPACE )
 				.getElements( IAccessControl.ARBITARY_LEVEL );
-		
+
 		return generateHandleList( elementList );
 	}
 
@@ -1859,7 +1860,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		while ( iter.hasNext( ) )
 		{
 			DesignElement element = (DesignElement) iter.next( );
-			
+
 			Module root = element.getRoot( );
 			assert root != null;
 
@@ -2381,7 +2382,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 			throws StyleSheetException
 	{
 		StyleSheetLoader loader = new StyleSheetLoader( );
-		return loader.load( module, fileName ).handle( module );
+		CssStyleSheet sheet = loader.load( module, fileName );
+		sheet.setFileName( fileName );
+		return sheet.handle( module );
 	}
 
 	/**
@@ -2415,7 +2418,6 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            the style sheet handle that contains all the selected styles
 	 * @param selectedStyles
 	 *            the selected style list
-	 * 
 	 * 
 	 */
 

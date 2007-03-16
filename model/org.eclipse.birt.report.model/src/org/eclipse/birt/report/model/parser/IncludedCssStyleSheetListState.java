@@ -87,7 +87,7 @@ public class IncludedCssStyleSheetListState extends ListPropertyState
 			ICssStyleSheetOperation sheetOperation = (ICssStyleSheetOperation) element;
 
 			URL url = element.getRoot( ).findResource( fileName,
-					IResourceLocator.CSS_FILE );
+					IResourceLocator.CASCADING_STYLE_SHEET );
 			if ( url == null )
 			{
 				CssException ex = new CssException( handler.module,

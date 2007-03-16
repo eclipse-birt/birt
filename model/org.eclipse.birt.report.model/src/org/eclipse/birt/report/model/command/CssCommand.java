@@ -20,10 +20,8 @@ import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.StructureFactory;
-import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.CssException;
-import org.eclipse.birt.report.model.api.command.CssReloadedEvent;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
@@ -71,11 +69,10 @@ public class CssCommand extends AbstractElementCommand
 	 *             strcutre
 	 */
 
-	public void addCss( String fileName ) throws DesignFileException,
-			SemanticException
+	public void addCss( String fileName ) throws SemanticException
 	{
 		URL url = module.findResource( fileName,
-				IResourceLocator.CSS_FILE );
+				IResourceLocator.CASCADING_STYLE_SHEET );
 		if( url == null )
 		{
 			throw new CssException( module , CssException.DESIGN_EXCEPTION_CSS_NOT_FOUND );
@@ -141,7 +138,7 @@ public class CssCommand extends AbstractElementCommand
 		// css not found.
 		
 		URL url = module.findResource( fileName,
-				IResourceLocator.CSS_FILE );
+				IResourceLocator.CASCADING_STYLE_SHEET );
 		if( url == null )
 		{
 			throw new CssException( module , CssException.DESIGN_EXCEPTION_CSS_NOT_FOUND );
@@ -160,7 +157,6 @@ public class CssCommand extends AbstractElementCommand
 
 		try
 		{
-			
 			removeIncludeCss( fileName );
 		}
 		catch ( SemanticException ex )
@@ -261,28 +257,27 @@ public class CssCommand extends AbstractElementCommand
 	 *             if the css is not included in the current module.
 	 */
 
-	public void reloadCss( String location ) throws DesignFileException,
-			SemanticException
-	{
-		
-		ActivityStack activityStack = getActivityStack( );
-		activityStack.startSilentTrans( );
-
-		// reload new css file
-		try
-		{
-			dropCss( location );
-			addCss( location );
-		}
-		catch ( SemanticException e )
-		{
-			activityStack.rollback( );
-			throw e;
-		}
-
-		IncludedCssStyleSheet css = getIncludedCssStyleSheetByLocation( location );
-		doPostReloadAction( css );
-	}
+//	public void reloadCss( String location ) throws SemanticException
+//	{
+//		
+//		ActivityStack activityStack = getActivityStack( );
+//		activityStack.startSilentTrans( );
+//
+//		// reload new css file
+//		try
+//		{
+//			dropCss( location );
+//			addCss( location );
+//		}
+//		catch ( SemanticException e )
+//		{
+//			activityStack.rollback( );
+//			throw e;
+//		}
+//
+//		IncludedCssStyleSheet css = getIncludedCssStyleSheetByLocation( location );
+//		doPostReloadAction( css );
+//	}
 
 	/**
 	 * Does some post actions after css style sheet is reloaded. It includes
@@ -292,23 +287,23 @@ public class CssCommand extends AbstractElementCommand
 	 * @param css
 	 */
 
-	private void doPostReloadAction( IncludedCssStyleSheet css )
-	{
-		CssReloadedEvent event = new CssReloadedEvent( module, css );
-		module.broadcast( event );
-
-		// clear save state mark.
-
-		ActivityStack activityStack = module.getActivityStack( );
-		activityStack.commit( );
-
-		// clear all common stack.
-
-		activityStack.flush( );
-
-		module.setSaveState( 0 );
-		activityStack.sendNotifcations( new ActivityStackEvent( activityStack,
-				ActivityStackEvent.DONE ) );
-	}
+//	private void doPostReloadAction( IncludedCssStyleSheet css )
+//	{
+//		CssReloadedEvent event = new CssReloadedEvent( module, css );
+//		module.broadcast( event );
+//
+//		// clear save state mark.
+//
+//		ActivityStack activityStack = module.getActivityStack( );
+//		activityStack.commit( );
+//
+//		// clear all common stack.
+//
+//		activityStack.flush( );
+//
+//		module.setSaveState( 0 );
+//		activityStack.sendNotifcations( new ActivityStackEvent( activityStack,
+//				ActivityStackEvent.DONE ) );
+//	}
 
 }
