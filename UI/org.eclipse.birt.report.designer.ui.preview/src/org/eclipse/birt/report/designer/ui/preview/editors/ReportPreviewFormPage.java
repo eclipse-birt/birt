@@ -1,5 +1,5 @@
 /*************************************************************************************
- * Copyright (c) 2004 Actuate Corporation and others.
+ * Copyright (c) 2006 Actuate Corporation and others.
  * All rights reserved. This program and the accompanying materials 
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,59 +12,62 @@
 package org.eclipse.birt.report.designer.ui.preview.editors;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.InputParameterHtmlDialog;
+import org.eclipse.birt.core.framework.FrameworkException;
+import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
-import org.eclipse.birt.report.model.api.ConfigVariableHandle;
-import org.eclipse.birt.report.model.api.DesignFileException;
-import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.ScalarParameterHandle;
-import org.eclipse.birt.report.model.api.SessionHandle;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
+import org.eclipse.birt.report.designer.ui.preview.extension.IViewer;
+import org.eclipse.birt.report.designer.ui.preview.extension.ViewerException;
+import org.eclipse.birt.report.designer.ui.preview.extension.ViewerExtensionManager;
+import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
+import org.eclipse.ui.part.EditorPart;
 
 /**
- * Preview page.
+ * This class is an <code>EditorPart</code> for preview report page.
  */
-public class ReportPreviewFormPage extends ReportPreviewEditor implements
+public class ReportPreviewFormPage extends EditorPart implements
 		IReportEditorPage
 {
 
+	/** The ID of current plug-in */
 	public static final String ID = "org.eclipse.birt.report.designer.ui.editors.preview"; //$NON-NLS-1$
 
-	private Control control;
+	/** The ID of default viewer */
+	private static final String VIEWER_ID = "org.eclipse.birt.report.designer.ui.preview.static_html"; //$NON-NLS-1$
 
+	/** The stale type */
 	private int staleType;
 
+	/** The form editor */
 	private FormEditor editor;
 
-	// suffix of template file
-	public static final String SUFFIX_TEMPLATE_FILE = "rpttemplate"; //$NON-NLS-1$
+	/** The report viewer */
+	private final IViewer reportViewer;
 
-	// suffix of design config file
-	public static final String SUFFIX_DESIGN_CONFIG = "rptconfig"; //$NON-NLS-1$
+	/**
+	 * Creates <code>ReportPreviewFormPage</code>
+	 * 
+	 * @throws FrameworkException if occurs error when create viewer
+	 */
+	public ReportPreviewFormPage( ) throws FrameworkException
+	{
+		super( );
+		ViewerExtensionManager manager = (ViewerExtensionManager) Platform.createFactoryObject( ViewerExtensionManager.VIEWER_EXTENSION_MANAGER_ID );
 
-	// property type
-	public static final String PROP_TYPE = "type"; //$NON-NLS-1$
-
-	// Property -- value expression
-	public static final String PROP_EXPR = "expr"; //$NON-NLS-1$	
+		reportViewer = manager.createViewer( VIEWER_ID );
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -73,78 +76,8 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 	 */
 	public boolean onBroughtToTop( IReportEditorPage prePage )
 	{
-		boolean isDisplay = false;
-
-		if ( getEditorInput( ) != prePage.getEditorInput( ) )
-		{
-			setInput( prePage.getEditorInput( ) );
-		}
-
-		// if the model is dirty, save it at first.
-		if ( isDirtyModel( ) )
-		{
-			doSave( null );
-		}
-
-		// save the last changes.
-		if ( prePage.isDirty( ) )
-		{
-			prePage.doSave( null );
-		}
-
-		// if miss parameter, pop up parameter dialog
-		if ( isMissingParameter( ) )
-		{
-			if ( parameterDialog != null )
-			{
-				parameterDialog.open( );
-
-				// if parameter dialog closed successfully, then preview the
-				// current report
-				if ( parameterDialog.getReturnCode( ) == InputParameterHtmlDialog.RETURN_CODE_BROWSER_CLOSED )
-				{
-					isDisplay = true;
-					// if miss parameter yet, can't preview report and scroll to
-					// the previous page.
-					if ( isMissingParameter( ) )
-					{
-						editor.setActivePage( prePage.getId( ) );
-						return false;
-					}
-
-				}
-			}
-		}
-		else
-		{
-			isDisplay = true;
-		}
-
-		if ( isDisplay )
-		{
-			display( );
-		}
-
-		ReportRequest request = new ReportRequest( ReportPreviewFormPage.this );
-		List list = new ArrayList( );
-
-		request.setSelectionObject( list );
-		request.setType( ReportRequest.SELECTION );
-
-		// SessionHandleAdapter.getInstance().getMediator().pushState();
-		SessionHandleAdapter.getInstance( )
-				.getMediator( )
-				.notifyRequest( request );
+		startRender( );
 		return true;
-	}
-
-	private boolean isDirtyModel( )
-	{
-		if ( getModel( ) != null && getModel( ) instanceof ModuleHandle )
-		{
-			return ( (ModuleHandle) getModel( ) ).needsSave( );
-		}
-		return false;
 	}
 
 	/*
@@ -154,7 +87,12 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 	 */
 	public Control getPartControl( )
 	{
-		return control;
+		if ( reportViewer instanceof SWTAbstractViewer )
+		{
+			return ( (SWTAbstractViewer) reportViewer ).getUI( );
+			//			reportViewer.setReportDesignFile( getReportDesignFilePath( ) );
+		}
+		return null;
 	}
 
 	/*
@@ -174,9 +112,49 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 	 */
 	public void createPartControl( Composite parent )
 	{
-		super.createPartControl( parent );
-		Control[] children = parent.getChildren( );
-		control = children[children.length - 1];
+		if ( reportViewer instanceof SWTAbstractViewer )
+		{
+			( (SWTAbstractViewer) reportViewer ).createUI( parent );
+			//			reportViewer.setReportDesignFile( getReportDesignFilePath( ) );
+		}
+	}
+
+	private void startRender( )
+	{
+		if ( reportViewer == null )
+		{
+			return;
+		}
+		reportViewer.setInput( getReportDesignFilePath( ) );
+		reportViewer.render( );
+		//		new Thread( ) {
+		//
+		//			/*
+		//			 * (non-Javadoc)
+		//			 * 
+		//			 * @see java.lang.Thread#run()
+		//			 */
+		//			public void run( )
+		//			{
+		//				try
+		//				{
+		//					RenderHandler.viewReportDesign( getReportDesignFile( ),
+		//							reportViewer );
+		//				}
+		//				catch ( final EngineException e )
+		//				{
+		//					e.printStackTrace( );
+		//				}
+		//				catch ( final IOException e )
+		//				{
+		//					e.printStackTrace( );
+		//				}
+		//				catch ( final ViewerException e )
+		//				{
+		//					e.printStackTrace( );
+		//				}
+		//			}
+		//		}.start( );
 	}
 
 	/*
@@ -211,14 +189,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 
 	protected IReportProvider getProvider( )
 	{
-		IReportProvider provider = (IReportProvider) editor.getAdapter( IReportProvider.class );
-
-		if ( provider == null )
-		{
-			provider = super.getProvider( );
-		}
-
-		return provider;
+		return (IReportProvider) editor.getAdapter( IReportProvider.class );
 	}
 
 	/*
@@ -273,7 +244,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 	 */
 	public void setActive( boolean active )
 	{
-
+		return;
 	}
 
 	/*
@@ -293,7 +264,6 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 	 */
 	public boolean canLeaveThePage( )
 	{
-		handleLeaveThePage( );
 		return true;
 	}
 
@@ -314,7 +284,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 	 */
 	public void setIndex( int index )
 	{
-
+		return;
 	}
 
 	/*
@@ -347,295 +317,6 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 		super.setInput( input );
 	}
 
-	/**
-	 * Get parameter values from config file.
-	 * 
-	 * @return Map
-	 */
-	private Map getConfigVars( )
-	{
-		HashMap configVars = new HashMap( );
-
-		// get design config file name
-		String configFileName = getConfigFileName( this.getFileUri( ) );
-		if ( configFileName == null )
-			return configVars;
-
-		ReportDesignHandle handle = null;
-
-		try
-		{
-			// Generate the session handle
-			SessionHandle sessionHandle = SessionHandleAdapter.getInstance( )
-					.getSessionHandle( );
-
-			File configFile = new File( configFileName );
-
-			// if config file existed, then delete it
-			if ( configFile != null
-					&& configFile.exists( )
-					&& configFile.isFile( ) )
-			{
-				handle = sessionHandle.openDesign( configFileName );
-
-				if ( handle != null )
-				{
-					// get parameter values from config file
-					Iterator it = handle.configVariablesIterator( );
-					while ( it != null && it.hasNext( ) )
-					{
-						ConfigVariableHandle configVar = (ConfigVariableHandle) it.next( );
-						if ( configVar != null && configVar.getName( ) != null )
-						{
-							// check the parameter whether exist or not
-							String paramName = getParameterName( configVar.getName( ) );
-
-							// get parameter handle
-							ScalarParameterHandle parameter = findParameter( paramName );
-
-							if ( parameter != null )
-							{
-								// get cached parameter type
-								String typeVarName = configVar.getName( ) + "_" //$NON-NLS-1$
-										+ PROP_TYPE;
-								ConfigVariable typeVar = handle
-										.findConfigVariable( typeVarName );
-								String dataType = null;
-								if ( typeVar != null )
-									dataType = typeVar.getValue( );
-
-								// if null or data type changed, skip it
-								if ( dataType == null
-										|| !dataType
-												.equalsIgnoreCase( parameter
-														.getDataType( ) ) )
-									continue;
-
-								// find cached parameter value expression
-								String exprVarName = configVar.getName( ) + "_" //$NON-NLS-1$
-										+ PROP_EXPR;
-								ConfigVariable exprVar = handle
-										.findConfigVariable( exprVarName );
-								String expr = parameter.getValueExpr( );
-								String cachedExpr = null;
-								if ( exprVar != null )
-									cachedExpr = exprVar.getValue( );
-
-								if ( cachedExpr == null )
-									cachedExpr = ""; //$NON-NLS-1$
-								if ( expr == null )
-									expr = ""; //$NON-NLS-1$
-
-								// if value expression changed,skip it
-								if ( !cachedExpr.equals( expr ) )
-									continue;
-							}
-
-							if ( paramName != null && paramName.length( ) > 0 )
-							{
-								configVars.put( paramName, configVar.getValue( ) );
-							}
-						}
-					}
-					handle.close( );
-				}
-			}
-		}
-		catch ( DesignFileException e )
-		{
-			e.printStackTrace( );
-			// close handle
-			try
-			{
-				if ( handle != null )
-				{
-					handle.close( );
-				}
-			}
-			catch ( Exception e1 )
-			{
-				e1.printStackTrace( );
-			}
-		}
-
-		return configVars;
-	}
-
-	/**
-	 * if parameter existed in config file, return the correct parameter name
-	 * 
-	 * @param configVarName
-	 * @return String
-	 */
-	private String getParameterName( String configVarName )
-	{
-		String paramName = null;
-		List parameters = null;
-
-		// get parameter list from design handle
-		ModuleHandle model = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
-		if ( model != null )
-		{
-			parameters = model.getFlattenParameters( );
-		}
-
-		if ( parameters != null )
-		{
-			for ( int i = 0; i < parameters.size( ); i++ )
-			{
-				ScalarParameterHandle parameter = null;
-
-				if ( parameters.get( i ) instanceof ScalarParameterHandle )
-				{
-					parameter = ( (ScalarParameterHandle) parameters.get( i ) );
-				}
-
-				// get current name
-				String curName = null;
-				if ( parameter != null && parameter.getName( ) != null )
-				{
-					curName = parameter.getName( ) + "_" + parameter.getID( ); //$NON-NLS-1$
-				}
-
-				// if find the parameter exist, return true
-				if ( curName != null
-						&& curName.equalsIgnoreCase( configVarName ) )
-				{
-					paramName = parameter.getName( );
-					break;
-				}
-			}
-		}
-
-		return paramName;
-	}
-
-	/**
-	 * Find parameter by name
-	 * 
-	 * @param paramName
-	 * @return ScalarParameterHandle
-	 */
-	private ScalarParameterHandle findParameter( String paramName )
-	{
-		if ( paramName == null )
-			return null;
-
-		ScalarParameterHandle parameter = null;
-		List parameters = null;
-
-		// get parameter list from design handle
-		ModuleHandle model = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
-		if ( model != null )
-		{
-			parameters = model.getFlattenParameters( );
-		}
-
-		if ( parameters != null )
-		{
-			for ( int i = 0; i < parameters.size( ); i++ )
-			{
-				if ( parameters.get( i ) instanceof ScalarParameterHandle )
-				{
-					parameter = ( (ScalarParameterHandle) parameters.get( i ) );
-				}
-
-				if ( parameter != null
-						&& paramName.equalsIgnoreCase( parameter.getName( ) ) )
-				{
-					break;
-				}
-			}
-		}
-
-		return parameter;
-	}
-
-	/**
-	 * If miss parameter.
-	 * 
-	 * @return boolean
-	 */
-	public boolean isMissingParameter( )
-	{
-		boolean missingParameter = false;
-		ModuleHandle model = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
-
-		HashMap params = (HashMap) this.getConfigVars( );
-
-		List parameters = model.getFlattenParameters( );
-		if ( parameters != null )
-		{
-			for ( int i = 0; i < parameters.size( ); i++ )
-			{
-				if ( parameters.get( i ) instanceof ScalarParameterHandle )
-				{
-					ScalarParameterHandle parameter = ( (ScalarParameterHandle) parameters.get( i ) );
-
-					if ( parameter.isHidden( ) )
-					{
-						continue;
-					}
-
-					String paramValue = null;
-
-					if ( params != null
-							&& params.containsKey( parameter.getName( ) ) )
-					{
-						Object curVal = params.get( parameter.getName( ) );
-						if ( curVal != null )
-							paramValue = curVal.toString( );
-					}
-
-					if ( paramValue == null && !parameter.allowNull( ) )
-					{
-						missingParameter = true;
-						break;
-					}
-
-					if ( paramValue != null
-							&& paramValue.trim( ).length( ) <= 0
-							&& !parameter.allowBlank( )
-							&& parameter.getDataType( )
-									.equalsIgnoreCase( DesignChoiceConstants.PARAM_TYPE_STRING ) )
-					{
-						missingParameter = true;
-						break;
-					}
-
-				}
-			}
-		}
-
-		return missingParameter;
-	}
-
-	/**
-	 * Parse config file name from report design filename.
-	 * 
-	 * @param reportDesignName
-	 *            String
-	 * @return String
-	 */
-
-	private String getConfigFileName( String reportDesignName )
-	{
-		if ( reportDesignName == null )
-			return null;
-
-		String[] result = reportDesignName.split( "\\." ); //$NON-NLS-1$
-		String extensionName = result[result.length - 1];
-		String configFileName = reportDesignName.substring( 0, reportDesignName
-				.length( )
-				- extensionName.length( ) )
-				+ SUFFIX_DESIGN_CONFIG;
-
-		return configFileName;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -653,6 +334,11 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#finalize()
+	 */
 	protected void finalize( ) throws Throwable
 	{
 		if ( Policy.TRACING_PAGE_CLOSE )
@@ -660,5 +346,103 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 			System.out.println( "Report preview page finalized" ); //$NON-NLS-1$
 		}
 		super.finalize( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.IProgressMonitor)
+	 */
+	public void doSave( IProgressMonitor monitor )
+	{
+		return;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.part.EditorPart#doSaveAs()
+	 */
+	public void doSaveAs( )
+	{
+		return;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.part.EditorPart#init(org.eclipse.ui.IEditorSite,
+	 *      org.eclipse.ui.IEditorInput)
+	 */
+	public void init( IEditorSite site, IEditorInput input )
+			throws PartInitException
+	{
+		setSite( site );
+		setInput( input );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.part.EditorPart#isSaveAsAllowed()
+	 */
+	public boolean isSaveAsAllowed( )
+	{
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
+	 */
+	public void setFocus( )
+	{
+		return;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.IWorkbenchPart#dispose()
+	 */
+	public void dispose( )
+	{
+		super.dispose( );
+	}
+
+	/**
+	 * Returns report design file.
+	 */
+	private File getReportDesignFile( )
+	{
+		IEditorInput input = getEditorInput( );
+
+		if ( input != null )
+		{
+			IReportProvider provider = getProvider( );
+
+			if ( provider != null )
+			{
+				return new File( provider.getInputPath( input ).toOSString( ) );
+			}
+		}
+		return null;
+	}
+
+	private String getReportDesignFilePath( )
+	{
+		IEditorInput input = getEditorInput( );
+
+		if ( input != null )
+		{
+			IReportProvider provider = getProvider( );
+
+			if ( provider != null )
+			{
+				return provider.getInputPath( input ).toOSString( );
+			}
+		}
+		return null;
 	}
 }
