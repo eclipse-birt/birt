@@ -550,7 +550,7 @@
 				<include name="org.apache.batik.pdf_*/**" />
 			</fileset>
 			<fileset dir="${baseLocation}/plugins">
-				<include name="org.apache.xerces_*/**" />
+				<patternset refid="orbit.include.jars" />
 			</fileset>
 		</copy>
 
@@ -947,7 +947,7 @@
 				<include name="org.eclipse.birt.chart.device.pdf*.jar" />
 				<include name="org.apache.batik_*/**"/>
 				<include name="org.apache.batik.pdf_*/**"/>
-				<include name="org.apache.xerces_*/**"/>
+				<patternset refid="orbit.include.jars" />
 			</fileset>
 		</copy>
 		
