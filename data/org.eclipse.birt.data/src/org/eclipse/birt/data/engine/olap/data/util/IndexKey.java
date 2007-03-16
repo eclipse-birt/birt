@@ -44,8 +44,15 @@ public class IndexKey implements IComparableStructure
 	{
 		assert o instanceof IndexKey;
 		IndexKey target = (IndexKey) o;
+		
 		for( int i=0;i<key.length;i++)
 		{
+			if ( key[i] == null && target.key[i] != null )
+				return -1;
+			if ( key[i] == null && target.key[i] == null )
+				return 0;
+			if ( key[i] != null && target.key[i] == null )
+				return 1;
 			int result = ( (Comparable) key[i] ).compareTo( target.key[i] );
 			if( result != 0 )
 			{

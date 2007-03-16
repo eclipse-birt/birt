@@ -431,19 +431,18 @@ public class DataRequestSessionImpl extends DataRequestSession
 	{
 		try
 		{
-			CubeMaterializer o = new org.eclipse.birt.data.engine.olap.api.cube.CubeMaterializer( this.sessionContext.getDataEngineContext( )
-					.getTmpdir( ),
-					"cube" );
+			CubeMaterializer o = new org.eclipse.birt.data.engine.olap.api.cube.CubeMaterializer( System.getProperty( "java.io.tmpdir" ),
+					"cub1" );
 			List dims = new ArrayList( );
 			List dimHandles = cubeHandle.getContents( CubeHandle.DIMENSIONS_PROP );
 			for ( int i = 0; i < dimHandles.size( ); i++ )
 			{
 				DimensionHandle dim = (DimensionHandle) dimHandles.get( i );
 				List hiers = dim.getContents( DimensionHandle.HIERARCHIES_PROP );
-
+				List iHiers = new ArrayList();
 				for ( int j = 0; j < hiers.size( ); j++ )
 				{
-					TabularHierarchyHandle hierhandle = (TabularHierarchyHandle) hiers.get( j );
+					TabularHierarchyHandle hierhandle = (TabularHierarchyHandle) hiers.get( 0 );
 					List levels = hierhandle.getContents( TabularHierarchyHandle.LEVELS_PROP );
 					ILevelDefn[] levelInHier = new ILevelDefn[hierhandle.getLevelCount( )];
 					for ( int k = 0; k < levels.size( ); k++ )
@@ -455,13 +454,13 @@ public class DataRequestSessionImpl extends DataRequestSession
 								},
 								this.toStringArray( level.attributesIterator( ) ) );
 					}
-					hiers.add( o.createHierarchy( hierhandle.getName( ),
+					iHiers.add( o.createHierarchy( hierhandle.getName( ),
 							this.getDataSetIterator( hierhandle.getProperty( TabularHierarchyHandle.DATA_SET_PROP )
 									.toString( ) ),
 							levelInHier ) );
 				}
 				dims.add( o.createDimension( dim.getName( ),
-						(IHierarchy) hiers.get( 0 ) ) );
+						(IHierarchy) iHiers.get( 0 ) ) );
 			}
 			List measureNames = new ArrayList( );
 			List measureGroups = cubeHandle.getContents( CubeHandle.MEASURE_GROUPS_PROP );
