@@ -17,5 +17,6 @@ plugin@org.eclipse.birt.report.designer.ui.samplesview=v20070316,:pserver:anonym
 plugin@org.eclipse.birt.report.designer.ui.samples.ide=v20070316,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui.samples.ide
 plugin@org.eclipse.birt.report.designer.ui.samples.rcp=v20070316,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui.samples.rcp
 plugin@org.eclipse.birt.report.designer.samplereports=v20070316,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.samplereports
+plugin@org.eclipse.birt.report.designer.ui.preview.web=v20070316,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui.preview.web
 
 plugin@org.eclipse.birt.report.designer.tests=v20070202,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.tests
