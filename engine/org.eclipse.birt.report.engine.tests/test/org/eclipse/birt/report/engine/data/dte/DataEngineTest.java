@@ -27,8 +27,8 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.report.engine.data.IDataEngine;
-import org.eclipse.birt.report.engine.data.IResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.model.api.DesignFileException;
@@ -149,7 +149,7 @@ public class DataEngineTest extends TestCase
 				ARCHIVE_METANAME, MODE_GENERATION );
 
 		Iterator iter = report.getQueries( ).iterator( );
-		IResultSet resultSet = null;
+		IQueryResultSet resultSet = null;
 
 		String goldenFile = "SingleDataSet.txt";
 		String goldenStr = loadResource( goldenFile );
@@ -157,7 +157,7 @@ public class DataEngineTest extends TestCase
 		while ( iter.hasNext( ) )
 		{
 			IQueryDefinition query = (IQueryDefinition) iter.next( );
-			resultSet = (IResultSet) dataEngine.execute( query );
+			resultSet = (IQueryResultSet) dataEngine.execute( query );
 			int i = 0;
 			while ( resultSet.next( ) && i < 3 )
 			{
@@ -166,7 +166,7 @@ public class DataEngineTest extends TestCase
 				while ( it.hasNext( ) )
 				{
 					String next = (String) it.next( );
-					resultStr += resultSet.getString( next );
+					resultStr += resultSet.getResultIterator( ).getString( next );
 				}
 				i++;
 			}
@@ -184,7 +184,7 @@ public class DataEngineTest extends TestCase
 				ARCHIVE_METANAME, MODE_PRESENTATION );
 
 		Iterator iter = report.getQueries( ).iterator( );
-		IResultSet resultSet = null;
+		IQueryResultSet resultSet = null;
 
 		String goldenFile = "SingleDataSet.txt";
 		String goldenStr = loadResource( goldenFile );
@@ -192,7 +192,7 @@ public class DataEngineTest extends TestCase
 		while ( iter.hasNext( ) )
 		{
 			IQueryDefinition query = (IQueryDefinition) iter.next( );
-			resultSet = (IResultSet) dataEngine.execute( query );
+			resultSet = (IQueryResultSet) dataEngine.execute( query );
 			int i = 0;
 			while ( resultSet.next( ) && i < 3 )
 			{
@@ -201,7 +201,7 @@ public class DataEngineTest extends TestCase
 				while ( it.hasNext( ) )
 				{
 					String next = (String) it.next( );
-					resultStr += resultSet.getString( next );
+					resultStr += resultSet.getResultIterator( ).getString( next );
 				}
 				i++;
 			}
@@ -227,10 +227,10 @@ public class DataEngineTest extends TestCase
 		// the children will first be stored then the parent.
 		IQueryDefinition childQuery = (IQueryDefinition) iter.next( );
 		IQueryDefinition parentQuery = (IQueryDefinition) iter.next( );
-		IResultSet parentRSet = null;
-		IResultSet childRSet = null;
+		IQueryResultSet parentRSet = null;
+		IQueryResultSet childRSet = null;
 
-		parentRSet = (IResultSet) dataEngine.execute( parentQuery );
+		parentRSet = (IQueryResultSet) dataEngine.execute( parentQuery );
 
 		while ( parentRSet.next( ) )
 		{
@@ -241,7 +241,7 @@ public class DataEngineTest extends TestCase
 				String nextPar = (String) parentIter.next( );
 				resultStr += parentRSet.getString( nextPar );
 			}
-			childRSet = (IResultSet) dataEngine
+			childRSet = (IQueryResultSet) dataEngine
 					.execute( parentRSet, childQuery );
 			while ( childRSet.next( ) )
 			{
@@ -276,10 +276,10 @@ public class DataEngineTest extends TestCase
 		String resultStr = "";
 		IQueryDefinition childQuery = (IQueryDefinition) iter.next( );
 		IQueryDefinition parentQuery = (IQueryDefinition) iter.next( );
-		IResultSet parentRSet = null;
-		IResultSet childRSet = null;
+		IQueryResultSet parentRSet = null;
+		IQueryResultSet childRSet = null;
 
-		parentRSet = dataEngine.execute( parentQuery );
+		parentRSet = (IQueryResultSet)dataEngine.execute( parentQuery );
 
 		while ( parentRSet.next( ) )
 		{
@@ -290,7 +290,7 @@ public class DataEngineTest extends TestCase
 				String nextPar = (String) parentIter.next( );
 				resultStr += parentRSet.getString( nextPar );
 			}
-			childRSet = (IResultSet) dataEngine
+			childRSet = (IQueryResultSet) dataEngine
 					.execute( parentRSet, childQuery );
 			while ( childRSet.next( ) )
 			{
@@ -318,7 +318,7 @@ public class DataEngineTest extends TestCase
 				ARCHIVE_METANAME, MODE_GENERATION );
 
 		Iterator iter = report.getQueries( ).iterator( );
-		IResultSet resultSet = null;
+		IQueryResultSet resultSet = null;
 
 		String goldenFile = "SubqueryDataSet.txt";
 		String goldenStr = loadResource( goldenFile );
@@ -326,7 +326,7 @@ public class DataEngineTest extends TestCase
 		while ( iter.hasNext( ) )
 		{
 			IBaseQueryDefinition query = (IBaseQueryDefinition) iter.next( );
-			resultSet = dataEngine.execute( query );
+			resultSet = (IQueryResultSet)dataEngine.execute( query );
 			while ( resultSet.next( ) )
 			{
 				int startGroup = resultSet.getStartingGroupLevel( );
@@ -339,7 +339,7 @@ public class DataEngineTest extends TestCase
 					Iterator subQueryIter = group.getSubqueries( ).iterator( );
 					IBaseQueryDefinition subQuery = (IBaseQueryDefinition) subQueryIter
 							.next( );
-					IResultSet subResultSet = dataEngine.execute( resultSet,
+					IQueryResultSet subResultSet = (IQueryResultSet)dataEngine.execute( resultSet,
 							subQuery );
 					Map map = subQuery.getResultSetExpressions( );
 					resultStr += getResultSet( subResultSet, map.keySet( ) );
@@ -354,7 +354,7 @@ public class DataEngineTest extends TestCase
 		assertEquals( goldenStr, resultStr );
 	}
 
-	private String getResultSet( IResultSet resultSet, Set columnsSet )
+	private String getResultSet( IQueryResultSet resultSet, Set columnsSet )
 			throws Exception
 	{
 		String res = "";
@@ -377,7 +377,7 @@ public class DataEngineTest extends TestCase
 				ARCHIVE_METANAME, MODE_PRESENTATION );
 
 		Iterator iter = report.getQueries( ).iterator( );
-		IResultSet resultSet = null;
+		IQueryResultSet resultSet = null;
 
 		String goldenFile = "SubqueryDataSet.txt";
 		String goldenStr = loadResource( goldenFile );
@@ -386,7 +386,7 @@ public class DataEngineTest extends TestCase
 		while ( iter.hasNext( ) )
 		{
 			IBaseQueryDefinition query = (IBaseQueryDefinition) iter.next( );
-			resultSet = dataEngine.execute( query );
+			resultSet = (IQueryResultSet)dataEngine.execute( query );
 			while ( resultSet.next( ) )
 			{
 				int startGroup = resultSet.getStartingGroupLevel( );
@@ -399,7 +399,7 @@ public class DataEngineTest extends TestCase
 					Iterator subQueryIter = group.getSubqueries( ).iterator( );
 					IBaseQueryDefinition subQuery = (IBaseQueryDefinition) subQueryIter
 							.next( );
-					IResultSet subResultSet = dataEngine.execute( resultSet,
+					IQueryResultSet subResultSet = (IQueryResultSet)dataEngine.execute( resultSet,
 							subQuery );
 					Map map = subQuery.getResultSetExpressions( );
 					resultStr += getResultSet( subResultSet, map.keySet( ) );

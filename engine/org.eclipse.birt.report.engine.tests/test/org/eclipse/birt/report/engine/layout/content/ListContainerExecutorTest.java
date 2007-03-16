@@ -8,7 +8,7 @@ import org.eclipse.birt.report.engine.content.IListBandContent;
 import org.eclipse.birt.report.engine.content.IListContent;
 import org.eclipse.birt.report.engine.content.IListGroupContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
-import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
+import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
 
 

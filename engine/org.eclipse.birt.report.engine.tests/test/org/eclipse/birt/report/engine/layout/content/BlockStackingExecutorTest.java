@@ -6,7 +6,7 @@ import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
-import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
+import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
 
 

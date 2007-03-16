@@ -22,11 +22,13 @@ import junit.framework.TestCase;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.report.engine.api.DataSetID;
-import org.eclipse.birt.report.engine.data.IResultSet;
+import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.script.internal.RowData;
 import org.mozilla.javascript.Scriptable;
 
@@ -56,7 +58,7 @@ public class RowDataTest extends TestCase
 				"row[\"test\"] + row[\"testit\"]" , "9" );
 
 		IResultIterator iterator = new FakeResultIteratorTest( testExpressions );
-		IResultSet rset = new FakeResultSetTest( iterator );
+		IQueryResultSet rset = new FakeResultSetTest( iterator );
 		List expressions = new ArrayList( );
 		expressions.addAll( testExpressions.keySet( ) );
 		rowData = new RowData( rset, null );
@@ -104,7 +106,7 @@ public class RowDataTest extends TestCase
 	}
 
 	//Fake a result set
-	private class FakeResultSetTest implements IResultSet
+	private class FakeResultSetTest implements IQueryResultSet
 	{
 		protected IResultIterator rs = null;
 		
@@ -113,7 +115,7 @@ public class RowDataTest extends TestCase
 			this.rs = rs;
 		}
 		
-		public IResultSet getParent( )
+		public IBaseResultSet getParent( )
 		{
 			return null;
 		}
@@ -247,6 +249,48 @@ public class RowDataTest extends TestCase
 		public boolean isEmpty( ) throws BirtException
 		{
 			return rs.isEmpty( );
+		}
+
+		public String getBaseRSetID( )
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public IResultIterator getResultIterator( )
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public long getRowIndex( )
+		{
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		public void setBaseRSetID( String id )
+		{
+			// TODO Auto-generated method stub
+			
+		}
+
+		public IBaseQueryResults getQueryResults( )
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public String getRawID( ) throws BirtException
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public int getType( )
+		{
+			// TODO Auto-generated method stub
+			return 0;
 		}
 		
 	}
