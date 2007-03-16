@@ -105,8 +105,8 @@ public class IDEOpenSampleReportAction extends Action implements
 		}
 
 		/*
-		 * Copy the inluded libraries if selecting sample report demostrate
-		 * XML Data Source
+		 * Copy the inluded libraries if selecting sample report demostrate XML
+		 * Data Source
 		 */
 		if ( item.getParentItem( ).getText( ).equals( "XML Data Source" ) )
 		{
@@ -173,10 +173,11 @@ public class IDEOpenSampleReportAction extends Action implements
 		/*
 		 * Copy the plug-in zip if selecting extending BIRT sample
 		 */
-		if ( item.getParentItem( )
-				.getParentItem( )
-				.getText( )
-				.equals( EXTENDING_CATEGORY ) )
+		if ( item.getParentItem( ).getParentItem( ) != null
+				&& item.getParentItem( )
+						.getParentItem( )
+						.getText( )
+						.equals( EXTENDING_CATEGORY ) )
 		{
 			PlaceExtendedPlugin( item.getParentItem( ).getText( ) );
 		}
