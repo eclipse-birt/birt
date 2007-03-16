@@ -1,0 +1,185 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation and others. All rights reserved. This
+ * program and the accompanying materials are made available under the terms of
+ * the Eclipse Public License v1.0 which accompanies this distribution, and is
+ * available at http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Actuate Corporation - Initial implementation.
+ ******************************************************************************/
+
+package org.eclipse.birt.report.designer.ui.actions;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.preview.Activator;
+import org.eclipse.birt.report.engine.api.EngineConfig;
+import org.eclipse.birt.report.engine.api.ReportEngine;
+import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.viewer.utilities.WebViewer;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.IWorkbenchWindowPulldownDelegate;
+import org.eclipse.ui.forms.editor.FormEditor;
+
+public class PreviewToolbarMenuAction implements
+		IWorkbenchWindowPulldownDelegate
+{
+
+	private Image previewIcon = Activator.getImageDescriptor( "icons/etool16/preview.gif" )
+			.createImage( );
+	private Image previewPDFIcon = Activator.getImageDescriptor( "icons/etool16/preview_pdf.gif" )
+			.createImage( );
+	// TODO create a word Icon
+	private Image previewDOCIcon = Activator.getImageDescriptor( "icons/etool16/preview_pdf.gif" )
+			.createImage( );
+
+	/**
+	 * The constructor.
+	 */
+	public PreviewToolbarMenuAction( )
+	{
+		super( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.IWorkbenchWindowPulldownDelegate#getMenu(org.eclipse.swt.widgets.Control)
+	 */
+	public Menu getMenu( Control parent )
+	{
+		ReportEngine engine = new ReportEngine( new EngineConfig( ) );
+		String[] supportedFormats = engine.getSupportedFormats( );
+
+		Menu menu = new Menu( parent );
+
+		MenuItem previewWebViewer = new MenuItem( menu, SWT.PUSH );
+		previewWebViewer.setText( Messages.getString( "designer.preview.previewaction.label.webviewer" ) ); //$NON-NLS-1$
+		previewWebViewer.setImage( previewIcon ); //$NON-NLS-1$		
+		previewWebViewer.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				preview( "html", true );
+			}
+		} );
+
+		for ( int i = 0; i < supportedFormats.length; i++ )
+		{
+			final String format = supportedFormats[i];
+			MenuItem previewOption = new MenuItem( menu, SWT.PUSH );
+			previewOption.setText( Messages.getFormattedString( Messages.getString( "designer.preview.previewaction.label" ),
+					new Object[]{
+						format.toUpperCase( )
+					} ) );
+			if ( format.equals( "pdf" ) )
+			{
+				previewOption.setImage( previewPDFIcon );
+			}
+			// add a logic to deal with word
+			else if ( format.equals( "doc" ) )
+			{
+				previewOption.setImage( previewDOCIcon );
+			}
+			else
+			{
+				previewOption.setImage( previewIcon );
+			}
+			previewOption.addSelectionListener( new SelectionAdapter( ) {
+
+				public void widgetSelected( SelectionEvent e )
+				{
+					preview( format, false );
+				}
+			} );
+		}
+
+		return menu;
+	}
+
+	/**
+	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.IWorkbenchWindow)
+	 */
+	public void init( IWorkbenchWindow window )
+	{
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.actions.PreviewAction#dispose()
+	 */
+	public void dispose( )
+	{
+		previewIcon.dispose( );
+		previewPDFIcon.dispose( );
+		previewDOCIcon.dispose( );
+	}
+
+	public void run( IAction action )
+	{
+		if ( Policy.TRACING_ACTIONS )
+		{
+			System.out.println( "Preview action >> Run ..." ); //$NON-NLS-1$
+		}
+		preview( "html", true );
+	}
+
+	/**
+	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction,
+	 *      org.eclipse.jface.viewers.ISelection)
+	 */
+	public void selectionChanged( IAction action, ISelection selection )
+	{
+		action.setEnabled( isEnable( ) );
+	}
+
+	private void preview( String format, boolean allowPage )
+	{
+		FormEditor editor = UIUtil.getActiveReportEditor( false );
+		ModuleHandle model = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+
+		if ( editor != null )
+		{
+			if ( model.needsSave( ) )
+			{
+				editor.doSave( null );
+			}
+		}
+		Map options = new HashMap( );
+		options.put( WebViewer.FORMAT_KEY, format );
+		options.put( WebViewer.ALLOW_PAGE_KEY, Boolean.valueOf( allowPage ) );
+		options.put( WebViewer.RESOURCE_FOLDER_KEY, ReportPlugin.getDefault( )
+				.getResourceFolder( ) );
+		WebViewer.display( model.getFileName( ), options );
+	}
+
+	private boolean isEnable( )
+	{
+		IEditorPart editor = UIUtil.getActiveEditor( true );
+		if ( editor != null )
+		{
+			return ( editor.getEditorInput( )
+					.getName( )
+					.endsWith( ".rptdesign" ) || editor.getEditorInput( ).getName( ).endsWith( ".rpttemplate" ) ); //$NON-NLS-1$
+		}
+		return false;
+	}
+}

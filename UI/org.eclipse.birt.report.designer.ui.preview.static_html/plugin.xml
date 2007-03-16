@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+    <extension 
+        point="org.eclipse.birt.report.designer.ui.preview.viewers">
+        <viewer class="org.eclipse.birt.report.designer.ui.viewer.StaticHTMLViewer"
+              id="org.eclipse.birt.report.designer.ui.preview.static_html"/>
+    </extension>  
+</plugin>
