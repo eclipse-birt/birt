@@ -53,10 +53,13 @@ public class CrosstabMenuBuilder implements IMenuBuilder
 			{
 				// IAction action = new TestCrossTableAction(handle);
 				// menu.add( action );
-				IAction action = new AddColumnGrandTotalAction( handle );
-				menu.add( action );
-
-				action = new AddRowGrandTotalAction( handle );
+//				IAction action = new AddColumnGrandTotalAction( handle );
+//				menu.add( action );
+//
+//				action = new AddRowGrandTotalAction( handle );
+//				menu.add( action );
+				
+				IAction action = new DeleteMeasureHandleAction( handle );
 				menu.add( action );
 			}
 		}

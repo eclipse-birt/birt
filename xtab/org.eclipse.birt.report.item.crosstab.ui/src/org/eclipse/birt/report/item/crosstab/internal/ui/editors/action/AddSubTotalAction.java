@@ -47,7 +47,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 	LevelViewHandle levelHandle = null;
 	private static final String NAME = "add subtotal";
 	private static final String ID = "add_subtotal";
-	private static final String TEXT = "add subtotal";
+	private static final String TEXT = "Aggregation";
 	
 	/**
 	 * The name of the label into the sub total cell.

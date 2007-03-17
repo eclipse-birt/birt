@@ -42,7 +42,7 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 	DimensionViewHandle viewHandle = null;
 	private static final String NAME = "add levelview handle";
 	private static final String ID = "add_levelViewhandle";
-	private static final String TEXT = "add levelview handle";
+	private static final String TEXT = "Show/Hide Group Levels";
 
 	/**
 	 * Constructor

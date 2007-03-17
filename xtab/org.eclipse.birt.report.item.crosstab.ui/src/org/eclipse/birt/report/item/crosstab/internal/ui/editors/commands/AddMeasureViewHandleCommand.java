@@ -18,6 +18,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.model.api.DataItemHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -47,11 +48,12 @@ public class AddMeasureViewHandleCommand extends AbstractCrosstabCommand
 	 * @param measureHandle
 	 */
 	public AddMeasureViewHandleCommand( CrosstabCellAdapter handleAdpter,
-			MeasureHandle measureHandle )
+			MeasureHandle measureHandle, Object after )
 	{
 		super( measureHandle );
 		this.handleAdpter = handleAdpter;
 		this.measureHandle = measureHandle;
+		this.after = after;
 	}
 
 	/*
@@ -77,7 +79,8 @@ public class AddMeasureViewHandleCommand extends AbstractCrosstabCommand
 		try
 		{
 			// TODO the same measure handle can drop to the measure area?
-			int position = reportHandle.getMeasureCount( );
+			//int position = reportHandle.getMeasureCount( );
+			int position = findPosition( );
 			MeasureViewHandle measureViewHandle = reportHandle.insertMeasure( measureHandle,
 					position );
 			measureViewHandle.addHeader( );
@@ -106,5 +109,20 @@ public class AddMeasureViewHandleCommand extends AbstractCrosstabCommand
 			e.printStackTrace( );
 		}
 		transEnd( );
+	}
+	
+	private int findPosition()
+	{
+		int base = handleAdpter.getCrosstabCellHandle( ).getCrosstabHandle( ).getIndex( );
+		if (after instanceof  DesignElementHandle)
+		{
+			int index = ((DesignElementHandle)after).getIndex( );
+			if (index == 0)
+			{
+				return base;
+			}
+		}
+		return base + 1;
+		//return ((CrosstabReportItemHandle) handleAdpter.getCrosstabItemHandle( )).getDimensionCount( getType( ) );
 	}
 }

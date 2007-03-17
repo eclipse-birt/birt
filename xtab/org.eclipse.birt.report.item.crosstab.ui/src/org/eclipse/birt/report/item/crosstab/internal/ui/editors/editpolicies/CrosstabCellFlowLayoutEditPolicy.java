@@ -84,7 +84,7 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 					afterObj = after.getModel( );
 				}
 				return new AddMeasureViewHandleCommand( (CrosstabCellAdapter) model,
-						(MeasureHandle) newObject );
+						(MeasureHandle) newObject, afterObj );
 			}
 			else
 			{
