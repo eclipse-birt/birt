@@ -53,9 +53,10 @@ public class NormalCrosstabCellAdapter extends CrosstabCellAdapter implements IV
 		{
 			return true;
 		}
-		if ( obj instanceof CrosstabHandleAdapter )
+		if ( obj instanceof CrosstabCellAdapter )
 		{
-			return getCrosstabItemHandle( ) == ( (CrosstabHandleAdapter) obj ).getCrosstabItemHandle( );
+			return getCrosstabItemHandle( ) == ( (CrosstabCellAdapter) obj ).getCrosstabItemHandle( )
+			&& getPositionType( ) == ( (CrosstabCellAdapter) obj ).getPositionType( );
 		}
 		return super.equals( obj );
 	}

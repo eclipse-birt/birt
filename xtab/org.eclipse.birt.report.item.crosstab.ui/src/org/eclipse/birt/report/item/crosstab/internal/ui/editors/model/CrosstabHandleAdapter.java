@@ -215,25 +215,30 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 				int measureCount = count;
 				
 				Integer temp;
+				List measuresHandles;
+				int position;
 				if ( levelViewHandle == null )// grand cell
 				{
 					temp = (Integer) map.get( COLUMNAREA_COLUMN );
-					measureCount = CrosstabUtil.getAggregationMeasures(crosstab,ICrosstabConstants.COLUMN_AXIS_TYPE  ).size( );
+					measuresHandles = CrosstabUtil.getAggregationMeasures(crosstab,ICrosstabConstants.COLUMN_AXIS_TYPE  );
 				}
 				else
 				{
 					temp = (Integer) map.get( levelViewHandle );
-					measureCount = CrosstabUtil.getAggregationMeasures( levelViewHandle ).size( );
+					measuresHandles = CrosstabUtil.getAggregationMeasures( levelViewHandle );
 				}
 				if ( temp == null )
 				{
 					throw new RuntimeException( "build error" );
 				}
+				measureCount = measuresHandles.size( );
+				position = measuresHandles.indexOf( measureHandle );
 				if (temp.intValue( ) <= count)
 				{
 					measureCount = count;
+					position = i;
 				}
-				int column = temp.intValue( ) - ( measureCount - i ) + 1;
+				int column = temp.intValue( ) - ( measureCount - position ) + 1;
 
 				levelViewHandle = cell.getLevelView( ICrosstabConstants.ROW_AXIS_TYPE );
 				if ( levelViewHandle == null )// grand cell
@@ -616,7 +621,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 		{
 			int index = oldModelList.indexOf( adapter );
 			BaseCrosstabAdapter copy = (BaseCrosstabAdapter) oldModelList.get( index );
-			adapter.copyToTarget( copy );
+			list.add( adapter.copyToTarget( copy ) );
 		}
 		else
 		{

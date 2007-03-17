@@ -170,4 +170,22 @@ public class GraphicsViewModelEventProcessor extends AbstractModelEventProcessor
 		return getFactory( ).isDispose( );
 	}
 	
+	public void postElementEvent( )
+	{
+		try
+		{
+			if (getFactory( ) instanceof IAdvanceModelEventFactory)
+			{
+				((IAdvanceModelEventFactory)getFactory( )).eventDispathStart();
+			}
+			super.postElementEvent( );
+		}
+		finally
+		{
+			if (getFactory( ) instanceof IAdvanceModelEventFactory)
+			{
+				((IAdvanceModelEventFactory)getFactory( )).eventDispathEnd();
+			}
+		}
+	}
 }

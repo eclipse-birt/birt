@@ -174,4 +174,18 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter
 	{
 		this.positionType = positionType;
 	}
+	
+	public BaseCrosstabAdapter copyToTarget( BaseCrosstabAdapter crossAdapt )
+	{
+		if (crossAdapt instanceof CrosstabCellAdapter)
+		{
+			CrosstabCellAdapter copy = (CrosstabCellAdapter)crossAdapt;
+			copy.setColumnNumber( getColumnNumber( ) );
+			copy.setRowNumber( getRowNumber( ) );
+			copy.setColumnSpan( getColumnSpan( ) );
+			copy.setRowSpan( getRowSpan( ) );
+			copy.setPositionType( getPositionType( ) );
+		}
+		return super.copyToTarget( crossAdapt );
+	}
 }

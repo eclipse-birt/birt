@@ -25,9 +25,13 @@ import org.eclipse.gef.EditPart;
  */
 
 public abstract class AbstractReportEditPart extends ReportElementEditPart implements
-		IModelEventFactory
+		IAdvanceModelEventFactory
 {
 
+	public final static String MODEL_EVENT_DISPATCH = "model event dipatch";//$NON-NLS-1$
+	public final static String START = "start";//$NON-NLS-1$
+	public final static String END = "end";//$NON-NLS-1$
+	private boolean isDispatch = false;
 	/**
 	 * @param model
 	 */
@@ -270,5 +274,21 @@ public abstract class AbstractReportEditPart extends ReportElementEditPart imple
 	public boolean isDispose( )
 	{
 		return getParent()==null || getViewer( ).getControl( ).isDisposed( );
+	}
+	
+	/**
+	 * 
+	 */
+	public void eventDispathStart()
+	{
+		getViewer( ).setProperty( MODEL_EVENT_DISPATCH, START );
+	}
+	
+	/**
+	 * 
+	 */
+	public void eventDispathEnd()
+	{
+		getViewer( ).setProperty( MODEL_EVENT_DISPATCH, END );
 	}
 }

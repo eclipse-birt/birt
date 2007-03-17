@@ -12,11 +12,12 @@
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.action;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
-import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
@@ -53,25 +54,9 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 		super( handle );
 		setId( ID );
 		setText( TEXT );
-		ExtendedItemHandle extendedHandle = getExtendedItemHandle( handle );
+		ExtendedItemHandle extendedHandle =CrosstabAdaptUtil. getExtendedItemHandle( handle );
 		setHandle( extendedHandle );
-		viewHandle = getDimensionViewHandle( extendedHandle );
-	}
-
-	private DimensionViewHandle getDimensionViewHandle(
-			ExtendedItemHandle extendedHandle )
-	{
-		AbstractCrosstabItemHandle handle = (AbstractCrosstabItemHandle) CrosstabUtil.getReportItem( extendedHandle );
-		while ( handle != null )
-		{
-
-			if ( handle instanceof DimensionViewHandle )
-			{
-				return (DimensionViewHandle) handle;
-			}
-			handle = handle.getContainer( );
-		}
-		return null;
+		viewHandle = CrosstabAdaptUtil.getDimensionViewHandle( extendedHandle );
 	}
 
 	/*
@@ -96,19 +81,7 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 			if ( dialog.open( ) == Window.OK )
 			{
 				List result = (List)dialog.getResult( );
-				if (!isDifferent( showLevels, result ))
-				{
-					return;
-				}
-				for (int i=viewCount-1; i>=0; i--)
-				{
-					viewHandle.removeLevel( i );
-				}
-				for (int i=0; i<result.size( ); i++)
-				{
-					LevelHandle tempHandle = (LevelHandle)result.get(i );
-					insertLevelHandle( viewHandle, tempHandle );
-				}
+				processor( showLevels, result  );
 			}
 		}
 		catch ( SemanticException e )
@@ -119,36 +92,55 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 		transEnd( );
 	}
 
-	private boolean isDifferent(List list1, List list2)
+	private void processor(List ori, List newList)throws SemanticException
 	{
-		if (list1.size( ) != list2.size( ))
+		for (int i=0; i<ori.size( ); i++)
 		{
-			return true;
-		}
-		for (int i=0; i<list1.size( ); i++)
-		{
-			if (list1.get( i ) != list2.get( i ))
+			LevelHandle tempHandle = (LevelHandle)ori.get(i );
+			if (!newList.contains( tempHandle ))
 			{
-				return true;
+				viewHandle.removeLevel( tempHandle.getQualifiedName( ) );
 			}
 		}
-		return false;
+		
+		Collections.sort( newList, new LevelComparator() );
+		for (int i=0; i<newList.size( ); i++)
+		{
+			LevelHandle tempHandle = (LevelHandle)newList.get(i );
+			if (viewHandle.getLevel( tempHandle.getQualifiedName( ) ) == null)
+			{
+				insertLevelHandle( tempHandle,i);
+			}
+		}
 	}
 	
-	private void insertLevelHandle( DimensionViewHandle handle,
-			LevelHandle levelHandle ) throws SemanticException
+	private static class LevelComparator implements Comparator
+	{
+
+		public int compare( Object o1, Object o2 )
+		{
+			LevelHandle handle1 = (LevelHandle)o1; 
+			LevelHandle handle2 = (LevelHandle)o2;
+			return handle1.getIndex( ) - handle2.getIndex( );
+		}
+		
+	}
+	
+	private void insertLevelHandle(LevelHandle levelHandle, int pos ) throws SemanticException
 	{
 
 		CrosstabReportItemHandle reportHandle = viewHandle.getCrosstab( );
-		int viewCount = viewHandle.getLevelCount( );
-		LevelViewHandle levelViewHandle = viewHandle.insertLevel( levelHandle,
-				viewCount );
+		//int viewCount = viewHandle.getLevelCount( );
+		
 		ComputedColumn bindingColumn = CrosstabAdaptUtil.createComputedColumn( (ExtendedItemHandle) reportHandle.getModelHandle( ),
 				levelHandle );
-
+		((ExtendedItemHandle)reportHandle.getModelHandle( )).addColumnBinding( bindingColumn, false );
+		
+		LevelViewHandle levelViewHandle = CrosstabUtil.insertLevel(viewHandle, levelHandle,
+				pos );
 		CrosstabCellHandle cellHandle = levelViewHandle.getCell( );
 
-		// TODO create a data bingding dataitem
+		
 		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 				.newDataItem( levelHandle.getName( ) );
 		dataHandle.setResultSetColumn( bindingColumn.getName( ) );
@@ -157,18 +149,4 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 
 	}
 
-	private ExtendedItemHandle getExtendedItemHandle( DesignElementHandle handle )
-	{
-		// DesignElementHandle temp = handle;
-		while ( handle != null )
-		{
-			if ( handle instanceof ExtendedItemHandle )
-			{
-				return (ExtendedItemHandle) handle;
-			}
-			handle = handle.getContainer( );
-
-		}
-		return null;
-	}
 }

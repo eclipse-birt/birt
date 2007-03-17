@@ -45,9 +45,9 @@ public class AggregationCrosstabCellAdapter extends CrosstabCellAdapter
 		{
 			return true;
 		}	
-		if (obj instanceof CrosstabHandleAdapter)
+		if (obj instanceof CrosstabCellAdapter)
 		{
-			return getCrosstabItemHandle( ) == ((CrosstabHandleAdapter)obj).getCrosstabItemHandle();
+			return getCrosstabItemHandle( ) == ((CrosstabCellAdapter)obj).getCrosstabItemHandle();
 		}
 		return super.equals( obj );
 	}

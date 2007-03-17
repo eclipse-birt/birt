@@ -14,6 +14,7 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.core.runtime.IAdaptable;
@@ -77,7 +78,7 @@ public class CrosstabFlowMoveChildCommand extends AbstractCrosstabCommand
 			// for real node that contains design element handle
 			containerHandle = (DesignElementHandle) container;
 			String contentProperty = DEUtil.getContentProperty( containerHandle, after );
-			pos = findInsertPosition( containerHandle,
+			pos = CrosstabAdaptUtil.findInsertPosition( containerHandle,
 					(DesignElementHandle) after );
 
 			DesignElementHandle handle = (DesignElementHandle) child;
@@ -98,26 +99,5 @@ public class CrosstabFlowMoveChildCommand extends AbstractCrosstabCommand
 			rollBack( );
 			e.printStackTrace( );
 		}
-	}
-	
-	/**
-	 * Find the position of the element. If the element is null, the position is
-	 * last
-	 * 
-	 * @param parent
-	 * @param element
-	 * @return position
-	 */
-	public static int findInsertPosition( DesignElementHandle parent,
-			DesignElementHandle element )
-	{
-		// if after is null, insert at last
-		if ( element == null )
-		{
-			return parent.getContentCount( DEUtil.getDefaultContentName( parent ) );
-		}
-		//parent.findContentSlot(  )
-		
-		return element.getIndex( );
 	}
 }

@@ -18,9 +18,10 @@ import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
-import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabHandleAdapter;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
 import org.eclipse.birt.report.model.api.DataItemHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
@@ -36,13 +37,14 @@ import org.eclipse.birt.report.model.api.olap.LevelHandle;
 public class AddDimensionViewHandleCommand extends AbstractCrosstabCommand
 {
 
-	private CrosstabHandleAdapter handleAdpter;
+	private CrosstabCellAdapter handleAdpter;
 	/**
 	 * Column or the row type.See the ICrosstabConstants row and column axis
 	 * type.
 	 */
 	private int type = -1;
 	private DimensionHandle dimensionHandle;
+	private Object after = null;
 
 	/**
 	 * Trans name
@@ -56,13 +58,14 @@ public class AddDimensionViewHandleCommand extends AbstractCrosstabCommand
 	 * @param type
 	 * @param dimensionHandle
 	 */
-	public AddDimensionViewHandleCommand( CrosstabHandleAdapter handleAdpter,
-			int type, DimensionHandle dimensionHandle )
+	public AddDimensionViewHandleCommand( CrosstabCellAdapter handleAdpter,
+			int type, DimensionHandle dimensionHandle, Object after)
 	{
 		super( dimensionHandle );
 		setHandleAdpter( handleAdpter );
 		setType( type );
 		setDimensionHandle( dimensionHandle );
+		this.after = after;
 	}
 
 	/**
@@ -90,7 +93,7 @@ public class AddDimensionViewHandleCommand extends AbstractCrosstabCommand
 	 * 
 	 * @param handleAdpter
 	 */
-	public void setHandleAdpter( CrosstabHandleAdapter handleAdpter )
+	public void setHandleAdpter( CrosstabCellAdapter handleAdpter )
 	{
 		this.handleAdpter = handleAdpter;
 	}
@@ -135,11 +138,12 @@ public class AddDimensionViewHandleCommand extends AbstractCrosstabCommand
 	public void execute( )
 	{
 		transStart( NAME );
-		CrosstabReportItemHandle reportHandle = (CrosstabReportItemHandle) handleAdpter.getCrosstabItemHandle( );
+		CrosstabReportItemHandle reportHandle = (CrosstabReportItemHandle) handleAdpter.getCrosstabCellHandle( ).getCrosstab( );
 
 		try
 		{
-			int position = reportHandle.getDimensionCount( getType( ) );
+			//int position = reportHandle.getDimensionCount( getType( ) );
+			int position = findPosition(  );
 			DimensionViewHandle viewHandle = reportHandle.insertDimension( getDimensionHandle( ),
 					getType( ),
 					position );
@@ -174,4 +178,18 @@ public class AddDimensionViewHandleCommand extends AbstractCrosstabCommand
 		transEnd( );
 	}
 
+	private int findPosition()
+	{
+		int base = handleAdpter.getCrosstabCellHandle( ).getCrosstabHandle( ).getIndex( );
+		if (after instanceof  DesignElementHandle)
+		{
+			int index = ((DesignElementHandle)after).getIndex( );
+			if (index == 0)
+			{
+				return base;
+			}
+		}
+		return base + 1;
+		//return ((CrosstabReportItemHandle) handleAdpter.getCrosstabItemHandle( )).getDimensionCount( getType( ) );
+	}
 }

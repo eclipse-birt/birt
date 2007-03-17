@@ -12,9 +12,13 @@
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.model;
 
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -78,4 +82,69 @@ public class CrosstabAdaptUtil
 		return bindingColumn;
 	}
 	
+
+	/**
+	 * Find the position of the element. If the element is null, the position is
+	 * last
+	 * 
+	 * @param parent
+	 * @param element
+	 * @return position
+	 */
+	public static int findInsertPosition( DesignElementHandle parent,
+			DesignElementHandle element )
+	{
+		// if after is null, insert at last
+		if ( element == null )
+		{
+			return parent.getContentCount( DEUtil.getDefaultContentName( parent ) );
+		}
+		//parent.findContentSlot(  )
+		
+		return element.getIndex( );
+	}
+	
+	public static ExtendedItemHandle getExtendedItemHandle( DesignElementHandle handle )
+	{
+		while ( handle != null )
+		{
+			if ( handle instanceof ExtendedItemHandle )
+			{
+				return (ExtendedItemHandle) handle;
+			}
+			handle = handle.getContainer( );
+
+		}
+		return null;
+	}
+	
+	public static LevelViewHandle getLevelViewHandle(
+			ExtendedItemHandle extendedHandle )
+	{
+		AbstractCrosstabItemHandle handle = (AbstractCrosstabItemHandle) CrosstabUtil.getReportItem( extendedHandle );
+		while ( handle != null )
+		{
+			if ( handle instanceof LevelViewHandle )
+			{
+				return (LevelViewHandle) handle;
+			}
+			handle = handle.getContainer( );
+		}
+		return null;
+	}
+
+	public static DimensionViewHandle getDimensionViewHandle(
+			ExtendedItemHandle extendedHandle )
+	{
+		AbstractCrosstabItemHandle handle = (AbstractCrosstabItemHandle) CrosstabUtil.getReportItem( extendedHandle );
+		while ( handle != null )
+		{
+			if ( handle instanceof DimensionViewHandle )
+			{
+				return (DimensionViewHandle) handle;
+			}
+			handle = handle.getContainer( );
+		}
+		return null;
+	}
 }

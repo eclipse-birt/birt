@@ -23,6 +23,7 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.Crosst
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.CrosstabFlowMoveChildCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.CrosstabPasterCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabTableEditPart;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.FirstLevelHandleDataItemEditPart;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabHandleAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.ICrosstabCellAdapterFactory;
@@ -65,14 +66,24 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 			if ( newObject instanceof DimensionHandle
 					&& ( type == ICrosstabConstants.COLUMN_AXIS_TYPE || type == ICrosstabConstants.ROW_AXIS_TYPE ) )
 			{
-				return new AddDimensionViewHandleCommand( adapter,
+				Object afterObj = null;
+				if (after instanceof FirstLevelHandleDataItemEditPart )
+				{
+					afterObj = after.getModel( );
+				}
+				return new AddDimensionViewHandleCommand( (CrosstabCellAdapter) model,
 						type,
-						(DimensionHandle) newObject );
+						(DimensionHandle) newObject, afterObj );
 			}
 			else if ( newObject instanceof MeasureHandle
 					&& position.equals( ICrosstabCellAdapterFactory.CELL_MEASURE ) )
 			{
-				return new AddMeasureViewHandleCommand( adapter,
+				Object afterObj = null;
+				if (after != null )
+				{
+					afterObj = after.getModel( );
+				}
+				return new AddMeasureViewHandleCommand( (CrosstabCellAdapter) model,
 						(MeasureHandle) newObject );
 			}
 			else

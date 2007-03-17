@@ -16,7 +16,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
-import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabHandleAdapter;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
@@ -32,9 +32,9 @@ import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 public class AddMeasureViewHandleCommand extends AbstractCrosstabCommand
 {
 
-	private CrosstabHandleAdapter handleAdpter;
+	private CrosstabCellAdapter handleAdpter;
 	private MeasureHandle measureHandle;
-
+	private Object after = null;
 	/**
 	 * trans name
 	 */
@@ -46,7 +46,7 @@ public class AddMeasureViewHandleCommand extends AbstractCrosstabCommand
 	 * @param handleAdpter
 	 * @param measureHandle
 	 */
-	public AddMeasureViewHandleCommand( CrosstabHandleAdapter handleAdpter,
+	public AddMeasureViewHandleCommand( CrosstabCellAdapter handleAdpter,
 			MeasureHandle measureHandle )
 	{
 		super( measureHandle );
@@ -72,7 +72,7 @@ public class AddMeasureViewHandleCommand extends AbstractCrosstabCommand
 	public void execute( )
 	{
 		transStart( NAME );
-		CrosstabReportItemHandle reportHandle = (CrosstabReportItemHandle) handleAdpter.getCrosstabItemHandle( );
+		CrosstabReportItemHandle reportHandle = (CrosstabReportItemHandle) handleAdpter.getCrosstabCellHandle( ).getCrosstab( );
 
 		try
 		{

@@ -11,11 +11,14 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractCellEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractReportEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractTableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
@@ -27,8 +30,6 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.Ta
 import org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutCell;
 import org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner;
 import org.eclipse.birt.report.designer.internal.ui.layout.TableLayout;
-import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
-import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editpolicies.CrosstabXYLayoutEditPolicy;
@@ -63,7 +64,7 @@ import org.eclipse.swt.graphics.Image;
 // TODO don't support the table border padding
 // TODO adapter equals and hascode with the event dispatch
 // TODO Draw the virtual cell figure back fround text half done
-public class CrosstabTableEditPart extends AbstractTableEditPart
+public class CrosstabTableEditPart extends AbstractTableEditPart implements PropertyChangeListener
 {
 
 	public static final String CELL_HANDLE_LAYER = "Cell handles layer"; //$NON-NLS-1$
@@ -77,6 +78,8 @@ public class CrosstabTableEditPart extends AbstractTableEditPart
 	private static final int BIG_DEFAULT_HEIGHT = 85;
 	CrosstabHandleAdapter adapter;
 
+	private boolean isReload = false;
+	
 	/**
 	 * Constructor
 	 */
@@ -95,7 +98,18 @@ public class CrosstabTableEditPart extends AbstractTableEditPart
 		super( model );
 
 	}
+	
+	public void activate( )
+	{
+		getViewer( ).addPropertyChangeListener( this );
+		super.activate( );
+	}
 
+	public void deactivate( )
+	{
+		getViewer( ).removePropertyChangeListener( this );
+		super.deactivate( );
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -763,5 +777,28 @@ public class CrosstabTableEditPart extends AbstractTableEditPart
 			handle = handle.getContainer( );
 		}
 		return super.isinterest( model );
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#refresh()
+	 */
+	public void refresh( )
+	{
+		if (!isReload)
+		{
+			super.refresh( );
+			isReload = true;
+		}
+	}
+
+	public void propertyChange( PropertyChangeEvent evt )
+	{
+		if (evt.getPropertyName( ).equals( AbstractReportEditPart.MODEL_EVENT_DISPATCH ))
+		{
+			if (AbstractReportEditPart.START.equals( evt.getNewValue( ) ))
+			{
+				isReload = false;
+			}
+		}
 	}
 }
