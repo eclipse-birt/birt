@@ -96,7 +96,7 @@
 			<include name="${dtp.oda.jar}"/>
 		</fileset>		
 -->
-		<fileset dir="${eclipse.home}/plugins">
+		<fileset dir="${dtp.install.home}/eclipse/plugins">
 			<include name="org.eclipse.datatools.connectivity.oda_*.jar"/>
 		</fileset>
 	</path>

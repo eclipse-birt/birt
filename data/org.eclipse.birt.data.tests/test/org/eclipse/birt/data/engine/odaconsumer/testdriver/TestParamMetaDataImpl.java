@@ -47,6 +47,15 @@ public class TestParamMetaDataImpl implements IParameterMetaData
     }
 
     /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterName(int)
+     */
+    public String getParameterName( int param ) throws OdaException
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
      * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterType(int)
      */
     public int getParameterType( int param ) throws OdaException

@@ -228,6 +228,36 @@ public class TestAdvQueryImpl implements IAdvancedQuery
     }
 
     /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IQuery#setBoolean(java.lang.String, boolean)
+     */
+    public void setBoolean( String parameterName, boolean value )
+            throws OdaException
+    {        
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IQuery#setBoolean(int, boolean)
+     */
+    public void setBoolean( int parameterId, boolean value )
+            throws OdaException
+    {        
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IQuery#setNull(java.lang.String)
+     */
+    public void setNull( String parameterName ) throws OdaException
+    {        
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IQuery#setNull(int)
+     */
+    public void setNull( int parameterId ) throws OdaException
+    {        
+    }
+
+    /* (non-Javadoc)
      * @see org.eclipse.datatools.connectivity.oda.IQuery#findInParameter(java.lang.String)
      */
     public int findInParameter( String parameterName ) throws OdaException
@@ -278,6 +308,24 @@ public class TestAdvQueryImpl implements IAdvancedQuery
         throw new UnsupportedOperationException();
     }
     
+    /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getBoolean(int)
+     */
+    public boolean getBoolean( int parameterId ) throws OdaException
+    {
+        // test driver does not support this
+        throw new UnsupportedOperationException();
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getBoolean(java.lang.String)
+     */
+    public boolean getBoolean( String parameterName ) throws OdaException
+    {
+        // test driver does not support this
+        throw new UnsupportedOperationException();
+    }
+
     /* (non-Javadoc)
      * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getBigDecimal(int)
      */
