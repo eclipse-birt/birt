@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -668,7 +668,55 @@ public class Statement implements IQuery
 		}
 	}
 
-	/*
+	/* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IQuery#setBoolean(java.lang.String, boolean)
+     */
+    public void setBoolean( String parameterName, boolean value )
+            throws OdaException
+    {
+        /* not supported */
+        UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
+        logger.logp( java.util.logging.Level.FINE,
+                Statement.class.getName( ),
+                "setBoolean",
+                "No named Parameter supported.",
+                e );
+        throw e;
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IQuery#setBoolean(int, boolean)
+     */
+    public void setBoolean( int parameterId, boolean value )
+            throws OdaException
+    {
+        // TODO Auto-generated method stub       
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IQuery#setNull(java.lang.String)
+     */
+    public void setNull( String parameterName ) throws OdaException
+    {
+        /* not supported */
+        UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
+        logger.logp( java.util.logging.Level.FINE,
+                Statement.class.getName( ),
+                "setNull",
+                "No named Parameter supported.",
+                e );
+        throw e;
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IQuery#setNull(int)
+     */
+    public void setNull( int parameterId ) throws OdaException
+    {
+        // TODO Auto-generated method stub        
+    }
+
+    /*
 	 * @see org.eclipse.datatools.connectivity.IQuery#findInParameter(java.lang.String)
 	 */
 	public int findInParameter( String parameterName ) throws OdaException

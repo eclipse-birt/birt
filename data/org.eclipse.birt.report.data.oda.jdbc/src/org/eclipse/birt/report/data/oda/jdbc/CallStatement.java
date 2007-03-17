@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -834,7 +834,41 @@ public class CallStatement implements IAdvancedQuery
 		}
 	}
 
-	/*
+	/* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IQuery#setBoolean(java.lang.String, boolean)
+     */
+    public void setBoolean( String parameterName, boolean value )
+            throws OdaException
+    {
+        // TODO Auto-generated method stub        
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IQuery#setBoolean(int, boolean)
+     */
+    public void setBoolean( int parameterId, boolean value )
+            throws OdaException
+    {
+        // TODO Auto-generated method stub        
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IQuery#setNull(java.lang.String)
+     */
+    public void setNull( String parameterName ) throws OdaException
+    {
+        // TODO Auto-generated method stub       
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IQuery#setNull(int)
+     */
+    public void setNull( int parameterId ) throws OdaException
+    {
+        // TODO Auto-generated method stub        
+    }
+
+    /*
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#setNewRow(java.lang.String)
 	 */
 	public IParameterRowSet setNewRow( String parameterName )
@@ -1178,7 +1212,25 @@ public class CallStatement implements IAdvancedQuery
 		}
 	}
 
-	/*
+    /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getBoolean(java.lang.String)
+     */
+    public boolean getBoolean( String parameterName ) throws OdaException
+    {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException(); 
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getBoolean(int)
+     */
+    public boolean getBoolean( int parameterId ) throws OdaException
+    {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException(); 
+    }
+
+    /*
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getRow(java.lang.String)
 	 */
 	public IParameterRowSet getRow( String parameterName ) throws OdaException
