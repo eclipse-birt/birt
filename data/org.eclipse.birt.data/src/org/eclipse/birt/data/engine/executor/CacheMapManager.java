@@ -10,10 +10,21 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.executor;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+
+import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.odi.IResultClass;
 
 /**
  * Manage the cache map
@@ -116,15 +127,16 @@ class CacheMapManager
 	 */
 	void clearCache( DataSourceAndDataSet dsAndDs )
 	{
-		Object cacheDir = null;
+		List cacheDir = new ArrayList() ;
 		synchronized ( cacheMap )
 		{
-			cacheDir = cacheMap.remove( dsAndDs );
+			while ( getKey( dsAndDs )!= null )
+			cacheDir.add(cacheMap.remove( getKey ( dsAndDs )));
 		}
-		if ( cacheDir != null )
+		for ( int i = 0; i < cacheDir.size(); i++ )
 		{
 			// assume the following statement is thread-safe
-			folderUtil.deleteDir( (String) cacheDir );
+			folderUtil.deleteDir( cacheDir.get(i).toString() );
 		}
 
 	}
@@ -141,6 +153,76 @@ class CacheMapManager
 		}
 	}
 	
+	/**
+	 * Return the cached result metadata featured by the given DataSourceAndDataSet. Please note
+	 * that the paramter would have no impact to DataSourceAndDataSet so that will be omited.
+	 * @param dsAndDs
+	 * @return
+	 * @throws DataException
+	 */
+	IResultClass getCachedResultClass( DataSourceAndDataSet dsAndDs) throws DataException
+	{
+		String folder = getMetaDataLoadFolder(dsAndDs);
+		if ( folder == null )
+			return null;
+		
+		IResultClass rsClass;
+		FileInputStream fis1 = null;
+		BufferedInputStream bis1 = null;
+		try
+		{
+			fis1 = new FileInputStream(  folder + "/metaData.data");
+			bis1 = new BufferedInputStream( fis1 );
+			IOUtil.readInt( bis1 );
+			rsClass = new ResultClass( bis1 );
+			bis1.close( );
+			fis1.close( );
+
+			return rsClass;
+		}
+		catch ( FileNotFoundException e )
+		{
+			throw new DataException( ResourceConstants.DATASETCACHE_LOAD_ERROR,
+					e );
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( ResourceConstants.DATASETCACHE_LOAD_ERROR,
+					e );
+		}
+	}
+
+	/**
+	 * 
+	 * @param dsAndDs
+	 * @return 
+	 */
+	private String getMetaDataLoadFolder(DataSourceAndDataSet dsAndDs) 
+	{
+		Object key = getKey( dsAndDs );
+		if( key != null )
+			return String.valueOf( cacheMap.get( key ) );
+		return null;
+	}
+	
+	/**
+	 * 
+	 * @param dsAndDs
+	 * @return
+	 */
+	private Object getKey ( DataSourceAndDataSet dsAndDs )
+	{
+		for ( Iterator it = cacheMap.keySet().iterator(); it.hasNext(); )
+		{
+			DataSourceAndDataSet temp = ( DataSourceAndDataSet )it.next();
+			if( temp.isDataSourceDataSetEqual( dsAndDs, false ) )
+			{
+				return temp;
+			}
+			
+		}
+		return null;
+	}
 	/**
 	 * Folder util class to manager temp folder
 	 */
@@ -236,5 +318,4 @@ class CacheMapManager
 			sessionsFolder.delete( );
 		}
 	}
-	
 }

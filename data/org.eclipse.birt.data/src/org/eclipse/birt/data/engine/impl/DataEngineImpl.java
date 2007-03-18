@@ -30,6 +30,7 @@ import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -521,5 +522,14 @@ public class DataEngineImpl extends DataEngine
 			dataSourcesJSObject = new JSDataSources( this.dataSources );
 		}
 		return dataSourcesJSObject;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.DataEngine#getCachedDataSetMetaData(org.eclipse.birt.data.engine.api.IBaseDataSourceDesign, org.eclipse.birt.data.engine.api.IBaseDataSetDesign)
+	 */
+	public IResultMetaData getCachedDataSetMetaData(IBaseDataSourceDesign dataSource, IBaseDataSetDesign dataSet) throws BirtException 
+	{
+		return this.session.getDataSetCacheManager().getCachedResultMetadata( dataSource, dataSet);
 	}
 }

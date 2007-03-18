@@ -21,6 +21,7 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
 /**
@@ -31,6 +32,7 @@ public class ResultMetaData implements IResultMetaData
 {
     IResultClass		m_odiResultClass;
 	protected static Logger logger = Logger.getLogger( ResultMetaData.class.getName( ) );
+	private int columnCount = -1;
    
 	/**
 	 * @param odiResultClass
@@ -53,14 +55,46 @@ public class ResultMetaData implements IResultMetaData
 	    logger.logp( Level.FINE,
 				QueryResults.class.getName( ),
 				"getColumnCount","");       
-        return m_odiResultClass.getFieldCount();
+        return doGetColumnCount( );
     }
+    
+    private int doGetColumnCount( )
+	{
+		if ( columnCount != -1 )
+			return columnCount;
+
+		int columnCount = m_odiResultClass.getFieldCount( );
+		for ( int i = columnCount; i > 0; i-- )
+		{
+			try
+			{
+				if ( !isTemp( m_odiResultClass.getFieldName( i ) ) )
+				{
+					columnCount = i;
+					break;
+				}
+			}
+			catch ( DataException e )
+			{
+				return columnCount;
+			}
+		}
+
+		return columnCount;
+	}
+    
+	private boolean isTemp( String name )
+	{
+		return ( name.matches( "\\Q_{$TEMP_GROUP_\\E\\d*\\Q$}_\\E" )
+				|| name.matches( "\\Q_{$TEMP_SORT_\\E\\d*\\Q$}_\\E" ) || name.matches( "\\Q_{$TEMP_FILTER_\\E\\d*\\Q$}_\\E" ) );
+	}
 
     /* (non-Javadoc)
      * @see org.eclipse.birt.data.engine.api.IResultMetaData#getColumnName(int)
      */
     public String getColumnName( int index ) throws DataException
     {
+    	checkIndex( index );
 	    logger.logp( Level.FINE,
 				QueryResults.class.getName( ),
 				"getColumnName",
@@ -74,6 +108,7 @@ public class ResultMetaData implements IResultMetaData
      */
     public String getColumnAlias( int index ) throws DataException
     {
+    	checkIndex( index );
 	    logger.logp( Level.FINE,
 				QueryResults.class.getName( ),
 				"getColumnAlias",
@@ -87,6 +122,7 @@ public class ResultMetaData implements IResultMetaData
      */
     public int getColumnType( int index ) throws DataException
     {
+    	checkIndex( index );
 	    logger.logp( Level.FINE,
 				QueryResults.class.getName( ),
 				"getColumnType",
@@ -101,6 +137,7 @@ public class ResultMetaData implements IResultMetaData
      */
     public String getColumnTypeName( int index ) throws DataException
     {
+    	checkIndex( index );
 	    logger.logp( Level.FINE,
 				QueryResults.class.getName( ),
 				"getColumnTypeName",
@@ -114,6 +151,7 @@ public class ResultMetaData implements IResultMetaData
      */
 	public String getColumnNativeTypeName( int index ) throws DataException
 	{
+		checkIndex( index );
 	    logger.logp( Level.FINE,
 				QueryResults.class.getName( ),
 				"getColumnNativeTypeName",
@@ -127,6 +165,7 @@ public class ResultMetaData implements IResultMetaData
      */
     public String getColumnLabel( int index ) throws DataException
     {
+    	checkIndex( index );
 	    logger.logp( Level.FINE,
 				QueryResults.class.getName( ),
 				"getColumnLabel",
@@ -140,12 +179,27 @@ public class ResultMetaData implements IResultMetaData
      */
 	public boolean isComputedColumn( int index ) throws DataException
 	{
+		checkIndex( index );
 	    logger.logp( Level.FINE,
 				QueryResults.class.getName( ),
 				"isComputedColumn",
 				"whether the specified projected column is defined as a computed column",
 				new Integer( index ) );       
 	    return m_odiResultClass.isCustomField( index );
+	}
+	
+	/**
+	 * Indicates whether index is out of bounds
+	 * 
+	 * @param index
+	 *            1-based
+	 * @throws DataException
+	 */
+	private void checkIndex( int index ) throws DataException
+	{
+		if ( index > doGetColumnCount( ) )
+			throw new DataException( ResourceConstants.INVALID_FIELD_INDEX,
+					new Integer( index ) );
 	}
 
 }

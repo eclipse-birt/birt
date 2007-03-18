@@ -177,7 +177,9 @@ abstract public class DataEngine
 	 * will return a IResultMetaData instance which provides at least the ColumnName
 	 * and ColumnType information for all cached columns.
 	 * 
-	 * Please that the ParameterHint information
+	 * Please note that the ParameterHint information will usually essential to the result of data set design is
+	 * omitted for it has nothing to do with the metadata.
+	 * 
 	 * @param dataSource
 	 * @param dataSet
 	 * @param parameterHints

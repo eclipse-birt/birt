@@ -15,6 +15,10 @@ import java.util.Collection;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
+import org.eclipse.birt.data.engine.api.IResultMetaData;
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.ResultMetaData;
+import org.eclipse.birt.data.engine.odi.IResultClass;
 
 /**
  * Cache manager for ODA data set and Scripted data set. Since connection to
@@ -243,6 +247,24 @@ public class DataSetCacheManager
 		alwaysCacheRowCount = 0;
 		
 		this.cacheMapManager.resetForTest( );
+	}
+	
+	/**
+	 * Return the cached result metadata. Please note that parameter hint will not 
+	 * change the returned metadata.
+	 * 
+	 * @return
+	 * @throws DataException
+	 */
+	public IResultMetaData getCachedResultMetadata( IBaseDataSourceDesign dataSource, IBaseDataSetDesign dataSet ) throws DataException
+	{
+		IResultClass resultClass = this.cacheMapManager
+		.getCachedResultClass(DataSourceAndDataSet.newInstance(
+				dataSource, dataSet, null)); 
+		if ( resultClass != null )
+			return new ResultMetaData( resultClass );
+		else
+			return null;
 	}
 	
 }
