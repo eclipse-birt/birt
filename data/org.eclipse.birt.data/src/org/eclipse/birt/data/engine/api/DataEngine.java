@@ -44,12 +44,26 @@ abstract public class DataEngine
 	 * true value of this property to appContext and set it by the method of
 	 * prepare.
 	 * 
+	 * @deprecated
 	 * @see org.eclipse.birt.data.engine.api.DataEngine.prepare(
 	 *      IQueryDefinition querySpec, Map appContext)
 	 */
 	public static String DATASET_CACHE_OPTION = "org.eclipse.birt.data.engine.dataset.cache.option";
 	
-    /**
+	/**
+	 * Indicates whether data set cache function need to be used:
+	 * 
+	 * Negative integer: Enable data set cache. The row limit will not be set and all data set rows are fetched.
+	 * 
+	 * Positive integer: Enable data set cache. This row limit will be used for ALL
+     * data sets, regardless of settings on individual data set designs.
+     * 
+     * Zero:Disable data set cache regardless of report design settings and
+	 * DataEngineContext settings. 
+	 */
+	public static String DATA_SET_CACHE_ROW_LIMIT = "org.eclipse.birt.data.cache.RowLimit";
+
+	/**
 	 * Creates a new instance of DataEngine, using the specified
 	 * DataEngineContext as its running environment
 	 * 

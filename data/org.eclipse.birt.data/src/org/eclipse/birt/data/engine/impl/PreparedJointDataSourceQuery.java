@@ -669,7 +669,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 							null,
 							DataSetCacheUtil.getCacheOption( self.dataEngine.getContext( ),
 									appContext ),
-							self.dataEngine.getContext( ).getCacheCount( ) );
+							DataSetCacheUtil.getCacheCount( self.dataEngine.getContext( ), appContext ));
 		}
 
 		/**

@@ -171,7 +171,7 @@ abstract class PreparedDataSourceQuery
 		if ( getDataSetCacheManager( ).needsToCache( dataSetDesign,
 				DataSetCacheUtil.getCacheOption( dataEngine.getContext( ),
 						appContext ),
-				dataEngine.getContext( ).getCacheCount( ) ) == false )
+				DataSetCacheUtil.getCacheCount( dataEngine.getContext( ), appContext ) ) == false )
 			return;
 		
 		Collection parameterHints = null;
@@ -194,11 +194,10 @@ abstract class PreparedDataSourceQuery
 						dataSetDesign,
 						parameterHints );
 
-		if ( dataEngine.getContext( ).getCacheOption( ) == DataEngineContext.CACHE_USE_ALWAYS )
+		if ( DataSetCacheUtil.getCacheOption( dataEngine.getContext( ), appContext ) == DataEngineContext.CACHE_USE_ALWAYS )
 		{
 			getDataSetCacheManager( )
-					.setAlwaysCacheRowCount( dataEngine.getContext( )
-							.getCacheCount( ) );
+					.setAlwaysCacheRowCount( DataSetCacheUtil.getCacheCount( dataEngine.getContext( ), appContext ));
 		}
 
 		getDataSetCacheManager( )
