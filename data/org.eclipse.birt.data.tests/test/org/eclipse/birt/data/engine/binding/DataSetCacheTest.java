@@ -26,6 +26,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
@@ -193,7 +194,6 @@ public class DataSetCacheTest extends APITestCase
 	}
 
 	/**
-	 * Test feature of whether cache will be used
 	 * @throws BirtException
 	 */
 	public void testUseAppContextCacheRowLimit1( ) throws BirtException, Exception
@@ -217,7 +217,6 @@ public class DataSetCacheTest extends APITestCase
 	}
 	
 	/**
-	 * Test feature of whether cache will be used
 	 * @throws BirtException
 	 */
 	public void testUseAppContextCacheRowLimit2( ) throws BirtException, Exception
@@ -241,7 +240,6 @@ public class DataSetCacheTest extends APITestCase
 	}
 	
 	/**
-	 * Test feature of whether cache will be used
 	 * @throws BirtException
 	 */
 	public void testUseAppContextCacheRowLimit3( ) throws BirtException, Exception
@@ -261,6 +259,33 @@ public class DataSetCacheTest extends APITestCase
 		//cache settings.
 		this.appContextMap.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT, new Integer(4) );
 		this.testUseCache1();
+	}
+	
+	/**
+	 * Test acqurire save cache result meta 
+	 *
+	 */
+	public void testUseCachedMeta1() throws BirtException
+	{
+		this.appContextMap.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT, new Integer( 1 ) );
+		this.genCache();
+		DataEngine myDataEngine = newDataEngine( );
+		IResultMetaData meta = myDataEngine.getCachedDataSetMetaData(dataSource, dataSet);
+		assertTrue( meta!= null );
+		assertTrue( meta.getColumnCount() == 6 );
+	}
+	
+	/**
+	 * Test acqurire inexist save cache result meta 
+	 *
+	 */
+	public void testUseCachedMeta2() throws BirtException
+	{
+		this.appContextMap.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT, new Integer( 0 ) );
+		this.genCache();
+		DataEngine myDataEngine = newDataEngine( );
+		IResultMetaData meta = myDataEngine.getCachedDataSetMetaData(dataSource, dataSet);
+		assertTrue( meta == null );
 	}
 	
 	/**

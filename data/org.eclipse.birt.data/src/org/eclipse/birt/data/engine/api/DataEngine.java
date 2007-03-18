@@ -17,7 +17,6 @@ package org.eclipse.birt.data.engine.api;
 import java.io.File;
 import java.util.Map;
 
-import org.mozilla.javascript.Scriptable;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.core.framework.PlatformConfig;
@@ -25,6 +24,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.mozilla.javascript.Scriptable;
 
 /**
  * Data Engine API class.
@@ -173,6 +173,21 @@ abstract public class DataEngine
 	 */
 	abstract public void defineDataSet( IBaseDataSetDesign dataSet ) 
 			throws BirtException;
+	
+	/**
+	 * This method will return NULL if the named data set is not cached. Otherwise, it
+	 * will return a IResultMetaData instance which provides at least the ColumnName
+	 * and ColumnType information for all cached columns.
+	 * 
+	 * Please that the ParameterHint information
+	 * @param dataSource
+	 * @param dataSet
+	 * @param parameterHints
+	 * @return
+	 * @throws BirtException
+	 */
+	abstract public IResultMetaData getCachedDataSetMetaData( IBaseDataSourceDesign dataSource,
+                   IBaseDataSetDesign dataSet ) throws BirtException;
 	
 	/**
 	 * If user wants to use the latest data from data set rather than local

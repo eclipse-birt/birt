@@ -30,6 +30,7 @@ import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -53,7 +54,6 @@ public class DataEngineImpl extends DataEngine
 	// Map of data set name (string) to IBaseDataSetDesign, for defined data sets
 	private HashMap					dataSetDesigns = new HashMap();
 	
-	//private HashMap					cubeDesign = new HashMap();
 	/** Scripable object implementing "report.dataSources" array */
 	private Scriptable				dataSourcesJSObject;
 
@@ -535,5 +535,14 @@ public class DataEngineImpl extends DataEngine
 			Map appContext ) throws BirtException
 	{
 		return new PreparedCubeQuery( query, this.session.getSharedScope( ));
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.DataEngine#getCachedDataSetMetaData(org.eclipse.birt.data.engine.api.IBaseDataSourceDesign, org.eclipse.birt.data.engine.api.IBaseDataSetDesign)
+	 */
+	public IResultMetaData getCachedDataSetMetaData(IBaseDataSourceDesign dataSource, IBaseDataSetDesign dataSet) throws BirtException 
+	{
+		return this.session.getDataSetCacheManager().getCachedResultMetadata( dataSource, dataSet);
 	}
 }

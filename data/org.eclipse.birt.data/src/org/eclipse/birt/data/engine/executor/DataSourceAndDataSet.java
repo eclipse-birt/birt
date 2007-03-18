@@ -81,17 +81,15 @@ public class DataSourceAndDataSet
 		return hashCode;
 	}
 
-	/*
-	 * @see java.lang.Object#equals(java.lang.Object)
+	/**
+	 * 
+	 * 
+	 * @param obj
+	 * @param considerParam
+	 * @return
 	 */
-	public boolean equals( Object obj )
+	public boolean isDataSourceDataSetEqual( DataSourceAndDataSet obj, boolean considerParam )
 	{
-		if ( obj == null || obj instanceof DataSourceAndDataSet == false )
-			return false;
-
-		if ( this == obj )
-			return true;
-
 		IBaseDataSourceDesign dataSourceDesign2 = ( (DataSourceAndDataSet) obj ).dataSourceDesign;
 		IBaseDataSetDesign dataSetDesign2 = ( (DataSourceAndDataSet) obj ).dataSetDesign;
 		Collection paramterHints2 = ( (DataSourceAndDataSet) obj ).paramterHints;
@@ -100,6 +98,9 @@ public class DataSourceAndDataSet
 		{
 			if ( this.dataSetDesign == dataSetDesign2 )
 			{
+				if ( !considerParam )
+					return true;
+				
 				if ( isEqualParamterHints( this.paramterHints,
 						paramterHints2 ) )
 					return true;
@@ -128,12 +129,30 @@ public class DataSourceAndDataSet
 		if ( isEqualDataSetDesign( dataSetDesign, dataSetDesign2 ) == false )
 			return false;
 
+		if ( !considerParam )
+			return true;
+		
 		// parameter bindings compare
 		if ( this.isEqualParamterHints( this.paramterHints,
 				paramterHints2 ) == false )
 			return false;
 
 		return true;
+
+	}
+	
+	/*
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	public boolean equals( Object obj )
+	{
+		if ( obj == null || obj instanceof DataSourceAndDataSet == false )
+			return false;
+
+		if ( this == obj )
+			return true;
+		
+		return this.isDataSourceDataSetEqual((DataSourceAndDataSet)obj, true );
 	}
 
 	/**
