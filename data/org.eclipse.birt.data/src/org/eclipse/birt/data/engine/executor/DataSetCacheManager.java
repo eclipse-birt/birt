@@ -12,6 +12,7 @@ package org.eclipse.birt.data.engine.executor;
 
 import java.util.Collection;
 
+import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 
@@ -53,11 +54,6 @@ public class DataSetCacheManager
 	// map manager instance
 	private CacheMapManager cacheMapManager;
 	
-	// constant value
-	public final static int ALWAYS = 1;
-	public final static int DISABLE = 2;
-	public final static int DEFAULT = 3;
-	
 	/**
 	 * Construction
 	 */
@@ -65,7 +61,7 @@ public class DataSetCacheManager
 	{
 		dataSourceDesign = null;
 		dataSetDesign = null;
-		cacheOption = DEFAULT;
+		cacheOption = DataEngineContext.CACHE_USE_DEFAULT;
 		alwaysCacheRowCount = 0;
 		
 		cacheMapManager = new CacheMapManager( tempDir );
@@ -86,7 +82,7 @@ public class DataSetCacheManager
 	public int suspendCache( )
 	{
 		int lastCacheOption = this.cacheOption;
-		this.setCacheOption( DataSetCacheManager.DISABLE );
+		this.setCacheOption( DataEngineContext.CACHE_USE_DISABLE );
 		return lastCacheOption;
 	}
 
@@ -243,7 +239,7 @@ public class DataSetCacheManager
 	{		
 		dataSourceDesign = null;
 		dataSetDesign = null;
-		cacheOption = DEFAULT;
+		cacheOption = DataEngineContext.CACHE_USE_DEFAULT;
 		alwaysCacheRowCount = 0;
 		
 		this.cacheMapManager.resetForTest( );

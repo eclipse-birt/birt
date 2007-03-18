@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.data.engine.binding;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -72,6 +73,7 @@ public class DataSetCacheTest extends APITestCase
 
 		expectedValue = new ArrayList( );
 		appContextMap.put( DataEngine.DATASET_CACHE_OPTION, "true" );
+		this.appContextMap.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT, null);
 		DataEngine myDataEngine = newDataEngine( );
 		myDataEngine.clearCache( this.dataSource, this.dataSet );
 	}
@@ -140,6 +142,10 @@ public class DataSetCacheTest extends APITestCase
 		assertFalse( getDataSetCacheManager( myDataEngine ).doesLoadFromCache( ) );
 		assertFalse( getDataSetCacheManager( myDataEngine ).doesSaveToCache( ) );
 
+		executeQuery(myDataEngine);
+	}
+
+	private void executeQuery(DataEngineImpl myDataEngine) throws BirtException, DataException, Exception, IOException {
 		QueryDefinition qd = this.newReportQuery( );
 		rowBeArray = getRowExpr( );
 		totalBeArray = getAggrExpr( );
@@ -186,6 +192,77 @@ public class DataSetCacheTest extends APITestCase
 		getDataSetCacheManager( myDataEngine ).resetForTest( );
 	}
 
+	/**
+	 * Test feature of whether cache will be used
+	 * @throws BirtException
+	 */
+	public void testUseAppContextCacheRowLimit1( ) throws BirtException, Exception
+	{
+		this.dataSet.setCacheRowCount( 100 );
+		DataEngineContext dec = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				null,
+				null,
+				null );
+		dec.setCacheOption(DataEngineContext.CACHE_USE_ALWAYS, 100 );
+		
+	    DataEngineImpl myDataEngine = (DataEngineImpl) DataEngine.newDataEngine( dec );
+
+		myDataEngine.defineDataSource( this.dataSource );
+		myDataEngine.defineDataSet( this.dataSet );
+		
+		//The setting of data set cache row limit in app context will take priority over all other
+		//cache settings.
+		this.appContextMap.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT, new Integer( 0 ) );
+		this.testUseCache1();
+	}
+	
+	/**
+	 * Test feature of whether cache will be used
+	 * @throws BirtException
+	 */
+	public void testUseAppContextCacheRowLimit2( ) throws BirtException, Exception
+	{
+		this.dataSet.setCacheRowCount( 2 );
+		DataEngineContext dec = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				null,
+				null,
+				null );
+		dec.setCacheOption(DataEngineContext.CACHE_USE_ALWAYS, 3 );
+		
+	    DataEngineImpl myDataEngine = (DataEngineImpl) DataEngine.newDataEngine( dec );
+
+		myDataEngine.defineDataSource( this.dataSource );
+		myDataEngine.defineDataSet( this.dataSet );
+		
+		//The setting of data set cache row limit in app context will take priority over all other
+		//cache settings.
+		this.appContextMap.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT, new Integer( -1 ) );
+		this.testUseCache1();
+	}
+	
+	/**
+	 * Test feature of whether cache will be used
+	 * @throws BirtException
+	 */
+	public void testUseAppContextCacheRowLimit3( ) throws BirtException, Exception
+	{
+		this.dataSet.setCacheRowCount( 100 );
+		DataEngineContext dec = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				null,
+				null,
+				null );
+				
+	    DataEngineImpl myDataEngine = (DataEngineImpl) DataEngine.newDataEngine( dec );
+
+		myDataEngine.defineDataSource( this.dataSource );
+		myDataEngine.defineDataSet( this.dataSet );
+		
+		//The setting of data set cache row limit in app context will take priority over all other
+		//cache settings.
+		this.appContextMap.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT, new Integer(4) );
+		this.testUseCache1();
+	}
+	
 	/**
 	 * Test feature of whether cache will be used. The populated computed name
 	 * contains blank space and quotes.
