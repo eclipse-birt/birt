@@ -21,6 +21,7 @@ import junit.framework.TestCase;
 import org.eclipse.birt.data.engine.aggregation.BuiltInAggregationFactory;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
@@ -64,12 +65,12 @@ public class CursorModelTest extends TestCase
 
 		IBinding rowGrandTotal = new Binding( "rowGrandTotal" );
 		rowGrandTotal.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
-		rowGrandTotal.setExpression( "measure1" );
+		rowGrandTotal.setExpression( new ScriptExpression("measure1") );
 		rowGrandTotal.addAggregateOn( "level21" );
 
 		IBinding columnGrandTotal = new Binding( "columnGrandTotal" );
 		columnGrandTotal.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
-		columnGrandTotal.setExpression( "measure1" );
+		columnGrandTotal.setExpression( new ScriptExpression("measure1") );
 		columnGrandTotal.addAggregateOn( "level11" );
 		columnGrandTotal.addAggregateOn( "level12" );
 		columnGrandTotal.addAggregateOn( "level13" );
@@ -182,12 +183,12 @@ public class CursorModelTest extends TestCase
 
 		IBinding rowGrandTotal = new Binding( "rowGrandTotal" );
 		rowGrandTotal.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
-		rowGrandTotal.setExpression( "measure1" );
+		rowGrandTotal.setExpression( new ScriptExpression("measure1") );
 		rowGrandTotal.addAggregateOn( "level21" );
 
 		IBinding columnGrandTotal = new Binding( "columnGrandTotal" );
 		columnGrandTotal.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
-		columnGrandTotal.setExpression( "measure1" );
+		columnGrandTotal.setExpression( new ScriptExpression("measure1") );
 		columnGrandTotal.addAggregateOn( "level11" );
 		columnGrandTotal.addAggregateOn( "level12" );
 		columnGrandTotal.addAggregateOn( "level13" );
@@ -286,12 +287,12 @@ public class CursorModelTest extends TestCase
 
 		IBinding rowGrandTotal = new Binding( "rowGrandTotal" );
 		rowGrandTotal.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
-		rowGrandTotal.setExpression( "measure1" );
+		rowGrandTotal.setExpression( new ScriptExpression("measure1") );
 		rowGrandTotal.addAggregateOn( "level21" );
 
 		IBinding columnGrandTotal = new Binding( "columnGrandTotal" );
 		columnGrandTotal.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
-		columnGrandTotal.setExpression( "measure1" );
+		columnGrandTotal.setExpression( new ScriptExpression("measure1") );
 		columnGrandTotal.addAggregateOn( "level11" );
 		columnGrandTotal.addAggregateOn( "level12" );
 		columnGrandTotal.addAggregateOn( "level13" );

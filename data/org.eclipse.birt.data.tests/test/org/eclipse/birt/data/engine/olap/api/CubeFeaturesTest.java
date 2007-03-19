@@ -24,6 +24,7 @@ import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.api.cube.IHierarchy;
 import org.eclipse.birt.data.engine.olap.api.cube.ILevelDefn;
@@ -71,26 +72,26 @@ public class CubeFeaturesTest extends BaseTestCase
 		
 		IBinding binding1 = new Binding( "edge1level1");
 		
-		binding1.setExpression( "dimension[\"dimension1\"][\"level11\"]" );
+		binding1.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level11\"]") );
 		cqd.addBinding( binding1 );
 		
 		IBinding binding2 = new Binding( "edge1level2");
 		
-		binding2.setExpression( "dimension[\"dimension1\"][\"level12\"]" );
+		binding2.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level12\"]") );
 		cqd.addBinding( binding2 );
 		
 		IBinding binding3 = new Binding( "edge1level3");
 		
-		binding3.setExpression( "dimension[\"dimension1\"][\"level13\"]" );
+		binding3.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level13\"]") );
 		cqd.addBinding( binding3 );
 		
 		IBinding binding4 = new Binding( "edge2level1");
 		
-		binding4.setExpression( "dimension[\"dimension2\"][\"level21\"]" );
+		binding4.setExpression( new ScriptExpression("dimension[\"dimension2\"][\"level21\"]") );
 		cqd.addBinding( binding4 );
 		
 		IBinding binding5 = new Binding( "measure1" );
-		binding5.setExpression( "measure[\"measure1\"]" );
+		binding5.setExpression( new ScriptExpression("measure[\"measure1\"]") );
 		cqd.addBinding( binding5 );
 		
 		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
@@ -127,21 +128,21 @@ public class CubeFeaturesTest extends BaseTestCase
 		
 		IBinding binding1 = new Binding( "edge1level1");
 		
-		binding1.setExpression( "dimension[\"dimension1\"][\"level11\"]" );
+		binding1.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level11\"]") );
 		cqd.addBinding( binding1 );
 		
 		IBinding binding2 = new Binding( "edge1level2");
 		
-		binding2.setExpression( "dimension[\"dimension1\"][\"level12\"]" );
+		binding2.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level12\"]") );
 		cqd.addBinding( binding2 );
 		
 		IBinding binding4 = new Binding( "edge2level1");
 		
-		binding4.setExpression( "dimension[\"dimension2\"][\"level21\"]" );
+		binding4.setExpression( new ScriptExpression("dimension[\"dimension2\"][\"level21\"]") );
 		cqd.addBinding( binding4 );
 		
 		IBinding binding5 = new Binding( "measure1" );
-		binding5.setExpression( "measure[\"measure1\"]" );
+		binding5.setExpression( new ScriptExpression("measure[\"measure1\"]") );
 		cqd.addBinding( binding5 );
 		
 		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,

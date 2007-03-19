@@ -25,7 +25,7 @@ public class Binding implements IBinding
 {
 	private List aggregateOn;
 	private List argument;
-	private String expr;
+	private IBaseExpression expr;
 	private IBaseExpression filter;
 	private String aggrFunc;
 	private String name;
@@ -95,15 +95,6 @@ public class Binding implements IBinding
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.IBinding#getExpression()
-	 */
-	public String getExpression( )
-	{
-		return expr;
-	}
-
-	/*
-	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.api.IBinding#getFilter()
 	 */
 	public IBaseExpression getFilter( )
@@ -134,7 +125,7 @@ public class Binding implements IBinding
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.api.IBinding#setExpression(java.lang.String)
 	 */
-	public void setExpression( String expr )
+	public void setExpression( IBaseExpression expr )
 	{
 		this.expr = expr;
 		
@@ -158,4 +149,8 @@ public class Binding implements IBinding
 		return this.name;
 	}
 
+	public IBaseExpression getExpression( )
+	{
+		return this.expr;
+	}
 }

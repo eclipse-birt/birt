@@ -24,9 +24,9 @@ public interface IBinding
 
 	public void setDataType( int type );
 
-	public String getExpression( );
+	public IBaseExpression getExpression( );
 
-	public void setExpression( String expr );
+	public void setExpression( IBaseExpression expr );
 
 	public List getAggregatOns( );
 
