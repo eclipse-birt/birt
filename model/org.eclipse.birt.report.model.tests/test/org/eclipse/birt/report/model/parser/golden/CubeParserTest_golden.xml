@@ -56,11 +56,11 @@
                                     <list-property name="attributes">
                                         <structure>
                                             <property name="name">var3</property>
-                                            <property name="value">var3 value</property>
+                                            <property name="dataType">boolean</property>
                                         </structure>
                                         <structure>
                                             <property name="name">var1</property>
-                                            <property name="value">mumble.jpg</property>
+                                            <property name="dataType">string</property>
                                         </structure>
                                     </list-property>
                                     <property name="valueAccessControls">

@@ -16,11 +16,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.AccessControlHandle;
-import org.eclipse.birt.report.model.api.ConfigVariableHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
+import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.MemberHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.RuleHandle;
@@ -33,8 +33,8 @@ import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
+import org.eclipse.birt.report.model.api.elements.structures.LevelAttribute;
 import org.eclipse.birt.report.model.api.elements.structures.Rule;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
@@ -197,12 +197,15 @@ public class TabularCubeParserTest extends BaseTestCase
 		assertEquals( "rule expression2", rule.getRuleExpression( ) ); //$NON-NLS-1$
 		assertEquals( "display expression2", rule.getDisplayExpression( ) ); //$NON-NLS-1$
 		iter = level.attributesIterator( );
-		ConfigVariableHandle attribute = (ConfigVariableHandle) iter.next( );
+
+		LevelAttributeHandle attribute = (LevelAttributeHandle) iter.next( );
 		assertEquals( "var1", attribute.getName( ) ); //$NON-NLS-1$
-		assertEquals( "mumble.jpg", attribute.getValue( ) ); //$NON-NLS-1$
-		attribute = (ConfigVariableHandle) iter.next( );
+		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING, attribute
+				.getDataType( ) );
+		attribute = (LevelAttributeHandle) iter.next( );
 		assertEquals( "var2", attribute.getName( ) ); //$NON-NLS-1$
-		assertEquals( "abcdefg", attribute.getValue( ) ); //$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER, attribute
+				.getDataType( ) );
 
 		// access controls on level.
 
@@ -376,9 +379,10 @@ public class TabularCubeParserTest extends BaseTestCase
 		propHandle.insertItem( rule, 0 );
 		propHandle = level.getPropertyHandle( LevelHandle.ATTRIBUTES_PROP );
 		propHandle.removeItem( propHandle.get( 1 ) );
-		ConfigVariable config = new ConfigVariable( );
+		
+		LevelAttribute config = new LevelAttribute( );
 		config.setName( "var3" ); //$NON-NLS-1$
-		config.setValue( "var3 value" ); //$NON-NLS-1$
+		config.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN );
 		propHandle.insertItem( config, 0 );
 
 		// access controls on hierarchy.

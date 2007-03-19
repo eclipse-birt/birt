@@ -88,11 +88,11 @@
     								<list-property name="attributes">
     									<structure>
             								<property name="name">var1</property>
-            								<property name="value">mumble.jpg</property>
+            								<property name="dataType">string</property>
         								</structure>
        	 								<structure>
             								<property name="name">var2</property>
-            								<property name="value">abcdefg</property>
+            								<property name="dataType">integer</property>
         								</structure>
     								</list-property>
 		    						<property name="valueAccessControls">

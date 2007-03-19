@@ -33,10 +33,12 @@ import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.JoinCondition;
+import org.eclipse.birt.report.model.api.elements.structures.LevelAttribute;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
+import org.eclipse.birt.report.model.api.elements.structures.OdaLevelAttribute;
 import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.elements.structures.ParameterFormatValue;
@@ -494,13 +496,20 @@ public class StructureState extends AbstractPropertyState
 
 		structDict.put( ScriptLib.STRUCTURE_NAME.toLowerCase( ),
 				ScriptLib.class );
-		
-		structDict.put( IncludedCssStyleSheet.INCLUDED_CSS_STRUCT.toLowerCase( ),
+
+		structDict.put(
+				IncludedCssStyleSheet.INCLUDED_CSS_STRUCT.toLowerCase( ),
 				IncludedCssStyleSheet.class );
 
 		structDict.put( TOC.TOC_STRUCT.toLowerCase( ), TOC.class );
 		structDict.put( DimensionCondition.DIMENSION_CONDITION_STRUCT
 				.toLowerCase( ), DimensionCondition.class );
 		structDict.put( Rule.RULE_STRUCTURE.toLowerCase( ), Rule.class );
+
+		structDict.put( LevelAttribute.STRUCTURE_NAME.toLowerCase( ),
+				LevelAttribute.class );
+		structDict.put( OdaLevelAttribute.STRUCTURE_NAME.toLowerCase( ),
+				OdaLevelAttribute.class );
+		
 	}
 }

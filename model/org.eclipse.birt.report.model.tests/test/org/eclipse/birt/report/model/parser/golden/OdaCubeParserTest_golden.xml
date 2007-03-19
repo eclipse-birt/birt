@@ -45,11 +45,15 @@
                                     <list-property name="attributes">
                                         <structure>
                                             <property name="name">var3</property>
-                                            <property name="value">var3 value</property>
+                                            <property name="dataType">boolean</property>
+											<property name="nativeName">new native name 3</property>
+											<property name="nativeDataType">100</property>
                                         </structure>
                                         <structure>
                                             <property name="name">var1</property>
-                                            <property name="value">mumble.jpg</property>
+            								<property name="dataType">string</property>											
+											<property name="nativeName">native var1</property>
+											<property name="nativeDataType">10</property>
                                         </structure>
                                     </list-property>
                                     <property name="valueAccessControls">

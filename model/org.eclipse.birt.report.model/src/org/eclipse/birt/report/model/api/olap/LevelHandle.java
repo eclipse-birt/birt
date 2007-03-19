@@ -49,7 +49,8 @@ public abstract class LevelHandle extends ReportElementHandle
 
 	/**
 	 * Returns the iterator of attributes. The element in the iterator is a
-	 * <code>StructureHandle</code>.
+	 * <code>LevelAttributeHandle</code> for TabularLevel. To OdaLevel, each
+	 * member is <code>OdaLevelAttributeHandle</code>.
 	 * 
 	 * @return the iterator of attribute string list
 	 */

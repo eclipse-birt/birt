@@ -29,9 +29,11 @@ import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.JoinCondition;
+import org.eclipse.birt.report.model.api.elements.structures.LevelAttribute;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
+import org.eclipse.birt.report.model.api.elements.structures.OdaLevelAttribute;
 import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyMask;
@@ -541,5 +543,27 @@ public class StructureFactory
 	public static Rule createRule( )
 	{
 		return new Rule( );
+	}
+
+	/**
+	 * Creates an attribute for TabularLevel.
+	 * 
+	 * @return a level attribute
+	 */
+
+	public static LevelAttribute createLevelAttribute( )
+	{
+		return new LevelAttribute( );
+	}
+
+	/**
+	 * Creates an attribute for OdaLevel.
+	 * 
+	 * @return a level attribute
+	 */
+
+	public static OdaLevelAttribute createOdaLevelAttribute( )
+	{
+		return new OdaLevelAttribute( );
 	}
 }

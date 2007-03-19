@@ -1959,6 +1959,20 @@
     <Member displayNameID="Structure.Rule.ruleExpre" isIntrinsic="true" name="ruleExpre" since="2.2" type="expression"/>
     <Member displayNameID="Structure.Rule.displayExpre" isIntrinsic="true" name="displayExpre" since="2.2" type="expression"/>
   </Structure>
+  <Structure displayNameID="Structure.LevelAttribute" name="LevelAttribute" since="2.2">
+    <Member displayNameID="Structure.LevelAttribute.name" isIntrinsic="true" name="name" runtimeSettable="false" since="1.0" type="string" valueRequired="true"/>
+    <Member detailType="columnDataType" displayNameID="Structure.LevelAttribute.dataType" isIntrinsic="true" name="dataType" runtimeSettable="false" since="1.0" type="choice">
+		<Default>any</Default>
+	</Member>
+  </Structure>	
+  <Structure displayNameID="Structure.OdaLevelAttribute" name="OdaLevelAttribute" since="2.2">
+    <Member displayNameID="Structure.OdaLevelAttribute.name" isIntrinsic="true" name="name" runtimeSettable="false" since="2.2" type="string" valueRequired="true"/>
+    <Member detailType="columnDataType" displayNameID="Structure.OdaLevelAttribute.dataType" isIntrinsic="true" name="dataType" runtimeSettable="false" since="2.2" type="choice">
+		<Default>any</Default>
+	</Member>
+    <Member displayNameID="Structure.OdaLevelAttribute.nativeName" isIntrinsic="true" name="nativeName" runtimeSettable="false" since="2.2" type="string" valueRequired="true"/>	  
+    <Member displayNameID="Structure.OdaLevelAttribute.nativeDataType" isIntrinsic="true" name="nativeDataType" runtimeSettable="false" since="2.2" type="integer" />	  
+  </Structure>		
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.Module" hasStyle="false" isAbstract="true" name="Module" nameSpace="none" since="2.0">
     <Property canInherit="false" displayNameID="Element.Module.author" name="author" runtimeSettable="false" since="1.0" type="string"/>
     <Property canInherit="false" displayNameID="Element.Module.helpGuide" name="helpGuide" runtimeSettable="false" since="reserved" type="uri"/>
@@ -3686,15 +3700,16 @@
     </PropertyGroup>
     <Property detailType="levelType" displayNameID="Element.Level.levelType" name="levelType" runtimeSettable="false" since="2.2" type="choice" />
   	<Property detailType="Rule" displayNameID="Element.Level.staticValues" isList="true" name="staticValues" runtimeSettable="false" since="2.2" type="structure"/>
-  	<Property detailType="ConfigVar" displayNameID="Element.Level.attributes" isList="true" name="attributes" runtimeSettable="false" since="2.2" type="structure" />
   	<Property displayNameID="Element.Level.valueAccessControls" isList="true" name="valueAccessControls" runtimeSettable="false" since="2.2" type="contentElement" >
   	  <Type name="ValueAccessControl"/>
   	</Property>      	
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.TabularLevel" extends="Level" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.TabularLevel" name="TabularLevel" since="2.2" xmlName="tabular-level">
   	<Property displayNameID="Element.TabularLevel.columnName" name="columnName" runtimeSettable="false" since="2.2" type="string" />	  
+  	<Property detailType="LevelAttribute" displayNameID="Element.TabularLevel.attributes" isList="true" name="attributes" runtimeSettable="false" since="2.2" type="structure" />	  
   </Element>  
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.OdaLevel" extends="Level" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.OdaLevel" name="OdaLevel" since="2.2" xmlName="oda-level">
+  	<Property detailType="OdaLevelAttribute" displayNameID="Element.OdaLevel.attributes" isList="true" name="attributes" runtimeSettable="false" since="2.2" type="structure" />		  
   </Element>  	
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.MeasureGroup" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.MeasureGroup" name="MeasureGroup" nameSpace="cube" since="2.2" xmlName="measure-group">
   </Element>
