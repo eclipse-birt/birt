@@ -178,8 +178,8 @@ public class ExpressionUtilTest extends TestCase
 	
 	public void testCreateJSDimensionExpression( ) throws BirtException
 	{
-		assertEquals( ExpressionUtil.createJSDimensionExpression( "abc", "def" ), "dimension[\"abc\"][\"def\"][\"ID\"]");
-		assertEquals( ExpressionUtil.createJSDimensionExpression( null, null ), "dimension[\"\"][\"\"][\"ID\"]");
+		assertEquals( ExpressionUtil.createJSDimensionExpression( "abc", "def" ), "dimension[\"abc\"][\"def\"]");
+		assertEquals( ExpressionUtil.createJSDimensionExpression( null, null ), "dimension[\"\"][\"\"]");
 		assertEquals( ExpressionUtil.createJSDimensionExpression( "abc", "def", "ghi"),"dimension[\"abc\"][\"def\"][\"ghi\"]");
 	}
 }
