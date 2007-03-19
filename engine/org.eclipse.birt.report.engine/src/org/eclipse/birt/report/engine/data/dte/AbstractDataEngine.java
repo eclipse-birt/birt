@@ -43,29 +43,29 @@ import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.mozilla.javascript.Scriptable;
 
 public abstract class AbstractDataEngine implements IDataEngine
 {
-	
+
 	protected DataRequestSession dteSession;
 
 	protected ExecutionContext context;
 
 	protected HashMap queryIDMap = new HashMap( );
 
-	//protected LinkedList rsets = new LinkedList( );
+	// protected LinkedList rsets = new LinkedList( );
 
 	protected String reportArchName = null;
-	
+
 	private ModelDteApiAdapter adapter = null;
 
 	/**
 	 * the logger
 	 */
-	protected static Logger logger = Logger.getLogger( IDataEngine.class
-			.getName( ) );
-	
+	protected static Logger logger = Logger.getLogger( IDataEngine.class.getName( ) );
+
 	protected final static String VERSION_1 = "__version__1";
 
 	public AbstractDataEngine( ExecutionContext context )
@@ -86,7 +86,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 			ex.printStackTrace( );
 		}
 	}
-	
+
 	/*
 	 * @see org.eclipse.birt.report.engine.data.IDataEngine#defineDataSet(org.eclipse.birt.report.model.api.DataSetHandle)
 	 */
@@ -101,9 +101,10 @@ public abstract class AbstractDataEngine implements IDataEngine
 			logger.log( Level.SEVERE, e.getMessage( ) );
 		}
 	}
-	
+
 	/*
-	 * @see org.eclipse.birt.report.engine.data.IDataEngine#prepare(org.eclipse.birt.report.engine.ir.Report, java.util.Map)
+	 * @see org.eclipse.birt.report.engine.data.IDataEngine#prepare(org.eclipse.birt.report.engine.ir.Report,
+	 *      java.util.Map)
 	 */
 	public void prepare( Report report, Map appContext )
 	{
@@ -122,6 +123,22 @@ public abstract class AbstractDataEngine implements IDataEngine
 			{
 				logger.log( Level.SEVERE, be.getMessage( ), be );
 				context.addException( dataset, be );
+			}
+		}
+
+		List cubeList = rptHandle.getAllCubes( );
+		for ( int i = 0; i < cubeList.size( ); i++ )
+		{
+			CubeHandle cube = (CubeHandle) cubeList.get( i );
+
+			try
+			{
+				dteSession.defineCube( cube );
+			}
+			catch ( BirtException be )
+			{
+				logger.log( Level.SEVERE, be.getMessage( ), be );
+				context.addException( cube, be );
 			}
 		}
 
@@ -147,9 +164,11 @@ public abstract class AbstractDataEngine implements IDataEngine
 	}
 
 	/*
-	 * @see org.eclipse.birt.report.engine.data.IDataEngine#execute(org.eclipse.birt.report.engine.data.IResultSet, org.eclipse.birt.data.engine.api.IBaseQueryDefinition)
+	 * @see org.eclipse.birt.report.engine.data.IDataEngine#execute(org.eclipse.birt.report.engine.data.IResultSet,
+	 *      org.eclipse.birt.data.engine.api.IBaseQueryDefinition)
 	 */
-	public IBaseResultSet execute( IBaseResultSet parent, IDataQueryDefinition query )
+	public IBaseResultSet execute( IBaseResultSet parent,
+			IDataQueryDefinition query )
 	{
 		if ( query instanceof ISubqueryDefinition )
 		{
@@ -159,21 +178,22 @@ public abstract class AbstractDataEngine implements IDataEngine
 			}
 			else if ( parent instanceof ICubeResultSet )
 			{
-				context.addException( new EngineException(
-						"Incorrect parent resultSet for subQuery:"
-								+ ( (ISubqueryDefinition) query ).getName( ) ) );
+				context.addException( new EngineException( "Incorrect parent resultSet for subQuery:"
+						+ ( (ISubqueryDefinition) query ).getName( ) ) );
 			}
 			return doExecuteSubQuery( (QueryResultSet) parent, query );
 		}
-		else if ( query instanceof IQueryDefinition || query instanceof ICubeQueryDefinition )
+		else if ( query instanceof IQueryDefinition
+				|| query instanceof ICubeQueryDefinition )
 		{
 			return doExecuteQuery( parent, query );
 		}
-		
+
 		return null;
 	}
-	
-	abstract protected IBaseResultSet doExecuteQuery( IBaseResultSet parent, IDataQueryDefinition query );
+
+	abstract protected IBaseResultSet doExecuteQuery( IBaseResultSet parent,
+			IDataQueryDefinition query );
 
 	/**
 	 * get the sub query result from the current query.
@@ -181,7 +201,8 @@ public abstract class AbstractDataEngine implements IDataEngine
 	 * @param query
 	 * @return
 	 */
-	protected IBaseResultSet doExecuteSubQuery( QueryResultSet parent, IDataQueryDefinition query )
+	protected IBaseResultSet doExecuteSubQuery( QueryResultSet parent,
+			IDataQueryDefinition query )
 	{
 		// Extension Item may used to create the query stack, so we must do
 		// error handling.
@@ -196,7 +217,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 			IResultIterator ri = parentRI.getSecondaryIterator( subQueryName,
 					context.getSharedScope( ) );
 			assert ri != null;
-			resultSet = new QueryResultSet( parent, subQuery, ri  );
+			resultSet = new QueryResultSet( parent, subQuery, ri );
 			return resultSet;
 		}
 		catch ( BirtException e )
@@ -257,7 +278,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 	{
 		return dteSession;
 	}
-	
+
 	/**
 	 * get the tempDir which be set in EngineConfig.
 	 */
@@ -269,16 +290,16 @@ public abstract class AbstractDataEngine implements IDataEngine
 			EngineConfig config = engine.getConfig( );
 			if ( config != null )
 			{
-				return config.getTempDir( );				
+				return config.getTempDir( );
 			}
 		}
 		return null;
 	}
-	
+
 	public ArrayList loadDteMetaInfo( DataInputStream dis )
 	{
 		ArrayList result = new ArrayList( );
-		
+
 		try
 		{
 			String version = IOUtil.readString( dis );
@@ -288,8 +309,8 @@ public abstract class AbstractDataEngine implements IDataEngine
 			{
 				String pRsetId;
 				String rowId;
-				
-				if ( isFirst && !VERSION_1.equals( version )  )
+
+				if ( isFirst && !VERSION_1.equals( version ) )
 				{
 					pRsetId = version;
 				}
@@ -305,18 +326,20 @@ public abstract class AbstractDataEngine implements IDataEngine
 				{
 					rowId = String.valueOf( IOUtil.readLong( dis ) );
 				}
-				
+
 				String queryId = IOUtil.readString( dis );
-				String rsetId = IOUtil.readString( dis );				
-				
+				String rsetId = IOUtil.readString( dis );
+
 				buffer.setLength( 0 );
 				buffer.append( pRsetId );
 				buffer.append( "." );
 				buffer.append( rowId );
-				buffer.append( "." );	
-				buffer.append( queryId );				
-				
-				result.add( new String[]{ pRsetId, rowId, queryId, rsetId } );
+				buffer.append( "." );
+				buffer.append( queryId );
+
+				result.add( new String[]{
+						pRsetId, rowId, queryId, rsetId
+				} );
 
 				isFirst = false;
 			}
@@ -327,8 +350,8 @@ public abstract class AbstractDataEngine implements IDataEngine
 		}
 		catch ( IOException ioe )
 		{
-			context.addException( new EngineException(
-					"Can't load the data in report document", ioe ) );
+			context.addException( new EngineException( "Can't load the data in report document",
+					ioe ) );
 			logger.log( Level.SEVERE, ioe.getMessage( ), ioe );
 		}
 		return result;

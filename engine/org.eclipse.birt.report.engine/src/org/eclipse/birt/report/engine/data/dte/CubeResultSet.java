@@ -63,7 +63,15 @@ public class CubeResultSet implements ICubeResultSet
 		this.context = context;
 		this.dataEngine = dataEngine;
 		this.queryDefn = queryDefn;
-		this.id = new DataSetID( rsets.getID( ) );
+		// TODO: the rset.getID() is null since data do not check the code in
+		if ( rsets.getID( ) != null )
+		{
+			this.id = new DataSetID( rsets.getID( ) );
+		}
+		else
+		{
+			this.id = new DataSetID( "cube" );
+		}
 		this.cube = rsets.getCubeCursor( );
 		this.queryResults = rsets;
 	}
@@ -75,7 +83,15 @@ public class CubeResultSet implements ICubeResultSet
 	{
 		assert parent != null;
 		this.parent = parent;
-		this.id = new DataSetID( rsets.getID( ) );
+		// TODO: the rset.getID() is null since data do not check the code in
+		if ( rsets.getID( ) != null )
+		{
+			this.id = new DataSetID( rsets.getID( ) );
+		}
+		else
+		{
+			this.id = new DataSetID( "cube" );
+		}
 		this.context = context;
 		this.dataEngine = dataEngine;
 		this.queryDefn = queryDefn;

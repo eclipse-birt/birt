@@ -438,16 +438,18 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 	private String localize( IContent content, String key, String text )
 	{
 		assert ( content != null );
-		assert ( content.getGenerateBy( ) != null );
-		DesignElementHandle element = ( (ReportItemDesign) content
-				.getGenerateBy( ) ).getHandle( );
-		if ( key != null && element != null )
+		if ( content.getGenerateBy( ) != null )
 		{
-			String t = ModuleUtil.getExternalizedValue( element, key, text,
-					ULocale.forLocale( locale ) );
-			if ( t != null )
+			DesignElementHandle element = ( (ReportItemDesign) content
+					.getGenerateBy( ) ).getHandle( );
+			if ( key != null && element != null )
 			{
-				return t;
+				String t = ModuleUtil.getExternalizedValue( element, key, text,
+						ULocale.forLocale( locale ) );
+				if ( t != null )
+				{
+					return t;
+				}
 			}
 		}
 		return text;
@@ -860,6 +862,9 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 	
 	protected void handleOnRender( IContent content )
 	{
-		onRenderVisitor.onRender( content );
+		if ( content.getGenerateBy( ) != null )
+		{
+			onRenderVisitor.onRender( content );
+		}
 	}
 }

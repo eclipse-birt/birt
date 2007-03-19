@@ -11,11 +11,15 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import javax.olap.OLAPException;
+
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 
@@ -42,6 +46,7 @@ public class DataItemExecutor extends QueryItemExecutor
 	 * genertated by the same design
 	 */
 	boolean duplicated;
+
 	/**
 	 * construct a data item executor by giving execution context and report
 	 * executor visitor
@@ -51,9 +56,9 @@ public class DataItemExecutor extends QueryItemExecutor
 	 * @param itemEmitter
 	 *            the emitter
 	 */
-	public DataItemExecutor(ExecutorManager manager )
+	public DataItemExecutor( ExecutorManager manager )
 	{
-		super( manager);
+		super( manager );
 	}
 
 	/**
@@ -74,41 +79,64 @@ public class DataItemExecutor extends QueryItemExecutor
 	 */
 	public IContent execute( )
 	{
-		DataItemDesign dataDesign = (DataItemDesign) getDesign();
+		DataItemDesign dataDesign = (DataItemDesign) getDesign( );
 		IDataContent dataContent = report.createDataContent( );
-		setContent(dataContent);
-		
+		setContent( dataContent );
+
 		executeQuery( );
-		
+
 		initializeContent( dataDesign, dataContent );
 
 		processAction( dataDesign, dataContent );
 		processBookmark( dataDesign, dataContent );
 		processStyle( dataDesign, dataContent );
 		processVisibility( dataDesign, dataContent );
-		
+
 		Object value = null;
 		IBaseResultSet rset = context.getResultSet( );
-		if ( rset != null && rset.getType( ) == IBaseResultSet.QUERY_RESULTSET)
+		if ( rset != null )
 		{
-			String bindingColumn = dataDesign.getBindingColumn( );
-			if ( bindingColumn != null )
+			if ( rset.getType( ) == IBaseResultSet.QUERY_RESULTSET )
 			{
-				try
+				String bindingColumn = dataDesign.getBindingColumn( );
+				if ( bindingColumn != null )
 				{
-					value = ( (IQueryResultSet) rset ).getValue( bindingColumn );
-				}
-				catch ( BirtException ex )
-				{
-					context.addException( ex );
+					try
+					{
+						value = ( (IQueryResultSet) rset )
+								.getValue( bindingColumn );
+					}
+					catch ( BirtException ex )
+					{
+						context.addException( ex );
+					}
 				}
 			}
-		}		// should we suppress the duplicate
+			else if ( rset.getType( ) == IBaseResultSet.CUBE_RESULTSET )
+			{
+				String bindingColumn = dataDesign.getBindingColumn( );
+				if ( bindingColumn != null )
+				{
+					try
+					{
+						value = ( (ICubeResultSet) rset ).getCubeCursor( )
+								.getObject( bindingColumn );
+					}
+					catch ( OLAPException ex )
+					{
+						context.addException( new EngineException(
+								"Retrieving binding data error", ex ) );
+					}
+				}
+			}
+
+		}
+
+		// should we suppress the duplicate
 		duplicated = false;
 		if ( dataDesign.getSuppressDuplicate( ) )
 		{
-			DataItemExecutionState state = (DataItemExecutionState) dataDesign
-					.getExecutionState( );
+			DataItemExecutionState state = (DataItemExecutionState) dataDesign.getExecutionState( );
 			if ( state != null )
 			{
 				Object lastValue = state.lastValue;
@@ -134,22 +162,22 @@ public class DataItemExecutor extends QueryItemExecutor
 		{
 			handleOnCreate( dataContent );
 		}
-		
+
 		if ( !duplicated )
 		{
 			startTOCEntry( dataContent );
-			if (emitter != null)
+			if ( emitter != null )
 			{
 				emitter.startData( dataContent );
 			}
 			return dataContent;
 		}
-		
+
 		return null;
 	}
-	
+
 	public void close( )
-	{		
+	{
 		if ( !duplicated )
 		{
 			finishTOCEntry( );
