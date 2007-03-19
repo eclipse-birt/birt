@@ -50,7 +50,7 @@ public class JSLevelAccessor extends ScriptableObject
 		/*
 		 * Populate Row Edge dimension objects.
 		 */
-		if ( cursor.getColumnEdgeView( ) != null )
+		if ( cursor.getRowEdgeView( ) != null && this.cubeQueryDefn.getEdge( ICubeQueryDefinition.ROW_EDGE )!= null )
 			populateDimensionObjects( this.cubeQueryDefn.getEdge( ICubeQueryDefinition.ROW_EDGE )
 					.getDimensions( ),
 					cursor.getRowEdgeView( )
@@ -61,7 +61,7 @@ public class JSLevelAccessor extends ScriptableObject
 		/*
 		 * Populate Column Edge dimension objects.
 		 */
-		if ( cursor.getRowEdgeView( ) != null )
+		if ( cursor.getColumnEdgeView( ) != null && this.cubeQueryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE )!= null)
 			populateDimensionObjects( this.cubeQueryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE )
 					.getDimensions( ),
 					cursor.getColumnEdgeView( )
