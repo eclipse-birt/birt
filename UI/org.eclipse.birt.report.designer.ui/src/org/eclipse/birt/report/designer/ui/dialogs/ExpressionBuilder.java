@@ -263,6 +263,12 @@ public class ExpressionBuilder extends TitleAreaDialog
 		this.expression = UIUtil.convertToGUIString( initExpression );
 	}
 
+	protected void setShellStyle( int newShellStyle )
+	{
+		newShellStyle |= SWT.MAX | SWT.RESIZE;
+		super.setShellStyle( newShellStyle );
+	}
+
 	/**
 	 * Create an expression builder under the default parent shell with the
 	 * given initial expression
@@ -520,7 +526,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 					text = text.replaceAll( "&", "&&" ); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 				button.setText( text );
-//				button.setToolTipText( operators[i].tooltip );
+				// button.setToolTipText( operators[i].tooltip );
 				button.addSelectionListener( selectionAdapter );
 			}
 			else
