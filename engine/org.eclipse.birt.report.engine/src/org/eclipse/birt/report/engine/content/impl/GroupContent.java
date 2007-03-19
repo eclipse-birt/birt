@@ -87,14 +87,26 @@ public class GroupContent extends AbstractContent implements IGroupContent
 		return false;
 	}
 	
+	transient int groupLevel = -1;
 	public int getGroupLevel()
 	{
-		if (generateBy instanceof GroupDesign)
+		if ( groupLevel == -1 )
 		{
-			GroupDesign design = (GroupDesign)generateBy;
-			return design.getGroupLevel( );
+			if ( generateBy instanceof GroupDesign )
+			{
+				GroupDesign design = (GroupDesign) generateBy;
+				groupLevel = design.getGroupLevel( );
+			}
+			else if ( parent instanceof GroupContent )
+			{
+				groupLevel = ( (GroupContent)parent ).getGroupLevel( );
+			}
+			else
+			{
+				return 0;
+			}
 		}
-		return -1;
+		return groupLevel;
 	}
 
 	public void setHeaderRepeat( boolean repeat )
