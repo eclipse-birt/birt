@@ -13,9 +13,10 @@ package org.eclipse.birt.report.item.crosstab.core.re.executor;
 
 import java.util.Iterator;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.data.IResultSet;
+import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IExecutorContext;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.model.api.FactoryPropertyHandle;
@@ -56,7 +57,8 @@ class ContentUtil
 	}
 
 	static void processVisibility( IExecutorContext context, IContent content,
-			AbstractCrosstabItemHandle handle, IResultSet evaluator )
+			AbstractCrosstabItemHandle handle, IBaseResultSet evaluator )
+			throws BirtException
 	{
 		ReportItemHandle modelHandle = getReportItemHandle( handle );
 
@@ -109,7 +111,8 @@ class ContentUtil
 	}
 
 	static void processBookmark( IExecutorContext context, IContent content,
-			AbstractCrosstabItemHandle handle, IResultSet evaluator )
+			AbstractCrosstabItemHandle handle, IBaseResultSet evaluator )
+			throws BirtException
 	{
 		ReportItemHandle modelHandle = getReportItemHandle( handle );
 

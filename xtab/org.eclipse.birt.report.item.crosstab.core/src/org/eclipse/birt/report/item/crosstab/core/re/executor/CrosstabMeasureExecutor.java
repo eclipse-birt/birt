@@ -17,7 +17,7 @@ import java.util.List;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
-import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
+import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 
 /**
  * CrosstabMeasureExecutor
@@ -36,7 +36,7 @@ public class CrosstabMeasureExecutor extends BaseCrosstabExecutor
 	public void close( )
 	{
 		super.close( );
-		
+
 		elements = null;
 	}
 

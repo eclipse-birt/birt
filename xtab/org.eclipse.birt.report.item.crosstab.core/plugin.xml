@@ -7,6 +7,7 @@
          point="org.eclipse.birt.report.model.reportItemModel">
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"
+            defaultStyle="crosstab"
             displayNameID="Element.Crosstab"
             extendsFrom="ReportItem"
             extensionName="Crosstab"
@@ -295,6 +296,7 @@
       </reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"
+            defaultStyle="crosstab-cell"
             extendsFrom="Cell"
             extensionName="CrosstabCell"
             isNameRequired="false">
@@ -335,9 +337,13 @@
                   name="ExtendedItem">
             </elementType>
          </property>
+         <style
+               name="crosstab-cell">
+         </style>
       </reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"
+            defaultStyle="crosstab-aggregation-cell"
             extendsFrom="CrosstabCell"
             extensionName="AggregationCell"
             isNameRequired="false">
@@ -355,6 +361,9 @@
                name="aggregationOnColumn"
                type="elementRef">
          </property>
+         <style
+               name="crosstab-aggregation-cell">
+         </style>
       </reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"
@@ -392,6 +401,13 @@
          point="org.eclipse.birt.report.engine.reportitemGeneration">
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.re.executor.CrosstabReportItemExecutor"
+            name="Crosstab">
+      </reportItem>
+   </extension>
+   <extension
+         point="org.eclipse.birt.report.engine.reportitemQuery">
+      <reportItem
+            class="org.eclipse.birt.report.item.crosstab.core.re.CrosstabReportItemQuery"
             name="Crosstab">
       </reportItem>
    </extension>

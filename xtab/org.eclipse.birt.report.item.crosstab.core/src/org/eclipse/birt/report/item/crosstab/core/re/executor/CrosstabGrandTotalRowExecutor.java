@@ -15,7 +15,7 @@ import javax.olap.OLAPException;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
-import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
+import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
@@ -152,8 +152,25 @@ public class CrosstabGrandTotalRowExecutor extends BaseCrosstabExecutor
 				}
 
 				if ( ev.type == ColumnEvent.MEASURE_CHANGE
-						|| ev.type == ColumnEvent.COLUMN_TOTAL_CHANGE
-						|| ev.type == ColumnEvent.COLUMN_EDGE_CHANGE
+						|| ev.type == ColumnEvent.COLUMN_EDGE_CHANGE )
+				{
+					rowSpan = 1;
+					colSpan = 0;
+					lastMeasureIndex = ev.measureIndex;
+					if ( columnGroups != null && columnGroups.size( ) > 0 )
+					{
+						EdgeGroup gp = (EdgeGroup) columnGroups.get( columnGroups.size( ) - 1 );
+						lastDimensionIndex = gp.dimensionIndex;
+						lastLevelIndex = gp.levelIndex;
+					}
+					else
+					{
+						lastDimensionIndex = ev.dimensionIndex;
+						lastLevelIndex = ev.levelIndex;
+					}
+					hasLast = true;
+				}
+				else if ( ev.type == ColumnEvent.COLUMN_TOTAL_CHANGE
 						|| ev.type == ColumnEvent.GRAND_TOTAL_CHANGE )
 				{
 					rowSpan = 1;

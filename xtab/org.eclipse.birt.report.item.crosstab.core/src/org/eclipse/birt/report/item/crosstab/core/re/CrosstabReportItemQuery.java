@@ -15,8 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.extension.ReportItemQueryBase;
 import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
@@ -56,10 +55,10 @@ public class CrosstabReportItemQuery extends ReportItemQueryBase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.extension.ReportItemQueryBase#getReportQueries(org.eclipse.birt.data.engine.api.IBaseQueryDefinition)
+	 * @see org.eclipse.birt.report.engine.extension.ReportItemQueryBase#createReportQueries(org.eclipse.birt.data.engine.api.IDataQueryDefinition)
 	 */
-	public IBaseQueryDefinition[] getReportQueries( IBaseQueryDefinition parent )
-			throws BirtException
+	public IDataQueryDefinition[] createReportQueries(
+			IDataQueryDefinition parent ) throws BirtException
 	{
 		if ( crosstabItem == null )
 		{
@@ -68,12 +67,11 @@ public class CrosstabReportItemQuery extends ReportItemQueryBase
 					"Invalid crosstab model for query building" ); //$NON-NLS-1$
 		}
 
-		ICubeQueryDefinition cubeQuery = CrosstabQueryHelper.buildQuery( crosstabItem,
+		IDataQueryDefinition cubeQuery = CrosstabQueryHelper.buildQuery( crosstabItem,
 				parent );
 
-		return new IBaseQueryDefinition[]{
-			null
-		// cubeQuery
+		return new IDataQueryDefinition[]{
+			cubeQuery
 		};
 	}
 

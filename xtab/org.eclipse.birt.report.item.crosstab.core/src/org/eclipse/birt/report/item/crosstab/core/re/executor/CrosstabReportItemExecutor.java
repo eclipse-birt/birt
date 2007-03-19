@@ -19,10 +19,9 @@ import javax.olap.cursor.EdgeCursor;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
-import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
 import org.eclipse.birt.report.engine.extension.IExecutorContext;
+import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
-import org.eclipse.birt.report.item.crosstab.core.re.ExecutorContextWrapper;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
@@ -56,11 +55,11 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 		children = null;
 	}
 
-	// TODO tmp
-	public void setContext( IExecutorContext context )
-	{
-		super.setContext( new ExecutorContextWrapper( context, crosstabItem ) );
-	}
+	// // TODO tmp
+	// public void setContext( IExecutorContext context )
+	// {
+	// super.setContext( new ExecutorContextWrapper( context, crosstabItem ) );
+	// }
 
 	public void setModelObject( Object handle )
 	{
@@ -108,6 +107,9 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 		// generate table columns
 		try
 		{
+			rowGroups = GroupUtil.getGroups( crosstabItem, ROW_AXIS_TYPE );
+			columnGroups = GroupUtil.getGroups( crosstabItem, COLUMN_AXIS_TYPE );
+
 			walker = new CachedColumnWalker( crosstabItem,
 					getColumnEdgeCursor( ) );
 			new TableColumnGenerator( crosstabItem, walker ).generateColumns( context.getReportContent( ),
@@ -129,17 +131,13 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 	{
 		int measureCount = crosstabItem.getMeasureCount( );
 
-		List rowGroups = GroupUtil.getGroups( crosstabItem, ROW_AXIS_TYPE );
-		List columnGroups = GroupUtil.getGroups( crosstabItem, COLUMN_AXIS_TYPE );
-
 		if ( columnGroups.size( ) > 0 || hasMeasureHeader( COLUMN_AXIS_TYPE ) )
 		{
 			if ( children == null )
 			{
 				children = new ArrayList( );
 			}
-			CrosstabHeaderExecutor headerExecutor = new CrosstabHeaderExecutor( this,
-					columnGroups );
+			CrosstabHeaderExecutor headerExecutor = new CrosstabHeaderExecutor( this );
 			children.add( headerExecutor );
 		}
 
@@ -153,15 +151,26 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 			try
 			{
 				EdgeCursor rowCursor = getRowEdgeCursor( );
-				rowCursor.beforeFirst( );
 
-				if ( rowCursor.next( ) )
+				if ( rowCursor != null )
+				{
+					rowCursor.beforeFirst( );
+
+					if ( rowCursor.next( ) )
+					{
+						CrosstabGroupExecutor groupExecutor = new CrosstabGroupExecutor( this,
+								0,
+								rowCursor );
+						children.add( groupExecutor );
+					}
+				}
+				else
 				{
 					CrosstabGroupExecutor groupExecutor = new CrosstabGroupExecutor( this,
 							0,
-							rowGroups,
-							rowCursor );
+							null );
 					children.add( groupExecutor );
+
 				}
 			}
 			catch ( OLAPException e )

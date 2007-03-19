@@ -22,7 +22,7 @@ import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
-import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
+import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
@@ -33,7 +33,6 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 {
 
 	private int currentGroupIndex;
-	private List groups;
 	private EdgeCursor rowCursor;
 	private List groupCursors;
 
@@ -49,12 +48,11 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 	private boolean notifyNextGroupPageBreak;
 
 	public CrosstabGroupExecutor( BaseCrosstabExecutor parent, int groupIndex,
-			List groups, EdgeCursor rowCursor )
+			EdgeCursor rowCursor )
 	{
 		super( parent );
 
 		this.currentGroupIndex = groupIndex;
-		this.groups = groups;
 
 		this.rowCursor = rowCursor;
 	}
@@ -94,7 +92,7 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 
 	private void prepareChildren( )
 	{
-		hasGroup = groups.size( ) > 0 && rowCursor != null;
+		hasGroup = rowGroups.size( ) > 0 && rowCursor != null;
 
 		if ( hasGroup )
 		{
@@ -112,7 +110,7 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 
 				if ( currentGroupIndex > 0 )
 				{
-					EdgeGroup lastGroup = (EdgeGroup) groups.get( currentGroupIndex - 1 );
+					EdgeGroup lastGroup = (EdgeGroup) rowGroups.get( currentGroupIndex - 1 );
 
 					lastDimensionIndex = lastGroup.dimensionIndex;
 					lastLevelIndex = lastGroup.levelIndex;
@@ -154,7 +152,7 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 
 	private void handleGroupPageBreakBefore( ) throws OLAPException
 	{
-		EdgeGroup currentGroup = (EdgeGroup) groups.get( currentGroupIndex );
+		EdgeGroup currentGroup = (EdgeGroup) rowGroups.get( currentGroupIndex );
 		LevelViewHandle currentLevel = crosstabItem.getDimension( ROW_AXIS_TYPE,
 				currentGroup.dimensionIndex )
 				.getLevel( currentGroup.levelIndex );
@@ -203,7 +201,7 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 
 	private void handleGroupPageBreakAfter( ) throws OLAPException
 	{
-		EdgeGroup currentGroup = (EdgeGroup) groups.get( currentGroupIndex );
+		EdgeGroup currentGroup = (EdgeGroup) rowGroups.get( currentGroupIndex );
 		LevelViewHandle currentLevel = crosstabItem.getDimension( ROW_AXIS_TYPE,
 				currentGroup.dimensionIndex )
 				.getLevel( currentGroup.levelIndex );
@@ -322,7 +320,6 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 				{
 					// header
 					CrosstabGroupBandExecutor bandExecutor = new CrosstabGroupBandExecutor( this,
-							groups,
 							lastDimensionIndex,
 							lastLevelIndex,
 							IBandContent.BAND_HEADER );
@@ -331,22 +328,20 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 			}
 		}
 
-		if ( currentGroupIndex < groups.size( ) - 1 )
+		if ( currentGroupIndex < rowGroups.size( ) - 1 )
 		{
 			// next group
 			CrosstabGroupExecutor groupExecutor = new CrosstabGroupExecutor( this,
 					currentGroupIndex + 1,
-					groups,
 					rowCursor );
 			elements.add( groupExecutor );
 		}
 		else
 		{
 			// detail
-			EdgeGroup currentGroup = (EdgeGroup) groups.get( currentGroupIndex );
+			EdgeGroup currentGroup = (EdgeGroup) rowGroups.get( currentGroupIndex );
 
 			CrosstabGroupBandExecutor bandExecutor = new CrosstabGroupBandExecutor( this,
-					groups,
 					currentGroup.dimensionIndex,
 					currentGroup.levelIndex,
 					IBandContent.BAND_DETAIL );
@@ -367,7 +362,6 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 				{
 					// footer
 					CrosstabGroupBandExecutor bandExecutor = new CrosstabGroupBandExecutor( this,
-							groups,
 							lastDimensionIndex,
 							lastLevelIndex,
 							IBandContent.BAND_FOOTER );
@@ -425,7 +419,6 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 							{
 								// footer
 								CrosstabGroupBandExecutor bandExecutor = new CrosstabGroupBandExecutor( this,
-										groups,
 										lastDimensionIndex,
 										lastLevelIndex,
 										IBandContent.BAND_FOOTER );

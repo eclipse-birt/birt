@@ -11,11 +11,9 @@
 
 package org.eclipse.birt.report.item.crosstab.core.re.executor;
 
-import java.util.List;
-
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
-import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
+import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 
@@ -25,17 +23,12 @@ import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 public class CrosstabHeaderExecutor extends BaseCrosstabExecutor
 {
 
-	private List columnGroups;
-	
 	private boolean hasMeasureHeader;
 	private int currentGroupIndex;
 
-	public CrosstabHeaderExecutor( BaseCrosstabExecutor parent,
-			List columnGroups )
+	public CrosstabHeaderExecutor( BaseCrosstabExecutor parent )
 	{
 		super( parent );
-
-		this.columnGroups = columnGroups;
 	}
 
 	public IContent execute( )
@@ -69,14 +62,11 @@ public class CrosstabHeaderExecutor extends BaseCrosstabExecutor
 					eg.dimensionIndex );
 			LevelViewHandle lv = dv.getLevel( eg.levelIndex );
 
-			nextExecutor = new CrosstabHeaderRowExecutor( this,
-					lv,
-					columnGroups );
+			nextExecutor = new CrosstabHeaderRowExecutor( this, lv );
 		}
 		else if ( hasMeasureHeader )
 		{
-			nextExecutor = new CrosstabMeasureHeaderRowExecutor( this,
-					columnGroups );
+			nextExecutor = new CrosstabMeasureHeaderRowExecutor( this );
 			hasMeasureHeader = false;
 		}
 

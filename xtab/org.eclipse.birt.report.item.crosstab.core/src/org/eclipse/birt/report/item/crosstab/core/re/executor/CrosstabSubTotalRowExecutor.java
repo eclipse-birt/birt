@@ -11,15 +11,13 @@
 
 package org.eclipse.birt.report.item.crosstab.core.re.executor;
 
-import java.util.List;
-
 import javax.olap.OLAPException;
 import javax.olap.cursor.DimensionCursor;
 import javax.olap.cursor.EdgeCursor;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
-import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
+import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
@@ -32,7 +30,6 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 
 	private int rowIndex;
 	private int dimensionIndex, levelIndex;
-	private List rowGroups;
 
 	private int rowSpan, colSpan;
 	private int currentChangeType;
@@ -41,7 +38,7 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 	private int lastDimensionIndex;
 	private int lastLevelIndex;
 	private int totalMeasureCount;
-	
+
 	private long currentEdgePosition;
 
 	private int nextDimensionIndex;
@@ -57,14 +54,13 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 	private IReportItemExecutor nextExecutor;
 
 	public CrosstabSubTotalRowExecutor( BaseCrosstabExecutor parent,
-			int rowIndex, int dimensionIndex, int levelIndex, List rowGroups )
+			int rowIndex, int dimensionIndex, int levelIndex )
 	{
 		super( parent );
 
 		this.rowIndex = rowIndex;
 		this.dimensionIndex = dimensionIndex;
 		this.levelIndex = levelIndex;
-		this.rowGroups = rowGroups;
 	}
 
 	public void close( )
@@ -140,7 +136,7 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 			{
 				DimensionViewHandle cdv = crosstabItem.getDimension( COLUMN_AXIS_TYPE,
 						colDimensionIndex );
-				LevelViewHandle clv = rdv.getLevel( colLevelIndex );
+				LevelViewHandle clv = cdv.getLevel( colLevelIndex );
 
 				return crosstabItem.getMeasure( measureIndex )
 						.getAggregationCell( rdv.getCubeDimensionName( ),
@@ -181,11 +177,14 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 			}
 
 			// check start edge position
-			//TODO edge
-			/*int gdx = GroupUtil.getNextGroupIndex( rowGroups,
+			// TODO edge
+			/*
+			 * int gdx = GroupUtil.getNextGroupIndex( rowGroups,
+			 * ev.dimensionIndex, ev.levelIndex );
+			 */
+			int gdx = GroupUtil.getGroupIndex( rowGroups,
 					ev.dimensionIndex,
-					ev.levelIndex );*/
-			int gdx = GroupUtil.getGroupIndex( rowGroups, ev.dimensionIndex, ev.levelIndex );
+					ev.levelIndex );
 
 			if ( gdx != -1 )
 			{
@@ -277,9 +276,9 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 								rowSpan,
 								colSpan,
 								currentColIndex - colSpan + 1 );
-						
+
 						( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
-						
+
 						hasLast = false;
 						break;
 				}
@@ -311,8 +310,25 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 					hasLast = true;
 				}
 				else if ( ev.type == ColumnEvent.MEASURE_CHANGE
-						|| ev.type == ColumnEvent.COLUMN_TOTAL_CHANGE
-						|| ev.type == ColumnEvent.COLUMN_EDGE_CHANGE
+						|| ev.type == ColumnEvent.COLUMN_EDGE_CHANGE )
+				{
+					rowSpan = 1;
+					colSpan = 0;
+					lastMeasureIndex = ev.measureIndex;
+					if ( columnGroups != null && columnGroups.size( ) > 0 )
+					{
+						EdgeGroup gp = (EdgeGroup) columnGroups.get( columnGroups.size( ) - 1 );
+						lastDimensionIndex = gp.dimensionIndex;
+						lastLevelIndex = gp.levelIndex;
+					}
+					else
+					{
+						lastDimensionIndex = ev.dimensionIndex;
+						lastLevelIndex = ev.levelIndex;
+					}
+					hasLast = true;
+				}
+				else if ( ev.type == ColumnEvent.COLUMN_TOTAL_CHANGE
 						|| ev.type == ColumnEvent.GRAND_TOTAL_CHANGE )
 				{
 					rowSpan = 1;
@@ -402,9 +418,9 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 							rowSpan,
 							colSpan,
 							currentColIndex - colSpan + 1 );
-					
+
 					( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
-					
+
 					break;
 			}
 		}

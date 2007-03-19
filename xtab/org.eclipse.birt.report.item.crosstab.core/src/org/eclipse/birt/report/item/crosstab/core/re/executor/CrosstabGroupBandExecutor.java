@@ -11,12 +11,10 @@
 
 package org.eclipse.birt.report.item.crosstab.core.re.executor;
 
-import java.util.List;
-
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
-import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
+import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 
 /**
  * CrosstabGroupBandExecutor
@@ -26,20 +24,18 @@ public class CrosstabGroupBandExecutor extends BaseCrosstabExecutor
 
 	private int bandType;
 	private int dimensionIndex, levelIndex;
-	private List rowGroups;
 
 	private int currentRow;
 	private int totalRow;
 
 	public CrosstabGroupBandExecutor( BaseCrosstabExecutor parent,
-			List rowGroups, int dimensionIndex, int levelIndex, int bandType )
+			int dimensionIndex, int levelIndex, int bandType )
 	{
 		super( parent );
 
 		this.bandType = bandType;
 		this.dimensionIndex = dimensionIndex;
 		this.levelIndex = levelIndex;
-		this.rowGroups = rowGroups;
 	}
 
 	public IContent execute( )
@@ -71,16 +67,14 @@ public class CrosstabGroupBandExecutor extends BaseCrosstabExecutor
 			return new CrosstabRowExecutor( this,
 					currentRow++,
 					dimensionIndex,
-					levelIndex,
-					rowGroups );
+					levelIndex );
 		}
 		else
 		{
 			return new CrosstabSubTotalRowExecutor( this,
 					currentRow++,
 					dimensionIndex,
-					levelIndex,
-					rowGroups );
+					levelIndex );
 		}
 	}
 

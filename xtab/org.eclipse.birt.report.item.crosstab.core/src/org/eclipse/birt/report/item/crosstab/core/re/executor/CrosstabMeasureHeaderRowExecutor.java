@@ -11,13 +11,11 @@
 
 package org.eclipse.birt.report.item.crosstab.core.re.executor;
 
-import java.util.List;
-
 import javax.olap.OLAPException;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
-import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
+import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 
 /**
  * CrosstabMeasureHeaderRowExecutor
@@ -29,18 +27,14 @@ public class CrosstabMeasureHeaderRowExecutor extends BaseCrosstabExecutor
 	private int currentChangeType;
 	private int currentColIndex;
 	private int lastMeasureIndex;
-	private List columnGroups;
 
 	private boolean hasColumnGroups;
 	private boolean blankStarted;
 	private boolean hasLast;
 
-	public CrosstabMeasureHeaderRowExecutor( BaseCrosstabExecutor parent,
-			List columnGroups )
+	public CrosstabMeasureHeaderRowExecutor( BaseCrosstabExecutor parent )
 	{
 		super( parent );
-
-		this.columnGroups = columnGroups;
 	}
 
 	public IContent execute( )

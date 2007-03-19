@@ -13,7 +13,7 @@ package org.eclipse.birt.report.item.crosstab.core.re.executor;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
-import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
+import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 
 /**
  * CrosstabFooterExecutor

@@ -17,15 +17,17 @@ import javax.olap.OLAPException;
 import javax.olap.cursor.CubeCursor;
 import javax.olap.cursor.EdgeCursor;
 
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
-import org.eclipse.birt.report.engine.data.IResultSet;
-import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
+import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IExecutorContext;
+import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
-import org.eclipse.birt.report.item.crosstab.core.re.ICubeResultSet;
 
 /**
  * the base class for all crosstab element executor
@@ -43,6 +45,8 @@ public abstract class BaseCrosstabExecutor implements
 	private IContent content;
 	protected ICubeResultSet cubeRset;
 	protected CubeCursor cubeCursor;
+
+	protected List rowGroups, columnGroups;
 
 	private Object modelHandle;
 	private IReportItemExecutor parentExecutor;
@@ -67,17 +71,22 @@ public abstract class BaseCrosstabExecutor implements
 		this( parent.context, parent.crosstabItem, parent );
 		this.rowCounter = parent.rowCounter;
 		this.walker = parent.walker;
+
+		this.columnGroups = parent.columnGroups;
+		this.rowGroups = parent.rowGroups;
 	}
 
 	protected void executeQuery( AbstractCrosstabItemHandle handle )
 	{
-		// TODO
-		// IBaseQueryDefinition query = context.getQueries(
-		// crosstabItem.getModelHandle( ) )[0];
-		cubeRset = (ICubeResultSet) context.executeQuery( getParentResultSet( ),
-				null/* query */);
+		IDataQueryDefinition query = context.getQueries( crosstabItem.getModelHandle( ) )[0];
 
-		cubeCursor = cubeRset.getCubeCursor( );
+		cubeRset = (ICubeResultSet) context.executeQuery( getParentResultSet( ),
+				query );
+
+		if ( cubeRset != null )
+		{
+			cubeCursor = cubeRset.getCubeCursor( );
+		}
 	}
 
 	protected void closeQuery( )
@@ -102,18 +111,34 @@ public abstract class BaseCrosstabExecutor implements
 
 	protected void processVisibility( AbstractCrosstabItemHandle handle )
 	{
-		ContentUtil.processVisibility( context,
-				content,
-				handle,
-				getCubeResultSet( ) );
+		try
+		{
+			ContentUtil.processVisibility( context,
+					content,
+					handle,
+					getCubeResultSet( ) );
+		}
+		catch ( BirtException e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace( );
+		}
 	}
 
 	protected void processBookmark( AbstractCrosstabItemHandle handle )
 	{
-		ContentUtil.processBookmark( context,
-				content,
-				handle,
-				getCubeResultSet( ) );
+		try
+		{
+			ContentUtil.processBookmark( context,
+					content,
+					handle,
+					getCubeResultSet( ) );
+		}
+		catch ( BirtException e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace( );
+		}
 	}
 
 	protected void processAction( AbstractCrosstabItemHandle handle )
@@ -151,13 +176,13 @@ public abstract class BaseCrosstabExecutor implements
 		return null;
 	}
 
-	private IResultSet getParentResultSet( )
+	private IBaseResultSet getParentResultSet( )
 	{
 		IReportItemExecutor re = parentExecutor;
 
 		while ( re != null )
 		{
-			IResultSet[] rsa = re.getResultSets( );
+			IBaseResultSet[] rsa = re.getQueryResults( );
 			if ( rsa != null && rsa.length > 0 )
 			{
 				return rsa[0];
@@ -208,9 +233,11 @@ public abstract class BaseCrosstabExecutor implements
 		{
 			List ordinates = cs.getOrdinateEdge( );
 
-			if ( ordinates.size( ) > 0 )
+			if ( columnGroups != null
+					&& columnGroups.size( ) > 0
+					&& ordinates.size( ) > 0 )
 			{
-				// TODO ensure first is column edge
+				// the first is always column edge if has column definition
 				return (EdgeCursor) ordinates.get( 0 );
 			}
 		}
@@ -225,10 +252,12 @@ public abstract class BaseCrosstabExecutor implements
 		{
 			List ordinates = cs.getOrdinateEdge( );
 
-			if ( ordinates.size( ) > 1 )
+			if ( rowGroups != null
+					&& rowGroups.size( ) > 0
+					&& ordinates.size( ) > 0 )
 			{
-				// TODO ensure second is row edge
-				return (EdgeCursor) ordinates.get( 1 );
+				// the last is always row edge if has row definition
+				return (EdgeCursor) ordinates.get( ordinates.size( ) - 1 );
 			}
 		}
 		return null;
@@ -296,14 +325,14 @@ public abstract class BaseCrosstabExecutor implements
 		parentExecutor = parent;
 	}
 
-	public IResultSet[] getResultSets( )
+	public IBaseResultSet[] getQueryResults( )
 	{
 		if ( cubeRset == null )
 		{
 			return null;
 		}
 
-		return new IResultSet[]{
+		return new IBaseResultSet[]{
 			cubeRset
 		};
 	}

@@ -15,7 +15,7 @@ import javax.olap.OLAPException;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
-import org.eclipse.birt.report.engine.executor.IReportItemExecutor;
+import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
@@ -27,6 +27,8 @@ public class CrosstabMeasureRowExecutor extends BaseCrosstabExecutor
 {
 
 	private int rowIndex;
+
+	private long currentEdgePosition;
 
 	private int rowSpan, colSpan;
 	private int currentChangeType;
@@ -129,6 +131,9 @@ public class CrosstabMeasureRowExecutor extends BaseCrosstabExecutor
 								rowSpan,
 								colSpan,
 								currentColIndex - colSpan + 1 );
+
+						( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+
 						hasLast = false;
 						break;
 					case ColumnEvent.COLUMN_TOTAL_CHANGE :
@@ -143,6 +148,9 @@ public class CrosstabMeasureRowExecutor extends BaseCrosstabExecutor
 								rowSpan,
 								colSpan,
 								currentColIndex - colSpan + 1 );
+
+						( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+
 						hasLast = false;
 						break;
 				}
@@ -167,6 +175,7 @@ public class CrosstabMeasureRowExecutor extends BaseCrosstabExecutor
 					hasLast = true;
 				}
 
+				currentEdgePosition = ev.dataPosition;
 				currentChangeType = ev.type;
 				colSpan++;
 				currentColIndex++;
@@ -186,7 +195,7 @@ public class CrosstabMeasureRowExecutor extends BaseCrosstabExecutor
 		if ( hasLast )
 		{
 			hasLast = false;
-			
+
 			// handle last column
 			switch ( currentChangeType )
 			{
@@ -208,6 +217,9 @@ public class CrosstabMeasureRowExecutor extends BaseCrosstabExecutor
 							rowSpan,
 							colSpan,
 							currentColIndex - colSpan + 1 );
+
+					( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+
 					break;
 				case ColumnEvent.COLUMN_TOTAL_CHANGE :
 				case ColumnEvent.GRAND_TOTAL_CHANGE :
@@ -221,6 +233,9 @@ public class CrosstabMeasureRowExecutor extends BaseCrosstabExecutor
 							rowSpan,
 							colSpan,
 							currentColIndex - colSpan + 1 );
+
+					( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+
 					break;
 			}
 		}
