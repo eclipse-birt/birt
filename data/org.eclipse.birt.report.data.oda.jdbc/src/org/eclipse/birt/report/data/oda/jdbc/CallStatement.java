@@ -312,7 +312,7 @@ public class CallStatement implements IAdvancedQuery
 			}
 			catch ( OdaException e )
 			{
-				 mdRs = null;
+				throw e;
 			}
 			
 			try
@@ -1341,6 +1341,8 @@ public class CallStatement implements IAdvancedQuery
 
 		List paramMetaList1 = this.getCallableParamMetaData( );
 		List paramMetaList2 = new ArrayList( );
+		if( positionArray.length!= paramMetaList1.size( ) )
+			throw new OdaException( "Invalid stored procedure query");
 		for ( int i = 0; i < positionArray.length; i++ )
 		{
 			int index = positionArray[i]; // 1-based
