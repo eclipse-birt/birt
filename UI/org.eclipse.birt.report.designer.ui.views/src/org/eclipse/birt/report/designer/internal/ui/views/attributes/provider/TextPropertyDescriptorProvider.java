@@ -8,6 +8,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 
 public class TextPropertyDescriptorProvider extends PropertyDescriptorProvider implements
@@ -22,28 +23,29 @@ public class TextPropertyDescriptorProvider extends PropertyDescriptorProvider i
 	public Object load( )
 	{
 		String deValue = super.load( ).toString( );
+		IChoice choice = null;
 		if ( ScalarParameterHandle.DATA_TYPE_PROP.equals( getProperty( ) ) )
 		{
 			IChoiceSet dataType = DesignEngine.getMetaDataDictionary( )
 					.getChoiceSet( DesignChoiceConstants.CHOICE_PARAM_TYPE );
-			String displayName = dataType.findChoice( deValue )
-					.getDisplayName( );
-			if ( displayName != null )
-			{
-				deValue = displayName;
-			}
+			choice = dataType.findChoice( deValue );
 		}
 		else if ( ScalarParameterHandle.CONTROL_TYPE_PROP.equals( getProperty( ) ) )
 		{
 			IChoiceSet controlType = DesignEngine.getMetaDataDictionary( )
 					.getChoiceSet( DesignChoiceConstants.CHOICE_PARAM_CONTROL );
-			String displayName = controlType.findChoice( deValue )
-					.getDisplayName( );
+			choice = controlType.findChoice( deValue );
+		}
+
+		if ( choice != null )
+		{
+			String displayName = choice.getDisplayName( );
 			if ( displayName != null )
 			{
 				deValue = displayName;
 			}
 		}
+
 		return deValue;
 	}
 
