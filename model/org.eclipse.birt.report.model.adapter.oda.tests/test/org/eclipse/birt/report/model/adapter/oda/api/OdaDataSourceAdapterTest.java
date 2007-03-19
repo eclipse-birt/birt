@@ -63,7 +63,8 @@ public class OdaDataSourceAdapterTest extends BaseTestCase
 
 		assertEquals( "My Data Source One", sourceDesign.getDisplayName( ) ); //$NON-NLS-1$
 		Properties props = sourceDesign.getPublicProperties( );
-		assertEquals( 5, props.getProperties( ).size( ) );
+		//add OdaConnProfileName, OdaConnProfileStorePath properties.
+		assertEquals( 7, props.getProperties( ).size( ) );
 
 		assertEquals( "com.mysql.jdbc.Driver", props //$NON-NLS-1$
 				.findProperty( "odaDriverClass" ).getValue( ) ); //$NON-NLS-1$

@@ -68,6 +68,16 @@
                       <design:name>odaJndiName</design:name>
                     </design:nameValue>
                   </design:properties>
+                  <design:properties>
+                  	<design:nameValue>
+                  		<design:name>OdaConnProfileName</design:name>
+                  	</design:nameValue>
+                  </design:properties>
+                  <design:properties>
+                  	<design:nameValue>
+                  		<design:name>OdaConnProfileStorePath</design:name>
+                  	</design:nameValue>
+                  </design:properties>
                 </design:publicProperties>
                 <design:privateProperties>
                   <design:properties>
@@ -93,6 +103,16 @@
                     <design:name>queryTimeOut</design:name>
                   </design:nameValue>
                 </design:properties>
+                <design:properties>
+                  	<design:nameValue>
+                  		<design:name>OdaConnProfileName</design:name>
+                  	</design:nameValue>
+                  </design:properties>
+                  <design:properties>
+                  	<design:nameValue>
+                  		<design:name>OdaConnProfileStorePath</design:name>
+                  	</design:nameValue>
+                 </design:properties>
               </design:publicProperties>
             </design:dataSetDesign>
             <design:enabled>true</design:enabled>
@@ -155,6 +175,16 @@
                       <design:name>odaJndiName</design:name>
                     </design:nameValue>
                   </design:properties>
+                  <design:properties>
+                  	<design:nameValue>
+                  		<design:name>OdaConnProfileName</design:name>
+                  	</design:nameValue>
+                  </design:properties>
+                  <design:properties>
+                  	<design:nameValue>
+                  		<design:name>OdaConnProfileStorePath</design:name>
+                  	</design:nameValue>
+                  </design:properties>
                 </design:publicProperties>
                 <design:privateProperties>
                   <design:properties>
@@ -180,6 +210,16 @@
                     <design:name>queryTimeOut</design:name>
                   </design:nameValue>
                 </design:properties>
+                 <design:properties>
+                  	<design:nameValue>
+                  		<design:name>OdaConnProfileName</design:name>
+                  	</design:nameValue>
+                  </design:properties>
+                  <design:properties>
+                  	<design:nameValue>
+                  		<design:name>OdaConnProfileStorePath</design:name>
+                  	</design:nameValue>
+                  </design:properties>
               </design:publicProperties>
             </design:dataSetDesign>
             <design:enabled>true</design:enabled>
@@ -243,6 +283,16 @@
                       <design:name>odaJndiName</design:name>
                     </design:nameValue>
                   </design:properties>
+                   <design:properties>
+                  	<design:nameValue>
+                  		<design:name>OdaConnProfileName</design:name>
+                  	</design:nameValue>
+                  </design:properties>
+                  <design:properties>
+                  	<design:nameValue>
+                  		<design:name>OdaConnProfileStorePath</design:name>
+                  	</design:nameValue>
+                  </design:properties>
                 </design:publicProperties>
                 <design:privateProperties>
                   <design:properties>
@@ -268,6 +318,16 @@
                     <design:name>queryTimeOut</design:name>
                   </design:nameValue>
                 </design:properties>
+                <design:properties>
+                  	<design:nameValue>
+                  		<design:name>OdaConnProfileName</design:name>
+                  	</design:nameValue>
+                  </design:properties>
+                  <design:properties>
+                  	<design:nameValue>
+                  		<design:name>OdaConnProfileStorePath</design:name>
+                  	</design:nameValue>
+                 </design:properties>
               </design:publicProperties>
             </design:dataSetDesign>
             <design:enabled>true</design:enabled>
