@@ -82,7 +82,8 @@ public class Cube implements ICube
 				pDimensions,
 				measureColumnName,
 				stopSign );
-
+		documentObject.close( );
+		documentManager.flush( );
 	}
 
 	/**
@@ -94,6 +95,7 @@ public class Cube implements ICube
 	public void load( StopSign stopSign ) throws IOException, DataException
 	{
 		documentObject = documentManager.openDocumentObject( NamingUtil.getCubeDocName( name ) );
+		documentObject.seek( 0 );
 		name = documentObject.readString( );
 		dimension = new IDimension[documentObject.readInt( )];
 

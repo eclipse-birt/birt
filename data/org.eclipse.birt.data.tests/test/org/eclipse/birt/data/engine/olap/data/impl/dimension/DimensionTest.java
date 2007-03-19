@@ -11,13 +11,16 @@
 
 package org.eclipse.birt.data.engine.olap.data.impl.dimension;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
 
 import junit.framework.TestCase;
 
+import org.eclipse.birt.core.archive.compound.ArchiveFile;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.api.cube.IHierarchy;
@@ -70,12 +73,39 @@ public class DimensionTest extends TestCase
 	 */
 	public void testDimensionCreateAndFind( ) throws IOException, BirtException
 	{
+		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
+		
+		testDimensionCreateAndFind( documentManager );
+	}
+	
+	private static IDocumentManager createRADocumentManager( ) throws IOException, DataException
+	{
+		String pathName = System.getProperty( "java.io.tmpdir" ) + File.separator+ "docForTest";
+		ArchiveFile archiveFile = new ArchiveFile( pathName, "rw+" );
+		IDocumentManager documentManager = DocumentManagerFactory.createRADocumentManager( archiveFile );
+		return documentManager;
+	}
+	
+	/**
+	 * 
+	 * @throws IOException
+	 * @throws BirtException
+	 */
+	public void testRADimensionCreateAndFind( ) throws IOException, BirtException
+	{
+		IDocumentManager documentManager = createRADocumentManager( );
+		
+		testDimensionCreateAndFind( documentManager );
+	}
+
+	private void testDimensionCreateAndFind( IDocumentManager documentManager ) throws IOException, BirtException, DataException
+	{
 		ILevelDefn[] levelDefs = new ILevelDefn[1];
 		String[] attrs = {
 				"Name", "Age"
 		};
 		levelDefs[0] = new LevelDefinition( "student", new String[]{"ID"}, attrs );
-		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
+		
 		IDimension dimension = DimensionFactory.createDimension( "student",
 				documentManager,
 				new OneLevelDataset( ),
@@ -149,6 +179,20 @@ public class DimensionTest extends TestCase
 	 */
 	public void testDimensionCreateAndFind1( ) throws IOException, BirtException
 	{
+		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
+		
+		testDimensionCreateAndFind1( documentManager );
+	}
+	
+	public void testRADimensionCreateAndFind1( ) throws IOException, BirtException
+	{
+		IDocumentManager documentManager = createRADocumentManager( );
+		
+		testDimensionCreateAndFind1( documentManager );
+	}
+
+	private void testDimensionCreateAndFind1( IDocumentManager documentManager ) throws IOException, BirtException, DataException
+	{
 		int memeberCount = 10000;
 		ILevelDefn[] levelDefs = new ILevelDefn[1];
 		levelDefs[0] = new LevelDefinition( "student", new String[]{"ID"}, null );
@@ -163,7 +207,7 @@ public class DimensionTest extends TestCase
 		}
 		Arrays.sort( IDs );
 		iterator.setLevelMember( 0, IDs );
-		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
+		
 		IDimension dimension = DimensionFactory.createDimension( "student",
 				documentManager,
 				iterator,
@@ -226,6 +270,21 @@ public class DimensionTest extends TestCase
 	public void testDimensionCreateAndFind2( ) throws IOException,
 			BirtException
 	{
+		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
+		
+		testDimensionCreateAndFind2( documentManager );
+	}
+	
+	public void testRADimensionCreateAndFind2( ) throws IOException,
+			BirtException
+	{
+		IDocumentManager documentManager = createRADocumentManager( );
+
+		testDimensionCreateAndFind2( documentManager );
+	}
+
+	private void testDimensionCreateAndFind2( IDocumentManager documentManager ) throws IOException, BirtException, DataException
+	{
 		ILevelDefn[] levelDefs = new ILevelDefn[3];
 		String[] attrs = {
 			"level3Attribute"
@@ -233,7 +292,7 @@ public class DimensionTest extends TestCase
 		levelDefs[0] = new LevelDefinition( "level1", new String[]{"level1"}, null );
 		levelDefs[1] = new LevelDefinition( "level2", new String[]{"level2"}, null );
 		levelDefs[2] = new LevelDefinition( "level3", new String[]{"level3"}, attrs );
-		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
+		
 		IDimension dimension = DimensionFactory.createDimension( "three",
 				documentManager,
 				new ThreeLevelDataset( ),
@@ -383,6 +442,21 @@ public class DimensionTest extends TestCase
 	public void testDimensionCreateAndFind3( ) throws IOException,
 			BirtException
 	{
+		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
+		
+		testDimensionCreateAndFind3( documentManager );
+	}
+	
+	public void testRADimensionCreateAndFind3( ) throws IOException,
+			BirtException
+	{
+		IDocumentManager documentManager = createRADocumentManager( );
+
+		testDimensionCreateAndFind3( documentManager );
+	}
+
+	private void testDimensionCreateAndFind3( IDocumentManager documentManager ) throws IOException, BirtException, DataException
+	{
 		ILevelDefn[] levelDefs = new ILevelDefn[3];
 		String[] attrs = {
 			"level3Attribute"
@@ -390,7 +464,7 @@ public class DimensionTest extends TestCase
 		levelDefs[0] = new LevelDefinition( "level1", new String[]{"level1"}, null );
 		levelDefs[1] = new LevelDefinition( "level2", new String[]{"level2"}, null );
 		levelDefs[2] = new LevelDefinition( "level3", new String[]{"level3"}, attrs );
-		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
+		
 		IDimension dimension = DimensionFactory.createDimension( "three",
 				documentManager,
 				new ThreeLevelDataset( ),
@@ -541,6 +615,21 @@ public class DimensionTest extends TestCase
 	public void testDimensionCreateAndFind4( ) throws IOException,
 			BirtException
 	{
+		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
+		testDimensionCreateAndFind4( documentManager );
+
+	}
+	
+	public void testRADimensionCreateAndFind4( ) throws IOException,
+			BirtException
+	{
+		IDocumentManager documentManager = createRADocumentManager( );
+		testDimensionCreateAndFind4( documentManager );
+
+	}
+
+	private void testDimensionCreateAndFind4( IDocumentManager documentManager ) throws IOException, BirtException, DataException
+	{
 		ILevelDefn[] levelDefs = new ILevelDefn[3];
 		String[] attrs = {
 			"level3Attribute"
@@ -548,7 +637,7 @@ public class DimensionTest extends TestCase
 		levelDefs[0] = new LevelDefinition( "level1", new String[]{"level1"}, null );
 		levelDefs[1] = new LevelDefinition( "level2", new String[]{"level2"}, null );
 		levelDefs[2] = new LevelDefinition( "level3", new String[]{"level3"}, attrs );
-		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
+		
 		IDimension dimension = DimensionFactory.createDimension( "three",
 				documentManager,
 				new ThreeLevelDataset( ),
@@ -633,7 +722,6 @@ public class DimensionTest extends TestCase
 		assertEquals( level[2].getName( ), "level3" );
 		assertEquals( level[2].getKeyDataType( "level3" ), DataType.STRING_TYPE );
 		realDimension = (Dimension) dimension;
-
 	}
 
 	/**
@@ -644,12 +732,29 @@ public class DimensionTest extends TestCase
 	public void testDimensionCreateAndFind5( ) throws IOException,
 			BirtException
 	{
+		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
+		
+		testDimensionCreateAndFind5( documentManager );
+
+	}
+	
+	public void testRADimensionCreateAndFind5( ) throws IOException,
+			BirtException
+	{
+		IDocumentManager documentManager = createRADocumentManager( );
+
+		testDimensionCreateAndFind5( documentManager );
+
+	}
+
+	private void testDimensionCreateAndFind5( IDocumentManager documentManager ) throws IOException, BirtException, DataException
+	{
 		ILevelDefn[] levelDefs = new ILevelDefn[4];
 		levelDefs[0] = new LevelDefinition( "level1", new String[]{"level1"}, null );
 		levelDefs[1] = new LevelDefinition( "level2", new String[]{"level2"}, null );
 		levelDefs[2] = new LevelDefinition( "level3", new String[]{"level3"}, null );
 		levelDefs[3] = new LevelDefinition( "level4", new String[]{"level4"}, null );
-		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
+		
 		IDimension dimension = DimensionFactory.createDimension( "four",
 				documentManager,
 				new FourLevelDataset( ),
@@ -756,7 +861,6 @@ public class DimensionTest extends TestCase
 		assertEquals( level[3].getName( ), "level4" );
 		assertEquals( level[3].getKeyDataType( "level4" ), DataType.STRING_TYPE );
 		realDimension = (Dimension) dimension;
-
 	}
 
 	/**
@@ -767,12 +871,25 @@ public class DimensionTest extends TestCase
 	public void testDimensionCreateAndFind6( ) throws IOException,
 			BirtException
 	{
+		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
+		testDimensionCreateAndFind6( documentManager );
+	}
+	
+	public void testRADimensionCreateAndFind6( ) throws IOException,
+			BirtException
+	{
+		IDocumentManager documentManager = createRADocumentManager( );
+		testDimensionCreateAndFind6( documentManager );
+	}
+
+	private void testDimensionCreateAndFind6( IDocumentManager documentManager ) throws IOException, BirtException, DataException
+	{
 		ILevelDefn[] levelDefs = new ILevelDefn[4];
 		levelDefs[0] = new LevelDefinition( "level1", new String[]{"level1"}, null );
 		levelDefs[1] = new LevelDefinition( "level2", new String[]{"level2"}, null );
 		levelDefs[2] = new LevelDefinition( "level3", new String[]{"level3"}, null );
 		levelDefs[3] = new LevelDefinition( "level4", new String[]{"level4"}, null );
-		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
+		
 		IDimension dimension = DimensionFactory.createDimension( "four",
 				documentManager,
 				new FourLevelDataset( ),
@@ -852,12 +969,25 @@ public class DimensionTest extends TestCase
 	public void testDimensionCreateAndFind7( ) throws IOException,
 			BirtException
 	{
+		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
+		testDimensionCreateAndFind7( documentManager );
+	}
+	
+	public void testRADimensionCreateAndFind7( ) throws IOException,
+			BirtException
+	{
+		IDocumentManager documentManager = createRADocumentManager( );
+		testDimensionCreateAndFind7( documentManager );
+	}
+
+	private void testDimensionCreateAndFind7( IDocumentManager documentManager ) throws IOException, BirtException
+	{
 		ILevelDefn[] levelDefs = new ILevelDefn[4];
 		levelDefs[0] = new LevelDefinition( "level1", new String[]{"level1"}, null );
 		levelDefs[1] = new LevelDefinition( "level2", new String[]{"level2"}, null );
 		levelDefs[2] = new LevelDefinition( "level3", new String[]{"level3"}, null );
 		levelDefs[3] = new LevelDefinition( "level4", new String[]{"level4"}, null );
-		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
+		
 		IDimension dimension = DimensionFactory.createDimension( "four",
 				documentManager,
 				new FourLevelDataset( ),
@@ -902,12 +1032,27 @@ public class DimensionTest extends TestCase
 	public void testDimensionCreateAndFind8( ) throws IOException,
 			BirtException
 	{
+		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
+		
+		testDimensionCreateAndFind8( documentManager );
+	}
+	
+	public void testRADimensionCreateAndFind8( ) throws IOException,
+			BirtException
+	{
+		IDocumentManager documentManager = createRADocumentManager( );
+
+		testDimensionCreateAndFind8( documentManager );
+	}
+
+	private void testDimensionCreateAndFind8( IDocumentManager documentManager ) throws IOException, BirtException
+	{
 		ILevelDefn[] levelDefs = new ILevelDefn[4];
 		levelDefs[0] = new LevelDefinition( "level1", new String[]{"level1"}, null );
 		levelDefs[1] = new LevelDefinition( "level2", new String[]{"level2"}, null );
 		levelDefs[2] = new LevelDefinition( "level3", new String[]{"level3"}, null );
 		levelDefs[3] = new LevelDefinition( "level4", new String[]{"level4"}, null );
-		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
+		
 		IDimension dimension = DimensionFactory.createDimension( "four",
 				documentManager,
 				new FourLevelDataset( ),

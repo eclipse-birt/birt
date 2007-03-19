@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import org.eclipse.birt.data.engine.olap.data.document.BlockRandomAccessObject;
-import org.eclipse.birt.data.engine.olap.data.document.BufferedRandomAccessObject;
+import org.eclipse.birt.data.engine.olap.data.document.BufferedRandomDataAccessObject;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentManagerFactory;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentObject;
@@ -85,7 +85,7 @@ public class BufferedRandomAccessObjectTest extends TestCase
 	public void testInteger1( ) throws IOException
 	{
 		int objectNumber = 1001;
-		BufferedRandomAccessObject documentObject = new BufferedRandomAccessObject( 
+		BufferedRandomDataAccessObject documentObject = new BufferedRandomDataAccessObject( 
 				new SimpleRandomAccessObject( new File("D:\\tmp\\documents\\testInteger1"),
 				"rw" ),
 				1024 );

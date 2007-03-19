@@ -80,8 +80,16 @@ public class Hierarchy implements IHierarchy
 		{
 			levels[i].close( );
 		}
-		documentObj.close( );
-		offsetDocObj.close( );
+		if ( documentObj != null )
+		{
+			documentObj.close( );
+			documentObj = null;
+		}
+		if ( offsetDocObj != null )
+		{
+			offsetDocObj.close( );
+			offsetDocObj = null;
+		}
 	}
 
 	/*
@@ -141,23 +149,43 @@ public class Hierarchy implements IHierarchy
 		documentObj.seek( 0 );
 		documentObj.writeInt( size );
 		documentObj.seek( savedPointer );
-
-		levels = new Level[levelDefs.length];
-		for ( int i = 0; i < levels.length; i++ )
+		
+		closeWriteDocuemntObject( );
+		
+		openReadDocuemntObject( );
+		
+	}
+	
+	/**
+	 * 
+	 * @throws IOException
+	 */
+	private void closeWriteDocuemntObject( ) throws IOException
+	{
+		if ( documentObj != null )
 		{
-			levels[i] = new Level( documentManager,
-					levelDefs[i],
-					keyDataType[i],
-					attributesDataType[i],
-					size );
+			documentObj.close( );
+			documentObj = null;
 		}
-		for ( int i = 0; i < levels.length; i++ )
+		if ( offsetDocObj != null )
 		{
-			this.levelMap.put( levels[i].name, levels[i] );
+			offsetDocObj.close( );
+			offsetDocObj = null;
 		}
-		documentObj.flush( );
 	}
 
+	/**
+	 * 
+	 * @throws IOException
+	 */
+	private void openReadDocuemntObject( ) throws IOException
+	{
+		if(documentObj==null)
+			documentObj = documentManager.openDocumentObject( NamingUtil.getHierarchyDocName( name ) );
+		if(offsetDocObj==null)
+			offsetDocObj = documentManager.openDocumentObject( NamingUtil.getHierarchyOffsetDocName( name ) );
+	}
+	
 	/**
 	 * 
 	 * @throws IOException
@@ -165,8 +193,7 @@ public class Hierarchy implements IHierarchy
 	 */
 	public void loadFromDisk( ) throws IOException, DataException
 	{
-		documentObj = documentManager.openDocumentObject( NamingUtil.getHierarchyDocName( name ) );
-		offsetDocObj = documentManager.openDocumentObject( NamingUtil.getHierarchyOffsetDocName( name ) );
+		openReadDocuemntObject( );
 		int size = documentObj.readInt( );
 		levels = new Level[documentObj.readInt( )];
 		for ( int i = 0; i < levels.length; i++ )
@@ -199,7 +226,9 @@ public class Hierarchy implements IHierarchy
 							attributeColNames ),
 					keyDataType,
 					attributeDataTypes,
-					size );
+					size,
+					DiskIndex.loadIndex( documentManager,
+							NamingUtil.getLevelIndexDocName( levelName ) ));
 		}
 	}
 
@@ -211,8 +240,7 @@ public class Hierarchy implements IHierarchy
 	private IDocumentObject createHierarchyDocumentObject( )
 			throws IOException
 	{	
-		documentManager.createDocumentObject( NamingUtil.getHierarchyDocName( name) );
-		return documentManager.openDocumentObject( NamingUtil.getHierarchyDocName( name ) );
+		return documentManager.createDocumentObject( NamingUtil.getHierarchyDocName( name) );
 	}
 
 	/**
@@ -223,8 +251,7 @@ public class Hierarchy implements IHierarchy
 	private IDocumentObject createLevelOffsetDocumentObject( )
 			throws IOException
 	{
-		documentManager.createDocumentObject( NamingUtil.getHierarchyOffsetDocName( name ) );
-		return documentManager.openDocumentObject( NamingUtil.getHierarchyOffsetDocName( name ) );
+		return documentManager.createDocumentObject( NamingUtil.getHierarchyOffsetDocName( name ) );
 	}
 
 	/**
@@ -323,15 +350,29 @@ public class Hierarchy implements IHierarchy
 			obj = sortedDimensionSet.pop( );
 			currentIndex++;
 		}
+		DiskIndex[] diskIndex = new DiskIndex[indexKeyLists.length];
 		for ( int i = 0; i < indexKeyLists.length; i++ )
 		{
 			// create index for this level
-			DiskIndex.createIndex( documentManager,
+			diskIndex[i] = DiskIndex.createIndex( documentManager,
 					NamingUtil.getLevelIndexDocName( levelDefs[i].getLevelName( ) ),
 					indexKeyLists[i],
 					false );
 		}
-		offsetDocObj.flush( );
+		levels = new Level[levelDefs.length];
+		for ( int i = 0; i < levels.length; i++ )
+		{
+			levels[i] = new Level( documentManager,
+					levelDefs[i],
+					keyDataType[i],
+					attributesDataType[i],
+					currentIndex,
+					diskIndex[i]);
+		}
+		for ( int i = 0; i < levels.length; i++ )
+		{
+			this.levelMap.put( levels[i].name, levels[i] );
+		}
 		return currentIndex;
 	}
 	

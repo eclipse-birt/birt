@@ -17,7 +17,6 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.cube.ILevelDefn;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
-import org.eclipse.birt.data.engine.olap.data.impl.NamingUtil;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.DiskIndex;
 
@@ -47,7 +46,7 @@ public class Level implements ILevel
 	 * @throws DataException
 	 */
 	public Level( IDocumentManager documentManager, ILevelDefn levelDef, int[] keyDataType,
-			int[] attributeDataTypes, int size ) throws IOException, DataException
+			int[] attributeDataTypes, int size, DiskIndex diskIndex ) throws IOException, DataException
 	{
 		this.name = levelDef.getLevelName( );
 		this.keyDataType = keyDataType;
@@ -55,8 +54,7 @@ public class Level implements ILevel
 		this.attributeDataTypes = attributeDataTypes;
 		this.attributeColNames = levelDef.getAttributeColumns( );
 		this.size = size;
-		this.diskIndex = DiskIndex.loadIndex( documentManager,
-				NamingUtil.getLevelIndexDocName( name ) );
+		this.diskIndex = diskIndex;
 	}
 	
 	/*

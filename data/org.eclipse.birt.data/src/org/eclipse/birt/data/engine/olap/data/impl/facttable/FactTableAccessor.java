@@ -136,12 +136,14 @@ public class FactTableAccessor
 		}
 		
 		documentObjectManager.closeAll( );
+		documentManager.flush( );
 		return new FactTable( factTableName,
 				documentManager,
 				dimensionInfo,
 				measureInfo,
 				segmentCount,
 				subDimensions);
+		
 	}
 	
 	/**
@@ -410,7 +412,7 @@ public class FactTableAccessor
 			measureInfo[i].dataType = documentObject.readInt( );
 		}
 		segmentNumber = documentObject.readInt( );
-		documentObject.close( );
+		
 		int[] dimensionMemberCount = new int[dimensionInfo.length];
 		for( int i = 0;i<dimensionInfo.length;i++)
 		{

@@ -188,11 +188,12 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 		objectStructure.length = 0;
 		writeObjectStructure( objectStructure );
 		this.documentObjectMap.put( objectStructure.name, objectStructure );
-		return new DocumentObject( new BlockRandomAccessObject( dataFile,
+		return new DocumentObject( new BufferedRandomDataAccessObject( new BlockRandomAccessObject( dataFile,
 				documentObjectName,
 				objectStructure.firstBlock,
 				objectStructure.length,
-				this ) );
+				this ),
+				1024 ) );
 	}
 	
 	/**
@@ -248,11 +249,12 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 		{
 			return null;
 		}
-		return new DocumentObject( new BlockRandomAccessObject( dataFile,
+		return new DocumentObject( new BufferedRandomDataAccessObject( new BlockRandomAccessObject( dataFile,
 				documentObjectName,
 				objectStructure.firstBlock,
 				objectStructure.length,
-				this ) );
+				this ),
+				1024 ) );
 	}
 
 	/*

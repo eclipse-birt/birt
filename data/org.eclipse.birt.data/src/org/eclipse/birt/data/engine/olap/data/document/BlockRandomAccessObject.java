@@ -204,4 +204,14 @@ public class BlockRandomAccessObject implements IRandomAccessObject
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.document.IRandomAccessObject#flush()
+	 */
+	public void flush( ) throws IOException
+	{
+		seek( 0 );
+		documentObjectAllocatedTable.setObjectLength( name, length );
+	}
+
 }

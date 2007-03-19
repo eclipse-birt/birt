@@ -108,4 +108,13 @@ public class RAReader implements IRandomAccessObject
 		throw new UnsupportedOperationException( "This is a read only object!" );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.olap.data.document.IRandomAccessObject#flush()
+	 */
+	public void flush( ) throws IOException
+	{
+	}
+
 }

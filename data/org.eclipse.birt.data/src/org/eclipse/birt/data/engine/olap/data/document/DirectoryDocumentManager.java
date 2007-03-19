@@ -78,7 +78,9 @@ public class DirectoryDocumentManager implements IDocumentManager
 			{
 				return null;
 			}
-			return new DocumentObject( new SimpleRandomAccessObject(file, "rw") );
+			return new DocumentObject( new BufferedRandomDataAccessObject( new SimpleRandomAccessObject( file,
+					"rw" ),
+					1024 ) );
 		}
 	}
 
@@ -95,7 +97,9 @@ public class DirectoryDocumentManager implements IDocumentManager
 			return null;
 		}
 		
-		return new DocumentObject( new SimpleRandomAccessObject(file, "rw") );
+		return new DocumentObject( new BufferedRandomDataAccessObject( new SimpleRandomAccessObject( file,
+				"rw" ),
+				1024 ) );
 	}
 
 	/*

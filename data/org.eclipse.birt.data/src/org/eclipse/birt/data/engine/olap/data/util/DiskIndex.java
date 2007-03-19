@@ -139,8 +139,7 @@ public class DiskIndex
 	 */
 	private void loadFromDisk( ) throws IOException, DataException
 	{
-		documentObject = documentManager.openDocumentObject( name );
-		offsetDocumentObject = documentManager.openDocumentObject( getOffsetDocName(name) );
+		openReadDocumentObject( );
 		
 		keyDataType =  new int[documentObject.readInt( )];
 		for ( int i = 0; i < keyDataType.length; i++ )
@@ -214,6 +213,46 @@ public class DiskIndex
 		documentObject.writeInt( rootNodeOffset );
 		documentObject.writeShort( numberOfLevel );
 		documentObject.flush( );
+		offsetDocumentObject.flush( );
+		closeWriteDocumentObject( );
+		openReadDocumentObject( );
+	}
+	
+	/**
+	 * 
+	 * @throws IOException
+	 */
+	private void closeWriteDocumentObject( ) throws IOException
+	{
+		if ( documentObject != null )
+		{
+			documentObject.close( );
+			documentObject = null;
+		}
+		if ( offsetDocumentObject != null )
+		{
+			offsetDocumentObject.close( );
+			offsetDocumentObject = null;
+		}
+	}
+	
+	/**
+	 * 
+	 * @throws IOException
+	 */
+	private void openReadDocumentObject( ) throws IOException
+	{
+		if ( documentObject == null )
+		{
+			documentObject = documentManager.openDocumentObject( name );
+			documentObject.seek( 0 );
+
+		}
+		if ( offsetDocumentObject == null )
+		{
+			offsetDocumentObject = documentManager.openDocumentObject( getOffsetDocName( name ) );
+			documentObject.seek( 0 );
+		}
 	}
 
 	/**
@@ -230,7 +269,9 @@ public class DiskIndex
 		}
 		documentObject.writeInt( keyCount );
 		documentObject.writeInt( degree );
-		documentObject.skipBytes( 6 );
+//		documentObject.skipBytes( 6 );
+		byte[] b = new byte[6];
+		documentObject.write( b, 0, 6 );
 		return (int) ( documentObject.getFilePointer( ) );
 	}
 
@@ -751,6 +792,11 @@ public class DiskIndex
 		{
 			documentObject.close( );
 			documentObject = null;
+		}
+		if ( offsetDocumentObject != null )
+		{
+			offsetDocumentObject.close( );
+			offsetDocumentObject = null;
 		}
 	}
 }

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.data.engine.olap.data.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,8 +20,10 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.eclipse.birt.core.archive.compound.ArchiveFile;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.aggregation.BuiltInAggregationFactory;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.api.cube.IHierarchy;
 import org.eclipse.birt.data.engine.olap.api.cube.ILevelDefn;
@@ -31,10 +34,6 @@ import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.data.api.ISelection;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentManagerFactory;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
-import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
-import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
-import org.eclipse.birt.data.engine.olap.data.impl.Cube;
-import org.eclipse.birt.data.engine.olap.data.impl.SelectionFactory;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionFactory;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionForTest;
@@ -92,10 +91,30 @@ public class CubeAggregationTest extends TestCase
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	public void testCubeAggregation1( ) throws IOException, BirtException
+	public void testRAAggregation1( ) throws IOException, BirtException
+	{
+		IDocumentManager documentManager = createRADocumentManager( );
+		
+		testCubeAggregation1( documentManager );
+	}
+
+	private static IDocumentManager createRADocumentManager( ) throws IOException, DataException
+	{
+		String pathName = System.getProperty( "java.io.tmpdir" ) + File.separator+ "docForTest";
+		ArchiveFile archiveFile = new ArchiveFile( pathName, "rw+" );
+		IDocumentManager documentManager = DocumentManagerFactory.createRADocumentManager( archiveFile );
+		return documentManager;
+	}
+	
+	public void testAggregation1( ) throws IOException, BirtException
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		
+		testCubeAggregation1( documentManager );
+	}
+
+	private void testCubeAggregation1( IDocumentManager documentManager ) throws IOException, BirtException, DataException
+	{
 		Dimension[] dimensions = new Dimension[3];
 		
 		// dimension0
@@ -156,7 +175,12 @@ public class CubeAggregationTest extends TestCase
 		Cube cube = new Cube( "cube", documentManager );
 		
 		cube.create( dimensions, factTable2, measureColumnName, new StopSign( ) );
-		CubeQueryExcutorHelper cubeQueryExcutorHelper = new CubeQueryExcutorHelper( cube );
+		
+		documentManager.flush( );
+		
+		//query
+		CubeQueryExcutorHelper cubeQueryExcutorHelper = new CubeQueryExcutorHelper( 
+				CubeQueryExcutorHelper.loadCube( "cube", documentManager, new StopSign( ) ) );
 		ISelection[][] filter = new ISelection[1][1];
 		filter[0][0] = SelectionFactory.createRangeSelection(  new Object[]{"1"},
 				 new Object[]{"3"},
@@ -265,10 +289,22 @@ public class CubeAggregationTest extends TestCase
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	public void testCubeAggregation2( ) throws IOException, BirtException
+	public void testAggregation2( ) throws IOException, BirtException
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		
+		testCubeAggregation2( documentManager );
+	}
+	
+	public void testRAAggregation2( ) throws IOException, BirtException
+	{
+		IDocumentManager documentManager = createRADocumentManager( );
+		
+		testCubeAggregation2( documentManager );
+	}
+
+	private void testCubeAggregation2( IDocumentManager documentManager ) throws IOException, BirtException
+	{
 		Dimension[] dimensions = new Dimension[2];
 		
 		// dimension0

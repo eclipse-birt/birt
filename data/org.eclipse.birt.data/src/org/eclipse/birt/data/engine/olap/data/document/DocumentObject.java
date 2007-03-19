@@ -24,11 +24,11 @@ import org.eclipse.birt.data.engine.olap.data.util.Bytes;
 
 public class DocumentObject implements IDocumentObject
 {
-	BufferedRandomAccessObject delegate = null;
+	IRandomDataAccessObject delegate = null;
 	
-	DocumentObject( IRandomAccessObject randomAccessObject ) throws IOException
+	DocumentObject( IRandomDataAccessObject randomAccessObject ) throws IOException
 	{
-		this.delegate = new BufferedRandomAccessObject( randomAccessObject, 1024 );
+		this.delegate = randomAccessObject;
 	}
 	
 	/*
@@ -37,7 +37,15 @@ public class DocumentObject implements IDocumentObject
 	 */
 	public long getFilePointer( )
 	{
-		return delegate.getFilePointer( );
+		try
+		{
+			return delegate.getFilePointer( );
+		}
+		catch ( IOException e )
+		{
+			e.printStackTrace();
+			return -1;
+		}
 	}
 
 	/*

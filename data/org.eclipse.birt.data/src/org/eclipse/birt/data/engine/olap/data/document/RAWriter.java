@@ -23,6 +23,7 @@ import org.eclipse.birt.core.archive.RAOutputStream;
 public class RAWriter implements IRandomAccessObject
 {
 	private RAOutputStream outputStream;
+	private long length;
 	
 	/**
 	 * 
@@ -31,6 +32,7 @@ public class RAWriter implements IRandomAccessObject
 	RAWriter( RAOutputStream outputStream )
 	{
 		this.outputStream = outputStream;
+		this.length = 0;
 	}
 	
 	/*
@@ -39,6 +41,7 @@ public class RAWriter implements IRandomAccessObject
 	 */
 	public void close( ) throws IOException
 	{
+		outputStream.flush( );
 		outputStream.close( );
 	}
 
@@ -57,7 +60,7 @@ public class RAWriter implements IRandomAccessObject
 	 */
 	public long length( ) throws IOException
 	{
-		throw new UnsupportedOperationException( );
+		return length;
 	}
 
 	/*
@@ -102,7 +105,20 @@ public class RAWriter implements IRandomAccessObject
 	 */
 	public void write( byte[] b, int off, int len ) throws IOException
 	{
+		long start = getFilePointer();
+		
 		outputStream.write( b, off, len );
+		if ( start + len > length )
+			length = start + len;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.document.IRandomAccessObject#flush()
+	 */
+	public void flush( ) throws IOException
+	{
+		outputStream.flush( );
 	}
 
 }

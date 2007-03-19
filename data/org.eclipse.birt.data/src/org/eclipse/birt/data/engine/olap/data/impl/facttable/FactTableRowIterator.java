@@ -43,6 +43,8 @@ public class FactTableRowIterator
 
 	private Traversalor traversalor;
 	private StopSign stopSign;
+	
+	private int[][] selectedPosOfCurSegment;
 
 	/**
 	 * 
@@ -59,6 +61,7 @@ public class FactTableRowIterator
 		this.measureInfo = factTable.getMeasureInfo( );
 		this.selectedPos = dimensionPos;
 		this.selectedSubDim = new List[factTable.getDimensionInfo( ).length];
+		this.selectedPosOfCurSegment = new int[factTable.getDimensionInfo( ).length][];
 		this.stopSign = stopSign;
 		
 		assert dimensionName.length == dimensionPos.length;
@@ -157,6 +160,7 @@ public class FactTableRowIterator
 					return false;
 				}
 				Bytes combinedDimensionPosition = currentSegment.readBytes( );
+				
 				currentPos = factTable.getCombinedPositionCalculator( )
 						.calculateDimensionPosition( getSubDimensionIndex( ),
 								combinedDimensionPosition.bytesValue( ) );
@@ -215,15 +219,13 @@ public class FactTableRowIterator
 			if ( dimensionIndex[i] != -1 )
 			{
 				find = false;
-				SelectedSubDimension selectedSubDimension = ( (SelectedSubDimension) selectedSubDim[i].get( currentSubDim[i] ) );
-				for ( int j = selectedSubDimension.start; j <= selectedSubDimension.end; j++ )
+				for ( int j = 0; j < selectedPosOfCurSegment[i].length; j++ )
 				{
-					int selectedInt = ( (Integer) selectedPos[dimensionIndex[i]].get( j ) ).intValue( );
-					if ( selectedInt > currentPos[i] )
+					if ( selectedPosOfCurSegment[i][j] > currentPos[i] )
 					{
 						return false;
 					}
-					if ( selectedInt == currentPos[i] )
+					if ( selectedPosOfCurSegment[i][j] == currentPos[i] )
 					{
 						find = true;
 						break;
@@ -257,6 +259,20 @@ public class FactTableRowIterator
 		currentSegment = factTable.getDocumentManager( )
 				.openDocumentObject( FTSUDocumentObjectNamingUtil.getDocumentObjectName( factTable.getName( ),
 						getSubDimensionIndex( ) ) );
+		for ( int i = 0; i < dimensionIndex.length; i++ )
+		{
+			if ( dimensionIndex[i] != -1 )
+			{
+				SelectedSubDimension selectedSubDimension = ( (SelectedSubDimension) selectedSubDim[i].get( currentSubDim[i] ) );
+				selectedPosOfCurSegment[i] = new int[selectedSubDimension.end
+						- selectedSubDimension.start + 1];
+				for ( int j = 0; j < selectedSubDimension.end
+						- selectedSubDimension.start + 1; j++ )
+				{
+					selectedPosOfCurSegment[i][j] = ( (Integer) selectedPos[dimensionIndex[i]].get( j ) ).intValue( );
+				}
+			}
+		}
 		return true;
 	}
 

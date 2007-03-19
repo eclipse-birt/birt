@@ -76,4 +76,8 @@ public class SimpleRandomAccessObject implements IRandomAccessObject
 		randomAccessFile.write( b, off, len );
 	}
 
+	public void flush( ) throws IOException
+	{
+	}
+
 }

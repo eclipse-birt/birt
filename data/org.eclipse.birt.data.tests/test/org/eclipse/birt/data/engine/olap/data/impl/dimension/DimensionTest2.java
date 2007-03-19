@@ -11,12 +11,15 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.impl.dimension;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
 import junit.framework.TestCase;
 
+import org.eclipse.birt.core.archive.compound.ArchiveFile;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.api.cube.IHierarchy;
@@ -62,6 +65,14 @@ public class DimensionTest2 extends TestCase
 		super.tearDown( );
 	}
 	
+	private static IDocumentManager createRADocumentManager( ) throws IOException, DataException
+	{
+		String pathName = System.getProperty( "java.io.tmpdir" ) + File.separator+ "docForTest";
+		ArchiveFile archiveFile = new ArchiveFile( pathName, "rw+" );
+		IDocumentManager documentManager = DocumentManagerFactory.createRADocumentManager( archiveFile );
+		return documentManager;
+	}
+	
 	/**
 	 * 
 	 * @throws IOException
@@ -70,6 +81,17 @@ public class DimensionTest2 extends TestCase
 	public void testDimensionCreateAndFind( ) throws IOException, BirtException
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
+		testDimensionCreateAndFind( documentManager );
+	}
+	
+	public void testRADimensionCreateAndFind( ) throws IOException, BirtException
+	{
+		IDocumentManager documentManager = createRADocumentManager( );
+		testDimensionCreateAndFind( documentManager );
+	}
+
+	private void testDimensionCreateAndFind( IDocumentManager documentManager ) throws IOException, BirtException, DataException
+	{
 		Dimension dimension = createDimension( documentManager ) ;
 		ILevel[] level = dimension.getHierarchy( ).getLevels( );
 		
@@ -128,7 +150,6 @@ public class DimensionTest2 extends TestCase
 		levelMember = dimension.getDimensionRowByOffset(
 				indexKey.offset ).members[1];
 		assertEquals( levelMember.keyValues[0], new Integer( 1 ) );
-		
 	}
 	
 	/**
@@ -139,6 +160,17 @@ public class DimensionTest2 extends TestCase
 	public void testDimensionIterator( ) throws IOException, BirtException
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
+		testDimensionIterator( documentManager );
+	}
+	
+	public void testRADimensionIterator( ) throws IOException, BirtException
+	{
+		IDocumentManager documentManager = createRADocumentManager( );
+		testDimensionIterator( documentManager );
+	}
+
+	private void testDimensionIterator( IDocumentManager documentManager ) throws IOException, BirtException, DataException
+	{
 		Dimension dimension = createDimension( documentManager ) ;
 		ILevel[] level = dimension.getHierarchy( ).getLevels( );
 		

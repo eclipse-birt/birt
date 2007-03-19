@@ -103,4 +103,10 @@ public interface IRandomAccessObject
      * @exception  IOException  if an I/O error occurs.
      */
     public int read(byte b[]) throws IOException ;
+    
+    /**
+     * 
+     *
+     */
+    public void flush( ) throws IOException;
 }

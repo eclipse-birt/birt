@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.data.engine.olap.data.impl.facttable;
 
+import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -20,7 +21,9 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.eclipse.birt.core.archive.compound.ArchiveFile;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.api.cube.IHierarchy;
 import org.eclipse.birt.data.engine.olap.api.cube.ILevelDefn;
@@ -219,6 +222,14 @@ public class FactTableHelperTest extends TestCase
 		}
 	}
 	
+	private static IDocumentManager createRADocumentManager( ) throws IOException, DataException
+	{
+		String pathName = System.getProperty( "java.io.tmpdir" ) + File.separator+ "docForTest";
+		ArchiveFile archiveFile = new ArchiveFile( pathName, "rw+" );
+		IDocumentManager documentManager = DocumentManagerFactory.createRADocumentManager( archiveFile );
+		return documentManager;
+	}
+	
 	/**
 	 * 
 	 * @throws IOException
@@ -227,6 +238,17 @@ public class FactTableHelperTest extends TestCase
 	public void testFactTableSaveAndLoad1( ) throws IOException, BirtException
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
+		testFactTableSaveAndLoad1( documentManager );
+	}
+	
+	public void testRAFactTableSaveAndLoad1( ) throws IOException, BirtException
+	{
+		IDocumentManager documentManager = createRADocumentManager( );
+		testFactTableSaveAndLoad1( documentManager );
+	}
+
+	private void testFactTableSaveAndLoad1( IDocumentManager documentManager ) throws IOException, BirtException
+	{
 		Dimension[] dimensions = new Dimension[3];
 		
 		ILevelDefn[] levelDefs = new ILevelDefn[1];
@@ -329,6 +351,17 @@ public class FactTableHelperTest extends TestCase
 	public void testFactTableSaveAndLoad2( ) throws IOException, BirtException
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
+		testFactTableSaveAndLoad2( documentManager );
+	}
+	
+	public void testRAFactTableSaveAndLoad2( ) throws IOException, BirtException
+	{
+		IDocumentManager documentManager = createRADocumentManager( );
+		testFactTableSaveAndLoad2( documentManager );
+	}
+
+	private void testFactTableSaveAndLoad2( IDocumentManager documentManager ) throws IOException, BirtException
+	{
 		Dimension[] dimensions = new Dimension[3];
 		
 		ILevelDefn[] levelDefs = new ILevelDefn[1];
@@ -429,9 +462,19 @@ public class FactTableHelperTest extends TestCase
 	 */
 	public void testFactTableSaveAndLoad3( ) throws IOException, BirtException
 	{
-		long startTime = System.currentTimeMillis( );
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
-		 
+		testFactTableSaveAndLoad3( documentManager );
+	}
+	
+	public void testRAFactTableSaveAndLoad3( ) throws IOException, BirtException
+	{
+		IDocumentManager documentManager = createRADocumentManager( );
+		testFactTableSaveAndLoad3( documentManager );
+	}
+
+	private void testFactTableSaveAndLoad3( IDocumentManager documentManager ) throws IOException, BirtException
+	{
+		long startTime = System.currentTimeMillis( ); 
 		Dimension[] dimensions = new Dimension[3];
 		
 		String[] levelNames = new String[1];
