@@ -326,9 +326,9 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 			stack.startTrans( null );
 			try
 			{
-				propHandle.drop( 0 );
-
-				// adjust the measure aggregations
+				// adjust the measure aggregations before remove the grand-total
+				// cell, for some adjustment action should depend on the
+				// grand-total information
 				CrosstabReportItemHandle crosstab = getCrosstab( );
 				if ( crosstab != null )
 				{
@@ -336,6 +336,7 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 							getAxisType( ), null, null, null, false, false );
 				}
 
+				propHandle.drop( 0 );
 			}
 			catch ( SemanticException e )
 			{

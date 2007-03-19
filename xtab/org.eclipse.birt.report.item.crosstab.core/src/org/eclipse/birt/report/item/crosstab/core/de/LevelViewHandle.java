@@ -378,9 +378,9 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 
 			try
 			{
-				getAggregationHeaderProperty( ).drop( 0 );
-
-				// adjust the aggregations in measure elements
+				// adjust the aggregations in measure elements first, then
+				// remove the aggregation; for the adjustment actions should
+				// depend on the aggregation information set in this level view
 				CrosstabReportItemHandle crosstab = getCrosstab( );
 				if ( crosstab != null )
 				{
@@ -390,6 +390,8 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 									.getCubeDimensionName( ),
 							getCubeLevelName( ), isInnerMost( ), false );
 				}
+
+				getAggregationHeaderProperty( ).drop( 0 );
 
 			}
 			catch ( SemanticException e )
