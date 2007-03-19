@@ -2084,6 +2084,18 @@ Structure.Rule=Regel
 Structure.Rule.ruleExpre=Regelausdruck
 Structure.Rule.displayExpre=Ausdruck anzeigen
 
+#31. LevelAttribute
+Structure.LevelAttribute=Level Attribute
+Structure.LevelAttribute.name=Name
+Structure.LevelAttribute.dataType=Datentyp
+
+#32. OdaLevelAttribute
+Structure.OdaLevelAttribute=ODA Level Attribute
+Structure.OdaLevelAttribute.name=Name
+Structure.OdaLevelAttribute.dataType=Datentyp
+Structure.OdaLevelAttribute.nativeName=Programmeigener Name
+Structure.OdaLevelAttribute.nativeDataType=Programmeigener Datentypcode
+
 ###########################################################
 # Element names
 
@@ -2938,7 +2950,6 @@ Element.Level.interval=Intervall
 Element.Level.intervalRange=Intervallbereich
 Element.Level.levelType=Stufentyp
 Element.Level.staticValues=Statische Werte
-Element.Level.attributes=Attribute
 Element.Level.valueAccessControls=Wertzugriffsteuerungen
 
 #49. Measure ( prefix Element.Measure )
@@ -2973,6 +2984,7 @@ Element.TabularHierarchy.primaryKeys=Primärschlüssel
 
 #55. TabularLevel ( prefix Element.TabularLevel )
 Element.TabularLevel.columnName=Spaltenname
+Element.TabularLevel.attributes=Attribute
 
 #56. OdaCube ( prefix Element.OdaCube )
 Element.OdaCube.dimensions=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
@@ -2986,6 +2998,9 @@ Element.OdaDimension.nativeName=Programmeigener Name
 #58. OdaHierarchy ( prefix Element.OdaHierarchy )
 Element.OdaHierarchy.levels=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
 Element.OdaHierarchy.nativeName=Programmeigener Name
+
+#59. OdaLevel ( prefix Element.OdaLevel )
+Element.OdaLevel.attributes=Attribute
 
 ###########################################################
 # Predefined style

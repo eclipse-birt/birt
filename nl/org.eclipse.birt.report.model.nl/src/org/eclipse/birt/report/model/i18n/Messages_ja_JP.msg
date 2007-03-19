@@ -2084,6 +2084,18 @@ Structure.Rule=規則
 Structure.Rule.ruleExpre=規則式
 Structure.Rule.displayExpre=表示式
 
+#31. LevelAttribute
+Structure.LevelAttribute=Level Attribute
+Structure.LevelAttribute.name=名前
+Structure.LevelAttribute.dataType=データ型
+
+#32. OdaLevelAttribute
+Structure.OdaLevelAttribute=ODA Level Attribute
+Structure.OdaLevelAttribute.name=名前
+Structure.OdaLevelAttribute.dataType=データ型
+Structure.OdaLevelAttribute.nativeName=ネイティブの名前
+Structure.OdaLevelAttribute.nativeDataType=ネイティブのデータ型コード
+
 ###########################################################
 # Element names
 
@@ -2938,7 +2950,6 @@ Element.Level.interval=間隔
 Element.Level.intervalRange=間隔の範囲
 Element.Level.levelType=レベルの型
 Element.Level.staticValues=静的な値
-Element.Level.attributes=属性
 Element.Level.valueAccessControls=値へのアクセスコントロール
 
 #49. Measure ( prefix Element.Measure )
@@ -2973,6 +2984,7 @@ Element.TabularHierarchy.primaryKeys=プライマリキー
 
 #55. TabularLevel ( prefix Element.TabularLevel )
 Element.TabularLevel.columnName=列名
+Element.TabularLevel.attributes=属性
 
 #56. OdaCube ( prefix Element.OdaCube )
 Element.OdaCube.dimensions=このデザインファイルは、以前のバージョンの BIRT で作成されています。[OK] をクリックすると、現在のバージョンでサポートされている形式に変換されます。
@@ -2986,6 +2998,9 @@ Element.OdaDimension.nativeName=ネイティブの名前
 #58. OdaHierarchy ( prefix Element.OdaHierarchy )
 Element.OdaHierarchy.levels=このデザインファイルは、以前のバージョンの BIRT で作成されています。[OK] をクリックすると、現在のバージョンでサポートされている形式に変換されます。
 Element.OdaHierarchy.nativeName=ネイティブの名前
+
+#59. OdaLevel ( prefix Element.OdaLevel )
+Element.OdaLevel.attributes=属性
 
 ###########################################################
 # Predefined style

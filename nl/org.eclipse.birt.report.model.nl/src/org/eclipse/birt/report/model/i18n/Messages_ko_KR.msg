@@ -2084,6 +2084,18 @@ Structure.Rule=규칙
 Structure.Rule.ruleExpre=규칙 식
 Structure.Rule.displayExpre=표시 식
 
+#31. LevelAttribute
+Structure.LevelAttribute=Level Attribute
+Structure.LevelAttribute.name=이름
+Structure.LevelAttribute.dataType=데이터 형식
+
+#32. OdaLevelAttribute
+Structure.OdaLevelAttribute=ODA Level Attribute
+Structure.OdaLevelAttribute.name=이름
+Structure.OdaLevelAttribute.dataType=데이터 형식
+Structure.OdaLevelAttribute.nativeName=고유 이름
+Structure.OdaLevelAttribute.nativeDataType=고유 데이터 형식 코드
+
 ###########################################################
 # Element names
 
@@ -2938,7 +2950,6 @@ Element.Level.interval=간격
 Element.Level.intervalRange=간격 범위
 Element.Level.levelType=수준 형식
 Element.Level.staticValues=정적 값
-Element.Level.attributes=특성
 Element.Level.valueAccessControls=값 액세스 컨트롤
 
 #49. Measure ( prefix Element.Measure )
@@ -2973,6 +2984,7 @@ Element.TabularHierarchy.primaryKeys=기본 키
 
 #55. TabularLevel ( prefix Element.TabularLevel )
 Element.TabularLevel.columnName=열 이름
+Element.TabularLevel.attributes=특성
 
 #56. OdaCube ( prefix Element.OdaCube )
 Element.OdaCube.dimensions=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
@@ -2986,6 +2998,9 @@ Element.OdaDimension.nativeName=고유 이름
 #58. OdaHierarchy ( prefix Element.OdaHierarchy )
 Element.OdaHierarchy.levels=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
 Element.OdaHierarchy.nativeName=고유 이름
+
+#59. OdaLevel ( prefix Element.OdaLevel )
+Element.OdaLevel.attributes=특성
 
 ###########################################################
 # Predefined style

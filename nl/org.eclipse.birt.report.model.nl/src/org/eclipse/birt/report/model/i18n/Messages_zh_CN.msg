@@ -2084,6 +2084,18 @@ Structure.Rule=规则
 Structure.Rule.ruleExpre=规则表达式
 Structure.Rule.displayExpre=显示表达式
 
+#31. LevelAttribute
+Structure.LevelAttribute=Level Attribute
+Structure.LevelAttribute.name=名称
+Structure.LevelAttribute.dataType=数据类型
+
+#32. OdaLevelAttribute
+Structure.OdaLevelAttribute=ODA Level Attribute
+Structure.OdaLevelAttribute.name=名称
+Structure.OdaLevelAttribute.dataType=数据类型
+Structure.OdaLevelAttribute.nativeName=本地名称
+Structure.OdaLevelAttribute.nativeDataType=本地数据类型代码
+
 ###########################################################
 # Element names
 
@@ -2938,7 +2950,6 @@ Element.Level.interval=间隔
 Element.Level.intervalRange=间隔范围
 Element.Level.levelType=级别类型
 Element.Level.staticValues=静态值
-Element.Level.attributes=属性
 Element.Level.valueAccessControls=值访问控制
 
 #49. Measure ( prefix Element.Measure )
@@ -2973,6 +2984,7 @@ Element.TabularHierarchy.primaryKeys=主键
 
 #55. TabularLevel ( prefix Element.TabularLevel )
 Element.TabularLevel.columnName=列名
+Element.TabularLevel.attributes=属性
 
 #56. OdaCube ( prefix Element.OdaCube )
 Element.OdaCube.dimensions=设计文件是使用较早版本的 BIRT 创建的。单击“确定”将它转换为该产品当前版本支持的格式。
@@ -2986,6 +2998,9 @@ Element.OdaDimension.nativeName=本地名称
 #58. OdaHierarchy ( prefix Element.OdaHierarchy )
 Element.OdaHierarchy.levels=设计文件是使用较早版本的 BIRT 创建的。单击“确定”将它转换为该产品当前版本支持的格式。
 Element.OdaHierarchy.nativeName=本地名称
+
+#59. OdaLevel ( prefix Element.OdaLevel )
+Element.OdaLevel.attributes=属性
 
 ###########################################################
 # Predefined style
