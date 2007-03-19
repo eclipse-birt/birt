@@ -43,7 +43,7 @@ import com.ibm.icu.util.ULocale;
  * values for selection from the data set. It allows both multiple and single
  * selection. The default is single selection.
  * 
- * @version $Revision: 1.19 $ $Date: 2007/03/07 02:56:52 $
+ * @version $Revision: 1.20 $ $Date: 2007/03/07 03:11:49 $
  */
 public class SelectValueDialog extends BaseDialog
 {
@@ -232,7 +232,7 @@ public class SelectValueDialog extends BaseDialog
 			getOkButton( ).setEnabled( false );
 			selectValueList.removeAll( );
 			viewerValueList.clear( );
-			if ( modelValueList != null && modelValueList.size( ) > 0 )
+			if ( modelValueList != null  )
 			{
 				Iterator iter = modelValueList.iterator( );
 				while ( iter.hasNext( ) )
