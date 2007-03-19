@@ -24,6 +24,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolici
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.CellFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.CellDragTracker;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportFlowLayout;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editpolicies.CrosstabCellFlowLayoutEditPolicy;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.figures.CrosstabCellFigure;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.handles.CrosstavCellDragHandle;
@@ -36,6 +37,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
 
 /**
  * Crosstab cell element editpart, the model is CrosstabCellAdapter
@@ -328,5 +330,34 @@ public class CrosstabCellEditPart extends AbstractCellEditPart
 		{
 			super.contentChange( info );
 		}
+	}
+	
+	public void showTargetFeedback( Request request )
+	{
+		if ( this.getSelected( ) == 0 && isActive( )
+				&& request.getType( ) == RequestConstants.REQ_SELECTION )
+		{
+
+			if ( isFigureLeft( request ) )
+			{
+				this.getViewer( ).setCursor(
+						ReportPlugin.getDefault( ).getLeftCellCursor( ) );
+			}
+			else
+			{
+				this.getViewer( ).setCursor(
+						ReportPlugin.getDefault( ).getRightCellCursor( ) );
+			}
+		}
+		super.showTargetFeedback( request );
+	}
+
+	public void eraseTargetFeedback( Request request )
+	{
+		if ( isActive( ) )
+		{
+			this.getViewer( ).setCursor( null );
+		}
+		super.eraseTargetFeedback( request );
 	}
 }
