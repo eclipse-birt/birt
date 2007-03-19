@@ -31,9 +31,9 @@ public class MeasureHandleDataItemEditPart extends DataEditPart
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DataEditPart#getText()
 	 */
-	protected String getText( )
-	{
-		String text = ( (DataItemHandle) getModel( ) ).getDisplayLabel( );
-		return text;
-	}
+//	protected String getText( )
+//	{
+//		String text = ( (DataItemHandle) getModel( ) ).getDisplayLabel( );
+//		return text;
+//	}
 }

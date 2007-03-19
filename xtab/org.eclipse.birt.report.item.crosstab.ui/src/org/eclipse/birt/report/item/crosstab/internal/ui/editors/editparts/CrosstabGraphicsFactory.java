@@ -44,13 +44,15 @@ public class CrosstabGraphicsFactory implements EditPartFactory
 				{
 					return new FirstLevelHandleDataItemEditPart( model );
 				}
-				else if (ICrosstabCellAdapterFactory.CELL_LEVEL_HANDLE.equals( position ))
+				else if (ICrosstabCellAdapterFactory.CELL_LEVEL_HANDLE.equals( position )
+						|| ICrosstabCellAdapterFactory.CELL_MEASURE.equals( position ))
 				{
 					//FirstLevelHandleDataItemEditPart
 					return new LevelHandleDataItemEditPart( model );
 				}
-				else if (ICrosstabCellAdapterFactory.CELL_MEASURE.equals( position )
-						|| ICrosstabCellAdapterFactory.CELL_MEASURE_HEADER.equals( position ))
+				else if (//ICrosstabCellAdapterFactory.CELL_MEASURE.equals( position )
+						//|| 
+						ICrosstabCellAdapterFactory.CELL_MEASURE_HEADER.equals( position ))
 				{
 					return new MeasureHandleDataItemEditPart(model);
 				}

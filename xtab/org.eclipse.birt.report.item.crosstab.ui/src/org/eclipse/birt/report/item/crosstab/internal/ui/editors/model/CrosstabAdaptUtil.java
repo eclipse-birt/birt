@@ -16,6 +16,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -142,6 +143,21 @@ public class CrosstabAdaptUtil
 			if ( handle instanceof DimensionViewHandle )
 			{
 				return (DimensionViewHandle) handle;
+			}
+			handle = handle.getContainer( );
+		}
+		return null;
+	}
+	
+	public static MeasureViewHandle getMeasureViewHandle(
+			ExtendedItemHandle extendedHandle )
+	{
+		AbstractCrosstabItemHandle handle = (AbstractCrosstabItemHandle) CrosstabUtil.getReportItem( extendedHandle );
+		while ( handle != null )
+		{
+			if ( handle instanceof MeasureViewHandle )
+			{
+				return (MeasureViewHandle) handle;
 			}
 			handle = handle.getContainer( );
 		}

@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.dialogs;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
@@ -143,8 +143,8 @@ public class AggregationDialog extends BaseDialog
 
 	}
 
-	private List subList = new LinkedList( );
-	private List grandList = new LinkedList( );
+	private List subList = new ArrayList( );
+	private List grandList = new ArrayList( );
 	private CheckboxTableViewer grandTableViewer;
 
 	public void setInput( List subList, List grandList )

@@ -322,7 +322,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 		LabelHandle dataHandle = DesignElementFactory.getInstance( )
 		.newLabel(null );
 		//Label name is a compand name.
-		dataHandle.setText( "[" + levelHandle.getCubeLevelName( )+ "]" + DISPALY_NAME);
+		dataHandle.setText( "[" + levelView.getCubeLevelName( )+ "]" + DISPALY_NAME);
 		
 		cellHandle.addContent( dataHandle );
 		System.out.println("model operator" + (System.currentTimeMillis( ) - current));

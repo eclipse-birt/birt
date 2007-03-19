@@ -180,7 +180,8 @@ public class AddDimensionViewHandleCommand extends AbstractCrosstabCommand
 
 	private int findPosition()
 	{
-		int base = handleAdpter.getCrosstabCellHandle( ).getCrosstabHandle( ).getIndex( );
+		//int base = handleAdpter.getCrosstabCellHandle( ).getCrosstabHandle( ).getIndex( );
+		int base = CrosstabAdaptUtil.getDimensionViewHandle((ExtendedItemHandle) handleAdpter.getCrosstabCellHandle( ).getModelHandle( )).getModelHandle( ).getIndex( );
 		if (after instanceof  DesignElementHandle)
 		{
 			int index = ((DesignElementHandle)after).getIndex( );
