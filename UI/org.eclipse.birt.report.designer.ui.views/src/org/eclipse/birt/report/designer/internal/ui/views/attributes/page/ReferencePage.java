@@ -23,26 +23,29 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class ReferencePage extends AttributePage
 {
+
 	private TextAndButtonSection referenceSection;
 	private ReferenceDescriptorProvider referenceProvider;
 
-	public void buildUI( Composite parent  )
+	public void buildUI( Composite parent )
 	{
 		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 3 ,15) );
+		container.setLayout( WidgetUtil.createGridLayout( 3, 15 ) );
 
 		referenceProvider = new ReferenceDescriptorProvider( );
 		referenceSection = new TextAndButtonSection( referenceProvider.getDisplayName( ),
 				container,
-						true ) {
-		
-					public void load( )
-					{
-						super.load( );
-						referenceSection.getButtonControl( )
-								.setEnabled( referenceProvider.isEnableButton( ) );
-					}
-				};
+				true ) {
+
+			public void load( )
+			{
+				super.load( );
+				if ( referenceSection != null
+						&& referenceSection.getButtonControl( ) != null )
+					referenceSection.getButtonControl( )
+							.setEnabled( referenceProvider.isEnableButton( ) );
+			}
+		};
 		referenceSection.setProvider( referenceProvider );
 		referenceSection.addSelectionListener( new SelectionAdapter( ) {
 
