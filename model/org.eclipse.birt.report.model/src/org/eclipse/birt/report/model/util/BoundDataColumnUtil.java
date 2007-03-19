@@ -219,13 +219,14 @@ public class BoundDataColumnUtil
 	 *            the binding columns
 	 * @param expression
 	 *            the old value expression in BIRT 2.1M5
-	 * @param aggregateOn
+	 * @param function
+	 * @param aggregateOnList
 	 *            the aggregateOn value
 	 * @return the bound column
 	 */
 
 	public static ComputedColumn getColumn( List columns, String expression,
-			String aggregateOn )
+			String function, List aggregateOnList )
 	{
 		if ( ( columns == null ) || ( columns.size( ) == 0 )
 				|| expression == null )
@@ -234,13 +235,43 @@ public class BoundDataColumnUtil
 		for ( int i = 0; i < columns.size( ); i++ )
 		{
 			ComputedColumn column = (ComputedColumn) columns.get( i );
-			if ( expression.equals( column.getExpression( ) ) )
+			if ( expression.equals( column.getExpression( ) )
+					&& ( ( function != null && function.equals( column
+							.getAggregateFunction( ) ) ) || ( function == null && column
+							.getAggregateFunction( ) == null ) ) )
 			{
-				String tempAggregateOn = column.getAggregateOn( );
-				if ( aggregateOn == null && tempAggregateOn == null )
+				List tempAggregateOnList = column.getAggregateOnList( );
+				boolean isEmptyA = aggregateOnList == null
+						|| aggregateOnList.isEmpty( );
+				boolean isEmptyB = tempAggregateOnList == null
+						|| tempAggregateOnList.isEmpty( );
+
+				// if two is empty list, return this
+				if ( isEmptyA && isEmptyB )
 					return column;
-				if ( aggregateOn != null
-						&& aggregateOn.equals( tempAggregateOn ) )
+				// if one is empty and other is not, then continue and do the
+				// next search
+				if ( ( !isEmptyA && isEmptyB ) || ( isEmptyA && !isEmptyB ) )
+					continue;
+
+				assert tempAggregateOnList != null && aggregateOnList != null;
+				if ( tempAggregateOnList.size( ) != aggregateOnList.size( ) )
+					continue;
+
+				// search all the aggregation on is matched.
+				boolean isMatch = true;
+				for ( int j = 0; j < tempAggregateOnList.size( ); j++ )
+				{
+					String aggregationA = (String) tempAggregateOnList.get( j );
+					String aggregationB = (String) aggregateOnList.get( j );
+					if ( !aggregateOnList.contains( aggregationA )
+							|| !tempAggregateOnList.contains( aggregationB ) )
+					{
+						isMatch = false;
+						break;
+					}
+				}
+				if ( isMatch )
 					return column;
 			}
 		}
@@ -562,7 +593,7 @@ public class BoundDataColumnUtil
 			}
 			catch ( BirtException e )
 			{
-				newExprs = null;
+				
 			}
 
 			if ( newExprs == null || newExprs.isEmpty( ) )
@@ -630,7 +661,7 @@ public class BoundDataColumnUtil
 			}
 			catch ( BirtException e )
 			{
-				newExprs = null;
+				
 			}
 
 			if ( newExprs == null || newExprs.isEmpty( ) )

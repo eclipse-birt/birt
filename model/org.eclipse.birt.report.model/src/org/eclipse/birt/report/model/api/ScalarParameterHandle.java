@@ -970,9 +970,9 @@ public class ScalarParameterHandle extends ParameterHandle
 		if ( columns == null )
 			return (ComputedColumnHandle) getPropertyHandle(
 					BOUND_DATA_COLUMNS_PROP ).addItem( addColumn );
-		String aggregateOn = addColumn.getAggregateOn( );
 		ComputedColumn column = BoundDataColumnUtil.getColumn( columns, expr,
-				aggregateOn );
+				addColumn.getAggregateFunction( ), addColumn
+						.getAggregateOnList( ) );
 		if ( column != null && !inForce )
 		{
 			return (ComputedColumnHandle) column.handle(
@@ -1152,21 +1152,21 @@ public class ScalarParameterHandle extends ParameterHandle
 				newValue = Boolean
 						.valueOf( !( (Boolean) value ).booleanValue( ) );
 			}
-			
+
 			// allowBlank only applies to string type.
-			
+
 			if ( ALLOW_BLANK_PROP.equalsIgnoreCase( propName ) )
 			{
 				String dataType = super.getStringProperty( DATA_TYPE_PROP );
 				if ( DesignChoiceConstants.PARAM_TYPE_STRING
 						.equalsIgnoreCase( dataType ) )
 					super.setProperty( IS_REQUIRED_PROP, newValue );
-				
+
 				return;
 			}
-			
+
 			super.setProperty( IS_REQUIRED_PROP, newValue );
-			
+
 			return;
 		}
 
