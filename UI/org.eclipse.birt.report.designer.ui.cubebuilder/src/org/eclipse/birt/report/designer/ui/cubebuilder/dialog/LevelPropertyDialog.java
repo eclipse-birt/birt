@@ -9,7 +9,6 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-
 package org.eclipse.birt.report.designer.ui.cubebuilder.dialog;
 
 import java.util.Arrays;
@@ -27,14 +26,14 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.widget.ExpressionCellEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
-import org.eclipse.birt.report.model.api.ConfigVariableHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.RuleHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
+import org.eclipse.birt.report.model.api.elements.structures.LevelAttribute;
 import org.eclipse.birt.report.model.api.elements.structures.Rule;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -136,7 +135,8 @@ public class LevelPropertyDialog extends BaseDialog
 	private void initLevelDialog( )
 	{
 		if ( input != null )
-			infoLabel.setText( infoLabel.getText( ) + ((TabularLevelHandle)input).getColumnName( ) );
+			infoLabel.setText( infoLabel.getText( )
+					+ ( (TabularLevelHandle) input ).getColumnName( ) );
 
 		Iterator valuesIter = input.staticValuesIterator( );
 		if ( ( valuesIter == null || !valuesIter.hasNext( ) )
@@ -148,7 +148,7 @@ public class LevelPropertyDialog extends BaseDialog
 				refreshDynamicViewer( );
 				// while ( attrIter.hasNext( ) )
 				// {
-				// dynamicAttributes.add( ( (ConfigVariableHandle)
+				// dynamicAttributes.add( ( (LevelAttributeHandle)
 				// attrIter.next( ) ).getName( ) );
 				// }
 				attributeItems = OlapUtil.getDataFieldNames( ( (TabularHierarchyHandle) input.getContainer( ) ).getDataSet( ) );
@@ -364,9 +364,9 @@ public class LevelPropertyDialog extends BaseDialog
 					return Messages.getString( "LevelPropertyDialog.MSG.CreateNew" );
 				else
 				{
-					if ( element instanceof ConfigVariableHandle )
+					if ( element instanceof LevelAttributeHandle )
 					{
-						return ( (ConfigVariableHandle) element ).getName( );
+						return ( (LevelAttributeHandle) element ).getName( );
 					}
 					if ( element instanceof RuleHandle )
 					{
@@ -381,10 +381,6 @@ public class LevelPropertyDialog extends BaseDialog
 					return "";
 				else
 				{
-					if ( element instanceof ConfigVariableHandle )
-					{
-						return ( (ConfigVariableHandle) element ).getValue( );
-					}
 					if ( element instanceof RuleHandle )
 					{
 						return ( (RuleHandle) element ).getRuleExpression( );
@@ -422,9 +418,9 @@ public class LevelPropertyDialog extends BaseDialog
 
 		public Object getValue( Object element, String property )
 		{
-			if ( element instanceof ConfigVariableHandle )
+			if ( element instanceof LevelAttributeHandle )
 			{
-				ConfigVariableHandle handle = (ConfigVariableHandle) element;
+				LevelAttributeHandle handle = (LevelAttributeHandle) element;
 				for ( int i = 0; i < attributeItems.length; i++ )
 					if ( handle.getName( ).equals( attributeItems[i] ) )
 						return new Integer( i );
@@ -447,17 +443,22 @@ public class LevelPropertyDialog extends BaseDialog
 			if ( ( (Integer) value ).intValue( ) > -1
 					&& ( (Integer) value ).intValue( ) < editor.getItems( ).length )
 			{
-				if ( element instanceof ConfigVariableHandle )
+				if ( element instanceof LevelAttributeHandle )
 				{
-					ConfigVariableHandle handle = (ConfigVariableHandle) element;
-					handle.setName( editor.getItems( )[( (Integer) value ).intValue( )] );
-					handle.setValue( editor.getItems( )[( (Integer) value ).intValue( )] );
+					LevelAttributeHandle handle = (LevelAttributeHandle) element;
+					try
+					{
+						handle.setName( editor.getItems( )[( (Integer) value ).intValue( )] );
+					}
+					catch ( SemanticException e )
+					{
+						ExceptionHandler.handle( e );
+					}
 				}
 				else
 				{
-					ConfigVariable attribute = StructureFactory.createConfigVar( );
+					LevelAttribute attribute = StructureFactory.createLevelAttribute( );
 					attribute.setName( editor.getItems( )[( (Integer) value ).intValue( )] );
-					attribute.setValue( editor.getItems( )[( (Integer) value ).intValue( )] );
 					try
 					{
 						input.getPropertyHandle( ILevelModel.ATTRIBUTES_PROP )
@@ -662,7 +663,7 @@ public class LevelPropertyDialog extends BaseDialog
 		} );
 
 		intervalBaseButton = new Button( groupGroup, SWT.CHECK );
-		intervalBaseButton.setText( Messages.getString( "LevelPropertyDialog.Button.IntervalBase" )); //$NON-NLS-1$
+		intervalBaseButton.setText( Messages.getString( "LevelPropertyDialog.Button.IntervalBase" ) ); //$NON-NLS-1$
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		intervalBaseButton.setLayoutData( gd );
@@ -755,11 +756,11 @@ public class LevelPropertyDialog extends BaseDialog
 		Iterator attrIter = input.attributesIterator( );
 		while ( attrIter.hasNext( ) )
 		{
-			ConfigVariableHandle handle = (ConfigVariableHandle) attrIter.next( );
+			LevelAttributeHandle handle = (LevelAttributeHandle) attrIter.next( );
 			list.remove( handle.getName( ) );
 		}
 
-		list.remove( ((TabularLevelHandle)input).getColumnName( ) );
+		list.remove( ( (TabularLevelHandle) input ).getColumnName( ) );
 		String[] temps = new String[list.size( )];
 		list.toArray( temps );
 		editor.setItems( temps );
@@ -771,11 +772,11 @@ public class LevelPropertyDialog extends BaseDialog
 				&& dynamicViewer.getSelection( ) instanceof StructuredSelection )
 		{
 			Object element = ( (StructuredSelection) dynamicViewer.getSelection( ) ).getFirstElement( );
-			if ( element instanceof ConfigVariableHandle )
+			if ( element instanceof LevelAttributeHandle )
 			{
 				try
 				{
-					( (ConfigVariableHandle) element ).drop( );
+					( (LevelAttributeHandle) element ).drop( );
 				}
 				catch ( PropertyValueException e )
 				{
@@ -818,7 +819,7 @@ public class LevelPropertyDialog extends BaseDialog
 		contents.setLayoutData( data );
 
 		infoLabel = new Label( contents, SWT.NONE );
-		infoLabel.setText( Messages.getString( "LevelPropertyDialog.Label.Info" ));
+		infoLabel.setText( Messages.getString( "LevelPropertyDialog.Label.Info" ) );
 		return contents;
 
 	}
@@ -1001,7 +1002,7 @@ public class LevelPropertyDialog extends BaseDialog
 
 		staticViewer = new TableViewer( staticTable );
 		String[] columns = new String[]{
-				Messages.getString( "LevelPropertyDialog.Label.Name" ), 
+				Messages.getString( "LevelPropertyDialog.Label.Name" ),
 				Messages.getString( "LevelPropertyDialog.Label.Expression" )
 		};
 
