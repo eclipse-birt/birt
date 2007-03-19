@@ -11,6 +11,12 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.util;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.eclipse.birt.data.engine.api.IBinding;
+
 /**
  * 
  */
@@ -33,5 +39,115 @@ public class OlapExpressionUtil
 		
 		return expr.replaceFirst( "\\Qdimension[\"\\E.*\\Q\"][\"\\E", "" )
 				.replaceAll( "\\Q\"]\\E", "" ); 
+	}
+	
+	/**
+	 * This method is to get the measure name that referenced by a measure reference expression.
+	 * 
+	 * @param expr
+	 * @return
+	 */
+	public static String getMeasure( String expr )
+	{
+		if ( expr == null )
+			return null;
+		if ( !expr.matches( "\\Qmeasure[\"\\E.*\\Q\"]\\E" ))
+			return null;
+		return expr.replaceFirst( "\\Qmeasure[\"\\E", "" ).replaceFirst(  "\\Q\"]\\E", "" );
+		
+	}
+	
+	/**
+	 * This method returns a list of ICubeAggrDefn instances which describes the aggregations that
+	 * need to be calcualted in cube query.
+	 * 
+	 * @param bindings
+	 * @return
+	 */
+	public static ICubeAggrDefn[] getAggrDefns( List bindings )
+	{
+		if ( bindings == null || bindings.size( ) == 0 )
+			return new ICubeAggrDefn[0];
+		
+		List cubeAggrDefns = new ArrayList();
+		for( Iterator it = bindings.iterator( ); it.hasNext( );)
+		{
+			IBinding binding = ((IBinding)it.next( ));
+			String measure = getMeasure( binding.getExpression( ) );
+			if ( measure!= null )
+				cubeAggrDefns.add( new CubeAggrDefn( binding.getBindingName( ),
+						measure,
+						binding.getAggregatOns( ),
+						binding.getAggrFunction( ) ) );
+		}
+		
+		ICubeAggrDefn[] result = new ICubeAggrDefn[cubeAggrDefns.size( )];
+		for( int i = 0; i < result.length; i ++ )
+		{
+			result[i] = (ICubeAggrDefn)cubeAggrDefns.get( i );
+		}
+		
+		return result;
+	}
+	
+	private static class CubeAggrDefn implements ICubeAggrDefn
+	{
+		//
+		private String name;
+		private String measure;
+		private List aggrLevels;
+		private String aggrName;
+		
+		/*
+		 * 
+		 */
+		CubeAggrDefn( String name, String measure, List aggrLevels, String aggrName )
+		{
+			assert name != null;
+			assert measure != null;
+			assert aggrLevels != null;
+			
+			this.name = name;
+			this.measure = measure;
+			this.aggrLevels = aggrLevels;
+			this.aggrName = aggrName;
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.olap.util.ICubeAggrDefn#getAggrLevels()
+		 */
+		public List getAggrLevels( )
+		{
+			return this.aggrLevels;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.olap.util.ICubeAggrDefn#getMeasure()
+		 */
+		public String getMeasure( )
+		{
+			return this.measure;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.olap.util.ICubeAggrDefn#getName()
+		 */
+		public String getName( )
+		{
+			return this.name;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.olap.util.ICubeAggrDefn#aggrName()
+		 */
+		public String aggrName( )
+		{
+			return this.aggrName;
+		}
+		
 	}
 }
