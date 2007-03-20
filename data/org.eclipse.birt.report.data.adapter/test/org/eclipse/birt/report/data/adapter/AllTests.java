@@ -28,7 +28,7 @@ public class AllTests
 		TestSuite suite = new TestSuite( "Test for org.eclipse.birt.report.data.adapter" );
 		
 		suite.addTestSuite( org.eclipse.birt.report.data.adapter.internal.script.DataAdapterTopLevelScopeTest.class );
-		
+		suite.addTestSuite( org.eclipse.birt.report.data.adapter.internal.script.DataAdapterUtilTest.class );
 		return suite;
 	}
 	
