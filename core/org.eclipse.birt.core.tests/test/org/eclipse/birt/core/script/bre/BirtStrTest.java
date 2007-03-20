@@ -249,42 +249,48 @@ public class BirtStrTest extends TestCase
 	public void testSearchStringStringInt( )
 	{
 		assertEquals( ( (Integer) cx.evaluateString( scope,
-				"BirtStr.search(\"a test\",\" I am a test    string\",1)",
+				"BirtStr.search(\"a test\",\" I am a test    string\",0)",
 				"inline",
 				1,
 				null ) ) , new Integer(6) );
 		
 		assertEquals( ( (Integer) cx.evaluateString( scope,
-				"BirtStr.search(\"a*t\",\" I am a test    string\",5)",
+				"BirtStr.search(\"a*t\",\" I am a test    string\",4)",
 				"inline",
 				1,
 				null ) ) , new Integer(6) );
 		assertEquals( ( (Integer) cx.evaluateString( scope,
-				"BirtStr.search(\"a?t\",\" I am a test    string\",1)",
+				"BirtStr.search(\"a?t\",\" I am a test    string\",0)",
 				"inline",
 				1,
 				null ) ) , new Integer(6) );
 		assertEquals( ( (Integer) cx.evaluateString( scope,
-				"BirtStr.search(\"a*t\",\" I am a test    string\",10)",
+				"BirtStr.search(\"a*t\",\" I am a test    string\",9)",
 				"inline",
 				1,
 				null ) ) , new Integer(-1) );
 		assertEquals( ( (Integer) cx.evaluateString( scope,
-				"BirtStr.search(\" I*a*t\",\" I am a test    string\",1)",
+				"BirtStr.search(\" I*a*t\",\" I am a test    string\",0)",
 				"inline",
 				1,
 				null ) ) , new Integer(0) );
 		
 		assertEquals( ( (Integer) cx.evaluateString( scope,
-				"BirtStr.search(\"g\",\" I am a test    string\",1)",
+				"BirtStr.search(\"g\",\" I am a test    string\",0)",
 				"inline",
 				1,
 				null ) ), new Integer( 21 ) );
 		assertEquals( ( (Integer) cx.evaluateString( scope,
-				"BirtStr.search(\"am\",\"I am a test    string\",3)",
+				"BirtStr.search(\"am\",\"I am a test    string\",2)",
 				"inline",
 				1,
 				null ) ), new Integer( 2 ) );
+		
+		assertEquals( ( (Integer) cx.evaluateString( scope,
+				"BirtStr.search(\"A\",\"Actuate Shanghai\",0)",
+				"inline",
+				1,
+				null ) ) , new Integer(0) );
 	}
 
 	public void testSearchStringString( )
