@@ -199,6 +199,10 @@
 			<include name="org.apache.xerces_*.jar" />
 			<include name="org.apache.xml.resolver_*.jar" />
 			<include name="org.w3c.dom_*.jar"/>
+			<include name="org.apache.batik.*jar"/>
+			<include name="org.w3c.dom.svg_*.jar"/>
+			<include name="org.w3c.dom.smil_*.jar"/>
+			<include name="org.w3c.css.sac_*.jar"/>
 		</patternset>
 		<!--Exclude jar file pattern set-->
 
@@ -546,7 +550,7 @@
 		</copy>
 		<copy todir="${runtime.tmp}/ChartEngine" >
 			<fileset dir="${deposit}/eclipse/plugins">
-				<include name="org.apache.batik_*/**" />
+				<!--<include name="org.apache.batik_*/**" />-->
 				<include name="org.apache.batik.pdf_*/**" />
 			</fileset>
 			<fileset dir="${baseLocation}/plugins">
@@ -679,9 +683,6 @@
 				<include name="**/*" />
 				<exclude name="**/*datatools*/**" />
 				<exclude name="**/datatools*.jar" />
-			</zipfileset>
-			<zipfileset dir="${all.in.one.file.dir}/eclipse/plugins" prefix="${birt.rcp.dir.prefix}/plugins">
-				<patternset refid="orbit.include.jars" />
 			</zipfileset>
 			<zipfileset dir="${template.dir}/legal" prefix="${birt.rcp.dir.prefix}">
 				<include name="**/*" />
@@ -945,7 +946,7 @@
 				<patternset refid="chart.runtime.plugins" />
 				<patternset refid="exclude.jars" />
 				<include name="org.eclipse.birt.chart.device.pdf*.jar" />
-				<include name="org.apache.batik_*/**"/>
+				<!--<include name="org.apache.batik_*/**"/>-->
 				<include name="org.apache.batik.pdf_*/**"/>
 				<patternset refid="orbit.include.jars" />
 			</fileset>
@@ -963,8 +964,7 @@
 				<include name="org.eclipse.birt.chart*/*" />
 				<include name="org.mozilla.rhino*/*" />
 				<include name="org.apache.commons.codec*/*" />
-				<include name="org.apache.batik*/**"/>
-				<include name="org.apache.xerces*/**"/>
+				<include name="org.apache.batik.pdf_*/**"/>
 				<exclude name="*.source*/*" />
 			</zipfileset>
 		</zip>
