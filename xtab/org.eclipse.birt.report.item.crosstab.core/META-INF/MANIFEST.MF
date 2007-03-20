@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Crosstab Plug-in
+Bundle-Name: BIRT Crosstab Plug-in
 Bundle-SymbolicName: org.eclipse.birt.report.item.crosstab.core;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 2.2.0.qualifier
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.birt.data,
  org.eclipse.birt.report.data.adapter,
@@ -13,3 +13,4 @@ Export-Package: org.eclipse.birt.report.item.crosstab.core,
  org.eclipse.birt.report.item.crosstab.core.re,
  org.eclipse.birt.report.item.crosstab.core.re.executor,
  org.eclipse.birt.report.item.crosstab.core.util
+Bundle-Vendor: Eclipse.org

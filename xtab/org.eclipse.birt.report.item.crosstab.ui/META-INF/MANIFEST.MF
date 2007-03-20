@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Crosstab Ui Plug-in
+Bundle-Name: BIRT Crosstab UI Plug-in
 Bundle-SymbolicName: org.eclipse.birt.report.item.crosstab.ui;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 2.2.0.qualifier
 Require-Bundle: org.eclipse.birt.core,
  org.eclipse.birt.report.model,
  org.eclipse.birt.report.designer.core,
@@ -16,3 +16,4 @@ Require-Bundle: org.eclipse.birt.core,
  org.eclipse.birt.report.designer.ui.views
 Bundle-Activator: org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin
 Eclipse-LazyStart: true
+Bundle-Vendor: Eclipse.org
