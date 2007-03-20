@@ -71,7 +71,7 @@
 	<!--properties -->
 	<property name="dir.src" location="src" />
 	<property name="dir.bin" location="temp.folder" />
-	<property name="module.name" value="org.eclipse.birt.report.designer.ui.preview" />
+	<property name="module.name" value="org.eclipse.birt.report.designer.ui.preview.web" />
 	<property name="engine.dir" value="../org.eclipse.birt.report.engine" />
 	<property name="viewer.dir" value="../org.eclipse.birt.report.viewer" />
 	<property name="designer.editors.dir" value="../org.eclipse.birt.report.designer.ui.editors" />
