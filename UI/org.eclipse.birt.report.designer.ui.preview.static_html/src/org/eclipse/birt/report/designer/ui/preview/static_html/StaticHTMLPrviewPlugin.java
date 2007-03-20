@@ -30,6 +30,8 @@ public class StaticHTMLPrviewPlugin extends AbstractUIPlugin {
 	public static final String IMG_PARAMS = "parameter.gif";
 
 	public static final String IMG_TOC = "Toc.gif";
+	
+	public static final String IMG_FORM_TITLE = "form_title.gif";
 
 	// The shared instance
 	private static StaticHTMLPrviewPlugin plugin;
@@ -75,6 +77,7 @@ public class StaticHTMLPrviewPlugin extends AbstractUIPlugin {
 		registerImage(registry, IMG_NAV_PAGE, IMG_NAV_PAGE);
 		registerImage(registry, IMG_PARAMS, IMG_PARAMS); 
 		registerImage(registry, IMG_TOC, IMG_TOC); 
+		registerImage(registry, IMG_FORM_TITLE, IMG_FORM_TITLE); 
 	}
 
 	private void registerImage(ImageRegistry registry, String key,

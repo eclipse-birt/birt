@@ -81,7 +81,7 @@ public class ReportLocationListener implements LocationListener
 
 //						try
 //						{
-							viewer.renderReport( (String) options.get( "__report" ), options ); //$NON-NLS-1$
+//							viewer.renderReport( (String) options.get( "__report" ), options ); //$NON-NLS-1$
 //							browser.setUrl( reportGenerator.generateHTML( options ) );
 //						}
 //						catch ( EngineException e )
