@@ -152,7 +152,7 @@ class ContentUtil
 
 	static String validExpression( String expr )
 	{
-		if ( expr != null && !expr.trim( ).equals( "" ) ) //$NON-NLS-1$
+		if ( expr != null && expr.trim( ).length( ) > 0 )
 		{
 			return expr;
 		}

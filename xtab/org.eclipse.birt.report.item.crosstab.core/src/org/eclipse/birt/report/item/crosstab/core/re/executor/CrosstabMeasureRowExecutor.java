@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.item.crosstab.core.re.executor;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.olap.OLAPException;
 
 import org.eclipse.birt.report.engine.content.IContent;
@@ -19,12 +22,15 @@ import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 
 /**
  * CrosstabMeasureRowExecutor
  */
 public class CrosstabMeasureRowExecutor extends BaseCrosstabExecutor
 {
+
+	private static Logger logger = Logger.getLogger( CrosstabMeasureRowExecutor.class.getName( ) );
 
 	private int rowIndex;
 
@@ -189,7 +195,9 @@ public class CrosstabMeasureRowExecutor extends BaseCrosstabExecutor
 		}
 		catch ( OLAPException e )
 		{
-			e.printStackTrace( );
+			logger.log( Level.SEVERE,
+					Messages.getString( "CrosstabMeasureRowExecutor.error.generate.child.executor" ), //$NON-NLS-1$
+					e );
 		}
 
 		if ( hasLast )
@@ -251,7 +259,9 @@ public class CrosstabMeasureRowExecutor extends BaseCrosstabExecutor
 		}
 		catch ( OLAPException e )
 		{
-			e.printStackTrace( );
+			logger.log( Level.SEVERE,
+					Messages.getString( "CrosstabMeasureRowExecutor.error.check.child.executor" ), //$NON-NLS-1$
+					e );
 		}
 		return false;
 	}

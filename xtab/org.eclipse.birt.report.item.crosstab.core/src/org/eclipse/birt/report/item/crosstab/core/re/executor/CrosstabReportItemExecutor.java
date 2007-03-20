@@ -13,6 +13,8 @@ package org.eclipse.birt.report.item.crosstab.core.re.executor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.olap.OLAPException;
 import javax.olap.cursor.EdgeCursor;
@@ -22,6 +24,7 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.extension.IExecutorContext;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
@@ -31,6 +34,8 @@ import org.eclipse.birt.report.model.api.extension.IReportItem;
  */
 public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 {
+
+	private static Logger logger = Logger.getLogger( CrosstabReportItemExecutor.class.getName( ) );
 
 	private List children;
 	private int currentChild;
@@ -55,12 +60,6 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 		children = null;
 	}
 
-	// // TODO tmp
-	// public void setContext( IExecutorContext context )
-	// {
-	// super.setContext( new ExecutorContextWrapper( context, crosstabItem ) );
-	// }
-
 	public void setModelObject( Object handle )
 	{
 		super.setModelObject( handle );
@@ -76,7 +75,9 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 			}
 			catch ( ExtendedElementException e )
 			{
-				// TODO logger.log( e );
+				logger.log( Level.SEVERE,
+						Messages.getString( "CrosstabReportItemExecutor.error.crosstab.loading" ), //$NON-NLS-1$
+						e );
 			}
 
 			crosstabItem = (CrosstabReportItemHandle) item;
@@ -117,7 +118,9 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 		}
 		catch ( OLAPException e )
 		{
-			e.printStackTrace( );
+			logger.log( Level.SEVERE,
+					Messages.getString( "CrosstabReportItemExecutor.error.generate.columns" ), //$NON-NLS-1$
+					e );
 		}
 
 		prepareChildren( );
@@ -175,7 +178,9 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 			}
 			catch ( OLAPException e )
 			{
-				e.printStackTrace( );
+				logger.log( Level.SEVERE,
+						Messages.getString( "CrosstabReportItemExecutor.error.prepare.children" ), //$NON-NLS-1$
+						e );
 			}
 		}
 

@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.item.crosstab.core.re.executor;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.olap.OLAPException;
 
 import org.eclipse.birt.report.engine.content.IReportContent;
@@ -29,6 +32,8 @@ import org.eclipse.birt.report.model.api.DimensionHandle;
  */
 public class TableColumnGenerator implements ICrosstabConstants
 {
+
+	private static Logger logger = Logger.getLogger( TableColumnGenerator.class.getName( ) );
 
 	private IColumnWalker walker;
 	private CrosstabReportItemHandle crosstabItem;
@@ -49,6 +54,8 @@ public class TableColumnGenerator implements ICrosstabConstants
 			addColumn( ce, report, table );
 
 			System.out.println( ce );
+
+			logger.log( Level.INFO, ce.toString( ) );
 		}
 	}
 

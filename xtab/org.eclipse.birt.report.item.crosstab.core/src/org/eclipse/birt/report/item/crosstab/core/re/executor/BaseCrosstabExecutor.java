@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.item.crosstab.core.re.executor;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.olap.OLAPException;
 import javax.olap.cursor.CubeCursor;
@@ -28,6 +30,7 @@ import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 
 /**
  * the base class for all crosstab element executor
@@ -36,6 +39,8 @@ public abstract class BaseCrosstabExecutor implements
 		ICrosstabConstants,
 		IReportItemExecutor
 {
+
+	private static Logger logger = Logger.getLogger( BaseCrosstabExecutor.class.getName( ) );
 
 	protected IExecutorContext context;
 	protected CrosstabReportItemHandle crosstabItem;
@@ -120,8 +125,9 @@ public abstract class BaseCrosstabExecutor implements
 		}
 		catch ( BirtException e )
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			logger.log( Level.SEVERE,
+					Messages.getString( "BaseCrosstabExecutor.error.process.visibility" ), //$NON-NLS-1$
+					e );
 		}
 	}
 
@@ -136,8 +142,9 @@ public abstract class BaseCrosstabExecutor implements
 		}
 		catch ( BirtException e )
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			logger.log( Level.SEVERE,
+					Messages.getString( "BaseCrosstabExecutor.error.process.bookmark" ), //$NON-NLS-1$
+					e );
 		}
 	}
 

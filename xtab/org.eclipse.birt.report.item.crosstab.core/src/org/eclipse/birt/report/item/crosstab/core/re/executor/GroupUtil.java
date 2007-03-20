@@ -481,11 +481,8 @@ public class GroupUtil implements ICrosstabConstants
 		{
 			long currentPosition = startPosition;
 
-			//TODO edge
-			int nextGroupIndex = groupIndex /*+ 1*/;
-
 			DimensionCursor dc = (DimensionCursor) rowEdgeCursor.getDimensionCursor( )
-					.get( nextGroupIndex );
+					.get( groupIndex );
 
 			long edgeEndPosition = dc.getEdgeEnd( );
 
@@ -497,8 +494,7 @@ public class GroupUtil implements ICrosstabConstants
 			{
 				span++;
 
-				//TODO edge
-				for ( int i = rowGroups.size( ) -2 /*- 1*/; i >= groupIndex; i-- )
+				for ( int i = rowGroups.size( ) - 2; i >= groupIndex; i-- )
 				{
 					dc = (DimensionCursor) rowEdgeCursor.getDimensionCursor( )
 							.get( i );
@@ -512,8 +508,7 @@ public class GroupUtil implements ICrosstabConstants
 					// check for each group end
 					if ( currentPosition == dc.getEdgeEnd( ) )
 					{
-						//TODO edge
-						EdgeGroup gp = (EdgeGroup) rowGroups.get( i /*- 1*/ );
+						EdgeGroup gp = (EdgeGroup) rowGroups.get( i );
 
 						DimensionViewHandle dv = crosstabItem.getDimension( ROW_AXIS_TYPE,
 								gp.dimensionIndex );

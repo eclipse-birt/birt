@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.item.crosstab.core.re.executor;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.olap.OLAPException;
 import javax.olap.cursor.DimensionCursor;
 import javax.olap.cursor.EdgeCursor;
@@ -21,12 +24,15 @@ import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 
 /**
  * CrosstabSubTotalRowExecutor
  */
 public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 {
+
+	private static Logger logger = Logger.getLogger( CrosstabSubTotalRowExecutor.class.getName( ) );
 
 	private int rowIndex;
 	private int dimensionIndex, levelIndex;
@@ -177,11 +183,6 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 			}
 
 			// check start edge position
-			// TODO edge
-			/*
-			 * int gdx = GroupUtil.getNextGroupIndex( rowGroups,
-			 * ev.dimensionIndex, ev.levelIndex );
-			 */
 			int gdx = GroupUtil.getGroupIndex( rowGroups,
 					ev.dimensionIndex,
 					ev.levelIndex );
@@ -201,7 +202,9 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 				}
 				catch ( OLAPException e )
 				{
-					e.printStackTrace( );
+					logger.log( Level.SEVERE,
+							Messages.getString( "CrosstabSubTotalRowExecutor.error.check.edge.start" ), //$NON-NLS-1$
+							e );
 				}
 			}
 
@@ -359,7 +362,9 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 		}
 		catch ( OLAPException e )
 		{
-			e.printStackTrace( );
+			logger.log( Level.SEVERE,
+					Messages.getString( "CrosstabSubTotalRowExecutor.error.retrieve.child.executor" ), //$NON-NLS-1$
+					e );
 		}
 
 		if ( hasLast )

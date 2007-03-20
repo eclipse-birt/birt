@@ -102,8 +102,8 @@ class ColumnWalker implements ICrosstabConstants, IColumnWalker
 
 				if ( rowGroups.size( ) > 0 )
 				{
-					//TODO how to skip dummy groups?
-					
+					// TODO how to skip dummy groups?
+
 					// process row dimension header column if available
 					for ( int i = groupIndex; i < rowGroups.size( ); i++ )
 					{
@@ -168,8 +168,7 @@ class ColumnWalker implements ICrosstabConstants, IColumnWalker
 								if ( !GroupUtil.isLeafGroup( columnDimensionCursors,
 										i ) )
 								{
-									//TODO edge
-									DimensionCursor dc = (DimensionCursor) columnDimensionCursors.get( i /*+ 1*/ );
+									DimensionCursor dc = (DimensionCursor) columnDimensionCursors.get( i );
 
 									if ( dc.getEdgeStart( ) == columnEdgeCursor.getPosition( ) )
 									{
@@ -274,8 +273,7 @@ class ColumnWalker implements ICrosstabConstants, IColumnWalker
 								if ( !GroupUtil.isLeafGroup( columnDimensionCursors,
 										i ) )
 								{
-									//TODO edge
-									DimensionCursor dc = (DimensionCursor) columnDimensionCursors.get( i /*+ 1*/ );
+									DimensionCursor dc = (DimensionCursor) columnDimensionCursors.get( i );
 
 									if ( dc.getEdgeEnd( ) == columnEdgeCursor.getPosition( ) )
 									{

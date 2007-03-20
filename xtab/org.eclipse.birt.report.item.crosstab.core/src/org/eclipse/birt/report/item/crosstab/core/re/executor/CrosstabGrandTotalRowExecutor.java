@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.item.crosstab.core.re.executor;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.olap.OLAPException;
 
 import org.eclipse.birt.report.engine.content.IContent;
@@ -19,6 +22,7 @@ import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 
 /**
  * CrosstabGrandTotalRowExecutor
@@ -26,7 +30,11 @@ import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 public class CrosstabGrandTotalRowExecutor extends BaseCrosstabExecutor
 {
 
+	private static final Logger logger = Logger.getLogger( CrosstabGrandTotalRowExecutor.class.getName( ) );
+
 	private int rowIndex;
+
+	private long currentEdgePosition;
 
 	private int rowSpan, colSpan;
 	private int currentChangeType;
@@ -147,6 +155,9 @@ public class CrosstabGrandTotalRowExecutor extends BaseCrosstabExecutor
 								rowSpan,
 								colSpan,
 								currentColIndex - colSpan + 1 );
+
+						( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+
 						hasLast = false;
 						break;
 				}
@@ -197,6 +208,7 @@ public class CrosstabGrandTotalRowExecutor extends BaseCrosstabExecutor
 				}
 
 				currentChangeType = ev.type;
+				currentEdgePosition = ev.dataPosition;
 				colSpan++;
 				currentColIndex++;
 
@@ -209,7 +221,9 @@ public class CrosstabGrandTotalRowExecutor extends BaseCrosstabExecutor
 		}
 		catch ( OLAPException e )
 		{
-			e.printStackTrace( );
+			logger.log( Level.SEVERE,
+					Messages.getString( "CrosstabGrandTotalRowExecutor.error.generate.child.executor" ), //$NON-NLS-1$
+					e );
 		}
 
 		if ( hasLast )
@@ -252,6 +266,9 @@ public class CrosstabGrandTotalRowExecutor extends BaseCrosstabExecutor
 							rowSpan,
 							colSpan,
 							currentColIndex - colSpan + 1 );
+
+					( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+
 					break;
 			}
 		}
@@ -267,7 +284,9 @@ public class CrosstabGrandTotalRowExecutor extends BaseCrosstabExecutor
 		}
 		catch ( OLAPException e )
 		{
-			e.printStackTrace( );
+			logger.log( Level.SEVERE,
+					Messages.getString( "CrosstabGrandTotalRowExecutor.error.check.child.executor" ), //$NON-NLS-1$
+					e );
 		}
 		return false;
 	}

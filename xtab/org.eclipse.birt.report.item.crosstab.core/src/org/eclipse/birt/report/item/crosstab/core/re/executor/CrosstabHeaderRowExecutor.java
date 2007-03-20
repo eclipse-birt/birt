@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.item.crosstab.core.re.executor;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.olap.OLAPException;
 import javax.olap.cursor.DimensionCursor;
 import javax.olap.cursor.EdgeCursor;
@@ -20,12 +23,15 @@ import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 
 /**
  * CrosstabHeaderRowExecutor
  */
 public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor
 {
+
+	private static Logger logger = Logger.getLogger( CrosstabHeaderRowExecutor.class.getName( ) );
 
 	private LevelViewHandle levelView;
 
@@ -137,7 +143,9 @@ public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor
 		}
 		catch ( OLAPException e )
 		{
-			e.printStackTrace( );
+			logger.log( Level.SEVERE,
+					Messages.getString( "CrosstabHeaderRowExecutor.error.check.force.empty" ), //$NON-NLS-1$
+					e );
 		}
 
 		return false;
@@ -159,9 +167,8 @@ public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor
 
 				columnEdgeCursor.setPosition( ev.dataPosition );
 
-				// TODO edge
 				DimensionCursor dc = (DimensionCursor) columnEdgeCursor.getDimensionCursor( )
-						.get( currentGroupIndex /* nextGroupIndex */);
+						.get( currentGroupIndex );
 
 				if ( !GroupUtil.isDummyGroup( dc ) )
 				{
@@ -170,7 +177,9 @@ public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor
 			}
 			catch ( OLAPException e )
 			{
-				e.printStackTrace( );
+				logger.log( Level.SEVERE,
+						Messages.getString( "CrosstabHeaderRowExecutor.error.check.edge.end" ), //$NON-NLS-1$
+						e );
 			}
 		}
 
@@ -285,6 +294,8 @@ public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor
 									colSpan,
 									currentColIndex - colSpan + 1 );
 
+							( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+
 							subTotalStarted = false;
 							hasLast = false;
 						}
@@ -298,6 +309,8 @@ public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor
 									rowSpan,
 									colSpan,
 									currentColIndex - colSpan + 1 );
+
+							( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
 
 							grandTotalStarted = false;
 							hasLast = false;
@@ -368,7 +381,9 @@ public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor
 		}
 		catch ( OLAPException e )
 		{
-			e.printStackTrace( );
+			logger.log( Level.SEVERE,
+					Messages.getString( "CrosstabHeaderRowExecutor.error.retrieve.child.executor" ), //$NON-NLS-1$
+					e );
 		}
 
 		if ( hasLast )
@@ -409,6 +424,8 @@ public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor
 						colSpan,
 						currentColIndex );
 
+				( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+
 				subTotalStarted = false;
 			}
 			else if ( grandTotalStarted )
@@ -418,6 +435,8 @@ public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor
 						rowSpan,
 						colSpan,
 						currentColIndex - colSpan + 1 );
+
+				( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
 
 				grandTotalStarted = false;
 			}

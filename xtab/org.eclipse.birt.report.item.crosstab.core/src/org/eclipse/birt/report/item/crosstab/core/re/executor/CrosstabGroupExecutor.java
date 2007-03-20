@@ -13,6 +13,8 @@ package org.eclipse.birt.report.item.crosstab.core.re.executor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.olap.OLAPException;
 import javax.olap.cursor.DimensionCursor;
@@ -24,6 +26,7 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 /**
@@ -31,6 +34,8 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  */
 public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 {
+
+	private static final Logger logger = Logger.getLogger( CrosstabGroupExecutor.class.getName( ) );
 
 	private int currentGroupIndex;
 	private EdgeCursor rowCursor;
@@ -67,7 +72,9 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 			}
 			catch ( OLAPException e )
 			{
-				e.printStackTrace( );
+				logger.log( Level.SEVERE,
+						Messages.getString( "CrosstabGroupExecutor.error.close.executor" ), //$NON-NLS-1$
+						e );
 			}
 		}
 
@@ -104,10 +111,6 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 
 				handleGroupPageBreakBefore( );
 
-				// TODO tmp
-				// ( (ITableGroupContent) getContent( ) ).setGroupLevel(
-				// currentGroupIndex );
-
 				if ( currentGroupIndex > 0 )
 				{
 					EdgeGroup lastGroup = (EdgeGroup) rowGroups.get( currentGroupIndex - 1 );
@@ -126,7 +129,9 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 			}
 			catch ( OLAPException e )
 			{
-				e.printStackTrace( );
+				logger.log( Level.SEVERE,
+						Messages.getString( "CrosstabGroupExecutor.error.prepare.group" ), //$NON-NLS-1$
+						e );
 			}
 		}
 		else
@@ -227,18 +232,6 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 
 	private int getStartingGroupLevel( ) throws OLAPException
 	{
-		// for ( int i = 0; i < groupCursors.size( ) ; i++ )
-		// {
-		// DimensionCursor dc = (DimensionCursor) groupCursors.get( i );
-		//
-		// if ( GroupUtil.isDummyGroup( dc )
-		// || dc.getEdgeStart( ) == rowCursor.getPosition( ) )
-		// {
-		// return i;
-		// }
-		// }
-
-		// TODO edge
 		if ( rowCursor.isFirst( ) )
 		{
 			return 0;
@@ -264,19 +257,6 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 
 	private int getEndingGroupLevel( ) throws OLAPException
 	{
-		// for ( int i = 0; i < groupCursors.size( ); i++ )
-		// {
-		// DimensionCursor dc = (DimensionCursor) groupCursors.get( i );
-		//
-		// if ( GroupUtil.isDummyGroup( dc )
-		// || dc.getEdgeEnd( ) == rowCursor.getPosition( ) )
-		// {
-		// return i;
-		// }
-		// }
-
-		// TODO edge
-
 		if ( rowCursor.isLast( ) )
 		{
 			return 0;
@@ -442,7 +422,9 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 			}
 			catch ( OLAPException e )
 			{
-				e.printStackTrace( );
+				logger.log( Level.SEVERE,
+						Messages.getString( "CrosstabGroupExecutor.error.check.child.executor" ), //$NON-NLS-1$
+						e );
 			}
 		}
 

@@ -98,6 +98,10 @@
          <style
                name="crosstab">
          </style>
+         <propertyVisibility
+               name="dataSet"
+               visibility="hide">
+         </propertyVisibility>
       </reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"

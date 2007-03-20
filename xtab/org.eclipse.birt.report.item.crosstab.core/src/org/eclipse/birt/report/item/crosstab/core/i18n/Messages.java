@@ -25,9 +25,9 @@ public class Messages
 
 	private static final String BUNDLE_NAME = "org.eclipse.birt.report.item.crosstab.core.i18n.nls";//$NON-NLS-1$
 
-	private static final ResourceBundle RESOURCE_BUNDLE = UResourceBundle
-			.getBundleInstance( BUNDLE_NAME, ULocale.getDefault( ).toLocale( ),
-					Messages.class.getClassLoader( ) );
+	private static final ResourceBundle RESOURCE_BUNDLE = UResourceBundle.getBundleInstance( BUNDLE_NAME,
+			ULocale.getDefault( ).getName( ),
+			Messages.class.getClassLoader( ) );
 
 	private Messages( )
 	{
@@ -49,12 +49,13 @@ public class Messages
 	 */
 	public static ResourceBundle getResourceBundle( ULocale locale )
 	{
-		if ( ULocale.getDefault( ).equals( locale ) )
+		if ( ULocale.getDefault( ).equals( locale ) || locale == null )
 		{
 			return RESOURCE_BUNDLE;
 		}
-		return UResourceBundle.getBundleInstance( BUNDLE_NAME, locale
-				.toLocale( ), Messages.class.getClassLoader( ) );
+		return UResourceBundle.getBundleInstance( BUNDLE_NAME,
+				locale.getName( ),
+				Messages.class.getClassLoader( ) );
 	}
 
 	/**
@@ -121,7 +122,9 @@ public class Messages
 		try
 		{
 			return MessageFormat.format( RESOURCE_BUNDLE.getString( key ),
-					new Object[]{oa} );
+					new Object[]{
+						oa
+					} );
 		}
 		catch ( Exception e )
 		{

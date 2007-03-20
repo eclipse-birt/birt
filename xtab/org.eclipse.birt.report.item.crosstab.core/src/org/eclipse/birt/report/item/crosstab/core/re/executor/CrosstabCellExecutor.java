@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.item.crosstab.core.re.executor;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.olap.OLAPException;
 
@@ -19,12 +21,15 @@ import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 
 /**
  * CrosstabCellExecutor
  */
 public class CrosstabCellExecutor extends BaseCrosstabExecutor
 {
+
+	private static final Logger logger = Logger.getLogger( CrosstabCellExecutor.class.getName( ) );
 
 	private CrosstabCellHandle cellHandle;
 	private int rowSpan, colSpan, colIndex;
@@ -126,7 +131,9 @@ public class CrosstabCellExecutor extends BaseCrosstabExecutor
 			}
 			catch ( OLAPException e )
 			{
-				e.printStackTrace( );
+				logger.log( Level.SEVERE,
+						Messages.getString( "CrosstabCellExecutor.error.restor.data.position" ), //$NON-NLS-1$
+						e );
 			}
 		}
 
