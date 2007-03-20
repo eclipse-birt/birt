@@ -181,6 +181,27 @@ public class ArchiveFile implements IArchiveFile
 		}
 	}
 
+	/**
+	 * save the file. If the file is transient file, after saving, it will be
+	 * converts to normal file.
+	 * 
+	 * @throws IOException
+	 */
+	public void save( ) throws IOException
+	{
+		if ( af != null )
+		{
+			if ( af instanceof ArchiveFileV2 )
+			{
+				( (ArchiveFileV2) af ).save( );
+			}
+			else
+			{
+				af.flush( );
+			}
+		}
+	}
+
 	private void copyEntry( ArchiveEntry src, ArchiveEntry tgt )
 			throws IOException
 	{

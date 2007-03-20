@@ -367,6 +367,16 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		}
 	}
 
+	public void save( ) throws IOException
+	{
+		assertWritable( );
+		if ( isTransient )
+		{
+			isTransient = false;
+		}
+		flush( );
+	}
+
 	public void refresh( ) throws IOException
 	{
 		assertOpen( );
