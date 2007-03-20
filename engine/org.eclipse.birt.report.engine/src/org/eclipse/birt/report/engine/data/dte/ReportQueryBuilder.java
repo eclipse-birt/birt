@@ -48,8 +48,10 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ResultMetaData;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.extension.IQueryContext;
 import org.eclipse.birt.report.engine.extension.IReportItemQuery;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
+import org.eclipse.birt.report.engine.extension.internal.QueryContext;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.ActionDesign;
 import org.eclipse.birt.report.engine.ir.BandDesign;
@@ -139,6 +141,7 @@ public class ReportQueryBuilder
 	 */
 	protected int maxRows = 0;
 
+	IQueryContext queryContext;
 
 	public ReportQueryBuilder( )
 	{
@@ -173,6 +176,8 @@ public class ReportQueryBuilder
 				}
 			}			
 		}
+		
+		queryContext = new QueryContext( context, this );
 	}
 
 	public void build( )
@@ -436,7 +441,7 @@ public class ReportQueryBuilder
 				try
 				{
 					itemQuery.setModelObject( handle );
-
+					itemQuery.setQueryContext( queryContext );
 					queries = itemQuery.createReportQueries( parentQuery );
 
 				}
