@@ -2770,9 +2770,8 @@ public class PreparedStatement
                 // need to convert the java.util.Date to the java.sql.Date supported 
                 // by ODA
                 java.util.Date date = (java.util.Date) paramValue;
-                Timestamp sqlDate = new Timestamp( date.getTime( ) + date.getTimezoneOffset( )* 60 * 1000 );
-                sqlDate.setNanos( 0 );
-                setTimestamp( paramName, paramIndex, sqlDate );
+                Date sqlDate = new Date( date.getTime() );
+                setDate( paramName, paramIndex, sqlDate );
                 return;
             }
             
