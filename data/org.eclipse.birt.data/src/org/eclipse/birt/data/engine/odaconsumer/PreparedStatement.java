@@ -2764,15 +2764,22 @@ public class PreparedStatement
 				return;
 			}
             
-            // check for all other types of java.util.Date
-            if( paramValue instanceof java.util.Date )
-            {
-                // need to convert the java.util.Date to the java.sql.Date supported 
+			if( paramValue instanceof java.sql.Date )
+			{
+				// need to convert the java.util.Date to the java.sql.Date supported 
                 // by ODA
                 java.util.Date date = (java.util.Date) paramValue;
                 Date sqlDate = new Date( date.getTime() );
                 setDate( paramName, paramIndex, sqlDate );
                 return;
+			}
+			
+            // check for all other types of java.util.Date
+            if( paramValue instanceof java.util.Date )
+            {
+            	Timestamp timestamp = (Timestamp) paramValue;
+				setTimestamp( paramName, paramIndex, timestamp );
+				return;
             }
             
             if( paramValue instanceof Boolean )
