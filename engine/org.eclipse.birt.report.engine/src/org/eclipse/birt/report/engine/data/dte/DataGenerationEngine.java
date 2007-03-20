@@ -59,7 +59,8 @@ public class DataGenerationEngine extends AbstractDataEngine
 		{			
 			// create the DteData session.
 			DataSessionContext dteSessionContext = new DataSessionContext(
-					DataSessionContext.MODE_GENERATION );
+					DataSessionContext.MODE_GENERATION, null, context
+							.getSharedScope( ) );
 			dteSessionContext.setDocumentWriter( writer );
 			DataEngineContext dteEngineContext = dteSessionContext
 					.getDataEngineContext( );

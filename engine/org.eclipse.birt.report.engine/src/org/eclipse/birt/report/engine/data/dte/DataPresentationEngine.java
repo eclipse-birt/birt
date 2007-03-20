@@ -59,7 +59,7 @@ public class DataPresentationEngine extends AbstractDataEngine
 		{			
 			// create the DteData session.
 			DataSessionContext dteSessionContext = new DataSessionContext(
-					DataSessionContext.MODE_PRESENTATION );
+					DataSessionContext.MODE_PRESENTATION, null, context.getSharedScope( ) );
 			dteSessionContext.setDocumentReader( reader );
 			DataEngineContext dteEngineContext = dteSessionContext
 					.getDataEngineContext( );
