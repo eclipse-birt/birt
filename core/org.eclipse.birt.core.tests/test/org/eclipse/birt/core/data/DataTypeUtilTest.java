@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.core.data;
 import java.math.BigDecimal;
+import java.sql.Time;
 import java.sql.Types;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -368,6 +369,68 @@ public class DataTypeUtilTest extends TestCase
 		
 	}
 
+	public void testToSqlDate( ) throws BirtException
+	{
+		java.sql.Date date = DataTypeUtil.toSqlDate( "1999-2-11" );
+		Calendar cal = Calendar.getInstance( );
+		cal.clear( );
+		cal.set( 1999, 1, 11 );
+		cal.getTime( );
+		assertEquals ( cal.getTime( ), date );
+		
+		try
+		{
+			java.sql.Date date1 = DataTypeUtil.toSqlDate( "99-2-11" );
+			cal.set( 99, 1, 11 );
+			assertEquals ( cal.getTime( ), date1 );
+		}
+		catch ( BirtException e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try
+		{
+			java.sql.Date date1 = DataTypeUtil.toSqlDate( "9921111" );
+			assertEquals ( cal.getTime( ), date1 );
+			fail("Should not arrive here");
+		}
+		catch ( BirtException e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void testToSqlTime( ) throws BirtException
+	{
+		Time time = DataTypeUtil.toSqlTime( "12:11:25" );
+		Calendar cal = Calendar.getInstance( );
+		cal.clear( );
+		cal.set( 0, 0, 0, 12,11,25 );
+		Time temp = new Time(cal.getTime( ).getTime( ));
+		assertEquals ( time.toString( ), temp.toString( ) );
+		
+		time = DataTypeUtil.toSqlTime( "18:11:25" );
+		cal = Calendar.getInstance( );
+		cal.clear( );
+		cal.set( 0, 0, 0, 18,11,25 );
+		temp = new Time(cal.getTime( ).getTime( ));
+		assertEquals ( time.toString( ), temp.toString( ) );
+		try
+		{
+			DataTypeUtil.toSqlTime( "99dfa-2-11" );
+			fail("Should not arrive here");
+		}
+		catch ( BirtException e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
 	public void testToDate( )
 	{
 		Date result;
@@ -694,9 +757,9 @@ public class DataTypeUtilTest extends TestCase
                 DataTypeUtil.toApiDataType( Types.DOUBLE ) );
         assertEquals( DataType.DECIMAL_TYPE, 
                 DataTypeUtil.toApiDataType( Types.DECIMAL ) );
-        assertEquals( DataType.DATE_TYPE, 
+        assertEquals( DataType.SQL_DATE_TYPE, 
                 DataTypeUtil.toApiDataType( Types.DATE ) );
-        assertEquals( DataType.DATE_TYPE, 
+        assertEquals( DataType.SQL_TIME_TYPE, 
                 DataTypeUtil.toApiDataType( Types.TIME ) );
         assertEquals( DataType.DATE_TYPE, 
                 DataTypeUtil.toApiDataType( Types.TIMESTAMP ) );

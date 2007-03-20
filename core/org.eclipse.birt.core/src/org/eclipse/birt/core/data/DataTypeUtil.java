@@ -145,7 +145,9 @@ public final class DataTypeUtil
             return toSqlTime( source );
         if ( toTypeClass == java.sql.Date.class)
            	return toSqlDate( source );
-        if ( toTypeClass == Date.class ) 
+        if ( toTypeClass == java.sql.Timestamp.class ) 
+			return toDate( source );
+		if ( toTypeClass == Date.class ) 
 			return toDate( source );
 		if ( toTypeClass == Double.class )
 			return toDouble( source );
