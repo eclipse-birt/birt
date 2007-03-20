@@ -298,8 +298,7 @@ build third party features which is need by BIRT:<br>
 java -cp ../org.eclipse.releng.basebuilder/startup.jar 
 org.eclipse.core.launcher.Main -application org.eclipse.ant.core.antRunner -buildfile 
 build.xml -propertyfile build.properties -Dcomponent=D:/testBuilder/org.eclipse.birt.releng.birtbuilder/eclipse/buildConfigs/<b>birt.third.party</b> -Dconfigs=&quot;*,*,*&quot; -Djavacfailonerror=true -DjavacVerbose=false 
--DbuildDirectory=D:/testBuilder 
--Dzipargs=-y -Dbootclasspath=C:/j2sdk1.4.2_13/jre/lib/rt.jar<br>
+-DbuildDirectory=D:/testBuilder -Dbootclasspath=C:/j2sdk1.4.2_13/jre/lib/rt.jar -Dzipargs=" "<br>
 ¡¡</font></p>
 <p><font face="Tahoma">2.&nbsp; Run the below command under <b>org.eclipse.releng.basebuilder </b>to 
 build BIRT SDK features:</font></p>
@@ -307,8 +306,7 @@ build BIRT SDK features:</font></p>
 <p><font face="Tahoma">java -cp ../org.eclipse.releng.basebuilder/startup.jar 
 org.eclipse.core.launcher.Main -application org.eclipse.ant.core.antRunner -buildfile 
 build.xml -propertyfile build.properties -Dcomponent=D:/testBuilder/org.eclipse.birt.releng.birtbuilder/eclipse/buildConfigs/<b>birt</b> -Dconfigs=&quot;*,*,*&quot; -Djavacfailonerror=true -DjavacVerbose=false 
--DbuildDirectory=D:/testBuilder 
--Dzipargs=-y -Dbootclasspath=C:/j2sdk1.4.2_13/jre/lib/rt.jar<br>
+-DbuildDirectory=D:/testBuilder -Dbootclasspath=C:/j2sdk1.4.2_13/jre/lib/rt.jar -Dzipargs=" "<br>
 <br>
 <b><a name="structLinux">Build server directory of Linux Example</a></b></font></p>
 
@@ -353,9 +351,13 @@ build.xml -propertyfile build.properties -Dcomponent=D:/testBuilder/org.eclipse.
     <td><font face="Tahoma">/home/adb/releng/baseLocation/plugins</font></td>
     <td><font face="Tahoma">where prerequisites plugins locate</font></td>
   </tr>
-  <tr vAlign="top">
+  <tr>
     <td><font face="Tahoma">/home/adb/releng/baseLocation/features</font></td>
     <td><font face="Tahoma">where prerequisites features locate</font></td>
+  </tr>
+  <tr vAlign="top">
+    <td><font face="Tahoma">/home/adb/farrah/testBuilder/P4/iText</font></td>
+    <td><font face="Tahoma">where itext-1.4.6.jar locates</font></td>
   </tr>
 </table>
 <p><font face="Tahoma"><b><a name="structWindows">Build server directory of 
@@ -401,9 +403,13 @@ Windows Example</a></b></font></p>
     <td><font face="Tahoma">D:/testBuilder/baseLocation/plugins</font></td>
     <td><font face="Tahoma">where prerequisites plugins locate</font></td>
   </tr>
-  <tr vAlign="top">
+  <tr>
     <td><font face="Tahoma">D:/testBuilder/baseLocation/features</font></td>
     <td><font face="Tahoma">where prerequisites features locate</font></td>
+  </tr>
+  <tr vAlign="top">
+    <td><font face="Tahoma">D:/testBuilder/P4/iText</font></td>
+    <td><font face="Tahoma">where itext-1.4.6.jar locates</font></td>
   </tr>
 </table>
 
