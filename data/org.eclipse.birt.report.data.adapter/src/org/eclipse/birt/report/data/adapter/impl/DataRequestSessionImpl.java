@@ -467,7 +467,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 			}
 			else if ( mode == DataEngineContext.MODE_GENERATION )
 			{
-				cubeMaterializer = new org.eclipse.birt.data.engine.olap.api.cube.CubeMaterializer( null );
+				cubeMaterializer = new org.eclipse.birt.data.engine.olap.api.cube.CubeMaterializer(  );
 			}
 			else
 			{
