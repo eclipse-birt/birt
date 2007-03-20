@@ -62,6 +62,7 @@ odajdbc.CannotClosePreparedStatement=无法关闭 preparedStatement。
 odajdbc.CannotGetPreparedStatementMetadata=无法获得 preparedStatement 元数据。
 odajdbc.ResultSetCannotReturn=SQL 语句不返回 ResultSet 对象。
 odajdbc.QueryExecuteFail=SQL 语句不返回 ResultSet 对象或更新计数。
+odajdbc.InvalidStoredPrecedure=Invalid stored procedure query.
 odajdbc.PrepareStatement.CannotSetIntValue=无法将 preparedStatement 参数设置为整数值。
 odajdbc.PrepareStatement.CannotSetDoubleValue=无法将 preparedStatement 参数设置为双精度值。
 odajdbc.PrepareStatement.CannotSetBigDecimalValue=无法将 preparedStatement 参数设置为大十进制值。

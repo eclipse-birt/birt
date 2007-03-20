@@ -62,6 +62,7 @@ odajdbc.CannotClosePreparedStatement=No se puede cerrar preparedStatement.
 odajdbc.CannotGetPreparedStatementMetadata=No se pueden obtener los metadatos de preparedStatement.
 odajdbc.ResultSetCannotReturn=La sentencia de SQL no devuelve un objeto ResultSet.
 odajdbc.QueryExecuteFail=La sentencia de SQL no devuelve un objeto ResultSet ni un recuento de actualización.
+odajdbc.InvalidStoredPrecedure=Invalid stored procedure query.
 odajdbc.PrepareStatement.CannotSetIntValue=No se puede establecer el valor tipo int del parámetro preparedStatement.
 odajdbc.PrepareStatement.CannotSetDoubleValue=No se puede establecer el valor doble del parámetro preparedStatement.
 odajdbc.PrepareStatement.CannotSetBigDecimalValue=No se puede establecer el valor BigDecimal del parámetro preparedStatement.

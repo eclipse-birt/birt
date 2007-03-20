@@ -62,6 +62,7 @@ odajdbc.CannotClosePreparedStatement=preparedStatement ‚ğ•Â‚¶‚é‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñ
 odajdbc.CannotGetPreparedStatementMetadata=preparedStatement ƒƒ^ƒf[ƒ^‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
 odajdbc.ResultSetCannotReturn=‚±‚Ì SQL •¶‚©‚ç‚Í ResultSet ƒIƒuƒWƒFƒNƒg‚ª•Ô‚³‚ê‚Ü‚¹‚ñB
 odajdbc.QueryExecuteFail=‚±‚Ì SQL •¶‚©‚ç‚Í ResultSet ƒIƒuƒWƒFƒNƒg‚Ü‚½‚ÍXV”‚ª•Ô‚³‚ê‚Ü‚¹‚ñB
+odajdbc.InvalidStoredPrecedure=Invalid stored procedure query.
 odajdbc.PrepareStatement.CannotSetIntValue=preparedStatement ƒpƒ‰ƒƒ^‚Ì int ’l‚ğİ’è‚Å‚«‚Ü‚¹‚ñB
 odajdbc.PrepareStatement.CannotSetDoubleValue=preparedStatement ƒpƒ‰ƒƒ^‚Ì Double ’l‚ğİ’è‚Å‚«‚Ü‚¹‚ñB
 odajdbc.PrepareStatement.CannotSetBigDecimalValue=preparedStatement ƒpƒ‰ƒƒ^‚Ì BigDecimal ’l‚ğİ’è‚Å‚«‚Ü‚¹‚ñB

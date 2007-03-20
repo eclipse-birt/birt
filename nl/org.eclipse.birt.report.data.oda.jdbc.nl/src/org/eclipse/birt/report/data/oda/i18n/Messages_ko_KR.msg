@@ -62,6 +62,7 @@ odajdbc.CannotClosePreparedStatement=preparedStatement를 닫을 수 없습니다.
 odajdbc.CannotGetPreparedStatementMetadata=preparedStatement 메타데이터를 가져올 수 없습니다.
 odajdbc.ResultSetCannotReturn=SQL 문이 결과 집합 개체를 반환하지 않습니다.
 odajdbc.QueryExecuteFail=SQL 문이 결과 집합 개체나 업데이트 수를 반환하지 않습니다.
+odajdbc.InvalidStoredPrecedure=Invalid stored procedure query.
 odajdbc.PrepareStatement.CannotSetIntValue=preparedStatement 매개 변수 정수 값을 설정할 수 없습니다.
 odajdbc.PrepareStatement.CannotSetDoubleValue=preparedStatement 매개 변수 이중 값을 설정할 수 없습니다.
 odajdbc.PrepareStatement.CannotSetBigDecimalValue=preparedStatement 매개 변수 BigDecimal 값을 설정할 수 없습니다.

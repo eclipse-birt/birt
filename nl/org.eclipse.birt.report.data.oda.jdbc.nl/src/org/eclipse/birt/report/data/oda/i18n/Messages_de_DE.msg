@@ -62,6 +62,7 @@ odajdbc.CannotClosePreparedStatement=Vorbereitete Anweisung kann nicht geschloss
 odajdbc.CannotGetPreparedStatementMetadata=Metadaten für vorbereitete Anweisung können nicht abgerufen werden.
 odajdbc.ResultSetCannotReturn=SQL-Anweisung gibt kein Ergebnisobjekt zurück.
 odajdbc.QueryExecuteFail=SQL-Anweisung gibt kein Ergebnisobjekt und keine Aktualisierungsanzahl zurück.
+odajdbc.InvalidStoredPrecedure=Invalid stored procedure query.
 odajdbc.PrepareStatement.CannotSetIntValue=Ganzzahlwert des Parameters für vorbereitete Anweisung kann nicht festgelegt werden.
 odajdbc.PrepareStatement.CannotSetDoubleValue=Double-Wert des Parameters für vorbereitete Anweisung kann nicht festgelegt werden.
 odajdbc.PrepareStatement.CannotSetBigDecimalValue=BigDecimal-Wert des Parameters für vorbereitete Anweisung kann nicht festgelegt werden.
