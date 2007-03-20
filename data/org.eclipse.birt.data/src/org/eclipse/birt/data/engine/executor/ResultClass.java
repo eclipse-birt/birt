@@ -191,9 +191,10 @@ public class ResultClass implements IResultClass
 			for ( int i = 0; i < m_fieldCount; i++ )
 			{
 				ResultFieldMetadata column = projectedCols[i];
-
-				if (resultSetNameSet.contains(column.getName())
-						|| resultSetNameSet.contains(column.getAlias()))
+				// check if result set contains the column, if exists, remove it
+				// from the result set for further invalid columns collecting
+				if (resultSetNameSet.remove(column.getName())
+						|| resultSetNameSet.remove(column.getAlias()))
 				{
 					IOUtil.writeInt( dos, column.getDriverPosition( ) );
 					IOUtil.writeString( dos, column.getName( ) );
@@ -211,8 +212,19 @@ public class ResultClass implements IResultClass
 				}
 			}
 			
-			if ( writeCount != size )
-				throw new DataException( ResourceConstants.RESULT_CLASS_SAVE_ERROR );
+			if ( writeCount != size)
+			{
+				StringBuffer buf = new StringBuffer( );
+				for ( Iterator i = resultSetNameSet.iterator( ); i.hasNext( ); )
+				{
+					String colName = (String) i.next( );
+					buf.append( colName );
+					buf.append( ',' );
+				}
+				buf.deleteCharAt( buf.length( ) - 1 );
+				throw new DataException( ResourceConstants.RESULT_CLASS_SAVE_ERROR,
+						buf.toString( ) );
+			}
 			
 			dos.close( );
 		}
