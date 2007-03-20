@@ -109,7 +109,7 @@
 				<include name="org.eclipse.birt.chart.device.pdf_*.jar" />
 				<include name="org.eclipse.birt.chart.device.swt_*.jar" />
 				<include name="org.mozilla.rhino_*/lib/*.jar" />
-				<include name="org.apache.batik_*/lib/*.jar" />
+				<include name="org.apache.batik.transcoder_*.jar" />
 				<include name="org.apache.batik.pdf_*/lib/*.jar" />
 			</fileset>
 			<fileset dir="${baseLocation}/plugins">

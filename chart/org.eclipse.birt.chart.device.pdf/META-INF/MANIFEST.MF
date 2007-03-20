@@ -8,7 +8,7 @@ Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.birt.chart.device.svg;bundle-version="[2.1.0,3.0.0)",
  org.eclipse.birt.chart.engine;bundle-version="[2.1.0,3.0.0)",
- org.apache.batik;bundle-version="[1.6.0,2.0.0)",
+ org.apache.batik.transcoder;bundle-version="[1.6.0,2.0.0)",
  org.eclipse.birt.chart.device.extension;bundle-version="[2.1.0,3.0.0)",
  org.apache.batik.pdf;bundle-version="[1.6.0,2.0.0)",
  org.apache.xerces;bundle-version="[2.8.0,3.0.0)"
