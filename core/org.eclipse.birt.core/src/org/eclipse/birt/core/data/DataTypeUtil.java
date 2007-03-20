@@ -17,6 +17,7 @@ import java.sql.Clob;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
@@ -31,7 +32,6 @@ import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.eclipse.birt.core.i18n.ResourceHandle;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 
-import java.text.DateFormat;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -67,6 +67,8 @@ public final class DataTypeUtil
 	 * 		DataType.DOUBLE_TYPE
 	 * 		DataType.STRING_TYPE
 	 * 		DataType.BLOB_TYPE
+	 *		DataType.SQL_DATE_TYPE
+	 *		DataType.SQL_TIME_TYPE
 	 * @param source
 	 * @param toType
 	 * @return
@@ -102,6 +104,10 @@ public final class DataTypeUtil
 				return toBlob( source );
 			case DataType.BINARY_TYPE :
 				return toBytes( source );
+			case DataType.SQL_DATE_TYPE:
+				return toSqlDate( source );
+			case DataType.SQL_TIME_TYPE:
+				return toSqlTime( source );
 			default :
 				throw new CoreException( ResourceConstants.INVALID_TYPE,
 						resourceBundle );
@@ -136,8 +142,10 @@ public final class DataTypeUtil
 		if ( toTypeClass == Boolean.class )
 			return toBoolean( source );
         if ( toTypeClass == Time.class )
-            return toTime( source );
-		if ( Date.class.isAssignableFrom( toTypeClass ) ) 
+            return toSqlTime( source );
+        if ( toTypeClass == java.sql.Date.class)
+           	return toSqlDate( source );
+        if ( toTypeClass == Date.class ) 
 			return toDate( source );
 		if ( toTypeClass == Double.class )
 			return toDouble( source );
@@ -394,14 +402,14 @@ public final class DataTypeUtil
      * @return
      * @throws BirtException
      */
-    public static Time toTime( Object source ) throws BirtException
+    public static Time toSqlTime( Object source ) throws BirtException
     {
         if ( source == null )
             return null;
 
         if ( source instanceof Date )
         {
-            return new Time( ( (Date) source ).getTime( ) );
+       		return new Time( ((Date)source).getTime( ));
         }
         else if ( source instanceof String )
         {
@@ -429,7 +437,49 @@ public final class DataTypeUtil
                     } );
     }
 
-	/**
+    /**
+     * Date -> Time
+     * String -> Time
+     * @param source
+     * @return
+     * @throws BirtException
+     */
+    public static java.sql.Date toSqlDate( Object source ) throws BirtException
+    {
+        if ( source == null )
+            return null;
+
+        if ( source instanceof Date )
+        {
+    		return new java.sql.Date( ((Date)source).getTime( ));
+        }
+        else if ( source instanceof String )
+        {
+            try
+            {
+                return new java.sql.Date( toDate((String ) source).getTime() );
+            }
+            catch( Exception e )
+            {
+                try
+                {
+                	return java.sql.Date.valueOf( (String)source );
+                }
+                catch ( Exception e1 )
+                {
+                	
+                }
+            }
+        }
+
+        throw new CoreException(
+                    ResourceConstants.CONVERT_FAILS,
+                    new Object[]{
+                            source.toString( ), "java.sql.Date"
+                    } );
+    }
+
+    /**
 	 * A temp solution to the adoption of ICU4J to BIRT. Simply delegate
 	 * toDate( String, Locale) method.
 	 * 
@@ -676,7 +726,20 @@ public final class DataTypeUtil
 	{
 		if ( source == null )
 			return null;
-
+		if ( source instanceof Time )
+		{
+			return ((Time) source).toString( );
+		}
+		
+		if ( source instanceof java.sql.Date )
+		{
+			return ((java.sql.Date) source).toString( );
+		}
+		
+		if ( source instanceof Timestamp )
+		{
+			return ((java.sql.Timestamp) source).toString( );
+		}
 		if ( source instanceof Date )
 		{
 			return toString( (Date) source, locale );
@@ -771,6 +834,10 @@ public final class DataTypeUtil
 			return DataType.STRING_TYPE;
 		else if ( BigDecimal.class.isAssignableFrom( clazz ) )
 			return DataType.DECIMAL_TYPE;
+		else if ( clazz == java.sql.Date.class )
+			return DataType.SQL_DATE_TYPE;
+		else if ( clazz == java.sql.Time.class )
+			return DataType.SQL_TIME_TYPE;
 		else if ( Date.class.isAssignableFrom( clazz ) )
 			return DataType.DATE_TYPE;
 		else if ( byte[].class.isAssignableFrom( clazz ) )
@@ -1036,7 +1103,7 @@ public final class DataTypeUtil
 				break;
 
 			case Types.DATE :
-				fieldClass = Date.class;
+				fieldClass = java.sql.Date.class;
 				break;
 
 			case Types.TIME :

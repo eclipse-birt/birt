@@ -32,7 +32,9 @@ public abstract class DataType
 	public static final int DATE_TYPE = 6;	
 	public static final int BLOB_TYPE = 7;
 	public static final int BINARY_TYPE = 8;
-	
+	public static final int SQL_DATE_TYPE = 9;
+	public static final int SQL_TIME_TYPE = 10;
+		
 	private static final String[] names = 
 	{ 
 			"Any",
@@ -41,9 +43,11 @@ public abstract class DataType
 			"Double",
 			"Decimal",
 			"String",
-			"Date",
+			"DateTime",
 			"Blob",
-			"Binary"
+			"Binary",
+			"Date",
+			"Time"
 	};
 	
 	public static final String ANY_TYPE_NAME = names[0];
@@ -55,6 +59,8 @@ public abstract class DataType
 	public static final String DATE_TYPE_NAME = names[6];
 	public static final String BLOB_TYPE_NAME = names[7];
 	public static final String BINARY_TYPE_NAME = names[8];
+	public static final String SQL_DATE_TYPE_NAME = names[9];
+	public static final String SQL_TIME_TYPE_NAME = names[10];
 	
 	private static final Class[] classes = 
 	{ 
@@ -66,7 +72,9 @@ public abstract class DataType
 			String.class,
 			Date.class,
 			Blob.class,
-			byte[].class
+			byte[].class,
+			java.sql.Date.class,
+			java.sql.Time.class,
 	};
 	
 	/**

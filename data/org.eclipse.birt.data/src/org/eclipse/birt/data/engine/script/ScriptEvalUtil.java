@@ -730,6 +730,32 @@ public class ScriptEvalUtil
 					}
 
 				}
+				else if ( obj instanceof java.sql.Date )
+				{
+
+					obArray[0] = DataTypeUtil.toSqlDate( obj );
+
+					obArray[1] = DataTypeUtil.toSqlDate( obArray[1] );
+					if ( obArray[2] != null )
+					{
+
+						obArray[2] = DataTypeUtil.toSqlDate( obArray[2] );
+					}
+
+				}
+				else if ( obj instanceof java.sql.Time )
+				{
+
+					obArray[0] = DataTypeUtil.toSqlTime( obj );
+
+					obArray[1] = DataTypeUtil.toSqlTime( obArray[1] );
+					if ( obArray[2] != null )
+					{
+
+						obArray[2] = DataTypeUtil.toSqlTime( obArray[2] );
+					}
+
+				}
 				else if ( obj instanceof Date )
 				{
 
