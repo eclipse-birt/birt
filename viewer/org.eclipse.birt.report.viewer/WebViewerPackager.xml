@@ -386,6 +386,10 @@
 			<include name="org.apache.xerces_*.jar"/>
 			<include name="org.w3c.dom_*.jar"/>
 			<include name="org.apache.xml.resolver_*.jar"/>
+			<include name="org.apache.batik.*jar"/>
+			<include name="org.w3c.dom.svg_*.jar"/>
+			<include name="org.w3c.dom.smil_*.jar"/>
+			<include name="org.w3c.css.sac_*.jar"/>
 		</fileset>
 		<fileset dir="${baseLocation.emf}/plugins">
 			<include name="org.eclipse.emf.common_*.jar" />
@@ -433,6 +437,7 @@
 	</copy>
 
 	<!-- org.apache.batik -->
+	<!--
 	<copy todir="${export.dir}/plugins/org.apache.batik">
 		<fileset dir="../org.apache.batik">
 			<include name="META-INF/MANIFEST.MF" />
@@ -442,7 +447,7 @@
 			<include name="plugin.*" />
 		</fileset>
 	</copy>
-
+	-->
 	<!-- org.apache.batik.pdf -->
 	<copy todir="${export.dir}/plugins/org.apache.batik.pdf">
 		<fileset dir="../org.apache.batik.pdf">
