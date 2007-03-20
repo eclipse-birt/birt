@@ -285,7 +285,24 @@ eclipse.build.configs = D:/testBuilder/org.eclipse.birt.releng.birtbuilder<br>
 baseLocation = D:/testBuilder/baseLocation<br>
 bootclasspath = C:/j2sdk1.4.2_13/jre/lib/rt.jar</font></p>
 
-<p><font face="Tahoma"> <br>
+<p><font face="Tahoma">1.&nbsp; Run the below command under <b>org.eclipse.releng.basebuilder </b>to 
+build third party features which is need by BIRT:<br>
+<br>
+java -cp ../org.eclipse.releng.basebuilder/startup.jar 
+org.eclipse.core.launcher.Main -application org.eclipse.ant.core.antRunner -buildfile 
+build.xml -propertyfile build.properties -Dcomponent=D:/testBuilder/org.eclipse.birt.releng.birtbuilder/eclipse/buildConfigs/<b>birt.third.party</b> -Dconfigs=&quot;*,*,*&quot; -Djavacfailonerror=true -DjavacVerbose=false 
+-DbuildDirectory=D:/testBuilder 
+-Dzipargs=-y -Dbootclasspath=C:/j2sdk1.4.2_13/jre/lib/rt.jar<br>
+¡¡</font></p>
+<p><font face="Tahoma">2.&nbsp; Run the below command under <b>org.eclipse.releng.basebuilder </b>to 
+build BIRT SDK features:</font></p>
+
+<p><font face="Tahoma">java -cp ../org.eclipse.releng.basebuilder/startup.jar 
+org.eclipse.core.launcher.Main -application org.eclipse.ant.core.antRunner -buildfile 
+build.xml -propertyfile build.properties -Dcomponent=D:/testBuilder/org.eclipse.birt.releng.birtbuilder/eclipse/buildConfigs/<b>birt</b> -Dconfigs=&quot;*,*,*&quot; -Djavacfailonerror=true -DjavacVerbose=false 
+-DbuildDirectory=D:/testBuilder 
+-Dzipargs=-y -Dbootclasspath=C:/j2sdk1.4.2_13/jre/lib/rt.jar<br>
+<br>
 <b><a name="structLinux">Build server directory of Linux Example</a></b></font></p>
 
 <table cellPadding="2" border="1">
