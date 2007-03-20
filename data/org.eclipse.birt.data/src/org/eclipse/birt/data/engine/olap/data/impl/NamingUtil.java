@@ -22,8 +22,9 @@ public class NamingUtil
 	private static final String DIMENSION_PREFIX = OLAP_PREFIX + "dim_";
 	private static final String HIERARCHY_PREFIX = OLAP_PREFIX + "hierarchy_";
 	private static final String LEVEL_INDEX = OLAP_PREFIX + "level_index_";
-	private static final String LEVEL_OFFSET = OLAP_PREFIX + "level_offset_";
+	private static final String HIERARCHY_OFFSET = OLAP_PREFIX + "hierarchy_offset_";
 	private static final String FACT_TABLE = OLAP_PREFIX + "fact_table_";
+	private static final String FTSU_LIST = OLAP_PREFIX + "ftsu_list_";
 
 	/**
 	 * 
@@ -47,12 +48,12 @@ public class NamingUtil
 	
 	/**
 	 * 
-	 * @param levelName
+	 * @param hierarchylName
 	 * @return
 	 */
-	public static String getHierarchyDocName( String levelName )
+	public static String getHierarchyDocName( String hierarchylName )
 	{
-		return HIERARCHY_PREFIX + levelName;
+		return HIERARCHY_PREFIX + hierarchylName;
 	}
 	
 	/**
@@ -70,9 +71,9 @@ public class NamingUtil
 	 * @param levelName
 	 * @return
 	 */
-	public static String getHierarchyOffsetDocName( String levelName )
+	public static String getHierarchyOffsetDocName( String hierarchylName )
 	{
-		return LEVEL_OFFSET + levelName;
+		return HIERARCHY_OFFSET + hierarchylName;
 	}
 	
 	/**
@@ -80,8 +81,14 @@ public class NamingUtil
 	 * @param cubeName
 	 * @return
 	 */
-	public static String getFactTableName( String cubeName )
+	public static String getFactTableName( String factTableName )
 	{
-		return FACT_TABLE + cubeName;
+		return FACT_TABLE + factTableName;
+	}
+	
+	
+	public static String getFTSUListName( String factTableName )
+	{
+		return FTSU_LIST + factTableName;
 	}
 }

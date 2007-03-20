@@ -19,6 +19,7 @@ import java.util.List;
 import org.eclipse.birt.data.engine.olap.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentObjectUtil;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentObject;
+import org.eclipse.birt.data.engine.olap.data.impl.NamingUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.Traversalor;
 import org.eclipse.birt.data.engine.olap.data.util.Bytes;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
@@ -257,7 +258,8 @@ public class FactTableRowIterator
 		}
 		currentSubDim = traversalor.getIntArray( );
 		currentSegment = factTable.getDocumentManager( )
-				.openDocumentObject( FTSUDocumentObjectNamingUtil.getDocumentObjectName( factTable.getName( ),
+				.openDocumentObject( FTSUDocumentObjectNamingUtil.getDocumentObjectName( 
+						NamingUtil.getFactTableName(factTable.getName( )),
 						getSubDimensionIndex( ) ) );
 		for ( int i = 0; i < dimensionIndex.length; i++ )
 		{

@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.data.engine.olap.data.impl.facttable;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,7 +19,6 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.eclipse.birt.core.archive.compound.ArchiveFile;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.aggregation.BuiltInAggregationFactory;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -49,9 +47,6 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionForTest;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionResultIterator;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Level;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.LevelDefinition;
-import org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTable;
-import org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableAccessor;
-import org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableRowIterator;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
@@ -81,13 +76,6 @@ public class FactTableHelperTest2 extends TestCase
 		super.tearDown( );
 	}
 	
-	private static IDocumentManager createRADocumentManager( ) throws IOException, DataException
-	{
-		String pathName = System.getProperty( "java.io.tmpdir" ) + File.separator+ "docForTest";
-		ArchiveFile archiveFile = new ArchiveFile( pathName, "rw+" );
-		IDocumentManager documentManager = DocumentManagerFactory.createRADocumentManager( archiveFile );
-		return documentManager;
-	}
 	
 	/**
 	 * 
@@ -101,12 +89,6 @@ public class FactTableHelperTest2 extends TestCase
 		testFactTableSaveAndLoad( documentManager );
 	}
 	
-	public void testRAFactTableSaveAndLoad( ) throws IOException, BirtException
-	{
-		IDocumentManager documentManager = createRADocumentManager( );
-		
-		testFactTableSaveAndLoad( documentManager );
-	}
 
 	private void testFactTableSaveAndLoad( IDocumentManager documentManager ) throws IOException, BirtException
 	{
@@ -263,12 +245,6 @@ public class FactTableHelperTest2 extends TestCase
 		testFactTableSaveAndLoad2( documentManager );
 	}
 	
-	public void testRAFactTableSaveAndLoad2( ) throws IOException, BirtException
-	{
-		IDocumentManager documentManager = createRADocumentManager( );
-		
-		testFactTableSaveAndLoad2( documentManager );
-	}
 
 	private void testFactTableSaveAndLoad2( IDocumentManager documentManager ) throws IOException, BirtException
 	{
@@ -399,13 +375,6 @@ public class FactTableHelperTest2 extends TestCase
 		testFactTableSaveAndLoad3( documentManager );
 	}
 	
-	public void testRAFactTableSaveAndLoad3( ) throws IOException, BirtException
-	{
-		IDocumentManager documentManager = createRADocumentManager( );
-		
-		testFactTableSaveAndLoad3( documentManager );
-	}
-
 	private void testFactTableSaveAndLoad3( IDocumentManager documentManager ) throws IOException, BirtException, DataException
 	{
 		Dimension[] dimensions = new Dimension[3];
@@ -594,13 +563,6 @@ public class FactTableHelperTest2 extends TestCase
 		testFactTableSaveAndLoad4( documentManager );
 	}
 	
-	public void testRAFactTableSaveAndLoad4( ) throws IOException, BirtException
-	{
-		IDocumentManager documentManager = createRADocumentManager( );
-		
-		testFactTableSaveAndLoad4( documentManager );
-	}
-
 	private void testFactTableSaveAndLoad4( IDocumentManager documentManager ) throws IOException, BirtException
 	{
 		Dimension[] dimensions = new Dimension[3];
@@ -743,16 +705,7 @@ public class FactTableHelperTest2 extends TestCase
 		testFactTableSaveAndLoad5( cubeCreatorHelper );
 	}
 	
-	public void testRAFactTableSaveAndLoad5( ) throws IOException, BirtException
-	{
-		String pathName = System.getProperty( "java.io.tmpdir" ) + File.separator+ "docForTest";
-		ArchiveFile archiveFile = new ArchiveFile( pathName, "rw+" );
-		CubeMaterializer cubeCreatorHelper = new CubeMaterializer( archiveFile );
-		
-		testFactTableSaveAndLoad5( cubeCreatorHelper );
-	}
-
-	private void testFactTableSaveAndLoad5( CubeMaterializer cubeCreatorHelper ) throws IOException, BirtException
+	private void testFactTableSaveAndLoad5( CubeMaterializer cubeMaterializer ) throws IOException, BirtException
 	{
 		Dimension[] dimensions = new Dimension[3];
 		
@@ -770,10 +723,10 @@ public class FactTableHelperTest2 extends TestCase
 		levelDefs[0] = CubeElementFactory.createLevelDefinition( "level11", new String[]{"level11"}, null );
 		levelDefs[1] = CubeElementFactory.createLevelDefinition( "level12", new String[]{"level12"}, null );
 		levelDefs[2] = CubeElementFactory.createLevelDefinition( "level13", new String[]{"level13"}, null );
-		IHierarchy hierarchy = cubeCreatorHelper.createHierarchy( "dimension1",
+		IHierarchy hierarchy = cubeMaterializer.createHierarchy( "dimension1",
 				iterator,
 				levelDefs );
-		dimensions[0] = (Dimension) cubeCreatorHelper.createDimension( "dimension1",
+		dimensions[0] = (Dimension) cubeMaterializer.createDimension( "dimension1",
 				hierarchy );
 		assertEquals( hierarchy.getName( ), "dimension1" );
 		assertEquals( dimensions[0].length( ), FactTable2.L1Col.length );
@@ -788,10 +741,10 @@ public class FactTableHelperTest2 extends TestCase
 		levelDefs[0] = CubeElementFactory.createLevelDefinition( "level21",
 				new String[]{"level21"},
 				null );
-		hierarchy = cubeCreatorHelper.createHierarchy( "dimension2",
+		hierarchy = cubeMaterializer.createHierarchy( "dimension2",
 				iterator,
 				levelDefs );
-		dimensions[1] = (Dimension) cubeCreatorHelper.createDimension( "dimension2",
+		dimensions[1] = (Dimension) cubeMaterializer.createDimension( "dimension2",
 				hierarchy );
 		hierarchy = dimensions[1].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension2" );
@@ -806,10 +759,10 @@ public class FactTableHelperTest2 extends TestCase
 
 		levelDefs = new ILevelDefn[1];
 		levelDefs[0] = new LevelDefinition( "level31", new String[]{"level31"}, null );
-		hierarchy = cubeCreatorHelper.createHierarchy( "dimension3",
+		hierarchy = cubeMaterializer.createHierarchy( "dimension3",
 				iterator,
 				levelDefs );
-		dimensions[2] = (Dimension) cubeCreatorHelper.createDimension( "dimension3",
+		dimensions[2] = (Dimension) cubeMaterializer.createDimension( "dimension3",
 				hierarchy );
 		hierarchy = dimensions[2].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension3" );
@@ -819,10 +772,10 @@ public class FactTableHelperTest2 extends TestCase
 		String[] measureColumnName = new String[2];
 		measureColumnName[0] = "measure1";
 		measureColumnName[1] = "measure2";
-		cubeCreatorHelper.createCube( "cube", dimensions, factTable2, measureColumnName, new StopSign( ) );
+		cubeMaterializer.createCube( "cube", dimensions, factTable2, measureColumnName, new StopSign( ) );
 		
 		CubeQueryExcutorHelper cubeQueryExcutorHelper = 
-			new CubeQueryExcutorHelper( CubeQueryExcutorHelper.loadCube( "cube", createRADocumentManager( ), new StopSign( ) ) );
+			new CubeQueryExcutorHelper( CubeQueryExcutorHelper.loadCube( "cube", cubeMaterializer.getDocumentManager( ), new StopSign( ) ) );
 		ISelection[][] filter = new ISelection[1][1];
 		filter[0][0] = SelectionFactory.createRangeSelection(  new Object[]{new Integer( 1 )},
 				 new Object[]{new Integer( 3 )},

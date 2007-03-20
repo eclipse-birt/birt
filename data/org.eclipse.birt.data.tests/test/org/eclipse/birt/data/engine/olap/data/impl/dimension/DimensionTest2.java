@@ -11,13 +11,11 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.impl.dimension;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
 import junit.framework.TestCase;
 
-import org.eclipse.birt.core.archive.compound.ArchiveFile;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator;
@@ -29,12 +27,6 @@ import org.eclipse.birt.data.engine.olap.data.api.ISelection;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentManagerFactory;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import org.eclipse.birt.data.engine.olap.data.impl.SelectionFactory;
-import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
-import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionFactory;
-import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionResultIterator;
-import org.eclipse.birt.data.engine.olap.data.impl.dimension.Level;
-import org.eclipse.birt.data.engine.olap.data.impl.dimension.LevelDefinition;
-import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.IndexKey;
@@ -65,14 +57,6 @@ public class DimensionTest2 extends TestCase
 		super.tearDown( );
 	}
 	
-	private static IDocumentManager createRADocumentManager( ) throws IOException, DataException
-	{
-		String pathName = System.getProperty( "java.io.tmpdir" ) + File.separator+ "docForTest";
-		ArchiveFile archiveFile = new ArchiveFile( pathName, "rw+" );
-		IDocumentManager documentManager = DocumentManagerFactory.createRADocumentManager( archiveFile );
-		return documentManager;
-	}
-	
 	/**
 	 * 
 	 * @throws IOException
@@ -84,11 +68,6 @@ public class DimensionTest2 extends TestCase
 		testDimensionCreateAndFind( documentManager );
 	}
 	
-	public void testRADimensionCreateAndFind( ) throws IOException, BirtException
-	{
-		IDocumentManager documentManager = createRADocumentManager( );
-		testDimensionCreateAndFind( documentManager );
-	}
 
 	private void testDimensionCreateAndFind( IDocumentManager documentManager ) throws IOException, BirtException, DataException
 	{
@@ -162,12 +141,7 @@ public class DimensionTest2 extends TestCase
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		testDimensionIterator( documentManager );
 	}
-	
-	public void testRADimensionIterator( ) throws IOException, BirtException
-	{
-		IDocumentManager documentManager = createRADocumentManager( );
-		testDimensionIterator( documentManager );
-	}
+
 
 	private void testDimensionIterator( IDocumentManager documentManager ) throws IOException, BirtException, DataException
 	{

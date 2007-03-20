@@ -14,7 +14,9 @@ package org.eclipse.birt.data.engine.olap.data.impl.facttable;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -28,6 +30,7 @@ import org.eclipse.birt.data.engine.olap.data.document.DocumentObjectUtil;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentObject;
 import org.eclipse.birt.data.engine.olap.data.impl.Constants;
+import org.eclipse.birt.data.engine.olap.data.impl.NamingUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionKey;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionRow;
@@ -43,7 +46,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 public class FactTableAccessor
 {
-	IDocumentManager documentManager =null;
+	private IDocumentManager documentManager =null;
 	
 	public FactTableAccessor( IDocumentManager documentManager )
 	{
@@ -98,6 +101,7 @@ public class FactTableAccessor
 		DocumentObjectCache documentObjectManager = new DocumentObjectCache( documentManager );
 		CombinedPositionContructor combinedPositionCalculator = new CombinedPositionContructor( subDimensions );
 		
+		FTSUNameSaveHelper helper = new FTSUNameSaveHelper( documentManager, factTableName );
 		Object popObject = sortedFactTableRows.pop( );
 		while ( popObject != null && !stopSign.isStopped( ) )
 		{
@@ -121,8 +125,12 @@ public class FactTableAccessor
 			}
 			int[] subDimensionIndex = getSubDimensionIndex( dimensionPosition,
 					subDimensions );
-			IDocumentObject documentObject = documentObjectManager.getIDocumentObject( 
-					FTSUDocumentObjectNamingUtil.getDocumentObjectName( factTableName, subDimensionIndex ) );
+			String FTSUDocName = FTSUDocumentObjectNamingUtil.getDocumentObjectName( 
+					NamingUtil.getFactTableName( factTableName ),
+					subDimensionIndex );
+			helper.add( FTSUDocName );
+			
+			IDocumentObject documentObject = documentObjectManager.getIDocumentObject( FTSUDocName );
 			documentObject.writeBytes( new Bytes( combinedPositionCalculator.
 					calculateCombinedPosition( subDimensionIndex, dimensionPosition ).toByteArray( ) ) );
 			for( int i=0;i<measureInfo.length;i++)
@@ -134,7 +142,7 @@ public class FactTableAccessor
 			popObject = sortedFactTableRows.pop( );
 			lastRow = currentRow;
 		}
-		
+		helper.save( );
 		documentObjectManager.closeAll( );
 		documentManager.flush( );
 		return new FactTable( factTableName,
@@ -235,7 +243,8 @@ public class FactTableAccessor
 			DimensionInfo[] dimensionInfo, MeasureInfo[] measureInfo,
 			int segmentNumber ) throws IOException, BirtException
 	{
-		IDocumentObject documentObject = documentManager.createDocumentObject( factTableName );
+		IDocumentObject documentObject = 
+			documentManager.createDocumentObject( NamingUtil.getFactTableName( factTableName ) );
 		// write dimension name and dimension member count
 		documentObject.writeInt( dimensionInfo.length );
 		for ( int i = 0; i < dimensionInfo.length; i++ )
@@ -392,11 +401,19 @@ public class FactTableAccessor
 		return result;
 	}
 	
+	/**
+	 * 
+	 * @param factTableName
+	 * @param stopSign
+	 * @return
+	 * @throws IOException
+	 */
 	public FactTable load( String factTableName, StopSign stopSign )
 			throws IOException
 	{
 		int segmentNumber = 0;
-		IDocumentObject documentObject = documentManager.openDocumentObject( factTableName );
+		IDocumentObject documentObject = 
+			documentManager.openDocumentObject( NamingUtil.getFactTableName( factTableName ) );
 		DimensionInfo[] dimensionInfo = new DimensionInfo[documentObject.readInt( )];
 		for ( int i = 0; i < dimensionInfo.length; i++ )
 		{
@@ -432,6 +449,64 @@ public class FactTableAccessor
 
 }
 
+
+/**
+ * 
+ * @author Administrator
+ *
+ */
+class FTSUNameSaveHelper
+{
+	private HashMap map;
+	private IDocumentManager documentManager; 
+	private String factTableName;
+	
+	/**
+	 * 
+	 * @param documentManager
+	 * @param factTableName
+	 */
+	FTSUNameSaveHelper( IDocumentManager documentManager, String factTableName )
+	{
+		this.documentManager = documentManager;
+		this.factTableName = factTableName;
+		this.map = new HashMap( );
+	}
+	
+	/**
+	 * 
+	 * @param name
+	 */
+	void add( String name )
+	{
+		if ( !map.containsKey( name ) )
+		{
+			map.put( name, null );
+		}
+	}
+	
+	/**
+	 * 
+	 * @throws IOException
+	 */
+	void save( ) throws IOException
+	{
+		IDocumentObject FTSUNameSave = documentManager.createDocumentObject( NamingUtil.getFTSUListName( factTableName ) );
+		
+		Iterator nameIterator = map.keySet( ).iterator( );
+		while ( nameIterator.hasNext( ) )
+		{
+			FTSUNameSave.writeString( (String)nameIterator.next( ) );
+		}
+		FTSUNameSave.close( );
+	}
+}
+
+/**
+ * 
+ * @author Administrator
+ *
+ */
 class FTSUDocumentObjectNamingUtil
 {
 

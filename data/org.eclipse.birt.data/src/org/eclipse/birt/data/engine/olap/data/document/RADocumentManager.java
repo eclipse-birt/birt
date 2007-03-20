@@ -13,11 +13,8 @@ package org.eclipse.birt.data.engine.olap.data.document;
 
 import java.io.IOException;
 
+import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.RAInputStream;
-import org.eclipse.birt.core.archive.RAOutputStream;
-import org.eclipse.birt.core.archive.compound.ArchiveFile;
-import org.eclipse.birt.core.archive.compound.ArchiveReader;
-import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 
 /**
  * 
@@ -25,20 +22,16 @@ import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 
 public class RADocumentManager implements IDocumentManager
 {
-	private ArchiveFile archiveFile;
-	private ArchiveWriter archiveWriter;
-	private ArchiveReader archiveReader;
+	private IDocArchiveReader archiveReader;
 	
 	/**
 	 * 
 	 * @param archiveFile
 	 * @throws IOException 
 	 */
-	RADocumentManager( ArchiveFile archiveFile ) throws IOException
+	RADocumentManager( IDocArchiveReader reader ) throws IOException
 	{
-		this.archiveFile = archiveFile;
-		this.archiveWriter = new ArchiveWriter( archiveFile );
-		this.archiveReader = new ArchiveReader( archiveFile );
+		this.archiveReader = reader;
 	}
 	
 	/*
@@ -47,7 +40,7 @@ public class RADocumentManager implements IDocumentManager
 	 */
 	public void close( ) throws IOException
 	{
-		flush( );
+		archiveReader.close( );
 	}
 
 	/*
@@ -56,11 +49,7 @@ public class RADocumentManager implements IDocumentManager
 	 */
 	public IDocumentObject createDocumentObject( String documentObjectName ) throws IOException
 	{
-		RAOutputStream outputStream = archiveWriter.createRandomAccessStream( documentObjectName );
-		if ( outputStream == null )
-			return null;
-		flush( );
-		return new DocumentObject( new RandomDataAccessObject( new RAWriter( outputStream ) ) );
+		throw new UnsupportedOperationException( );
 	}
 
 	/*
@@ -69,9 +58,13 @@ public class RADocumentManager implements IDocumentManager
 	 */
 	public boolean exist( String documentObjectName )
 	{
-		return archiveFile.exists( documentObjectName );
+		return archiveReader.exists( documentObjectName );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.document.IDocumentManager#openDocumentObject(java.lang.String)
+	 */
 	public IDocumentObject openDocumentObject( String documentObjectName ) throws IOException
 	{
 		RAInputStream inputStream = archiveReader.getStream( documentObjectName );
@@ -80,10 +73,13 @@ public class RADocumentManager implements IDocumentManager
 		return new DocumentObject( new RandomDataAccessObject( new RAReader( inputStream ) ) );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.document.IDocumentManager#flush()
+	 */
 	public void flush( ) throws IOException
 	{
-		archiveWriter.flush( );
-		archiveFile.flush( );
+		
 	}
 
 }

@@ -32,7 +32,7 @@ public class DocumentObjectCache
 
 	public DocumentObjectCache( IDocumentManager documentManager )
 	{
-		this( documentManager, 20000 );
+		this( documentManager, 200 );
 	}
 
 	public DocumentObjectCache( IDocumentManager documentManager,
@@ -68,12 +68,11 @@ public class DocumentObjectCache
 			map.remove( lastName );
 		}
 
-//		IDocumentObject newDocumentObject = documentManager.openDocumentObject( name );
-//		if ( newDocumentObject == null )
-//		{
-//			newDocumentObject = documentManager.createDocumentObject( name );
-//		}
-		IDocumentObject newDocumentObject = documentManager.createDocumentObject( name );
+		IDocumentObject newDocumentObject = documentManager.openDocumentObject( name );
+		if ( newDocumentObject == null )
+		{
+			newDocumentObject = documentManager.createDocumentObject( name );
+		}
 		newDocumentObject.seek( newDocumentObject.length( ) );
 		map.put( name, newDocumentObject );
 		linkedList.addFirst( name );

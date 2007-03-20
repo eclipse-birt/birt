@@ -32,10 +32,8 @@ import org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableAccessor;
 
 public class Cube implements ICube
 {
-
 	private String name;
 	private IDocumentManager documentManager;
-	private IDocumentObject documentObject;
 	private IDimension[] dimension;
 	private FactTable factTable;
 
@@ -63,7 +61,7 @@ public class Cube implements ICube
 			String[] measureColumnName, StopSign stopSign ) throws IOException,
 			BirtException
 	{
-		documentObject = documentManager.createDocumentObject( NamingUtil.getCubeDocName( name ) );
+		IDocumentObject documentObject = documentManager.createDocumentObject( NamingUtil.getCubeDocName( name ) );
 		documentObject.writeString( name );
 		documentObject.writeInt( dimension.length );
 		for ( int i = 0; i < dimension.length; i++ )
@@ -77,7 +75,7 @@ public class Cube implements ICube
 			pDimensions[i] = (Dimension) dimension[i];
 		}
 		FactTableAccessor factTableConstructor = new FactTableAccessor( documentManager );
-		this.factTable = factTableConstructor.saveFactTable( NamingUtil.getFactTableName( name ),
+		factTable = factTableConstructor.saveFactTable( name,
 				iterator,
 				pDimensions,
 				measureColumnName,
@@ -94,7 +92,7 @@ public class Cube implements ICube
 	 */
 	public void load( StopSign stopSign ) throws IOException, DataException
 	{
-		documentObject = documentManager.openDocumentObject( NamingUtil.getCubeDocName( name ) );
+		IDocumentObject documentObject = documentManager.openDocumentObject( NamingUtil.getCubeDocName( name ) );
 		documentObject.seek( 0 );
 		name = documentObject.readString( );
 		dimension = new IDimension[documentObject.readInt( )];
@@ -105,7 +103,7 @@ public class Cube implements ICube
 					documentManager );
 		}
 		FactTableAccessor factTableConstructor = new FactTableAccessor( documentManager );
-		this.factTable = factTableConstructor.load( NamingUtil.getFactTableName( name ),
+		factTable = factTableConstructor.load( name,
 				stopSign );
 	}
 
@@ -115,7 +113,7 @@ public class Cube implements ICube
 	 */
 	public IDimension[] getDimesions( )
 	{
-		return this.dimension;
+		return dimension;
 	}
 
 	/**
@@ -133,7 +131,6 @@ public class Cube implements ICube
 	 */
 	public void close( ) throws IOException
 	{
-		documentObject.close( );
 		for(int i=0;i<dimension.length;i++)
 		{
 			dimension[i].close( );

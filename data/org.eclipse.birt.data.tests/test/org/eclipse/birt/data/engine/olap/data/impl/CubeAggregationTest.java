@@ -20,10 +20,14 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.archive.compound.ArchiveFile;
+import org.eclipse.birt.core.archive.compound.ArchiveReader;
+import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.aggregation.BuiltInAggregationFactory;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.olap.api.cube.CubeMaterializer;
 import org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.api.cube.IHierarchy;
 import org.eclipse.birt.data.engine.olap.api.cube.ILevelDefn;
@@ -93,27 +97,42 @@ public class CubeAggregationTest extends TestCase
 	 */
 	public void testRAAggregation1( ) throws IOException, BirtException
 	{
-		IDocumentManager documentManager = createRADocumentManager( );
-		
+		CubeMaterializer materializer = new CubeMaterializer();
+		IDocumentManager documentManager = materializer.getDocumentManager( );
+		testCubeCreate1( documentManager );
 		testCubeAggregation1( documentManager );
+		IDocArchiveWriter writer = createRAWriter( );
+		materializer.saveCubeToRAFile( "cube", writer , new StopSign( ) );
+		writer.flush( );
+		writer.finish( );
+		testCubeAggregation1( createRADocumentManager( ) );
 	}
 
 	private static IDocumentManager createRADocumentManager( ) throws IOException, DataException
 	{
 		String pathName = System.getProperty( "java.io.tmpdir" ) + File.separator+ "docForTest";
 		ArchiveFile archiveFile = new ArchiveFile( pathName, "rw+" );
-		IDocumentManager documentManager = DocumentManagerFactory.createRADocumentManager( archiveFile );
+		ArchiveReader reader = new ArchiveReader( archiveFile );
+		IDocumentManager documentManager = DocumentManagerFactory.createRADocumentManager( reader );
 		return documentManager;
+	}
+	
+	private static IDocArchiveWriter createRAWriter( ) throws IOException
+	{
+		String pathName = System.getProperty( "java.io.tmpdir" ) + File.separator+ "docForTest";
+		ArchiveFile archiveFile = new ArchiveFile( pathName, "rw+" );
+		ArchiveWriter writer = new ArchiveWriter( archiveFile );
+		return writer;
 	}
 	
 	public void testAggregation1( ) throws IOException, BirtException
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
-		
+		testCubeCreate1( documentManager );
 		testCubeAggregation1( documentManager );
 	}
 
-	private void testCubeAggregation1( IDocumentManager documentManager ) throws IOException, BirtException, DataException
+	private void testCubeCreate1( IDocumentManager documentManager ) throws IOException, BirtException, DataException
 	{
 		Dimension[] dimensions = new Dimension[3];
 		
@@ -177,7 +196,10 @@ public class CubeAggregationTest extends TestCase
 		cube.create( dimensions, factTable2, measureColumnName, new StopSign( ) );
 		
 		documentManager.flush( );
-		
+	}
+
+	private void testCubeAggregation1( IDocumentManager documentManager ) throws IOException, DataException, BirtException
+	{
 		//query
 		CubeQueryExcutorHelper cubeQueryExcutorHelper = new CubeQueryExcutorHelper( 
 				CubeQueryExcutorHelper.loadCube( "cube", documentManager, new StopSign( ) ) );
@@ -293,17 +315,10 @@ public class CubeAggregationTest extends TestCase
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		
-		testCubeAggregation2( documentManager );
+		testCubeCreate2( documentManager );
 	}
 	
-	public void testRAAggregation2( ) throws IOException, BirtException
-	{
-		IDocumentManager documentManager = createRADocumentManager( );
-		
-		testCubeAggregation2( documentManager );
-	}
-
-	private void testCubeAggregation2( IDocumentManager documentManager ) throws IOException, BirtException
+	private void testCubeCreate2( IDocumentManager documentManager ) throws IOException, BirtException
 	{
 		Dimension[] dimensions = new Dimension[2];
 		

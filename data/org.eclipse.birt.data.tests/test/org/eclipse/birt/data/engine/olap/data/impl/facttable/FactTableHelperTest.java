@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.data.engine.olap.data.impl.facttable;
 
-import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -21,9 +20,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.eclipse.birt.core.archive.compound.ArchiveFile;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.api.cube.IHierarchy;
 import org.eclipse.birt.data.engine.olap.api.cube.ILevelDefn;
@@ -36,12 +33,6 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionFactory;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionForTest;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.LevelDefinition;
-import org.eclipse.birt.data.engine.olap.data.impl.facttable.CombinedPositionContructor;
-import org.eclipse.birt.data.engine.olap.data.impl.facttable.DimensionDivision;
-import org.eclipse.birt.data.engine.olap.data.impl.facttable.FTSUDocumentObjectNamingUtil;
-import org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTable;
-import org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableAccessor;
-import org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableRowIterator;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
@@ -222,13 +213,6 @@ public class FactTableHelperTest extends TestCase
 		}
 	}
 	
-	private static IDocumentManager createRADocumentManager( ) throws IOException, DataException
-	{
-		String pathName = System.getProperty( "java.io.tmpdir" ) + File.separator+ "docForTest";
-		ArchiveFile archiveFile = new ArchiveFile( pathName, "rw+" );
-		IDocumentManager documentManager = DocumentManagerFactory.createRADocumentManager( archiveFile );
-		return documentManager;
-	}
 	
 	/**
 	 * 
@@ -241,11 +225,6 @@ public class FactTableHelperTest extends TestCase
 		testFactTableSaveAndLoad1( documentManager );
 	}
 	
-	public void testRAFactTableSaveAndLoad1( ) throws IOException, BirtException
-	{
-		IDocumentManager documentManager = createRADocumentManager( );
-		testFactTableSaveAndLoad1( documentManager );
-	}
 
 	private void testFactTableSaveAndLoad1( IDocumentManager documentManager ) throws IOException, BirtException
 	{
@@ -354,11 +333,6 @@ public class FactTableHelperTest extends TestCase
 		testFactTableSaveAndLoad2( documentManager );
 	}
 	
-	public void testRAFactTableSaveAndLoad2( ) throws IOException, BirtException
-	{
-		IDocumentManager documentManager = createRADocumentManager( );
-		testFactTableSaveAndLoad2( documentManager );
-	}
 
 	private void testFactTableSaveAndLoad2( IDocumentManager documentManager ) throws IOException, BirtException
 	{
@@ -466,11 +440,6 @@ public class FactTableHelperTest extends TestCase
 		testFactTableSaveAndLoad3( documentManager );
 	}
 	
-	public void testRAFactTableSaveAndLoad3( ) throws IOException, BirtException
-	{
-		IDocumentManager documentManager = createRADocumentManager( );
-		testFactTableSaveAndLoad3( documentManager );
-	}
 
 	private void testFactTableSaveAndLoad3( IDocumentManager documentManager ) throws IOException, BirtException
 	{
