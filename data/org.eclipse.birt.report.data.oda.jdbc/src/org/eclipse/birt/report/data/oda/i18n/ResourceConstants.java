@@ -98,6 +98,7 @@ public class ResourceConstants
 	public final static String PREPAREDSTATEMENT_METADATA_CANNOT_GET = "odajdbc.CannotGetPreparedStatementMetadata";
 	public final static String RESULTSET_CANNOT_RETURN = "odajdbc.ResultSetCannotReturn";
 	public final static String QUERY_EXECUTE_FAIL = "odajdbc.QueryExecuteFail";
+	public final static String INVALID_STORED_PRECEDURE = "odajdbc.InvalidStoredPrecedure";
 	public final static String PREPARESTATEMENT_CANNOT_SET_INT_VALUE = "odajdbc.PrepareStatement.CannotSetIntValue";
 	public final static String PREPARESTATEMENT_CANNOT_SET_DUBLE_VALUE = "odajdbc.PrepareStatement.CannotSetDoubleValue";
 	public final static String PREPARESTATEMENT_CANNOT_SET_BIGDECIMAL_VALUE = "odajdbc.PrepareStatement.CannotSetBigDecimalValue";
