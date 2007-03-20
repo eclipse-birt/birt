@@ -78,6 +78,20 @@ public class PreparedStatementTest extends ConnectionTest
 		}
 	}
 
+    public final void testSetParameterValueBooleanTrue( ) throws DataException
+    {
+        // assign boolean to an intColumn, which should convert to value 1
+        m_statement.setParameterValue( 1, new Boolean( "true" ) );
+        testParamExecute( 3 );
+    }
+
+    public final void testSetParameterValueBooleanFalse( ) throws DataException
+    {
+        // assign boolean to an intColumn, which should convert to value 0
+        m_statement.setParameterValue( 1, new Boolean( "false" ) );
+        testParamExecute( 3 );
+    }
+
 	public final void testSetParameterValueDoubleObject( ) throws DataException
 	{
 		String command = "select * from \"testtable\" where \"doubleColumn\" < ?";
@@ -117,6 +131,26 @@ public class PreparedStatementTest extends ConnectionTest
 		m_statement.setParameterValue( 2, new BigDecimal( 10000 ) );
 		testParamExecute( 3 );
 	}
+
+    public final void testSetParameterNullValue( ) throws DataException
+    {
+        String command = "select * from \"testtable\" where \"doubleColumn\" < ?";
+        m_statement = getConnection( ).prepareStatement( command,
+                JDBCOdaDataSource.DATA_SET_TYPE );
+        m_statement.setParameterValue( 1, null );
+        
+        boolean hasError = false;
+        try
+        {
+            m_statement.execute( );
+        }
+        catch( DataException e )
+        {
+        	// expects driver to complain about not having a value
+            hasError = true;
+        }
+        assertTrue( hasError );
+    }
 
 	private void testParamExecute( int rowsExpected ) throws DataException
 	{

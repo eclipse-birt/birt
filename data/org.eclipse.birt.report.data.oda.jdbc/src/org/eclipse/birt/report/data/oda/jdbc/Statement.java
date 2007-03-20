@@ -690,7 +690,8 @@ public class Statement implements IQuery
     public void setBoolean( int parameterId, boolean value )
             throws OdaException
     {
-        // TODO Auto-generated method stub       
+        // TODO Auto-generated method stub  
+        throw new UnsupportedOperationException();
     }
 
     /* (non-Javadoc)
@@ -714,6 +715,7 @@ public class Statement implements IQuery
     public void setNull( int parameterId ) throws OdaException
     {
         // TODO Auto-generated method stub        
+        throw new UnsupportedOperationException();
     }
 
     /*

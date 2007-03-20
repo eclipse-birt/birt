@@ -1,6 +1,6 @@
 /*
  *****************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -46,7 +46,7 @@ public class ResultSet
 		
 	ResultSet( IResultSet resultSet, IResultClass resultClass )
 	{
-	    final String methodName = "ResultSet";
+	    final String methodName = "ResultSet"; //$NON-NLS-1$
 		if( sm_logger.isLoggingEnterExitLevel() )
 		    sm_logger.entering( sm_className, methodName, 
 		            		new Object[] { resultSet, resultClass } );
@@ -78,7 +78,7 @@ public class ResultSet
 	 */
 	public void setMaxRows( int max ) throws DataException
 	{
-	    final String methodName = "setMaxRows";
+	    final String methodName = "setMaxRows"; //$NON-NLS-1$
 		try
 		{
 			m_resultSet.setMaxRows( max );
@@ -86,13 +86,13 @@ public class ResultSet
 		catch( OdaException ex )
 		{
 		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-		            		"Cannot set max rows.", ex );
+		            		"Cannot set max rows.", ex ); //$NON-NLS-1$
 			throw new DataException( ResourceConstants.CANNOT_SET_MAX_ROWS, ex );
 		}
 		catch( UnsupportedOperationException ex )
 		{
 		    sm_logger.logp( Level.WARNING, sm_className, methodName,
-		            		"Cannot set max rows.", ex );
+		            		"Cannot set max rows.", ex ); //$NON-NLS-1$
 		}
 	}
 	
@@ -107,7 +107,9 @@ public class ResultSet
 		if ( m_resultSet == null )
 			return null;
 
-	    final String methodName = "fetch";
+	    final String methodName = "fetch"; //$NON-NLS-1$
+        final String errorCode = ResourceConstants.CANNOT_FETCH_NEXT_ROW;
+
 		try
 		{
 			if( ! m_resultSet.next( ) )
@@ -115,15 +117,11 @@ public class ResultSet
 		}
 		catch( OdaException ex )
 		{
-		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-		            		"Cannot fetch next row.", ex );
-			throw new DataException( ResourceConstants.CANNOT_FETCH_NEXT_ROW, ex );
+            handleException( ex, errorCode, methodName, -1 );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-		            		"Cannot fetch next row.", ex );
-			throw new DataException( ResourceConstants.CANNOT_FETCH_NEXT_ROW, ex );
+            handleException( ex, errorCode, methodName, -1 );
 		}
 
 		int columnCount = m_resultClass.getFieldCount();
@@ -168,6 +166,12 @@ public class ResultSet
 				colValue = getBlob( driverPosition );
 			else if( dataType == IClob.class )
 				colValue = getClob( driverPosition );
+            else if( dataType == Boolean.class )
+            {
+                boolean val = getBoolean( driverPosition );
+                if( ! wasNull() )
+                    colValue = new Boolean( val );
+            }
 			else
 				assert false;
 			
@@ -180,221 +184,214 @@ public class ResultSet
 		IResultObject ret = new ResultObject( m_resultClass, fields );
 
 		sm_logger.logp( Level.FINEST, sm_className, methodName, 
-		            		"Fetched next row: {0} .", ret );
+		            		"Fetched next row: {0} .", ret ); //$NON-NLS-1$
 
 		return ret;
 	}
 
     private int getInt( int driverPosition ) throws DataException
 	{
-        final String methodName = "getInt";
+        final String methodName = "getInt"; //$NON-NLS-1$
+        final String errorCode = ResourceConstants.CANNOT_GET_INT_FROM_COLUMN;
+
 		try
 		{
 			return m_resultSet.getInt( driverPosition );
 		}
 		catch( OdaException ex )
 		{
-		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-		            		"Cannot get integer value.", ex );
-			throw new DataException( ResourceConstants.CANNOT_GET_INT_FROM_COLUMN, ex, 
-			                         new Object[] { new Integer( driverPosition ) } );
+            handleException( ex, errorCode, methodName, driverPosition );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-            				"Cannot get integer value.", ex );
-			throw new DataException( ResourceConstants.CANNOT_GET_INT_FROM_COLUMN, ex, 
-			                         new Object[] { new Integer( driverPosition ) } );
+            handleException( ex, errorCode, methodName, driverPosition );
 		}
+        return 0;
 	}
 	
 	private double getDouble( int driverPosition ) throws DataException
 	{
-	    final String methodName = "getDouble";
+	    final String methodName = "getDouble"; //$NON-NLS-1$
+        final String errorCode = ResourceConstants.CANNOT_GET_DOUBLE_FROM_COLUMN;
+
 		try
 		{
 			return m_resultSet.getDouble( driverPosition );
 		}
 		catch( OdaException ex )
 		{
-		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-            				"Cannot get double value.", ex );
-			throw new DataException( ResourceConstants.CANNOT_GET_DOUBLE_FROM_COLUMN, ex, 
-			                         new Object[] { new Integer( driverPosition ) } );
+            handleException( ex, errorCode, methodName, driverPosition );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-            				"Cannot get double value.", ex );
-			throw new DataException( ResourceConstants.CANNOT_GET_DOUBLE_FROM_COLUMN, ex, 
-			                         new Object[] { new Integer( driverPosition ) } );
+            handleException( ex, errorCode, methodName, driverPosition );
 		}
+        return 0;
 	}
 	
 	private String getString( int driverPosition ) throws DataException
 	{
-	    final String methodName = "getString";
+	    final String methodName = "getString"; //$NON-NLS-1$
+        final String errorCode = ResourceConstants.CANNOT_GET_STRING_FROM_COLUMN;
+
 		try
 		{
 			return m_resultSet.getString( driverPosition );
 		}
 		catch( OdaException ex )
 		{
-		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-            				"Cannot get string value.", ex );
-			throw new DataException( ResourceConstants.CANNOT_GET_STRING_FROM_COLUMN, ex, 
-			                         new Object[] { new Integer( driverPosition ) } );
+            handleException( ex, errorCode, methodName, driverPosition );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-            				"Cannot get string value.", ex );
-			throw new DataException( ResourceConstants.CANNOT_GET_STRING_FROM_COLUMN, ex, 
-			                         new Object[] { new Integer( driverPosition ) } );
+            handleException( ex, errorCode, methodName, driverPosition );
 		}
+        return null;
 	}
 	
 	private BigDecimal getBigDecimal( int driverPosition ) throws DataException
 	{
-	    final String methodName = "getBigDecimal";
+	    final String methodName = "getBigDecimal"; //$NON-NLS-1$
+        final String errorCode = ResourceConstants.CANNOT_GET_BIGDECIMAL_FROM_COLUMN;
+
 		try
 		{
 			return m_resultSet.getBigDecimal( driverPosition );
 		}
 		catch( OdaException ex )
 		{
-		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-            				"Cannot get big decimal value.", ex );
-			throw new DataException( ResourceConstants.CANNOT_GET_BIGDECIMAL_FROM_COLUMN, ex, 
-			                         new Object[] { new Integer( driverPosition ) } );
+            handleException( ex, errorCode, methodName, driverPosition );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-            				"Cannot get big decimal value.", ex );
-			throw new DataException( ResourceConstants.CANNOT_GET_BIGDECIMAL_FROM_COLUMN, ex, 
-			                         new Object[] { new Integer( driverPosition ) } );
+            handleException( ex, errorCode, methodName, driverPosition );
 		}
+        return null;
 	}
 	
 	private java.util.Date getDate( int driverPosition ) throws DataException
 	{
-	    final String methodName = "getDate";
+	    final String methodName = "getDate"; //$NON-NLS-1$
+        final String errorCode = ResourceConstants.CANNOT_GET_DATE_FROM_COLUMN;
+
 		try
 		{
 			return m_resultSet.getDate( driverPosition );
 		}
 		catch( OdaException ex )
 		{
-		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-            				"Cannot get date value.", ex );
-			throw new DataException( ResourceConstants.CANNOT_GET_DATE_FROM_COLUMN, ex, 
-			                         new Object[] { new Integer( driverPosition ) } );
+            handleException( ex, errorCode, methodName, driverPosition );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-            				"Cannot get date value.", ex );
-			throw new DataException( ResourceConstants.CANNOT_GET_DATE_FROM_COLUMN, ex, 
-			                         new Object[] { new Integer( driverPosition ) } );
+            handleException( ex, errorCode, methodName, driverPosition );
 		}
+        return null;
 	}
 	
 	private Time getTime( int driverPosition ) throws DataException
 	{
-	    final String methodName = "getTime";
+	    final String methodName = "getTime"; //$NON-NLS-1$
+        final String errorCode = ResourceConstants.CANNOT_GET_TIME_FROM_COLUMN;
+
 		try
 		{
 			return m_resultSet.getTime( driverPosition );
 		}
 		catch( OdaException ex )
 		{
-		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-            				"Cannot get time value.", ex );
-			throw new DataException( ResourceConstants.CANNOT_GET_TIME_FROM_COLUMN, ex, 
-			                         new Object[] { new Integer( driverPosition ) } );
+            handleException( ex, errorCode, methodName, driverPosition );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-            				"Cannot get time value.", ex );
-			throw new DataException( ResourceConstants.CANNOT_GET_TIME_FROM_COLUMN, ex, 
-			                         new Object[] { new Integer( driverPosition ) } );
+            handleException( ex, errorCode, methodName, driverPosition );
 		}
+        return null;
 	}
 	
 	private Timestamp getTimestamp( int driverPosition ) throws DataException
 	{
-	    final String methodName = "getTimestamp";
+	    final String methodName = "getTimestamp"; //$NON-NLS-1$
+        final String errorCode = ResourceConstants.CANNOT_GET_TIMESTAMP_FROM_COLUMN;
+
 		try
 		{
 			return m_resultSet.getTimestamp( driverPosition );
 		}
 		catch( OdaException ex )
 		{
-		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-            				"Cannot get timestamp value.", ex );
-			throw new DataException( ResourceConstants.CANNOT_GET_TIMESTAMP_FROM_COLUMN, ex, 
-			                         new Object[] { new Integer( driverPosition ) } );
+            handleException( ex, errorCode, methodName, driverPosition );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-            				"Cannot get timestamp value.", ex );
-			throw new DataException( ResourceConstants.CANNOT_GET_TIMESTAMP_FROM_COLUMN, ex, 
-			                         new Object[] { new Integer( driverPosition ) } );
+            handleException( ex, errorCode, methodName, driverPosition );
 		}
+        return null;
 	}
 	
     private IBlob getBlob( int driverPosition ) throws DataException
     {
-        final String methodName = "getBlob";
+        final String methodName = "getBlob"; //$NON-NLS-1$
+        final String errorCode = ResourceConstants.CANNOT_GET_BLOB_FROM_COLUMN;
+
 		try
 		{
 			return m_resultSet.getBlob( driverPosition );
 		}
 		catch( OdaException ex )
 		{
-		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-		            		"Cannot get BLOB value.", ex );
-			throw new DataException( ResourceConstants.CANNOT_GET_BLOB_FROM_COLUMN, ex, 
-			                         new Object[] { new Integer( driverPosition ) } );
+            handleException( ex, errorCode, methodName, driverPosition );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-            				"Cannot get BLOB value.", ex );
-			throw new DataException( ResourceConstants.CANNOT_GET_BLOB_FROM_COLUMN, ex, 
-			                         new Object[] { new Integer( driverPosition ) } );
+            handleException( ex, errorCode, methodName, driverPosition );
 		}
+        return null;
     }
 
     private IClob getClob( int driverPosition ) throws DataException
     {
-        final String methodName = "getClob";
+        final String methodName = "getClob"; //$NON-NLS-1$
+        final String errorCode = ResourceConstants.CANNOT_GET_CLOB_FROM_COLUMN;
+
 		try
 		{
 			return m_resultSet.getClob( driverPosition );
 		}
 		catch( OdaException ex )
 		{
-		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-		            		"Cannot get CLOB value.", ex );
-			throw new DataException( ResourceConstants.CANNOT_GET_CLOB_FROM_COLUMN, ex, 
-			                         new Object[] { new Integer( driverPosition ) } );
+            handleException( ex, errorCode, methodName, driverPosition );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-            				"Cannot get CLOB value.", ex );
-			throw new DataException( ResourceConstants.CANNOT_GET_CLOB_FROM_COLUMN, ex, 
-			                         new Object[] { new Integer( driverPosition ) } );
+            handleException( ex, errorCode, methodName, driverPosition );
 		}
+        return null;
+    }
+
+    private boolean getBoolean( int driverPosition ) throws DataException
+    {
+        final String methodName = "getBoolean"; //$NON-NLS-1$
+        final String errorCode = ResourceConstants.CANNOT_GET_BOOLEAN_FROM_COLUMN;
+
+        try
+        {
+            return m_resultSet.getBoolean( driverPosition );
+        }
+        catch( OdaException ex )
+        {
+            handleException( ex, errorCode, methodName, driverPosition );
+        }
+        catch( UnsupportedOperationException ex )
+        {
+            handleException( ex, errorCode, methodName, driverPosition );
+        }
+        return false;
     }
 	
 	private boolean wasNull() throws DataException
 	{
-	    final String methodName = "wasNull";
+	    final String methodName = "wasNull"; //$NON-NLS-1$
 		try
 		{
 			return m_resultSet.wasNull();
@@ -402,13 +399,13 @@ public class ResultSet
 		catch( OdaException ex )
 		{
 		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-    						"Cannot check wasNull.", ex );
+    						"Cannot check wasNull.", ex ); //$NON-NLS-1$
 			throw new DataException( ResourceConstants.CANNOT_DETERMINE_WAS_NULL, ex );
 		}
 		catch( UnsupportedOperationException ex )
 		{
 		    sm_logger.logp( Level.WARNING, sm_className, methodName,
-    						"Cannot check wasNull. Default to false.", ex );
+    						"Cannot check wasNull. Default to false.", ex ); //$NON-NLS-1$
 		    return false;
 		}
 	}
@@ -420,7 +417,7 @@ public class ResultSet
 	 */
 	public int getRowPosition( ) throws DataException
 	{
-	    final String methodName = "getRowPosition";
+	    final String methodName = "getRowPosition"; //$NON-NLS-1$
 		try
 		{
 			return m_resultSet.getRow( );
@@ -428,13 +425,13 @@ public class ResultSet
 		catch( OdaException ex )
 		{
 		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-    						"Cannot get row position.", ex );
+    						"Cannot get row position.", ex ); //$NON-NLS-1$
 			throw new DataException( ResourceConstants.CANNOT_GET_ROW_POSITION, ex );
 		}
 		catch( UnsupportedOperationException ex )
 		{
 		    sm_logger.logp( Level.WARNING, sm_className, methodName,
-    						"Cannot get row position.  Default to 0.", ex );
+    						"Cannot get row position.  Default to 0.", ex ); //$NON-NLS-1$
 		    return 0;
 		}
 	}
@@ -445,7 +442,7 @@ public class ResultSet
 	 */
 	public void close( ) throws DataException
 	{
-	    final String methodName = "close";
+	    final String methodName = "close"; //$NON-NLS-1$
 	    sm_logger.entering( sm_className, methodName );
 	    
 		try
@@ -455,16 +452,27 @@ public class ResultSet
 		catch( OdaException ex )
 		{
 		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-    						"Cannot close result set.", ex );
+    						"Cannot close result set.", ex ); //$NON-NLS-1$
 			throw new DataException( ResourceConstants.CANNOT_CLOSE_RESULT_SET, ex );
 		}
 		catch( UnsupportedOperationException ex )
 		{
 		    sm_logger.logp( Level.WARNING, sm_className, methodName,
-    						"Cannot close result set.", ex );
+    						"Cannot close result set.", ex ); //$NON-NLS-1$
 		}
 
 		sm_logger.exiting( sm_className, methodName );
 	}
+
+    private void handleException( Throwable ex, String errorCode,
+            final String methodName, int driverColumnPosition ) throws DataException
+    {
+        DataException dataEx = ( driverColumnPosition > 0 ) ?
+                new DataException( errorCode, ex, new Integer( driverColumnPosition ) ) :
+                new DataException( errorCode, ex );
+        sm_logger.logp( Level.SEVERE, sm_className, methodName,
+                        dataEx.getLocalizedMessage(), ex );
+        throw dataEx;
+    }
 	
 }

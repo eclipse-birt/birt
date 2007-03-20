@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -51,7 +51,8 @@ public final class DataTypeUtil
 	 * Time -> java.sql.Time<br>
 	 * Timestamp -> java.sql.Timestamp<br>
 	 * Blob -> org.eclipse.datatools.connectivity.oda.IBlob<br>
-	 * Clob -> org.eclipse.datatools.connectivity.oda.IClob<br></i>
+	 * Clob -> org.eclipse.datatools.connectivity.oda.IClob<br>
+     * Boolean -> java.lang.Boolean<br></i>
 	 * @param odaDataType	an ODA data type code
 	 * @return	the Java class that corresponds to the specified ODA data type
 	 * @throws IllegalArgumentException	if the specified ODA data type 
@@ -103,7 +104,8 @@ public final class DataTypeUtil
 	 * java.sql.Time -> Time<br>
 	 * java.sql.Timestamp -> Timestamp<br>
 	 * org.eclipse.datatools.connectivity.oda.IBlob -> Blob<br>
-	 * org.eclipse.datatools.connectivity.oda.IClob -> Clob<br></i><br>
+	 * org.eclipse.datatools.connectivity.oda.IClob -> Clob<br>
+     * java.lang.Boolean -> Boolean<br></i><br>
 	 * All other Java classes are mapped to the ODA character type.
 	 * @param javaClass	the Java class.
 	 * @return	the ODA data type that maps to the Java class.

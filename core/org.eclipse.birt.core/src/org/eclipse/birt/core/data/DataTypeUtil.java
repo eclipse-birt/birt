@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -991,7 +991,8 @@ public final class DataTypeUtil
 	 * Time -> java.sql.Time<br>
 	 * Timestamp -> java.sql.Timestamp<br>
 	 * Blob -> java.sql.Blob<br>
-	 * Clob -> java.sql.Clob<br></i>
+	 * Clob -> java.sql.Clob<br>
+     * Boolean -> java.lang.Boolean<br></i>
 	 * @param odaDataTypeCode   an ODA data type code
 	 * @return  the ODI type class that corresponds with 
 	 *          the specified ODA data type
@@ -1009,6 +1010,7 @@ public final class DataTypeUtil
 				&& odaDataTypeCode != Types.TIMESTAMP
 				&& odaDataTypeCode != Types.BLOB
 				&& odaDataTypeCode != Types.CLOB
+                && odaDataTypeCode != Types.BOOLEAN
 				&& odaDataTypeCode != Types.NULL )
 		{
 			throw new CoreException( ResourceConstants.INVALID_TYPE);
@@ -1053,6 +1055,10 @@ public final class DataTypeUtil
 				fieldClass = Clob.class;
 				break;
 
+            case Types.BOOLEAN :
+                fieldClass = Boolean.class;
+                break;
+
 			case Types.NULL :
 				fieldClass = null;
 				break;
@@ -1073,7 +1079,8 @@ public final class DataTypeUtil
 	 * java.sql.Time -> Time<br>
 	 * java.sql.Timestamp -> Timestamp<br>
 	 * java.sql.Blob -> Blob<br>
-	 * java.sql.Clob -> Clob<br></i><br>
+	 * java.sql.Clob -> Clob<br>
+     * java.lang.Boolean -> Boolean<br></i><br>
 	 * All other type classes are mapped to the ODA String data type.
 	 * @param odiTypeClass  a type class used by the Data Engine ODI component
 	 * @return  the ODA data type that maps to the ODI type class.
@@ -1102,6 +1109,8 @@ public final class DataTypeUtil
 			odaType = Types.BLOB;
 		else if ( odiTypeClass == Clob.class )
 			odaType = Types.CLOB;
+        else if ( odiTypeClass == Boolean.class )
+            odaType = Types.BOOLEAN;
 
 		return odaType;
 	}
