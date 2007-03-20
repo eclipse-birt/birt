@@ -50,6 +50,7 @@ changes which will lead to build failure. The examples below are tested with tag
 version <b>vI20070209-1006</b>)<br>
 4. Download Eclipse 3.3M5 build and unzip into a directory as baseLocation. <br>
 5. Download WTP 3.3/EMF2.3 /GEF3.3 M5 builds and DTP latest 1.5 nightly builds and unzip into baseLocation.<br>
+6. Download iText jar <br>
 ¡¡</font></p>
 <p><font face="Tahoma"><b><a name="components">Run the Build</a></b></font></p>
 <p><font face="Tahoma">cd to org.eclipse.birt.releng.eclipsebuilder directory and execute the 
@@ -240,6 +241,9 @@ eclipse.pdebuild.home = /home/adb/farrah/testBuilder/org.eclipse.releng.basebuil
 eclipse.build.configs = /home/adb/farrah/testBuilder/org.eclipse.birt.releng.birtbuilder<br>
 baseLocation = /home/adb/releng/baseLocation<br>
 bootclasspath = /usr/local/j2sdk1.4.2_13/jre/lib/rt.jar<br>
+p4.home = /home/adb/releng/P4 (We use these property ${p4.home}/iText to find 
+iText location. So please copy iText.jar to ${p4.home}/iText before you start 
+the build)<br>
 <br>
 1.&nbsp; Run the below command under <b>org.eclipse.releng.basebuilder </b>to 
 build third party features which is need by BIRT:</font></p>
@@ -283,7 +287,10 @@ D:/testBuilder/org.eclipse.releng.basebuilder/plugins/org.eclipse.pde.build/temp
 eclipse.pdebuild.home = D:/testBuilder/org.eclipse.releng.basebuilder<br>
 eclipse.build.configs = D:/testBuilder/org.eclipse.birt.releng.birtbuilder<br>
 baseLocation = D:/testBuilder/baseLocation<br>
-bootclasspath = C:/j2sdk1.4.2_13/jre/lib/rt.jar</font></p>
+bootclasspath = C:/j2sdk1.4.2_13/jre/lib/rt.jar<br>
+p4.home = D:/testBuilder/P4 (We use these property ${p4.home}/iText to find 
+iText location. So please copy iText.jar to direcotory ${p4.home}/iText/ before 
+you start the build)</font></p>
 
 <p><font face="Tahoma">1.&nbsp; Run the below command under <b>org.eclipse.releng.basebuilder </b>to 
 build third party features which is need by BIRT:<br>
