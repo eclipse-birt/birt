@@ -245,7 +245,7 @@ bootclasspath = /usr/local/j2sdk1.4.2_13/jre/lib/rt.jar<br>
 build third party features which is need by BIRT:</font></p>
 <p><font face="Tahoma">java -cp ../org.eclipse.releng.basebuilder/startup.jar 
 org.eclipse.core.launcher.Main -application org.eclipse.ant.core.antRunner -buildfile 
-build.xml -Dcomponent=/home/adb/farrah/testBuilder/org.eclipse.birt.releng.birtbuilder/eclipse/buildConfigs/<b>birt.third.party</b> -Dconfigs=&quot;*,*,*&quot; -Djavacfailonerror=true -DjavacVerbose=false 
+build.xml -propertyfile build.properties -Dcomponent=/home/adb/farrah/testBuilder/org.eclipse.birt.releng.birtbuilder/eclipse/buildConfigs/<b>birt.third.party</b> -Dconfigs=&quot;*,*,*&quot; -Djavacfailonerror=true -DjavacVerbose=false 
 -DbuildDirectory=/home/adb/farrah/testBuilder 
 -Dzipargs=-y -Dbootclasspath=/usr/local/j2sdk1.4.2_13/jre/lib/rt.jar</font></p>
 <p><font face="Tahoma"><br>
@@ -254,7 +254,7 @@ build BIRT SDK features:</font></p>
 
 <p><font face="Tahoma">java -cp ../org.eclipse.releng.basebuilder/startup.jar 
 org.eclipse.core.launcher.Main -application org.eclipse.ant.core.antRunner -buildfile 
-build.xml -Dcomponent=/home/adb/farrah/testBuilder/org.eclipse.birt.releng.birtbuilder/eclipse/buildConfigs/<b>birt</b> -Dconfigs=&quot;*,*,*&quot; -Djavacfailonerror=true -DjavacVerbose=false 
+build.xml -propertyfile build.properties -Dcomponent=/home/adb/farrah/testBuilder/org.eclipse.birt.releng.birtbuilder/eclipse/buildConfigs/<b>birt</b> -Dconfigs=&quot;*,*,*&quot; -Djavacfailonerror=true -DjavacVerbose=false 
 -DbuildDirectory=/home/adb/farrah/testBuilder 
 -Dzipargs=-y -Dbootclasspath=/usr/local/j2sdk1.4.2_13/jre/lib/rt.jar<br>
 <br>
