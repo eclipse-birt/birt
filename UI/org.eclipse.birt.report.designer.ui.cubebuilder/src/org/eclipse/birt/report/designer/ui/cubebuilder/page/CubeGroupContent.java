@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeContentProvi
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeLabelProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.DataContentProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.VirtualField;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
@@ -582,15 +583,23 @@ public class CubeGroupContent extends Composite
 						}
 
 					}
-					else if ( element instanceof DimensionHandle )
+					else if ( element instanceof DimensionHandle
+							|| ( element instanceof VirtualField && ( (VirtualField) element ).getType( )
+									.equals( VirtualField.TYPE_LEVEL ) ) )
 					{
-						DataSetHandle temp = ( (TabularHierarchyHandle) ( (DimensionHandle) element ).getDefaultHierarchy( ) ).getDataSet( );
+						DimensionHandle dimension = null;
+						if ( element instanceof DimensionHandle )
+							dimension = (DimensionHandle) element;
+						else
+							dimension = (DimensionHandle) ( (VirtualField) element ).getModel( );
+
+						DataSetHandle temp = ( (TabularHierarchyHandle) dimension.getDefaultHierarchy( ) ).getDataSet( );
 						if ( temp != null && dataset != null && dataset != temp )
 						{
 							event.detail = DND.DROP_NONE;
 							return;
 						}
-						TabularHierarchyHandle hierarchy = ( (TabularHierarchyHandle) ( (DimensionHandle) element ).getDefaultHierarchy( ) );
+						TabularHierarchyHandle hierarchy = ( (TabularHierarchyHandle) dimension.getDefaultHierarchy( ) );
 						if ( hierarchy.getContentCount( IHierarchyModel.LEVELS_PROP ) > 0 )
 						{
 							if ( dataField != null
@@ -731,9 +740,16 @@ public class CubeGroupContent extends Composite
 												DesignElementFactory.getInstance( )
 														.newTabularMeasure( dataField.getColumnName( ) ) );
 							}
-							else if ( element instanceof MeasureGroupHandle )
+							else if ( element instanceof MeasureGroupHandle
+									|| ( element instanceof VirtualField && ( (VirtualField) element ).getType( )
+											.equals( VirtualField.TYPE_MEASURE ) ) )
 							{
-								( (MeasureGroupHandle) element ).add( IMeasureGroupModel.MEASURES_PROP,
+								MeasureGroupHandle measureGroup = null;
+								if ( element instanceof MeasureGroupHandle )
+									measureGroup = (MeasureGroupHandle) element;
+								else
+									measureGroup = (MeasureGroupHandle) ( (VirtualField) element ).getModel( );
+								measureGroup.add( IMeasureGroupModel.MEASURES_PROP,
 										DesignElementFactory.getInstance( )
 												.newTabularMeasure( dataField.getColumnName( ) ) );
 							}
@@ -769,9 +785,17 @@ public class CubeGroupContent extends Composite
 												level,
 												index + 1 );
 							}
-							else if ( element instanceof DimensionHandle )
+							else if ( element instanceof DimensionHandle
+									|| ( element instanceof VirtualField && ( (VirtualField) element ).getType( )
+											.equals( VirtualField.TYPE_LEVEL ) ) )
 							{
-								TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) ( (DimensionHandle) element ).getDefaultHierarchy( );
+								DimensionHandle dimension = null;
+								if ( element instanceof DimensionHandle )
+									dimension = (DimensionHandle) element;
+								else
+									dimension = (DimensionHandle) ( (VirtualField) element ).getModel( );
+
+								TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) dimension.getDefaultHierarchy( );
 								if ( hierarchy.getDataSet( ) == null
 										&& dataset != null )
 								{
@@ -1009,11 +1033,24 @@ public class CubeGroupContent extends Composite
 			if ( obj instanceof DimensionHandle
 					|| obj instanceof LevelHandle
 					|| obj instanceof MeasureGroupHandle
-					|| obj instanceof MeasureHandle )
+					|| obj instanceof MeasureHandle
+					|| obj instanceof VirtualField )
 			{
-				if(obj instanceof DimensionHandle && ((DimensionHandle)obj).isTimeType( ))
+				if ( obj instanceof DimensionHandle
+						&& ( (DimensionHandle) obj ).isTimeType( ) )
 					addBtn.setEnabled( false );
-				else addBtn.setEnabled( true );
+				else if ( obj instanceof VirtualField
+						&& ( (VirtualField) obj ).getType( )
+								.equals( VirtualField.TYPE_LEVEL ) )
+				{
+					DimensionHandle dimension = (DimensionHandle) ( (VirtualField) obj ).getModel( );
+					if ( dimension.isTimeType( ) )
+						addBtn.setEnabled( false );
+					else
+						addBtn.setEnabled( true );
+				}
+				else
+					addBtn.setEnabled( true );
 				if ( obj instanceof LevelHandle )
 				{
 					DimensionHandle dimension = (DimensionHandle) ( (LevelHandle) obj ).getContainer( )
@@ -1026,6 +1063,10 @@ public class CubeGroupContent extends Composite
 					{
 						delBtn.setEnabled( true );
 					}
+				}
+				else if ( obj instanceof VirtualField )
+				{
+					delBtn.setEnabled( false );
 				}
 				else
 				{
@@ -1213,7 +1254,8 @@ public class CubeGroupContent extends Composite
 			Object obj = iter.next( );
 			if ( obj instanceof TabularLevelHandle )
 			{
-				if(((DimensionHandle)obj).isTimeType( ))return;
+				if ( ( (DimensionHandle) obj ).isTimeType( ) )
+					return;
 				TabularLevelHandle level = DesignElementFactory.getInstance( )
 						.newTabularLevel( "Level" );
 				try
@@ -1229,12 +1271,20 @@ public class CubeGroupContent extends Composite
 				refresh( );
 				return;
 			}
-			else if ( obj instanceof DimensionHandle )
+			else if ( obj instanceof DimensionHandle
+					|| ( obj instanceof VirtualField && ( (VirtualField) obj ).getType( )
+							.equals( VirtualField.TYPE_LEVEL ) ) )
 			{
-				if(((DimensionHandle)obj).isTimeType( ))return;
+				DimensionHandle dimension = null;
+				if ( obj instanceof DimensionHandle )
+					dimension = (DimensionHandle) obj;
+				else
+					dimension = (DimensionHandle) ( (VirtualField) obj ).getModel( );
+				if ( dimension.isTimeType( ) )
+					return;
 				TabularLevelHandle level = DesignElementFactory.getInstance( )
 						.newTabularLevel( "Level" );
-				TabularHierarchyHandle hierary = (TabularHierarchyHandle) ( (DimensionHandle) obj ).getContent( IDimensionModel.HIERARCHIES_PROP,
+				TabularHierarchyHandle hierary = (TabularHierarchyHandle) dimension.getContent( IDimensionModel.HIERARCHIES_PROP,
 						0 );
 				try
 				{
@@ -1248,14 +1298,20 @@ public class CubeGroupContent extends Composite
 				refresh( );
 				return;
 			}
-			else if ( obj instanceof MeasureGroupHandle )
+			else if ( obj instanceof MeasureGroupHandle
+					|| ( obj instanceof VirtualField && ( (VirtualField) obj ).getType( )
+							.equals( VirtualField.TYPE_MEASURE ) ) )
 			{
 				MeasureHandle measure = DesignElementFactory.getInstance( )
 						.newTabularMeasure( "Measure" );
+				MeasureGroupHandle measureGroup = null;
+				if ( obj instanceof MeasureGroupHandle )
+					measureGroup = (MeasureGroupHandle) obj;
+				else
+					measureGroup = (MeasureGroupHandle) ( (VirtualField) obj ).getModel( );
 				try
 				{
-					( (MeasureGroupHandle) obj ).add( IMeasureGroupModel.MEASURES_PROP,
-							measure );
+					measureGroup.add( IMeasureGroupModel.MEASURES_PROP, measure );
 				}
 				catch ( SemanticException e1 )
 				{
@@ -1386,10 +1442,17 @@ public class CubeGroupContent extends Composite
 					refresh( );
 					return;
 				}
-				else if ( obj instanceof DimensionHandle )
+				else if ( obj instanceof DimensionHandle
+						|| ( obj instanceof VirtualField && ( (VirtualField) obj ).getType( )
+								.equals( VirtualField.TYPE_LEVEL ) ) )
 				{
+					DimensionHandle dimension = null;
+					if ( obj instanceof DimensionHandle )
+						dimension = (DimensionHandle) obj;
+					else
+						dimension = (DimensionHandle) ( (VirtualField) obj ).getModel( );
 
-					TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) ( (DimensionHandle) obj ).getContent( IDimensionModel.HIERARCHIES_PROP,
+					TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) dimension.getContent( IDimensionModel.HIERARCHIES_PROP,
 							0 );
 
 					if ( hierarchy.getContentCount( IHierarchyModel.LEVELS_PROP ) > 0 )
@@ -1470,13 +1533,21 @@ public class CubeGroupContent extends Composite
 					refresh( );
 					return;
 				}
-				else if ( obj instanceof MeasureGroupHandle )
+				else if ( obj instanceof MeasureGroupHandle
+						|| ( obj instanceof VirtualField && ( (VirtualField) obj ).getType( )
+								.equals( VirtualField.TYPE_MEASURE ) ) )
 				{
+					MeasureGroupHandle measureGroup = null;
+					if ( obj instanceof MeasureGroupHandle )
+						measureGroup = (MeasureGroupHandle) obj;
+					else
+						measureGroup = (MeasureGroupHandle) ( (VirtualField) obj ).getModel( );
+
 					MeasureHandle measure = DesignElementFactory.getInstance( )
 							.newTabularMeasure( dataField.getColumnName( ) );
 					try
 					{
-						( (MeasureGroupHandle) obj ).add( IMeasureGroupModel.MEASURES_PROP,
+						measureGroup.add( IMeasureGroupModel.MEASURES_PROP,
 								measure );
 					}
 					catch ( SemanticException e1 )
@@ -1508,7 +1579,7 @@ public class CubeGroupContent extends Composite
 
 	public void refresh( )
 	{
-		groupViewer.refresh( );
+		groupViewer.refresh( true );
 	}
 
 }

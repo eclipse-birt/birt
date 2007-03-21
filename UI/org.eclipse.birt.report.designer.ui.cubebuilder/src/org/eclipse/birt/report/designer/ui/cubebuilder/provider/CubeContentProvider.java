@@ -14,11 +14,18 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.provider;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.data.ui.util.CubeModel;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.VirtualField;
+import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
+import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
+import org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle;
+import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
@@ -38,6 +45,10 @@ public class CubeContentProvider implements ITreeContentProvider
 	 * 
 	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
 	 */
+
+	private VirtualField virtualMeasure = new VirtualField( VirtualField.TYPE_MEASURE );
+	private VirtualField virtualLevel = new VirtualField( VirtualField.TYPE_LEVEL );
+
 	public Object[] getChildren( Object parentElement )
 	{
 		if ( parentElement instanceof Object[] )
@@ -52,6 +63,13 @@ public class CubeContentProvider implements ITreeContentProvider
 				return new Object[]{
 					hierarchy.getLevel( 0 )
 				};
+			else
+			{
+				virtualLevel.setModel( parentElement );
+				return new Object[]{
+					virtualLevel
+				};
+			}
 		}
 		if ( parentElement instanceof CubeHandle )
 		{
@@ -72,13 +90,52 @@ public class CubeContentProvider implements ITreeContentProvider
 		{
 			CubeModel model = (CubeModel) parentElement;
 			if ( model.getType( ) == CubeModel.TYPE_DIMENSION )
+			{
+				Object[] dimensions = model.getModel( )
+						.getContents( CubeHandle.DIMENSIONS_PROP )
+						.toArray( );
+				if ( dimensions == null || dimensions.length == 0 )
+				{
+					TabularDimensionHandle dimension = DesignElementFactory.getInstance( )
+							.newTabularDimension( "Group" );
+					try
+					{
+						model.getModel( ).add( CubeHandle.DIMENSIONS_PROP,
+								dimension );
+					}
+					catch ( SemanticException e )
+					{
+						ExceptionHandler.handle( e );
+					}
+				}
 				return model.getModel( )
 						.getContents( CubeHandle.DIMENSIONS_PROP )
 						.toArray( );
+			}
 			if ( model.getType( ) == CubeModel.TYPE_MEASURES )
+			{
+				Object[] measures = model.getModel( )
+						.getContents( CubeHandle.MEASURE_GROUPS_PROP )
+						.toArray( );
+				if ( measures == null || measures.length == 0 )
+				{
+					TabularMeasureGroupHandle measureGroup = DesignElementFactory.getInstance( )
+							.newTabularMeasureGroup( "Summary Field" );
+					try
+					{
+						model.getModel( ).add( CubeHandle.MEASURE_GROUPS_PROP,
+								measureGroup );
+					}
+					catch ( SemanticException e )
+					{
+						ExceptionHandler.handle( e );
+					}
+				}
+
 				return model.getModel( )
 						.getContents( CubeHandle.MEASURE_GROUPS_PROP )
 						.toArray( );
+			}
 		}
 		if ( parentElement instanceof LevelHandle )
 		{
@@ -90,8 +147,17 @@ public class CubeContentProvider implements ITreeContentProvider
 		}
 		if ( parentElement instanceof MeasureGroupHandle )
 		{
-			return ( (MeasureGroupHandle) parentElement ).getContents( MeasureGroupHandle.MEASURES_PROP )
+			Object[] measures = ( (MeasureGroupHandle) parentElement ).getContents( MeasureGroupHandle.MEASURES_PROP )
 					.toArray( );
+			if ( measures == null || measures.length == 0 )
+			{
+				virtualMeasure.setModel( parentElement );
+				return new Object[]{
+					virtualMeasure
+				};
+			}
+			else
+				return measures;
 		}
 		return new Object[0];
 	}
@@ -119,9 +185,7 @@ public class CubeContentProvider implements ITreeContentProvider
 		}
 		if ( element instanceof DimensionHandle )
 		{
-			HierarchyHandle hierarchy = (HierarchyHandle) ( (DimensionHandle) element ).getContent( DimensionHandle.HIERARCHIES_PROP,
-					0 );
-			return hierarchy != null && hierarchy.getLevelCount( ) > 0;
+			return true;
 		}
 		if ( element instanceof LevelHandle )
 		{
@@ -131,7 +195,7 @@ public class CubeContentProvider implements ITreeContentProvider
 		}
 		if ( element instanceof MeasureGroupHandle )
 		{
-			return ( (MeasureGroupHandle) element ).getContentCount( MeasureGroupHandle.MEASURES_PROP ) > 0;
+			return true;
 		}
 		if ( element instanceof CubeHandle )
 		{
