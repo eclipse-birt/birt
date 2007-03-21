@@ -17,6 +17,7 @@ import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabViewConstants;
+import org.eclipse.birt.report.item.crosstab.core.de.util.CrosstabModelUtil;
 import org.eclipse.birt.report.item.crosstab.core.i18n.MessageConstants;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
@@ -185,9 +186,8 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 				for ( int i = 0; i < dimensionView.getLevelCount( ); i++ )
 				{
 					LevelViewHandle levelView = dimensionView.getLevel( i );
-					CrosstabUtil.adjustForLevelView( crosstab, levelView, name,
-							levelView.getCubeLevelName( ), getAxisType( ),
-							false );
+					CrosstabModelUtil.adjustForLevelView( dimensionView,
+							levelView, false );
 				}
 			}
 
@@ -234,11 +234,8 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 				for ( int i = 0; i < dimensionView.getLevelCount( ); i++ )
 				{
 					LevelViewHandle levelView = dimensionView.getLevel( i );
-					CrosstabUtil
-							.adjustForLevelView( crosstab, levelView,
-									dimensionView.getCubeDimensionName( ),
-									levelView.getCubeLevelName( ),
-									getAxisType( ), false );
+					CrosstabModelUtil.adjustForLevelView( dimensionView,
+							levelView, false );
 				}
 			}
 
@@ -297,8 +294,8 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 			CrosstabReportItemHandle crosstab = getCrosstab( );
 			if ( crosstab != null )
 			{
-				CrosstabUtil.adjustMeasureAggregations( crosstab,
-						getAxisType( ), null, null, null, false, true );
+				CrosstabModelUtil.adjustMeasureAggregations( crosstab,
+						getAxisType( ), true );
 			}
 
 			stack.commit( );
@@ -332,8 +329,8 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 				CrosstabReportItemHandle crosstab = getCrosstab( );
 				if ( crosstab != null )
 				{
-					CrosstabUtil.adjustMeasureAggregations( crosstab,
-							getAxisType( ), null, null, null, false, false );
+					CrosstabModelUtil.adjustMeasureAggregations( crosstab,
+							getAxisType( ), false );
 				}
 
 				propHandle.drop( 0 );

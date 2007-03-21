@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.IDimensionViewConstants;
+import org.eclipse.birt.report.item.crosstab.core.de.util.CrosstabModelUtil;
 import org.eclipse.birt.report.item.crosstab.core.i18n.MessageConstants;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
@@ -190,9 +191,8 @@ public class DimensionViewHandle extends AbstractCrosstabItemHandle
 				CrosstabReportItemHandle crosstab = getCrosstab( );
 				if ( levelView != null && crosstab != null )
 				{
-					CrosstabUtil.adjustForLevelView( crosstab, levelView,
-							getCubeDimensionName( ), levelHandle
-									.getQualifiedName( ), getAxisType( ), true );
+					CrosstabModelUtil
+							.adjustForLevelView( this, levelView, true );
 				}
 			}
 		}
@@ -229,8 +229,7 @@ public class DimensionViewHandle extends AbstractCrosstabItemHandle
 				CrosstabReportItemHandle crosstab = getCrosstab( );
 				if ( crosstab != null )
 				{
-					CrosstabUtil.adjustForLevelView( crosstab, levelView,
-							getCubeDimensionName( ), name, getAxisType( ),
+					CrosstabModelUtil.adjustForLevelView( this, levelView,
 							false );
 				}
 
@@ -269,11 +268,8 @@ public class DimensionViewHandle extends AbstractCrosstabItemHandle
 				CrosstabReportItemHandle crosstab = getCrosstab( );
 				if ( crosstab != null )
 				{
-					CrosstabUtil
-							.adjustForLevelView( crosstab, levelView,
-									getCubeDimensionName( ), levelView
-											.getCubeLevelName( ),
-									getAxisType( ), false );
+					CrosstabModelUtil
+							.adjustForLevelView( this, levelView,false );
 				}
 
 				levelView.handle.drop( );

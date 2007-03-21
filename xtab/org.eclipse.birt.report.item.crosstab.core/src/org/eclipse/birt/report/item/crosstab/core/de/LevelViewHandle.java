@@ -16,6 +16,7 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ILevelViewConstants;
+import org.eclipse.birt.report.item.crosstab.core.de.util.CrosstabModelUtil;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
@@ -349,11 +350,8 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 			CrosstabReportItemHandle crosstab = getCrosstab( );
 			if ( crosstab != null )
 			{
-				CrosstabUtil.adjustMeasureAggregations( crosstab,
-						getAxisType( ), this,
-						( (DimensionViewHandle) getContainer( ) )
-								.getCubeDimensionName( ), getCubeLevelName( ),
-						false, true );
+				CrosstabModelUtil.adjustMeasureAggregations( crosstab, this,
+						true );
 			}
 		}
 		catch ( SemanticException e )
@@ -384,11 +382,8 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 				CrosstabReportItemHandle crosstab = getCrosstab( );
 				if ( crosstab != null )
 				{
-					CrosstabUtil.adjustMeasureAggregations( crosstab,
-							getAxisType( ), this,
-							( (DimensionViewHandle) getContainer( ) )
-									.getCubeDimensionName( ),
-							getCubeLevelName( ), isInnerMost( ), false );
+					CrosstabModelUtil.adjustMeasureAggregations( crosstab,
+							this, false );
 				}
 
 				getAggregationHeaderProperty( ).drop( 0 );
