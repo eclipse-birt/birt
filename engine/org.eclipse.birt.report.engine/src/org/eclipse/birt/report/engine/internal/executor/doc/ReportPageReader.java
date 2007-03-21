@@ -324,15 +324,24 @@ public class ReportPageReader extends ReportReader
 		{
 			IContent content = reader.loadContent( offset );
 			initializeContent( content );
-			IBaseResultSet rset = openQuery( prset, content );
+			IBaseResultSet[] rsets = openQueries( prset, content );
+			if (rsets != null)
+			{
+				context.setResultSets( rsets );
+			}
 			// execute extra intialization
 			initalizeContentVisitor.visit( content, null );
 
 			parent.getChildren( ).add( content );
-			loadFullContent( reader, content, rset == null ? prset : rset );
-			if ( rset != null )
+			IBaseResultSet rset = prset;
+			if ( rsets != null && rsets[0] != null )
 			{
-				closeQuery( rset );
+				rset = rsets[0];
+			}
+			loadFullContent( reader, content, rset );
+			if ( rsets != null )
+			{
+				closeQueries( rsets );
 			}
 			reader.unloadContent( offset );
 			docExt = (DocumentExtension) content

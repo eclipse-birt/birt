@@ -37,6 +37,7 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.document.v3.CachedReportContentReaderV3;
@@ -172,16 +173,17 @@ public abstract class AbstractReportReader implements IReportExecutor
 		context.setContent( content );
 	}
 
-	protected IBaseResultSet openQuery( IBaseResultSet rset, IContent content )
-			throws BirtException
+	protected IBaseResultSet[] openQueries( IBaseResultSet rset,
+			IContent content ) throws BirtException
 	{
+		IBaseResultSet[] rsets = null;
 		Object generateBy = content.getGenerateBy( );
 		// open the query associated with the current report item
 		if ( generateBy instanceof ReportItemDesign )
 		{
 			ReportItemDesign design = (ReportItemDesign) generateBy;
-			IDataQueryDefinition query = design.getQuery( );
-			if ( query != null )
+			IDataQueryDefinition[] queries = design.getQueries( );
+			if ( queries != null && queries.length > 0 )
 			{
 				InstanceID iid = content.getInstanceID( );
 				if ( iid != null )
@@ -198,7 +200,7 @@ public abstract class AbstractReportReader implements IReportExecutor
 						if ( dataSetId != null )
 						{
 							DataSetID parentSetId = dataSetId.getParentID( );
-							// the parent exist.							
+							// the parent exist.
 							if ( rset != null )
 							{
 								if ( rset.getType( ) == IBaseResultSet.QUERY_RESULTSET )
@@ -216,24 +218,36 @@ public abstract class AbstractReportReader implements IReportExecutor
 											qRset.skipTo( parentRowId );
 										}
 									}
-									else
+								}
+								else if ( rset.getType( ) == IBaseResultSet.CUBE_RESULTSET )
+								{
+									ICubeResultSet qRset = (ICubeResultSet) rset;
+									String cellId = dataSetId.getCellID( );
+									if ( cellId != null
+											&& !cellId.equals( qRset
+													.getCellIndex( ) ) )
 									{
-										// FIXME: for cubeResultSet
+										qRset.skipTo( cellId );
 									}
 								}
 							}
 						}
 					}
 				}
-				// execute query
-				try
+				rsets = new IBaseResultSet[queries.length];
+				for ( int i = 0; i < rsets.length; i++ )
 				{
-					rset = context.executeQuery( rset, query );
+					// execute query
+					try
+					{
+						rsets[i] = context.executeQuery( rset, queries[i] );
+					}
+					catch ( BirtException ex )
+					{
+						context.addException( ex );
+					}
 				}
-				catch ( BirtException ex )
-				{
-					context.addException( ex );
-				}
+				rset = rsets[0];
 			}
 		}
 		// locate the row position to the current position
@@ -243,11 +257,11 @@ public abstract class AbstractReportReader implements IReportExecutor
 			DataID dataId = iid.getDataID( );
 			if ( dataId != null )
 			{
-				if ( rset != null )
+				if ( rset != null  )
 				{
 					if ( rset.getType( ) == IBaseResultSet.QUERY_RESULTSET )
 					{
-						IQueryResultSet qRset = (IQueryResultSet)rset;
+						IQueryResultSet qRset = (IQueryResultSet) rset;
 						long rowId = dataId.getRowID( );
 
 						// rowId should not be -1. If rowId equals to -1 that
@@ -263,21 +277,33 @@ public abstract class AbstractReportReader implements IReportExecutor
 							qRset.skipTo( rowId );
 						}
 					}
-					else
+					else if ( rset.getType( ) == IBaseResultSet.CUBE_RESULTSET )
 					{
-						// FIXME: for cubeResultSet
+						ICubeResultSet qRset = (ICubeResultSet) rset;
+						String cellId = dataId.getCellID( );
+						if ( cellId != null
+								&& !cellId.equals( qRset.getCellIndex( ) ) )
+						{
+							qRset.skipTo( cellId );
+						}
 					}
 				}
 			}
 		}
-		return rset;
+		return rsets;
 	}
 
-	protected void closeQuery( IBaseResultSet rset )
+	protected void closeQueries( IBaseResultSet[] rsets )
 	{
-		if ( rset != null )
+		if ( rsets != null )
 		{
-			rset.close( );
+			for ( int i = 0; i < rsets.length; i++ )
+			{
+				if ( rsets[i] != null )
+				{
+					rsets[i].close( );
+				}
+			}
 		}
 	}
 

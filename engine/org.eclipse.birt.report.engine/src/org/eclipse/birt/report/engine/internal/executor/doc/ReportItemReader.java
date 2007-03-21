@@ -40,14 +40,14 @@ public class ReportItemReader extends ReportItemExecutorBase
 		this.offset = offset;
 		this.content = null;
 		this.child = -1;
-		this.rset = null;
+		this.rsets = null;
 		this.fragment = frag;
 	}
 
 	long offset;
 	IContent content;
 	long child;
-	IBaseResultSet rset;
+	IBaseResultSet[] rsets;
 
 	public void close( )
 	{
@@ -145,14 +145,15 @@ public class ReportItemReader extends ReportItemExecutorBase
 
 	protected IBaseResultSet getResultSet( )
 	{
-		if ( rset == null )
+		if ( rsets == null || rsets[0] == null )
 		{
 			if ( parent != null )
 			{
 				return parent.getResultSet( );
 			}
+			return null;
 		}
-		return rset;
+		return rsets[0];
 	}
 
 	protected void loadContent( )
@@ -248,14 +249,15 @@ public class ReportItemReader extends ReportItemExecutorBase
 			}
 		}
 
-		IBaseResultSet prset = parent == null ? null : parent.getResultSet( );
-		//restore the parent result set
-		reader.context.setResultSet(prset);
+		IBaseResultSet prset = parent == null ? null : parent
+					.getResultSet( );
+		// restore the parent result set
+		reader.context.setResultSet( prset );
 		// open the query used by the content, locate the resource
-		rset = reader.openQuery( prset, content );
-		if ( rset == prset )
+		rsets = reader.openQueries( prset, content );
+		if ( rsets != null )
 		{
-			rset = null;
+			reader.context.setResultSets( rsets );
 		}
 		// execute extra intialization
 		reader.initalizeContentVisitor.visit( content, null );
@@ -287,9 +289,10 @@ public class ReportItemReader extends ReportItemExecutorBase
 	 */
 	protected void unloadContent( )
 	{
-		if ( rset != null )
+		if ( rsets != null )
 		{
-			reader.closeQuery( rset );
+			reader.closeQueries( rsets );
+			rsets = null;
 		}
 		reader.unloadContent( offset );
 	}

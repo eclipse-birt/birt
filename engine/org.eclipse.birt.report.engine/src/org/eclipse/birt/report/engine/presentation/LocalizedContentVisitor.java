@@ -22,7 +22,6 @@ import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.core.template.TextTemplate;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
-import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.api.CachedImage;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.IHTMLImageHandler;
@@ -588,13 +587,6 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 					.getApplicationClassLoader( ) );
 			itemPresentation.setScriptContext( context.getReportContext( ) );
 			IBaseQueryDefinition[] queries = (IBaseQueryDefinition[])design.getQueries( );
-			if ( queries == null )
-			{
-				if ( design.getQuery( ) != null )
-				{
-					queries = new IBaseQueryDefinition[]{(IBaseQueryDefinition)design.getQuery( )};
-				}
-			}
 			itemPresentation.setReportQueries( queries );
 			itemPresentation.setDynamicStyle( content.getComputedStyle( ) );
 			Map appContext = context.getAppContext( );
@@ -642,12 +634,16 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 						.deserialize( new ByteArrayInputStream( values ) );
 			}
 
-			IBaseResultSet parent = context.getResultSet( );
-			if (parent != null)
+			IRowSet[] rowSets = null;
+			IBaseResultSet[] rsets = context.getResultSets();
+			if (rsets != null)
 			{
-				parent = parent.getParent( );
+				rowSets = new IRowSet[rsets.length];
+				for (int i = 0; i < rowSets.length; i++)
+				{
+					rowSets[i] = new RowSet( context, (IQueryResultSet)rsets[i] );
+				}
 			}
-			IRowSet[] rowSets = executeQueries( parent, design );
 
 			try
 			{
@@ -665,8 +661,6 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 				context.addException( design.getHandle( ), ex );
 				logger.log( Level.SEVERE, ex.getMessage( ), ex );
 			}
-
-			closeQueries( rowSets );
 		}
 		return generatedContent;
 	}
@@ -802,62 +796,6 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 			logger.log( Level.SEVERE, ex.getMessage( ), ex );
 		}
 		return out.toByteArray( );
-	}
-	
-	protected IRowSet[] executeQueries( IBaseResultSet parent, ExtendedItemDesign extItem )
-	{
-		IRowSet[] rowSets = null;
-		
-		IDataQueryDefinition[] queries = extItem.getQueries( );
-		if ( queries != null )
-		{
-			rowSets = new IRowSet[queries.length];
-			for ( int i = 0; i < rowSets.length; i++ )
-			{
-				try
-				{
-					IBaseResultSet rset = context.executeQuery( parent, queries[i] );
-					assert rset != null;
-					rowSets[i] = new RowSet( context, (IQueryResultSet)rset );
-				}
-				catch ( BirtException ex )
-				{
-					// TODO: handle exception
-					rowSets[i] = null;
-				}
-			}
-		}
-		if ( rowSets == null )
-		{
-			IDataQueryDefinition query = extItem.getQuery( );
-			if ( query != null )
-			{
-				try
-				{
-					IBaseResultSet rset = context.executeQuery( parent, query );
-					rowSets = new IRowSet[]{ new RowSet( context, (IQueryResultSet)rset ) };
-				}
-				catch(BirtException ex)
-				{
-					//TODO: handle birt exception
-				}
-			}
-		}
-		return rowSets;
-	}
-
-	protected void closeQueries( IRowSet[] rowSets )
-	{
-		if ( rowSets != null )
-		{
-			for ( int i = 0; i < rowSets.length; i++ )
-			{
-				if ( rowSets[i] != null )
-				{
-					rowSets[i].close( );
-				}
-			}
-		}
 	}
 	
 	protected void handleOnRender( IContent content )

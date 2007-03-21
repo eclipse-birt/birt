@@ -65,6 +65,7 @@ abstract public class QueryItemExecutor extends StyledItemExecutor
 			{
 				rset = (IQueryResultSet) context.executeQuery( parentRset,
 						query );
+				context.setResultSet( rset );
 				if ( rset != null )
 				{
 					rsetEmpty = !rset.next( );

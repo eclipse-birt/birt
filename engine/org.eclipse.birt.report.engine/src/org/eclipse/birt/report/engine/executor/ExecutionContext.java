@@ -204,7 +204,7 @@ public class ExecutionContext
 	/**
 	 * the current opened result set 
 	 */
-	private IBaseResultSet rset; 
+	private IBaseResultSet[] rsets; 
 
 	/**
 	 * A stack of handle objects, with the current one on the top
@@ -1623,19 +1623,37 @@ public class ExecutionContext
 			IDataQueryDefinition query ) throws BirtException
 	{
 		IDataEngine dataEngine = getDataEngine( );
-		rset = (IBaseResultSet)dataEngine.execute( parent, query );
-		return rset;
+		return dataEngine.execute( parent, query );
 	}
 
 	public IBaseResultSet getResultSet( )
 	{
-		return rset;
+		if ( rsets != null )
+		{
+			return rsets[0];
+		}
+		return null;
 	}
 	
-	public void setResultSet(IBaseResultSet rset)
+	public void setResultSet( IBaseResultSet rset )
 	{
-		this.rset = rset;
+		if ( rsets != null && rsets.length == 1 && rsets[0] == rset )
+		{
+			return;
+		}
+		rsets = new IBaseResultSet[]{rset};
 	}
+
+	public IBaseResultSet[] getResultSets( )
+	{
+		return rsets;
+	}
+
+	public void setResultSets( IBaseResultSet[] rsets )
+	{
+		this.rsets = rsets;
+	}
+	
 
 	public boolean hasErrors( )
 	{

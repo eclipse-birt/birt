@@ -22,6 +22,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.report.engine.adapter.CubeUtil;
 import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.data.IDataEngine;
@@ -106,6 +107,15 @@ public class CubeResultSet implements ICubeResultSet
 
 	public String getCellIndex( )
 	{
+		try
+		{
+			cellId = CubeUtil.getPositionID( cube );
+		}
+		catch ( OLAPException e )
+		{
+			context.addException( new EngineException(
+					"Get cube position error.", e ) );
+		}
 		return cellId;
 	}
 
@@ -141,11 +151,6 @@ public class CubeResultSet implements ICubeResultSet
 		return null;
 	}
 
-	public String getCubeIndex( )
-	{
-		return cellId;
-	}
-
 	public DataSetID getID( )
 	{
 		return id;
@@ -162,16 +167,8 @@ public class CubeResultSet implements ICubeResultSet
 	}
 
 	public String getRawID( )
-	{
-		try
-		{
-			return cube.getId( );
-		}
-		catch ( OLAPException e )
-		{
-			context.addException( new EngineException( "get RawID error" ) );
-		}
-		return null;
+	{		
+		return cellId;
 	}
 
 	public int getType( )
@@ -179,9 +176,17 @@ public class CubeResultSet implements ICubeResultSet
 		return CUBE_RESULTSET;
 	}
 
-	public void skipTo( String cubeIndex )
+	public void skipTo( String cellIndex )
 	{
-
+		try
+		{
+			CubeUtil.positionCursor( cube, cellIndex );
+		}
+		catch ( Exception e )
+		{
+			context.addException( new EngineException(
+					"Error happened in skipping" ) );
+		}
 	}
 
 }
