@@ -31,6 +31,7 @@ public class CrosstabUIHelper
 {
 
 	public static String CROSSTAB_IMAGE = "icons/pal/crosstab.gif";
+	public static String MEASURE_IMAGE = "icons/pal/data.gif";
 	private static Image createImage( String sPluginRelativePath )
 	{
 		Image img = null;
