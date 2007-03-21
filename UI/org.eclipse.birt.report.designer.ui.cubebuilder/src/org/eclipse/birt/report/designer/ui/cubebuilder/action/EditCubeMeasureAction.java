@@ -23,7 +23,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.1 $ $Date: 2007/03/06 05:13:52 $
+ * @version $Revision: 1.1 $ $Date: 2007/03/07 08:40:35 $
  */
 public class EditCubeMeasureAction extends AbstractElementAction
 {
@@ -65,7 +65,7 @@ public class EditCubeMeasureAction extends AbstractElementAction
 				.getDisplay( )
 				.getActiveShell( ), (CubeHandle) measureHandle.getContainer( )
 				.getContainer( ) );
-		dialog.showPage( CubeBuilder.MEASURESPAGE );
+		dialog.showPage( CubeBuilder.GROUPPAGE );
 		return ( dialog.open( ) == IDialogConstants.OK_ID );
 	}
 

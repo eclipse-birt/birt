@@ -9,6 +9,7 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
+
 package org.eclipse.birt.report.designer.ui.cubebuilder.dialog;
 
 import java.util.Arrays;
@@ -37,7 +38,6 @@ import org.eclipse.birt.report.model.api.elements.structures.LevelAttribute;
 import org.eclipse.birt.report.model.api.elements.structures.Rule;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.birt.report.model.elements.GroupElement;
@@ -135,8 +135,7 @@ public class LevelPropertyDialog extends BaseDialog
 	private void initLevelDialog( )
 	{
 		if ( input != null )
-			infoLabel.setText( infoLabel.getText( )
-					+ ( (TabularLevelHandle) input ).getColumnName( ) );
+			infoLabel.setText( infoLabel.getText( ) + input.getColumnName( ) );
 
 		Iterator valuesIter = input.staticValuesIterator( );
 		if ( ( valuesIter == null || !valuesIter.hasNext( ) )
@@ -663,7 +662,7 @@ public class LevelPropertyDialog extends BaseDialog
 		} );
 
 		intervalBaseButton = new Button( groupGroup, SWT.CHECK );
-		intervalBaseButton.setText( Messages.getString( "LevelPropertyDialog.Button.IntervalBase" ) ); //$NON-NLS-1$
+		intervalBaseButton.setText( Messages.getString( "LevelPropertyDialog.Button.IntervalBase" )); //$NON-NLS-1$
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		intervalBaseButton.setLayoutData( gd );
@@ -760,7 +759,7 @@ public class LevelPropertyDialog extends BaseDialog
 			list.remove( handle.getName( ) );
 		}
 
-		list.remove( ( (TabularLevelHandle) input ).getColumnName( ) );
+		list.remove( input.getColumnName( ) );
 		String[] temps = new String[list.size( )];
 		list.toArray( temps );
 		editor.setItems( temps );
@@ -819,7 +818,7 @@ public class LevelPropertyDialog extends BaseDialog
 		contents.setLayoutData( data );
 
 		infoLabel = new Label( contents, SWT.NONE );
-		infoLabel.setText( Messages.getString( "LevelPropertyDialog.Label.Info" ) );
+		infoLabel.setText( Messages.getString( "LevelPropertyDialog.Label.Info" ));
 		return contents;
 
 	}
@@ -941,7 +940,7 @@ public class LevelPropertyDialog extends BaseDialog
 
 	}
 
-	private LevelHandle input;
+	private TabularLevelHandle input;
 	private TableViewer dynamicViewer;
 	private Text nameText;
 
@@ -1002,7 +1001,7 @@ public class LevelPropertyDialog extends BaseDialog
 
 		staticViewer = new TableViewer( staticTable );
 		String[] columns = new String[]{
-				Messages.getString( "LevelPropertyDialog.Label.Name" ),
+				Messages.getString( "LevelPropertyDialog.Label.Name" ), 
 				Messages.getString( "LevelPropertyDialog.Label.Expression" )
 		};
 
@@ -1036,7 +1035,7 @@ public class LevelPropertyDialog extends BaseDialog
 
 	}
 
-	public void setInput( LevelHandle level )
+	public void setInput( TabularLevelHandle level )
 	{
 		this.input = level;
 	}

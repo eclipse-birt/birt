@@ -9,7 +9,6 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-
 package org.eclipse.birt.report.designer.ui.cubebuilder.util;
 
 import java.util.List;
@@ -22,6 +21,7 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 
 public class OlapUtil
@@ -35,19 +35,46 @@ public class OlapUtil
 
 	public static LevelHandle getDateLevel( String type )
 	{
-		if ( type.equals( Level_Year ) )
-			return DesignElementFactory.getInstance( ).newTabularLevel( "Year" );
-		else if ( type.equals( Level_Qtr ) )
-			return DesignElementFactory.getInstance( ).newTabularLevel( "Quater" );
-		else if ( type.equals( Level_Month ) )
-			return DesignElementFactory.getInstance( ).newTabularLevel( "Month" );
-		else if ( type.equals( Level_Week ) )
-			return DesignElementFactory.getInstance( ).newTabularLevel( "Week" );
-		else if ( type.equals( Level_Day ) )
-			return DesignElementFactory.getInstance( ).newTabularLevel( "Day" );
-		else
-			return null;
+		LevelHandle level = null;
+		try
+		{
+			if ( type.equals( Level_Year ) )
+			{
+				level = DesignElementFactory.getInstance( )
+						.newTabularLevel( "Year" );
+				level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
+			}
+			else if ( type.equals( Level_Qtr ) )
+			{
+				level = DesignElementFactory.getInstance( )
+						.newTabularLevel( "Quater" );
+				level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
+			}
+			else if ( type.equals( Level_Month ) )
+			{
+				level = DesignElementFactory.getInstance( )
+						.newTabularLevel( "Month" );
+				level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
+			}
+			else if ( type.equals( Level_Week ) )
+			{
+				level = DesignElementFactory.getInstance( )
+						.newTabularLevel( "Week" );
+				level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
+			}
+			else if ( type.equals( Level_Day ) )
+			{
+				level = DesignElementFactory.getInstance( )
+						.newTabularLevel( "Day" );
+				level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
+			}
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+		}
 
+		return level;
 	}
 
 	public static String[] getDataFieldNames( DataSetHandle dataset )
@@ -89,9 +116,9 @@ public class OlapUtil
 		}
 		return columns;
 	}
-	
-	
-	public static ResultSetColumnHandle getDataField( DataSetHandle dataset,String fieldName )
+
+	public static ResultSetColumnHandle getDataField( DataSetHandle dataset,
+			String fieldName )
 	{
 		try
 		{
@@ -99,7 +126,8 @@ public class OlapUtil
 			for ( int i = 0; i < columnList.size( ); i++ )
 			{
 				ResultSetColumnHandle resultSetColumn = (ResultSetColumnHandle) columnList.get( i );
-				if(fieldName.equals( resultSetColumn.getColumnName( ) ))return resultSetColumn;
+				if ( fieldName.equals( resultSetColumn.getColumnName( ) ) )
+					return resultSetColumn;
 			}
 		}
 		catch ( SemanticException e )
@@ -108,9 +136,8 @@ public class OlapUtil
 		}
 		return null;
 	}
-	
 
-	public static String[] getAvailableDatasets( )
+	public static String[] getAvailableDatasetNames( )
 	{
 		SlotHandle slot = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
@@ -122,6 +149,22 @@ public class OlapUtil
 		{
 			DataSetHandle dataset = (DataSetHandle) slot.get( i );
 			datasets[i] = dataset.getName( );
+		}
+		return datasets;
+	}
+
+	public static DataSetHandle[] getAvailableDatasets( )
+	{
+		SlotHandle slot = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( )
+				.getDataSets( );
+		if ( slot == null || slot.getCount( ) == 0 )
+			return new DataSetHandle[0];
+		DataSetHandle[] datasets = new DataSetHandle[slot.getCount( )];
+		for ( int i = 0; i < slot.getCount( ); i++ )
+		{
+			DataSetHandle dataset = (DataSetHandle) slot.get( i );
+			datasets[i] = dataset;
 		}
 		return datasets;
 	}

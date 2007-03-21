@@ -9,10 +9,9 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-
 package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 
-import org.eclipse.birt.report.designer.data.ui.property.AbstractPropertyDialog;
+import org.eclipse.birt.report.designer.data.ui.property.AbstractTitlePropertyDialog;
 import org.eclipse.birt.report.designer.data.ui.util.IHelpConstants;
 import org.eclipse.birt.report.designer.data.ui.util.Utility;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -21,16 +20,18 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.jface.preference.IPreferencePageContainer;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
-public class CubeBuilder extends AbstractPropertyDialog implements
+public class CubeBuilder extends AbstractTitlePropertyDialog implements
 		IPreferencePageContainer
 {
 
-	public static final String MEASURESPAGE = "org.eclipse.birt.datasource.editor.cubebuilder.measurespage";
-	public static final String DIMENSIONPAGE = "org.eclipse.birt.datasource.editor.cubebuilder.dimensionpage";
+	// public static final String MEASURESPAGE =
+	// "org.eclipse.birt.datasource.editor.cubebuilder.measurespage";
+	public static final String GROUPPAGE = "org.eclipse.birt.datasource.editor.cubebuilder.grouppage";
 	public static final String DATASETSELECTIONPAGE = "org.eclipse.birt.datasource.editor.cubebuilder.datasetselectionpage";
 
 	public CubeBuilder( Shell parentShell, CubeHandle input )
@@ -40,16 +41,13 @@ public class CubeBuilder extends AbstractPropertyDialog implements
 	}
 
 	private DatasetSelectionPage datasetPage = null;
-	private DimensionPage dimensionPage = null;
-	private MeasuresPage measurespage = null;
+	// private DimensionPage dimensionPage = null;
+	private GroupsPage groupsPage = null;
 
 	private void addCommonPage( CubeHandle model )
 	{
-		addPageTo( "/", DATASETSELECTIONPAGE, Messages.getString( "DatasetPage.Title" ), null, datasetPage = new DatasetSelectionPage( model ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		// Parameter page
-		addPageTo( "/", DIMENSIONPAGE, Messages.getString( "DimensionPage.Title" ), null, dimensionPage = new DimensionPage( model ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		// Parameter is removed
-		addPageTo( "/", MEASURESPAGE, Messages.getString( "MeasurePage.Title" ), null, measurespage = new MeasuresPage( model ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		addPageTo( "/", DATASETSELECTIONPAGE, Messages.getString( "DatasetPage.Title" ), null, datasetPage = new DatasetSelectionPage( this, model ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		addPageTo( "/", GROUPPAGE, Messages.getString( "GroupsPage.Title" ), null, groupsPage = new GroupsPage( this, model ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 
 	private String showNodeId;
@@ -62,8 +60,7 @@ public class CubeBuilder extends AbstractPropertyDialog implements
 	private void dispose( )
 	{
 		datasetPage.dispose( );
-		dimensionPage.dispose( );
-		measurespage.dispose( );
+		groupsPage.dispose( );
 	}
 
 	public boolean performCancel( )
@@ -82,16 +79,20 @@ public class CubeBuilder extends AbstractPropertyDialog implements
 	{
 		String title = Messages.getString( "CubeBuilder.Title" );
 		getShell( ).setText( title );
+
 		if ( showNodeId != null )
 		{
 			setDefaultNode( showNodeId );
 		}
+
 		Control control = super.createContents( parent );
 		Utility.setSystemHelp( control, IHelpConstants.PREFIX
 				+ "Dialog_CubeBuilder_ID" );
 
 		return control;
 	}
+
+	
 
 	protected void createButtonsForButtonBar( Composite parent )
 	{
@@ -143,6 +144,11 @@ public class CubeBuilder extends AbstractPropertyDialog implements
 	{
 		// TODO Auto-generated method stub
 
+	}
+
+	protected Point getInitialSize( )
+	{
+		return new Point( 820, 600 );
 	}
 
 }

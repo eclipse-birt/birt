@@ -56,7 +56,7 @@ import com.ibm.icu.util.StringTokenizer;
  * {@link #addPageTo(String, String, String, Image, IPropertyPage) addPageTo}
  * method.
  * 
- * @version $Revision: 1.3 $ $Date: 2006/06/15 07:40:09 $
+ * @version $Revision: 1.4 $ $Date: 2006/09/08 06:24:32 $
  */
 
 public abstract class AbstractPropertyDialog extends BaseDialog
@@ -235,7 +235,7 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
 	 */
-	protected final Control createDialogArea( Composite parent )
+	protected Control createDialogArea( Composite parent )
 	{
 		Composite composite = new Composite( parent, SWT.NONE );
 		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );

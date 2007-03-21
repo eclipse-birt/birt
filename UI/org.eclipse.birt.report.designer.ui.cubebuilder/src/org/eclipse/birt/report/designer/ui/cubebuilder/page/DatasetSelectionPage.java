@@ -38,18 +38,18 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-public class DatasetSelectionPage extends AbstractDescriptionPropertyPage implements
-		Listener
+public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 {
 
 	private CubeHandle input;
 	private Combo dataSetCombo;
 	private Text nameText;
-
-	public DatasetSelectionPage( CubeHandle model )
+	private CubeBuilder builder;
+	
+	public DatasetSelectionPage( CubeBuilder builder, CubeHandle model )
 	{
 		input = model;
-		input.addListener( this );
+		this.builder = builder;
 	}
 
 	public Control createContents( Composite parent )
@@ -160,8 +160,10 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage implem
 
 	public void pageActivated( )
 	{
-		getContainer( ).setMessage( "Dataset Selection",//$NON-NLS-1$
+		getContainer( ).setMessage( Messages.getString( "DatasetPage.Container.Title.Message" ),//$NON-NLS-1$
 				IMessageProvider.NONE );
+		builder.setTitleTitle( Messages.getString( "DatasetPage.Title.Title" ) );
+		builder.setTitleMessage( Messages.getString( "DatasetPage.Title.Message" ) );
 		load( );
 	}
 
@@ -171,7 +173,7 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage implem
 		// dataSetCombo.select( input.getIndexOfPrimaryDataset( ) );
 		if ( dataSetCombo != null && !dataSetCombo.isDisposed( ) )
 		{
-			dataSetCombo.setItems( OlapUtil.getAvailableDatasets( ) );
+			dataSetCombo.setItems( OlapUtil.getAvailableDatasetNames( ) );
 			dataSetCombo.select( OlapUtil.getIndexOfPrimaryDataset( ((TabularCubeHandle)input).getDataSet( ) ) );
 		}
 	}
@@ -186,15 +188,16 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage implem
 		}
 	}
 
-	public void dispose( )
-	{
-		if ( input != null )
-			input.removeListener( this );
-	}
-
+	
 	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
 	{
 		refresh( );
+	}
+
+	public void dispose( )
+	{
+		// TODO Auto-generated method stub
+		
 	}
 
 }

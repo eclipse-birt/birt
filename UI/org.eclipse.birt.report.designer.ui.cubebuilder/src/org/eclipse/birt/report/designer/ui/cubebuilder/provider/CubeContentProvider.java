@@ -11,10 +11,14 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.provider;
 
+import java.util.List;
+
+import org.eclipse.birt.report.designer.data.ui.util.CubeModel;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
@@ -25,6 +29,9 @@ import org.eclipse.jface.viewers.Viewer;
 
 public class CubeContentProvider implements ITreeContentProvider
 {
+
+	private CubeModel dimension;
+	private CubeModel measures;
 
 	/*
 	 * (non-Javadoc)
@@ -48,8 +55,30 @@ public class CubeContentProvider implements ITreeContentProvider
 		}
 		if ( parentElement instanceof CubeHandle )
 		{
-			return ( (CubeHandle) parentElement ).getContents( CubeHandle.DIMENSIONS_PROP )
-					.toArray( );
+			CubeHandle handle = (CubeHandle) parentElement;
+			if ( dimension == null )
+				dimension = new CubeModel( handle, CubeModel.TYPE_DIMENSION );
+			else if ( dimension.getModel( ) != handle )
+				dimension.setModel( handle );
+			if ( measures == null )
+				measures = new CubeModel( handle, CubeModel.TYPE_MEASURES );
+			else if ( measures.getModel( ) != handle )
+				measures.setModel( handle );
+			return new Object[]{
+					dimension, measures
+			};
+		}
+		if ( parentElement instanceof CubeModel )
+		{
+			CubeModel model = (CubeModel) parentElement;
+			if ( model.getType( ) == CubeModel.TYPE_DIMENSION )
+				return model.getModel( )
+						.getContents( CubeHandle.DIMENSIONS_PROP )
+						.toArray( );
+			if ( model.getType( ) == CubeModel.TYPE_MEASURES )
+				return model.getModel( )
+						.getContents( CubeHandle.MEASURE_GROUPS_PROP )
+						.toArray( );
 		}
 		if ( parentElement instanceof LevelHandle )
 		{
@@ -58,6 +87,11 @@ public class CubeContentProvider implements ITreeContentProvider
 			return new Object[]{
 				hierarchy.getLevel( pos + 1 )
 			};
+		}
+		if ( parentElement instanceof MeasureGroupHandle )
+		{
+			return ( (MeasureGroupHandle) parentElement ).getContents( MeasureGroupHandle.MEASURES_PROP )
+					.toArray( );
 		}
 		return new Object[0];
 	}
@@ -95,9 +129,41 @@ public class CubeContentProvider implements ITreeContentProvider
 			int pos = ( (LevelHandle) element ).getIndex( );
 			return hierarchy.getLevel( pos + 1 ) != null;
 		}
+		if ( element instanceof MeasureGroupHandle )
+		{
+			return ( (MeasureGroupHandle) element ).getContentCount( MeasureGroupHandle.MEASURES_PROP ) > 0;
+		}
 		if ( element instanceof CubeHandle )
 		{
-			return ( (CubeHandle) element ).getContentCount( CubeHandle.DIMENSIONS_PROP ) > 0;
+			// CubeHandle handle = (CubeHandle) element;
+			// List dimensionList = handle.getContents(
+			// CubeHandle.DIMENSIONS_PROP );
+			// List measureList = handle.getContents(
+			// CubeHandle.MEASURE_GROUPS_PROP );
+			// if ( dimensionList != null && dimensionList.size( ) > 0 )
+			// return true;
+			// if ( measureList != null && measureList.size( ) > 0 )
+			// return true;
+			// return false;
+			return true;
+		}
+		if ( element instanceof CubeModel )
+		{
+			CubeModel model = (CubeModel) element;
+			if ( model.getType( ) == CubeModel.TYPE_DIMENSION )
+			{
+				List dimensionList = model.getModel( )
+						.getContents( CubeHandle.DIMENSIONS_PROP );
+				if ( dimensionList != null && dimensionList.size( ) > 0 )
+					return true;
+			}
+			else if ( model.getType( ) == CubeModel.TYPE_MEASURES )
+			{
+				List measureList = model.getModel( )
+						.getContents( CubeHandle.MEASURE_GROUPS_PROP );
+				if ( measureList != null && measureList.size( ) > 0 )
+					return true;
+			}
 		}
 		return false;
 	}

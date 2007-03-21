@@ -14,14 +14,17 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.action;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.LevelDialog;
+import org.eclipse.birt.report.designer.ui.cubebuilder.page.CubeBuilder;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.1 $ $Date: 2007/03/06 05:13:52 $
+ * @version $Revision: 1.1 $ $Date: 2007/03/07 08:40:38 $
  */
 public class EditCubeLevelAction extends AbstractElementAction
 {
@@ -58,9 +61,12 @@ public class EditCubeLevelAction extends AbstractElementAction
 		{
 			System.out.println( "Edit Level action >> Runs ..." ); //$NON-NLS-1$
 		}
-		LevelHandle LevelHandle = (LevelHandle) getSelection( );
-		LevelDialog dialog = new LevelDialog( false );
-		dialog.setInput( LevelHandle );
+		TabularLevelHandle level = (TabularLevelHandle) getSelection( );
+		CubeBuilder dialog = new CubeBuilder( PlatformUI.getWorkbench( )
+				.getDisplay( )
+				.getActiveShell( ), (CubeHandle) level.getContainer( ).getContainer( ).getContainer( ) );
+
+		dialog.showPage( CubeBuilder.GROUPPAGE );
 		return ( dialog.open( ) == IDialogConstants.OK_ID );
 	}
 

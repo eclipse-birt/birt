@@ -91,6 +91,13 @@
              priority="2"
              type="org.eclipse.birt.report.designer.ui.views.INodeProvider"/>
     </adaptable>
+     <adaptable class="org.eclipse.birt.report.designer.data.ui.util.CubeModel">
+       <adapter
+             class="org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeModelNodeProvider"
+             id="NodeProvider.CubeModel"
+             priority="1"
+             type="org.eclipse.birt.report.designer.ui.views.INodeProvider"/>
+    </adaptable>
 </extension>
    
 </plugin>

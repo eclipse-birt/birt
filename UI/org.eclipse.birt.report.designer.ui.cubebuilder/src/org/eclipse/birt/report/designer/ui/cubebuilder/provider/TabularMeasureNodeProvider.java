@@ -107,7 +107,7 @@ public class TabularMeasureNodeProvider extends DefaultNodeProvider
 				.getDisplay( )
 				.getActiveShell( ), (CubeHandle) measureHandle.getContainer( )
 				.getContainer( ) );
-		dialog.showPage( CubeBuilder.MEASURESPAGE );
+		dialog.showPage( CubeBuilder.GROUPPAGE );
 		return dialog.open( ) == Dialog.OK;
 	}
 

@@ -11,10 +11,12 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.action;
 
+import org.eclipse.birt.report.designer.data.ui.util.CubeModel;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.page.CubeBuilder;
+import org.eclipse.birt.report.designer.ui.cubebuilder.page.SimpleCubeBuilder;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.ui.PlatformUI;
@@ -22,7 +24,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.1 $ $Date: 2007/03/06 05:13:52 $
+ * @version $Revision: 1.1 $ $Date: 2007/03/07 08:40:38 $
  */
 public class EditCubeAction extends AbstractElementAction
 {
@@ -32,9 +34,9 @@ public class EditCubeAction extends AbstractElementAction
 	/**
 	 * @param selectedObject
 	 */
-	public EditCubeAction( Object selectedObject )
+	public EditCubeAction( String text )
 	{
-		super( selectedObject );
+		super( text );
 		setId( ID );
 	}
 
@@ -59,10 +61,20 @@ public class EditCubeAction extends AbstractElementAction
 		{
 			System.out.println( "Edit cube action >> Runs ..." ); //$NON-NLS-1$
 		}
-		CubeHandle cubeHandle = (CubeHandle) getSelection( );
+		CubeHandle cubeHandle = null;
+		if ( getSelection( ) instanceof CubeHandle )
+			cubeHandle = (CubeHandle) getSelection( );
+		else if ( getSelection( ) instanceof CubeModel )
+			cubeHandle = ( (CubeModel) getSelection( ) ).getModel( );
 		CubeBuilder dialog = new CubeBuilder( PlatformUI.getWorkbench( )
 				.getDisplay( )
 				.getActiveShell( ), cubeHandle );
+		if ( getSelection( ) instanceof CubeHandle ){
+			dialog.showPage(CubeBuilder.DATASETSELECTIONPAGE);
+		}
+		else if ( getSelection( ) instanceof CubeModel ){
+			dialog.showPage(CubeBuilder.GROUPPAGE);
+		}
 		return ( dialog.open( ) == IDialogConstants.OK_ID );
 	}
 
@@ -73,7 +85,11 @@ public class EditCubeAction extends AbstractElementAction
 	 */
 	public boolean isEnabled( )
 	{
-		return ( (CubeHandle) getSelection( ) ).canEdit( );
+		if ( getSelection( ) instanceof CubeHandle )
+			return ( (CubeHandle) getSelection( ) ).canEdit( );
+		else if ( getSelection( ) instanceof CubeModel )
+			return true;
+		return super.isEnabled( );
 	}
 
 	/*
@@ -83,6 +99,8 @@ public class EditCubeAction extends AbstractElementAction
 	 */
 	protected String getTransactionLabel( )
 	{
-		return Messages.getFormattedString( "cube.edit", new String[]{( (CubeHandle) getSelection( ) ).getName( )} ); //$NON-NLS-1$
+		if ( getSelection( ) instanceof CubeHandle )
+			return Messages.getFormattedString( "cube.edit", new String[]{( (CubeHandle) getSelection( ) ).getName( )} ); //$NON-NLS-1$
+		return super.getTransactionLabel( );
 	}
 }

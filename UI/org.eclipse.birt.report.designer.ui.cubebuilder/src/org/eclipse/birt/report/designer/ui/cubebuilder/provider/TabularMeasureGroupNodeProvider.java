@@ -78,11 +78,7 @@ public class TabularMeasureGroupNodeProvider extends DefaultNodeProvider
 	public String getNodeDisplayName( Object object )
 	{
 		MeasureGroupHandle measures = (MeasureGroupHandle) object;
-		if ( measures.getName( ) != null
-				&& !measures.getName( ).trim( ).equals( "" ) )
-			return measures.getName( ) + "(Measures)";
-		else
-			return "MEASURES(Measures)";
+		return measures.getName( );
 	}
 
 	public Image getNodeIcon( Object model )

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.provider;
 
+import org.eclipse.birt.report.designer.data.ui.util.CubeModel;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
@@ -93,6 +94,13 @@ public class CubeLabelProvider extends LabelProvider
 		{
 			return IMG_DATAFIELD;
 		}
+		else if ( element instanceof CubeModel){
+			CubeModel model = (CubeModel)element;
+			if(model.getType( ) == CubeModel.TYPE_DIMENSION)
+				return IMG_DIMENSION;
+			else if(model.getType( ) == CubeModel.TYPE_MEASURES)
+				return IMG_MEASUREGROUP;
+		}
 		return super.getImage( element );
 	}
 
@@ -113,7 +121,7 @@ public class CubeLabelProvider extends LabelProvider
 		}
 		else if ( element instanceof DimensionHandle )
 		{
-			return ( (DimensionHandle) element ).getName( ) + "(Dimension)";
+			return ( (DimensionHandle) element ).getName( );
 		}
 		else if ( element instanceof LevelHandle )
 		{
@@ -125,12 +133,7 @@ public class CubeLabelProvider extends LabelProvider
 		}
 		else if ( element instanceof MeasureGroupHandle )
 		{
-			MeasureGroupHandle measures = (MeasureGroupHandle) element;
-			if ( measures.getName( ) != null
-					&& !measures.getName( ).trim( ).equals( "" ) )
-				return measures.getName( ) + "(Measures)";
-			else
-				return "MEASURES" + "(Measures)";
+			return ((MeasureGroupHandle) element).getName( );
 		}
 		else if ( element instanceof MeasureHandle )
 		{
@@ -139,6 +142,13 @@ public class CubeLabelProvider extends LabelProvider
 		else if ( element instanceof String )
 		{
 			return (String) element;
+		}
+		else if ( element instanceof CubeModel){
+			CubeModel model = (CubeModel)element;
+			if(model.getType( ) == CubeModel.TYPE_DIMENSION)
+				return "Groups(Dimensions)";
+			else if(model.getType( ) == CubeModel.TYPE_MEASURES)
+				return "Summary Fields(Measures)";
 		}
 		return super.getText( element );
 	}

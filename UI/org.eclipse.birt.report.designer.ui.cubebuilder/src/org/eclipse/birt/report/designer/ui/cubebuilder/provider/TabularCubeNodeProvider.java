@@ -11,13 +11,10 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.provider;
 
-import java.util.LinkedList;
-import java.util.List;
-
+import org.eclipse.birt.report.designer.data.ui.util.CubeModel;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.RefreshAction;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.actions.ShowPropertyAction;
 import org.eclipse.birt.report.designer.ui.cubebuilder.action.EditCubeAction;
 import org.eclipse.birt.report.designer.ui.cubebuilder.page.CubeBuilder;
@@ -79,6 +76,8 @@ public class TabularCubeNodeProvider extends DefaultNodeProvider
 		return DEUtil.getDisplayLabel( model, false );
 	}
 
+	private CubeModel dimension;
+	private CubeModel measures;
 	/**
 	 * Gets the children element of the given model using visitor.
 	 * 
@@ -88,15 +87,17 @@ public class TabularCubeNodeProvider extends DefaultNodeProvider
 	public Object[] getChildren( Object object )
 	{
 		CubeHandle handle = (CubeHandle) object;
-
-		List children = new LinkedList( );
-		List dimensionList = handle.getContents( CubeHandle.DIMENSIONS_PROP );
-		List measureList = handle.getContents( CubeHandle.MEASURE_GROUPS_PROP );
-		if ( dimensionList != null && dimensionList.size( ) > 0 )
-			children.addAll( dimensionList );
-		if ( measureList != null && measureList.size( ) > 0 )
-			children.addAll( measureList );
-		return children.toArray( );
+		if ( dimension == null )
+			dimension = new CubeModel( handle, CubeModel.TYPE_DIMENSION );
+		else if ( dimension.getModel( ) != handle )
+			dimension.setModel( handle );
+		if ( measures == null )
+			measures = new CubeModel( handle, CubeModel.TYPE_MEASURES );
+		else if ( measures.getModel( ) != handle )
+			measures.setModel( handle );
+		return new Object[]{
+				dimension, measures
+		};
 	}
 
 	/*
@@ -106,14 +107,7 @@ public class TabularCubeNodeProvider extends DefaultNodeProvider
 	 */
 	public boolean hasChildren( Object object )
 	{
-		CubeHandle handle = (CubeHandle) object;
-		List dimensionList = handle.getContents( CubeHandle.DIMENSIONS_PROP );
-		List measureList = handle.getContents( CubeHandle.MEASURE_GROUPS_PROP );
-		if ( dimensionList != null && dimensionList.size( ) > 0 )
-			return true;
-		if ( measureList != null && measureList.size( ) > 0 )
-			return true;
-		return false;
+		return true;
 	}
 
 	/*

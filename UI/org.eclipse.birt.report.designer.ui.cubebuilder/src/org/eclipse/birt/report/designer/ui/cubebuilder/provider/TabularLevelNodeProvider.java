@@ -14,22 +14,24 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.provider;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.RefreshAction;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.actions.ShowPropertyAction;
 import org.eclipse.birt.report.designer.ui.cubebuilder.action.EditCubeLevelAction;
-import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.LevelDialog;
+import org.eclipse.birt.report.designer.ui.cubebuilder.page.CubeBuilder;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IWorkbenchActionConstants;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * Deals with dataset node
@@ -113,9 +115,12 @@ public class TabularLevelNodeProvider extends DefaultNodeProvider
 	 */
 	protected boolean performEdit( ReportElementHandle handle )
 	{
-		LevelHandle LevelHandle = (LevelHandle) handle;
-		LevelDialog dialog = new LevelDialog( false );
-		dialog.setInput( LevelHandle );
+		TabularLevelHandle level = (TabularLevelHandle) handle;
+		CubeBuilder dialog = new CubeBuilder( PlatformUI.getWorkbench( )
+				.getDisplay( )
+				.getActiveShell( ), (CubeHandle) level.getContainer( ).getContainer( ).getContainer( ) );
+
+		dialog.showPage( CubeBuilder.GROUPPAGE );
 
 		return dialog.open( ) == Dialog.OK;
 	}
