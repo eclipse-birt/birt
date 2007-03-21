@@ -181,13 +181,11 @@ public class ReportExecutor implements IReportExecutor
 			context.setTOCBuilder( null );
 			context.setExecutingMasterPage( true );
 			SimpleMasterPageDesign pageDesign = (SimpleMasterPageDesign) masterPage;
-			pageContent.setStyleClass( masterPage.getStyleName( ) );
 			InstanceID iid = new InstanceID( null, pageDesign.getID( ), null );
 			pageContent.setInstanceID( iid );
 			
 			//creat header, footer and body
 			IContent header = reportContent.createContainerContent( ) ;
-			header.setStyleClass(masterPage.getStyleName( ));
 			pageContent.setPageHeader( header );
 			header.setParent( pageContent );
 			IContentEmitter domEmitter = new DOMBuilderEmitter( header);
@@ -208,7 +206,6 @@ public class ReportExecutor implements IReportExecutor
 
 			//create footer
 			IContent footer = reportContent.createContainerContent( ) ;
-			footer.setStyleClass(masterPage.getStyleName( ));
 			pageContent.setPageFooter( footer );
 			footer.setParent( pageContent );
 
