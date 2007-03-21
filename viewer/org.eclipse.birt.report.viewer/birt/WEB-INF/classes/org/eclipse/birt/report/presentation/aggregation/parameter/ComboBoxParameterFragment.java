@@ -103,17 +103,14 @@ public class ComboBoxParameterFragment extends ScalarParameterFragment
 						.next( );
 
 				Object value = selectionItem.getValue( );
-				if ( value == null )
-					continue;
-				
-				// try convert value to parameter definition data type
 				try
 				{
+					// try convert value to parameter definition data type
 					value = DataUtil.convert( value, paramDef.getDataType( ) );
 				}
 				catch ( Exception e )
 				{
-
+					value = null;
 				}
 
 				// Convert parameter value using standard format

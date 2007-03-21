@@ -272,17 +272,14 @@ public class BirtGetCascadeParameterActionHandler
 					continue;
 
 				Object value = item.getValue( );
-				if ( value == null )
-					continue;
-
-				// try convert value to parameter definition data type
 				try
 				{
+					// try convert value to parameter definition data type
 					value = DataUtil.convert( value, parameter.getDataType( ) );
 				}
 				catch ( Exception e )
 				{
-
+					value = null;
 				}
 
 				// Convert parameter value using standard format
