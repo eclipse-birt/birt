@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.jface.preference.IPreferencePageContainer;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
@@ -92,18 +93,16 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 		return control;
 	}
 
-	
+	private boolean okEnable = true;
+	public void setOKEnable(boolean okEnable){
+		this.okEnable = okEnable;
+		if(getOkButton( )!=null)getOkButton( ).setEnabled( this.okEnable );
+	}
 
 	protected void createButtonsForButtonBar( Composite parent )
 	{
 		super.createButtonsForButtonBar( parent );
-		if ( ( (CubeHandle) getModel( ) ).getName( ) != null
-				&& !( (CubeHandle) getModel( ) ).getName( ).trim( ).equals( "" ) )
-		{
-			getOkButton( ).setEnabled( true );
-		}
-		else
-			getOkButton( ).setEnabled( false );
+		getOkButton( ).setEnabled( this.okEnable );
 	}
 
 	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )

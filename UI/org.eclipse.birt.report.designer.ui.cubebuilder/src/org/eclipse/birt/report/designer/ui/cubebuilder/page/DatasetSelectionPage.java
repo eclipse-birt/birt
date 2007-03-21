@@ -9,18 +9,14 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-
 package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 
 import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionPropertyPage;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
-import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.dialogs.IMessageProvider;
@@ -45,7 +41,7 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 	private Combo dataSetCombo;
 	private Text nameText;
 	private CubeBuilder builder;
-	
+
 	public DatasetSelectionPage( CubeBuilder builder, CubeHandle model )
 	{
 		input = model;
@@ -61,7 +57,7 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 		container.setLayout( layout );
 
 		Label nameLabel = new Label( container, SWT.NONE );
-		nameLabel.setText( Messages.getString( "DatasetPage.Label.Name" ));
+		nameLabel.setText( Messages.getString( "DatasetPage.Label.Name" ) );
 		nameText = new Text( container, SWT.BORDER );
 		nameText.addModifyListener( new ModifyListener( ) {
 
@@ -95,12 +91,16 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 				String datasetName = dataSetCombo.getItem( dataSetCombo.getSelectionIndex( ) );
 				try
 				{
-					((TabularCubeHandle)input).setDataSet( OlapUtil.getDataset( datasetName ) );
+					( (TabularCubeHandle) input ).setDataSet( OlapUtil.getDataset( datasetName ) );
 				}
 				catch ( SemanticException e1 )
 				{
 					ExceptionHandler.handle( e1 );
 				}
+				if ( dataSetCombo.getSelectionIndex( ) == -1 )
+					builder.setOKEnable( false );
+				else
+					builder.setOKEnable( true );
 			}
 
 		} );
@@ -174,7 +174,9 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 		if ( dataSetCombo != null && !dataSetCombo.isDisposed( ) )
 		{
 			dataSetCombo.setItems( OlapUtil.getAvailableDatasetNames( ) );
-			dataSetCombo.select( OlapUtil.getIndexOfPrimaryDataset( ((TabularCubeHandle)input).getDataSet( ) ) );
+			dataSetCombo.select( OlapUtil.getIndexOfPrimaryDataset( ( (TabularCubeHandle) input ).getDataSet( ) ) );
+			if ( dataSetCombo.getSelectionIndex( ) == -1 )
+				builder.setOKEnable( false );
 		}
 	}
 
@@ -188,16 +190,10 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 		}
 	}
 
-	
-	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
-	{
-		refresh( );
-	}
-
 	public void dispose( )
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

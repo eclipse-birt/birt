@@ -17,6 +17,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.LevelDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.LevelPropertyDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeContentProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeLabelProvider;
@@ -41,6 +42,7 @@ import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
@@ -391,43 +393,33 @@ public class CubeGroupContent extends Composite
 
 		} );
 
-		// editBtn = new Button( container, SWT.PUSH );
-		// editBtn.setText( btnTexts[1] );
-		// editBtn.addSelectionListener( new SelectionAdapter( ) {
-		//
-		// public void widgetSelected( SelectionEvent e )
-		// {
-		// TreeSelection slections = (TreeSelection) viewer.getSelection( );
-		// Iterator iter = slections.iterator( );
-		// while ( iter.hasNext( ) )
-		// {
-		// Object obj = iter.next( );
-		//
-		// if ( obj instanceof DimensionHandle )
-		// {
-		// DimensionHandle dimension = (DimensionHandle) obj;
-		// DimensionDialog dialog = new DimensionDialog( false );
-		// dialog.setInput( dimension );
-		// if ( dialog.open( ) == Window.OK )
-		// {
-		// viewer.setInput( inputObjects );
-		// };
-		// }
-		// else if ( obj instanceof LevelHandle )
-		// {
-		// LevelHandle level = (LevelHandle) obj;
-		// LevelDialog dialog = new LevelDialog( false );
-		// dialog.setInput( level );
-		// if ( dialog.open( ) == Window.OK )
-		// {
-		// viewer.setInput( inputObjects );
-		// };
-		// }
-		// }
-		// updateButtons( );
-		// }
-		//
-		// } );
+		editBtn = new Button( operationField, SWT.PUSH );
+		editBtn.setText( btnTexts[1] );
+		editBtn.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				TreeSelection slections = (TreeSelection) groupViewer.getSelection( );
+				Iterator iter = slections.iterator( );
+				while ( iter.hasNext( ) )
+				{
+					Object obj = iter.next( );
+
+					if ( obj instanceof TabularLevelHandle )
+					{
+						TabularLevelHandle level = (TabularLevelHandle) obj;
+						LevelDialog dialog = new LevelDialog( false );
+						dialog.setInput( level );
+						if ( dialog.open( ) == Window.OK )
+						{
+							refresh( );
+						};
+					}
+				}
+				updateButtons( );
+			}
+
+		} );
 
 		delBtn = new Button( operationField, SWT.PUSH );
 		delBtn.setText( btnTexts[2] );
@@ -454,10 +446,10 @@ public class CubeGroupContent extends Composite
 		if ( width < 60 )
 			width = 60;
 		layoutButton( addBtn, width );
-		// layoutButton( editBtn, width );
+		layoutButton( editBtn, width );
 		layoutButton( delBtn, width );
 		layoutButton( propBtn, width );
-		// editBtn.setEnabled( false );
+		editBtn.setEnabled( false );
 		delBtn.setEnabled( false );
 		propBtn.setEnabled( false );
 
@@ -638,7 +630,9 @@ public class CubeGroupContent extends Composite
 					{
 						event.feedback |= DND.FEEDBACK_SELECT;
 					}
-				}else{
+				}
+				else
+				{
 					event.detail = DND.DROP_NONE;
 				}
 
@@ -720,6 +714,7 @@ public class CubeGroupContent extends Composite
 								int index = ( (LevelHandle) element ).getIndex( );
 								TabularLevelHandle level = DesignElementFactory.getInstance( )
 										.newTabularLevel( dataField.getColumnName( ) );
+								level.setColumnName( dataField.getColumnName( ) );
 								level.setDataType( dataField.getDataType( ) );
 								( (LevelHandle) element ).getContainer( )
 										.add( IHierarchyModel.LEVELS_PROP,
@@ -767,6 +762,7 @@ public class CubeGroupContent extends Composite
 								int index = ( (LevelHandle) element ).getIndex( );
 								TabularLevelHandle level = DesignElementFactory.getInstance( )
 										.newTabularLevel( dataField.getColumnName( ) );
+								level.setColumnName( dataField.getColumnName( ) );
 								level.setDataType( dataField.getDataType( ) );
 								( (LevelHandle) element ).getContainer( )
 										.add( IHierarchyModel.LEVELS_PROP,
@@ -801,15 +797,17 @@ public class CubeGroupContent extends Composite
 												OlapUtil.getDateLevel( OlapUtil.Level_Week ) );
 										hierarchy.add( HierarchyHandle.LEVELS_PROP,
 												OlapUtil.getDateLevel( OlapUtil.Level_Day ) );
+										( (TabularDimensionHandle) hierarchy.getContainer( ) ).setTimeType( true );
 									}
 								}
 								else
 								{
 									TabularLevelHandle level = DesignElementFactory.getInstance( )
 											.newTabularLevel( dataField.getColumnName( ) );
+									level.setColumnName( dataField.getColumnName( ) );
 									level.setDataType( dataField.getDataType( ) );
 									hierarchy.add( IHierarchyModel.LEVELS_PROP,
-											level);
+											level );
 								}
 							}
 						}
@@ -938,6 +936,7 @@ public class CubeGroupContent extends Composite
 	private Button propBtn;
 	private int operations;
 	private Transfer[] types;
+	private Button editBtn;
 
 	public void load( )
 	{
@@ -1012,7 +1011,9 @@ public class CubeGroupContent extends Composite
 					|| obj instanceof MeasureGroupHandle
 					|| obj instanceof MeasureHandle )
 			{
-				addBtn.setEnabled( true );
+				if(obj instanceof DimensionHandle && ((DimensionHandle)obj).isTimeType( ))
+					addBtn.setEnabled( false );
+				else addBtn.setEnabled( true );
 				if ( obj instanceof LevelHandle )
 				{
 					DimensionHandle dimension = (DimensionHandle) ( (LevelHandle) obj ).getContainer( )
@@ -1063,15 +1064,25 @@ public class CubeGroupContent extends Composite
 					name += ")";
 					groupViewer.getTree( ).getSelection( )[0].setText( name );
 				}
-				DimensionHandle dimension = (DimensionHandle) ( (LevelHandle) obj ).getContainer( )
-						.getContainer( );
-				if ( dimension.isTimeType( ) )
+				String dataType = level.getDataType( );
+				if ( dataType != null
+						&& dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
+				{
 					propBtn.setEnabled( false );
+					editBtn.setEnabled( false );
+				}
 				else
+				{
 					propBtn.setEnabled( true );
+					editBtn.setEnabled( true );
+				}
+
 			}
 			else
+			{
+				editBtn.setEnabled( false );
 				propBtn.setEnabled( false );
+			}
 		}
 		else
 		{
@@ -1202,10 +1213,12 @@ public class CubeGroupContent extends Composite
 			Object obj = iter.next( );
 			if ( obj instanceof TabularLevelHandle )
 			{
-				LevelHandle level = DesignElementFactory.getInstance( )
+				if(((DimensionHandle)obj).isTimeType( ))return;
+				TabularLevelHandle level = DesignElementFactory.getInstance( )
 						.newTabularLevel( "Level" );
 				try
 				{
+					level.setColumnName( level.getName( ) );
 					( (TabularLevelHandle) obj ).getContainer( )
 							.add( IHierarchyModel.LEVELS_PROP, level );
 				}
@@ -1218,13 +1231,14 @@ public class CubeGroupContent extends Composite
 			}
 			else if ( obj instanceof DimensionHandle )
 			{
-				LevelHandle level = DesignElementFactory.getInstance( )
+				if(((DimensionHandle)obj).isTimeType( ))return;
+				TabularLevelHandle level = DesignElementFactory.getInstance( )
 						.newTabularLevel( "Level" );
 				TabularHierarchyHandle hierary = (TabularHierarchyHandle) ( (DimensionHandle) obj ).getContent( IDimensionModel.HIERARCHIES_PROP,
 						0 );
 				try
 				{
-
+					level.setColumnName( level.getName( ) );
 					hierary.add( IHierarchyModel.LEVELS_PROP, level );
 				}
 				catch ( SemanticException e1 )
@@ -1358,6 +1372,7 @@ public class CubeGroupContent extends Composite
 							.newTabularLevel( dataField.getColumnName( ) );
 					try
 					{
+						level.setColumnName( dataField.getColumnName( ) );
 						level.setDataType( dataField.getDataType( ) );
 						( (TabularLevelHandle) obj ).getContainer( )
 								.add( IHierarchyModel.LEVELS_PROP,
@@ -1394,8 +1409,7 @@ public class CubeGroupContent extends Composite
 							continue;
 						}
 					}
-					
-					
+
 					DataSetHandle dasetTemp = hierarchy.getDataSet( );
 					if ( dasetTemp != null
 							&& dataset != null
@@ -1416,7 +1430,6 @@ public class CubeGroupContent extends Composite
 						}
 					}
 
-					
 					try
 					{
 						if ( dataField.getDataType( )
@@ -1438,14 +1451,16 @@ public class CubeGroupContent extends Composite
 										OlapUtil.getDateLevel( OlapUtil.Level_Week ) );
 								hierarchy.add( HierarchyHandle.LEVELS_PROP,
 										OlapUtil.getDateLevel( OlapUtil.Level_Day ) );
+								( (TabularDimensionHandle) hierarchy.getContainer( ) ).setTimeType( true );
 							}
 						}
 						else
 						{
 							TabularLevelHandle level = DesignElementFactory.getInstance( )
 									.newTabularLevel( dataField.getColumnName( ) );
+							level.setColumnName( dataField.getColumnName( ) );
 							level.setDataType( dataField.getDataType( ) );
-							hierarchy.add( IHierarchyModel.LEVELS_PROP,level);
+							hierarchy.add( IHierarchyModel.LEVELS_PROP, level );
 						}
 					}
 					catch ( SemanticException e )
