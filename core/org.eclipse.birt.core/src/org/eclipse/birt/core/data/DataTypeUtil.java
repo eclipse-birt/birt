@@ -852,7 +852,8 @@ public final class DataTypeUtil
 				|| clazz.getName( )
 						.equals( "org.eclipse.datatools.connectivity.oda.IBlob" ) )
 			return DataType.BINARY_TYPE;
-
+		else if ( clazz == Boolean.class )
+			return DataType.BOOLEAN_TYPE;
 		// any other types are not recognized nor supported;
 		return DataType.UNKNOWN_TYPE;
 	}
