@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -68,6 +69,7 @@ public class PeerExtensionTest extends BaseTestCase
 	private static final String FILE_NAME_2 = "PeerExtensionTest_2.xml"; //$NON-NLS-1$
 	private static final String FILE_NAME_3 = "PeerExtensionTest_3.xml"; //$NON-NLS-1$
 	private static final String FILE_NAME_5 = "PeerExtensionTest_5.xml";//$NON-NLS-1$
+	private static final String FILE_NAME_6 = "PeerExtensionTest_6.xml"; //$NON-NLS-1$
 
 	private static final String POINTS_PROP_NAME = "points"; //$NON-NLS-1$
 
@@ -401,7 +403,7 @@ public class PeerExtensionTest extends BaseTestCase
 		save( );
 		assertTrue( compareFile( "PeerExtensionTest_golden_1.xml" ) ); //$NON-NLS-1$
 	}
-	
+
 	/**
 	 * 
 	 * @throws Exception
@@ -509,9 +511,9 @@ public class PeerExtensionTest extends BaseTestCase
 
 	public void testExtensionAllowedUnits( ) throws Exception
 	{
-		
-		//Test get allowed units in metadata.
-		
+
+		// Test get allowed units in metadata.
+
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
 
 		ExtensionElementDefn extDefn = (ExtensionElementDefn) dd
@@ -530,20 +532,103 @@ public class PeerExtensionTest extends BaseTestCase
 		assertNotNull( set.findChoice( "cm" ) );//$NON-NLS-1$
 		assertNotNull( set.findChoice( "mm" ) );//$NON-NLS-1$
 		assertNotNull( set.findChoice( "pt" ) );//$NON-NLS-1$
-		
-		//Test 'getPropertyDefn' method in DesignElementHandle class.
-		
+
+		// Test 'getPropertyDefn' method in DesignElementHandle class.
+
 		openDesign( FILE_NAME_4 );
 		ExtendedItemHandle extendedItem = (ExtendedItemHandle) designHandle
 				.findElement( "testTable" ); //$NON-NLS-1$
-		
+
 		defn = extendedItem.getPropertyDefn( "width" ); //$NON-NLS-1$
 		set = defn.getAllowedChoices( );
-		
+
 		assertNotNull( set.findChoice( "in" ) );//$NON-NLS-1$
 		assertNotNull( set.findChoice( "cm" ) );//$NON-NLS-1$
 		assertNull( set.findChoice( "mm" ) );//$NON-NLS-1$
 		assertNull( set.findChoice( "pt" ) );//$NON-NLS-1$
-		
+
+	}
+
+	/**
+	 * Tests IReportItem :: getPredefinedStyles about the property search.
+	 * 
+	 * @throws Exception
+	 */
+	public void testPredefinedStyles( ) throws Exception
+	{
+		openDesign( FILE_NAME_6 );
+
+		StyleHandle style = designHandle.findStyle( "testing-box" ); //$NON-NLS-1$
+
+		// test item in box-header: it defines no local style and style values,
+		// then get value from selector defined in ElementDefn(testing-matrix)
+		DesignElementHandle extendedItem = designHandle
+				.findElement( "headerMatrix" ); //$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.FONT_WEIGHT_400, extendedItem
+				.getStringProperty( IStyleModel.FONT_WEIGHT_PROP ) );
+		assertEquals( DesignChoiceConstants.FONT_SIZE_X_SMALL, extendedItem
+				.getStringProperty( IStyleModel.FONT_SIZE_PROP ) );
+		// other properties are not set, while its value equals to that set in
+		// the container
+		assertFalse( extendedItem.getPropertyHandle(
+				IStyleModel.FONT_FAMILY_PROP ).isSet( ) );
+		assertEquals( style.getStringProperty( IStyleModel.FONT_FAMILY_PROP ),
+				extendedItem.getStringProperty( IStyleModel.FONT_FAMILY_PROP ) );
+		assertFalse( extendedItem.getPropertyHandle(
+				IStyleModel.FONT_STYLE_PROP ).isSet( ) );
+		assertEquals( style.getStringProperty( IStyleModel.FONT_STYLE_PROP ),
+				extendedItem.getStringProperty( IStyleModel.FONT_STYLE_PROP ) );
+		assertFalse( extendedItem.getPropertyHandle( IStyleModel.COLOR_PROP )
+				.isSet( ) );
+		assertEquals( style.getStringProperty( IStyleModel.COLOR_PROP ),
+				extendedItem.getStringProperty( IStyleModel.COLOR_PROP ) );
+		assertFalse( extendedItem.getPropertyHandle(
+				IStyleModel.FONT_VARIANT_PROP ).isSet( ) );
+		assertEquals( style.getStringProperty( IStyleModel.FONT_VARIANT_PROP ),
+				extendedItem.getStringProperty( IStyleModel.FONT_VARIANT_PROP ) );
+
+		// test item in box-detail, it defines custom predefined styles:
+		// testing-box-detail and testPredefinedStyle
+		extendedItem = designHandle.findElement( "detailMatrix" ); //$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.FONT_WEIGHT_400, extendedItem
+				.getStringProperty( IStyleModel.FONT_WEIGHT_PROP ) );
+		assertEquals( DesignChoiceConstants.FONT_SIZE_X_SMALL, extendedItem
+				.getStringProperty( IStyleModel.FONT_SIZE_PROP ) );
+		// property value get from testing-box-detail: color and font-style
+		assertEquals( DesignChoiceConstants.FONT_STYLE_OBLIQUE, extendedItem
+				.getStringProperty( IStyleModel.FONT_STYLE_PROP ) );
+		assertEquals( IColorConstants.RED, extendedItem
+				.getStringProperty( IStyleModel.COLOR_PROP ) );
+		// property value get from testPredefinedStyle
+		assertEquals( DesignChoiceConstants.FONT_FAMILY_FANTASY, extendedItem
+				.getStringProperty( IStyleModel.FONT_FAMILY_PROP ) );
+		// font-variant is not set
+		assertFalse( extendedItem.getPropertyHandle(
+				IStyleModel.FONT_VARIANT_PROP ).isSet( ) );
+		assertEquals( style.getStringProperty( IStyleModel.FONT_VARIANT_PROP ),
+				extendedItem.getStringProperty( IStyleModel.FONT_VARIANT_PROP ) );
+
+		// test item in box-detail and defines its named style("My Style")
+		extendedItem = designHandle.findElement( "detailMatrixOne" ); //$NON-NLS-1$
+		// property form named style
+		assertEquals( DesignChoiceConstants.FONT_SIZE_SMALL, extendedItem
+				.getStringProperty( IStyleModel.FONT_SIZE_PROP ) );
+		// property from selector testing-matrix
+		assertEquals( DesignChoiceConstants.FONT_WEIGHT_400, extendedItem
+				.getStringProperty( IStyleModel.FONT_WEIGHT_PROP ) );
+		// property value get from testing-box-detail: color and font-style
+		assertEquals( DesignChoiceConstants.FONT_STYLE_OBLIQUE, extendedItem
+				.getStringProperty( IStyleModel.FONT_STYLE_PROP ) );
+		assertEquals( IColorConstants.RED, extendedItem
+				.getStringProperty( IStyleModel.COLOR_PROP ) );
+		// property value get from testPredefinedStyle
+		assertEquals( DesignChoiceConstants.FONT_FAMILY_FANTASY, extendedItem
+				.getStringProperty( IStyleModel.FONT_FAMILY_PROP ) );
+		// font-variant is not set
+		assertFalse( extendedItem.getPropertyHandle(
+				IStyleModel.FONT_VARIANT_PROP ).isSet( ) );
+		assertEquals( style.getStringProperty( IStyleModel.FONT_VARIANT_PROP ),
+				extendedItem.getStringProperty( IStyleModel.FONT_VARIANT_PROP ) );
+
 	}
 }
