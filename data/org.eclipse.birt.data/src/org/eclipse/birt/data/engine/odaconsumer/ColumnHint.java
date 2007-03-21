@@ -17,7 +17,6 @@ package org.eclipse.birt.data.engine.odaconsumer;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.logging.Level;
 
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
@@ -121,11 +120,13 @@ public class ColumnHint
 		        dataType == Double.class ||
 		        dataType == String.class ||
 		        dataType == BigDecimal.class ||
-		        dataType == Date.class ||
+		        dataType == java.util.Date.class ||
+                dataType == java.sql.Date.class ||
 		        dataType == Time.class ||
 		        dataType == Timestamp.class ||
 		        dataType == IBlob.class ||
-		        dataType == IClob.class );
+		        dataType == IClob.class  ||
+                dataType == Boolean.class );
 		
 		m_dataType = dataType;
 	}
