@@ -121,12 +121,12 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	{
 		try
 		{
-			runningStatus = RUNNING_STATUS_RUNNING;
+			changeStatusToRunning( );
 			doRun( );
 		}
 		finally
 		{
-			runningStatus = RUNNING_STATUS_STOP;
+			changeStatusToStopped( );
 		}
 	}
 

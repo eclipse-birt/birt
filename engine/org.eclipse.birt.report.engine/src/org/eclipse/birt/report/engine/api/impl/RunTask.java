@@ -73,7 +73,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	{
 		try
 		{
-			runningStatus = RUNNING_STATUS_RUNNING;
+			changeStatusToRunning( );
 			if ( reportDocName == null || reportDocName.length( ) == 0 )
 			{
 				throw new EngineException(
@@ -114,7 +114,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		}
 		finally
 		{
-			runningStatus = RUNNING_STATUS_STOP;
+			changeStatusToStopped( );
 		}
 	}
 
@@ -127,7 +127,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	{
 		try
 		{
-			runningStatus = RUNNING_STATUS_RUNNING;
+			changeStatusToRunning( );
 			if ( archive == null )
 			{
 				throw new EngineException(
@@ -138,7 +138,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		}
 		finally
 		{
-			runningStatus = RUNNING_STATUS_STOP;
+			changeStatusToStopped( );
 		}
 	}
 
@@ -259,13 +259,13 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	{
 		try
 		{
-			runningStatus = RUNNING_STATUS_RUNNING;
+			changeStatusToRunning( );
 			setDataSource( fArchive );
 			run( (IDocArchiveWriter) fArchive );
 		}
 		finally
 		{
-			runningStatus = RUNNING_STATUS_STOP;
+			changeStatusToStopped( );
 		}
 	}
 	

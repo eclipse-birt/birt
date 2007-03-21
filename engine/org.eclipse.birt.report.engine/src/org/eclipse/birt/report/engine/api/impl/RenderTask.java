@@ -296,7 +296,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 	{
 		try
 		{
-			runningStatus = RUNNING_STATUS_RUNNING;
+			changeStatusToRunning( );
 			if ( renderOptions == null )
 			{
 				throw new EngineException(
@@ -312,7 +312,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		}
 		finally
 		{
-			runningStatus = RUNNING_STATUS_STOP;
+			changeStatusToStopped( );
 		}
 	}
 

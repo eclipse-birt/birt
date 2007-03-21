@@ -70,11 +70,6 @@ public abstract class EngineTask implements IEngineTask
 	protected static Logger log = Logger
 			.getLogger( EngineTask.class.getName( ) );
 	
-	protected final int RUNNING_STATUS_START = 0;
-	protected final int RUNNING_STATUS_RUNNING = 1;
-	protected final int RUNNING_STATUS_STOP = 2;
-	
-
 	protected static int id = 0;
 
 	protected String pagination;
@@ -85,11 +80,6 @@ public abstract class EngineTask implements IEngineTask
 	 */
 	protected boolean cancelFlag;
 	protected int runningStatus;
-	
-	/**
-	 * error handling mode.
-	 */
-	protected int errorHandlingOption = CONTINUE_ON_ERROR;
 	
 	/**
 	 * a reference to the report engine
@@ -168,7 +158,7 @@ public abstract class EngineTask implements IEngineTask
 		executionContext.setAppContext( engine.getConfig( ).getAppContext( ) );
 		
 		cancelFlag = false;
-		runningStatus = RUNNING_STATUS_START;
+		runningStatus = STATUS_NOT_STARTED;
 	}
 	
 	protected EngineTask( IReportEngine engine, IReportRunnable runnable,
@@ -711,7 +701,7 @@ public abstract class EngineTask implements IEngineTask
 			catch ( Exception ex )
 			{
 			}
-			if ( runningStatus != RUNNING_STATUS_RUNNING )
+			if ( runningStatus != STATUS_RUNNING )
 			{
 				return;
 			}
@@ -728,12 +718,10 @@ public abstract class EngineTask implements IEngineTask
 	{
 		if ( option == CANCEL_ON_ERROR )
 		{
-			this.errorHandlingOption = CANCEL_ON_ERROR;
 			executionContext.setCancelOnError( true );
 		}
 		else
 		{
-			this.errorHandlingOption = CONTINUE_ON_ERROR;
 			executionContext.setCancelOnError( false );
 		}
 	}
@@ -1017,25 +1005,7 @@ public abstract class EngineTask implements IEngineTask
 
 	public int getStatus()
 	{
-		switch(runningStatus)
-		{
-			case RUNNING_STATUS_START:
-				return STATUS_NOT_STARTED;
-			case RUNNING_STATUS_RUNNING:
-				return STATUS_RUNNING;
-			case RUNNING_STATUS_STOP:
-				if (cancelFlag)
-				{
-					return STATUS_CANCELLED;
-				}
-				if ( executionContext.hasErrors( ))
-				{
-					return STATUS_FAILED;
-				}
-				return STATUS_SUCCEEDED;
-		}
-		assert false;
-		return STATUS_NOT_STARTED;
+		return runningStatus;
 	}
 
 	public List getErrors( )
@@ -1226,5 +1196,26 @@ public abstract class EngineTask implements IEngineTask
 	public int getTaskType( )
 	{
 		return taskType;
+	}
+	
+	protected void changeStatusToRunning( )
+	{
+		runningStatus = STATUS_RUNNING;
+	}
+
+	protected void changeStatusToStopped( )
+	{
+		if ( cancelFlag )
+		{
+			runningStatus = STATUS_CANCELLED;
+		}
+		else if ( executionContext.hasErrors( ) )
+		{
+			runningStatus = STATUS_FAILED;
+		}
+		else
+		{
+			runningStatus = STATUS_SUCCEEDED;
+		}
 	}
 }
