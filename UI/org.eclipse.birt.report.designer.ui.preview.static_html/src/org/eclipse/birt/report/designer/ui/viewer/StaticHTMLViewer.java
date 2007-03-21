@@ -39,18 +39,25 @@ import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.ContributionItem;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -110,7 +117,9 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 
 	private Action navLastAction;
 
-	private Action navSelectAction;
+	private Action navGoAction;
+
+	private Text goPageInput;
 
 	public void init( )
 	{
@@ -160,14 +169,16 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 
 		form.setFont( JFaceResources.getFontRegistry( )
 				.get( JFaceResources.BANNER_FONT ) );
-		form.setImage( StaticHTMLPrviewPlugin.getDefault( ).getImageRegistry( ).get( "form_title.gif" ) );
+		form.setImage( StaticHTMLPrviewPlugin.getDefault( )
+				.getImageRegistry( )
+				.get( "form_title.gif" ) );
 
 		toolkit.decorateFormHeading( form );
 		form.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
 		GridLayout layout = new GridLayout( );
-		//		layout.horizontalSpacing = layout.verticalSpacing = 0;
-		//		layout.marginWidth = layout.marginHeight = 2;
+		layout.horizontalSpacing = layout.verticalSpacing = 0;
+		layout.marginWidth = layout.marginHeight = 0;
 		form.getBody( ).setLayout( layout );
 
 		//paramAction
@@ -281,19 +292,127 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 
 		form.getToolBarManager( ).add( new Separator( ) );
 
+		ContributionItem inputText = new ContributionItem( ) {
+
+			public void fill( ToolBar parent, int index )
+			{
+				ToolItem toolitem = new ToolItem( parent, SWT.SEPARATOR, index );
+				Composite container = new Composite( parent, SWT.NULL );
+				//				container.setFont( JFaceResources.getFontRegistry( )
+				//						.get( JFaceResources.TEXT_FONT ) );
+				GridLayout layout = new GridLayout( );
+				layout.numColumns = 2;
+				layout.marginWidth = layout.marginHeight = 1;
+				container.setLayout( layout );
+				Label label = new Label( container, SWT.NULL );
+				label.setFont( container.getFont( ) );
+				label.setText( "Go to page:" );
+
+				goPageInput = toolkit.createText( container, "", SWT.BORDER );
+				goPageInput.setFont( container.getFont( ) );
+
+				goPageInput.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+				//				goPageInput.addKeyListener( new KeyAdapter( ) {
+				//
+				//					public void keyPressed( KeyEvent e )
+				//					{
+				//						if ( e.keyCode != SWT.DEL && e.keyCode != SWT.BS )
+				//						{
+				//							try
+				//							{
+				//								long page = Long.parseLong( goPageInput.getText( )
+				//										+ e.character );
+				//								if ( page > 0 && page <= totalPageNum )
+				//									e.doit = true;
+				//								else
+				//									e.doit = false;
+				//							}
+				//							catch ( NumberFormatException e1 )
+				//							{
+				//								e.doit = false;
+				//							}
+				//						}
+				//					}
+				//
+				//				} );
+
+				goPageInput.addModifyListener( new ModifyListener( ) {
+
+					/**
+					 * last valid status
+					 */
+					private boolean isValid = true;
+
+					public void modifyText( ModifyEvent e )
+					{
+						if ( !"".equals( goPageInput.getText( ) ) )
+						{
+							try
+							{
+								long page = Long.parseLong( goPageInput.getText( ) );
+								if ( page > 0 && page <= totalPageNum )
+								{
+									if ( !isValid )
+									{
+										form.setMessage( null );
+										isValid = true;
+									}
+									navGoAction.setEnabled( true );
+								}
+								else
+								{
+									form.setMessage( "Page Number '"
+											+ page
+											+ "' is invalid!",
+											IMessageProvider.ERROR );
+									isValid = false;
+									navGoAction.setEnabled( false );
+								}
+							}
+							catch ( NumberFormatException e1 )
+							{
+								form.setMessage( "Page Number '"
+										+ goPageInput.getText( )
+										+ "' is invalid!",
+										IMessageProvider.ERROR );
+								isValid = false;
+								navGoAction.setEnabled( false );
+							}
+						}
+						else
+						{
+							form.setMessage( null );
+							isValid = true;
+						}
+					}
+				} );
+
+				toolitem.setWidth( label.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x + 40 );
+				toolitem.setControl( container );
+			}
+
+		};
+		inputText.setVisible( true );
+		form.getToolBarManager( ).add( inputText );
+
 		//navSelectAction
-		navSelectAction = new Action( "Select pages", Action.AS_PUSH_BUTTON ) { //$NON-NLS-1$
+		navGoAction = new Action( "Go to page", Action.AS_PUSH_BUTTON ) { //$NON-NLS-1$
 
 			public void run( )
 			{
+				if ( goPageInput != null && !goPageInput.isDisposed( ) )
+				{
+					currentPageNum = Long.parseLong( goPageInput.getText( ) );
+					render( );
+				}
 			}
 		};
 
-		navSelectAction.setToolTipText( "Go to page" ); //$NON-NLS-1$
-		navSelectAction.setImageDescriptor( StaticHTMLPrviewPlugin.getDefault( )
+		navGoAction.setToolTipText( "Go to page" ); //$NON-NLS-1$
+		navGoAction.setImageDescriptor( StaticHTMLPrviewPlugin.getDefault( )
 				.getImageRegistry( )
-				.getDescriptor( StaticHTMLPrviewPlugin.IMG_NAV_PAGE ) );
-		form.getToolBarManager( ).add( navSelectAction );
+				.getDescriptor( StaticHTMLPrviewPlugin.IMG_NAV_GO ) );
+		form.getToolBarManager( ).add( navGoAction );
 
 		form.updateToolBar( );
 
@@ -617,6 +736,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 						navPreAction.setEnabled( false );
 						navFirstAction.setEnabled( false );
 					}
+					goPageInput.setText( currentPageNum + "" );
 					form.setBusy( false );
 					form.setText( MessageFormat.format( TITLE_MESSAGE,
 							new Object[]{

@@ -25,7 +25,7 @@ public class StaticHTMLPrviewPlugin extends AbstractUIPlugin {
 
 	public static final String IMG_NAV_LAST = "LastPage.gif";
 
-	public static final String IMG_NAV_PAGE = "nav_page.gif";
+	public static final String IMG_NAV_GO = "Go.gif";
 
 	public static final String IMG_PARAMS = "parameter.gif";
 
@@ -74,7 +74,7 @@ public class StaticHTMLPrviewPlugin extends AbstractUIPlugin {
 		registerImage(registry, IMG_NAV_PRE, IMG_NAV_PRE); 
 		registerImage(registry, IMG_NAV_NEXT, IMG_NAV_NEXT);
 		registerImage(registry, IMG_NAV_LAST, IMG_NAV_LAST); 
-		registerImage(registry, IMG_NAV_PAGE, IMG_NAV_PAGE);
+		registerImage(registry, IMG_NAV_GO, IMG_NAV_GO);
 		registerImage(registry, IMG_PARAMS, IMG_PARAMS); 
 		registerImage(registry, IMG_TOC, IMG_TOC); 
 		registerImage(registry, IMG_FORM_TITLE, IMG_FORM_TITLE); 

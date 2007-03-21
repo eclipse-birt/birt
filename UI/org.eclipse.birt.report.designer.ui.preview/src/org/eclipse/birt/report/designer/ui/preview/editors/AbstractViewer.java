@@ -98,9 +98,10 @@ public abstract class AbstractViewer implements IViewer
 	//		return reportDocumentFile.getAbsolutePath( );
 	//	}
 
-	protected void createReportOutput( String reportDesignFile,
+
+	protected long createReportOutput( String reportDesignFile,
 			String outputFolder, String outputFileName, Map parameters,
-			int pageNumber ) throws EngineException, IOException
+			long pageNumber ) throws EngineException, IOException
 	{
 		File designFile = new File( reportDesignFile );
 
@@ -132,7 +133,7 @@ public abstract class AbstractViewer implements IViewer
 		}
 
 		IReportDocument document = engine.openReportDocument( reportDocumentFile.getAbsolutePath( ) );
-
+		long pageCount = document.getPageCount( );
 		IRenderTask task = engine.createRenderTask( document );
 
 		IRenderOption renderOption = getRenderOption( );
@@ -156,8 +157,9 @@ public abstract class AbstractViewer implements IViewer
 			task = null;
 			document = null;
 		}
+		return pageCount;
 	}
-
+	
 	protected List getInputParameters( String reportDesignFile )
 	{
 		try
