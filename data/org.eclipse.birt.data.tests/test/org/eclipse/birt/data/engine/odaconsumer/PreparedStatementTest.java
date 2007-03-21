@@ -134,19 +134,38 @@ public class PreparedStatementTest extends ConnectionTest
 
     public final void testSetParameterNullValue( ) throws DataException
     {
-        String command = "select * from \"testtable\" where \"doubleColumn\" < ?";
+        String command = "select * from \"testtable\" where \"stringColumn\" "
+            + "like ? ";
         m_statement = getConnection( ).prepareStatement( command,
                 JDBCOdaDataSource.DATA_SET_TYPE );
-        m_statement.setParameterValue( 1, null );
-        
+                
         boolean hasError = false;
         try
         {
+            m_statement.setParameterValue( 1, null );
             m_statement.execute( );
         }
         catch( DataException e )
         {
-        	// expects driver to complain about not having a value
+            hasError = true;
+        }
+        assertFalse( hasError );
+    }    
+
+    public final void testSetParameterNullValueForPrimitiveType( ) throws DataException
+    {
+        String command = "select * from \"testtable\" where \"doubleColumn\" < ?";
+        m_statement = getConnection( ).prepareStatement( command,
+                JDBCOdaDataSource.DATA_SET_TYPE );
+        
+        boolean hasError = false;
+        try
+        {
+            m_statement.setParameterValue( 1, null );
+        }
+        catch( NullPointerException e )
+        {
+        	// expects odaconsumer to not able to retry for a primitive type
             hasError = true;
         }
         assertTrue( hasError );

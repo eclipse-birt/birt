@@ -2766,10 +2766,7 @@ public class PreparedStatement
             
 			if( paramValue instanceof java.sql.Date )
 			{
-				// need to convert the java.util.Date to the java.sql.Date supported 
-                // by ODA
-                java.util.Date date = (java.util.Date) paramValue;
-                Date sqlDate = new Date( date.getTime() );
+                Date sqlDate = (Date) paramValue;
                 setDate( paramName, paramIndex, sqlDate );
                 return;
 			}
@@ -2777,8 +2774,14 @@ public class PreparedStatement
             // check for all other types of java.util.Date
             if( paramValue instanceof java.util.Date )
             {
-            	Timestamp timestamp = (Timestamp) paramValue;
-				setTimestamp( paramName, paramIndex, timestamp );
+                /* java.util.Date is not a supported ODA data type;
+                 * the best ODA data type alternative is a java.sql.Timestamp 
+                 * that preserves the time portion of a java.util.Date.
+                 * A java.sql.Date has by definition a date portion only 
+                 */
+                java.util.Date date = (java.util.Date) paramValue;
+                Timestamp sqlDateTime = new Timestamp( date.getTime() );
+				setTimestamp( paramName, paramIndex, sqlDateTime );
 				return;
             }
             
