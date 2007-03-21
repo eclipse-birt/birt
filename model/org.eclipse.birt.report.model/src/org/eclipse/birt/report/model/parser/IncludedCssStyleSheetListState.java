@@ -15,15 +15,15 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import org.eclipse.birt.report.model.api.IResourceLocator;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.CssException;
+import org.eclipse.birt.report.model.api.css.StyleSheetException;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.css.CssStyleSheet;
+import org.eclipse.birt.report.model.css.CssStyleSheetAdapter;
 import org.eclipse.birt.report.model.elements.ICssStyleSheetOperation;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
-import org.eclipse.birt.report.model.util.ModelUtil;
 import org.xml.sax.SAXException;
 
 /**
@@ -84,38 +84,42 @@ public class IncludedCssStyleSheetListState extends ListPropertyState
 			if ( !( element instanceof ICssStyleSheetOperation ) )
 				return;
 
-			ICssStyleSheetOperation sheetOperation = (ICssStyleSheetOperation) element;
-
-			URL url = element.getRoot( ).findResource( fileName,
+			URL url = handler.module.findResource( fileName,
 					IResourceLocator.CASCADING_STYLE_SHEET );
 			if ( url == null )
 			{
 				CssException ex = new CssException( handler.module,
+						new String[]{fileName},
 						CssException.DESIGN_EXCEPTION_CSS_NOT_FOUND );
 				handler.getErrorHandler( ).semanticWarning( ex );
 				return;
 			}
+			fileName = url.getFile( );
+			ICssStyleSheetOperation sheetOperation = (ICssStyleSheetOperation) element;
 
-			CssStyleSheet sheet = ModelUtil.getCssStyleSheetByLocation( element
-					.getRoot( ), sheetOperation.getCsses( ), url.getFile( ) );
+			CssStyleSheet sheet = CssStyleSheetAdapter
+					.getCssStyleSheetByLocation( handler.module, sheetOperation
+							.getCsses( ), fileName );
 
 			if ( sheet != null )
 			{
 				CssException ex = new CssException( handler.module,
+						new String[]{fileName},
 						CssException.DESIGN_EXCEPTION_DUPLICATE_CSS );
 				handler.getErrorHandler( ).semanticWarning( ex );
 				return;
 			}
-			
+
 			try
 			{
-				sheet = handler.module.loadCss( element, includeCss
-						.getFileName( ) );
+				sheet = handler.module.loadCss( element, fileName );
 				sheetOperation.addCss( sheet );
 			}
-			catch ( SemanticException e )
+			catch ( StyleSheetException e )
 			{
-				handler.getErrorHandler( ).semanticWarning( e );
+				CssException ex = new CssException( handler.module,
+						new String[]{fileName}, CssException.DESIGN_EXCEPTION_BADCSSFILE );
+				handler.getErrorHandler( ).semanticWarning( ex );
 			}
 		}
 	}

@@ -39,22 +39,28 @@ public class CssRecord extends SimpleRecord
 	 * Design element
 	 */
 
-	protected DesignElement element;
+	private DesignElement element;
 
 	/**
 	 * The css to operate
 	 */
 
-	protected CssStyleSheet css;
+	private CssStyleSheet css;
 
 	/**
 	 * Whether to add or remove the css.
 	 */
 
-	protected boolean add = true;
+	private boolean add = true;
 
 	/**
-	 * Constructs the library record.
+	 * Position of css file
+	 */
+
+	private int position = -1;
+
+	/**
+	 * Constructors the css record.
 	 * 
 	 * @param module
 	 *            the module
@@ -74,6 +80,25 @@ public class CssRecord extends SimpleRecord
 		this.css = css;
 		this.add = add;
 	}
+	
+	/**
+	 * Constructors the css record.
+	 * 
+	 * @param module
+	 * @param element
+	 * @param css
+	 * @param add
+	 * @param pos
+	 */
+	
+	CssRecord( Module module , DesignElement element , CssStyleSheet css , boolean add , int pos )
+	{
+		this.module = module;
+		this.element = element;
+		this.css = css;
+		this.add = add;
+		this.position = pos;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -83,23 +108,34 @@ public class CssRecord extends SimpleRecord
 
 	protected void perform( boolean undo )
 	{
+		assert element instanceof ICssStyleSheetOperation;
 
+		ICssStyleSheetOperation operation = (ICssStyleSheetOperation) element;
 		if ( add && !undo || !add && undo )
 		{
-			if ( element instanceof ICssStyleSheetOperation )
+			if ( position == -1 )
 			{
-				( (ICssStyleSheetOperation) element ).addCss( css );
-			}
+				operation.addCss( css );
+				int size = operation.getCsses( ).size( );
 
-			// re-resolve
-			CssNameManager.adjustStylesForAdd( module , (ICssStyleSheetOperation)element , css );
+				// re-resolve
+				CssNameManager.adjustStylesForAdd( module, operation, css,
+						size - 1 );
+
+			}
+			else
+			{
+				// insert css into position
+
+				operation.insertCss( css, position );
+				// re-resolve
+				CssNameManager.adjustStylesForAdd( module, operation, css,
+						position );
+			}
 		}
 		else
 		{
-			if ( element instanceof ICssStyleSheetOperation )
-			{
-				( (ICssStyleSheetOperation) element ).dropCss( css );
-			}
+			operation.dropCss( css );
 
 			// unresolve
 			CssNameManager.adjustStylesForRemove( css );

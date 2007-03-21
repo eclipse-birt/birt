@@ -12,8 +12,8 @@
 package org.eclipse.birt.report.model.api.command;
 
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
-import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.css.CssStyleSheet;
 
 /**
  * Included css style sheet reload event
@@ -27,7 +27,7 @@ public class CssReloadedEvent extends NotificationEvent
 	 * The css style sheet causing the event.
 	 */
 
-	private IncludedCssStyleSheet css;
+	private CssStyleSheet css;
 
 	/**
 	 * Constructor.
@@ -39,7 +39,7 @@ public class CssReloadedEvent extends NotificationEvent
 	 *            the element that is to reload css.
 	 */
 
-	public CssReloadedEvent( Module host, IncludedCssStyleSheet css )
+	public CssReloadedEvent( Module host, CssStyleSheet css )
 	{
 		super( host );
 		this.css = css;
@@ -65,7 +65,7 @@ public class CssReloadedEvent extends NotificationEvent
 	 *         found
 	 */
 
-	public IncludedCssStyleSheet getCss( )
+	public CssStyleSheet getCss( )
 	{
 		return css;
 	}

@@ -31,7 +31,6 @@ import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.command.CssException;
 import org.eclipse.birt.report.model.api.command.ResourceChangeEvent;
 import org.eclipse.birt.report.model.api.core.AttributeEvent;
 import org.eclipse.birt.report.model.api.core.DisposeEvent;
@@ -2711,50 +2710,34 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 * relative. If the css doesn't exist or fatal error occurs when opening
 	 * css,.
 	 * 
-	 * @param element
-	 *            design element
+	 * @param container
+	 *            container, report design or theme
 	 * @param fileName
 	 *            css file name
 	 * @return the loaded css
-	 * @throws DesignFileException
-	 *             if the css file has fatal error.
-	 * @throws SemanticException
+	 * @throws StyleSheetException
 	 */
 
-	public CssStyleSheet loadCss( DesignElement element, String fileName )
-			throws SemanticException
+	public CssStyleSheet loadCss( DesignElement container, String fileName )
+			throws StyleSheetException
 	{
-		URL url = findResource( fileName, IResourceLocator.CASCADING_STYLE_SHEET );
-		if ( url == null )
-		{
-			CssException ex = new CssException( this, CssException.DESIGN_EXCEPTION_CSS_NOT_FOUND );
-			throw ex;
-		}
 		try
 		{
 			StyleSheetLoader loader = new StyleSheetLoader( );
-			CssStyleSheet sheet = loader.load( this, url.openStream( ) );
-			sheet.setFileName( url.getFile( ) );
-			
+			CssStyleSheet sheet = loader.load( this, fileName );
+
 			List styles = sheet.getStyles( );
-			for( int i =0; styles!= null && i < styles.size( ) ; ++ i )
+			for ( int i = 0; styles != null && i < styles.size( ); ++i )
 			{
-				CssStyle style = (CssStyle)styles.get( i );
+				CssStyle style = (CssStyle) styles.get( i );
 				style.setCssStyleSheet( sheet );
-				style.setContainer( element );
+				style.setContainer( container );
 			}
 			return sheet;
 		}
 		catch ( StyleSheetException e )
 		{
-			CssException ex = new CssException( this,
-					CssException.DESIGN_EXCEPTION_BADCSSFILE );
-			throw ex;
-		}
-		catch ( IOException e )
-		{
-			CssException ex = new CssException( this, CssException.DESIGN_EXCEPTION_BADCSSFILE );
-			throw ex;
+			throw e;
 		}
 	}
 }

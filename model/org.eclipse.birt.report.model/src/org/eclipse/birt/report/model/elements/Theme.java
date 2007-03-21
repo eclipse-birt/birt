@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.css.CssNameManager;
 import org.eclipse.birt.report.model.css.CssStyleSheet;
+import org.eclipse.birt.report.model.css.CssStyleSheetAdapter;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
@@ -40,12 +41,8 @@ public class Theme extends ReferenceableElement
 			IThemeModel,
 			ICssStyleSheetOperation
 {
-
-	/**
-	 * All csses which are included in this module.
-	 */
-
-	private List csses = null;
+	
+	private ICssStyleSheetOperation operation = null;
 
 	/**
 	 * Constructor.
@@ -212,7 +209,6 @@ public class Theme extends ReferenceableElement
 						content.getName( ) ) );
 
 		return tmpErrors;
-
 	}
 
 	/**
@@ -225,13 +221,9 @@ public class Theme extends ReferenceableElement
 
 	public int dropCss( CssStyleSheet css )
 	{
-		assert csses != null;
-		assert csses.contains( css );
-
-		int posn = csses.indexOf( css );
-		csses.remove( css );
-
-		return posn;
+		if( operation == null )
+			return -1;
+		return operation.dropCss( css );
 	}
 
 	/**
@@ -243,10 +235,22 @@ public class Theme extends ReferenceableElement
 
 	public void addCss( CssStyleSheet css )
 	{
-		if ( csses == null )
-			csses = new ArrayList( );
-
-		csses.add( css );
+		if( operation == null )
+			operation = new CssStyleSheetAdapter() ;
+		operation.addCss( css );
+	}
+	
+	/**
+	 * Insert the given css to the given position
+	 * @param css
+	 * @param index
+	 */
+	
+	public void insertCss( CssStyleSheet css , int index )
+	{
+		if( operation == null )
+			operation = new CssStyleSheetAdapter() ;
+		operation.insertCss( css, index );
 	}
 
 	/**
@@ -257,9 +261,9 @@ public class Theme extends ReferenceableElement
 
 	public List getCsses( )
 	{
-		if( csses == null )
+		if( operation == null )
 			return Collections.EMPTY_LIST;
-		return Collections.unmodifiableList( csses );
+		return operation.getCsses( );
 	}
 
 }

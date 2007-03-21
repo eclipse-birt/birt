@@ -17,7 +17,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.ICssStyleSheetOperation;
@@ -73,7 +72,8 @@ public class CssNameManager
 	 * @return css style element
 	 */
 
-	public static StyleElement getStyle( ICssStyleSheetOperation operation, String styleName )
+	public static StyleElement getStyle( ICssStyleSheetOperation operation,
+			String styleName )
 	{
 		assert styleName != null;
 
@@ -96,6 +96,7 @@ public class CssNameManager
 
 	/**
 	 * Unresloves style element in design element.
+	 * 
 	 * @param css
 	 *            css style sheet list , each item is <code>CssStyle</code>.
 	 */
@@ -114,21 +115,28 @@ public class CssNameManager
 
 	/**
 	 * Resloves style element in design element.
+	 * <tr>
+	 * <td> First adjust styles in itself, if lower precedence , should
+	 * unresolve style's back-reference.
+	 * <td>Second if element is report design , should unresolve theme style's
+	 * back-reference. </tr>
+	 * 
 	 * @param module
 	 * @param cssOperation
 	 * @param sheet
-	 * 
+	 * @param position
 	 */
 
 	public static void adjustStylesForAdd( Module module,
-			ICssStyleSheetOperation cssOperation, CssStyleSheet sheet )
+			ICssStyleSheetOperation cssOperation, CssStyleSheet sheet,
+			int position )
 	{
 		// element is theme or report design.
 
 		List csses = cssOperation.getCsses( );
 
-		int size = csses.size( );
-		for ( int i = 0; i < size - 1; ++i )
+		// position decide precedence
+		for ( int i = 0; i < position; ++i )
 		{
 			CssStyleSheet tmpSheet = (CssStyleSheet) csses.get( i );
 			List tmpStyles = tmpSheet.getStyles( );
@@ -144,7 +152,7 @@ public class CssNameManager
 			}
 		}
 
-		//if element is report design , should unresolve style in theme.
+		// if element is report design , should unresolve style in theme.
 		if ( cssOperation instanceof ReportDesign )
 		{
 			Theme theme = module.getTheme( );
@@ -164,7 +172,7 @@ public class CssNameManager
 					CssStyle cssStyle = (CssStyle) tmpStyles.get( j );
 					if ( sheet.findStyle( cssStyle.getName( ) ) != null )
 					{
-						// unresolved all the client elements 
+						// unresolved all the client elements
 						cssStyle.updateClientReferences( );
 					}
 				}

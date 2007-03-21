@@ -11,14 +11,20 @@
 
 package org.eclipse.birt.report.model.library;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
+import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
@@ -71,7 +77,9 @@ public class LibraryParseTest extends BaseTestCase
 						.getCssStyleSheet( ).getFileName( ) );
 
 		// add css file
-		designHandle.addCss( "reslove.css" );//$NON-NLS-1$
+		CssStyleSheetHandle sheetHandle = designHandle
+				.openCssStyleSheet( "reslove.css" );//$NON-NLS-1$
+		designHandle.addCss( sheetHandle );
 
 		// 'captionfigcolumn' from report design resolve.css file
 		assertEquals(
@@ -107,16 +115,16 @@ public class LibraryParseTest extends BaseTestCase
 		// get 'uilabel' from report design css style
 		assertTrue( ( (CssStyle) labelHandle2.getStyle( ).getElement( ) )
 				.getContainer( ) instanceof ReportDesign );
-		
+
 		// drop report design css.
-		IncludedCssStyleSheetHandle handle = (IncludedCssStyleSheetHandle) designHandle
-				.includeCssesIterator( ).next( );
-		designHandle.dropCss( handle );
+		CssStyleSheetHandle sheetHandle = (CssStyleSheetHandle) designHandle
+				.getAllCssStyleSheets( ).get( 0 );
+		designHandle.dropCss( sheetHandle );
 
 		// get 'code' from theme css style
 		assertTrue( ( (CssStyle) labelHandle.getStyle( ).getElement( ) )
 				.getContainer( ) instanceof Theme );
-		
+
 		// get 'captionfigcolumn' from theme style
 		assertTrue( ( (CssStyle) labelHandle2.getStyle( ).getElement( ) )
 				.getContainer( ) instanceof Theme );
@@ -129,22 +137,12 @@ public class LibraryParseTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-	/*public void testReloadCssStyleSheetOperation( ) throws Exception
+	public void testReloadCssStyleSheetOperation( ) throws Exception
 	{
-		// reload not exist css
-		try
-		{
-			designHandle.reloadCss( "notexsit.css" );//$NON-NLS-1$
-		}
-		catch ( SemanticException e )
-		{
-			assert true;
-		}
-
 		// copy file
 
 		List fileNames = new ArrayList( );
-		fileNames.add( INPUT_FOLDER + "BlankReportDesign.xml" ); //$NON-NLS-1$
+		fileNames.add( INPUT_FOLDER + "LibraryParserWithCss_Reload.xml" );//$NON-NLS-1$
 		fileNames.add( INPUT_FOLDER + "base.css" ); //$NON-NLS-1$
 		fileNames.add( INPUT_FOLDER + "new.css" ); //$NON-NLS-1$
 
@@ -154,31 +152,26 @@ public class LibraryParseTest extends BaseTestCase
 		String newFilePath = (String) filePaths.get( 2 );
 
 		openDesign( designFilePath, false );
-		designHandle.addCss( baseFilePath );
-
-		LabelHandle labelHandle = designHandle.getElementFactory( ).newLabel(
-				"label" );//$NON-NLS-1$
-		designHandle.getBody( ).add( labelHandle );
-		List styles = designHandle.getAllStyles( );
-		assertEquals( 5, styles.size( ) );
 
 		// 'code'
-		labelHandle.setStyle( (SharedStyleHandle) styles.get( 0 ) );
+		LabelHandle labelHandle = (LabelHandle) designHandle
+				.findElement( "label" );//$NON-NLS-1$
 
-		LabelHandle labelHandle2 = designHandle.getElementFactory( ).newLabel(
-				"label2" );//$NON-NLS-1$
-		designHandle.getBody( ).add( labelHandle2 );
+		// 'captionfigcolumn'
+		LabelHandle labelHandle2 = (LabelHandle) designHandle
+				.findElement( "label2" );//$NON-NLS-1$
 
-		// 'CaptionFigColumn'
-		labelHandle2.setStyle( (SharedStyleHandle) styles.get( 1 ) );
+		assertNotNull( labelHandle.getStyle( ) );
+		assertEquals( "italic", labelHandle2.getStyle( ).getFontStyle( ) );//$NON-NLS-1$
 
 		// copy new.css to base.css
 		copyContentToFile( newFilePath, baseFilePath );
 
 		// reload css only exist four kind of styles
-		designHandle.reloadCsses( );
-		styles = designHandle.getAllStyles( );
-		assertEquals( 4, styles.size( ) );
+		CssStyleSheetHandle sheetHandle = (CssStyleSheetHandle) designHandle
+				.getAllCssStyleSheets( ).get( 0 );
+
+		designHandle.reloadCss( sheetHandle );
 
 		// reference of 'code' style is null.
 
@@ -190,7 +183,7 @@ public class LibraryParseTest extends BaseTestCase
 		SharedStyleHandle styleHandle2 = labelHandle2.getStyle( );
 		assertNotNull( styleHandle2 );
 		assertEquals( "oblique", styleHandle2.getFontStyle( ) );//$NON-NLS-1$
-	}*/
+	}
 
 	/**
 	 * Tests resolve style
@@ -217,7 +210,17 @@ public class LibraryParseTest extends BaseTestCase
 		// 'uilabel'
 		LabelHandle labelHandle4 = (LabelHandle) designHandle
 				.findElement( "label4" ); //$NON-NLS-1$
-
+		
+		//theme is read-only in library , so can't be drop
+		LibraryHandle libHandle = designHandle.getLibrary( "LibParserWithCss_Lib" );//$NON-NLS-1$
+		ThemeHandle themeHandle = libHandle.findTheme( "theme1" );//$NON-NLS-1$
+		List csses = themeHandle.getAllCssStyleSheets( );
+		CssStyleSheetHandle sheetHandle = (CssStyleSheetHandle)csses.get( 0 );
+		
+		assertFalse( themeHandle.canAddCssStyleSheet( sheetHandle ));
+		assertFalse( themeHandle.canAddCssStyleSheet( "base.css" ));//$NON-NLS-1$
+		assertFalse( themeHandle.canDropCssStyleSheet( sheetHandle ));
+		
 		// get style from report design
 		assertEquals( "center", labelHandle.getStyle( ).getTextAlign( ) );//$NON-NLS-1$
 		// get style from report design css style
@@ -246,22 +249,22 @@ public class LibraryParseTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-//	private void copyContentToFile( String source, String dest )
-//			throws Exception
-//	{
-//		FileInputStream fis = new FileInputStream( source );
-//		FileOutputStream fos = new FileOutputStream( dest );
-//		byte[] fileData = new byte[5120];
-//		int readCount = -1;
-//		while ( ( readCount = fis.read( fileData ) ) != -1 )
-//		{
-//			fos.write( fileData, 0, readCount );
-//		}
-//
-//		fos.close( );
-//		fis.close( );
-//
-//	}
+	private void copyContentToFile( String source, String dest )
+			throws Exception
+	{
+		FileInputStream fis = new FileInputStream( source );
+		FileOutputStream fos = new FileOutputStream( dest );
+		byte[] fileData = new byte[5120];
+		int readCount = -1;
+		while ( ( readCount = fis.read( fileData ) ) != -1 )
+		{
+			fos.write( fileData, 0, readCount );
+		}
+
+		fos.close( );
+		fis.close( );
+
+	}
 
 	/**
 	 * Copies a bunch of design/library files to the temporary folder.
@@ -273,18 +276,18 @@ public class LibraryParseTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-//	private List dumpDesignAndLibrariesToFile( List fileNames )
-//			throws Exception
-//	{
-//		List filePaths = new ArrayList( );
-//		for ( int i = 0; i < fileNames.size( ); i++ )
-//		{
-//			String resourceName = (String) fileNames.get( i );
-//			filePaths.add( copyContentToFile( resourceName ) );
-//		}
-//
-//		return filePaths;
-//	}
+	private List dumpDesignAndLibrariesToFile( List fileNames )
+			throws Exception
+	{
+		List filePaths = new ArrayList( );
+		for ( int i = 0; i < fileNames.size( ); i++ )
+		{
+			String resourceName = (String) fileNames.get( i );
+			filePaths.add( copyContentToFile( resourceName ) );
+		}
+
+		return filePaths;
+	}
 
 	/**
 	 * Tests all properties and slots.

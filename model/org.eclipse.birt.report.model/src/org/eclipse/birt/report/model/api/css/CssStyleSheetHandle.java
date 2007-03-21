@@ -60,7 +60,7 @@ public class CssStyleSheetHandle extends ElementDetailHandle
 	 * @return the style sheet
 	 */
 
-	CssStyleSheet getStyleSheet( )
+	public CssStyleSheet getStyleSheet( )
 	{
 		return styleSheet;
 	}
@@ -166,3 +166,4 @@ public class CssStyleSheetHandle extends ElementDetailHandle
 	}
 
 }
+

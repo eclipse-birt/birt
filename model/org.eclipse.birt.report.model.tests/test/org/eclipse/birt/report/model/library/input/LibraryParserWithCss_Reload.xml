@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="3.2.11">
+	<property name="theme">LibParserWithCss_Lib.theme1</property>
+	<list-property name="cssStyleSheets">
+    	<structure>
+    		<property name="fileName">base.css</property>
+    	</structure>
+    </list-property>
+    <body>
+	    <label id="4" name="label">
+	            <property name="style">code</property>
+	            <text-property name="text">label</text-property>
+	    </label>
+	    <label id="6" name="label2">
+	            <property name="style">captionfigcolumn</property>
+	            <text-property name="text">label2</text-property>
+	    </label>
+	</body>
+</report>

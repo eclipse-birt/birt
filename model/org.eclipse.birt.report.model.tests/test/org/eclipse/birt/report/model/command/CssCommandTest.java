@@ -11,70 +11,99 @@
 
 package org.eclipse.birt.report.model.command;
 
-import java.util.Iterator;
-
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.CssEvent;
 import org.eclipse.birt.report.model.api.command.CssReloadedEvent;
 import org.eclipse.birt.report.model.api.core.Listener;
+import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Unit test for class CssCommand.
  * <tr>
- * <td> test undo and redo can work when add or drop css
- * </tr>
+ * <td> test undo and redo can work when add or drop css </tr>
  * 
  * <tr>
- * <td>test send message is ok 
- * </tr>
+ * <td>test send message is ok </tr>
  */
 
 public class CssCommandTest extends BaseTestCase
 {
 
 	/**
-	 * Tests undo , redo operation.
+	 * Tests undo , redo operation when add/drop css.
 	 * 
 	 * @throws Exception
 	 */
 
-	public void testUndoAndRedo( ) throws Exception
+	public void testUndoAddAndDropCss( ) throws Exception
 	{
 		openDesign( "BlankReportDesign.xml" ); //$NON-NLS-1$
 
 		// test undo redo operation
 
-		LabelHandle labelHandle = (LabelHandle)designHandle.findElement( "label" );//$NON-NLS-1$
-		
-		assertEquals( "left" , labelHandle.getStyle( ).getTextAlign( ) );//$NON-NLS-1$
-		
-		designHandle.addCss( "reslove.css" );//$NON-NLS-1$
-		
-		assertEquals( "center" , labelHandle.getStyle( ).getTextAlign( ) );//$NON-NLS-1$
-		
+		LabelHandle labelHandle = (LabelHandle) designHandle
+				.findElement( "label" );//$NON-NLS-1$
+
+		assertEquals( "left", labelHandle.getStyle( ).getTextAlign( ) );//$NON-NLS-1$
+
+		CssStyleSheetHandle sheetHandle = designHandle
+				.openCssStyleSheet( "reslove.css" );//$NON-NLS-1$
+		designHandle.addCss( sheetHandle );
+
+		assertEquals( "center", labelHandle.getStyle( ).getTextAlign( ) );//$NON-NLS-1$
+
 		designHandle.getCommandStack( ).undo( );
-		assertEquals( "left" , labelHandle.getStyle( ).getTextAlign( ) );//$NON-NLS-1$
-		
-		designHandle.getCommandStack( ).redo();
-		assertEquals( "center" , labelHandle.getStyle( ).getTextAlign( ) );//$NON-NLS-1$
-		
-		Iterator iter = designHandle.includeCssesIterator( );
-		iter.next();
-		IncludedCssStyleSheetHandle handle = (IncludedCssStyleSheetHandle)iter.next();
-		//drop reslove.css
-		designHandle.dropCss( handle );
-		assertEquals( "left" , labelHandle.getStyle( ).getTextAlign( ) );//$NON-NLS-1$
-		
+		assertEquals( "left", labelHandle.getStyle( ).getTextAlign( ) );//$NON-NLS-1$
+
+		designHandle.getCommandStack( ).redo( );
+		assertEquals( "center", labelHandle.getStyle( ).getTextAlign( ) );//$NON-NLS-1$
+
+		// drop reslove.css
+		designHandle.dropCss( sheetHandle );
+		assertEquals( "left", labelHandle.getStyle( ).getTextAlign( ) );//$NON-NLS-1$
+
 		designHandle.getCommandStack( ).undo( );
-		assertEquals( "center" , labelHandle.getStyle( ).getTextAlign( ) );//$NON-NLS-1$
+		assertEquals( "center", labelHandle.getStyle( ).getTextAlign( ) );//$NON-NLS-1$
+
+		designHandle.getCommandStack( ).redo( );
+		assertEquals( "left", labelHandle.getStyle( ).getTextAlign( ) );//$NON-NLS-1$
+
+	}
+
+	/**
+	 * Tests undo , redo operation when reload css.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testUndoReloadCss( ) throws Exception
+	{
+		openDesign( "CssCommandTest_Reload.xml" ); //$NON-NLS-1$
+
+		// test undo redo operation
+
+		LabelHandle labelHandle = (LabelHandle) designHandle
+				.findElement( "label" );//$NON-NLS-1$
+
+		assertEquals( "center", labelHandle.getStyle( ).getTextAlign( ) );//$NON-NLS-1$
+
+		CssStyleSheetHandle sheetHandle = (CssStyleSheetHandle) designHandle
+				.getAllCssStyleSheets( ).get( 0 );
+		designHandle.reloadCss( sheetHandle );
+		assertEquals( "center", labelHandle.getStyle( ).getTextAlign( ) );//$NON-NLS-1$
 		
-		designHandle.getCommandStack( ).redo();
-		assertEquals( "left" , labelHandle.getStyle( ).getTextAlign( ) );//$NON-NLS-1$
-		
+		//position in design file is the same
+		sheetHandle = (CssStyleSheetHandle) designHandle.getAllStyles( )
+				.get( 0 );
+		assertEquals( "base.css", sheetHandle.getFileName( ) );//$NON-NLS-1$
+
+		assertFalse( designHandle.needsSave( ) );
+
+		assertFalse( designHandle.getCommandStack( ).canRedo( ) );
+		assertFalse( designHandle.getCommandStack( ).canUndo( ) );
 	}
 
 	/**
@@ -91,20 +120,30 @@ public class CssCommandTest extends BaseTestCase
 		MyListener listener = new MyListener( );
 		designHandle.addListener( listener );
 
-		designHandle.addCss( "reslove.css" );//$NON-NLS-1$
+		CssStyleSheetHandle sheetHandle = designHandle
+				.openCssStyleSheet( "reslove.css" );//$NON-NLS-1$
+		designHandle.addCss( sheetHandle );
 
 		assertEquals( NotificationEvent.CSS_EVENT, listener.getEventType( ) );
 		assertEquals( CssEvent.ADD, listener.getAction( ) );
+		assertEquals( 1, listener.getEventCount( ) );
 
-		// designHandle.reloadCsses( );
+		listener.clearEventCount( );
 
-		// assertEquals( NotificationEvent.CSS_RELOADED_EVENT, listener
-		// .getEventType( ) );
+		sheetHandle = (CssStyleSheetHandle) designHandle.getAllCssStyleSheets( )
+				.get( 0 );
+		designHandle.reloadCss( sheetHandle );
 
-		designHandle.dropCss( (IncludedCssStyleSheetHandle) designHandle
-				.includeCssesIterator( ).next( ) );
+		assertEquals( NotificationEvent.CSS_RELOADED_EVENT, listener
+				.getEventType( ) );
+		assertEquals( 1, listener.getEventCount( ) );
+
+		listener.clearEventCount( );
+
+		designHandle.dropCss( sheetHandle );
 
 		assertEquals( CssEvent.DROP, listener.getAction( ) );
+		assertEquals( 1, listener.getEventCount( ) );
 	}
 
 	class MyListener implements Listener
@@ -112,6 +151,7 @@ public class CssCommandTest extends BaseTestCase
 
 		int action = CssEvent.ADD;
 		int eventType = NotificationEvent.CSS_EVENT;
+		int count = 0;
 
 		/*
 		 * (non-Javadoc)
@@ -135,6 +175,28 @@ public class CssCommandTest extends BaseTestCase
 				CssReloadedEvent event = (CssReloadedEvent) ev;
 				eventType = event.getEventType( );
 			}
+			++count;
+		}
+
+		/**
+		 * Gets event count.
+		 * 
+		 * @return event count
+		 */
+
+		public int getEventCount( )
+		{
+			return count;
+		}
+
+		/**
+		 * Set event count to zero
+		 * 
+		 */
+
+		public void clearEventCount( )
+		{
+			count = 0;
 		}
 
 		/**
@@ -159,6 +221,5 @@ public class CssCommandTest extends BaseTestCase
 		{
 			return eventType;
 		}
-
 	}
 }

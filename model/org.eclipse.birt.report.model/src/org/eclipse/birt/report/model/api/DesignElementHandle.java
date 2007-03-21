@@ -1258,7 +1258,10 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			return null;
 
 		int slotID = containerHandle.findContentSlot( this );
-		assert slotID != IDesignElementModel.NO_SLOT;
+		//if not find , return null.
+		if( slotID == IDesignElementModel.NO_SLOT )
+			return null;
+		
 		return containerHandle.getSlot( slotID );
 	}
 

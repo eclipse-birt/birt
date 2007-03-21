@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.css;
 
+import org.eclipse.birt.report.model.api.CssSharedStyleHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -79,7 +80,7 @@ public class CssStyle extends Style
 	{
 		if ( handle == null )
 		{
-			handle = new SharedStyleHandle( module, this );
+			handle = new CssSharedStyleHandle( module, this );
 		}
 		return (SharedStyleHandle) handle;
 	}

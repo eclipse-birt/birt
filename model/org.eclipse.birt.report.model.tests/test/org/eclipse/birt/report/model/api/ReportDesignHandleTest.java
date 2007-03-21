@@ -28,6 +28,7 @@ import org.eclipse.birt.report.model.api.core.AttributeEvent;
 import org.eclipse.birt.report.model.api.core.DisposeEvent;
 import org.eclipse.birt.report.model.api.core.IAttributeListener;
 import org.eclipse.birt.report.model.api.core.IDisposeListener;
+import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -96,8 +97,7 @@ import com.ibm.icu.util.ULocale;
  * </tr>
  * 
  * <tr>
- * <td>Test add / drop css style sheet 
- * </tr>
+ * <td>Test add / drop css style sheet </tr>
  * 
  * </table>
  * 
@@ -215,15 +215,22 @@ public class ReportDesignHandleTest extends BaseTestCase
 	{
 		openDesign( "BlankReportDesign.xml" ); //$NON-NLS-1$
 
-		// test add css
+		assertTrue( designHandle.canAddCssStyleSheet( getResource( "input/base.css" ).getFile( ) ));//$NON-NLS-1$
+		// test add css sheet
 
-		designHandle.addCss( "base.css" );//$NON-NLS-1$
+		CssStyleSheetHandle sheetHandle = designHandle
+				.openCssStyleSheet( getResource( "input/base.css" ).getFile( ) );//$NON-NLS-1$
+		designHandle.addCss( sheetHandle );
+		
+		assertFalse( designHandle.canAddCssStyleSheet( getResource( "input/base.css" ).getFile( ) ));//$NON-NLS-1$
+		assertFalse( designHandle.canAddCssStyleSheet( sheetHandle ));
+		
 		List styles = designHandle.getAllStyles( );
 		assertEquals( 5, styles.size( ) );
 
 		try
 		{
-			designHandle.addCss( "base.css" );//$NON-NLS-1$
+			designHandle.addCss( sheetHandle );
 			fail( );
 		}
 		catch ( CssException e )
@@ -231,17 +238,15 @@ public class ReportDesignHandleTest extends BaseTestCase
 			assertEquals( CssException.DESIGN_EXCEPTION_DUPLICATE_CSS, e
 					.getErrorCode( ) );
 		}
-
 		// label use it
 		LabelHandle labelHandle = designHandle.getElementFactory( ).newLabel(
 				"label" );//$NON-NLS-1$
 		designHandle.getBody( ).add( labelHandle );
 		labelHandle.setStyle( (SharedStyleHandle) styles.get( 0 ) );
-		
+
 		// drop css
-		IncludedCssStyleSheetHandle sheetHandle = (IncludedCssStyleSheetHandle) designHandle
-				.includeCssesIterator( ).next( );
 		
+		assertTrue( designHandle.canDropCssStyleSheet( sheetHandle ));
 		// before drop , element is resolved. after drop element is unresolved
 		ElementRefValue value = (ElementRefValue) labelHandle.getElement( )
 				.getLocalProperty( designHandle.getModule( ), "style" );//$NON-NLS-1$
@@ -251,6 +256,14 @@ public class ReportDesignHandleTest extends BaseTestCase
 		assertFalse( value.isResolved( ) );
 		assertNull( designHandle.includeCssesIterator( ).next( ) );
 		assertNull( labelHandle.getStyle( ) );
+		
+		assertFalse( designHandle.canDropCssStyleSheet( sheetHandle ));
+		
+		// test add css file name
+
+		designHandle.addCss( "base.css" );//$NON-NLS-1$
+		styles = designHandle.getAllStyles( );
+		assertEquals( 5, styles.size( ) );
 	}
 
 	/**

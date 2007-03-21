@@ -171,7 +171,11 @@ public final class StyleSheetLoader
 					StyleSheetException.DESIGN_EXCEPTION_STYLE_SHEET_NOT_FOUND,
 					e );
 		}
-		return load( module, is );
+		CssStyleSheet sheet = load( module, is );
+		
+		//set the absolute path to css style sheet.
+		sheet.setFileName( url.getFile( ) );
+		return sheet;
 	}
 
 	/**

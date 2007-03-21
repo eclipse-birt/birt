@@ -62,7 +62,6 @@ import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyleElement;
-import org.eclipse.birt.report.model.css.CssStyleSheet;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.GroupElement;
@@ -101,27 +100,6 @@ import com.ibm.icu.util.ULocale;
 
 public class ModelUtil
 {
-
-	/**
-	 * Gets css style sheet by location
-	 * 
-	 * @param module
-	 * @param csses
-	 * @param location
-	 * @return css style sheet.
-	 */
-
-	public static CssStyleSheet getCssStyleSheetByLocation( Module module,
-			List csses, String location )
-	{
-		for ( int i = 0; csses != null && i < csses.size( ); ++i )
-		{
-			CssStyleSheet css = (CssStyleSheet) csses.get( i );
-			if ( location.equalsIgnoreCase( css.getFileName( ) ) )
-				return css;
-		}
-		return null;
-	}
 
 	/**
 	 * Checks all style names in styles list exist in styleList or not

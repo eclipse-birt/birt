@@ -18,16 +18,17 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Included css style sheet exception
- *
+ * 
  */
 
-public class CssException  extends SemanticException
+public class CssException extends SemanticException
 {
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 5798109731640445551L;
-	
+
 	/**
 	 * Indicates the css is not found in module.
 	 */
@@ -41,30 +42,16 @@ public class CssException  extends SemanticException
 	public final static String DESIGN_EXCEPTION_DUPLICATE_CSS = MessageConstants.CSS_EXCEPTION_DUPLICATE_CSS;
 
 	/**
-	 * Bad css file. 
+	 * Bad css file.
 	 */
-	
+
 	public final static String DESIGN_EXCEPTION_BADCSSFILE = MessageConstants.CSS_EXCEPTION_BADCSSFILE;
-	
+
 	/**
 	 * Read-only style
 	 */
-	
-	public final static String DESIGN_EXCEPTION_READONLY = MessageConstants.CSS_EXCEPTION_READONLY;
-	
-	/**
-	 * Constructor.
-	 * 
-	 * @param module
-	 *            the module which has errors
-	 * @param errCode
-	 *            the error code
-	 */
 
-	public CssException( Module module, String errCode )
-	{
-		super( module, errCode );
-	}
+	public final static String DESIGN_EXCEPTION_READONLY = MessageConstants.CSS_EXCEPTION_READONLY;
 
 	/**
 	 * Constructor.
@@ -81,14 +68,24 @@ public class CssException  extends SemanticException
 	{
 		super( module, values, errCode );
 	}
-	
+
 	/*
-	 *  (non-Javadoc)
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
-	
+
 	public String getLocalizedMessage( )
 	{
+		if ( DESIGN_EXCEPTION_CSS_NOT_FOUND == sResourceKey
+				|| DESIGN_EXCEPTION_DUPLICATE_CSS == sResourceKey
+				|| DESIGN_EXCEPTION_BADCSSFILE == sResourceKey
+				|| DESIGN_EXCEPTION_READONLY == sResourceKey )
+		{
+			return ModelMessages.getMessage( sResourceKey,
+					new String[]{(String) oaMessageArguments[0]} );
+		}
+
 		return ModelMessages.getMessage( sResourceKey );
 	}
 

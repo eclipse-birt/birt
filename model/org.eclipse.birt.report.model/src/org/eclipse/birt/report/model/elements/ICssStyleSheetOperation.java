@@ -47,4 +47,12 @@ public interface ICssStyleSheetOperation
 	 */
 
 	public List getCsses( );
+	
+	/**
+	 * Insert the given css to the given position
+	 * @param css
+	 * @param index
+	 */
+	
+	public void insertCss( CssStyleSheet css , int index );
 }

@@ -2381,11 +2381,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public CssStyleSheetHandle openCssStyleSheet( String fileName )
 			throws StyleSheetException
 	{
-		StyleSheetLoader loader = new StyleSheetLoader( );
-		CssStyleSheet sheet = loader.load( module, fileName );
-		URL url = module.findResource( fileName ,
-				IResourceLocator.CASCADING_STYLE_SHEET );
-		sheet.setFileName( url.getFile( ) );
+		CssStyleSheet sheet = module.loadCss( getElement( ) , fileName );
 		return sheet.handle( module );
 	}
 

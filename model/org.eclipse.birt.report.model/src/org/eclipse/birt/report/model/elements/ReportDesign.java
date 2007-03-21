@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.css.CssStyleSheet;
+import org.eclipse.birt.report.model.css.CssStyleSheetAdapter;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.util.ContentIterator;
 import org.eclipse.birt.report.model.writer.DesignWriter;
@@ -48,11 +49,7 @@ public class ReportDesign extends Module
 			ICssStyleSheetOperation
 {
 
-	/**
-	 * All csses which are included in this module.
-	 */
-
-	private List csses = null;
+	private ICssStyleSheetOperation operation = null;
 
 	/**
 	 * Default constructor.
@@ -280,17 +277,13 @@ public class ReportDesign extends Module
 
 	public int dropCss( CssStyleSheet css )
 	{
-		assert csses != null;
-		assert csses.contains( css );
-
-		int posn = csses.indexOf( css );
-		csses.remove( css );
-
-		return posn;
+		if( operation == null )
+			return -1;
+		return operation.dropCss( css );
 	}
 
 	/**
-	 * Adds the given css to css style sheets list.
+	 * Adds the given css to css list.
 	 * 
 	 * @param css
 	 *            the css to insert
@@ -298,10 +291,22 @@ public class ReportDesign extends Module
 
 	public void addCss( CssStyleSheet css )
 	{
-		if ( csses == null )
-			csses = new ArrayList( );
-
-		csses.add( css );
+		if( operation == null )
+			operation = new CssStyleSheetAdapter() ;
+		operation.addCss( css );
+	}
+	
+	/**
+	 * Insert the given css to the given position
+	 * @param css
+	 * @param index
+	 */
+	
+	public void insertCss( CssStyleSheet css , int index )
+	{
+		if( operation == null )
+			operation = new CssStyleSheetAdapter() ;
+		operation.insertCss( css, index );
 	}
 
 	/**
@@ -312,9 +317,9 @@ public class ReportDesign extends Module
 
 	public List getCsses( )
 	{
-		if( csses == null )
+		if( operation == null )
 			return Collections.EMPTY_LIST;
-		return Collections.unmodifiableList( csses );
+		return operation.getCsses( );
 	}
 
 }

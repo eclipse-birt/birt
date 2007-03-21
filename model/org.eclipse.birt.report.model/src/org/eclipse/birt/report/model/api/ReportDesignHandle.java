@@ -23,10 +23,10 @@ import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
-import org.eclipse.birt.report.model.command.CssCommand;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.css.CssStyleSheet;
+import org.eclipse.birt.report.model.css.CssStyleSheetHandleAdapter;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
@@ -403,18 +403,19 @@ public class ReportDesignHandle extends ModuleHandle
 	}
 
 	/**
-	 * Gets all css styles sheet 
+	 * Gets all css styles sheet
+	 * 
 	 * @return each item is <code>CssStyleSheetHandle</code>
 	 */
-	
-	public List getAllCssStyleSheets() 
+
+	public List getAllCssStyleSheets( )
 	{
-		ReportDesign design = (ReportDesign)getElement();
-		List allStyles = new ArrayList();
+		ReportDesign design = (ReportDesign) getElement( );
+		List allStyles = new ArrayList( );
 		List csses = design.getCsses( );
-		for( int i =0; csses!= null && i< csses.size( ) ; ++ i )
+		for ( int i = 0; csses != null && i < csses.size( ); ++i )
 		{
-			CssStyleSheet sheet = (CssStyleSheet)csses.get(i);
+			CssStyleSheet sheet = (CssStyleSheet) csses.get( i );
 			allStyles.add( sheet.handle( getModule( ) ) );
 		}
 		return allStyles;
@@ -786,87 +787,120 @@ public class ReportDesignHandle extends ModuleHandle
 	 * Includes one css with the given css file name. The new css will be
 	 * appended to the css list.
 	 * 
+	 * @param sheetHandle
+	 *            css style sheet handle
+	 * @throws SemanticException
+	 *             if error is encountered when handling
+	 *             <code>CssStyleSheet</code> structure list.
+	 */
+
+	public void addCss( CssStyleSheetHandle sheetHandle )
+			throws SemanticException
+	{
+		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
+				module, getElement( ) );
+		adapter.addCss( sheetHandle );
+	}
+
+	/**
+	 * Includes one css with the given css file name. The new css will be
+	 * appended to the css list.
+	 * 
 	 * @param fileName
 	 *            css file name
-	 * @param namespace
-	 *            css namespace
-	 * @throws DesignFileException
-	 *             if the css file is not found, or has fatal error.
 	 * @throws SemanticException
-	 *             if error is encountered when handling <code>IncludeCss</code>
-	 *             structure list.
+	 *             if error is encountered when handling
+	 *             <code>CssStyleSheet</code> structure list.
 	 */
 
 	public void addCss( String fileName ) throws SemanticException
 	{
-		if ( fileName == null )
-			return;
-
-		CssCommand command = new CssCommand( module, getElement( ) );
-		command.addCss( fileName );
+		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
+				module, getElement( ) );
+		adapter.addCss( fileName );
 	}
 
 	/**
 	 * Drops the given css style sheet of this design file.
 	 * 
-	 * @param cssHandle
+	 * @param sheetHandle
 	 *            the css to drop
 	 * @throws SemanticException
 	 *             if error is encountered when handling
-	 *             <code>IncludeCssStyleSheet</code> structure list. Or it
-	 *             maybe because that the given css is not found in the design.
-	 *             Or that the css has descedents in the current module
+	 *             <code>CssStyleSheet</code> structure list. Or it maybe
+	 *             because that the given css is not found in the design. Or
+	 *             that the css has descedents in the current module
 	 */
 
-	public void dropCss( IncludedCssStyleSheetHandle cssHandle )
+	public void dropCss( CssStyleSheetHandle sheetHandle )
 			throws SemanticException
 	{
-		if ( cssHandle == null )
-			return;
-
-		CssCommand command = new CssCommand( module, getElement( ) );
-		command.dropCss( cssHandle.getFileName( ) );
+		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
+				module, getElement( ) );
+		adapter.dropCss( sheetHandle );
 	}
 
 	/**
-	 * Reloads all css style sheets this module included.
+	 * Check style sheet can be droped or not.
 	 * 
-	 * @throws SemanticException
+	 * @param sheetHandle
+	 * @return <code>true</code> can be dropped.else return <code>false</code>
 	 */
 
-//	public void reloadCsses( ) throws SemanticException
-//	{
-//		List csses = getListProperty( IReportDesignModel.CSSES_PROP );
-//		if ( csses == null || csses.isEmpty( ) )
-//			return;
-//		for ( int i = 0; i < csses.size( ); i++ )
-//		{
-//			IncludedCssStyleSheet css = (IncludedCssStyleSheet) csses.get( i );
-//			reloadCss( css.getFileName( ) );
-//		}
-//	}
+	public boolean canDropCssStyleSheet( CssStyleSheetHandle sheetHandle )
+	{
+		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
+				module, getElement( ) );
+		return adapter.canDropCssStyleSheet( sheetHandle );
+	}
 
 	/**
-	 * Reloads the css with the given css file path. If the css style sheet
-	 * already is included directly or indirectly, reload it. If the css is not
-	 * included, exception will be thrown.
+	 * Check style sheet can be added or not.
 	 * 
-	 * @param reloadPath
-	 *            this is supposed to be an absolute path, not in url form.
-	 * @throws SemanticException
-	 *             if error is encountered when handling
-	 *             <code>IncludeCssStyleSheet</code> structure list. Or it
-	 *             maybe because that the given css is not found in the design.
-	 *             Or that the css has descedents in the current module
+	 * @param sheetHandle
+	 * @return <code>true</code> can be added.else return <code>false</code>
 	 */
 
-//	public void reloadCss( String reloadPath ) throws SemanticException
-//	{
-//		if ( StringUtil.isEmpty( reloadPath ) )
-//			return;
-//
-//		CssCommand command = new CssCommand( module, getElement( ) );
-//		command.reloadCss( reloadPath );
-//	}
+	public boolean canAddCssStyleSheet( CssStyleSheetHandle sheetHandle )
+	{
+		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
+				module, getElement( ) );
+		return adapter.canAddCssStyleSheet( sheetHandle );
+	}
+	
+	/**
+	 * Check style sheet can be added or not.
+	 * 
+	 * @param fileName
+	 * @return <code>true</code> can be added.else return <code>false</code>
+	 */
 
+	public boolean canAddCssStyleSheet( String fileName )
+	{
+		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
+				module, getElement( ) );
+		return adapter.canAddCssStyleSheet( fileName );
+	}
+	
+	/**
+	 * Reloads the css with the given css file path. If the css already is
+	 * included directly, reload it. If the css is not included, exception will
+	 * be thrown.
+	 * 
+	 * @param sheetHandle
+	 *            css style sheet handle.
+	 * @throws SemanticException
+	 *             if error is encountered when handling
+	 *             <code>CssStyleSheet</code> structure list. Or it maybe
+	 *             because that the given css is not found in the design. Or
+	 *             that the css has descedents in the current module
+	 */
+
+	public void reloadCss( CssStyleSheetHandle sheetHandle )
+			throws SemanticException
+	{
+		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
+				module, getElement( ) );
+		adapter.reloadCss( sheetHandle );
+	}
 }
