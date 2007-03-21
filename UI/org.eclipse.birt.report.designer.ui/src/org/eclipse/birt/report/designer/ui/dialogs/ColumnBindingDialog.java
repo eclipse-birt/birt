@@ -43,6 +43,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -508,6 +509,12 @@ public class ColumnBindingDialog extends BaseDialog
 		{
 			NullChoice = CHOICE_NONE;
 		}
+
+		isDataSetVisible = DEUtil.getBindingHolder( inputElement )
+				.getElement( )
+				.getDefn( )
+				.isPropertyVisible( IReportItemModel.DATA_SET_PROP );
+
 	}
 
 	protected Control createDialogArea( Composite parent )
@@ -518,14 +525,11 @@ public class ColumnBindingDialog extends BaseDialog
 
 		if ( this.canSelect )
 		{
-			/**
-			 * Label & button
-			 */
-			Composite composite = new Composite( parentComposite, SWT.NONE );
+			composite = new Composite( parentComposite, SWT.NONE );
 			composite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			composite.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
 
-			CLabel warnLabel = new CLabel( composite, SWT.NONE );
+			warnLabel = new CLabel( composite, SWT.NONE );
 			warnLabel.setImage( PlatformUI.getWorkbench( )
 					.getSharedImages( )
 					.getImage( ISharedImages.IMG_OBJS_WARN_TSK ) );
@@ -534,13 +538,11 @@ public class ColumnBindingDialog extends BaseDialog
 			gd.horizontalSpan = 2;
 			warnLabel.setLayoutData( gd );
 
-			Label label = new Label( composite, SWT.NONE );
+			label = new Label( composite, SWT.NONE );
 			label.setText( LABEL_COLUMN_BINDINGS );
 			label.setLayoutData( new GridData( GridData.BEGINNING ) );
 
-			// add data set combo selection.
-			final CCombo combo = new CCombo( composite, SWT.READ_ONLY
-					| SWT.BORDER );
+			combo = new CCombo( composite, SWT.READ_ONLY | SWT.BORDER );
 			combo.setBackground( PlatformUI.getWorkbench( )
 					.getDisplay( )
 					.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
@@ -880,6 +882,14 @@ public class ColumnBindingDialog extends BaseDialog
 		} );
 		// initTableCellColor( );
 
+		if ( !isDataSetVisible )
+		{
+			((GridData)warnLabel.getLayoutData( )).exclude = true;
+			((GridData)label.getLayoutData( )).exclude = true;
+			((GridData)combo.getLayoutData( )).exclude = true;
+			((GridData)composite.getLayoutData( )).exclude = true;
+		}
+		
 		return parentComposite;
 	}
 
@@ -1060,7 +1070,8 @@ public class ColumnBindingDialog extends BaseDialog
 	private void updateButtons( )
 	{
 		boolean okEnable = false;
-		if ( !canSelect
+
+		if ( !canSelect ||  (!isDataSetVisible &&  selectedColumnName != null)
 				|| ( selectedColumnName != null && getDataSetName( ) != null )
 				|| ( selectedColumnName != null && DEUtil.getBindingHolder( inputElement )
 						.getDataSet( ) != null ) )
@@ -1201,6 +1212,16 @@ public class ColumnBindingDialog extends BaseDialog
 	}
 
 	protected ExpressionProvider expressionProvider;
+
+	private boolean isDataSetVisible;
+
+	private CCombo combo;
+
+	private Label label;
+
+	private CLabel warnLabel;
+
+	private Composite composite;
 
 	public void setExpressionProvider( ExpressionProvider provider )
 	{
