@@ -15,18 +15,21 @@
          <property
                canInherit="true"
                detailType="Cube"
+               displayNameID="Element.Cube"
                isEncryptable="false"
                name="cube"
                type="elementRef">
          </property>
          <property
                canInherit="true"
+               displayNameID="Element.Caption"
                isEncryptable="false"
                name="caption"
                type="string">
          </property>
          <property
                canInherit="true"
+               displayNameID="Element.CaptionID"
                isEncryptable="false"
                name="captionID"
                type="resourceKey">
@@ -34,6 +37,7 @@
          <property
                canInherit="true"
                defaultValue="horizontal"
+               displayNameID="Element.MeasureDirection"
                isEncryptable="false"
                name="measureDirection"
                type="choice">
@@ -47,6 +51,7 @@
             </choice></property>
          <property
                canInherit="true"
+               displayNameID="Element.PageLayout"
                isEncryptable="false"
                name="pageLayout"
                type="choice">
@@ -61,6 +66,7 @@
          </property>
          <property
                canInherit="true"
+               displayNameID="Element.EmptyCellValue"
                isEncryptable="false"
                name="emptyCellValue"
                type="string">
@@ -96,15 +102,29 @@
             </elementType>
          </property>
          <style
+               displayNameID="Element.Crosstab"
                name="crosstab">
          </style>
          <propertyVisibility
                name="dataSet"
                visibility="hide">
          </propertyVisibility>
+         <propertyVisibility
+               name="measures"
+               visibility="hide">
+         </propertyVisibility>
+         <propertyVisibility
+               name="rows"
+               visibility="hide">
+         </propertyVisibility>
+         <propertyVisibility
+               name="columns"
+               visibility="hide">
+         </propertyVisibility>
       </reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"
+            displayNameID="Element.CrosstabView"
             extendsFrom="ReportElement"
             extensionName="CrosstabView"
             isNameRequired="false">
@@ -141,6 +161,7 @@
       </reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"
+            displayNameID="Element.DimensionView"
             extendsFrom="ReportElement"
             extensionName="DimensionView"
             isNameRequired="false">
@@ -163,6 +184,7 @@
          </property></reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"
+            displayNameID="Element.LevelView"
             extendsFrom="ReportElement"
             extensionName="LevelView"
             isNameRequired="true">
@@ -257,6 +279,7 @@
       </reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"
+            displayNameID="Element.MeasureView"
             extendsFrom="ReportElement"
             extensionName="MeasureView"
             isNameRequired="false">
@@ -301,6 +324,7 @@
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"
             defaultStyle="crosstab-cell"
+            displayNameID="Element.CrosstabCell"
             extendsFrom="Cell"
             extensionName="CrosstabCell"
             isNameRequired="false">
@@ -342,18 +366,25 @@
             </elementType>
          </property>
          <style
+               displayNameID="Element.CrosstabCell"
                name="crosstab-cell">
          </style>
+         <propertyVisibility
+               name="content"
+               visibility="hide">
+         </propertyVisibility>
       </reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"
             defaultStyle="crosstab-aggregation-cell"
+            displayNameID="Element.CrosstabAggregationCell"
             extendsFrom="CrosstabCell"
             extensionName="AggregationCell"
             isNameRequired="false">
          <property
                canInherit="true"
                detailType="Level"
+               displayNameID="Element.AggregationOnRow"
                isEncryptable="false"
                name="aggregationOnRow"
                type="elementRef">
@@ -361,11 +392,13 @@
          <property
                canInherit="true"
                detailType="Level"
+               displayNameID="Element.AggregationOnColumn"
                isEncryptable="false"
                name="aggregationOnColumn"
                type="elementRef">
          </property>
          <style
+               displayNameID="Element.CrosstabAggregationCell"
                name="crosstab-aggregation-cell">
          </style>
       </reportItem>
