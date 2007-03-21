@@ -44,6 +44,10 @@ public class CubeLabelProvider extends LabelProvider
 	private static final Image IMG_CUBE = UIHelper.getImage( BuilderConstancts.IMAGE_CUBE );
 
 	private static final Image IMG_DIMENSION = UIHelper.getImage( BuilderConstancts.IMAGE_DIMENSION );
+	
+	private static final Image IMG_DIMENSION_FOLDER = UIHelper.getImage( BuilderConstancts.IMAGE_DIMENSION_FOLDER);
+	
+	private static final Image IMG_MEASUREGROUP_FOLDER = UIHelper.getImage( BuilderConstancts.IMAGE_MEASUREGROUP_FOLDER);
 
 	private static final Image IMG_MEASURE = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_DATA_COLUMN );
 	
@@ -97,9 +101,9 @@ public class CubeLabelProvider extends LabelProvider
 		else if ( element instanceof CubeModel){
 			CubeModel model = (CubeModel)element;
 			if(model.getType( ) == CubeModel.TYPE_DIMENSION)
-				return IMG_DIMENSION;
+				return IMG_DIMENSION_FOLDER;
 			else if(model.getType( ) == CubeModel.TYPE_MEASURES)
-				return IMG_MEASUREGROUP;
+				return IMG_MEASUREGROUP_FOLDER;
 		}
 		return super.getImage( element );
 	}
