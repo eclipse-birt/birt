@@ -47,7 +47,7 @@ public final class DataTypeUtil
 	 * Double -> java.lang.Double<br>
 	 * Character -> java.lang.String<br>
 	 * Decimal -> java.math.BigDecimal<br>
-	 * Date -> java.util.Date<br>
+     * Date -> java.sql.Date<br>
 	 * Time -> java.sql.Time<br>
 	 * Timestamp -> java.sql.Timestamp<br>
 	 * Blob -> org.eclipse.datatools.connectivity.oda.IBlob<br>
@@ -100,7 +100,8 @@ public final class DataTypeUtil
 	 * java.lang.Double -> Double<br>
 	 * java.lang.String -> Character<br>
 	 * java.math.BigDecimal -> Decimal<br>
-	 * java.util.Date -> Date<br>
+     * java.util.Date -> Timestamp<br>
+     * java.sql.Date -> Date<br>
 	 * java.sql.Time -> Time<br>
 	 * java.sql.Timestamp -> Timestamp<br>
 	 * org.eclipse.datatools.connectivity.oda.IBlob -> Blob<br>

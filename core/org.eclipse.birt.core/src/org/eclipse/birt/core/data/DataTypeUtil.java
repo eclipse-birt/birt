@@ -1056,7 +1056,7 @@ public final class DataTypeUtil
 	 * Double -> java.lang.Double<br>
 	 * Character -> java.lang.String<br>
 	 * Decimal -> java.math.BigDecimal<br>
-	 * Date -> java.util.Date<br>
+	 * Date -> java.sql.Date<br>
 	 * Time -> java.sql.Time<br>
 	 * Timestamp -> java.sql.Timestamp<br>
 	 * Blob -> java.sql.Blob<br>
@@ -1144,7 +1144,8 @@ public final class DataTypeUtil
 	 * java.lang.Double -> Double<br>
 	 * java.lang.String -> Character<br>
 	 * java.math.BigDecimal -> Decimal<br>
-	 * java.util.Date -> Date<br>
+	 * java.util.Date -> Timestamp<br>
+     * java.sql.Date -> Date<br>
 	 * java.sql.Time -> Time<br>
 	 * java.sql.Timestamp -> Timestamp<br>
 	 * java.sql.Blob -> Blob<br>
@@ -1168,12 +1169,14 @@ public final class DataTypeUtil
 			odaType = Types.DOUBLE;
 		else if ( odiTypeClass == BigDecimal.class )
 			odaType = Types.DECIMAL;
-		else if ( odiTypeClass == Date.class )
-			odaType = Types.DATE;
 		else if ( odiTypeClass == Time.class )
 			odaType = Types.TIME;
 		else if ( odiTypeClass == Timestamp.class )
 			odaType = Types.TIMESTAMP;
+        else if ( odiTypeClass == java.sql.Date.class )
+            odaType = Types.DATE;
+        else if ( odiTypeClass == java.util.Date.class )
+            odaType = Types.TIMESTAMP;        
 		else if ( odiTypeClass == Blob.class )
 			odaType = Types.BLOB;
 		else if ( odiTypeClass == Clob.class )
