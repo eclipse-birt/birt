@@ -3464,10 +3464,10 @@ Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=스타일시트 리소스가 없습니다.
 Error.StyleSheetException.SYNTAX_ERROR=CSS2와 일치하지 않는 일부 구문 오류가 있습니다.
 
 #IncludedCssStyleSheetException
-Error.CSSException.CSS_NOT_FOUND=스타일시트 리소스가 없습니다.
-Error.CSSException.DUPLICATE_CSS=Css style sheet duplicates.
-Error.CSSException.BADCSSFILE=There is some syntax errors in css file.
-Error.CssException.READONLY=Style in css file is read-only.
+Error.CSSException.CSS_NOT_FOUND=The style sheet with the name "{0}" is not found.
+Error.CSSException.DUPLICATE_CSS=Css style sheet with the name "{0}" exists already.
+Error.CSSException.BADCSSFILE=There is some syntax errors in "{0}" file.
+Error.CssException.READONLY=Style in "{0}" file is read-only.
 
 #StyleSheetParserException
 Error.StyleSheetParserException.RULE_NOT_SUPPORTED=규칙 "{0}"이(가) 지원되지 않습니다.

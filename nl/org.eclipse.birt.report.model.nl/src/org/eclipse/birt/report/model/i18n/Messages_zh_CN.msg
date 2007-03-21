@@ -3464,10 +3464,10 @@ Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=未找到样式表资源。
 Error.StyleSheetException.SYNTAX_ERROR=存在某些与 CSS2 不一致的语法错误。
 
 #IncludedCssStyleSheetException
-Error.CSSException.CSS_NOT_FOUND=未找到样式表资源。
-Error.CSSException.DUPLICATE_CSS=Css style sheet duplicates.
-Error.CSSException.BADCSSFILE=There is some syntax errors in css file.
-Error.CssException.READONLY=Style in css file is read-only.
+Error.CSSException.CSS_NOT_FOUND=The style sheet with the name "{0}" is not found.
+Error.CSSException.DUPLICATE_CSS=Css style sheet with the name "{0}" exists already.
+Error.CSSException.BADCSSFILE=There is some syntax errors in "{0}" file.
+Error.CssException.READONLY=Style in "{0}" file is read-only.
 
 #StyleSheetParserException
 Error.StyleSheetParserException.RULE_NOT_SUPPORTED=不支持规则 "{0}"。

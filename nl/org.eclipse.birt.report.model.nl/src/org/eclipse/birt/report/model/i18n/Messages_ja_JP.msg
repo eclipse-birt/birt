@@ -3464,10 +3464,10 @@ Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=スタイルシートのリソースが見つか
 Error.StyleSheetException.SYNTAX_ERROR=CSS2 に従っていない構文エラーがあります。
 
 #IncludedCssStyleSheetException
-Error.CSSException.CSS_NOT_FOUND=スタイルシートのリソースが見つかりません。
-Error.CSSException.DUPLICATE_CSS=Css style sheet duplicates.
-Error.CSSException.BADCSSFILE=There is some syntax errors in css file.
-Error.CssException.READONLY=Style in css file is read-only.
+Error.CSSException.CSS_NOT_FOUND=The style sheet with the name "{0}" is not found.
+Error.CSSException.DUPLICATE_CSS=Css style sheet with the name "{0}" exists already.
+Error.CSSException.BADCSSFILE=There is some syntax errors in "{0}" file.
+Error.CssException.READONLY=Style in "{0}" file is read-only.
 
 #StyleSheetParserException
 Error.StyleSheetParserException.RULE_NOT_SUPPORTED=規則 "{0}" はサポートされていません。

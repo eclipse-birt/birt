@@ -3464,10 +3464,10 @@ Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=Die Stilvorlagen-Ressource wurde
 Error.StyleSheetException.SYNTAX_ERROR=Syntaxfehler aufgrund von Inkonsistenzen mit CSS2.
 
 #IncludedCssStyleSheetException
-Error.CSSException.CSS_NOT_FOUND=Die Stilvorlagen-Ressource wurde nicht gefunden.
-Error.CSSException.DUPLICATE_CSS=Css style sheet duplicates.
-Error.CSSException.BADCSSFILE=There is some syntax errors in css file.
-Error.CssException.READONLY=Style in css file is read-only.
+Error.CSSException.CSS_NOT_FOUND=The style sheet with the name "{0}" is not found.
+Error.CSSException.DUPLICATE_CSS=Css style sheet with the name "{0}" exists already.
+Error.CSSException.BADCSSFILE=There is some syntax errors in "{0}" file.
+Error.CssException.READONLY=Style in "{0}" file is read-only.
 
 #StyleSheetParserException
 Error.StyleSheetParserException.RULE_NOT_SUPPORTED=Die Regel "{0}" wird nicht unterstützt.
