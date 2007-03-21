@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.jface.util.Assert;
@@ -76,12 +77,12 @@ public class SelectionChoiceDialog extends BaseDialog
 	{
 		Composite composite = (Composite) super.createDialogArea( parent );
 		composite.setLayout( new GridLayout( 2, false ) );
-		new Label( composite, SWT.NONE ).setText( "Display Text:" );
+		new Label( composite, SWT.NONE ).setText( Messages.getString( "ParameterDialog.SelectionDialog.Label.DisplayText" ) );
 		labelEditor = new Text( composite, SWT.BORDER );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.widthHint = 150;
 		labelEditor.setLayoutData( gd );
-		new Label( composite, SWT.NONE ).setText( "Value:" );
+		new Label( composite, SWT.NONE ).setText( Messages.getString( "ParameterDialog.SelectionDialog.Label.Value" ) );
 		valueEditor = new Text( composite, SWT.BORDER );
 		valueEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		messageLine = new CLabel( composite, SWT.NONE );
@@ -102,8 +103,7 @@ public class SelectionChoiceDialog extends BaseDialog
 			valueEditor.addModifyListener( listener );
 
 		}
-		UIUtil.bindHelp( composite,
-				IHelpContextIds.SELECTION_CHOICE_DIALOG );
+		UIUtil.bindHelp( composite, IHelpContextIds.SELECTION_CHOICE_DIALOG );
 		return composite;
 	}
 
