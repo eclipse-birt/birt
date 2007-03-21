@@ -970,7 +970,7 @@ public class CubeGroupContent extends Composite
 				functionCombo.setText( ( (MeasureHandle) obj ).getFunction( ) == null ? ""
 						: ( (MeasureHandle) obj ).getFunction( ) );
 				expressionLabel.setEnabled( true );
-				expressionText.setText( ( (MeasureHandle) obj ).getFunction( ) == null ? ""
+				expressionText.setText( ( (MeasureHandle) obj ).getMeasureExpression( ) == null ? ""
 						: ( (MeasureHandle) obj ).getMeasureExpression( ) );
 				expressionButton.setEnabled( true );
 				setExpressionButtonImage( expressionButton );
