@@ -196,6 +196,50 @@ public class ParamAndColumnHintTest extends OdaconsumerTestCase
             assertTrue( value instanceof Time );
         }
     }
+    
+    public final void testFetchWithDateHint( )
+        throws DataException
+    {
+        String queryText = 
+            "select acDate, acTime, acTimestamp from acTimeDataTypes " +
+            " where acDate < ? ";
+
+        // If connection fails, fix connection properties
+        m_statement = getLocalMySqlConnection( ).prepareStatement( queryText,
+                JDBCOdaDataSource.DATA_SET_TYPE );
+
+        ParameterHint hint = new ParameterHint( "param1", true, false );
+        hint.setPosition( 1 );  // use param index below to match hints during retry
+        hint.setDataType( Integer.class );  // use wrong one here to verify native type get used
+        hint.setNativeDataType( Types.DATE );
+        m_statement.addParameterHint( hint );
+
+        // use a parameter value whose time portion is greater than the test data,
+        // but expects the time portion gets truncated when applied to a Date parameter
+        Timestamp ts = Timestamp.valueOf( "2000-10-13 03:13:00" );
+        m_statement.setParameterValue( 1, ts );
+        
+        // since runtime metadata is available, column hint is not used
+        ColumnHint columnHint = new ColumnHint( "acDate" );
+        columnHint.setDataType( Integer.class );
+        m_statement.addColumnHint( columnHint );
+
+        m_statement.execute( );       
+        ResultSet resultSet = m_statement.getResultSet( );
+        IResultObject resultObject = null;
+        int numRows = 0;
+        while ( ( resultObject = resultSet.fetch( ) ) != null )
+        {
+            numRows++;
+            assertEquals( java.sql.Date.class,
+                          resultObject.getResultClass( )
+                                .getFieldValueClass( "acDate" ));
+            Object value = resultObject.getFieldValue( "acDate" );
+            assertTrue( value instanceof java.sql.Date );
+        }
+        
+        assertEquals( 0, numRows );
+    }
 
     private Properties getLocalMySqlConnProperties()
     {
@@ -203,8 +247,8 @@ public class ParamAndColumnHintTest extends OdaconsumerTestCase
         // and the mysql jdbc driver jar must be in classpath
         Properties connProperties = new Properties( );
         connProperties.setProperty( "odaURL", "jdbc:mysql://birtdb2-w2k:3306/acTestDb" );
-        connProperties.setProperty( "odaUser", "nnTest" );
-        connProperties.setProperty( "odaPassword", "Test" );
+        connProperties.setProperty( "odaUser", "acTest" );
+        connProperties.setProperty( "odaPassword", "sysTest" );
         connProperties.setProperty( "odaDriverClass", "com.mysql.jdbc.Driver" );
         return connProperties;
     }
@@ -216,7 +260,7 @@ public class ParamAndColumnHintTest extends OdaconsumerTestCase
         
         m_connection = ConnectionManager.getInstance( )
                 .openConnection( JDBCOdaDataSource.DATA_SOURCE_TYPE, 
-                                getLocalMySqlConnProperties() );
+                                getLocalMySqlConnProperties(), null );
         return m_connection;
     }
 
