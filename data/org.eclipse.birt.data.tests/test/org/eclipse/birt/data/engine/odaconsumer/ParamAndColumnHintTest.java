@@ -247,8 +247,8 @@ public class ParamAndColumnHintTest extends OdaconsumerTestCase
         // and the mysql jdbc driver jar must be in classpath
         Properties connProperties = new Properties( );
         connProperties.setProperty( "odaURL", "jdbc:mysql://birtdb2-w2k:3306/acTestDb" );
-        connProperties.setProperty( "odaUser", "acTest" );
-        connProperties.setProperty( "odaPassword", "sysTest" );
+        connProperties.setProperty( "odaUser", "nnTest" );
+        connProperties.setProperty( "odaPassword", "nTest" );
         connProperties.setProperty( "odaDriverClass", "com.mysql.jdbc.Driver" );
         return connProperties;
     }

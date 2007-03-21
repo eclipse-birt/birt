@@ -432,7 +432,7 @@ public class ProjectedColumnsTest extends ConnectionTest
 	{
 		Properties connProperties = getJdbcConnProperties();		
 		Connection connection = getManager( ).openConnection( JDBCOdaDataSource.DATA_SOURCE_TYPE,
-				connProperties );
+				connProperties, null ); // no appContext
 
 		// jdbc1 contains the oda-jdbc driver that doesn't implement
 		// clearParameterValues()
@@ -524,11 +524,29 @@ public class ProjectedColumnsTest extends ConnectionTest
 		metadata = m_statement.getMetaData( );
 		fieldType = metadata.getFieldValueClass( customColumnName );
 		assertEquals( Double.class, fieldType );
+
+        // change the custom column type again via a ColumnHint
+        columnHint = new ColumnHint( customColumnName );
+        columnHint.setDataType( java.sql.Date.class );
+        m_statement.addColumnHint( columnHint );
+
+        metadata = m_statement.getMetaData( );
+        fieldType = metadata.getFieldValueClass( customColumnName );
+        assertEquals( java.sql.Date.class, fieldType );
+
+        // change the custom column type again via a ColumnHint
+        columnHint = new ColumnHint( customColumnName );
+        columnHint.setDataType( Boolean.class );
+        m_statement.addColumnHint( columnHint );
+
+        metadata = m_statement.getMetaData( );
+        fieldType = metadata.getFieldValueClass( customColumnName );
+        assertEquals( Boolean.class, fieldType );
 	}
     
     public void testChangeColumnTypeWithNativeTypeHint( ) throws Exception
     {
-        String customColumnName = "My null Column";
+        String customColumnName = "My custom Column";
         m_statement.declareCustomColumn( customColumnName, null );
         IResultClass metadata = m_statement.getMetaData( );
         Class fieldType = metadata.getFieldValueClass( customColumnName );
@@ -545,7 +563,7 @@ public class ProjectedColumnsTest extends ConnectionTest
         metadata = m_statement.getMetaData( );
         fieldType = metadata.getFieldValueClass( customColumnName );
         assertNotNull( fieldType );
-        assertEquals( java.util.Date.class, fieldType );    // equals to native type
+        assertEquals( java.sql.Date.class, fieldType );    // maps from native type
     }
     
 }
