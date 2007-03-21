@@ -185,5 +185,17 @@ public interface IReportItem
 	 */
 
 	public IPropertyDefinition getScriptPropertyDefinition( );
+	
+	/**
+	 * Gets list of the predefined styles. Each one in the list can be one of the following instance:
+	 * <p>
+	 * 
+	 * <ui>
+	 * <li><code>String</code>
+	 * <li><code>StyleHandle</code>
+	 * </ui>
+	 * @return
+	 */
+	public List getPredefinedStyles( );
 
 }

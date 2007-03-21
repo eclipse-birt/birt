@@ -11,6 +11,11 @@
 
 package org.eclipse.birt.report.model.elements.strategy;
 
+import java.util.List;
+
+import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -60,7 +65,7 @@ public class ExtendedItemPropSearchStrategy extends PropertySearchStrategy
 	protected Object getPropertyFromSelfSelector( Module module,
 			DesignElement element, ElementPropertyDefn prop )
 	{
-		// find the selector defined in extension
+		// find the selector defined in extension definition
 		ExtendedItem extendedItem = (ExtendedItem) element;
 
 		IElementDefn elementDefn = extendedItem.getExtDefn( );
@@ -72,10 +77,78 @@ public class ExtendedItemPropSearchStrategy extends PropertySearchStrategy
 				return value;
 		}
 
+		// find other pre-defined styles, such as selector : x-tab header, x-tab
+		// detail
+		Object value = getPropertyFromPredefinedStyles( module, extendedItem,
+				prop );
+		if ( value != null )
+			return value;
+
 		// find the "extended-item" selector
 		String selector = ( (ElementDefn) extendedItem.getDefaultDefn( ) )
 				.getSelector( );
 
-		return super.getPropertyFromSelector( module, prop, selector );
+		return getPropertyFromSelector( module, prop, selector );
+	}
+
+	/**
+	 * Gets the property value from some predefined-styles in this extended
+	 * item. Such as x-tab header, x-tab footer.
+	 * 
+	 * @param module
+	 * @param extendedItem
+	 * @param prop
+	 * @return
+	 */
+	private Object getPropertyFromPredefinedStyles( Module module,
+			ExtendedItem extendedItem, ElementPropertyDefn prop )
+	{
+
+		IReportItem reportItem = extendedItem.getExtendedElement( );
+		try
+		{
+			if ( reportItem == null )
+			{
+				extendedItem.initializeReportItem( module );
+				reportItem = extendedItem.getExtendedElement( );
+			}
+		}
+		catch ( ExtendedElementException e )
+		{
+			// TODO: do some log
+		}
+		if ( reportItem != null )
+		{
+			List predefinedStyles = reportItem.getPredefinedStyles( );
+			if ( predefinedStyles == null || predefinedStyles.isEmpty( ) )
+				return null;
+			for ( int i = 0; i < predefinedStyles.size( ); i++ )
+			{
+				Object predefinedStyle = predefinedStyles.get( i );
+
+				// if the item is String, then search the named style in the
+				// module and then find property value in it
+				if ( predefinedStyle instanceof String )
+				{
+					String styleName = (String) predefinedStyle;
+					Object value = getPropertyFromSelector( module, prop,
+							styleName );
+					if ( value != null )
+						return value;
+				}
+				else if ( predefinedStyle instanceof StyleHandle )
+				{
+					// if the item is a StyleHandle, then read local property
+					// value set in this style directly
+					StyleHandle styleHandle = (StyleHandle) predefinedStyle;
+					Object value = styleHandle.getElement( ).getLocalProperty(
+							styleHandle.getModule( ), prop );
+					if ( value != null )
+						return value;
+				}
+			}
+		}
+
+		return null;
 	}
 }

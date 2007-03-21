@@ -157,4 +157,12 @@ public class ReportItem implements IReportItem, Cloneable
 		return null;
 	}
 
+	/**
+	 * 
+	 */
+	public List getPredefinedStyles( )
+	{
+		return Collections.EMPTY_LIST;
+	}
+
 }
