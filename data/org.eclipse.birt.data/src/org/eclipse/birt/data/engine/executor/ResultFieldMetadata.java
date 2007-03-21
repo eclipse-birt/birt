@@ -12,7 +12,6 @@
 package org.eclipse.birt.data.engine.executor;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 
@@ -92,11 +91,13 @@ public class ResultFieldMetadata
 		        dataType == Double.class ||
 		        dataType == String.class ||
 		        dataType == BigDecimal.class ||
-		        dataType == Date.class ||
+		        dataType == java.util.Date.class ||   // backward compatibilty
+                dataType == java.sql.Date.class ||
 		        dataType == Time.class ||
 		        dataType == Timestamp.class ||
 		        dataType == IBlob.class ||
-		        dataType == IClob.class ); 
+		        dataType == IClob.class ||
+                dataType == Boolean.class ); 
 		
 		m_dataType = dataType;
 	}
