@@ -602,6 +602,54 @@ public class GroupOnRowTest extends APITestCase
 	}
 	
 	/**
+	 * Test feature of group on row position
+	 * 
+	 * @throws Exception
+	 */
+	public void testGroupOnRowPosition5( ) throws Exception
+	{
+		String[] bindingNameGroup = new String[1];
+		bindingNameGroup[0] = "GROUP_ID";
+		IBaseExpression[] bindingExprGroup = new IBaseExpression[1];
+		bindingExprGroup[0] = new ScriptExpression( "dataSetRow.ID" );
+		
+		GroupDefinition[] groupDefn = new GroupDefinition[]{
+				new GroupDefinition( "group1" ),
+		};
+		groupDefn[0].setKeyExpression( "row.__rownum" );
+		groupDefn[0].setInterval( IGroupDefinition.NUMERIC_INTERVAL );
+		groupDefn[0].setIntervalRange( 5 );
+		
+		String[] bindingNameRow = new String[4];
+		bindingNameRow[0] = "ROW_ID";
+		bindingNameRow[1] = "ROW_rowPosition";
+		bindingNameRow[2] = "ROW_AMOUT1";
+		bindingNameRow[3] = "ROW_AMOUT2";
+		IBaseExpression[] bindingExprRow = new IBaseExpression[4];
+		bindingExprRow[0] = new ScriptExpression( "dataSetRow.ID" );
+		bindingExprRow[1] = new ScriptExpression( "dataSetRow._rowPosition" );
+		bindingExprRow[2] = new ScriptExpression( "dataSetRow.AMOUNT1" );
+		bindingExprRow[3] = new ScriptExpression( "dataSetRow.AMOUNT2" );
+
+		String[] columnStr = new String[]{
+				"id", "_rowPosition", "amount1", "amount2"
+		};
+		try {
+			QueryDefinition qd = this.createQuery(bindingNameGroup,
+					bindingExprGroup, groupDefn, null, null, null, null, null,
+					null, bindingNameRow, bindingExprRow);
+			String outputStr = getOutputStrForGroupTest(15, qd,
+					groupDefn.length, bindingNameRow, columnStr);
+			testPrint(outputStr);
+
+			this.checkOutputFile();
+			
+		} catch (BirtException be) {
+			assertEquals(be.getErrorCode(), "data.engine.group.interval");
+		}
+	}
+	
+	/**
 	 * Test feature of group on week
 	 * 
 	 * @throws Exception

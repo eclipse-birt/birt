@@ -65,7 +65,14 @@ public class ExpressionCompilerUtil
 		
 		IScriptExpression expr = ( (IScriptExpression) exprManager.getExpr( name ));
 		if( expr == null )
-			return false;
+		{
+			//Sometimes the binding name could be an implicit binding, say, 
+			//row.__rownum.
+			if ( name.matches( ".*\\Q__rownum\\E.*" ) )
+				return compile( name, exprManager );
+			else
+				return false;
+		}
 		
 		return compile( expr.getText( ), exprManager );
 
