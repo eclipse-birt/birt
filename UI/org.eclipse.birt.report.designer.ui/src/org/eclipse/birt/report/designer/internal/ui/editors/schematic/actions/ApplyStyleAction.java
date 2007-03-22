@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction.DynamicItemA
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 
 /**
@@ -51,7 +52,10 @@ public class ApplyStyleAction extends DynamicItemAction
 		}
 		else
 		{
-			if ( handle.getContainerSlotHandle( ).getElementHandle( ) instanceof ThemeHandle )
+			SlotHandle slotHandle = handle.getContainerSlotHandle( );
+
+			if ( slotHandle != null
+					&& slotHandle.getElementHandle( ) instanceof ThemeHandle )
 			{
 				setText( ( (ThemeHandle) handle.getContainerSlotHandle( )
 						.getElementHandle( ) ).getName( )
@@ -97,8 +101,14 @@ public class ApplyStyleAction extends DynamicItemAction
 	public void run( )
 	{
 
-		CommandUtils.setVariable( ICommandParameterNameContants.STYLE_HANDLE_NAME, handle );
-		CommandUtils.setVariable( ICommandParameterNameContants.APPLAY_STYLE_ACTION_STYLE_CHECKED, new Boolean( isChecked( ) ) );
+		if(handle != null)
+		{
+			CommandUtils.setVariable( ICommandParameterNameContants.STYLE_HANDLE_NAME,
+					handle );
+		}
+
+		CommandUtils.setVariable( ICommandParameterNameContants.APPLAY_STYLE_ACTION_STYLE_CHECKED,
+				new Boolean( isChecked( ) ) );
 		try
 		{
 			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.applyStyleCommand",
