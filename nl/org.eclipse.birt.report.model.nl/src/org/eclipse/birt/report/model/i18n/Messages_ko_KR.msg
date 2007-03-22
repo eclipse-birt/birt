@@ -115,6 +115,8 @@ Choices.paramType.dateTime=날짜/시간
 Choices.paramType.boolean=부울
 Choices.paramType.integer=정수
 Choices.paramType.any=모두
+Choices.paramType.date=Date
+Choices.paramType.time=time
 
 #6.paramControl
 Choices.paramControl.text-box=텍스트 상자
@@ -410,6 +412,8 @@ Choices.columnDataType.float=실수
 Choices.columnDataType.structure=구조
 Choices.columnDataType.table=테이블
 Choices.columnDataType.boolean=부울
+Choices.columnDataType.time=Time
+Choices.columnDataType.date=Date
 
 #54. searchType
 Choices.searchType.any=모두

@@ -115,6 +115,8 @@ Choices.paramType.dateTime=DateTime
 Choices.paramType.boolean=Booleano
 Choices.paramType.integer=Entero
 Choices.paramType.any=Cualquiera
+Choices.paramType.date=Date
+Choices.paramType.time=time
 
 #6.paramControl
 Choices.paramControl.text-box=Cuadro de texto
@@ -410,6 +412,8 @@ Choices.columnDataType.float=Flotante
 Choices.columnDataType.structure=Estructura
 Choices.columnDataType.table=Tabla
 Choices.columnDataType.boolean=Booleano
+Choices.columnDataType.time=Time
+Choices.columnDataType.date=Date
 
 #54. searchType
 Choices.searchType.any=Cualquiera

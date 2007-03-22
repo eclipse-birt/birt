@@ -115,6 +115,8 @@ Choices.paramType.dateTime=Datum/Zeit
 Choices.paramType.boolean=Boolesch
 Choices.paramType.integer=Ganzzahl
 Choices.paramType.any=Beliebig
+Choices.paramType.date=Date
+Choices.paramType.time=time
 
 #6.paramControl
 Choices.paramControl.text-box=Textfeld
@@ -410,6 +412,8 @@ Choices.columnDataType.float=Gleitkomma
 Choices.columnDataType.structure=Struktur
 Choices.columnDataType.table=Tabelle
 Choices.columnDataType.boolean=Boolesch
+Choices.columnDataType.time=Time
+Choices.columnDataType.date=Date
 
 #54. searchType
 Choices.searchType.any=Beliebig

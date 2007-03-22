@@ -115,6 +115,8 @@ Choices.paramType.dateTime=DateTime
 Choices.paramType.boolean=論理
 Choices.paramType.integer=整数値
 Choices.paramType.any=任意
+Choices.paramType.date=Date
+Choices.paramType.time=time
 
 #6.paramControl
 Choices.paramControl.text-box=テキストボックス
@@ -410,6 +412,8 @@ Choices.columnDataType.float=浮動
 Choices.columnDataType.structure=構造
 Choices.columnDataType.table=テーブル
 Choices.columnDataType.boolean=論理
+Choices.columnDataType.time=Time
+Choices.columnDataType.date=Date
 
 #54. searchType
 Choices.searchType.any=任意

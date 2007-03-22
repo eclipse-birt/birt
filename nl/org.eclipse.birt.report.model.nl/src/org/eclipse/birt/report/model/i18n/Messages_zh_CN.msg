@@ -115,6 +115,8 @@ Choices.paramType.dateTime=日期时间
 Choices.paramType.boolean=布尔
 Choices.paramType.integer=整数
 Choices.paramType.any=任何
+Choices.paramType.date=Date
+Choices.paramType.time=time
 
 #6.paramControl
 Choices.paramControl.text-box=文本框
@@ -410,6 +412,8 @@ Choices.columnDataType.float=浮点
 Choices.columnDataType.structure=结构
 Choices.columnDataType.table=表
 Choices.columnDataType.boolean=布尔
+Choices.columnDataType.time=Time
+Choices.columnDataType.date=Date
 
 #54. searchType
 Choices.searchType.any=任何

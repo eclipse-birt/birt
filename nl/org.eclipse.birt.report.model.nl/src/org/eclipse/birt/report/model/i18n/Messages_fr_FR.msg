@@ -115,6 +115,8 @@ Choices.paramType.dateTime=DateHeure
 Choices.paramType.boolean=Booléen
 Choices.paramType.integer=Entier
 Choices.paramType.any=Indifférent
+Choices.paramType.date=Date
+Choices.paramType.time=time
 
 #6.paramControl
 Choices.paramControl.text-box=Zone de texte
@@ -410,6 +412,8 @@ Choices.columnDataType.float=Flottant
 Choices.columnDataType.structure=Structure
 Choices.columnDataType.table=Table
 Choices.columnDataType.boolean=Booléen
+Choices.columnDataType.time=Time
+Choices.columnDataType.date=Date
 
 #54. searchType
 Choices.searchType.any=Indifférent
