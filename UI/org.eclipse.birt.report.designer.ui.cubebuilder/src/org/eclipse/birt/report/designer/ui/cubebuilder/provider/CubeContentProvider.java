@@ -91,47 +91,12 @@ public class CubeContentProvider implements ITreeContentProvider
 			CubeModel model = (CubeModel) parentElement;
 			if ( model.getType( ) == CubeModel.TYPE_DIMENSION )
 			{
-				Object[] dimensions = model.getModel( )
-						.getContents( CubeHandle.DIMENSIONS_PROP )
-						.toArray( );
-				if ( dimensions == null || dimensions.length == 0 )
-				{
-					TabularDimensionHandle dimension = DesignElementFactory.getInstance( )
-							.newTabularDimension( "Group" );
-					try
-					{
-						model.getModel( ).add( CubeHandle.DIMENSIONS_PROP,
-								dimension );
-					}
-					catch ( SemanticException e )
-					{
-						ExceptionHandler.handle( e );
-					}
-				}
 				return model.getModel( )
 						.getContents( CubeHandle.DIMENSIONS_PROP )
 						.toArray( );
 			}
 			if ( model.getType( ) == CubeModel.TYPE_MEASURES )
 			{
-				Object[] measures = model.getModel( )
-						.getContents( CubeHandle.MEASURE_GROUPS_PROP )
-						.toArray( );
-				if ( measures == null || measures.length == 0 )
-				{
-					TabularMeasureGroupHandle measureGroup = DesignElementFactory.getInstance( )
-							.newTabularMeasureGroup( "Summary Field" );
-					try
-					{
-						model.getModel( ).add( CubeHandle.MEASURE_GROUPS_PROP,
-								measureGroup );
-					}
-					catch ( SemanticException e )
-					{
-						ExceptionHandler.handle( e );
-					}
-				}
-
 				return model.getModel( )
 						.getContents( CubeHandle.MEASURE_GROUPS_PROP )
 						.toArray( );
@@ -199,16 +164,6 @@ public class CubeContentProvider implements ITreeContentProvider
 		}
 		if ( element instanceof CubeHandle )
 		{
-			// CubeHandle handle = (CubeHandle) element;
-			// List dimensionList = handle.getContents(
-			// CubeHandle.DIMENSIONS_PROP );
-			// List measureList = handle.getContents(
-			// CubeHandle.MEASURE_GROUPS_PROP );
-			// if ( dimensionList != null && dimensionList.size( ) > 0 )
-			// return true;
-			// if ( measureList != null && measureList.size( ) > 0 )
-			// return true;
-			// return false;
 			return true;
 		}
 		if ( element instanceof CubeModel )
@@ -218,15 +173,41 @@ public class CubeContentProvider implements ITreeContentProvider
 			{
 				List dimensionList = model.getModel( )
 						.getContents( CubeHandle.DIMENSIONS_PROP );
-				if ( dimensionList != null && dimensionList.size( ) > 0 )
-					return true;
+				if ( dimensionList == null || dimensionList.size( ) == 0 )
+				{
+					TabularDimensionHandle dimension = DesignElementFactory.getInstance( )
+							.newTabularDimension( "Group" );
+					try
+					{
+						model.getModel( ).add( CubeHandle.DIMENSIONS_PROP,
+								dimension );
+					}
+					catch ( SemanticException e )
+					{
+						ExceptionHandler.handle( e );
+					}
+				}
+				return dimensionList != null && dimensionList.size( ) > 0;
 			}
 			else if ( model.getType( ) == CubeModel.TYPE_MEASURES )
 			{
 				List measureList = model.getModel( )
 						.getContents( CubeHandle.MEASURE_GROUPS_PROP );
-				if ( measureList != null && measureList.size( ) > 0 )
-					return true;
+				if ( measureList == null || measureList.size( ) == 0 )
+				{
+					TabularMeasureGroupHandle measureGroup = DesignElementFactory.getInstance( )
+							.newTabularMeasureGroup( "Summary Field" );
+					try
+					{
+						model.getModel( ).add( CubeHandle.MEASURE_GROUPS_PROP,
+								measureGroup );
+					}
+					catch ( SemanticException e )
+					{
+						ExceptionHandler.handle( e );
+					}
+				}
+				return measureList != null && measureList.size( ) > 0;
 			}
 		}
 		return false;
