@@ -140,6 +140,11 @@ public class CrosstabCellHandle extends AbstractCrosstabItemHandle
 					|| IMeasureViewConstants.AGGREGATIONS_PROP
 							.equals( propName ) )
 				styles.add( CROSSTAB_DETAIL_SELECTOR );
+			else
+			{
+				// measure header cell is looked as x-tab-header-cell
+				styles.add( CROSSTAB_HEADER_SELECTOR );
+			}
 		}
 		else
 		{
@@ -148,5 +153,4 @@ public class CrosstabCellHandle extends AbstractCrosstabItemHandle
 		}
 		return styles;
 	}
-
 }
