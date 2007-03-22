@@ -561,8 +561,9 @@ public class TaskSelectData extends SimpleTask implements
 			btnNewData.setEnabled( false );
 			btnFilters.setEnabled( hasDataSet( )
 					&& getDataServiceProvider( ).isInvokingSupported( ) );
-			btnParameters.setEnabled( hasDataSet( )
-					&& getDataServiceProvider( ).isInvokingSupported( ) );
+			// Bugzilla#177704 Chart inheriting data from container doesn't
+			// support parameters due to limitation in DtE
+			btnParameters.setEnabled( false );
 			btnBinding.setEnabled( hasDataSet( )
 					&& getDataServiceProvider( ).isInvokingSupported( ) );
 			btnFilters.setVisible( getDataServiceProvider( ).isEclipseModeSupported( ) );
@@ -590,6 +591,8 @@ public class TaskSelectData extends SimpleTask implements
 			cmbDataSet.setEnabled( true );
 			btnNewData.setEnabled( getDataServiceProvider( ).isInvokingSupported( ) );
 			btnNewData.setVisible( getDataServiceProvider( ).isEclipseModeSupported( ) );
+			btnParameters.setEnabled( hasDataSet( )
+					&& getDataServiceProvider( ).isInvokingSupported( ) );
 		}
 		else if ( e.getSource( ).equals( cmbDataSet ) )
 		{
