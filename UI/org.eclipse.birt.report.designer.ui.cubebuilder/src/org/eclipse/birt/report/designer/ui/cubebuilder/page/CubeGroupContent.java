@@ -498,7 +498,7 @@ public class CubeGroupContent extends Composite
 			}
 
 		} );
-		groupViewer.setAutoExpandLevel( 3 );
+		groupViewer.setAutoExpandLevel( 4 );
 		groupViewer.getTree( ).addKeyListener( new KeyAdapter( ) {
 
 			public void keyPressed( KeyEvent e )
@@ -981,6 +981,9 @@ public class CubeGroupContent extends Composite
 		{
 			Iterator iter = selections.iterator( );
 			Object obj = iter.next( );
+			/**
+			 * Measure can modify all.
+			 */
 			if ( obj instanceof MeasureHandle )
 			{
 				nameText.setEnabled( true );
@@ -998,6 +1001,9 @@ public class CubeGroupContent extends Composite
 				expressionButton.setEnabled( true );
 				setExpressionButtonImage( expressionButton );
 			}
+			/**
+			 * Those handles can modify name.
+			 */
 			else if ( obj instanceof MeasureGroupHandle
 					|| obj instanceof DimensionHandle
 					|| obj instanceof LevelHandle )
@@ -1015,6 +1021,9 @@ public class CubeGroupContent extends Composite
 				functionCombo.select( -1 );
 				expressionText.setText( "" );
 			}
+			/**
+			 * Other couldn't modify.
+			 */
 			else
 			{
 				nameText.setEnabled( false );
@@ -1030,6 +1039,9 @@ public class CubeGroupContent extends Composite
 				expressionText.setText( "" );
 			}
 
+			/**
+			 * Deal add button and del buuton.
+			 */
 			if ( obj instanceof DimensionHandle
 					|| obj instanceof LevelHandle
 					|| obj instanceof MeasureGroupHandle
@@ -1078,11 +1090,20 @@ public class CubeGroupContent extends Composite
 				delBtn.setEnabled( false );
 			}
 
+			/**
+			 * CubeHandle can do nothing.
+			 */
 			if ( obj instanceof CubeHandle )
 				addBtn.setEnabled( false );
+			/**
+			 * CubeModel can and a group or a summary field
+			 */
 			else if ( obj instanceof CubeModel )
 				addBtn.setEnabled( true );
 
+			/**
+			 * Only Level Handle has EditBtn and PropBtn.
+			 */
 			if ( obj instanceof LevelHandle )
 			{
 				refresh( );
@@ -1142,6 +1163,7 @@ public class CubeGroupContent extends Composite
 			addBtn.setEnabled( false );
 			delBtn.setEnabled( false );
 			propBtn.setEnabled( false );
+			editBtn.setEnabled( false );
 		}
 
 	}
@@ -1254,14 +1276,15 @@ public class CubeGroupContent extends Composite
 			Object obj = iter.next( );
 			if ( obj instanceof TabularLevelHandle )
 			{
-				if ( ( (DimensionHandle) obj ).isTimeType( ) )
+				TabularLevelHandle temp = (TabularLevelHandle)obj;
+				if(temp.getDataType( )!=null && temp.getDataType( ).equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ))
 					return;
 				TabularLevelHandle level = DesignElementFactory.getInstance( )
 						.newTabularLevel( "Level" );
 				try
 				{
 					level.setColumnName( level.getName( ) );
-					( (TabularLevelHandle) obj ).getContainer( )
+					temp.getContainer( )
 							.add( IHierarchyModel.LEVELS_PROP, level );
 				}
 				catch ( SemanticException e )
