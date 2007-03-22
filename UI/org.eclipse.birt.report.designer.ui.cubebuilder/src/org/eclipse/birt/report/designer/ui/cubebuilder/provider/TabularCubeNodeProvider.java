@@ -76,27 +76,19 @@ public class TabularCubeNodeProvider extends DefaultNodeProvider
 		return DEUtil.getDisplayLabel( model, false );
 	}
 
-	private CubeModel dimension;
-	private CubeModel measures;
 	/**
 	 * Gets the children element of the given model using visitor.
 	 * 
 	 * @param object
 	 *            the handle
 	 */
+
 	public Object[] getChildren( Object object )
 	{
 		CubeHandle handle = (CubeHandle) object;
-		if ( dimension == null )
-			dimension = new CubeModel( handle, CubeModel.TYPE_DIMENSION );
-		else if ( dimension.getModel( ) != handle )
-			dimension.setModel( handle );
-		if ( measures == null )
-			measures = new CubeModel( handle, CubeModel.TYPE_MEASURES );
-		else if ( measures.getModel( ) != handle )
-			measures.setModel( handle );
 		return new Object[]{
-				dimension, measures
+				new CubeModel( handle, CubeModel.TYPE_DIMENSION ),
+				new CubeModel( handle, CubeModel.TYPE_MEASURES )
 		};
 	}
 
@@ -127,6 +119,6 @@ public class TabularCubeNodeProvider extends DefaultNodeProvider
 
 	public Image getNodeIcon( Object model )
 	{
-		return UIHelper.getImage( BuilderConstancts.IMAGE_CUBE);
+		return UIHelper.getImage( BuilderConstancts.IMAGE_CUBE );
 	}
 }
