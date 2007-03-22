@@ -22,6 +22,5 @@ REM capture command used to run the build
 echo %buildCommand% >command.txt
 
 REM run the build
-%antRunner% -q -buildfile getSourceCodeByBuildTag.xml -propertyfile build.properties -DbuildType=I -DI=true -DbuildId=%buildId% -Dbuildid=%buildId% -DbuildLabel=%buildId% -DlogExtension=.xml -DgroupConfiguration=true -DjavacSource=1.4 -DjavacTarget=1.4 -DjavacVerbose=true  -DpostPackage=BIRTOutput -DmapCvsRoot=:pserver:anonymous@dev.eclipse.org:/cvsroot/birt
->> adb.log
+%antRunner% -q -buildfile getSourceCodeByBuildTag.xml -propertyfile build.properties -DbuildType=I -DI=true -DbuildId=%buildId% -Dbuildid=%buildId% -DbuildLabel=%buildId% -DlogExtension=.xml -DgroupConfiguration=true -DjavacSource=1.4 -DjavacTarget=1.4 -DjavacVerbose=true  -DpostPackage=BIRTOutput -DmapCvsRoot=:pserver:anonymous@dev.eclipse.org:/cvsroot/birt>> adb.log
 
