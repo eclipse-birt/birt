@@ -1763,8 +1763,7 @@
   <Structure displayNameID="Structure.DataSetParam" name="DataSetParam" since="1.0">
     <Member displayNameID="Structure.DataSetParam.name" isIntrinsic="true" name="name" runtimeSettable="false" since="1.0" type="string" valueRequired="true"/>
     <Member detailType="paramType" displayNameID="Structure.DataSetParam.dataType" isIntrinsic="true" name="dataType" runtimeSettable="false" since="1.0" type="choice">
-        <Default>any</Default>
-        <Allowed>string,any,float,decimal,dateTime,integer</Allowed>		
+        <Default>any</Default>	
     </Member> 
 	<Member displayNameID="Structure.DataSetParam.nativeDataType" isIntrinsic="true" name="nativeDataType" runtimeSettable="false" since="2.1" type="integer" />            
     <Member displayNameID="Structure.DataSetParam.position" isIntrinsic="true" name="position" runtimeSettable="false" since="1.0" type="integer"/>
@@ -1788,7 +1787,6 @@
 	<Member displayNameID="Structure.OdaDataSetParam.nativeName" isIntrinsic="true" name="nativeName " runtimeSettable="true" since="2.1.1" type="literalString"/>
     <Member detailType="paramType" displayNameID="Structure.OdaDataSetParam.dataType" isIntrinsic="true" name="dataType" runtimeSettable="false" since="2.1.1" type="choice">
         <Default>any</Default>
-        <Allowed>string,any,float,decimal,dateTime,integer,any</Allowed>
     </Member> 
 	<Member displayNameID="Structure.OdaDataSetParam.nativeDataType" isIntrinsic="true" name="nativeDataType" runtimeSettable="false" since="2.1.1" type="integer" />            
     <Member displayNameID="Structure.OdaDataSetParam.position" isIntrinsic="true" name="position" runtimeSettable="false" since="2.1.1" type="integer"/>
