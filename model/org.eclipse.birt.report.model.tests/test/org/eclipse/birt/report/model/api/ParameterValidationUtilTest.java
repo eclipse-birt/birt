@@ -202,6 +202,76 @@ public class ParameterValidationUtilTest extends BaseTestCase
 				"13c1.9ab2", //$NON-NLS-1$
 				ULocale.CHINA ).toString( ) );
 	}
+	
+	/**
+	 * Tests the validation of the time type.
+	 * 
+	 * @throws Exception
+	 * 
+	 */
+	
+	public void testTime() throws Exception
+	{
+		String value1 = "12:30:31"; //$NON-NLS-1$
+
+		java.sql.Time date = (java.sql.Time) ParameterValidationUtil
+				.validate(
+						DesignChoiceConstants.PARAM_TYPE_TIME,
+						DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE,
+						value1 );
+		assertEquals( "12:30:31", date.toString( ) );//$NON-NLS-1$
+
+		String value2 = "122a:30:31";//$NON-NLS-1$
+		try
+		{
+			ParameterValidationUtil.validate(
+					DesignChoiceConstants.PARAM_TYPE_TIME,
+					DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE,
+					value2 );
+			fail( );
+		}
+		catch ( ValidationValueException e )
+		{
+			assertEquals(
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
+							.getErrorCode( ) );
+		}
+	}
+
+	/**
+	 * Tests the validation of date type.
+	 * 
+	 * @throws Exception
+	 * 
+	 */
+	
+	public void testDate( ) throws Exception
+	{
+		String value1 = "1998-09-13"; //$NON-NLS-1$
+
+		java.sql.Date date = (java.sql.Date) ParameterValidationUtil
+				.validate(
+						DesignChoiceConstants.PARAM_TYPE_DATE,
+						DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE,
+						value1 );
+		assertEquals( "1998-09-13", date.toString( ) );//$NON-NLS-1$
+
+		String value2 = "1992a-123-12";//$NON-NLS-1$
+		try
+		{
+			ParameterValidationUtil.validate(
+					DesignChoiceConstants.PARAM_TYPE_DATE,
+					DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE,
+					value2 );
+			fail( );
+		}
+		catch ( ValidationValueException e )
+		{
+			assertEquals(
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
+							.getErrorCode( ) );
+		}
+	}
 
 	/**
 	 * Tests validation of date time type.
@@ -383,6 +453,29 @@ public class ParameterValidationUtilTest extends BaseTestCase
 				"Sep 13, 1998 8:01 PM", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
 								DesignChoiceConstants.PARAM_TYPE_DATETIME,
 								null, dateValue ) );
+
+		// date type
+		dateValue = new java.sql.Date( 100, 0, 1 );
+		assertEquals( "2000-01-01", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
+				DesignChoiceConstants.PARAM_TYPE_DATE,
+				DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE,
+				dateValue, ULocale.FRANCE ) );
+
+		// no format
+		assertEquals( "2000-01-01", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
+				DesignChoiceConstants.PARAM_TYPE_DATE, null, dateValue ) );
+
+		// time type
+
+		java.sql.Time timeValue = new java.sql.Time( 14, 20, 30 );
+		assertEquals( "14:20:30", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
+				DesignChoiceConstants.PARAM_TYPE_TIME,
+				DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE,
+				timeValue, ULocale.FRANCE ) );
+
+		// no format
+		assertEquals( "14:20:30", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
+				DesignChoiceConstants.PARAM_TYPE_TIME, null, timeValue ) );
 
 		// float type
 		Double doubleValue = new Double( "12345.456" ); //$NON-NLS-1$

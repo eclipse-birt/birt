@@ -81,7 +81,14 @@ public class ScalarParameterHandleTest extends BaseTestCase
 	public void testGetsPropertiesOnParameter( ) throws SemanticException
 	{
 		SlotHandle params = designHandle.getParameters( );
-		ScalarParameterHandle handle = (ScalarParameterHandle) params.get( 0 );
+		
+		ScalarParameterHandle handle = (ScalarParameterHandle) params.get( 4 );
+		assertEquals( DesignChoiceConstants.PARAM_TYPE_DATE , handle.getDataType( ) );
+		
+		handle = (ScalarParameterHandle) params.get( 5 );
+		assertEquals( DesignChoiceConstants.PARAM_TYPE_TIME , handle.getDataType( ) );
+		
+		handle = (ScalarParameterHandle) params.get( 0 );
 
 		assertFalse( handle.isHidden( ) );
 
@@ -218,6 +225,14 @@ public class ScalarParameterHandleTest extends BaseTestCase
 
 		handle.setDataType( DesignChoiceConstants.PARAM_TYPE_DATETIME );
 		assertEquals( DesignChoiceConstants.PARAM_TYPE_DATETIME, handle
+				.getDataType( ) );
+
+		handle.setDataType( DesignChoiceConstants.PARAM_TYPE_DATE );
+		assertEquals( DesignChoiceConstants.PARAM_TYPE_DATE, handle
+				.getDataType( ) );
+
+		handle.setDataType( DesignChoiceConstants.PARAM_TYPE_TIME );
+		assertEquals( DesignChoiceConstants.PARAM_TYPE_TIME, handle
 				.getDataType( ) );
 
 		handle.setDataType( DesignChoiceConstants.PARAM_TYPE_FLOAT );

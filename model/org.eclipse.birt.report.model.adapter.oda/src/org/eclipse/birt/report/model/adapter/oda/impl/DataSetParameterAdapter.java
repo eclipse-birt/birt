@@ -1111,6 +1111,12 @@ class DataSetParameterAdapter
 		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
 				.equals( romDataType ) )
 			needs = true;
+		else if ( DesignChoiceConstants.PARAM_TYPE_DATE
+				.equals( romDataType ) )
+			needs = true;
+		else if ( DesignChoiceConstants.PARAM_TYPE_TIME
+				.equals( romDataType ) )
+			needs = true;
 		else if ( DesignChoiceConstants.PARAM_TYPE_ANY.equals( romDataType ) )
 			needs = true;
 		return needs;

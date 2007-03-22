@@ -49,6 +49,14 @@
                 </structure>
             </list-property>
         </scalar-parameter>
+        <scalar-parameter name="Param 5">
+            <property name="dataType">date</property>
+            <expression name="defaultValue">1999-01-01</expression>
+        </scalar-parameter>
+         <scalar-parameter name="Param 6">
+            <property name="dataType">time</property>
+            <expression name="defaultValue">12:30:30</expression>
+        </scalar-parameter>
     </parameters>
     <page-setup>
         <graphic-master-page name="My Page">

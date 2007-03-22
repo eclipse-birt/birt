@@ -180,7 +180,9 @@
     <Choice displayNameID="Choices.paramType.dateTime" name="dateTime"/>
     <Choice displayNameID="Choices.paramType.boolean" name="boolean"/>
     <Choice displayNameID="Choices.paramType.integer" name="integer"/>
-    <Choice displayNameID="Choices.paramType.any" name="any"/>	  
+    <Choice displayNameID="Choices.paramType.any" name="any"/>	
+    <Choice displayNameID="Choices.paramType.date" name="date"/>
+    <Choice displayNameID="Choices.paramType.time" name="time"/>	  
   </ChoiceType>
   <ChoiceType name="paramValueType">
     <Choice displayNameID="Choices.paramValueType.static" name="static"/>
@@ -372,7 +374,10 @@
     <Choice displayNameID="Choices.columnDataType.date-time" name="date-time"/>
     <Choice displayNameID="Choices.columnDataType.decimal" name="decimal"/>
     <Choice displayNameID="Choices.columnDataType.float" name="float"/>
-	<Choice displayNameID="Choices.columnDataType.boolean" name="boolean"/>	  
+	<Choice displayNameID="Choices.columnDataType.boolean" name="boolean"/>	 
+	<Choice displayNameID="Choices.columnDataType.date" name="date"/>
+	<Choice displayNameID="Choices.columnDataType.time" name="time"/> 
+	 
     <!-- not supported now
     <Choice displayNameID="Choices.columnDataType.structure" name="structure"/>
     <Choice displayNameID="Choices.columnDataType.table" name="table"/>
@@ -1763,7 +1768,8 @@
   <Structure displayNameID="Structure.DataSetParam" name="DataSetParam" since="1.0">
     <Member displayNameID="Structure.DataSetParam.name" isIntrinsic="true" name="name" runtimeSettable="false" since="1.0" type="string" valueRequired="true"/>
     <Member detailType="paramType" displayNameID="Structure.DataSetParam.dataType" isIntrinsic="true" name="dataType" runtimeSettable="false" since="1.0" type="choice">
-        <Default>any</Default>	
+        <Default>any</Default>
+        <Allowed>string,any,float,decimal,dateTime,integer,date,time</Allowed>		
     </Member> 
 	<Member displayNameID="Structure.DataSetParam.nativeDataType" isIntrinsic="true" name="nativeDataType" runtimeSettable="false" since="2.1" type="integer" />            
     <Member displayNameID="Structure.DataSetParam.position" isIntrinsic="true" name="position" runtimeSettable="false" since="1.0" type="integer"/>
@@ -1787,6 +1793,7 @@
 	<Member displayNameID="Structure.OdaDataSetParam.nativeName" isIntrinsic="true" name="nativeName " runtimeSettable="true" since="2.1.1" type="literalString"/>
     <Member detailType="paramType" displayNameID="Structure.OdaDataSetParam.dataType" isIntrinsic="true" name="dataType" runtimeSettable="false" since="2.1.1" type="choice">
         <Default>any</Default>
+        <Allowed>string,any,float,decimal,dateTime,integer,any,date,time</Allowed>
     </Member> 
 	<Member displayNameID="Structure.OdaDataSetParam.nativeDataType" isIntrinsic="true" name="nativeDataType" runtimeSettable="false" since="2.1.1" type="integer" />            
     <Member displayNameID="Structure.OdaDataSetParam.position" isIntrinsic="true" name="position" runtimeSettable="false" since="2.1.1" type="integer"/>
@@ -2286,7 +2293,7 @@
   <Element displayNameID="Element.ScalarParameter" extends="Parameter" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ScalarParameter" name="ScalarParameter" since="1.0" xmlName="scalar-parameter">
     <Property detailType="paramType" displayNameID="Element.ScalarParameter.dataType" name="dataType" runtimeSettable="false" since="1.0" type="choice">
       <Default>string</Default>
-      <Allowed>string,float,decimal,dateTime,integer,boolean</Allowed>			
+      <Allowed>string,float,decimal,dateTime,integer,boolean,date,time</Allowed>			
     </Property>
     <Property detailType="paramValueType" displayNameID="Element.ScalarParameter.type" name="valueType" runtimeSettable="false" since="2.0" type="choice" >
       	<Default>static</Default>
