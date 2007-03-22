@@ -31,7 +31,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
-
 public abstract class AbstractTitlePropertyDialog extends
 		AbstractPropertyDialog
 {
@@ -61,9 +60,10 @@ public abstract class AbstractTitlePropertyDialog extends
 	static
 	{
 		ImageRegistry reg = JFaceResources.getImageRegistry( );
-		reg.put( DLG_IMG_TITLE_BANNER,
-				ImageDescriptor.createFromFile( TitleAreaDialog.class,
-						"images/title_banner.gif" ) );//$NON-NLS-1$
+		if ( reg.get( DLG_IMG_TITLE_BANNER ) == null )
+			reg.put( DLG_IMG_TITLE_BANNER,
+					ImageDescriptor.createFromFile( TitleAreaDialog.class,
+							"images/title_banner.gif" ) );//$NON-NLS-1$
 	}
 
 	private void createDialogTitleArea( Composite parent )
@@ -216,30 +216,24 @@ public abstract class AbstractTitlePropertyDialog extends
 
 	}
 
-	
 	public boolean isTitleImageLargest( )
 	{
 		return titleImageLargest;
 	}
 
-	
 	public void setTitleImageLargest( boolean titleImageLargest )
 	{
 		this.titleImageLargest = titleImageLargest;
 	}
 
-	
 	public Image getTitleImage( )
 	{
 		return titleImage;
 	}
 
-	
 	public void setTitleImage( Image titleImage )
 	{
 		this.titleImage = titleImage;
 	}
-
-
 
 }
