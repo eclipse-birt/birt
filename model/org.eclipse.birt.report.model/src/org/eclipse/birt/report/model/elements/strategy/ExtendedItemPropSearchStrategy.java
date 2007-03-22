@@ -65,24 +65,24 @@ public class ExtendedItemPropSearchStrategy extends PropertySearchStrategy
 	protected Object getPropertyFromSelfSelector( Module module,
 			DesignElement element, ElementPropertyDefn prop )
 	{
-		// find the selector defined in extension definition
 		ExtendedItem extendedItem = (ExtendedItem) element;
 
-		IElementDefn elementDefn = extendedItem.getExtDefn( );
-		if ( elementDefn != null )
-		{
-			String selector = extendedItem.getExtDefn( ).getSelector( );
-			Object value = getPropertyFromSelector( module, prop, selector );
-			if ( value != null )
-				return value;
-		}
-
 		// find other pre-defined styles, such as selector : x-tab header, x-tab
-		// detail
+		// detail, it has the highest priority than other selector
 		Object value = getPropertyFromPredefinedStyles( module, extendedItem,
 				prop );
 		if ( value != null )
 			return value;
+
+		// find the selector defined in extension definition
+		IElementDefn elementDefn = extendedItem.getExtDefn( );
+		if ( elementDefn != null )
+		{
+			String selector = extendedItem.getExtDefn( ).getSelector( );
+			value = getPropertyFromSelector( module, prop, selector );
+			if ( value != null )
+				return value;
+		}
 
 		// find the "extended-item" selector
 		String selector = ( (ElementDefn) extendedItem.getDefaultDefn( ) )

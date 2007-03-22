@@ -589,19 +589,20 @@ public class PeerExtensionTest extends BaseTestCase
 
 		// test item in box-detail, it defines custom predefined styles:
 		// testing-box-detail and testPredefinedStyle
-		extendedItem = designHandle.findElement( "detailMatrix" ); //$NON-NLS-1$
-		assertEquals( DesignChoiceConstants.FONT_WEIGHT_400, extendedItem
-				.getStringProperty( IStyleModel.FONT_WEIGHT_PROP ) );
-		assertEquals( DesignChoiceConstants.FONT_SIZE_X_SMALL, extendedItem
-				.getStringProperty( IStyleModel.FONT_SIZE_PROP ) );
+		extendedItem = designHandle.findElement( "detailMatrix" ); //$NON-NLS-1$		
 		// property value get from testing-box-detail: color and font-style
 		assertEquals( DesignChoiceConstants.FONT_STYLE_OBLIQUE, extendedItem
 				.getStringProperty( IStyleModel.FONT_STYLE_PROP ) );
 		assertEquals( IColorConstants.RED, extendedItem
 				.getStringProperty( IStyleModel.COLOR_PROP ) );
 		// property value get from testPredefinedStyle
+		assertEquals( DesignChoiceConstants.FONT_WEIGHT_900, extendedItem
+				.getStringProperty( IStyleModel.FONT_WEIGHT_PROP ) );
 		assertEquals( DesignChoiceConstants.FONT_FAMILY_FANTASY, extendedItem
 				.getStringProperty( IStyleModel.FONT_FAMILY_PROP ) );
+		// property from default selector:testing-matrix
+		assertEquals( DesignChoiceConstants.FONT_SIZE_X_SMALL, extendedItem
+				.getStringProperty( IStyleModel.FONT_SIZE_PROP ) );
 		// font-variant is not set
 		assertFalse( extendedItem.getPropertyHandle(
 				IStyleModel.FONT_VARIANT_PROP ).isSet( ) );
@@ -613,9 +614,6 @@ public class PeerExtensionTest extends BaseTestCase
 		// property form named style
 		assertEquals( DesignChoiceConstants.FONT_SIZE_SMALL, extendedItem
 				.getStringProperty( IStyleModel.FONT_SIZE_PROP ) );
-		// property from selector testing-matrix
-		assertEquals( DesignChoiceConstants.FONT_WEIGHT_400, extendedItem
-				.getStringProperty( IStyleModel.FONT_WEIGHT_PROP ) );
 		// property value get from testing-box-detail: color and font-style
 		assertEquals( DesignChoiceConstants.FONT_STYLE_OBLIQUE, extendedItem
 				.getStringProperty( IStyleModel.FONT_STYLE_PROP ) );
@@ -624,6 +622,9 @@ public class PeerExtensionTest extends BaseTestCase
 		// property value get from testPredefinedStyle
 		assertEquals( DesignChoiceConstants.FONT_FAMILY_FANTASY, extendedItem
 				.getStringProperty( IStyleModel.FONT_FAMILY_PROP ) );
+		assertEquals( DesignChoiceConstants.FONT_WEIGHT_900, extendedItem
+				.getStringProperty( IStyleModel.FONT_WEIGHT_PROP ) );
+		// no value from testing-matrix default selector
 		// font-variant is not set
 		assertFalse( extendedItem.getPropertyHandle(
 				IStyleModel.FONT_VARIANT_PROP ).isSet( ) );
