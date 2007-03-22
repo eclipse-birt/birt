@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.util;
 
+import org.eclipse.birt.report.designer.nls.Messages;
+
 public class VirtualField
 {
 
@@ -38,9 +40,9 @@ public class VirtualField
 	public String toString( )
 	{
 		if ( type.equals( TYPE_MEASURE ) )
-			return "(Drop a field here to create a summary field)";
+			return Messages.getString( "GroupsPage.VirtualField.Measure" );
 		if ( type.equals( TYPE_LEVEL ) )
-			return "(Drop a field here to create a group)";
+			return Messages.getString( "GroupsPage.VirtualField.Level" );
 		return super.toString( );
 	}
 
