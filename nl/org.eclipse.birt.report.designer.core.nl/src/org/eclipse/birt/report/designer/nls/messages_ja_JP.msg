@@ -3741,6 +3741,8 @@ CubeMeasureNodeProvider.menu.text=編集
 cube.measuregroup.new=キューブの計測グループの新規作成
 cube.measure.edit=キューブの計測の編集
 CubeMeasureGroupNodeProvider.menu.text=編集
+CubeModel.group.new=グループの新規作成
+CubeModel.summaryfield.new=New Summary Field
 
 ###########################################################
 #Cube Builder Dialog properties
@@ -3771,12 +3773,21 @@ GroupsPage.Label.Group=Groups:
 GroupsPage.Button.Add=追加(&A)
 GroupsPage.Label.Name=名前(&N) :
 GroupsPage.Label.Function=関数(&F) :
+GroupsPage.VirtualField.Measure=(Drop a field here to create a summary field)
+GroupsPage.VirtualField.Level=(Drop a field here to create a group)
 GroupsPage.Label.Expression=式(&E) :
 DatasetDialog.Title.Label=データセットの追加
 DatasetDialog.Title.OKButton.Text=追加
 CubeDialog.Title=挿入
 CubeDialog.Label.Select=クロスタブの選択データ :
 CubeDialog.Button.Define=クロスタブのデータの定義
+LevelDialog.Title=Edit Group Level
+LevelDialog.Label.Name=名前 :
+LevelDialog.Label.Field=Choose Field:
+LevelDialog.Label.Info=選択キー :
+LevelDialog.Label.Add=Add Level
+LevelDialog.Label.Edit=Edit Level
+LevelPropertyDialog.Title=Group Level Property
 LevelPropertyDialog.MSG.CreateNew=<パラメタの新規作成>
 LevelPropertyDialog.Label.Name=名前 :
 LevelPropertyDialog.Label.Interval=間隔 :

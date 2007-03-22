@@ -3741,6 +3741,8 @@ CubeMeasureNodeProvider.menu.text=편집
 cube.measuregroup.new=새 큐브 측정 그룹
 cube.measure.edit=큐브 측정 편집
 CubeMeasureGroupNodeProvider.menu.text=편집
+CubeModel.group.new=새 그룹
+CubeModel.summaryfield.new=New Summary Field
 
 ###########################################################
 #Cube Builder Dialog properties
@@ -3771,12 +3773,21 @@ GroupsPage.Label.Group=Groups:
 GroupsPage.Button.Add=추가(&A)
 GroupsPage.Label.Name=이름(&N):
 GroupsPage.Label.Function=함수(&F):
+GroupsPage.VirtualField.Measure=(Drop a field here to create a summary field)
+GroupsPage.VirtualField.Level=(Drop a field here to create a group)
 GroupsPage.Label.Expression=식(&E):
 DatasetDialog.Title.Label=데이터 집합 추가
 DatasetDialog.Title.OKButton.Text=추가
 CubeDialog.Title=삽입
 CubeDialog.Label.Select=크로스 탭을 위해 선택된 데이터:
 CubeDialog.Button.Define=크로스 탭을 위해 데이터 정의
+LevelDialog.Title=Edit Group Level
+LevelDialog.Label.Name=이름:
+LevelDialog.Label.Field=Choose Field:
+LevelDialog.Label.Info=선택된 키:
+LevelDialog.Label.Add=Add Level
+LevelDialog.Label.Edit=Edit Level
+LevelPropertyDialog.Title=Group Level Property
 LevelPropertyDialog.MSG.CreateNew=<새 매개 변수 생성>
 LevelPropertyDialog.Label.Name=이름:
 LevelPropertyDialog.Label.Interval=간격:

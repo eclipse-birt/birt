@@ -3741,6 +3741,8 @@ CubeMeasureNodeProvider.menu.text=编辑
 cube.measuregroup.new=新建多维数据集度量组
 cube.measure.edit=编辑多维数据集度量
 CubeMeasureGroupNodeProvider.menu.text=编辑
+CubeModel.group.new=新建组
+CubeModel.summaryfield.new=New Summary Field
 
 ###########################################################
 #Cube Builder Dialog properties
@@ -3771,12 +3773,21 @@ GroupsPage.Label.Group=Groups:
 GroupsPage.Button.Add=添加(&A)
 GroupsPage.Label.Name=名称(&N):
 GroupsPage.Label.Function=函数(&F):
+GroupsPage.VirtualField.Measure=(Drop a field here to create a summary field)
+GroupsPage.VirtualField.Level=(Drop a field here to create a group)
 GroupsPage.Label.Expression=表达式(&E):
 DatasetDialog.Title.Label=添加数据集
 DatasetDialog.Title.OKButton.Text=添加
 CubeDialog.Title=插入
 CubeDialog.Label.Select=为交叉表选择的数据:
 CubeDialog.Button.Define=为交叉表定义数据
+LevelDialog.Title=Edit Group Level
+LevelDialog.Label.Name=名称:
+LevelDialog.Label.Field=Choose Field:
+LevelDialog.Label.Info=选择的关键字:
+LevelDialog.Label.Add=Add Level
+LevelDialog.Label.Edit=Edit Level
+LevelPropertyDialog.Title=Group Level Property
 LevelPropertyDialog.MSG.CreateNew=<创建新参数>
 LevelPropertyDialog.Label.Name=名称:
 LevelPropertyDialog.Label.Interval=间隔:

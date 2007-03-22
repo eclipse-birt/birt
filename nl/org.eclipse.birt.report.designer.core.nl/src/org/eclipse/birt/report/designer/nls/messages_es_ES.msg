@@ -3741,6 +3741,8 @@ CubeMeasureNodeProvider.menu.text=Editar
 cube.measuregroup.new=Nuevo grupo de medida de cubo
 cube.measure.edit=Editar medida de cubo
 CubeMeasureGroupNodeProvider.menu.text=Editar
+CubeModel.group.new=Nuevo grupo
+CubeModel.summaryfield.new=New Summary Field
 
 ###########################################################
 #Cube Builder Dialog properties
@@ -3771,12 +3773,21 @@ GroupsPage.Label.Group=Groups:
 GroupsPage.Button.Add=&Añadir
 GroupsPage.Label.Name=&Nombre:
 GroupsPage.Label.Function=&Función:
+GroupsPage.VirtualField.Measure=(Drop a field here to create a summary field)
+GroupsPage.VirtualField.Level=(Drop a field here to create a group)
 GroupsPage.Label.Expression=&Expresión:
 DatasetDialog.Title.Label=Añadir conjuntos de datos
 DatasetDialog.Title.OKButton.Text=Añadir
 CubeDialog.Title=Insertar
 CubeDialog.Label.Select=Datos seleccionados para tabla de referencias cruzadas:
 CubeDialog.Button.Define=Definir datos para tabla de referencias cruzadas
+LevelDialog.Title=Edit Group Level
+LevelDialog.Label.Name=Nombre:
+LevelDialog.Label.Field=Choose Field:
+LevelDialog.Label.Info=Tecla seleccionada:
+LevelDialog.Label.Add=Add Level
+LevelDialog.Label.Edit=Edit Level
+LevelPropertyDialog.Title=Group Level Property
 LevelPropertyDialog.MSG.CreateNew=<Crear nuevo parámetro>
 LevelPropertyDialog.Label.Name=Nombre:
 LevelPropertyDialog.Label.Interval=Intervalo:
