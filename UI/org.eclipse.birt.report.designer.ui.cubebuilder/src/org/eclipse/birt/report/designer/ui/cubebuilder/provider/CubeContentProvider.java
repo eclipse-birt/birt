@@ -25,7 +25,6 @@ import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle;
-import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
@@ -46,9 +45,6 @@ public class CubeContentProvider implements ITreeContentProvider
 	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
 	 */
 
-	private VirtualField virtualMeasure = new VirtualField( VirtualField.TYPE_MEASURE );
-	private VirtualField virtualLevel = new VirtualField( VirtualField.TYPE_LEVEL );
-
 	public Object[] getChildren( Object parentElement )
 	{
 		if ( parentElement instanceof Object[] )
@@ -65,6 +61,7 @@ public class CubeContentProvider implements ITreeContentProvider
 				};
 			else
 			{
+				VirtualField virtualLevel = new VirtualField( VirtualField.TYPE_LEVEL );
 				virtualLevel.setModel( parentElement );
 				return new Object[]{
 					virtualLevel
@@ -116,6 +113,7 @@ public class CubeContentProvider implements ITreeContentProvider
 					.toArray( );
 			if ( measures == null || measures.length == 0 )
 			{
+				VirtualField virtualMeasure = new VirtualField( VirtualField.TYPE_MEASURE );
 				virtualMeasure.setModel( parentElement );
 				return new Object[]{
 					virtualMeasure
