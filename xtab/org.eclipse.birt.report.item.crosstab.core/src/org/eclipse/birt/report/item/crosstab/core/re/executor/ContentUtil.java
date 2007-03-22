@@ -15,6 +15,7 @@ import java.util.Iterator;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IExecutorContext;
@@ -44,27 +45,55 @@ class ContentUtil
 	static void processStyle( IExecutorContext context, IContent content,
 			AbstractCrosstabItemHandle handle )
 	{
+		IStyle style = processStyle( context.getReportContent( ), handle );
+
+		if ( style != null )
+		{
+			content.setInlineStyle( style );
+		}
+	}
+
+	static IStyle processStyle( IReportContent reportContent,
+			AbstractCrosstabItemHandle handle )
+	{
 		ReportElementHandle modelHandle = getReportElementHandle( handle );
 
-		if ( modelHandle == null || modelHandle.getPrivateStyle( ) == null )
+		if ( modelHandle == null
+				|| modelHandle.getPrivateStyle( ) == null
+				|| reportContent == null )
 		{
-			return;
+			return null;
 		}
 
-		IStyle style = context.getReportContent( ).createStyle( );
+		// TODO process highlight
+		IStyle style = reportContent.createStyle( );
+
 		setupPrivateStyle( modelHandle, style );
-		content.setInlineStyle( style );
+
+		return style;
 	}
 
 	static void processVisibility( IExecutorContext context, IContent content,
 			AbstractCrosstabItemHandle handle, IBaseResultSet evaluator )
 			throws BirtException
 	{
+		String visibleFormat = processVisibility( handle, evaluator );
+
+		if ( visibleFormat != null )
+		{
+			content.getStyle( ).setVisibleFormat( visibleFormat );
+		}
+
+	}
+
+	static String processVisibility( AbstractCrosstabItemHandle handle,
+			IBaseResultSet evaluator ) throws BirtException
+	{
 		ReportItemHandle modelHandle = getReportItemHandle( handle );
 
 		if ( modelHandle == null || evaluator == null )
 		{
-			return;
+			return null;
 		}
 
 		Iterator visItr = modelHandle.visibilityRulesIterator( );
@@ -105,9 +134,11 @@ class ContentUtil
 			{
 				buffer.delete( len - 2, len );
 			}
-			content.getStyle( ).setVisibleFormat( buffer.toString( ) );
+
+			return buffer.toString( );
 		}
 
+		return null;
 	}
 
 	static void processBookmark( IExecutorContext context, IContent content,

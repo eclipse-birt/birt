@@ -135,7 +135,7 @@ class ColumnWalker implements ICrosstabConstants, IColumnWalker
 
 			case STATE_MEASURE_HEADER :
 
-				if ( columnGroups.size( ) > 0 )
+				if ( columnGroups.size( ) > 0 && columnEdgeCursor != null )
 				{
 					columnDimensionCursors = columnEdgeCursor.getDimensionCursor( );
 
@@ -154,7 +154,7 @@ class ColumnWalker implements ICrosstabConstants, IColumnWalker
 			case STATE_COLUMN_TOTAL_AFTER :
 			case STATE_COLUMN_EDGE :
 
-				if ( columnGroups.size( ) > 0 )
+				if ( columnGroups.size( ) > 0 && columnEdgeCursor != null )
 				{
 					while ( hasNext )
 					{
@@ -347,7 +347,7 @@ class ColumnWalker implements ICrosstabConstants, IColumnWalker
 
 			case STATE_GRAND_TOTAL :
 
-				if ( columnGroups.size( ) > 0 )
+				if ( columnGroups.size( ) > 0 && columnEdgeCursor != null )
 				{
 					// process grand total column
 					if ( crosstabItem.getGrandTotal( COLUMN_AXIS_TYPE ) != null )

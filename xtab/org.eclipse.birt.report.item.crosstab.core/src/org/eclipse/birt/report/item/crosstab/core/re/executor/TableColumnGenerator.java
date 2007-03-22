@@ -19,6 +19,7 @@ import javax.olap.OLAPException;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.impl.Column;
+import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
@@ -37,11 +38,14 @@ public class TableColumnGenerator implements ICrosstabConstants
 
 	private IColumnWalker walker;
 	private CrosstabReportItemHandle crosstabItem;
+	//private IBaseResultSet resultSet;
 
-	TableColumnGenerator( CrosstabReportItemHandle item, IColumnWalker walker )
+	TableColumnGenerator( CrosstabReportItemHandle item, IColumnWalker walker,
+			IBaseResultSet resultSet )
 	{
 		this.crosstabItem = item;
 		this.walker = walker;
+		//this.resultSet = resultSet;
 	}
 
 	void generateColumns( IReportContent report, ITableContent table )
@@ -143,15 +147,34 @@ public class TableColumnGenerator implements ICrosstabConstants
 
 		if ( handle != null )
 		{
-			// TODO setup style
-			// TODO setup highlight
-
 			DimensionType width = createDimension( handle.getWidth( ) );
 			col.setWidth( width );
 
-			// processStyle( handle );
-			// processVisibility( handle );
-			// processBookmark( handle );
+			// TODO temprarily commented out
+			// process style
+			// IStyle style = ContentUtil.processStyle( report, handle );
+			// if ( style != null )
+			// {
+			// col.setInlineStyle( style );
+			// }
+			//
+			// // process visibility
+			// try
+			// {
+			// String visibleFormat = ContentUtil.processVisibility( handle,
+			// resultSet );
+			// if ( visibleFormat != null )
+			// {
+			// col.setVisibleFormat( visibleFormat );
+			// }
+			// }
+			// catch ( BirtException e )
+			// {
+			// logger.log( Level.SEVERE,
+			// Messages.getString(
+			// "TableColumnGenerator.error.process.visibility" ), //$NON-NLS-1$
+			// e );
+			// }
 
 		}
 

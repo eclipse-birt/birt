@@ -20,6 +20,7 @@ import javax.olap.OLAPException;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
+import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 
@@ -73,47 +74,17 @@ public class CrosstabCellExecutor extends BaseCrosstabExecutor
 		content.setColSpan( colSpan );
 		content.setColumn( colIndex );
 
-		processStyle( cellHandle );
+		// user crosstab style for blank cells
+		processStyle( ( cellHandle == null ) ? (AbstractCrosstabItemHandle) crosstabItem
+				: (AbstractCrosstabItemHandle) cellHandle );
 		processVisibility( cellHandle );
 		processBookmark( cellHandle );
 		processAction( cellHandle );
-
-		// ! no drop needed, row/column span already prepared.
-		// if ( isRowLevelCell( ) )
-		// {
-		// content.setDrop( DesignChoiceConstants.DROP_TYPE_DETAIL );
-		// }
 
 		currentChild = 0;
 
 		return content;
 	}
-
-	// private boolean isRowLevelCell( )
-	// {
-	// if ( cellHandle != null
-	// && cellHandle.getContainer( ) instanceof LevelViewHandle
-	// && ILevelViewConstants.MEMBER_PROP.equals( cellHandle.getModelHandle( )
-	// .getContainerPropertyHandle( )
-	// .getPropertyDefn( )
-	// .getName( ) ) )
-	// {
-	// AbstractCrosstabItemHandle cd = cellHandle.getContainer( )
-	// .getContainer( )
-	// .getContainer( );
-	//
-	// if ( cd instanceof CrosstabViewHandle
-	// && ICrosstabReportItemConstants.ROWS_PROP.equals( cd.getModelHandle( )
-	// .getContainerPropertyHandle( )
-	// .getPropertyDefn( )
-	// .getName( ) ) )
-	// {
-	// return true;
-	// }
-	// }
-	//
-	// return false;
-	// }
 
 	public IReportItemExecutor getNextChild( )
 	{

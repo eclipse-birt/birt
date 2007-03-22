@@ -113,7 +113,7 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 
 			walker = new CachedColumnWalker( crosstabItem,
 					getColumnEdgeCursor( ) );
-			new TableColumnGenerator( crosstabItem, walker ).generateColumns( context.getReportContent( ),
+			new TableColumnGenerator( crosstabItem, walker, getCubeResultSet( ) ).generateColumns( context.getReportContent( ),
 					content );
 		}
 		catch ( OLAPException e )
