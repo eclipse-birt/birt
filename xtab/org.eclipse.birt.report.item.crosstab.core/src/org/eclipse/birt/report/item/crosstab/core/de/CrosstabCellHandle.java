@@ -11,10 +11,13 @@
 
 package org.eclipse.birt.report.item.crosstab.core.de;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabCellConstants;
+import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
+import org.eclipse.birt.report.item.crosstab.core.IMeasureViewConstants;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -24,8 +27,10 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 /**
  * DimensionViewHandle.
  */
-public class CrosstabCellHandle extends AbstractCrosstabItemHandle implements
-		ICrosstabCellConstants
+public class CrosstabCellHandle extends AbstractCrosstabItemHandle
+		implements
+			ICrosstabCellConstants,
+			ICrosstabConstants
 {
 
 	/**
@@ -54,7 +59,8 @@ public class CrosstabCellHandle extends AbstractCrosstabItemHandle implements
 	 */
 	public List getContents( )
 	{
-		return Collections.unmodifiableList( getContentProperty( ).getContents( ) );
+		return Collections.unmodifiableList( getContentProperty( )
+				.getContents( ) );
 	}
 
 	/**
@@ -111,4 +117,36 @@ public class CrosstabCellHandle extends AbstractCrosstabItemHandle implements
 	{
 		return handle.getDimensionProperty( IReportItemModel.HEIGHT_PROP );
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.extension.ReportItem#getPredefinedStyles()
+	 */
+	public List getPredefinedStyles( )
+	{
+		AbstractCrosstabItemHandle container = getContainer( );
+		if ( container == null )
+			return Collections.EMPTY_LIST;
+
+		List styles = new ArrayList( );
+		if ( container instanceof MeasureViewHandle )
+		{
+			// only cells in measure detail and aggregations are looked as
+			// "x-tab-detail-cell"
+			String propName = handle.getContainerPropertyHandle( ).getDefn( )
+					.getName( );
+			if ( IMeasureViewConstants.DETAIL_PROP.equals( propName )
+					|| IMeasureViewConstants.AGGREGATIONS_PROP
+							.equals( propName ) )
+				styles.add( CROSSTAB_DETAIL_SELECTOR );
+		}
+		else
+		{
+			// all other cells in x-tab is looked as "x-tab-header-cell"
+			styles.add( CROSSTAB_HEADER_SELECTOR );
+		}
+		return styles;
+	}
+
 }

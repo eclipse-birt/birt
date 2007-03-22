@@ -101,10 +101,6 @@
                   name="CrosstabView">
             </elementType>
          </property>
-         <style
-               displayNameID="Element.Crosstab"
-               name="crosstab">
-         </style>
          <propertyVisibility
                name="dataSet"
                visibility="hide">
@@ -121,6 +117,16 @@
                name="columns"
                visibility="hide">
          </propertyVisibility>
+         <style
+               displayNameID="Element.Crosstab"
+               name="crosstab">
+         </style>
+         <style
+               name="crosstab-header">
+         </style>
+         <style
+               name="crosstab-detail">
+         </style>
       </reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"
@@ -376,7 +382,7 @@
       </reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"
-            defaultStyle="crosstab-aggregation-cell"
+            defaultStyle="crosstab-cell"
             displayNameID="Element.CrosstabAggregationCell"
             extendsFrom="CrosstabCell"
             extensionName="AggregationCell"
@@ -397,10 +403,6 @@
                name="aggregationOnColumn"
                type="elementRef">
          </property>
-         <style
-               displayNameID="Element.CrosstabAggregationCell"
-               name="crosstab-aggregation-cell">
-         </style>
       </reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"

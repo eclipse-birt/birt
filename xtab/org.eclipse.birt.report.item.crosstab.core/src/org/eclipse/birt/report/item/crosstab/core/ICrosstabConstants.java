@@ -93,4 +93,9 @@ public interface ICrosstabConstants
 	 */
 	String AGGREGATION_HEADER_LOCATION_BEFORE = "Before"; //$NON-NLS-1$
 	String AGGREGATION_HEADER_LOCATION_AFTER = "After"; //$NON-NLS-1$
+	
+	String CROSSTAB_SELECTOR = "crosstab"; //$NON-NLS-1$
+	String CROSSTAB_CELL_SELECTOR = "crosstab-cell"; //$NON-NLS-1$
+	String CROSSTAB_HEADER_SELECTOR = "crosstab-header"; //$NON-NLS-1$
+	String CROSSTAB_DETAIL_SELECTOR = "crosstab-detail"; //$NON-NLS-1$
 }
