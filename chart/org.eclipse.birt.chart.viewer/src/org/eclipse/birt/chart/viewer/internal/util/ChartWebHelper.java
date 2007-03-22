@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.Serializer;
 import org.eclipse.birt.chart.model.impl.SerializerImpl;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
+import org.eclipse.birt.chart.util.ChartUtil;
 
 /**
  * Utility class for web component
@@ -51,14 +52,13 @@ public class ChartWebHelper
 
 	public static boolean checkOutputType( String type )
 	{
-		if ( type == null )
+		try
+		{
+			return ChartUtil.isOutputFormatSupport( type );
+		}
+		catch ( ChartException e )
 		{
 			return false;
 		}
-		type = type.toUpperCase( );
-		return type.equals( "PNG" ) //$NON-NLS-1$
-				|| type.equals( "GIF" ) || type.equals( "SVG" ) //$NON-NLS-1$ //$NON-NLS-2$
-				|| type.equals( "PDF" ) || type.equals( "JPG" ) //$NON-NLS-1$ //$NON-NLS-2$
-				|| type.equals( "BMP" ); //$NON-NLS-1$
 	}
 }

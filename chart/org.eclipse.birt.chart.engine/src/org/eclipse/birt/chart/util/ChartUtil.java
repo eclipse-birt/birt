@@ -15,6 +15,7 @@ import java.text.MessageFormat;
 
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.internal.computations.Polygon;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
@@ -477,5 +478,51 @@ public class ChartUtil
 			}
 		}
 		return iMaxRountCount;
+	}
+	
+	/**
+	 * Gets all supported output formats.
+	 * 
+	 * @return string array of output formats
+	 * @since 2.2
+	 */
+	public static String[] getSupportedOutputFormats( ) throws ChartException
+	{
+		String[][] outputFormatArray = PluginSettings.instance( )
+				.getRegisteredOutputFormats( );
+		String[] formats = new String[outputFormatArray.length];
+		for ( int i = 0; i < formats.length; i++ )
+		{
+			formats[i] = outputFormatArray[i][0];
+		}
+		return formats;
+	}
+	
+	/**
+	 * Checks current output format can be supported
+	 * 
+	 * @param output
+	 *            current output format
+	 * @return can be supported or not
+	 * @throws ChartException
+	 * @since 2.2
+	 */
+	public static boolean isOutputFormatSupport( String output )
+			throws ChartException
+	{
+		if ( output == null || output.trim( ).length( ) == 0 )
+		{
+			return false;
+		}
+		output = output.toUpperCase( );
+		String[] allTypes = getSupportedOutputFormats( );
+		for ( int i = 0; i < allTypes.length; i++ )
+		{
+			if ( output.equals( allTypes[i] ) )
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }

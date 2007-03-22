@@ -48,6 +48,7 @@ import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.SimpleTask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
@@ -486,14 +487,7 @@ public class TaskSelectType extends SimpleTask implements
 		boolean bException = false;
 		try
 		{
-			String[][] outputFormatArray = PluginSettings.instance( )
-					.getRegisteredOutputFormats( );
-			String[] formats = new String[outputFormatArray.length];
-			for ( int i = 0; i < formats.length; i++ )
-			{
-				formats[i] = outputFormatArray[i][0];
-			}
-			return formats;
+			return ChartUtil.getSupportedOutputFormats( );
 		}
 		catch ( ChartException e )
 		{
