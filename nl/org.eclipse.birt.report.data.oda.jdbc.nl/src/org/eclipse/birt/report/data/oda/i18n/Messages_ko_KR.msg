@@ -44,6 +44,7 @@ odajdbc.ResultSetCannotGetTimeValue=결과 집합에서 시간 값을 가져올 수 없습니다.
 odajdbc.ResultSetCannotGetTimeStampValue=결과 집합에서 타임스탬프 값을 가져올 수 없습니다.
 odajdbc.ResultSetCannotGetBlobValue=결과 집합에서 BLOB 값을 가져올 수 없습니다.
 odajdbc.ResultSetCannotGetClobValue=결과 집합에서 CLOB 값을 가져올 수 없습니다.
+odajdbc.ResultSetCannotGetBooleanValue=Cannot get Boolean value in the result set.
 odajdbc.ResultSetDetermineNull=결과 집합에서 isNull 값을 확인할 수 없습니다.
 odajdbc.ResultSetCannotFindColumn=결과 집합에서 열을 찾을 수 없습니다.
 
@@ -70,6 +71,8 @@ odajdbc.PrepareStatement.CannotSetStringValue=preparedStatement 매개 변수 문자열
 odajdbc.PrepareStatement.CannotSetDateValue=preparedStatement 매개 변수 날짜 값을 설정할 수 없습니다.
 odajdbc.PrepareStatement.CannotSetTimeValue=preparedStatement 매개 변수 시간 값을 설정할 수 없습니다.
 odajdbc.PrepareStatement.CannotSetTimestampValue=preparedStatement 매개 변수 타임스탬프 값을 설정할 수 없습니다.
+odajdbc.PrepareStatement.CannotSetBooleanValue=Cannot set preparedStatement boolean value.
+odajdbc.PrepareStatement.CannotSetNullValue=Cannot set preparedStatement null value.
 odajdbc.PrepareStatement.CannotGetParameterType=매개 변수 메타데이터에서 매개 변수 형식을 가져올 수 없습니다.
 odajdbc.CannotGetParameterMetadata=매개 변수 메타데이터를 검색할 수 없습니다.
 odajdbc.ClearParametersError=현재 매개 변수 값을 지우는 도중 오류가 발생했습니다.

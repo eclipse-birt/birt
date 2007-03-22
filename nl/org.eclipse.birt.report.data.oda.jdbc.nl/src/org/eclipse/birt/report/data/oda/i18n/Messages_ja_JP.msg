@@ -44,6 +44,7 @@ odajdbc.ResultSetCannotGetTimeValue=結果セットの Time 値を取得できません。
 odajdbc.ResultSetCannotGetTimeStampValue=結果セットの Timestamp 値を取得できません。
 odajdbc.ResultSetCannotGetBlobValue=結果セットの BLOB 値を取得できません。
 odajdbc.ResultSetCannotGetClobValue=結果セットの CLOB 値を取得できません。
+odajdbc.ResultSetCannotGetBooleanValue=Cannot get Boolean value in the result set.
 odajdbc.ResultSetDetermineNull=結果セットの isNull 値を識別できません。
 odajdbc.ResultSetCannotFindColumn=結果セットに列が見つかりません。
 
@@ -70,6 +71,8 @@ odajdbc.PrepareStatement.CannotSetStringValue=preparedStatement パラメタの Strin
 odajdbc.PrepareStatement.CannotSetDateValue=preparedStatement パラメタの Date 値を設定できません。
 odajdbc.PrepareStatement.CannotSetTimeValue=preparedStatement パラメタの Time 値を設定できません。
 odajdbc.PrepareStatement.CannotSetTimestampValue=preparedStatement パラメタの Timestamp 値を設定できません。
+odajdbc.PrepareStatement.CannotSetBooleanValue=Cannot set preparedStatement boolean value.
+odajdbc.PrepareStatement.CannotSetNullValue=Cannot set preparedStatement null value.
 odajdbc.PrepareStatement.CannotGetParameterType=パラメタのメタデータからパラメタの型を取得できません。
 odajdbc.CannotGetParameterMetadata=パラメタのメタデータを取得できません。
 odajdbc.ClearParametersError=現在のパラメタ値をクリアする際にエラーが発生しました。

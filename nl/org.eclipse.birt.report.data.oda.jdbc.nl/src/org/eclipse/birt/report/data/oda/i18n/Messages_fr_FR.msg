@@ -44,6 +44,7 @@ odajdbc.ResultSetCannotGetTimeValue=Impossible d'obtenir la valeur temporelle da
 odajdbc.ResultSetCannotGetTimeStampValue=Impossible d'obtenir la valeur d'horodatage dans le jeu de résultats.
 odajdbc.ResultSetCannotGetBlobValue=Impossible d'obtenir la valeur BLOB dans le jeu de résultats.
 odajdbc.ResultSetCannotGetClobValue=Impossible d'obtenir la valeur CLOB dans le jeu de résultats.
+odajdbc.ResultSetCannotGetBooleanValue=Cannot get Boolean value in the result set.
 odajdbc.ResultSetDetermineNull=Impossible de déterminer la valeur isNull dans le jeu de résultats.
 odajdbc.ResultSetCannotFindColumn=Impossible de trouver une colonne dans le jeu de résultats.
 
@@ -70,6 +71,8 @@ odajdbc.PrepareStatement.CannotSetStringValue=Impossible de définir la valeur de
 odajdbc.PrepareStatement.CannotSetDateValue=Impossible de définir la valeur de date du paramètre preparedStatement.
 odajdbc.PrepareStatement.CannotSetTimeValue=Impossible de définir la valeur temporelle du paramètre preparedStatement.
 odajdbc.PrepareStatement.CannotSetTimestampValue=Impossible de définir la valeur d'horodatage du paramètre preparedStatement.
+odajdbc.PrepareStatement.CannotSetBooleanValue=Cannot set preparedStatement boolean value.
+odajdbc.PrepareStatement.CannotSetNullValue=Cannot set preparedStatement null value.
 odajdbc.PrepareStatement.CannotGetParameterType=Impossible d'obtenir le type de paramètre à partir des métadonnées du paramètre.
 odajdbc.CannotGetParameterMetadata=Impossible de récupérer les métadonnées du paramètre.
 odajdbc.ClearParametersError=Erreur d'effacement de la valeur actuelle du paramètre.

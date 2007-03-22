@@ -44,6 +44,7 @@ odajdbc.ResultSetCannotGetTimeValue=No se puede obtener el valor de hora en el c
 odajdbc.ResultSetCannotGetTimeStampValue=No se puede obtener el valor de fecha/hora en el conjunto de resultados.
 odajdbc.ResultSetCannotGetBlobValue=No se puede obtener el valor BLOB en el conjunto de resultados.
 odajdbc.ResultSetCannotGetClobValue=No se puede obtener el valor CLOB en el conjunto de resultados.
+odajdbc.ResultSetCannotGetBooleanValue=Cannot get Boolean value in the result set.
 odajdbc.ResultSetDetermineNull=No se puede determinar el valor isNull en el conjunto de resultados.
 odajdbc.ResultSetCannotFindColumn=No se puede encontrar ninguna columna en el conjunto de resultados.
 
@@ -70,6 +71,8 @@ odajdbc.PrepareStatement.CannotSetStringValue=No se puede establecer el valor de
 odajdbc.PrepareStatement.CannotSetDateValue=No se puede establecer el valor de fecha del parámetro preparedStatement.
 odajdbc.PrepareStatement.CannotSetTimeValue=No se puede establecer el valor de hora del parámetro preparedStatement.
 odajdbc.PrepareStatement.CannotSetTimestampValue=No se puede establecer el valor de fecha/hora del parámetro preparedStatement.
+odajdbc.PrepareStatement.CannotSetBooleanValue=Cannot set preparedStatement boolean value.
+odajdbc.PrepareStatement.CannotSetNullValue=Cannot set preparedStatement null value.
 odajdbc.PrepareStatement.CannotGetParameterType=No se puede obtener el tipo de parámetro de los metadatos del parámetro.
 odajdbc.CannotGetParameterMetadata=No se pueden recuperar los metadatos del parámetro.
 odajdbc.ClearParametersError=Error al eliminar el valor de parámetro actual.

@@ -44,6 +44,7 @@ odajdbc.ResultSetCannotGetTimeValue=ÎŞ·¨ÔÚ½á¹û¼¯ÄÚ»ñµÃÊ±¼äÖµ¡£
 odajdbc.ResultSetCannotGetTimeStampValue=ÎŞ·¨ÔÚ½á¹û¼¯ÄÚ»ñµÃÊ±¼ä´ÁÖµ¡£
 odajdbc.ResultSetCannotGetBlobValue=ÎŞ·¨ÔÚ½á¹û¼¯ÄÚ»ñµÃ BLOB Öµ¡£
 odajdbc.ResultSetCannotGetClobValue=ÎŞ·¨ÔÚ½á¹û¼¯ÄÚ»ñµÃ CLOB Öµ¡£
+odajdbc.ResultSetCannotGetBooleanValue=Cannot get Boolean value in the result set.
 odajdbc.ResultSetDetermineNull=ÎŞ·¨ÔÚ½á¹û¼¯ÄÚÈ·¶¨ isNull Öµ¡£
 odajdbc.ResultSetCannotFindColumn=ÎŞ·¨ÔÚ½á¹û¼¯ÄÚÕÒµ½ÁĞ¡£
 
@@ -70,6 +71,8 @@ odajdbc.PrepareStatement.CannotSetStringValue=ÎŞ·¨½« preparedStatement ²ÎÊıÉèÖÃÎ
 odajdbc.PrepareStatement.CannotSetDateValue=ÎŞ·¨½« preparedStatement ²ÎÊıÉèÖÃÎªÈÕÆÚÖµ¡£
 odajdbc.PrepareStatement.CannotSetTimeValue=ÎŞ·¨½« preparedStatement ²ÎÊıÉèÖÃÎªÊ±¼äÖµ¡£
 odajdbc.PrepareStatement.CannotSetTimestampValue=ÎŞ·¨½« preparedStatement ²ÎÊıÉèÖÃÎªÊ±¼ä´ÁÖµ¡£
+odajdbc.PrepareStatement.CannotSetBooleanValue=Cannot set preparedStatement boolean value.
+odajdbc.PrepareStatement.CannotSetNullValue=Cannot set preparedStatement null value.
 odajdbc.PrepareStatement.CannotGetParameterType=ÎŞ·¨´Ó²ÎÊıÔªÊı¾İÖĞ»ñµÃ²ÎÊıÀàĞÍ¡£
 odajdbc.CannotGetParameterMetadata=ÎŞ·¨¼ìË÷²ÎÊıÔªÊı¾İ¡£
 odajdbc.ClearParametersError=Çå³ıµ±Ç°²ÎÊıÖµÊ±³ö´í¡£

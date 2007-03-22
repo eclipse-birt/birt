@@ -44,6 +44,7 @@ odajdbc.ResultSetCannotGetTimeValue=Zeitwert in Ergebnis kann nicht abgerufen we
 odajdbc.ResultSetCannotGetTimeStampValue=Timestamp-Wert in Ergebnis kann nicht abgerufen werden.
 odajdbc.ResultSetCannotGetBlobValue=BLOB-Wert in Ergebnis kann nicht abgerufen werden.
 odajdbc.ResultSetCannotGetClobValue=CLOB-Wert in Ergebnis kann nicht abgerufen werden.
+odajdbc.ResultSetCannotGetBooleanValue=Cannot get Boolean value in the result set.
 odajdbc.ResultSetDetermineNull=Wert von "isNull" in Ergebnis kann nicht abgerufen werden.
 odajdbc.ResultSetCannotFindColumn=Keine Spalten in Ergebnis gefunden.
 
@@ -70,6 +71,8 @@ odajdbc.PrepareStatement.CannotSetStringValue=Zeichenfolgewert des Parameters fü
 odajdbc.PrepareStatement.CannotSetDateValue=Datumswert des Parameters für vorbereitete Anweisung kann nicht festgelegt werden.
 odajdbc.PrepareStatement.CannotSetTimeValue=Zeitwert des Parameters für vorbereitete Anweisung kann nicht festgelegt werden.
 odajdbc.PrepareStatement.CannotSetTimestampValue=Timestamp-Wert des Parameters für vorbereitete Anweisung kann nicht festgelegt werden.
+odajdbc.PrepareStatement.CannotSetBooleanValue=Cannot set preparedStatement boolean value.
+odajdbc.PrepareStatement.CannotSetNullValue=Cannot set preparedStatement null value.
 odajdbc.PrepareStatement.CannotGetParameterType=Parametertyp kann nicht aus Parametermetadaten abgerufen werden.
 odajdbc.CannotGetParameterMetadata=Parametermetadaten können nicht abgerufen werden.
 odajdbc.ClearParametersError=Fehler beim Löschen des aktuellen Parameterwerts.
