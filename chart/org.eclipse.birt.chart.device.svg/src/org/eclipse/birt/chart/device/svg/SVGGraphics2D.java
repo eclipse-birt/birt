@@ -1290,17 +1290,27 @@ public class SVGGraphics2D extends Graphics2D
 			elem.setAttribute( "spreadMethod", "repeat" ); //$NON-NLS-1$ //$NON-NLS-2$
 		Element startColor = dom.createElement( "stop" ); //$NON-NLS-1$
 		startColor.setAttribute( "offset", "0%" ); //$NON-NLS-1$ //$NON-NLS-2$
-		if (highlight)
+		if (highlight){
 			startColor.setAttribute( "stop-color", serializeHighlightToString( paint.getColor1( ) ) ); //$NON-NLS-1$
-		else
+			
+		}
+		else{
 			startColor.setAttribute( "stop-color", serializeToString( paint.getColor1( ) ) ); //$NON-NLS-1$
+		}
+		String alpha = alphaToString( paint.getColor1( ) );
+		if ( alpha != null )
+			startColor.setAttribute( "stop-opacity", alpha ); //$NON-NLS-1$
 		elem.appendChild( startColor );
 		Element endColor = dom.createElement( "stop" ); //$NON-NLS-1$
 		endColor.setAttribute( "offset", "100%" ); //$NON-NLS-1$ //$NON-NLS-2$
 		if (highlight)
-			endColor.setAttribute( "stop-color", serializeHighlightToString( paint.getColor2( ) ) ); //$NON-NLS-1$
+			endColor.setAttribute( "stop-color", serializeHighlightToString( paint.getColor2( ) ) ); //$NON-NLS-1$			
 		else
 			endColor.setAttribute( "stop-color", serializeToString( paint.getColor2( ) ) ); //$NON-NLS-1$
+		alpha = alphaToString( paint.getColor2( ) );
+		if ( alpha != null )
+			endColor.setAttribute( "stop-opacity", alpha ); //$NON-NLS-1$
+		
 		elem.appendChild( endColor );
 		return elem;
 	}
