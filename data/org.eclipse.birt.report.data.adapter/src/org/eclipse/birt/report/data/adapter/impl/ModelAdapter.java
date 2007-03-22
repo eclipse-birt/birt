@@ -232,6 +232,8 @@ public class ModelAdapter implements IModelAdapter
 			return DataType.DECIMAL_TYPE;
 		if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT ) )
 			return DataType.DOUBLE_TYPE;
+		if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN ) )
+			return DataType.BOOLEAN_TYPE;
 
 		return DataType.UNKNOWN_TYPE;
 	}

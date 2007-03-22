@@ -834,39 +834,95 @@ public class CallStatement implements IAdvancedQuery
 		}
 	}
 
-	/* (non-Javadoc)
-     * @see org.eclipse.datatools.connectivity.oda.IQuery#setBoolean(java.lang.String, boolean)
-     */
+	/*
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setBoolean(java.lang.String, boolean)
+	 */
     public void setBoolean( String parameterName, boolean value )
-            throws OdaException
-    {
-        // TODO Auto-generated method stub        
-    }
+			throws OdaException
+	{
+		assertNotNull( callStat );
+		try
+		{
+			/*
+			 * redirect the call to JDBC
+			 * callableStatement.setBoolean(int,boolean)
+			 */
+			this.callStat.setBoolean( parameterName, value );
+		}
+		catch ( SQLException e )
+		{
+			throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_BOOLEAN_VALUE,
+					e );
+		}
+		catch ( RuntimeException e1 )
+		{
+			rethrowRunTimeException( e1, ERRMSG_SET_PARAMETER + parameterName );
+		}
+	}
 
-    /* (non-Javadoc)
-     * @see org.eclipse.datatools.connectivity.oda.IQuery#setBoolean(int, boolean)
-     */
+    /*
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setBoolean(int,
+	 *      boolean)
+	 */
     public void setBoolean( int parameterId, boolean value )
             throws OdaException
     {
-        // TODO Auto-generated method stub        
+		assertNotNull( callStat );
+		try
+		{
+			/* redirect the call to JDBC callableStatement.setBoolean(int,boolean) */
+			this.callStat.setBoolean( parameterId, value );
+		}
+		catch ( SQLException e )
+		{
+			throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_BOOLEAN_VALUE,
+					e );
+		}
+		catch ( RuntimeException e1 )
+		{
+			rethrowRunTimeException( e1, ERRMSG_SET_PARAMETER + parameterId );
+		}	
     }
 
-    /* (non-Javadoc)
+    /*
      * @see org.eclipse.datatools.connectivity.oda.IQuery#setNull(java.lang.String)
      */
     public void setNull( String parameterName ) throws OdaException
     {
-        // TODO Auto-generated method stub       
-    }
+		/* not supported */
+		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
+		logger.logp( java.util.logging.Level.FINE,
+				Statement.class.getName( ),
+				"findInParameter",
+				"No named Parameter supported.",
+				e );
+		throw e;
+	}
 
-    /* (non-Javadoc)
+    /*
      * @see org.eclipse.datatools.connectivity.oda.IQuery#setNull(int)
      */
     public void setNull( int parameterId ) throws OdaException
     {
-        // TODO Auto-generated method stub        
-    }
+		assertNotNull( callStat );
+		try
+		{
+			if ( this.getParameterMetaData( ) != null )
+			{
+				this.callStat.setNull( parameterId, this.getParameterMetaData( )
+						.getParameterType( parameterId ) );
+			}
+			else
+			{
+				this.callStat.setNull( parameterId, java.sql.Types.OTHER );
+			}
+		}
+		catch ( SQLException e )
+		{
+			throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_NULL_VALUE,
+					e );
+		}
+	}
 
     /*
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#setNewRow(java.lang.String)
@@ -1212,25 +1268,41 @@ public class CallStatement implements IAdvancedQuery
 		}
 	}
 
-    /* (non-Javadoc)
-     * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getBoolean(java.lang.String)
-     */
-    public boolean getBoolean( String parameterName ) throws OdaException
-    {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException(); 
-    }
+	/*
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getBoolean(java.lang.String)
+	 */
+	public boolean getBoolean( String parameterName ) throws OdaException
+	{
+		assertNotNull( callStat );
+		try
+		{
+			return callStat.getBoolean( parameterName );
+		}
+		catch ( SQLException e )
+		{
+			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BOOLEAN_VALUE,
+					e );
+		}
+	}
 
-    /* (non-Javadoc)
-     * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getBoolean(int)
-     */
-    public boolean getBoolean( int parameterId ) throws OdaException
-    {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException(); 
-    }
+	/*
+	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getBoolean(int)
+	 */
+	public boolean getBoolean( int parameterId ) throws OdaException
+	{
+		assertNotNull( callStat );
+		try
+		{
+			return callStat.getBoolean( parameterId );
+		}
+		catch ( SQLException e )
+		{
+			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BOOLEAN_VALUE,
+					e );
+		}
+	}
 
-    /*
+	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IAdvancedQuery#getRow(java.lang.String)
 	 */
 	public IParameterRowSet getRow( String parameterName ) throws OdaException

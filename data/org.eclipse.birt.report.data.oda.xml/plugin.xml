@@ -104,7 +104,7 @@
             <dataTypeMapping
                   nativeDataType="BOOLEAN"
                   nativeDataTypeCode="16"
-                  odaScalarDataType="Integer"/>
+                  odaScalarDataType="Boolean"/>
             <relationship
                   relatedId="org.eclipse.datatools.enablement.oda.xml.dataSet"
                   type="replacedBy"/>

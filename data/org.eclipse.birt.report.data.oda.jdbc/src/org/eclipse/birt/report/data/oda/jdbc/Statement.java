@@ -585,6 +585,47 @@ public class Statement implements IQuery
 			rethrowRunTimeException( e1, ERRMSG_SET_PARAMETER + parameterId );
 		}
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setBoolean(java.lang.String, boolean)
+	 */
+	public void setBoolean( String parameterName, boolean value )
+			throws OdaException
+	{
+		/* not supported */
+		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
+		logger.logp( java.util.logging.Level.FINE,
+				Statement.class.getName( ),
+				"setBoolean",
+				"No named Parameter supported.",
+				e );
+		throw e;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setBoolean(int, boolean)
+	 */
+	public void setBoolean( int parameterId, boolean value ) throws OdaException
+	{
+		assertNotNull( preStat );
+		try
+		{
+			/* redirect the call to JDBC preparedStatement.setDate(int,boolean) */
+			this.preStat.setBoolean( parameterId, value );
+		}
+		catch ( SQLException e )
+		{
+			throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_BOOLEAN_VALUE,
+					e );
+		}
+		catch ( RuntimeException e1 )
+		{
+			rethrowRunTimeException( e1, ERRMSG_SET_PARAMETER + parameterId );
+		}
+		
+	}
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.IQuery#setTime(java.lang.String,
@@ -668,57 +709,49 @@ public class Statement implements IQuery
 		}
 	}
 
-	/* (non-Javadoc)
-     * @see org.eclipse.datatools.connectivity.oda.IQuery#setBoolean(java.lang.String, boolean)
-     */
-    public void setBoolean( String parameterName, boolean value )
-            throws OdaException
-    {
-        /* not supported */
-        UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
-        logger.logp( java.util.logging.Level.FINE,
-                Statement.class.getName( ),
-                "setBoolean",
-                "No named Parameter supported.",
-                e );
-        throw e;
-    }
+	/*
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setNull(java.lang.String)
+	 */
+	public void setNull( String parameterName ) throws OdaException
+	{
+		/* not supported */
+		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
+		logger.logp( java.util.logging.Level.FINE,
+				Statement.class.getName( ),
+				"setNull",
+				"No named Parameter supported.",
+				e );
+		throw e;
+		
+	}
 
-    /* (non-Javadoc)
-     * @see org.eclipse.datatools.connectivity.oda.IQuery#setBoolean(int, boolean)
-     */
-    public void setBoolean( int parameterId, boolean value )
-            throws OdaException
-    {
-        // TODO Auto-generated method stub  
-        throw new UnsupportedOperationException();
-    }
+	/*
+	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setNull(int)
+	 */
+	public void setNull( int parameterId ) throws OdaException
+	{
+		assertNotNull( preStat );
+		try
+		{
+			java.sql.ParameterMetaData pm = this.preStat.getParameterMetaData( );
+			if ( pm == null )
+			{
+				this.preStat.setNull( parameterId, java.sql.Types.OTHER );
+			}
+			else
+			{
+				this.preStat.setNull( parameterId,
+						pm.getParameterType( parameterId ) );
+			}
+		}
+		catch ( SQLException e )
+		{
+			throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_NULL_VALUE,
+					e );
+		}
+	}
 
-    /* (non-Javadoc)
-     * @see org.eclipse.datatools.connectivity.oda.IQuery#setNull(java.lang.String)
-     */
-    public void setNull( String parameterName ) throws OdaException
-    {
-        /* not supported */
-        UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
-        logger.logp( java.util.logging.Level.FINE,
-                Statement.class.getName( ),
-                "setNull",
-                "No named Parameter supported.",
-                e );
-        throw e;
-    }
-
-    /* (non-Javadoc)
-     * @see org.eclipse.datatools.connectivity.oda.IQuery#setNull(int)
-     */
-    public void setNull( int parameterId ) throws OdaException
-    {
-        // TODO Auto-generated method stub        
-        throw new UnsupportedOperationException();
-    }
-
-    /*
+	/*
 	 * @see org.eclipse.datatools.connectivity.IQuery#findInParameter(java.lang.String)
 	 */
 	public int findInParameter( String parameterName ) throws OdaException

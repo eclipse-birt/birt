@@ -1713,7 +1713,7 @@ public class CascadingParametersDialog extends BaseDialog
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( type ) )
 		{
-			return DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals( columnHandle.getDataType( ) );
+			return DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals( columnHandle.getDataType( ) );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
 		{

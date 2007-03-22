@@ -616,25 +616,45 @@ public class ResultSet implements IResultSet
 		}
 	}
 
-	/* (non-Javadoc)
-     * @see org.eclipse.datatools.connectivity.oda.IResultSet#getBoolean(int)
-     */
-    public boolean getBoolean( int index ) throws OdaException
-    {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException(); 
-    }
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getBoolean(java.lang.String)
+	 */
+	public boolean getBoolean( String columnName ) throws OdaException
+	{
+		assertNotNull( rs );
+		try
+		{
+			/* redirect the call to JDBC ResultSet.getBoolean(String) */
+			return rs.getBoolean( columnName );
+		}
+		catch ( SQLException e )
+		{
+			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BOOLEAN_VALUE,
+					e );
+		}
+	}
 
-    /* (non-Javadoc)
-     * @see org.eclipse.datatools.connectivity.oda.IResultSet#getBoolean(java.lang.String)
-     */
-    public boolean getBoolean( String columnName ) throws OdaException
-    {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException(); 
-    }
-
-    /*
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#getBoolean(int)
+	 */
+	public boolean getBoolean( int index ) throws OdaException
+	{
+		assertNotNull( rs );
+		try
+		{
+			/* redirect the call to JDBC ResultSet.getBoolean(int) */
+			return rs.getBoolean( index );
+		}
+		catch ( SQLException e )
+		{
+			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BOOLEAN_VALUE,
+					e );
+		}
+	}
+	
+	/*
 	 * 
 	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#wasNull()
 	 */

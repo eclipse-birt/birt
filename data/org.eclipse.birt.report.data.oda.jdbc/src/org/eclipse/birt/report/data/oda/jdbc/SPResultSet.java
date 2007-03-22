@@ -249,7 +249,6 @@ public class SPResultSet implements IResultSet
 	 */
 	public IBlob getBlob( String columnName ) throws OdaException
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -258,7 +257,6 @@ public class SPResultSet implements IResultSet
 	 */
 	public IClob getClob( int index ) throws OdaException
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -267,7 +265,6 @@ public class SPResultSet implements IResultSet
 	 */
 	public IClob getClob( String columnName ) throws OdaException
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -276,8 +273,7 @@ public class SPResultSet implements IResultSet
      */
     public boolean getBoolean( int index ) throws OdaException
     {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException(); 
+        return false;
     }
 
     /* (non-Javadoc)
@@ -285,8 +281,7 @@ public class SPResultSet implements IResultSet
      */
     public boolean getBoolean( String columnName ) throws OdaException
     {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException(); 
+        return false;
     }
 
 }

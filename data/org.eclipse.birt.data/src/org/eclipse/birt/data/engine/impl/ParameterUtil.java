@@ -349,7 +349,6 @@ class ParameterUtil
 		// following data types is not supported by odaconsumer currently
 		Class dataTypeClass = DataType.getClass( paramDefn.getType( ) );
 		if ( dataTypeClass == DataType.AnyType.class
-				|| dataTypeClass == Boolean.class
 				|| dataTypeClass == Blob.class )
 		{
 			dataTypeClass = String.class;

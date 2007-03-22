@@ -149,6 +149,8 @@ public final class DataSetUIUtil
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL;
 		else if ( modelDataType == DataType.DOUBLE_TYPE )
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT;
+		else if( modelDataType == DataType.BOOLEAN_TYPE )
+			return DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN;
 		
 		return DesignChoiceConstants.COLUMN_DATA_TYPE_ANY;
 	}

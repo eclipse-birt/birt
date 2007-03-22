@@ -114,7 +114,7 @@
             <dataTypeMapping
                   nativeDataType="BOOLEAN"
                   nativeDataTypeCode="16"
-                  odaScalarDataType="Integer"/>
+                  odaScalarDataType="Boolean"/>
             <dataTypeMapping
                   nativeDataType="BINARY"
                   nativeDataTypeCode="-2"

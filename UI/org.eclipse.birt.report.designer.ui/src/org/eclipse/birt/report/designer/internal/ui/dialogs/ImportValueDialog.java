@@ -473,6 +473,10 @@ public class ImportValueDialog extends BaseDialog
 		{
 			return style.equals( DesignChoiceConstants.PARAM_TYPE_INTEGER );
 		}
+		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals( column.getDataType( ) ) )
+		{
+			return style.equals( DesignChoiceConstants.PARAM_TYPE_BOOLEAN );
+		}
 		return false;
 	}
 

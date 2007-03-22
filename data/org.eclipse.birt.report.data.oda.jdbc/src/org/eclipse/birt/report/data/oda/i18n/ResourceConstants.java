@@ -80,6 +80,7 @@ public class ResourceConstants
 	public final static String RESULTSET_CANNOT_GET_TIMESTAMP_VALUE = "odajdbc.ResultSetCannotGetTimeStampValue";
 	public final static String RESULTSET_CANNOT_GET_BLOB_VALUE = "odajdbc.ResultSetCannotGetBlobValue";
 	public final static String RESULTSET_CANNOT_GET_CLOB_VALUE = "odajdbc.ResultSetCannotGetClobValue";
+	public final static String RESULTSET_CANNOT_GET_BOOLEAN_VALUE = "odajdbc.ResultSetCannotGetBooleanValue";
 	public final static String RESULTSET_DETERMINE_NULL = "odajdbc.ResultSetDetermineNull";
 	public final static String RESULTSET_CANNOT_FIND_COLUMN = "odajdbc.ResultSetCannotFindColumn";
 
@@ -106,6 +107,8 @@ public class ResourceConstants
 	public final static String PREPARESTATEMENT_CANNOT_SET_DATE_VALUE = "odajdbc.PrepareStatement.CannotSetDateValue";
 	public final static String PREPARESTATEMENT_CANNOT_SET_TIME_VALUE = "odajdbc.PrepareStatement.CannotSetTimeValue";
 	public final static String PREPARESTATEMENT_CANNOT_SET_TIMESTAMP_VALUE = "odajdbc.PrepareStatement.CannotSetTimestampValue";
+	public final static String PREPARESTATEMENT_CANNOT_SET_BOOLEAN_VALUE = "odajdbc.PrepareStatement.CannotSetBooleanValue";
+	public final static String PREPARESTATEMENT_CANNOT_SET_NULL_VALUE = "odajdbc.PrepareStatement.CannotSetNullValue";
 	public final static String PREPARESTATEMENT_PARAMETER_TYPE_CANNOT_GET = "odajdbc.PrepareStatement.CannotGetParameterType";
 	public final static String PREPARESTATEMENT_PARAMETER_METADATA_CANNOT_GET = "odajdbc.CannotGetParameterMetadata";
 	public final static String PREPARESTATEMENT_CLEAR_PARAMETER_ERROR = "odajdbc.ClearParametersError";
