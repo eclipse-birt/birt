@@ -60,3 +60,5 @@ CrosstabRowExecutor.error.retrieve.child.executor=Error happend when retrieve ch
 CrosstabSubTotalRowExecutor.error.check.edge.start=Error happend when check edge start status of current cell.
 CrosstabSubTotalRowExecutor.error.retrieve.child.executor=Error happend when retrieve child executor.
 
+TableColumnGenerator.error.process.visibility=Error happend when process column visibility.
+
