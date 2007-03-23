@@ -1366,7 +1366,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 	{
 		// 1. CREATE AND INITIALIZE BLOCKS
 		block = BlockImpl.create( ); // OUTERMOST BLOCK
-		block.setBackground( ColorDefinitionImpl.WHITE( ) );
+		
 		TitleBlock tb = (TitleBlock) TitleBlockImpl.create( ); // TITLE
 		Plot pl = (Plot) PlotImpl.create( ); // PLOT
 		Legend lg = (Legend) LegendImpl.create( ); // LEGEND
