@@ -17,10 +17,16 @@ package org.eclipse.birt.report.engine.api;
 public class EngineConstants {
 	public final static String APPCONTEXT_HTML_RENDER_CONTEXT = "HTML_RENDER_CONTEXT"; //$NON-NLS-1$
 	public final static String APPCONTEXT_PDF_RENDER_CONTEXT = "PDF_RENDER_CONTEXT"; //$NON-NLS-1$
-	public final static String APPCONTEXT_CHART_PRINT_RESOLUTION = "CHART_PRINT_RESOLUTION";	 //$NON-NLS-1$
 	public final static String APPCONTEXT_DATASET_CACHE_OPTION = "DATASET_CACHE_OPTION"; //$NON-NLS-1$
 	public final static String APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST = "BIRT_VIEWER_HTTPSERVET_REQUEST"; //$NON-NLS-1$
 	public final static String APPCONTEXT_CLASSLOADER_KEY = "PARENT_CLASSLOADER"; //$NON-NLS-1$	
+	
+	//chart and html will all use APPCONTEXT_CHART_RESOLUTION
+	public final static String APPCONTEXT_CHART_RESOLUTION = "CHART_RESOLUTION"; //$NON-NLS-1$//false
+	/**
+	 * @deprecated use APPCONTEXT_CHART_RESOLUTION instead of APPCONTEXT_CHART_PRINT_RESOLUTION
+	 */
+	public final static String APPCONTEXT_CHART_PRINT_RESOLUTION = APPCONTEXT_CHART_RESOLUTION;	 //$NON-NLS-1$
 	
 	//used by ScriptExecutor
 	public static final String PROPERTYSEPARATOR = ";"; //$NON-NLS-1$

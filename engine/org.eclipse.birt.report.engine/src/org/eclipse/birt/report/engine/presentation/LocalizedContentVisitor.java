@@ -590,22 +590,28 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 			itemPresentation.setReportQueries( queries );
 			itemPresentation.setDynamicStyle( content.getComputedStyle( ) );
 			Map appContext = context.getAppContext( );
-			int resolution = 96;
-			if ( isForPrinting( ) )
+			int resolution = 0;
+			if ( appContext != null )
 			{
-				resolution = 192;
-				if ( appContext != null )
+				Object tmp = appContext.get( EngineConstants.APPCONTEXT_CHART_RESOLUTION );
+				if ( tmp != null && tmp instanceof Number )
 				{
-					Object tmp = appContext
-							.get( EngineConstants.APPCONTEXT_CHART_PRINT_RESOLUTION );
-					if ( tmp != null && tmp instanceof Number )
+					resolution = ( (Number) tmp ).intValue( );
+					if ( resolution < 96 )
 					{
-						resolution = ( (Number) tmp ).intValue( );
-						if ( resolution < 96 )
-						{
-							resolution = 96;
-						}
+						resolution = 96;
 					}
+				}
+			}
+			if ( 0 == resolution )
+			{
+				if ( isForPrinting( ) )
+				{
+					resolution = 192;
+				}
+				else
+				{
+					resolution = 96;
 				}
 			}
 
