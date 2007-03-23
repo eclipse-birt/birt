@@ -17,9 +17,6 @@ import java.io.FileInputStream;
 import junit.framework.TestCase;
 
 import org.eclipse.birt.chart.tests.util.FileUtil;
-import org.eclipse.birt.chart.tests.device.render.Gif8PrimitiveGen;
-import org.eclipse.birt.chart.tests.device.render.Png24PrimitiveGen;
-import org.eclipse.birt.chart.tests.device.render.SvgPrimitiveGen;
 
 /**
  * BaseTest is a JUnit test case that will generate image files based on 
@@ -49,11 +46,7 @@ public class ImageOutputBaseTest extends TestCase {
 	
 	public void runTest( ) throws Throwable {
 
-			Gif8PrimitiveGen generator1 = new Gif8PrimitiveGen(new FileInputStream(workspaceDir+File.separator+ImageRenderTest.INDIR+dirName+File.separator+filename+ImageRenderTest.DRAWEXT), workspaceDir+File.separator+ImageRenderTest.OUTDIR+dirName+File.separator+filename+".gif");//$NON-NLS-1$
-			generator1.generate();
-			generator1.flush();
-			assertTrue(FileUtil.compareFiles(new FileInputStream(workspaceDir+File.separator+ImageRenderTest.OUTDIR+dirName+File.separator+filename+".gif"), new FileInputStream(workspaceDir+File.separator+ImageRenderTest.CONTROLDIR+dirName+File.separator+filename+".gif")));//$NON-NLS-1$//$NON-NLS-2$
-
+		
 			Png24PrimitiveGen generator2 = new Png24PrimitiveGen(new FileInputStream(workspaceDir+File.separator+ImageRenderTest.INDIR+dirName+File.separator+filename+ImageRenderTest.DRAWEXT), workspaceDir+File.separator+ImageRenderTest.OUTDIR+dirName+File.separator+filename+".png");//$NON-NLS-1$
 			generator2.generate();
 			generator2.flush();
@@ -70,6 +63,5 @@ public class ImageOutputBaseTest extends TestCase {
 //			assertTrue(FileUtil.compareFiles(new FileInputStream(workspaceDir+File.separator+ImageRenderTest.OUTDIR+dirName+File.separator+filename+".pdf"), new FileInputStream(workspaceDir+File.separator+ImageRenderTest.CONTROLDIR+dirName+File.separator+filename+".pdf")));//$NON-NLS-1$//$NON-NLS-2$
 	}
 }
-
 
 
