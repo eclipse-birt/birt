@@ -1127,8 +1127,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		
 		if ( HTMLRenderOption.LAYOUT_PREFERENCE_FIXED.equals( layoutPreference ) )
 		{
-			// build the table-layout
-			styleBuffer.append( " table-layout:fixed;" );
+			// shrink table will not output table-layout;
+			if ( ( null == mergedStyle )
+					|| !"true".equalsIgnoreCase( mergedStyle.getCanShrink( ) ) )
+			{
+				// build the table-layout
+				styleBuffer.append( " table-layout:fixed;" );
+			}
 		}
 
 		handleStyle( table, styleBuffer );
