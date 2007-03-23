@@ -26,15 +26,16 @@ class ArchiveFileV1 implements IArchiveFile
 		this.rf = rf;
 		try
 		{
-			if ( rf == null )
+			if ( this.rf == null )
 			{
-				rf = new RandomAccessFile( archiveName, "r" );
+				this.rf = new RandomAccessFile( archiveName, "r" );
 			}
 			readFileTable( );
 		}
-		finally
+		catch ( IOException ex )
 		{
 			close( );
+			throw ex;
 		}
 	}
 

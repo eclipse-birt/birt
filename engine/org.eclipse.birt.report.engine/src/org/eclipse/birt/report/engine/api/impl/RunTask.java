@@ -39,6 +39,7 @@ import org.eclipse.birt.report.engine.presentation.ReportDocumentBuilder;
 public class RunTask extends AbstractRunTask implements IRunTask
 {
 
+	private String reportDocName;
 	private IDocArchiveWriter archive;
 	private ReportDocumentWriter writer;
 	private IPageHandler pageHandler;
@@ -82,37 +83,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 				throw new EngineException(
 						"Report document name is not specified when running a report." ); //$NON-NLS-1$
 			}
-			try
-			{
-				File file = new File( reportDocName );
-				if ( file.exists( ) )
-				{
-					if ( file.isDirectory( ) )
-					{
-						archive = new FolderArchiveWriter( reportDocName );
-					}
-					else
-					{
-						archive = new FileArchiveWriter( reportDocName );
-					}
-				}
-				else
-				{
-					if ( reportDocName.endsWith( "\\" )
-							|| reportDocName.endsWith( "/" ) )
-					{
-						archive = new FolderArchiveWriter( reportDocName );
-					}
-					else
-					{
-						archive = new FileArchiveWriter( reportDocName );
-					}
-				}
-			}
-			catch ( IOException e )
-			{
-				throw new EngineException( e.getLocalizedMessage( ) );
-			}
+			this.reportDocName = reportDocName;
 			doRun( );
 		}
 		finally
@@ -145,23 +116,75 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		}
 	}
 
+	private IDocArchiveWriter openArchive( String reportDocName )
+			throws IOException
+	{
+		IDocArchiveWriter archive;
+		File file = new File( reportDocName );
+		if ( file.exists( ) )
+		{
+			if ( file.isDirectory( ) )
+			{
+				archive = new FolderArchiveWriter( reportDocName );
+			}
+			else
+			{
+				archive = new FileArchiveWriter( reportDocName );
+			}
+		}
+		else
+		{
+			if ( reportDocName.endsWith( "\\" ) || reportDocName.endsWith( "/" ) )
+			{
+				archive = new FolderArchiveWriter( reportDocName );
+			}
+			else
+			{
+				archive = new FileArchiveWriter( reportDocName );
+			}
+		}
+		return archive;
+	}
+
 	private void openReportDocument( ) throws EngineException
 	{
 		try
 		{
+			if ( archive == null )
+			{
+				archive = openArchive( reportDocName );
+			}
 			archive.initialize( );
-			writer = new ReportDocumentWriter( engine, archive );
-			executionContext.setReportDocWriter( writer );
 		}
 		catch ( IOException ex )
 		{
+			if ( archive != null )
+			{
+				try
+				{
+					archive.finish( );
+				}
+				catch ( IOException e )
+				{
+					log.log( Level.WARNING, " error in close archive ", e );
+				}
+			}
 			throw new EngineException( "Can not open the report archive.", ex ); //$NON-NLS-1$	
 		}
+		writer = new ReportDocumentWriter( engine, archive );
+		executionContext.setReportDocWriter( writer );
 	}
 
 	private void closeReportDocument( )
 	{
-		writer.close( );
+		if ( writer != null )
+		{
+			writer.close( );
+			writer = null;
+		}
+		// the archive will be closed in the writer's close.
+		archive = null;
+		reportDocName = null;
 	}
 
 	private void initializeContentEmitter(IContentEmitter emitter, IReportExecutor executor)

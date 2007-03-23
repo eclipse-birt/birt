@@ -91,12 +91,12 @@ public class ArchiveFile implements IArchiveFile
 				long magicTag = rf.readLong( );
 				if ( magicTag == ArchiveFileV2.DOCUMENT_TAG )
 				{
-					af = new ArchiveFileV2( archiveName, "rw+" );
+					af = new ArchiveFileV2( archiveName, rf, "rw+" );
 					return;
 				}
 				rf.close( );
 				upgradeArchiveV1( );
-				af = new ArchiveFileV2( archiveName, rf, "rw+" );
+				af = new ArchiveFileV2( archiveName, "rw+" );
 				return;
 			}
 			catch ( IOException ex )
@@ -147,6 +147,10 @@ public class ArchiveFile implements IArchiveFile
 
 	public int getUsedCache( )
 	{
+		if ( af == null )
+		{
+			return 0;
+		}
 		return af.getUsedCache( );
 	}
 
@@ -285,7 +289,6 @@ public class ArchiveFile implements IArchiveFile
 				ArchiveEntry tgt = writer.createEntry( name );
 				copyEntry( src, tgt );
 			}
-			reader.close( );
 			writer.saveAs( archiveName );
 			writer.close( );
 		}
