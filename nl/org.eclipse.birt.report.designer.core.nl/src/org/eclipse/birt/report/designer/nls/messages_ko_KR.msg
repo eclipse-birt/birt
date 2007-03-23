@@ -32,14 +32,14 @@ AddLibraryAction.Dialog.Tilte=라이브러리 선택
 
 ###########################################################
 #AddCSSAction properties
-AddCSSAction.Text=Add CSS File...
+AddCSSAction.Text=CSS 파일 추가...
 
 ###########################################################
 #PublishCSSAction properties
 PublishCSSAction.wizard.errorTitle=오류
-PublishCSSAction.wizard.message=Unable to publish the CSS file to the diretory where it exists, please choose another directory to publish.
+PublishCSSAction.wizard.message=CSS 파일이 들어 있는 디렉터리에는 게시할 수 없습니다. 게시할 다른 디렉터리를 선택하십시오.
 PublishCSSAction.wizard.message.SourceFileNotExist=원본 파일이 없습니다.
-PublishCSSAction.wizard.notvalidfolder=Resource folder defined in preference is not valid.
+PublishCSSAction.wizard.notvalidfolder=기본 설정에 정의된 리소스 폴더가 올바르지 않습니다.
 
 
 ###########################################################
@@ -2116,9 +2116,9 @@ CrosstabPageGenerator.List.UserProperties=사용자 속성
 CrosstabPageGenerator.List.AdvancedProperty=고급
 
 CrosstabPageGenerator.TabItem.Binding=바인딩
-CrosstabPageGenerator.TabItem.RowArea=Row Area
-CrosstabPageGenerator.TabItem.ColumnArea=Column Area
-CrosstabPageGenerator.TabItem.DetailArea=Detail Area
+CrosstabPageGenerator.TabItem.RowArea=행 영역
+CrosstabPageGenerator.TabItem.ColumnArea=열 영역
+CrosstabPageGenerator.TabItem.DetailArea=세부 영역
 CrosstabPageGenerator.TabItem.Filters=필터
 CrosstabPageGenerator.TabItem.Highlights=강조
 CrosstabPageGenerator.TabItem.map=맵
@@ -3642,9 +3642,9 @@ PublishLibraryDialog.AddLibrary=라이브러리 추가
 
 ###########################################################
 #PublishCSSDialog
-PublishCSSDialog.ShellText=Publish CSS File
-PublishCSSDialog.TitleArea=Publish CSS File to Resource Folder
-PublishCSSDialog.Message=Select a CSS file to imporst styles to resource folder
+PublishCSSDialog.ShellText=CSS 파일 게시
+PublishCSSDialog.TitleArea=CSS 파일을 리소스 폴더에 게시
+PublishCSSDialog.Message=스타일을 리소스 폴더로 가져올 CSS 파일 선택
 
 ###########################################################
 #EmbeddedImagesNodeProvider

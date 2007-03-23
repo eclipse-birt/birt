@@ -32,14 +32,14 @@ AddLibraryAction.Dialog.Tilte=ライブラリの選択
 
 ###########################################################
 #AddCSSAction properties
-AddCSSAction.Text=Add CSS File...
+AddCSSAction.Text=CSS ファイルの追加...
 
 ###########################################################
 #PublishCSSAction properties
 PublishCSSAction.wizard.errorTitle=エラー
-PublishCSSAction.wizard.message=Unable to publish the CSS file to the diretory where it exists, please choose another directory to publish.
+PublishCSSAction.wizard.message=CSS ファイルがすでに存在するディレクトリには、CSS ファイルを公開できません。公開するには、別のディレクトリを選択してください。
 PublishCSSAction.wizard.message.SourceFileNotExist=ソースファイルが存在しません。
-PublishCSSAction.wizard.notvalidfolder=Resource folder defined in preference is not valid.
+PublishCSSAction.wizard.notvalidfolder=設定に無効なリソースフォルダが定義されています。
 
 
 ###########################################################
@@ -2113,12 +2113,12 @@ CrosstabPageGenerator.List.TOC=目次
 CrosstabPageGenerator.List.Bookmark=ブックマーク
 CrosstabPageGenerator.List.NamedExpressions=名前付き式
 CrosstabPageGenerator.List.UserProperties=ユーザのプロパティ
-CrosstabPageGenerator.List.AdvancedProperty=使用頻度 : 中
+CrosstabPageGenerator.List.AdvancedProperty=詳細設定
 
 CrosstabPageGenerator.TabItem.Binding=バインド
-CrosstabPageGenerator.TabItem.RowArea=Row Area
-CrosstabPageGenerator.TabItem.ColumnArea=Column Area
-CrosstabPageGenerator.TabItem.DetailArea=Detail Area
+CrosstabPageGenerator.TabItem.RowArea=行の領域
+CrosstabPageGenerator.TabItem.ColumnArea=列の領域
+CrosstabPageGenerator.TabItem.DetailArea=詳細の領域
 CrosstabPageGenerator.TabItem.Filters=フィルタ
 CrosstabPageGenerator.TabItem.Highlights=ハイライト
 CrosstabPageGenerator.TabItem.map=マップ
@@ -3642,9 +3642,9 @@ PublishLibraryDialog.AddLibrary=ライブラリの追加
 
 ###########################################################
 #PublishCSSDialog
-PublishCSSDialog.ShellText=Publish CSS File
-PublishCSSDialog.TitleArea=Publish CSS File to Resource Folder
-PublishCSSDialog.Message=Select a CSS file to imporst styles to resource folder
+PublishCSSDialog.ShellText=CSS ファイルの公開
+PublishCSSDialog.TitleArea=CSS ファイルをリソースフォルダに公開
+PublishCSSDialog.Message=ここで選択した CSS ファイルのスタイルがリソースフォルダにインポートされます。
 
 ###########################################################
 #EmbeddedImagesNodeProvider

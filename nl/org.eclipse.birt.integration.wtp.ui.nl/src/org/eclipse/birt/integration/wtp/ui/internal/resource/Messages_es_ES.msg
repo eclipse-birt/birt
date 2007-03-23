@@ -20,14 +20,14 @@ BIRTProjectConfigurationPage_desc=Configurar ajustes de implantación de BIRT def
 ###############################################################################
 # BIRT Configuration Dialog
 ###############################################################################
-BIRTConfigurationDialog_title=Configure BIRT Deployment Settings
+BIRTConfigurationDialog_title=Configurar ajustes de implantación de BIRT
 
 ###############################################################################
 # BIRT Configuration Components
 ###############################################################################
 BIRTConfiguration_group_paths=Ajustes de carpeta de implantación
 BIRTConfiguration_group_others=Otros ajustes
-BIRTConfiguration_folder_button_text=&Browse...
+BIRTConfiguration_folder_button_text=&Examinar...
 
 BIRTConfiguration_resource_label=&Carpeta de recursos:
 BIRTConfiguration_resource_dialog_title=Buscar carpeta de recursos

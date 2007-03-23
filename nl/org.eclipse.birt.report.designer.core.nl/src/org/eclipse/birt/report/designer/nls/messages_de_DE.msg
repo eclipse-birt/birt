@@ -32,14 +32,14 @@ AddLibraryAction.Dialog.Tilte=Bibliothek auswählen
 
 ###########################################################
 #AddCSSAction properties
-AddCSSAction.Text=Add CSS File...
+AddCSSAction.Text=CSS-Datei hinzufügen...
 
 ###########################################################
 #PublishCSSAction properties
 PublishCSSAction.wizard.errorTitle=Fehler
-PublishCSSAction.wizard.message=Unable to publish the CSS file to the diretory where it exists, please choose another directory to publish.
+PublishCSSAction.wizard.message=Die CSS-Datei kann nicht in dem Verzeichnis veröffentlicht werden, in dem sie sich befindet. Wählen Sie zur Veröffentlichung ein anderes Verzeichnis.
 PublishCSSAction.wizard.message.SourceFileNotExist=Die Quelldatei ist nicht vorhanden.
-PublishCSSAction.wizard.notvalidfolder=Resource folder defined in preference is not valid.
+PublishCSSAction.wizard.notvalidfolder=Der in der Einstellung definierte Ressourcenordner ist ungültig.
 
 
 ###########################################################
@@ -2116,9 +2116,9 @@ CrosstabPageGenerator.List.UserProperties=Benutzereigenschaften
 CrosstabPageGenerator.List.AdvancedProperty=Erweitert
 
 CrosstabPageGenerator.TabItem.Binding=Bindung
-CrosstabPageGenerator.TabItem.RowArea=Row Area
-CrosstabPageGenerator.TabItem.ColumnArea=Column Area
-CrosstabPageGenerator.TabItem.DetailArea=Detail Area
+CrosstabPageGenerator.TabItem.RowArea=Zeilenbereich
+CrosstabPageGenerator.TabItem.ColumnArea=Spaltenbereich
+CrosstabPageGenerator.TabItem.DetailArea=Detailbereich
 CrosstabPageGenerator.TabItem.Filters=Filter
 CrosstabPageGenerator.TabItem.Highlights=Kennzeichnungen
 CrosstabPageGenerator.TabItem.map=Zuordnung
@@ -3642,9 +3642,9 @@ PublishLibraryDialog.AddLibrary=Bibliothek hinzufügen
 
 ###########################################################
 #PublishCSSDialog
-PublishCSSDialog.ShellText=Publish CSS File
-PublishCSSDialog.TitleArea=Publish CSS File to Resource Folder
-PublishCSSDialog.Message=Select a CSS file to imporst styles to resource folder
+PublishCSSDialog.ShellText=CSS-Datei veröffentlichen
+PublishCSSDialog.TitleArea=CSS-Datei in Ressourcenordner veröffentlichen
+PublishCSSDialog.Message=Wählen Sie eine CSS-Datei aus, um Stile in den Ressourcenordner zu importieren
 
 ###########################################################
 #EmbeddedImagesNodeProvider

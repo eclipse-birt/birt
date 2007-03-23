@@ -10,9 +10,9 @@ datasource.name=Classic Models Inc. 示例数据库
 select.dataset.name=SQL 选择查询
 jdbc.driver.name=Classic Models Inc. 示例数据库驱动程序
 #
-oda.data.source.name=BIRT Sample DB
-connection.profile.name=BIRT Sample DB Data Source Connection Profile
+oda.data.source.name=BIRT 示例数据库
+connection.profile.name=BIRT 示例数据库数据源连接配置文件
 #
 #  Below NLS messages apply to all ODA data sources; should be re-factored
 #
-oda.connection.factory.name=ODA Connection Factory
+oda.connection.factory.name=ODA 连接工厂

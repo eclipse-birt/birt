@@ -5,8 +5,8 @@ designer.preview.previewtoolbarmenuaction.label=Afficher l'état
 designer.preview.previewcascadingmenugroup.label=Afficher l'état
 ActionSet.Preview=Aperçu
 
-template.preview=New Preview Prototype
-design.preview=New Preview Prototype
+template.preview=Nouveau prototype d'aperçu
+design.preview=Nouveau prototype d'aperçu
 
 preference.preview=Aperçu
 preference.preview.server=Serveur de prévisualisation

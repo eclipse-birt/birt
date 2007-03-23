@@ -20,14 +20,14 @@ BIRTProjectConfigurationPage_desc=配置 web.xml 中定义的 BIRT 部署设置
 ###############################################################################
 # BIRT Configuration Dialog
 ###############################################################################
-BIRTConfigurationDialog_title=Configure BIRT Deployment Settings
+BIRTConfigurationDialog_title=配置 BIRT 部署设置
 
 ###############################################################################
 # BIRT Configuration Components
 ###############################################################################
 BIRTConfiguration_group_paths=部署文件夹设置
 BIRTConfiguration_group_others=其它设置
-BIRTConfiguration_folder_button_text=&Browse...
+BIRTConfiguration_folder_button_text=浏览(&B)...
 
 BIRTConfiguration_resource_label=资源文件夹(&R):
 BIRTConfiguration_resource_dialog_title=浏览资源文件夹

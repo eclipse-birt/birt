@@ -20,14 +20,14 @@ BIRTProjectConfigurationPage_desc=In Datei "web.xml" definierte Einstellungen fü
 ###############################################################################
 # BIRT Configuration Dialog
 ###############################################################################
-BIRTConfigurationDialog_title=Configure BIRT Deployment Settings
+BIRTConfigurationDialog_title=Einstellungen für BIRT-Bereitstellung konfigurieren
 
 ###############################################################################
 # BIRT Configuration Components
 ###############################################################################
 BIRTConfiguration_group_paths=Einstellungen für Bereitstellungsordner
 BIRTConfiguration_group_others=Andere Einstellungen
-BIRTConfiguration_folder_button_text=&Browse...
+BIRTConfiguration_folder_button_text=&Durchsuchen...
 
 BIRTConfiguration_resource_label=&Ressourcenordner:
 BIRTConfiguration_resource_dialog_title=Nach Ressourcenordner suchen

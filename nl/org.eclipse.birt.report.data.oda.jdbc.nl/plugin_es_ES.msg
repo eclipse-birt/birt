@@ -18,8 +18,8 @@ oda.parent.category.id=org.eclipse.datatools.connectivity.oda.profileCategory
 # NLS String
 ###############################################################################
 datasource.name=Fuente de datos JDBC
-oda.data.source.name=BIRT JDBC Data Source
-connection.profile.name=BIRT JDBC Data Source Connection Profile
+oda.data.source.name=Fuente de datos JDBC BIRT
+connection.profile.name=Perfil de conexión de fuente de datos JDBC BIRT
 
 datasource.property.odaDriverClass=Clase del controlador JDBC
 datasource.property.odaURL=URL del controlador JDBC
@@ -33,4 +33,4 @@ dataset.property.queryTimeOut=Tiempo límite de consulta (en segundos)
 #
 #  Below NLS messages apply to all ODA data sources; should be re-factored
 #
-oda.connection.factory.name=ODA Connection Factory
+oda.connection.factory.name=Fábrica de conexión ODA

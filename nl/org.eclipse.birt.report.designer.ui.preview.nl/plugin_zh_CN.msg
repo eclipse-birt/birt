@@ -5,8 +5,8 @@ designer.preview.previewtoolbarmenuaction.label=查看报表
 designer.preview.previewcascadingmenugroup.label=查看报表
 ActionSet.Preview=预览
 
-template.preview=New Preview Prototype
-design.preview=New Preview Prototype
+template.preview=新建预览原型
+design.preview=新建预览原型
 
 preference.preview=预览
 preference.preview.server=预览服务器

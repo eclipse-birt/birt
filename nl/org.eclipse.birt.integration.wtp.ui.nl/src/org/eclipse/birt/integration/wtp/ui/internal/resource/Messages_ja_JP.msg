@@ -20,14 +20,14 @@ BIRTProjectConfigurationPage_desc=BIRT の配布設定を web.xml に定義します。
 ###############################################################################
 # BIRT Configuration Dialog
 ###############################################################################
-BIRTConfigurationDialog_title=Configure BIRT Deployment Settings
+BIRTConfigurationDialog_title=BIRT の配布設定
 
 ###############################################################################
 # BIRT Configuration Components
 ###############################################################################
 BIRTConfiguration_group_paths=配布フォルダの設定
 BIRTConfiguration_group_others=その他の設定
-BIRTConfiguration_folder_button_text=&Browse...
+BIRTConfiguration_folder_button_text=参照(&B)...
 
 BIRTConfiguration_resource_label=リソースフォルダ(&R) :
 BIRTConfiguration_resource_dialog_title=リソースフォルダの参照

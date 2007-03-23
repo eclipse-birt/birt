@@ -32,14 +32,14 @@ AddLibraryAction.Dialog.Tilte=Seleccione una librería
 
 ###########################################################
 #AddCSSAction properties
-AddCSSAction.Text=Add CSS File...
+AddCSSAction.Text=Añadir archivo CSS...
 
 ###########################################################
 #PublishCSSAction properties
 PublishCSSAction.wizard.errorTitle=Error
-PublishCSSAction.wizard.message=Unable to publish the CSS file to the diretory where it exists, please choose another directory to publish.
+PublishCSSAction.wizard.message=No es posible publicar el archivo CSS en el directorio donde se encuentra, seleccione otro directorio para la publicación.
 PublishCSSAction.wizard.message.SourceFileNotExist=El archivo fuente no existe.
-PublishCSSAction.wizard.notvalidfolder=Resource folder defined in preference is not valid.
+PublishCSSAction.wizard.notvalidfolder=La carpeta del archivo CSS definida como preferencia no es válida.
 
 
 ###########################################################
@@ -2116,9 +2116,9 @@ CrosstabPageGenerator.List.UserProperties=Propiedades de usuario
 CrosstabPageGenerator.List.AdvancedProperty=Avanzada
 
 CrosstabPageGenerator.TabItem.Binding=Enlace
-CrosstabPageGenerator.TabItem.RowArea=Row Area
-CrosstabPageGenerator.TabItem.ColumnArea=Column Area
-CrosstabPageGenerator.TabItem.DetailArea=Detail Area
+CrosstabPageGenerator.TabItem.RowArea=Zona de filas
+CrosstabPageGenerator.TabItem.ColumnArea=Zona de columnas
+CrosstabPageGenerator.TabItem.DetailArea=Zona de detalles
 CrosstabPageGenerator.TabItem.Filters=Filtros
 CrosstabPageGenerator.TabItem.Highlights=Resaltados
 CrosstabPageGenerator.TabItem.map=Asignar
@@ -3642,9 +3642,9 @@ PublishLibraryDialog.AddLibrary=Añadir librería
 
 ###########################################################
 #PublishCSSDialog
-PublishCSSDialog.ShellText=Publish CSS File
-PublishCSSDialog.TitleArea=Publish CSS File to Resource Folder
-PublishCSSDialog.Message=Select a CSS file to imporst styles to resource folder
+PublishCSSDialog.ShellText=Publicar archivo CSS
+PublishCSSDialog.TitleArea=Publicar archivo CSS en la carpeta de recursos
+PublishCSSDialog.Message=Seleccionar un archivo CSS para importar estilos en la carpeta de recursos
 
 ###########################################################
 #EmbeddedImagesNodeProvider

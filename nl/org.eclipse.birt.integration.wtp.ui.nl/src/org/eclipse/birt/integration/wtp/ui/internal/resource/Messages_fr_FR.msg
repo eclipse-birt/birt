@@ -20,14 +20,14 @@ BIRTProjectConfigurationPage_desc=Configurer les paramètres de déploiement BIRT 
 ###############################################################################
 # BIRT Configuration Dialog
 ###############################################################################
-BIRTConfigurationDialog_title=Configure BIRT Deployment Settings
+BIRTConfigurationDialog_title=Configurer les paramètres de déploiement BIRT
 
 ###############################################################################
 # BIRT Configuration Components
 ###############################################################################
 BIRTConfiguration_group_paths=Paramètres du dossier de déploiement
 BIRTConfiguration_group_others=Autres paramètres
-BIRTConfiguration_folder_button_text=&Browse...
+BIRTConfiguration_folder_button_text=& Parcourir...
 
 BIRTConfiguration_resource_label=Dossier de &ressources :
 BIRTConfiguration_resource_dialog_title=Parcourir le dossier de ressources

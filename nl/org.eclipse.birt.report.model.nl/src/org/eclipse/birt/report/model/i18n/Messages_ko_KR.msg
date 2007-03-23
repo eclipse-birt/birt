@@ -1806,7 +1806,7 @@ Structure.JoinCondition=조인 조건
 Structure.ParameterFormatValue=매개 변수 형식 값
 Structure.OdaDesignerState=Oda Designer State
 Structure.ScriptLib=스크립트 Lib
-Structure.IncludedCssStyleSheet=Included css style sheet
+Structure.IncludedCssStyleSheet=CSS 스타일시트 포함
 
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression
@@ -1920,9 +1920,9 @@ Structure.ComputedColumn.displayName=열 표시 이름
 Structure.ComputedColumn.expression=식
 Structure.ComputedColumn.dataType=데이터 형식
 Structure.ComputedColumn.aggregateOn=AggregateOn 식
-Structure.ComputedColumn.aggregateFunction=AggregateOn Function
-Structure.ComputedColumn.arguments=AggregateOn Function Arguments
-Structure.ComputedColumn.filterExpr=Fiilter Expression
+Structure.ComputedColumn.aggregateFunction=AggregateOn 함수
+Structure.ComputedColumn.arguments=AggregateOn 함수 인수
+Structure.ComputedColumn.filterExpr=필터 식
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=열 이름
@@ -1948,7 +1948,7 @@ Structure.IncludedLibrary.fileName=파일 이름
 Structure.IncludedLibrary.namespace=네임스페이스
 
 #14. IncludedCssStyleSheet
-Structure.IncludedCssStyleSheet.fileName=File name
+Structure.IncludedCssStyleSheet.fileName=파일 이름
 
 #15. DataSetParam
 Structure.DataSetParam.name=이름
@@ -2168,12 +2168,12 @@ Element.TabularMeasure=테이블 측정
 Element.TabularMeasureGroup=테이블 측정 그룹
 Element.AccessControl=액세스 컨트롤
 Element.ValueAccessControl=값 액세스 컨트롤
-Element.OdaCube=ODA Cube
-Element.OdaDimension=ODA Dimension
-Element.OdaHierarchy=ODA Hierarchy
-Element.OdaLevel=ODA Level
-Element.OdaMeasure=ODA Measure
-Element.OdaMeasureGroup=ODA Meausre Group
+Element.OdaCube=ODA 큐브
+Element.OdaDimension=ODA 차원
+Element.OdaHierarchy=ODA 계층
+Element.OdaLevel=ODA 수준
+Element.OdaMeasure=ODA 측정
+Element.OdaMeasureGroup=ODA 측정 그룹
 
 ###########################################################
 # Element property names
@@ -2256,7 +2256,7 @@ Element.ReportDesign.slot.cubes=큐브 요소
 Element.ReportDesign.initialize=초기화
 Element.ReportDesign.initialize.toolTip=보고서 실행 시작 시 호출됩니다.
 Element.ReportDesign.initialize.reportContext=보고서 컨텍스트
-Element.ReportDesign.cssStyleSheets=Css style sheets
+Element.ReportDesign.cssStyleSheets=CSS 스타일시트
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=표시 이름
@@ -2888,7 +2888,7 @@ Element.DesignElement.userProperties=사용자 속성
 
 #38 Theme ( Prefix Element.Theme )
 Element.Theme.slot.styles=스타일
-Element.Theme.cssStyleSheets=Css style sheets
+Element.Theme.cssStyleSheets=CSS 스타일시트
 
 #39 TemplateParameterDefinition ( Prefix Element.TemplateParameterDefinition )
 Element.TemplateParameterDefinition.name=이름
@@ -2974,16 +2974,16 @@ Element.ValueAccessControl.values=값
 
 #52. TabularCube ( prefix Element.TabularCube )
 Element.TabularCube.dataSet=데이터 집합
-Element.TabularCube.dimensions=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
-Element.TabularCube.measureGroups=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
+Element.TabularCube.dimensions=크기
+Element.TabularCube.measureGroups=측정 그룹
 Element.TabularCube.dimensionConditions=차원 조건
 
 #53. TabularDimension ( prefix Element.TabularDimension )
-Element.TabularDimension.hierarchies=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
+Element.TabularDimension.hierarchies=계층
 
 #54. TabularHierarchy ( prefix Element.TabularHierarchy )
 Element.TabularHierarchy.dataSet=데이터 집합
-Element.TabularHierarchy.levels=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
+Element.TabularHierarchy.levels=수준
 Element.TabularHierarchy.primaryKeys=기본 키
 
 #55. TabularLevel ( prefix Element.TabularLevel )
@@ -2991,16 +2991,16 @@ Element.TabularLevel.columnName=열 이름
 Element.TabularLevel.attributes=특성
 
 #56. OdaCube ( prefix Element.OdaCube )
-Element.OdaCube.dimensions=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
-Element.OdaCube.measureGroups=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
+Element.OdaCube.dimensions=크기
+Element.OdaCube.measureGroups=측정 그룹
 Element.OdaCube.nativeName=고유 이름
 
 #57. OdaDimension ( prefix Element.OdaDimension )
-Element.OdaDimension.hierarchies=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
+Element.OdaDimension.hierarchies=계층
 Element.OdaDimension.nativeName=고유 이름
 
 #58. OdaHierarchy ( prefix Element.OdaHierarchy )
-Element.OdaHierarchy.levels=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 버전에서 지원하는 형식으로 변환하려면 확인을 누르십시오. 
+Element.OdaHierarchy.levels=수준
 Element.OdaHierarchy.nativeName=고유 이름
 
 #59. OdaLevel ( prefix Element.OdaLevel )
@@ -3468,10 +3468,10 @@ Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=스타일시트 리소스가 없습니다.
 Error.StyleSheetException.SYNTAX_ERROR=CSS2와 일치하지 않는 일부 구문 오류가 있습니다.
 
 #IncludedCssStyleSheetException
-Error.CSSException.CSS_NOT_FOUND=The style sheet with the name "{0}" is not found.
-Error.CSSException.DUPLICATE_CSS=Css style sheet with the name "{0}" exists already.
-Error.CSSException.BADCSSFILE=There is some syntax errors in "{0}" file.
-Error.CssException.READONLY=Style in "{0}" file is read-only.
+Error.CSSException.CSS_NOT_FOUND=스타일시트 리소스를 찾을 수 없습니다.
+Error.CSSException.DUPLICATE_CSS=CSS 스타일시트가 중복됩니다.
+Error.CSSException.BADCSSFILE=CSS 파일에 구문 오류가 있습니다.
+Error.CssException.READONLY=CSS 파일에 있는 스타일이 읽기 전용입니다.
 
 #StyleSheetParserException
 Error.StyleSheetParserException.RULE_NOT_SUPPORTED=규칙 "{0}"이(가) 지원되지 않습니다.

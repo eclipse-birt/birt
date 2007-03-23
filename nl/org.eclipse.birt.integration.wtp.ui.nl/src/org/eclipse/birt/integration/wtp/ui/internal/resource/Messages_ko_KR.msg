@@ -20,14 +20,14 @@ BIRTProjectConfigurationPage_desc=web.xml에서 정의된 BIRT 배포 설정 구성
 ###############################################################################
 # BIRT Configuration Dialog
 ###############################################################################
-BIRTConfigurationDialog_title=Configure BIRT Deployment Settings
+BIRTConfigurationDialog_title=BIRT 배포 설정 구성
 
 ###############################################################################
 # BIRT Configuration Components
 ###############################################################################
 BIRTConfiguration_group_paths=배포 폴더 설정
 BIRTConfiguration_group_others=기타 설정
-BIRTConfiguration_folder_button_text=&Browse...
+BIRTConfiguration_folder_button_text=찾아보기(&B)...
 
 BIRTConfiguration_resource_label=리소스 폴더(&R):
 BIRTConfiguration_resource_dialog_title=리소스 폴더 찾아보기

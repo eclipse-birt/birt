@@ -1806,7 +1806,7 @@ Structure.JoinCondition=Condición de combinación
 Structure.ParameterFormatValue=Valor del formato de parámetro
 Structure.OdaDesignerState=Oda Designer State
 Structure.ScriptLib=Librería de scripts
-Structure.IncludedCssStyleSheet=Included css style sheet
+Structure.IncludedCssStyleSheet=Hoja de estilos CSS incluida
 
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression
@@ -1920,9 +1920,9 @@ Structure.ComputedColumn.displayName=Nombre en pantalla de columna
 Structure.ComputedColumn.expression=Expresión
 Structure.ComputedColumn.dataType=Tipo de datos
 Structure.ComputedColumn.aggregateOn=Expresión de Agregar en
-Structure.ComputedColumn.aggregateFunction=AggregateOn Function
-Structure.ComputedColumn.arguments=AggregateOn Function Arguments
-Structure.ComputedColumn.filterExpr=Fiilter Expression
+Structure.ComputedColumn.aggregateFunction=Función AgregarEn
+Structure.ComputedColumn.arguments=Argumentos de la función AgregarEn
+Structure.ComputedColumn.filterExpr=Expresión de filtro
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=Nombre de la columna
@@ -1948,7 +1948,7 @@ Structure.IncludedLibrary.fileName=Nombre de archivo
 Structure.IncludedLibrary.namespace=Espacio de nombres
 
 #14. IncludedCssStyleSheet
-Structure.IncludedCssStyleSheet.fileName=File name
+Structure.IncludedCssStyleSheet.fileName=Nombre de archivo:
 
 #15. DataSetParam
 Structure.DataSetParam.name=Nombre
@@ -2168,12 +2168,12 @@ Element.TabularMeasure=Medida en tabla
 Element.TabularMeasureGroup=Grupo de medida en tabla
 Element.AccessControl=Control de acceso
 Element.ValueAccessControl=Control de acceso de valor
-Element.OdaCube=ODA Cube
-Element.OdaDimension=ODA Dimension
-Element.OdaHierarchy=ODA Hierarchy
-Element.OdaLevel=ODA Level
-Element.OdaMeasure=ODA Measure
-Element.OdaMeasureGroup=ODA Meausre Group
+Element.OdaCube=Cubo ODA
+Element.OdaDimension=Dimensión ODA
+Element.OdaHierarchy=Jerarquía ODA
+Element.OdaLevel=Nivel ODA
+Element.OdaMeasure=Medida ODA
+Element.OdaMeasureGroup=Grupo de medida ODA
 
 ###########################################################
 # Element property names
@@ -2256,7 +2256,7 @@ Element.ReportDesign.slot.cubes=Elementos de cubo
 Element.ReportDesign.initialize=Inicializar
 Element.ReportDesign.initialize.toolTip=Llamado al iniciar la ejecución del informe.
 Element.ReportDesign.initialize.reportContext=Contexto de informe
-Element.ReportDesign.cssStyleSheets=Css style sheets
+Element.ReportDesign.cssStyleSheets=Hoja de estilos CSS
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=Nombre en pantalla
@@ -2888,7 +2888,7 @@ Element.DesignElement.userProperties=Propiedades de usuario
 
 #38 Theme ( Prefix Element.Theme )
 Element.Theme.slot.styles=Estilos
-Element.Theme.cssStyleSheets=Css style sheets
+Element.Theme.cssStyleSheets=Hoja de estilos CSS
 
 #39 TemplateParameterDefinition ( Prefix Element.TemplateParameterDefinition )
 Element.TemplateParameterDefinition.name=Nombre
@@ -2974,16 +2974,16 @@ Element.ValueAccessControl.values=Valores
 
 #52. TabularCube ( prefix Element.TabularCube )
 Element.TabularCube.dataSet=Conjunto de datos
-Element.TabularCube.dimensions=El archivo de diseño fue creado por una versión anterior de BIRT. Haga clic en Aceptar para convertirlo a un formato compatible con la versión actual del producto.
-Element.TabularCube.measureGroups=El archivo de diseño fue creado por una versión anterior de BIRT. Haga clic en Aceptar para convertirlo a un formato compatible con la versión actual del producto.
+Element.TabularCube.dimensions=Dimensiones
+Element.TabularCube.measureGroups=Grupos de medida
 Element.TabularCube.dimensionConditions=Condiciones de dimensiones
 
 #53. TabularDimension ( prefix Element.TabularDimension )
-Element.TabularDimension.hierarchies=El archivo de diseño fue creado por una versión anterior de BIRT. Haga clic en Aceptar para convertirlo a un formato compatible con la versión actual del producto.
+Element.TabularDimension.hierarchies=Jerarquías
 
 #54. TabularHierarchy ( prefix Element.TabularHierarchy )
 Element.TabularHierarchy.dataSet=Conjunto de datos
-Element.TabularHierarchy.levels=El archivo de diseño fue creado por una versión anterior de BIRT. Haga clic en Aceptar para convertirlo a un formato compatible con la versión actual del producto.
+Element.TabularHierarchy.levels=Niveles
 Element.TabularHierarchy.primaryKeys=Clave primaria
 
 #55. TabularLevel ( prefix Element.TabularLevel )
@@ -2991,16 +2991,16 @@ Element.TabularLevel.columnName=Nombre de la columna
 Element.TabularLevel.attributes=Atributos
 
 #56. OdaCube ( prefix Element.OdaCube )
-Element.OdaCube.dimensions=El archivo de diseño fue creado por una versión anterior de BIRT. Haga clic en Aceptar para convertirlo a un formato compatible con la versión actual del producto.
-Element.OdaCube.measureGroups=El archivo de diseño fue creado por una versión anterior de BIRT. Haga clic en Aceptar para convertirlo a un formato compatible con la versión actual del producto.
+Element.OdaCube.dimensions=Dimensiones
+Element.OdaCube.measureGroups=Grupos de medida
 Element.OdaCube.nativeName=Nombre nativo
 
 #57. OdaDimension ( prefix Element.OdaDimension )
-Element.OdaDimension.hierarchies=El archivo de diseño fue creado por una versión anterior de BIRT. Haga clic en Aceptar para convertirlo a un formato compatible con la versión actual del producto.
+Element.OdaDimension.hierarchies=Jerarquías
 Element.OdaDimension.nativeName=Nombre nativo
 
 #58. OdaHierarchy ( prefix Element.OdaHierarchy )
-Element.OdaHierarchy.levels=El archivo de diseño fue creado por una versión anterior de BIRT. Haga clic en Aceptar para convertirlo a un formato compatible con la versión actual del producto.
+Element.OdaHierarchy.levels=Niveles
 Element.OdaHierarchy.nativeName=Nombre nativo
 
 #59. OdaLevel ( prefix Element.OdaLevel )
@@ -3240,12 +3240,12 @@ New.TabularHierarchy=NuevaJerarquíaTabla
 New.TabularLevel=NuevoNivelTabla
 New.TabularMeasure=NuevaMedidaTabla
 New.TabularMeasureGroup=NuevoGrupoMedidaTabla
-New.OdaCube=NewOdaCube
-New.OdaDimension=NewOdaDimension
-New.OdaHierarchy=NewOdaHierarchy
-New.OdaLevel=NewOdaLevel
-New.OdaMeasure=NewOdaMeasure
-New.OdaMeasureGroup=NewOdaMeasureGroup
+New.OdaCube=NuevoCuboOda
+New.OdaDimension=NuevaDimensiónOda
+New.OdaHierarchy=NuevaJerarquíaOda
+New.OdaLevel=NuevoNivelOda
+New.OdaMeasure=NuevaMedidaOda
+New.OdaMeasureGroup=NuevoGrupodeMedidaOda
 
 ###########################################################
 #Default theme name.
@@ -3468,10 +3468,10 @@ Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=No se ha encontrado el recurso d
 Error.StyleSheetException.SYNTAX_ERROR=Hay algunos errores de sintaxis inconsistentes con CSS2.
 
 #IncludedCssStyleSheetException
-Error.CSSException.CSS_NOT_FOUND=The style sheet with the name "{0}" is not found.
-Error.CSSException.DUPLICATE_CSS=Css style sheet with the name "{0}" exists already.
-Error.CSSException.BADCSSFILE=There is some syntax errors in "{0}" file.
-Error.CssException.READONLY=Style in "{0}" file is read-only.
+Error.CSSException.CSS_NOT_FOUND=No se ha encontrado el recurso de hoja de estilos.
+Error.CSSException.DUPLICATE_CSS=Duplicados de la hoja de estilos CSS.
+Error.CSSException.BADCSSFILE=Hay algunos errores de sintaxis en el archivo CSS.
+Error.CssException.READONLY=El estilo en el archivo CSS es de sólo lectura.
 
 #StyleSheetParserException
 Error.StyleSheetParserException.RULE_NOT_SUPPORTED=No se admite la regla "{0}".

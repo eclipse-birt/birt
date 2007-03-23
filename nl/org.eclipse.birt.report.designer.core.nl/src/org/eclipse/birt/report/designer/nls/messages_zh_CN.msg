@@ -32,14 +32,14 @@ AddLibraryAction.Dialog.Tilte=选择库
 
 ###########################################################
 #AddCSSAction properties
-AddCSSAction.Text=Add CSS File...
+AddCSSAction.Text=添加 CSS 文件...
 
 ###########################################################
 #PublishCSSAction properties
 PublishCSSAction.wizard.errorTitle=错误
-PublishCSSAction.wizard.message=Unable to publish the CSS file to the diretory where it exists, please choose another directory to publish.
+PublishCSSAction.wizard.message=无法将 CSS 文件发布到它所在的目录，请选择其它目录进行发布。
 PublishCSSAction.wizard.message.SourceFileNotExist=源文件不存在。
-PublishCSSAction.wizard.notvalidfolder=Resource folder defined in preference is not valid.
+PublishCSSAction.wizard.notvalidfolder=首选项中定义的资源文件夹无效。
 
 
 ###########################################################
@@ -2116,9 +2116,9 @@ CrosstabPageGenerator.List.UserProperties=用户属性
 CrosstabPageGenerator.List.AdvancedProperty=高级
 
 CrosstabPageGenerator.TabItem.Binding=绑定
-CrosstabPageGenerator.TabItem.RowArea=Row Area
-CrosstabPageGenerator.TabItem.ColumnArea=Column Area
-CrosstabPageGenerator.TabItem.DetailArea=Detail Area
+CrosstabPageGenerator.TabItem.RowArea=行区域
+CrosstabPageGenerator.TabItem.ColumnArea=列区域
+CrosstabPageGenerator.TabItem.DetailArea=详细信息区域
 CrosstabPageGenerator.TabItem.Filters=筛选器
 CrosstabPageGenerator.TabItem.Highlights=突出显示
 CrosstabPageGenerator.TabItem.map=映射
@@ -3642,9 +3642,9 @@ PublishLibraryDialog.AddLibrary=添加库
 
 ###########################################################
 #PublishCSSDialog
-PublishCSSDialog.ShellText=Publish CSS File
-PublishCSSDialog.TitleArea=Publish CSS File to Resource Folder
-PublishCSSDialog.Message=Select a CSS file to imporst styles to resource folder
+PublishCSSDialog.ShellText=发布 CSS 文件
+PublishCSSDialog.TitleArea=将 CSS 文件发布到资源文件夹
+PublishCSSDialog.Message=选择一个 CSS 文件以便将样式导入到资源文件夹
 
 ###########################################################
 #EmbeddedImagesNodeProvider

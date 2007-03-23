@@ -10,9 +10,9 @@ datasource.name=Beispieldatenbank "Classic Models Inc."
 select.dataset.name=SQL-Auswahlabfrage
 jdbc.driver.name=Treiber für Beispieldatenbank Classic Models Inc.
 #
-oda.data.source.name=BIRT Sample DB
-connection.profile.name=BIRT Sample DB Data Source Connection Profile
+oda.data.source.name=BIRT-Beispieldatenbank
+connection.profile.name=Verbindungsprofil für BIRT-Beispieldatenbank-Datenquelle
 #
 #  Below NLS messages apply to all ODA data sources; should be re-factored
 #
-oda.connection.factory.name=ODA Connection Factory
+oda.connection.factory.name=ODA-Verbindungs-Factory

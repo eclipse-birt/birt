@@ -1806,7 +1806,7 @@ Structure.JoinCondition=联接条件
 Structure.ParameterFormatValue=参数格式值
 Structure.OdaDesignerState=Oda Designer State
 Structure.ScriptLib=脚本库
-Structure.IncludedCssStyleSheet=Included css style sheet
+Structure.IncludedCssStyleSheet=包括的 CSS 样式表
 
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression
@@ -1920,9 +1920,9 @@ Structure.ComputedColumn.displayName=列显示名称
 Structure.ComputedColumn.expression=表达式
 Structure.ComputedColumn.dataType=数据类型
 Structure.ComputedColumn.aggregateOn=AggregateOn 表达式
-Structure.ComputedColumn.aggregateFunction=AggregateOn Function
-Structure.ComputedColumn.arguments=AggregateOn Function Arguments
-Structure.ComputedColumn.filterExpr=Fiilter Expression
+Structure.ComputedColumn.aggregateFunction=AggregateOn 函数
+Structure.ComputedColumn.arguments=AggregateOn 函数参数
+Structure.ComputedColumn.filterExpr=筛选器表达式
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=列名
@@ -1948,7 +1948,7 @@ Structure.IncludedLibrary.fileName=文件名
 Structure.IncludedLibrary.namespace=名称空间
 
 #14. IncludedCssStyleSheet
-Structure.IncludedCssStyleSheet.fileName=File name
+Structure.IncludedCssStyleSheet.fileName=文件名
 
 #15. DataSetParam
 Structure.DataSetParam.name=名称
@@ -2168,12 +2168,12 @@ Element.TabularMeasure=表格式度量
 Element.TabularMeasureGroup=表格式度量组
 Element.AccessControl=访问控制
 Element.ValueAccessControl=值访问控制
-Element.OdaCube=ODA Cube
-Element.OdaDimension=ODA Dimension
-Element.OdaHierarchy=ODA Hierarchy
-Element.OdaLevel=ODA Level
-Element.OdaMeasure=ODA Measure
-Element.OdaMeasureGroup=ODA Meausre Group
+Element.OdaCube=ODA 多维数据集
+Element.OdaDimension=ODA 维
+Element.OdaHierarchy=ODA 层次结构
+Element.OdaLevel=ODA 级别
+Element.OdaMeasure=ODA 度量
+Element.OdaMeasureGroup=ODA 度量组
 
 ###########################################################
 # Element property names
@@ -2256,7 +2256,7 @@ Element.ReportDesign.slot.cubes=多维数据集元素
 Element.ReportDesign.initialize=初始化
 Element.ReportDesign.initialize.toolTip=开始执行报表时调用。
 Element.ReportDesign.initialize.reportContext=报表上下文
-Element.ReportDesign.cssStyleSheets=Css style sheets
+Element.ReportDesign.cssStyleSheets=CSS 样式表
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=显示名称
@@ -2888,7 +2888,7 @@ Element.DesignElement.userProperties=用户属性
 
 #38 Theme ( Prefix Element.Theme )
 Element.Theme.slot.styles=样式
-Element.Theme.cssStyleSheets=Css style sheets
+Element.Theme.cssStyleSheets=CSS 样式表
 
 #39 TemplateParameterDefinition ( Prefix Element.TemplateParameterDefinition )
 Element.TemplateParameterDefinition.name=名称
@@ -2974,16 +2974,16 @@ Element.ValueAccessControl.values=值
 
 #52. TabularCube ( prefix Element.TabularCube )
 Element.TabularCube.dataSet=数据集
-Element.TabularCube.dimensions=设计文件是使用较早版本的 BIRT 创建的。单击“确定”将它转换为该产品当前版本支持的格式。
-Element.TabularCube.measureGroups=设计文件是使用较早版本的 BIRT 创建的。单击“确定”将它转换为该产品当前版本支持的格式。
+Element.TabularCube.dimensions=维数
+Element.TabularCube.measureGroups=度量组
 Element.TabularCube.dimensionConditions=维条件
 
 #53. TabularDimension ( prefix Element.TabularDimension )
-Element.TabularDimension.hierarchies=设计文件是使用较早版本的 BIRT 创建的。单击“确定”将它转换为该产品当前版本支持的格式。
+Element.TabularDimension.hierarchies=层次结构
 
 #54. TabularHierarchy ( prefix Element.TabularHierarchy )
 Element.TabularHierarchy.dataSet=数据集
-Element.TabularHierarchy.levels=设计文件是使用较早版本的 BIRT 创建的。单击“确定”将它转换为该产品当前版本支持的格式。
+Element.TabularHierarchy.levels=级别
 Element.TabularHierarchy.primaryKeys=主键
 
 #55. TabularLevel ( prefix Element.TabularLevel )
@@ -2991,16 +2991,16 @@ Element.TabularLevel.columnName=列名
 Element.TabularLevel.attributes=属性
 
 #56. OdaCube ( prefix Element.OdaCube )
-Element.OdaCube.dimensions=设计文件是使用较早版本的 BIRT 创建的。单击“确定”将它转换为该产品当前版本支持的格式。
-Element.OdaCube.measureGroups=设计文件是使用较早版本的 BIRT 创建的。单击“确定”将它转换为该产品当前版本支持的格式。
+Element.OdaCube.dimensions=维数
+Element.OdaCube.measureGroups=度量组
 Element.OdaCube.nativeName=本地名称
 
 #57. OdaDimension ( prefix Element.OdaDimension )
-Element.OdaDimension.hierarchies=设计文件是使用较早版本的 BIRT 创建的。单击“确定”将它转换为该产品当前版本支持的格式。
+Element.OdaDimension.hierarchies=层次结构
 Element.OdaDimension.nativeName=本地名称
 
 #58. OdaHierarchy ( prefix Element.OdaHierarchy )
-Element.OdaHierarchy.levels=设计文件是使用较早版本的 BIRT 创建的。单击“确定”将它转换为该产品当前版本支持的格式。
+Element.OdaHierarchy.levels=级别
 Element.OdaHierarchy.nativeName=本地名称
 
 #59. OdaLevel ( prefix Element.OdaLevel )
@@ -3240,12 +3240,12 @@ New.TabularHierarchy=新建表格式层次结构
 New.TabularLevel=新建表格式级别
 New.TabularMeasure=新建表格式度量
 New.TabularMeasureGroup=新建表格式度量组
-New.OdaCube=NewOdaCube
-New.OdaDimension=NewOdaDimension
-New.OdaHierarchy=NewOdaHierarchy
-New.OdaLevel=NewOdaLevel
-New.OdaMeasure=NewOdaMeasure
-New.OdaMeasureGroup=NewOdaMeasureGroup
+New.OdaCube=新建 ODA 多维数据集
+New.OdaDimension=新建 ODA 维
+New.OdaHierarchy=新建 ODA 层次结构
+New.OdaLevel=新建 ODA 级别
+New.OdaMeasure=新建 ODA 度量
+New.OdaMeasureGroup=新建 ODA 度量组
 
 ###########################################################
 #Default theme name.
@@ -3468,10 +3468,10 @@ Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=未找到样式表资源。
 Error.StyleSheetException.SYNTAX_ERROR=存在某些与 CSS2 不一致的语法错误。
 
 #IncludedCssStyleSheetException
-Error.CSSException.CSS_NOT_FOUND=The style sheet with the name "{0}" is not found.
-Error.CSSException.DUPLICATE_CSS=Css style sheet with the name "{0}" exists already.
-Error.CSSException.BADCSSFILE=There is some syntax errors in "{0}" file.
-Error.CssException.READONLY=Style in "{0}" file is read-only.
+Error.CSSException.CSS_NOT_FOUND=未找到样式表资源。
+Error.CSSException.DUPLICATE_CSS=CSS 样式表重复项。
+Error.CSSException.BADCSSFILE=CSS 文件中存在某些语法错误。
+Error.CssException.READONLY=CSS 文件中的样式为只读。
 
 #StyleSheetParserException
 Error.StyleSheetParserException.RULE_NOT_SUPPORTED=不支持规则 "{0}"。

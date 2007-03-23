@@ -1806,7 +1806,7 @@ Structure.JoinCondition=ジョインの条件
 Structure.ParameterFormatValue=パラメタの書式の値
 Structure.OdaDesignerState=Oda Designer State
 Structure.ScriptLib=スクリプトライブラリ
-Structure.IncludedCssStyleSheet=Included css style sheet
+Structure.IncludedCssStyleSheet=インクルードされている CSS スタイルシート
 
 #0.MapRule
 Structure.MapRule.testExpr=テスト式
@@ -1920,9 +1920,9 @@ Structure.ComputedColumn.displayName=列の表示名
 Structure.ComputedColumn.expression=式
 Structure.ComputedColumn.dataType=データ型
 Structure.ComputedColumn.aggregateOn=AggregateOn 式
-Structure.ComputedColumn.aggregateFunction=AggregateOn Function
-Structure.ComputedColumn.arguments=AggregateOn Function Arguments
-Structure.ComputedColumn.filterExpr=Fiilter Expression
+Structure.ComputedColumn.aggregateFunction=AggregateOn 関数
+Structure.ComputedColumn.arguments=AggregateOn 関数の引数
+Structure.ComputedColumn.filterExpr=フィルタ式
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=列名
@@ -1948,7 +1948,7 @@ Structure.IncludedLibrary.fileName=ファイル名
 Structure.IncludedLibrary.namespace=名前空間
 
 #14. IncludedCssStyleSheet
-Structure.IncludedCssStyleSheet.fileName=File name
+Structure.IncludedCssStyleSheet.fileName=ファイル名
 
 #15. DataSetParam
 Structure.DataSetParam.name=名前
@@ -2168,12 +2168,12 @@ Element.TabularMeasure=テーブル形式の計測
 Element.TabularMeasureGroup=テーブル形式の計測グループ
 Element.AccessControl=アクセスコントロール
 Element.ValueAccessControl=値へのアクセスコントロール
-Element.OdaCube=ODA Cube
-Element.OdaDimension=ODA Dimension
-Element.OdaHierarchy=ODA Hierarchy
-Element.OdaLevel=ODA Level
-Element.OdaMeasure=ODA Measure
-Element.OdaMeasureGroup=ODA Meausre Group
+Element.OdaCube=ODA キューブ
+Element.OdaDimension=ODA 次元
+Element.OdaHierarchy=ODA 階層
+Element.OdaLevel=ODA レベル
+Element.OdaMeasure=ODA 計測
+Element.OdaMeasureGroup=ODA 計測グループ
 
 ###########################################################
 # Element property names
@@ -2256,7 +2256,7 @@ Element.ReportDesign.slot.cubes=キューブ要素
 Element.ReportDesign.initialize=初期化 
 Element.ReportDesign.initialize.toolTip=レポートの実行を開始する際に呼び出されます。
 Element.ReportDesign.initialize.reportContext=レポートのコンテキスト
-Element.ReportDesign.cssStyleSheets=Css style sheets
+Element.ReportDesign.cssStyleSheets=CSS スタイルシート
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=表示名
@@ -2888,7 +2888,7 @@ Element.DesignElement.userProperties=ユーザのプロパティ
 
 #38 Theme ( Prefix Element.Theme )
 Element.Theme.slot.styles=スタイル
-Element.Theme.cssStyleSheets=Css style sheets
+Element.Theme.cssStyleSheets=CSS スタイルシート
 
 #39 TemplateParameterDefinition ( Prefix Element.TemplateParameterDefinition )
 Element.TemplateParameterDefinition.name=名前
@@ -2974,16 +2974,16 @@ Element.ValueAccessControl.values=値
 
 #52. TabularCube ( prefix Element.TabularCube )
 Element.TabularCube.dataSet=データセット
-Element.TabularCube.dimensions=このデザインファイルは、以前のバージョンの BIRT で作成されています。[OK] をクリックすると、現在のバージョンでサポートされている形式に変換されます。
-Element.TabularCube.measureGroups=このデザインファイルは、以前のバージョンの BIRT で作成されています。[OK] をクリックすると、現在のバージョンでサポートされている形式に変換されます。
+Element.TabularCube.dimensions=サイズ
+Element.TabularCube.measureGroups=計測グループ
 Element.TabularCube.dimensionConditions=次元条件
 
 #53. TabularDimension ( prefix Element.TabularDimension )
-Element.TabularDimension.hierarchies=このデザインファイルは、以前のバージョンの BIRT で作成されています。[OK] をクリックすると、現在のバージョンでサポートされている形式に変換されます。
+Element.TabularDimension.hierarchies=階層
 
 #54. TabularHierarchy ( prefix Element.TabularHierarchy )
 Element.TabularHierarchy.dataSet=データセット
-Element.TabularHierarchy.levels=このデザインファイルは、以前のバージョンの BIRT で作成されています。[OK] をクリックすると、現在のバージョンでサポートされている形式に変換されます。
+Element.TabularHierarchy.levels=レベル
 Element.TabularHierarchy.primaryKeys=プライマリキー
 
 #55. TabularLevel ( prefix Element.TabularLevel )
@@ -2991,16 +2991,16 @@ Element.TabularLevel.columnName=列名
 Element.TabularLevel.attributes=属性
 
 #56. OdaCube ( prefix Element.OdaCube )
-Element.OdaCube.dimensions=このデザインファイルは、以前のバージョンの BIRT で作成されています。[OK] をクリックすると、現在のバージョンでサポートされている形式に変換されます。
-Element.OdaCube.measureGroups=このデザインファイルは、以前のバージョンの BIRT で作成されています。[OK] をクリックすると、現在のバージョンでサポートされている形式に変換されます。
+Element.OdaCube.dimensions=サイズ
+Element.OdaCube.measureGroups=計測グループ
 Element.OdaCube.nativeName=ネイティブの名前
 
 #57. OdaDimension ( prefix Element.OdaDimension )
-Element.OdaDimension.hierarchies=このデザインファイルは、以前のバージョンの BIRT で作成されています。[OK] をクリックすると、現在のバージョンでサポートされている形式に変換されます。
+Element.OdaDimension.hierarchies=階層
 Element.OdaDimension.nativeName=ネイティブの名前
 
 #58. OdaHierarchy ( prefix Element.OdaHierarchy )
-Element.OdaHierarchy.levels=このデザインファイルは、以前のバージョンの BIRT で作成されています。[OK] をクリックすると、現在のバージョンでサポートされている形式に変換されます。
+Element.OdaHierarchy.levels=レベル
 Element.OdaHierarchy.nativeName=ネイティブの名前
 
 #59. OdaLevel ( prefix Element.OdaLevel )
@@ -3240,12 +3240,12 @@ New.TabularHierarchy=テーブル形式の階層の新規作成
 New.TabularLevel=テーブル形式のレベルの新規作成
 New.TabularMeasure=テーブル形式の計測の新規作成
 New.TabularMeasureGroup=テーブル形式の計測グループの新規作成
-New.OdaCube=NewOdaCube
-New.OdaDimension=NewOdaDimension
-New.OdaHierarchy=NewOdaHierarchy
-New.OdaLevel=NewOdaLevel
-New.OdaMeasure=NewOdaMeasure
-New.OdaMeasureGroup=NewOdaMeasureGroup
+New.OdaCube=ODA キューブの新規作成
+New.OdaDimension=ODA 次元の新規作成
+New.OdaHierarchy=ODA 次元の新規作成
+New.OdaLevel=ODA レベルの新規作成
+New.OdaMeasure=ODA 計測の新規作成
+New.OdaMeasureGroup=ODA 計測グループの新規作成
 
 ###########################################################
 #Default theme name.
@@ -3468,10 +3468,10 @@ Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=スタイルシートのリソースが見つか
 Error.StyleSheetException.SYNTAX_ERROR=CSS2 に従っていない構文エラーがあります。
 
 #IncludedCssStyleSheetException
-Error.CSSException.CSS_NOT_FOUND=The style sheet with the name "{0}" is not found.
-Error.CSSException.DUPLICATE_CSS=Css style sheet with the name "{0}" exists already.
-Error.CSSException.BADCSSFILE=There is some syntax errors in "{0}" file.
-Error.CssException.READONLY=Style in "{0}" file is read-only.
+Error.CSSException.CSS_NOT_FOUND=スタイルシートのリソースが見つかりません。
+Error.CSSException.DUPLICATE_CSS=CSS スタイルシートが重複します。
+Error.CSSException.BADCSSFILE=CSS ファイルに構文エラーがあります。
+Error.CssException.READONLY=CSS ファイルのスタイルが読み取り専用です。
 
 #StyleSheetParserException
 Error.StyleSheetParserException.RULE_NOT_SUPPORTED=規則 "{0}" はサポートされていません。

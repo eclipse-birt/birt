@@ -1806,7 +1806,7 @@ Structure.JoinCondition=Verknüpfungsbedingung
 Structure.ParameterFormatValue=Wert für Parameterformat
 Structure.OdaDesignerState=Oda Designer State
 Structure.ScriptLib=Skriptbibliothek
-Structure.IncludedCssStyleSheet=Included css style sheet
+Structure.IncludedCssStyleSheet=Enthaltene CSS-Stilvorlage
 
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression
@@ -1920,9 +1920,9 @@ Structure.ComputedColumn.displayName=Spaltenanzeigename
 Structure.ComputedColumn.expression=Ausdruck
 Structure.ComputedColumn.dataType=Datentyp
 Structure.ComputedColumn.aggregateOn=Ausdruck "AggregateOn"
-Structure.ComputedColumn.aggregateFunction=AggregateOn Function
-Structure.ComputedColumn.arguments=AggregateOn Function Arguments
-Structure.ComputedColumn.filterExpr=Fiilter Expression
+Structure.ComputedColumn.aggregateFunction=AggregateOn-Funktion
+Structure.ComputedColumn.arguments=AggregateOn-Funktionsargumente
+Structure.ComputedColumn.filterExpr=Filterausdruck
 
 #16. ColumnHint
 Structure.ColumnHint.columnName=Spaltenname
@@ -1948,7 +1948,7 @@ Structure.IncludedLibrary.fileName=Dateiname
 Structure.IncludedLibrary.namespace=Namespace
 
 #14. IncludedCssStyleSheet
-Structure.IncludedCssStyleSheet.fileName=File name
+Structure.IncludedCssStyleSheet.fileName=Dateiname
 
 #15. DataSetParam
 Structure.DataSetParam.name=Name
@@ -2168,12 +2168,12 @@ Element.TabularMeasure=Tabelleneinheit
 Element.TabularMeasureGroup=Tabelleneinheitsgruppe
 Element.AccessControl=Zugriffssteuerung
 Element.ValueAccessControl=Wertzugriffsteuerung
-Element.OdaCube=ODA Cube
-Element.OdaDimension=ODA Dimension
-Element.OdaHierarchy=ODA Hierarchy
-Element.OdaLevel=ODA Level
-Element.OdaMeasure=ODA Measure
-Element.OdaMeasureGroup=ODA Meausre Group
+Element.OdaCube=ODA-Quader
+Element.OdaDimension=ODA-Dimension
+Element.OdaHierarchy=ODA-Hierarchie
+Element.OdaLevel=ODA-Ebene
+Element.OdaMeasure=ODA-Maßeinheit
+Element.OdaMeasureGroup=ODA-Maßeinheitsgruppe
 
 ###########################################################
 # Element property names
@@ -2256,7 +2256,7 @@ Element.ReportDesign.slot.cubes=Quaderelemente
 Element.ReportDesign.initialize=Initialisieren
 Element.ReportDesign.initialize.toolTip=Wird zu Beginn der Berichtausführung aufgerufen.
 Element.ReportDesign.initialize.reportContext=Berichtkontext
-Element.ReportDesign.cssStyleSheets=Css style sheets
+Element.ReportDesign.cssStyleSheets=CSS-Stilvorlagen
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=Anzeigename
@@ -2888,7 +2888,7 @@ Element.DesignElement.userProperties=Benutzereigenschaften
 
 #38 Theme ( Prefix Element.Theme )
 Element.Theme.slot.styles=Stile
-Element.Theme.cssStyleSheets=Css style sheets
+Element.Theme.cssStyleSheets=CSS-Stilvorlagen
 
 #39 TemplateParameterDefinition ( Prefix Element.TemplateParameterDefinition )
 Element.TemplateParameterDefinition.name=Name
@@ -2974,16 +2974,16 @@ Element.ValueAccessControl.values=Werte
 
 #52. TabularCube ( prefix Element.TabularCube )
 Element.TabularCube.dataSet=Datensatz
-Element.TabularCube.dimensions=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
-Element.TabularCube.measureGroups=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
+Element.TabularCube.dimensions=Dimensionen
+Element.TabularCube.measureGroups=Maßeinheitsgruppen
 Element.TabularCube.dimensionConditions=Dimensionsbedingungen
 
 #53. TabularDimension ( prefix Element.TabularDimension )
-Element.TabularDimension.hierarchies=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
+Element.TabularDimension.hierarchies=Hierarchien
 
 #54. TabularHierarchy ( prefix Element.TabularHierarchy )
 Element.TabularHierarchy.dataSet=Datensatz
-Element.TabularHierarchy.levels=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
+Element.TabularHierarchy.levels=Ebenen
 Element.TabularHierarchy.primaryKeys=Primärschlüssel
 
 #55. TabularLevel ( prefix Element.TabularLevel )
@@ -2991,16 +2991,16 @@ Element.TabularLevel.columnName=Spaltenname
 Element.TabularLevel.attributes=Attribute
 
 #56. OdaCube ( prefix Element.OdaCube )
-Element.OdaCube.dimensions=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
-Element.OdaCube.measureGroups=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
+Element.OdaCube.dimensions=Dimensionen
+Element.OdaCube.measureGroups=Maßeinheitsgruppen
 Element.OdaCube.nativeName=Programmeigener Name
 
 #57. OdaDimension ( prefix Element.OdaDimension )
-Element.OdaDimension.hierarchies=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
+Element.OdaDimension.hierarchies=Hierarchien
 Element.OdaDimension.nativeName=Programmeigener Name
 
 #58. OdaHierarchy ( prefix Element.OdaHierarchy )
-Element.OdaHierarchy.levels=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
+Element.OdaHierarchy.levels=Ebenen
 Element.OdaHierarchy.nativeName=Programmeigener Name
 
 #59. OdaLevel ( prefix Element.OdaLevel )
@@ -3468,10 +3468,10 @@ Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=Die Stilvorlagen-Ressource wurde
 Error.StyleSheetException.SYNTAX_ERROR=Syntaxfehler aufgrund von Inkonsistenzen mit CSS2.
 
 #IncludedCssStyleSheetException
-Error.CSSException.CSS_NOT_FOUND=The style sheet with the name "{0}" is not found.
-Error.CSSException.DUPLICATE_CSS=Css style sheet with the name "{0}" exists already.
-Error.CSSException.BADCSSFILE=There is some syntax errors in "{0}" file.
-Error.CssException.READONLY=Style in "{0}" file is read-only.
+Error.CSSException.CSS_NOT_FOUND=Die Stilvorlagenressource wurde nicht gefunden.
+Error.CSSException.DUPLICATE_CSS=CSS-Stilvorlagenduplikate.
+Error.CSSException.BADCSSFILE=In der CSS-Datei gibt es einige Syntaxfehler.
+Error.CssException.READONLY=Stil der CSS-Datei ist schreibgeschützt.
 
 #StyleSheetParserException
 Error.StyleSheetParserException.RULE_NOT_SUPPORTED=Die Regel "{0}" wird nicht unterstützt.
