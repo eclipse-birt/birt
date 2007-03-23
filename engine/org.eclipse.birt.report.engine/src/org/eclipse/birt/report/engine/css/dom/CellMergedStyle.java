@@ -21,7 +21,13 @@ import org.w3c.dom.css.CSSValue;
 
 /**
  * Represents style of cell with the style of column.
- *
+ * 
+ * FireFox/IE handles the column style differntly, so we can only ouptut all the
+ * column style to cell to get the unique display.
+ * 
+ * it only returns the property which defined in the column style but should be
+ * outputed in the cell.
+ * 
  */
 public class CellMergedStyle extends AbstractStyle
 {
@@ -82,7 +88,7 @@ public class CellMergedStyle extends AbstractStyle
 		{
 			return null;
 		}
-		
+
 		if ( columnStyle == null )
 		{
 			return null;
@@ -136,14 +142,6 @@ public class CellMergedStyle extends AbstractStyle
 
 	public boolean isEmpty( )
 	{
-		if ( cellStyle != null && !cellStyle.isEmpty( ) )
-		{
-			return false;
-		}
-		if ( rowStyle != null && !rowStyle.isEmpty( ) )
-		{
-			return false;
-		}
 		if ( columnStyle != null && !columnStyle.isEmpty( ) )
 		{
 			return false;

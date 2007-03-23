@@ -29,6 +29,7 @@ import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 
 abstract public class AbstractContent extends AbstractElement
 		implements
@@ -330,9 +331,9 @@ abstract public class AbstractContent extends AbstractElement
 		{
 			return styleClass;
 		}
-		if ( generateBy instanceof ReportItemDesign )
+		if ( generateBy instanceof StyledElementDesign )
 		{
-			return ( (ReportItemDesign) generateBy ).getStyleName( );
+			return ( (StyledElementDesign) generateBy ).getStyleName( );
 		}
 		return null;
 	}
@@ -407,7 +408,7 @@ abstract public class AbstractContent extends AbstractElement
 	{
 		if (extensions != null )
 		{
-			assert extension < LAST_EXTENSION;
+			//assert extension < LAST_EXTENSION;
 			return extensions[extension];
 		}
 		return null;
@@ -415,7 +416,7 @@ abstract public class AbstractContent extends AbstractElement
 	
 	public void setExtension(int extension, Object value)
 	{
-		assert extension < LAST_EXTENSION;
+		//assert extension < LAST_EXTENSION;
 		if (extensions == null)
 		{
 			extensions = new Object[LAST_EXTENSION];

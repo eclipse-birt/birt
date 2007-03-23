@@ -179,7 +179,7 @@ public class ReportExecutor implements IReportExecutor
 			
 			//creat header, footer and body
 			IContent header = reportContent.createContainerContent( ) ;
-			header.setStyleClass(masterPage.getStyleName( ));
+			//header.setStyleClass(masterPage.getStyleName( ));
 			pageContent.setPageHeader( header );
 			header.setParent( pageContent );
 			IContentEmitter domEmitter = new DOMBuilderEmitter( header);
@@ -194,14 +194,14 @@ public class ReportExecutor implements IReportExecutor
 			
 			//create body
 			IContent body = reportContent.createContainerContent( ) ;
-			body.setStyleClass(masterPage.getBodyStyleName( ));
+			//body.setStyleClass(masterPage.getBodyStyleName( ));
 			pageContent.setPageBody( body );
 			body.setParent( pageContent );
 
 
 			//create footer
 			IContent footer = reportContent.createContainerContent( ) ;
-			footer.setStyleClass(masterPage.getStyleName( ));
+			//footer.setStyleClass(masterPage.getStyleName( ));
 			pageContent.setPageFooter( footer );
 			footer.setParent( pageContent );
 

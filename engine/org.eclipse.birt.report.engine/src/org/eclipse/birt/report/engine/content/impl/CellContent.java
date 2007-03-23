@@ -232,26 +232,26 @@ public class CellContent extends AbstractContent implements ICellContent
 		this.displayGroupIcon = displayGroupIcon;
 	}
 
+	private IColumn columnInstance;
 	public IColumn getColumnInstance( )
 	{
-		IColumn column = null;
-		IRowContent row = null;
-		if ( parent != null && parent instanceof IRowContent )
+		if (columnInstance != null)
 		{
-			row = ( IRowContent ) parent;
+			return columnInstance;
 		}
-		if ( row != null )
+		if ( parent instanceof IRowContent )
 		{
+			IRowContent row = ( IRowContent ) parent;
 			ITableContent table = row.getTable( );
 			if ( table != null )
 			{
 				int columnId = getColumn( );
 				if ( columnId >= 0 && columnId < table.getColumnCount( ) )
 				{
-					column = table.getColumn( columnId );
+					columnInstance = table.getColumn( columnId );
 				}
 			}
 		}
-		return column;
+		return columnInstance;
 	}
 }

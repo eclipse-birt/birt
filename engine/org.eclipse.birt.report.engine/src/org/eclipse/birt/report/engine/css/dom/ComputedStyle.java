@@ -6,7 +6,7 @@ import org.eclipse.birt.report.engine.css.engine.CSSStylableElement;
 import org.eclipse.birt.report.engine.css.engine.value.Value;
 import org.w3c.dom.css.CSSValue;
 
-public class ComputedStyle extends AbstractStyle implements IStyle
+public class ComputedStyle extends AbstractStyle
 {
 
 	boolean[] caculated;
