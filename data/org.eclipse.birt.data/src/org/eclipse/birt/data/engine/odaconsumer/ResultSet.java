@@ -161,7 +161,7 @@ public class ResultSet
 			else if( dataType == Time.class )
 					colValue = getTime( driverPosition );
 			else if( dataType == java.util.Date.class )
-				colValue = getDate( driverPosition );
+				colValue = getTimestamp( driverPosition );  // use timestamp to preserve the time portion of java.util.Date
 			else if( dataType == Timestamp.class )
 				colValue = getTimestamp( driverPosition );
 			else if( dataType == IBlob.class )
