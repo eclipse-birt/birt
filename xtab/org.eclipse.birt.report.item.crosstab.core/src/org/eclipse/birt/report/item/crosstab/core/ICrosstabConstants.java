@@ -85,14 +85,14 @@ public interface ICrosstabConstants
 	/**
 	 * Page layout constants.
 	 */
-	String PAGE_LAYOUT_DOWN_THEN_OVER = "Down then over"; //$NON-NLS-1$
-	String PAGE_LAYOUT_OVER_THEN_DOWN = "Over then down"; //$NON-NLS-1$
+	String PAGE_LAYOUT_DOWN_THEN_OVER = "down then over"; //$NON-NLS-1$
+	String PAGE_LAYOUT_OVER_THEN_DOWN = "over then down"; //$NON-NLS-1$
 
 	/**
 	 * Aggregation location constants.
 	 */
-	String AGGREGATION_HEADER_LOCATION_BEFORE = "Before"; //$NON-NLS-1$
-	String AGGREGATION_HEADER_LOCATION_AFTER = "After"; //$NON-NLS-1$
+	String AGGREGATION_HEADER_LOCATION_BEFORE = "before"; //$NON-NLS-1$
+	String AGGREGATION_HEADER_LOCATION_AFTER = "after"; //$NON-NLS-1$
 	
 	String CROSSTAB_SELECTOR = "crosstab"; //$NON-NLS-1$
 	String CROSSTAB_CELL_SELECTOR = "crosstab-cell"; //$NON-NLS-1$

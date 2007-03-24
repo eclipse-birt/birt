@@ -24,7 +24,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
-import org.eclipse.birt.report.model.elements.interfaces.ILevelModel;
 
 /**
  * LevelViewHandle.
@@ -62,53 +61,6 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 	public String getCubeLevelName( )
 	{
 		return handle.getStringProperty( LEVEL_PROP );
-	}
-
-	/**
-	 * Gets the interval base of this level view.
-	 * 
-	 * @return the interval base
-	 */
-
-	public String getIntervalBase( )
-	{
-		return handle.getStringProperty( ILevelModel.INTERVAL_BASE_PROP );
-	}
-
-	/**
-	 * Gets the interval range of this level view.
-	 * 
-	 * @return the interval range
-	 */
-	public double getIntervalRange( )
-	{
-		return handle.getFloatProperty( ILevelModel.INTERVAL_RANGE_PROP );
-	}
-
-	/**
-	 * Gets the interval of this level view. The return value is defined in
-	 * <code>DesignChoiceConstants</code> and can be one of:
-	 * 
-	 * <ul>
-	 * <li><code>INTERVAL_NONE</code>
-	 * <li><code>INTERVAL_PREFIX</code>
-	 * <li><code>INTERVAL_YEAR</code>
-	 * <li><code>INTERVAL_QUARTER</code>
-	 * <li><code>INTERVAL_MONTH</code>
-	 * <li><code>INTERVAL_WEEK</code>
-	 * <li><code>INTERVAL_DAY</code>
-	 * <li><code>INTERVAL_HOUR</code>
-	 * <li><code>INTERVAL_MINUTE</code>
-	 * <li><code>INTERVAL_SECOND</code>
-	 * <li><code>INTERVAL_INTERVAL</code>
-	 * 
-	 * </ul>
-	 * 
-	 * @return the interval value as a string
-	 */
-	public String getInterval( )
-	{
-		return handle.getStringProperty( ILevelModel.INTERVAL_PROP );
 	}
 
 	/**
@@ -167,23 +119,6 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 		PropertyHandle propHandle = handle.getPropertyHandle( SORT_PROP );
 		assert propHandle != null;
 		return propHandle.iterator( );
-	}
-
-	/**
-	 * Returns the group type of this level view. The return value is defined in
-	 * <code>ICrosstabConstants</code> and can be one of:
-	 * 
-	 * <ul>
-	 * <li><code>LEVEL_TYPE_DYNAMIC</code>
-	 * <li><code>LEVEL_TYPE_MIRRORED</code>
-	 * </ul>
-	 * 
-	 * @return the sort direction of this level view
-	 */
-
-	public String getLevelType( )
-	{
-		return handle.getStringProperty( ILevelModel.LEVEL_TYPE_PROP );
 	}
 
 	/**

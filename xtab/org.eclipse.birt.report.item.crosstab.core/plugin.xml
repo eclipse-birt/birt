@@ -51,17 +51,18 @@
             </choice></property>
          <property
                canInherit="true"
+               defaultValue="over then down"
                displayNameID="Element.PageLayout"
                isEncryptable="false"
                name="pageLayout"
                type="choice">
             <choice
-                  name="Down then over"
-                  value="Down then over">
+                  name="down then over"
+                  value="down then over">
             </choice>
             <choice
-                  name="Over then down"
-                  value="Over then down">
+                  name="over then down"
+                  value="over then down">
             </choice>
          </property>
          <property
@@ -115,6 +116,10 @@
          </propertyVisibility>
          <propertyVisibility
                name="columns"
+               visibility="hide">
+         </propertyVisibility>
+         <propertyVisibility
+               name="measureDirection"
                visibility="hide">
          </propertyVisibility>
          <style
@@ -249,17 +254,17 @@
          </property>
          <property
                canInherit="true"
-               defaultValue="After"
+               defaultValue="after"
                isEncryptable="false"
                name="aggregationHeaderLocation"
                type="choice">
             <choice
-                  name="Before"
-                  value="Before">
+                  name="before"
+                  value="before">
             </choice>
             <choice
-                  name="After"
-                  value="After">
+                  name="after"
+                  value="after">
             </choice>
          </property>
          <property
