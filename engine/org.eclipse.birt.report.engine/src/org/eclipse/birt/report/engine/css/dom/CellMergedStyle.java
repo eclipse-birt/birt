@@ -23,7 +23,13 @@ import org.w3c.dom.css.CSSValue;
 //column style in cells.
 /**
  * Represents style of cell with the style of column.
- *
+ * 
+ * FireFox/IE handles the column style differntly, so we can only ouptut all the
+ * column style to cell to get the unique display.
+ * 
+ * it only returns the property which defined in the column style but should be
+ * outputed in the cell.
+ * 
  */
 public class CellMergedStyle extends AbstractStyle
 {

@@ -147,9 +147,13 @@ public class HTMLEmitterUtil
 			if ( bookmark != null )
 			{
 				assert type != null;
-				String newBookmark = bookmark + "," + type + ","
-						+ new Long( componentID ).toString( );
-				ouputInstanceIDs.add( newBookmark );
+				StringBuffer buffer = new StringBuffer();
+				buffer.append(bookmark);
+				buffer.append(",");
+				buffer.append(type);
+				buffer.append(",");
+				buffer.append(componentID);
+				ouputInstanceIDs.add( buffer.toString() );
 			}
 		}
 	}

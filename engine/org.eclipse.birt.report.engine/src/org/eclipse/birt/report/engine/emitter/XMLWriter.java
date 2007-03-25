@@ -148,11 +148,12 @@ public class XMLWriter
 		}
 		if ( bIndent )
 		{
-			printWriter.println( );
+			printWriter.print('\n' );
 			printWriter.print( indent( ) );
 		}
 		bPairedFlag = false;
-		printWriter.print( '<' + tagName );
+		printWriter.print( '<');
+		printWriter.print( tagName );
 		indentCount++;
 		bText = false;
 	}
@@ -174,17 +175,21 @@ public class XMLWriter
 			}
 			else
 			{
-				printWriter.print( "></" + tagName + '>' ); //$NON-NLS-1$
+				printWriter.print( "></");
+				printWriter.print( tagName);
+				printWriter.print( '>' ); //$NON-NLS-1$
 			}
 		}
 		else
 		{
 			if ( bIndent && !bText )
 			{
-				printWriter.println( );
+				printWriter.print( '\n' );
 				printWriter.print( indent( ) );
 			}
-			printWriter.print( "</" + tagName + '>' ); //$NON-NLS-1$
+			printWriter.print( "</");
+			printWriter.print( tagName);
+			printWriter.print( '>' ); //$NON-NLS-1$
 		}
 		bPairedFlag = true;
 		bText = false;
@@ -345,6 +350,18 @@ public class XMLWriter
 		printWriter.print( value );
 	}
 
+	private static String[] indents = new String[]{
+			"",
+			"\t",
+			"\t\t",
+			"\t\t\t",
+			"\t\t\t\t",
+			"\t\t\t\t\t",
+			"\t\t\t\t\t\t",
+			"\t\t\t\t\t\t\t",
+			"\t\t\t\t\t\t\t\t"
+	};
+	
 	/**
 	 * Get the indent string
 	 * 
@@ -355,6 +372,10 @@ public class XMLWriter
 		if ( !bIndent )
 		{
 			return ""; //$NON-NLS-1$
+		}
+		if (indentCount < 8)
+		{
+			return indents[indentCount];
 		}
 		StringBuffer indentContent = new StringBuffer( 64 );
 		for ( int i = 0; i < indentCount; i++ )

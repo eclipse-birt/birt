@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.emitter.html;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
 
@@ -37,6 +39,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 
 /**
@@ -122,7 +125,9 @@ public class MetadataEmitter
 
 	public void startCell( ICellContent cell )
 	{
-		if ( needColumnFilter( cell ) || needGroupIcon( cell ) )
+		boolean needColumnFilter = needColumnFilter(cell);
+		boolean needGroupIcon = needGroupIcon(cell);
+		if ( needColumnFilter || needGroupIcon )
 		{
 			writer.openTag( HTMLTags.TAG_TABLE );
 			writer.attribute( HTMLTags.ATTR_HEIGHT, "100%" );
@@ -131,7 +136,7 @@ public class MetadataEmitter
 			writer.openTag( HTMLTags.TAG_TD );
 			writer.attribute( "align", cell.getComputedStyle( ).getTextAlign( ) ); //$NON-NLS-1$
 		}
-		if ( needGroupIcon( cell ) )
+		if ( needGroupIcon )
 		{
 			// include select handle table
 			writer.attribute( HTMLTags.ATTR_STYLE, "vertical-align:top"
@@ -153,7 +158,9 @@ public class MetadataEmitter
 	
 	public void endCell( ICellContent cell )
 	{
-		if ( needColumnFilter( cell ) )
+		boolean needColumnFilter = needColumnFilter(cell);
+		boolean needGroupIcon = needGroupIcon(cell);
+		if ( needColumnFilter )
 		{
 			// include select handle table
 			writer.closeTag( HTMLTags.TAG_TD );
@@ -161,8 +168,7 @@ public class MetadataEmitter
 			writer.attribute( HTMLTags.ATTR_STYLE, "vertical-align:top" );
 			writer.openTag( HTMLTags.TAG_IMAGE );
 			writer.attribute( HTMLTags.ATTR_SRC, "iv/images/columnicon.gif" );
-			writer.attribute( HTMLTags.ATTR_ALT, HTMLUtil
-					.getColumnFilterText( cell ) );
+			writer.attribute( HTMLTags.ATTR_ALT, getColumnFilterText( cell ) );
 			writer.attribute( HTMLTags.ATTR_STYLE, "cursor:pointer" );
 			writer.attribute( HTMLTags.ATTR_COLUMN, cell.getColumnInstance( )
 					.getInstanceID( ).toString( ) );
@@ -171,7 +177,7 @@ public class MetadataEmitter
 			setActiveIDTypeIID( bookmark, "COLOUMNINFO", null, -1 );
 			writer.closeTag( HTMLTags.TAG_IMAGE );
 		}
-		if ( needColumnFilter( cell ) || needGroupIcon( cell ) )
+		if ( needColumnFilter || needGroupIcon )
 		{
 			writer.closeTag( HTMLTags.TAG_TD );
 			writer.closeTag( HTMLTags.TAG_TR );
@@ -345,6 +351,7 @@ public class MetadataEmitter
 		return false;
 	}
 
+	private HashMap aggregatables = new HashMap();
 	/**
 	 * Checks if the text is a data content in table header/footer or table
 	 * group header/footer and uses the query of the table.
@@ -355,10 +362,16 @@ public class MetadataEmitter
 	private boolean isAggregatable( ITextContent text )
 	{
 		Object generateBy = text.getGenerateBy( );
+		Boolean isAggregate = (Boolean)aggregatables.get(generateBy);  
+		if ( isAggregate != null)
+		{
+			return isAggregate.booleanValue();
+		}
 		//The data item should not have query of itself.
 		DataItemDesign data = ( DataItemDesign )generateBy;
 		if ( data.getQuery( ) != null )
 		{
+			aggregatables.put(generateBy, Boolean.FALSE);
 			return false;
 		}
 		IElement parent = text.getParent( );
@@ -372,6 +385,7 @@ public class MetadataEmitter
 				ReportItemDesign design = ( ReportItemDesign )content.getGenerateBy( );
 				if ( design != null && design.getQuery( ) != null )
 				{
+					aggregatables.put(generateBy, Boolean.FALSE);
 					return false;
 				}
 			}
@@ -396,12 +410,14 @@ public class MetadataEmitter
 					}
 					if ( bandParent instanceof ITableContent )
 					{
+						aggregatables.put(generateBy, Boolean.TRUE);
 						return true;
 					}
 				}
 			}
 			parent = parent.getParent( );
 		}
+		aggregatables.put(generateBy, Boolean.FALSE);
 		return false;
 	}
 	
@@ -427,16 +443,17 @@ public class MetadataEmitter
 
 	private boolean needColumnFilter( ICellContent cell )
 	{
-		DetailRowState state = (DetailRowState) detailRowStateStack.peek( );
 		IColumn columnInstance = cell.getColumnInstance( );
 		if ( columnInstance == null )
 		{
 			return false;
 		}
+		
+		DetailRowState state = (DetailRowState) detailRowStateStack.peek( );
 		return state.isStartOfDetail
 				&& columnInstance.hasDataItemsInDetail( )
 				&& displayFilterIcon
-				&& HTMLUtil.getFilterConditions( cell ).size() > 0;
+				&& getFilterConditions( cell ).size() > 0;
 	}
 
 	private boolean needGroupIcon( ICellContent cell )
@@ -525,6 +542,75 @@ public class MetadataEmitter
 			writer.closeTag( HTMLTags.TAG_TBODY );
 			writer.closeTag( HTMLTags.TAG_TABLE );
 		}
+	}
+	
+	/**
+	 * Generates description text for the filters of a column which contains the
+	 * specified cell.
+	 * 
+	 * @param cell
+	 *            the cell.
+	 * @return the description text.
+	 */
+	private String getColumnFilterText( ICellContent cell )
+	{
+		List filterConditions = getFilterConditions( cell );
+		StringBuffer conditionString = new StringBuffer( );
+		for ( int i = 0; i < filterConditions.size( ); i++)
+		{
+			if ( i != 0 )
+			{
+				conditionString.append( ';' );
+			}
+			FilterConditionHandle condition = (FilterConditionHandle) filterConditions
+					.get( i );
+			conditionString.append( HTMLUtil.getFilterDescription( condition ) );
+		}
+		return conditionString.toString( );
+	}
+
+	private HashMap filterConditions = new HashMap();
+	/**
+	 * Gets filter conditions of the column which contains the specified cell.
+	 * 
+	 * @param cell
+	 *            the cell.
+	 * @return the column filter conditions. Empty list is returned when the
+	 *         column has no filter conditions.
+	 */
+	private List getFilterConditions( ICellContent cell )
+	{
+		IRowContent row = (IRowContent) cell.getParent( );
+		ITableContent table = row.getTable( );
+		List filters = null;
+		if ( table != null )
+		{
+			Object genBy = table.getGenerateBy( );
+			if ( genBy instanceof TableItemDesign )
+			{
+				TableHandle tableHandle = (TableHandle) ( (TableItemDesign) genBy )
+						.getHandle( );
+				int columnCount = tableHandle.getColumnCount();
+				List[] tableFilters = (List[])filterConditions.get(tableHandle);
+				if (tableFilters == null)
+				{
+					tableFilters = new List[columnCount];
+					filterConditions.put(tableHandle, tableFilters);
+				}
+				int columnId = cell.getColumn();
+				if (columnId < columnCount)
+				{
+					filters = tableFilters[columnId];
+					if (filters == null)
+					{
+						filters = tableHandle.getFilters( cell.getColumn( ) );
+						tableFilters[columnId] = filters;
+					}
+				}
+				
+			}
+		}
+		return filters == null ? Collections.EMPTY_LIST : filters;
 	}
 }
 

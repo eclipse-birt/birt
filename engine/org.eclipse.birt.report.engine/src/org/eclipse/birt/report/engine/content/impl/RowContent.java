@@ -69,14 +69,20 @@ public class RowContent extends AbstractContent implements IRowContent
 		this.rowID = rowID;
 	}
 	
+	private ITableContent table;
 	public ITableContent getTable( )
 	{
+		if (table != null)
+		{
+			return table;
+		}
 		IContent parent = (IContent) getParent( );
 		while ( parent != null )
 		{
 			if ( parent.getContentType( ) == IContent.TABLE_CONTENT )
 			{
-				return (ITableContent) parent;
+				table = (ITableContent) parent;
+				return table;
 			}
 			parent = (IContent) parent.getParent( );
 		}

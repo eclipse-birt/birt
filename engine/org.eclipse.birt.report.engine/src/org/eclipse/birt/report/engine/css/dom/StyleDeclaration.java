@@ -11,11 +11,10 @@
 
 package org.eclipse.birt.report.engine.css.dom;
 
-import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.w3c.dom.css.CSSValue;
 
-public class StyleDeclaration extends AbstractStyle implements IStyle
+public class StyleDeclaration extends AbstractStyle
 {
 	protected CSSValue[] values;
 	protected boolean shared;
@@ -26,7 +25,7 @@ public class StyleDeclaration extends AbstractStyle implements IStyle
 	 */
 	public void setProperty( int index, CSSValue value )
 	{
-		assert index >= 0 && index < NUMBER_OF_STYLE;
+		//assert index >= 0 && index < NUMBER_OF_STYLE;
 		if ( values[index] != value )
 		{
 			if ( shared )
@@ -57,7 +56,6 @@ public class StyleDeclaration extends AbstractStyle implements IStyle
 	public StyleDeclaration( StyleDeclaration style )
 	{
 		super( style.engine );
-		this.engine = style.engine;
 		this.values = style.values;
 		this.propertyCount = style.propertyCount;
 		this.shared = true;
@@ -66,7 +64,6 @@ public class StyleDeclaration extends AbstractStyle implements IStyle
 	public StyleDeclaration( CSSEngine engine )
 	{
 		super( engine );
-		this.engine = engine;
 		this.values = new CSSValue[NUMBER_OF_STYLE];
 		this.shared = false;
 	}

@@ -12,8 +12,8 @@
 package org.eclipse.birt.report.engine.emitter.html;
 
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.w3c.dom.css.CSSValue;
 
 /**
  * <code>AttributeBuilder</code> is a concrete class that HTML Emitters use to
@@ -60,14 +60,14 @@ public class AttributeBuilder
 	 *            text-decoration.
 	 */
 	public static void buildStyle( StringBuffer content, IStyle style,
-			HTMLReportEmitter emitter, boolean bContainer )
+			HTMLReportEmitter emitter )
 	{
 		if ( style == null || style.isEmpty( ) )
 		{
 			return;
 		}
 		buildFont( content, style );
-		buildText( content, style, bContainer );
+		buildText( content, style );
 		buildBox( content, style );
 		buildBackground( content, style, emitter );
 		buildPagedMedia( content, style );
@@ -76,31 +76,6 @@ public class AttributeBuilder
 		/*
 		 * style.getNumberAlign(); style.getID(); style.getName();
 		 */
-	}
-	
-	/**
-	 * bug128358
-	 * This method is just like buildStyle.
-	 * But it is used to deal with text-decoration which is inheritable now. 
-	 */
-	public static void buildComputedTextStyle( StringBuffer content, IStyle style,
-			HTMLReportEmitter emitter, boolean bContainer )
-	{
-		if ( style == null || style.isEmpty( ) )
-		{
-			return;
-		}
-		if ( !bContainer )
-		{
-			buildTextDecoration( content, style.getTextLineThrough( ), style
-					.getTextUnderline( ), style.getTextOverline( ) );
-		}
-	}
-
-	public static void buildStyle( StringBuffer content, IStyle style,
-			HTMLReportEmitter emitter )
-	{
-		buildStyle( content, style, emitter, true );
 	}
 	
 	public static void buildBackgroundStyle( StringBuffer content, IStyle style,
@@ -121,7 +96,7 @@ public class AttributeBuilder
 			return;
 		}
 		buildFont( content, style );
-		buildText( content, style, true );
+		buildText( content, style );
 		buildBox( content, style );
 		buildPagedMedia( content, style );
 		buildVisual( content, style );
@@ -135,14 +110,14 @@ public class AttributeBuilder
 	 * @param bContainer
 	 */
 	public static void buildCellStyle( StringBuffer content, IStyle cellStyle,
-			HTMLReportEmitter emitter, boolean bContainer )
+			HTMLReportEmitter emitter )
 	{
 		if ( cellStyle == null )
 		{
 			return;
 		}
 		buildFont( content, cellStyle );
-		buildText( content, cellStyle, bContainer );
+		buildText( content, cellStyle );
 		
 		//buildBox without border
 		buildProperty( content, HTMLTags.ATTR_MARGIN_TOP, cellStyle.getMarginTop( ) );
@@ -315,18 +290,19 @@ public class AttributeBuilder
 	 * @param bContainer
 	 *            true: shouldn't output the text-decoration.
 	 */
-	private static void buildText( StringBuffer content, IStyle style,
-			boolean bContainer )
+	private static void buildText( StringBuffer content, IStyle style )
 	{
 		buildProperty( content, HTMLTags.ATTR_TEXT_INDENT, style
 				.getTextIndent( ) );
 		//buildProperty( content, HTMLTags.ATTR_TEXT_ALIGN, style.getTextAlign( ) );
 
-		if ( !bContainer )
-		{
-			buildTextDecoration( content, style.getTextLineThrough( ), style
-					.getTextUnderline( ), style.getTextOverline( ) );
-		}
+		//as the HTML handles text-decoration different in IE/FIREFOX, so we need
+		//handle the text-decoration as computed column. It doesn't need output to 
+		//style definition.
+		//if ( !bContainer )
+		//{
+		//	buildTextDecoration( content, style );
+		//}
 
 		buildProperty( content, HTMLTags.ATTR_LETTER_SPACING, style
 				.getLetterSpacing( ) );
@@ -365,11 +341,7 @@ public class AttributeBuilder
 	public static void checkHyperlinkTextDecoration( IStyle style,
 			StringBuffer content )
 	{
-		if ( style != null )
-		{
-			buildTextDecoration( content, style.getTextLineThrough( ), style
-					.getTextUnderline( ), style.getTextOverline( ) );
-		}
+		buildTextDecoration( content, style );
 	}
 
 	/**
@@ -384,41 +356,25 @@ public class AttributeBuilder
 	 * @param overline
 	 *            The overline value.
 	 */
-	private static void buildTextDecoration( StringBuffer content,
-			String linethrough, String underline, String overline )
+	public static void buildTextDecoration( StringBuffer content,
+			IStyle style )
 	{
-		int flag = 0;
+		CSSValue linethrough = style.getProperty(IStyle.STYLE_TEXT_LINETHROUGH);
+		CSSValue underline = style.getProperty(IStyle.STYLE_TEXT_UNDERLINE);
+		CSSValue overline = style.getProperty(IStyle.STYLE_TEXT_OVERLINE);
 
-		if ( linethrough != null
-				&& CSSConstants.CSS_LINE_THROUGH_VALUE
-						.equalsIgnoreCase( linethrough ) ) //$NON-NLS-1$
-		{
-			flag = 1; // linethrough
-		}
-		if ( underline != null
-				&& CSSConstants.CSS_UNDERLINE_VALUE
-						.equalsIgnoreCase( underline ) ) //$NON-NLS-1$
-		{
-			flag |= 2; // underline
-		}
-		if ( overline != null
-				&& CSSConstants.CSS_OVERLINE_VALUE.equalsIgnoreCase( overline ) ) //$NON-NLS-1$
-		{
-			flag |= 4; // overline
-		}
-
-		if ( flag > 0 )
+		if (linethrough == IStyle.LINE_THROUGH_VALUE || underline == IStyle.UNDERLINE_VALUE || overline == IStyle.OVERLINE_VALUE)
 		{
 			content.append( " text-decoration:" ); //$NON-NLS-1$
-			if ( ( flag & 1 ) > 0 ) // linethrough
+			if (IStyle.LINE_THROUGH_VALUE == linethrough )
 			{
 				addPropValue( content, "line-through" );
 			}
-			if ( ( flag & 2 ) > 0 ) // underline
+			if ( IStyle.UNDERLINE_VALUE == underline)
 			{
 				addPropValue( content, "underline" );
 			}
-			if ( ( flag & 4 ) > 0 ) // overline
+			if ( IStyle.OVERLINE_VALUE == overline)
 			{
 				addPropValue( content, "overline" );
 			}

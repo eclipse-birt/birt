@@ -11,17 +11,11 @@
 
 package org.eclipse.birt.report.engine.internal.util;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
-import org.eclipse.birt.report.engine.content.ITableContent;
-import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
-import org.eclipse.birt.report.model.api.TableHandle;
 
 
 public class HTMLUtil
@@ -61,57 +55,6 @@ public class HTMLUtil
 			result.append( operator2 );
 		}
 		return result.toString( );
-	}
-
-	/**
-	 * Generates description text for the filters of a column which contains the
-	 * specified cell.
-	 * 
-	 * @param cell
-	 *            the cell.
-	 * @return the description text.
-	 */
-	public static String getColumnFilterText( ICellContent cell )
-	{
-		List filterConditions = getFilterConditions( cell );
-		StringBuffer conditionString = new StringBuffer( );
-		for ( int i = 0; i < filterConditions.size( ); i++)
-		{
-			if ( i != 0 )
-			{
-				conditionString.append( ';' );
-			}
-			FilterConditionHandle condition = (FilterConditionHandle) filterConditions
-					.get( i );
-			conditionString.append( HTMLUtil.getFilterDescription( condition ) );
-		}
-		return conditionString.toString( );
-	}
-
-	/**
-	 * Gets filter conditions of the column which contains the specified cell.
-	 * 
-	 * @param cell
-	 *            the cell.
-	 * @return the column filter conditions. Empty list is returned when the
-	 *         column has no filter conditions.
-	 */
-	public static List getFilterConditions( ICellContent cell )
-	{
-		IRowContent row = (IRowContent) cell.getParent( );
-		ITableContent table = row.getTable( );
-		List filters = null;
-		if ( table != null )
-		{
-			Object genBy = table.getGenerateBy( );
-			if ( genBy instanceof TableItemDesign )
-			{
-				TableHandle tableHandle = (TableHandle) ( (TableItemDesign) genBy )
-						.getHandle( );
-				filters = tableHandle.getFilters( cell.getColumn( ) );
-			}
-		}
-		return filters == null ? Collections.EMPTY_LIST : filters;
 	}
 
 	/**
