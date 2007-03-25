@@ -24,16 +24,17 @@ import org.eclipse.birt.data.engine.api.IScriptExpression;
 
 public class OlapExpressionUtil
 {
-
 	/**
 	 * This method is used to get the level name that reference by a level
 	 * reference expression of following format:
 	 * dimension["dimensionName"]["levelName"].
 	 * 
+	 * String[0] dimensionName;
+	 * String[1] levelName;
 	 * @param expr
-	 * @return
+	 * @return String[]
 	 */
-	public static String getTargetLevel( String expr )
+	public static String[] getTargetLevel( String expr )
 	{
 		// TODO enhance me.
 		if ( expr == null )
@@ -41,8 +42,11 @@ public class OlapExpressionUtil
 		if ( !expr.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) )
 			return null;
 
-		return expr.replaceFirst( "\\Qdimension[\"\\E.*\\Q\"][\"\\E", "" )
-				.replaceAll( "\\Q\"]\\E", "" );
+		expr = expr.replaceFirst( "\\Qdimension\\E", "" );
+		String[] result = expr.split( "\\Q\"][\"\\E" );
+		result[0].replaceAll( "\\Q[\"\\E", "" );
+		result[1].replaceAll( "\\Q\"]\\E", "" );
+		return result;
 	}
 
 	/**

@@ -375,6 +375,23 @@ public class DataEngineContext
 		this.tmpDir = tmpdir;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	public IDocArchiveReader getDocReader()
+	{
+		return this.reader;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public IDocArchiveWriter getDocWriter()
+	{
+		return this.writer;
+	}
 	
 	/**
 	 * @param streamType

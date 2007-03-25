@@ -41,8 +41,13 @@ public class JSLevelObject extends ScriptableObject
 	{
 		return "JSLevelObject";
 	}
+	
+	public Object getDefaultValue( Class hint )
+	{
+		return this.getKeyValue( );
+	}
 
-	public Object getKeyValue( )
+	private Object getKeyValue( )
 	{
 		try
 		{

@@ -37,7 +37,6 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
-import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
@@ -454,47 +453,26 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 */
 	public void defineCube( CubeHandle cubeHandle ) throws BirtException
 	{
-		int mode = this.sessionContext.getDataEngineContext( ).getMode( ); 
+		int mode = this.sessionContext.getDataEngineContext( ).getMode( );
 		try
 		{
 			CubeMaterializer cubeMaterializer = null;
-			
+
 			if ( mode == DataEngineContext.DIRECT_PRESENTATION )
 			{
 				cubeMaterializer = new org.eclipse.birt.data.engine.olap.api.cube.CubeMaterializer( this.sessionContext.getDataEngineContext( )
 						.getTmpdir( ),
-						"cub1" );
+						this.toString( ) );
 			}
 			else if ( mode == DataEngineContext.MODE_GENERATION )
 			{
-				cubeMaterializer = new org.eclipse.birt.data.engine.olap.api.cube.CubeMaterializer(  );
-			}
-			else
-			{
-				return;
-			}
-			
-			List measureNames = new ArrayList( );
-			List measureGroups = cubeHandle.getContents( CubeHandle.MEASURE_GROUPS_PROP );
-			for ( int i = 0; i < measureGroups.size( ); i++ )
-			{
-				MeasureGroupHandle mgh = (MeasureGroupHandle) measureGroups.get( i );
-				List measures = mgh.getContents( MeasureGroupHandle.MEASURES_PROP );
-				for ( int j = 0; j < measures.size( ); j++ )
-				{
-					MeasureHandle measure = (MeasureHandle) measures.get( j );
-					measureNames.add( measure.getName( ) );
-				}
-			}
+				cubeMaterializer = new org.eclipse.birt.data.engine.olap.api.cube.CubeMaterializer( );
 
-			IDimension[] dimensions = populateDimensions( cubeMaterializer, cubeHandle.getContents( CubeHandle.DIMENSIONS_PROP ) ); 
-			cubeMaterializer.createCube( cubeHandle.getName( ),
-					dimensions,
-					this.getDataSetIterator( cubeHandle.getProperty( TabularCubeHandle.DATA_SET_PROP )
-							.toString( ),dimensions,null ),
-					this.toStringArray( measureNames ),
-					null );
-		
+				createCube( cubeHandle, cubeMaterializer );
+				cubeMaterializer.saveCubeToRAFile( cubeHandle.getName( ),
+						this.sessionContext.getDocumentWriter( ),
+						null );
+			}
 		}
 		catch ( IOException e )
 		{
@@ -502,6 +480,43 @@ public class DataRequestSessionImpl extends DataRequestSession
 			e.printStackTrace( );
 		}
 
+	}
+
+	/**
+	 * 
+	 * @param cubeHandle
+	 * @param cubeMaterializer
+	 * @throws IOException
+	 * @throws BirtException
+	 * @throws DataException
+	 */
+	private void createCube( CubeHandle cubeHandle,
+			CubeMaterializer cubeMaterializer ) throws IOException,
+			BirtException, DataException
+	{
+		List measureNames = new ArrayList( );
+		List measureGroups = cubeHandle.getContents( CubeHandle.MEASURE_GROUPS_PROP );
+		for ( int i = 0; i < measureGroups.size( ); i++ )
+		{
+			MeasureGroupHandle mgh = (MeasureGroupHandle) measureGroups.get( i );
+			List measures = mgh.getContents( MeasureGroupHandle.MEASURES_PROP );
+			for ( int j = 0; j < measures.size( ); j++ )
+			{
+				MeasureHandle measure = (MeasureHandle) measures.get( j );
+				measureNames.add( measure.getName( ) );
+			}
+		}
+
+		IDimension[] dimensions = populateDimensions( cubeMaterializer,
+				cubeHandle.getContents( CubeHandle.DIMENSIONS_PROP ) );
+		cubeMaterializer.createCube( cubeHandle.getName( ),
+				dimensions,
+				this.getDataSetIterator( cubeHandle.getProperty( TabularCubeHandle.DATA_SET_PROP )
+						.toString( ),
+						dimensions,
+						null ),
+				this.toStringArray( measureNames ),
+				null );
 	}
 
 	/**
@@ -586,7 +601,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		query.setAutoBinding( true );
 		query.setUsesDetails( false );
 		query.setDataSetName( dataSetName );
-		if ( dims != null )
+		/*if ( dims != null )
 		{
 			for ( int i = 0; i < dims.length; i++ )
 			{
@@ -607,7 +622,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 					query.addResultSetExpression( name, se );
 				}
 			}
-		}
+		}*/
 		
 		final IResultIterator it = this.prepare( query )
 				.execute( null )

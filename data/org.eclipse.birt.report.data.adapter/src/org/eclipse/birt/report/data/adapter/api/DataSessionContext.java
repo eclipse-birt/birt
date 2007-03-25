@@ -148,6 +148,15 @@ public class DataSessionContext
 	}
 	
 	/**
+	 * Return the document writer.
+	 * @return
+	 */
+	public IDocArchiveWriter getDocumentWriter( )
+	{
+		return this.docWriter;
+	}
+	
+	/**
 	 * Sets the cache option.
 	 * This function only available for
 	 * MODE_DIRECT_PRESENTATION mode. In other cases, exception will be thrown.

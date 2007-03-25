@@ -534,7 +534,7 @@ public class DataEngineImpl extends DataEngine
 	public IPreparedCubeQuery prepare( ICubeQueryDefinition query,
 			Map appContext ) throws BirtException
 	{
-		return new PreparedCubeQuery( query, this.session.getSharedScope( ));
+		return new PreparedCubeQuery( query, this.session.getSharedScope( ), this.context);
 	}
 	
 	/*

@@ -15,7 +15,11 @@ import javax.olap.cursor.CubeCursor;
 import javax.olap.cursor.DimensionCursor;
 import javax.olap.cursor.EdgeCursor;
 
+import junit.framework.TestCase;
+
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.aggregation.BuiltInAggregationFactory;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
@@ -24,13 +28,15 @@ import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.impl.CubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.impl.CubeQueryExecutor;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
-
-import junit.framework.TestCase;
+import org.mozilla.javascript.ImporterTopLevel;
+import org.mozilla.javascript.Scriptable;
 
 
 public class CursorNavigatorTest extends TestCase
 {
+	private Scriptable scope;
 	/*
 	 * @see junit.framework.TestCase#setUp()
 	 */
@@ -38,14 +44,16 @@ public class CursorNavigatorTest extends TestCase
 	{
 		super.setUp( );
 		new CubeCreator( ).createCube( );
+		this.scope = new ImporterTopLevel();
 	}
 	
 
 	/**
 	 * 
 	 * @throws OLAPException
+	 * @throws BirtException 
 	 */
-	public void testCursorModel1( ) throws OLAPException
+	public void testCursorModel1( ) throws OLAPException, BirtException
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( "cube" );
 
@@ -79,7 +87,7 @@ public class CursorNavigatorTest extends TestCase
 		cqd.addBinding( columnGrandTotal );
 
 		// Create cube view.
-		BirtCubeView cubeView = new BirtCubeView( cqd );
+		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor(cqd,this.scope,DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION, scope, null, null )) );
 
 		CubeCursor dataCursor = cubeView.getCubeCursor( );
 

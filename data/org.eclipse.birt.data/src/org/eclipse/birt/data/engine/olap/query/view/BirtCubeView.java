@@ -20,6 +20,7 @@ import javax.olap.cursor.CubeCursor;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.impl.CubeQueryExecutor;
 import org.eclipse.birt.data.engine.olap.cursor.CubeCursorImpl;
 import org.eclipse.birt.data.engine.olap.driver.IResultSet;
 
@@ -45,9 +46,9 @@ public class BirtCubeView
 	 * 
 	 * @param queryDefn
 	 */
-	public BirtCubeView( ICubeQueryDefinition queryDefn )
+	public BirtCubeView( CubeQueryExecutor queryExecutor )
 	{
-		this.queryDefn = queryDefn;
+		this.queryDefn = queryExecutor.getCubeQueryDefinition( );
 		columnEdgeView = createBirtEdgeView( this.queryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE ) );
 		rowEdgeView = createBirtEdgeView( this.queryDefn.getEdge( ICubeQueryDefinition.ROW_EDGE ) );
 
