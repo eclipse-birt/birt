@@ -43,11 +43,11 @@ public abstract class DataType
 			"Double",
 			"Decimal",
 			"String",
-			"Date",
+			"DateTime",
 			"Blob",
 			"Binary",
-			"sqlDate",
-			"sqlTime"
+			"Date",
+			"Time"
 	};
 	
 	public static final String ANY_TYPE_NAME = names[0];
