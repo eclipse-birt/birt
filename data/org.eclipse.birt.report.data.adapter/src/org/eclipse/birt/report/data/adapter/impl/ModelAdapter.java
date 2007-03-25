@@ -232,9 +232,12 @@ public class ModelAdapter implements IModelAdapter
 			return DataType.DECIMAL_TYPE;
 		if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT ) )
 			return DataType.DOUBLE_TYPE;
+		if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME ) )
+			return DataType.SQL_TIME_TYPE;
+		if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE ) )
+			return DataType.SQL_DATE_TYPE;
 		if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN ) )
 			return DataType.BOOLEAN_TYPE;
-
 		return DataType.UNKNOWN_TYPE;
 	}
 	
