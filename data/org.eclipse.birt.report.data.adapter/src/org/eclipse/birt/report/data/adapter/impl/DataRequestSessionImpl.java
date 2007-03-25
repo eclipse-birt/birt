@@ -462,19 +462,21 @@ public class DataRequestSessionImpl extends DataRequestSession
 			{
 				cubeMaterializer = new org.eclipse.birt.data.engine.olap.api.cube.CubeMaterializer( this.sessionContext.getDataEngineContext( )
 						.getTmpdir( ),
-						this.toString( ) );
+						cubeHandle.getName( ) );
+				createCube( cubeHandle, cubeMaterializer );
 			}
 			else if ( mode == DataEngineContext.MODE_GENERATION )
 			{
-				cubeMaterializer = new org.eclipse.birt.data.engine.olap.api.cube.CubeMaterializer( );
-
+				cubeMaterializer = new org.eclipse.birt.data.engine.olap.api.cube.CubeMaterializer( this.sessionContext.getDataEngineContext( )
+						.getTmpdir( ),
+						cubeHandle.getName( ) );
 				createCube( cubeHandle, cubeMaterializer );
 				cubeMaterializer.saveCubeToRAFile( cubeHandle.getName( ),
 						this.sessionContext.getDocumentWriter( ),
 						null );
 			}
 		}
-		catch ( IOException e )
+		catch ( Exception e )
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace( );

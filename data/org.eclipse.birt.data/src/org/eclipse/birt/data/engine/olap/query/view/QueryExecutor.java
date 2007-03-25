@@ -14,13 +14,16 @@ package org.eclipse.birt.data.engine.olap.query.view;
 import java.io.IOException;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.olap.api.cube.ICube;
+import org.eclipse.birt.data.engine.olap.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.impl.CubeQueryExecutor;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExcutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
-import org.eclipse.birt.data.engine.olap.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentManagerFactory;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
@@ -28,7 +31,6 @@ import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
 import org.eclipse.birt.data.engine.olap.driver.CubeResultSet;
 import org.eclipse.birt.data.engine.olap.driver.IResultSet;
-import org.eclipse.birt.data.engine.olap.api.cube.StopSign;
 
 /**
  *  
@@ -46,11 +48,11 @@ public class QueryExecutor
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	public IResultSet execute( BirtCubeView view, ICubeQueryDefinition query,
+	public IResultSet execute( BirtCubeView view, CubeQueryExecutor executor,
 			MeasureNameManager manager ) throws IOException, BirtException
 	{
-		ICube cube = loadCube( query.getName( ) );
-		AggregationDefinition[] aggrDefns = prepareCube( cube, query );
+		ICube cube = loadCube( executor );
+		AggregationDefinition[] aggrDefns = prepareCube( cube, executor.getCubeQueryDefinition( ) );
 		CubeQueryExcutorHelper cubeQueryExcutorHelper = new CubeQueryExcutorHelper( cube );
 		IAggregationResultSet[] rs = cubeQueryExcutorHelper.excute( aggrDefns,
 				new StopSign( ) );
@@ -64,17 +66,40 @@ public class QueryExecutor
 	 * @throws IOException 
 	 * @throws DataException 
 	 */
-	private ICube loadCube( String cubeName ) throws DataException, IOException 
+	private ICube loadCube( CubeQueryExecutor executor ) throws DataException, IOException 
 	{
 		ICube cube = null;
 		IDocumentManager documentManager;
-		documentManager = DocumentManagerFactory.loadFileDocumentManager( );
+		documentManager = getDocumentManager( executor );
 
-		cube = CubeQueryExcutorHelper.loadCube( cubeName,
+		cube = CubeQueryExcutorHelper.loadCube( executor.getCubeQueryDefinition( ).getName( ),
 				documentManager,
 				new StopSign( ) );
 
 		return cube;
+	}
+	
+	/**
+	 * Get the document manager.
+	 * @param executor
+	 * @return
+	 * @throws DataException
+	 * @throws IOException
+	 */
+	private IDocumentManager getDocumentManager( CubeQueryExecutor executor )
+			throws DataException, IOException
+	{
+		if ( executor.getContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
+		{
+			return DocumentManagerFactory.loadFileDocumentManager( executor.getContext( )
+					.getTmpdir( ),
+					executor.getCubeQueryDefinition( ).getName( ) );
+		}
+		else
+		{
+			return DocumentManagerFactory.createRADocumentManager( executor.getContext( )
+					.getDocReader( ) );
+		}
 	}
 	
 	/**

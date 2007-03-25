@@ -40,6 +40,7 @@ public class BirtCubeView
 	private BirtEdgeView columnEdgeView, rowEdgeView;
 	private BirtEdgeView calculatedMemberView[];
 	private MeasureNameManager manager;
+	private CubeQueryExecutor executor;
 
 	/**
 	 * Constructor: construct the row/column/measure EdgeView.
@@ -51,7 +52,7 @@ public class BirtCubeView
 		this.queryDefn = queryExecutor.getCubeQueryDefinition( );
 		columnEdgeView = createBirtEdgeView( this.queryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE ) );
 		rowEdgeView = createBirtEdgeView( this.queryDefn.getEdge( ICubeQueryDefinition.ROW_EDGE ) );
-
+		this.executor = queryExecutor;
 		CalculatedMember[] members = CubeQueryDefinitionUtil.getCalculatedMembers( queryDefn );
 		if ( members != null && members.length > 0 )
 		{
@@ -75,7 +76,7 @@ public class BirtCubeView
 		IResultSet result;
 		try
 		{
-			result = new QueryExecutor( ).execute( this, queryDefn, manager );
+			result = new QueryExecutor( ).execute( this, executor, manager );
 		}
 		catch ( IOException e )
 		{
