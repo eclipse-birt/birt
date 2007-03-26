@@ -471,7 +471,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 						.getTmpdir( ),
 						cubeHandle.getName( ) );
 				createCube( cubeHandle, cubeMaterializer );
-				cubeMaterializer.saveCubeToRAFile( cubeHandle.getName( ),
+				cubeMaterializer.saveCubeToReportDocument( cubeHandle.getName( ),
 						this.sessionContext.getDocumentWriter( ),
 						null );
 			}
@@ -601,7 +601,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	{
 		QueryDefinition query = new QueryDefinition( );
 		query.setAutoBinding( true );
-		query.setUsesDetails( false );
+		query.setUsesDetails( true );
 		query.setDataSetName( dataSetName );
 		/*if ( dims != null )
 		{
