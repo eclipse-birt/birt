@@ -474,6 +474,8 @@ abstract class AbstractExpressionCompiler
 	{
 		ArrayList interestingSubExpr = new ArrayList();
 		ArrayList interestingConstantExpr = new ArrayList();
+		ArrayList tokenList = new ArrayList();
+		
 		Collection subExprs = complexExpr.getSubExpressions();
 		Iterator iter = subExprs.iterator();
 		while( iter.hasNext() )
@@ -488,6 +490,7 @@ abstract class AbstractExpressionCompiler
 					( (ComplexExpression) childExpr ).getSubExpressions();
 				
 				childSubExprs.addAll( ( (ComplexExpression) childExpr ).getConstantExpressions( ) );
+				tokenList.addAll( ( (ComplexExpression) childExpr ).getTokenList( ) );
 				
 				Iterator childIter = childSubExprs.iterator();
 				while( childIter.hasNext() )
@@ -513,6 +516,7 @@ abstract class AbstractExpressionCompiler
 		
 		complexExpr.addSubExpressions( interestingSubExpr );
 		complexExpr.addContantsExpressions( interestingConstantExpr );
+		complexExpr.getTokenList( ).addAll( tokenList );
 	}
 
 	/**
