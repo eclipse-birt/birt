@@ -15,6 +15,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -55,7 +56,7 @@ public class ExtendedElement implements IReportItem
 	private static final String CHOICE_LINE_STYLE_NORMAL = "normal"; //$NON-NLS-1$
 	private static final String CHOICE_LINE_STYLE_THICK = "thick"; //$NON-NLS-1$
 
-	//	protected HashMap values = new HashMap( );
+	// protected HashMap values = new HashMap( );
 	protected IReportItemFactory cachedDefn = null;
 	protected DesignElementHandle designHandle = null;
 	public static String CHECK_PROPERTY_TAG = null;
@@ -97,7 +98,8 @@ public class ExtendedElement implements IReportItem
 	 * @param designHandle
 	 */
 
-	public ExtendedElement( IReportItemFactory extDefn, DesignElementHandle designHandle )
+	public ExtendedElement( IReportItemFactory extDefn,
+			DesignElementHandle designHandle )
 	{
 		this.cachedDefn = extDefn;
 		assert designHandle != null;
@@ -395,8 +397,8 @@ public class ExtendedElement implements IReportItem
 		{
 			try
 			{
-				ByteArrayInputStream stream = new ByteArrayInputStream( value
-						.toString( ).getBytes( ) );
+				ByteArrayInputStream stream = new ByteArrayInputStream( value.toString( )
+						.getBytes( ) );
 				deserialize( propName, stream );
 				refreshNeeded = true;
 			}
@@ -476,7 +478,7 @@ public class ExtendedElement implements IReportItem
 
 	private void execute( IElementCommand command )
 	{
-		//		designHandle.getDesign( ).getActivityStack( ).execute( command );
+		// designHandle.getDesign( ).getActivityStack( ).execute( command );
 	}
 
 	/*
@@ -520,9 +522,14 @@ public class ExtendedElement implements IReportItem
 		return null;
 	}
 
-	public List validate() {
+	public List validate( )
+	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	public List getPredefinedStyles( )
+	{
+		return Collections.EMPTY_LIST;
+	}
 }
