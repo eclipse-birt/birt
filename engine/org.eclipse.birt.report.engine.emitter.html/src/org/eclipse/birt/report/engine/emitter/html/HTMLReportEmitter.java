@@ -669,7 +669,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				
 				styleBuffer.setLength( 0 );					
 				AttributeBuilder.buildStyle( styleBuffer, style, this );
-				writer.style( styleName, styleBuffer.toString( ) );
+				writer.style( '.' + styleName, styleBuffer.toString( ) );
 			}
 		}
 
