@@ -635,7 +635,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				styleBuffer.setLength(0);
 				style = reportDesign.getStyle( n );	
 				AttributeBuilder.buildStyle( styleBuffer, style, this );
-				writer.style( Report.PREFIX_STYLE_NAME + n, styleBuffer
+				writer.style( '.' + Report.PREFIX_STYLE_NAME + n, styleBuffer
 						.toString( ) );
 			}
 		}
