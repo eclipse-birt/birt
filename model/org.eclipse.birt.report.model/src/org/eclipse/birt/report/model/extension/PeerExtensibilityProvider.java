@@ -399,8 +399,8 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 			{
 				// Get the raw xml data from parent.
 
-				ExtendedItem parent = (ExtendedItem) element
-						.getExtendsElement( );
+				ExtendedItem parent = (ExtendedItem) ModelUtil
+						.getParent( element );
 				while ( parent != null )
 				{
 					PeerExtensibilityProvider parentProvider = parent
@@ -411,7 +411,7 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 					if ( value != null )
 						break;
 
-					parent = (ExtendedItem) parent.getExtendsElement( );
+					parent = (ExtendedItem) ModelUtil.getParent( element );;
 				}
 			}
 			else

@@ -91,6 +91,28 @@ public class ModelUtil
 {
 
 	/**
+	 * Get virtual parent or extended parent.
+	 * 
+	 * @param element
+	 *            design element which wants to get its parent.
+	 * @return parent of element.
+	 */
+
+	public static DesignElement getParent( DesignElement element )
+	{
+		DesignElement parent = null;
+		if ( element.isVirtualElement( ) )
+		{
+			parent = element.getVirtualParent( );
+		}
+		else
+		{
+			parent = element.getExtendsElement( );
+		}
+		return parent;
+	}
+
+	/**
 	 * Duplicates the properties from source element to destination element.
 	 * Source and the destination element should be of the same type. The
 	 * following properties will be duplicated:
