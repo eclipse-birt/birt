@@ -21,11 +21,11 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
-import org.eclipse.birt.data.engine.olap.data.api.IDimesionResultIterator;
+import org.eclipse.birt.data.engine.olap.data.api.IDimensionResultIterator;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.Constants;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
-import org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableRowIterator;
+import org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator;
 import org.eclipse.birt.data.engine.olap.data.util.DiskSortedStack;
 
 /**
@@ -35,9 +35,9 @@ import org.eclipse.birt.data.engine.olap.data.util.DiskSortedStack;
 public class AggregationExecutor
 {
 
-	private IDimesionResultIterator[] dimesionResultIterators = null;
+	private IDimensionResultIterator[] dimesionResultIterators = null;
 	private AggregationCalculator[] aggregationCalculators = null;
-	private FactTableRowIterator facttableRowIterator = null;
+	private IFactTableRowIterator facttableRowIterator = null;
 	private DiskSortedStackWrapper[] sortedFactRows = null;
 	private List allSortedFactRows = null;
 	private int[][] levelIndex = null;
@@ -50,8 +50,8 @@ public class AggregationExecutor
 	 * @throws BirtOlapException 
 	 */
 	public AggregationExecutor(
-			IDimesionResultIterator[] dimesionResultIterators,
-			FactTableRowIterator facttableRowIterator,
+			IDimensionResultIterator[] dimesionResultIterators,
+			IFactTableRowIterator facttableRowIterator,
 			AggregationDefinition[] aggregations ) throws DataException
 	{
 		this.dimesionResultIterators = dimesionResultIterators;
@@ -338,8 +338,8 @@ class Row4AggregationPopulator
 {
 
 	private int[] position = null;
-	private IDimesionResultIterator[] dimesionResultIterators = null;
-	private FactTableRowIterator facttableRowIterator = null;
+	private IDimensionResultIterator[] dimesionResultIterators = null;
+	private IFactTableRowIterator facttableRowIterator = null;
 	private int[] dimensionIndexs = null;
 
 	/**
@@ -347,8 +347,8 @@ class Row4AggregationPopulator
 	 * @param dimesionResultIterators
 	 * @param facttableRowIterator
 	 */
-	Row4AggregationPopulator( IDimesionResultIterator[] dimesionResultIterators,
-			FactTableRowIterator facttableRowIterator )
+	Row4AggregationPopulator( IDimensionResultIterator[] dimesionResultIterators,
+			IFactTableRowIterator facttableRowIterator )
 	{
 		this.dimesionResultIterators = dimesionResultIterators;
 		this.facttableRowIterator = facttableRowIterator;
@@ -356,8 +356,8 @@ class Row4AggregationPopulator
 		this.dimensionIndexs = new int[dimesionResultIterators.length];
 		for ( int i = 0; i < dimensionIndexs.length; i++ )
 		{
-			dimensionIndexs[i] = facttableRowIterator.getDimensionIndex( dimesionResultIterators[i].getDimesion( )
-					.getName( ) );
+			dimensionIndexs[i] = facttableRowIterator.getDimensionIndex( 
+					dimesionResultIterators[i].getDimesion( ).getName( ) );
 		}
 	}
 
@@ -465,7 +465,11 @@ class Row4AggregationComparator implements Comparator
 		{
 			if ( sortType == null
 					|| sortType.length <= i
-					|| sortType[i] == IDimensionSortDefn.SORT_ASC )
+					|| sortType[i] == IDimensionSortDefn.SORT_UNDEFINED )
+			{
+				continue;
+			}
+			if( sortType[i] == IDimensionSortDefn.SORT_ASC )
 			{
 				if ( row1.levelMembers[i].compareTo( row2.levelMembers[i] ) < 0 )
 				{

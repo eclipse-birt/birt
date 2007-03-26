@@ -12,11 +12,13 @@
 package org.eclipse.birt.data.engine.olap.data.api;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
+import org.eclipse.birt.data.engine.olap.util.filter.DimensionFilterEvalHelper;
 
 /**
  * 
@@ -30,6 +32,18 @@ public interface ICubeQueryExcutorHelper
 	 * @param selections
 	 */
 	public void addFilter( String levelName, ISelection[] selections );
+	
+	/**
+	 * 
+	 * @param filterEvalHelper
+	 */
+	public void addJSFilter( DimensionFilterEvalHelper filterEvalHelper );
+	
+	/**
+	 * 
+	 * @param filterEvalHelperList
+	 */
+	public void addJSFilter( List filterEvalHelperList );
 	
 	/**
 	 * 

@@ -559,7 +559,7 @@ public class FactTableHelperTest extends TestCase
 		System.out.println( "Finish iterator... time: "  + (System.currentTimeMillis( ) - startTime)/1000);
 	}
 	
-	private String[] distinct( String[] sValues )
+	private static String[] distinct( String[] sValues )
 	{
 		Arrays.sort( sValues );
 		List tempList = new ArrayList( );

@@ -69,7 +69,7 @@ public class CubeAggregationTest extends TestCase
 		super.tearDown( );
 	}
 	
-	private String[] distinct( String[] iValues )
+	private static String[] distinct( String[] iValues )
 	{
 		Arrays.sort( iValues );
 		List tempList = new ArrayList( );
@@ -102,7 +102,7 @@ public class CubeAggregationTest extends TestCase
 		testCubeCreate1( documentManager );
 		testCubeAggregation1( documentManager );
 		IDocArchiveWriter writer = createRAWriter( );
-		materializer.saveCubeToRAFile( "cube", writer , new StopSign( ) );
+		materializer.saveCubeToReportDocument( "cube", writer , new StopSign( ) );
 		writer.flush( );
 		writer.finish( );
 		testCubeAggregation1( createRADocumentManager( ) );

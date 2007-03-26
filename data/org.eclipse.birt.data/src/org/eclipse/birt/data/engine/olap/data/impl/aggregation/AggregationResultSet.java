@@ -51,7 +51,7 @@ public class AggregationResultSet implements IAggregationResultSet
 		this.aggregationRow = aggregationRow;
 		this.keyNames = keyNames;
 		this.attributeNames = attributeNames;
-		resultObject = (AggregationResultRow) aggregationRow.get( 0 );
+		this.resultObject = (AggregationResultRow) aggregationRow.get( 0 );
 		if ( resultObject.levelMembers != null )
 		{
 			keyDataTypes = new int[resultObject.levelMembers.length][];

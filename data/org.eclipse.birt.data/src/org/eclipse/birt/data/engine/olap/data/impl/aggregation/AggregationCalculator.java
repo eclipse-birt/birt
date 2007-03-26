@@ -16,14 +16,14 @@ import java.io.IOException;
 import org.eclipse.birt.data.engine.aggregation.BuiltInAggregationFactory;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.Constants;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
-import org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableRowIterator;
+import org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
-import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
  * The AggregationCalculator class calculates values for its associated
@@ -45,7 +45,7 @@ public class AggregationCalculator
 	 * @param facttableRowIterator
 	 * @throws DataException 
 	 */
-	AggregationCalculator( AggregationDefinition aggregation, FactTableRowIterator facttableRowIterator ) throws DataException
+	AggregationCalculator( AggregationDefinition aggregation, IFactTableRowIterator facttableRowIterator ) throws DataException
 	{
 		this.aggregation = aggregation;
 		AggregationFunctionDefinition[] aggregationFunction = aggregation.getAggregationFunctions( );

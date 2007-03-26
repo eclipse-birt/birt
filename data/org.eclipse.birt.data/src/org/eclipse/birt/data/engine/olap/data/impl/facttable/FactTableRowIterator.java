@@ -28,11 +28,11 @@ import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
  * An iterator on a result set from a executed fact table query.
  */
 
-public class FactTableRowIterator
+public class FactTableRowIterator implements IFactTableRowIterator
 {
 	private FactTable factTable;
 	private MeasureInfo[] measureInfo;
-	            
+	
 	private IDiskArray[] selectedPos;
 	private int[] dimensionIndex;
 	private int[] currentSubDim;
@@ -145,10 +145,9 @@ public class FactTableRowIterator
 		traversalor = new Traversalor( selectedSubDimensionCount );
 	}
 
-	/**
-	 * 
-	 * @return
-	 * @throws IOException
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator#next()
 	 */
 	public boolean next( ) throws IOException
 	{
@@ -278,58 +277,54 @@ public class FactTableRowIterator
 		return true;
 	}
 
-	/**
-	 * 
-	 * @return
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator#getDimensionCount()
 	 */
 	public int getDimensionCount( )
 	{
 		return factTable.getDimensionInfo( ).length;
 	}
 	
-	/**
-	 * 
-	 * @param dimensionName
-	 * @return
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator#getDimensionIndex(java.lang.String)
 	 */
 	public int getDimensionIndex( String dimensionName )
 	{
 		return factTable.getDimensionIndex( dimensionName );
 	}
 	
-	/**
-	 * 
-	 * @param measureName
-	 * @return
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator#getMeasureIndex(java.lang.String)
 	 */
 	public int getMeasureIndex( String measureName )
 	{
 		return factTable.getMeasureIndex( measureName );
 	}
 	
-	/**
-	 * 
-	 * @param dimensionIndex
-	 * @return
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator#getDimensionPosition(int)
 	 */
 	public int getDimensionPosition( int dimensionIndex )
 	{
 		return currentPos[dimensionIndex];
 	}
 
-	/**
-	 * 
-	 * @return
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator#getMeasureCount()
 	 */
 	public int getMeasureCount( )
 	{
 		return currentMeasures.length;
 	}
 	
-	/**
-	 * 
-	 * @param measureIndex
-	 * @return
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator#getMeasure(int)
 	 */
 	public Object getMeasure( int measureIndex )
 	{

@@ -20,6 +20,11 @@ public interface IDimensionSortDefn
 	/**
      * Sorts in ascending order of sort key values
      */
+    public static final int SORT_UNDEFINED = -1; 
+    
+	/**
+     * Sorts in ascending order of sort key values
+     */
     public static final int SORT_ASC = 0; 
 
     /**

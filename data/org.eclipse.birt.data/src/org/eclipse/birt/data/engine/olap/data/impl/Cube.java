@@ -69,15 +69,15 @@ public class Cube implements ICube
 			documentObject.writeString( dimension[i].getName( ) );
 		}
 		this.dimension = dimension;
-		Dimension[] pDimensions = new Dimension[dimension.length];
-		for ( int i = 0; i < pDimensions.length; i++ )
+		Dimension[] tDimensions = new Dimension[dimension.length];
+		for ( int i = 0; i < tDimensions.length; i++ )
 		{
-			pDimensions[i] = (Dimension) dimension[i];
+			tDimensions[i] = (Dimension) dimension[i];
 		}
 		FactTableAccessor factTableConstructor = new FactTableAccessor( documentManager );
 		factTable = factTableConstructor.saveFactTable( name,
 				iterator,
-				pDimensions,
+				tDimensions,
 				measureColumnName,
 				stopSign );
 		documentObject.close( );

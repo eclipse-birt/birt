@@ -15,8 +15,9 @@ import java.io.IOException;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.olap.api.cube.IDimension;
+import org.eclipse.birt.data.engine.olap.data.api.IDimensionFilterDefn;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
-import org.eclipse.birt.data.engine.olap.data.api.IDimesionResultIterator;
+import org.eclipse.birt.data.engine.olap.data.api.IDimensionResultIterator;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 
@@ -25,7 +26,7 @@ import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
  * 
  */
 
-public class DimensionResultIterator implements IDimesionResultIterator
+public class DimensionResultIterator implements IDimensionResultIterator
 {
 	private Dimension dimension;
 	private IDiskArray dimensionPosition;
@@ -58,7 +59,7 @@ public class DimensionResultIterator implements IDimesionResultIterator
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.olap.data.api.IDimesionResulttSet#filter(org.eclipse.birt.data.olap.data.api.IDimensionSortDefinition)
 	 */
-	public IDimesionResultIterator filter( IDimensionSortDefn filterDef )
+	public IDimensionResultIterator filter( IDimensionFilterDefn filterDef )
 			throws BirtException
 	{
 		// TODO Auto-generated method stub
@@ -211,5 +212,10 @@ public class DimensionResultIterator implements IDimesionResultIterator
 	{
 		return ((DimensionRow)dimensionRows.get( currentPosition )).
 			members[levelIndex];
+	}
+	
+	public DimensionRow getDimensionRow( ) throws IOException
+	{
+		return (DimensionRow)dimensionRows.get( currentPosition );
 	}
 }

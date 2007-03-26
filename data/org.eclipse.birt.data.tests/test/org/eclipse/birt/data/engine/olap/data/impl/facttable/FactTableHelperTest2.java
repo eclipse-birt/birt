@@ -211,7 +211,7 @@ public class FactTableHelperTest2 extends TestCase
 		assertFalse( facttableRowIterator.next( ));
 	}
 	
-	private int[] distinct( int[] iValues )
+	private static int[] distinct( int[] iValues )
 	{
 		Arrays.sort( iValues );
 		List tempList = new ArrayList( );
