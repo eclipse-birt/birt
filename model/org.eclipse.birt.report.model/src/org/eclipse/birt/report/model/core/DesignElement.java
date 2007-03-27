@@ -26,7 +26,6 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.CircularExtendsException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
-import org.eclipse.birt.report.model.api.command.ExtendsForbiddenException;
 import org.eclipse.birt.report.model.api.command.InvalidParentException;
 import org.eclipse.birt.report.model.api.command.PropertyNameException;
 import org.eclipse.birt.report.model.api.command.WrongTypeException;
@@ -1026,8 +1025,7 @@ public abstract class DesignElement
 				resolveStructReference( module, prop );
 			case IPropertyType.LIST_TYPE :
 				if ( prop.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
-					return resolveElementReferenceList(
-							module, prop );
+					return resolveElementReferenceList( module, prop );
 		}
 
 		// Get the value of a non-intrinsic property.
@@ -1054,8 +1052,8 @@ public abstract class DesignElement
 		{
 			if ( extendsRef != null && !extendsRef.isResolved( ) )
 			{
-				ReferenceValueUtil.resloveExtends( getRoot( ), this,
-						extendsRef );
+				ReferenceValueUtil
+						.resloveExtends( getRoot( ), this, extendsRef );
 			}
 			return extendsRef;
 		}
@@ -2182,15 +2180,6 @@ public abstract class DesignElement
 			throw new CircularExtendsException( this, parent,
 					CircularExtendsException.DESIGN_EXCEPTION_CIRCULAR );
 		}
-		// TODO: if element has container properties, extends is forbidden
-		else if ( !( (ElementDefn) getDefn( ) ).getContents( ).isEmpty( ) )
-		{
-			throw new ExtendsForbiddenException(
-					this,
-					parent,
-					ExtendsForbiddenException.DESIGN_EXCEPTION_EXTENDS_FORBIDDEN );
-		}
-
 	}
 
 	/**
@@ -3205,10 +3194,11 @@ public abstract class DesignElement
 		{
 			if ( defn.isList( ) )
 			{
-				List values = getListProperty( module, propName );
+				List values = (List) getLocalProperty( module, propName );
 				if ( values == null )
 					values = new ArrayList( );
-				values.add( content );
+				if ( !values.contains( content ) )
+					values.add( content );
 				setProperty( propName, values );
 				content.setContainer( this, propName );
 			}
@@ -3236,10 +3226,11 @@ public abstract class DesignElement
 		{
 			if ( defn.isList( ) )
 			{
-				List values = getListProperty( module, propName );
+				List values = (List) getLocalProperty( module, propName );
 				if ( values == null )
 					values = new ArrayList( );
-				values.add( posn, content );
+				if ( !values.contains( content ) )
+					values.add( posn, content );
 				setProperty( propName, values );
 				content.setContainer( this, propName );
 			}
@@ -3269,7 +3260,7 @@ public abstract class DesignElement
 		{
 			if ( defn.isList( ) )
 			{
-				List values = getListProperty( module, propName );
+				List values = (List) getLocalProperty( module, propName );
 				if ( values != null )
 				{
 					values.remove( content );
@@ -3348,7 +3339,7 @@ public abstract class DesignElement
 			return null;
 
 		return ReferenceValueUtil.resolveElementReference( module, this, prop,
-				(ElementRefValue)value );
+				(ElementRefValue) value );
 	}
 
 	/**
@@ -3377,10 +3368,11 @@ public abstract class DesignElement
 		return ReferenceValueUtil.resolveStructReference( module, this, prop,
 				(StructRefValue) value );
 	}
-	
+
 	/**
 	 * Gets the position where this element resides in its container.
-	 * @param module 
+	 * 
+	 * @param module
 	 * 
 	 * @return the index where this element resides in its container, otherwise
 	 *         -1 if this element has no container
@@ -3388,6 +3380,7 @@ public abstract class DesignElement
 	public int getIndex( Module module )
 	{
 		ContainerContext containerContext = getContainerInfo( );
-		return containerContext == null ? -1 : containerContext.indexOf( module, this );
+		return containerContext == null ? -1 : containerContext.indexOf(
+				module, this );
 	}
 }

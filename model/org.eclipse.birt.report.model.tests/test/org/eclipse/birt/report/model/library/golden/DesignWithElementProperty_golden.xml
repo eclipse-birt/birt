@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.11" id="1">
+    <list-property name="libraries">
+        <structure>
+            <property name="fileName">LibraryWithElementProperty.xml</property>
+            <property name="namespace">lib</property>
+        </structure>
+    </list-property>
+    <cubes>
+        <tabular-cube name="designChildCube" id="13" extends="lib.testCube">
+            <property name="defaultMeasureGroup">testMeasureGroup1</property>
+            <overridden-values>
+                <ref-entry baseId="8" name="testDimension1" id="8">
+                    <property name="defaultHierarchy">testHierarchy1</property>
+                </ref-entry>
+                <ref-entry baseId="9" name="testHierarchy1" id="9"/>
+                <ref-entry baseId="10" name="testLevel1" id="10"/>
+                <ref-entry baseId="11" name="testMeasureGroup1" id="11"/>
+                <ref-entry baseId="12" name="testMeasure1" id="12"/>
+            </overridden-values>
+        </tabular-cube>
+    </cubes>
+    <page-setup>
+        <graphic-master-page name="My Page" id="2">
+            <contents>
+                <data id="3"/>
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+</report>

@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.elements.olap;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -100,6 +102,21 @@ public abstract class Cube extends ReferenceableElement implements ICubeModel
 	{
 		setProperty( Cube.DEFAULT_MEASURE_GROUP_PROP, new ElementRefValue(
 				null, defaultMeasureGroup ) );
+	}
+
+	/**
+	 * Sets the measure group at the specified position to be default.
+	 * 
+	 * @param index
+	 */
+	public void setDefaultMeasureGroup( int index )
+	{
+		List groups = getListProperty( getRoot( ), MEASURE_GROUPS_PROP );
+		if ( groups == null || groups.isEmpty( ) )
+			return;
+		if ( index >= 0 && index < groups.size( ) )
+			setProperty( Cube.DEFAULT_MEASURE_GROUP_PROP, new ElementRefValue(
+					null, (DesignElement) groups.get( index ) ) );
 	}
 
 	/*

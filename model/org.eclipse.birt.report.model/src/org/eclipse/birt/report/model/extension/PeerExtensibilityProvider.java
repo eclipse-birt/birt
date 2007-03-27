@@ -33,6 +33,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionModelPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionPropertyDefn;
@@ -40,6 +41,7 @@ import org.eclipse.birt.report.model.metadata.MethodInfo;
 import org.eclipse.birt.report.model.metadata.PeerExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
 /**
  * Represents the extensibility provider which supports the peer extension. The
@@ -277,6 +279,19 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 			return reportItem.getProperty( propName );
 		}
 
+		// handle all other property values
+		Object value = extensionPropValues.get( propName );
+		if ( value == null )
+			return null;
+		ElementPropertyDefn defn = (ElementPropertyDefn) getPropertyDefn( propName );
+		if ( defn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
+		{
+			Module root = element.getRoot( );
+			if ( root != null )
+				return ReferenceValueUtil.resolveElementReference( root,
+						element, defn, (ElementRefValue) value );
+		}
+
 		return extensionPropValues.get( propName );
 	}
 
@@ -448,8 +463,10 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 				{
 					assert false;
 				}
-				reportItem.deserialize( propName,
-						new ByteArrayInputStream( raw ) );
+
+				if ( reportItem != null )
+					reportItem.deserialize( propName, new ByteArrayInputStream(
+							raw ) );
 			}
 		}
 	}
@@ -561,7 +578,7 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 			Object value = source.extensionPropValues.get( propName );
 			if ( value == null )
 				continue;
-			
+
 			Object valueToSet = ModelUtil.copyValue( propDefn, value );
 			if ( valueToSet == null )
 				continue;
@@ -582,7 +599,8 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 				}
 				else
 				{
-					( (DesignElement) valueToSet ).setContainer( element, propName );
+					( (DesignElement) valueToSet ).setContainer( element,
+							propName );
 				}
 			}
 		}

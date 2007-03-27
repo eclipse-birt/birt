@@ -3154,8 +3154,11 @@ public abstract class ModuleWriter extends ElementVisitor
 			for ( int i = 0; i < propDefns.size( ); i++ )
 			{
 				PropertyDefn propDefn = (PropertyDefn) propDefns.get( i );
+
+				// name property and element type property must not write out
 				if ( IDesignElementModel.NAME_PROP.equalsIgnoreCase( propDefn
-						.getName( ) ) )
+						.getName( ) )
+						|| propDefn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
 					continue;
 
 				if ( virtualElement instanceof ExtendedItem
@@ -3337,6 +3340,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		writeContents( obj, ICubeModel.DIMENSIONS_PROP );
 		writeContents( obj, ICubeModel.MEASURE_GROUPS_PROP );
 		writeContents( obj, ICubeModel.ACCESS_CONTROLS_PROP );
+		
+		writeOverridenPropertyValues( obj );
 	}
 
 	/*
@@ -3351,6 +3356,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IDimensionModel.DEFAULT_HIERARCHY_PROP );
 
 		writeContents( obj, IDimensionModel.HIERARCHIES_PROP );
+		writeOverridenPropertyValues( obj );
 	}
 
 	/*
@@ -3365,6 +3371,8 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		writeContents( obj, IHierarchyModel.LEVELS_PROP );
 		writeContents( obj, ICubeModel.ACCESS_CONTROLS_PROP );
+		
+		writeOverridenPropertyValues( obj );
 	}
 
 	/*
@@ -3396,6 +3404,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		super.visitMeasureGroup( obj );
 
 		writeContents( obj, IMeasureGroupModel.MEASURES_PROP );
+		
+		writeOverridenPropertyValues( obj );
 	}
 
 	/*
@@ -3459,14 +3469,14 @@ public abstract class ModuleWriter extends ElementVisitor
 	 * 
 	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitTabularCube(org.eclipse.birt.report.model.elements.olap.TabularCube)
 	 */
-	
+
 	public void visitTabularCube( TabularCube obj )
 	{
 		writer.startElement( DesignSchemaConstants.TABULAR_CUBE_TAG );
 		super.visitTabularCube( obj );
-		
+
 		property( obj, ITabularCubeModel.DATA_SET_PROP );
-		writeStructureList( obj, ITabularCubeModel.DIMENSION_CONDITIONS_PROP );		
+		writeStructureList( obj, ITabularCubeModel.DIMENSION_CONDITIONS_PROP );
 		writer.endElement( );
 
 	}
@@ -3493,7 +3503,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		writer.startElement( DesignSchemaConstants.TABULAR_HIERARCHY_TAG );
 		super.visitTabularHierarchy( obj );
-		
+
 		property( obj, ITabularHierarchyModel.DATA_SET_PROP );
 		writeSimplePropertyList( obj, ITabularHierarchyModel.PRIMARY_KEYS_PROP );
 		writer.endElement( );
@@ -3615,7 +3625,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	 * 
 	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitOdaMeasureGroup(org.eclipse.birt.report.model.elements.olap.OdaMeasureGroup)
 	 */
-	
+
 	public void visitOdaMeasureGroup( OdaMeasureGroup obj )
 	{
 		writer.startElement( DesignSchemaConstants.ODA_MEASURE_GROUP_TAG );

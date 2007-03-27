@@ -26,8 +26,6 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.RuleHandle;
 import org.eclipse.birt.report.model.api.ValueAccessControlHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.command.ExtendsForbiddenException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
@@ -454,22 +452,7 @@ public class TabularCubeParserTest extends BaseTestCase
 		{
 
 		}
-
-		// cube can not extends
-		try
-		{
-			cube.getElement( ).checkExtends(
-					designHandle.getElementFactory( ).newTabularCube( null )
-							.getElement( ) );
-			fail( );
-		}
-		catch ( SemanticException e )
-		{
-			assertEquals(
-					ExtendsForbiddenException.DESIGN_EXCEPTION_EXTENDS_FORBIDDEN,
-					e.getErrorCode( ) );
-		}
-
+		
 		IDesignElement clonedCube = cube.copy( );
 		assertNotNull( clonedCube );
 		designHandle.rename( clonedCube.getHandle( design ) );

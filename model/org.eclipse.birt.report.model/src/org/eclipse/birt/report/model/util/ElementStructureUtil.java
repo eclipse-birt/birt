@@ -31,6 +31,8 @@ import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
+import org.eclipse.birt.report.model.elements.olap.Cube;
+import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -277,10 +279,37 @@ public class ElementStructureUtil
 		for ( int i = 0; i < properties.size( ); i++ )
 		{
 			PropertyDefn propDefn = (PropertyDefn) properties.get( i );
-			duplicateStructure(
-					new ContainerContext( source, propDefn.getName( ) ),
-					new ContainerContext( target, propDefn.getName( ) ),
-					targetModule );
+			duplicateStructure( new ContainerContext( source, propDefn
+					.getName( ) ), new ContainerContext( target, propDefn
+					.getName( ) ), targetModule );
+		}
+
+		// do some special handle for cube and dimension
+		if ( target instanceof Cube )
+		{
+			Cube targetCube = (Cube) target;
+			Cube sourceCube = (Cube) source;
+			DesignElement group = sourceCube.getDefaultMeasureGroup( sourceCube
+					.getRoot( ) );
+			if ( group != null )
+			{
+				int index = group.getIndex( sourceCube.getRoot( ) );
+				assert index > -1;
+				targetCube.setDefaultMeasureGroup( index );
+			}
+		}
+		else if ( target instanceof Dimension )
+		{
+			Dimension targetDimension = (Dimension) target;
+			Dimension sourceDimension = (Dimension) source;
+			DesignElement hierarchy = sourceDimension
+					.getDefaultHierarchy( sourceDimension.getRoot( ) );
+			if ( hierarchy != null )
+			{
+				int index = hierarchy.getIndex( sourceDimension.getRoot( ) );
+				assert index > -1;
+				targetDimension.setDefaultHierarchy( index );
+			}
 		}
 
 		return true;
@@ -374,7 +403,8 @@ public class ElementStructureUtil
 		for ( int i = 0; i < properties.size( ); i++ )
 		{
 			PropertyDefn propDefn = (PropertyDefn) properties.get( i );
-			new ContainerContext( element, propDefn.getName( ) ).clearContents( );
+			new ContainerContext( element, propDefn.getName( ) )
+					.clearContents( );
 		}
 	}
 
@@ -438,8 +468,7 @@ public class ElementStructureUtil
 
 		// Copies top level slots from cloned element to the target element.
 
-		boolean result = ElementStructureUtil.updateStructureFromParent(
-				module, element, parent );
+		boolean result = updateStructureFromParent( module, element, parent );
 		if ( element instanceof TableItem )
 		{
 			( (TableItem) element ).refreshRenderModel( module );

@@ -193,20 +193,20 @@ public abstract class ReportElementState extends DesignParseState
 		// element
 		// or it is within a child element.
 
-			if ( container.getExtendsElement( ) != null )
-			{
-				handler
-						.getErrorHandler( )
-						.semanticWarning(
-								new ContentException(
-										container,
-										slotID,
-										content,
-										ContentException.DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN ) );
-				return false;
-			}
+		if ( container.getExtendsElement( ) != null )
+		{
+			handler
+					.getErrorHandler( )
+					.semanticWarning(
+							new ContentException(
+									container,
+									slotID,
+									content,
+									ContentException.DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN ) );
+			return false;
+		}
 
-			// If this is a single-item slot, ensure that the slot is empty.
+		// If this is a single-item slot, ensure that the slot is empty.
 
 		if ( !slotInfo.isMultipleCardinality( )
 				&& container.getSlot( slotID ).getCount( ) > 0 )
@@ -336,11 +336,11 @@ public abstract class ReportElementState extends DesignParseState
 		else
 			element.setName( name );
 
-		if ( element.getDefn( ).canExtend( ) )
+		String extendsName = attrs
+				.getValue( DesignSchemaConstants.EXTENDS_ATTRIB );
+		if ( !StringUtil.isBlank( extendsName )
+				&& element.getDefn( ).canExtend( ) )
 		{
-			String extendsName = attrs
-					.getValue( DesignSchemaConstants.EXTENDS_ATTRIB );
-
 			element.setExtendsName( extendsName );
 			resolveExtendsElement( );
 		}

@@ -398,7 +398,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 					( (PeerExtensionElementDefn) elementDefn )
 							.getReportItemFactory( ).getMessages( ) );
 
-			boolean hasOwnModel = getBooleanAttrib( elementTag, HAS_OWN_MODEL,
+			boolean hasOwnModel = getBooleanAttrib( propTag, HAS_OWN_MODEL,
 					true );
 
 			extPropDefn.setName( name );

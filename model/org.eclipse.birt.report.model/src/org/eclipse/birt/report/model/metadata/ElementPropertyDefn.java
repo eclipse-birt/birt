@@ -142,6 +142,13 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 		if ( isIntrinsic( ) && isStyleProperty( ) )
 			throw new MetaDataException( new String[]{name},
 					MetaDataException.DESIGN_EXCEPTION_INCONSISTENT_PROP_TYPE );
+
+		// all element type property is not inheritable
+		if ( getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
+		{
+			this.isInheritable = false;
+		}
+
 	}
 
 	/**

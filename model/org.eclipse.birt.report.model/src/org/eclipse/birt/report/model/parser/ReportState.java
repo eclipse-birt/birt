@@ -68,7 +68,7 @@ public class ReportState extends ModuleState
 				.equalsIgnoreCase( DesignSchemaConstants.TEMPLATE_PARAMETER_DEFINITIONS_TAG ) )
 			return new TemplateParameterDefinitionsState( );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.CUBES_TAG ) )
-			return new CubesState( );
+			return new CubesState( IReportDesignModel.CUBE_SLOT );
 		return super.startElement( tagName );
 	}
 
@@ -178,30 +178,4 @@ public class ReportState extends ModuleState
 		}
 	}
 
-	/**
-	 * Parses the contents of the list of styles.
-	 */
-
-	private class CubesState extends InnerParseState
-	{
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
-		 */
-
-		public AbstractParseState startElement( String tagName )
-		{
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TABULAR_CUBE_TAG ) )
-				return new TabularCubeState( handler, module,
-						IReportDesignModel.CUBE_SLOT );
-			
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.ODA_CUBE_TAG ) )
-				return new OdaCubeState( handler, module,
-						IReportDesignModel.CUBE_SLOT );
-			
-			return super.startElement( tagName );
-		}
-	}
 }

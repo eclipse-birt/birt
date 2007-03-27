@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Translation;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.AnyElementState;
 import org.eclipse.birt.report.model.util.VersionUtil;
@@ -416,6 +417,44 @@ public abstract class ModuleState extends DesignParseState
 				return new TextDataItemState( handler, module, slotID );
 			return super.startElement( tagName );
 		}
+	}
+
+	/**
+	 * Parses the contents of the list of styles.
+	 */
+
+	class CubesState extends InnerParseState
+	{
+
+		private int slotID = -1;
+
+		/**
+		 * 
+		 * @param slot
+		 */
+		public CubesState( int slot )
+		{
+			this.slotID = slot;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 */
+
+		public AbstractParseState startElement( String tagName )
+		{
+			if ( tagName
+					.equalsIgnoreCase( DesignSchemaConstants.TABULAR_CUBE_TAG ) )
+				return new TabularCubeState( handler, module, slotID );
+
+			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.ODA_CUBE_TAG ) )
+				return new OdaCubeState( handler, module, slotID );
+
+			return super.startElement( tagName );
+		}
+
 	}
 
 }

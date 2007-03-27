@@ -36,12 +36,14 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -70,6 +72,7 @@ public class PeerExtensionTest extends BaseTestCase
 	private static final String FILE_NAME_3 = "PeerExtensionTest_3.xml"; //$NON-NLS-1$
 	private static final String FILE_NAME_5 = "PeerExtensionTest_5.xml";//$NON-NLS-1$
 	private static final String FILE_NAME_6 = "PeerExtensionTest_6.xml"; //$NON-NLS-1$
+	private static final String FILE_NAME_7 = "PeerExtensionTest_7.xml"; //$NON-NLS-1$
 
 	private static final String POINTS_PROP_NAME = "points"; //$NON-NLS-1$
 
@@ -631,5 +634,34 @@ public class PeerExtensionTest extends BaseTestCase
 		assertEquals( style.getStringProperty( IStyleModel.FONT_VARIANT_PROP ),
 				extendedItem.getStringProperty( IStyleModel.FONT_VARIANT_PROP ) );
 
+	}
+
+	/**
+	 * Test getLocalProperty in ExtendedItem. If a extension property is element
+	 * reference type and is not resolved, we will try to resolve it everty
+	 * time.
+	 * @throws Exception 
+	 */
+	public void testResolveForExtensionProperty( ) throws Exception
+	{
+		openDesign( FILE_NAME_7 );
+
+		// originally reference is not resolved for no cube exists
+		DesignElementHandle extendedItem = designHandle
+				.findElement( "testTable" ); //$NON-NLS-1$
+		ElementRefValue value = (ElementRefValue) extendedItem.getElement( )
+				.getProperty( design, "cube" ); //$NON-NLS-1$
+		assertEquals( "testCube", value.getName( ) ); //$NON-NLS-1$
+		assertFalse( value.isResolved( ) );
+
+		// add the cube and test again
+		CubeHandle cube = designHandle.getElementFactory( ).newTabularCube(
+				"testCube" ); //$NON-NLS-1$
+		designHandle.getCubes( ).add( cube );
+		value = (ElementRefValue) extendedItem.getElement( ).getProperty(
+				design, "cube" ); //$NON-NLS-1$
+		assertEquals( "testCube", value.getName( ) ); //$NON-NLS-1$
+		assertEquals( cube.getElement( ), value.getTargetElement( ) );
+		assertTrue( value.isResolved( ) );
 	}
 }

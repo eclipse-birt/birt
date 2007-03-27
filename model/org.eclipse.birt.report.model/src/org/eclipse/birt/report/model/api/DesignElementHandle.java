@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -107,6 +108,11 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 */
 
 	private SlotHandle[] slotHandles = null;
+
+	/**
+	 * Property handle for element type properties.
+	 */
+	private Map propHandles = null;
 
 	/**
 	 * Constructs a handle with the given module.
@@ -1051,6 +1057,20 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		ElementPropertyDefn propDefn = element.getPropertyDefn( propName );
 		if ( propDefn == null )
 			return null;
+
+		// cache all element type property handles
+		if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
+		{
+			if ( propHandles == null )
+				propHandles = new HashMap( );
+			if ( propHandles.get( propDefn.getName( ) ) != null )
+				return (PropertyHandle) propHandles.get( propDefn.getName( ) );
+
+			PropertyHandle pHandle = new PropertyHandle( this, propDefn );
+			this.propHandles.put( propDefn.getName( ), pHandle );
+			return pHandle;
+
+		}
 		return new PropertyHandle( this, propDefn );
 	}
 
@@ -1258,10 +1278,10 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			return null;
 
 		int slotID = containerHandle.findContentSlot( this );
-		//if not find , return null.
-		if( slotID == IDesignElementModel.NO_SLOT )
+		// if not find , return null.
+		if ( slotID == IDesignElementModel.NO_SLOT )
 			return null;
-		
+
 		return containerHandle.getSlot( slotID );
 	}
 

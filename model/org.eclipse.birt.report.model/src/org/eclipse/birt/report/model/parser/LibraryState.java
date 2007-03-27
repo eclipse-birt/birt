@@ -16,9 +16,11 @@ import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.parser.ModuleState.CubesState;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.xml.sax.SAXException;
@@ -114,6 +116,8 @@ public class LibraryState extends ModuleState
 			return new SlotState( IModuleModel.COMPONENT_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
 			return new PropertyState( handler, getElement( ) );
+		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.CUBES_TAG ) )
+			return new CubesState( ILibraryModel.CUBE_SLOT );
 		return super.startElement( tagName );
 	}
 

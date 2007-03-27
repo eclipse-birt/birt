@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.11">
+    <page-setup>
+        <graphic-master-page name="My Page">
+            <contents>         
+            	<data/>      
+            </contents>
+        </graphic-master-page>
+    </page-setup>
+    <list-property name="libraries">
+		<structure>
+			<property name="fileName">LibraryWithElementProperty.xml</property>
+	        <property name="namespace">lib</property>
+		</structure>
+    </list-property>
+    <cubes>
+    	<tabular-cube name="designCube" extends="lib.testCube"/>
+    </cubes>
+</report>

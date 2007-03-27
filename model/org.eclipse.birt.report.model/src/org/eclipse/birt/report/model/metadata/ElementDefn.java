@@ -528,7 +528,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 			while ( iter.hasNext( ) )
 			{
 				PropertyDefn defn = (PropertyDefn) iter.next( );
-				if ( defn.isElementType( ) )
+				if ( defn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
 					cachedContainerProperties.put( defn.getName( ), defn );
 			}
 		}
