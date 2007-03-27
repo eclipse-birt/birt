@@ -83,6 +83,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.soapengine.api.Column;
 import org.eclipse.birt.report.soapengine.api.ResultSet;
@@ -1007,7 +1008,15 @@ public class ReportEngineService
 			boolean masterPage, boolean svgFlag, List activeIds, Locale locale,
 			boolean rtl, String iServletPath ) throws RemoteException
 	{
-		assert reportDocument != null;
+		if ( reportDocument == null )
+		{
+			AxisFault fault = new AxisFault(
+					BirtResources
+							.getMessage( ResourceConstants.ACTION_EXCEPTION_NO_REPORT_DOCUMENT ) );
+			fault.setFaultCode( new QName(
+					"ReportEngineService.renderReport( )" ) ); //$NON-NLS-1$
+			throw fault;
+		}
 
 		OutputStream out = os;
 		if ( out == null )
@@ -1159,7 +1168,15 @@ public class ReportEngineService
 			boolean masterPage, boolean svgFlag, List activeIds, Locale locale,
 			boolean rtl, String iServletPath ) throws RemoteException
 	{
-		assert reportDocument != null;
+		if ( reportDocument == null )
+		{
+			AxisFault fault = new AxisFault(
+					BirtResources
+							.getMessage( ResourceConstants.ACTION_EXCEPTION_NO_REPORT_DOCUMENT ) );
+			fault.setFaultCode( new QName(
+					"ReportEngineService.renderReportlet( )" ) ); //$NON-NLS-1$
+			throw fault;
+		}
 
 		OutputStream out = os;
 		if ( out == null )
