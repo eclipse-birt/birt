@@ -3,7 +3,7 @@
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.0" id="1">
     <list-property name="libraries">
 		<structure>
-			<property name="fileName">library_1.xml</property>
+			<property name="fileName">Library_1.xml</property>
 	        <property name="namespace">Lib1</property>
 		</structure>
     </list-property>	
