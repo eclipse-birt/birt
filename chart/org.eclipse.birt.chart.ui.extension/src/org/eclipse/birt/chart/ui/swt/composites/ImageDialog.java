@@ -55,7 +55,7 @@ public class ImageDialog extends TrayDialog
 
 	final private static int EMBEDDED_TYPE = 1;
 
-	private Button embedded, uri, previewButton;
+	private Button embedded, uri, browseButton, previewButton;
 
 	private Composite inputArea;
 
@@ -180,10 +180,10 @@ public class ImageDialog extends TrayDialog
 
 		innerComp.setLayout( new GridLayout( 2, false ) );
 
-		Button inputButton = new Button( innerComp, SWT.PUSH );
-		inputButton.setText( Messages.getString( "ImageDialog.label.Browse" ) ); //$NON-NLS-1$
-		inputButton.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
-		inputButton.addSelectionListener( new SelectionAdapter( ) {
+		browseButton = new Button( innerComp, SWT.PUSH );
+		browseButton.setText( Messages.getString( "ImageDialog.label.Browse" ) ); //$NON-NLS-1$
+		browseButton.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
+		browseButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent event )
 			{
@@ -213,6 +213,7 @@ public class ImageDialog extends TrayDialog
 				}
 			}
 		} );
+		browseButton.setVisible( embedded.getSelection( ) );
 
 		previewButton = new Button( innerComp, SWT.PUSH );
 		previewButton.setText( Messages.getString( "ImageDialog.label.Preview" ) ); //$NON-NLS-1$
@@ -365,6 +366,7 @@ public class ImageDialog extends TrayDialog
 				&& uriEditor.getText( ).trim( ).length( ) > 0;
 		previewButton.setEnabled( complete );
 		getButton( IDialogConstants.OK_ID ).setEnabled( complete );
+		browseButton.setVisible( embedded.getSelection( ) );
 	}
 
 	/**
