@@ -457,7 +457,8 @@ public class GroupUtil implements ICrosstabConstants
 	 */
 	public static int computeRowSpan( CrosstabReportItemHandle crosstabItem,
 			List rowGroups, int dimensionIndex, int levelIndex,
-			EdgeCursor rowEdgeCursor ) throws OLAPException
+			EdgeCursor rowEdgeCursor, boolean isLayoutDownThenOver )
+			throws OLAPException
 	{
 		long startPosition = rowEdgeCursor.getPosition( );
 
@@ -490,11 +491,14 @@ public class GroupUtil implements ICrosstabConstants
 
 			int span = 0;
 
+			int startGroupIndex = isLayoutDownThenOver ? ( groupIndex + 1 )
+					: groupIndex;
+
 			while ( currentPosition <= edgeEndPosition )
 			{
 				span++;
 
-				for ( int i = rowGroups.size( ) - 2; i >= groupIndex; i-- )
+				for ( int i = rowGroups.size( ) - 2; i >= startGroupIndex; i-- )
 				{
 					dc = (DimensionCursor) rowEdgeCursor.getDimensionCursor( )
 							.get( i );

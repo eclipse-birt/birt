@@ -14,6 +14,9 @@ package org.eclipse.birt.report.item.crosstab.core.re.executor;
 import java.util.Iterator;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
+import org.eclipse.birt.report.engine.adapter.ExpressionUtil;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
@@ -22,11 +25,15 @@ import org.eclipse.birt.report.engine.extension.IExecutorContext;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.model.api.FactoryPropertyHandle;
 import org.eclipse.birt.report.model.api.HideRuleHandle;
+import org.eclipse.birt.report.model.api.HighlightRuleHandle;
+import org.eclipse.birt.report.model.api.MemberHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TOCHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.elements.Style;
 
 /**
@@ -43,18 +50,22 @@ class ContentUtil
 	}
 
 	static void processStyle( IExecutorContext context, IContent content,
-			AbstractCrosstabItemHandle handle )
+			AbstractCrosstabItemHandle handle, IBaseResultSet evaluator )
+			throws BirtException
 	{
-		IStyle style = processStyle( context.getReportContent( ), handle );
+		IStyle style = processStyle( context.getReportContent( ),
+				handle,
+				evaluator );
 
-		if ( style != null )
+		if ( style != null && !style.isEmpty( ) )
 		{
 			content.setInlineStyle( style );
 		}
 	}
 
 	static IStyle processStyle( IReportContent reportContent,
-			AbstractCrosstabItemHandle handle )
+			AbstractCrosstabItemHandle handle, IBaseResultSet evaluator )
+			throws BirtException
 	{
 		ReportElementHandle modelHandle = getReportElementHandle( handle );
 
@@ -65,12 +76,40 @@ class ContentUtil
 			return null;
 		}
 
-		// TODO process highlight
 		IStyle style = reportContent.createStyle( );
 
 		setupPrivateStyle( modelHandle, style );
 
+		// process highlight
+		if ( evaluator != null )
+		{
+			setupHighlightStyle( modelHandle, style, evaluator );
+		}
+
 		return style;
+	}
+
+	static void setupHighlightStyle( ReportElementHandle handle, IStyle style,
+			IBaseResultSet evaluator ) throws BirtException
+	{
+		Iterator itr = handle.getPrivateStyle( ).highlightRulesIterator( );
+
+		while ( itr != null && itr.hasNext( ) )
+		{
+			HighlightRuleHandle rule = (HighlightRuleHandle) itr.next( );
+
+			IConditionalExpression expression = ExpressionUtil.transformConditionalExpression( new ConditionalExpression( rule.getTestExpression( ),
+					toDteFilterOperator( rule.getOperator( ) ),
+					rule.getValue1( ),
+					rule.getValue2( ) ) );
+
+			Object value = evaluator.evaluate( expression );
+
+			if ( value instanceof Boolean && ( (Boolean) value ).booleanValue( ) )
+			{
+				setupRuleStyle( rule, style );
+			}
+		}
 	}
 
 	static void processVisibility( IExecutorContext context, IContent content,
@@ -337,6 +376,181 @@ class ContentUtil
 				Style.SHOW_IF_BLANK_PROP ) );
 	}
 
+	static IStyle setupRuleStyle( StructureHandle highlight, IStyle style )
+	{
+		// Background
+		style.setBackgroundColor( getMemberProperty( highlight,
+				HighlightRule.BACKGROUND_COLOR_MEMBER ) );
+		// style.setBackgroundPositionX(getMemberProperty(highlight,
+		// HighlightRule.BACKGROUND_POSITION_X_MEMBER));
+		// style.setBackgroundPositionY(getMemberProperty(highlight,
+		// HighlightRule.BACKGROUND_POSITION_Y_MEMBER));
+		// style.setBackgroundRepeat(getMemberProperty(highlight,
+		// HighlightRule.BACKGROUND_REPEAT_MEMBER));
+
+		// Text related
+		style.setTextAlign( getMemberProperty( highlight,
+				HighlightRule.TEXT_ALIGN_MEMBER ) );
+		style.setTextIndent( getMemberProperty( highlight,
+				HighlightRule.TEXT_INDENT_MEMBER ) );
+		style.setTextUnderline( getMemberProperty( highlight,
+				Style.TEXT_UNDERLINE_PROP ) );
+		style.setTextLineThrough( getMemberProperty( highlight,
+				Style.TEXT_LINE_THROUGH_PROP ) );
+		style.setTextOverline( getMemberProperty( highlight,
+				Style.TEXT_OVERLINE_PROP ) );
+		// style.setLetterSpacing(getMemberProperty(highlight,
+		// HighlightRule.LETTER_SPACING_MEMBER));
+		// style.setLineHeight(getMemberProperty(highlight,
+		// HighlightRule.LINE_HEIGHT_MEMBER));
+		// style.setOrphans(getMemberProperty(highlight,
+		// HighlightRule.ORPHANS_MEMBER));
+		style.setTextTransform( getMemberProperty( highlight,
+				HighlightRule.TEXT_TRANSFORM_MEMBER ) );
+		// style.setVerticalAlign(getMemberProperty(highlight,
+		// HighlightRule.VERTICAL_ALIGN_MEMBER));
+		// style.setWhiteSpace(getMemberProperty(highlight,
+		// HighlightRule.WHITE_SPACE_MEMBER));
+		// style.setWidows(getMemberProperty(highlight,
+		// HighlightRule.WIDOWS_MEMBER));
+		// style.setWordSpacing(getMemberProperty(highlight,
+		// HighlightRule.WORD_SPACING_MEMBER));
+
+		// Section properties
+		// style.setDisplay(getMemberProperty(highlight,
+		// HighlightRule.DISPLAY_MEMBER));
+		// style.setMasterPage(getMemberProperty(highlight,
+		// HighlightRule.MASTER_PAGE_MEMBER));
+		// style.setPageBreakAfter(getMemberProperty(highlight,
+		// HighlightRule.PAGE_BREAK_AFTER_MEMBER));
+		// style.setPageBreakBefore(getMemberProperty(highlight,
+		// HighlightRule.PAGE_BREAK_BEFORE_MEMBER));
+		// style.setPageBreakInside(getMemberProperty(highlight,
+		// HighlightRule.PAGE_BREAK_INSIDE_MEMBER));
+
+		// Font related
+		style.setFontFamily( getMemberProperty( highlight,
+				HighlightRule.FONT_FAMILY_MEMBER ) );
+		style.setColor( getMemberProperty( highlight,
+				HighlightRule.COLOR_MEMBER ) );
+		style.setFontSize( getMemberProperty( highlight,
+				HighlightRule.FONT_SIZE_MEMBER ) );
+		style.setFontStyle( getMemberProperty( highlight,
+				HighlightRule.FONT_STYLE_MEMBER ) );
+		style.setFontWeight( getMemberProperty( highlight,
+				HighlightRule.FONT_WEIGHT_MEMBER ) );
+		style.setFontVariant( getMemberProperty( highlight,
+				HighlightRule.FONT_VARIANT_MEMBER ) );
+
+		// Border
+		style.setBorderBottomColor( getMemberProperty( highlight,
+				HighlightRule.BORDER_BOTTOM_COLOR_MEMBER ) );
+		style.setBorderBottomStyle( getMemberProperty( highlight,
+				HighlightRule.BORDER_BOTTOM_STYLE_MEMBER ) );
+		style.setBorderBottomWidth( getMemberProperty( highlight,
+				HighlightRule.BORDER_BOTTOM_WIDTH_MEMBER ) );
+		style.setBorderLeftColor( getMemberProperty( highlight,
+				HighlightRule.BORDER_LEFT_COLOR_MEMBER ) );
+		style.setBorderLeftStyle( getMemberProperty( highlight,
+				HighlightRule.BORDER_LEFT_STYLE_MEMBER ) );
+		style.setBorderLeftWidth( getMemberProperty( highlight,
+				HighlightRule.BORDER_LEFT_WIDTH_MEMBER ) );
+		style.setBorderRightColor( getMemberProperty( highlight,
+				HighlightRule.BORDER_RIGHT_COLOR_MEMBER ) );
+		style.setBorderRightStyle( getMemberProperty( highlight,
+				HighlightRule.BORDER_RIGHT_STYLE_MEMBER ) );
+		style.setBorderRightWidth( getMemberProperty( highlight,
+				HighlightRule.BORDER_RIGHT_WIDTH_MEMBER ) );
+		style.setBorderTopColor( getMemberProperty( highlight,
+				HighlightRule.BORDER_TOP_COLOR_MEMBER ) );
+		style.setBorderTopStyle( getMemberProperty( highlight,
+				HighlightRule.BORDER_TOP_STYLE_MEMBER ) );
+		style.setBorderTopWidth( getMemberProperty( highlight,
+				HighlightRule.BORDER_TOP_WIDTH_MEMBER ) );
+
+		// Margin
+		// style.setMarginTop(getMemberProperty(highlight,
+		// HighlightRule.MARGIN_TOP_MEMBER));
+		// style.setMarginLeft(getMemberProperty(highlight,
+		// HighlightRule.MARGIN_LEFT_MEMBER));
+		// style.setMarginBottom(getMemberProperty(highlight,
+		// HighlightRule.MARGIN_BOTTOM_MEMBER));
+		// style.setMarginRight(getMemberProperty(highlight,
+		// HighlightRule.MARGIN_RIGHT_MEMBER));
+
+		// Padding
+		// style.setPaddingTop(getMemberProperty(highlight,
+		// HighlightRule.PADDING_TOP_MEMBER));
+		// style.setPaddingLeft(getMemberProperty(highlight,
+		// HighlightRule.PADDING_LEFT_MEMBER));
+		// style.setPaddingBottom(getMemberProperty(highlight,
+		// HighlightRule.PADDING_BOTTOM_MEMBER));
+		// style.setPaddingRight(getMemberProperty(highlight,
+		// HighlightRule.PADDING_RIGHT_MEMBER));
+
+		// Data Formatting
+		style.setNumberAlign( getMemberProperty( highlight,
+				HighlightRule.NUMBER_ALIGN_MEMBER ) );
+		style.setDateFormat( getMemberProperty( highlight,
+				HighlightRule.DATE_TIME_FORMAT_MEMBER ) );
+		style.setNumberFormat( getMemberProperty( highlight,
+				HighlightRule.NUMBER_FORMAT_MEMBER ) );
+		style.setStringFormat( getMemberProperty( highlight,
+				HighlightRule.STRING_FORMAT_MEMBER ) );
+
+		// Others
+		// style.setCanShrink(getMemberProperty(highlight,
+		// HighlightRule.CAN_SHRINK_MEMBER));
+		// style.setShowIfBlank(getMemberProperty(highlight,
+		// HighlightRule.SHOW_IF_BLANK_MEMBER));
+
+		return style;
+	}
+
+	static int toDteFilterOperator( String modelOpr )
+	{
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_EQ ) )
+			return IConditionalExpression.OP_EQ;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NE ) )
+			return IConditionalExpression.OP_NE;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_LT ) )
+			return IConditionalExpression.OP_LT;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_LE ) )
+			return IConditionalExpression.OP_LE;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_GE ) )
+			return IConditionalExpression.OP_GE;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_GT ) )
+			return IConditionalExpression.OP_GT;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_BETWEEN ) )
+			return IConditionalExpression.OP_BETWEEN;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NOT_BETWEEN ) )
+			return IConditionalExpression.OP_NOT_BETWEEN;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NULL ) )
+			return IConditionalExpression.OP_NULL;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NOT_NULL ) )
+			return IConditionalExpression.OP_NOT_NULL;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_TRUE ) )
+			return IConditionalExpression.OP_TRUE;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_FALSE ) )
+			return IConditionalExpression.OP_FALSE;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_LIKE ) )
+			return IConditionalExpression.OP_LIKE;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_TOP_N ) )
+			return IConditionalExpression.OP_TOP_N;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_N ) )
+			return IConditionalExpression.OP_BOTTOM_N;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_TOP_PERCENT ) )
+			return IConditionalExpression.OP_TOP_PERCENT;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_PERCENT ) )
+			return IConditionalExpression.OP_BOTTOM_PERCENT;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NOT_LIKE ) )
+			return IConditionalExpression.OP_NOT_LIKE;
+		if ( modelOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NOT_MATCH ) )
+			return IConditionalExpression.OP_NOT_MATCH;
+
+		return IConditionalExpression.OP_NONE;
+	}
+
 	static String decodePageBreak( String pageBreak )
 	{
 		if ( pageBreak == null )
@@ -394,6 +608,16 @@ class ContentUtil
 				return prop.getColorValue( );
 			}
 
+			return prop.getStringValue( );
+		}
+		return null;
+	}
+
+	static String getMemberProperty( StructureHandle handle, String name )
+	{
+		MemberHandle prop = handle.getMember( name );
+		if ( prop != null )
+		{
 			return prop.getStringValue( );
 		}
 		return null;

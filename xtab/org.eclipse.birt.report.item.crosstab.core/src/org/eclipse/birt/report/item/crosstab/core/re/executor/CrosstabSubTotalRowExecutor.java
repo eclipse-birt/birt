@@ -46,9 +46,10 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 	private int totalMeasureCount;
 
 	private long currentEdgePosition;
+	private boolean isLayoutDownThenOver;
 
-	private int nextDimensionIndex;
-	private int nextLevelIndex;
+	private int startTotalDimensionIndex;
+	private int startTotalLevelIndex;
 
 	private boolean rowEdgeStarted;
 	private boolean rowSubTotalStarted;
@@ -99,11 +100,21 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 		lastMeasureIndex = -1;
 		totalMeasureCount = crosstabItem.getMeasureCount( );
 
-		EdgeGroup nextGroup = GroupUtil.getNextGroup( rowGroups,
-				dimensionIndex,
-				levelIndex );
-		nextDimensionIndex = nextGroup.dimensionIndex;
-		nextLevelIndex = nextGroup.levelIndex;
+		isLayoutDownThenOver = PAGE_LAYOUT_DOWN_THEN_OVER.equals( crosstabItem.getPageLayout( ) );
+
+		if ( isLayoutDownThenOver )
+		{
+			startTotalDimensionIndex = dimensionIndex;
+			startTotalLevelIndex = levelIndex;
+		}
+		else
+		{
+			EdgeGroup nextGroup = GroupUtil.getNextGroup( rowGroups,
+					dimensionIndex,
+					levelIndex );
+			startTotalDimensionIndex = nextGroup.dimensionIndex;
+			startTotalLevelIndex = nextGroup.levelIndex;
+		}
 
 		DimensionViewHandle dv = crosstabItem.getDimension( ROW_AXIS_TYPE,
 				dimensionIndex );
@@ -164,7 +175,8 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 		}
 
 		if ( ev.dimensionIndex > dimensionIndex
-				|| ( ev.dimensionIndex == dimensionIndex && ev.levelIndex > levelIndex ) )
+				|| ( ev.dimensionIndex == dimensionIndex && ( isLayoutDownThenOver ? ( ev.levelIndex >= levelIndex )
+						: ( ev.levelIndex > levelIndex ) ) ) )
 		{
 			return false;
 		}
@@ -176,7 +188,8 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 					ev.dimensionIndex );
 			LevelViewHandle lv = dv.getLevel( ev.levelIndex );
 
-			if ( lv.getAggregationHeader( ) != null
+			if ( !isLayoutDownThenOver
+					&& lv.getAggregationHeader( ) != null
 					&& AGGREGATION_HEADER_LOCATION_BEFORE.equals( lv.getAggregationHeaderLocation( ) ) )
 			{
 				return false;
@@ -293,7 +306,7 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 							rowGroups,
 							ev.dimensionIndex,
 							ev.levelIndex,
-							getRowEdgeCursor( ) )
+							getRowEdgeCursor( ), isLayoutDownThenOver )
 							* factor;
 					colSpan = 0;
 					lastDimensionIndex = ev.dimensionIndex;
@@ -302,8 +315,8 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 				}
 				else if ( !rowSubTotalStarted
 						&& ev.type == ColumnEvent.ROW_EDGE_CHANGE
-						&& ev.dimensionIndex == nextDimensionIndex
-						&& ev.levelIndex == nextLevelIndex
+						&& ev.dimensionIndex == startTotalDimensionIndex
+						&& ev.levelIndex == startTotalLevelIndex
 						&& rowIndex == 0 )
 				{
 					rowSubTotalStarted = true;

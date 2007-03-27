@@ -50,6 +50,7 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 	private boolean hasLast;
 
 	private long currentEdgePosition;
+	private boolean isLayoutDownThenOver;
 
 	private int factor;
 	private boolean isFirst;
@@ -94,6 +95,8 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 		colSpan = 0;
 		lastMeasureIndex = -1;
 		totalMeasureCount = crosstabItem.getMeasureCount( );
+
+		isLayoutDownThenOver = PAGE_LAYOUT_DOWN_THEN_OVER.equals( crosstabItem.getPageLayout( ) );
 
 		factor = hasMeasureHeader( ROW_AXIS_TYPE ) ? Math.max( totalMeasureCount,
 				1 )
@@ -181,6 +184,15 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 					&& gp.levelIndex == ev.levelIndex )
 			{
 				groupFound = true;
+			}
+
+			if ( isLayoutDownThenOver
+					&& groupFound
+					&& gp.dimensionIndex == ev.dimensionIndex
+					&& gp.levelIndex == ev.levelIndex )
+			{
+				// skip self
+				continue;
 			}
 
 			// only check with non-leaf groups
@@ -313,7 +325,8 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 							rowGroups,
 							ev.dimensionIndex,
 							ev.levelIndex,
-							getRowEdgeCursor( ) )
+							getRowEdgeCursor( ),
+							isLayoutDownThenOver )
 							* factor;
 					colSpan = 0;
 					lastDimensionIndex = ev.dimensionIndex;

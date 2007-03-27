@@ -111,7 +111,19 @@ public abstract class BaseCrosstabExecutor implements
 
 	protected void processStyle( AbstractCrosstabItemHandle handle )
 	{
-		ContentUtil.processStyle( context, content, handle );
+		try
+		{
+			ContentUtil.processStyle( context,
+					content,
+					handle,
+					getCubeResultSet( ) );
+		}
+		catch ( BirtException e )
+		{
+			logger.log( Level.SEVERE,
+					Messages.getString( "BaseCrosstabExecutor.error.process.style" ), //$NON-NLS-1$
+					e );
+		}
 	}
 
 	protected void processVisibility( AbstractCrosstabItemHandle handle )
