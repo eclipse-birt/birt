@@ -143,17 +143,20 @@ public class ChartImageManager
 	private InputStream generateStream( ) throws BirtException
 	{
 		InputStream fis = null;
+		Generator gr = Generator.instance( );
 		try
 		{
 			if ( evaluator == null )
 			{
-				cm.createSampleRuntimeSeries( );
+				// If chart has runtime dataset, do not create sample data
+				if ( !ChartWebHelper.isChartInRuntime( cm ) )
+				{
+					cm.createSampleRuntimeSeries( );
+				}
 			}
 			else
 			{
-				// // REMOVE ANY TRANSIENT RUNTIME SERIES
-				// cm.clearSections( IConstants.RUN_TIME );
-				Generator.instance( ).bindData( evaluator, cm, rtc );
+				gr.bindData( evaluator, cm, rtc );
 			}
 
 			// FETCH A HANDLE TO THE DEVICE RENDERER
@@ -175,13 +178,12 @@ public class ChartImageManager
 
 			final Bounds bo = (Bounds) EcoreUtil.copy( originalBounds );
 
-			GeneratedChartState gcs = Generator.instance( )
-					.build( idr.getDisplayServer( ),
-							cm,
-							bo,
-							externalContext,
-							rtc,
-							styleProc );
+			GeneratedChartState gcs = gr.build( idr.getDisplayServer( ),
+					cm,
+					bo,
+					externalContext,
+					rtc,
+					styleProc );
 
 			// WRITE TO THE IMAGE FILE
 			ByteArrayOutputStream baos = new ByteArrayOutputStream( );
@@ -191,7 +193,7 @@ public class ChartImageManager
 			idr.setProperty( IDeviceRenderer.UPDATE_NOTIFIER,
 					new EmptyUpdateNotifier( cm, gcs.getChartModel( ) ) );
 
-			Generator.instance( ).render( idr, gcs );
+			gr.render( idr, gcs );
 
 			// cleanup the dataRow evaluator.
 			// rowAdapter.close( );

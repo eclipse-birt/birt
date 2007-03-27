@@ -16,10 +16,15 @@ import java.io.FileInputStream;
 
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.Serializer;
+import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.impl.SerializerImpl;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.emf.common.util.EList;
 
 /**
  * Utility class for web component
@@ -28,6 +33,14 @@ import org.eclipse.birt.chart.util.ChartUtil;
 public class ChartWebHelper
 {
 
+	/**
+	 * Parses a xml file to chart model instance
+	 * 
+	 * @param strPath
+	 *            chart xml file path
+	 * @return
+	 * @throws ChartException
+	 */
 	public static Chart parseChart( String strPath ) throws ChartException
 	{
 		Chart chartModel = null;
@@ -50,6 +63,13 @@ public class ChartWebHelper
 		return chartModel;
 	}
 
+	/**
+	 * Checks if the output type is supported
+	 * 
+	 * @param type
+	 *            output type
+	 * @return
+	 */
 	public static boolean checkOutputType( String type )
 	{
 		try
@@ -60,5 +80,49 @@ public class ChartWebHelper
 		{
 			return false;
 		}
+	}
+
+	/**
+	 * Checks if current chart has runtime datasets.
+	 * 
+	 * @param cm
+	 *            chart model
+	 * @return
+	 */
+	public static boolean isChartInRuntime( Chart cm )
+	{
+		if ( cm instanceof ChartWithAxes )
+		{
+			Axis bAxis = (Axis) ( (ChartWithAxes) cm ).getAxes( ).get( 0 );
+			EList oAxes = bAxis.getAssociatedAxes( );
+			for ( int i = 0; i < oAxes.size( ); i++ )
+			{
+				Axis oAxis = (Axis) oAxes.get( i );
+				EList oSeries = oAxis.getSeriesDefinitions( );
+				for ( int j = 0; j < oSeries.size( ); j++ )
+				{
+					SeriesDefinition sd = (SeriesDefinition) oSeries.get( j );
+					if ( sd.getRunTimeSeries( ).size( ) > 0 )
+					{
+						return true;
+					}
+				}
+			}
+		}
+		else if ( cm instanceof ChartWithoutAxes )
+		{
+			SeriesDefinition bsd = (SeriesDefinition) ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
+					.get( 0 );
+			EList osds = bsd.getSeriesDefinitions( );
+			for ( int i = 0; i < osds.size( ); i++ )
+			{
+				SeriesDefinition osd = (SeriesDefinition) osds.get( i );
+				if ( osd.getRunTimeSeries( ).size( ) > 0 )
+				{
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }
