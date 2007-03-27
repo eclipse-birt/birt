@@ -78,6 +78,7 @@ import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.ir.RuleDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
+import org.eclipse.birt.report.engine.ir.TemplateDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
 import org.eclipse.birt.report.engine.ir.VisibilityDesign;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -322,6 +323,12 @@ public class ReportQueryBuilder
 	 */
 	protected class QueryBuilderVisitor extends DefaultReportItemVisitorImpl
 	{
+		
+		public Object visitTemplate( TemplateDesign template, Object value )
+		{
+			return null;
+		}
+		
 		/*
 		 * (non-Javadoc)
 		 * 
