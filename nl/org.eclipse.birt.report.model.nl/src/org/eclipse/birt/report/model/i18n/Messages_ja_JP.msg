@@ -3234,18 +3234,18 @@ New.TemplateDataSet=新しいテンプレートのデータセット
 New.TemplateReportItem=新しいテンプレートのレポート項目
 New.Theme=新しいテーマ
 New.AutoText=新規定型句
-New.TabularCube=テーブル形式のキューブの新規作成
-New.TabularDimension=テーブル形式の次元の新規作成
-New.TabularHierarchy=テーブル形式の階層の新規作成
-New.TabularLevel=テーブル形式のレベルの新規作成
-New.TabularMeasure=テーブル形式の計測の新規作成
-New.TabularMeasureGroup=テーブル形式の計測グループの新規作成
-New.OdaCube=ODA キューブの新規作成
-New.OdaDimension=ODA 次元の新規作成
-New.OdaHierarchy=ODA 次元の新規作成
-New.OdaLevel=ODA レベルの新規作成
-New.OdaMeasure=ODA 計測の新規作成
-New.OdaMeasureGroup=ODA 計測グループの新規作成
+New.TabularCube=新規テーブル形式のキューブ
+New.TabularDimension=新規テーブル形式の次元
+New.TabularHierarchy=新規テーブル形式の階層
+New.TabularLevel=新規テーブル形式のレベル
+New.TabularMeasure=新規テーブル形式の計測
+New.TabularMeasureGroup=新規テーブル形式の計測グループ
+New.OdaCube=新規ODAキューブ
+New.OdaDimension=新規ODA次元
+New.OdaHierarchy=新規ODA次元
+New.OdaLevel=新規ODAレベル
+New.OdaMeasure=新規ODA計測
+New.OdaMeasureGroup=新規ODA計測グループ
 
 ###########################################################
 #Default theme name.
