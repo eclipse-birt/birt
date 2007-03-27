@@ -11,13 +11,16 @@
 
 package org.eclipse.birt.report.presentation.aggregation.layout;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.rmi.RemoteException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -36,6 +39,7 @@ import org.eclipse.birt.report.service.actionhandler.BirtRenderReportActionHandl
 import org.eclipse.birt.report.service.actionhandler.BirtRunReportActionHandler;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
+import org.eclipse.birt.report.utility.BirtUtility;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
@@ -124,14 +128,13 @@ public class FramesetFragment extends BirtBaseFragment
 	protected void doPreService( HttpServletRequest request,
 			HttpServletResponse response ) throws ServletException, IOException
 	{
-		String format = ParameterAccessor.getFormat( request );
+		BaseAttributeBean attrBean = (BaseAttributeBean) request
+				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
+		String format = attrBean.getFormat( );
+		String openType = ParameterAccessor.getOpenType( request );
 		if ( ParameterAccessor.PARAM_FORMAT_PDF.equalsIgnoreCase( format ) )
 		{
 			response.setContentType( "application/pdf" ); //$NON-NLS-1$
-			String filename = ParameterAccessor.generateFileName( request );
-			response
-					.setHeader(
-							"Content-Disposition", "inline; filename=\"" + filename + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 		else
 		{
@@ -143,6 +146,10 @@ public class FramesetFragment extends BirtBaseFragment
 				response.setContentType( "application/octet-stream" ); //$NON-NLS-1$
 		}
 
+		String filename = ParameterAccessor.generateFileName( request );
+		response
+				.setHeader(
+						"Content-Disposition", openType + "; filename=\"" + filename + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 
 	/**
@@ -163,7 +170,7 @@ public class FramesetFragment extends BirtBaseFragment
 				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
 		assert attrBean != null;
 
-		ServletOutputStream out = response.getOutputStream( );
+		OutputStream out = response.getOutputStream( );
 		IContext context = new BirtContext( request, response );
 		GetUpdatedObjectsResponse upResponse = new GetUpdatedObjectsResponse( );
 		Operation op = null;
@@ -187,20 +194,33 @@ public class FramesetFragment extends BirtBaseFragment
 				throw fault;
 			}
 
+			// Print report on server
+			boolean isPrint = false;
+			if ( IBirtConstants.ACTION_PRINT.equalsIgnoreCase( attrBean
+					.getAction( ) ) )
+			{
+				isPrint = true;
+				out = new ByteArrayOutputStream( );
+			}
+
 			BirtRenderReportActionHandler renderReport = new BirtRenderReportActionHandler(
 					context, op, upResponse, out );
 			renderReport.execute( );
+
+			if ( isPrint )
+			{
+				InputStream inputStream = new ByteArrayInputStream( out
+						.toString( ).getBytes( ) );
+				BirtUtility.doPrintAction( inputStream, request, response );
+			}
 		}
 		catch ( RemoteException e )
 		{
 			AxisFault fault = (AxisFault) e;
 			response.setContentType( "text/html; charset=utf-8" ); //$NON-NLS-1$
-			String message = "<html><body><font color=\"red\">" //$NON-NLS-1$ 
-					+ ParameterAccessor.htmlEncode( fault.getFaultString( ) )
-					+ "</font></body></html>"; //$NON-NLS-1$
-			out.write( message.getBytes( ) );
-			out.flush( );
-			out.close( );
+			BirtUtility.writeMessage( response.getOutputStream( ),
+					ParameterAccessor.htmlEncode( fault.getFaultString( ) ),
+					IBirtConstants.MSG_ERROR );
 		}
 
 	}

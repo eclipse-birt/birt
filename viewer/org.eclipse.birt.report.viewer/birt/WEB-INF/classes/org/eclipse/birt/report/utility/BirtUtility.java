@@ -12,8 +12,11 @@
 package org.eclipse.birt.report.utility;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -22,7 +25,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.eclipse.birt.report.IBirtConstants;
@@ -35,6 +40,7 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.model.api.IModuleOption;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
+import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.service.ParameterDataTypeConverter;
 import org.eclipse.birt.report.service.ReportEngineService;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
@@ -534,5 +540,57 @@ public class BirtUtility
 		}
 
 		return reportTitle;
+	}
+
+	/**
+	 * Write message into output stream.
+	 * 
+	 * @param out
+	 * @param message
+	 * @param msgType
+	 */
+	public static void writeMessage( OutputStream out, String content,
+			String msgType ) throws IOException
+	{
+		String fontColor = "black"; //$NON-NLS-1$
+		if ( IBirtConstants.MSG_ERROR.equalsIgnoreCase( msgType ) )
+			fontColor = "red"; //$NON-NLS-1$
+
+		String message = "<html><title>" //$NON-NLS-1$
+				+ BirtResources.getMessage( "birt.viewer.title." + msgType ) //$NON-NLS-1$
+				+ "</title><body style=\"background-color: #ECE9D8;\"><div style=\"font-size:10pt;\"><font color=\"" + fontColor + "\">" //$NON-NLS-1$ //$NON-NLS-2$
+				+ content + "</font></div></body></html>"; //$NON-NLS-1$
+		out.write( message.getBytes( ) );
+		out.flush( );
+		out.close( );
+	}
+
+	/**
+	 * Handle print action
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	public static void doPrintAction( InputStream inputStream,
+			HttpServletRequest request, HttpServletResponse response )
+			throws ServletException, IOException, RemoteException
+	{
+		Printer printer = PrintUtility.getPrinter( request );
+		response.setContentType( "text/html; charset=utf-8" ); //$NON-NLS-1$
+		if ( printer != null )
+		{
+			PrintUtility.execPrint( inputStream, printer );
+			writeMessage(
+					response.getOutputStream( ),
+					BirtResources
+							.getMessage( "birt.viewer.dialog.print.complete" ), IBirtConstants.MSG_COMPLETE ); //$NON-NLS-1$
+		}
+		else
+		{
+			writeMessage(
+					response.getOutputStream( ),
+					BirtResources.getMessage( "birt.viewer.error.noprinter" ), IBirtConstants.MSG_ERROR ); //$NON-NLS-1$					
+		}
 	}
 }

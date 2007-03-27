@@ -55,13 +55,14 @@ public class BirtChangeParameterActionHandler
 	}
 
 	protected void doRenderPage( String docName, long pageNumber,
-			boolean svgFlag, boolean isMasterContent, boolean useBookmark,
-			String bookmark, Locale locale, boolean isRtl )
+			String format, boolean svgFlag, boolean isMasterContent,
+			boolean useBookmark, String bookmark, Locale locale, boolean isRtl )
 			throws ReportServiceException, RemoteException
 	{
 		ArrayList activeIds = new ArrayList( );
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
+		options.setOption( InputOptions.OPT_FORMAT, format );
 		options.setOption( InputOptions.OPT_LOCALE, locale );
 		options.setOption( InputOptions.OPT_RTL, new Boolean( isRtl ) );
 		options.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT,

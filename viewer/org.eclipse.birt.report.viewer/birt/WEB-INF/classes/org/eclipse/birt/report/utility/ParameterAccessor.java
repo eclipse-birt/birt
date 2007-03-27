@@ -190,6 +190,17 @@ public class ParameterAccessor
 	public static final String PARAM_EXPORT_ENCODING = "__exportEncoding";//$NON-NLS-1$
 
 	/**
+	 * URL parameter name to indicate if fit to page when render report as PDF.
+	 */
+	public static final String PARAM_FIT_TO_PAGE = "__fittopage";//$NON-NLS-1$
+
+	/**
+	 * URL parameter name to indicate if pagebreak pagination only when render
+	 * report as PDF.
+	 */
+	public static final String PARAM_PAGEBREAK_ONLY = "__pagebreakonly";//$NON-NLS-1$
+
+	/**
 	 * Indentify the display text of select parameter
 	 */
 	public static final String PREFIX_DISPLAY_TEXT = "__isdisplay__"; //$NON-NLS-1$
@@ -219,6 +230,17 @@ public class ParameterAccessor
 	 * URL parameter name to indicate whether cache the parameter.
 	 */
 	public static final String PARAM_NOCACHE_PARAMETER = "__nocache"; //$NON-NLS-1$
+
+	/**
+	 * URL parameter name to indicate if open document as attachment(default is
+	 * inline ).
+	 */
+	public static final String PARAM_AS_ATTACHMENT = "__asattachment"; //$NON-NLS-1$
+
+	/**
+	 * URL parameter name to indicate the execution name.
+	 */
+	public static final String PARAM_ACTION = "__action"; //$NON-NLS-1$
 
 	/**
 	 * Custom request headers to identify the request is a normal HTTP request
@@ -320,6 +342,11 @@ public class ParameterAccessor
 	 * Context parameter name that defines BIRT viewer configuration file.
 	 */
 	public static final String INIT_PARAM_CONFIG_FILE = "BIRT_VIEWER_CONFIG_FILE"; //$NON-NLS-1$
+
+	/**
+	 * Context parameter name that if support print on the server
+	 */
+	public static final String INIT_PARAM_PRINT_SERVERSIDE = "BIRT_VIEWER_PRINT_SERVERSIDE"; //$NON-NLS-1$
 
 	/**
 	 * UTF-8 encode constants.
@@ -430,6 +457,17 @@ public class ParameterAccessor
 	 * viewer properties
 	 */
 	public static final String PROP_BASE_URL = "base_url"; //$NON-NLS-1$
+
+	/**
+	 * Engine supported output formats
+	 */
+	public static String[] supportedFormats = {PARAM_FORMAT_HTML,
+			PARAM_FORMAT_PDF};
+
+	/**
+	 * Flag that indicated if support print on the server side.
+	 */
+	public static boolean isSupportedPrintOnServer = true;
 
 	/**
 	 * Get bookmark. If page exists, ignore bookmark.
@@ -1236,8 +1274,8 @@ public class ParameterAccessor
 				.getInitParameter( INIT_PARAM_BIRT_RESOURCE_PATH ), null, false );
 
 		// get the overwrite flag
-		String s_overwrite = context
-				.getInitParameter( INIT_PARAM_OVERWRITE_DOCUMENT );
+		String s_overwrite = DataUtil.trimString( context
+				.getInitParameter( INIT_PARAM_OVERWRITE_DOCUMENT ) );
 		if ( "true".equalsIgnoreCase( s_overwrite ) ) //$NON-NLS-1$
 		{
 			isOverWrite = true;
@@ -1249,6 +1287,18 @@ public class ParameterAccessor
 
 		// initialize the application properties
 		initProps = initViewerProps( context, initProps );
+
+		// print on the server side
+		String flag = DataUtil.trimString( context
+				.getInitParameter( INIT_PARAM_PRINT_SERVERSIDE ) );
+		if ( IBirtConstants.VAR_ON.equalsIgnoreCase( flag ) )
+		{
+			isSupportedPrintOnServer = true;
+		}
+		else if ( IBirtConstants.VAR_OFF.equalsIgnoreCase( flag ) )
+		{
+			isSupportedPrintOnServer = false;
+		}
 
 		// clear temp files
 		clearTempFiles( );
@@ -1824,7 +1874,8 @@ public class ParameterAccessor
 		BaseAttributeBean attrBean = (BaseAttributeBean) request
 				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
 		if ( attrBean == null )
-			return fileName + ".pdf"; //$NON-NLS-1$
+			return fileName;
+
 		String baseName = attrBean.getReportDesignName( );
 		if ( baseName == null || baseName.length( ) == 0 )
 			baseName = attrBean.getReportDocumentName( );
@@ -1865,7 +1916,6 @@ public class ParameterAccessor
 			}
 		}
 
-		fileName = fileName + ".pdf"; //$NON-NLS-1$ 
 		return fileName;
 	}
 
@@ -2335,5 +2385,61 @@ public class ParameterAccessor
 		tempFolder = imageFolder + File.separator + sessionId;
 		file = new File( tempFolder );
 		deleteDir( file );
+	}
+
+	/**
+	 * Returns if fit to page
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static boolean isFitToPage( HttpServletRequest request )
+	{
+		String fitToPage = getParameter( request, PARAM_FIT_TO_PAGE );
+		if ( "true".equalsIgnoreCase( fitToPage ) ) //$NON-NLS-1$
+			return true;
+
+		return false;
+	}
+
+	/**
+	 * Returns if pagebreak pagination only
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static boolean isPagebreakOnly( HttpServletRequest request )
+	{
+		String pagebreakOnly = getParameter( request, PARAM_PAGEBREAK_ONLY );
+		if ( "true".equalsIgnoreCase( pagebreakOnly ) ) //$NON-NLS-1$
+			return true;
+
+		return false;
+	}
+
+	/**
+	 * Returns how to open attachment( inline or attachment )
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static String getOpenType( HttpServletRequest request )
+	{
+		if ( "true".equalsIgnoreCase( getParameter( request, //$NON-NLS-1$
+				PARAM_AS_ATTACHMENT ) ) )
+			return IBirtConstants.OPEN_TYPE_ATTACHMENT;
+
+		return IBirtConstants.OPEN_TYPE_INLINE;
+	}
+
+	/**
+	 * Returns action name
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static String getAction( HttpServletRequest request )
+	{
+		return getParameter( request, PARAM_ACTION );
 	}
 }

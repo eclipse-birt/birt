@@ -143,6 +143,7 @@ public class BirtViewerReportService implements IViewerReportService
 	/**
 	 * @see org.eclipse.birt.report.service.api.IViewerReportService#getReportDesignHandle(java.lang.String,
 	 *      org.eclipse.birt.report.service.api.InputOptions)
+	 * @deprecated
 	 */
 	public IViewerReportDesignHandle getReportDesignHandle( String docName,
 			InputOptions options )
@@ -174,6 +175,8 @@ public class BirtViewerReportService implements IViewerReportService
 				.getOption( InputOptions.OPT_REQUEST );
 		Locale locale = (Locale) renderOptions
 				.getOption( InputOptions.OPT_LOCALE );
+		String format = (String) renderOptions
+				.getOption( InputOptions.OPT_FORMAT );
 		Boolean isMasterPageContent = (Boolean) renderOptions
 				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
 		Boolean svgFlag = (Boolean) renderOptions
@@ -184,18 +187,21 @@ public class BirtViewerReportService implements IViewerReportService
 		try
 		{
 			ByteArrayOutputStream os = ReportEngineService.getInstance( )
-					.renderReport( request, doc, pageNum.longValue( ),
+					.renderReport( request, doc, format, pageNum.longValue( ),
 							isMasterPageContent.booleanValue( ),
 							svgFlag.booleanValue( ), activeIds, locale,
 							isRtl.booleanValue( ) );
-			doc.close( );
 			return os;
 
 		}
 		catch ( RemoteException e )
 		{
-			doc.close( );
 			throw new ReportServiceException( e.getLocalizedMessage( ), e );
+		}
+		finally
+		{
+			if ( doc != null )
+				doc.close( );
 		}
 	}
 
@@ -242,6 +248,8 @@ public class BirtViewerReportService implements IViewerReportService
 				.getOption( InputOptions.OPT_REQUEST );
 		Locale locale = (Locale) renderOptions
 				.getOption( InputOptions.OPT_LOCALE );
+		String format = (String) renderOptions
+				.getOption( InputOptions.OPT_FORMAT );
 		Boolean isMasterPageContent = (Boolean) renderOptions
 				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
 		boolean isMasterPage = isMasterPageContent == null
@@ -257,14 +265,17 @@ public class BirtViewerReportService implements IViewerReportService
 		try
 		{
 			ReportEngineService.getInstance( ).renderReportlet( out, request,
-					doc, objectId, isMasterPage, isSvg, null, locale,
+					doc, objectId, format, isMasterPage, isSvg, null, locale,
 					isRtl.booleanValue( ), servletPath );
-			doc.close( );
 		}
 		catch ( RemoteException e )
 		{
-			doc.close( );
 			throw new ReportServiceException( e.getLocalizedMessage( ), e );
+		}
+		finally
+		{
+			if ( doc != null )
+				doc.close( );
 		}
 	}
 
@@ -295,21 +306,26 @@ public class BirtViewerReportService implements IViewerReportService
 		boolean isSvg = svgFlag == null ? false : svgFlag.booleanValue( );
 		Boolean isRtl = (Boolean) renderOptions
 				.getOption( InputOptions.OPT_RTL );
+		String format = (String) renderOptions
+				.getOption( InputOptions.OPT_FORMAT );
 		String servletPath = (String) renderOptions
 				.getOption( InputOptions.OPT_SERVLET_PATH );
 
 		try
 		{
 			ReportEngineService.getInstance( ).renderReport( out, request, doc,
-					pageNum, pageRange, isMasterPage, isSvg, null, locale,
-					isRtl.booleanValue( ), servletPath );
-			doc.close( );
+					format, pageNum, pageRange, isMasterPage, isSvg, null,
+					locale, isRtl.booleanValue( ), servletPath );
 
 		}
 		catch ( RemoteException e )
 		{
-			doc.close( );
 			throw new ReportServiceException( e.getLocalizedMessage( ), e );
+		}
+		finally
+		{
+			if ( doc != null )
+				doc.close( );
 		}
 	}
 
@@ -349,12 +365,15 @@ public class BirtViewerReportService implements IViewerReportService
 			ReportEngineService.getInstance( ).extractData( doc, resultSetId,
 					columns, locale, out,
 					ParameterAccessor.getExportEncoding( request ) );
-			doc.close( );
 		}
 		catch ( RemoteException e )
 		{
-			doc.close( );
 			throw new ReportServiceException( e.getLocalizedMessage( ), e );
+		}
+		finally
+		{
+			if ( doc != null )
+				doc.close( );
 		}
 	}
 
@@ -382,13 +401,17 @@ public class BirtViewerReportService implements IViewerReportService
 		{
 			resultSetArray = ReportEngineService.getInstance( ).getResultSets(
 					doc );
-			doc.close( );
 		}
 		catch ( RemoteException e )
 		{
-			doc.close( );
 			throw new ReportServiceException( e.getLocalizedMessage( ), e );
 		}
+		finally
+		{
+			if ( doc != null )
+				doc.close( );
+		}
+
 		if ( resultSetArray == null || resultSetArray.length < 0 )
 		{
 			throw new ReportServiceException(
@@ -566,6 +589,7 @@ public class BirtViewerReportService implements IViewerReportService
 	/**
 	 * @see org.eclipse.birt.report.service.api.IViewerReportService#getParameterValues(java.lang.String,
 	 *      org.eclipse.birt.report.service.api.InputOptions)
+	 * @deprecated     
 	 */
 	public Map getParameterValues( String docName, InputOptions options )
 			throws ReportServiceException
@@ -793,7 +817,8 @@ public class BirtViewerReportService implements IViewerReportService
 		}
 		catch ( RemoteException e )
 		{
-			throw new ReportServiceException( e.getLocalizedMessage( ), e );
+			throw new ReportServiceException( e.getLocalizedMessage( ), e
+					.getCause( ) );
 		}
 	}
 

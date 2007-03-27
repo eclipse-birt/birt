@@ -39,6 +39,7 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 		this.__beh_pdf_closure = this.__beh_pdf.bind( this );
 		this.__beh_cancelTask_closure = this.__beh_cancelTask.bind( this );
 		this.__beh_getPageAll_closure = this.__beh_getPageAll.bind( this );
+		this.__beh_exportReport_closure = this.__beh_exportReport.bind( this );
 				
 		Event.observe( window, 'resize', this.__neh_resize_closure, false );
 		
@@ -54,7 +55,8 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 		birtEventDispatcher.registerEventHandler( birtEvent.__E_PDF, this.__instance.id, this.__beh_pdf_closure );
 		birtEventDispatcher.registerEventHandler( birtEvent.__E_CANCEL_TASK, this.__instance.id, this.__beh_cancelTask_closure );
 		birtEventDispatcher.registerEventHandler( birtEvent.__E_GETPAGE_ALL, this.__instance.id, this.__beh_getPageAll_closure );
-				
+		birtEventDispatcher.registerEventHandler( birtEvent.__E_EXPORT_REPORT, this.__instance.id, this.__beh_exportReport_closure );
+						
   		birtGetUpdatedObjectsResponseHandler.addAssociation( "Docum", this );
   		
 		// TODO: rename it to birt event
@@ -86,6 +88,12 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 	 *	@id, document id (optional since there's only one document instance)
 	 *	@return, true indicating server call
 	 */
+	__beh_print : function( id )
+	{
+		birtPrintReportDialog.__cb_bind( );
+	},
+	
+	/* 
 	__beh_print : function( id )
 	{		
 		// If print the whole report
@@ -147,7 +155,8 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 			pwin.location.reload( );			
 		}		
 	},
-
+	*/
+	
 	/**
 	 *	Birt event handler for "pdf" event.
 	 *
@@ -242,5 +251,16 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 		birtSoapRequest.setURL( document.location );
 		birtEventDispatcher.setFocusId( null );	// Clear out current focusid.
 		return true;
+	},
+
+	/**
+	 *	Birt event handler for "ExportReport" event.
+	 *
+	 *	@id, document id (optional since there's only one document instance)
+	 *	@return, true indicating server call
+	 */
+	__beh_exportReport : function( id )
+	{
+		birtExportReportDialog.__cb_bind( );
 	}
 });

@@ -15,12 +15,12 @@ import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
 
 /**
- * Fragment help rendering export page dialog in side bar.
+ * Fragment for confirmation dialog.
  * <p>
  * 
  * @see BaseFragment
  */
-public class ExportReportDialogFragment extends BaseDialogFragment
+public class ConfirmationDialogFragment extends BaseDialogFragment
 {
 
 	/**
@@ -30,7 +30,7 @@ public class ExportReportDialogFragment extends BaseDialogFragment
 	 */
 	public String getClientId( )
 	{
-		return "exportReportDialog"; //$NON-NLS-1$
+		return "confirmationDialog"; //$NON-NLS-1$
 	}
 
 	/**
@@ -40,7 +40,7 @@ public class ExportReportDialogFragment extends BaseDialogFragment
 	 */
 	public String getClientName( )
 	{
-		return "Export Report"; //$NON-NLS-1$
+		return "Confirmation"; //$NON-NLS-1$
 	}
 
 	/**
@@ -52,6 +52,6 @@ public class ExportReportDialogFragment extends BaseDialogFragment
 	public String getTitle( )
 	{
 		return BirtResources
-				.getMessage( ResourceConstants.EXPORT_REPORT_DIALOG_TITLE );
+				.getMessage( ResourceConstants.CONFIRMATION_DIALOG_TITLE );
 	}
 }

@@ -15,12 +15,12 @@ import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
 
 /**
- * Fragment help rendering export page dialog in side bar.
+ * Fragment help rendering print dialog in side bar.
  * <p>
  * 
  * @see BaseFragment
  */
-public class ExportReportDialogFragment extends BaseDialogFragment
+public class PrintReportDialogFragment extends BaseDialogFragment
 {
 
 	/**
@@ -30,7 +30,7 @@ public class ExportReportDialogFragment extends BaseDialogFragment
 	 */
 	public String getClientId( )
 	{
-		return "exportReportDialog"; //$NON-NLS-1$
+		return "printReportDialog"; //$NON-NLS-1$
 	}
 
 	/**
@@ -40,7 +40,7 @@ public class ExportReportDialogFragment extends BaseDialogFragment
 	 */
 	public String getClientName( )
 	{
-		return "Export Report"; //$NON-NLS-1$
+		return "Print Report"; //$NON-NLS-1$
 	}
 
 	/**
@@ -51,7 +51,6 @@ public class ExportReportDialogFragment extends BaseDialogFragment
 
 	public String getTitle( )
 	{
-		return BirtResources
-				.getMessage( ResourceConstants.EXPORT_REPORT_DIALOG_TITLE );
+		return BirtResources.getMessage( ResourceConstants.PRINT_REPORT_DIALOG_TITLE );
 	}
 }

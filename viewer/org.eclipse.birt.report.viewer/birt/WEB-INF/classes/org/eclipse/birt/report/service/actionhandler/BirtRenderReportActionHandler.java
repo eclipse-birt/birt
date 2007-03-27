@@ -18,8 +18,7 @@ public class BirtRenderReportActionHandler extends AbstractBaseActionHandler
 	/**
 	 * Output stream to store the report.
 	 */
-
-	OutputStream os = null;
+	private OutputStream os = null;
 
 	/**
 	 * Constructor.
@@ -27,7 +26,6 @@ public class BirtRenderReportActionHandler extends AbstractBaseActionHandler
 	 * @param context
 	 * @param operation
 	 */
-
 	public BirtRenderReportActionHandler( IContext context,
 			Operation operation, GetUpdatedObjectsResponse response,
 			OutputStream os )
@@ -49,12 +47,16 @@ public class BirtRenderReportActionHandler extends AbstractBaseActionHandler
 		assert attrBean != null;
 
 		String docName = attrBean.getReportDocumentName( );
+		boolean master = attrBean.isMasterPageContent( );
 
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
 		options.setOption( InputOptions.OPT_LOCALE, attrBean.getLocale( ) );
 		options.setOption( InputOptions.OPT_RTL,
 				new Boolean( attrBean.isRtl( ) ) );
+		options.setOption( InputOptions.OPT_FORMAT, attrBean.getFormat( ) );
+		options.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT,
+				new Boolean( master ) );
 		options.setOption( InputOptions.OPT_IS_DESIGNER, new Boolean( attrBean
 				.isDesigner( ) ) );
 

@@ -83,10 +83,14 @@
 		<script src="birt/ajax/ui/dialog/AbstractParameterDialog.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/dialog/BirtParameterDialog.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/dialog/BirtSimpleExportDataDialog.js" type="text/javascript"></script>
+		<script src="birt/ajax/ui/dialog/BirtExportReportDialog.js" type="text/javascript"></script>
+		<script src="birt/ajax/ui/dialog/BirtPrintReportDialog.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/dialog/AbstractExceptionDialog.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/dialog/BirtExceptionDialog.js" type="text/javascript"></script>
+		<script src="birt/ajax/ui/dialog/BirtConfirmationDialog.js" type="text/javascript"></script>
 		
 		<script src="birt/ajax/utility/BirtPosition.js" type="text/javascript"></script>
+		<script src="birt/ajax/utility/Printer.js" type="text/javascript"></script>
 
 		<script src="birt/ajax/core/BirtCommunicationManager.js" type="text/javascript"></script>
 		<script src="birt/ajax/core/BirtSoapRequest.js" type="text/javascript"></script>
@@ -173,7 +177,10 @@
 
 		var birtParameterDialog = new BirtParameterDialog( 'parameterDialog', 'frameset' );
 		var birtSimpleExportDataDialog = new BirtSimpleExportDataDialog( 'simpleExportDataDialog' );
+		var birtExportReportDialog = new BirtExportReportDialog( 'exportReportDialog' );
+		var birtPrintReportDialog = new BirtPrintReportDialog( 'printReportDialog' );
 		var birtExceptionDialog = new BirtExceptionDialog( 'exceptionDialog' );
+		var birtConfirmationDialog = new BirtConfirmationDialog( 'confirmationDialog' );
 		
 		function init()
 		{		

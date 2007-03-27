@@ -1,11 +1,10 @@
 
 package org.eclipse.birt.report.service.actionhandler;
 
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Map;
-
-import javax.servlet.ServletOutputStream;
 
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
@@ -13,23 +12,49 @@ import org.eclipse.birt.report.service.BirtReportServiceFactory;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
+import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
+/**
+ * Action handler for invoke RunAndRenderTask to retrieve report content.
+ * 
+ */
 public class BirtRunAndRenderActionHandler extends AbstractBaseActionHandler
 {
 
+	/**
+	 * Output stream to store the report.
+	 */
+	private OutputStream os = null;
+
+	/**
+	 * Constructor
+	 * 
+	 * @param context
+	 * @param operation
+	 * @param response
+	 * @param os
+	 */
 	public BirtRunAndRenderActionHandler( IContext context,
-			Operation operation, GetUpdatedObjectsResponse response )
+			Operation operation, GetUpdatedObjectsResponse response,
+			OutputStream os )
 	{
 		super( context, operation, response );
+		this.os = os;
 	}
 
+	/**
+	 *  Do execution.
+	 * 
+	 * @exception ReportServiceException
+	 * @return
+	 */
 	protected void __execute( ) throws Exception
 	{
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean( );
-		String format = ParameterAccessor.getFormat( context.getRequest( ) );
+		String format = attrBean.getFormat( );
 		Locale locale = attrBean.getLocale( );
 		boolean master = attrBean.isMasterPageContent( );
 		Map params = attrBean.getParameters( );
@@ -51,9 +76,8 @@ public class BirtRunAndRenderActionHandler extends AbstractBaseActionHandler
 		options.setOption( InputOptions.OPT_IS_DESIGNER, new Boolean( attrBean
 				.isDesigner( ) ) );
 
-		ServletOutputStream out = context.getResponse( ).getOutputStream( );
 		getReportService( ).runAndRenderReport( reportDesignHandle,
-				outputDocName, options, params, out, new ArrayList( ),
+				outputDocName, options, params, os, new ArrayList( ),
 				displayTexts );
 	}
 

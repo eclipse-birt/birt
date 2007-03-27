@@ -75,6 +75,7 @@ public interface IViewerReportService
 	 * 
 	 * @param docName
 	 * @param options
+	 * @deprecated
 	 * @return
 	 * @throws ReportServiceException
 	 */
@@ -293,6 +294,7 @@ public interface IViewerReportService
 	 * 
 	 * @param docName
 	 * @param options
+	 * @deprecated
 	 * @return
 	 * @throws ReportServiceException
 	 */

@@ -67,11 +67,6 @@
 		<script src="birt/ajax/mh/BirtGetUpdatedObjectsResponseHandler.js" type="text/javascript"></script>
 
 		<script src="birt/ajax/ui/app/AbstractUIComponent.js" type="text/javascript"></script>
-		<script src="birt/ajax/ui/app/AbstractBaseToolbar.js" type="text/javascript"></script>
-		<script src="birt/ajax/ui/app/BirtToolbar.js" type="text/javascript"></script>
-		<script src="birt/ajax/ui/app/BirtNavigationBar.js" type="text/javascript"></script>
-		<script src="birt/ajax/ui/app/AbstractBaseToc.js" type="text/javascript"></script>
-		<script src="birt/ajax/ui/app/BirtToc.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/app/BirtProgressBar.js" type="text/javascript"></script>
 
  		<script src="birt/ajax/ui/report/AbstractReportComponent.js" type="text/javascript"></script>
@@ -82,7 +77,6 @@
 		<script src="birt/ajax/ui/dialog/BirtTabedDialogBase.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/dialog/AbstractParameterDialog.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/dialog/BirtParameterDialog.js" type="text/javascript"></script>
-		<script src="birt/ajax/ui/dialog/BirtSimpleExportDataDialog.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/dialog/AbstractExceptionDialog.js" type="text/javascript"></script>
 		<script src="birt/ajax/ui/dialog/BirtExceptionDialog.js" type="text/javascript"></script>
 		
@@ -139,7 +133,6 @@
 		DragDrop = new BirtDndManager();
 		
 		var birtReportDocument = new BirtReportDocument( "Document" );
-		var birtToc = new BirtToc( 'display0' );
 		var birtProgressBar = new BirtProgressBar( 'progressBar' );
 
 		var birtParameterDialog = new BirtParameterDialog( 'parameterDialog', 'run' );

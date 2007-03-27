@@ -11,20 +11,23 @@
 
 package org.eclipse.birt.report.presentation.aggregation.layout;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.rmi.RemoteException;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.IBirtConstants;
+import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.BirtContext;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
-import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.service.ReportEngineService;
 import org.eclipse.birt.report.service.actionhandler.BirtExtractDataActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtGetReportletActionHandler;
@@ -33,6 +36,7 @@ import org.eclipse.birt.report.service.actionhandler.BirtRenderReportActionHandl
 import org.eclipse.birt.report.service.actionhandler.BirtRunAndRenderActionHandler;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
+import org.eclipse.birt.report.utility.BirtUtility;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
@@ -58,6 +62,7 @@ public class EngineFragment extends BirtBaseFragment
 			HttpServletResponse response ) throws ServletException, IOException
 	{
 		String format = ParameterAccessor.getFormat( request );
+		String openType = ParameterAccessor.getOpenType( request );
 		if ( IBirtConstants.SERVLET_PATH_DOWNLOAD.equalsIgnoreCase( request
 				.getServletPath( ) ) )
 		{
@@ -66,22 +71,26 @@ public class EngineFragment extends BirtBaseFragment
 					.setHeader(
 							"Content-Disposition", "attachment; filename=exportdata.csv" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		else if ( ParameterAccessor.PARAM_FORMAT_PDF.equalsIgnoreCase( format ) )
+		else
 		{
-			response.setContentType( "application/pdf" ); //$NON-NLS-1$
+			if ( ParameterAccessor.PARAM_FORMAT_PDF.equalsIgnoreCase( format ) )
+			{
+				response.setContentType( "application/pdf" ); //$NON-NLS-1$
+			}
+			else
+			{
+				String mimeType = ReportEngineService.getInstance( )
+						.getMIMEType( format );
+				if ( mimeType != null && mimeType.length( ) > 0 )
+					response.setContentType( mimeType );
+				else
+					response.setContentType( "application/octet-stream" ); //$NON-NLS-1$
+			}
+
 			String filename = ParameterAccessor.generateFileName( request );
 			response
 					.setHeader(
-							"Content-Disposition", "inline; filename=\"" + filename + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}
-		else
-		{
-			String mimeType = ReportEngineService.getInstance( ).getMIMEType(
-					format );
-			if ( mimeType != null && mimeType.length( ) > 0 )
-				response.setContentType( mimeType );
-			else
-				response.setContentType( "application/octet-stream" ); //$NON-NLS-1$
+							"Content-Disposition", openType + "; filename=\"" + filename + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 	}
 
@@ -98,7 +107,10 @@ public class EngineFragment extends BirtBaseFragment
 	protected void doService( HttpServletRequest request,
 			HttpServletResponse response ) throws ServletException, IOException
 	{
-		ServletOutputStream out = response.getOutputStream( );
+		BaseAttributeBean attrBean = (BaseAttributeBean) request
+				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
+
+		OutputStream out = response.getOutputStream( );
 		GetUpdatedObjectsResponse upResponse = new GetUpdatedObjectsResponse( );
 		IContext context = new BirtContext( request, response );
 		Operation op = null;
@@ -117,23 +129,42 @@ public class EngineFragment extends BirtBaseFragment
 						context, op, upResponse );
 				renderImageHandler.execute( );
 			}
-			else if ( ParameterAccessor.isGetReportlet( request ) )
-			{
-				BirtGetReportletActionHandler getReportletHandler = new BirtGetReportletActionHandler(
-						context, op, upResponse );
-				getReportletHandler.execute( );
-			}
-			else if ( context.getBean( ).documentInUrl )
-			{
-				BirtRenderReportActionHandler runReportHandler = new BirtRenderReportActionHandler(
-						context, op, upResponse, out );
-				runReportHandler.execute( );
-			}
 			else
 			{
-				BirtRunAndRenderActionHandler runAndRenderHandler = new BirtRunAndRenderActionHandler(
-						context, op, upResponse );
-				runAndRenderHandler.execute( );
+				// Print report on server
+				boolean isPrint = false;
+				if ( IBirtConstants.ACTION_PRINT.equalsIgnoreCase( attrBean
+						.getAction( ) ) )
+				{
+					isPrint = true;
+					out = new ByteArrayOutputStream( );
+				}
+
+				if ( ParameterAccessor.isGetReportlet( request ) )
+				{
+					BirtGetReportletActionHandler getReportletHandler = new BirtGetReportletActionHandler(
+							context, op, upResponse, out );
+					getReportletHandler.execute( );
+				}
+				else if ( context.getBean( ).documentInUrl )
+				{
+					BirtRenderReportActionHandler runReportHandler = new BirtRenderReportActionHandler(
+							context, op, upResponse, out );
+					runReportHandler.execute( );
+				}
+				else
+				{
+					BirtRunAndRenderActionHandler runAndRenderHandler = new BirtRunAndRenderActionHandler(
+							context, op, upResponse, out );
+					runAndRenderHandler.execute( );
+				}
+
+				if ( isPrint )
+				{
+					InputStream inputStream = new ByteArrayInputStream( out
+							.toString( ).getBytes( ) );
+					BirtUtility.doPrintAction( inputStream, request, response );
+				}
 			}
 		}
 		catch ( RemoteException e )
@@ -147,13 +178,11 @@ public class EngineFragment extends BirtBaseFragment
 				// Any include and forward throws exception.
 				// Better to move this error handle into engine.
 				response.setContentType( "text/html; charset=utf-8" ); //$NON-NLS-1$
-				String message = "<html><head><title>" + BirtResources.getMessage( "birt.viewer.title.error" ) + "</title><body><font color=\"red\">" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ 
-						+ ParameterAccessor
-								.htmlEncode( fault.getFaultString( ) )
-						+ "</font></body></html>"; //$NON-NLS-1$
-				out.write( message.getBytes( ) );
-				out.flush( );
-				out.close( );
+				BirtUtility
+						.writeMessage( response.getOutputStream( ),
+								ParameterAccessor.htmlEncode( fault
+										.getFaultString( ) ),
+								IBirtConstants.MSG_ERROR );
 			}
 		}
 	}
@@ -165,14 +194,5 @@ public class EngineFragment extends BirtBaseFragment
 			HttpServletResponse response ) throws ServletException, IOException
 	{
 		return null;
-	}
-
-	/**
-	 * Override build method.
-	 */
-	protected void build( )
-	{
-		addChild( new SidebarFragment( ) );
-		addChild( new DocumentFragment( ) );
 	}
 }

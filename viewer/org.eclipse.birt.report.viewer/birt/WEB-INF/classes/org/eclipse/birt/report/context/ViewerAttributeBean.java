@@ -142,6 +142,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		this.bookmark = ParameterAccessor.getBookmark( request );
 		this.reportPage = ParameterAccessor.getPage( request );
 		this.reportPageRange = ParameterAccessor.getPageRange( request );
+		this.action = ParameterAccessor.getAction( request );
 
 		// If use frameset/download pattern, generate document from design file
 		if ( IBirtConstants.SERVLET_PATH_FRAMESET.equalsIgnoreCase( request
@@ -159,7 +160,18 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		}
 
 		this.reportDesignName = ParameterAccessor.getReport( request, null );
+
+		// If print action, force to use postscript format
 		this.format = ParameterAccessor.getFormat( request );
+		if ( IBirtConstants.ACTION_PRINT.equalsIgnoreCase( action ) )
+		{
+			// Check whether turn on this funtion
+			if ( ParameterAccessor.isSupportedPrintOnServer )
+				this.format = IBirtConstants.POSTSCRIPT_RENDER_FORMAT;
+			else
+				this.action = null;
+		}
+
 		this.maxRows = ParameterAccessor.getMaxRows( request );
 
 		// Set locale information

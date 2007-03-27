@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.taglib;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -29,13 +28,9 @@ import javax.servlet.jsp.JspWriter;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.exception.ViewerException;
-import org.eclipse.birt.report.model.api.IModuleOption;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
-import org.eclipse.birt.report.service.BirtViewerReportDesignHandle;
 import org.eclipse.birt.report.service.ReportEngineService;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.service.api.IViewerReportService;
@@ -70,11 +65,6 @@ public class ReportTag extends AbstractViewerTag
 	private IViewerReportDesignHandle reportDesignHandle;
 
 	/**
-	 * Check whether document existed in URL
-	 */
-	private boolean documentInUrl = false;
-
-	/**
 	 * Input Options information
 	 */
 	private InputOptions options;
@@ -104,10 +94,12 @@ public class ReportTag extends AbstractViewerTag
 			return;
 		}
 
+		HttpServletRequest request = (HttpServletRequest) pageContext
+				.getRequest( );
+
 		// Create Input Options
 		this.options = new InputOptions( );
-		options.setOption( InputOptions.OPT_REQUEST,
-				(HttpServletRequest) pageContext.getRequest( ) );
+		options.setOption( InputOptions.OPT_REQUEST, request );
 		options.setOption( InputOptions.OPT_LOCALE, this.locale );
 		options.setOption( InputOptions.OPT_RTL, Boolean.valueOf( viewer
 				.getRtl( ) ) );
@@ -125,7 +117,7 @@ public class ReportTag extends AbstractViewerTag
 				pageContext.getServletContext( ), this.options );
 
 		// get report design handle
-		reportDesignHandle = getDesignHandle( );
+		reportDesignHandle = BirtTagUtil.getDesignHandle( request, viewer );
 
 		if ( viewer.isHostPage( ) )
 		{
@@ -431,7 +423,7 @@ public class ReportTag extends AbstractViewerTag
 		ReportEngineService.getInstance( ).setMaxRows(
 				viewer.getMaxRowsOfRecords( ) );
 
-		if ( this.documentInUrl )
+		if ( viewer.isDocumentInUrl( ) )
 		{
 			__renderDocument( out );
 		}
@@ -456,11 +448,14 @@ public class ReportTag extends AbstractViewerTag
 		String documentFile = ParameterAccessor.getReportDocument( request,
 				viewer.getReportDocument( ), false );
 		IReportDocument doc = ReportEngineService.getInstance( )
-				.openReportDocument( null, documentFile, getModuleOptions( ) );
+				.openReportDocument( null, documentFile,
+						BirtTagUtil.getModuleOptions( viewer ) );
 		try
 		{
 			Locale locale = (Locale) this.options
 					.getOption( InputOptions.OPT_LOCALE );
+			String format = (String) this.options
+					.getOption( InputOptions.OPT_FORMAT );
 			Boolean isMasterPageContent = (Boolean) this.options
 					.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
 			boolean isMasterPage = isMasterPageContent == null
@@ -477,19 +472,18 @@ public class ReportTag extends AbstractViewerTag
 			if ( viewer.getReportletId( ) != null )
 			{
 				// Render the reportlet
-				ReportEngineService.getInstance( )
-						.renderReportlet( out, request, doc,
-								viewer.getReportletId( ), isMasterPage, isSvg,
-								null, locale, isRtl.booleanValue( ),
-								servletPath );
+				ReportEngineService.getInstance( ).renderReportlet( out,
+						request, doc, viewer.getReportletId( ), format,
+						isMasterPage, isSvg, null, locale,
+						isRtl.booleanValue( ), servletPath );
 			}
 			else
 			{
 				// Render the report document file
 				ReportEngineService.getInstance( ).renderReport( out, request,
-						doc, viewer.getPageNum( ), viewer.getPageRange( ),
-						isMasterPage, isSvg, null, locale,
-						isRtl.booleanValue( ), servletPath );
+						doc, format, viewer.getPageNum( ),
+						viewer.getPageRange( ), isMasterPage, isSvg, null,
+						locale, isRtl.booleanValue( ), servletPath );
 			}
 		}
 		finally
@@ -656,132 +650,6 @@ public class ReportTag extends AbstractViewerTag
 	protected IViewerReportService getReportService( )
 	{
 		return BirtReportServiceFactory.getReportService( );
-	}
-
-	/**
-	 * If a report file name is a relative path, it is relative to document
-	 * folder. So if a report file path is relative path, it's absolute path is
-	 * synthesized by appending file path to the document folder path.
-	 * 
-	 * @param file
-	 * @return
-	 */
-
-	protected String createAbsolutePath( String filePath )
-	{
-		if ( filePath != null && filePath.trim( ).length( ) > 0
-				&& ParameterAccessor.isRelativePath( filePath ) )
-		{
-			return ParameterAccessor.workingFolder + File.separator + filePath;
-		}
-		return filePath;
-	}
-
-	/**
-	 * Returns report design handle
-	 * 
-	 * @return IViewerReportDesignHandle
-	 * @throws Exception
-	 */
-	protected IViewerReportDesignHandle getDesignHandle( ) throws Exception
-	{
-		if ( viewer == null )
-			return null;
-
-		IViewerReportDesignHandle design = null;
-		IReportRunnable reportRunnable = null;
-
-		HttpServletRequest request = (HttpServletRequest) pageContext
-				.getRequest( );
-
-		// Get the absolute report design and document file path
-		String designFile = ParameterAccessor.getReport( request, viewer
-				.getReportDesign( ) );
-		String documentFile = ParameterAccessor.getReportDocument( request,
-				viewer.getReportDocument( ), false );
-
-		// check if document file path is valid
-		boolean isValidDocument = ParameterAccessor
-				.isValidFilePath( ParameterAccessor.getParameter( request,
-						ParameterAccessor.PARAM_REPORT_DOCUMENT ) );
-		if ( documentFile != null && isValidDocument )
-		{
-			// open the document instance
-			IReportDocument reportDocumentInstance = ReportEngineService
-					.getInstance( ).openReportDocument( designFile,
-							documentFile, getModuleOptions( ) );
-
-			if ( reportDocumentInstance != null )
-			{
-				this.documentInUrl = true;
-				reportRunnable = reportDocumentInstance.getReportRunnable( );
-				reportDocumentInstance.close( );
-			}
-		}
-
-		// if report runnable is null, then get it from design file
-		if ( reportRunnable == null )
-		{
-			// if only set __document parameter, throw exception directly
-			if ( documentFile != null && designFile == null )
-			{
-				if ( isValidDocument )
-					throw new ViewerException(
-							ResourceConstants.GENERAL_EXCEPTION_DOCUMENT_FILE_ERROR,
-							new String[]{documentFile} );
-				else
-					throw new ViewerException(
-							ResourceConstants.GENERAL_EXCEPTION_DOCUMENT_ACCESS_ERROR,
-							new String[]{documentFile} );
-			}
-
-			// check if the report file path is valid
-			if ( !ParameterAccessor.isValidFilePath( ParameterAccessor
-					.getParameter( request, ParameterAccessor.PARAM_REPORT ) ) )
-			{
-				throw new ViewerException(
-						ResourceConstants.GENERAL_EXCEPTION_REPORT_ACCESS_ERROR,
-						new String[]{designFile} );
-			}
-			else
-			{
-				reportRunnable = BirtUtility.getRunnableFromDesignFile(
-						request, designFile, this.getModuleOptions( ) );
-
-				if ( reportRunnable == null )
-				{
-					throw new ViewerException(
-							ResourceConstants.GENERAL_EXCEPTION_REPORT_FILE_ERROR,
-							new String[]{designFile} );
-				}
-			}
-		}
-
-		if ( reportRunnable != null )
-		{
-			design = new BirtViewerReportDesignHandle(
-					IViewerReportDesignHandle.RPT_RUNNABLE_OBJECT,
-					reportRunnable );
-		}
-
-		return design;
-	}
-
-	/**
-	 * Create Module Options
-	 * 
-	 * @param viewer
-	 * @return
-	 */
-	protected Map getModuleOptions( )
-	{
-		Map options = new HashMap( );
-		String resourceFolder = viewer.getResourceFolder( );
-		if ( resourceFolder == null || resourceFolder.trim( ).length( ) <= 0 )
-			resourceFolder = ParameterAccessor.birtResourceFolder;
-
-		options.put( IModuleOption.RESOURCE_FOLDER_KEY, resourceFolder );
-		return options;
 	}
 
 	/**

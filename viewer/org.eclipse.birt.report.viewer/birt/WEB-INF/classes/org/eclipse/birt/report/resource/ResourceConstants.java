@@ -19,7 +19,9 @@ public interface ResourceConstants
 	public static final String EXPORT_REPORT_DIALOG_TITLE = "birt.viewer.dialog.exportReport.title"; //$NON-NLS-1$
 	public static final String PARAMETER_DIALOG_TITLE = "birt.viewer.dialog.parameter.title"; //$NON-NLS-1$
 	public static final String SIMPLE_EXPORT_DATA_DIALOG_TITLE = "birt.viewer.dialog.simpleExportData.title"; //$NON-NLS-1$
-
+	public static final String PRINT_REPORT_DIALOG_TITLE = "birt.viewer.dialog.printReport.title"; //$NON-NLS-1$
+	public static final String CONFIRMATION_DIALOG_TITLE = "birt.viewer.dialog.confirmation.title"; //$NON-NLS-1$
+	
 	/**
 	 * Page title for the "web viewer", "html" preview.
 	 */

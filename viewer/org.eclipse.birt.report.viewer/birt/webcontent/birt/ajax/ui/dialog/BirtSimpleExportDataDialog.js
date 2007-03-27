@@ -10,7 +10,7 @@
  *****************************************************************************/
  
 /**
- *	Birt export report dialog.
+ *	Birt export data dialog.
  */
 BirtSimpleExportDataDialog = Class.create( );
 
@@ -322,7 +322,6 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	/**
 	 *	Handle clicking on ok.
 	 *
-	 *	@event, incoming browser native event
 	 *	@return, void
 	 */
 	__okPress : function( )

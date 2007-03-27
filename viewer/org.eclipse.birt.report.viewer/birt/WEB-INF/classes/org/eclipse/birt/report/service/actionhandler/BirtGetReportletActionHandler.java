@@ -2,7 +2,6 @@
 package org.eclipse.birt.report.service.actionhandler;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -19,6 +18,10 @@ import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
 
+/**
+ * Action handler for get reportlet content.
+ * 
+ */
 public class BirtGetReportletActionHandler extends AbstractBaseActionHandler
 {
 
@@ -29,17 +32,30 @@ public class BirtGetReportletActionHandler extends AbstractBaseActionHandler
 	protected String __reportletId;
 
 	/**
+	 * Output stream to store the report.
+	 */
+	OutputStream os = null;
+
+	/**
 	 * 
 	 * @param context
 	 * @param operation
 	 * @param response
 	 */
 	public BirtGetReportletActionHandler( IContext context,
-			Operation operation, GetUpdatedObjectsResponse response )
+			Operation operation, GetUpdatedObjectsResponse response,
+			OutputStream os )
 	{
 		super( context, operation, response );
+		this.os = os;
 	}
 
+	/**
+	 * Do execution.
+	 * 
+	 * @exception ReportServiceException
+	 * @return
+	 */
 	protected void __execute( ) throws Exception
 	{
 		prepareParameters( );
@@ -61,6 +77,7 @@ public class BirtGetReportletActionHandler extends AbstractBaseActionHandler
 	{
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_LOCALE, __bean.getLocale( ) );
+		options.setOption( InputOptions.OPT_FORMAT, __bean.getFormat( ) );
 		options
 				.setOption( InputOptions.OPT_RTL, new Boolean( __bean.isRtl( ) ) );
 		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
@@ -69,18 +86,8 @@ public class BirtGetReportletActionHandler extends AbstractBaseActionHandler
 				new Boolean( __bean.isMasterPageContent( ) ) );
 
 		ArrayList activeIds = new ArrayList( );
-		OutputStream out = null;
-		try
-		{
-			out = context.getResponse( ).getOutputStream( );
-		}
-		catch ( IOException e )
-		{
-			// TODO:
-		}
-
 		getReportService( ).renderReportlet( __docName, __reportletId, options,
-				activeIds, out );
+				activeIds, os );
 	}
 
 	/**

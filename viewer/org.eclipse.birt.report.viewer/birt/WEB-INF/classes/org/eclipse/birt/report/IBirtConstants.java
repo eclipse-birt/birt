@@ -17,18 +17,19 @@ public interface IBirtConstants
 {
 
 	// Oprand Name Value pair: Names
-	static public final String OPRAND_PAGENO = "page"; //$NON-NLS-1$
-	static public final String OPRAND_BOOKMARK = "bookmark"; //$NON-NLS-1$
-	static public final String OPRAND_TOC = "isToc"; //$NON-NLS-1$
-	static public final String OPRAND_SVG = "svg"; //$NON-NLS-1$
-	static public final String OPRAND_PARAM = "param"; //$NON-NLS-1$
-	static public final String OPRAND_IID = "iid"; //$NON-NLS-1$
-	static public final String OPRAND_TASKID = "taskid"; //$NON-NLS-1$
+	public static final String OPRAND_PAGENO = "page"; //$NON-NLS-1$
+	public static final String OPRAND_BOOKMARK = "bookmark"; //$NON-NLS-1$
+	public static final String OPRAND_TOC = "isToc"; //$NON-NLS-1$
+	public static final String OPRAND_SVG = "svg"; //$NON-NLS-1$
+	public static final String OPRAND_PARAM = "param"; //$NON-NLS-1$
+	public static final String OPRAND_IID = "iid"; //$NON-NLS-1$
+	public static final String OPRAND_TASKID = "taskid"; //$NON-NLS-1$
 	
-	static public String MIME_TYPE = "text/xml"; //$NON-NLS-1$
-	static public String HTML_RENDER_FORMAT = HTMLRenderOption.OUTPUT_FORMAT_HTML;
+	public static final String MIME_TYPE = "text/xml"; //$NON-NLS-1$
+	public static final String HTML_RENDER_FORMAT = HTMLRenderOption.OUTPUT_FORMAT_HTML;
 	public static final String PDF_RENDER_FORMAT = HTMLRenderOption.OUTPUT_FORMAT_PDF;
-
+	public static final String POSTSCRIPT_RENDER_FORMAT = "postscript"; //$NON-NLS-1$
+	
 	// Servlet path for parameter model.
 	public static final String SERVLET_PATH_PARAMETER = "/parameter"; //$NON-NLS-1$
 
@@ -99,4 +100,18 @@ public interface IBirtConstants
 	public static final String DEFAULT_LOGS_FOLDER = "logs"; //$NON-NLS-1$
 	public static final String DEFAULT_SCRIPTLIB_FOLDER = "scriptlib"; //$NON-NLS-1$
 	
+	// Open type
+	public static final String OPEN_TYPE_INLINE = "inline"; //$NON-NLS-1$
+	public static final String OPEN_TYPE_ATTACHMENT = "attachment"; //$NON-NLS-1$
+	
+	// Action name
+	public static final String ACTION_PRINT = "print"; //$NON-NLS-1$
+	
+	// Message type
+	public static final String MSG_ERROR = "error"; //$NON-NLS-1$
+	public static final String MSG_COMPLETE = "complete"; //$NON-NLS-1$
+	
+	// Flag
+	public static final String VAR_ON = "ON"; //$NON-NLS-1$
+	public static final String VAR_OFF = "OFF"; //$NON-NLS-1$
 }

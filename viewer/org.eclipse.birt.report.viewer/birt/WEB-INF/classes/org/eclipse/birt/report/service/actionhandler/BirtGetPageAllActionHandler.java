@@ -69,7 +69,6 @@ public class BirtGetPageAllActionHandler extends AbstractBaseActionHandler
 					.getBean( );
 			assert attrBean != null;
 
-			String format = ParameterAccessor.getFormat( context.getRequest( ) );
 			Locale locale = attrBean.getLocale( );
 			boolean master = attrBean.isMasterPageContent( );
 			boolean svgFlag = getSVGFlag( operation.getOprand( ) );
@@ -90,7 +89,7 @@ public class BirtGetPageAllActionHandler extends AbstractBaseActionHandler
 			options
 					.setOption( InputOptions.OPT_SVG_FLAG,
 							new Boolean( svgFlag ) );
-			options.setOption( InputOptions.OPT_FORMAT, format );
+			options.setOption( InputOptions.OPT_FORMAT, attrBean.getFormat( ) );
 			options.setOption( InputOptions.OPT_IS_DESIGNER, new Boolean(
 					attrBean.isDesigner( ) ) );
 
@@ -154,10 +153,10 @@ public class BirtGetPageAllActionHandler extends AbstractBaseActionHandler
 		}
 		catch ( Exception e )
 		{
-			AxisFault fault = new AxisFault( );
+			AxisFault fault = new AxisFault( e.getLocalizedMessage( ), e
+					.getCause( ) );
 			fault.setFaultCode( new QName(
 					"BirtGetPageAllActionHandler.__execute( )" ) ); //$NON-NLS-1$
-			fault.setFaultReason( e.getLocalizedMessage( ) );
 			throw fault;
 		}
 	}

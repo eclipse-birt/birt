@@ -15,7 +15,7 @@ import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
 
 /**
- * Fragment for report tool bar.
+ * Fragment help rendering export data dialog in side bar.
  * <p>
  * 
  * @see BaseFragment

@@ -17,7 +17,6 @@
 /******************************************************************************
  * Birt error page.
  *****************************************************************************/
-
 .BirtViewer_Highlight_Label
 {
 	font:Verdana;
@@ -98,31 +97,97 @@
 /******************************************************************************
  * Birt export data dialog.
  *****************************************************************************/
- 
 .birtviewer_exportdata_dialog_single_select
 {
 	width:250px;
 	font-size:8pt;
 }
+
 .birtviewer_exportdata_dialog_select
 {
 	width:180px;
 	font-size:8pt;
 }
+
 .birtviewer_exportdata_dialog_button
 {
 	width:16px;
 	height:16px;
 	cursor:pointer;
 }
+
 .birtviewer_exportdata_dialog_input
 {
 	width:80px;
 	font:Verdana;
 	font-size:8pt;
 	border-style:inset;
-	border-width:2px;	
+	border-width:1px;	
 }
+
+/******************************************************************************
+ * Birt export report dialog.
+ *****************************************************************************/
+.birtviewer_exportreport_dialog_select
+{
+	width:120px;
+	font:Verdana;
+	font-size:8pt;
+} 
+ 
+.birtviewer_exportreport_dialog_input
+{
+	width:120px;
+	font:Verdana;
+	font-size:8pt;
+	border-style:inset;
+	border-width:1px;	
+} 
+
+/******************************************************************************
+ * Birt print report dialog.
+ *****************************************************************************/
+.birtviewer_printreport_dialog_select
+{
+	width:200px;
+	font:Verdana;
+	font-size:8pt;
+} 
+ 
+.birtviewer_printreport_dialog_input
+{
+	width:120px;
+	font:Verdana;
+	font-size:8pt;
+	border-style:inset;
+	border-width:1px;	
+} 
+
+.birtviewer_printreport_dialog_input_short
+{
+	width:60px;
+	font:Verdana;
+	font-size:8pt;
+	border-style:inset;
+	border-width:1px;	
+} 
+
+/******************************************************************************
+ * Birt confirmation dialog.
+ *****************************************************************************/
+.birtviewer_confirmation_dialog_iframe
+{
+	width:450px;
+	height:100px
+} 
+
+.birtviewer_progresspage
+{
+	font-family:Verdana;
+	font-size:8pt;
+	cursor:default;	
+}
+  
 /******************************************************************************
  * Dialog related.
  *****************************************************************************/
@@ -135,6 +200,7 @@
 	font-size:8pt;
 	cursor:default;
 }
+
 .birtviewer_dialog_caption
 {
 	width:100%;
@@ -142,6 +208,7 @@
 	color:white;
 	background-color:#4682b4;
 }
+
 .birtviewer_dialog_body
 {
 	/*background-color:#dbe4ee;*/
@@ -152,6 +219,7 @@
 	font-family:arial;
 	font-size:8pt;
 }
+
 .birtviewer_dialog_button
 {
 	width:100px;
@@ -163,6 +231,7 @@
 	cursor:hand;
 	cursor:pointer;
 }
+
 .birtviewer_dialog_tab_selected
 {
 	border-color:#ffffff;
@@ -171,6 +240,7 @@
 	font-size:7pt;
 	font-weight:bold;
 }
+
 .birtviewer_dialog_tab_normal
 {
 	border-color:white;
@@ -197,8 +267,6 @@
 	font-family:Verdana;
 	font-size:10pt;
 }
-
-
 
 /******************************************************************************
  * Toolbar

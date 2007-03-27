@@ -31,6 +31,7 @@ BirtEvent.prototype =
 	__E_PDF : '__E_PDF', // Create pdf event.
 	__E_CANCEL_TASK : '__E_CANCEL_TASK', // Cancel current task event.
 	__E_GETPAGE_ALL : '__E_GETPAGE_ALL', // Get all pages.
+	__E_EXPORT_REPORT : '__E_EXPORT_REPORT', // Export report
  	
 	/**
 	 *	Initialization routine required by "ProtoType" lib.

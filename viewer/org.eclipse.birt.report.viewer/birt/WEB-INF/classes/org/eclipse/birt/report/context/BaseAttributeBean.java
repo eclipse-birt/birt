@@ -188,6 +188,11 @@ abstract public class BaseAttributeBean
 	protected boolean isDocumentProcessing = false;
 
 	/**
+	 * indicate action name.
+	 */
+	protected String action = null;
+
+	/**
 	 * Abstract methods.
 	 */
 	abstract protected void __init( HttpServletRequest request )
@@ -544,5 +549,13 @@ abstract public class BaseAttributeBean
 	public boolean isDocumentProcessing( )
 	{
 		return isDocumentProcessing;
+	}
+
+	/**
+	 * @return the action
+	 */
+	public String getAction( )
+	{
+		return action;
 	}
 }
