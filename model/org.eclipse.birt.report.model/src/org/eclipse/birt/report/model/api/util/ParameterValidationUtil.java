@@ -26,10 +26,10 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.metadata.ValidationValueException;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.BooleanPropertyType;
 
 import com.ibm.icu.util.ULocale;
-import com.ibm.icu.util.UResourceBundle;
 
 /**
  * Validates the parameter value with the given data type and format pattern
@@ -572,16 +572,12 @@ public class ParameterValidationUtil
 	{
 		// works around bug in some J2EE server; see Bugzilla #126073
 
-		String packageName = ModelMessages.class.getName( ).substring( 0,
-				ModelMessages.class.getName( ).lastIndexOf( "." ) ); //$NON-NLS-1$
-
-		String localeName = locale == null ? null : locale.toString( );
-		UResourceBundle resourceBundle = UResourceBundle.getBundleInstance(
-				packageName + ".Messages", //$NON-NLS-1$
-				localeName, ModelMessages.class.getClassLoader( ) );
-		if ( resourceBundle != null )
-			return resourceBundle.getString( key );
-		return key;
+		ULocale baseLocale = ThreadResources.getLocale( );
+		if ( locale != null )
+			ThreadResources.setLocale( locale );
+		String msg = ModelMessages.getMessage( key );
+		ThreadResources.setLocale( baseLocale );
+		return msg;
 	}
 
 	/**
@@ -833,12 +829,9 @@ public class ParameterValidationUtil
 				formatter.applyPattern( format );
 				return formatter.format( ( (Number) value ).floatValue( ) );
 			}
-			else
-			{
-				NumberFormatter formatter = new NumberFormatter( locale );
-				formatter.applyPattern( format );
-				return formatter.format( ( (Number) value ).doubleValue( ) );
-			}
+			NumberFormatter formatter = new NumberFormatter( locale );
+			formatter.applyPattern( format );
+			return formatter.format( ( (Number) value ).doubleValue( ) );
 
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL
