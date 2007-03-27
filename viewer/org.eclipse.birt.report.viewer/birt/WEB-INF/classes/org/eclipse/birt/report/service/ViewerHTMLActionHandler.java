@@ -217,13 +217,17 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		// Get bookmark
 		String bookmark = action.getBookmark( );
 
-		// In frameset/run mode, use javascript function to fire Ajax request to
-		// link to internal bookmark
-		if ( baseURL.lastIndexOf( IBirtConstants.SERVLET_PATH_FRAMESET ) > 0
-				|| baseURL.lastIndexOf( IBirtConstants.SERVLET_PATH_RUN ) > 0 )
+		if ( baseURL.lastIndexOf( IBirtConstants.SERVLET_PATH_FRAMESET ) > 0 )
 		{
+			// In frameset mode, use javascript function to fire Ajax request to
+			// link to internal bookmark
 			return "javascript:catchBookmark('" //$NON-NLS-1$
 					+ ParameterAccessor.htmlEncode( bookmark ) + "')"; //$NON-NLS-1$
+		}
+		else if ( baseURL.lastIndexOf( IBirtConstants.SERVLET_PATH_RUN ) > 0 )
+		{
+			// If run mode, append bookmark on the end of URL
+			return "javascript:catchBookmark('" + bookmark + "')"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		// Save the URL String
@@ -367,7 +371,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		}
 
 		if ( baseURL == null )
-			baseURL = IBirtConstants.VIEWER_RUN;
+			baseURL = IBirtConstants.VIEWER_PREVIEW;
 
 		StringBuffer link = new StringBuffer( );
 		String reportName = getReportName( context, action );

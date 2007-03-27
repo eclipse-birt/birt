@@ -166,7 +166,14 @@
 		// When link to internal bookmark, use javascript to fire an Ajax request
 		function catchBookmark( bookmark )
 		{	
-			birtEventDispatcher.broadcastEvent( birtEvent.__E_GETPAGE_ALL, { name : "bookmark", value : bookmark } );		
+			var action = window.location.href;
+			var reg = new RegExp( "([^#]*)#.*", "gi" );
+			if( action.search( reg ) >= 0 )
+			{
+				action = action.replace( reg, "$1" );
+			}
+			
+			window.location.href = action + "#" + bookmark;		
 		}
 		
 	</script>
