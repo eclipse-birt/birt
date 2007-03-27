@@ -309,7 +309,7 @@ public class HTML2Content
 		if ( tagName.toLowerCase().equals( "a" ) ) //$NON-NLS-1$
 		{
 			IContainerContent container = new ContainerContent((ReportContent)content.getReportContent());
-			container.setParent(content);//FIXME addChild to replace?
+			addChild(content, container);
 			handleStyle(ele, cssStyles, container);
 			ActionContent oldAction = action;
 			handleAnchor( ele, container );
