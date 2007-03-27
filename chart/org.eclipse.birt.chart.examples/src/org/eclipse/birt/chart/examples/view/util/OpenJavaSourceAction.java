@@ -40,7 +40,7 @@ import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorRegistry;
-import org.eclipse.ui.internal.editors.text.JavaFileEditorInput;
+import org.eclipse.ui.ide.FileStoreEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
 import org.osgi.framework.Bundle;
 
@@ -113,7 +113,7 @@ public class OpenJavaSourceAction extends Action
 		IFile workspaceFile = getWorkspaceFile( fileStore );
 		if ( workspaceFile != null )
 			return new FileEditorInput( workspaceFile );
-		return new JavaFileEditorInput( fileStore );
+		return new FileStoreEditorInput( fileStore );
 	}
 
 	private IFile getWorkspaceFile( IFileStore fileStore )
