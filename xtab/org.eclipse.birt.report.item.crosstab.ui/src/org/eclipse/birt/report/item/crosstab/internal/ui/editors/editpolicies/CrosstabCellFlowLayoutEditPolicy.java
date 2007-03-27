@@ -19,6 +19,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.AddDimensionViewHandleCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.AddMeasureViewHandleCommand;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.ChangeAreaCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.CrosstabCellCreateCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.CrosstabFlowMoveChildCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.CrosstabPasterCommand;
@@ -32,6 +33,7 @@ import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.gef.requests.CreateRequest;
 
 /**
@@ -128,10 +130,39 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 		Object parentObj = parent.getModel( );
 		Object source = child.getModel( );
 		Object afterObj = after == null ? null : after.getModel( );
+		Object childParent = child.getParent( ).getModel( );
+		if (parentObj instanceof CrosstabCellAdapter && childParent instanceof CrosstabCellAdapter)
+		{
+			CrosstabCellAdapter childAdapter = (CrosstabCellAdapter)childParent;
+			CrosstabCellAdapter parentAdapter = (CrosstabCellAdapter)parentObj;
+			if (ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE.equals( childAdapter.getPositionType( ))
+				&& (ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE.equals( parentAdapter.getPositionType( ) )
+				|| ICrosstabCellAdapterFactory.CELL_LEVEL_HANDLE.equals( parentAdapter.getPositionType( )))
+				)
+			{
+				if (!(after instanceof FirstLevelHandleDataItemEditPart) )
+				{
+					afterObj = null;
+				}
+				return new ChangeAreaCommand(parentAdapter.getDesignElementHandle( ), 
+						childAdapter.getDesignElementHandle( ),(DesignElementHandle) DNDUtil.unwrapToModel( afterObj ) );
+			}
+		}
+		if (childParent instanceof CrosstabCellAdapter)
+		{	
+			CrosstabCellAdapter childAdapter = (CrosstabCellAdapter)childParent;
+			if (ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE.equals( childAdapter.getPositionType( )))
+			{
+				return UnexecutableCommand.INSTANCE;
+			}
+		}
 		return new CrosstabPasterCommand( (DesignElementHandle) DNDUtil.unwrapToModel( source ),
 				(DesignElementHandle) DNDUtil.unwrapToModel( parentObj ),
 				(DesignElementHandle) DNDUtil.unwrapToModel( afterObj ) );
 	}
+	
+	
+	
 	
 	/*
 	 * (non-Javadoc)

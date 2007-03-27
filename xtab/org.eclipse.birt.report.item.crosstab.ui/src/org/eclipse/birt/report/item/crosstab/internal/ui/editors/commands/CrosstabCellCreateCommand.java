@@ -74,7 +74,11 @@ public class CrosstabCellCreateCommand extends Command
 
 	private int findInsertPosition( CrosstabCellHandle handle, Object after )
 	{
-		return handle.getContents( ).indexOf( after ) + 1;
+		if (after == null)
+		{
+			return handle.getContents( ).size( );
+		}
+		return handle.getContents( ).indexOf( after );
 	}
 
 	/**

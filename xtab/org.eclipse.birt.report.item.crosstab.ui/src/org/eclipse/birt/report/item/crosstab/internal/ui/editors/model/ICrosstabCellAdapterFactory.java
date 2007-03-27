@@ -57,5 +57,5 @@ public interface ICrosstabCellAdapterFactory
 	 */
 	public CrosstabCellAdapter createCrosstabCellAdapter( String type,
 			CrosstabCellHandle handle, int rowNumber, int rowSpan,
-			int columnNumber, int columnSpan );
+			int columnNumber, int columnSpan, boolean isConvert );
 }

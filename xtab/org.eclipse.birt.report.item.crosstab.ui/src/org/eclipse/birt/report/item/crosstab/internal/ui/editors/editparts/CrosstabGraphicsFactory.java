@@ -17,6 +17,8 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCr
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
+import org.eclipse.gef.EditPartViewer;
+import org.eclipse.jface.action.MenuManager;
 
 /**
  * Factory to create the editpart.
@@ -40,12 +42,15 @@ public class CrosstabGraphicsFactory implements EditPartFactory
 			{
 				String position = ( (CrosstabCellEditPart) context ).getCrosstabCellAdapter( )
 						.getPositionType( );
-				if ( ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE.equals( position ) )
+				if ( ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE.equals( position ) 
+						|| ICrosstabCellAdapterFactory.CELL_MEASURE.equals( position ))
 				{
-					return new FirstLevelHandleDataItemEditPart( model );
+					FirstLevelHandleDataItemEditPart first = new FirstLevelHandleDataItemEditPart(model);
+					first.setManager( createMenuManager( position, context.getViewer( )));
+					return first;
 				}
 				else if (ICrosstabCellAdapterFactory.CELL_LEVEL_HANDLE.equals( position )
-						|| ICrosstabCellAdapterFactory.CELL_MEASURE.equals( position ))
+						)
 				{
 					//FirstLevelHandleDataItemEditPart
 					return new LevelHandleDataItemEditPart( model );
@@ -67,5 +72,18 @@ public class CrosstabGraphicsFactory implements EditPartFactory
 			return new CrosstabCellEditPart( model );
 		}
 		return null;
+	}
+	
+	private MenuManager createMenuManager(String position, EditPartViewer viewer)
+	{
+		if (ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE.equals( position ))
+		{
+			return new LevelCrosstabPopMenuProvider(viewer);
+		}
+		if (ICrosstabCellAdapterFactory.CELL_MEASURE.equals( position ))
+		{
+			return new MeasureCrosstabPopMenuProvider(viewer);
+		}
+		throw new RuntimeException("Don't support this position");
 	}
 }

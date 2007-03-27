@@ -25,6 +25,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.LevelViewDialog;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -134,7 +135,7 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 		
 		ComputedColumn bindingColumn = CrosstabAdaptUtil.createComputedColumn( (ExtendedItemHandle) reportHandle.getModelHandle( ),
 				levelHandle );
-		((ExtendedItemHandle)reportHandle.getModelHandle( )).addColumnBinding( bindingColumn, false );
+		ComputedColumnHandle bindingHandle = ((ExtendedItemHandle)reportHandle.getModelHandle( )).addColumnBinding( bindingColumn, false );
 		
 		LevelViewHandle levelViewHandle = CrosstabUtil.insertLevel(viewHandle, levelHandle,
 				pos );
@@ -143,7 +144,7 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 		
 		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 				.newDataItem( levelHandle.getName( ) );
-		dataHandle.setResultSetColumn( bindingColumn.getName( ) );
+		dataHandle.setResultSetColumn( bindingHandle.getName( ) );
 
 		cellHandle.addContent( dataHandle );
 

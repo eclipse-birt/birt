@@ -15,16 +15,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.ISelectionFlitter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.CellBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportComponentEditPolicy;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportContainerEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.CellFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.CellDragTracker;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportFlowLayout;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editpolicies.CrosstabCellContainerEditPolicy;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editpolicies.CrosstabCellFlowLayoutEditPolicy;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.figures.CrosstabCellFigure;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.handles.CrosstavCellDragHandle;
@@ -38,6 +39,8 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
+import org.eclipse.gef.commands.UnexecutableCommand;
+import org.eclipse.gef.requests.GroupRequest;
 
 /**
  * Crosstab cell element editpart, the model is CrosstabCellAdapter
@@ -80,12 +83,20 @@ public class CrosstabCellEditPart extends AbstractCellEditPart
 	protected void createEditPolicies( )
 	{
 		installEditPolicy( EditPolicy.COMPONENT_ROLE,
-				new ReportComponentEditPolicy( ) );
+				new ReportComponentEditPolicy( ) 
+		{
+			protected org.eclipse.gef.commands.Command createDeleteCommand(
+					GroupRequest deleteRequest )
+			{
+				return UnexecutableCommand.INSTANCE;
+			}
+		}
+		);
 		installEditPolicy( EditPolicy.LAYOUT_ROLE,
 				new CrosstabCellFlowLayoutEditPolicy( ) );
 		installEditPolicy( EditPolicy.CONTAINER_ROLE,
-				new ReportContainerEditPolicy( ) );
-
+				new CrosstabCellContainerEditPolicy( ) );
+		
 	}
 
 	/*

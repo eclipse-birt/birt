@@ -79,7 +79,7 @@ public class VirtualCellEditPart extends CrosstabCellEditPart
 				( (CellFigure) getFigure( ) ).setBlankString( "column" );
 				break;
 			case VirtualCrosstabCellAdapter.ROW_TYPE:
-				( (CellFigure) getFigure( ) ).setBlankString( "rows" );
+				( (CellFigure) getFigure( ) ).setBlankString( "row" );
 				break;
 			case VirtualCrosstabCellAdapter.MEASURE_TYPE:
 				( (CellFigure) getFigure( ) ).setBlankString( "measure" );

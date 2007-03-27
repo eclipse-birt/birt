@@ -11,11 +11,16 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts;
 
+import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportFigureUtilities;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DataEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.LabelDirectEditPolicy;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportComponentEditPolicy;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.figures.FirstLevelHandleDataItemFigure;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.ICrosstabCellAdapterFactory;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.draw2d.IFigure;
@@ -23,7 +28,11 @@ import org.eclipse.draw2d.StackLayout;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.DragTracker;
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.gef.tools.DragEditPartsTracker;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.swt.widgets.Menu;
@@ -33,7 +42,7 @@ import org.eclipse.swt.widgets.Menu;
  */
 public class FirstLevelHandleDataItemEditPart extends DataEditPart
 {
-	
+	private MenuManager manager;
 	/**Constructor
 	 * @param model
 	 */
@@ -42,6 +51,35 @@ public class FirstLevelHandleDataItemEditPart extends DataEditPart
 		super( model );
 	}
 
+	
+	protected void createEditPolicies( )
+	{
+		installEditPolicy( EditPolicy.COMPONENT_ROLE,
+				new ReportComponentEditPolicy( ) 
+		{
+			protected org.eclipse.gef.commands.Command createDeleteCommand(
+					GroupRequest deleteRequest )
+			{
+				//Object model =  ((EditPart) parts.get( i ) ).getModel( ) ;
+				Object parent = this.getHost( ).getParent( ).getModel( ) ;
+				if (parent instanceof CrosstabCellAdapter)
+				{
+					if (ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE.equals( 
+							((CrosstabCellAdapter)parent).getPositionType( ))
+							||ICrosstabCellAdapterFactory.CELL_MEASURE.equals( 
+									((CrosstabCellAdapter)parent).getPositionType( )) )
+					{
+						return new Command(){};
+					}
+				}
+				DeleteCommand command = new DeleteCommand( this.getHost( ).getModel( ) );
+				return command;
+			}
+		});
+
+		installEditPolicy( EditPolicy.DIRECT_EDIT_ROLE,
+				new LabelDirectEditPolicy( ) );
+	}
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DataEditPart#createFigure()
 	 */
@@ -58,13 +96,13 @@ public class FirstLevelHandleDataItemEditPart extends DataEditPart
 	protected void refreshBackgroundColor( DesignElementHandle handle )
 	{
 		super.refreshBackgroundColor( handle );
-		Object obj = handle.getProperty( StyleHandle.BACKGROUND_COLOR_PROP );
-
-		if ( obj == null )
-		{
-			getFigure( ).setBackgroundColor( ReportColorConstants.TableGuideFillColor );
-			getFigure( ).setOpaque( true );
-		}
+//		Object obj = handle.getProperty( StyleHandle.BACKGROUND_COLOR_PROP );
+//
+//		if ( obj == null )
+//		{
+//			getFigure( ).setBackgroundColor( ReportColorConstants.TableGuideFillColor );
+//			getFigure( ).setOpaque( true );
+//		}
 	}
 
 	/* (non-Javadoc)
@@ -95,7 +133,7 @@ public class FirstLevelHandleDataItemEditPart extends DataEditPart
 						FirstLevelHandleDataItemEditPart first = (FirstLevelHandleDataItemEditPart) getSourceEditPart( );
 						if ( first.contains( getLocation( ) ) )
 						{
-							MenuManager manager = new CrosstabPopMenuProvider( getViewer( ) );
+							//MenuManager manager = new LevelCrosstabPopMenuProvider( getViewer( ) );
 							manager.createContextMenu( getViewer( ).getControl( ) );
 							Menu menu = manager.getMenu( );
 							
@@ -109,6 +147,7 @@ public class FirstLevelHandleDataItemEditPart extends DataEditPart
 		};
 		return track;
 	}
+	
 
 	/**The point if in the triangle.
 	 * @param pt
@@ -122,5 +161,11 @@ public class FirstLevelHandleDataItemEditPart extends DataEditPart
 
 		figure.translateToAbsolute( center );
 		return ReportFigureUtilities.isInTriangle( center, FirstLevelHandleDataItemFigure.TRIANGLE_HEIGHT, pt );
+	}
+
+	
+	public void setManager( MenuManager manager )
+	{
+		this.manager = manager;
 	}
 }

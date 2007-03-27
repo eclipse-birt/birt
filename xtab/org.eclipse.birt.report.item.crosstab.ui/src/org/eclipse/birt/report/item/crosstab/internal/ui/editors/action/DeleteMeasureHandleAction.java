@@ -12,7 +12,9 @@
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.action;
 
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
-import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
+import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
@@ -22,13 +24,14 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 public class DeleteMeasureHandleAction extends AbstractCrosstabAction
 {
+	private MeasureViewHandle measureViewHandle;
 	/**
 	 * Action displayname
 	 */
 	private static final String ACTION_MSG_MERGE = "Delete MeasureHandle";
 
 	/** action ID */
-	public static final String ID = "org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddColumnGrandTotalAction"; //$NON-NLS-1$
+	public static final String ID = "org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.DeleteMeasureHandleAction"; //$NON-NLS-1$
 
 	/**
 	 * Trans name
@@ -40,11 +43,14 @@ public class DeleteMeasureHandleAction extends AbstractCrosstabAction
 	 * 
 	 * @param handle
 	 */
-	public DeleteMeasureHandleAction( ExtendedItemHandle handle )
+	public DeleteMeasureHandleAction( DesignElementHandle handle )
 	{
 		super( handle );
 		setId( ID );
 		setText( ACTION_MSG_MERGE );
+		ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle( handle );
+		setHandle( extendedHandle );
+		measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle( extendedHandle );
 	}
 
 	/*
@@ -60,7 +66,7 @@ public class DeleteMeasureHandleAction extends AbstractCrosstabAction
 	private CrosstabReportItemHandle getCrosstabReportItemHandle(
 			Object editpart )
 	{
-		return (CrosstabReportItemHandle) CrosstabUtil.getReportItem( getHandle( ) );
+		return measureViewHandle.getCrosstab( );
 	}
 
 	/*
@@ -78,11 +84,12 @@ public class DeleteMeasureHandleAction extends AbstractCrosstabAction
 			
 			try
 			{
-				int measureCount = reportItem.getMeasureCount( );
-				if (measureCount > 0)
-				{
-					reportItem.removeMeasure( measureCount -1 );
-				}
+//				int measureCount = reportItem.getMeasureCount( );
+//				if (measureCount > 0)
+//				{
+//					reportItem.removeMeasure( measureCount -1 );
+//				}
+				reportItem.removeMeasure( measureViewHandle.getCubeMeasure( ).getQualifiedName( ) );
 			}
 			catch ( SemanticException e )
 			{

@@ -314,25 +314,25 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		addStackAction( new RedoAction( this ) );
 		addEditPartAction( new DeleteAction( (IWorkbenchPart) this ) {
 
-			public Command createDeleteCommand( List objects )
-			{
-				if ( objects.isEmpty( ) )
-					return null;
-				if ( !( objects.get( 0 ) instanceof EditPart ) )
-					return null;
-
-				GroupRequest deleteReq = new GroupRequest( RequestConstants.REQ_DELETE );
-				deleteReq.setEditParts( objects );
-
-				List temp = TableUtil.filletCellModel(objects);
-				List list = new ArrayList( );
-				for ( int i = 0; i < temp.size( ); i++ )
-				{
-					EditPart object = (EditPart) temp.get( i );
-					list.add( object.getModel( ) );
-				}
-				return new DeleteCommand( list.toArray( ) );
-			}
+//			public Command createDeleteCommand( List objects )
+//			{
+//				if ( objects.isEmpty( ) )
+//					return null;
+//				if ( !( objects.get( 0 ) instanceof EditPart ) )
+//					return null;
+//
+//				GroupRequest deleteReq = new GroupRequest( RequestConstants.REQ_DELETE );
+//				deleteReq.setEditParts( objects );
+//
+//				List temp = TableUtil.filletCellModel(objects);
+//				List list = new ArrayList( );
+//				for ( int i = 0; i < temp.size( ); i++ )
+//				{
+//					EditPart object = (EditPart) temp.get( i );
+//					list.add( object.getModel( ) );
+//				}
+//				return new DeleteCommand( list.toArray( ) );
+//			}
 		} );
 
 		SaveAction saveAction = new SaveAction( this );

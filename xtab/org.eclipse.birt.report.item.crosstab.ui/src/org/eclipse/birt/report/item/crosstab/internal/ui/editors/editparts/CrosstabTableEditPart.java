@@ -13,7 +13,10 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
@@ -31,6 +34,7 @@ import org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutCell;
 import org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner;
 import org.eclipse.birt.report.designer.internal.ui.layout.TableLayout;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editpolicies.CrosstabXYLayoutEditPolicy;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabHandleAdapter;
@@ -800,5 +804,21 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 				isReload = false;
 			}
 		}
+	}
+	
+	protected void propertyChange( Map info )
+	{
+		Set set = info.keySet( );
+		Iterator itor = set.iterator( );
+		
+		while(itor.hasNext( ))
+		{
+			if (ICrosstabReportItemConstants.MEASURE_DIRECTION_PROP.equals( itor.next( ) ))
+			{
+				refresh( );
+				return;
+			}
+		}
+		super.propertyChange( info );
 	}
 }

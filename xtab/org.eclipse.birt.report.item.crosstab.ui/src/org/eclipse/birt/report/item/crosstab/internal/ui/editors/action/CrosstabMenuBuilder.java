@@ -15,7 +15,6 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.ui.extensions.IMenuBuilder;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 
 /**
@@ -59,8 +58,8 @@ public class CrosstabMenuBuilder implements IMenuBuilder
 //				action = new AddRowGrandTotalAction( handle );
 //				menu.add( action );
 				
-				IAction action = new DeleteMeasureHandleAction( handle );
-				menu.add( action );
+//				IAction action = new DeleteMeasureHandleAction( handle );
+//				menu.add( action );
 			}
 		}
 

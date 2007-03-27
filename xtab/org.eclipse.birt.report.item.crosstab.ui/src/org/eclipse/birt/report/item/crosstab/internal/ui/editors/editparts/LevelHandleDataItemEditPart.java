@@ -51,13 +51,13 @@ public class LevelHandleDataItemEditPart extends DataEditPart
 	{
 		super.refreshBackgroundColor( handle );
 
-		Object obj = handle.getProperty( StyleHandle.BACKGROUND_COLOR_PROP );
-
-		if ( obj == null )
-		{
-			getFigure( ).setBackgroundColor( ReportColorConstants.TableGuideFillColor );
-			getFigure( ).setOpaque( true );
-		}
+//		Object obj = handle.getProperty( StyleHandle.BACKGROUND_COLOR_PROP );
+//
+//		if ( obj == null )
+//		{
+//			getFigure( ).setBackgroundColor( ReportColorConstants.TableGuideFillColor );
+//			getFigure( ).setOpaque( true );
+//		}
 	}
 
 }

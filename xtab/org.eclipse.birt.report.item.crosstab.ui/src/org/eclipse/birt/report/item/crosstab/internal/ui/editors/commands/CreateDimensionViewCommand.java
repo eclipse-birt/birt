@@ -24,6 +24,7 @@ import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabHandleAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
@@ -140,7 +141,7 @@ public class CreateDimensionViewCommand extends AbstractCrosstabCommand
 //			bindingColumn.setDataType( DesignChoiceConstants. COLUMN_DATA_TYPE_ANY);
 			
 	
-			((ExtendedItemHandle)reportHandle.getModelHandle( )).addColumnBinding( bindingColumn, false );
+			ComputedColumnHandle bindingHandle = ((ExtendedItemHandle)reportHandle.getModelHandle( )).addColumnBinding( bindingColumn, false );
 			
 //			List list = new ArrayList();
 //			int measureCount = reportHandle.getMeasureCount( );
@@ -156,7 +157,7 @@ public class CreateDimensionViewCommand extends AbstractCrosstabCommand
 
 			DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 					.newDataItem( levelHandle.getName( ) );
-			dataHandle.setResultSetColumn( bindingColumn.getName( ) );
+			dataHandle.setResultSetColumn( bindingHandle.getName( ) );
 			
 			cellHandle.addContent( dataHandle );
 		}
