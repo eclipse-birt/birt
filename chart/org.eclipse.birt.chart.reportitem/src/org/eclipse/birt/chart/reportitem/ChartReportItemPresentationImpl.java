@@ -28,12 +28,15 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.factory.RunTimeContext;
+import org.eclipse.birt.chart.internal.script.ChartScriptContext;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
+import org.eclipse.birt.chart.script.IChartScriptContext;
+import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineConstants;
@@ -407,6 +410,41 @@ public final class ChartReportItemPresentationImpl extends
 				// Do nothing when RowSet is empty or null
 				return null;
 			}
+			rtc.setScriptClassLoader( new BIRTScriptClassLoader( appClassLoader ) );
+			// INITIALIZE THE SCRIPT HANDLER
+			// UPDATE THE CHART SCRIPT CONTEXT
+			
+			ScriptHandler sh = rtc.getScriptHandler( );
+			BIRTExternalContext externalContext = new BIRTExternalContext( context );
+			if ( sh == null ) // IF NOT PREVIOUSLY DEFINED BY
+			// REPORTITEM ADAPTER
+			{
+				sh = new ScriptHandler( );
+				rtc.setScriptHandler( sh );
+
+				sh.setScriptClassLoader( rtc.getScriptClassLoader( ) );
+				sh.setScriptContext( rtc.getScriptContext( ) );
+				
+				final String sScriptContent = cm.getScript( );
+				if ( externalContext != null
+						&& externalContext.getScriptable( ) != null )				
+				{
+					sh.init( externalContext.getScriptable( ) );
+				}
+				else
+				{
+					sh.init( null );
+				}
+				sh.setRunTimeModel( cm );
+
+				if ( sScriptContent != null
+						&& sScriptContent.length( ) > 0
+						&& rtc.isScriptingEnabled( ) )
+				{
+					sh.register( sScriptContent );
+				}
+			}
+			
 			BIRTDataRowEvaluator rowAdapter = new BIRTDataRowEvaluator( rowSet );
 			Generator.instance( ).bindData( rowAdapter,
 					new BIRTActionEvaluator( ),
@@ -439,13 +477,12 @@ public final class ChartReportItemPresentationImpl extends
 
 			final Generator gr = Generator.instance( );
 			GeneratedChartState gcs = null;
-			rtc.setScriptClassLoader( new BIRTScriptClassLoader( appClassLoader ) );
+			
 			rtc.setActionRenderer( new BIRTActionRenderer( this.handle,
 					this.ah,
 					rowAdapter,
 					this.context ) );
 			rtc.setMessageLookup( new BIRTMessageLookup( context ) );
-
 			Object renderContext = context.getAppContext( )
 					.get( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT );
 
@@ -465,7 +502,7 @@ public final class ChartReportItemPresentationImpl extends
 			gcs = gr.build( idr.getDisplayServer( ),
 					cm,
 					bo,
-					new BIRTExternalContext( context ),
+					externalContext,
 					rtc,
 					new ChartReportStyleProcessor( handle, this.style ) );
 
