@@ -12,6 +12,7 @@
 birt.viewer.title=BIRT Report Viewer
 birt.viewer.title.navigation=탐색
 birt.viewer.title.error=오류
+birt.viewer.title.complete=Complete
 
 birt.viewer.parameter=매개 변수
 birt.viewer.runreport=보고서 실행
@@ -23,17 +24,19 @@ birt.viewer.restore=보고서 매개 변수 표시
 
 birt.viewer.error=오류 메시지
 birt.viewer.error.noparameter=이 보고서에 대한 매개 변수가 없습니다.
+birt.viewer.error.noprinter=Cannot find any avaiable printer that supports postscript format.
 
 ###############################################################################
 # Toolbar
 ###############################################################################
-birt.viewer.toolbar.print=보고서 인쇄
+birt.viewer.toolbar.print=보고서를 PDF로 인쇄
+birt.viewer.toolbar.printserver=Print report on the server
 birt.viewer.toolbar.toc=목차 표시
 birt.viewer.toolbar.parameter=보고서 실행
 birt.viewer.toolbar.export=데이터 내보내기
 birt.viewer.toolbar.font=글꼴 변경
 birt.viewer.toolbar.enableiv=대화형 뷰어 호출
-birt.viewer.toolbar.pdf=보고서를 PDF로 인쇄
+birt.viewer.toolbar.exportreport=Export report
 
 ###############################################################################
 # navbar
@@ -47,6 +50,7 @@ birt.viewer.navbar.lable.goto=페이지로 이동:
 birt.viewer.navbar.prompt.one=페이지 표시
 birt.viewer.navbar.prompt.two=/
 birt.viewer.navbar.error.blankpagenum=올바른 페이지 번호를 입력하십시오.
+
 ###############################################################################
 # progress bar
 ###############################################################################
@@ -60,6 +64,11 @@ birt.viewer.dialog.cancel=취소
 birt.viewer.dialog.run=보고서 실행
 birt.viewer.dialog.close=닫기
 
+birt.viewer.dialog.page.all=All pages
+birt.viewer.dialog.page.current=Current page
+birt.viewer.dialog.page.range=Pages:
+birt.viewer.dialog.page.range.description=( Enter page number(s) and/or page range(s). For example: 1-6 or 1,3,6 )
+
 ###############################################################################
 # Dialog title
 ###############################################################################
@@ -67,6 +76,7 @@ birt.viewer.dialog.exception.title=예외
 birt.viewer.dialog.exportReport.title=보고서 내보내기
 birt.viewer.dialog.parameter.title=매개 변수
 birt.viewer.dialog.simpleExportData.title=데이터 내보내기
+birt.viewer.dialog.printReport.title=Print report on the server
 
 ###############################################################################
 # Export report dialog 
@@ -78,6 +88,39 @@ birt.viewer.dialog.export.all=상세 보고서 내보내기
 birt.viewer.dialog.export.all.detail=현재 보기 수정 사항에 관계 없이<br>사용 가능한 모든 보고서 데이터가 내보내집니다.
 birt.viewer.dialog.export.modified=현재 수정 사항을 포함하여 보고서 내보내기
 birt.viewer.dialog.export.modified.detail=표시된 데이터만 내보내집니다. 필터링되었거나<BR>숨겨진 데이터는 내보내지지 않습니다.
+
+birt.viewer.dialog.export.pdf.fittoactual=Actual size
+birt.viewer.dialog.export.pdf.fittowidth=Fit to page width
+birt.viewer.dialog.export.pdf.fittowhole=Fit to whole page
+
+###############################################################################
+# Print report dialog 
+###############################################################################
+birt.viewer.dialog.print.onserver=Print the output document file on the server
+birt.viewer.dialog.print.printer=Printer:
+birt.viewer.dialog.print.status=Status:
+birt.viewer.dialog.print.model=Model:
+birt.viewer.dialog.print.description=Description:
+accepting-jobs=Accepting Jobs
+
+birt.viewer.dialog.print.settings=Please specify print settings
+birt.viewer.dialog.print.settings.copies=Number of copies:
+birt.viewer.dialog.print.settings.collate=Collate:
+birt.viewer.dialog.print.settings.mode=Mode:
+birt.viewer.dialog.print.settings.mode.bw=B&W
+birt.viewer.dialog.print.settings.mode.color=Color
+birt.viewer.dialog.print.settings.duplex=Duplex:
+birt.viewer.dialog.print.settings.duplex.simplex=Simplex
+birt.viewer.dialog.print.settings.duplex.horizontal=Horizontal
+birt.viewer.dialog.print.settings.duplex.vertical=Vertical
+birt.viewer.dialog.print.settings.pagesize=Page size:
+
+birt.viewer.dialog.print.complete=Sent document file to the selected printer on the server.
+
+###############################################################################
+# Confirmation dialog 
+###############################################################################
+birt.viewer.dialog.confirmation.title=Confirmation
 
 ###############################################################################
 # Export data dialog 

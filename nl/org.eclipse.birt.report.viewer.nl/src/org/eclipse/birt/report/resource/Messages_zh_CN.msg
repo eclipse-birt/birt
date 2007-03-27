@@ -12,6 +12,7 @@
 birt.viewer.title=BIRT Report Viewer
 birt.viewer.title.navigation=导航　
 birt.viewer.title.error=错误
+birt.viewer.title.complete=Complete
 
 birt.viewer.parameter=参数
 birt.viewer.runreport=运行报表
@@ -23,17 +24,19 @@ birt.viewer.restore=显示报表参数
 
 birt.viewer.error=错误消息
 birt.viewer.error.noparameter=此报表无参数。
+birt.viewer.error.noprinter=Cannot find any avaiable printer that supports postscript format.
 
 ###############################################################################
 # Toolbar
 ###############################################################################
-birt.viewer.toolbar.print=打印报表
+birt.viewer.toolbar.print=以 PDF 格式打印报表
+birt.viewer.toolbar.printserver=Print report on the server
 birt.viewer.toolbar.toc=显示目录
 birt.viewer.toolbar.parameter=运行报表
 birt.viewer.toolbar.export=导出数据
 birt.viewer.toolbar.font=更改字体
 birt.viewer.toolbar.enableiv=调用交互式查看器
-birt.viewer.toolbar.pdf=以 PDF 格式打印报表
+birt.viewer.toolbar.exportreport=Export report
 
 ###############################################################################
 # navbar
@@ -47,6 +50,7 @@ birt.viewer.navbar.lable.goto=转到页:
 birt.viewer.navbar.prompt.one=显示页
 birt.viewer.navbar.prompt.two=/
 birt.viewer.navbar.error.blankpagenum=请输入有效页码。
+
 ###############################################################################
 # progress bar
 ###############################################################################
@@ -60,6 +64,11 @@ birt.viewer.dialog.cancel=取消
 birt.viewer.dialog.run=运行报表
 birt.viewer.dialog.close=关闭
 
+birt.viewer.dialog.page.all=All pages
+birt.viewer.dialog.page.current=Current page
+birt.viewer.dialog.page.range=Pages:
+birt.viewer.dialog.page.range.description=( Enter page number(s) and/or page range(s). For example: 1-6 or 1,3,6 )
+
 ###############################################################################
 # Dialog title
 ###############################################################################
@@ -67,6 +76,7 @@ birt.viewer.dialog.exception.title=例外
 birt.viewer.dialog.exportReport.title=导出报表
 birt.viewer.dialog.parameter.title=参数
 birt.viewer.dialog.simpleExportData.title=导出数据
+birt.viewer.dialog.printReport.title=Print report on the server
 
 ###############################################################################
 # Export report dialog 
@@ -78,6 +88,39 @@ birt.viewer.dialog.export.all=导出详细报表
 birt.viewer.dialog.export.all.detail=将导出所有可用报表数据，不考虑<br>当前视图的修改。
 birt.viewer.dialog.export.modified=导出具有当前修改的报表
 birt.viewer.dialog.export.modified.detail=将只导出可见数据。将不导出<BR>已被筛选掉或隐藏的数据。
+
+birt.viewer.dialog.export.pdf.fittoactual=Actual size
+birt.viewer.dialog.export.pdf.fittowidth=Fit to page width
+birt.viewer.dialog.export.pdf.fittowhole=Fit to whole page
+
+###############################################################################
+# Print report dialog 
+###############################################################################
+birt.viewer.dialog.print.onserver=Print the output document file on the server
+birt.viewer.dialog.print.printer=Printer:
+birt.viewer.dialog.print.status=Status:
+birt.viewer.dialog.print.model=Model:
+birt.viewer.dialog.print.description=Description:
+accepting-jobs=Accepting Jobs
+
+birt.viewer.dialog.print.settings=Please specify print settings
+birt.viewer.dialog.print.settings.copies=Number of copies:
+birt.viewer.dialog.print.settings.collate=Collate:
+birt.viewer.dialog.print.settings.mode=Mode:
+birt.viewer.dialog.print.settings.mode.bw=B&W
+birt.viewer.dialog.print.settings.mode.color=Color
+birt.viewer.dialog.print.settings.duplex=Duplex:
+birt.viewer.dialog.print.settings.duplex.simplex=Simplex
+birt.viewer.dialog.print.settings.duplex.horizontal=Horizontal
+birt.viewer.dialog.print.settings.duplex.vertical=Vertical
+birt.viewer.dialog.print.settings.pagesize=Page size:
+
+birt.viewer.dialog.print.complete=Sent document file to the selected printer on the server.
+
+###############################################################################
+# Confirmation dialog 
+###############################################################################
+birt.viewer.dialog.confirmation.title=Confirmation
 
 ###############################################################################
 # Export data dialog 

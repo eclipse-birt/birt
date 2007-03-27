@@ -12,6 +12,7 @@
 birt.viewer.title=BIRT Report Viewer
 birt.viewer.title.navigation=ナビゲーション
 birt.viewer.title.error=エラー
+birt.viewer.title.complete=Complete
 
 birt.viewer.parameter=パラメタ
 birt.viewer.runreport=レポートの実行
@@ -23,17 +24,19 @@ birt.viewer.restore=レポートパラメタを表示します。
 
 birt.viewer.error=エラーメッセージ
 birt.viewer.error.noparameter=このレポートにはパラメタがありません。
+birt.viewer.error.noprinter=Cannot find any avaiable printer that supports postscript format.
 
 ###############################################################################
 # Toolbar
 ###############################################################################
-birt.viewer.toolbar.print=レポートの印刷
+birt.viewer.toolbar.print=PDF 形式でレポートを印刷する
+birt.viewer.toolbar.printserver=Print report on the server
 birt.viewer.toolbar.toc=目次の表示
 birt.viewer.toolbar.parameter=レポートの実行
 birt.viewer.toolbar.export=データのエクスポート
 birt.viewer.toolbar.font=フォントの変更
 birt.viewer.toolbar.enableiv=インタラクティブビューアの起動
-birt.viewer.toolbar.pdf=PDF 形式でレポートを印刷する
+birt.viewer.toolbar.exportreport=Export report
 
 ###############################################################################
 # navbar
@@ -47,6 +50,7 @@ birt.viewer.navbar.lable.goto=ページ指定ジャンプ :
 birt.viewer.navbar.prompt.one=表示中のページ
 birt.viewer.navbar.prompt.two=/
 birt.viewer.navbar.error.blankpagenum=有効なページ番号を入力してください。
+
 ###############################################################################
 # progress bar
 ###############################################################################
@@ -60,6 +64,11 @@ birt.viewer.dialog.cancel=キャンセル
 birt.viewer.dialog.run=レポートの実行
 birt.viewer.dialog.close=閉じる
 
+birt.viewer.dialog.page.all=All pages
+birt.viewer.dialog.page.current=Current page
+birt.viewer.dialog.page.range=Pages:
+birt.viewer.dialog.page.range.description=( Enter page number(s) and/or page range(s). For example: 1-6 or 1,3,6 )
+
 ###############################################################################
 # Dialog title
 ###############################################################################
@@ -67,6 +76,7 @@ birt.viewer.dialog.exception.title=例外
 birt.viewer.dialog.exportReport.title=レポートのエクスポート
 birt.viewer.dialog.parameter.title=パラメタ
 birt.viewer.dialog.simpleExportData.title=データのエクスポート
+birt.viewer.dialog.printReport.title=Print report on the server
 
 ###############################################################################
 # Export report dialog 
@@ -78,6 +88,39 @@ birt.viewer.dialog.export.all=詳細レポートをエクスポートする
 birt.viewer.dialog.export.all.detail=現在のビューで変更した内容は反映せずに、<br>すべてのレポートデータをエクスポートします。
 birt.viewer.dialog.export.modified=現在の変更をレポートに反映してエクスポートする
 birt.viewer.dialog.export.modified.detail=表示されているデータだけをエクスポートします。<BR>フィルタによって隠されているデータはエクスポートされません。
+
+birt.viewer.dialog.export.pdf.fittoactual=Actual size
+birt.viewer.dialog.export.pdf.fittowidth=Fit to page width
+birt.viewer.dialog.export.pdf.fittowhole=Fit to whole page
+
+###############################################################################
+# Print report dialog 
+###############################################################################
+birt.viewer.dialog.print.onserver=Print the output document file on the server
+birt.viewer.dialog.print.printer=Printer:
+birt.viewer.dialog.print.status=Status:
+birt.viewer.dialog.print.model=Model:
+birt.viewer.dialog.print.description=Description:
+accepting-jobs=Accepting Jobs
+
+birt.viewer.dialog.print.settings=Please specify print settings
+birt.viewer.dialog.print.settings.copies=Number of copies:
+birt.viewer.dialog.print.settings.collate=Collate:
+birt.viewer.dialog.print.settings.mode=Mode:
+birt.viewer.dialog.print.settings.mode.bw=B&W
+birt.viewer.dialog.print.settings.mode.color=Color
+birt.viewer.dialog.print.settings.duplex=Duplex:
+birt.viewer.dialog.print.settings.duplex.simplex=Simplex
+birt.viewer.dialog.print.settings.duplex.horizontal=Horizontal
+birt.viewer.dialog.print.settings.duplex.vertical=Vertical
+birt.viewer.dialog.print.settings.pagesize=Page size:
+
+birt.viewer.dialog.print.complete=Sent document file to the selected printer on the server.
+
+###############################################################################
+# Confirmation dialog 
+###############################################################################
+birt.viewer.dialog.confirmation.title=Confirmation
 
 ###############################################################################
 # Export data dialog 
