@@ -239,6 +239,12 @@ public class RunTask extends AbstractRunTask implements IRunTask
 					"An OutOfMemory error happened while running the report." ); //$NON-NLS-1$
 			throw err;
 		}
+		catch ( Throwable t )
+		{
+			log.log( Level.SEVERE,
+					"Error happened while running the report.", t ); //$NON-NLS-1$
+			throw new EngineException( "Error happened while running the report", t ); //$NON-NLS-1$
+		}
 		finally
 		{
 			documentBuilder = null;

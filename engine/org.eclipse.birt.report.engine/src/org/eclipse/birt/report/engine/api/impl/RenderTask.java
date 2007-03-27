@@ -440,6 +440,12 @@ public class RenderTask extends EngineTask implements IRenderTask
 								"An OutOfMemory error happened while running the report." ); //$NON-NLS-1$
 				throw err;
 			}
+			catch ( Throwable t )
+			{
+				log.log( Level.SEVERE,
+						"Error happened while running the report.", t ); //$NON-NLS-1$
+				throw new EngineException( "Error happened while running the report", t ); //$NON-NLS-1$
+			}
 		}
 
 		protected boolean allowPageBreak( )
