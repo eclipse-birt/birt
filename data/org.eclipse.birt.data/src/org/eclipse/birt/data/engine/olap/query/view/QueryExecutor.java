@@ -89,7 +89,8 @@ public class QueryExecutor
 	private IDocumentManager getDocumentManager( CubeQueryExecutor executor )
 			throws DataException, IOException
 	{
-		if ( executor.getContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
+		if ( executor.getContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION
+				|| executor.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION )
 		{
 			return DocumentManagerFactory.loadFileDocumentManager( executor.getContext( )
 					.getTmpdir( ),
