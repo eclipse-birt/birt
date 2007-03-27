@@ -12,9 +12,11 @@
 package org.eclipse.birt.report.taglib.component;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Map;
 
 import org.eclipse.birt.report.IBirtConstants;
+import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.taglib.ITagConstants;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
@@ -113,6 +115,21 @@ public class ViewerField implements Serializable, Cloneable, ITagConstants
 	 * Report parameters
 	 */
 	private Map parameters;
+
+	/**
+	 * Check whether document existed in URL
+	 */
+	private boolean documentInUrl = false;
+
+	/**
+	 * Report design handle
+	 */
+	private IViewerReportDesignHandle reportDesignHandle;
+
+	/**
+	 * Report parameter definitions List
+	 */
+	private Collection parameterDefList = null;
 
 	/**
 	 * Create the final URI string to preview report
@@ -888,6 +905,58 @@ public class ViewerField implements Serializable, Cloneable, ITagConstants
 	public void setParameters( Map parameters )
 	{
 		this.parameters = parameters;
+	}
+
+	/**
+	 * @return the documentInUrl
+	 */
+	public boolean isDocumentInUrl( )
+	{
+		return documentInUrl;
+	}
+
+	/**
+	 * @param documentInUrl
+	 *            the documentInUrl to set
+	 */
+	public void setDocumentInUrl( boolean documentInUrl )
+	{
+		this.documentInUrl = documentInUrl;
+	}
+
+	/**
+	 * @return the reportDesignHandle
+	 */
+	public IViewerReportDesignHandle getReportDesignHandle( )
+	{
+		return reportDesignHandle;
+	}
+
+	/**
+	 * @param reportDesignHandle
+	 *            the reportDesignHandle to set
+	 */
+	public void setReportDesignHandle(
+			IViewerReportDesignHandle reportDesignHandle )
+	{
+		this.reportDesignHandle = reportDesignHandle;
+	}
+
+	/**
+	 * @return the parameterDefList
+	 */
+	public Collection getParameterDefList( )
+	{
+		return parameterDefList;
+	}
+
+	/**
+	 * @param parameterDefList
+	 *            the parameterDefList to set
+	 */
+	public void setParameterDefList( Collection parameterDefList )
+	{
+		this.parameterDefList = parameterDefList;
 	}
 
 }
