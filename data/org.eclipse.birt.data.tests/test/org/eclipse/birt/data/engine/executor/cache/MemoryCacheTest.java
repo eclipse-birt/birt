@@ -32,7 +32,7 @@ public class MemoryCacheTest extends TestCase
 	/*
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	public void setUp( )
+	public void setUp( ) throws DataException
 	{
 		List columnsList = new ArrayList( );
 		ResultFieldMetadata columnMetaData = new ResultFieldMetadata( 1,

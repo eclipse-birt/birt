@@ -36,8 +36,9 @@ abstract class BaseExprDataResultSet implements IExprDataResultSet
 	
 	/**
 	 * @param inExprMetas
+	 * @throws DataException 
 	 */
-	void init( ExprMetaInfo[] inExprMetas, IExprDataReader exprDataReader )
+	void init( ExprMetaInfo[] inExprMetas, IExprDataReader exprDataReader ) throws DataException
 	{
 		this.exprMetas = ExprMetaUtil.buildExprDataMetaInfo( inExprMetas );
 		this.rsMeta = ExprMetaUtil.buildExprDataResultClass( exprMetas );

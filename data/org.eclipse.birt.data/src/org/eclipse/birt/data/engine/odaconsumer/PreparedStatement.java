@@ -315,7 +315,7 @@ public class PreparedStatement
 		return m_currentResultClass;
 	}
 
-	private ResultClass doGetResultClass( List projectedColumns ) 
+	private ResultClass doGetResultClass( List projectedColumns ) throws DataException 
 	{
 		String methodName = "doGetResultClass"; //$NON-NLS-1$
 		sm_logger.entering( sm_className, methodName, projectedColumns );

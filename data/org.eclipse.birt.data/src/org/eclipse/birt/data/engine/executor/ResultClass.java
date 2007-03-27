@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -45,12 +46,40 @@ public class ResultClass implements IResultClass
 	private boolean hasAny;
 	private List originalAnyTypeField;
 	
-	public ResultClass( List projectedColumns )
+	public ResultClass( List projectedColumns ) throws DataException
 	{	
 		assert( projectedColumns != null );
-		
+		validateProjectColumns( projectedColumns);
 		initColumnsInfo( projectedColumns );
 		
+	}
+	
+	/**
+	 * 
+	 * @param projectedColumns
+	 * @throws DataException 
+	 */
+	private void validateProjectColumns( List projectedColumns ) throws DataException
+	{
+		Set columnNameSet = new HashSet();
+		for( int i = 0; i < projectedColumns.size(); i++ )
+		{
+			ResultFieldMetadata column = (ResultFieldMetadata)projectedColumns.get(i);
+			if ( columnNameSet.contains( column.getName( ) ) )
+			{
+				throw new DataException( ResourceConstants.DUPLICATE_COLUMN_NAME,
+						column.getName( ) );
+			}
+			if ( columnNameSet.contains( column.getAlias( ) ) )
+			{
+				throw new DataException( ResourceConstants.DUPLICATE_COLUMN_NAME,
+						column.getAlias( ) );
+			}
+			columnNameSet.add( column.getName());
+			if( column.getAlias()!= null )
+				columnNameSet.add(column.getAlias());
+		}
+			
 	}
 	
 	/**

@@ -124,8 +124,9 @@ public class SizeOfUtilTest extends TestCase
 
 	/**
 	 * @return
+	 * @throws DataException 
 	 */
-	private ResultClass getResultClass( )
+	private ResultClass getResultClass( ) throws DataException
 	{
 		ArrayList columnList = new ArrayList( );
 		

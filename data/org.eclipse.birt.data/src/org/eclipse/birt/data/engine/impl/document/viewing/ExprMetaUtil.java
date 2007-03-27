@@ -195,10 +195,11 @@ public class ExprMetaUtil
 	/**
 	 * @param inputStreamMeta
 	 * @return
+	 * @throws DataException 
 	 * @throws DataException
 	 */
 	public static IResultClass buildExprDataResultClass(
-			ExprMetaInfo[] exprMetas )
+			ExprMetaInfo[] exprMetas ) throws DataException
 	{
 		List newProjectedColumns = new ArrayList( );
 		for ( int i = 0; i < exprMetas.length; i++ )

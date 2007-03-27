@@ -104,8 +104,16 @@ class OdaResultSet implements IDataSetPopulator
 		 */
 		public IResultClass getResultClass( )
 		{
-			//return empty ResultClass object
-			return new ResultClass( new ArrayList( ) );
+			try
+			{
+				// return empty ResultClass object
+				return new ResultClass( new ArrayList( ) );
+			}
+			catch ( DataException e )
+			{
+				assert false;
+				return null;
+			}
 		}
 
 		/*

@@ -48,7 +48,7 @@ import com.ibm.icu.text.DateFormat;
  */
 public class FeaturesTest extends APITestCase
 {
-	
+
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
 	 */
@@ -60,8 +60,7 @@ public class FeaturesTest extends APITestCase
 	}
 
 	/**
-	 * A standard report, test feature of: 
-	 * 		group, sort, filter.
+	 * A standard report, test feature of: group, sort, filter.
 	 */
 	public void test1( ) throws Exception
 	{
@@ -77,7 +76,7 @@ public class FeaturesTest extends APITestCase
 		};
 		groupDefn[0].setKeyExpression( "row.GROUP_COUNTRY" );
 		groupDefn[1].setKeyExpression( "row.GROUP_CITY" );
-		
+
 		String[] bindingNameSort = new String[1];
 		bindingNameSort[0] = "SORT_SALE_DATE";
 		IBaseExpression[] bindingExprSort = new IBaseExpression[1];
@@ -110,7 +109,7 @@ public class FeaturesTest extends APITestCase
 		bindingExprRow[3] = new ScriptExpression( "dataSetRow.CITY" );
 		bindingExprRow[4] = new ScriptExpression( "dataSetRow.SALE_DATE" );
 		bindingExprRow[5] = new ScriptExpression( "dataSetRow.AMOUNT" );
-		
+
 		createAndRunQuery( bindingNameGroup,
 				bindingExprGroup,
 				groupDefn,
@@ -125,10 +124,9 @@ public class FeaturesTest extends APITestCase
 
 		checkOutputFile( );
 	}
-	
+
 	/**
-	 * A standard report, test feature of: 
-	 * 		group, sort, filter.
+	 * A standard report, test feature of: group, sort, filter.
 	 */
 	public void test2( ) throws Exception
 	{
@@ -139,10 +137,9 @@ public class FeaturesTest extends APITestCase
 		SortDefinition[] sortDefn = new SortDefinition[]{
 			new SortDefinition( )
 		};
-		sortDefn[0].setExpression(  "row[\"__rownum\"]" );
+		sortDefn[0].setExpression( "row[\"__rownum\"]" );
 		sortDefn[0].setSortDirection( ISortDefinition.SORT_DESC );
 
-		
 		String[] bindingNameRow = new String[6];
 		bindingNameRow[0] = "ROW_0";
 		bindingNameRow[1] = "ROW_rowPosition";
@@ -157,7 +154,7 @@ public class FeaturesTest extends APITestCase
 		bindingExprRow[3] = new ScriptExpression( "dataSetRow.CITY" );
 		bindingExprRow[4] = new ScriptExpression( "dataSetRow.SALE_DATE" );
 		bindingExprRow[5] = new ScriptExpression( "dataSetRow.AMOUNT" );
-		
+
 		createAndRunQuery( null,
 				null,
 				null,
@@ -172,10 +169,9 @@ public class FeaturesTest extends APITestCase
 
 		checkOutputFile( );
 	}
-	
+
 	/**
-	 * Test feature of
-	 * 		group.
+	 * Test feature of group.
 	 */
 	public void test3( ) throws Exception
 	{
@@ -184,13 +180,14 @@ public class FeaturesTest extends APITestCase
 		bindingNameGroup[1] = "GROUP_CITY";
 		IBaseExpression[] bindingExprGroup = new IBaseExpression[2];
 		bindingExprGroup[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
-		bindingExprGroup[1] = new ScriptExpression( "dataSetRow.CITY" );		
-		GroupDefinition[] groupDefn = new GroupDefinition[]{new GroupDefinition( "group0"),
-				new GroupDefinition("group1" )};
+		bindingExprGroup[1] = new ScriptExpression( "dataSetRow.CITY" );
+		GroupDefinition[] groupDefn = new GroupDefinition[]{
+				new GroupDefinition( "group0" ), new GroupDefinition( "group1" )
+		};
 		groupDefn[0].setKeyExpression( "row.GROUP_COUNTRY" );
 		groupDefn[1].setKeyExpression( "row.GROUP_CITY" );
-		
-		String[] bindingNameRow = new String[4];		
+
+		String[] bindingNameRow = new String[4];
 		bindingNameRow[0] = "ROW_COUNTRY";
 		bindingNameRow[1] = "ROW_CITY";
 		bindingNameRow[2] = "ROW_SALE_DATE";
@@ -200,7 +197,7 @@ public class FeaturesTest extends APITestCase
 		bindingExprRow[1] = new ScriptExpression( "dataSetRow.CITY" );
 		bindingExprRow[2] = new ScriptExpression( "dataSetRow.SALE_DATE" );
 		bindingExprRow[3] = new ScriptExpression( "dataSetRow.AMOUNT" );
-		
+
 		createAndRunQuery( bindingNameGroup,
 				bindingExprGroup,
 				groupDefn,
@@ -212,13 +209,12 @@ public class FeaturesTest extends APITestCase
 				null,
 				bindingNameRow,
 				bindingExprRow );
-		
-		checkOutputFile();
+
+		checkOutputFile( );
 	}
-	
+
 	/**
-	 * Test feature of
-	 * 		incorrect sort key, throw exception
+	 * Test feature of incorrect sort key, throw exception
 	 */
 	public void test4( ) throws Exception
 	{
@@ -227,21 +223,24 @@ public class FeaturesTest extends APITestCase
 		bindingNameGroup[1] = "GROUP_CITY";
 		IBaseExpression[] bindingExprGroup = new IBaseExpression[2];
 		bindingExprGroup[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
-		bindingExprGroup[1] = new ScriptExpression( "dataSetRow.CITY" );		
-		GroupDefinition[] groupDefn = new GroupDefinition[]{new GroupDefinition( "group0"),
-				new GroupDefinition("group1" )};
+		bindingExprGroup[1] = new ScriptExpression( "dataSetRow.CITY" );
+		GroupDefinition[] groupDefn = new GroupDefinition[]{
+				new GroupDefinition( "group0" ), new GroupDefinition( "group1" )
+		};
 		groupDefn[0].setKeyExpression( "row.GROUP_COUNTRY" );
 		groupDefn[1].setKeyExpression( "row.GROUP_CITY" );
-		
+
 		String[] bindingNameSort = new String[1];
 		bindingNameSort[0] = "SALE_SORT";
 		IBaseExpression[] bindingExprSort = new IBaseExpression[1];
 		bindingExprSort[0] = new ScriptExpression( "dataSetRow.SALE_DATE" );
-		SortDefinition[] sortDefn = new SortDefinition[]{new SortDefinition( )};
+		SortDefinition[] sortDefn = new SortDefinition[]{
+			new SortDefinition( )
+		};
 		sortDefn[0].setColumn( "row.SALE_SORT" );
 		sortDefn[0].setSortDirection( ISortDefinition.SORT_DESC );
-		
-		String[] bindingNameRow = new String[4];		
+
+		String[] bindingNameRow = new String[4];
 		bindingNameRow[0] = "ROW_COUNTRY";
 		bindingNameRow[1] = "ROW_CITY";
 		bindingNameRow[2] = "ROW_SALE_DATE";
@@ -269,17 +268,16 @@ public class FeaturesTest extends APITestCase
 		}
 		catch ( DataException e )
 		{
-			// TODO: verify e has expected error code 
+			// TODO: verify e has expected error code
 		}
 	}
-	
+
 	/**
-	 * Test feature
-	 * 		without any group, sort, filter
+	 * Test feature without any group, sort, filter
 	 */
 	public void test6( ) throws Exception
 	{
-		String[] bindingNameRow = new String[4];		
+		String[] bindingNameRow = new String[4];
 		bindingNameRow[0] = "ROW_COUNTRY";
 		bindingNameRow[1] = "ROW_CITY";
 		bindingNameRow[2] = "ROW_SALE_DATE";
@@ -301,13 +299,12 @@ public class FeaturesTest extends APITestCase
 				null,
 				bindingNameRow,
 				bindingExprRow );
-		
-		checkOutputFile();
+
+		checkOutputFile( );
 	}
-	
+
 	/**
-	 * Test feature of
-	 * 		incorrect filter expression, throw exception
+	 * Test feature of incorrect filter expression, throw exception
 	 */
 	public void test7( ) throws Exception
 	{
@@ -316,21 +313,23 @@ public class FeaturesTest extends APITestCase
 		bindingNameGroup[1] = "GROUP_CITY";
 		IBaseExpression[] bindingExprGroup = new IBaseExpression[2];
 		bindingExprGroup[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
-		bindingExprGroup[1] = new ScriptExpression( "dataSetRow.CITY" );		
-		GroupDefinition[] groupDefn = new GroupDefinition[]{new GroupDefinition( "group0"),
-				new GroupDefinition("group1" )};
+		bindingExprGroup[1] = new ScriptExpression( "dataSetRow.CITY" );
+		GroupDefinition[] groupDefn = new GroupDefinition[]{
+				new GroupDefinition( "group0" ), new GroupDefinition( "group1" )
+		};
 		groupDefn[0].setKeyExpression( "row.GROUP_COUNTRY" );
 		groupDefn[1].setKeyExpression( "row.GROUP_CITY" );
-		
+
 		String[] bindingNameFilter = new String[1];
 		bindingNameFilter[0] = "SALE_FILTER";
 		IBaseExpression[] bindingExprFilter = new IBaseExpression[1];
 		bindingExprFilter[0] = new ScriptExpression( "dataSetRow.AMONT && 100" );
-//		wrong operator
-		FilterDefinition[] filters = new FilterDefinition[]{new FilterDefinition(
-				new ScriptExpression( "row.SALE_FILTER_E" ) )};
-		
-		String[] bindingNameRow = new String[4];		
+		// wrong operator
+		FilterDefinition[] filters = new FilterDefinition[]{
+			new FilterDefinition( new ScriptExpression( "row.SALE_FILTER_E" ) )
+		};
+
+		String[] bindingNameRow = new String[4];
 		bindingNameRow[0] = "ROW_COUNTRY";
 		bindingNameRow[1] = "ROW_CITY";
 		bindingNameRow[2] = "ROW_SALE_DATE";
@@ -358,45 +357,47 @@ public class FeaturesTest extends APITestCase
 		}
 		catch ( DataException e )
 		{
-			// TODO: verify e has expected error code 
+			// TODO: verify e has expected error code
 		}
 	}
-	
+
 	/**
-	 * Test feature of
-	 * 		group, sort, ConditionalExpression
+	 * Test feature of group, sort, ConditionalExpression
 	 */
 	public void test8( ) throws Exception
-	{		
+	{
 		String[] bindingNameGroup = new String[2];
 		bindingNameGroup[0] = "GROUP_COUNTRY";
 		bindingNameGroup[1] = "GROUP_CITY";
 		IBaseExpression[] bindingExprGroup = new IBaseExpression[2];
 		bindingExprGroup[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
-		bindingExprGroup[1] = new ScriptExpression( "dataSetRow.CITY" );		
-		GroupDefinition[] groupDefn = new GroupDefinition[]{new GroupDefinition( "group0"),
-				new GroupDefinition("group1" )};
+		bindingExprGroup[1] = new ScriptExpression( "dataSetRow.CITY" );
+		GroupDefinition[] groupDefn = new GroupDefinition[]{
+				new GroupDefinition( "group0" ), new GroupDefinition( "group1" )
+		};
 		groupDefn[0].setKeyExpression( "row.GROUP_COUNTRY" );
 		groupDefn[1].setKeyExpression( "row.GROUP_CITY" );
-		
+
 		String[] bindingNameSort = new String[1];
 		bindingNameSort[0] = "SORT_SALE_DATE";
 		IBaseExpression[] bindingExprSort = new IBaseExpression[1];
-		bindingExprSort[0] = new ScriptExpression( "dataSetRow.SALE_DATE" );		
-		SortDefinition[] sortDefn = new SortDefinition[]{new SortDefinition( )};
+		bindingExprSort[0] = new ScriptExpression( "dataSetRow.SALE_DATE" );
+		SortDefinition[] sortDefn = new SortDefinition[]{
+			new SortDefinition( )
+		};
 		sortDefn[0].setColumn( "SORT_SALE_DATE" );
 		sortDefn[0].setSortDirection( ISortDefinition.SORT_DESC );
 
-		String[] bindingNameRow = new String[9];		
+		String[] bindingNameRow = new String[9];
 		bindingNameRow[0] = "ROW_COUNTRY";
 		bindingNameRow[1] = "ROW_CITY";
 		bindingNameRow[2] = "ROW_SALE_DATE";
-		bindingNameRow[3] = "ROW_AMOUNT";		
+		bindingNameRow[3] = "ROW_AMOUNT";
 		bindingNameRow[4] = "ROW_AMOUNT_2";
 		bindingNameRow[5] = "ROW_CITY_2";
 		bindingNameRow[6] = "ROW_CITY_3";
 		bindingNameRow[7] = "ROW_SALE_DATE_2";
-		bindingNameRow[8] = "ROW_AMOUNT_4";		
+		bindingNameRow[8] = "ROW_AMOUNT_4";
 		IBaseExpression[] bindingExprRow = new IBaseExpression[]{
 				new ScriptExpression( "dataSetRow.COUNTRY", 0 ),
 				new ScriptExpression( "dataSetRow.CITY", 0 ),
@@ -419,7 +420,7 @@ public class FeaturesTest extends APITestCase
 						"5",
 						"100" )
 		};
-		
+
 		createAndRunQuery( bindingNameGroup,
 				bindingExprGroup,
 				groupDefn,
@@ -434,10 +435,9 @@ public class FeaturesTest extends APITestCase
 
 		checkOutputFile( );
 	}
-	
+
 	/**
-	 * Regression Test for 
-	 * SRC #78568 Filetr on date time doesn't work properly
+	 * Regression Test for SRC #78568 Filetr on date time doesn't work properly
 	 */
 	public void regressionTest78568( ) throws Exception
 	{
@@ -446,17 +446,20 @@ public class FeaturesTest extends APITestCase
 		bindingNameGroup[1] = "GROUP_CITY";
 		IBaseExpression[] bindingExprGroup = new IBaseExpression[2];
 		bindingExprGroup[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
-		bindingExprGroup[1] = new ScriptExpression( "dataSetRow.CITY" );		
-		GroupDefinition[] groupDefn = new GroupDefinition[]{new GroupDefinition( "group0"),
-				new GroupDefinition("group1" )};
+		bindingExprGroup[1] = new ScriptExpression( "dataSetRow.CITY" );
+		GroupDefinition[] groupDefn = new GroupDefinition[]{
+				new GroupDefinition( "group0" ), new GroupDefinition( "group1" )
+		};
 		groupDefn[0].setKeyExpression( "row.GROUP_COUNTRY" );
 		groupDefn[1].setKeyExpression( "row.GROUP_CITY" );
-		
+
 		String[] bindingNameSort = new String[1];
 		bindingNameSort[0] = "SORT_SALE_DATE";
 		IBaseExpression[] bindingExprSort = new IBaseExpression[1];
-		bindingExprSort[0] = new ScriptExpression( "dataSetRow.SALE_DATE" );		
-		SortDefinition[] sortDefn = new SortDefinition[]{new SortDefinition( )};
+		bindingExprSort[0] = new ScriptExpression( "dataSetRow.SALE_DATE" );
+		SortDefinition[] sortDefn = new SortDefinition[]{
+			new SortDefinition( )
+		};
 		sortDefn[0].setColumn( "SORT_SALE_DATE" );
 		sortDefn[0].setSortDirection( ISortDefinition.SORT_DESC );
 
@@ -470,7 +473,7 @@ public class FeaturesTest extends APITestCase
 					"'2004-03-20 00:00:00.0'" ) )
 		};
 
-		String[] bindingNameRow = new String[4];		
+		String[] bindingNameRow = new String[4];
 		bindingNameRow[0] = "ROW_COUNTRY";
 		bindingNameRow[1] = "ROW_CITY";
 		bindingNameRow[2] = "ROW_SALE_DATE";
@@ -480,7 +483,7 @@ public class FeaturesTest extends APITestCase
 		bindingExprRow[1] = new ScriptExpression( "dataSetRow.CITY" );
 		bindingExprRow[2] = new ScriptExpression( "dataSetRow.SALE_DATE" );
 		bindingExprRow[3] = new ScriptExpression( "dataSetRow.AMOUNT" );
-		
+
 		createAndRunQuery( bindingNameGroup,
 				bindingExprGroup,
 				groupDefn,
@@ -492,13 +495,12 @@ public class FeaturesTest extends APITestCase
 				filterDefn,
 				bindingNameRow,
 				bindingExprRow );
-		
+
 		checkOutputFile( );
 	}
-	
+
 	/**
-	 * Test feature of
-	 * 		group, sort, filter
+	 * Test feature of group, sort, filter
 	 */
 	public void test9( ) throws Exception
 	{
@@ -507,21 +509,24 @@ public class FeaturesTest extends APITestCase
 		bindingNameGroup[1] = "GROUP_CITY";
 		IBaseExpression[] bindingExprGroup = new IBaseExpression[2];
 		bindingExprGroup[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
-		bindingExprGroup[1] = new ScriptExpression( "dataSetRow.CITY" );		
-		GroupDefinition[] groupDefn = new GroupDefinition[]{new GroupDefinition( "group0"),
-				new GroupDefinition("group1" )};
+		bindingExprGroup[1] = new ScriptExpression( "dataSetRow.CITY" );
+		GroupDefinition[] groupDefn = new GroupDefinition[]{
+				new GroupDefinition( "group0" ), new GroupDefinition( "group1" )
+		};
 		groupDefn[0].setKeyExpression( "row.GROUP_COUNTRY" );
 		groupDefn[1].setKeyExpression( "row.GROUP_CITY" );
 
 		String[] bindingNameSort = new String[1];
 		bindingNameSort[0] = "SORT_SALE_DATE";
 		IBaseExpression[] bindingExprSort = new IBaseExpression[1];
-		bindingExprSort[0] = new ScriptExpression( "dataSetRow.SALE_DATE" );		
-		SortDefinition[] sortDefn = new SortDefinition[]{new SortDefinition( )};
+		bindingExprSort[0] = new ScriptExpression( "dataSetRow.SALE_DATE" );
+		SortDefinition[] sortDefn = new SortDefinition[]{
+			new SortDefinition( )
+		};
 		sortDefn[0].setColumn( "SORT_SALE_DATE" );
 		sortDefn[0].setSortDirection( ISortDefinition.SORT_DESC );
 
-		String[] bindingNameRow = new String[4];		
+		String[] bindingNameRow = new String[4];
 		bindingNameRow[0] = "ROW_COUNTRY";
 		bindingNameRow[1] = "ROW_CITY";
 		bindingNameRow[2] = "ROW_SALE_DATE";
@@ -531,7 +536,7 @@ public class FeaturesTest extends APITestCase
 		bindingExprRow[1] = new ScriptExpression( "dataSetRow.CITY" );
 		bindingExprRow[2] = new ScriptExpression( "dataSetRow.SALE_DATE" );
 		bindingExprRow[3] = new ScriptExpression( "dataSetRow.AMOUNT" );
-		
+
 		String[] bindingNameFilter = new String[1];
 		bindingNameFilter[0] = "FILTER_AMOUNT";
 		IBaseExpression[] bindingExprFilter = new IBaseExpression[1];
@@ -553,28 +558,29 @@ public class FeaturesTest extends APITestCase
 				filterDefn,
 				bindingNameRow,
 				bindingExprRow );
-		
+
 		checkOutputFile( );
 	}
-	
+
 	/**
-	 * Test feature of
-	 * 		duplicate column name from different tables
+	 * Test feature of duplicate column name from different tables
 	 */
-	public void test10_DuplicateColName() throws Exception
+	public void test10_DuplicateColName( ) throws Exception
 	{
-		// Test a SQL with duplicate column name (quite common with join data sets)
+		// Test a SQL with duplicate column name. In data engine we will not
+		// allow
+		// such operation.
 		String testSQL = "select COUNTRY, COUNTRY, CITY from "
 				+ getTestTableName( );
 		( (OdaDataSetDesign) this.dataSet ).setQueryText( testSQL );
-		
-		String[] bindingNameRow = new String[2];		
+
+		String[] bindingNameRow = new String[2];
 		bindingNameRow[0] = "ROW_COUNTRY";
 		bindingNameRow[1] = "ROW_CITY";
 		IBaseExpression[] bindingExprRow = new IBaseExpression[2];
 		bindingExprRow[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
 		bindingExprRow[1] = new ScriptExpression( "dataSetRow.CITY" );
-		
+
 		QueryDefinition queryDefn = this.createQuery( null,
 				null,
 				null,
@@ -586,17 +592,19 @@ public class FeaturesTest extends APITestCase
 				null,
 				bindingNameRow,
 				bindingExprRow );
-		
-		IPreparedQuery preparedQuery = dataEngine.prepare( queryDefn );
-		IQueryResults queryResults = preparedQuery.execute( null );
-		IResultIterator resultIt = queryResults.getResultIterator( );
-		assertTrue( resultIt.next( ) );
 
-		resultIt.getValue( bindingNameRow[0] );
-		resultIt.getValue( bindingNameRow[1] );
+		try
+		{
+			IPreparedQuery preparedQuery = dataEngine.prepare( queryDefn );
+			IQueryResults queryResults = preparedQuery.execute( null );
+			queryResults.getResultIterator( );
+			fail( "Should not arrive here " );
+		}
+		catch ( DataException e )
+		{
+		}
 	}
-	
-	
+
 	/**
 	 * Test aggregation with similar features.
 	 */
@@ -607,13 +615,14 @@ public class FeaturesTest extends APITestCase
 		bindingNameGroup[1] = "GROUP_CITY";
 		IBaseExpression[] bindingExprGroup = new IBaseExpression[2];
 		bindingExprGroup[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
-		bindingExprGroup[1] = new ScriptExpression( "dataSetRow.CITY" );		
-		GroupDefinition[] groupDefn = new GroupDefinition[]{new GroupDefinition( "group0"),
-				new GroupDefinition("group1" )};
+		bindingExprGroup[1] = new ScriptExpression( "dataSetRow.CITY" );
+		GroupDefinition[] groupDefn = new GroupDefinition[]{
+				new GroupDefinition( "group0" ), new GroupDefinition( "group1" )
+		};
 		groupDefn[0].setKeyExpression( "row.GROUP_COUNTRY" );
 		groupDefn[1].setKeyExpression( "row.GROUP_CITY" );
 
-		String[] bindingNameRow = new String[6];		
+		String[] bindingNameRow = new String[6];
 		bindingNameRow[0] = "ROW_COUNTRY";
 		bindingNameRow[1] = "ROW_CITY";
 		bindingNameRow[2] = "ROW_SALE_DATE";
@@ -629,7 +638,7 @@ public class FeaturesTest extends APITestCase
 				0 );
 		bindingExprRow[5] = new ScriptExpression( "Total.sum(row.ROW_AMOUNT,row.ROW_COUNTRY == \"CHINA\",0)",
 				0 );
-		
+
 		this.createAndRunQuery( bindingNameGroup,
 				bindingExprGroup,
 				groupDefn,
@@ -641,9 +650,9 @@ public class FeaturesTest extends APITestCase
 				null,
 				bindingNameRow,
 				bindingExprRow );
-		checkOutputFile();
+		checkOutputFile( );
 	}
-	
+
 	/**
 	 * Test aggregation with similar features.
 	 */
@@ -654,9 +663,10 @@ public class FeaturesTest extends APITestCase
 		bindingNameGroup[1] = "GROUP_CITY";
 		IBaseExpression[] bindingExprGroup = new IBaseExpression[2];
 		bindingExprGroup[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
-		bindingExprGroup[1] = new ScriptExpression( "dataSetRow.CITY" );		
-		GroupDefinition[] groupDefn = new GroupDefinition[]{new GroupDefinition( "group0"),
-				new GroupDefinition("group1" )};
+		bindingExprGroup[1] = new ScriptExpression( "dataSetRow.CITY" );
+		GroupDefinition[] groupDefn = new GroupDefinition[]{
+				new GroupDefinition( "group0" ), new GroupDefinition( "group1" )
+		};
 		groupDefn[0].setKeyExpression( "row.GROUP_COUNTRY" );
 		groupDefn[1].setKeyExpression( "row.GROUP_CITY" );
 
@@ -694,15 +704,14 @@ public class FeaturesTest extends APITestCase
 				new ScriptExpression( "dataSetRow.CITY", 0 ),
 				new ScriptExpression( "dataSetRow.SALE_DATE", 0 ),
 				new ScriptExpression( "dataSetRow.AMOUNT", 0 ),
-				
+
 				new ScriptExpression( "Total.Rank(row.ROW_AMOUNT,true,null,2)",
 						0 ),
 				new ScriptExpression( "Total.Rank(row.ROW_AMOUNT,true,null,1)",
 						0 ),
 				new ScriptExpression( "Total.Rank(row.ROW_AMOUNT,true,null,Total.OVERALL)",
 						0 ),
-				new ScriptExpression( "Total.Sum(row.ROW_AMOUNT,null,2)",
-						0 ),				
+				new ScriptExpression( "Total.Sum(row.ROW_AMOUNT,null,2)", 0 ),
 				new ScriptExpression( "Total.isTopN(row.ROW_AMOUNT,1,null,2)",
 						0 ),
 				new ScriptExpression( "Total.isBottomN(row.ROW_AMOUNT,1,null,2)",
@@ -722,24 +731,25 @@ public class FeaturesTest extends APITestCase
 
 				new ScriptExpression( "Total.PercentSum(row.ROW_AMOUNT,null,2)",
 						0 ),
-				new ScriptExpression( "Total.PercentSum(row.ROW_AMOUNT,null,1)", 0 ),
+				new ScriptExpression( "Total.PercentSum(row.ROW_AMOUNT,null,1)",
+						0 ),
 				new ScriptExpression( "Total.PercentSum(row.ROW_AMOUNT,null,Total.OVERALL)",
 						0 ),
 
 				new ScriptExpression( "Total.PercentRank(row.ROW_AMOUNT,null,2)",
 						0 ),
-				new ScriptExpression( "Total.PercentRank(row.ROW_AMOUNT,null,1)", 0 ),
+				new ScriptExpression( "Total.PercentRank(row.ROW_AMOUNT,null,1)",
+						0 ),
 				new ScriptExpression( "Total.PercentRank(row.ROW_AMOUNT,null,Total.OVERALL)",
 						0 ),
 
-				new ScriptExpression( "Total.RunningCount(null,2)",
-						0 ),
+				new ScriptExpression( "Total.RunningCount(null,2)", 0 ),
 				new ScriptExpression( "Total.RunningCount(null,1)", 0 ),
 				new ScriptExpression( "Total.RunningCount(null,Total.OVERALL)",
 						0 )
-				
+
 		};
-		
+
 		this.createAndRunQuery( bindingNameGroup,
 				bindingExprGroup,
 				groupDefn,
@@ -753,31 +763,32 @@ public class FeaturesTest extends APITestCase
 				bindingExprRow );
 		checkOutputFile( );
 	}
-	
+
 	/**
-	 * Test filters in data sets and queries. The dataset filters should 
-	 * always be applied before the query filters.
+	 * Test filters in data sets and queries. The dataset filters should always
+	 * be applied before the query filters.
 	 */
 	public void test14( ) throws Exception
 	{
-		this.dataSet.addFilter( new FilterDefinition(
-				new ConditionalExpression( "row.AMOUNT",
-						ConditionalExpression.OP_BOTTOM_N, "7" ) ) );
-		this.dataSet.addFilter( new FilterDefinition(
-				new ConditionalExpression( "row.AMOUNT",
-						ConditionalExpression.OP_LE, "600" ) ) );
-		
+		this.dataSet.addFilter( new FilterDefinition( new ConditionalExpression( "row.AMOUNT",
+				ConditionalExpression.OP_BOTTOM_N,
+				"7" ) ) );
+		this.dataSet.addFilter( new FilterDefinition( new ConditionalExpression( "row.AMOUNT",
+				ConditionalExpression.OP_LE,
+				"600" ) ) );
+
 		String[] bindingNameGroup = new String[2];
 		bindingNameGroup[0] = "GROUP_COUNTRY";
 		bindingNameGroup[1] = "GROUP_CITY";
 		IBaseExpression[] bindingExprGroup = new IBaseExpression[2];
 		bindingExprGroup[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
-		bindingExprGroup[1] = new ScriptExpression( "dataSetRow.CITY" );		
-		GroupDefinition[] groupDefn = new GroupDefinition[]{new GroupDefinition( "group0"),
-				new GroupDefinition("group1" )};
+		bindingExprGroup[1] = new ScriptExpression( "dataSetRow.CITY" );
+		GroupDefinition[] groupDefn = new GroupDefinition[]{
+				new GroupDefinition( "group0" ), new GroupDefinition( "group1" )
+		};
 		groupDefn[0].setKeyExpression( "row.GROUP_COUNTRY" );
 		groupDefn[1].setKeyExpression( "row.GROUP_CITY" );
-	
+
 		String[] bindingNameRow = new String[]{
 				"ROW_COUNTRY",
 				"ROW_CITY",
@@ -796,15 +807,19 @@ public class FeaturesTest extends APITestCase
 				new ScriptExpression( "Total.sum(dataSetRow.AMOUNT,dataSetRow.COUNTRY == \"CHINA\",0)",
 						0 )
 		};
-				
-		FilterDefinition[] filterDefn = new FilterDefinition[] {
-				new FilterDefinition(new ConditionalExpression("row.ROW_COUNTRY",
-						ConditionalExpression.OP_EQ, "\"CHINA\"")),
-				new FilterDefinition(new ConditionalExpression("row.ROW_AMOUNT",
-						ConditionalExpression.OP_BOTTOM_N, "4")),
-				new FilterDefinition(new ConditionalExpression("row.ROW_AMOUNT",
-						ConditionalExpression.OP_TOP_N, "5")) };
-		
+
+		FilterDefinition[] filterDefn = new FilterDefinition[]{
+				new FilterDefinition( new ConditionalExpression( "row.ROW_COUNTRY",
+						ConditionalExpression.OP_EQ,
+						"\"CHINA\"" ) ),
+				new FilterDefinition( new ConditionalExpression( "row.ROW_AMOUNT",
+						ConditionalExpression.OP_BOTTOM_N,
+						"4" ) ),
+				new FilterDefinition( new ConditionalExpression( "row.ROW_AMOUNT",
+						ConditionalExpression.OP_TOP_N,
+						"5" ) )
+		};
+
 		this.createAndRunQuery( bindingNameGroup,
 				bindingExprGroup,
 				groupDefn,
@@ -816,31 +831,32 @@ public class FeaturesTest extends APITestCase
 				filterDefn,
 				bindingNameRow,
 				bindingExprRow );
-		
-		checkOutputFile();
+
+		checkOutputFile( );
 	}
-	
+
 	/**
-	 * Test filters in data sets and query with . The dataset filters should 
+	 * Test filters in data sets and query with . The dataset filters should
 	 * always be applied before the query filters.
 	 */
 	public void test15( ) throws Exception
 	{
-		this.dataSet.addFilter( new FilterDefinition(
-				new ConditionalExpression( "row.AMOUNT",
-						ConditionalExpression.OP_BOTTOM_N, "7" ) ) );
-		
+		this.dataSet.addFilter( new FilterDefinition( new ConditionalExpression( "row.AMOUNT",
+				ConditionalExpression.OP_BOTTOM_N,
+				"7" ) ) );
+
 		String[] bindingNameGroup = new String[2];
 		bindingNameGroup[0] = "GROUP_COUNTRY";
 		bindingNameGroup[1] = "GROUP_CITY";
 		IBaseExpression[] bindingExprGroup = new IBaseExpression[2];
 		bindingExprGroup[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
-		bindingExprGroup[1] = new ScriptExpression( "dataSetRow.CITY" );		
-		GroupDefinition[] groupDefn = new GroupDefinition[]{new GroupDefinition( "group0"),
-				new GroupDefinition("group1" )};
+		bindingExprGroup[1] = new ScriptExpression( "dataSetRow.CITY" );
+		GroupDefinition[] groupDefn = new GroupDefinition[]{
+				new GroupDefinition( "group0" ), new GroupDefinition( "group1" )
+		};
 		groupDefn[0].setKeyExpression( "row.GROUP_COUNTRY" );
 		groupDefn[1].setKeyExpression( "row.GROUP_CITY" );
-		
+
 		String[] bindingNameRow = new String[]{
 				"ROW_COUNTRY",
 				"ROW_CITY",
@@ -859,12 +875,13 @@ public class FeaturesTest extends APITestCase
 				new ScriptExpression( "Total.sum(dataSetRow.AMOUNT,dataSetRow.COUNTRY == \"CHINA\",0)",
 						0 )
 		};
-				
+
 		FilterDefinition[] filterDefn = new FilterDefinition[]{
-				new FilterDefinition(
-						new ConditionalExpression( "row.ROW_COUNTRY",
-								ConditionalExpression.OP_EQ, "\"CHINA\"" ) )};
-		
+			new FilterDefinition( new ConditionalExpression( "row.ROW_COUNTRY",
+					ConditionalExpression.OP_EQ,
+					"\"CHINA\"" ) )
+		};
+
 		QueryDefinition queryDefn = this.createQuery( bindingNameGroup,
 				bindingExprGroup,
 				groupDefn,
@@ -876,16 +893,16 @@ public class FeaturesTest extends APITestCase
 				filterDefn,
 				bindingNameRow,
 				bindingExprRow );
-		
+
 		queryDefn.setMaxRows( 2 );
 		executeQuery( queryDefn, bindingNameRow );
-		
-		checkOutputFile();
+
+		checkOutputFile( );
 	}
-	
+
 	/**
-	 * Test feature of
-	 * 		GetParameterMetaData
+	 * Test feature of GetParameterMetaData
+	 * 
 	 * @throws Exception
 	 */
 	public void testBasicGetParameterMetaData( ) throws Exception
@@ -912,13 +929,13 @@ public class FeaturesTest extends APITestCase
 			assertEquals( 10, paramMd.getPrecision( ) );
 		}
 	}
-	
+
 	/**
-	 * Test feature of
-	 * 		GetParameterMetaData1
+	 * Test feature of GetParameterMetaData1
+	 * 
 	 * @throws Exception
 	 */
-	public void testBasicGetParameterMetaData1() throws Exception
+	public void testBasicGetParameterMetaData1( ) throws Exception
 	{
 		String sql = "select COUNTRY, CITY from "
 				+ getTestTableName( ) + " where city = ?";
@@ -951,13 +968,13 @@ public class FeaturesTest extends APITestCase
 			assertEquals( 10, paramMd.getPrecision( ) );
 		}
 	}
-	
+
 	/**
-	 * Test feature of
-	 * 		GetParameterMetaDataDefaultValue
+	 * Test feature of GetParameterMetaDataDefaultValue
+	 * 
 	 * @throws Exception
 	 */
-	public void testBasicGetParameterMetaDataDefaultValue() throws Exception
+	public void testBasicGetParameterMetaDataDefaultValue( ) throws Exception
 	{
 		String sql = "select COUNTRY, CITY from "
 				+ getTestTableName( ) + " where city = ?";
@@ -991,17 +1008,17 @@ public class FeaturesTest extends APITestCase
 			assertEquals( "123", paramMd.getDefaultInputValue( ) );
 		}
 	}
-	
+
 	/**
-	 * Test feature of
-	 * 		NativeColumnTypeName
+	 * Test feature of NativeColumnTypeName
+	 * 
 	 * @throws Exception
 	 */
-	public void testNativeColumnTypeName() throws Exception
+	public void testNativeColumnTypeName( ) throws Exception
 	{
 		String testSQL = "select COUNTRY, CITY from " + getTestTableName( );
 		( (OdaDataSetDesign) this.dataSet ).setQueryText( testSQL );
-		
+
 		QueryDefinition queryDefn = newReportQuery( );
 
 		IPreparedQuery preparedQuery = dataEngine.prepare( queryDefn );
@@ -1015,20 +1032,19 @@ public class FeaturesTest extends APITestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testPassThruContext() throws Exception
+	public void testPassThruContext( ) throws Exception
 	{
-		String testSQL =  "select COUNTRY, CITY from " + getTestTableName( );
-		((OdaDataSetDesign)this.dataSet).setQueryText( testSQL );
-		
+		String testSQL = "select COUNTRY, CITY from " + getTestTableName( );
+		( (OdaDataSetDesign) this.dataSet ).setQueryText( testSQL );
+
 		String[] bindingNameRow = new String[]{
-				"ROW_COUNTRY",
-				"ROW_CITY"
+				"ROW_COUNTRY", "ROW_CITY"
 		};
 		IBaseExpression[] bindingExprRow = new IBaseExpression[]{
 				new ScriptExpression( "dataSetRow.COUNTRY", 0 ),
 				new ScriptExpression( "dataSetRow.CITY", 0 )
 		};
-		
+
 		QueryDefinition queryDefn = this.createQuery( null,
 				null,
 				null,
@@ -1040,23 +1056,25 @@ public class FeaturesTest extends APITestCase
 				null,
 				bindingNameRow,
 				bindingExprRow );;
-		
+
 		// pass in an application context to the underlying ODA driver;
 		// limited testing here to make sure normal processing succeeds
-		HashMap appContext = new HashMap();
-		appContext.put( dataSet.getDataSourceName(), testSQL );
-		IPreparedQuery preparedQuery = dataEngine.prepare( queryDefn, appContext );
+		HashMap appContext = new HashMap( );
+		appContext.put( dataSet.getDataSourceName( ), testSQL );
+		IPreparedQuery preparedQuery = dataEngine.prepare( queryDefn,
+				appContext );
 
 		IQueryResults queryResults = preparedQuery.execute( null );
 		IResultIterator resultIt = queryResults.getResultIterator( );
-		assertTrue( resultIt.next() );
+		assertTrue( resultIt.next( ) );
 
 		resultIt.getValue( bindingNameRow[0] );
 		resultIt.getValue( bindingNameRow[1] );
 	}
-	
+
 	/**
 	 * Test feature of the usage of Expression Data Type
+	 * 
 	 * @throws Exception
 	 */
 	public void testAggrExprAndInconvertibleDataType( ) throws Exception
@@ -1067,7 +1085,7 @@ public class FeaturesTest extends APITestCase
 				Boolean.FALSE,
 				ResourceConstants.WRAPPED_BIRT_EXCEPTION,
 				Boolean.TRUE,
-				Timestamp.valueOf("2004-01-01 00:00:00.0"),
+				Timestamp.valueOf( "2004-01-01 00:00:00.0" ),
 				Boolean.TRUE,
 				Integer.class
 		};
@@ -1084,7 +1102,7 @@ public class FeaturesTest extends APITestCase
 				new ScriptExpression( "Total.sum(dataSetRow.AMOUNT)",
 						DataType.INTEGER_TYPE )
 		};
-		
+
 		IBaseExpression[] expressions = new IBaseExpression[]{
 				new ScriptExpression( "row.COUNTRY", DataType.STRING_TYPE ),
 				new ScriptExpression( "row.CITY", DataType.INTEGER_TYPE ),
@@ -1136,9 +1154,10 @@ public class FeaturesTest extends APITestCase
 			}
 		}
 	}
-	
+
 	/**
 	 * Test of invalid filter expression row[0]
+	 * 
 	 * @throws Exception
 	 */
 	public void testRow0( ) throws Exception
@@ -1168,32 +1187,33 @@ public class FeaturesTest extends APITestCase
 					filterDefn,
 					null,
 					null );
-			//TODO: does it can be determined?
-			//fail( "exception expected" );
+			// TODO: does it can be determined?
+			// fail( "exception expected" );
 		}
 		catch ( DataException e )
 		{
-			//assertEquals( "The filter expression \"row[0]\" is not valid.",
-			//		e.getMessage( ) );
+			// assertEquals( "The filter expression \"row[0]\" is not valid.",
+			// e.getMessage( ) );
 		}
 	}
 
 	/**
 	 * Tests BEFORE_FIRST_ROW and AFTER_LAST_ROW expressions
 	 */
-	public void testExprTiming() throws Exception
+	public void testExprTiming( ) throws Exception
 	{
 		String[] bindingNameRow = new String[]{
-				"ROW_COUNTRY",
-				"ROW_ORDERED",
-				"ROW_ORDERED_2"
+				"ROW_COUNTRY", "ROW_ORDERED", "ROW_ORDERED_2"
 		};
 		IBaseExpression[] bindingExprRow = new IBaseExpression[]{
-				new ScriptExpression( "dataSetRow.COUNTRY", DataType.STRING_TYPE ),
-				new ScriptExpression( "Total.Sum(dataSetRow.ORDERED)", DataType.INTEGER_TYPE ),
-				new ScriptExpression( "Total.Sum(dataSetRow.ORDERED * 2)", DataType.INTEGER_TYPE )
+				new ScriptExpression( "dataSetRow.COUNTRY",
+						DataType.STRING_TYPE ),
+				new ScriptExpression( "Total.Sum(dataSetRow.ORDERED)",
+						DataType.INTEGER_TYPE ),
+				new ScriptExpression( "Total.Sum(dataSetRow.ORDERED * 2)",
+						DataType.INTEGER_TYPE )
 		};
-		
+
 		QueryDefinition queryDefn = this.createQuery( null,
 				null,
 				null,
@@ -1205,11 +1225,11 @@ public class FeaturesTest extends APITestCase
 				null,
 				bindingNameRow,
 				bindingExprRow );
-		
+
 		IPreparedQuery preparedQuery = dataEngine.prepare( queryDefn );
 		IQueryResults results = preparedQuery.execute( null );
-		IResultIterator it = results.getResultIterator();
-		
+		IResultIterator it = results.getResultIterator( );
+
 		// Test before expressions
 		final int totalOrdered = 4;
 		int total1 = it.getInteger( bindingNameRow[1] ).intValue( );
@@ -1224,11 +1244,11 @@ public class FeaturesTest extends APITestCase
 			assertTrue( country.length( ) > 0 );
 		}
 		assertEquals( count, 8 );
-		
+
 		// Test after expression
 		int total2 = it.getInteger( bindingNameRow[2] ).intValue( );
 		assertEquals( total2, totalOrdered * 2 );
-		
+
 		// No expression should evaluate after iterator.close
 		it.close( );
 		try
@@ -1242,10 +1262,9 @@ public class FeaturesTest extends APITestCase
 		}
 		results.close( );
 	}
-	
+
 	/**
-	 * Test feature of
-	 * 		group.
+	 * Test feature of group.
 	 */
 	public void testMoveto( ) throws Exception
 	{
@@ -1294,7 +1313,7 @@ public class FeaturesTest extends APITestCase
 
 		checkOutputFile( );
 	}
-	
+
 	/**
 	 * @throws Exception
 	 */
@@ -1304,11 +1323,9 @@ public class FeaturesTest extends APITestCase
 				"row.CITY",
 				DataType.STRING_TYPE );
 		this.dataSet.addComputedColumn( computedColumn );
-		
+
 		String[] bindingNameGroup = new String[]{
-				"GROUP_COUNTRY",
-				"GROUP_CITY",
-				"GROUP_NULL_COLUMN"
+				"GROUP_COUNTRY", "GROUP_CITY", "GROUP_NULL_COLUMN"
 		};
 		IBaseExpression[] bindingExprGroup = new IBaseExpression[]{
 				new ScriptExpression( "dataSetRow[\"COUNTRY\"]" ),
@@ -1399,11 +1416,11 @@ public class FeaturesTest extends APITestCase
 
 		}
 	}
-	
+
 	/**
 	 * 
 	 */
-	public void testResultIteratorFindGroup2() throws Exception
+	public void testResultIteratorFindGroup2( ) throws Exception
 	{
 		String[] bindingNameGroup = new String[]{
 				"GROUP_COUNTRY", "GROUP_AMOUNT"
@@ -1419,10 +1436,7 @@ public class FeaturesTest extends APITestCase
 		groupDefn[1].setKeyExpression( "row.GROUP_AMOUNT" );
 
 		String[] bindingNameRow = new String[]{
-				"ROW_COUNTRY",
-				"ROW_CITY",
-				"ROW_SALE_DATE",
-				"ROW_AMOUNT"
+				"ROW_COUNTRY", "ROW_CITY", "ROW_SALE_DATE", "ROW_AMOUNT"
 		};
 		IBaseExpression[] bindingExprRow = new IBaseExpression[]{
 				new ScriptExpression( "dataSetRow[\"COUNTRY\"]", 0 ),
@@ -1456,7 +1470,7 @@ public class FeaturesTest extends APITestCase
 		testFindGroup( it, new Object[]{
 				"CHINA", "400"
 		}, 6 );
-		
+
 		try
 		{
 			testFindGroup( it, new Object[]{
@@ -1469,7 +1483,7 @@ public class FeaturesTest extends APITestCase
 			System.out.println( e.getLocalizedMessage( ) );
 		}
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -1489,10 +1503,7 @@ public class FeaturesTest extends APITestCase
 		groupDefn[1].setKeyExpression( "row.GROUP_AMOUNT" );
 
 		String[] bindingNameRow = new String[]{
-				"ROW_COUNTRY",
-				"ROW_CITY",
-				"ROW_SALE_DATE",
-				"ROW_AMOUNT"
+				"ROW_COUNTRY", "ROW_CITY", "ROW_SALE_DATE", "ROW_AMOUNT"
 		};
 		IBaseExpression[] bindingExprRow = new IBaseExpression[]{
 				new ScriptExpression( "dataSetRow[\"COUNTRY\"]", 0 ),
@@ -1500,7 +1511,7 @@ public class FeaturesTest extends APITestCase
 				new ScriptExpression( "dataSetRow.SALE_DATE", 0 ),
 				new ScriptExpression( "dataSetRow.AMOUNT", 0 )
 		};
-				
+
 		QueryDefinition queryDefn = this.createQuery( bindingNameGroup,
 				bindingExprGroup,
 				groupDefn,
@@ -1512,7 +1523,7 @@ public class FeaturesTest extends APITestCase
 				null,
 				bindingNameRow,
 				bindingExprRow );
-		
+
 		IResultIterator it = executeQuery( queryDefn );
 		it.next( );
 
@@ -1542,7 +1553,7 @@ public class FeaturesTest extends APITestCase
 			System.out.println( e.getLocalizedMessage( ) );
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @throws Exception
@@ -1580,7 +1591,7 @@ public class FeaturesTest extends APITestCase
 
 		assertFalse( result.isEmpty( ) );
 	}
-	
+
 	/**
 	 * 
 	 * @throws Exception
@@ -1626,7 +1637,7 @@ public class FeaturesTest extends APITestCase
 
 		assertTrue( result.isEmpty( ) );
 	}
-	
+
 	/**
 	 * Bug 153006
 	 */
@@ -1675,9 +1686,7 @@ public class FeaturesTest extends APITestCase
 			assertEquals( start1, start2 );
 		}
 	}
-	
-	
-	
+
 	/**
 	 * @param it
 	 * @param keyValues
@@ -1696,14 +1705,13 @@ public class FeaturesTest extends APITestCase
 		}
 		assertEquals( i, restRowCount );
 	}
-	
+
 	/**
-	 * Test feature
-	 * 		without any group, sort, filter
+	 * Test feature without any group, sort, filter
 	 */
 	public void testRowIndex( ) throws Exception
 	{
-		String[] bindingNameRow = new String[1];		
+		String[] bindingNameRow = new String[1];
 		bindingNameRow[0] = "ROW_COUNTRY";
 		IBaseExpression[] bindingExprRow = new IBaseExpression[1];
 		bindingExprRow[0] = new ScriptExpression( "dataSetRow._rowPosition" );
@@ -1719,43 +1727,47 @@ public class FeaturesTest extends APITestCase
 				null,
 				bindingNameRow,
 				bindingExprRow );
-		
-		//checkOutputFile();
+
+		// checkOutputFile();
 	}
-	
+
 	/**
-	 * Test "FetchRowLimit" feature. The fetch row limit is the number of rows that
-	 * a data set can fetch from data source. In this test case the limit is set to 
-	 * zero, which indicate no limit at all.
+	 * Test "FetchRowLimit" feature. The fetch row limit is the number of rows
+	 * that a data set can fetch from data source. In this test case the limit
+	 * is set to zero, which indicate no limit at all.
+	 * 
 	 * @throws Exception
 	 */
-	public void testFetchRowLimit1() throws Exception
+	public void testFetchRowLimit1( ) throws Exception
 	{
 		this.fetchRowLimit( 0 );
 	}
-	
+
 	/**
-	 * Test "FetchRowLimit" feature. The fetch row limit is the number of rows that
-	 * a data set can fetch from data source. In this test case the limit is set to 
-	 * 3, which indicate to max three rows should be fetched from data source.
+	 * Test "FetchRowLimit" feature. The fetch row limit is the number of rows
+	 * that a data set can fetch from data source. In this test case the limit
+	 * is set to 3, which indicate to max three rows should be fetched from data
+	 * source.
+	 * 
 	 * @throws Exception
 	 */
-	public void testFetchRowLimit2() throws Exception
+	public void testFetchRowLimit2( ) throws Exception
 	{
 		this.fetchRowLimit( 3 );
 	}
-	
+
 	/**
-	 * Test "FetchRowLimit" feature. The fetch row limit is the number of rows that
-	 * a data set can fetch from data source. In this test case the limit is set to 
-	 * negative number, which indicate no limit at all.
+	 * Test "FetchRowLimit" feature. The fetch row limit is the number of rows
+	 * that a data set can fetch from data source. In this test case the limit
+	 * is set to negative number, which indicate no limit at all.
+	 * 
 	 * @throws Exception
 	 */
-	public void testFetchRowLimit3() throws Exception
+	public void testFetchRowLimit3( ) throws Exception
 	{
 		this.fetchRowLimit( -10 );
 	}
-	
+
 	/**
 	 * 
 	 * @param limit
@@ -1763,14 +1775,15 @@ public class FeaturesTest extends APITestCase
 	 */
 	private void fetchRowLimit( int limit ) throws Exception
 	{
-		String[] bindingNameRow = new String[1];		
+		String[] bindingNameRow = new String[1];
 		bindingNameRow[0] = "ROW_COUNTRY";
 		IBaseExpression[] bindingExprRow = new IBaseExpression[1];
 		bindingExprRow[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
 		this.dataSet.setRowFetchLimit( limit );
-		
-		FilterDefinition[] filters = new FilterDefinition[]{new FilterDefinition(
-				new ScriptExpression( "row.ROW_COUNTRY != \"CHINA\"" ) )};
+
+		FilterDefinition[] filters = new FilterDefinition[]{
+			new FilterDefinition( new ScriptExpression( "row.ROW_COUNTRY != \"CHINA\"" ) )
+		};
 		createAndRunQuery( null,
 				null,
 				null,
@@ -1782,40 +1795,36 @@ public class FeaturesTest extends APITestCase
 				filters,
 				bindingNameRow,
 				bindingExprRow );
-		
-		checkOutputFile();
+
+		checkOutputFile( );
 	}
-	
+
 	public void testRefToInvalidDataSetColumn( )
 	{
-		String[] bindingNameRow = new String[1];		
+		String[] bindingNameRow = new String[1];
 		bindingNameRow[0] = "ROW_COUNTRY";
 		IBaseExpression[] bindingExprRow = new IBaseExpression[1];
 		bindingExprRow[0] = new ScriptExpression( "dataSetRow.invalid" );
-		
-			
-		
+
 		try
 		{
 			createAndRunQuery( null,
-						null,
-						null,
-						null,
-						null,
-						null,
-						null,
-						null,
-						null,
-						bindingNameRow,
-						bindingExprRow );
-			fail("Should not arrive here");
+					null,
+					null,
+					null,
+					null,
+					null,
+					null,
+					null,
+					null,
+					bindingNameRow,
+					bindingExprRow );
+			fail( "Should not arrive here" );
 		}
 		catch ( Exception e )
 		{
 
 		}
-			
 
-	
 	}
 }
