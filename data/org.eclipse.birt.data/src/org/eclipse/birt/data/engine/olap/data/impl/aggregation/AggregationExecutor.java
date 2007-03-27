@@ -191,9 +191,9 @@ public class AggregationExecutor
 		{
 			for ( int i = 0; i < allSortedFactRows.size( ); i++ )
 			{
-				DiskSortedStackWrapper diskSortedStackWriter = ( (DiskSortedStackWrapper) allSortedFactRows.get( i ) );
+				DiskSortedStackWrapper diskSortedStackWrapper = ( (DiskSortedStackWrapper) allSortedFactRows.get( i ) );
 
-				int[] levelIndex = diskSortedStackWriter.levelIndex;
+				int[] levelIndex = diskSortedStackWrapper.levelIndex;
 
 				Row4Aggregation aggregationRow = new Row4Aggregation( );
 				aggregationRow.levelMembers = aggregationRowPopulator.getLevelMembers( levelIndex );
@@ -206,7 +206,7 @@ public class AggregationExecutor
 				{
 					aggregationRow.measures[j] = facttableRowIterator.getMeasure( j );
 				}
-				diskSortedStackWriter.diskSortedStack.push( aggregationRow );
+				diskSortedStackWrapper.diskSortedStack.push( aggregationRow );
 			}
 		}
 	}
@@ -465,11 +465,8 @@ class Row4AggregationComparator implements Comparator
 		{
 			if ( sortType == null
 					|| sortType.length <= i
-					|| sortType[i] == IDimensionSortDefn.SORT_UNDEFINED )
-			{
-				continue;
-			}
-			if( sortType[i] == IDimensionSortDefn.SORT_ASC )
+					|| sortType[i] == IDimensionSortDefn.SORT_UNDEFINED
+					|| sortType[i] == IDimensionSortDefn.SORT_ASC )
 			{
 				if ( row1.levelMembers[i].compareTo( row2.levelMembers[i] ) < 0 )
 				{

@@ -52,10 +52,13 @@ import testutil.BaseTestCase;
 
 public class CubeFeaturesTest extends BaseTestCase
 {
+	private static String documentPath = System.getProperty( "java.io.tmpdir" );
+	private static String cubeName = "cube";
+	
 	public void testBasic( ) throws Exception
 	{
 		this.createCube( );
-		ICubeQueryDefinition cqd = new CubeQueryDefinition( "cube");
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
 		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
@@ -112,7 +115,7 @@ public class CubeFeaturesTest extends BaseTestCase
 	public void testBasic1( ) throws Exception
 	{
 		this.createCube( );
-		ICubeQueryDefinition cqd = new CubeQueryDefinition( "cube");
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
 		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
@@ -202,7 +205,7 @@ public class CubeFeaturesTest extends BaseTestCase
 	
 	private void createCube() throws BirtException, IOException
 	{
-		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
+		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( documentPath, cubeName);
 
 		Dimension[] dimensions = new Dimension[2];
 
@@ -257,7 +260,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		TestFactTable factTable2 = new TestFactTable( );
 		String[] measureColumnName = new String[1];
 		measureColumnName[0] = "measure1";
-		Cube cube = new Cube( "cube", documentManager );
+		Cube cube = new Cube( cubeName, documentManager );
 
 		cube.create( dimensions, factTable2, measureColumnName, new StopSign( ) );
 		

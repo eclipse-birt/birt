@@ -54,7 +54,7 @@ public class CursorModelTest extends TestCase
 	 */
 	public void testCursorModel1( ) throws OLAPException, BirtException
 	{
-		ICubeQueryDefinition cqd = new CubeQueryDefinition( "cube" );
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( CubeCreator.cubeName );
 
 		cqd.createMeasure( "measure1" );
 		cqd.createMeasure( "measure2" );
@@ -177,7 +177,7 @@ public class CursorModelTest extends TestCase
 	 */
 	public void testCursorModel2( ) throws OLAPException, BirtException
 	{
-		ICubeQueryDefinition cqd = new CubeQueryDefinition( "cube" );
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( CubeCreator.cubeName );
 
 		cqd.createMeasure( "measure1" );
 		cqd.createMeasure( "measure2" );
@@ -285,7 +285,7 @@ public class CursorModelTest extends TestCase
 	 */
 	public void testCursorModel3( ) throws OLAPException, BirtException
 	{
-		ICubeQueryDefinition cqd = new CubeQueryDefinition( "cube" );
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( CubeCreator.cubeName );
 
 		cqd.createMeasure( "measure1" );
 		cqd.createMeasure( "measure2" );
