@@ -74,6 +74,7 @@ abstract public class QueryItemExecutor extends StyledItemExecutor
 			}
 			catch ( BirtException ex )
 			{
+				rsetEmpty = true;
 				context.addException( ex );
 			}
 		}
