@@ -200,7 +200,7 @@
                                         </structure>
                                     </list-property>
                                     <property name="valueAccessControls">
-                                        <value-access-control id="20">
+                                        <value-access-control id="11">
                                             <simple-property-list name="userNames">
                                                 <value>level user1</value>
                                                 <value>level user2</value>
@@ -220,7 +220,7 @@
                                 </tabular-level>
                             </property>
                             <property name="accessControls">
-                                <access-control id="21">
+                                <access-control id="12">
                                     <simple-property-list name="userNames">
                                         <value>hierarchy user1</value>
                                         <value>hierarchy user2</value>
@@ -243,9 +243,9 @@
                 </tabular-dimension>
             </property>
             <property name="measureGroups">
-                <tabular-measure-group name="testMeasureGroup1" id="22">
+                <tabular-measure-group name="testMeasureGroup1" id="20">
                     <property name="measures">
-                        <tabular-measure name="testMeasure1" id="23">
+                        <tabular-measure name="testMeasure1" id="21">
                             <property name="function">min</property>
                             <property name="isCalculated">false</property>
                             <expression name="measureExpression">column</expression>
@@ -254,7 +254,7 @@
                 </tabular-measure-group>
             </property>
             <property name="accessControls">
-                <access-control id="24">
+                <access-control id="15">
                     <simple-property-list name="userNames">
                         <value>cube user1</value>
                         <value>cube user2</value>

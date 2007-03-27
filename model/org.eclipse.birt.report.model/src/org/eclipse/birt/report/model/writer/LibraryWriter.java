@@ -88,6 +88,8 @@ public class LibraryWriter extends ModuleWriter
 				DesignSchemaConstants.DATA_SOURCES_TAG );
 		writeContents( obj, IModuleModel.DATA_SET_SLOT,
 				DesignSchemaConstants.DATA_SETS_TAG );
+		writeContents( obj, ILibraryModel.CUBE_SLOT,
+				DesignSchemaConstants.CUBES_TAG );
 
 		// ColorPalette tag
 
@@ -122,10 +124,10 @@ public class LibraryWriter extends ModuleWriter
 		writer.startElement( DesignSchemaConstants.THEME_TAG );
 
 		super.visitDesignElement( obj );
-		
+
 		writeContents( obj, IThemeModel.STYLES_SLOT,
 				DesignSchemaConstants.STYLES_TAG );
-		writeStructureList( obj , IThemeModel.CSSES_PROP );
+		writeStructureList( obj, IThemeModel.CSSES_PROP );
 		writer.endElement( );
 	}
 }
