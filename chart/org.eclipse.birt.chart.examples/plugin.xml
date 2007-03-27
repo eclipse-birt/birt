@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin>
-    <extension point="org.eclipse.ui.views">
-      <category 
-           id = "org.eclipse.birt.chart.examples.view.category"
-           name = "Charting Examples">
-      </category>
-     
-      <view 
-      	id = "org.eclipse.birt.chart.examples.view.examplesview"
-      	name = "Examples View"
-      	category = "org.eclipse.birt.chart.examples.view.category"
-      	class = "org.eclipse.birt.chart.examples.view.ChartExamplesView"
-        icon = "icons\obj16\chartselector.gif"/>
-   </extension>
+ <extension
+         point="org.eclipse.ui.views">
+      <view
+            allowMultiple="false"
+            category="org.eclipse.birt.core.ui.category"
+            class="org.eclipse.birt.chart.examples.view.ChartExamplesView"
+            icon="src/org/eclipse/birt/chart/examples/view/icons/chartselector.gif"
+            id="org.eclipse.birt.chart.examples.view.examplesview"
+            name="%ChartExamples"/>
+      </extension>
 </plugin>

@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin>
-     <extension-point id="tasks" name="Task to be used in a Task-oriented Wizard" schema="schema/tasks.exsd"/>
+   <extension-point id="tasks" name="Task to be used in a Task-oriented Wizard" schema="schema/tasks.exsd"/>
    <extension-point id="taskWizards" name="A Task-oriented Wizard" schema="schema/taskWizards.exsd"/>
-
+    <extension point="org.eclipse.ui.views">
+      <category 
+           id = "org.eclipse.birt.core.ui.category"
+           name = "%ReportAndChartDesign">
+      </category>
+   </extension>
 </plugin>
