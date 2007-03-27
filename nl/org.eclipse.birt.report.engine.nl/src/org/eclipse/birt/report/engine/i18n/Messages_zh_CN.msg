@@ -18,7 +18,7 @@ Error.MissingComputedColumnExpression=缺少计算列 {0} 的表达式。
 Error.ErrorsOnPage=生成报表时出错: 
 Error.Error=错误
 Error.ScriptFileLoadError=无法加载脚本文件 {0}。
-Error.ScriptEvaluationError=判定脚本“{0}”时出错。
+Error.ScriptEvaluationError=There are errors evaluating script "{0}":{1}.
 Error.TextualItemProcessingError=处理文本项 {0} 时出错。
 Error.TableItemProcessingError=处理表 {0} 时出错。
 Error.ExtendedItemGenerationError=生成扩展项 {0} 时出错。
@@ -41,6 +41,7 @@ Error.ReportErrorMessage = {0} {1}:
 Error.ReportErrorMessageWithID = {0} (id = {1}):
 Error.ReportErrorID = {0} ( {1} 次 )
 Error.ReportErrorDetail = 详细资料: 
+
 Error.ScriptClassCastError = 类 {0} 不实现 {1} 接口
 Error.ScriptClassNotFoundError = 未找到类 {0}
 Error.ScriptClassIllegalAccessError = 尝试加载类 {0} 时出现 IllegalAccessException 

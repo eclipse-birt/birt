@@ -18,7 +18,7 @@ Error.MissingComputedColumnExpression=계산된 열 {0}에 대한 식이 누락되었습니다.
 Error.ErrorsOnPage=보고서를 생성하는 도중 오류가 발생했습니다.
 Error.Error=오류
 Error.ScriptFileLoadError=스크립트 파일 {0}을(를) 로드할 수 없습니다.
-Error.ScriptEvaluationError=스크립트 "{0}"을(를) 평가하는 도중 오류가 발생했습니다.
+Error.ScriptEvaluationError=There are errors evaluating script "{0}":{1}.
 Error.TextualItemProcessingError=텍스트 항목 {0}을(를) 처리하는 도중 문제가 발생했습니다.
 Error.TableItemProcessingError=테이블 {0}을(를) 처리하는 도중 문제가 발생했습니다.
 Error.ExtendedItemGenerationError=확장 항목 {0}을(를) 생성하는 도중 문제가 발생했습니다.
@@ -41,6 +41,7 @@ Error.ReportErrorMessage = {0} {1}:
 Error.ReportErrorMessageWithID = {0}(ID = {1}):
 Error.ReportErrorID = {0}({1}번)
 Error.ReportErrorDetail = 상세 정보: 
+
 Error.ScriptClassCastError = 클래스 {0}으(로) {1} 인터페이스를 구현하지 못합니다.
 Error.ScriptClassNotFoundError = 클래스 {0}을(를) 찾을 수 없습니다.
 Error.ScriptClassIllegalAccessError = 클래스 {0}을(를) 로드하려는 도중 잘못된 액세스 예외가 발생했습니다. 

@@ -18,7 +18,7 @@ Error.MissingComputedColumnExpression=計算列 {0} の式が見つかりません。
 Error.ErrorsOnPage=レポートの生成中にエラーが発生しました :
 Error.Error=エラー
 Error.ScriptFileLoadError=スクリプトファイル {0} を読み込めません。
-Error.ScriptEvaluationError=スクリプト "{0}" の評価中にエラーが発生しました。
+Error.ScriptEvaluationError=There are errors evaluating script "{0}":{1}.
 Error.TextualItemProcessingError=テキスト項目 {0} の処理中にエラーが発生しました。
 Error.TableItemProcessingError=テーブル項目 {0} の処理中にエラーが発生しました。
 Error.ExtendedItemGenerationError=拡張項目 {0} の生成中にエラーが発生しました。
@@ -41,6 +41,7 @@ Error.ReportErrorMessage = {0} {1}:
 Error.ReportErrorMessageWithID = {0} (id = {1}) :
 Error.ReportErrorID = {0} ({1} 回)
 Error.ReportErrorDetail = 詳細 : 
+
 Error.ScriptClassCastError = クラス {0} には {1} インターフェイスが実装されていません。
 Error.ScriptClassNotFoundError = クラス {0} が見つかりません。
 Error.ScriptClassIllegalAccessError = クラス {0} を読み込み中に IllegalAccessException が発生しました。 

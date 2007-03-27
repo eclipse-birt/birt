@@ -18,7 +18,7 @@ Error.MissingComputedColumnExpression=L''expression de la colonne de calcul {0} 
 Error.ErrorsOnPage=Des erreurs sont survenues lors de la création de l'état :
 Error.Error=Erreur
 Error.ScriptFileLoadError=Impossible de charger le fichier de script {0}.
-Error.ScriptEvaluationError=Des erreurs sont survenues lors de l''évaluation du script « {0} ».
+Error.ScriptEvaluationError=There are errors evaluating script "{0}":{1}.
 Error.TextualItemProcessingError=Problème(s) de traitement de l''élément de texte {0}.
 Error.TableItemProcessingError=Problème(s) de traitement de la table {0}.
 Error.ExtendedItemGenerationError=Problème(s) de création de l''élément étendu {0}.
@@ -41,6 +41,7 @@ Error.ReportErrorMessage = {0} {1}:
 Error.ReportErrorMessageWithID = {0} (id = {1}):
 Error.ReportErrorID = {0} ( {1} fois )
 Error.ReportErrorDetail = détails : 
+
 Error.ScriptClassCastError = La classe {0} n''implémente pas l''interface {1}
 Error.ScriptClassNotFoundError = Classe {0} introuvable
 Error.ScriptClassIllegalAccessError = IllegalAccessException lors de la tentative de chargement de la classe {0} 

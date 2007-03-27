@@ -18,7 +18,7 @@ Error.MissingComputedColumnExpression=Falta la expresión de la columna procesada
 Error.ErrorsOnPage=Hay errores al generar informe:
 Error.Error=Error
 Error.ScriptFileLoadError=No es posible cargar el archivo de script {0}.
-Error.ScriptEvaluationError=Hay errores al evaluar el script "{0}".
+Error.ScriptEvaluationError=There are errors evaluating script "{0}":{1}.
 Error.TextualItemProcessingError=Hay problemas al procesar el elemento de texto {0}.
 Error.TableItemProcessingError=Hay problemas al procesar la tabla {0}.
 Error.ExtendedItemGenerationError=Hay problemas al generar el elemento ampliado {0}.
@@ -41,6 +41,7 @@ Error.ReportErrorMessage = {0} {1}:
 Error.ReportErrorMessageWithID = {0} (id = {1}):
 Error.ReportErrorID = {0} ({1} veces)
 Error.ReportErrorDetail = detalle: 
+
 Error.ScriptClassCastError = La clase {0} no implementa la interfaz {1}
 Error.ScriptClassNotFoundError = No se ha encontrado la clase {0}
 Error.ScriptClassIllegalAccessError = IllegalAccessException al intentar cargar la clase {0} 
