@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.math.BigDecimal;
 import java.text.MessageFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -127,8 +126,7 @@ public class ParameterDialog extends BaseDialog
 
 	private static final String LABEL_LIST_LIMIT = Messages.getString( "ParameterDialog.Label.Listlimit" ); //$NON-NLS-1$
 
-	// private static final String LABEL_NULL = Messages.getString(
-	// "ParameterDialog.Label.Null" ); //$NON-NLS-1$
+	private static final String LABEL_NULL = Messages.getString( "ParameterDialog.Label.Null" ); //$NON-NLS-1$
 
 	private static final String LABEL_SELECT_DISPLAY_TEXT = Messages.getString( "ParameterDialog.Label.SelectDisplayText" ); //$NON-NLS-1$
 
@@ -138,9 +136,13 @@ public class ParameterDialog extends BaseDialog
 
 	private static final String LABEL_PREVIEW = Messages.getString( "ParameterDialog.Label.Preview" ); //$NON-NLS-1$
 
-	private static final String CHECKBOX_ALLOW_NULL = Messages.getString( "ParameterDialog.CheckBox.AllowNull" ); //$NON-NLS-1$
+	// private static final String CHECKBOX_ALLOW_NULL = Messages.getString(
+	// "ParameterDialog.CheckBox.AllowNull" ); //$NON-NLS-1$
 
-	private static final String CHECKBOX_ALLOW_BLANK = Messages.getString( "ParameterDialog.CheckBox.AllowBlank" ); //$NON-NLS-1$
+	// private static final String CHECKBOX_ALLOW_BLANK = Messages.getString(
+	// "ParameterDialog.CheckBox.AllowBlank" ); //$NON-NLS-1$
+
+	private static final String CHECKBOX_ISREQUIRED = Messages.getString( "ParameterDialog.CheckBox.IsRequired" ); //$NON-NLS-1$
 
 	private static final String CHECKBOX_DO_NOT_ECHO = Messages.getString( "ParameterDialog.CheckBox.DoNotEchoInput" ); //$NON-NLS-1$
 
@@ -240,7 +242,7 @@ public class ParameterDialog extends BaseDialog
 	private CLabel errorMessageLine;
 
 	// Check boxes
-	private Button allowNull, allowBlank, doNotEcho, isHidden, needSort;
+	private Button isRequired, doNotEcho, isHidden, needSort;
 
 	// Push buttons
 	private Button importValue, changeDefault, changeFormat, createDataSet;
@@ -604,12 +606,18 @@ public class ParameterDialog extends BaseDialog
 		Composite checkBoxArea = new Composite( moreOptionSection, SWT.NONE );
 		checkBoxArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
 		checkBoxArea.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		allowNull = new Button( checkBoxArea, SWT.CHECK );
-		allowNull.setText( CHECKBOX_ALLOW_NULL );
-		addCheckBoxListener( allowNull, CHECKBOX_ALLOW_NULL );
-		allowBlank = new Button( checkBoxArea, SWT.CHECK );
-		allowBlank.setText( CHECKBOX_ALLOW_BLANK );
-		addCheckBoxListener( allowBlank, CHECKBOX_ALLOW_BLANK );
+
+		isRequired = new Button( checkBoxArea, SWT.CHECK );
+		isRequired.setText( CHECKBOX_ISREQUIRED );
+		addCheckBoxListener( isRequired, CHECKBOX_ISREQUIRED );
+
+		// allowNull = new Button( checkBoxArea, SWT.CHECK );
+		// allowNull.setText( CHECKBOX_ALLOW_NULL );
+		// addCheckBoxListener( allowNull, CHECKBOX_ALLOW_NULL );
+		// allowBlank = new Button( checkBoxArea, SWT.CHECK );
+		// allowBlank.setText( CHECKBOX_ALLOW_BLANK );
+		// addCheckBoxListener( allowBlank, CHECKBOX_ALLOW_BLANK );
+
 		doNotEcho = new Button( checkBoxArea, SWT.CHECK );
 		doNotEcho.setText( CHECKBOX_DO_NOT_ECHO );
 		addCheckBoxListener( doNotEcho, CHECKBOX_DO_NOT_ECHO );
@@ -683,8 +691,9 @@ public class ParameterDialog extends BaseDialog
 		}
 
 		isHidden.setSelection( inputParameter.isHidden( ) );
-		allowNull.setSelection( inputParameter.allowNull( ) );
-		allowBlank.setSelection( inputParameter.allowBlank( ) );
+		// allowNull.setSelection( inputParameter.allowNull( ) );
+		// allowBlank.setSelection( inputParameter.allowBlank( ) );
+		isRequired.setSelection( inputParameter.isRequired( ) );
 		doNotEcho.setSelection( inputParameter.isConcealValue( ) );
 		needSort.setSelection( !inputParameter.isFixedOrder( ) );
 
@@ -1559,22 +1568,30 @@ public class ParameterDialog extends BaseDialog
 			{
 				inputParameter.setHidden( getProperty( CHECKBOX_HIDDEN ) );
 			}
-			if ( dirtyProperties.containsKey( CHECKBOX_ALLOW_NULL ) )
-			{
-				inputParameter.setAllowNull( getProperty( CHECKBOX_ALLOW_NULL ) );
-			}
+			// if ( dirtyProperties.containsKey( CHECKBOX_ALLOW_NULL ) )
+			// {
+			// inputParameter.setAllowNull( getProperty( CHECKBOX_ALLOW_NULL )
+			// );
+			// }
+			//
+			// if ( allowBlank.isEnabled( ) )
+			// {
+			// if ( dirtyProperties.containsKey( CHECKBOX_ALLOW_BLANK ) )
+			// {
+			// inputParameter.setAllowBlank( getProperty( CHECKBOX_ALLOW_BLANK )
+			// );
+			// }
+			// }
+			// else
+			// {
+			// inputParameter.setProperty(
+			// ScalarParameterHandle.ALLOW_BLANK_PROP,
+			// null );
+			// }
 
-			if ( allowBlank.isEnabled( ) )
+			if ( dirtyProperties.containsKey( CHECKBOX_ISREQUIRED ) )
 			{
-				if ( dirtyProperties.containsKey( CHECKBOX_ALLOW_BLANK ) )
-				{
-					inputParameter.setAllowBlank( getProperty( CHECKBOX_ALLOW_BLANK ) );
-				}
-			}
-			else
-			{
-				inputParameter.setProperty( ScalarParameterHandle.ALLOW_BLANK_PROP,
-						null );
+				inputParameter.setIsRequired( getProperty( CHECKBOX_ISREQUIRED ) );
 			}
 
 			if ( doNotEcho.isEnabled( ) )
@@ -1674,8 +1691,7 @@ public class ParameterDialog extends BaseDialog
 	protected void checkBoxChange( Button checkBox, String key )
 	{
 		dirtyProperties.put( key, new Boolean( checkBox.getSelection( ) ) );
-		if ( CHECKBOX_ALLOW_BLANK.equals( key )
-				|| CHECKBOX_ALLOW_NULL.equals( key ) )
+		if ( CHECKBOX_ISREQUIRED.equals( key ) )
 		{
 			if ( isStatic( ) )
 			{
@@ -1745,16 +1761,19 @@ public class ParameterDialog extends BaseDialog
 	private void updateCheckBoxArea( )
 	{
 		// Allow blank check
-		if ( ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) )
-				|| PARAM_CONTROL_LIST.equals( getSelectedControlType( ) ) || PARAM_CONTROL_COMBO.equals( getSelectedControlType( ) ) )
-				&& DesignChoiceConstants.PARAM_TYPE_STRING.equals( getSelectedDataType( ) ) )
-		{
-			allowBlank.setEnabled( true );
-		}
-		else
-		{
-			allowBlank.setEnabled( false );
-		}
+		// if ( ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals(
+		// getSelectedControlType( ) )
+		// || PARAM_CONTROL_LIST.equals( getSelectedControlType( ) ) ||
+		// PARAM_CONTROL_COMBO.equals( getSelectedControlType( ) ) )
+		// && DesignChoiceConstants.PARAM_TYPE_STRING.equals(
+		// getSelectedDataType( ) ) )
+		// {
+		// allowBlank.setEnabled( true );
+		// }
+		// else
+		// {
+		// allowBlank.setEnabled( false );
+		// }
 
 		// Do not echo check
 		if ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) ) )
@@ -1873,10 +1892,10 @@ public class ParameterDialog extends BaseDialog
 
 	private String format( String string )
 	{
-		// if ( canBeNull( ) && string == null )
-		// {
-		// return LABEL_NULL;
-		// }
+		if ( canBeNull( ) && string == null )
+		{
+			return LABEL_NULL;
+		}
 		if ( StringUtil.isBlank( string ) || formatCategroy == null )
 		{
 			return string;
@@ -1929,25 +1948,25 @@ public class ParameterDialog extends BaseDialog
 	 */
 	private String isValidValue( String value )
 	{
-		// if ( canBeNull( ) )
-		// {
-		// if ( value == null || value.length( ) == 0 )
-		// {
-		// return null;
-		// }
-		// }
-		// else
-		// {
+		if ( canBeNull( ) )
+		{
+			if ( value == null || value.length( ) == 0 )
+			{
+				return null;
+			}
+		}
+		else
+		{
+			if ( value == null || value.length( ) == 0 )
+			{
+				return ERROR_MSG_CANNOT_BE_NULL;
+			}
+		}
+		// bug 153405
 		// if ( value == null || value.length( ) == 0 )
 		// {
 		// return ERROR_MSG_CANNOT_BE_NULL;
 		// }
-		// }
-		// bug 153405
-		if ( value == null || value.length( ) == 0 )
-		{
-			return ERROR_MSG_CANNOT_BE_NULL;
-		}
 		if ( canBeBlank( ) )
 		{
 			if ( StringUtil.isBlank( value ) )
@@ -2130,14 +2149,14 @@ public class ParameterDialog extends BaseDialog
 			if ( choice != selectedChoice )
 			{
 				String value = null;
-				// if ( COLUMN_VALUE.equals( property ) )
-				// {
-				// value = choice.getValue( );
-				// if ( isEqual( value, newValue ) )
-				// {
-				// return true;
-				// }
-				// }
+				if ( COLUMN_VALUE.equals( property ) )
+				{
+					value = choice.getValue( );
+					if ( isEqual( value, newValue ) )
+					{
+						return true;
+					}
+				}
 				if ( COLUMN_DISPLAY_TEXT.equals( property ) )
 				{
 					value = choice.getLabel( );
@@ -2145,10 +2164,10 @@ public class ParameterDialog extends BaseDialog
 					{
 						value = choice.getValue( );
 					}
-					// if ( value == null )
-					// {
-					// value = LABEL_NULL;
-					// }
+					if ( value == null )
+					{
+						value = LABEL_NULL;
+					}
 					if ( value.equals( newValue ) )
 					{
 						return true;
@@ -2200,13 +2219,13 @@ public class ParameterDialog extends BaseDialog
 		if ( PARAM_CONTROL_LIST.equals( getSelectedControlType( ) )
 				|| DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) ) )
 		{
-			if ( dirtyProperties.containsKey( CHECKBOX_ALLOW_BLANK ) )
+			if ( dirtyProperties.containsKey( CHECKBOX_ISREQUIRED ) )
 			{
-				canBeBlank = ( (Boolean) dirtyProperties.get( CHECKBOX_ALLOW_BLANK ) ).booleanValue( );
+				canBeBlank = !( ( (Boolean) dirtyProperties.get( CHECKBOX_ISREQUIRED ) ).booleanValue( ) );
 			}
 			else
 			{
-				canBeBlank = inputParameter.allowBlank( );
+				canBeBlank = !( inputParameter.isRequired( ) );
 			}
 		}
 		return canBeBlank;
@@ -2215,13 +2234,13 @@ public class ParameterDialog extends BaseDialog
 	private boolean canBeNull( )
 	{
 		boolean canBeNull = false;
-		if ( dirtyProperties.containsKey( CHECKBOX_ALLOW_NULL ) )
+		if ( dirtyProperties.containsKey( CHECKBOX_ISREQUIRED ) )
 		{
-			canBeNull = ( (Boolean) dirtyProperties.get( CHECKBOX_ALLOW_NULL ) ).booleanValue( );
+			canBeNull = !( ( (Boolean) dirtyProperties.get( CHECKBOX_ISREQUIRED ) ).booleanValue( ) );
 		}
 		else
 		{
-			canBeNull = inputParameter.allowNull( );
+			canBeNull = !( inputParameter.isRequired( ) );
 		}
 		return canBeNull;
 	}
