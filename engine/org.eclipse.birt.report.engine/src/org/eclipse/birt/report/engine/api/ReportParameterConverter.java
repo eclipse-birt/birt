@@ -289,6 +289,18 @@ public class ReportParameterConverter
 					break;
 				}
 				
+				case IScalarParameterDefn.TYPE_DATE:
+				{
+					parameterValueObj = java.sql.Date.valueOf( reportParameterValue );
+					break;
+				}
+				
+				case IScalarParameterDefn.TYPE_TIME:
+				{
+					parameterValueObj = java.sql.Time.valueOf( reportParameterValue );
+					break;
+				}
+				
 				//can use class DataTypeUtil to convert
 				case IScalarParameterDefn.TYPE_INTEGER:
 				{

@@ -679,9 +679,14 @@ public class ReportRunner
 			case IScalarParameterDefn.TYPE_BOOLEAN :
 				return DataTypeUtil.toBoolean( value );
 
+			case IScalarParameterDefn.TYPE_DATE :
+				return DataTypeUtil.toSqlDate( value );
+
+			case IScalarParameterDefn.TYPE_TIME :
+				return DataTypeUtil.toSqlTime( value );
+				
 			case IScalarParameterDefn.TYPE_DATE_TIME :
 				return DataTypeUtil.toDate( value );
-
 			case IScalarParameterDefn.TYPE_DECIMAL :
 				return DataTypeUtil.toBigDecimal( value );
 
