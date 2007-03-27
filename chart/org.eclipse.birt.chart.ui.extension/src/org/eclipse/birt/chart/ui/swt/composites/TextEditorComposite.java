@@ -273,12 +273,15 @@ public class TextEditorComposite extends Composite implements
 	
 	public void notifyListeners( int eventType, Event event )
 	{
+		if ( event == null )
+		{
+			event = new Event( );
+		}
+		event.data = this.sText;
+		event.widget = this;
+		event.type = eventType;
 		for ( int i = 0; i < vListeners.size( ); i++ )
 		{
-			Event e = new Event( );
-			e.data = this.sText;
-			e.widget = this;
-			e.type = eventType;
 			( (Listener) vListeners.get( i ) ).handleEvent( event );
 		}
 	}
