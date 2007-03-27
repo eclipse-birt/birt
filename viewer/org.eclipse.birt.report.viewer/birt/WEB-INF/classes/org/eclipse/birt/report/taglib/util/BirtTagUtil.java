@@ -232,6 +232,7 @@ public class BirtTagUtil
 			resourceFolder = ParameterAccessor.birtResourceFolder;
 
 		options.put( IModuleOption.RESOURCE_FOLDER_KEY, resourceFolder );
+		options.put( IModuleOption.PARSER_SEMANTIC_CHECK_KEY, Boolean.FALSE );
 		return options;
 	}
 }

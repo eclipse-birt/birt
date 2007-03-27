@@ -274,6 +274,7 @@ public class BirtUtility
 		Map options = new HashMap( );
 		options.put( IModuleOption.RESOURCE_FOLDER_KEY, ParameterAccessor
 				.getResourceFolder( request ) );
+		options.put( IModuleOption.PARSER_SEMANTIC_CHECK_KEY, Boolean.FALSE );
 		return options;
 	}
 
