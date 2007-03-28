@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
  * <p>
  * 
  * <pre>
- *                 BIRT Extended Item &lt;--&gt; ExtendedItem 
+ *                        BIRT Extended Item &lt;--&gt; ExtendedItem 
  * </pre>
  * 
  * 
@@ -185,17 +185,27 @@ public interface IReportItem
 	 */
 
 	public IPropertyDefinition getScriptPropertyDefinition( );
-	
+
 	/**
-	 * Gets list of the predefined styles. Each one in the list can be one of the following instance:
+	 * Gets list of the predefined styles. Each one in the list can be one of
+	 * the following instance:
 	 * <p>
 	 * 
 	 * <ui>
 	 * <li><code>String</code>
-	 * <li><code>StyleHandle</code>
-	 * </ui>
+	 * <li><code>StyleHandle</code> </ui>
+	 * 
 	 * @return
 	 */
 	public List getPredefinedStyles( );
 
+	/**
+	 * Returns the interface for script operations. If the extension element
+	 * want to provide multi row data function, need to extend
+	 * simpleapi.IMultiRowItem; If not, need to extend simpleapi.IReportItem.
+	 * 
+	 * @return the simple interface
+	 */
+
+	public org.eclipse.birt.report.model.api.simpleapi.IReportItem getSimpleElement( );
 }

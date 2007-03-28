@@ -221,8 +221,7 @@ public class DesignSession
 	public ReportDesign openDesign( String fileName )
 			throws DesignFileException
 	{
-		ModuleOption options = null;
-		return openDesign( fileName, options );
+		return openDesign( fileName, (ModuleOption) null );
 	}
 
 	/**
@@ -244,10 +243,32 @@ public class DesignSession
 		if ( fileName == null )
 			throw new IllegalArgumentException(
 					"The file name must not be null" ); //$NON-NLS-1$
+
+		initializeOptions( options );
 		ReportDesign design = DesignReader.getInstance( ).read( this, fileName,
 				options );
 		designs.add( design );
 		return design;
+	}
+
+	/**
+	 * Sets the settings in the options to the session local variables.
+	 * 
+	 * @param options
+	 *            the settings used to open the report design
+	 */
+
+	private void initializeOptions( ModuleOption options )
+	{
+		if ( options == null )
+			return;
+
+		if ( resourceLocator == null )
+			resourceLocator = options.getResourceLocator( );
+		if ( locale == null )
+			locale = options.getLocale( );
+		if ( resourceFolder == null )
+			resourceFolder = options.getResourceFolder( );
 	}
 
 	/**
@@ -269,8 +290,7 @@ public class DesignSession
 	public ReportDesign openDesign( String fileName, InputStream is )
 			throws DesignFileException
 	{
-		ModuleOption options = null;
-		return openDesign( fileName, is, options );
+		return openDesign( fileName, is, (ModuleOption) null );
 	}
 
 	/**
@@ -298,6 +318,7 @@ public class DesignSession
 			throw new IllegalArgumentException(
 					"The input stream must not be null" ); //$NON-NLS-1$
 
+		initializeOptions( options );
 		ReportDesign design = DesignReader.getInstance( ).read( this, fileName,
 				is, options );
 		designs.add( design );
@@ -321,8 +342,7 @@ public class DesignSession
 	public ReportDesign openDesign( URL systemId, InputStream is )
 			throws DesignFileException
 	{
-		ModuleOption options = null;
-		return openDesign( systemId, is, options );
+		return openDesign( systemId, is, null );
 	}
 
 	/**
@@ -369,8 +389,7 @@ public class DesignSession
 	public Module openModule( String fileName, InputStream is )
 			throws DesignFileException
 	{
-		ModuleOption options = null;
-		return openModule( fileName, is, options );
+		return openModule( fileName, is, (ModuleOption) null );
 	}
 
 	/**
@@ -395,6 +414,7 @@ public class DesignSession
 			throw new IllegalArgumentException(
 					"The input stream must not be null" ); //$NON-NLS-1$
 
+		initializeOptions( options );
 		Module module = GenericModuleReader.getInstance( ).read( this,
 				fileName, is, options );
 		assert module instanceof Library || module instanceof ReportDesign;
@@ -419,8 +439,7 @@ public class DesignSession
 
 	public Module openModule( String fileName ) throws DesignFileException
 	{
-		ModuleOption options = null;
-		return openModule( fileName, options );
+		return openModule( fileName, (ModuleOption) null );
 	}
 
 	/**
@@ -442,6 +461,7 @@ public class DesignSession
 			throw new IllegalArgumentException(
 					"The file name must not be null" ); //$NON-NLS-1$
 
+		initializeOptions( options );
 		Module module = GenericModuleReader.getInstance( ).read( this,
 				fileName, options );
 		assert module instanceof Library || module instanceof ReportDesign;
@@ -467,8 +487,7 @@ public class DesignSession
 
 	public Library openLibrary( String fileName ) throws DesignFileException
 	{
-		ModuleOption options = null;
-		return openLibrary( fileName, options );
+		return openLibrary( fileName, (ModuleOption) null );
 	}
 
 	/**
@@ -491,6 +510,7 @@ public class DesignSession
 			throw new IllegalArgumentException(
 					"The file name must not be null" ); //$NON-NLS-1$
 
+		initializeOptions( options );
 		Library library = LibraryReader.getInstance( ).read( this, fileName,
 				options );
 		libraries.add( library );
@@ -516,8 +536,7 @@ public class DesignSession
 	public Library openLibrary( String fileName, InputStream is )
 			throws DesignFileException
 	{
-		ModuleOption options = null;
-		return openLibrary( fileName, is, options );
+		return openLibrary( fileName, is, (ModuleOption) null );
 	}
 
 	/**
@@ -545,6 +564,7 @@ public class DesignSession
 			throw new IllegalArgumentException(
 					"The input stream must not be null" ); //$NON-NLS-1$
 
+		initializeOptions( options );
 		Library design = LibraryReader.getInstance( ).read( this, fileName, is,
 				options );
 		designs.add( design );
@@ -568,8 +588,7 @@ public class DesignSession
 	public Library openLibrary( URL systemId, InputStream is )
 			throws DesignFileException
 	{
-		ModuleOption options = null;
-		return openLibrary( systemId, is, options );
+		return openLibrary( systemId, is, (ModuleOption) null );
 	}
 
 	/**
@@ -595,6 +614,7 @@ public class DesignSession
 			throw new IllegalArgumentException(
 					"The input stream must not be null" ); //$NON-NLS-1$
 
+		initializeOptions( options );
 		Library library = LibraryReader.getInstance( ).read( this, systemId,
 				is, options );
 		libraries.add( library );

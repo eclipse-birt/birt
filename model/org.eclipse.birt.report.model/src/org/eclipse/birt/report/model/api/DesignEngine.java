@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,6 +19,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
 import org.eclipse.birt.report.model.api.metadata.IMetaLogger;
+import org.eclipse.birt.report.model.api.simpleapi.IReportDesign;
 import org.eclipse.birt.report.model.metadata.MetaLogManager;
 
 import com.ibm.icu.util.ULocale;
@@ -194,4 +196,24 @@ public final class DesignEngine implements IDesignEngine
 		return engine.removeMetaLogger( logger );
 	}
 
+	/**
+	 * Opens the report design.
+	 * 
+	 * @param fileName
+	 *            the report file name
+	 * @param ins
+	 *            the input stream. Can be <code>null</code>.
+	 * @param options
+	 *            options to control the way to open the design
+	 * @return the report design instance
+	 * @throws DesignFileException
+	 *             if the report file cannot be found or the file is invalid.
+	 */
+
+	public IReportDesign openDesign( String fileName, InputStream ins,
+			IModuleOption options ) throws DesignFileException
+	{
+		return engine.openDesign( fileName, ins, options );
+
+	}
 }

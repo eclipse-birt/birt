@@ -15,13 +15,17 @@ import java.io.InputStream;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.model.api.DesignConfig;
-import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.IDesignEngine;
+import org.eclipse.birt.report.model.api.IModuleOption;
 import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
 import org.eclipse.birt.report.model.api.metadata.IMetaLogger;
 import org.eclipse.birt.report.model.api.metadata.MetaDataReaderException;
+import org.eclipse.birt.report.model.api.simpleapi.IReportDesign;
+import org.eclipse.birt.report.model.api.simpleapi.ScriptElementFactory;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ExtensionManager;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -94,6 +98,8 @@ public class DesignEngineImpl implements IDesignEngine
 
 			ExtensionManager.initialize( );
 
+			ScriptElementFactory
+					.setInstance( new org.eclipse.birt.report.model.api.impl.SimpleElementFactory( ) );
 		}
 		catch ( MetaDataParserException e )
 		{
@@ -124,7 +130,7 @@ public class DesignEngineImpl implements IDesignEngine
 		// Initialize the meta-data if this is the first request to get
 		// a new handle.
 
-		synchronized ( DesignEngine.class )
+		synchronized ( DesignEngineImpl.class )
 		{
 			if ( !MetaDataDictionary.getInstance( ).isEmpty( ) )
 				return new SessionHandle( locale );
@@ -174,7 +180,7 @@ public class DesignEngineImpl implements IDesignEngine
 		// Initialize the meta-data if this is the first request to get
 		// a new handle.
 
-		synchronized ( DesignEngine.class )
+		synchronized ( DesignEngineImpl.class )
 		{
 			if ( !MetaDataDictionary.getInstance( ).isEmpty( ) )
 				return MetaDataDictionary.getInstance( );
@@ -235,6 +241,29 @@ public class DesignEngineImpl implements IDesignEngine
 	public boolean removeMetaLogger( IMetaLogger logger )
 	{
 		return MetaLogManager.removeLogger( logger );
+	}
+
+	/**
+	 * Opens the report design.
+	 * 
+	 * @param fileName
+	 *            the report file name
+	 * @param ins
+	 *            the input stream. Can be <code>null</code>.
+	 * @param options
+	 *            options to control the way to open the design
+	 * @return the report design instance
+	 * @throws DesignFileException
+	 *             if the report file cannot be found or the file is invalid.
+	 */
+
+	public IReportDesign openDesign( String fileName, InputStream ins,
+			IModuleOption options ) throws DesignFileException
+	{
+		SessionHandle tmpSession = newSessionHandle( null );
+
+		return new org.eclipse.birt.report.model.simpleapi.ReportDesign(
+				tmpSession.openDesign( fileName, ins, (ModuleOption) options ) );
 	}
 
 }

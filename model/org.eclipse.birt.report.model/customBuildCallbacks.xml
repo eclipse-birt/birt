@@ -41,6 +41,7 @@
 			<fileset dir="@dot">
 				<exclude name="org/eclipse/birt/report/model/plugin/"/>
 				<exclude name="org/eclipse/birt/report/model/api/impl/"/>
+				<exclude name="org/eclipse/birt/report/model/simpleapi/"/>				
 				<exclude name="**/*Test.class"/>	
 				<exclude name="**/*Test$*.class/"/>	
 				<exclude name="**/*TestCase.class/"/>									

@@ -157,6 +157,17 @@ public class ReportItem implements IReportItem, Cloneable
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.extension.IReportItem#getScriptableElement()
+	 */
+
+	public org.eclipse.birt.report.model.api.simpleapi.IReportItem getSimpleElement( )
+	{
+		return null;
+	}
+
 	/**
 	 * 
 	 */

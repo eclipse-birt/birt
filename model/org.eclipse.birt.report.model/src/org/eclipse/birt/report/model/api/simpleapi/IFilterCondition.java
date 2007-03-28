@@ -1,0 +1,99 @@
+/*******************************************************************************
+ * Copyright (c) 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.model.api.simpleapi;
+
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.IStructure;
+
+/**
+ * Represents the design of an FilterCondition in the scripting environment
+ * 
+ */
+
+public interface IFilterCondition
+{
+
+	/**
+	 * Returns operator
+	 * 
+	 * @return operator
+	 */
+
+	public String getOperator( );
+
+	/**
+	 * Sets operator
+	 * 
+	 * @param operator
+	 * @throws SemanticException
+	 */
+
+	public void setOperator( String operator );
+
+	/**
+	 * Returns value1
+	 * 
+	 * @return value1
+	 */
+
+	public String getValue1( );
+
+	/**
+	 * Sets value1
+	 * 
+	 * @param value1
+	 * @throws SemanticException
+	 */
+
+	public void setValue1( String value1 );
+
+	/**
+	 * Returns value2
+	 * 
+	 * @return value2
+	 */
+
+	public String getValue2( );
+
+	/**
+	 * Sets value2
+	 * 
+	 * @param value2
+	 * @throws SemanticException
+	 */
+
+	public void setValue2( String value2 );
+
+	/**
+	 * Returns structure.
+	 * 
+	 * @return structure
+	 */
+
+	public IStructure getStructure( );
+
+	/**
+	 * Sets expr
+	 * 
+	 * @param expr
+	 */
+
+	public void setExpr( String expr );
+
+	/**
+	 * Returns expr
+	 * 
+	 * @return expr
+	 */
+
+	public String getExpr( );
+}

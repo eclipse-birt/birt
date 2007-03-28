@@ -8,7 +8,6 @@ Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.report.model.activity;x-friends:="org.eclipse.birt.report.model.tests",
  org.eclipse.birt.report.model.api;x-friends:="org.eclipse.birt.report.model.tests",
  org.eclipse.birt.report.model.core;x-friends:="org.eclipse.birt.report.model.tests",
- org.eclipse.birt.report.model.metadata;x-friends:="org.eclipse.birt.report.model.tests",
- org.eclipse.birt.report.model.script;x-friends:="org.eclipse.birt.report.model.tests"
+ org.eclipse.birt.report.model.metadata;x-friends:="org.eclipse.birt.report.model.tests"
 Bundle-ClassPath: tests.jar
 Bundle-Vendor: Eclipse.org

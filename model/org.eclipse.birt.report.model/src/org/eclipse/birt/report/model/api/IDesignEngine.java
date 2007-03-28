@@ -11,8 +11,11 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.io.InputStream;
+
 import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
 import org.eclipse.birt.report.model.api.metadata.IMetaLogger;
+import org.eclipse.birt.report.model.api.simpleapi.IReportDesign;
 
 import com.ibm.icu.util.ULocale;
 
@@ -80,4 +83,21 @@ public interface IDesignEngine
 	 */
 
 	public boolean removeMetaLogger( IMetaLogger logger );
+
+	/**
+	 * Opens the report design.
+	 * 
+	 * @param fileName
+	 *            the report file name
+	 * @param ins
+	 *            the input stream. Can be <code>null</code>.
+	 * @param options
+	 *            options to control the way to open the design
+	 * @return the report design instance
+	 * @throws DesignFileException
+	 *             if the report file cannot be found or the file is invalid.
+	 */
+
+	public IReportDesign openDesign( String fileName, InputStream ins,
+			IModuleOption options ) throws DesignFileException;
 }

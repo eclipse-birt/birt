@@ -14,6 +14,8 @@ package org.eclipse.birt.report.model.api;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Provide the way to do some setting about the module.
  */
@@ -163,5 +165,53 @@ public class ModuleOption implements IModuleOption
 	public void setMarkLineNumber( boolean markLineNumber )
 	{
 		options.put( MARK_LINE_NUMBER_KEY, Boolean.valueOf( markLineNumber ) );
+	}
+	
+	/**
+	 * Gets the resource locator.
+	 * 
+	 * @return the resource locator
+	 */
+
+	public IResourceLocator getResourceLocator( )
+	{
+		return (IResourceLocator) options.get( RESOURCE_LOCATOR_KEY );
+	}
+
+	/**
+	 * Sets the resource locator. 
+	 * 
+	 * @param locator
+	 *            the resource locator to set
+	 */
+
+	public void setResourceLocator( IResourceLocator locator )
+	{
+		if ( locator != null )
+			options.put( RESOURCE_LOCATOR_KEY, locator );
+	}
+	
+	/**
+	 * Gets the locale.
+	 * 
+	 * @return the locale
+	 */
+
+	public ULocale getLocale( )
+	{
+		return (ULocale) options.get( LOCALE_KEY );
+	}
+
+	/**
+	 * Sets the locale.
+	 * 
+	 * @param locale
+	 *            the locale
+	 */
+
+	public void setLocale( ULocale locale )
+	{
+		if ( locale != null )
+			options.put( LOCALE_KEY, locale );
 	}
 }

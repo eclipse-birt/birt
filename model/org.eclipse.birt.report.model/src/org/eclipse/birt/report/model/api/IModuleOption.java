@@ -45,4 +45,10 @@ public interface IModuleOption
 	 */
 
 	static final String MARK_LINE_NUMBER_KEY = "markLineNumber"; //$NON-NLS-1$	
+	
+	/**
+	 * Key to indicate the locale of the module.
+	 */
+
+	static final String LOCALE_KEY = "locale"; //$NON-NLS-1$	
 }
