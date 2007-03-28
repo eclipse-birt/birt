@@ -14,7 +14,7 @@ package org.eclipse.birt.core.archive;
 /**
  * used to get a IArchiveLockManager instance.
  */
-class ArchiveLockManager
+public class ArchiveLockManager
 {
 
 	protected static IArchiveLockManager instance;

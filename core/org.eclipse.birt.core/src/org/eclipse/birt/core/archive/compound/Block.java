@@ -19,7 +19,7 @@ import java.io.RandomAccessFile;
  * index block or stream data block.
  */
 
-class Block implements ArchiveConstants
+public class Block implements ArchiveConstants
 {
 
 	/** The physical ID -- the NO of this block */
@@ -66,7 +66,7 @@ class Block implements ArchiveConstants
 		next = null;
 	}
 
-	void refresh( RandomAccessFile rf ) throws IOException
+	public void refresh( RandomAccessFile rf ) throws IOException
 	{
 		blockSize = 0;
 		if (id < 0)

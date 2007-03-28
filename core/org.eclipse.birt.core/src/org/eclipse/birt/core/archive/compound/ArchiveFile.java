@@ -147,7 +147,11 @@ public class ArchiveFile implements IArchiveFile
 
 	public int getUsedCache( )
 	{
-		return af.getUsedCache( );
+		if ( af != null )
+		{
+			return af.getUsedCache( );
+		}
+		return 0;
 	}
 
 	static public int getTotalUsedCache( )

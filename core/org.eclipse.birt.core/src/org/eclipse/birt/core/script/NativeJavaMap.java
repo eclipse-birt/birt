@@ -22,7 +22,7 @@ import org.mozilla.javascript.Scriptable;
  * interface <code>Map</code>.
  * 
  */
-class NativeJavaMap extends NativeJavaObject
+public class NativeJavaMap extends NativeJavaObject
 {
 
 	/**
