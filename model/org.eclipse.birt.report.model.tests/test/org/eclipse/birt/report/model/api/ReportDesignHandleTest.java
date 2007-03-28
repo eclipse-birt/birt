@@ -215,15 +215,21 @@ public class ReportDesignHandleTest extends BaseTestCase
 	{
 		openDesign( "BlankReportDesign.xml" ); //$NON-NLS-1$
 
-		assertTrue( designHandle.canAddCssStyleSheet( getResource( "input/base.css" ).getFile( ) ));//$NON-NLS-1$
+		assertTrue( designHandle.canAddCssStyleSheet( getResource(
+				"input/base.css" ).getFile( ) ) );//$NON-NLS-1$
+		assertTrue( designHandle.canAddCssStyleSheet( "base.css" ) );//$NON-NLS-1$
 		// test add css sheet
 
 		CssStyleSheetHandle sheetHandle = designHandle
 				.openCssStyleSheet( getResource( "input/base.css" ).getFile( ) );//$NON-NLS-1$
+		assertNull( sheetHandle.getContainerHandle( ));
 		designHandle.addCss( sheetHandle );
+
+		assertFalse( designHandle.canAddCssStyleSheet( getResource(
+				"input/base.css" ).getFile( ) ) );//$NON-NLS-1$
+		assertFalse( designHandle.canAddCssStyleSheet( sheetHandle ) );
 		
-		assertFalse( designHandle.canAddCssStyleSheet( getResource( "input/base.css" ).getFile( ) ));//$NON-NLS-1$
-		assertFalse( designHandle.canAddCssStyleSheet( sheetHandle ));
+		assertNotNull( sheetHandle.getContainerHandle( ) );
 		
 		List styles = designHandle.getAllStyles( );
 		assertEquals( 5, styles.size( ) );
@@ -245,8 +251,8 @@ public class ReportDesignHandleTest extends BaseTestCase
 		labelHandle.setStyle( (SharedStyleHandle) styles.get( 0 ) );
 
 		// drop css
-		
-		assertTrue( designHandle.canDropCssStyleSheet( sheetHandle ));
+
+		assertTrue( designHandle.canDropCssStyleSheet( sheetHandle ) );
 		// before drop , element is resolved. after drop element is unresolved
 		ElementRefValue value = (ElementRefValue) labelHandle.getElement( )
 				.getLocalProperty( designHandle.getModule( ), "style" );//$NON-NLS-1$
@@ -256,9 +262,9 @@ public class ReportDesignHandleTest extends BaseTestCase
 		assertFalse( value.isResolved( ) );
 		assertNull( designHandle.includeCssesIterator( ).next( ) );
 		assertNull( labelHandle.getStyle( ) );
-		
-		assertFalse( designHandle.canDropCssStyleSheet( sheetHandle ));
-		
+
+		assertFalse( designHandle.canDropCssStyleSheet( sheetHandle ) );
+		assertNull ( sheetHandle.getContainerHandle( ) );
 		// test add css file name
 
 		designHandle.addCss( "base.css" );//$NON-NLS-1$

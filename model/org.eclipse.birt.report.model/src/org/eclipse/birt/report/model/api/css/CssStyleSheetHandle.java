@@ -14,9 +14,11 @@ package org.eclipse.birt.report.model.api.css;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ElementDetailHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.css.CssStyleSheet;
 
@@ -37,7 +39,7 @@ public class CssStyleSheetHandle extends ElementDetailHandle
 	protected CssStyleSheet styleSheet = null;
 
 	/**
-	 * Constructs a handle for an include style sheet.
+	 * Constructs a handle for an style sheet.
 	 * 
 	 * @param moduleHandle
 	 *            a handle to a module
@@ -154,16 +156,29 @@ public class CssStyleSheetHandle extends ElementDetailHandle
 	{
 		return styleSheet.getErrorHandler( ).getParserWarnings( );
 	}
-	
+
 	/**
 	 * Gets css file name
+	 * 
 	 * @return css file name
 	 */
-	
-	public String getFileName()
+
+	public String getFileName( )
 	{
 		return styleSheet.getFileName( );
 	}
 
-}
+	/**
+	 * Gets container handle.
+	 * 
+	 * @return
+	 */
 
+	public DesignElementHandle getContainerHandle( )
+	{
+		DesignElement tmpElement =  styleSheet.getContainer( );
+		if(  tmpElement == null )
+			return null;
+		return tmpElement.getHandle( elementHandle.getModule( ) );
+	}
+}

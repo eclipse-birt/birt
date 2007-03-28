@@ -156,12 +156,6 @@ public class CssStyleSheetHandleAdapter
 		{
 			return false;
 		}
-		CssStyleSheet sheet = CssStyleSheetAdapter.getCssStyleSheetByLocation(
-				module , ( (ICssStyleSheetOperation) element ).getCsses( ), fileName );;
-		if ( sheet != null )
-		{
-			return false;
-		}
 		
 		URL url = module.findResource( fileName,
 				IResourceLocator.CASCADING_STYLE_SHEET );
@@ -169,6 +163,14 @@ public class CssStyleSheetHandleAdapter
 		{
 			return false;
 		}
+		
+		CssStyleSheet sheet = CssStyleSheetAdapter.getCssStyleSheetByLocation(
+				module , ( (ICssStyleSheetOperation) element ).getCsses( ), url.getFile( ) );;
+		if ( sheet != null )
+		{
+			return false;
+		}
+		
 		return true;
 	}
 	

@@ -69,11 +69,11 @@ public class LibraryParseTest extends BaseTestCase
 
 		// 'captionfigcolumn' from report design new.css file
 		assertEquals(
-				"/org/eclipse/birt/report/model/library/input/new.css", ( (CssStyle) labelHandle.getStyle( ).getElement( ) )//$NON-NLS-1$
+				"new.css", ( (CssStyle) labelHandle.getStyle( ).getElement( ) )//$NON-NLS-1$
 						.getCssStyleSheet( ).getFileName( ) );
 		// 'node' from report design new.css file
 		assertEquals(
-				"/org/eclipse/birt/report/model/library/input/new.css", ( (CssStyle) labelHandle2.getStyle( ).getElement( ) )//$NON-NLS-1$
+				"new.css", ( (CssStyle) labelHandle2.getStyle( ).getElement( ) )//$NON-NLS-1$
 						.getCssStyleSheet( ).getFileName( ) );
 
 		// add css file
@@ -83,11 +83,11 @@ public class LibraryParseTest extends BaseTestCase
 
 		// 'captionfigcolumn' from report design resolve.css file
 		assertEquals(
-				"/org/eclipse/birt/report/model/library/input/reslove.css", ( (CssStyle) labelHandle.getStyle( ).getElement( ) )//$NON-NLS-1$
+				"reslove.css", ( (CssStyle) labelHandle.getStyle( ).getElement( ) )//$NON-NLS-1$
 						.getCssStyleSheet( ).getFileName( ) );
 		// 'note' from report design resolve.css file
 		assertEquals(
-				"/org/eclipse/birt/report/model/library/input/reslove.css", ( (CssStyle) labelHandle2.getStyle( ).getElement( ) )//$NON-NLS-1$
+				"reslove.css", ( (CssStyle) labelHandle2.getStyle( ).getElement( ) )//$NON-NLS-1$
 						.getCssStyleSheet( ).getFileName( ) );
 	}
 

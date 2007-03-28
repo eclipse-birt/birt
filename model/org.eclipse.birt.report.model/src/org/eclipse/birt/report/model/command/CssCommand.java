@@ -11,12 +11,10 @@
 
 package org.eclipse.birt.report.model.command;
 
-import java.net.URL;
 import java.util.List;
 
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
 import org.eclipse.birt.report.model.activity.ActivityStack;
-import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -69,18 +67,9 @@ public class CssCommand extends AbstractElementCommand
 
 	public void addCss( String fileName ) throws SemanticException
 	{
-		URL url = module.findResource( fileName,
-				IResourceLocator.CASCADING_STYLE_SHEET );
-		if ( url == null )
-		{
-			throw new CssException( module, new String[]{fileName},
-					CssException.DESIGN_EXCEPTION_CSS_NOT_FOUND );
-		}
-
-		String resourcePath = url.getFile( );
 		try
 		{
-			CssStyleSheet sheet = module.loadCss( element, resourcePath );
+			CssStyleSheet sheet = module.loadCss( fileName );
 			addCss( sheet );
 		}
 		catch ( StyleSheetException e )
@@ -135,7 +124,7 @@ public class CssCommand extends AbstractElementCommand
 			activityStack.rollback( );
 			throw e;
 		}
-
+		
 		activityStack.commit( );
 	}
 
@@ -282,19 +271,14 @@ public class CssCommand extends AbstractElementCommand
 			return;
 
 		String fileName = sheet.getFileName( );
-		CssStyleSheet oldStyleSheet = getCssStyleSheetByLocation( fileName );
-		if ( oldStyleSheet == null )
-		{
-			throw new CssException( module, new String[]{fileName},
-					CssException.DESIGN_EXCEPTION_CSS_NOT_FOUND );
-		}
+
 		// if exist such css style sheet, but now css file is removed. should
 		// drop such css.
 
 		CssStyleSheet newStyleSheet;
 		try
 		{
-			newStyleSheet = module.loadCss( element, fileName );
+			newStyleSheet = module.loadCss( fileName );
 		}
 		catch ( StyleSheetException e )
 		{
@@ -303,7 +287,7 @@ public class CssCommand extends AbstractElementCommand
 		}
 
 		List csses = ( (ICssStyleSheetOperation) element ).getCsses( );
-		int pos = csses.indexOf( oldStyleSheet );
+		int pos = csses.indexOf( sheet );
 
 		ActivityStack activityStack = getActivityStack( );
 		activityStack.startSilentTrans( );
@@ -311,7 +295,7 @@ public class CssCommand extends AbstractElementCommand
 		// reload new css file
 
 		// drop css
-		CssRecord record = new CssRecord( module, element, oldStyleSheet, false );
+		CssRecord record = new CssRecord( module, element, sheet, false );
 		getActivityStack( ).execute( record );
 
 		// insert css to same position

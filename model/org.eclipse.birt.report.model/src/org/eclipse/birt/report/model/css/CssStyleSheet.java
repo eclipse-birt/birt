@@ -60,12 +60,18 @@ public final class CssStyleSheet
 	 */
 
 	private CssErrorHandler errorHandler = null;
-	
+
 	/**
 	 * Css style url resource file name
 	 */
-	
+
 	private String fileName = null;
+
+	/**
+	 * Container of CssStyleSheet
+	 */
+
+	private DesignElement container = null;
 
 	/**
 	 * Return a handle to deal with the style sheet.
@@ -236,9 +242,10 @@ public final class CssStyleSheet
 
 	/**
 	 * Gets css file name
+	 * 
 	 * @return css file name
 	 */
-	
+
 	public String getFileName( )
 	{
 		return fileName;
@@ -246,13 +253,35 @@ public final class CssStyleSheet
 
 	/**
 	 * Sets css file name
+	 * 
 	 * @param fileName
 	 */
-	
+
 	public void setFileName( String fileName )
 	{
 		this.fileName = fileName;
 	}
-	
-}
 
+	/**
+	 * Gets container element.
+	 * 
+	 * @return
+	 */
+
+	public DesignElement getContainer( )
+	{
+		return container;
+	}
+
+	/**
+	 * Sets container element.
+	 * 
+	 * @param container
+	 */
+
+	public void setContainer( DesignElement container )
+	{
+		this.container = container;
+	}
+
+}

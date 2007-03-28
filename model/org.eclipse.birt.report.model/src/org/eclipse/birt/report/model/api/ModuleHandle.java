@@ -2381,7 +2381,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public CssStyleSheetHandle openCssStyleSheet( String fileName )
 			throws StyleSheetException
 	{
-		CssStyleSheet sheet = module.loadCss( getElement( ) , fileName );
+		CssStyleSheet sheet = module.loadCss( fileName );
 		return sheet.handle( module );
 	}
 

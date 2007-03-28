@@ -94,9 +94,9 @@ public class CssCommandTest extends BaseTestCase
 				.getAllCssStyleSheets( ).get( 0 );
 		designHandle.reloadCss( sheetHandle );
 		assertEquals( "center", labelHandle.getStyle( ).getTextAlign( ) );//$NON-NLS-1$
-		
-		//position in design file is the same
-		sheetHandle = (CssStyleSheetHandle) designHandle.getAllStyles( )
+
+		// position in design file is the same
+		sheetHandle = (CssStyleSheetHandle) designHandle.getAllCssStyleSheets( )
 				.get( 0 );
 		assertEquals( "base.css", sheetHandle.getFileName( ) );//$NON-NLS-1$
 
@@ -140,6 +140,8 @@ public class CssCommandTest extends BaseTestCase
 
 		listener.clearEventCount( );
 
+		sheetHandle = (CssStyleSheetHandle) designHandle.getAllCssStyleSheets( )
+				.get( 0 );
 		designHandle.dropCss( sheetHandle );
 
 		assertEquals( CssEvent.DROP, listener.getAction( ) );
@@ -168,14 +170,15 @@ public class CssCommandTest extends BaseTestCase
 				CssEvent event = (CssEvent) ev;
 				action = event.getAction( );
 				eventType = event.getEventType( );
-
+				++count;
 			}
 			else if ( ev.getEventType( ) == NotificationEvent.CSS_RELOADED_EVENT )
 			{
 				CssReloadedEvent event = (CssReloadedEvent) ev;
 				eventType = event.getEventType( );
+				++count;
 			}
-			++count;
+			
 		}
 
 		/**

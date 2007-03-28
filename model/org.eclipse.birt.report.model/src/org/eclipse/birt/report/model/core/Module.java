@@ -2710,22 +2710,52 @@ public abstract class Module extends DesignElement implements IModuleModel
 	 * relative. If the css doesn't exist or fatal error occurs when opening
 	 * css,.
 	 * 
-	 * @param container
-	 *            container, report design or theme
 	 * @param fileName
 	 *            css file name
 	 * @return the loaded css
 	 * @throws StyleSheetException
 	 */
 
-	public CssStyleSheet loadCss( DesignElement container, String fileName )
-			throws StyleSheetException
+	public CssStyleSheet loadCss( String fileName ) throws StyleSheetException
 	{
 		try
 		{
 			StyleSheetLoader loader = new StyleSheetLoader( );
 			CssStyleSheet sheet = loader.load( this, fileName );
+			List styles = sheet.getStyles( );
+			for ( int i = 0; styles != null && i < styles.size( ); ++i )
+			{
+				CssStyle style = (CssStyle) styles.get( i );
+				style.setCssStyleSheet( sheet );
+			}
+			return sheet;
+		}
+		catch ( StyleSheetException e )
+		{
+			throw e;
+		}
+	}
 
+	/**
+	 * Loads css with the given css file name. This file name can be absolute or
+	 * relative. If the css doesn't exist or fatal error occurs when opening
+	 * css,.
+	 * 
+	 * @param container
+	 *            report design/theme
+	 * @param fileName
+	 *            css file name
+	 * @return the loaded css
+	 * @throws StyleSheetException
+	 */
+
+	public CssStyleSheet loadCss( DesignElement container , String fileName ) throws StyleSheetException
+	{
+		try
+		{
+			StyleSheetLoader loader = new StyleSheetLoader( );
+			CssStyleSheet sheet = loader.load( this, fileName );
+			sheet.setContainer(  container );
 			List styles = sheet.getStyles( );
 			for ( int i = 0; styles != null && i < styles.size( ); ++i )
 			{

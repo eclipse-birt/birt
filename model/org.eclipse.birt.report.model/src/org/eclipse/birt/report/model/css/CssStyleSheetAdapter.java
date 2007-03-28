@@ -11,10 +11,12 @@
 
 package org.eclipse.birt.report.model.css;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ICssStyleSheetOperation;
 
@@ -45,13 +47,21 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation
 	{
 		if ( location == null || csses == null )
 			return null;
+		URL url = module.findResource( location,
+				IResourceLocator.CASCADING_STYLE_SHEET );
+		if( url == null )
+			return null ;
+		String fileLocation = url.getFile( );
 		for ( int i = 0; i < csses.size( ); ++i )
 		{
 			CssStyleSheet css = (CssStyleSheet) csses.get( i );
 			String tmpFileName = css.getFileName( );
-			if ( tmpFileName == null )
+			url = module.findResource( tmpFileName,
+					IResourceLocator.CASCADING_STYLE_SHEET );
+			if ( url == null )
 				continue;
-			if ( location.equalsIgnoreCase( tmpFileName ) )
+			tmpFileName = url.getFile( );
+			if ( fileLocation.equalsIgnoreCase( tmpFileName ) )
 				return css;
 		}
 		return null;
@@ -75,13 +85,21 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation
 	{
 		if ( location == null || csses == null )
 			return -1;
+		URL url = module.findResource( location,
+				IResourceLocator.CASCADING_STYLE_SHEET );
+		if( url == null )
+			return -1;
+		String fileLocation = url.getFile( );
 		for ( int i = 0; i < csses.size( ); ++i )
 		{
 			CssStyleSheet css = (CssStyleSheet) csses.get( i );
 			String tmpFileName = css.getFileName( );
-			if ( tmpFileName == null )
+			url = module.findResource( tmpFileName,
+					IResourceLocator.CASCADING_STYLE_SHEET );
+			if ( url == null )
 				continue;
-			if ( location.equalsIgnoreCase( tmpFileName ) )
+			tmpFileName = url.getFile( );
+			if ( fileLocation.equalsIgnoreCase( tmpFileName ) )
 				return i;
 		}
 		return -1;
@@ -101,7 +119,8 @@ public class CssStyleSheetAdapter implements ICssStyleSheetOperation
 		assert csses.contains( css );
 
 		int posn = csses.indexOf( css );
-		csses.remove( posn );
+		if( posn != -1 )
+			csses.remove( posn );
 
 		return posn;
 	}

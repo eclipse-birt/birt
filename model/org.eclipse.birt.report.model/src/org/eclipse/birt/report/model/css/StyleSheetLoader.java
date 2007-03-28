@@ -173,8 +173,9 @@ public final class StyleSheetLoader
 		}
 		CssStyleSheet sheet = load( module, is );
 		
-		//set the absolute path to css style sheet.
-		sheet.setFileName( url.getFile( ) );
+		//set the path to css style sheet.
+		
+		sheet.setFileName( spec );
 		return sheet;
 	}
 

@@ -73,7 +73,7 @@ public class StyleSheetLoaderTest extends BaseTestCase
 		CssStyleSheetHandle sheetHandle = designHandle
 				.openCssStyleSheet( fileName );
 		assertEquals(
-				"/org/eclipse/birt/report/model/css/input/base.css", sheetHandle.getFileName( ) ); //$NON-NLS-1$
+				"base.css", sheetHandle.getFileName( ) ); //$NON-NLS-1$
 
 	}
 

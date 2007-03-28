@@ -11,12 +11,16 @@
 
 package org.eclipse.birt.report.model.command;
 
+import java.util.Iterator;
+import java.util.List;
+
 import org.eclipse.birt.report.model.activity.SimpleRecord;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.CssEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.css.CssNameManager;
+import org.eclipse.birt.report.model.css.CssStyle;
 import org.eclipse.birt.report.model.css.CssStyleSheet;
 import org.eclipse.birt.report.model.elements.ICssStyleSheetOperation;
 
@@ -80,7 +84,7 @@ public class CssRecord extends SimpleRecord
 		this.css = css;
 		this.add = add;
 	}
-	
+
 	/**
 	 * Constructors the css record.
 	 * 
@@ -90,8 +94,9 @@ public class CssRecord extends SimpleRecord
 	 * @param add
 	 * @param pos
 	 */
-	
-	CssRecord( Module module , DesignElement element , CssStyleSheet css , boolean add , int pos )
+
+	CssRecord( Module module, DesignElement element, CssStyleSheet css,
+			boolean add, int pos )
 	{
 		this.module = module;
 		this.element = element;
@@ -116,6 +121,7 @@ public class CssRecord extends SimpleRecord
 			if ( position == -1 )
 			{
 				operation.addCss( css );
+				setContainer( element, css );
 				int size = operation.getCsses( ).size( );
 
 				// re-resolve
@@ -128,6 +134,7 @@ public class CssRecord extends SimpleRecord
 				// insert css into position
 
 				operation.insertCss( css, position );
+				setContainer( element, css );
 				// re-resolve
 				CssNameManager.adjustStylesForAdd( module, operation, css,
 						position );
@@ -136,9 +143,30 @@ public class CssRecord extends SimpleRecord
 		else
 		{
 			operation.dropCss( css );
-
+			setContainer( null, css );
 			// unresolve
 			CssNameManager.adjustStylesForRemove( css );
+		}
+	}
+
+	/**
+	 * Sets container of CssStyleSheet. container must be report design / theme.
+	 * 
+	 * @param element
+	 * @param sheet
+	 */
+	
+	private void setContainer( DesignElement element, CssStyleSheet sheet )
+	{
+		if ( sheet == null )
+			return;
+		sheet.setContainer( element );
+		List styles = sheet.getStyles( );
+		Iterator iter = styles.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			CssStyle style = (CssStyle) iter.next( );
+			style.setContainer( element );
 		}
 	}
 

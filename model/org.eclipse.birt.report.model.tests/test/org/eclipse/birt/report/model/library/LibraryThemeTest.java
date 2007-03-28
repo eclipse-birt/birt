@@ -74,10 +74,14 @@ public class LibraryThemeTest extends BaseTestCase
 		ThemeHandle themeHandle = (ThemeHandle) libraryHandle.getThemes( ).get(
 				0 );
 		assertTrue( themeHandle.canAddCssStyleSheet( getResource( "input/base.css" ).getFile( ) ));//$NON-NLS-1$
+		assertTrue( themeHandle.canAddCssStyleSheet( "base.css" ));//$NON-NLS-1$
+		
 		//test add css sheet 
 		
 		CssStyleSheetHandle sheetHandle = libraryHandle
 				.openCssStyleSheet( getResource( "input/base.css" ).getFile( ) );//$NON-NLS-1$
+		assertNull( sheetHandle.getContainerHandle( ));
+		
 		themeHandle.addCss( sheetHandle );
 		
 		assertFalse( themeHandle.canAddCssStyleSheet( sheetHandle ));
@@ -85,6 +89,8 @@ public class LibraryThemeTest extends BaseTestCase
 		
 		List styles = themeHandle.getAllStyles( );
 		assertEquals( 5, styles.size( ) );
+		
+		assertNotNull( sheetHandle.getContainerHandle( ));
 
 		try
 		{
@@ -116,7 +122,7 @@ public class LibraryThemeTest extends BaseTestCase
 
 		assertNull( labelHandle.getElement( ).getStyle( ) );
 		assertFalse( themeHandle.canDropCssStyleSheet( sheetHandle ));
-		
+		assertNull( sheetHandle.getContainerHandle( ));
 		//add css file name
 		themeHandle.addCss( "base.css" ); //$NON-NLS-1$
 		styles = themeHandle.getAllStyles( );
