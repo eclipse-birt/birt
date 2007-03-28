@@ -14,7 +14,7 @@
     </list-property>
     <styles>
         <style name="My Style" id="2">
-            <property name="fontFamily">Times</property>
+            <property name="fontFamily">"Times"</property>
             <property name="fontSize">12mm</property>
             <property name="fontWeight">bold</property>
         </style>

@@ -201,7 +201,7 @@
                                 <property name="category">Custom</property>
                                 <property name="pattern">string-format</property>
                             </structure>
-                            <property name="fontFamily">Arial</property>
+                            <property name="fontFamily">"Arial"</property>
                             <property name="fontSize">9pt</property>
                             <property name="fontStyle">normal</property>
                             <property name="fontWeight">bold</property>

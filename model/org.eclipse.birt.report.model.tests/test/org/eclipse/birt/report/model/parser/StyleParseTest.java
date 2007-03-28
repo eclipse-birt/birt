@@ -1054,7 +1054,7 @@ public class StyleParseTest extends BaseTestCase
 				.getStringValue( ) );
 
 		FontHandle fontHandle = highlightHandle.getFontFamilyHandle( );
-		assertEquals( "Arial", fontHandle.getStringValue( ) ); //$NON-NLS-1$
+		assertEquals( "\"Arial\"", fontHandle.getStringValue( ) ); //$NON-NLS-1$
 
 		String fontValue = highlightHandle.getFontStyle( );
 		assertEquals( DesignChoiceConstants.FONT_STYLE_NORMAL, fontValue );
@@ -1190,5 +1190,34 @@ public class StyleParseTest extends BaseTestCase
 
 		save( );
 		assertTrue( compareFile( "StyleParseTest_obsolete_golden.xml" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Tests the validation for font-family.
+	 * 
+	 * @throws Exception
+	 */
+	public void testFontFamily( ) throws Exception
+	{
+		openDesign( fileName );
+		StyleHandle style = designHandle.getElementFactory( ).newStyle( null );
+		designHandle.getStyles( ).add( style );
+
+		// general family
+		String value = DesignChoiceConstants.FONT_FAMILY_CURSIVE;
+		style.getFontFamilyHandle( ).setValue( value );
+		assertEquals( DesignChoiceConstants.FONT_FAMILY_CURSIVE, style
+				.getStringProperty( IStyleModel.FONT_FAMILY_PROP ) );
+
+		// custom family
+		value = "a b"; //$NON-NLS-1$
+		style.getFontFamilyHandle( ).setValue( value );
+		assertEquals(
+				"\"a b\"", style.getStringProperty( IStyleModel.FONT_FAMILY_PROP ) ); //$NON-NLS-1$
+
+		value = " a b, " + "\"cd\" ," + DesignChoiceConstants.FONT_FAMILY_FANTASY; //$NON-NLS-1$//$NON-NLS-2$
+		style.getFontFamilyHandle( ).setValue( value );
+		assertEquals(
+				"\"a b\", \"cd\", " + DesignChoiceConstants.FONT_FAMILY_FANTASY, style.getStringProperty( IStyleModel.FONT_FAMILY_PROP ) ); //$NON-NLS-1$
 	}
 }

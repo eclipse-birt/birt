@@ -177,11 +177,11 @@ public class FontHandleTest extends BaseTestCase
 
 		// tests with the font entry at a given position.
 
-		assertEquals( "Time New Roman, Arial", fontHandle.getStringValue( ) ); //$NON-NLS-1$
+		assertEquals( "\"Time New Roman\", \"Arial\"", fontHandle.getStringValue( ) ); //$NON-NLS-1$
 
 		String[] names = fontHandle.getFontFamilies( );
-		assertEquals( "Time New Roman", names[0] ); //$NON-NLS-1$
-		assertEquals( "Arial", names[1] ); //$NON-NLS-1$
+		assertEquals( "\"Time New Roman\"", names[0] ); //$NON-NLS-1$
+		assertEquals( "\"Arial\"", names[1] ); //$NON-NLS-1$
 
 		// tests sets/gets CSS constant names.
 
@@ -250,8 +250,8 @@ public class FontHandleTest extends BaseTestCase
 		assertNotNull( highlightHandle );
 
 		fontHandle = highlightHandle.getFontFamilyHandle( );
-		assertEquals( "Arial", fontHandle.getStringValue( ) ); //$NON-NLS-1$
-		assertEquals( "Arial", fontHandle.getDisplayValue( ) ); //$NON-NLS-1$
+		assertEquals( "\"Arial\"", fontHandle.getStringValue( ) ); //$NON-NLS-1$
+		assertEquals( "\"Arial\"", fontHandle.getDisplayValue( ) ); //$NON-NLS-1$
 
 		// no second highlight rule, must be null.
 

@@ -14,6 +14,8 @@ package org.eclipse.birt.report.model.metadata;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
+import org.eclipse.birt.report.model.util.StylePropertyUtil;
 
 /**
  * String property type.
@@ -51,8 +53,8 @@ public class StringPropertyType extends PropertyType
 	 * @return a <code>String</code> object or null
 	 */
 
-	public Object validateValue( Module module, PropertyDefn defn,
-			Object value ) throws PropertyValueException
+	public Object validateValue( Module module, PropertyDefn defn, Object value )
+			throws PropertyValueException
 	{
 		if ( value == null )
 			return null;
@@ -60,9 +62,14 @@ public class StringPropertyType extends PropertyType
 		String stringValue = value.toString( );
 
 		// Model treats "" is as same as null.
-		
+
 		if ( StringUtil.isEmpty( stringValue ) )
 			return null;
+
+		if ( IStyleModel.FONT_FAMILY_PROP.equals( defn.getName( ) ) )
+		{
+			return StylePropertyUtil.handleFontFamily( defn, stringValue );
+		}
 
 		return stringValue.trim( );
 	}

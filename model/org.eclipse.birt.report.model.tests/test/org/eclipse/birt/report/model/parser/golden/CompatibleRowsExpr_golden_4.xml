@@ -110,7 +110,7 @@
                     <cell id="306">
                         <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
-                        <property name="fontFamily">Courier New</property>
+                        <property name="fontFamily">"Courier New"</property>
                         <property name="fontSize">10pt</property>
                         <table id="457">
                             <property name="pageBreakInside">avoid</property>
@@ -256,7 +256,7 @@
                     <cell id="751">
                         <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
-                        <property name="fontFamily">Courier New</property>
+                        <property name="fontFamily">"Courier New"</property>
                         <property name="fontSize">10pt</property>
                         <table id="755">
                             <property name="pageBreakInside">avoid</property>

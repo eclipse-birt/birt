@@ -102,7 +102,7 @@ public class LabelItemParserTest extends ParserTestCase
 		// test the sytle property in label
 		assertEquals( "red", labelHandle.getStringProperty( Style.COLOR_PROP ) ); //$NON-NLS-1$
 		assertEquals(
-				"labelFace", labelHandle.getStringProperty( Style.FONT_FAMILY_PROP ) ); //$NON-NLS-1$
+				"\"labelFace\"", labelHandle.getStringProperty( Style.FONT_FAMILY_PROP ) ); //$NON-NLS-1$
 		assertEquals( "4mm", labelHandle.getStringProperty( Style.FONT_SIZE_PROP ) ); //$NON-NLS-1$
 		assertEquals(
 				"bold", labelHandle.getStringProperty( Style.FONT_WEIGHT_PROP ) ); //$NON-NLS-1$

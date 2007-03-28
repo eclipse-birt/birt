@@ -11,7 +11,7 @@
                     <property name="backgroundPositionX">50%</property>
                     <property name="backgroundPositionY">top</property>
                     <property name="backgroundRepeat">no-repeat</property>
-                    <property name="fontFamily">"Bitstream Vera Sans", Tahoma, Verdana, "Myriad Web", Syntax, sans-serif</property>
+                    <property name="fontFamily">"Bitstream Vera Sans", "Tahoma", "Verdana", "Myriad Web", "Syntax", sans-serif</property>
                     <property name="fontSize">2em</property>
                     <property name="fontWeight">bold</property>
                     <property name="fontStyle">italic</property>
@@ -62,7 +62,7 @@
                     <property name="backgroundPositionX">50%</property>
                     <property name="backgroundPositionY">top</property>
                     <property name="backgroundRepeat">no-repeat</property>
-                    <property name="fontFamily">"Bitstream Vera Sans", Tahoma, Verdana, "Myriad Web", Syntax, sans-serif</property>
+                    <property name="fontFamily">"Bitstream Vera Sans", "Tahoma", "Verdana", "Myriad Web", "Syntax", sans-serif</property>
                     <property name="fontSize">2em</property>
                     <property name="fontWeight">bold</property>
                     <property name="fontStyle">italic</property>
@@ -113,7 +113,7 @@
                     <property name="backgroundPositionX">50%</property>
                     <property name="backgroundPositionY">top</property>
                     <property name="backgroundRepeat">no-repeat</property>
-                    <property name="fontFamily">"Bitstream Vera Sans", Tahoma, Verdana, "Myriad Web", Syntax, sans-serif</property>
+                    <property name="fontFamily">"Bitstream Vera Sans", "Tahoma", "Verdana", "Myriad Web", "Syntax", sans-serif</property>
                     <property name="fontSize">2em</property>
                     <property name="fontWeight">bold</property>
                     <property name="fontStyle">italic</property>

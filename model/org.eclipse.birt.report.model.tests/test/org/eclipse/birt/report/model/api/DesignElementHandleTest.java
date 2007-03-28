@@ -959,11 +959,11 @@ public class DesignElementHandleTest extends BaseTestCase
 
 		FontHandle fontHandle = handle.getPrivateStyle( ).getFontFamilyHandle( );
 		assertNotNull( fontHandle );
-		assertEquals( "Time New Roman, Arial", fontHandle.getValue( ) ); //$NON-NLS-1$
+		assertEquals( "\"Time New Roman\", \"Arial\"", fontHandle.getValue( ) ); //$NON-NLS-1$
 
 		fontHandle = styleHandle.getFontFamilyHandle( );
 		assertNotNull( fontHandle );
-		assertEquals( "Time New Roman, Arial", fontHandle.getValue( ) ); //$NON-NLS-1$
+		assertEquals( "\"Time New Roman\", \"Arial\"", fontHandle.getValue( ) ); //$NON-NLS-1$
 
 		// uses WIDOWS_PROP to test getIntProperty.
 
@@ -988,14 +988,14 @@ public class DesignElementHandleTest extends BaseTestCase
 		// setProperty and setStringProperty.
 
 		String fontNames = (String) handle.getProperty( Style.FONT_FAMILY_PROP );
-		assertEquals( "Time New Roman, Arial", fontNames ); //$NON-NLS-1$
+		assertEquals( "\"Time New Roman\", \"Arial\"", fontNames ); //$NON-NLS-1$
 
 		fontNames = handle.getStringProperty( Style.FONT_FAMILY_PROP );
-		assertEquals( "Time New Roman, Arial", fontNames ); //$NON-NLS-1$
+		assertEquals( "\"Time New Roman\", \"Arial\"", fontNames ); //$NON-NLS-1$
 
 		PropertyHandle propertyHandle = handle
 				.getPropertyHandle( Style.FONT_FAMILY_PROP );
-		assertEquals( "Time New Roman, Arial", propertyHandle.getStringValue( ) ); //$NON-NLS-1$
+		assertEquals( "\"Time New Roman\", \"Arial\"", propertyHandle.getStringValue( ) ); //$NON-NLS-1$
 
 		// test the label height
 
@@ -1032,7 +1032,7 @@ public class DesignElementHandleTest extends BaseTestCase
 				.intValue( ) );
 
 		handle.setProperty( Style.FONT_FAMILY_PROP, "Song" ); //$NON-NLS-1$
-		assertEquals( "Song", handle.getStringProperty( Style.FONT_FAMILY_PROP ) ); //$NON-NLS-1$
+		assertEquals( "\"Song\"", handle.getStringProperty( Style.FONT_FAMILY_PROP ) ); //$NON-NLS-1$
 
 		// test the label height
 
@@ -1568,8 +1568,7 @@ public class DesignElementHandleTest extends BaseTestCase
 				row.getCells( ).get( 0 ).getXPath( ) );
 
 		element = designHandle.findElement( "text2" ); //$NON-NLS-1$
-		assertEquals(
-				"/report/body/table[@id=\"18\"]/detail/row/cell/text", //$NON-NLS-1$
+		assertEquals( "/report/body/table[@id=\"18\"]/detail/row/cell/text", //$NON-NLS-1$
 				element.getXPath( ) );
 
 		StyleHandle style = designHandle.findStyle( "My Style" ); //$NON-NLS-1$

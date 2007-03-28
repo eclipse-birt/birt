@@ -11,7 +11,7 @@
     </data-sets>
     <styles>
         <style name="My Style" id="5">
-            <property name="fontFamily">Times</property>
+            <property name="fontFamily">"Times"</property>
             <property name="fontSize">12mm</property>
             <property name="fontWeight">bold</property>
         </style>

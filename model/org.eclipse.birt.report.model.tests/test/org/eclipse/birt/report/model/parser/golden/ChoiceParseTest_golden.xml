@@ -2,7 +2,7 @@
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.11" id="1">
     <styles>
         <style name="MyStyle" id="1193">
-            <property name="fontFamily">Times</property>
+            <property name="fontFamily">"Times"</property>
             <property name="fontSize">xx-small</property>
             <property name="fontWeight">lighter</property>
             <property name="color">red</property>
@@ -26,7 +26,7 @@
             </list-property>
         </style>
         <style name="style1" id="1194">
-            <property name="fontFamily">Times</property>
+            <property name="fontFamily">"Times"</property>
             <property name="fontSize">12cm</property>
             <property name="fontWeight">700</property>
             <property name="color">red</property>
@@ -53,7 +53,7 @@
                 </label>
                 <label name="label2" id="1197">
                     <property name="style">MyStyle</property>
-                    <property name="fontFamily">Times</property>
+                    <property name="fontFamily">"Times"</property>
                     <property name="fontSize">12in</property>
                     <property name="color">red</property>
                     <property name="x">6mm</property>

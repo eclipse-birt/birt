@@ -8,7 +8,7 @@
     </list-property>
     <styles>
         <style name="new_style" id="4">
-            <property name="fontFamily">Arial</property>
+            <property name="fontFamily">"Arial"</property>
         </style>
     </styles>
     <page-setup>

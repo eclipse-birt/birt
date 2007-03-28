@@ -10,7 +10,7 @@
             <property name="textUnderline">underline</property>
         </style>
         <style name="Style1" id="3">
-            <property name="fontFamily">Time New Roman, Arial</property>
+            <property name="fontFamily">"Time New Roman", "Arial"</property>
             <property name="fontSize">12mm</property>
             <property name="fontWeight">lighter</property>
             <property name="color">yellow</property>

@@ -19,7 +19,7 @@
                     <property name="borderRightStyle">none</property>
                     <property name="borderRightWidth">thick</property>
                     <property name="borderRightColor">#654321</property>
-                    <property name="fontFamily">song</property>
+                    <property name="fontFamily">"song"</property>
                     <property name="fontSize">18pc</property>
                     <property name="fontStyle">oblique</property>
                     <property name="fontWeight">900</property>

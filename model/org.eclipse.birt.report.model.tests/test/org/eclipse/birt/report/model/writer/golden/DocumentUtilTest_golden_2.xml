@@ -62,7 +62,7 @@
     </data-sets>
     <styles>
         <style name="new_style" id="4">
-            <property name="fontFamily">Arial</property>
+            <property name="fontFamily">"Arial"</property>
         </style>
     </styles>
     <page-setup>
@@ -71,7 +71,7 @@
     <body>
         <label name="label" id="8">
             <property name="backgroundColor">red</property>
-            <property name="fontFamily">Times</property>
+            <property name="fontFamily">"Times"</property>
             <property name="fontSize">14mm</property>
             <property name="fontWeight">bold</property>
             <property name="color">red</property>

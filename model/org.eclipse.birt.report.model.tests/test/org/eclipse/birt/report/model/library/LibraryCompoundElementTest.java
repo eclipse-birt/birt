@@ -93,7 +93,7 @@ public class LibraryCompoundElementTest extends BaseTestCase
 
 		// Get property from local style
 		assertEquals(
-				"Arial", row.getStringProperty( design, StyleHandle.FONT_FAMILY_PROP ) ); //$NON-NLS-1$
+				"\"Arial\"", row.getStringProperty( design, StyleHandle.FONT_FAMILY_PROP ) ); //$NON-NLS-1$
 
 		// Get property from virtual parent
 		assertEquals(
@@ -115,7 +115,7 @@ public class LibraryCompoundElementTest extends BaseTestCase
 
 		// test properties related to the table layout.
 
-		assertEquals( "Arial", bodyInnerCell //$NON-NLS-1$
+		assertEquals( "\"Arial\"", bodyInnerCell //$NON-NLS-1$
 				.getProperty( Style.FONT_FAMILY_PROP ) );
 
 		// color should be aqua

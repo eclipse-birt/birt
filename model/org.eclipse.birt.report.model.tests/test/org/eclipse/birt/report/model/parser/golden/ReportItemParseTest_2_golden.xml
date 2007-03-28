@@ -81,7 +81,7 @@
         </list>
         <label name="bodyLabel" id="15">
             <property name="eventHandlerClass">birt.js.labelHandler</property>
-            <property name="fontFamily">bodyFont</property>
+            <property name="fontFamily">"bodyFont"</property>
             <property name="color">yellow</property>
             <property name="x">6mm</property>
             <property name="y">0.5mm</property>

@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
@@ -47,7 +48,8 @@ public class StyleSheetLoaderTest extends BaseTestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
-		SessionHandle session = DesignEngine.newSession( (ULocale) null );
+		SessionHandle session = new DesignEngine( new DesignConfig( ) )
+				.newSessionHandle( (ULocale) null );
 		designHandle = session.createDesign( );
 	}
 
@@ -72,8 +74,7 @@ public class StyleSheetLoaderTest extends BaseTestCase
 		fileName = "base.css"; //$NON-NLS-1$
 		CssStyleSheetHandle sheetHandle = designHandle
 				.openCssStyleSheet( fileName );
-		assertEquals(
-				"base.css", sheetHandle.getFileName( ) ); //$NON-NLS-1$
+		assertEquals( "base.css", sheetHandle.getFileName( ) ); //$NON-NLS-1$
 
 	}
 
@@ -255,8 +256,10 @@ public class StyleSheetLoaderTest extends BaseTestCase
 		fileName = "property_combination.css"; //$NON-NLS-1$
 		Iterator styles = loadStyleSheet( fileName ).getStyleIterator( );
 
-		isSame( styles, IStyleModel.FONT_FAMILY_PROP,
-				"\"Bitstream Vera Sans\", Tahoma, Verdana, \"Myriad Web\", Syntax, sans-serif" ); //$NON-NLS-1$
+		isSame(
+				styles,
+				IStyleModel.FONT_FAMILY_PROP,
+				"\"Bitstream Vera Sans\", \"Tahoma\", \"Verdana\", \"Myriad Web\", \"Syntax\", sans-serif" ); //$NON-NLS-1$
 		isSame( styles, IStyleModel.FONT_SIZE_PROP, "2em" ); //$NON-NLS-1$
 		isSame( styles, IStyleModel.FONT_STYLE_PROP,
 				DesignChoiceConstants.FONT_STYLE_ITALIC );
@@ -279,8 +282,10 @@ public class StyleSheetLoaderTest extends BaseTestCase
 		assertFalse( styles.hasNext( ) );
 
 		// font
-		isSame( styles, IStyleModel.FONT_FAMILY_PROP,
-				"\"Bitstream Vera Sans\",Tahoma,Verdana,\"Myriad Web\",Syntax,sans-serif" ); //$NON-NLS-1$
+		isSame(
+				styles,
+				IStyleModel.FONT_FAMILY_PROP,
+				"\"Bitstream Vera Sans\", \"Tahoma\", \"Verdana\", \"Myriad Web\", \"Syntax\", sans-serif" ); //$NON-NLS-1$
 		isSame( styles, IStyleModel.FONT_SIZE_PROP, "2em" ); //$NON-NLS-1$
 		isSame( styles, IStyleModel.FONT_STYLE_PROP,
 				DesignChoiceConstants.FONT_STYLE_ITALIC );

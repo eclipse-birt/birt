@@ -2,7 +2,7 @@
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.11" id="1">
     <styles>
         <style name="new_style" id="4">
-            <property name="fontFamily">Arial</property>
+            <property name="fontFamily">"Arial"</property>
         </style>
     </styles>
     <page-setup>
@@ -16,7 +16,7 @@
             <text-property name="caption">New Design Table</text-property>
             <column id="24"/>
             <column id="25">
-                <property name="fontFamily">serial</property>
+                <property name="fontFamily">"serial"</property>
                 <property name="color">aqua</property>
             </column>
             <header>

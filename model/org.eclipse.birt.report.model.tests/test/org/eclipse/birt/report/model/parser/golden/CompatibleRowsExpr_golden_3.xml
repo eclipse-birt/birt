@@ -46,12 +46,12 @@ GROUP BY  CLASSICMODELS.PRODUCTS.PRODUCTLINE, CLASSICMODELS.PRODUCTS.PRODUCTNAME
     </data-sets>
     <styles>
         <style name="Label" id="2">
-            <property name="fontFamily">Book Antiqua</property>
+            <property name="fontFamily">"Book Antiqua"</property>
             <property name="fontWeight">bold</property>
             <property name="color">#004080</property>
         </style>
         <style name="Data" id="3">
-            <property name="fontFamily">Book Antiqua</property>
+            <property name="fontFamily">"Book Antiqua"</property>
             <property name="fontSize">small</property>
         </style>
     </styles>
@@ -156,7 +156,7 @@ GROUP BY  CLASSICMODELS.PRODUCTS.PRODUCTLINE, CLASSICMODELS.PRODUCTS.PRODUCTNAME
                                             <property name="paddingTop">2cm</property>
                                             <property name="textAlign">center</property>
                                             <data id="36">
-                                                <property name="fontFamily">Arial Black</property>
+                                                <property name="fontFamily">"Arial Black"</property>
                                                 <property name="fontSize">x-large</property>
                                                 <property name="fontWeight">bold</property>
                                                 <property name="color">#004080</property>
