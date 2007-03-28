@@ -63,8 +63,6 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 
 	private transient Button cbHidden = null;
 
-	private transient Button cbCategory = null;
-
 	private transient Button cbTickBetweenCategory = null;
 
 	private transient Group grpMajor = null;
@@ -141,7 +139,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		choiceComposite.setLayoutData( gd );
-		choiceComposite.setLayout( new GridLayout( 3, true ) );
+		choiceComposite.setLayout( new GridLayout( 2, true ) );
 
 		// Axis Visibility
 		cbHidden = new Button( choiceComposite, SWT.CHECK );
@@ -149,15 +147,6 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		cbHidden.setText( Messages.getString( "BaseAxisAttributeSheetImpl.Lbl.HideAxisLine" ) ); //$NON-NLS-1$
 		cbHidden.setSelection( !axis.getLineAttributes( ).isVisible( ) );
 		cbHidden.addSelectionListener( this );
-
-		// Axis as Category / Value type
-		cbCategory = new Button( choiceComposite, SWT.CHECK );
-		cbCategory.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING ) );
-		cbCategory.setText( Messages.getString( "BaseAxisAttributeSheetImpl.Lbl.IsCategoryAxis" ) ); //$NON-NLS-1$
-		cbCategory.setSelection( axis.isCategoryAxis( ) );
-		cbCategory.addSelectionListener( this );
-		cbCategory.setEnabled( !AxisType.TEXT_LITERAL.equals( axis.getType( ) ) );
-		cbCategory.setVisible( angleType == AngleType.X );
 
 		// Axis as Category / Value type
 		cbTickBetweenCategory = new Button( choiceComposite, SWT.CHECK );
@@ -434,13 +423,6 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 			// Process hiding showing of axis
 			getAxisForProcessing( ).getLineAttributes( )
 					.setVisible( !cbHidden.getSelection( ) );
-		}
-		else if ( oSource.equals( cbCategory ) )
-		{
-			// Process setting of category axis boolean
-			getAxisForProcessing( ).setCategoryAxis( cbCategory.getSelection( ) );
-
-			cbTickBetweenCategory.setEnabled( cbCategory.getSelection( ) );
 		}
 		else if ( oSource.equals( cbTickBetweenCategory ) )
 		{

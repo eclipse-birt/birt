@@ -505,7 +505,6 @@ public class BarChart extends DefaultChartTypeImpl
 			{
 				return null;
 			}
-			( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).setCategoryAxis( true );
 		}
 		else
 		{

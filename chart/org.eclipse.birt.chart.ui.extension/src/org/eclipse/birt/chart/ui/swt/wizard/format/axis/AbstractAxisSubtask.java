@@ -76,6 +76,8 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		Listener,
 		SelectionListener
 {
+	
+	private Button btnCategoryAxis;
 
 	private transient ExternalizedTextEditorComposite txtTitle;
 
@@ -130,6 +132,20 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		{
 			cmpBasic.setLayout( new GridLayout( 3, false ) );
 			cmpBasic.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		}
+		
+		if ( getAxisAngleType( ) == AngleType.X )
+		{
+			btnCategoryAxis = new Button( cmpBasic, SWT.CHECK );
+			{
+				GridData gd = new GridData( );
+				gd.horizontalSpan = 3;
+				btnCategoryAxis.setLayoutData( gd );
+				btnCategoryAxis.setText( Messages.getString( "AbstractAxisSubtask.Lbl.IsCategoryAxis" ) ); //$NON-NLS-1$
+				btnCategoryAxis.addSelectionListener( this );
+				btnCategoryAxis.setSelection( getAxisForProcessing( ).isCategoryAxis( ) );
+				btnCategoryAxis.setEnabled( !AxisType.TEXT_LITERAL.equals( getAxisForProcessing( ).getType( ) ) );
+			}
 		}
 
 		Label lblTitle = new Label( cmpBasic, SWT.NONE );
@@ -558,6 +574,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 
 			// Set type and refresh the preview
 			getAxisForProcessing( ).setType( axisType );
+			btnCategoryAxis.setEnabled( !AxisType.TEXT_LITERAL.equals( axisType ) );
 			// Update popup UI
 			refreshPopupSheet( );
 		}
@@ -576,6 +593,10 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 			}
 			getAxisForProcessing( ).getOrigin( )
 					.setType( IntersectionType.getByName( LiteralHelper.intersectionTypeSet.getNameByDisplayName( cmbOrigin.getText( ) ) ) );
+		}
+		else if ( e.widget.equals( btnCategoryAxis ) )
+		{
+			getAxisForProcessing( ).setCategoryAxis( btnCategoryAxis.getSelection( ) );
 		}
 		else if ( e.widget.equals( btnTitleVisible ) )
 		{
