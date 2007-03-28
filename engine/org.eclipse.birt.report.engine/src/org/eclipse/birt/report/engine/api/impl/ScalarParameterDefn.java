@@ -29,6 +29,7 @@ public class ScalarParameterDefn extends ParameterDefn implements IScalarParamet
 	protected boolean 	cancealValue;
 	protected boolean 	allowNull;
 	protected boolean 	allowBlank;
+	protected boolean   isRequired;
 	protected String 	displayFormat;
 	protected int 		controlType;
 	protected int 		alignment;
@@ -82,10 +83,11 @@ public class ScalarParameterDefn extends ParameterDefn implements IScalarParamet
 	 */
 	public boolean allowNull()
 	{
-		return allowNull;
+		return !isRequired( );
 	}
 	
 	/**
+	 * @deprecated
 	 * @param allowNull whether allow null value for the specific parameter
 	 */
 	public void setAllowNull(boolean allowNull)
@@ -98,15 +100,28 @@ public class ScalarParameterDefn extends ParameterDefn implements IScalarParamet
 	 */
 	public boolean allowBlank()
 	{
-		return allowBlank;
+		return !isRequired( );
 	}
 	/**
-	 * 
+	 * @deprecated
 	 * @param allowBlank
 	 */
 	public void setAllowBlank(boolean allowBlank)
 	{
 		this.allowBlank = allowBlank;
+	}
+	
+	public boolean isRequired( )
+	{
+		return isRequired;
+	}
+
+	/**
+	 * @param isRequired
+	 */
+	public void setIsRequired( boolean isRequired )
+	{
+		this.isRequired = isRequired;
 	}
 
 	/* (non-Javadoc)

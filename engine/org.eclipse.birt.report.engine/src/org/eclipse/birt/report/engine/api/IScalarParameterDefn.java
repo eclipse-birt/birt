@@ -83,6 +83,7 @@ public interface IScalarParameterDefn extends IParameterDefn
 	boolean isValueConcealed( );
 
 	/**
+	 * @deprecated
 	 * @return whether the parameter allow null value. If it does not, the end
 	 *         user has to supply a value for the parameter before the report
 	 *         can be run
@@ -90,10 +91,23 @@ public interface IScalarParameterDefn extends IParameterDefn
 	boolean allowNull( );
 
 	/**
+	 * @deprecated
 	 * @return whether the parameter allow empty string as input. If not, the
 	 *         end user has to supply a string value that is non-empty
 	 */
 	boolean allowBlank( );
+	
+	/**
+	 * @return whether the parameter is required.<br>
+	 *         the rule for String type is:
+	 *         <li>isRequired=true, allowNull and allowBlank are false</li>
+	 *         <li>isRequired=false, allowNull and allowBlank are true</li>
+	 *         <br>
+	 *         for other type like integer:
+	 *         <li>isRequired=true, allowNull and allowBlank are false</li>
+	 *         <li>isRequired=false, allowNull and allowBlank are true</li>
+	 */
+	boolean isRequired( );
 
 	/**
 	 * @return the formatting instructions for the parameter value within the

@@ -427,10 +427,14 @@ public class GetParameterDefinitionTask extends EngineTask
 	 *            value type
 	 * @return
 	 */
-	private Collection createDynamicSelectionChoices( String pattern, String dataSetName,
-			String labelStmt, String valueStmt, String dataType, int limit,
-			boolean fixedOrder )
+	private Collection createDynamicSelectionChoices( String pattern,
+			String dataSetName, String labelStmt, String valueStmt,
+			String dataType, int limit, boolean fixedOrder, boolean isDistinct,
+			String sortDirection, String sortBy )
 	{
+		boolean sortDirectionValue = "asc".equalsIgnoreCase( sortDirection );
+		boolean sortByLabel = "label".equalsIgnoreCase( sortBy );
+
 		ArrayList choices = new ArrayList( );
 		ReportDesignHandle report = (ReportDesignHandle) this.runnable
 				.getDesignHandle( );
@@ -503,16 +507,24 @@ public class GetParameterDefinitionTask extends EngineTask
 					value = convertToType( value, dataType );
 
 					// skip duplicated values.
-					if ( !checkPool.containsKey( value ) )
-					{						
-						checkPool.put( value, value );	
+					if ( isDistinct )
+					{
+						if ( !checkPool.containsKey( value ) )
+						{
+							checkPool.put( value, value );
+							choices.add( new SelectionChoice( label, value ) );
+							count++;
+						}
+					}
+					else
+					{
 						choices.add( new SelectionChoice( label, value ) );
 						count++;
-						if ( ( limit != 0 ) && ( count >= limit ) )
-						{
-							break;
-						}
-					}			
+					}
+					if ( ( limit != 0 ) && ( count >= limit ) )
+					{
+						break;
+					}
 				}
 			}
 			catch ( BirtException ex )
@@ -521,7 +533,9 @@ public class GetParameterDefinitionTask extends EngineTask
 			}
 		}
 		if ( !fixedOrder )
-			Collections.sort( choices, new SelectionChoiceComparator( true, pattern, ULocale.forLocale( locale ) ) );
+			Collections.sort( choices, new SelectionChoiceComparator(
+					sortByLabel, pattern, sortDirectionValue, ULocale
+							.forLocale( locale ) ) );
 		return choices;
 
 	}
@@ -857,11 +871,16 @@ public class GetParameterDefinitionTask extends EngineTask
 		String dataSetName = parameter.getDataSetName( );
 		String valueExpr = parameter.getValueExpr( );
 		String labelExpr = parameter.getLabelExpr( );
+		boolean isDistinct = parameter.distinct( );
+		String sortDirection = parameter.getSortDirection( );
+		String sortBy = parameter.getSortBy( );
 		int limit = parameter.getListlimit( );
 		String pattern = parameter.getPattern( );
 
 		return createDynamicSelectionChoices( pattern, dataSetName, labelExpr,
-				valueExpr, dataType, limit, fixedOrder );
+				valueExpr, dataType, limit, fixedOrder, isDistinct,
+				sortDirection, sortBy );
+
 	}
 	
 	private IParameterDefnBase getParamDefnBaseByName( ParameterDefnBase param,
@@ -1101,6 +1120,7 @@ public class GetParameterDefinitionTask extends EngineTask
 
 			scalarParameter.setAllowBlank( handle.allowBlank( ) );
 			scalarParameter.setAllowNull( handle.allowNull( ) );
+			scalarParameter.setIsRequired( handle.isRequired( ) );
 
 			String controlType = handle.getControlType( );
 			if ( DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals( controlType ) )

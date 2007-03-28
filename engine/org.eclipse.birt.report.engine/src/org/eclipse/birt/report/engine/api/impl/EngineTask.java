@@ -486,7 +486,7 @@ public abstract class EngineTask implements IEngineTask
 		// Handle null parameter values
 		if ( paramValue == null )
 		{
-			if ( paramHandle.allowNull( ) )
+			if ( !paramHandle.isRequired( ) )
 				return true;
 
 			log.log( Level.SEVERE, "Parameter {0} doesn't allow a null value.", //$NON-NLS-1$ 
@@ -522,7 +522,7 @@ public abstract class EngineTask implements IEngineTask
 		else if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
 		{
 			String value = paramValue.toString( ).trim( );
-			if ( value.equals( "" ) && !paramHandle.allowBlank( ) ) //$NON-NLS-1$
+			if ( paramHandle.isRequired( ) && value.equals( "" ) ) //$NON-NLS-1$
 			{
 				log.log( Level.SEVERE,
 						"parameter {0} can't be blank.", paramName ); //$NON-NLS-1$
