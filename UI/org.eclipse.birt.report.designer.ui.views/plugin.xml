@@ -9,18 +9,15 @@
       <view
             icon="platform:/plugin/org.eclipse.birt.report.designer.ui/icons/eview16/data_explorer_view.gif"
             class="org.eclipse.birt.report.designer.ui.views.data.DataView"
-            category="org.eclipse.birt.report.designer.ui.views.category"
+            category="org.eclipse.birt.core.ui.category"
             name="%DataExplorerView"
             id="org.eclipse.birt.report.designer.ui.views.data.DataView"/>
       <view
             icon="platform:/plugin/org.eclipse.birt.report.designer.ui/icons/eview16/quick_edit.gif"
             class="org.eclipse.birt.report.designer.ui.views.attributes.AttributeView"
-            category="org.eclipse.birt.report.designer.ui.views.category"
+            category="org.eclipse.birt.core.ui.category"
             name="%QuickEditView"
             id="org.eclipse.birt.report.designer.ui.attributes.AttributeView"/>
-      <category
-            name="%ReportViews"
-            id="org.eclipse.birt.report.designer.ui.views.category"/>
    </extension>
 
 <extension
