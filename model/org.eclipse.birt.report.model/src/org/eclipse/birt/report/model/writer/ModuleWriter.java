@@ -2802,8 +2802,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, ISimpleDataSetModel.AFTER_OPEN_METHOD );
 		property( obj, ISimpleDataSetModel.AFTER_CLOSE_METHOD );
 		property( obj, IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP );
-		property( obj, ISimpleDataSetModel.CACHED_ROW_COUNT_PROP );
-
+		property( obj, ISimpleDataSetModel.DATA_SET_ROW_LIMIT );
+		
 		writeStructureList( obj, ISimpleDataSetModel.PARAM_BINDINGS_PROP );
 
 	}

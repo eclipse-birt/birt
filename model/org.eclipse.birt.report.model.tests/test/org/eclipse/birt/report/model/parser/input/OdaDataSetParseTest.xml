@@ -7,6 +7,7 @@
     <data-sets>
         <oda-data-set name="MyDataSet">
             <property name="dataSource">extendedDataSource</property>
+            <property name="cachedRowCount">666</property>
             <list-property name="parameters">
                 <structure>
                     <property name="name">name</property>

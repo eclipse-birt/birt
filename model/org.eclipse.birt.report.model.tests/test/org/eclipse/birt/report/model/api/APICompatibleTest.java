@@ -236,7 +236,7 @@ public class APICompatibleTest extends BaseTestCase
 				data );
 
 		save( );
-		
+
 		saveOutputFile( "CompatibleExpression_out_2.xml" );
 		assertTrue( compareFile( "CompatibleExpression_golden_2.xml" ) ); //$NON-NLS-1$		
 	}
@@ -291,6 +291,28 @@ public class APICompatibleTest extends BaseTestCase
 
 		labelHandle.setTocExpression( "toc2" ); //$NON-NLS-1$
 		assertEquals( "toc2", labelHandle.getTocExpression( ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Backward CachedRowCount method. Since 3.2.11.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testCachedRowCount( ) throws Exception
+	{
+		createDesign( );
+
+		OdaDataSetHandle dsHandle = designHandle
+				.getElementFactory( )
+				.newOdaDataSet(
+						"dataSet", "org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" ); //$NON-NLS-1$ //$NON-NLS-2$
+		designHandle.getDataSets( ).add( dsHandle );
+
+		assertEquals( 0, dsHandle.getCachedRowCount( ) );
+
+		dsHandle.setCachedRowCount( 10 );
+		assertEquals( 10, dsHandle.getCachedRowCount( ) );
 	}
 
 	/**
@@ -351,7 +373,7 @@ public class APICompatibleTest extends BaseTestCase
 
 		columnHandle.setProperty( ComputedColumn.AGGREGATEON_MEMBER,
 				"new aggregate on1" ); //$NON-NLS-1$
-		List values = (List) columnHandle 
+		List values = (List) columnHandle
 				.getProperty( ComputedColumn.AGGREGATEON_MEMBER );
 		assertTrue( "new aggregate on1".equals( values.get( 0 ) ) ); //$NON-NLS-1$
 	}

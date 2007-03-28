@@ -33,6 +33,7 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListingElement;
@@ -49,6 +50,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementMo
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
+import org.eclipse.birt.report.model.elements.interfaces.ISimpleDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
@@ -206,6 +208,18 @@ class PropertyState extends AbstractPropertyState
 			return state;
 		}
 
+		//Change 'cachedRowCount' to 'dataSetRowLimit' in DataSet element.
+		
+		if ( element instanceof DataSet
+				&& ISimpleDataSetModel.DATA_SET_ROW_LIMIT
+						.equalsIgnoreCase( name ) )
+		{
+			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
+					handler, element, ISimpleDataSetModel.CACHED_ROW_COUNT_PROP );
+			state.setName( ISimpleDataSetModel.DATA_SET_ROW_LIMIT );
+			return state;
+		}
+
 		if ( element instanceof ListGroup
 				&& IGroupElementModel.GROUP_START_PROP.equalsIgnoreCase( name ) )
 		{
@@ -345,10 +359,9 @@ class PropertyState extends AbstractPropertyState
 	protected AbstractParseState versionConditionalJumpTo( )
 	{
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_11
-				&& propDefn == null
-				&& element instanceof ScalarParameter
+				&& propDefn == null && element instanceof ScalarParameter
 				&& ( "allowNull".equalsIgnoreCase( name ) || "allowBlank" //$NON-NLS-1$ //$NON-NLS-2$
-						.equalsIgnoreCase( name ) ) )
+				.equalsIgnoreCase( name ) ) )
 		{
 			CompatibleParamAllowMumbleState state = new CompatibleParamAllowMumbleState(
 					handler, element, name );

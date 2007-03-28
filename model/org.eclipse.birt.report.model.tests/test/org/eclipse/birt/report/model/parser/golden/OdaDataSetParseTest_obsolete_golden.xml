@@ -67,7 +67,7 @@
                 </structure>
             </list-property>
             <property name="dataSource">extendedDataSource</property>
-            <property name="cachedRowCount">20</property>
+            <property name="dataSetRowLimit">20</property>
             <list-property name="paramBindings">
                 <structure>
                     <property name="paramName">new param1</property>

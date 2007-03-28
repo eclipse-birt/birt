@@ -61,6 +61,12 @@ public interface ISimpleDataSetModel
 
 	/**
 	 * The property name of cached row count.
+	 * @deprecated
 	 */
 	public static final String CACHED_ROW_COUNT_PROP = "cachedRowCount"; //$NON-NLS-1$
+	
+	/**
+	 * The property name of data set row limit.
+	 */
+	public static final String DATA_SET_ROW_LIMIT = "dataSetRowLimit";//$NON-NLS-1$
 }

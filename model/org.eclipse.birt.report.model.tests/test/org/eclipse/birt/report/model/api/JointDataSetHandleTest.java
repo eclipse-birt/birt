@@ -107,6 +107,7 @@ public class JointDataSetHandleTest extends BaseTestCase
 		assertFalse( dataSet.paramBindingsIterator( ).hasNext( ) );
 		assertNotNull( dataSet.getCachedMetaDataHandle( ) );
 		assertEquals( 0, dataSet.getCachedRowCount( ) );
+		assertEquals( 0 , dataSet.getDataSetRowLimit( ) );
 		assertNull( dataSet.getAfterClose( ) );
 		assertNull( dataSet.getAfterOpen( ) );
 		assertNull( dataSet.getBeforeClose( ) );
