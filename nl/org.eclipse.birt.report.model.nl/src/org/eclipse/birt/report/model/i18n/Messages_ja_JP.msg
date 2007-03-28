@@ -2309,6 +2309,7 @@ Element.SimpleDataSet.afterClose.reportContext=レポートのコンテキスト
 Element.SimpleDataSet.paramBindings=パラメタバインド
 Element.SimpleDataSet.refTemplateParameter=参照先テンプレートのパラメタの定義
 Element.SimpleDataSet.cachedRowCount=キャッシュ済みの行数
+Element.SimpleDataSet.dataSetRowLimit=Data set row limit
   
 #5. JdbcSelectDataSet  ( prefix  Element.JdbcSelectDataSet )
 Element.JdbcSelectDataSet.statement=文

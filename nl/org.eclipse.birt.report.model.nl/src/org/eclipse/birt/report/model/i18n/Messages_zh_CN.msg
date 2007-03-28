@@ -2309,6 +2309,7 @@ Element.SimpleDataSet.afterClose.reportContext=报表上下文
 Element.SimpleDataSet.paramBindings=参数绑定
 Element.SimpleDataSet.refTemplateParameter=参考模板参数定义
 Element.SimpleDataSet.cachedRowCount=缓存行计数
+Element.SimpleDataSet.dataSetRowLimit=Data set row limit
   
 #5. JdbcSelectDataSet  ( prefix  Element.JdbcSelectDataSet )
 Element.JdbcSelectDataSet.statement=语句
