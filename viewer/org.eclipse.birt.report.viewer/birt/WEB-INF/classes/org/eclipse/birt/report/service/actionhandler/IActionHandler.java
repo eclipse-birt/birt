@@ -15,12 +15,18 @@ import java.rmi.RemoteException;
 
 public interface IActionHandler
 {
-	public abstract void execute( ) throws RemoteException;
-	public abstract boolean canExecute( );
-	public abstract boolean canUndo( );
-	public abstract boolean canRedo( );
-	public abstract void undo( );
-	public abstract void redo( );	
-	
-	abstract boolean prepare( ) throws Exception;
+
+	public void execute( ) throws RemoteException;
+
+	public boolean canExecute( );
+
+	public boolean canUndo( );
+
+	public boolean canRedo( );
+
+	public void undo( );
+
+	public void redo( );
+
+	public boolean prepare( ) throws Exception;
 }

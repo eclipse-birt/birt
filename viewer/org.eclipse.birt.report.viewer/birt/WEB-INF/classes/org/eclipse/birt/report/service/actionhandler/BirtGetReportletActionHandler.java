@@ -63,8 +63,7 @@ public class BirtGetReportletActionHandler extends AbstractBaseActionHandler
 		prepareResponse( );
 	}
 
-	protected void prepareParameters( ) throws ReportServiceException,
-			RemoteException
+	protected void prepareParameters( ) throws Exception, RemoteException
 	{
 		__bean = context.getBean( );
 		__docName = __bean.getReportDocumentName( );
@@ -93,14 +92,14 @@ public class BirtGetReportletActionHandler extends AbstractBaseActionHandler
 	/**
 	 * 
 	 */
-	protected void __checkDocumentExists( ) throws RemoteException
+	protected void __checkDocumentExists( ) throws Exception
 	{
 		File file = new File( __docName );
 		if ( !file.exists( ) )
 		{
-			IActionHandler handler = new BirtRunReportActionHandler( context,
-					operation, response );
-			handler.execute( );
+			BirtRunReportActionHandler handler = new BirtRunReportActionHandler(
+					context, operation, response );
+			handler.__execute( );
 		}
 
 		file = new File( __docName );

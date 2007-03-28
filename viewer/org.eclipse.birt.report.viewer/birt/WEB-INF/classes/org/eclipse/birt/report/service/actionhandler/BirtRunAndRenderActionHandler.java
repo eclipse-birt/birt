@@ -46,12 +46,12 @@ public class BirtRunAndRenderActionHandler extends AbstractBaseActionHandler
 	}
 
 	/**
-	 *  Do execution.
+	 * Do execution.
 	 * 
 	 * @exception ReportServiceException
 	 * @return
 	 */
-	protected void __execute( ) throws Exception
+	public void __execute( ) throws Exception
 	{
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean( );
 		String format = attrBean.getFormat( );

@@ -20,14 +20,14 @@ abstract public class AbstractRenderImageActionHandler
 		super( context, operation, response );
 	}
 
-	protected void __execute( ) throws Exception
+	public void __execute( ) throws Exception
 	{
 		context.getResponse( ).setContentType( "image" ); //$NON-NLS-1$
 		String imageId = context.getRequest( ).getParameter(
 				ParameterAccessor.PARAM_IMAGEID );
 		ServletOutputStream out;
 		String docName = null;// TODO: Do we need document name?
-		
+
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
 		out = context.getResponse( ).getOutputStream( );

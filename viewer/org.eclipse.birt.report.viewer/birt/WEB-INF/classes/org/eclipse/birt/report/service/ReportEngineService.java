@@ -425,11 +425,11 @@ public class ReportEngineService
 		}
 		catch ( EngineException e )
 		{
-			AxisFault fault = new AxisFault( e.getLocalizedMessage( ), e );
+			AxisFault fault = new AxisFault( e.getLocalizedMessage( ), e
+					.getCause( ) );
 			fault
 					.setFaultCode( new QName(
 							"ReportEngineService.renderImage( )" ) ); //$NON-NLS-1$
-			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
 		}
 
@@ -845,11 +845,11 @@ public class ReportEngineService
 				doc.delete( );
 
 			// Any Birt exception.
-			AxisFault fault = new AxisFault( e.getLocalizedMessage( ), e );
+			AxisFault fault = new AxisFault( e.getLocalizedMessage( ), e
+					.getCause( ) );
 			fault
 					.setFaultCode( new QName(
-							"ReportEngineService.runReport( )" ) ); //$NON-NLS-1$
-			fault.setFaultString( e.getLocalizedMessage( ) );
+							"ReportEngineService.runReport( )" ) ); //$NON-NLS-1$			
 			throw fault;
 		}
 		finally
@@ -1073,10 +1073,10 @@ public class ReportEngineService
 		}
 		catch ( Exception e )
 		{
-			AxisFault fault = new AxisFault( e.getLocalizedMessage( ), e );
+			AxisFault fault = new AxisFault( e.getLocalizedMessage( ), e
+					.getCause( ) );
 			fault.setFaultCode( new QName(
-					"ReportEngineService.renderReport( )" ) ); //$NON-NLS-1$
-			fault.setFaultString( e.getLocalizedMessage( ) );
+					"ReportEngineService.renderReport( )" ) ); //$NON-NLS-1$			
 			throw fault;
 		}
 		finally
@@ -1275,10 +1275,10 @@ public class ReportEngineService
 		}
 		catch ( Exception e )
 		{
-			AxisFault fault = new AxisFault( e.getLocalizedMessage( ), e );
+			AxisFault fault = new AxisFault( e.getLocalizedMessage( ), e
+					.getCause( ) );
 			fault.setFaultCode( new QName(
 					"ReportEngineService.renderReport( )" ) ); //$NON-NLS-1$
-			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
 		}
 		finally
@@ -1350,10 +1350,10 @@ public class ReportEngineService
 		}
 		catch ( Exception e )
 		{
-			AxisFault fault = new AxisFault( e.getLocalizedMessage( ), e );
+			AxisFault fault = new AxisFault( e.getLocalizedMessage( ), e
+					.getCause( ) );
 			fault.setFaultCode( new QName(
-					"ReportEngineService.getResultSets( )" ) ); //$NON-NLS-1$
-			fault.setFaultString( e.getLocalizedMessage( ) );
+					"ReportEngineService.getResultSets( )" ) ); //$NON-NLS-1$			
 			throw fault;
 		}
 		finally
@@ -1492,11 +1492,11 @@ public class ReportEngineService
 		}
 		catch ( Exception e )
 		{
-			AxisFault fault = new AxisFault( e.getLocalizedMessage( ), e );
+			AxisFault fault = new AxisFault( e.getLocalizedMessage( ), e
+					.getCause( ) );
 			fault
 					.setFaultCode( new QName(
 							"ReportEngineService.extractData( )" ) ); //$NON-NLS-1$
-			fault.setFaultString( e.getLocalizedMessage( ) );
 			throw fault;
 		}
 		finally

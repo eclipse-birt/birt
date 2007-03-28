@@ -41,7 +41,7 @@ public class BirtRenderReportActionHandler extends AbstractBaseActionHandler
 	 * @exception ReportServiceException
 	 * @return
 	 */
-	protected void __execute( ) throws Exception
+	public void __execute( ) throws Exception
 	{
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean( );
 		assert attrBean != null;

@@ -47,11 +47,11 @@ public class BirtChangeParameterActionHandler
 		super( context, operation, response );
 	}
 
-	protected void runReport( ) throws RemoteException
+	protected void runReport( ) throws Exception
 	{
-		IActionHandler handler = new BirtRunReportActionHandler( context,
-				operation, response );
-		handler.execute( );
+		BirtRunReportActionHandler handler = new BirtRunReportActionHandler(
+				context, operation, response );
+		handler.__execute( );
 	}
 
 	protected void doRenderPage( String docName, long pageNumber,

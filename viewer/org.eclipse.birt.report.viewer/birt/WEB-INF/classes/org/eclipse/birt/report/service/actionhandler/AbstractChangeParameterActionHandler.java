@@ -86,7 +86,7 @@ public abstract class AbstractChangeParameterActionHandler
 				attrBean.getLocale( ), attrBean.isRtl( ) );
 	}
 
-	protected abstract void runReport( ) throws RemoteException;
+	protected abstract void runReport( ) throws Exception;
 
 	protected abstract void doRenderPage( String docName, long pageNumber,
 			String format, boolean svgFlag, boolean isMasterContent,

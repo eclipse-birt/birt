@@ -12,8 +12,6 @@
 package org.eclipse.birt.report.service.actionhandler;
 
 import java.io.File;
-import java.rmi.RemoteException;
-
 import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.IContext;
@@ -40,7 +38,7 @@ public class BirtGetPageActionHandler extends AbstractGetPageActionHandler
 	}
 
 	/**
-	 * 
+	 * Returns report document name
 	 */
 	protected String __getReportDocument( )
 	{
@@ -48,16 +46,16 @@ public class BirtGetPageActionHandler extends AbstractGetPageActionHandler
 	}
 
 	/**
-	 * 
+	 * Check whether document existed
 	 */
-	protected void __checkDocumentExists( ) throws RemoteException
+	protected void __checkDocumentExists( ) throws Exception
 	{
 		File file = new File( __docName );
 		if ( !file.exists( ) )
 		{
-			IActionHandler handler = new BirtRunReportActionHandler( context,
-					operation, response );
-			handler.execute( );
+			BirtRunReportActionHandler handler = new BirtRunReportActionHandler(
+					context, operation, response );
+			handler.__execute( );
 		}
 
 		file = new File( __docName );

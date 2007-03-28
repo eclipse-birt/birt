@@ -135,7 +135,8 @@ public class BirtViewerReportService implements IViewerReportService
 		}
 		catch ( RemoteException e )
 		{
-			throw new ReportServiceException( e.getLocalizedMessage( ), e );
+			throw new ReportServiceException( e.getLocalizedMessage( ), e
+					.getCause( ) );
 		}
 		return outputDocName;
 	}
@@ -196,7 +197,8 @@ public class BirtViewerReportService implements IViewerReportService
 		}
 		catch ( RemoteException e )
 		{
-			throw new ReportServiceException( e.getLocalizedMessage( ), e );
+			throw new ReportServiceException( e.getLocalizedMessage( ), e
+					.getCause( ) );
 		}
 		finally
 		{
@@ -270,7 +272,8 @@ public class BirtViewerReportService implements IViewerReportService
 		}
 		catch ( RemoteException e )
 		{
-			throw new ReportServiceException( e.getLocalizedMessage( ), e );
+			throw new ReportServiceException( e.getLocalizedMessage( ), e
+					.getCause( ) );
 		}
 		finally
 		{
@@ -320,7 +323,8 @@ public class BirtViewerReportService implements IViewerReportService
 		}
 		catch ( RemoteException e )
 		{
-			throw new ReportServiceException( e.getLocalizedMessage( ), e );
+			throw new ReportServiceException( e.getLocalizedMessage( ), e
+					.getCause( ) );
 		}
 		finally
 		{
@@ -368,7 +372,8 @@ public class BirtViewerReportService implements IViewerReportService
 		}
 		catch ( RemoteException e )
 		{
-			throw new ReportServiceException( e.getLocalizedMessage( ), e );
+			throw new ReportServiceException( e.getLocalizedMessage( ), e
+					.getCause( ) );
 		}
 		finally
 		{
@@ -404,7 +409,8 @@ public class BirtViewerReportService implements IViewerReportService
 		}
 		catch ( RemoteException e )
 		{
-			throw new ReportServiceException( e.getLocalizedMessage( ), e );
+			throw new ReportServiceException( e.getLocalizedMessage( ), e
+					.getCause( ) );
 		}
 		finally
 		{
@@ -451,7 +457,8 @@ public class BirtViewerReportService implements IViewerReportService
 		}
 		catch ( RemoteException e )
 		{
-			throw new ReportServiceException( e.getLocalizedMessage( ), e );
+			throw new ReportServiceException( e.getLocalizedMessage( ), e
+					.getCause( ) );
 		}
 
 	}
@@ -589,7 +596,7 @@ public class BirtViewerReportService implements IViewerReportService
 	/**
 	 * @see org.eclipse.birt.report.service.api.IViewerReportService#getParameterValues(java.lang.String,
 	 *      org.eclipse.birt.report.service.api.InputOptions)
-	 * @deprecated     
+	 * @deprecated
 	 */
 	public Map getParameterValues( String docName, InputOptions options )
 			throws ReportServiceException
@@ -715,7 +722,8 @@ public class BirtViewerReportService implements IViewerReportService
 			}
 			catch ( EngineException e )
 			{
-				throw new ReportServiceException( e.getLocalizedMessage( ), e );
+				throw new ReportServiceException( e.getLocalizedMessage( ), e
+						.getCause( ) );
 			}
 		}
 
@@ -888,7 +896,8 @@ public class BirtViewerReportService implements IViewerReportService
 			}
 			catch ( EngineException e )
 			{
-				throw new ReportServiceException( e.getLocalizedMessage( ), e );
+				throw new ReportServiceException( e.getLocalizedMessage( ), e
+						.getCause( ) );
 			}
 		}
 		return runnable;
