@@ -11,25 +11,16 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
-import java.util.Iterator;
-
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.dialogs.UseCssInReportDialog;
-import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
-import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.designer.ui.dialogs.UseCssInThemeDialog;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.SharedStyleHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.util.URIUtil;
-import org.eclipse.jface.action.IMenuCreator;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.events.HelpListener;
-import org.eclipse.swt.widgets.Event;
-
 
 /**
  * 
@@ -40,7 +31,7 @@ public class UseCssStyleAction extends AbstractViewAction
 
 	public static final String ID = "ImportCSSStyleAction"; //$NON-NLS-1$
 
-	public static final String ACTION_TEXT = Messages.getString("UseCssStyleAction.text"); //$NON-NLS-1$
+	public static final String ACTION_TEXT = Messages.getString( "UseCssStyleAction.text" ); //$NON-NLS-1$
 
 	public UseCssStyleAction( Object selectedObject )
 	{
@@ -51,9 +42,10 @@ public class UseCssStyleAction extends AbstractViewAction
 	{
 		super( selectedObject, text );
 	}
-	
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.action.IAction#isEnabled()
 	 */
 	public boolean isEnabled( )
@@ -62,14 +54,31 @@ public class UseCssStyleAction extends AbstractViewAction
 		return true;
 	}
 
-
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.action.IAction#run()
 	 */
 	public void run( )
 	{
 		// TODO Auto-generated method stub
+		Object selection = getSelection();
+		if(selection == null)
+		{
+			return;
+		}
+		if((selection instanceof SlotHandle) && (((SlotHandle)selection).getElementHandle( ) instanceof ReportDesignHandle))
+		{
+			useCssInReportDesign();
+		}else
+		if(selection instanceof ThemeHandle)
+		{
+			useCssInTheme((ThemeHandle)selection);
+		}
+	}
+
+	private void useCssInReportDesign( )
+	{
 		UseCssInReportDialog dialog = new UseCssInReportDialog( );
 		String relativeFileName = null;
 		dialog.setFileName( relativeFileName );
@@ -78,22 +87,8 @@ public class UseCssStyleAction extends AbstractViewAction
 			ReportDesignHandle moduleHandle = (ReportDesignHandle) SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( );
 			try
-			{				
+			{
 				moduleHandle.addCss( dialog.getFileName( ) );
-
-				// Remove later === begin ===
-				PropertyHandle propHandle = (PropertyHandle) moduleHandle.getPropertyHandle( "cssStyleSheets" );
-				Iterator iter = propHandle.iterator( );
-				while ( iter.hasNext( ) )
-				{
-					IncludedCssStyleSheetHandle includeCssStyleHandle = (IncludedCssStyleSheetHandle) iter.next( );
-					for ( Iterator iter2 = includeCssStyleHandle.iterator( ); iter2.hasNext( ); )
-					{
-						SharedStyleHandle styleHandle = (SharedStyleHandle) iter2.next( );
-					}
-				}
-
-				// Remove later === end ===
 			}
 			catch ( SemanticException e )
 			{
@@ -101,7 +96,26 @@ public class UseCssStyleAction extends AbstractViewAction
 			}
 		}
 	}
-
-
+	
+	
+	private void useCssInTheme(ThemeHandle oldTheme)
+	{
+		UseCssInThemeDialog dialog = new UseCssInThemeDialog();
+		String relativeFileName = null;
+		dialog.setFileName( relativeFileName );
+		dialog.setTheme( oldTheme );
+		if(dialog.open( ) == Dialog.OK)
+		{
+			ThemeHandle themeHandle = dialog.getTheme();
+			try
+			{
+				themeHandle.addCss( dialog.getFileName( ) );
+			}
+			catch ( SemanticException e )
+			{
+				ExceptionHandler.handle( e );
+			}
+		}
+	}
 
 }

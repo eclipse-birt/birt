@@ -16,6 +16,7 @@ import java.util.Iterator;
 
 import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
+import org.eclipse.birt.report.designer.internal.ui.command.ICommandParameterNameContants;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DeleteWarningDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -79,6 +80,13 @@ public class DeleteAction extends AbstractElementAction
 	protected boolean doAction( ) throws Exception
 	{
 
+		Object selection = getSelection( );
+		if(selection != null)
+		{
+			CommandUtils.setVariable( ICommandParameterNameContants.SELECTION,
+					selection );
+		}
+		
 		Object exeResult = null;
 		try
 		{

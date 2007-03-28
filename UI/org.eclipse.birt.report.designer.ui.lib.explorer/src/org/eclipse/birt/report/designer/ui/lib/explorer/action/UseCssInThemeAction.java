@@ -17,8 +17,8 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.dialogs.UseCssInThemeDialog;
 import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewPage;
-import org.eclipse.birt.report.designer.ui.lib.wizards.UseCssInThemeDialog;
 import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -105,21 +105,15 @@ public class UseCssInThemeAction extends Action
 	{
 		CssStyleSheetHandle cssHandle = getSelectedCssStyleHandle();
 		UseCssInThemeDialog dialog = new UseCssInThemeDialog();
-//		String relativeFileName = URIUtil.getRelativePath( ReportPlugin.getDefault( )
-//				.getResourceFolder( ),
-//				cssHandle.getFileName( ) );
 		String relativeFileName = cssHandle.getFileName( );
 		dialog.setFileName( relativeFileName );
 	
 		if(dialog.open( ) == Dialog.OK)
 		{
 			ThemeHandle themeHandle = dialog.getTheme();
-//			issue here
 			try
 			{
 				themeHandle.addCss( cssHandle.getFileName( ) );
-				
-				themeHandle.getAllCssStyleSheets( ).get( 0 );
 
 			}
 			catch ( SemanticException e )

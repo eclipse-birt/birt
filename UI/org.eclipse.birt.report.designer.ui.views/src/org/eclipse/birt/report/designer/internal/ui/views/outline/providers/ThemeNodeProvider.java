@@ -16,6 +16,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.IRequestConstants;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportCSSStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ReloadCssStyleAction;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.UseCssStyleAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
@@ -67,6 +68,7 @@ public class ThemeNodeProvider extends DefaultNodeProvider
 		}
 		
 		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS, new ReloadCssStyleAction(object) );
+		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS, new UseCssStyleAction(object) );
 	}
 
 	public String getNodeDisplayName( Object model )
