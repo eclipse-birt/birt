@@ -15,37 +15,62 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SortKeyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.IFilterCondition;
 import org.eclipse.birt.report.model.api.simpleapi.IMultiRowItem;
 import org.eclipse.birt.report.model.api.simpleapi.ISortCondition;
+import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 
 /**
- * Implements of Listing
+ * Implements of multi row item for extension elements.
  * 
  */
 public class MultiRowItem extends ReportItem implements IMultiRowItem
 {
 
+	private final String filterPropName;
+	private final String sortPropName;
+
 	/**
 	 * Constructor
 	 * 
-	 * @param listing
+	 * @param item
 	 */
-	public MultiRowItem( ListingHandle listing )
+
+	public MultiRowItem( ReportItemHandle item )
 	{
-		super( listing );
+		super( item );
+
+		if ( item instanceof ListingHandle )
+		{
+			filterPropName = IListingElementModel.FILTER_PROP;
+			sortPropName = IListingElementModel.SORT_PROP;
+		}
+		else if ( item instanceof ExtendedItemHandle )
+		{
+			filterPropName = IExtendedItemModel.FILTER_PROP;
+			sortPropName = null;
+		}
+		else
+		{
+			filterPropName = null;
+			sortPropName = null;
+		}
 	}
 
 	public IFilterCondition[] getFilterConditions( )
 	{
-		PropertyHandle propHandle = ( (ListingHandle) handle )
-				.getPropertyHandle( IListingElementModel.FILTER_PROP );
+		if ( filterPropName == null )
+			return null;
+
+		PropertyHandle propHandle = handle.getPropertyHandle( filterPropName );
 		Iterator iterator = propHandle.iterator( );
 
 		List rList = new ArrayList( );
@@ -65,8 +90,10 @@ public class MultiRowItem extends ReportItem implements IMultiRowItem
 
 	public ISortCondition[] getSortConditions( )
 	{
-		PropertyHandle propHandle = ( (ListingHandle) handle )
-				.getPropertyHandle( IListingElementModel.SORT_PROP );
+		if ( sortPropName == null )
+			return null;
+
+		PropertyHandle propHandle = handle.getPropertyHandle( sortPropName );
 		Iterator iterator = propHandle.iterator( );
 
 		List rList = new ArrayList( );
@@ -93,10 +120,10 @@ public class MultiRowItem extends ReportItem implements IMultiRowItem
 	public void addFilterCondition( IFilterCondition condition )
 			throws SemanticException
 	{
-		if ( condition == null )
+
+		if ( filterPropName == null || condition == null )
 			return;
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( IListingElementModel.FILTER_PROP );
+		PropertyHandle propHandle = handle.getPropertyHandle( filterPropName );
 		propHandle.addItem( condition.getStructure( ) );
 	}
 
@@ -110,10 +137,9 @@ public class MultiRowItem extends ReportItem implements IMultiRowItem
 	public void addSortCondition( ISortCondition condition )
 			throws SemanticException
 	{
-		if ( condition == null )
+		if ( sortPropName == null || condition == null )
 			return;
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( IListingElementModel.SORT_PROP );
+		PropertyHandle propHandle = handle.getPropertyHandle( sortPropName );
 
 		propHandle.addItem( condition.getStructure( ) );
 	}
@@ -121,16 +147,20 @@ public class MultiRowItem extends ReportItem implements IMultiRowItem
 	public void removeFilterCondition( IFilterCondition condition )
 			throws SemanticException
 	{
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( IListingElementModel.FILTER_PROP );
+		if ( filterPropName == null )
+			return;
+
+		PropertyHandle propHandle = handle.getPropertyHandle( filterPropName );
 
 		propHandle.removeItem( condition.getStructure( ) );
 	}
 
 	public void removeFilterConditions( ) throws SemanticException
 	{
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( IListingElementModel.FILTER_PROP );
+		if ( filterPropName == null )
+			return;
+
+		PropertyHandle propHandle = handle.getPropertyHandle( filterPropName );
 
 		propHandle.clearValue( );
 	}
@@ -138,16 +168,20 @@ public class MultiRowItem extends ReportItem implements IMultiRowItem
 	public void removeSortCondition( ISortCondition condition )
 			throws SemanticException
 	{
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( IListingElementModel.SORT_PROP );
+		if ( sortPropName == null )
+			return;
+
+		PropertyHandle propHandle = handle.getPropertyHandle( sortPropName );
 		propHandle.removeItem( condition.getStructure( ) );
 
 	}
 
 	public void removeSortConditions( ) throws SemanticException
 	{
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( IListingElementModel.SORT_PROP );
+		if ( sortPropName == null )
+			return;
+
+		PropertyHandle propHandle = handle.getPropertyHandle( sortPropName );
 		propHandle.clearValue( );
 
 	}

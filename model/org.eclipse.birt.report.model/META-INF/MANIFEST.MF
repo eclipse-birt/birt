@@ -36,7 +36,6 @@ Export-Package: org.eclipse.birt.report.model.activity;x-friends:="org.eclipse.b
  org.eclipse.birt.report.model.metadata,
  org.eclipse.birt.report.model.metadata.validators;x-friends:="org.eclipse.birt.report.model.tests",
  org.eclipse.birt.report.model.parser,
- org.eclipse.birt.report.model.simpleapi;x-friends:="org.eclipse.birt.report.model.tests",
  org.eclipse.birt.report.model.util;x-friends:="org.eclipse.birt.report.model.tests",
  org.eclipse.birt.report.model.validators;x-friends:="org.eclipse.birt.report.model.tests",
  org.eclipse.birt.report.model.writer;x-friends:="org.eclipse.birt.report.model.tests"
