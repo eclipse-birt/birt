@@ -74,28 +74,18 @@ public class ReportLocationListener implements LocationListener
 					}
 				}
 				event.doit = false;
-				Display.getCurrent( ).asyncExec( new Runnable(){
+				Display.getCurrent( ).asyncExec( new Runnable( ) {
 
 					public void run( )
 					{
 
-//						try
-//						{
-//							viewer.renderReport( (String) options.get( "__report" ), options ); //$NON-NLS-1$
-//							browser.setUrl( reportGenerator.generateHTML( options ) );
-//						}
-//						catch ( EngineException e )
-//						{
-//							// TODO Auto-generated catch block
-//							e.printStackTrace( );
-//						}
-//						catch ( IOException e )
-//						{
-//							// TODO Auto-generated catch block
-//							e.printStackTrace( );
-//						}
-						
-					}} );
+						viewer.setReportDesignFile( (String) options.get( "__report" ) );
+						viewer.setParamValues( options );
+						viewer.setCurrentPage( 1 );
+						viewer.render( );
+
+					}
+				} );
 			}
 			catch ( UnsupportedEncodingException e )
 			{

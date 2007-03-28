@@ -25,22 +25,20 @@ public class RenderJobRunner
 	private static IProgressService service = PlatformUI.getWorkbench( )
 			.getProgressService( );
 
-	private static RenderJobRule jobRule = new RenderJobRule( );
-
-	public static void runRenderJob( Job runJob )
+	public static void runRenderJob( Job runJob, RenderJobRule jobRule )
 	{
-//		boolean showDialog = true;
-//		if ( Display.getCurrent( ) == null )
-//			showDialog = false;
-//
-//		Shell shell = PlatformUI.getWorkbench( )
-//				.getActiveWorkbenchWindow( )
-//				.getShell( );
+		//		boolean showDialog = true;
+		//		if ( Display.getCurrent( ) == null )
+		//			showDialog = false;
+		//
+		//		Shell shell = PlatformUI.getWorkbench( )
+		//				.getActiveWorkbenchWindow( )
+		//				.getShell( );
 
-//		if ( showDialog )
-//		{
-//			service.showInDialog( shell, runJob );
-//		}
+		//		if ( showDialog )
+		//		{
+		//			service.showInDialog( shell, runJob );
+		//		}
 
 		//		runJob.setProperty( IProgressConstants.ICON_PROPERTY, image );
 		runJob.setUser( true );

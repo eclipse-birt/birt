@@ -5,5 +5,20 @@
         point="org.eclipse.birt.report.designer.ui.preview.viewers">
         <viewer class="org.eclipse.birt.report.designer.ui.viewer.StaticHTMLViewer"
               id="org.eclipse.birt.report.designer.ui.preview.static_html"/>
+    </extension>
+    <extension
+          point="org.eclipse.ui.preferencePages">
+       <page
+             category="org.eclipse.birt.report.designer.ui.preferences"
+             class="org.eclipse.birt.report.designer.ui.preview.static_html.preferences.PreferencePage"
+             id="org.eclipse.birt.report.designer.ui.preview.static_html.preferences.PreferencePage"
+             name="New Preview Prototype Preferences">
+       </page>
+    </extension>
+    <extension
+          point="org.eclipse.core.runtime.preferences">
+       <initializer
+             class="org.eclipse.birt.report.designer.ui.preview.static_html.preferences.PreferenceInitializer">
+       </initializer>
     </extension>  
 </plugin>

@@ -43,6 +43,8 @@ public abstract class AbstractViewer implements IViewer
 
 	private IReportEngine engine;
 
+	private static String RPTDOC_SUFFIX = "rptdocument"; //$NON-NLS-1$
+
 	public void init( )
 	{
 		EngineConfig engineConfig = getEngineConfig( );
@@ -64,52 +66,19 @@ public abstract class AbstractViewer implements IViewer
 
 	protected abstract EngineConfig getEngineConfig( );
 
-	//	protected String createReportDocument( String reportDesignFile,
-	//			Map parameters ) throws IOException, EngineException
-	//	{
-	//		File designFile = new File( reportDesignFile );
-	//
-	//		File reportDocumentFile = File.createTempFile( designFile.getName( ),
-	//				"rptdocument",
-	//				designFile.getParentFile( ) );
-	//
-	//		IDocArchiveWriter archive = new FileArchiveWriter( reportDocumentFile.getAbsolutePath( ) );
-	//		IReportRunnable report = engine.openReportDesign( reportDesignFile );
-	//		IRunTask runTask = engine.createRunTask( report );
-	//		try
-	//		{
-	//			if ( parameters != null )
-	//			{
-	//				runTask.setParameterValues( parameters );
-	//			}
-	//			runTask.setAppContext( Collections.EMPTY_MAP );
-	//			runTask.run( archive );
-	//		}
-	//		catch ( EngineException e )
-	//		{
-	//			throw e;
-	//		}
-	//		finally
-	//		{
-	//			runTask.close( );
-	//			report = null;
-	//			runTask = null;
-	//		}
-	//		return reportDocumentFile.getAbsolutePath( );
-	//	}
-
-
-	protected long createReportOutput( String reportDesignFile,
-			String outputFolder, String outputFileName, Map parameters,
-			long pageNumber ) throws EngineException, IOException
+	protected String createReportDocument( String reportDesignFile,
+			String outputFolder, Map parameters ) throws IOException,
+			EngineException
 	{
 		File designFile = new File( reportDesignFile );
 
-		//create report document
-		File reportDocumentFile = new File( outputFolder, designFile.getName( )
-				+ ".rptdocument" );
+		String reportDocumentFile = outputFolder
+				+ File.separator
+				+ designFile.getName( )
+				+ "."
+				+ RPTDOC_SUFFIX;
 
-		IDocArchiveWriter archive = new FileArchiveWriter( reportDocumentFile.getAbsolutePath( ) );
+		IDocArchiveWriter archive = new FileArchiveWriter( reportDocumentFile );
 		IReportRunnable report = engine.openReportDesign( reportDesignFile );
 		IRunTask runTask = engine.createRunTask( report );
 		try
@@ -131,15 +100,54 @@ public abstract class AbstractViewer implements IViewer
 			report = null;
 			runTask = null;
 		}
+		return reportDocumentFile;
+	}
 
-		IReportDocument document = engine.openReportDocument( reportDocumentFile.getAbsolutePath( ) );
+	protected IReportDocument openReportDocument( String reportDocumentFile )
+			throws EngineException
+	{
+		return engine.openReportDocument( reportDocumentFile );
+	}
+
+	protected long createReportOutput( String reportDocumentFile,
+			String outputFile, Map parameters, long pageNumber )
+			throws EngineException, IOException
+	{
+		//		File designFile = new File( reportDesignFile );
+		//
+		//		//create report document
+		//		File reportDocumentFile = new File( outputFolder, designFile.getName( )
+		//				+ ".rptdocument" );
+		//
+		//		IDocArchiveWriter archive = new FileArchiveWriter( reportDocumentFile.getAbsolutePath( ) );
+		//		IReportRunnable report = engine.openReportDesign( reportDesignFile );
+		//		IRunTask runTask = engine.createRunTask( report );
+		//		try
+		//		{
+		//			if ( parameters != null )
+		//			{
+		//				runTask.setParameterValues( parameters );
+		//			}
+		//			runTask.setAppContext( Collections.EMPTY_MAP );
+		//			runTask.run( archive );
+		//		}
+		//		catch ( EngineException e )
+		//		{
+		//			throw e;
+		//		}
+		//		finally
+		//		{
+		//			runTask.close( );
+		//			report = null;
+		//			runTask = null;
+		//		}
+
+		IReportDocument document = engine.openReportDocument( reportDocumentFile );
 		long pageCount = document.getPageCount( );
 		IRenderTask task = engine.createRenderTask( document );
 
 		IRenderOption renderOption = getRenderOption( );
-		renderOption.setOutputFileName( outputFolder
-				+ File.separator
-				+ outputFileName );
+		renderOption.setOutputFileName( outputFile );
 
 		try
 		{
@@ -155,11 +163,12 @@ public abstract class AbstractViewer implements IViewer
 		{
 			task.close( );
 			task = null;
+			document.close( );
 			document = null;
 		}
 		return pageCount;
 	}
-	
+
 	protected List getInputParameters( String reportDesignFile )
 	{
 		try

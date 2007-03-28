@@ -16,14 +16,17 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.text.MessageFormat;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.controller.InputParameterDialog;
 import org.eclipse.birt.report.designer.ui.preview.editors.SWTAbstractViewer;
 import org.eclipse.birt.report.designer.ui.preview.static_html.StaticHTMLPrviewPlugin;
 import org.eclipse.birt.report.designer.ui.viewer.job.AbstractJob;
 import org.eclipse.birt.report.designer.ui.viewer.job.AbstractUIJob;
+import org.eclipse.birt.report.designer.ui.viewer.job.RenderJobRule;
 import org.eclipse.birt.report.designer.ui.viewer.job.RenderJobRunner;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -33,20 +36,27 @@ import org.eclipse.birt.report.engine.api.HTMLEmitterConfig;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IAction;
 import org.eclipse.birt.report.engine.api.IRenderOption;
+import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.RenderOption;
+import org.eclipse.birt.report.engine.api.TOCNode;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ContributionItem;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
@@ -62,52 +72,69 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
+import com.ibm.icu.util.ULocale;
+
 public class StaticHTMLViewer extends SWTAbstractViewer
 {
-
-	private static final String TMP_FOLDER = System.getProperty( "java.io.tmpdir" ) + "BIRT"; //$NON-NLS-1$ //$NON-NLS-2$
 
 	private static final String TITLE_MESSAGE = "Showing page {0} of {1}";
 
 	private final HTMLRenderOption renderOption = new HTMLRenderOption( );
 	private final EngineConfig engineConfig = new HyperlinkEngineConfig( );
 
+	/**
+	 * Embedded web browser.
+	 */
 	private Browser browser = null;
-	private File indexPageFile = null;
+
+	private boolean hasParas;
+
+	private long currentPageNum = 1;
+
+	private long totalPageNum = 0;
+
+	private String currentBookmark;
+
+	private String preReportDesignFile;
+
+	private boolean isTocUpdate;
 
 	/**
 	 * The report design file to render.
 	 */
 	private String reportDesignFile;
 
+	private String reportDocumentFile;
+
 	/**
 	 * The parameter values for current report design.
 	 */
-	private Map paramValues;
+	private Map paramValues = new HashMap( );
 
 	/**
 	 * The render output file path.
 	 */
 	private String outputLocation;
 
+	/**
+	 * 
+	 */
 	private boolean isInitialize;
 
+	//UI controls
 	private FormToolkit toolkit;
 
 	private Form form;
 
 	private SashForm sashForm;
 
-	private Action paramAction;
-
-	private Action tocAction;
-
 	private Composite browserContainer;
 
 	private List inputParameters;
 
-	private long currentPageNum = 1;
-	private long totalPageNum = 0;
+	private Action paramAction;
+
+	private Action tocAction;
 
 	private Action navFirstAction;
 
@@ -120,6 +147,10 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 	private Action navGoAction;
 
 	private Text goPageInput;
+
+	private TreeViewer tocViewer;
+
+	//end UI controls
 
 	public void init( )
 	{
@@ -171,7 +202,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 				.get( JFaceResources.BANNER_FONT ) );
 		form.setImage( StaticHTMLPrviewPlugin.getDefault( )
 				.getImageRegistry( )
-				.get( "form_title.gif" ) );
+				.get( StaticHTMLPrviewPlugin.IMG_FORM_TITLE ) );
 
 		toolkit.decorateFormHeading( form );
 		form.setLayoutData( new GridData( GridData.FILL_BOTH ) );
@@ -312,29 +343,37 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 				goPageInput.setFont( container.getFont( ) );
 
 				goPageInput.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-				//				goPageInput.addKeyListener( new KeyAdapter( ) {
-				//
-				//					public void keyPressed( KeyEvent e )
-				//					{
-				//						if ( e.keyCode != SWT.DEL && e.keyCode != SWT.BS )
-				//						{
-				//							try
-				//							{
-				//								long page = Long.parseLong( goPageInput.getText( )
-				//										+ e.character );
-				//								if ( page > 0 && page <= totalPageNum )
-				//									e.doit = true;
-				//								else
-				//									e.doit = false;
-				//							}
-				//							catch ( NumberFormatException e1 )
-				//							{
-				//								e.doit = false;
-				//							}
-				//						}
-				//					}
-				//
-				//				} );
+				goPageInput.addKeyListener( new KeyAdapter( ) {
+
+					public void keyPressed( KeyEvent e )
+					{
+						//						if ( e.keyCode != SWT.DEL && e.keyCode != SWT.BS )
+						//						{
+						//							try
+						//							{
+						//								long page = Long.parseLong( goPageInput.getText( )
+						//										+ e.character );
+						//								if ( page > 0 && page <= totalPageNum )
+						//									e.doit = true;
+						//								else
+						//									e.doit = false;
+						//							}
+						//							catch ( NumberFormatException e1 )
+						//							{
+						//								e.doit = false;
+						//							}
+						//						}
+						if ( e.character == SWT.LF || e.character == SWT.CR )
+						{
+							if ( navGoAction.isEnabled( ) )
+							{
+								currentPageNum = Long.parseLong( goPageInput.getText( ) );
+								render( );
+							}
+						}
+					}
+
+				} );
 
 				goPageInput.addModifyListener( new ModifyListener( ) {
 
@@ -448,6 +487,8 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 		browser = new Browser( browserContainer, SWT.NONE );
 		browser.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
+		browser.addLocationListener( new ReportLocationListener( browser, this ) );
+
 		sashForm.setMaximizedControl( browserContainer );
 
 	}
@@ -467,7 +508,67 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 		toolkit.createLabel( toc, "Table of Contents:" );
 		Tree t = toolkit.createTree( toc, SWT.NULL );
 		t.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		tocViewer = new TreeViewer( t );
+		//TODO config viewer
+
+		tocViewer.setLabelProvider( new TOCLableProvider( ) {
+		} );
+		tocViewer.setContentProvider( new TOCContentProvider( ) {
+		} );
+
+		tocViewer.addSelectionChangedListener( new ISelectionChangedListener( ) {
+
+			public void selectionChanged( SelectionChangedEvent event )
+			{
+				if ( reportDocumentFile != null )
+				{
+					StructuredSelection selection = (StructuredSelection) event.getSelection( );
+					TOCNode node = (TOCNode) selection.getFirstElement( );
+					try
+					{
+						IReportDocument document = openReportDocument( reportDocumentFile );
+						serCurrentBookmark( node.getBookmark( ) );
+						setCurrentPage( document.getPageNumber( node.getBookmark( ) ) );
+						document.close( );
+						render( );
+					}
+					catch ( EngineException e )
+					{
+						ExceptionHandler.handle( e );
+					}
+				}
+			}
+		} );
+
 		toolkit.paintBordersFor( toc );
+	}
+
+	protected void serCurrentBookmark( String bookmark )
+	{
+		this.currentBookmark = bookmark;
+	}
+
+	protected void refreshTOC( )
+	{
+		if ( !this.isTocUpdate )
+		{
+			if ( reportDocumentFile != null )
+			{
+				try
+				{
+					IReportDocument document = openReportDocument( reportDocumentFile );
+					tocViewer.setInput( document.getTOCTree( DesignChoiceConstants.FORMAT_TYPE_VIEWER,
+							ULocale.getDefault( ) )
+							.getRoot( ) );
+					document.close( );
+				}
+				catch ( EngineException e )
+				{
+					ExceptionHandler.handle( e );
+				}
+			}
+			this.isTocUpdate = true;
+		}
 	}
 
 	/*
@@ -506,7 +607,23 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 	public void setInput( final Object input )
 	{
 		if ( input instanceof String )
-			this.reportDesignFile = (String) input;
+			setReportDesignFile( (String) input );
+	}
+
+	public Map getParamValues( )
+	{
+		return paramValues;
+	}
+
+	public void setParamValues( Map paramValues )
+	{
+		this.paramValues = paramValues;
+	}
+
+	public void setReportDesignFile( String reportDesignFile )
+	{
+		this.reportDesignFile = reportDesignFile;
+		this.isTocUpdate = false;
 	}
 
 	/**
@@ -528,6 +645,8 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 	{
 		if ( params != null && params.size( ) > 0 )
 		{
+			this.hasParas = true;
+
 			InputParameterDialog dialog = new InputParameterDialog( Display.getCurrent( )
 					.getActiveShell( ),
 					params,
@@ -540,6 +659,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 		}
 		else
 		{
+			this.hasParas = false;
 			paramAction.setEnabled( false );
 			paramAction.setToolTipText( "No Parameters" );
 		}
@@ -564,49 +684,50 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 		}
 
 		File reportFile = new File( reportDesignFile );
+		String outputFolder = getOutputFolder( reportFile );
+
+		this.outputLocation = outputFolder
+				+ File.separator
+				+ reportFile.getName( )
+				+ ".html";
 		try
 		{
 			if ( currentPageNum > 0 )
 			{
 				try
 				{
-					this.outputLocation = TMP_FOLDER
-							+ File.separator
-							+ reportFile.getName( )
-							+ ".html";
-					this.totalPageNum = createReportOutput( reportDesignFile,
-							TMP_FOLDER,
-							reportFile.getName( ) + ".html",
+					this.reportDocumentFile = createReportDocument( reportDesignFile,
+							outputFolder,
+							this.paramValues );
+					this.totalPageNum = createReportOutput( this.reportDocumentFile,
+							this.outputLocation,
 							this.paramValues,
 							currentPageNum );
 				}
 				catch ( EngineException e )
 				{
+					e.printStackTrace( );
 				}
 			}
-			else
-			{
-				do
-				{
-					try
-					{
-						createReportOutput( reportDesignFile,
-								TMP_FOLDER,
-								reportFile.getName( )
-										+ "-"
-										+ currentPageNum
-										+ ".html",
-								this.paramValues,
-								currentPageNum );
-					}
-					catch ( EngineException e )
-					{
-						break;
-					}
-					currentPageNum++;
-				} while ( true );
-				this.outputLocation = reportFile.getName( ) + "-1.html";
-			}
+			//			else
+			//			{
+			//				do
+			//				{
+			//					try
+			//					{
+			//						createReportOutput( reportDesignFile,
+			//								this.outputLocation,
+			//								this.paramValues,
+			//								currentPageNum );
+			//					}
+			//					catch ( EngineException e )
+			//					{
+			//						break;
+			//					}
+			//					currentPageNum++;
+			//				} while ( true );
+			//				this.outputLocation = reportFile.getName( ) + "-1.html";
+			//			}
 
 			//			try
 			//			{
@@ -636,12 +757,28 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 		monitor.worked( 3 );
 	}
 
+	private String getOutputFolder( File file )
+	{
+		return StaticHTMLPrviewPlugin.getDefault( ).getTempFolder( )
+				+ File.separator
+				+ file.getName( );
+	}
+
 	public void render( )
 	{
 		form.setText( "Running report..." );
 		form.setBusy( true );
 
-		Job initJob = new AbstractJob( ) {
+		paramAction.setEnabled( false );
+		tocAction.setEnabled( false );
+		navFirstAction.setEnabled( false );
+		navPreAction.setEnabled( false );
+		navNextAction.setEnabled( false );
+		navLastAction.setEnabled( false );
+		navGoAction.setEnabled( false );
+
+		Job initJob = new AbstractJob( "Initialize engine",
+				this.reportDesignFile ) {
 
 			public void work( IProgressMonitor monitor )
 			{
@@ -651,28 +788,13 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 					init( );
 					isInitialize = true;
 				}
-			}
-		};
-
-		final Job prepairParameterJob = new AbstractJob( ) {
-
-			public void work( IProgressMonitor monitor )
-			{
 				monitor.subTask( "Prepair collect parameters" );
 				setParameters( getInputParameters( reportDesignFile ) );
 			}
 		};
 
-		initJob.addJobChangeListener( new JobChangeAdapter( ) {
-
-			public void done( IJobChangeEvent event )
-			{
-				super.done( event );
-				RenderJobRunner.runRenderJob( prepairParameterJob );
-			}
-		} );
-
-		final Job getParameterJob = new AbstractUIJob( ) {
+		Job getParameterJob = new AbstractUIJob( "Collecting parameters",
+				this.reportDesignFile ) {
 
 			public void work( IProgressMonitor monitor )
 			{
@@ -680,42 +802,50 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 				getParameterValues( inputParameters );
 			}
 		};
+		getParameterJob.setSystem( true );
 
-		prepairParameterJob.addJobChangeListener( new JobChangeAdapter( ) {
+		//		initJob.addJobChangeListener( new JobChangeAdapter( ) {
+		//
+		//			public void done( IJobChangeEvent event )
+		//			{
+		//				super.done( event );
+		////				RenderJobRunner.runRenderJob( getParameterJob );
+		//			}
+		//		} );
 
-			public void done( IJobChangeEvent event )
-			{
-				super.done( event );
-				RenderJobRunner.runRenderJob( getParameterJob );
-			}
-		} );
-
-		final Job renderJob = new AbstractJob( ) {
+		Job renderJob = new AbstractJob( "Rendering report",
+				this.reportDesignFile ) {
 
 			public void work( IProgressMonitor monitor )
 			{
-				monitor.subTask( "Collecting parameters" );
+				monitor.subTask( reportDesignFile );
 				renderReport( monitor );
 			}
 		};
 
-		getParameterJob.addJobChangeListener( new JobChangeAdapter( ) {
+		//		getParameterJob.addJobChangeListener( new JobChangeAdapter( ) {
+		//
+		//			public void done( IJobChangeEvent event )
+		//			{
+		//				super.done( event );
+		////				RenderJobRunner.runRenderJob( renderJob );
+		//			}
+		//		} );
 
-			public void done( IJobChangeEvent event )
-			{
-				super.done( event );
-				RenderJobRunner.runRenderJob( renderJob );
-			}
-		} );
-
-		final Job showJob = new AbstractUIJob( ) {
+		Job showJob = new AbstractUIJob( "Showing report",
+				this.reportDesignFile ) {
 
 			public void work( IProgressMonitor monitor )
 			{
 				monitor.subTask( "Show report in Browser" );
 				if ( !form.isDisposed( ) )
 				{
+					//										browser.setUrl( outputLocation
+					//												+ ( currentBookmark == null ? ""
+					//														: ( "#" + currentBookmark ) ) );
 					browser.setUrl( outputLocation );
+					//if special the anchor, SWT browser will not refresh
+					//					browser.refresh( );
 					if ( currentPageNum < totalPageNum )
 					{
 						navNextAction.setEnabled( true );
@@ -737,26 +867,49 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 						navFirstAction.setEnabled( false );
 					}
 					goPageInput.setText( currentPageNum + "" );
+					refreshTOC( );
+				}
+			}
+		};
+		showJob.setSystem( true );
+
+		Job updateFormJob = new AbstractUIJob( "Update", "" ) {
+
+			public void work( IProgressMonitor monitor )
+			{
+				if ( !form.isDisposed( ) )
+				{
 					form.setBusy( false );
 					form.setText( MessageFormat.format( TITLE_MESSAGE,
 							new Object[]{
 									new Long( currentPageNum ),
 									new Long( totalPageNum )
 							} ) );
+					navGoAction.setEnabled( true );
+					paramAction.setEnabled( hasParas );
+					tocAction.setEnabled( true );
 				}
 			}
 		};
+		updateFormJob.setSystem( true );
 
-		renderJob.addJobChangeListener( new JobChangeAdapter( ) {
+		//		renderJob.addJobChangeListener( new JobChangeAdapter( ) {
+		//
+		//			public void done( IJobChangeEvent event )
+		//			{
+		//				super.done( event );
+		////				RenderJobRunner.runRenderJob( showJob );
+		//			}
+		//		} );
 
-			public void done( IJobChangeEvent event )
-			{
-				super.done( event );
-				RenderJobRunner.runRenderJob( showJob );
-			}
-		} );
+		RenderJobRule jobRule = new RenderJobRule( this.reportDesignFile );
 
-		RenderJobRunner.runRenderJob( initJob );
+		RenderJobRunner.runRenderJob( initJob, jobRule );
+		RenderJobRunner.runRenderJob( getParameterJob, jobRule );
+		RenderJobRunner.runRenderJob( renderJob, jobRule );
+		RenderJobRunner.runRenderJob( showJob, jobRule );
+		RenderJobRunner.runRenderJob( updateFormJob, jobRule );
+
 		//		Display.getCurrent( ).asyncExec( new Runnable( ) {
 		//
 		//			public void run( )
@@ -776,6 +929,16 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 	protected void setParameters( List inputParameters )
 	{
 		this.inputParameters = inputParameters;
+	}
+
+	public void setCurrentPage( long page )
+	{
+		this.currentPageNum = page;
+	}
+
+	public long getCurrentPage( )
+	{
+		return this.currentPageNum;
 	}
 
 }

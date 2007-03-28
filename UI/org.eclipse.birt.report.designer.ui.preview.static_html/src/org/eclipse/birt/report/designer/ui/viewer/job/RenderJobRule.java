@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.ui.viewer.job;
 
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 
-
 /**
  * 
  */
@@ -21,14 +20,38 @@ import org.eclipse.core.runtime.jobs.ISchedulingRule;
 public class RenderJobRule implements ISchedulingRule
 {
 
+	private String designFile;
+
+	public RenderJobRule( String designFile )
+	{
+		this.designFile = designFile;
+	}
+
+	public String getDesignFile( )
+	{
+		return this.designFile;
+	}
+
 	public boolean contains( ISchedulingRule rule )
 	{
-		return rule.getClass() == RenderJobRule.class;
+		if ( rule instanceof RenderJobRule
+				&& ( (RenderJobRule) rule ).getDesignFile( )
+						.equals( getDesignFile( ) ) )
+		{
+			return true;
+		}
+		return false;
 	}
 
 	public boolean isConflicting( ISchedulingRule rule )
 	{
-        return rule.getClass() == RenderJobRule.class;
+		if ( rule instanceof RenderJobRule
+				&& ( (RenderJobRule) rule ).getDesignFile( )
+						.equals( getDesignFile( ) ) )
+		{
+			return true;
+		}
+		return false;
 	}
 
 }

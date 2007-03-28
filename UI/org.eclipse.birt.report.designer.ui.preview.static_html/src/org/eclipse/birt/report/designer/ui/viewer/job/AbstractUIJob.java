@@ -25,11 +25,12 @@ import org.eclipse.ui.progress.UIJob;
 public abstract class AbstractUIJob extends UIJob
 {
 
-	private static String name = "Rendering Report";
+	private String designFile;
 
-	public AbstractUIJob( )
+	public AbstractUIJob( String name, String designFile )
 	{
 		super( name );
+		this.designFile = designFile;
 	}
 
 	public IStatus runInUIThread( IProgressMonitor monitor )
@@ -37,6 +38,13 @@ public abstract class AbstractUIJob extends UIJob
 		IStatus returnValue = Status.OK_STATUS;
 		setPriority( Job.SHORT );
 		monitor.beginTask( getName( ), IProgressMonitor.UNKNOWN );
+
+		if ( monitor.isCanceled( ) )
+		{
+			Job.getJobManager( ).cancel( this.designFile );
+			return Status.CANCEL_STATUS;
+		}
+
 		try
 		{
 			work( monitor );
@@ -48,6 +56,7 @@ public abstract class AbstractUIJob extends UIJob
 					500,
 					e.getMessage( ),
 					e );
+			Job.getJobManager( ).cancel( this.designFile );
 		}
 		finally
 		{
@@ -55,8 +64,18 @@ public abstract class AbstractUIJob extends UIJob
 		}
 
 		if ( monitor.isCanceled( ) )
+		{
+			Job.getJobManager( ).cancel( this.designFile );
 			returnValue = Status.CANCEL_STATUS;
+		}
 		return returnValue;
+	}
+
+	public boolean belongsTo( Object family )
+	{
+		if ( family != null && family.equals( this.designFile ) )
+			return true;
+		return super.belongsTo( family );
 	}
 
 	public abstract void work( IProgressMonitor monitor );
