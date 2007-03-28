@@ -107,7 +107,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	public final String[] getPreviewHeader( ) throws ChartException
 	{
-		Iterator iterator = getColumnDataBindings( );
+		Iterator iterator = getColumnDataBindings( itemHandle );
 		ArrayList list = new ArrayList( );
 		while ( iterator.hasNext( ) )
 		{
@@ -134,35 +134,37 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		return exps;
 	}
-
-	/**
-	 * Returns column bindings of current handle or the combination with nearest
-	 * container
+	
+		/**
+	 * Gets all column bindings from handle and its container
 	 * 
+	 * @param itemHandle
+	 *            handle
+	 * @return Iterator of all bindings
 	 */
-	private Iterator getColumnDataBindings( )
+	static Iterator getColumnDataBindings( ReportItemHandle itemHandle )
 	{
-		// if ( getBoundDataSet( ) != null )
-		// {
-		// return itemHandle.columnBindingsIterator( );
-		// }
-		// DesignElementHandle handle = DEUtil.getBindingHolder( itemHandle );
-		// if ( handle instanceof ReportItemHandle )
-		// {
-		// ArrayList list = new ArrayList( );
-		// Iterator i = ( (ReportItemHandle) handle ).columnBindingsIterator( );
-		// while ( i.hasNext( ) )
-		// {
-		// list.add( i.next( ) );
-		// }
-		// i = itemHandle.columnBindingsIterator( );
-		// while ( i.hasNext( ) )
-		// {
-		// list.add( i.next( ) );
-		// }
-		// return list.iterator( );
-		// }
-		return itemHandle.columnBindingsIterator( );
+		if ( itemHandle.getDataSet( ) != null )
+		{
+			return itemHandle.columnBindingsIterator( );
+		}
+		DesignElementHandle handle = DEUtil.getBindingHolder( itemHandle );
+		if ( handle instanceof ReportItemHandle )
+		{
+			ArrayList list = new ArrayList( );
+			Iterator i = ( (ReportItemHandle) handle ).columnBindingsIterator( );
+			while ( i.hasNext( ) )
+			{
+				list.add( i.next( ) );
+			}
+			i = itemHandle.columnBindingsIterator( );
+			while ( i.hasNext( ) )
+			{
+				list.add( i.next( ) );
+			}
+			return list.iterator( );
+		}
+		return null;
 	}
 
 	protected final List getPreviewRowData( String[] columnExpression,
@@ -199,7 +201,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 							.iterator( ),
 					itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP )
 							.iterator( ),
-					getColumnDataBindings( ) );
+					getColumnDataBindings( itemHandle ) );
 			if ( actualResultSet != null )
 			{
 				String[] expressions = columnExpression;
@@ -270,34 +272,30 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	public void setDataSet( String datasetName )
 	{
-		boolean needClean = true;
+		boolean needClean = false;
+		boolean needAddBinding = false;
 		try
 		{
 			if ( datasetName == null )
 			{
-				// Do nothing if column bindings from container exist or no
-				// inheritance in initialization
-				if ( getBoundDataSet( ) == null
-						&& ( getReportDataSet( ) == null || itemHandle.columnBindingsIterator( )
-								.hasNext( ) ) )
-				{
-					needClean = false;
-				}
-				else
+				if ( getReportDataSet( ) != null )
 				{
 					itemHandle.setDataSet( null );
+
+					// Clean old bindings and use container's binding
+					needClean = true;
 				}
 			}
 			else
 			{
 				DataSetHandle dataset = getReportDesignHandle( ).findDataSet( datasetName );
-				if ( itemHandle.getDataSet( ) == dataset )
-				{
-					needClean = false;
-				}
-				else
+				if ( itemHandle.getDataSet( ) != dataset )
 				{
 					itemHandle.setDataSet( dataset );
+					
+					// Clean old bindings and add new bindings
+					needClean = true;
+					needAddBinding = true;
 				}
 			}
 			if ( needClean )
@@ -308,7 +306,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP )
 						.clearValue( );
 				itemHandle.getColumnBindings( ).clearValue( );
+			}
 
+			if ( needAddBinding )
+			{
+				// Add binding from current dataset
 				List columnList = generateComputedColumns( itemHandle );
 				if ( columnList.size( ) > 0 )
 				{
@@ -456,7 +458,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 			protected List getBindingList( DesignElementHandle inputElement )
 			{
-				Iterator iterator = getColumnDataBindings( );
+				Iterator iterator = getColumnDataBindings( itemHandle );
 				List list = new ArrayList( );
 				while ( iterator.hasNext( ) )
 				{

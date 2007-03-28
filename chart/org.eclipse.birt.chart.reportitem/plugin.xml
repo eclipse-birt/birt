@@ -59,5 +59,12 @@
             class="org.eclipse.birt.chart.reportitem.ChartReportItemGenerationImpl"
             name="Chart"/>
    </extension>
+   <extension
+         point="org.eclipse.birt.report.engine.reportitemQuery">
+      <reportItem
+            getAllRows="true"
+            name="Chart">
+      </reportItem>
+   </extension>
    
 </plugin>
