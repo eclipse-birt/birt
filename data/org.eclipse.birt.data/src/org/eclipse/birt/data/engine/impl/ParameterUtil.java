@@ -30,7 +30,6 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odaconsumer.ParameterHint;
-import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
@@ -265,37 +264,41 @@ class ParameterUtil
 		Object evaluateResult = null;
 		Scriptable evaluateScope = scope;
 		
-		if ( outerResults != null )
+		try
 		{
-			try
-			{
-				evaluateResult = ExprEvaluateUtil.evaluateRawExpression2( iParamBind.getExpr( ),
-						outerResults.getQueryScope( ) );
-			}
-			catch ( BirtException e )
-			{
-				//do not expect a exception here.
-				DataException dataEx = new DataException( ResourceConstants.UNEXPECTED_ERROR,
-						e );
-				if ( logger != null )
-					logger.logp( Level.FINE,
-							PreparedOdaDSQuery.class.getName( ),
-							"getMergedParameters",
-							"Error occurs in IQueryResults.getResultIterator()",
-							e );
-				throw dataEx;
-			}
+			evaluateResult = ExprEvaluateUtil.evaluateRawExpression2( iParamBind.getExpr( ),
+					outerResults == null ? evaluateScope
+							: outerResults.getQueryScope( ) );
 		}
-		
-		if ( evaluateResult == null )
-			evaluateResult = ScriptEvalUtil.evalExpr( iParamBind.getExpr( ),
-					cx,
-					evaluateScope,
-					"ParamBinding(" + iParamBind.getName( ) + ")",
-					0 );
-
-		if ( evaluateResult == null )
-			throw new DataException( ResourceConstants.DEFAULT_INPUT_PARAMETER_VALUE_CANNOT_BE_NULL );
+		catch ( BirtException e )
+		{
+			// do not expect a exception here.
+			DataException dataEx = new DataException( ResourceConstants.UNEXPECTED_ERROR,
+					e );
+			if ( logger != null )
+				logger.logp( Level.FINE,
+						PreparedOdaDSQuery.class.getName( ),
+						"getMergedParameters",
+						"Error occurs in IQueryResults.getResultIterator()",
+						e );
+			throw dataEx;
+		}
+		//TODO throw DataException
+// if( evaluateResult instanceof DataExceptionMocker )
+//			{
+//				BirtException e = ((DataExceptionMocker) evaluateResult).getCause( );
+//				DataException dataEx = new DataException( ResourceConstants.UNEXPECTED_ERROR,
+//						e );
+//				if ( logger != null )
+//					logger.logp( Level.FINE,
+//							PreparedOdaDSQuery.class.getName( ),
+//							"getMergedParameters",
+//							"Error occurs in IQueryResults.getResultIterator()",
+//							e );
+//				throw dataEx;
+//			}
+//		if ( evaluateResult == null )
+//			throw new DataException( ResourceConstants.DEFAULT_INPUT_PARAMETER_VALUE_CANNOT_BE_NULL );
 		return evaluateResult;
 	}
 

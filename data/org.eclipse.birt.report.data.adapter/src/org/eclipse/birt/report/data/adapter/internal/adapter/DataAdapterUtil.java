@@ -113,8 +113,11 @@ class DataAdapterUtil
 			{
 				DataSetParameterHandle modelParam = ( DataSetParameterHandle ) elmtIter
 						.next( );
-				dteDataSet.addParameter( new ParameterAdapter( modelParam ) );
 
+				if( modelParam.getDefaultValue( )== null )
+					continue;
+				
+				dteDataSet.addParameter( new ParameterAdapter( modelParam ) );
 				// collect input parameter default values as
 				// potential parameter binding if no explicit ones are
 				// defined for a parameter

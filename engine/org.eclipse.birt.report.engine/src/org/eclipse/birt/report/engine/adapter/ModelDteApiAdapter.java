@@ -615,6 +615,8 @@ public class ModelDteApiAdapter
 			{
 				DataSetParameterHandle modelParam = ( DataSetParameterHandle ) elmtIter
 						.next( );
+				if ( modelParam.getDefaultValue( ) == null )
+					continue;
 				dteDataSet.addParameter( newParam( modelParam ) );
 
 				// collect input parameter default values as
