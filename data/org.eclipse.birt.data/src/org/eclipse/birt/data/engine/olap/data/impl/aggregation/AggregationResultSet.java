@@ -26,7 +26,7 @@ public class AggregationResultSet implements IAggregationResultSet
 {
 
 	private AggregationDefinition aggregation;
-	private IDiskArray aggregationRow;
+	private IDiskArray aggregationResultRow;
 	private int currentPosition;
 	private String[][] keyNames;
 	private String[][] attributeNames;
@@ -38,20 +38,20 @@ public class AggregationResultSet implements IAggregationResultSet
 	/**
 	 * 
 	 * @param aggregation
-	 * @param aggregationRow
+	 * @param aggregationResultRow
 	 * @param keyNames
 	 * @param attributeNames
 	 * @throws IOException
 	 */
 	AggregationResultSet( AggregationDefinition aggregation,
-			IDiskArray aggregationRow, String[][] keyNames,
+			IDiskArray aggregationResultRow, String[][] keyNames,
 			String[][] attributeNames ) throws IOException
 	{
 		this.aggregation = aggregation;
-		this.aggregationRow = aggregationRow;
+		this.aggregationResultRow = aggregationResultRow;
 		this.keyNames = keyNames;
 		this.attributeNames = attributeNames;
-		this.resultObject = (AggregationResultRow) aggregationRow.get( 0 );
+		this.resultObject = (AggregationResultRow) aggregationResultRow.get( 0 );
 		if ( resultObject.levelMembers != null )
 		{
 			keyDataTypes = new int[resultObject.levelMembers.length][];
@@ -234,7 +234,7 @@ public class AggregationResultSet implements IAggregationResultSet
 	 */
 	public int length( )
 	{
-		return aggregationRow.size( );
+		return aggregationResultRow.size( );
 	}
 
 	/*
@@ -244,7 +244,7 @@ public class AggregationResultSet implements IAggregationResultSet
 	public void seek( int index ) throws IOException
 	{
 		currentPosition = index;
-		resultObject = (AggregationResultRow) aggregationRow.get( index );
+		resultObject = (AggregationResultRow) aggregationResultRow.get( index );
 	}
 
 	/*
