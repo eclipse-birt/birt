@@ -211,6 +211,10 @@ public class ResourcePreferencePage extends PreferencePage implements
 	public boolean performOk( )
 	{
 		String resourceString = resourceText.getText( );
+		if(resourceString == null || resourceString.length( ) == 0)
+		{
+			resourceText.setText( DEFAULT_RESOURCE_FOLDER_DISPLAY );
+		}
 		if ( resourceText.getText( ).equals( DEFAULT_RESOURCE_FOLDER_DISPLAY ) )
 		{
 			resourceString = ReportPlugin.getDefault( )

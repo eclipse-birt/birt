@@ -11,19 +11,26 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.outline.providers;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportCSSStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.UseCssStyleAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.dialogs.StyleBuilder;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
@@ -31,6 +38,7 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
+
 
 /**
  * Deals with the styles node
@@ -60,6 +68,8 @@ public class StylesNodeProvider extends DefaultNodeProvider
 
 		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
 				new ImportCSSStyleAction( object ) ); //$NON-NLS-1$
+		
+		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,new UseCssStyleAction(object) );
 
 	}
 
@@ -113,12 +123,33 @@ public class StylesNodeProvider extends DefaultNodeProvider
 
 	public Object[] getChildren( Object model )
 	{
-		Object[] styles = ( (SlotHandle) model ).getElementHandle( )
-				.getModuleHandle( )
+		ModuleHandle moduleHandle = ( (SlotHandle) model ).getElementHandle( )
+		.getModuleHandle( );
+		Object[] styles = moduleHandle
 				.getStyles( )
 				.getContents( )
 				.toArray( );
 		Arrays.sort( styles, new AlphabeticallyComparator( ) );
-		return styles;
+		
+		// StylesNodeProvider should be fit for ReportDesignHandle
+		assert(moduleHandle instanceof ReportDesignHandle);
+		List cssList = new ArrayList();
+		for(Iterator iter = ((ReportDesignHandle)moduleHandle).getAllCssStyleSheets( ).iterator( ); iter.hasNext( ); )			
+		{
+			CssStyleSheetHandle cssStyleHandle = (CssStyleSheetHandle)iter.next( );
+			cssList.add( cssStyleHandle );
+		}
+		Object[] csses = cssList.toArray( new Object[cssList.size( )] );
+		Object[] stylesAndCsses = new Object[styles.length + csses.length ];
+		for(int i = 0; i < styles.length; i ++)
+		{
+			stylesAndCsses[i] = styles[i];		
+		}
+		for(int i = 0; i < csses.length; i ++)
+		{
+			stylesAndCsses[i + styles.length] = csses[i];
+		}		
+		return stylesAndCsses;
+		
 	}
 }

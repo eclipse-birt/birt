@@ -15,6 +15,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.IRequestConstants;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportCSSStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.ReloadCssStyleAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
@@ -22,6 +23,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
+import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.gef.Request;
 import org.eclipse.jface.action.IMenuManager;
@@ -63,6 +65,8 @@ public class ThemeNodeProvider extends DefaultNodeProvider
 			menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
 					new ImportCSSStyleAction( object ) ); //$NON-NLS-1$
 		}
+		
+		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS, new ReloadCssStyleAction(object) );
 	}
 
 	public String getNodeDisplayName( Object model )
@@ -97,10 +101,30 @@ public class ThemeNodeProvider extends DefaultNodeProvider
 	 */
 	public Object[] getChildren( Object model )
 	{
+		
 		if ( model instanceof ThemeHandle )
 		{
-			return super.getChildrenBySlotHandle( ( (ThemeHandle) model )
-					.getStyles( ) );
+			ThemeHandle theme = (ThemeHandle)model;
+			int count, styleCount = 0;
+			styleCount += (super.getChildrenBySlotHandle( ( (ThemeHandle) model )
+					.getStyles( ))).length;
+			count = styleCount;
+			count += theme.getAllCssStyleSheets( ).size( );
+			Object obj[] = new Object[count];
+			
+			for(int i = 0; i < styleCount; i ++)
+			{
+				obj[i] = (super.getChildrenBySlotHandle( ( (ThemeHandle) model )
+						.getStyles( )))[i];
+			}
+			
+			for(int i = 0 ; i < theme.getAllCssStyleSheets( ).size( ); i ++)
+			{
+				obj[styleCount + i] = (CssStyleSheetHandle)theme.getAllCssStyleSheets( ).get( i );
+			}
+
+			return obj;
+			
 		}
 		return super.getChildren( model );
 	}

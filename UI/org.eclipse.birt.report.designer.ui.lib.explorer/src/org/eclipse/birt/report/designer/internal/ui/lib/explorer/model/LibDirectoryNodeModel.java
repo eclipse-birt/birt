@@ -36,9 +36,12 @@ public class LibDirectoryNodeModel
 		{
 			return pathname.isDirectory( )
 					|| pathname.isFile( )
-					&& pathname.getPath( )
+					&& (pathname.getPath( )
 							.toLowerCase( )
-							.endsWith( ".rptlibrary" ); //$NON-NLS-1$
+							.endsWith( ".rptlibrary" )
+					|| pathname.getPath( )
+					.toLowerCase( )
+					.endsWith( ".css" )); //$NON-NLS-1$
 		}
 
 	};

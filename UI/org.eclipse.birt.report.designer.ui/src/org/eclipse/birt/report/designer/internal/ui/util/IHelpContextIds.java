@@ -222,4 +222,13 @@ public interface IHelpContextIds
 
 	public static final String PREFERENCE_BIRT_RESOURCE_ID = PREFIX
 			+ "Preference_BIRT_Resource_ID";
+	
+	public static final String ADD_CSS_DIALOG_ID = PREFIX
+	+ "AddCSSDialog_ID";
+	
+	public static final String PUBLISH_CSS_WIZARD_ID = PREFIX
+	+ "PublishCSSDialog_ID";
+	
+	public static final String USE_CSS_IN_REPORT_DIALOG_ID = PREFIX + "UseCssInReportDialog_ID";
+
 }

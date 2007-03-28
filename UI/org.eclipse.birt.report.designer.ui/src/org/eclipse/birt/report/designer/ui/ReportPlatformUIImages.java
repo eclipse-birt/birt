@@ -26,9 +26,12 @@ import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
+import org.eclipse.birt.report.model.api.ThemeHandle;
+import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
@@ -271,12 +274,22 @@ public class ReportPlatformUIImages
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_THEME, ICONS_PATH
 				+ OBJ16_PATH
-				+ "theme.gif" ); //$NON-NLS-1$		
+				+ "theme.gif" ); //$NON-NLS-1$	
+		
+		declareImage( IReportGraphicConstants.ICON_ELEMENT_CSS_STYLE_SHEET, ICONS_PATH
+				+ OBJ16_PATH
+				+ "css.gif" ); //$NON-NLS-1$	
 
 		// library element icons
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_DATA_LINK,
 				ICONS_PATH + LINK_PATH + "data_link.gif" ); //$NON-NLS-1$
-
+		
+		declareImage( IReportGraphicConstants.ICON_ELEMENT_CSS_STYLE_SHEET_LINK,
+				ICONS_PATH + LINK_PATH + "css_link.gif" ); //$NON-NLS-1$		
+		
+		declareImage( IReportGraphicConstants.ICON_ELEMENT_STYLE_LINK,
+				ICONS_PATH + LINK_PATH + "style_link.gif" ); //$NON-NLS-1$
+		
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_DATA_SET_LINK,
 				ICONS_PATH + LINK_PATH + "data_set_link.gif" ); //$NON-NLS-1$
 
@@ -678,11 +691,33 @@ public class ReportPlatformUIImages
 						.getDefn( )
 						.getName( ) );
 			}
+		}else if (model instanceof CssStyleSheetHandle)
+		{
+			if ( isCSSLinkImg( (CssStyleSheetHandle) model ) == true )
+			{
+				image = getImage( IReportGraphicConstants.ICON_ELEMENT_CSS_STYLE_SHEET
+						+ "_"
+						+ IReportGraphicConstants.LINK );
+			}
+			else
+			{
+				image = getImage( IReportGraphicConstants.ICON_ELEMENT_CSS_STYLE_SHEET );
+			}
 		}
 
 		return image;
 	}
 
+	private static boolean isCSSLinkImg( CssStyleSheetHandle handle )
+	{
+		if(handle.getContainerHandle( ) instanceof ReportDesignHandle
+		|| handle.getContainerHandle( ) instanceof ThemeHandle)
+		{
+			return true;
+		}
+		return false;
+	}
+	
 	private static boolean isLinkImg( DesignElementHandle handle )
 	{
 		if ( !( handle.getRoot( ) instanceof LibraryHandle || ( handle.getExtends( ) != null && handle.getExtends( )

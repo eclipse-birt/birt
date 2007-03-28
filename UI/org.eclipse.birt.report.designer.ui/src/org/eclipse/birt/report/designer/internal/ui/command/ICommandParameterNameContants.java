@@ -55,4 +55,6 @@ public interface ICommandParameterNameContants
 	public static final String INSERT_ACTION_TYPE = "InsertAction.Type"; //$NON-NLS-1$
 
 	public static final String INSERT_ACTION_POSITION = "InsertAction.Position"; //$NON-NLS-1$
+	
+	public static final String SELECTION = "SelectionHandler.Section"; //$NON-NLS-1$
 }

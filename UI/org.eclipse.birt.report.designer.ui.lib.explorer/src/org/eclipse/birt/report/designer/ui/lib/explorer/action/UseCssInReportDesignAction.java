@@ -1,0 +1,133 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.designer.ui.lib.explorer.action;
+
+import java.net.URL;
+import java.util.Iterator;
+import java.util.List;
+
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.SelectCssStyleWizard;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.dialogs.UseCssInReportDialog;
+import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewPage;
+import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.SharedStyleHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
+import org.eclipse.birt.report.model.api.util.URIUtil;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.ui.PlatformUI;
+
+/**
+ * 
+ */
+
+public class UseCssInReportDesignAction extends Action
+{
+
+	private LibraryExplorerTreeViewPage viewer;
+
+	private static final String ACTION_TEXT = Messages.getString( "UseCssInReportDesignAction.Text" ); //$NON-NLS-1$
+
+	public UseCssInReportDesignAction( LibraryExplorerTreeViewPage page )
+	{
+		super( ACTION_TEXT );
+		this.viewer = page;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.action.Action#isEnabled()
+	 */
+	public boolean isEnabled( )
+	{
+		Object obj = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+		ReportDesignHandle moduleHandle;
+		if ( ( obj == null ) || ( !( obj instanceof ReportDesignHandle ) ) )
+		{
+			return false;
+		}
+		moduleHandle = (ReportDesignHandle) obj;
+		CssStyleSheetHandle cssHandle = getSelectedCssStyleHandle( );
+		if ( cssHandle != null && moduleHandle.canAddCssStyleSheet( cssHandle ) )
+		{
+			return true;
+		}
+		return false;
+	}
+
+	private CssStyleSheetHandle getSelectedCssStyleHandle( )
+	{
+		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection( );
+		if ( selection != null )
+		{
+			if ( selection.getFirstElement( ) instanceof CssStyleSheetHandle )
+			{
+				return (CssStyleSheetHandle) selection.getFirstElement( );
+			}
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.action.Action#run()
+	 */
+	public void run( )
+	{
+		CssStyleSheetHandle cssHandle = getSelectedCssStyleHandle( );
+		UseCssInReportDialog dialog = new UseCssInReportDialog( );
+		String relativeFileName = cssHandle.getFileName( );
+		dialog.setFileName( relativeFileName );
+		if ( dialog.open( ) == Dialog.OK )
+		{
+			ReportDesignHandle moduleHandle = (ReportDesignHandle) SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( );
+			try
+			{
+				moduleHandle.addCss( dialog.getFileName( ) );
+
+				// // Remove later === begin ===
+				// CssStyleSheetHandle handle = null;
+				// List styleSheetList = moduleHandle.getAllCssStyleSheets( );
+				// for(int i = 0; i < styleSheetList.size( ); i ++)
+				// {
+				// handle = (CssStyleSheetHandle)styleSheetList.get( i );
+				// }
+				//				
+				// if(moduleHandle.canDropCssStyleSheet( handle ))
+				// moduleHandle.dropCss( handle );
+				//				
+				// styleSheetList = moduleHandle.getAllCssStyleSheets( );
+				// // Remove later === end ===
+			}
+			catch ( SemanticException e )
+			{
+				ExceptionHandler.handle( e );
+			}
+		}
+	}
+
+}

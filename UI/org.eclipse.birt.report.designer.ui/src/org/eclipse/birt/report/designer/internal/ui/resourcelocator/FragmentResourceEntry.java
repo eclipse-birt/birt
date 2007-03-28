@@ -18,10 +18,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
+import org.eclipse.birt.report.model.api.css.StyleSheetException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
@@ -48,6 +51,8 @@ public class FragmentResourceEntry extends BaseResourceEntity
 	private List children = new ArrayList( );
 
 	private LibraryHandle library;
+	
+	private CssStyleSheetHandle cssStyleHandle;
 
 	private boolean isRoot;
 
@@ -210,6 +215,13 @@ public class FragmentResourceEntry extends BaseResourceEntity
 			this.library.close( );
 			this.library = null;
 		}
+		
+		if ( this.cssStyleHandle != null )
+		{
+			// according to Xingjie, GUI needn't close() it.
+			this.cssStyleHandle = null;
+		}
+		
 		ResourceEntry[] children = getChildren( );
 		for ( int i = 0; i < children.length; i++ )
 		{
@@ -221,7 +233,7 @@ public class FragmentResourceEntry extends BaseResourceEntity
 	{
 		if ( adapter == LibraryHandle.class )
 		{
-			if ( getChildren( ).length == 0 && this.library == null )
+			if ( getChildren( ).length == 0 && this.library == null && getURL().toString( ).toLowerCase( ).endsWith( ".rptlibrary" ))
 			{
 				try
 				{
@@ -234,6 +246,26 @@ public class FragmentResourceEntry extends BaseResourceEntity
 				}
 			}
 			return library;
+		}
+		else if ( adapter == CssStyleSheetHandle.class )
+		{
+			if ( this.cssStyleHandle == null && getURL().toString( ).toLowerCase( ).endsWith( ".css" ) )
+			{
+				String projectFolder = UIUtil.getProjectFolder( );
+
+				try
+				{
+					cssStyleHandle = SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( )
+							.openCssStyleSheet( getURL( ).toString( ) );
+				}
+				catch ( StyleSheetException e )
+				{
+
+				}
+
+			}
+			return cssStyleHandle;
 		}
 		return super.getAdapter( adapter );
 	}

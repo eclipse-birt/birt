@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.command;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -230,7 +231,19 @@ public class SelectionHandler extends AbstractHandler
 	protected List getElementHandles( )
 	{
 		boolean isEditPart = false;
-		List selList = getSelectedObjects( );
+		List selList = null;
+		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
+		Object obj = context.getVariable( ICommandParameterNameContants.SELECTION);
+		if(obj != null)
+		{
+			selList = new ArrayList();
+			selList.add( obj );
+		}
+		
+		if(selList == null || selList.size( ) < 1)
+		{
+			 selList = getSelectedObjects( );
+		}
 		for ( int i = 0; i < selList.size( ); i++ )
 		{
 			if ( selList.get( i ) instanceof ReportElementEditPart )

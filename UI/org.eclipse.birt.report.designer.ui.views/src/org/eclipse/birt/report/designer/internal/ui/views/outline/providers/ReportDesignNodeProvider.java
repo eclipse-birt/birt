@@ -20,6 +20,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ExportToLibraryAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.PublishTemplateViewAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.RefreshModuleHandleAction;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.ReloadCssStyleAction;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -128,6 +129,7 @@ public class ReportDesignNodeProvider extends DefaultNodeProvider
 			IMenuManager menu )
 	{
 		super.createContextMenu( sourceViewer, object, menu );
+		menu.add( new ReloadCssStyleAction(object) );
 		menu.add( new RefreshModuleHandleAction( object ) );
 		menu.add( new ExportToLibraryAction( object ) );
 		ReportDesignHandle report = (ReportDesignHandle) object;

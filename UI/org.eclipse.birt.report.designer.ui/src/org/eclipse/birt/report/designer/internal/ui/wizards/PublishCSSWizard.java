@@ -1,0 +1,234 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.designer.internal.ui.wizards;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
+import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.Wizard;
+
+/**
+ * @author Administrator
+ * 
+ */
+public class PublishCSSWizard extends Wizard
+{
+
+	// CSSHandle handle;
+
+	private static String WINDOWS_TITLE = Messages.getString( "PublishCSSDialog.ShellText" );
+	private static String PAGE_TITLE = Messages.getString( "PublishCSSDialog.TitleArea" );
+	private static String PAGE_DESC = Messages.getString( "PublishCSSDialog.Message" );
+
+	private String filePath;
+	private String fileName;
+	private String folderName;
+
+	private WizardCSSSettingPage page;
+
+	private String widonwTitle;
+	private String pageTitle;
+	private String pageDescription;
+
+	public void setWizardTitle( String wizardTitle )
+	{
+		this.widonwTitle = wizardTitle;
+		setWindowTitle(this.widonwTitle);
+	}
+
+	public void setPageTitle( String PageTitle )
+	{
+		this.pageTitle = PageTitle;
+	}
+
+	public void setPageDesc( String pageDesc )
+	{
+		this.pageDescription = pageDesc;
+	}
+
+	/**
+	 * This constructor is used when the CSSHandle is known.
+	 * 
+	 */
+	// public PublishCSSWizard( LibraryHandle handle, String fileName,
+	// String folderName )
+	// {
+	// setWindowTitle( windowTitle );
+	// this.fileName = fileName;
+	// this.folderName = folderName;
+	// this.handle = handle;
+	// this.filePath = handle.getFileName( );
+	// }
+	/**
+	 * 
+	 */
+	public PublishCSSWizard( String folderName )
+	{
+		this.fileName = null;
+		this.folderName = folderName;
+		// this.handle = null;
+
+		setWizardTitle( WINDOWS_TITLE );
+		setPageTitle( PAGE_TITLE );
+		setPageDesc( PAGE_DESC );
+		
+		
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.wizard.Wizard#addPages()
+	 */
+	public void addPages( )
+	{
+		page = new WizardCSSSettingPage(pageTitle, pageDescription);
+
+//		page.setTitle( pageTitle );
+//		page.setMessage( pageDescription );
+
+		if ( fileName != null ) // should can be removed
+		{
+			page.setFileName( fileName );
+		}
+		page.setfolderName( folderName );
+
+		addPage( page );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
+	 */
+	public boolean performFinish( )
+	{
+		// TODO Auto-generated method stub
+		fileName = page.getFileName( );
+		folderName = page.getFolder( );
+		// if ( handle == null )
+		{
+			filePath = page.getSourceFileName( );
+		}
+		return publishiCSSFile( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.wizard.IWizard#canFinish()
+	 */
+	public boolean canFinish( )
+	{
+		return page.canFinish( );
+	}
+
+	private boolean publishiCSSFile( )
+	{
+		// copy to resource folder
+
+		if ( !( new File( filePath ).exists( ) ) )
+		{
+			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishCSSAction.wizard.errorTitle" ), //$NON-NLS-1$
+					Messages.getString( "PublishCSSAction.wizard.message.SourceFileNotExist" ) ); //$NON-NLS-1$
+			return true;
+		}
+
+		File targetFolder = new File( folderName );
+		if ( targetFolder.exists( ) && ( !targetFolder.isDirectory( ) ) )
+		{
+			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishCSSAction.wizard.errorTitle" ), //$NON-NLS-1$
+					Messages.getString( "PublishCSSAction.wizard.notvalidfolder" ) );
+			//$NON-NLS-1$
+			return true;
+		}
+		if ( !targetFolder.exists( ) )
+		{
+			targetFolder.mkdirs( );
+		}
+		File targetFile = new File( targetFolder, fileName );
+		if ( new File( filePath ).compareTo( targetFile ) == 0 )
+		{
+			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishCSSAction.wizard.errorTitle" ), //$NON-NLS-1$
+					Messages.getString( "PublishCSSAction.wizard.message" ) ); //$NON-NLS-1$
+			return false;
+		}
+
+		int overwrite = Window.OK;
+		try
+		{
+			if ( targetFile.exists( ) )
+			{
+				String[] buttons = new String[]{
+						IDialogConstants.YES_LABEL,
+						IDialogConstants.NO_LABEL,
+						IDialogConstants.CANCEL_LABEL
+				};
+				String question = Messages.getFormattedString( "SaveAsDialog.overwriteQuestion", //$NON-NLS-1$
+						new Object[]{
+							targetFile.getAbsolutePath( )
+						} );
+				MessageDialog d = new MessageDialog( UIUtil.getDefaultShell( ),
+						Messages.getString( "SaveAsDialog.Question" ), //$NON-NLS-1$
+						null,
+						question,
+						MessageDialog.QUESTION,
+						buttons,
+						0 );
+				overwrite = d.open( );
+			}
+			if ( overwrite == Window.OK
+					&& ( targetFile.exists( ) || ( !targetFile.exists( ) && targetFile.createNewFile( ) ) ) )
+			{
+				copyFile( filePath, targetFile );
+				fireDesigFileChangeEvent( targetFile.getAbsolutePath( ) );
+			}
+		}
+		catch ( IOException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+
+		return overwrite != 1;
+	}
+
+	private void fireDesigFileChangeEvent( String absolutePath )
+	{
+		 SessionHandleAdapter.getInstance( ).getSessionHandle( )
+		 .fireResourceChange( new LibraryChangeEvent( absolutePath ) );
+	}
+
+	private void copyFile( String in, File targetFile ) throws IOException
+	{
+		FileInputStream fis = new FileInputStream( in );
+		FileOutputStream fos = new FileOutputStream( targetFile );
+		byte[] buf = new byte[1024];
+		int i = 0;
+		while ( ( i = fis.read( buf ) ) != -1 )
+		{
+			fos.write( buf, 0, i );
+		}
+		fis.close( );
+		fos.close( );
+	}
+
+}

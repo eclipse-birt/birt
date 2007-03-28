@@ -27,6 +27,8 @@ import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.IModuleOption;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleOption;
+import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
+import org.eclipse.birt.report.model.api.css.StyleSheetException;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -50,6 +52,7 @@ public class PathResourceEntry extends BaseResourceEntity
 	private boolean isRoot;
 	private LibraryHandle library;
 	private ArrayList childrenList;
+	private CssStyleSheetHandle cssStyleHandle;
 	private boolean isFile;
 
 	public PathResourceEntry( )
@@ -226,6 +229,12 @@ public class PathResourceEntry extends BaseResourceEntity
 			this.library.close( );
 			this.library = null;
 		}
+		if ( this.cssStyleHandle != null )
+		{
+			// according to Xingjie, GUI needn't close() it.
+			this.cssStyleHandle = null;
+		}
+		
 		if ( this.childrenList != null )
 		{
 			for ( Iterator iterator = this.childrenList.iterator( ); iterator.hasNext( ); )
@@ -267,6 +276,27 @@ public class PathResourceEntry extends BaseResourceEntity
 				}
 			}
 			return library;
+		}
+		else if ( adapter == CssStyleSheetHandle.class && getURL( ).toString( ).toLowerCase( ).endsWith( ".css" ))
+		{
+			if ( !this.isFolder && this.cssStyleHandle == null )
+			{
+				String projectFolder = UIUtil.getProjectFolder( );
+
+				try
+				{
+					String fileName = ResourceLocator.relativize(getURL());
+					cssStyleHandle = SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( )
+							.openCssStyleSheet( fileName );
+				}
+				catch ( StyleSheetException e )
+				{
+
+				}
+
+			}
+			return cssStyleHandle;
 		}
 		return null;
 	}

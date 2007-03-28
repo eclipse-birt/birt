@@ -1552,7 +1552,7 @@ public class DEUtil
 
 			if ( theme != null )
 			{
-				styles.addAll( theme.getStyles( ).getContents( ) );
+				styles.addAll( theme.getAllStyles( ) );
 			}
 		}
 

@@ -30,8 +30,10 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
+import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.StructuredSelection;
 
@@ -78,23 +80,22 @@ public class DeleteCommand extends Command
 			{
 				for ( int i = 0; i < embeddedImageList.size( ); i++ )
 				{
-					IStructure item = ( (EmbeddedImageHandle) embeddedImageList
-							.get( i ) ).getStructure( );
-					String name = ( (EmbeddedImageHandle) embeddedImageList
-							.get( i ) ).getName( );
-					SessionHandleAdapter.getInstance( ).getReportDesignHandle( )
+					IStructure item = ( (EmbeddedImageHandle) embeddedImageList.get( i ) ).getStructure( );
+					String name = ( (EmbeddedImageHandle) embeddedImageList.get( i ) ).getName( );
+					SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( )
 							.getPropertyHandle( ReportDesignHandle.IMAGES_PROP )
 							.removeItem( item );
 					if ( DesignerConstants.TRACING_COMMANDS )
 					{
-						System.out
-								.println( "DeleteCommand >> Dropping embedded image " //$NON-NLS-1$
-										+ item.getStructName( ) );;
+						System.out.println( "DeleteCommand >> Dropping embedded image " //$NON-NLS-1$
+								+ item.getStructName( ) );;
 					}
 					// remove cached image
-					String key = ImageManager.getInstance( ).generateKey(
-							SessionHandleAdapter.getInstance( )
-									.getReportDesignHandle( ), name );
+					String key = ImageManager.getInstance( )
+							.generateKey( SessionHandleAdapter.getInstance( )
+									.getReportDesignHandle( ),
+									name );
 					ImageManager.getInstance( ).removeCachedImage( key );
 				}
 			}
@@ -140,6 +141,10 @@ public class DeleteCommand extends Command
 		{
 			dropSourceSlotHandle( (SlotHandle) source );
 		}
+		else if ( source instanceof CssStyleSheetHandle )
+		{
+			dropCssStyleHandle( (CssStyleSheetHandle) source );
+		}
 	}
 
 	private void dropEmbeddedImageHandle( EmbeddedImageHandle embeddedImage )
@@ -182,7 +187,8 @@ public class DeleteCommand extends Command
 		if ( DesignerConstants.TRACING_COMMANDS )
 		{
 			System.out.println( "DeleteCommand >> Dropping slot " //$NON-NLS-1$
-					+ slot.getSlotID( ) + " of " //$NON-NLS-1$
+					+ slot.getSlotID( )
+					+ " of " //$NON-NLS-1$
 					+ DEUtil.getDisplayLabel( slot.getElementHandle( ) ) );
 		}
 		List list = slot.getContents( );
@@ -190,6 +196,35 @@ public class DeleteCommand extends Command
 		{
 			dropSourceElementHandle( (DesignElementHandle) list.get( i ) );
 		}
+	}
+
+	protected void dropCssStyleHandle( CssStyleSheetHandle cssStyleHandle )
+			throws SemanticException
+	{
+		if ( DesignerConstants.TRACING_COMMANDS )
+		{
+			System.out.println( "DeleteCommand >> Dropping " //$NON-NLS-1$
+					+ DEUtil.getDisplayLabel( cssStyleHandle.getElementHandle( ) ) );
+		}
+		DesignElementHandle containerHandle = cssStyleHandle.getContainerHandle( );
+
+		if(containerHandle instanceof ReportDesignHandle)
+		{
+			ReportDesignHandle report = (ReportDesignHandle)containerHandle;
+			if(report.canDropCssStyleSheet( cssStyleHandle ))
+			{
+				report.dropCss( cssStyleHandle );
+			}
+		}else
+		if(containerHandle instanceof ThemeHandle)
+		{
+			ThemeHandle theme = (ThemeHandle)containerHandle;
+			if(theme.canDropCssStyleSheet( cssStyleHandle ))
+			{
+				theme.dropCss( cssStyleHandle );
+			}
+		}
+		
 	}
 
 	/*
@@ -246,9 +281,8 @@ public class DeleteCommand extends Command
 			SlotHandle slot = (SlotHandle) source;
 			DesignElementHandle handle = slot.getElementHandle( );
 			return slot.getContents( ).size( ) > 0
-					&& ( ( handle instanceof ListHandle && ( (ListHandle) handle )
-							.canDrop( ) ) || ( handle instanceof ListGroupHandle && ( (ListGroupHandle) handle )
-							.canDrop( ) ) ) && canDrop( slot.getContents( ) );
+					&& ( ( handle instanceof ListHandle && ( (ListHandle) handle ).canDrop( ) ) || ( handle instanceof ListGroupHandle && ( (ListGroupHandle) handle ).canDrop( ) ) )
+					&& canDrop( slot.getContents( ) );
 		}
 		if ( source instanceof EmbeddedImageHandle )
 		{
@@ -263,8 +297,10 @@ public class DeleteCommand extends Command
 
 		if ( source instanceof MasterPageHandle )
 		{
-			if(SessionHandleAdapter.getInstance( )
-									.getReportDesignHandle( ).getMasterPages( ).getCount( )>1)
+			if ( SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( )
+					.getMasterPages( )
+					.getCount( ) > 1 )
 			{
 				return true;
 			}
@@ -274,6 +310,22 @@ public class DeleteCommand extends Command
 		{
 			return ( (ReportElementHandle) source ).canDrop( );
 
+		}
+		else if ( source instanceof CssStyleSheetHandle )
+		{
+			DesignElementHandle elementHandle = ((CssStyleSheetHandle)source).getContainerHandle( );
+			if(elementHandle instanceof ReportDesignHandle)
+			{
+				return ((ReportDesignHandle)elementHandle).canDropCssStyleSheet( (CssStyleSheetHandle )source);
+			}else
+			if(elementHandle instanceof ThemeHandle)
+			{
+				return ((ThemeHandle)elementHandle).canDropCssStyleSheet( (CssStyleSheetHandle )source);
+			}else
+			{
+				return false;
+			}
+			
 		}
 		else
 			return false;

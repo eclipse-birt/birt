@@ -106,10 +106,21 @@ public interface IReportGraphicConstants
 
 	public final static String ICON_ELEMENT_THEME = ReportDesignConstants.THEME_ITEM;
 
+	public final static String ICON_ELEMENT_CSS_STYLE_SHEET = "ReportDesignConstants.CSS_STYLE_SHEET";
+
 	public final static String ICON_ELEMENT_TEMPLATEITEM = ReportDesignConstants.TEMPLATE_REPORT_ITEM;
 
 	// Library report item icons
 	public final static String LINK = "LINK";
+
+	public final static String ICON_ELEMENT_CSS_STYLE_SHEET_LINK = ICON_ELEMENT_CSS_STYLE_SHEET
+			+ "_"
+			+ LINK;
+	
+	
+	public final static String ICON_ELEMENT_STYLE_LINK = ICON_ELEMENT_STYLE
+	+ "_"
+	+ LINK;
 
 	public final static String ICON_ELEMENT_DATA_LINK = ICON_ELEMENT_DATA
 			+ "_"
@@ -166,9 +177,10 @@ public interface IReportGraphicConstants
 	public final static String ICON_ELEMENT_SCRIPT_DATA_SOURCE_LINK = ReportDesignConstants.SCRIPT_DATA_SOURCE
 			+ "_"
 			+ LINK;
-	
+
 	public final static String ICON_ELEMENT_JOINT_DATA_SET_LINK = ReportDesignConstants.JOINT_DATA_SET
-			+ "_" + LINK;
+			+ "_"
+			+ LINK;
 
 	// outline view icons
 	public final static String ICON_NODE_BODY = "Body"; //$NON-NLS-1$
@@ -337,7 +349,7 @@ public interface IReportGraphicConstants
 	public static final String ICON_ENABLE_RESTORE_PROPERTIES = "Enable Resotre Properties";
 
 	public static final String ICON_DISABLE_RESTORE_PROPERTIES = "Disable Restore Properties";
-	
+
 	public static final String ICON_ENABLE_EXPRESSION_BUILDERS = "Enable Expression Builder";
 
 	public static final String ICON_DISABLE_EXPRESSION_BUILDERS = "Disable Expression Builder";

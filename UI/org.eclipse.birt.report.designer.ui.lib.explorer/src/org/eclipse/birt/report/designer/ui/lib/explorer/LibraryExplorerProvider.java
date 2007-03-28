@@ -20,6 +20,7 @@ import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntr
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.graphics.Image;
 
@@ -44,9 +45,13 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 			List childrenList = new ArrayList( );
 			for ( int i = 0; i < children.length; i++ )
 			{
-				Object library = ( (ResourceEntry) children[i] ).getAdapter( LibraryHandle.class );
-				if ( library != null )
-					childrenList.add( library );
+				Object object = ( (ResourceEntry) children[i] ).getAdapter( LibraryHandle.class );
+				if ( object == null )
+				{
+					object = ( (ResourceEntry) children[i] ).getAdapter( CssStyleSheetHandle.class );
+				}
+				if ( object != null )
+					childrenList.add( object );
 				else
 					childrenList.add( children[i] );
 			}
@@ -80,20 +85,31 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 		{
 			// fileName of the LibraryHandle is a relative path.
 			String fileName = ( (LibraryHandle) element ).getFileName( );
-			//fileName is a URL string.
+			// fileName is a URL string.
 			return fileName.substring( fileName.lastIndexOf( "/" ) + 1 ); //$NON-NLS-1$
-		}
+		}else
+		if(element instanceof CssStyleSheetHandle)
+		{
+			String fileName = ( (CssStyleSheetHandle) element ).getFileName( );
+			//should be removed later -- begin ---
+			if(fileName == null || fileName.length( ) == 0)
+			{
+				fileName = "base.css";
+			}
+			//should be removed later -- end ---
+			return fileName.substring ( fileName.lastIndexOf( "/" ) + 1 ); //$NON-NLS-1$
+		}	
 		if ( element instanceof ResourceEntry )
 		{
-			if(!((ResourceEntry)element ).isRoot( ))
+			if ( !( (ResourceEntry) element ).isRoot( ) )
 			{
-				return ((ResourceEntry)element ).getName( );
+				return ( (ResourceEntry) element ).getName( );
 			}
-			if(element instanceof FragmentResourceEntry)
+			if ( element instanceof FragmentResourceEntry )
 			{
 				return Messages.getString( "FragmentResourceEntry.RootDisplayName" );
-			}else
-			if(element instanceof PathResourceEntry)
+			}
+			else if ( element instanceof PathResourceEntry )
 			{
 				return Messages.getString( "PathResourceEntry.RootDisplayName" );
 			}

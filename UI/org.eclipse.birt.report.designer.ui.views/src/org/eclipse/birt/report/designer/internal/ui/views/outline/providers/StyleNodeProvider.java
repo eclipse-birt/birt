@@ -45,8 +45,13 @@ public class StyleNodeProvider extends DefaultNodeProvider
 	public void createContextMenu( TreeViewer sourceViewer, Object object,
 			IMenuManager menu )
 	{
-		menu.add( new InsertAction( getParent( object ),
-				Messages.getString( "StyleNodeProvider.action.New" ) ) ); //$NON-NLS-1$
+		Object parent = getParent( object );
+		if(parent != null)
+		{
+			menu.add( new InsertAction( parent,
+					Messages.getString( "StyleNodeProvider.action.New" ) ) ); //$NON-NLS-1$
+		}
+
 		super.createContextMenu( sourceViewer, object, menu );
 
 		if ( ( (StyleHandle) object ).canEdit( ) )

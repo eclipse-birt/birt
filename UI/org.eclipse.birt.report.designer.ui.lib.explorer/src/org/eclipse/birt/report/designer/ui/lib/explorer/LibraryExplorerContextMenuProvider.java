@@ -11,13 +11,17 @@
 
 package org.eclipse.birt.report.designer.ui.lib.explorer;
 
+import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.ui.ContextMenuProvider;
+import org.eclipse.birt.report.designer.ui.lib.explorer.action.AddCSSAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.AddElementtoReport;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.AddLibraryAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.AddSelectedLibToCurrentReportDesignAction;
-import org.eclipse.birt.report.designer.ui.lib.explorer.action.DeleteLibraryAction;
+import org.eclipse.birt.report.designer.ui.lib.explorer.action.DeleteLibraryandCSSAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.RefreshLibExplorerAction;
+import org.eclipse.birt.report.designer.ui.lib.explorer.action.UseCssInReportDesignAction;
+import org.eclipse.birt.report.designer.ui.lib.explorer.action.UseCssInThemeAction;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
@@ -25,6 +29,7 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
+import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -43,8 +48,11 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 	private RefreshLibExplorerAction refreshExplorerAction;
 	private AddLibraryAction addLibraryAction;
 	private AddSelectedLibToCurrentReportDesignAction useLibraryAction;
-	private DeleteLibraryAction deleteLibraryAction;
+	private DeleteLibraryandCSSAction deleteLibraryandCssAction;
+	private AddCSSAction addCSSAction;
 
+	
+	private LibraryExplorerTreeViewPage page;
 	/**
 	 * constructor
 	 * 
@@ -56,10 +64,13 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 	public LibraryExplorerContextMenuProvider( LibraryExplorerTreeViewPage page )
 	{
 		super( page.getTreeViewer( ) );
+		this.page = page;
 		refreshExplorerAction = new RefreshLibExplorerAction( page );
 		addLibraryAction = new AddLibraryAction( page.getTreeViewer( ) );
 		useLibraryAction = new AddSelectedLibToCurrentReportDesignAction( page.getTreeViewer( ) );
-		deleteLibraryAction = new DeleteLibraryAction( page );
+		deleteLibraryandCssAction = new DeleteLibraryandCSSAction( page );
+		addCSSAction = new AddCSSAction(page.getTreeViewer( ) );
+
 	}
 
 	/**
@@ -92,20 +103,31 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 
 			if ( selected instanceof LibraryHandle )
 			{
-				menu.add( addLibraryAction );
+//				menu.add( addLibraryAction );
 				if ( useLibraryAction.isEnabled( ) )
 				{
 					menu.add( useLibraryAction );
 				}
-				if ( deleteLibraryAction.isEnabled( ) )
+				if ( deleteLibraryandCssAction.isEnabled( ) )
 				{
-					menu.add( deleteLibraryAction );
+					menu.add( deleteLibraryandCssAction );
 				}
+			}else
+			if(selected instanceof CssStyleSheetHandle)
+			{
+				menu.add(  new UseCssInReportDesignAction(page) );
+				menu.add( new UseCssInThemeAction(page) );
+				menu.add( deleteLibraryandCssAction );
 			}
 			else
 			{
 				// addLibraryAction.setFolder( (File) selected );
-				menu.add( addLibraryAction );
+				if(selected instanceof PathResourceEntry)
+				{
+					menu.add( addLibraryAction );
+					menu.add( addCSSAction );
+				}
+
 			}
 			if ( canAddtoReport( selected ) )
 
@@ -120,6 +142,8 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 		{
 			refreshExplorerAction.setSelectedElement( null );
 			menu.add( refreshExplorerAction );
+			menu.add( new Separator( ) );
+			menu.add( addCSSAction );
 			menu.add( addLibraryAction );
 		}
 	}
