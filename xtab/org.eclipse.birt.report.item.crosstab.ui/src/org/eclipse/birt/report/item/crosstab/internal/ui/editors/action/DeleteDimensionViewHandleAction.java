@@ -16,6 +16,8 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabA
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * Delete the dimension view handle
@@ -46,6 +48,10 @@ public class DeleteDimensionViewHandleAction extends AbstractCrosstabAction
 		setHandle( extendedHandle );
 		dimensionHandle = CrosstabAdaptUtil.getDimensionViewHandle( extendedHandle );
 		//viewHandle = dimensionHandle.getLevel( getLevelIndex( ) );
+		
+		ISharedImages shareImages = PlatformUI.getWorkbench( )
+		.getSharedImages( );
+		setImageDescriptor( shareImages.getImageDescriptor( ISharedImages.IMG_TOOL_DELETE ) );
 	}
 
 

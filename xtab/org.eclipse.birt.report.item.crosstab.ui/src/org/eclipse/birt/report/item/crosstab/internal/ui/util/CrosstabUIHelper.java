@@ -32,6 +32,8 @@ public class CrosstabUIHelper
 
 	public static String CROSSTAB_IMAGE = "icons/pal/crosstab.gif";
 	public static String MEASURE_IMAGE = "icons/pal/data.gif";
+	public static String LEVEL_AGGREGATION = "icons/pal/cell-level-aggregation.gif";
+	public static String SHOW_HIDE_LECEL = "icons/pal/show-hide-level.gif";
 	private static Image createImage( String sPluginRelativePath )
 	{
 		Image img = null;

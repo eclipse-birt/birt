@@ -26,13 +26,17 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDial
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDialog.GrandTotalInfo;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDialog.SubTotalInfo;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
+import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.ISharedImages;
 
 /**
  * Add the sub total to the level handle.
@@ -65,6 +69,9 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 		ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle( handle );
 		setHandle( extendedHandle );
 		levelHandle = CrosstabAdaptUtil.getLevelViewHandle( extendedHandle );
+		
+		Image image = CrosstabUIHelper.getImage( CrosstabUIHelper.LEVEL_AGGREGATION );
+		setImageDescriptor( ImageDescriptor.createFromImage( image ) );
 	}
 	
 

@@ -17,6 +17,8 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabA
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * 
@@ -51,6 +53,10 @@ public class DeleteMeasureHandleAction extends AbstractCrosstabAction
 		ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle( handle );
 		setHandle( extendedHandle );
 		measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle( extendedHandle );
+		
+		ISharedImages shareImages = PlatformUI.getWorkbench( )
+		.getSharedImages( );
+		setImageDescriptor( shareImages.getImageDescriptor( ISharedImages.IMG_TOOL_DELETE ) );
 	}
 
 	/*
