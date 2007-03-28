@@ -1884,7 +1884,9 @@ public class ParameterAccessor
 		String baseName = attrBean.getReportDesignName( );
 		if ( baseName == null || baseName.length( ) == 0 )
 			baseName = attrBean.getReportDocumentName( );
-		assert baseName != null && baseName.length( ) > 0;
+
+		if ( baseName == null || baseName.trim( ).length( ) <= 0 )
+			return fileName;
 
 		int index = baseName.lastIndexOf( '/' );
 		if ( index == -1 )
