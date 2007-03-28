@@ -12,17 +12,23 @@
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.editpolicies;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
-import org.eclipse.birt.report.designer.core.commands.CreateCommand;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportFlowLayoutEditPolicy;
+import org.eclipse.birt.report.designer.util.DNDUtil;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.ChangeAreaCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.CreateDimensionViewCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.CreateMeasureViewCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabTableEditPart;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.FirstLevelHandleDataItemEditPart;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabHandleAdapter;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.ICrosstabCellAdapterFactory;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.gef.requests.CreateRequest;
 
 /**
@@ -33,9 +39,9 @@ public class VirtualCrosstabCellFlowLayoutEditPolicy extends ReportFlowLayoutEdi
 {
 	protected Command getCreateCommand( CreateRequest request )
 	{
-		EditPart after = getInsertionReference( request );
+		//EditPart after = getInsertionReference( request );
 
-		CreateCommand command = new CreateCommand( request.getExtendedData( ) );
+		//CreateCommand command = new CreateCommand( request.getExtendedData( ) );
 
 		Object model = this.getHost( ).getModel( );
 		Object newObject = request.getExtendedData( ).get( DesignerConstants.KEY_NEWOBJECT );
@@ -61,5 +67,43 @@ public class VirtualCrosstabCellFlowLayoutEditPolicy extends ReportFlowLayoutEdi
 //		}		
 		return super.getCreateCommand( request );
 		//return null;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportFlowLayoutEditPolicy#createAddCommand(org.eclipse.gef.EditPart,
+	 *      org.eclipse.gef.EditPart, org.eclipse.gef.EditPart)
+	 */
+	protected Command createAddCommand( EditPart parent, EditPart child,
+			EditPart after )
+	{
+		Object parentObj = parent.getModel( );
+		//Object source = child.getModel( );
+		Object afterObj = after == null ? null : after.getModel( );
+		Object childParent = child.getParent( ).getModel( );
+		if (parentObj instanceof VirtualCrosstabCellAdapter && childParent instanceof CrosstabCellAdapter)
+		{
+			CrosstabCellAdapter childAdapter = (CrosstabCellAdapter)childParent;
+			VirtualCrosstabCellAdapter parentAdapter = (VirtualCrosstabCellAdapter)parentObj;
+			if (parentAdapter.getType( ) == VirtualCrosstabCellAdapter.IMMACULATE_TYPE
+					|| parentAdapter.getType( ) == VirtualCrosstabCellAdapter.MEASURE_TYPE)
+			{
+				return UnexecutableCommand.INSTANCE;
+			}
+			if (ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE.equals( childAdapter.getPositionType( )))
+			{
+				if (!(after instanceof FirstLevelHandleDataItemEditPart) )
+				{
+					afterObj = null;
+				}
+				ChangeAreaCommand command = new ChangeAreaCommand(parentAdapter.getDesignElementHandle( ), 
+						childAdapter.getDesignElementHandle( ),(DesignElementHandle) DNDUtil.unwrapToModel( afterObj ) );
+				
+				command.setType( parentAdapter.getType( ) );
+				return command;
+			}
+		}
+		return UnexecutableCommand.INSTANCE;
 	}
 }

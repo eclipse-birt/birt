@@ -31,7 +31,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 public class ChangeAreaCommand extends AbstractCrosstabCommand
 {
-	//private int type = -1;
+	private int type = -1;
 	//private DimensionHandle dimensionHandle;
 	private Object after = null;
 
@@ -46,12 +46,16 @@ public class ChangeAreaCommand extends AbstractCrosstabCommand
 	
 	public ChangeAreaCommand(DesignElementHandle parent, DesignElementHandle child, Object after)
 	{
-		super( parent );
+		super( child );
 		//this.parent = parent;
 		//this.child = child;
 		this.after = after;
+		if (parent != null)
+		{
+			parentVewHandle = CrosstabAdaptUtil.getDimensionViewHandle( CrosstabAdaptUtil.getExtendedItemHandle( parent ) );
+			setType( parentVewHandle.getAxisType( ) );
+		}
 		
-		parentVewHandle = CrosstabAdaptUtil.getDimensionViewHandle( CrosstabAdaptUtil.getExtendedItemHandle( parent ) );
 		childViewHandle = CrosstabAdaptUtil.getDimensionViewHandle( CrosstabAdaptUtil.getExtendedItemHandle( child ) );
 		
 		int levelCount = childViewHandle.getLevelCount( );
@@ -77,7 +81,7 @@ public class ChangeAreaCommand extends AbstractCrosstabCommand
 	
 	public boolean canExecute( )
 	{
-		return parentVewHandle.getAxisType( ) != childViewHandle.getAxisType( );
+		return getType( ) != childViewHandle.getAxisType( );
 	}
 	/*
 	 * (non-Javadoc)
@@ -87,13 +91,13 @@ public class ChangeAreaCommand extends AbstractCrosstabCommand
 	public void execute( )
 	{
 		transStart( NAME );
-		CrosstabReportItemHandle reportHandle = parentVewHandle.getCrosstab( );
+		CrosstabReportItemHandle reportHandle = childViewHandle.getCrosstab( );
 
 		try
 		{
 			//reportHandle.removeDimension(childViewHandle.getAxisType( ), childViewHandle.getIndex( ) );
 			//CrosstabUtil.insertDimension( reportHandle, childViewHandle, parentVewHandle.getAxisType( ), findPosition( ), measureMap, funcMap );
-			reportHandle.pivotDimension( childViewHandle.getAxisType( ), childViewHandle.getIndex( ), parentVewHandle.getAxisType( ), findPosition( ) );
+			reportHandle.pivotDimension( childViewHandle.getAxisType( ), childViewHandle.getIndex( ), getType( ), findPosition( ) );
 		}
 		catch ( SemanticException e )
 		{
@@ -107,6 +111,10 @@ public class ChangeAreaCommand extends AbstractCrosstabCommand
 	{
 		//int base = handleAdpter.getCrosstabCellHandle( ).getCrosstabHandle( ).getIndex( );
 		//System.out.println(after);
+		if (parentVewHandle == null)
+		{
+			return 0;
+		}
 		int base = parentVewHandle.getIndex( );
 		if (after instanceof  DesignElementHandle)
 		{
@@ -118,5 +126,23 @@ public class ChangeAreaCommand extends AbstractCrosstabCommand
 		}
 		return base + 1;
 		//return ((CrosstabReportItemHandle) handleAdpter.getCrosstabItemHandle( )).getDimensionCount( getType( ) );
+	}
+
+	
+	/**
+	 * @return
+	 */
+	public int getType( )
+	{
+		return type;
+	}
+
+	
+	/**
+	 * @param type
+	 */
+	public void setType( int type )
+	{
+		this.type = type;
 	}
 }
