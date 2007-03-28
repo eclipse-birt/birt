@@ -133,6 +133,8 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 					getContext( ),
 					( (ChartWithAxes) getChart( ) ).getWallFill( ),
 					true,
+					true,
+					true,
 					true );
 			GridData gdFCCWall = new GridData( GridData.FILL_HORIZONTAL );
 			fccWall.setLayoutData( gdFCCWall );
@@ -148,6 +150,8 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 					SWT.NONE,
 					getContext( ),
 					( (ChartWithAxes) getChart( ) ).getFloorFill( ),
+					true,
+					true,
 					true,
 					true );
 			GridData gdFCCFloor = new GridData( GridData.FILL_HORIZONTAL );
