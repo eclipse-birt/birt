@@ -35,6 +35,13 @@ AddLibraryAction.Dialog.Tilte=选择库
 AddCSSAction.Text=添加 CSS 文件...
 
 ###########################################################
+#AddCSSDialog
+AddCSSWizardDialog.ShellText=Add CSS File
+AddCSSWizardDialog.TitleArea=Add CSS File to Resource Folder
+AddCSSWizardDialog.Message=Select a CSS file to import styles to resource folder
+
+
+###########################################################
 #PublishCSSAction properties
 PublishCSSAction.wizard.errorTitle=错误
 PublishCSSAction.wizard.message=无法将 CSS 文件发布到它所在的目录，请选择其它目录进行发布。
@@ -425,7 +432,7 @@ dataset.editor.error.missingComputedColumnExpression=计算列 {0} 的表达式不能为空
 dataset.editor.error.missingComputedColumnName=计算列名称不能为空或空白。
 dataset.editor.error.noDataSource=没有可用于数据集的数据源 {0}，请在属性视图的“数据源”条目中选择数据源。
 dataset.editor.error.noEditorsFound=未找到可用于数据集的编辑器 {0}。
-dataset.editor.error.noInputParameterDefaultValue=输入参数 {0} 应具有非空默认值。
+dataset.editor.error.noInputParameterDefaultValue=Input parameter {0} should have a non-empty default value.
 dataset.editor.error.title=警告
 dataset.editor.error.unsupportedDataSet=不支持的数据集类型 - {0}。
 dataset.editor.error.validationParameter=输入参数 [{0}] 具有空值。是否要保留为空?
@@ -2703,6 +2710,10 @@ PublishTemplateViewAction.action.displaytext=使用新建报表向导来注册模板...
 RefreshModuleHandleAction.Action.Text=刷新库
 
 ###########################################################
+#ReloadCssStylesAction
+ReloadCssStylesAction.Action.Text=Reload CSS File
+
+###########################################################
 #ReferencePage properties
 
 ReferencePage.Button.Edit=编辑(&D)...
@@ -2722,6 +2733,14 @@ RefreshLibExplorerAction.Text=刷新
 #RemoveLibraryAction properties
 
 RemoveLibraryAction.Text=删除库
+
+###########################################################
+#UseCssInReportDesignAction properties
+UseCssInReportDesignAction.Text=Use CSS in Report Design...
+
+###########################################################
+#UseCssInReportDesignAction properties
+UseCssInThemeAction.Text=Use CSS in Library...
 
 ###########################################################
 #RenameAction properties
@@ -3032,6 +3051,13 @@ SelectCssStyleWizard.wizard.title=导入 CSS 样式
 SelectCssStyleWizard.wizardPage.description=选择一个 CSS 文件，将样式导入到报表设计。
 SelectCssStyleWizard.wizardPage.name=选择 Css 样式
 SelectCssStyleWizard.wizardPage.title=从 CSS 文件导入样式
+
+###########################################################
+#UseCssInReportDialog properties
+UseCssInReportDialog.Wizard.Title=Uss CSS
+UseCssInReportDialog.Wizard.Filename=文件名(&F):
+UseCssInReportDialog.Label.Styles=&Available styles from {0}
+UseCssInReportDialog.Label.notifications=&Notifications:
 
 ###########################################################
 #SelectValueDialog properties
@@ -3632,7 +3658,6 @@ PublishLibraryDialog.AddText=添加库
 PublishLibraryDialog.AddMessage=将库添加到 BIRT 资源文件夹
 
 WizardLibrarySettingPage.ErrorMessage=请选择文件夹
-
 WizardLibrarySettingPage.Resourcefile.Dialog.Title=浏览资源文件夹
 WizardLibrarySettingPage.Resourcefile.Dialog.Message=请选择资源文件夹或其子文件夹。
 
@@ -3643,7 +3668,30 @@ PublishLibraryDialog.AddLibrary=添加库
 #PublishCSSDialog
 PublishCSSDialog.ShellText=发布 CSS 文件
 PublishCSSDialog.TitleArea=将 CSS 文件发布到资源文件夹
-PublishCSSDialog.Message=选择一个 CSS 文件以便将样式导入到资源文件夹
+PublishCSSDialog.Message=Select a CSS file to import styles to resource folder
+
+PublishCSSDialog.Label.SourceFileName=源文件(&S):
+PublishCSSDialog.Label.FileName=文件名(&N):
+PublishCSSDialog.Label.Folder=文件夹(&F):
+PublishCSSDialog.Label.Browse=浏览...
+PublishCSSDialog.Label.Browse2=浏览(&W)...
+
+PublishCSSDialog.ErrorMessage.SelectFolder=请选择文件夹
+
+PublishCSSDialog.Dialog.FileSeclect.Tilte=Select a CSS File
+PublishCSSDialog.Error.Exception.Title=错误
+PublishCSSDialog.Error.FileNotFound=未找到文件 ''{0}''。
+PublishCSSDialog.Error.FileIsNotCSSFile=文件“{0}”没有以“{1}”结束。
+PublishCSSDialog.Error.FileExist=文件已经存在。
+
+PublishCSSDialog.Message.SourceFileEmpty=需要提供源文件名。
+PublishCSSDialog.Message.FileNameEmpty=需要提供文件名。
+PublishCSSDialog.Message.FileNameError=File name should end with .css.
+PublishCSSDialog.Message.FolderEmpty=
+
+WizardCSSSettingPage.ErrorMessage=请选择文件夹
+WizardCSSSettingPage.Resourcefile.Dialog.Title=浏览资源文件夹
+WizardCSSSettingPage.Resourcefile.Dialog.Message=请选择资源文件夹或其子文件夹。
 
 ###########################################################
 #EmbeddedImagesNodeProvider
@@ -3699,9 +3747,14 @@ ThumbnailBuilder.Text.Title=管理缩略图
 ThumbnailBuilder.Button.Text.Generate=生成(&G)
 ThumbnailBuilder.Button.Text.Remove=删除(&R)
 ThumbnailBuilder.Button.Text.Import=导入(&I)...
+ThumbnailBuilder.Button.Text.Browse=浏览...
 ThumbnailBuilder.FileDialog.Title=选择图像文件
 ThumbnailBuilder.FileDialog.FileNameError.Title=错误
 ThumbnailBuilder.FileDialog.FileNameError.Message=您选择的文件不是图像。
+ThumbnailBuilder.Button.GenerateFromReport=Generate from the report
+ThumbnailBuilder.Button.BrowseFromFileSystem=Browse from file system
+ThumbnailBuilder.Button.ImportFromResource=Import from shared resources
+ThumbnailBuilder.Image.DefaultName=Thumbnail Image
 
 ###########################################################
 #FragmentResourceEntry properties
@@ -3813,3 +3866,5 @@ SampleReportsView.Action.openSampleReport=打开
 SampleReportsView.Action.exportSampleReport.toolTipText=导出选择的示例报表
 SampleReportsView.Action.openSampleReport.toolTipText.ide=创建报表项目并将报表放入项目文件夹
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=将选择的示例报表直接导出到 RCP 工作区文件夹
+
+UseCssStyleAction.text=Use CSS File...

@@ -35,6 +35,13 @@ AddLibraryAction.Dialog.Tilte=라이브러리 선택
 AddCSSAction.Text=CSS 파일 추가...
 
 ###########################################################
+#AddCSSDialog
+AddCSSWizardDialog.ShellText=Add CSS File
+AddCSSWizardDialog.TitleArea=Add CSS File to Resource Folder
+AddCSSWizardDialog.Message=Select a CSS file to import styles to resource folder
+
+
+###########################################################
 #PublishCSSAction properties
 PublishCSSAction.wizard.errorTitle=오류
 PublishCSSAction.wizard.message=CSS 파일이 들어 있는 디렉터리에는 게시할 수 없습니다. 게시할 다른 디렉터리를 선택하십시오.
@@ -425,7 +432,7 @@ dataset.editor.error.missingComputedColumnExpression=계산된 열 {0}의 식이 널(nul
 dataset.editor.error.missingComputedColumnName=계산된 열 이름이 널(null)이거나 비어 있을 수 없습니다.
 dataset.editor.error.noDataSource=데이터 집합 {0}에 사용할 수 있는 데이터 원본이 없습니다. 속성 뷰의 "데이터 집합" 항목에서 데이터 원본을 선택하십시오.
 dataset.editor.error.noEditorsFound=데이터 집합에 대한 편집기 없음 {0}.
-dataset.editor.error.noInputParameterDefaultValue=입력 매개 변수 {0}에 널(null)이 아닌 기본값이 있어야 합니다.
+dataset.editor.error.noInputParameterDefaultValue=Input parameter {0} should have a non-empty default value.
 dataset.editor.error.title=경고
 dataset.editor.error.unsupportedDataSet=지원되지 않는 데이터 집합 형식 - {0}.
 dataset.editor.error.validationParameter=입력 매개 변수 [{0}]의 값이 비어 있습니다. 값을 그대로 비워두시겠습니까?
@@ -2703,6 +2710,10 @@ PublishTemplateViewAction.action.displaytext=새 보고서 마법사를 템플릿에 등록...
 RefreshModuleHandleAction.Action.Text=라이브러리 새로 고침
 
 ###########################################################
+#ReloadCssStylesAction
+ReloadCssStylesAction.Action.Text=Reload CSS File
+
+###########################################################
 #ReferencePage properties
 
 ReferencePage.Button.Edit=편집(&D)...
@@ -2722,6 +2733,14 @@ RefreshLibExplorerAction.Text=새로 고침
 #RemoveLibraryAction properties
 
 RemoveLibraryAction.Text=라이브러리 제거
+
+###########################################################
+#UseCssInReportDesignAction properties
+UseCssInReportDesignAction.Text=Use CSS in Report Design...
+
+###########################################################
+#UseCssInReportDesignAction properties
+UseCssInThemeAction.Text=Use CSS in Library...
 
 ###########################################################
 #RenameAction properties
@@ -3032,6 +3051,13 @@ SelectCssStyleWizard.wizard.title=CSS 스타일 가져오기
 SelectCssStyleWizard.wizardPage.description=CSS 파일을 선택하고 스타일을 보고서 디자인으로 가져옵니다.
 SelectCssStyleWizard.wizardPage.name=Css 스타일 선택
 SelectCssStyleWizard.wizardPage.title=CSS 파일의 스타일 가져오기
+
+###########################################################
+#UseCssInReportDialog properties
+UseCssInReportDialog.Wizard.Title=Uss CSS
+UseCssInReportDialog.Wizard.Filename=파일 이름(&F):
+UseCssInReportDialog.Label.Styles=&Available styles from {0}
+UseCssInReportDialog.Label.notifications=&Notifications:
 
 ###########################################################
 #SelectValueDialog properties
@@ -3632,7 +3658,6 @@ PublishLibraryDialog.AddText=라이브러리 추가
 PublishLibraryDialog.AddMessage=BIRT 리소스 폴더에 라이브러리 추가
 
 WizardLibrarySettingPage.ErrorMessage=폴더를 선택하십시오.
-
 WizardLibrarySettingPage.Resourcefile.Dialog.Title=리소스 폴더 찾아보기
 WizardLibrarySettingPage.Resourcefile.Dialog.Message=리소스 폴더 또는 해당 하위 폴더를 선택하십시오.
 
@@ -3643,7 +3668,30 @@ PublishLibraryDialog.AddLibrary=라이브러리 추가
 #PublishCSSDialog
 PublishCSSDialog.ShellText=CSS 파일 게시
 PublishCSSDialog.TitleArea=CSS 파일을 리소스 폴더에 게시
-PublishCSSDialog.Message=스타일을 리소스 폴더로 가져올 CSS 파일 선택
+PublishCSSDialog.Message=Select a CSS file to import styles to resource folder
+
+PublishCSSDialog.Label.SourceFileName=원본 파일(&S):
+PublishCSSDialog.Label.FileName=파일 이름(&N):
+PublishCSSDialog.Label.Folder=폴더(&F):
+PublishCSSDialog.Label.Browse=찾아보기...
+PublishCSSDialog.Label.Browse2=찾아보기(&W)...
+
+PublishCSSDialog.ErrorMessage.SelectFolder=폴더를 선택하십시오.
+
+PublishCSSDialog.Dialog.FileSeclect.Tilte=Select a CSS File
+PublishCSSDialog.Error.Exception.Title=오류
+PublishCSSDialog.Error.FileNotFound=파일 ''{0}''이(가) 없습니다.
+PublishCSSDialog.Error.FileIsNotCSSFile=''{0}''파일이 ''{1}''(으)로 끝나지 않습니다.
+PublishCSSDialog.Error.FileExist=파일이 이미 있습니다.
+
+PublishCSSDialog.Message.SourceFileEmpty=원본 파일 이름이 필요합니다.
+PublishCSSDialog.Message.FileNameEmpty=파일 이름이 필요합니다.
+PublishCSSDialog.Message.FileNameError=File name should end with .css.
+PublishCSSDialog.Message.FolderEmpty=
+
+WizardCSSSettingPage.ErrorMessage=폴더를 선택하십시오.
+WizardCSSSettingPage.Resourcefile.Dialog.Title=리소스 폴더 찾아보기
+WizardCSSSettingPage.Resourcefile.Dialog.Message=리소스 폴더 또는 해당 하위 폴더를 선택하십시오.
 
 ###########################################################
 #EmbeddedImagesNodeProvider
@@ -3699,9 +3747,14 @@ ThumbnailBuilder.Text.Title=축소판 보기 관리
 ThumbnailBuilder.Button.Text.Generate=생성(&G)
 ThumbnailBuilder.Button.Text.Remove=제거(&R)
 ThumbnailBuilder.Button.Text.Import=가져오기(&I)...
+ThumbnailBuilder.Button.Text.Browse=찾아보기...
 ThumbnailBuilder.FileDialog.Title=이미지 파일 선택
 ThumbnailBuilder.FileDialog.FileNameError.Title=오류
 ThumbnailBuilder.FileDialog.FileNameError.Message=선택한 파일이 이미지가 아닙니다.
+ThumbnailBuilder.Button.GenerateFromReport=Generate from the report
+ThumbnailBuilder.Button.BrowseFromFileSystem=Browse from file system
+ThumbnailBuilder.Button.ImportFromResource=Import from shared resources
+ThumbnailBuilder.Image.DefaultName=Thumbnail Image
 
 ###########################################################
 #FragmentResourceEntry properties
@@ -3813,3 +3866,5 @@ SampleReportsView.Action.openSampleReport=열기
 SampleReportsView.Action.exportSampleReport.toolTipText=선택된 샘플 보고서 내보내기
 SampleReportsView.Action.openSampleReport.toolTipText.ide=보고서 프로젝트를 생성하여 보고서를 프로젝트 폴더에 배치
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=선택된 샘플 보고서를 작업 영역 폴더에 직접 내보내기
+
+UseCssStyleAction.text=Use CSS File...

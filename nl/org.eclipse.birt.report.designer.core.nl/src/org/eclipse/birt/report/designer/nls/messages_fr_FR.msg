@@ -35,6 +35,13 @@ AddLibraryAction.Dialog.Tilte=Sélectionnez une bibliothèque
 AddCSSAction.Text=Ajouter un fichier CSS...
 
 ###########################################################
+#AddCSSDialog
+AddCSSWizardDialog.ShellText=Add CSS File
+AddCSSWizardDialog.TitleArea=Add CSS File to Resource Folder
+AddCSSWizardDialog.Message=Select a CSS file to import styles to resource folder
+
+
+###########################################################
 #PublishCSSAction properties
 PublishCSSAction.wizard.errorTitle=Erreur
 PublishCSSAction.wizard.message=Impossible de publier le fichier CSS dans son propre répertoire ; sélectionnez un autre répertoire pour procéder à la publication.
@@ -425,7 +432,7 @@ dataset.editor.error.missingComputedColumnExpression=L''expression de la colonne
 dataset.editor.error.missingComputedColumnName=Le nom de la colonne de calcul ne peut être ni nul, ni vide.
 dataset.editor.error.noDataSource=Aucune source de données disponible pour le jeu de données {0}, sélectionnez une source de données dans l''entrée Source de données de la vue des propriétés.
 dataset.editor.error.noEditorsFound=Aucun éditeur trouvé pour le jeu de données {0}.
-dataset.editor.error.noInputParameterDefaultValue=Le paramètre d''entrée {0} doit comporter une valeur non nulle par défaut.
+dataset.editor.error.noInputParameterDefaultValue=Input parameter {0} should have a non-empty default value.
 dataset.editor.error.title=Avertissement
 dataset.editor.error.unsupportedDataSet=Type de jeu de données non pris en charge - {0}.
 dataset.editor.error.validationParameter=Un paramètre d'entrée [{0}] contient une valeur vierge. Voulez-vous laisser cette valeur vierge ?
@@ -2703,6 +2710,10 @@ PublishTemplateViewAction.action.displaytext=Enregistrer le modèle avec l'assist
 RefreshModuleHandleAction.Action.Text=Actualiser la bibliothèque
 
 ###########################################################
+#ReloadCssStylesAction
+ReloadCssStylesAction.Action.Text=Reload CSS File
+
+###########################################################
 #ReferencePage properties
 
 ReferencePage.Button.Edit=&Modifier...
@@ -2722,6 +2733,14 @@ RefreshLibExplorerAction.Text=Actualiser
 #RemoveLibraryAction properties
 
 RemoveLibraryAction.Text=Supprimer la bibliothèque
+
+###########################################################
+#UseCssInReportDesignAction properties
+UseCssInReportDesignAction.Text=Use CSS in Report Design...
+
+###########################################################
+#UseCssInReportDesignAction properties
+UseCssInThemeAction.Text=Use CSS in Library...
 
 ###########################################################
 #RenameAction properties
@@ -3032,6 +3051,13 @@ SelectCssStyleWizard.wizard.title=Importer les styles CSS
 SelectCssStyleWizard.wizardPage.description=Sélectionnez un fichier CSS, puis importez les styles dans le modèle d'état.
 SelectCssStyleWizard.wizardPage.name=Sélectionner les styles CSS
 SelectCssStyleWizard.wizardPage.title=Importer le style depuis un fichier CSS
+
+###########################################################
+#UseCssInReportDialog properties
+UseCssInReportDialog.Wizard.Title=Uss CSS
+UseCssInReportDialog.Wizard.Filename=&Nom de fichier :
+UseCssInReportDialog.Label.Styles=&Available styles from {0}
+UseCssInReportDialog.Label.notifications=&Notifications:
 
 ###########################################################
 #SelectValueDialog properties
@@ -3632,7 +3658,6 @@ PublishLibraryDialog.AddText=Ajouter une bibliothèque
 PublishLibraryDialog.AddMessage=Ajouter la bibliothèque dans le dossier de ressources BIRT
 
 WizardLibrarySettingPage.ErrorMessage=Sélectionner un dossier
-
 WizardLibrarySettingPage.Resourcefile.Dialog.Title=Parcourir les dossiers de ressources
 WizardLibrarySettingPage.Resourcefile.Dialog.Message=Sélectionnez le dossier de ressources ou un de ses sous-dossiers.
 
@@ -3643,7 +3668,30 @@ PublishLibraryDialog.AddLibrary=Ajouter une bibliothèque
 #PublishCSSDialog
 PublishCSSDialog.ShellText=Publier le fichier CSS
 PublishCSSDialog.TitleArea=Publier le fichier CSS dans le dossier de ressources
-PublishCSSDialog.Message=Sélectionner un fichier CSS pour importer les styles dans le dossier de ressources
+PublishCSSDialog.Message=Select a CSS file to import styles to resource folder
+
+PublishCSSDialog.Label.SourceFileName=&Fichier source :
+PublishCSSDialog.Label.FileName=&Nom de fichier :
+PublishCSSDialog.Label.Folder=&Dossier :
+PublishCSSDialog.Label.Browse=Parcourir...
+PublishCSSDialog.Label.Browse2=Par&courir...
+
+PublishCSSDialog.ErrorMessage.SelectFolder=Sélectionner un dossier
+
+PublishCSSDialog.Dialog.FileSeclect.Tilte=Select a CSS File
+PublishCSSDialog.Error.Exception.Title=Erreur
+PublishCSSDialog.Error.FileNotFound=Fichier ''{0}'' introuvable.
+PublishCSSDialog.Error.FileIsNotCSSFile=Le fichier ''{0}'' ne se termine pas par ''{1}''.
+PublishCSSDialog.Error.FileExist=Ce fichier existe déjà.
+
+PublishCSSDialog.Message.SourceFileEmpty=Nom de fichier source requis.
+PublishCSSDialog.Message.FileNameEmpty=Nom de fichier requis.
+PublishCSSDialog.Message.FileNameError=File name should end with .css.
+PublishCSSDialog.Message.FolderEmpty=
+
+WizardCSSSettingPage.ErrorMessage=Sélectionner un dossier
+WizardCSSSettingPage.Resourcefile.Dialog.Title=Parcourir les dossiers de ressources
+WizardCSSSettingPage.Resourcefile.Dialog.Message=Sélectionnez le dossier de ressources ou un de ses sous-dossiers.
 
 ###########################################################
 #EmbeddedImagesNodeProvider
@@ -3699,9 +3747,14 @@ ThumbnailBuilder.Text.Title=Gérer la miniature
 ThumbnailBuilder.Button.Text.Generate=&Générer
 ThumbnailBuilder.Button.Text.Remove=&Supprimer
 ThumbnailBuilder.Button.Text.Import=&Importer...
+ThumbnailBuilder.Button.Text.Browse=Parcourir...
 ThumbnailBuilder.FileDialog.Title=Sélectionner un fichier image
 ThumbnailBuilder.FileDialog.FileNameError.Title=Erreur
 ThumbnailBuilder.FileDialog.FileNameError.Message=Le fichier sélectionné n'est pas une image.
+ThumbnailBuilder.Button.GenerateFromReport=Generate from the report
+ThumbnailBuilder.Button.BrowseFromFileSystem=Browse from file system
+ThumbnailBuilder.Button.ImportFromResource=Import from shared resources
+ThumbnailBuilder.Image.DefaultName=Thumbnail Image
 
 ###########################################################
 #FragmentResourceEntry properties
@@ -3813,3 +3866,5 @@ SampleReportsView.Action.openSampleReport=Ouvrir
 SampleReportsView.Action.exportSampleReport.toolTipText=Exporter l'exemple d'état sélectionné
 SampleReportsView.Action.openSampleReport.toolTipText.ide=Créer un projet d'état et placer l'état dans le dossier de projet
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=Exporter directement l'exemple d'état sélectionné dans le dossier de l'espace de travail RCP
+
+UseCssStyleAction.text=Use CSS File...

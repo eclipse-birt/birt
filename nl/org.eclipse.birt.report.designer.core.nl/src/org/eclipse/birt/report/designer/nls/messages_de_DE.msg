@@ -35,6 +35,13 @@ AddLibraryAction.Dialog.Tilte=Bibliothek auswählen
 AddCSSAction.Text=CSS-Datei hinzufügen...
 
 ###########################################################
+#AddCSSDialog
+AddCSSWizardDialog.ShellText=Add CSS File
+AddCSSWizardDialog.TitleArea=Add CSS File to Resource Folder
+AddCSSWizardDialog.Message=Select a CSS file to import styles to resource folder
+
+
+###########################################################
 #PublishCSSAction properties
 PublishCSSAction.wizard.errorTitle=Fehler
 PublishCSSAction.wizard.message=Die CSS-Datei kann nicht in dem Verzeichnis veröffentlicht werden, in dem sie sich befindet. Wählen Sie zur Veröffentlichung ein anderes Verzeichnis.
@@ -425,7 +432,7 @@ dataset.editor.error.missingComputedColumnExpression=Der Ausdruck der berechnete
 dataset.editor.error.missingComputedColumnName=Der berechnete Spaltenname darf nicht leer oder gleich Null sein.
 dataset.editor.error.noDataSource=Keine Datenquelle verfügbar für den Datensatz {0}; wählen Sie einen Datenquellen-Eintrag in der Eigenschaftenansicht aus.
 dataset.editor.error.noEditorsFound=Keinen Editor für Datensatz gefunden {0}.
-dataset.editor.error.noInputParameterDefaultValue=Eingabeparameter {0} muss einen Standardwert, der ungleich Null ist, aufweisen.
+dataset.editor.error.noInputParameterDefaultValue=Input parameter {0} should have a non-empty default value.
 dataset.editor.error.title=Warnung
 dataset.editor.error.unsupportedDataSet=Nicht unterstützter Datensatztyp - {0}.
 dataset.editor.error.validationParameter=Für den Eingabeparameter [{0}] liegt kein Wert vor. Soll der Parameter ohne Wert bleiben?
@@ -2703,6 +2710,10 @@ PublishTemplateViewAction.action.displaytext=Vorlage mit Assistent für neuen Ber
 RefreshModuleHandleAction.Action.Text=Bibliothek aktualisieren
 
 ###########################################################
+#ReloadCssStylesAction
+ReloadCssStylesAction.Action.Text=Reload CSS File
+
+###########################################################
 #ReferencePage properties
 
 ReferencePage.Button.Edit=&Bearbeiten...
@@ -2722,6 +2733,14 @@ RefreshLibExplorerAction.Text=Aktualisieren
 #RemoveLibraryAction properties
 
 RemoveLibraryAction.Text=Bibliothek entfernen
+
+###########################################################
+#UseCssInReportDesignAction properties
+UseCssInReportDesignAction.Text=Use CSS in Report Design...
+
+###########################################################
+#UseCssInReportDesignAction properties
+UseCssInThemeAction.Text=Use CSS in Library...
 
 ###########################################################
 #RenameAction properties
@@ -3032,6 +3051,13 @@ SelectCssStyleWizard.wizard.title=CSS-Stile importieren
 SelectCssStyleWizard.wizardPage.description=Wählen Sie eine CSS-Datei, und importieren Sie die Stile in das Berichtdesign.
 SelectCssStyleWizard.wizardPage.name=CSS-Stile auswählen
 SelectCssStyleWizard.wizardPage.title=Stile aus CSS-Datei importieren
+
+###########################################################
+#UseCssInReportDialog properties
+UseCssInReportDialog.Wizard.Title=Uss CSS
+UseCssInReportDialog.Wizard.Filename=&Dateiname:
+UseCssInReportDialog.Label.Styles=&Available styles from {0}
+UseCssInReportDialog.Label.notifications=&Notifications:
 
 ###########################################################
 #SelectValueDialog properties
@@ -3632,7 +3658,6 @@ PublishLibraryDialog.AddText=Bibliothek hinzufügen
 PublishLibraryDialog.AddMessage=Bibliothek zum BIRT-Ressourcenordner hinzufügen
 
 WizardLibrarySettingPage.ErrorMessage=Wählen Sie einen Ordner aus.
-
 WizardLibrarySettingPage.Resourcefile.Dialog.Title=Ressourcenordner durchsuchen
 WizardLibrarySettingPage.Resourcefile.Dialog.Message=Wählen Sie den Ressourcenordner oder dessen Unterordner aus.
 
@@ -3643,7 +3668,30 @@ PublishLibraryDialog.AddLibrary=Bibliothek hinzufügen
 #PublishCSSDialog
 PublishCSSDialog.ShellText=CSS-Datei veröffentlichen
 PublishCSSDialog.TitleArea=CSS-Datei in Ressourcenordner veröffentlichen
-PublishCSSDialog.Message=Wählen Sie eine CSS-Datei aus, um Stile in den Ressourcenordner zu importieren
+PublishCSSDialog.Message=Select a CSS file to import styles to resource folder
+
+PublishCSSDialog.Label.SourceFileName=&Quelldatei:
+PublishCSSDialog.Label.FileName=&Dateiname:
+PublishCSSDialog.Label.Folder=&Ordner:
+PublishCSSDialog.Label.Browse=Durchsuchen ...
+PublishCSSDialog.Label.Browse2=D&urchsuchen...
+
+PublishCSSDialog.ErrorMessage.SelectFolder=Wählen Sie einen Ordner aus.
+
+PublishCSSDialog.Dialog.FileSeclect.Tilte=Select a CSS File
+PublishCSSDialog.Error.Exception.Title=Fehler
+PublishCSSDialog.Error.FileNotFound=Datei ''{0}'' wurde nicht gefunden.
+PublishCSSDialog.Error.FileIsNotCSSFile=Datei ''{0}'' endet nicht mit ''{1}''.
+PublishCSSDialog.Error.FileExist=Die Datei ist bereits vorhanden.
+
+PublishCSSDialog.Message.SourceFileEmpty=Name der Quelldatei erforderlich.
+PublishCSSDialog.Message.FileNameEmpty=Dateiname erforderlich.
+PublishCSSDialog.Message.FileNameError=File name should end with .css.
+PublishCSSDialog.Message.FolderEmpty=
+
+WizardCSSSettingPage.ErrorMessage=Wählen Sie einen Ordner aus.
+WizardCSSSettingPage.Resourcefile.Dialog.Title=Ressourcenordner durchsuchen
+WizardCSSSettingPage.Resourcefile.Dialog.Message=Wählen Sie den Ressourcenordner oder dessen Unterordner aus.
 
 ###########################################################
 #EmbeddedImagesNodeProvider
@@ -3699,9 +3747,14 @@ ThumbnailBuilder.Text.Title=Miniatur verwalten
 ThumbnailBuilder.Button.Text.Generate=&Generieren
 ThumbnailBuilder.Button.Text.Remove=&Entfernen
 ThumbnailBuilder.Button.Text.Import=&Importieren...
+ThumbnailBuilder.Button.Text.Browse=Durchsuchen ...
 ThumbnailBuilder.FileDialog.Title=Bilddatei auswählen
 ThumbnailBuilder.FileDialog.FileNameError.Title=Fehler
 ThumbnailBuilder.FileDialog.FileNameError.Message=Die ausgewählte Datei ist keine Bilddatei.
+ThumbnailBuilder.Button.GenerateFromReport=Generate from the report
+ThumbnailBuilder.Button.BrowseFromFileSystem=Browse from file system
+ThumbnailBuilder.Button.ImportFromResource=Import from shared resources
+ThumbnailBuilder.Image.DefaultName=Thumbnail Image
 
 ###########################################################
 #FragmentResourceEntry properties
@@ -3813,3 +3866,5 @@ SampleReportsView.Action.openSampleReport=Öffnen
 SampleReportsView.Action.exportSampleReport.toolTipText=Ausgewählten Beispielbericht exportieren
 SampleReportsView.Action.openSampleReport.toolTipText.ide=Berichtprojekt erstellen und Bericht im Projektordner aufnehmen
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=Ausgewählten Beispielbericht direkt in den Ordner des RCP-Arbeitsbereichs exportieren
+
+UseCssStyleAction.text=Use CSS File...
