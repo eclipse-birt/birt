@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
+import org.eclipse.birt.report.designer.data.ui.aggregation.AggregationUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
@@ -372,6 +373,13 @@ public class ExpressionProvider implements IExpressionProvider
 				} );
 			}
 			for ( Iterator iter = DEUtil.getMethods( classInfo ).iterator( ); iter.hasNext( ); )
+			{
+				childrenList.add( new ILocalizableInfo[]{
+						classInfo, (IMethodInfo) iter.next( )
+				} );
+			}
+
+			for ( Iterator iter = AggregationUtil.getMethods( classInfo ).iterator( ); iter.hasNext( ); )
 			{
 				childrenList.add( new ILocalizableInfo[]{
 						classInfo, (IMethodInfo) iter.next( )
