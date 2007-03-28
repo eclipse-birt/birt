@@ -211,8 +211,19 @@ public class ResultClass implements IResultClass
 		
 		DataOutputStream dos = new DataOutputStream( outputStream );
 		Set resultSetNameSet = ResultSetUtil.getRsColumnRequestMap( requestColumnMap );
-
+		
+		// If there are refrences on columnName and columnAlias in
+		// resultSetNameSet, size--;
 		int size = resultSetNameSet.size( );
+		for ( int i = 0; i < projectedCols.length; i++ )
+		{
+			String columnName = projectedCols[i].getName( );
+			String columnAlias = projectedCols[i].getAlias( );
+			if ( resultSetNameSet.contains( columnName )
+					&& resultSetNameSet.contains( columnAlias ) )
+				size--;
+		}
+
 		try
 		{
 			IOUtil.writeInt( outputStream, size );
