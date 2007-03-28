@@ -27,7 +27,6 @@ import org.eclipse.birt.data.engine.api.querydefn.ParameterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
-import org.eclipse.birt.data.engine.core.DataException;
 
 import testutil.ConfigText;
 
@@ -239,10 +238,10 @@ public class InputParameterTest extends APITestCase
 		runQuery( baseDataset, inputParamDefns, inputParamBindingsOfDS, inputParamBindingsOfQuery );
 	}
 	
-	/**
+/*	*//**
 	 * Test one parameter, there are one parameter bindings, which is from data set,
 	 * @throws Exception
-	 */
+	 *//*
 	public void test8( ) throws Exception
 	{
 		IBaseDataSetDesign baseDataset = newDataSet( "newDataSet", "select * from "
@@ -269,11 +268,11 @@ public class InputParameterTest extends APITestCase
 		}
 	}
 	
-	/**
+	*//**
 	 * Test the parameter with Anytype if the parameter meta type is integer
 	 * 
 	 * @throws Exception
-	 */
+	 *//*
 	public void test9( ) throws Exception 
 	{
 		IBaseDataSetDesign baseDataset = newDataSet( "newDataSet",
@@ -306,7 +305,7 @@ public class InputParameterTest extends APITestCase
 		{
 			// expect a DataException
 		}
-	}
+	}*/
 	
 	/**
 	 * Test one parameter, only parameter define, dte will new a parameter

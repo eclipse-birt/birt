@@ -154,7 +154,8 @@ class BindingColumnsEvalUtil
 		{
 			BindingColumn bindingColumn = (BindingColumn) itr.next( );
 			Object exprValue = evaluateValue( bindingColumn, AUTO_BINDING );
-			exprValueMap.put( bindingColumn.columnName, exprValue );
+			if ( exprValueMap.get( bindingColumn.columnName ) == null )
+				exprValueMap.put( bindingColumn.columnName, exprValue );
 		}
 
 		saveHelper.doSaveExpr( exprValueMap );

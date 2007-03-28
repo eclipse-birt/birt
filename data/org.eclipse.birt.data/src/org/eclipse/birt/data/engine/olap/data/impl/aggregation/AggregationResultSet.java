@@ -71,8 +71,9 @@ public class AggregationResultSet implements IAggregationResultSet
 
 					for ( int j = 0; j < attributeDataTypes[i].length; j++ )
 					{
-						attributeDataTypes[i][i] = DataType.getDataType(
-							resultObject.levelMembers[i].attributes[i].getClass( ) );
+						if ( resultObject.levelMembers[i].attributes[j]!= null )
+						attributeDataTypes[i][j] = DataType.getDataType(
+							resultObject.levelMembers[i].attributes[j].getClass( ) );
 					}
 				}
 			}

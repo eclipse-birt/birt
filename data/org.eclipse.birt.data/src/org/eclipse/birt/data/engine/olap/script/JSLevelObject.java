@@ -67,7 +67,7 @@ public class JSLevelObject extends ScriptableObject
 	{
 		try
 		{
-			return this.cursor.getObject( name );
+			return this.cursor.getObject( levelName + "/" + name );
 		}
 		catch ( OLAPException e )
 		{
