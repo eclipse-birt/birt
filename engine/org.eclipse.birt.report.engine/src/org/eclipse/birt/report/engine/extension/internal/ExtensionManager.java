@@ -304,7 +304,6 @@ public class ExtensionManager
 				logger.log(Level.WARNING, "Can not instantiate class {0} with property {1}.",	//$NON-NLS-1$ 
 						new String[] {config.getAttribute("class"), property} );	//$NON-NLS-1$
 			}
-			ex.printStackTrace();
 		}
 		return null;
 	}
