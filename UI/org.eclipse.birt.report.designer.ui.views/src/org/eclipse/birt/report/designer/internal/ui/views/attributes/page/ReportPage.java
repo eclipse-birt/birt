@@ -14,7 +14,6 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 import java.io.ByteArrayOutputStream;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.AddImageResourceFileFolderSelectionDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextAndTwoButtonSection;
@@ -26,7 +25,6 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -63,32 +61,12 @@ public class ReportPage extends ModulePage
 						container,
 						true );
 		prvImageSection.setProvider( prvImageProvider );
-		prvImageSection.addFirstSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				String fileName = null;
-				AddImageResourceFileFolderSelectionDialog dlg = new AddImageResourceFileFolderSelectionDialog( );
-				if ( dlg.open( ) == Window.OK )
-				{
-					fileName = dlg.getPath( );
-				}
-				if ( fileName == null || fileName.trim( ).length( ) == 0 )
-				{
-					return;
-				}
-
-				prvImageSection.setStringValue( fileName );
-				prvImageSection.forceFocus( );
-			}
-
-		} );
-		
 		prvImageSection.addSecondSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
 				ThumbnailBuilder dialog = new ThumbnailBuilder( );
+				dialog.setImageName( prvImageSection.getTextControl( ).getText( ) );
 				ReportDesignHandle handle = (ReportDesignHandle) SessionHandleAdapter.getInstance( )
 						.getReportDesignHandle( );
 				dialog.setReportDesignHandle( handle );
@@ -124,6 +102,7 @@ public class ReportPage extends ModulePage
 						image.dispose( );
 						image = null;
 					}
+					prvImageSection.setStringValue( dialog.getImageName( ) );
 
 				}
 				else
@@ -142,13 +121,15 @@ public class ReportPage extends ModulePage
 
 					}
 				}
+				
+				
 			}
 
 		} );
 		
 		prvImageSection.setWidth( 500 );
-		prvImageSection.setFristButtonText(  Messages.getString( "ReportPage.text.Browse" ) );
-		prvImageSection.setSecondButtonText( Messages.getString( "ReportPage.text.Thumbnail" ) );
+//		prvImageSection.setFristButtonText(  Messages.getString( "ReportPage.text.Browse" ) );
+		prvImageSection.setSecondButtonText( Messages.getString( "..." ) );
 
 		addSection( PageSectionId.REPORT_PRVIMAGE, prvImageSection );
 		

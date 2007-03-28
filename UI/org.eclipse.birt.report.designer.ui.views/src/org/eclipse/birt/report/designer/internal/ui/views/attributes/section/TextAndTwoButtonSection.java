@@ -45,7 +45,7 @@ public class TextAndTwoButtonSection extends Section
 			secondSelectList = new ArrayList( );
 		getLabelControl( parent );
 		getTextControl( parent );
-		getFirstButtonControl( parent );
+//		getFirstButtonControl( parent );
 		getSecondButtonControl( parent );
 		getGridPlaceholder( parent );
 	}
@@ -66,17 +66,6 @@ public class TextAndTwoButtonSection extends Section
 		}
 		else
 			gd.grabExcessHorizontalSpace = fillText;
-
-		gd = (GridData) firstButton.getLayoutData( );
-
-		if ( firstButtonWidth > -1 )
-		{
-			if ( !isComputeSize )
-				gd.widthHint = Math.max( firstButton.computeSize( -1, -1 ).x,
-						firstButtonWidth );
-			else
-				gd.widthHint = firstButton.computeSize( -1, -1 ).x;
-		}
 		
 		gd = (GridData) secondButton.getLayoutData( );
 		if ( secondButtonWidth > -1 )
@@ -119,66 +108,9 @@ public class TextAndTwoButtonSection extends Section
 	}
 
 
-	protected Button firstButton;
+
 
 	protected Button secondButton;
-
-	public Button getFirstButtonControl( )
-	{
-		return firstButton;
-	}
-
-	protected Button getFirstButtonControl( Composite parent )
-	{
-		if ( firstButton == null )
-		{
-			firstButton = FormWidgetFactory.getInstance( ).createButton( parent,
-					SWT.PUSH,
-					isFormStyle );
-			firstButton.setFont( parent.getFont( ) );
-
-			firstButton.setLayoutData( new GridData( ) );
-			String text = getFirstButtonText( );
-			if ( text != null )
-			{
-				firstButton.setText( text );
-			}
-
-			text = getFirstButtonTooltipText( );
-			if ( text != null )
-			{
-				firstButton.setToolTipText( text );
-			}
-
-			firstButton.addDisposeListener( new DisposeListener( ) {
-
-				public void widgetDisposed( DisposeEvent event )
-				{
-					firstButton = null;
-				}
-			} );
-
-			if ( !firstSelectList.isEmpty( ) )
-				firstButton.addSelectionListener( (SelectionListener) firstSelectList.get( 0 ) );
-			else
-			{
-				SelectionListener listener = new SelectionAdapter( ) {
-
-					public void widgetSelected( SelectionEvent e )
-					{
-						onClickFirstButton( );
-					}
-				};
-				firstSelectList.add( listener );
-			}
-
-		}
-		else
-		{
-			checkParent( firstButton, parent );
-		}
-		return firstButton;
-	}
 
 	protected Button getSecondButtonControl( Composite parent )
 	{
@@ -243,7 +175,7 @@ public class TextAndTwoButtonSection extends Section
 		return secondButtonText;
 	}
 
-	private String firstButtonText;
+//	private String firstButtonText;
 	
 	private String secondButtonText;
 
@@ -263,30 +195,7 @@ public class TextAndTwoButtonSection extends Section
 
 	protected List firstSelectList = new ArrayList( );
 
-	/**
-	 * if use this method , you couldn't use the onClickButton method.
-	 */
-	public void addFirstSelectionListener( SelectionListener listener )
-	{
-		if ( !firstSelectList.contains( listener ) )
-		{
-			if ( !firstSelectList.isEmpty( ) )
-				removeFirstSelectionListener( (SelectionListener) firstSelectList.get( 0 ) );
-			firstSelectList.add( listener );
-			if ( firstButton != null )
-				firstButton.addSelectionListener( listener );
-		}
-	}
 
-	public void removeFirstSelectionListener( SelectionListener listener )
-	{
-		if ( firstSelectList.contains( listener ) )
-		{
-			firstSelectList.remove( listener );
-			if ( firstButton != null )
-				firstButton.removeSelectionListener( listener );
-		}
-	}
 	
 	/**
 	 * if use this method , you couldn't use the onClickButton method.
@@ -313,10 +222,6 @@ public class TextAndTwoButtonSection extends Section
 		}
 	}
 
-	protected void onClickFirstButton( )
-	{
-	};
-
 	protected void onClickSecondButton( )
 	{
 	};
@@ -336,22 +241,6 @@ public class TextAndTwoButtonSection extends Section
 	{
 		if(textField!=null && !textField.getControl( ).isDisposed( ))textField.load( );
 	}
-
-	private int firstButtonWidth = 60;
-
-	public void setFirstButtonWidth( int buttonWidth )
-	{
-		this.firstButtonWidth = buttonWidth;
-		if ( firstButton != null )
-		{
-			GridData data = new GridData( );
-			data.widthHint = Math.max( firstButton.computeSize( -1, -1 ).x,
-					buttonWidth );;
-			data.grabExcessHorizontalSpace = false;
-			firstButton.setLayoutData( data );
-		}
-	}
-
 	
 	private int secondButtonWidth = 60;
 
@@ -381,10 +270,6 @@ public class TextAndTwoButtonSection extends Section
 		this.width = width;
 	}
 
-	public int getFirstButtonWidth( )
-	{
-		return firstButtonWidth;
-	}
 
 	private String oldValue;
 
@@ -419,9 +304,6 @@ public class TextAndTwoButtonSection extends Section
 		if ( displayLabel != null )
 			WidgetUtil.setExcludeGridData( displayLabel, isHidden );
 		if ( textField != null )
-			textField.setHidden( isHidden );
-		if ( firstButton != null )
-			WidgetUtil.setExcludeGridData( firstButton, isHidden );
 		if ( placeholderLabel != null )
 			WidgetUtil.setExcludeGridData( placeholderLabel, isHidden );
 	}
@@ -432,21 +314,10 @@ public class TextAndTwoButtonSection extends Section
 			displayLabel.setVisible( isVisible );
 		if ( textField != null )
 			textField.setVisible( isVisible );
-		if ( firstButton != null )
-			firstButton.setVisible( isVisible );
 		if ( placeholderLabel != null )
 			placeholderLabel.setVisible( isVisible );
 	}
 
-	private String firstButtonTooltipText;
-
-	public void setFirstButtonTooltipText( String string )
-	{
-		this.firstButtonTooltipText = string;
-		if ( firstButton != null )
-			firstButton.setText( firstButtonTooltipText );
-
-	}
 	
 	private String secondButtonTooltipText;
 
@@ -458,18 +329,7 @@ public class TextAndTwoButtonSection extends Section
 
 	}
 
-	public String getFirstButtonText( )
-	{
-		return firstButtonText;
-	}
 
-	public void setFristButtonText( String buttonText )
-	{
-		this.firstButtonText = buttonText;
-		if ( firstButton != null )
-			firstButton.setText( buttonText );
-	}
-	
 	public void setSecondButtonText( String buttonText )
 	{
 		this.secondButtonText = buttonText;
@@ -477,10 +337,7 @@ public class TextAndTwoButtonSection extends Section
 			secondButton.setText( buttonText );
 	}
 
-	public String getFirstButtonTooltipText( )
-	{
-		return firstButtonTooltipText;
-	}
+
 
 	public boolean buttonIsComputeSize( )
 	{

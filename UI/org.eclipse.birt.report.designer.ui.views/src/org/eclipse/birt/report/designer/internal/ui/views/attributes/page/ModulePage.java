@@ -72,23 +72,6 @@ public class ModulePage extends AttributePage
 		titleSection.setGridPlaceholder( 2, true );
 		addSection( PageSectionId.MODULE_TITLE, titleSection );
 
-		// WidgetUtil.buildGridControl( this,
-		// propertiesMap,
-		// ReportDesignConstants.MODULE_ELEMENT,
-		// ModuleHandle.UNITS_PROP,
-		// 2,
-		// 500 );
-
-//		TextPropertyDescriptorProvider resourceProvider = new TextPropertyDescriptorProvider( ModuleHandle.INCLUDE_RESOURCE_PROP,
-//				ReportDesignConstants.MODULE_ELEMENT );
-//		TextSection resourceSection = new TextSection( resourceProvider.getDisplayName( ),
-//				container,
-//				true );
-//		resourceSection.setProvider( resourceProvider );
-//
-//		resourceSection.setWidth( 500 );
-//		resourceSection.setGridPlaceholder( 2, true );
-//		addSection( PageSectionId.MODULE_RESOURCE, resourceSection );
 
 		SeperatorSection seperatorSection = new SeperatorSection( container,
 				SWT.HORIZONTAL );

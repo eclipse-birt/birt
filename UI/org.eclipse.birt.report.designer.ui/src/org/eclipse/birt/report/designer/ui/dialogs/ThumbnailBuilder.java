@@ -31,12 +31,8 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
@@ -45,10 +41,8 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
@@ -192,7 +186,7 @@ public class ThumbnailBuilder extends BaseDialog
 		selectionArea.setLayout( new GridLayout());
 		
 		radioBtnGenerate = new Button( selectionArea, SWT.RADIO );
-		radioBtnGenerate.setText( "Generate from the report" );
+		radioBtnGenerate.setText( Messages.getString( "ThumbnailBuilder.Button.GenerateFromReport" ));
 		radioBtnGenerate.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -202,7 +196,7 @@ public class ThumbnailBuilder extends BaseDialog
 		} );
 		
 		radioBtnBrowse = new Button( selectionArea, SWT.RADIO );
-		radioBtnBrowse.setText( "Browse from file system" );
+		radioBtnBrowse.setText(Messages.getString( "ThumbnailBuilder.Button.BrowseFromFileSystem" ) );
 		radioBtnBrowse.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -212,7 +206,7 @@ public class ThumbnailBuilder extends BaseDialog
 		} );
 		
 		radioBtnImport = new Button( selectionArea, SWT.RADIO );
-		radioBtnImport.setText( "Import from shared resources" );
+		radioBtnImport.setText( Messages.getString( "ThumbnailBuilder.Button.ImportFromResource" ) );
 		radioBtnImport.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -232,17 +226,17 @@ public class ThumbnailBuilder extends BaseDialog
 		switch (type)
 		{
 			case GENERATE_TYPE:
-				btnImplement.setText( "Generate" );
+				btnImplement.setText( Messages.getString( "ThumbnailBuilder.Button.Text.Generate") );
 				currentListener = btnGenerateListener;
 				btnImplement.addListener( SWT.Selection,currentListener );
 				break;
 			case BROWSER_TYPE:
-				btnImplement.setText( "Browse..." );	
+				btnImplement.setText( Messages.getString( "ThumbnailBuilder.Button.Text.Browse"));	
 				currentListener = btnBrowseListener;
 				btnImplement.addListener( SWT.Selection,currentListener );
 				break;
 			case IMPORT_TYPE:
-				btnImplement.setText( "Import..." );
+				btnImplement.setText(  Messages.getString( "ThumbnailBuilder.Button.Text.Import"));
 				currentListener = btnImportListener;
 				btnImplement.addListener( SWT.Selection,currentListener );
 				break;
@@ -368,7 +362,7 @@ public class ThumbnailBuilder extends BaseDialog
 			btnRemove.setEnabled( true );
 			isGenerated = true;
 			hasThumbnail = true;
-			imageName = "Thumbnail Image";
+			imageName = Messages.getString( "ThumbnailBuilder.Image.DefaultName" );
 		}
 	};
 
