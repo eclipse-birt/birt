@@ -188,21 +188,21 @@ public class StringUtil
 			fNumber = 0;
 
 		String pattern = null;
-		switch( fNumber )
+		switch ( fNumber )
 		{
-			case 0:
+			case 0 :
 				pattern = "#0"; //$NON-NLS-1$
-				break;			
-			default:
+				break;
+			default :
 				pattern = "#0."; //$NON-NLS-1$
-			    StringBuffer b = new StringBuffer( pattern);
+				StringBuffer b = new StringBuffer( pattern );
 				for ( int i = 0; i < fNumber; i++ )
 				{
-					b.append( '#' );					
+					b.append( '#' );
 				}
 				pattern = b.toString( );
 				break;
-				
+
 		}
 		NumberFormatter formatter = new NumberFormatter( ULocale.ENGLISH );
 		formatter.applyPattern( pattern );
@@ -236,8 +236,8 @@ public class StringUtil
 
 		int dotPos = filePathName.lastIndexOf( '.' );
 		int slashPos = filePathName.lastIndexOf( '\\' );
-		
-		int backSlashPos = filePathName.lastIndexOf( '/' );		
+
+		int backSlashPos = filePathName.lastIndexOf( '/' );
 		slashPos = slashPos > backSlashPos ? slashPos : backSlashPos;
 
 		if ( dotPos > slashPos )
@@ -274,7 +274,7 @@ public class StringUtil
 
 		int slashPos = filePathName.lastIndexOf( '\\' );
 		int backSlashPos = filePathName.lastIndexOf( '/' );
-		
+
 		slashPos = slashPos > backSlashPos ? slashPos : backSlashPos;
 		return filePathName.substring( slashPos > 0 ? slashPos + 1 : 0 );
 	}
@@ -378,6 +378,8 @@ public class StringUtil
 
 		value = value.trim( );
 		if ( value.startsWith( "\"" ) && value.endsWith( "\"" ) ) //$NON-NLS-1$ //$NON-NLS-2$
+			return value.substring( 1, value.length( ) - 1 );
+		if ( value.startsWith( "'" ) && value.endsWith( "'" ) ) //$NON-NLS-1$ //$NON-NLS-2$
 			return value.substring( 1, value.length( ) - 1 );
 
 		return value;
