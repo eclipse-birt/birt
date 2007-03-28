@@ -175,6 +175,25 @@ public class ParserCompatibilityTest extends BaseTestCase
 		save( );
 		assertTrue( compareFile( "CompatibleOdaDataSetProperty_golden.xml" ) );//$NON-NLS-1$
 	}
+	
+	/**
+	 * Test cachedRowCount property in SimpleDataSet
+	 * @throws Exception
+	 */
+	
+	public void testDataSetCachedRowCount() throws Exception
+	{
+		openDesign( "CompatibleDataSetCachedRowCount.xml" );//$NON-NLS-1$
+
+		OdaDataSetHandle dataSetHandle = (OdaDataSetHandle) designHandle
+				.findDataSet( "Data Set" ); //$NON-NLS-1$
+		assertNotNull( dataSetHandle );
+		assertEquals( 500 , dataSetHandle.getCachedRowCount( ) );
+
+		save( );
+		assertTrue( compareFile( "CompatibleDataSetCachedRowCount_golden.xml" ) );//$NON-NLS-1$
+	}
+
 
 	/**
 	 * Old version: <property name="msgBaseName">message </property> New

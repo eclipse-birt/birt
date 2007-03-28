@@ -29,7 +29,6 @@ import org.eclipse.birt.report.model.api.elements.structures.ParameterFormatValu
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
-import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StyledElement;
@@ -210,8 +209,10 @@ class PropertyState extends AbstractPropertyState
 
 		//Change 'cachedRowCount' to 'dataSetRowLimit' in DataSet element.
 		
-		if ( element instanceof DataSet
-				&& ISimpleDataSetModel.DATA_SET_ROW_LIMIT
+		//TODO should update version number tomorrow.
+		
+		if(  element instanceof DataSet
+				&& ISimpleDataSetModel.CACHED_ROW_COUNT_PROP
 						.equalsIgnoreCase( name ) )
 		{
 			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
@@ -219,7 +220,7 @@ class PropertyState extends AbstractPropertyState
 			state.setName( ISimpleDataSetModel.DATA_SET_ROW_LIMIT );
 			return state;
 		}
-
+		
 		if ( element instanceof ListGroup
 				&& IGroupElementModel.GROUP_START_PROP.equalsIgnoreCase( name ) )
 		{
