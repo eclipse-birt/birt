@@ -231,34 +231,35 @@ public class ReportDocumentTest extends EngineCase
 
 	protected TOCTree createTOC( )
 	{
+		long elementId = 1000;
 		TOCTree tree = new TOCTree( );
 		TOCBuilder builder = new TOCBuilder( tree );
 		TOCEntry rootEntry = builder.getTOCEntry( );
 		{
 			TOCEntry chapter1 = startEntry( builder, rootEntry,
-					"Chapter 1 title", null );
+					"Chapter 1 title", null, elementId++ );
 			{
-				createEntry( builder, chapter1, "Section 1 title", null );
-				createEntry( builder, chapter1, "Section 1 title", null );
-				createEntry( builder, chapter1, "Chapter 2 title", null );
+				createEntry( builder, chapter1, "Section 1 title", null, elementId++ );
+				createEntry( builder, chapter1, "Section 1 title", null, elementId++ );
+				createEntry( builder, chapter1, "Chapter 2 title", null, elementId++ );
 			}
 			builder.closeEntry( chapter1 );
-			createEntry( builder, rootEntry, "Chapter 2 title", null );
-			createEntry( builder, rootEntry, "Section 1 title", null );
+			createEntry( builder, rootEntry, "Chapter 2 title", null, elementId++ );
+			createEntry( builder, rootEntry, "Section 1 title", null, elementId++ );
 		}
 		return builder.getTOCTree( );
 	}
 
 	private TOCEntry startEntry( TOCBuilder builder, TOCEntry entry,
-			String displayString, String bookmark )
+			String displayString, String bookmark, long elementId )
 	{
-		return builder.startEntry( entry, displayString, bookmark );
+		return builder.startEntry( entry, displayString, bookmark, elementId );
 	}
 	
 	private TOCEntry createEntry( TOCBuilder builder, TOCEntry entry,
-			String displayString, String bookmark )
+			String displayString, String bookmark, long elementId )
 	{
-		return builder.createEntry( entry, displayString, bookmark );
+		return builder.createEntry( entry, displayString, bookmark, elementId );
 	}
 	
 	protected void checkTOC( ReportDocumentReader document )

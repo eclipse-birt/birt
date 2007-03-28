@@ -98,6 +98,7 @@ import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.TOCHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
@@ -1497,8 +1498,12 @@ public class EngineIRVisitor extends DesignVisitor
 		item.setY( y );
 
 		// setup TOC expression
-		String toc = handle.getTocExpression( );
-		item.setTOC( createExpression( toc ) );
+		TOCHandle tocHandle = handle.getTOC( );
+		if ( tocHandle != null )
+		{
+			String toc = tocHandle.getExpression( );
+			item.setTOC( createExpression( toc ) );
+		}
 
 		// setup book mark
 		String bookmark = handle.getBookmark( );

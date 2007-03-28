@@ -272,7 +272,8 @@ public class ReportContent implements IReportContent
 		{
 			tocTree = new TOCTree( );
 		}
-		return new TOCTree ( tocTree.getTOCRoot( ), format, locale );
+		return new TOCTree( tocTree.getTOCRoot( ), format, locale, report
+				.getReportDesign( ) );
 	}
 	
 	public void setTOCTree( TOCTree tocTree )

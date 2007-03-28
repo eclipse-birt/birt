@@ -588,7 +588,8 @@ public class ReportDocumentReader
 			return null;
 		}
 		intializeTOC( );
-		TOCTree result = new TOCTree( tocTree.getTOCRoot( ), format, locale );
+		TOCTree result = new TOCTree( tocTree.getTOCRoot( ), format, locale,
+				( (ReportRunnable) getReportRunnable( ) ).getReport( ) );
 		return result;
 	}
 

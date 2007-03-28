@@ -4,6 +4,8 @@ package org.eclipse.birt.report.engine.api;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
+
 /**
  * A node that wraps around a TOC entry. To navigate to a specific TOC entry, one starts
  * with the TOC root and traverse down the TOC tree, obtaining list of TOC nodes.
@@ -36,6 +38,11 @@ public class TOCNode
 	 * A list of children for the TOC node
 	 */
 	protected ArrayList children;
+	
+	/**
+	 * The TOC's style 
+	 */
+	protected IScriptStyle tocStyle;
 
 	public TOCNode( )
 	{
@@ -113,5 +120,15 @@ public class TOCNode
 	public void setParent( TOCNode parent )
 	{
 		this.parent = parent;
+	}	
+	
+	public IScriptStyle getTOCStyle( )
+	{
+		return tocStyle;
+	}
+
+	public void setTOCStyle( IScriptStyle tocStyle )
+	{
+		this.tocStyle = tocStyle;
 	}
 }

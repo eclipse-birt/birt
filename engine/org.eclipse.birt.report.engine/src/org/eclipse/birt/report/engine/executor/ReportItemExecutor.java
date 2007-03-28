@@ -582,9 +582,10 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 				Object tocValue = content.getTOC( );
 				if ( tocValue != null )
 				{
+					long elementId = ((ReportElementDesign)content.getGenerateBy( )).getID( );
 					String bookmark = content.getBookmark( );
 					tocEntry = tocBuilder.startEntry( parentTOCEntry, tocValue,
-							bookmark, hiddenFormats );
+							bookmark, hiddenFormats, elementId );
 					String tocId = tocEntry.getNode( ).getNodeID( );
 					if ( bookmark == null )
 					{
@@ -627,8 +628,9 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		{
 			TOCEntry entry = getParentTOCEntry();
 			String hiddenFormats = group.getStyle( ).getVisibleFormat( );
+			long elementId = ((ReportElementDesign)group.getGenerateBy( )).getID( );
 			tocEntry = tocBuilder.startGroupEntry( entry, group.getTOC( ),
-					group.getBookmark( ), hiddenFormats );
+					group.getBookmark( ), hiddenFormats, elementId );
 			String tocId = tocEntry.getNode( ).getNodeID( );
 			if ( group.getBookmark( ) == null )
 			{
