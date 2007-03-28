@@ -46,6 +46,7 @@ public interface IParameter
 	 * Sets parameter group
 	 * @param group
 	 */
+	
 	public void setParentGroup( IParamGroup group );
 	
 	/**
@@ -65,5 +66,19 @@ public interface IParameter
 	 * @return selection value.
 	 */
 	public String getSelectionValue();
-
+	
+	/**
+	 * Gets Property value.
+	 * @param propertyName
+	 * @return property value.
+	 */
+	
+	public Object getPropertyValue( Object propertyName );
+	
+	/**
+	 * Gets isRequired property.
+	 * @return
+	 */
+	public boolean getIsRequired( );
+	
 }

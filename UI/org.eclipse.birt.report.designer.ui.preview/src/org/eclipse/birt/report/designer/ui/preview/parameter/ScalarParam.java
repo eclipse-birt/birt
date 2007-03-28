@@ -25,6 +25,9 @@ import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 public abstract class ScalarParam implements IParameter
 {
 
+	/**
+	 * Parameter Group
+	 */
 	protected IParamGroup group = null;
 	
 	private String selectionValue = null;
@@ -120,6 +123,20 @@ public abstract class ScalarParam implements IParameter
 	public String format( String input )
 	{
 		return FormatUtil.format( handle, input );
+	}
+	
+	public Object getPropertyValue( Object propertyName )
+	{
+		return handle.getProperty( (String)propertyName );
+	}
+	
+	/**
+	 * Gets isRequired property.
+	 * @return
+	 */
+	public boolean getIsRequired( )
+	{
+		return handle.getBooleanProperty( IParameterConstants.IS_REQUIRED );
 	}
 
 }
