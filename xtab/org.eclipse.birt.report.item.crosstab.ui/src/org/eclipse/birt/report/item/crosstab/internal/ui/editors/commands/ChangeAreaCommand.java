@@ -22,27 +22,19 @@ import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
-import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 /**
- * 
+ *Drop the demension view handle from the row to column 
  */
 
 public class ChangeAreaCommand extends AbstractCrosstabCommand
 {
-	/**
-	 * Column or the row type.See the ICrosstabConstants row and column axis
-	 * type.
-	 */
 	//private int type = -1;
 	//private DimensionHandle dimensionHandle;
 	private Object after = null;
 
-	//private DesignElementHandle parent;
-	//private DesignElementHandle child;
 	DimensionViewHandle parentVewHandle;
 	DimensionViewHandle childViewHandle;
 	Map measureMap = new HashMap();

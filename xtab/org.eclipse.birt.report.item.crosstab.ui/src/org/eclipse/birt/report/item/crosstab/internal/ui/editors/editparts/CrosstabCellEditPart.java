@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.ISelectionFlitter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.CellBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractCellEditPart;
@@ -343,6 +342,9 @@ public class CrosstabCellEditPart extends AbstractCellEditPart
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#showTargetFeedback(org.eclipse.gef.Request)
+	 */
 	public void showTargetFeedback( Request request )
 	{
 		if ( this.getSelected( ) == 0 && isActive( )
@@ -363,6 +365,9 @@ public class CrosstabCellEditPart extends AbstractCellEditPart
 		super.showTargetFeedback( request );
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#eraseTargetFeedback(org.eclipse.gef.Request)
+	 */
 	public void eraseTargetFeedback( Request request )
 	{
 		if ( isActive( ) )

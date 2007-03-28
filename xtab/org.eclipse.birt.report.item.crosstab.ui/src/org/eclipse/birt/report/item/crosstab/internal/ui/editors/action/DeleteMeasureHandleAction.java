@@ -84,11 +84,6 @@ public class DeleteMeasureHandleAction extends AbstractCrosstabAction
 			
 			try
 			{
-//				int measureCount = reportItem.getMeasureCount( );
-//				if (measureCount > 0)
-//				{
-//					reportItem.removeMeasure( measureCount -1 );
-//				}
 				reportItem.removeMeasure( measureViewHandle.getCubeMeasure( ).getQualifiedName( ) );
 			}
 			catch ( SemanticException e )

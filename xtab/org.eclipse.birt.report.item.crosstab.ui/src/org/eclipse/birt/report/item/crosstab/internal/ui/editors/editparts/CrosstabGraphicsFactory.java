@@ -27,7 +27,7 @@ public class CrosstabGraphicsFactory implements EditPartFactory
 {
 
 	/**
-	 * Comment for <code>INSTANCEOF</code>
+	 * The singleton instance. 
 	 */
 	public static final CrosstabGraphicsFactory INSTANCEOF = new CrosstabGraphicsFactory( );
 

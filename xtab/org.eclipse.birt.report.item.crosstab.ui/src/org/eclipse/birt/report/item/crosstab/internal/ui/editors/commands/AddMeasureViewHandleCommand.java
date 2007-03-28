@@ -29,8 +29,6 @@ import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 /**
  * Add the measure handle to the cross tab in the measure area.
  */
-//TODO binding the data
-//TODO position
 public class AddMeasureViewHandleCommand extends AbstractCrosstabCommand
 {
 
@@ -79,7 +77,6 @@ public class AddMeasureViewHandleCommand extends AbstractCrosstabCommand
 
 		try
 		{
-			// TODO the same measure handle can drop to the measure area?
 			//int position = reportHandle.getMeasureCount( );
 			int position = findPosition( );
 			MeasureViewHandle measureViewHandle = reportHandle.insertMeasure( measureHandle,

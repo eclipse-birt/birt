@@ -48,10 +48,6 @@ public class CrosstabCellCreateCommand extends Command
 	 */
 	public void execute( )
 	{
-		// DesignElementHandle newObject = (DesignElementHandle)
-		// extendsData.get( DesignerConstants.KEY_NEWOBJECT );
-		DesignElementHandle newObject = getNewObject( );
-
 		try
 		{
 			if ( parent instanceof CrosstabCellAdapter )

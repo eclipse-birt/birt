@@ -20,8 +20,6 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.Ce
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editpolicies.VirtualCrosstabCellFlowLayoutEditPolicy;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.Request;
-import org.eclipse.gef.commands.Command;
 
 /**
  * When create a empty cross tab,It need four cell editpart, but the cross tab don't have the cell handle.

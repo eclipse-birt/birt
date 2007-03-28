@@ -86,36 +86,6 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 				processSubTotal( subTotals, (List)result[0] );
 				processGrandTotal( grandTotoals, (List)result[1]  );
 			}
-			
-//			String funString = DesignChoiceConstants.MEASURE_FUNCTION_SUM;
-//			CrosstabReportItemHandle reportHandle = levelHandle.getCrosstab( );
-//			List list = new ArrayList();
-//			int measureCount = reportHandle.getMeasureCount( );
-//			List functionList = new ArrayList();
-//			for (int i=0; i<measureCount; i++)
-//			{
-//				MeasureViewHandle measureHandle = reportHandle.getMeasure( i );
-//				list.add( measureHandle );
-//				functionList.add(funString  );
-//			}
-//			
-//			
-//			CrosstabCellHandle cellHandle = CrosstabUtil.addAggregationHeader( levelHandle, functionList, list );
-//			if (cellHandle == null)
-//			{
-//				return;
-//			}
-//			LabelHandle dataHandle = DesignElementFactory.getInstance( )
-//			.newLabel(null );
-//			//Label name is a compand name.
-//			dataHandle.setText( "[" + levelHandle.getCubeLevelName( )+ "]" + DISPALY_NAME);
-//			
-//			cellHandle.addContent( dataHandle );
-			
-			//System.out.println(CrosstabUtil.getAggregationFunction(levelHandle,reportHandle.getMeasure( 0 )  ));
-			
-			
-//			levelHandle.removeAggregationHeader( );
 		}
 		catch ( SemanticException e )
 		{
@@ -313,7 +283,6 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 	
 	private void addAggregationHeader(LevelViewHandle levelView, List functions, List measures)throws SemanticException
 	{
-		long current = System.currentTimeMillis( );
 		CrosstabCellHandle cellHandle = CrosstabUtil.addAggregationHeader( levelView, functions, measures );
 		if (cellHandle == null)
 		{
@@ -325,7 +294,6 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 		dataHandle.setText( "[" + levelView.getCubeLevelName( )+ "]" + DISPALY_NAME);
 		
 		cellHandle.addContent( dataHandle );
-		System.out.println("model operator" + (System.currentTimeMillis( ) - current));
 	}
 	
 	

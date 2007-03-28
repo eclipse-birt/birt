@@ -16,26 +16,26 @@ import org.eclipse.birt.report.designer.ui.extensions.ReportItemBuilderUI;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.olap.CubeHandle;
-import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.jface.window.Window;
 
 /**
- * The builder for crate the x-tab to binding a cube handle 
+ * The builder for crate the x-tab to binding a cube handle
  */
 
 public class CrosstabBuilder extends ReportItemBuilderUI
 {
 
 	/**
-	 *Constructor 
+	 * Constructor
 	 */
 	public CrosstabBuilder( )
 	{
-		//do nothing
+		// do nothing
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.extensions.ReportItemBuilderUI#open(org.eclipse.birt.report.model.api.ExtendedItemHandle)
 	 */
 	public int open( ExtendedItemHandle handle )
@@ -49,9 +49,6 @@ public class CrosstabBuilder extends ReportItemBuilderUI
 				{
 					handle.setProperty( ICrosstabReportItemConstants.CUBE_PROP,
 							insertCubeDialog.getResult( ) );
-					
-					//CubeHandle cubeHandle = (CubeHandle)insertCubeDialog.getResult( );
-					//List list = cubeHandle.getContents( ICubeModel.DIMENSIONS_PROP );
 				}
 				catch ( SemanticException e )
 				{
@@ -63,7 +60,7 @@ public class CrosstabBuilder extends ReportItemBuilderUI
 				return Window.CANCEL;
 			}
 		}
-		else 
+		else
 		{
 			return Window.CANCEL;
 		}

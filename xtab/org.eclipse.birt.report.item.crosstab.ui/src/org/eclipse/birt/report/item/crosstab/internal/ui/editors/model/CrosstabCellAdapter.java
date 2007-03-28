@@ -175,6 +175,9 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter
 		this.positionType = positionType;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.BaseCrosstabAdapter#copyToTarget(org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.BaseCrosstabAdapter)
+	 */
 	public BaseCrosstabAdapter copyToTarget( BaseCrosstabAdapter crossAdapt )
 	{
 		if (crossAdapt instanceof CrosstabCellAdapter)

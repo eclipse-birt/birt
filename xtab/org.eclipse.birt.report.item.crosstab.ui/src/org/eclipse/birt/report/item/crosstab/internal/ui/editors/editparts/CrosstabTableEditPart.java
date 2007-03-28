@@ -63,10 +63,8 @@ import org.eclipse.swt.graphics.Image;
 /**
  * Crosstab item editpart.The modle is extended handle.
  */
-// TODO draw the data item, has the gray the back grond (done half)
 // TODO add a element to the empty croass table item
 // TODO don't support the table border padding
-// TODO adapter equals and hascode with the event dispatch
 // TODO Draw the virtual cell figure back fround text half done
 public class CrosstabTableEditPart extends AbstractTableEditPart implements PropertyChangeListener
 {
@@ -103,12 +101,18 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#activate()
+	 */
 	public void activate( )
 	{
 		getViewer( ).addPropertyChangeListener( this );
 		super.activate( );
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#deactivate()
+	 */
 	public void deactivate( )
 	{
 		getViewer( ).removePropertyChangeListener( this );
@@ -795,6 +799,9 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 */
 	public void propertyChange( PropertyChangeEvent evt )
 	{
 		if (evt.getPropertyName( ).equals( AbstractReportEditPart.MODEL_EVENT_DISPATCH ))
@@ -806,6 +813,9 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#propertyChange(java.util.Map)
+	 */
 	protected void propertyChange( Map info )
 	{
 		Set set = info.keySet( );

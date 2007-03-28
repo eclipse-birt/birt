@@ -11,9 +11,7 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.action;
 
-import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
-import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -32,7 +30,7 @@ public class DeleteDimensionViewHandleAction extends AbstractCrosstabAction
 	private static final String ID = "delete_test_dimensionviewhandle";
 	private static final String TEXT = "Remove";
 	
-	private static final String DISPALY_NAME = "dimensionviewhandle";
+	//private static final String DISPALY_NAME = "dimensionviewhandle";
 	
 	/**Constructor
 	 * @param handle

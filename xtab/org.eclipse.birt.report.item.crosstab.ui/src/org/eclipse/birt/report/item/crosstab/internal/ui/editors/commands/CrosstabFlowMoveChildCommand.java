@@ -20,9 +20,8 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.core.runtime.IAdaptable;
 
 /**
- * 
+ * Drag the item in the same cross cell.
  */
-
 public class CrosstabFlowMoveChildCommand extends AbstractCrosstabCommand
 {
 

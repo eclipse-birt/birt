@@ -119,6 +119,10 @@ public class CrosstabAdaptUtil
 		return null;
 	}
 	
+	/**
+	 * @param extendedHandle
+	 * @return
+	 */
 	public static LevelViewHandle getLevelViewHandle(
 			ExtendedItemHandle extendedHandle )
 	{
@@ -134,6 +138,10 @@ public class CrosstabAdaptUtil
 		return null;
 	}
 
+	/**
+	 * @param extendedHandle
+	 * @return
+	 */
 	public static DimensionViewHandle getDimensionViewHandle(
 			ExtendedItemHandle extendedHandle )
 	{
@@ -149,6 +157,10 @@ public class CrosstabAdaptUtil
 		return null;
 	}
 	
+	/**
+	 * @param extendedHandle
+	 * @return
+	 */
 	public static MeasureViewHandle getMeasureViewHandle(
 			ExtendedItemHandle extendedHandle )
 	{

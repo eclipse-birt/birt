@@ -31,16 +31,30 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
+/**Add the subtotal and grand toatal to the special LevelViewHandle
+ * AggregationDialog
+ */
 public class AggregationDialog extends BaseDialog
 {
 
+	private static final String DIALOG_NAME = "Aggregation";
 	private CheckboxTableViewer subTableViewer;
+	private List subList = new ArrayList( );
+	private List grandList = new ArrayList( );
+	private CheckboxTableViewer grandTableViewer;
 
+
+	/**Constructor
+	 * @param shell
+	 */
 	public AggregationDialog( Shell shell )
 	{
-		super( shell, "Aggregation" );
+		super( shell, DIALOG_NAME );
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
+	 */
 	protected Control createDialogArea( Composite parent )
 	{
 		Composite dialogArea = (Composite) super.createDialogArea( parent );
@@ -143,10 +157,11 @@ public class AggregationDialog extends BaseDialog
 
 	}
 
-	private List subList = new ArrayList( );
-	private List grandList = new ArrayList( );
-	private CheckboxTableViewer grandTableViewer;
 
+	/**Set the input
+	 * @param subList subtotal info list
+	 * @param grandList grand total list info
+	 */
 	public void setInput( List subList, List grandList )
 	{
 		this.subList.addAll( subList );

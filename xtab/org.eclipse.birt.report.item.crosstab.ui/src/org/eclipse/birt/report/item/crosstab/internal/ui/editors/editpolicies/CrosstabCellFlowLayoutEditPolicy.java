@@ -61,8 +61,8 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 
 		if ( model instanceof CrosstabCellAdapter )
 		{
-			EditPart parent = getHost( ).getParent( );
-			CrosstabHandleAdapter adapter = ( (CrosstabTableEditPart) parent ).getCrosstabHandleAdapter( );
+			//EditPart parent = getHost( ).getParent( );
+			//CrosstabHandleAdapter adapter = ( (CrosstabTableEditPart) parent ).getCrosstabHandleAdapter( );
 			int type = getAreaType( (CrosstabCellAdapter) model );
 			String position = ( (CrosstabCellAdapter) model ).getPositionType( );
 			if ( newObject instanceof DimensionHandle

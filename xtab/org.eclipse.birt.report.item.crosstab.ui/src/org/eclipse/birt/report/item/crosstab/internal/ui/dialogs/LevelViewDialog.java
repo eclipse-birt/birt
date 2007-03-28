@@ -31,6 +31,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TreeItem;
 
+/**Show or hide the LevelViewHnadle for the special DimensionViewHandle 
+ * LevelViewDialog
+ */
 public class LevelViewDialog extends BaseDialog
 {
 

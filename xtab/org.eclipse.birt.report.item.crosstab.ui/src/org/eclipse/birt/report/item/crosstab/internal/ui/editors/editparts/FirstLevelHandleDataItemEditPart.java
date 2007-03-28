@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts;
 
 import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
-import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.ReportFigureUtilities;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DataEditPart;
@@ -22,13 +21,11 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.figures.FirstLe
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.ICrosstabCellAdapterFactory;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.StackLayout;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.DragTracker;
-import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
@@ -164,6 +161,9 @@ public class FirstLevelHandleDataItemEditPart extends DataEditPart
 	}
 
 	
+	/**
+	 * @param manager
+	 */
 	public void setManager( MenuManager manager )
 	{
 		this.manager = manager;

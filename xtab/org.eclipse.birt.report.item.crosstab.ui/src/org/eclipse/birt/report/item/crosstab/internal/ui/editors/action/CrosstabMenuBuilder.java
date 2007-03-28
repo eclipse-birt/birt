@@ -50,16 +50,7 @@ public class CrosstabMenuBuilder implements IMenuBuilder
 			ExtendedItemHandle handle = (ExtendedItemHandle) selectedList.get( 0 );
 			if ( handle.getExtensionName( ).equals( "Crosstab" ) ) //$NON-NLS-1$
 			{
-				// IAction action = new TestCrossTableAction(handle);
-				// menu.add( action );
-//				IAction action = new AddColumnGrandTotalAction( handle );
-//				menu.add( action );
-//
-//				action = new AddRowGrandTotalAction( handle );
-//				menu.add( action );
-				
-//				IAction action = new DeleteMeasureHandleAction( handle );
-//				menu.add( action );
+				//TODO add the xross repport item action
 			}
 		}
 

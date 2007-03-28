@@ -25,10 +25,12 @@ import org.eclipse.gef.requests.GroupRequest;
 /**
  * 
  */
-
 public class CrosstabCellContainerEditPolicy extends ReportContainerEditPolicy
 {
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.editpolicies.ContainerEditPolicy#getOrphanChildrenCommand(org.eclipse.gef.requests.GroupRequest)
 	 */
 	public Command getOrphanChildrenCommand( GroupRequest request )
@@ -37,19 +39,19 @@ public class CrosstabCellContainerEditPolicy extends ReportContainerEditPolicy
 		CompoundCommand result = new CompoundCommand( "Move in layout" );//$NON-NLS-1$
 		for ( int i = 0; i < parts.size( ); i++ )
 		{
-			Object model =  ((EditPart) parts.get( i ) ).getModel( ) ;
-			Object parent = ((EditPart) parts.get( i ) ).getParent( ).getModel( ) ;
-			if (parent instanceof CrosstabCellAdapter)
+			Object model = ( (EditPart) parts.get( i ) ).getModel( );
+			Object parent = ( (EditPart) parts.get( i ) ).getParent( )
+					.getModel( );
+			if ( parent instanceof CrosstabCellAdapter )
 			{
-				if (ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE.equals( 
-						((CrosstabCellAdapter)parent).getPositionType( ))
-						||ICrosstabCellAdapterFactory.CELL_MEASURE.equals( 
-								((CrosstabCellAdapter)parent).getPositionType( )))
+				if ( ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE.equals( ( (CrosstabCellAdapter) parent ).getPositionType( ) )
+						|| ICrosstabCellAdapterFactory.CELL_MEASURE.equals( ( (CrosstabCellAdapter) parent ).getPositionType( ) ) )
 				{
-					return new Command(){};
+					return new Command( ) {
+					};
 				}
 			}
-			result.add( new DeleteCommand(model ));
+			result.add( new DeleteCommand( model ) );
 		}
 		return result.unwrap( );
 	}

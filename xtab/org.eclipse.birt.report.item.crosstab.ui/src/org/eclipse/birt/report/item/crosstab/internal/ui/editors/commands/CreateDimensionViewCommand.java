@@ -11,15 +11,11 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
-import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabHandleAdapter;
@@ -27,9 +23,7 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCr
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
@@ -135,22 +129,8 @@ public class CreateDimensionViewCommand extends AbstractCrosstabCommand
 			//new a bing
 			ComputedColumn bindingColumn = CrosstabAdaptUtil.createComputedColumn( (ExtendedItemHandle)reportHandle.getModelHandle( ), levelHandle );
 			
-//			ComputedColumn bindingColumn = StructureFactory.newComputedColumn( reportHandle.getModelHandle( ),
-//					levelHandle.getName( ) );
-//			
-//			bindingColumn.setDataType( DesignChoiceConstants. COLUMN_DATA_TYPE_ANY);
-			
-	
 			ComputedColumnHandle bindingHandle = ((ExtendedItemHandle)reportHandle.getModelHandle( )).addColumnBinding( bindingColumn, false );
-			
-//			List list = new ArrayList();
-//			int measureCount = reportHandle.getMeasureCount( );
-//			for (int i=0; i<measureCount; i++)
-//			{
-//				MeasureViewHandle measureHandle = reportHandle.getMeasure( i );
-//				list.add( measureHandle );
-//			}
-			
+						
 			LevelViewHandle levelViewHandle = CrosstabUtil.insertLevel( viewHandle, levelHandle, 0 );
 		
 			CrosstabCellHandle cellHandle = levelViewHandle.getCell( );
@@ -170,11 +150,17 @@ public class CreateDimensionViewCommand extends AbstractCrosstabCommand
 
 	}
 
+	/**
+	 * @return
+	 */
 	public DimensionHandle getDimensionHandle( )
 	{
 		return dimensionHandle;
 	}
 
+	/**
+	 * @param dimensionHandle
+	 */
 	public void setDimensionHandle( DimensionHandle dimensionHandle )
 	{
 		this.dimensionHandle = dimensionHandle;

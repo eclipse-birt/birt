@@ -34,7 +34,6 @@ import org.eclipse.birt.report.model.api.olap.LevelHandle;
  * Add the Dimension handle to the cross tab.When drag the Dimension handle to
  * the column or row area of the cross tab, execute the command.
  */
-// TODO the insert position should be recalculated.
 public class AddDimensionViewHandleCommand extends AbstractCrosstabCommand
 {
 
@@ -180,7 +179,6 @@ public class AddDimensionViewHandleCommand extends AbstractCrosstabCommand
 
 	private int findPosition()
 	{
-		//int base = handleAdpter.getCrosstabCellHandle( ).getCrosstabHandle( ).getIndex( );
 		int base = CrosstabAdaptUtil.getDimensionViewHandle((ExtendedItemHandle) handleAdpter.getCrosstabCellHandle( ).getModelHandle( )).getModelHandle( ).getIndex( );
 		if (after instanceof  DesignElementHandle)
 		{

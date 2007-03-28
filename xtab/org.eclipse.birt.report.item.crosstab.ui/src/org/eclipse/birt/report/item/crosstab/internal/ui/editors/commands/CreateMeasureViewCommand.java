@@ -28,7 +28,6 @@ import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 /**
  * Add the measure handle to the cross tab through the virtual editpart.
  */
-// TODO binding the data
 public class CreateMeasureViewCommand extends AbstractCrosstabCommand
 {
 
