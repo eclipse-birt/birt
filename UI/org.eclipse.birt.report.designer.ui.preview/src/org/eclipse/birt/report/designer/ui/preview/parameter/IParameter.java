@@ -79,6 +79,6 @@ public interface IParameter
 	 * Gets isRequired property.
 	 * @return
 	 */
-	public boolean getIsRequired( );
+	public boolean isRequired( );
 	
 }

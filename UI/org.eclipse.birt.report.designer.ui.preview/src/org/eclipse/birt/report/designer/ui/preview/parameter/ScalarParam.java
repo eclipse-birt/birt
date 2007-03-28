@@ -134,7 +134,7 @@ public abstract class ScalarParam implements IParameter
 	 * Gets isRequired property.
 	 * @return
 	 */
-	public boolean getIsRequired( )
+	public boolean isRequired( )
 	{
 		return handle.getBooleanProperty( IParameterConstants.IS_REQUIRED );
 	}
