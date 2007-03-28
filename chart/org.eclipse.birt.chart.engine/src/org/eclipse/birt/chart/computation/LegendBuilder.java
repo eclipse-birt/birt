@@ -624,7 +624,7 @@ public final class LegendBuilder implements IConstants
 			Object obj = dsiBase.next( );
 
 			// Skip invalid data
-			while ( obj == null && dsiBase.hasNext( ) )
+			while ( !isValidValue( obj ) && dsiBase.hasNext( ) )
 			{
 				obj = dsiBase.next( );
 			}
@@ -998,7 +998,7 @@ public final class LegendBuilder implements IConstants
 						obj = dsiBase.next( );
 
 						// Skip invalid data
-						while ( obj == null && dsiBase.hasNext( ) )
+						while ( !isValidValue( obj ) && dsiBase.hasNext( ) )
 						{
 							obj = dsiBase.next( );
 						}
@@ -1292,7 +1292,7 @@ public final class LegendBuilder implements IConstants
 						obj = dsiBase.next( );
 
 						// Skip invalid data
-						while ( obj == null && dsiBase.hasNext( ) )
+						while (!isValidValue( obj ) && dsiBase.hasNext( ) )
 						{
 							obj = dsiBase.next( );
 						}
@@ -1509,7 +1509,7 @@ public final class LegendBuilder implements IConstants
 			Object obj = dsiBase.next( );
 
 			// Skip invalid data
-			while ( obj == null && dsiBase.hasNext( ) )
+			while (!isValidValue( obj ) && dsiBase.hasNext( ) )
 			{
 				obj = dsiBase.next( );
 			}
@@ -1790,7 +1790,7 @@ public final class LegendBuilder implements IConstants
 						obj = dsiBase.next( );
 
 						// Skip invalid data
-						while ( obj == null && dsiBase.hasNext( ) )
+						while (!isValidValue( obj ) && dsiBase.hasNext( ) )
 						{
 							obj = dsiBase.next( );
 						}
@@ -2011,7 +2011,7 @@ public final class LegendBuilder implements IConstants
 						obj = dsiBase.next( );
 
 						// Skip invalid data
-						while ( obj == null && dsiBase.hasNext( ) )
+						while (!isValidValue( obj ) && dsiBase.hasNext( ) )
 						{
 							obj = dsiBase.next( );
 						}
@@ -2258,5 +2258,22 @@ public final class LegendBuilder implements IConstants
 		}
 
 		return null;
+	}
+
+	private boolean isValidValue( Object obj )
+	{
+		if ( obj == null )
+		{
+			return false;
+		}
+		if ( obj instanceof Double )
+		{
+			return !( (Double) obj ).isNaN( ) && !( (Double) obj ).isInfinite( );
+		}
+		if ( obj instanceof String )
+		{
+			return ( (String) obj ).length( ) != 0;
+		}
+		return true;
 	}
 }
