@@ -52,51 +52,6 @@ public class HTMLCompleteImageHandlerTest extends EngineCase
 	}
 
 	/**
-	 * API test to test Multi-Types Image
-	 */
-	public void testMultiTypesImage( )
-	{
-		String blankURL = "";
-		Image image = new Image( blankURL );
-		RenderOptionBase option = new RenderOptionBase( );
-		image.setRenderOption( option );
-		int[] imageTypes = new int[]{Image.DESIGN_IMAGE, Image.REPORTDOC_IMAGE,
-				Image.URL_IMAGE, Image.FILE_IMAGE, Image.CUSTOM_IMAGE,
-				Image.INVALID_IMAGE};
-		HTMLRenderContext context = new HTMLRenderContext( );
-		HTMLCompleteImageHandler handler = new HTMLCompleteImageHandler( );
-		for ( int size = imageTypes.length, index = 0; index < size; index++ )
-		{
-			String result = null;
-			switch ( imageTypes[index] )
-			{
-				case Image.DESIGN_IMAGE :
-					result = handler.onDesignImage( image, context );
-					break;
-				case Image.REPORTDOC_IMAGE :
-					result = handler.onDocImage( image, context );
-					break;
-				case Image.URL_IMAGE :
-					result = handler.onURLImage( image, context );
-					break;
-				case Image.FILE_IMAGE :
-					result = handler.onFileImage( image, context );
-					break;
-				case Image.CUSTOM_IMAGE :
-					result = handler.onCustomImage( image, context );
-					break;
-				case Image.INVALID_IMAGE :
-					result = "";/* not implement */
-					break;
-			}
-			if ( result != null && result.length( ) > 0 )
-			{
-				assertTrue( isFileAbsolute( shortAndTrimFilePath( result ) ) );
-			}
-		}
-	}
-
-	/**
 	 * API test on HTMLCompleteImageHandler.onDocImage( ) method. This method is
 	 * not implemented so far, so the default return value is *null*
 	 */
@@ -157,23 +112,20 @@ public class HTMLCompleteImageHandlerTest extends EngineCase
 		image.setRenderOption( option );
 		HTMLCompleteImageHandler imageHandler = new HTMLCompleteImageHandler( );
 		String resultPath = imageHandler.onDesignImage( image, context );
-		resultPath = shortAndTrimFilePath( resultPath );
-		File resultFile = new File( resultPath );
-		assertTrue( resultFile.exists( ) );
-		assertTrue( resultFile.length( ) > 0 );
+		assertTrue( isFilePathLegal( resultPath ) );
 	}
-
-	private boolean isFileAbsolute( String path )
+	
+	private boolean isFilePathLegal( String filePath )
 	{
-		assert ( path != null );
-		return ( new File( path ) ).isAbsolute( );
-	}
-
-	private String shortAndTrimFilePath( String path )
-	{
-		final String PATH_PREFIX = "file:/";
-		assertTrue( path.startsWith( PATH_PREFIX ) );
-		return path.substring( path.indexOf( PATH_PREFIX )
-				+ PATH_PREFIX.length( ) );
+		try
+		{
+			URL fileURL = new URL( filePath );
+			return fileURL.openStream( ) != null;
+		}
+		catch ( Exception ex )
+		{
+			// DO NOTHING
+		}
+		return false;
 	}
 }
