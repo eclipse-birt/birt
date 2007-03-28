@@ -31,31 +31,30 @@ import org.eclipse.swt.widgets.FileDialog;
  * Node provider for embedded images resources node
  */
 
-public class EmbeddedImagesNodeProvider extends DefaultNodeProvider
-{
+public class EmbeddedImagesNodeProvider extends DefaultNodeProvider {
 
 	// private static final String SUPPORTED_IMAGE_FILE_EXTS = Messages
 	// .getString( "ImageBuilderDialog.FileDialog.FilterMessage" );
 	// //$NON-NLS-1$
+	private static String[] EXTENSIONS = new String[] { ".bmp", ".jpg",
+			".jpeg", ".jpe", ".jfif", ".gif", ".png", ".tif", ".tiff" };
 
-	public Object[] getChildren( Object model )
-	{
-		return ( (EmbeddedImageNode) model ).getChildren( );
+	private static String[] ALLEXTENSIONS = new String[] { "*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff" };
+
+	public Object[] getChildren(Object model) {
+		return ((EmbeddedImageNode) model).getChildren();
 	}
 
-	public String getIconName( Object model )
-	{
+	public String getIconName(Object model) {
 		return IReportGraphicConstants.ICON_ELEMENT_IMAGE;
 	}
 
-	public String getNodeDisplayName( Object model )
-	{
+	public String getNodeDisplayName(Object model) {
 		return IMAGES;
 	}
 
-	public Object getParent( Object model )
-	{
-		return ( (EmbeddedImageNode) model ).getReportDesignHandle( );
+	public Object getParent(Object model) {
+		return ((EmbeddedImageNode) model).getReportDesignHandle();
 	}
 
 	/**
@@ -66,12 +65,11 @@ public class EmbeddedImagesNodeProvider extends DefaultNodeProvider
 	 * @param menu
 	 *            the menu
 	 */
-	public void createContextMenu( TreeViewer sourceViewer, Object object,
-			IMenuManager menu )
-	{
-		menu.add( new InsertEmbeddedImageAction( object,
-				Messages.getString( "EmbeddedImagesNodeProvider.action.New" ) ) );//$NON-NLS-1$
-		super.createContextMenu( sourceViewer, object, menu );
+	public void createContextMenu(TreeViewer sourceViewer, Object object,
+			IMenuManager menu) {
+		menu.add(new InsertEmbeddedImageAction(object, Messages
+				.getString("EmbeddedImagesNodeProvider.action.New")));//$NON-NLS-1$
+		super.createContextMenu(sourceViewer, object, menu);
 	}
 
 	/*
@@ -80,80 +78,64 @@ public class EmbeddedImagesNodeProvider extends DefaultNodeProvider
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#performRequest(java.lang.Object,
 	 *      org.eclipse.gef.Request)
 	 */
-	public boolean performRequest( Object model, Request request )
-			throws Exception
-	{
-		if ( request.getType( ).equals( IRequestConstants.REQUEST_TYPE_INSERT ) )
-		{
-			FileDialog fileChooser = new FileDialog( UIUtil.getDefaultShell( ),
-					SWT.OPEN );
-			fileChooser.setText( Messages.getString( "ImageBuilder.Chooser.Title" ) ); //$NON-NLS-1$
-			fileChooser.setFilterExtensions( new String[]{
-				"*.gif;*.jpg;*.png;*.ico;*.bmp" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-			} );
+	public boolean performRequest(Object model, Request request)
+			throws Exception {
+		if (request.getType().equals(IRequestConstants.REQUEST_TYPE_INSERT)) {
+			FileDialog fileChooser = new FileDialog(UIUtil.getDefaultShell(),
+					SWT.OPEN);
+			fileChooser.setText(Messages
+					.getString("ImageBuilder.Chooser.Title")); //$NON-NLS-1$
+			fileChooser.setFilterExtensions(ALLEXTENSIONS);
 
 			// fileChooser.setFilterNames( new
 			// String[]{SUPPORTED_IMAGE_FILE_EXTS
 			// + " (gif, jpeg, png, ico, bmp)" //$NON-NLS-1$
 			// } );
-			try
-			{
-				String fullPath = fileChooser.open( );
+			try {
+				String fullPath = fileChooser.open();
 
-				String fileName = fileChooser.getFileName( );
-				if ( fullPath == null || "".equalsIgnoreCase( fullPath ) ) //$NON-NLS-1$
+				String fileName = fileChooser.getFileName();
+				if (fullPath == null || "".equalsIgnoreCase(fullPath)) //$NON-NLS-1$
 				{
 					return false;
 				}
 
-				if ( checkExtensions( fileName ) == false )
-				{
-					ExceptionHandler.openErrorMessageBox( Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Title" ),
-							Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Message" ) );
+				if (checkExtensions(fileName) == false) {
+					ExceptionHandler
+							.openErrorMessageBox(
+									Messages
+											.getString("EmbeddedImagesNodeProvider.FileNameError.Title"),
+									Messages
+											.getString("EmbeddedImagesNodeProvider.FileNameError.Message"));
 					return false;
 				}
 
-				SessionHandleAdapter.getInstance( )
-						.getCommandStack( )
-						.startTrans( Messages.getString( "ImageBuilderDialog.Chooser.Title" ) );//$NON-NLS-1$
+				SessionHandleAdapter
+						.getInstance()
+						.getCommandStack()
+						.startTrans(
+								Messages
+										.getString("ImageBuilderDialog.Chooser.Title"));//$NON-NLS-1$
 
-				BirtImageLoader imageLoader = new BirtImageLoader( );
-				imageLoader.save( SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( ), fullPath, fileName );
+				BirtImageLoader imageLoader = new BirtImageLoader();
+				imageLoader.save(SessionHandleAdapter.getInstance()
+						.getReportDesignHandle(), fullPath, fileName);
 
-				SessionHandleAdapter.getInstance( ).getCommandStack( ).commit( );
+				SessionHandleAdapter.getInstance().getCommandStack().commit();
 				return true;
 
-			}
-			catch ( Throwable e )
-			{
-				SessionHandleAdapter.getInstance( )
-						.getCommandStack( )
-						.rollback( );
-				ExceptionHandler.handle( e );
+			} catch (Throwable e) {
+				SessionHandleAdapter.getInstance().getCommandStack().rollback();
+				ExceptionHandler.handle(e);
 			}
 		}
 		return false;
 	}
 
-	private boolean checkExtensions( String fileName )
-	{
-		String[] extensions = new String[]{
-				".bmp",
-				".jpg",
-				".jpeg",
-				".jpe",
-				".jfif",
-				".gif",
-				".png",
-				".tif",
-				".tiff",
-				".ico"
-		};
-		for ( int i = 0; i < extensions.length; i++ )
-		{
-			if ( fileName.endsWith( extensions[i] ) )
-			{
+	private boolean checkExtensions(String fileName) {
+		fileName = fileName.toLowerCase();
+		for (int i = 0; i < EXTENSIONS.length; i++) {
+			if (fileName.endsWith(EXTENSIONS[i])) {
 				return true;
 			}
 		}
