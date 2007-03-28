@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.api.simpleapi.IMultiRowItem;
 import org.eclipse.birt.report.model.api.simpleapi.IReportItem;
 import org.eclipse.birt.report.model.api.simpleapi.ISortCondition;
 import org.eclipse.birt.report.model.api.simpleapi.IStyle;
-import org.eclipse.birt.report.model.api.simpleapi.ScriptElementFactory;
+import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
 
 /**
  * Implements of multi row report item. Used for extension multi row items.
@@ -42,10 +42,8 @@ public class MultiRowItem implements IMultiRowItem
 
 	public MultiRowItem( ExtendedItemHandle item )
 	{
-		IReportItem iitem = (IReportItem) ScriptElementFactory.getInstance( )
-				.getElement( item );
-
-		this.item = iitem;
+		this.item = SimpleElementFactory.getInstance( ).wrapExtensionElement(
+				item );
 	}
 
 	/*

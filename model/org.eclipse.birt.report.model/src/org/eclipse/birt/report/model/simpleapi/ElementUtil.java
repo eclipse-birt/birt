@@ -8,10 +8,12 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.model.simpleapi;
 
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
@@ -21,46 +23,71 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.simpleapi.IDesignElement;
 
 public class ElementUtil
 {
+
 	public static IDesignElement getElement( DesignElementHandle element )
 	{
 		if ( element == null )
 			return null;
+
 		if ( element instanceof ReportDesignHandle )
-			return new ReportDesign( ( ReportDesignHandle ) element );
+			return new ReportDesign( (ReportDesignHandle) element );
 
 		if ( !( element instanceof ReportElementHandle ) )
 			return null;
 
 		if ( element instanceof DataItemHandle )
-			return new DataItem( ( DataItemHandle ) element );
+			return new DataItem( (DataItemHandle) element );
 
 		if ( element instanceof GridHandle )
-			return new Grid( ( GridHandle ) element );
+			return new Grid( (GridHandle) element );
 
 		if ( element instanceof ImageHandle )
-			return new Image( ( ImageHandle ) element );
+			return new Image( (ImageHandle) element );
 
 		if ( element instanceof LabelHandle )
-			return new Label( ( LabelHandle ) element );
+			return new Label( (LabelHandle) element );
 
 		if ( element instanceof ListHandle )
-			return new List( ( ListHandle ) element );
+			return new List( (ListHandle) element );
 
 		if ( element instanceof TableHandle )
-			return new Table( ( TableHandle ) element );
+			return new Table( (TableHandle) element );
 
 		if ( element instanceof TextDataHandle )
-			return new DynamicText( ( TextDataHandle ) element );
+			return new DynamicText( (TextDataHandle) element );
 
 		if ( element instanceof TextItemHandle )
-			return new TextItem( ( TextItemHandle ) element );
+			return new TextItem( (TextItemHandle) element );
 
-		return new ReportElement( ( ReportElementHandle ) element );
+		if ( element instanceof ExtendedItemHandle )
+		{
+			org.eclipse.birt.report.model.api.simpleapi.IReportItem item = null;
+			try
+			{
+				IReportItem extensionItem = ( (ExtendedItemHandle) element )
+						.getReportItem( );
 
+				if ( extensionItem != null )
+					item = extensionItem.getSimpleElement( );
+			}
+			catch ( ExtendedElementException e )
+			{
+				// do thing.
+			}
+
+			if ( item == null )
+				item = new ExtendedItem( (ExtendedItemHandle) element );
+
+			return item;
+		}
+
+		return new ReportElement( (ReportElementHandle) element );
 	}
 
 }

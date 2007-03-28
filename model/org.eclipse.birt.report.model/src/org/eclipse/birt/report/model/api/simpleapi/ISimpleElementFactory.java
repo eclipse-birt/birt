@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.model.api.simpleapi;
 
-import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
 /**
  * The factory class to create scriptable objects.
@@ -29,7 +29,7 @@ public interface ISimpleElementFactory
 	 * @return the scriptable object
 	 */
 
-	public IDesignElement getElement( DesignElementHandle handle );
+	public IReportItem wrapExtensionElement( ExtendedItemHandle handle );
 
 	/**
 	 * Create <code>IHideRule</code> instance
@@ -52,7 +52,7 @@ public interface ISimpleElementFactory
 	 * 
 	 * @return the data binding
 	 */
-	
+
 	public IDataBinding createDataBinding( );
 
 	/**
@@ -60,7 +60,7 @@ public interface ISimpleElementFactory
 	 * 
 	 * @return the highlight rule
 	 */
-	
+
 	public IHighlightRule createHighLightRule( );
 
 	/**
@@ -68,7 +68,7 @@ public interface ISimpleElementFactory
 	 * 
 	 * @return the sort
 	 */
-	
+
 	public ISortCondition createSortCondition( );
 
 }

@@ -25,7 +25,7 @@ import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
 import org.eclipse.birt.report.model.api.metadata.IMetaLogger;
 import org.eclipse.birt.report.model.api.metadata.MetaDataReaderException;
 import org.eclipse.birt.report.model.api.simpleapi.IReportDesign;
-import org.eclipse.birt.report.model.api.simpleapi.ScriptElementFactory;
+import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.ExtensionManager;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -98,7 +98,7 @@ public class DesignEngineImpl implements IDesignEngine
 
 			ExtensionManager.initialize( );
 
-			ScriptElementFactory
+			SimpleElementFactory
 					.setInstance( new org.eclipse.birt.report.model.api.impl.SimpleElementFactory( ) );
 		}
 		catch ( MetaDataParserException e )
