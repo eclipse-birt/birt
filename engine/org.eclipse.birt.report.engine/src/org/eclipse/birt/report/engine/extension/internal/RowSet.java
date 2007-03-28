@@ -31,7 +31,7 @@ public class RowSet implements IRowSet
 	protected boolean closed;
 	private boolean isOutterResultSet;
 	private boolean isFirstRecord = true;
-	private ExecutionContext context;
+	protected ExecutionContext context;
 
 	public RowSet( ExecutionContext context, IQueryResultSet rset )
 	{

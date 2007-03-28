@@ -923,6 +923,12 @@ public class ReportQueryBuilder
 				{
 					return true;
 				}
+				if ( designHandle instanceof ExtendedItemHandle )
+				{
+					ExtendedItemHandle extHandle = (ExtendedItemHandle) designHandle;
+					return ExtensionManager.getInstance( ).getAllRows(
+							extHandle.getExtensionName( ) );
+				}
 			}
 			HighlightDesign highlight = item.getHighlight( );
 			if ( query == null && highlight != null

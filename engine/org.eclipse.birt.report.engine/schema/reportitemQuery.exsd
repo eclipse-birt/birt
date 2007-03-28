@@ -58,6 +58,15 @@
                </appInfo>
             </annotation>
          </attribute>
+         <attribute name="getAllRows" type="boolean">
+            <annotation>
+               <documentation>
+                  getAllRows only applies when an ExtendedItem does not have a dataset defined, and the ReportItem is sharing data with its container. True means rowSet contains all rows, while false means rowSet contains only one row.
+
+
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 

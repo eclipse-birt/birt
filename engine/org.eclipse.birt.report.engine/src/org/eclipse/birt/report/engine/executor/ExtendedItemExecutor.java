@@ -69,16 +69,16 @@ public class ExtendedItemExecutor extends ReportItemExecutor
 			//user implement the IReportItemExecutor.
 			executor.setContext( executorContext );
 			executor.setModelObject( handle );
-			if (parent instanceof ExtendedItemExecutor)
+			if ( parent instanceof ExtendedItemExecutor )
 			{
-				executor.setParent( ((ExtendedItemExecutor)parent).executor );
+				executor.setParent( ( (ExtendedItemExecutor) parent ).executor );
 			}
 			else
 			{
 				executor.setParent( parent );
 			}
-			
-			if (executor instanceof ExtendedItemGenerationExecutor)
+
+			if ( executor instanceof ExtendedItemGenerationExecutor )
 			{
 				ExtendedItemGenerationExecutor gExecutor = (ExtendedItemGenerationExecutor) executor;
 				gExecutor.context = context;

@@ -50,6 +50,7 @@ import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
 import org.eclipse.birt.report.engine.extension.IRowSet;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.extension.internal.RowSet;
+import org.eclipse.birt.report.engine.extension.internal.SingleRowSet;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -641,13 +642,26 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 			}
 
 			IRowSet[] rowSets = null;
-			IBaseResultSet[] rsets = context.getResultSets();
-			if (rsets != null)
+			IBaseResultSet[] rsets = context.getResultSets();			
+			if ( queries != null )
 			{
-				rowSets = new IRowSet[rsets.length];
-				for (int i = 0; i < rowSets.length; i++)
+				if ( rsets != null )
 				{
-					rowSets[i] = new RowSet( context, (IQueryResultSet)rsets[i] );
+					rowSets = new IRowSet[rsets.length];
+					for ( int i = 0; i < rowSets.length; i++ )
+					{
+						rowSets[i] = new RowSet( context,
+								(IQueryResultSet) rsets[i] );
+					}
+				}
+			}
+			else
+			{
+				if ( rsets != null )
+				{
+					rowSets = new IRowSet[1];
+					rowSets[0] = new SingleRowSet( context,
+							(IQueryResultSet) rsets[0] );
 				}
 			}
 

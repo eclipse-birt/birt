@@ -181,6 +181,18 @@ public class ExtensionManager
 		return null;
 	}
 	
+	public boolean getAllRows( String itemType )
+	{
+		IConfigurationElement config = (IConfigurationElement) queryExtensions
+				.get( itemType );
+		if ( config != null )
+		{
+			return Boolean.valueOf( config.getAttribute( "getAllRows" ) )
+					.booleanValue( );
+		}
+		return false;
+	}
+
 	/**
 	 * @param format the format that the extension point supports
 	 * @return an emitter
