@@ -164,7 +164,6 @@
 	</script>
 
 	<script type="text/javascript">
-		var birtUtility = new BirtUtility( );
 		var Mask =  new Mask(false); //create mask using "div"
 		var BrowserUtility = new BrowserUtility();
 		DragDrop = new BirtDndManager();
@@ -183,7 +182,8 @@
 		var birtConfirmationDialog = new BirtConfirmationDialog( 'confirmationDialog' );
 		
 		function init()
-		{		
+		{	
+			birtUtility.initDPI( );	
 		<%
 		if ( attributeBean.isShowParameterPage( ) )
 		{

@@ -119,8 +119,7 @@
 		End If
 	</SCRIPT>
 
-	<SCRIPT TYPE="text/javascript">
-		var birtUtility = new BirtUtility( );
+	<SCRIPT TYPE="text/javascript">		
 		var Mask =  new Mask( false );
 		var BrowserUtility = new BrowserUtility( );
 		var DragDrop = new BirtDndManager( );
@@ -144,7 +143,8 @@
 		%>
 		
 		function init( )
-		{				
+		{	
+			birtUtility.initDPI( );				
 			birtParameterDialog.__cb_bind( );
 		}
 		

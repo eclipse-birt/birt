@@ -644,6 +644,10 @@ public class ReportEngineService
 		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
 				ReportEngineService.class.getClassLoader( ) );
 
+		// Client DPI setting
+		context.put( EngineConstants.APPCONTEXT_CHART_RESOLUTION,
+				ParameterAccessor.getDpi( request ) );
+
 		// Push user-defined application context
 		ParameterAccessor.pushAppContext( context, request );
 		runAndRenderTask.setAppContext( context );
@@ -986,6 +990,11 @@ public class ReportEngineService
 				request );
 		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
 				ReportEngineService.class.getClassLoader( ) );
+
+		// Client DPI setting
+		context.put( EngineConstants.APPCONTEXT_CHART_RESOLUTION,
+				ParameterAccessor.getDpi( request ) );
+
 		// Push user-defined application context
 		ParameterAccessor.pushAppContext( context, request );
 		renderTask.setAppContext( context );
@@ -1183,6 +1192,10 @@ public class ReportEngineService
 				request );
 		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
 				ReportEngineService.class.getClassLoader( ) );
+
+		// Client DPI setting
+		context.put( EngineConstants.APPCONTEXT_CHART_RESOLUTION,
+				ParameterAccessor.getDpi( request ) );
 
 		// Push user-defined application context
 		ParameterAccessor.pushAppContext( context, request );

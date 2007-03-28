@@ -243,6 +243,11 @@ public class ParameterAccessor
 	public static final String PARAM_ACTION = "__action"; //$NON-NLS-1$
 
 	/**
+	 * URL parameter name to indicate the client DPI setting.
+	 */
+	public static final String PARAM_DPI = "__dpi"; //$NON-NLS-1$
+
+	/**
 	 * Custom request headers to identify the request is a normal HTTP request
 	 * or a soap request by AJAX.
 	 */
@@ -2441,5 +2446,20 @@ public class ParameterAccessor
 	public static String getAction( HttpServletRequest request )
 	{
 		return getParameter( request, PARAM_ACTION );
+	}
+
+	/**
+	 * Returns the dpi setting from http request
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static Number getDpi( HttpServletRequest request )
+	{
+		String dpi = getParameter( request, PARAM_DPI );
+		if ( dpi == null || dpi.trim( ).length( ) <= 0 )
+			return null;
+
+		return Integer.valueOf( dpi );
 	}
 }

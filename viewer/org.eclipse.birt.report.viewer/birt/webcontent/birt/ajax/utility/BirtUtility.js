@@ -23,6 +23,11 @@ BirtUtility.prototype =
 	__task_id : 'taskid',
 	
 	/**
+	 * URL parameter to indicate the client DPI setting
+	 */
+	__PARAM_DPI : '__dpi',
+	
+	/**
 	 * @returns true if left button was pressed
 	 */
 	isLeftButton : function( event )
@@ -434,6 +439,32 @@ BirtUtility.prototype =
 			pageNum = parseInt( this.trim( oPage.innerHTML ) );
 			
 		return pageNum;
+	},
+	
+	/**
+	 * Initialize the client DPI setting
+	 */
+	initDPI : function( )
+	{
+		try
+		{
+			var dpi;
+			if( screen.deviceXDPI )
+				dpi = screen.deviceXDPI;
+			
+			if( !dpi )
+				return;
+					
+			var href = window.location.href;
+			var reg = new RegExp( "([&|?]{1}" + this.__PARAM_DPI + "\s*)=([^&|^#]*)", "gi" );
+			if( href.search( reg ) < 0 )
+			{
+				href = href + "&" + this.__PARAM_DPI + "=" + dpi;
+				window.location.href = href;
+			}
+		}
+		catch(e)
+		{}		
 	},
 	
 	noComma : "" //just to avoid javascript syntax errors
