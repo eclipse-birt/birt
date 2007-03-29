@@ -25,6 +25,7 @@ import org.eclipse.birt.report.soapengine.api.Page;
 import org.eclipse.birt.report.soapengine.api.Update;
 import org.eclipse.birt.report.soapengine.api.UpdateContent;
 import org.eclipse.birt.report.soapengine.api.UpdateData;
+import org.eclipse.birt.report.utility.DataUtil;
 
 public abstract class AbstractGetPageActionHandler
 		extends
@@ -185,7 +186,7 @@ public abstract class AbstractGetPageActionHandler
 		// Update instruction for document part.
 		UpdateContent content = new UpdateContent( );
 
-		content.setContent( __page.toString( ) );
+		content.setContent( DataUtil.toUTF8( __page.toByteArray( ) ) );
 
 		content.setTarget( "Document" ); //$NON-NLS-1$
 		content.setInitializationId( parseReportId( __activeIds ) );

@@ -29,6 +29,7 @@ import org.eclipse.birt.report.soapengine.api.Page;
 import org.eclipse.birt.report.soapengine.api.Update;
 import org.eclipse.birt.report.soapengine.api.UpdateContent;
 import org.eclipse.birt.report.soapengine.api.UpdateData;
+import org.eclipse.birt.report.utility.DataUtil;
 
 public class BirtChangeParameterActionHandler
 		extends
@@ -73,7 +74,7 @@ public class BirtChangeParameterActionHandler
 
 		// Update instruction for document.
 		UpdateContent content = new UpdateContent( );
-		content.setContent( page.toString( ) );
+		content.setContent( DataUtil.toUTF8( page.toByteArray( ) ) );
 		content.setTarget( operation.getTarget( ).getId( ) );
 		content.setInitializationId( parseReportId( activeIds ) );
 		if ( useBookmark )

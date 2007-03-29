@@ -27,6 +27,7 @@ import org.eclipse.birt.report.soapengine.api.Operation;
 import org.eclipse.birt.report.soapengine.api.Update;
 import org.eclipse.birt.report.soapengine.api.UpdateContent;
 import org.eclipse.birt.report.utility.BirtUtility;
+import org.eclipse.birt.report.utility.DataUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 public class BirtGetPageAllActionHandler extends AbstractBaseActionHandler
@@ -131,7 +132,7 @@ public class BirtGetPageAllActionHandler extends AbstractBaseActionHandler
 
 		// Update response.
 		UpdateContent content = new UpdateContent( );
-		content.setContent( out.toString( ) );
+		content.setContent( DataUtil.toUTF8( out.toByteArray( ) ) );
 		content.setTarget( "Document" ); //$NON-NLS-1$
 		if ( bookmark != null )
 			content.setBookmark( bookmark );

@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.utility;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.Locale;
 
@@ -217,5 +218,25 @@ public class DataUtil
 			default :
 				throw new CoreException( "Invalid type." ); //$NON-NLS-1$
 		}
+	}
+
+	/**
+	 * Convert to UTF-8 bytes
+	 * 
+	 * @param bytes
+	 * @return
+	 */
+	public static String toUTF8( byte[] bytes )
+	{
+		assert bytes != null;
+		String str = null;
+		try
+		{
+			str = new String( bytes, "utf-8" ); //$NON-NLS-1$
+		}
+		catch ( UnsupportedEncodingException e )
+		{
+		}
+		return str;
 	}
 }
