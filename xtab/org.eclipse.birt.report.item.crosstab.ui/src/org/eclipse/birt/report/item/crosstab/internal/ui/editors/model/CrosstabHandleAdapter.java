@@ -755,7 +755,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 	/**
 	 * DefaultCrocsstabCellAdapterFactory
 	 */
-	protected static class DefaultCrocsstabCellAdapterFactory implements
+	protected  class DefaultCrocsstabCellAdapterFactory implements
 			ICrosstabCellAdapterFactory
 	{
 
@@ -777,21 +777,25 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 			else if ( CELL_ROW_VIRTUAL.equals( type ) )
 			{
 				retValue = new VirtualCrosstabCellAdapter( handle );
+				( (VirtualCrosstabCellAdapter) retValue ).setCrosstabReportItemHandle( getCrosstabReportItemHandle( ) );
 				( (VirtualCrosstabCellAdapter) retValue ).setType( VirtualCrosstabCellAdapter.ROW_TYPE );
 			}
 			else if ( CELL_COLUMN_VIRTUAL.equals( type ) )
 			{
 				retValue = new VirtualCrosstabCellAdapter( handle );
+				( (VirtualCrosstabCellAdapter) retValue ).setCrosstabReportItemHandle( getCrosstabReportItemHandle( ) );
 				( (VirtualCrosstabCellAdapter) retValue ).setType( VirtualCrosstabCellAdapter.COLUMN_TYPE );
 			}
 			else if ( CELL_MEASURE_VIRTUAL.equals( type ) )
 			{
 				retValue = new VirtualCrosstabCellAdapter( handle );
+				( (VirtualCrosstabCellAdapter) retValue ).setCrosstabReportItemHandle( getCrosstabReportItemHandle( ) );
 				( (VirtualCrosstabCellAdapter) retValue ).setType( VirtualCrosstabCellAdapter.MEASURE_TYPE );
 			}
 			else if ( LEFT_CONNER.equals( type ) )
 			{
 				retValue = new VirtualCrosstabCellAdapter( handle );
+				( (VirtualCrosstabCellAdapter) retValue ).setCrosstabReportItemHandle( getCrosstabReportItemHandle( ) );
 				( (VirtualCrosstabCellAdapter) retValue ).setType( VirtualCrosstabCellAdapter.IMMACULATE_TYPE );
 			}
 			else if ( CELL_SUB_TOTAL.equals( type ) )

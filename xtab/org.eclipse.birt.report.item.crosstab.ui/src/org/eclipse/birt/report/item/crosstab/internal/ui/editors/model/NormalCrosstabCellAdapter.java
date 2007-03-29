@@ -13,6 +13,8 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.editors.model;
 
 import org.eclipse.birt.report.designer.util.IVirtualValidator;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 
@@ -66,10 +68,12 @@ public class NormalCrosstabCellAdapter extends CrosstabCellAdapter implements IV
 	 */
 	public boolean handleValidate( Object obj )
 	{
+		CrosstabReportItemHandle crosstab = getCrosstabCellHandle( ).getCrosstab( );
 		if (obj instanceof DimensionHandle)
 		{
-			if (getPositionType( ) .equals( ICrosstabCellAdapterFactory.CELL_LEVEL_HANDLE)
-					||getPositionType( ) .equals( ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE)	)
+			if ((getPositionType( ) .equals( ICrosstabCellAdapterFactory.CELL_LEVEL_HANDLE)
+					||getPositionType( ) .equals( ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE))
+					&& CrosstabUtil.canContain( crosstab, (DimensionHandle )obj))
 			{
 				return true;
 			}
@@ -77,7 +81,8 @@ public class NormalCrosstabCellAdapter extends CrosstabCellAdapter implements IV
 
 		if (obj instanceof MeasureHandle)
 		{
-			if (getPositionType( ).equals( ICrosstabCellAdapterFactory.CELL_MEASURE ))
+			if (getPositionType( ).equals( ICrosstabCellAdapterFactory.CELL_MEASURE )
+					&& CrosstabUtil.canContain( crosstab, (MeasureHandle )obj))
 			{
 				return true;
 			}

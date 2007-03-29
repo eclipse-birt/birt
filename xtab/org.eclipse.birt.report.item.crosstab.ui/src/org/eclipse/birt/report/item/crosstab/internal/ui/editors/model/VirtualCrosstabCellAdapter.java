@@ -17,6 +17,8 @@ import java.util.List;
 import org.eclipse.birt.report.designer.util.IVirtualValidator;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 
@@ -27,6 +29,7 @@ import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 public class VirtualCrosstabCellAdapter extends CrosstabCellAdapter implements IVirtualValidator
 {
 
+	private CrosstabReportItemHandle crosstab;
 	public static final int IMMACULATE_TYPE = -1;
 	public static final int ROW_TYPE = ICrosstabConstants.ROW_AXIS_TYPE;
 	public static final int COLUMN_TYPE = ICrosstabConstants.COLUMN_AXIS_TYPE;
@@ -102,18 +105,24 @@ public class VirtualCrosstabCellAdapter extends CrosstabCellAdapter implements I
 		if (getType( ) == ICrosstabConstants.ROW_AXIS_TYPE
 				||getType( ) == ICrosstabConstants.COLUMN_AXIS_TYPE)
 		{
-			if (obj instanceof DimensionHandle)
+			if (obj instanceof DimensionHandle && CrosstabUtil.canContain( crosstab, (DimensionHandle )obj))
 			{
 				return true;
 			}
 		}
 		if (getType( ) == MEASURE_TYPE)
 		{
-			if (obj instanceof MeasureHandle)
+			if (obj instanceof MeasureHandle && CrosstabUtil.canContain( crosstab, (MeasureHandle )obj))
 			{
 				return true;
 			}
 		}
 		return false;
 	}
+	
+	public void setCrosstabReportItemHandle( CrosstabReportItemHandle crosstab )
+	{
+		this.crosstab = crosstab;
+	}
+	
 }
