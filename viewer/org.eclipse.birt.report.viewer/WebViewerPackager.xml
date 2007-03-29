@@ -486,7 +486,7 @@
 			<include name="org.eclipse.birt.report.engine.emitter.pdf_*.jar" />
 			<include name="org.eclipse.birt.report.engine.emitter.postscript_*.jar" />
 			<include name="org.eclipse.birt.report.engine.emitter.wpml_*.jar" />
-			<include name="org.eclipse.birt.report.engine.emitter.Protype_execl_*.jar"/>
+			<include name="org.eclipse.birt.report.engine.emitter.prototype.excel_*.jar"/>
 			<include name="org.eclipse.birt.report.engine.fonts_*/**" />
 			<include name="org.eclipse.birt.report.model_*.jar" />
 			<include name="org.eclipse.birt.report.model.adapter.oda_*.jar" />
