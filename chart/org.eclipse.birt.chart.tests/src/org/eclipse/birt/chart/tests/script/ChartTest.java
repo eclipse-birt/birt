@@ -68,10 +68,10 @@ public class ChartTest extends BaseChartTestCase
 				getChartWithAxes( ).getOutputType( ).toUpperCase( ),
 				"PNG" );
 
-		getChartWithAxes( ).setOutputType( "PDF" );
+		getChartWithAxes( ).setOutputType( "SVG" );
 		assertEquals( "IChart.setOutputType",
 				getChartWithAxes( ).getOutputType( ).toUpperCase( ),
-				"PDF" );
+				"SVG" );
 	}
 
 	public void testDimension( )
