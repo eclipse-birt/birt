@@ -379,8 +379,8 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 		String formats = style.getVisibleFormat( );
 		if ( formats != null
 				&& ( formats.indexOf( EngineIRConstants.FORMAT_TYPE_VIEWER ) >= 0 || formats
-						.indexOf( BIRTConstants.BIRT_ALL_VALUE ) >= 0 ) || 
-						formats.indexOf(EngineIRConstants.FORMAT_TYPE_DOC) >= 0)
+						.indexOf( BIRTConstants.BIRT_ALL_VALUE ) >= 0  || 
+						formats.indexOf(EngineIRConstants.FORMAT_TYPE_DOC) >= 0))
 		{
 			return true;
 		}
