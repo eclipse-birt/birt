@@ -736,6 +736,10 @@ public class BufferedRandomAccessFile implements DataInput, DataOutput
 				// we have read to EOF: couldn't fill a buffer
 
 				int readLen = Math.min( len, currBuf.dataLen );
+				if ( readLen == 0 )
+				{
+					return -1;
+				}
 				System.arraycopy( currBuf.bytes, currBuf.pos, b, pos, readLen );
 				currBuf.pos += readLen;
 				return readLen;
