@@ -2512,7 +2512,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, SimpleDataSet.AFTER_OPEN_METHOD );
 		property( obj, SimpleDataSet.AFTER_CLOSE_METHOD );
 		property( obj, SimpleDataSet.REF_TEMPLATE_PARAMETER_PROP );
-		property( obj, SimpleDataSet.CACHED_ROW_COUNT_PROP );
+		property( obj, SimpleDataSet.DATA_SET_ROW_LIMIT );
 
 		writeStructureList( obj, SimpleDataSet.PARAM_BINDINGS_PROP );
 

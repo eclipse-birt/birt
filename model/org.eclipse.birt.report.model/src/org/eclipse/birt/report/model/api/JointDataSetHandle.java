@@ -135,6 +135,7 @@ public class JointDataSetHandle extends DataSetHandle
 	{
 		if ( !( PARAM_BINDINGS_PROP.equalsIgnoreCase( propName )
 				|| CACHED_ROW_COUNT_PROP.equalsIgnoreCase( propName ) 
+				|| DATA_SET_ROW_LIMIT.equalsIgnoreCase( propName )
 				|| AFTER_CLOSE_METHOD.equalsIgnoreCase( propName ) )
 				|| AFTER_OPEN_METHOD.equalsIgnoreCase( propName )
 				|| BEFORE_CLOSE_METHOD.equalsIgnoreCase( propName )

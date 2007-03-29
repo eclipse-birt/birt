@@ -2149,7 +2149,7 @@
     <Method context="factory" displayNameID="Element.SimpleDataSet.afterClose" name="afterClose" since="1.0" toolTipID="Element.SimpleDataSet.afterClose.toolTip" >
       <Argument name="reportContext" tagID="Element.SimpleDataSet.afterClose.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
 	</Method>	 
-	<Property displayNameID="Element.SimpleDataSet.cachedRowCount" name="cachedRowCount" since="2.0" type="integer"/>
+	<Property displayNameID="Element.SimpleDataSet.dataSetRowLimit" name="dataSetRowLimit" since="2.2" type="integer"/>
     <Property detailType="DataSource" displayNameID="Element.SimpleDataSet.dataSource" name="dataSource" since="1.0" type="element" valueRequired="true"/>    
     <Property detailType="ParamBinding" displayNameID="Element.SimpleDataSet.paramBindings" isList="true" name="paramBindings" since="1.0" type="structure"/>
   	<Property canInherit="false" detailType="TemplateParameterDefinition" displayNameID="Element.SimpleDataSet.refTemplateParameter" name="refTemplateParameter" runtimeSettable="false" since="2.0" type="element"/>

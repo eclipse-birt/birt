@@ -457,24 +457,53 @@ public abstract class DataSetHandle extends ReportElementHandle
 	}
 
 	/**
-	 * sets the cached row count property value.
+	 * Sets data set row limit property value.
 	 * 
+	 * @param count
 	 * @throws SemanticException
 	 */
+
+	public void setDataSetRowLimit( int count ) throws SemanticException
+	{
+		setIntProperty( DATA_SET_ROW_LIMIT, count );
+	}
+
+	/**
+	 * Returns value of data set row limit property.
+	 * 
+	 * @return
+	 */
+
+	public int getDataSetRowLimit( )
+	{
+		return getIntProperty( DATA_SET_ROW_LIMIT );
+	}
+
+	/**
+	 * sets the cached row count property value.
+	 * 
+	 * @param count
+	 *            the cached row count
+	 * 
+	 * @throws SemanticException
+	 * @deprecated by setDataSetRowLimit method
+	 */
+
 	public void setCachedRowCount( int count ) throws SemanticException
 	{
-		setIntProperty( CACHED_ROW_COUNT_PROP, count );
+		setDataSetRowLimit ( count );
 	}
 
 	/**
 	 * Returns the value of cached row count property.
 	 * 
 	 * @return the row count.
+	 * @deprecated by getDataSetRowLimit method
 	 */
+
 	public int getCachedRowCount( )
 	{
-
-		return getIntProperty( CACHED_ROW_COUNT_PROP );
+		return getDataSetRowLimit();
 	}
 
 	/**

@@ -28,6 +28,7 @@ import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListingElement;
@@ -39,6 +40,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.ISimpleDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -307,6 +309,18 @@ class PropertyState extends AbstractPropertyState
 
 	protected AbstractParseState versionConditionalJumpTo( )
 	{
+		//Change 'cachedRowCount' to 'dataSetRowLimit' in DataSet element.
+		
+		if(  handler.versionNumber < VersionUtil.VERSION_3_2_7 && element instanceof DataSet
+				&& ISimpleDataSetModel.CACHED_ROW_COUNT_PROP
+						.equalsIgnoreCase( name ) )
+		{
+			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
+					handler, element, ISimpleDataSetModel.CACHED_ROW_COUNT_PROP );
+			state.setName( ISimpleDataSetModel.DATA_SET_ROW_LIMIT );
+			return state;
+		}
+		
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_2
 				&& ( DesignChoiceConstants.CHOICE_VERTICAL_ALIGN.equals( name ) ) )
 		{
