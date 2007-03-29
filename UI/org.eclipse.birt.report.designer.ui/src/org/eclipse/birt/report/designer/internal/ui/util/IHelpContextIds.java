@@ -53,6 +53,9 @@ public interface IHelpContextIds
 			+ "ExportToLibrary_ID";
 
 	/*----------Control: Dialog----------*/
+	public static final String ADD_IMAGE_FILES_DIALOG_ID = PREFIX
+	+ "AddImageResourceFileFolderSelectionDialog_ID";
+	
 	public static final String FORMAT_BUILDER_ID = PREFIX + "FormatBuilder_ID";
 
 	public static final String IMPORT_VALUE_DIALOG_ID = PREFIX
