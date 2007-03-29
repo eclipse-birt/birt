@@ -90,7 +90,6 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.css.CSSValue;
-import org.w3c.dom.css.CSSValueList;
 
 /**
  * <code>HTMLReportEmitter</code> is a subclass of
@@ -1423,9 +1422,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		handleColumnRelatedStyle( cell, styleBuffer );
 		
-		//handle the vertical align for cell.
-		handleVerticalAlign( cell, styleBuffer );
-		
 		// set font weight to be normal if the cell use "th" tag while it is in table header.
 		if ( isInTableHead )
 		{
@@ -1433,12 +1429,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		
 		handleStyle( cell, styleBuffer );
-		/* in fireforx, the text-align is used by text item, it defines the alignment
-		 * of the content in the text item instead of the text item in its container.
-		 * we can put a text item with a width into the cell to see the difference.
-		 * We must use computeStyle as the text-align is not inherited across the table.
-		 */
-		writer.attribute( HTMLTags.ATTR_ALIGN, cell.getComputedStyle( ).getTextAlign( ) ); //$NON-NLS-1$
+
+		handleCellAlign( cell );
 
 		if ( !startedGroups.isEmpty( ) )
 		{
@@ -2728,24 +2720,25 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 * 
 	 * @param element
 	 *            the styled element content
-	 * @param styleBuffer
-	 *            the StringBuffer instance
 	 */
-	protected void handleVerticalAlign( ICellContent element,
-			StringBuffer styleBuffer )
+	protected void handleCellAlign( ICellContent element )
 	{
-		IStyle style = element.getStyle( );
-		String verticalAlign = style.getVerticalAlign( );
-
-		if ( verticalAlign == null || verticalAlign.equals( "baseline" ) )
+		/* in fireforx, the text-align is used by text item, it defines the alignment
+		 * of the content in the text item instead of the text item in its container.
+		 * we can put a text item with a width into the cell to see the difference.
+		 * We must use computeStyle as the text-align is not inherited across the table.
+		 */
+		IStyle cellStyle = element.getComputedStyle( );
+		CSSValue vAlign = cellStyle.getProperty( IStyle.STYLE_VERTICAL_ALIGN );
+		if ( null == vAlign || IStyle.BASELINE_VALUE == vAlign )
 		{
-			verticalAlign = "top";
+			vAlign = IStyle.TOP_VALUE;
 		}
-		if ( verticalAlign != null )
+		writer.attribute( HTMLTags.ATTR_VALIGN, vAlign.getCssText( ) );
+		CSSValue hAlign = cellStyle.getProperty( IStyle.STYLE_TEXT_ALIGN );
+		if ( null != hAlign )
 		{
-			styleBuffer.append( "vertical-align: " );
-			styleBuffer.append( verticalAlign );
-			styleBuffer.append( ";" );
+			writer.attribute( HTMLTags.ATTR_ALIGN, hAlign.getCssText( ) );
 		}
 	}
 	
