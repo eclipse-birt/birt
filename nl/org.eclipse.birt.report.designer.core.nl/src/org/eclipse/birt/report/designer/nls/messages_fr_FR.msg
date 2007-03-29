@@ -3599,9 +3599,14 @@ ThumbnailBuilder.Text.Title=Gérer la miniature
 ThumbnailBuilder.Button.Text.Generate=&Générer
 ThumbnailBuilder.Button.Text.Remove=&Supprimer
 ThumbnailBuilder.Button.Text.Import=&Importer...
+ThumbnailBuilder.Button.Text.Browse=&Browse...
 ThumbnailBuilder.FileDialog.Title=Sélectionner un fichier image
 ThumbnailBuilder.FileDialog.FileNameError.Title=Erreur
 ThumbnailBuilder.FileDialog.FileNameError.Message=Le fichier sélectionné n'est pas une image.
+ThumbnailBuilder.Button.GenerateFromReport=Generate from the report
+ThumbnailBuilder.Button.BrowseFromFileSystem=Browse from file system
+ThumbnailBuilder.Button.ImportFromResource=Import from shared resources
+ThumbnailBuilder.Image.DefaultName=Thumbnail Image
 
 ###########################################################
 #FragmentResourceEntry properties

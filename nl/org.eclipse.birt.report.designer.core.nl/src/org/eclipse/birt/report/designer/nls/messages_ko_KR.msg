@@ -3599,9 +3599,14 @@ ThumbnailBuilder.Text.Title=축소판 보기 관리
 ThumbnailBuilder.Button.Text.Generate=생성(&G)
 ThumbnailBuilder.Button.Text.Remove=제거(&R)
 ThumbnailBuilder.Button.Text.Import=가져오기(&I)...
+ThumbnailBuilder.Button.Text.Browse=&Browse...
 ThumbnailBuilder.FileDialog.Title=이미지 파일 선택
 ThumbnailBuilder.FileDialog.FileNameError.Title=오류
 ThumbnailBuilder.FileDialog.FileNameError.Message=선택한 파일이 이미지가 아닙니다.
+ThumbnailBuilder.Button.GenerateFromReport=Generate from the report
+ThumbnailBuilder.Button.BrowseFromFileSystem=Browse from file system
+ThumbnailBuilder.Button.ImportFromResource=Import from shared resources
+ThumbnailBuilder.Image.DefaultName=Thumbnail Image
 
 ###########################################################
 #FragmentResourceEntry properties
