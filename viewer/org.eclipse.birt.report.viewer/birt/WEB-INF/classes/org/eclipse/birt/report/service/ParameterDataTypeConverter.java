@@ -40,6 +40,14 @@ public class ParameterDataTypeConverter
 		{
 			return IScalarParameterDefn.TYPE_INTEGER;
 		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( type ) )
+		{
+			return IScalarParameterDefn.TYPE_DATE;
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( type ) )
+		{
+			return IScalarParameterDefn.TYPE_TIME;
+		}
 		return IScalarParameterDefn.TYPE_ANY;
 	}
 
@@ -73,6 +81,12 @@ public class ParameterDataTypeConverter
 				break;
 			case IScalarParameterDefn.TYPE_INTEGER :
 				dataType = DesignChoiceConstants.PARAM_TYPE_INTEGER;
+				break;
+			case IScalarParameterDefn.TYPE_DATE :
+				dataType = DesignChoiceConstants.PARAM_TYPE_DATE;
+				break;
+			case IScalarParameterDefn.TYPE_TIME :
+				dataType = DesignChoiceConstants.PARAM_TYPE_TIME;
 				break;
 		}
 

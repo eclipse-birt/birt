@@ -183,6 +183,8 @@ public class DataUtil
 	 * <li>IScalarParameterDefn.TYPE_DATE_TIME</li>
 	 * <li>IScalarParameterDefn.TYPE_FLOAT</li>
 	 * <li>IScalarParameterDefn.TYPE_STRING</li>
+	 * <li>IScalarParameterDefn.TYPE_DATE</li>
+	 * <li>IScalarParameterDefn.TYPE_TIME</li>
 	 * <ul>
 	 * </p>
 	 * 
@@ -215,6 +217,10 @@ public class DataUtil
 				return DataTypeUtil.toDouble( source );
 			case IScalarParameterDefn.TYPE_STRING :
 				return DataTypeUtil.toString( source );
+			case IScalarParameterDefn.TYPE_DATE :
+				return DataTypeUtil.toSqlDate( source );
+			case IScalarParameterDefn.TYPE_TIME :
+				return DataTypeUtil.toSqlTime( source );
 			default :
 				throw new CoreException( "Invalid type." ); //$NON-NLS-1$
 		}
