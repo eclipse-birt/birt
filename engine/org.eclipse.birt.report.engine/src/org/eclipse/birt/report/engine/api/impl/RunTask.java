@@ -176,7 +176,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 					MessageConstants.INVALID_PARAMETER_EXCEPTION ); //$NON-NLS-1$
 		}
 
-		setupRenderOption( );
+//		setupRenderOption( );
 		
 		loadDesign( );
 		prepareDesign( );
