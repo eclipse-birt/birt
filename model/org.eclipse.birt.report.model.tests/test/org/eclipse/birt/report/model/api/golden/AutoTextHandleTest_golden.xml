@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.11" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.12" id="1">
     <styles>
         <style name="myStyle" id="4">
             <structure name="numberFormat">

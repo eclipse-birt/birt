@@ -206,20 +206,6 @@ class PropertyState extends AbstractPropertyState
 			state.setName( name );
 			return state;
 		}
-
-		//Change 'cachedRowCount' to 'dataSetRowLimit' in DataSet element.
-		
-		//TODO should update version number tomorrow.
-		
-		if(  element instanceof DataSet
-				&& ISimpleDataSetModel.CACHED_ROW_COUNT_PROP
-						.equalsIgnoreCase( name ) )
-		{
-			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
-					handler, element, ISimpleDataSetModel.CACHED_ROW_COUNT_PROP );
-			state.setName( ISimpleDataSetModel.DATA_SET_ROW_LIMIT );
-			return state;
-		}
 		
 		if ( element instanceof ListGroup
 				&& IGroupElementModel.GROUP_START_PROP.equalsIgnoreCase( name ) )
@@ -359,6 +345,19 @@ class PropertyState extends AbstractPropertyState
 
 	protected AbstractParseState versionConditionalJumpTo( )
 	{
+		
+		//Change 'cachedRowCount' to 'dataSetRowLimit' in DataSet element.
+		
+		if(  handler.versionNumber < VersionUtil.VERSION_3_2_12 && element instanceof DataSet
+				&& ISimpleDataSetModel.CACHED_ROW_COUNT_PROP
+						.equalsIgnoreCase( name ) )
+		{
+			CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
+					handler, element, ISimpleDataSetModel.CACHED_ROW_COUNT_PROP );
+			state.setName( ISimpleDataSetModel.DATA_SET_ROW_LIMIT );
+			return state;
+		}
+		
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_11
 				&& propDefn == null && element instanceof ScalarParameter
 				&& ( "allowNull".equalsIgnoreCase( name ) || "allowBlank" //$NON-NLS-1$ //$NON-NLS-2$

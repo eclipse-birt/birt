@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.11" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.12" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.N20060411-2230 Build &lt;20060411-2230></property>
     <property name="units">in</property>
     <data-sources>
