@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.i18n.AllI18nTests;
 import org.eclipse.birt.report.model.library.AllLibraryTests;
 import org.eclipse.birt.report.model.metadata.AllMetadataTests;
 import org.eclipse.birt.report.model.parser.AllParserTests;
+import org.eclipse.birt.report.model.simpleapi.AllSimpleApiTests;
 import org.eclipse.birt.report.model.util.AllUtilTests;
 import org.eclipse.birt.report.model.validators.AllValidatorTests;
 import org.eclipse.birt.report.model.writer.AllWriterTests;
@@ -59,6 +60,7 @@ public class AllTests
 		test.addTest( AllUtilTests.suite( ) );		
 		test.addTest( AllValidatorTests.suite( ) );
 		test.addTest( AllWriterTests.suite( ) );
+		test.addTest( AllSimpleApiTests.suite( ) );
 		
 		return test;
 	}

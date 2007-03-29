@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
  * <p>
  * 
  * <pre>
- *                        BIRT Extended Item &lt;--&gt; ExtendedItem 
+ *                         BIRT Extended Item &lt;--&gt; ExtendedItem 
  * </pre>
  * 
  * 
@@ -202,7 +202,8 @@ public interface IReportItem
 	/**
 	 * Returns the interface for script operations. If the extension element
 	 * want to provide multi row data function, need to extend
-	 * simpleapi.IMultiRowItem; If not, need to extend simpleapi.IReportItem.
+	 * simpleapi.IMultiRowItem and extension.MultiRowItem; If not, need to
+	 * extend simpleapi.IReportItem and extension.SimpleRowItem.
 	 * 
 	 * @return the simple interface
 	 */

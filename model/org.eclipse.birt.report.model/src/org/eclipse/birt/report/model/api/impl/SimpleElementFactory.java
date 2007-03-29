@@ -29,6 +29,7 @@ import org.eclipse.birt.report.model.simpleapi.FilterConditionImpl;
 import org.eclipse.birt.report.model.simpleapi.HideRuleImpl;
 import org.eclipse.birt.report.model.simpleapi.HighlightRuleImpl;
 import org.eclipse.birt.report.model.simpleapi.MultiRowItem;
+import org.eclipse.birt.report.model.simpleapi.ReportItem;
 import org.eclipse.birt.report.model.simpleapi.SortConditionImpl;
 
 /**
@@ -45,12 +46,18 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	 * @see org.eclipse.birt.report.model.api.script.IScriptElementFactory#getElement(org.eclipse.birt.report.model.api.DesignElementHandle)
 	 */
 
-	public IReportItem wrapExtensionElement( ExtendedItemHandle handle )
+	public IReportItem wrapExtensionElement( ExtendedItemHandle handle, int type )
 	{
-		if (handle == null)
+		if ( handle == null )
 			return null;
-		
-		return new MultiRowItem( handle );
+
+		if ( type == MULTI_ROW_ITEM )
+			return new MultiRowItem( handle );
+
+		if ( type == SIMPLE_ROW_ITEM )
+			return new ReportItem( handle );
+
+		return new ReportItem( handle );
 	}
 
 	/**

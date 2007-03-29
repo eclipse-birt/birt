@@ -21,15 +21,22 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 public interface ISimpleElementFactory
 {
 
+	final int MULTI_ROW_ITEM = 0;
+
+	final int SIMPLE_ROW_ITEM = 1;
+
 	/**
 	 * Creates the scriptable object for the corresponding element handles.
 	 * 
 	 * @param handle
 	 *            the element handle
+	 * @param type
+	 *            the expected data row type. Can be <code>MULTI_ROW_ITEM</code>
+	 *            or <code>EMPTY_ROW_ITEM</code>
 	 * @return the scriptable object
 	 */
 
-	public IReportItem wrapExtensionElement( ExtendedItemHandle handle );
+	public IReportItem wrapExtensionElement( ExtendedItemHandle handle, int type );
 
 	/**
 	 * Create <code>IHideRule</code> instance

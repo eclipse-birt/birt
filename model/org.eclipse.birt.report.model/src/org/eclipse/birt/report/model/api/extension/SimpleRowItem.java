@@ -15,23 +15,20 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.IDataBinding;
 import org.eclipse.birt.report.model.api.simpleapi.IDesignElement;
-import org.eclipse.birt.report.model.api.simpleapi.IFilterCondition;
 import org.eclipse.birt.report.model.api.simpleapi.IHideRule;
 import org.eclipse.birt.report.model.api.simpleapi.IHighlightRule;
-import org.eclipse.birt.report.model.api.simpleapi.IMultiRowItem;
 import org.eclipse.birt.report.model.api.simpleapi.IReportItem;
 import org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory;
-import org.eclipse.birt.report.model.api.simpleapi.ISortCondition;
 import org.eclipse.birt.report.model.api.simpleapi.IStyle;
 import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
 
 /**
- * Implements of multi row report item. Used for extension multi row items. The
- * constructor in sub class must call super(ExtendedItemHandle).
+ * Implements of simple item that has no data rows.The constructor in sub class
+ * must call super(ExtendedItemHandle).
  * 
  */
 
-public class MultiRowItem implements IMultiRowItem
+public class SimpleRowItem implements IReportItem
 {
 
 	private final IReportItem item;
@@ -42,128 +39,10 @@ public class MultiRowItem implements IMultiRowItem
 	 * @param item
 	 */
 
-	public MultiRowItem( ExtendedItemHandle item )
+	public SimpleRowItem( ExtendedItemHandle item )
 	{
 		this.item = SimpleElementFactory.getInstance( ).wrapExtensionElement(
-				item, ISimpleElementFactory.MULTI_ROW_ITEM );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IMultiRowItem#addFilterCondition(org.eclipse.birt.report.model.api.simpleapi.IFilterCondition)
-	 */
-
-	public void addFilterCondition( IFilterCondition condition )
-			throws SemanticException
-	{
-		if ( !( item instanceof IMultiRowItem ) )
-			return;
-
-		( (IMultiRowItem) item ).addFilterCondition( condition );
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IMultiRowItem#addSortCondition(org.eclipse.birt.report.model.api.simpleapi.ISortCondition)
-	 */
-	public void addSortCondition( ISortCondition condition )
-			throws SemanticException
-	{
-		if ( !( item instanceof IMultiRowItem ) )
-			return;
-
-		( (IMultiRowItem) item ).addSortCondition( condition );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IMultiRowItem#getFilterConditions()
-	 */
-
-	public IFilterCondition[] getFilterConditions( )
-	{
-		if ( !( item instanceof IMultiRowItem ) )
-			return null;
-
-		return ( (IMultiRowItem) item ).getFilterConditions( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IMultiRowItem#getSortConditions()
-	 */
-
-	public ISortCondition[] getSortConditions( )
-	{
-		if ( !( item instanceof IMultiRowItem ) )
-			return null;
-
-		return ( (IMultiRowItem) item ).getSortConditions( );
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IMultiRowItem#removeFilterCondition(org.eclipse.birt.report.model.api.simpleapi.IFilterCondition)
-	 */
-	public void removeFilterCondition( IFilterCondition condition )
-			throws SemanticException
-	{
-		if ( !( item instanceof IMultiRowItem ) )
-			return;
-
-		( (IMultiRowItem) item ).removeFilterCondition( condition );
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IMultiRowItem#removeFilterConditions()
-	 */
-
-	public void removeFilterConditions( ) throws SemanticException
-	{
-		if ( !( item instanceof IMultiRowItem ) )
-			return;
-
-		( (IMultiRowItem) item ).removeFilterConditions( );
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IMultiRowItem#removeSortCondition(org.eclipse.birt.report.model.api.simpleapi.ISortCondition)
-	 */
-	public void removeSortCondition( ISortCondition condition )
-			throws SemanticException
-	{
-		if ( !( item instanceof IMultiRowItem ) )
-			return;
-
-		( (IMultiRowItem) item ).removeSortCondition( condition );
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IMultiRowItem#removeSortConditions()
-	 */
-	public void removeSortConditions( ) throws SemanticException
-	{
-		if ( !( item instanceof IMultiRowItem ) )
-			return;
-
-		( (IMultiRowItem) item ).removeSortConditions( );
-
+				item, ISimpleElementFactory.SIMPLE_ROW_ITEM );
 	}
 
 	/*
