@@ -64,6 +64,7 @@ public class DataSessionContext
 	 */
 	public final static int CACHE_USE_ALWAYS = DataEngineContext.CACHE_USE_ALWAYS;
 
+	private DataEngineContext context = null;
 	private boolean hasExternalScope = false;
 	private int mode = MODE_DIRECT_PRESENTATION;
 	private Scriptable topScope;
@@ -178,12 +179,14 @@ public class DataSessionContext
 	 */
 	public DataEngineContext getDataEngineContext() throws BirtException
 	{
-		DataEngineContext context = DataEngineContext.newInstance(
+		if ( this.context != null )
+			return this.context;
+		this.context = DataEngineContext.newInstance(
 				mode, getTopScope(), docReader, docWriter);
 		
 		if ( cacheSet )
-			context.setCacheOption( cacheOption, cacheCount);
-		return context;
+			this.context.setCacheOption( cacheOption, cacheCount);
+		return this.context;
 	}
 
 	/**
