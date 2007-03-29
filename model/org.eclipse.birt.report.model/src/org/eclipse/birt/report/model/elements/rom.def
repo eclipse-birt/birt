@@ -1997,6 +1997,7 @@
     <Property canInherit="false" detailType="Theme" displayNameID="Element.Module.theme" isIntrinsic="true" name="theme" runtimeSettable="false" since="2.0" type="elementRef" />	  	  
     <Property canInherit="false" detailType="PropertyBinding" displayNameID="Element.Module.propertyBindings" isList="true" name="propertyBindings" runtimeSettable="false" since="2.0" type="structure"/>    
     <Property canInherit="false" detailType="ScriptLib" displayNameID="Element.Module.scriptLibs" isList="true" name="scriptLibs" runtimeSettable="false" since="2.1.1" type="structure"/>    
+    <PropertyVisibility name="units" visibility="hide"/>
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.Library" extends="Module" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.Library" name="Library" nameSpace="none" selector="library" since="2.0" xmlName="library">
     <Slot displayNameID="Element.Library.slot.themes" multipleCardinality="true" name="themes" since="2.0" xmlName="themes">
