@@ -532,4 +532,9 @@ public class ExtendedElement implements IReportItem
 	{
 		return Collections.EMPTY_LIST;
 	}
+
+	public org.eclipse.birt.report.model.api.simpleapi.IReportItem getSimpleElement( )
+	{
+		return null;
+	}
 }
