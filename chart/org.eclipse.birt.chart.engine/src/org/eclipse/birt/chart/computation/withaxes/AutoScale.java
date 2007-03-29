@@ -55,6 +55,18 @@ public final class AutoScale extends Methods implements Cloneable
 	private Object oMinimum;
 
 	private Object oMaximum;
+	
+	/**
+	 * Minimum without considering fixed value. Only valid if margin percent is
+	 * set and real minimum is less than fixed minimum.
+	 */
+	private Object oMinimumWithMargin = null;
+
+	/**
+	 * Maximum without considering fixed value. Only valid if margin percent is
+	 * set and real maximum is greater than fixed maximum.
+	 */
+	private Object oMaximumWithMargin = null;
 
 	private Object oStep;
 
@@ -67,6 +79,8 @@ public final class AutoScale extends Methods implements Cloneable
 	private double dEndShift;
 
 	private double dZoomFactor = 1.0;
+	
+	private int iMarginPercent = 0;
 
 	private transient double dStart, dEnd;
 
@@ -234,11 +248,13 @@ public final class AutoScale extends Methods implements Cloneable
 		sc.oStepNumber = this.oStepNumber;
 		sc.dStart = dStart;
 		sc.dEnd = dEnd;
+		sc.oMaximumWithMargin = oMaximumWithMargin;
+		sc.oMinimumWithMargin = oMinimumWithMargin;
+		sc.iMarginPercent = iMarginPercent;
 		sc.daTickCoordinates = daTickCoordinates;
 		sc.dStartShift = dStartShift;
 		sc.dEndShift = dEndShift;
 		sc.dsiData = dsiData;
-		sc.oStep = oStep;
 		sc.oUnit = oUnit;
 		sc.bMaximumFixed = bMaximumFixed;
 		sc.bMinimumFixed = bMinimumFixed;
@@ -1239,132 +1255,37 @@ public final class AutoScale extends Methods implements Cloneable
 		else
 		{
 			// Linear axis type
-			final double dMinValue = bMinimumFixed ? ( (Double) oMinimum ).doubleValue( )
-					: asDouble( oMinValue ).doubleValue( );
-			final double dMaxValue = bMaximumFixed ? ( (Double) oMaximum ).doubleValue( )
-					: asDouble( oMaxValue ).doubleValue( );
-			final double dStep;
-			double dMinAxis = dMinValue;
-			double dMaxAxis = dMaxValue;
-
-			if ( bStepFixed && oStepNumber != null )
-			{
-				// Compute step size
-				oStep = new Double( Math.abs( dMaxValue - dMinValue )
-						/ ( oStepNumber.intValue( ) ) );
-				dStep = asDouble( oStep ).doubleValue( );
-			}
-			else
-			{
-				dStep = asDouble( oStep ).doubleValue( );
-				// Auto adjust min and max by step if step number is not fixed
-				final double dAbsMax = Math.abs( dMaxValue );
-				final double dAbsMin = Math.abs( dMinValue );
-
-				dMinAxis = ( ( dStep > 1 ) ? Math.floor( dAbsMin / dStep )
-						: Math.round( dAbsMin / dStep ) )
-						* dStep;
-				if ( dMinAxis == dAbsMin )
-				{
-					dMinAxis += dStep;
-					if ( dMinValue < 0 )
-					{
-						dMinAxis = -dMinAxis;
-					}
-					else if ( dMinValue == 0 )
-					{
-						dMinAxis = 0;
-					}
-				}
-				else
-				{
-					if ( dMinValue < 0 )
-					{
-						dMinAxis = -( dMinAxis + dStep );
-					}
-					else if ( dMinAxis >= dMinValue && dMinAxis != 0 )
-					{
-						dMinAxis -= dStep;
-					}
-				}
-
-				dMaxAxis = ( ( dStep > 1 ) ? Math.floor( dAbsMax / dStep )
-						: Math.round( dAbsMax / dStep ) )
-						* dStep;
-				if ( dMaxAxis == dAbsMax )
-				{
-					dMaxAxis += dStep;
-					if ( dMaxValue == 0 )
-					{
-						dMaxAxis = 0;
-					}
-				}
-				else if ( dMinAxis != dMaxValue )
-				{
-					if ( dMaxValue < 0 )
-					{
-						dMaxAxis = -( dMaxAxis - dStep );
-					}
-					else if ( dMaxValue > 0 )
-					{
-						if ( dMaxAxis < dMaxValue )
-						{
-							dMaxAxis += dStep;
-						}
-					}
-				}
-
-				if ( dMinValue < 0 && dMaxValue < 0 )
-				{
-					if ( dMaxAxis <= dMaxValue - dStep )
-					{
-						dMaxAxis += 2 * dStep;
-					}
-				}
-				if ( dMinValue > 0 && dMaxValue > 0 )
-				{
-					if ( dMinAxis >= dMinValue + dStep )
-					{
-						dMinAxis -= 2 * dStep;
-					}
-				}
-			}
-
-			// handle special case for min/max are both zero
-			if ( dMinValue == 0 && dMaxValue == 0 )
-			{
-				if ( dMinAxis >= 0 )
-				{
-					dMinAxis = -1;
-				}
-				if ( dMaxAxis <= 0 )
-				{
-					dMaxAxis = 1;
-				}
-			}
-
-			// To make sure the boundary is always 100, -100 in percent type
-			if ( ( iType & PERCENT ) == PERCENT )
-			{
-				if ( dMaxAxis > 0 )
-				{
-					dMaxAxis = 100;
-				}
-				if ( dMinAxis < 0 )
-				{
-					dMinAxis = -100;
-				}
-			}
-			if ( !bMaximumFixed )
-			{
-				oMaximum = new Double( dMaxAxis );
-			}
-			if ( !bMinimumFixed )
-			{
-				oMinimum = new Double( dMinAxis );
-			}
+			ScaleContext sct = new ScaleContext( iMarginPercent,
+					iType,
+					oMinValue,
+					oMaxValue,
+					oStep );
+			sct.setFixedValue( bMinimumFixed, bMaximumFixed, oMinimum, oMaximum );
+			sct.setFixedStep( bStepFixed, oStepNumber );
+			sct.computeMinMax( );
+			updateContext( sct );
 		}
 	}
+	
+	private final void updateContext(ScaleContext sct)
+	{
+		this.oMaximum = sct.getMax( );
+		this.oMinimum = sct.getMin( );
+		this.oMaximumWithMargin = sct.getRealMax( );
+		this.oMinimumWithMargin = sct.getRealMin( );
+		this.oStep = sct.getStep( );
+	}
+	
+	Object getMinWithMargin( )
+	{
+		return this.oMinimumWithMargin;
+	}
+
+	Object getMaxWithMargin( )
+	{
+		return this.oMaximumWithMargin;
+	}
+
 
 	/**
 	 * Checks all labels for any overlap for a given axis' scale
@@ -1952,46 +1873,29 @@ public final class AutoScale extends Methods implements Cloneable
 
 	/**
 	 * 
+	 * @param xs
 	 * @param ax
 	 * @param dsi
 	 * @param iType
 	 * @param dStart
 	 * @param dEnd
-	 * 
-	 * @return
-	 */
-	static final AutoScale computeScale( IDisplayServer xs, OneAxis ax,
-			DataSetIterator dsi, int iType, double dStart, double dEnd,
-			Scale scModel, FormatSpecifier fs, RunTimeContext rtc, int direction )
-			throws ChartException
-	{
-		return computeScale( xs,
-				ax,
-				dsi,
-				iType,
-				dStart,
-				dEnd,
-				scModel,
-				fs,
-				rtc,
-				direction,
-				1.0 );
-	}
-
-	/**
-	 * 
-	 * @param ax
-	 * @param dsi
-	 * @param iType
-	 * @param dStart
-	 * @param dEnd
-	 * 
-	 * @return AutoScale
+	 * @param scModel
+	 * @param fs
+	 * @param rtc
+	 * @param direction
+	 * @param zoomFactor
+	 *            1 is default factor
+	 * @param iMarginPercent
+	 *            the percentage of margin area for display some charts, such as
+	 *            bubble. 0 means no margin
+	 * @return AutoScale instance
+	 * @throws ChartException
 	 */
 	static final AutoScale computeScale( IDisplayServer xs, OneAxis ax,
 			DataSetIterator dsi, int iType, double dStart, double dEnd,
 			Scale scModel, FormatSpecifier fs, RunTimeContext rtc,
-			int direction, double zoomFactor ) throws ChartException
+			int direction, double zoomFactor, int iMarginPercent )
+			throws ChartException
 	{
 		final Label la = ax.getLabel( );
 		final int iLabelLocation = ax.getLabelPosition( );
@@ -2017,6 +1921,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.iLabelShowingInterval = ax.getLableShowingInterval( );
 			sc.bTickBetweenCategories = ax.isTickBwtweenCategories( );
 			sc.dZoomFactor = zoomFactor;
+			sc.iMarginPercent = iMarginPercent;
 			sc.setData( dsi );
 			sc.setDirection( direction );
 			sc.computeTicks( xs,
@@ -2083,6 +1988,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.bTickBetweenCategories = ax.isTickBwtweenCategories( );
 			sc.dZoomFactor = zoomFactor;
 			sc.dPrecision = dPrecision;
+			sc.iMarginPercent = iMarginPercent;
 
 			// OVERRIDE MIN OR MAX IF SPECIFIED
 			setNumberMinMaxToScale( sc, oMinimum, oMaximum, rtc, ax );
@@ -2136,6 +2042,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.iLabelShowingInterval = ax.getLableShowingInterval( );
 			sc.bTickBetweenCategories = ax.isTickBwtweenCategories( );
 			sc.dZoomFactor = zoomFactor;
+			sc.iMarginPercent = iMarginPercent;
 			sc.setData( dsi );
 			sc.setDirection( direction );
 
@@ -2225,6 +2132,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.iLabelShowingInterval = ax.getLableShowingInterval( );
 			sc.bTickBetweenCategories = ax.isTickBwtweenCategories( );
 			sc.dZoomFactor = zoomFactor;
+			sc.iMarginPercent = iMarginPercent;
 
 			// OVERRIDE MINIMUM IF SPECIFIED
 			if ( oMinimum != null )

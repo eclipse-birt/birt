@@ -35,6 +35,7 @@ import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Orientation;
+import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
@@ -70,6 +71,10 @@ public final class PlotWith2DAxes extends PlotWithAxes
 	 * unused.
 	 */
 	private StackedSeriesLookup ssl = null;
+	
+	private int iMarginPercent = 0;
+	
+	private Bounds boPlotWithMargin = BoundsImpl.create( 0, 0, 100, 100 );
 
 	/**
 	 * The default constructor
@@ -723,7 +728,9 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				sc,
 				axPrimaryBase.getFormatSpecifier( ),
 				rtc,
-				iDirection );
+				iDirection,
+				1,
+				iMarginPercent );
 		// UPDATE SCALE ON PRIMARY-BASE AXIS
 		oaxPrimaryBase.set( scPrimaryBase );
 
@@ -758,7 +765,9 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				sc,
 				axPrimaryOrthogonal.getFormatSpecifier( ),
 				rtc,
-				AUTO );
+				AUTO,
+				1,
+				iMarginPercent );
 		// UPDATE SCALE ON PRIMARY-ORTHOGONAL AXIS
 		oaxPrimaryOrthogonal.set( scPrimaryOrthogonal );
 
@@ -842,6 +851,70 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		{
 			boPlotBackground.delta( dSeriesThickness, -dSeriesThickness, 0, 0 );
 		}
+		
+		boPlotWithMargin = BoundsImpl.copyInstance( boPlotBackground );
+		if ( iMarginPercent > 0 )
+		{
+			// TODO do we need to add margin support for datetime scale?
+			AutoScale scale = axPH.getScale( );
+			if ( scale.getMaxWithMargin( ) != null
+					|| scale.getMinWithMargin( ) != null )
+			{
+				if ( ( scale.getType( ) & LINEAR ) == LINEAR )
+				{
+					double factor = Math.abs( daX[1] - daX[0] )
+							/ ( asDouble( scale.getMaximum( ) ).doubleValue( ) - asDouble( scale.getMinimum( ) ).doubleValue( ) );
+					if ( scale.getMinWithMargin( ) != null )
+					{
+						boPlotWithMargin.setLeft( boPlotWithMargin.getLeft( )
+								- factor
+								* ( asDouble( scale.getMinimum( ) ).doubleValue( ) - asDouble( scale.getMinWithMargin( ) ).doubleValue( ) ) );
+					}
+					boPlotWithMargin.setWidth( factor
+							* ( asDouble( scale.getMaxWithMargin( ) == null
+									? scale.getMaximum( )
+									: scale.getMaxWithMargin( ) ).doubleValue( ) - asDouble( scale.getMinWithMargin( ) == null
+									? scale.getMinimum( )
+									: scale.getMinWithMargin( ) ).doubleValue( ) )
+							+ insCA.getLeft( ) + insCA.getRight( ) + 1 );
+				}
+			}
+
+			scale = axPV.getScale( );
+			if ( scale.getMaxWithMargin( ) != null
+					|| scale.getMinWithMargin( ) != null )
+			{
+				if ( ( scale.getType( ) & LINEAR ) == LINEAR )
+				{
+					double factor = Math.abs( daX[1] - daX[0] )
+							/ ( asDouble( scale.getMaximum( ) ).doubleValue( ) - asDouble( scale.getMinimum( ) ).doubleValue( ) );
+					if ( scale.getMaxWithMargin( ) != null )
+					{
+						boPlotWithMargin.setTop( boPlotWithMargin.getTop( )
+								- factor
+								* ( asDouble( scale.getMaxWithMargin( ) ).doubleValue( ) - asDouble( scale.getMaximum( ) ).doubleValue( ) ) );
+					}
+					boPlotWithMargin.setHeight( factor
+							* ( asDouble( scale.getMaxWithMargin( ) == null
+									? scale.getMaximum( )
+									: scale.getMaxWithMargin( ) ).doubleValue( ) - asDouble( scale.getMinWithMargin( ) == null
+									? scale.getMinimum( )
+									: scale.getMinWithMargin( ) ).doubleValue( ) )
+							+ insCA.getTop( ) + insCA.getBottom( ) + 1 );
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Returns the plot bounds with margin area. Only valid when margin percent
+	 * is set, otherwise will return plot bounds.
+	 * 
+	 * @return The plot bounds with margin area
+	 */
+	public final Bounds getPlotBoundsWithMargin( )
+	{
+		return boPlotWithMargin;
 	}
 
 	/**
@@ -1144,7 +1217,9 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					scModel,
 					axaOrthogonal[j].getFormatSpecifier( ),
 					rtc,
-					AUTO );
+					AUTO,
+					1,
+					iMarginPercent );
 
 			oaxOverlay.set( sc );
 			iv = oaxOverlay.getIntersectionValue( );
@@ -1918,6 +1993,14 @@ public final class PlotWith2DAxes extends PlotWithAxes
 	public final StackedSeriesLookup getStackedSeriesLookup( )
 	{
 		return ssl;
+	}
+	
+	public void addMargin( int percent )
+	{
+		if ( percent > 0 )
+		{
+			iMarginPercent = percent;
+		}
 	}
 
 }

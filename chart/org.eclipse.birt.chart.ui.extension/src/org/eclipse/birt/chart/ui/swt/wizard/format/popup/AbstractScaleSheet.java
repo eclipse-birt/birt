@@ -231,8 +231,8 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 				&& getValueType( ) == TextEditorComposite.TYPE_NUMBERIC );
 
 		lblMin.setEnabled( bEnabled );
-		txtScaleMin.setEnabled( bEnabled );
 		lblMax.setEnabled( bEnabled );
+		txtScaleMin.setEnabled( bEnabled );
 		txtScaleMax.setEnabled( bEnabled );
 		// Enabled only min or max has been set
 		btnShowOutside.setEnabled( bEnabled
@@ -256,7 +256,8 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 			DataElement data )
 	{
 		IDataElementComposite picker = null;
-		if ( getValueType( ) == TextEditorComposite.TYPE_NUMBERIC )
+		if ( getValueType( ) == TextEditorComposite.TYPE_NUMBERIC
+				|| getValueType( ) == TextEditorComposite.TYPE_NONE )
 		{
 			picker = new NumberDataElementComposite( parent,
 					(NumberDataElement) data );

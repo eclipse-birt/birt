@@ -567,7 +567,8 @@ public class PlotWith3DAxes extends PlotWithAxes
 				axPrimaryBase.getFormatSpecifier( ),
 				rtc,
 				FORWARD,
-				xZoom );
+				xZoom,
+				0 );
 		oaxPrimaryBase.set( scPrimaryBase ); // UPDATE SCALE ON PRIMARY-BASE
 		// AXIS
 
@@ -586,7 +587,8 @@ public class PlotWith3DAxes extends PlotWithAxes
 				axAncillaryBase.getFormatSpecifier( ),
 				rtc,
 				FORWARD,
-				zZoom );
+				zZoom,
+				0 );
 		oaxAncillaryBase.set( scAncillaryBase ); // UPDATE SCALE ON
 		// ANCILLARY-BASE AXIS
 
@@ -605,7 +607,8 @@ public class PlotWith3DAxes extends PlotWithAxes
 				axPrimaryOrthogonal.getFormatSpecifier( ),
 				rtc,
 				FORWARD,
-				yZoom );
+				yZoom,
+				0 );
 		oaxPrimaryOrthogonal.set( scPrimaryOrthogonal ); // UPDATE SCALE ON
 		// PRIMARY-ORTHOGONAL AXIS
 

@@ -33,6 +33,11 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
  */
 public final class DeferredCache
 {
+	public static final int FLUSH_PLANE = 1;
+	public static final int FLUSH_LINE = 2;
+	public static final int FLUSH_MARKER = 4;
+	public static final int FLUSH_LABLE = 8;
+	public static final int FLUSH_3D = 16;
 
 	private final IDeviceRenderer idr;
 
@@ -158,194 +163,39 @@ public final class DeferredCache
 			logger.log( ufex );
 		}
 	}
-
+	
 	/**
 	 * Flush the cache, perform all pending rendering tasks.
 	 */
 	public final void flush( ) throws ChartException
 	{
-		WrappedInstruction wi;
-
-		// FLUSH PLANES
-		Collections.sort( alPlanes ); // SORT ON Z-ORDER
-		for ( int i = 0; i < alPlanes.size( ); i++ )
-		{
-			wi = (WrappedInstruction) alPlanes.get( i );
-			if ( wi.isModel( ) )
-			{
-				ArrayList al = wi.getModel( );
-				for ( int j = 0; j < al.size( ); j++ )
-				{
-					PrimitiveRenderEvent pre = (PrimitiveRenderEvent) al.get( j );
-					pre.fill( idr );
-					pre.draw( idr );
-				}
-			}
-			else
-			{
-				wi.getEvent( ).iObjIndex = i + 1;
-				switch ( wi.getInstruction( ) )
-				{
-					case PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW :
-						wi.getEvent( ).fill( idr );
-						wi.getEvent( ).draw( idr );
-						break;
-					case PrimitiveRenderEvent.FILL :
-						wi.getEvent( ).fill( idr );
-						break;
-					case PrimitiveRenderEvent.DRAW :
-						wi.getEvent( ).draw( idr );
-						break;
-				}
-			}
-		}
-		alPlanes.clear( );
-
-		// FLUSH LINES (WITHOUT SORTING)
-		for ( int i = 0; i < alLines.size( ); i++ )
-		{
-			LineRenderEvent lre = (LineRenderEvent) alLines.get( i );
-			lre.draw( idr );
-		}
-		alLines.clear( );
-
-		// FLUSH MARKERS (WITHOUT SORTING)
-		for ( int i = 0; i < alMarkers.size( ); i++ )
-		{
-			wi = (WrappedInstruction) alMarkers.get( i );
-			switch ( wi.getInstruction( ) )
-			{
-				case PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW :
-					wi.getEvent( ).fill( idr );
-					wi.getEvent( ).draw( idr );
-					break;
-				case PrimitiveRenderEvent.FILL :
-					wi.getEvent( ).fill( idr );
-					break;
-				case PrimitiveRenderEvent.DRAW :
-					wi.getEvent( ).draw( idr );
-					break;
-			}
-		}
-		alMarkers.clear( );
-
-		// FLUSH TEXT (WITHOUT SORTING)
-		for ( int i = 0; i < alLabels.size( ); i++ )
-		{
-			TextRenderEvent tre = (TextRenderEvent) alLabels.get( i );
-			tre.draw( idr );
-		}
-		alLabels.clear( );
-
-		// FLUSH 3D events (already z-sorted)
-		for ( int i = 0; i < al3D.size( ); i++ )
-		{
-			Object obj = al3D.get( i );
-
-			if ( obj instanceof WrappedInstruction )
-			{
-				wi = (WrappedInstruction) obj;
-
-				if ( wi.isModel( ) )
-				{
-					ArrayList al = wi.getModel( );
-					for ( int j = 0; j < al.size( ); j++ )
-					{
-						PrimitiveRenderEvent pre = (PrimitiveRenderEvent) al.get( j );
-						pre.fill( idr );
-						pre.draw( idr );
-					}
-				}
-				else
-				{
-					wi.getEvent( ).iObjIndex = i + 1;
-					switch ( wi.getInstruction( ) )
-					{
-						case PrimitiveRenderEvent.FILL
-								| PrimitiveRenderEvent.DRAW :
-							wi.getEvent( ).fill( idr );
-							wi.getEvent( ).draw( idr );
-							break;
-						case PrimitiveRenderEvent.FILL :
-							wi.getEvent( ).fill( idr );
-							break;
-						case PrimitiveRenderEvent.DRAW :
-							wi.getEvent( ).draw( idr );
-							break;
-					}
-				}
-			}
-			else if ( obj instanceof LineRenderEvent )
-			{
-				( (LineRenderEvent) obj ).draw( idr );
-			}
-			else if ( obj instanceof TextRenderEvent )
-			{
-				( (TextRenderEvent) obj ).draw( idr );
-			}
-		}
-		al3D.clear( );
+		flushOptions( FLUSH_3D
+				| FLUSH_LABLE | FLUSH_LINE | FLUSH_MARKER | FLUSH_PLANE );
 	}
-	
+
 	/**
-	 * Flush the cache of plane, perform all pending rendering tasks.
+	 * Flush the cache of specified types.
+	 * 
+	 * @param options
+	 *            types
+	 * @see #FLUSH_3D
+	 * @see #FLUSH_LABLE
+	 * @see #FLUSH_LINE
+	 * @see #FLUSH_MARKER
+	 * @see #FLUSH_PLANE
+	 * @since 2.2
 	 */
-	public final void flushPlaneAndLine( ) throws ChartException
+	public final void flushOptions( int options ) throws ChartException
 	{
 		WrappedInstruction wi;
 
 		// FLUSH PLANES
-		Collections.sort( alPlanes ); // SORT ON Z-ORDER
-		for ( int i = 0; i < alPlanes.size( ); i++ )
+		if ( ( options & FLUSH_PLANE ) == FLUSH_PLANE )
 		{
-			wi = (WrappedInstruction) alPlanes.get( i );
-			if ( wi.isModel( ) )
+			Collections.sort( alPlanes ); // SORT ON Z-ORDER
+			for ( int i = 0; i < alPlanes.size( ); i++ )
 			{
-				ArrayList al = wi.getModel( );
-				for ( int j = 0; j < al.size( ); j++ )
-				{
-					PrimitiveRenderEvent pre = (PrimitiveRenderEvent) al.get( j );
-					pre.fill( idr );
-					pre.draw( idr );
-				}
-			}
-			else
-			{
-				wi.getEvent( ).iObjIndex = i + 1;
-				switch ( wi.getInstruction( ) )
-				{
-					case PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW :
-						wi.getEvent( ).fill( idr );
-						wi.getEvent( ).draw( idr );
-						break;
-					case PrimitiveRenderEvent.FILL :
-						wi.getEvent( ).fill( idr );
-						break;
-					case PrimitiveRenderEvent.DRAW :
-						wi.getEvent( ).draw( idr );
-						break;
-				}
-			}
-		}
-		alPlanes.clear( );
-
-		// FLUSH LINES (WITHOUT SORTING)
-		for ( int i = 0; i < alLines.size( ); i++ )
-		{
-			LineRenderEvent lre = (LineRenderEvent) alLines.get( i );
-			lre.draw( idr );
-		}
-		alLines.clear( );
-
-		// FLUSH 3D events (already z-sorted)
-		for ( int i = 0; i < al3D.size( ); i++ )
-		{
-			Object obj = al3D.get( i );
-
-			if ( obj instanceof WrappedInstruction )
-			{
-				wi = (WrappedInstruction) obj;
-
+				wi = (WrappedInstruction) alPlanes.get( i );
 				if ( wi.isModel( ) )
 				{
 					ArrayList al = wi.getModel( );
@@ -375,13 +225,107 @@ public final class DeferredCache
 					}
 				}
 			}
-			else if ( obj instanceof LineRenderEvent )
-			{
-				( (LineRenderEvent) obj ).draw( idr );
-			}
+			alPlanes.clear( );
 		}
-		al3D.clear( );
+
+		// FLUSH LINES (WITHOUT SORTING)
+		if ( ( options & FLUSH_LINE ) == FLUSH_LINE )
+		{
+			for ( int i = 0; i < alLines.size( ); i++ )
+			{
+				LineRenderEvent lre = (LineRenderEvent) alLines.get( i );
+				lre.draw( idr );
+			}
+			alLines.clear( );
+		}
+
+		// FLUSH MARKERS (WITHOUT SORTING)
+		if ( ( options & FLUSH_MARKER ) == FLUSH_MARKER )
+		{
+			for ( int i = 0; i < alMarkers.size( ); i++ )
+			{
+				wi = (WrappedInstruction) alMarkers.get( i );
+				switch ( wi.getInstruction( ) )
+				{
+					case PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW :
+						wi.getEvent( ).fill( idr );
+						wi.getEvent( ).draw( idr );
+						break;
+					case PrimitiveRenderEvent.FILL :
+						wi.getEvent( ).fill( idr );
+						break;
+					case PrimitiveRenderEvent.DRAW :
+						wi.getEvent( ).draw( idr );
+						break;
+				}
+			}
+			alMarkers.clear( );
+		}
+
+		// FLUSH TEXT (WITHOUT SORTING)
+		if ( ( options & FLUSH_LABLE ) == FLUSH_LABLE )
+		{
+			for ( int i = 0; i < alLabels.size( ); i++ )
+			{
+				TextRenderEvent tre = (TextRenderEvent) alLabels.get( i );
+				tre.draw( idr );
+			}
+			alLabels.clear( );
+		}
+
+		// FLUSH 3D events (already z-sorted)
+		if ( ( options & FLUSH_3D ) == FLUSH_3D )
+		{
+			for ( int i = 0; i < al3D.size( ); i++ )
+			{
+				Object obj = al3D.get( i );
+
+				if ( obj instanceof WrappedInstruction )
+				{
+					wi = (WrappedInstruction) obj;
+
+					if ( wi.isModel( ) )
+					{
+						ArrayList al = wi.getModel( );
+						for ( int j = 0; j < al.size( ); j++ )
+						{
+							PrimitiveRenderEvent pre = (PrimitiveRenderEvent) al.get( j );
+							pre.fill( idr );
+							pre.draw( idr );
+						}
+					}
+					else
+					{
+						wi.getEvent( ).iObjIndex = i + 1;
+						switch ( wi.getInstruction( ) )
+						{
+							case PrimitiveRenderEvent.FILL
+									| PrimitiveRenderEvent.DRAW :
+								wi.getEvent( ).fill( idr );
+								wi.getEvent( ).draw( idr );
+								break;
+							case PrimitiveRenderEvent.FILL :
+								wi.getEvent( ).fill( idr );
+								break;
+							case PrimitiveRenderEvent.DRAW :
+								wi.getEvent( ).draw( idr );
+								break;
+						}
+					}
+				}
+				else if ( obj instanceof LineRenderEvent )
+				{
+					( (LineRenderEvent) obj ).draw( idr );
+				}
+				else if ( obj instanceof TextRenderEvent )
+				{
+					( (TextRenderEvent) obj ).draw( idr );
+				}
+			}
+			al3D.clear( );
+		}
 	}
+	
 
 	/**
 	 * Pre-process all the 3D rendering events. This must be called before

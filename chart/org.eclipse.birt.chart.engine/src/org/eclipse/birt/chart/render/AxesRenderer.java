@@ -2926,7 +2926,7 @@ public abstract class AxesRenderer extends BaseRenderer
 	 *      org.eclipse.birt.chart.model.component.Axis,
 	 *      org.eclipse.birt.chart.model.data.SeriesDefinition)
 	 */
-	public final void set( Chart _cm, Object _o, Series _se, Axis _ax,
+	public void set( Chart _cm, Object _o, Series _se, Axis _ax,
 			SeriesDefinition _sd )
 	{
 		super.set( _cm, _o, _se, _sd );
@@ -3089,11 +3089,11 @@ public abstract class AxesRenderer extends BaseRenderer
 	}
 
 	/**
-	 * Gets current internal OneAxis
+	 * Gets current internal primary orthogonal OneAxis
 	 * 
 	 * @return internal OneAxis
 	 */
-	protected final OneAxis getAxisInternal( )
+	protected final OneAxis getInternalOrthogonalAxis( )
 	{
 		final AllAxes allAxes = ( (PlotWithAxes) getComputations( ) ).getAxes( );
 		if ( allAxes.getOverlayCount( ) == 0 )
@@ -3107,6 +3107,27 @@ public abstract class AxesRenderer extends BaseRenderer
 			return allAxes.getPrimaryOrthogonal( );
 		}
 		return allAxes.getOverlay( index - 1 );
+	}
+	
+	/**
+	 * Gets current internal base OneAxis
+	 * 
+	 * @return internal OneAxis
+	 */
+	protected final OneAxis getInternalBaseAxis( )
+	{
+		final AllAxes allAxes = ( (PlotWithAxes) getComputations( ) ).getAxes( );
+		return allAxes.getPrimaryBase( );
+	}
+	
+	/**
+	 * Checks if current series can show outside values.
+	 * 
+	 * @return
+	 */
+	protected boolean isShowOutside( )
+	{
+		return getAxis( ).getScale( ).isShowOutside( );
 	}
 	
 	/**
@@ -3129,14 +3150,14 @@ public abstract class AxesRenderer extends BaseRenderer
 			final SeriesRenderingHints srh, final double[] faX,
 			final double[] faY, final boolean bShowAsTape )
 	{
-		final AutoScale scale = getAxisInternal( ).getScale( );
-		if ( ( scale.getType( ) & IConstants.PERCENT ) == IConstants.PERCENT )
+		final AutoScale scaleOrth = getInternalOrthogonalAxis( ).getScale( );
+		if ( ( scaleOrth.getType( ) & IConstants.PERCENT ) == IConstants.PERCENT )
 		{
 			// Always inside in percent type
 			return;
 		}
 		
-		final boolean bHideOutside = !getAxis( ).getScale( ).isShowOutside( );
+		final boolean bHideOutside = !isShowOutside( );
 		final DataPointHints[] dpha = srh.getDataPoints( );
 		final boolean isCategory = srh.isCategoryScale( );
 		final boolean bTransposed = isTransposed( );
@@ -3162,35 +3183,13 @@ public abstract class AxesRenderer extends BaseRenderer
 			// 0 inside, 1 left outside, 2 right outside
 			int iOutside = 0;
 			
+			// Check stack value
 			if ( dpha[i].getStackOrthogonalValue( ) != null )
 			{
-				// Stack value
 				double value = dpha[i].getStackOrthogonalValue( ).doubleValue( );
-				double min = Methods.asDouble( scale.getMinimum( ) )
+				double min = Methods.asDouble( scaleOrth.getMinimum( ) )
 						.doubleValue( );
-				double max = Methods.asDouble( scale.getMaximum( ) )
-						.doubleValue( );
-				if ( value < min )
-				{
-					iOutside = 1;
-				}
-				else if ( value > max )
-				{
-					iOutside = 2;
-				}
-			}
-			else if ( dpha[i].getOrthogonalValue( ) == null )
-			{
-				// Null entry displays in the base line
-				iOutside = 1;
-			}
-			else if ( dpha[i].getOrthogonalValue( ) instanceof Double )
-			{
-				// Double entry
-				double value = ( (Double) dpha[i].getOrthogonalValue( ) ).doubleValue( );
-				double min = Methods.asDouble( scale.getMinimum( ) )
-						.doubleValue( );
-				double max = Methods.asDouble( scale.getMaximum( ) )
+				double max = Methods.asDouble( scaleOrth.getMaximum( ) )
 						.doubleValue( );
 				if ( value < min )
 				{
@@ -3201,27 +3200,19 @@ public abstract class AxesRenderer extends BaseRenderer
 					iOutside = 2;
 				}
 			}
-			else if ( dpha[i].getOrthogonalValue( ) instanceof CDateTime )
+
+			// Check orthogonal value
+			if ( iOutside == 0 )
 			{
-				// Datetime entry
-				CDateTime value = (CDateTime) dpha[i].getOrthogonalValue( );
-				CDateTime min = Methods.asDateTime( scale.getMinimum( ) );
-				CDateTime max = Methods.asDateTime( scale.getMaximum( ) );
-				if ( value.before( min ) )
-				{
-					iOutside = 1;
-				}
-				else if ( value.after( max ) )
-				{
-					iOutside = 2;
-				}
+				iOutside = checkEntryByType( scaleOrth,
+						dpha[i].getOrthogonalValue( ) );
 			}
-			else
+
+			// Check base value
+			if ( iOutside == 0 )
 			{
-				// Complex entry
-				iOutside = checkEntryInRange( dpha[i].getOrthogonalValue( ),
-						scale.getMinimum( ),
-						scale.getMaximum( ) );
+				iOutside = checkEntryByType( getInternalBaseAxis( ).getScale( ),
+						dpha[i].getBaseValue( ) );
 			}
 
 			if ( iOutside > 0 )
@@ -3265,7 +3256,7 @@ public abstract class AxesRenderer extends BaseRenderer
 	protected final void renderClipping( final IPrimitiveRenderer ipr,
 			final Bounds boClientArea )
 	{
-		if ( !getAxis( ).getScale( ).isShowOutside( ) )
+		if ( !isShowOutside( ) )
 		{
 			ClipRenderEvent clip = new ClipRenderEvent( this );
 			Location[] locations = new Location[4];
@@ -3292,9 +3283,9 @@ public abstract class AxesRenderer extends BaseRenderer
 	protected void restoreClipping( final IPrimitiveRenderer ipr )
 			throws ChartException
 	{
-		if ( !getAxis( ).getScale( ).isShowOutside( ) )
+		if ( !isShowOutside( ) )
 		{
-			getDeferredCache( ).flushPlaneAndLine( );
+			flushClipping( );
 			ClipRenderEvent clip = new ClipRenderEvent( this );
 			clip.setVertices( null );
 			ipr.setClip( clip );
@@ -3302,8 +3293,127 @@ public abstract class AxesRenderer extends BaseRenderer
 	}
 	
 	/**
+	 * Flushes specified types of rendering for clipping.
+	 * 
+	 * @throws ChartException
+	 */
+	protected void flushClipping( ) throws ChartException
+	{
+		getDeferredCache( ).flushOptions( DeferredCache.FLUSH_LINE
+				| DeferredCache.FLUSH_PLANE );
+	}
+	
+	/**
+	 * Checks data point entry by types
+	 * 
+	 * @param scale
+	 *            AutoScale for min/max value
+	 * @param entry
+	 *            data point entry
+	 * @return int indicates if data point entry is in the range of plot area. 0
+	 *         inside, 1 left side, 2 outside
+	 */
+	protected final int checkEntryByType( AutoScale scale, Object entry )
+	{
+		int iOutside = 0;
+		if ( entry == null )
+		{
+			// Null entry displays in the base line
+			iOutside = 1;
+		}
+		else if ( scale.getMinimum( ) == null || scale.getMaximum( ) == null )
+		{
+			// Category entry
+			iOutside = 0;
+		}
+		else if ( entry instanceof Number )
+		{
+			// Double entry
+			iOutside = checkEntryInNumberRange( (Number) entry,
+					scale.getMinimum( ),
+					scale.getMaximum( ) );
+		}
+		else if ( entry instanceof CDateTime )
+		{
+			// Datetime entry
+			iOutside = checkEntryInDatetimeRange( (CDateTime) entry,
+					scale.getMinimum( ),
+					scale.getMaximum( ) );
+		}
+		else
+		{
+			// Custom entry
+			iOutside = checkEntryInRange( entry,
+					scale.getMinimum( ),
+					scale.getMaximum( ) );
+		}
+		return iOutside;
+	}
+	
+	/**
+	 * Checks if the number data point entry is in the range of plot area.
+	 * Default result is 0, inside.
+	 * 
+	 * @param entry
+	 *            data point entry
+	 * @param min
+	 *            scale min
+	 * @param max
+	 *            scale max
+	 * @return int indicates if data point entry is in the range of plot area. 0
+	 *         inside, 1 left side, 2 outside
+	 */
+	protected final int checkEntryInNumberRange( Number entry, Object min,
+			Object max )
+	{
+		int iOutside = 0;
+		double value = entry.doubleValue( );
+		double dmin = Methods.asDouble( min ).doubleValue( );
+		double dmax = Methods.asDouble( max ).doubleValue( );
+		if ( value < dmin )
+		{
+			iOutside = 1;
+		}
+		else if ( value > dmax )
+		{
+			iOutside = 2;
+		}
+		return iOutside;
+	}
+	
+	/**
+	 * Checks if the datetime data point entry is in the range of plot area.
+	 * Default result is 0, inside.
+	 * 
+	 * @param entry
+	 *            data point entry
+	 * @param min
+	 *            scale min
+	 * @param max
+	 *            scale max
+	 * @return int indicates if data point entry is in the range of plot area. 0
+	 *         inside, 1 left side, 2 outside
+	 */
+	protected final int checkEntryInDatetimeRange( CDateTime entry, Object min,
+			Object max )
+	{
+		int iOutside = 0;
+		CDateTime cmin = Methods.asDateTime( min );
+		CDateTime cmax = Methods.asDateTime( max );
+		if ( entry.before( cmin ) )
+		{
+			iOutside = 1;
+		}
+		else if ( entry.after( cmax ) )
+		{
+			iOutside = 2;
+		}
+		return iOutside;
+	}
+	
+	/**
 	 * Checks if the data point entry is in the range of plot area. Usually this
-	 * method is overriden for complex entry. Default result is 0, inside.
+	 * method is overridden for complex entry. Default result is 0, inside.
 	 * 
 	 * @param entry
 	 *            data point entry
