@@ -82,6 +82,9 @@
 	<!-- Steps to do after the fetch -->
 	<!-- ===================================================================== -->
 	<target name="postFetch">
+		<replace dir="${buildDirectory}/plugins" value="2.2.0.${buildId}" token="@BUILD@">
+			<include name="**/plugin.properties" />
+		</replace>
 	</target>
 	
 	<!-- ===================================================================== -->

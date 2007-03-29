@@ -38,7 +38,7 @@ feature@org.eclipse.birt.rcp=v20070314,:pserver:anonymous@dev.eclipse.org:/cvsro
 !*************** Third Party Features  ***********
 feature@org.eclipse.birt.thirdparty=v20070322,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.thirdparty.feature
 plugin@org.eclipse.birt.thirdparty=v20061120-1200,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.thirdparty
-feature@org.eclipse.birt.nl=v20070315,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.nl.feature
+feature@org.eclipse.birt.nl=v20070329,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.nl.feature
 
 !*****
 feature@org.apache.batik.pdf=v20060619-1400,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.gmf/features/org.apache.batik.pdf-feature
