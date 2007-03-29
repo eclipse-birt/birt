@@ -103,10 +103,12 @@ public class ReportPage extends ModulePage
 						image = null;
 					}
 					prvImageSection.setStringValue( dialog.getImageName( ) );
+					prvImageSection.forceFocus( );
 
 				}
 				else
 				{
+
 					if ( handle.getThumbnail( ) != null
 							&& handle.getThumbnail( ).length != 0 )
 					{
@@ -120,6 +122,9 @@ public class ReportPage extends ModulePage
 						}
 
 					}
+					
+					prvImageSection.setStringValue("");
+					prvImageSection.forceFocus( );
 				}
 				
 				

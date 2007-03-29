@@ -57,11 +57,10 @@ public class ThumbnailBuilder extends BaseDialog
 {
 
 	private Listener currentListener;
-	private final static  int GENERATE_TYPE = 0;
-	private final static  int BROWSER_TYPE = 1;
-	private final static  int IMPORT_TYPE = 2;
-	
-	
+	private final static int GENERATE_TYPE = 0;
+	private final static int BROWSER_TYPE = 1;
+	private final static int IMPORT_TYPE = 2;
+
 	private static String DEFAULT_TEXT = Messages.getString( "ThumbnailBuilder.Text.Title" );
 
 	private static String BUTTON_TEXT_GENERATE = Messages.getString( "ThumbnailBuilder.Button.Text.Generate" );
@@ -74,8 +73,8 @@ public class ThumbnailBuilder extends BaseDialog
 
 	private Composite previewThumbnail;
 
-	private Button radioBtnGenerate, radioBtnBrowse,radioBtnImport;
-	
+	private Button radioBtnGenerate, radioBtnBrowse, radioBtnImport;
+
 	private Button btnImplement, btnRemove;
 
 	private Image image;
@@ -110,15 +109,17 @@ public class ThumbnailBuilder extends BaseDialog
 	}
 
 	private String imageName;
-	public String getImageName()
+
+	public String getImageName( )
 	{
 		return imageName;
 	}
-	
-	public void setImageName(String imageName)
+
+	public void setImageName( String imageName )
 	{
 		this.imageName = imageName;
 	}
+
 	/**
 	 * @param title
 	 */
@@ -165,7 +166,7 @@ public class ThumbnailBuilder extends BaseDialog
 			}
 			Assert.isNotNull( image );
 		}
-		if(currentListener != null)
+		if ( currentListener != null )
 		{
 			btnImplement.removeListener( SWT.Selection, currentListener );
 		}
@@ -179,14 +180,14 @@ public class ThumbnailBuilder extends BaseDialog
 
 	private void createSelectionArea( Composite composite )
 	{
-		Composite selectionArea = new Composite(composite, SWT.NONE);
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL);
+		Composite selectionArea = new Composite( composite, SWT.NONE );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		selectionArea.setLayoutData( gd );
-		selectionArea.setLayout( new GridLayout());
-		
+		selectionArea.setLayout( new GridLayout( ) );
+
 		radioBtnGenerate = new Button( selectionArea, SWT.RADIO );
-		radioBtnGenerate.setText( Messages.getString( "ThumbnailBuilder.Button.GenerateFromReport" ));
+		radioBtnGenerate.setText( Messages.getString( "ThumbnailBuilder.Button.GenerateFromReport" ) );
 		radioBtnGenerate.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -194,9 +195,9 @@ public class ThumbnailBuilder extends BaseDialog
 				switchTo( GENERATE_TYPE );
 			}
 		} );
-		
+
 		radioBtnBrowse = new Button( selectionArea, SWT.RADIO );
-		radioBtnBrowse.setText(Messages.getString( "ThumbnailBuilder.Button.BrowseFromFileSystem" ) );
+		radioBtnBrowse.setText( Messages.getString( "ThumbnailBuilder.Button.BrowseFromFileSystem" ) );
 		radioBtnBrowse.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -204,7 +205,7 @@ public class ThumbnailBuilder extends BaseDialog
 				switchTo( BROWSER_TYPE );
 			}
 		} );
-		
+
 		radioBtnImport = new Button( selectionArea, SWT.RADIO );
 		radioBtnImport.setText( Messages.getString( "ThumbnailBuilder.Button.ImportFromResource" ) );
 		radioBtnImport.addSelectionListener( new SelectionAdapter( ) {
@@ -214,39 +215,38 @@ public class ThumbnailBuilder extends BaseDialog
 				switchTo( IMPORT_TYPE );
 			}
 		} );
-		
+
 	}
 
-	private void switchTo(int type)
+	private void switchTo( int type )
 	{
-		if(currentListener != null)
+		if ( currentListener != null )
 		{
 			btnImplement.removeListener( SWT.Selection, currentListener );
-		}		
-		switch (type)
-		{
-			case GENERATE_TYPE:
-				btnImplement.setText( Messages.getString( "ThumbnailBuilder.Button.Text.Generate") );
-				currentListener = btnGenerateListener;
-				btnImplement.addListener( SWT.Selection,currentListener );
-				break;
-			case BROWSER_TYPE:
-				btnImplement.setText( Messages.getString( "ThumbnailBuilder.Button.Text.Browse"));	
-				currentListener = btnBrowseListener;
-				btnImplement.addListener( SWT.Selection,currentListener );
-				break;
-			case IMPORT_TYPE:
-				btnImplement.setText(  Messages.getString( "ThumbnailBuilder.Button.Text.Import"));
-				currentListener = btnImportListener;
-				btnImplement.addListener( SWT.Selection,currentListener );
-				break;
-			default: ;
 		}
-		
-		
+		switch ( type )
+		{
+			case GENERATE_TYPE :
+				btnImplement.setText( Messages.getString( "ThumbnailBuilder.Button.Text.Generate" ) );
+				currentListener = btnGenerateListener;
+				btnImplement.addListener( SWT.Selection, currentListener );
+				break;
+			case BROWSER_TYPE :
+				btnImplement.setText( Messages.getString( "ThumbnailBuilder.Button.Text.Browse" ) );
+				currentListener = btnBrowseListener;
+				btnImplement.addListener( SWT.Selection, currentListener );
+				break;
+			case IMPORT_TYPE :
+				btnImplement.setText( Messages.getString( "ThumbnailBuilder.Button.Text.Import" ) );
+				currentListener = btnImportListener;
+				btnImplement.addListener( SWT.Selection, currentListener );
+				break;
+			default :
+				;
+		}
 
 	}
-	
+
 	private void createPreviewArea( Composite composite )
 	{
 		Composite previewArea = new Composite( composite, SWT.BORDER );
@@ -301,7 +301,7 @@ public class ThumbnailBuilder extends BaseDialog
 			previewCanvas.loadImage( ( (Image) image ) );
 			hasThumbnail = true;
 		}
-		switchTo(GENERATE_TYPE);
+		switchTo( GENERATE_TYPE );
 		return true;
 	}
 
@@ -342,7 +342,6 @@ public class ThumbnailBuilder extends BaseDialog
 		btnRemove.setLayoutData( gd );
 		btnRemove.addListener( SWT.Selection, btnRemoveListener );
 
-
 	}
 
 	private Listener btnGenerateListener = new Listener( ) {
@@ -350,7 +349,7 @@ public class ThumbnailBuilder extends BaseDialog
 		public void handleEvent( Event event )
 		{
 			removeImage( );
-			
+
 			previewCanvas.setVisible( false );
 			previewThumbnail.setVisible( true );
 
@@ -372,14 +371,15 @@ public class ThumbnailBuilder extends BaseDialog
 		{
 			removeImage( );
 			hasThumbnail = false;
+			imageName = "";
 		}
 	};
 
-	private Listener btnBrowseListener = new Listener()
-	{
+	private Listener btnBrowseListener = new Listener( ) {
+
 		public void handleEvent( Event event )
 		{
-					
+
 			String fileName = null;
 			FileDialog dialog = new FileDialog( getShell( ), SWT.OPEN );
 			dialog.setText( Messages.getString( "ThumbnailBuilder.FileDialog.Title" ) ); //$NON-NLS-1$
@@ -408,17 +408,17 @@ public class ThumbnailBuilder extends BaseDialog
 
 			previewCanvas.loadImage( image );
 			btnRemove.setEnabled( true );
-			
+
 			imageName = fileName;
 		}
 	};
-	
+
 	private Listener btnImportListener = new Listener( ) {
 
 		public void handleEvent( Event event )
 		{
 			String fileName = null;
-			
+
 			AddImageResourceFileFolderSelectionDialog dlg = new AddImageResourceFileFolderSelectionDialog( );
 			if ( dlg.open( ) != Window.OK )
 			{
@@ -431,8 +431,7 @@ public class ThumbnailBuilder extends BaseDialog
 			}
 			URL url = SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( )
-					.findResource( fileName,
-							IResourceLocator.IMAGE );
+					.findResource( fileName, IResourceLocator.IMAGE );
 			imageName = fileName;
 			try
 			{
@@ -441,7 +440,7 @@ public class ThumbnailBuilder extends BaseDialog
 			catch ( IOException e )
 			{
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				e.printStackTrace( );
 			}
 			if ( checkExtensions( fileName ) == false )
 			{
@@ -461,7 +460,7 @@ public class ThumbnailBuilder extends BaseDialog
 
 			previewCanvas.loadImage( image );
 			btnRemove.setEnabled( true );
-			
+
 		}
 	};
 
