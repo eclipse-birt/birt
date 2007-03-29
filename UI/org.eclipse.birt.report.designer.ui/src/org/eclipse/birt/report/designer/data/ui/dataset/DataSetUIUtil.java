@@ -18,11 +18,16 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Button;
 
 /**
  * The utility class.
@@ -157,5 +162,26 @@ public final class DataSetUIUtil
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN;
 		
 		return DesignChoiceConstants.COLUMN_DATA_TYPE_ANY;
+	}
+	
+	public static void setExpressionButtonImage( Button button )
+	{
+		GridData gd = new GridData( );
+		gd.widthHint = 20;
+		gd.heightHint = 20;
+		button.setLayoutData( gd );
+
+		String symbolicName;
+		if ( button.isEnabled( ) )
+			symbolicName = IReportGraphicConstants.ICON_ENABLE_EXPRESSION_BUILDERS;
+		else
+			symbolicName = IReportGraphicConstants.ICON_DISABLE_EXPRESSION_BUILDERS;
+
+		Image image = ReportPlatformUIImages.getImage( symbolicName );
+		if ( image != null )
+		{
+			image.setBackground( button.getBackground( ) );
+			button.setImage( image );
+		}
 	}
 }
