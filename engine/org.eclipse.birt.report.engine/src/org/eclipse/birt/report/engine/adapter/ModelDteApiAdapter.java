@@ -615,10 +615,6 @@ public class ModelDteApiAdapter
 			{
 				DataSetParameterHandle modelParam = ( DataSetParameterHandle ) elmtIter
 						.next( );
-				if ( modelParam.getDefaultValue( ) == null )
-					continue;
-				dteDataSet.addParameter( newParam( modelParam ) );
-
 				// collect input parameter default values as
 				// potential parameter binding if no explicit ones are
 				// defined for a parameter
@@ -633,8 +629,16 @@ public class ModelDteApiAdapter
 					else
 						defaultValueExpr = modelParam.getDefaultValue( );
 					if ( defaultValueExpr != null )
+					{
+						dteDataSet.addParameter( newParam( modelParam ) );
+
 						paramBindingCandidates.put( modelParam.getName( ),
 								defaultValueExpr );
+					}
+				}
+				else
+				{
+					dteDataSet.addParameter( newParam( modelParam ) );
 				}
 			}
 		}

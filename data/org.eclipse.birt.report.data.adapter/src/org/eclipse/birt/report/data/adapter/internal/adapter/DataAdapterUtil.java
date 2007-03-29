@@ -113,11 +113,7 @@ class DataAdapterUtil
 			{
 				DataSetParameterHandle modelParam = ( DataSetParameterHandle ) elmtIter
 						.next( );
-
-				if( modelParam.getDefaultValue( )== null )
-					continue;
-				
-				dteDataSet.addParameter( new ParameterAdapter( modelParam ) );
+			
 				// collect input parameter default values as
 				// potential parameter binding if no explicit ones are
 				// defined for a parameter
@@ -132,8 +128,15 @@ class DataAdapterUtil
 					else
 						defaultValueExpr = modelParam.getDefaultValue( );
 					if ( defaultValueExpr != null )
+					{
+						dteDataSet.addParameter( new ParameterAdapter( modelParam ) );
 						paramBindingCandidates.put( modelParam.getName( ),
 								defaultValueExpr );
+					}
+				}
+				else
+				{
+					dteDataSet.addParameter( new ParameterAdapter( modelParam ) );
 				}
 			}
 		}
