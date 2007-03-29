@@ -108,6 +108,176 @@
             </enablement>
          </adapter>
       </adaptable>
+      
+      
+     <adaptable
+         class="org.eclipse.birt.report.model.api.ExtendedItemHandle">
+      	<adapter
+            class="org.eclipse.birt.report.item.crosstab.internal.ui.views.provider.CrossTabNodeProvider"
+            id="CrossTab.NodeProvider"
+            priority="2"
+            type="org.eclipse.birt.report.designer.ui.views.INodeProvider">
+            <enablement>
+               <test
+                     forcePluginActivation="true"
+                     property="ExtendItemHandle.extensionName"
+                     value="Crosstab">
+               </test>
+            </enablement>
+      </adapter>	 
+	</adaptable>
+	 
+     <adaptable
+         class="org.eclipse.birt.report.model.api.ExtendedItemHandle">
+      	<adapter
+            class="org.eclipse.birt.report.item.crosstab.internal.ui.views.provider.CrossTabViewNodeProvider"
+            id="CrossTabView.NodeProvider"
+            priority="2"
+            type="org.eclipse.birt.report.designer.ui.views.INodeProvider">
+            <enablement>
+               <test
+                     forcePluginActivation="true"
+                     property="ExtendItemHandle.extensionName"
+                     value="CrosstabView">
+               </test>
+            </enablement>
+      </adapter>	 
+	</adaptable>
+	
+	 <adaptable
+         class="org.eclipse.birt.report.model.api.ExtendedItemHandle">
+      	<adapter
+            class="org.eclipse.birt.report.item.crosstab.internal.ui.views.provider.CrosstTabCellNodeProvider"
+            id="CrossTabCell.NodeProvider"
+            priority="2"
+            type="org.eclipse.birt.report.designer.ui.views.INodeProvider">
+            <enablement>
+				<or>
+               <test
+                     forcePluginActivation="true"
+                     property="ExtendItemHandle.extensionName"
+                     value="CrosstabCell">
+               </test>
+                <test
+                     forcePluginActivation="true"
+                     property="ExtendItemHandle.extensionName"
+                     value="AggregationCell">
+               </test>
+               </or>
+            </enablement>
+      </adapter>	 
+	</adaptable>
+	
+	<adaptable
+         class="org.eclipse.birt.report.model.api.ExtendedItemHandle">
+      	<adapter
+            class="org.eclipse.birt.report.item.crosstab.internal.ui.views.provider.CrosstTabLevelNodeProvider"
+            id="Level.NodeProvider"
+            priority="2"
+            type="org.eclipse.birt.report.designer.ui.views.INodeProvider">
+            <enablement>
+               <test
+                     forcePluginActivation="true"
+                     property="ExtendItemHandle.extensionName"
+                     value="LevelView">
+               </test>
+        </enablement>
+      </adapter>	 
+	</adaptable>
+	
+	<adaptable
+         class="org.eclipse.birt.report.model.api.ExtendedItemHandle">
+      	<adapter
+            class="org.eclipse.birt.report.item.crosstab.internal.ui.views.provider.CrosstTabMeasureNodeProvider"
+            id="Measure.NodeProvider"
+            priority="2"
+            type="org.eclipse.birt.report.designer.ui.views.INodeProvider">
+            <enablement>
+               <test
+                     forcePluginActivation="true"
+                     property="ExtendItemHandle.extensionName"
+                     value="MeasureView">
+               </test>
+        </enablement>
+      </adapter>	 
+	</adaptable>
+	
+	  <adaptable
+         class="org.eclipse.birt.report.model.api.PropertyHandle">
+      	<adapter
+            class="org.eclipse.birt.report.item.crosstab.internal.ui.views.provider.AreaNodeProvider"
+            id="Crosstab.Dimensions.NodeProvider"
+            priority="2"
+            type="org.eclipse.birt.report.designer.ui.views.INodeProvider">
+            <enablement>
+               	<or>
+              	 	<test 
+              	 		forcePluginActivation="true" 
+              	 		property="PropertyHandle.handleProperty"
+                     	value="rows" />
+                    <test 
+                    	forcePluginActivation="true" 
+                    	property="PropertyHandle.handleProperty"
+                    	value="columns" />
+                     <test 
+                    	forcePluginActivation="true" 
+                    	property="PropertyHandle.handleProperty"
+                    	value="measures" />
+               	</or>
+        	</enablement>
+      </adapter>	 
+	</adaptable>
+	
+	<adaptable
+         class="org.eclipse.birt.report.model.api.DataItemHandle">
+      	<adapter
+             class="org.eclipse.birt.report.item.crosstab.internal.ui.views.provider.LeafNodeProvider"
+             id="Crosstab.Leaf.NodeProvider"
+             overwrite="DataItemHandle.NodeProvider"
+             priority="2"
+             type="org.eclipse.birt.report.designer.ui.views.INodeProvider">
+            <enablement>
+               	<or>
+              	 	<test 
+              	 		forcePluginActivation="true" 
+              	 		property="ElementContainer.containerName"
+                     	value="AggregationCell" />
+                    <test 
+                    	forcePluginActivation="true" 
+                    	property="ElementContainer.containerName"
+                    	value="CrosstabCell" />
+               	</or>
+        	</enablement>
+      </adapter>	 
+	</adaptable>
+	
+	<adaptable
+         class="org.eclipse.birt.report.model.api.PropertyHandle">
+      	<adapter
+            class="org.eclipse.birt.report.item.crosstab.internal.ui.views.provider.MeasureSubNodeProvider"
+            id="Crosstab.Measure.NodeProvider"
+            priority="2"
+            type="org.eclipse.birt.report.designer.ui.views.INodeProvider">
+            <enablement>
+               	<or>
+              	 	<test 
+              	 		forcePluginActivation="true" 
+              	 		property="PropertyHandle.handleProperty"
+                     	value="header" />
+                    <test 
+                    	forcePluginActivation="true" 
+                    	property="PropertyHandle.handleProperty"
+                    	value="detail" />
+                     <test 
+                    	forcePluginActivation="true" 
+                    	property="PropertyHandle.handleProperty"
+                    	value="aggregations" />
+               	</or>
+        	</enablement>
+      </adapter>	 
+	</adaptable>
+	
    </extension>
+     
 
 </plugin>

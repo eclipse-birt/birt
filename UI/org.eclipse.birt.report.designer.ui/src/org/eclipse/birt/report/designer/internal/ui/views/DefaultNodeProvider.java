@@ -38,11 +38,11 @@ import org.eclipse.birt.report.designer.ui.views.INodeProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
-import org.eclipse.birt.report.model.api.CssSharedStyleHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
+import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -52,7 +52,6 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TemplateElementHandle;
 import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.gef.Request;
@@ -210,18 +209,19 @@ public class DefaultNodeProvider implements INodeProvider
 	public Object[] getChildren( Object model )
 	{
 
-//		if ( model instanceof ReportElementModel )
-//		{
-//			if ( ( (ReportElementModel) model ).getSlotHandle( ) != null )
-//			{
-//				Object[] children = this.getChildrenBySlotHandle( ( (ReportElementModel) model ).getSlotHandle( ) );
-//				if ( comparator != null )
-//				{
-//					Arrays.sort( children, comparator );
-//				}
-//				return children;
-//			}
-//		}
+		// if ( model instanceof ReportElementModel )
+		// {
+		// if ( ( (ReportElementModel) model ).getSlotHandle( ) != null )
+		// {
+		// Object[] children = this.getChildrenBySlotHandle( (
+		// (ReportElementModel) model ).getSlotHandle( ) );
+		// if ( comparator != null )
+		// {
+		// Arrays.sort( children, comparator );
+		// }
+		// return children;
+		// }
+		// }
 		if ( model instanceof SlotHandle )
 		{
 			Object[] children = this.getChildrenBySlotHandle( (SlotHandle) model );
@@ -236,10 +236,10 @@ public class DefaultNodeProvider implements INodeProvider
 
 	public Object getParent( Object model )
 	{
-//		if ( model instanceof ReportElementModel )
-//		{
-//			return ( (ReportElementModel) model ).getElementHandle( );
-//		}else 
+		// if ( model instanceof ReportElementModel )
+		// {
+		// return ( (ReportElementModel) model ).getElementHandle( );
+		// }else
 		if ( model instanceof SlotHandle )
 		{
 			return ( (SlotHandle) model ).getElementHandle( );
@@ -250,14 +250,14 @@ public class DefaultNodeProvider implements INodeProvider
 			if ( handle instanceof CellHandle
 					|| handle.getContainer( ) instanceof CellHandle
 					|| handle.getContainer( ) instanceof ParameterGroupHandle
-					|| ( handle instanceof RowHandle && handle.getContainer( ) instanceof GridHandle ) 
-					||( model instanceof CssSharedStyleHandle))
+					|| ( handle instanceof RowHandle && handle.getContainer( ) instanceof GridHandle )
+					|| ( ( handle instanceof DataItemHandle || handle instanceof LabelHandle ) && handle.getContainer( ) instanceof ExtendedItemHandle ) )
 			{
 				return handle.getContainer( );
 			}
 			if ( handle.getContainerSlotHandle( ) != null )
 			{
-				return  handle.getContainerSlotHandle( ) ;
+				return handle.getContainerSlotHandle( );
 			}
 		}
 		return null;

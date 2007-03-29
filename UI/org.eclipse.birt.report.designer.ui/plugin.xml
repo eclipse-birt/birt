@@ -100,14 +100,27 @@
    <extension
       	point="org.eclipse.core.expressions.propertyTesters">
    		<propertyTester
+         	class="org.eclipse.birt.report.designer.internal.ui.extension.PropertyHandlePropertyTester"
+         	id="ProertyHandleTest"
+         	namespace="PropertyHandle"
+         	properties="handleProperty"
+         	type="org.eclipse.birt.report.model.api.PropertyHandle">
+   		</propertyTester>
+   		<propertyTester
          	class="org.eclipse.birt.report.designer.internal.ui.extension.ExtendItemHandlePropertyTester"
          	id="ExtendItemHandle"
          	namespace="ExtendItemHandle"
          	properties="extensionName"
          	type="org.eclipse.birt.report.model.api.ExtendedItemHandle">
    		</propertyTester>
+   		<propertyTester
+         	class="org.eclipse.birt.report.designer.internal.ui.extension.ElementContainerTester"
+         	id="ElementContainerTest"
+         	namespace="ElementContainer"
+         	properties="containerName"
+         	type="org.eclipse.birt.report.model.api.DataItemHandle">
+   		</propertyTester>
 	</extension>
-	
    <extension
          point="org.eclipse.ui.commands">
       <command
