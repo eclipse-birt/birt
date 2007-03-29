@@ -412,19 +412,6 @@
 		</fileset>
 	</copy>
 	
-	<!-- org.apache.xerces -->
-	<!--
-	<copy todir="${export.dir}/plugins/org.apache.xerces">
-		<fileset dir="../org.apache.xerces">
-			<include name="META-INF/MANIFEST.MF" />
-			<include name="*.jar" />
-			<include name="about.html" />
-			<include name="about_files/**" />
-			<include name="plugin.*" />
-		</fileset>
-	</copy>
-	-->
-
 	<!-- org.apache.commons.codec -->
 	<copy todir="${export.dir}/plugins/org.apache.commons.codec">
 		<fileset dir="../org.apache.commons.codec">
@@ -436,18 +423,6 @@
 		</fileset>
 	</copy>
 
-	<!-- org.apache.batik -->
-	<!--
-	<copy todir="${export.dir}/plugins/org.apache.batik">
-		<fileset dir="../org.apache.batik">
-			<include name="META-INF/MANIFEST.MF" />
-			<include name="lib/*.jar" />
-			<include name="about.html" />
-			<include name="about_files/**" />
-			<include name="plugin.*" />
-		</fileset>
-	</copy>
-	-->
 	<!-- org.apache.batik.pdf -->
 	<copy todir="${export.dir}/plugins/org.apache.batik.pdf">
 		<fileset dir="../org.apache.batik.pdf">
@@ -511,6 +486,7 @@
 			<include name="org.eclipse.birt.report.engine.emitter.pdf_*.jar" />
 			<include name="org.eclipse.birt.report.engine.emitter.postscript_*.jar" />
 			<include name="org.eclipse.birt.report.engine.emitter.wpml_*.jar" />
+			<include name="org.eclipse.birt.report.engine.emitter.Protype_execl_*.jar"/>
 			<include name="org.eclipse.birt.report.engine.fonts_*/**" />
 			<include name="org.eclipse.birt.report.model_*.jar" />
 			<include name="org.eclipse.birt.report.model.adapter.oda_*.jar" />
