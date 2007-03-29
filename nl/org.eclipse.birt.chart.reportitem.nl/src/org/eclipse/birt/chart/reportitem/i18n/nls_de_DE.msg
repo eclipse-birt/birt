@@ -14,9 +14,9 @@ ChartReportItemPresentationImpl.log.getSizeStart=ChartReportItemPresentationImpl
 ChartReportItemPresentationImpl.log.getSizeEnd=ChartReportItemPresentationImpl: getSize(...) – Ende
 ChartReportItemPresentationImpl.log.SuccessfullyDeletedTemp=Temporäre {0}-Datei unter {1} erfolgreich gelöscht. 
 ChartReportItemPresentationImpl.log.finishEnd=ChartReportItemPresentationImpl: finish(...) – Ende
+ChartWithoutAxesImpl.exception.3DNotSupported=3D is not supported for ChartWithoutAxes.
 ChartReportItemPresentationImpl.log.finishStart=ChartReportItemPresentationImpl: finish(...) – Start
 ChartReportItemPresentationImpl.log.CouldNotDeleteTemp=Temporäre unter {1} erstellte {0}-Datei konnte nicht gelöscht werden.
-
 ChartReportItemQueryImpl.log.getReportQueries.exception=ChartReportItemQueryImpl: getReportQueries(...) – Ausnahme
 ChartReportItemQueryImpl.log.getReportQueries.end=ChartReportItemQueryImpl: getReportQueries(...) – Ende
 ChartReportItemQueryImpl.log.getReportQueries.start=ChartReportItemQueryImpl: getReportQueries(...) – Start
@@ -40,6 +40,7 @@ QueryHelper.Text.YSeries=Y-Datenreihe
 
 SeriesQueries.NoDataDefinitionFor=Es sind keine Datendefinitionseinträge für {0} vorhanden
 SeriesQueries.dataDefnUndefined=Ein Datendefinitionseintrag für {0} wurde nicht definiert.
+
 ChartElementCommandImpl.editChart=Diagramm bearbeiten
 ChartElementCommandImpl.setProperty.chart.dimension=Dimension festlegen
 ChartElementCommandImpl.setProperty.plot.transposed=Zustand "Transponiert" festlegen

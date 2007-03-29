@@ -14,9 +14,9 @@ ChartReportItemPresentationImpl.log.getSizeStart=ChartReportItemPresentationImpl
 ChartReportItemPresentationImpl.log.getSizeEnd=ChartReportItemPresentationImpl: getSize(...) - 終了
 ChartReportItemPresentationImpl.log.SuccessfullyDeletedTemp={1} から一時ファイル {0} を削除しました。 
 ChartReportItemPresentationImpl.log.finishEnd=ChartReportItemPresentationImpl: finish(...) - 終了
+ChartWithoutAxesImpl.exception.3DNotSupported=3D is not supported for ChartWithoutAxes.
 ChartReportItemPresentationImpl.log.finishStart=ChartReportItemPresentationImpl: finish(...) - 開始
 ChartReportItemPresentationImpl.log.CouldNotDeleteTemp={1} に作成した一時ファイル {0} を削除できませんでした。
-
 ChartReportItemQueryImpl.log.getReportQueries.exception=ChartReportItemQueryImpl: getReportQueries(...) - 例外
 ChartReportItemQueryImpl.log.getReportQueries.end=ChartReportItemQueryImpl: getReportQueries(...) - 終了
 ChartReportItemQueryImpl.log.getReportQueries.start=ChartReportItemQueryImpl: getReportQueries(...) - 開始
@@ -40,6 +40,7 @@ QueryHelper.Text.YSeries=Y 系列
 
 SeriesQueries.NoDataDefinitionFor={0} には、データ定義エントリがありません。
 SeriesQueries.dataDefnUndefined={0} のデータ定義エントリが指定されていません。
+
 ChartElementCommandImpl.editChart=グラフの編集
 ChartElementCommandImpl.setProperty.chart.dimension=次元の設定
 ChartElementCommandImpl.setProperty.plot.transposed=置き換え後の設定

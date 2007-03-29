@@ -14,9 +14,9 @@ ChartReportItemPresentationImpl.log.getSizeStart=ChartReportItemPresentationImpl
 ChartReportItemPresentationImpl.log.getSizeEnd=ChartReportItemPresentationImpl: getSize(...) - 结束
 ChartReportItemPresentationImpl.log.SuccessfullyDeletedTemp=已成功删除 {1} 处的临时 {0} 文件。 
 ChartReportItemPresentationImpl.log.finishEnd=ChartReportItemPresentationImpl: finish(...) - 结束
+ChartWithoutAxesImpl.exception.3DNotSupported=3D is not supported for ChartWithoutAxes.
 ChartReportItemPresentationImpl.log.finishStart=ChartReportItemPresentationImpl: finish(...) - 开始
 ChartReportItemPresentationImpl.log.CouldNotDeleteTemp=无法删除在 {1} 处创建的临时 {0} 文件。
-
 ChartReportItemQueryImpl.log.getReportQueries.exception=ChartReportItemQueryImpl: getReportQueries(...) - 例外
 ChartReportItemQueryImpl.log.getReportQueries.end=ChartReportItemQueryImpl: getReportQueries(...) - 结束
 ChartReportItemQueryImpl.log.getReportQueries.start=ChartReportItemQueryImpl: getReportQueries(...) - 开始
@@ -40,6 +40,7 @@ QueryHelper.Text.YSeries=Y 系列
 
 SeriesQueries.NoDataDefinitionFor={0} 没有数据定义条目
 SeriesQueries.dataDefnUndefined=未定义 {0} 的数据定义条目。
+
 ChartElementCommandImpl.editChart=编辑图表
 ChartElementCommandImpl.setProperty.chart.dimension=设置维
 ChartElementCommandImpl.setProperty.plot.transposed=设置转置

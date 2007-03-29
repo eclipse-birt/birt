@@ -14,9 +14,9 @@ ChartReportItemPresentationImpl.log.getSizeStart=ChartReportItemPresentationImpl
 ChartReportItemPresentationImpl.log.getSizeEnd=ChartReportItemPresentationImpl: getSize(...) - 종료
 ChartReportItemPresentationImpl.log.SuccessfullyDeletedTemp={1}에서 {0} 임시 파일이 삭제되었습니다. 
 ChartReportItemPresentationImpl.log.finishEnd=ChartReportItemPresentationImpl: finish(...) - end
+ChartWithoutAxesImpl.exception.3DNotSupported=3D is not supported for ChartWithoutAxes.
 ChartReportItemPresentationImpl.log.finishStart=ChartReportItemPresentationImpl: finish(...) - 시작
 ChartReportItemPresentationImpl.log.CouldNotDeleteTemp={1}에서 만들어진 {0} 임시 파일을 삭제할 수 없습니다.
-
 ChartReportItemQueryImpl.log.getReportQueries.exception=ChartReportItemQueryImpl: getReportQueries(...) - 예외
 ChartReportItemQueryImpl.log.getReportQueries.end=ChartReportItemQueryImpl: getReportQueries(...) - 종료
 ChartReportItemQueryImpl.log.getReportQueries.start=ChartReportItemQueryImpl: getReportQueries(...) - start
@@ -40,6 +40,7 @@ QueryHelper.Text.YSeries=Y 계열
 
 SeriesQueries.NoDataDefinitionFor={0}에 대한 데이터 정의 항목이 없습니다.
 SeriesQueries.dataDefnUndefined={0}에 대한 데이터 정의 항목이 정의되지 않았습니다.
+
 ChartElementCommandImpl.editChart=차트 편집
 ChartElementCommandImpl.setProperty.chart.dimension=차원 설정
 ChartElementCommandImpl.setProperty.plot.transposed=바꿈 설정
