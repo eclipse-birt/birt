@@ -27,6 +27,7 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.Position;
@@ -34,6 +35,8 @@ import org.eclipse.birt.chart.model.impl.SerializerImpl;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.script.ScriptHandler;
+import org.eclipse.birt.chart.script.internal.ChartWithAxesImpl;
+import org.eclipse.birt.chart.script.internal.ChartWithoutAxesImpl;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -578,5 +581,28 @@ public final class ChartReportItemImpl extends ReportItem implements
 	public void updateRowExpressions( Map newExpressions )
 	{
 		CompatibleExpressionUpdater.update( cm, newExpressions );
+	}
+	
+	public org.eclipse.birt.report.model.api.simpleapi.IReportItem getSimpleElement( )
+	{
+		assert handle instanceof ExtendedItemHandle;
+		ExtendedItemHandle eih = (ExtendedItemHandle) handle;
+		try
+		{
+			if ( cm instanceof ChartWithAxes )
+			{
+				return new ChartWithAxesImpl( eih, (ChartWithAxes) cm );
+			}
+			if ( cm instanceof ChartWithoutAxes )
+			{
+				return new ChartWithoutAxesImpl( eih, (ChartWithoutAxes) cm );
+			}
+			return null;
+		}
+		catch ( Exception e )
+		{
+			logger.log( e );
+			return null;
+		}
 	}
 }

@@ -33,5 +33,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.birt.core,
  org.eclipse.emf.ecore,
  org.junit,
- org.eclipse.birt.chart.device.pdf
+ org.eclipse.birt.chart.device.pdf,
+ org.eclipse.birt.report.model,
+ org.eclipse.birt.chart.reportitem
 Eclipse-LazyStart: true

@@ -11,24 +11,27 @@
 
 package org.eclipse.birt.chart.tests;
 
-import org.eclipse.birt.chart.tests.i18n.I18nTest;
-import org.eclipse.birt.chart.tests.device.DeviceTest;
-import org.eclipse.birt.chart.tests.engine.EngineTest;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-public class AllTests {
+import org.eclipse.birt.chart.tests.device.DeviceTest;
+import org.eclipse.birt.chart.tests.engine.EngineTest;
+import org.eclipse.birt.chart.tests.i18n.I18nTest;
+import org.eclipse.birt.chart.tests.script.SimpleAPITest;
 
-	public static Test suite() {
-		TestSuite suite = new TestSuite(
-				"Test for all chart-related projects"); //$NON-NLS-1$
-		//$JUnit-BEGIN$
-		suite.addTest(DeviceTest.suite());
-		suite.addTest(I18nTest.suite());
-		suite.addTest(EngineTest.suite());
-		
-		//$JUnit-END$
+public class AllTests
+{
+
+	public static Test suite( )
+	{
+		TestSuite suite = new TestSuite( "Test for all chart-related projects" ); //$NON-NLS-1$
+		// $JUnit-BEGIN$
+		suite.addTest( DeviceTest.suite( ) );
+		suite.addTest( I18nTest.suite( ) );
+		suite.addTest( EngineTest.suite( ) );
+		suite.addTest( SimpleAPITest.suite( ) );
+
+		// $JUnit-END$
 		return suite;
 	}
 

@@ -8,7 +8,14 @@ Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.chart.reportitem,
  org.eclipse.birt.chart.reportitem.i18n,
- org.eclipse.birt.chart.reportitem.plugin
+ org.eclipse.birt.chart.reportitem.plugin,
+ org.eclipse.birt.chart.script.api,
+ org.eclipse.birt.chart.script.api.attribute,
+ org.eclipse.birt.chart.script.api.component,
+ org.eclipse.birt.chart.script.api.data,
+ org.eclipse.birt.chart.script.api.scale,
+ org.eclipse.birt.chart.script.api.series,
+ org.eclipse.birt.chart.script.api.series.data
 Require-Bundle: org.eclipse.birt.chart.engine;bundle-version="[2.1.0,3.0.0)",
  org.eclipse.birt.data;bundle-version="[2.1.0,3.0.0)",
  org.eclipse.birt.report.model;bundle-version="[2.1.0,3.0.0)",
