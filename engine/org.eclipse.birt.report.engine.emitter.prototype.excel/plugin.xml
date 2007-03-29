@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+	<extension 
+		point="org.eclipse.birt.report.engine.emitters"
+	 	name = "excel emitter">
+
+        <emitter
+              class="org.eclipse.birt.report.engine.emitter.excel.ExcelEmitter"
+              format="xls"
+              id="org.eclipse.birt.report.engine.emitter.prototype.excel"
+              mimeType="application/vnd.ms-excel"
+              pagination="no-pagination"/>
+  	</extension>  
+</plugin>

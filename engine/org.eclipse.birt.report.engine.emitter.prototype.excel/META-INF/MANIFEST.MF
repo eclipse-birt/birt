@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: BIRT Excel emitter
+Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.xls; singleton:=true
+Bundle-Version: 2.2.0.qualifier
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.birt.report.engine,
+ org.eclipse.birt.chart.engine,
+ org.eclipse.birt.chart.engine.extension,
+ org.eclipse.birt.chart.reportitem
+Bundle-Vendor: Eclipse.org
+Eclipse-LazyStart: true
+Bundle-Activator: org.eclipse.birt.report.engine.emitter.excel.plugin.ExcelemitterPlugin
