@@ -14,9 +14,6 @@ package org.eclipse.birt.report.model.adapter.oda;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.framework.Platform;
-
 /**
  * The factory to create ODADesignFactory so that methods in ODA DesignFactory
  * can be used.
@@ -26,41 +23,14 @@ import org.eclipse.birt.core.framework.Platform;
 public class ODADesignFactory
 {
 
+	/**
+	 * The logger for errors.
+	 */
+
+	protected static Logger errorLogger = Logger
+			.getLogger( ODADesignFactory.class.getName( ) );
+
 	private static IODADesignFactory factory = null;
-
-	static 
-	{
-		/**
-		 * The logger for errors.
-		 */
-
-		Logger errorLogger = Logger
-				.getLogger( ODADesignFactory.class.getName( ) );
-		
-		try
-		{
-			Platform.startup( null );
-		}
-		catch ( BirtException e )
-		{
-			errorLogger.log( Level.INFO,
-					"Error occurs while start the platform", e ); //$NON-NLS-1$
-		}
-
-		Object adapterFactory = Platform
-				.createFactoryObject( IAdapterFactory.EXTENSION_MODEL_ADAPTER_ODA_FACTORY );
-		if ( adapterFactory instanceof IAdapterFactory )
-		{
-			factory = ( (IAdapterFactory) adapterFactory )
-					.getODADesignFactory( );
-		}
-		if ( factory == null )
-		{
-			errorLogger.log( Level.INFO,
-					"Can not start the model adapter oda factory." ); //$NON-NLS-1$
-		}
-	}
-	
 
 	/**
 	 * @param inFactory
@@ -77,6 +47,12 @@ public class ODADesignFactory
 
 	public static IODADesignFactory getFactory( )
 	{
+		if ( factory == null )
+		{
+			errorLogger.log( Level.SEVERE,
+					"The platform has not yet been started. Must start it first..." ); //$NON-NLS-1$
+		}
+		
 		return factory;
 	}
 }
