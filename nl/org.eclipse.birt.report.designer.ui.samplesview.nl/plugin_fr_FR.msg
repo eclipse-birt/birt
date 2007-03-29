@@ -9,4 +9,7 @@
 #  Actuate Corporation  - initial API and implementation
 ###############################################################################
 
-ReportViewsCategory=Modèle d'état
+###############################################################################
+# General Info
+###############################################################################
+ReportSamplesView=Report Examples

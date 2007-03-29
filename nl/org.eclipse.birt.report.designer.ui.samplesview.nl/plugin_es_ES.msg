@@ -9,4 +9,7 @@
 #  Actuate Corporation  - initial API and implementation
 ###############################################################################
 
-ReportViewsCategory=Diseño de informe
+###############################################################################
+# General Info
+###############################################################################
+ReportSamplesView=Report Examples
