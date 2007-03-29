@@ -25,17 +25,17 @@
    </url>
 
    <includes
+         id="org.eclipse.birt.chart.runtime"
+         version="0.0.0"/>
+
+   <includes
          id="org.eclipse.birt.report.designer"
          version="0.0.0"/>
 
    <includes
          id="org.eclipse.birt.report.runtime"
          version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.birt.chart.runtime"
-         version="0.0.0"/>
-
+         
    <includes
          id="org.eclipse.birt.chart"
          version="0.0.0"/>
