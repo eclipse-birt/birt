@@ -8,10 +8,16 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.data.engine.executor.cache;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.logging.Logger;
@@ -19,6 +25,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -26,8 +33,13 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
 /**
  * 
  */
+/**
+ * @author Xiaoxiao Wu
+ * 
+ */
 public class CacheUtil
 {
+
 	/**
 	 * how many memory could be used to cached rows in memory when
 	 * transformation is done, the minimum value for it is 1M. It is strongly
@@ -35,23 +47,23 @@ public class CacheUtil
 	 * If this value is not set, the default value is 10.
 	 */
 	public final static String MEMCACHE_ROWNUMBER = "org.eclipse.birt.data.engine.memcache.rownumber";
-	
-	private static Integer cacheCounter1 = new Integer(0);
-	private static Integer cacheCounter2 = new Integer(0);
-	
+
+	private static Integer cacheCounter1 = new Integer( 0 );
+	private static Integer cacheCounter2 = new Integer( 0 );
+
 	private String tempDir;
-	
+
 	/**
 	 * 
 	 * @param context
 	 */
-	public CacheUtil ( String tempDir )
+	public CacheUtil( String tempDir )
 	{
 		this.tempDir = tempDir;
 	}
-	
-	//--------------------service for SmartCache----------------------
-	
+
+	// --------------------service for SmartCache----------------------
+
 	/**
 	 * @return
 	 */
@@ -77,10 +89,10 @@ public class CacheUtil
 			}
 			return Math.max( 1, memCacheRowNum );
 		}
-				
+
 		// real code starts here
 		int memoryCacheSize = 10; // default minimum value is 10M.
-		String memcachesize = System.getProperty( "birt.data.engine.memcachesize" );  // deprecated
+		String memcachesize = System.getProperty( "birt.data.engine.memcachesize" ); // deprecated
 		if ( memcachesize != null )
 		{
 			try
@@ -91,7 +103,7 @@ public class CacheUtil
 			{
 				// ignore it
 			}
-			
+
 			if ( memoryCacheSize < 10 )
 			{
 				throw new IllegalArgumentException( "the value of memcachesize should be at least 10" );
@@ -100,7 +112,7 @@ public class CacheUtil
 
 		return memoryCacheSize;
 	}
-	
+
 	/**
 	 * @param sortSpec
 	 * @return Comparator based on specified sortSpec, null indicates there is
@@ -114,7 +126,7 @@ public class CacheUtil
 
 		final int[] sortKeyIndexes = sortSpec.sortKeyIndexes;
 		final String[] sortKeyColumns = sortSpec.sortKeyColumns;
-		
+
 		if ( sortKeyIndexes == null || sortKeyIndexes.length == 0 )
 			return null;
 
@@ -140,7 +152,7 @@ public class CacheUtil
 					{
 						Object colObj1 = null;
 						Object colObj2 = null;
-						
+
 						if ( eventHandler != null )
 						{
 							colObj1 = eventHandler.getValue( row1,
@@ -155,7 +167,7 @@ public class CacheUtil
 							colObj1 = row1.getFieldValue( colIndex );
 							colObj2 = row2.getFieldValue( colIndex );
 						}
-						
+
 						int result = compareObjects( colObj1, colObj2 );
 						if ( result != 0 )
 						{
@@ -176,7 +188,7 @@ public class CacheUtil
 
 		return comparator;
 	}
-	
+
 	/**
 	 * @param ob1
 	 * @param ob2
@@ -186,13 +198,13 @@ public class CacheUtil
 	{
 		// default value is 0
 		int result = 0;
-		
+
 		// 1: the case of reference is the same
 		if ( ob1 == ob2 )
 		{
 			return result;
 		}
-		
+
 		// 2: the case of one of two object is null
 		if ( ob1 == null || ob2 == null )
 		{
@@ -207,18 +219,17 @@ public class CacheUtil
 			}
 			return result;
 		}
-		
+
 		// 3: other cases
 		if ( ob1.equals( ob2 ) )
 		{
 			return result;
 		}
-		else if ( ob1 instanceof Comparable
-				&& ob2 instanceof Comparable )
+		else if ( ob1 instanceof Comparable && ob2 instanceof Comparable )
 		{
 			Comparable comp1 = (Comparable) ob1;
 			Comparable comp2 = (Comparable) ob2;
-			
+
 			// Integer can not be compared with Double.
 			if ( ob1.getClass( ) != ob2.getClass( ) )
 			{
@@ -241,11 +252,10 @@ public class CacheUtil
 					// impossible
 				}
 			}
-				
-			result = comp1.compareTo( comp2 );					
+
+			result = comp1.compareTo( comp2 );
 		}
-		else if ( ob1 instanceof Boolean
-				&& ob2 instanceof Boolean )
+		else if ( ob1 instanceof Boolean && ob2 instanceof Boolean )
 		{
 			// false is less than true
 			Boolean bool = (Boolean) ob1;
@@ -257,14 +267,14 @@ public class CacheUtil
 		else
 		{
 			// Should never get here
-			//throw new UnsupportedOperationException( );
+			// throw new UnsupportedOperationException( );
 		}
 
 		return result;
 	}
-	
-	//------------------------service for DiskCache-------------------------
-	
+
+	// ------------------------service for DiskCache-------------------------
+
 	/**
 	 * @return
 	 */
@@ -287,9 +297,9 @@ public class CacheUtil
 						+ System.currentTimeMillis( ) + cacheCounter1 + "_" + x );
 			}
 			tempDtEDir.mkdir( );
-			tempDtEDir.deleteOnExit( );
+			//tempDtEDir.deleteOnExit( );
 		}
-		
+
 		try
 		{
 			rootDirStr = tempDtEDir.getCanonicalPath( );
@@ -302,7 +312,7 @@ public class CacheUtil
 
 		return rootDirStr;
 	}
-	
+
 	/**
 	 * @return session temp dir
 	 */
@@ -314,26 +324,105 @@ public class CacheUtil
 
 		synchronized ( cacheCounter2 )
 		{
-			//Here we use complex algorithm so that to avoid the repeating of 
-			//dir names in 1.same jvm but different threads 2.different jvm.
+			// Here we use complex algorithm so that to avoid the repeating of
+			// dir names in 1.same jvm but different threads 2.different jvm.
 			sessionTempDirStr = tempRootDirStr
 					+ File.separator + prefix + System.currentTimeMillis( )
 					+ cacheCounter2.intValue( );
-			cacheCounter2 = new Integer(cacheCounter2.intValue( )+1);
+			cacheCounter2 = new Integer( cacheCounter2.intValue( ) + 1 );
 			File file = new File( sessionTempDirStr );
-			
+
 			int i = 0;
 			while ( file.exists( ) || !file.mkdir( ) )
 			{
 				i++;
 				sessionTempDirStr = sessionTempDirStr + "_" + i;
 				file = new File( sessionTempDirStr );
-			}	
+			}
 		}
 		return sessionTempDirStr;
 
 	}
+
+	/**
+	 * To get the last time doing caching or merging
+	 * 
+	 * @param folder
+	 * @return String that contains the last time doing caching or merging
+	 * @throws DataException
+	 * @throws ClassNotFoundException
+	 */
+	public static String getLastTime( String folder ) throws IOException,
+			DataException, ClassNotFoundException
+	{
+		try
+		{
+			File file = new File( folder + "\\time.data" );
+			if ( !file.exists( ) )
+			{
+				return null;
+			}
+			FileInputStream fis = new FileInputStream( file );
+			ObjectInputStream ois = new ObjectInputStream( fis );
+
+			String lastTime = (String) ois.readObject( );
+
+			fis.close( );
+			ois.close( );
+
+			return lastTime;
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( ResourceConstants.DATASETCACHE_SAVE_ERROR,
+					e );
+		}
+	}
+
+	/**
+	 * To save the current time doing caching or merging
+	 * 
+	 * @param folder
+	 */
+	public static void saveCurrentTime( String folder )
+			throws NumberFormatException, IOException
+	{
+		FileOutputStream fos = new FileOutputStream( new File( folder
+				+ "\\time.data" ) );
+		ObjectOutputStream oos = new ObjectOutputStream( fos );
+
+		Calendar calendar = Calendar.getInstance( );
+
+		StringBuffer buffer = new StringBuffer( );
 		
+		buffer.append( populate2DigitString( calendar.get( Calendar.YEAR ) ) );
+		buffer.append( populate2DigitString( calendar.get( Calendar.MONTH ) + 1 ) );
+		buffer.append( populate2DigitString( calendar.get( Calendar.DATE ) ) );
+		if ( calendar.get( Calendar.AM_PM ) == Calendar.PM )
+			buffer.append( populate2DigitString( calendar.get( Calendar.HOUR ) + 12 ) );
+		buffer.append( populate2DigitString( calendar.get( Calendar.MINUTE ) ) );
+		buffer.append( populate2DigitString( calendar.get( Calendar.SECOND ) ) );
+		
+		oos.writeObject( buffer.toString( ) );
+
+		fos.close( );
+		oos.close( );
+
+	}
+
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 */
+	private static String populate2DigitString( int value )
+	{
+		if ( value < 10 )
+			return "0"+value;
+		else
+			return String.valueOf( value );
+	}
+	
 	/**
 	 * @param rsMeta
 	 * @return
@@ -352,5 +441,5 @@ public class CacheUtil
 
 		return new SortSpec( sortKeyIndexs, sortKeyNames, ascending );
 	}
-	
+
 }

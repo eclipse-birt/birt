@@ -86,7 +86,7 @@ public class DataEngineImpl extends DataEngine
 		DataEngineContextExt.getInstance( ).setTmpdir( context.getTmpdir( ) );
 						
 		dataSourceManager = new DataSourceManager( logger );
-		this.session = new DataEngineSession( context );
+		this.session = new DataEngineSession( context, this );
 		logger.exiting( DataEngineImpl.class.getName( ), "DataEngineImpl" );
 		logger.log( Level.INFO, "Data Engine starts up" );
 	}

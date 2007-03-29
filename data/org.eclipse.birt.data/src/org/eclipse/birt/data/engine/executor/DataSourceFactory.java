@@ -72,12 +72,13 @@ public class DataSourceFactory implements IDataSourceFactory
 	public IDataSource getDataSource( String driverName, Map connProperties,
 			IBaseDataSourceDesign dataSourceDesign,
 			IBaseDataSetDesign dataSetDesign, Collection parameterHints,
-			int cacheOption, int alwaysCacheRowCount, DataEngineSession session)
+			int cacheOption, int alwaysCacheRowCount, DataEngineSession session, Map appContext)
 	{
 		if ( session.getDataSetCacheManager( )
 				.doesLoadFromCache( dataSourceDesign,
 						dataSetDesign,
 						parameterHints,
+						 appContext,
 						cacheOption,
 						alwaysCacheRowCount ) == false )
 		{

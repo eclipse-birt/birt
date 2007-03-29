@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
+import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.executor.cache.CacheUtil;
@@ -37,11 +38,11 @@ public class DataEngineSession
 	 * Constructor.
 	 * @param engine
 	 */
-	public DataEngineSession( DataEngineContext context )
+	public DataEngineSession( DataEngineContext context, DataEngine engine )
 	{
 		this.context = new HashMap();
 		
-		this.dataSetCacheManager = new DataSetCacheManager( context.getTmpdir( ) );
+		this.dataSetCacheManager = new DataSetCacheManager( context.getTmpdir( ), engine );
 		this.cacheUtil = new CacheUtil( context.getTmpdir( ) );
 		
 		this.scope = context.getJavaScriptScope( );

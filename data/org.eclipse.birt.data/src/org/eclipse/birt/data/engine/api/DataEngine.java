@@ -65,6 +65,9 @@ abstract public class DataEngine
 	 */
 	public static String DATA_SET_CACHE_ROW_LIMIT = "org.eclipse.birt.data.cache.RowLimit";
 
+	public static String DATA_SET_CACHE_DELTA_FILE = "org.eclipse.birt.data.cache.DeltaFile";
+	
+	
 	/**
 	 * Creates a new instance of DataEngine, using the specified
 	 * DataEngineContext as its running environment

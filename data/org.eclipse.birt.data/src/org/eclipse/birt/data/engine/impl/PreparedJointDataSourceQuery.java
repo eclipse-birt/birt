@@ -668,6 +668,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 					.doesLoadFromCache( null,
 							dataSetDesign,
 							null,
+							appContext,
 							DataSetCacheUtil.getCacheOption( self.dataEngine.getContext( ),
 									appContext ),
 							DataSetCacheUtil.getCacheCount( self.dataEngine.getContext( ), appContext ));

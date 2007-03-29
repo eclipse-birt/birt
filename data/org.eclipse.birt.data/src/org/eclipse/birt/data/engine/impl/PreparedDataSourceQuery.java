@@ -192,7 +192,8 @@ abstract class PreparedDataSourceQuery
 		getDataSetCacheManager( )
 				.setDataSourceAndDataSet( dataSourceDesign,
 						dataSetDesign,
-						parameterHints );
+						parameterHints,
+						this.appContext);
 
 		if ( DataSetCacheUtil.getCacheOption( dataEngine.getContext( ), appContext ) == DataEngineContext.CACHE_USE_ALWAYS )
 		{
