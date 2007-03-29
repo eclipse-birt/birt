@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
 import java.util.Iterator;
 
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.ILibraryProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -27,27 +28,26 @@ import org.eclipse.ui.IEditorPart;
  * 
  */
 
-public class RefreshModuleHandleAction extends AbstractViewAction
-{
+public class RefreshModuleHandleAction extends AbstractViewAction {
 
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.views.actions.RefreshModuleHandleAction"; //$NON-NLS-1$
-	public static final String ACTION_TEXT = Messages.getString( "RefreshModuleHandleAction.Action.Text" ); //$NON-NLS-1$
+
+	public static final String ACTION_TEXT = Messages
+			.getString("RefreshModuleHandleAction.Action.Text"); //$NON-NLS-1$
 
 	/**
 	 * @param selectedObject
 	 */
-	public RefreshModuleHandleAction( Object selectedObject )
-	{
-		super( selectedObject, ACTION_TEXT );
+	public RefreshModuleHandleAction(Object selectedObject) {
+		super(selectedObject, ACTION_TEXT);
 	}
 
 	/**
 	 * @param selectedObject
 	 * @param text
 	 */
-	public RefreshModuleHandleAction( Object selectedObject, String text )
-	{
-		super( selectedObject, text );
+	public RefreshModuleHandleAction(Object selectedObject, String text) {
+		super(selectedObject, text);
 	}
 
 	/*
@@ -55,14 +55,11 @@ public class RefreshModuleHandleAction extends AbstractViewAction
 	 * 
 	 * @see isEnabled()
 	 */
-	public boolean isEnabled( )
-	{
-		if ( getSelection( ) instanceof ReportDesignHandle
-				|| getSelection( ) instanceof LibraryHandle )
-		{
+	public boolean isEnabled() {
+		if (getSelection() instanceof ReportDesignHandle
+				|| getSelection() instanceof LibraryHandle) {
 			return true;
-		}
-		else
+		} else
 			return false;
 	}
 
@@ -71,49 +68,47 @@ public class RefreshModuleHandleAction extends AbstractViewAction
 	 * 
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	public void run( )
-	{
-		Object obj = getSelection( );
-		if ( obj instanceof ReportDesignHandle || obj instanceof LibraryHandle )
-		{
+	public void run() {
+		Object obj = getSelection();
+
+		if ((obj instanceof LibraryHandle)
+				&& (((LibraryHandle) obj).getHostHandle() != obj)) {
+			ModuleHandle host = ((LibraryHandle) obj).getHostHandle();
+			if ((host == null) || (!host.isInclude((LibraryHandle) obj))) {
+				return;
+			}
+			try {
+				host.reloadLibrary((LibraryHandle) obj);
+			} catch (SemanticException e) {
+				ExceptionHandler.handle(e);
+				return;
+			} catch (DesignFileException e) {
+				ExceptionHandler.handle(e);
+				return;
+			}
+
+		} else {
+			reloadAllLibraries(obj);
+		}
+
+	}
+
+	private Boolean reloadAllLibraries(Object obj) {
+		boolean retBoolean = true;
+		if (obj instanceof ReportDesignHandle || obj instanceof LibraryHandle) {
 			ModuleHandle moduleHandle = (ModuleHandle) obj;
-			// IEditorPart editor = UIUtil.getActiveEditor( true );
-			// ILibraryProvider provider = (ILibraryProvider) editor.getAdapter(
-			// ILibraryProvider.class );
-			// LibraryHandle[] libraries = provider.getLibraries( );
-			// for ( int i = 0; i < libraries.length; i++ )
-			// {
-			// try
-			// {
-			// if(moduleHandle.isInclude( libraries[i]))
-			// {
-			// moduleHandle.reloadLibrary( libraries[i] );
-			// }
-			// }
-			// catch ( SemanticException e )
-			// {
-			// e.printStackTrace( );
-			// }
-			// catch ( DesignFileException e )
-			// {
-			// e.printStackTrace( );
-			// }
-			// }
-			for ( Iterator iter = moduleHandle.getLibraries( ).iterator( ); iter.hasNext( ); )
-			{
-				LibraryHandle library = (LibraryHandle) iter.next( );
-				try
-				{
-					moduleHandle.reloadLibrary( library );
-				}
-				catch ( SemanticException e )
-				{
-				}
-				catch ( DesignFileException e )
-				{
-				}
+
+			try {
+				moduleHandle.reloadLibraries();
+			} catch (SemanticException e) {
+				ExceptionHandler.handle(e);
+				retBoolean = false;
+			} catch (DesignFileException e) {
+				ExceptionHandler.handle(e);
+				retBoolean = false;
 			}
 
 		}
+		return new Boolean(retBoolean);
 	}
 }
