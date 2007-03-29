@@ -21,8 +21,6 @@ import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.CSSUtil;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.DesignConfig;
-import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -142,16 +140,18 @@ public class FontPreferencePage extends BaseStylePreferencePage
 			 */
 			protected void setPropValue( String newValue )
 			{
-				if ( UIUtil.needAddQuote( ReportDesignConstants.STYLE_ELEMENT,
-						StyleHandle.FONT_FAMILY_PROP,
-						newValue ) )
-				{
-					super.setPropValue( DEUtil.AddQuote( newValue ) );
-				}
-				else
-				{
-					super.setPropValue( newValue );
-				}
+				// if ( UIUtil.needAddQuote(
+				// ReportDesignConstants.STYLE_ELEMENT,
+				// StyleHandle.FONT_FAMILY_PROP,
+				// newValue ) )
+				// {
+				// super.setPropValue( DEUtil.AddQuote( newValue ) );
+				// }
+				// else
+				// {
+				// super.setPropValue( newValue );
+				// }
+				super.setPropValue( newValue );
 			}
 
 			/*
