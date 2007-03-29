@@ -227,7 +227,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
 					new PasteAction( selectedElements ) );
 			menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
-					new DeleteAction( selectedElements ) );
+					getAction( ActionFactory.DELETE.getId( ) ) );
 
 			if ( isRootElementHandleClass( multiSelection ) )
 			{
@@ -380,7 +380,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			{
 				// common delete action
 				menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
-						new DeleteAction( selectedElements ) );
+						getAction( ActionFactory.DELETE.getId( ) ) );
 			}
 			if ( Policy.TRACING_MENU_SHOW )
 			{
