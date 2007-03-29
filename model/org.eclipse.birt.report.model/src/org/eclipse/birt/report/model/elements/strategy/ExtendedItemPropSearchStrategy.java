@@ -13,10 +13,11 @@ package org.eclipse.birt.report.model.elements.strategy;
 
 import java.util.List;
 
-import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
+import org.eclipse.birt.report.model.api.extension.IStyleDeclaration;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.PropertySearchStrategy;
@@ -66,13 +67,7 @@ public class ExtendedItemPropSearchStrategy extends PropertySearchStrategy
 			DesignElement element, ElementPropertyDefn prop )
 	{
 		ExtendedItem extendedItem = (ExtendedItem) element;
-
-		// find other pre-defined styles, such as selector : x-tab header, x-tab
-		// detail, it has the highest priority than other selector
-		Object value = getPropertyFromPredefinedStyles( module, extendedItem,
-				prop );
-		if ( value != null )
-			return value;
+		Object value = null;
 
 		// find the selector defined in extension definition
 		IElementDefn elementDefn = extendedItem.getExtDefn( );
@@ -83,6 +78,12 @@ public class ExtendedItemPropSearchStrategy extends PropertySearchStrategy
 			if ( value != null )
 				return value;
 		}
+
+		// find other pre-defined styles, such as selector : x-tab header, x-tab
+		// detail, it has the highest priority than other selector
+		value = getPropertyFromPredefinedStyles( module, extendedItem, prop );
+		if ( value != null )
+			return value;
 
 		// find the "extended-item" selector
 		String selector = ( (ElementDefn) extendedItem.getDefaultDefn( ) )
@@ -136,15 +137,26 @@ public class ExtendedItemPropSearchStrategy extends PropertySearchStrategy
 					if ( value != null )
 						return value;
 				}
-				else if ( predefinedStyle instanceof StyleHandle )
+				else if ( predefinedStyle instanceof IStyleDeclaration )
 				{
 					// if the item is a StyleHandle, then read local property
 					// value set in this style directly
-					StyleHandle styleHandle = (StyleHandle) predefinedStyle;
-					Object value = styleHandle.getElement( ).getLocalProperty(
-							styleHandle.getModule( ), prop );
+					IStyleDeclaration style = (IStyleDeclaration) predefinedStyle;
+					Object value = style.getProperty( prop.getName( ) );
 					if ( value != null )
-						return value;
+					{
+						// do some validation for the value
+						try
+						{
+							value = prop.validateValue( module, value );
+							if ( value != null )
+								return value;
+						}
+						catch ( PropertyValueException e )
+						{
+							// do nothing
+						}
+					}
 				}
 			}
 		}

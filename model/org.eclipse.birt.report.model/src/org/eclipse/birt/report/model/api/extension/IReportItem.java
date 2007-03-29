@@ -193,7 +193,8 @@ public interface IReportItem
 	 * 
 	 * <ui>
 	 * <li><code>String</code>
-	 * <li><code>StyleHandle</code> </ui>
+	 * <li><code>IStyleDeclaration</code>
+	 * </ui>
 	 * 
 	 * @return
 	 */
