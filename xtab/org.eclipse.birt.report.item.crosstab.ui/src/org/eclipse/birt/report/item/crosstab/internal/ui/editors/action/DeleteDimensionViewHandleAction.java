@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.action;
 
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -72,6 +73,7 @@ public class DeleteDimensionViewHandleAction extends AbstractCrosstabAction
 		catch ( SemanticException e )
 		{
 			rollBack( );
+			ExceptionHandler.handle( e );
 			return;
 		}
 		transEnd( );

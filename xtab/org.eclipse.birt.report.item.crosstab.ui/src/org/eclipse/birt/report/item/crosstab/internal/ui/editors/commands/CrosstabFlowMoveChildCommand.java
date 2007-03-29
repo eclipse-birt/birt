@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
@@ -96,7 +97,7 @@ public class CrosstabFlowMoveChildCommand extends AbstractCrosstabCommand
 		catch ( SemanticException e )
 		{
 			rollBack( );
-			e.printStackTrace( );
+			ExceptionHandler.handle( e );
 		}
 	}
 }

@@ -14,6 +14,7 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -64,7 +65,7 @@ public class CrosstabCellCreateCommand extends Command
 			{
 				System.out.println( "CreateCommand >> Failed" ); //$NON-NLS-1$
 			}
-			e.printStackTrace( );
+			ExceptionHandler.handle( e );
 		}
 	}
 

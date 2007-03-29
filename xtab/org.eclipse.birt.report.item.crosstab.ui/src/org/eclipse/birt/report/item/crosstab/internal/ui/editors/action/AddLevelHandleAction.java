@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
@@ -94,6 +95,7 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 		catch ( SemanticException e )
 		{
 			rollBack( );
+			ExceptionHandler.handle( e );
 			return;
 		}
 		transEnd( );

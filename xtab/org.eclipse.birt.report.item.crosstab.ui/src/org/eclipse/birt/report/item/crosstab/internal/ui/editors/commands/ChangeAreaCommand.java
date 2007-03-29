@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
@@ -102,7 +103,7 @@ public class ChangeAreaCommand extends AbstractCrosstabCommand
 		catch ( SemanticException e )
 		{
 			rollBack( );
-			e.printStackTrace( );
+			ExceptionHandler.handle( e );
 		}
 		transEnd( );
 	}

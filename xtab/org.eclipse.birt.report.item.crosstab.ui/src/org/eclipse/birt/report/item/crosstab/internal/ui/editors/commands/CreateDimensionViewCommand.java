@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands;
 
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
@@ -144,7 +145,7 @@ public class CreateDimensionViewCommand extends AbstractCrosstabCommand
 		catch ( SemanticException e )
 		{
 			rollBack( );
-			e.printStackTrace( );
+			ExceptionHandler.handle( e );
 		}
 		transEnd( );
 

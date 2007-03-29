@@ -13,6 +13,7 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -96,7 +97,7 @@ public class CrosstabPasterCommand extends Command
 			{
 				System.out.println( "PasteCommand >> Failed." ); //$NON-NLS-1$
 			}
-			e.printStackTrace( );
+			ExceptionHandler.handle( e );
 		}
 	}
 

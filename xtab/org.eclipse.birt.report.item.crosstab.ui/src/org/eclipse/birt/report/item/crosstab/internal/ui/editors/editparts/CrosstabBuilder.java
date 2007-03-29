@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts;
 
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.InsertCubeDialog;
 import org.eclipse.birt.report.designer.ui.extensions.ReportItemBuilderUI;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
@@ -52,7 +53,7 @@ public class CrosstabBuilder extends ReportItemBuilderUI
 				}
 				catch ( SemanticException e )
 				{
-					e.printStackTrace( );
+					ExceptionHandler.handle( e );
 				}
 			}
 			else
