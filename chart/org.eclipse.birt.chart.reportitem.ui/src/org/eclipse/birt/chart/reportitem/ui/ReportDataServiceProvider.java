@@ -700,7 +700,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				{
 					return DataType.NUMERIC_LITERAL;
 				}
-				else if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
+				else if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME )
+						|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE ) 
+						|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME ) )
 				{
 					return DataType.DATE_TIME_LITERAL;
 				}
