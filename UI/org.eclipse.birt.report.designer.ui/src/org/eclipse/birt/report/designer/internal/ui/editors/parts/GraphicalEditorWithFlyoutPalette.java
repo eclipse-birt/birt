@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
 import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
@@ -880,6 +881,10 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 				{
 					part = getGraphicalViewer( ).getEditPartRegistry( )
 							.get( obj );
+					if (part == null)
+					{
+						part = getInterestEditPart( getGraphicalViewer( ).getRootEditPart( ), obj );
+					}
 				}
 				if ( part instanceof EditPart )
 				{
@@ -896,6 +901,27 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		return tempList;
 	}
 	
+	private EditPart getInterestEditPart(EditPart part, Object obj)
+	{
+		List chList = part.getChildren( );
+		for (int i=0; i<chList.size( ); i++)
+		{
+			ReportElementEditPart reportEditPart = (ReportElementEditPart)chList.get( i );
+			if (reportEditPart.isinterestSelection( obj ))
+			{
+				return reportEditPart;
+			}
+			else
+			{
+				EditPart retValue = getInterestEditPart(reportEditPart, obj);
+				if (retValue != null)
+				{
+					return retValue;
+				}
+			}
+		}
+		return null;
+	}
 	public void setFocus( )
 	{
 		if(getGraphicalViewer()!=null && getGraphicalViewer().getControl()!=null)

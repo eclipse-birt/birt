@@ -29,6 +29,7 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editpolicies.Cr
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.figures.CrosstabCellFigure;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.handles.CrosstavCellDragHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PositionConstants;
@@ -375,5 +376,17 @@ public class CrosstabCellEditPart extends AbstractCellEditPart
 			this.getViewer( ).setCursor( null );
 		}
 		super.eraseTargetFeedback( request );
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#isinterestSelection(java.lang.Object)
+	 */
+	public boolean isinterestSelection( Object object )
+	{
+		if (object instanceof DesignElementHandle)
+		{
+			return getCrosstabCellAdapter( ).getCrosstabCellHandle( ).getModelHandle( ) == object;
+		}
+		return super.isinterestSelection( object );
 	}
 }

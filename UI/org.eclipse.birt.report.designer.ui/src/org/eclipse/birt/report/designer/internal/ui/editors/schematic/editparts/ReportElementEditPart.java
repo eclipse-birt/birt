@@ -906,4 +906,13 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	{
 		return getModel( ).equals( model );
 	}
+	
+	/**
+	 * @param object
+	 * @return
+	 */
+	public boolean isinterestSelection(Object object)
+	{
+		return false;
+	}
 }

@@ -104,4 +104,12 @@ public class VirtualCellEditPart extends CrosstabCellEditPart
 		//TODO the virtual editpart alllow to drag the cell to adjust the column and row?
 		return super.getHandleList( );
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabCellEditPart#isinterestSelection(java.lang.Object)
+	 */
+	public boolean isinterestSelection(Object object)
+	{
+		return false;
+	}
 }
