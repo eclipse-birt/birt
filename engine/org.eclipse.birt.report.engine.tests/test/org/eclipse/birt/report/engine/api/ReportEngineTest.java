@@ -62,8 +62,8 @@ public class ReportEngineTest extends EngineCase
 	{
 		try
 		{
-			String rootPath = (new File("")).getAbsolutePath( ).replace( '\\','/' );
-			String goldenReportName = "file:/" + rootPath + "/" + REPORT_DESIGN;
+			String rootPath = new File("").toURL( ).toString( );
+			String goldenReportName = rootPath + "/" + REPORT_DESIGN;
 			
 			ReportEngine engine = new ReportEngine( new EngineConfig());
 			IReportRunnable runnable = engine.openReportDesign( REPORT_DESIGN );
