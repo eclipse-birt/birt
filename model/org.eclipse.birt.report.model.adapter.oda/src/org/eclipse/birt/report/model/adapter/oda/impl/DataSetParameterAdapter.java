@@ -354,13 +354,15 @@ class DataSetParameterAdapter
 		String nativeName = dataAttrs.getName( );
 		Integer position = new Integer( dataAttrs.getPosition( ) );
 
-		if ( StringUtil.isBlank( nativeName ) )
+		// make sure the OdaDataSetParameter must have a name. This is a
+		// requirement in ROM.
+
+		String name = setParam.getName( );
+		if ( StringUtil.isBlank( name ) )
 		{
 			setParam.setName( IdentifierUtility.getParamUniqueName( handle
 					.parametersIterator( ), retList, position.intValue( ) ) );
 		}
-		else
-			setParam.setName( nativeName );
 
 		setParam.setNativeName( nativeName );
 	}
@@ -775,65 +777,26 @@ class DataSetParameterAdapter
 
 		List dsParamProp = setHandle.getElement( ).getListProperty(
 				setHandle.getModule( ), IDataSetModel.PARAMETERS_PROP );
-		List retList = new ArrayList( );
+
 		if ( dsParamProp == null && userDefinedList == null )
 		{
 			// use for creating rom parameter.
 			return newRomSetParams( setDesign, setHandle,
 					cachedDataSetParameters );
 		}
-		else
-		{
-			// create for updating.
 
-			// Merge dataset design and user-defined parameter list. Now data
-			// set design contains lastest driver-defined parameters
+		// create for updating.
 
-			List allParamsList = new ArrayList( );
+		// Merge dataset design and user-defined parameter list. Now data
+		// set design contains lastest driver-defined parameters
 
-			List driverDefinedParamList = newRomSetParams( setDesign,
-					setHandle, null );
+		List driverDefinedParamList = newRomSetParams( setDesign, setHandle,
+				cachedDataSetParameters );
 
-			// Merge userDefinedparamList and driverDefinedParamList
+		// Merge userDefinedparamList and driverDefinedParamList
 
-			allParamsList.addAll( mergeUserDefindAndDriverDefinedParameter(
-					driverDefinedParamList, userDefinedList ) );
-			for ( int i = 0; i < allParamsList.size( ); ++i )
-			{
-				OdaDataSetParameter parameter = (OdaDataSetParameter) allParamsList
-						.get( i );
-				Integer pos = parameter.getPosition( );
-				OdaDataSetParameter param = null;
-
-				if ( dsParamProp != null )
-					param = DataSetParameterAdapter
-							.findDataSetParameterByPosition( dsParamProp
-									.iterator( ), pos );
-
-				if ( param != null )
-				{
-					// merge with handle's parameters.
-
-					OdaDataSetParameter tempParameter = (OdaDataSetParameter) param
-							.copy( );
-					if ( tempParameter.getNativeDataType( ) != null
-							&& !tempParameter.getNativeDataType( ).equals(
-									parameter.getNativeDataType( ) ) )
-					{
-						tempParameter.setParameterDataType( parameter
-								.getParameterDataType( ) );
-					}
-					retList.add( tempParameter );
-
-				}
-				else
-				{
-					retList.add( parameter.copy( ) );
-				}
-			}
-		}
-
-		return retList;
+		return mergeUserDefindAndDriverDefinedParameter(
+				driverDefinedParamList, userDefinedList );
 	}
 
 	/**
@@ -1207,7 +1170,7 @@ class DataSetParameterAdapter
 		{
 			OdaDataSetParameter param = (OdaDataSetParameter) iterator.next( );
 			Integer pos = param.getPosition( );
-			OdaDataSetParameter userParam = (OdaDataSetParameter) findDataSetParameterByPosition(
+			OdaDataSetParameter userParam = findDataSetParameterByPosition(
 					userList.iterator( ), pos );
 			positionList.add( pos );
 

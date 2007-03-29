@@ -900,61 +900,14 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 					.getUserDefinedParameter( designerValues, setDesign,
 							setHandle );
 
-			// update designvalues.
-
-			if ( setDesign.getParameters( ) == null )
-			{
-				if ( designerValues != null )
-					designerValues.setDataSetParameters( null );
-			}
-			else
-			{
-				EList designDefns = setDesign.getParameters( )
-						.getParameterDefinitions( );
-
-				List resultList = DataSetParameterAdapter
-						.getDriverDefinedParameters( designDefns,
-								userDefinedList );
-
-				if ( resultList.size( ) > 0 )
-				{
-					if ( designerValues == null )
-					{
-						designerValues = ModelFactory.eINSTANCE
-								.createDesignValues( );
-					}
-					DataSetParameters dsParams = designerValues
-							.getDataSetParameters( );
-					if ( dsParams == null )
-					{
-						dsParams = ODADesignFactory.getFactory( )
-								.createDataSetParameters( );
-						designerValues.setDataSetParameters( dsParams );
-					}
-					dsParams = designerValues.getDataSetParameters( );
-					dsParams.getParameterDefinitions( ).clear( );
-					dsParams.getParameterDefinitions( ).addAll( resultList );
-				}
-			}
-
-			// Set DesignerValues
-
-			try
-			{
-				if ( designerValues != null )
-				{
-					String dValue = SerializerImpl.instance( ).write(
-							designerValues );
-					setHandle.setDesignerValues( dValue );
-				}
-			}
-			catch ( IOException e )
-			{
-			}
-
 			// Update parameters of dataset handle.
 
-			updateROMDataSetParams( setDesign, setHandle, userDefinedList );
+			updateROMDataSetParams( setDesign, setHandle,
+					designerValues == null ? null : designerValues
+							.getDataSetParameters( ), userDefinedList );
+
+			updateDesignerValue( setDesign, setHandle, designerValues,
+					userDefinedList );
 
 			DataSourceDesign sourceDesign = setDesign.getDataSourceDesign( );
 			if ( sourceDesign != null )
@@ -1216,11 +1169,11 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	 */
 
 	private void updateROMDataSetParams( DataSetDesign setDesign,
-			OdaDataSetHandle setHandle, List userDefinedList )
-			throws SemanticException
+			OdaDataSetHandle setHandle, DataSetParameters cachedParameters,
+			List userDefinedList ) throws SemanticException
 	{
 		List resultList = new DataSetParameterAdapter( ).newROMSetParams(
-				setDesign, setHandle, null, userDefinedList );
+				setDesign, setHandle, cachedParameters, userDefinedList );
 
 		// Merge all parameter list with data set handle.
 
@@ -1256,6 +1209,88 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 			propHandle.addItem( parameter );
 		}
 
+	}
+
+	/**
+	 * Updates the designer value. Designer values only contain Driver-defined
+	 * parameters.
+	 * 
+	 * @param setDesign
+	 *            the data set design
+	 * @param setHandle
+	 *            the data set handle
+	 * @param designerValues
+	 *            the designer values
+	 * @param userDefinedList
+	 *            the user defined parameters
+	 * @throws SemanticException
+	 */
+
+	private void updateDesignerValue( DataSetDesign setDesign,
+			OdaDataSetHandle setHandle, DesignValues designerValues,
+			List userDefinedList ) throws SemanticException
+	{
+
+		// update designvalues.
+
+		DataSetParameters setParams = setDesign.getParameters( );
+		if ( setParams == null )
+		{
+			if ( designerValues != null )
+				designerValues.setDataSetParameters( null );
+		}
+		else
+		{
+			EList designDefns = setParams.getParameterDefinitions( );
+
+			List resultList = DataSetParameterAdapter
+					.getDriverDefinedParameters( designDefns, userDefinedList );
+
+			if ( resultList.size( ) > 0 )
+			{
+				if ( designerValues == null )
+				{
+					designerValues = ModelFactory.eINSTANCE
+							.createDesignValues( );
+				}
+				DataSetParameters dsParams = designerValues
+						.getDataSetParameters( );
+				if ( dsParams == null )
+				{
+					dsParams = ODADesignFactory.getFactory( )
+							.createDataSetParameters( );
+					designerValues.setDataSetParameters( dsParams );
+				}
+				dsParams = designerValues.getDataSetParameters( );
+				dsParams.getParameterDefinitions( ).clear( );
+				dsParams.getParameterDefinitions( ).addAll( resultList );
+			}
+		}
+
+		ResultSets resultSets = setDesign.getResultSets( );
+		if ( setDesign.getResultSets( ) != null )
+		{
+			if ( designerValues == null )
+				designerValues = ModelFactory.eINSTANCE.createDesignValues( );
+
+			designerValues.setResultSets( (ResultSets) EcoreUtil
+					.copy( resultSets ) );
+		}
+
+		// Set DesignerValues
+
+		try
+		{
+			if ( designerValues != null )
+			{
+				String dValue = SerializerImpl.instance( ).write(
+						designerValues );
+				setHandle.setDesignerValues( dValue );
+			}
+		}
+		catch ( IOException e )
+		{
+		}
 	}
 
 }
