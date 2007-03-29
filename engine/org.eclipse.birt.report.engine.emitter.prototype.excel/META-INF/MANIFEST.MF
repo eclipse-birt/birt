@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Excel emitter
-Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.xls; singleton:=true
+Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.prototype.excel;singleton:=true
 Bundle-Version: 2.2.0.qualifier
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.birt.report.engine,
