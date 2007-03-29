@@ -143,8 +143,7 @@
 		%>
 		
 		function init( )
-		{	
-			birtUtility.initDPI( );				
+		{					
 			birtParameterDialog.__cb_bind( );
 		}
 		

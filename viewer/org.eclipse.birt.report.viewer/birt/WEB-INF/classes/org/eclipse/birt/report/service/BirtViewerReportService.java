@@ -912,7 +912,7 @@ public class BirtViewerReportService implements IViewerReportService
 	private static ToC transformTOCNode( TOCNode node )
 	{
 		ToC toc = new ToC( node.getNodeID( ), node.getDisplayString( ), node
-				.getBookmark( ) );
+				.getBookmark( ), BirtUtility.getTOCStyle( node ) );
 		toc.setChildren( getToCChildren( node ) );
 		return toc;
 	}
@@ -934,7 +934,8 @@ public class BirtViewerReportService implements IViewerReportService
 		{
 			TOCNode childNode = (TOCNode) it.next( );
 			ToC child = new ToC( childNode.getNodeID( ), childNode
-					.getDisplayString( ), childNode.getBookmark( ) );
+					.getDisplayString( ), childNode.getBookmark( ), BirtUtility
+					.getTOCStyle( childNode ) );
 			// Recursion to transform all children etc...
 			child.setChildren( getToCChildren( childNode ) );
 			ret.add( child );

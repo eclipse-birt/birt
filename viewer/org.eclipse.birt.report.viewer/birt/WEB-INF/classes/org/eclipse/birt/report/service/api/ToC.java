@@ -14,43 +14,100 @@ package org.eclipse.birt.report.service.api;
 import java.util.List;
 
 /**
- * Representation of a TOC TODO: Javadoc
+ * Representation of a TOC
  * 
  */
-public class ToC {
+public class ToC
+{
 
+	/**
+	 * Children list
+	 */
 	private List children;
 
+	/**
+	 * TOC id
+	 */
 	private String id;
 
+	/**
+	 * Display name for toc
+	 */
 	private String displayName;
 
+	/**
+	 * Bookmark name
+	 */
 	private String bookmark;
 
-	public ToC(String id, String displayName, String bookmark) {
+	/**
+	 * CSS style for toc
+	 */
+	private String style;
+
+	/**
+	 * Constructor
+	 * 
+	 * @param id
+	 * @param displayName
+	 * @param bookmark
+	 * @param style
+	 */
+	public ToC( String id, String displayName, String bookmark, String style )
+	{
 		this.id = id;
 		this.displayName = displayName;
 		this.bookmark = bookmark;
+		this.style = style;
 	}
 
-	public List getChildren() {
+	/**
+	 * @return the children list
+	 */
+	public List getChildren( )
+	{
 		return children;
 	}
 
-	public void setChildren(List children) {
+	/**
+	 * Set children list
+	 * 
+	 * @param children
+	 */
+	public void setChildren( List children )
+	{
 		this.children = children;
 	}
 
-	public String getID() {
+	/**
+	 * @return the id
+	 */
+	public String getID( )
+	{
 		return id;
 	}
 
-	public String getDisplayName() {
+	/**
+	 * @return the display name
+	 */
+	public String getDisplayName( )
+	{
 		return displayName;
 	}
 
-	public String getBookmark() {
+	/**
+	 * @return the bookmark
+	 */
+	public String getBookmark( )
+	{
 		return bookmark;
 	}
 
+	/**
+	 * @return the style
+	 */
+	public String getStyle( )
+	{
+		return style;
+	}
 }

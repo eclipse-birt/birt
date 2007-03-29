@@ -141,12 +141,12 @@ AbstractBaseToc.prototype = Object.extend( new AbstractUIComponent( ),
 			spantmp.value = s_displayname;
 			spantmp.title = "TOC Link " + s_displayname;
 			spantmp.id =  'span_' + imgid;
-			spantmp.style.cursor = 'pointer';
-			spantmp.style.border = "0px";
-			spantmp.style.fontFamily = "Verdana";
-			spantmp.style.fontSize = "9pt";
-			spantmp.style.background = "#FFFFFF";
-			spantmp.style.overflow = "visible";
+			
+			var cssText = "cursor:pointer;border:0px;font-family:Verdana;font-size:9pt;background-color:#FFFFFF;overflow:visible;";			
+			var styles = tmp.getElementsByTagName( 'Style' );
+			if( styles && styles.length > 0 )
+				spantmp.style.cssText = cssText + styles[0].firstChild.data;							
+							
 			td1.appendChild( spantmp );
 			td1.noWrap = true;
 			

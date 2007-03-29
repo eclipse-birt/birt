@@ -160,6 +160,7 @@ public abstract class AbstractGetTOCActionHandler
 				childTOCNodes[i].setId( child.getID( ) );
 				childTOCNodes[i].setDisplayName( child.getDisplayName( ) );
 				childTOCNodes[i].setBookmark( child.getBookmark( ) );
+				childTOCNodes[i].setStyle( child.getStyle( ) );
 				childTOCNodes[i].setIsLeaf( new Boolean(
 						child.getChildren( ) == null
 								|| child.getChildren( ).size( ) <= 0 ) );

@@ -138,8 +138,7 @@
 		var birtExceptionDialog = new BirtExceptionDialog( 'exceptionDialog' );
 		
 		function init()
-		{	
-			birtUtility.initDPI( );		
+		{			
 		<%
 		if ( attributeBean.isShowParameterPage( ) )
 		{

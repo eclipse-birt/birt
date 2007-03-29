@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -37,6 +38,8 @@ import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.TOCNode;
+import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
 import org.eclipse.birt.report.model.api.IModuleOption;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
@@ -55,6 +58,11 @@ import org.eclipse.birt.report.soapengine.api.Oprand;
  */
 public class BirtUtility
 {
+
+	/*
+	 * none value
+	 */
+	public final static String NONE = "none"; //$NON-NLS-1$
 
 	/**
 	 * Add current task in http session
@@ -593,5 +601,175 @@ public class BirtUtility
 					response.getOutputStream( ),
 					BirtResources.getMessage( "birt.viewer.error.noprinter" ), IBirtConstants.MSG_ERROR ); //$NON-NLS-1$					
 		}
+	}
+
+	/**
+	 * Returns toc style from TOCNode
+	 * 
+	 * @param node
+	 * @return
+	 */
+	public static String getTOCStyle( TOCNode node )
+	{
+		if ( node == null )
+			return null;
+
+		IScriptStyle scriptStyle = node.getTOCStyle( );
+		if ( scriptStyle == null )
+			return null;
+
+		// background-attachment
+		String style = getStyle( scriptStyle, "getBackgroundAttachment", //$NON-NLS-1$
+				"background-attachment" ); //$NON-NLS-1$
+
+		// background-color
+		style += getStyle( scriptStyle, "getBackgroundColor", //$NON-NLS-1$
+				"background-color" ); //$NON-NLS-1$
+
+		// background-image
+		style += getStyle( scriptStyle, "getBackgroundImage", //$NON-NLS-1$
+				"background-image" ); //$NON-NLS-1$
+
+		// background-position-x/y
+		style += getStyle( scriptStyle, "getBackgroundPositionX", //$NON-NLS-1$
+				"background-position-x" ); //$NON-NLS-1$
+		style += getStyle( scriptStyle, "getBackgroundPositionY", //$NON-NLS-1$
+				"background-position-y" ); //$NON-NLS-1$
+
+		// background-repeat
+		style += getStyle( scriptStyle, "getBackgroundRepeat", //$NON-NLS-1$
+				"background-repeat" ); //$NON-NLS-1$
+
+		// Border Bottom
+		style += getStyle( scriptStyle, "getBorderBottomColor", //$NON-NLS-1$
+				"border-bottom-color" ); //$NON-NLS-1$
+		style += getStyle( scriptStyle, "getBorderBottomStyle", //$NON-NLS-1$
+				"border-bottom-style" ); //$NON-NLS-1$
+		style += getStyle( scriptStyle, "getBorderBottomWidth", //$NON-NLS-1$
+				"border-bottom-width" ); //$NON-NLS-1$
+
+		// Border Left
+		style += getStyle( scriptStyle, "getBorderLeftColor", //$NON-NLS-1$
+				"border-left-color" ); //$NON-NLS-1$
+		style += getStyle( scriptStyle, "getBorderLeftStyle", //$NON-NLS-1$
+				"border-left-style" ); //$NON-NLS-1$
+		style += getStyle( scriptStyle, "getBorderLeftWidth", //$NON-NLS-1$
+				"border-left-width" ); //$NON-NLS-1$
+
+		// Border Right
+		style += getStyle( scriptStyle, "getBorderRightColor", //$NON-NLS-1$
+				"border-right-color" );//$NON-NLS-1$
+		style += getStyle( scriptStyle, "getBorderRightStyle",//$NON-NLS-1$
+				"border-right-style" );//$NON-NLS-1$
+		style += getStyle( scriptStyle, "getBorderRightWidth",//$NON-NLS-1$
+				"border-right-width" );//$NON-NLS-1$
+
+		// Border Top
+		style += getStyle( scriptStyle, "getBorderTopColor", "border-top-color" );//$NON-NLS-1$ //$NON-NLS-2$
+		style += getStyle( scriptStyle, "getBorderTopStyle", "border-top-style" );//$NON-NLS-1$ //$NON-NLS-2$
+		style += getStyle( scriptStyle, "getBorderTopWidth", "border-top-width" );//$NON-NLS-1$ //$NON-NLS-2$
+
+		// font
+		style += getStyle( scriptStyle, "getColor", "color" );//$NON-NLS-1$ //$NON-NLS-2$
+		style += getStyle( scriptStyle, "getFontFamily", "font-family" );//$NON-NLS-1$ //$NON-NLS-2$
+		style += getStyle( scriptStyle, "getFontSize", "font-size" );//$NON-NLS-1$ //$NON-NLS-2$
+		style += getStyle( scriptStyle, "getFontStyle", "font-style" );//$NON-NLS-1$ //$NON-NLS-2$
+		style += getStyle( scriptStyle, "getFontVariant", "font-variant" );//$NON-NLS-1$ //$NON-NLS-2$
+		style += getStyle( scriptStyle, "getFontWeight", "font-weight" );//$NON-NLS-1$ //$NON-NLS-2$
+
+		// letter-spacing
+		style += getStyle( scriptStyle, "getLetterSpacing", "letter-spacing" );//$NON-NLS-1$ //$NON-NLS-2$
+
+		// line-height
+		style += getStyle( scriptStyle, "getLineHeight", "line-height" );//$NON-NLS-1$ //$NON-NLS-2$
+
+		// padding
+		style += getStyle( scriptStyle, "getPaddingBottom", "padding-bottom" );//$NON-NLS-1$ //$NON-NLS-2$
+		style += getStyle( scriptStyle, "getPaddingLeft", "padding-left" );//$NON-NLS-1$ //$NON-NLS-2$
+		style += getStyle( scriptStyle, "getPaddingRight", "padding-right" );//$NON-NLS-1$ //$NON-NLS-2$
+		style += getStyle( scriptStyle, "getPaddingTop", "padding-top" );//$NON-NLS-1$ //$NON-NLS-2$
+
+		// Text
+		style += getStyle( scriptStyle, "getTextAlign", "text-align" );//$NON-NLS-1$ //$NON-NLS-2$
+		style += getStyle( scriptStyle, "getTextTransform", "text-transform" );//$NON-NLS-1$ //$NON-NLS-2$
+
+		String textDecoration = ""; //$NON-NLS-1$
+		String textOverline = scriptStyle.getTextOverline( );
+		if ( textOverline != null && !NONE.equalsIgnoreCase( textOverline ) )
+		{
+			textDecoration += textOverline + " "; //$NON-NLS-1$
+		}
+
+		String textLinethrough = scriptStyle.getTextLineThrough( );
+		if ( textLinethrough != null
+				&& !NONE.equalsIgnoreCase( textLinethrough ) )
+		{
+			textDecoration += textLinethrough + " "; //$NON-NLS-1$
+		}
+
+		String textUnderline = scriptStyle.getTextUnderline( );
+		if ( textUnderline != null && !NONE.equalsIgnoreCase( textUnderline ) )
+		{
+			textDecoration += textUnderline + " "; //$NON-NLS-1$
+		}
+
+		if ( textDecoration.length( ) > 0 )
+			style += "text-decoration:" + textDecoration + ";"; //$NON-NLS-1$ //$NON-NLS-2$
+
+		// word-spacing
+		style += getStyle( scriptStyle, "getWordSpacing", "word-spacing" );//$NON-NLS-1$ //$NON-NLS-2$
+
+		return style;
+	}
+
+	/**
+	 * Returns the CSS text
+	 * 
+	 * @param obj
+	 * @param methodName
+	 * @param cssAttr
+	 * @return
+	 */
+	private static String getStyle( Object obj, String methodName,
+			String cssAttr )
+	{
+		assert obj != null;
+		assert methodName != null;
+		assert cssAttr != null;
+
+		String style = invokeGetStyle( obj, methodName );
+		if ( style == null || NONE.equalsIgnoreCase( style ) )
+			return ""; //$NON-NLS-1$
+
+		return cssAttr + ":" + style + ";"; //$NON-NLS-1$//$NON-NLS-2$
+	}
+
+	/**
+	 * Invoke GET method
+	 * 
+	 * @param obj
+	 * @param methodName
+	 * @return
+	 */
+	private static String invokeGetStyle( Object obj, String methodName )
+	{
+		String style = null;
+
+		try
+		{
+			Method method = IScriptStyle.class.getMethod( methodName,
+					new Class[]{} );
+			if ( method == null )
+				return null;
+
+			Object value = method.invoke( obj, new Object[]{} );
+			if ( value != null )
+				style = (String) value;
+		}
+		catch ( Exception e )
+		{
+		}
+
+		return style;
 	}
 }

@@ -11,6 +11,7 @@ public class TOC  implements java.io.Serializable {
     private java.lang.String id;
     private java.lang.String displayName;
     private java.lang.String bookmark;
+    private java.lang.String style;
     private java.lang.Boolean isLeaf;
     private org.eclipse.birt.report.soapengine.api.TOC[] child;
 
@@ -21,11 +22,13 @@ public class TOC  implements java.io.Serializable {
            java.lang.String id,
            java.lang.String displayName,
            java.lang.String bookmark,
+           java.lang.String style,
            java.lang.Boolean isLeaf,
            org.eclipse.birt.report.soapengine.api.TOC[] child) {
            this.id = id;
            this.displayName = displayName;
            this.bookmark = bookmark;
+           this.style = style;
            this.isLeaf = isLeaf;
            this.child = child;
     }
@@ -90,6 +93,24 @@ public class TOC  implements java.io.Serializable {
         this.bookmark = bookmark;
     }
 
+    /**
+     * Gets the style value for this TOC.
+     * 
+     * @return style
+     */
+    public java.lang.String getStyle() {
+        return style;
+    }
+
+
+    /**
+     * Sets the style value for this TOC.
+     * 
+     * @param style
+     */
+    public void setStyle(java.lang.String style) {
+        this.style = style;
+    }
 
     /**
      * Gets the isLeaf value for this TOC.
@@ -159,7 +180,10 @@ public class TOC  implements java.io.Serializable {
             ((this.bookmark==null && other.getBookmark()==null) || 
              (this.bookmark!=null &&
               this.bookmark.equals(other.getBookmark()))) &&
-            ((this.isLeaf==null && other.getIsLeaf()==null) || 
+            ((this.style==null && other.getStyle()==null) || 
+             (this.style!=null &&
+              this.style.equals(other.getStyle()))) &&
+              ((this.isLeaf==null && other.getIsLeaf()==null) || 
              (this.isLeaf!=null &&
               this.isLeaf.equals(other.getIsLeaf()))) &&
             ((this.child==null && other.getChild()==null) || 
@@ -185,6 +209,9 @@ public class TOC  implements java.io.Serializable {
         if (getBookmark() != null) {
             _hashCode += getBookmark().hashCode();
         }
+        if (getStyle() != null) {
+            _hashCode += getStyle().hashCode();
+        }        
         if (getIsLeaf() != null) {
             _hashCode += getIsLeaf().hashCode();
         }
@@ -226,6 +253,13 @@ public class TOC  implements java.io.Serializable {
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("bookmark");
         elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Bookmark"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("style");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Style"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);

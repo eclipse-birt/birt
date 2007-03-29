@@ -182,8 +182,7 @@
 		var birtConfirmationDialog = new BirtConfirmationDialog( 'confirmationDialog' );
 		
 		function init()
-		{	
-			birtUtility.initDPI( );	
+		{		
 		<%
 		if ( attributeBean.isShowParameterPage( ) )
 		{
