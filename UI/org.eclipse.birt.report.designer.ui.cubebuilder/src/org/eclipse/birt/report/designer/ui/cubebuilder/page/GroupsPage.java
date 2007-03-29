@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionPropertyPage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -22,9 +23,7 @@ import org.eclipse.swt.widgets.Control;
 public class GroupsPage extends AbstractDescriptionPropertyPage
 {
 
-
-
-	
+	public static final String GROUPPAGE_MESSAGE = Messages.getString( "GroupsPage.Title.Message" );
 	private CubeHandle input;
 	private CubeGroupContent cubeGroup;
 	private CubeBuilder builder;
@@ -37,7 +36,7 @@ public class GroupsPage extends AbstractDescriptionPropertyPage
 
 	public Control createContents( Composite parent )
 	{
-		cubeGroup = new CubeGroupContent( parent, SWT.NONE );
+		cubeGroup = new CubeGroupContent( builder,parent, SWT.NONE );
 		return cubeGroup;
 	}
 
@@ -46,7 +45,8 @@ public class GroupsPage extends AbstractDescriptionPropertyPage
 		getContainer( ).setMessage( Messages.getString( "GroupsPage.Container.Title.Message" ),//$NON-NLS-1$
 				IMessageProvider.NONE );
 		builder.setTitleTitle( Messages.getString( "GroupsPage.Title.Title" ) );
-		builder.setTitleMessage( Messages.getString( "GroupsPage.Title.Message" ) );
+		builder.setErrorMessage( null );
+		builder.setTitleMessage( GROUPPAGE_MESSAGE );
 		load( );
 	}
 
@@ -54,7 +54,7 @@ public class GroupsPage extends AbstractDescriptionPropertyPage
 	{
 		if ( input != null )
 		{
-			cubeGroup.setInput( input );
+			cubeGroup.setInput( input,((TabularCubeHandle)input).getDataSet( ));
 			cubeGroup.load( );
 		};
 	}

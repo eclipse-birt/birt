@@ -66,10 +66,12 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 				try
 				{
 					input.setName( nameText.getText( ) );
+					builder.setErrorMessage( null );
+					builder.setTitleMessage( Messages.getString( "DatasetPage.Title.Message" ) );
 				}
 				catch ( NameException e1 )
 				{
-					ExceptionHandler.handle( e1 );
+					builder.setErrorMessage( e1.getMessage( ) );
 				}
 
 			}
@@ -163,6 +165,7 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 		getContainer( ).setMessage( Messages.getString( "DatasetPage.Container.Title.Message" ),//$NON-NLS-1$
 				IMessageProvider.NONE );
 		builder.setTitleTitle( Messages.getString( "DatasetPage.Title.Title" ) );
+		builder.setErrorMessage( null );
 		builder.setTitleMessage( Messages.getString( "DatasetPage.Title.Message" ) );
 		load( );
 	}

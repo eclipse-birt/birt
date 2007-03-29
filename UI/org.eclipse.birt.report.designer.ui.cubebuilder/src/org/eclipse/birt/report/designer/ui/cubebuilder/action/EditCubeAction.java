@@ -11,12 +11,11 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.action;
 
-import org.eclipse.birt.report.designer.data.ui.util.CubeModel;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.page.CubeBuilder;
-import org.eclipse.birt.report.designer.ui.cubebuilder.page.SimpleCubeBuilder;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.ui.PlatformUI;
@@ -24,7 +23,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.1 $ $Date: 2007/03/07 08:40:38 $
+ * @version $Revision: 1.2 $ $Date: 2007/03/21 06:59:35 $
  */
 public class EditCubeAction extends AbstractElementAction
 {
@@ -64,15 +63,15 @@ public class EditCubeAction extends AbstractElementAction
 		CubeHandle cubeHandle = null;
 		if ( getSelection( ) instanceof CubeHandle )
 			cubeHandle = (CubeHandle) getSelection( );
-		else if ( getSelection( ) instanceof CubeModel )
-			cubeHandle = ( (CubeModel) getSelection( ) ).getModel( );
+		else if ( getSelection( ) instanceof PropertyHandle )
+			cubeHandle = (CubeHandle)( (PropertyHandle) getSelection( ) ).getElementHandle( );
 		CubeBuilder dialog = new CubeBuilder( PlatformUI.getWorkbench( )
 				.getDisplay( )
 				.getActiveShell( ), cubeHandle );
 		if ( getSelection( ) instanceof CubeHandle ){
 			dialog.showPage(CubeBuilder.DATASETSELECTIONPAGE);
 		}
-		else if ( getSelection( ) instanceof CubeModel ){
+		else if ( getSelection( ) instanceof PropertyHandle ){
 			dialog.showPage(CubeBuilder.GROUPPAGE);
 		}
 		return ( dialog.open( ) == IDialogConstants.OK_ID );
@@ -87,7 +86,7 @@ public class EditCubeAction extends AbstractElementAction
 	{
 		if ( getSelection( ) instanceof CubeHandle )
 			return ( (CubeHandle) getSelection( ) ).canEdit( );
-		else if ( getSelection( ) instanceof CubeModel )
+		else if ( getSelection( ) instanceof PropertyHandle && ((PropertyHandle)getSelection( )).getElementHandle( ) instanceof CubeHandle )
 			return true;
 		return super.isEnabled( );
 	}

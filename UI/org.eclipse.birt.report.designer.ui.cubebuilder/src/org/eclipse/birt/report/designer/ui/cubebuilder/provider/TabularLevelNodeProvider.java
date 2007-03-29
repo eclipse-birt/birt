@@ -96,6 +96,13 @@ public class TabularLevelNodeProvider extends DefaultNodeProvider
 			return new Object[0];
 	}
 
+	public Object getParent(Object model){
+		HierarchyHandle hierarchy = (HierarchyHandle) ( (LevelHandle) model ).getContainer( );
+		LevelHandle level = (LevelHandle)model;
+		if(hierarchy == null)return null;
+		if(level.getIndex( )>0)return hierarchy.getLevel( level.getIndex( )-1 );
+		else return hierarchy.getContainer( );
+	}
 	/*
 	 * (non-Javadoc)
 	 * 

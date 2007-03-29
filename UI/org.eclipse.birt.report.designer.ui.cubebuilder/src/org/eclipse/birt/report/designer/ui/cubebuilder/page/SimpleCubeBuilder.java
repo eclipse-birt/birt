@@ -9,8 +9,8 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -35,13 +35,15 @@ public class SimpleCubeBuilder extends TitleAreaDialog
 		super( parentShell );
 	}
 
-	private CubeHandle input;
+	private CubeHandle cube;
+	private DataSetHandle dataset;
 	private Text nameText;
 	private CubeGroupContent group;
 
-	public void setInput( CubeHandle input )
+	public void setInput( CubeHandle cube, DataSetHandle dataset )
 	{
-		this.input = input;
+		this.cube = cube;
+		this.dataset = dataset;
 	};
 
 	protected Control createDialogArea( Composite parent )
@@ -64,10 +66,10 @@ public class SimpleCubeBuilder extends TitleAreaDialog
 
 	private void initDialog( )
 	{
-		if ( input != null )
+		if ( cube != null )
 		{
-			nameText.setText( input.getName( ) == null ? "" : input.getName( ) );
-			group.setInput( input );
+			nameText.setText( cube.getName( ) == null ? "" : cube.getName( ) );
+			group.setInput( cube, dataset );
 			group.load( );
 		}
 
@@ -75,7 +77,7 @@ public class SimpleCubeBuilder extends TitleAreaDialog
 
 	protected void createNameArea( Composite parent )
 	{
-		
+
 		Composite nameArea = new Composite( parent, SWT.NONE );
 		nameArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
@@ -90,29 +92,38 @@ public class SimpleCubeBuilder extends TitleAreaDialog
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.grabExcessHorizontalSpace = true;
 		nameText.setLayoutData( gd );
-		nameText.addModifyListener( new ModifyListener(){
+		nameText.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
 			{
 				Button finishButton = getButton( IDialogConstants.OK_ID );
-				if(!nameText.getText( ).trim( ).equals( "" )){
+				if ( !nameText.getText( ).trim( ).equals( "" ) )
+				{
 					String name = nameText.getText( ).trim( );
 					try
 					{
-						input.setName( name );
-						if(finishButton!=null)finishButton.setEnabled( true );
+						cube.setName( name );
+						if ( finishButton != null )
+							finishButton.setEnabled( true );
+						SimpleCubeBuilder.this.setErrorMessage( null );
+						SimpleCubeBuilder.this.setMessage( Messages.getString( "SimpleCubeBuilder.Title.Message" ) );
 					}
 					catch ( NameException e1 )
 					{
-						ExceptionHandler.handle( e1 );
+						SimpleCubeBuilder.this.setErrorMessage( e1.getMessage( ) );
+						if ( finishButton != null )
+							finishButton.setEnabled( false );
 					}
 					group.refresh( );
-					
-				}else{
-					if(finishButton!=null)finishButton.setEnabled( false );
+
+				}
+				else
+				{
+					if ( finishButton != null )
+						finishButton.setEnabled( false );
 				}
 			}
-			
+
 		} );
 
 		Label space = new Label( nameArea, SWT.NONE );
@@ -133,6 +144,5 @@ public class SimpleCubeBuilder extends TitleAreaDialog
 		super.configureShell( shell );
 		shell.setText( Messages.getString( "SimpleCubeBuilder.Title" ) );
 	}
-	
 
 }

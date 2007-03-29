@@ -13,18 +13,20 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.provider;
 
 import java.util.List;
 
-import org.eclipse.birt.report.designer.data.ui.util.CubeModel;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.VirtualField;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle;
+import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
@@ -35,15 +37,6 @@ import org.eclipse.jface.viewers.Viewer;
 
 public class CubeContentProvider implements ITreeContentProvider
 {
-
-	private CubeModel dimension;
-	private CubeModel measures;
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
-	 */
 
 	public Object[] getChildren( Object parentElement )
 	{
@@ -71,31 +64,26 @@ public class CubeContentProvider implements ITreeContentProvider
 		if ( parentElement instanceof CubeHandle )
 		{
 			CubeHandle handle = (CubeHandle) parentElement;
-			if ( dimension == null )
-				dimension = new CubeModel( handle, CubeModel.TYPE_DIMENSION );
-			else if ( dimension.getModel( ) != handle )
-				dimension.setModel( handle );
-			if ( measures == null )
-				measures = new CubeModel( handle, CubeModel.TYPE_MEASURES );
-			else if ( measures.getModel( ) != handle )
-				measures.setModel( handle );
 			return new Object[]{
-					dimension, measures
+					handle.getPropertyHandle( ICubeModel.DIMENSIONS_PROP ),
+					handle.getPropertyHandle( ICubeModel.MEASURE_GROUPS_PROP )
 			};
 		}
-		if ( parentElement instanceof CubeModel )
+		if ( parentElement instanceof PropertyHandle )
 		{
-			CubeModel model = (CubeModel) parentElement;
-			if ( model.getType( ) == CubeModel.TYPE_DIMENSION )
+			PropertyHandle property = (PropertyHandle) parentElement;
+			String name = property.getPropertyDefn( ).getName( );
+
+			if ( name.equals( ICubeModel.DIMENSIONS_PROP ) )
 			{
-				return model.getModel( )
-						.getContents( CubeHandle.DIMENSIONS_PROP )
-						.toArray( );
+				CubeHandle cube = (CubeHandle) property.getElementHandle( );
+				return cube.getContents( CubeHandle.DIMENSIONS_PROP ).toArray( );
+
 			}
-			if ( model.getType( ) == CubeModel.TYPE_MEASURES )
+			else if ( name.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
 			{
-				return model.getModel( )
-						.getContents( CubeHandle.MEASURE_GROUPS_PROP )
+				CubeHandle cube = (CubeHandle) property.getElementHandle( );
+				return cube.getContents( CubeHandle.MEASURE_GROUPS_PROP )
 						.toArray( );
 			}
 		}
@@ -103,9 +91,10 @@ public class CubeContentProvider implements ITreeContentProvider
 		{
 			HierarchyHandle hierarchy = (HierarchyHandle) ( (LevelHandle) parentElement ).getContainer( );
 			int pos = ( (LevelHandle) parentElement ).getIndex( );
-			return new Object[]{
-				hierarchy.getLevel( pos + 1 )
-			};
+			if ( hierarchy.getLevel( pos + 1 ) != null )
+				return new Object[]{
+					hierarchy.getLevel( pos + 1 )
+				};
 		}
 		if ( parentElement instanceof MeasureGroupHandle )
 		{
@@ -132,6 +121,40 @@ public class CubeContentProvider implements ITreeContentProvider
 	 */
 	public Object getParent( Object element )
 	{
+		if ( element instanceof LevelHandle )
+		{
+			HierarchyHandle hierarchy = (HierarchyHandle) ( (LevelHandle) element ).getContainer( );
+			LevelHandle level = (LevelHandle) element;
+			if ( hierarchy == null )
+				return null;
+			if ( level.getIndex( ) > 0 )
+				return hierarchy.getLevel( level.getIndex( ) - 1 );
+			else
+				return hierarchy.getContainer( );
+		}
+		if ( element instanceof MeasureGroupHandle )
+		{
+			MeasureGroupHandle measures = (MeasureGroupHandle) element;
+			CubeHandle cube = (CubeHandle) measures.getContainer( );
+			if ( cube != null )
+				return cube.getPropertyHandle( ICubeModel.MEASURE_GROUPS_PROP );
+		}
+		if ( element instanceof DimensionHandle )
+		{
+			DimensionHandle dimension = (DimensionHandle) element;
+			CubeHandle cube = (CubeHandle) dimension.getContainer( );
+			if ( cube != null )
+				return cube.getPropertyHandle( ICubeModel.DIMENSIONS_PROP );
+		}
+		if ( element instanceof MeasureHandle )
+		{
+			return ( (MeasureHandle) element ).getContainer( );
+		}
+		if ( element instanceof PropertyHandle )
+		{
+			PropertyHandle property = (PropertyHandle) element;
+			return property.getElementHandle( );
+		}
 		return null;
 	}
 
@@ -164,21 +187,21 @@ public class CubeContentProvider implements ITreeContentProvider
 		{
 			return true;
 		}
-		if ( element instanceof CubeModel )
+		if ( element instanceof PropertyHandle )
 		{
-			CubeModel model = (CubeModel) element;
-			if ( model.getType( ) == CubeModel.TYPE_DIMENSION )
+			PropertyHandle property = (PropertyHandle) element;
+			String name = property.getPropertyDefn( ).getName( );
+			if ( name.equals( ICubeModel.DIMENSIONS_PROP ) )
 			{
-				List dimensionList = model.getModel( )
-						.getContents( CubeHandle.DIMENSIONS_PROP );
+				CubeHandle cube = (CubeHandle) property.getElementHandle( );
+				List dimensionList = cube.getContents( CubeHandle.DIMENSIONS_PROP );
 				if ( dimensionList == null || dimensionList.size( ) == 0 )
 				{
 					TabularDimensionHandle dimension = DesignElementFactory.getInstance( )
 							.newTabularDimension( "Group" );
 					try
 					{
-						model.getModel( ).add( CubeHandle.DIMENSIONS_PROP,
-								dimension );
+						cube.add( CubeHandle.DIMENSIONS_PROP, dimension );
 					}
 					catch ( SemanticException e )
 					{
@@ -187,18 +210,17 @@ public class CubeContentProvider implements ITreeContentProvider
 				}
 				return dimensionList != null && dimensionList.size( ) > 0;
 			}
-			else if ( model.getType( ) == CubeModel.TYPE_MEASURES )
+			else if ( name.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
 			{
-				List measureList = model.getModel( )
-						.getContents( CubeHandle.MEASURE_GROUPS_PROP );
+				CubeHandle cube = (CubeHandle) property.getElementHandle( );
+				List measureList = cube.getContents( CubeHandle.MEASURE_GROUPS_PROP );
 				if ( measureList == null || measureList.size( ) == 0 )
 				{
 					TabularMeasureGroupHandle measureGroup = DesignElementFactory.getInstance( )
 							.newTabularMeasureGroup( "Summary Field" );
 					try
 					{
-						model.getModel( ).add( CubeHandle.MEASURE_GROUPS_PROP,
-								measureGroup );
+						cube.add( CubeHandle.MEASURE_GROUPS_PROP, measureGroup );
 					}
 					catch ( SemanticException e )
 					{

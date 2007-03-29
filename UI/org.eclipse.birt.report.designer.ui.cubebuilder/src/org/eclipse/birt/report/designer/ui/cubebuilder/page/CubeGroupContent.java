@@ -11,15 +11,16 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 
 import java.util.Iterator;
 
-import org.eclipse.birt.report.designer.data.ui.util.CubeModel;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.outline.ListenerElementVisitor;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.LevelDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.LevelPropertyDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeContentProvider;
+import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeExpressionProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeLabelProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.DataContentProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
@@ -30,11 +31,17 @@ import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
+import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.model.api.core.IDesignElement;
+import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
@@ -43,15 +50,19 @@ import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
+import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
 import org.eclipse.birt.report.model.elements.interfaces.IHierarchyModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMeasureGroupModel;
+import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.Window;
@@ -88,7 +99,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 
-public class CubeGroupContent extends Composite
+public class CubeGroupContent extends Composite implements Listener
 {
 
 	private TreeItem[] dragSourceItems;;
@@ -140,14 +151,39 @@ public class CubeGroupContent extends Composite
 		createContent( );
 	}
 
+	private CubeBuilder builder;
+
+	public CubeGroupContent( CubeBuilder builder, Composite parent, int style )
+	{
+		super( parent, style );
+		this.builder = builder;
+		GridLayout layout = new GridLayout( 4, false );
+		layout.marginTop = 0;
+		this.setLayout( layout );
+		createContent( );
+	}
+
+	public void dispose( )
+	{
+		if ( visitor != null )
+		{
+			if ( input != null )
+				visitor.removeListener( input );
+			visitor.dispose( );
+			visitor = null;
+		}
+		super.dispose( );
+	}
+
 	private CubeHandle input;
 	private TreeViewer groupViewer;
 
 	public void setInput( CubeHandle cube )
 	{
+		if ( input != null )
+			getListenerElementVisitor( ).removeListener( input );
 		this.input = cube;
 	}
-
 	private DataSetHandle[] datasets = new DataSetHandle[1];
 
 	public void setInput( CubeHandle cube, DataSetHandle dataset )
@@ -194,57 +230,54 @@ public class CubeGroupContent extends Composite
 				if ( selections.toArray( ).length > 1 )
 					return;
 				Iterator iter = selections.iterator( );
-				while ( iter.hasNext( ) )
+				try
 				{
-					Object obj = iter.next( );
-					if ( obj instanceof MeasureHandle )
+					while ( iter.hasNext( ) )
 					{
-						try
+						Object obj = iter.next( );
+						if ( obj instanceof MeasureHandle )
 						{
+
 							( (MeasureHandle) obj ).setName( nameText.getText( ) );
 							refresh( );
+
 						}
-						catch ( NameException e1 )
+						else if ( obj instanceof MeasureGroupHandle )
 						{
-							ExceptionHandler.handle( e1 );
-						}
-					}
-					else if ( obj instanceof MeasureGroupHandle )
-					{
-						try
-						{
+
 							( (MeasureGroupHandle) obj ).setName( nameText.getText( ) );
 							refresh( );
+
 						}
-						catch ( NameException e1 )
+						else if ( obj instanceof DimensionHandle )
 						{
-							ExceptionHandler.handle( e1 );
-						}
-					}
-					else if ( obj instanceof DimensionHandle )
-					{
-						try
-						{
+
 							( (DimensionHandle) obj ).setName( nameText.getText( ) );
 							refresh( );
+
 						}
-						catch ( NameException e1 )
+						else if ( obj instanceof LevelHandle )
 						{
-							ExceptionHandler.handle( e1 );
-						}
-					}
-					else if ( obj instanceof LevelHandle )
-					{
-						try
-						{
+
 							( (LevelHandle) obj ).setName( nameText.getText( ) );
 							refresh( );
-						}
-						catch ( NameException e1 )
-						{
-							ExceptionHandler.handle( e1 );
+
 						}
 					}
+					if ( builder != null )
+					{
+						builder.setErrorMessage( null );
+						builder.setTitleMessage( GroupsPage.GROUPPAGE_MESSAGE );
+					}
+				}
+				catch ( NameException e1 )
+				{
+					if ( builder != null )
+					{
+						builder.setErrorMessage( e1.getMessage( ) );
+					}
+					else
+						ExceptionHandler.handle( e1 );
 				}
 			}
 
@@ -271,10 +304,20 @@ public class CubeGroupContent extends Composite
 				try
 				{
 					measure.setFunction( functionCombo.getItem( functionCombo.getSelectionIndex( ) ) );
+					if ( builder != null )
+					{
+						builder.setErrorMessage( null );
+						builder.setTitleMessage( GroupsPage.GROUPPAGE_MESSAGE );
+					}
 				}
 				catch ( SemanticException e1 )
 				{
-					ExceptionHandler.handle( e1 );
+					if ( builder != null )
+					{
+						builder.setErrorMessage( e1.getMessage( ) );
+					}
+					else
+						ExceptionHandler.handle( e1 );
 				}
 			}
 
@@ -296,10 +339,20 @@ public class CubeGroupContent extends Composite
 					try
 					{
 						measure.setMeasureExpression( expressionText.getText( ) );
+						if ( builder != null )
+						{
+							builder.setErrorMessage( null );
+							builder.setTitleMessage( GroupsPage.GROUPPAGE_MESSAGE );
+						}
 					}
 					catch ( SemanticException e1 )
 					{
-						ExceptionHandler.handle( e1 );
+						if ( builder != null )
+						{
+							builder.setErrorMessage( e1.getMessage( ) );
+						}
+						else
+							ExceptionHandler.handle( e1 );
 					}
 			}
 
@@ -321,7 +374,7 @@ public class CubeGroupContent extends Composite
 	private void openExpression( )
 	{
 		ExpressionBuilder expressionBuilder = new ExpressionBuilder( expressionText.getText( ) );
-		ExpressionProvider provider = new ExpressionProvider( this.getMeasure( ) );
+		ExpressionProvider provider = new CubeExpressionProvider( (TabularCubeHandle) input );
 		expressionBuilder.setExpressionProvier( provider );
 		if ( expressionBuilder.open( ) == Window.OK )
 		{
@@ -450,6 +503,7 @@ public class CubeGroupContent extends Composite
 		layoutButton( editBtn, width );
 		layoutButton( delBtn, width );
 		layoutButton( propBtn, width );
+		addBtn.setEnabled( false );
 		editBtn.setEnabled( false );
 		delBtn.setEnabled( false );
 		propBtn.setEnabled( false );
@@ -529,7 +583,7 @@ public class CubeGroupContent extends Composite
 					TreeItem item = (TreeItem) event.item;
 					Object element = item.getData( );
 					if ( element instanceof CubeHandle
-							|| element instanceof CubeModel )
+							|| element instanceof PropertyHandle )
 					{
 						event.detail = DND.DROP_NONE;
 						return;
@@ -548,13 +602,7 @@ public class CubeGroupContent extends Composite
 					else if ( obj instanceof ResultSetColumnHandle )
 					{
 						dataField = (ResultSetColumnHandle) obj;
-						Object parentObj = dragSourceItems[0].getParentItem( )
-								.getData( );
-						if ( parentObj != null
-								&& parentObj instanceof DataSetHandle )
-						{
-							dataset = (DataSetHandle) parentObj;
-						}
+						dataset = (DataSetHandle) dataField.getElementHandle( );
 					}
 
 					if ( element instanceof LevelHandle )
@@ -621,6 +669,20 @@ public class CubeGroupContent extends Composite
 						}
 
 					}
+					else if ( element instanceof MeasureGroupHandle
+							|| ( element instanceof VirtualField && ( (VirtualField) element ).getType( )
+									.equals( VirtualField.TYPE_MEASURE ) )
+							|| element instanceof MeasureHandle )
+					{
+						DataSetHandle primary = ( (TabularCubeHandle) input ).getDataSet( );
+						if ( primary == null || primary != dataset )
+						{
+							{
+								event.detail = DND.DROP_NONE;
+								return;
+							}
+						}
+					}
 
 					Point pt = Display.getCurrent( ).map( null,
 							groupViewer.getTree( ),
@@ -666,13 +728,7 @@ public class CubeGroupContent extends Composite
 				else if ( obj instanceof ResultSetColumnHandle )
 				{
 					dataField = (ResultSetColumnHandle) obj;
-					Object parentObj = dragSourceItems[0].getParentItem( )
-							.getData( );
-					if ( parentObj != null
-							&& parentObj instanceof DataSetHandle )
-					{
-						dataset = (DataSetHandle) parentObj;
-					}
+					dataset = (DataSetHandle) dataField.getElementHandle( );
 				}
 
 				if ( event.item == null || dataField == null )
@@ -701,13 +757,15 @@ public class CubeGroupContent extends Composite
 						{
 							if ( element instanceof MeasureHandle )
 							{
+								TabularMeasureHandle measure = DesignElementFactory.getInstance( )
+										.newTabularMeasure( dataField.getColumnName( ) );
+								measure.setMeasureExpression( DEUtil.getExpression( measure ) );
 								( (MeasureHandle) element ).getContainer( )
 										.add( IMeasureGroupModel.MEASURES_PROP,
-												DesignElementFactory.getInstance( )
-														.newTabularMeasure( dataField.getColumnName( ) ) );
+												measure );
 							}
 							else if ( element instanceof CubeHandle
-									|| element instanceof CubeModel )
+									|| element instanceof PropertyHandle )
 							{
 								event.detail = DND.DROP_NONE;
 								return;
@@ -735,10 +793,12 @@ public class CubeGroupContent extends Composite
 						{
 							if ( element instanceof MeasureHandle )
 							{
+								TabularMeasureHandle measure = DesignElementFactory.getInstance( )
+										.newTabularMeasure( dataField.getColumnName( ) );
+								measure.setMeasureExpression( DEUtil.getExpression( measure ) );
 								( (MeasureHandle) element ).getContainer( )
 										.add( IMeasureGroupModel.MEASURES_PROP,
-												DesignElementFactory.getInstance( )
-														.newTabularMeasure( dataField.getColumnName( ) ) );
+												measure );
 							}
 							else if ( element instanceof MeasureGroupHandle
 									|| ( element instanceof VirtualField && ( (VirtualField) element ).getType( )
@@ -749,12 +809,14 @@ public class CubeGroupContent extends Composite
 									measureGroup = (MeasureGroupHandle) element;
 								else
 									measureGroup = (MeasureGroupHandle) ( (VirtualField) element ).getModel( );
+								TabularMeasureHandle measure = DesignElementFactory.getInstance( )
+										.newTabularMeasure( dataField.getColumnName( ) );
+								measure.setMeasureExpression( DEUtil.getExpression( measure ) );
 								measureGroup.add( IMeasureGroupModel.MEASURES_PROP,
-										DesignElementFactory.getInstance( )
-												.newTabularMeasure( dataField.getColumnName( ) ) );
+										measure );
 							}
 							else if ( element instanceof CubeHandle
-									|| element instanceof CubeModel )
+									|| element instanceof PropertyHandle )
 							{
 								event.detail = DND.DROP_NONE;
 								return;
@@ -812,15 +874,20 @@ public class CubeGroupContent extends Composite
 									else
 									{
 										hierarchy.add( HierarchyHandle.LEVELS_PROP,
-												OlapUtil.getDateLevel( OlapUtil.Level_Year ) );
+												OlapUtil.getDateLevel( dataField,
+														OlapUtil.Level_Year ) );
 										hierarchy.add( HierarchyHandle.LEVELS_PROP,
-												OlapUtil.getDateLevel( OlapUtil.Level_Qtr ) );
+												OlapUtil.getDateLevel( dataField,
+														OlapUtil.Level_Qtr ) );
 										hierarchy.add( HierarchyHandle.LEVELS_PROP,
-												OlapUtil.getDateLevel( OlapUtil.Level_Month ) );
+												OlapUtil.getDateLevel( dataField,
+														OlapUtil.Level_Month ) );
 										hierarchy.add( HierarchyHandle.LEVELS_PROP,
-												OlapUtil.getDateLevel( OlapUtil.Level_Week ) );
+												OlapUtil.getDateLevel( dataField,
+														OlapUtil.Level_Week ) );
 										hierarchy.add( HierarchyHandle.LEVELS_PROP,
-												OlapUtil.getDateLevel( OlapUtil.Level_Day ) );
+												OlapUtil.getDateLevel( dataField,
+														OlapUtil.Level_Day ) );
 										( (TabularDimensionHandle) hierarchy.getContainer( ) ).setTimeType( true );
 									}
 								}
@@ -930,7 +997,7 @@ public class CubeGroupContent extends Composite
 
 			public void selectionChanged( SelectionChangedEvent event )
 			{
-				// updateButtons( );
+				updateButtons( );
 			}
 
 		} );
@@ -968,10 +1035,22 @@ public class CubeGroupContent extends Composite
 		{
 			if ( datasets[0] != null )
 				dataFieldsViewer.setInput( datasets );
-			dataFieldsViewer.setInput( OlapUtil.getAvailableDatasets( ) );
+			// dataFieldsViewer.setInput( OlapUtil.getAvailableDatasets( ) );
 			inputs[0] = input;
 			groupViewer.setInput( inputs );
+			getListenerElementVisitor( ).addListener( input );
 		}
+	}
+
+	private ListenerElementVisitor visitor;
+
+	private ListenerElementVisitor getListenerElementVisitor( )
+	{
+		if ( visitor == null )
+		{
+			visitor = new ListenerElementVisitor( this );
+		}
+		return visitor;
 	}
 
 	protected void updateButtons( )
@@ -1039,13 +1118,24 @@ public class CubeGroupContent extends Composite
 				expressionText.setText( "" );
 			}
 
+			TreeSelection dataSelection = (TreeSelection) dataFieldsViewer.getSelection( );
+			ResultSetColumnHandle dataField = null;
+			DataSetHandle dataset = null;
+			if ( dataSelection.size( ) == 1
+					&& dataSelection.getFirstElement( ) != null
+					&& dataSelection.getFirstElement( ) instanceof ResultSetColumnHandle )
+			{
+				dataField = (ResultSetColumnHandle) dataSelection.getFirstElement( );
+				dataset = (DataSetHandle) dataField.getElementHandle( );
+			}
+
 			/**
 			 * Deal add button and del buuton.
 			 */
 			if ( obj instanceof DimensionHandle
 					|| obj instanceof LevelHandle
-					|| obj instanceof MeasureGroupHandle
 					|| obj instanceof MeasureHandle
+					|| obj instanceof MeasureGroupHandle
 					|| obj instanceof VirtualField )
 			{
 				if ( obj instanceof DimensionHandle
@@ -1063,6 +1153,21 @@ public class CubeGroupContent extends Composite
 				}
 				else
 					addBtn.setEnabled( true );
+				if ( dataField == null || dataset == null )
+					addBtn.setEnabled( false );
+				else if ( obj instanceof MeasureGroupHandle
+						|| ( obj instanceof VirtualField && ( (VirtualField) obj ).getType( )
+								.equals( VirtualField.TYPE_MEASURE ) )
+						|| obj instanceof MeasureHandle )
+				{
+					DataSetHandle primary = ( (TabularCubeHandle) input ).getDataSet( );
+					if ( primary == null || primary != dataset )
+					{
+						{
+							addBtn.setEnabled( false );
+						}
+					}
+				}
 				if ( obj instanceof LevelHandle )
 				{
 					DimensionHandle dimension = (DimensionHandle) ( (LevelHandle) obj ).getContainer( )
@@ -1098,7 +1203,7 @@ public class CubeGroupContent extends Composite
 			/**
 			 * CubeModel can and a group or a summary field
 			 */
-			else if ( obj instanceof CubeModel )
+			else if ( obj instanceof PropertyHandle )
 				addBtn.setEnabled( true );
 
 			/**
@@ -1274,102 +1379,35 @@ public class CubeGroupContent extends Composite
 		while ( iter.hasNext( ) )
 		{
 			Object obj = iter.next( );
-			if ( obj instanceof TabularLevelHandle )
+
+			TreeSelection dataFields = (TreeSelection) dataFieldsViewer.getSelection( );
+			Iterator iterator = dataFields.iterator( );
+			ResultSetColumnHandle dataField = null;
+			while ( iterator.hasNext( ) )
 			{
-				TabularLevelHandle temp = (TabularLevelHandle)obj;
-				if(temp.getDataType( )!=null && temp.getDataType( ).equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ))
-					return;
-				TabularLevelHandle level = DesignElementFactory.getInstance( )
-						.newTabularLevel( "Level" );
-				try
-				{
-					level.setColumnName( level.getName( ) );
-					temp.getContainer( )
-							.add( IHierarchyModel.LEVELS_PROP, level );
-				}
-				catch ( SemanticException e )
-				{
-					ExceptionHandler.handle( e );
-				}
-				refresh( );
-				return;
+				Object temp = iterator.next( );
+				if ( !( temp instanceof ResultSetColumnHandle ) )
+					continue;
+				dataField = (ResultSetColumnHandle) temp;
 			}
-			else if ( obj instanceof DimensionHandle
-					|| ( obj instanceof VirtualField && ( (VirtualField) obj ).getType( )
-							.equals( VirtualField.TYPE_LEVEL ) ) )
+
+			if ( dataField != null )
 			{
-				DimensionHandle dimension = null;
-				if ( obj instanceof DimensionHandle )
-					dimension = (DimensionHandle) obj;
-				else
-					dimension = (DimensionHandle) ( (VirtualField) obj ).getModel( );
-				if ( dimension.isTimeType( ) )
-					return;
-				TabularLevelHandle level = DesignElementFactory.getInstance( )
-						.newTabularLevel( "Level" );
-				TabularHierarchyHandle hierary = (TabularHierarchyHandle) dimension.getContent( IDimensionModel.HIERARCHIES_PROP,
-						0 );
-				try
-				{
-					level.setColumnName( level.getName( ) );
-					hierary.add( IHierarchyModel.LEVELS_PROP, level );
-				}
-				catch ( SemanticException e1 )
-				{
-					ExceptionHandler.handle( e1 );
-				}
-				refresh( );
-				return;
+				handleDataAddEvent( );
 			}
-			else if ( obj instanceof MeasureGroupHandle
-					|| ( obj instanceof VirtualField && ( (VirtualField) obj ).getType( )
-							.equals( VirtualField.TYPE_MEASURE ) ) )
+			if ( obj instanceof PropertyHandle )
 			{
-				MeasureHandle measure = DesignElementFactory.getInstance( )
-						.newTabularMeasure( "Measure" );
-				MeasureGroupHandle measureGroup = null;
-				if ( obj instanceof MeasureGroupHandle )
-					measureGroup = (MeasureGroupHandle) obj;
-				else
-					measureGroup = (MeasureGroupHandle) ( (VirtualField) obj ).getModel( );
-				try
-				{
-					measureGroup.add( IMeasureGroupModel.MEASURES_PROP, measure );
-				}
-				catch ( SemanticException e1 )
-				{
-					ExceptionHandler.handle( e1 );
-				}
-				refresh( );
-				return;
-			}
-			else if ( obj instanceof MeasureHandle )
-			{
-				MeasureHandle measure = DesignElementFactory.getInstance( )
-						.newTabularMeasure( "Measure" );
-				try
-				{
-					( (MeasureHandle) obj ).getContainer( )
-							.add( IMeasureGroupModel.MEASURES_PROP, measure );
-				}
-				catch ( SemanticException e1 )
-				{
-					ExceptionHandler.handle( e1 );
-				}
-				refresh( );
-				return;
-			}
-			else if ( obj instanceof CubeModel )
-			{
-				CubeModel model = (CubeModel) obj;
-				if ( model.getType( ) == CubeModel.TYPE_DIMENSION )
+				PropertyHandle model = (PropertyHandle) obj;
+				if ( model.getPropertyDefn( )
+						.getName( )
+						.equals( ICubeModel.DIMENSIONS_PROP ) )
 				{
 					DimensionHandle dimension = DesignElementFactory.getInstance( )
 							.newTabularDimension( "Group" );
 					try
 					{
-						model.getModel( ).add( ICubeModel.DIMENSIONS_PROP,
-								dimension );
+						model.getElementHandle( )
+								.add( ICubeModel.DIMENSIONS_PROP, dimension );
 					}
 					catch ( SemanticException e1 )
 					{
@@ -1377,14 +1415,17 @@ public class CubeGroupContent extends Composite
 					}
 					refresh( );
 				}
-				else if ( model.getType( ) == CubeModel.TYPE_MEASURES )
+				else if ( model.getPropertyDefn( )
+						.getName( )
+						.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
 				{
 					MeasureGroupHandle measureGroup = DesignElementFactory.getInstance( )
 							.newTabularMeasureGroup( "Summary Field" );
 					try
 					{
-						model.getModel( ).add( ICubeModel.MEASURE_GROUPS_PROP,
-								measureGroup );
+						model.getElementHandle( )
+								.add( ICubeModel.MEASURE_GROUPS_PROP,
+										measureGroup );
 					}
 					catch ( SemanticException e1 )
 					{
@@ -1405,13 +1446,11 @@ public class CubeGroupContent extends Composite
 			Object temp = iterator.next( );
 			if ( !( temp instanceof ResultSetColumnHandle ) )
 				continue;
-			Object datasetObj = dataFieldsViewer.getTree( ).getSelection( )[0].getParentItem( )
-					.getData( );
-			if ( datasetObj == null || !( datasetObj instanceof DataSetHandle ) )
-				continue;
-			DataSetHandle dataset = (DataSetHandle) datasetObj;
 
 			ResultSetColumnHandle dataField = (ResultSetColumnHandle) temp;
+			DataSetHandle dataset = (DataSetHandle) dataField.getElementHandle( );
+			DataSetHandle primary = ( (TabularCubeHandle) input ).getDataSet( );
+
 			TreeSelection slections = (TreeSelection) groupViewer.getSelection( );
 			Iterator iter = slections.iterator( );
 			while ( iter.hasNext( ) )
@@ -1528,15 +1567,20 @@ public class CubeGroupContent extends Composite
 							else
 							{
 								hierarchy.add( HierarchyHandle.LEVELS_PROP,
-										OlapUtil.getDateLevel( OlapUtil.Level_Year ) );
+										OlapUtil.getDateLevel( dataField,
+												OlapUtil.Level_Year ) );
 								hierarchy.add( HierarchyHandle.LEVELS_PROP,
-										OlapUtil.getDateLevel( OlapUtil.Level_Qtr ) );
+										OlapUtil.getDateLevel( dataField,
+												OlapUtil.Level_Qtr ) );
 								hierarchy.add( HierarchyHandle.LEVELS_PROP,
-										OlapUtil.getDateLevel( OlapUtil.Level_Month ) );
+										OlapUtil.getDateLevel( dataField,
+												OlapUtil.Level_Month ) );
 								hierarchy.add( HierarchyHandle.LEVELS_PROP,
-										OlapUtil.getDateLevel( OlapUtil.Level_Week ) );
+										OlapUtil.getDateLevel( dataField,
+												OlapUtil.Level_Week ) );
 								hierarchy.add( HierarchyHandle.LEVELS_PROP,
-										OlapUtil.getDateLevel( OlapUtil.Level_Day ) );
+										OlapUtil.getDateLevel( dataField,
+												OlapUtil.Level_Day ) );
 								( (TabularDimensionHandle) hierarchy.getContainer( ) ).setTimeType( true );
 							}
 						}
@@ -1556,45 +1600,53 @@ public class CubeGroupContent extends Composite
 					refresh( );
 					return;
 				}
-				else if ( obj instanceof MeasureGroupHandle
-						|| ( obj instanceof VirtualField && ( (VirtualField) obj ).getType( )
-								.equals( VirtualField.TYPE_MEASURE ) ) )
+				else if ( dataset != null
+						&& primary != null
+						&& dataset == primary )
 				{
-					MeasureGroupHandle measureGroup = null;
-					if ( obj instanceof MeasureGroupHandle )
-						measureGroup = (MeasureGroupHandle) obj;
-					else
-						measureGroup = (MeasureGroupHandle) ( (VirtualField) obj ).getModel( );
+					if ( obj instanceof MeasureGroupHandle
+							|| ( obj instanceof VirtualField && ( (VirtualField) obj ).getType( )
+									.equals( VirtualField.TYPE_MEASURE ) ) )
+					{
+						MeasureGroupHandle measureGroup = null;
+						if ( obj instanceof MeasureGroupHandle )
+							measureGroup = (MeasureGroupHandle) obj;
+						else
+							measureGroup = (MeasureGroupHandle) ( (VirtualField) obj ).getModel( );
 
-					MeasureHandle measure = DesignElementFactory.getInstance( )
-							.newTabularMeasure( dataField.getColumnName( ) );
-					try
-					{
-						measureGroup.add( IMeasureGroupModel.MEASURES_PROP,
-								measure );
+						MeasureHandle measure = DesignElementFactory.getInstance( )
+								.newTabularMeasure( dataField.getColumnName( ) );
+						try
+						{
+							measure.setMeasureExpression( DEUtil.getExpression( measure ) );
+							measureGroup.add( IMeasureGroupModel.MEASURES_PROP,
+									measure );
+						}
+						catch ( SemanticException e1 )
+						{
+							ExceptionHandler.handle( e1 );
+						}
+						refresh( );
+						return;
 					}
-					catch ( SemanticException e1 )
+					else if ( obj instanceof MeasureHandle )
 					{
-						ExceptionHandler.handle( e1 );
+						TabularMeasureHandle measure = DesignElementFactory.getInstance( )
+								.newTabularMeasure( dataField.getColumnName( ) );
+						try
+						{
+							measure.setMeasureExpression( DEUtil.getExpression( measure ) );
+							( (MeasureHandle) obj ).getContainer( )
+									.add( IMeasureGroupModel.MEASURES_PROP,
+											measure );
+						}
+						catch ( SemanticException e1 )
+						{
+							ExceptionHandler.handle( e1 );
+						}
+						refresh( );
+						return;
 					}
-					refresh( );
-					return;
-				}
-				else if ( obj instanceof MeasureHandle )
-				{
-					MeasureHandle measure = DesignElementFactory.getInstance( )
-							.newTabularMeasure( dataField.getColumnName( ) );
-					try
-					{
-						( (MeasureHandle) obj ).getContainer( )
-								.add( IMeasureGroupModel.MEASURES_PROP, measure );
-					}
-					catch ( SemanticException e1 )
-					{
-						ExceptionHandler.handle( e1 );
-					}
-					refresh( );
-					return;
 				}
 			}
 		}
@@ -1603,6 +1655,36 @@ public class CubeGroupContent extends Composite
 	public void refresh( )
 	{
 		groupViewer.refresh( true );
+	}
+
+	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
+	{
+		if ( groupViewer == null || groupViewer.getControl( ).isDisposed( ) )
+		{
+			return;
+		}
+		groupViewer.refresh( );
+		expandNodeAfterCreation( ev );
+		getListenerElementVisitor( ).addListener( focus );
+
+	}
+
+	private void expandNodeAfterCreation( NotificationEvent ev )
+	{
+		if ( ev instanceof ContentEvent
+				&& ev.getEventType( ) == NotificationEvent.CONTENT_EVENT
+				&& ( (ContentEvent) ev ).getAction( ) == ContentEvent.ADD )
+		{
+			IDesignElement element = ( (ContentEvent) ev ).getContent( );
+			if ( element != null )
+			{
+				final DesignElementHandle handle = element.getHandle( input.getModule( ) );
+				groupViewer.expandToLevel( handle,
+						AbstractTreeViewer.ALL_LEVELS );
+				groupViewer.setSelection( new StructuredSelection( handle ),
+						true );
+			}
+		}
 	}
 
 }

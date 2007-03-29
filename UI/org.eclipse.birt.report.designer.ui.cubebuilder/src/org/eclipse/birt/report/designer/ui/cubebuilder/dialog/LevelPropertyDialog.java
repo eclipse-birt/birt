@@ -9,7 +9,6 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-
 package org.eclipse.birt.report.designer.ui.cubebuilder.dialog;
 
 import java.util.Arrays;
@@ -27,9 +26,11 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.widget.ExpressionCellEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.RuleHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -94,6 +95,7 @@ public class LevelPropertyDialog extends BaseDialog
 	private Button intervalBaseButton;
 	private Text intervalBaseText;
 	private Composite dynamicArea;
+	private DataSetHandle dataset;
 
 	public LevelPropertyDialog( )
 	{
@@ -129,9 +131,6 @@ public class LevelPropertyDialog extends BaseDialog
 		return contents;
 	}
 
-	// private List dynamicAttributes = new LinkedList( );
-	// private Map staticAttributes = new LinkedHashMap( );
-
 	private void initLevelDialog( )
 	{
 		if ( input != null )
@@ -150,7 +149,9 @@ public class LevelPropertyDialog extends BaseDialog
 				// dynamicAttributes.add( ( (LevelAttributeHandle)
 				// attrIter.next( ) ).getName( ) );
 				// }
-				attributeItems = OlapUtil.getDataFieldNames( ( (TabularHierarchyHandle) input.getContainer( ) ).getDataSet( ) );
+				dataset = ( (TabularHierarchyHandle) input.getContainer( ) ).getDataSet( );
+				if ( dataset != null )
+					attributeItems = OlapUtil.getDataFieldNames( dataset );
 				resetEditorItems( );
 
 				dynamicButton.setSelection( true );
@@ -448,6 +449,12 @@ public class LevelPropertyDialog extends BaseDialog
 					try
 					{
 						handle.setName( editor.getItems( )[( (Integer) value ).intValue( )] );
+						if ( dataset != null )
+						{
+							ResultSetColumnHandle dataField = OlapUtil.getDataField( dataset,
+									handle.getName( ) );
+							handle.setDataType( dataField.getDataType( ) );
+						}
 					}
 					catch ( SemanticException e )
 					{
@@ -458,6 +465,12 @@ public class LevelPropertyDialog extends BaseDialog
 				{
 					LevelAttribute attribute = StructureFactory.createLevelAttribute( );
 					attribute.setName( editor.getItems( )[( (Integer) value ).intValue( )] );
+					if ( dataset != null )
+					{
+						ResultSetColumnHandle dataField = OlapUtil.getDataField( dataset,
+								attribute.getName( ) );
+						attribute.setDataType( dataField.getDataType( ) );
+					}
 					try
 					{
 						input.getPropertyHandle( ILevelModel.ATTRIBUTES_PROP )
@@ -662,7 +675,7 @@ public class LevelPropertyDialog extends BaseDialog
 		} );
 
 		intervalBaseButton = new Button( groupGroup, SWT.CHECK );
-		intervalBaseButton.setText( Messages.getString( "LevelPropertyDialog.Button.IntervalBase" )); //$NON-NLS-1$
+		intervalBaseButton.setText( Messages.getString( "LevelPropertyDialog.Button.IntervalBase" ) ); //$NON-NLS-1$
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		intervalBaseButton.setLayoutData( gd );
@@ -818,7 +831,7 @@ public class LevelPropertyDialog extends BaseDialog
 		contents.setLayoutData( data );
 
 		infoLabel = new Label( contents, SWT.NONE );
-		infoLabel.setText( Messages.getString( "LevelPropertyDialog.Label.Info" ));
+		infoLabel.setText( Messages.getString( "LevelPropertyDialog.Label.Info" ) );
 		return contents;
 
 	}
@@ -1001,7 +1014,7 @@ public class LevelPropertyDialog extends BaseDialog
 
 		staticViewer = new TableViewer( staticTable );
 		String[] columns = new String[]{
-				Messages.getString( "LevelPropertyDialog.Label.Name" ), 
+				Messages.getString( "LevelPropertyDialog.Label.Name" ),
 				Messages.getString( "LevelPropertyDialog.Label.Expression" )
 		};
 

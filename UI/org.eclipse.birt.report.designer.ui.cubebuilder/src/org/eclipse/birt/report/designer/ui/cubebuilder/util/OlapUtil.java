@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 
 public class OlapUtil
 {
@@ -33,9 +34,9 @@ public class OlapUtil
 	public static final String Level_Week = "Week";
 	public static final String Level_Day = "Day";
 
-	public static LevelHandle getDateLevel( String type )
+	public static LevelHandle getDateLevel( ResultSetColumnHandle column, String type )
 	{
-		LevelHandle level = null;
+		TabularLevelHandle level = null;
 		try
 		{
 			if ( type.equals( Level_Year ) )
@@ -68,6 +69,7 @@ public class OlapUtil
 						.newTabularLevel( "Day" );
 				level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
 			}
+			level.setColumnName( column.getColumnName( ) );
 		}
 		catch ( SemanticException e )
 		{
@@ -155,30 +157,21 @@ public class OlapUtil
 
 	public static DataSetHandle[] getAvailableDatasets( )
 	{
-		SlotHandle slot = SessionHandleAdapter.getInstance( )
+		return (DataSetHandle[]) SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
-				.getDataSets( );
-		if ( slot == null || slot.getCount( ) == 0 )
-			return new DataSetHandle[0];
-		DataSetHandle[] datasets = new DataSetHandle[slot.getCount( )];
-		for ( int i = 0; i < slot.getCount( ); i++ )
-		{
-			DataSetHandle dataset = (DataSetHandle) slot.get( i );
-			datasets[i] = dataset;
-		}
-		return datasets;
+				.getAllDataSets( )
+				.toArray( new DataSetHandle[0] );
 	}
 
 	public static int getIndexOfPrimaryDataset( DataSetHandle dataset )
 	{
-		SlotHandle slot = SessionHandleAdapter.getInstance( )
+		DataSetHandle[] datasets = (DataSetHandle[]) SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
-				.getDataSets( );
-		if ( slot == null || slot.getCount( ) == 0 || dataset == null )
-			return -1;
-		for ( int i = 0; i < slot.getCount( ); i++ )
+				.getAllDataSets( )
+				.toArray( new DataSetHandle[0] );
+		for ( int i = 0; i < datasets.length; i++ )
 		{
-			DataSetHandle temp = (DataSetHandle) slot.get( i );
+			DataSetHandle temp = (DataSetHandle) datasets[i];
 			if ( dataset == temp )
 				return i;
 		}
@@ -187,14 +180,13 @@ public class OlapUtil
 
 	public static DataSetHandle getDataset( String datasetName )
 	{
-		SlotHandle slot = SessionHandleAdapter.getInstance( )
+		DataSetHandle[] datasets = (DataSetHandle[]) SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
-				.getDataSets( );
-		if ( slot == null || slot.getCount( ) == 0 || datasetName == null )
-			return null;
-		for ( int i = 0; i < slot.getCount( ); i++ )
+				.getAllDataSets( )
+				.toArray( new DataSetHandle[0] );
+		for ( int i = 0; i < datasets.length; i++ )
 		{
-			DataSetHandle temp = (DataSetHandle) slot.get( i );
+			DataSetHandle temp = (DataSetHandle) datasets[i];
 			if ( datasetName.equals( temp.getName( ) ) )
 				return temp;
 		}

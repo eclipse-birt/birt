@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.action;
 
-import org.eclipse.birt.report.designer.data.ui.util.CubeModel;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -24,7 +23,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.1 $ $Date: 2007/03/07 08:40:38 $
+ * @version $Revision: 1.2 $ $Date: 2007/03/21 06:59:35 $
  */
 public class EditCubeDimensionAction extends AbstractElementAction
 {

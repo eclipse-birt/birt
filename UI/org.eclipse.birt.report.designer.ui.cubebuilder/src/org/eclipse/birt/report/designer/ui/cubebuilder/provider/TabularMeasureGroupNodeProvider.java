@@ -19,7 +19,9 @@ import org.eclipse.birt.report.designer.ui.actions.ShowPropertyAction;
 import org.eclipse.birt.report.designer.ui.cubebuilder.action.EditCubeMeasureGroupAction;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
+import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -67,6 +69,15 @@ public class TabularMeasureGroupNodeProvider extends DefaultNodeProvider
 	{
 		return ( (MeasureGroupHandle) model ).getContents( MeasureGroupHandle.MEASURES_PROP )
 				.toArray( );
+	}
+
+	public Object getParent( Object model )
+	{
+		MeasureGroupHandle measures = (MeasureGroupHandle) model;
+		CubeHandle cube = (CubeHandle) measures.getContainer( );
+		if ( cube != null )
+			return cube.getPropertyHandle( ICubeModel.MEASURE_GROUPS_PROP );
+		return null;
 	}
 
 	/**

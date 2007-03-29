@@ -11,19 +11,20 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.provider;
 
-import org.eclipse.birt.report.designer.data.ui.util.CubeModel;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 
@@ -40,20 +41,20 @@ public class CubeLabelProvider extends LabelProvider
 	private static final Image IMG_DATASET = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_ODA_DATA_SET );
 
 	private static final Image IMG_DATAFIELD = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_DATA_COLUMN );
-	
+
 	private static final Image IMG_CUBE = UIHelper.getImage( BuilderConstancts.IMAGE_CUBE );
 
 	private static final Image IMG_DIMENSION = UIHelper.getImage( BuilderConstancts.IMAGE_DIMENSION );
-	
-	private static final Image IMG_DIMENSION_FOLDER = UIHelper.getImage( BuilderConstancts.IMAGE_DIMENSION_FOLDER);
-	
-	private static final Image IMG_MEASUREGROUP_FOLDER = UIHelper.getImage( BuilderConstancts.IMAGE_MEASUREGROUP_FOLDER);
+
+	private static final Image IMG_DIMENSION_FOLDER = UIHelper.getImage( BuilderConstancts.IMAGE_DIMENSION_FOLDER );
+
+	private static final Image IMG_MEASUREGROUP_FOLDER = UIHelper.getImage( BuilderConstancts.IMAGE_MEASUREGROUP_FOLDER );
 
 	private static final Image IMG_MEASURE = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_DATA_COLUMN );
-	
+
 	private static final Image IMG_MEASUREGROUP = UIHelper.getImage( BuilderConstancts.IMAGE_MEASUREGROUP );
-	
-	private static final Image IMG_LEVEL= UIHelper.getImage( BuilderConstancts.IMAGE_LEVEL );
+
+	private static final Image IMG_LEVEL = UIHelper.getImage( BuilderConstancts.IMAGE_LEVEL );
 
 	/*
 	 * (non-Javadoc)
@@ -98,11 +99,16 @@ public class CubeLabelProvider extends LabelProvider
 		{
 			return IMG_DATAFIELD;
 		}
-		else if ( element instanceof CubeModel){
-			CubeModel model = (CubeModel)element;
-			if(model.getType( ) == CubeModel.TYPE_DIMENSION)
+		else if ( element instanceof PropertyHandle )
+		{
+			PropertyHandle model = (PropertyHandle) element;
+			if ( model.getPropertyDefn( )
+					.getName( )
+					.equals( ICubeModel.DIMENSIONS_PROP ) )
 				return IMG_DIMENSION_FOLDER;
-			else if(model.getType( ) == CubeModel.TYPE_MEASURES)
+			else if ( model.getPropertyDefn( )
+					.getName( )
+					.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
 				return IMG_MEASUREGROUP_FOLDER;
 		}
 		return super.getImage( element );
@@ -137,7 +143,7 @@ public class CubeLabelProvider extends LabelProvider
 		}
 		else if ( element instanceof MeasureGroupHandle )
 		{
-			return ((MeasureGroupHandle) element).getName( );
+			return ( (MeasureGroupHandle) element ).getName( );
 		}
 		else if ( element instanceof MeasureHandle )
 		{
@@ -147,11 +153,16 @@ public class CubeLabelProvider extends LabelProvider
 		{
 			return (String) element;
 		}
-		else if ( element instanceof CubeModel){
-			CubeModel model = (CubeModel)element;
-			if(model.getType( ) == CubeModel.TYPE_DIMENSION)
+		else if ( element instanceof PropertyHandle )
+		{
+			PropertyHandle model = (PropertyHandle) element;
+			if ( model.getPropertyDefn( )
+					.getName( )
+					.equals( ICubeModel.DIMENSIONS_PROP ) )
 				return "Groups(Dimensions)";
-			else if(model.getType( ) == CubeModel.TYPE_MEASURES)
+			else if ( model.getPropertyDefn( )
+					.getName( )
+					.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
 				return "Summary Fields(Measures)";
 		}
 		return super.getText( element );

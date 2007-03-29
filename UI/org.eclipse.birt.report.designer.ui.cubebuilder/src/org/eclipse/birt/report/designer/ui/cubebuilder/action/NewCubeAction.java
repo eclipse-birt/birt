@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.page.CubeBuilder;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.jface.action.Action;
@@ -83,42 +84,48 @@ public class NewCubeAction extends Action
 		// Get the list of data sets before inserting a new Data Set
 		List existingCubes = getCubes( );
 
-		CubeHandle newCube = DesignElementFactory.getInstance( ).newTabularCube( null );
+		CommandStack stack = getActionStack( );
+		stack.startTrans( "Create a cube for binding the crossTab" ); //$NON-NLS-1$
 
+		CubeHandle newCube = DesignElementFactory.getInstance( )
+				.newTabularCube( null );
+
+		boolean isFailed = false;
 		try
 		{
 			SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( )
 					.getCubes( )
 					.add( newCube );
+
+			CubeBuilder builder = new CubeBuilder( PlatformUI.getWorkbench( )
+					.getDisplay( )
+					.getActiveShell( ), newCube );
+
+			String wizardTitle = Messages.getString( "cube.new" );//$NON-NLS-1$
+			builder.setTitle( wizardTitle );
+
+			int result = builder.open( );
+
+			notifyResult( result == WizardDialog.OK );
+
+			if ( result != WizardDialog.OK )
+			{
+				stack.rollback( );
+				isFailed = true;
+			}
+
 		}
 		catch ( Exception e )
 		{
-			// TODO Auto-generated catch block
+			stack.rollback( );
+			isFailed = true;
 			ExceptionHandler.handle( e );
 		}
 
-		CubeBuilder builder = new CubeBuilder( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getActiveShell( ), newCube );
-
-		String wizardTitle = Messages.getString( "cube.new" );//$NON-NLS-1$
-		builder.setTitle( wizardTitle );
-
-		int result = builder.open( );
-
-		notifyResult( result == WizardDialog.OK );
-
-		if ( result != WizardDialog.OK )
-			try
-			{
-				newCube.dropAndClear( );
-			}
-			catch ( SemanticException e )
-			{
-				ExceptionHandler.handle( e );
-			}
-
+		if ( !isFailed )
+			stack.commit( );
+		
 		List newCubes = getCubes( );
 		CubeHandle cube = findNewCube( existingCubes, newCubes );
 
@@ -132,11 +139,16 @@ public class NewCubeAction extends Action
 
 	}
 
+	private CommandStack getActionStack( )
+	{
+		return SessionHandleAdapter.getInstance( ).getCommandStack( );
+	}
+
 	private List getCubes( )
 	{
 		return SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
-				.getVisibleCubes( );
+				.getAllCubes( );
 	}
 
 	private CubeHandle findNewCube( List existingCubes, List newCubes )

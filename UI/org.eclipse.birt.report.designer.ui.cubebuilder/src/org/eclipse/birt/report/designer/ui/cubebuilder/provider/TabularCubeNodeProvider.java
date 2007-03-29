@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.provider;
 
-import org.eclipse.birt.report.designer.data.ui.util.CubeModel;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.RefreshAction;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -23,6 +22,7 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.Dialog;
@@ -87,8 +87,8 @@ public class TabularCubeNodeProvider extends DefaultNodeProvider
 	{
 		CubeHandle handle = (CubeHandle) object;
 		return new Object[]{
-				new CubeModel( handle, CubeModel.TYPE_DIMENSION ),
-				new CubeModel( handle, CubeModel.TYPE_MEASURES )
+				handle.getPropertyHandle( ICubeModel.DIMENSIONS_PROP ),
+				handle.getPropertyHandle( ICubeModel.MEASURE_GROUPS_PROP )
 		};
 	}
 

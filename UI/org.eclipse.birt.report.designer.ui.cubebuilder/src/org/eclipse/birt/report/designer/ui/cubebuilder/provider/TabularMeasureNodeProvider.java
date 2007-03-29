@@ -21,7 +21,9 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.page.CubeBuilder;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.Dialog;
@@ -64,6 +66,11 @@ public class TabularMeasureNodeProvider extends DefaultNodeProvider
 		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", new RefreshAction( sourceViewer ) ); //$NON-NLS-1$
 	}
 
+	public Object getParent(Object model){
+		MeasureHandle measure = (MeasureHandle) model;
+		return measure.getContainer( );
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -74,16 +81,6 @@ public class TabularMeasureNodeProvider extends DefaultNodeProvider
 		return DEUtil.getDisplayLabel( model, false );
 	}
 
-	/**
-	 * Gets the children element of the given model using visitor.
-	 * 
-	 * @param object
-	 *            the handle
-	 */
-	public Object[] getChildren( Object object )
-	{
-		return new Object[0];
-	}
 
 	/*
 	 * (non-Javadoc)

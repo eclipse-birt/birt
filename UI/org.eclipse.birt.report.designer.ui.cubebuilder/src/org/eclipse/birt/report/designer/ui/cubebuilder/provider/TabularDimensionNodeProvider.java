@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
+import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.Dialog;
@@ -101,9 +102,16 @@ public class TabularDimensionNodeProvider extends DefaultNodeProvider
 	 */
 	public boolean hasChildren( Object object )
 	{
-		HierarchyHandle hierarchy = (HierarchyHandle) ( (DimensionHandle) object ).getContent( DimensionHandle.HIERARCHIES_PROP,
-				0 );
-		return hierarchy != null && hierarchy.getLevelCount( ) > 0;
+		return getChildren( object ).length > 0;
+	}
+
+	public Object getParent( Object model )
+	{
+		DimensionHandle dimension = (DimensionHandle) model;
+		CubeHandle cube = (CubeHandle) dimension.getContainer( );
+		if ( cube != null )
+			return cube.getPropertyHandle( ICubeModel.DIMENSIONS_PROP );
+		return null;
 	}
 
 	/*
