@@ -384,29 +384,38 @@ public class CacheUtil
 	 * 
 	 * @param folder
 	 */
-	public static void saveCurrentTime( String folder )
-			throws NumberFormatException, IOException
+	public static void saveCurrentTime( String folder ) throws DataException
 	{
-		FileOutputStream fos = new FileOutputStream( new File( folder
-				+ "\\time.data" ) );
-		ObjectOutputStream oos = new ObjectOutputStream( fos );
+		try
+		{
+			FileOutputStream fos;
 
-		Calendar calendar = Calendar.getInstance( );
+			fos = new FileOutputStream( new File( folder + "\\time.data" ) );
 
-		StringBuffer buffer = new StringBuffer( );
-		
-		buffer.append( populate2DigitString( calendar.get( Calendar.YEAR ) ) );
-		buffer.append( populate2DigitString( calendar.get( Calendar.MONTH ) + 1 ) );
-		buffer.append( populate2DigitString( calendar.get( Calendar.DATE ) ) );
-		if ( calendar.get( Calendar.AM_PM ) == Calendar.PM )
-			buffer.append( populate2DigitString( calendar.get( Calendar.HOUR ) + 12 ) );
-		buffer.append( populate2DigitString( calendar.get( Calendar.MINUTE ) ) );
-		buffer.append( populate2DigitString( calendar.get( Calendar.SECOND ) ) );
-		
-		oos.writeObject( buffer.toString( ) );
+			ObjectOutputStream oos = new ObjectOutputStream( fos );
 
-		fos.close( );
-		oos.close( );
+			Calendar calendar = Calendar.getInstance( );
+
+			StringBuffer buffer = new StringBuffer( );
+
+			buffer.append( populate2DigitString( calendar.get( Calendar.YEAR ) ) );
+			buffer.append( populate2DigitString( calendar.get( Calendar.MONTH ) + 1 ) );
+			buffer.append( populate2DigitString( calendar.get( Calendar.DATE ) ) );
+			if ( calendar.get( Calendar.AM_PM ) == Calendar.PM )
+				buffer.append( populate2DigitString( calendar.get( Calendar.HOUR ) + 12 ) );
+			buffer.append( populate2DigitString( calendar.get( Calendar.MINUTE ) ) );
+			buffer.append( populate2DigitString( calendar.get( Calendar.SECOND ) ) );
+
+			oos.writeObject( buffer.toString( ) );
+
+			fos.close( );
+			oos.close( );
+
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( e.getLocalizedMessage( ) );
+		}
 
 	}
 
