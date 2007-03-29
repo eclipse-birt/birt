@@ -121,4 +121,9 @@ public final class BmpRendererImpl extends JavaxImageIOWriter
 
 	}
 
+	protected boolean supportsTransparency( )
+	{
+		return false;
+	}
+
 }

@@ -78,4 +78,9 @@ public final class JpegRendererImpl extends JavaxImageIOWriter
 			this.jpegQuality = jpegQuality;
 		}
 	}
+
+	protected boolean supportsTransparency( )
+	{
+		return false;
+	}
 }

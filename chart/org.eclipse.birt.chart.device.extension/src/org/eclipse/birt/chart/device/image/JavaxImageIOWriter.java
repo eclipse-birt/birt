@@ -105,6 +105,16 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	 * @return
 	 */
 	protected abstract int getImageType( );
+	
+	/**
+	 * Returns true if the image type supports transparency
+	 * false otherwise
+	 * @return
+	 */
+	protected boolean supportsTransparency( )
+	{
+		return true;
+	}
 
 	JavaxImageIOWriter( )
 	{
@@ -484,6 +494,13 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 		}
 		super.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, _img.getGraphics( ) );
 
+		if ( !supportsTransparency( ) )
+		{
+			// Paint image white to avoid black background
+			_g2d.setPaint( Color.WHITE );
+			_g2d.fillRect( 0, 0, _img.getWidth( null ), _img.getHeight( null ) );
+		}
+		
 	}
 
 	/*
