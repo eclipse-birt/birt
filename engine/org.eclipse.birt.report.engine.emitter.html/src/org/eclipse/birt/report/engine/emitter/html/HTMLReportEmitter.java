@@ -1751,7 +1751,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			// implement vertical align.
 			writer.openTag( HTMLTags.TAG_TABLE );
-			writer.attribute( HTMLTags.ATTR_STYLE, " width:100%; height:100%;" );
+			StringBuffer nestingTableStyleBuffer = new StringBuffer( );
+			nestingTableStyleBuffer.append( " width:100%; height:" );
+			nestingTableStyleBuffer.append( height.toString( ) );
+			writer.attribute( HTMLTags.ATTR_STYLE, nestingTableStyleBuffer );
 			writer.openTag( HTMLTags.TAG_TR );
 			writer.openTag( HTMLTags.TAG_TD );
 
@@ -1892,7 +1895,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			{
 				// implement vertical align.
 				writer.openTag( HTMLTags.TAG_TABLE );
-				writer.attribute( HTMLTags.ATTR_STYLE, " width:100%; height:100%;" );
+				StringBuffer nestingTableStyleBuffer = new StringBuffer( );
+				nestingTableStyleBuffer.append( " width:100%; height:" );
+				nestingTableStyleBuffer.append( height.toString( ) );
+				writer.attribute( HTMLTags.ATTR_STYLE, nestingTableStyleBuffer );
 				writer.openTag( HTMLTags.TAG_TR );
 				writer.openTag( HTMLTags.TAG_TD );
 
