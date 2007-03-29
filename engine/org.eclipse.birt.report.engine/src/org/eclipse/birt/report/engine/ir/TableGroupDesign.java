@@ -21,7 +21,9 @@ public class TableGroupDesign extends GroupDesign
 	public TableGroupDesign( )
 	{
 		header = new TableBandDesign( );
+		header.setBandType( BandDesign.GROUP_HEADER );
 		footer = new TableBandDesign( );
+		footer.setBandType( BandDesign.GROUP_FOOTER );
 	}
 
 	public Object accept( IReportItemVisitor visitor, Object value )
