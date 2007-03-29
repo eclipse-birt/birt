@@ -29,16 +29,16 @@
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.birt.report.designer"
+         id="org.eclipse.birt.chart"
          version="0.0.0"/>
-
+         
    <includes
          id="org.eclipse.birt.report.runtime"
          version="0.0.0"/>
          
    <includes
-         id="org.eclipse.birt.chart"
-         version="0.0.0"/>
+         id="org.eclipse.birt.report.designer"
+         version="0.0.0"/>         
 
    <includes
          id="org.eclipse.birt.example"

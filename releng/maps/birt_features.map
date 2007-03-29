@@ -2,7 +2,7 @@
 feature@org.eclipse.birt.sdk=v20070227,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.sdk.feature
 plugin@org.eclipse.birt.sdk=v20070227,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.sdk
 
-feature@org.eclipse.birt=v20070322,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.feature
+feature@org.eclipse.birt=v20070329,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.feature
 plugin@org.eclipse.birt=v20070227,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt
 
 !*************** DOC ***********
