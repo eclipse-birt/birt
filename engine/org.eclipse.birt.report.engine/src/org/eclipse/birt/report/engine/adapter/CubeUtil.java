@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.adapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.olap.OLAPException;
@@ -35,18 +36,19 @@ public class CubeUtil
 	 * @return
 	 * @throws OLAPException
 	 */
-	public static String getPositionID( CubeCursor cursor ) throws OLAPException
+	public static String getPositionID( CubeCursor cursor )
+			throws OLAPException
 	{
-		String result = "";
+		StringBuffer result = new StringBuffer( );
 		List ordinateEdge = getAllEdges( cursor );
 
 		for ( int i = 0; i < ordinateEdge.size( ); i++ )
 		{
 			EdgeCursor edge = (EdgeCursor) ordinateEdge.get( i );
-			result += POSITION_DELIMITER + edge.getPosition( );
+			result.append( POSITION_DELIMITER );
+			result.append( edge.getPosition( ) );
 		}
-
-		return result;
+		return result.toString( );
 	}
 
 	/**
@@ -58,7 +60,8 @@ public class CubeUtil
 	 */
 	private static List getAllEdges( CubeCursor cursor ) throws OLAPException
 	{
-		List ordinateEdge = cursor.getOrdinateEdge( );
+		List ordinateEdge = new ArrayList();		
+		ordinateEdge.addAll( cursor.getOrdinateEdge( ));
 		ordinateEdge.addAll( cursor.getPageEdge( ) );
 		return ordinateEdge;
 	}
@@ -74,6 +77,10 @@ public class CubeUtil
 	{
 		if ( position == null || position.trim( ).length( ) == 0 )
 			return;
+		if (position.startsWith( "::" ))
+		{
+			position = position.substring( 2 );
+		}
 		String[] positions = position.split( "\\Q"+POSITION_DELIMITER+"\\E" );
 		List edges = getAllEdges( cursor );
 		

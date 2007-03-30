@@ -281,7 +281,7 @@ public class ReportQueryBuilder
 						Collection subQueries = pQuery.getSubqueries( );
 						if ( !subQueries.contains( query ) )
 						{
-						subQueries.add( query );
+							subQueries.add( query );
 						}
 						
 					}
@@ -342,12 +342,8 @@ public class ReportQueryBuilder
 			for ( int i = 0; i < container.getItemCount( ); i++ )
 				build( query, container.getItem( i ) );
 
-			finishVisit( container, query );			
-			if ( query != value )
-			{
-				return new IBaseQueryDefinition[]{ query };
-			}
-			return null;
+			finishVisit( container, query );
+			return getResultQuery( query, value );
 		}
 
 		/*
@@ -364,12 +360,8 @@ public class ReportQueryBuilder
 				build( query, grid.getRow( i ) );
 			}
 			
-			finishVisit( grid, query );			
-			if ( query != value )
-			{
-				return new IBaseQueryDefinition[]{ query };
-			}
-			return null;
+			finishVisit( grid, query );	
+			return getResultQuery( query, value );
 		}
 
 		/*
@@ -399,11 +391,7 @@ public class ReportQueryBuilder
 			}
 
 			finishVisit( image, query );
-			if ( query != value )
-			{
-				return new IBaseQueryDefinition[]{ query };
-			}
-			return null;
+			return getResultQuery( query, value );
 		}
 
 		/*
@@ -415,11 +403,7 @@ public class ReportQueryBuilder
 		{
 			BaseQueryDefinition query = createQuery( label, value );
 			finishVisit( label, query );
-			if ( query != value )
-			{
-				return new IBaseQueryDefinition[]{ query };
-			}
-			return null;
+			return getResultQuery( query, value );
 		}
 
 		/*
@@ -471,11 +455,7 @@ public class ReportQueryBuilder
 			}
 			BaseQueryDefinition query = createQuery( item, parentQuery );
 			finishVisit( item, query );
-			if ( query != value )
-			{
-				return new IBaseQueryDefinition[]{ query };
-			}
-			return null;
+			return getResultQuery( query, value );
 		}
 
 		/*
@@ -516,11 +496,7 @@ public class ReportQueryBuilder
 				
 			}
 			finishVisit( list, query );
-			if ( query != value )
-			{
-				return new IBaseQueryDefinition[]{ query };
-			}
-			return null;
+			return getResultQuery( query, value );
 		}
 
 		/*
@@ -545,11 +521,7 @@ public class ReportQueryBuilder
 			}
 
 			finishVisit( text, query );
-			if ( query != value )
-			{
-				return new IBaseQueryDefinition[]{ query };
-			}
-			return null;
+			return getResultQuery( query, value );
 		}
 
 		/*
@@ -606,7 +578,7 @@ public class ReportQueryBuilder
 				handleListingBand( table.getFooter( ), query, true, null );
 			}
 			finishVisit( table, query );
-			return new IBaseQueryDefinition[]{ query };
+			return getResultQuery( query, value );
 		}		
 
 		/*
@@ -621,11 +593,7 @@ public class ReportQueryBuilder
 			String newContent = transformExpression( dynamicText.getContent( ), query, null );
 			dynamicText.setContent( newContent );
 			finishVisit( dynamicText, query );
-			if ( query != value )
-			{
-				return new IBaseQueryDefinition[]{ query };
-			}
-			return null;
+			return getResultQuery( query, value );
 		}
 
 		/*
@@ -638,16 +606,24 @@ public class ReportQueryBuilder
 			BaseQueryDefinition query = createQuery( data, value );
 
 			finishVisit( data, query );
-			if ( query != value )
-			{
-				return new IBaseQueryDefinition[]{ query };
-			}
-			return null;
+			return getResultQuery( query, value );
 		}	
 		
 		/**
+		 * Set the onGroup to the query. Remove the added subQueries from the
+		 * subQueries of BaseQueryDefinition to GroupDefinition. This is because
+		 * DTE want to know subQueries is on group or detail. And the subQueries
+		 * in group must be added to the GroupDefinition, but their parents all
+		 * should be BaseQueryDefinition.
+		 * 
+		 * TODO: the relation may be too complex and the arithmetic also be too
+		 * ugly. Need to talk with DTE about the relations and change the
+		 * arithmetic be simple.
+		 * 
 		 * @param band
-		 *            the list band
+		 * @param query
+		 * @param onGroup
+		 * @param groupDefn
 		 */
 		public void handleListingBand( BandDesign band, IBaseQueryDefinition query, boolean onGroup, IGroupDefinition groupDefn )
 		{
@@ -660,6 +636,7 @@ public class ReportQueryBuilder
 					build( query, band.getContent( i ) );
 				}
 				ArrayList subQueriesChanged = (ArrayList)query.getSubqueries( );
+	
 				if ( subQueriesChanged != null )
 				{
 					for ( int i = 0; i < subQueriesChanged.size( ); i++ )
@@ -673,6 +650,7 @@ public class ReportQueryBuilder
 							{
 								subQueriesChanged.remove( subQuery );
 								groupDefn.getSubqueries( ).add( subQuery );
+								i--;
 							}
 						}
 					}
@@ -743,11 +721,7 @@ public class ReportQueryBuilder
 				build( query, cell );
 			}
 			finishVisit( row, query );
-			if ( query != value )
-			{
-				return new IBaseQueryDefinition[]{ query };
-			}
-			return null;
+			return getResultQuery( query, value );
 		}
 
 		/**
@@ -761,15 +735,19 @@ public class ReportQueryBuilder
 				build( query, cell.getContent( i ) );
 			}
 			finishVisit( cell, query );
-
-			if ( query != value )
+			return getResultQuery( query, value );
+		}
+		
+		private IBaseQueryDefinition[] getResultQuery(
+				IBaseQueryDefinition query, Object parent )
+		{
+			if ( query != null && query != parent )
 			{
-				return new IBaseQueryDefinition[]{ query };
+				return new IBaseQueryDefinition[]{query};
 			}
 			return null;
 		}
 		
-
 		protected void addColumBinding( IBaseQueryDefinition transfer,
 				ComputedColumnHandle binding )
 		{

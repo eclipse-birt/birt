@@ -24,8 +24,8 @@ public class DataID
 	/**
 	 * id of the row.
 	 */
-	protected long rowId;
-	
+	protected long rowId = -1;
+
 	protected String cellId;
 
 	/**
@@ -67,8 +67,8 @@ public class DataID
 	{
 		return rowId;
 	}
-	
-	public String getCellID()
+
+	public String getCellID( )
 	{
 		return cellId;
 	}
@@ -87,7 +87,14 @@ public class DataID
 			dataSet.append( buffer );
 		}
 		buffer.append( ":" );
-		buffer.append( rowId );
+		if ( rowId != -1 )
+		{
+			buffer.append( rowId );
+		}
+		else
+		{
+			buffer.append( cellId );
+		}
 	}
 
 	public String toString( )
@@ -112,9 +119,25 @@ public class DataID
 	static DataID parse( char[] buffer, int offset, int length )
 	{
 		int ptr = offset + length - 1;
-		while ( ptr >= offset && buffer[ptr] != ':' )
+
+		while ( ptr >= offset )
 		{
-			ptr--;
+			if ( buffer[ptr] != ':' )
+			{
+				ptr--;
+			}
+			else 
+			{
+				if ( ptr > offset && buffer[ptr - 1] == ':' ) 
+				{
+					ptr--;
+					ptr--;
+				}
+				else
+				{
+					break;
+				}
+			}
 		}
 		if ( ptr >= offset && buffer[ptr] == ':' )
 		{
@@ -135,7 +158,7 @@ public class DataID
 					}
 					catch ( Exception ex )
 					{
-						
+
 					}
 					return new DataID( dataSetId, strRowId );
 				}

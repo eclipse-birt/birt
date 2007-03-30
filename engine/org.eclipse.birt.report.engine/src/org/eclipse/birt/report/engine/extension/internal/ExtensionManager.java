@@ -24,7 +24,7 @@ import org.eclipse.birt.core.framework.IExtensionRegistry;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.engine.api.EmitterInfo;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
-import org.eclipse.birt.report.engine.executor.ExtendedItemGenerationExecutor;
+import org.eclipse.birt.report.engine.executor.ExtendedGenerateExecutor;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.extension.IReportItemGeneration;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
@@ -139,7 +139,7 @@ public class ExtensionManager
 			}
 			else if (object instanceof IReportItemGeneration)
 			{
-				return new ExtendedItemGenerationExecutor( (IReportItemGeneration)object);
+				return new ExtendedGenerateExecutor( (IReportItemGeneration)object);
 			}
 		}
 		return null;

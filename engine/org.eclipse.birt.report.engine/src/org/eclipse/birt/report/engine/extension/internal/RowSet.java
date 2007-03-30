@@ -25,25 +25,13 @@ import org.eclipse.birt.report.engine.extension.IRowSet;
  */
 public class RowSet implements IRowSet
 {
-
 	protected IQueryResultSet rset;
 	protected IRowMetaData metaData;
-	protected boolean closed;
-	private boolean isOutterResultSet;
-	private boolean isFirstRecord = true;
 	protected ExecutionContext context;
 
 	public RowSet( ExecutionContext context, IQueryResultSet rset )
 	{
-		this( context, rset, false );
-	}
-
-	public RowSet( ExecutionContext context, IQueryResultSet rset,
-			boolean isOutterResultSet )
-	{
 		this.context = context;
-		this.isOutterResultSet = isOutterResultSet;
-		closed = false;
 		this.rset = rset;
 		metaData = new IRowMetaData( ) {
 
@@ -94,15 +82,6 @@ public class RowSet implements IRowSet
 	{
 		if ( rset != null )
 		{
-			if ( isFirstRecord )
-			{
-				isFirstRecord = false;
-				if ( isOutterResultSet )
-				{
-					return true;
-				}
-			}
-
 			try
 			{
 				return rset.next( );
@@ -203,23 +182,7 @@ public class RowSet implements IRowSet
 
 	public void close( )
 	{
-		if ( closed )
-		{
-			return;
-		}
-		// If the result set is from extended item, it should be closed outside.
-		if ( isOutterResultSet )
-		{
-			return;
-		}
-		if ( closed == false )
-		{
-			closed = true;
-			if ( rset != null )
-			{
-				rset.close( );
-			}
-		}
+		return;
 	}
 
 	public boolean isEmpty( ) throws BirtException
@@ -230,5 +193,4 @@ public class RowSet implements IRowSet
 		}
 		return rset.isEmpty( );
 	}
-
 }

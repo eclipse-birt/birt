@@ -257,7 +257,7 @@ public abstract class AbstractReportReader implements IReportExecutor
 			DataID dataId = iid.getDataID( );
 			if ( dataId != null )
 			{
-				if ( rset != null  )
+				if ( rset != null )
 				{
 					if ( rset.getType( ) == IBaseResultSet.QUERY_RESULTSET )
 					{
@@ -360,7 +360,7 @@ public abstract class AbstractReportReader implements IReportExecutor
 					if ( bindingColumn != null )
 					{
 						IBaseResultSet rset = context.getResultSet( );
-						if ( rset != null )
+						if ( rset instanceof IQueryResultSet )
 						{
 							try
 							{
@@ -371,6 +371,20 @@ public abstract class AbstractReportReader implements IReportExecutor
 							catch ( BirtException ex )
 							{
 								context.addException( ex );
+							}
+						}
+						else
+							if (rset instanceof ICubeResultSet)
+						{
+							try
+							{
+								Object dataValue = ( (ICubeResultSet) rset )
+										.getCubeCursor( ).getObject( bindingColumn );
+								data.setValue( dataValue );
+							}
+							catch ( Exception ex )
+							{
+								//context.addException( ex );
 							}
 						}
 					}

@@ -51,7 +51,7 @@ public class EngintTaskLoggerTest extends EngineCase
 
 		handler.close( );
 		System.out.println( out.toString( ) );
-		assertTrue( out.toString( ).contains( "==golden values==" ) );
+		assertTrue( out.toString( ).indexOf( "==golden values==" ) != -1 );
 
 	}
 }

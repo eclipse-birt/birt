@@ -22,6 +22,7 @@ import java.util.logging.Level;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
@@ -256,14 +257,28 @@ public class DataPresentationEngine extends AbstractDataEngine
 		try
 		{
 			String resultSetID = loadResultSetID( parentResult, queryID );
-			
+			IBaseQueryResults queryResults = null;
 			if ( resultSetID == null )
 			{
-				logger.log( Level.SEVERE, "Can't load the report query" );
-				return null;
-			}
+				IBasePreparedQuery pQuery = dteSession.prepare( query, context
+						.getAppContext( ) );
+				if ( parentResult != null )
+				{
+					queryResults = dteSession.execute( pQuery, parentResult
+							.getQueryResults( ), context.getSharedScope( ) );
+				}
+				else
+				{
+					queryResults = dteSession.execute( pQuery, null, context
+							.getSharedScope( ) );
+				}
 
-			IBaseQueryResults queryResults = dteSession.getQueryResults( resultSetID );
+			}
+			else
+			{
+				queryResults = dteSession.getQueryResults( resultSetID );
+			}
+			
 			CubeResultSet resultSet = null;
 			if ( parentResult == null )
 			{

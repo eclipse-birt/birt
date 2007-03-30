@@ -171,16 +171,30 @@ public class ExecutorManager
 		}
 	}
 
-	public ReportItemExecutor createExecutor(IReportItemExecutor parent, ReportItemDesign design )
+	public ReportItemExecutor createExecutor( IReportItemExecutor parent,
+			ReportItemDesign design )
 	{
 		ReportItemExecutor executor = executorFactory.createExecutor( design );
-		if (executor != null)
+		if ( executor != null )
 		{
 			executor.setContext( executorContext );
 			executor.setParent( parent );
 			executor.setDesign( design );
 		}
 		return executor;
+	}
+	
+	public ReportItemExecutor createExecutor( IReportItemExecutor parent,
+			IReportItemExecutor executor )
+	{
+		ExtendedItemExecutor wrapper = (ExtendedItemExecutor) getItemExecutor( EXTENDEDITEM );
+		if ( wrapper != null )
+		{
+			wrapper.setContext( executorContext );
+			wrapper.setParent( parent );
+			wrapper.executor = executor;
+		}
+		return wrapper;
 	}
 
 	/**
