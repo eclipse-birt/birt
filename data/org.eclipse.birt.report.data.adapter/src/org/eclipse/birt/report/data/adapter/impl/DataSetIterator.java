@@ -195,7 +195,8 @@ public class DataSetIterator implements IDatasetIterator
 			MeasureHandle measure, String function )
 	{
 		ScriptExpression se = null;
-		if ( function.equals( "sum" ) )
+		
+		if ( function == null || function.equals( "sum" ) )
 		{
 			se = new ScriptExpression( "Total.sum("
 					+ measure.getMeasureExpression( ) + ",null,"
