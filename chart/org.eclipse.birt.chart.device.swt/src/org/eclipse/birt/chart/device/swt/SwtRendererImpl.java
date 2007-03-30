@@ -1162,7 +1162,7 @@ public class SwtRendererImpl extends DeviceAdapter
 	{
 		if ( _iun == null )
 		{
-			logger.log( ILogger.WARNING,
+			logger.log( ILogger.INFORMATION,
 					Messages.getString( "SwtRendererImpl.exception.missing.component.interaction", getULocale( ) ) ); //$NON-NLS-1$
 			return;
 		}

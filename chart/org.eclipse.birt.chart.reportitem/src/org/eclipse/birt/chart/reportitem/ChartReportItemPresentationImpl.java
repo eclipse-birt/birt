@@ -375,14 +375,11 @@ public final class ChartReportItemPresentationImpl extends
 	public Object onRowSets( IRowSet[] irsa ) throws BirtException
 	{
 		// BIND RESULTSET TO CHART DATASETS
-		if ( irsa == null || irsa.length != 1 || irsa[0] == null )
+		if ( irsa == null || irsa.length < 1 || irsa[0] == null || irsa[0].isEmpty( ) )
 		{
-			// if the Data rows are null/empty, just log the error and returns
+			// if the Data rows are null/empty, just log it and returns
 			// null gracefully.
-			logger.log( new ChartException( ChartReportItemPlugin.ID,
-					ChartException.GENERATION,
-					"ChartReportItemPresentationImpl.error.NoData", //$NON-NLS-1$
-					Messages.getResourceBundle( rtc.getULocale( ) ) ) );
+			logger.log( ILogger.INFORMATION,Messages.getString( "ChartReportItemPresentationImpl.error.NoData" ) ) ;
 			return null;
 		}
 
