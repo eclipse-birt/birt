@@ -38,6 +38,16 @@ public class FontInfo
 		this.lineWidth = fontSize/20f;
 		this.simulation = simulation;
 	}
+
+	public FontInfo( FontInfo fontInfo )
+	{
+		this.bf = fontInfo.bf;
+		this.fontSize = fontInfo.fontSize;
+		this.fontStyle = fontInfo.fontStyle;
+		this.fontPadding = fontInfo.fontSize/5f;
+		this.lineWidth = fontInfo.fontSize/20f;
+		this.simulation = fontInfo.simulation;
+	}
 	
 	public void setBaseFont(BaseFont bf)
 	{
