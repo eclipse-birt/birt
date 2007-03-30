@@ -23,6 +23,8 @@ import org.eclipse.core.runtime.Status;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * The main plugin class for embedded viewer web application.
  * <p>
@@ -86,6 +88,7 @@ public class ViewerPlugin extends Plugin
 		bundleContext = context;
 		plugin.getPluginPreferences( ).setDefault( WebViewer.MASTER_PAGE_CONTENT, true );
 		plugin.getPluginPreferences( ).setDefault( WebViewer.PREVIEW_MAXROW, DEFAULT_MAX_ROWS );
+		plugin.getPluginPreferences( ).setDefault( WebViewer.USER_LOCALE, ULocale.getDefault( ).getDisplayName( ) );
 	}
 
 	/**
