@@ -85,14 +85,18 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	 */
 	__okPress : function( )
 	{
+		var flag = false;
 		if( this.__enable )
 		{
 			this.__collectPrinter( );
-			this.__printAction( );			
+			flag = this.__printAction( );			
 		}
 		
 		this.__l_hide( );
-		birtConfirmationDialog.__cb_bind( );
+		if( this.__enable && flag )
+		{
+			birtConfirmationDialog.__cb_bind( );
+		}
 	},
 	
 	/**
@@ -155,18 +159,18 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	/**
 	 * Handle print report action
 	 * 
-	 * @return, void
+	 * @return, true or false
 	 */
 	__printAction : function( )
 	{	
 		if( !this.__printer )
-			return;
+			return false;
 				
 		var docObj = document.getElementById( "Document" );
 		if ( !docObj || birtUtility.trim( docObj.innerHTML ).length <= 0)
 		{
 			alert ( "Report document should be generated first." );	
-			return;
+			return false;
 		}	
 		else
 		{	
@@ -291,7 +295,9 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			formObj.method = "post";
 			formObj.target = "birt_confirmation_iframe";			
 			formObj.submit( );
-		}		
+		}
+		
+		return true;		
 	},
 	
 	/**

@@ -70,21 +70,18 @@
 					   		TITLE="<%= BirtResources.getMessage( "birt.viewer.toolbar.export" )%>"
 					   		ALT="<%= BirtResources.getMessage( "birt.viewer.toolbar.export" )%>" CLASS="birtviewer_clickable">
 					</TD>
-					<!--
 					<TD WIDTH="6px"/>
 					<TD WIDTH="15px">
 					   <INPUT TYPE="image" NAME='exportReport' SRC="birt/images/ExportReport.gif"
 					   		TITLE="<%= BirtResources.getMessage( "birt.viewer.toolbar.exportreport" )%>"
 					   		ALT="<%= BirtResources.getMessage( "birt.viewer.toolbar.exportreport" )%>" CLASS="birtviewer_clickable">
 					</TD>
-					-->
 					<TD WIDTH="6px"/>
 					<TD WIDTH="15px">
 					   <INPUT TYPE="image" NAME='print' SRC="birt/images/Print.gif"
 					   		TITLE="<%= BirtResources.getMessage( "birt.viewer.toolbar.print" )%>"
 					   		ALT="<%= BirtResources.getMessage( "birt.viewer.toolbar.print" )%>" CLASS="birtviewer_clickable">
 					</TD>
-					<!--
 					<%
 					if( ParameterAccessor.isSupportedPrintOnServer )
 					{
@@ -97,8 +94,7 @@
 					</TD>
 					<%
 					}
-					%>
-					-->										
+					%>										
 					<TD ALIGN='right'>
 					<%
 					if ( !ViewerServlet.isOpenSource( ) )
