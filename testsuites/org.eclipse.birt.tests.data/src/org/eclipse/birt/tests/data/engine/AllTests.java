@@ -121,15 +121,11 @@ import org.eclipse.birt.tests.data.engine.regression.flatfile.Regression_152210;
 import org.eclipse.birt.tests.data.engine.regression.flatfile.Regression_155376;
 import org.eclipse.birt.tests.data.engine.regression.flatfile.Regression_160807;
 import org.eclipse.birt.tests.data.engine.regression.xml.Regression_117447;
-import org.eclipse.birt.tests.data.engine.regression.xml.Regression_119127;
 import org.eclipse.birt.tests.data.engine.regression.xml.Regression_119999;
 import org.eclipse.birt.tests.data.engine.regression.xml.Regression_120036;
 import org.eclipse.birt.tests.data.engine.regression.xml.Regression_123157;
-import org.eclipse.birt.tests.data.engine.regression.xml.Regression_144931;
-import org.eclipse.birt.tests.data.engine.regression.xml.Regression_146769;
 import org.eclipse.birt.tests.data.engine.regression.xml.Regression_147809;
 import org.eclipse.birt.tests.data.engine.regression.xml.Regression_153658;
-import org.eclipse.birt.tests.data.engine.regression.xml.Regression_154423;
 import org.eclipse.birt.tests.data.engine.smoke.DsGroupTest;
 import org.eclipse.birt.tests.data.engine.smoke.DsParameterTest;
 import org.eclipse.birt.tests.data.engine.smoke.DsSortTest;
@@ -268,13 +264,12 @@ public class AllTests
 		 suite.addTestSuite( Regression_119999.class );
 		 suite.addTestSuite( Regression_123157.class );
 		 suite.addTestSuite( Regression_117447.class );
-		 suite.addTestSuite( Regression_119127.class );
+		
 		 suite.addTestSuite( Regression_120036.class );
-		 suite.addTestSuite( Regression_146769.class );
-		 suite.addTestSuite( Regression_144931.class );
+		
+		
 		 suite.addTestSuite( Regression_153658.class );
 		 suite.addTestSuite( Regression_147809.class );
-		 suite.addTestSuite( Regression_154423.class );
 		
 		 // flat file package
 		 suite.addTestSuite( Regression_160807.class );
