@@ -74,7 +74,7 @@ public class AggregationExecutor
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	public IAggregationResultSet[] excute( StopSign stopSign )
+	public IAggregationResultSet[] execute( StopSign stopSign )
 			throws IOException, BirtException
 	{
 		populateSortedFactRows( stopSign );

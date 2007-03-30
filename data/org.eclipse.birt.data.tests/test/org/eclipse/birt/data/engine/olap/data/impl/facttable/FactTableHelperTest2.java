@@ -509,7 +509,7 @@ public class FactTableHelperTest2 extends TestCase
 				new AggregationExecutor( dimesionResultSets,
 						facttableRowIterator,
 						aggregations );
-		IAggregationResultSet[] resultSet = aggregationCalculatorExecutor.excute( new StopSign( ) );
+		IAggregationResultSet[] resultSet = aggregationCalculatorExecutor.execute( new StopSign( ) );
 		assertEquals( resultSet[0].length( ), 2 );
 		assertEquals( resultSet[0].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
 		assertEquals( resultSet[0].getLevelIndex( "level21" ), 0 );
@@ -650,7 +650,7 @@ public class FactTableHelperTest2 extends TestCase
 		levelNamesForFilter[0] = "level31";
 		aggregations[1] = new AggregationDefinition( levelNamesForFilter, sortType, funcitons );
 		
-		IAggregationResultSet[] resultSet = cubeQueryExcutorHelper.excute( aggregations,
+		IAggregationResultSet[] resultSet = cubeQueryExcutorHelper.execute( aggregations,
 				new StopSign( ) );
 		assertEquals( resultSet[0].length( ), 2 );
 		assertEquals( resultSet[0].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
@@ -798,7 +798,7 @@ public class FactTableHelperTest2 extends TestCase
 		levelNamesForFilter[0] = "level31";
 		aggregations[1] = new AggregationDefinition( levelNamesForFilter, sortType, funcitons );
 		
-		IAggregationResultSet[] resultSet = cubeQueryExcutorHelper.excute( aggregations,
+		IAggregationResultSet[] resultSet = cubeQueryExcutorHelper.execute( aggregations,
 				new StopSign( ) );
 		assertEquals( resultSet[0].length( ), 2 );
 		assertEquals( resultSet[0].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );

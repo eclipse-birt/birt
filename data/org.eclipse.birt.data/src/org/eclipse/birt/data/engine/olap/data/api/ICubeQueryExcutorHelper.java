@@ -53,7 +53,7 @@ public interface ICubeQueryExcutorHelper
 	 * @throws BirtOlapException 
 	 * @throws BirtException 
 	 */
-	public IAggregationResultSet[] excute( AggregationDefinition[] aggregation,
+	public IAggregationResultSet[] execute( AggregationDefinition[] aggregation,
 			StopSign stopSign ) throws DataException, IOException, BirtException;
 	
 	/**

@@ -54,7 +54,7 @@ public class QueryExecutor
 		ICube cube = loadCube( executor );
 		AggregationDefinition[] aggrDefns = prepareCube( cube, executor.getCubeQueryDefinition( ) );
 		CubeQueryExcutorHelper cubeQueryExcutorHelper = new CubeQueryExcutorHelper( cube );
-		IAggregationResultSet[] rs = cubeQueryExcutorHelper.excute( aggrDefns,
+		IAggregationResultSet[] rs = cubeQueryExcutorHelper.execute( aggrDefns,
 				new StopSign( ) );
 		return new CubeResultSet( rs, view , manager );
 	}

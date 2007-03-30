@@ -47,6 +47,15 @@ public class DocumentObjectUtil
 	 */
 	public static void writeValue( IDocumentObject documentObject, int dataType, Object value ) throws IOException
 	{
+		if (value == null) 
+		{
+			documentObject.writeByte(0);
+			return;
+		} 
+		else 
+		{
+			documentObject.writeByte(1);
+		}
 		switch ( dataType )
 		{
 			case DataType.BOOLEAN_TYPE :
@@ -101,6 +110,11 @@ public class DocumentObjectUtil
 	 */
 	public static Object readValue( IDocumentObject documentObject, int dataType ) throws IOException
 	{
+		byte nullSign = documentObject.readByte( );
+		if( nullSign == 0 )
+		{
+			return null;
+		}
 		switch ( dataType )
 		{
 			case DataType.BOOLEAN_TYPE :

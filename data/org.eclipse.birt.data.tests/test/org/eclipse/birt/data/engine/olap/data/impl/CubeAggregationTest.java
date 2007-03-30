@@ -230,7 +230,7 @@ public class CubeAggregationTest extends TestCase
 		
 		aggregations[3] = new AggregationDefinition( levelNamesForFilter, sortType, null );
 		
-		IAggregationResultSet[] resultSet = cubeQueryExcutorHelper.excute( aggregations,
+		IAggregationResultSet[] resultSet = cubeQueryExcutorHelper.execute( aggregations,
 				new StopSign( ) );
 		//result set for aggregation 0
 		assertEquals( resultSet[0].length( ), 2 );
@@ -404,7 +404,7 @@ public class CubeAggregationTest extends TestCase
 		funcitons[0] = new AggregationFunctionDefinition( "measure1", BuiltInAggregationFactory.TOTAL_SUM_FUNC );
 		aggregations[3] = new AggregationDefinition( levelNamesForFilter, sortType, funcitons );
 		
-		IAggregationResultSet[] resultSet = cubeQueryExcutorHelper.excute( aggregations,
+		IAggregationResultSet[] resultSet = cubeQueryExcutorHelper.execute( aggregations,
 				new StopSign( ) );
 		//result set for aggregation 0
 		assertEquals( resultSet[0].length( ), 2 );

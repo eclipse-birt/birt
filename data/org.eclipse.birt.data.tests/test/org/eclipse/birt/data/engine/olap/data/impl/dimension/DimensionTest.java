@@ -102,16 +102,16 @@ public class DimensionTest extends TestCase
 			assertEquals( levelMember.keyValues[0],
 					new Integer( OneLevelDataset.IDCol[i] ) );
 			assertEquals( levelMember.attributes[0], OneLevelDataset.NameCol[i] );
-			assertEquals( levelMember.keyValues[0],
-					new Integer( OneLevelDataset.AgeCol[i] ) );
+			assertEquals( levelMember.attributes[1],
+					OneLevelDataset.AgeCol[i] );
 
 			levelMember = realDimension.getDimensionRowByOffset(
 					indexKey.offset ).members[0];
 			assertEquals( levelMember.keyValues[0],
 					new Integer( OneLevelDataset.IDCol[i] ) );
 			assertEquals( levelMember.attributes[0], OneLevelDataset.NameCol[i] );
-			assertEquals( levelMember.keyValues[0],
-					new Integer( OneLevelDataset.AgeCol[i] ) );
+			assertEquals( levelMember.attributes[1],
+					OneLevelDataset.AgeCol[i] );
 		}
 		
 	}
@@ -142,7 +142,7 @@ public class DimensionTest extends TestCase
 					new Integer( OneLevelDataset.IDCol[i] ) );
 			assertEquals( levelMember.attributes[0], OneLevelDataset.NameCol[i] );
 			assertEquals( levelMember.attributes[1],
-					new Integer( OneLevelDataset.AgeCol[i] ) );
+					OneLevelDataset.AgeCol[i] );
 
 			levelMember = realDimension.getDimensionRowByOffset(
 					indexKey.offset ).members[0];
@@ -150,7 +150,7 @@ public class DimensionTest extends TestCase
 					new Integer( OneLevelDataset.IDCol[i] ) );
 			assertEquals( levelMember.attributes[0], OneLevelDataset.NameCol[i] );
 			assertEquals( levelMember.attributes[1],
-					new Integer( OneLevelDataset.AgeCol[i] ) );
+					OneLevelDataset.AgeCol[i] );
 
 		}
 	}
@@ -1106,8 +1106,11 @@ class OneLevelDataset implements IDatasetIterator
 			"name14",
 			"name17"
 	};
-	static int[] AgeCol = {
-			1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 17
+	static Integer[] AgeCol = {
+			null, new Integer(2), new Integer(3), new Integer(4)
+			, new Integer(5), new Integer(6), new Integer(7), new Integer(8)
+			, new Integer(9), new Integer(10), new Integer(11), new Integer(12)
+			, new Integer(14), new Integer(17)
 	};
 
 	static int[] ClassCol = {
@@ -1204,7 +1207,7 @@ class OneLevelDataset implements IDatasetIterator
 		}
 		else if ( fieldIndex == 2 )
 		{
-			return new Integer( AgeCol[ptr] );
+			return AgeCol[ptr];
 		}
 		else if ( fieldIndex == 3 )
 		{
