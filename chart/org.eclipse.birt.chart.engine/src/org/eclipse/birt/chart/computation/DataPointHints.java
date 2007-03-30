@@ -42,7 +42,7 @@ public final class DataPointHints
 	private Object oBaseValue;
 
 	private Object oOrthogonalValue;
-	
+
 	private Double oStackedOrthogonalValue;
 
 	private Object oSeriesValue;
@@ -58,7 +58,7 @@ public final class DataPointHints
 	private final double[] dSize;
 
 	private final DataPoint dp;
-	
+
 	private boolean bOutside = false;
 
 	private final FormatSpecifier fsBase, fsOrthogonal, fsSeries, fsPercentile;
@@ -68,17 +68,28 @@ public final class DataPointHints
 	/**
 	 * DataPointHints constructor.
 	 * 
-	 * @param _oBaseValue Category data
-	 * @param _oOrthogonalValue Value data
-	 * @param _sSeriesValue Value Series Name
-	 * @param _dp DataPoint for combined value retrieval
-	 * @param _fsBase Category Format Specifier
-	 * @param _fsOrthogonal Value Format Specifier
-	 * @param _fsSeries Value Series Name Format Specifier
-	 * @param _idx Category Series index
-	 * @param _lo Location
-	 * @param _dSize Size
-	 * @param _rtc Runtime Context
+	 * @param _oBaseValue
+	 *            Category data
+	 * @param _oOrthogonalValue
+	 *            Value data
+	 * @param _sSeriesValue
+	 *            Value Series Name
+	 * @param _dp
+	 *            DataPoint for combined value retrieval
+	 * @param _fsBase
+	 *            Category Format Specifier
+	 * @param _fsOrthogonal
+	 *            Value Format Specifier
+	 * @param _fsSeries
+	 *            Value Series Name Format Specifier
+	 * @param _idx
+	 *            Category Series index
+	 * @param _lo
+	 *            Location
+	 * @param _dSize
+	 *            Size
+	 * @param _rtc
+	 *            Runtime Context
 	 * 
 	 */
 	public DataPointHints( Object _oBaseValue, Object _oOrthogonalValue,
@@ -118,7 +129,8 @@ public final class DataPointHints
 	 * @param _fsBase
 	 * @param _fsOrthogonal
 	 * @param _fsSeries
-	 * @param _idx base Series index
+	 * @param _idx
+	 *            base Series index
 	 * @param _lo
 	 * @param _dSize
 	 * @param _rtc
@@ -310,7 +322,7 @@ public final class DataPointHints
 	{
 		return oOrthogonalValue;
 	}
-	
+
 	/**
 	 * Returns the stacked orthogonal value.
 	 * 
@@ -325,7 +337,7 @@ public final class DataPointHints
 	{
 		this.oStackedOrthogonalValue = stackOrthogonalValue;
 	}
-	
+
 	/**
 	 * Sets current data point is outside of plot area.
 	 * 
@@ -626,19 +638,19 @@ public final class DataPointHints
 	public final String getDisplayValue( )
 	{
 		final StringBuffer sb = new StringBuffer( );
-		
+
 		if ( dp == null )
 		{
 			// Show orthogonal value by default.
-			sb.append( getOrthogonalDisplayValue() );
+			sb.append( getOrthogonalDisplayValue( ) );
 		}
-		else 
+		else
 		{
-			final EList el = dp.getComponents();	
+			final EList el = dp.getComponents( );
 
-			if ( dp.getPrefix() != null )
+			if ( dp.getPrefix( ) != null )
 			{
-				sb.append( dp.getPrefix() );
+				sb.append( dp.getPrefix( ) );
 			}
 			DataPointComponent dpc;
 			DataPointComponentType dpct;
@@ -669,7 +681,7 @@ public final class DataPointHints
 								rtc.getULocale( ) );
 						if ( str == null )
 						{
-							// Skip it if specific datapoint display is not 
+							// Skip it if specific datapoint display is not
 							// for current series
 							continue;
 						}
@@ -684,14 +696,14 @@ public final class DataPointHints
 				{
 					sb.append( getPercentileOrthogonalDisplayValue( ) );
 				}
-				if ( i < el.size() - 1 )
+				if ( i < el.size( ) - 1 )
 				{
-					sb.append( dp.getSeparator() );
+					sb.append( dp.getSeparator( ) );
 				}
-			}	
-			if ( dp.getSuffix() != null )
+			}
+			if ( dp.getSuffix( ) != null )
 			{
-				sb.append( dp.getSuffix() );
+				sb.append( dp.getSuffix( ) );
 			}
 		}
 		return sb.toString( );
@@ -709,5 +721,16 @@ public final class DataPointHints
 						this, getDisplayValue( )
 				},
 				rtc.getULocale( ) );
+	}
+
+	/**
+	 * Sets the base value.
+	 * 
+	 * @param newBaseValue
+	 *            the new base value
+	 */
+	public final void setBaseValue( Object newBaseValue )
+	{
+		oBaseValue = newBaseValue;
 	}
 }
