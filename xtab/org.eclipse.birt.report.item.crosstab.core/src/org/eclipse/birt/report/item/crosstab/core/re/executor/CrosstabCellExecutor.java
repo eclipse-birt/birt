@@ -17,6 +17,8 @@ import java.util.logging.Logger;
 
 import javax.olap.OLAPException;
 
+import org.eclipse.birt.report.engine.api.DataID;
+import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
@@ -82,6 +84,29 @@ public class CrosstabCellExecutor extends BaseCrosstabExecutor
 		processAction( cellHandle );
 
 		currentChild = 0;
+		
+		if ( position != -1 )
+		{
+			try
+			{
+				getColumnEdgeCursor( ).setPosition( position );
+			}
+			catch ( OLAPException e )
+			{
+				logger
+						.log(
+								Level.SEVERE,
+								Messages
+										.getString( "CrosstabCellExecutor.error.restor.data.position" ), //$NON-NLS-1$
+								e );
+			}
+		}
+		DataID di = new DataID( getCubeResultSet( ).getID( ),
+				getCubeResultSet( ).getCellIndex( ) );
+
+		InstanceID iid = new InstanceID( null, -1, di );
+		
+		content.setInstanceID(iid);
 
 		return content;
 	}
