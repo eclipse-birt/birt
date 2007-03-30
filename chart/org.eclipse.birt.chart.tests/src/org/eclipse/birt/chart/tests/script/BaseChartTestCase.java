@@ -40,7 +40,7 @@ public abstract class BaseChartTestCase extends TestCase
 	protected void setUp( ) throws Exception
 	{
 		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		URL url = getClass( ).getResource( REPORT_PATH );
+		URL url = BaseChartTestCase.class.getResource( REPORT_PATH );
 		if ( url != null )
 		{
 			design = engine.openDesign( url.getFile( ), url.openStream( ), null );
