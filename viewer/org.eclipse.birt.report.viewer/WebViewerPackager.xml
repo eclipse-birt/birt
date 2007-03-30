@@ -492,7 +492,6 @@
 			<include name="org.eclipse.birt.report.model.adapter.oda_*.jar" />
 			<!-- crosstab plugins-->
 			<include name="org.eclipse.birt.report.item.crosstab.core_*.jar"/>
-			<include name="org.eclipse.birt.report.item.crosstab.ui_*.jar"/>
 		</fileset>
 	</copy>
 
