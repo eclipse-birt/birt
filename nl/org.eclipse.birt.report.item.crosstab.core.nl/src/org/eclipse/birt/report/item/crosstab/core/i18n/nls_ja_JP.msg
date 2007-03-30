@@ -1,20 +1,20 @@
 ###########################################################
 # Crosstab name conventions
 Element.Crosstab=クロスタブ
-Element.CrosstabCell=Crosstab Cell
-Element.CrosstabAggregationCell=Crosstab Aggregation Cell
-Element.AggregationOnRow=Aggregation On Row
-Element.AggregationOnColumn=Aggregation On Column
-Element.MeasureView=Measure View
-Element.LevelView=Level View
-Element.DimensionView=Dimension View
-Element.CrosstabView=Crosstab View
-Element.Cube=Cube
-Element.Caption=Caption
-Element.CaptionID=Caption Key
-Element.MeasureDirection=Measure Direction
-Element.PageLayout=Page Layout
-Element.EmptyCellValue=Empty Cell Value
+Element.CrosstabCell=クロスタブセル
+Element.CrosstabAggregationCell=クロスタブ総計セル
+Element.AggregationOnRow=行ごとの総計
+Element.AggregationOnColumn=列ごとの総計
+Element.MeasureView=計測ビュー
+Element.LevelView=レベルビュー
+Element.DimensionView=次元ビュー
+Element.CrosstabView=クロスタブビュー
+Element.Cube=キューブ
+Element.Caption=キャプション
+Element.CaptionID=キャプションキー
+Element.MeasureDirection=計測の方向
+Element.PageLayout=ページ配置
+Element.EmptyCellValue=空のセル値
 
 ###########################################################
 # Crosstab exception
@@ -24,41 +24,41 @@ Error.CrosstabException.DUPLICATE_LEVEL=
 
 ###########################################################
 # Crosstab executor runtime error message
-CrosstabReportItemQuery.error.crosstab.loading=Loading crosstab item from extended item failed.
-CrosstabReportItemQuery.error.query.building=Invalid crosstab model for query building.
+CrosstabReportItemQuery.error.crosstab.loading=拡張項目からクロスタブ項目を読み込めませんでした。
+CrosstabReportItemQuery.error.query.building=クエリ構築のクロスタブモデルが無効です。
 
-BaseCrosstabExecutor.error.process.visibility=Error happend when processing visibility.
-BaseCrosstabExecutor.error.process.bookmark=Error happend when processing bookmark.
+BaseCrosstabExecutor.error.process.visibility=可視性の処理中にエラーが発生しました。
+BaseCrosstabExecutor.error.process.bookmark=ブックマークの処理中にエラーが発生しました。
 
-CrosstabCellExecutor.error.restor.data.position=Eroor happend when restore data position.
+CrosstabCellExecutor.error.restor.data.position=データの位置の復元中にエラーが発生しました。
 
-CrosstabGrandTotalRowExecutor.error.generate.child.executor=Error happend when generate child executor.
-CrosstabGrandTotalRowExecutor.error.check.child.executor=Error happend when check status of child executor.
+CrosstabGrandTotalRowExecutor.error.generate.child.executor=子の実行ファイルの生成中にエラーが発生しました。
+CrosstabGrandTotalRowExecutor.error.check.child.executor=子の実行ファイルのステータスを確認中にエラーが発生しました。
 
-CrosstabGroupExecutor.error.close.executor=Error happend when close group executor.
-CrosstabGroupExecutor.error.prepare.group=Error happend when prepare child groups.
-CrosstabGroupExecutor.error.check.child.executor=Error happend when check status of child executor.
+CrosstabGroupExecutor.error.close.executor=グループの実行ファイルを閉じるときにエラーが発生しました。
+CrosstabGroupExecutor.error.prepare.group=子グループの準備中にエラーが発生しました。
+CrosstabGroupExecutor.error.check.child.executor=子の実行ファイルのステータスを確認中にエラーが発生しました。
 
-CrosstabHeaderRowExecutor.error.check.force.empty=Error happend when check force empty status of current cell.
-CrosstabHeaderRowExecutor.error.check.edge.end=Error happend when check edge end status of current cell.
-CrosstabHeaderRowExecutor.error.retrieve.child.executor=Error happend when retrieve child executor.
+CrosstabHeaderRowExecutor.error.check.force.empty=現在のセルの強制空ステータスの確認中にエラーが発生しました。
+CrosstabHeaderRowExecutor.error.check.edge.end=現在のセルのエッジ終了のステータスの確認中にエラーが発生しました。
+CrosstabHeaderRowExecutor.error.retrieve.child.executor=子の実行ファイルの取得中にエラーが発生しました。
 
-CrosstabMeasureHeaderRowExecutor.error.generate.child.executor=Error happend when generate child executor.
-CrosstabMeasureHeaderRowExecutor.error.check.child.executor=Error happend when check status of child executor.
+CrosstabMeasureHeaderRowExecutor.error.generate.child.executor=子の実行ファイルの生成中にエラーが発生しました。
+CrosstabMeasureHeaderRowExecutor.error.check.child.executor=子の実行ファイルのステータスを確認中にエラーが発生しました。
 
-CrosstabMeasureRowExecutor.error.generate.child.executor=Error happend when generate child executor.
-CrosstabMeasureRowExecutor.error.check.child.executor=Error happend when check status of child executor.
+CrosstabMeasureRowExecutor.error.generate.child.executor=子の実行ファイルの生成中にエラーが発生しました。
+CrosstabMeasureRowExecutor.error.check.child.executor=子の実行ファイルのステータスを確認中にエラーが発生しました。
 
-CrosstabReportItemExecutor.error.crosstab.loading=Loading crosstab item from extended item failed.
+CrosstabReportItemExecutor.error.crosstab.loading=拡張項目からクロスタブ項目を読み込めませんでした。
 CrosstabReportItemExecutor.error.generate.columns=
 CrosstabReportItemExecutor.error.prepare.children=
 
-CrosstabRowExecutor.error.check.force.empty=Error happend when check force empty status of current cell.
-CrosstabRowExecutor.error.check.edge.start=Error happend when check edge start status of current cell.
-CrosstabRowExecutor.error.retrieve.child.executor=Error happend when retrieve child executor.
+CrosstabRowExecutor.error.check.force.empty=現在のセルの強制空ステータスの確認中にエラーが発生しました。
+CrosstabRowExecutor.error.check.edge.start=現在のセルのエッジ開始のステータスの確認中にエラーが発生しました。
+CrosstabRowExecutor.error.retrieve.child.executor=子の実行ファイルの取得中にエラーが発生しました。
 
-CrosstabSubTotalRowExecutor.error.check.edge.start=Error happend when check edge start status of current cell.
-CrosstabSubTotalRowExecutor.error.retrieve.child.executor=Error happend when retrieve child executor.
+CrosstabSubTotalRowExecutor.error.check.edge.start=現在のセルのエッジ開始のステータスの確認中にエラーが発生しました。
+CrosstabSubTotalRowExecutor.error.retrieve.child.executor=子の実行ファイルの取得中にエラーが発生しました。
 
-TableColumnGenerator.error.process.visibility=Error happend when process column visibility.
+TableColumnGenerator.error.process.visibility=列の可視性の処理中にエラーが発生しました。
 

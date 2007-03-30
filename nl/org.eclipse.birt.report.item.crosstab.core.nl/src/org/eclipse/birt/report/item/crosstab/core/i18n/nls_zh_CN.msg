@@ -1,20 +1,20 @@
 ###########################################################
 # Crosstab name conventions
 Element.Crosstab=交叉表
-Element.CrosstabCell=Crosstab Cell
-Element.CrosstabAggregationCell=Crosstab Aggregation Cell
-Element.AggregationOnRow=Aggregation On Row
-Element.AggregationOnColumn=Aggregation On Column
-Element.MeasureView=Measure View
-Element.LevelView=Level View
-Element.DimensionView=Dimension View
-Element.CrosstabView=Crosstab View
-Element.Cube=Cube
-Element.Caption=Caption
-Element.CaptionID=Caption Key
-Element.MeasureDirection=Measure Direction
-Element.PageLayout=Page Layout
-Element.EmptyCellValue=Empty Cell Value
+Element.CrosstabCell=交叉表单元格
+Element.CrosstabAggregationCell=交叉表聚合单元格
+Element.AggregationOnRow=遇到行时聚合
+Element.AggregationOnColumn=遇到列时聚合
+Element.MeasureView=度量视图
+Element.LevelView=级别视图
+Element.DimensionView=维视图
+Element.CrosstabView=交叉表视图
+Element.Cube=多维数据集
+Element.Caption=标题
+Element.CaptionID=标题关键字
+Element.MeasureDirection=度量方向
+Element.PageLayout=页面布局
+Element.EmptyCellValue=空单元格值
 
 ###########################################################
 # Crosstab exception
@@ -24,41 +24,41 @@ Error.CrosstabException.DUPLICATE_LEVEL=
 
 ###########################################################
 # Crosstab executor runtime error message
-CrosstabReportItemQuery.error.crosstab.loading=Loading crosstab item from extended item failed.
-CrosstabReportItemQuery.error.query.building=Invalid crosstab model for query building.
+CrosstabReportItemQuery.error.crosstab.loading=从扩展项加载交叉表项失败。
+CrosstabReportItemQuery.error.query.building=用于查询生成的交叉表模型无效。
 
-BaseCrosstabExecutor.error.process.visibility=Error happend when processing visibility.
-BaseCrosstabExecutor.error.process.bookmark=Error happend when processing bookmark.
+BaseCrosstabExecutor.error.process.visibility=处理可见性时出错。
+BaseCrosstabExecutor.error.process.bookmark=处理书签时出错。
 
-CrosstabCellExecutor.error.restor.data.position=Eroor happend when restore data position.
+CrosstabCellExecutor.error.restor.data.position=还原数据位置时出错。
 
-CrosstabGrandTotalRowExecutor.error.generate.child.executor=Error happend when generate child executor.
-CrosstabGrandTotalRowExecutor.error.check.child.executor=Error happend when check status of child executor.
+CrosstabGrandTotalRowExecutor.error.generate.child.executor=生成子执行程序时出错。
+CrosstabGrandTotalRowExecutor.error.check.child.executor=检查子执行程序的状态时出错。
 
-CrosstabGroupExecutor.error.close.executor=Error happend when close group executor.
-CrosstabGroupExecutor.error.prepare.group=Error happend when prepare child groups.
-CrosstabGroupExecutor.error.check.child.executor=Error happend when check status of child executor.
+CrosstabGroupExecutor.error.close.executor=关闭组组执行程序时出错。
+CrosstabGroupExecutor.error.prepare.group=准备子组时出错。
+CrosstabGroupExecutor.error.check.child.executor=检查子执行程序的状态时出错。
 
-CrosstabHeaderRowExecutor.error.check.force.empty=Error happend when check force empty status of current cell.
-CrosstabHeaderRowExecutor.error.check.edge.end=Error happend when check edge end status of current cell.
-CrosstabHeaderRowExecutor.error.retrieve.child.executor=Error happend when retrieve child executor.
+CrosstabHeaderRowExecutor.error.check.force.empty=检查当前单元格的强制清空状态时出错。
+CrosstabHeaderRowExecutor.error.check.edge.end=检查当前单元格的边缘结束状态时出错。
+CrosstabHeaderRowExecutor.error.retrieve.child.executor=检索子执行程序时出错。
 
-CrosstabMeasureHeaderRowExecutor.error.generate.child.executor=Error happend when generate child executor.
-CrosstabMeasureHeaderRowExecutor.error.check.child.executor=Error happend when check status of child executor.
+CrosstabMeasureHeaderRowExecutor.error.generate.child.executor=生成子执行程序时出错。
+CrosstabMeasureHeaderRowExecutor.error.check.child.executor=检查子执行程序的状态时出错。
 
-CrosstabMeasureRowExecutor.error.generate.child.executor=Error happend when generate child executor.
-CrosstabMeasureRowExecutor.error.check.child.executor=Error happend when check status of child executor.
+CrosstabMeasureRowExecutor.error.generate.child.executor=生成子执行程序时出错。
+CrosstabMeasureRowExecutor.error.check.child.executor=检查子执行程序的状态时出错。
 
-CrosstabReportItemExecutor.error.crosstab.loading=Loading crosstab item from extended item failed.
+CrosstabReportItemExecutor.error.crosstab.loading=从扩展项加载交叉表项失败。
 CrosstabReportItemExecutor.error.generate.columns=
 CrosstabReportItemExecutor.error.prepare.children=
 
-CrosstabRowExecutor.error.check.force.empty=Error happend when check force empty status of current cell.
-CrosstabRowExecutor.error.check.edge.start=Error happend when check edge start status of current cell.
-CrosstabRowExecutor.error.retrieve.child.executor=Error happend when retrieve child executor.
+CrosstabRowExecutor.error.check.force.empty=检查当前单元格的强制清空状态时出错。
+CrosstabRowExecutor.error.check.edge.start=检查当前单元格的边缘开始状态时出错。
+CrosstabRowExecutor.error.retrieve.child.executor=检索子执行程序时出错。
 
-CrosstabSubTotalRowExecutor.error.check.edge.start=Error happend when check edge start status of current cell.
-CrosstabSubTotalRowExecutor.error.retrieve.child.executor=Error happend when retrieve child executor.
+CrosstabSubTotalRowExecutor.error.check.edge.start=检查当前单元格的边缘开始状态时出错。
+CrosstabSubTotalRowExecutor.error.retrieve.child.executor=检索子执行程序时出错。
 
-TableColumnGenerator.error.process.visibility=Error happend when process column visibility.
+TableColumnGenerator.error.process.visibility=处理列可见性时出错。
 

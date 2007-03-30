@@ -1,20 +1,20 @@
 ###########################################################
 # Crosstab name conventions
 Element.Crosstab=교차 테이블
-Element.CrosstabCell=Crosstab Cell
-Element.CrosstabAggregationCell=Crosstab Aggregation Cell
-Element.AggregationOnRow=Aggregation On Row
-Element.AggregationOnColumn=Aggregation On Column
-Element.MeasureView=Measure View
-Element.LevelView=Level View
-Element.DimensionView=Dimension View
-Element.CrosstabView=Crosstab View
-Element.Cube=Cube
-Element.Caption=Caption
-Element.CaptionID=Caption Key
-Element.MeasureDirection=Measure Direction
-Element.PageLayout=Page Layout
-Element.EmptyCellValue=Empty Cell Value
+Element.CrosstabCell=크로스 탭 셀
+Element.CrosstabAggregationCell=크로스 탭 집계 셀
+Element.AggregationOnRow=행에서 집계
+Element.AggregationOnColumn=열에서 집계
+Element.MeasureView=측정 보기
+Element.LevelView=수준 보기
+Element.DimensionView=차원 보기
+Element.CrosstabView=크로스 탭 보기
+Element.Cube=큐브
+Element.Caption=캡션
+Element.CaptionID=캡션 키
+Element.MeasureDirection=측정 방향
+Element.PageLayout=페이지 레이아웃
+Element.EmptyCellValue=빈 셀 값
 
 ###########################################################
 # Crosstab exception
@@ -24,41 +24,41 @@ Error.CrosstabException.DUPLICATE_LEVEL=
 
 ###########################################################
 # Crosstab executor runtime error message
-CrosstabReportItemQuery.error.crosstab.loading=Loading crosstab item from extended item failed.
-CrosstabReportItemQuery.error.query.building=Invalid crosstab model for query building.
+CrosstabReportItemQuery.error.crosstab.loading=확장 항목을 크로스 탭 항목에 로드하지 못했습니다.
+CrosstabReportItemQuery.error.query.building=쿼리 생성에 맞지 않는 크로스 탭 모델입니다.
 
-BaseCrosstabExecutor.error.process.visibility=Error happend when processing visibility.
-BaseCrosstabExecutor.error.process.bookmark=Error happend when processing bookmark.
+BaseCrosstabExecutor.error.process.visibility=표시 유형을 처리하는 중에 오류가 발생했습니다.
+BaseCrosstabExecutor.error.process.bookmark=책갈피를 처리하는 중에 오류가 발생했습니다.
 
-CrosstabCellExecutor.error.restor.data.position=Eroor happend when restore data position.
+CrosstabCellExecutor.error.restor.data.position=데이터 위치를 복원하는 중에 오류가 발생했습니다.
 
-CrosstabGrandTotalRowExecutor.error.generate.child.executor=Error happend when generate child executor.
-CrosstabGrandTotalRowExecutor.error.check.child.executor=Error happend when check status of child executor.
+CrosstabGrandTotalRowExecutor.error.generate.child.executor=하위 실행기를 생성하는 중에 오류가 발생했습니다.
+CrosstabGrandTotalRowExecutor.error.check.child.executor=하위 실행기의 상태를 확인하는 중에 오류가 발생했습니다.
 
-CrosstabGroupExecutor.error.close.executor=Error happend when close group executor.
-CrosstabGroupExecutor.error.prepare.group=Error happend when prepare child groups.
-CrosstabGroupExecutor.error.check.child.executor=Error happend when check status of child executor.
+CrosstabGroupExecutor.error.close.executor=그룹 실행기를 종료하는 중에 오류가 발생했습니다.
+CrosstabGroupExecutor.error.prepare.group=하위 실행기를 준비하는 중에 오류가 발생했습니다.
+CrosstabGroupExecutor.error.check.child.executor=하위 실행기의 상태를 확인하는 중에 오류가 발생했습니다.
 
-CrosstabHeaderRowExecutor.error.check.force.empty=Error happend when check force empty status of current cell.
-CrosstabHeaderRowExecutor.error.check.edge.end=Error happend when check edge end status of current cell.
-CrosstabHeaderRowExecutor.error.retrieve.child.executor=Error happend when retrieve child executor.
+CrosstabHeaderRowExecutor.error.check.force.empty=현재 셀의 강제 비움 상태를 확인하는 중에 오류가 발생했습니다.
+CrosstabHeaderRowExecutor.error.check.edge.end=현재 셀의 모서리 끝 상태를 확인하는 중에 오류가 발생했습니다.
+CrosstabHeaderRowExecutor.error.retrieve.child.executor=하위 실행기를 검색하는 중에 오류가 발생했습니다.
 
-CrosstabMeasureHeaderRowExecutor.error.generate.child.executor=Error happend when generate child executor.
-CrosstabMeasureHeaderRowExecutor.error.check.child.executor=Error happend when check status of child executor.
+CrosstabMeasureHeaderRowExecutor.error.generate.child.executor=하위 실행기를 생성하는 중에 오류가 발생했습니다.
+CrosstabMeasureHeaderRowExecutor.error.check.child.executor=하위 실행기의 상태를 확인하는 중에 오류가 발생했습니다.
 
-CrosstabMeasureRowExecutor.error.generate.child.executor=Error happend when generate child executor.
-CrosstabMeasureRowExecutor.error.check.child.executor=Error happend when check status of child executor.
+CrosstabMeasureRowExecutor.error.generate.child.executor=하위 실행기를 생성하는 중에 오류가 발생했습니다.
+CrosstabMeasureRowExecutor.error.check.child.executor=하위 실행기의 상태를 확인하는 중에 오류가 발생했습니다.
 
-CrosstabReportItemExecutor.error.crosstab.loading=Loading crosstab item from extended item failed.
+CrosstabReportItemExecutor.error.crosstab.loading=확장 항목을 크로스 탭 항목에 로드하지 못했습니다.
 CrosstabReportItemExecutor.error.generate.columns=
 CrosstabReportItemExecutor.error.prepare.children=
 
-CrosstabRowExecutor.error.check.force.empty=Error happend when check force empty status of current cell.
-CrosstabRowExecutor.error.check.edge.start=Error happend when check edge start status of current cell.
-CrosstabRowExecutor.error.retrieve.child.executor=Error happend when retrieve child executor.
+CrosstabRowExecutor.error.check.force.empty=현재 셀의 강제 비움 상태를 확인하는 중에 오류가 발생했습니다.
+CrosstabRowExecutor.error.check.edge.start=현재 셀의 모서리 시작 상태를 확인하는 중에 오류가 발생했습니다.
+CrosstabRowExecutor.error.retrieve.child.executor=하위 실행기를 검색하는 중에 오류가 발생했습니다.
 
-CrosstabSubTotalRowExecutor.error.check.edge.start=Error happend when check edge start status of current cell.
-CrosstabSubTotalRowExecutor.error.retrieve.child.executor=Error happend when retrieve child executor.
+CrosstabSubTotalRowExecutor.error.check.edge.start=현재 셀의 모서리 시작 상태를 확인하는 중에 오류가 발생했습니다.
+CrosstabSubTotalRowExecutor.error.retrieve.child.executor=하위 실행기를 검색하는 중에 오류가 발생했습니다.
 
-TableColumnGenerator.error.process.visibility=Error happend when process column visibility.
+TableColumnGenerator.error.process.visibility=열 표시 유형을 처리하는 중에 오류가 발생했습니다.
 

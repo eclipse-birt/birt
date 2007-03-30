@@ -1,20 +1,20 @@
 ###########################################################
 # Crosstab name conventions
 Element.Crosstab=Tabla de referencias cruzadas
-Element.CrosstabCell=Crosstab Cell
-Element.CrosstabAggregationCell=Crosstab Aggregation Cell
-Element.AggregationOnRow=Aggregation On Row
-Element.AggregationOnColumn=Aggregation On Column
-Element.MeasureView=Measure View
-Element.LevelView=Level View
-Element.DimensionView=Dimension View
-Element.CrosstabView=Crosstab View
-Element.Cube=Cube
-Element.Caption=Caption
-Element.CaptionID=Caption Key
-Element.MeasureDirection=Measure Direction
-Element.PageLayout=Page Layout
-Element.EmptyCellValue=Empty Cell Value
+Element.CrosstabCell=Celda de tabla de referencias cruzadas
+Element.CrosstabAggregationCell=Celda de agregación de tabla de referencias cruzadas
+Element.AggregationOnRow=Agregación en fila
+Element.AggregationOnColumn=Agregación en columna
+Element.MeasureView=Visualización de medidas
+Element.LevelView=Visualización de niveles
+Element.DimensionView=Visualización de dimensiones
+Element.CrosstabView=Visualización de tablas de referencias cruzadas
+Element.Cube=Cubo
+Element.Caption=Título
+Element.CaptionID=Clave de título
+Element.MeasureDirection=Dirección de medidas
+Element.PageLayout=Diseño de página
+Element.EmptyCellValue=Valor de celda vacía
 
 ###########################################################
 # Crosstab exception
@@ -24,41 +24,41 @@ Error.CrosstabException.DUPLICATE_LEVEL=
 
 ###########################################################
 # Crosstab executor runtime error message
-CrosstabReportItemQuery.error.crosstab.loading=Loading crosstab item from extended item failed.
-CrosstabReportItemQuery.error.query.building=Invalid crosstab model for query building.
+CrosstabReportItemQuery.error.crosstab.loading=Error al cargar elemento de tabla de referencias cruzadas desde elemento ampliado.
+CrosstabReportItemQuery.error.query.building=Modelo de tabla de referencias cruzadas no válido para compilar consultas.
 
-BaseCrosstabExecutor.error.process.visibility=Error happend when processing visibility.
-BaseCrosstabExecutor.error.process.bookmark=Error happend when processing bookmark.
+BaseCrosstabExecutor.error.process.visibility=Se ha producido un error al procesar visibilidad.
+BaseCrosstabExecutor.error.process.bookmark=Se ha producido un error al procesar marcador.
 
-CrosstabCellExecutor.error.restor.data.position=Eroor happend when restore data position.
+CrosstabCellExecutor.error.restor.data.position=Se ha producido un error al restaurar posición de datos.
 
-CrosstabGrandTotalRowExecutor.error.generate.child.executor=Error happend when generate child executor.
-CrosstabGrandTotalRowExecutor.error.check.child.executor=Error happend when check status of child executor.
+CrosstabGrandTotalRowExecutor.error.generate.child.executor=Se ha producido un error al generar ejecutor secundario.
+CrosstabGrandTotalRowExecutor.error.check.child.executor=Se ha producido un error al comprobar estado del ejecutor secundario.
 
-CrosstabGroupExecutor.error.close.executor=Error happend when close group executor.
-CrosstabGroupExecutor.error.prepare.group=Error happend when prepare child groups.
-CrosstabGroupExecutor.error.check.child.executor=Error happend when check status of child executor.
+CrosstabGroupExecutor.error.close.executor=Se ha producido un error al cerrar ejecutor de grupos.
+CrosstabGroupExecutor.error.prepare.group=Se ha producido un error al preparar grupos secundarios.
+CrosstabGroupExecutor.error.check.child.executor=Se ha producido un error al comprobar estado del ejecutor secundario.
 
-CrosstabHeaderRowExecutor.error.check.force.empty=Error happend when check force empty status of current cell.
-CrosstabHeaderRowExecutor.error.check.edge.end=Error happend when check edge end status of current cell.
-CrosstabHeaderRowExecutor.error.retrieve.child.executor=Error happend when retrieve child executor.
+CrosstabHeaderRowExecutor.error.check.force.empty=Se ha producido un error al comprobar estado vacío de fuerza de celda actual.
+CrosstabHeaderRowExecutor.error.check.edge.end=Se ha producido un error al comprobar estado final de extremo de celda actual.
+CrosstabHeaderRowExecutor.error.retrieve.child.executor=Se ha producido un error al recuperar ejecutor secundario.
 
-CrosstabMeasureHeaderRowExecutor.error.generate.child.executor=Error happend when generate child executor.
-CrosstabMeasureHeaderRowExecutor.error.check.child.executor=Error happend when check status of child executor.
+CrosstabMeasureHeaderRowExecutor.error.generate.child.executor=Se ha producido un error al generar ejecutor secundario.
+CrosstabMeasureHeaderRowExecutor.error.check.child.executor=Se ha producido un error al comprobar estado del ejecutor secundario.
 
-CrosstabMeasureRowExecutor.error.generate.child.executor=Error happend when generate child executor.
-CrosstabMeasureRowExecutor.error.check.child.executor=Error happend when check status of child executor.
+CrosstabMeasureRowExecutor.error.generate.child.executor=Se ha producido un error al generar ejecutor secundario.
+CrosstabMeasureRowExecutor.error.check.child.executor=Se ha producido un error al comprobar estado del ejecutor secundario.
 
-CrosstabReportItemExecutor.error.crosstab.loading=Loading crosstab item from extended item failed.
+CrosstabReportItemExecutor.error.crosstab.loading=Error al cargar elemento de tabla de referencias cruzadas desde elemento ampliado.
 CrosstabReportItemExecutor.error.generate.columns=
 CrosstabReportItemExecutor.error.prepare.children=
 
-CrosstabRowExecutor.error.check.force.empty=Error happend when check force empty status of current cell.
-CrosstabRowExecutor.error.check.edge.start=Error happend when check edge start status of current cell.
-CrosstabRowExecutor.error.retrieve.child.executor=Error happend when retrieve child executor.
+CrosstabRowExecutor.error.check.force.empty=Se ha producido un error al comprobar estado vacío de fuerza de celda actual.
+CrosstabRowExecutor.error.check.edge.start=Se ha producido un error al comprobar estado inicial de extremo de celda actual.
+CrosstabRowExecutor.error.retrieve.child.executor=Se ha producido un error al recuperar ejecutor secundario.
 
-CrosstabSubTotalRowExecutor.error.check.edge.start=Error happend when check edge start status of current cell.
-CrosstabSubTotalRowExecutor.error.retrieve.child.executor=Error happend when retrieve child executor.
+CrosstabSubTotalRowExecutor.error.check.edge.start=Se ha producido un error al comprobar estado inicial de extremo de celda actual.
+CrosstabSubTotalRowExecutor.error.retrieve.child.executor=Se ha producido un error al recuperar ejecutor secundario.
 
-TableColumnGenerator.error.process.visibility=Error happend when process column visibility.
+TableColumnGenerator.error.process.visibility=Se ha producido un error al procesar visibilidad de columna.
 

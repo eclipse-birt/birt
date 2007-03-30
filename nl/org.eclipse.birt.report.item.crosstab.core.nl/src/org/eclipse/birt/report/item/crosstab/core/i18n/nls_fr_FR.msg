@@ -1,20 +1,20 @@
 ###########################################################
 # Crosstab name conventions
 Element.Crosstab=Tables croisées
-Element.CrosstabCell=Crosstab Cell
-Element.CrosstabAggregationCell=Crosstab Aggregation Cell
-Element.AggregationOnRow=Aggregation On Row
-Element.AggregationOnColumn=Aggregation On Column
-Element.MeasureView=Measure View
-Element.LevelView=Level View
-Element.DimensionView=Dimension View
-Element.CrosstabView=Crosstab View
+Element.CrosstabCell=Cellule du tableau croisé
+Element.CrosstabAggregationCell=Cellule d'agrégation du tableau croisé
+Element.AggregationOnRow=Agrégation à la ligne
+Element.AggregationOnColumn=Agrégation sur la colonne
+Element.MeasureView=Affichage de mesure
+Element.LevelView=Affichage de niveau
+Element.DimensionView=Affichage de dimension
+Element.CrosstabView=Affichage du tableau croisé
 Element.Cube=Cube
-Element.Caption=Caption
-Element.CaptionID=Caption Key
-Element.MeasureDirection=Measure Direction
-Element.PageLayout=Page Layout
-Element.EmptyCellValue=Empty Cell Value
+Element.Caption=Légende
+Element.CaptionID=Clé de légende
+Element.MeasureDirection=Direction de la mesure
+Element.PageLayout=Mise en page
+Element.EmptyCellValue=Valeur de cellule vide
 
 ###########################################################
 # Crosstab exception
@@ -24,41 +24,41 @@ Error.CrosstabException.DUPLICATE_LEVEL=
 
 ###########################################################
 # Crosstab executor runtime error message
-CrosstabReportItemQuery.error.crosstab.loading=Loading crosstab item from extended item failed.
-CrosstabReportItemQuery.error.query.building=Invalid crosstab model for query building.
+CrosstabReportItemQuery.error.crosstab.loading=Echec du chargement de l'élément de tableau croisé à partir de l'élément étendu.
+CrosstabReportItemQuery.error.query.building=Modèle de tableau croisé non valide pour la génération de requête.
 
-BaseCrosstabExecutor.error.process.visibility=Error happend when processing visibility.
-BaseCrosstabExecutor.error.process.bookmark=Error happend when processing bookmark.
+BaseCrosstabExecutor.error.process.visibility=Une erreur s'est produite lors du traitement de la visibilité.
+BaseCrosstabExecutor.error.process.bookmark=Une erreur s'est produite lors du traitement du signet.
 
-CrosstabCellExecutor.error.restor.data.position=Eroor happend when restore data position.
+CrosstabCellExecutor.error.restor.data.position=Une erreur s'est produite lors de la restauration de la position des données.
 
-CrosstabGrandTotalRowExecutor.error.generate.child.executor=Error happend when generate child executor.
-CrosstabGrandTotalRowExecutor.error.check.child.executor=Error happend when check status of child executor.
+CrosstabGrandTotalRowExecutor.error.generate.child.executor=Une erreur s'est produite lors de la génération du module d'exécution enfant.
+CrosstabGrandTotalRowExecutor.error.check.child.executor=Une erreur s'est produite lors de la vérification de l'état du module d'exécution enfant.
 
-CrosstabGroupExecutor.error.close.executor=Error happend when close group executor.
-CrosstabGroupExecutor.error.prepare.group=Error happend when prepare child groups.
-CrosstabGroupExecutor.error.check.child.executor=Error happend when check status of child executor.
+CrosstabGroupExecutor.error.close.executor=Une erreur s'est produite lors de la fermeture du module d'exécution de groupe.
+CrosstabGroupExecutor.error.prepare.group=Une erreur s'est produite lors de la préparation des groupes enfants.
+CrosstabGroupExecutor.error.check.child.executor=Une erreur s'est produite lors de la vérification de l'état du module d'exécution enfant.
 
-CrosstabHeaderRowExecutor.error.check.force.empty=Error happend when check force empty status of current cell.
-CrosstabHeaderRowExecutor.error.check.edge.end=Error happend when check edge end status of current cell.
-CrosstabHeaderRowExecutor.error.retrieve.child.executor=Error happend when retrieve child executor.
+CrosstabHeaderRowExecutor.error.check.force.empty=Une erreur s'est produite lors de la vérification de l'obligation d'état vide de la cellule en cours.
+CrosstabHeaderRowExecutor.error.check.edge.end=Une erreur s'est produite lors de la vérification de l'état de fin du bord de la cellule en cours.
+CrosstabHeaderRowExecutor.error.retrieve.child.executor=Une erreur s'est produite lors de la récupération du module d'exécution enfant.
 
-CrosstabMeasureHeaderRowExecutor.error.generate.child.executor=Error happend when generate child executor.
-CrosstabMeasureHeaderRowExecutor.error.check.child.executor=Error happend when check status of child executor.
+CrosstabMeasureHeaderRowExecutor.error.generate.child.executor=Une erreur s'est produite lors de la génération du module d'exécution enfant.
+CrosstabMeasureHeaderRowExecutor.error.check.child.executor=Une erreur s'est produite lors de la vérification de l'état du module d'exécution enfant.
 
-CrosstabMeasureRowExecutor.error.generate.child.executor=Error happend when generate child executor.
-CrosstabMeasureRowExecutor.error.check.child.executor=Error happend when check status of child executor.
+CrosstabMeasureRowExecutor.error.generate.child.executor=Une erreur s'est produite lors de la génération du module d'exécution enfant.
+CrosstabMeasureRowExecutor.error.check.child.executor=Une erreur s'est produite lors de la vérification de l'état du module d'exécution enfant.
 
-CrosstabReportItemExecutor.error.crosstab.loading=Loading crosstab item from extended item failed.
+CrosstabReportItemExecutor.error.crosstab.loading=Echec du chargement de l'élément de tableau croisé à partir de l'élément étendu.
 CrosstabReportItemExecutor.error.generate.columns=
 CrosstabReportItemExecutor.error.prepare.children=
 
-CrosstabRowExecutor.error.check.force.empty=Error happend when check force empty status of current cell.
-CrosstabRowExecutor.error.check.edge.start=Error happend when check edge start status of current cell.
-CrosstabRowExecutor.error.retrieve.child.executor=Error happend when retrieve child executor.
+CrosstabRowExecutor.error.check.force.empty=Une erreur s'est produite lors de la vérification de l'obligation d'état vide de la cellule en cours.
+CrosstabRowExecutor.error.check.edge.start=Une erreur s'est produite lors de la vérification de l'état de début du bord de la cellule en cours.
+CrosstabRowExecutor.error.retrieve.child.executor=Une erreur s'est produite lors de la récupération du module d'exécution enfant.
 
-CrosstabSubTotalRowExecutor.error.check.edge.start=Error happend when check edge start status of current cell.
-CrosstabSubTotalRowExecutor.error.retrieve.child.executor=Error happend when retrieve child executor.
+CrosstabSubTotalRowExecutor.error.check.edge.start=Une erreur s'est produite lors de la vérification de l'état de début du bord de la cellule en cours.
+CrosstabSubTotalRowExecutor.error.retrieve.child.executor=Une erreur s'est produite lors de la récupération du module d'exécution enfant.
 
-TableColumnGenerator.error.process.visibility=Error happend when process column visibility.
+TableColumnGenerator.error.process.visibility=Une erreur s'est produite lors du traitement de la visibilité des colonnes
 
