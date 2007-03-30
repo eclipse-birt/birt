@@ -245,7 +245,7 @@ public class DataItemBindingDialog extends BaseDialog
 					hiddenLabel.setVisible( false );
 				}
 				if ( itemExpression.getText( ) == null
-						|| itemExpression.getText( ).equals( "" ) )
+						|| itemExpression.getText( ).trim( ).equals( "" ) )
 				{
 					if ( getOkButton( ) != null )
 						getOkButton( ).setEnabled( false );
@@ -343,7 +343,7 @@ public class DataItemBindingDialog extends BaseDialog
 	{
 		super.createButtonsForButtonBar( parent );
 		if ( itemExpression.getText( ) == null
-				|| itemExpression.getText( ).equals( "" ) )
+				|| itemExpression.getText( ).trim( ).equals( "" ) )
 		{
 				getOkButton( ).setEnabled( false );
 		}
@@ -380,7 +380,7 @@ public class DataItemBindingDialog extends BaseDialog
 			if ( bindingColumn == null )
 			{
 				if ( itemExpression.getText( ) == null
-						|| itemExpression.getText( ).length( ) == 0 )
+						|| itemExpression.getText( ).trim( ).length( ) == 0 )
 				{
 					return;
 				}
@@ -412,7 +412,7 @@ public class DataItemBindingDialog extends BaseDialog
 			else
 			{
 				if ( itemExpression.getText( ) != null
-						&& itemExpression.getText( ).length( ) == 0 )
+						&& itemExpression.getText( ).trim( ).length( ) == 0 )
 				{
 					DataItemHandle itemHandle = (DataItemHandle) getBindingObject( );
 					String resultSetName = itemHandle.getResultSetColumn( );
