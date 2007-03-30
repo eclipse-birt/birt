@@ -15,5 +15,5 @@ preference.preview.server=Vorschau-Server
 # Actions
 ###############################################################################
 Menu.Report=Bericht
-Action.RunReport=Bericht ausführen
+Action.RunReport=Bericht ausf
 Action.ViewDocument=Dokument anzeigen
