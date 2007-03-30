@@ -727,7 +727,7 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 			PropertyValueValidationUtil.validateProperty( sourceHandle,
 					propName, propValue );
 
-			sourceHandle.getElement( ).setProperty( propName, propValue );
+			sourceHandle.setProperty( propName, propValue );
 		}
 	}
 
