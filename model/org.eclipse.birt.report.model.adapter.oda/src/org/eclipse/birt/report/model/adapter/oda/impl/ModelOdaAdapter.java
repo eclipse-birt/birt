@@ -62,6 +62,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 public class ModelOdaAdapter implements IModelOdaAdapter
 {
+
 	/**
 	 * Constructs a DesignEngine with the given platform config.
 	 * 
@@ -724,8 +725,8 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 			String propName = prop.getName( );
 			String propValue = prop.getValue( );
 
-			PropertyValueValidationUtil.validateProperty( sourceHandle,
-					propName, propValue );
+			propValue = (String) PropertyValueValidationUtil.validateProperty(
+					sourceHandle, propName, propValue );
 
 			sourceHandle.getElement( ).setProperty( propName, propValue );
 		}
