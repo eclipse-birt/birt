@@ -341,17 +341,6 @@ Commom.ShortDateTime.Tue=二
 Commom.ShortDateTime.Wed=三
 
 ###########################################################
-#Connection Profile Properties
-connectionprofile.wizard.title=新建数据源
-connectionprofile.wizard.title.connectionprofileselect=选择连接配置文件
-connectionprofile.wizard.defaultmessage.connectionprofileselect=选择用于创建数据源的连接配置文件
-connectionprofile.wizard.label.connectionprofilestore=连接配置文件存储:
-connectionprofile.wizard.label.datasourcename=数据源名称:
-connectionprofile.wizard.checkbox.datasourcenameusedefaultdsname=使用默认数据源名称
-connectionprofile.wizard.tree.datasourcename=ODA 数据源
-connectionprofile.wizard.button.browse=浏览...
-
-###########################################################
 #CopyAction properties
 
 CopyAction.text=复制(&C)
@@ -583,6 +572,7 @@ datasource.wizard.label.connectionfile=从配置文件存储中的连接配置文件创建
 datasource.wizard.message.selectType=为新数据源提供所有设置，或选择预定义的连接配置文件
 datasource.wizard.title.select=选择数据源类型，或选择连接配置文件
 datasource.editor.property=属性绑定
+datasource.editor.duplicatedName=The data source name "{0}" is duplicated
 
 ###########################################################
 #DataSourceProcess properties
@@ -3795,6 +3785,8 @@ cube.measure.edit=编辑多维数据集度量
 CubeMeasureGroupNodeProvider.menu.text=编辑
 CubeModel.group.new=新建组
 CubeModel.summaryfield.new=New Summary Field
+Cube.Groups=Groups(Dimensions)
+Cube.MeasureGroup=Summary Fields(Measures)
 
 ###########################################################
 #Cube Builder Dialog properties

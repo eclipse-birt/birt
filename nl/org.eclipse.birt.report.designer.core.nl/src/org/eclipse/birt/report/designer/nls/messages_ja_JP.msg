@@ -341,17 +341,6 @@ Commom.ShortDateTime.Tue=‰Î
 Commom.ShortDateTime.Wed=…
 
 ###########################################################
-#Connection Profile Properties
-connectionprofile.wizard.title=V‹Kƒf[ƒ^ƒ\[ƒX
-connectionprofile.wizard.title.connectionprofileselect=Ú‘±ƒvƒƒtƒ@ƒCƒ‹‚Ì‘I‘ğ
-connectionprofile.wizard.defaultmessage.connectionprofileselect=ƒf[ƒ^ƒ\[ƒX‚Ìì¬Œ³‚Æ‚·‚éÚ‘±ƒvƒƒtƒ@ƒCƒ‹‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
-connectionprofile.wizard.label.connectionprofilestore=Ú‘±ƒvƒƒtƒ@ƒCƒ‹ƒXƒgƒA :
-connectionprofile.wizard.label.datasourcename=ƒf[ƒ^ƒ\[ƒX–¼ :
-connectionprofile.wizard.checkbox.datasourcenameusedefaultdsname=ƒfƒtƒHƒ‹ƒg‚Ìƒf[ƒ^ƒ\[ƒX–¼‚ğg—p‚·‚é
-connectionprofile.wizard.tree.datasourcename=ODA ƒf[ƒ^ƒ\[ƒX
-connectionprofile.wizard.button.browse=QÆ...
-
-###########################################################
 #CopyAction properties
 
 CopyAction.text=ƒRƒs[(&C)
@@ -583,6 +572,7 @@ datasource.wizard.label.connectionfile=ƒvƒƒtƒ@ƒCƒ‹ƒXƒgƒA‚ÌÚ‘±ƒvƒƒtƒ@ƒCƒ‹‚ğg‚
 datasource.wizard.message.selectType=V‚µ‚¢ƒf[ƒ^ƒ\[ƒX‚Ì‚·‚×‚Ä‚Ìİ’è‚ğw’è‚·‚é‚©A’è‹`Ï‚İ‚ÌÚ‘±ƒvƒƒtƒ@ƒCƒ‹‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
 datasource.wizard.title.select=ƒf[ƒ^ƒ\[ƒX‚Ìí—Ş‚Ü‚½‚ÍÚ‘±ƒvƒƒtƒ@ƒCƒ‹‚Ì‘I‘ğ
 datasource.editor.property=ƒvƒƒpƒeƒB‚ÌƒoƒCƒ“ƒh
+datasource.editor.duplicatedName=The data source name "{0}" is duplicated
 
 ###########################################################
 #DataSourceProcess properties
@@ -3795,6 +3785,8 @@ cube.measure.edit=ƒLƒ…[ƒu‚ÌŒv‘ª‚Ì•ÒW
 CubeMeasureGroupNodeProvider.menu.text=•ÒW
 CubeModel.group.new=ƒOƒ‹[ƒv‚ÌV‹Kì¬
 CubeModel.summaryfield.new=New Summary Field
+Cube.Groups=Groups(Dimensions)
+Cube.MeasureGroup=Summary Fields(Measures)
 
 ###########################################################
 #Cube Builder Dialog properties

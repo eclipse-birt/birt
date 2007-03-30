@@ -341,17 +341,6 @@ Commom.ShortDateTime.Tue=화요일
 Commom.ShortDateTime.Wed=수요일
 
 ###########################################################
-#Connection Profile Properties
-connectionprofile.wizard.title=새 데이터 원본
-connectionprofile.wizard.title.connectionprofileselect=연결 프로필 선택
-connectionprofile.wizard.defaultmessage.connectionprofileselect=데이터 원본을 생성할 연결 프로필 선택
-connectionprofile.wizard.label.connectionprofilestore=연결 프로필 저장소:
-connectionprofile.wizard.label.datasourcename=데이터 원본 이름:
-connectionprofile.wizard.checkbox.datasourcenameusedefaultdsname=기본 데이터 원본 이름 사용
-connectionprofile.wizard.tree.datasourcename=ODA 데이터 원본
-connectionprofile.wizard.button.browse=찾아보기...
-
-###########################################################
 #CopyAction properties
 
 CopyAction.text=복사(&C)
@@ -583,6 +572,7 @@ datasource.wizard.label.connectionfile=프로필 저장소에 들어 있는 연결 프로필로 �
 datasource.wizard.message.selectType=새 데이터 원본에 대해 모든 설정을 제공하거나 미리 정의된 연결 프로파일을 선택합니다.
 datasource.wizard.title.select=데이터 원본 형식 선택 또는 연결 프로파일 선택
 datasource.editor.property=속성 바인딩
+datasource.editor.duplicatedName=The data source name "{0}" is duplicated
 
 ###########################################################
 #DataSourceProcess properties
@@ -3795,6 +3785,8 @@ cube.measure.edit=큐브 측정 편집
 CubeMeasureGroupNodeProvider.menu.text=편집
 CubeModel.group.new=새 그룹
 CubeModel.summaryfield.new=New Summary Field
+Cube.Groups=Groups(Dimensions)
+Cube.MeasureGroup=Summary Fields(Measures)
 
 ###########################################################
 #Cube Builder Dialog properties

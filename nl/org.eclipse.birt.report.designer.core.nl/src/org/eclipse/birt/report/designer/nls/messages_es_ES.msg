@@ -341,17 +341,6 @@ Commom.ShortDateTime.Tue=MAR
 Commom.ShortDateTime.Wed=MIÉ
 
 ###########################################################
-#Connection Profile Properties
-connectionprofile.wizard.title=Nueva fuente de datos
-connectionprofile.wizard.title.connectionprofileselect=Seleccionar un perfil de conexión
-connectionprofile.wizard.defaultmessage.connectionprofileselect=Seleccionar el perfil de conexión desde el que crear una fuente de datos
-connectionprofile.wizard.label.connectionprofilestore=Almacenamiento de perfil de conexión:
-connectionprofile.wizard.label.datasourcename=Nombre de fuente de datos:
-connectionprofile.wizard.checkbox.datasourcenameusedefaultdsname=Utilizar el nombre de fuente de datos predeterminado
-connectionprofile.wizard.tree.datasourcename=Fuentes de datos ODA
-connectionprofile.wizard.button.browse=Examinar...
-
-###########################################################
 #CopyAction properties
 
 CopyAction.text=&Copiar
@@ -583,6 +572,7 @@ datasource.wizard.label.connectionfile=Crear a partir de un perfil de conexión d
 datasource.wizard.message.selectType=Suministre todos los ajustes para una nueva fuente de datos o seleccione un perfil de conexión predefinido
 datasource.wizard.title.select=Seleccione un tipo de fuente de datos o un perfil de conexión
 datasource.editor.property=Enlace de propiedades
+datasource.editor.duplicatedName=The data source name "{0}" is duplicated
 
 ###########################################################
 #DataSourceProcess properties
@@ -3795,6 +3785,8 @@ cube.measure.edit=Editar medida de cubo
 CubeMeasureGroupNodeProvider.menu.text=Editar
 CubeModel.group.new=Nuevo grupo
 CubeModel.summaryfield.new=New Summary Field
+Cube.Groups=Groups(Dimensions)
+Cube.MeasureGroup=Summary Fields(Measures)
 
 ###########################################################
 #Cube Builder Dialog properties
