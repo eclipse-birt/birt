@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.provider;
 
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
@@ -159,11 +160,11 @@ public class CubeLabelProvider extends LabelProvider
 			if ( model.getPropertyDefn( )
 					.getName( )
 					.equals( ICubeModel.DIMENSIONS_PROP ) )
-				return "Groups(Dimensions)";
+				return Messages.getString( "Cube.Groups" );
 			else if ( model.getPropertyDefn( )
 					.getName( )
 					.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
-				return "Summary Fields(Measures)";
+				return Messages.getString( "Cube.MeasureGroup" );
 		}
 		return super.getText( element );
 	}

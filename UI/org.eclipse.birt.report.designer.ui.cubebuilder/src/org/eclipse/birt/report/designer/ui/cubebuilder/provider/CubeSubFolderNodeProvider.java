@@ -62,11 +62,11 @@ public class CubeSubFolderNodeProvider extends DefaultNodeProvider
 		String name = property.getPropertyDefn( ).getName( );
 		if ( name.equals( ICubeModel.DIMENSIONS_PROP ) )
 		{
-			return "Groups(Dimensions)";
+			return Messages.getString( "Cube.Groups" );
 		}
 		else if ( name.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
 		{
-			return "Summary Fields(Measures)";
+			return Messages.getString( "Cube.MeasureGroup" );
 		}
 		return null;
 	}
