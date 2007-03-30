@@ -34,6 +34,8 @@ import junit.framework.TestCase;
 
 public class BufferedRandomAccessObjectTest extends TestCase
 {
+	private static final String tmpPath = System.getProperty( "java.io.tmpdir" );
+	
 	IDocumentManager documentManager = null;
 	
 	/*
@@ -85,10 +87,10 @@ public class BufferedRandomAccessObjectTest extends TestCase
 	public void testInteger1( ) throws IOException
 	{
 		int objectNumber = 1001;
-		BufferedRandomDataAccessObject documentObject = new BufferedRandomDataAccessObject( 
-				new SimpleRandomAccessObject( new File("D:\\tmp\\documents\\testInteger1"),
-				"rw" ),
-				1024 );
+		BufferedRandomDataAccessObject documentObject = 
+			new BufferedRandomDataAccessObject(
+				new SimpleRandomAccessObject(new File(tmpPath
+						+ File.separatorChar + "testInteger1"), "rw"), 1024);
 		for ( int i = 0; i < objectNumber; i++ )
 		{
 			documentObject.writeInt( i );
@@ -113,10 +115,10 @@ public class BufferedRandomAccessObjectTest extends TestCase
 	
 	public void testInteger2( ) throws IOException
 	{
-		BlockRandomAccessObject documentObject = new BlockRandomAccessObject( 
-				new BufferedRandomAccessFile( new File("D:\\tmp\\documents\\testInteger1"),
-				"rw", 1024 ),
-				"testInteger2", 0, 0, new DocumentObjectAllocatedTable( ) );
+		BlockRandomAccessObject documentObject = new BlockRandomAccessObject(
+				new BufferedRandomAccessFile(new File(tmpPath
+						+ File.separatorChar + "testInteger1"), "rw", 1024),
+				"testInteger2", 0, 0, new DocumentObjectAllocatedTable());
 		byte[] bytes = new byte[1024];
 		bytes[0] = 1;
 		bytes[1] = 2;
@@ -137,10 +139,10 @@ public class BufferedRandomAccessObjectTest extends TestCase
 	
 	public void testInteger3( ) throws IOException
 	{
-		BlockRandomAccessObject documentObject = new BlockRandomAccessObject( 
-				new BufferedRandomAccessFile( new File("D:\\tmp\\documents\\testInteger1"),
-				"rw", 1024 ),
-				"testInteger2", 0, 0, new DocumentObjectAllocatedTable( ) );
+		BlockRandomAccessObject documentObject = new BlockRandomAccessObject(
+				new BufferedRandomAccessFile(new File(tmpPath
+						+ File.separatorChar + "testInteger1"), "rw", 1024),
+				"testInteger2", 0, 0, new DocumentObjectAllocatedTable());
 		byte[] bytes = new byte[1024];
 		bytes[0] = 1;
 		bytes[1] = 2;

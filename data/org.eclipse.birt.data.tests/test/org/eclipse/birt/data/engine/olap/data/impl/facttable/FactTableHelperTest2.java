@@ -57,7 +57,7 @@ import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 
 public class FactTableHelperTest2 extends TestCase
 {
-
+	private static final String tmpPath = System.getProperty( "java.io.tmpdir" );
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -700,7 +700,7 @@ public class FactTableHelperTest2 extends TestCase
 	 */
 	public void testFactTableSaveAndLoad5( ) throws IOException, BirtException
 	{
-		CubeMaterializer cubeCreatorHelper = new CubeMaterializer( "d:\\tmp", "cub1" );
+		CubeMaterializer cubeCreatorHelper = new CubeMaterializer( tmpPath, "cub1" );
 		
 		testFactTableSaveAndLoad5( cubeCreatorHelper );
 	}

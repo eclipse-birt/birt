@@ -26,7 +26,8 @@ import junit.framework.TestCase;
 
 public class BufferedRandomAccessFileTest extends TestCase
 {
-
+	private static final String tmpPath = System.getProperty( "java.io.tmpdir" );
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -47,9 +48,9 @@ public class BufferedRandomAccessFileTest extends TestCase
 	
 	public void testBytes( ) throws IOException
 	{
-		BufferedRandomAccessFile file = new BufferedRandomAccessFile( new File( "d:\\tmp\\BufferedRandomAccessFile" ),
-				"rw",
-				1000 );
+		BufferedRandomAccessFile file = new BufferedRandomAccessFile(new File(
+				tmpPath + File.separatorChar + "BufferedRandomAccessFile"),
+				"rw", 1000);
 		byte[] bytes = new byte[1024];
 		bytes[0] = 1;
 		bytes[1] = 2;
@@ -71,9 +72,9 @@ public class BufferedRandomAccessFileTest extends TestCase
 	public void testInteger( ) throws IOException
 	{
 		int objectNumber = 1001;
-		BufferedRandomAccessFile file = new BufferedRandomAccessFile( new File( "d:\\tmp\\BufferedRandomAccessFile" ),
-				"rw",
-				1000 );
+		BufferedRandomAccessFile file = new BufferedRandomAccessFile(new File(
+				tmpPath + File.separatorChar + "BufferedRandomAccessFile"),
+				"rw", 1000);
 		for ( int i = 0; i < objectNumber; i++ )
 		{
 			file.writeInt( i );
@@ -99,9 +100,9 @@ public class BufferedRandomAccessFileTest extends TestCase
 	public void testString( ) throws IOException
 	{
 		int objectNumber = 3000;
-		BufferedRandomAccessFile file = new BufferedRandomAccessFile( new File( "d:\\tmp\\BufferedRandomAccessFile" ),
-				"rw",
-				1000 );
+		BufferedRandomAccessFile file = new BufferedRandomAccessFile(new File(
+				tmpPath + File.separatorChar + "BufferedRandomAccessFile"),
+				"rw", 1000);
 		for ( int i = 0; i < objectNumber; i++ )
 		{
 			file.writeUTF( "string" + i );
@@ -117,9 +118,9 @@ public class BufferedRandomAccessFileTest extends TestCase
 	public void testBigDecimal( ) throws IOException
 	{
 		int objectNumber = 3000;
-		BufferedRandomAccessFile file = new BufferedRandomAccessFile( new File( "d:\\tmp\\BufferedRandomAccessFile" ),
-				"rw",
-				1000 );
+		BufferedRandomAccessFile file = new BufferedRandomAccessFile(new File(
+				tmpPath + File.separatorChar + "BufferedRandomAccessFile"),
+				"rw", 1000);
 		for ( int i = 0; i < objectNumber; i++ )
 		{
 			file.writeBigDecimal( new BigDecimal( "1010101010101010101010" + i ) );
@@ -136,9 +137,9 @@ public class BufferedRandomAccessFileTest extends TestCase
 	public void testDate( ) throws IOException
 	{
 		int objectNumber = 4101;
-		BufferedRandomAccessFile file = new BufferedRandomAccessFile( new File( "d:\\tmp\\BufferedRandomAccessFile" ),
-				"rw",
-				1000 );
+		BufferedRandomAccessFile file = new BufferedRandomAccessFile(new File(
+				tmpPath + File.separatorChar + "BufferedRandomAccessFile"),
+				"rw", 1000);
 		for ( int i = 0; i < objectNumber; i++ )
 		{
 			file.writeDate( new Date( 1900100000 + i * 1000 ) );
@@ -154,9 +155,9 @@ public class BufferedRandomAccessFileTest extends TestCase
 	public void testMixed( ) throws IOException
 	{
 		int objectNumber = 1001;
-		BufferedRandomAccessFile file = new BufferedRandomAccessFile( new File( "d:\\tmp\\BufferedRandomAccessFile" ),
-				"rw",
-				1000 );
+		BufferedRandomAccessFile file = new BufferedRandomAccessFile(new File(
+				tmpPath + File.separatorChar + "BufferedRandomAccessFile"),
+				"rw", 1000);
 		for ( int i = 0; i < objectNumber; i++ )
 		{
 			file.writeInt( i );
