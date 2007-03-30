@@ -91,11 +91,6 @@ import com.ibm.icu.util.ULocale;
  */
 public class ExecutionContext
 {
-
-	// for logging
-	private static Logger log = Logger.getLogger( ExecutionContext.class
-			.getName( ) );
-
 	public static final String PROPERTYSEPARATOR = ";";
 
 	// engines used to create the context
@@ -106,6 +101,11 @@ public class ExecutionContext
 	 * task which uses this context.
 	 */
 	private EngineTask task;
+
+	/**
+	 * logger used to log out the excepitons
+	 */
+	private Logger log;
 
 	/**
 	 * execution mode, in this mode, the render operation should be executed.
@@ -277,6 +277,11 @@ public class ExecutionContext
 		{
 			task = engineTask;
 			engine = task.getEngine( );
+			log = task.getLogger( );
+		}
+		else
+		{
+			log = Logger.getLogger( ExecutionContext.class.getName( ) );
 		}
 
 		locale = Locale.getDefault( );
@@ -1780,5 +1785,15 @@ public class ExecutionContext
 	public IEngineTask getEngineTask()
 	{
 		return task;
+	}
+	
+	public Logger getLogger( )
+	{
+		return log;
+	}
+	
+	public void setLogger( Logger logger )
+	{
+		log = logger;
 	}
 }

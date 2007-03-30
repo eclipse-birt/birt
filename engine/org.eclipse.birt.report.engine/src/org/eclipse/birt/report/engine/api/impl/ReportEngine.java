@@ -52,8 +52,7 @@ import org.mozilla.javascript.ScriptableObject;
 public class ReportEngine implements IReportEngine
 {
 
-	protected static Logger logger = Logger.getLogger( ReportEngine.class
-			.getName( ) );
+	protected Logger logger;
 
 	/**
 	 * engine configuration object
@@ -82,29 +81,45 @@ public class ReportEngine implements IReportEngine
 	 */
 	public ReportEngine( EngineConfig config )
 	{
-		logger.log( Level.FINE, "ReportEngine created. EngineConfig: {0} ", 
-					config );
+		logger = intializeLogger( );
+
+		logger.log( Level.FINE, "ReportEngine created. EngineConfig: {0} ",
+				config );
 		this.config = config;
-
 		this.helper = new ReportEngineHelper( this );
-		setupLogging( );
-		setupScriptScope( );
 
+		setupScriptScope( );
 	}
 
 	/**
 	 * set up engine logging
 	 */
-	private void setupLogging( )
+	private Logger intializeLogger( )
 	{
+		Logger logger = null;
 		if ( config != null )
 		{
+			logger = config.getLogger( );
+			if ( logger != null )
+			{
+				return logger;
+			}
+
 			String dest = (String) config.getLogDirectory( );
 			Level level = config.getLogLevel( );
+
 			if ( level == null )
+			{
 				level = Level.WARNING;
-			helper.setupLogging( dest, level );
+			}
+			EngineLogger.startEngineLogging( dest, level );
 		}
+
+		if ( logger == null )
+		{
+			logger = Logger.getLogger( ReportEngine.class.getName( ) );
+		}
+		return logger;
 	}
 
 	/**
@@ -186,8 +201,8 @@ public class ReportEngine implements IReportEngine
 	 */
 	public void changeLogLevel( Level newLevel )
 	{
-		if ( newLevel != null )
-			helper.changeLogLevel( newLevel );
+		EngineLogger.changeLogLevel( newLevel );
+		logger.setLevel( newLevel );
 	}
 
 	/**
@@ -345,10 +360,6 @@ public class ReportEngine implements IReportEngine
 	public void destroy( )
 	{
 		logger.fine( "ReportEngine.destroy" );
-		if ( helper != null )
-		{
-			helper.stopLogging( );
-		}
 		rootScope = null;
 		helper = null;
 		if ( config != null )
@@ -359,6 +370,7 @@ public class ReportEngine implements IReportEngine
 				handler.finish( );
 			}
 		}
+		EngineLogger.stopEngineLogging( );
 	}
 
 	/**
@@ -509,5 +521,17 @@ public class ReportEngine implements IReportEngine
 						new Object[]{systemId, reader, options} );
 		return helper.openReportDocument( systemId, reader, options );
 	}
-	
+
+	public Logger getLogger( )
+	{
+		return logger;
+	}
+
+	public void setLogger( Logger logger )
+	{
+		if ( this.logger != logger )
+		{
+			this.logger = logger;
+		}
+	}
 }

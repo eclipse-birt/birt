@@ -36,6 +36,7 @@ import org.eclipse.birt.report.engine.presentation.ReportDocumentBuilder;
 public class RunTask extends AbstractRunTask implements IRunTask
 {
 
+	private String documentName;
 	private IDocArchiveWriter archive;
 	private ReportDocumentWriter writer;
 	private IPageHandler pageHandler;
@@ -79,37 +80,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 				throw new EngineException(
 						"Report document name is not specified when running a report." ); //$NON-NLS-1$
 			}
-			try
-			{
-				File file = new File( reportDocName );
-				if ( file.exists( ) )
-				{
-					if ( file.isDirectory( ) )
-					{
-						archive = new FolderArchiveWriter( reportDocName );
-					}
-					else
-					{
-						archive = new FileArchiveWriter( reportDocName );
-					}
-				}
-				else
-				{
-					if ( reportDocName.endsWith( "\\" )
-							|| reportDocName.endsWith( "/" ) )
-					{
-						archive = new FolderArchiveWriter( reportDocName );
-					}
-					else
-					{
-						archive = new FileArchiveWriter( reportDocName );
-					}
-				}
-			}
-			catch ( IOException e )
-			{
-				throw new EngineException( e.getLocalizedMessage( ) );
-			}
+			this.documentName = reportDocName;
 			doRun( );
 		}
 		finally
@@ -142,11 +113,41 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		}
 	}
 
+	private void openArchive( ) throws IOException
+	{
+		File file = new File( documentName );
+		if ( file.exists( ) )
+		{
+			if ( file.isDirectory( ) )
+			{
+				archive = new FolderArchiveWriter( documentName );
+			}
+			else
+			{
+				archive = new FileArchiveWriter( documentName );
+			}
+		}
+		else
+		{
+			if ( documentName.endsWith( "\\" ) || documentName.endsWith( "/" ) )
+			{
+				archive = new FolderArchiveWriter( documentName );
+			}
+			else
+			{
+				archive = new FileArchiveWriter( documentName );
+			}
+		}
+	}
+
 	private void openReportDocument( ) throws EngineException
 	{
 		try
 		{
-			archive.initialize( );
+			if ( archive == null )
+			{
+				openArchive( );
+			}
 			writer = new ReportDocumentWriter( engine, archive );
 			executionContext.setReportDocWriter( writer );
 		}

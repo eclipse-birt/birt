@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.framework.IPlatformContext;
 import org.eclipse.birt.core.framework.PlatformConfig;
@@ -94,6 +95,37 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 	{
 		setProperty( LOG_DESTINATION, directoryName );
 		setProperty( LOG_LEVEL, level );
+	}
+
+	/**
+	 * set the logger used by the report engine.
+	 * 
+	 * the logger will overides the setLogConfig().
+	 * 
+	 * @param logger
+	 */
+	public void setLogger( Logger logger )
+	{
+		if ( logger == null )
+		{
+			throw new NullPointerException( "logger can't be NULL" );
+		}
+		setProperty( ENGINE_LOGGER, logger );
+	}
+
+	/**
+	 * return the user's logger set through setLogger.
+	 * 
+	 * @return the logger setted by user. NULL if the user doesn't set it.
+	 */
+	public Logger getLogger( )
+	{
+		Object logger = getProperty( ENGINE_LOGGER );
+		if ( logger instanceof Logger )
+		{
+			return (Logger) logger;
+		}
+		return null;
 	}
 
 	/**
@@ -199,6 +231,7 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 	public Level getLogLevel( )
 	{
 		Level level = (Level) getProperty( LOG_LEVEL );
+
 		return level;
 	}
 

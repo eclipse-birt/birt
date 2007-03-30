@@ -67,9 +67,6 @@ import com.ibm.icu.util.ULocale;
 public abstract class EngineTask implements IEngineTask
 {
 
-	protected static Logger log = Logger
-			.getLogger( EngineTask.class.getName( ) );
-	
 	protected static int id = 0;
 
 	protected String pagination;
@@ -80,11 +77,16 @@ public abstract class EngineTask implements IEngineTask
 	 */
 	protected boolean cancelFlag;
 	protected int runningStatus;
-	
+
 	/**
 	 * a reference to the report engine
 	 */
 	protected IReportEngine engine;
+
+	/**
+	 * logger used to output the message
+	 */
+	protected Logger log;
 
 	/**
 	 * Comment for <code>locale</code>
@@ -111,7 +113,7 @@ public abstract class EngineTask implements IEngineTask
 	 * emitter id
 	 */
 	protected String emitterID;
-	
+
 	/**
 	 * does the parameter has been changed by the user.
 	 */
@@ -131,7 +133,7 @@ public abstract class EngineTask implements IEngineTask
 	 * Engine task type. for usage in BIRT scripting.
 	 */
 	protected int taskType = IEngineTask.TASK_UNKNOWN;
-	
+
 	/**
 	 * @param engine
 	 *            reference to report engine
@@ -147,6 +149,8 @@ public abstract class EngineTask implements IEngineTask
 		taskID = id++;
 
 		this.engine = engine;
+		this.log = engine.getLogger( );
+
 		// create execution context used by java-script
 		executionContext = new ExecutionContext( this );
 		// Create IReportContext used by java-based script
@@ -156,11 +160,11 @@ public abstract class EngineTask implements IEngineTask
 		setReportRunnable( runnable );
 		// set the default app context
 		executionContext.setAppContext( engine.getConfig( ).getAppContext( ) );
-		
+
 		cancelFlag = false;
 		runningStatus = STATUS_NOT_STARTED;
 	}
-	
+
 	protected EngineTask( IReportEngine engine, IReportRunnable runnable,
 			int taskType )
 	{
@@ -228,9 +232,9 @@ public abstract class EngineTask implements IEngineTask
 	 */
 	public void setAppContext( Map context )
 	{
-		HashMap appContext = new HashMap();
+		HashMap appContext = new HashMap( );
 		HashMap sysAppContext = engine.getConfig( ).getAppContext( );
-		if (sysAppContext != null)
+		if ( sysAppContext != null )
 		{
 			appContext.putAll( sysAppContext );
 		}
@@ -238,7 +242,7 @@ public abstract class EngineTask implements IEngineTask
 		{
 			appContext.putAll( context );
 		}
-		
+
 		executionContext.setAppContext( appContext );
 
 		StringBuffer logStr = null;
@@ -252,17 +256,17 @@ public abstract class EngineTask implements IEngineTask
 			for ( Iterator iter = entries.iterator( ); iter.hasNext( ); )
 			{
 				Map.Entry entry = (Map.Entry) iter.next( );
-				
+
 				if ( entry.getKey( ) instanceof String )
 				{
 					executionContext.registerBean( (String) entry.getKey( ),
 							entry.getValue( ) );
 					if ( logStr != null )
 					{
-						logStr.append(entry.getKey( ));
-						logStr.append("=");
-						logStr.append(entry.getValue( ));
-						logStr.append(";");
+						logStr.append( entry.getKey( ) );
+						logStr.append( "=" );
+						logStr.append( entry.getValue( ) );
+						logStr.append( ";" );
 					}
 				}
 				else
@@ -341,7 +345,7 @@ public abstract class EngineTask implements IEngineTask
 		}
 		renderOptions = options;
 	}
-	
+
 	public IRenderOption getRenderOption( )
 	{
 		return renderOptions;
@@ -370,7 +374,7 @@ public abstract class EngineTask implements IEngineTask
 	{
 		return this.emitterID;
 	}
-	
+
 	public DataRequestSession getDataSession( )
 	{
 		return executionContext.getDataEngine( ).getDTESession( );
@@ -449,6 +453,10 @@ public abstract class EngineTask implements IEngineTask
 		// set the parameter values into the execution context
 		usingParameterValues( );
 
+		if ( log.isLoggable( Level.FINE ) )
+		{
+			loggerParamters( );
+		}
 		// validate each parameter to see if it is validate
 		return new ParameterVisitor( ) {
 
@@ -465,6 +473,38 @@ public abstract class EngineTask implements IEngineTask
 			}
 		}.visit( (ReportDesignHandle) runnable.getDesignHandle( ), null );
 
+	}
+
+	protected void loggerParamters( )
+	{
+		if ( log.isLoggable( Level.FINE ) )
+		{
+			final StringBuffer buffer = new StringBuffer( );
+			// validate each parameter to see if it is validate
+			new ParameterVisitor( ) {
+
+				boolean visitScalarParameter( ScalarParameterHandle param,
+						Object value )
+				{
+					String paramName = param.getName( );
+					Object paramValue = runValues.get( paramName );
+					buffer.append( paramName );
+					buffer.append( ":" );
+					buffer.append( paramValue );
+					buffer.append( "\n" );
+
+					return validateScalarParameter( param );
+				}
+
+				boolean visitParameterGroup( ParameterGroupHandle group,
+						Object value )
+				{
+					return visitParametersInGroup( group, value );
+				}
+			}.visit( (ReportDesignHandle) runnable.getDesignHandle( ), null );
+			log.log( Level.FINE, "Running the report with paramters: {0}",
+					buffer );
+		}
 	}
 
 	/**
@@ -674,7 +714,9 @@ public abstract class EngineTask implements IEngineTask
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.IEngineTask#cancel()
 	 */
 	public void cancel( )
@@ -682,8 +724,8 @@ public abstract class EngineTask implements IEngineTask
 		cancelFlag = true;
 		executionContext.cancel( );
 	}
-	
-	public void cancel(Object signal)
+
+	public void cancel( Object signal )
 	{
 		if ( signal == null )
 		{
@@ -708,7 +750,7 @@ public abstract class EngineTask implements IEngineTask
 		} while ( waitingTime < 5000 );
 		return;
 	}
-	
+
 	public boolean getCancelFlag( )
 	{
 		return cancelFlag;
@@ -725,7 +767,7 @@ public abstract class EngineTask implements IEngineTask
 			executionContext.setCancelOnError( false );
 		}
 	}
-	
+
 	/**
 	 * class used to visit all parameters
 	 * 
@@ -895,21 +937,27 @@ public abstract class EngineTask implements IEngineTask
 		executionContext.close( );
 	}
 
-	
-	protected IReportLayoutEngine createReportLayoutEngine(String pagination, IRenderOption options)
+	protected IReportLayoutEngine createReportLayoutEngine( String pagination,
+			IRenderOption options )
 	{
-		IReportLayoutEngine layoutEngine = LayoutEngineFactory.createLayoutEngine( pagination );
-		if(options!=null)
+		IReportLayoutEngine layoutEngine = LayoutEngineFactory
+				.createLayoutEngine( pagination );
+		if ( options != null )
 		{
-			Object fitToPage = renderOptions.getOption(IPDFRenderOption.FIT_TO_PAGE);
-			if(fitToPage!=null)
+			Object fitToPage = renderOptions
+					.getOption( IPDFRenderOption.FIT_TO_PAGE );
+			if ( fitToPage != null )
 			{
-				layoutEngine.setOption(IPDFRenderOption.FIT_TO_PAGE, fitToPage);
+				layoutEngine
+						.setOption( IPDFRenderOption.FIT_TO_PAGE, fitToPage );
 			}
-			Object pagebreakOnly = renderOptions.getOption(IPDFRenderOption.PAGEBREAK_PAGINATION_ONLY);
-			if(pagebreakOnly!=null)
+			Object pagebreakOnly = renderOptions
+					.getOption( IPDFRenderOption.PAGEBREAK_PAGINATION_ONLY );
+			if ( pagebreakOnly != null )
 			{
-				layoutEngine.setOption(IPDFRenderOption.PAGEBREAK_PAGINATION_ONLY, pagebreakOnly);
+				layoutEngine.setOption(
+						IPDFRenderOption.PAGEBREAK_PAGINATION_ONLY,
+						pagebreakOnly );
 			}
 		}
 		return layoutEngine;
@@ -973,7 +1021,7 @@ public abstract class EngineTask implements IEngineTask
 		ReportScriptExecutor.handleAfterRender( reportDesign, executionContext );
 	}
 
-	//TODO: throw out the IOException
+	// TODO: throw out the IOException
 	public void setDataSource( IDocArchiveReader dataSource )
 	{
 		// try to open the dataSource as report document
@@ -1003,7 +1051,7 @@ public abstract class EngineTask implements IEngineTask
 		}
 	}
 
-	public int getStatus()
+	public int getStatus( )
 	{
 		return runningStatus;
 	}
@@ -1017,7 +1065,7 @@ public abstract class EngineTask implements IEngineTask
 	{
 		return executionContext.getReportContext( );
 	}
-	
+
 	private void mergeOption( IRenderOption options, String name, Object value )
 	{
 		if ( options != null )
@@ -1178,7 +1226,7 @@ public abstract class EngineTask implements IEngineTask
 			}
 		}
 	}
-	
+
 	protected void initializeContentEmitter( IContentEmitter emitter,
 			IReportExecutor executor )
 	{
@@ -1192,12 +1240,12 @@ public abstract class EngineTask implements IEngineTask
 		// emitter is not null
 		emitter.initialize( services );
 	}
-	
+
 	public int getTaskType( )
 	{
 		return taskType;
 	}
-	
+
 	protected void changeStatusToRunning( )
 	{
 		runningStatus = STATUS_RUNNING;
@@ -1217,5 +1265,16 @@ public abstract class EngineTask implements IEngineTask
 		{
 			runningStatus = STATUS_SUCCEEDED;
 		}
+	}
+
+	public Logger getLogger( )
+	{
+		return log;
+	}
+
+	public void setLogger( Logger logger )
+	{
+		this.log = logger;
+		this.executionContext.setLogger( logger );
 	}
 }

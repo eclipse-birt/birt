@@ -49,17 +49,15 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  */
 public class ReportEngineHelper
 {
-
-	/**
-	 * logger used to log syntax errors.
-	 */
-	static protected Logger logger = Logger.getLogger( ReportEngineHelper.class
-			.getName( ) );
-
 	/**
 	 * reference the the public report engine object
 	 */
 	private IReportEngine engine;
+
+	/**
+	 * logger used to log syntax errors.
+	 */
+	protected Logger logger;
 
 	/**
 	 * extension manager
@@ -75,7 +73,8 @@ public class ReportEngineHelper
 	public ReportEngineHelper( IReportEngine engine )
 	{
 		this.engine = engine;
-		extensionMgr = ExtensionManager.getInstance( );
+		this.logger = engine.getLogger( );
+		this.extensionMgr = ExtensionManager.getInstance( );
 	}
 
 	/**
@@ -335,36 +334,6 @@ public class ReportEngineHelper
 	public String getMIMEType( String format )
 	{
 		return extensionMgr.getMIMEType( format );
-	}
-
-	/**
-	 * @param dest
-	 *            log destination. It is the directory name for log file
-	 * @param level
-	 *            log level
-	 */
-	public void setupLogging( String dest, Level level )
-	{
-		EngineLogger.startEngineLogging( dest, level );
-	}
-
-	/**
-	 * Stop engine logging
-	 */
-	public void stopLogging( )
-	{
-		EngineLogger.stopEngineLogging( );
-	}
-
-	/**
-	 * Change the log level to the newLevel
-	 * 
-	 * @param newLevel -
-	 *            new log level
-	 */
-	public void changeLogLevel( Level newLevel )
-	{
-		EngineLogger.changeLogLevel( newLevel );
 	}
 
 	public IReportDocument openReportDocument( String docArchiveName )

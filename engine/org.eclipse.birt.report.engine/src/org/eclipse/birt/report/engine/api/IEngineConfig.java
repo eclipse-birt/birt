@@ -20,6 +20,14 @@ public interface IEngineConfig extends IPlatformConfig
 {
 	static final String LOG_DESTINATION = "logDest"; //$NON-NLS-1$			
 	static final String LOG_LEVEL = "logLevel"; //$NON-NLS-1$
+	/**
+	 * define the logger used by the report engine.
+	 * 
+	 * the value is a java.util.Logger object. The user can change the logger
+	 * level in the setted logger. It will overides the setting of
+	 * LOG_DESTINATION and LOG_LEVEL
+	 */
+	static final String ENGINE_LOGGER = "org.eclipse.birt.report.engine.logger"; //$NON-NLS-1$ 
 	static final String TEMP_DIR = "tmpDir"; //$NON-NLS-1$
 	static final String REPORT_DOCUMENT_LOCK_MANAGER = "org.eclipse.birt.report.engine.api.IReportDocumentLockManager"; //$NON-NLS-1$
 	static final String SCRIPT_OBJECTS = "org.eclipse.birt.report.engine.api.EngineConfig.scriptObjects";//$NON-NLS-1$

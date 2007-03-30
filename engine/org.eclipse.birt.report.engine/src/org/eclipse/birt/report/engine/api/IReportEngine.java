@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.api;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.report.model.api.IResourceLocator;
@@ -51,6 +52,20 @@ public interface IReportEngine
 	 *            new log level
 	 */
 	public void changeLogLevel( Level newLevel );
+
+	/**
+	 * set the logger used the engine.
+	 * 
+	 * @param logger
+	 */
+	public void setLogger( Logger logger );
+	
+	/**
+	 * get the logger used by report engine
+	 * 
+	 * @return the logger used by the report engine
+	 */
+	public Logger getLogger( );
 
 	/**
 	 * returns the engine configuration object

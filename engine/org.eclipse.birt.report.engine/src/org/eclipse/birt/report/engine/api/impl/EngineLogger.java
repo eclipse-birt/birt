@@ -141,6 +141,7 @@ public class EngineLogger {
 		if ( logFileHandler != null )
 		{
 			logFileHandler.setFormatter( new SimpleFormatter() ); // In BIRT log, we should always use the simple format.
+			logFileHandler.setLevel( Level.FINEST );
 			logger.addHandler( logFileHandler );
 		}
 		

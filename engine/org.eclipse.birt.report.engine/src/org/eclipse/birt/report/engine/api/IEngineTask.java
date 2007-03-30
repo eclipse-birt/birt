@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 
@@ -271,4 +272,19 @@ public interface IEngineTask {
 	 * <li><b>-1</b> default value for unknown task</li>
 	 */
 	public int getTaskType( );
+
+	/**
+	 * return the logger used by the task.
+	 * 
+	 * @return logger used by the task.
+	 */
+	public Logger getLogger( );
+
+	/**
+	 * set the logger used by the task.
+	 * 
+	 * @param logger
+	 *            the logger used to output messages.
+	 */
+	public void setLogger( Logger logger );
 }

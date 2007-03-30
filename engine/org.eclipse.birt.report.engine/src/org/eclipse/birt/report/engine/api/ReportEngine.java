@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.api;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.exception.BirtException;
@@ -348,5 +349,15 @@ public class ReportEngine implements IReportEngine
 			IDocArchiveReader reader, Map options ) throws EngineException
 	{
 		return engine.openReportDocument( systemId, reader, options );
+	}
+
+	public Logger getLogger( )
+	{
+		return engine.getLogger( );
+	}
+
+	public void setLogger( Logger logger )
+	{
+		engine.setLogger( logger );
 	}
 }
