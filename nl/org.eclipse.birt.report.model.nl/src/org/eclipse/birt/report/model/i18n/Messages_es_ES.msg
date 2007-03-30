@@ -115,8 +115,8 @@ Choices.paramType.dateTime=DateTime
 Choices.paramType.boolean=Booleano
 Choices.paramType.integer=Entero
 Choices.paramType.any=Cualquiera
-Choices.paramType.date=Date
-Choices.paramType.time=time
+Choices.paramType.date=Fecha
+Choices.paramType.time=hora
 
 #6.paramControl
 Choices.paramControl.text-box=Cuadro de texto
@@ -412,8 +412,8 @@ Choices.columnDataType.float=Flotante
 Choices.columnDataType.structure=Estructura
 Choices.columnDataType.table=Tabla
 Choices.columnDataType.boolean=Booleano
-Choices.columnDataType.time=Time
-Choices.columnDataType.date=Date
+Choices.columnDataType.time=Hora
+Choices.columnDataType.date=Fecha
 
 #54. searchType
 Choices.searchType.any=Cualquiera
@@ -2089,12 +2089,12 @@ Structure.Rule.ruleExpre=Expresión de regla
 Structure.Rule.displayExpre=Expresión de visualización
 
 #31. LevelAttribute
-Structure.LevelAttribute=Level Attribute
+Structure.LevelAttribute=Atributo de nivel
 Structure.LevelAttribute.name=Nombre
 Structure.LevelAttribute.dataType=Tipo de datos
 
 #32. OdaLevelAttribute
-Structure.OdaLevelAttribute=ODA Level Attribute
+Structure.OdaLevelAttribute=Atributo de nivel ODA
 Structure.OdaLevelAttribute.name=Nombre
 Structure.OdaLevelAttribute.dataType=Tipo de datos
 Structure.OdaLevelAttribute.nativeName=Nombre nativo
@@ -3469,10 +3469,10 @@ Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=No se ha encontrado el recurso d
 Error.StyleSheetException.SYNTAX_ERROR=Hay algunos errores de sintaxis inconsistentes con CSS2.
 
 #IncludedCssStyleSheetException
-Error.CSSException.CSS_NOT_FOUND=No se ha encontrado el recurso de hoja de estilos.
-Error.CSSException.DUPLICATE_CSS=Duplicados de la hoja de estilos CSS.
-Error.CSSException.BADCSSFILE=Hay algunos errores de sintaxis en el archivo CSS.
-Error.CssException.READONLY=El estilo en el archivo CSS es de sólo lectura.
+Error.CSSException.CSS_NOT_FOUND=No se ha encontrado la hoja de estilos con el nombre "{0}".
+Error.CSSException.DUPLICATE_CSS=Ya existe la hoja de estilos CSS con el nombre "{0}".
+Error.CSSException.BADCSSFILE=Hay algunos errores de sintaxis en el archivo "{0}".
+Error.CssException.READONLY=El estilo del archivo "{0}" es de sólo lectura.
 
 #StyleSheetParserException
 Error.StyleSheetParserException.RULE_NOT_SUPPORTED=No se admite la regla "{0}".

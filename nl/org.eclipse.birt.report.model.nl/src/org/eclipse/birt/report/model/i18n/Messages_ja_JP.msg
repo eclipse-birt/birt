@@ -115,8 +115,8 @@ Choices.paramType.dateTime=DateTime
 Choices.paramType.boolean=論理
 Choices.paramType.integer=整数値
 Choices.paramType.any=任意
-Choices.paramType.date=Date
-Choices.paramType.time=time
+Choices.paramType.date=日付
+Choices.paramType.time=時間
 
 #6.paramControl
 Choices.paramControl.text-box=テキストボックス
@@ -412,8 +412,8 @@ Choices.columnDataType.float=浮動
 Choices.columnDataType.structure=構造
 Choices.columnDataType.table=テーブル
 Choices.columnDataType.boolean=論理
-Choices.columnDataType.time=Time
-Choices.columnDataType.date=Date
+Choices.columnDataType.time=時間
+Choices.columnDataType.date=日付
 
 #54. searchType
 Choices.searchType.any=任意
@@ -2089,12 +2089,12 @@ Structure.Rule.ruleExpre=規則式
 Structure.Rule.displayExpre=表示式
 
 #31. LevelAttribute
-Structure.LevelAttribute=Level Attribute
+Structure.LevelAttribute=レベルの属性
 Structure.LevelAttribute.name=名前
 Structure.LevelAttribute.dataType=データ型
 
 #32. OdaLevelAttribute
-Structure.OdaLevelAttribute=ODA Level Attribute
+Structure.OdaLevelAttribute=ODA レベルの属性
 Structure.OdaLevelAttribute.name=名前
 Structure.OdaLevelAttribute.dataType=データ型
 Structure.OdaLevelAttribute.nativeName=ネイティブの名前
@@ -3469,10 +3469,10 @@ Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=スタイルシートのリソースが見つか
 Error.StyleSheetException.SYNTAX_ERROR=CSS2 に従っていない構文エラーがあります。
 
 #IncludedCssStyleSheetException
-Error.CSSException.CSS_NOT_FOUND=スタイルシートのリソースが見つかりません。
-Error.CSSException.DUPLICATE_CSS=CSS スタイルシートが重複します。
-Error.CSSException.BADCSSFILE=CSS ファイルに構文エラーがあります。
-Error.CssException.READONLY=CSS ファイルのスタイルが読み取り専用です。
+Error.CSSException.CSS_NOT_FOUND="{0}" という名前のスタイルシートが見つかりません。
+Error.CSSException.DUPLICATE_CSS="{0}" という名前の CSS スタイルシートはすでに存在します。
+Error.CSSException.BADCSSFILE="{0}" ファイルに構文エラーがあります。
+Error.CssException.READONLY="{0}" ファイルのスタイルが読み取り専用です。
 
 #StyleSheetParserException
 Error.StyleSheetParserException.RULE_NOT_SUPPORTED=規則 "{0}" はサポートされていません。

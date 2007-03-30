@@ -115,8 +115,8 @@ Choices.paramType.dateTime=Datum/Zeit
 Choices.paramType.boolean=Boolesch
 Choices.paramType.integer=Ganzzahl
 Choices.paramType.any=Beliebig
-Choices.paramType.date=Date
-Choices.paramType.time=time
+Choices.paramType.date=Datum
+Choices.paramType.time=Zeit
 
 #6.paramControl
 Choices.paramControl.text-box=Textfeld
@@ -413,7 +413,7 @@ Choices.columnDataType.structure=Struktur
 Choices.columnDataType.table=Tabelle
 Choices.columnDataType.boolean=Boolesch
 Choices.columnDataType.time=Time
-Choices.columnDataType.date=Date
+Choices.columnDataType.date=Datum
 
 #54. searchType
 Choices.searchType.any=Beliebig
@@ -2089,12 +2089,12 @@ Structure.Rule.ruleExpre=Regelausdruck
 Structure.Rule.displayExpre=Ausdruck anzeigen
 
 #31. LevelAttribute
-Structure.LevelAttribute=Level Attribute
+Structure.LevelAttribute=Ebenenattribut
 Structure.LevelAttribute.name=Name
 Structure.LevelAttribute.dataType=Datentyp
 
 #32. OdaLevelAttribute
-Structure.OdaLevelAttribute=ODA Level Attribute
+Structure.OdaLevelAttribute=ODA-Ebenenattribut
 Structure.OdaLevelAttribute.name=Name
 Structure.OdaLevelAttribute.dataType=Datentyp
 Structure.OdaLevelAttribute.nativeName=Programmeigener Name
@@ -3469,10 +3469,10 @@ Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=Die Stilvorlagen-Ressource wurde
 Error.StyleSheetException.SYNTAX_ERROR=Syntaxfehler aufgrund von Inkonsistenzen mit CSS2.
 
 #IncludedCssStyleSheetException
-Error.CSSException.CSS_NOT_FOUND=Die Stilvorlagenressource wurde nicht gefunden.
-Error.CSSException.DUPLICATE_CSS=CSS-Stilvorlagenduplikate.
-Error.CSSException.BADCSSFILE=In der CSS-Datei gibt es einige Syntaxfehler.
-Error.CssException.READONLY=Stil der CSS-Datei ist schreibgeschützt.
+Error.CSSException.CSS_NOT_FOUND=Die Stilvorlage mit dem Namen "{0}" konnte nicht gefunden werden.
+Error.CSSException.DUPLICATE_CSS=Die CSS-Stilvorlage mit dem Namen "{0}" ist bereits vorhanden.
+Error.CSSException.BADCSSFILE=In der Datei "{0}" gibt es einige Syntaxfehler.
+Error.CssException.READONLY=Stil in Datei "{0}" ist schreibgeschützt.
 
 #StyleSheetParserException
 Error.StyleSheetParserException.RULE_NOT_SUPPORTED=Die Regel "{0}" wird nicht unterstützt.

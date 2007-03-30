@@ -116,7 +116,7 @@ Choices.paramType.boolean=Booléen
 Choices.paramType.integer=Entier
 Choices.paramType.any=Indifférent
 Choices.paramType.date=Date
-Choices.paramType.time=time
+Choices.paramType.time=heure
 
 #6.paramControl
 Choices.paramControl.text-box=Zone de texte
@@ -412,7 +412,7 @@ Choices.columnDataType.float=Flottant
 Choices.columnDataType.structure=Structure
 Choices.columnDataType.table=Table
 Choices.columnDataType.boolean=Booléen
-Choices.columnDataType.time=Time
+Choices.columnDataType.time=Heure
 Choices.columnDataType.date=Date
 
 #54. searchType
@@ -2089,12 +2089,12 @@ Structure.Rule.ruleExpre=Expression de règle
 Structure.Rule.displayExpre=Expression d'affichage
 
 #31. LevelAttribute
-Structure.LevelAttribute=Level Attribute
+Structure.LevelAttribute=Attribut de niveau
 Structure.LevelAttribute.name=Nom
 Structure.LevelAttribute.dataType=Type de données
 
 #32. OdaLevelAttribute
-Structure.OdaLevelAttribute=ODA Level Attribute
+Structure.OdaLevelAttribute=Attribut de niveau ODA
 Structure.OdaLevelAttribute.name=Nom
 Structure.OdaLevelAttribute.dataType=Type de données
 Structure.OdaLevelAttribute.nativeName=Nom natif
@@ -3469,10 +3469,10 @@ Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=La ressource de la feuille de st
 Error.StyleSheetException.SYNTAX_ERROR=Certaines erreurs de syntaxe sont incohérentes avec CSS2.
 
 #IncludedCssStyleSheetException
-Error.CSSException.CSS_NOT_FOUND=La ressource de la feuille de style est introuvable.
-Error.CSSException.DUPLICATE_CSS=Copies des feuilles de style CSS.
-Error.CSSException.BADCSSFILE=Le fichier CSS comporte des erreurs de syntaxe.
-Error.CssException.READONLY=Les informations de style du fichier CSS sont en lecture seule.
+Error.CSSException.CSS_NOT_FOUND=La feuille de style nommée "{0}" est introuvable.
+Error.CSSException.DUPLICATE_CSS=La feuille de style CSS nommée "{0}" existe déjà.
+Error.CSSException.BADCSSFILE=Certaines erreurs de syntaxe sont présentes dans le fichier "{0}".
+Error.CssException.READONLY=Style du fichier "{0}" en lecture seule.
 
 #StyleSheetParserException
 Error.StyleSheetParserException.RULE_NOT_SUPPORTED=La règle "{0}" n''est pas prise en charge.

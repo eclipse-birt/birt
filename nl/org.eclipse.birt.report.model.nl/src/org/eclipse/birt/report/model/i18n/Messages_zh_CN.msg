@@ -115,8 +115,8 @@ Choices.paramType.dateTime=日期时间
 Choices.paramType.boolean=布尔
 Choices.paramType.integer=整数
 Choices.paramType.any=任何
-Choices.paramType.date=Date
-Choices.paramType.time=time
+Choices.paramType.date=日期
+Choices.paramType.time=时间
 
 #6.paramControl
 Choices.paramControl.text-box=文本框
@@ -412,8 +412,8 @@ Choices.columnDataType.float=浮点
 Choices.columnDataType.structure=结构
 Choices.columnDataType.table=表
 Choices.columnDataType.boolean=布尔
-Choices.columnDataType.time=Time
-Choices.columnDataType.date=Date
+Choices.columnDataType.time=时间
+Choices.columnDataType.date=日期
 
 #54. searchType
 Choices.searchType.any=任何
@@ -2089,12 +2089,12 @@ Structure.Rule.ruleExpre=规则表达式
 Structure.Rule.displayExpre=显示表达式
 
 #31. LevelAttribute
-Structure.LevelAttribute=Level Attribute
+Structure.LevelAttribute=级别属性
 Structure.LevelAttribute.name=名称
 Structure.LevelAttribute.dataType=数据类型
 
 #32. OdaLevelAttribute
-Structure.OdaLevelAttribute=ODA Level Attribute
+Structure.OdaLevelAttribute=ODA 级别属性
 Structure.OdaLevelAttribute.name=名称
 Structure.OdaLevelAttribute.dataType=数据类型
 Structure.OdaLevelAttribute.nativeName=本地名称
@@ -3469,10 +3469,10 @@ Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=未找到样式表资源。
 Error.StyleSheetException.SYNTAX_ERROR=存在某些与 CSS2 不一致的语法错误。
 
 #IncludedCssStyleSheetException
-Error.CSSException.CSS_NOT_FOUND=未找到样式表资源。
-Error.CSSException.DUPLICATE_CSS=CSS 样式表重复项。
-Error.CSSException.BADCSSFILE=CSS 文件中存在某些语法错误。
-Error.CssException.READONLY=CSS 文件中的样式为只读。
+Error.CSSException.CSS_NOT_FOUND=未找到名称为“{0}”的样式表。
+Error.CSSException.DUPLICATE_CSS=名称为“{0}”的 CSS 样式表已存在。
+Error.CSSException.BADCSSFILE=“{0}”文件中存在某些语法错误。
+Error.CssException.READONLY=“{0}”文件中的样式为只读。
 
 #StyleSheetParserException
 Error.StyleSheetParserException.RULE_NOT_SUPPORTED=不支持规则 "{0}"。

@@ -115,8 +115,8 @@ Choices.paramType.dateTime=날짜/시간
 Choices.paramType.boolean=부울
 Choices.paramType.integer=정수
 Choices.paramType.any=모두
-Choices.paramType.date=Date
-Choices.paramType.time=time
+Choices.paramType.date=날짜
+Choices.paramType.time=시간
 
 #6.paramControl
 Choices.paramControl.text-box=텍스트 상자
@@ -412,8 +412,8 @@ Choices.columnDataType.float=실수
 Choices.columnDataType.structure=구조
 Choices.columnDataType.table=테이블
 Choices.columnDataType.boolean=부울
-Choices.columnDataType.time=Time
-Choices.columnDataType.date=Date
+Choices.columnDataType.time=시간
+Choices.columnDataType.date=날짜
 
 #54. searchType
 Choices.searchType.any=모두
@@ -2089,12 +2089,12 @@ Structure.Rule.ruleExpre=규칙 식
 Structure.Rule.displayExpre=표시 식
 
 #31. LevelAttribute
-Structure.LevelAttribute=Level Attribute
+Structure.LevelAttribute=수준 특성
 Structure.LevelAttribute.name=이름
 Structure.LevelAttribute.dataType=데이터 형식
 
 #32. OdaLevelAttribute
-Structure.OdaLevelAttribute=ODA Level Attribute
+Structure.OdaLevelAttribute=ODA 수준 특성
 Structure.OdaLevelAttribute.name=이름
 Structure.OdaLevelAttribute.dataType=데이터 형식
 Structure.OdaLevelAttribute.nativeName=고유 이름
@@ -3469,10 +3469,10 @@ Error.StyleSheetException.STYLE_SHEET_NOT_FOUND=스타일시트 리소스가 없습니다.
 Error.StyleSheetException.SYNTAX_ERROR=CSS2와 일치하지 않는 일부 구문 오류가 있습니다.
 
 #IncludedCssStyleSheetException
-Error.CSSException.CSS_NOT_FOUND=스타일시트 리소스를 찾을 수 없습니다.
-Error.CSSException.DUPLICATE_CSS=CSS 스타일시트가 중복됩니다.
-Error.CSSException.BADCSSFILE=CSS 파일에 구문 오류가 있습니다.
-Error.CssException.READONLY=CSS 파일에 있는 스타일이 읽기 전용입니다.
+Error.CSSException.CSS_NOT_FOUND=이름이 "{0}"인 스타일시트를 찾을 수 없습니다.
+Error.CSSException.DUPLICATE_CSS=이름이 "{0}"인 CSS 스타일시트가 이미 있습니다.
+Error.CSSException.BADCSSFILE="{0}" 파일에 구문 오류가 있습니다.
+Error.CssException.READONLY="{0}" 파일에 있는 스타일이 읽기 전용입니다.
 
 #StyleSheetParserException
 Error.StyleSheetParserException.RULE_NOT_SUPPORTED=규칙 "{0}"이(가) 지원되지 않습니다.
