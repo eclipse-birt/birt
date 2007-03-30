@@ -90,7 +90,7 @@ import com.ibm.icu.util.ULocale;
  * implemented as a singleton and does not maintain any state information hence
  * allowing multi-threaded requests for a single generator instance.
  */
-public final class Generator
+public final class Generator implements IGenerator
 {
 
 	/**
@@ -876,8 +876,7 @@ public final class Generator
 
 		final Chart cmRunTime = icsc.getChartInstance( );
 
-		// flatten the default styles.
-		prepareStyles( cmRunTime, externalProcessor );
+		
 
 		// INITIALIZE THE SCRIPT HANDLER
 		ScriptHandler sh = rtc.getScriptHandler( );
@@ -919,6 +918,10 @@ public final class Generator
 				ScriptHandler.BEFORE_GENERATION,
 				cmRunTime,
 				rtc.getScriptContext( ) );
+		
+		// flatten the default styles.
+		prepareStyles( cmRunTime, externalProcessor );
+		
 		int iChartType = UNDEFINED;
 		Object oComputations = null;
 		if ( cmRunTime instanceof ChartWithAxes )

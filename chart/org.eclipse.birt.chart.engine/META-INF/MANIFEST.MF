@@ -46,7 +46,8 @@ Export-Package: org.eclipse.birt.chart.aggregate,
  org.eclipse.birt.chart.render,
  org.eclipse.birt.chart.script,
  org.eclipse.birt.chart.style,
- org.eclipse.birt.chart.util
+ org.eclipse.birt.chart.util,
+ org.eclipse.birt.chart.api
 Require-Bundle: org.eclipse.emf.ecore;bundle-version="[2.2.0,3.0.0)";visibility:=reexport,
  org.eclipse.emf.ecore.xmi;bundle-version="[2.2.0,3.0.0)";visibility:=reexport,
  org.eclipse.birt.core;bundle-version="[2.1.0,3.0.0)";visibility:=reexport
