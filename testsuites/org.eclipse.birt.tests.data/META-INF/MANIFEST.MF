@@ -19,4 +19,3 @@ Require-Bundle: org.junit;resolution:=optional,
  org.eclipse.birt.report.model,
  org.eclipse.birt.report.data.adapter
 Eclipse-LazyStart: true
-Export-Package: org.eclipse.birt.tests.data.engine.regression
