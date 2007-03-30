@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.dialog;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -421,16 +422,14 @@ public class LevelPropertyDialog extends BaseDialog
 			if ( element instanceof LevelAttributeHandle )
 			{
 				LevelAttributeHandle handle = (LevelAttributeHandle) element;
-				for ( int i = 0; i < attributeItems.length; i++ )
-					if ( handle.getName( ).equals( attributeItems[i] ) )
+				resetEditorItems( handle.getName( ) );
+				for ( int i = 0; i < editor.getItems( ).length; i++ )
+					if ( handle.getName( ).equals( editor.getItems( )[i] ) )
 						return new Integer( i );
 			}
 			if ( element instanceof String )
 			{
-				String handle = (String) element;
-				for ( int i = 0; i < attributeItems.length; i++ )
-					if ( handle.equals( attributeItems[i] ) )
-						return new Integer( i );
+				resetEditorItems( );
 			}
 			return new Integer( -1 );
 		}
@@ -482,7 +481,6 @@ public class LevelPropertyDialog extends BaseDialog
 					}
 				}
 				refreshDynamicViewer( );
-				resetEditorItems( );
 			}
 		}
 	};
@@ -760,9 +758,14 @@ public class LevelPropertyDialog extends BaseDialog
 
 	String[] attributeItems = new String[0];
 
-	protected void resetEditorItems( )
+	private void resetEditorItems( )
 	{
-		List list = new LinkedList( );
+		resetEditorItems( null );
+	}
+
+	private void resetEditorItems( String name )
+	{
+		List list = new ArrayList( );
 		list.addAll( Arrays.asList( attributeItems ) );
 
 		Iterator attrIter = input.attributesIterator( );
@@ -773,6 +776,10 @@ public class LevelPropertyDialog extends BaseDialog
 		}
 
 		list.remove( input.getColumnName( ) );
+		if ( name != null && !list.contains( name ) )
+		{
+			list.add( 0, name );
+		}
 		String[] temps = new String[list.size( )];
 		list.toArray( temps );
 		editor.setItems( temps );
