@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.chart.tests.script;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.net.URL;
 
 import junit.framework.TestCase;
@@ -35,7 +33,7 @@ public abstract class BaseChartTestCase extends TestCase
 	private IChart cwo;
 	private IReportDesign design;
 
-	private static final String REPORT_PATH = "api_test.rptdesign";
+	private static final String REPORT_PATH = "api_test.rptdesign"; //$NON-NLS-1$
 
 	protected void setUp( ) throws Exception
 	{
@@ -51,8 +49,8 @@ public abstract class BaseChartTestCase extends TestCase
 			// ExtendedItemHandle eih = (ExtendedItemHandle)
 			// designHandle.findElement( elementName );
 			// return (IChart) eih.getReportItem( ).getSimpleElement( );
-			cwa = (IChart) getReportDesign( ).getReportElement( "ChartWithAxes" );
-			cwo = (IChart) getReportDesign( ).getReportElement( "ChartWithoutAxes" );
+			cwa = (IChart) getReportDesign( ).getReportElement( "ChartWithAxes" ); //$NON-NLS-1$
+			cwo = (IChart) getReportDesign( ).getReportElement( "ChartWithoutAxes" ); //$NON-NLS-1$
 		}
 	}
 
