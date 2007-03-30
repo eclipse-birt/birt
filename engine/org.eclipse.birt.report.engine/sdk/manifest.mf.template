@@ -174,6 +174,13 @@ Export-Package: org.eclipse.birt.chart.aggregate,
  org.eclipse.birt.report.engine.api.script.eventadapter,
  org.eclipse.birt.report.engine.api.script.eventhandler,
  org.eclipse.birt.report.engine.api.script.instance,
- org.eclipse.datatools.connectivity.oda.design
+ org.eclipse.datatools.connectivity.oda.design,
+ javax.servlet,
+ javax.servlet.http,
+ javax.servlet.resources,
+ javax.servlet.jsp,
+ javax.servlet.jsp.el,
+ javax.servlet.jsp.resources,
+ javax.servlet.jsp.tagext
 
 
