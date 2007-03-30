@@ -64,6 +64,7 @@ public interface Serializer
      * @param os
      *            The OutputStream to which the preferences are to be written
      * @throws IOException
+     * @deprecated only reserved for compatibility
      */
     public void savePreferences(ChartPreferences preferences, OutputStream os) throws IOException;
 
@@ -114,6 +115,7 @@ public interface Serializer
      *            InputStream from which the chart preferences are to be read
      * @return ChartPreferences instance read from the stream
      * @throws IOException
+     * @deprecated only reserved for compatibility
      */
     public ChartPreferences loadPreferences(InputStream is) throws IOException;
 }

@@ -28,7 +28,7 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * 
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getRuleType()
  * @model
- * @generated
+ * @deprecated only reserved for compatibility
  */
 public final class RuleType extends AbstractEnumerator
 {

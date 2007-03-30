@@ -31,7 +31,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * </ul>
  * </p>
  *
- * @generated
+ * @deprecated only reserved for compatibility
  */
 public class RuleImpl extends EObjectImpl implements Rule
 {

@@ -67,7 +67,7 @@ public interface Query extends EObject
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getQuery_Rules()
 	 * @model type="org.eclipse.birt.chart.model.data.Rule" containment="true" required="true"
 	 *        extendedMetaData="kind='element' name='Rules'"
-	 * @generated
+	 * @deprecated only reserved for compatibility
 	 */
 	EList getRules( );
 

@@ -36,7 +36,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * </ul>
  * </p>
  *
- * @generated
+ * @deprecated only reserved for compatibility
  */
 public class ChartPreferencesImpl extends EObjectImpl implements
 		ChartPreferences

@@ -34,7 +34,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.component.ComponentPackage#getChartPreferences()
  * @model extendedMetaData="name='ChartPreferences' kind='elementOnly'"
- * @generated
+ * @deprecated only reserved for compatibility
  */
 public interface ChartPreferences extends EObject
 {

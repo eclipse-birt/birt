@@ -41,7 +41,7 @@ public interface ComponentFactory extends EFactory
 	 * Returns a new object of class '<em>Chart Preferences</em>'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return a new object of class '<em>Chart Preferences</em>'.
-	 * @generated
+	 * @deprecated only reserved for compatibility
 	 */
 	ChartPreferences createChartPreferences( );
 

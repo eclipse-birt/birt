@@ -33,7 +33,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @see org.eclipse.birt.chart.model.data.DataPackage#getRule()
  * @model extendedMetaData="name='Rule' kind='elementOnly'"
- * @generated
+ * @deprecated only reserved for compatibility
  */
 public interface Rule extends EObject
 {
