@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.tests.script;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.net.URL;
 
 import junit.framework.TestCase;
 
@@ -34,22 +35,25 @@ public abstract class BaseChartTestCase extends TestCase
 	private IChart cwo;
 	private IReportDesign design;
 
-	private static final String REPORT_PATH = "src/org/eclipse/birt/chart/tests/script/api_test.rptdesign";
+	private static final String REPORT_PATH = "api_test.rptdesign";
 
 	protected void setUp( ) throws Exception
 	{
 		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		InputStream ins = new FileInputStream( REPORT_PATH );
-		design = engine.openDesign( REPORT_PATH, ins, null );
-		// SessionHandle sessionHandle = engine.newSessionHandle(
-		// ULocale.getDefault( ) );
-		// ReportDesignHandle designHandle = sessionHandle.openDesign(
-		// REPORT_PATH );
-		// ExtendedItemHandle eih = (ExtendedItemHandle)
-		// designHandle.findElement( elementName );
-		// return (IChart) eih.getReportItem( ).getSimpleElement( );
-		cwa = (IChart) getReportDesign( ).getReportElement( "ChartWithAxes" );
-		cwo = (IChart) getReportDesign( ).getReportElement( "ChartWithoutAxes" );
+		URL url = getClass( ).getResource( REPORT_PATH );
+		if ( url != null )
+		{
+			design = engine.openDesign( url.getFile( ), url.openStream( ), null );
+			// SessionHandle sessionHandle = engine.newSessionHandle(
+			// ULocale.getDefault( ) );
+			// ReportDesignHandle designHandle = sessionHandle.openDesign(
+			// REPORT_PATH );
+			// ExtendedItemHandle eih = (ExtendedItemHandle)
+			// designHandle.findElement( elementName );
+			// return (IChart) eih.getReportItem( ).getSimpleElement( );
+			cwa = (IChart) getReportDesign( ).getReportElement( "ChartWithAxes" );
+			cwo = (IChart) getReportDesign( ).getReportElement( "ChartWithoutAxes" );
+		}
 	}
 
 	protected IReportDesign getReportDesign( )
