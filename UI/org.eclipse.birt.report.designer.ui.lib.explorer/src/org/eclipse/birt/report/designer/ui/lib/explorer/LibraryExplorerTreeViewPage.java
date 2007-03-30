@@ -216,7 +216,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 		Menu menu = menuManager.createContextMenu( treeViewer.getControl( ) );
 
 		treeViewer.getControl( ).setMenu( menu );
-		getSite( ).registerContextMenu( "#Pop up", menuManager, //$NON-NLS-1$
+		getSite( ).registerContextMenu( "org.eclipse.birt.report.designer.ui.lib.explorer.view", menuManager, //$NON-NLS-1$
 				getSite( ).getSelectionProvider( ) );
 	}
 
