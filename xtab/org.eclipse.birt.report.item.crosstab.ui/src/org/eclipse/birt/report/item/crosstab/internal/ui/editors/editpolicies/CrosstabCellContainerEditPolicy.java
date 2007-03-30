@@ -20,6 +20,7 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.ICrosstab
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.gef.requests.GroupRequest;
 
 /**
@@ -36,8 +37,9 @@ public class CrosstabCellContainerEditPolicy extends ReportContainerEditPolicy
 	public Command getOrphanChildrenCommand( GroupRequest request )
 	{
 		List parts = request.getEditParts( );
+		int size = parts.size( );
 		CompoundCommand result = new CompoundCommand( "Move in layout" );//$NON-NLS-1$
-		for ( int i = 0; i < parts.size( ); i++ )
+		for ( int i = 0; i < size; i++ )
 		{
 			Object model = ( (EditPart) parts.get( i ) ).getModel( );
 			Object parent = ( (EditPart) parts.get( i ) ).getParent( )
@@ -47,8 +49,19 @@ public class CrosstabCellContainerEditPolicy extends ReportContainerEditPolicy
 				if ( ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE.equals( ( (CrosstabCellAdapter) parent ).getPositionType( ) )
 						|| ICrosstabCellAdapterFactory.CELL_MEASURE.equals( ( (CrosstabCellAdapter) parent ).getPositionType( ) ) )
 				{
-					return new Command( ) {
-					};
+					if (model == ((CrosstabCellAdapter)parent).getFirstDataItem( ))
+					{
+						if (size == 1)
+						{
+							return new Command( ) {
+							};
+						}
+						else
+						{
+							return UnexecutableCommand.INSTANCE;
+						}
+					}
+					
 				}
 			}
 			result.add( new DeleteCommand( model ) );

@@ -14,6 +14,7 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.editors.model;
 import java.util.List;
 
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
+import org.eclipse.birt.report.model.api.DataItemHandle;
 
 /**
  * Ceosstab cell adapter
@@ -190,5 +191,21 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter
 			copy.setPositionType( getPositionType( ) );
 		}
 		return super.copyToTarget( crossAdapt );
+	}
+	
+	/**
+	 * @return
+	 */
+	public DataItemHandle getFirstDataItem()
+	{
+		List list = getCrosstabCellHandle( ).getContents( );
+		for (int i=0; i<list.size( ); i++)
+		{
+			if (list.get( i ) instanceof DataItemHandle)
+			{
+				return (DataItemHandle)list.get( i );
+			}
+		}
+		return null;
 	}
 }

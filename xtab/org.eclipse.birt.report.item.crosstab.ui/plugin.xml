@@ -184,28 +184,6 @@
       </adapter>	 
 	</adaptable>
 	
-	<adaptable
-         class="org.eclipse.birt.report.model.api.DataItemHandle">
-      	<adapter
-             class="org.eclipse.birt.report.item.crosstab.internal.ui.views.provider.LeafNodeProvider"
-             id="Crosstab.Leaf.NodeProvider"
-             overwrite="DataItemHandle.NodeProvider"
-             priority="2"
-             type="org.eclipse.birt.report.designer.ui.views.INodeProvider">
-            <enablement>
-               	<or>
-              	 	<test 
-              	 		forcePluginActivation="true" 
-              	 		property="ElementContainer.containerName"
-                     	value="AggregationCell" />
-                    <test 
-                    	forcePluginActivation="true" 
-                    	property="ElementContainer.containerName"
-                    	value="CrosstabCell" />
-               	</or>
-        	</enablement>
-      </adapter>	 
-	</adaptable>
 	
 	<adaptable
          class="org.eclipse.birt.report.model.api.PropertyHandle">
