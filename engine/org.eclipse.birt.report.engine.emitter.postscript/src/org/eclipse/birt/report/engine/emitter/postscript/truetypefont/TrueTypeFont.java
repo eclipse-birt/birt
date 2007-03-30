@@ -18,6 +18,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -161,6 +162,12 @@ public class TrueTypeFont
 	 */
 	private boolean isFixedPitch = false;
 
+    static final int ARG_1_AND_2_ARE_WORDS = 1;
+    static final int WE_HAVE_A_SCALE = 8;
+    static final int MORE_COMPONENTS = 32;
+    static final int WE_HAVE_AN_X_AND_Y_SCALE = 64;
+    static final int WE_HAVE_A_TWO_BY_TWO = 128;
+    
 	/**
 	 * The components of table 'head'.
 	 */
@@ -1272,6 +1279,17 @@ public class TrueTypeFont
 		
 		public void ensureGlyphAvailable( char c ) throws IOException
 		{
+			List charactersToOutput = getCharactersToOutput( c );
+			for ( int i = 0; i < charactersToOutput.size( ); i++ )
+			{
+			    ensureRawDataAvailable( ( (Character) charactersToOutput
+						.get( i ) ).charValue( ) );
+			}
+			ensureRawDataAvailable(c);
+		}
+
+		private void ensureRawDataAvailable( char c ) throws IOException
+		{
 			Character character = new Character( c );
 			if ( !glyphDefined.contains( character ) )
 			{
@@ -1286,28 +1304,42 @@ public class TrueTypeFont
 
 		private byte[] getGlyphData( char c ) throws IOException
 		{
-			int[] tableLocation = (int[]) positionTables.get( "loca" );
-			int glyphIndex = getGlyphIndex( c );
-			int offset = tableLocation[0] + head.locaBytesPerEntry * glyphIndex;
-			rf.seek( offset );
 			int dataOffsetRelativeToGlyfTable, dataLength;
-			if ( head.locaBytesPerEntry == 4 )
-			{
-				dataOffsetRelativeToGlyfTable = rf.readInt( );
-				dataLength = rf.readInt( ) - dataOffsetRelativeToGlyfTable;
-			}
-			else
-			{
-				dataOffsetRelativeToGlyfTable = rf.readUnsignedShort( ) * 2;
-				dataLength = rf.readUnsignedShort( ) * 2
-						- dataOffsetRelativeToGlyfTable;
-			}
+			int[] glyphDataPosition = getGlyphDataPosition( c );
+			dataOffsetRelativeToGlyfTable = glyphDataPosition[0];
+			dataLength = glyphDataPosition[1];
 			int[] glyphLocation = (int[]) positionTables.get( "glyf" );
 			int dataOffset = dataOffsetRelativeToGlyfTable + glyphLocation[0];
 			byte[] result = new byte[dataLength];
 			rf.seek( dataOffset );
 			rf.readFully( result );
 			return result;
+		}
+
+		private int[] getGlyphDataPosition( char c ) throws IOException
+		{
+			int glyphIndex = getGlyphIndex( c );
+			return getGlyphDataPosition( glyphIndex );
+		}
+
+		private int[] getGlyphDataPosition( int glyphIndex ) throws IOException
+		{
+			int[] glyphDataPosition = new int[2];
+			int[] tableLocation = (int[]) positionTables.get( "loca" );
+			int offset = tableLocation[0] + head.locaBytesPerEntry * glyphIndex;
+			rf.seek( offset );
+			if ( head.locaBytesPerEntry == 4 )
+			{
+				glyphDataPosition[0] = rf.readInt( );
+				glyphDataPosition[1] = rf.readInt( ) - glyphDataPosition[0];
+			}
+			else
+			{
+				glyphDataPosition[0] = rf.readUnsignedShort( ) * 2;
+				glyphDataPosition[1] = rf.readUnsignedShort( ) * 2
+						- glyphDataPosition[0];
+			}
+			return glyphDataPosition;
 		}
 
 		public void ensureGlyphsAvailable( String string ) throws IOException
@@ -1318,7 +1350,67 @@ public class TrueTypeFont
 			}
 		}
 
-		public void close( ) throws IOException
+		protected List getCharactersToOutput(char c) throws IOException {
+			int glyph = getGlyphIndex( c );
+			List result = getCharactersToOutput( glyph );
+			return result;
+		}
+		
+	    protected List getCharactersToOutput(int glyph) throws IOException {
+	    	ArrayList characters = new ArrayList();
+	    	int[] glyphDataPosition = getGlyphDataPosition( glyph );
+	    	int glyphDataOffset = glyphDataPosition[0];
+	    	int glyphDataLength = glyphDataPosition[1];
+	        if (glyphDataLength == 0) // no contour
+	            return characters;
+	        int tableGlyphOffset = ( (int[]) positionTables.get( "glyf" ) )[0];
+	        rf.seek(tableGlyphOffset + glyphDataOffset);
+	        int numContours = rf.readShort();
+	        if (numContours >= 0)
+	            return characters;
+	        rf.skipBytes(8);
+	        for(;;) {
+	            int flags = rf.readUnsignedShort();
+	            Integer cGlyph = new Integer(rf.readUnsignedShort());
+	            char character = getChar( cGlyph.intValue( ) );
+	            Character charObject = new Character(character);
+				if (!glyphDefined.contains(charObject)) {
+	            	characters.add( charObject );
+	            }
+	            if ((flags & MORE_COMPONENTS) == 0)
+	                return characters;
+	            int skip;
+	            if ((flags & ARG_1_AND_2_ARE_WORDS) != 0)
+	                skip = 4;
+	            else
+	                skip = 2;
+	            if ((flags & WE_HAVE_A_SCALE) != 0)
+	                skip += 2;
+	            else if ((flags & WE_HAVE_AN_X_AND_Y_SCALE) != 0)
+	                skip += 4;
+	            if ((flags & WE_HAVE_A_TWO_BY_TWO) != 0)
+	                skip += 8;
+	            rf.skipBytes(skip);
+	        }
+	    }
+
+	    private char getChar( int glyph )
+	    {
+	    	HashMap cmap = getCMap( );
+	    	Iterator iterator = cmap.entrySet( ).iterator( );
+	    	while ( iterator.hasNext( ) )
+	    	{
+	    		Map.Entry entry = (Map.Entry) iterator.next( );
+				int[] glyphIndice = (int[]) entry.getValue( );
+				if ( glyphIndice[0] == glyph )
+				{
+					return (char)((Integer)entry.getKey( )).intValue( );
+				}
+	    	}
+	    	return (char)-1;
+	    }
+	    
+	    public void close( ) throws IOException
 		{
 			rf.close( );
 		}
