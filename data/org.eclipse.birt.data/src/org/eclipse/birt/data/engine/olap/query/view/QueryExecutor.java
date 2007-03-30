@@ -174,7 +174,7 @@ public class QueryExecutor
 			Set rsIDSet = new HashSet( );
 			for ( int i = 0; i < calculatedMember.length; i++ )
 			{
-				if ( rsIDSet.contains( calculatedMember[i].getRsID( ) ) )
+				if ( rsIDSet.contains( new Integer( calculatedMember[i].getRsID( ) ) ) )
 					continue;
 				list = getCalculatedMemberWithSameRSId( calculatedMember, i );
 				AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[list.size( )];
