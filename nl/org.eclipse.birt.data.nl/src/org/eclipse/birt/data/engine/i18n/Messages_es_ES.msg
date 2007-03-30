@@ -307,3 +307,4 @@ data.olap.measureNameNotFound=No se ha encontrado el nombre de medida "{0}".
 data.olap.levelNameNotFound=No se ha encontrado el nombre de nivel "{0}".
 data.olap.cursorPositionError=El cursor no puede navegar a la posición objetivo.
 data.olap.cursorSeekError=El cursor no puede navegar a la posición de búsqueda.
+data.olap.CannotGetMeasureValue=Cannot get measure "{0}" value.

@@ -307,3 +307,4 @@ data.olap.measureNameNotFound=Le nom de mesure "{0}" est introuvable.
 data.olap.levelNameNotFound=Le nom de niveau "{0}" est introuvable.
 data.olap.cursorPositionError=Impossible de placer le curseur en position cible.
 data.olap.cursorSeekError=Impossible de placer le curseur en position de recherche.
+data.olap.CannotGetMeasureValue=Cannot get measure "{0}" value.

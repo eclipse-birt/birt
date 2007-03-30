@@ -307,3 +307,4 @@ data.olap.measureNameNotFound=計測名 "{0}" が見つかりません。
 data.olap.levelNameNotFound=レベル名 "{0}" が見つかりません。
 data.olap.cursorPositionError=カーソルでは目的の位置にナビゲートできません。
 data.olap.cursorSeekError=カーソルでは参照の位置にナビゲートできません。
+data.olap.CannotGetMeasureValue=Cannot get measure "{0}" value.

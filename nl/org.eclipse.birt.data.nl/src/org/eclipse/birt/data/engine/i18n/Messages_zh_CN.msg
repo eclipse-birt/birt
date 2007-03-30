@@ -307,3 +307,4 @@ data.olap.measureNameNotFound=找不到度量名称“{0}”。
 data.olap.levelNameNotFound=找不到级别名称“{0}”。
 data.olap.cursorPositionError=光标无法定位到目标位置。
 data.olap.cursorSeekError=光标无法定位到查找位置。
+data.olap.CannotGetMeasureValue=Cannot get measure "{0}" value.
