@@ -759,7 +759,7 @@ public class CubeGroupContent extends Composite implements Listener
 							{
 								TabularMeasureHandle measure = DesignElementFactory.getInstance( )
 										.newTabularMeasure( dataField.getColumnName( ) );
-								measure.setMeasureExpression( DEUtil.getExpression( measure ) );
+								measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
 								( (MeasureHandle) element ).getContainer( )
 										.add( IMeasureGroupModel.MEASURES_PROP,
 												measure );
@@ -795,7 +795,7 @@ public class CubeGroupContent extends Composite implements Listener
 							{
 								TabularMeasureHandle measure = DesignElementFactory.getInstance( )
 										.newTabularMeasure( dataField.getColumnName( ) );
-								measure.setMeasureExpression( DEUtil.getExpression( measure ) );
+								measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
 								( (MeasureHandle) element ).getContainer( )
 										.add( IMeasureGroupModel.MEASURES_PROP,
 												measure );
@@ -811,7 +811,7 @@ public class CubeGroupContent extends Composite implements Listener
 									measureGroup = (MeasureGroupHandle) ( (VirtualField) element ).getModel( );
 								TabularMeasureHandle measure = DesignElementFactory.getInstance( )
 										.newTabularMeasure( dataField.getColumnName( ) );
-								measure.setMeasureExpression( DEUtil.getExpression( measure ) );
+								measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
 								measureGroup.add( IMeasureGroupModel.MEASURES_PROP,
 										measure );
 							}
@@ -1618,7 +1618,7 @@ public class CubeGroupContent extends Composite implements Listener
 								.newTabularMeasure( dataField.getColumnName( ) );
 						try
 						{
-							measure.setMeasureExpression( DEUtil.getExpression( measure ) );
+							measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
 							measureGroup.add( IMeasureGroupModel.MEASURES_PROP,
 									measure );
 						}
@@ -1635,7 +1635,7 @@ public class CubeGroupContent extends Composite implements Listener
 								.newTabularMeasure( dataField.getColumnName( ) );
 						try
 						{
-							measure.setMeasureExpression( DEUtil.getExpression( measure ) );
+							measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
 							( (MeasureHandle) obj ).getContainer( )
 									.add( IMeasureGroupModel.MEASURES_PROP,
 											measure );
