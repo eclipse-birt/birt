@@ -1849,6 +1849,10 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					if ( aax.areAxesSwapped( ) )
 					{
 						dY = daTickCoordinates[0] + dUnitSize * i;
+						if ( !oaxBase.isTickBwtweenCategories( ) )
+						{
+							dY += dUnitSize / 2;
+						}
 						try
 						{
 							dX = getLocation( scOrthogonal, oDataOrthogonal );
