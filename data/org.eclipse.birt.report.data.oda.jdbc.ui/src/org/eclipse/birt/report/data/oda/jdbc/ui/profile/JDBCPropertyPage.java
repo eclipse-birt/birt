@@ -58,5 +58,18 @@ public class JDBCPropertyPage extends DataSourceEditorPage
 		this.setPingButtonVisible( false );
 		m_pageHelper.initCustomControl( profileProps );
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.datatools.connectivity.oda.design.internal.ui.DataSourceEditorPageCore#refresh()
+	 */
+	public void refresh( Properties customConnectionProps )
+	{
+		m_pageHelper.initCustomControl( customConnectionProps );
+
+		// enable/disable all controls on page in respect of the editable session state
+		enableAllControls( getControl( ), isSessionEditable( ) );
+	}
 
 }
