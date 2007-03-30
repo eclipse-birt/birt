@@ -2,69 +2,69 @@
 #Solution reports descriptions
 
 #Listing
-ProductCatalog=Prints the Classic Models product catalog, grouped by product category. Provides product name, cost and description. Demonstrates one level grouping and using a grid within a table row to structure spacing. Also shows image inclusion and use of the <value-of> tag in text item to include the content of a database column. Finally, the report makes use of styles to simplify maintenance and achieve a consistent look. 
-TopSellingProducts=Displays a pie chart showing revenue by product line. Lists the top selling products, sorted by revenue. Demonstrates use of a chart and sorting a result set. Also shows image inclusion and use of grid and tables to organize report content. Finally, the report makes use of styles to simplify maintenance and achieve a consistent look. 
-TopNPercent=Making use of the top n and top precent filter capabilities added in BIRT 2.0, this report shows a bar chart with the top N customers by revenue, followed by a listing of the top M% customers by revenue sorted by customer name. This requires multiple passes over the data, but it is all done "under the covers" by the BIRT report engine. N and M are passed into the report as parameters to allow report users to select the number and percentage at run time. 
-StaticCrosstab=This example illustrates building a static crosstab report using the BIRT Total function. The report presents annual sales revenue by quarter for each of the product lines that Classic Models Inc currently sales. In addition totals are aggregated across horizontal and vertical dimensions. The BIRT Total function can accept a second parameter that filters the aggregate data. In this example this feature is used to only display values that pertain to a product offering, such as Trains. The first parameter in the Total function is the value to aggregate, and in this example it is set to quantity sold multiplied by price each. The second parameter is the filter. So if the filter where specified as dataSetRow["Products::PRODUCTLINE"]=="Motorcycles", only the Motorcycles product line would be aggregated. 
+ProductCatalog=Classic Models 社の製品カタログを、製品のカテゴリごとにまとめて出力します。このカタログには、製品名、コスト、説明が含まれます。レベルごとにグループ化し、テーブルやグリッドを使ってレイアウトを整えます。また、イメージを入れたり、<value-of> タグを使うことでテキスト項目にデータベース列の内容を取り込みます。このカタログは、決まったスタイルで出力されるため、見た目が統一され管理も簡単です。 
+TopSellingProducts=製品ごとの売上高を円グラフで示します。どのような製品が上位を占めているかがわかるように、売上高の多い製品から順に示します。グラフの使用や結果セットのソート方法を示します。また、イメージを入れたり、テーブルやグリッドを使ってレイアウトを整えます。このレポートは、決まったスタイルで出力されるため、見た目が統一され管理も簡単です。 
+TopNPercent=このレポートは、BIRT 2.0 の新しいフィルタ機能を使って、どの顧客への売上高が上位を占めているかを調べ、棒グラフで示します。レポートの実行時に順位 (上位 N 番目) や割合 (M%) を指定します。グラフの下に、上位 M% までの顧客を名前順に示します。このレポートを出力するにはデータの受け渡しを数回行う必要がありますが、BIRT レポートエンジンがすべて処理します。ユーザがレポートの実行時に指定する順位 (N) やパーセント (M) の数値は、パラメタとしてレポートに渡されます。 
+StaticCrosstab=この例は、BIRT の Total 関数を使って、どのようにスタティッククロスタブレポートを構築するかを示したものです。このレポートは、Classic Models 社の製品ライン別年間売上高を四半期ごとに表しています。また、合計は縦と横の 2 つの次元で総計されています。BIRT の Total 関数では、2 つ目のパラメタを使って総計データをフィルタすることができます。このレポートでは、この機能が「鉄道模型」などの製品群に関する数値を表すためのみに使われています。Total 関数の最初のパラメタは総計値です。この例では、売上個数と単価を掛けた値に適用されています。2 つ目のパラメタはフィルタです。たとえば、フィルタが dataSetRow["Products::PRODUCTLINE"]=="模型オートバイ" というフィルタが指定されている場合は、「模型オートバイ」の製品群だけが総計されます。 
 
 #Business Forms
-SalesInvoice=Prints an invoice for the selected order, including customer and invoice details and products ordered. Demonstrates use of a parameter to select the order to invoice and expressions for several calculated fields, including discount and order total. Uses expression to build customer address string and illustrates suppression of nulls in database fields with javascript function replace. Also shows image inclusion and sophisticated use of grids and tables to organize report content. Finally, the report makes use of styles to simplify maintenance and achieve a consistent look. 
+SalesInvoice=選択した注文の請求書を出力します。請求書には、顧客や請求の詳細、注文した製品の情報が含まれます。どのようなパラメタを使えば、請求処理を行う注文を選択したり、割引や合計額などの計算フィールドの式を選択できるかを示します。数式を使って顧客の住所を構築したり、JavaScript の Replace 関数を使ってデータベースフィールドの NULL を除外する方法も示します。また、イメージを入れたり、テーブルやグリッドを使ってレイアウトを整えます。このレポートは、決まったスタイルで出力されるため、見た目が統一され管理も簡単です。 
 
 ###########################################################
 #Reporting Feature Examples descriptions
 
 #XML Data Source
-XMLDS_After=A simple report that demonstrates using XML data sources. 
+XMLDS_After=XML 形式のデータソースを使ったシンプルなレポートです。 
 
 #Libraries
-Newsfeeds=This example demonstrates how BIRT can be used to build reusable component report libraries. In this example, we start by creating a library. We utilize URI's to the Eclipse RSS Newsfeed as the data source for a report and store it in the library. We then publish the library to a resource folder. This example demonstrates the creation of non-visual items in a library. It is important to note that visual items can also be created and stored in a library. 
-Newsfeeds_After=This example demonstrates how BIRT can be used to build reusable component report libraries. In this example, we start by creating a library. We utilize URI's to the Eclipse RSS Newsfeed as the data source for a report and store it in the library. We then publish the library to a resource folder. This example demonstrates the creation of non-visual items in a library. It is important to note that visual items can also be created and stored in a library.
+Newsfeeds=この例では、再利用可能なコンポーネントレポートライブラリを、BIRT を使って構築する方法を示します。まず、ライブラリの作成から始めます。レポートのデータソースとして Eclipse RSS Newsfeed への URI を使用し、ライブラリに保存します。このライブラリをリソースフォルダに公開します。この例では、ライブラリのビジュアル要素でない項目の作成方法を示します。ただし、ビジュアル要素の項目を作成してライブラリに保存することも可能です。 
+Newsfeeds_After=この例では、再利用可能なコンポーネントレポートライブラリを、BIRT を使って構築する方法を示します。まず、ライブラリの作成から始めます。レポートのデータソースとして Eclipse RSS Newsfeed への URI を使用し、ライブラリに保存します。このライブラリをリソースフォルダに公開します。この例では、ライブラリのビジュアル要素でない項目の作成方法を示します。ただし、ビジュアル要素の項目を作成してライブラリに保存することも可能です。
 
 #Combination Chart
-CustomerOrdersFinal=This example demonstrates how a Combination Chart can be created within BIRT. In addition this example also demonstrates how to add drill to details, using internal bookmarks and the Chart Interactivity Editor. The combination chart presents the outstanding debt for the top 5 customers in Bar Chart format with a Line series representing each customers credit limit superimposed. The bars within the chart are then linked to order details for each customer. 
+CustomerOrdersFinal=この例では、BIRT を使った複合グラフの作成方法を示します。また、グラフ内部のブックマークと Chart Interactivity Editor を使って詳細情報をドリルダウンする機能の追加方法も示します。複合グラフには、上位 5 位の顧客の未払い金額を棒グラフで示し、その上に各顧客の信用限度額を線系列で示します。それぞれの棒は、各顧客の注文の詳細にリンクされます。 
 
 #Cascading
-cascade=This example demonstrates how to build a BIRT report that uses a cascaded parameter group. A cascaded parameter group allows a group of parameters to be interlinked, where selecting a value for the first parameter affects the choices available in the subsequent parameters. Cascaded parameters can be tied to one or more Data Sets. The Data Sets populate each level of the cascade. Combined with Data Set parameters this offers very good flexibility for culling of returned data for a report.
+cascade=この例では、カスケードパラメタグループを使用する BIRT レポートの構築方法を示します。カスケードパラメタグループに含まれているパラメタは、相互に関連付けることができます。つまり、1 つ目のパラメタに値を割り当てると、その後のパラメタに割り当てられる値の選択肢が決まります。カスケードパラメタは、1 つまたは複数のデータセットに関連付けることができます。カスケードの各レベルにはデータセットが割り当てられます。このデータセットパラメタと組み合わせることで、レポートに返されるデータの選抜を柔軟に行うことができます。
 
 #Drill to details
-OrderMasterAfter=This example demonstrates building a master report and a detail report. The master report list orders and allows the report user to click on a particular order number to drill into a detail report for the selected order. This example illustrates using a simple parameter to cull results in the detail report and the hyperlink property within the master report to pass this parameter to the detail report. The hyperlink property within the master report is generated dynamically based on results retrieved from a query.
+OrderMasterAfter=この例では、マスターレポートと詳細レポートの構築方法を示します。マスターレポートには注文が一覧に示され、そこで注文をクリックすると詳細レポートが表示されます。ここでは、詳細レポートに返されるデータやマスターレポート内のハイパーリンクのプロパティを、簡単なパラメタによって選抜し、そのパラメタを詳細レポートに渡します。ハイパーリンクのプロパティは、クエリ結果に基づいて動的に生成されます。
 
 #Grouping
-CustomerListAfter_Grouping=This example demonstrates building a grouped report in BIRT. The example report shows a list of customers and groups these by country. Key BIRT features that are covered in this demonstration are grouping, page breaks, table of contents, and aggregrating data per group or as a total. 
+CustomerListAfter_Grouping=この例では、BIRT でグループ化したレポートの構築方法を示すために、顧客を国別にグループ化しています。BIRT の主要機能であるグループ化、ページ区切り、目次、およびグループごとのデータの総計と合計の集計も使用しています。 
 
 #Highlighting and Conditional Formatting
-ProductListAfter=This example demonstrates how to add highlighting and conditional formatting to a BIRT report. A Products list report is developed that displays all company products. The example report uses alternating row colors and highlights rows that represent a product that is low in quantity. This report also illustrates adding a script to the onCreate event of a row to modify the row style to italics for products with high markup values. 
+ProductListAfter=この例では、BIRT レポートに強調表示や条件付き書式を追加する方法を示します。会社の全製品を一覧にまとめた製品レポートを基に、行の色を交互に変えたり、在庫数が少ない製品を強調表示しています。また、行の onCreate イベントにスクリプトを追加することで、利幅が大きい製品を斜体で示しています。 
 
 #Mapping and Sorting 
-CustomerListAfter_Mapping=This example demonstrates using the Mapping and Sorting features of BIRT. Mapping allows a BIRT report element to display a different value based on an expression. For example if a query returns a numerical field for month (1-12) the mapping feature can be used to present January - December. In this example we use mapping to display a credit rank for Classic Models customers. Sorting is used in many places in BIRT and is very flexible. In this example we demonstrate adding a sort expression to a Table element that is tied to a report parameter. The parameter allows entering a search string, which is then used in the sort expression to set the sort order for the table. 
+CustomerListAfter_Mapping=この例は、BIRT のマップとソートの機能を示したものです。マップ機能は、クエリ式に基づくさまざまな値を BIRT レポートに返します。たとえば、クエリから数値フィールドに月の値 (1～12) を返した場合は、それを「1 月」から「12 月」という値をレポートに表示します。このサンプルレポートでは、Classic Models 社の顧客の信用度をマップしています。ソート機能は、非常に便利な機能で、多くの BIRT レポートで使用されています。ここでは、レポートパラメタに関連付けられている Table 要素にソート式を使っています。このパラメタに入力した検索文字列がソート式に組み込まれ、テーブルのソート順が決まります。 
 
 #Parallel Report 
-EmployeeAfter=This example demonstrates how to build a report with parallel sections. It also illustrates using table filters to cull the data displayed. The report uses a grid element to layout two columns. In each column a set of nested tables are added to retrieve employee information and group by position hierarchy. The tables are filtered by office code. 
+EmployeeAfter=この例では、並列セクションを持つレポートを構築し、テーブルフィルタを使って表示データを選抜する方法を示します。このサンプルレポートはグリッド要素で 2 列に分け、それぞれの列にネスト化したテーブルが追加されています。ここに、役職の階層ごとにグループ化した社員情報が取り込まれます。テーブルはオフィスコードによってフィルタされます。 
 
 #Query Modification
-OrderDetailsAfter=This example demonstrates how to modify a JDBC query using Property Binding or Script. Property Binding is a feature within BIRT that allows run time modification of Data Source and Data Set public properties. This can be useful to add context sensitive information to either element. As an example, the where clause can be modified to retrieve the user name from session or the database URL can be switched between development and production based on a report parameter. 
+OrderDetailsAfter=この例では、プロパティのバインドまたはスクリプトを使って JDBC のクエリを変更する方法を示します。プロパティのバインドは、データソースやデータセットのパブリックプロパティを実行時に変更できる BIRT の機能で、コンテキストに対応した情報を要素に追加する際に便利です。たとえば、レポートパラメタに基づいて、開発時と実際の使用環境で WHERE 句を変更することで、ユーザ名をセッションとデータベースの URL のどちらかから取得するように切り替えることができます。 
 
 #Report Elements
-ProductLinesAfter=This example demonstrates using Label, Text, Dynamic Text, Data, and Image elements within a report design. Some key features and differences between the elements are also identified. This example also illustrates retrieving BLOB and CLOB data from a datasource. 
+ProductLinesAfter=この例では、レポートデザインに Label、Text、Dynamic Text、Data、Image の各要素を使用しています。また、いくつかの主要機能や要素間の違いも示しています。このレポートでは、データソースから BLOB や CLOB のデータを取得します。 
 
 #Sub Report
-OrdersAfter=This example demonstrates building a report that uses nested tables. The query that is bound to the inner table is parameterized to return order details for a given order number in the outer table. This example also illustrates referencing outer table columns within a nested table. This allows BIRT reports to be designed with master detail information contained within th same report. As the outer table is processing its rows the inner table query is re-executed based on information from the outer table. 
+OrdersAfter=この例では、テーブルをネスト化してレポートを構築する方法を示します。内側のテーブルのクエリにはパラメタが組み込まれており、外側のテーブルの注文番号の詳細な注文内容が内側のテーブルに表示されます。また、内側のテーブルから外側のテーブルを参照する構造により、マスターの詳細情報を同じレポート内で示すことができます。つまり、外側のテーブルの行を処理するときに、その情報に基づいて内側のテーブルのクエリが再実行されます。 
 
 ###########################################################
 #Contribute Samples
-Contribute_Samples=Please submit a bugzilla entry at https://bugs.eclipse.org/bugs/enter_bug.cgi?product=BIRT&bug_severity=enhancement, attach the report design file and the screenshot of report output(in .png image format, 800*600 resolution, no larger than 250 KB)
+Contribute_Samples=Bugzilla のエントリは、https://bugs.eclipse.org/bugs/enter_bug.cgi?product=BIRTb&bug_severity=enhancement まで送信してください。同時に、レポートデザインファイルと、レポート出力のスクリーンショット (.png 形式、800 x 600 の解像度、250 KB 以内) も添付してください。
 
 ###########################################################
 #Scripting
 
 #Scripted Data Source
-ScriptedDatasourceExampleAfter=This section of Examples focuses on scripting within BIRT. Simple reports are used to illustrate scripting functionallity. Most examples will have a before and after report that can be downloaded. In addition, the example is illustrated in a Flash presentation. In order to load the exported java object and allow the report using it, please restart BIRT after open this sample report.  
+ScriptedDatasourceExampleAfter=ここでは、BIRT のスクリプト機能について、シンプルなレポートを使って説明します。ほとんどのサンプルレポートは、スクリプトを使用する前と後の状態でダウンロードでき、Flash 形式で見ることもできます。エクスポートした Java オブジェクトをレポートにロードして使用するには、このサンプルレポートを開いた後で BIRT を再起動してください。  
 
 ###########################################################
 #Extending BIRT
 
 #Aggreate function extension point
-optim=This section of Examples focuses on Extending BIRT. The examples here focus on implementing BIRT supplied extension points, giving the BIRT developer the capability to add to, or change the default behavior of the designer or runtime engine. This includes adding Chart Types, aggregate functions, Data Sources and Report Items. 
+optim=ここでは、BIRT の拡張機能について説明します。BIRT の拡張ポイントを実装することで、BIRT の開発者は Designer や Runtime Engine のデフォルトの動作や機能 (たとえば、グラフの種類や総計関数、データソース、レポート項目など) の追加や変更が行えるようになります。 
 
 
  

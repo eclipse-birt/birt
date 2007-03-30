@@ -2,69 +2,69 @@
 #Solution reports descriptions
 
 #Listing
-ProductCatalog=Prints the Classic Models product catalog, grouped by product category. Provides product name, cost and description. Demonstrates one level grouping and using a grid within a table row to structure spacing. Also shows image inclusion and use of the <value-of> tag in text item to include the content of a database column. Finally, the report makes use of styles to simplify maintenance and achieve a consistent look. 
-TopSellingProducts=Displays a pie chart showing revenue by product line. Lists the top selling products, sorted by revenue. Demonstrates use of a chart and sorting a result set. Also shows image inclusion and use of grid and tables to organize report content. Finally, the report makes use of styles to simplify maintenance and achieve a consistent look. 
-TopNPercent=Making use of the top n and top precent filter capabilities added in BIRT 2.0, this report shows a bar chart with the top N customers by revenue, followed by a listing of the top M% customers by revenue sorted by customer name. This requires multiple passes over the data, but it is all done "under the covers" by the BIRT report engine. N and M are passed into the report as parameters to allow report users to select the number and percentage at run time. 
-StaticCrosstab=This example illustrates building a static crosstab report using the BIRT Total function. The report presents annual sales revenue by quarter for each of the product lines that Classic Models Inc currently sales. In addition totals are aggregated across horizontal and vertical dimensions. The BIRT Total function can accept a second parameter that filters the aggregate data. In this example this feature is used to only display values that pertain to a product offering, such as Trains. The first parameter in the Total function is the value to aggregate, and in this example it is set to quantity sold multiplied by price each. The second parameter is the filter. So if the filter where specified as dataSetRow["Products::PRODUCTLINE"]=="Motorcycles", only the Motorcycles product line would be aggregated. 
+ProductCatalog=打印 Classic Models 产品目录（按产品类别分组）。提供产品名称、成本和说明信息。示范某一个级别的分组并使用表行内的网格构建间距。此外还显示所包含的图像，及如何使用文本项中的 <value-of> 标记以包括数据库列的内容。最后，报表利用样式简化维护，实现外观一致。 
+TopSellingProducts=显示一个饼图，该图显示每个生产线的收益。列出最畅销的产品并按收入排序。示范如何使用饼图并对结果集排序。此外还显示所包含的图像以及如何使用网格和表组织报表内容。最后，报表利用样式简化维护，实现外观一致。 
+TopNPercent=利用在 BIRT 2.0 中添加的前 n 个且百分比最佳的筛选器的性能，此报表显示的条形图包括收入最高的前 N 个客户，并根据收入按客户名称排序列出了前 M% 的客户。此过程要求多个数据通道，但所有这些皆由 BIRT 报表引擎“在无形之下”完成了。N 和 M 被作为参数传递到报表以允许报表用户选择运行时的数量和百分比。 
+StaticCrosstab=本示例说明如何使用 BIRT Total 函数生成静态交叉表报表。报表按季度显示 Classic Models Inc 当前销售的每个生产线的年度销售额。此外，总计通过水平和垂直维数聚合。BIRT Total 函数可接受筛选聚合数据的参数作为第二个参数。本示例中，此功能仅用于显示适合产品供应的值，如“火车”。“总计”函数中的第一个参数为要聚合的值，在本示例中该值被设置为已售数量乘以各个生产线的价格。第二个参数为过滤器。因此，如果筛选器被指定为 dataSetRow["Products::PRODUCTLINE"]=="Motorcycles"，将仅对摩托车生产线进行聚合。 
 
 #Business Forms
-SalesInvoice=Prints an invoice for the selected order, including customer and invoice details and products ordered. Demonstrates use of a parameter to select the order to invoice and expressions for several calculated fields, including discount and order total. Uses expression to build customer address string and illustrates suppression of nulls in database fields with javascript function replace. Also shows image inclusion and sophisticated use of grids and tables to organize report content. Finally, the report makes use of styles to simplify maintenance and achieve a consistent look. 
+SalesInvoice=打印选定订单的发票，包括客户和发票详细信息以及所订购的产品。示范如何使用参数选择要开票的订单及如何使用多个计算字段（包括折扣和订单总计）的表达式。使用表达式生成客户地址字符串，说明如何使用 javascript 函数替换抑制数据库字段中的 null。此外还显示包括的图像，以及如何准确使用网格和表组织报表内容。最后，报表利用样式简化维护，实现外观一致。 
 
 ###########################################################
 #Reporting Feature Examples descriptions
 
 #XML Data Source
-XMLDS_After=A simple report that demonstrates using XML data sources. 
+XMLDS_After=一个示范 XML 数据源用法的简单报表。 
 
 #Libraries
-Newsfeeds=This example demonstrates how BIRT can be used to build reusable component report libraries. In this example, we start by creating a library. We utilize URI's to the Eclipse RSS Newsfeed as the data source for a report and store it in the library. We then publish the library to a resource folder. This example demonstrates the creation of non-visual items in a library. It is important to note that visual items can also be created and stored in a library. 
-Newsfeeds_After=This example demonstrates how BIRT can be used to build reusable component report libraries. In this example, we start by creating a library. We utilize URI's to the Eclipse RSS Newsfeed as the data source for a report and store it in the library. We then publish the library to a resource folder. This example demonstrates the creation of non-visual items in a library. It is important to note that visual items can also be created and stored in a library.
+Newsfeeds=本示例示范如何使用 BIRT 生成可重复使用的组件报表库。本示例通过创建库开始入手。利用 URI 对 Eclipse RSS Newsfeed 的数据作为报表的数据源并将其存储在库中。然后，将库发布到某个资源文件夹上。本示例说明如何在库中创建不可见项。请注意，可见项也可在库中创建和存储。 
+Newsfeeds_After=本示例示范如何使用 BIRT 生成可重复使用的组件报表库。本示例通过创建库开始入手。利用 URI 对 Eclipse RSS Newsfeed 的数据作为报表的数据源并将其存储在库中。然后，将库发布到某个资源文件夹上。本示例说明如何在库中创建不可见项。请注意，可见项也可在库中创建和存储。
 
 #Combination Chart
-CustomerOrdersFinal=This example demonstrates how a Combination Chart can be created within BIRT. In addition this example also demonstrates how to add drill to details, using internal bookmarks and the Chart Interactivity Editor. The combination chart presents the outstanding debt for the top 5 customers in Bar Chart format with a Line series representing each customers credit limit superimposed. The bars within the chart are then linked to order details for each customer. 
+CustomerOrdersFinal=本示例示范如何在 BIRT 内创建“组合图”。此外，本示例还说明如何使用内部书签和“图表交互编辑器”添加明细数据。组合图以“条形图”格式显示了前 5 个带有未清债务的客户，每个拆线图系列表示一个客户的重叠信用额度。位于图表内的线将与每个客户的订单详细信息链接。 
 
 #Cascading
-cascade=This example demonstrates how to build a BIRT report that uses a cascaded parameter group. A cascaded parameter group allows a group of parameters to be interlinked, where selecting a value for the first parameter affects the choices available in the subsequent parameters. Cascaded parameters can be tied to one or more Data Sets. The Data Sets populate each level of the cascade. Combined with Data Set parameters this offers very good flexibility for culling of returned data for a report.
+cascade=本示例示范如何生成 BIRT 报表使用层叠参数组。层叠参数组允许一组参数交互链接，其中第一个参数值的选择会影响到随后参数的选择。层叠参数可与一个或多个数据集连接。数据集将填充各个层叠层。通过与数据集参数组合，将为报表返回数据的筛选提供极大灵活性。
 
 #Drill to details
-OrderMasterAfter=This example demonstrates building a master report and a detail report. The master report list orders and allows the report user to click on a particular order number to drill into a detail report for the selected order. This example illustrates using a simple parameter to cull results in the detail report and the hyperlink property within the master report to pass this parameter to the detail report. The hyperlink property within the master report is generated dynamically based on results retrieved from a query.
+OrderMasterAfter=本示例示范如何生成主报表和详细报表。主报表列出所有订单并允许订单用户单击特定订单号追溯选定订单的详细报表。本示例说明如何使用简单参数对详细报表中的结果进行筛选，以及如何使用主报表内的超级链接属性将此参数传输到详细报表。主报表内的超级链接基于查询检索的结果而动态生成。
 
 #Grouping
-CustomerListAfter_Grouping=This example demonstrates building a grouped report in BIRT. The example report shows a list of customers and groups these by country. Key BIRT features that are covered in this demonstration are grouping, page breaks, table of contents, and aggregrating data per group or as a total. 
+CustomerListAfter_Grouping=本示例示范如何在 BIRT 中生成分组报表。示例报表显示客户列表并按国家对这些客户进行分组。本示范包含的主要 BIRT 功能是分组功能、分页符功能、目录功能和每组聚合数据或总体聚合数据功能。 
 
 #Highlighting and Conditional Formatting
-ProductListAfter=This example demonstrates how to add highlighting and conditional formatting to a BIRT report. A Products list report is developed that displays all company products. The example report uses alternating row colors and highlights rows that represent a product that is low in quantity. This report also illustrates adding a script to the onCreate event of a row to modify the row style to italics for products with high markup values. 
+ProductListAfter=本示例示范如何将突出显示和条件格式添加到 BIRT 报表。开发的“产品”列表报表能显示全部公司产品。示例报表使用替代行颜色并突出显示表示数量低的产品的行。此报表也说明如何添加脚本到行的 onCreate 事件，以便将具有高标记值产品的行的样式修改为斜体。 
 
 #Mapping and Sorting 
-CustomerListAfter_Mapping=This example demonstrates using the Mapping and Sorting features of BIRT. Mapping allows a BIRT report element to display a different value based on an expression. For example if a query returns a numerical field for month (1-12) the mapping feature can be used to present January - December. In this example we use mapping to display a credit rank for Classic Models customers. Sorting is used in many places in BIRT and is very flexible. In this example we demonstrate adding a sort expression to a Table element that is tied to a report parameter. The parameter allows entering a search string, which is then used in the sort expression to set the sort order for the table. 
+CustomerListAfter_Mapping=本示例示范如何使用 BIRT 的“映射”和“排序”功能。映射允许 BIRT 报表元素显示基于表达式的另一个值。例如如果查询返回（1-12）月的数值字段，则可使用此映射功能显示一月 - 十二月。在此示例中我们使用映射显示 Classic Models 客户的信用等级。在 BIRT 中排序用的场合很多而且很灵活。在此示例中我们示范如何将排序表达式添加到与报表参数相联系的“表”元素中。该参数允许输入搜索字符串，此字符串然后用于排序表达式以设置表的排序顺序。 
 
 #Parallel Report 
-EmployeeAfter=This example demonstrates how to build a report with parallel sections. It also illustrates using table filters to cull the data displayed. The report uses a grid element to layout two columns. In each column a set of nested tables are added to retrieve employee information and group by position hierarchy. The tables are filtered by office code. 
+EmployeeAfter=本示例示范如何用平行区域生成报表。它也使用采集已显示数据的表筛选器进行说明。报表使用网格元素对列进行布局。在每列中添加一组嵌套表以检索员工信息并按位置层次进行分组。这些表格按照办公室代码进行筛选。 
 
 #Query Modification
-OrderDetailsAfter=This example demonstrates how to modify a JDBC query using Property Binding or Script. Property Binding is a feature within BIRT that allows run time modification of Data Source and Data Set public properties. This can be useful to add context sensitive information to either element. As an example, the where clause can be modified to retrieve the user name from session or the database URL can be switched between development and production based on a report parameter. 
+OrderDetailsAfter=本示例示范如何使用“属性绑定”或“脚本”修改 JDBC 查询。“属性绑定”是 BIRT 中的一个功能，该功能允许对“数据源”和“数据集”公共属性的运行时间进行修改。这可用于将上下文相关的信息添加到任一个元素。作为示例，可对 where 子句进行修改以从会话中检索用户名，或者可根据报表参数在开发和生产间切换数据库 URL。 
 
 #Report Elements
-ProductLinesAfter=This example demonstrates using Label, Text, Dynamic Text, Data, and Image elements within a report design. Some key features and differences between the elements are also identified. This example also illustrates retrieving BLOB and CLOB data from a datasource. 
+ProductLinesAfter=本示例示范如何在报表设计中使用“标签”、“文本”、“动态文本”、“数据”和“图像元素”。也会对元素间的主要功能和差异进行标识。本示例也说明如何从数据源检索 BLOB 和 CLOB 数据。 
 
 #Sub Report
-OrdersAfter=This example demonstrates building a report that uses nested tables. The query that is bound to the inner table is parameterized to return order details for a given order number in the outer table. This example also illustrates referencing outer table columns within a nested table. This allows BIRT reports to be designed with master detail information contained within th same report. As the outer table is processing its rows the inner table query is re-executed based on information from the outer table. 
+OrdersAfter=本示例示范如何生成使用嵌套表的报表。绑定到内部表的查询已被参数化以返回外部表中给定订单号的订单细节。本示例也说明如何在嵌套表中引用外部表列。这允许将 BIRT 报表设计为将主明细信息包含在相同的报表中。当外部表正在处理行的时候，会根据来自外部表的信息再执行内部表查询。 
 
 ###########################################################
 #Contribute Samples
-Contribute_Samples=Please submit a bugzilla entry at https://bugs.eclipse.org/bugs/enter_bug.cgi?product=BIRT&bug_severity=enhancement, attach the report design file and the screenshot of report output(in .png image format, 800*600 resolution, no larger than 250 KB)
+Contribute_Samples=请将 bugzilla 条目提交到 https://bugs.eclipse.org/bugs/enter_bug.cgi?product=BIRTb&bug_severity=enhancement，附加报表设计文件和报表输出抓图（.png 图像格式、800*600 分辨率、不超过 250 KB）
 
 ###########################################################
 #Scripting
 
 #Scripted Data Source
-ScriptedDatasourceExampleAfter=This section of Examples focuses on scripting within BIRT. Simple reports are used to illustrate scripting functionallity. Most examples will have a before and after report that can be downloaded. In addition, the example is illustrated in a Flash presentation. In order to load the exported java object and allow the report using it, please restart BIRT after open this sample report.  
+ScriptedDatasourceExampleAfter=该部分示例集中在 BIRT 内的脚本上。使用简单报表说明脚本功能。大多数示例都将有可下载的前后报表。此外，示例采用 Flash 演示文稿进行说明。要加载已导出的 java 对象并允许报表使用它，请在打开此示例报表后重新启动 BIRT。  
 
 ###########################################################
 #Extending BIRT
 
 #Aggreate function extension point
-optim=This section of Examples focuses on Extending BIRT. The examples here focus on implementing BIRT supplied extension points, giving the BIRT developer the capability to add to, or change the default behavior of the designer or runtime engine. This includes adding Chart Types, aggregate functions, Data Sources and Report Items. 
+optim=该部分的示例集中在“扩展 BIRT”。此处的示例集中在实施 BIRT 提供的扩展点、使 BIRT 开发人员能够添加到或改变设计者或运行时引擎的默认行为。这包括添加图表类型、聚合函数、数据源和报表项。 
 
 
  
