@@ -203,6 +203,9 @@ abstract class PreparedDataSourceQuery
 		getDataSetCacheManager( )
 				.setCacheOption( DataSetCacheUtil.getCacheOption( dataEngine.getContext( ),
 						appContext ) );
+		getDataSetCacheManager( )
+				.setCacheMode( DataSetCacheUtil.getCacheMode( appContext ) );
+
 	}
 
 	/**

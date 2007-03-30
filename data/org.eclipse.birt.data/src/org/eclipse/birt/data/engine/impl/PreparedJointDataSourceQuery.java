@@ -128,7 +128,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 				false );
 
 		getDataSetCacheManager().setCacheOption( savedCacheOption );
-
+		getDataSetCacheManager( ).setCacheMode( DataSetCacheUtil.getCacheMode( appContext ) );
 		this.left = left;
 		this.right = right;
 		this.joinType = dataSet.getJoinType( );

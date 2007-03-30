@@ -64,6 +64,17 @@ abstract public class DataEngine
 	public static String DATA_SET_CACHE_ROW_LIMIT = "org.eclipse.birt.data.cache.RowLimit";
 
 	/**
+	 * Indicates whether memory data set cache function need to be used:
+	 * 
+	 * Positive integer: Enable memory data set cache. This row limit will be used for ALL
+     * data sets, regardless of settings on individual data set designs.
+     * 
+     * Zero:Disable memory data set cache regardless of report design settings and
+	 * DataEngineContext settings. 
+	 */
+	public static String MEMORY_DATA_SET_CACHE = "org.eclipse.birt.data.cache.memory";
+	
+	/**
 	 * Creates a new instance of DataEngine, using the specified
 	 * DataEngineContext as its running environment
 	 * 

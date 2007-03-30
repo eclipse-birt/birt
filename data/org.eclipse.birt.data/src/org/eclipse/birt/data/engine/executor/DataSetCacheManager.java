@@ -57,6 +57,8 @@ public class DataSetCacheManager
 	
 	// map manager instance
 	private CacheMapManager cacheMapManager;
+
+	private int mode;
 	
 	/**
 	 * Construction
@@ -69,6 +71,9 @@ public class DataSetCacheManager
 		alwaysCacheRowCount = 0;
 		
 		cacheMapManager = new CacheMapManager( tempDir );
+		
+		//By default, use in disk cache mode.
+		mode = DataEngineContext.CACHE_MODE_IN_DISK;
 	}
 	
 	/**
@@ -81,12 +86,23 @@ public class DataSetCacheManager
 	}
 	
 	/**
+	 * Set the cache mode.
+	 * 
+	 * @param mode
+	 */
+	public void setCacheMode( int mode )
+	{
+		this.mode = mode;
+	}
+	
+	/**
 	 * @return
 	 */
 	public int suspendCache( )
 	{
 		int lastCacheOption = this.cacheOption;
 		this.setCacheOption( DataEngineContext.CACHE_USE_DISABLE );
+		this.setCacheMode( DataEngineContext.CACHE_MODE_IN_DISK );
 		return lastCacheOption;
 	}
 
@@ -124,7 +140,7 @@ public class DataSetCacheManager
 
 		return cacheMapManager.doesSaveToCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				this.dataSetDesign,
-				this.parameterHints ) );
+				this.parameterHints ), this.mode );
 	}
 
 	/**
@@ -204,19 +220,9 @@ public class DataSetCacheManager
 	/**
 	 * @return
 	 */
-	public String getSaveFolder( )
+	public IDataSetCacheObject getCacheObject( )
 	{
-		return cacheMapManager.getSaveFolder( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
-				this.dataSetDesign,
-				this.parameterHints ) );
-	}
-
-	/**
-	 * @return
-	 */
-	public String getLoadFolder( )
-	{
-		return cacheMapManager.getLoadFolder( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
+		return cacheMapManager.getCacheObject( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				this.dataSetDesign,
 				this.parameterHints ) );
 	}

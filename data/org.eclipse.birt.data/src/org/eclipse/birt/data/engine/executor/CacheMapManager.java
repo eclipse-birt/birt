@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -54,37 +55,56 @@ class CacheMapManager
 	/**
 	 * @return
 	 */
-	boolean doesSaveToCache( DataSourceAndDataSet dsAndDs )
+	boolean doesSaveToCache( DataSourceAndDataSet dsAndDs, int mode )
 	{
-		String cacheDirStr = null;
+		Object cacheObject = null;
 		
 		synchronized ( cacheMap )
 		{
-			cacheDirStr = (String) cacheMap.get( dsAndDs );
+			cacheObject = cacheMap.get( dsAndDs );
 		}
 		
-		if ( cacheDirStr != null && new File( cacheDirStr ).exists( ) == true )
+		if ( cacheObject != null  )
 		{
-			return false;
+			return needSaveToCache( cacheObject );
 		}
 		else
 		{
 			synchronized ( cacheMap )
 			{
-				cacheDirStr = (String) cacheMap.get( dsAndDs );
-				if ( cacheDirStr != null
-						&& new File( cacheDirStr ).exists( ) == true )
+				cacheObject = (String) cacheMap.get( dsAndDs );
+				if ( cacheObject != null )
+						
 				{
-					return false;					
+					return needSaveToCache( cacheObject );					
 				}
 				else
 				{
-					cacheMap.put( dsAndDs,
-							folderUtil.createSessionTempDir( ) );
+					cacheMap.put( dsAndDs, mode == DataEngineContext.CACHE_MODE_IN_MEMORY?
+							(IDataSetCacheObject )new MemoryDataSetCacheObject():
+							(IDataSetCacheObject )new DiskDataSetCacheObject(folderUtil.createSessionTempDir( )) );
 					return true;
 				}
 			}
 		}
+	}
+
+	/**
+	 * 
+	 * @param cacheObject
+	 * @return
+	 */
+	private boolean needSaveToCache( Object cacheObject )
+	{
+		if ( cacheObject instanceof DiskDataSetCacheObject )
+		{
+			DiskDataSetCacheObject diskCacheObject = (DiskDataSetCacheObject)cacheObject;
+			return !( diskCacheObject.getDataFile( ).exists( ) && diskCacheObject.getMetaFile( ).exists( ));
+		}else if ( cacheObject instanceof MemoryDataSetCacheObject )
+		{
+			return ((MemoryDataSetCacheObject)cacheObject).needPopulateResult( );
+		}
+		return false;
 	}
 	
 	/**
@@ -93,32 +113,24 @@ class CacheMapManager
 	 */
 	boolean doesLoadFromCache( DataSourceAndDataSet dsAndDs )
 	{
-		String cacheDirStr = null;
+		Object cacheDirStr = null;
 		synchronized ( cacheMap )
 		{
-			cacheDirStr = (String) cacheMap.get( dsAndDs );
+			cacheDirStr = cacheMap.get( dsAndDs );
 		}
-		if ( cacheDirStr != null && new File( cacheDirStr ).exists( ) == true )
-			return true;
-		else
-			return false;
-
+		if ( cacheDirStr != null )
+		{
+			return !needSaveToCache( cacheDirStr );
+		}
+		return false;
 	}
 	
 	/**
 	 * @return
 	 */
-	String getSaveFolder( DataSourceAndDataSet dsAndDs )
+	IDataSetCacheObject getCacheObject( DataSourceAndDataSet dsAndDs )
 	{
-		return (String) cacheMap.get( dsAndDs );
-	}
-	
-	/**
-	 * @return
-	 */
-	String getLoadFolder( DataSourceAndDataSet dsAndDs )
-	{
-		return (String) cacheMap.get( dsAndDs );
+		return (IDataSetCacheObject) cacheMap.get( dsAndDs );
 	}
 	
 	/**
@@ -127,16 +139,18 @@ class CacheMapManager
 	 */
 	void clearCache( DataSourceAndDataSet dsAndDs )
 	{
-		List cacheDir = new ArrayList() ;
+		List cacheDir = new ArrayList( );
 		synchronized ( cacheMap )
 		{
-			while ( getKey( dsAndDs )!= null )
-			cacheDir.add(cacheMap.remove( getKey ( dsAndDs )));
+			while ( getKey( dsAndDs ) != null )
+				cacheDir.add( cacheMap.remove( getKey( dsAndDs ) ) );
 		}
-		for ( int i = 0; i < cacheDir.size(); i++ )
+		for ( int i = 0; i < cacheDir.size( ); i++ )
 		{
-			// assume the following statement is thread-safe
-			folderUtil.deleteDir( cacheDir.get(i).toString() );
+			if ( cacheDir.get( i ) instanceof DiskDataSetCacheObject )
+
+				// assume the following statement is thread-safe
+				folderUtil.deleteDir( ( (DiskDataSetCacheObject) cacheDir.get( i ) ).getTempDir( ) );
 		}
 
 	}
@@ -154,54 +168,58 @@ class CacheMapManager
 	}
 	
 	/**
-	 * Return the cached result metadata featured by the given DataSourceAndDataSet. Please note
-	 * that the paramter would have no impact to DataSourceAndDataSet so that will be omited.
+	 * Return the cached result metadata featured by the given
+	 * DataSourceAndDataSet. Please note that the paramter would have no impact
+	 * to DataSourceAndDataSet so that will be omited.
+	 * 
 	 * @param dsAndDs
 	 * @return
 	 * @throws DataException
 	 */
-	IResultClass getCachedResultClass( DataSourceAndDataSet dsAndDs) throws DataException
+	IResultClass getCachedResultClass( DataSourceAndDataSet dsAndDs )
+			throws DataException
 	{
-		String folder = getMetaDataLoadFolder(dsAndDs);
-		if ( folder == null )
-			return null;
-		
-		IResultClass rsClass;
-		FileInputStream fis1 = null;
-		BufferedInputStream bis1 = null;
-		try
-		{
-			fis1 = new FileInputStream(  folder + "/metaData.data");
-			bis1 = new BufferedInputStream( fis1 );
-			IOUtil.readInt( bis1 );
-			rsClass = new ResultClass( bis1 );
-			bis1.close( );
-			fis1.close( );
-
-			return rsClass;
-		}
-		catch ( FileNotFoundException e )
-		{
-			throw new DataException( ResourceConstants.DATASETCACHE_LOAD_ERROR,
-					e );
-		}
-		catch ( IOException e )
-		{
-			throw new DataException( ResourceConstants.DATASETCACHE_LOAD_ERROR,
-					e );
-		}
-	}
-
-	/**
-	 * 
-	 * @param dsAndDs
-	 * @return 
-	 */
-	private String getMetaDataLoadFolder(DataSourceAndDataSet dsAndDs) 
-	{
+		Object cacheObject = null;
 		Object key = getKey( dsAndDs );
-		if( key != null )
-			return String.valueOf( cacheMap.get( key ) );
+		if ( key != null )
+		{
+			cacheObject = cacheMap.get( key );
+			// TODO
+
+		}
+
+		if ( cacheObject instanceof MemoryDataSetCacheObject )
+		{
+			return ( (MemoryDataSetCacheObject) cacheObject ).getResultClass( );
+		}
+		else if ( cacheObject instanceof DiskDataSetCacheObject )
+		{
+			IResultClass rsClass;
+			FileInputStream fis1 = null;
+			BufferedInputStream bis1 = null;
+			try
+			{
+				fis1 = new FileInputStream( ( (DiskDataSetCacheObject) cacheObject ).getMetaFile( ) );
+				bis1 = new BufferedInputStream( fis1 );
+				IOUtil.readInt( bis1 );
+				rsClass = new ResultClass( bis1 );
+				bis1.close( );
+				fis1.close( );
+
+				return rsClass;
+			}
+			catch ( FileNotFoundException e )
+			{
+				throw new DataException( ResourceConstants.DATASETCACHE_LOAD_ERROR,
+						e );
+			}
+			catch ( IOException e )
+			{
+				throw new DataException( ResourceConstants.DATASETCACHE_LOAD_ERROR,
+						e );
+			}
+		}
+
 		return null;
 	}
 	
