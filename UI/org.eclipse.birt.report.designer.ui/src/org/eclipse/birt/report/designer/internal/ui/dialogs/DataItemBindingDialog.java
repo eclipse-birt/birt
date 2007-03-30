@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -45,7 +46,7 @@ public class DataItemBindingDialog extends BaseDialog
 {
 
 	protected static final String NAME = Messages.getString( "DataItemBindingDialog.text.Name" );
-	
+
 	protected static final String DISPLAY_NAME = Messages.getString( "DataItemBindingDialog.text.displayName" );
 
 	protected static final String DATA_TYPE = Messages.getString( "DataItemBindingDialog.text.DataType" );
@@ -90,7 +91,7 @@ public class DataItemBindingDialog extends BaseDialog
 	private Text itemName;
 
 	private Text itemDisplayName;
-	
+
 	private Combo itemAggregateOn;
 
 	private Text itemExpression;
@@ -141,7 +142,7 @@ public class DataItemBindingDialog extends BaseDialog
 		GridData gd = new GridData( GridData.FILL_BOTH );
 		gd.widthHint = 380;
 		composite.setLayoutData( gd );
-		
+
 		new Label( composite, SWT.NONE ).setText( NAME );
 		itemName = new Text( composite, SWT.BORDER );
 
@@ -167,7 +168,7 @@ public class DataItemBindingDialog extends BaseDialog
 			}
 
 		} );
-		
+
 		new Label( composite, SWT.NONE ).setText( DISPLAY_NAME );
 		itemDisplayName = new Text( composite, SWT.BORDER );
 		itemDisplayName.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
@@ -186,10 +187,10 @@ public class DataItemBindingDialog extends BaseDialog
 				| GridData.GRAB_HORIZONTAL ) );
 
 		Button expressionButton = new Button( composite, SWT.PUSH );
-//		expressionButton.setText( "..." );
-//		GridData gd = new GridData( );
-//		gd.heightHint = 20;
-//		gd.widthHint = 20;
+		// expressionButton.setText( "..." );
+		// GridData gd = new GridData( );
+		// gd.heightHint = 20;
+		// gd.widthHint = 20;
 		expressionButton.setLayoutData( gd );
 		expressionButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -199,8 +200,8 @@ public class DataItemBindingDialog extends BaseDialog
 			}
 		} );
 
-		setExpressionButtonImage(expressionButton);
-		
+		setExpressionButtonImage( expressionButton );
+
 		itemExpression.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
@@ -243,6 +244,17 @@ public class DataItemBindingDialog extends BaseDialog
 					itemAggregateOn.setVisible( false );
 					hiddenLabel.setVisible( false );
 				}
+				if ( itemExpression.getText( ) == null
+						|| itemExpression.getText( ).equals( "" ) )
+				{
+					if ( getOkButton( ) != null )
+						getOkButton( ).setEnabled( false );
+				}
+				else
+				{
+					if ( getOkButton( ) != null )
+						getOkButton( ).setEnabled( true );
+				}
 			}
 		} );
 
@@ -274,7 +286,7 @@ public class DataItemBindingDialog extends BaseDialog
 		}
 		return null;
 	}
-	
+
 	private int getItemIndex( String[] items, String item )
 	{
 		for ( int i = 0; i < items.length; i++ )
@@ -322,7 +334,23 @@ public class DataItemBindingDialog extends BaseDialog
 	private void initExpression( )
 	{
 		if ( expression != null && itemExpression != null )
+		{
 			itemExpression.setText( expression );
+		}
+	}
+
+	protected void createButtonsForButtonBar( Composite parent )
+	{
+		super.createButtonsForButtonBar( parent );
+		if ( itemExpression.getText( ) == null
+				|| itemExpression.getText( ).equals( "" ) )
+		{
+				getOkButton( ).setEnabled( false );
+		}
+		else
+		{
+				getOkButton( ).setEnabled( true );
+		}
 	}
 
 	private String name;
@@ -332,7 +360,7 @@ public class DataItemBindingDialog extends BaseDialog
 		if ( name != null && itemName != null )
 			itemName.setText( name );
 	}
-	
+
 	private String displayName;
 
 	private void initDisplayName( )
@@ -351,7 +379,8 @@ public class DataItemBindingDialog extends BaseDialog
 
 			if ( bindingColumn == null )
 			{
-				if(itemExpression.getText( ) == null || itemExpression.getText( ).length( ) == 0)
+				if ( itemExpression.getText( ) == null
+						|| itemExpression.getText( ).length( ) == 0 )
 				{
 					return;
 				}
@@ -382,28 +411,29 @@ public class DataItemBindingDialog extends BaseDialog
 			}
 			else
 			{
-				if(itemExpression.getText( ) != null && itemExpression.getText( ).length( ) == 0)
+				if ( itemExpression.getText( ) != null
+						&& itemExpression.getText( ).length( ) == 0 )
 				{
-					DataItemHandle itemHandle = (DataItemHandle)getBindingObject( );
+					DataItemHandle itemHandle = (DataItemHandle) getBindingObject( );
 					String resultSetName = itemHandle.getResultSetColumn( );
-					if( bindingColumn.getName( ).equals( resultSetName ))
+					if ( bindingColumn.getName( ).equals( resultSetName ) )
 					{
 						itemHandle.setResultSetColumn( null );
 					}
-					itemHandle.getColumnBindings( ).removeItem( bindingColumn.getStructure( ) );
+					itemHandle.getColumnBindings( )
+							.removeItem( bindingColumn.getStructure( ) );
 					bindingColumn = null;
 					return;
 				}
 
-				 
 				if ( !( bindingColumn.getName( ) != null && bindingColumn.getName( )
 						.equals( itemName.getText( ).trim( ) ) ) )
 					bindingColumn.setName( itemName.getText( ) );
-				
+
 				if ( !( bindingColumn.getDisplayName( ) != null && bindingColumn.getDisplayName( )
 						.equals( itemDisplayName.getText( ).trim( ) ) ) )
 					bindingColumn.setDisplayName( itemDisplayName.getText( ) );
-				
+
 				for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 				{
 					if ( DATA_TYPE_CHOICES[i].getDisplayName( )
@@ -527,7 +557,7 @@ public class DataItemBindingDialog extends BaseDialog
 		this.name = name;
 		initName( );
 	}
-	
+
 	public void setDisplayName( String displayName )
 	{
 		this.displayName = displayName;
@@ -572,7 +602,8 @@ public class DataItemBindingDialog extends BaseDialog
 				}
 				else
 				{
-					createColumnName( input,  ( (DataItemHandle) input ).getResultSetColumn( ) );
+					createColumnName( input,
+							( (DataItemHandle) input ).getResultSetColumn( ) );
 					setTypeSelect( dataTypes[0] );
 				}
 			}
@@ -594,7 +625,7 @@ public class DataItemBindingDialog extends BaseDialog
 	{
 		return itemName.getText( ).trim( );
 	}
-	
+
 	public String getExpression( )
 	{
 		return itemExpression.getText( );
@@ -644,28 +675,29 @@ public class DataItemBindingDialog extends BaseDialog
 		return bindingColumn;
 	}
 
-	protected void setExpressionButtonImage(Button button)
+	protected void setExpressionButtonImage( Button button )
 	{
 		String imageName;
-		if(button.isEnabled())
+		if ( button.isEnabled( ) )
 		{
 			imageName = IReportGraphicConstants.ICON_ENABLE_EXPRESSION_BUILDERS;
-		}else
+		}
+		else
 		{
 			imageName = IReportGraphicConstants.ICON_DISABLE_EXPRESSION_BUILDERS;
 		}
-		Image image = ReportPlatformUIImages.getImage(imageName );
-		
-		GridData gd = new GridData();
+		Image image = ReportPlatformUIImages.getImage( imageName );
+
+		GridData gd = new GridData( );
 		gd.widthHint = 20;
 		gd.heightHint = 20;
-		button.setLayoutData(gd);
-		
-		button.setImage(image);
-		if(button.getImage() != null)
+		button.setLayoutData( gd );
+
+		button.setImage( image );
+		if ( button.getImage( ) != null )
 		{
-			button.getImage().setBackground(button.getBackground());
+			button.getImage( ).setBackground( button.getBackground( ) );
 		}
-		
+
 	}
 }
