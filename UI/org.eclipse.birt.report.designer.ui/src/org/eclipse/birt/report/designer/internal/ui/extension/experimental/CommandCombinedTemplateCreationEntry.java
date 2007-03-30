@@ -11,12 +11,16 @@
 
 package org.eclipse.birt.report.designer.internal.ui.extension.experimental;
 
+import org.eclipse.birt.report.designer.core.IReportElementConstants;
+import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.ExtendedElementToolExtends;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportElementFactory;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.gef.Tool;
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.requests.CreationFactory;
-import org.eclipse.gef.tools.CreationTool;
 
 /**
  * 
@@ -33,7 +37,11 @@ public class CommandCombinedTemplateCreationEntry extends
 	{
 		super( paletteEntry.getLabel( ),
 				paletteEntry.getDescription( ),
-				new ReportElementFactory( paletteEntry.getItemName( ) ),
+				IReportElementConstants.REPORT_ELEMENT_EXTENDED
+						+ paletteEntry.getItemName( ),
+				new ReportElementFactory( IReportElementConstants.REPORT_ELEMENT_EXTENDED
+						+ paletteEntry.getItemName( ),
+						paletteEntry.getItemName( ) ),
 				paletteEntry.getIcon( ),
 				paletteEntry.getIconLarge( ) );
 		this.paletteEntry = paletteEntry;
@@ -41,25 +49,42 @@ public class CommandCombinedTemplateCreationEntry extends
 
 	public Tool createTool( )
 	{
-		// TODO Auto-generated method stub
-		return new CreationTool( ) {
-
-			protected void performCreation( int button )
-			{
-				// TODO Auto-generated method stub
-				try
-				{
-					getCreateRequest( ).setFactory( new PaletteEntryCreationFactory( paletteEntry ) );
-					super.performCreation( button );
-				}
-				catch ( Exception e )
-				{
-					ExceptionHandler.handle( e );
-				}
-			}
-
-		};
+		return new PaletteEntryCreationTool( this.factory,
+				new ExtendedElementToolExtends( paletteEntry.getItemName( ) ),
+				paletteEntry );
 	}
+}
+
+class PaletteEntryCreationTool extends ReportCreationTool
+{
+
+	private CreationFactory factory;
+	private PaletteEntryExtension paletteEntry;
+
+	public PaletteEntryCreationTool( CreationFactory factory,
+			AbstractToolHandleExtends preHandle,
+			PaletteEntryExtension paletteEntry )
+	{
+		super( factory, preHandle );
+		this.factory = factory;
+		setFactory( factory );
+		this.paletteEntry = paletteEntry;
+	}
+
+	protected void performCreation( int button )
+	{
+		try
+		{
+			getCreateRequest( ).setFactory( this.factory );
+			CommandUtils.setVariable( "targetEditPart", getTargetEditPart( ) );
+			paletteEntry.executeCreate( );
+		}
+		catch ( Exception e )
+		{
+			ExceptionHandler.handle( e );
+		}
+	}
+
 }
 
 class PaletteEntryCreationFactory implements CreationFactory
@@ -87,7 +112,8 @@ class PaletteEntryCreationFactory implements CreationFactory
 
 	public Object getObjectType( )
 	{
-		return this.paletteEntry.getItemName( );
+		return IReportElementConstants.REPORT_ELEMENT_EXTENDED
+				+ paletteEntry.getItemName( );
 	}
 
 }

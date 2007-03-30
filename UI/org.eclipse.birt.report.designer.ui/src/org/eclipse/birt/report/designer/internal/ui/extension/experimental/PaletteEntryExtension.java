@@ -93,7 +93,7 @@ public class PaletteEntryExtension
 	{
 		if ( getCommand( ) != null )
 		{
-			return CommandUtils.executeCommand( getCommand( ), null );
+			return CommandUtils.executeCommand( getCommand( ));
 		}
 		throw new Exception( "create command not specail." );
 	}

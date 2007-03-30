@@ -211,20 +211,20 @@ public class GuiExtensionManager
 		}
 
 		//experimental
-//		PaletteEntryExtension[] entries = EditpartExtensionManager.getPaletteEntries( );
-//		for ( int i = 0; i < entries.length; i++ )
-//		{
-//			String category = entries[i].getCategory( );
-//			PaletteContainer entry = findCategory( list, category );
-//			if ( entry == null )
-//			{
-//				entry = new PaletteCategory( category, category, null );
-//				root.add( entry );
-//			}
-//
-//			CombinedTemplateCreationEntry combined = new CommandCombinedTemplateCreationEntry( entries[i] );
-//			entry.add( combined );
-//		}
+		PaletteEntryExtension[] entries = EditpartExtensionManager.getPaletteEntries( );
+		for ( int i = 0; i < entries.length; i++ )
+		{
+			String category = entries[i].getCategory( );
+			PaletteContainer entry = findCategory( list, category );
+			if ( entry == null )
+			{
+				entry = new PaletteCategory( category, category, null );
+				root.add( entry );
+			}
+
+			CombinedTemplateCreationEntry combined = new CommandCombinedTemplateCreationEntry( entries[i] );
+			entry.add( combined );
+		}
 		return root;
 	}
 
