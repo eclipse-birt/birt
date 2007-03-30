@@ -655,7 +655,9 @@ public class ReportEngineService
 		// Render options
 		if ( renderOption == null )
 		{
-			if ( ParameterAccessor.PARAM_FORMAT_PDF.equalsIgnoreCase( format ) )
+			if ( IBirtConstants.PDF_RENDER_FORMAT.equalsIgnoreCase( format )
+					|| IBirtConstants.POSTSCRIPT_RENDER_FORMAT
+							.equalsIgnoreCase( format ) )
 			{
 				renderOption = createPDFRenderOption( servletPath, request,
 						isDesigner.booleanValue( ) );
@@ -1003,7 +1005,9 @@ public class ReportEngineService
 		if ( format == null )
 			format = ParameterAccessor.getFormat( request );
 
-		if ( ParameterAccessor.PARAM_FORMAT_PDF.equalsIgnoreCase( format ) )
+		if ( IBirtConstants.PDF_RENDER_FORMAT.equalsIgnoreCase( format )
+				|| IBirtConstants.POSTSCRIPT_RENDER_FORMAT
+						.equalsIgnoreCase( format ) )
 		{
 			renderOption = createPDFRenderOption( servletPath, request,
 					ParameterAccessor.isDesigner( request ) );
@@ -1017,7 +1021,9 @@ public class ReportEngineService
 		renderOption.setOutputStream( out );
 		renderOption.setOutputFormat( format );
 		ViewerHTMLActionHandler handler = null;
-		if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_PDF ) )
+		if ( IBirtConstants.PDF_RENDER_FORMAT.equalsIgnoreCase( format )
+				|| IBirtConstants.POSTSCRIPT_RENDER_FORMAT
+						.equalsIgnoreCase( format ) )
 		{
 			handler = new ViewerHTMLActionHandler( reportDocument, pageNumber,
 					locale, false, rtl, masterPage, format );
@@ -1206,7 +1212,9 @@ public class ReportEngineService
 		if ( format == null )
 			format = ParameterAccessor.getFormat( request );
 
-		if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_PDF ) )
+		if ( IBirtConstants.PDF_RENDER_FORMAT.equalsIgnoreCase( format )
+				|| IBirtConstants.POSTSCRIPT_RENDER_FORMAT
+						.equalsIgnoreCase( format ) )
 		{
 			renderOption = createPDFRenderOption( servletPath, request,
 					ParameterAccessor.isDesigner( request ) );
@@ -1217,17 +1225,18 @@ public class ReportEngineService
 					request );
 		}
 
+		renderOption.setOutputFormat( format );
 		renderOption.setOutputStream( out );
 		ViewerHTMLActionHandler handler = null;
-		if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_PDF ) )
+		if ( IBirtConstants.PDF_RENDER_FORMAT.equalsIgnoreCase( format )
+				|| IBirtConstants.POSTSCRIPT_RENDER_FORMAT
+						.equalsIgnoreCase( format ) )
 		{
-			renderOption.setOutputFormat( IBirtConstants.PDF_RENDER_FORMAT );
 			handler = new ViewerHTMLActionHandler( reportDocument, -1, locale,
 					false, rtl, masterPage, format );
 		}
 		else
 		{
-			renderOption.setOutputFormat( IBirtConstants.HTML_RENDER_FORMAT );
 			boolean isEmbeddable = false;
 			if ( IBirtConstants.SERVLET_PATH_FRAMESET
 					.equalsIgnoreCase( servletPath )
@@ -1266,12 +1275,8 @@ public class ReportEngineService
 			{
 				renderTask.setReportlet( reportletId );
 			}
-			if ( format.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_PDF ) )
-				renderTask.render( );
-			else
-			{
-				renderTask.render( );
-			}
+
+			renderTask.render( );
 		}
 		catch ( Exception e )
 		{

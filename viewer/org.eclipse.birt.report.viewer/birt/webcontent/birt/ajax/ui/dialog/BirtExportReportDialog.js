@@ -130,7 +130,7 @@ BirtExportReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			}			
 			
 			// If output format is pdf/postscript, set some options
-			if( format == 'pdf' )
+			if( format == 'pdf' || format == 'postscript' )
 			{
 				var fittopage = "false";
 				var pagebreakonly = "false";
@@ -231,7 +231,7 @@ BirtExportReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	__enableExtSection : function( )
 	{		
 		var format = $( 'exportFormat' ).value.toLowerCase( );
-		if( format == 'pdf' )
+		if( format == 'pdf' || format == 'postscript' )
 		{
 			this.__setDisabled( 'exportFitSetting', false );
 		}
