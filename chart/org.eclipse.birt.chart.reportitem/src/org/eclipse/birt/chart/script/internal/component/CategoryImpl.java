@@ -24,7 +24,7 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.script.api.component.ICategory;
 import org.eclipse.birt.chart.script.api.data.ISeriesGrouping;
-import org.eclipse.birt.chart.script.internal.attribute.SeriesGroupingImpl;
+import org.eclipse.birt.chart.script.internal.data.SeriesGroupingImpl;
 import org.eclipse.emf.common.util.EList;
 
 /**

@@ -16,6 +16,8 @@ import org.eclipse.birt.chart.model.attribute.impl.TextImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.script.api.ChartComponentFactory;
+import org.eclipse.birt.report.model.api.extension.IColor;
+import org.eclipse.birt.report.model.api.extension.IFont;
 
 /**
  * 
@@ -37,6 +39,36 @@ public class ChartTest extends BaseChartTestCase
 		assertEquals( "IChart.SetTitle", getChartWithAxes( ).getTitle( )
 				.getCaption( )
 				.getValue( ), newTitle );
+
+	}
+
+	public void testTitleCaptionFont( )
+	{
+		IFont font = getChartWithAxes( ).getTitle( ).getCaption( ).getFont( );
+		assertNotNull( font );
+		assertEquals( new Float( font.getSize( ) ), new Float( 16 ) );
+		font.setSize( 9 );
+		assertEquals( new Float( font.getSize( ) ), new Float( 9 ) );
+
+		assertTrue( font.isBold( ) );
+		font.setIsBold( false );
+		assertFalse( font.isBold( ) );
+	}
+
+	public void testTitleCaptionColor( )
+	{
+		IColor color = getChartWithAxes( ).getTitle( ).getCaption( ).getColor( );
+		assertNotNull( color );
+
+		assertEquals( "Dummy color - Red", color.getRed( ), -1 );
+		color.setRed( 255 );
+		assertEquals( color.getRed( ), 255 );
+
+		assertEquals( "Dummy color - transparency",
+				color.getTransparency( ),
+				255 );
+		color.setTransparency( 0 );
+		assertEquals( color.getTransparency( ), 0 );
 	}
 
 	public void testDescription( )
