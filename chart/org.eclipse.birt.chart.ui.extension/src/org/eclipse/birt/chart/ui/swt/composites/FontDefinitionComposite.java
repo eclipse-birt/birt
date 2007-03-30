@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.ACC;
 import org.eclipse.swt.accessibility.AccessibleAdapter;
@@ -36,6 +37,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
@@ -143,7 +145,9 @@ public class FontDefinitionComposite extends Composite
 		gdBEllipsis.widthHint = 20;
 		gdBEllipsis.heightHint = 20;
 		btnFont.setLayoutData( gdBEllipsis );
-		btnFont.setImage( UIHelper.getImage( "icons/obj16/fonteditor.gif" ) ); //$NON-NLS-1$
+		btnFont.setText( "A" ); //$NON-NLS-1$
+		btnFont.setFont(  new Font( Display.getCurrent( ), "Times New Roman", 14, SWT.BOLD ) ); //$NON-NLS-1$
+//		btnFont.setImage( UIHelper.getImage( "icons/obj16/fonteditor.gif" ) ); //$NON-NLS-1$
 		btnFont.setToolTipText( TOOLTIP ); 
 		btnFont.addSelectionListener( new SelectionAdapter( ) {
 

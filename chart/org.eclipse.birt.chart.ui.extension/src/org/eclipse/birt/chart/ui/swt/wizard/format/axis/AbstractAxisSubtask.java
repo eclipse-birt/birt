@@ -597,6 +597,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		else if ( e.widget.equals( btnCategoryAxis ) )
 		{
 			getAxisForProcessing( ).setCategoryAxis( btnCategoryAxis.getSelection( ) );
+			refreshPopupSheet( );
 		}
 		else if ( e.widget.equals( btnTitleVisible ) )
 		{

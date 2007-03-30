@@ -95,7 +95,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 	public AxisGridLinesSheet( String title, ChartWizardContext context,
 			Axis axis, int angleType )
 	{
-		super( title, context, false );
+		super( title, context, true );
 		this.axis = axis;
 		this.angleType = angleType;
 	}
