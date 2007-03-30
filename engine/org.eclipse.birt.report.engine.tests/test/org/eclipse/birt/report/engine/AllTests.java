@@ -85,7 +85,7 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.report.engine.css.engine.PerfectHashTest.class );
 		
 		/* in package: org.eclipse.birt.report.engine.data.dte */
-		suite.addTestSuite( org.eclipse.birt.report.engine.data.dte.DataEngineTest.class );
+//		suite.addTestSuite( org.eclipse.birt.report.engine.data.dte.DataEngineTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.data.dte.NamedExpressionTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.data.dte.ReportQueryBuilderTest.class );
 		
