@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.data.engine.olap.driver;
 
+import org.eclipse.birt.data.engine.core.DataException;
+
 /**
  * This class is to represent multi-dimension resultset. It includes row edge,
  * column edge, page edge( aggregation)'s resultset axis.
@@ -41,6 +43,6 @@ public interface IResultSet
 	 * @param name
 	 * @return
 	 */
-	public EdgeAxis getMeasureResult( String name );
+	public EdgeAxis getMeasureResult( String name )  throws DataException;
 
 }

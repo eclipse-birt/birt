@@ -21,9 +21,9 @@ import java.util.List;
 class CalculatedMember
 {
 
-	private String aggrFunction, onMeasureName;
+	private String aggrFunction, onMeasureName, name;
 	private List aggrOnList;
-	private boolean isMeasure = false;
+	private int rsID;
 
 	/**
 	 * 
@@ -32,13 +32,14 @@ class CalculatedMember
 	 * @param aggrFunction
 	 * @param isMeasure
 	 */
-	CalculatedMember( String onMeasureName, List aggrOnList,
-			String aggrFunction, boolean isMeasure )
+	CalculatedMember( String name, String onMeasureName, List aggrOnList,
+			String aggrFunction, int rsID )
 	{
+		this.name = name;
 		this.onMeasureName = onMeasureName;
 		this.aggrOnList = aggrOnList;
 		this.aggrFunction = aggrFunction;
-		this.isMeasure = isMeasure;
+		this.rsID = rsID;
 	}
 
 	/**
@@ -72,8 +73,17 @@ class CalculatedMember
 	 * 
 	 * @return
 	 */
-	boolean isMeasure( )
+	String getName( )
 	{
-		return this.isMeasure;
+		return this.name;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	int getRsID( )
+	{
+		return this.rsID;
 	}
 }

@@ -303,4 +303,5 @@ public class ResourceConstants
 	public final static String LEVEL_NAME_NOT_FOUND = "data.olap.levelNameNotFound";
 	public final static String CURSOR_POSITION_SET_ERROR = "data.olap.cursorPositionError";
 	public final static String CURSOR_SEEK_ERROR = "data.olap.cursorSeekError";
+	public final static String CANNOT_GET_MEASURE_VALUE ="data.olap.CannotGetMeasureValue";
 }

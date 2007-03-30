@@ -32,6 +32,7 @@ public class BirtEdgeView
 	private BirtCubeView cubeView;
 	private List dimensionViewList;
 	private String name;
+	private final static String CALCULATED_MEMBER ="CALCULATED_MEMBER";
 
 	/**
 	 * 
@@ -53,7 +54,7 @@ public class BirtEdgeView
 	 */
 	public BirtEdgeView( CalculatedMember calculatedMember )
 	{
-		this.name = calculatedMember.getMeasureName( );
+		this.name = CALCULATED_MEMBER + calculatedMember.getRsID( );
 	}
 
 	/**

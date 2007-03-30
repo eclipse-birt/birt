@@ -26,6 +26,8 @@ import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.impl.LevelDefiniton;
 import org.eclipse.birt.data.engine.olap.api.query.impl.MeasureDefinition;
+import org.eclipse.birt.data.engine.olap.util.ICubeAggrDefn;
+import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 
 /**
  * Utility class
@@ -46,26 +48,37 @@ class CubeQueryDefinitionUtil
 			ICubeQueryDefinition queryDefn )
 	{
 		List measureList = queryDefn.getMeasures( );
-		// List bindingList = queryDefn.getBindings( );
+		ICubeAggrDefn[] cubeAggrs = OlapExpressionUtil.getAggrDefns( queryDefn.getBindings( ) );
+		
+		List cubeAggrBindingList = new ArrayList();
+		for( int i=0; i< cubeAggrs.length; i++ )
+		{
+			if( cubeAggrs[i].aggrName( ) != null )
+				cubeAggrBindingList.add( cubeAggrs[i] );
+		}
+		
 
 		if ( measureList == null )
 			return new CalculatedMember[0];
 
-		CalculatedMember[] calculatedMember = new CalculatedMember[measureList.size( )];
+		CalculatedMember[] calculatedMember = new CalculatedMember[measureList.size( )
+				+ cubeAggrBindingList.size( )];
 		int index = 0;
+		
+		List calculatedMemberList = new ArrayList();
 		if ( !measureList.isEmpty( ) )
 		{
-			List levelNameList = new ArrayList( );
+			List levelList = new ArrayList( );
 			ILevelDefinition[] rowLevels = getLevelsOnEdge( queryDefn.getEdge( ICubeQueryDefinition.ROW_EDGE ) );
 			ILevelDefinition[] columnLevels = getLevelsOnEdge( queryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE ) );
 
 			for ( int i = 0; i < rowLevels.length; i++ )
 			{
-				levelNameList.add( rowLevels[i].getName( ) );
+				levelList.add( rowLevels[i].getName( ) );
 			}
 			for ( int i = 0; i < columnLevels.length; i++ )
 			{
-				levelNameList.add( columnLevels[i].getName( ) );
+				levelList.add( columnLevels[i].getName( ) );
 			}
 
 			Iterator measureIter = measureList.iterator( );
@@ -74,34 +87,66 @@ class CubeQueryDefinitionUtil
 				MeasureDefinition measureDefn = (MeasureDefinition) measureIter.next( );
 
 				calculatedMember[index] = new CalculatedMember( measureDefn.getName( ),
-						levelNameList,
+						measureDefn.getName( ),
+						levelList,
 						BuiltInAggregationFactory.TOTAL_SUM_FUNC,
-						true );
+						0 );
+				calculatedMemberList.add( calculatedMember[index] );
+				index++;
+			}
+		}
+		
+		if ( !cubeAggrBindingList.isEmpty( ) )
+		{
+			int rsID = 1;
+			for ( int i = 0; i < cubeAggrBindingList.size( ); i++ )
+			{
+				int id = getResultSetIndex( calculatedMemberList,
+						( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getAggrLevels( ) );
+				if ( id == -1 )
+				{
+					calculatedMember[index] = new CalculatedMember( ( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getName( ),
+							( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getMeasure( ),
+							( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getAggrLevels( ),
+							( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).aggrName( ),
+							rsID );
+					calculatedMemberList.add( calculatedMember[index] );
+					rsID++;
+				}
+				else
+				{
+					calculatedMember[index] = new CalculatedMember( ( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getName( ),
+							( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getMeasure( ),
+							( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getAggrLevels( ),
+							( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).aggrName( ),
+							id );
+				}
 				index++;
 			}
 		}
 
-		// TODO
-		// if ( queryDefn.getBindings( ) != null
-		// && !queryDefn.getBindings( ).isEmpty( ) )
-		// {
-		// IBinding binding;
-		//
-		// for ( int i = 0; i < bindingList.size( ); i++ )
-		// {
-		// binding = (IBinding) bindingList.get( i );
-		// calculatedMember[index] = new CalculatedMember(
-		// binding.getBindingName( ),
-		// binding.getExpression( ),
-		// binding.getAggregatOns( ),
-		// binding.getAggrFunction( ),
-		// false );
-		// index++;
-		// }
-		// }
 		return calculatedMember;
 	}
-
+	
+	/**
+	 * 
+	 * @param aggrList
+	 * @param levelList
+	 * @return
+	 */
+	private static int getResultSetIndex( List aggrList, List levelList )
+	{
+		for ( int i = 0; i < aggrList.size( ); i++ )
+		{
+			CalculatedMember member = (CalculatedMember) aggrList.get( i );
+			if ( member.getAggrOnList( ).equals( levelList ) )
+			{
+				return member.getRsID( );
+			}
+		}		
+		return -1;
+	}
+	
 	/**
 	 * get all ILevelDefinition from certain IEdgeDefinition
 	 * 
@@ -176,31 +221,29 @@ class CubeQueryDefinitionUtil
 						new RelationShip( rowLevelList, columnLevelList ) );
 			}
 		}
-		// TODO
-		// if ( queryDefn.getBindings( ) != null
-		// && !queryDefn.getBindings( ).isEmpty( ) )
-		// {
-		// Iterator measureIter = queryDefn.getBindings( ).iterator( );
-		// IBinding binding;
-		// List usedLevelOnRow, usedLevelOnColumn;
-		// while ( measureIter.hasNext( ) )
-		// {
-		// binding = (IBinding) measureIter.next( );
-		// List aggrOns = binding.getAggregatOns( );
-		// usedLevelOnRow = new ArrayList( );
-		// usedLevelOnColumn = new ArrayList( );
-		// for ( int i = 0; i < aggrOns.size( ); i++ )
-		// {
-		// if ( rowLevelList.contains( aggrOns.get( i ) ) )
-		// usedLevelOnRow.add( aggrOns.get( i ) );
-		// else if ( columnLevelList.contains( aggrOns.get( i ) ) )
-		// usedLevelOnColumn.add( aggrOns.get( i ) );
-		// }
-		//
-		// measureRelationMap.put( binding.getBindingName( ),
-		// new RelationShip( usedLevelOnRow, usedLevelOnColumn ) );
-		//			}
-		//		}
+		ICubeAggrDefn[] cubeAggrs = OlapExpressionUtil.getAggrDefns( queryDefn.getBindings( ) );
+		
+		 if ( cubeAggrs != null && cubeAggrs.length > 0 )
+		{
+			for ( int i = 0; i < cubeAggrs.length; i++ )
+			{
+				if ( cubeAggrs[i].aggrName( ) == null )
+					continue;
+				List aggrOns = cubeAggrs[i].getAggrLevels( );
+				List usedLevelOnRow = new ArrayList( );
+				List usedLevelOnColumn = new ArrayList( );
+				for ( int j = 0; j < aggrOns.size( ); j++ )
+				{
+					if ( rowLevelList.contains( aggrOns.get( j ) ) )
+						usedLevelOnRow.add( aggrOns.get( j ) );
+					else if ( columnLevelList.contains( aggrOns.get( j ) ) )
+						usedLevelOnColumn.add( aggrOns.get( j ) );
+				}
+
+				measureRelationMap.put( cubeAggrs[i].getName( ),
+						new RelationShip( usedLevelOnRow, usedLevelOnColumn ) );
+			}
+		}
 		return measureRelationMap;
 	}
 }

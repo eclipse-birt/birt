@@ -29,7 +29,6 @@ class DimensionCursorImpl extends AbstractCursorSupport
 	private EdgeCursor edgeCursor;
 	private DimensionNavigator navigator;
 	private DimensionAxis dimensionAxis;
-	private int levelIndex = -1;
 
 	/**
 	 * 
@@ -41,11 +40,10 @@ class DimensionCursorImpl extends AbstractCursorSupport
 	DimensionCursorImpl( EdgeCursor edgeCursor, DimensionAxis dimensionAxis,
 			DimensionNavigator navigator ) throws OLAPException
 	{
-		super( navigator, new DimensionAccessor( dimensionAxis, navigator ) );
+		super( navigator, new DimensionAccessor( dimensionAxis, navigator) );
 		this.edgeCursor = edgeCursor;
 		this.dimensionAxis = dimensionAxis;
 		this.navigator = navigator;
-		this.levelIndex = dimensionAxis.getLevelIndex( );
 	}
 
 	/*

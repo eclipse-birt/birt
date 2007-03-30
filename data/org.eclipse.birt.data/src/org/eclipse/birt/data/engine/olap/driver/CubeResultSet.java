@@ -15,6 +15,7 @@ import java.io.IOException;
 
 import javax.olap.OLAPException;
 
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
 import org.eclipse.birt.data.engine.olap.query.view.MeasureNameManager;
@@ -92,9 +93,9 @@ public class CubeResultSet implements IResultSet
 	/*
 	 * @see org.eclipse.birt.data.engine.olap.driver.IResultSet#getMeasureResult(java.lang.String)
 	 */
-	public EdgeAxis getMeasureResult( String name )
+	public EdgeAxis getMeasureResult( String name ) throws DataException
 	{
-		int index = manager.getMeasureIndex( name );
+		int index = manager.getAggregationResultID( name );
 		return this.calculatedEdgeAxis[index];
 	}
 }

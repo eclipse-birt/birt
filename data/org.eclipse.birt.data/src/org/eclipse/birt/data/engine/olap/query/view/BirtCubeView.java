@@ -12,7 +12,9 @@
 package org.eclipse.birt.data.engine.olap.query.view;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.olap.OLAPException;
 import javax.olap.cursor.CubeCursor;
@@ -45,7 +47,7 @@ public class BirtCubeView
 	/**
 	 * Constructor: construct the row/column/measure EdgeView.
 	 * 
-	 * @param queryDefn
+	 * @param queryExecutor
 	 */
 	public BirtCubeView( CubeQueryExecutor queryExecutor )
 	{
@@ -56,10 +58,16 @@ public class BirtCubeView
 		CalculatedMember[] members = CubeQueryDefinitionUtil.getCalculatedMembers( queryDefn );
 		if ( members != null && members.length > 0 )
 		{
+			Set rsIDSet = new HashSet( );
 			calculatedMemberView = new BirtEdgeView[members.length];
+			int index =0;
 			for ( int i = 0; i < members.length; i++ )
 			{
-				calculatedMemberView[i] = this.createBirtEdgeView( members[i] );
+				if ( rsIDSet.contains( new Integer( members[i].getRsID( ) ) ) )
+					continue;
+				calculatedMemberView[index] = this.createBirtEdgeView( members[i] );
+				rsIDSet.add( new Integer( members[i].getRsID( ) ) );
+				index++;
 			}
 		}
 		manager = new MeasureNameManager( members );
