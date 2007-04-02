@@ -267,7 +267,7 @@ public class DataSetIterator implements IDatasetIterator
 		{
 
 			TabularLevelHandle level = (TabularLevelHandle) levels.get( j );
-			ColumnMeta temp = new ColumnMeta( level.getName( ) );
+			ColumnMeta temp = new ColumnMeta( level.getColumnName( ) );
 			resultMetaList.add( temp );
 			levelNameColumnNamePair.put( level.getColumnName( ), temp );
 			Iterator it = level.attributesIterator( );
@@ -283,8 +283,8 @@ public class DataSetIterator implements IDatasetIterator
 				resultMetaList.add( meta );
 			}
 			GroupDefinition gd = new GroupDefinition( );
-			gd.setKeyExpression( ExpressionUtil.createJSRowExpression( level.getName( ) ) );
-			query.addResultSetExpression( level.getName( ),
+			gd.setKeyExpression( ExpressionUtil.createJSRowExpression( level.getColumnName( ) ) );
+			query.addResultSetExpression( level.getColumnName( ),
 					new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( level.getColumnName( ) ) ) );
 			query.addGroup( gd );
 
