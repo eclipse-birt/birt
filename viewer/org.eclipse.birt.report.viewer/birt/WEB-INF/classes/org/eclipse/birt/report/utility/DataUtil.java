@@ -97,26 +97,56 @@ public class DataUtil
 		if ( value == null )
 			return obj;
 
+		// Default format
+		String defFormat = null;
+		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
+				.equalsIgnoreCase( dataType ) )
+		{
+			defFormat = ParameterValidationUtil.DEFAULT_DATETIME_FORMAT;
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_DATE
+				.equalsIgnoreCase( dataType ) )
+		{
+			defFormat = ParameterValidationUtil.DEFAULT_DATE_FORMAT;
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_TIME
+				.equalsIgnoreCase( dataType ) )
+		{
+			defFormat = ParameterValidationUtil.DEFAULT_TIME_FORMAT;
+		}
+
 		// if parameter value equals display text, should use local/format to
 		// format parameter value first
 		if ( isLocale )
 		{
 			try
 			{
+				if ( format == null )
+				{
+					if ( DesignChoiceConstants.PARAM_TYPE_DATE
+							.equalsIgnoreCase( dataType ) )
+					{
+						format = ParameterValidationUtil.DISPLAY_DATE_FORMAT;
+					}
+					else if ( DesignChoiceConstants.PARAM_TYPE_TIME
+							.equalsIgnoreCase( dataType ) )
+					{
+						format = ParameterValidationUtil.DISPLAY_TIME_FORMAT;
+					}
+					else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
+							.equalsIgnoreCase( dataType ) )
+					{
+						format = DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED;
+					}
+				}
+
 				// Convert locale string to object
 				obj = ParameterValidationUtil.validate( dataType, format,
 						value, locale );
 			}
-			catch ( ValidationValueException e1 )
+			catch ( Exception e )
 			{
 				// Convert string to object using default format/local
-				String defFormat = null;
-				if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
-						.equalsIgnoreCase( dataType ) )
-				{
-					defFormat = ParameterValidationUtil.DEFAULT_DATETIME_FORMAT;
-				}
-
 				obj = ParameterValidationUtil.validate( dataType, defFormat,
 						value );
 			}
@@ -124,14 +154,7 @@ public class DataUtil
 		else
 		{
 			// Convert string to object using default format/local
-			format = null;
-			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
-					.equalsIgnoreCase( dataType ) )
-			{
-				format = ParameterValidationUtil.DEFAULT_DATETIME_FORMAT;
-			}
-
-			obj = ParameterValidationUtil.validate( dataType, format, value );
+			obj = ParameterValidationUtil.validate( dataType, defFormat, value );
 		}
 
 		return obj;

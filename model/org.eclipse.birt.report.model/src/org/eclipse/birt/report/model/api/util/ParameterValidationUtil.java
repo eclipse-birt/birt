@@ -42,6 +42,8 @@ import com.ibm.icu.util.ULocale;
  * <li><code>PARAM_TYPE_BOOLEAN</code></li>
  * <li><code>PARAM_TYPE_STRING</code></li>
  * <li><code>PARAM_TYPE_INTEGER</code></li>
+ * <li><code>PARAM_TYPE_DATE</code></li>
+ * <li><code>PARAM_TYPE_TIME</code></li>
  * </ul>
  * 
  * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
@@ -62,6 +64,11 @@ public class ParameterValidationUtil
 	 */
 
 	public static final String DEFAULT_DATETIME_FORMAT = "MM/dd/yyyy hh:mm:ss a"; //$NON-NLS-1$
+	public static final String DEFAULT_DATE_FORMAT = "MM/dd/yyyy"; //$NON-NLS-1$
+	public static final String DEFAULT_TIME_FORMAT = "hh:mm:ss a"; //$NON-NLS-1$
+
+	public static final String DISPLAY_DATE_FORMAT = "Long Date"; //$NON-NLS-1$
+	public static final String DISPLAY_TIME_FORMAT = "Medium Time"; //$NON-NLS-1$
 
 	/**
 	 * Validates a input parameter value with the given data type. The returned
@@ -74,6 +81,8 @@ public class ParameterValidationUtil
 	 * <li><code>PARAM_TYPE_DECIMAL</code></li>
 	 * <li><code>PARAM_TYPE_BOOLEAN</code></li>
 	 * <li><code>PARAM_TYPE_STRING</code></li>
+	 * <li><code>PARAM_TYPE_DATE</code></li>
+	 * <li><code>PARAM_TYPE_TIME</code></li>
 	 * </ul>
 	 * 
 	 * @param dataType
@@ -102,14 +111,22 @@ public class ParameterValidationUtil
 		{
 			try
 			{
-				return java.sql.Date.valueOf( value );
+				return new java.sql.Date( DataTypeUtil.toDate( value, locale )
+						.getTime( ) );
 			}
-			catch ( NumberFormatException e )
+			catch ( Exception e )
 			{
-				throw new ValidationValueException(
-						value,
-						ValidationValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-						dataType );
+				try
+				{
+					return java.sql.Date.valueOf( value );
+				}
+				catch ( Exception err )
+				{
+					throw new ValidationValueException(
+							value,
+							ValidationValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+							dataType );
+				}
 			}
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_TIME
@@ -117,14 +134,22 @@ public class ParameterValidationUtil
 		{
 			try
 			{
-				return java.sql.Time.valueOf( value );
+				return new java.sql.Time( DataTypeUtil.toDate( value, locale )
+						.getTime( ) );
 			}
-			catch ( NumberFormatException e )
+			catch ( Exception e )
 			{
-				throw new ValidationValueException(
-						value,
-						ValidationValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-						dataType );
+				try
+				{
+					return java.sql.Time.valueOf( value );
+				}
+				catch ( Exception err )
+				{
+					throw new ValidationValueException(
+							value,
+							ValidationValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+							dataType );
+				}
 			}
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT
@@ -403,14 +428,22 @@ public class ParameterValidationUtil
 			{
 				try
 				{
-					return java.sql.Date.valueOf( value );
+					return new java.sql.Date( doValidateDateTimeByPattern(
+							format, value, locale ).getTime( ) );
 				}
-				catch ( NumberFormatException e )
+				catch ( Exception e )
 				{
-					throw new ValidationValueException(
-							value,
-							ValidationValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-							dataType );
+					try
+					{
+						return java.sql.Date.valueOf( value );
+					}
+					catch ( Exception err )
+					{
+						throw new ValidationValueException(
+								value,
+								ValidationValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+								dataType );
+					}
 				}
 			}
 			else if ( DesignChoiceConstants.PARAM_TYPE_TIME
@@ -418,14 +451,22 @@ public class ParameterValidationUtil
 			{
 				try
 				{
-					return java.sql.Time.valueOf( value );
+					return new java.sql.Time( doValidateDateTimeByPattern(
+							format, value, locale ).getTime( ) );
 				}
-				catch ( NumberFormatException e )
+				catch ( Exception e )
 				{
-					throw new ValidationValueException(
-							value,
-							ValidationValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-							dataType );
+					try
+					{
+						return java.sql.Time.valueOf( value );
+					}
+					catch ( Exception err )
+					{
+						throw new ValidationValueException(
+								value,
+								ValidationValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+								dataType );
+					}
 				}
 			}
 			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
@@ -658,9 +699,6 @@ public class ParameterValidationUtil
 			String value, ULocale locale ) throws ValidationValueException
 	{
 		assert !StringUtil.isBlank( format );
-		if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED
-				.equalsIgnoreCase( format ) )
-			return doVidateDateTime( value, locale );
 		if ( StringUtil.isBlank( value ) )
 			return null;
 
@@ -793,10 +831,19 @@ public class ParameterValidationUtil
 			formatter.applyPattern( DEFAULT_DATETIME_FORMAT );
 			return formatter.format( (Date) value );
 		}
-		else if ( value instanceof java.sql.Date
-				|| value instanceof java.sql.Time )
+		else if ( value instanceof java.sql.Date )
 		{
-			return value.toString( );
+			DateFormatter formatter = new DateFormatter( DEFAULT_LOCALE );
+			formatter.applyPattern( DEFAULT_DATE_FORMAT );
+			return formatter.format( new Date( ( (java.sql.Date) value )
+					.getTime( ) ) );
+		}
+		else if ( value instanceof java.sql.Time )
+		{
+			DateFormatter formatter = new DateFormatter( DEFAULT_LOCALE );
+			formatter.applyPattern( DEFAULT_TIME_FORMAT );
+			return formatter.format( new Date( ( (java.sql.Time) value )
+					.getTime( ) ) );
 		}
 		else if ( value instanceof Float )
 		{
@@ -888,10 +935,25 @@ public class ParameterValidationUtil
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DATE
 				.equalsIgnoreCase( dataType )
-				|| DesignChoiceConstants.PARAM_TYPE_TIME
-						.equalsIgnoreCase( dataType ) )
+				|| value instanceof java.sql.Date )
 		{
-			return value.toString( );
+			DateFormatter formatter = new DateFormatter( locale );
+			if ( format == null )
+				format = DISPLAY_DATE_FORMAT;
+			formatter.applyPattern( format );
+			return formatter.format( new Date( ( (java.sql.Date) value )
+					.getTime( ) ) );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_TIME
+				.equalsIgnoreCase( dataType )
+				|| value instanceof java.sql.Time )
+		{
+			DateFormatter formatter = new DateFormatter( locale );
+			if ( format == null )
+				format = DISPLAY_TIME_FORMAT;
+			formatter.applyPattern( format );
+			return formatter.format( new Date( ( (java.sql.Time) value )
+					.getTime( ) ) );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT
 				.equalsIgnoreCase( dataType )
