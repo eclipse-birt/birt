@@ -15,6 +15,7 @@ import java.io.IOException;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.api.cube.IDimension;
@@ -93,6 +94,13 @@ public class Cube implements ICube
 	public void load( StopSign stopSign ) throws IOException, DataException
 	{
 		IDocumentObject documentObject = documentManager.openDocumentObject( NamingUtil.getCubeDocName( name ) );
+		
+		if ( documentObject == null )
+			throw new DataException( ResourceConstants.DOCUMENTOBJECT_NOT_EXIST,
+					new Object[]{
+						name
+					} );
+
 		documentObject.seek( 0 );
 		name = documentObject.readString( );
 		dimension = new IDimension[documentObject.readInt( )];

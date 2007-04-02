@@ -295,7 +295,7 @@ public class ResourceConstants
 	public final static String KEY_VALUE_CANNOT_BE_NULL = "data.olap.KeyValueCanNotBeNull";
 	public final static String OLAPFILE_FORMAT_INVALID = "data.olap.OlapFileFormatError";
 	public final static String OLAPFILE_DATA_ERROR = "data.olap.OlapFileDataError";
-	public final static String DOCUMENTOJBECT_ALWAYS_EXIST = "data.olap.DocumentObjectAlreadyExists";
+	public final static String DOCUMENTOBJECT_ALWAYS_EXIST = "data.olap.DocumentObjectAlreadyExists";
 	public final static String FACTTABLE_ROW_NOT_DISTINCT = "data.olap.FacttableRowNotDistinct";
 	public final static String FACTTABLE_NULL_MEASURE_VALUE = "data.olap.FacttableNullMeasureValue";
 	public final static String INVALID_DIMENSIONPOSITION_OF_FACTTABLEROW = "data.olap.InvalidDimensionPositionFacttableRow";
@@ -303,5 +303,6 @@ public class ResourceConstants
 	public final static String LEVEL_NAME_NOT_FOUND = "data.olap.levelNameNotFound";
 	public final static String CURSOR_POSITION_SET_ERROR = "data.olap.cursorPositionError";
 	public final static String CURSOR_SEEK_ERROR = "data.olap.cursorSeekError";
-	public final static String CANNOT_GET_MEASURE_VALUE ="data.olap.CannotGetMeasureValue";
+	public final static String CANNOT_GET_MEASURE_VALUE = "data.olap.CannotGetMeasureValue";
+	public final static String DOCUMENTOBJECT_NOT_EXIST = "data.olap.DocumentObjectNotExists";
 }
