@@ -234,67 +234,67 @@ public class DesignerActionBarContributor extends
 		addRetargetAction( new RetargetAction( ImportLibraryAction.ID,
 				ImportLibraryAction.ACTION_TEXT ) );
 		registerActions( parameterActions );
-//		ICommandService commandService = (ICommandService) PlatformUI.getWorkbench( )
-//				.getAdapter( ICommandService.class );
-//		IHandlerService handlerService = (IHandlerService) PlatformUI.getWorkbench( )
-//				.getAdapter( IHandlerService.class );
-//		
-//		
-//		Command command = commandService.getCommand( "testcommand" );
-//
-//		try
-//		{
-//			// IParameter viewIdParm = command.getParameter( "moduleHandle" );
-//			//
-//			// IParameterValues parmValues = viewIdParm.getValues( );
-//			// String viewId = null;
-//			// Iterator i = parmValues.getParameterValues( ).values( ).iterator(
-//			// );
-//			// while ( i.hasNext( ) )
-//			// {
-//			// String id = (String) i.next( );
-//			// if ( id.indexOf( "ProblemView" ) != -1 )
-//			// {
-//			// viewId = id;
-//			// break;
-//			// }
-//			// }
-//
-//			Parameterization parm = CommandUtils.createParameter( command,
-//					"moduleHandle",
-//					SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) );
-//			ParameterizedCommand parmCommand = new ParameterizedCommand( command,
-//					new Parameterization[]{
-//						parm
-//					} );
-//
-//			handlerService.executeCommand( parmCommand, null );
-//		}
-//		catch ( ExecutionException e )
-//		{
-//			// TODO Auto-generated catch block
-//			e.printStackTrace( );
-//		}
-//		catch ( NotDefinedException e )
-//		{
-//			// TODO Auto-generated catch block
-//			e.printStackTrace( );
-//		}
-//		catch ( NotEnabledException e )
-//		{
-//			// TODO Auto-generated catch block
-//			e.printStackTrace( );
-//		}
-//		catch ( NotHandledException e )
-//		{
-//			// TODO Auto-generated catch block
-//			e.printStackTrace( );
-//		}
-//		catch ( ParameterValueConversionException e )
-//		{
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		//		ICommandService commandService = (ICommandService) PlatformUI.getWorkbench( )
+		//				.getAdapter( ICommandService.class );
+		//		IHandlerService handlerService = (IHandlerService) PlatformUI.getWorkbench( )
+		//				.getAdapter( IHandlerService.class );
+		//		
+		//		
+		//		Command command = commandService.getCommand( "testcommand" );
+		//
+		//		try
+		//		{
+		//			// IParameter viewIdParm = command.getParameter( "moduleHandle" );
+		//			//
+		//			// IParameterValues parmValues = viewIdParm.getValues( );
+		//			// String viewId = null;
+		//			// Iterator i = parmValues.getParameterValues( ).values( ).iterator(
+		//			// );
+		//			// while ( i.hasNext( ) )
+		//			// {
+		//			// String id = (String) i.next( );
+		//			// if ( id.indexOf( "ProblemView" ) != -1 )
+		//			// {
+		//			// viewId = id;
+		//			// break;
+		//			// }
+		//			// }
+		//
+		//			Parameterization parm = CommandUtils.createParameter( command,
+		//					"moduleHandle",
+		//					SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) );
+		//			ParameterizedCommand parmCommand = new ParameterizedCommand( command,
+		//					new Parameterization[]{
+		//						parm
+		//					} );
+		//
+		//			handlerService.executeCommand( parmCommand, null );
+		//		}
+		//		catch ( ExecutionException e )
+		//		{
+		//			// TODO Auto-generated catch block
+		//			e.printStackTrace( );
+		//		}
+		//		catch ( NotDefinedException e )
+		//		{
+		//			// TODO Auto-generated catch block
+		//			e.printStackTrace( );
+		//		}
+		//		catch ( NotEnabledException e )
+		//		{
+		//			// TODO Auto-generated catch block
+		//			e.printStackTrace( );
+		//		}
+		//		catch ( NotHandledException e )
+		//		{
+		//			// TODO Auto-generated catch block
+		//			e.printStackTrace( );
+		//		}
+		//		catch ( ParameterValueConversionException e )
+		//		{
+		//			// TODO Auto-generated catch block
+		//			e.printStackTrace();
+		//		}
 	}
 
 	/**
@@ -313,7 +313,8 @@ public class DesignerActionBarContributor extends
 			if ( !extensionPoints.isEmpty( ) )
 			{
 				insertElementActions = new RegisterActions[insertActions.length
-						+ extensionPoints.size( )+entries.length];
+						+ extensionPoints.size( )
+						+ entries.length];
 				for ( int i = 0; i < insertActions.length; i++ )
 				{
 					insertElementActions[i] = insertActions[i];
@@ -341,7 +342,9 @@ public class DesignerActionBarContributor extends
 			{
 				RegisterActions extAction = new RegisterActions( entries[i].getItemName( ),
 						entries[i].getLabel( ) );
-				insertElementActions[insertActions.length + i] = extAction;
+				insertElementActions[insertActions.length
+						+ extensionPoints.size( )
+						+ i] = extAction;
 			}
 		}
 		return insertElementActions;
@@ -386,10 +389,10 @@ public class DesignerActionBarContributor extends
 			zoomComboContributionItem.setZoomManager( (ZoomManager) getPage( ).getActivePart( )
 					.getAdapter( ZoomManager.class ) );
 		}
-		
+
 		zoomComboContributionItem.setVisible( true );
-		tbm.add( zoomComboContributionItem );			
-		
+		tbm.add( zoomComboContributionItem );
+
 	}
 
 	/*
