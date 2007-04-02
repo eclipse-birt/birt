@@ -11,13 +11,16 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.dialogs.MapRuleBuilder;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.MapRuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
@@ -37,7 +40,20 @@ public class MapHandleProvider
 
 	protected DesignElementHandle elementHandle;
 
-
+	public URL getResourceURL( )
+	{
+		return SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( )
+				.findResource( getBaseName( ), IResourceLocator.MESSAGE_FILE );
+	}
+	
+	public String getBaseName( )
+	{
+		return SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( )
+				.getIncludeResource( );
+	}
+	
 	/**
 	 * Returns the current design element handle.
 	 * 
