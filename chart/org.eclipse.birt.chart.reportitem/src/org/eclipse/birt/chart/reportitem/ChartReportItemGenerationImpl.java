@@ -13,8 +13,6 @@ package org.eclipse.birt.chart.reportitem;
 
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.util.Iterator;
-import java.util.Map;
 
 import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.factory.RunTimeContext;
@@ -22,9 +20,7 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
-import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.report.engine.extension.IRowSet;
 import org.eclipse.birt.report.engine.extension.ReportItemGenerationBase;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -159,17 +155,19 @@ public class ChartReportItemGenerationImpl extends ReportItemGenerationBase
 
 		// Evaluate the expressions so that they are registered by the DtE
 		// in the Report Document
-		IRowSet rowSet = rowSets[0];
-		Map expressions = queries[0].getResultSetExpressions( );
-		while ( rowSet.next( ) )
-		{
-			for ( Iterator iter = expressions.keySet( ).iterator( ); iter.hasNext( ); )
-			{
-				String colName = (String) iter.next( );
-				String expr = ExpressionUtil.createRowExpression( JavascriptEvalUtil.transformToJsConstants( colName ) );
-				rowSet.evaluate( expr );
-			}
-		}
+		// IRowSet rowSet = rowSets[0];
+		// Map expressions = queries[0].getResultSetExpressions( );
+		// while ( rowSet.next( ) )
+		// {
+		// for ( Iterator iter = expressions.keySet( ).iterator( );
+		// iter.hasNext( ); )
+		// {
+		// String colName = (String) iter.next( );
+		// String expr = ExpressionUtil.createRowExpression(
+		// JavascriptEvalUtil.transformToJsConstants( colName ) );
+		// rowSet.evaluate( expr );
+		//			}
+		//		}
 	}
 
 }
