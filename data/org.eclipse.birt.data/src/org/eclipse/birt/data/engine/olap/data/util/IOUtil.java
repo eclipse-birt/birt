@@ -40,6 +40,10 @@ public class IOUtil
 				return new DateRandomWriter( );
 			case DataType.BIGDECIMAL_TYPE :
 				return new BigDecimalRandomWriter( );
+			case DataType.SQL_DATE_TYPE :
+				return new DateRandomWriter( );
+			case DataType.SQL_TIME_TYPE :
+				return new DateRandomWriter( );
 			default :
 				return null;
 		}
@@ -60,9 +64,13 @@ public class IOUtil
 			case DataType.STRING_TYPE :
 				return new StringRandomReader( );
 			case DataType.DATE_TYPE :
-				return new DateRandomReader( );
+				return new DateTimeRandomReader( );
 			case DataType.BIGDECIMAL_TYPE :
 				return new BigDecimalRandomReader( );
+			case DataType.SQL_DATE_TYPE :
+				return new DateRandomReader( );
+			case DataType.SQL_TIME_TYPE :
+				return new TimeRandomReader( );
 			default :
 				return null;
 		}
@@ -171,6 +179,7 @@ class DateRandomWriter implements IObjectWriter
 	}
 }
 
+
 class BigDecimalRandomWriter implements IObjectWriter
 {
 
@@ -233,12 +242,36 @@ class StringRandomReader implements IObjectReader
 	}
 }
 
-class DateRandomReader implements IObjectReader
+class DateTimeRandomReader implements IObjectReader
 {
 
 	public Object read( BufferedRandomAccessFile file ) throws IOException
 	{
 		return file.readDate( );
+	}
+}
+
+class DateRandomReader implements IObjectReader
+{
+
+	public Object read( BufferedRandomAccessFile file ) throws IOException
+	{
+		Date date = file.readDate( );
+		if( date == null )
+			return null;
+		return new java.sql.Date( date.getTime() );
+	}
+}
+
+class TimeRandomReader implements IObjectReader
+{
+
+	public Object read( BufferedRandomAccessFile file ) throws IOException
+	{
+		Date time = file.readDate( );
+		if( time == null )
+			return null;
+		return new java.sql.Time( time.getTime() );
 	}
 }
 

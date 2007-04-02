@@ -29,15 +29,20 @@ public class DataType
 	public static final int DATE_TYPE = org.eclipse.birt.core.data.DataType.DATE_TYPE;
 	public static final int BIGDECIMAL_TYPE = 101;
 	public static final int BYTES_TYPE = 102;
+	public static final int SQL_DATE_TYPE = org.eclipse.birt.core.data.DataType.SQL_DATE_TYPE;
+	public static final int SQL_TIME_TYPE = org.eclipse.birt.core.data.DataType.SQL_TIME_TYPE;
+	
 
 	private static final String[] names = {
 			"Boolean",
 			"Integer",
 			"Double",
 			"String",
-			"Date",
+			"DateTime",
 			"BigDecimal",
-			"Bytes"
+			"Bytes",
+			"Date",
+			"Time"
 	};
 
 	private static final int[] typeCodes = {
@@ -47,7 +52,9 @@ public class DataType
 			STRING_TYPE,
 			DATE_TYPE,
 			BIGDECIMAL_TYPE,
-			BYTES_TYPE
+			BYTES_TYPE,
+			SQL_DATE_TYPE,
+			SQL_TIME_TYPE
 	};
 
 	public static final String BOOLEAN_TYPE_NAME = names[0];
@@ -57,6 +64,8 @@ public class DataType
 	public static final String DATE_TYPE_NAME = names[4];
 	public static final String BIGDECIMAL_TYPE_NAME = names[5];
 	public static final String BYTES_TYPE_NAME = names[6];
+	public static final String SQL_DATE_TYPE_NAME = names[7];
+	public static final String SQL_TIME_TYPE_NAMW = names[8];
 
 	private static final Class[] classes = {
 			Boolean.class,
@@ -65,7 +74,9 @@ public class DataType
 			String.class,
 			Date.class,
 			BigDecimal.class,
-			Bytes.class
+			Bytes.class,
+			java.sql.Date.class,
+			java.sql.Time.class,
 	};
 
 	/**

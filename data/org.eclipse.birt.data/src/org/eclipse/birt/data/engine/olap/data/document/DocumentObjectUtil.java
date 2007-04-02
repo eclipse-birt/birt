@@ -79,6 +79,12 @@ public class DocumentObjectUtil
 			case DataType.BYTES_TYPE :
 				documentObject.writeBytes( ( (Bytes) value ) );
 				break;
+			case DataType.SQL_DATE_TYPE :
+				documentObject.writeDate( ( (java.sql.Date) value ) );
+				break;
+			case DataType.SQL_TIME_TYPE :
+				documentObject.writeDate( ( (java.sql.Time) value ) );
+				break;
 			default :
 				assert false;
 				break;
@@ -131,6 +137,20 @@ public class DocumentObjectUtil
 				return documentObject.readBigDecimal( );
 			case DataType.BYTES_TYPE :
 				return documentObject.readBytes( );
+			case DataType.SQL_DATE_TYPE:
+				Date date = documentObject.readDate();
+				if (date == null) 
+				{
+					return null;
+				}
+				return new java.sql.Date(date.getTime());
+			case DataType.SQL_TIME_TYPE :
+				Date time = documentObject.readDate();
+				if (time == null) 
+				{
+					return null;
+				}
+				return new java.sql.Time(time.getTime());
 			default :
 				assert false;
 				return null;
