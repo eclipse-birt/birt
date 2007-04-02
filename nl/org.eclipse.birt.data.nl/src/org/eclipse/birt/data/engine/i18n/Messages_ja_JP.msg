@@ -300,6 +300,7 @@ data.olap.DimensionNotExist=次元 {0} が存在しません。
 data.olap.KeyValueCanNotBeNull=キー列の値は NULL にすることができません。キー列 : {0}
 data.olap.OlapFileDataError=データオブジェクト {0} のデータが無効です。
 data.olap.DocumentObjectAlreadyExists =ドキュメントオブジェクトがすでに存在するため、データオブジェクト {0} を作成できませんでした。
+data.olap.DocumentObjectNotExists =Fail to load cube "{0}" from document. The document object does not exist.
 data.olap.FacttableRowNotDistinct=ファクトテーブルでは行が固有でなければなりませんが、"{0}" が複数あります。
 data.olap.FacttableNullMeasureValue=計測列の値が NULL です。"{0}" 
 data.olap.InvalidDimensionPositionFacttableRow=行 "{0}" の次元 {1} に、有効な次元情報がありません。

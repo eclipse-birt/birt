@@ -300,6 +300,7 @@ data.olap.DimensionNotExist=维 {0} 不存在。
 data.olap.KeyValueCanNotBeNull=键列的值不能为空。键列: {0}。
 data.olap.OlapFileDataError=数据对象 {0} 中存在无效数据。
 data.olap.DocumentObjectAlreadyExists =文档对象已存在。无法创建数据对象: {0}。
+data.olap.DocumentObjectNotExists =Fail to load cube "{0}" from document. The document object does not exist.
 data.olap.FacttableRowNotDistinct=行在事实表中应各不相同。“{0}”出现多次。
 data.olap.FacttableNullMeasureValue=度量列的值为空。“{0}” 
 data.olap.InvalidDimensionPositionFacttableRow=行“{0}”没有关于维 {1} 的有效维信息。

@@ -300,6 +300,7 @@ data.olap.DimensionNotExist=Die Dimension {0} ist nicht vorhanden.
 data.olap.KeyValueCanNotBeNull=Der Wert der Schlüsselspalte darf nicht Null sein. Schlüsselspalte: {0}.
 data.olap.OlapFileDataError=Es gibt ungültige Daten in Datenobjekt {0}.
 data.olap.DocumentObjectAlreadyExists =Das Dokumentobjekt ist bereits vorhanden. Datenobjekt konnte nicht erstellt werden: {0}.
+data.olap.DocumentObjectNotExists =Fail to load cube "{0}" from document. The document object does not exist.
 data.olap.FacttableRowNotDistinct=Die Zeilen sollten in der Faktentabelle eindeutig sein. "{0}" tritt mehr als einmal auf.
 data.olap.FacttableNullMeasureValue=Der Wert einer Einheitsspalte beträgt null. "{0}" 
 data.olap.InvalidDimensionPositionFacttableRow=Die Zeile "{0}" hat keine gültige Dimensionsinformation für Dimension: {1}.

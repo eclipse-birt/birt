@@ -300,6 +300,7 @@ data.olap.DimensionNotExist=차원 {0}이(가) 없습니다.
 data.olap.KeyValueCanNotBeNull=키 열의 값은 널(null)이 될 수 없습니다. 키 열: {0}.
 data.olap.OlapFileDataError=데이터 개체 {0}에 잘못된 데이터가 있습니다.
 data.olap.DocumentObjectAlreadyExists =문서 개체가 이미 있습니다. 데이터 개체 {0}을(를) 만들지 못했습니다.
+data.olap.DocumentObjectNotExists =Fail to load cube "{0}" from document. The document object does not exist.
 data.olap.FacttableRowNotDistinct=행은 팩트 테이블에서 고유해야 합니다. "{0}"이(가) 여러 개 있습니다.
 data.olap.FacttableNullMeasureValue=측정 열의 값이 널(null)입니다. "{0}" 
 data.olap.InvalidDimensionPositionFacttableRow=행 "{0}"에는 차원 {1}에 대한 올바른 차원 정보가 없습니다.
