@@ -22,7 +22,9 @@ import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 import org.eclipse.birt.report.engine.internal.document.IReportContentLoader;
 import org.eclipse.birt.report.engine.internal.document.v2.PageHintReaderV2;
 import org.eclipse.birt.report.engine.internal.document.v3.CachedReportContentReaderV3;
+import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExecutor;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
+import org.eclipse.birt.report.engine.presentation.LocalizedContentVisitor;
 
 public class ReportPageReader extends ReportReader
 {
@@ -33,6 +35,8 @@ public class ReportPageReader extends ReportReader
 	int paginationType;
 	PageHintReaderV2 hintReader;
 	CachedReportContentReaderV3 pageReader;
+	
+	LocalizedContentVisitor l18nVisitor;
 
 	public ReportPageReader( ExecutionContext context, long pageNumber,
 			int paginationType )
@@ -40,6 +44,7 @@ public class ReportPageReader extends ReportReader
 		super( context );
 		outputPages.add( new long[]{pageNumber, pageNumber} );
 		this.paginationType = paginationType;
+		l18nVisitor = new LocalizedContentVisitor( context );
 	}
 
 	/**
@@ -71,6 +76,7 @@ public class ReportPageReader extends ReportReader
 		{
 			nextPage = 1;
 		}
+		l18nVisitor = new LocalizedContentVisitor( context );
 	}
 
 	protected void openReaders( ) throws IOException
@@ -291,7 +297,7 @@ public class ReportPageReader extends ReportReader
 		return -1;
 	}
 
-	IPageContent loadPageContent( long pageNumber )
+	IPageContent loadLocalizedPageContent( long pageNumber )
 	{
 		IPageHint pageHint = loadPageHint( pageNumber );
 		if ( pageHint != null )
@@ -302,7 +308,8 @@ public class ReportPageReader extends ReportReader
 			{
 				IContent pageContent = pageReader.loadContent( offset );
 				initializeContent( pageContent );
-				loadFullContent( pageReader, pageContent, null );
+				pageContent = localizeContent(pageContent);
+				loadFullLocalizedContent( pageReader, pageContent, null );
 				pageReader.unloadContent( offset );
 				return (IPageContent) pageContent;
 			}
@@ -313,8 +320,14 @@ public class ReportPageReader extends ReportReader
 		}
 		return null;
 	}
+	
+	
+	private IContent localizeContent(IContent content)
+	{
+		return l18nVisitor.localize( content);
+	}
 
-	private void loadFullContent( CachedReportContentReaderV3 reader,
+	private void loadFullLocalizedContent( CachedReportContentReaderV3 reader,
 			IContent parent, IBaseResultSet prset ) throws IOException, BirtException
 	{
 		DocumentExtension docExt = (DocumentExtension) parent
@@ -331,6 +344,9 @@ public class ReportPageReader extends ReportReader
 			}
 			// execute extra intialization
 			initalizeContentVisitor.visit( content, null );
+			
+			//localize content
+			content = localizeContent( content );
 
 			parent.getChildren( ).add( content );
 			IBaseResultSet rset = prset;
@@ -338,7 +354,7 @@ public class ReportPageReader extends ReportReader
 			{
 				rset = rsets[0];
 			}
-			loadFullContent( reader, content, rset );
+			loadFullLocalizedContent( reader, content, rset );
 			if ( rsets != null )
 			{
 				closeQueries( rsets );

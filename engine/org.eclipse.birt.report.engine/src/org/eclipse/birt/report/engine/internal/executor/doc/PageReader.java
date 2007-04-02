@@ -22,7 +22,7 @@ class PageReader extends ReportItemReader
 		pageReader.context.setPageNumber( pageNumber );
 		pageReader.context.setExecutingMasterPage( true );
 		// return the PageContent which is loaded from the content
-		IContent content = pageReader.loadPageContent( pageNumber );
+		IContent content = pageReader.loadLocalizedPageContent( pageNumber );
 		pageReader.initializeContent( content );
 		// execute extra intialization
 		pageReader.initalizeContentVisitor.visit( content, null );

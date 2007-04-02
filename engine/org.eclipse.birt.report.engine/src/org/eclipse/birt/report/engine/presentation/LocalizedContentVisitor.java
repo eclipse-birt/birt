@@ -143,11 +143,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 
 	public Object visitPage( IPageContent page, Object value )
 	{
-		// must localize all the contents in the page content.
-		context.setExecutingMasterPage( true );
-		value = localizeAllChildren( page );
-		context.setExecutingMasterPage( false );
-		return value;
+		return page;
 	}
 	
 	protected TextTemplate parseTemplate( String text )
