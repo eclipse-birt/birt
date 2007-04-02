@@ -2156,6 +2156,8 @@ MapPreferencePage.toolTipText.Down=マップの規則を下に移動
 
 MapRuleBuilder.DialogTitle.New=マップ規則の新規作成
 MapRuleBuilder.DialogTitle.Edit=マップ規則の編集
+MapRuleBuilder.Button.ResourceKey=Resource Key:
+MapRuleBuilder.Button.Reset=リセット
 
 
 MapRuleBuilderDialog.text.Between=値に挟まれる

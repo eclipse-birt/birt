@@ -2156,6 +2156,8 @@ MapPreferencePage.toolTipText.Down=Déplacer la règle de mappage vers le bas
 
 MapRuleBuilder.DialogTitle.New=Nouvelle règle de mappage
 MapRuleBuilder.DialogTitle.Edit=Modifier la règle de mappage
+MapRuleBuilder.Button.ResourceKey=Resource Key:
+MapRuleBuilder.Button.Reset=Réinitialiser
 
 
 MapRuleBuilderDialog.text.Between=est compris entre

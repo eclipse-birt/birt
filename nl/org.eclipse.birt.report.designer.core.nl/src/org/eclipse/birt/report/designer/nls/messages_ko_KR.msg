@@ -2156,6 +2156,8 @@ MapPreferencePage.toolTipText.Down=맵 규칙 아래로 이동
 
 MapRuleBuilder.DialogTitle.New=새 맵 규칙
 MapRuleBuilder.DialogTitle.Edit=맵 규칙 편집
+MapRuleBuilder.Button.ResourceKey=Resource Key:
+MapRuleBuilder.Button.Reset=재설정
 
 
 MapRuleBuilderDialog.text.Between=사이에 있음

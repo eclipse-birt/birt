@@ -2156,6 +2156,8 @@ MapPreferencePage.toolTipText.Down=映射规则下移
 
 MapRuleBuilder.DialogTitle.New=新建映射规则
 MapRuleBuilder.DialogTitle.Edit=编辑映射规则
+MapRuleBuilder.Button.ResourceKey=Resource Key:
+MapRuleBuilder.Button.Reset=重置
 
 
 MapRuleBuilderDialog.text.Between=介于
