@@ -51,6 +51,10 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIPoint;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
+import org.eclipse.birt.report.designer.internal.ui.extension.experimental.CommandCombinedTemplateCreationEntry;
+import org.eclipse.birt.report.designer.internal.ui.extension.experimental.EditpartExtensionManager;
+import org.eclipse.birt.report.designer.internal.ui.extension.experimental.PaletteEntryExtension;
+import org.eclipse.birt.report.designer.internal.ui.palette.PaletteCategory;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CopyAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CutAction;
@@ -90,6 +94,8 @@ import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
+import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
+import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.UpdateAction;
@@ -616,6 +622,14 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				}
 				subMenu.add( action );
 			}
+		}
+		
+		PaletteEntryExtension[] entries = EditpartExtensionManager.getPaletteEntries( );
+		for ( int i = 0; i < entries.length; i++ )
+		{
+			action = getAction( entries[i].getItemName( ) );
+			action.setText( entries[i].getLabel( ) );
+			subMenu.add( action );
 		}
 
 		menuManager.appendToGroup( group_name, subMenu );

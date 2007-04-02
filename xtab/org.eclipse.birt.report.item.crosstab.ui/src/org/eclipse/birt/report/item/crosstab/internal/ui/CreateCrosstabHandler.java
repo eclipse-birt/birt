@@ -44,7 +44,7 @@ public class CreateCrosstabHandler extends AbstractHandler
 		SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
 				.getCommandStack( )
-				.startTrans( "Creeate " + itemName ); //$NON-NLS-1$
+				.startTrans( "Create " + itemName ); //$NON-NLS-1$
 		ExtendedItemHandle handle = null;
 		InsertCubeDialog insertCubeDialog = new InsertCubeDialog( );
 		if ( insertCubeDialog.open( ) == Window.OK )
@@ -79,9 +79,13 @@ public class CreateCrosstabHandler extends AbstractHandler
 			EditPart targetEditPart = (EditPart) context.getVariable( "targetEditPart" );
 
 			if ( targetEditPart != null )
+			{
 				command.setParent( targetEditPart.getModel( ) );
+			}
 			else
+			{
 				command.setParent( UIUtil.getCurrentEditPart( ).getModel( ) );
+			}
 
 			try
 			{

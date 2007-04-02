@@ -15,8 +15,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.text.ChangedCharSetException;
-
 import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
 import org.eclipse.birt.report.designer.internal.ui.editors.FileReportProvider;
@@ -58,6 +56,8 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.providers.SchematicContextMenuProvider;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIPoint;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
+import org.eclipse.birt.report.designer.internal.ui.extension.experimental.EditpartExtensionManager;
+import org.eclipse.birt.report.designer.internal.ui.extension.experimental.PaletteEntryExtension;
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportFlyoutPalettePreferences;
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportTemplateTransferDropTargetListener;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -474,6 +474,17 @@ abstract public class ReportEditorWithPalette extends
 				getSelectionActions( ).add( action.getId( ) );
 				addEditPartAction( (SelectionAction) action );
 			}
+		}
+		
+		PaletteEntryExtension[] entries = EditpartExtensionManager.getPaletteEntries( );
+		for ( int i = 0; i < entries.length; i++ )
+		{
+			IAction action = new GeneralInsertMenuAction( this,
+					entries[i].getItemName( ),
+					entries[i].getItemName( ),
+					entries[i].getLabel( ) );
+			getSelectionActions( ).add( action.getId( ) );
+			addEditPartAction( (SelectionAction) action );
 		}
 	}
 

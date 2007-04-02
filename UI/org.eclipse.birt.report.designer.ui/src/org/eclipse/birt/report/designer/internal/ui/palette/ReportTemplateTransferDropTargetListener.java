@@ -10,13 +10,17 @@
 package org.eclipse.birt.report.designer.internal.ui.palette;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
+import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
+import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.LibraryElementsToolHandleExtends;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
+import org.eclipse.birt.report.designer.internal.ui.extension.experimental.EditpartExtensionManager;
+import org.eclipse.birt.report.designer.internal.ui.extension.experimental.PaletteEntryExtension;
 import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.DataSetColumnToolExtends;
 import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.DataSetToolExtends;
 import org.eclipse.birt.report.designer.internal.ui.palette.BasePaletteFactory.DimensionHandleToolExtends;
@@ -118,6 +122,24 @@ public class ReportTemplateTransferDropTargetListener extends
 		String transName = null;
 		if ( template instanceof String )
 		{
+			PaletteEntryExtension[] entries = EditpartExtensionManager.getPaletteEntries( );
+			String extensionName = template.toString( ).substring( IReportElementConstants.REPORT_ELEMENT_EXTENDED.length( ) );
+			for ( int i = 0; i < entries.length; i++ )
+			{
+				if(entries[i].getItemName( ).equals( extensionName )){
+					try
+					{
+						CommandUtils.setVariable( "targetEditPart", getTargetEditPart( ) );
+						entries[i].executeCreate( );
+						return;
+					}
+					catch ( Exception e )
+					{
+						ExceptionHandler.handle( e );
+					}
+				}
+			}
+			
 			transName = TRANS_LABEL_CREATE_ELEMENT;
 			preHandle = BasePaletteFactory.getAbstractToolHandleExtendsFromPaletteName( template );
 		}

@@ -13,8 +13,6 @@ package org.eclipse.birt.report.designer.internal.ui.extension.experimental;
 
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.ExtendedElementToolExtends;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportElementFactory;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -41,7 +39,8 @@ public class CommandCombinedTemplateCreationEntry extends
 						+ paletteEntry.getItemName( ),
 				new ReportElementFactory( IReportElementConstants.REPORT_ELEMENT_EXTENDED
 						+ paletteEntry.getItemName( ),
-						paletteEntry.getItemName( ) ),
+						IReportElementConstants.REPORT_ELEMENT_EXTENDED
+								+ paletteEntry.getItemName( ) ),
 				paletteEntry.getIcon( ),
 				paletteEntry.getIconLarge( ) );
 		this.paletteEntry = paletteEntry;
@@ -49,9 +48,7 @@ public class CommandCombinedTemplateCreationEntry extends
 
 	public Tool createTool( )
 	{
-		return new PaletteEntryCreationTool( this.factory,
-				new ExtendedElementToolExtends( paletteEntry.getItemName( ) ),
-				paletteEntry );
+		return new PaletteEntryCreationTool( this.factory, paletteEntry );
 	}
 }
 
@@ -62,10 +59,9 @@ class PaletteEntryCreationTool extends ReportCreationTool
 	private PaletteEntryExtension paletteEntry;
 
 	public PaletteEntryCreationTool( CreationFactory factory,
-			AbstractToolHandleExtends preHandle,
 			PaletteEntryExtension paletteEntry )
 	{
-		super( factory, preHandle );
+		super( factory, null );
 		this.factory = factory;
 		setFactory( factory );
 		this.paletteEntry = paletteEntry;
@@ -84,6 +80,11 @@ class PaletteEntryCreationTool extends ReportCreationTool
 			ExceptionHandler.handle( e );
 		}
 	}
+
+	//	public void performCreation( EditPart editPart )
+	//	{
+	//		setTargetEditPart( editPart );
+	//	}
 
 }
 

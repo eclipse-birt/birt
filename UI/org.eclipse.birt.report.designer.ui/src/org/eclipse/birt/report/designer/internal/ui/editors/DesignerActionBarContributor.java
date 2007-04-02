@@ -11,8 +11,11 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors;
 
+import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CreatePlaceHolderPartAction;
@@ -25,6 +28,8 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.Re
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.SplitAction;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIPoint;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
+import org.eclipse.birt.report.designer.internal.ui.extension.experimental.EditpartExtensionManager;
+import org.eclipse.birt.report.designer.internal.ui.extension.experimental.PaletteEntryExtension;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportCSSStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportLibraryAction;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -41,10 +46,22 @@ import org.eclipse.birt.report.designer.ui.actions.NoneAction;
 import org.eclipse.birt.report.designer.ui.actions.ToggleMarginVisibilityAction;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.core.commands.Command;
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.commands.IParameter;
+import org.eclipse.core.commands.IParameterValues;
+import org.eclipse.core.commands.NotEnabledException;
+import org.eclipse.core.commands.NotHandledException;
+import org.eclipse.core.commands.ParameterValueConversionException;
+import org.eclipse.core.commands.ParameterValuesException;
+import org.eclipse.core.commands.Parameterization;
+import org.eclipse.core.commands.ParameterizedCommand;
+import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.ui.actions.DeleteRetargetAction;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.RedoRetargetAction;
+import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.gef.ui.actions.UndoRetargetAction;
 import org.eclipse.gef.ui.actions.UpdateAction;
 import org.eclipse.gef.ui.actions.ZoomComboContributionItem;
@@ -59,8 +76,11 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.IWorkbenchActionConstants;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.RetargetAction;
+import org.eclipse.ui.commands.ICommandService;
+import org.eclipse.ui.handlers.IHandlerService;
 
 /**
  * Toolbar and menu contributor for designer
@@ -214,7 +234,67 @@ public class DesignerActionBarContributor extends
 		addRetargetAction( new RetargetAction( ImportLibraryAction.ID,
 				ImportLibraryAction.ACTION_TEXT ) );
 		registerActions( parameterActions );
-
+//		ICommandService commandService = (ICommandService) PlatformUI.getWorkbench( )
+//				.getAdapter( ICommandService.class );
+//		IHandlerService handlerService = (IHandlerService) PlatformUI.getWorkbench( )
+//				.getAdapter( IHandlerService.class );
+//		
+//		
+//		Command command = commandService.getCommand( "testcommand" );
+//
+//		try
+//		{
+//			// IParameter viewIdParm = command.getParameter( "moduleHandle" );
+//			//
+//			// IParameterValues parmValues = viewIdParm.getValues( );
+//			// String viewId = null;
+//			// Iterator i = parmValues.getParameterValues( ).values( ).iterator(
+//			// );
+//			// while ( i.hasNext( ) )
+//			// {
+//			// String id = (String) i.next( );
+//			// if ( id.indexOf( "ProblemView" ) != -1 )
+//			// {
+//			// viewId = id;
+//			// break;
+//			// }
+//			// }
+//
+//			Parameterization parm = CommandUtils.createParameter( command,
+//					"moduleHandle",
+//					SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) );
+//			ParameterizedCommand parmCommand = new ParameterizedCommand( command,
+//					new Parameterization[]{
+//						parm
+//					} );
+//
+//			handlerService.executeCommand( parmCommand, null );
+//		}
+//		catch ( ExecutionException e )
+//		{
+//			// TODO Auto-generated catch block
+//			e.printStackTrace( );
+//		}
+//		catch ( NotDefinedException e )
+//		{
+//			// TODO Auto-generated catch block
+//			e.printStackTrace( );
+//		}
+//		catch ( NotEnabledException e )
+//		{
+//			// TODO Auto-generated catch block
+//			e.printStackTrace( );
+//		}
+//		catch ( NotHandledException e )
+//		{
+//			// TODO Auto-generated catch block
+//			e.printStackTrace( );
+//		}
+//		catch ( ParameterValueConversionException e )
+//		{
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 
 	/**
@@ -227,10 +307,13 @@ public class DesignerActionBarContributor extends
 			insertElementActions = insertActions;
 			List extensionPoints = ExtensionPointManager.getInstance( )
 					.getExtendedElementPoints( );
+			//experimental
+			PaletteEntryExtension[] entries = EditpartExtensionManager.getPaletteEntries( );
+			//end experimental
 			if ( !extensionPoints.isEmpty( ) )
 			{
 				insertElementActions = new RegisterActions[insertActions.length
-						+ extensionPoints.size( )];
+						+ extensionPoints.size( )+entries.length];
 				for ( int i = 0; i < insertActions.length; i++ )
 				{
 					insertElementActions[i] = insertActions[i];
@@ -252,6 +335,13 @@ public class DesignerActionBarContributor extends
 
 					insertElementActions[insertActions.length + k] = extAction;
 				}
+			}
+			//experimental
+			for ( int i = 0; i < entries.length; i++ )
+			{
+				RegisterActions extAction = new RegisterActions( entries[i].getItemName( ),
+						entries[i].getLabel( ) );
+				insertElementActions[insertActions.length + i] = extAction;
 			}
 		}
 		return insertElementActions;

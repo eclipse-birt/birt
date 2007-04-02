@@ -21,6 +21,8 @@ import java.util.Map;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.NewSectionDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.TemplateReportItemPropertiesDialog;
+import org.eclipse.birt.report.designer.internal.ui.extension.experimental.EditpartExtensionManager;
+import org.eclipse.birt.report.designer.internal.ui.extension.experimental.PaletteEntryExtension;
 import org.eclipse.birt.report.designer.internal.ui.processor.ElementProcessorFactory;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CopyAction;
@@ -566,6 +568,44 @@ public class DefaultNodeProvider implements INodeProvider
 	protected boolean performInsert( Object model, SlotHandle slotHandle,
 			String type, String position, Map extendData ) throws Exception
 	{
+		if ( type == null )
+		{
+			List supportList = DEUtil.getElementSupportList( slotHandle );
+			if ( supportList.size( ) == 0 )
+			{
+				ExceptionHandler.openMessageBox( WARNING_DIALOG_TITLE,
+						WARNING_DIALOG_MESSAGE_EMPTY_LIST,
+						SWT.ICON_WARNING );
+				return false;
+			}
+			else if ( supportList.size( ) == 1 )
+			{
+				type = ( (IElementDefn) supportList.get( 0 ) ).getName( );
+			}
+			else
+			{
+				NewSectionDialog dialog = new NewSectionDialog( PlatformUI.getWorkbench( )
+						.getDisplay( )
+						.getActiveShell( ),
+						supportList );
+				if ( dialog.open( ) == Dialog.CANCEL )
+				{
+					return false;
+				}
+				type = (String) dialog.getResult( )[0];
+			}
+		}
+		
+		PaletteEntryExtension[] entries = EditpartExtensionManager.getPaletteEntries( );
+		for ( int i = 0; i < entries.length; i++ )
+		{
+			if ( entries[i].getItemName( ).equals( type ) )
+			{
+				entries[i].executeCreate( );
+				return true;
+			}
+		}
+		
 		DesignElementHandle elementHandle = createElement( slotHandle, type );
 
 		if ( extendData != null )
@@ -606,8 +646,9 @@ public class DefaultNodeProvider implements INodeProvider
 		// TODO check extension setting here to decide if popup the builder
 		if ( elementHandle instanceof ExtendedItemHandle )
 		{
-			if ( !ElementProcessorFactory.createProcessor( elementHandle )
-					.editElement( elementHandle ) )
+			if ( ElementProcessorFactory.createProcessor( elementHandle ) != null
+					&& !ElementProcessorFactory.createProcessor( elementHandle )
+							.editElement( elementHandle ) )
 			{
 				return false;
 			}
