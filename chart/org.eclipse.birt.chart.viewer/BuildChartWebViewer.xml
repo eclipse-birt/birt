@@ -107,17 +107,16 @@
 				<include name="org.eclipse.birt.chart.device.extension_*.jar" />
 				<include name="org.eclipse.birt.chart.device.svg_*.jar" />
 				<include name="org.eclipse.birt.chart.device.pdf_*.jar" />
-				<include name="org.eclipse.birt.chart.device.swt_*.jar" />
 				<include name="org.mozilla.rhino_*/lib/*.jar" />
-				<!--<include name="org.apache.batik.transcoder_*.jar" />-->
 				<include name="org.apache.batik.pdf_*/lib/*.jar" />
 			</fileset>
 			<fileset dir="${baseLocation}/plugins">
 				<!-- orbit projects -->
 				<include name="org.apache.xerces_*.jar"/>
-				<include name="org.w3c.dom_*.jar"/>
+				<include name="org.w3c.css.sac_*.jar"/>
+				<include name="org.w3c.dom*.jar"/>
 				<include name="org.apache.xml.resolver_*.jar"/>
-				<include name="org.apache.batik.transcoder*jar"/>
+				<include name="org.apache.batik.*jar"/>
 				<include name="com.ibm.icu_*.jar" />
 				<include name="org.eclipse.tomcat_*/servlet.jar" />
 			</fileset>
