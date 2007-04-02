@@ -44,6 +44,10 @@ public class DataTypeConversionUtil
 		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME
 				.equals( columnType ) )
 			return DesignChoiceConstants.PARAM_TYPE_DATETIME;
+		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( columnType ) )
+			return DesignChoiceConstants.PARAM_TYPE_DATE;
+		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME.equals( columnType ) )
+			return DesignChoiceConstants.PARAM_TYPE_TIME;
 		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( columnType ) )
 			return DesignChoiceConstants.PARAM_TYPE_DECIMAL;
 		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( columnType ) )
@@ -76,6 +80,10 @@ public class DataTypeConversionUtil
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN;
 		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( paramType ) )
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME;
+		if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( paramType ) )
+			return DesignChoiceConstants.COLUMN_DATA_TYPE_DATE;
+		if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( paramType ) )
+			return DesignChoiceConstants.COLUMN_DATA_TYPE_TIME;
 		if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( paramType ) )
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL;
 		if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( paramType ) )
