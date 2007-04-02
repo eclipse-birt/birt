@@ -1159,6 +1159,10 @@ public class GetParameterDefinitionTask extends EngineTask
 				scalarParameter.setDataType( IScalarParameterDefn.TYPE_STRING );
 			else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( valueType ) )
 				scalarParameter.setDataType( IScalarParameterDefn.TYPE_INTEGER );
+			else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( valueType ) )
+				scalarParameter.setDataType( IScalarParameterDefn.TYPE_DATE );
+			else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( valueType ) )
+				scalarParameter.setDataType( IScalarParameterDefn.TYPE_TIME );
 			else
 				scalarParameter.setDataType( IScalarParameterDefn.TYPE_ANY );
 
