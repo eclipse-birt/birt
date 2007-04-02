@@ -35,6 +35,7 @@ import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.LibraryException;
@@ -67,6 +68,7 @@ import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportItem;
+import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
@@ -101,6 +103,22 @@ import com.ibm.icu.util.ULocale;
 public class ModelUtil
 {
 
+	/**
+	 * Transfer Css Style to Customer Style.
+	 * @param module
+	 * @param cssStyleHandle
+	 * @return
+	 */
+	public static SharedStyleHandle TransferCssStyleToSharedStyle( Module module , SharedStyleHandle cssStyleHandle )
+	{
+		if( cssStyleHandle == null )
+			return null;
+		Style newStyle = new Style( cssStyleHandle.getName( ) );
+		SharedStyleHandle styleHandle = newStyle.handle( module );
+		duplicateProperties( cssStyleHandle , styleHandle , false );
+		return styleHandle;
+	}
+	
 	/**
 	 * Checks all style names in styles list exist in styleList or not
 	 * 

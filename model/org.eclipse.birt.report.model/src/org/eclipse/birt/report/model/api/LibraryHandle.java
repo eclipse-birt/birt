@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Represents the handle of library element. The library contains the resuable
@@ -182,8 +183,8 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 
 		return theme.getStyles( );
 	}
-	
-	//TODO should we support for public List getAllStyles() method?
+
+	// TODO should we support for public List getAllStyles() method?
 
 	/**
 	 * Import css file to theme.
@@ -192,7 +193,6 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 	 *            the style sheet handle that contains all the selected styles
 	 * @param selectedStyles
 	 *            the selected style list
-	 * @deprecated
 	 */
 
 	public void importCssStyles( CssStyleSheetHandle stylesheet,
@@ -295,7 +295,13 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 							.setName(
 									themeHandle.makeUniqueStyleName( style
 											.getName( ) ) );
-					themeHandle.getStyles( ).add( style );
+					// Copy CssStyle to Style
+
+					SharedStyleHandle newStyle = ModelUtil.TransferCssStyleToSharedStyle(
+							module, style );
+					if ( newStyle == null )
+						continue;
+					themeHandle.getStyles( ).add( newStyle );
 				}
 				catch ( ContentException e )
 				{

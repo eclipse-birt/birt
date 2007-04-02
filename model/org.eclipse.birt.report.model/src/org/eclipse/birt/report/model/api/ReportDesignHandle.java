@@ -31,6 +31,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.util.LevelContentIterator;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Represents the overall report design. The report design defines a set of
@@ -448,7 +449,6 @@ public class ReportDesignHandle extends ModuleHandle
 	 * 
 	 * @see org.eclipse.birt.report.model.api.ModuleHandle#importCssStyles(org.eclipse.birt.report.model.api.css.CssStyleSheetHandle,
 	 *      java.util.List)
-	 * @deprecated
 	 */
 
 	public void importCssStyles( CssStyleSheetHandle stylesheet,
@@ -464,10 +464,16 @@ public class ReportDesignHandle extends ModuleHandle
 					.get( i );
 			if ( stylesheet.findStyle( style.getName( ) ) != null )
 			{
+				module.makeUniqueName( style.getElement( ) );
+				// Copy CssStyle to Style
+				SharedStyleHandle newStyle = ModelUtil.TransferCssStyleToSharedStyle(
+						module, style );
+
+				if ( newStyle == null )
+					continue;
 				try
 				{
-					module.makeUniqueName( style.getElement( ) );
-					addElement( style, IReportDesignModel.STYLE_SLOT );
+					addElement( newStyle, IReportDesignModel.STYLE_SLOT );
 				}
 				catch ( ContentException e )
 				{
@@ -479,9 +485,7 @@ public class ReportDesignHandle extends ModuleHandle
 				}
 			}
 		}
-
 		stack.commit( );
-
 	}
 
 	/**
@@ -867,7 +871,7 @@ public class ReportDesignHandle extends ModuleHandle
 				module, getElement( ) );
 		return adapter.canAddCssStyleSheet( sheetHandle );
 	}
-	
+
 	/**
 	 * Check style sheet can be added or not.
 	 * 
@@ -881,7 +885,7 @@ public class ReportDesignHandle extends ModuleHandle
 				module, getElement( ) );
 		return adapter.canAddCssStyleSheet( fileName );
 	}
-	
+
 	/**
 	 * Reloads the css with the given css file path. If the css already is
 	 * included directly, reload it. If the css is not included, exception will

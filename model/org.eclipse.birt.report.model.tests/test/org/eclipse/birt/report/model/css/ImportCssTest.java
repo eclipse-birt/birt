@@ -16,8 +16,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.CssSharedStyleHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.util.BaseTestCase;
@@ -99,7 +101,13 @@ public class ImportCssTest extends BaseTestCase
 				designHandle );
 
 		designHandle.importCssStyles( styleSheet, getAllStyles( styleSheet ) );
-
+		assertEquals( 0 , designHandle.getAllCssStyleSheets( ).size( ) );
+		
+		//import css is customer style not css style
+		Object obj = designHandle.getAllStyles( ).get( 0 );
+		assertTrue( obj instanceof  SharedStyleHandle );
+		assertFalse( obj instanceof CssSharedStyleHandle );
+		
 		save( );
 		assertTrue( compareFile( "ImportCssToDesign_golden.xml" ) ); //$NON-NLS-1$
 	}
