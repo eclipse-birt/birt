@@ -976,6 +976,12 @@ public class ModelDteApiAdapter
 				.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
 			return DataType.DATE_TYPE;
 		if ( modelDataType
+				.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE ) )
+			return DataType.SQL_DATE_TYPE;
+		if ( modelDataType
+				.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME ) )
+			return DataType.SQL_TIME_TYPE;
+		if ( modelDataType
 				.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL ) )
 			return DataType.DECIMAL_TYPE;
 		if ( modelDataType

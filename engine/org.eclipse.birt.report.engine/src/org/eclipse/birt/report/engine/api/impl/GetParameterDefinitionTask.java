@@ -400,6 +400,10 @@ public class GetParameterDefinitionTask extends EngineTask
 				return DataTypeUtil.toBoolean( value );
 			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( valueType ) )
 				return DataTypeUtil.toDate( value );
+			if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( valueType ) )
+				return DataTypeUtil.toSqlDate( value );
+			if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( valueType ) )
+				return DataTypeUtil.toSqlTime( value );
 			if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( valueType ) )
 				return DataTypeUtil.toBigDecimal( value );
 			if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( valueType ) )
@@ -1151,6 +1155,10 @@ public class GetParameterDefinitionTask extends EngineTask
 				scalarParameter.setDataType( IScalarParameterDefn.TYPE_BOOLEAN );
 			else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( valueType ) )
 				scalarParameter.setDataType( IScalarParameterDefn.TYPE_DATE_TIME );
+			else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( valueType ) )
+				scalarParameter.setDataType( IScalarParameterDefn.TYPE_DATE );
+			else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( valueType ) )
+				scalarParameter.setDataType( IScalarParameterDefn.TYPE_TIME );
 			else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( valueType ) )
 				scalarParameter.setDataType( IScalarParameterDefn.TYPE_DECIMAL );
 			else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( valueType ) )
@@ -1159,10 +1167,6 @@ public class GetParameterDefinitionTask extends EngineTask
 				scalarParameter.setDataType( IScalarParameterDefn.TYPE_STRING );
 			else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( valueType ) )
 				scalarParameter.setDataType( IScalarParameterDefn.TYPE_INTEGER );
-			else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( valueType ) )
-				scalarParameter.setDataType( IScalarParameterDefn.TYPE_DATE );
-			else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( valueType ) )
-				scalarParameter.setDataType( IScalarParameterDefn.TYPE_TIME );
 			else
 				scalarParameter.setDataType( IScalarParameterDefn.TYPE_ANY );
 

@@ -145,7 +145,8 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 				context.setPagebreakPaginationOnly(true);
 			}
 		}
-		
+		context.setFitToPage(true);
+		context.setPagebreakPaginationOnly(true);
 	}
 	
 	

@@ -413,6 +413,14 @@ public abstract class EngineTask implements IEngineTask
 			{
 				return DataTypeUtil.toDate( value );
 			}
+			else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( type ) )
+			{
+				return DataTypeUtil.toSqlDate( value );
+			}
+			else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( type ) )
+			{
+				return DataTypeUtil.toSqlTime( value );
+			}
 			else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type ) )
 			{
 				return DataTypeUtil.toBigDecimal( value );
@@ -556,7 +564,27 @@ public abstract class EngineTask implements IEngineTask
 			log
 					.log(
 							Level.SEVERE,
+							"The supplied value {0} for parameter {1} is not a valid date time.", new String[]{paramValue.toString( ), paramName} ); //$NON-NLS-1$
+			return false;
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( type ) )
+		{
+			if ( paramValue instanceof java.sql.Date )
+				return true;
+			log
+					.log(
+							Level.SEVERE,
 							"The supplied value {0} for parameter {1} is not a valid date.", new String[]{paramValue.toString( ), paramName} ); //$NON-NLS-1$
+			return false;
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( type ) )
+		{
+			if ( paramValue instanceof java.sql.Time )
+				return true;
+			log
+					.log(
+							Level.SEVERE,
+							"The supplied value {0} for parameter {1} is not a valid time.", new String[]{paramValue.toString( ), paramName} ); //$NON-NLS-1$
 			return false;
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
