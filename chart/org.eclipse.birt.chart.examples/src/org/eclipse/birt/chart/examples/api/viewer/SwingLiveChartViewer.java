@@ -17,6 +17,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -86,6 +88,8 @@ public final class SwingLiveChartViewer extends JPanel
 	 * Used in building the chart for the first time
 	 */
 	private boolean bFirstPaint = true;
+	
+	private boolean bDisposed = false;
 
 	/**
 	 * execute application 
@@ -93,7 +97,7 @@ public final class SwingLiveChartViewer extends JPanel
 	 */
 	public static void main( String[] args )
 	{
-		SwingLiveChartViewer lcViewer = new SwingLiveChartViewer( );
+		final SwingLiveChartViewer lcViewer = new SwingLiveChartViewer( );
 		JFrame frame = new JFrame( );
 		frame.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
 		Container container = frame.getContentPane( );
@@ -110,6 +114,50 @@ public final class SwingLiveChartViewer extends JPanel
 		frame.setTitle( lcViewer.getClass( ).getName( )
 				+ " [device=" + lcViewer.dRenderer.getClass( ).getName( ) + "]" );//$NON-NLS-1$//$NON-NLS-2$
 		frame.setVisible( true );
+		
+		// Add a listener to close the TimerTask
+		frame.addWindowListener( new WindowListener( ) {
+
+			public void windowActivated( WindowEvent e )
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+			public void windowClosed( WindowEvent e )
+			{
+
+			}
+
+			public void windowClosing( WindowEvent e )
+			{
+				lcViewer.bDisposed = true;
+			}
+
+			public void windowDeactivated( WindowEvent e )
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+			public void windowDeiconified( WindowEvent e )
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+			public void windowIconified( WindowEvent e )
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+			public void windowOpened( WindowEvent e )
+			{
+				// TODO Auto-generated method stub
+
+			}
+		} );
 	}
 
 	/**
@@ -140,25 +188,26 @@ public final class SwingLiveChartViewer extends JPanel
 		Dimension d = getSize( );
 		Bounds bo = BoundsImpl.create( 0, 0, d.width, d.height );
 		bo.scale( 72d / dRenderer.getDisplayServer( ).getDpiResolution( ) );
-
+		
 		final Generator gr = Generator.instance( );
+			
+		try
+		{
+			gcState = gr.build( dRenderer.getDisplayServer( ),
+					cm,
+					bo,
+					null,
+					null,
+					null );
+		}
+		catch ( ChartException ex )
+		{
+			ex.printStackTrace( );
+		}
+
 		if ( bFirstPaint )
 		{
 			bFirstPaint = false;
-			try
-			{
-				gcState = gr.build( dRenderer.getDisplayServer( ),
-						cm,
-						bo,
-						null,
-						null,
-						null );
-			}
-			catch ( ChartException ex )
-			{
-				ex.printStackTrace( );
-			}
-
 			Timer t = new Timer( );
 			t.schedule( new ChartRefresh( ), 1000 );
 		}
@@ -270,15 +319,8 @@ public final class SwingLiveChartViewer extends JPanel
 				.setColor( ColorDefinitionImpl.RED( ) );
 		yAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( true );
 
-		//Associate with Data Set
-		TextDataSet categoryValues = TextDataSetImpl.create( sa );
-		NumberDataSet seriesOneValues = NumberDataSetImpl.create( da1 );
-		NumberDataSet seriesTwoValues = NumberDataSetImpl.create( da2 );
-
 		//X-Series
 		Series seCategory = SeriesImpl.create( );
-		seCategory.setDataSet( categoryValues );
-
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seCategory );
@@ -286,14 +328,12 @@ public final class SwingLiveChartViewer extends JPanel
 		//Y-Series (1)
 		BarSeries bs1 = (BarSeries) BarSeriesImpl.create( );
 		bs1.setSeriesIdentifier( "Unit Price" );//$NON-NLS-1$
-		bs1.setDataSet( seriesOneValues );
 		bs1.setRiserOutline( null );
 		bs1.setRiser( RiserType.RECTANGLE_LITERAL );
 
 		//Y-Series (2)
 		LineSeries ls1 = (LineSeries) LineSeriesImpl.create( );
 		ls1.setSeriesIdentifier( "Quantity" );//$NON-NLS-1$
-		ls1.setDataSet( seriesTwoValues );
 		ls1.getLineAttributes( ).setColor( ColorDefinitionImpl.GREEN( ) );
 		for ( int i = 0; i < ls1.getMarkers( ).size( ); i++ )
 		{
@@ -307,7 +347,30 @@ public final class SwingLiveChartViewer extends JPanel
 		sdY.getSeries( ).add( bs1 );
 		sdY.getSeries( ).add( ls1 );
 
+		// Update data
+		updateDataSet( cwaBar );
 		return cwaBar;
+	}
+	
+	static final void updateDataSet( ChartWithAxes cwaBar )
+	{
+		// Associate with Data Set
+		TextDataSet categoryValues = TextDataSetImpl.create( sa );
+		NumberDataSet seriesOneValues = NumberDataSetImpl.create( da1 );
+		NumberDataSet seriesTwoValues = NumberDataSetImpl.create( da2 );
+
+		// X-Axis
+		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes( )[0];
+		SeriesDefinition sdX = (SeriesDefinition) xAxisPrimary.getSeriesDefinitions( )
+				.get( 0 );
+		( (Series) sdX.getSeries( ).get( 0 ) ).setDataSet( categoryValues );
+
+		// Y-Axis
+		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis( xAxisPrimary );
+		SeriesDefinition sdY = (SeriesDefinition) yAxisPrimary.getSeriesDefinitions( )
+				.get( 0 );
+		( (Series) sdY.getSeries( ).get( 0 ) ).setDataSet( seriesOneValues );
+		( (Series) sdY.getSeries( ).get( 1 ) ).setDataSet( seriesTwoValues );
 	}
 
 	/**
@@ -340,6 +403,8 @@ public final class SwingLiveChartViewer extends JPanel
 			sa[i] = sa[i + 1];
 		}
 		sa[sa.length - 1] = sTemp;
+		
+		updateDataSet( cwa );
 	}
 
 	/**
@@ -350,7 +415,7 @@ public final class SwingLiveChartViewer extends JPanel
 
 		public final void run( )
 		{
-			for ( ;; )
+			while ( !bDisposed )
 			{
 				final Generator gr = Generator.instance( );
 				scrollData( (ChartWithAxes) cm );
