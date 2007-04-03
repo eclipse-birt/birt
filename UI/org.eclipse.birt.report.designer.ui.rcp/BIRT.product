@@ -24,6 +24,7 @@
       </win>
    </launcher>
 
+
    <vm>
    </vm>
 
@@ -47,11 +48,13 @@
       <plugin id="org.apache.batik.util.gui"/>
       <plugin id="org.apache.batik.xml"/>
       <plugin id="org.apache.commons.codec"/>
+      <plugin id="org.apache.commons.logging"/>
       <plugin id="org.apache.derby.core"/>
       <plugin id="org.apache.lucene"/>
+      <plugin id="org.apache.lucene.analysis"/>
       <plugin id="org.apache.xerces"/>
+      <plugin id="org.apache.xml.resolver"/>
       <plugin id="org.eclipse.ant.core"/>
-      <plugin id="org.eclipse.ant.optional.junit" fragment="true"/>
       <plugin id="org.eclipse.birt"/>
       <plugin id="org.eclipse.birt.chart"/>
       <plugin id="org.eclipse.birt.chart.cshelp"/>
@@ -141,6 +144,8 @@
       <plugin id="org.eclipse.emf.ecore.xmi"/>
       <plugin id="org.eclipse.equinox.app"/>
       <plugin id="org.eclipse.equinox.common"/>
+      <plugin id="org.eclipse.equinox.http.jetty"/>
+      <plugin id="org.eclipse.equinox.http.servlet"/>
       <plugin id="org.eclipse.equinox.preferences"/>
       <plugin id="org.eclipse.equinox.registry"/>
       <plugin id="org.eclipse.gef"/>
@@ -148,6 +153,8 @@
       <plugin id="org.eclipse.help.appserver"/>
       <plugin id="org.eclipse.help.base"/>
       <plugin id="org.eclipse.help.ui"/>
+      <plugin id="org.eclipse.jdt.compiler.apt" fragment="true"/>
+      <plugin id="org.eclipse.jdt.compiler.tool" fragment="true"/>
       <plugin id="org.eclipse.jdt.core"/>
       <plugin id="org.eclipse.jdt.debug"/>
       <plugin id="org.eclipse.jdt.launching"/>
@@ -179,8 +186,10 @@
       <plugin id="org.eclipse.update.core.win32" fragment="true"/>
       <plugin id="org.eclipse.update.ui"/>
       <plugin id="org.junit"/>
+      <plugin id="org.mortbay.jetty"/>
       <plugin id="org.mozilla.rhino"/>
       <plugin id="org.w3c.css.sac"/>
+      <plugin id="org.w3c.dom"/>
       <plugin id="org.w3c.dom.smil"/>
       <plugin id="org.w3c.dom.svg"/>
       <plugin id="org.w3c.sac"/>
