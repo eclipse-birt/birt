@@ -308,11 +308,11 @@ public class CallStatement implements IAdvancedQuery
 			IResultSet mdRs = null;
 			try
 			{
-				 mdRs = executeQuery( );
+				mdRs = executeQuery( );
 			}
 			catch ( OdaException e )
 			{
-				throw e;
+				mdRs = null;
 			}
 			
 			try
