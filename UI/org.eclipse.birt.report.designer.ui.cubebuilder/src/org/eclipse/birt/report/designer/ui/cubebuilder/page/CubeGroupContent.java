@@ -76,8 +76,8 @@ import org.eclipse.swt.dnd.DropTargetAdapter;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
-import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.ModifyEvent;
@@ -286,7 +286,7 @@ public class CubeGroupContent extends Composite implements Listener
 		functionLabel = new Label( group, SWT.NONE );
 		functionLabel.setText( Messages.getString( "GroupsPage.Label.Function" ) );
 		functionLabel.setEnabled( false );
-		functionCombo = new Combo( group, SWT.BORDER|SWT.READ_ONLY );
+		functionCombo = new Combo( group, SWT.BORDER | SWT.READ_ONLY );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		functionCombo.setLayoutData( gd );
@@ -330,11 +330,12 @@ public class CubeGroupContent extends Composite implements Listener
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		expressionText.setLayoutData( gd );
 		expressionText.setEnabled( false );
-		expressionText.addFocusListener( new FocusAdapter( ) {
+		expressionText.addFocusListener( new FocusListener( ) {
+
+			private MeasureHandle measure = null;
 
 			public void focusLost( FocusEvent e )
 			{
-				MeasureHandle measure = getMeasure( );
 				if ( measure != null )
 					try
 					{
@@ -354,6 +355,11 @@ public class CubeGroupContent extends Composite implements Listener
 						else
 							ExceptionHandler.handle( e1 );
 					}
+			}
+
+			public void focusGained( FocusEvent e )
+			{
+				measure = getMeasure( );
 			}
 
 		} );
