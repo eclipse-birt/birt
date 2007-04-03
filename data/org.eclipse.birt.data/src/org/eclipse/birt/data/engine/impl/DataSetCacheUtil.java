@@ -31,7 +31,16 @@ class DataSetCacheUtil
 		
 		if ( appContext != null )
 		{
-			Object option = appContext.get( DataEngine.DATA_SET_CACHE_ROW_LIMIT );
+	
+			Object option = appContext.get( DataEngine.MEMORY_DATA_SET_CACHE );
+			if( option != null )
+			{
+				int rowLimit = getIntValueFromString(option);
+				if( rowLimit > 0 )
+					return DataEngineContext.CACHE_USE_ALWAYS;
+			}
+			
+			option = appContext.get( DataEngine.DATA_SET_CACHE_ROW_LIMIT );
 			if( option != null )
 			{
 				int rowLimit = getIntValueFromString(option);
@@ -93,7 +102,14 @@ class DataSetCacheUtil
 	{
 		if ( appContext != null )
 		{
-			Object option = appContext.get( DataEngine.DATA_SET_CACHE_ROW_LIMIT );
+			Object option = appContext.get( DataEngine.MEMORY_DATA_SET_CACHE );
+			if( option != null )
+			{
+				int rowLimit = getIntValueFromString(option);
+				if( rowLimit > 0 )
+					return rowLimit;
+			}
+			option = appContext.get( DataEngine.DATA_SET_CACHE_ROW_LIMIT );
 			if( option != null )
 			{
 				return getIntValueFromString(option);
@@ -101,5 +117,25 @@ class DataSetCacheUtil
 		}
 		
 		return context.getCacheCount();
+	}
+	
+	/**
+	 * 
+	 * @param appContext
+	 * @return
+	 */
+	public static int getCacheMode( Map appContext )
+	{	
+		if ( appContext != null )
+		{
+			Object option = appContext.get( DataEngine.MEMORY_DATA_SET_CACHE );
+			if( option != null )
+			{
+				int rowLimit = getIntValueFromString(option);
+				if( rowLimit > 0 )
+					return DataEngineContext.CACHE_MODE_IN_MEMORY;
+			}
+		}
+		return DataEngineContext.CACHE_MODE_IN_DISK;
 	}
 }

@@ -1,0 +1,4 @@
+Country                       City                          date                          amount                        
+CHINA                         Beijing                       2004-01-01 00:00:00.0         7000                          
+US                            New York                      2004-05-01 00:00:00.0         100                           
+CHINA                         Shanghai                      2004-06-01 00:00:00.0         100                           

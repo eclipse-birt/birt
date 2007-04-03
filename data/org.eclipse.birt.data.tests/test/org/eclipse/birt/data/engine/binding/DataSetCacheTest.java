@@ -289,6 +289,91 @@ public class DataSetCacheTest extends APITestCase
 	}
 	
 	/**
+	 * @throws BirtException
+	 */
+	public void testUseAppContextMemoryCache1( ) throws BirtException, Exception
+	{
+		this.dataSet.setCacheRowCount( 7 );
+		DataEngineContext dec = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				null,
+				null,
+				null );
+		dec.setCacheOption(DataEngineContext.CACHE_USE_ALWAYS, 100 );
+		
+	    DataEngineImpl myDataEngine = (DataEngineImpl) DataEngine.newDataEngine( dec );
+
+		myDataEngine.defineDataSource( this.dataSource );
+		myDataEngine.defineDataSet( this.dataSet );
+		
+		//The setting of data set cache row limit in app context will take priority over all other
+		//cache settings.
+		this.appContextMap.put( DataEngine.MEMORY_DATA_SET_CACHE, new Integer( 7 ) );
+		this.testUseCache1();
+	}
+	
+	/**
+	 * @throws BirtException
+	 */
+	public void testUseAppContextMemoryCache2( ) throws BirtException, Exception
+	{
+		this.dataSet.setCacheRowCount( 2 );
+		DataEngineContext dec = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				null,
+				null,
+				null );
+		dec.setCacheOption(DataEngineContext.CACHE_USE_ALWAYS, 3 );
+		
+	    DataEngineImpl myDataEngine = (DataEngineImpl) DataEngine.newDataEngine( dec );
+
+		myDataEngine.defineDataSource( this.dataSource );
+		myDataEngine.defineDataSet( this.dataSet );
+		
+		//The setting of data set cache row limit in app context will take priority over all other
+		//cache settings.
+		this.appContextMap.put( DataEngine.MEMORY_DATA_SET_CACHE, new Integer( 3 ) );
+		this.testUseCache1();
+	}
+	
+	/**
+	 * Test acqurire save cache result meta 
+	 *
+	 */
+	public void testUseMemoryCachedMeta1() throws BirtException
+	{
+		this.appContextMap.put( DataEngine.MEMORY_DATA_SET_CACHE, new Integer( 1 ) );
+		this.genCache();
+		DataEngine myDataEngine = newDataEngine( );
+		IResultMetaData meta = myDataEngine.getCachedDataSetMetaData(dataSource, dataSet);
+		assertTrue( meta!= null );
+		assertTrue( meta.getColumnCount() == 6 );
+	}
+	
+	/**
+	 * Test acqurire inexist save cache result meta 
+	 *
+	 */
+	public void testUseMemoryCachedMeta2() throws BirtException
+	{
+		this.appContextMap.put( DataEngine.MEMORY_DATA_SET_CACHE, new Integer( 0 ) );
+		DataEngine myDataEngine = newDataEngine( );
+		IResultIterator ri = getResultIterator1( myDataEngine );
+
+		while ( ri.next( ) )
+		{
+			for ( int i = 0; i < bindingNameRow.length; i++ )
+				expectedValue.add( ri.getValue( bindingNameRow[i] ) );
+
+			for ( int i = 0; i < totalBeArray.length; i++ )
+				expectedValue.add( ri.getValue( bindingExprRow[i] ) );
+		}
+
+		ri.close( );
+		
+		IResultMetaData meta = myDataEngine.getCachedDataSetMetaData(dataSource, dataSet);
+		assertTrue( meta == null );
+	}
+	
+	/**
 	 * Test feature of whether cache will be used. The populated computed name
 	 * contains blank space and quotes.
 	 * 

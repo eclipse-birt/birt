@@ -33,7 +33,7 @@ public class DataEngineSession
 	private Scriptable scope;
 	private DataSetCacheManager dataSetCacheManager;
 	private CacheUtil cacheUtil;
-	
+	private DataEngine engine;
 	/**
 	 * Constructor.
 	 * @param engine
@@ -44,7 +44,7 @@ public class DataEngineSession
 		
 		this.dataSetCacheManager = new DataSetCacheManager( context.getTmpdir( ), engine );
 		this.cacheUtil = new CacheUtil( context.getTmpdir( ) );
-		
+		this.engine = engine;
 		this.scope = context.getJavaScriptScope( );
 		
 		Context cx = Context.enter( );
@@ -55,6 +55,15 @@ public class DataEngineSession
 		new CoreJavaScriptInitializer( ).initialize( cx, scope );
 		Context.exit( );
 		
+	}
+	
+	/**
+	 * Get the data engine.
+	 * @return
+	 */
+	public DataEngine getEngine()
+	{
+		return this.engine;
 	}
 	
 	/**

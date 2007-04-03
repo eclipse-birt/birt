@@ -8,7 +8,6 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
-
 package org.eclipse.birt.data.engine.executor;
 
 import java.io.BufferedInputStream;
@@ -17,12 +16,16 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -32,17 +35,16 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
  */
 class CacheMapManager
 {
-
 	// map of cache relationship
-	// private Map cacheMap;
-
+	//private Map cacheMap;
+		
 	// folder util instance
 	private FolderUtil folderUtil;
 	private String tempDir;
-
-	private static Integer cacheCounter1 = new Integer( 0 );
-	private static Integer cacheCounter2 = new Integer( 0 );
-
+	
+	private static Integer cacheCounter1 = new Integer(0);
+	private static Integer cacheCounter2 = new Integer(0);
+	
 	/**
 	 * Please notice that we must use static variable here for the sharing of
 	 * cached data set would be cross data set session.
@@ -54,40 +56,51 @@ class CacheMapManager
 	 */
 	CacheMapManager( String tempDir )
 	{
-
+		
 		this.folderUtil = new FolderUtil( );
 		this.tempDir = tempDir;
 	}
-
+	
 	/**
+	 * @param appContext 
+	 * @param collection 
+	 * @param baseDataSetDesign 
+	 * @param baseDataSourceDesign 
 	 * @return
 	 */
-	boolean doesSaveToCache( DataSourceAndDataSet dsAndDs )
+	boolean doesSaveToCache( DataSourceAndDataSet dsAndDs, int mode,
+			IBaseDataSourceDesign baseDataSourceDesign,
+			IBaseDataSetDesign baseDataSetDesign, Collection parameterHints,
+			Map appContext )
 	{
-		String cacheDirStr = null;
-
+		Object cacheObject = null;
+		
 		synchronized ( cacheMap )
 		{
-			cacheDirStr = (String) cacheMap.get( dsAndDs );
+			cacheObject = cacheMap.get( dsAndDs );
 		}
-
-		if ( cacheDirStr != null && new File( cacheDirStr ).exists( ) == true )
+		
+		if ( cacheObject != null  )
 		{
-			return false;
+			return needSaveToCache( cacheObject );
 		}
 		else
 		{
 			synchronized ( cacheMap )
 			{
-				cacheDirStr = (String) cacheMap.get( dsAndDs );
-				if ( cacheDirStr != null
-						&& new File( cacheDirStr ).exists( ) == true )
+				cacheObject = (String) cacheMap.get( dsAndDs );
+				if ( cacheObject != null )
+						
 				{
-					return false;
+					return needSaveToCache( cacheObject );					
 				}
 				else
 				{
-					cacheMap.put( dsAndDs, folderUtil.createSessionTempDir( ) );
+					cacheMap.put( dsAndDs, mode == DataEngineContext.CACHE_MODE_IN_MEMORY?
+							(IDataSetCacheObject )new MemoryDataSetCacheObject():
+							(IDataSetCacheObject )new DiskDataSetCacheObject(folderUtil.createSessionTempDir( ), baseDataSourceDesign,
+									baseDataSetDesign, parameterHints,
+									appContext) );
 					return true;
 				}
 			}
@@ -95,39 +108,49 @@ class CacheMapManager
 	}
 
 	/**
+	 * 
+	 * @param cacheObject
+	 * @return
+	 */
+	private boolean needSaveToCache( Object cacheObject )
+	{
+		if ( cacheObject instanceof DiskDataSetCacheObject )
+		{
+			DiskDataSetCacheObject diskCacheObject = (DiskDataSetCacheObject)cacheObject;
+			return !( diskCacheObject.getDataFile( ).exists( ) && diskCacheObject.getMetaFile( ).exists( ));
+		}else if ( cacheObject instanceof MemoryDataSetCacheObject )
+		{
+			return ((MemoryDataSetCacheObject)cacheObject).needPopulateResult( );
+		}
+		return false;
+	}
+	
+	/**
 	 * @param dsAndDs
 	 * @return
 	 */
 	boolean doesLoadFromCache( DataSourceAndDataSet dsAndDs )
 	{
-		String cacheDirStr = null;
+		Object cacheDirStr = null;
 		synchronized ( cacheMap )
 		{
-			cacheDirStr = (String) cacheMap.get( dsAndDs );
+			cacheDirStr = cacheMap.get( dsAndDs );
 		}
-		if ( cacheDirStr != null && new File( cacheDirStr ).exists( ) == true )
-			return true;
-		else
-			return false;
-
+		if ( cacheDirStr != null )
+		{
+			return !needSaveToCache( cacheDirStr );
+		}
+		return false;
 	}
-
+	
 	/**
 	 * @return
 	 */
-	String getSaveFolder( DataSourceAndDataSet dsAndDs )
+	IDataSetCacheObject getCacheObject( DataSourceAndDataSet dsAndDs )
 	{
-		return (String) cacheMap.get( dsAndDs );
+		return (IDataSetCacheObject) cacheMap.get( dsAndDs );
 	}
-
-	/**
-	 * @return
-	 */
-	String getLoadFolder( DataSourceAndDataSet dsAndDs )
-	{
-		return (String) cacheMap.get( dsAndDs );
-	}
-
+	
 	/**
 	 * @param dataSourceDesign2
 	 * @param dataSetDesign2
@@ -138,18 +161,18 @@ class CacheMapManager
 		synchronized ( cacheMap )
 		{
 			while ( getKey( dsAndDs ) != null )
-			{
 				cacheDir.add( cacheMap.remove( getKey( dsAndDs ) ) );
-			}
 		}
 		for ( int i = 0; i < cacheDir.size( ); i++ )
 		{
-			// assume the following statement is thread-safe
-			folderUtil.deleteDir( cacheDir.get( i ).toString( ) );
+			if ( cacheDir.get( i ) instanceof DiskDataSetCacheObject )
+
+				// assume the following statement is thread-safe
+				folderUtil.deleteDir( ( (DiskDataSetCacheObject) cacheDir.get( i ) ).getTempDir( ) );
 		}
 
 	}
-
+	
 	/**
 	 * Reset for test case
 	 */
@@ -161,7 +184,7 @@ class CacheMapManager
 			folderUtil = new FolderUtil( );
 		}
 	}
-
+	
 	/**
 	 * Return the cached result metadata featured by the given
 	 * DataSourceAndDataSet. Please note that the paramter would have no impact
@@ -174,76 +197,73 @@ class CacheMapManager
 	IResultClass getCachedResultClass( DataSourceAndDataSet dsAndDs )
 			throws DataException
 	{
-		String folder = getMetaDataLoadFolder( dsAndDs );
-		if ( folder == null )
-			return null;
-
-		IResultClass rsClass;
-		FileInputStream fis1 = null;
-		BufferedInputStream bis1 = null;
-		try
-		{
-			fis1 = new FileInputStream( folder + "/metaData.data" );
-			bis1 = new BufferedInputStream( fis1 );
-			IOUtil.readInt( bis1 );
-			rsClass = new ResultClass( bis1 );
-			bis1.close( );
-			fis1.close( );
-
-			return rsClass;
-		}
-		catch ( FileNotFoundException e )
-		{
-			throw new DataException( ResourceConstants.DATASETCACHE_LOAD_ERROR,
-					e );
-		}
-		catch ( IOException e )
-		{
-			throw new DataException( ResourceConstants.DATASETCACHE_LOAD_ERROR,
-					e );
-		}
-	}
-
-	/**
-	 * 
-	 * @param dsAndDs
-	 * @return
-	 */
-	private String getMetaDataLoadFolder( DataSourceAndDataSet dsAndDs )
-	{
+		Object cacheObject = null;
 		Object key = getKey( dsAndDs );
 		if ( key != null )
-			return String.valueOf( cacheMap.get( key ) );
+		{
+			cacheObject = cacheMap.get( key );
+			// TODO
+
+		}
+
+		if ( cacheObject instanceof MemoryDataSetCacheObject )
+		{
+			return ( (MemoryDataSetCacheObject) cacheObject ).getResultClass( );
+		}
+		else if ( cacheObject instanceof DiskDataSetCacheObject )
+		{
+			IResultClass rsClass;
+			FileInputStream fis1 = null;
+			BufferedInputStream bis1 = null;
+			try
+			{
+				fis1 = new FileInputStream( ( (DiskDataSetCacheObject) cacheObject ).getMetaFile( ) );
+				bis1 = new BufferedInputStream( fis1 );
+				IOUtil.readInt( bis1 );
+				rsClass = new ResultClass( bis1 );
+				bis1.close( );
+				fis1.close( );
+
+				return rsClass;
+			}
+			catch ( FileNotFoundException e )
+			{
+				throw new DataException( ResourceConstants.DATASETCACHE_LOAD_ERROR,
+						e );
+			}
+			catch ( IOException e )
+			{
+				throw new DataException( ResourceConstants.DATASETCACHE_LOAD_ERROR,
+						e );
+			}
+		}
+
 		return null;
 	}
-
+	
 	/**
-	 * Return a matched key DataSourceAndDataSet instance. Please note that we
-	 * do not include parameter during the comparation.
 	 * 
 	 * @param dsAndDs
 	 * @return
 	 */
-	private Object getKey( DataSourceAndDataSet dsAndDs )
+	private Object getKey ( DataSourceAndDataSet dsAndDs )
 	{
-		for ( Iterator it = cacheMap.keySet( ).iterator( ); it.hasNext( ); )
+		for ( Iterator it = cacheMap.keySet().iterator(); it.hasNext(); )
 		{
-			DataSourceAndDataSet temp = (DataSourceAndDataSet) it.next( );
-			if ( temp.isDataSourceDataSetEqual( dsAndDs, false ) )
+			DataSourceAndDataSet temp = ( DataSourceAndDataSet )it.next();
+			if( temp.isDataSourceDataSetEqual( dsAndDs, false ) )
 			{
 				return temp;
 			}
-
+			
 		}
 		return null;
 	}
-
 	/**
 	 * Folder util class to manager temp folder
 	 */
 	private class FolderUtil
 	{
-
 		// temp root directory
 		private String tempRootDirStr = null;
 
@@ -255,7 +275,7 @@ class CacheMapManager
 			if ( tempRootDirStr != null
 					&& new File( tempRootDirStr ).exists( ) == true )
 				return;
-
+					
 			File tempDtEDir = null;
 			// system default temp dir is used
 			synchronized ( cacheCounter1 )
@@ -272,9 +292,9 @@ class CacheMapManager
 							+ x );
 				}
 				tempDtEDir.mkdir( );
-				//tempDtEDir.deleteOnExit( );
+				tempDtEDir.deleteOnExit( );
 			}
-
+			
 			try
 			{
 				tempRootDirStr = tempDtEDir.getCanonicalPath( );
@@ -290,10 +310,11 @@ class CacheMapManager
 		 */
 		private String createSessionTempDir( )
 		{
-			this.createTempRootDir( );
-
+			this.createTempRootDir();
+			
 			final String prefix = "session_";
 
+			
 			// system default temp dir is used
 			synchronized ( cacheCounter2 )
 			{
@@ -306,14 +327,13 @@ class CacheMapManager
 				while ( sessionDirFile.exists( ) )
 				{
 					x++;
-					sessionTempDir = tempRootDirStr
-							+ File.separator + prefix
-							+ System.currentTimeMillis( ) + cacheCounter2 + "_"
-							+ x;
+					sessionTempDir =  tempRootDirStr
+					+ File.separator + prefix + System.currentTimeMillis( )
+					+ cacheCounter2 + "_" + x;
 					sessionDirFile = new File( sessionTempDir );
 				}
 				sessionDirFile.mkdir( );
-				//sessionDirFile.deleteOnExit( );
+				sessionDirFile.deleteOnExit( );
 				return sessionTempDir;
 			}
 		}
@@ -334,5 +354,4 @@ class CacheMapManager
 			sessionsFolder.delete( );
 		}
 	}
-
 }

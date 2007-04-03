@@ -67,6 +67,17 @@ abstract public class DataEngine
 
 	public static String DATA_SET_CACHE_DELTA_FILE = "org.eclipse.birt.data.cache.DeltaFile";
 	
+	/**
+	 * Indicates whether memory data set cache function need to be used:
+	 * 
+	 * Positive integer: Enable memory data set cache. This row limit will be used for ALL
+     * data sets, regardless of settings on individual data set designs.
+     * 
+     * Zero:Disable memory data set cache regardless of report design settings and
+	 * DataEngineContext settings. 
+	 */
+	public static String MEMORY_DATA_SET_CACHE = "org.eclipse.birt.data.cache.memory";
+
 	
 	/**
 	 * Creates a new instance of DataEngine, using the specified

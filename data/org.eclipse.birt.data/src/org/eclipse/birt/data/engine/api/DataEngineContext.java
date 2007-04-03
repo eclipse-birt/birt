@@ -62,6 +62,10 @@ public class DataEngineContext
 	 */
 	public final static int CACHE_USE_ALWAYS = 3;
 	
+	public final static int CACHE_MODE_IN_MEMORY = 1;
+	
+	public final static int CACHE_MODE_IN_DISK = 2;
+	
 	/** some fields */
 	private int mode;
 	private Scriptable scope;	
