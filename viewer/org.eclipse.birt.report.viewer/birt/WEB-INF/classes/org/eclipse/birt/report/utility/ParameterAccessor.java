@@ -1866,13 +1866,15 @@ public class ParameterAccessor
 	}
 
 	/**
-	 * Generates a file name for the pdf output.
+	 * Generates a file name for output attachment.
 	 * 
 	 * @param request
+	 * @param format
 	 * @return the file name
 	 */
 
-	public static String generateFileName( HttpServletRequest request )
+	public static String generateFileName( HttpServletRequest request,
+			String format )
 	{
 		String defaultName = "BIRTReport"; //$NON-NLS-1$
 		String fileName = defaultName;
@@ -1921,6 +1923,13 @@ public class ParameterAccessor
 				fileName = defaultName;
 				break;
 			}
+		}
+
+		// append extension name
+		String extensionName = getExtensionName( format );
+		if ( extensionName != null && extensionName.length( ) > 0 )
+		{
+			fileName += "." + extensionName; //$NON-NLS-1$
 		}
 
 		return fileName;
@@ -2150,6 +2159,21 @@ public class ParameterAccessor
 			return null;
 
 		return (String) initProps.get( key );
+	}
+
+	/**
+	 * Returns the extension name according to format
+	 * 
+	 * @param format
+	 * @return
+	 */
+	public static String getExtensionName( String format )
+	{
+		if ( format == null )
+			return null;
+
+		String key = "viewer.extension." + format; //$NON-NLS-1$
+		return DataUtil.trimString( getInitProp( key ) );
 	}
 
 	/**

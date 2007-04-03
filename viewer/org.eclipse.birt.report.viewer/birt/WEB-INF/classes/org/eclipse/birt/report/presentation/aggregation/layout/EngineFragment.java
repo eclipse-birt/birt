@@ -88,7 +88,8 @@ public class EngineFragment extends BirtBaseFragment
 
 			if ( !ParameterAccessor.isGetImageOperator( request ) )
 			{
-				String filename = ParameterAccessor.generateFileName( request );
+				String filename = ParameterAccessor.generateFileName( request,
+						format );
 				response
 						.setHeader(
 								"Content-Disposition", openType + "; filename=\"" + filename + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
