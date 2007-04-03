@@ -9,6 +9,6 @@ plugin@org.eclipse.birt.chart.examples=v20070329,:pserver:anonymous@dev.eclipse.
 plugin@org.eclipse.birt.chart.reportitem=v20070402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.reportitem
 plugin@org.eclipse.birt.chart.reportitem.ui=v20070329,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.reportitem.ui
 plugin@org.eclipse.birt.chart.ui=v20070329,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.ui
-plugin@org.eclipse.birt.chart.ui.extension=v20070330,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.ui.extension
+plugin@org.eclipse.birt.chart.ui.extension=v20070403,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.ui.extension
 plugin@org.eclipse.birt.chart.viewer=v20070402,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.viewer
 plugin@org.eclipse.birt.core.ui=v20070329,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.core.ui
