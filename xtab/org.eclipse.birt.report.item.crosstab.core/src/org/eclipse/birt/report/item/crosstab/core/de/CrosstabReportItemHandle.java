@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
@@ -32,10 +33,9 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 /**
  * CrosstabReportItemHandle.
  */
-public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
-		implements
-			ICrosstabReportItemConstants,
-			ICrosstabConstants
+public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle implements
+		ICrosstabReportItemConstants,
+		ICrosstabConstants
 {
 
 	/**
@@ -55,8 +55,16 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 * @return the dimension value handle for the row where the cell resides
 	 */
 	public org.eclipse.birt.report.model.api.DimensionHandle getRowHeight(
-			CrosstabCellHandle cell )
+			CrosstabCellHandle cell ) throws CrosstabException
 	{
+		// TODO
+		// cell = CrosstabModelUtil.locateRowHeightCell( this, cell );
+		//
+		// if ( cell != null )
+		// {
+		// return cell.getWidth( );
+		// }
+
 		return cell.getHeight( );
 	}
 
@@ -70,9 +78,64 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	 *         resides
 	 */
 	public org.eclipse.birt.report.model.api.DimensionHandle getColumnWidth(
-			CrosstabCellHandle cell )
+			CrosstabCellHandle cell ) throws CrosstabException
 	{
+		// TODO
+		// cell = CrosstabModelUtil.locateColumnWidthCell( this, cell );
+		//
+		// if ( cell != null )
+		// {
+		// return cell.getWidth( );
+		// }
+
 		return cell.getWidth( );
+	}
+
+	/**
+	 * Sets the row height where the cell resides.
+	 * 
+	 * @param cell
+	 * @param value
+	 * @throws CrosstabException
+	 */
+	public void setRowHeight( CrosstabCellHandle cell, DimensionValue value )
+			throws CrosstabException
+	{
+		// TODO
+		try
+		{
+			cell.getHeight( ).setValue( value );
+		}
+		catch ( SemanticException e )
+		{
+			throw new CrosstabException( this.getModelHandle( ).getElement( ),
+					"error happened when set crosstab row height", //$NON-NLS-1$
+					e );
+		}
+	}
+
+	/**
+	 * Sets the column width where the cell resides.
+	 * 
+	 * @param cell
+	 * @param value
+	 * @throws CrosstabException
+	 */
+	public void setColumnWidth( CrosstabCellHandle cell, DimensionValue value )
+			throws CrosstabException
+	{
+		// TODO
+		try
+		{
+			cell.getWidth( ).setValue( value );
+		}
+		catch ( SemanticException e )
+		{
+			throw new CrosstabException( this.getModelHandle( ).getElement( ),
+					"error happened when set crosstab column width", //$NON-NLS-1$
+					e );
+		}
+
 	}
 
 	/**
@@ -142,8 +205,8 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 		PropertyHandle propHandle = getCrosstabViewProperty( axisType );
 		if ( propHandle == null || propHandle.getContentCount( ) <= 0 )
 			return null;
-		return (CrosstabViewHandle) CrosstabUtil.getReportItem( propHandle
-				.getContent( 0 ), CROSSTAB_VIEW_EXTENSION_NAME );
+		return (CrosstabViewHandle) CrosstabUtil.getReportItem( propHandle.getContent( 0 ),
+				CROSSTAB_VIEW_EXTENSION_NAME );
 	}
 
 	/**
@@ -164,11 +227,9 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 		// create a crosstab view and add it
 		try
 		{
-			ExtendedItemHandle extendedItem = CrosstabExtendedItemFactory
-					.createCrosstabView( moduleHandle );
+			ExtendedItemHandle extendedItem = CrosstabExtendedItemFactory.createCrosstabView( moduleHandle );
 			propHandle.add( extendedItem );
-			CrosstabViewHandle crosstabView = (CrosstabViewHandle) CrosstabUtil
-					.getReportItem( extendedItem );
+			CrosstabViewHandle crosstabView = (CrosstabViewHandle) CrosstabUtil.getReportItem( extendedItem );
 			assert crosstabView != null;
 			return crosstabView;
 		}
@@ -445,8 +506,8 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 					dimensionHandle.getQualifiedName( ) );
 			throw new CrosstabException( handle.getElement( ), new String[]{
 					dimensionHandle.getQualifiedName( ),
-					handle.getElement( ).getIdentifier( )},
-					MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_DIMENSION );
+					handle.getElement( ).getIdentifier( )
+			}, MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_DIMENSION );
 		}
 
 		CrosstabViewHandle crosstabView = getCrosstabView( axisType );
@@ -504,17 +565,16 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 					measureHandle.getQualifiedName( ) );
 			throw new CrosstabException( handle.getElement( ), new String[]{
 					measureHandle.getQualifiedName( ),
-					handle.getElement( ).getIdentifier( )},
-					MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_MEASURE );
+					handle.getElement( ).getIdentifier( )
+			}, MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_MEASURE );
 		}
 
-		ExtendedItemHandle extendedItemHandle = CrosstabExtendedItemFactory
-				.createMeasureView( moduleHandle, measureHandle );
+		ExtendedItemHandle extendedItemHandle = CrosstabExtendedItemFactory.createMeasureView( moduleHandle,
+				measureHandle );
 		if ( extendedItemHandle == null )
 			return null;
 		getMeasuresProperty( ).add( extendedItemHandle, index );
-		return (MeasureViewHandle) CrosstabUtil
-				.getReportItem( extendedItemHandle );
+		return (MeasureViewHandle) CrosstabUtil.getReportItem( extendedItemHandle );
 	}
 
 	/**
@@ -534,8 +594,8 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 					MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND,
 					name );
 			throw new CrosstabException( handle.getElement( ), new String[]{
-					name, handle.getElement( ).getIdentifier( )},
-					MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND );
+					name, handle.getElement( ).getIdentifier( )
+			}, MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND );
 		}
 		removeDimension( dimensionView.getAxisType( ), dimensionView.getIndex( ) );
 	}
@@ -622,8 +682,8 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 					MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND,
 					name );
 			throw new CrosstabException( handle.getElement( ), new String[]{
-					name, handle.getElement( ).getIdentifier( )},
-					MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND );
+					name, handle.getElement( ).getIdentifier( )
+			}, MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND );
 		}
 		moveDimension( dimensionView.handle, targetAxisType, targetIndex );
 		// TODO: adjust measure aggregations
@@ -661,7 +721,8 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 			{
 				crosstabView = addCrosstabView( targetAxisType );
 				extendedItem.moveTo( crosstabView.handle,
-						CrosstabViewHandle.VIEWS_PROP, targetIndex );
+						CrosstabViewHandle.VIEWS_PROP,
+						targetIndex );
 			}
 			catch ( SemanticException e )
 			{
@@ -674,7 +735,8 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 		else
 		{
 			extendedItem.moveTo( crosstabView.handle,
-					CrosstabViewHandle.VIEWS_PROP, targetIndex );
+					CrosstabViewHandle.VIEWS_PROP,
+					targetIndex );
 		}
 		// TODO: adjust the level change and measure cell change
 	}
@@ -704,8 +766,10 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 		{
 			logger.log( Level.INFO,
 					MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND,
-					new Object[]{String.valueOf( srcAxisType ),
-							String.valueOf( srcIndex )} );
+					new Object[]{
+							String.valueOf( srcAxisType ),
+							String.valueOf( srcIndex )
+					} );
 			return;
 		}
 		moveDimension( dimensionView.handle, targetAxisType, targetIndex );
