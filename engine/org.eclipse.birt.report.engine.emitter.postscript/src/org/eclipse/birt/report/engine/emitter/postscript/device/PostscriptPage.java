@@ -111,4 +111,19 @@ public class PostscriptPage implements IPage
 		writer.drawBackgroundImage( imageUrl, x, y, width, height, absPosX,
 				absPosY, repeat );
 	}
+
+	public void clip( float startX, float startY, float width, float height )
+	{
+		writer.clipRect( startX, startY, width, height );
+	}
+
+	public void clipSave( )
+	{
+		writer.clipSave( );
+	}
+
+	public void clipRestore( )
+	{
+		writer.clipRestore( );
+	}
 }
