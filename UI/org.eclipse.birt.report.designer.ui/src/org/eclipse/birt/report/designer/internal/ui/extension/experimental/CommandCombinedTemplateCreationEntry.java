@@ -16,6 +16,7 @@ import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportElementFactory;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.Tool;
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.requests.CreationFactory;
@@ -74,6 +75,9 @@ class PaletteEntryCreationTool extends ReportCreationTool
 			getCreateRequest( ).setFactory( this.factory );
 			CommandUtils.setVariable( "targetEditPart", getTargetEditPart( ) );
 			paletteEntry.executeCreate( );
+			Object model = getNewObjectFromRequest( );
+			EditPartViewer viewer = getCurrentViewer( );
+			selectAddedObject( model, viewer );
 		}
 		catch ( Exception e )
 		{
