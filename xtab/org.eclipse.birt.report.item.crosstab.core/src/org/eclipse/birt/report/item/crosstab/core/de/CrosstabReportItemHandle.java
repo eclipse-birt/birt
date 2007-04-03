@@ -572,14 +572,16 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	public void removeMeasure( String name ) throws SemanticException
 	{
 		MeasureViewHandle measureView = getMeasure( name );
-		// TODO: add checks if the dimension view is not child of crosstab, then
-		// do noting
-		if ( measureView != null )
+		if ( measureView == null )
 		{
-			measureView.handle.drop( );
+			logger.log( Level.SEVERE,
+					MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND,
+					name );
+			throw new CrosstabException( handle.getElement( ), new String[]{
+					name, handle.getElement( ).getIdentifier( )},
+					MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND );
 		}
-
-		// TODO: if measure view is null, throw an exception?
+		measureView.handle.drop( );
 	}
 
 	/**
@@ -791,6 +793,52 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	public org.eclipse.birt.report.model.api.DimensionHandle getHeight( )
 	{
 		return handle.getDimensionProperty( IReportItemModel.HEIGHT_PROP );
+	}
+
+	/**
+	 * Pivots a measure with the given name to the specified position.
+	 * 
+	 * @param name
+	 * @param toIndex
+	 * @throws SemanticException
+	 */
+	public void pivotMeasure( String name, int toIndex )
+			throws SemanticException
+	{
+		MeasureViewHandle measureView = getMeasure( name );
+		if ( measureView == null )
+		{
+			logger.log( Level.SEVERE,
+					MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND,
+					name );
+			throw new CrosstabException( handle.getElement( ), new String[]{
+					name, handle.getElement( ).getIdentifier( )},
+					MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND );
+		}
+
+		measureView.handle.moveTo( toIndex );
+	}
+
+	/**
+	 * Pivots a measure in the given position to the specified position.
+	 * 
+	 * @param fromIndex
+	 * @param toIndex
+	 * @throws SemanticException
+	 */
+	public void pivotMeasure( int fromIndex, int toIndex )
+			throws SemanticException
+	{
+		MeasureViewHandle measureView = getMeasure( fromIndex );
+		if ( measureView == null )
+		{
+			logger.log( Level.INFO,
+					MessageConstants.CROSSTAB_EXCEPTION_MEASURE_NOT_FOUND,
+					new Object[]{String.valueOf( fromIndex ),
+							handle.getElement( ).getIdentifier( )} );
+			return;
+		}
+		measureView.handle.moveTo( toIndex );
 	}
 
 }
