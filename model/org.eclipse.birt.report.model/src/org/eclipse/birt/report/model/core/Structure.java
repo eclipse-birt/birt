@@ -578,4 +578,14 @@ public abstract class Structure implements IStructure
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.core.IStructure#isDesignTime()
+	 */
+	public boolean isDesignTime( )
+	{
+		return true;
+	}
+
 }

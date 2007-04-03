@@ -2344,6 +2344,7 @@ public abstract class ModuleWriter extends ElementVisitor
 				HighlightRule rule = (HighlightRule) list.get( i );
 				writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
 
+				property( rule, StyleRule.IS_DESIGN_TIME_MEMBER );
 				property( rule, StyleRule.OPERATOR_MEMBER );
 
 				property( rule, HighlightRule.BACKGROUND_COLOR_MEMBER );
@@ -2411,7 +2412,7 @@ public abstract class ModuleWriter extends ElementVisitor
 			{
 				MapRule rule = (MapRule) list.get( i );
 				writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
-
+				property( rule, StyleRule.IS_DESIGN_TIME_MEMBER );
 				property( rule, StyleRule.TEST_EXPR_MEMBER );
 				property( rule, StyleRule.OPERATOR_MEMBER );
 				property( rule, StyleRule.VALUE1_MEMBER );
@@ -2803,7 +2804,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, ISimpleDataSetModel.AFTER_CLOSE_METHOD );
 		property( obj, IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP );
 		property( obj, ISimpleDataSetModel.DATA_SET_ROW_LIMIT );
-		
+
 		writeStructureList( obj, ISimpleDataSetModel.PARAM_BINDINGS_PROP );
 
 	}
@@ -3340,7 +3341,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		writeContents( obj, ICubeModel.DIMENSIONS_PROP );
 		writeContents( obj, ICubeModel.MEASURE_GROUPS_PROP );
 		writeContents( obj, ICubeModel.ACCESS_CONTROLS_PROP );
-		
+
 		writeOverridenPropertyValues( obj );
 	}
 
@@ -3371,7 +3372,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		writeContents( obj, IHierarchyModel.LEVELS_PROP );
 		writeContents( obj, ICubeModel.ACCESS_CONTROLS_PROP );
-		
+
 		writeOverridenPropertyValues( obj );
 	}
 
@@ -3404,7 +3405,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		super.visitMeasureGroup( obj );
 
 		writeContents( obj, IMeasureGroupModel.MEASURES_PROP );
-		
+
 		writeOverridenPropertyValues( obj );
 	}
 

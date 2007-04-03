@@ -50,6 +50,12 @@ public abstract class StyleRule extends PropertyStructure
 	public static final String TEST_EXPR_MEMBER = "testExpr"; //$NON-NLS-1$
 
 	/**
+	 * Status that determines whether this structure is used in design time or
+	 * not
+	 */
+	public static final String IS_DESIGN_TIME_MEMBER = "isDesignTime"; //$NON-NLS-1$
+
+	/**
 	 * The comparison operator. Default value is <code>MAP_OPERATOR_EQ</code>
 	 */
 
@@ -71,6 +77,11 @@ public abstract class StyleRule extends PropertyStructure
 	 * the test expression for this highlight rule.
 	 */
 	protected String testExpression = null;
+
+	/**
+	 * 
+	 */
+	protected Boolean isDesignTime = null;
 
 	/**
 	 * Default constructor.
@@ -117,6 +128,8 @@ public abstract class StyleRule extends PropertyStructure
 			return value2;
 		else if ( TEST_EXPR_MEMBER.equals( propName ) )
 			return testExpression;
+		else if ( IS_DESIGN_TIME_MEMBER.equals( propName ) )
+			return isDesignTime;
 
 		return super.getIntrinsicProperty( propName );
 	} /*
@@ -136,6 +149,8 @@ public abstract class StyleRule extends PropertyStructure
 			value2 = (String) value;
 		else if ( TEST_EXPR_MEMBER.equals( propName ) )
 			testExpression = (String) value;
+		else if ( IS_DESIGN_TIME_MEMBER.equals( propName ) )
+			isDesignTime = (Boolean) value;
 		else
 			super.setIntrinsicProperty( propName, value );
 	}
@@ -265,6 +280,30 @@ public abstract class StyleRule extends PropertyStructure
 	public String getTestExpression( )
 	{
 		return testExpression;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.Structure#isDesignTime()
+	 */
+	public boolean isDesignTime( )
+	{
+		Boolean isDesignTime = (Boolean) getProperty( null,
+				IS_DESIGN_TIME_MEMBER );
+		if ( isDesignTime == null )
+			return true;
+		return isDesignTime.booleanValue( );
+	}
+
+	/**
+	 * Sets the design time status for this structure.
+	 * 
+	 * @param isDesignTime
+	 */
+	public void setDesignTime( boolean isDesignTime )
+	{
+		setProperty( IS_DESIGN_TIME_MEMBER, Boolean.valueOf( isDesignTime ) );
 	}
 
 }

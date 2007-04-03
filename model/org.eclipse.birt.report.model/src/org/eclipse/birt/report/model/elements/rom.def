@@ -1664,10 +1664,16 @@
     <Member displayNameID="Structure.MapRule.value2" isIntrinsic="true" name="value2" returnType="any" since="1.0" type="expression"/>
     <Member displayNameID="Structure.MapRule.display" isIntrinsic="true" name="display" since="1.0" type="string"/>
     <Member displayNameID="Structure.MapRule.displayID" isIntrinsic="true" name="displayID" since="1.0" type="resourceKey"/>
+    <Member displayNameID="Structure.MapRule.isDesignTime" isIntrinsic="true" name="isDesignTime" since="2.2" type="boolean">
+      <Default>true</Default>
+    </Member>
   </Structure>
   <Structure displayNameID="Structure.HighlightRule" name="HighlightRule" since="1.0" >
     <Member detailType="mapOperator" displayNameID="Structure.HighlightRule.operator" isIntrinsic="true" name="operator" since="1.0" type="choice">
       <Default>eq</Default>
+    </Member>
+    <Member displayNameID="Structure.HighlightRule.isDesignTime" isIntrinsic="true" name="isDesignTime" since="2.2" type="boolean">
+      <Default>true</Default>
     </Member>
     <Member displayNameID="Structure.HighlightRule.testExpr" isIntrinsic="true" name="testExpr" returnType="any" since="1.0" type="expression"/>
     <Member displayNameID="Structure.HighlightRule.value1" isIntrinsic="true" name="value1" returnType="any" since="1.0" type="expression"/>
