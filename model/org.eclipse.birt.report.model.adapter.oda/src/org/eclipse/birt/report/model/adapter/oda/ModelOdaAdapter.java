@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.adapter.oda;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
@@ -53,16 +52,6 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 
 	public ModelOdaAdapter( )
 	{
-		try
-		{
-			Platform.startup( null );
-		}
-		catch ( BirtException e )
-		{
-			errorLogger.log( Level.INFO,
-					"Error occurs while start the platform", e ); //$NON-NLS-1$
-		}
-
 		Object factory = Platform
 				.createFactoryObject( IAdapterFactory.EXTENSION_MODEL_ADAPTER_ODA_FACTORY );
 		if ( factory instanceof IAdapterFactory )
