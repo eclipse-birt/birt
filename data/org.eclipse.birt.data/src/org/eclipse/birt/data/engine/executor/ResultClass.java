@@ -49,7 +49,7 @@ public class ResultClass implements IResultClass
 	public ResultClass( List projectedColumns ) throws DataException
 	{	
 		assert( projectedColumns != null );
-		validateProjectColumns( projectedColumns);
+		
 		initColumnsInfo( projectedColumns );
 		
 	}
@@ -59,12 +59,12 @@ public class ResultClass implements IResultClass
 	 * @param projectedColumns
 	 * @throws DataException 
 	 */
-	private void validateProjectColumns( List projectedColumns ) throws DataException
+	private void validateProjectColumns( ResultFieldMetadata[] projectedColumns ) throws DataException
 	{
 		Set columnNameSet = new HashSet();
-		for( int i = 0; i < projectedColumns.size(); i++ )
+		for( int i = 0; i < projectedColumns.length; i++ )
 		{
-			ResultFieldMetadata column = (ResultFieldMetadata)projectedColumns.get(i);
+			ResultFieldMetadata column = projectedColumns[i];
 			if ( columnNameSet.contains( column.getName( ) ) )
 			{
 				throw new DataException( ResourceConstants.DUPLICATE_COLUMN_NAME,
@@ -254,6 +254,7 @@ public class ResultClass implements IResultClass
 			
 			if ( writeCount != size)
 			{
+				validateProjectColumns( projectedCols );
 				StringBuffer buf = new StringBuffer( );
 				for ( Iterator i = resultSetNameSet.iterator( ); i.hasNext( ); )
 				{
