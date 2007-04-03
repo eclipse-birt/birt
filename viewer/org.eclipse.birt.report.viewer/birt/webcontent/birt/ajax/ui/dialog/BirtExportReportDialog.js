@@ -63,12 +63,11 @@ BirtExportReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	 */
 	__okPress : function( )
 	{
+		this.__l_hide( );
+		
 		var oSelect = $( 'exportFormat' );
 		if( oSelect.value == '' )
-		{
-			this.__l_hide( );
 			return;
-		}
 		
 		this.__exportAction( );
 	},
