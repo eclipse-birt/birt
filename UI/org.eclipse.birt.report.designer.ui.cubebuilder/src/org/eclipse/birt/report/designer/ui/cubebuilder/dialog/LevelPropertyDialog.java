@@ -350,7 +350,7 @@ public class LevelPropertyDialog extends BaseDialog
 		}
 	};
 
-	private ITableLabelProvider labelProvider = new ITableLabelProvider( ) {
+	private ITableLabelProvider staticLabelProvider = new ITableLabelProvider( ) {
 
 		public Image getColumnImage( Object element, int columnIndex )
 		{
@@ -365,10 +365,6 @@ public class LevelPropertyDialog extends BaseDialog
 					return Messages.getString( "LevelPropertyDialog.MSG.CreateNew" );
 				else
 				{
-					if ( element instanceof LevelAttributeHandle )
-					{
-						return ( (LevelAttributeHandle) element ).getName( );
-					}
 					if ( element instanceof RuleHandle )
 					{
 						return ( (RuleHandle) element ).getDisplayExpression( );
@@ -389,6 +385,49 @@ public class LevelPropertyDialog extends BaseDialog
 					return "";
 				}
 			}
+		}
+
+		public void addListener( ILabelProviderListener listener )
+		{
+		}
+
+		public void dispose( )
+		{
+		}
+
+		public boolean isLabelProperty( Object element, String property )
+		{
+			return false;
+		}
+
+		public void removeListener( ILabelProviderListener listener )
+		{
+		}
+
+	};
+
+	private ITableLabelProvider dynamicLabelProvider = new ITableLabelProvider( ) {
+
+		public Image getColumnImage( Object element, int columnIndex )
+		{
+			return null;
+		}
+
+		public String getColumnText( Object element, int columnIndex )
+		{
+			if ( columnIndex == 1 )
+			{
+				if ( element == dummyChoice )
+					return Messages.getString( "LevelPropertyDialog.MSG.CreateNew" );
+				else
+				{
+					if ( element instanceof LevelAttributeHandle )
+					{
+						return ( (LevelAttributeHandle) element ).getName( );
+					}
+				}
+			}
+			return "";
 		}
 
 		public void addListener( ILabelProviderListener listener )
@@ -729,28 +768,32 @@ public class LevelPropertyDialog extends BaseDialog
 
 		dynamicViewer = new TableViewer( dynamicTable );
 		String[] columns = new String[]{
-			Messages.getString( "LevelPropertyDialog.Label.Attribute" )
+				" ", Messages.getString( "LevelPropertyDialog.Label.Attribute" )
 		};
 
 		TableColumn column = new TableColumn( dynamicTable, SWT.LEFT );
-		column.setResizable( columns[0] != null );
-		if ( columns[0] != null )
+		column.setText( columns[0] );
+		column.setWidth( 15 );
+
+		TableColumn column1 = new TableColumn( dynamicTable, SWT.LEFT );
+		column1.setResizable( columns[1] != null );
+		if ( columns[1] != null )
 		{
-			column.setText( columns[0] );
+			column1.setText( columns[1] );
 		}
-		column.setWidth( 200 );
+		column1.setWidth( 200 );
 
 		dynamicViewer.setColumnProperties( columns );
 		editor = new ComboBoxCellEditor( dynamicViewer.getTable( ),
 				attributeItems,
 				SWT.READ_ONLY );
 		CellEditor[] cellEditors = new CellEditor[]{
-			editor
+				null, editor
 		};
 		dynamicViewer.setCellEditors( cellEditors );
 
 		dynamicViewer.setContentProvider( contentProvider );
-		dynamicViewer.setLabelProvider( labelProvider );
+		dynamicViewer.setLabelProvider( dynamicLabelProvider );
 		dynamicViewer.setCellModifier( dynamicCellModifier );
 
 		return contents;
@@ -1048,7 +1091,7 @@ public class LevelPropertyDialog extends BaseDialog
 		staticViewer.setCellEditors( cellEditors );
 
 		staticViewer.setContentProvider( contentProvider );
-		staticViewer.setLabelProvider( labelProvider );
+		staticViewer.setLabelProvider( staticLabelProvider );
 		staticViewer.setCellModifier( staticCellModifier );
 
 		return contents;
