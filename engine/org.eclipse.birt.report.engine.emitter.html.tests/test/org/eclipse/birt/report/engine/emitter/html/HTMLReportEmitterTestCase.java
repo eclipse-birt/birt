@@ -224,12 +224,14 @@ abstract public class HTMLReportEmitterTestCase extends TestCase
 		assertTrue( in != null );
 		try
 		{
-			int size = in.available( );
-			byte[] buffer = new byte[size];
-			in.read( buffer );
-			OutputStream out = new FileOutputStream( tgt );
-			out.write( buffer );
-			out.close( );
+			FileOutputStream fos = new FileOutputStream( tgt );
+			byte[] fileData = new byte[5120];
+			int readCount = -1;
+			while ( ( readCount = in.read( fileData ) ) != -1 )
+			{
+				fos.write( fileData, 0, readCount );
+			}
+			fos.close( );
 			in.close( );
 		}
 		catch ( Exception ex )
