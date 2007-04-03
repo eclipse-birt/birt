@@ -1790,9 +1790,11 @@ Structure.MapRule.value1=Wert1
 Structure.MapRule.value2=Wert2
 Structure.MapRule.display=Anzeige
 Structure.MapRule.displayID=Anzeige-ID
-  
+Structure.MapRule.isDesignTime=Is Design Time
+
 #1.HighlightRule
 Structure.HighlightRule.operator=Operator
+Structure.HighlightRule.isDesignTime=Is Design Time
 Structure.HighlightRule.value1=Wert 1
 Structure.HighlightRule.value2=Wert 2
 Structure.HighlightRule.testExpr = TestExpression
