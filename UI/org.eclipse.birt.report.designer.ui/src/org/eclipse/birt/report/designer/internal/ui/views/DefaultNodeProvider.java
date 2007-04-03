@@ -601,7 +601,7 @@ public class DefaultNodeProvider implements INodeProvider
 		{
 			if ( entries[i].getItemName( ).equals( type ) )
 			{
-				entries[i].executeCreate( );
+				extendData.put( IRequestConstants.REQUEST_KEY_RESULT, entries[i].executeCreate( ) );
 				return true;
 			}
 		}

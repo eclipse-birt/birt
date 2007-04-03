@@ -123,23 +123,32 @@ public class ReportTemplateTransferDropTargetListener extends
 		if ( template instanceof String )
 		{
 			PaletteEntryExtension[] entries = EditpartExtensionManager.getPaletteEntries( );
-			String extensionName = template.toString( ).substring( IReportElementConstants.REPORT_ELEMENT_EXTENDED.length( ) );
-			for ( int i = 0; i < entries.length; i++ )
+			if ( template.toString( )
+					.startsWith( IReportElementConstants.REPORT_ELEMENT_EXTENDED ) )
 			{
-				if(entries[i].getItemName( ).equals( extensionName )){
-					try
+				String extensionName = template.toString( )
+						.substring( IReportElementConstants.REPORT_ELEMENT_EXTENDED.length( ) );
+				for ( int i = 0; i < entries.length; i++ )
+				{
+					if ( entries[i].getItemName( ).equals( extensionName ) )
 					{
-						CommandUtils.setVariable( "targetEditPart", getTargetEditPart( ) );
-						entries[i].executeCreate( );
-						return;
-					}
-					catch ( Exception e )
-					{
-						ExceptionHandler.handle( e );
+						try
+						{
+							CommandUtils.setVariable( "targetEditPart",
+									getTargetEditPart( ) );
+							getCreateRequest( ).getExtendedData( )
+									.put( DesignerConstants.KEY_NEWOBJECT,
+											entries[i].executeCreate( ) );
+							selectAddedObject( );
+							return;
+						}
+						catch ( Exception e )
+						{
+							ExceptionHandler.handle( e );
+						}
 					}
 				}
 			}
-			
 			transName = TRANS_LABEL_CREATE_ELEMENT;
 			preHandle = BasePaletteFactory.getAbstractToolHandleExtendsFromPaletteName( template );
 		}
@@ -462,10 +471,10 @@ public class ReportTemplateTransferDropTargetListener extends
 		}
 		return false;
 	} /*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.gef.dnd.AbstractTransferDropTargetListener#dragOver(org.eclipse.swt.dnd.DropTargetEvent)
-		 */
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.dnd.AbstractTransferDropTargetListener#dragOver(org.eclipse.swt.dnd.DropTargetEvent)
+	 */
 
 	public void dragOver( DropTargetEvent event )
 	{

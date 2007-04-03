@@ -224,7 +224,7 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 			{
 				try
 				{
-					entries[i].executeCreate( );
+					selectElement( entries[i].executeCreate( ),false );
 				}
 				catch ( Exception e )
 				{
