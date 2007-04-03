@@ -85,10 +85,11 @@ public class OlapExpressionUtil
 			IBinding binding = ( (IBinding) it.next( ) );
 			if ( binding.getExpression( ) instanceof IScriptExpression )
 			{
-				//String measure = getMeasure( ( (IScriptExpression) binding.getExpression( ) ).getText( ) );
-				if ( binding.getAggrFunction( ) != null )
+				//TODO fix me. together with CursorModelTest and CursorNavigatorTest.
+				String measure = getMeasure( ( (IScriptExpression) binding.getExpression( ) ).getText( ) );
+				if ( binding.getAggrFunction( ) != null && measure != null )
 					cubeAggrDefns.add( new CubeAggrDefn( binding.getBindingName( ),
-							getMeasure( ( (IScriptExpression) binding.getExpression( ) ).getText( ) ),
+							measure,
 							binding.getAggregatOns( ),
 							binding.getAggrFunction( ) ) );
 			}
