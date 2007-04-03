@@ -1,0 +1,72 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.item.crosstab.core.re;
+
+import java.util.Iterator;
+import java.util.List;
+
+import javax.olap.OLAPException;
+import javax.olap.cursor.DimensionCursor;
+import javax.olap.cursor.EdgeCursor;
+
+/**
+ * 
+ */
+
+public class TestMixedCursor
+{
+
+	public static void main( String[] args )
+	{
+		try
+		{
+			// DummyDimensionCursor ddc1 = new DummyDimensionCursor( 2 );
+			// DummyDimensionCursor ddc2 = new DummyDimensionCursor( 2 );
+			// DummyDimensionCursor ddc3 = new DummyDimensionCursor( 2 );
+			//
+			// MixedEdgeCursor dec = new MixedEdgeCursor( 5 );
+			// dec.addDimensionCursor( ddc1 );
+			// dec.addDimensionCursor( ddc2 );
+			// dec.addSegmentDimensionCursor( ddc3, 3, 4);
+			//
+			// DummyCubeCursor dcc = new DummyCubeCursor( );
+			// dcc.addOrdinateEdgeCursor( dec );
+
+			// ===========test================
+
+			// EdgeCursor ec = (EdgeCursor) dcc.getOrdinateEdge( ).get( 0 );
+			EdgeCursor ec = new SimpleMixedEdgeCursor( );
+			
+			List dcs = ec.getDimensionCursor( );
+
+			ec.beforeFirst( );
+			while ( ec.next( ) )
+			{
+				for ( Iterator itr = dcs.iterator( ); itr.hasNext( ); )
+				{
+					DimensionCursor dc = (DimensionCursor) itr.next( );
+					System.out.print( "=== " + dc.getPosition( ) );
+					System.out.print( ", === " + dc.getEdgeStart( ) );
+					System.out.println( ", === " + dc.getEdgeEnd( ) );
+				}
+
+				System.out.println( "========" );
+			}
+		}
+		catch ( OLAPException e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace( );
+		}
+
+	}
+}
