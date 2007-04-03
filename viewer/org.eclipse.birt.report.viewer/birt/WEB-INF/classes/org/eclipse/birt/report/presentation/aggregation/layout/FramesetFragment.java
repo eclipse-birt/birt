@@ -209,18 +209,15 @@ public class FramesetFragment extends BirtBaseFragment
 
 			if ( isPrint )
 			{
-				InputStream inputStream = new ByteArrayInputStream( out
-						.toString( ).getBytes( ) );
+				InputStream inputStream = new ByteArrayInputStream(
+						( (ByteArrayOutputStream) out ).toByteArray( ) );
 				BirtUtility.doPrintAction( inputStream, request, response );
 			}
 		}
 		catch ( RemoteException e )
 		{
-			AxisFault fault = (AxisFault) e;
 			response.setContentType( "text/html; charset=utf-8" ); //$NON-NLS-1$
-			BirtUtility.writeMessage( response.getOutputStream( ),
-					ParameterAccessor.htmlEncode( fault.getFaultString( ) ),
-					IBirtConstants.MSG_ERROR );
+			BirtUtility.appendErrorMessage( response.getOutputStream( ), e );
 		}
 
 	}

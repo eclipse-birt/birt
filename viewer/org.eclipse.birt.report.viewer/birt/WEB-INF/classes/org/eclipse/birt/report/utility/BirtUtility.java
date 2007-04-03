@@ -15,6 +15,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.rmi.RemoteException;
@@ -31,6 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.BaseTaskBean;
@@ -552,6 +555,88 @@ public class BirtUtility
 	}
 
 	/**
+	 * Append Error Message with stack trace
+	 * 
+	 * @param out
+	 * @param e
+	 * @throws IOException
+	 */
+	public static void appendErrorMessage( OutputStream out, Exception e )
+			throws IOException
+	{
+		String message = "<html>\n<head>\n<title>" //$NON-NLS-1$
+				+ BirtResources.getMessage( "birt.viewer.title.error" ) //$NON-NLS-1$
+				+ "</title>\n"; //$NON-NLS-1$
+		message += "<META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=utf-8\">\n</head>\n"; //$NON-NLS-1$
+		message += "<body>\n"; //$NON-NLS-1$
+
+		String errorId = "document.getElementById('error_detail')"; //$NON-NLS-1$
+		String errorIcon = "document.getElementById('error_icon')"; //$NON-NLS-1$
+		String onClick = "if (" + errorId + ".style.display == 'none') { " //$NON-NLS-1$//$NON-NLS-2$
+				+ errorIcon + ".innerHTML = '- '; " + errorId //$NON-NLS-1$
+				+ ".style.display = 'block'; }" + "else { " + errorIcon //$NON-NLS-1$//$NON-NLS-2$
+				+ ".innerHTML = '+ '; " + errorId //$NON-NLS-1$
+				+ ".style.display = 'none'; }"; //$NON-NLS-1$
+		message += "<div style=\"color:red\">\n"; //$NON-NLS-1$
+		message += "<span id=\"error_icon\"  style=\"cursor:pointer\" onclick=\"" //$NON-NLS-1$
+				+ onClick + "\" > + </span>\n"; //$NON-NLS-1$
+
+		String errorMessage = null;
+		if ( e instanceof AxisFault )
+		{
+			errorMessage = ( (AxisFault) e ).getFaultString( );
+		}
+		else
+		{
+			errorMessage = e.getLocalizedMessage( );
+
+		}
+		if ( errorMessage != null )
+		{
+			message += ParameterAccessor.htmlEncode( new String( errorMessage
+					.getBytes( "ISO-8859-1" ), "UTF-8" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		else
+		{
+			message += "Unknown error!"; //$NON-NLS-1$
+		}
+
+		message += "<br>\n"; //$NON-NLS-1$
+		message += "<pre id=\"error_detail\" style=\"display:none;\" >\n";//$NON-NLS-1$
+		message += getDetailMessage( e );
+		message += "</pre>\n"; //$NON-NLS-1$
+		message += "</div>\n"; //$NON-NLS-1$
+		message += "</body>\n</html>"; //$NON-NLS-1$
+
+		out.write( message.getBytes( ) );
+		out.flush( );
+		out.close( );
+	}
+
+	/**
+	 * Returns the detail message of exception
+	 * 
+	 * @param tx
+	 * @return
+	 */
+	public static String getDetailMessage( Throwable tx )
+	{
+		StringWriter out = new StringWriter( );
+		PrintWriter print = new PrintWriter( out );
+		try
+		{
+			tx.printStackTrace( print );
+		}
+		catch ( Throwable ex )
+		{
+		}
+
+		print.flush( );
+		print.close( );
+		return out.getBuffer( ).toString( );
+	}
+
+	/**
 	 * Write message into output stream.
 	 * 
 	 * @param out
@@ -565,9 +650,11 @@ public class BirtUtility
 		if ( IBirtConstants.MSG_ERROR.equalsIgnoreCase( msgType ) )
 			fontColor = "red"; //$NON-NLS-1$
 
-		String message = "<html><title>" //$NON-NLS-1$
+		String message = "<html><head><title>" //$NON-NLS-1$
 				+ BirtResources.getMessage( "birt.viewer.title." + msgType ) //$NON-NLS-1$
-				+ "</title><body style=\"background-color: #ECE9D8;\"><div style=\"font-size:10pt;\"><font color=\"" + fontColor + "\">" //$NON-NLS-1$ //$NON-NLS-2$
+				+ "</title>"; //$NON-NLS-1$
+		message += "<META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=utf-8\"></head>"; //$NON-NLS-1$
+		message += "<body style=\"background-color: #ECE9D8;\"><div style=\"font-size:10pt;\"><font color=\"" + fontColor + "\">" //$NON-NLS-1$ //$NON-NLS-2$
 				+ content + "</font></div></body></html>"; //$NON-NLS-1$
 		out.write( message.getBytes( ) );
 		out.flush( );

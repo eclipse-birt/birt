@@ -13,7 +13,6 @@ package org.eclipse.birt.report.servlet;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +29,7 @@ import org.eclipse.birt.report.service.BirtReportServiceFactory;
 import org.eclipse.birt.report.service.BirtViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
 import org.eclipse.birt.report.servlet.BaseReportEngineServlet;
+import org.eclipse.birt.report.utility.BirtUtility;
 
 public class BirtEngineServlet extends BaseReportEngineServlet
 {
@@ -133,9 +133,6 @@ public class BirtEngineServlet extends BaseReportEngineServlet
 			throws ServletException, IOException
 	{
 		exception.printStackTrace( );
-		String target = "webcontent/birt/pages/common/Error.jsp"; //$NON-NLS-1$
-		request.setAttribute( "error", exception ); //$NON-NLS-1$
-		RequestDispatcher rd = request.getRequestDispatcher( target );
-		rd.include( request, response );
+		BirtUtility.appendErrorMessage( response.getOutputStream( ), exception );
 	}
 }

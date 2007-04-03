@@ -22,7 +22,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.BirtContext;
@@ -122,23 +121,20 @@ public class RunFragment extends FramesetFragment
 
 				if ( isPrint )
 				{
-					InputStream inputStream = new ByteArrayInputStream( out
-							.toString( ).getBytes( ) );
+					InputStream inputStream = new ByteArrayInputStream(
+							( (ByteArrayOutputStream) out ).toByteArray( ) );
 					BirtUtility.doPrintAction( inputStream, request, response );
 				}
 			}
 		}
 		catch ( RemoteException e )
 		{
-			AxisFault fault = (AxisFault) e;
-			// Special handle since servlet output stream has been
-			// retrieved.
-			// Any include and forward throws exception.
-			// Better to move this error handle into engine.
-			response.setContentType( "text/html; charset=utf-8" ); //$NON-NLS-1$
-			BirtUtility.writeMessage( response.getOutputStream( ),
-					ParameterAccessor.htmlEncode( fault.getFaultString( ) ),
-					IBirtConstants.MSG_ERROR );
+			// if get image, don't write exception into output stream.
+			if ( !ParameterAccessor.isGetImageOperator( request ) )
+			{
+				response.setContentType( "text/html; charset=utf-8" ); //$NON-NLS-1$
+				BirtUtility.appendErrorMessage( response.getOutputStream( ), e );
+			}
 		}
 	}
 }
