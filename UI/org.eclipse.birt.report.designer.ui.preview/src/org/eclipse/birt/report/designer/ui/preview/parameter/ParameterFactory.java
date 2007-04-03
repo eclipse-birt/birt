@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.engine.api.IEngineTask;
+import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -32,7 +32,7 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 public class ParameterFactory
 {
 
-	private IEngineTask task = null;
+	private IGetParameterDefinitionTask task = null;
 
 	/**
 	 * Radion box
@@ -58,7 +58,7 @@ public class ParameterFactory
 	 * @param task
 	 */
 
-	public ParameterFactory( IEngineTask task )
+	public ParameterFactory( IGetParameterDefinitionTask task )
 	{
 		this.task = task;
 	}
@@ -142,8 +142,7 @@ public class ParameterFactory
 		assert group != null;
 		assert groupHandle != null;
 
-		SlotHandle slotHandle = groupHandle
-				.getSlot( ParameterGroupHandle.PARAMETERS_SLOT );
+		SlotHandle slotHandle = groupHandle.getSlot( ParameterGroupHandle.PARAMETERS_SLOT );
 
 		// Now parameter group only contains parameter. can't contain parameter
 		// group.

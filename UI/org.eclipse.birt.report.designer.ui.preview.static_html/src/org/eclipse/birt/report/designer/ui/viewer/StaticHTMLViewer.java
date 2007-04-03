@@ -95,7 +95,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 
 	private String currentBookmark;
 
-	private String preReportDesignFile;
+	// private String preReportDesignFile;
 
 	private boolean isTocUpdate;
 
@@ -121,7 +121,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 	 */
 	private boolean isInitialize;
 
-	//UI controls
+	// UI controls
 	private FormToolkit toolkit;
 
 	private Form form;
@@ -150,13 +150,13 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 
 	private TreeViewer tocViewer;
 
-	//end UI controls
+	// end UI controls
 
 	public void init( )
 	{
 		super.init( );
 		configEngine( );
-		//		configRender( );
+		// configRender( );
 	}
 
 	protected void configEngine( )
@@ -176,7 +176,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 
 		} );
 		emitterConfig.setImageHandler( new HTMLCompleteImageHandler( ) );
-		//		emitterConfig.setImageHandler( new HTMLImageHandler( ) );
+		// emitterConfig.setImageHandler( new HTMLImageHandler( ) );
 		engineConfig.getEmitterConfigs( ).put( "html", emitterConfig ); //$NON-NLS-1$
 	}
 
@@ -186,7 +186,9 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 		renderOption.setEmitterID( "org.eclipse.birt.report.engine.emitter.html" ); //$NON-NLS-1$
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.preview.extension.IViewer#createUI(org.eclipse.swt.widgets.Composite)
 	 */
 	public Control createUI( Composite parent )
@@ -212,7 +214,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 		layout.marginWidth = layout.marginHeight = 0;
 		form.getBody( ).setLayout( layout );
 
-		//paramAction
+		// paramAction
 		paramAction = new Action( "test", Action.AS_PUSH_BUTTON ) { //$NON-NLS-1$
 
 			public void run( )
@@ -226,7 +228,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 				.getDescriptor( StaticHTMLPrviewPlugin.IMG_PARAMS ) );
 		form.getToolBarManager( ).add( paramAction );
 
-		//tocAction
+		// tocAction
 		tocAction = new Action( "TOC", Action.AS_RADIO_BUTTON ) { //$NON-NLS-1$
 
 			public void run( )
@@ -252,7 +254,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 
 		form.getToolBarManager( ).add( new Separator( ) );
 
-		//navFirstAction
+		// navFirstAction
 		navFirstAction = new Action( "First", Action.AS_PUSH_BUTTON ) { //$NON-NLS-1$
 
 			public void run( )
@@ -267,7 +269,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 				.getDescriptor( StaticHTMLPrviewPlugin.IMG_NAV_FIRST ) );
 		form.getToolBarManager( ).add( navFirstAction );
 
-		//navPreAction
+		// navPreAction
 		navPreAction = new Action( "Pre", Action.AS_PUSH_BUTTON ) { //$NON-NLS-1$
 
 			public void run( )
@@ -286,7 +288,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 				.getDescriptor( StaticHTMLPrviewPlugin.IMG_NAV_PRE ) );
 		form.getToolBarManager( ).add( navPreAction );
 
-		//navNextAction
+		// navNextAction
 		navNextAction = new Action( "test", Action.AS_PUSH_BUTTON ) { //$NON-NLS-1$
 
 			public void run( )
@@ -305,7 +307,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 				.getDescriptor( StaticHTMLPrviewPlugin.IMG_NAV_NEXT ) );
 		form.getToolBarManager( ).add( navNextAction );
 
-		//navLastAction
+		// navLastAction
 		navLastAction = new Action( "Last", Action.AS_PUSH_BUTTON ) { //$NON-NLS-1$
 
 			public void run( )
@@ -329,8 +331,8 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 			{
 				ToolItem toolitem = new ToolItem( parent, SWT.SEPARATOR, index );
 				Composite container = new Composite( parent, SWT.NULL );
-				//				container.setFont( JFaceResources.getFontRegistry( )
-				//						.get( JFaceResources.TEXT_FONT ) );
+				// container.setFont( JFaceResources.getFontRegistry( )
+				// .get( JFaceResources.TEXT_FONT ) );
 				GridLayout layout = new GridLayout( );
 				layout.numColumns = 2;
 				layout.marginWidth = layout.marginHeight = 1;
@@ -347,22 +349,22 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 
 					public void keyPressed( KeyEvent e )
 					{
-						//						if ( e.keyCode != SWT.DEL && e.keyCode != SWT.BS )
-						//						{
-						//							try
-						//							{
-						//								long page = Long.parseLong( goPageInput.getText( )
-						//										+ e.character );
-						//								if ( page > 0 && page <= totalPageNum )
-						//									e.doit = true;
-						//								else
-						//									e.doit = false;
-						//							}
-						//							catch ( NumberFormatException e1 )
-						//							{
-						//								e.doit = false;
-						//							}
-						//						}
+						// if ( e.keyCode != SWT.DEL && e.keyCode != SWT.BS )
+						// {
+						// try
+						// {
+						// long page = Long.parseLong( goPageInput.getText( )
+						// + e.character );
+						// if ( page > 0 && page <= totalPageNum )
+						// e.doit = true;
+						// else
+						// e.doit = false;
+						// }
+						// catch ( NumberFormatException e1 )
+						// {
+						// e.doit = false;
+						// }
+						// }
 						if ( e.character == SWT.LF || e.character == SWT.CR )
 						{
 							if ( navGoAction.isEnabled( ) )
@@ -434,7 +436,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 		inputText.setVisible( true );
 		form.getToolBarManager( ).add( inputText );
 
-		//navSelectAction
+		// navSelectAction
 		navGoAction = new Action( "Go to page", Action.AS_PUSH_BUTTON ) { //$NON-NLS-1$
 
 			public void run( )
@@ -509,7 +511,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 		Tree t = toolkit.createTree( toc, SWT.NULL );
 		t.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		tocViewer = new TreeViewer( t );
-		//TODO config viewer
+		// TODO config viewer
 
 		tocViewer.setLabelProvider( new TOCLableProvider( ) {
 		} );
@@ -601,7 +603,9 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 		return renderOption;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.preview.extension.IViewer#setInput(java.lang.Object)
 	 */
 	public void setInput( final Object input )
@@ -627,7 +631,8 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 	}
 
 	/**
-	 * Get the path of the report design file to be rendered. 
+	 * Get the path of the report design file to be rendered.
+	 * 
 	 * @return
 	 */
 	public String getReportDesignFile( )
@@ -636,9 +641,10 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 	}
 
 	/**
-	 * Get the parameters pair values for current report design.
-	 * This method will raise a dialog if the report design has some parameters.
-	 * TODO change to check if there are any required parameters not set then open dialog.
+	 * Get the parameters pair values for current report design. This method
+	 * will raise a dialog if the report design has some parameters. TODO change
+	 * to check if there are any required parameters not set then open dialog.
+	 * 
 	 * @return
 	 */
 	public Map getParameterValues( List params )
@@ -669,7 +675,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 	public void renderReport( IProgressMonitor monitor )
 	{
 		monitor.subTask( "Collecting parameters" );
-		//		getParameterValues( );
+		// getParameterValues( );
 
 		if ( monitor.isCanceled( ) )
 		{
@@ -700,8 +706,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 							outputFolder,
 							this.paramValues );
 					this.totalPageNum = createReportOutput( this.reportDocumentFile,
-							this.outputLocation,
-							this.paramValues,
+							this.outputLocation,							
 							currentPageNum );
 				}
 				catch ( EngineException e )
@@ -709,41 +714,41 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 					e.printStackTrace( );
 				}
 			}
-			//			else
-			//			{
-			//				do
-			//				{
-			//					try
-			//					{
-			//						createReportOutput( reportDesignFile,
-			//								this.outputLocation,
-			//								this.paramValues,
-			//								currentPageNum );
-			//					}
-			//					catch ( EngineException e )
-			//					{
-			//						break;
-			//					}
-			//					currentPageNum++;
-			//				} while ( true );
-			//				this.outputLocation = reportFile.getName( ) + "-1.html";
-			//			}
+			// else
+			// {
+			// do
+			// {
+			// try
+			// {
+			// createReportOutput( reportDesignFile,
+			// this.outputLocation,
+			// this.paramValues,
+			// currentPageNum );
+			// }
+			// catch ( EngineException e )
+			// {
+			// break;
+			// }
+			// currentPageNum++;
+			// } while ( true );
+			// this.outputLocation = reportFile.getName( ) + "-1.html";
+			// }
 
-			//			try
-			//			{
-			//				createOverviewFrameHtml( new FileWriter( TMP_FOLDER
-			//						+ File.separator
-			//						+ "overview-frame.html" ),
-			//						pageCount,
-			//						reportFile.getName( ) );
+			// try
+			// {
+			// createOverviewFrameHtml( new FileWriter( TMP_FOLDER
+			// + File.separator
+			// + "overview-frame.html" ),
+			// pageCount,
+			// reportFile.getName( ) );
 			//
-			//				createIndexPageHtml( new FileWriter( indexPageFile ),
-			//						reportFile.getName( ),
-			//						reportFile.getName( ) + "-1.html" );
-			//			}
-			//			catch ( IOException e )
-			//			{
-			//			}
+			// createIndexPageHtml( new FileWriter( indexPageFile ),
+			// reportFile.getName( ),
+			// reportFile.getName( ) + "-1.html" );
+			// }
+			// catch ( IOException e )
+			// {
+			// }
 		}
 		catch ( IOException e )
 		{
@@ -804,14 +809,14 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 		};
 		getParameterJob.setSystem( true );
 
-		//		initJob.addJobChangeListener( new JobChangeAdapter( ) {
+		// initJob.addJobChangeListener( new JobChangeAdapter( ) {
 		//
-		//			public void done( IJobChangeEvent event )
-		//			{
-		//				super.done( event );
-		////				RenderJobRunner.runRenderJob( getParameterJob );
-		//			}
-		//		} );
+		// public void done( IJobChangeEvent event )
+		// {
+		// super.done( event );
+		// // RenderJobRunner.runRenderJob( getParameterJob );
+		// }
+		// } );
 
 		Job renderJob = new AbstractJob( "Rendering report",
 				this.reportDesignFile ) {
@@ -823,14 +828,14 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 			}
 		};
 
-		//		getParameterJob.addJobChangeListener( new JobChangeAdapter( ) {
+		// getParameterJob.addJobChangeListener( new JobChangeAdapter( ) {
 		//
-		//			public void done( IJobChangeEvent event )
-		//			{
-		//				super.done( event );
-		////				RenderJobRunner.runRenderJob( renderJob );
-		//			}
-		//		} );
+		// public void done( IJobChangeEvent event )
+		// {
+		// super.done( event );
+		// // RenderJobRunner.runRenderJob( renderJob );
+		// }
+		// } );
 
 		Job showJob = new AbstractUIJob( "Showing report",
 				this.reportDesignFile ) {
@@ -840,12 +845,12 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 				monitor.subTask( "Show report in Browser" );
 				if ( !form.isDisposed( ) )
 				{
-					//										browser.setUrl( outputLocation
-					//												+ ( currentBookmark == null ? ""
-					//														: ( "#" + currentBookmark ) ) );
+					// browser.setUrl( outputLocation
+					// + ( currentBookmark == null ? ""
+					// : ( "#" + currentBookmark ) ) );
 					browser.setUrl( outputLocation );
-					//if special the anchor, SWT browser will not refresh
-					//					browser.refresh( );
+					// if special the anchor, SWT browser will not refresh
+					// browser.refresh( );
 					if ( currentPageNum < totalPageNum )
 					{
 						navNextAction.setEnabled( true );
@@ -893,14 +898,14 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 		};
 		updateFormJob.setSystem( true );
 
-		//		renderJob.addJobChangeListener( new JobChangeAdapter( ) {
+		// renderJob.addJobChangeListener( new JobChangeAdapter( ) {
 		//
-		//			public void done( IJobChangeEvent event )
-		//			{
-		//				super.done( event );
-		////				RenderJobRunner.runRenderJob( showJob );
-		//			}
-		//		} );
+		// public void done( IJobChangeEvent event )
+		// {
+		// super.done( event );
+		// // RenderJobRunner.runRenderJob( showJob );
+		// }
+		// } );
 
 		RenderJobRule jobRule = new RenderJobRule( this.reportDesignFile );
 
@@ -910,19 +915,19 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 		RenderJobRunner.runRenderJob( showJob, jobRule );
 		RenderJobRunner.runRenderJob( updateFormJob, jobRule );
 
-		//		Display.getCurrent( ).asyncExec( new Runnable( ) {
+		// Display.getCurrent( ).asyncExec( new Runnable( ) {
 		//
-		//			public void run( )
-		//			{
-		//				if ( !isInitialize )
-		//				{
-		//					init( );
-		//					isInitialize = true;
-		//				}
-		//				renderReport( reportDesignFile, getParameterValues( ) );
-		//			}
+		// public void run( )
+		// {
+		// if ( !isInitialize )
+		// {
+		// init( );
+		// isInitialize = true;
+		// }
+		// renderReport( reportDesignFile, getParameterValues( ) );
+		// }
 		//
-		//		} );
+		// } );
 
 	}
 

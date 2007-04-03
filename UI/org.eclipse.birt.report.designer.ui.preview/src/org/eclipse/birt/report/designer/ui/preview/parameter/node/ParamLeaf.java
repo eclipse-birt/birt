@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.ui.preview.parameter.node;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.ui.preview.parameter.IParameter;
 
 /**
@@ -43,7 +44,7 @@ public class ParamLeaf implements IParamNode
 	 * @see org.eclipse.birt.report.engine.api.parameter.node.IParamNode#format(java.lang.String)
 	 */
 
-	public String format( String input )
+	public String format( String input ) throws BirtException
 	{
 		return parameter.format( input );
 	}

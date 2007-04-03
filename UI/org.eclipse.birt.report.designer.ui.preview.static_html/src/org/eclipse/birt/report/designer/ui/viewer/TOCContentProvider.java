@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.designer.ui.viewer;
 
-import java.util.Collections;
-
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
@@ -66,7 +64,7 @@ public class TOCContentProvider implements ITreeContentProvider
 
 	public void inputChanged( Viewer viewer, Object oldInput, Object newInput )
 	{
-//		viewer.setSelection( null );
+		// viewer.setSelection( null );
 	}
 
 }

@@ -13,72 +13,93 @@ package org.eclipse.birt.report.designer.ui.preview.parameter;
 
 import java.util.List;
 
+import org.eclipse.birt.core.exception.BirtException;
+
 /**
  * Parameter interface
- *
+ * 
  */
-
 public interface IParameter
 {
+
 	/**
 	 * Gets parameter values
+	 * 
 	 * @return parameter values.
 	 */
-	
-	public List getValueList();
-	
+
+	public List getValueList( );
+
 	/**
 	 * Formats input value.
+	 * 
 	 * @param input
 	 * @return formatted input value
 	 */
-	
-	public String format( String input );
-	
+	public String format( String input ) throws BirtException;
+
+	/**
+	 * Converts the value to chosen data type
+	 * 
+	 * @param value
+	 * @param type
+	 * @return value of chosen data type
+	 * @throws BirtException
+	 */
+	public Object converToDataType( Object value, String type )
+			throws BirtException;
+
 	/**
 	 * Gets default value.
+	 * 
 	 * @return default value.
 	 */
-	
-	public String getDefaultValue();
-	
+
+	public String getDefaultValue( );
+
 	/**
 	 * Sets parameter group
+	 * 
 	 * @param group
 	 */
-	
+
 	public void setParentGroup( IParamGroup group );
-	
+
 	/**
 	 * Gets parameter group
-	 * @return 
+	 * 
+	 * @return
 	 */
-	public IParamGroup getParentGroup();
-	
+	public IParamGroup getParentGroup( );
+
 	/**
 	 * Sets selection value.
+	 * 
 	 * @param value
 	 */
 	public void setSelectionValue( String value );
-	
+
 	/**
 	 * Gets selection value.
+	 * 
 	 * @return selection value.
 	 */
-	public String getSelectionValue();
-	
+	public String getSelectionValue( );
+
 	/**
 	 * Gets Property value.
+	 * 
 	 * @param propertyName
 	 * @return property value.
 	 */
-	
+
 	public Object getPropertyValue( Object propertyName );
-	
+
 	/**
 	 * Gets isRequired property.
+	 * 
 	 * @return
 	 */
 	public boolean isRequired( );
-	
+
 }

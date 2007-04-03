@@ -15,11 +15,12 @@ import java.io.Serializable;
 
 /**
  * Parameter choice contains value or label.
- *
+ * 
  */
 
 public class ParameterChoice implements Serializable
 {
+
 	/**
 	 * 
 	 */

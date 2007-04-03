@@ -11,11 +11,8 @@
 
 package org.eclipse.birt.report.designer.ui.preview.editors;
 
-import org.eclipse.birt.report.engine.api.EngineConfig;
-import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-
 
 /**
  * 
@@ -26,15 +23,17 @@ public abstract class SWTAbstractViewer extends AbstractViewer
 
 	/**
 	 * Creates and lays out the top level composite for the viewer.
+	 * 
 	 * @param parent
 	 */
-	public abstract Control createUI(Composite parent);
-	
+	public abstract Control createUI( Composite parent );
+
 	/**
 	 * Returns the top level control for this viewer.
+	 * 
 	 * @return
 	 */
-	public abstract Control getUI();
+	public abstract Control getUI( );
 
 	public void close( )
 	{

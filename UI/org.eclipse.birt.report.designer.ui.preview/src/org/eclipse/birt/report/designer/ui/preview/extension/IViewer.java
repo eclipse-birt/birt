@@ -11,28 +11,27 @@
 
 package org.eclipse.birt.report.designer.ui.preview.extension;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-
 /**
  * The interface for all report viewers.
  */
 public interface IViewer
 {
+
 	/**
 	 * Set target report design file.
+	 * 
 	 * @param reportDesignFile
 	 */
-	public void setInput(Object input);
-	
+	public void setInput( Object input );
+
 	/**
 	 * Start render report.
 	 */
-	public void render();
-	
+	public void render( );
+
 	/**
 	 * Disposes of this viewer.
 	 */
-	public void close();
-	
+	public void close( );
+
 }

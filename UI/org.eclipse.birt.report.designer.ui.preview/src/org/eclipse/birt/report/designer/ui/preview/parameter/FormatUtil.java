@@ -40,12 +40,9 @@ public class FormatUtil
 	 */
 	private static boolean isCustom( String formatCategory )
 	{
-		if ( DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM
-				.equals( formatCategory )
-				|| DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM
-						.equals( formatCategory )
-				|| DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM
-						.equals( formatCategory ) )
+		if ( DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM.equals( formatCategory )
+				|| DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM.equals( formatCategory )
+				|| DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM.equals( formatCategory ) )
 		{
 			return true;
 		}
@@ -61,6 +58,7 @@ public class FormatUtil
 	 */
 
 	public static String format( ParameterHandle handle, String inputStr )
+			throws BirtException
 	{
 
 		if ( inputStr == null || inputStr.trim( ).length( ) == 0 )
@@ -78,56 +76,52 @@ public class FormatUtil
 	}
 
 	/**
-	 * Formats scalar parameter value. 
+	 * Formats scalar parameter value.
+	 * 
 	 * @param handle
 	 * @param inputStr
 	 * @return formatted value.
 	 */
-	
+
 	private static String formatScalarParameter( ScalarParameterHandle handle,
-			String inputStr )
+			String inputStr ) throws BirtException
 	{
-		try
-		{
-			String pattern = handle.getPattern( );
-			String category = handle.getCategory( );
+		String pattern = handle.getPattern( );
+		String category = handle.getCategory( );
 
-			if ( pattern == null )
-			{
-				if ( isCustom( category ) )
-				{
-					return inputStr;
-				}
-				pattern = category;
-			}
-
-			String dataType = handle.getDataType( );
-			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( dataType ) )
-			{
-				Date date = DataTypeUtil.toDate( inputStr, ULocale.US );
-				DateFormatter formatter = new DateFormatter( pattern );
-				inputStr = formatter.format( date );
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( dataType ) )
-			{
-				inputStr = new NumberFormatter( pattern ).format( DataTypeUtil
-						.toDouble( inputStr ).doubleValue( ) );
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL
-					.equals( dataType ) )
-			{
-				inputStr = new NumberFormatter( pattern ).format( DataTypeUtil
-						.toBigDecimal( inputStr ) );
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( dataType ) )
-			{
-				inputStr = new StringFormatter( pattern ).format( inputStr );
-			}
-		}
-		catch ( BirtException e )
+		if ( pattern == null )
 		{
-			// e.printStackTrace( );
+			if ( isCustom( category ) )
+			{
+				return inputStr;
+			}
+			pattern = category;
 		}
+
+		String dataType = handle.getDataType( );
+		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( dataType ) )
+		{
+			Date date = DataTypeUtil.toDate( inputStr, ULocale.US );
+			DateFormatter formatter = new DateFormatter( pattern );
+			inputStr = formatter.format( date );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( dataType ) )
+		{
+			inputStr = new NumberFormatter( pattern ).format( DataTypeUtil.toDouble( inputStr )
+					.doubleValue( ) );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( dataType ) )
+		{
+			inputStr = new NumberFormatter( pattern ).format( DataTypeUtil.toBigDecimal( inputStr ) );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( dataType ) )
+		{
+			inputStr = new StringFormatter( pattern ).format( inputStr );
+		}
+		// catch ( BirtException e )
+		// {
+		// // e.printStackTrace( );
+		// }
 		return inputStr;
 	}
 

@@ -18,7 +18,7 @@
             displayName="%design.preview"
             id="org.eclipse.birt.report.designer.ui.editors.preview"
             position="right"
-            relative="org.eclipse.birt.report.designer.ui.editors.xmlsource"
+            relative="org.eclipse.birt.report.designer.ui.editors.preview.web"
             visible="true"/>
         </targetEditor>
         <targetEditor targetEditorId="org.eclipse.birt.report.designer.ui.editors.TemplateEditor">
@@ -27,7 +27,7 @@
             displayName="%template.preview"
             id="org.eclipse.birt.report.designer.ui.editors.preview"
             position="right"
-            relative="org.eclipse.birt.report.designer.ui.editors.xmlsource"
+            relative="org.eclipse.birt.report.designer.ui.editors.preview.web"
             visible="true"/>
         </targetEditor>
     </extension>

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.ui.preview.parameter;
 
 import java.util.List;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
@@ -29,20 +30,22 @@ public abstract class ScalarParam implements IParameter
 	 * Parameter Group
 	 */
 	protected IParamGroup group = null;
-	
+
 	private String selectionValue = null;
-	
+
 	/**
 	 * Gets selection value.
+	 * 
 	 * @return selection value.
 	 */
-	public String getSelectionValue()
+	public String getSelectionValue( )
 	{
 		return selectionValue;
 	}
-	
+
 	/**
 	 * Sets selection value.
+	 * 
 	 * @param value
 	 */
 	public void setSelectionValue( String value )
@@ -115,28 +118,35 @@ public abstract class ScalarParam implements IParameter
 	 * @return parameter handle.
 	 */
 
-	public ParameterHandle getHandle( )
+	public ScalarParameterHandle getHandle( )
 	{
 		return handle;
 	}
 
-	public String format( String input )
+	public String format( String input ) throws BirtException
 	{
 		return FormatUtil.format( handle, input );
 	}
-	
+
+	public Object converToDataType( Object value, String type )
+			throws BirtException
+	{
+		return DataTypeConvertUtil.convert( value, type );
+	}
+
 	public Object getPropertyValue( Object propertyName )
 	{
-		return handle.getProperty( (String)propertyName );
+		return handle.getProperty( (String) propertyName );
 	}
-	
+
 	/**
 	 * Gets isRequired property.
+	 * 
 	 * @return
 	 */
 	public boolean isRequired( )
 	{
-		return handle.getBooleanProperty( IParameterConstants.IS_REQUIRED );
+		return handle.isRequired( );
 	}
 
 }

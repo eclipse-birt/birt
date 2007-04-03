@@ -11,18 +11,13 @@
 
 package org.eclipse.birt.report.designer.ui.preview.editors;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.eclipse.birt.core.framework.FrameworkException;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.designer.ui.preview.extension.IViewer;
-import org.eclipse.birt.report.designer.ui.preview.extension.ViewerException;
 import org.eclipse.birt.report.designer.ui.preview.extension.ViewerExtensionManager;
-import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.swt.widgets.Composite;
@@ -59,7 +54,8 @@ public class ReportPreviewFormPage extends EditorPart implements
 	/**
 	 * Creates <code>ReportPreviewFormPage</code>
 	 * 
-	 * @throws FrameworkException if occurs error when create viewer
+	 * @throws FrameworkException
+	 *             if occurs error when create viewer
 	 */
 	public ReportPreviewFormPage( ) throws FrameworkException
 	{
@@ -90,7 +86,7 @@ public class ReportPreviewFormPage extends EditorPart implements
 		if ( reportViewer instanceof SWTAbstractViewer )
 		{
 			return ( (SWTAbstractViewer) reportViewer ).getUI( );
-			//			reportViewer.setReportDesignFile( getReportDesignFilePath( ) );
+			// reportViewer.setReportDesignFile( getReportDesignFilePath( ) );
 		}
 		return null;
 	}
@@ -115,7 +111,7 @@ public class ReportPreviewFormPage extends EditorPart implements
 		if ( reportViewer instanceof SWTAbstractViewer )
 		{
 			( (SWTAbstractViewer) reportViewer ).createUI( parent );
-			//			reportViewer.setReportDesignFile( getReportDesignFilePath( ) );
+			// reportViewer.setReportDesignFile( getReportDesignFilePath( ) );
 		}
 	}
 
@@ -127,34 +123,34 @@ public class ReportPreviewFormPage extends EditorPart implements
 		}
 		reportViewer.setInput( getReportDesignFilePath( ) );
 		reportViewer.render( );
-		//		new Thread( ) {
+		// new Thread( ) {
 		//
-		//			/*
-		//			 * (non-Javadoc)
-		//			 * 
-		//			 * @see java.lang.Thread#run()
-		//			 */
-		//			public void run( )
-		//			{
-		//				try
-		//				{
-		//					RenderHandler.viewReportDesign( getReportDesignFile( ),
-		//							reportViewer );
-		//				}
-		//				catch ( final EngineException e )
-		//				{
-		//					e.printStackTrace( );
-		//				}
-		//				catch ( final IOException e )
-		//				{
-		//					e.printStackTrace( );
-		//				}
-		//				catch ( final ViewerException e )
-		//				{
-		//					e.printStackTrace( );
-		//				}
-		//			}
-		//		}.start( );
+		// /*
+		// * (non-Javadoc)
+		// *
+		// * @see java.lang.Thread#run()
+		// */
+		// public void run( )
+		// {
+		// try
+		// {
+		// RenderHandler.viewReportDesign( getReportDesignFile( ),
+		// reportViewer );
+		// }
+		// catch ( final EngineException e )
+		// {
+		// e.printStackTrace( );
+		// }
+		// catch ( final IOException e )
+		// {
+		// e.printStackTrace( );
+		// }
+		// catch ( final ViewerException e )
+		// {
+		// e.printStackTrace( );
+		// }
+		// }
+		// }.start( );
 	}
 
 	/*
@@ -409,25 +405,6 @@ public class ReportPreviewFormPage extends EditorPart implements
 	public void dispose( )
 	{
 		super.dispose( );
-	}
-
-	/**
-	 * Returns report design file.
-	 */
-	private File getReportDesignFile( )
-	{
-		IEditorInput input = getEditorInput( );
-
-		if ( input != null )
-		{
-			IReportProvider provider = getProvider( );
-
-			if ( provider != null )
-			{
-				return new File( provider.getInputPath( input ).toOSString( ) );
-			}
-		}
-		return null;
 	}
 
 	private String getReportDesignFilePath( )

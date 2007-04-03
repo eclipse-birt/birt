@@ -13,6 +13,8 @@ package org.eclipse.birt.report.designer.ui.preview.parameter.node;
 
 import java.util.List;
 
+import org.eclipse.birt.core.exception.BirtException;
+
 /**
  * Parameter node interface.
  * 
@@ -36,7 +38,7 @@ public interface IParamNode
 	 * @return formatted value.
 	 */
 
-	public String format( String input );
+	public String format( String input ) throws BirtException;
 
 	/**
 	 * Gets children of parameter group node.

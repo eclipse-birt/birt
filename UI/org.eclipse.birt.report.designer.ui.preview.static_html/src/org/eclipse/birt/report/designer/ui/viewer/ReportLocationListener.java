@@ -37,7 +37,7 @@ public class ReportLocationListener implements LocationListener
 	public ReportLocationListener( Browser browser, StaticHTMLViewer viewer )
 	{
 		this.browser = browser;
-		this.browser.addLocationListener( this );
+		// this.browser.addLocationListener( this );
 		this.viewer = viewer;
 	}
 
@@ -93,5 +93,4 @@ public class ReportLocationListener implements LocationListener
 		}
 
 	}
-
 }

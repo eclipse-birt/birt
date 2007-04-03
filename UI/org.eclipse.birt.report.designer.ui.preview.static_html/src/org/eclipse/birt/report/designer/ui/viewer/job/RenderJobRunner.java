@@ -12,8 +12,6 @@
 package org.eclipse.birt.report.designer.ui.viewer.job;
 
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.progress.IProgressService;
 
 /**
  * 
@@ -21,29 +19,24 @@ import org.eclipse.ui.progress.IProgressService;
 
 public class RenderJobRunner
 {
-
-	private static IProgressService service = PlatformUI.getWorkbench( )
-			.getProgressService( );
-
 	public static void runRenderJob( Job runJob, RenderJobRule jobRule )
 	{
-		//		boolean showDialog = true;
-		//		if ( Display.getCurrent( ) == null )
-		//			showDialog = false;
+		// boolean showDialog = true;
+		// if ( Display.getCurrent( ) == null )
+		// showDialog = false;
 		//
-		//		Shell shell = PlatformUI.getWorkbench( )
-		//				.getActiveWorkbenchWindow( )
-		//				.getShell( );
+		// Shell shell = PlatformUI.getWorkbench( )
+		// .getActiveWorkbenchWindow( )
+		// .getShell( );
 
-		//		if ( showDialog )
-		//		{
-		//			service.showInDialog( shell, runJob );
-		//		}
+		// if ( showDialog )
+		// {
+		// service.showInDialog( shell, runJob );
+		// }
 
-		//		runJob.setProperty( IProgressConstants.ICON_PROPERTY, image );
+		// runJob.setProperty( IProgressConstants.ICON_PROPERTY, image );
 		runJob.setUser( true );
 		runJob.setRule( jobRule );
 		runJob.schedule( );
 	}
-
 }
