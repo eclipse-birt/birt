@@ -136,53 +136,21 @@ public class ScalarParameterFragment extends BirtBaseFragment
 		displayName = ParameterAccessor.htmlEncode( displayName );
 		parameterBean.setDisplayName( displayName );
 
+		// isRequired
+		parameterBean.setRequired( parameter.isRequired( ) );
+
 		// Directly get parameter values from AttributeBean
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) request
 				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
 		assert attrBean != null;
 
 		// parameter value.
-		String parameterValue = null;
-
 		if ( attrBean.getParametersAsString( ) != null )
-			parameterValue = (String) attrBean.getParametersAsString( ).get(
-					parameterBean.getName( ) );
-
-		if ( parameterValue == null && !parameter.allowNull( )
-				&& parameter.allowBlank( ) )
 		{
-			parameterValue = ""; //$NON-NLS-1$
+			String parameterValue = (String) attrBean.getParametersAsString( )
+					.get( parameterBean.getName( ) );
+			parameterBean.setValue( parameterValue );
 		}
-
-		// isRequired
-		switch ( parameter.getDataType( ) )
-		{
-			case ParameterDefinition.TYPE_STRING :
-			{
-				// parame default value may be null if it allows "null" value
-				// assert paramDefaultValueObj instanceof String;
-				parameterBean.setRequired( false );
-
-				if ( parameterValue == null && !parameter.allowNull( ) )
-				{
-					parameterBean.setRequired( true );
-				}
-				else if ( !parameter.allowBlank( ) )
-				{
-					parameterBean.setRequired( true );
-				}
-
-				break;
-			}
-			default :
-			{
-				parameterBean.setRequired( parameterValue == null );
-				break;
-			}
-		}
-
-		// Set parameter current value
-		parameterBean.setValue( parameterValue );
 
 		// Set parameter display text
 		Map displayTexts = attrBean.getDisplayTexts( );
@@ -191,10 +159,6 @@ public class ScalarParameterFragment extends BirtBaseFragment
 			parameterBean.setDisplayTextInReq( true );
 			parameterBean.setDisplayText( DataUtil.getString( displayTexts
 					.get( parameterBean.getName( ) ) ) );
-		}
-		else
-		{
-			parameterBean.setDisplayText( parameterValue );
 		}
 
 		// Set parameter default value

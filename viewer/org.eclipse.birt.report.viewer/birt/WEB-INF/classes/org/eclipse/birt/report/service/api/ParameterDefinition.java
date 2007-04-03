@@ -69,6 +69,8 @@ public class ParameterDefinition
 
 	private boolean allowBlank;
 
+	private boolean isRequired;
+
 	private boolean mustMatch;
 
 	private boolean concealValue;
@@ -81,7 +83,7 @@ public class ParameterDefinition
 			String displayFormat, String displayName, String helpText,
 			String promptText, int dataType, String valueExpr, int controlType,
 			boolean hidden, boolean allowNull, boolean allowBlank,
-			boolean mustMatch, boolean concealValue,
+			boolean isRequired, boolean mustMatch, boolean concealValue,
 			ParameterGroupDefinition group, Collection selectionList )
 	{
 		this.id = id;
@@ -97,6 +99,7 @@ public class ParameterDefinition
 		this.hidden = hidden;
 		this.allowNull = allowNull;
 		this.allowBlank = allowBlank;
+		this.isRequired = isRequired;
 		this.mustMatch = mustMatch;
 		this.concealValue = concealValue;
 		this.group = group;
@@ -161,14 +164,27 @@ public class ParameterDefinition
 		return hidden;
 	}
 
+	/**
+	 * @deprecated
+	 * @return
+	 */
 	public boolean allowNull( )
 	{
 		return allowNull;
 	}
 
+	/**
+	 * @deprecated
+	 * @return
+	 */	
 	public boolean allowBlank( )
 	{
 		return allowBlank;
+	}
+
+	public boolean isRequired( )
+	{
+		return isRequired;
 	}
 
 	public boolean mustMatch( )

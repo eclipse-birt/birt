@@ -1180,6 +1180,7 @@ public class BirtViewerReportService implements IViewerReportService
 		boolean hidden = engineParam.isHidden( );
 		boolean allowNull = engineParam.allowNull( );
 		boolean allowBlank = engineParam.allowBlank( );
+		boolean isRequired = engineParam.isRequired( );
 		boolean mustMatch = scalarParamHandle == null
 				? false
 				: scalarParamHandle.isMustMatch( );
@@ -1188,7 +1189,7 @@ public class BirtViewerReportService implements IViewerReportService
 		ParameterDefinition param = new ParameterDefinition( id, name, pattern,
 				displayFormat, displayName, helpText, promptText, dataType,
 				valueExpr, controlType, hidden, allowNull, allowBlank,
-				mustMatch, concealValue, group, null );
+				isRequired, mustMatch, concealValue, group, null );
 		return param;
 	}
 
