@@ -17,7 +17,10 @@ import java.util.List;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.expression.CompiledExpression;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
@@ -25,7 +28,12 @@ import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
+import org.mozilla.javascript.CompilerEnvirons;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Interpreter;
+import org.mozilla.javascript.Parser;
+import org.mozilla.javascript.Script;
+import org.mozilla.javascript.ScriptOrFnNode;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -58,17 +66,64 @@ public class DimensionFilterEvalHelper
 			this.dimObj = new DummyJSLevels( );
 			this.dimName = OlapExpressionCompiler.getReferencedDimensionName( expr );
 			this.expr = expr;
+			
 			DummyJSDimensionObject dimObj = new DummyJSDimensionObject( this.dimObj,
 					this.getLevelNames( ) );
 
 			this.scope.put( "dimension",
 					this.scope,
 					new DummyJSDimensionAccessor( this.dimName, dimObj ) );
+			
+			this.prepareExpr( cx );
 		}
 		finally
 		{
 			Context.exit( );
 		}
+	}
+
+	/**
+	 * 
+	 * @param cx
+	 */
+	private void prepareExpr( Context cx )
+	{
+		if ( this.expr instanceof IConditionalExpression )
+		{
+			this.prepareScriptExpression( cx,
+					( (IConditionalExpression) this.expr ).getExpression( ) );
+			this.prepareScriptExpression( cx,
+					( (IConditionalExpression) this.expr ).getOperand1( ) );
+			this.prepareScriptExpression( cx,
+					( (IConditionalExpression) this.expr ).getOperand2( ) );
+		}
+	}
+
+	/**
+	 * 
+	 * @param cx
+	 * @param expr1
+	 */
+	private void prepareScriptExpression( Context cx, IScriptExpression expr1 )
+	{
+		if ( expr1 == null )
+			return;
+		
+		String exprText = expr1.getText( );
+
+		CompilerEnvirons compilerEnv = new CompilerEnvirons( );
+		compilerEnv.initFromContext( cx );
+		Parser p = new Parser( compilerEnv, cx.getErrorReporter( ) );
+
+		ScriptOrFnNode tree = p.parse( exprText, null, 0 );
+		Interpreter compiler = new Interpreter( );
+		Object compiledOb = compiler.compile( compilerEnv,
+				tree,
+				null,
+				false );
+		Script script = (Script) compiler.createScriptObject( compiledOb,
+				null );
+		expr1.setHandle( new DummyDimensionExpressionHandle( script ));
 	}
 
 	private List getLevelNames() throws DataException
@@ -102,7 +157,8 @@ public class DimensionFilterEvalHelper
 	{
 		IEdgeDefinition columnEdge = this.defn.getEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = this.defn.getEdge( ICubeQueryDefinition.ROW_EDGE );
-		List dims = columnEdge.getDimensions( );
+		List dims = new ArrayList();
+		dims.addAll( columnEdge.getDimensions( ) );
 		dims.addAll( rowEdge.getDimensions( ) );
 		
 		for ( int i = 0; i < dims.size( ); i++ )
@@ -264,6 +320,7 @@ public class DimensionFilterEvalHelper
 
 		//
 		private IResultRow resultRow;
+		private String key;
 		/*
 		 * (non-Javadoc)
 		 * @see org.mozilla.javascript.ScriptableObject#getClassName()
@@ -281,7 +338,7 @@ public class DimensionFilterEvalHelper
 		{
 			try
 			{
-				return resultRow.getValue( "level1" );
+				return resultRow.getValue( this.key );
 			}
 			catch ( DataException e )
 			{
@@ -312,6 +369,7 @@ public class DimensionFilterEvalHelper
 		 */
 		public void setCurrentKey( String key )
 		{
+			this.key = key;
 		}
 
 		/**
@@ -324,6 +382,37 @@ public class DimensionFilterEvalHelper
 		}
 	}
 
+	private class DummyDimensionExpressionHandle extends CompiledExpression
+	{
+		private Script script;
+		
+		DummyDimensionExpressionHandle( Script script )
+		{
+			assert script!= null;
+			this.script = script;
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.expression.CompiledExpression#evaluate(org.mozilla.javascript.Context, org.mozilla.javascript.Scriptable)
+		 */
+		public Object evaluate( Context context, Scriptable scope )
+				throws DataException
+		{
+			Object temp = this.script.exec( context, scope );
+			if ( temp instanceof DummyJSLevels )
+			{
+				return ((DummyJSLevels)temp).getDefaultValue( null );
+			}
+			return temp;
+		}
+
+		public int getType( )
+		{
+			return 0;
+		}
+		
+	}
 	private class InMatchDimensionIndicator extends RuntimeException
 	{
 

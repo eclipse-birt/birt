@@ -44,8 +44,8 @@ public class OlapExpressionUtil
 
 		expr = expr.replaceFirst( "\\Qdimension\\E", "" );
 		String[] result = expr.split( "\\Q\"][\"\\E" );
-		result[0].replaceAll( "\\Q[\"\\E", "" );
-		result[1].replaceAll( "\\Q\"]\\E", "" );
+		result[0] = result[0].replaceAll( "\\Q[\"\\E", "" );
+		result[1] = result[1].replaceAll( "\\Q\"]\\E", "" );
 		return result;
 	}
 
@@ -85,10 +85,10 @@ public class OlapExpressionUtil
 			IBinding binding = ( (IBinding) it.next( ) );
 			if ( binding.getExpression( ) instanceof IScriptExpression )
 			{
-				String measure = getMeasure( ( (IScriptExpression) binding.getExpression( ) ).getText( ) );
-				if ( measure != null )
+				//String measure = getMeasure( ( (IScriptExpression) binding.getExpression( ) ).getText( ) );
+				if ( binding.getAggrFunction( ) != null )
 					cubeAggrDefns.add( new CubeAggrDefn( binding.getBindingName( ),
-							measure,
+							getMeasure( ( (IScriptExpression) binding.getExpression( ) ).getText( ) ),
 							binding.getAggregatOns( ),
 							binding.getAggrFunction( ) ) );
 			}
