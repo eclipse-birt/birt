@@ -17,7 +17,6 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.tools.CrosstabR
 import org.eclipse.draw2d.Cursors;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.PositionConstants;
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.handles.AbstractHandle;
 import org.eclipse.gef.tools.ResizeTracker;

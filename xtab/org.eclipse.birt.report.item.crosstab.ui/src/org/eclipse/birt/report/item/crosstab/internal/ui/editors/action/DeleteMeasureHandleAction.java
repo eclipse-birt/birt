@@ -31,7 +31,7 @@ public class DeleteMeasureHandleAction extends AbstractCrosstabAction
 	/**
 	 * Action displayname
 	 */
-	private static final String ACTION_MSG_MERGE = "Delete MeasureHandle";
+	private static final String ACTION_MSG_MERGE = "Remove";
 
 	/** action ID */
 	public static final String ID = "org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.DeleteMeasureHandleAction"; //$NON-NLS-1$

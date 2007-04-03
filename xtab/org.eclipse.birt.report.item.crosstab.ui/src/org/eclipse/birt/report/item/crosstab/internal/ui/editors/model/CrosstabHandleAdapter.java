@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
@@ -965,7 +966,14 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 					&& cellAdapter.getRowSpan( ) == 1
 					&& cellAdapter.getCrosstabCellHandle( ) != null )
 			{
-				return getCrosstabReportItemHandle( ).getRowHeight( cellAdapter.getCrosstabCellHandle( ) );
+				try
+				{
+					return getCrosstabReportItemHandle( ).getRowHeight( cellAdapter.getCrosstabCellHandle( ) );
+				}
+				catch ( CrosstabException e )
+				{
+					return null;
+				}
 			}
 		}
 		return null;
@@ -989,7 +997,14 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 					&& cellAdapter.getColumnSpan( ) == 1
 					&& cellAdapter.getCrosstabCellHandle( ) != null )
 			{
-				return getCrosstabReportItemHandle( ).getColumnWidth( cellAdapter.getCrosstabCellHandle( ) );
+				try
+				{
+					return getCrosstabReportItemHandle( ).getColumnWidth( cellAdapter.getCrosstabCellHandle( ) );
+				}
+				catch ( CrosstabException e )
+				{
+					return null;
+				}
 			}
 		}
 		return null;

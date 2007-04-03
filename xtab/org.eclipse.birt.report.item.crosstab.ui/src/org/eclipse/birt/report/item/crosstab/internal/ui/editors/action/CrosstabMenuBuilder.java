@@ -13,7 +13,11 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.editors.action;
 
 import java.util.List;
 
+import org.eclipse.birt.report.designer.ui.cubebuilder.action.EditCubeAction;
 import org.eclipse.birt.report.designer.ui.extensions.IMenuBuilder;
+import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.jface.action.IMenuManager;
 
@@ -25,7 +29,7 @@ import org.eclipse.jface.action.IMenuManager;
 public class CrosstabMenuBuilder implements IMenuBuilder
 {
 
-	// TODO the Crosstab must dedeine a virble goable.
+	private static final String EDITCUBE_NAME = "Edit Data Cube";
 	/**
 	 * Constructor
 	 */
@@ -48,9 +52,11 @@ public class CrosstabMenuBuilder implements IMenuBuilder
 		{
 			// for ctross tab test
 			ExtendedItemHandle handle = (ExtendedItemHandle) selectedList.get( 0 );
-			if ( handle.getExtensionName( ).equals( "Crosstab" ) ) //$NON-NLS-1$
+			if ( ICrosstabConstants.CROSSTAB_EXTENSION_NAME.equals( handle.getExtensionName( ))) 
 			{
-				//TODO add the xross repport item action
+				 CrosstabReportItemHandle reportHandle =  (CrosstabReportItemHandle)CrosstabUtil.getReportItem( handle );
+				 EditCubeAction action = new EditCubeAction(reportHandle.getCube( ), EDITCUBE_NAME);
+				 menu.add( action );
 			}
 		}
 
