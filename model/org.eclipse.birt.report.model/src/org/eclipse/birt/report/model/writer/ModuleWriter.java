@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
+import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
@@ -2113,7 +2114,8 @@ public abstract class ModuleWriter extends ElementVisitor
 			{
 				HighlightRule rule = (HighlightRule) list.get( i );
 				writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
-
+				
+				property( rule, StyleRule.IS_DESIGN_TIME_MEMBER );
 				property( rule, HighlightRule.OPERATOR_MEMBER );
 
 				property( rule, HighlightRule.BACKGROUND_COLOR_MEMBER );
@@ -2180,6 +2182,7 @@ public abstract class ModuleWriter extends ElementVisitor
 				MapRule rule = (MapRule) list.get( i );
 				writer.startElement( DesignSchemaConstants.STRUCTURE_TAG );
 
+				property( rule, StyleRule.IS_DESIGN_TIME_MEMBER );
 				property( rule, MapRule.TEST_EXPR_MEMBER );
 				property( rule, MapRule.OPERATOR_MEMBER );
 				property( rule, MapRule.VALUE1_MEMBER );

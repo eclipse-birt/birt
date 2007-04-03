@@ -16,6 +16,7 @@ import java.util.Iterator;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.PropertyNameException;
 import org.eclipse.birt.report.model.api.core.IStructure;
+import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -302,5 +303,28 @@ public class StructureHandle extends ValueHandle
 	{
 		return ModelUtil.getExternalizedValue( getElement( ), textIDProp,
 				textProp, ThreadResources.getLocale( ) );
+	}
+	
+	/**
+	 * Justifies whether this structure handle is generated in design time.
+	 * 
+	 * @return
+	 */
+	public boolean isDesignTime( )
+	{
+		return getStructure( ).isDesignTime( );
+	}
+
+	/**
+	 * 
+	 * @param isDesignTime
+	 * @throws SemanticException 
+	 */
+	public void setDesignTime( boolean isDesignTime ) throws SemanticException
+	{
+		MemberHandle memberHandle = getMember( StyleRule.IS_DESIGN_TIME_MEMBER );
+		if ( memberHandle != null )
+			memberHandle.setValue( Boolean.valueOf( isDesignTime ) );
+
 	}
 }

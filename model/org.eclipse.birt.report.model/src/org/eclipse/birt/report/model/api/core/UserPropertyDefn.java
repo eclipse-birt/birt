@@ -67,11 +67,11 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 	 */
 
 	public static final String NAME_MEMBER = "name"; //$NON-NLS-1$
-	
+
 	/**
 	 * Name of the default member.
 	 */
-	
+
 	public static final String DEFAULT_MEMBER = "default"; //$NON-NLS-1$
 
 	/**
@@ -571,6 +571,16 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 		if ( isIntrinsic( ) && isStyleProperty( ) )
 			throw new MetaDataException( new String[]{name},
 					MetaDataException.DESIGN_EXCEPTION_INCONSISTENT_PROP_TYPE );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.core.IStructure#isDesignTime()
+	 */
+	public boolean isDesignTime( )
+	{
+		return true;
 	}
 
 }

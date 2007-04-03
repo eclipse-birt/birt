@@ -74,4 +74,13 @@ public interface IStructure extends IPropertySet
 	 */
 
 	public boolean isReferencable( );
+	
+
+	/**
+	 * Justifies whether the structure is generated in design time or not.
+	 * 
+	 * @return
+	 */
+	public boolean isDesignTime( );
+
 }
