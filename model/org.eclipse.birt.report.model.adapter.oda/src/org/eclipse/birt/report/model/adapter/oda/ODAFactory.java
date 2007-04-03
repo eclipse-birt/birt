@@ -14,6 +14,8 @@ package org.eclipse.birt.report.model.adapter.oda;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.framework.Platform;
+
 /**
  * 
  * 
@@ -32,24 +34,28 @@ public class ODAFactory
 	private static IODAFactory factory = null;
 
 	/**
-	 * @param inFactory
-	 */
-
-	public static synchronized void setODAFactory( IODAFactory inFactory )
-	{
-		factory = inFactory;
-	}
-
-	/**
 	 * @return the factory
 	 */
 
 	public static IODAFactory getFactory( )
 	{
-		if ( factory == null )
+		if ( factory != null )
+			return factory;
+
+		Object adapterFactory = Platform
+				.createFactoryObject( IAdapterFactory.EXTENSION_MODEL_ADAPTER_ODA_FACTORY );
+		
+		if ( adapterFactory == null )
 		{
-			errorLogger.log( Level.SEVERE,
-					"The platform has not yet been started. Must start it first..." ); //$NON-NLS-1$
+			errorLogger
+					.log( Level.SEVERE,
+							"The platform has not yet been started. Must start it first..." ); //$NON-NLS-1$
+			return null;
+		}
+		
+		if ( adapterFactory instanceof IAdapterFactory )
+		{
+			factory = ( (IAdapterFactory) adapterFactory ).getODAFactory( );
 		}
 
 		return factory;

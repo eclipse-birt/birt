@@ -7,8 +7,7 @@ Bundle-Activator: org.eclipse.birt.report.model.adapter.oda.plugin.ModelAdapterO
 Bundle-ClassPath: .
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
-Export-Package: org.eclipse.birt.report.model.adapter.oda,
- org.eclipse.birt.report.model.adapter.oda.api
+Export-Package: org.eclipse.birt.report.model.adapter.oda
 Require-Bundle: org.eclipse.birt.core;bundle-version="[2.1.0,3.0.0)",
  org.eclipse.birt.report.model;bundle-version="[2.1.0,3.0.0)",
  org.eclipse.datatools.connectivity.oda.design;bundle-version="[3.0.2,4.0.0)",
