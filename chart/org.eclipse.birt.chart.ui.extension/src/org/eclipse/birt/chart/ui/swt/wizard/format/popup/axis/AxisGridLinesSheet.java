@@ -156,7 +156,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 				.isTickBetweenCategories( ) );
 		cbTickBetweenCategory.addSelectionListener( this );
 		cbTickBetweenCategory.setEnabled( axis.isCategoryAxis( ) );
-		cbTickBetweenCategory.setVisible( angleType == AngleType.X );
+		cbTickBetweenCategory.setVisible( (angleType == AngleType.X ) && axis.isCategoryAxis( ) );
 
 		// General attributes composite
 		cmpGeneral = new Composite( cmpContent, SWT.NONE );
