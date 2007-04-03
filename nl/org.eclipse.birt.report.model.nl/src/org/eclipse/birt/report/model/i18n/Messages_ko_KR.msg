@@ -1815,9 +1815,11 @@ Structure.MapRule.value1=value1
 Structure.MapRule.value2=value2
 Structure.MapRule.display=표시
 Structure.MapRule.displayID=displayID
+Structure.MapRule.isDesignTime=Is Design Time
   
 #1.HighlightRule
 Structure.HighlightRule.operator=연산자
+Structure.HighlightRule.isDesignTime=Is Design Time
 Structure.HighlightRule.value1=값 1
 Structure.HighlightRule.value2=값 2
 Structure.HighlightRule.testExpr = TestExpression
