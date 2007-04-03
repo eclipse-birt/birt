@@ -456,25 +456,36 @@ public class ParameterValidationUtilTest extends BaseTestCase
 
 		// date type
 		dateValue = new java.sql.Date( 100, 0, 1 );
-		assertEquals( "2000-01-01", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
+		
+		assertEquals( "1 janvier 2000", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
 				DesignChoiceConstants.PARAM_TYPE_DATE,
 				DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE,
 				dateValue, ULocale.FRANCE ) );
-
+		
+		assertEquals( "January 1, 2000", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
+				DesignChoiceConstants.PARAM_TYPE_DATE,
+				DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE,
+				dateValue, ULocale.ENGLISH ) );
+		
 		// no format
-		assertEquals( "2000-01-01", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
+		assertEquals( "January 1, 2000", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
 				DesignChoiceConstants.PARAM_TYPE_DATE, null, dateValue ) );
 
 		// time type
 
 		java.sql.Time timeValue = new java.sql.Time( 14, 20, 30 );
+		assertEquals( "2:20:30 PM", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
+				DesignChoiceConstants.PARAM_TYPE_TIME,
+				DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME,
+				timeValue, ULocale.ENGLISH ) );
+		
 		assertEquals( "14:20:30", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
 				DesignChoiceConstants.PARAM_TYPE_TIME,
-				DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE,
+				DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME,
 				timeValue, ULocale.FRANCE ) );
 
 		// no format
-		assertEquals( "14:20:30", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
+		assertEquals( "2:20:30 PM", ParameterValidationUtil.getDisplayValue( //$NON-NLS-1$
 				DesignChoiceConstants.PARAM_TYPE_TIME, null, timeValue ) );
 
 		// float type
