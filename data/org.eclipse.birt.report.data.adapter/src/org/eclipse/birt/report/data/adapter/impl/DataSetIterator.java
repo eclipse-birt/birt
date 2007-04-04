@@ -65,7 +65,7 @@ public class DataSetIterator implements IDatasetIterator
 		QueryDefinition query = new QueryDefinition( );
 		query.setUsesDetails( true );
 
-		query.setDataSetName( hierHandle.getDataSet( ).getName( ) );
+		query.setDataSetName( hierHandle.getDataSet( ).getQualifiedName( ) );
 
 		List resultMetaList = new ArrayList( );
 		Map levelNameColumnNamePair = new HashMap( );
@@ -92,7 +92,7 @@ public class DataSetIterator implements IDatasetIterator
 		QueryDefinition query = new QueryDefinition( );
 
 		query.setUsesDetails( true );
-		query.setDataSetName( cubeHandle.getDataSet( ).getName( ) );
+		query.setDataSetName( cubeHandle.getDataSet( ).getQualifiedName( ) );
 
 		List dimensions = cubeHandle.getContents( CubeHandle.DIMENSIONS_PROP );
 		List resultMetaList = new ArrayList( );
@@ -111,8 +111,8 @@ public class DataSetIterator implements IDatasetIterator
 
 				if ( hierHandle.getDataSet( ) == null
 						|| hierHandle.getDataSet( )
-								.getName( )
-								.equals( cubeHandle.getDataSet( ).getName( ) ) )
+								.getQualifiedName( )
+								.equals( cubeHandle.getDataSet( ).getQualifiedName( ) ) )
 				{
 					prepareLevels( query,
 							resultMetaList,

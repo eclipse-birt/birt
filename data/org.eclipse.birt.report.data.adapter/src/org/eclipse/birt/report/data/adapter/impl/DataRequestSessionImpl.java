@@ -462,16 +462,16 @@ public class DataRequestSessionImpl extends DataRequestSession
 			{
 				cubeMaterializer = new org.eclipse.birt.data.engine.olap.api.cube.CubeMaterializer( this.sessionContext.getDataEngineContext( )
 						.getTmpdir( ),
-						cubeHandle.getName( ) );
+						cubeHandle.getQualifiedName( ) );
 				createCube( cubeHandle, cubeMaterializer );
 			}
 			else if ( mode == DataEngineContext.MODE_GENERATION )
 			{
 				cubeMaterializer = new org.eclipse.birt.data.engine.olap.api.cube.CubeMaterializer( this.sessionContext.getDataEngineContext( )
 						.getTmpdir( ),
-						cubeHandle.getName( ) );
+						cubeHandle.getQualifiedName( ) );
 				createCube( cubeHandle, cubeMaterializer );
-				cubeMaterializer.saveCubeToReportDocument( cubeHandle.getName( ),
+				cubeMaterializer.saveCubeToReportDocument( cubeHandle.getQualifiedName( ),
 						this.sessionContext.getDocumentWriter( ),
 						null );
 			}
@@ -511,7 +511,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 
 		IDimension[] dimensions = populateDimensions( cubeMaterializer,
 				cubeHandle.getContents( CubeHandle.DIMENSIONS_PROP ) );
-		cubeMaterializer.createCube( cubeHandle.getName( ),
+		cubeMaterializer.createCube( cubeHandle.getQualifiedName( ),
 				dimensions,
 				new DataSetIterator( this, (TabularCubeHandle)cubeHandle ),
 				this.toStringArray( measureNames ),
