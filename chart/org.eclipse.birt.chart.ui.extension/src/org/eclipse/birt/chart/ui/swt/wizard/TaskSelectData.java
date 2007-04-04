@@ -393,7 +393,7 @@ public class TaskSelectData extends SimpleTask implements
 
 		btnFilters.setEnabled( hasDataSet( )
 				&& getDataServiceProvider( ).isInvokingSupported( ) );
-		btnParameters.setEnabled( hasDataSet( )
+		btnParameters.setEnabled( getDataServiceProvider( ).getBoundDataSet( ) != null
 				&& getDataServiceProvider( ).isInvokingSupported( ) );
 		btnBinding.setEnabled( hasDataSet( )
 				&& getDataServiceProvider( ).isInvokingSupported( ) );
@@ -591,7 +591,7 @@ public class TaskSelectData extends SimpleTask implements
 			cmbDataSet.setEnabled( true );
 			btnNewData.setEnabled( getDataServiceProvider( ).isInvokingSupported( ) );
 			btnNewData.setVisible( getDataServiceProvider( ).isEclipseModeSupported( ) );
-			btnParameters.setEnabled( hasDataSet( )
+			btnParameters.setEnabled( getDataServiceProvider( ).getBoundDataSet( ) != null
 					&& getDataServiceProvider( ).isInvokingSupported( ) );
 		}
 		else if ( e.getSource( ).equals( cmbDataSet ) )
@@ -641,7 +641,7 @@ public class TaskSelectData extends SimpleTask implements
 			btnNewData.setEnabled( getDataServiceProvider( ).isInvokingSupported( ) );
 			btnFilters.setEnabled( hasDataSet( )
 					&& getDataServiceProvider( ).isInvokingSupported( ) );
-			btnParameters.setEnabled( hasDataSet( )
+			btnParameters.setEnabled( getDataServiceProvider( ).getBoundDataSet( ) != null
 					&& getDataServiceProvider( ).isInvokingSupported( ) );
 			btnBinding.setEnabled( hasDataSet( )
 					&& getDataServiceProvider( ).isInvokingSupported( ) );

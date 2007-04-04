@@ -278,7 +278,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			if ( datasetName == null )
 			{
-				if ( getReportDataSet( ) != null )
+				if ( getReportDataSet( ) != null || getBoundDataSet( ) != null )
 				{
 					itemHandle.setDataSet( null );
 
