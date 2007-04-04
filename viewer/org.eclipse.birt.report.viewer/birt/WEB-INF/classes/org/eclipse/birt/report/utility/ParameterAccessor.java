@@ -190,6 +190,11 @@ public class ParameterAccessor
 	public static final String PARAM_EXPORT_ENCODING = "__exportEncoding";//$NON-NLS-1$
 
 	/**
+	 * URL parameter name to indicate the CSV separator.
+	 */
+	public static final String PARAM_SEP = "__sep";//$NON-NLS-1$
+
+	/**
 	 * URL parameter name to indicate if fit to page when render report as PDF.
 	 */
 	public static final String PARAM_FIT_TO_PAGE = "__fittopage";//$NON-NLS-1$
@@ -382,6 +387,11 @@ public class ParameterAccessor
 	 * Suffix of report document.
 	 */
 	public static final String SUFFIX_REPORT_DOCUMENT = ".rptdocument"; //$NON-NLS-1$
+
+	/**
+	 * Default separator
+	 */
+	public static final char DEFAULT_SEP = ',';
 
 	/**
 	 * Report working folder.
@@ -2487,5 +2497,25 @@ public class ParameterAccessor
 			return null;
 
 		return Integer.valueOf( dpi );
+	}
+
+	/**
+	 * Returns the separator String
+	 * 
+	 * @param sep
+	 * @return
+	 */
+	public static char getSep( HttpServletRequest request )
+	{
+		String sepKey = getParameter( request, PARAM_SEP );
+		if ( sepKey == null )
+			return DEFAULT_SEP;
+
+		String key = "viewer.sep." + sepKey; //$NON-NLS-1$
+		String sep = getInitProp( key );
+		if ( sep.length( ) <= 0 )
+			return DEFAULT_SEP;
+
+		return sep.charAt( 0 );
 	}
 }

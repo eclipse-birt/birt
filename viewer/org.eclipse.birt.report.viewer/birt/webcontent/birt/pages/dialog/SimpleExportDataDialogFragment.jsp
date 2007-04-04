@@ -98,11 +98,22 @@
 	<TR HEIGHT="5px"><TD></TD></TR>
 	<TR>
 		<TD COLSPAN="3">			
-			<DIV>
+			<DIV ID="exportDataEncodingSetting">
 				<%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.encoding" )%>
-				<INPUT TYPE="radio" NAME="exportEncoding" ID="UTF8Encoding" CHECKED value="UTF-8">UTF-8
-				<INPUT TYPE="radio" NAME="exportEncoding" ID="otherEncoding"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.encoding.other" )%>
-				<INPUT TYPE="text" NAME="otherEncoding" ID="otherEncoding_input" CLASS="birtviewer_exportdata_dialog_input" DISABLED="true"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.encoding.comment" )%>
+				<INPUT TYPE="radio" NAME="exportDataEncoding" ID="exportDataEncoding_UTF8" CHECKED value="UTF-8">UTF-8
+				<INPUT TYPE="radio" NAME="exportDataEncoding" ID="exportDataEncoding_other"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.encoding.other" )%>
+				<INPUT TYPE="text" NAME="exportDataOtherEncoding" ID="exportDataOtherEncoding_input" CLASS="birtviewer_exportdata_dialog_input" DISABLED="true"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.encoding.comment" )%>
+			</DIV>
+			<BR/>
+			<DIV>
+				<%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.separator" )%> 
+				<SELECT ID="exportDataCSVSeparator" CLASS="birtviewer_exportdata_dialog_select">
+					<OPTION VALUE="0" SELECTED><%= BirtResources.getMessage( "birt.viewer.sep.comma" )%></OPTION>
+					<OPTION VALUE="1"><%= BirtResources.getMessage( "birt.viewer.sep.semicolon" )%></OPTION>
+					<OPTION VALUE="2"><%= BirtResources.getMessage( "birt.viewer.sep.colon" )%></OPTION>
+					<OPTION VALUE="3"><%= BirtResources.getMessage( "birt.viewer.sep.verticalline" )%></OPTION>
+					<OPTION VALUE="4"><%= BirtResources.getMessage( "birt.viewer.sep.tab" )%></OPTION>
+				</SELECT>
 			</DIV>
 			<BR/>
 			<DIV STYLE="font-size:7pt">

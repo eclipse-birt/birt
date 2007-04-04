@@ -21,21 +21,7 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	__neh_pageradio_click_closure : null,
 		
 	__enable : false,
-	__printer : null,
-	
-	FORMAT_POSTSCRIPT : 'postscript',
-	
-	// Post vars name
-	ACTION : '__action',
-	PRINT_PAGE : '__page',
-	PRINT_PAGERANGE : '__pagerange',
-	
-	PRINTER_NAME : '__printer',
-	PRINTER_COPIES : '__printer_copies',
-	PRINTER_COLLATE : '__printer_collate',
-	PRINTER_DUPLEX : '__printer_duplex',
-	PRINTER_MODE : '__printer_mode',
-	PRINTER_MEDIASIZE : '__printer_pagesize',
+	__printer : null,	
 	
 	/**
 	 *	Initialization routine required by "ProtoType" lib.
@@ -183,41 +169,75 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 
 			// Replace "html" to selected output format
 			var action = window.location.href;
-			var reg = new RegExp( "([&|?]{1}__format\s*)=([^&|^#]*)", "gi" );
+			var reg = new RegExp( "([&|?]{1}" + Constants.PARAM_FORMAT + "\s*)=([^&|^#]*)", "gi" );
 			if( action.search( reg ) < 0 )
 			{
-				action = action + "&__format=" + this.FORMAT_POSTSCRIPT;
+				action = action + "&" + Constants.PARAM_FORMAT + "=" + Constants.FORMAT_POSTSCRIPT;
 			}
 			else
 			{
-				action = action.replace( reg, "$1=" + this.FORMAT_POSTSCRIPT );
+				action = action.replace( reg, "$1=" + Constants.FORMAT_POSTSCRIPT );
 			}
 			
 			// Delete page and pagerange settings in url if existed
-			reg = new RegExp( "([&|?]{1})" + this.PRINT_PAGE + "\s*=[^&|^#]*", "gi" );
+			reg = new RegExp( "([&|?]{1})" + Constants.PARAM_PAGE + "\s*=[^&|^#]*", "gi" );
 			action = action.replace( reg, "$1");
 			
-			reg = new RegExp( "([&|?]{1})" + this.PRINT_PAGERANGE + "\s*=[^&|^#]*", "gi" );
+			reg = new RegExp( "([&|?]{1})" + Constants.PARAM_PAGERANGE + "\s*=[^&|^#]*", "gi" );
 			action = action.replace( reg, "$1");				
 			
 			if( $( 'printPageCurrent' ).checked )
 			{
 				// Set page setting
 				var currentPage = birtUtility.trim( $( 'pageNumber' ).innerHTML );
-				action = action + "&" + this.PRINT_PAGE + "=" + currentPage;				
+				action = action + "&" + Constants.PARAM_PAGE + "=" + currentPage;				
 			}
 			else if( $( 'printPageRange' ).checked )
 			{
 				// Set page range setting
 				var pageRange = birtUtility.trim( $( 'printPageRange_input' ).value );
-				action = action + "&" + this.PRINT_PAGERANGE + "=" + pageRange;
+				action = action + "&" + Constants.PARAM_PAGERANGE + "=" + pageRange;
 			}			
-								
-			// Force "__overwrite" as false
-			reg = new RegExp( "([&|?]{1}__overwrite\s*)=([^&|^#]*)", "gi" );
+
+			var fittopage = "false";
+			var pagebreakonly = "false";
+			
+			// fit to page width
+			if( $( 'printFitToWidth' ).checked )
+			{
+				fittopage = "true";
+			}
+			else if( $( 'printFitToWhole' ).checked )
+			{
+				fittopage = "true";
+				pagebreakonly = "true";
+			}
+
+			reg = new RegExp( "([&|?]{1}" + Constants.PARAM_FITTOPAGE + "\s*)=([^&|^#]*)", "gi" );
 			if( action.search( reg ) < 0 )
 			{
-				action = action + "&__overwrite=false";
+				action = action + "&" + Constants.PARAM_FITTOPAGE + "=" + fittopage;
+			}
+			else
+			{
+				action = action.replace( reg, "$1=" + fittopage );
+			}
+			
+			reg = new RegExp( "([&|?]{1}" + Constants.PARAM_PAGEBREAKONLY + "\s*)=([^&|^#]*)", "gi" );
+			if( action.search( reg ) < 0 )
+			{
+				action = action + "&" + Constants.PARAM_PAGEBREAKONLY + "=" + pagebreakonly;
+			}
+			else
+			{
+				action = action.replace( reg, "$1=" + pagebreakonly );
+			}				
+												
+			// Force "__overwrite" as false
+			reg = new RegExp( "([&|?]{1}" + Constants.PARAM_OVERWRITE + "\s*)=([^&|^#]*)", "gi" );
+			if( action.search( reg ) < 0 )
+			{
+				action = action + "&" + Constants.PARAM_OVERWRITE + "=false";
 			}
 			else
 			{
@@ -225,14 +245,14 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			}
 			
 			// Set action as print
-			reg = new RegExp( "([&|?]{1}" + this.ACTION + "\s*)=([^&|^#]*)", "gi" );
+			reg = new RegExp( "([&|?]{1}" + Constants.PARAM_ACTION + "\s*)=([^&|^#]*)", "gi" );
 			if( action.search( reg ) < 0 )
 			{
-				action = action + "&" + this.ACTION + "=print";
+				action = action + "&" + Constants.PARAM_ACTION + "=" + Constants.ACTION_PRINT;
 			}
 			else
 			{
-				action = action.replace( reg, "$1=print" );
+				action = action.replace( reg, "$1=" + Constants.ACTION_PRINT );
 			}			
 			
 			// Post printer settings
@@ -242,7 +262,7 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 				var param = document.createElement( "INPUT" );
 				formObj.appendChild( param );
 				param.TYPE = "HIDDEN";
-				param.name = this.PRINTER_NAME;
+				param.name = Constants.PARAM_PRINTER_NAME;
 				param.value = this.__printer.getName( );
 					
 				if( curPrinter.isCopiesSupported( ) )
@@ -250,7 +270,7 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 					param = document.createElement( "INPUT" );
 					formObj.appendChild( param );
 					param.TYPE = "HIDDEN";
-					param.name = this.PRINTER_COPIES;
+					param.name = Constants.PARAM_PRINTER_COPIES;
 					param.value = this.__printer.getCopies( );
 				}
 				
@@ -259,7 +279,7 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 					param = document.createElement( "INPUT" );
 					formObj.appendChild( param );
 					param.TYPE = "HIDDEN";
-					param.name = this.PRINTER_COLLATE;
+					param.name = Constants.PARAM_PRINTER_COLLATE;
 					param.value = new String( this.__printer.isCollate( ) );
 				}
 				
@@ -268,7 +288,7 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 					param = document.createElement( "INPUT" );
 					formObj.appendChild( param );
 					param.TYPE = "HIDDEN";
-					param.name = this.PRINTER_DUPLEX;
+					param.name = Constants.PARAM_PRINTER_DUPLEX;
 					param.value = this.__printer.getDuplex( );
 				}
 
@@ -277,7 +297,7 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 					param = document.createElement( "INPUT" );
 					formObj.appendChild( param );
 					param.TYPE = "HIDDEN";
-					param.name = this.PRINTER_MODE;
+					param.name = Constants.PARAM_PRINTER_MODE;
 					param.value = this.__printer.getMode( );
 				}	
 				
@@ -286,7 +306,7 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 					param = document.createElement( "INPUT" );
 					formObj.appendChild( param );
 					param.TYPE = "HIDDEN";
-					param.name = this.PRINTER_MEDIASIZE;
+					param.name = Constants.PARAM_PRINTER_MEDIASIZE;
 					param.value = this.__printer.getMediaSize( );
 				}
 			}
@@ -472,6 +492,7 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			this.__enable = false;			
 			this.__setDisabled( 'printer_config',true );
 			this.__setDisabled( 'printPageSetting',true );
+			this.__setDisabled( 'printFitSetting',true );
 			return;
 		}
 			
@@ -487,6 +508,7 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		{			
 			this.__setDisabled( 'printer_config',false );
 			this.__setDisabled( 'printPageSetting',false );
+			this.__setDisabled( 'printFitSetting',false );
 			var oInputs = $( 'printPageSetting' ).getElementsByTagName( 'input' );
 			for( var i=0; i<oInputs.length; i++ )
 				this.__checkPageRadio( oInputs[i] );
@@ -494,7 +516,8 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		else
 		{			
 			this.__setDisabled( 'printer_config',true );
-			this.__setDisabled( 'printPageSetting',true );			
+			this.__setDisabled( 'printPageSetting',true );
+			this.__setDisabled( 'printFitSetting',true );			
 		}
 		
 		if( curPrinter.isCopiesSupported( ) )

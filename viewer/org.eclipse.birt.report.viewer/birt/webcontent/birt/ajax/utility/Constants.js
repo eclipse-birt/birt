@@ -42,6 +42,34 @@ var Constants = {
 	Chart_T : "Chart_T",	// template of chart type
 	Label_T : "Label_T",	// template of label type
 	
+	// URL parameters name
+	PARAM_ACTION : '__action',
+	PARAM_FORMAT : '__format',
+	PARAM_ASATTACHMENT : '__asattachment',
+	PARAM_OVERWRITE : '__overwrite',
+	PARAM_PAGE : '__page',
+	PARAM_PAGERANGE : '__pagerange',
+	PARAM_EXPORT_ENCODING : '__exportEncoding',
+	PARAM_SEP : '__sep',
+	
+	PARAM_PRINTER_NAME : '__printer',
+	PARAM_PRINTER_COPIES : '__printer_copies',
+	PARAM_PRINTER_COLLATE : '__printer_collate',
+	PARAM_PRINTER_DUPLEX : '__printer_duplex',
+	PARAM_PRINTER_MODE : '__printer_mode',
+	PARAM_PRINTER_MEDIASIZE : '__printer_pagesize',
+	
+	PARAM_FITTOPAGE : '__fittopage',
+	PARAM_PAGEBREAKONLY : '__pagebreakonly',
+	
+	// Output formats
+	FORMAT_POSTSCRIPT : 'postscript',
+	FORMAT_PDF : 'pdf',
+	FORMAT_HTML : 'html',
+	
+	// Action names
+	ACTION_PRINT : 'print',
+	
 	/** 
 	event.returnvalue indicating that event has already been handled
 	as a selection

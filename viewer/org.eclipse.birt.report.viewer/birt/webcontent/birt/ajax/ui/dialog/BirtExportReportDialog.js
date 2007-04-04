@@ -98,10 +98,10 @@ BirtExportReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 
 			// Set selected output format
 			var action = window.location.href;
-			var reg = new RegExp( "([&|?]{1}__format\s*)=([^&|^#]*)", "gi" );
+			var reg = new RegExp( "([&|?]{1}" + Constants.PARAM_FORMAT + "\s*)=([^&|^#]*)", "gi" );
 			if( action.search( reg ) < 0 )
 			{
-				action = action + "&__format=" + format;
+				action = action + "&" + Constants.PARAM_FORMAT + "=" + format;
 			}
 			else
 			{
@@ -109,27 +109,27 @@ BirtExportReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			}
 			
 			// Delete page and pagerange settings in url if existed
-			reg = new RegExp( "([&|?]{1})__page\s*=[^&|^#]*", "gi" );
+			reg = new RegExp( "([&|?]{1})" + Constants.PARAM_PAGE + "\s*=[^&|^#]*", "gi" );
 			action = action.replace( reg, "$1");
 			
-			reg = new RegExp( "([&|?]{1})__pagerange\s*=[^&|^#]*", "gi" );
+			reg = new RegExp( "([&|?]{1})" + Constants.PARAM_PAGERANGE + "\s*=[^&|^#]*", "gi" );
 			action = action.replace( reg, "$1");				
 			
 			if( $( 'exportPageCurrent' ).checked )
 			{
 				// Set page setting
 				var currentPage = birtUtility.trim( $( 'pageNumber' ).innerHTML );
-				action = action + "&__page=" + currentPage;				
+				action = action + "&" + Constants.PARAM_PAGE + "=" + currentPage;				
 			}
 			else if( $( 'exportPageRange' ).checked )
 			{
 				// Set page range setting
 				var pageRange = birtUtility.trim( $( 'exportPageRange_input' ).value );
-				action = action + "&__pagerange=" + pageRange;
+				action = action + "&" + Constants.PARAM_PAGERANGE + "=" + pageRange;
 			}			
 			
 			// If output format is pdf/postscript, set some options
-			if( format == 'pdf' || format == 'postscript' )
+			if( format == Constants.FORMAT_PDF || format == Constants.FORMAT_POSTSCRIPT )
 			{
 				var fittopage = "false";
 				var pagebreakonly = "false";
@@ -145,32 +145,32 @@ BirtExportReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 					pagebreakonly = "true";
 				}
 
-				reg = new RegExp( "([&|?]{1}__fittopage\s*)=([^&|^#]*)", "gi" );
+				reg = new RegExp( "([&|?]{1}" + Constants.PARAM_FITTOPAGE + "\s*)=([^&|^#]*)", "gi" );
 				if( action.search( reg ) < 0 )
 				{
-					action = action + "&__fittopage=" + fittopage;
+					action = action + "&" + Constants.PARAM_FITTOPAGE + "=" + fittopage;
 				}
 				else
 				{
 					action = action.replace( reg, "$1=" + fittopage );
 				}
 				
-				reg = new RegExp( "([&|?]{1}__pagebreakonly\s*)=([^&|^#]*)", "gi" );
+				reg = new RegExp( "([&|?]{1}" + Constants.PARAM_PAGEBREAKONLY + "\s*)=([^&|^#]*)", "gi" );
 				if( action.search( reg ) < 0 )
 				{
-					action = action + "&__pagebreakonly=" + pagebreakonly;
+					action = action + "&" + Constants.PARAM_PAGEBREAKONLY + "=" + pagebreakonly;
 				}
 				else
 				{
 					action = action.replace( reg, "$1=" + pagebreakonly );
-				}				
+				}							
 			}
 			
 			// Force "__asattachment" as true
-			reg = new RegExp( "([&|?]{1}__asattachment\s*)=([^&|^#]*)", "gi" );
+			reg = new RegExp( "([&|?]{1}" + Constants.PARAM_ASATTACHMENT + "\s*)=([^&|^#]*)", "gi" );
 			if( action.search( reg ) < 0 )
 			{
-				action = action + "&__asattachment=true";
+				action = action + "&" + Constants.PARAM_ASATTACHMENT + "=true";
 			}
 			else
 			{
@@ -178,10 +178,10 @@ BirtExportReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			}			
 			
 			// Force "__overwrite" as false
-			reg = new RegExp( "([&|?]{1}__overwrite\s*)=([^&|^#]*)", "gi" );
+			reg = new RegExp( "([&|?]{1}" + Constants.PARAM_OVERWRITE + "\s*)=([^&|^#]*)", "gi" );
 			if( action.search( reg ) < 0 )
 			{
-				action = action + "&__overwrite=false";
+				action = action + "&" + Constants.PARAM_OVERWRITE + "=false";
 			}
 			else
 			{
@@ -230,7 +230,7 @@ BirtExportReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	__enableExtSection : function( )
 	{		
 		var format = $( 'exportFormat' ).value.toLowerCase( );
-		if( format == 'pdf' || format == 'postscript' )
+		if( format == Constants.FORMAT_PDF || format == Constants.FORMAT_POSTSCRIPT )
 		{
 			this.__setDisabled( 'exportFitSetting', false );
 		}

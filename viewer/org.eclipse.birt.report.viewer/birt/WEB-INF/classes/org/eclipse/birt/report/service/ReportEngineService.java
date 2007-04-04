@@ -1386,6 +1386,28 @@ public class ReportEngineService
 			Collection columns, Locale locale, OutputStream outputStream,
 			String encoding ) throws RemoteException
 	{
+		extractData( document, resultSetName, columns, locale, outputStream,
+				encoding, ParameterAccessor.DEFAULT_SEP );
+	}
+
+	/**
+	 * Extract data.
+	 * 
+	 * @param document
+	 * @param resultSetName
+	 * @param id
+	 * @param columns
+	 * @param filters
+	 * @param locale
+	 * @param outputStream
+	 * @param encoding
+	 * @param sep
+	 * @throws RemoteException
+	 */
+	public void extractData( IReportDocument document, String resultSetName,
+			Collection columns, Locale locale, OutputStream outputStream,
+			String encoding, char sep ) throws RemoteException
+	{
 		assert document != null;
 		assert resultSetName != null && resultSetName.length( ) > 0;
 		assert columns != null && !columns.isEmpty( );
@@ -1421,7 +1443,7 @@ public class ReportEngineService
 
 					for ( int i = 1; i < columnNames.length; i++ )
 					{
-						buf.append( ',' );
+						buf.append( sep );
 						buf.append( columnNames[i] );
 					}
 
@@ -1460,7 +1482,7 @@ public class ReportEngineService
 
 						for ( int i = 1; i < columnNames.length; i++ )
 						{
-							buf.append( ',' );
+							buf.append( sep );
 
 							try
 							{
@@ -1625,6 +1647,7 @@ public class ReportEngineService
 	 * 
 	 * @param task
 	 * @param parameters
+	 * @deprecated
 	 * @return true if all the parameter values are valid, otherwise false
 	 */
 	public boolean validateParameters( IGetParameterDefinitionTask task,

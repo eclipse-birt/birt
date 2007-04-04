@@ -75,25 +75,14 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	 *	Native event handler for selection item movement.
 	 */
 	__neh_click_exchange : function( event )
-	{
+	{	
 		var oSC = Event.element( event );
-		
-		if( oSC.type == 'radio' )
+		if( oSC.id == 'exportDataEncoding_other' )
 		{
-			var oEnc = $( 'otherEncoding' );
-			var oEncInput = $( 'otherEncoding_input' );
-			if( oEnc && oEnc.checked )
-			{				
-				oEncInput.disabled = false;
-				oEncInput.focus( );
-			}
-			else
-			{
-				oEncInput.disabled = true;
-			}
+			$( 'exportDataOtherEncoding_input' ).focus( );
 		}
 		else
-		{
+		{	
 			var oInputs = this.__instance.getElementsByTagName( 'input' );
 			var oSelects = this.__instance.getElementsByTagName( 'select' );
 			
@@ -132,9 +121,9 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 					break;
 				}
 			}
-			
-			this.__updateButtons( );
 		}
+		
+		this.__updateButtons( );
 	},
 
 	/**
@@ -209,9 +198,57 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		oInputs[3].src = canRemove ? "birt/images/RemoveAll.gif" : "birt/images/RemoveAll_disabled.gif";
 		oInputs[3].style.cursor = canRemove ? "pointer" : "default";
 		
-		oInputs[4].disabled = canExport ? false : true;
+		if( canExport )
+		{
+			this.__setDisabled( 'exportDataEncodingSetting', false );
+			$( 'exportDataCSVSeparator' ).disabled = false;
+			
+			var oEnc = $( 'exportDataEncoding_other' );
+			var oEncInput = $( 'exportDataOtherEncoding_input' );
+			if( oEnc && oEnc.checked )
+			{				
+				oEncInput.disabled = false;
+			}
+			else
+			{
+				oEncInput.disabled = true;
+			}
+		}
+		else
+		{
+			this.__setDisabled( 'exportDataEncodingSetting', true );
+			$( 'exportDataCSVSeparator' ).disabled = true;
+		}
 	},
-	
+
+	/**
+	 * Set disabled status for all controls in container 
+	 * 
+	 * @param id
+	 * @param flag
+	 * @return, void
+	 */
+	__setDisabled : function( id, flag )
+	{
+		var oContainer = $( id );
+		if( !oContainer )
+			return;
+		
+		var oSelects = oContainer.getElementsByTagName( "select" );
+		if( oSelects )
+		{
+			for( var i=0; i<oSelects.length; i++ )
+				oSelects[i].disabled = flag;
+		}
+		
+		var oInputs = oContainer.getElementsByTagName( "input" );
+		if( oInputs )
+		{
+			for( var i=0; i<oInputs.length; i++ )
+				oInputs[i].disabled = flag;
+		}		
+	},
+		
 	/**
 	 *	Move single selection item.
 	 */
@@ -386,19 +423,30 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		this.selectedColumns = [];
 		
 		// Pass the export data encoding		
-		var oUTF8 = $( 'UTF8Encoding' );
+		var oUTF8 = $( 'exportDataEncoding_UTF8' );
 		var hiddenEnc = document.createElement( 'input' );
 		hiddenEnc.type = 'hidden';
-		hiddenEnc.name = '__exportEncoding';
+		hiddenEnc.name = Constants.PARAM_EXPORT_ENCODING;
 		if( oUTF8 && oUTF8.checked )
 		{
 			hiddenEnc.value = oUTF8.value;
 		}
 		else
 		{
-			hiddenEnc.value = $('otherEncoding_input').value;
+			hiddenEnc.value = $('exportDataOtherEncoding_input').value;
 		}
 		hiddenForm.appendChild( hiddenEnc );
+		
+		// CSV separator
+		var oSep = $( 'exportDataCSVSeparator' );
+		if( oSep && oSep.value != '' )
+		{
+			var hiddenSep = document.createElement( 'input' );
+			hiddenSep.type = 'hidden';
+			hiddenSep.name = Constants.PARAM_SEP;
+			hiddenSep.value = oSep.value;
+			hiddenForm.appendChild( hiddenSep );			
+		}
 		
 		var tmpSubmit = document.createElement( 'input' );
 		tmpSubmit.type = 'submit';

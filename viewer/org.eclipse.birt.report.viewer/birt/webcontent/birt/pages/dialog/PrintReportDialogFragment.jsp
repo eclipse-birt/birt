@@ -278,5 +278,15 @@
 	<TR>
 		<TD>&nbsp;&nbsp;<%=BirtResources.getMessage( "birt.viewer.dialog.page.range.description" )%></TD>
 	</TR>	
-	<TR HEIGHT="5px"><TD></TD></TR>		
+	<TR HEIGHT="5px"><TD><HR/></TD></TR>
+	<TR>
+		<TD>
+			<DIV ID="printFitSetting">
+				<INPUT TYPE="radio" ID="printFitToActual" NAME="printFit" CHECKED/><%=BirtResources.getMessage( "birt.viewer.dialog.export.pdf.fittoactual" )%>
+				&nbsp;&nbsp;<INPUT TYPE="radio" ID="printFitToWidth" NAME="printFit"/><%=BirtResources.getMessage( "birt.viewer.dialog.export.pdf.fittowidth" )%>
+				&nbsp;&nbsp;<INPUT TYPE="radio" ID="printFitToWhole" NAME="printFit"/><%=BirtResources.getMessage( "birt.viewer.dialog.export.pdf.fittowhole" )%>
+			</DIV>			
+		</TD>
+	</TR>
+	<TR HEIGHT="5px"><TD></TD></TR>	
 </TABLE>
