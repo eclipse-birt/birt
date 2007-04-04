@@ -121,7 +121,6 @@ birt.viewer.dialog.print.complete=Sent document file to the selected printer on 
 # Confirmation dialog 
 ###############################################################################
 birt.viewer.dialog.confirmation.title=Confirmation
-
 ###############################################################################
 # Export data dialog 
 ###############################################################################
@@ -138,6 +137,13 @@ birt.viewer.dialog.exportdata.addall=모두 추가
 birt.viewer.dialog.exportdata.add=추가
 birt.viewer.dialog.exportdata.removeall=모두 제거
 birt.viewer.dialog.exportdata.remove=제거
+birt.viewer.dialog.exportdata.separator=Separator:
+
+birt.viewer.sep.comma=Comma ( , )
+birt.viewer.sep.semicolon=Semicolon ( ; )
+birt.viewer.sep.colon=Colon ( : )
+birt.viewer.sep.verticalline=Vertical Line ( | )
+birt.viewer.sep.tab=Tab ( \\t )
 
 ###############################################################################
 # General exception
