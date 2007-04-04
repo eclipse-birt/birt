@@ -1745,7 +1745,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			}
 		}
 
-		double dX = 0, dY = 0, dLength = 0;
+		double dX = 0, dY = 0;
 		Location lo;
 
 		final int iBaseCount = dsiDataBase.size( );
@@ -1928,14 +1928,32 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					}
 				}
 				lo = LocationImpl.create( dX, dY );
-				dLength = 0;
+				
+				// Compute the offset between two ticks
+				double dLength = 0;
 				for ( int j = 0; j < iTickCount - 1; j++ )
 				{
-					if ( dX < daTickCoordinates[j + 1]
-							&& dX >= daTickCoordinates[j] )
+					if ( aax.areAxesSwapped( ) )
 					{
-						dLength = daTickCoordinates[j + 1]
-								- daTickCoordinates[j];
+						// Coordinates array is ordered by descending
+						if ( dY > daTickCoordinates[j + 1]
+								&& dY <= daTickCoordinates[j] )
+						{
+							// Keep the negative value
+							dLength = daTickCoordinates[j + 1]
+									- daTickCoordinates[j];
+							break;
+						}
+					}
+					else
+					{
+						if ( dX < daTickCoordinates[j + 1]
+								&& dX >= daTickCoordinates[j] )
+						{
+							dLength = daTickCoordinates[j + 1]
+									- daTickCoordinates[j];
+							break;
+						}
 					}
 				}
 
