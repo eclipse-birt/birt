@@ -1936,7 +1936,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					if ( aax.areAxesSwapped( ) )
 					{
 						// Coordinates array is ordered by descending
-						if ( dY > daTickCoordinates[j + 1]
+						if ( dY >= daTickCoordinates[j + 1]
 								&& dY <= daTickCoordinates[j] )
 						{
 							// Keep the negative value
@@ -1947,7 +1947,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					}
 					else
 					{
-						if ( dX < daTickCoordinates[j + 1]
+						if ( dX <= daTickCoordinates[j + 1]
 								&& dX >= daTickCoordinates[j] )
 						{
 							dLength = daTickCoordinates[j + 1]
