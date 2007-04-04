@@ -16,11 +16,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.olap.OLAPException;
+import javax.olap.cursor.EdgeCursor;
 
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
@@ -84,29 +86,34 @@ public class CrosstabCellExecutor extends BaseCrosstabExecutor
 		processAction( cellHandle );
 
 		currentChild = 0;
-		
+
 		if ( position != -1 )
 		{
 			try
 			{
-				getColumnEdgeCursor( ).setPosition( position );
+				EdgeCursor columnEdgeCursor = getColumnEdgeCursor( );
+
+				if ( columnEdgeCursor != null )
+				{
+					columnEdgeCursor.setPosition( position );
+				}
 			}
 			catch ( OLAPException e )
 			{
-				logger
-						.log(
-								Level.SEVERE,
-								Messages
-										.getString( "CrosstabCellExecutor.error.restor.data.position" ), //$NON-NLS-1$
-								e );
+				logger.log( Level.SEVERE,
+						Messages.getString( "CrosstabCellExecutor.error.restor.data.position" ), //$NON-NLS-1$
+						e );
 			}
 		}
-		DataID di = new DataID( getCubeResultSet( ).getID( ),
-				getCubeResultSet( ).getCellIndex( ) );
+
+		ICubeResultSet cubeRset = getCubeResultSet( );
+
+		DataID di = cubeRset == null ? null : new DataID( cubeRset.getID( ),
+				cubeRset.getCellIndex( ) );
 
 		InstanceID iid = new InstanceID( null, -1, di );
-		
-		content.setInstanceID(iid);
+
+		content.setInstanceID( iid );
 
 		return content;
 	}
@@ -123,7 +130,12 @@ public class CrosstabCellExecutor extends BaseCrosstabExecutor
 		{
 			try
 			{
-				getColumnEdgeCursor( ).setPosition( position );
+				EdgeCursor columnEdgeCursor = getColumnEdgeCursor( );
+
+				if ( columnEdgeCursor != null )
+				{
+					columnEdgeCursor.setPosition( position );
+				}
 			}
 			catch ( OLAPException e )
 			{

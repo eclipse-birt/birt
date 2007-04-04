@@ -460,6 +460,11 @@ public class GroupUtil implements ICrosstabConstants
 			EdgeCursor rowEdgeCursor, boolean isLayoutDownThenOver )
 			throws OLAPException
 	{
+		if ( rowEdgeCursor == null )
+		{
+			return 1;
+		}
+
 		long startPosition = rowEdgeCursor.getPosition( );
 
 		int groupIndex = -1;

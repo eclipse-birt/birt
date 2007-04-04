@@ -149,12 +149,15 @@ public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor
 		{
 			EdgeCursor columnEdgeCursor = getColumnEdgeCursor( );
 
-			columnEdgeCursor.setPosition( currentEdgePosition );
+			if ( columnEdgeCursor != null )
+			{
+				columnEdgeCursor.setPosition( currentEdgePosition );
 
-			DimensionCursor dc = (DimensionCursor) columnEdgeCursor.getDimensionCursor( )
-					.get( currentGroupIndex );
+				DimensionCursor dc = (DimensionCursor) columnEdgeCursor.getDimensionCursor( )
+						.get( currentGroupIndex );
 
-			return GroupUtil.isDummyGroup( dc );
+				return GroupUtil.isDummyGroup( dc );
+			}
 		}
 		catch ( OLAPException e )
 		{
@@ -180,14 +183,17 @@ public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor
 			{
 				EdgeCursor columnEdgeCursor = getColumnEdgeCursor( );
 
-				columnEdgeCursor.setPosition( ev.dataPosition );
-
-				DimensionCursor dc = (DimensionCursor) columnEdgeCursor.getDimensionCursor( )
-						.get( currentGroupIndex );
-
-				if ( !GroupUtil.isDummyGroup( dc ) )
+				if ( columnEdgeCursor != null )
 				{
-					return currentEdgePosition < dc.getEdgeStart( );
+					columnEdgeCursor.setPosition( ev.dataPosition );
+
+					DimensionCursor dc = (DimensionCursor) columnEdgeCursor.getDimensionCursor( )
+							.get( currentGroupIndex );
+
+					if ( !GroupUtil.isDummyGroup( dc ) )
+					{
+						return currentEdgePosition < dc.getEdgeStart( );
+					}
 				}
 			}
 			catch ( OLAPException e )

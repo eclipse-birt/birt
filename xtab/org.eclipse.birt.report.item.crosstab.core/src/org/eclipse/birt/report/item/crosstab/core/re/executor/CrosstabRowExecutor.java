@@ -146,14 +146,17 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 		{
 			EdgeCursor rowEdgeCursor = getRowEdgeCursor( );
 
-			int groupIndex = GroupUtil.getGroupIndex( rowGroups,
-					lastDimensionIndex,
-					lastLevelIndex );
+			if ( rowEdgeCursor != null )
+			{
+				int groupIndex = GroupUtil.getGroupIndex( rowGroups,
+						lastDimensionIndex,
+						lastLevelIndex );
 
-			DimensionCursor dc = (DimensionCursor) rowEdgeCursor.getDimensionCursor( )
-					.get( groupIndex );
+				DimensionCursor dc = (DimensionCursor) rowEdgeCursor.getDimensionCursor( )
+						.get( groupIndex );
 
-			return GroupUtil.isDummyGroup( dc );
+				return GroupUtil.isDummyGroup( dc );
+			}
 		}
 		catch ( OLAPException e )
 		{
@@ -168,6 +171,13 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 	private boolean isRowEdgeNeedStart( ColumnEvent ev ) throws OLAPException
 	{
 		if ( rowEdgeStarted || ev.type != ColumnEvent.ROW_EDGE_CHANGE )
+		{
+			return false;
+		}
+
+		EdgeCursor rowEdgeCursor = getRowEdgeCursor( );
+
+		if ( rowEdgeCursor == null )
 		{
 			return false;
 		}
@@ -197,7 +207,7 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 
 			// only check with non-leaf groups
 			if ( groupFound
-					&& !GroupUtil.isLeafGroup( getRowEdgeCursor( ).getDimensionCursor( ),
+					&& !GroupUtil.isLeafGroup( rowEdgeCursor.getDimensionCursor( ),
 							i ) )
 			{
 				DimensionViewHandle dv = crosstabItem.getDimension( ROW_AXIS_TYPE,
@@ -221,7 +231,6 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 		{
 			try
 			{
-				EdgeCursor rowEdgeCursor = getRowEdgeCursor( );
 				DimensionCursor dc = (DimensionCursor) rowEdgeCursor.getDimensionCursor( )
 						.get( gdx );
 

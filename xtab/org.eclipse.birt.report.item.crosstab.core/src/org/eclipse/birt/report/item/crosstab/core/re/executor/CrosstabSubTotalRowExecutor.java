@@ -205,12 +205,16 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 				try
 				{
 					EdgeCursor rowEdgeCursor = getRowEdgeCursor( );
-					DimensionCursor dc = (DimensionCursor) rowEdgeCursor.getDimensionCursor( )
-							.get( gdx );
 
-					if ( rowEdgeCursor.getPosition( ) != dc.getEdgeStart( ) )
+					if ( rowEdgeCursor != null )
 					{
-						return false;
+						DimensionCursor dc = (DimensionCursor) rowEdgeCursor.getDimensionCursor( )
+								.get( gdx );
+
+						if ( rowEdgeCursor.getPosition( ) != dc.getEdgeStart( ) )
+						{
+							return false;
+						}
 					}
 				}
 				catch ( OLAPException e )
@@ -306,7 +310,8 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 							rowGroups,
 							ev.dimensionIndex,
 							ev.levelIndex,
-							getRowEdgeCursor( ), isLayoutDownThenOver )
+							getRowEdgeCursor( ),
+							isLayoutDownThenOver )
 							* factor;
 					colSpan = 0;
 					lastDimensionIndex = ev.dimensionIndex;
