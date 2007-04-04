@@ -27,7 +27,8 @@ public class ExportManifestUtils
 		"sac.jar", 
 		"scriptapi.jar",
 		"modelodaapi.jar",
-		"javax.servlet*jar"
+		"javax.servlet_.*.jar",
+		"javax.servlet.jsp_.*.jar"
 	};
 
 	static public void main( String[] args ) throws IOException
