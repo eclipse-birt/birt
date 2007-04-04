@@ -116,7 +116,7 @@ public class Hierarchy implements IHierarchy
 		
 		DiskSortedStack sortedDimensionSet = getSortedDimRows( datasetIterator,
 				levelDefs );
-		
+				
 		documentObj.seek( 4 );
 		saveHierarchyMetadata( datasetIterator,
 				levelDefs );
@@ -318,6 +318,11 @@ public class Hierarchy implements IHierarchy
 			int[][] attributesDataType, DiskSortedStack sortedDimensionSet )
 			throws IOException, BirtException
 	{
+		DiskSortedStack sortedDimMembers = new DiskSortedStack( Constants.LIST_BUFFER_SIZE,
+				true,
+				false,
+				Member.getCreator( ) );
+		
 		IDiskArray[] indexKeyLists = new IDiskArray[keyDataType.length];
 		for( int i=0;i<indexKeyLists.length;i++)
 		{
@@ -343,13 +348,15 @@ public class Hierarchy implements IHierarchy
 			// write row offset
 			offsetDocObj.writeInt( (int) documentObj.getFilePointer( ) );
 			// write hierarchy rows
+			sortedDimMembers.push( dimRows.members[levelDefs.length-1] );
 			writeDimensionRow( dimRows,
 					keyDataType,
 					attributesDataType );
-
+			
 			obj = sortedDimensionSet.pop( );
 			currentIndex++;
 		}
+		validateDimensionMembers( sortedDimMembers );
 		DiskIndex[] diskIndex = new DiskIndex[indexKeyLists.length];
 		for ( int i = 0; i < indexKeyLists.length; i++ )
 		{
@@ -374,6 +381,29 @@ public class Hierarchy implements IHierarchy
 			this.levelMap.put( levels[i].name, levels[i] );
 		}
 		return currentIndex;
+	}
+	
+	/**
+	 * 
+	 * @param sortedDimMembers
+	 * @throws IOException
+	 * @throws DataException
+	 */
+	private void validateDimensionMembers( DiskSortedStack sortedDimMembers ) throws IOException, DataException
+	{
+		Object obj = sortedDimMembers.pop( );
+		Member lastMember = null;
+		while( obj != null )
+		{
+			Member currentMember = (Member)obj;
+			if( lastMember != null && lastMember.equals( currentMember ) )
+			{
+				throw new DataException( ResourceConstants.DETAIL_MEMBER_HAVE_MULTI_PARENT,
+						lastMember.keyValues[0] );
+			}
+			lastMember = currentMember;
+			obj = sortedDimMembers.pop( );
+		}
 	}
 	
 	/**
@@ -528,7 +558,7 @@ public class Hierarchy implements IHierarchy
 				true,
 				true,
 				DimensionRow.getCreator( ) );
-
+		
 		int[][] levelKeyColumnIndex = new int[levelDefs.length][];
 		int[][] levelAttributesIndex = new int[levelDefs.length][];
 		for ( int i = 0; i < levelDefs.length; i++ )

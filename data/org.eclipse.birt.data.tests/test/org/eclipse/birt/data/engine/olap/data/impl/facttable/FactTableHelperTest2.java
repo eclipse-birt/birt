@@ -127,22 +127,16 @@ public class FactTableHelperTest2 extends TestCase
 		assertEquals( dimensions[1].length( ), 3 );
 		
 		// dimension2
-		levelNames = new String[2];
+		levelNames = new String[1];
 		levelNames[0] = "level31";
-		levelNames[1] = "level32";
 		iterator = new DimensionForTest( levelNames );
 		int[] lL1Col = {
-				1, 1, 2, 2, 3, 3
-		};
-		int[] lL2Col = {
-				1, 2, 1, 2, 2, 3
+				1, 2, 3
 		};
 		iterator.setLevelMember( 0, lL1Col );
-		iterator.setLevelMember( 1, lL2Col );
 
-		levelDefs = new ILevelDefn[2];
+		levelDefs = new ILevelDefn[1];
 		levelDefs[0] = new LevelDefinition( "level31", new String[]{"level31"}, null );
-		levelDefs[1] = new LevelDefinition( "level32", new String[]{"level32"}, null );
 		dimensions[2] = (Dimension) DimensionFactory.createDimension( "dimension3",
 				documentManager,
 				iterator,
@@ -150,7 +144,7 @@ public class FactTableHelperTest2 extends TestCase
 				false );
 		hierarchy = dimensions[2].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension3" );
-		assertEquals( dimensions[2].length( ), 6 );
+		assertEquals( dimensions[2].length( ), 3 );
 		
 		FactTable1 factTable1 = new FactTable1();
 		String[] measureColumnName = new String[2];
@@ -171,7 +165,7 @@ public class FactTableHelperTest2 extends TestCase
 		assertEquals(factTable.getDimensionInfo( )[1].dimensionName, "dimension2" );
 		assertEquals(factTable.getDimensionInfo( )[1].dimensionLength, 3 );
 		assertEquals(factTable.getDimensionInfo( )[2].dimensionName, "dimension3" );
-		assertEquals(factTable.getDimensionInfo( )[2].dimensionLength, 6 );
+		assertEquals(factTable.getDimensionInfo( )[2].dimensionLength, 3 );
 		assertEquals(factTable.getMeasureInfo( )[0].measureName, "measure1" );
 		assertEquals( factTable.getMeasureInfo( )[0].dataType, DataType.INTEGER_TYPE );
 		assertEquals(factTable.getMeasureInfo( )[1].measureName, "measure2" );
@@ -188,23 +182,23 @@ public class FactTableHelperTest2 extends TestCase
 		dimensionPosition[1].add( new Integer(1) );
 		dimensionPosition[1].add( new Integer(2) );
 		dimensionPosition[2] = new BufferedPrimitiveDiskArray( );
+		dimensionPosition[2].add( new Integer(1) );
+		dimensionPosition[2].add( new Integer(2) );
 		dimensionPosition[2].add( new Integer(3) );
-		dimensionPosition[2].add( new Integer(4) );
-		dimensionPosition[2].add( new Integer(5) );
 		FactTableRowIterator facttableRowIterator = new FactTableRowIterator( factTable, dimensionNames, dimensionPosition, new StopSign() );
 		assertTrue( facttableRowIterator != null );
 		
 		assertTrue( facttableRowIterator.next( ));
 		assertEquals(10, facttableRowIterator.getDimensionPosition( 0 ));
 		assertEquals(2, facttableRowIterator.getDimensionPosition( 1 ));
-		assertEquals(5, facttableRowIterator.getDimensionPosition( 2 ));
+		assertEquals(2, facttableRowIterator.getDimensionPosition( 2 ));
 		assertEquals(new Integer(10), facttableRowIterator.getMeasure( 0 ));
 		assertEquals(new Double(10), facttableRowIterator.getMeasure( 1 ));
 		
 		assertTrue( facttableRowIterator.next( ));
 		assertEquals(11, facttableRowIterator.getDimensionPosition( 0 ));
 		assertEquals(2, facttableRowIterator.getDimensionPosition( 1 ));
-		assertEquals(5, facttableRowIterator.getDimensionPosition( 2 ));
+		assertEquals(2, facttableRowIterator.getDimensionPosition( 2 ));
 		assertEquals(new Integer(11), facttableRowIterator.getMeasure( 0 ));
 		assertEquals(new Double(11), facttableRowIterator.getMeasure( 1 ));
 		

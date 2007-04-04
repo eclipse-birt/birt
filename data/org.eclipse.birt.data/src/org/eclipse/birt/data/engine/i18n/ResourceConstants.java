@@ -293,6 +293,7 @@ public class ResourceConstants
 	public final static String OLAPFILE_NOT_FOUND = "data.olap.OlapFileNotFound";
 	public final static String DIMENSION_NOT_EXIST = "data.olap.DimensionNotExist";
 	public final static String KEY_VALUE_CANNOT_BE_NULL = "data.olap.KeyValueCanNotBeNull";
+	public final static String DETAIL_MEMBER_HAVE_MULTI_PARENT = "data.olap.DetailMemberHaveMultiParent";
 	public final static String OLAPFILE_FORMAT_INVALID = "data.olap.OlapFileFormatError";
 	public final static String OLAPFILE_DATA_ERROR = "data.olap.OlapFileDataError";
 	public final static String DOCUMENTOBJECT_ALWAYS_EXIST = "data.olap.DocumentObjectAlreadyExists";

@@ -35,6 +35,10 @@ public class Member implements IComparableStructure
 		
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
 	public int compareTo( Object o )
 	{
 		Member other = (Member) o;
@@ -47,6 +51,23 @@ public class Member implements IComparableStructure
 			}
 		}
 		return 0;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	public boolean equals(Object o)
+	{
+		Member other = (Member) o;
+		for ( int i = 0; i < keyValues.length; i++ )
+		{
+			if ( !keyValues[i].equals( other.keyValues[i] ) )
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	public static IStructureCreator getCreator( )

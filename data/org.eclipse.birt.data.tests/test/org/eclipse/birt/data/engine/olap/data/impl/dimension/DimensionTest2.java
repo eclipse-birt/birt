@@ -194,7 +194,7 @@ public class DimensionTest2 extends TestCase
 		assertEquals( levelMember.keyValues[0], new java.sql.Date( 1 ) );
 		levelMember = dimension.getDimensionRowByOffset(
 				indexKey.offset ).members[2];
-		assertEquals( levelMember.keyValues[0], new java.sql.Time( 2 ) );
+		assertEquals( levelMember.keyValues[0], new java.sql.Time( 6 ) );
 	}
 	
 	/**
@@ -208,6 +208,31 @@ public class DimensionTest2 extends TestCase
 		testDimensionCreateAndFind2( documentManager );
 	}
 	
+	/**
+	 * 
+	 * @throws IOException
+	 * @throws BirtException
+	 */
+	public void testDimensionCreateAndFind3( ) throws IOException, BirtException
+	{
+		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
+		try
+		{
+			testDimensionCreateAndFind3( documentManager );
+			fail( "DataException should be thrown!" );
+		}
+		catch( DataException e )
+		{
+			
+		}
+	}
+	
+	private void testDimensionCreateAndFind3( IDocumentManager documentManager ) throws IOException, BirtException, DataException
+	{
+		
+		Dimension dimension = createDimension3( documentManager ) ;
+		
+	}
 	/**
 	 * 
 	 * @throws IOException
@@ -257,11 +282,11 @@ public class DimensionTest2 extends TestCase
 		dimesionResultSet.seek( 2 );
 		assertEquals(dimesionResultSet.getLevelKeyValue( 0 )[0], new Integer(2) );
 		assertEquals(dimesionResultSet.getLevelKeyValue( 1 )[0], new Integer(1) );
-		assertEquals(dimesionResultSet.getLevelKeyValue( 2 )[0], new Integer(1) );
+		assertEquals(dimesionResultSet.getLevelKeyValue( 2 )[0], new Integer(5) );
 		dimesionResultSet.seek( 3 );
 		assertEquals(dimesionResultSet.getLevelKeyValue( 0 )[0], new Integer(2) );
 		assertEquals(dimesionResultSet.getLevelKeyValue( 1 )[0], new Integer(1) );
-		assertEquals(dimesionResultSet.getLevelKeyValue( 2 )[0], new Integer(2) );
+		assertEquals(dimesionResultSet.getLevelKeyValue( 2 )[0], new Integer(6) );
 	}
 	
 	private Dimension createDimension( IDocumentManager documentManager )
@@ -306,6 +331,26 @@ public class DimensionTest2 extends TestCase
 		assertEquals(level[2].getName(), "l3");
 		return (Dimension) dimension;
 	}
+	
+	private Dimension createDimension3(IDocumentManager documentManager)
+			throws IOException, BirtException 
+	{
+		ILevelDefn[] levelDefs = new ILevelDefn[3];
+		levelDefs[0] = new LevelDefinition("l1", new String[] { "l1" }, null);
+		levelDefs[1] = new LevelDefinition("l2", new String[] { "l2" }, null);
+		levelDefs[2] = new LevelDefinition("l3", new String[] { "l3" }, null);
+
+		IDimension dimension = DimensionFactory.createDimension("dataset3",
+				documentManager, new Dataset3(), levelDefs, true);
+		assertEquals(dimension.isTime(), true);
+		IHierarchy hierarchy = dimension.getHierarchy();
+		assertEquals(hierarchy.getName(), "dataset3");
+		ILevel[] level = hierarchy.getLevels();
+		assertEquals(level[0].getName(), "l1");
+		assertEquals(level[1].getName(), "l2");
+		assertEquals(level[2].getName(), "l3");
+		return (Dimension) dimension;
+	}
 }
 
 class Dataset1 implements IDatasetIterator
@@ -320,7 +365,7 @@ class Dataset1 implements IDatasetIterator
 	};
 
 	static int[] L3Col = {
-			1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2
+			1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
 	};
 
 	public void close( ) throws BirtException
@@ -433,7 +478,120 @@ class Dataset2 implements IDatasetIterator
 	};
 
 	static int[] L3Col = {
-			1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2
+			1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
+	};
+
+	public void close( ) throws BirtException
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	public Boolean getBoolean( int fieldIndex ) throws BirtException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Date getDate( int fieldIndex ) throws BirtException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Double getDouble( int fieldIndex ) throws BirtException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int getFieldIndex( String name ) throws BirtException
+	{
+		if ( name.equals( "l1" ) )
+		{
+			return 0;
+		}
+		else if ( name.equals( "l2" ) )
+		{
+			return 1;
+		}
+		else if ( name.equals( "l3" ) )
+		{
+			return 2;
+		}
+		return -1;
+	}
+
+	public int getFieldType( String name ) throws BirtException
+	{
+		if ( name.equals( "l1" ) )
+		{
+			return DataType.INTEGER_TYPE;
+		}
+		else if ( name.equals( "l2" ) )
+		{
+			return DataType.SQL_DATE_TYPE;
+		}
+		else if ( name.equals( "l3" ) )
+		{
+			return DataType.SQL_TIME_TYPE;
+		}
+		return -1;
+	}
+
+	public Integer getInteger( int fieldIndex ) throws BirtException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getString( int fieldIndex ) throws BirtException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Object getValue( int fieldIndex ) throws BirtException
+	{
+		if ( fieldIndex == 0 )
+		{
+			return new Integer( L1Col[ptr] );
+		}
+		else if ( fieldIndex == 1 )
+		{
+			return new java.sql.Date( L2Col[ptr] );
+		}
+		else if ( fieldIndex == 2 )
+		{
+			return new java.sql.Time( L3Col[ptr] );
+		}
+		return null;
+	}
+
+	public boolean next( ) throws BirtException
+	{
+		ptr++;
+		if ( ptr >= L1Col.length )
+		{
+			return false;
+		}
+		return true;
+	}
+}
+
+class Dataset3 implements IDatasetIterator
+{
+
+	int ptr = -1;
+	static int[] L1Col = {
+			1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3
+	};
+	static int[] L2Col = {
+			1, 1, 2, 2, 1, 1, 2, 2, 2, 2, 3, 3
+	};
+
+	static int[] L3Col = {
+			1, 2, 3, 4, 3, 6, 7, 8, 9, 10, 11, 12
 	};
 
 	public void close( ) throws BirtException
