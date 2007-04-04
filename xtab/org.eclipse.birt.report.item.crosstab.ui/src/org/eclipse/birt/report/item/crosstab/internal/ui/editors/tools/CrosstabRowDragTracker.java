@@ -15,6 +15,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.TableDragGuideTracker;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabTableEditPart;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabTableUtil;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabHandleAdapter;
 import org.eclipse.draw2d.Cursors;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -87,7 +88,43 @@ public class CrosstabRowDragTracker extends TableDragGuideTracker
 	 */
 	protected void resize( )
 	{
-		System.out.println( "resize" );
+		CrosstabTableEditPart  part = (CrosstabTableEditPart) getSourceEditPart( ).getParent( );
+		int value = getLocation( ).y - getStartLocation( ).y;
+
+		//if ( getStart( ) != getEnd( ) )
+		{
+			value = getTrueValue( value );	
+			
+			CrosstabHandleAdapter adapter = part.getCrosstabHandleAdapter( );
+			int baseHeight = CrosstabTableUtil.caleVisualHeight( part, getStart( ) );
+			adapter.setRowHeight( getStart( ), value + baseHeight);
+		}
+//		else
+//		{
+//			/**
+//			 * This is the Last Row, resize the whole table.
+//			 */
+//			Dimension dimension = getDragWidth( );
+//			if ( value < dimension.width )
+//			{
+//				value = dimension.width;
+//			}
+//
+//			TableHandleAdapter adp = HandleAdapterFactory.getInstance( )
+//					.getTableHandleAdapter( part.getModel( ) );
+//
+//			Dimension dm = adp.calculateSize( );
+//			dm.height += value;
+//			try
+//			{
+//				adp.ajustSize( dm );
+//			}
+//			catch ( SemanticException e )
+//			{
+//				ExceptionHandler.handle( e );
+//			}
+//
+//		}
 
 	}
 

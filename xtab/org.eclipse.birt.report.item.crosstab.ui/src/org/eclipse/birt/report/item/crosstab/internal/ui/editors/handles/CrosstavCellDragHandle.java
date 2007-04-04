@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.handles;
 
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabCellEditPart;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabTableEditPart;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabHandleAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.tools.CrosstabColumnDragTracker;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.tools.CrosstabRowDragTracker;
 import org.eclipse.draw2d.Cursors;
@@ -56,16 +58,36 @@ public class CrosstavCellDragHandle extends AbstractHandle
 	 */
 	protected DragTracker createDragTracker( )
 	{
-		if (cursorDirection == PositionConstants.EAST)
+		CrosstabHandleAdapter adapter = ((CrosstabTableEditPart)getOwner( ).getParent( )).getCrosstabHandleAdapter( );
+		if (cursorDirection == PositionConstants.EAST && 
+				(adapter.getColumnOprationCell( start )!=null||adapter.getColumnOprationCell( end )!=null))
 		{
 			return new CrosstabColumnDragTracker(getOwner( ), start, end);
 		}
-		if (cursorDirection == PositionConstants.SOUTH)
+		if (cursorDirection == PositionConstants.SOUTH && adapter.getRowOprationCell( start ) != null)
 		{
 			return new CrosstabRowDragTracker(getOwner( ), start, end);
 		}
 		//return null;
-		return new ResizeTracker( getOwner( ), cursorDirection );
+		return new ResizeTracker( getOwner( ), cursorDirection )
+		{
+			protected void showTargetFeedback() 
+			{
+				
+			}
+			protected void eraseTargetFeedback() 
+			{
+			
+			}
+			
+			protected void showSourceFeedback( )
+			{
+			}
+			
+			protected void eraseSourceFeedback( )
+			{
+			}
+		};
 	}
 
 	/* (non-Javadoc)
@@ -89,5 +111,12 @@ public class CrosstavCellDragHandle extends AbstractHandle
 //		}
 		//do nothing 
 
+	}
+	/* (non-Javadoc)
+	 * @see org.eclipse.draw2d.IFigure#containsPoint(int, int)
+	 */
+	public boolean containsPoint( int x, int y )
+	{
+		return getBounds( ).getCopy( ).shrink( -1, -1 ).contains( x, y );
 	}
 }

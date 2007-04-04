@@ -180,12 +180,28 @@ public class CrosstabCellEditPart extends AbstractCellEditPart
 					getColumnNumber( ) + getColSpan( ) );
 			retValue.add( column );
 		}
+		else
+		{
+			CrosstavCellDragHandle column = new CrosstavCellDragHandle( this,
+					PositionConstants.EAST,
+					getColumnNumber( ) + getColSpan( ) - 1,
+					getColumnNumber( ) + getColSpan( ) - 1);
+			retValue.add( column );
+		}
 		if ( getRowNumber( ) + getRowSpan( ) - 1 < rowNumer )
 		{
 			CrosstavCellDragHandle row = new CrosstavCellDragHandle( this,
 					PositionConstants.SOUTH,
 					getRowNumber( ) + getRowSpan( ) - 1,
 					getRowNumber( ) + getRowSpan( ) );
+			retValue.add( row );
+		}
+		else
+		{
+			CrosstavCellDragHandle row = new CrosstavCellDragHandle( this,
+					PositionConstants.SOUTH,
+					getRowNumber( ) + getRowSpan( ) - 1,
+					getRowNumber( ) + getRowSpan( ) - 1);
 			retValue.add( row );
 		}
 		return retValue;

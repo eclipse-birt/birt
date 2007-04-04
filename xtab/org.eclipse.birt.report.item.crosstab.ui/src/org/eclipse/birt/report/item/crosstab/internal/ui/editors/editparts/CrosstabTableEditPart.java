@@ -357,6 +357,14 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 		DimensionHandle handle = getCrosstabHandleAdapter( ).getColumnWidth( number );
 		if ( handle == null )// all is virtual editpat
 		{
+			if (number > 1 && getCrosstabHandleAdapter( ).getColumnWidth( number-1 ) != null)
+			{
+				return   new ITableLayoutOwner.DimensionInfomation(0, null);
+			}
+			if (number < getColumnCount( ) && getCrosstabHandleAdapter( ).getColumnWidth( number+1 ) != null)
+			{
+				return   new ITableLayoutOwner.DimensionInfomation(0, null);
+			}
 			return getVirtualDimension( new Conditional( ) {
 
 				public boolean evaluate( EditPart editpart )
@@ -589,6 +597,10 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 		if ( handle == null )
 		{
 			ITableLayoutOwner.DimensionInfomation info = getColumnWidth( columNumber );
+			if (info.getUnits( ) == null)
+			{
+				return "";
+			}
 			return String.valueOf( info.getMeasure( ) ) + info.getUnits( );
 		}
 		String unit = handle.getUnits( );
