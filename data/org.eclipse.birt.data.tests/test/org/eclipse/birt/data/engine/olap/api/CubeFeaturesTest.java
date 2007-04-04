@@ -441,7 +441,7 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * Test grand total
 	 * @throws Exception
 	 */
-	public void atestGrandTotal( ) throws Exception
+	public void testGrandTotal( ) throws Exception
 	{
 		this.createCube( );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
@@ -477,11 +477,24 @@ public class CubeFeaturesTest extends BaseTestCase
 		binding5.setExpression( new ScriptExpression("measure[\"measure1\"]") );
 		cqd.addBinding( binding5 );
 		
-		IBinding binding6 = new Binding( "grandTotal");
+		IBinding binding6 = new Binding( "rowGrandTotal");
 		binding6.setExpression( new ScriptExpression("measure[\"measure1\"]") );
-		binding6.setAggrFunction( BuiltInAggregationFactory.TOTAL_COUNT_FUNC );
-		binding6.addAggregateOn( "level11" );
+		binding6.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		binding6.addAggregateOn( "level21" );
 		cqd.addBinding( binding6 );
+		
+		IBinding binding7 = new Binding( "columnGrandTotal");
+		binding7.setExpression( new ScriptExpression("measure[\"measure1\"]") );
+		binding7.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		binding7.addAggregateOn( "level11" );
+		binding7.addAggregateOn( "level12" );
+		cqd.addBinding( binding7 );
+		
+		IBinding binding8 = new Binding( "grandTotal");
+		binding8.setExpression( new ScriptExpression("measure[\"measure1\"]") );
+		binding8.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		cqd.addBinding( binding8 );
+		
 		//sort on year
 		SortDefinition sorter1 = new SortDefinition();
 		sorter1.setExpression( "dimension[\"dimension2\"][\"level21\"]" );
@@ -512,15 +525,20 @@ public class CubeFeaturesTest extends BaseTestCase
 		columnEdgeBindingNames.add( "edge1level1" );
 		columnEdgeBindingNames.add( "edge1level2" );
 		
-		this.printCube( cursor, columnEdgeBindingNames, "edge2level1", "measure1" );
+		this.printCube( cursor, columnEdgeBindingNames, "edge2level1", "measure1", "columnGrandTotal", "rowGrandTotal", "grandTotal" );
 	
 	}
 	
 	private void printCube( CubeCursor cursor, List columnEdgeBindingNames, String rowEdgeBindingNames, String measureBindingNames ) throws Exception
 	{
+		this.printCube( cursor, columnEdgeBindingNames, rowEdgeBindingNames, measureBindingNames, null, null, null );
+	}
+	
+	private void printCube( CubeCursor cursor, List columnEdgeBindingNames, String rowEdgeBindingNames, String measureBindingNames, String columnAggr, String rowAggr, String overallAggr ) throws Exception
+	{
 		EdgeCursor edge1 = (EdgeCursor) (cursor.getOrdinateEdge( ).get( 0 ));
 		EdgeCursor edge2 = (EdgeCursor) (cursor.getOrdinateEdge( ).get( 1 ));
-		
+
 		String[] lines = new String[ edge1.getDimensionCursor( ).size( ) ];
 		for ( int i = 0; i < lines.length; i++ )
 		{
@@ -535,6 +553,9 @@ public class CubeFeaturesTest extends BaseTestCase
 			}
 		}
 		
+		if ( rowAggr != null )
+			lines[lines.length-1] += "Total";
+		
 		String output = "";
 		for ( int i = 0; i < lines.length; i++ )
 		{
@@ -546,12 +567,30 @@ public class CubeFeaturesTest extends BaseTestCase
 			String line = cursor.getObject( rowEdgeBindingNames ).toString( )  + "		";
 			edge1.beforeFirst( );
 			while ( edge1.next( ) )
-			{
+			{ 
 				line+= cursor.getObject( measureBindingNames ) + "		";
 			}
+			
+			if ( rowAggr!= null )
+				line+= cursor.getObject( rowAggr );
+			output+="\n" + line;
+		}
+		
+		if ( columnAggr!= null )
+		{
+			String line = "Total" + "		";
+			edge1.beforeFirst( );
+			while ( edge1.next( ) )
+			{ 
+				line+= cursor.getObject( columnAggr ) + "		";
+			}
+			if ( overallAggr != null )
+				line+= cursor.getObject( overallAggr );
+			
 			output+="\n" + line;
 		}
 		this.testPrint( output );
+
 		this.checkOutputFile( );
 	}
 	

@@ -744,11 +744,12 @@ public class BufferedRandomDataAccessObject implements IRandomDataAccessObject
 
 					delegate.seek( currBuf.filePos );
 					int readLen = delegate.read( b, pos, len );
-					if ( len > currBuf.bytes.length )
-					{
-						currBuf.filePos += len - currBuf.bytes.length;
-					}
-					currBuf.dataLen = Math.min( readLen, currBuf.bytes.length );
+//					if ( len > currBuf.bytes.length )
+//					{
+						currBuf.filePos += readLen;
+//					}
+					currBuf.dataLen = 0;
+					currBuf.pos = 0;
 					System.arraycopy( b, pos, currBuf.bytes, 0, currBuf.dataLen );
 					return readLen;
 				}

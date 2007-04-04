@@ -230,12 +230,12 @@ public class CursorModelTest extends BaseTestCase
 
 			IBinding rowGrandTotal = new Binding( "rowGrandTotal" );
 			rowGrandTotal.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
-			rowGrandTotal.setExpression( new ScriptExpression( "measure1" ) );
+			rowGrandTotal.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 			rowGrandTotal.addAggregateOn( "level21" );
 
 			IBinding columnGrandTotal = new Binding( "columnGrandTotal" );
 			columnGrandTotal.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
-			columnGrandTotal.setExpression( new ScriptExpression( "measure1" ) );
+			columnGrandTotal.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 			columnGrandTotal.addAggregateOn( "level11" );
 			columnGrandTotal.addAggregateOn( "level12" );
 			columnGrandTotal.addAggregateOn( "level13" );
@@ -431,7 +431,7 @@ public class CursorModelTest extends BaseTestCase
 		EdgeCursor edge2 = (EdgeCursor) ( cursor.getOrdinateEdge( ).get( 1 ) );
 
 		String[] lines = new String[edge1.getDimensionCursor( ).size( )];
-		String result ="";
+
 		for ( int i = 0; i < lines.length; i++ )
 		{
 			lines[i] = "		";

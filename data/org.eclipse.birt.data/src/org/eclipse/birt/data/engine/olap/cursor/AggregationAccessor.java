@@ -27,7 +27,6 @@ import javax.olap.cursor.Time;
 import javax.olap.cursor.Timestamp;
 
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.driver.DimensionAxis;
 import org.eclipse.birt.data.engine.olap.driver.IResultSet;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
@@ -72,7 +71,7 @@ public class AggregationAccessor implements Accessor
 	 * @throws OLAPException
 	 * @throws IOException
 	 */
-	private void populateRelation( int aggrIndex, String aggrName ) throws OLAPException,
+	private boolean populateRelation( int aggrIndex, String aggrName ) throws OLAPException,
 			IOException
 	{
 		DimensionAxis axis = this.resultSet.getMeasureResult( )[aggrIndex].getDimensionAxis( 0 );
@@ -81,8 +80,6 @@ public class AggregationAccessor implements Accessor
 			rowEdgeCursor = (EdgeCursor) ( (BirtEdgeView) this.view.getRowEdgeView( ) ).getEdgeCursor( );
 		if ( this.view.getColumnEdgeView( ) != null )
 			columnEdgeCursor = (EdgeCursor) ( (BirtEdgeView) this.view.getColumnEdgeView( ) ).getEdgeCursor( );
-
-		BirtEdgeView edgeView = view.getMeasureEdgeView( )[aggrIndex];
 
 		RelationShip relation = (RelationShip) this.relationMap.get( aggrName );
 
@@ -122,7 +119,7 @@ public class AggregationAccessor implements Accessor
 		
 		int position = 0;
 		if ( axis.getAssociationQueryResultSet( ).length( ) <= 0 )
-			return;
+			return true;
 		else
 			axis.getAssociationQueryResultSet( ).seek( position );
 		while ( !findColumn || !findRow )
@@ -187,9 +184,11 @@ public class AggregationAccessor implements Accessor
 			}
 			else
 			{
-				throw new OLAPException( ResourceConstants.CURSOR_SEEK_ERROR );
+				return false;
+				//throw new OLAPException( ResourceConstants.CURSOR_SEEK_ERROR );
 			}
 		}
+		return true;
 	}
 	
 	/*
@@ -362,8 +361,10 @@ public class AggregationAccessor implements Accessor
 			int index = this.manager.getAggregationIndex( aggrName );
 			int id = this.manager.getAggregationResultID( aggrName );
 
-			populateRelation( index, aggrName );
-			return this.resultSet.getMeasureResult( )[id].getQueryResultSet( )
+			if ( !populateRelation( index, aggrName ) )
+				return null;
+			else
+				return this.resultSet.getMeasureResult( )[id].getQueryResultSet( )
 					.getAggregationValue( index );
 		}
 		catch ( IOException e )
@@ -385,8 +386,10 @@ public class AggregationAccessor implements Accessor
 		{
 			int id = this.manager.getAggregationResultID( arg0 );
 			int index = this.manager.getAggregationIndex( arg0 );
-			populateRelation( id, arg0 );
-			return this.resultSet.getMeasureResult( )[id].getQueryResultSet( )
+			if ( !populateRelation( id, arg0 ))
+				return null;
+			else
+				return this.resultSet.getMeasureResult( )[id].getQueryResultSet( )
 					.getAggregationValue( index );
 		}
 		catch ( IOException e )
