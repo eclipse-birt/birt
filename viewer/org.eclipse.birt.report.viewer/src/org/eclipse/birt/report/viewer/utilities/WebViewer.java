@@ -320,6 +320,15 @@ public class WebViewer
 	/**
 	 * Initiate the tomcat.
 	 * 
+	 */
+	public static void startup( )
+	{
+		startWebApp( );
+	}
+	
+	/**
+	 * Initiate the tomcat.
+	 * 
 	 * @param browser
 	 *            SWT browser
 	 */
