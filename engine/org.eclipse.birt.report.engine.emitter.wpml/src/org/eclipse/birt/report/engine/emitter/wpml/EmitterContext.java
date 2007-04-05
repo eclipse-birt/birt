@@ -22,140 +22,143 @@ import java.util.Vector;
 import org.eclipse.birt.report.engine.content.IStyle;
 
 public class EmitterContext
-{	
-	public void startInline()
+{
+
+	public void startInline( )
 	{
 		inline = true;
 	}
-	
-	public boolean isInline()
+
+	public boolean isInline( )
 	{
 		return inline;
 	}
-	
-	public void endInline()
+
+	public void endInline( )
 	{
 		inline = false;
 	}
-	
-	public void startCell()
+
+	public void startCell( )
 	{
 		cellind.push( Boolean.TRUE );
 	}
-	
-	public void endCell()
+
+	public void endCell( )
 	{
 		cellind.pop( );
 	}
-	
-	public boolean needEmptyP()
+
+	public boolean needEmptyP( )
 	{
-		return ((Boolean)cellind.peek( )).booleanValue( );
+		return ( (Boolean) cellind.peek( ) ).booleanValue( );
 	}
-	
-	public void addContainer(boolean isContainer)
+
+	public void addContainer( boolean isContainer )
 	{
-		if(!cellind.isEmpty( ))
+		if ( !cellind.isEmpty( ) )
 		{
 			cellind.pop( );
-			cellind.push(new Boolean(isContainer));
-		}	
-	}
-	
-	public void addWidth ( int w )
-	{
-		wlist.addLast ( new Integer ( w ) );
-	}
-	
-	public void resetWidth() {
-		wlist.removeAll(wlist);
+			cellind.push( new Boolean( isContainer ) );
+		}
 	}
 
-	public int getCurrentWidth ( )
+	public void addWidth( int w )
 	{
-		return ((Integer) wlist.getLast ( )).intValue ( );
+		wlist.addLast( new Integer( w ) );
 	}
 
-	public void removeWidth ( )
+	public void resetWidth( )
 	{
-		wlist.removeLast ( );
+		wlist.removeAll( wlist );
 	}
 
-	public int[] getCurrentTblCols ( )
+	public int getCurrentWidth( )
 	{
-		return ((TableInfo) tbls.getLast ( )).getCWidths ( );
+		return ( (Integer) wlist.getLast( ) ).intValue( );
 	}
 
-	public void addTable ( int[] cols, IStyle style )
+	public void removeWidth( )
 	{
-		tbls.addLast ( new TableInfo ( cols, style ) );
-	}
-	
-	public IStyle getTableStyle()
-	{
-		return ((TableInfo) tbls.getLast ( )).getTableStyle ( );
+		wlist.removeLast( );
 	}
 
-	public void newRow ( )
+	public int[] getCurrentTblCols( )
 	{
-		((TableInfo) tbls.getLast ( )).newRow ( );
+		return ( (TableInfo) tbls.getLast( ) ).getCWidths( );
 	}
 
-	public void addSpan ( int col, int cs, int cw, int height, IStyle style )
+	public void addTable( int[] cols, IStyle style )
 	{
-		((TableInfo) tbls.getLast ( )).addSpan ( col, cs, cw, height, style );
-	}	
-
-	public void removeTable ( )
-	{
-		tbls.removeLast ( );
+		tbls.addLast( new TableInfo( cols, style ) );
 	}
 
-	public List getSpans ( int col )
+	public IStyle getTableStyle( )
 	{
-		return ((TableInfo) tbls.getLast ( )).getSpans ( col );
+		return ( (TableInfo) tbls.getLast( ) ).getTableStyle( );
 	}
 
-	public int getCellWidth ( int col, int cs )
+	public void newRow( )
 	{
-		int[] cols = getCurrentTblCols ( );
+		( (TableInfo) tbls.getLast( ) ).newRow( );
+	}
+
+	public void addSpan( int col, int cs, int cw, int height, IStyle style )
+	{
+		( (TableInfo) tbls.getLast( ) ).addSpan( col, cs, cw, height, style );
+	}
+
+	public void removeTable( )
+	{
+		tbls.removeLast( );
+	}
+
+	public List getSpans( int col )
+	{
+		return ( (TableInfo) tbls.getLast( ) ).getSpans( col );
+	}
+
+	public int getCellWidth( int col, int cs )
+	{
+		int[] cols = getCurrentTblCols( );
 
 		int w = 0;
 
-		for (int i = col; i < col + cs; i++)
+		for ( int i = col; i < col + cs; i++ )
 		{
 			w += cols[i];
 		}
 
 		return w;
-	}	
-	
+	}
+
 	class TableInfo
 	{
-		TableInfo ( int[] cols, IStyle style )
+
+		TableInfo( int[] cols, IStyle style )
 		{
 			this.cols = cols;
 			this.style = style;
 		}
 
-		void newRow ( )
+		void newRow( )
 		{
 			this.crow++;
 		}
 
-		void addSpan ( int y, int cs, int cw, int height, IStyle style )
+		void addSpan( int y, int cs, int cw, int height, IStyle style )
 		{
-			for (int i = 1; i < height; i++)
+			for ( int i = 1; i < height; i++ )
 			{
-				Integer key = new Integer ( crow + i );
+				Integer key = new Integer( crow + i );
 
-				if (spans.containsKey ( key ))
+				if ( spans.containsKey( key ) )
 				{
-					List rSpan = (List) spans.get ( key );
-					rSpan.add ( new SpanInfo ( y, cs, cw, false, style ) );
-					Collections.sort ( rSpan, new Comparator ( )
-					{
-						public int compare ( Object obj1, Object obj2 )
+					List rSpan = (List) spans.get( key );
+					rSpan.add( new SpanInfo( y, cs, cw, false, style ) );
+					Collections.sort( rSpan, new Comparator( ) {
+
+						public int compare( Object obj1, Object obj2 )
 						{
 							SpanInfo r1 = (SpanInfo) obj1;
 							SpanInfo r2 = (SpanInfo) obj2;
@@ -166,34 +169,34 @@ public class EmitterContext
 				}
 				else
 				{
-					Vector rSpan = new Vector ( );
-					rSpan.add ( new SpanInfo ( y, cs, cw, false, style ) );
-					spans.put ( key, rSpan );
+					Vector rSpan = new Vector( );
+					rSpan.add( new SpanInfo( y, cs, cw, false, style ) );
+					spans.put( key, rSpan );
 				}
 			}
 		}
 
-		List getSpans ( int end )
+		List getSpans( int end )
 		{
-			List cSpans = (List) spans.get ( new Integer ( crow ) );
+			List cSpans = (List) spans.get( new Integer( crow ) );
 
-			if (cSpans == null)
+			if ( cSpans == null )
 			{
 				return null;
 			}
 
-			Vector cList = new Vector ( );
+			Vector cList = new Vector( );
 
 			int pos = -1;
 
-			for (int i = 0; i < cSpans.size ( ); i++)
+			for ( int i = 0; i < cSpans.size( ); i++ )
 			{
-				SpanInfo r = (SpanInfo) cSpans.get ( i );
+				SpanInfo r = (SpanInfo) cSpans.get( i );
 
-				if ((r.x + r.cs - 1) <= end)
+				if ( ( r.x + r.cs - 1 ) <= end )
 				{
 
-					cList.add ( r );
+					cList.add( r );
 
 					pos = i;
 				}
@@ -203,56 +206,55 @@ public class EmitterContext
 				}
 			}
 
-			for (int i = 0; i <= pos; i++)
+			for ( int i = 0; i <= pos; i++ )
 			{
-				cSpans.remove ( 0 );
+				cSpans.remove( 0 );
 			}
 
-			if (cSpans.size ( ) == 0)
+			if ( cSpans.size( ) == 0 )
 			{
-				removeSpan ( );
+				removeSpan( );
 			}
 
-			return cList.size ( ) == 0 ? null : cList;
+			return cList.size( ) == 0 ? null : cList;
 		}
 
-		public void removeSpan ( )
+		public void removeSpan( )
 		{
-			spans.remove ( new Integer ( crow ) );
+			spans.remove( new Integer( crow ) );
 		}
 
-		int[] getCWidths ( )
+		int[] getCWidths( )
 		{
 			return cols;
 		}
 
-		int getRow ( )
+		int getRow( )
 		{
 			return crow;
 		}
-		
-		IStyle getTableStyle() 
+
+		IStyle getTableStyle( )
 		{
 			return this.style;
 		}
-		
 
-		private Hashtable spans = new Hashtable ( );
+		private Hashtable spans = new Hashtable( );
 
 		private int[] cols;
 
 		private int crow = 0;
-		
+
 		IStyle style = null;
 	}
 
-	private LinkedList tbls = new LinkedList ( );
+	private LinkedList tbls = new LinkedList( );
 
 	boolean empty = false;
 
-	private LinkedList wlist = new LinkedList ( );
-	
-	Stack cellind = new Stack();
-	
+	private LinkedList wlist = new LinkedList( );
+
+	Stack cellind = new Stack( );
+
 	boolean inline = false;
 }
