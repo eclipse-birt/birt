@@ -2311,7 +2311,7 @@ Element.SimpleDataSet.afterClose.reportContext=Berichtkontext
 Element.SimpleDataSet.paramBindings=Parameterbindungen
 Element.SimpleDataSet.refTemplateParameter=Parameterdefinition für Referenzvorlage
 Element.SimpleDataSet.cachedRowCount=Zwischengespeicherte Zeilenzahl
-Element.SimpleDataSet.dataSetRowLimit=Data set row limit
+Element.SimpleDataSet.dataSetRowLimit=Maximale Zeilenanzahl für Datensatz
   
 #5. JdbcSelectDataSet  ( prefix  Element.JdbcSelectDataSet )
 Element.JdbcSelectDataSet.statement=Anweisung

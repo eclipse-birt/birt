@@ -2311,7 +2311,7 @@ Element.SimpleDataSet.afterClose.reportContext=보고서 컨텍스트
 Element.SimpleDataSet.paramBindings=매개 변수 바인딩
 Element.SimpleDataSet.refTemplateParameter=참조 템플릿 매개 변수 정의
 Element.SimpleDataSet.cachedRowCount=캐시된 행 수
-Element.SimpleDataSet.dataSetRowLimit=Data set row limit
+Element.SimpleDataSet.dataSetRowLimit=데이터 집합 행 제한
   
 #5. JdbcSelectDataSet  ( prefix  Element.JdbcSelectDataSet )
 Element.JdbcSelectDataSet.statement=문

@@ -309,4 +309,4 @@ data.olap.measureNameNotFound=No se ha encontrado el nombre de medida "{0}".
 data.olap.levelNameNotFound=No se ha encontrado el nombre de nivel "{0}".
 data.olap.cursorPositionError=El cursor no puede navegar a la posición objetivo.
 data.olap.cursorSeekError=El cursor no puede navegar a la posición de búsqueda.
-data.olap.CannotGetMeasureValue=Cannot find measure "{0}" definition in cube, the measure does not exist or is invalid.
+data.olap.CannotGetMeasureValue=No se puede obtener valor de medida "{0}".

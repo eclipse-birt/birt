@@ -12,4 +12,4 @@
 ###############################################################################
 # General Info
 ###############################################################################
-ReportSamplesView=Report Examples
+ReportSamplesView=Ejemplos de informes

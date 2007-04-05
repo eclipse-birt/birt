@@ -2311,7 +2311,7 @@ Element.SimpleDataSet.afterClose.reportContext=Contexto de informe
 Element.SimpleDataSet.paramBindings=Enlaces de parámetro
 Element.SimpleDataSet.refTemplateParameter=Definición de parámetro de plantilla a la que se hace referencia
 Element.SimpleDataSet.cachedRowCount=Recuento de filas en caché
-Element.SimpleDataSet.dataSetRowLimit=Data set row limit
+Element.SimpleDataSet.dataSetRowLimit=Límite de filas del conjunto de datos
   
 #5. JdbcSelectDataSet  ( prefix  Element.JdbcSelectDataSet )
 Element.JdbcSelectDataSet.statement=Sentencia
