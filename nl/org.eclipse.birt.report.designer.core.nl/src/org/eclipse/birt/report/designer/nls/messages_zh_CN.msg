@@ -36,9 +36,9 @@ AddCSSAction.Text=添加 CSS 文件...
 
 ###########################################################
 #AddCSSDialog
-AddCSSWizardDialog.ShellText=Add CSS File
-AddCSSWizardDialog.TitleArea=Add CSS File to Resource Folder
-AddCSSWizardDialog.Message=Select a CSS file to import styles to resource folder
+AddCSSWizardDialog.ShellText=添加 CSS 文件
+AddCSSWizardDialog.TitleArea=将 CSS 文件添加到资源文件夹
+AddCSSWizardDialog.Message=选择一个 CSS 文件以便将样式导入到资源文件夹
 
 
 ###########################################################
@@ -421,7 +421,7 @@ dataset.editor.error.missingComputedColumnExpression=计算列 {0} 的表达式不能为空
 dataset.editor.error.missingComputedColumnName=计算列名称不能为空或空白。
 dataset.editor.error.noDataSource=没有可用于数据集的数据源 {0}，请在属性视图的“数据源”条目中选择数据源。
 dataset.editor.error.noEditorsFound=未找到可用于数据集的编辑器 {0}。
-dataset.editor.error.noInputParameterDefaultValue=Input parameter {0} should have a non-empty default value.
+dataset.editor.error.noInputParameterDefaultValue=输入参数 {0} 应具有非空默认值。
 dataset.editor.error.title=警告
 dataset.editor.error.unsupportedDataSet=不支持的数据集类型 - {0}。
 dataset.editor.error.validationParameter=输入参数 [{0}] 具有空值。是否要保留为空?
@@ -572,7 +572,7 @@ datasource.wizard.label.connectionfile=从配置文件存储中的连接配置文件创建
 datasource.wizard.message.selectType=为新数据源提供所有设置，或选择预定义的连接配置文件
 datasource.wizard.title.select=选择数据源类型，或选择连接配置文件
 datasource.editor.property=属性绑定
-datasource.editor.duplicatedName=The data source name "{0}" is duplicated
+datasource.editor.duplicatedName=数据源名称“{0}”重复
 
 ###########################################################
 #DataSourceProcess properties
@@ -2457,7 +2457,7 @@ ParameterDialog.Button.CreateDataSet=新建(&W)...
 ParameterDialog.Button.ImportValue=导入值(&U)...
 ParameterDialog.Button.RemoveDefault=删除默认值
 ParameterDialog.Button.SetDefault=设为默认值(&A)
-ParameterDialog.CheckBox.IsRequired=&Is Required
+ParameterDialog.CheckBox.IsRequired=必需(&I)
 ParameterDialog.CheckBox.DoNotEchoInput=不回显输入内容(&O)
 ParameterDialog.CheckBox.Hidden=隐藏(&D)
 ParameterDialog.CheckBox.Sort=提示时按字母顺序排序(&B)
@@ -2703,7 +2703,7 @@ RefreshModuleHandleAction.Action.Text=刷新库
 
 ###########################################################
 #ReloadCssStylesAction
-ReloadCssStylesAction.Action.Text=Reload CSS File
+ReloadCssStylesAction.Action.Text=重新加载 CSS 文件
 
 ###########################################################
 #ReferencePage properties
@@ -2728,11 +2728,11 @@ RemoveLibraryAction.Text=删除库
 
 ###########################################################
 #UseCssInReportDesignAction properties
-UseCssInReportDesignAction.Text=Use CSS in Report Design...
+UseCssInReportDesignAction.Text=在报表设计中使用 CSS...
 
 ###########################################################
 #UseCssInReportDesignAction properties
-UseCssInThemeAction.Text=Use CSS in Library...
+UseCssInThemeAction.Text=在库中使用 CSS...
 
 ###########################################################
 #RenameAction properties
@@ -3046,10 +3046,10 @@ SelectCssStyleWizard.wizardPage.title=从 CSS 文件导入样式
 
 ###########################################################
 #UseCssInReportDialog properties
-UseCssInReportDialog.Wizard.Title=Uss CSS
+UseCssInReportDialog.Wizard.Title=使用 CSS
 UseCssInReportDialog.Wizard.Filename=文件名(&F):
-UseCssInReportDialog.Label.Styles=&Available styles from {0}
-UseCssInReportDialog.Label.notifications=&Notifications:
+UseCssInReportDialog.Label.Styles=来自 {0} 的可用样式(&A)
+UseCssInReportDialog.Label.notifications=通知(&N):
 
 ###########################################################
 #SelectValueDialog properties
@@ -3660,26 +3660,26 @@ PublishLibraryDialog.AddLibrary=添加库
 #PublishCSSDialog
 PublishCSSDialog.ShellText=发布 CSS 文件
 PublishCSSDialog.TitleArea=将 CSS 文件发布到资源文件夹
-PublishCSSDialog.Message=Select a CSS file to import styles to resource folder
+PublishCSSDialog.Message=选择一个 CSS 文件以便将样式导入到资源文件夹
 
 PublishCSSDialog.Label.SourceFileName=源文件(&S):
 PublishCSSDialog.Label.FileName=文件名(&N):
 PublishCSSDialog.Label.Folder=文件夹(&F):
-PublishCSSDialog.Label.Browse=浏览...
+PublishCSSDialog.Label.Browse=浏览(&B)...
 PublishCSSDialog.Label.Browse2=浏览(&W)...
 
 PublishCSSDialog.ErrorMessage.SelectFolder=请选择文件夹
 
-PublishCSSDialog.Dialog.FileSeclect.Tilte=Select a CSS File
+PublishCSSDialog.Dialog.FileSeclect.Tilte=选择 CSS 文件
 PublishCSSDialog.Error.Exception.Title=错误
-PublishCSSDialog.Error.FileNotFound=未找到文件 ''{0}''。
+PublishCSSDialog.Error.FileNotFound=未找到文件“{0}”。
 PublishCSSDialog.Error.FileIsNotCSSFile=文件“{0}”没有以“{1}”结束。
 PublishCSSDialog.Error.FileExist=文件已经存在。
 
 PublishCSSDialog.Message.SourceFileEmpty=需要提供源文件名。
 PublishCSSDialog.Message.FileNameEmpty=需要提供文件名。
-PublishCSSDialog.Message.FileNameError=File name should end with .css.
-PublishCSSDialog.Message.FolderEmpty=
+PublishCSSDialog.Message.FileNameError=文件名应该以 .css 结束。
+PublishCSSDialog.Message.FolderEmpty=需要提供发布文件夹。
 
 WizardCSSSettingPage.ErrorMessage=请选择文件夹
 WizardCSSSettingPage.Resourcefile.Dialog.Title=浏览资源文件夹
@@ -3739,14 +3739,14 @@ ThumbnailBuilder.Text.Title=管理缩略图
 ThumbnailBuilder.Button.Text.Generate=生成(&G)
 ThumbnailBuilder.Button.Text.Remove=删除(&R)
 ThumbnailBuilder.Button.Text.Import=导入(&I)...
-ThumbnailBuilder.Button.Text.Browse=浏览...
+ThumbnailBuilder.Button.Text.Browse=浏览(&B)...
 ThumbnailBuilder.FileDialog.Title=选择图像文件
 ThumbnailBuilder.FileDialog.FileNameError.Title=错误
 ThumbnailBuilder.FileDialog.FileNameError.Message=您选择的文件不是图像。
-ThumbnailBuilder.Button.GenerateFromReport=Generate from the report
-ThumbnailBuilder.Button.BrowseFromFileSystem=Browse from file system
-ThumbnailBuilder.Button.ImportFromResource=Import from shared resources
-ThumbnailBuilder.Image.DefaultName=Thumbnail Image
+ThumbnailBuilder.Button.GenerateFromReport=从报表生成
+ThumbnailBuilder.Button.BrowseFromFileSystem=从文件系统浏览
+ThumbnailBuilder.Button.ImportFromResource=从共享资源导入
+ThumbnailBuilder.Image.DefaultName=缩略图
 
 ###########################################################
 #FragmentResourceEntry properties
@@ -3787,8 +3787,8 @@ cube.measure.edit=编辑多维数据集度量
 CubeMeasureGroupNodeProvider.menu.text=编辑
 CubeModel.group.new=新建组
 CubeModel.summaryfield.new=新建摘要字段
-Cube.Groups=Groups(Dimensions)
-Cube.MeasureGroup=Summary Fields(Measures)
+Cube.Groups=组(维)
+Cube.MeasureGroup=摘要字段(度量)
 
 ###########################################################
 #Cube Builder Dialog properties
@@ -3861,4 +3861,4 @@ SampleReportsView.Action.exportSampleReport.toolTipText=导出选择的示例报表
 SampleReportsView.Action.openSampleReport.toolTipText.ide=创建报表项目并将报表放入项目文件夹
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=将选择的示例报表直接导出到 RCP 工作区文件夹
 
-UseCssStyleAction.text=Use CSS File...
+UseCssStyleAction.text=使用 CSS 文件...

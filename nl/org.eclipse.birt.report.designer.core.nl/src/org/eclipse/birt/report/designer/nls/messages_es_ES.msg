@@ -36,9 +36,9 @@ AddCSSAction.Text=Añadir archivo CSS...
 
 ###########################################################
 #AddCSSDialog
-AddCSSWizardDialog.ShellText=Add CSS File
-AddCSSWizardDialog.TitleArea=Add CSS File to Resource Folder
-AddCSSWizardDialog.Message=Select a CSS file to import styles to resource folder
+AddCSSWizardDialog.ShellText=Añadir archivo CSS
+AddCSSWizardDialog.TitleArea=Añadir archivo CSS a la carpeta de recursos
+AddCSSWizardDialog.Message=Seleccione un archivo CSS para importar estilos a una carpeta de recursos
 
 
 ###########################################################
@@ -421,7 +421,7 @@ dataset.editor.error.missingComputedColumnExpression=La expresión de la columna 
 dataset.editor.error.missingComputedColumnName=El nombre de columna procesada no puede ser nulo ni estar en blanco.
 dataset.editor.error.noDataSource=No hay ninguna fuente de datos disponible para el conjunto de datos {0}; seleccione una fuente de datos en la entrada "fuente de datos" de la vista de propiedades.
 dataset.editor.error.noEditorsFound=No se han encontrado editores para el conjunto de datos {0}.
-dataset.editor.error.noInputParameterDefaultValue=Input parameter {0} should have a non-empty default value.
+dataset.editor.error.noInputParameterDefaultValue=El parámetro de entrada {0} debe tener un valor predeterminado que no esté vacío.
 dataset.editor.error.title=Advertencia
 dataset.editor.error.unsupportedDataSet=Tipo de conjunto de datos no admitido - {0}.
 dataset.editor.error.validationParameter=El parámetro de entrada [{0}] tiene un valor vacío. ¿Desea dejarlo vacío?
@@ -572,7 +572,7 @@ datasource.wizard.label.connectionfile=Crear a partir de un perfil de conexión d
 datasource.wizard.message.selectType=Suministre todos los ajustes para una nueva fuente de datos o seleccione un perfil de conexión predefinido
 datasource.wizard.title.select=Seleccione un tipo de fuente de datos o un perfil de conexión
 datasource.editor.property=Enlace de propiedades
-datasource.editor.duplicatedName=The data source name "{0}" is duplicated
+datasource.editor.duplicatedName=El nombre de fuente de datos "{0}" está duplicado
 
 ###########################################################
 #DataSourceProcess properties
@@ -2457,7 +2457,7 @@ ParameterDialog.Button.CreateDataSet=Crear nue&vo...
 ParameterDialog.Button.ImportValue=Importar valor&es...
 ParameterDialog.Button.RemoveDefault=Quitar predeterminado
 ParameterDialog.Button.SetDefault=Configurar &como predeterminada
-ParameterDialog.CheckBox.IsRequired=&Is Required
+ParameterDialog.CheckBox.IsRequired=&Requerido
 ParameterDialog.CheckBox.DoNotEchoInput=&No realizar comando eco de entrada
 ParameterDialog.CheckBox.Hidden=O&culto
 ParameterDialog.CheckBox.Sort=Ordenar al&fabéticamente al solicitar
@@ -2703,7 +2703,7 @@ RefreshModuleHandleAction.Action.Text=Actualizar librería
 
 ###########################################################
 #ReloadCssStylesAction
-ReloadCssStylesAction.Action.Text=Reload CSS File
+ReloadCssStylesAction.Action.Text=Volver a cargar el archivo CSS
 
 ###########################################################
 #ReferencePage properties
@@ -2728,11 +2728,11 @@ RemoveLibraryAction.Text=Quitar librería
 
 ###########################################################
 #UseCssInReportDesignAction properties
-UseCssInReportDesignAction.Text=Use CSS in Report Design...
+UseCssInReportDesignAction.Text=Utilizar CSS en el diseño de informe...
 
 ###########################################################
 #UseCssInReportDesignAction properties
-UseCssInThemeAction.Text=Use CSS in Library...
+UseCssInThemeAction.Text=Utilizar CSS en librería...
 
 ###########################################################
 #RenameAction properties
@@ -3046,10 +3046,10 @@ SelectCssStyleWizard.wizardPage.title=Importar estilo desde un archivo CSS
 
 ###########################################################
 #UseCssInReportDialog properties
-UseCssInReportDialog.Wizard.Title=Uss CSS
+UseCssInReportDialog.Wizard.Title=Utilizar CSS
 UseCssInReportDialog.Wizard.Filename=&Nombre de archivo:
-UseCssInReportDialog.Label.Styles=&Available styles from {0}
-UseCssInReportDialog.Label.notifications=&Notifications:
+UseCssInReportDialog.Label.Styles=&Estilos disponibles de {0}
+UseCssInReportDialog.Label.notifications=&Notificaciones:
 
 ###########################################################
 #SelectValueDialog properties
@@ -3660,17 +3660,17 @@ PublishLibraryDialog.AddLibrary=Añadir librería
 #PublishCSSDialog
 PublishCSSDialog.ShellText=Publicar archivo CSS
 PublishCSSDialog.TitleArea=Publicar archivo CSS en la carpeta de recursos
-PublishCSSDialog.Message=Select a CSS file to import styles to resource folder
+PublishCSSDialog.Message=Seleccione un archivo CSS para importar estilos a una carpeta de recursos
 
 PublishCSSDialog.Label.SourceFileName=&Archivo fuente:
 PublishCSSDialog.Label.FileName=&Nombre de archivo:
 PublishCSSDialog.Label.Folder=&Carpeta:
-PublishCSSDialog.Label.Browse=Examinar...
+PublishCSSDialog.Label.Browse=&Examinar...
 PublishCSSDialog.Label.Browse2=E&xaminar...
 
 PublishCSSDialog.ErrorMessage.SelectFolder=Seleccione una carpeta
 
-PublishCSSDialog.Dialog.FileSeclect.Tilte=Select a CSS File
+PublishCSSDialog.Dialog.FileSeclect.Tilte=Seleccionar un archivo CSS
 PublishCSSDialog.Error.Exception.Title=Error
 PublishCSSDialog.Error.FileNotFound=No se ha encontrado el archivo ''{0}''.
 PublishCSSDialog.Error.FileIsNotCSSFile=El archivo ''{0}'' no termina en ''{1}''.
@@ -3678,8 +3678,8 @@ PublishCSSDialog.Error.FileExist=El archivo ya existe.
 
 PublishCSSDialog.Message.SourceFileEmpty=Es necesario un nombre de archivo fuente.
 PublishCSSDialog.Message.FileNameEmpty=Es necesario un nombre de archivo.
-PublishCSSDialog.Message.FileNameError=File name should end with .css.
-PublishCSSDialog.Message.FolderEmpty=
+PublishCSSDialog.Message.FileNameError=El nombre de archivo debe terminar en .css.
+PublishCSSDialog.Message.FolderEmpty=Es necesaria una carpeta de publicación.
 
 WizardCSSSettingPage.ErrorMessage=Seleccione una carpeta
 WizardCSSSettingPage.Resourcefile.Dialog.Title=Examinar carpetas de recursos
@@ -3739,14 +3739,14 @@ ThumbnailBuilder.Text.Title=Administrar miniaturas
 ThumbnailBuilder.Button.Text.Generate=&Generar
 ThumbnailBuilder.Button.Text.Remove=&Quitar
 ThumbnailBuilder.Button.Text.Import=&Importar...
-ThumbnailBuilder.Button.Text.Browse=Examinar...
+ThumbnailBuilder.Button.Text.Browse=&Examinar...
 ThumbnailBuilder.FileDialog.Title=Seleccionar archivo de imagen
 ThumbnailBuilder.FileDialog.FileNameError.Title=Error
 ThumbnailBuilder.FileDialog.FileNameError.Message=El archivo seleccionado no es una imagen.
-ThumbnailBuilder.Button.GenerateFromReport=Generate from the report
-ThumbnailBuilder.Button.BrowseFromFileSystem=Browse from file system
-ThumbnailBuilder.Button.ImportFromResource=Import from shared resources
-ThumbnailBuilder.Image.DefaultName=Thumbnail Image
+ThumbnailBuilder.Button.GenerateFromReport=Generar desde el informe
+ThumbnailBuilder.Button.BrowseFromFileSystem=Examinar en el sistema de archivos
+ThumbnailBuilder.Button.ImportFromResource=Importar desde los recursos compartidos
+ThumbnailBuilder.Image.DefaultName=Imagen en miniatura
 
 ###########################################################
 #FragmentResourceEntry properties
@@ -3787,8 +3787,8 @@ cube.measure.edit=Editar medida de cubo
 CubeMeasureGroupNodeProvider.menu.text=Editar
 CubeModel.group.new=Nuevo grupo
 CubeModel.summaryfield.new=Nuevo campo de resumen
-Cube.Groups=Groups(Dimensions)
-Cube.MeasureGroup=Summary Fields(Measures)
+Cube.Groups=Grupos (Dimensiones)
+Cube.MeasureGroup=Campos de resumen (Medidas)
 
 ###########################################################
 #Cube Builder Dialog properties
@@ -3861,4 +3861,4 @@ SampleReportsView.Action.exportSampleReport.toolTipText=Exportar el informe de m
 SampleReportsView.Action.openSampleReport.toolTipText.ide=Crear un proyecto de informe y colocar el informe en la carpeta del proyecto
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=Exportar el informe de muestra seleccionado directamente a la carpeta del área de trabajo RCP
 
-UseCssStyleAction.text=Use CSS File...
+UseCssStyleAction.text=Utilizar archivo CSS...

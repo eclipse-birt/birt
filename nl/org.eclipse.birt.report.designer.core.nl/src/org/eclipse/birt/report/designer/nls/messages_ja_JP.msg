@@ -36,9 +36,9 @@ AddCSSAction.Text=CSS ƒtƒ@ƒCƒ‹‚Ì’Ç‰Á...
 
 ###########################################################
 #AddCSSDialog
-AddCSSWizardDialog.ShellText=Add CSS File
-AddCSSWizardDialog.TitleArea=Add CSS File to Resource Folder
-AddCSSWizardDialog.Message=Select a CSS file to import styles to resource folder
+AddCSSWizardDialog.ShellText=CSS ƒtƒ@ƒCƒ‹‚Ì’Ç‰Á
+AddCSSWizardDialog.TitleArea=CSS ƒtƒ@ƒCƒ‹‚ğƒŠƒ\[ƒXƒtƒHƒ‹ƒ_‚É’Ç‰Á
+AddCSSWizardDialog.Message=‚±‚±‚Å‘I‘ğ‚µ‚½ CSS ƒtƒ@ƒCƒ‹‚ÌƒXƒ^ƒCƒ‹‚ªƒŠƒ\[ƒXƒtƒHƒ‹ƒ_‚ÉƒCƒ“ƒ|[ƒg‚³‚ê‚Ü‚·B
 
 
 ###########################################################
@@ -421,7 +421,7 @@ dataset.editor.error.missingComputedColumnExpression=ŒvZ—ñ {0} ‚Ì®‚Í null ‚Ü‚½
 dataset.editor.error.missingComputedColumnName=ŒvZ—ñ–¼‚Í null ‚Ü‚½‚Í‹ó”’‚É‚Å‚«‚Ü‚¹‚ñB
 dataset.editor.error.noDataSource=ƒf[ƒ^ƒZƒbƒg {0} ‚Éƒf[ƒ^ƒ\[ƒX‚ª‚ ‚è‚Ü‚¹‚ñBƒvƒƒpƒeƒBƒrƒ…[‚Ì [ƒf[ƒ^ƒ\[ƒX] ƒGƒ“ƒgƒŠ‚Åƒf[ƒ^ƒ\[ƒX‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
 dataset.editor.error.noEditorsFound=ƒf[ƒ^ƒZƒbƒg‚ÌƒGƒfƒBƒ^‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ {0}B
-dataset.editor.error.noInputParameterDefaultValue=Input parameter {0} should have a non-empty default value.
+dataset.editor.error.noInputParameterDefaultValue=“ü—Íƒpƒ‰ƒƒ^ {0} ‚É‹ó”’ˆÈŠO‚ÌƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚µ‚Ä‚­‚¾‚³‚¢B
 dataset.editor.error.title=Œx
 dataset.editor.error.unsupportedDataSet=‚±‚Ìƒf[ƒ^ƒZƒbƒgŒ^‚Íg—p‚Å‚«‚Ü‚¹‚ñ - {0}B
 dataset.editor.error.validationParameter=“ü—Íƒpƒ‰ƒƒ^ [{0}] ‚Ì’l‚ª‹ó‚Å‚·B‹ó‚Ì‚Ü‚Ü‚É‚µ‚Ä‚¨‚«‚Ü‚·‚© ?
@@ -572,7 +572,7 @@ datasource.wizard.label.connectionfile=ƒvƒƒtƒ@ƒCƒ‹ƒXƒgƒA‚ÌÚ‘±ƒvƒƒtƒ@ƒCƒ‹‚ğg‚
 datasource.wizard.message.selectType=V‚µ‚¢ƒf[ƒ^ƒ\[ƒX‚Ì‚·‚×‚Ä‚Ìİ’è‚ğw’è‚·‚é‚©A’è‹`Ï‚İ‚ÌÚ‘±ƒvƒƒtƒ@ƒCƒ‹‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
 datasource.wizard.title.select=ƒf[ƒ^ƒ\[ƒX‚Ìí—Ş‚Ü‚½‚ÍÚ‘±ƒvƒƒtƒ@ƒCƒ‹‚Ì‘I‘ğ
 datasource.editor.property=ƒvƒƒpƒeƒB‚ÌƒoƒCƒ“ƒh
-datasource.editor.duplicatedName=The data source name "{0}" is duplicated
+datasource.editor.duplicatedName=ƒf[ƒ^ƒ\[ƒX–¼ "{0}" ‚ªd•¡‚µ‚Ä‚¢‚Ü‚·B
 
 ###########################################################
 #DataSourceProcess properties
@@ -2457,7 +2457,7 @@ ParameterDialog.Button.CreateDataSet=V‹Kì¬(&W)...
 ParameterDialog.Button.ImportValue=’l‚ÌƒCƒ“ƒ|[ƒg(&U)...
 ParameterDialog.Button.RemoveDefault=ƒfƒtƒHƒ‹ƒg‚Ìíœ
 ParameterDialog.Button.SetDefault=ƒfƒtƒHƒ‹ƒg‚Éİ’è(&A)
-ParameterDialog.CheckBox.IsRequired=&Is Required
+ParameterDialog.CheckBox.IsRequired=•K{‚É‚·‚é(&I)
 ParameterDialog.CheckBox.DoNotEchoInput=“ü—Í’l‚ğŒJ‚è•Ô‚³‚È‚¢(&O)
 ParameterDialog.CheckBox.Hidden=”ñ•\¦(&D)
 ParameterDialog.CheckBox.Sort=Šm”F‚ÉƒAƒ‹ƒtƒ@ƒxƒbƒg‡‚Éƒ\[ƒg‚·‚é(&R)
@@ -2703,7 +2703,7 @@ RefreshModuleHandleAction.Action.Text=ƒ‰ƒCƒuƒ‰ƒŠ‚ÌXV
 
 ###########################################################
 #ReloadCssStylesAction
-ReloadCssStylesAction.Action.Text=Reload CSS File
+ReloadCssStylesAction.Action.Text=CSS ƒtƒ@ƒCƒ‹‚ÌÄƒ[ƒh
 
 ###########################################################
 #ReferencePage properties
@@ -2728,11 +2728,11 @@ RemoveLibraryAction.Text=ƒ‰ƒCƒuƒ‰ƒŠ‚Ìíœ
 
 ###########################################################
 #UseCssInReportDesignAction properties
-UseCssInReportDesignAction.Text=Use CSS in Report Design...
+UseCssInReportDesignAction.Text=ƒŒƒ|[ƒgƒfƒUƒCƒ“‚Å CSS ‚ğg—p...
 
 ###########################################################
 #UseCssInReportDesignAction properties
-UseCssInThemeAction.Text=Use CSS in Library...
+UseCssInThemeAction.Text=ƒ‰ƒCƒuƒ‰ƒŠ‚Å CSS ‚ğg—p...
 
 ###########################################################
 #RenameAction properties
@@ -3046,10 +3046,10 @@ SelectCssStyleWizard.wizardPage.title=CSS ƒtƒ@ƒCƒ‹‚©‚çƒXƒ^ƒCƒ‹‚ğƒCƒ“ƒ|[ƒg
 
 ###########################################################
 #UseCssInReportDialog properties
-UseCssInReportDialog.Wizard.Title=Uss CSS
+UseCssInReportDialog.Wizard.Title=CSS ‚Ìg—p
 UseCssInReportDialog.Wizard.Filename=ƒtƒ@ƒCƒ‹–¼(&F) :
-UseCssInReportDialog.Label.Styles=&Available styles from {0}
-UseCssInReportDialog.Label.notifications=&Notifications:
+UseCssInReportDialog.Label.Styles={0} ‚Ìg—p‰Â”\‚ÈƒXƒ^ƒCƒ‹(&A)
+UseCssInReportDialog.Label.notifications=’Ê’m(&N) :
 
 ###########################################################
 #SelectValueDialog properties
@@ -3660,17 +3660,17 @@ PublishLibraryDialog.AddLibrary=ƒ‰ƒCƒuƒ‰ƒŠ‚Ì’Ç‰Á
 #PublishCSSDialog
 PublishCSSDialog.ShellText=CSS ƒtƒ@ƒCƒ‹‚ÌŒöŠJ
 PublishCSSDialog.TitleArea=CSS ƒtƒ@ƒCƒ‹‚ğƒŠƒ\[ƒXƒtƒHƒ‹ƒ_‚ÉŒöŠJ
-PublishCSSDialog.Message=Select a CSS file to import styles to resource folder
+PublishCSSDialog.Message=‚±‚±‚Å‘I‘ğ‚µ‚½ CSS ƒtƒ@ƒCƒ‹‚ÌƒXƒ^ƒCƒ‹‚ªƒŠƒ\[ƒXƒtƒHƒ‹ƒ_‚ÉƒCƒ“ƒ|[ƒg‚³‚ê‚Ü‚·B
 
 PublishCSSDialog.Label.SourceFileName=ƒ\[ƒXƒtƒ@ƒCƒ‹(&S) :
 PublishCSSDialog.Label.FileName=ƒtƒ@ƒCƒ‹–¼(&N) :
 PublishCSSDialog.Label.Folder=ƒtƒHƒ‹ƒ_(&F) :
-PublishCSSDialog.Label.Browse=QÆ...
+PublishCSSDialog.Label.Browse=QÆ(&B)...
 PublishCSSDialog.Label.Browse2=QÆ(&W)...
 
 PublishCSSDialog.ErrorMessage.SelectFolder=ƒtƒHƒ‹ƒ_‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
 
-PublishCSSDialog.Dialog.FileSeclect.Tilte=Select a CSS File
+PublishCSSDialog.Dialog.FileSeclect.Tilte=CSS ƒtƒ@ƒCƒ‹‚Ì‘I‘ğ
 PublishCSSDialog.Error.Exception.Title=ƒGƒ‰[
 PublishCSSDialog.Error.FileNotFound=ƒtƒ@ƒCƒ‹ ''{0}'' ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 PublishCSSDialog.Error.FileIsNotCSSFile=ƒtƒ@ƒCƒ‹ ''{0}'' ‚ÌŠg’£q‚ª ''{1}'' ‚Å‚Í‚ ‚è‚Ü‚¹‚ñB
@@ -3678,8 +3678,8 @@ PublishCSSDialog.Error.FileExist=ƒtƒ@ƒCƒ‹‚Í‚·‚Å‚É‘¶İ‚µ‚Ü‚·B
 
 PublishCSSDialog.Message.SourceFileEmpty=ƒ\[ƒXƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B
 PublishCSSDialog.Message.FileNameEmpty=ƒtƒ@ƒCƒ‹–¼‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B
-PublishCSSDialog.Message.FileNameError=File name should end with .css.
-PublishCSSDialog.Message.FolderEmpty=
+PublishCSSDialog.Message.FileNameError=ƒtƒ@ƒCƒ‹–¼‚ÌŠg’£q‚ÍA.css ‚É‚µ‚Ä‚­‚¾‚³‚¢B
+PublishCSSDialog.Message.FolderEmpty=ƒtƒHƒ‹ƒ_‚ğŒöŠJ‚µ‚Ä‚­‚¾‚³‚¢B
 
 WizardCSSSettingPage.ErrorMessage=ƒtƒHƒ‹ƒ_‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
 WizardCSSSettingPage.Resourcefile.Dialog.Title=ƒŠƒ\[ƒXƒtƒHƒ‹ƒ_‚ÌQÆ
@@ -3739,14 +3739,14 @@ ThumbnailBuilder.Text.Title=ƒTƒ€ƒl[ƒ‹‚ÌŠÇ—
 ThumbnailBuilder.Button.Text.Generate=¶¬(&G)
 ThumbnailBuilder.Button.Text.Remove=íœ(&R)
 ThumbnailBuilder.Button.Text.Import=ƒCƒ“ƒ|[ƒg(&I)...
-ThumbnailBuilder.Button.Text.Browse=QÆ...
+ThumbnailBuilder.Button.Text.Browse=QÆ(&B)...
 ThumbnailBuilder.FileDialog.Title=ƒCƒ[ƒWƒtƒ@ƒCƒ‹‚Ì‘I‘ğ
 ThumbnailBuilder.FileDialog.FileNameError.Title=ƒGƒ‰[
 ThumbnailBuilder.FileDialog.FileNameError.Message=‘I‘ğ‚µ‚½ƒtƒ@ƒCƒ‹‚ÍAƒCƒ[ƒW‚Å‚Í‚ ‚è‚Ü‚¹‚ñB
-ThumbnailBuilder.Button.GenerateFromReport=Generate from the report
-ThumbnailBuilder.Button.BrowseFromFileSystem=Browse from file system
-ThumbnailBuilder.Button.ImportFromResource=Import from shared resources
-ThumbnailBuilder.Image.DefaultName=Thumbnail Image
+ThumbnailBuilder.Button.GenerateFromReport=ƒŒƒ|[ƒg‚©‚ç¶¬
+ThumbnailBuilder.Button.BrowseFromFileSystem=ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚ÌQÆ
+ThumbnailBuilder.Button.ImportFromResource=‹¤—LƒŠƒ\[ƒX‚©‚çƒCƒ“ƒ|[ƒg
+ThumbnailBuilder.Image.DefaultName=ƒTƒ€ƒl[ƒ‹‚ÌƒCƒ[ƒW
 
 ###########################################################
 #FragmentResourceEntry properties
@@ -3787,8 +3787,8 @@ cube.measure.edit=ƒLƒ…[ƒu‚ÌŒv‘ª‚Ì•ÒW
 CubeMeasureGroupNodeProvider.menu.text=•ÒW
 CubeModel.group.new=ƒOƒ‹[ƒv‚ÌV‹Kì¬
 CubeModel.summaryfield.new=ƒTƒ}ƒŠƒtƒB[ƒ‹ƒh‚ÌV‹Kì¬
-Cube.Groups=Groups(Dimensions)
-Cube.MeasureGroup=Summary Fields(Measures)
+Cube.Groups=ƒOƒ‹[ƒv (ƒTƒCƒY)
+Cube.MeasureGroup=ƒTƒ}ƒŠƒtƒB[ƒ‹ƒh (Œv‘ª)
 
 ###########################################################
 #Cube Builder Dialog properties
@@ -3861,4 +3861,4 @@ SampleReportsView.Action.exportSampleReport.toolTipText=‘I‘ğ‚µ‚½ƒTƒ“ƒvƒ‹ƒŒƒ|[ƒg
 SampleReportsView.Action.openSampleReport.toolTipText.ide=ƒŒƒ|[ƒgƒvƒƒWƒFƒNƒg‚ğì¬‚µ‚ÄAƒŒƒ|[ƒg‚ğƒvƒƒWƒFƒNƒgƒtƒHƒ‹ƒ_‚É”z’u‚µ‚Ü‚·
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=‘I‘ğ‚µ‚½ƒTƒ“ƒvƒ‹ƒŒƒ|[ƒg‚ğ RCP ì‹ÆƒtƒHƒ‹ƒ_‚É’¼ÚƒGƒNƒXƒ|[ƒg‚µ‚Ü‚·
 
-UseCssStyleAction.text=Use CSS File...
+UseCssStyleAction.text=CSS ƒtƒ@ƒCƒ‹‚ğg—p...
