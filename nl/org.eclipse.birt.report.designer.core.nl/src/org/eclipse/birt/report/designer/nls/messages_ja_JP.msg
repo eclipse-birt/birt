@@ -3599,14 +3599,14 @@ ThumbnailBuilder.Text.Title=サムネールの管理
 ThumbnailBuilder.Button.Text.Generate=生成(&G)
 ThumbnailBuilder.Button.Text.Remove=削除(&R)
 ThumbnailBuilder.Button.Text.Import=インポート(&I)...
-ThumbnailBuilder.Button.Text.Browse=&Browse...
+ThumbnailBuilder.Button.Text.Browse=参照(&B)...
 ThumbnailBuilder.FileDialog.Title=イメージファイルの選択
 ThumbnailBuilder.FileDialog.FileNameError.Title=エラー
 ThumbnailBuilder.FileDialog.FileNameError.Message=選択したファイルは、イメージではありません。
-ThumbnailBuilder.Button.GenerateFromReport=Generate from the report
-ThumbnailBuilder.Button.BrowseFromFileSystem=Browse from file system
-ThumbnailBuilder.Button.ImportFromResource=Import from shared resources
-ThumbnailBuilder.Image.DefaultName=Thumbnail Image
+ThumbnailBuilder.Button.GenerateFromReport=レポートから生成
+ThumbnailBuilder.Button.BrowseFromFileSystem=ファイルシステムの参照
+ThumbnailBuilder.Button.ImportFromResource=共有リソースからインポート
+ThumbnailBuilder.Image.DefaultName=サムネールのイメージ
 
 ###########################################################
 #FragmentResourceEntry properties

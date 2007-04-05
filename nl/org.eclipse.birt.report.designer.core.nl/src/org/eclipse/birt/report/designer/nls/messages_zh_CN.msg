@@ -3599,14 +3599,14 @@ ThumbnailBuilder.Text.Title=管理缩略图
 ThumbnailBuilder.Button.Text.Generate=生成(&G)
 ThumbnailBuilder.Button.Text.Remove=删除(&R)
 ThumbnailBuilder.Button.Text.Import=导入(&I)...
-ThumbnailBuilder.Button.Text.Browse=&Browse...
+ThumbnailBuilder.Button.Text.Browse=浏览(&B)...
 ThumbnailBuilder.FileDialog.Title=选择图像文件
 ThumbnailBuilder.FileDialog.FileNameError.Title=错误
 ThumbnailBuilder.FileDialog.FileNameError.Message=您选择的文件不是图像。
-ThumbnailBuilder.Button.GenerateFromReport=Generate from the report
-ThumbnailBuilder.Button.BrowseFromFileSystem=Browse from file system
-ThumbnailBuilder.Button.ImportFromResource=Import from shared resources
-ThumbnailBuilder.Image.DefaultName=Thumbnail Image
+ThumbnailBuilder.Button.GenerateFromReport=从报表生成
+ThumbnailBuilder.Button.BrowseFromFileSystem=从文件系统浏览
+ThumbnailBuilder.Button.ImportFromResource=从共享资源导入
+ThumbnailBuilder.Image.DefaultName=缩略图
 
 ###########################################################
 #FragmentResourceEntry properties
