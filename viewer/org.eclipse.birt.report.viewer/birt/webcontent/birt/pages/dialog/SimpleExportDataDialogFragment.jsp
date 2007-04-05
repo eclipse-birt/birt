@@ -108,11 +108,11 @@
 			<DIV>
 				<%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.separator" )%> 
 				<SELECT ID="exportDataCSVSeparator" CLASS="birtviewer_exportdata_dialog_select">
-					<OPTION VALUE="0" SELECTED><%= BirtResources.getMessage( "birt.viewer.sep.comma" )%></OPTION>
-					<OPTION VALUE="1"><%= BirtResources.getMessage( "birt.viewer.sep.semicolon" )%></OPTION>
-					<OPTION VALUE="2"><%= BirtResources.getMessage( "birt.viewer.sep.colon" )%></OPTION>
-					<OPTION VALUE="3"><%= BirtResources.getMessage( "birt.viewer.sep.verticalline" )%></OPTION>
-					<OPTION VALUE="4"><%= BirtResources.getMessage( "birt.viewer.sep.tab" )%></OPTION>
+					<OPTION VALUE="0" SELECTED><%= BirtResources.getMessage( "birt.viewer.sep.0" )%></OPTION>
+					<OPTION VALUE="1"><%= BirtResources.getMessage( "birt.viewer.sep.1" )%></OPTION>
+					<OPTION VALUE="2"><%= BirtResources.getMessage( "birt.viewer.sep.2" )%></OPTION>
+					<OPTION VALUE="3"><%= BirtResources.getMessage( "birt.viewer.sep.3" )%></OPTION>
+					<OPTION VALUE="4"><%= BirtResources.getMessage( "birt.viewer.sep.4" )%></OPTION>
 				</SELECT>
 			</DIV>
 			<BR/>
