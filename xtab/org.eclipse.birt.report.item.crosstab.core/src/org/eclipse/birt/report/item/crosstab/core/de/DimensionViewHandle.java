@@ -31,10 +31,9 @@ import org.eclipse.birt.report.model.api.olap.LevelHandle;
 /**
  * DimensionViewHandle.
  */
-public class DimensionViewHandle extends AbstractCrosstabItemHandle
-		implements
-			IDimensionViewConstants,
-			ICrosstabConstants
+public class DimensionViewHandle extends AbstractCrosstabItemHandle implements
+		IDimensionViewConstants,
+		ICrosstabConstants
 {
 
 	/**
@@ -142,8 +141,8 @@ public class DimensionViewHandle extends AbstractCrosstabItemHandle
 	public LevelViewHandle insertLevel( LevelHandle levelHandle, int index )
 			throws SemanticException
 	{
-		ExtendedItemHandle extendedItemHandle = CrosstabExtendedItemFactory
-				.createLevelView( moduleHandle, levelHandle );
+		ExtendedItemHandle extendedItemHandle = CrosstabExtendedItemFactory.createLevelView( moduleHandle,
+				levelHandle );
 		if ( extendedItemHandle == null )
 			return null;
 
@@ -152,8 +151,10 @@ public class DimensionViewHandle extends AbstractCrosstabItemHandle
 			// if cube dimension container of this cube level element is not
 			// what is referred by this dimension view, then the insertion is
 			// forbidden
-			if ( !levelHandle.getContainer( ).getContainer( )
-					.getQualifiedName( ).equals( getCubeDimensionName( ) ) )
+			if ( !levelHandle.getContainer( )
+					.getContainer( )
+					.getQualifiedName( )
+					.equals( getCubeDimensionName( ) ) )
 			{
 				// TODO: throw exception
 				logger.log( Level.WARNING, "" ); //$NON-NLS-1$
@@ -168,8 +169,10 @@ public class DimensionViewHandle extends AbstractCrosstabItemHandle
 						MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_LEVEL,
 						levelHandle.getQualifiedName( ) );
 				throw new CrosstabException( handle.getElement( ),
-						new String[]{levelHandle.getQualifiedName( ),
-								handle.getElement( ).getIdentifier( )},
+						new String[]{
+								levelHandle.getQualifiedName( ),
+								handle.getElement( ).getIdentifier( )
+						},
 						MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_LEVEL );
 			}
 		}
@@ -182,17 +185,16 @@ public class DimensionViewHandle extends AbstractCrosstabItemHandle
 		{
 			getLevelsProperty( ).add( extendedItemHandle, index );
 
+			levelView = (LevelViewHandle) CrosstabUtil.getReportItem( extendedItemHandle,
+					LEVEL_VIEW_EXTENSION_NAME );
+
 			// if level handle is specified, then adjust aggregations
 			if ( levelHandle != null )
 			{
-				levelView = (LevelViewHandle) CrosstabUtil.getReportItem(
-						extendedItemHandle, LEVEL_VIEW_EXTENSION_NAME );
-
 				CrosstabReportItemHandle crosstab = getCrosstab( );
 				if ( levelView != null && crosstab != null )
 				{
-					CrosstabModelUtil
-							.adjustForLevelView( this, levelView, true );
+					CrosstabModelUtil.adjustForLevelView( this, levelView, true );
 				}
 			}
 		}
@@ -229,7 +231,8 @@ public class DimensionViewHandle extends AbstractCrosstabItemHandle
 				CrosstabReportItemHandle crosstab = getCrosstab( );
 				if ( crosstab != null )
 				{
-					CrosstabModelUtil.adjustForLevelView( this, levelView,
+					CrosstabModelUtil.adjustForLevelView( this,
+							levelView,
 							false );
 				}
 
@@ -268,8 +271,9 @@ public class DimensionViewHandle extends AbstractCrosstabItemHandle
 				CrosstabReportItemHandle crosstab = getCrosstab( );
 				if ( crosstab != null )
 				{
-					CrosstabModelUtil
-							.adjustForLevelView( this, levelView,false );
+					CrosstabModelUtil.adjustForLevelView( this,
+							levelView,
+							false );
 				}
 
 				levelView.handle.drop( );
@@ -309,9 +313,8 @@ public class DimensionViewHandle extends AbstractCrosstabItemHandle
 	 */
 	public int getAxisType( )
 	{
-		CrosstabViewHandle crosstabView = (CrosstabViewHandle) CrosstabUtil
-				.getReportItem( handle.getContainer( ),
-						CROSSTAB_VIEW_EXTENSION_NAME );
+		CrosstabViewHandle crosstabView = (CrosstabViewHandle) CrosstabUtil.getReportItem( handle.getContainer( ),
+				CROSSTAB_VIEW_EXTENSION_NAME );
 		return crosstabView == null ? NO_AXIS_TYPE : crosstabView.getAxisType( );
 
 	}
