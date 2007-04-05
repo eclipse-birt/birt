@@ -578,7 +578,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				}
 				levelInHier[k] = CubeElementFactory.createLevelDefinition( level.getName( ),
 						new String[]{
-							level.getColumnName( )
+							level.getName( )
 						},
 						this.toStringArray( levelKeys ) );
 				

@@ -267,7 +267,7 @@ public class DataSetIterator implements IDatasetIterator
 		{
 
 			TabularLevelHandle level = (TabularLevelHandle) levels.get( j );
-			ColumnMeta temp = new ColumnMeta( level.getColumnName( ) );
+			ColumnMeta temp = new ColumnMeta( level.getName( ) );
 			resultMetaList.add( temp );
 			levelNameColumnNamePair.put( level.getColumnName( ), temp );
 			Iterator it = level.attributesIterator( );
@@ -283,14 +283,14 @@ public class DataSetIterator implements IDatasetIterator
 				resultMetaList.add( meta );
 			}
 			
-			query.addResultSetExpression( level.getColumnName( ),
+			query.addResultSetExpression( level.getName( ),
 					new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( level.getColumnName( ) ) ) );
 			
 			//The leaf level should serve as one of composit primary key of fact table
 			if ( j == levels.size( ) - 1 )
 			{
 				GroupDefinition gd = new GroupDefinition( );
-				gd.setKeyExpression( ExpressionUtil.createJSRowExpression( level.getColumnName( ) ) );
+				gd.setKeyExpression( ExpressionUtil.createJSRowExpression( level.getName( ) ) );
 				query.addGroup( gd );
 			}
 
@@ -313,21 +313,7 @@ public class DataSetIterator implements IDatasetIterator
 	 */
 	public int getFieldIndex( String name ) throws BirtException
 	{
-		if ( this.metadata == null )
-		{
-			for ( int i = 1; i <= it.getResultMetaData( ).getColumnCount( ); i++ )
-			{
-				if ( name.equals( it.getResultMetaData( ).getColumnName( i ) ) )
-				{
-					return i;
-				}
-			}
-			return -1;
-		}
-		else
-		{
-			return this.metadata.getFieldIndex( name );
-		}
+		return this.metadata.getFieldIndex( name );
 	}
 
 	/*
@@ -336,13 +322,7 @@ public class DataSetIterator implements IDatasetIterator
 	 */
 	public int getFieldType( String name ) throws BirtException
 	{
-		if ( this.metadata == null )
-		{
-			return it.getResultMetaData( )
-					.getColumnType( this.getFieldIndex( name ) );
-		}
-		else
-			return this.metadata.getFieldType( name );
+		return this.metadata.getFieldType( name );
 	}
 
 	/*
