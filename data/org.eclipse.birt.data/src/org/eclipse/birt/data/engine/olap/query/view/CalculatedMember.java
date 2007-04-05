@@ -18,7 +18,7 @@ import java.util.List;
  * olap.data
  * 
  */
-class CalculatedMember
+public class CalculatedMember
 {
 
 	private String aggrFunction, onMeasureName, name;
@@ -64,7 +64,7 @@ class CalculatedMember
 	 * 
 	 * @return
 	 */
-	List getAggrOnList( )
+	public List getAggrOnList( )
 	{
 		return this.aggrOnList;
 	}

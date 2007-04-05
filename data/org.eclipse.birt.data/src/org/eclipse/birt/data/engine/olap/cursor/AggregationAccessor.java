@@ -32,6 +32,7 @@ import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.driver.IResultSet;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
 import org.eclipse.birt.data.engine.olap.query.view.BirtEdgeView;
+import org.eclipse.birt.data.engine.olap.query.view.CalculatedMember;
 import org.eclipse.birt.data.engine.olap.query.view.MeasureNameManager;
 import org.eclipse.birt.data.engine.olap.query.view.RelationShip;
 
@@ -40,11 +41,11 @@ import org.eclipse.birt.data.engine.olap.query.view.RelationShip;
  * and its index. Aggregation with same aggrOn level list will be assigned with
  * same resultset ID during preparation.
  * 
- * Firstly, we will do match on its row edge, then on its column edge. It's
- * better to define one aggragation in sequence of that in consideration of
- * efficiency.It will match values with its associated edge. If they are
- * matched, return accessor's current value, or move down/up to do the match
- * again based on the logic of sort dircetion on this level.
+ * Firstly, we will do match on its member level. It's better to define one
+ * aggragation in sequence of that in consideration of efficiency.It will match
+ * values with its associated edge. If they are matched, return accessor's
+ * current value, or move down/up to do the match again based on the logic of
+ * sort dircetion on this level.
  * 
  * If there is no match find in cube cursor, 'null' value will be returned.
  */
@@ -100,19 +101,20 @@ public class AggregationAccessor implements Accessor
 	}
 
 	/**
-	 *  
+	 * 
 	 * @param aggrIndex
 	 * @throws OLAPException
 	 * @throws IOException
+	 * @throws DataException
 	 */
-	private boolean populateRelation( int aggrIndex, String aggrName ) throws OLAPException,
-			IOException
+	private boolean populateRelation( int aggrIndex, String aggrName )
+			throws OLAPException, IOException, DataException
 	{
 		IAggregationResultSet rs = this.resultSet.getMeasureResult( )[aggrIndex].getQueryResultSet( );
 	
 		if ( rs == null || rs.length( )<=0 )
 			return false;
-		
+				
 		EdgeCursor rowEdgeCursor = null, columnEdgeCursor = null;
 		List columnDimList = null, rowDimList = null;
 		if ( this.view.getRowEdgeView( ) != null )
@@ -127,85 +129,35 @@ public class AggregationAccessor implements Accessor
 			if ( columnEdgeCursor != null )
 				columnDimList = columnEdgeCursor.getDimensionCursor( );
 		}
-		
+
+		CalculatedMember member = manager.getCalculatedMember( aggrName );
+		List memberList = member.getAggrOnList( );
+
 		RelationShip relation = (RelationShip) this.relationMap.get( aggrName );
 		List columnLevelList = relation.getLevelListOnColumn( );
 		List rowLevelList = relation.getLevelListOnRow( );
 
-		Map columnValueMap = new HashMap( );
-		Map rowValueMap = new HashMap( );
-	
+		Map valueMap = new HashMap( );
+
 		for ( int i = 0; i < columnLevelList.size( ); i++ )
 		{
 			String levelName = columnLevelList.get( i ).toString( );
 			DimensionCursor cursor = (DimensionCursor) columnDimList.get( i );
 			Object value = cursor.getObject( levelName );
-			columnValueMap.put( levelName, value );
+			valueMap.put( levelName, value );
 		}
 		for ( int i = 0; i < rowLevelList.size( ); i++ )
 		{
 			String levelName = rowLevelList.get( i ).toString( );
 			DimensionCursor cursor = (DimensionCursor) rowDimList.get( i );
 			Object value = cursor.getObject( levelName );
-			rowValueMap.put( levelName, value );
+			valueMap.put( levelName, value );
 		}
-		
-		boolean findColumn = false, findRow = false;
-		if ( columnLevelList.isEmpty( ) )
-			findColumn = true;
-		if ( rowLevelList.isEmpty( ) )
-			findRow = true;
 
-		while ( !findRow || !findColumn )
-		{
-			if ( findValueMatcher( rs, rowLevelList, rowValueMap, aggrIndex ) )
-			{
-				findRow = true;
-				if ( !needToPreceedOnPosition( rs,
-						columnLevelList,
-						columnValueMap,
-						aggrIndex ) )
-				{
-					findColumn = true;
-					break;
-				}
-				else
-				{
-					findColumn = false;
-					if ( findValueMatcher( rs,
-							columnLevelList,
-							columnValueMap,
-							aggrIndex ) )
-					{
-						findColumn = true;
-						if ( !needToPreceedOnPosition( rs,
-								rowLevelList,
-								rowValueMap,
-								aggrIndex ) )
-						{
-							findRow = true;
-							break;
-						}
-						else
-						{
-							findColumn = false;
-							continue;
-						}
-					}
-					else
-					{
-						findColumn = false;
-						break;
-					}
-				}
-			}
-			else
-			{
-				findRow = false;
-				break;
-			}
-		}
-		return findRow && findColumn;
+		if ( columnLevelList.isEmpty( ) && rowLevelList.isEmpty( ) )
+			return true;
+
+		return findValueMatcher( rs, memberList, valueMap, aggrIndex );
 	}
 	
 	/**
@@ -278,7 +230,6 @@ public class AggregationAccessor implements Accessor
 				else
 				{
 					start++;
-					state = 0;
 					continue;
 				}
 			}
@@ -291,50 +242,6 @@ public class AggregationAccessor implements Accessor
 				return false;
 		}
 		return find;
-	}
-
-	/**
-	 * If cursor in current position match with the edge value, do not need to
-	 * proceed on position, else return fasle to indicate cursor should move
-	 * on/back
-	 * 
-	 * @param rs
-	 * @param levelList
-	 * @param valueMap
-	 * @param aggrIndex
-	 * @return
-	 */
-	private boolean needToPreceedOnPosition( IAggregationResultSet rs,
-			List levelList, Map valueMap, int aggrIndex )
-	{
-		if ( levelList.isEmpty( ) )
-			return false;
-		boolean needed = true;
-		for ( int start = 0; start < levelList.size( ); start++ )
-		{
-			String levelName = levelList.get( start ).toString( );
-
-			Object value1 = valueMap.get( levelName );
-			Object value2 = rs.getLevelKeyValue( rs.getLevelIndex( levelName ) )[0];
-			if ( value1.equals( value2 ) )
-			{
-				if ( start == levelList.size( ) - 1 )
-				{
-					needed = false;
-					break;
-				}
-				else
-				{
-					continue;
-				}
-			}
-			else
-			{
-				needed = true;
-				break;
-			}
-		}
-		return needed;
 	}
 	
 	/*
