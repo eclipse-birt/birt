@@ -38,12 +38,12 @@ public class ChangeAreaCommand extends AbstractCrosstabCommand
 
 	DimensionViewHandle parentVewHandle;
 	DimensionViewHandle childViewHandle;
-	Map measureMap = new HashMap();
-	Map funcMap = new HashMap();
+	//Map measureMap = new HashMap();
+	//Map funcMap = new HashMap();
 	/**
 	 * Trans name
 	 */
-	private static final String NAME = "Add DiminsionView";
+	private static final String NAME = "Drop dimension handle";
 	
 	public ChangeAreaCommand(DesignElementHandle parent, DesignElementHandle child, Object after)
 	{
@@ -59,25 +59,25 @@ public class ChangeAreaCommand extends AbstractCrosstabCommand
 		
 		childViewHandle = CrosstabAdaptUtil.getDimensionViewHandle( CrosstabAdaptUtil.getExtendedItemHandle( child ) );
 		
-		int levelCount = childViewHandle.getLevelCount( );
-		for (int i=0; i<levelCount; i++)
-		{
-			LevelViewHandle levelViewHandle = childViewHandle.getLevel( i );
-			String name = levelViewHandle.getCubeLevel( ).getQualifiedName( );
-			
-			List measures = CrosstabUtil.getAggregationMeasures( levelViewHandle );
-			
-			List funcs = new ArrayList();
-			
-			for (int j=0; j<measures.size( ); j++)
-			{
-				String funcName = CrosstabUtil.getAggregationFunction( levelViewHandle, (MeasureViewHandle)measures.get( j ) );
-				funcs.add( funcName );
-			}
-			
-			measureMap.put( name, measures);
-			measureMap.put( name,  funcs);
-		}
+//		int levelCount = childViewHandle.getLevelCount( );
+//		for (int i=0; i<levelCount; i++)
+//		{
+//			LevelViewHandle levelViewHandle = childViewHandle.getLevel( i );
+//			String name = levelViewHandle.getCubeLevel( ).getQualifiedName( );
+//			
+//			List measures = CrosstabUtil.getAggregationMeasures( levelViewHandle );
+//			
+//			List funcs = new ArrayList();
+//			
+//			for (int j=0; j<measures.size( ); j++)
+//			{
+//				String funcName = CrosstabUtil.getAggregationFunction( levelViewHandle, (MeasureViewHandle)measures.get( j ) );
+//				funcs.add( funcName );
+//			}
+//			
+//			measureMap.put( name, measures);
+//			measureMap.put( name,  funcs);
+//		}
 	}
 	
 	public boolean canExecute( )

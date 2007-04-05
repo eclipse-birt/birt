@@ -20,13 +20,12 @@ import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.AddDimensionViewHandleCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.AddMeasureViewHandleCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.ChangeAreaCommand;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.ChangeMeasureOrderCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.CrosstabCellCreateCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.CrosstabFlowMoveChildCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.CrosstabPasterCommand;
-import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabTableEditPart;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.FirstLevelHandleDataItemEditPart;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
-import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabHandleAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.ICrosstabCellAdapterFactory;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
@@ -147,6 +146,16 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 				return new ChangeAreaCommand(parentAdapter.getDesignElementHandle( ), 
 						childAdapter.getDesignElementHandle( ),(DesignElementHandle) DNDUtil.unwrapToModel( afterObj ) );
 			}
+			else if (ICrosstabCellAdapterFactory.CELL_MEASURE.equals( childAdapter.getPositionType( ))
+					&& ICrosstabCellAdapterFactory.CELL_MEASURE.equals( parentAdapter.getPositionType( ) ))
+				{
+					if (afterObj != parentAdapter.getFirstDataItem( ))
+					{
+						afterObj = null;
+					}
+					return new ChangeMeasureOrderCommand(parentAdapter.getDesignElementHandle( ), 
+							childAdapter.getDesignElementHandle( ),(DesignElementHandle) DNDUtil.unwrapToModel( afterObj ) );
+				}
 		}
 		if (childParent instanceof CrosstabCellAdapter)
 		{	
