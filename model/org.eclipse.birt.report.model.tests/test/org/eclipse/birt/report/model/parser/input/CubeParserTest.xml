@@ -138,6 +138,7 @@
     						<property name="function">min</property>
     						<property name="measureExpression">column</property>
     						<property name="isCalculated">false</property>
+    						<property name="dataType">string</property>
     					</tabular-measure>
     				</property>
     			</tabular-measure-group>

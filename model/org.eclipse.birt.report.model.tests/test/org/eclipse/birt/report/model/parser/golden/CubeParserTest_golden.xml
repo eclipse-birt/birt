@@ -133,6 +133,7 @@
                             <property name="function">count</property>
                             <property name="isCalculated">true</property>
                             <expression name="measureExpression">updated column</expression>
+                            <property name="dataType">boolean</property>
                         </tabular-measure>
                         <tabular-measure name="NewTabularMeasure" id="24"/>
                     </property>

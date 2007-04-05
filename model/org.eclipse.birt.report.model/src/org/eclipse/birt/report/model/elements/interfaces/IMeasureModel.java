@@ -39,4 +39,9 @@ public interface IMeasureModel
 	 */
 
 	static final String IS_CALCULATED_PROP = "isCalculated"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property that gives out the data type of this measure.
+	 */
+	static final String DATA_TYPE_PROP = "dataType"; //$NON-NLS-1$
 }

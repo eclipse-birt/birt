@@ -3420,6 +3420,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IMeasureModel.FUNCTION_PROP );
 		property( obj, IMeasureModel.IS_CALCULATED_PROP );
 		property( obj, IMeasureModel.MEASURE_EXPRESSION_PROP );
+		property( obj, IMeasureModel.DATA_TYPE_PROP );
 	}
 
 	/*

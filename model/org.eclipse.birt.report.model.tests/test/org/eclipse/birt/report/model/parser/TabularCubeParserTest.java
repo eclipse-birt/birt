@@ -246,6 +246,8 @@ public class TabularCubeParserTest extends BaseTestCase
 		assertEquals( DesignChoiceConstants.MEASURE_FUNCTION_MIN, measure
 				.getFunction( ) );
 		assertFalse( measure.isCalculated( ) );
+		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING, measure
+				.getDataType( ) );
 
 	}
 
@@ -377,7 +379,7 @@ public class TabularCubeParserTest extends BaseTestCase
 		propHandle.insertItem( rule, 0 );
 		propHandle = level.getPropertyHandle( LevelHandle.ATTRIBUTES_PROP );
 		propHandle.removeItem( propHandle.get( 1 ) );
-		
+
 		LevelAttribute config = new LevelAttribute( );
 		config.setName( "var3" ); //$NON-NLS-1$
 		config.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN );
@@ -425,6 +427,7 @@ public class TabularCubeParserTest extends BaseTestCase
 				+ measure.getMeasureExpression( ) );
 		measure.setFunction( DesignChoiceConstants.MEASURE_FUNCTION_COUNT );
 		measure.setCalculated( true );
+		measure.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN );
 
 		save( );
 
@@ -452,7 +455,7 @@ public class TabularCubeParserTest extends BaseTestCase
 		{
 
 		}
-		
+
 		IDesignElement clonedCube = cube.copy( );
 		assertNotNull( clonedCube );
 		designHandle.rename( clonedCube.getHandle( design ) );
