@@ -74,14 +74,14 @@ public class TotalCrosstabCellHandleAdapter extends CrosstabCellAdapter
 	 */
 	public boolean equals( Object obj )
 	{
-		if ( obj == getCrosstabItemHandle( ) )
-		{
-			return true;
-		}
-		if ( obj instanceof CrosstabHandleAdapter )
-		{
-			return getCrosstabItemHandle( ) == ( (CrosstabHandleAdapter) obj ).getCrosstabItemHandle( );
-		}
+//		if ( obj == getCrosstabItemHandle( ) )
+//		{
+//			return true;
+//		}
+//		if ( obj instanceof CrosstabHandleAdapter )
+//		{
+//			return getCrosstabItemHandle( ) == ( (CrosstabHandleAdapter) obj ).getCrosstabItemHandle( );
+//		}
 		return super.equals( obj );
 	}
 }

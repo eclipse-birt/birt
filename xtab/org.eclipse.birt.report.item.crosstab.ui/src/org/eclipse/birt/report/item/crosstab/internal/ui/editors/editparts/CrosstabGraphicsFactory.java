@@ -40,10 +40,11 @@ public class CrosstabGraphicsFactory implements EditPartFactory
 		{
 			if ( model instanceof DataItemHandle )
 			{
-				String position = ( (CrosstabCellEditPart) context ).getCrosstabCellAdapter( )
-						.getPositionType( );
-				if ( ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE.equals( position ) 
-						|| ICrosstabCellAdapterFactory.CELL_MEASURE.equals( position ))
+				CrosstabCellAdapter adapter = ( (CrosstabCellEditPart) context ).getCrosstabCellAdapter( );
+				String position = adapter.getPositionType( );
+				
+				if ( (ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE.equals( position ) 
+						|| ICrosstabCellAdapterFactory.CELL_MEASURE.equals( position )) && adapter.getFirstDataItem( ) == model)
 				{
 					FirstLevelHandleDataItemEditPart first = new FirstLevelHandleDataItemEditPart(model);
 					first.setManager( createMenuManager( position, context.getViewer( )));
