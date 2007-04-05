@@ -32,7 +32,7 @@ import org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.api.cube.IHierarchy;
 import org.eclipse.birt.data.engine.olap.api.cube.ILevelDefn;
 import org.eclipse.birt.data.engine.olap.api.cube.StopSign;
-import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExcutorHelper;
+import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.data.api.ISelection;
@@ -201,8 +201,8 @@ public class CubeAggregationTest extends TestCase
 	private void testCubeAggregation1( IDocumentManager documentManager ) throws IOException, DataException, BirtException
 	{
 		//query
-		CubeQueryExcutorHelper cubeQueryExcutorHelper = new CubeQueryExcutorHelper( 
-				CubeQueryExcutorHelper.loadCube( "cube", documentManager, new StopSign( ) ) );
+		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
+				CubeQueryExecutorHelper.loadCube( "cube", documentManager, new StopSign( ) ) );
 		ISelection[][] filter = new ISelection[1][1];
 		filter[0][0] = SelectionFactory.createRangeSelection(  new Object[]{"1"},
 				 new Object[]{"3"},
@@ -361,7 +361,7 @@ public class CubeAggregationTest extends TestCase
 		Cube cube = new Cube( "cube", documentManager );
 		
 		cube.create( dimensions, factTable2, measureColumnName, new StopSign( ) );
-		CubeQueryExcutorHelper cubeQueryExcutorHelper = new CubeQueryExcutorHelper( cube );
+		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( cube );
 		ISelection[][] filter = new ISelection[1][1];
 		filter[0][0] = SelectionFactory.createRangeSelection(  new Object[]{"1"},
 				 new Object[]{"3"},

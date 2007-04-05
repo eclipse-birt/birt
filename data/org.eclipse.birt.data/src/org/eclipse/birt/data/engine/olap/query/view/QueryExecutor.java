@@ -27,7 +27,7 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.impl.CubeQueryExecutor;
-import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExcutorHelper;
+import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentManagerFactory;
@@ -60,7 +60,7 @@ public class QueryExecutor
 		ICube cube = loadCube( executor );
 		AggregationDefinition[] aggrDefns = prepareCube( cube,
 				executor.getCubeQueryDefinition( ) );
-		CubeQueryExcutorHelper cubeQueryExcutorHelper = new CubeQueryExcutorHelper( cube );
+		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( cube );
 		cubeQueryExcutorHelper.addJSFilter( executor.getDimensionFilterEvalHelpers( ) );
 		
 		IAggregationResultSet[] rs = cubeQueryExcutorHelper.execute( aggrDefns,
@@ -81,7 +81,7 @@ public class QueryExecutor
 		IDocumentManager documentManager;
 		documentManager = getDocumentManager( executor );
 
-		cube = CubeQueryExcutorHelper.loadCube( executor.getCubeQueryDefinition( ).getName( ),
+		cube = CubeQueryExecutorHelper.loadCube( executor.getCubeQueryDefinition( ).getName( ),
 				documentManager,
 				new StopSign( ) );
 

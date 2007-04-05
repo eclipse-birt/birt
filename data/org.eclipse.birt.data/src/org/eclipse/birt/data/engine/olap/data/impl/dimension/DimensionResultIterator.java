@@ -82,7 +82,7 @@ public class DimensionResultIterator implements IDimensionResultIterator
 	public int getDimesionPosition( )
 			throws BirtException, IOException
 	{
-		return currentPosition;
+		return ((Integer)(dimensionPosition.get( currentPosition ))).intValue();
 	}
 
 	/*
