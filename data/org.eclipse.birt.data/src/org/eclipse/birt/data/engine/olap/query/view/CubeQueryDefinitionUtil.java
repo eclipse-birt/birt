@@ -89,7 +89,9 @@ class CubeQueryDefinitionUtil
 				calculatedMember[index] = new CalculatedMember( measureDefn.getName( ),
 						measureDefn.getName( ),
 						levelList,
-						BuiltInAggregationFactory.TOTAL_SUM_FUNC,
+						measureDefn.getAggrFunction( ) == null
+								? BuiltInAggregationFactory.TOTAL_SUM_FUNC
+								: measureDefn.getAggrFunction( ),
 						0 );
 				calculatedMemberList.add( calculatedMember[index] );
 				index++;

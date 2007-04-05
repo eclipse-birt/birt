@@ -27,7 +27,8 @@ import javax.olap.cursor.Time;
 import javax.olap.cursor.Timestamp;
 
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.olap.driver.DimensionAxis;
+import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
+import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.driver.IResultSet;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
 import org.eclipse.birt.data.engine.olap.query.view.BirtEdgeView;
@@ -35,10 +36,17 @@ import org.eclipse.birt.data.engine.olap.query.view.MeasureNameManager;
 import org.eclipse.birt.data.engine.olap.query.view.RelationShip;
 
 /**
- * This class is to access all aggregation value's. It will match values with
- * its associated edge. If they are matched, return accessor's current value, or
- * move next to do the match again.
+ * This class is to access all aggregation value's according to its resultset ID
+ * and its index. Aggregation with same aggrOn level list will be assigned with
+ * same resultset ID during preparation.
  * 
+ * Firstly, we will do match on its row edge, then on its column edge. It's
+ * better to define one aggragation in sequence of that in consideration of
+ * efficiency.It will match values with its associated edge. If they are
+ * matched, return accessor's current value, or move down/up to do the match
+ * again based on the logic of sort dircetion on this level.
+ * 
+ * If there is no match find in cube cursor, 'null' value will be returned.
  */
 public class AggregationAccessor implements Accessor
 {
@@ -46,6 +54,7 @@ public class AggregationAccessor implements Accessor
 	private IResultSet resultSet;
 	private Map relationMap;
 	private MeasureNameManager manager;
+	private int[] currentPosition;
 	
 	/**
 	 * 
@@ -57,16 +66,41 @@ public class AggregationAccessor implements Accessor
 	public AggregationAccessor( BirtCubeView view, IResultSet result,
 			Map relationMap, MeasureNameManager manager )
 	{
-		if ( result == null )
-			return;
 		this.resultSet = result;
 		this.view = view;
 		this.relationMap = relationMap;
 		this.manager = manager;
+
+		if ( result == null || result.getMeasureResult( ) == null )
+			return;
+
+		this.currentPosition = new int[this.resultSet.getMeasureResult( ).length];
+		// initial aggregation resultset position to 0 if possible
+		for ( int i = 0; i < this.resultSet.getMeasureResult( ).length; i++ )
+		{
+			try
+			{
+				if ( this.resultSet.getMeasureResult( )[i].getQueryResultSet( )
+						.length( ) > 0 )
+				{
+					this.resultSet.getMeasureResult( )[i].getQueryResultSet( )
+							.seek( 0 );
+					currentPosition[i] = 0;
+				}
+				else
+				{
+					currentPosition[i] = -1;
+				}
+			}
+			catch ( IOException e )
+			{
+				//do nothing
+			}
+		}
 	}
 
 	/**
-	 * 
+	 *  
 	 * @param aggrIndex
 	 * @throws OLAPException
 	 * @throws IOException
@@ -74,31 +108,36 @@ public class AggregationAccessor implements Accessor
 	private boolean populateRelation( int aggrIndex, String aggrName ) throws OLAPException,
 			IOException
 	{
-		DimensionAxis axis = this.resultSet.getMeasureResult( )[aggrIndex].getDimensionAxis( 0 );
+		IAggregationResultSet rs = this.resultSet.getMeasureResult( )[aggrIndex].getQueryResultSet( );
+	
+		if ( rs == null || rs.length( )<=0 )
+			return false;
+		
 		EdgeCursor rowEdgeCursor = null, columnEdgeCursor = null;
+		List columnDimList = null, rowDimList = null;
 		if ( this.view.getRowEdgeView( ) != null )
+		{
 			rowEdgeCursor = (EdgeCursor) ( (BirtEdgeView) this.view.getRowEdgeView( ) ).getEdgeCursor( );
+			if ( rowEdgeCursor != null )
+				rowDimList = rowEdgeCursor.getDimensionCursor( );
+		}
 		if ( this.view.getColumnEdgeView( ) != null )
+		{
 			columnEdgeCursor = (EdgeCursor) ( (BirtEdgeView) this.view.getColumnEdgeView( ) ).getEdgeCursor( );
-
+			if ( columnEdgeCursor != null )
+				columnDimList = columnEdgeCursor.getDimensionCursor( );
+		}
+		
 		RelationShip relation = (RelationShip) this.relationMap.get( aggrName );
-
 		List columnLevelList = relation.getLevelListOnColumn( );
 		List rowLevelList = relation.getLevelListOnRow( );
 
-		List columnDimList =null, rowDimList= null;
-		if ( columnEdgeCursor != null )
-			columnDimList = columnEdgeCursor.getDimensionCursor( );
-		if ( rowEdgeCursor != null )
-			rowDimList = rowEdgeCursor.getDimensionCursor( );
-
-		boolean findColumn = false, findRow = false;
 		Map columnValueMap = new HashMap( );
 		Map rowValueMap = new HashMap( );
+	
 		for ( int i = 0; i < columnLevelList.size( ); i++ )
 		{
 			String levelName = columnLevelList.get( i ).toString( );
-
 			DimensionCursor cursor = (DimensionCursor) columnDimList.get( i );
 			Object value = cursor.getObject( levelName );
 			columnValueMap.put( levelName, value );
@@ -106,89 +145,196 @@ public class AggregationAccessor implements Accessor
 		for ( int i = 0; i < rowLevelList.size( ); i++ )
 		{
 			String levelName = rowLevelList.get( i ).toString( );
-
 			DimensionCursor cursor = (DimensionCursor) rowDimList.get( i );
 			Object value = cursor.getObject( levelName );
 			rowValueMap.put( levelName, value );
 		}
-
-		if( columnLevelList.isEmpty( ) )
-			findColumn = true;
-		if( rowLevelList.isEmpty( ) )
-			findRow = true;
 		
-		int position = 0;
-		if ( axis.getAssociationQueryResultSet( ).length( ) <= 0 )
-			return true;
-		else
-			axis.getAssociationQueryResultSet( ).seek( position );
-		while ( !findColumn || !findRow )
-		{
-			for ( int i = 0; i < columnLevelList.size( ); i++ )
-			{
-				String levelName = columnLevelList.get( i ).toString( );
+		boolean findColumn = false, findRow = false;
+		if ( columnLevelList.isEmpty( ) )
+			findColumn = true;
+		if ( rowLevelList.isEmpty( ) )
+			findRow = true;
 
-				Object value1 = columnValueMap.get( levelName );
-				Object value2 = axis.getAssociationQueryResultSet( )
-						.getLevelKeyValue( axis.getAssociationQueryResultSet( )
-								.getLevelIndex( levelName ) )[0];
-				if ( value1.equals( value2 ) )
+		while ( !findRow || !findColumn )
+		{
+			if ( findValueMatcher( rs, rowLevelList, rowValueMap, aggrIndex ) )
+			{
+				findRow = true;
+				if ( !needToPreceedOnPosition( rs,
+						columnLevelList,
+						columnValueMap,
+						aggrIndex ) )
 				{
-					if ( i == columnLevelList.size( ) - 1 )
-					{
-						findColumn = true;
-						break;
-					}
-					else
-						continue;
+					findColumn = true;
+					break;
 				}
 				else
 				{
 					findColumn = false;
-					break;
-				}
-			}
-			if ( findColumn )
-			{
-				for ( int j = 0; j < rowLevelList.size( ); j++ )
-				{
-					String levelName = rowLevelList.get( j ).toString( );
-					Object value1 = rowValueMap.get( levelName );
-
-					Object value2 = axis.getAssociationQueryResultSet( )
-							.getLevelKeyValue( axis.getAssociationQueryResultSet( )
-									.getLevelIndex( levelName ) )[0];
-					if ( value1.equals( value2 ) )
+					if ( findValueMatcher( rs,
+							columnLevelList,
+							columnValueMap,
+							aggrIndex ) )
 					{
-						if ( j == rowLevelList.size( ) - 1 )
+						findColumn = true;
+						if ( !needToPreceedOnPosition( rs,
+								rowLevelList,
+								rowValueMap,
+								aggrIndex ) )
 						{
 							findRow = true;
 							break;
 						}
-						continue;
+						else
+						{
+							findColumn = false;
+							continue;
+						}
 					}
 					else
 					{
-						findRow = false;
+						findColumn = false;
 						break;
 					}
 				}
 			}
-			if ( findRow && findColumn )
+			else
 			{
+				findRow = false;
 				break;
 			}
-			else if ( position < axis.getAssociationQueryResultSet( ).length( ) - 1 )
+		}
+		return findRow && findColumn;
+	}
+	
+	/**
+	 * Find the value matcher in cube cursor. Based on sort direction and
+	 * compared result, decide to move on/back along resultset.
+	 * 
+	 * @param rs
+	 * @param levelList
+	 * @param valueMap
+	 * @param aggrIndex
+	 * @return
+	 */
+	private boolean findValueMatcher( IAggregationResultSet rs, List levelList,
+			Map valueMap, int aggrIndex )
+	{
+		if ( levelList.isEmpty( ) )
+			return true;
+		int start = 0, state = 0;
+		boolean find = false;
+		for ( ; start < levelList.size( ); )
+		{
+			String levelName = levelList.get( start ).toString( );
+
+			Object value1 = valueMap.get( levelName );
+			Object value2 = rs.getLevelKeyValue( rs.getLevelIndex( levelName ) )[0];
+			int sortType = rs.getSortType( rs.getLevelIndex( levelName ) ) == IDimensionSortDefn.SORT_DESC
+					? -1 : 1;
+			int direction = sortType
+					* ( (Comparable) value1 ).compareTo( value2 ) < 0 ? -1
+					: ( (Comparable) value1 ).compareTo( value2 ) == 0 ? 0 : 1;
+			if ( direction < 0
+					&& currentPosition[aggrIndex] > 0
+					&& ( state == 0 || state == direction ) )
 			{
-				axis.getAssociationQueryResultSet( ).seek( ++position );
+				state = direction;
+				try
+				{
+					rs.seek( --currentPosition[aggrIndex] );
+				}
+				catch ( IOException e )
+				{
+					find = false;
+				}
+				start = 0;
+				continue;
+			}
+			else if ( direction > 0
+					&& currentPosition[aggrIndex] < rs.length( )
+					&& ( state == 0 || state == direction ) )
+			{
+				state = direction;
+				try
+				{
+					rs.seek( ++currentPosition[aggrIndex] );
+				}
+				catch ( IOException e )
+				{
+					find = false;
+				}
+				start = 0;
+				continue;
+			}
+			else if ( direction == 0 )
+			{
+				if ( start == levelList.size( ) - 1 )
+				{
+					find = true;
+					break;
+				}
+				else
+				{
+					start++;
+					state = 0;
+					continue;
+				}
+			}
+			else if ( currentPosition[aggrIndex] < 0
+					|| currentPosition[aggrIndex] >= rs.length( ) )
+			{
+				return false;
+			}
+			else
+				return false;
+		}
+		return find;
+	}
+
+	/**
+	 * If cursor in current position match with the edge value, do not need to
+	 * proceed on position, else return fasle to indicate cursor should move
+	 * on/back
+	 * 
+	 * @param rs
+	 * @param levelList
+	 * @param valueMap
+	 * @param aggrIndex
+	 * @return
+	 */
+	private boolean needToPreceedOnPosition( IAggregationResultSet rs,
+			List levelList, Map valueMap, int aggrIndex )
+	{
+		if ( levelList.isEmpty( ) )
+			return false;
+		boolean needed = true;
+		for ( int start = 0; start < levelList.size( ); start++ )
+		{
+			String levelName = levelList.get( start ).toString( );
+
+			Object value1 = valueMap.get( levelName );
+			Object value2 = rs.getLevelKeyValue( rs.getLevelIndex( levelName ) )[0];
+			if ( value1.equals( value2 ) )
+			{
+				if ( start == levelList.size( ) - 1 )
+				{
+					needed = false;
+					break;
+				}
+				else
+				{
+					continue;
+				}
 			}
 			else
 			{
-				return false;
-				//throw new OLAPException( ResourceConstants.CURSOR_SEEK_ERROR );
+				needed = true;
+				break;
 			}
 		}
-		return true;
+		return needed;
 	}
 	
 	/*
@@ -361,11 +507,13 @@ public class AggregationAccessor implements Accessor
 			int index = this.manager.getAggregationIndex( aggrName );
 			int id = this.manager.getAggregationResultID( aggrName );
 
-			if ( !populateRelation( index, aggrName ) )
-				return null;
-			else
+			if ( populateRelation( index, aggrName ) )
 				return this.resultSet.getMeasureResult( )[id].getQueryResultSet( )
-					.getAggregationValue( index );
+						.getAggregationValue( index );
+			else
+			{
+				return null;
+			}
 		}
 		catch ( IOException e )
 		{
@@ -386,11 +534,13 @@ public class AggregationAccessor implements Accessor
 		{
 			int id = this.manager.getAggregationResultID( arg0 );
 			int index = this.manager.getAggregationIndex( arg0 );
-			if ( !populateRelation( id, arg0 ))
-				return null;
-			else
+			if ( populateRelation( id, arg0 ) )
 				return this.resultSet.getMeasureResult( )[id].getQueryResultSet( )
-					.getAggregationValue( index );
+						.getAggregationValue( index );
+			else
+			{
+				return null;
+			}
 		}
 		catch ( IOException e )
 		{

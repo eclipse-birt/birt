@@ -63,6 +63,7 @@ public class AggregationCalculator
 				this.accumulators[i] = BuiltInAggregationFactory.getInstance( )
 						.getAggregation( aggregationFunction[i].getFunctionName( ) )
 						.newAccumulator( );
+				this.accumulators[i].start( );
 				this.measureIndex[i] = facttableRowIterator.getMeasureIndex( aggregationFunction[i].getMeasureName( ) );
 				if ( this.measureIndex[i] == -1 )
 				{

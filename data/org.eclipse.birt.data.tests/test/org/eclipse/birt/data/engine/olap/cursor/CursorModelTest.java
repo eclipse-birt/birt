@@ -403,7 +403,10 @@ public class CursorModelTest extends BaseTestCase
 		
 		List measureBindingNames = new ArrayList( );
 		measureBindingNames.add( "measure1" );
-		
+
+		List grandBindingNames = new ArrayList( );
+		grandBindingNames.add( "countryGrandTotal" );
+
 		try
 		{
 			this.printCubeAlongEdge( dataCursor,
@@ -413,7 +416,134 @@ public class CursorModelTest extends BaseTestCase
 					null,
 					null,
 					null,
-					"countryGrandTotal");
+					grandBindingNames );
+		}
+		catch ( Exception e )
+		{
+			fail( "fail to get here!" );
+		}
+	}
+	
+	/**
+	 * without measure
+	 * @throws OLAPException
+	 * @throws BirtException 
+	 */
+	public void testCursorWithoutMeasure( ) throws OLAPException, BirtException
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( CubeCreator.cubeName );
+
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition timeDim = columnEdge.createDimension( "time" );
+		IHierarchyDefinition timeHier = timeDim.createHierarchy( "timeHierarchy" );
+		timeHier.createLevel( "level21" );
+
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IDimensionDefinition geographyDim = rowEdge.createDimension( "geography" );
+		IHierarchyDefinition geographyHier = geographyDim.createHierarchy( "geographyHierarchy" );
+		geographyHier.createLevel( "level11" );
+		geographyHier.createLevel( "level12" );
+		geographyHier.createLevel( "level13" );
+
+		// Create cube view.
+		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor(cqd,this.scope,DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION, scope, null, null )) );
+
+		CubeCursor dataCursor = cubeView.getCubeCursor( );
+
+		List columnEdgeBindingNames = new ArrayList();
+		columnEdgeBindingNames.add( "level11" );
+		columnEdgeBindingNames.add( "level12" );
+		columnEdgeBindingNames.add( "level13" );	
+		
+		List rowEdgeBindingNames = new ArrayList();
+		rowEdgeBindingNames.add( "level21" );
+			
+		try
+		{
+			this.printCubeAlongEdge( dataCursor,
+					columnEdgeBindingNames,
+					rowEdgeBindingNames,
+					null,
+					null,
+					null,
+					null,
+					null );
+			dataCursor.getObject( "measure1" );
+		}
+		catch ( Exception e )
+		{
+			assertTrue( e instanceof OLAPException );
+		}
+	}
+	
+
+	/**
+	 * 
+	 * @throws OLAPException
+	 * @throws BirtException 
+	 */
+	public void testCursorModel6( ) throws OLAPException, BirtException
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( CubeCreator.cubeName );
+
+		cqd.createMeasure( "measure1" );
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition timeDim = columnEdge.createDimension( "time" );
+		IHierarchyDefinition timeHier = timeDim.createHierarchy( "timeHierarchy" );
+		timeHier.createLevel( "level21" );
+
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IDimensionDefinition geographyDim = rowEdge.createDimension( "geography" );
+		IHierarchyDefinition geographyHier = geographyDim.createHierarchy( "geographyHierarchy" );
+		geographyHier.createLevel( "level11" );
+		geographyHier.createLevel( "level13" );
+
+		IBinding rowGrandTotal = new Binding( "rowGrandTotal" );
+		rowGrandTotal.setAggrFunction( BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		rowGrandTotal.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		rowGrandTotal.addAggregateOn( "level21" );
+
+		IBinding columnGrandTotal = new Binding( "columnGrandTotal" );
+		columnGrandTotal.setAggrFunction( BuiltInAggregationFactory.TOTAL_AVE_FUNC );
+		columnGrandTotal.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		columnGrandTotal.addAggregateOn( "level11" );
+		columnGrandTotal.addAggregateOn( "level13" );
+		
+		IBinding totalGrandTotal = new Binding( "totalGrandTotal" );
+		totalGrandTotal.setAggrFunction( BuiltInAggregationFactory.TOTAL_COUNTDISTINCT_FUNC );
+		totalGrandTotal.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		
+		cqd.addBinding( rowGrandTotal );
+		cqd.addBinding( columnGrandTotal );
+		cqd.addBinding( totalGrandTotal );
+
+		// Create cube view.
+		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor(cqd,this.scope,DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION, scope, null, null )) );
+
+		CubeCursor dataCursor = cubeView.getCubeCursor( );
+
+		List columnEdgeBindingNames = new ArrayList();
+		columnEdgeBindingNames.add( "level11" );
+		columnEdgeBindingNames.add( "level13" );	
+		
+		List rowEdgeBindingNames = new ArrayList();
+		rowEdgeBindingNames.add( "level21" );
+		
+		List measureBindingNames = new ArrayList( );
+		measureBindingNames.add( "measure1" );
+		
+		List rowGrandTotalNames = new ArrayList();
+		rowGrandTotalNames.add( "rowGrandTotal" );
+				
+		try
+		{
+			this.printCubeAlongEdge( dataCursor,
+					columnEdgeBindingNames,
+					rowEdgeBindingNames,
+					measureBindingNames,
+					rowGrandTotalNames,
+					"columnGrandTotal",
+					"totalGrandTotal",null );
 		}
 		catch ( Exception e )
 		{
@@ -425,7 +555,7 @@ public class CursorModelTest extends BaseTestCase
 			List columnEdgeBindingNames, List rowEdgeBindingNames,
 			List measureBindingNames, List rowGrandTotal,
 			String columnGrandTotal, String totalGrandTotal,
-			String countryGrandTotal ) throws Exception
+			List countryGrandTotal ) throws Exception
 	{
 		EdgeCursor edge1 = (EdgeCursor) ( cursor.getOrdinateEdge( ).get( 0 ) );
 		EdgeCursor edge2 = (EdgeCursor) ( cursor.getOrdinateEdge( ).get( 1 ) );
@@ -470,18 +600,26 @@ public class CursorModelTest extends BaseTestCase
 				{
 					DimensionCursor countryCursor = (DimensionCursor) edge1.getDimensionCursor( )
 							.get( 0 );
-					for ( int j = 0; j < measureBindingNames.size( ); j++ )
+					if ( measureBindingNames != null )
 					{
-						line += cursor.getObject( measureBindingNames.get( j )
-								.toString( ) )
-								+ ",";
+						for ( int j = 0; j < measureBindingNames.size( ); j++ )
+						{
+							line += cursor.getObject( measureBindingNames.get( j )
+									.toString( ) )
+									+ ",";
+						}
+						if ( countryGrandTotal != null )
+							for ( int k = 0; k < countryGrandTotal.size( ); k++ )
+							{
+								if ( edge1.getPosition( ) == countryCursor.getEdgeEnd( )
+										&& countryGrandTotal != null )
+								{
+									line += cursor.getObject( countryGrandTotal.get( k )
+											.toString( ) );
+								}
+							}
+						line += " | ";
 					}
-					if ( edge1.getPosition( ) == countryCursor.getEdgeEnd( )
-							&& countryGrandTotal != null )
-					{
-						line += cursor.getObject( countryGrandTotal );
-					}
-					line += " | ";
 				}
 				if ( rowGrandTotal != null )
 				for ( int j = 0; j < rowGrandTotal.size( ); j++ )
