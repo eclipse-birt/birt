@@ -1,0 +1,617 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.12" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.0.v20070330 Build &lt;2.2.0.v20070402-0630></property>
+    <property name="units">in</property>
+    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <html-property name="description">Creates a blank report with no predefined content.</html-property>
+    <text-property name="displayName">Blank Report</text-property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Oracle" id="4">
+            <property name="odaDriverClass">oracle.jdbc.OracleDriver</property>
+            <property name="odaURL">jdbc:oracle:thin:@spmdb:1521:test</property>
+            <property name="odaUser">root</property>
+            <encrypted-property name="odaPassword"> root </encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Oracle" id="5">
+            <list-property name="filter">
+                <structure>
+                    <property name="operator">lt</property>
+                    <expression name="expr">row["SALES_ID"]</expression>
+                    <expression name="value1">9</expression>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">SALES_ID</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">CUSTOMERID</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">CUSTOMER_SEX</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">CUSTOMER_REGION</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">PRODUCTID</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">PRODUCT_NAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">PRODUCT_TYPE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">SOLD_DATE</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">QUANTITY_PRICE</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">QUANTITY</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Oracle</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">SALES_ID</property>
+                    <property name="nativeName">SALES_ID</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">2</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">CUSTOMERID</property>
+                    <property name="nativeName">CUSTOMERID</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">2</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">CUSTOMER_SEX</property>
+                    <property name="nativeName">CUSTOMER_SEX</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">CUSTOMER_REGION</property>
+                    <property name="nativeName">CUSTOMER_REGION</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">PRODUCTID</property>
+                    <property name="nativeName">PRODUCTID</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">PRODUCT_NAME</property>
+                    <property name="nativeName">PRODUCT_NAME</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">PRODUCT_TYPE</property>
+                    <property name="nativeName">PRODUCT_TYPE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">SOLD_DATE</property>
+                    <property name="nativeName">SOLD_DATE</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">QUANTITY_PRICE</property>
+                    <property name="nativeName">QUANTITY_PRICE</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">2</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">QUANTITY</property>
+                    <property name="nativeName">QUANTITY</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">2</property>
+                </structure>
+            </list-property>
+            <property name="queryText">select *
+from ROOT.OLAP_SALE</property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>1.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>SALES_ID</design:name>
+            <design:position>1</design:position>
+            <design:nativeDataTypeCode>2</design:nativeDataTypeCode>
+            <design:precision>38</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>SALES_ID</design:label>
+            <design:formattingHints>
+              <design:displaySize>22</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>CUSTOMERID</design:name>
+            <design:position>2</design:position>
+            <design:nativeDataTypeCode>2</design:nativeDataTypeCode>
+            <design:precision>38</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>CUSTOMERID</design:label>
+            <design:formattingHints>
+              <design:displaySize>22</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>CUSTOMER_SEX</design:name>
+            <design:position>3</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>10</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>CUSTOMER_SEX</design:label>
+            <design:formattingHints>
+              <design:displaySize>10</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>CUSTOMER_REGION</design:name>
+            <design:position>4</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>10</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>CUSTOMER_REGION</design:label>
+            <design:formattingHints>
+              <design:displaySize>10</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>PRODUCTID</design:name>
+            <design:position>5</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>2147483647</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>PRODUCTID</design:label>
+            <design:formattingHints>
+              <design:displaySize>0</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>PRODUCT_NAME</design:name>
+            <design:position>6</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>10</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>PRODUCT_NAME</design:label>
+            <design:formattingHints>
+              <design:displaySize>10</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>PRODUCT_TYPE</design:name>
+            <design:position>7</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>10</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>PRODUCT_TYPE</design:label>
+            <design:formattingHints>
+              <design:displaySize>10</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>SOLD_DATE</design:name>
+            <design:position>8</design:position>
+            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
+            <design:precision>0</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>SOLD_DATE</design:label>
+            <design:formattingHints>
+              <design:displaySize>7</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>QUANTITY_PRICE</design:name>
+            <design:position>9</design:position>
+            <design:nativeDataTypeCode>2</design:nativeDataTypeCode>
+            <design:precision>126</design:precision>
+            <design:scale>-127</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>QUANTITY_PRICE</design:label>
+            <design:formattingHints>
+              <design:displaySize>22</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>QUANTITY</design:name>
+            <design:position>10</design:position>
+            <design:nativeDataTypeCode>2</design:nativeDataTypeCode>
+            <design:precision>126</design:precision>
+            <design:scale>-127</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>QUANTITY</design:label>
+            <design:formattingHints>
+              <design:displaySize>22</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <cubes>
+        <tabular-cube name="Cube_0402" id="7">
+            <property name="defaultMeasureGroup">MeasureGroup</property>
+            <property name="dimensions">
+                <tabular-dimension name="Customer" id="9">
+                    <property name="defaultHierarchy">NewTabularHierarchy</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy" id="10">
+                            <property name="levels">
+                                <tabular-level name="CUSTOMER_SEX" id="11">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">CUSTOMER_SEX</property>
+                                </tabular-level>
+                                <tabular-level name="CUSTOMER_REGION" id="12">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">CUSTOMER_REGION</property>
+                                </tabular-level>
+                            </property>
+                            <property name="dataSet">Oracle</property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="Product" id="13">
+                    <property name="defaultHierarchy">NewTabularHierarchy1</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy1" id="14">
+                            <property name="levels">
+                                <tabular-level name="PRODUCT_TYPE" id="15">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">PRODUCT_TYPE</property>
+                                </tabular-level>
+                                <tabular-level name="PRODUCT_NAME" id="16">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">PRODUCT_NAME</property>
+                                </tabular-level>
+                            </property>
+                            <property name="dataSet">Oracle</property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="Group" id="230">
+                    <property name="defaultHierarchy">NewTabularHierarchy2</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy2" id="231">
+                            <property name="levels">
+                                <tabular-level name="QUANTITY_PRICE1" id="232">
+                                    <property name="dataType">decimal</property>
+                                    <property name="columnName">QUANTITY_PRICE</property>
+                                </tabular-level>
+                            </property>
+                            <property name="dataSet">Oracle</property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+            </property>
+            <property name="measureGroups">
+                <tabular-measure-group name="MeasureGroup" id="8">
+                    <property name="measures">
+                        <tabular-measure name="QUANTITY" id="335">
+                            <expression name="measureExpression">dataSetRow["QUANTITY"]</expression>
+                        </tabular-measure>
+                        <tabular-measure name="QUANTITY_PRICE" id="336">
+                            <expression name="measureExpression">dataSetRow["QUANTITY_PRICE"]</expression>
+                        </tabular-measure>
+                    </property>
+                </tabular-measure-group>
+            </property>
+            <property name="dataSet">Oracle</property>
+        </tabular-cube>
+    </cubes>
+    <styles>
+        <style name="crosstab" id="106">
+            <property name="borderBottomColor">#0080FF</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">thin</property>
+            <property name="borderLeftColor">#0080FF</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">thin</property>
+            <property name="borderRightColor">#0080FF</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">thin</property>
+            <property name="borderTopColor">#0080FF</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">thin</property>
+        </style>
+        <style name="crosstab-cell" id="107">
+            <property name="borderBottomColor">#0080FF</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">thin</property>
+            <property name="borderLeftColor">#0080FF</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">thin</property>
+            <property name="borderRightColor">#0080FF</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">thin</property>
+            <property name="borderTopColor">#0080FF</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">thin</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <extended-item extensionName="Crosstab" id="355">
+            <property name="cube">Cube_0402</property>
+            <property name="measures">
+                <extended-item extensionName="MeasureView" id="372">
+                    <property name="measure">QUANTITY</property>
+                    <property name="detail">
+                        <extended-item extensionName="CrosstabCell" id="373">
+                            <property name="content">
+                                <data name="QUANTITY" id="375">
+                                    <property name="resultSetColumn">QUANTITY</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="aggregations">
+                        <extended-item extensionName="AggregationCell" id="383">
+                            <property name="aggregationOnRow">CUSTOMER_REGION</property>
+                            <property name="aggregationOnColumn">PRODUCT_TYPE</property>
+                            <property name="content">
+                                <data id="384">
+                                    <property name="resultSetColumn">QUANTITY_CUSTOMER_REGION_PRODUCT_TYPE</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="header">
+                        <extended-item extensionName="CrosstabCell" id="374">
+                            <property name="content">
+                                <label id="376">
+                                    <text-property name="text">QUANTITY</text-property>
+                                </label>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+                <extended-item extensionName="MeasureView" id="377">
+                    <property name="measure">QUANTITY_PRICE</property>
+                    <property name="detail">
+                        <extended-item extensionName="CrosstabCell" id="378">
+                            <property name="content">
+                                <data name="QUANTITY_PRICE" id="380">
+                                    <property name="resultSetColumn">QUANTITY_PRICE</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="header">
+                        <extended-item extensionName="CrosstabCell" id="379">
+                            <property name="content">
+                                <label id="381">
+                                    <text-property name="text">QUANTITY_PRICE</text-property>
+                                </label>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="rows">
+                <extended-item extensionName="CrosstabView" id="356">
+                    <property name="views">
+                        <extended-item extensionName="DimensionView" id="357">
+                            <property name="dimension">Customer</property>
+                            <property name="levels">
+                                <extended-item extensionName="LevelView" name="NewLevel View" id="358">
+                                    <property name="level">CUSTOMER_SEX</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="359">
+                                            <property name="content">
+                                                <data name="CUSTOMER_SEX" id="360">
+                                                    <property name="resultSetColumn">CUSTOMER_SEX</property>
+                                                </data>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                                <extended-item extensionName="LevelView" name="NewLevel View2" id="366">
+                                    <property name="level">CUSTOMER_REGION</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="367">
+                                            <property name="content">
+                                                <data name="CUSTOMER_REGION" id="368">
+                                                    <property name="resultSetColumn">CUSTOMER_REGION</property>
+                                                </data>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="columns">
+                <extended-item extensionName="CrosstabView" id="361">
+                    <property name="views">
+                        <extended-item extensionName="DimensionView" id="362">
+                            <property name="dimension">Product</property>
+                            <property name="levels">
+                                <extended-item extensionName="LevelView" name="NewLevel View1" id="363">
+                                    <property name="level">PRODUCT_TYPE</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="364">
+                                            <property name="content">
+                                                <data name="PRODUCT_TYPE" id="365">
+                                                    <property name="resultSetColumn">PRODUCT_TYPE</property>
+                                                </data>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                    <property name="aggregationHeader">
+                                        <extended-item extensionName="CrosstabCell" id="382">
+                                            <property name="content">
+                                                <label id="385">
+                                                    <text-property name="text">[PRODUCT_TYPE]TOTAL</text-property>
+                                                </label>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                                <extended-item extensionName="LevelView" name="NewLevel View3" id="369">
+                                    <property name="level">PRODUCT_NAME</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="370">
+                                            <property name="content">
+                                                <data name="PRODUCT_NAME" id="371">
+                                                    <property name="resultSetColumn">PRODUCT_NAME</property>
+                                                </data>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+            </property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">CUSTOMER_SEX</property>
+                    <expression name="expression">dimension["Customer"]["CUSTOMER_SEX"]</expression>
+                    <property name="dataType">any</property>
+                </structure>
+                <structure>
+                    <property name="name">PRODUCT_TYPE</property>
+                    <expression name="expression">dimension["Product"]["PRODUCT_TYPE"]</expression>
+                    <property name="dataType">any</property>
+                </structure>
+                <structure>
+                    <property name="name">CUSTOMER_REGION</property>
+                    <expression name="expression">dimension["Customer"]["CUSTOMER_REGION"]</expression>
+                    <property name="dataType">any</property>
+                </structure>
+                <structure>
+                    <property name="name">PRODUCT_NAME</property>
+                    <expression name="expression">dimension["Product"]["PRODUCT_NAME"]</expression>
+                    <property name="dataType">any</property>
+                </structure>
+                <structure>
+                    <property name="name">QUANTITY</property>
+                    <expression name="expression">measure["QUANTITY"]</expression>
+                    <property name="dataType">any</property>
+                </structure>
+                <structure>
+                    <property name="name">QUANTITY_PRICE</property>
+                    <expression name="expression">measure["QUANTITY_PRICE"]</expression>
+                    <property name="dataType">any</property>
+                </structure>
+                <structure>
+                    <property name="name">QUANTITY_CUSTOMER_REGION_PRODUCT_TYPE</property>
+                    <expression name="expression">measure["QUANTITY"]</expression>
+                    <simple-property-list name="aggregateOn">
+                        <value>CUSTOMER_REGION</value>
+                        <value>PRODUCT_TYPE</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">count</property>
+                </structure>
+            </list-property>
+        </extended-item>
+    </body>
+</report>
