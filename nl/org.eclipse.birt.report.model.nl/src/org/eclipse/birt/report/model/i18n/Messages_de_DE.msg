@@ -2963,6 +2963,7 @@ Element.Level.valueAccessControls=Wertzugriffsteuerungen
 Element.Measure.function=Funktion
 Element.Measure.isCalculated=Wird berechnet
 Element.Measure.measureExpression=Ausdruck für Maßeinheit
+Element.Measure.dataType=Datentyp
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=Einheiten

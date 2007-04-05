@@ -2963,6 +2963,7 @@ Element.Level.valueAccessControls=值访问控制
 Element.Measure.function=函数
 Element.Measure.isCalculated=是计算的
 Element.Measure.measureExpression=度量表达式
+Element.Measure.dataType=数据类型
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=度量

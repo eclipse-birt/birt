@@ -2963,6 +2963,7 @@ Element.Level.valueAccessControls=값 액세스 컨트롤
 Element.Measure.function=함수
 Element.Measure.isCalculated=계산 조건
 Element.Measure.measureExpression=측정 식
+Element.Measure.dataType=데이터 형식
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=측정값

@@ -2963,6 +2963,7 @@ Element.Level.valueAccessControls=Controles de acceso de valor
 Element.Measure.function=Función
 Element.Measure.isCalculated=Se calcula
 Element.Measure.measureExpression=Expresión de medida
+Element.Measure.dataType=Tipo de datos
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=Medidas

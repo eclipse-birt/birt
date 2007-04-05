@@ -2963,6 +2963,7 @@ Element.Level.valueAccessControls=値へのアクセスコントロール
 Element.Measure.function=関数
 Element.Measure.isCalculated=Is Calculated
 Element.Measure.measureExpression=計測式
+Element.Measure.dataType=データ型
 
 #50. MeasureGroup ( prefix Element.MeasureGroup )
 Element.MeasureGroup.measures=計測
