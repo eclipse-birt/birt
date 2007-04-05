@@ -1466,9 +1466,9 @@ public class ReportEngineService
 
 						try
 						{
-							value = cvsConvertor( (String) DataTypeUtil
+							value = csvConvertor( (String) DataTypeUtil
 									.convert( iData.getValue( columnNames[0] ),
-											DataType.STRING_TYPE ) );
+											DataType.STRING_TYPE ), sep );
 						}
 						catch ( Exception e )
 						{
@@ -1486,10 +1486,10 @@ public class ReportEngineService
 
 							try
 							{
-								value = cvsConvertor( (String) DataTypeUtil
+								value = csvConvertor( (String) DataTypeUtil
 										.convert( iData
 												.getValue( columnNames[i] ),
-												DataType.STRING_TYPE ) );
+												DataType.STRING_TYPE ), sep );
 							}
 							catch ( Exception e )
 							{
@@ -1548,7 +1548,7 @@ public class ReportEngineService
 	/**
 	 * CSV format convertor. Here is the rule.
 	 * 
-	 * 1) Fields with embedded commas must be delimited with double-quote
+	 * 1) Fields with given separator must be delimited with double-quote
 	 * characters. 2) Fields that contain double quote characters must be
 	 * surounded by double-quotes, and the embedded double-quotes must each be
 	 * represented by a pair of consecutive double quotes. 3) A field that
@@ -1557,10 +1557,12 @@ public class ReportEngineService
 	 * double-quote characters.
 	 * 
 	 * @param value
-	 * @return the cvs format string value
+	 * @param sep
+	 * @return the csv format string value
 	 * @throws RemoteException
 	 */
-	private String cvsConvertor( String value ) throws RemoteException
+	private String csvConvertor( String value, char sep )
+			throws RemoteException
 	{
 		if ( value == null )
 		{
@@ -1570,7 +1572,7 @@ public class ReportEngineService
 		value = value.replaceAll( "\"", "\"\"" ); //$NON-NLS-1$  //$NON-NLS-2$
 
 		boolean needQuote = false;
-		needQuote = ( value.indexOf( ',' ) != -1 )
+		needQuote = ( value.indexOf( sep ) != -1 )
 				|| ( value.indexOf( '"' ) != -1 )
 				|| ( value.indexOf( 0x0A ) != -1 )
 				|| value.startsWith( " " ) || value.endsWith( " " ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -1586,6 +1588,7 @@ public class ReportEngineService
 	 * @param task
 	 * @param configVars
 	 * @param locale
+	 * @deprecated
 	 * @return map of the request parameters
 	 */
 	public HashMap parseParameters( HttpServletRequest request,
@@ -1863,6 +1866,14 @@ public class ReportEngineService
 	public String getMIMEType( String format )
 	{
 		return engine.getMIMEType( format );
+	}
+
+	/**
+	 * Returns the engine config
+	 */
+	public EngineConfig getEngineConfig( )
+	{
+		return config;
 	}
 
 	/**

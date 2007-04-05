@@ -159,7 +159,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			if ( oInput && oInput.length > 0 )
 			{
 				var oLastInput = oInput[oInput.length - 1];
-				if ( oLastInput.name == "isCascade" )
+				if ( oLastInput.id == "isCascade" )
 					oCascadeFlag = oLastInput.value;
 			}
 						
@@ -286,15 +286,12 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 						}
 						
 						// check if allow blank
-						if( oIEC[5] && oIEC[5].id == 'isNotBlank' )
+						if( this.__is_parameter_not_allowblank( oIEC ) 
+							&& birtUtility.trim( paramValue ) == '' && this.visible )
 						{
-							// not allow blank
-							if( birtUtility.trim( paramValue ) == '' && this.visible )
-							{
-								oIEC[2].focus( );
-								alert( paramName + ' cannot be blank' );
-								return false;
-							}
+							oIEC[2].focus( );
+							alert( paramName + ' cannot be blank' );
+							return false;
 						}
 													
 						// set parameter value
@@ -342,16 +339,13 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 					}
 					
 					// check if allow blank
-					if( oIEC[4] && oIEC[4].id == 'isNotBlank' )
+					if( this.__is_parameter_not_allowblank( oIEC ) 
+						&& birtUtility.trim( paramValue ) == '' && this.visible )
 					{
-						// not allow blank
-						if( birtUtility.trim( paramValue ) == '' && this.visible )
-						{
-							oIEC[1].focus( );
-							alert( paramName + ' cannot be blank' );
-							return false;
-						}
-					}				
+						oIEC[1].focus( );
+						alert( paramName + ' cannot be blank' );
+						return false;
+					}
 						
 					// set parameter value
 					if( !this.__parameter[k] )
@@ -573,7 +567,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 		for( var i = 0; i< oInputs.length; i++ )
 		{
 			// if find defined input control
-			if( oInputs[i].id == 'isNotBlank' && oInputs[i].value == 'true' )
+			if( oInputs[i].id == 'isRequired' && oInputs[i].value == 'true' )
 			{
 				flag = true;
 				break;		
@@ -687,7 +681,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 		if ( oInput && oInput.length > 0 )
 		{
 			var oLastInput = oInput[oInput.length - 1];
-			if ( oLastInput.name == "isCascade" )
+			if ( oLastInput.id == "isCascade" )
 				oCascadeFlag = oLastInput.value;
 		}
 			

@@ -79,7 +79,7 @@
 		}
 	}	
 
-	if ( parameterBean.allowNull( ) )
+	if ( !parameterBean.isRequired( ) )
 	{
 %>
 	<INPUT TYPE="RADIO"

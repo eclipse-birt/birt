@@ -83,7 +83,7 @@
 <%
 	if ( parameterBean.getSelectionList( ) != null )
 	{
-		if( parameterBean.isCascade( ) || parameterBean.allowBlank( ) )
+		if( parameterBean.isCascade( ) || !parameterBean.isRequired( ) )
 		{
 %>
 		<OPTION></OPTION>
@@ -128,7 +128,7 @@
 			}
 		}
 	}
-	if ( parameterBean.allowNull( ) )
+	if ( !parameterBean.isRequired( ) )
 	{
 %>
 		<OPTION VALUE="" <%= ( paramValue == null )? "SELECTED" : ""%> >Null Value</OPTION>
@@ -163,21 +163,15 @@
 			>		
 	<%
 	  }
-	  
-	  if ( !parameterBean.allowBlank( ) )
-	  {
 	%>
-			<INPUT TYPE="HIDDEN"
-				ID="isNotBlank"  
-				NAME="<%= encodedParameterName %>"
-				VALUE = "true">
+		<INPUT TYPE="HIDDEN" ID="isRequired" 
+			VALUE = "<%= parameterBean.isRequired( )? "true": "false" %>">
+			
 	<%
-	  }
-
 	if ( parameterBean.isCascade( ) )
 	{
 	%>
-		<INPUT TYPE="HIDDEN" NAME="<%=IBirtConstants.IS_CASCADE%>" VALUE="true"/>
+		<INPUT TYPE="HIDDEN" ID="<%=IBirtConstants.IS_CASCADE%>" VALUE="true"/>
 	<%
 	}
 	%>

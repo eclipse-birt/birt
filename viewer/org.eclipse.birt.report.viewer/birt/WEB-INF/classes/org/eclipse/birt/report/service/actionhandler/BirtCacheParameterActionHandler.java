@@ -73,7 +73,8 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 		}
 
 		// Generate the session handle
-		SessionHandle sessionHandle = DesignEngine.newSession( ULocale.US );
+		SessionHandle sessionHandle = new DesignEngine( null )
+				.newSessionHandle( ULocale.US );
 
 		File configFile = new File( configFileName );
 

@@ -48,7 +48,7 @@
 	<TD NOWRAP WIDTH="100%">
 	<INPUT TYPE="HIDDEN" ID="control_type" VALUE="text">
 <%
-	if ( parameterBean.allowNull( ) )
+	if ( !parameterBean.isRequired( ) )
 	{
 %>	
 		<LABEL FOR="<%= encodedParameterName + "_radio_notnull" %>" CLASS="birtviewer_hidden_label">Input text</LABEL>	
@@ -58,15 +58,14 @@
 			<%= (parameterBean.getValue( ) != null)? "CHECKED" : "" %>>
 <%
 	}
-%>
-	
+%>	
 		<INPUT CLASS="BirtViewer_parameter_dialog_Input"
 			TYPE="<%= parameterBean.isValueConcealed( )? "PASSWORD" : "TEXT" %>"
 			NAME="<%= encodedParameterName %>"
 			ID="<%= encodedParameterName %>" 
 			TITLE="<%= parameterBean.getToolTip( ) %>"
 			VALUE="<%= ParameterAccessor.htmlEncode( ( parameterBean.getDisplayText( ) == null )? "" : parameterBean.getDisplayText( ) ) %>" 
-			<%= ( parameterBean.allowNull( ) && parameterBean.getValue( ) == null )? "DISABLED='true'" : "" %>
+			<%= ( !parameterBean.isRequired( ) && parameterBean.getValue( ) == null )? "DISABLED='true'" : "" %>
             >
 
 		<INPUT TYPE="HIDDEN"
@@ -77,18 +76,9 @@
 		<INPUT TYPE="HIDDEN"
 			ID="<%= encodedParameterName + "_displayText" %>"
 			VALUE="<%= ParameterAccessor.htmlEncode( ( parameterBean.getDisplayText( ) == null )? "" : parameterBean.getDisplayText( ) ) %>"
-			>	
+			>
 <%
-	if ( !parameterBean.allowBlank( ) )
-	{
-%>
-		<INPUT TYPE="HIDDEN" ID="isNotBlank" NAME="<%= encodedParameterName %>"	VALUE = "true">
-<%
-	}
-%>            
-
-<%
-	if ( parameterBean.allowNull( ) )
+	if ( !parameterBean.isRequired( ) )
 	{
 %>
 		<BR>
@@ -100,5 +90,8 @@
 <%
 	}
 %>
+
+		<INPUT TYPE="HIDDEN" ID="isRequired" 
+			VALUE = "<%= parameterBean.isRequired( )? "true": "false" %>">
 	</TD>
 </TR>

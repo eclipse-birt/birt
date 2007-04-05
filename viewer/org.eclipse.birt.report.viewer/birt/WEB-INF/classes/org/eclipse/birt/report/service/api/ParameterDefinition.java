@@ -38,6 +38,8 @@ public class ParameterDefinition
 	public static final int TYPE_DATE_TIME = 4;
 	public static final int TYPE_BOOLEAN = 5;
 	public static final int TYPE_INTEGER = 6;
+	public static final int TYPE_DATE = 7;
+	public static final int TYPE_TIME = 8;
 
 	public static final int SELECTION_LIST_NONE = 0;
 	public static final int SELECTION_LIST_DYNAMIC = 1;

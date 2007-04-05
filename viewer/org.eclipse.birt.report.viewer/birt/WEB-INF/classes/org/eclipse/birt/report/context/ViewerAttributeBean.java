@@ -322,7 +322,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			return;
 
 		// Generate the session handle
-		SessionHandle sessionHandle = DesignEngine.newSession( ULocale.US );
+		SessionHandle sessionHandle = new DesignEngine( null )
+				.newSessionHandle( ULocale.US );
 		ReportDesignHandle handle = null;
 
 		try

@@ -99,6 +99,7 @@ public class ScalarParameterBean extends ParameterAttributeBean
 	/**
 	 * Adapt to IScalarParameterDefn's allowNull( ).
 	 * 
+	 * @deprecated
 	 * @return whether parameter value allows null.
 	 */
 	public boolean allowNull( )
@@ -114,6 +115,7 @@ public class ScalarParameterBean extends ParameterAttributeBean
 	/**
 	 * Adapt to IScalarParameterDefn's allowBlank( ).
 	 * 
+	 * @deprecated
 	 * @return whether parameter value allows blank.
 	 */
 	public boolean allowBlank( )

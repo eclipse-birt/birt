@@ -368,7 +368,7 @@ public class BirtUtility
 				continue;
 			}
 
-			if ( parameterValue == null && !parameterObj.allowNull( ) )
+			if ( parameterValue == null && parameterObj.isRequired( ) )
 			{
 				missingParameter = true;
 				break;
@@ -379,7 +379,7 @@ public class BirtUtility
 				String parameterStringValue = (String) parameterValue;
 				if ( parameterStringValue != null
 						&& parameterStringValue.length( ) <= 0
-						&& !parameterObj.allowBlank( ) )
+						&& parameterObj.isRequired( ) )
 				{
 					missingParameter = true;
 					break;
