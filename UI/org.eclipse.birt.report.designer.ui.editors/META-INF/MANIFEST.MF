@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Rdt Plug-in
+Bundle-Name: BIRT MultipageEditor Extension Point Plug-in
 Bundle-SymbolicName: org.eclipse.birt.report.designer.ui.editors;singleton:=true
 Bundle-Version: 2.2.0.qualifier
 Bundle-Activator: org.eclipse.birt.report.designer.ui.editors.Activator
