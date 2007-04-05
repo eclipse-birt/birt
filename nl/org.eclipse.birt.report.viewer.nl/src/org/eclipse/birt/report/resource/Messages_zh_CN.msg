@@ -12,7 +12,7 @@
 birt.viewer.title=BIRT Report Viewer
 birt.viewer.title.navigation=µ¼º½¡¡
 birt.viewer.title.error=´íÎó
-birt.viewer.title.complete=Complete
+birt.viewer.title.complete=Íê³É
 
 birt.viewer.parameter=²ÎÊı
 birt.viewer.runreport=ÔËĞĞ±¨±í
@@ -24,19 +24,19 @@ birt.viewer.restore=ÏÔÊ¾±¨±í²ÎÊı
 
 birt.viewer.error=´íÎóÏûÏ¢
 birt.viewer.error.noparameter=´Ë±¨±íÎŞ²ÎÊı¡£
-birt.viewer.error.noprinter=Cannot find any avaiable printer that supports postscript format.
+birt.viewer.error.noprinter=ÎŞ·¨ÕÒµ½Ö§³Ö PostScript ¸ñÊ½µÄÈÎºÎ¿ÉÓÃ´òÓ¡»ú¡£
 
 ###############################################################################
 # Toolbar
 ###############################################################################
 birt.viewer.toolbar.print=ÒÔ PDF ¸ñÊ½´òÓ¡±¨±í
-birt.viewer.toolbar.printserver=Print report on the server
+birt.viewer.toolbar.printserver=ÔÚ·şÎñÆ÷ÉÏ´òÓ¡±¨±í
 birt.viewer.toolbar.toc=ÏÔÊ¾Ä¿Â¼
 birt.viewer.toolbar.parameter=ÔËĞĞ±¨±í
 birt.viewer.toolbar.export=µ¼³öÊı¾İ
 birt.viewer.toolbar.font=¸ü¸Ä×ÖÌå
 birt.viewer.toolbar.enableiv=µ÷ÓÃ½»»¥Ê½²é¿´Æ÷
-birt.viewer.toolbar.exportreport=Export report
+birt.viewer.toolbar.exportreport=µ¼³ö±¨±í
 
 ###############################################################################
 # navbar
@@ -64,10 +64,10 @@ birt.viewer.dialog.cancel=È¡Ïû
 birt.viewer.dialog.run=ÔËĞĞ±¨±í
 birt.viewer.dialog.close=¹Ø±Õ
 
-birt.viewer.dialog.page.all=All pages
-birt.viewer.dialog.page.current=Current page
-birt.viewer.dialog.page.range=Pages:
-birt.viewer.dialog.page.range.description=( Enter page number(s) and/or page range(s). For example: 1-6 or 1,3,6 )
+birt.viewer.dialog.page.all=ËùÓĞÒ³
+birt.viewer.dialog.page.current=µ±Ç°Ò³
+birt.viewer.dialog.page.range=Ò³:
+birt.viewer.dialog.page.range.description=(ÊäÈëÒ³ÂëºÍ/»òÒ³·¶Î§¡£ÀıÈç: 1-6 »ò 1,3,6)
 
 ###############################################################################
 # Dialog title
@@ -76,7 +76,7 @@ birt.viewer.dialog.exception.title=ÀıÍâ
 birt.viewer.dialog.exportReport.title=µ¼³ö±¨±í
 birt.viewer.dialog.parameter.title=²ÎÊı
 birt.viewer.dialog.simpleExportData.title=µ¼³öÊı¾İ
-birt.viewer.dialog.printReport.title=Print report on the server
+birt.viewer.dialog.printReport.title=ÔÚ·şÎñÆ÷ÉÏ´òÓ¡±¨±í
 
 ###############################################################################
 # Export report dialog 
@@ -89,38 +89,38 @@ birt.viewer.dialog.export.all.detail=½«µ¼³öËùÓĞ¿ÉÓÃ±¨±íÊı¾İ£¬²»¿¼ÂÇ<br>µ±Ç°ÊÓÍ¼µ
 birt.viewer.dialog.export.modified=µ¼³ö¾ßÓĞµ±Ç°ĞŞ¸ÄµÄ±¨±í
 birt.viewer.dialog.export.modified.detail=½«Ö»µ¼³ö¿É¼ûÊı¾İ¡£½«²»µ¼³ö<BR>ÒÑ±»É¸Ñ¡µô»òÒş²ØµÄÊı¾İ¡£
 
-birt.viewer.dialog.export.pdf.fittoactual=Actual size
-birt.viewer.dialog.export.pdf.fittowidth=Fit to page width
-birt.viewer.dialog.export.pdf.fittowhole=Fit to whole page
+birt.viewer.dialog.export.pdf.fittoactual=Êµ¼Ê´óĞ¡
+birt.viewer.dialog.export.pdf.fittowidth=ÊÊºÏÒ³Ãæ¿í¶È
+birt.viewer.dialog.export.pdf.fittowhole=ÊÊºÏÕûÒ³
 
 ###############################################################################
 # Print report dialog 
 ###############################################################################
-birt.viewer.dialog.print.onserver=Print the output document file on the server
-birt.viewer.dialog.print.printer=Printer:
-birt.viewer.dialog.print.status=Status:
-birt.viewer.dialog.print.model=Model:
-birt.viewer.dialog.print.description=Description:
-accepting-jobs=Accepting Jobs
+birt.viewer.dialog.print.onserver=ÔÚ·şÎñÆ÷ÉÏ´òÓ¡Êä³öÎÄµµÎÄ¼ş
+birt.viewer.dialog.print.printer=´òÓ¡»ú:
+birt.viewer.dialog.print.status=×´Ì¬:
+birt.viewer.dialog.print.model=ĞÍºÅ:
+birt.viewer.dialog.print.description=ÃèÊö:
+accepting-jobs=ÕıÔÚ½ÓÊÜ×÷Òµ
 
-birt.viewer.dialog.print.settings=Please specify print settings
-birt.viewer.dialog.print.settings.copies=Number of copies:
-birt.viewer.dialog.print.settings.collate=Collate:
-birt.viewer.dialog.print.settings.mode=Mode:
-birt.viewer.dialog.print.settings.mode.bw=B&W
-birt.viewer.dialog.print.settings.mode.color=Color
-birt.viewer.dialog.print.settings.duplex=Duplex:
-birt.viewer.dialog.print.settings.duplex.simplex=Simplex
-birt.viewer.dialog.print.settings.duplex.horizontal=Horizontal
-birt.viewer.dialog.print.settings.duplex.vertical=Vertical
-birt.viewer.dialog.print.settings.pagesize=Page size:
+birt.viewer.dialog.print.settings=ÇëÖ¸¶¨´òÓ¡ÉèÖÃ
+birt.viewer.dialog.print.settings.copies=·İÊı:
+birt.viewer.dialog.print.settings.collate=Öğ·İ´òÓ¡:
+birt.viewer.dialog.print.settings.mode=Ä£Ê½:
+birt.viewer.dialog.print.settings.mode.bw=ºÚ°×
+birt.viewer.dialog.print.settings.mode.color=²ÊÉ«
+birt.viewer.dialog.print.settings.duplex=Ë«¹¤:
+birt.viewer.dialog.print.settings.duplex.simplex=µ¥¹¤
+birt.viewer.dialog.print.settings.duplex.horizontal=Ë®Æ½
+birt.viewer.dialog.print.settings.duplex.vertical=´¹Ö±
+birt.viewer.dialog.print.settings.pagesize=Ò³Ãæ´óĞ¡:
 
-birt.viewer.dialog.print.complete=Sent document file to the selected printer on the server.
+birt.viewer.dialog.print.complete=ÒÑ½«ÎÄµµÎÄ¼ş·¢ËÍµ½·şÎñÆ÷ÉÏÑ¡ÔñµÄ´òÓ¡»ú¡£
 
 ###############################################################################
 # Confirmation dialog 
 ###############################################################################
-birt.viewer.dialog.confirmation.title=Confirmation
+birt.viewer.dialog.confirmation.title=È·ÈÏ
 ###############################################################################
 # Export data dialog 
 ###############################################################################

@@ -12,7 +12,7 @@
 birt.viewer.title=BIRT Report Viewer
 birt.viewer.title.navigation=ナビゲーション
 birt.viewer.title.error=エラー
-birt.viewer.title.complete=Complete
+birt.viewer.title.complete=完了
 
 birt.viewer.parameter=パラメタ
 birt.viewer.runreport=レポートの実行
@@ -24,19 +24,19 @@ birt.viewer.restore=レポートパラメタを表示します。
 
 birt.viewer.error=エラーメッセージ
 birt.viewer.error.noparameter=このレポートにはパラメタがありません。
-birt.viewer.error.noprinter=Cannot find any avaiable printer that supports postscript format.
+birt.viewer.error.noprinter=PostScript 形式をサポートする使用可能なプリンタが見つかりません。
 
 ###############################################################################
 # Toolbar
 ###############################################################################
 birt.viewer.toolbar.print=PDF 形式でレポートを印刷する
-birt.viewer.toolbar.printserver=Print report on the server
+birt.viewer.toolbar.printserver=レポートをサーバ上で印刷
 birt.viewer.toolbar.toc=目次の表示
 birt.viewer.toolbar.parameter=レポートの実行
 birt.viewer.toolbar.export=データのエクスポート
 birt.viewer.toolbar.font=フォントの変更
 birt.viewer.toolbar.enableiv=インタラクティブビューアの起動
-birt.viewer.toolbar.exportreport=Export report
+birt.viewer.toolbar.exportreport=レポートのエクスポート
 
 ###############################################################################
 # navbar
@@ -64,10 +64,10 @@ birt.viewer.dialog.cancel=キャンセル
 birt.viewer.dialog.run=レポートの実行
 birt.viewer.dialog.close=閉じる
 
-birt.viewer.dialog.page.all=All pages
-birt.viewer.dialog.page.current=Current page
-birt.viewer.dialog.page.range=Pages:
-birt.viewer.dialog.page.range.description=( Enter page number(s) and/or page range(s). For example: 1-6 or 1,3,6 )
+birt.viewer.dialog.page.all=すべてのページ
+birt.viewer.dialog.page.current=現在のページ
+birt.viewer.dialog.page.range=ページ :
+birt.viewer.dialog.page.range.description=(ページ番号をコンマで区切って指定するか、ページ範囲を指定してください。例 : 1-6 または 1,3,6)
 
 ###############################################################################
 # Dialog title
@@ -76,7 +76,7 @@ birt.viewer.dialog.exception.title=例外
 birt.viewer.dialog.exportReport.title=レポートのエクスポート
 birt.viewer.dialog.parameter.title=パラメタ
 birt.viewer.dialog.simpleExportData.title=データのエクスポート
-birt.viewer.dialog.printReport.title=Print report on the server
+birt.viewer.dialog.printReport.title=レポートをサーバ上で印刷
 
 ###############################################################################
 # Export report dialog 
@@ -89,38 +89,38 @@ birt.viewer.dialog.export.all.detail=現在のビューで変更した内容は反映せずに、<br
 birt.viewer.dialog.export.modified=現在の変更をレポートに反映してエクスポートする
 birt.viewer.dialog.export.modified.detail=表示されているデータだけをエクスポートします。<BR>フィルタによって隠されているデータはエクスポートされません。
 
-birt.viewer.dialog.export.pdf.fittoactual=Actual size
-birt.viewer.dialog.export.pdf.fittowidth=Fit to page width
-birt.viewer.dialog.export.pdf.fittowhole=Fit to whole page
+birt.viewer.dialog.export.pdf.fittoactual=実寸
+birt.viewer.dialog.export.pdf.fittowidth=ページの幅に合わせる
+birt.viewer.dialog.export.pdf.fittowhole=全体表示
 
 ###############################################################################
 # Print report dialog 
 ###############################################################################
-birt.viewer.dialog.print.onserver=Print the output document file on the server
-birt.viewer.dialog.print.printer=Printer:
-birt.viewer.dialog.print.status=Status:
-birt.viewer.dialog.print.model=Model:
-birt.viewer.dialog.print.description=Description:
-accepting-jobs=Accepting Jobs
+birt.viewer.dialog.print.onserver=出力文書ファイルをサーバ上で印刷する
+birt.viewer.dialog.print.printer=プリンタ :
+birt.viewer.dialog.print.status=状態 :
+birt.viewer.dialog.print.model=モデル :
+birt.viewer.dialog.print.description=説明 :
+accepting-jobs=ジョブの受信中
 
-birt.viewer.dialog.print.settings=Please specify print settings
-birt.viewer.dialog.print.settings.copies=Number of copies:
-birt.viewer.dialog.print.settings.collate=Collate:
-birt.viewer.dialog.print.settings.mode=Mode:
-birt.viewer.dialog.print.settings.mode.bw=B&W
-birt.viewer.dialog.print.settings.mode.color=Color
-birt.viewer.dialog.print.settings.duplex=Duplex:
-birt.viewer.dialog.print.settings.duplex.simplex=Simplex
-birt.viewer.dialog.print.settings.duplex.horizontal=Horizontal
-birt.viewer.dialog.print.settings.duplex.vertical=Vertical
-birt.viewer.dialog.print.settings.pagesize=Page size:
+birt.viewer.dialog.print.settings=印刷設定を指定してください。
+birt.viewer.dialog.print.settings.copies=部数 :
+birt.viewer.dialog.print.settings.collate=部単位で印刷 :
+birt.viewer.dialog.print.settings.mode=モード :
+birt.viewer.dialog.print.settings.mode.bw=モノクロ
+birt.viewer.dialog.print.settings.mode.color=カラー
+birt.viewer.dialog.print.settings.duplex=両面印刷 :
+birt.viewer.dialog.print.settings.duplex.simplex=片面印刷
+birt.viewer.dialog.print.settings.duplex.horizontal=横
+birt.viewer.dialog.print.settings.duplex.vertical=縦
+birt.viewer.dialog.print.settings.pagesize=用紙サイズ :
 
-birt.viewer.dialog.print.complete=Sent document file to the selected printer on the server.
+birt.viewer.dialog.print.complete=文書ファイルをサーバ上の選択したプリンタに送信しました。
 
 ###############################################################################
 # Confirmation dialog 
 ###############################################################################
-birt.viewer.dialog.confirmation.title=Confirmation
+birt.viewer.dialog.confirmation.title=確認
 ###############################################################################
 # Export data dialog 
 ###############################################################################

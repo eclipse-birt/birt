@@ -12,7 +12,7 @@
 birt.viewer.title=BIRT Report Viewer
 birt.viewer.title.navigation=Navegación
 birt.viewer.title.error=Error
-birt.viewer.title.complete=Complete
+birt.viewer.title.complete=Completado
 
 birt.viewer.parameter=Parámetro
 birt.viewer.runreport=Ejecutar informe
@@ -24,19 +24,19 @@ birt.viewer.restore=Mostrar parámetros de informe
 
 birt.viewer.error=Mensaje de error
 birt.viewer.error.noparameter=No hay ningún parámetro para este informe.
-birt.viewer.error.noprinter=Cannot find any avaiable printer that supports postscript format.
+birt.viewer.error.noprinter=No se puede encontrar ninguna impresora disponible compatible con el formato postscript.
 
 ###############################################################################
 # Toolbar
 ###############################################################################
 birt.viewer.toolbar.print=Imprimir informe como PDF
-birt.viewer.toolbar.printserver=Print report on the server
+birt.viewer.toolbar.printserver=Imprimir informe en el servidor
 birt.viewer.toolbar.toc=Mostrar tabla de contenido
 birt.viewer.toolbar.parameter=Ejecutar informe
 birt.viewer.toolbar.export=Exportar datos
 birt.viewer.toolbar.font=Cambiar fuente
 birt.viewer.toolbar.enableiv=Llamar a Interactive Viewer
-birt.viewer.toolbar.exportreport=Export report
+birt.viewer.toolbar.exportreport=Exportar informe
 
 ###############################################################################
 # navbar
@@ -64,10 +64,10 @@ birt.viewer.dialog.cancel=Cancelar
 birt.viewer.dialog.run=Ejecutar informe
 birt.viewer.dialog.close=Cerrar
 
-birt.viewer.dialog.page.all=All pages
-birt.viewer.dialog.page.current=Current page
-birt.viewer.dialog.page.range=Pages:
-birt.viewer.dialog.page.range.description=( Enter page number(s) and/or page range(s). For example: 1-6 or 1,3,6 )
+birt.viewer.dialog.page.all=Todas las páginas
+birt.viewer.dialog.page.current=Página actual
+birt.viewer.dialog.page.range=Páginas:
+birt.viewer.dialog.page.range.description=(Introduzca el número o intervalo de páginas, por ejemplo, 1-6 o 1,3,6 )
 
 ###############################################################################
 # Dialog title
@@ -76,7 +76,7 @@ birt.viewer.dialog.exception.title=Excepción
 birt.viewer.dialog.exportReport.title=Exportar informe
 birt.viewer.dialog.parameter.title=Parámetro
 birt.viewer.dialog.simpleExportData.title=Exportar datos
-birt.viewer.dialog.printReport.title=Print report on the server
+birt.viewer.dialog.printReport.title=Imprimir informe en el servidor
 
 ###############################################################################
 # Export report dialog 
@@ -89,38 +89,38 @@ birt.viewer.dialog.export.all.detail=Se exportarán todos los datos disponibles d
 birt.viewer.dialog.export.modified=Exportar informe con modificaciones actuales
 birt.viewer.dialog.export.modified.detail=Sólo se exportarán los datos visibles. No se exportarán los datos que se<BR>filtraron u ocultaron.
 
-birt.viewer.dialog.export.pdf.fittoactual=Actual size
-birt.viewer.dialog.export.pdf.fittowidth=Fit to page width
-birt.viewer.dialog.export.pdf.fittowhole=Fit to whole page
+birt.viewer.dialog.export.pdf.fittoactual=Tamaño real
+birt.viewer.dialog.export.pdf.fittowidth=Ajustar a ancho de página
+birt.viewer.dialog.export.pdf.fittowhole=Ajustar a toda la página
 
 ###############################################################################
 # Print report dialog 
 ###############################################################################
-birt.viewer.dialog.print.onserver=Print the output document file on the server
-birt.viewer.dialog.print.printer=Printer:
-birt.viewer.dialog.print.status=Status:
-birt.viewer.dialog.print.model=Model:
-birt.viewer.dialog.print.description=Description:
-accepting-jobs=Accepting Jobs
+birt.viewer.dialog.print.onserver=Imprimir el archivo de documento de salida en el servidor:
+birt.viewer.dialog.print.printer=Impresora:
+birt.viewer.dialog.print.status=Estado:
+birt.viewer.dialog.print.model=Modelo:
+birt.viewer.dialog.print.description=Descripción:
+accepting-jobs=Aceptando trabajos
 
-birt.viewer.dialog.print.settings=Please specify print settings
-birt.viewer.dialog.print.settings.copies=Number of copies:
-birt.viewer.dialog.print.settings.collate=Collate:
-birt.viewer.dialog.print.settings.mode=Mode:
-birt.viewer.dialog.print.settings.mode.bw=B&W
+birt.viewer.dialog.print.settings=Especifique los ajustes de impresora
+birt.viewer.dialog.print.settings.copies=Número de copias:
+birt.viewer.dialog.print.settings.collate=Intercalar:
+birt.viewer.dialog.print.settings.mode=Modo:
+birt.viewer.dialog.print.settings.mode.bw=B&N
 birt.viewer.dialog.print.settings.mode.color=Color
-birt.viewer.dialog.print.settings.duplex=Duplex:
-birt.viewer.dialog.print.settings.duplex.simplex=Simplex
+birt.viewer.dialog.print.settings.duplex=Doble cara:
+birt.viewer.dialog.print.settings.duplex.simplex=Una cara
 birt.viewer.dialog.print.settings.duplex.horizontal=Horizontal
 birt.viewer.dialog.print.settings.duplex.vertical=Vertical
-birt.viewer.dialog.print.settings.pagesize=Page size:
+birt.viewer.dialog.print.settings.pagesize=Tamaño de papel:
 
-birt.viewer.dialog.print.complete=Sent document file to the selected printer on the server.
+birt.viewer.dialog.print.complete=Archivo de documento enviado a la impresora seleccionada en el servidor.
 
 ###############################################################################
 # Confirmation dialog 
 ###############################################################################
-birt.viewer.dialog.confirmation.title=Confirmation
+birt.viewer.dialog.confirmation.title=Confirmación
 ###############################################################################
 # Export data dialog 
 ###############################################################################
