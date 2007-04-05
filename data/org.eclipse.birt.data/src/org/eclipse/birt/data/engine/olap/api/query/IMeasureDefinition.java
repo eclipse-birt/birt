@@ -17,5 +17,15 @@ package org.eclipse.birt.data.engine.olap.api.query;
 
 public interface IMeasureDefinition extends INamedObject 
 {
-
+	/**
+	 * Return the name of aggr function used by this measure during cube query.
+	 * @return
+	 */
+	public String getAggrFunction();
+	
+	/**
+	 * Set the name of aggr function used by this measure during cube query.
+	 * @param name
+	 */
+	public void setAggrFunction( String name );
 }
