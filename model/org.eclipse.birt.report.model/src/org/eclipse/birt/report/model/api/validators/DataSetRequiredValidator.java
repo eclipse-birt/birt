@@ -20,10 +20,8 @@ import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
-import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITabularCubeModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
@@ -72,8 +70,7 @@ public class DataSetRequiredValidator extends AbstractElementValidator
 
 	public List validate( Module module, DesignElement element )
 	{
-		if ( !( element instanceof ListingElement
-				|| element instanceof ExtendedItem || element instanceof Cube ) )
+		if ( !( element instanceof ListingElement || element instanceof Cube ) )
 			return Collections.EMPTY_LIST;
 
 		return doValidate( module, element );
@@ -87,11 +84,9 @@ public class DataSetRequiredValidator extends AbstractElementValidator
 		ContainerContext containerInfo = null;
 
 		boolean dataSetFound = false;
-		if ( toValidate instanceof ExtendedItem || toValidate instanceof Cube )
+		if ( toValidate instanceof Cube )
 		{
-			String propName = toValidate instanceof ExtendedItem
-					? IReportItemModel.DATA_SET_PROP
-					: ITabularCubeModel.DATA_SET_PROP;
+			String propName = ITabularCubeModel.DATA_SET_PROP;
 			if ( toValidate.getReferenceProperty( module, propName ) != null )
 			{
 				dataSetFound = true;

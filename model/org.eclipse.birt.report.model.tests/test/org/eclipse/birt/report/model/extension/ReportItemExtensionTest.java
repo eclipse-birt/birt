@@ -1328,7 +1328,6 @@ public class ReportItemExtensionTest extends BaseTestCase
 		ExtendedItemHandle itemHandle = insertExtendedItem(
 				"matrix1", TESTING_MATRIX_NAME ); //$NON-NLS-1$
 
-		List propDefns = itemHandle.getElement( ).getPropertyDefns( );
 		ExtendedItem element = (ExtendedItem) itemHandle.getElement( );
 
 		assertFalse( element.getExtDefn( ).isPropertyVisible(
@@ -1352,11 +1351,9 @@ public class ReportItemExtensionTest extends BaseTestCase
 		openDesign( fileName_4 );
 
 		List list = designHandle.getErrorList( );
-		assertEquals( 2, list.size( ) );
+		assertEquals( 1, list.size( ) );
 
 		int i = 0;
-		assertEquals( SemanticError.DESIGN_EXCEPTION_MISSING_DATA_SET,
-				( (ErrorDetail) list.get( i++ ) ).getErrorCode( ) );
 		assertEquals( SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND,
 				( (ErrorDetail) list.get( i++ ) ).getErrorCode( ) );
 
@@ -1443,11 +1440,9 @@ public class ReportItemExtensionTest extends BaseTestCase
 		openDesign( fileName_5 );
 
 		List list = designHandle.getErrorList( );
-		assertEquals( 2, list.size( ) );
+		assertEquals( 1, list.size( ) );
 
 		int i = 0;
-		assertEquals( SemanticError.DESIGN_EXCEPTION_MISSING_DATA_SET,
-				( (ErrorDetail) list.get( i++ ) ).getErrorCode( ) );
 		assertEquals( SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION,
 				( (ErrorDetail) list.get( i++ ) ).getErrorCode( ) );
 
@@ -1606,7 +1601,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 	{
 		openDesign( fileName_6 );
 
-		assertEquals( 3, design.getErrorList( ).size( ) );
+		assertEquals( 2, design.getErrorList( ).size( ) );
 
 		assertEquals(
 				"org.eclipse.birt.report.model.api.extension.ExtendedElementException", //$NON-NLS-1$
@@ -1615,11 +1610,6 @@ public class ReportItemExtensionTest extends BaseTestCase
 		assertEquals(
 				"org.eclipse.birt.report.model.api.extension.ExtendedElementException", //$NON-NLS-1$
 				( (ErrorDetail) design.getErrorList( ).get( 1 ) )
-						.getExceptionName( ) );
-
-		assertEquals(
-				"org.eclipse.birt.report.model.api.elements.SemanticError", //$NON-NLS-1$
-				( (ErrorDetail) design.getErrorList( ).get( 2 ) )
 						.getExceptionName( ) );
 
 		// move an extended item, which is originally in report-items slot of a
@@ -1631,7 +1621,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 		assertNotNull( extendedHandle );
 		extendedHandle.moveTo( designHandle, ReportDesign.BODY_SLOT );
 		designHandle.checkReport( );
-		assertEquals( 4, design.getErrorList( ).size( ) );
+		assertEquals( 2, design.getErrorList( ).size( ) );
 
 		assertEquals(
 				"org.eclipse.birt.report.model.api.extension.ExtendedElementException", //$NON-NLS-1$
@@ -1639,18 +1629,10 @@ public class ReportItemExtensionTest extends BaseTestCase
 						.getExceptionName( ) );
 
 		assertEquals(
-				"org.eclipse.birt.report.model.api.elements.SemanticError", //$NON-NLS-1$
+				"org.eclipse.birt.report.model.api.extension.ExtendedElementException", //$NON-NLS-1$
 				( (ErrorDetail) design.getErrorList( ).get( 1 ) )
 						.getExceptionName( ) );
-		assertEquals(
-				"org.eclipse.birt.report.model.api.extension.ExtendedElementException", //$NON-NLS-1$
-				( (ErrorDetail) design.getErrorList( ).get( 2 ) )
-						.getExceptionName( ) );
 
-		assertEquals(
-				"org.eclipse.birt.report.model.api.elements.SemanticError", //$NON-NLS-1$
-				( (ErrorDetail) design.getErrorList( ).get( 3 ) )
-						.getExceptionName( ) );
 	}
 
 	/**
@@ -1740,7 +1722,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 	public void testLocalizedMessage( ) throws Exception
 	{
 		openDesign( fileName_8, ULocale.ENGLISH );
-		assertEquals( 2, design.getErrorList( ).size( ) );
+		assertEquals( 1, design.getErrorList( ).size( ) );
 
 		ErrorDetail eDetail = (ErrorDetail) design.getErrorList( ).get( 0 );
 		String localizedMessage = eDetail.getMessage( );
@@ -1759,7 +1741,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 	{
 		openDesign( fileName_9, ULocale.ENGLISH );
 
-		assertEquals( 2, design.getErrorList( ).size( ) );
+		assertEquals( 1, design.getErrorList( ).size( ) );
 
 		ErrorDetail eDetail = (ErrorDetail) design.getErrorList( ).get( 0 );
 		String localizedMessage = eDetail.getMessage( );
