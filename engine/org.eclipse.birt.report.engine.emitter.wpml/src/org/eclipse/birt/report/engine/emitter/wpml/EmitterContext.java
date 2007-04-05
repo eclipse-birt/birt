@@ -66,6 +66,10 @@ public class EmitterContext
 	{
 		wlist.addLast ( new Integer ( w ) );
 	}
+	
+	public void resetWidth() {
+		wlist.removeAll(wlist);
+	}
 
 	public int getCurrentWidth ( )
 	{
