@@ -156,6 +156,38 @@ public class BufferedRandomAccessObjectTest extends TestCase
 		assertEquals(documentObject.read( bytes, 0, bytes.length ), -1);
 		documentObject.close( );
 	}
+	
+	public void testByteA( ) throws IOException
+	{
+		BlockRandomAccessObject documentObject = new BlockRandomAccessObject(
+				new BufferedRandomAccessFile(new File(tmpPath
+						+ File.separatorChar + "testByteA1"), "rw", 1024),
+				"testByteA2", 0, 0, new DocumentObjectAllocatedTable());
+		byte[] bytes = new byte[15978];
+		for (int i = 0; i < bytes.length; i++) 
+		{
+			bytes[i] = (byte) (i % 128);
+		}
+		documentObject.seek( 0 );
+		documentObject.write( bytes, 0, bytes.length );
+		documentObject.seek( 0 );
+		byte[] tBytes = new byte[4096];
+		assertEquals(documentObject.read( tBytes, 0, 10 ), 10);
+		assertEquals(documentObject.read( tBytes, 10, tBytes.length-10 ), tBytes.length-10);
+		System.arraycopy(tBytes, 0, bytes, 0, tBytes.length);
+		assertEquals(documentObject.read( tBytes, 0, tBytes.length ), tBytes.length);
+		System.arraycopy(tBytes, 0, bytes, tBytes.length, tBytes.length);
+		assertEquals(documentObject.read( tBytes, 0, tBytes.length ), tBytes.length);
+		System.arraycopy(tBytes, 0, bytes, tBytes.length*2, tBytes.length);
+		assertEquals(documentObject.read( tBytes, 0, tBytes.length ), bytes.length - 3*tBytes.length);
+		System.arraycopy(tBytes, 0, bytes, tBytes.length*3, bytes.length - 3*tBytes.length);
+		
+		for (int i = 0; i < bytes.length; i++) 
+		{
+			assertEquals( bytes[i], (byte) (i % 128) );
+		}
+		documentObject.close( );
+	}
 
 	public void testString( ) throws IOException
 	{
