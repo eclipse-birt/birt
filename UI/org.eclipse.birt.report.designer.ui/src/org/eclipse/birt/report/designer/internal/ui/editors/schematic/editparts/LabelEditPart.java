@@ -30,6 +30,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
+import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.viewers.TextCellEditor;
 
@@ -186,7 +187,12 @@ public class LabelEditPart extends ReportElementEditPart
 		return constraint;
 	}
 
-	
-	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#getResizePolice(org.eclipse.gef.EditPolicy)
+	 */
+	public EditPolicy getResizePolice(EditPolicy parentPolice)
+	{
+		return new NonResizableEditPolicy( );
+	}
 
 }

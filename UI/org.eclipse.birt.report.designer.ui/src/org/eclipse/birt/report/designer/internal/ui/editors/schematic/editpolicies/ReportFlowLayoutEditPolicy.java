@@ -16,17 +16,12 @@ import org.eclipse.birt.report.designer.core.commands.FlowMoveChildCommand;
 import org.eclipse.birt.report.designer.core.commands.PasteCommand;
 import org.eclipse.birt.report.designer.core.commands.SetConstraintCommand;
 import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.PlaceHolderEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TextEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportItemConstraint;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.draw2d.Polyline;
-import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.geometry.Transposer;
@@ -307,25 +302,36 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 	 */
 	protected EditPolicy createChildEditPolicy( EditPart child )
 	{
-		if ( child instanceof LabelEditPart
-				|| child instanceof TextEditPart
-				|| child instanceof ListEditPart 
-				|| child instanceof PlaceHolderEditPart)
-			return new NonResizableEditPolicy( );
-		if ( child instanceof TableEditPart )
+//		if ( child instanceof LabelEditPart
+//				|| child instanceof TextEditPart
+//				|| child instanceof ListEditPart 
+//				|| child instanceof PlaceHolderEditPart)
+//			return new NonResizableEditPolicy( );
+//		if ( child instanceof TableEditPart )
+//		{
+//			TableResizeEditPolice rpc = new TableResizeEditPolice( );
+//			rpc.setResizeDirections( PositionConstants.SOUTH
+//					| PositionConstants.EAST
+//					| PositionConstants.SOUTH_EAST );
+//
+//			return rpc;
+//		}
+//		ReportElementResizePolicy policy = new ReportElementResizePolicy( );
+//		policy.setResizeDirections( PositionConstants.SOUTH
+//				| PositionConstants.EAST
+//				| PositionConstants.SOUTH_EAST );
+//		return policy;
+		EditPolicy retValue = null;
+		if (child instanceof ReportElementEditPart)
 		{
-			TableResizeEditPolice rpc = new TableResizeEditPolice( );
-			rpc.setResizeDirections( PositionConstants.SOUTH
-					| PositionConstants.EAST
-					| PositionConstants.SOUTH_EAST );
-
-			return rpc;
+			retValue = ((ReportElementEditPart)child).getResizePolice(this);
 		}
-		ReportElementResizePolicy policy = new ReportElementResizePolicy( );
-		policy.setResizeDirections( PositionConstants.SOUTH
-				| PositionConstants.EAST
-				| PositionConstants.SOUTH_EAST );
-		return policy;
+		if (retValue == null)
+		{
+			retValue = new NonResizableEditPolicy( );
+		}
+		
+		return retValue;
 	}
 
 	/**

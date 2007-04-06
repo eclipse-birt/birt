@@ -24,6 +24,7 @@ import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactor
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportElementResizePolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.IReportElementFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportElementFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.AbstractGuideHandle;
@@ -45,12 +46,14 @@ import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.MouseEvent;
 import org.eclipse.draw2d.MouseMotionListener;
+import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
@@ -914,5 +917,18 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	public boolean isinterestSelection(Object object)
 	{
 		return false;
+	}
+	
+	/**
+	 * @param parentPolice
+	 * @return
+	 */
+	public EditPolicy getResizePolice(EditPolicy parentPolice)
+	{
+		ReportElementResizePolicy policy = new ReportElementResizePolicy( );
+		policy.setResizeDirections( PositionConstants.SOUTH
+				| PositionConstants.EAST
+				| PositionConstants.SOUTH_EAST );
+		return policy;
 	}
 }

@@ -44,6 +44,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LineBorder;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.graphics.Font;
@@ -291,5 +292,13 @@ public class PlaceHolderEditPart extends ReportElementEditPart
 	private TemplateElementHandle getTemplateModel( )
 	{
 		return (TemplateElementHandle) getModel( );
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#getResizePolice(org.eclipse.gef.EditPolicy)
+	 */
+	public EditPolicy getResizePolice(EditPolicy parentPolice)
+	{
+		return new NonResizableEditPolicy( );
 	}
 }

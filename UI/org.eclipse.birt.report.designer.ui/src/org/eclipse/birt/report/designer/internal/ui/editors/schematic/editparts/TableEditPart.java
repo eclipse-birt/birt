@@ -32,6 +32,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.Bas
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.SectionBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportComponentEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportContainerEditPolicy;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.TableResizeEditPolice;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.TableXYLayoutEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.TableFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.AbstractGuideHandle;
@@ -59,6 +60,7 @@ import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayeredPane;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LayeredPane;
+import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -1448,5 +1450,18 @@ public class TableEditPart extends AbstractTableEditPart implements
 		RowHandleAdapter adapt = HandleAdapterFactory.getInstance( )
 				.getRowHandleAdapter( obj );
 		return adapt.getHeight( );
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#getResizePolice(org.eclipse.gef.EditPolicy)
+	 */
+	public EditPolicy getResizePolice(EditPolicy parentPolice)
+	{
+		TableResizeEditPolice rpc = new TableResizeEditPolice( );
+		rpc.setResizeDirections( PositionConstants.SOUTH
+				| PositionConstants.EAST
+				| PositionConstants.SOUTH_EAST );
+
+		return rpc;
 	}
 }

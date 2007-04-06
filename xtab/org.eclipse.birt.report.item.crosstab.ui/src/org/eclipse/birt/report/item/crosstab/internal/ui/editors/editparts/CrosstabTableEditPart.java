@@ -58,6 +58,7 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.GuideLayer;
+import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -842,5 +843,14 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 			}
 		}
 		super.propertyChange( info );
+	}
+	
+	/**
+	 * @param parentPolice
+	 * @return
+	 */
+	public EditPolicy getResizePolice(EditPolicy parentPolice)
+	{
+		return new NonResizableEditPolicy( );
 	}
 }

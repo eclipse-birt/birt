@@ -38,6 +38,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
+import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 
 /**
  * List element edit part.
@@ -299,5 +300,13 @@ public class ListEditPart extends ReportElementEditPart
 		
 		
 		super.contentChange( info );
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#getResizePolice(org.eclipse.gef.EditPolicy)
+	 */
+	public EditPolicy getResizePolice(EditPolicy parentPolice)
+	{
+		return new NonResizableEditPolicy( );
 	}
 }
