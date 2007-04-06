@@ -17,7 +17,7 @@ feature@org.eclipse.birt.example=v20070314,:pserver:anonymous@dev.eclipse.org:/c
 feature@org.eclipse.birt.chart.runtime=v20070405,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.runtime.feature
 plugin@org.eclipse.birt.chart.runtime=v20070227,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.runtime
 
-feature@org.eclipse.birt.chart=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.feature
+feature@org.eclipse.birt.chart=v20070406,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.feature
 plugin@org.eclipse.birt.chart=v20070227,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart
 
 feature@org.eclipse.birt.report.designer=v20070322,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.feature
@@ -41,21 +41,21 @@ plugin@org.eclipse.birt.thirdparty=v20061120-1200,:pserver:anonymous@dev.eclipse
 feature@org.eclipse.birt.nl=v20070330,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.nl.feature
 
 
-plugin@org.apache.batik.pdf=v20060613-1200,:pserver:anonymous@dev.eclipse.org:/cvsroot/modeling,,org.eclipse.gmf/plugins/org.apache.batik.pdf 
+plugin@org.apache.batik.pdf=v20060613-1220,:pserver:anonymous@dev.eclipse.org:/cvsroot/modeling,,org.eclipse.gmf/plugins/org.apache.batik.pdf 
 
 !*** Apache Xerces**************************************************************************** 
 
-feature@com.lowagie.itext=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/com.lowagie.itext.feature 
+feature@com.lowagie.itext=v20070406,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/com.lowagie.itext.feature 
 plugin@com.lowagie.itext=v20070227,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/com.lowagie.itext
 
-feature@org.apache.commons.codec=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.commons.codec.feature 
+feature@org.apache.commons.codec=v20070406,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.commons.codec.feature 
 plugin@org.apache.commons.codec=v20070227,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.commons.codec
 
 feature@org.apache.derby.core=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.derby.core.feature 
 plugin@org.apache.derby.core=v20061120-1200,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.derby.core
 
-feature@org.mozilla.rhino=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.mozilla.rhino.feature 
+feature@org.mozilla.rhino=v20070406,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.mozilla.rhino.feature 
 plugin@org.mozilla.rhino=v20070227,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.mozilla.rhino
 
-feature@org.w3c.sac=v20070209,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.w3c.sac.feature 
+feature@org.w3c.sac=v20070406,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.w3c.sac.feature 
 plugin@org.w3c.sac=v20070227,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.w3c.sac
