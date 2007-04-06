@@ -15,10 +15,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.eclipse.birt.core.framework.Platform;
-import org.eclipse.birt.report.service.BirtReportServiceFactory;
-import org.eclipse.birt.report.service.BirtViewerReportService;
 import org.eclipse.birt.report.service.ReportEngineService;
-import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
@@ -52,11 +49,13 @@ public class ViewerServletContextListener implements ServletContextListener
 	 */
 	public void contextInitialized( ServletContextEvent event )
 	{
-		ParameterAccessor.initParameters( event.getServletContext( ) );
-
-		// initialize ViewerReportService instance
-		IViewerReportService instance = new BirtViewerReportService( event
-				.getServletContext( ) );
-		BirtReportServiceFactory.init( instance );
+		// workaround for Bugzilla Bug 181377. Don't initialize report service
+		// instance
+		/*
+		 * ParameterAccessor.initParameters( event.getServletContext( ) ); //
+		 * initialize ViewerReportService instance IViewerReportService instance =
+		 * new BirtViewerReportService( event .getServletContext( ) );
+		 * BirtReportServiceFactory.init( instance );
+		 */
 	}
 }
