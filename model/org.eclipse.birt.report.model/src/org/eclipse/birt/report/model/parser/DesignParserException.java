@@ -11,10 +11,10 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import org.eclipse.birt.report.model.api.ErrorCodes;
 import org.eclipse.birt.report.model.api.ModelException;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
-import org.eclipse.birt.report.model.util.ErrorCodes;
 
 /**
  * This class describes a parse error. Many errors are reported using the same
