@@ -134,19 +134,19 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 		{
 			CrosstabCellAdapter childAdapter = (CrosstabCellAdapter)childParent;
 			CrosstabCellAdapter parentAdapter = (CrosstabCellAdapter)parentObj;
-			if (ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE.equals( childAdapter.getPositionType( ))
+			if (isFirstDataItem( childAdapter, child.getModel( ), ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE )
 				&& (ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE.equals( parentAdapter.getPositionType( ) )
 				|| ICrosstabCellAdapterFactory.CELL_LEVEL_HANDLE.equals( parentAdapter.getPositionType( )))
 				)
 			{
-				if (!(after instanceof FirstLevelHandleDataItemEditPart) )
+				if (afterObj != parentAdapter.getFirstDataItem( ))
 				{
 					afterObj = null;
 				}
 				return new ChangeAreaCommand(parentAdapter.getDesignElementHandle( ), 
 						childAdapter.getDesignElementHandle( ),(DesignElementHandle) DNDUtil.unwrapToModel( afterObj ) );
 			}
-			else if (ICrosstabCellAdapterFactory.CELL_MEASURE.equals( childAdapter.getPositionType( ))
+			else if (isFirstDataItem( childAdapter, child.getModel( ), ICrosstabCellAdapterFactory.CELL_MEASURE )
 					&& ICrosstabCellAdapterFactory.CELL_MEASURE.equals( parentAdapter.getPositionType( ) ))
 				{
 					if (afterObj != parentAdapter.getFirstDataItem( ))
@@ -160,7 +160,8 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 		if (childParent instanceof CrosstabCellAdapter)
 		{	
 			CrosstabCellAdapter childAdapter = (CrosstabCellAdapter)childParent;
-			if (ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE.equals( childAdapter.getPositionType( )))
+			if (isFirstDataItem( childAdapter, child.getModel( ), ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE )
+					|| isFirstDataItem( childAdapter, child.getModel( ), ICrosstabCellAdapterFactory.CELL_MEASURE ))
 			{
 				return UnexecutableCommand.INSTANCE;
 			}
@@ -170,7 +171,14 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 				(DesignElementHandle) DNDUtil.unwrapToModel( afterObj ) );
 	}
 	
-	
+	private boolean isFirstDataItem(CrosstabCellAdapter adapter, Object model, String type)
+	{
+		if (adapter.getPositionType( ).equals( type ))
+		{
+			return adapter.getFirstDataItem( ) == model;
+		}
+		return false;
+	}
 	
 	
 	/*

@@ -11,17 +11,9 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
-import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
-import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
-import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -82,7 +74,8 @@ public class ChangeAreaCommand extends AbstractCrosstabCommand
 	
 	public boolean canExecute( )
 	{
-		return getType( ) != childViewHandle.getAxisType( );
+		return true;
+		//return getType( ) != childViewHandle.getAxisType( );
 	}
 	/*
 	 * (non-Javadoc)
@@ -116,16 +109,22 @@ public class ChangeAreaCommand extends AbstractCrosstabCommand
 		{
 			return 0;
 		}
+		int ori = childViewHandle.getIndex( );
 		int base = parentVewHandle.getIndex( );
+		int value = 0;
+		if (ori < base && getType( )==childViewHandle.getAxisType( ))
+		{
+			value = -1;
+		}
 		if (after instanceof  DesignElementHandle)
 		{
 			int index = ((DesignElementHandle)after).getIndex( );
 			if (index == 0)
 			{
-				return base;
+				return base + value;
 			}
 		}
-		return base + 1;
+		return base + 1 + value;
 		//return ((CrosstabReportItemHandle) handleAdpter.getCrosstabItemHandle( )).getDimensionCount( getType( ) );
 	}
 
