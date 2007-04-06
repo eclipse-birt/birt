@@ -19,7 +19,10 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.tools.CrosstabR
 import org.eclipse.draw2d.Cursors;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.PositionConstants;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.DragTracker;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.gef.handles.AbstractHandle;
 import org.eclipse.gef.tools.ResizeTracker;
 
@@ -87,6 +90,11 @@ public class CrosstavCellDragHandle extends AbstractHandle
 			protected void eraseSourceFeedback( )
 			{
 			}
+			
+			protected Command getCommand( )
+			{
+				return UnexecutableCommand.INSTANCE;
+			}
 		};
 	}
 
@@ -118,5 +126,21 @@ public class CrosstavCellDragHandle extends AbstractHandle
 	public boolean containsPoint( int x, int y )
 	{
 		return getBounds( ).getCopy( ).shrink( -1, -1 ).contains( x, y );
+	}
+		
+	/* (non-Javadoc)
+	 * @see org.eclipse.draw2d.Figure#setBounds(org.eclipse.draw2d.geometry.Rectangle)
+	 */
+	public void setBounds( Rectangle rect )
+	{
+		if (start == end && cursorDirection == PositionConstants.SOUTH)
+		{
+			rect.y = rect.y - rect.height; 
+		}
+		else if (start == end && cursorDirection == PositionConstants.EAST)
+		{
+			rect.x = rect.x - rect.width;
+		}
+		super.setBounds( rect );
 	}
 }
