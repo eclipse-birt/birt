@@ -83,6 +83,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 
 	private final HTMLRenderOption renderOption = new HTMLRenderOption( );
 	private final EngineConfig engineConfig = new HyperlinkEngineConfig( );
+	private final IRenderOption drillRenderOption = new RenderOption( );
 
 	/**
 	 * Embedded web browser.
@@ -97,6 +98,8 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 
 	private boolean isTocUpdate;
 
+	private boolean isDrillThrough = false;
+	
 	/**
 	 * The report design file to render.
 	 */
@@ -483,7 +486,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 		browser = new Browser( browserContainer, SWT.NONE );
 		browser.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
-		browser.addLocationListener( new ReportLocationListener( browser, this ) );
+		browser.addLocationListener( new ReportLocationListener( this ) );
 		sashForm.setMaximizedControl( browserContainer );
 	}
 
@@ -586,6 +589,11 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 	 */
 	public IRenderOption getRenderOption( )
 	{
+		if ( isDrillThrough )
+		{
+			isDrillThrough = false;
+			return drillRenderOption;
+		}
 		return renderOption;
 	}
 
@@ -604,6 +612,9 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 	{
 		this.paramValues = paramValues;
 		this.assignParamValues = true;
+		isDrillThrough = true;
+		drillRenderOption.setOption( RenderOption.OUTPUT_FORMAT,
+				paramValues.get( "__format" ) );
 	}
 
 	public void setReportDesignFile( String reportDesignFile )
@@ -700,10 +711,16 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 		File reportFile = new File( reportDesignFile );
 		String outputFolder = getOutputFolder( reportFile );
 
+		String outputFormat = "html";
+		if ( isDrillThrough )
+		{
+			outputFormat = (String) drillRenderOption.getOutputFormat( );
+		}
 		this.outputLocation = outputFolder
 				+ File.separator
 				+ reportFile.getName( )
-				+ ".html";
+				+ "."
+				+ outputFormat;
 		try
 		{
 			if ( currentPageNum > 0 )

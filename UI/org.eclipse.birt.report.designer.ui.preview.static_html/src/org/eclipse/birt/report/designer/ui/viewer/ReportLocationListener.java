@@ -31,7 +31,7 @@ public class ReportLocationListener implements LocationListener
 
 	private StaticHTMLViewer viewer;
 
-	public ReportLocationListener( Browser browser, StaticHTMLViewer viewer )
+	public ReportLocationListener( StaticHTMLViewer viewer )
 	{
 		this.viewer = viewer;
 	}

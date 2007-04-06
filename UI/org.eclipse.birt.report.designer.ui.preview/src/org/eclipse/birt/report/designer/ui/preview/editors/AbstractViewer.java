@@ -113,37 +113,6 @@ public abstract class AbstractViewer implements IViewer
 			String outputFile, long pageNumber ) throws EngineException,
 			IOException
 	{
-		// File designFile = new File( reportDesignFile );
-		//
-		// //create report document
-		// File reportDocumentFile = new File( outputFolder, designFile.getName(
-		// )
-		// + ".rptdocument" );
-		//
-		// IDocArchiveWriter archive = new FileArchiveWriter(
-		// reportDocumentFile.getAbsolutePath( ) );
-		// IReportRunnable report = engine.openReportDesign( reportDesignFile );
-		// IRunTask runTask = engine.createRunTask( report );
-		// try
-		// {
-		// if ( parameters != null )
-		// {
-		// runTask.setParameterValues( parameters );
-		// }
-		// runTask.setAppContext( Collections.EMPTY_MAP );
-		// runTask.run( archive );
-		// }
-		// catch ( EngineException e )
-		// {
-		// throw e;
-		// }
-		// finally
-		// {
-		// runTask.close( );
-		// report = null;
-		// runTask = null;
-		// }
-
 		IReportDocument document = engine.openReportDocument( reportDocumentFile );
 		long pageCount = document.getPageCount( );
 		IRenderTask task = engine.createRenderTask( document );
