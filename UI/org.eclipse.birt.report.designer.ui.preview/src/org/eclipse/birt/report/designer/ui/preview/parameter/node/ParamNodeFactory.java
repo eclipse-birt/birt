@@ -17,7 +17,6 @@ import java.util.List;
 import org.eclipse.birt.report.designer.ui.preview.parameter.IParamGroup;
 import org.eclipse.birt.report.designer.ui.preview.parameter.IParameter;
 import org.eclipse.birt.report.designer.ui.preview.parameter.ParameterFactory;
-import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 
 /**

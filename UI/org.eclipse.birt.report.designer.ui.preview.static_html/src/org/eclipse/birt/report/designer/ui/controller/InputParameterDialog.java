@@ -25,6 +25,7 @@ import org.eclipse.birt.report.designer.ui.preview.parameter.RadioParam;
 import org.eclipse.birt.report.designer.ui.preview.parameter.ScalarParam;
 import org.eclipse.birt.report.designer.ui.preview.parameter.StaticTextParam;
 import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
@@ -46,8 +47,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * The dialog for setting report parameter values when previewing report in new
- * preview prototype
+ * The dialog for inputting report parameter values when previewing report in
+ * new preview prototype
  */
 public class InputParameterDialog extends Dialog
 {
@@ -60,6 +61,33 @@ public class InputParameterDialog extends Dialog
 	private List isRequiredParameters = new ArrayList( );
 	private List dataTypeCheckList = new ArrayList( );
 	private Shell parentShell;
+
+	private static IParameterSelectionChoice nullValueChoice = new IParameterSelectionChoice( ) {
+
+		public String getLabel( )
+		{
+			return "Null Value";
+		}
+
+		public Object getValue( )
+		{
+			return null;
+		}
+
+	};
+
+	private static IParameterSelectionChoice blankValueChoice = new IParameterSelectionChoice( ) {
+
+		public String getLabel( )
+		{
+			return "";
+		}
+
+		public Object getValue( )
+		{
+			return "";
+		}
+	};
 
 	public InputParameterDialog( Shell parentShell, List params, Map paramValues )
 	{
@@ -99,8 +127,7 @@ public class InputParameterDialog extends Dialog
 				try
 				{
 					paramValues.put( scalarParam.getHandle( ).getName( ),
-							scalarParam.converToDataType( paramValue,
-									scalarParam.getHandle( ).getDataType( ) ) );
+							scalarParam.converToDataType( paramValue ) );
 
 				}
 				catch ( BirtException e )
@@ -169,11 +196,6 @@ public class InputParameterDialog extends Dialog
 			if ( obj instanceof ScalarParam
 					&& !( (ScalarParam) obj ).getHandle( ).isHidden( ) )
 			{
-				if ( ( (ScalarParam) obj ).getHandle( ).isRequired( ) )
-				{
-					isRequiredParameters.add( ( (ScalarParam) obj ).getHandle( )
-							.getName( ) );
-				}
 				ScalarParam param = (ScalarParam) obj;
 				createParamSection( param, parent );
 			}
@@ -199,6 +221,15 @@ public class InputParameterDialog extends Dialog
 
 	private Composite createParamSection( ScalarParam param, Composite parent )
 	{
+		boolean isRequired = param.getHandle( ).isRequired( );
+		boolean isStringType = param.getHandle( )
+				.getDataType( )
+				.equals( DesignChoiceConstants.PARAM_TYPE_STRING );
+		if ( isRequired )
+		{
+			isRequiredParameters.add( param.getHandle( ).getName( ) );
+		}
+
 		Composite container = new Composite( parent, SWT.NONE );
 		container.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		GridLayout layout = new GridLayout( );
@@ -211,7 +242,7 @@ public class InputParameterDialog extends Dialog
 		if ( param instanceof StaticTextParam )
 		{
 			final StaticTextParam textParam = (StaticTextParam) param;
-			String value = textParam.getHandle( ).getDefaultValue( );
+			String value = textParam.getDefaultValue( );
 			dataTypeCheckList.add( textParam );
 			Text input = new Text( container, SWT.BORDER );
 			input.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -238,16 +269,27 @@ public class InputParameterDialog extends Dialog
 		else if ( param instanceof RadioParam )
 		{
 			final RadioParam radioParam = (RadioParam) param;
-			Object value = radioParam.getDefaultValue( );
+			Object value = null;
+			try
+			{
+				value = radioParam.converToDataType( radioParam.getDefaultValue( ) );
+			}
+			catch ( BirtException e )
+			{
 
+			}
 			if ( paramValues.containsKey( radioParam.getHandle( ).getName( ) ) )
 			{
 				value = paramValues.get( radioParam.getHandle( ).getName( ) );
 			}
 
 			List list = radioParam.getValueList( );
-			int i = 0;
+			if ( !isRequired )
+			{
+				list.add( InputParameterDialog.nullValueChoice );
+			}
 
+			int i = 0;
 			for ( Iterator iterator = list.iterator( ); iterator.hasNext( ); )
 			{
 				if ( i > 0 )
@@ -259,8 +301,16 @@ public class InputParameterDialog extends Dialog
 				Button button = new Button( container, SWT.RADIO );
 				button.setText( choice.getLabel( ) );
 				button.setData( choice.getValue( ) );
-				if ( choice.getValue( ).equals( value ) )
+				if ( choice.getValue( ) != null
+						&& choice.getValue( ).equals( value ) )
+				{
 					button.setSelection( true );
+				}
+				else if ( value == null
+						&& choice.getLabel( ).equals( "Null Value" ) )
+				{
+					button.setSelection( true );
+				}
 				button.addSelectionListener( new SelectionListener( ) {
 
 					public void widgetDefaultSelected( SelectionEvent e )
@@ -278,23 +328,43 @@ public class InputParameterDialog extends Dialog
 				} );
 				i++;
 			}
-
 		}
 		else if ( param instanceof ListingParam )
 		{
 			final ListingParam listParam = (ListingParam) param;
-			Object value = listParam.getDefaultValue( );
+			Object value = null;
+			try
+			{
+				value = listParam.converToDataType( listParam.getDefaultValue( ) );
+			}
+			catch ( BirtException e )
+			{
 
+			}
 			if ( paramValues.containsKey( listParam.getHandle( ).getName( ) ) )
 			{
 				value = paramValues.get( listParam.getHandle( ).getName( ) );
-				listParam.setSelectionValue( value.toString( ) );
+				if ( value != null )
+					listParam.setSelectionValue( value.toString( ) );
 			}
 
 			Combo combo = new Combo( container, SWT.BORDER );
 			combo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-			List list = listParam.getValueList( );
+			List list = new ArrayList( );
+			if ( isStringType && !isRequired )
+			{
+				list.add( blankValueChoice );
+				list.addAll( listParam.getValueList( ) );
+			}
+			else
+			{
+				list = listParam.getValueList( );
+			}
+			if ( !isRequired )
+			{
+				list.add( InputParameterDialog.nullValueChoice );
+			}
 			for ( Iterator iterator = list.iterator( ); iterator.hasNext( ); )
 			{
 				IParameterSelectionChoice choice = (IParameterSelectionChoice) iterator.next( );
@@ -306,24 +376,19 @@ public class InputParameterDialog extends Dialog
 					combo.setData( label, choice.getValue( ) );
 				}
 			}
-
-			// String[] items = (String[]) listParam.getValueList( ).toArray(
-			// new String[]{});
-			//
-			// for ( int i = 0; i < items.length; i++ )
-			// {
-			// items[i] = listParam.format( items[i] );
-			// }
-			//			
-			// combo.setItems( items );
-			int count = combo.getItemCount( );
-			// List list = listParam.getValueList( );
-			for ( int i = 0; i < count; i++ )
+			if ( value == null && !isRequired )
 			{
-				if ( combo.getData( combo.getItem( i ) ).equals( value ) )
+				combo.select( combo.getItemCount( ) - 1 );
+			}
+			else
+			{
+				for ( int i = 0; i < combo.getItemCount( ); i++ )
 				{
-					combo.select( i );
-					break;
+					if ( combo.getData( combo.getItem( i ) ).equals( value ) )
+					{
+						combo.select( i );
+						break;
+					}
 				}
 			}
 

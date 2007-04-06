@@ -15,14 +15,16 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.text.MessageFormat;
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.controller.InputParameterDialog;
 import org.eclipse.birt.report.designer.ui.preview.editors.SWTAbstractViewer;
+import org.eclipse.birt.report.designer.ui.preview.parameter.AbstractParamGroup;
+import org.eclipse.birt.report.designer.ui.preview.parameter.ScalarParam;
 import org.eclipse.birt.report.designer.ui.preview.static_html.StaticHTMLPrviewPlugin;
 import org.eclipse.birt.report.designer.ui.viewer.job.AbstractJob;
 import org.eclipse.birt.report.designer.ui.viewer.job.AbstractUIJob;
@@ -121,7 +123,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 	/**
 	 * Indicate whether asking for assign parameters values
 	 */
-	private boolean assignParamValues;
+	private boolean assignParamValues = false;
 
 	// UI controls
 	private FormToolkit toolkit;
@@ -134,19 +136,8 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 
 	private List inputParameters;
 
-	private Action paramAction;
-
-	private Action tocAction;
-
-	private Action navFirstAction;
-
-	private Action navPreAction;
-
-	private Action navNextAction;
-
-	private Action navLastAction;
-
-	private Action navGoAction;
+	private Action paramAction, tocAction, navFirstAction, navPreAction,
+			navNextAction, navLastAction, navGoAction, reRunReportAction;
 
 	private Text goPageInput;
 
@@ -177,9 +168,10 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 			}
 
 		} );
-		emitterConfig.setImageHandler( new HTMLCompleteImageHandler( ) );
+		// emitterConfig.setImageHandler( new HTMLCompleteImageHandler( ) );
 		// emitterConfig.setImageHandler( new HTMLImageHandler( ) );
-		engineConfig.getEmitterConfigs( ).put( "html", emitterConfig ); //$NON-NLS-1$
+		engineConfig.getEmitterConfigs( ).put( RenderOption.OUTPUT_FORMAT_HTML,
+				emitterConfig ); //$NON-NLS-1$
 	}
 
 	protected void configRender( )
@@ -216,8 +208,23 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 		layout.marginWidth = layout.marginHeight = 0;
 		form.getBody( ).setLayout( layout );
 
+		// Re-run the report action
+		reRunReportAction = new Action( "Re-run the report",
+				Action.AS_PUSH_BUTTON ) {
+
+			public void run( )
+			{
+				render( );
+			}
+		};
+		reRunReportAction.setToolTipText( "Re-run the report" );
+		reRunReportAction.setImageDescriptor( StaticHTMLPrviewPlugin.getDefault( )
+				.getImageRegistry( )
+				.getDescriptor( StaticHTMLPrviewPlugin.IMG_RE_RUN ) );
+		form.getToolBarManager( ).add( reRunReportAction );
+
 		// paramAction
-		paramAction = new Action( "test", Action.AS_PUSH_BUTTON ) { //$NON-NLS-1$
+		paramAction = new Action( "Enter parameter", Action.AS_PUSH_BUTTON ) { //$NON-NLS-1$
 
 			public void run( )
 			{
@@ -262,7 +269,6 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 			public void run( )
 			{
 				currentPageNum = 1;
-				// render( );
 				renderWithoutAskingForParams( );
 			}
 		};
@@ -273,34 +279,32 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 		form.getToolBarManager( ).add( navFirstAction );
 
 		// navPreAction
-		navPreAction = new Action( "Pre", Action.AS_PUSH_BUTTON ) { //$NON-NLS-1$
+		navPreAction = new Action( "Previous", Action.AS_PUSH_BUTTON ) { //$NON-NLS-1$
 
 			public void run( )
 			{
 				if ( currentPageNum > 1 )
 				{
 					currentPageNum--;
-					// render( );
 					renderWithoutAskingForParams( );
 				}
 			}
 		};
 
-		navPreAction.setToolTipText( "Pre" ); //$NON-NLS-1$
+		navPreAction.setToolTipText( "Previous" ); //$NON-NLS-1$
 		navPreAction.setImageDescriptor( StaticHTMLPrviewPlugin.getDefault( )
 				.getImageRegistry( )
 				.getDescriptor( StaticHTMLPrviewPlugin.IMG_NAV_PRE ) );
 		form.getToolBarManager( ).add( navPreAction );
 
 		// navNextAction
-		navNextAction = new Action( "test", Action.AS_PUSH_BUTTON ) { //$NON-NLS-1$
+		navNextAction = new Action( "Next", Action.AS_PUSH_BUTTON ) { //$NON-NLS-1$
 
 			public void run( )
 			{
 				if ( currentPageNum < totalPageNum )
 				{
 					currentPageNum++;
-					// render( );
 					renderWithoutAskingForParams( );
 				}
 			}
@@ -318,7 +322,6 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 			public void run( )
 			{
 				currentPageNum = totalPageNum;
-				// render( );
 				renderWithoutAskingForParams( );
 			}
 		};
@@ -355,28 +358,11 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 
 					public void keyPressed( KeyEvent e )
 					{
-						// if ( e.keyCode != SWT.DEL && e.keyCode != SWT.BS )
-						// {
-						// try
-						// {
-						// long page = Long.parseLong( goPageInput.getText( )
-						// + e.character );
-						// if ( page > 0 && page <= totalPageNum )
-						// e.doit = true;
-						// else
-						// e.doit = false;
-						// }
-						// catch ( NumberFormatException e1 )
-						// {
-						// e.doit = false;
-						// }
-						// }
 						if ( e.character == SWT.LF || e.character == SWT.CR )
 						{
 							if ( navGoAction.isEnabled( ) )
 							{
 								currentPageNum = Long.parseLong( goPageInput.getText( ) );
-								// render( );
 								renderWithoutAskingForParams( );
 							}
 						}
@@ -498,9 +484,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 		browser.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
 		browser.addLocationListener( new ReportLocationListener( browser, this ) );
-
 		sashForm.setMaximizedControl( browserContainer );
-
 	}
 
 	private void createTOCSection( Composite parent )
@@ -539,7 +523,6 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 						IReportDocument document = openReportDocument( reportDocumentFile );
 						setCurrentPage( document.getPageNumber( node.getBookmark( ) ) );
 						document.close( );
-						// render( );
 						renderWithoutAskingForParams( );
 					}
 					catch ( EngineException e )
@@ -620,6 +603,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 	public void setParamValues( Map paramValues )
 	{
 		this.paramValues = paramValues;
+		this.assignParamValues = true;
 	}
 
 	public void setReportDesignFile( String reportDesignFile )
@@ -645,12 +629,16 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 	 * 
 	 * @return
 	 */
-	public Map getParameterValues( List params )
+	public void getParameterValues( List params )
 	{
 		if ( params != null && params.size( ) > 0 )
 		{
 			this.hasParas = true;
-			assignParamValues = false;
+			// Parameters have been set values, this is case for hyperlink
+			// drill-through
+			if ( assignParamValues && checkParamsValues( params ) )
+				return;
+			// assignParamValues = false;
 			InputParameterDialog dialog = new InputParameterDialog( Display.getCurrent( )
 					.getActiveShell( ),
 					params,
@@ -660,21 +648,40 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 				paramValues = dialog.getParameters( );
 				assignParamValues = true;
 			}
-			paramAction.setEnabled( true );
 		}
 		else
 		{
 			this.hasParas = false;
-			paramAction.setEnabled( false );
 			paramAction.setToolTipText( "No Parameters" );
 		}
-		return paramValues == null ? Collections.EMPTY_MAP : paramValues;
+	}
+
+	private boolean checkParamsValues( List params )
+	{
+		for ( Iterator ite = params.iterator( ); ite.hasNext( ); )
+		{
+			Object obj = ite.next( );
+			if ( obj instanceof ScalarParam
+					&& !( (ScalarParam) obj ).getHandle( ).isHidden( ) )
+			{
+				if ( !paramValues.containsKey( ( ( (ScalarParam) obj ).getHandle( ).getName( ) ) ) )
+					return false;
+			}
+			else if ( obj instanceof AbstractParamGroup )
+			{
+				AbstractParamGroup group = (AbstractParamGroup) obj;
+				checkParamsValues( group.getChildren( ) );
+			}
+		}
+		return true;
 	}
 
 	public void renderReport( IProgressMonitor monitor )
 	{
 		if ( !assignParamValues )
 			return;
+		assignParamValues = false;
+
 		monitor.subTask( "Collecting parameters" );
 		// getParameterValues( );
 
@@ -715,41 +722,6 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 					e.printStackTrace( );
 				}
 			}
-			// else
-			// {
-			// do
-			// {
-			// try
-			// {
-			// createReportOutput( reportDesignFile,
-			// this.outputLocation,
-			// this.paramValues,
-			// currentPageNum );
-			// }
-			// catch ( EngineException e )
-			// {
-			// break;
-			// }
-			// currentPageNum++;
-			// } while ( true );
-			// this.outputLocation = reportFile.getName( ) + "-1.html";
-			// }
-
-			// try
-			// {
-			// createOverviewFrameHtml( new FileWriter( TMP_FOLDER
-			// + File.separator
-			// + "overview-frame.html" ),
-			// pageCount,
-			// reportFile.getName( ) );
-			//
-			// createIndexPageHtml( new FileWriter( indexPageFile ),
-			// reportFile.getName( ),
-			// reportFile.getName( ) + "-1.html" );
-			// }
-			// catch ( IOException e )
-			// {
-			// }
 		}
 		catch ( IOException e )
 		{
@@ -770,18 +742,24 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 				+ file.getName( );
 	}
 
-	public void render( )
+	private void setControlStatus( )
 	{
 		form.setText( "Running report..." );
 		form.setBusy( true );
 
 		paramAction.setEnabled( false );
+		reRunReportAction.setEnabled( false );
 		tocAction.setEnabled( false );
 		navFirstAction.setEnabled( false );
 		navPreAction.setEnabled( false );
 		navNextAction.setEnabled( false );
 		navLastAction.setEnabled( false );
 		navGoAction.setEnabled( false );
+	}
+
+	public void render( )
+	{
+		setControlStatus( );
 
 		RenderJobRule jobRule = new RenderJobRule( this.reportDesignFile );
 		initJob( jobRule );
@@ -791,18 +769,9 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 		updateFormJob( jobRule );
 	}
 
-	private void renderWithoutAskingForParams( )
+	public void renderWithoutAskingForParams( )
 	{
-		form.setText( "Running report..." );
-		form.setBusy( true );
-
-		paramAction.setEnabled( false );
-		tocAction.setEnabled( false );
-		navFirstAction.setEnabled( false );
-		navPreAction.setEnabled( false );
-		navNextAction.setEnabled( false );
-		navLastAction.setEnabled( false );
-		navGoAction.setEnabled( false );
+		setControlStatus( );
 
 		RenderJobRule jobRule = new RenderJobRule( this.reportDesignFile );
 		renderJob( jobRule );
@@ -918,10 +887,13 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 									new Long( currentPageNum ),
 									new Long( totalPageNum )
 							} ) );
+					reRunReportAction.setEnabled( true );
 					paramAction.setEnabled( hasParas );
 					navGoAction.setEnabled( true );
 					tocAction.setEnabled( true );
-					if ( hasParas && !assignParamValues && paramValues.isEmpty( ))
+					if ( hasParas
+							&& !assignParamValues
+							&& paramValues.isEmpty( ) )
 					{
 						navGoAction.setEnabled( false );
 						tocAction.setEnabled( false );

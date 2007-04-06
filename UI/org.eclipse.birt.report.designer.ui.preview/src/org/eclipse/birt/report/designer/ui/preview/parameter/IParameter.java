@@ -46,7 +46,7 @@ public interface IParameter
 	 * @return value of chosen data type
 	 * @throws BirtException
 	 */
-	public Object converToDataType( Object value, String type )
+	public Object converToDataType( Object value )
 			throws BirtException;
 
 	/**
@@ -86,15 +86,7 @@ public interface IParameter
 	 */
 	public String getSelectionValue( );
 
-	/**
-	 * Gets Property value.
-	 * 
-	 * @param propertyName
-	 * @return property value.
-	 */
-
-	public Object getPropertyValue( Object propertyName );
-
+	
 	/**
 	 * Gets isRequired property.
 	 * 

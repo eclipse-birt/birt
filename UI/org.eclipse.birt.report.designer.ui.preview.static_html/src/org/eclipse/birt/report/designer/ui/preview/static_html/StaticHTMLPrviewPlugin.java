@@ -53,6 +53,8 @@ public class StaticHTMLPrviewPlugin extends AbstractUIPlugin
 	public static final String IMG_FORM_TITLE = "form_title.gif";
 
 	public static final String IMG_TOC_LEAF = "Leaf.gif";
+	
+	public static final String IMG_RE_RUN = "preview.gif";
 
 	// The shared instance
 	private static StaticHTMLPrviewPlugin plugin;
@@ -155,6 +157,7 @@ public class StaticHTMLPrviewPlugin extends AbstractUIPlugin
 		registerImage( registry, IMG_TOC, IMG_TOC );
 		registerImage( registry, IMG_FORM_TITLE, IMG_FORM_TITLE );
 		registerImage( registry, IMG_TOC_LEAF, IMG_TOC_LEAF );
+		registerImage( registry, IMG_RE_RUN, IMG_RE_RUN );
 	}
 
 	private void registerImage( ImageRegistry registry, String key,

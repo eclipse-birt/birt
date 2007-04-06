@@ -24,20 +24,15 @@ import org.eclipse.swt.widgets.Display;
 import com.ibm.icu.util.StringTokenizer;
 
 /**
- * 
+ * Listener for static html viewer to deal with hyperlink in report output
  */
-
 public class ReportLocationListener implements LocationListener
 {
 
-	private Browser browser;
-	private ReportStaticHTMLGenerator reportGenerator;
 	private StaticHTMLViewer viewer;
 
 	public ReportLocationListener( Browser browser, StaticHTMLViewer viewer )
 	{
-		this.browser = browser;
-		// this.browser.addLocationListener( this );
 		this.viewer = viewer;
 	}
 
@@ -78,12 +73,10 @@ public class ReportLocationListener implements LocationListener
 
 					public void run( )
 					{
-
 						viewer.setReportDesignFile( (String) options.get( "__report" ) );
 						viewer.setParamValues( options );
 						viewer.setCurrentPage( 1 );
 						viewer.render( );
-
 					}
 				} );
 			}

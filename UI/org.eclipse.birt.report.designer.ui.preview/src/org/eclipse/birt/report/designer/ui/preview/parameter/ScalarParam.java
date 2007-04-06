@@ -128,15 +128,9 @@ public abstract class ScalarParam implements IParameter
 		return FormatUtil.format( handle, input );
 	}
 
-	public Object converToDataType( Object value, String type )
-			throws BirtException
+	public Object converToDataType( Object value ) throws BirtException
 	{
-		return DataTypeConvertUtil.convert( value, type );
-	}
-
-	public Object getPropertyValue( Object propertyName )
-	{
-		return handle.getProperty( (String) propertyName );
+		return DataTypeConvertUtil.convert( value, handle.getDataType( ) );
 	}
 
 	/**
