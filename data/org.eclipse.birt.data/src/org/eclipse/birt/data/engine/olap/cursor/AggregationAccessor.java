@@ -205,7 +205,7 @@ public class AggregationAccessor implements Accessor
 				continue;
 			}
 			else if ( direction > 0
-					&& currentPosition[aggrIndex] < rs.length( )
+					&& currentPosition[aggrIndex] < rs.length( )-1
 					&& ( state == 0 || state == direction ) )
 			{
 				state = direction;
