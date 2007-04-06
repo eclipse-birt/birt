@@ -16,7 +16,6 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.DimensionConditionHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
@@ -197,25 +196,7 @@ public class LibraryCompoundElementTest extends BaseTestCase
 		FilterConditionHandle filterConditionHandle = (FilterConditionHandle) iter
 				.next( );
 		assertEquals( "filter expression", filterConditionHandle.getExpr( ) ); //$NON-NLS-1$
-		// join condition
-		iter = cube.joinConditionsIterator( );
-		DimensionConditionHandle cubeJoinConditionHandle = (DimensionConditionHandle) iter
-				.next( );
-		assertEquals(
-				lib.findOLAPElement( "testHierarchy" ), cubeJoinConditionHandle.getHierarchy( ).getElement( ) ); //$NON-NLS-1$		
-		List primaryKeys = cubeJoinConditionHandle.getPrimaryKeys( );
-		assertEquals( 3, primaryKeys.size( ) );
-		assertEquals( "column", primaryKeys.get( 0 ) ); //$NON-NLS-1$
-		assertEquals( "column2", primaryKeys.get( 1 ) ); //$NON-NLS-1$
-		assertEquals( "column4", primaryKeys.get( 2 ) ); //$NON-NLS-1$
-		cubeJoinConditionHandle = (DimensionConditionHandle) iter.next( );
-		assertNull( cubeJoinConditionHandle.getHierarchy( ) );
-		assertEquals(
-				"lib.nonExistingHierarchy", cubeJoinConditionHandle.getHierarchyName( ) ); //$NON-NLS-1$
-		primaryKeys = cubeJoinConditionHandle.getPrimaryKeys( );
-		assertEquals( 1, primaryKeys.size( ) );
-		assertEquals( "column", primaryKeys.get( 0 ) ); //$NON-NLS-1$
-
+		
 		// access controls
 
 		// access controls on cube.
@@ -260,7 +241,7 @@ public class LibraryCompoundElementTest extends BaseTestCase
 		iter = hierarchy.filtersIterator( );
 		filterConditionHandle = (FilterConditionHandle) iter.next( );
 		assertEquals( "filter expression", filterConditionHandle.getExpr( ) ); //$NON-NLS-1$
-		primaryKeys = hierarchy.getPrimaryKeys( );
+		List primaryKeys = hierarchy.getPrimaryKeys( );
 		assertEquals( 3, primaryKeys.size( ) );
 		assertEquals( "key", primaryKeys.get( 0 ) ); //$NON-NLS-1$
 		assertEquals( "key2", primaryKeys.get( 1 ) ); //$NON-NLS-1$

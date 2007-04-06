@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
+import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
@@ -510,6 +511,8 @@ public class StructureState extends AbstractPropertyState
 				LevelAttribute.class );
 		structDict.put( OdaLevelAttribute.STRUCTURE_NAME.toLowerCase( ),
 				OdaLevelAttribute.class );
-		
+		structDict.put( DimensionJoinCondition.DIMENSION_JOIN_CONDITION_STRUCT
+				.toLowerCase( ), DimensionJoinCondition.class );
+
 	}
 }

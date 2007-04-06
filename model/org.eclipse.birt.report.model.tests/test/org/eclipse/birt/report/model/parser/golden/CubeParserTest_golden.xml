@@ -161,19 +161,25 @@
             <property name="dataSet">secondDataSet</property>
             <list-property name="dimensionConditions">
                 <structure>
-                    <simple-property-list name="primaryKeys">
-                        <value>column</value>
-                        <value>updated column</value>
-                    </simple-property-list>
-                    <property name="hierarchy">updated nonExistingHierarchy</property>
+                    <list-property name="joinConditions">
+                        <structure>
+                            <property name="cubeKey">cubeKey</property>
+                            <property name="hierarchyKey">key</property>
+                        </structure>
+                        <structure>
+                            <property name="cubeKey">cubeKey4</property>
+                            <property name="hierarchyKey">key4</property>
+                        </structure>
+                    </list-property>
+                    <property name="hierarchy">updated hierarchy</property>
                 </structure>
                 <structure>
-                    <simple-property-list name="primaryKeys">
-                        <value>updated key</value>
-                        <value>updated key2</value>
-                        <value>updated key4</value>
-                    </simple-property-list>
-                    <property name="hierarchy">updated hierarchy</property>
+                    <list-property name="joinConditions">
+                        <structure>
+                            <property name="cubeKey">addCubeKey</property>
+                            <property name="hierarchyKey">addHierarchyKey</property>
+                        </structure>
+                    </list-property>
                 </structure>
             </list-property>
         </tabular-cube>

@@ -11,10 +11,9 @@
 
 package org.eclipse.birt.report.model.api;
 
-import java.util.List;
-
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
+import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Structure;
@@ -55,37 +54,52 @@ public class DimensionConditionHandle extends StructureHandle
 	}
 
 	/**
-	 * Gets the list of the primary keys in this dimension condition. Each one
-	 * in the list is instance of <code>String</code>.
+	 * Gets the member handle to deal with all the
+	 * <code>DimensionJoinCondition</code>.
 	 * 
-	 * @return a list of the primary keys in this dimension condition if
-	 *         defined, null if not set
+	 * @return the member handle for all the DimensionJoinCondition
 	 */
-	public List getPrimaryKeys( )
+	public MemberHandle getJoinConditions( )
 	{
-		return (List) getProperty( DimensionCondition.PRIMARY_KEYS_MEMBER );
+		return getMember( DimensionCondition.JOIN_CONDITIONS_MEMBER );
 	}
-	
-	/**
-	 * Adds a primary key to this condition.
-	 * @param key
-	 * @throws SemanticException
-	 */
-	public void addPrimaryKey( String key ) throws SemanticException
-	{
-		MemberHandle memberHandle = getMember( DimensionCondition.PRIMARY_KEYS_MEMBER );
-		memberHandle.addItem( key );		
-	}
-	
+
 	/**
 	 * 
-	 * @param key
+	 * @param joinCondition
+	 * @return
 	 * @throws SemanticException
 	 */
-	public void removePrimaryKey(String key ) throws SemanticException
+	public DimensionJoinConditionHandle addJoinCondition(
+			DimensionJoinCondition joinCondition ) throws SemanticException
 	{
-		MemberHandle memberHandle = getMember( DimensionCondition.PRIMARY_KEYS_MEMBER );
-		memberHandle.removeItem( key );
+		return (DimensionJoinConditionHandle) getJoinConditions( ).addItem(
+				joinCondition );
+	}
+
+	/**
+	 * Removes join condition from this dimension condition.
+	 * 
+	 * @param joinCondition
+	 *            the join condition to remove
+	 * @throws SemanticException
+	 */
+	public void removeJoinCondition( DimensionJoinCondition joinCondition )
+			throws SemanticException
+	{
+		getJoinConditions( ).removeItem( joinCondition );
+	}
+
+	/**
+	 * Remove the join condition in the specified position.
+	 * 
+	 * @param index
+	 *            the position where the join condition resides
+	 * @throws SemanticException
+	 */
+	public void removeJoinCondition( int index ) throws SemanticException
+	{
+		getJoinConditions( ).removeItem( index );
 	}
 
 	/**

@@ -34,17 +34,29 @@
     		<list-property name="dimensionConditions">
     			<structure>
     				<property name="hierarchy">testHierarchy</property>
-    				<simple-property-list name="primaryKeys">
-    					<value>column</value>
-    					<value>column2</value>
-    					<value>column4</value>
-    				</simple-property-list>
+    				<list-property name="joinConditions">
+    					<structure>
+                    		<property name="cubeKey">cubeKey</property>
+                    		<property name="hierarchyKey">key</property>
+                		</structure>
+                		<structure>
+                    		<property name="cubeKey">cubeKey2</property>
+                    		<property name="hierarchyKey">key2</property>
+                		</structure>
+                		<structure>
+                    		<property name="cubeKey">cubeKey4</property>
+                    		<property name="hierarchyKey">key4</property>
+                		</structure>
+    				</list-property>
     			</structure>
     			<structure>
     				<property name="hierarchy">nonExistingHierarchy</property>
-    				<simple-property-list name="primaryKeys">
-    					<value>column</value>
-    				</simple-property-list>
+    				<list-property name="joinConditions">
+    					<structure>
+                    		<property name="cubeKey">cubeKey</property>
+                    		<property name="hierarchyKey">key</property>
+                		</structure>
+    				</list-property>
     			</structure>
     		</list-property>
     		<property name="dimensions">

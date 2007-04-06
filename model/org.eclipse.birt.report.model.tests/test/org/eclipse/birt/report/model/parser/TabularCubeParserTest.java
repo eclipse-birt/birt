@@ -11,13 +11,13 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.AccessControlHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
+import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
+import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
 import org.eclipse.birt.report.model.api.elements.structures.LevelAttribute;
 import org.eclipse.birt.report.model.api.elements.structures.Rule;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
@@ -81,18 +82,27 @@ public class TabularCubeParserTest extends BaseTestCase
 				.next( );
 		assertEquals(
 				design.findOLAPElement( "testHierarchy" ), cubeJoinConditionHandle.getHierarchy( ).getElement( ) ); //$NON-NLS-1$		
-		List primaryKeys = cubeJoinConditionHandle.getPrimaryKeys( );
-		assertEquals( 3, primaryKeys.size( ) );
-		assertEquals( "column", primaryKeys.get( 0 ) ); //$NON-NLS-1$
-		assertEquals( "column2", primaryKeys.get( 1 ) ); //$NON-NLS-1$
-		assertEquals( "column4", primaryKeys.get( 2 ) ); //$NON-NLS-1$
+		MemberHandle conditionMemberHandle = cubeJoinConditionHandle
+				.getJoinConditions( );
+		assertEquals( 3, conditionMemberHandle.getListValue( ).size( ) );
+		DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionMemberHandle
+				.getAt( 0 );
+		assertEquals( "cubeKey", joinCondition.getCubeKey( ) ); //$NON-NLS-1$
+		assertEquals( "key", joinCondition.getHierarchyKey( ) ); //$NON-NLS-1$
+		joinCondition = (DimensionJoinConditionHandle) conditionMemberHandle
+				.getAt( 1 );
+		assertEquals( "cubeKey2", joinCondition.getCubeKey( ) ); //$NON-NLS-1$
+		assertEquals( "key2", joinCondition.getHierarchyKey( ) ); //$NON-NLS-1$
+		joinCondition = (DimensionJoinConditionHandle) conditionMemberHandle
+				.getAt( 2 );
+		assertEquals( "cubeKey4", joinCondition.getCubeKey( ) ); //$NON-NLS-1$
+		assertEquals( "key4", joinCondition.getHierarchyKey( ) ); //$NON-NLS-1$
 		cubeJoinConditionHandle = (DimensionConditionHandle) iter.next( );
 		assertNull( cubeJoinConditionHandle.getHierarchy( ) );
 		assertEquals(
 				"nonExistingHierarchy", cubeJoinConditionHandle.getHierarchyName( ) ); //$NON-NLS-1$
-		primaryKeys = cubeJoinConditionHandle.getPrimaryKeys( );
-		assertEquals( 1, primaryKeys.size( ) );
-		assertEquals( "column", primaryKeys.get( 0 ) ); //$NON-NLS-1$
+		conditionMemberHandle = cubeJoinConditionHandle.getJoinConditions( );
+		assertEquals( 1, conditionMemberHandle.getListValue( ).size( ) );
 
 		// access controls
 
@@ -162,7 +172,7 @@ public class TabularCubeParserTest extends BaseTestCase
 		iter = hierarchy.filtersIterator( );
 		filterConditionHandle = (FilterConditionHandle) iter.next( );
 		assertEquals( "filter expression", filterConditionHandle.getExpr( ) ); //$NON-NLS-1$
-		primaryKeys = hierarchy.getPrimaryKeys( );
+		List primaryKeys = hierarchy.getPrimaryKeys( );
 		assertEquals( 3, primaryKeys.size( ) );
 		assertEquals( "key", primaryKeys.get( 0 ) ); //$NON-NLS-1$
 		assertEquals( "key2", primaryKeys.get( 1 ) ); //$NON-NLS-1$
@@ -272,26 +282,18 @@ public class TabularCubeParserTest extends BaseTestCase
 				.newTabularMeasureGroup( "testDefaultMeasureGroup" ) ); //$NON-NLS-1$
 		PropertyHandle propHandle = cube
 				.getPropertyHandle( TabularCubeHandle.DIMENSION_CONDITIONS_PROP );
-		propHandle.removeItem( 0 );
+		propHandle.removeItem( 1 );
 		DimensionCondition condition = new DimensionCondition( );
-		List keys = new ArrayList( );
-		keys.add( valuePrix + "key" ); //$NON-NLS-1$
-		keys.add( valuePrix + "key2" ); //$NON-NLS-1$
-		condition.setPrimaryKeys( keys );
-		cube.addDimensionCondition( condition );
-		DimensionConditionHandle structHandle = (DimensionConditionHandle) propHandle
-				.get( 1 );
+		DimensionConditionHandle structHandle = cube.addDimensionCondition( condition );
+		DimensionJoinConditionHandle joinConditionHandle = structHandle.addJoinCondition( new DimensionJoinCondition( ) );
+		joinConditionHandle.setCubeKey( "addCubeKey" ); //$NON-NLS-1$
+		joinConditionHandle.setHierarchyKey( "addHierarchyKey" ); //$NON-NLS-1$
+		structHandle = (DimensionConditionHandle) propHandle
+				.get( 0 );
 		MemberHandle memberHandle = structHandle
 				.getMember( DimensionCondition.HIERARCHY_MEMBER );
 		memberHandle.setValue( valuePrix + "hierarchy" ); //$NON-NLS-1$
-		structHandle.addPrimaryKey( valuePrix + "key4" ); //$NON-NLS-1$
-		structHandle = (DimensionConditionHandle) propHandle.get( 0 );
-		memberHandle = structHandle
-				.getMember( DimensionCondition.HIERARCHY_MEMBER );
-		memberHandle.setValue( valuePrix + memberHandle.getStringValue( ) );
-		memberHandle = structHandle
-				.getMember( DimensionCondition.PRIMARY_KEYS_MEMBER );
-		memberHandle.addItem( valuePrix + "column" ); //$NON-NLS-1$
+		structHandle.removeJoinCondition( 1 );
 
 		// access controls on cube.
 
@@ -430,7 +432,7 @@ public class TabularCubeParserTest extends BaseTestCase
 		measure.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN );
 
 		save( );
-
+		
 		assertTrue( compareFile( "CubeParserTest_golden.xml" ) ); //$NON-NLS-1$
 	}
 
@@ -464,7 +466,7 @@ public class TabularCubeParserTest extends BaseTestCase
 
 		// save
 		save( );
-
+		System.out.println(os );
 		assertTrue( compareFile( "CubeParserTest_golden_1.xml" ) ); //$NON-NLS-1$		
 	}
 

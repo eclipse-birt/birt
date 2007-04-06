@@ -179,14 +179,14 @@ public abstract class Structure implements IStructure
 
 	public Object getLocalProperty( Module module, PropertyDefn propDefn )
 	{
-		Object value = resolveElementReference( module,
-				(StructPropertyDefn) propDefn );
-		if ( value != null )
-			return value;
-
+		Object value = null;
 		if ( propDefn.isIntrinsic( ) )
-			return getIntrinsicProperty( propDefn.getName( ) );
-		return null;
+			value = getIntrinsicProperty( propDefn.getName( ) );
+
+		if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
+			return resolveElementReference( module,
+					(StructPropertyDefn) propDefn, value );
+		return value;
 	}
 
 	/**
@@ -203,12 +203,10 @@ public abstract class Structure implements IStructure
 	 */
 
 	protected ElementRefValue resolveElementReference( Module module,
-			StructPropertyDefn prop )
+			StructPropertyDefn prop, Object value )
 	{
 		if ( prop.getTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE )
 			return null;
-
-		Object value = getIntrinsicProperty( prop.getName( ) );
 
 		assert value == null || value instanceof ElementRefValue;
 

@@ -756,29 +756,47 @@ public class MemberRef
 	{
 		if ( propDefn.isList( ) )
 		{
-			List list = getList( module, element );
+			ArrayList list = (ArrayList) element.getProperty( module, propDefn );
 			if ( list == null )
 				return null;
 
-			// Get the entry within the list.
-
-			if ( depth == 1 )
+			switch ( refType )
 			{
-				Structure struct = getStructure( list, 0 );
-				if ( struct == null )
-					return null;
+				case PROPERTY_LISTn :
+				case PROPERTY_LISTn_MEMBER :
+					return getStructure( list, 0 );
+				case PROPERTY_LISTn_MEMBER_LISTn :
+				case PROPERTY_LISTn_MEMBER_LISTn_MEMBER :
 
-				if ( member[1] == null )
+					// If the top-level index is out of range, then there
+					// is no value.
+
+					Structure struct = getStructure( list, 0 );
+					if ( struct == null )
+						return null;
+
+					// Check the second-level list if needed.
+
+					assert member[0].isList( );
+					list = (ArrayList) struct.getProperty( module, member[0] );
+
+					return getStructure( list, 1 );
+
+				case PROPERTY_LISTn_MEMBER_MEMBER :
+
+					// If the top-level index is out of range, then there
+					// is no value.
+
+					struct = getStructure( list, 0 );
+					if ( struct == null )
+						return null;
+
+					assert member[0].getStructDefn( ) != null;
+
+					struct = (Structure) struct.getProperty( null, member[0] );
+
 					return struct;
 
-				// property.list[n].member.member
-
-				assert !member[0].isList( );
-				return (Structure) struct.getProperty( module, member[0] );
-			}
-			else if ( depth == 2 )
-			{
-				return getStructure( list, 1 );
 			}
 
 			return null;
@@ -914,23 +932,43 @@ public class MemberRef
 			// Get the property list. If the list is null, there
 			// is no value.
 
-			ArrayList list = (ArrayList) element.getProperty( module, propDefn );
+			List list = (ArrayList) element.getProperty( module, propDefn );
 			if ( list == null )
 				return null;
 
-			if ( depth == 2 )
+			switch ( refType )
 			{
-				// If the top-level index is out of range, then there
-				// is no value.
+				case PROPERTY :
+				case PROPERTY_LISTn :
+					return list;
 
-				Structure struct = getStructure( list, 0 );
-				if ( struct == null )
+				case PROPERTY_LISTn_MEMBER :
+				case PROPERTY_LISTn_MEMBER_LISTn :
+
+					if ( !member[0].isList( ) )
+						return list;
+
+					// If the top-level index is out of range, then there
+					// is no value.
+
+					Structure struct = getStructure( list, 0 );
+					if ( struct == null )
+						return null;
+
+					// Check the second-level list if needed.
+
+					assert member[0].isList( );
+					list = (List) struct.getProperty( module, member[0] );
+
+					return list;
+
+				case PROPERTY_LISTn_MEMBER_LISTn_MEMBER :
+				case PROPERTY_LISTn_MEMBER_MEMBER :
+
+					// these 2 cases are not supported.
+
 					return null;
 
-				// Check the second-level list if needed.
-
-				assert member[0].isList( );
-				list = (ArrayList) struct.getProperty( module, member[0] );
 			}
 
 			return list;

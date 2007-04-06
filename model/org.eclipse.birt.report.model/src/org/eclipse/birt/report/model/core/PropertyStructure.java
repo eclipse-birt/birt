@@ -51,14 +51,16 @@ public abstract class PropertyStructure extends Structure
 
 	public Object getLocalProperty( Module module, PropertyDefn propDefn )
 	{
-		Object value = resolveElementReference( module,
-				(StructPropertyDefn) propDefn );
-		if ( value != null )
-			return value;
-
+		Object value = null;
 		if ( propDefn.isIntrinsic( ) )
-			return getIntrinsicProperty( propDefn.getName( ) );
-		return propValues.get( propDefn.getName( ) );
+			value = getIntrinsicProperty( propDefn.getName( ) );
+		else
+			value = propValues.get( propDefn.getName( ) );
+		
+		if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
+			return resolveElementReference( module,
+					(StructPropertyDefn) propDefn, value );
+		return value;
 	}
 
 	/*

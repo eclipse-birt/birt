@@ -1960,8 +1960,12 @@
     <Member detailType="transform" displayNameID="Structure.TOC.text.transform" name="textTransform" since="1.0" type="choice"/>
   </Structure>
   <Structure displayNameID="Structure.DimensionCondition" name="DimensionCondition" since="2.2">
-  	<Member subType="string" displayNameID="Structure.DimensionCondition.primaryKeys" isIntrinsic="true" name="primaryKeys" since="2.2" type="list" />
-	<Member detailType="Hierarchy" displayNameID="Structure.DimensionCondition.hierarchy" isIntrinsic="true" name="hierarchy" since="2.2" type="elementRef" />
+  	<Member detailType="DimensionJoinCondition" displayNameID="Structure.DimensionCondition.joinConditions" isList="true" name="joinConditions" since="2.2" type="structure" />
+	<Member detailType="Hierarchy" displayNameID="Structure.DimensionCondition.hierarchy" name="hierarchy" since="2.2" type="elementRef" />
+  </Structure>
+  <Structure displayNameID="Structure.DimensionJoinCondition" name="DimensionJoinCondition" since="2.2">
+  	<Member displayNameID="Structure.DimensionJoinCondition.cubeKey" name="cubeKey" since="2.2" type="String"/>
+  	<Member displayNameID="Structure.DimensionJoinCondition.hierarchyKey" name="hierarchyKey" since="2.2" type="String"/>
   </Structure>
   <Structure displayNameID="Structure.Rule" name="Rule" since="2.2">
     <Member displayNameID="Structure.Rule.ruleExpre" isIntrinsic="true" name="ruleExpre" since="2.2" type="expression"/>
