@@ -24,7 +24,6 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.parser.DesignParserException;
-import org.eclipse.birt.report.model.util.ErrorCodes;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
