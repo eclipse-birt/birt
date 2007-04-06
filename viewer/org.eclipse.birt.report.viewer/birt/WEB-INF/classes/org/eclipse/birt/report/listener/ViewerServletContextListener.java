@@ -52,10 +52,10 @@ public class ViewerServletContextListener implements ServletContextListener
 		// workaround for Bugzilla Bug 181377. Don't initialize report service
 		// instance
 		/*
-		 * ParameterAccessor.initParameters( event.getServletContext( ) ); //
-		 * initialize ViewerReportService instance IViewerReportService instance =
-		 * new BirtViewerReportService( event .getServletContext( ) );
-		 * BirtReportServiceFactory.init( instance );
-		 */
+		ParameterAccessor.initParameters( event.getServletContext( ) );
+		IViewerReportService instance = new BirtViewerReportService( event
+				.getServletContext( ) );
+		BirtReportServiceFactory.init( instance );
+		*/
 	}
 }
