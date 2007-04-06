@@ -19,18 +19,18 @@ import org.eclipse.birt.report.tests.engine.EngineCase;
  */
 public class RunTaskTest extends EngineCase
 {
-	private Boolean signal = new Boolean( false);
-	
+
+	private Boolean signal = new Boolean( false );
+
 	private String separator = System.getProperty( "file.separator" );
-	
-	private String INPUT = this.genInputFolder( )
-			+ separator;
-	
+
+	private String INPUT = this.genInputFolder( ) + separator;
+
 	String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
 	private String OUTPUT = this.genOutputFolder( ) + separator;
-	
-//	private String OUTPUT = getClassFolder( ) + separator + OUTPUT_FOLDER
-//			+ separator;
+
+	// private String OUTPUT = getClassFolder( ) + separator + OUTPUT_FOLDER
+	// + separator;
 	private String report_design, report_document, name;
 	private IReportRunnable runnable;
 
@@ -39,12 +39,12 @@ public class RunTaskTest extends EngineCase
 		super.setUp( );
 		removeResource( );
 	}
-	
+
 	public void tearDown( )
 	{
 		removeResource( );
 	}
-	
+
 	public RunTaskTest( String name )
 	{
 		super( name );
@@ -116,7 +116,7 @@ public class RunTaskTest extends EngineCase
 	public void testCancel( )
 	{
 		report_design = INPUT + "pages9.rptdesign";
-		copyResource_INPUT( "pages9.rptdesign" , "pages9.rptdesign" );
+		copyResource_INPUT( "pages9.rptdesign", "pages9.rptdesign" );
 		String fileDocument = OUTPUT + "cancel_pages9.rptdocument";
 		long bTime, eTime, timeSpan1, timeSpan2, timeSpan3;
 		try
@@ -149,53 +149,55 @@ public class RunTaskTest extends EngineCase
 		}
 	}
 
-//	public void testCancelSignal( ) throws InterruptedException
-//	{
-//		report_design = INPUT + "pages9.rptdesign";
-//		long bTime, eTime, timeSpan;
-//		String fileDocument = OUTPUT + "cancel_pages9.rptdocument";
-//		try
-//		{
-//			runnable = engine.openReportDesign( report_design );
-//			IRunTask task = engine.createRunTask( runnable );
-//
-//			SignalRunTask signalRunTask = new SignalRunTask(
-//					"runTask", 
-//					engine,
-//					runnable,
-//					task,
-//					fileDocument );
-//			signalRunTask.start( );
-//			
-//			CancelWithFlagTask cancelWithFlagTask = new CancelWithFlagTask(
-//					"cancelWithFlagTask",
-//					task,
-//					signal );
-//			cancelWithFlagTask.start( );
-//			
-//			bTime=System.currentTimeMillis( );
-//			signal.wait( 100000000 );
-//			eTime=System.currentTimeMillis( );
-//			timeSpan=eTime-bTime;
-//			
-//			task.close( );
-//
-//			removeFile( fileDocument );
-//			assertTrue(timeSpan<120000000);
-//			assertTrue( signal.booleanValue( ) );
-//		}
-//		catch ( EngineException ee )
-//		{
-//			ee.printStackTrace( );
-//			fail( "RunTask.cancel() failed!" );
-//		}
-//
-//	}
+	// public void testCancelSignal( ) throws InterruptedException
+	// {
+	// report_design = INPUT + "pages9.rptdesign";
+	// long bTime, eTime, timeSpan;
+	// String fileDocument = OUTPUT + "cancel_pages9.rptdocument";
+	// try
+	// {
+	// runnable = engine.openReportDesign( report_design );
+	// IRunTask task = engine.createRunTask( runnable );
+	//
+	// SignalRunTask signalRunTask = new SignalRunTask(
+	// "runTask",
+	// engine,
+	// runnable,
+	// task,
+	// fileDocument );
+	// signalRunTask.start( );
+	//			
+	// CancelWithFlagTask cancelWithFlagTask = new CancelWithFlagTask(
+	// "cancelWithFlagTask",
+	// task,
+	// signal );
+	// cancelWithFlagTask.start( );
+	//			
+	// bTime=System.currentTimeMillis( );
+	// signal.wait( 100000000 );
+	// eTime=System.currentTimeMillis( );
+	// timeSpan=eTime-bTime;
+	//			
+	// task.close( );
+	//
+	// removeFile( fileDocument );
+	// assertTrue(timeSpan<120000000);
+	// assertTrue( signal.booleanValue( ) );
+	// }
+	// catch ( EngineException ee )
+	// {
+	// ee.printStackTrace( );
+	// fail( "RunTask.cancel() failed!" );
+	// }
+	//
+	// }
 
 	public void testGetErrors( )
 	{
 		report_design = INPUT + "jdbc_exception.rptdesign";
-		copyResource_INPUT( "jdbc_exception.rptdesign" , "jdbc_exception.rptdesign" );
+		copyResource_INPUT(
+				"jdbc_exception.rptdesign",
+				"jdbc_exception.rptdesign" );
 		String fileDocument = OUTPUT + "jdbc_exception.rptdocument";
 
 		try
@@ -209,15 +211,12 @@ public class RunTaskTest extends EngineCase
 				assertTrue(
 						"IRunTask.getErrors() fails!",
 						task.getErrors( ) != null );
-				assertTrue(
-						"IRunTask.getErrors() returns wrong exception",
-						task
-								.getErrors( )
-								.get( 0 )
-								.getClass( )
-								.toString( )
-								.equalsIgnoreCase(
-										"class org.eclipse.birt.data.engine.core.DataException" ) );
+				assertTrue( task
+						.getErrors( )
+						.get( 0 )
+						.getClass( )
+						.toString( )
+						.indexOf( "Exception" ) > 0 );
 			}
 			task.close( );
 		}
@@ -230,7 +229,7 @@ public class RunTaskTest extends EngineCase
 	private void runReport( String report )
 	{
 		report_design = INPUT + report + ".rptdesign";
-		copyResource_INPUT( report + ".rptdesign" , report + ".rptdesign" );
+		copyResource_INPUT( report + ".rptdesign", report + ".rptdesign" );
 		String fileDocument = OUTPUT + report + ".rptdocument";
 		String folderDocument = OUTPUT + "runtask_folderdocument_" + report
 				+ separator;
@@ -239,6 +238,9 @@ public class RunTaskTest extends EngineCase
 			runnable = engine.openReportDesign( report_design );
 			IRunTask task = engine.createRunTask( runnable );
 			task.run( fileDocument );
+			task.close( );
+
+			task = engine.createRunTask( runnable );
 			task.run( folderDocument );
 			task.close( );
 
@@ -256,7 +258,6 @@ public class RunTaskTest extends EngineCase
 					+ ee.getLocalizedMessage( ), false );
 		}
 	}
-
 
 	/**
 	 * A new thread to cancel existed runTask
@@ -291,39 +292,39 @@ public class RunTaskTest extends EngineCase
 
 	}
 
-
-//	/**
-//	 * A new thread to let signal object to wait, then set it's value if it's
-//	 * awakened by notifier.
-//	 */
-//	private class SignalRunTask extends Thread
-//	{
-//
-//		private IRunTask task;
-//		private IReportEngine reportEngine;
-//		private IReportRunnable reportRunnable;
-//		private String doc;
-//
-//		public SignalRunTask( String threadName, IReportEngine reportEngine, IReportRunnable runnable, IRunTask task, String document )
-//		{
-//			super( threadName );
-//			this.task = task;
-//			this.reportEngine = reportEngine;
-//			this.reportRunnable = runnable;
-//			this.doc = document;
-//		}
-//
-//		public void run( )
-//		{
-//			try
-//			{
-//				task.run( doc );
-//			}
-//			catch ( EngineException e )
-//			{
-//				e.printStackTrace( );
-//				fail( );
-//			}
-//		}
-//	}
+	// /**
+	// * A new thread to let signal object to wait, then set it's value if it's
+	// * awakened by notifier.
+	// */
+	// private class SignalRunTask extends Thread
+	// {
+	//
+	// private IRunTask task;
+	// private IReportEngine reportEngine;
+	// private IReportRunnable reportRunnable;
+	// private String doc;
+	//
+	// public SignalRunTask( String threadName, IReportEngine reportEngine,
+	// IReportRunnable runnable, IRunTask task, String document )
+	// {
+	// super( threadName );
+	// this.task = task;
+	// this.reportEngine = reportEngine;
+	// this.reportRunnable = runnable;
+	// this.doc = document;
+	// }
+	//
+	// public void run( )
+	// {
+	// try
+	// {
+	// task.run( doc );
+	// }
+	// catch ( EngineException e )
+	// {
+	// e.printStackTrace( );
+	// fail( );
+	// }
+	// }
+	// }
 }

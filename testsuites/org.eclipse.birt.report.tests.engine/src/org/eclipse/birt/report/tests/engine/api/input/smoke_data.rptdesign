@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.10" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.2" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.N20060510-0630 Build &lt;20060510-0630></property>
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2006 Actuate Corporation.</property>
