@@ -30,6 +30,7 @@ public class SizeOfUtil
 	private static int BIGDECIMAL_SIZE = 80;
 	private final static int DATE_SIZE = 24;
 	private final static int TIME_SIZE = 24;
+	private final static int SQL_DATE_SIZE = 24;
 	private static int TIMESTAMP_SIZE = 24;
 
 	// field count of result object
@@ -50,7 +51,7 @@ public class SizeOfUtil
 	 * @param resultClass
 	 * @throws DataException
 	 */
-	SizeOfUtil( IResultClass resultClass ) throws DataException
+	public SizeOfUtil( IResultClass resultClass ) throws DataException
 	{
 		fieldCount = resultClass.getFieldCount( );
 		isfixedSize = new boolean[resultClass.getFieldCount( )];
@@ -82,6 +83,7 @@ public class SizeOfUtil
 				|| objectClass.equals( Double.class )
 				|| objectClass.equals( BigDecimal.class )
 				|| objectClass.equals( Date.class )
+				|| objectClass.equals( java.sql.Date.class )
 				|| objectClass.equals( Time.class )
 				|| objectClass.equals( Timestamp.class );
 	}
@@ -118,6 +120,10 @@ public class SizeOfUtil
 		{
 			return SizeOfUtil.TIMESTAMP_SIZE;
 		}
+		else if ( objectClass.equals( java.sql.Date.class ) )
+		{
+			return SizeOfUtil.SQL_DATE_SIZE;
+		}
 		// Normally followed lines will never be arrived.
 		return 0;
 	}
@@ -129,7 +135,7 @@ public class SizeOfUtil
 	 * @return
 	 * @throws DataException
 	 */
-	int sizeOf( IResultObject resultObject ) throws DataException
+	public int sizeOf( IResultObject resultObject ) throws DataException
 	{
 		int returnValue = 0;
 		for ( int i = 1; i <= fieldCount; i++ )

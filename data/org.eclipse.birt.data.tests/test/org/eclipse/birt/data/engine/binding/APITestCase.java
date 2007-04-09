@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.data.engine.binding;
 
+import java.util.Map;
+
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
@@ -118,6 +120,11 @@ abstract public class APITestCase extends BaseTestCase
 		}
 	}
 	
+	protected Map getAppContext( )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
 	/**
 	 * Prepare data source connection property, these properties will be used in
 	 * test table preparation and oda data source preparation.
@@ -305,7 +312,7 @@ abstract public class APITestCase extends BaseTestCase
 	protected IResultIterator executeQuery( IQueryDefinition query )
 			throws Exception
 	{
-		IPreparedQuery preparedQuery = dataEngine.prepare( query );
+		IPreparedQuery preparedQuery = dataEngine.prepare( query, this.getAppContext( ) );
 		IQueryResults queryResults = preparedQuery.execute( null );
 		return queryResults.getResultIterator( );
 	}

@@ -368,6 +368,15 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 			return result;
 		}
 
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.odi.IEventHandler#getAppContext()
+		 */
+		public Map getAppContext( )
+		{
+			return queryExecutor.getAppContext( );
+		}
+
 	}
 	
 	/*

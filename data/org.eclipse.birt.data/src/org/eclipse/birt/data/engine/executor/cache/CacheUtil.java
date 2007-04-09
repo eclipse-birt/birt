@@ -20,10 +20,12 @@ import java.io.ObjectOutputStream;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
@@ -33,21 +35,10 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
 /**
  * 
  */
-/**
- * @author Xiaoxiao Wu
- * 
- */
 public class CacheUtil
 {
-
-	/**
-	 * how many memory could be used to cached rows in memory when
-	 * transformation is done, the minimum value for it is 1M. It is strongly
-	 * recommended to give a high value to it so as to get a good performance.
-	 * If this value is not set, the default value is 10.
-	 */
-	public final static String MEMCACHE_ROWNUMBER = "org.eclipse.birt.data.engine.memcache.rownumber";
-
+	private static String TEST_MEM_BUFFER_SIZE = "birt.data.engine.test.memcachesize";	
+	
 	private static Integer cacheCounter1 = new Integer( 0 );
 	private static Integer cacheCounter2 = new Integer( 0 );
 
@@ -67,51 +58,41 @@ public class CacheUtil
 	/**
 	 * @return
 	 */
-	static int computeCacheSize( )
+	static int computeMemoryBufferSize( Map appContext )
 	{
-		// below code only for unit test
-		String memcachesizeOfTest = System.getProperty( "birt.data.engine.test.memcachesize" );
-		if ( memcachesizeOfTest != null )
-			return Integer.parseInt( memcachesizeOfTest );
+		//here a simple assumption, that 1M memory can accomondate 2000 rows
+		if ( appContext == null )
+			return 10*1024*1024;
 
-		// the row number can be specified precisely
-		String memoryCacheRowNum = System.getProperty( MEMCACHE_ROWNUMBER );
-		if ( memoryCacheRowNum != null )
+		if ( appContext.get( TEST_MEM_BUFFER_SIZE )!= null )
 		{
-			int memCacheRowNum = 0;
-			try
-			{
-				memCacheRowNum = Double.valueOf( memoryCacheRowNum ).intValue( );
-			}
-			catch ( Exception e )
-			{
-				// ignore it
-			}
-			return Math.max( 1, memCacheRowNum );
+			//For unit test.The unit is 1 byte.
+			return populateMemBufferSize( appContext.get( TEST_MEM_BUFFER_SIZE ) );
 		}
+		
+		//The unit is 1M.
+		return populateMemBufferSize( appContext.get( DataEngine.MEMORY_BUFFER_SIZE )) * 1024 * 1024;
+	}
 
-		// real code starts here
-		int memoryCacheSize = 10; // default minimum value is 10M.
-		String memcachesize = System.getProperty( "birt.data.engine.memcachesize" ); // deprecated
-		if ( memcachesize != null )
-		{
-			try
-			{
-				memoryCacheSize = Integer.parseInt( memcachesize );
-			}
-			catch ( Exception e )
-			{
-				// ignore it
-			}
-
-			if ( memoryCacheSize < 10 )
-			{
-				throw new IllegalArgumentException( "the value of memcachesize should be at least 10" );
-			}
-		}
+	/**
+	 * 
+	 * @param propValue
+	 * @return
+	 */
+	private static int populateMemBufferSize( Object propValue )
+	{
+		String targetBufferSize =  propValue == null
+				? "1" : propValue
+						.toString( );
+		
+		int memoryCacheSize = 10; 
+		
+		if ( targetBufferSize != null )
+			memoryCacheSize = Integer.parseInt( targetBufferSize );
 
 		return memoryCacheSize;
 	}
+	
 
 	/**
 	 * @param sortSpec

@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.data.engine.api;
 
+import java.util.Map;
+
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseExpression;
@@ -97,6 +99,12 @@ abstract public class APITestCase extends BaseTestCase
 			dataEngine.defineDataSource( this.dataSource );
 			dataEngine.defineDataSet( this.dataSet );
 		}
+	}
+	
+	protected Map getAppContext( )
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	/**
@@ -286,7 +294,7 @@ abstract public class APITestCase extends BaseTestCase
 	protected IResultIterator executeQuery( IQueryDefinition query )
 			throws Exception
 	{
-		IPreparedQuery preparedQuery = dataEngine.prepare( query );
+		IPreparedQuery preparedQuery = dataEngine.prepare( query, this.getAppContext( ) );
 		IQueryResults queryResults = preparedQuery.execute( null );
 		return queryResults.getResultIterator( );
 	}

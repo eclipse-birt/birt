@@ -65,6 +65,12 @@ abstract public class DataEngine
 	 */
 	public static String DATA_SET_CACHE_ROW_LIMIT = "org.eclipse.birt.data.cache.RowLimit";
 
+	/**
+	 * Indicate the size of data cached for each result set.We only accept positive integer as input, the unit of which
+	 * would be MB. 
+	 */
+	public static String MEMORY_BUFFER_SIZE = "org.eclipse.birt.data.query.ResultBufferSize";
+	
 	public static String DATA_SET_CACHE_DELTA_FILE = "org.eclipse.birt.data.cache.DeltaFile";
 	
 	/**

@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.executor.cache;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.birt.data.engine.binding.NestedQueryTest;
 
 
@@ -32,6 +35,13 @@ public class CacheNestedQueryTest extends NestedQueryTest
 	{
 		System.setProperty( "birt.data.engine.test.memcachesize", "3" );
 		super.test6();
+	}
+	
+	protected Map getAppContext()
+	{
+		Map appContext = new HashMap();
+		appContext.put( "birt.data.engine.test.memcachesize", "500" );
+		return appContext;
 	}
 	
 }

@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.executor.cache;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.birt.data.engine.binding.SubQueryTest;
 
 /**
@@ -18,13 +21,10 @@ import org.eclipse.birt.data.engine.binding.SubQueryTest;
 public class CacheSubqueryTest extends SubQueryTest
 {
 
-	/*
-	 * @see junit.framework.TestCase#setUp()
-	 */
-	public void setUp( ) throws Exception
+	protected Map getAppContext()
 	{
-		super.setUp( );
-		System.setProperty( "birt.data.engine.test.memcachesize", "10" );
+		Map appContext = new HashMap();
+		appContext.put( "birt.data.engine.test.memcachesize", "250" );
+		return appContext;
 	}
-	
 }

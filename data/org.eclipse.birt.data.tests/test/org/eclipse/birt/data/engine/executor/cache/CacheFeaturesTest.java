@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.executor.cache;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.birt.data.engine.binding.FeaturesTest;
 
 
@@ -19,13 +22,10 @@ import org.eclipse.birt.data.engine.binding.FeaturesTest;
 public class CacheFeaturesTest extends FeaturesTest
 {
 
-	/*
-	 * @see junit.framework.TestCase#setUp()
-	 */
-	public void setUp( ) throws Exception
+	protected Map getAppContext()
 	{
-		super.setUp( );
-		System.setProperty( "birt.data.engine.test.memcachesize", "2" );
+		Map appContext = new HashMap();
+		appContext.put( "birt.data.engine.test.memcachesize", "450" );
+		return appContext;
 	}
-	
 }

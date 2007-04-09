@@ -34,15 +34,6 @@ class SmartCacheHelper
 
 	private IEventHandler eventHandler;
 
-	/**
-	 * Very important parameter, indicates the max number of row which can be
-	 * accomodated by available memory. In future, this vale needs to be changed
-	 * to the maximum momery can be used, rather than static value of maimum
-	 * result object can be loaded into memory. The unit of this value million
-	 * bytes.
-	 */
-	private static int MemoryCacheSize;
-
 	// log instance
 	private static Logger logger = Logger.getLogger( SmartCache.class.getName( ) );
 
@@ -265,23 +256,21 @@ class SmartCacheHelper
 		SizeOfUtil sizeOfUtil = new SizeOfUtil( rsMeta );
 
 		// compute the number of rows which can be cached in memory
-		long memoryCacheSize = computeCacheMemorySize( rsMeta );
-		logger.info( "memoryCacheRowCount is " + memoryCacheSize/1000000 + "M" );
-
+		long memoryCacheSize = CacheUtil.computeMemoryBufferSize( eventHandler.getAppContext() );
+		
 		IResultObject odaObject;
 		IResultObject[] resultObjects;
 		List resultObjectsList = new ArrayList( );
 
 		int dataCount = 0;
 		int usedMemorySize = 0;
-		int rowSize = 0;
+
 		while ( ( odaObject = rowResultSet.next( ) ) != null )
 		{
-			dataCount++;
-			// notice. it is less than or equal
-			rowSize = sizeOfUtil.sizeOf( odaObject );
-			if ( rowSize <= ( MemoryCacheSize - usedMemorySize ) )
+			if ( usedMemorySize < memoryCacheSize )
 			{
+				dataCount++;
+				
 				//the followed variable is for performance
 				int odaObjectFieldCount = odaObject.getResultClass( ).getFieldCount( );
 				int metaFieldCount = rsMeta.getFieldCount( );
@@ -293,13 +282,16 @@ class SmartCacheHelper
 					{
 						obs[i - 1] = odaObject.getFieldValue( i );
 					}
-					resultObjectsList.add( new ResultObject( rsMeta, obs ) );
+					ResultObject temp = new ResultObject( rsMeta, obs );
+					resultObjectsList.add( temp );
+					usedMemorySize += sizeOfUtil.sizeOf( temp );
 				}
 				else
 				{
 					resultObjectsList.add( odaObject );
+					usedMemorySize += sizeOfUtil.sizeOf( odaObject );
 				}
-				usedMemorySize += rowSize;
+				
 			}
 			else
 			{
@@ -312,7 +304,7 @@ class SmartCacheHelper
 						rowResultSet,
 						rsMeta,
 						CacheUtil.getComparator( sortSpec, eventHandler ),
-						dataCount - 1,
+						dataCount,
 						this.session );
 				break;
 			}
@@ -337,31 +329,4 @@ class SmartCacheHelper
 		long consumedTime = ( System.currentTimeMillis( ) - startTime ) / 1000;
 		logger.info( "Time consumed by cache is: " + consumedTime + " second" );
 	}
-
-	/**
-	 * According to avilable memory and specified rsMeta, the max number of rows
-	 * which can be cached in memory. There is a potential issue associate with
-	 * this value that current DtE is called in only one thread, but in the
-	 * future it is probably that DtE is called by multi threads. Then available
-	 * memory is shared by all thread, so the cacheSize needs to be adjusted.
-	 * 
-	 * @param rsMeta
-	 * @return row count
-	 */
-	private long computeCacheMemorySize( IResultClass rsMeta )
-	{
-		if ( MemoryCacheSize == 0 )
-		{
-			synchronized ( this )
-			{
-				if ( MemoryCacheSize == 0 )
-				{
-					MemoryCacheSize = CacheUtil.computeCacheSize( ) * 1000000;
-				}
-			}
-		}
-
-		return MemoryCacheSize;
-	}
-
 }

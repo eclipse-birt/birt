@@ -358,8 +358,8 @@ public class NestedQueryTest extends APITestCase
 	 */
 	private void runNestedQuery( ) throws Exception
 	{
-		IPreparedQuery preparedQueryCustomer = dataEngine.prepare( queryDefnCustomer );
-		IPreparedQuery preparedQueryCall = dataEngine.prepare( queryDefnCall );
+		IPreparedQuery preparedQueryCustomer = dataEngine.prepare( queryDefnCustomer, this.getAppContext( ) );
+		IPreparedQuery preparedQueryCall = dataEngine.prepare( queryDefnCall, this.getAppContext( ) );
 
 		ScriptContext scriptContext = new ScriptContext( );
 		
@@ -398,5 +398,4 @@ public class NestedQueryTest extends APITestCase
 		scriptContext.exit();
 		checkOutputFile();
 	}
-
 }

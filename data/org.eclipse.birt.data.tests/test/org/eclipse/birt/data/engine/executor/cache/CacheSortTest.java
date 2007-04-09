@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.executor.cache;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.birt.data.engine.regre.SortTest;
 
 /**
@@ -18,13 +21,11 @@ import org.eclipse.birt.data.engine.regre.SortTest;
 public class CacheSortTest extends SortTest
 {
 
-	/*
-	 * @see junit.framework.TestCase#setUp()
-	 */
-	public void setUp( ) throws Exception
+	protected Map getAppContext()
 	{
-		super.setUp( );
-		System.setProperty( "birt.data.engine.test.memcachesize", "4" );
+		Map appContext = new HashMap();
+		appContext.put( "birt.data.engine.test.memcachesize", "300" );
+		return appContext;
 	}
 	
 }
