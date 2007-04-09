@@ -1679,6 +1679,9 @@ public abstract class ModuleWriter extends ElementVisitor
 						break;
 				}
 			}
+			
+			// write overridden properties
+			writeOverridenPropertyValues( obj );
 		}
 
 		writer.endElement( );

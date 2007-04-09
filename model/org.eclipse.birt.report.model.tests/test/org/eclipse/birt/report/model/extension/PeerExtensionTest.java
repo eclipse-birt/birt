@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -668,7 +669,7 @@ public class PeerExtensionTest extends BaseTestCase
 		assertEquals( cube.getElement( ), value.getTargetElement( ) );
 		assertTrue( value.isResolved( ) );
 	}
-
+	
 	/**
 	 * Tests IReportItem :: getFunctions.
 	 * 
@@ -733,5 +734,28 @@ public class PeerExtensionTest extends BaseTestCase
 		boxMethod = (IMethodInfo) boxMethods.get( 0 );
 		assertEquals( "getMethod1", boxMethod.getName( ) ); //$NON-NLS-1$
 		assertEquals( "java.lang.String", boxMethod.getReturnType( ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Tests newElementFrom and writer for extended item with element
+	 * properties.
+	 * 
+	 * @throws Exception
+	 */
+	public void testElementProperty( ) throws Exception
+	{
+		openDesign( FILE_NAME_1 );
+		designHandle.includeLibrary( "LibraryWithElementProperty.xml", "lib" ); //$NON-NLS-1$ //$NON-NLS-2$
+
+		LibraryHandle lib = designHandle.getLibrary( "lib" ); //$NON-NLS-1$
+		DesignElementHandle libBox = lib.findElement( "LibraryBox" ); //$NON-NLS-1$
+
+		DesignElementHandle designBox = designHandle.getElementFactory( )
+				.newElementFrom( libBox, "designBox" ); //$NON-NLS-1$
+		designHandle.getBody( ).add( designBox );
+
+		save( );
+		assertTrue( compareFile( "PeerExtensionTest_golden_3.xml" ) ); //$NON-NLS-1$
+
 	}
 }

@@ -1028,8 +1028,8 @@ public class ElementFactory
 			childElement.setExtends( baseElement );
 			ElementStructureUtil.refreshStructureFromParent( module,
 					childElement.getElement( ) );
-			renameForVirtualElements( childElement.getElement( ) );
 		}
+		module.rename( childElement.getElement( ) );
 
 		return childElement;
 	}
@@ -1199,7 +1199,7 @@ public class ElementFactory
 		AccessControl element = new ValueAccessControl( );
 		return (ValueAccessControlHandle) element.handle( module );
 	}
-	
+
 	/**
 	 * Creates a new cube element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
