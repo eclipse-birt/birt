@@ -80,9 +80,9 @@ public class ArgumentInfoList implements IArgumentInfoList
 		for ( Iterator iter = ( (ArrayList) arguments ).iterator( ); iter
 				.hasNext( ); )
 		{
-			ArgumentInfo argument = (ArgumentInfo) iter.next( );
+			IArgumentInfo argument = (IArgumentInfo) iter.next( );
 
-			if ( argument.name.equalsIgnoreCase( argumentName ) )
+			if ( argument.getName( ).equalsIgnoreCase( argumentName ) )
 				return argument;
 		}
 
