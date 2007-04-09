@@ -105,25 +105,36 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 		// always repeate header
 		content.setHeaderRepeat( true );
 
-		// generate table columns
-		try
+		if ( getCubeCursor( ) != null )
 		{
-			rowGroups = GroupUtil.getGroups( crosstabItem, ROW_AXIS_TYPE );
-			columnGroups = GroupUtil.getGroups( crosstabItem, COLUMN_AXIS_TYPE );
+			// generate table columns
+			try
+			{
+				rowGroups = GroupUtil.getGroups( crosstabItem, ROW_AXIS_TYPE );
+				columnGroups = GroupUtil.getGroups( crosstabItem,
+						COLUMN_AXIS_TYPE );
 
-			walker = new CachedColumnWalker( crosstabItem,
-					getColumnEdgeCursor( ) );
-			new TableColumnGenerator( crosstabItem, walker, getCubeResultSet( ) ).generateColumns( context.getReportContent( ),
-					content );
+				walker = new CachedColumnWalker( crosstabItem,
+						getColumnEdgeCursor( ) );
+				new TableColumnGenerator( crosstabItem,
+						walker,
+						getCubeResultSet( ) ).generateColumns( context.getReportContent( ),
+						content );
+			}
+			catch ( OLAPException e )
+			{
+				logger.log( Level.SEVERE,
+						Messages.getString( "CrosstabReportItemExecutor.error.generate.columns" ), //$NON-NLS-1$
+						e );
+			}
+
+			prepareChildren( );
 		}
-		catch ( OLAPException e )
+		else
 		{
 			logger.log( Level.SEVERE,
-					Messages.getString( "CrosstabReportItemExecutor.error.generate.columns" ), //$NON-NLS-1$
-					e );
+					Messages.getString( "CrosstabReportItemExecutor.error.invalid.cube.result" ) ); //$NON-NLS-1$
 		}
-
-		prepareChildren( );
 
 		currentChild = 0;
 

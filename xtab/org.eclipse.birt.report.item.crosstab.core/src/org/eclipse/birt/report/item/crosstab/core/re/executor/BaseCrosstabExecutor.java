@@ -85,11 +85,12 @@ public abstract class BaseCrosstabExecutor implements
 	{
 		IDataQueryDefinition query = context.getQueries( crosstabItem.getModelHandle( ) )[0];
 
-		cubeRset = (ICubeResultSet) context.executeQuery( getParentResultSet( ),
+		IBaseResultSet rset = context.executeQuery( getParentResultSet( ),
 				query );
 
-		if ( cubeRset != null )
+		if ( rset instanceof ICubeResultSet )
 		{
+			cubeRset = (ICubeResultSet) rset;
 			cubeCursor = cubeRset.getCubeCursor( );
 		}
 	}
