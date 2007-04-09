@@ -836,7 +836,9 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 		
 		while(itor.hasNext( ))
 		{
-			if (ICrosstabReportItemConstants.MEASURE_DIRECTION_PROP.equals( itor.next( ) ))
+			Object obj = itor.next( );
+			if (ICrosstabReportItemConstants.MEASURE_DIRECTION_PROP.equals(obj  )
+					|| ICrosstabReportItemConstants.PAGE_LAYOUT_PROP.equals(obj  ))
 			{
 				refresh( );
 				return;

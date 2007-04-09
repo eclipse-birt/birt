@@ -630,8 +630,48 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 			CrosstabCellAdapter adapter = (CrosstabCellAdapter) cells.get( i );
 			adapter.setRowNumber( rowNumber - adapter.getRowNumber( ) + 1 );
 		}
+		
+		if (isPageLayoutOver( ))
+		{
+			for ( int i = 0; i < size; i++ )
+			{
+				CrosstabCellAdapter adapter = (CrosstabCellAdapter) cells.get( i );
+				int row = adapter.getRowNumber( );
+				int rowSpan = adapter.getRowSpan( );
+				int column = adapter.getColumnNumber( );
+				int columnSpan = adapter.getColumnSpan( );
+				
+				if (adapter.getPositionType( ).equals( ICrosstabCellAdapterFactory.CELL_SUB_TOTAL ))
+				{
+					adapter.setRowNumber( row - 1 );
+					adapter.setRowSpan( rowSpan + 1 );
+					
+					CrosstabCellAdapter levelAdapter = getCell( row - 1, column - 1, cells );
+					levelAdapter.setColumnSpan( levelAdapter.getColumnSpan( ) - columnSpan );
+				}
+				
+				
+			}
+		}
 	}
-
+	
+	private CrosstabCellAdapter getCell(int rowNumber, int columnNumber, List list)
+	{
+		for (int i=0; i<list.size( ); i++)
+		{
+			CrosstabCellAdapter adapter = (CrosstabCellAdapter) list.get( i );
+			if ( rowNumber >= adapter.getRowNumber( )
+					&& rowNumber < adapter.getRowNumber( ) + adapter.getRowSpan( )
+					&& columnNumber >= adapter.getColumnNumber( )
+					&& columnNumber < adapter.getColumnNumber( )
+							+ adapter.getColumnSpan( ) )
+			{
+				return adapter;
+			}
+		}
+		return null;
+	}
+	
 	private void covertColumnNumber( int columnNumber, List cells )
 	{
 		int size = cells.size( );
@@ -641,6 +681,27 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 			adapter.setColumnNumber( columnNumber
 					- adapter.getColumnNumber( )
 					+ 1 );
+		}
+		
+		if (isPageLayoutOver( ))
+		{
+			for ( int i = 0; i < size; i++ )
+			{
+				CrosstabCellAdapter adapter = (CrosstabCellAdapter) cells.get( i );
+				int row = adapter.getRowNumber( );
+				int rowSpan = adapter.getRowSpan( );
+				int column = adapter.getColumnNumber( );
+				int columnSpan = adapter.getColumnSpan( );
+				
+				if (adapter.getPositionType( ).equals( ICrosstabCellAdapterFactory.CELL_SUB_TOTAL ))
+				{
+					adapter.setColumnNumber( column - 1 );
+					adapter.setColumnSpan( columnSpan + 1 );
+					
+					CrosstabCellAdapter levelAdapter = getCell( row - 1, column - 1, cells );
+					levelAdapter.setRowSpan( levelAdapter.getRowSpan( ) - rowSpan );
+				}	
+			}
 		}
 	}
 
@@ -1297,5 +1358,10 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 			retValue.add( preMmeasureHandle );
 		}
 		return retValue;
+	}
+	
+	private boolean isPageLayoutOver()
+	{
+		return getCrosstabReportItemHandle( ).getPageLayout( ).equals( ICrosstabConstants.PAGE_LAYOUT_DOWN_THEN_OVER );
 	}
 }
