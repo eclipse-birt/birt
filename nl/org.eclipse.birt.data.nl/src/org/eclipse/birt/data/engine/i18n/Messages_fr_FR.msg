@@ -174,6 +174,7 @@ data.engine.wrongStatus=Etat incorrect.
 data.engine.wrongVersion=Non pris en charge dans les versions antérieures à la version 2.1.
 data.engine.unsupportOperationException=Opération non prise en charge.
 data.engine.possibleMixedDataTypeInColumn=An error happen during population of data. This might be caused by including data of mixed type in a column of "ANY" type.
+data.engine.invalidMemBufferSize=The memory buffer size "{0}" is invalid. The memory buffer size must be an integer greater than zero. 
 
 # oda consumer error
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Le nom de colonne ne peut être ni vide ni nul.

@@ -174,6 +174,7 @@ data.engine.wrongStatus=ステータスが正しくありません。
 data.engine.wrongVersion=2.1 よりも古いバージョンではサポートされていません。
 data.engine.unsupportOperationException=この操作はサポートされていません。
 data.engine.possibleMixedDataTypeInColumn=An error happen during population of data. This might be caused by including data of mixed type in a column of "ANY" type.
+data.engine.invalidMemBufferSize=The memory buffer size "{0}" is invalid. The memory buffer size must be an integer greater than zero. 
 
 # oda consumer error
 odaconsumer.ColumnNameCannotBeEmptyOrNull=列名は空白または null にできません。
