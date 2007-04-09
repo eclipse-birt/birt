@@ -179,6 +179,15 @@
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-o -q birt-third-party-2_2_0.bak.zip -d ${updateJarWorkingDir}" />
 		</exec>
+		
+		<copy todir="${updateJarWorkingDir}/eclipse/plugins">
+			<fileset dir="${baseLocation}/plugins">
+				<include name="org.apache.batik.*.jar"/>
+				<include name="org.apache.xerces_*.jar"/>
+				<include name="org.apache.xml.resolver_*.jar"/>
+				<include name="org.w3c.*.jar"/>
+			</fileset>
+		</copy>
 
 		<delete includeemptydirs="true">
 			<fileset dir="${updateJarWorkingDir}/eclipse/features" includes="*.thirdparty*/**" />
@@ -200,7 +209,8 @@
 		<exec executable="dos2unix" dir="${eclipse.build.configs}/../../extras">
 			<arg line=" pack200" />
 		</exec>
-		<java jar="${buildDirectory}/../eclipse/startup.jar"
+		<!--
+		<java jar="${buildDirectory}/../eclipse/plugins/org.eclipse.equinox.launcher.jar"
 				fork="true"
 				timeout="10800000"
 				jvm="${jvm15_home}/bin/java"
@@ -211,9 +221,10 @@
 			<arg line="-application org.eclipse.update.core.siteOptimizer"/>
 			<arg line="-jarProcessor -outputDir ${updateJarWorkingDir}/site -processAll -repack updateJars/eclipse"/>
 		</java>
-		
+		-->
 		<!-- create Pack200 update jars -->
-		<java jar="${buildDirectory}/../eclipse/startup.jar"
+		<!--
+		<java jar="${buildDirectory}/../eclipse/plugins/org.eclipse.equinox.launcher.jar"
 				fork="true"
 				timeout="10800000"
 				jvm="${jvm15_home}/bin/java"
@@ -224,6 +235,7 @@
 			<arg line="-application org.eclipse.update.core.siteOptimizer"/>
 			<arg line="-jarProcessor -outputDir ${updateJarWorkingDir}/site -processAll -pack updateJars/eclipse"/>
 		</java>
+		-->
 	</target>
 	
 	<target name="pushUpdateSiteLocal">
@@ -246,18 +258,18 @@
 		<!-- push update site to output directory -->
 		<mkdir dir="${postingDirectory}/${buildId}/UpdateSite"/>
 		<copy todir="${postingDirectory}/${buildId}/UpdateSite">
-			<fileset dir="${updateJarWorkingDir}/site">
+			<fileset dir="${updateJarWorkingDir}/eclipse">
 				<include name="**"/>
 			</fileset>
 		</copy>
 		<!-- copy to internal update site -->
 		<copy todir="${postingDirectory}/../../../UpdateSite/plugins" overwrite="true">
-			<fileset dir="${updateJarWorkingDir}/site/plugins">
+			<fileset dir="${updateJarWorkingDir}/eclipse/plugins">
 				<include name="**"/>
 			</fileset>
 		</copy>
 		<copy todir="${postingDirectory}/../../../UpdateSite/features" overwrite="true">
-			<fileset dir="${updateJarWorkingDir}/site/features/">
+			<fileset dir="${updateJarWorkingDir}/eclipse/features/">
 				<include name="**"/>
 			</fileset>
 		</copy>
