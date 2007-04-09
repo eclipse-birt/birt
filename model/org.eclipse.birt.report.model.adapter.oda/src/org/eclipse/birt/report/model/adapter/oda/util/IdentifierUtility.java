@@ -54,11 +54,11 @@ public class IdentifierUtility
 
 			if ( columnNativeName == null
 					|| columnNativeName.trim( ).length( ) == 0 )
-				newColumnName = UNNAME_PREFIX
-						+ RENAME_SEPARATOR + String.valueOf( index + 1 );
+				newColumnName = UNNAME_PREFIX + RENAME_SEPARATOR
+						+ String.valueOf( index + 1 );
 			else
-				newColumnName = columnNativeName
-						+ RENAME_SEPARATOR + String.valueOf( index + 1 );
+				newColumnName = columnNativeName + RENAME_SEPARATOR
+						+ String.valueOf( index + 1 );
 
 			int i = 1;
 			while ( orgColumnNameSet.contains( newColumnName )
@@ -81,7 +81,9 @@ public class IdentifierUtility
 	 * @param parameters
 	 * @return
 	 */
-	public static final String getParamUniqueName( Iterator parametersIter, List retList, int position )
+	
+	public static final String getParamUniqueName( Iterator parametersIter,
+			List retList, int position )
 	{
 		int n = 1;
 		String prefix = "param"; //$NON-NLS-1$
@@ -96,9 +98,10 @@ public class IdentifierUtility
 				{
 					while ( iter.hasNext( ) && buf.length( ) > 0 )
 					{
-						DataSetParameterHandle parameter = (DataSetParameterHandle) iter.next( );
-						if ( buf.toString( )
-								.equalsIgnoreCase( parameter.getName( ) ) )
+						DataSetParameterHandle parameter = (DataSetParameterHandle) iter
+								.next( );
+						if ( buf.toString( ).equalsIgnoreCase(
+								parameter.getName( ) ) )
 						{
 							if ( parameter.getPosition( ) != null
 									&& parameter.getPosition( ).intValue( ) == position )

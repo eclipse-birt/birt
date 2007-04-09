@@ -211,8 +211,8 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 		setHandle.getElement( )
 				.clearProperty( OdaDataSetHandle.PARAMETERS_PROP );
 
-		List dataSetParams = new DataSetParameterAdapter( ).newROMSetParams(
-				setDesign, setHandle, null, null );
+		List dataSetParams = new DataSetParameterAdapter( setHandle, setDesign )
+				.newROMSetParams( null );
 		PropertyValueValidationUtil.validateProperty( setHandle,
 				OdaDataSetHandle.PARAMETERS_PROP, dataSetParams );
 		setHandle.getElement( ).setProperty( OdaDataSetHandle.PARAMETERS_PROP,
@@ -364,30 +364,32 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 
 		try
 		{
-			designerValues = SerializerImpl.instance( ).read( strDesignValues );
+			if ( strDesignValues != null )
+				designerValues = SerializerImpl.instance( ).read(
+						strDesignValues );
 		}
 		catch ( IOException e )
 		{
 		}
 
-		if ( designerValues != null
-				&& designerValues.getDataSetParameters( ) != null )
+		DataSetParameters params = null;
+		if ( designerValues != null )
+			params = designerValues.getDataSetParameters( );
+
+		if ( params != null )
 		{
 			setDesign.setParameters( (DataSetParameters) EcoreUtil
-					.copy( designerValues.getDataSetParameters( ) ) );
+					.copy( params ) );
 		}
 
 		if ( setDesign.getParameters( ) == null )
 		{
-			setDesign.setParameters( new DataSetParameterAdapter( )
-					.newOdaDataSetParams( setHandle.parametersIterator( ),
-							designerValues == null ? null : designerValues
-									.getDataSetParameters( ), setDesign ) );
+			setDesign.setParameters( new DataSetParameterAdapter( setHandle,
+					setDesign ).newOdaDataSetParams( params ) );
 		}
 
 		setDesign.setPrimaryResultSet( new ResultSetsAdapter( )
 				.newOdaResultSetDefinition( setHandle ) );
-
 	}
 
 	/*
@@ -855,15 +857,15 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 
 			// Get user-defined parameters
 
-			List userDefinedList = new DataSetParameterAdapter( )
-					.getUserDefinedParameter( designerValues, setDesign,
-							setHandle );
+			DataSetParameterAdapter dataParamAdapter = new DataSetParameterAdapter(
+					setHandle, setDesign );
+			dataParamAdapter.updateUserDefinedParameter( designerValues );
 
 			// Update parameters of dataset handle.
 
-			updateROMDataSetParams( setDesign, setHandle,
-					designerValues == null ? null : designerValues
-							.getDataSetParameters( ), userDefinedList );
+			updateROMDataSetParams( dataParamAdapter, designerValues == null
+					? null
+					: designerValues.getDataSetParameters( ) );
 
 			DataSourceDesign sourceDesign = setDesign.getDataSourceDesign( );
 			if ( sourceDesign != null )
@@ -897,7 +899,7 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 				setHandle.setDataSource( null );
 
 			updateDesignerValue( setDesign, setHandle, designerValues,
-					userDefinedList );
+					dataParamAdapter.getUserDefinedParams( ) );
 		}
 		catch ( SemanticException e )
 		{
@@ -994,9 +996,8 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	void updateDataSetDesignParams( DataSetDesign setDesign,
 			OdaDataSetHandle setHandle )
 	{
-		DataSetParameters dsParams = new DataSetParameterAdapter( )
-				.newOdaDataSetParams( setHandle.parametersIterator( ), null,
-						setDesign );
+		DataSetParameters dsParams = new DataSetParameterAdapter( setHandle,
+				setDesign ).newOdaDataSetParams( null );
 
 		if ( dsParams != null )
 		{
@@ -1143,12 +1144,13 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	 * @throws SemanticException
 	 */
 
-	private void updateROMDataSetParams( DataSetDesign setDesign,
-			OdaDataSetHandle setHandle, DataSetParameters cachedParameters,
-			List userDefinedList ) throws SemanticException
+	private void updateROMDataSetParams(
+			DataSetParameterAdapter setParamAdapter,
+			DataSetParameters cachedParameters ) throws SemanticException
 	{
-		List resultList = new DataSetParameterAdapter( ).newROMSetParams(
-				setDesign, setHandle, cachedParameters, userDefinedList );
+		List resultList = setParamAdapter.newROMSetParams( cachedParameters );
+
+		OdaDataSetHandle setHandle = setParamAdapter.getSetHandle( );
 
 		// Merge all parameter list with data set handle.
 
@@ -1167,6 +1169,8 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 
 		propHandle.clearValue( );
 		Iterator iterator = resultList.iterator( );
+
+		List setDefinedParams = new ArrayList( );
 		while ( iterator.hasNext( ) )
 		{
 			OdaDataSetParameter parameter = (OdaDataSetParameter) iterator
@@ -1174,16 +1178,16 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 			String paramName = parameter.getName( );
 			if ( nameList.contains( paramName ) )
 			{
-				paramName = IdentifierUtility.getParamUniqueName( setHandle
-						.parametersIterator( ), retList, parameter
-						.getPosition( ).intValue( ) );
+				paramName = IdentifierUtility.getParamUniqueName(
+						setDefinedParams.iterator( ), retList, parameter
+								.getPosition( ).intValue( ) );
 				parameter.setName( paramName );
 			}
 			nameList.add( paramName );
 			retList.add( parameter );
-			propHandle.addItem( parameter );
-		}
 
+			setDefinedParams.add( propHandle.addItem( parameter ) );
+		}
 	}
 
 	/*
