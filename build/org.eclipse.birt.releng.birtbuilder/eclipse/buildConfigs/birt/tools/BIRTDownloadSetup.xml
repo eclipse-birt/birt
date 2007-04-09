@@ -924,11 +924,22 @@
 	</target>
 	
     <target name="createWTPIntegration" >
-       <!--  Make BIRT SDK ZIP file-->
+            	
+        <!--  Replace plugin.xml for wtp.ui plugin -->
+    	<property file="${buildDirectory}/finalPluginsVersions.properties"/>
+    	<copy todir="${OutputDir}/${wtp.integration.zip.name}_tmp/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}">
+    		<fileset dir="${deposit}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}"/>
+    	</copy>
+		<copy tofile="${OutputDir}/${wtp.integration.zip.name}_tmp/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}/plugin.xml"
+    	file="${buildDirectory}/plugins/org.eclipse.birt.integration.wtp.ui/plugin_sdk.xml" overwrite="true" />
+    	<!--  Make BIRT SDK ZIP file-->
 		<zip destfile="${OutputDir}/${wtp.integration.zip.name}">
 			<zipfileset dir="${deposit}/eclipse/plugins" prefix="${ZipPrefix}">
-				<include name="org.eclipse.birt.integration.wtp*/**" />
 				<include name="org.eclipse.birt.report.designer.ui.editor.xml.wtp*/**"/>
+				<include name="org.eclipse.birt.integration.wtp.source_*/**"/>
+			</zipfileset>
+			<zipfileset dir="${OutputDir}/${wtp.integration.zip.name}_tmp/" prefix="${ZipPrefix}">
+				<include name="org.eclipse.birt.integration.wtp.ui_*/**" />
 			</zipfileset>
 			<zipfileset dir="${deposit}/eclipse/features" prefix="${FeautrePrefix}">
 				<include name="org.eclipse.birt.integration.wtp*/*" />
@@ -937,6 +948,9 @@
 				<include name="**/*" />
 			</zipfileset>
 		</zip>
+        <!-- delete tmp dir -->
+        <delete dir="${OutputDir}/${wtp.integration.zip.name}_tmp" failonerror="false"/>
+
     </target>
 
 	<target name="createChartRuntime">
