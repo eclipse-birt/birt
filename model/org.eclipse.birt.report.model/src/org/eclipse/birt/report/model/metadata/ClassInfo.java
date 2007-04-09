@@ -34,7 +34,7 @@ public class ClassInfo extends LocalizableInfo implements IClassInfo
 	 * The constructor definition.
 	 */
 
-	private MethodInfo constructor;
+	private IMethodInfo constructor;
 
 	/**
 	 * The list of method definitions.
@@ -63,7 +63,7 @@ public class ClassInfo extends LocalizableInfo implements IClassInfo
 	 *             if the duplicate method name exists.
 	 */
 
-	void addMethod( MethodInfo methodInfo ) throws MetaDataException
+	public void addMethod( IMethodInfo methodInfo ) throws MetaDataException
 	{
 		if ( methods == null )
 			methods = new LinkedHashMap( );
@@ -84,7 +84,8 @@ public class ClassInfo extends LocalizableInfo implements IClassInfo
 	 *             if the duplicate member name exists.
 	 */
 
-	void addMemberDefn( MemberInfo memberDefn ) throws MetaDataException
+	public void addMemberDefn( IMemberInfo memberDefn )
+			throws MetaDataException
 	{
 		if ( members == null )
 			members = new LinkedHashMap( );
@@ -225,7 +226,8 @@ public class ClassInfo extends LocalizableInfo implements IClassInfo
 	 *             if the constructor's name is empty.
 	 */
 
-	void setConstructor( MethodInfo constructor ) throws MetaDataException
+	public void setConstructor( IMethodInfo constructor )
+			throws MetaDataException
 	{
 		assert constructor != null;
 
@@ -256,7 +258,7 @@ public class ClassInfo extends LocalizableInfo implements IClassInfo
 	 *            native, otherwise <code>Boolean.FALSE</code>
 	 */
 
-	protected void setNative( boolean isNative )
+	public void setNative( boolean isNative )
 	{
 		this.isNative = isNative;
 	}

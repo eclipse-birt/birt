@@ -9,14 +9,9 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.birt.report.model.metadata;
+package org.eclipse.birt.report.model.api.metadata;
 
-import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
-import org.eclipse.birt.report.model.api.metadata.IClassInfo;
-import org.eclipse.birt.report.model.api.metadata.IElementDefn;
-import org.eclipse.birt.report.model.api.scripts.IScriptableObjectClassInfo;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Represents the definition of argument. The argument definition includes the
@@ -26,36 +21,16 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 public class ArgumentInfo implements IArgumentInfo
 {
 
-	/**
-	 * The script type of this argument.
-	 */
+	private final IArgumentInfo arguInfo;
 
-	private String type;
-
-	/**
-	 * The internal (non-localized) name for the argument. This name is used in
-	 * code.
-	 */
-
-	protected String name = null;
-
-	/**
-	 * The resource key for the argument display name.
-	 */
-
-	protected String displayNameKey = null;
-
-	private IElementDefn elementDefn;
-
-	/**
-	 * Returns the internal name for the argument.
-	 * 
-	 * @return the internal (non-localized) name for the argument
-	 */
+	public ArgumentInfo( )
+	{
+		arguInfo = new org.eclipse.birt.report.model.metadata.ArgumentInfo( );
+	}
 
 	public String getName( )
 	{
-		return name;
+		return arguInfo.getName( );
 	}
 
 	/**
@@ -67,10 +42,8 @@ public class ArgumentInfo implements IArgumentInfo
 
 	public String getDisplayName( )
 	{
-		if ( displayNameKey != null )
-			return ModelMessages.getMessage( this.displayNameKey );
-
-		return ""; //$NON-NLS-1$
+		String retValue = arguInfo.getDisplayName( );
+		return retValue != null ? retValue : ""; //$NON-NLS-1$
 	}
 
 	/**
@@ -80,9 +53,10 @@ public class ArgumentInfo implements IArgumentInfo
 	 *            the internal property name
 	 */
 
-	public void setName( String theName )
+	protected void setName( String theName )
 	{
-		name = theName;
+		( (org.eclipse.birt.report.model.metadata.ArgumentInfo) arguInfo )
+				.setName( theName );
 	}
 
 	/**
@@ -93,7 +67,8 @@ public class ArgumentInfo implements IArgumentInfo
 
 	public String getDisplayNameKey( )
 	{
-		return displayNameKey;
+		String retValue = arguInfo.getDisplayNameKey( );
+		return retValue != null ? retValue : ""; //$NON-NLS-1$
 	}
 
 	/**
@@ -103,9 +78,10 @@ public class ArgumentInfo implements IArgumentInfo
 	 *            message ID for the display name
 	 */
 
-	public void setDisplayNameKey( String id )
+	protected void setDisplayNameKey( String id )
 	{
-		displayNameKey = id;
+		( (org.eclipse.birt.report.model.metadata.ArgumentInfo) arguInfo )
+				.setDisplayNameKey( id );
 	}
 
 	/**
@@ -116,41 +92,18 @@ public class ArgumentInfo implements IArgumentInfo
 
 	public String getType( )
 	{
-		return type;
+		return arguInfo.getType( );
 	}
 
 	/**
-	 * Sets the element definition so that the scriptable factory can be
-	 * retrieved. This method is only for peer extension elements.
+	 * Returns the class type of this argument.
 	 * 
-	 * @param elementDefn
-	 *            the element definition
-	 */
-
-	void setElementDefn( IElementDefn elementDefn )
-	{
-		assert elementDefn instanceof PeerExtensionElementDefn;
-
-		this.elementDefn = elementDefn;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.IArgumentInfo#getClassType()
+	 * @return the class type to set
 	 */
 
 	public IClassInfo getClassType( )
 	{
-		if ( elementDefn == null )
-			return null;
-
-		IScriptableObjectClassInfo factory = ( (PeerExtensionElementDefn) elementDefn )
-				.getScriptableFactory( );
-		if ( factory == null )
-			return null;
-
-		return factory.getScriptableClass( type );
+		return null;
 	}
 
 	/**
@@ -160,9 +113,10 @@ public class ArgumentInfo implements IArgumentInfo
 	 *            the script type to set
 	 */
 
-	public void setType( String type )
+	protected void setType( String type )
 	{
-		this.type = type;
+		( (org.eclipse.birt.report.model.metadata.ArgumentInfo) arguInfo )
+				.setType( type );
 	}
 
 	/*

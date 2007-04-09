@@ -59,7 +59,7 @@ public abstract class LocalizableInfo implements ILocalizableInfo
 	 *            the resource key to set
 	 */
 
-	void setDisplayNameKey( String displayNameKey )
+	public void setDisplayNameKey( String displayNameKey )
 	{
 		this.displayNameKey = displayNameKey;
 	}
@@ -82,7 +82,7 @@ public abstract class LocalizableInfo implements ILocalizableInfo
 	 *            the name to set
 	 */
 
-	void setName( String name )
+	public void setName( String name )
 	{
 		this.name = name;
 	}
@@ -105,7 +105,7 @@ public abstract class LocalizableInfo implements ILocalizableInfo
 	 *            the resource key to set
 	 */
 
-	void setToolTipKey( String toolTipKey )
+	public void setToolTipKey( String toolTipKey )
 	{
 		this.toolTipKey = toolTipKey;
 	}

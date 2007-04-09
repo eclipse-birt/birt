@@ -29,6 +29,7 @@ import org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
+import org.eclipse.birt.report.model.api.scripts.IScriptableObjectClassInfo;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.metadata.validators.IValueValidator;
 import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
@@ -211,6 +212,12 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 			.getInstance( );
 
 	/**
+	 * The factory to create scriptable classes.
+	 */
+
+	private IScriptableObjectClassInfo scriptableFactory = null;
+
+	/**
 	 * Singleton class, constructor is private.
 	 */
 
@@ -332,7 +339,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 		// Build the element metadata.
 
 		// for extension element, the tag name is always "extended-item".
-		
+
 		Iterator iter = elementNameMap.values( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
@@ -926,5 +933,28 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	void setEncryptionHelper( IEncryptionHelper encryptionHelper )
 	{
 		this.encryptionHelper = encryptionHelper;
+	}
+
+	/**
+	 * Returns the factory to create scriptable class for ROM defined elements.
+	 * 
+	 * @return the scriptable factory
+	 */
+
+	public IScriptableObjectClassInfo getScriptableFactory( )
+	{
+		return scriptableFactory;
+	}
+
+	/**
+	 * Sets the factory to create scriptable class for ROM defined elements.
+	 * 
+	 * @param scriptableFactory
+	 *            the scriptable factory to set
+	 */
+
+	void setScriptableFactory( IScriptableObjectClassInfo scriptableFactory )
+	{
+		this.scriptableFactory = scriptableFactory;
 	}
 }

@@ -21,6 +21,7 @@ import java.util.Iterator;
 
 public interface IMethodInfo extends ILocalizableInfo
 {
+
 	/**
 	 * Returns the iterator of argument definition. Each one is a list that
 	 * contains <code>IArgumentInfoList</code>.
@@ -39,6 +40,14 @@ public interface IMethodInfo extends ILocalizableInfo
 	public String getReturnType( );
 
 	/**
+	 * Returns the script type for return.
+	 * 
+	 * @return the script type for return
+	 */
+
+	public IClassInfo getClassReturnType( );
+
+	/**
 	 * Returns the resource key for tool tip.
 	 * 
 	 * @return the resource key for tool tip
@@ -54,7 +63,7 @@ public interface IMethodInfo extends ILocalizableInfo
 	 */
 
 	public String getToolTip( );
-	
+
 	/**
 	 * Returns whether this method is constructor.
 	 * 
@@ -70,4 +79,12 @@ public interface IMethodInfo extends ILocalizableInfo
 	 */
 
 	public boolean isStatic( );
+
+	/**
+	 * Returns the method javadoc.
+	 * 
+	 * @return the javadoc
+	 */
+
+	public String getJavaDoc( );
 }

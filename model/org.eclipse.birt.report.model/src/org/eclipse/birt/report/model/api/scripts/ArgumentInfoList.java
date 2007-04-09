@@ -9,10 +9,9 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.birt.report.model.metadata;
+package org.eclipse.birt.report.model.api.scripts;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -21,7 +20,7 @@ import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
 
 /**
  * Represents an optional argument list of a method.
- *  
+ * 
  */
 
 public class ArgumentInfoList implements IArgumentInfoList
@@ -34,34 +33,31 @@ public class ArgumentInfoList implements IArgumentInfoList
 	private List arguments = null;
 
 	/**
-	 * Constructs a default <code>ArgumentInfoList</code>.
+	 * Constructor.
+	 * 
+	 * @param params
+	 *            the parameters for the method
 	 */
 
-	public ArgumentInfoList( )
+	ArgumentInfoList( Class[] params )
 	{
+		initialize( params );
+
 	}
 
 	/**
-	 * Adds argument to this method definition.
-	 * 
-	 * @param argument
-	 *            the argument definition to add
-	 * @throws MetaDataException
-	 *             if the argument name exists.
+	 * @param params
 	 */
 
-	public void addArgument( IArgumentInfo argument ) throws MetaDataException
+	private void initialize( Class[] params )
 	{
-		if ( arguments == null )
-			arguments = new ArrayList( );
-
-		if ( getArgument( argument.getName( ) ) != null )
+		for ( int i = 0; i < params.length; i++ )
 		{
-			throw new MetaDataException(
-					new String[]{null, argument.getName( )},
-					MetaDataException.DESIGN_EXCEPTION_DUPLICATE_ARGUMENT_NAME );
+			ArgumentInfo argument = new ArgumentInfo( params[i] );
+			if ( arguments == null )
+				arguments = new ArrayList( );
+			arguments.add( argument );
 		}
-		arguments.add( argument );
 	}
 
 	/**
@@ -80,9 +76,9 @@ public class ArgumentInfoList implements IArgumentInfoList
 		for ( Iterator iter = ( (ArrayList) arguments ).iterator( ); iter
 				.hasNext( ); )
 		{
-			ArgumentInfo argument = (ArgumentInfo) iter.next( );
+			IArgumentInfo argument = (ArgumentInfo) iter.next( );
 
-			if ( argument.name.equalsIgnoreCase( argumentName ) )
+			if ( argument.getName( ).equalsIgnoreCase( argumentName ) )
 				return argument;
 		}
 
@@ -91,16 +87,13 @@ public class ArgumentInfoList implements IArgumentInfoList
 
 	/**
 	 * Returns the iterator of argument definition. Each one is a list that
-	 * contains <code>ArgumentInfo</code>.
+	 * contains <code>IArgumentInfo</code>.
 	 * 
 	 * @return iterator of argument definition.
 	 */
 
 	public Iterator argumentsIterator( )
 	{
-		if ( arguments == null )
-			return Collections.EMPTY_LIST.iterator( );
-
 		return arguments.iterator( );
 	}
 }

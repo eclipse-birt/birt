@@ -3,6 +3,7 @@
 <plugin>
      <extension-point id="reportItemModel" name="reportItemModel" schema="schema/reportItem.exsd"/>
    <extension-point id="encryptionHelper" name="encryptionHelper" schema="schema/encryptionHelper.exsd"/>
+   <extension-point id="IScriptableObjectClassInfo" name="IScriptableObjectClassInfo" schema="schema/IScriptableObjectClassInfo.exsd"/>
 	
    <extension
          id="DesignEngineFactory"

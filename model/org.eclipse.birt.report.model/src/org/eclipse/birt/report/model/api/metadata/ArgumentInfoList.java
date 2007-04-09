@@ -9,29 +9,21 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.birt.report.model.metadata;
+package org.eclipse.birt.report.model.api.metadata;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 
-import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
-import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
+import org.eclipse.birt.report.model.metadata.MetaDataException;
 
 /**
  * Represents an optional argument list of a method.
- *  
+ * 
  */
 
 public class ArgumentInfoList implements IArgumentInfoList
 {
 
-	/**
-	 * The list contains a set of arguments.
-	 */
-
-	private List arguments = null;
+	private final IArgumentInfoList arguInfoList;
 
 	/**
 	 * Constructs a default <code>ArgumentInfoList</code>.
@@ -39,6 +31,7 @@ public class ArgumentInfoList implements IArgumentInfoList
 
 	public ArgumentInfoList( )
 	{
+		arguInfoList = new org.eclipse.birt.report.model.metadata.ArgumentInfoList( );
 	}
 
 	/**
@@ -50,18 +43,17 @@ public class ArgumentInfoList implements IArgumentInfoList
 	 *             if the argument name exists.
 	 */
 
-	public void addArgument( IArgumentInfo argument ) throws MetaDataException
+	protected void addArgument( IArgumentInfo argument )
 	{
-		if ( arguments == null )
-			arguments = new ArrayList( );
-
-		if ( getArgument( argument.getName( ) ) != null )
+		try
 		{
-			throw new MetaDataException(
-					new String[]{null, argument.getName( )},
-					MetaDataException.DESIGN_EXCEPTION_DUPLICATE_ARGUMENT_NAME );
+			( (org.eclipse.birt.report.model.metadata.ArgumentInfoList) arguInfoList )
+					.addArgument( argument );
 		}
-		arguments.add( argument );
+		catch ( MetaDataException e )
+		{
+			return;
+		}
 	}
 
 	/**
@@ -74,19 +66,7 @@ public class ArgumentInfoList implements IArgumentInfoList
 
 	public IArgumentInfo getArgument( String argumentName )
 	{
-		if ( arguments == null )
-			return null;
-
-		for ( Iterator iter = ( (ArrayList) arguments ).iterator( ); iter
-				.hasNext( ); )
-		{
-			ArgumentInfo argument = (ArgumentInfo) iter.next( );
-
-			if ( argument.name.equalsIgnoreCase( argumentName ) )
-				return argument;
-		}
-
-		return null;
+		return arguInfoList.getArgument( argumentName );
 	}
 
 	/**
@@ -98,9 +78,6 @@ public class ArgumentInfoList implements IArgumentInfoList
 
 	public Iterator argumentsIterator( )
 	{
-		if ( arguments == null )
-			return Collections.EMPTY_LIST.iterator( );
-
-		return arguments.iterator( );
+		return arguInfoList.argumentsIterator( );
 	}
 }

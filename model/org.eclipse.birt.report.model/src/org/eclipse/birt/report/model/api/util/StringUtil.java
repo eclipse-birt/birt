@@ -22,6 +22,7 @@ import com.ibm.icu.util.ULocale;
 
 public class StringUtil
 {
+	public static final String EMPTY_STRING = ""; //$NON-NLS-1$
 
 	/**
 	 * Trim a string. Removes leading and trailing blanks. If the resulting

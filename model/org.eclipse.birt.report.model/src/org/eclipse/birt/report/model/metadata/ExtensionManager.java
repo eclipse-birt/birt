@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-
 /**
  * Represents the extension manager which is responsible to load all extensions
  * that Model supports. This class can not be instantiated and derived.
@@ -39,6 +38,7 @@ public final class ExtensionManager
 
 		// load extensions in all the extension points
 		new PeerExtensionLoader( ).load( );
+		new ScriptableObjectExtensionLoader( ).load( );
 		new EncryptionHelperExtensionLoader( ).load( );		
 	}
 }

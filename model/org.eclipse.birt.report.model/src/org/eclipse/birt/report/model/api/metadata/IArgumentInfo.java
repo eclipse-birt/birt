@@ -54,11 +54,19 @@ public interface IArgumentInfo
 	public String getDisplayNameKey( );
 
 	/**
-	 * Returns the script type of this argument.
+	 * Returns the argument type in string.
 	 * 
-	 * @return the script type to set
+	 * @return the script type
 	 */
 
 	public String getType( );
+
+	/**
+	 * Returns the argument type in Class.
+	 * 
+	 * @return the argument type
+	 */
+
+	public IClassInfo getClassType( );
 
 }

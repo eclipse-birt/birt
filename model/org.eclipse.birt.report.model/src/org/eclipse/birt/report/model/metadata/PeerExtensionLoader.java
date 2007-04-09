@@ -124,6 +124,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 		protected static final String STYLE_TAG = "style"; //$NON-NLS-1$
 		protected static final String ELEMENT_TYPE_TAG = "elementType"; //$NON-NLS-1$
 		protected static final String OVERRIDE_PROPERTY_TAG = "overrideProperty";//$NON-NLS-1$
+		protected static final String JAVA_DOC_TAG = "javaDoc"; //$NON-NLS-1$
 
 		protected static final String NAME_ATTRIB = "name"; //$NON-NLS-1$
 		protected static final String PROPERTY_NAME_ATTRIB = "propertyName";//$NON-NLS-1$
@@ -149,6 +150,8 @@ public class PeerExtensionLoader extends ExtensionLoader
 		protected static final String IS_LIST_ATTRIB = "isList"; //$NON-NLS-1$
 		private static final String HAS_OWN_MODEL = "hasOwnModel"; //$NON-NLS-1$
 
+		private static final String CONTEXT_ATTRIB = "context"; //$NON-NLS-1$
+		
 		/**
 		 * List of the property types that are allowed for the extensions.
 		 */
@@ -656,6 +659,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 					.getAttribute( DISPLAY_NAME_ID_ATTRIB );
 			String toolTipID = propTag.getAttribute( TOOL_TIP_ID_ATTRIB );
 			String returnType = propTag.getAttribute( RETURN_TYPE_ATTRIB );
+			String context = propTag.getAttribute( CONTEXT_ATTRIB );
 			boolean isStatic = getBooleanAttrib( propTag, IS_STATIC_ATTRIB,
 					false );
 
@@ -682,7 +686,9 @@ public class PeerExtensionLoader extends ExtensionLoader
 			methodInfo.setReturnType( returnType );
 			methodInfo.setToolTipKey( toolTipID );
 			methodInfo.setStatic( isStatic );
-
+			methodInfo.setContext( context );
+			methodInfo.setElementDefn( elementDefn );
+			
 			IConfigurationElement[] elements = propTag.getChildren( );
 			ArgumentInfoList argumentList = null;
 
@@ -692,6 +698,11 @@ public class PeerExtensionLoader extends ExtensionLoader
 				{
 					ArgumentInfo argument = loadArgument( elementTag,
 							elements[i], elementDefn );
+
+					// cache the definition here so that the scriptable factory
+					// can be retrieved later.
+					
+					argument.setElementDefn( elementDefn );
 
 					if ( argumentList == null )
 						argumentList = new ArgumentInfoList( );
@@ -707,7 +718,13 @@ public class PeerExtensionLoader extends ExtensionLoader
 								MetaDataException.DESIGN_EXCEPTION_DUPLICATE_ARGUMENT_NAME ) );
 						return null;
 					}
+					continue;
+				}
 
+				if ( JAVA_DOC_TAG.equalsIgnoreCase( elements[i].getName( ) ) )
+				{
+					String javaDoc = elements[i].getValue( );
+					methodInfo.setJavaDoc( javaDoc );
 				}
 			}
 
@@ -943,7 +960,8 @@ public class PeerExtensionLoader extends ExtensionLoader
 		extPropDefn.setIntrinsic( false );
 		extPropDefn.setStyleProperty( false );
 		extPropDefn.setDetails( methodInfo );
-
+		extPropDefn.setContext( methodInfo.getContext( ) );
+		
 		return extPropDefn;
 	}
 

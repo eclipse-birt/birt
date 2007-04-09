@@ -16,7 +16,11 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
+import org.eclipse.birt.report.model.api.metadata.IClassInfo;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
+import org.eclipse.birt.report.model.api.scripts.IScriptableObjectClassInfo;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
@@ -46,7 +50,17 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo
 
 	private boolean isConstructor = false;
 
+	/**
+	 * 
+	 */
+
 	private List arguments;
+
+	private String javaDoc;
+
+	private String context;
+
+	private IElementDefn elementDefn;
 
 	/**
 	 * Constructs method definition.
@@ -67,10 +81,10 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo
 	 * 
 	 * @param argumentList
 	 *            an optional argument list
-	 *  
+	 * 
 	 */
 
-	void addArgumentList( ArgumentInfoList argumentList )
+	public void addArgumentList( IArgumentInfoList argumentList )
 	{
 		if ( arguments == null )
 			arguments = new ArrayList( );
@@ -111,7 +125,7 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo
 	 *            the script type to set
 	 */
 
-	void setReturnType( String returnType )
+	public void setReturnType( String returnType )
 	{
 		this.returnType = returnType;
 	}
@@ -134,7 +148,7 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo
 	 *            the resource key to set
 	 */
 
-	void setToolTipKey( String toolTipKey )
+	public void setToolTipKey( String toolTipKey )
 	{
 		this.toolTipKey = toolTipKey;
 	}
@@ -182,9 +196,91 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo
 	 *            true if this method is static
 	 */
 
-	void setStatic( boolean isStatic )
+	public void setStatic( boolean isStatic )
 	{
 		this.isStatic = isStatic;
+	}
+
+	/**
+	 * Returns the javadoc for the method.
+	 * 
+	 * @return the javaDoc
+	 */
+
+	public String getJavaDoc( )
+	{
+		return javaDoc;
+	}
+
+	/**
+	 * Sets the javadoc for the method.
+	 * 
+	 * @param javaDoc
+	 *            the method javaDoc in string
+	 */
+
+	public void setJavaDoc( String javaDoc )
+	{
+		this.javaDoc = javaDoc;
+	}
+
+	/**
+	 * Sets the method context. The method is supposed to run only in specified
+	 * context.
+	 * 
+	 * @param context
+	 *            the method context
+	 */
+
+	void setContext( String context )
+	{
+		this.context = context;
+	}
+
+	/**
+	 * Returns the method context. The method is supposed to run only in
+	 * specified context.
+	 * 
+	 * @return the method context
+	 */
+
+	String getContext( )
+	{
+		return context;
+	}
+
+	/**
+	 * Sets the element definition so that the scriptable factory can be
+	 * retrieved. This method is only for peer extension elements.
+	 * 
+	 * @param elementDefn
+	 *            the element definition
+	 */
+
+	void setElementDefn( IElementDefn elementDefn )
+	{
+		assert elementDefn instanceof PeerExtensionElementDefn;
+
+		this.elementDefn = elementDefn;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.metadata.IMethodInfo#getClassReturnType()
+	 */
+
+	public IClassInfo getClassReturnType( )
+	{
+		if ( elementDefn == null )
+			return null;
+
+		IScriptableObjectClassInfo factory = ( (PeerExtensionElementDefn) elementDefn )
+				.getScriptableFactory( );
+		if ( factory == null )
+			return null;
+
+		return factory.getScriptableClass( returnType );
 	}
 
 }

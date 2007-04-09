@@ -51,7 +51,7 @@ public class MemberInfo extends LocalizableInfo implements IMemberInfo
 	 *            the script data type to set
 	 */
 
-	void setDataType( String type )
+	public void setDataType( String type )
 	{
 		this.dataType = type;
 	}
@@ -62,7 +62,7 @@ public class MemberInfo extends LocalizableInfo implements IMemberInfo
 	 * @param isStatic the flag set
 	 */
 	
-	void setStatic( boolean isStatic )
+	public void setStatic( boolean isStatic )
 	{
 		this.isStatic = isStatic;
 	}

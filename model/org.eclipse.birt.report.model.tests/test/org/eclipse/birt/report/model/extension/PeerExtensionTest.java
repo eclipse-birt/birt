@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.extension;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.ActionHandle;
@@ -30,8 +31,12 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
+import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.metadata.IColorConstants;
+import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
@@ -622,7 +627,7 @@ public class PeerExtensionTest extends BaseTestCase
 				.getStringProperty( IStyleModel.FONT_STYLE_PROP ) );
 		assertEquals( IColorConstants.RED, extendedItem
 				.getStringProperty( IStyleModel.COLOR_PROP ) );
-				
+
 		// no value from testing-matrix default selector
 		// font-variant is not set
 		assertFalse( extendedItem.getPropertyHandle(
@@ -662,5 +667,71 @@ public class PeerExtensionTest extends BaseTestCase
 		assertEquals( "testCube", value.getName( ) ); //$NON-NLS-1$
 		assertEquals( cube.getElement( ), value.getTargetElement( ) );
 		assertTrue( value.isResolved( ) );
+	}
+
+	/**
+	 * Tests IReportItem :: getFunctions.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testGetMethods( ) throws Exception
+	{
+		openDesign( FILE_NAME );
+
+		ExtendedItemHandle extendedItem = (ExtendedItemHandle) designHandle
+				.findElement( "testBox" ); //$NON-NLS-1$
+		assertNotNull( extendedItem );
+
+		List retList = extendedItem.getMethods( "onRender" ); //$NON-NLS-1$
+		assertTrue( retList.isEmpty( ) );
+
+		retList = extendedItem.getMethods( "onPrepare" ); //$NON-NLS-1$
+		assertTrue( retList.isEmpty( ) );
+
+		retList = extendedItem.getMethods( "onCreate" ); //$NON-NLS-1$
+		assertFalse( retList.isEmpty( ) );
+
+		IMethodInfo method = (IMethodInfo) retList.get( 0 );
+		assertEquals( "afterOnCreate", method.getName( ) ); //$NON-NLS-1$
+		assertEquals(
+				"javadoc for <code>afterOnCreate</code>", method.getJavaDoc( ) ); //$NON-NLS-1$
+		IClassInfo clazz = method.getClassReturnType( );
+		assertEquals( "org.eclipse.birt.report.model.tests.box.Box", clazz //$NON-NLS-1$
+				.getName( ) );
+		List boxMethods = clazz.getMethods( );
+		IMethodInfo boxMethod = (IMethodInfo) boxMethods.get( 0 );
+		assertEquals( "getMethod1", boxMethod.getName( ) ); //$NON-NLS-1$
+		assertEquals( "java.lang.String", boxMethod.getReturnType( ) ); //$NON-NLS-1$
+
+		boxMethod = (IMethodInfo) boxMethods.get( 1 );
+		assertEquals( "setMethod1", boxMethod.getName( ) ); //$NON-NLS-1$
+		assertEquals( "void", boxMethod.getReturnType( ) ); //$NON-NLS-1$
+		assertEquals( "void", boxMethod.getClassReturnType( ).getName( ) ); //$NON-NLS-1$
+
+		IArgumentInfoList arguments = (IArgumentInfoList) boxMethod
+				.argumentListIterator( ).next( );
+		IArgumentInfo argument = (IArgumentInfo) arguments.argumentsIterator( )
+				.next( );
+		assertEquals( "", argument.getName( ) ); //$NON-NLS-1$
+		assertEquals( "int", argument.getType( ) ); //$NON-NLS-1$
+		assertEquals( "int", argument.getClassType( ).getName( ) ); //$NON-NLS-1$
+
+		method = (IMethodInfo) retList.get( 1 );
+		assertEquals( "beforeOnCreate", method.getName( ) ); //$NON-NLS-1$
+		assertEquals( "javadoc for beforeOnCreate<br>", method.getJavaDoc( ) ); //$NON-NLS-1$
+
+		Iterator arguList = method.argumentListIterator( );
+		IArgumentInfoList argus = (IArgumentInfoList) arguList.next( );
+		IArgumentInfo argu = argus.getArgument( "object" ); //$NON-NLS-1$
+
+		clazz = argu.getClassType( );
+		assertEquals( "org.eclipse.birt.report.model.tests.box.Box", clazz //$NON-NLS-1$
+				.getName( ) );
+
+		boxMethods = clazz.getMethods( );
+		boxMethod = (IMethodInfo) boxMethods.get( 0 );
+		assertEquals( "getMethod1", boxMethod.getName( ) ); //$NON-NLS-1$
+		assertEquals( "java.lang.String", boxMethod.getReturnType( ) ); //$NON-NLS-1$
 	}
 }

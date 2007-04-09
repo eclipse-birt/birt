@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.api.extension.IMessages;
 import org.eclipse.birt.report.model.api.extension.IReportItemFactory;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.scripts.IScriptableObjectClassInfo;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
@@ -58,6 +59,12 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 
 	protected Map overrideAllowedUnits = new HashMap( );
 
+	/**
+	 * The factory to create scriptable classes. 
+	 */
+	
+	private IScriptableObjectClassInfo scriptableFactory = null;
+	
 	/**
 	 * Constructs the peer extension element definition with the element
 	 * definition name and report item factory.
@@ -331,5 +338,28 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 	public boolean isContainer( )
 	{
 		return isContainer;
+	}
+	
+	/**
+	 * Returns the factory to create scriptable class for ROM defined elements.
+	 * 
+	 * @return the scriptable factory
+	 */
+
+	public IScriptableObjectClassInfo getScriptableFactory( )
+	{
+		return scriptableFactory;
+	}
+
+	/**
+	 * Sets the factory to create scriptable class for ROM defined elements.
+	 * 
+	 * @param scriptableFactory
+	 *            the scriptable factory to set
+	 */
+
+	void setScriptableFactory( IScriptableObjectClassInfo scriptableFactory )
+	{
+		this.scriptableFactory = scriptableFactory;
 	}
 }

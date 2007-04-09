@@ -21,6 +21,7 @@ Export-Package: org.eclipse.birt.report.model.activity;x-friends:="org.eclipse.b
  org.eclipse.birt.report.model.api.extension,
  org.eclipse.birt.report.model.api.metadata,
  org.eclipse.birt.report.model.api.olap,
+ org.eclipse.birt.report.model.api.scripts,
  org.eclipse.birt.report.model.api.simpleapi,
  org.eclipse.birt.report.model.api.util,
  org.eclipse.birt.report.model.api.validators,

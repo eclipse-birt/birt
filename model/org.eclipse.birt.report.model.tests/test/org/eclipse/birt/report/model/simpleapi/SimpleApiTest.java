@@ -61,7 +61,7 @@ public class SimpleApiTest extends BaseTestCase
 		assertFalse( box instanceof IMultiRowItem );
 		assertTrue( box instanceof SimpleRowItem );
 		assertEquals(
-				"org.eclipse.birt.report.model.tests.box.ReportItemImpl$Box", //$NON-NLS-1$
+				"org.eclipse.birt.report.model.tests.box.Box", //$NON-NLS-1$
 				box.getClass( ).getName( ) );
 	}
 
