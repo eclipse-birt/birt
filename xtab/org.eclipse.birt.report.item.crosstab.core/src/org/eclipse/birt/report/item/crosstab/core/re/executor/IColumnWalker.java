@@ -19,7 +19,7 @@ import javax.olap.OLAPException;
 interface IColumnWalker
 {
 
-	boolean IGNORE_TOTAL_COLUMN_WITHOUT_AGGREGATION = false;
+	boolean IGNORE_TOTAL_COLUMN_WITHOUT_AGGREGATION = true;
 
 	boolean IGNORE_TOTAL_COLUMN_WITHOUT_MEASURE = false;
 

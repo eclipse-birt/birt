@@ -169,6 +169,18 @@
                   name="CrosstabMemberValue">
             </elementType>
          </property>
+         <propertyVisibility
+               name="grandTotal"
+               visibility="hide">
+         </propertyVisibility>
+         <propertyVisibility
+               name="views"
+               visibility="hide">
+         </propertyVisibility>
+         <propertyVisibility
+               name="members"
+               visibility="hide">
+         </propertyVisibility>
       </reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"
@@ -179,6 +191,7 @@
          <property
                canInherit="true"
                detailType="Dimension"
+               displayNameID="Element.Dimension"
                isEncryptable="false"
                name="dimension"
                type="elementRef">
@@ -192,7 +205,11 @@
             <elementType
                   name="LevelView">
             </elementType>
-         </property></reportItem>
+         </property>
+         <propertyVisibility
+               name="levels"
+               visibility="hide">
+         </propertyVisibility></reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"
             displayNameID="Element.LevelView"
@@ -202,6 +219,7 @@
          <property
                canInherit="true"
                detailType="Level"
+               displayNameID="Element.Level"
                isEncryptable="false"
                name="level"
                type="elementRef">
@@ -216,14 +234,18 @@
          </property>
          <property
                canInherit="true"
+               defaultValue="none"
                detailType="sortType"
+               displayNameID="Element.SortType"
                isEncryptable="false"
                name="sortType"
                type="choice">
          </property>
          <property
                canInherit="true"
+               defaultValue="asc"
                detailType="sortDirection"
+               displayNameID="Element.SortDirection"
                isEncryptable="false"
                name="sortDirection"
                type="choice">
@@ -240,6 +262,7 @@
                canInherit="false"
                defaultValue="auto"
                detailType="pageBreakBefore"
+               displayNameID="Element.PageBreakBefore"
                isEncryptable="false"
                name="pageBreakBefore"
                type="choice">
@@ -248,6 +271,7 @@
                canInherit="false"
                defaultValue="auto"
                detailType="pageBreakAfter"
+               displayNameID="Element.PageBreakAfter"
                isEncryptable="false"
                name="pageBreakAfter"
                type="choice">
@@ -255,6 +279,7 @@
          <property
                canInherit="true"
                defaultValue="after"
+               displayNameID="Element.AggregationHeaderLocation"
                isEncryptable="false"
                name="aggregationHeaderLocation"
                type="choice">
@@ -287,6 +312,14 @@
                   name="CrosstabCell">
             </elementType>
          </property>
+         <propertyVisibility
+               name="member"
+               visibility="hide">
+         </propertyVisibility>
+         <propertyVisibility
+               name="aggregationHeader"
+               visibility="hide">
+         </propertyVisibility>
       </reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"
@@ -297,6 +330,7 @@
          <property
                canInherit="true"
                detailType="Measure"
+               displayNameID="Element.Measure"
                isEncryptable="false"
                name="measure"
                type="elementRef">
@@ -331,6 +365,18 @@
                   name="CrosstabCell">
             </elementType>
          </property>
+         <propertyVisibility
+               name="detail"
+               visibility="hide">
+         </propertyVisibility>
+         <propertyVisibility
+               name="aggregations"
+               visibility="hide">
+         </propertyVisibility>
+         <propertyVisibility
+               name="header"
+               visibility="hide">
+         </propertyVisibility>
       </reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"
