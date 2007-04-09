@@ -11,58 +11,16 @@
 
 package org.eclipse.birt.report.designer.data.ui.aggregation;
 
-import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 
 /**
  * Represents the definition of argument. The argument definition includes the
  * data type, internal name, and display name.
  */
 
-public class ArgumentInfo implements IArgumentInfo
+public class ArgumentInfo
+		extends
+			org.eclipse.birt.report.model.api.metadata.ArgumentInfo
 {
-
-	/**
-	 * The script type of this argument.
-	 */
-
-	private String type;
-
-	/**
-	 * The internal (non-localized) name for the argument. This name is used in
-	 * code.
-	 */
-
-	protected String name = null;
-
-	/**
-	 * The resource key for the argument display name.
-	 */
-
-	protected String displayNameKey = null;
-
-	/**
-	 * Returns the internal name for the argument.
-	 * 
-	 * @return the internal (non-localized) name for the argument
-	 */
-
-	public String getName( )
-	{
-		return name;
-	}
-
-	/**
-	 * Returns the display name for the property if the resource key of display
-	 * name is defined. Otherwise, return empty string.
-	 * 
-	 * @return the user-visible, localized display name for the property
-	 */
-
-	public String getDisplayName( )
-	{
-		return displayNameKey != null ? displayNameKey : ""; //$NON-NLS-1$
-	}
 
 	/**
 	 * Sets the internal name of the property.
@@ -71,20 +29,9 @@ public class ArgumentInfo implements IArgumentInfo
 	 *            the internal property name
 	 */
 
-	void setName( String theName )
+	protected void setName( String theName )
 	{
-		name = theName;
-	}
-
-	/**
-	 * Returns the resource key for the display name.
-	 * 
-	 * @return The display name message ID.
-	 */
-
-	public String getDisplayNameKey( )
-	{
-		return displayNameKey;
+		super.setName( theName );
 	}
 
 	/**
@@ -94,21 +41,11 @@ public class ArgumentInfo implements IArgumentInfo
 	 *            message ID for the display name
 	 */
 
-	void setDisplayNameKey( String id )
+	protected void setDisplayNameKey( String id )
 	{
-		displayNameKey = id;
+		super.setDisplayNameKey( id );
 	}
 
-	/**
-	 * Returns the script type of this argument.
-	 * 
-	 * @return the script type to set
-	 */
-
-	public String getType( )
-	{
-		return type;
-	}
 
 	/**
 	 * Sets the script type of this argument.
@@ -117,22 +54,9 @@ public class ArgumentInfo implements IArgumentInfo
 	 *            the script type to set
 	 */
 
-	void setType( String type )
+	protected void setType( String type )
 	{
-		this.type = type;
+		super.setType( type );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-
-	public String toString( )
-	{
-		if ( !StringUtil.isBlank( getName( ) ) )
-			return getName( );
-		return super.toString( );
-	}
-	
 }

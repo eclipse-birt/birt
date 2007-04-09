@@ -11,12 +11,6 @@
 
 package org.eclipse.birt.report.designer.data.ui.aggregation;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-
-import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 
 /**
  * Represents the method information for both class and element. The class
@@ -24,41 +18,12 @@ import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
  * constructor,
  */
 
-public class MethodInfo extends LocalizableInfo implements IMethodInfo
+public class MethodInfo extends org.eclipse.birt.report.model.api.metadata.MethodInfo
 {
-
-	/**
-	 * The script type for return.
-	 */
-
-	private String returnType;
-
-	/**
-	 * Whether this method is static.
-	 */
-
-	private boolean isStatic = false;
-
-	/**
-	 * Whether this method is constructor.
-	 */
-
-	private boolean isConstructor = false;
-
-	private List arguments;
-
-	/**
-	 * Constructs method definition.
-	 * 
-	 * @param isConstructor
-	 *            whether this method is constructor
-	 */
 
 	public MethodInfo( boolean isConstructor )
 	{
-		super( );
-
-		this.isConstructor = isConstructor;
+		super( isConstructor );
 	}
 
 	/**
@@ -68,40 +33,11 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo
 	 *            an optional argument list
 	 * 
 	 */
-	void addArgumentList( ArgumentInfoList argumentList )
+	
+	protected void addArgumentList( ArgumentInfoList argumentList )
 	{
-		if ( arguments == null )
-			arguments = new ArrayList( );
-
-		( (ArrayList) arguments ).add( argumentList );
+		super.addArgumentList( argumentList );
 	}
-
-	/**
-	 * Returns the iterator of argument definition. Each one is a list that
-	 * contains <code>ArgumentInfoList</code>.
-	 * 
-	 * @return iterator of argument definition.
-	 */
-
-	public Iterator argumentListIterator( )
-	{
-		if ( arguments == null )
-			return Collections.EMPTY_LIST.iterator( );
-
-		return arguments.iterator( );
-	}
-
-	/**
-	 * Returns the script type for return.
-	 * 
-	 * @return the script type for return
-	 */
-
-	public String getReturnType( )
-	{
-		return returnType;
-	}
-
 	/**
 	 * Sets the script type for return.
 	 * 
@@ -109,31 +45,9 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo
 	 *            the script type to set
 	 */
 
-	void setReturnType( String returnType )
+	protected void setReturnType( String returnType )
 	{
-		this.returnType = returnType;
-	}
-
-	/**
-	 * Returns whether this method is constructor.
-	 * 
-	 * @return true, if this method is constructor
-	 */
-
-	public boolean isConstructor( )
-	{
-		return isConstructor;
-	}
-
-	/**
-	 * Returns whether this method is static.
-	 * 
-	 * @return true if this method is static
-	 */
-
-	public boolean isStatic( )
-	{
-		return isStatic;
+		super.setReturnType( returnType );
 	}
 
 	/**
@@ -143,9 +57,33 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo
 	 *            true if this method is static
 	 */
 
-	void setStatic( boolean isStatic )
+	protected void setStatic( boolean isStatic )
 	{
-		this.isStatic = isStatic;
+		super.setStatic( isStatic );
+	}
+	
+	/**
+	 * Sets the internal name of the property.
+	 * 
+	 * @param theName
+	 *            the internal property name
+	 */
+
+	protected void setName( String theName )
+	{
+		super.setName( theName );
+	}
+	
+	/**
+	 * Sets the resource key for display name.
+	 * 
+	 * @param displayNameKey
+	 *            the resource key to set
+	 */
+
+	protected void setDisplayNameKey( String displayNameKey )
+	{
+		super.setDisplayNameKey( displayNameKey );
 	}
 
 }

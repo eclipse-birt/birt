@@ -43,11 +43,16 @@
    </element>
 
    <element name="scriptableClassInfo">
+      <annotation>
+         <documentation>
+            The definition for scriptable class info.
+         </documentation>
+      </annotation>
       <complexType>
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  
+                  Name of the java class, that implements the IScriptableObjectClassInfo interface.
                </documentation>
             </annotation>
          </attribute>

@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.IReportItemMethodContext;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -45,7 +46,7 @@ import org.eclipse.birt.report.model.util.UnusedBoundColumnsMgr;
 public abstract class ReportItemHandle extends ReportElementHandle
 		implements
 			IReportItemModel,
-			IStyledElementModel
+			IStyledElementModel, IReportItemMethodContext
 {
 
 	/**
@@ -714,5 +715,19 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	public void setZIndex( int zIndex ) throws SemanticException
 	{
 		setIntProperty( IReportItemModel.Z_INDEX_PROP, zIndex );
+	}
+	
+	/**
+	 * Returns functions that can be called in the given method.
+	 * 
+	 * @param methodName
+	 *            the method name in string
+	 * 
+	 * @return a list containing <code>IMethodInfo</code> for functions
+	 */
+
+	public List getMethods( String methodName )
+	{		
+		return Collections.EMPTY_LIST;
 	}
 }

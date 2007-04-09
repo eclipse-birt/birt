@@ -322,6 +322,7 @@ When &quot;type&quot; is &quot;structure&quot;, extension must define &quot;deta
       <complexType>
          <sequence minOccurs="0" maxOccurs="unbounded">
             <element ref="argument"/>
+            <element ref="javaDoc" minOccurs="0" maxOccurs="1"/>
          </sequence>
          <attribute name="name" type="string" use="required">
             <annotation>
@@ -524,6 +525,14 @@ When &quot;type&quot; is &quot;structure&quot;, extension must define &quot;deta
             </annotation>
          </attribute>
       </complexType>
+   </element>
+
+   <element name="javaDoc" type="string">
+      <annotation>
+         <documentation>
+            JavaDoc for the method in CDATA format.
+         </documentation>
+      </annotation>
    </element>
 
    <annotation>

@@ -11,17 +11,23 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.IReportItemMethodContext;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.PeerExtensionElementDefn;
 
 /**
  * Represents an extended element. An extended item represents a custom element
@@ -37,7 +43,8 @@ import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 
 public class ExtendedItemHandle extends ReportItemHandle
 		implements
-			IExtendedItemModel
+			IExtendedItemModel,
+			IReportItemMethodContext
 {
 
 	/**
@@ -240,4 +247,35 @@ public class ExtendedItemHandle extends ReportItemHandle
 		setStringProperty( ALT_TEXT_KEY_PROP, altTextKey );
 	}
 
+	/**
+	 * Returns functions that can be called in the given method.
+	 * 
+	 * @param context
+	 *            the method name in string
+	 * 
+	 * @return a list containing <code>IMethodInfo</code> for functions
+	 */
+
+	public List getMethods( String context )
+	{
+		if ( StringUtil.isBlank( context ) )
+			return Collections.EMPTY_LIST;
+
+		IElementDefn elementDefn = getDefn( );
+		if ( !( elementDefn instanceof PeerExtensionElementDefn ) )
+			return Collections.EMPTY_LIST;
+
+		List methods = elementDefn.getMethods( );
+		List retList = new ArrayList( );
+		for ( int i = 0; i < methods.size( ); i++ )
+		{
+			ElementPropertyDefn propDefn = (ElementPropertyDefn) methods
+					.get( i );
+			String tmpContext = propDefn.getContext( );
+			if ( context.equalsIgnoreCase( tmpContext ) )
+				retList.add( propDefn.getMethodInfo( ) );
+		}
+
+		return retList;
+	}
 }
