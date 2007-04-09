@@ -132,6 +132,29 @@ public class BirtCompTest extends TestCase
 	 * 
 	 *
 	 */
+	public void testNotBetween()
+	{
+		String script1 = "BirtComp.notBetween(\"1923-10-11\",new Date(10,11,11),new Date(33,11,11))";
+
+		assertFalse( ( (Boolean) cx.evaluateString( scope,
+				script1,
+				"inline",
+				1,
+				null ) ).booleanValue( ) );
+		
+		String script2 = "BirtComp.notBetween(100,101,102)";
+		assertTrue( ( (Boolean) cx.evaluateString( scope,
+				script2,
+				"inline",
+				1,
+				null ) ).booleanValue( ) );
+		
+	}
+	
+	/**
+	 * 
+	 *
+	 */
 	public void testCompare()
 	{
 		String[] script = new String[]{
@@ -248,6 +271,36 @@ public class BirtCompTest extends TestCase
 		};
 		
 		boolean[] result = new boolean[] { true, true, true, true, true, false};
+		
+		for( int i = 0; i < script.length; i++ )
+		{
+			assertTrue( ( (Boolean) cx.evaluateString( scope,
+				script[i],
+				"inline",
+				1,
+				null ) ).booleanValue( ) == result[i]);
+			System.out.println( i );
+		}
+	}
+	
+	/**
+	 * 
+	 *
+	 */
+	public void testNotLike()
+	{
+		String[] script = new String[]{
+				//Equal to
+				"BirtComp.notLike(\"x 99:02:03\",\"%:0_:03\");",
+				"BirtComp.notLike(\"x 99::003\",\"%9_::__3\");",
+				"BirtComp.notLike(\"x 99:02:03\",\"%99:02_03\");",
+				"BirtComp.notLike(\"x 99:02:03\",\"x 99%0_\");",
+				"BirtComp.notLike(\"x 99:02:03\",\"_ 99%03\");",
+				"BirtComp.notLike(\"x 99:02:03\",\"%:0_:__3\");",
+				
+		};
+		
+		boolean[] result = new boolean[] { false, false, false, false, false, true};
 		
 		for( int i = 0; i < script.length; i++ )
 		{
