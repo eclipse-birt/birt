@@ -278,13 +278,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			if ( datasetName == null )
 			{
-				if ( getReportDataSet( ) != null || getBoundDataSet( ) != null )
+				if ( getBoundDataSet( ) != null )
 				{
-					itemHandle.setDataSet( null );
-
 					// Clean old bindings and use container's binding
 					needClean = true;
 				}
+				itemHandle.setDataSet( null );
 			}
 			else
 			{
