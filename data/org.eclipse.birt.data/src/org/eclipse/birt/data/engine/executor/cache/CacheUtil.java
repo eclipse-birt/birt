@@ -21,6 +21,7 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -55,8 +56,9 @@ public class CacheUtil
 	
 	/**
 	 * @return
+	 * @throws DataException 
 	 */
-	static int computeMemoryBufferSize( Map appContext )
+	static int computeMemoryBufferSize( Map appContext ) throws DataException
 	{
 		//here a simple assumption, that 1M memory can accomondate 2000 rows
 		if ( appContext == null )
@@ -75,8 +77,9 @@ public class CacheUtil
 	 * 
 	 * @param propValue
 	 * @return
+	 * @throws DataException 
 	 */
-	private static int populateMemBufferSize( Object propValue )
+	private static int populateMemBufferSize( Object propValue ) throws DataException
 	{
 		String targetBufferSize =  propValue == null
 				? "1" : propValue
@@ -87,6 +90,11 @@ public class CacheUtil
 		if ( targetBufferSize != null )
 			memoryCacheSize = Integer.parseInt( targetBufferSize );
 
+		if ( memoryCacheSize <= 0 )
+			throw new DataException( ResourceConstants.INVALID_MEMORY_BUFFER_SIZE,
+					new Object[]{
+						new Integer( memoryCacheSize )
+					} );
 		return memoryCacheSize;
 	}
 	

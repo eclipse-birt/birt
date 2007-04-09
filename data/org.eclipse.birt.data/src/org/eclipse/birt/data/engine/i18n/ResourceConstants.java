@@ -184,6 +184,7 @@ public class ResourceConstants
 	public static final String WRONG_VERSION="data.engine.wrongVersion";
 	public static final String UNSUPPORT_OPERATION_EXCEPTION="data.engine.unsupportOperationException";
 	public final static String POSSIBLE_MIXED_DATA_TYPE_IN_COLUMN = "data.engine.possibleMixedDataTypeInColumn";
+	public static final String INVALID_MEMORY_BUFFER_SIZE = "data.engine.invalidMemBufferSize";
 	// ODA Consumer
 	public final static String COLUMN_NAME_CANNOT_BE_EMPTY_OR_NULL = "odaconsumer.ColumnNameCannotBeEmptyOrNull";
 	public final static String COLUMN_POSITION_CANNOT_BE_LESS_THAN_ONE = "odaconsumer.ColumnPositionIsOneBased";
