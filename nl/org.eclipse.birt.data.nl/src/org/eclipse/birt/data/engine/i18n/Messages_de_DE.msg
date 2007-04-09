@@ -175,6 +175,8 @@ data.engine.wrongVersion=In früheren Versionen als 2.1 nicht unterstützt.
 data.engine.unsupportOperationException=Nicht unterstützter Vorgang.
 data.engine.possibleMixedDataTypeInColumn=Beim Übernehmen der Daten ist ein Fehler aufgetreten. Mögliche Ursache: Verschiedene Datentypen in einer Spalte des Typs "BELIEBIG".
 data.engine.resultClassSaveError=Die folgenden Spaltenbezüge können nicht gefunden werden: {0}.
+data.engine.invalidMemBufferSize=The memory buffer size "{0}" is invalid. The memory buffer size must be an integer greater than zero.
+
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Der Spaltenname darf nicht leer oder gleich Null sein.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.

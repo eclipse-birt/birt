@@ -175,6 +175,8 @@ data.engine.wrongVersion=在早于 2.1 的版本中不受支持。
 data.engine.unsupportOperationException=不支持的操作。
 data.engine.possibleMixedDataTypeInColumn=填充数据期间出错。原因可能是在 "ANY" 类型的列中包含混合类型的数据。
 data.engine.resultClassSaveError=找不到以下列引用: {0}。
+data.engine.invalidMemBufferSize=The memory buffer size "{0}" is invalid. The memory buffer size must be an integer greater than zero.
+
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=列名称不能为空或 null。
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.

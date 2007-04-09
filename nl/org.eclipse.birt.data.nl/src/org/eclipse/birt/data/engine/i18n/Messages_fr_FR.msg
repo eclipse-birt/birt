@@ -175,6 +175,8 @@ data.engine.wrongVersion=Non pris en charge dans les versions antérieures à la v
 data.engine.unsupportOperationException=Opération non prise en charge.
 data.engine.possibleMixedDataTypeInColumn=Une erreur s'est produite pendant la définition des données. Cela peut être dû à la présence de données mixtes dans une colonne de type « TOUT ».
 data.engine.resultClassSaveError=Impossible de trouver les références des colonnes suivantes : {0}.
+data.engine.invalidMemBufferSize=The memory buffer size "{0}" is invalid. The memory buffer size must be an integer greater than zero.
+
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Le nom de colonne ne peut être ni vide ni nul.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.

@@ -175,6 +175,8 @@ data.engine.wrongVersion=2.1 よりも古いバージョンではサポートされていません。
 data.engine.unsupportOperationException=この操作はサポートされていません。
 data.engine.possibleMixedDataTypeInColumn=データを収集中にエラーが発生しました。これは、"ANY" 型の列に複数の型のデータを混合させたことが原因と思われます。
 data.engine.resultClassSaveError=列の参照 {0} が見つかりません。
+data.engine.invalidMemBufferSize=The memory buffer size "{0}" is invalid. The memory buffer size must be an integer greater than zero.
+
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=列名は空白または null にできません。
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.

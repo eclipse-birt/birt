@@ -175,6 +175,8 @@ data.engine.wrongVersion=2.1 이전 버전에서는 지원되지 않습니다.
 data.engine.unsupportOperationException=지원되지 않는 연산
 data.engine.possibleMixedDataTypeInColumn=데이터 모집단 중에 오류가 발생했습니다. 이는 "모든" 형식 열에 혼합된 형식의 데이터가 포함되어 발생했을 수 있습니다.
 data.engine.resultClassSaveError=다음 열 참조를 찾을 수 없음: {0}.
+data.engine.invalidMemBufferSize=The memory buffer size "{0}" is invalid. The memory buffer size must be an integer greater than zero.
+
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=열 이름은 비워 두거나 널(null)이 될 수 없습니다.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.

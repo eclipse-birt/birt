@@ -175,6 +175,8 @@ data.engine.wrongVersion=No admitido en versiones anteriores a la 2.1.
 data.engine.unsupportOperationException=Operación no admitida.
 data.engine.possibleMixedDataTypeInColumn=Se ha producido un error durante la aplicación de los datos. Esto se puede deber a la inclusión de datos de distinto tipo en una columna de tipo "CUALQUIERA".
 data.engine.resultClassSaveError=No se pueden encontrar las referencias de columna siguientes: {0}.
+data.engine.invalidMemBufferSize=The memory buffer size "{0}" is invalid. The memory buffer size must be an integer greater than zero.
+
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=El nombre de columna no puede ser nulo ni estar vacío.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.
