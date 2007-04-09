@@ -29,6 +29,7 @@ public interface IBirtConstants
 	public static final String HTML_RENDER_FORMAT = HTMLRenderOption.OUTPUT_FORMAT_HTML;
 	public static final String PDF_RENDER_FORMAT = HTMLRenderOption.OUTPUT_FORMAT_PDF;
 	public static final String POSTSCRIPT_RENDER_FORMAT = "postscript"; //$NON-NLS-1$
+	public static final String DOC_RENDER_FORMAT = "doc"; //$NON-NLS-1$
 	
 	// Servlet path for parameter model.
 	public static final String SERVLET_PATH_PARAMETER = "/parameter"; //$NON-NLS-1$
