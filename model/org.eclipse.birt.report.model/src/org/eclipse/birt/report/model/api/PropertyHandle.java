@@ -281,6 +281,10 @@ public class PropertyHandle extends SimpleValueHandle
 				if ( !propDefn.isVisible( ) )
 					isVisible = false;
 				break;
+			case IPropertyDefn.USER_PROPERTY:
+				if( ! propDefn.isVisible( ) )
+					isVisible = false;
+				break;
 		}
 
 		return isVisible;

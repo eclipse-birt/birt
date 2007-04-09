@@ -831,7 +831,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *         found
 	 */
 
-	public SharedStyleHandle findStyle( String name )
+	public final SharedStyleHandle findStyle( String name )
 	{
 		StyleElement style = module.findStyle( name );
 		if ( style == null )

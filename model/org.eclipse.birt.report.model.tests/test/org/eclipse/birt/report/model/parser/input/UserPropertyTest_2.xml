@@ -35,18 +35,15 @@
                 <structure>
                     <property name="name">myProp</property>
                     <property name="type">string</property>
-                    <property name="isVisible">true</property>
                 </structure>
                 <structure>
                     <property name="name">myProp1</property>
                     <property name="type">string</property>
-                    <property name="isVisible">true</property>
                     <text-property name="displayName" key="abcde"></text-property>
                 </structure>
                 <structure>
                     <property name="name">myProp5</property>
                     <property name="type">string</property>
-                    <property name="isVisible">true</property>
                     <list-property name="choices">
                         <structure>
                             <property name="name">none</property>
@@ -57,17 +54,14 @@
                 <structure>
                     <property name="name">myProp6</property>
                     <property name="type">string</property>
-                    <property name="isVisible">true</property>
                 </structure>
                 <structure>
                     <property name="name">myProp3</property>
                     <property name="type">string</property>
-                    <property name="isVisible">true</property>
                 </structure>
                 <structure>
                     <property name="name">myProp2</property>
                     <property name="type">choice</property>
-                    <property name="isVisible">true</property>
                     <text-property name="displayName" key="abc"></text-property>
                     <list-property name="choices">
                         <structure>

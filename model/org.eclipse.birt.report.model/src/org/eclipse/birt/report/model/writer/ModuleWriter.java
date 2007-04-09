@@ -1135,6 +1135,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 			property( propDefn, UserPropertyDefn.NAME_MEMBER );
 			property( propDefn, UserPropertyDefn.TYPE_MEMBER );
+			property( propDefn, UserPropertyDefn.ISVISIBLE_MEMBER );
 
 			resourceKey( propDefn, UserPropertyDefn.DISPLAY_NAME_ID_MEMBER,
 					UserPropertyDefn.DISPLAY_NAME_MEMBER );
@@ -1956,6 +1957,9 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, ICellModel.ON_PREPARE_METHOD );
 		property( obj, ICellModel.ON_CREATE_METHOD );
 		property( obj, ICellModel.ON_RENDER_METHOD );
+		
+		writeUserPropertyDefns( obj );
+		writeUserPropertyValues( obj );
 
 		writeStyle( obj );
 

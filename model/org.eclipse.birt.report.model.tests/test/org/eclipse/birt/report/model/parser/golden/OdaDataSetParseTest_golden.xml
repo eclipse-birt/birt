@@ -5,6 +5,13 @@
     </data-sources>
     <data-sets>
         <oda-data-set name="MyDataSet" id="3">
+        	<list-property name="userProperties">
+                <structure>
+                   <property name="name">hello</property>
+                   <property name="type">string</property>
+                   <property name="isVisible">true</property>
+                </structure>
+            </list-property>
             <list-property name="resultSetHints">
                 <structure>
                     <property name="position">1</property>

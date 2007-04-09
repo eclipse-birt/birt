@@ -223,6 +223,13 @@
                         <property name="eventHandlerClass">birt.js.newNewHandler</property>
                         <method name="onPrepare"><![CDATA[new prepare on cell]]></method>
                         <method name="onRender"><![CDATA[new render on cell]]></method>
+                        <list-property name="userProperties">
+                            <structure>
+                                <property name="name">hello</property>
+                                <property name="type">string</property>
+                                <property name="isVisible">true</property>
+                            </structure>
+                        </list-property>
                         <label id="33">
                             <property name="x">1.1mm</property>
                             <property name="y">2.2mm</property>

@@ -222,15 +222,15 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 		CssStyleSheetHandle sheetHandle = designHandle
 				.openCssStyleSheet( getResource( "input/base.css" ).getFile( ) );//$NON-NLS-1$
-		assertNull( sheetHandle.getContainerHandle( ));
+		assertNull( sheetHandle.getContainerHandle( ) );
 		designHandle.addCss( sheetHandle );
 
 		assertFalse( designHandle.canAddCssStyleSheet( getResource(
 				"input/base.css" ).getFile( ) ) );//$NON-NLS-1$
 		assertFalse( designHandle.canAddCssStyleSheet( sheetHandle ) );
-		
+
 		assertNotNull( sheetHandle.getContainerHandle( ) );
-		
+
 		List styles = designHandle.getAllStyles( );
 		assertEquals( 5, styles.size( ) );
 
@@ -264,7 +264,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 		assertNull( labelHandle.getStyle( ) );
 
 		assertFalse( designHandle.canDropCssStyleSheet( sheetHandle ) );
-		assertNull ( sheetHandle.getContainerHandle( ) );
+		assertNull( sheetHandle.getContainerHandle( ) );
 		// test add css file name
 
 		designHandle.addCss( "base.css" );//$NON-NLS-1$
@@ -1090,4 +1090,30 @@ public class ReportDesignHandleTest extends BaseTestCase
 		assertEquals( "key three", label3.getDisplayText( ) ); //$NON-NLS-1$
 
 	}
+
+	/**
+	 * Tests getStyle , findStyle method
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testGetTOCStyle( ) throws Exception
+	{
+		createDesign( );
+		LabelHandle labelHandle = designHandle.getElementFactory( ).newLabel(
+				"Label1" );//$NON-NLS-1$
+		designHandle.getBody( ).add( labelHandle );
+
+		SharedStyleHandle styleHandle = labelHandle.getModuleHandle( )
+				.findStyle( TOCHandle.defaultTOCPrefixName + "2" );//$NON-NLS-1$
+		assertEquals( "large", styleHandle.getFontSize( ).getStringValue( ) );//$NON-NLS-1$
+
+		labelHandle.setStyleName( TOCHandle.defaultTOCPrefixName + "1" );//$NON-NLS-1$
+
+		styleHandle = labelHandle.getStyle( );
+		assertNotNull( styleHandle );
+		assertEquals( "x-large", styleHandle.getFontSize( ).getStringValue( ) );//$NON-NLS-1$
+
+	}
+
 }

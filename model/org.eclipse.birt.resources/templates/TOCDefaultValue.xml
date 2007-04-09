@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.9" id="1">
     <styles>
-    	<style name="Heading 0">
+    	<style name="TOC-level-0">
             <property name="fontSize">xx-large</property>
         </style>
-        <style name="Heading 1">
+        <style name="TOC-level-1">
             <property name="fontSize">x-large</property>
         </style>
-        <style name="Heading 2">
+        <style name="TOC-level-2">
             <property name="fontSize">large</property>
         </style>
-        <style name="Heading 3">
+        <style name="TOC-level-3">
             <property name="fontSize">medium</property>
         </style>
-        <style name="Heading 4">
+        <style name="TOC-level-4">
             <property name="fontSize">medium</property>
         </style>
-        <style name="Heading 5">
+        <style name="TOC-level-5">
             <property name="fontSize">small</property>
         </style>
-        <style name="Heading 6">
+        <style name="TOC-level-6">
             <property name="fontSize">x-small</property>
         </style>
-        <style name="Heading 7">
+        <style name="TOC-level-7">
             <property name="fontSize">xx-small</property>
         </style>
-        <style name="Heading 8">
+        <style name="TOC-level-8">
             <property name="fontSize">xx-small</property>
         </style>
-        <style name="Heading 9">
+        <style name="TOC-level-9">
             <property name="fontSize">xx-small</property>
         </style>
     </styles>

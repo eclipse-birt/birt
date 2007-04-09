@@ -27,11 +27,14 @@ import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.command.ContentException;
+import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.TableItem;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.eclipse.birt.report.model.metadata.PropertyType;
 
 /**
  * The test case of <code>TableItem</code> parser and writer.
@@ -533,6 +536,13 @@ public class TableItemParseTest extends ParserTestCase
 		cell.setOnCreate( null );
 		cell.setOnPrepare( "new prepare on cell" ); //$NON-NLS-1$
 		cell.setOnRender( "new render on cell" ); //$NON-NLS-1$
+		
+		UserPropertyDefn prop = new UserPropertyDefn( );
+		prop.setName( "hello" ); //$NON-NLS-1$
+		PropertyType typeDefn = MetaDataDictionary.getInstance( )
+				.getPropertyType( PropertyType.STRING_TYPE_NAME );
+		prop.setType( typeDefn );
+		cell.addUserPropertyDefn( prop );
 
 		save();
 		assertTrue( compareFile( goldenFileName) );

@@ -33,6 +33,11 @@ public class TOCHandle extends StructureHandle
 {
 
 	/**
+	 * Default TOC style's prefix name.
+	 */
+	public static final String defaultTOCPrefixName = "TOC-level-"; //$NON-NLS-1$
+	
+	/**
 	 * Construct an handle to deal with the toc structure.
 	 * 
 	 * @param element

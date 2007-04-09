@@ -58,6 +58,11 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 	private String displayName = null;
 
 	/**
+	 * Mark property is visible or not.
+	 */
+	private Boolean isVisible = new Boolean( true );
+
+	/**
 	 * Name of the type member.
 	 */
 
@@ -68,6 +73,11 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 	 */
 
 	public static final String NAME_MEMBER = "name"; //$NON-NLS-1$
+
+	/**
+	 * Name of the isVisible member.
+	 */
+	public static final String ISVISIBLE_MEMBER = "isVisible";//$NON-NLS-1$
 
 	/**
 	 * Name of the default member.
@@ -209,6 +219,11 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 				displayNameID = null;
 			else
 				displayNameID = value.toString( );
+		}
+		else if ( memberName.equals( ISVISIBLE_MEMBER ) )
+		{
+			assert value instanceof Boolean;
+			isVisible = (Boolean) value;
 		}
 	}
 
@@ -532,6 +547,8 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 			return displayName;
 		if ( memberName.equals( DISPLAY_NAME_ID_MEMBER ) )
 			return displayNameID;
+		if ( memberName.equals( ISVISIBLE_MEMBER ) )
+			return isVisible;
 		return null;
 	}
 
@@ -598,6 +615,35 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 	public boolean isDesignTime( )
 	{
 		return true;
+	}
+
+	/**
+	 * Checks whether the property is visible to the property sheet.
+	 * 
+	 * @return <code>true</code> if property is visible.
+	 */
+
+	public boolean isVisible( )
+	{
+		if ( isVisible != null )
+		{
+			return isVisible.booleanValue( );
+		}
+		else
+		{
+			return true;
+		}
+	}
+
+	/**
+	 * Sets whether the property is visible to the property sheet.
+	 * 
+	 * @param isVisible
+	 */
+
+	public void setVisible( boolean isVisible )
+	{
+		this.isVisible = new Boolean( isVisible );
 	}
 
 }

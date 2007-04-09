@@ -942,21 +942,24 @@ public class SessionHandleTest extends BaseTestCase
 
 	public void testGetDefaultTOCStyle( ) throws Exception
 	{
-		StyleHandle styleHandle = session.getDefaultTOCStyle( "Heading 0" );//$NON-NLS-1$
+		StyleHandle styleHandle = session
+				.getDefaultTOCStyle( TOCHandle.defaultTOCPrefixName + "0" );//$NON-NLS-1$
 
 		assertNotNull( styleHandle );
-		
+
 		DimensionHandle dimension = styleHandle.getFontSize( );
 		assertNotNull( dimension );
-		assertEquals( "xx-large" , dimension.getValue( ) ); //$NON-NLS-1$
-		
-		try{
-			styleHandle.setCanShrink( false );
-			fail();
-			
-		}catch( IllegalOperationException e)
+		assertEquals( "xx-large", dimension.getValue( ) ); //$NON-NLS-1$
+
+		try
 		{
-			assertEquals( ReadOnlyActivityStack.MESSAGE , e.getMessage( ) );
+			styleHandle.setCanShrink( false );
+			fail( );
+
+		}
+		catch ( IllegalOperationException e )
+		{
+			assertEquals( ReadOnlyActivityStack.MESSAGE, e.getMessage( ) );
 		}
 
 	}

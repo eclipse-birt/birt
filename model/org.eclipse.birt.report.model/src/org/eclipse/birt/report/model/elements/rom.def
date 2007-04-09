@@ -1718,6 +1718,9 @@
   <Structure displayNameID="Structure.UserProperty" name="UserProperty" since="1.0">
     <Member displayNameID="Structure.UserProperty.name" isIntrinsic="true" name="name" since="1.0" type="string" valueRequired="true"/>
     <Member displayNameID="Structure.UserProperty.type" isIntrinsic="true" name="type" since="1.0" type="string" />
+    <Member displayNameID="Structure.UserProperty.isVisible" name="isVisible" since="2.2" type="boolean">
+    	<Default>true</Default>
+    </Member>
     <Member displayNameID="Structure.UserProperty.displayNameID" name="displayNameID" since="1.0" type="string"/>
     <Member displayNameID="Structure.UserProperty.displayName" name="displayName" since="1.0" type="string"/>
   </Structure>
@@ -3839,7 +3842,17 @@
   <Style displayNameID="Style.ListGroupFooter7" name="list-group-footer-7" reference="List group footer for level 7" />
   <Style displayNameID="Style.ListGroupFooter8" name="list-group-footer-8" reference="List group footer for level 8" />
   <Style displayNameID="Style.ListGroupFooter9" name="list-group-footer-9" reference="List group footer for level 9" />
-
+  <Style displayNameID="Style.Toc" name="TOC-level-0" reference="Table-of-contents item" />
+  <Style displayNameID="Style.Toc1" name="TOC-level-1" reference="Table-of-contents level 1" />
+  <Style displayNameID="Style.Toc2" name="TOC-level-2" reference="Table-of-contents level 2" />
+  <Style displayNameID="Style.Toc3" name="TOC-level-3" reference="Table-of-contents level 3" />
+  <Style displayNameID="Style.Toc4" name="TOC-level-4" reference="Table-of-contents level 4" />
+  <Style displayNameID="Style.Toc5" name="TOC-level-5" reference="Table-of-contents level 5" />
+  <Style displayNameID="Style.Toc6" name="TOC-level-6" reference="Table-of-contents level 6" />
+  <Style displayNameID="Style.Toc7" name="TOC-level-7" reference="Table-of-contents level 7" />
+  <Style displayNameID="Style.Toc8" name="TOC-level-8" reference="Table-of-contents level 8" />
+  <Style displayNameID="Style.Toc9" name="TOC-level-9" reference="Table-of-contents level 9" />
+  
   <!--
   <Style displayNameID="Style.Chart" name="chart" reference="Chart" />
   <Style displayNameID="Style.ChartTitle" name="chart-title" reference="Chart Title" />
@@ -3884,16 +3897,6 @@
   <Style displayNameID="Style.MatrixColumnFooter8" name="matrix-column-footer-8" reference="Maxtrix column footer 8" />
   <Style displayNameID="Style.MatrixColumnFooter9" name="matrix-column-footer-9" reference="Maxtrix column footer 9" />
   <Style displayNameID="Style.MatrixCell" name="matrix-cell" reference="Maxtrix cell" />
-  <Style displayNameID="Style.Toc" name="Heading 0" reference="Table-of-contents item" />
-  <Style displayNameID="Style.Toc1" name="Heading 1" reference="Table-of-contents level 1" />
-  <Style displayNameID="Style.Toc2" name="Heading 2" reference="Table-of-contents level 2" />
-  <Style displayNameID="Style.Toc3" name="Heading 3" reference="Table-of-contents level 3" />
-  <Style displayNameID="Style.Toc4" name="Heading 4" reference="Table-of-contents level 4" />
-  <Style displayNameID="Style.Toc5" name="Heading 5" reference="Table-of-contents level 5" />
-  <Style displayNameID="Style.Toc6" name="Heading 6" reference="Table-of-contents level 6" />
-  <Style displayNameID="Style.Toc7" name="Heading 7" reference="Table-of-contents level 7" />
-  <Style displayNameID="Style.Toc8" name="Heading 8" reference="Table-of-contents level 8" />
-  <Style displayNameID="Style.Toc9" name="Heading 9" reference="Table-of-contents level 9" />
   <Style displayNameID="Style.Number" name="number" reference="Number data item" />
   <Style displayNameID="Style.String" name="string" reference="String data item" />
   <Style displayNameID="Style.FreeForm" name="free-form" reference="Free-form item" />

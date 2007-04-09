@@ -423,28 +423,6 @@ public class ReportDesignHandle extends ModuleHandle
 	}
 
 	/**
-	 * Find style by style name
-	 * 
-	 * @param style
-	 *            name
-	 * @return style handle
-	 */
-
-	public SharedStyleHandle findStyle( String name )
-	{
-		List styles = getAllStyles( );
-		for ( int i = 0; i < styles.size( ); ++i )
-		{
-			SharedStyleHandle style = (SharedStyleHandle) styles.get( i );
-			if ( style.getName( ).equals( name ) )
-			{
-				return style;
-			}
-		}
-		return null;
-	}
-
-	/**
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.model.api.ModuleHandle#importCssStyles(org.eclipse.birt.report.model.api.css.CssStyleSheetHandle,

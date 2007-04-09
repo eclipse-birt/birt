@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ErrorDetail;
+import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.command.UserPropertyException;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -133,8 +134,33 @@ public class UserPropertyTest extends BaseTestCase
 	{
 		openDesign( "UserPropertyTest.xml" ); //$NON-NLS-1$ 	
 
+		ListHandle listHandle = (ListHandle) designHandle.getComponents( ).get(
+				0 );
+		List properties = listHandle.getUserProperties( );
+		UserPropertyDefn userPropDefn = (UserPropertyDefn) properties.get( 0 );
+		assertTrue( userPropDefn.isVisible( ) );
+		userPropDefn.setVisible( false );
+		assertFalse( userPropDefn.isVisible( ) );
+
 		save( );
 		assertTrue( compareFile( "UserPropertyTest_golden.xml" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Tests parser file with isVisible property.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testParserIsVisible( ) throws Exception
+	{
+		openDesign( "UserPropertyTest_2.xml" ); //$NON-NLS-1$ 	
+
+		ListHandle listHandle = (ListHandle) designHandle.getComponents( ).get(
+				0 );
+		List properties = listHandle.getUserProperties( );
+		UserPropertyDefn userPropDefn = (UserPropertyDefn) properties.get( 0 );
+		assertFalse( userPropDefn.isVisible( ) );
 	}
 
 	/**
