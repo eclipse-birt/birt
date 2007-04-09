@@ -1807,6 +1807,7 @@ Structure.ParameterFormatValue=Wert für Parameterformat
 Structure.OdaDesignerState=Oda Designer State
 Structure.ScriptLib=Skriptbibliothek
 Structure.IncludedCssStyleSheet=Enthaltene CSS-Stilvorlage
+Structure.DimensionJoinCondition=Dimension Join Condition
 
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression
@@ -1867,6 +1868,7 @@ Structure.SearchKey.expression=Ausdruck
 #5.UserProperty
 Structure.UserProperty.name=Name
 Structure.UserProperty.type=Typ
+Structure.UserProperty.isVisible=Is Visible
 Structure.UserProperty.displayNameID=Namensschlüssel anzeigen
 Structure.UserProperty.displayName=Anzeigename
 
@@ -2082,7 +2084,7 @@ Structure.TOC.text.transform=Textumwandlung
 
 #29. DimensionCondition
 Structure.DimensionCondition=Dimensionsbedingung
-Structure.DimensionCondition.primaryKeys=Primärschlüssel
+Structure.DimensionCondition.joinConditions=Join Conditions
 Structure.DimensionCondition.hierarchy=Hierarchie
 
 #30. Rule
@@ -2101,6 +2103,10 @@ Structure.OdaLevelAttribute.name=Name
 Structure.OdaLevelAttribute.dataType=Datentyp
 Structure.OdaLevelAttribute.nativeName=Programmeigener Name
 Structure.OdaLevelAttribute.nativeDataType=Programmeigener Datentypcode
+
+#33. DimensionJoinCondition
+Structure.DimensionJoinCondition.cubeKey=Cube Key
+Structure.DimensionJoinCondition.hierarchyKey=Hierarchy Key
 
 ###########################################################
 # Element names
@@ -3147,16 +3153,16 @@ Style.String=Zeichenfolge
 Style.Text=Text
 Style.Grid=Raster
 
-Style.Toc=Inhaltsverzeichnis
-Style.Toc1=Toc1
-Style.Toc2=Toc2
-Style.Toc3=Toc3
-Style.Toc4=Toc4
-Style.Toc5=Toc5
-Style.Toc6=Toc6
-Style.Toc7=Toc7
-Style.Toc8=Toc8
-Style.Toc9=Toc9
+Style.Toc=TOC Level0
+Style.Toc1=TOC Level1
+Style.Toc2=TOC Level2
+Style.Toc3=TOC Level3
+Style.Toc4=TOC Level4
+Style.Toc5=TOC Level5
+Style.Toc6=TOC Level6
+Style.Toc7=TOC Level7
+Style.Toc8=TOC Level8
+Style.Toc9=TOC Level9
 
 Style.FreeForm=FreeForm
 Style.Line=Linie

@@ -1807,6 +1807,7 @@ Structure.ParameterFormatValue=参数格式值
 Structure.OdaDesignerState=Oda Designer State
 Structure.ScriptLib=脚本库
 Structure.IncludedCssStyleSheet=包括的 CSS 样式表
+Structure.DimensionJoinCondition=Dimension Join Condition
 
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression
@@ -1867,6 +1868,7 @@ Structure.SearchKey.expression=表达式
 #5.UserProperty
 Structure.UserProperty.name=名称
 Structure.UserProperty.type=类型
+Structure.UserProperty.isVisible=Is Visible
 Structure.UserProperty.displayNameID=显示名称关键字
 Structure.UserProperty.displayName=显示名称
 
@@ -2082,7 +2084,7 @@ Structure.TOC.text.transform=文本转换
 
 #29. DimensionCondition
 Structure.DimensionCondition=维条件
-Structure.DimensionCondition.primaryKeys=主键
+Structure.DimensionCondition.joinConditions=Join Conditions
 Structure.DimensionCondition.hierarchy=层次结构
 
 #30. Rule
@@ -2101,6 +2103,10 @@ Structure.OdaLevelAttribute.name=名称
 Structure.OdaLevelAttribute.dataType=数据类型
 Structure.OdaLevelAttribute.nativeName=本地名称
 Structure.OdaLevelAttribute.nativeDataType=本地数据类型代码
+
+#33. DimensionJoinCondition
+Structure.DimensionJoinCondition.cubeKey=Cube Key
+Structure.DimensionJoinCondition.hierarchyKey=Hierarchy Key
 
 ###########################################################
 # Element names
@@ -3147,16 +3153,16 @@ Style.String=字符串
 Style.Text=文本
 Style.Grid=网格
 
-Style.Toc=目录
-Style.Toc1=Toc1
-Style.Toc2=Toc2
-Style.Toc3=Toc3
-Style.Toc4=Toc4
-Style.Toc5=Toc5
-Style.Toc6=Toc6
-Style.Toc7=Toc7
-Style.Toc8=Toc8
-Style.Toc9=Toc9
+Style.Toc=TOC Level0
+Style.Toc1=TOC Level1
+Style.Toc2=TOC Level2
+Style.Toc3=TOC Level3
+Style.Toc4=TOC Level4
+Style.Toc5=TOC Level5
+Style.Toc6=TOC Level6
+Style.Toc7=TOC Level7
+Style.Toc8=TOC Level8
+Style.Toc9=TOC Level9
 
 Style.FreeForm=FreeForm
 Style.Line=行
