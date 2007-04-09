@@ -13,10 +13,8 @@ package org.eclipse.birt.report.model.adapter.oda.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.birt.report.model.adapter.oda.IConstants;
 import org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter;
@@ -40,10 +38,8 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
-import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.util.PropertyValueValidationUtil;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSetParameters;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
@@ -52,6 +48,7 @@ import org.eclipse.datatools.connectivity.oda.design.Properties;
 import org.eclipse.datatools.connectivity.oda.design.Property;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetDefinition;
 import org.eclipse.datatools.connectivity.oda.design.ResultSets;
+import org.eclipse.datatools.connectivity.oda.design.util.DesignUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
@@ -67,12 +64,20 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 {
 
 	/**
-	 * Adapts the specified Model OdaDataSourceHandle to a Data Engine API
-	 * DataSourceDesign object.
+	 * Constructs a DesignEngine with the given platform config.
 	 * 
-	 * @param sourceHandle
-	 *            the Model handle
-	 * @return a new <code>DataSourceDesign</code>
+	 * @param config
+	 *            the platform config.
+	 */
+
+	public ModelOdaAdapter( )
+	{
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#createDataSourceDesign(org.eclipse.birt.report.model.api.OdaDataSourceHandle)
 	 */
 
 	public DataSourceDesign createDataSourceDesign(
@@ -87,13 +92,10 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 		return sourceDesign;
 	}
 
-	/**
-	 * Adapts the specified Model OdaDataSetHandle to a Data Engine API
-	 * DataSetDesign object.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param setHandle
-	 *            the Model handle
-	 * @return a new <code>DataSetDesign</code>
+	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#createDataSetDesign(org.eclipse.birt.report.model.api.OdaDataSetHandle)
 	 */
 
 	public DataSetDesign createDataSetDesign( OdaDataSetHandle setHandle )
@@ -107,22 +109,11 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 		return setDesign;
 	}
 
-	/**
-	 * Adapts the Data Engine API DataSetDesign object to the specified Model
-	 * OdaDataSetHandle.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param setDesign
-	 *            the ODA dataSet design. <b>User should make sure
-	 *            <code>setDesign</code> only contains driver-defined
-	 *            parameter.It's very important! </b>
-	 * @param module
-	 *            the module where the Model handle resides.
-	 * @return a new <code>OdaDataSourceHandle</code>
-	 * @throws SemanticException
-	 *             if any value in <code>sourceDesign</code> is invalid
-	 *             according ROM.
-	 * @throws IllegalStateException
-	 *             if <code>setDesign</code> is not valid.
+	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#createDataSetHandle(org.eclipse.datatools.connectivity.oda.design.DataSetDesign,
+	 *      org.eclipse.birt.report.model.api.ModuleHandle)
 	 */
 
 	public OdaDataSetHandle createDataSetHandle( DataSetDesign setDesign,
@@ -134,7 +125,7 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 
 		// validate the source design to make sure it is valid
 
-		ODADesignFactory.getFactory( ).validateObject( setDesign );
+		DesignUtil.validateObject( setDesign );
 
 		OdaDataSetHandle setHandle = module.getElementFactory( ).newOdaDataSet(
 				setDesign.getName( ), setDesign.getOdaExtensionDataSetId( ) );
@@ -220,8 +211,8 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 		setHandle.getElement( )
 				.clearProperty( OdaDataSetHandle.PARAMETERS_PROP );
 
-		List dataSetParams = new DataSetParameterAdapter( ).newROMSetParams(
-				setDesign, setHandle, null, null );
+		List dataSetParams = new DataSetParameterAdapter( setHandle, setDesign )
+				.newROMSetParams( null );
 		PropertyValueValidationUtil.validateProperty( setHandle,
 				OdaDataSetHandle.PARAMETERS_PROP, dataSetParams );
 		setHandle.getElement( ).setProperty( OdaDataSetHandle.PARAMETERS_PROP,
@@ -325,13 +316,11 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 		}
 	}
 
-	/**
-	 * Copies values of <code>sourceHandle</code> to <code>sourceDesign</code>.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param setHandle
-	 *            the Model handle
-	 * @param setDesign
-	 *            the ODA data source design
+	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#updateDataSetDesign(org.eclipse.birt.report.model.api.OdaDataSetHandle,
+	 *      org.eclipse.datatools.connectivity.oda.design.DataSetDesign)
 	 */
 
 	public void updateDataSetDesign( OdaDataSetHandle setHandle,
@@ -375,41 +364,40 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 
 		try
 		{
-			designerValues = SerializerImpl.instance( ).read( strDesignValues );
+			if ( strDesignValues != null )
+				designerValues = SerializerImpl.instance( ).read(
+						strDesignValues );
 		}
 		catch ( IOException e )
 		{
 		}
 
-		if ( designerValues != null
-				&& designerValues.getDataSetParameters( ) != null )
+		DataSetParameters params = null;
+		if ( designerValues != null )
+			params = designerValues.getDataSetParameters( );
+
+		if ( params != null )
 		{
 			setDesign.setParameters( (DataSetParameters) EcoreUtil
-					.copy( designerValues.getDataSetParameters( ) ) );
+					.copy( params ) );
 		}
 
 		if ( setDesign.getParameters( ) == null )
 		{
-			setDesign.setParameters( new DataSetParameterAdapter( )
-					.newOdaDataSetParams( setHandle.parametersIterator( ),
-							designerValues == null ? null : designerValues
-									.getDataSetParameters( ), setDesign ) );
+			setDesign.setParameters( new DataSetParameterAdapter( setHandle,
+					setDesign ).newOdaDataSetParams( params ) );
 		}
 
 		setDesign.setPrimaryResultSet( new ResultSetsAdapter( )
 				.newOdaResultSetDefinition( setHandle ) );
-
 	}
 
-	/**
-	 * Copies values of <code>sourceHandle</code> to <code>sourceDesign</code>.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param setHandle
-	 *            the Model handle
-	 * @param setDesign
-	 *            the ODA data source design
-	 * @param propertyName
-	 *            the property name
+	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#updateDataSetDesign(org.eclipse.birt.report.model.api.OdaDataSetHandle,
+	 *      org.eclipse.datatools.connectivity.oda.design.DataSetDesign,
+	 *      java.lang.String)
 	 */
 
 	public void updateDataSetDesign( OdaDataSetHandle setHandle,
@@ -465,7 +453,6 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 		else if ( OdaDataSetHandle.PARAMETERS_PROP
 				.equalsIgnoreCase( propertyName ) )
 		{
-
 			updateDataSetDesignParams( setDesign, setHandle );
 		}
 
@@ -475,13 +462,11 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 					.newOdaResultSetDefinition( setHandle ) );
 	}
 
-	/**
-	 * Copies values of <code>sourceHandle</code> to <code>sourceDesign</code>.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param sourceHandle
-	 *            the Model handle
-	 * @param sourceDesign
-	 *            the ODA data source design
+	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#updateDataSourceDesign(org.eclipse.birt.report.model.api.OdaDataSourceHandle,
+	 *      org.eclipse.datatools.connectivity.oda.design.DataSourceDesign)
 	 */
 
 	public void updateDataSourceDesign( OdaDataSourceHandle sourceHandle,
@@ -566,20 +551,11 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 		return retProps;
 	}
 
-	/**
-	 * Adapts the Data Engine API DataSourceDesign object to the specified Model
-	 * OdaDataSourceHandle.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param sourceDesign
-	 *            the ODA dataSource design.
-	 * @param module
-	 *            the module where the Model handle resides.
-	 * @return a new <code>OdaDataSourceHandle</code>
-	 * @throws SemanticException
-	 *             if any value in <code>sourceDesign</code> is invalid
-	 *             according ROM.
-	 * @throws IllegalStateException
-	 *             if <code>sourceDesign</code> is not valid.
+	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#createDataSourceHandle(org.eclipse.datatools.connectivity.oda.design.DataSourceDesign,
+	 *      org.eclipse.birt.report.model.api.ModuleHandle)
 	 */
 
 	public OdaDataSourceHandle createDataSourceHandle(
@@ -591,7 +567,7 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 
 		// validate the source design to make sure it is valid
 
-		ODADesignFactory.getFactory( ).validateObject( sourceDesign );
+		DesignUtil.validateObject( sourceDesign );
 		OdaDataSourceHandle sourceHandle = module.getElementFactory( )
 				.newOdaDataSource( sourceDesign.getName( ),
 						sourceDesign.getOdaExtensionId( ) );
@@ -603,17 +579,11 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 		return sourceHandle;
 	}
 
-	/**
-	 * Updates values of <code>sourceHandle</code> with the given
-	 * <code>sourceDesign</code>.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param sourceDesign
-	 *            the ODA data source design
-	 * @param sourceHandle
-	 *            the Model handle
-	 * @throws SemanticException
-	 *             if any of <code>sourceDesign</code> property values is not
-	 *             valid.
+	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#updateDataSourceHandle(org.eclipse.datatools.connectivity.oda.design.DataSourceDesign,
+	 *      org.eclipse.birt.report.model.api.OdaDataSourceHandle)
 	 */
 
 	public void updateDataSourceHandle( DataSourceDesign sourceDesign,
@@ -622,7 +592,7 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 		if ( sourceDesign == null || sourceHandle == null )
 			return;
 
-		ODADesignFactory.getFactory( ).validateObject( sourceDesign );
+		DesignUtil.validateObject( sourceDesign );
 		CommandStack stack = sourceHandle.getModuleHandle( ).getCommandStack( );
 
 		stack.startTrans( null );
@@ -757,8 +727,8 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 			String propName = prop.getName( );
 			String propValue = prop.getValue( );
 
-			PropertyValueValidationUtil.validateProperty( sourceHandle,
-					propName, propValue );
+			propValue = (String) PropertyValueValidationUtil.validateProperty(
+					sourceHandle, propName, propValue );
 
 			sourceHandle.getElement( ).setProperty( propName, propValue );
 		}
@@ -794,20 +764,11 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 		return list;
 	}
 
-	/**
-	 * Updates values of <code>sourceHandle</code> with the given
-	 * <code>sourceDesign</code>.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param setDesign
-	 *            the ODA data source design
-	 * @param setHandle
-	 *            the Model handle
-	 * @param isSourceChanged
-	 *            <code>true</code> if the data source of the given design has
-	 *            been changed. Otherwise <code>false</code>.
-	 * @throws SemanticException
-	 *             if any of <code>sourceDesign</code> property values is not
-	 *             valid.
+	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#updateDataSetHandle(org.eclipse.datatools.connectivity.oda.design.DataSetDesign,
+	 *      org.eclipse.birt.report.model.api.OdaDataSetHandle, boolean)
 	 */
 
 	public void updateDataSetHandle( DataSetDesign setDesign,
@@ -817,7 +778,7 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 		if ( setDesign == null || setHandle == null )
 			return;
 
-		ODADesignFactory.getFactory( ).validateObject( setDesign );
+		DesignUtil.validateObject( setDesign );
 
 		CommandStack stack = setHandle.getModuleHandle( ).getCommandStack( );
 
@@ -896,18 +857,15 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 
 			// Get user-defined parameters
 
-			List userDefinedList = new DataSetParameterAdapter( )
-					.getUserDefinedParameter( designerValues, setDesign,
-							setHandle );
+			DataSetParameterAdapter dataParamAdapter = new DataSetParameterAdapter(
+					setHandle, setDesign );
+			dataParamAdapter.updateUserDefinedParameter( designerValues );
 
 			// Update parameters of dataset handle.
 
-			updateROMDataSetParams( setDesign, setHandle,
-					designerValues == null ? null : designerValues
-							.getDataSetParameters( ), userDefinedList );
-
-			updateDesignerValue( setDesign, setHandle, designerValues,
-					userDefinedList );
+			updateROMDataSetParams( dataParamAdapter, designerValues == null
+					? null
+					: designerValues.getDataSetParameters( ) );
 
 			DataSourceDesign sourceDesign = setDesign.getDataSourceDesign( );
 			if ( sourceDesign != null )
@@ -930,7 +888,7 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 				if ( !isSourceChanged
 						&& sourceHandle != null
 						&& !sourceHandle.getModuleHandle( ).isReadOnly( )
-						&& !( new EcoreUtil.EqualityHelper( ).equals(
+						&& !( isEqualDataSourceDesign(
 								createDataSourceDesign( sourceHandle ),
 								sourceDesign ) ) )
 				{
@@ -939,6 +897,9 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 			}
 			else
 				setHandle.setDataSource( null );
+
+			updateDesignerValue( setDesign, setHandle, designerValues,
+					dataParamAdapter.getUserDefinedParams( ) );
 		}
 		catch ( SemanticException e )
 		{
@@ -947,6 +908,77 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 		}
 
 		stack.commit( );
+	}
+
+	/**
+	 * Updates the designer value. Designer values only contain Driver-defined
+	 * parameters.
+	 * 
+	 * @param setDesign
+	 *            the data set design
+	 * @param setHandle
+	 *            the data set handle
+	 * @param designerValues
+	 *            the designer values
+	 * @param userDefinedList
+	 *            the user defined parameters
+	 * @throws SemanticException
+	 */
+
+	private void updateDesignerValue( DataSetDesign setDesign,
+			OdaDataSetHandle setHandle, DesignValues designerValues,
+			List userDefinedList ) throws SemanticException
+	{
+
+		// update designvalues.
+
+		if ( setDesign.getParameters( ) == null )
+		{
+			if ( designerValues != null )
+				designerValues.setDataSetParameters( null );
+		}
+		else
+		{
+			EList designDefns = setDesign.getParameters( )
+					.getParameterDefinitions( );
+
+			List resultList = DataSetParameterAdapter
+					.getDriverDefinedParameters( designDefns, userDefinedList );
+
+			if ( resultList.size( ) > 0 )
+			{
+				if ( designerValues == null )
+				{
+					designerValues = ModelFactory.eINSTANCE
+							.createDesignValues( );
+				}
+				DataSetParameters dsParams = designerValues
+						.getDataSetParameters( );
+				if ( dsParams == null )
+				{
+					dsParams = ODADesignFactory.getFactory( )
+							.createDataSetParameters( );
+					designerValues.setDataSetParameters( dsParams );
+				}
+				dsParams.getParameterDefinitions( ).clear( );
+				dsParams.getParameterDefinitions( ).addAll( resultList );
+			}
+		}
+
+		// Set DesignerValues
+
+		try
+		{
+			if ( designerValues != null )
+			{
+				String dValue = SerializerImpl.instance( ).write(
+						designerValues );
+				setHandle.setDesignerValues( dValue );
+			}
+		}
+		catch ( IOException e )
+		{
+		}
 	}
 
 	/**
@@ -963,9 +995,8 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	void updateDataSetDesignParams( DataSetDesign setDesign,
 			OdaDataSetHandle setHandle )
 	{
-		DataSetParameters dsParams = new DataSetParameterAdapter( )
-				.newOdaDataSetParams( setHandle.parametersIterator( ), null,
-						setDesign );
+		DataSetParameters dsParams = new DataSetParameterAdapter( setHandle,
+				setDesign ).newOdaDataSetParams( null );
 
 		if ( dsParams != null )
 		{
@@ -1000,25 +1031,20 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 
 		PropertyHandle propHandle = setHandle
 				.getPropertyHandle( OdaDataSetHandle.RESULT_SET_PROP );
-		propHandle.setValue( null );
+
+		propHandle.setValue( new ArrayList( ) );
 
 		if ( !columns.isEmpty( ) )
 		{
-			createUniqueResultSetColumnNames( columns );
-
-			propHandle.setValue( new ArrayList( ) );
 			for ( int i = 0; i < columns.size( ); i++ )
 				propHandle.addItem( columns.get( i ) );
 		}
 
 		propHandle = setHandle
 				.getPropertyHandle( OdaDataSetHandle.COLUMN_HINTS_PROP );
-		propHandle.setValue( null );
-
+		propHandle.setValue( new ArrayList( ) );
 		if ( !hints.isEmpty( ) )
 		{
-			propHandle.setValue( new ArrayList( ) );
-
 			for ( int i = 0; i < hints.size( ); i++ )
 			{
 				ColumnHint hint = (ColumnHint) hints.get( i );
@@ -1042,53 +1068,10 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 		}
 	}
 
-	/**
-	 * Creates unique result set column names if column names are
-	 * <code>null</code> or empty string.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param resultSetColumn
-	 */
-
-	private void createUniqueResultSetColumnNames( List resultSetColumn )
-	{
-		if ( resultSetColumn == null || resultSetColumn.isEmpty( ) )
-			return;
-
-		Set names = new HashSet( );
-		for ( int i = 0; i < resultSetColumn.size( ); i++ )
-		{
-			OdaResultSetColumn column = (OdaResultSetColumn) resultSetColumn
-					.get( i );
-			String nativeName = column.getNativeName( );
-			if ( nativeName != null )
-				names.add( nativeName );
-		}
-
-		Set newNames = new HashSet( );
-		for ( int i = 0; i < resultSetColumn.size( ); i++ )
-		{
-			OdaResultSetColumn column = (OdaResultSetColumn) resultSetColumn
-					.get( i );
-			String nativeName = column.getNativeName( );
-			if ( !StringUtil.isBlank( nativeName ) )
-				continue;
-
-			String newName = IdentifierUtility.getUniqueColumnName( names,
-					newNames, nativeName, i );
-
-			column.setColumnName( newName );
-		}
-
-		names.clear( );
-		newNames.clear( );
-	}
-
-	/**
-	 * Creates a ODA DesignerState object with the given OdaDataSet.
-	 * 
-	 * @param setHandle
-	 *            the ODA DataSet.
-	 * @return the oda DesignerState object.
+	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#newOdaDesignerState(org.eclipse.birt.report.model.api.OdaDataSetHandle)
 	 */
 
 	public DesignerState newOdaDesignerState( OdaDataSetHandle setHandle )
@@ -1098,15 +1081,11 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 		return DesignerStateAdapter.createOdaDesignState( designerState );
 	}
 
-	/**
-	 * Creates a ROM DesignerState object with the given ODA DataSet design.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param designerState
-	 *            the ODA designer state.
-	 * @param setHandle
-	 *            the ODA DataSet.
-	 * @throws SemanticException
-	 *             if ROM Designer state value is locked.
+	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#updateROMDesignerState(org.eclipse.datatools.connectivity.oda.design.DesignerState,
+	 *      org.eclipse.birt.report.model.api.OdaDataSetHandle)
 	 */
 
 	public void updateROMDesignerState( DesignerState designerState,
@@ -1118,12 +1097,10 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 		DesignerStateAdapter.updateROMDesignerState( designerState, setHandle );
 	}
 
-	/**
-	 * Creates a ODA DesignerState object with the given OdaDataSource.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param sourceHandle
-	 *            the ODA DataSource.
-	 * @return the oda DesignerState object.
+	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#newOdaDesignerState(org.eclipse.birt.report.model.api.OdaDataSourceHandle)
 	 */
 
 	public DesignerState newOdaDesignerState( OdaDataSourceHandle sourceHandle )
@@ -1133,15 +1110,11 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 		return DesignerStateAdapter.createOdaDesignState( designerState );
 	}
 
-	/**
-	 * Creates a ROM DesignerState object with the given ODA DataSet design.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param designerState
-	 *            the ODA designer state.
-	 * @param sourceHandle
-	 *            the ODA DataSource.
-	 * @throws SemanticException
-	 *             if ROM Designer state value is locked.
+	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#updateROMDesignerState(org.eclipse.datatools.connectivity.oda.design.DesignerState,
+	 *      org.eclipse.birt.report.model.api.OdaDataSourceHandle)
 	 */
 
 	public void updateROMDesignerState( DesignerState designerState,
@@ -1161,6 +1134,8 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	 *            data set design contains driver-defined parameters
 	 * @param setHandle
 	 *            data set handle
+	 * @param cachedParameters
+	 *            the cached data set parameters in the designer values
 	 * @param userDefinedList
 	 *            a list contains user-defined parameters. Each item is
 	 *            <code>OdaDataSetParameter</code>.
@@ -1168,12 +1143,13 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	 * @throws SemanticException
 	 */
 
-	private void updateROMDataSetParams( DataSetDesign setDesign,
-			OdaDataSetHandle setHandle, DataSetParameters cachedParameters,
-			List userDefinedList ) throws SemanticException
+	private void updateROMDataSetParams(
+			DataSetParameterAdapter setParamAdapter,
+			DataSetParameters cachedParameters ) throws SemanticException
 	{
-		List resultList = new DataSetParameterAdapter( ).newROMSetParams(
-				setDesign, setHandle, cachedParameters, userDefinedList );
+		List resultList = setParamAdapter.newROMSetParams( cachedParameters );
+
+		OdaDataSetHandle setHandle = setParamAdapter.getSetHandle( );
 
 		// Merge all parameter list with data set handle.
 
@@ -1192,6 +1168,8 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 
 		propHandle.clearValue( );
 		Iterator iterator = resultList.iterator( );
+
+		List setDefinedParams = new ArrayList( );
 		while ( iterator.hasNext( ) )
 		{
 			OdaDataSetParameter parameter = (OdaDataSetParameter) iterator
@@ -1199,98 +1177,47 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 			String paramName = parameter.getName( );
 			if ( nameList.contains( paramName ) )
 			{
-				paramName = IdentifierUtility.getParamUniqueName( setHandle
-						.parametersIterator( ), retList, parameter
-						.getPosition( ).intValue( ) );
+				paramName = IdentifierUtility.getParamUniqueName(
+						setDefinedParams.iterator( ), retList, parameter
+								.getPosition( ).intValue( ) );
 				parameter.setName( paramName );
 			}
 			nameList.add( paramName );
 			retList.add( parameter );
-			propHandle.addItem( parameter );
-		}
 
+			setDefinedParams.add( propHandle.addItem( parameter ) );
+		}
 	}
 
-	/**
-	 * Updates the designer value. Designer values only contain Driver-defined
-	 * parameters.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param setDesign
-	 *            the data set design
-	 * @param setHandle
-	 *            the data set handle
-	 * @param designerValues
-	 *            the designer values
-	 * @param userDefinedList
-	 *            the user defined parameters
-	 * @throws SemanticException
+	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#isEqualDataSourceDesign(org.eclipse.datatools.connectivity.oda.design.DataSourceDesign,
+	 *      org.eclipse.datatools.connectivity.oda.design.DataSourceDesign)
 	 */
 
-	private void updateDesignerValue( DataSetDesign setDesign,
-			OdaDataSetHandle setHandle, DesignValues designerValues,
-			List userDefinedList ) throws SemanticException
+	public boolean isEqualDataSourceDesign( DataSourceDesign designFromHandle,
+			DataSourceDesign design )
 	{
-
-		// update designvalues.
-
-		DataSetParameters setParams = setDesign.getParameters( );
-		if ( setParams == null )
+		if ( designFromHandle != null )
 		{
-			if ( designerValues != null )
-				designerValues.setDataSetParameters( null );
-		}
-		else
-		{
-			EList designDefns = setParams.getParameterDefinitions( );
-
-			List resultList = DataSetParameterAdapter
-					.getDriverDefinedParameters( designDefns, userDefinedList );
-
-			if ( resultList.size( ) > 0 )
+			EList publicProps = designFromHandle.getPublicProperties( )
+					.getProperties( );
+			for ( int i = 0; i < publicProps.size( ); i++ )
 			{
-				if ( designerValues == null )
+				Property prop = (Property) publicProps.get( i );
+				String propValue = prop.getValue( );
+				String propName = prop.getName( );
+				if ( propValue == null )
 				{
-					designerValues = ModelFactory.eINSTANCE
-							.createDesignValues( );
+					String value = design.getPublicProperties( ).getProperty(
+							propName );
+					if ( value != null && value.trim( ).equals( "" ) ) //$NON-NLS-1$
+						prop.setNameValue( prop.getName( ), "" ); //$NON-NLS-1$
 				}
-				DataSetParameters dsParams = designerValues
-						.getDataSetParameters( );
-				if ( dsParams == null )
-				{
-					dsParams = ODADesignFactory.getFactory( )
-							.createDataSetParameters( );
-					designerValues.setDataSetParameters( dsParams );
-				}
-				dsParams = designerValues.getDataSetParameters( );
-				dsParams.getParameterDefinitions( ).clear( );
-				dsParams.getParameterDefinitions( ).addAll( resultList );
 			}
 		}
-
-		ResultSets resultSets = setDesign.getResultSets( );
-		if ( setDesign.getResultSets( ) != null )
-		{
-			if ( designerValues == null )
-				designerValues = ModelFactory.eINSTANCE.createDesignValues( );
-
-			designerValues.setResultSets( (ResultSets) EcoreUtil
-					.copy( resultSets ) );
-		}
-
-		// Set DesignerValues
-
-		try
-		{
-			if ( designerValues != null )
-			{
-				String dValue = SerializerImpl.instance( ).write(
-						designerValues );
-				setHandle.setDesignerValues( dValue );
-			}
-		}
-		catch ( IOException e )
-		{
-		}
+		return new EcoreUtil.EqualityHelper( )
+				.equals( designFromHandle, design );
 	}
-
 }

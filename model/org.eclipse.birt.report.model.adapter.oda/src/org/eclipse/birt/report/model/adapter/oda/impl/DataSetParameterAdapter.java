@@ -20,7 +20,6 @@ import org.eclipse.birt.report.model.adapter.oda.ODADesignFactory;
 import org.eclipse.birt.report.model.adapter.oda.model.DesignValues;
 import org.eclipse.birt.report.model.adapter.oda.util.IdentifierUtility;
 import org.eclipse.birt.report.model.adapter.oda.util.ParameterValueUtil;
-import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
@@ -32,7 +31,6 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSetParameters;
@@ -64,6 +62,52 @@ class DataSetParameterAdapter
 	static final String BIRT_JS_EXPR = "JS_EXPR"; //$NON-NLS-1$
 
 	/**
+	 * The data set handle.
+	 */
+
+	private OdaDataSetHandle setHandle = null;
+
+	/**
+	 * The data set design.
+	 */
+
+	private DataSetDesign setDesign = null;
+
+	/**
+	 * The user defined parameters. Only updated in
+	 * {@link #updateUserDefinedParameter(DesignValues)}.
+	 */
+
+	private List userDefinedParams = null;
+
+	/**
+	 * The data set handle defined parameters.
+	 */
+
+	private List setDefinedParams = null;
+
+	/**
+	 * The constructor.
+	 * 
+	 * @param setHandle
+	 *            the data set handle
+	 * @param setDesign
+	 *            the data set design
+	 * 
+	 */
+
+	DataSetParameterAdapter( OdaDataSetHandle setHandle, DataSetDesign setDesign )
+	{
+		this.setHandle = setHandle;
+		this.setDesign = setDesign;
+
+		Iterator tmpParams = setHandle.parametersIterator( );
+		setDefinedParams = new ArrayList( );
+		while ( tmpParams.hasNext( ) )
+			setDefinedParams.add( tmpParams.next( ) );
+	}
+
+	/**
 	 * Creates an ParameterDefinition with the given ROM data set parameter
 	 * definition.
 	 * 
@@ -74,7 +118,7 @@ class DataSetParameterAdapter
 
 	private ParameterDefinition newParameterDefinition(
 			OdaDataSetParameterHandle paramHandle,
-			ParameterDefinition lastOdaParamDefn, DataSetDesign dataSetDesign )
+			ParameterDefinition lastOdaParamDefn )
 	{
 		if ( paramHandle == null )
 			return null;
@@ -96,7 +140,7 @@ class DataSetParameterAdapter
 		if ( reportParam != null )
 			paramDefn = new ReportParameterAdapter( )
 					.updateParameterDefinitionFromReportParam( paramDefn,
-							reportParam, dataSetDesign );
+							reportParam, setDesign );
 
 		return paramDefn;
 	}
@@ -131,12 +175,14 @@ class DataSetParameterAdapter
 
 		InputParameterAttributes inputAttrs = odaParamDefn.getInputAttributes( );
 		if ( inputAttrs == null )
+		{
 			inputAttrs = ODADesignFactory.getFactory( )
 					.createInputParameterAttributes( );
+			odaParamDefn.setInputAttributes( inputAttrs );
+		}
 
 		inputAttrs.setElementAttributes( newInputElementAttrs( paramHandle,
 				inputAttrs.getElementAttributes( ) ) );
-		odaParamDefn.setInputAttributes( inputAttrs );
 
 		return odaParamDefn;
 	}
@@ -285,8 +331,7 @@ class DataSetParameterAdapter
 	private void updateROMDataSetParameterFromDataAttrs(
 			DataElementAttributes dataAttrs,
 			DataElementAttributes cachedDataAttrs,
-			OdaDataSetParameter setParam, String dataSourceId,
-			String dataSetId, Iterator params )
+			OdaDataSetParameter setParam, String dataSourceId, String dataSetId )
 	{
 		if ( dataAttrs == null )
 		{
@@ -325,7 +370,7 @@ class DataSetParameterAdapter
 		// boolean is not supported in data set parameter yet.
 
 		String dataType = getROMDataType( dataSourceId, dataSetId, setParam,
-				params );
+				setDefinedParams.iterator( ) );
 		if ( dataType == null
 				|| !DesignChoiceConstants.PARAM_TYPE_BOOLEAN
 						.equalsIgnoreCase( dataType ) )
@@ -341,12 +386,14 @@ class DataSetParameterAdapter
 	 * @param setParam
 	 *            the data set parameter
 	 * @param params
+	 *            the iterator of data set parameters
+	 * @param retList
 	 *            list contain data set parameter
 	 */
 
 	private void updateROMDataSetParameterName(
 			DataElementAttributes dataAttrs, OdaDataSetParameter setParam,
-			DataSetHandle handle, List retList )
+			List retList )
 	{
 		if ( dataAttrs == null )
 			return;
@@ -360,8 +407,9 @@ class DataSetParameterAdapter
 		String name = setParam.getName( );
 		if ( StringUtil.isBlank( name ) )
 		{
-			setParam.setName( IdentifierUtility.getParamUniqueName( handle
-					.parametersIterator( ), retList, position.intValue( ) ) );
+			setParam.setName( IdentifierUtility
+					.getParamUniqueName( setDefinedParams.iterator( ), retList,
+							position.intValue( ) ) );
 		}
 
 		setParam.setNativeName( nativeName );
@@ -452,8 +500,8 @@ class DataSetParameterAdapter
 	 */
 
 	private void updateReportParameter( ParameterDefinition odaParamDefn,
-			ParameterDefinition cachedParamDefn, OdaDataSetHandle setHandle,
-			String dataType ) throws SemanticException
+			ParameterDefinition cachedParamDefn, String dataType )
+			throws SemanticException
 	{
 		DataElementAttributes dataAttrs = odaParamDefn.getAttributes( );
 
@@ -462,12 +510,12 @@ class DataSetParameterAdapter
 			return;
 		}
 
-		Iterator params = setHandle.parametersIterator( );
 		ModuleHandle module = setHandle.getModuleHandle( );
 
 		OdaDataSetParameterHandle paramDefn = findDataSetParameterByName(
 				dataAttrs.getName( ), new Integer( dataAttrs.getPosition( ) ),
-				new Integer( dataAttrs.getNativeDataTypeCode( ) ), params );
+				new Integer( dataAttrs.getNativeDataTypeCode( ) ),
+				setDefinedParams.iterator( ) );
 		if ( paramDefn != null )
 		{
 			String reportParamName = paramDefn.getParamName( );
@@ -514,8 +562,8 @@ class DataSetParameterAdapter
 			// nativeName/name, position and nativeDataType should match. If the
 			// native name is blank, match native data type and position
 
-			if ( ( StringUtil.isBlank( dataSetParamName ) || ( tmpNativeName != null && dataSetParamName
-					.equals( tmpNativeName ) ) )
+			if ( ( StringUtil.isBlank( tmpNativeName ) || ( tmpNativeName != null && tmpNativeName
+					.equals( dataSetParamName ) ) )
 					&& position.equals( param.getPosition( ) )
 					&& ( tmpNativeDataType == null || tmpNativeDataType
 							.equals( nativeDataType ) ) )
@@ -624,7 +672,7 @@ class DataSetParameterAdapter
 	 * @return the rom data type in string
 	 */
 
-	static String convertNativeTypeToROMDataType( String dataSourceId,
+	private static String convertNativeTypeToROMDataType( String dataSourceId,
 			String dataSetId, int nativeDataTypeCode )
 	{
 		return convertNativeTypeToROMDataType( dataSourceId, dataSetId,
@@ -643,7 +691,7 @@ class DataSetParameterAdapter
 	 * @return the rom data type in string
 	 */
 
-	static String convertNativeTypeToROMDataType( String dataSourceId,
+	private static String convertNativeTypeToROMDataType( String dataSourceId,
 			String dataSetId, int nativeDataTypeCode, String romDataType )
 	{
 		String romNewDataType = null;
@@ -756,47 +804,35 @@ class DataSetParameterAdapter
 	 * Creates a list containing <code>OdaDataSetParameter</code> with the
 	 * given ODA data set parameter definition.
 	 * 
-	 * @param odaSetParams
-	 *            ODA data set parameter definition
-	 * @param setHandle
-	 *            oda data set handle
 	 * @param cachedDataSetParameters
 	 *            cached dataset parameters.
-	 * @param userDefinedList
-	 *            a list contains user-defined parameters.Each item is
-	 *            <code>OdaDataSetParameter</code>.
 	 * @return a list containing <code>DataSetParameter</code>.
+	 * @throws SemanticException
 	 */
 
-	List newROMSetParams( DataSetDesign setDesign, OdaDataSetHandle setHandle,
-			DataSetParameters cachedDataSetParameters, List userDefinedList )
+	List newROMSetParams( DataSetParameters cachedDataSetParameters )
 			throws SemanticException
 	{
 		if ( setDesign == null )
 			return null;
 
-		List dsParamProp = setHandle.getElement( ).getListProperty(
-				setHandle.getModule( ), IDataSetModel.PARAMETERS_PROP );
-
-		if ( dsParamProp == null && userDefinedList == null )
-		{
-			// use for creating rom parameter.
-			return newRomSetParams( setDesign, setHandle,
-					cachedDataSetParameters );
-		}
-
 		// create for updating.
-
 		// Merge dataset design and user-defined parameter list. Now data
 		// set design contains lastest driver-defined parameters
 
-		List driverDefinedParamList = newRomSetParams( setDesign, setHandle,
-				cachedDataSetParameters );
+		List definedParamList = newRomSetParams( cachedDataSetParameters );
+
+		if ( setDefinedParams.isEmpty( ) && userDefinedParams == null )
+		{
+			// use for creating rom parameter.
+
+			return definedParamList;
+		}
 
 		// Merge userDefinedparamList and driverDefinedParamList
 
-		return mergeUserDefindAndDriverDefinedParameter(
-				driverDefinedParamList, userDefinedList );
+		return mergeUserDefindAndDriverDefinedParameter( definedParamList );
+
 	}
 
 	/**
@@ -812,9 +848,7 @@ class DataSetParameterAdapter
 	 * @return a list containing <code>DataSetParameter</code>.
 	 */
 
-	private List newRomSetParams( DataSetDesign setDesign,
-			OdaDataSetHandle setHandle,
-			DataSetParameters cachedDataSetParameters )
+	private List newRomSetParams( DataSetParameters cachedDataSetParameters )
 			throws SemanticException
 	{
 		List retList = new ArrayList( );
@@ -826,6 +860,7 @@ class DataSetParameterAdapter
 		EList odaParams = odaSetParams.getParameterDefinitions( );
 		if ( odaParams == null || odaParams.isEmpty( ) )
 			return null;
+
 		for ( int i = 0; i < odaParams.size( ); i++ )
 		{
 			ParameterDefinition odaParamDefn = (ParameterDefinition) odaParams
@@ -842,8 +877,8 @@ class DataSetParameterAdapter
 						new Integer( dataAttrs.getPosition( ) ) );
 				oldSetParam = findDataSetParameterByName( dataAttrs.getName( ),
 						new Integer( dataAttrs.getPosition( ) ), new Integer(
-								dataAttrs.getNativeDataTypeCode( ) ), setHandle
-								.parametersIterator( ) );
+								dataAttrs.getNativeDataTypeCode( ) ),
+						setDefinedParams.iterator( ) );
 
 			}
 
@@ -873,15 +908,13 @@ class DataSetParameterAdapter
 
 			// control name value here.
 
-			updateROMDataSetParameterName( dataAttrs, setParam, setHandle,
-					retList );
+			updateROMDataSetParameterName( dataAttrs, setParam, retList );
 
 			updateROMDataSetParameterFromDataAttrs( dataAttrs,
 					cachedParamDefn == null ? null : cachedParamDefn
 							.getAttributes( ), setParam, setDesign
 							.getOdaExtensionDataSourceId( ), setDesign
-							.getOdaExtensionDataSetId( ), setHandle
-							.parametersIterator( ) );
+							.getOdaExtensionDataSetId( ) );
 
 			updateROMDataSetParameterFromInputParamAttrs( odaParamDefn
 					.getInputAttributes( ), cachedParamDefn == null
@@ -896,53 +929,13 @@ class DataSetParameterAdapter
 				continue;
 			}
 
-			updateReportParameter( odaParamDefn, cachedParamDefn, setHandle,
-					setParam.getParameterDataType( ) );
+			updateReportParameter( odaParamDefn, cachedParamDefn, setParam
+					.getParameterDataType( ) );
 
 			retList.add( setParam );
 		}
+
 		return retList;
-	}
-
-	/**
-	 * Returns the matched parameter definition by given name and position.
-	 * 
-	 * @param params
-	 *            the ODA data set parameters
-	 * @param paramName
-	 *            the parameter name
-	 * @param position
-	 *            the position of the parameter
-	 * @return the matched parameter definition
-	 */
-
-	static ParameterDefinition findParameterDefinition(
-			DataSetParameters params, Integer position )
-	{
-		if ( params == null )
-			return null;
-		if ( position == null )
-			return null;
-
-		EList odaParams = params.getParameterDefinitions( );
-		if ( odaParams == null || odaParams.isEmpty( ) )
-			return null;
-
-		for ( int i = 0; i < odaParams.size( ); i++ )
-		{
-			ParameterDefinition odaParamDefn = (ParameterDefinition) odaParams
-					.get( i );
-
-			DataElementAttributes dataAttrs = odaParamDefn.getAttributes( );
-			if ( dataAttrs == null )
-				continue;
-
-			if ( position.intValue( ) == dataAttrs.getPosition( ) )
-				return odaParamDefn;
-
-		}
-
-		return null;
 	}
 
 	/**
@@ -996,42 +989,84 @@ class DataSetParameterAdapter
 	}
 
 	/**
+	 * Returns the matched parameter definition by given name and position.
+	 * 
+	 * @param params
+	 *            the ODA data set parameters
+	 * @param paramName
+	 *            the parameter name
+	 * @param position
+	 *            the position of the parameter
+	 * @return the matched parameter definition
+	 */
+
+	static ParameterDefinition findParameterDefinition(
+			DataSetParameters params, Integer position )
+	{
+		if ( params == null )
+			return null;
+		if ( position == null )
+			return null;
+
+		EList odaParams = params.getParameterDefinitions( );
+		if ( odaParams == null || odaParams.isEmpty( ) )
+			return null;
+
+		for ( int i = 0; i < odaParams.size( ); i++ )
+		{
+			ParameterDefinition odaParamDefn = (ParameterDefinition) odaParams
+					.get( i );
+
+			DataElementAttributes dataAttrs = odaParamDefn.getAttributes( );
+			if ( dataAttrs == null )
+				continue;
+
+			if ( position.intValue( ) == dataAttrs.getPosition( ) )
+				return odaParamDefn;
+
+		}
+
+		return null;
+	}
+
+	/**
 	 * Creates ODA data set parameters with given ROM data set parameters.
 	 * 
-	 * @param romSetParams
-	 *            ROM defined data set parameters.
+	 * @param lastParameters
+	 *            cached data set parameters.
 	 * @return the created ODA data set parameters.
 	 * 
 	 */
 
-	DataSetParameters newOdaDataSetParams( Iterator romSetParams,
-			DataSetParameters lastParameters, DataSetDesign dataSetDesign )
+	DataSetParameters newOdaDataSetParams( DataSetParameters lastParameters )
 	{
-		if ( !romSetParams.hasNext( ) )
+		if ( setDefinedParams.isEmpty( ) )
 			return null;
 
 		DataSetParameters odaSetParams = ODADesignFactory.getFactory( )
 				.createDataSetParameters( );
 
-		while ( romSetParams.hasNext( ) )
+		EList params = odaSetParams.getParameterDefinitions( );
+		for ( int i = 0; i < setDefinedParams.size( ); i++ )
 		{
-			OdaDataSetParameterHandle paramDefn = (OdaDataSetParameterHandle) romSetParams
-					.next( );
+			OdaDataSetParameterHandle paramDefn = (OdaDataSetParameterHandle) setDefinedParams
+					.get( i );
 
+			String nativeName = paramDefn.getNativeName( );
 			ParameterDefinition lastOdaParamDefn = findParameterDefinition(
-					lastParameters, paramDefn.getNativeName( ), paramDefn
-							.getPosition( ) );
+					lastParameters, nativeName, paramDefn.getPosition( ) );
 
 			ParameterDefinition odaParamDefn = newParameterDefinition(
-					paramDefn, lastOdaParamDefn, dataSetDesign );
+					paramDefn, lastOdaParamDefn );
+
+			if ( nativeName == null )
+				nativeName = ""; //$NON-NLS-1$
 
 			// update the name
 
-			String name = paramDefn.getNativeName( ) == null ? "" : paramDefn //$NON-NLS-1$
-					.getNativeName( );
-			odaParamDefn.getAttributes( ).setName( name );
+			odaParamDefn.getAttributes( ).setName( nativeName );
 
-			odaSetParams.getParameterDefinitions( ).add( odaParamDefn );
+			params.add( odaParamDefn );
 		}
 
 		return odaSetParams;
@@ -1057,7 +1092,7 @@ class DataSetParameterAdapter
 
 		String romDefaultValue = needsQuoteDelimiters( setParam
 				.getParameterDataType( ) ) ? ParameterValueUtil
-				.toJsExprValue( literalValue ) : literalValue;;
+				.toJsExprValue( literalValue ) : literalValue;
 		setParam.setDefaultValue( romDefaultValue );
 	}
 
@@ -1114,31 +1149,6 @@ class DataSetParameterAdapter
 	}
 
 	/**
-	 * Gets all parameters in data set handle.
-	 * 
-	 * @param setHandle
-	 *            data set handle
-	 * @return a list contains parameters. Each item is
-	 *         <code>OdaDataSetParameter</code>.
-	 */
-
-	private static List getRomDataSetParameters( OdaDataSetHandle setHandle )
-	{
-		List resultList = new ArrayList( );
-
-		// Get all parameters in data set handle.
-
-		Iterator iterator = setHandle.parametersIterator( );
-		while ( iterator.hasNext( ) )
-		{
-			OdaDataSetParameterHandle paramHandle = (OdaDataSetParameterHandle) iterator
-					.next( );
-			resultList.add( paramHandle.getStructure( ) );
-		}
-		return resultList;
-	}
-
-	/**
 	 * Merges user-defined and driver-defined parameters.
 	 * 
 	 * @param paramList
@@ -1152,15 +1162,15 @@ class DataSetParameterAdapter
 	 * @throws SemanticException
 	 */
 
-	private List mergeUserDefindAndDriverDefinedParameter( List paramList,
-			List userList ) throws SemanticException
+	private List mergeUserDefindAndDriverDefinedParameter( List paramList )
+			throws SemanticException
 	{
 		List resultList = new ArrayList( );
-		if ( paramList == null && userList == null )
+		if ( paramList == null && userDefinedParams == null )
 			return resultList;
 		if ( paramList == null )
-			return userList;
-		if ( userList == null )
+			return userDefinedParams;
+		if ( userDefinedParams == null )
 			return paramList;
 
 		Iterator iterator = paramList.iterator( );
@@ -1171,7 +1181,7 @@ class DataSetParameterAdapter
 			OdaDataSetParameter param = (OdaDataSetParameter) iterator.next( );
 			Integer pos = param.getPosition( );
 			OdaDataSetParameter userParam = findDataSetParameterByPosition(
-					userList.iterator( ), pos );
+					userDefinedParams.iterator( ), pos );
 			positionList.add( pos );
 
 			// use driver-defined to update user-defined. just update
@@ -1179,24 +1189,26 @@ class DataSetParameterAdapter
 
 			if ( userParam == null )
 			{
-				resultList.add( param.copy( ) );
+				resultList.add( param );
 			}
 			else
 			{
-				OdaDataSetParameter copied = (OdaDataSetParameter) userParam
-						.copy( );
-				if ( copied.getNativeDataType( ) != null
-						&& !copied.getNativeDataType( ).equals(
+				if ( userParam.getNativeDataType( ) != null
+						&& !userParam.getNativeDataType( ).equals(
 								param.getNativeDataType( ) ) )
-					copied.setParameterDataType( param.getParameterDataType( ) );
+				{
+					userParam.setParameterDataType( param
+							.getParameterDataType( ) );
+					userParam.setNativeDataType( param.getNativeDataType( ) );
+				}
 
-				resultList.add( copied );
+				resultList.add( userParam );
 			}
 		}
 
 		// Add value in user list.
 
-		Iterator userIterator = userList.iterator( );
+		Iterator userIterator = userDefinedParams.iterator( );
 		while ( userIterator.hasNext( ) )
 		{
 			OdaDataSetParameter userParam = (OdaDataSetParameter) userIterator
@@ -1204,43 +1216,13 @@ class DataSetParameterAdapter
 			Integer pos = userParam.getPosition( );
 			if ( !positionList.contains( pos ) )
 			{
-				resultList.add( userParam.copy( ) );
+				resultList.add( userParam );
 			}
 		}
 
 		return resultList;
 	}
 
-	/**
-	 * Gets all parameter from data set handle and then translate them to
-	 * parameter definition.
-	 * 
-	 * @param setHandle
-	 *            data set handle
-	 * @param setDesign
-	 *            data set design
-	 * @return a list contains parameter definition. Each item is
-	 *         <code>ParameterDefinition</code>
-	 */
-
-	// List getParamDefinitionFromHandle( OdaDataSetHandle setHandle,
-	// DataSetDesign setDesign )
-	// {
-	// DataSetParameters dsParameters = newOdaDataSetParams( setHandle
-	// .parametersIterator( ), null, setDesign );
-	//
-	// List resultList = new ArrayList( );
-	// if ( dsParameters == null )
-	// return resultList;
-	// EList paramDefns = dsParameters.getParameterDefinitions( );
-	// for ( int i = 0; paramDefns != null && i < paramDefns.size( ); ++i )
-	// {
-	// ParameterDefinition paramDefn = (ParameterDefinition) paramDefns
-	// .get( i );
-	// resultList.add( paramDefn );
-	// }
-	// return resultList;
-	// }
 	/**
 	 * Gets all position values in <code>DataSetParameters</code>.
 	 * 
@@ -1338,38 +1320,34 @@ class DataSetParameterAdapter
 	 * exist in DesignerValue, it must be user-defined one. Keep it in
 	 * user-defined-param-list.
 	 * 
-	 * @param setDesign
-	 *            data set design
-	 * @param setHandle
-	 *            data set handle
-	 * @return list contains user-defined parameter structure.Each item is
-	 *         <code>OdaDataSetParameter</code>
+	 * @param designerValues
+	 * 
 	 * @throws SemanticException
 	 */
 
-	List getUserDefinedParameter( DesignValues designerValues,
-			DataSetDesign setDesign, OdaDataSetHandle setHandle )
-			throws SemanticException
+	void updateUserDefinedParameter( DesignValues designerValues )
 	{
-		List resultList = new ArrayList( );
-
+		List tmpParams = new ArrayList( );
 		if ( designerValues == null )
 		{
-			resultList.addAll( DataSetParameterAdapter
-					.getRomDataSetParameters( setHandle ) );
+			for ( int i = 0; i < setDefinedParams.size( ); i++ )
+			{
+				tmpParams.add( ( (OdaDataSetParameterHandle) setDefinedParams
+						.get( i ) ).getStructure( ) );
+			}
 		}
+
+		// Compare designvalue and dataset handle.
+
 		else
 		{
-			// Compare designvalue and dataset handle.
+			List posList = getPositions( designerValues.getDataSetParameters( ) );
 
-			Iterator iterator = setHandle.parametersIterator( );
-			List posList = new DataSetParameterAdapter( )
-					.getPositions( designerValues.getDataSetParameters( ) );
-
-			while ( iterator.hasNext( ) )
+			for ( int i = 0; i < setDefinedParams.size( ); i++ )
 			{
-				OdaDataSetParameterHandle paramHandle = (OdaDataSetParameterHandle) iterator
-						.next( );
+
+				OdaDataSetParameterHandle paramHandle = (OdaDataSetParameterHandle) setDefinedParams
+						.get( i );
 				Integer position = paramHandle.getPosition( );
 				if ( position == null )
 					continue;
@@ -1377,11 +1355,42 @@ class DataSetParameterAdapter
 				{
 					// User-defined parameter.
 
-					resultList.add( paramHandle.getStructure( ) );
+					tmpParams.add( paramHandle.getStructure( ) );
 				}
 			}
 		}
-		return resultList;
+
+		// get copies of user define parameters
+		userDefinedParams = new ArrayList( );
+		for ( int i = 0; i < tmpParams.size( ); i++ )
+		{
+			userDefinedParams.add( ( (OdaDataSetParameter) tmpParams.get( i ) )
+					.copy( ) );
+		}
+
+		tmpParams.clear( );
+	}
+
+	/**
+	 * Returns the cached data set handle.
+	 * 
+	 * @return the setHandle the data set handle
+	 */
+
+	OdaDataSetHandle getSetHandle( )
+	{
+		return setHandle;
+	}
+
+	/**
+	 * Returns the user defined parameters.
+	 * 
+	 * @return the userDefinedParams the user defined parameters
+	 */
+
+	List getUserDefinedParams( )
+	{
+		return userDefinedParams;
 	}
 
 }
