@@ -5,11 +5,19 @@ Element.CrosstabCell=Celda de tabla de referencias cruzadas
 Element.CrosstabAggregationCell=Celda de agregación de tabla de referencias cruzadas
 Element.AggregationOnRow=Agregación en fila
 Element.AggregationOnColumn=Agregación en columna
+Element.AggregationHeaderLocation=Aggregation Header Location
 Element.MeasureView=Visualización de medidas
+Element.PageBreakBefore=Page Break Before
+Element.PageBreakAfter=Page Break After
+Element.SortDirection=Sort Direction
+Element.SortType=Sort Type
 Element.LevelView=Visualización de niveles
 Element.DimensionView=Visualización de dimensiones
 Element.CrosstabView=Visualización de tablas de referencias cruzadas
 Element.Cube=Cubo
+Element.Dimension=Dimension
+Element.Level=Level
+Element.Measure=Measure
 Element.Caption=Título
 Element.CaptionID=Clave de título
 Element.MeasureDirection=Dirección de medidas
@@ -26,6 +34,10 @@ Error.CrosstabException.DUPLICATE_LEVEL=
 # Crosstab executor runtime error message
 CrosstabReportItemQuery.error.crosstab.loading=Error al cargar elemento de tabla de referencias cruzadas desde elemento ampliado.
 CrosstabReportItemQuery.error.query.building=Modelo de tabla de referencias cruzadas no válido para compilar consultas.
+
+CrosstabQueryHelper.error.invalid.measure=The associated measure for crosstab is inavlid.
+CrosstabQueryHelper.error.invalid.dimension=The associated dimension for crosstab is inavlid.
+CrosstabQueryHelper.error.invalid.level=The associated level for crosstab is inavlid.
 
 BaseCrosstabExecutor.error.process.visibility=Se ha producido un error al procesar visibilidad.
 BaseCrosstabExecutor.error.process.bookmark=Se ha producido un error al procesar marcador.
@@ -50,8 +62,9 @@ CrosstabMeasureRowExecutor.error.generate.child.executor=Se ha producido un erro
 CrosstabMeasureRowExecutor.error.check.child.executor=Se ha producido un error al comprobar estado del ejecutor secundario.
 
 CrosstabReportItemExecutor.error.crosstab.loading=Error al cargar elemento de tabla de referencias cruzadas desde elemento ampliado.
-CrosstabReportItemExecutor.error.generate.columns=
-CrosstabReportItemExecutor.error.prepare.children=
+CrosstabReportItemExecutor.error.generate.columns=Error happend when generate columns for crosstab.
+CrosstabReportItemExecutor.error.prepare.children=Error happend when prepare child executor for crosstab.
+CrosstabReportItemExecutor.error.invalid.cube.result=The cube result for crosstab is invalid(=null).
 
 CrosstabRowExecutor.error.check.force.empty=Se ha producido un error al comprobar estado vacío de fuerza de celda actual.
 CrosstabRowExecutor.error.check.edge.start=Se ha producido un error al comprobar estado inicial de extremo de celda actual.
@@ -62,3 +75,7 @@ CrosstabSubTotalRowExecutor.error.retrieve.child.executor=Se ha producido un err
 
 TableColumnGenerator.error.process.visibility=Se ha producido un error al procesar visibilidad de columna.
 
+CrosstabReportItemHandle.error.locate.column.cell=Error locating relevant crosstab cell on columns
+CrosstabReportItemHandle.error.locate.row.cell=Error locating relevant crosstab cell on rows
+CrosstabReportItemHandle.error.set.column.width=Error setting crosstab column width
+CrosstabReportItemHandle.error.set.row.height=Error setting crosstab row height
