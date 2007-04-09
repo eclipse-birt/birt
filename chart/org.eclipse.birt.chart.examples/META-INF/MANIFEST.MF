@@ -10,7 +10,6 @@ Require-Bundle: org.eclipse.birt.chart.device.extension;bundle-version="[2.1.0,3
  org.eclipse.birt.chart.device.swt;bundle-version="[2.1.0,3.0.0)",
  org.eclipse.birt.chart.device.svg;bundle-version="[2.1.0,3.0.0)",
  org.eclipse.birt.chart.device.pdf;bundle-version="[2.1.0,3.0.0)",
- org.eclipse.birt.chart.device.swt;bundle-version="[2.1.0,3.0.0)",
  org.eclipse.birt.chart.engine.extension;bundle-version="[2.1.0,3.0.0)",
  org.eclipse.birt.chart.ui;bundle-version="[2.1.0,3.0.0)",
  org.eclipse.birt.chart.ui.extension;bundle-version="[2.1.0,3.0.0)",
