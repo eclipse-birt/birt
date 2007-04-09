@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
@@ -31,8 +30,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
-import com.ibm.icu.util.ULocale;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
@@ -279,43 +276,93 @@ public class PaletteImpl extends EObjectImpl implements Palette
 	}
 
 	/**
-	 * Shift the list content from tail to head.
+	 * Shift the list content.
 	 * 
 	 * @param lst
+	 *            list to move
 	 * @param pos
+	 *            moving steps If the step is zero or greater than the size of
+	 *            list, do nothing. Negative value means moving to the left
+	 *            side, and positive value is to the right side.
 	 */
 	private static final void shiftList( final List lst, int pos )
 	{
-		int size = lst.size( );
-
-		if ( pos < 1 )
-		{
-			pos = 0;
-		}
-
-		if ( pos >= size )
-		{
-			pos = pos % size;
-		}
-
 		if ( pos == 0 )
 		{
 			return;
 		}
 
-		Object[] array = lst.toArray( );
+		int size = lst.size( );
+		if ( Math.abs( pos ) >= size )
+		{
+			return;
+		}
 
+		if ( pos < 0 )
+		{
+			// Move to the left side
+			pos = -pos;
+		}
+		else
+		{
+			// Move to the right side
+			pos = size - pos;
+		}
+
+		Object[] array = lst.toArray( );
 		lst.clear( );
 
 		for ( int i = pos; i < array.length; i++ )
 		{
 			lst.add( array[i] );
 		}
-
 		for ( int i = 0; i < pos; i++ )
 		{
 			lst.add( array[i] );
 		}
+	}
+	
+	private List createPaletteLibrary()
+	{
+		ArrayList al = new ArrayList( );
+		
+		al.add( ColorDefinitionImpl.create( 80, 166, 218 ) );
+		al.add( ColorDefinitionImpl.create( 242, 88, 106 ) );
+		al.add( ColorDefinitionImpl.create( 232, 172, 57 ) );
+		al.add( ColorDefinitionImpl.create( 128, 255, 128 ) );
+		al.add( ColorDefinitionImpl.create( 64, 128, 128 ) );
+		al.add( ColorDefinitionImpl.create( 128, 128, 192 ) );
+		al.add( ColorDefinitionImpl.create( 170, 85, 85 ) );
+		al.add( ColorDefinitionImpl.create( 128, 128, 0 ) );
+		
+		al.add( ColorDefinitionImpl.create( 192, 192, 192 ) );		
+		al.add( ColorDefinitionImpl.create( 255, 255, 128 ) );
+		al.add( ColorDefinitionImpl.create( 128, 192, 128 ) );
+		al.add( ColorDefinitionImpl.create( 64, 128, 128 ) );
+		al.add( ColorDefinitionImpl.create( 0, 128, 255 ) );
+		al.add( ColorDefinitionImpl.create( 255, 128, 192 ) );
+		al.add( ColorDefinitionImpl.create( 0, 255, 255 ) );
+		al.add( ColorDefinitionImpl.create( 255, 128, 128 ) );
+
+		al.add( ColorDefinitionImpl.create( 0, 128, 192 ) );
+		al.add( ColorDefinitionImpl.create( 128, 128, 192 ) );
+		al.add( ColorDefinitionImpl.create( 255, 0, 255 ) );
+		al.add( ColorDefinitionImpl.create( 128, 64, 64 ) );
+		al.add( ColorDefinitionImpl.create( 255, 128, 64 ) );
+		al.add( ColorDefinitionImpl.create( 80, 240, 120 ) );
+		al.add( ColorDefinitionImpl.create( 0, 64, 128 ) );
+		al.add( ColorDefinitionImpl.create( 128, 0, 64 ) );
+
+		al.add( ColorDefinitionImpl.create( 255, 0, 128 ) );
+		al.add( ColorDefinitionImpl.create( 128, 128, 64 ) );
+		al.add( ColorDefinitionImpl.create( 128, 128, 128 ) );
+		al.add( ColorDefinitionImpl.create( 255, 128, 255 ) );		
+		al.add( ColorDefinitionImpl.create( 0, 64, 0 ) );
+		al.add( ColorDefinitionImpl.create( 255, 128, 0 ) );
+		al.add( ColorDefinitionImpl.create( 255, 255, 255 ) );
+		al.add( ColorDefinitionImpl.create( 0, 0, 0 ) );
+		
+		return al;
 	}
 
 	/*
@@ -327,57 +374,10 @@ public class PaletteImpl extends EObjectImpl implements Palette
 	{
 		final EList el = getEntries( );
 		el.clear( );
-		if ( iIndex < 0 )
-		{
-			// a rotation version of palette-0, rataion pos is the negatvie
-			// index.
-			ArrayList al = new ArrayList( );
-
-			al.add( ColorDefinitionImpl.create( 80, 166, 218 ) );
-			al.add( ColorDefinitionImpl.create( 242, 88, 106 ) );
-			al.add( ColorDefinitionImpl.create( 232, 172, 57 ) );
-			al.add( ColorDefinitionImpl.create( 128, 255, 128 ) );
-			al.add( ColorDefinitionImpl.create( 64, 128, 128 ) );
-			al.add( ColorDefinitionImpl.create( 128, 128, 192 ) );
-			al.add( ColorDefinitionImpl.create( 170, 85, 85 ) );
-			al.add( ColorDefinitionImpl.create( 128, 128, 0 ) );
-
-			shiftList( al, -iIndex );
-
-			el.addAll( al );
-		}
-		else if ( iIndex == 0 )
-		{
-			el.add( ColorDefinitionImpl.create( 80, 166, 218 ) );
-			el.add( ColorDefinitionImpl.create( 242, 88, 106 ) );
-			el.add( ColorDefinitionImpl.create( 232, 172, 57 ) );
-			el.add( ColorDefinitionImpl.create( 128, 255, 128 ) );
-			el.add( ColorDefinitionImpl.create( 64, 128, 128 ) );
-			el.add( ColorDefinitionImpl.create( 128, 128, 192 ) );
-			el.add( ColorDefinitionImpl.create( 170, 85, 85 ) );
-			el.add( ColorDefinitionImpl.create( 128, 128, 0 ) );
-		}
-		else if ( iIndex == 1 )
-		{
-			el.add( ColorDefinitionImpl.create( 225, 225, 255 ) );
-			el.add( ColorDefinitionImpl.create( 223, 197, 41 ) );
-			el.add( ColorDefinitionImpl.create( 249, 225, 191 ) );
-			el.add( ColorDefinitionImpl.create( 255, 205, 225 ) );
-			el.add( ColorDefinitionImpl.create( 225, 255, 225 ) );
-			el.add( ColorDefinitionImpl.create( 255, 191, 255 ) );
-			el.add( ColorDefinitionImpl.create( 185, 185, 221 ) );
-			el.add( ColorDefinitionImpl.create( 40, 255, 148 ) );
-		}
-		else
-		{
-			logger.log( ILogger.WARNING,
-					Messages.getString( "error.unknown.palette", //$NON-NLS-1$ 
-							new Object[]{
-								new Integer( iIndex )
-							},
-							ULocale.getDefault( ) ) );
-			update( 0 );
-		}
+		
+		List al = createPaletteLibrary( );
+		shiftList( al, iIndex );
+		el.addAll( al );
 	}
 
 	/*

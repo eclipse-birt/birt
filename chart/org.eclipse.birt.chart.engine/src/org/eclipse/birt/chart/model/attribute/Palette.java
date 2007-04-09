@@ -82,20 +82,27 @@ public interface Palette extends EObject
 	EList getEntries( );
 
 	/**
-	 * This convenience method updates the content of a palette with a library of colors
+	 * Updates the content of a palette with a library
+	 * of colors and rotation with the steps.
 	 * 
 	 * NOTE: Manually written
 	 * 
-	 * @param iIndex
+	 * @param iStep
+	 *            moving steps to rotate the color. If the step is zero or the
+	 *            absolute value is greater than the size of list, do nothing.
+	 *            Negative value means moving to the left side, and positive
+	 *            value is to the right side.
 	 */
-	void update( int iIndex );
+	void update( int iStep );
 
 	/**
-	 * This convenience method updates the content of a palette with a single color
+	 * Updates the content of a palette by cleaning all and adding a single
+	 * color
 	 * 
 	 * NOTE: Manually written
 	 * 
 	 * @param f
+	 *            color to replace
 	 */
 	void update( Fill f );
 } // Palette

@@ -591,16 +591,20 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 				if ( ( getChart( ).getLegend( ).getItemType( ).getValue( ) == LegendItemType.CATEGORIES )
 						&& isGroupedSeries( ) )
 				{
-					for ( int i = 0; i < getValueSeriesDefinition( ).length; i++ )
+					//Update color palette of base series
+					SeriesDefinition[] osds = getValueSeriesDefinition( );
+					SeriesDefinition bsd = getCategorySeriesDefinition( );
+					bsd.getSeriesPalette( ).update( 0 );
+					for ( int i = 0; i < osds.length; i++ )
 					{
-						getCategorySeriesDefinition( ).getSeriesPalette( )
+						bsd.getSeriesPalette( )
 								.getEntries( )
 								.set( i,
-										EcoreUtil.copy( (Fill) getValueSeriesDefinition( )[i].getSeriesPalette( )
+										EcoreUtil.copy( (Fill) osds[i].getSeriesPalette( )
 												.getEntries( )
 												.get( 0 ) ) );
 					}
-					( (SeriesPaletteSheet) popup ).setCategorySeries( getCategorySeriesDefinition( ) );
+					( (SeriesPaletteSheet) popup ).setCategorySeries( bsd );
 				}
 				( (SeriesPaletteSheet) popup ).setGroupedPalette( isGroupedSeries( ) );
 				refreshPopupSheet( );
