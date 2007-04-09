@@ -793,7 +793,7 @@ public class FillChooserComposite extends Composite implements
 		}
 		else if ( oSource.equals( this.btnCustom ) )
 		{
-			ColorDialog cDlg = new ColorDialog( this.getShell( ), SWT.NONE );
+			ColorDialog cDlg = new ColorDialog( this.getShell( ), SWT.APPLICATION_MODAL );
 			cmpDropDown.getShell( ).close( );
 			int iTrans = 255;
 			if ( fCurrent instanceof ColorDefinition )
