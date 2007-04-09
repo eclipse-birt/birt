@@ -102,4 +102,10 @@ public interface IEventHandler
 	 * @param helper
 	 */
 	void setExecutorHelper( IExecutorHelper helper );
+	
+	/**
+	 * Get the appContext of the query this Event handler bound to.
+	 * @return
+	 */
+	Map getAppContext( );
 }

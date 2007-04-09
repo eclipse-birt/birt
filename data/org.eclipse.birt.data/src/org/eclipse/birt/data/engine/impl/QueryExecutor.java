@@ -958,4 +958,13 @@ public abstract class QueryExecutor implements IQueryExecutor
 				(IQueryDefinition) this.baseQueryDefn,
 				this.getQueryScope( ) ).resolveDataSetParameters( evaluateValue );
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.impl.IQueryExecutor#getAppContext()
+	 */
+	public Map getAppContext()
+	{
+		return this.queryAppContext;
+	}
 }

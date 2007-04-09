@@ -75,6 +75,12 @@ abstract public class DataEngine
 	public static String MEMORY_DATA_SET_CACHE = "org.eclipse.birt.data.cache.memory";
 	
 	/**
+	 * Indicate the size of data cached for each result set.We only accept positive integer as input, the unit of which
+	 * would be MB. 
+	 */
+	public static String MEMORY_BUFFER_SIZE = "org.eclipse.birt.data.query.ResultBufferSize";
+	
+	/**
 	 * Creates a new instance of DataEngine, using the specified
 	 * DataEngineContext as its running environment
 	 * 

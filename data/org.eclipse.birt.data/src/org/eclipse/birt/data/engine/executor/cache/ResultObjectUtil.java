@@ -158,6 +158,8 @@ public class ResultObjectUtil
 					obs[j] = new Date( dis.readLong( ) );
 				else if ( fieldType.equals( Time.class ) )
 					obs[j] = new Time( dis.readLong( ) );
+				else if ( fieldType.equals( java.sql.Date.class ) )
+					obs[j] = new java.sql.Date( dis.readLong( ) );
 				else if ( fieldType.equals( Timestamp.class ) )
 					obs[j] = new Timestamp( dis.readLong( ) );
 				else if ( fieldType.equals( Boolean.class ) )
@@ -264,12 +266,8 @@ public class ResultObjectUtil
 				dos.writeDouble( ( (Double) fieldValue ).doubleValue( ) );
 			else if ( fieldType.equals( BigDecimal.class ) )
 				dos.writeUTF( ( (BigDecimal) fieldValue ).toString( ) );
-			else if ( fieldType.equals( Date.class ) )
+			else if ( Date.class.isAssignableFrom( fieldType ) )
 				dos.writeLong( ( (Date) fieldValue ).getTime( ) );
-			else if ( fieldType.equals( Time.class ) )
-				dos.writeLong( ( (Time) fieldValue ).getTime( ) );
-			else if ( fieldType.equals( Timestamp.class ) )
-				dos.writeLong( ( (Timestamp) fieldValue ).getTime( ) );
 			else if ( fieldType.equals( Boolean.class ) )
 				dos.writeBoolean( ( (Boolean) fieldValue ).booleanValue( ) );
 			else if ( fieldType.equals( String.class ) )

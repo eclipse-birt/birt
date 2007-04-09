@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.Map;
+
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -77,6 +79,12 @@ public interface IQueryExecutor
 	 */
 	IResultMetaData getResultMetaData( ) throws DataException;
 
+	/**
+	 * 
+	 * @return
+	 */
+	Map getAppContext( );
+	
 	/**
 	 * close
 	 */

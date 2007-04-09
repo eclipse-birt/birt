@@ -90,5 +90,11 @@ public class DummyEventHandler implements IEventHandler
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public Map getAppContext( )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

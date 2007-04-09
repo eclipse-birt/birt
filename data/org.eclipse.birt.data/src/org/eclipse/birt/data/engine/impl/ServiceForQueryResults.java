@@ -365,6 +365,14 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 			}
 			return result;
 		}
+
+		/**
+		 * 
+		 */
+		public Map getAppContext( )
+		{
+			return queryExecutor.getAppContext( );
+		}
 	}
 	
 	/*
