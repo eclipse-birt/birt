@@ -1730,6 +1730,12 @@ public class CascadingParametersDialog extends BaseDialog
 		else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
 		{
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( columnHandle.getDataType( ) );
+		}else if (DesignChoiceConstants.PARAM_TYPE_DATE.equals(columnHandle.getDataType()))
+		{
+			return DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( type );
+		}else if (DesignChoiceConstants.PARAM_TYPE_TIME.equals(columnHandle.getDataType()))
+		{
+			return DesignChoiceConstants.COLUMN_DATA_TYPE_TIME.equals( type );
 		}
 		return false;
 	}

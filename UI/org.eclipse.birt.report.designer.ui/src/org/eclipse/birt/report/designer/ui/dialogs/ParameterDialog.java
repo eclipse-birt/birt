@@ -926,6 +926,12 @@ public class ParameterDialog extends BaseDialog
 		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( column.getDataType( ) ) )
 		{
 			return type.equals( DesignChoiceConstants.PARAM_TYPE_INTEGER );
+		}else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( column.getDataType( ) ) )
+		{
+			return type.equals( DesignChoiceConstants.PARAM_TYPE_DATE );
+		}else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME.equals( column.getDataType( ) ) )
+		{
+			return type.equals( DesignChoiceConstants.PARAM_TYPE_TIME );
 		}
 		return false;
 	}
