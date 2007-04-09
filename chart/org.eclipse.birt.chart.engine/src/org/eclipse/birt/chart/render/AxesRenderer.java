@@ -3183,9 +3183,10 @@ public abstract class AxesRenderer extends BaseRenderer
 			// 0 inside, 1 left outside, 2 right outside
 			int iOutside = 0;
 			
-			// Check stack value
+			// Check orthogonal value
 			if ( dpha[i].getStackOrthogonalValue( ) != null )
 			{
+				// Check stack orthogonal value
 				double value = dpha[i].getStackOrthogonalValue( ).doubleValue( );
 				double min = Methods.asDouble( scaleOrth.getMinimum( ) )
 						.doubleValue( );
@@ -3200,10 +3201,9 @@ public abstract class AxesRenderer extends BaseRenderer
 					iOutside = 2;
 				}
 			}
-
-			// Check orthogonal value
-			if ( iOutside == 0 )
+			else
 			{
+				// Check non-stack orthogonal value
 				iOutside = checkEntryByType( scaleOrth,
 						dpha[i].getOrthogonalValue( ) );
 			}

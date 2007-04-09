@@ -35,9 +35,11 @@ public final class DeferredCache
 {
 	public static final int FLUSH_PLANE = 1;
 	public static final int FLUSH_LINE = 2;
-	public static final int FLUSH_MARKER = 4;
-	public static final int FLUSH_LABLE = 8;
-	public static final int FLUSH_3D = 16;
+	public static final int FLUSH_MARKER = 2 << 1;
+	public static final int FLUSH_LABLE = 2 << 2;
+	public static final int FLUSH_3D = 2 << 3;
+	public static final int FLUSH_PLANE_SHADOW = 2 << 4;
+	public static final int FLUSH_ALL = ( 2 << 5 ) - 1;
 
 	private final IDeviceRenderer idr;
 
@@ -48,6 +50,8 @@ public final class DeferredCache
 	private final ArrayList alMarkers = new ArrayList( 16 );
 
 	private final ArrayList alLabels = new ArrayList( 16 );
+	
+	private final ArrayList alPlaneShadows = new ArrayList( 4 );
 
 	private List al3D = new ArrayList( 16 );
 
@@ -65,7 +69,7 @@ public final class DeferredCache
 	}
 
 	/**
-	 * Addes rendering event to cache.
+	 * Adds rendering Plane event to cache.
 	 * 
 	 * @param pre
 	 *            As of now, supported types are RectanguleRenderEvent and
@@ -84,6 +88,37 @@ public final class DeferredCache
 			else
 			{
 				alPlanes.add( new WrappedInstruction( this,
+						pre.copy( ),
+						iInstruction ) );
+			}
+		}
+		catch ( ChartException ufex )
+		{
+			logger.log( ufex );
+		}
+	}
+	
+	/**
+	 * Adds rendering Plane event to cache. This Plane is usually a shadow or
+	 * depth, and will be in the lower z-order
+	 * 
+	 * @param pre
+	 *            As of now, supported types are RectanguleRenderEvent and
+	 *            PolygonRenderEvent
+	 */
+	public final void addPlaneShadow( PrimitiveRenderEvent pre, int iInstruction )
+	{
+		try
+		{
+			if ( pre instanceof I3DRenderEvent )
+			{
+				al3D.add( new WrappedInstruction( this,
+						pre.copy( ),
+						iInstruction ) );
+			}
+			else
+			{
+				alPlaneShadows.add( new WrappedInstruction( this,
 						pre.copy( ),
 						iInstruction ) );
 			}
@@ -169,8 +204,7 @@ public final class DeferredCache
 	 */
 	public final void flush( ) throws ChartException
 	{
-		flushOptions( FLUSH_3D
-				| FLUSH_LABLE | FLUSH_LINE | FLUSH_MARKER | FLUSH_PLANE );
+		flushOptions( FLUSH_ALL );
 	}
 
 	/**
@@ -189,6 +223,45 @@ public final class DeferredCache
 	{
 		WrappedInstruction wi;
 
+		// FLUSH PLANE SHADOWS
+		if ( ( options & FLUSH_PLANE_SHADOW ) == FLUSH_PLANE_SHADOW )
+		{
+			Collections.sort( alPlaneShadows ); // SORT ON Z-ORDER
+			for ( int i = 0; i < alPlaneShadows.size( ); i++ )
+			{
+				wi = (WrappedInstruction) alPlaneShadows.get( i );
+				if ( wi.isModel( ) )
+				{
+					ArrayList al = wi.getModel( );
+					for ( int j = 0; j < al.size( ); j++ )
+					{
+						PrimitiveRenderEvent pre = (PrimitiveRenderEvent) al.get( j );
+						pre.fill( idr );
+						pre.draw( idr );
+					}
+				}
+				else
+				{
+					wi.getEvent( ).iObjIndex = i + 1;
+					switch ( wi.getInstruction( ) )
+					{
+						case PrimitiveRenderEvent.FILL
+								| PrimitiveRenderEvent.DRAW :
+							wi.getEvent( ).fill( idr );
+							wi.getEvent( ).draw( idr );
+							break;
+						case PrimitiveRenderEvent.FILL :
+							wi.getEvent( ).fill( idr );
+							break;
+						case PrimitiveRenderEvent.DRAW :
+							wi.getEvent( ).draw( idr );
+							break;
+					}
+				}
+			}
+			alPlaneShadows.clear( );
+		}
+		
 		// FLUSH PLANES
 		if ( ( options & FLUSH_PLANE ) == FLUSH_PLANE )
 		{
