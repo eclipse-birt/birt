@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -267,6 +268,11 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	Object evaluate( String expr )
 	{
 		return context.evaluate( expr );
+	}	
+	
+	Object evaluate( IConditionalExpression expr )
+	{
+		return context.evaluateCondExpr( expr );
 	}
 
 	/**

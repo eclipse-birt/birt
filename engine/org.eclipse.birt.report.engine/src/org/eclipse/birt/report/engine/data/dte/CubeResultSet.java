@@ -20,6 +20,8 @@ import javax.olap.cursor.CubeCursor;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.engine.adapter.CubeUtil;
@@ -143,11 +145,19 @@ public class CubeResultSet implements ICubeResultSet
 
 	public Object evaluate( String expr ) throws BirtException
 	{
-		return null;
+		return context.evaluate( expr );
 	}
 
 	public Object evaluate( IBaseExpression expr ) throws BirtException
 	{
+		if ( expr instanceof IScriptExpression )
+		{
+			return context.evaluate( ( (IScriptExpression) expr ).getText( ) );
+		}
+		if ( expr instanceof IConditionalExpression )
+		{
+			return context.evaluateCondExpr( (IConditionalExpression) expr );
+		}
 		return null;
 	}
 

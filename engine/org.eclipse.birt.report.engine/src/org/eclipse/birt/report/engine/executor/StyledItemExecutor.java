@@ -13,6 +13,8 @@ package org.eclipse.birt.report.engine.executor;
 
 import java.net.URL;
 
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.report.engine.adapter.ExpressionUtil;
 import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
@@ -38,6 +40,8 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 public abstract class StyledItemExecutor extends ReportItemExecutor
 {
 
+	private ExpressionUtil expressionUtil;
+	
 	/**
 	 * constructor
 	 * 
@@ -47,11 +51,13 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	protected StyledItemExecutor( ExecutorManager manager )
 	{
 		super( manager );
+		expressionUtil = new ExpressionUtil( );
 	}
 	
 	protected StyledItemExecutor()
 	{
 		super();
+		expressionUtil = new ExpressionUtil( );
 	}
 
 	/**
@@ -110,7 +116,19 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 			HighlightRuleDesign rule = highlight.getRule( i );
 			if ( rule != null )
 			{
-				Object value = evaluate( rule.getConditionExpr( ) );
+				Object value = null;
+				if ( rule.getConditionExpr( ) != null )
+				{
+					value = evaluate( rule.getConditionExpr( ) );
+				}
+				else
+				{
+					IConditionalExpression newExpression = expressionUtil
+							.createConditionalExpression( rule
+									.getTestExpression( ), rule.getOperator( ),
+									rule.getValue1( ), rule.getValue2( ) );
+					value = evaluate( newExpression );
+				}
 				if ( ( value != null ) && ( value instanceof Boolean )
 						&& ( ( (Boolean) value ).booleanValue( ) ) )
 				{
@@ -155,7 +173,20 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 				MapRuleDesign rule = map.getRule( i );
 				if ( rule != null )
 				{
-					Object value = evaluate( rule.getConditionExpr( ) );
+					Object value = null;
+					if ( rule.getConditionExpr( ) != null )
+					{
+						value = evaluate( rule.getConditionExpr( ) );
+					}
+					else
+					{
+						IConditionalExpression newExpression = expressionUtil
+								.createConditionalExpression( rule
+										.getTestExpression( ), rule
+										.getOperator( ), rule.getValue1( ),
+										rule.getValue2( ) );
+						value = evaluate( newExpression );
+					}
 					if ( ( value != null ) && ( value instanceof Boolean )
 							&& ( ( (Boolean) value ).booleanValue( ) ) )
 					{
