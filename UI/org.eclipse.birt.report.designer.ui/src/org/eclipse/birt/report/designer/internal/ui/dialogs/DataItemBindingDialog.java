@@ -437,9 +437,9 @@ public class DataItemBindingDialog extends BaseDialog
 				for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 				{
 					if ( DATA_TYPE_CHOICES[i].getDisplayName( )
-							.endsWith( itemType.getText( ) ) )
+							.equals( itemType.getText( ) ) )
 					{
-						bindingColumn.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
+ 						bindingColumn.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
 						break;
 					}
 				}
