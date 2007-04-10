@@ -90,6 +90,7 @@ data.engine.InvalidBoundColumnName=无效的绑定列名称: {0}。
 data.engine.InvalidGroupKey=组 {1} 中的组关键字“{0}”不能依赖于在低于自身的组中定义的列绑定。 
 data.engine.ColumnBindingNotExist=列绑定“{0}”不存在。
 data.engine.ColumnBindingCycle=列绑定“{0}”具有相关性循环。
+data.engine.ColumnBindingReferToInexistColumn=Column binding "{0}" has referred to a data set column "{1}" which is not exist.
 
 #computed column value
 data.engine.BadCompColExpr=计算列 "{0}" 的表达式无效。
