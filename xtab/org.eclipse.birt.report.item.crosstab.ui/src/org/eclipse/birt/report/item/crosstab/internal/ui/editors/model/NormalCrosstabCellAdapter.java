@@ -68,6 +68,16 @@ public class NormalCrosstabCellAdapter extends CrosstabCellAdapter implements IV
 	 */
 	public boolean handleValidate( Object obj )
 	{
+		if (obj instanceof Object[])
+		{
+			Object[] objects = (Object[])obj;
+			int len = objects.length;
+			if (len != 1)
+			{
+				return false;
+			}
+			return handleValidate( objects[0] );
+		}
 		CrosstabReportItemHandle crosstab = getCrosstabCellHandle( ).getCrosstab( );
 		if (obj instanceof DimensionHandle)
 		{
