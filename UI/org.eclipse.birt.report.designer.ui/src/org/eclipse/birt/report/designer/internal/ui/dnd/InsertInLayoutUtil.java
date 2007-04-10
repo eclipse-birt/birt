@@ -852,16 +852,16 @@ public class InsertInLayoutUtil
 			return handleValidateDataSetColumn( (ResultSetColumnHandle) insertObj,
 					targetPart );
 		}
-		else if ( insertObj instanceof DimensionHandle )
-		{
-			return handleValidateDimension( (DimensionHandle) insertObj,
-					targetPart );
-		}
-		else if ( insertObj instanceof MeasureHandle )
-		{
-			return handleValidateMeasure( (MeasureHandle) insertObj,
-					targetPart );
-		}
+//		else if ( insertObj instanceof DimensionHandle )
+//		{
+//			return handleValidateDimension( (DimensionHandle) insertObj,
+//					targetPart );
+//		}
+//		else if ( insertObj instanceof MeasureHandle )
+//		{
+//			return handleValidateMeasure( (MeasureHandle) insertObj,
+//					targetPart );
+//		}
 		else if ( insertObj instanceof LabelHandle )
 		{
 			return handleValidateLabel( (LabelHandle) insertObj,

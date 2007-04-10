@@ -66,16 +66,14 @@ public abstract class DesignElementDropAdapter extends ViewerDropAdapter
 	 */
 	public boolean performDrop( Object data )
 	{
-//		Object adapter = ElementAdapterManager.getAdatper( getCurrentTarget( ),
-//				IElementDropAdapter.class );
-//		if ( adapter != null )
-//		{
-//			IElementDropAdapter dropAdapter = (IElementDropAdapter) adapter;
-//			return dropAdapter.handleDrop( getCurrentTarget( ),
-//					getCurrentOperation( ),
-//					getCurrentLocation( ),
-//					data );
-//		}
+
+		if ( DNDService.getInstance( ).performDrop( data,
+				getCurrentTarget( ),
+				getCurrentOperation( ),
+				getCurrentLocation( ) ))
+		{
+			return true;
+		}
 
 		if ( data instanceof Object[]
 				&& ( (Object[]) data )[0] instanceof ThemeHandle )

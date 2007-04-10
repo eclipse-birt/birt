@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.outline.dnd;
 
+import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DesignElementDragAdapter;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.StyleHandle;
@@ -39,6 +40,10 @@ public class DesignerDragListener extends DesignElementDragAdapter
 	 */
 	protected boolean validateTransfer( Object transfer )
 	{
+		//new DNDService
+		if ( DNDService.getInstance( ).validDrag( transfer ) )
+			return true;
+		//for compatible
 		if ( transfer instanceof StyleHandle
 				&& ( (StyleHandle) transfer ).getContainer( ) instanceof ThemeHandle )
 		{

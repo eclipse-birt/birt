@@ -19,10 +19,13 @@ import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.runtime.GUIException;
+import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DesignElementDropAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
+import org.eclipse.birt.report.designer.ui.views.IElementDropAdapter;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
@@ -86,6 +89,14 @@ public class DesignerDropListener extends DesignElementDropAdapter
 	 */
 	protected boolean validateTarget( Object target, Object transfer )
 	{
+		if ( DNDService.getInstance( ).validDrop( transfer,
+				target,
+				getCurrentOperation( ),
+				getCurrentLocation( ) ) )
+		{
+			return true;
+		}
+
 		if ( target != null )
 		{
 
@@ -136,6 +147,11 @@ public class DesignerDropListener extends DesignElementDropAdapter
 	 */
 	public boolean performDrop( Object data )
 	{
+		if(DNDService.getInstance( ).performDrop( data,
+				getCurrentTarget( ),
+				getCurrentOperation( ),
+				getCurrentLocation( ) ))
+			return true;
 		return super.performDrop( data );
 	}
 

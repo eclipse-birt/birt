@@ -90,14 +90,14 @@ public class ParametersNodeProvider extends DefaultNodeProvider
 	{
 		DesignElementHandle handle = super.createElement( type );
 		BaseDialog dialog = null;
-		if ( type == ReportDesignConstants.PARAMETER_GROUP_ELEMENT )
+		if ( ReportDesignConstants.PARAMETER_GROUP_ELEMENT.equals( type ) )
 		{
 			dialog = new ParameterGroupDialog( Display.getCurrent( )
 					.getActiveShell( ),
 					Messages.getString( "ParametersNodeProvider.dialogue.title.group" ) ); //$NON-NLS-1$
 			( (ParameterGroupDialog) dialog ).setInput( handle );
 		}
-		else if ( type == ReportDesignConstants.SCALAR_PARAMETER_ELEMENT )
+		else if ( ReportDesignConstants.SCALAR_PARAMETER_ELEMENT.equals( type ) )
 		{
 			dialog = new ParameterDialog( PlatformUI.getWorkbench( )
 					.getDisplay( )

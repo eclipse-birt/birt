@@ -15,6 +15,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
+import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.LibraryElementsToolHandleExtends;
@@ -107,6 +108,18 @@ public class ReportTemplateTransferDropTargetListener extends
 	 */
 	protected void handleDrop( )
 	{
+		updateTargetRequest( );
+		updateTargetEditPart( );
+		//use new DNDService
+		if ( DNDService.getInstance( )
+				.performDrop( TemplateTransfer.getInstance( ).getTemplate( ),
+						getTargetEditPart( ),
+						DND.DROP_DEFAULT,
+						1 ) )
+		{
+			return;
+		}
+
 		boolean isScalarparameter = false;
 		boolean isResultSetColumn = false;
 		boolean isEmbeddImage = false;
@@ -115,8 +128,6 @@ public class ReportTemplateTransferDropTargetListener extends
 
 		Assert.isTrue( handleValidateDrag( template ) );
 
-		updateTargetRequest( );
-		updateTargetEditPart( );
 
 		AbstractToolHandleExtends preHandle = null;
 		String transName = null;
@@ -323,6 +334,14 @@ public class ReportTemplateTransferDropTargetListener extends
 	 */
 	private boolean handleValidateDrag( Object dragObj )
 	{
+		if ( DNDService.getInstance( )
+				.validDrop( TemplateTransfer.getInstance( ).getTemplate( ),
+						getTargetEditPart( ),
+						DND.DROP_DEFAULT,
+						1 ) )
+		{
+			return true;
+		}
 		return dragObj != null
 				&& ( handleValidatePalette( dragObj )
 						|| handleValidateOutline( dragObj )

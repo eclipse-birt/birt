@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddStyleAction;
@@ -51,10 +52,8 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIPoint;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
-import org.eclipse.birt.report.designer.internal.ui.extension.experimental.CommandCombinedTemplateCreationEntry;
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.EditpartExtensionManager;
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.PaletteEntryExtension;
-import org.eclipse.birt.report.designer.internal.ui.palette.PaletteCategory;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CopyAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CutAction;
@@ -75,9 +74,8 @@ import org.eclipse.birt.report.designer.ui.extensions.IMenuBuilder;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
-import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
@@ -92,10 +90,9 @@ import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
-import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
-import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.UpdateAction;
@@ -219,6 +216,13 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		Object selectedElements = getSelectedElement( );
 		Object multiSelection = getMultiSelectedElement( );
 
+		boolean isExtended = false;
+		if ( firstSelectedElement instanceof IAdaptable )
+		{
+			if(( (IAdaptable) firstSelectedElement ).getAdapter( DesignElementHandle.class ) instanceof ExtendedItemHandle)
+				isExtended = true;
+		}
+
 		// special for dealing with multi selected elements (items).
 		if ( isMutilSelection( multiSelection ) )
 		{
@@ -258,7 +262,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		}
 
 		// -----------------------------------------------------------------
-		else if ( firstSelectedElement instanceof DesignElementHandle )
+		else if ( firstSelectedElement instanceof DesignElementHandle || isExtended)
 		{
 			menuManager.appendToGroup( GEFActionConstants.GROUP_UNDO,
 					getAction( ActionFactory.UNDO.getId( ) ) );
@@ -326,7 +330,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			{
 				if ( getRowHandles( ).size( ) != 0 )
 				{
-					MenuManager insertMenu = new MenuManager( INSERT_MENU_ITEM_TEXT );
+					MenuManager insertMenu = new MenuManager( INSERT_MENU_ITEM_TEXT);
 					MenuManager rowMenu = new MenuManager( INSERT_ROW_MENU_ITEM_TEXT );
 					rowMenu.add( getAction( InsertRowAboveAction.ID ) );
 					rowMenu.add( getAction( InsertRowBelowAction.ID ) );

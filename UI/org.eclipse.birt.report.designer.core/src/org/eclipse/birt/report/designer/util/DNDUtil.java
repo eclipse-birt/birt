@@ -567,9 +567,9 @@ public class DNDUtil
 				|| selection instanceof EmbeddedImageHandle
 				|| selection instanceof TemplateElementHandle
 				|| selection instanceof DataSetItemModel
-				|| selection instanceof ResultSetColumnHandle
-				|| selection instanceof DimensionHandle
-				|| selection instanceof MeasureHandle;
+				|| selection instanceof ResultSetColumnHandle;
+//				|| selection instanceof DimensionHandle
+//				|| selection instanceof MeasureHandle;
 	}
 
 	/**

@@ -22,6 +22,7 @@ import java.util.ResourceBundle;
 
 import org.eclipse.birt.report.designer.core.CorePlugin;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.preferences.TemplatePreferencePage;
@@ -186,6 +187,9 @@ public class ReportPlugin extends AbstractUIPlugin
 		SessionHandleAdapter.getInstance( )
 				.getSessionHandle( )
 				.setResourceFolder( getResourcePreference( ) );
+		
+		Platform.getExtensionRegistry( ).addRegistryChangeListener( DNDService.getInstance( ) );
+		
 	}
 
 	/**
@@ -270,6 +274,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	{
 		super.stop( context );
 		cellLeftCursor.dispose( );
+		Platform.getExtensionRegistry( ).removeRegistryChangeListener( DNDService.getInstance( ) );
 	}
 
 	/**
