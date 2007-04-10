@@ -667,8 +667,8 @@ public interface DesignChoiceConstants
 
 	public static final String CHOICE_SORT_TYPE = "sortType"; //$NON-NLS-1$
 	public static final String SORT_TYPE_NONE = "none"; //$NON-NLS-1$
-	public static final String SORT_TYPE_SORT_ON_GROUP_KEY = "sortOnGroupkey"; //$NON-NLS-1$
-	public static final String SORT_TYPE_COMPLEX_SORT = "complexSort"; //$NON-NLS-1$
+	public static final String SORT_TYPE_SORT_ON_GROUP_KEY = "sort-on-group-key"; //$NON-NLS-1$
+	public static final String SORT_TYPE_COMPLEX_SORT = "complex-sort"; //$NON-NLS-1$
 
 	/**
 	 * joinType -- join type of join condition.
