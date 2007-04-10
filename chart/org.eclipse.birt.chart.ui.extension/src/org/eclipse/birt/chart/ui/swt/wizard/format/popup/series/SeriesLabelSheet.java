@@ -20,7 +20,6 @@ import org.eclipse.birt.chart.datafeed.IDataPointDefinition;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
-import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.DataPoint;
 import org.eclipse.birt.chart.model.attribute.DataPointComponent;
@@ -37,15 +36,11 @@ import org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl;
 import org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.model.type.BarSeries;
-import org.eclipse.birt.chart.model.type.PieSeries;
-import org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite;
 import org.eclipse.birt.chart.ui.swt.composites.FormatSpecifierDialog;
 import org.eclipse.birt.chart.ui.swt.composites.InsetsComposite;
-import org.eclipse.birt.chart.ui.swt.composites.LabelAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.TextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -283,130 +278,31 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 		this.txtSeparator.setText( ( str == null ) ? "" : str ); //$NON-NLS-1$
 
 		// Position
-		int positionScope = LabelAttributesComposite.ALLOW_HORIZONTAL_POSITION
-				| LabelAttributesComposite.ALLOW_VERTICAL_POSITION;
-		if ( getSeriesForProcessing( ) instanceof PieSeries
-				|| getSeriesForProcessing( ) instanceof BarSeries )
-		{
-			positionScope = LabelAttributesComposite.ALLOW_INOUT_POSITION;
-		}
-		else if ( getSeriesForProcessing( ) instanceof GanttSeriesImpl )
-		{
-			positionScope |= LabelAttributesComposite.ALLOW_INOUT_POSITION;
-		}
+		int positionScope = ChartUIUtil.getPositionScopeOfSeriesLabel( getSeriesForProcessing( ),
+				getContext( ).getModel( ).getDimension( ) );
+		cmbPosition.setItems( ChartUIUtil.getPositionDisplayNames( positionScope,
+				isFlippedAxes( ) ) );
+		
 		Position lpCurrent = getSeriesForProcessing( ).getLabelPosition( );
-		if ( positionScope == LabelAttributesComposite.ALLOW_ALL_POSITION )
+		if ( lpCurrent != null )
 		{
-			cmbPosition.setItems( LiteralHelper.fullPositionSet.getDisplayNames( ) );
-			if ( lpCurrent != null )
+			String positionName = ChartUIUtil.getFlippedPosition( lpCurrent,
+					isFlippedAxes( ) ).getName( );
+			for ( int i = 0; i < cmbPosition.getItemCount( ); i++ )
 			{
-				if ( context.getModel( ) instanceof ChartWithAxes )
+				if ( positionName.equals( LiteralHelper.fullPositionSet.getNameByDisplayName( cmbPosition.getItem( i ) ) ) )
 				{
-					cmbPosition.select( LiteralHelper.fullPositionSet.getSafeNameIndex( ChartUIUtil.getFlippedPosition( lpCurrent,
-							isFlippedAxes( ) )
-							.getName( ) ) );
-				}
-				else
-				{
-					cmbPosition.select( LiteralHelper.fullPositionSet.getSafeNameIndex( lpCurrent.getName( ) ) );
+					cmbPosition.select( i );
 				}
 			}
 		}
-		else
+		
+		// For compatibility with old model, set the first selection by
+		// default.
+		if ( cmbPosition.getSelectionIndex( ) < 0 )
 		{
-			// check vertical
-			if ( ( positionScope & LabelAttributesComposite.ALLOW_VERTICAL_POSITION ) != 0 )
-			{
-				if ( context.getModel( ) instanceof ChartWithAxes
-						&& isFlippedAxes( ) )
-				{
-					String[] ns = LiteralHelper.horizontalPositionSet.getDisplayNames( );
-					for ( int i = 0; i < ns.length; i++ )
-					{
-						cmbPosition.add( ns[i] );
-					}
-				}
-				else
-				{
-					String[] ns = LiteralHelper.verticalPositionSet.getDisplayNames( );
-					for ( int i = 0; i < ns.length; i++ )
-					{
-						cmbPosition.add( ns[i] );
-					}
-				}
-			}
-			// check horizontal
-			if ( ( positionScope & LabelAttributesComposite.ALLOW_HORIZONTAL_POSITION ) != 0 )
-			{
-				if ( context.getModel( ) instanceof ChartWithAxes
-						&& isFlippedAxes( ) )
-				{
-					String[] ns = LiteralHelper.verticalPositionSet.getDisplayNames( );
-					for ( int i = 0; i < ns.length; i++ )
-					{
-						cmbPosition.add( ns[i] );
-					}
-				}
-				else
-				{
-					String[] ns = LiteralHelper.horizontalPositionSet.getDisplayNames( );
-					for ( int i = 0; i < ns.length; i++ )
-					{
-						cmbPosition.add( ns[i] );
-					}
-				}
-			}
-			// check inside/outside
-			if ( ( positionScope & LabelAttributesComposite.ALLOW_INOUT_POSITION ) != 0 )
-			{
-				if ( ( getSeriesForProcessing( ) instanceof BarSeries )
-						&& ( getContext( ).getModel( ).getDimension( ) == ChartDimension.THREE_DIMENSIONAL_LITERAL ) )
-				{
-					cmbPosition.add( LiteralHelper.inoutPositionSet.getDisplayNameByName( Position.OUTSIDE_LITERAL.getName( ) ) );
-				}
-				else if ( getSeriesForProcessing( ) instanceof GanttSeriesImpl )
-				{
-					cmbPosition.add( LiteralHelper.inoutPositionSet.getDisplayNameByName( Position.INSIDE_LITERAL.getName( ) ) );
-				}
-				else
-				{
-					String[] ns = LiteralHelper.inoutPositionSet.getDisplayNames( );
-					for ( int i = 0; i < ns.length; i++ )
-					{
-						cmbPosition.add( ns[i] );
-					}
-				}
-			}
-
-			if ( lpCurrent != null )
-			{
-				String positionName = null;
-				if ( context.getModel( ) instanceof ChartWithAxes )
-				{
-					positionName = ChartUIUtil.getFlippedPosition( lpCurrent,
-							isFlippedAxes( ) ).getName( );
-				}
-				else
-				{
-					positionName = lpCurrent.getName( );
-				}
-
-				for ( int i = 0; i < cmbPosition.getItemCount( ); i++ )
-				{
-					if ( positionName.equals( LiteralHelper.fullPositionSet.getNameByDisplayName( cmbPosition.getItem( i ) ) ) )
-					{
-						cmbPosition.select( i );
-					}
-				}
-
-				// For compatibility with old model, set the first selection by
-				// default.
-				if ( cmbPosition.getSelectionIndex( ) < 0 )
-				{
-					cmbPosition.select( 0 );
-					cmbPosition.notifyListeners( SWT.Selection, new Event( ) );
-				}
-			}
+			cmbPosition.select( 0 );
+			cmbPosition.notifyListeners( SWT.Selection, new Event( ) );
 		}
 	}
 
@@ -863,8 +759,9 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 
 	private boolean isFlippedAxes( )
 	{
-		return ( (ChartWithAxes) context.getModel( ) ).getOrientation( )
-				.equals( Orientation.HORIZONTAL_LITERAL );
+		return context.getModel( ) instanceof ChartWithAxes
+				&& ( (ChartWithAxes) context.getModel( ) ).getOrientation( )
+						.equals( Orientation.HORIZONTAL_LITERAL );
 	}
 
 	private String[] concatenateArrays( String[] array1, String[] array2 )

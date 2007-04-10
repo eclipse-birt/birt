@@ -48,17 +48,22 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
+import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.BubbleSeries;
 import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.model.type.LineSeries;
+import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
+import org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl;
+import org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl;
 import org.eclipse.birt.chart.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIPlugin;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.emf.common.util.EList;
@@ -1307,5 +1312,121 @@ public class ChartUIUtil
 			}
 		}
 		return (String[]) list.toArray( new String[list.size( )] );
+	}
+	
+	/**
+	 * Gets the position scope of Series label.
+	 * 
+	 * @param series
+	 *            series
+	 * @param dimension
+	 *            chart dimension
+	 * @return position scope of constants
+	 * @see ChartUIConstancts#ALLOW_ALL_POSITION
+	 */
+	public static int getPositionScopeOfSeriesLabel( Series series,
+			ChartDimension dimension )
+	{
+		// 4 positions by default
+		int positionScope = ChartUIConstancts.ALLOW_HORIZONTAL_POSITION
+				| ChartUIConstancts.ALLOW_VERTICAL_POSITION;
+		if ( series instanceof BarSeries )
+		{
+			if ( dimension == ChartDimension.THREE_DIMENSIONAL_LITERAL )
+			{
+				// Only one position
+				positionScope = ChartUIConstancts.ALLOW_OUT_POSITION;
+			}
+			else
+			{
+				// Only two positions
+				positionScope = ChartUIConstancts.ALLOW_INOUT_POSITION;
+			}
+		}
+		else if ( series instanceof PieSeries )
+		{
+			// Only two positions
+			positionScope = ChartUIConstancts.ALLOW_INOUT_POSITION;
+		}
+		else if ( series instanceof GanttSeriesImpl )
+		{
+			// Add one position
+			positionScope |= ChartUIConstancts.ALLOW_IN_POSITION;
+		}
+		else if ( series instanceof BubbleSeriesImpl )
+		{
+			// Add one position
+			positionScope |= ChartUIConstancts.ALLOW_IN_POSITION;
+		}
+
+		return positionScope;
+	}
+	
+	/**
+	 * Gets the array of position display names
+	 * 
+	 * @param positionScope
+	 *            position scope
+	 * @param isFlipped
+	 *            current chart model's direction
+	 * @return string array of position display names
+	 */
+	public static String[] getPositionDisplayNames( int positionScope,
+			boolean isFlipped )
+	{
+		if ( ( positionScope & ChartUIConstancts.ALLOW_ALL_POSITION ) == ChartUIConstancts.ALLOW_ALL_POSITION )
+		{
+			return LiteralHelper.fullPositionSet.getDisplayNames( );
+		}
+
+		List items = new ArrayList( 5 );
+		// check vertical
+		if ( ( positionScope & ChartUIConstancts.ALLOW_VERTICAL_POSITION ) == ChartUIConstancts.ALLOW_VERTICAL_POSITION )
+		{
+			if ( isFlipped )
+			{
+				addArrayToList( LiteralHelper.horizontalPositionSet.getDisplayNames( ),
+						items );
+			}
+			else
+			{
+				addArrayToList( LiteralHelper.verticalPositionSet.getDisplayNames( ),
+						items );
+			}
+		}
+		// check horizontal
+		if ( ( positionScope & ChartUIConstancts.ALLOW_HORIZONTAL_POSITION ) == ChartUIConstancts.ALLOW_HORIZONTAL_POSITION )
+		{
+			if ( isFlipped )
+			{
+				addArrayToList( LiteralHelper.verticalPositionSet.getDisplayNames( ),
+						items );
+			}
+			else
+			{
+				addArrayToList( LiteralHelper.horizontalPositionSet.getDisplayNames( ),
+						items );
+			}
+		}
+		// check inout
+		// Inside or outside can be added separately
+		if ( ( positionScope & ChartUIConstancts.ALLOW_IN_POSITION ) == ChartUIConstancts.ALLOW_IN_POSITION )
+		{
+			items.add( LiteralHelper.inoutPositionSet.getDisplayNameByName( Position.INSIDE_LITERAL.getName( ) ) );
+		}
+		if ( ( positionScope & ChartUIConstancts.ALLOW_OUT_POSITION ) == ChartUIConstancts.ALLOW_OUT_POSITION )
+		{
+			items.add( LiteralHelper.inoutPositionSet.getDisplayNameByName( Position.OUTSIDE_LITERAL.getName( ) ) );
+		}
+
+		return (String[]) items.toArray( new String[items.size( )] );
+	}
+	
+	private static void addArrayToList( Object[] array, List list )
+	{
+		for ( int i = 0; i < array.length; i++ )
+		{
+			list.add( array[i] );
+		}
 	}
 }

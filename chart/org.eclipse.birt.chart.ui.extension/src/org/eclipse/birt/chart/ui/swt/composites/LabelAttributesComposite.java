@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.util.ChartUIConstancts;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.swt.SWT;
@@ -127,13 +128,13 @@ public class LabelAttributesComposite extends Composite implements
 
 	public static final int LABEL_CHANGED_EVENT = 11;
 
-	public static final int ALLOW_ALL_POSITION = 0;
+	public static final int ALLOW_ALL_POSITION = ChartUIConstancts.ALLOW_ALL_POSITION;
 
-	public static final int ALLOW_VERTICAL_POSITION = 1;
+	public static final int ALLOW_VERTICAL_POSITION = ChartUIConstancts.ALLOW_VERTICAL_POSITION;
 
-	public static final int ALLOW_HORIZONTAL_POSITION = 2;
+	public static final int ALLOW_HORIZONTAL_POSITION = ChartUIConstancts.ALLOW_HORIZONTAL_POSITION;
 
-	public static final int ALLOW_INOUT_POSITION = 4;
+	public static final int ALLOW_INOUT_POSITION = ChartUIConstancts.ALLOW_INOUT_POSITION;
 
 	private transient boolean bEnabled = true;
 
@@ -537,99 +538,22 @@ public class LabelAttributesComposite extends Composite implements
 	{
 		if ( attributesContext.isPositionEnabled )
 		{
-			if ( positionScope == ALLOW_ALL_POSITION )
+			cmbPosition.setItems( ChartUIUtil.getPositionDisplayNames( positionScope,
+					( isAxisAttribute( ) || isSeriesAttribute( ) )
+							&& isFlippedAxes( ) ) );
+			if ( lpCurrent != null )
 			{
-				cmbPosition.setItems( LiteralHelper.fullPositionSet.getDisplayNames( ) );
-				if ( lpCurrent != null )
+				String positionName = ChartUIUtil.getFlippedPosition( lpCurrent,
+						( isAxisAttribute( ) || isSeriesAttribute( ) )
+								&& isFlippedAxes( ) )
+						.getName( );
+				for ( int i = 0; i < cmbPosition.getItemCount( ); i++ )
 				{
-					if ( isAxisAttribute( ) || isSeriesAttribute( ) )
+					if ( positionName.equals( LiteralHelper.fullPositionSet.getNameByDisplayName( cmbPosition.getItem( i ) ) ) )
 					{
-						cmbPosition.select( LiteralHelper.fullPositionSet.getSafeNameIndex( ChartUIUtil.getFlippedPosition( lpCurrent,
-								isFlippedAxes( ) )
-								.getName( ) ) );
-					}
-					else
-					{
-						cmbPosition.select( LiteralHelper.fullPositionSet.getSafeNameIndex( lpCurrent.getName( ) ) );
+						cmbPosition.select( i );
 					}
 				}
-			}
-			else
-			{
-				// check vertical
-				if ( ( positionScope & ALLOW_VERTICAL_POSITION ) != 0 )
-				{
-					if ( ( isAxisAttribute( ) || isSeriesAttribute( ) )
-							&& isFlippedAxes( ) )
-					{
-						String[] ns = LiteralHelper.horizontalPositionSet.getDisplayNames( );
-						for ( int i = 0; i < ns.length; i++ )
-						{
-							cmbPosition.add( ns[i] );
-						}
-					}
-					else
-					{
-						String[] ns = LiteralHelper.verticalPositionSet.getDisplayNames( );
-						for ( int i = 0; i < ns.length; i++ )
-						{
-							cmbPosition.add( ns[i] );
-						}
-					}
-				}
-				// check horizontal
-				if ( ( positionScope & ALLOW_HORIZONTAL_POSITION ) != 0 )
-				{
-					if ( ( isAxisAttribute( ) || isSeriesAttribute( ) )
-							&& isFlippedAxes( ) )
-					{
-						String[] ns = LiteralHelper.verticalPositionSet.getDisplayNames( );
-						for ( int i = 0; i < ns.length; i++ )
-						{
-							cmbPosition.add( ns[i] );
-						}
-					}
-					else
-					{
-						String[] ns = LiteralHelper.horizontalPositionSet.getDisplayNames( );
-						for ( int i = 0; i < ns.length; i++ )
-						{
-							cmbPosition.add( ns[i] );
-						}
-					}
-				}
-				// check inout
-				if ( ( positionScope & ALLOW_INOUT_POSITION ) != 0 )
-				{
-					String[] ns = LiteralHelper.inoutPositionSet.getDisplayNames( );
-					for ( int i = 0; i < ns.length; i++ )
-					{
-						cmbPosition.add( ns[i] );
-					}
-				}
-
-				if ( lpCurrent != null )
-				{
-					String positionName = null;
-					if ( isAxisAttribute( ) || isSeriesAttribute( ) )
-					{
-						positionName = ChartUIUtil.getFlippedPosition( lpCurrent,
-								isFlippedAxes( ) )
-								.getName( );
-					}
-					else
-					{
-						positionName = lpCurrent.getName( );
-					}
-					for ( int i = 0; i < cmbPosition.getItemCount( ); i++ )
-					{
-						if ( positionName.equals( LiteralHelper.fullPositionSet.getNameByDisplayName( cmbPosition.getItem( i ) ) ) )
-						{
-							cmbPosition.select( i );
-						}
-					}
-				}
-
 			}
 		}
 	}
@@ -854,8 +778,9 @@ public class LabelAttributesComposite extends Composite implements
 
 	private boolean isFlippedAxes( )
 	{
-		return ( (ChartWithAxes) wizardContext.getModel( ) ).getOrientation( )
-				.equals( Orientation.HORIZONTAL_LITERAL );
+		return wizardContext.getModel( ) instanceof ChartWithAxes
+				&& ( (ChartWithAxes) wizardContext.getModel( ) ).getOrientation( )
+						.equals( Orientation.HORIZONTAL_LITERAL );
 	}
 
 	private boolean isAxisAttribute( )
