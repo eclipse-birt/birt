@@ -11,10 +11,12 @@
 
 package org.eclipse.birt.report.data.adapter.api;
 
+import javax.olap.OLAPException;
 import javax.olap.cursor.CubeCursor;
 
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
 
 /**
  * This class implement some utility methods that can be used by the consumer of Data Engine.
@@ -43,7 +45,47 @@ public class DataAdapterUtil
 		}
 		else if ( source instanceof CubeCursor )
 		{
-			// TODO implement me
+			targetScope.put( "row", targetScope, new JSCubeBindingObject( (CubeCursor)source ) );
 		}
+	}
+	
+	/**
+	 * The scriptable object which bound with key word "row" in cube query.
+	 */
+
+	private static class JSCubeBindingObject extends ScriptableObject
+	{
+		private CubeCursor cursor;
+		
+		public JSCubeBindingObject( CubeCursor cursor )
+		{
+			this.cursor = cursor;
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String, org.mozilla.javascript.Scriptable)
+		 */
+		public Object get( String arg0, Scriptable scope )
+		{
+			try
+			{
+				return cursor.getObject( arg0 );
+			}
+			catch ( OLAPException e )
+			{
+				return null;
+			}
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see org.mozilla.javascript.ScriptableObject#getClassName()
+		 */
+		public String getClassName( )
+		{
+			return "JSCubeBindingObject";
+		}
+
 	}
 }
