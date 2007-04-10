@@ -52,12 +52,12 @@ public class TestDummyCursor
 				for ( Iterator itr = dcs.iterator( ); itr.hasNext( ); )
 				{
 					DimensionCursor dc = (DimensionCursor) itr.next( );
-					System.out.print( "=== " + dc.getPosition( ) );
-					System.out.print( ", === " + dc.getEdgeStart( ) );
-					System.out.println( ", === " + dc.getEdgeEnd( ) );
+					System.out.print( "=== " + dc.getPosition( ) ); //$NON-NLS-1$
+					System.out.print( ", === " + dc.getEdgeStart( ) ); //$NON-NLS-1$
+					System.out.println( ", === " + dc.getEdgeEnd( ) ); //$NON-NLS-1$
 				}
 
-				System.out.println( "========" );
+				System.out.println( "========" ); //$NON-NLS-1$
 			}
 		}
 		catch ( OLAPException e )

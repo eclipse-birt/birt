@@ -19,7 +19,6 @@ import javax.olap.OLAPException;
 import javax.olap.cursor.CubeCursor;
 import javax.olap.cursor.DimensionCursor;
 import javax.olap.cursor.EdgeCursor;
-import javax.swing.text.Segment;
 
 /**
  * 
@@ -128,7 +127,7 @@ public class DummyEdgeCursor extends DummyCursorSupport implements EdgeCursor
 			c *= ( (DummyDimensionCursor) dimentions.get( i ) ).getCount( );
 		}
 
-		dim.setEdgeEnd( dim.getEdgeStart( ) + dim.getCount( ) * c - 1 );
+		dim.setEdgeEnd( dim.getEdgeStart( ) + c - 1 );
 	}
 
 	void stepCursor( int idx ) throws OLAPException
@@ -136,14 +135,15 @@ public class DummyEdgeCursor extends DummyCursorSupport implements EdgeCursor
 		DummyDimensionCursor dc = (DummyDimensionCursor) dimentions.get( idx );
 
 		boolean hasNext = dc.next( );
+
+		dc.setEdgeStart( pos );
+		setEdgeEnd( dc, idx );
+
 		if ( !hasNext )
 		{
 			dc.setPosition( 1 );
-			dc.setEdgeStart( pos );
-			setEdgeEnd( dc, idx );
 			stepCursor( idx - 1 );
 		}
-
 	}
 
 	public void addDimensionCursor( DimensionCursor dim )

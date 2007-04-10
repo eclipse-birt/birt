@@ -32,33 +32,40 @@ import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 public class DummyCubeResultSet implements ICubeResultSet
 {
 
-	public CubeCursor getCubeCursor( )
+	private CubeCursor cursor;
+
+	public DummyCubeResultSet( )
 	{
 		DummyDimensionCursor ddc1 = new DummyDimensionCursor( 2 );
 		DummyDimensionCursor ddc2 = new DummyDimensionCursor( 2 );
 		DummyDimensionCursor ddc3 = new DummyDimensionCursor( 2 );
 
-		DummyEdgeCursor dec = new DummyEdgeCursor( 8 );
-		dec.addDimensionCursor( ddc1 );
-		dec.addDimensionCursor( ddc2 );
-		dec.addDimensionCursor( ddc3 );
+		DummyEdgeCursor columnEdge = new DummyEdgeCursor( 8 );
+		columnEdge.addDimensionCursor( ddc1 );
+		columnEdge.addDimensionCursor( ddc2 );
+		columnEdge.addDimensionCursor( ddc3 );
 
 		DummyDimensionCursor ddr1 = new DummyDimensionCursor( 2 );
 		DummyDimensionCursor ddr2 = new DummyDimensionCursor( 2 );
 		DummyDimensionCursor ddr3 = new DummyDimensionCursor( 2 );
 
-		DummyEdgeCursor der = new DummyEdgeCursor( 8 );
-		der.addDimensionCursor( ddr1 );
-		der.addDimensionCursor( ddr2 );
-		der.addDimensionCursor( ddr3 );
+		DummyEdgeCursor rowEdge = new DummyEdgeCursor( 8 );
+		rowEdge.addDimensionCursor( ddr1 );
+		rowEdge.addDimensionCursor( ddr2 );
+		rowEdge.addDimensionCursor( ddr3 );
 
 		DummyCubeCursor dcc = new DummyCubeCursor( );
-		dcc.addOrdinateEdgeCursor( dec );
-		dcc.addOrdinateEdgeCursor( der );
-//		dcc.addOrdinateEdgeCursor( new SimpleMixedEdgeCursor() );
-//		dcc.addOrdinateEdgeCursor( new SimpleMixedEdgeCursor() );
+		dcc.addOrdinateEdgeCursor( columnEdge );
+		dcc.addOrdinateEdgeCursor( rowEdge );
+		// dcc.addOrdinateEdgeCursor( new SimpleMixedEdgeCursor() );
+		// dcc.addOrdinateEdgeCursor( new SimpleMixedEdgeCursor() );
 
-		return dcc;
+		cursor = dcc;
+	}
+
+	public CubeCursor getCubeCursor( )
+	{
+		return cursor;
 	}
 
 	public void close( )
@@ -196,7 +203,7 @@ public class DummyCubeResultSet implements ICubeResultSet
 	public void skipTo( String cellIndex )
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public IBaseResultSet getParent( )
