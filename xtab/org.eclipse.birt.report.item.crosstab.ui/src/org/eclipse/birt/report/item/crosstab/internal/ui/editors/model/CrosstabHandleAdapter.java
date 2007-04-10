@@ -115,7 +115,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 				columnBase,
 				false );
 		list.add( 0, first );
-		debug("all", list);
+		//debug("all", list);
 
 		Collections.sort( list, new ModelComparator( ) );
 

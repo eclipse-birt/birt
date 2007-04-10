@@ -37,7 +37,6 @@ import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.ISharedImages;
 
 /**
  * Add the sub total to the level handle.
@@ -407,9 +406,14 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 
 		int count = viewHandle.getLevelCount( );
 		int measureCount = reportHandle.getMeasureCount( );
+		LevelViewHandle lastLevelHandle = getLastLevelViewHandle( );
 		for (int i=0; i<count; i++)
 		{
 			LevelViewHandle tempViewHandle = viewHandle.getLevel( i );
+			if (tempViewHandle == lastLevelHandle)
+			{
+				continue;
+			}
 			LevelHandle tempHandle = tempViewHandle.getCubeLevel( );
 			for (int j=0; j<measureCount; j++)
 			{
@@ -440,6 +444,20 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 		}
 		
 		return retValue;
+	}
+	
+	private LevelViewHandle getLastLevelViewHandle()
+	{
+		DimensionViewHandle viewHandle = getDimensionViewHandle( );
+		CrosstabReportItemHandle reportHandle = viewHandle.getCrosstab( );
+		int count = reportHandle.getDimensionCount( viewHandle.getAxisType( ) );
+		if (count == 0)
+		{
+			return null;
+		}
+		DimensionViewHandle lastDimension = reportHandle.getDimension( viewHandle.getAxisType( ), count - 1 );
+		
+		return lastDimension.getLevel( lastDimension.getLevelCount( ) - 1 );
 	}
 	
 	private List getGrandTotalInfo()

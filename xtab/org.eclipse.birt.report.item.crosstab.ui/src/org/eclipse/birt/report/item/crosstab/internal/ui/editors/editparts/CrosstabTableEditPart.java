@@ -72,7 +72,7 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 {
 
 	public static final String CELL_HANDLE_LAYER = "Cell handles layer"; //$NON-NLS-1$
-	private static final String GUIDEHANDLE_TEXT = "Crosstab";
+	private static final String GUIDEHANDLE_TEXT = "Cross Tab";
 
 	// LEFT RIGHT is define virtual editpart column size.
 	private static final double LEFT = 30.0;
