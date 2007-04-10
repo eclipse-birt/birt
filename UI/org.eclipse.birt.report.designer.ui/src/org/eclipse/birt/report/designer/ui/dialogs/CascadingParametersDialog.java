@@ -143,7 +143,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 	private static final String LABEL_NO_COLUMN_AVAILABLE = Messages.getString( "CascadingParametersDialog.Label.NoColumnAvailable" ); //$NON-NLS-1$
 
-	private static final String BUTTON_ALLOW_NULL_VALUE = Messages.getString( "CascadingParametersDialog.Button.AllowNull" ); //$NON-NLS-1$
+	private static final String BUTTON_IS_REQUIRED = Messages.getString( "CascadingParametersDialog.Button.isRequired" ); //$NON-NLS-1$
 
 	private static final String LABEL_SELECT_DATA_SET_MODE = Messages.getString( "CascadingParametersDialog.Label.SelectDataSetMode" ); //$NON-NLS-1$
 
@@ -227,7 +227,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 	private boolean loading = true;
 
-	private Button allowNull;
+	private Button isRequired;
 
 	private int maxStrLengthProperty;
 
@@ -641,10 +641,10 @@ public class CascadingParametersDialog extends BaseDialog
 		} );
 		new Label( limitArea, SWT.NONE ).setText( LABEL_VALUES );
 
-		allowNull = new Button( composite, SWT.CHECK );
-		allowNull.setText( BUTTON_ALLOW_NULL_VALUE );
-		allowNull.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		allowNull.addSelectionListener( new SelectionAdapter( ) {
+		isRequired = new Button( composite, SWT.CHECK );
+		isRequired.setText( BUTTON_IS_REQUIRED );
+		isRequired.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		isRequired.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
@@ -653,7 +653,7 @@ public class CascadingParametersDialog extends BaseDialog
 				{
 					try
 					{
-						selectedParameter.setAllowNull( allowNull.getSelection( ) );
+						selectedParameter.setIsRequired( isRequired.getSelection( ) );
 					}
 					catch ( SemanticException e1 )
 					{
@@ -663,7 +663,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 			}
 
-		} );
+		} ); 
 	}
 
 	private void createLabel( Composite parent, String content, int width )
@@ -1358,7 +1358,8 @@ public class CascadingParametersDialog extends BaseDialog
 			listLimit.setText( "" ); //$NON-NLS-1$
 		}
 
-		allowNull.setSelection( selectedParameter.allowNull( ) );
+		// allowNull.setSelection( selectedParameter.allowNull( ) );
+		isRequired.setSelection( selectedParameter.isRequired( ) );
 
 		changeDataType( selectedParameter.getDataType( ) );
 
@@ -1377,7 +1378,8 @@ public class CascadingParametersDialog extends BaseDialog
 		listLimit.setText( "" ); //$NON-NLS-1$
 
 		previewLable.setText( "" ); //$NON-NLS-1$
-		allowNull.setSelection( false );
+		// allowNull.setSelection( false );
+		isRequired.setSelection( true );
 	}
 
 	private void setControlEnabled( boolean enable )
@@ -1759,7 +1761,8 @@ public class CascadingParametersDialog extends BaseDialog
 			{
 				selectedParameter.setListlimit( Integer.parseInt( listLimit.getText( ) ) );
 			}
-			selectedParameter.setAllowNull( allowNull.getSelection( ) );
+			// selectedParameter.setAllowNull( allowNull.getSelection( ) );
+			selectedParameter.setIsRequired( isRequired.getSelection( ) );
 			selectedParameter.setName( UIUtil.convertToModelString( paramNameEditor.getText( ),
 					true ) );
 
