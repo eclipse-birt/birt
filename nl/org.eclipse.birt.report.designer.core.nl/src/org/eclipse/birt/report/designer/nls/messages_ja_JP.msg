@@ -246,7 +246,7 @@ SettingsPage.CachePreference.radioBox.numText=キャッシュして最初に使用する(&U)
 ###########################################################
 #CascadingParametersDialog properties
 
-CascadingParametersDialog.Button.AllowNull=Null 値を許可する(&A)
+CascadingParametersDialog.Button.isRequired=&Is Required 
 CascadingParametersDialog.default.preview.string=サンプル文字列
 CascadingParametersDialog.display.controlType.comboBox=コンボボックス
 CascadingParametersDialog.display.controlType.listBox=リストボックス
@@ -1030,6 +1030,7 @@ Element.ReportDesign.eventHandlerClass=イベントハンドラのクラス(&V) :
 Element.ReportDesign.iconFile=プレビューイメージ(&P) : 
 Element.ReportDesign.refreshRate=更新頻度 :
 Element.ReportElement.comments=コメント(&C) :
+Element.ReportElement.Cube=&Data:
 Element.ReportElement.customXml=カスタム XML :
 Element.ReportElement.displayName=表示名 :
 Element.ReportElement.displayNameID=表示名キー :
@@ -2121,6 +2122,10 @@ CrosstabPageGenerator.TabItem.Highlights=ハイライト
 CrosstabPageGenerator.TabItem.map=マップ
 CrosstabPageGenerator.TabItem.Sorting=ソート
 
+CrosstabGeneraPage.ForEmptyCell=For empty cells, show:
+CrosstabGeneraPage.FormatOption=Format options:
+LayoutMeasuresProvider.DisplayName=Layout data fields in detail area vertically
+
 
 ###########################################################
 #MapPage properties
@@ -2475,7 +2480,7 @@ ParameterDialog.ErrorMessage.DuplicatedValue=この値はすでに存在します。
 ParameterDialog.ErrorMessage.EmptyName=名前が指定されていません。
 ParameterDialog.ErrorMessage.InvalidListLimit=制限値は、0 ～ {0} の範囲で指定してください。
 ParameterDialog.ErrorMessage.MismatchDataType=この値はデータ型に一致しません。
-ParameterDialog.ErrorMessage.NoAvailableColumn=使用できる列がありません。
+ParameterDialog.ErrorMessage.NoAvailableColumn=There is no column available.
 ParameterDialog.ErrorMessage.NoDefaultValue=デフォルト値を設定してください。
 ParameterDialog.ErrorTitle.InvalidListLimit=一覧の制限が無効です。
 ParameterDialog.Flag.Default=デフォルト
@@ -3808,7 +3813,7 @@ GroupsPage.Container.Title.Message=グループ
 SimpleCubeBuilder.Title.Title=クロスタブキューブビルダ
 SimpleCubeBuilder.Title.Message=グループ化の階層とサマリデータフィールドを指定して、クロスタブのデータを編成します。
 SimpleCubeBuilder.Title=クロスタブキューブビルダ
-SimpleCubeBuilder.Label.Name=キューブ名 :
+SimpleCubeBuilder.Label.Name=名前 :
 DatasetPage.Title.Message=キューブのデータセットの定義
 GroupsPage.Button.Add=追加(&A)
 GroupsPage.Button.Edit=編集(&E)

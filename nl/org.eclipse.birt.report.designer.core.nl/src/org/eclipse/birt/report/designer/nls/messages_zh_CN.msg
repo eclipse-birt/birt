@@ -246,7 +246,7 @@ SettingsPage.CachePreference.radioBox.numText=缓存和使用第一个(&U)
 ###########################################################
 #CascadingParametersDialog properties
 
-CascadingParametersDialog.Button.AllowNull=允许空值(&A)
+CascadingParametersDialog.Button.isRequired=&Is Required 
 CascadingParametersDialog.default.preview.string=我的字符串
 CascadingParametersDialog.display.controlType.comboBox=组合框
 CascadingParametersDialog.display.controlType.listBox=列表框
@@ -1030,6 +1030,7 @@ Element.ReportDesign.eventHandlerClass=事件处理程序类(&V):
 Element.ReportDesign.iconFile=预览图像(&P): 
 Element.ReportDesign.refreshRate=刷新率:
 Element.ReportElement.comments=备注(&C):
+Element.ReportElement.Cube=&Data:
 Element.ReportElement.customXml=自定义 XML:
 Element.ReportElement.displayName=显示名称:
 Element.ReportElement.displayNameID=显示名称关键字:
@@ -2121,6 +2122,10 @@ CrosstabPageGenerator.TabItem.Highlights=突出显示
 CrosstabPageGenerator.TabItem.map=映射
 CrosstabPageGenerator.TabItem.Sorting=排序
 
+CrosstabGeneraPage.ForEmptyCell=For empty cells, show:
+CrosstabGeneraPage.FormatOption=Format options:
+LayoutMeasuresProvider.DisplayName=Layout data fields in detail area vertically
+
 
 ###########################################################
 #MapPage properties
@@ -2475,7 +2480,7 @@ ParameterDialog.ErrorMessage.DuplicatedValue=值已经存在。
 ParameterDialog.ErrorMessage.EmptyName=名称为空。
 ParameterDialog.ErrorMessage.InvalidListLimit=限制值应介于 0 和 {0} 之间
 ParameterDialog.ErrorMessage.MismatchDataType=值与日期类型不匹配。
-ParameterDialog.ErrorMessage.NoAvailableColumn=没有可用的列。
+ParameterDialog.ErrorMessage.NoAvailableColumn=There is no column available.
 ParameterDialog.ErrorMessage.NoDefaultValue=必须设置默认值。
 ParameterDialog.ErrorTitle.InvalidListLimit=无效列表限制
 ParameterDialog.Flag.Default=默认
@@ -3808,7 +3813,7 @@ GroupsPage.Container.Title.Message=组
 SimpleCubeBuilder.Title.Title=交叉表多维数据集生成器
 SimpleCubeBuilder.Title.Message=通过指定分组层次结构和摘要数据字段来为交叉表组织数据
 SimpleCubeBuilder.Title=交叉表多维数据集生成器
-SimpleCubeBuilder.Label.Name=多维数据集名称:
+SimpleCubeBuilder.Label.Name=名称:
 DatasetPage.Title.Message=为多维数据集定义数据集
 GroupsPage.Button.Add=添加(&A)
 GroupsPage.Button.Edit=编辑(&E)

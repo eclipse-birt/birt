@@ -246,7 +246,7 @@ SettingsPage.CachePreference.radioBox.numText=Guardar en caché y &usar primero
 ###########################################################
 #CascadingParametersDialog properties
 
-CascadingParametersDialog.Button.AllowNull=&Permitir valor nulo
+CascadingParametersDialog.Button.isRequired=&Is Required 
 CascadingParametersDialog.default.preview.string=Mi string
 CascadingParametersDialog.display.controlType.comboBox=Cuadro combinado
 CascadingParametersDialog.display.controlType.listBox=Cuadro de lista
@@ -1030,6 +1030,7 @@ Element.ReportDesign.eventHandlerClass=Clase de controlador de e&vento:
 Element.ReportDesign.iconFile=&Vista previa de imagen: 
 Element.ReportDesign.refreshRate=Intervalo de actualización:
 Element.ReportElement.comments=&Comentarios:
+Element.ReportElement.Cube=&Data:
 Element.ReportElement.customXml=XML personalizado:
 Element.ReportElement.displayName=Nombre en pantalla:
 Element.ReportElement.displayNameID=Clave de nombre en pantalla:
@@ -2121,6 +2122,10 @@ CrosstabPageGenerator.TabItem.Highlights=Resaltados
 CrosstabPageGenerator.TabItem.map=Asignar
 CrosstabPageGenerator.TabItem.Sorting=Ordenar
 
+CrosstabGeneraPage.ForEmptyCell=For empty cells, show:
+CrosstabGeneraPage.FormatOption=Format options:
+LayoutMeasuresProvider.DisplayName=Layout data fields in detail area vertically
+
 
 ###########################################################
 #MapPage properties
@@ -2475,7 +2480,7 @@ ParameterDialog.ErrorMessage.DuplicatedValue=El valor ya existe.
 ParameterDialog.ErrorMessage.EmptyName=El nombre está vacío.
 ParameterDialog.ErrorMessage.InvalidListLimit=El valor de limitación debe estar entre 0 y {0}.
 ParameterDialog.ErrorMessage.MismatchDataType=El valor no coincide con el tipo de fecha.
-ParameterDialog.ErrorMessage.NoAvailableColumn=No hay ninguna columna disponible.
+ParameterDialog.ErrorMessage.NoAvailableColumn=There is no column available.
 ParameterDialog.ErrorMessage.NoDefaultValue=Debe establecer un valor predeterminado.
 ParameterDialog.ErrorTitle.InvalidListLimit=Límite de lista no válido
 ParameterDialog.Flag.Default=Predeterminado
@@ -3808,7 +3813,7 @@ GroupsPage.Container.Title.Message=Grupo
 SimpleCubeBuilder.Title.Title=Compilador de cubos de tabla de referencias cruzadas
 SimpleCubeBuilder.Title.Message=Organice sus datos para la tabla de referencias cruzadas especificando los campos de datos de resumen y jerarquías de agrupación
 SimpleCubeBuilder.Title=Compilador de cubos de tabla de referencias cruzadas
-SimpleCubeBuilder.Label.Name=Nombre de cubo:
+SimpleCubeBuilder.Label.Name=Nombre:
 DatasetPage.Title.Message=Definir conjunto de datos para el cubo
 GroupsPage.Button.Add=&Añadir
 GroupsPage.Button.Edit=&Editar

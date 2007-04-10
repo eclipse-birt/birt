@@ -246,7 +246,7 @@ SettingsPage.CachePreference.radioBox.numText=먼저 캐시 후 사용(&U)
 ###########################################################
 #CascadingParametersDialog properties
 
-CascadingParametersDialog.Button.AllowNull=널(null) 값 허용(&A)
+CascadingParametersDialog.Button.isRequired=&Is Required 
 CascadingParametersDialog.default.preview.string=내 문자열
 CascadingParametersDialog.display.controlType.comboBox=콤보 상자
 CascadingParametersDialog.display.controlType.listBox=목록 상자
@@ -1030,6 +1030,7 @@ Element.ReportDesign.eventHandlerClass=이벤트 처리기 클래스(&V):
 Element.ReportDesign.iconFile=이미지 미리 보기(&P): 
 Element.ReportDesign.refreshRate=새로 고침 빈도:
 Element.ReportElement.comments=설명(&C):
+Element.ReportElement.Cube=&Data:
 Element.ReportElement.customXml=사용자 지정 XML:
 Element.ReportElement.displayName=표시 이름:
 Element.ReportElement.displayNameID=표시 이름 키:
@@ -2121,6 +2122,10 @@ CrosstabPageGenerator.TabItem.Highlights=강조
 CrosstabPageGenerator.TabItem.map=맵
 CrosstabPageGenerator.TabItem.Sorting=정렬
 
+CrosstabGeneraPage.ForEmptyCell=For empty cells, show:
+CrosstabGeneraPage.FormatOption=Format options:
+LayoutMeasuresProvider.DisplayName=Layout data fields in detail area vertically
+
 
 ###########################################################
 #MapPage properties
@@ -2475,7 +2480,7 @@ ParameterDialog.ErrorMessage.DuplicatedValue=값이 이미 있습니다.
 ParameterDialog.ErrorMessage.EmptyName=이름이 비어 있습니다.
 ParameterDialog.ErrorMessage.InvalidListLimit=제한 값은 0과 {0} 사이여야 합니다.
 ParameterDialog.ErrorMessage.MismatchDataType=값이 데이터 형식에 맞지 않습니다.
-ParameterDialog.ErrorMessage.NoAvailableColumn=사용할 수 있는 열이 없습니다.
+ParameterDialog.ErrorMessage.NoAvailableColumn=There is no column available.
 ParameterDialog.ErrorMessage.NoDefaultValue=기본값을 설정해야 합니다.
 ParameterDialog.ErrorTitle.InvalidListLimit=잘못된 목록 제한
 ParameterDialog.Flag.Default=기본값
@@ -3808,7 +3813,7 @@ GroupsPage.Container.Title.Message=그룹
 SimpleCubeBuilder.Title.Title=크로스 탭 큐브 빌더
 SimpleCubeBuilder.Title.Message=그룹화 계층 및 요약 데이터 필드를 지정하여 크로스 탭의 데이터를 구성하십시오.
 SimpleCubeBuilder.Title=크로스 탭 큐브 빌더
-SimpleCubeBuilder.Label.Name=큐브 이름:
+SimpleCubeBuilder.Label.Name=이름:
 DatasetPage.Title.Message=큐브에 대한 데이터 집합 정의
 GroupsPage.Button.Add=추가(&A)
 GroupsPage.Button.Edit=편집(&E)

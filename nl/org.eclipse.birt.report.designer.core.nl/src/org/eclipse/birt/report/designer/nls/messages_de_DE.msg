@@ -246,7 +246,7 @@ SettingsPage.CachePreference.radioBox.numText=&Zwischenspeichern und zuerst verw
 ###########################################################
 #CascadingParametersDialog properties
 
-CascadingParametersDialog.Button.AllowNull=&Nullwert zulassen
+CascadingParametersDialog.Button.isRequired=&Is Required 
 CascadingParametersDialog.default.preview.string=Beispielzeichenfolge
 CascadingParametersDialog.display.controlType.comboBox=Kombinationsfeld
 CascadingParametersDialog.display.controlType.listBox=Listenfeld
@@ -1030,6 +1030,7 @@ Element.ReportDesign.eventHandlerClass=E&reignis-Handler-Klasse:
 Element.ReportDesign.iconFile=&Vorschaubild: 
 Element.ReportDesign.refreshRate=Aktualisierungsrate:
 Element.ReportElement.comments=&Kommentare:
+Element.ReportElement.Cube=&Data:
 Element.ReportElement.customXml=Benutzerdefinierte XML:
 Element.ReportElement.displayName=Anzeigename:
 Element.ReportElement.displayNameID=Anzeigenamenschlüssel:
@@ -2121,6 +2122,10 @@ CrosstabPageGenerator.TabItem.Highlights=Kennzeichnungen
 CrosstabPageGenerator.TabItem.map=Zuordnung
 CrosstabPageGenerator.TabItem.Sorting=Sortierung
 
+CrosstabGeneraPage.ForEmptyCell=For empty cells, show:
+CrosstabGeneraPage.FormatOption=Format options:
+LayoutMeasuresProvider.DisplayName=Layout data fields in detail area vertically
+
 
 ###########################################################
 #MapPage properties
@@ -2475,7 +2480,7 @@ ParameterDialog.ErrorMessage.DuplicatedValue=Der Wert existiert bereits.
 ParameterDialog.ErrorMessage.EmptyName=Name ist leer.
 ParameterDialog.ErrorMessage.InvalidListLimit=Der Begrenzungswert sollte zwischen 0 und {0} liegen.
 ParameterDialog.ErrorMessage.MismatchDataType=Der Wert stimmt nicht mit dem Datentyp überein.
-ParameterDialog.ErrorMessage.NoAvailableColumn=Es ist keine Spalte verfügbar.
+ParameterDialog.ErrorMessage.NoAvailableColumn=There is no column available.
 ParameterDialog.ErrorMessage.NoDefaultValue=Sie müssen einen Standardwert angeben.
 ParameterDialog.ErrorTitle.InvalidListLimit=Listenbegrenzung ungültig
 ParameterDialog.Flag.Default=Standard
@@ -3808,7 +3813,7 @@ GroupsPage.Container.Title.Message=Gruppieren
 SimpleCubeBuilder.Title.Title=Kreuztabellen-Cube Builder
 SimpleCubeBuilder.Title.Message=Daten für die Kreuztabelle durch das Angeben von Gruppierungshierarchien und Zusammenfassungsdatenfeldern verwalten
 SimpleCubeBuilder.Title=Kreuztabellen-Cube Builder
-SimpleCubeBuilder.Label.Name=Quadername:
+SimpleCubeBuilder.Label.Name=Name:
 DatasetPage.Title.Message=Datensatz für Quader definieren
 GroupsPage.Button.Add=&Hinzufügen
 GroupsPage.Button.Edit=&Bearbeiten
