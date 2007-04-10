@@ -46,22 +46,22 @@ public class CreateCrosstabHandler extends AbstractHandler
 				.getCommandStack( )
 				.startTrans( "Create " + itemName ); //$NON-NLS-1$
 		ExtendedItemHandle handle = null;
-		InsertCubeDialog insertCubeDialog = new InsertCubeDialog( );
-		if ( insertCubeDialog.open( ) == Window.OK )
-		{
+//		InsertCubeDialog insertCubeDialog = new InsertCubeDialog( );
+//		if ( insertCubeDialog.open( ) == Window.OK )
+//		{
 			handle = DesignElementFactory.getInstance( ).newExtendedItem( null,
 					itemName );
-			if ( insertCubeDialog.getResult( ) != null )
-				try
-				{
-					handle.setProperty( ICrosstabReportItemConstants.CUBE_PROP,
-							insertCubeDialog.getResult( ) );
-				}
-				catch ( SemanticException e )
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace( );
-				}
+//			if ( insertCubeDialog.getResult( ) != null )
+//				try
+//				{
+//					handle.setProperty( ICrosstabReportItemConstants.CUBE_PROP,
+//							insertCubeDialog.getResult( ) );
+//				}
+//				catch ( SemanticException e )
+//				{
+//					// TODO Auto-generated catch block
+//					e.printStackTrace( );
+//				}
 			//		List list = new ArrayList( );
 			//
 			//		list.add( handle );
@@ -102,14 +102,14 @@ public class CreateCrosstabHandler extends AbstractHandler
 						.getCommandStack( )
 						.rollback( );
 			}
-		}
-		else
-		{
-			SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( )
-					.getCommandStack( )
-					.rollback( );
-		}
+//		}
+//		else
+//		{
+//			SessionHandleAdapter.getInstance( )
+//					.getReportDesignHandle( )
+//					.getCommandStack( )
+//					.rollback( );
+//		}
 		return handle;
 	}
 

@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.runtime.GUIException;
+import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DesignElementDropAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -92,7 +93,7 @@ public class DesignerDropListener extends DesignElementDropAdapter
 		if ( DNDService.getInstance( ).validDrop( transfer,
 				target,
 				getCurrentOperation( ),
-				getCurrentLocation( ) ) )
+				new DNDLocation( getCurrentLocation( ) ) ) )
 		{
 			return true;
 		}
@@ -147,10 +148,10 @@ public class DesignerDropListener extends DesignElementDropAdapter
 	 */
 	public boolean performDrop( Object data )
 	{
-		if(DNDService.getInstance( ).performDrop( data,
+		if ( DNDService.getInstance( ).performDrop( data,
 				getCurrentTarget( ),
 				getCurrentOperation( ),
-				getCurrentLocation( ) ))
+				new DNDLocation( getCurrentLocation( ) ) ) )
 			return true;
 		return super.performDrop( data );
 	}

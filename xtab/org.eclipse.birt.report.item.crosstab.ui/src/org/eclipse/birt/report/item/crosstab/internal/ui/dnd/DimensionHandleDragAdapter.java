@@ -29,9 +29,10 @@ public class DimensionHandleDragAdapter implements IDragAdapter
 		return DNDService.LOGIC_UNKNOW;
 	}
 
-	public Object getDragTransfer( Object tranfer )
+	public Object getDragTransfer( Object transfer )
 	{
-		// TODO Auto-generated method stub
+		if(transfer instanceof DimensionHandle)
+			return transfer;
 		return null;
 	}
 

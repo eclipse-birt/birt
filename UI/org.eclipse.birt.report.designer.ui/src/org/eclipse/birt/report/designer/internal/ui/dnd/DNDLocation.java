@@ -11,34 +11,30 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dnd;
 
+import org.eclipse.draw2d.geometry.Point;
+
 /**
- * 
+ * A class wrapper for different loction type.
  */
 
-public interface IDropAdapter
+public class DNDLocation
 {
+	private Point point;
+	private int location;
 
-	/**
-	 * Validate the tranfer object can be droped to traget with special operation and location.
-	 * 
-	 * @param transfer
-	 * @param target
-	 * @param operation
-	 * @param location
-	 * @return
-	 */
-	public int canDrop( Object transfer, Object target, int operation,
-			DNDLocation location );
-
-	/**
-	 * Perform the drop operation.
-	 * 
-	 * @param transfer
-	 * @param target
-	 * @param operation
-	 * @param location
-	 * @return
-	 */
-	public boolean performDrop( Object transfer, Object target, int operation,
-			DNDLocation location );
+	public DNDLocation(Point point){
+		this.point = point;
+	}
+	
+	public DNDLocation(int location){
+		this.location = location;
+	}
+	
+	public Point getPoint(){
+		return point;
+	}
+	
+	public int getLocation(){
+		return location;
+	}
 }

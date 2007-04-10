@@ -237,6 +237,9 @@
             adapter="org.eclipse.birt.report.item.crosstab.internal.ui.dnd.DimensionHandleDropAdapter"
             priority="normal">
       </dropAdapter>
+      <dropAdapter
+            adapter="org.eclipse.birt.report.item.crosstab.internal.ui.dnd.DataColumnXTabDropAdapter">
+      </dropAdapter>
    </extension>
      
 

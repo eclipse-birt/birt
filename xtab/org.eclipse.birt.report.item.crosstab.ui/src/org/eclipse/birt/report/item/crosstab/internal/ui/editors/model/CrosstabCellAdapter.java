@@ -15,6 +15,9 @@ import java.util.List;
 
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 
 /**
  * Ceosstab cell adapter
@@ -175,15 +178,15 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter
 	{
 		this.positionType = positionType;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.BaseCrosstabAdapter#copyToTarget(org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.BaseCrosstabAdapter)
 	 */
 	public BaseCrosstabAdapter copyToTarget( BaseCrosstabAdapter crossAdapt )
 	{
-		if (crossAdapt instanceof CrosstabCellAdapter)
+		if ( crossAdapt instanceof CrosstabCellAdapter )
 		{
-			CrosstabCellAdapter copy = (CrosstabCellAdapter)crossAdapt;
+			CrosstabCellAdapter copy = (CrosstabCellAdapter) crossAdapt;
 			copy.setColumnNumber( getColumnNumber( ) );
 			copy.setRowNumber( getRowNumber( ) );
 			copy.setColumnSpan( getColumnSpan( ) );
@@ -192,20 +195,43 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter
 		}
 		return super.copyToTarget( crossAdapt );
 	}
-	
+
 	/**
 	 * @return
 	 */
-	public DataItemHandle getFirstDataItem()
+	public DataItemHandle getFirstDataItem( )
 	{
 		List list = getCrosstabCellHandle( ).getContents( );
-		for (int i=0; i<list.size( ); i++)
+		for ( int i = 0; i < list.size( ); i++ )
 		{
-			if (list.get( i ) instanceof DataItemHandle)
+			if ( list.get( i ) instanceof DataItemHandle )
 			{
-				return (DataItemHandle)list.get( i );
+				return (DataItemHandle) list.get( i );
 			}
 		}
 		return null;
+	}
+
+	public PropertyHandle getPropertyHandle( )
+	{
+		if ( getCrosstabCellHandle( ) != null )
+		{
+			DesignElementHandle handle = getCrosstabCellHandle( ).getModelHandle( );
+			return handle.getPropertyHandle( getDefaultContentName( handle ) );
+		}
+		return null;
+	}
+
+	public String getDefaultContentName( DesignElementHandle parent )
+	{
+
+		List propDefns = ( (DesignElementHandle) parent ).getDefn( )
+				.getContents( );
+		if ( !propDefns.isEmpty( ) )
+		{
+			return ( (IPropertyDefn) propDefns.get( 0 ) ).getName( );
+		}
+
+		return "";
 	}
 }

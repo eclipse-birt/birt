@@ -25,6 +25,7 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IRegistryChangeEvent;
 import org.eclipse.core.runtime.IRegistryChangeListener;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.draw2d.geometry.Point;
 
 /**
  * 1.register adapters with priority 2.look for capable adapter by priority
@@ -117,7 +118,7 @@ public class DNDService implements IRegistryChangeListener
 	}
 
 	public boolean validDrop( Object transfer, Object target, int operation,
-			int location )
+			DNDLocation location )
 	{
 		if ( transfer instanceof Object[] )
 		{
@@ -149,8 +150,23 @@ public class DNDService implements IRegistryChangeListener
 	}
 
 	public boolean performDrop( Object transfer, Object target, int operation,
-			int location )
+			DNDLocation location )
 	{
+		if ( transfer instanceof Object[] )
+		{
+			boolean result = false;
+			for ( int i = 0; i < ( (Object[]) transfer ).length; i++ )
+			{
+				result = performDrop( ( (Object[]) transfer )[i],
+						target,
+						operation,
+						location );
+				if ( !result )
+					return false;
+			}
+			return result;
+		}
+		
 		for ( Iterator iterator = this.dropAdapterList.iterator( ); iterator.hasNext( ); )
 		{
 			IDropAdapter dropAdapter = (IDropAdapter) iterator.next( );

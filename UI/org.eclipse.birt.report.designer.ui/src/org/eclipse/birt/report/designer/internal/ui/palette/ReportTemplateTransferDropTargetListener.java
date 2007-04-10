@@ -15,6 +15,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
+import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends;
@@ -33,7 +34,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertInLayoutAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DNDUtil;
-import org.eclipse.birt.report.designer.util.IVirtualValidator;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -115,7 +115,7 @@ public class ReportTemplateTransferDropTargetListener extends
 				.performDrop( TemplateTransfer.getInstance( ).getTemplate( ),
 						getTargetEditPart( ),
 						DND.DROP_DEFAULT,
-						1 ) )
+						new DNDLocation( getDropLocation( ) ) ) )
 		{
 			return;
 		}
@@ -127,7 +127,6 @@ public class ReportTemplateTransferDropTargetListener extends
 		Assert.isNotNull( template );
 
 		Assert.isTrue( handleValidateDrag( template ) );
-
 
 		AbstractToolHandleExtends preHandle = null;
 		String transName = null;
@@ -338,7 +337,7 @@ public class ReportTemplateTransferDropTargetListener extends
 				.validDrop( TemplateTransfer.getInstance( ).getTemplate( ),
 						getTargetEditPart( ),
 						DND.DROP_DEFAULT,
-						1 ) )
+						new DNDLocation(getDropLocation( )) ) )
 		{
 			return true;
 		}
