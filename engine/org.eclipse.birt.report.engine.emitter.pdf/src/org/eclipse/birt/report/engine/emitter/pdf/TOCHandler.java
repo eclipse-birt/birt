@@ -14,7 +14,15 @@ package org.eclipse.birt.report.engine.emitter.pdf;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.engine.api.TOCNode;
+import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
+import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
+import org.eclipse.birt.report.engine.script.internal.instance.StyleInstance;
+import org.w3c.dom.css.CSSValue;
 
+import com.lowagie.text.Font;
 import com.lowagie.text.pdf.PdfAction;
 import com.lowagie.text.pdf.PdfOutline;
 
@@ -55,9 +63,35 @@ public class TOCHandler
 		for (Iterator i = tocNode.getChildren().iterator(); i.hasNext();)
 		{
 			TOCNode node = (TOCNode)i.next();
+			
 			PdfOutline outline = new PdfOutline( pol,
-            		PdfAction.gotoLocalPage(node.getBookmark(), false), 
-            		node.getDisplayString());
+            		PdfAction.gotoLocalPage(node.getBookmark(), false), node.getDisplayString()
+            		);
+			IScriptStyle style = node.getTOCStyle( );
+			if(style instanceof StyleInstance)
+			{
+				StyleInstance instance = (StyleInstance)style;
+				CSSValue color = instance.getProperty( StyleConstants.STYLE_COLOR );
+				if(color!=null && !color.equals( CSSValueConstants.BLACK_VALUE ))
+				{
+					outline.setColor( PropertyUtil.getColor(color) );
+				}
+				int styleValue = Font.NORMAL;
+				CSSValue fontStyle = instance.getProperty( StyleConstants.STYLE_FONT_STYLE );
+				if ( CSSValueConstants.OBLIQUE_VALUE.equals( fontStyle )
+						|| CSSValueConstants.ITALIC_VALUE.equals( fontStyle ) )
+				{
+					styleValue |= Font.ITALIC;
+				}
+
+				if ( PropertyUtil.isBoldFont( instance
+						.getProperty( StyleConstants.STYLE_FONT_WEIGHT ) ) )
+				{
+					styleValue |= Font.BOLD;
+				}
+				outline.setStyle( styleValue );
+				
+			}
 			createTOC( node, outline );
 		}
 	}

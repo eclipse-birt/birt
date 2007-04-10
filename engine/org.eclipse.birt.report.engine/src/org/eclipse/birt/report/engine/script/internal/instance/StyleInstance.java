@@ -11,10 +11,11 @@
 
 package org.eclipse.birt.report.engine.script.internal.instance;
 
-import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.w3c.dom.DOMException;
+import org.w3c.dom.css.CSSValue;
 
 /**
  * A class representing the style of a report item in the scripting environment
@@ -903,5 +904,10 @@ public class StyleInstance implements IScriptStyle
 		{
 			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
+	}
+	
+	public CSSValue getProperty(int index)
+	{
+		return style.getProperty( index );
 	}
 }
