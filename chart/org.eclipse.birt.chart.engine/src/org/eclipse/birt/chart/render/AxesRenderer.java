@@ -2914,8 +2914,7 @@ public abstract class AxesRenderer extends BaseRenderer
 	public final void renderEachAxis( IPrimitiveRenderer ipr, Plot pl,
 			OneAxis ax, int iWhatToDraw ) throws ChartException
 	{
-		AxesRenderHelper.getInstance( this, ipr, pl, ax, iWhatToDraw )
-				.renderEachAxis( );
+		new AxesRenderHelper( this, ipr, pl, ax, iWhatToDraw ).renderEachAxis( );
 	}
 
 	/*

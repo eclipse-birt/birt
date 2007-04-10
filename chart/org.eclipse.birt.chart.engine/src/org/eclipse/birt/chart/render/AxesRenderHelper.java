@@ -77,7 +77,6 @@ import com.ibm.icu.text.DecimalFormat;
 public final class AxesRenderHelper
 {
 
-	private static AxesRenderHelper instance = null;
 	static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/render" ); //$NON-NLS-1$
 
 	AxesRenderer renderer;
@@ -142,20 +141,10 @@ public final class AxesRenderHelper
 
 	private boolean bTickBetweenCategories;
 
-	private AxesRenderHelper( )
+	AxesRenderHelper( AxesRenderer renderer, IPrimitiveRenderer ipr, Plot pl,
+			OneAxis ax, int iWhatToDraw )
 	{
-
-	}
-
-	static AxesRenderHelper getInstance( AxesRenderer renderer,
-			IPrimitiveRenderer ipr, Plot pl, OneAxis ax, int iWhatToDraw )
-	{
-		if ( instance == null )
-		{
-			instance = new AxesRenderHelper( );
-		}
-		instance.init( renderer, ipr, pl, ax, iWhatToDraw );
-		return instance;
+		init( renderer, ipr, pl, ax, iWhatToDraw );
 	}
 
 	private void init( AxesRenderer renderer, IPrimitiveRenderer ipr, Plot pl,
