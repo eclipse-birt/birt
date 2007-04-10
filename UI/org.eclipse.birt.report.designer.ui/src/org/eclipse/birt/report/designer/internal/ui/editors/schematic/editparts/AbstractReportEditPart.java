@@ -121,7 +121,7 @@ public abstract class AbstractReportEditPart extends ReportElementEditPart imple
 		if ( obj instanceof ReportElementEditPart && !((ReportElementEditPart)obj).isDelete( ))
 		{
 			( (ReportElementEditPart) obj ).propertyChange( info );
-			return;
+			//return;
 		}
 		List temp = new ArrayList( );
 		getEditPartsFormModel( this, focus, temp );
