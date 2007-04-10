@@ -44,6 +44,7 @@ import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
+import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
@@ -1517,10 +1518,25 @@ public class ExecutionContext
 
 		protected ClassLoader createClassLoaderFromProperty( ClassLoader parent )
 		{
+			EngineConfig config = context.getEngine( ).getConfig( );
 			ArrayList urls = new ArrayList( );
 			for ( int i = 0; i < classPathes.length; i++ )
 			{
-				String classPath = System.getProperty( classPathes[i] );
+				String classPath = null;
+				if ( config != null )
+				{
+					Object propValue = config.getProperty( classPathes[i] );
+					if ( propValue instanceof String )
+					{
+						classPath = (String) propValue;
+					}
+				}
+
+				if ( classPath == null )
+				{
+					classPath = System.getProperty( classPathes[i] );
+				}
+
 				if ( classPath != null && classPath.length( ) != 0 )
 				{
 					String[] jars = classPath.split( PROPERTYSEPARATOR, -1 );
