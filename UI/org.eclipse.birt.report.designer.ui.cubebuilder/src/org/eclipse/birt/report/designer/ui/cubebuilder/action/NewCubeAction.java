@@ -88,7 +88,7 @@ public class NewCubeAction extends Action
 		stack.startTrans( "Create a cube for binding the crossTab" ); //$NON-NLS-1$
 
 		CubeHandle newCube = DesignElementFactory.getInstance( )
-				.newTabularCube( null );
+				.newTabularCube( "Customer Cube" );
 
 		boolean isFailed = false;
 		try

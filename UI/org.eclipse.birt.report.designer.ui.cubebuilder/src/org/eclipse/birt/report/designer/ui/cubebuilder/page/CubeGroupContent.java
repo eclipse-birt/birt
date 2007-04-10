@@ -1020,7 +1020,6 @@ public class CubeGroupContent extends Composite implements Listener
 
 	}
 
-	private Object[] inputs = new Object[1];
 	private Label nameLabel;
 	private Text nameText;
 	private Combo functionCombo;
@@ -1042,8 +1041,7 @@ public class CubeGroupContent extends Composite implements Listener
 			if ( datasets[0] != null )
 				dataFieldsViewer.setInput( datasets );
 			// dataFieldsViewer.setInput( OlapUtil.getAvailableDatasets( ) );
-			inputs[0] = input;
-			groupViewer.setInput( inputs );
+			groupViewer.setInput( input );
 			getListenerElementVisitor( ).addListener( input );
 		}
 	}
