@@ -9,10 +9,13 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
@@ -40,10 +43,18 @@ public class SimpleCubeBuilder extends TitleAreaDialog
 	private Text nameText;
 	private CubeGroupContent group;
 
-	public void setInput( CubeHandle cube, DataSetHandle dataset )
+	public void setInput( TabularCubeHandle cube, DataSetHandle dataset )
 	{
 		this.cube = cube;
 		this.dataset = dataset;
+		try
+		{
+			cube.setDataSet( dataset );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+		}
 	};
 
 	protected Control createDialogArea( Composite parent )

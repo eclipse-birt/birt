@@ -102,14 +102,14 @@ import org.eclipse.swt.widgets.TreeItem;
 public class CubeGroupContent extends Composite implements Listener
 {
 
-	private TreeItem[] dragSourceItems;;
+	private TreeItem[] dragSourceItems = new TreeItem[1];
 
-	class DragListener implements DragSourceListener
+	class CustomDragListener implements DragSourceListener
 	{
 
 		private TreeViewer viewer;
 
-		DragListener( TreeViewer viewer )
+		CustomDragListener( TreeViewer viewer )
 		{
 			this.viewer = viewer;
 		}
@@ -127,10 +127,20 @@ public class CubeGroupContent extends Composite implements Listener
 		public void dragStart( DragSourceEvent event )
 		{
 			TreeItem[] selection = viewer.getTree( ).getSelection( );
+
 			if ( selection.length > 0 )
 			{
-				event.doit = true;
-				dragSourceItems[0] = selection[0];
+				if ( viewer == dataFieldsViewer )
+				{
+					event.doit = true;
+					dragSourceItems[0] = selection[0];
+				}
+				else if ( viewer == groupViewer
+						&& selection[0].getData( ) != null
+						&& selection[0].getData( ) instanceof LevelHandle )
+				{
+					dragSourceItems[0] = selection[0];
+				}
 			}
 			else
 			{
@@ -577,6 +587,11 @@ public class CubeGroupContent extends Composite implements Listener
 			}
 		} );
 
+		final DragSource fieldsSource = new DragSource( groupViewer.getTree( ),
+				operations );
+		fieldsSource.setTransfer( types );
+		fieldsSource.addDragListener( new CustomDragListener( groupViewer ) );
+
 		DropTarget target = new DropTarget( groupViewer.getTree( ), operations );
 		target.setTransfer( types );
 		target.addDropListener( new DropTargetAdapter( ) {
@@ -605,57 +620,23 @@ public class CubeGroupContent extends Composite implements Listener
 						event.detail = DND.DROP_NONE;
 						return;
 					}
-					else if ( obj instanceof ResultSetColumnHandle )
+
+					if ( obj instanceof ResultSetColumnHandle )
 					{
 						dataField = (ResultSetColumnHandle) obj;
 						dataset = (DataSetHandle) dataField.getElementHandle( );
-					}
 
-					if ( element instanceof LevelHandle )
-					{
-						DataSetHandle temp = ( (TabularHierarchyHandle) ( (LevelHandle) element ).getContainer( ) ).getDataSet( );
-						if ( temp != null && dataset != null && dataset != temp )
+						if ( element instanceof LevelHandle )
 						{
-							event.detail = DND.DROP_NONE;
-							return;
-						}
+							DataSetHandle temp = ( (TabularHierarchyHandle) ( (LevelHandle) element ).getContainer( ) ).getDataSet( );
+							if ( temp != null
+									&& dataset != null
+									&& dataset != temp )
+							{
+								event.detail = DND.DROP_NONE;
+								return;
+							}
 
-						if ( dataField != null
-								&& dataField.getDataType( )
-										.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
-						{
-							event.detail = DND.DROP_NONE;
-							return;
-						}
-
-						String dataType = ( (LevelHandle) element ).getDataType( );
-						if ( dataType != null
-								&& dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
-						{
-							event.detail = DND.DROP_NONE;
-							return;
-						}
-
-					}
-					else if ( element instanceof DimensionHandle
-							|| ( element instanceof VirtualField && ( (VirtualField) element ).getType( )
-									.equals( VirtualField.TYPE_LEVEL ) ) )
-					{
-						DimensionHandle dimension = null;
-						if ( element instanceof DimensionHandle )
-							dimension = (DimensionHandle) element;
-						else
-							dimension = (DimensionHandle) ( (VirtualField) element ).getModel( );
-
-						DataSetHandle temp = ( (TabularHierarchyHandle) dimension.getDefaultHierarchy( ) ).getDataSet( );
-						if ( temp != null && dataset != null && dataset != temp )
-						{
-							event.detail = DND.DROP_NONE;
-							return;
-						}
-						TabularHierarchyHandle hierarchy = ( (TabularHierarchyHandle) dimension.getDefaultHierarchy( ) );
-						if ( hierarchy.getContentCount( IHierarchyModel.LEVELS_PROP ) > 0 )
-						{
 							if ( dataField != null
 									&& dataField.getDataType( )
 											.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
@@ -663,30 +644,78 @@ public class CubeGroupContent extends Composite implements Listener
 								event.detail = DND.DROP_NONE;
 								return;
 							}
-							LevelHandle level = (LevelHandle) hierarchy.getContent( IHierarchyModel.LEVELS_PROP,
-									0 );
-							String dataType = level.getDataType( );
+
+							String dataType = ( (LevelHandle) element ).getDataType( );
 							if ( dataType != null
 									&& dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
 							{
 								event.detail = DND.DROP_NONE;
 								return;
 							}
-						}
 
-					}
-					else if ( element instanceof MeasureGroupHandle
-							|| ( element instanceof VirtualField && ( (VirtualField) element ).getType( )
-									.equals( VirtualField.TYPE_MEASURE ) )
-							|| element instanceof MeasureHandle )
-					{
-						DataSetHandle primary = ( (TabularCubeHandle) input ).getDataSet( );
-						if ( primary == null || primary != dataset )
+						}
+						else if ( element instanceof DimensionHandle
+								|| ( element instanceof VirtualField && ( (VirtualField) element ).getType( )
+										.equals( VirtualField.TYPE_LEVEL ) ) )
 						{
+							DimensionHandle dimension = null;
+							if ( element instanceof DimensionHandle )
+								dimension = (DimensionHandle) element;
+							else
+								dimension = (DimensionHandle) ( (VirtualField) element ).getModel( );
+
+							DataSetHandle temp = ( (TabularHierarchyHandle) dimension.getDefaultHierarchy( ) ).getDataSet( );
+							if ( temp != null
+									&& dataset != null
+									&& dataset != temp )
 							{
 								event.detail = DND.DROP_NONE;
 								return;
 							}
+							TabularHierarchyHandle hierarchy = ( (TabularHierarchyHandle) dimension.getDefaultHierarchy( ) );
+							if ( hierarchy.getContentCount( IHierarchyModel.LEVELS_PROP ) > 0 )
+							{
+								if ( dataField != null
+										&& dataField.getDataType( )
+												.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
+								{
+									event.detail = DND.DROP_NONE;
+									return;
+								}
+								LevelHandle level = (LevelHandle) hierarchy.getContent( IHierarchyModel.LEVELS_PROP,
+										0 );
+								String dataType = level.getDataType( );
+								if ( dataType != null
+										&& dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
+								{
+									event.detail = DND.DROP_NONE;
+									return;
+								}
+							}
+
+						}
+						else if ( element instanceof MeasureGroupHandle
+								|| ( element instanceof VirtualField && ( (VirtualField) element ).getType( )
+										.equals( VirtualField.TYPE_MEASURE ) )
+								|| element instanceof MeasureHandle )
+						{
+							DataSetHandle primary = ( (TabularCubeHandle) input ).getDataSet( );
+							if ( primary == null || primary != dataset )
+							{
+								event.detail = DND.DROP_NONE;
+								return;
+							}
+						}
+					}
+
+					if ( obj instanceof LevelHandle )
+					{
+						if ( !( element instanceof LevelHandle )
+								|| element == obj
+								|| ( (LevelHandle) obj ).getContainer( ) != ( (LevelHandle) element ).getContainer( ) )
+						{
+							event.detail = DND.DROP_NONE;
+							return;
 						}
 					}
 
@@ -731,190 +760,240 @@ public class CubeGroupContent extends Composite implements Listener
 					event.detail = DND.DROP_NONE;
 					return;
 				}
-				else if ( obj instanceof ResultSetColumnHandle )
+
+				if ( obj instanceof ResultSetColumnHandle )
 				{
 					dataField = (ResultSetColumnHandle) obj;
 					dataset = (DataSetHandle) dataField.getElementHandle( );
-				}
 
-				if ( event.item == null || dataField == null )
-				{
-					event.detail = DND.DROP_NONE;
-					return;
-				}
-				else
-				{
-
-					TreeItem item = (TreeItem) event.item;
-					Point pt = Display.getCurrent( ).map( null,
-							groupViewer.getTree( ),
-							event.x,
-							event.y );
-					Rectangle bounds = item.getBounds( );
-
-					Object element = item.getData( );
-
-					if ( element == null )
-						return;
-
-					try
+					if ( event.item == null || dataField == null )
 					{
-						if ( pt.y < bounds.y + bounds.height / 3 )
+						event.detail = DND.DROP_NONE;
+						return;
+					}
+					else
+					{
+
+						TreeItem item = (TreeItem) event.item;
+						Point pt = Display.getCurrent( ).map( null,
+								groupViewer.getTree( ),
+								event.x,
+								event.y );
+						Rectangle bounds = item.getBounds( );
+
+						Object element = item.getData( );
+						try
 						{
-							if ( element instanceof MeasureHandle )
+							if ( pt.y < bounds.y + bounds.height / 3 )
 							{
-								TabularMeasureHandle measure = DesignElementFactory.getInstance( )
-										.newTabularMeasure( dataField.getColumnName( ) );
-								measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
-								( (MeasureHandle) element ).getContainer( )
-										.add( IMeasureGroupModel.MEASURES_PROP,
-												measure );
-							}
-							else if ( element instanceof CubeHandle
-									|| element instanceof PropertyHandle )
-							{
-								event.detail = DND.DROP_NONE;
-								return;
-							}
-							else if ( element instanceof LevelHandle )
-							{
-								if ( dataField.getDataType( )
-										.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
+								if ( element instanceof MeasureHandle )
+								{
+									TabularMeasureHandle measure = DesignElementFactory.getInstance( )
+											.newTabularMeasure( dataField.getColumnName( ) );
+									measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
+									( (MeasureHandle) element ).getContainer( )
+											.add( IMeasureGroupModel.MEASURES_PROP,
+													measure );
+								}
+								else if ( element instanceof CubeHandle
+										|| element instanceof PropertyHandle )
 								{
 									event.detail = DND.DROP_NONE;
 									return;
 								}
-								int index = ( (LevelHandle) element ).getIndex( );
-								TabularLevelHandle level = DesignElementFactory.getInstance( )
-										.newTabularLevel( dataField.getColumnName( ) );
-								level.setColumnName( dataField.getColumnName( ) );
-								level.setDataType( dataField.getDataType( ) );
-								( (LevelHandle) element ).getContainer( )
-										.add( IHierarchyModel.LEVELS_PROP,
-												level,
-												index );
-							}
-						}
-						else
-						{
-							if ( element instanceof MeasureHandle )
-							{
-								TabularMeasureHandle measure = DesignElementFactory.getInstance( )
-										.newTabularMeasure( dataField.getColumnName( ) );
-								measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
-								( (MeasureHandle) element ).getContainer( )
-										.add( IMeasureGroupModel.MEASURES_PROP,
-												measure );
-							}
-							else if ( element instanceof MeasureGroupHandle
-									|| ( element instanceof VirtualField && ( (VirtualField) element ).getType( )
-											.equals( VirtualField.TYPE_MEASURE ) ) )
-							{
-								MeasureGroupHandle measureGroup = null;
-								if ( element instanceof MeasureGroupHandle )
-									measureGroup = (MeasureGroupHandle) element;
-								else
-									measureGroup = (MeasureGroupHandle) ( (VirtualField) element ).getModel( );
-								TabularMeasureHandle measure = DesignElementFactory.getInstance( )
-										.newTabularMeasure( dataField.getColumnName( ) );
-								measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
-								measureGroup.add( IMeasureGroupModel.MEASURES_PROP,
-										measure );
-							}
-							else if ( element instanceof CubeHandle
-									|| element instanceof PropertyHandle )
-							{
-								event.detail = DND.DROP_NONE;
-								return;
-							}
-							else if ( element instanceof LevelHandle )
-							{
-								if ( dataField.getDataType( )
-										.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
+								else if ( element instanceof LevelHandle )
 								{
-									event.detail = DND.DROP_NONE;
-									return;
-								}
-
-								TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) ( (LevelHandle) element ).getContainer( );
-								if ( hierarchy.getDataSet( ) == null
-										&& dataset != null )
-								{
-									hierarchy.setDataSet( dataset );
-								}
-
-								int index = ( (LevelHandle) element ).getIndex( );
-								TabularLevelHandle level = DesignElementFactory.getInstance( )
-										.newTabularLevel( dataField.getColumnName( ) );
-								level.setColumnName( dataField.getColumnName( ) );
-								level.setDataType( dataField.getDataType( ) );
-								( (LevelHandle) element ).getContainer( )
-										.add( IHierarchyModel.LEVELS_PROP,
-												level,
-												index + 1 );
-							}
-							else if ( element instanceof DimensionHandle
-									|| ( element instanceof VirtualField && ( (VirtualField) element ).getType( )
-											.equals( VirtualField.TYPE_LEVEL ) ) )
-							{
-								DimensionHandle dimension = null;
-								if ( element instanceof DimensionHandle )
-									dimension = (DimensionHandle) element;
-								else
-									dimension = (DimensionHandle) ( (VirtualField) element ).getModel( );
-
-								TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) dimension.getDefaultHierarchy( );
-								if ( hierarchy.getDataSet( ) == null
-										&& dataset != null )
-								{
-									hierarchy.setDataSet( dataset );
-								}
-								if ( dataField.getDataType( )
-										.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
-								{
-									if ( hierarchy.getContentCount( IHierarchyModel.LEVELS_PROP ) > 0 )
+									if ( dataField.getDataType( )
+											.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
 									{
 										event.detail = DND.DROP_NONE;
 										return;
 									}
-									else
-									{
-										hierarchy.add( HierarchyHandle.LEVELS_PROP,
-												OlapUtil.getDateLevel( dataField,
-														OlapUtil.Level_Year ) );
-										hierarchy.add( HierarchyHandle.LEVELS_PROP,
-												OlapUtil.getDateLevel( dataField,
-														OlapUtil.Level_Qtr ) );
-										hierarchy.add( HierarchyHandle.LEVELS_PROP,
-												OlapUtil.getDateLevel( dataField,
-														OlapUtil.Level_Month ) );
-										hierarchy.add( HierarchyHandle.LEVELS_PROP,
-												OlapUtil.getDateLevel( dataField,
-														OlapUtil.Level_Week ) );
-										hierarchy.add( HierarchyHandle.LEVELS_PROP,
-												OlapUtil.getDateLevel( dataField,
-														OlapUtil.Level_Day ) );
-										( (TabularDimensionHandle) hierarchy.getContainer( ) ).setTimeType( true );
-									}
-								}
-								else
-								{
+									int index = ( (LevelHandle) element ).getIndex( );
 									TabularLevelHandle level = DesignElementFactory.getInstance( )
 											.newTabularLevel( dataField.getColumnName( ) );
 									level.setColumnName( dataField.getColumnName( ) );
 									level.setDataType( dataField.getDataType( ) );
-									hierarchy.add( IHierarchyModel.LEVELS_PROP,
-											level );
+									( (LevelHandle) element ).getContainer( )
+											.add( IHierarchyModel.LEVELS_PROP,
+													level,
+													index );
+								}
+							}
+							else
+							{
+								if ( element instanceof MeasureHandle )
+								{
+									TabularMeasureHandle measure = DesignElementFactory.getInstance( )
+											.newTabularMeasure( dataField.getColumnName( ) );
+									measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
+									( (MeasureHandle) element ).getContainer( )
+											.add( IMeasureGroupModel.MEASURES_PROP,
+													measure );
+								}
+								else if ( element instanceof MeasureGroupHandle
+										|| ( element instanceof VirtualField && ( (VirtualField) element ).getType( )
+												.equals( VirtualField.TYPE_MEASURE ) ) )
+								{
+									MeasureGroupHandle measureGroup = null;
+									if ( element instanceof MeasureGroupHandle )
+										measureGroup = (MeasureGroupHandle) element;
+									else
+										measureGroup = (MeasureGroupHandle) ( (VirtualField) element ).getModel( );
+									TabularMeasureHandle measure = DesignElementFactory.getInstance( )
+											.newTabularMeasure( dataField.getColumnName( ) );
+									measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
+									measureGroup.add( IMeasureGroupModel.MEASURES_PROP,
+											measure );
+								}
+								else if ( element instanceof CubeHandle
+										|| element instanceof PropertyHandle )
+								{
+									event.detail = DND.DROP_NONE;
+									return;
+								}
+								else if ( element instanceof LevelHandle )
+								{
+									if ( dataField.getDataType( )
+											.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
+									{
+										event.detail = DND.DROP_NONE;
+										return;
+									}
+
+									TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) ( (LevelHandle) element ).getContainer( );
+									if ( hierarchy.getDataSet( ) == null
+											&& dataset != null )
+									{
+										hierarchy.setDataSet( dataset );
+									}
+
+									int index = ( (LevelHandle) element ).getIndex( );
+									TabularLevelHandle level = DesignElementFactory.getInstance( )
+											.newTabularLevel( dataField.getColumnName( ) );
+									level.setColumnName( dataField.getColumnName( ) );
+									level.setDataType( dataField.getDataType( ) );
+									( (LevelHandle) element ).getContainer( )
+											.add( IHierarchyModel.LEVELS_PROP,
+													level,
+													index + 1 );
+								}
+								else if ( element instanceof DimensionHandle
+										|| ( element instanceof VirtualField && ( (VirtualField) element ).getType( )
+												.equals( VirtualField.TYPE_LEVEL ) ) )
+								{
+									DimensionHandle dimension = null;
+									if ( element instanceof DimensionHandle )
+										dimension = (DimensionHandle) element;
+									else
+										dimension = (DimensionHandle) ( (VirtualField) element ).getModel( );
+
+									TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) dimension.getDefaultHierarchy( );
+									if ( hierarchy.getDataSet( ) == null
+											&& dataset != null )
+									{
+										hierarchy.setDataSet( dataset );
+									}
+									if ( dataField.getDataType( )
+											.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
+									{
+										if ( hierarchy.getContentCount( IHierarchyModel.LEVELS_PROP ) > 0 )
+										{
+											event.detail = DND.DROP_NONE;
+											return;
+										}
+										else
+										{
+											hierarchy.add( HierarchyHandle.LEVELS_PROP,
+													OlapUtil.getDateLevel( dataField,
+															OlapUtil.Level_Year ) );
+											hierarchy.add( HierarchyHandle.LEVELS_PROP,
+													OlapUtil.getDateLevel( dataField,
+															OlapUtil.Level_Qtr ) );
+											hierarchy.add( HierarchyHandle.LEVELS_PROP,
+													OlapUtil.getDateLevel( dataField,
+															OlapUtil.Level_Month ) );
+											hierarchy.add( HierarchyHandle.LEVELS_PROP,
+													OlapUtil.getDateLevel( dataField,
+															OlapUtil.Level_Week ) );
+											hierarchy.add( HierarchyHandle.LEVELS_PROP,
+													OlapUtil.getDateLevel( dataField,
+															OlapUtil.Level_Day ) );
+											( (TabularDimensionHandle) hierarchy.getContainer( ) ).setTimeType( true );
+										}
+									}
+									else
+									{
+										TabularLevelHandle level = DesignElementFactory.getInstance( )
+												.newTabularLevel( dataField.getColumnName( ) );
+										level.setColumnName( dataField.getColumnName( ) );
+										level.setDataType( dataField.getDataType( ) );
+										hierarchy.add( IHierarchyModel.LEVELS_PROP,
+												level );
+									}
 								}
 							}
 						}
-					}
-					catch ( SemanticException e )
-					{
-						ExceptionHandler.handle( e );
+						catch ( SemanticException e )
+						{
+							ExceptionHandler.handle( e );
+						}
 					}
 				}
 
+				if ( obj instanceof LevelHandle )
+				{
+					int oldIndex = ( (LevelHandle) obj ).getIndex( );
+					if ( event.item == null )
+					{
+						event.detail = DND.DROP_NONE;
+						return;
+					}
+					else
+					{
+
+						TreeItem item = (TreeItem) event.item;
+						Point pt = Display.getCurrent( ).map( null,
+								groupViewer.getTree( ),
+								event.x,
+								event.y );
+						Rectangle bounds = item.getBounds( );
+
+						LevelHandle element = (LevelHandle) item.getData( );
+						int newIndex = element.getIndex( );
+						if ( newIndex < oldIndex )
+						{
+							if ( pt.y < bounds.y + bounds.height / 3 )
+							{
+								newIndex = element.getIndex( );
+							}
+							else
+								newIndex = element.getIndex( ) + 1;
+						}
+						else if ( newIndex > oldIndex )
+						{
+							if ( pt.y < bounds.y + bounds.height / 3 )
+							{
+								newIndex = element.getIndex( ) - 1;
+							}
+							else
+								newIndex = element.getIndex( );
+						}
+						try
+						{
+							( (LevelHandle) obj ).moveTo( newIndex );
+						}
+						catch ( SemanticException e )
+						{
+							ExceptionHandler.handle( e );
+						}
+						
+						groupViewer.expandToLevel( ( (LevelHandle) obj ),
+								AbstractTreeViewer.ALL_LEVELS );
+						groupViewer.setSelection( new StructuredSelection( ( (LevelHandle) obj ) ),
+								true );
+					}
+				}
 				groupViewer.refresh( );
 			}
 		} );
@@ -1008,15 +1087,10 @@ public class CubeGroupContent extends Composite implements Listener
 
 		} );
 
-		types = new Transfer[]{
-			TextTransfer.getInstance( )
-		};
-		operations = DND.DROP_MOVE | DND.DROP_COPY | DND.DROP_LINK;
-		dragSourceItems = new TreeItem[1];
 		final DragSource fieldsSource = new DragSource( dataFieldsViewer.getTree( ),
 				operations );
 		fieldsSource.setTransfer( types );
-		fieldsSource.addDragListener( new DragListener( dataFieldsViewer ) );
+		fieldsSource.addDragListener( new CustomDragListener( dataFieldsViewer ) );
 
 	}
 
@@ -1030,8 +1104,10 @@ public class CubeGroupContent extends Composite implements Listener
 	private Button addBtn;
 	private Button delBtn;
 	private Button propBtn;
-	private int operations;
-	private Transfer[] types;
+	private int operations = DND.DROP_MOVE | DND.DROP_COPY | DND.DROP_LINK;
+	private Transfer[] types = new Transfer[]{
+		TextTransfer.getInstance( )
+	};
 	private Button editBtn;
 
 	public void load( )
