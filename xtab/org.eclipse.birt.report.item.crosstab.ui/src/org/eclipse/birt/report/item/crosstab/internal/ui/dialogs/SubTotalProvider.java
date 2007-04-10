@@ -14,16 +14,12 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.dialogs;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.ui.widget.ComboBoxCellEditor;
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDialog.SubTotalInfo;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
@@ -31,7 +27,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 
-public class SubTotalProvider extends LabelProvider implements
+public class SubTotalProvider extends TotleProvider implements
 		ICellModifier,
 		ITableLabelProvider,
 		IStructuredContentProvider
@@ -63,18 +59,11 @@ public class SubTotalProvider extends LabelProvider implements
 			editors[2] = new ComboBoxCellEditor( table,
 					new String[0],
 					SWT.READ_ONLY );
-			String[] items = getFunctions( );
+			String[] items = getFunctionDisplayNames( );
 			( (ComboBoxCellEditor) editors[2] ).setItems( items );
 
 		}
 		return editors;
-	}
-
-	public String[] getFunctions( )
-	{
-		String[] items = ChoiceSetFactory.getDisplayNamefromChoiceSet( DEUtil.getMetaDataDictionary( )
-				.getChoiceSet( DesignChoiceConstants.CHOICE_MEASURE_FUNCTION ) );
-		return items;
 	}
 
 	public boolean canModify( Object element, String property )
@@ -104,13 +93,12 @@ public class SubTotalProvider extends LabelProvider implements
 				if ( obj instanceof SubTotalInfo )
 				{
 					String functionDisplayName = value.toString( );
-					int functionIndex = Arrays.asList( getFunctions( ) )
+					int functionIndex = Arrays.asList( getFunctionDisplayNames( ) )
 							.indexOf( functionDisplayName );
 					if ( functionIndex > -1
-							&& functionIndex < getFunctions( ).length )
+							&& functionIndex < getFunctionNames( ).length )
 					{
-						( (SubTotalInfo) obj ).setFunction( ChoiceSetFactory.getNamefromChoiceSet( DEUtil.getMetaDataDictionary( )
-								.getChoiceSet( DesignChoiceConstants.CHOICE_MEASURE_FUNCTION ) )[functionIndex]  );
+						( (SubTotalInfo) obj ).setFunction( getFunctionNames( )[functionIndex] );
 					}
 					viewer.refresh( );
 				}
@@ -138,8 +126,8 @@ public class SubTotalProvider extends LabelProvider implements
 			case 2 :
 				if ( info.getFunction( ) == null
 						|| info.getFunction( ).trim( ).equals( "" ) )
-					info.setFunction( getFunctions( )[0] );
-				return ( info.getFunction( ) );
+					info.setFunction( getFunctionNames( )[0] );
+				return getFunctionDisplayName( info.getFunction( ) );
 			case 3 :
 				return info.getLevel( ).getName( );
 
