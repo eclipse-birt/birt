@@ -108,7 +108,15 @@ public class GrandTotalProvider extends LabelProvider implements
 				Object obj = ( (TableItem) element ).getData( );
 				if ( obj instanceof GrandTotalInfo )
 				{
-					( (GrandTotalInfo) obj ).setFunction( value.toString( ) );
+					String functionDisplayName = value.toString( );
+					int functionIndex = Arrays.asList( getFunctions( ) )
+							.indexOf( functionDisplayName );
+					if ( functionIndex > -1
+							&& functionIndex < getFunctions( ).length )
+					{
+						( (GrandTotalInfo) obj ).setFunction( ChoiceSetFactory.getNamefromChoiceSet( DEUtil.getMetaDataDictionary( )
+								.getChoiceSet( DesignChoiceConstants.CHOICE_MEASURE_FUNCTION ) )[functionIndex] );
+					}
 					viewer.refresh( );
 				}
 			}
