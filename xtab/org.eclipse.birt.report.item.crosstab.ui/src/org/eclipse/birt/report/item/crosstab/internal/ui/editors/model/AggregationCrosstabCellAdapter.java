@@ -41,14 +41,14 @@ public class AggregationCrosstabCellAdapter extends CrosstabCellAdapter
 	 */
 	public boolean equals( Object obj )
 	{
-		if (obj == getCrosstabItemHandle( ))
-		{
-			return true;
-		}	
-		if (obj instanceof CrosstabCellAdapter)
-		{
-			return getCrosstabItemHandle( ) == ((CrosstabCellAdapter)obj).getCrosstabItemHandle();
-		}
+//		if (obj == getCrosstabItemHandle( ))
+//		{
+//			return true;
+//		}	
+//		if (obj instanceof CrosstabCellAdapter)
+//		{
+//			return getCrosstabItemHandle( ) == ((CrosstabCellAdapter)obj).getCrosstabItemHandle();
+//		}
 		return super.equals( obj );
 	}
 }

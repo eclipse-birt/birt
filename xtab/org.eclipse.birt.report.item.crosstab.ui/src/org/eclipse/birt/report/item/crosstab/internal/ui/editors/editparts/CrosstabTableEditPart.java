@@ -35,6 +35,7 @@ import org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner;
 import org.eclipse.birt.report.designer.internal.ui.layout.TableLayout;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
+import org.eclipse.birt.report.item.crosstab.core.ILevelViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editpolicies.CrosstabXYLayoutEditPolicy;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabHandleAdapter;
@@ -838,7 +839,8 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 		{
 			Object obj = itor.next( );
 			if (ICrosstabReportItemConstants.MEASURE_DIRECTION_PROP.equals(obj  )
-					|| ICrosstabReportItemConstants.PAGE_LAYOUT_PROP.equals(obj  ))
+					|| ICrosstabReportItemConstants.PAGE_LAYOUT_PROP.equals(obj  )
+					|| ILevelViewConstants.AGGREGATION_HEADER_LOCATION_PROP.equals(obj  ))
 			{
 				refresh( );
 				return;

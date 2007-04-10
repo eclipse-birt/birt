@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
+import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
@@ -102,6 +103,8 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 
 		buildModel( list, columns, rows, details );
 
+		adjustColumn(columns, details);
+		adjustRow( rows, details );
 		int rowBase = ( (Integer) map.get( COLUMNAREA_ROW ) ).intValue( );
 		int columnBase = ( (Integer) map.get( ROWAREA_COLUMN ) ).intValue( );
 		CrosstabCellAdapter first = factory.createCrosstabCellAdapter( LEFT_CONNER,
@@ -112,7 +115,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 				columnBase,
 				false );
 		list.add( 0, first );
-		// debug("all", list);
+		debug("all", list);
 
 		Collections.sort( list, new ModelComparator( ) );
 
@@ -120,6 +123,120 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 		return list;
 	}
 
+	private void adjustColumn(List columns, List details)
+	{
+		for ( int i = 0; i < columns.size( ); i++ )
+		{
+			CrosstabCellAdapter adapter = (CrosstabCellAdapter) columns.get( i );
+			int row = adapter.getRowNumber( );
+			//int rowSpan = adapter.getRowSpan( );
+			int column = adapter.getColumnNumber( );
+			int columnSpan = adapter.getColumnSpan( );
+			
+			if (!adapter.getPositionType( ).equals( ICrosstabCellAdapterFactory.CELL_SUB_TOTAL ))
+			{
+				continue;
+			}
+			if (isBefore( adapter.getCrosstabCellHandle( ) ))
+			{
+				CrosstabCellAdapter beforeAdapter = getCell( row, column - 1, columns);
+				int beforeColumn = beforeAdapter.getColumnNumber( );
+				int beforeColumnSpan = beforeAdapter.getColumnSpan( );
+				
+				for ( int j = 0; j < columns.size( ); j++ )
+				{
+					CrosstabCellAdapter tempAdapter = (CrosstabCellAdapter) columns.get( j );
+
+					if (tempAdapter.getRowNumber( ) < row)
+					{
+						continue;
+					}
+					int tempColumnNumber = tempAdapter.getColumnNumber( ); 
+					if (tempColumnNumber >= beforeColumn && tempColumnNumber<beforeColumn + beforeColumnSpan)
+					{
+						tempAdapter.setColumnNumber(tempColumnNumber + columnSpan);
+					}
+					else if (tempColumnNumber >= column && tempColumnNumber<column + columnSpan)
+					{
+						tempAdapter.setColumnNumber(tempColumnNumber - beforeColumnSpan );
+					}
+				}
+				
+				for ( int j = 0; j < details.size( ); j++ )
+				{
+					CrosstabCellAdapter tempAdapter = (CrosstabCellAdapter) details.get( j );
+
+					int tempColumnNumber = tempAdapter.getColumnNumber( ); 
+					if (tempColumnNumber >= beforeColumn && tempColumnNumber<beforeColumn + beforeColumnSpan)
+					{
+						tempAdapter.setColumnNumber( tempColumnNumber + columnSpan );
+					}
+					else if (tempColumnNumber >= column && tempColumnNumber<column + columnSpan)
+					{
+						tempAdapter.setColumnNumber( tempColumnNumber - beforeColumnSpan );
+					}
+				}
+			}
+		}
+	}
+	
+	private void adjustRow(List rows, List details)
+	{
+		for ( int i = 0; i < rows.size( ); i++ )
+		{
+			CrosstabCellAdapter adapter = (CrosstabCellAdapter) rows.get( i );
+			int row = adapter.getRowNumber( );
+			int rowSpan = adapter.getRowSpan( );
+			int column = adapter.getColumnNumber( );
+			//int columnSpan = adapter.getColumnSpan( );
+			
+			if (!adapter.getPositionType( ).equals( ICrosstabCellAdapterFactory.CELL_SUB_TOTAL ))
+			{
+				continue;
+			}
+			if (isBefore( adapter.getCrosstabCellHandle( ) ))
+			{
+				CrosstabCellAdapter beforeAdapter = getCell( row-1, column, rows);
+				int beforeRow = beforeAdapter.getRowNumber( );
+				int beforeRowSpan = beforeAdapter.getRowSpan( );
+				
+				for ( int j = 0; j < rows.size( ); j++ )
+				{
+					CrosstabCellAdapter tempAdapter = (CrosstabCellAdapter) rows.get( j );
+
+					if (tempAdapter.getColumnNumber( ) < column)
+					{
+						continue;
+					}
+					int tempRowNumber = tempAdapter.getRowNumber( ); 
+					if (tempRowNumber >= beforeRow && tempRowNumber<beforeRow + beforeRowSpan)
+					{
+						tempAdapter.setRowNumber(tempRowNumber + rowSpan);
+					}
+					else if (tempRowNumber >= row && tempRowNumber<row + rowSpan)
+					{
+						tempAdapter.setRowNumber(tempRowNumber - beforeRowSpan );
+					}
+				}
+				
+				for ( int j = 0; j < details.size( ); j++ )
+				{
+					CrosstabCellAdapter tempAdapter = (CrosstabCellAdapter) details.get( j );
+
+					int tempRowNumber = tempAdapter.getRowNumber( ); 
+					if (tempRowNumber >= beforeRow && tempRowNumber<beforeRow + beforeRowSpan)
+					{
+						tempAdapter.setRowNumber(tempRowNumber + rowSpan);
+					}
+					else if (tempRowNumber >= row && tempRowNumber<row + rowSpan)
+					{
+						tempAdapter.setRowNumber(tempRowNumber - beforeRowSpan );
+					}
+				}
+			}
+		}
+	}
+	
 	private void init( )
 	{
 		columnAndMeasureColumnNumber = -1;
@@ -1358,6 +1475,20 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 			retValue.add( preMmeasureHandle );
 		}
 		return retValue;
+	}
+	
+	private boolean isBefore(CrosstabCellHandle cellHandle)
+	{
+		AbstractCrosstabItemHandle parent = cellHandle;
+		while (parent != null)
+		{
+			if (parent instanceof LevelViewHandle)
+			{
+				return ICrosstabConstants.AGGREGATION_HEADER_LOCATION_BEFORE.equals( ((LevelViewHandle)parent).getAggregationHeaderLocation( ));
+			}
+			parent = parent.getContainer( );
+		}
+		return false;
 	}
 	
 	private boolean isPageLayoutOver()
