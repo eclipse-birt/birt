@@ -30,7 +30,7 @@ public class CancelOnErrorTest extends EngineCase
 			assertEquals( 3, doc.getPageCount( ) );
 			doc.close( );
 
-			engine.createRunTask( report );
+			task = engine.createRunTask( report );
 			task.setErrorHandlingOption( IEngineTask.CANCEL_ON_ERROR );
 			task.run( REPORT_DOCUMENT );
 			task.close( );
