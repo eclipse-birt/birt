@@ -198,8 +198,7 @@ public class MockGetParameterDefinitionTask
 
 	public IReportRunnable getReportRunnable( )
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return new MockReportRunnable() ;
 	}
 
 	public int getStatus( )

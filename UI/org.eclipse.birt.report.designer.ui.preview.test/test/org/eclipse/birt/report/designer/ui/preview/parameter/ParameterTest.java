@@ -34,8 +34,7 @@ public class ParameterTest extends BaseTestCase {
 		assertEquals( 3, children.size( ) );
 		
 		ScalarParam param = (ScalarParam)children.get( 2 );
-		Object isRequired = param.getPropertyValue( IParameterConstants.IS_REQUIRED );
-		assertEquals( "false" , isRequired.toString( ) ); //$NON-NLS-1$
+		assertFalse( param.isRequired( ) ); 
 		
 		assertFalse( param.isRequired( ) );
 	}

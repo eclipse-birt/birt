@@ -9,10 +9,10 @@
 
 package org.eclipse.birt.report.designer.ui.preview;
 
-import org.eclipse.birt.report.designer.ui.preview.parameter.MockEngineTask;
-import org.eclipse.birt.report.engine.api.IEngineTask;
-
 import junit.framework.TestCase;
+
+import org.eclipse.birt.report.designer.ui.preview.parameter.MockGetParameterDefinitionTask;
+import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 
 /**
  * Base Test Case
@@ -26,12 +26,12 @@ public class BaseTestCase extends TestCase
 	 * Mock engine Task instance.
 	 */
 
-	protected IEngineTask engineTask;
+	protected IGetParameterDefinitionTask engineTask;
 
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
-		engineTask = new MockEngineTask( );
+		engineTask = new MockGetParameterDefinitionTask( );
 	}
 
 	protected void tearDown( ) throws Exception
