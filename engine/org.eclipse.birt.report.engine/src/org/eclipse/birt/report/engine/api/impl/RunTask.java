@@ -160,6 +160,9 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	private void closeReportDocument( )
 	{
 		writer.close( );
+		writer = null;
+		archive = null;
+		documentName = null;
 	}
 
 	/**
