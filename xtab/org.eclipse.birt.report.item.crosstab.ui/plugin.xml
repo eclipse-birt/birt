@@ -210,6 +210,21 @@
         	</enablement>
       </adapter>	 
 	</adaptable>
+ <adaptable
+       class="org.eclipse.birt.report.model.api.ExtendedItemHandle">
+    <adapter
+          class="org.eclipse.birt.report.item.crosstab.ui.views.attributes.CrosstabCellPageGenerator"
+          id="ReportDesign.AttributeView.CrosstabCellPageGenerator"
+          type="org.eclipse.birt.report.designer.ui.views.IPageGenerator">
+       <enablement>
+          <test
+                forcePluginActivation="true"
+                property="ExtendItemHandle.extensionName"
+                value="CrosstabCell">
+          </test>
+       </enablement>
+    </adapter>
+ </adaptable>
 	
    </extension>
    <extension

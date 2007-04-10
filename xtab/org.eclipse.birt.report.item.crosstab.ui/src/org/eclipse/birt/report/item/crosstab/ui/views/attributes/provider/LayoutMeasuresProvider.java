@@ -12,12 +12,9 @@
 package org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider;
 
 import java.util.List;
-
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
-import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
-import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
-import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -38,7 +35,7 @@ public class LayoutMeasuresProvider implements IDescriptorProvider {
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider#getDisplayName()
 	 */
 	public String getDisplayName() {
-		return "Layout Measures Vertically";
+		return Messages.getString("LayoutMeasuresProvider.DisplayName");
 	}
 
 	/*
@@ -48,6 +45,14 @@ public class LayoutMeasuresProvider implements IDescriptorProvider {
 	 */
 	public Object load() {
 		String vertical = ICrosstabConstants.MEASURE_DIRECTION_VERTICAL;
+		if(input == null)
+		{
+			return "false";
+		}else
+		if(crosstabHandle == null)
+		{
+			initializeCrosstab();
+		}
 		if (crosstabHandle != null) {
 			vertical = crosstabHandle.getMeasureDirection();
 		}
@@ -62,6 +67,14 @@ public class LayoutMeasuresProvider implements IDescriptorProvider {
 	 */
 	public void save(Object value) throws SemanticException {
 		String stringValue = (String) value;
+		if(input == null)
+		{
+			return;
+		}else
+		if(crosstabHandle == null)
+		{
+			initializeCrosstab();
+		}
 		if (stringValue != null && stringValue.equalsIgnoreCase("true")) {
 			crosstabHandle
 					.setMeasureDirection(ICrosstabConstants.MEASURE_DIRECTION_VERTICAL);
@@ -84,6 +97,7 @@ public class LayoutMeasuresProvider implements IDescriptorProvider {
 	public void setInput(Object input) {
 		// TODO Auto-generated method stub
 		this.input = input;
+		initializeCrosstab();
 	}
 
 	protected void initializeCrosstab() {
@@ -92,8 +106,7 @@ public class LayoutMeasuresProvider implements IDescriptorProvider {
 			return;
 		}
 
-		if ((!(input instanceof List && DEUtil.getMultiSelectionHandle(
-				(List) input).isExtendedElements()))
+		if ((!(input instanceof List && ((List) input).size() > 0 && ((List) input).get(0) instanceof ExtendedItemHandle))
 				&& (!(input instanceof ExtendedItemHandle))) {
 			return;
 		}

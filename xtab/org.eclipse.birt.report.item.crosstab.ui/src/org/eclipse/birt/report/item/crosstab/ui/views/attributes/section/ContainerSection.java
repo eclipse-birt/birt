@@ -15,10 +15,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.Widget
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Section;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.CheckPropertyDescriptor;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.DescriptorToolkit;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -26,45 +23,51 @@ import org.eclipse.swt.widgets.Group;
 
 /**
  * @author Administrator
- *
+ * 
  */
-public class ContainerSection extends Section {
+public class ContainerSection extends Section
+{
 
 	CheckPropertyDescriptor columnCheck;
-	
+
 	public Group group;
-	
-	public ContainerSection(String labelText, Composite parent,
-			boolean isFormStyle) {
-		super(labelText, parent, isFormStyle);		
+
+	public ContainerSection( String labelText, Composite parent,
+			boolean isFormStyle )
+	{
+		super( labelText, parent, isFormStyle );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Section#createSection()
 	 */
-	public void createSection() {
-		getGroupSection(parent);
+	public void createSection( )
+	{
+		getGroupSection( parent );
 	}
 
-	public Composite getContainerComposite()
+	public Composite getContainerComposite( )
 	{
 		return group;
 	}
-	private Group getGroupSection(Composite parent)
+
+	private Group getGroupSection( Composite parent )
 	{
-		if(group == null)
+		if ( group == null )
 		{
-			group = new Group(parent, SWT.NONE);
-			GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-			gd.horizontalSpan = 3;		
-			group.setLayout(WidgetUtil.createGridLayout( 8 ));
-			group.setText("Format options:");
-			group.setLayoutData(gd);
-			
+			group = new Group( parent, SWT.NONE );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.horizontalSpan = 3;
+			group.setLayout( WidgetUtil.createGridLayout( 3 ) );
+			group.setText( getLabelText( ) );
+			group.setLayoutData( gd );
+
 		}
 		return group;
 	}
-	
+
 	public void layout( )
 	{
 		GridData gd = (GridData) group.getLayoutData( );
@@ -93,10 +96,10 @@ public class ContainerSection extends Section {
 	{
 		this.width = width;
 	}
-	
+
 	public void load( )
 	{
-//		if(group!=null && !group.isDisposed( ))group.load( );
+		// if(group!=null && !group.isDisposed( ))group.load( );
 	}
 
 	IDescriptorProvider provider;
