@@ -27,7 +27,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 
-public class GrandTotalProvider extends TotleProvider implements
+public class GrandTotalProvider extends TotalProvider implements
 		ICellModifier,
 		ITableLabelProvider,
 		IStructuredContentProvider
