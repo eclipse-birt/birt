@@ -281,6 +281,8 @@ CascadingParametersDialog.Label.values=valeurs
 CascadingParametersDialog.Label.SelectDataSetMode=Mode de jeu de données :
 CascadingParametersDialog.Radio.Single=Jeu de données unique
 CascadingParametersDialog.Radio.Mutli=Jeu de données multiple
+CascadingParametersDialog.Choice.NullValue=Valeur nulle
+CascadingParametersDialog.Choice.BlankValue=Blank Value
 
 ###########################################################
 #CategoryPageGenerator properties
@@ -2467,6 +2469,8 @@ ParameterDialog.CheckBox.DoNotEchoInput=Ne pas repr&oduire l'entrée
 ParameterDialog.CheckBox.Hidden=&Masqué
 ParameterDialog.CheckBox.Sort=T&rier par ordre alphabétique à l'invite
 ParameterDialog.Choice.NoDefault=Aucune valeur par défaut
+ParameterDialog.Choice.NullValue=Valeur nulle
+ParameterDialog.Choice.BlankValue=Blank Value
 ParameterDialog.Column.Default=Par défaut
 ParameterDialog.Column.DisplayText=Texte d'affichage
 ParameterDialog.Column.Value=Valeur

@@ -281,6 +281,8 @@ CascadingParametersDialog.Label.values=值
 CascadingParametersDialog.Label.SelectDataSetMode=数据集模式:
 CascadingParametersDialog.Radio.Single=单个数据集
 CascadingParametersDialog.Radio.Mutli=多个数据集
+CascadingParametersDialog.Choice.NullValue=空值
+CascadingParametersDialog.Choice.BlankValue=Blank Value
 
 ###########################################################
 #CategoryPageGenerator properties
@@ -2467,6 +2469,8 @@ ParameterDialog.CheckBox.DoNotEchoInput=不回显输入内容(&O)
 ParameterDialog.CheckBox.Hidden=隐藏(&D)
 ParameterDialog.CheckBox.Sort=提示时按字母顺序排序(&B)
 ParameterDialog.Choice.NoDefault=无默认值
+ParameterDialog.Choice.NullValue=空值
+ParameterDialog.Choice.BlankValue=Blank Value
 ParameterDialog.Column.Default=默认值
 ParameterDialog.Column.DisplayText=显示文本
 ParameterDialog.Column.Value=值

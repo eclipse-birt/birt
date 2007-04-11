@@ -281,6 +281,8 @@ CascadingParametersDialog.Label.values=個の値
 CascadingParametersDialog.Label.SelectDataSetMode=データセットモード :
 CascadingParametersDialog.Radio.Single=1 つのデータセット
 CascadingParametersDialog.Radio.Mutli=複数のデータセット
+CascadingParametersDialog.Choice.NullValue=NULL 値
+CascadingParametersDialog.Choice.BlankValue=Blank Value
 
 ###########################################################
 #CategoryPageGenerator properties
@@ -2467,6 +2469,8 @@ ParameterDialog.CheckBox.DoNotEchoInput=入力値を繰り返さない(&O)
 ParameterDialog.CheckBox.Hidden=非表示(&D)
 ParameterDialog.CheckBox.Sort=確認時にアルファベット順にソートする(&R)
 ParameterDialog.Choice.NoDefault=デフォルト値がありません
+ParameterDialog.Choice.NullValue=NULL 値
+ParameterDialog.Choice.BlankValue=Blank Value
 ParameterDialog.Column.Default=デフォルト
 ParameterDialog.Column.DisplayText=表示テキスト
 ParameterDialog.Column.Value=値

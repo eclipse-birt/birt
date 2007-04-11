@@ -281,6 +281,8 @@ CascadingParametersDialog.Label.values=값
 CascadingParametersDialog.Label.SelectDataSetMode=데이터 집합 모드:
 CascadingParametersDialog.Radio.Single=단일 데이터 집합
 CascadingParametersDialog.Radio.Mutli=다중 데이터 집합
+CascadingParametersDialog.Choice.NullValue=널(null) 값
+CascadingParametersDialog.Choice.BlankValue=Blank Value
 
 ###########################################################
 #CategoryPageGenerator properties
@@ -2467,6 +2469,8 @@ ParameterDialog.CheckBox.DoNotEchoInput=입력 반향 안 함(&O)
 ParameterDialog.CheckBox.Hidden=숨김(&D)
 ParameterDialog.CheckBox.Sort=물을 경우 알파벳 순으로 정렬(&R)
 ParameterDialog.Choice.NoDefault=기본값 없음
+ParameterDialog.Choice.NullValue=널(null) 값
+ParameterDialog.Choice.BlankValue=Blank Value
 ParameterDialog.Column.Default=기본값
 ParameterDialog.Column.DisplayText=표시 텍스트
 ParameterDialog.Column.Value=값

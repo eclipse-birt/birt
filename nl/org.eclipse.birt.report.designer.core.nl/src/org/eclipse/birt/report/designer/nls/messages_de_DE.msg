@@ -281,6 +281,8 @@ CascadingParametersDialog.Label.values=Werte
 CascadingParametersDialog.Label.SelectDataSetMode=Datensatzmodus:
 CascadingParametersDialog.Radio.Single=Einfacher Datensatz
 CascadingParametersDialog.Radio.Mutli=Mehrfacher Datensatz
+CascadingParametersDialog.Choice.NullValue=Null-Wert
+CascadingParametersDialog.Choice.BlankValue=Blank Value
 
 ###########################################################
 #CategoryPageGenerator properties
@@ -2467,6 +2469,8 @@ ParameterDialog.CheckBox.DoNotEchoInput=&Keine Wiedergabe auf Eingabe
 ParameterDialog.CheckBox.Hidden=&Ausgeblendet
 ParameterDialog.CheckBox.Sort=&Bei Aufforderung alphabetisch sortieren
 ParameterDialog.Choice.NoDefault=Kein Standardwert
+ParameterDialog.Choice.NullValue=Null-Wert
+ParameterDialog.Choice.BlankValue=Blank Value
 ParameterDialog.Column.Default=Standard
 ParameterDialog.Column.DisplayText=Angezeigter Text
 ParameterDialog.Column.Value=Wert
