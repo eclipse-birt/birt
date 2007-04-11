@@ -27,7 +27,6 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
-import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 
 /**
@@ -44,6 +43,7 @@ public class CreateDimensionViewCommand extends AbstractCrosstabCommand
 	 */
 	private int type = -1;
 	private DimensionHandle dimensionHandle;
+	private LevelHandle levelHandle;
 
 	/**
 	 * trans name
@@ -119,14 +119,21 @@ public class CreateDimensionViewCommand extends AbstractCrosstabCommand
 			DimensionViewHandle viewHandle = reportHandle.insertDimension( getDimensionHandle( ),
 					getType( ),
 					0 );
-			HierarchyHandle hierarchyHandle = getDimensionHandle( ).getDefaultHierarchy( );
-			int count = hierarchyHandle.getLevelCount( );
-			if ( count == 0 )
+//			HierarchyHandle hierarchyHandle = getDimensionHandle( ).getDefaultHierarchy( );
+//			int count = hierarchyHandle.getLevelCount( );
+//			if ( count == 0 )
+//			{
+//				rollBack( );
+//				return;
+//			}
+//			LevelHandle levelHandle = hierarchyHandle.getLevel( 0 );
+			
+			LevelHandle levelHandle = getLevelHandle( );
+			if ( levelHandle == null )
 			{
 				rollBack( );
 				return;
 			}
-			LevelHandle levelHandle = hierarchyHandle.getLevel( 0 );
 			//new a bing
 			ComputedColumn bindingColumn = CrosstabAdaptUtil.createComputedColumn( (ExtendedItemHandle)reportHandle.getModelHandle( ), levelHandle );
 			
@@ -165,5 +172,20 @@ public class CreateDimensionViewCommand extends AbstractCrosstabCommand
 	public void setDimensionHandle( DimensionHandle dimensionHandle )
 	{
 		this.dimensionHandle = dimensionHandle;
+	}
+	
+	public LevelHandle getLevelHandle( )
+	{
+		if (levelHandle == null)
+		{
+			return getDimensionHandle( ).getDefaultHierarchy( ).getLevel( 0 );
+		}
+		return levelHandle;
+	}
+
+	
+	public void setLevelHandle( LevelHandle levelHandle )
+	{
+		this.levelHandle = levelHandle;
 	}
 }

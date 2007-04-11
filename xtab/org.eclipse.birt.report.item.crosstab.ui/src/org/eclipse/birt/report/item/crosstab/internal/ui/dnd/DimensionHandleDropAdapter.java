@@ -205,8 +205,9 @@ public class DimensionHandleDropAdapter implements IDropAdapter
 			{
 				axisType = ICrosstabConstants.ROW_AXIS_TYPE;
 			}
+			return createDimensionViewHandle( xtabHandle, dimensionHandle, axisType );
 		}
-		return createDimensionViewHandle( xtabHandle, dimensionHandle, axisType );
+		return false;
 	}
 
 	private boolean createDimensionViewHandle(

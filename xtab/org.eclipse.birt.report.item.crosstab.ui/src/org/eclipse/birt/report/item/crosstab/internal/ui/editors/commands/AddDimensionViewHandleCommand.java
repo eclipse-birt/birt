@@ -28,7 +28,6 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
-import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 
 /**
@@ -46,6 +45,7 @@ public class AddDimensionViewHandleCommand extends AbstractCrosstabCommand
 	private int type = -1;
 	private DimensionHandle dimensionHandle;
 	private Object after = null;
+	private LevelHandle levelHandle;
 
 	/**
 	 * Trans name
@@ -148,14 +148,21 @@ public class AddDimensionViewHandleCommand extends AbstractCrosstabCommand
 			DimensionViewHandle viewHandle = reportHandle.insertDimension( getDimensionHandle( ),
 					getType( ),
 					position );
-			HierarchyHandle hierarchyHandle = getDimensionHandle( ).getDefaultHierarchy( );
-			int count = hierarchyHandle.getLevelCount( );
-			if ( count == 0 )
+//			HierarchyHandle hierarchyHandle = getDimensionHandle( ).getDefaultHierarchy( );
+//			int count = hierarchyHandle.getLevelCount( );
+//			if ( count == 0 )
+//			{
+//				rollBack( );
+//				return;
+//			}
+//			LevelHandle levelHandle = hierarchyHandle.getLevel( 0 );
+			
+			LevelHandle levelHandle = getLevelHandle( );
+			if ( levelHandle == null )
 			{
 				rollBack( );
 				return;
 			}
-			LevelHandle levelHandle = hierarchyHandle.getLevel( 0 );
 
 			ComputedColumn bindingColumn = CrosstabAdaptUtil.createComputedColumn( (ExtendedItemHandle)reportHandle.getModelHandle( ), levelHandle );
 			ComputedColumnHandle bindingHandle = ((ExtendedItemHandle)reportHandle.getModelHandle( )).addColumnBinding( bindingColumn, false );
@@ -191,5 +198,21 @@ public class AddDimensionViewHandleCommand extends AbstractCrosstabCommand
 		}
 		return base + 1;
 		//return ((CrosstabReportItemHandle) handleAdpter.getCrosstabItemHandle( )).getDimensionCount( getType( ) );
+	}
+
+	
+	public LevelHandle getLevelHandle( )
+	{
+		if (levelHandle == null)
+		{
+			return getDimensionHandle( ).getDefaultHierarchy( ).getLevel( 0 );
+		}
+		return levelHandle;
+	}
+
+	
+	public void setLevelHandle( LevelHandle levelHandle )
+	{
+		this.levelHandle = levelHandle;
 	}
 }

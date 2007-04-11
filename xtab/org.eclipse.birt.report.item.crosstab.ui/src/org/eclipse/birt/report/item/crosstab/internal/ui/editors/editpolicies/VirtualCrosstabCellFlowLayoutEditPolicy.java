@@ -19,12 +19,14 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.Create
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.CreateMeasureViewCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabTableEditPart;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.FirstLevelHandleDataItemEditPart;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabHandleAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.ICrosstabCellAdapterFactory;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
@@ -54,6 +56,13 @@ public class VirtualCrosstabCellFlowLayoutEditPolicy extends ReportFlowLayoutEdi
 			if (newObject instanceof DimensionHandle)
 			{
 				return new CreateDimensionViewCommand(adapter, type, (DimensionHandle)newObject);
+			}
+			if (newObject instanceof LevelHandle)
+			{
+				DimensionHandle dimensionHandle = CrosstabAdaptUtil.getDeDimensionHandle( (LevelHandle)newObject );
+				CreateDimensionViewCommand command = new CreateDimensionViewCommand(adapter, type, dimensionHandle);
+				command.setLevelHandle( (LevelHandle)newObject );
+				return command;
 			}
 			else if (newObject instanceof MeasureHandle && type == VirtualCrosstabCellAdapter.MEASURE_TYPE)
 			{

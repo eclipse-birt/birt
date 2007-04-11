@@ -25,10 +25,12 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.Crosst
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.CrosstabFlowMoveChildCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.CrosstabPasterCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.FirstLevelHandleDataItemEditPart;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.ICrosstabCellAdapterFactory;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
@@ -64,7 +66,7 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 			//CrosstabHandleAdapter adapter = ( (CrosstabTableEditPart) parent ).getCrosstabHandleAdapter( );
 			int type = getAreaType( (CrosstabCellAdapter) model );
 			String position = ( (CrosstabCellAdapter) model ).getPositionType( );
-			if ( newObject instanceof DimensionHandle
+			if ( (newObject instanceof DimensionHandle || newObject instanceof LevelHandle) 
 					&& ( type == ICrosstabConstants.COLUMN_AXIS_TYPE || type == ICrosstabConstants.ROW_AXIS_TYPE ) )
 			{
 				Object afterObj = null;
@@ -72,6 +74,16 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 				{
 					afterObj = after.getModel( );
 				}
+				
+				if (newObject instanceof LevelHandle)
+				{
+					DimensionHandle dimensionHandle = CrosstabAdaptUtil.getDeDimensionHandle( (LevelHandle)newObject );
+					AddDimensionViewHandleCommand command = new AddDimensionViewHandleCommand( (CrosstabCellAdapter) model,
+							type,dimensionHandle , afterObj );
+					command.setLevelHandle( (LevelHandle)newObject );
+					return command;
+				}
+				
 				return new AddDimensionViewHandleCommand( (CrosstabCellAdapter) model,
 						type,
 						(DimensionHandle) newObject, afterObj );

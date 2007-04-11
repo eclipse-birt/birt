@@ -231,16 +231,18 @@
          point="org.eclipse.birt.report.designer.ui.DNDServices">
       <dragAdapter
             adapter="org.eclipse.birt.report.item.crosstab.internal.ui.dnd.DimensionHandleDragAdapter"
-            priority="normal">
+            >
       </dragAdapter>
       <dropAdapter
             adapter="org.eclipse.birt.report.item.crosstab.internal.ui.dnd.DimensionHandleDropAdapter"
-            priority="normal">
+            >
       </dropAdapter>
       <dropAdapter
             adapter="org.eclipse.birt.report.item.crosstab.internal.ui.dnd.DataColumnXTabDropAdapter">
       </dropAdapter>
-   </extension>
-     
 
+      <dropAdapter adapter="org.eclipse.birt.report.item.crosstab.internal.ui.dnd.LevelHandleDropAdapter"/>
+      <dragAdapter adapter="org.eclipse.birt.report.item.crosstab.internal.ui.dnd.LevelHandleDragAdapter"/>     
+
+   </extension>
 </plugin>

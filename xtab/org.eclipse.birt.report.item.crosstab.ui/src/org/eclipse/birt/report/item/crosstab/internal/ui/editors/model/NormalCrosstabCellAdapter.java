@@ -16,6 +16,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 
 /**
@@ -87,6 +88,10 @@ public class NormalCrosstabCellAdapter extends CrosstabCellAdapter implements IV
 			{
 				return true;
 			}
+		}
+		if (obj instanceof LevelHandle)
+		{
+			return handleValidate( CrosstabAdaptUtil.getDeDimensionHandle((LevelHandle)obj) );
 		}
 
 		if (obj instanceof MeasureHandle)
