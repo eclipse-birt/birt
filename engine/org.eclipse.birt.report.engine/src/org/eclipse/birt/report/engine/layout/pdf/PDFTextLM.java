@@ -329,6 +329,8 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 						return;
 					}
 					currentPos = 0;
+					vestigeIndex = -1;
+					vestigeLength = 0;
 					wr = new ICUWordRecognizer(chunk.getText( ), context.getLocale( ));
 				}
 				else

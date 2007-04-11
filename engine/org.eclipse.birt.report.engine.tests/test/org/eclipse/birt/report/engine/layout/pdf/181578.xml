@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.12" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.0.qualifier Build &lt;@BUILD@></property>
+    <property name="units">in</property>
+    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <html-property name="description">Creates a blank report with no predefined content.</html-property>
+    <text-property name="displayName">Blank Report</text-property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2"/>
+    </page-setup>
+    <body>
+        <grid id="8">
+            <property name="width">2pt</property>
+            <column id="9">
+            </column>
+            <row id="10">
+                <cell id="11">
+                    <data id="12">
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">data item</property>
+                                <expression name="expression">new Date()</expression>
+                                <property name="dataType">any</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">data item</property>
+                    </data>
+                </cell>
+            </row>
+        </grid>
+    </body>
+</report>
