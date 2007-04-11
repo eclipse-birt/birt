@@ -312,3 +312,4 @@ data.olap.levelNameNotFound=수준 이름 "{0}"을(를) 찾을 수 없습니다.
 data.olap.cursorPositionError=커서가 대상 위치로 이동하지 못합니다.
 data.olap.cursorSeekError=커서가 검색 위치로 이동하지 못합니다.
 data.olap.CannotGetMeasureValue=측정 "{0}" 값을 가져올 수 없습니다.
+data.olap.CannotFindLevel=Cannot find "{0}" level definition under hierarchy "{1}"in dimension "{2}".

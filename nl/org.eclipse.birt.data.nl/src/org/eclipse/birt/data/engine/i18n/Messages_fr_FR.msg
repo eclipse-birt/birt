@@ -312,3 +312,4 @@ data.olap.levelNameNotFound=Le nom de niveau "{0}" est introuvable.
 data.olap.cursorPositionError=Impossible de placer le curseur en position cible.
 data.olap.cursorSeekError=Impossible de placer le curseur en position de recherche.
 data.olap.CannotGetMeasureValue=Impossible d''obtenir la valeur de mesure "{0}".
+data.olap.CannotFindLevel=Cannot find "{0}" level definition under hierarchy "{1}"in dimension "{2}".

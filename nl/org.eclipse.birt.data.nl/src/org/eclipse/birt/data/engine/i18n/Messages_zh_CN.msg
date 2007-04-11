@@ -312,3 +312,4 @@ data.olap.levelNameNotFound=找不到级别名称“{0}”。
 data.olap.cursorPositionError=光标无法定位到目标位置。
 data.olap.cursorSeekError=光标无法定位到查找位置。
 data.olap.CannotGetMeasureValue=无法获取度量“{0}”值。
+data.olap.CannotFindLevel=Cannot find "{0}" level definition under hierarchy "{1}"in dimension "{2}".

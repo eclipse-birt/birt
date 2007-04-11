@@ -312,3 +312,4 @@ data.olap.levelNameNotFound=レベル名 "{0}" が見つかりません。
 data.olap.cursorPositionError=カーソルでは目的の位置にナビゲートできません。
 data.olap.cursorSeekError=カーソルでは参照の位置にナビゲートできません。
 data.olap.CannotGetMeasureValue=計測 "{0}" の値を取得できません。
+data.olap.CannotFindLevel=Cannot find "{0}" level definition under hierarchy "{1}"in dimension "{2}".

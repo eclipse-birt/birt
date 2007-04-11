@@ -312,3 +312,4 @@ data.olap.levelNameNotFound=Der Ebenenname "{0}" wurde nicht gefunden.
 data.olap.cursorPositionError=Der Cursor kann nicht zur Zielposition navigieren.
 data.olap.cursorSeekError=Der Cursor kann nicht zur Wunschposition navigieren.
 data.olap.CannotGetMeasureValue=Wert der Einheit "{0}" kann nicht abgerufen werden.
+data.olap.CannotFindLevel=Cannot find "{0}" level definition under hierarchy "{1}"in dimension "{2}".
