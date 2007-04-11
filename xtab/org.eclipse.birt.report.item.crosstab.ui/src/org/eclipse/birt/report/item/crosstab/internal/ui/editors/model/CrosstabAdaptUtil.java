@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
@@ -157,6 +158,7 @@ public class CrosstabAdaptUtil
 		}
 		return null;
 	}
+	
 	public static DimensionHandle getDeDimensionHandle(LevelHandle levelHandle)
 	{
 		DesignElementHandle parent = levelHandle;
@@ -165,6 +167,20 @@ public class CrosstabAdaptUtil
 			if ( parent instanceof DimensionHandle )
 			{
 				return (DimensionHandle) parent;
+			}
+			parent = parent.getContainer( );
+		}
+		return null;
+	}
+	
+	public static CubeHandle getCubeHandle(DimensionHandle levelHandle)
+	{
+		DesignElementHandle parent = levelHandle;
+		while ( parent != null )
+		{
+			if ( parent instanceof CubeHandle )
+			{
+				return (CubeHandle) parent;
 			}
 			parent = parent.getContainer( );
 		}

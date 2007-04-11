@@ -116,6 +116,10 @@ public class CreateDimensionViewCommand extends AbstractCrosstabCommand
 
 		try
 		{
+			if ( reportHandle.getCube( ) == null )
+			{
+				reportHandle.setCube( CrosstabAdaptUtil.getCubeHandle( getDimensionHandle( ) ) );
+			}
 			DimensionViewHandle viewHandle = reportHandle.insertDimension( getDimensionHandle( ),
 					getType( ),
 					0 );
