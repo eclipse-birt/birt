@@ -19,103 +19,120 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 public class TextItem extends ReportItem implements ITextItem
 {
 
-	public TextItem( TextItemHandle text )
-	{
-		super( text );
-	}
+    public TextItem( TextItemHandle text )
+    {
+        super( text );
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITextItem#getContent()
-	 */
+    public TextItem(
+            org.eclipse.birt.report.model.api.simpleapi.ITextItem textImpl )
+    {
+        super( null );
+        designElementImpl = textImpl;
+    }
 
-	public String getContent( )
-	{
-		return ( ( TextItemHandle ) handle ).getContent( );
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.engine.api.script.element.ITextItem#getContent()
+     */
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITextItem#getDisplayContent()
-	 */
+    public String getContent()
+    {
+        return ( (org.eclipse.birt.report.model.api.simpleapi.ITextItem) designElementImpl )
+                .getContent();
+    }
 
-	public String getDisplayContent( )
-	{
-		return ( ( TextItemHandle ) handle ).getDisplayContent( );
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.engine.api.script.element.ITextItem#getDisplayContent()
+     */
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITextItem#setContent(java.lang.String)
-	 */
+    public String getDisplayContent()
+    {
+        return ( (org.eclipse.birt.report.model.api.simpleapi.ITextItem) designElementImpl )
+                .getDisplayContent();
+    }
 
-	public void setContent( String value ) throws ScriptException
-	{
-		try
-		{
-			( ( TextItemHandle ) handle ).setContent( value );
-		} catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.engine.api.script.element.ITextItem#setContent(java.lang.String)
+     */
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITextItem#getContentType()
-	 */
+    public void setContent( String value ) throws ScriptException
+    {
+        try
+        {
+            ( (org.eclipse.birt.report.model.api.simpleapi.ITextItem) designElementImpl )
+                    .setContent( value );
+        }
+        catch( SemanticException e )
+        {
+            throw new ScriptException( e.getLocalizedMessage() );
+        }
+    }
 
-	public String getContentType( )
-	{
-		return ( ( TextItemHandle ) handle ).getContentType( );
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.engine.api.script.element.ITextItem#getContentType()
+     */
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITextItem#setContentType(java.lang.String)
-	 */
+    public String getContentType()
+    {
+        return ( (org.eclipse.birt.report.model.api.simpleapi.ITextItem) designElementImpl )
+                .getContentType();
+    }
 
-	public void setContentType( String contentType ) throws ScriptException
-	{
-		try
-		{
-			( ( TextItemHandle ) handle ).setContentType( contentType );
-		} catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.engine.api.script.element.ITextItem#setContentType(java.lang.String)
+     */
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITextItem#getContentKey()
-	 */
+    public void setContentType( String contentType ) throws ScriptException
+    {
+        try
+        {
+            ( (org.eclipse.birt.report.model.api.simpleapi.ITextItem) designElementImpl )
+                    .setContentType( contentType );
+        }
+        catch( SemanticException e )
+        {
+            throw new ScriptException( e.getLocalizedMessage() );
+        }
+    }
 
-	public String getContentKey( )
-	{
-		return ( ( TextItemHandle ) handle ).getContentKey( );
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.engine.api.script.element.ITextItem#getContentKey()
+     */
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITextItem#setContentKey(java.lang.String)
-	 */
+    public String getContentKey()
+    {
+        return ( (org.eclipse.birt.report.model.api.simpleapi.ITextItem) designElementImpl )
+                .getContentKey();
+    }
 
-	public void setContentKey( String resourceKey ) throws ScriptException
-	{
-		try
-		{
-			( ( TextItemHandle ) handle ).setContentKey( resourceKey );
-		} catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.engine.api.script.element.ITextItem#setContentKey(java.lang.String)
+     */
+
+    public void setContentKey( String resourceKey ) throws ScriptException
+    {
+        try
+        {
+            ( (org.eclipse.birt.report.model.api.simpleapi.ITextItem) designElementImpl )
+                    .setContentKey( resourceKey );
+        }
+        catch( SemanticException e )
+        {
+            throw new ScriptException( e.getLocalizedMessage() );
+        }
+    }
 }

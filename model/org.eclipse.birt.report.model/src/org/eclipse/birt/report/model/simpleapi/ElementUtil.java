@@ -11,15 +11,20 @@
 
 package org.eclipse.birt.report.model.simpleapi;
 
+import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
+import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.RowHandle;
+import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
@@ -56,14 +61,29 @@ public class ElementUtil
 		if ( element instanceof ListHandle )
 			return new List( (ListHandle) element );
 
+		if ( element instanceof ListGroupHandle )
+			return new ListGroup( (ListGroupHandle) element );
+
 		if ( element instanceof TableHandle )
 			return new Table( (TableHandle) element );
+
+		if ( element instanceof TableGroupHandle )
+			return new TableGroup( (TableGroupHandle) element );
 
 		if ( element instanceof TextDataHandle )
 			return new DynamicText( (TextDataHandle) element );
 
 		if ( element instanceof TextItemHandle )
 			return new TextItem( (TextItemHandle) element );
+
+		if ( element instanceof CellHandle )
+			return new Cell( (CellHandle) element );
+
+		if ( element instanceof RowHandle )
+			return new Row( (RowHandle) element );
+
+		if ( element instanceof ColumnHandle )
+			return new Column( (ColumnHandle) element );
 
 		if ( element instanceof ExtendedItemHandle )
 		{

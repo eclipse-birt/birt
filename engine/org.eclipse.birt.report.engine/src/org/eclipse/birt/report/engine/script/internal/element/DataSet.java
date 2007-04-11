@@ -20,100 +20,87 @@ import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IDataSet;
 import org.eclipse.birt.report.engine.api.script.element.IDataSource;
 import org.eclipse.birt.report.engine.api.script.element.IResultSetColumn;
-import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.MemberHandle;
-import org.eclipse.birt.report.model.api.OdaDataSetHandle;
-import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
 
 public class DataSet implements IDataSet
 {
+    private org.eclipse.birt.report.model.api.simpleapi.IDataSet dataSetImpl;
 
-	private DataSetHandle dataSet;
+    public DataSet( DataSetHandle dataSet )
+    {
+        dataSetImpl = SimpleElementFactory.getInstance()
+                .createDataSet( dataSet );
+    }
+    
+    public DataSet( org.eclipse.birt.report.model.api.simpleapi.IDataSet dataSet )
+    {
+        dataSetImpl = dataSet;
+    }
 
-	public DataSet( DataSetHandle dataSet )
-	{
-		this.dataSet = dataSet;
-	}
+    public IDataSource getDataSource()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	public IDataSource getDataSource( )
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public String getQueryText()
+    {
+        return dataSetImpl.getQueryText();
+    }
 
-	public String getQueryText( )
-	{
-		if ( dataSet instanceof OdaDataSetHandle )
-			return ( (OdaDataSetHandle) dataSet ).getQueryText( );
-		return null;
-	}
+    public void setQueryText( String query ) throws ScriptException
+    {
+        try
+        {
+            dataSetImpl.setQueryText( query );
+        }
+        catch( SemanticException e )
+        {
+            throw new ScriptException( e.getLocalizedMessage() );
+        }
 
-	public void setQueryText( String query ) throws ScriptException
-	{
-		if ( dataSet instanceof OdaDataSetHandle )
-		{
-			try
-			{
-				( (OdaDataSetHandle) dataSet ).setQueryText( query );
-			}
-			catch ( SemanticException e )
-			{
-				throw new ScriptException( e.getLocalizedMessage( ) );
-			}
-		}
-	}
+    }
 
-	public String getPrivateDriverProperty( String name )
-	{
-		if ( dataSet instanceof OdaDataSetHandle )
-			return ( (OdaDataSetHandle) dataSet )
-					.getPrivateDriverProperty( name );
-		return null;
-	}
+    public String getPrivateDriverProperty( String name )
+    {
+        return dataSetImpl.getPrivateDriverProperty( name );
+    }
 
-	public void setPrivateDriverProperty( String name, String value )
-			throws ScriptException
-	{
-		if ( dataSet instanceof OdaDataSetHandle )
-		{
-			try
-			{
-				( (OdaDataSetHandle) dataSet ).setPrivateDriverProperty( name,
-						value );
-			}
-			catch ( SemanticException e )
-			{
-				throw new ScriptException( e.getLocalizedMessage( ) );
-			}
-		}
-	}
+    public void setPrivateDriverProperty( String name, String value )
+            throws ScriptException
+    {
+        try
+        {
+            dataSetImpl.setPrivateDriverProperty( name, value );
+        }
+        catch( SemanticException e )
+        {
+            throw new ScriptException( e.getLocalizedMessage() );
+        }
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IDataSet#getResultSetColumn()
-	 */
-	
-	public List getCachedResultSetColumns( )
-	{
-		List values = new ArrayList( );
-		CachedMetaDataHandle metaDataHandle = dataSet.getCachedMetaDataHandle( );
-		if ( metaDataHandle == null )
-			return values;
-		MemberHandle memberHandle = metaDataHandle.getResultSet( );
-		if ( memberHandle == null )
-			return values;
-		Iterator iterator = memberHandle.iterator( );
-		while ( iterator.hasNext( ) )
-		{
-			ResultSetColumnHandle columnHandle = (ResultSetColumnHandle) iterator
-					.next( );
-			IResultSetColumn column = new ResultSetColumnImpl( columnHandle );
-			values.add( column );
-		}
-		return Collections.unmodifiableList( values );
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.engine.api.script.element.IDataSet#getResultSetColumn()
+     */
+
+    public List getCachedResultSetColumns()
+    {
+        List values = dataSetImpl.getCachedResultSetColumns();
+        List rtnValues = new ArrayList();
+
+        Iterator iterator = values.iterator();
+        while( iterator.hasNext() )
+        {
+            IResultSetColumn column = new ResultSetColumnImpl(
+                    (org.eclipse.birt.report.model.api.simpleapi.IResultSetColumn) iterator
+                            .next() );
+            rtnValues.add( column );
+        }
+        return Collections.unmodifiableList( rtnValues );
+    }
 
 }

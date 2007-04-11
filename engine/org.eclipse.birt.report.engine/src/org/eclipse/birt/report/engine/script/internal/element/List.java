@@ -21,5 +21,11 @@ public class List extends Listing implements IList
 	{
 		super( list );
 	}
+    
+    public List( org.eclipse.birt.report.model.api.simpleapi.IList listImpl )
+    {
+        super( null );
+        designElementImpl = listImpl;
+    }
 
 }

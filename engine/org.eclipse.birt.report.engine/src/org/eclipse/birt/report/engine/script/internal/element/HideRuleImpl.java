@@ -15,6 +15,7 @@ import org.eclipse.birt.report.engine.api.script.element.IHideRule;
 import org.eclipse.birt.report.model.api.HideRuleHandle;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
+import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
 
 /**
  * Implements of Hide Rule.
@@ -23,89 +24,70 @@ import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 public class HideRuleImpl implements IHideRule
 {
 
-	private HideRule rule;
+    private org.eclipse.birt.report.model.api.simpleapi.IHideRule hideRuleImpl;
 
-	/**
-	 * Constructor
-	 * 
-	 * @param ruleHandle
-	 */
-	
-	public HideRuleImpl( )
-	{
-		rule = createHideRule( );
-	}
-	
-	/**
-	 * Constructor
-	 * 
-	 * @param ruleHandle
-	 */
-	
-	public HideRuleImpl( HideRuleHandle ruleHandle )
-	{
+    /**
+     * Constructor
+     * 
+     * @param ruleHandle
+     */
 
-		if ( ruleHandle == null )
-		{
-			rule = createHideRule( );
-		}
-		else
-		{
-			rule = (HideRule) ruleHandle.getStructure( );
-		}
-	}
+    public HideRuleImpl()
+    {
+        hideRuleImpl = SimpleElementFactory.getInstance().createHideRule();
+    }
 
-	/**
-	 * Constructor
-	 * 
-	 * @param rule
-	 */
-	public HideRuleImpl( HideRule rule )
-	{
-		if ( rule == null )
-		{
-			rule = createHideRule( );
-		}
-		else
-		{
-			this.rule = rule;
-		}
-	}
+    /**
+     * Constructor
+     * 
+     * @param ruleHandle
+     */
 
-	/**
-	 * Create instance of <code>HideRule</code>
-	 * 
-	 * @return instance
-	 */
-	private HideRule createHideRule( )
-	{
-		HideRule r = new HideRule( );
-		return r;
-	}
+    public HideRuleImpl( HideRuleHandle ruleHandle )
+    {
+        hideRuleImpl = SimpleElementFactory.getInstance().createHideRule(
+                ruleHandle );
+    }
 
-	public String getFormat( )
-	{
-		return rule.getFormat( );
-	}
+    /**
+     * Constructor
+     * 
+     * @param rule
+     */
+    public HideRuleImpl( HideRule rule )
+    {
+        hideRuleImpl = SimpleElementFactory.getInstance().createHideRule( rule );
+    }
 
-	public String getValueExpr( )
-	{
-		return rule.getExpression( );
-	}
+    public HideRuleImpl(
+            org.eclipse.birt.report.model.api.simpleapi.IHideRule hideRule )
+    {
+        hideRuleImpl = hideRule;
+    }
 
-	public void setFormat( String format )
-	{
-		rule.setFormat( format );
-	}
+    public String getFormat()
+    {
+        return hideRuleImpl.getFormat();
+    }
 
-	public void setValueExpr( String valueExpr )
-	{
-		rule.setExpression( valueExpr );
-	}
+    public String getValueExpr()
+    {
+        return hideRuleImpl.getValueExpr();
+    }
 
-	public IStructure getStructure( )
-	{
-		return rule;
-	}
+    public void setFormat( String format )
+    {
+        hideRuleImpl.setFormat( format );
+    }
+
+    public void setValueExpr( String valueExpr )
+    {
+        hideRuleImpl.setValueExpr( valueExpr );
+    }
+
+    public IStructure getStructure()
+    {
+        return hideRuleImpl.getStructure();
+    }
 
 }

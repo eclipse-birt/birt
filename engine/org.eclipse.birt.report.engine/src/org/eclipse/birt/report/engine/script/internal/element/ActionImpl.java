@@ -18,166 +18,143 @@ import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.elements.structures.Action;
+import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
 
 public class ActionImpl implements IAction
 {
 
-	private ActionHandle action;
+    private org.eclipse.birt.report.model.api.simpleapi.IAction actionImpl;
 
-	private ReportItemHandle handle;
+    private void init( ActionHandle action, ReportItemHandle handle )
+    {
+        actionImpl = SimpleElementFactory.getInstance().createAction( action,
+                handle );
+    }
 
-	private void init( ActionHandle action, ReportItemHandle handle )
-	{
-		this.action = action;
-		this.handle = handle;
-	}
+    public ActionImpl( ActionHandle action, LabelHandle handle )
+    {
+        init( action, handle );
+    }
 
-	public ActionImpl( ActionHandle action, LabelHandle handle )
-	{
-		init( action, handle );
-	}
+    public ActionImpl( ActionHandle action, ImageHandle handle )
+    {
+        init( action, handle );
+    }
 
-	public ActionImpl( ActionHandle action, ImageHandle handle )
-	{
-		init( action, handle );
-	}
+    public ActionImpl( ActionHandle action, DataItemHandle handle )
+    {
+        init( action, handle );
+    }
 
-	public ActionImpl( ActionHandle action, DataItemHandle handle )
-	{
-		init( action, handle );
-	}
+    public ActionImpl(
+            org.eclipse.birt.report.model.api.simpleapi.IAction action )
+    {
+        actionImpl = action;
+    }
 
-	public String getURI( )
-	{
-		return action.getURI( );
-	}
+    public String getURI()
+    {
+        return actionImpl.getURI();
+    }
 
-	public String getTargetWindow( )
-	{
-		return action.getTargetWindow( );
-	}
+    public String getTargetWindow()
+    {
+        return actionImpl.getTargetWindow();
+    }
 
-	public String getLinkType( )
-	{
-		return action.getLinkType( );
-	}
+    public String getLinkType()
+    {
+        return actionImpl.getLinkType();
+    }
 
-	public void setLinkType( String type ) throws ScriptException
-	{
-		try
-		{
-			checkAction( );
-			action.setLinkType( type );
-		} catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
+    public void setLinkType( String type ) throws ScriptException
+    {
+        try
+        {
+            actionImpl.setLinkType( type );
+        }
+        catch( SemanticException e )
+        {
+            throw new ScriptException( e.getLocalizedMessage() );
+        }
 
-	}
+    }
 
-	public void setFormatType( String type ) throws ScriptException
-	{
-		try
-		{
-			checkAction( );
-			action.setFormatType( type );
-		} catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
+    public void setFormatType( String type ) throws ScriptException
+    {
+        try
+        {
+            actionImpl.setFormatType( type );
+        }
+        catch( SemanticException e )
+        {
+            throw new ScriptException( e.getLocalizedMessage() );
+        }
 
-	}
+    }
 
-	public String getFormatType( )
-	{
-		return action.getFormatType( );
-	}
+    public String getFormatType()
+    {
+        return actionImpl.getFormatType();
+    }
 
-	public void setTargetWindow( String window ) throws ScriptException
-	{
-		checkAction( );
-		try
-		{
-			action.setTargetWindow( window );
-		} catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
+    public void setTargetWindow( String window ) throws ScriptException
+    {
+        try
+        {
+            actionImpl.setTargetWindow( window );
+        }
+        catch( SemanticException e )
+        {
+            throw new ScriptException( e.getLocalizedMessage() );
+        }
 
-	}
+    }
 
-	public void setURI( String uri ) throws ScriptException
-	{
-		checkAction( );
-		try
-		{
-			action.setURI( uri );
-		} catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
-	}
+    public void setURI( String uri ) throws ScriptException
+    {
+        try
+        {
+            actionImpl.setURI( uri );
+        }
+        catch( SemanticException e )
+        {
+            throw new ScriptException( e.getLocalizedMessage() );
+        }
+    }
 
-	public String getReportName( )
-	{
-		return action.getReportName( );
-	}
+    public String getReportName()
+    {
+        return actionImpl.getReportName();
+    }
 
-	public void setReportName( String reportName ) throws ScriptException
-	{
-		checkAction( );
-		try
-		{
-			action.setReportName( reportName );
-		} catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
-	}
+    public void setReportName( String reportName ) throws ScriptException
+    {
+        try
+        {
+            actionImpl.setReportName( reportName );
+        }
+        catch( SemanticException e )
+        {
+            throw new ScriptException( e.getLocalizedMessage() );
+        }
+    }
 
-	public String getTargetBookmark( )
-	{
-		return action.getTargetBookmark( );
-	}
+    public String getTargetBookmark()
+    {
+        return actionImpl.getTargetBookmark();
+    }
 
-	public void setTargetBookmark( String bookmark ) throws ScriptException
-	{
-		checkAction( );
-		try
-		{
-			action.setTargetBookmark( bookmark );
-		} catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
-	}
-
-	private void checkAction( ) throws ScriptException
-	{
-		if ( action != null )
-			return;
-		Action a = new Action( );
-		try
-		{
-			if ( handle instanceof LabelHandle )
-			{
-
-				( ( LabelHandle ) handle ).setAction( a );
-				action = ( ( LabelHandle ) handle ).getActionHandle( );
-			} else if ( handle instanceof ImageHandle )
-			{
-				( ( ImageHandle ) handle ).setAction( a );
-				action = ( ( ImageHandle ) handle ).getActionHandle( );
-			} else if ( handle instanceof DataItemHandle )
-			{
-				( ( DataItemHandle ) handle ).setAction( a );
-				action = ( ( DataItemHandle ) handle ).getActionHandle( );
-			}
-		} catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
-	}
+    public void setTargetBookmark( String bookmark ) throws ScriptException
+    {
+        try
+        {
+            actionImpl.setTargetBookmark( bookmark );
+        }
+        catch( SemanticException e )
+        {
+            throw new ScriptException( e.getLocalizedMessage() );
+        }
+    }
 
 }

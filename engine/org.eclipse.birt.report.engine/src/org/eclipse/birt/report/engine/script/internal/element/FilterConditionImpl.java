@@ -15,114 +15,108 @@ import org.eclipse.birt.report.engine.api.script.element.IFilterCondition;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
+import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
 
 /**
  * Implements of FilterCondition.
- * 
  */
 
 public class FilterConditionImpl implements IFilterCondition
 {
 
-	private FilterCondition condition;
-	
-	/**
-	 * Constructor
-	 * 
-	 * @param condition
-	 */
-	
-	public FilterConditionImpl( )
-	{	
-		condition = createFilterCondition( );
-	}
+    private org.eclipse.birt.report.model.api.simpleapi.IFilterCondition filterConditionImpl;
 
-	/**
-	 * Constructor
-	 * 
-	 * @param condition
-	 */
-	
-	public FilterConditionImpl( FilterCondition condition )
-	{
-		if ( condition == null )
-		{
-			condition = createFilterCondition( );
-		}
-		else
-		{
+    /**
+     * Constructor
+     * 
+     * @param condition
+     */
 
-			this.condition = condition;
-		}
-	}
+    public FilterConditionImpl()
+    {
+        filterConditionImpl = SimpleElementFactory.getInstance()
+                .createFilterCondition();
+    }
 
-	/**
-	 * Constructor
-	 * 
-	 * @param conditionHandle
-	 */
-	
-	public FilterConditionImpl( FilterConditionHandle conditionHandle )
-	{
-		if ( conditionHandle == null )
-		{
-			condition = createFilterCondition( );
-		}
-		else
-		{
-			condition = (FilterCondition) conditionHandle.getStructure( );
-		}
-	}
+    /**
+     * Constructor
+     * 
+     * @param condition
+     */
 
-	private FilterCondition createFilterCondition( )
-	{
-		FilterCondition f = new FilterCondition( );
-		return f;
-	}
+    public FilterConditionImpl( FilterCondition condition )
+    {
+        filterConditionImpl = SimpleElementFactory.getInstance()
+                .createFilterCondition( condition );
+    }
 
-	public String getOperator( )
-	{
-		return condition.getOperator( );
-	}
+    /**
+     * Constructor
+     * 
+     * @param conditionHandle
+     */
 
-	public String getValue1( )
-	{
-		return condition.getValue1( );
-	}
+    public FilterConditionImpl( FilterConditionHandle conditionHandle )
+    {
+        filterConditionImpl = SimpleElementFactory.getInstance()
+                .createFilterCondition( conditionHandle );
+    }
+    
+    /**
+     * Constructor
+     * 
+     * @param columnHandle
+     */
 
-	public String getValue2( )
-	{
-		return condition.getValue2( );
-	}
+    public FilterConditionImpl(
+            org.eclipse.birt.report.model.api.simpleapi.IFilterCondition condition )
+    {
+        filterConditionImpl = condition;
+    }
 
-	public void setOperator( String operator )
-	{
-		condition.setOperator( operator );
-	}
+    public String getOperator()
+    {
+        return filterConditionImpl.getOperator();
+    }
 
-	public void setValue1( String value1 )
-	{
-		condition.setValue1( value1 );
-	}
+    public String getValue1()
+    {
+        return filterConditionImpl.getValue1();
+    }
 
-	public void setValue2( String value2 )
-	{
-		condition.setValue2( value2 );
-	}
+    public String getValue2()
+    {
+        return filterConditionImpl.getValue2();
+    }
 
-	public IStructure getStructure( )
-	{
-		return condition;
-	}
+    public void setOperator( String operator )
+    {
+        filterConditionImpl.setOperator( operator );
+    }
 
-	public String getExpr( )
-	{
-		return condition.getExpr( );
-	}
+    public void setValue1( String value1 )
+    {
+        filterConditionImpl.setValue1( value1 );
+    }
 
-	public void setExpr( String expr )
-	{
-		condition.setExpr( expr );
-	}
+    public void setValue2( String value2 )
+    {
+        filterConditionImpl.setValue2( value2 );
+    }
+
+    public IStructure getStructure()
+    {
+        return filterConditionImpl.getStructure();
+    }
+
+    public String getExpr()
+    {
+        return filterConditionImpl.getExpr();
+    }
+
+    public void setExpr( String expr )
+    {
+        filterConditionImpl.setExpr( expr );
+    }
 
 }

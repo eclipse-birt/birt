@@ -17,8 +17,10 @@ import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.PropertyNameException;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.simpleapi.IAction;
+import org.eclipse.birt.report.model.elements.interfaces.ILabelModel;
 
 public class ActionImpl implements IAction
 {
@@ -27,25 +29,10 @@ public class ActionImpl implements IAction
 
 	private ReportItemHandle handle;
 
-	private void init( ActionHandle action, ReportItemHandle handle )
+	public ActionImpl( ActionHandle action, ReportItemHandle handle )
 	{
 		this.action = action;
 		this.handle = handle;
-	}
-
-	public ActionImpl( ActionHandle action, LabelHandle handle )
-	{
-		init( action, handle );
-	}
-
-	public ActionImpl( ActionHandle action, ImageHandle handle )
-	{
-		init( action, handle );
-	}
-
-	public ActionImpl( ActionHandle action, DataItemHandle handle )
-	{
-		init( action, handle );
 	}
 
 	public String getURI( )
@@ -130,7 +117,6 @@ public class ActionImpl implements IAction
 
 		if ( handle instanceof LabelHandle )
 		{
-
 			( (LabelHandle) handle ).setAction( a );
 			action = ( (LabelHandle) handle ).getActionHandle( );
 		}
@@ -143,6 +129,11 @@ public class ActionImpl implements IAction
 		{
 			( (DataItemHandle) handle ).setAction( a );
 			action = ( (DataItemHandle) handle ).getActionHandle( );
+		}
+		else
+		{
+			throw new PropertyNameException( handle == null ? null : handle
+					.getElement( ), ILabelModel.ACTION_PROP );
 		}
 	}
 

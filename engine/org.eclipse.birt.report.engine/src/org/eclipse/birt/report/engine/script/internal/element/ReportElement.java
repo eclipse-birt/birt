@@ -13,155 +13,176 @@ package org.eclipse.birt.report.engine.script.internal.element;
 
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IReportElement;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 public class ReportElement extends DesignElement implements IReportElement
 {
+    public ReportElement( ReportElementHandle handle )
+    {
+        super( handle );
+    }
 
-	private ReportElementHandle reportElementHandle;
+    public ReportElement(
+            org.eclipse.birt.report.model.api.simpleapi.IReportElement reportElementImpl )
+    {
+        super( null );
+        designElementImpl = reportElementImpl;
+    }
 
-	public ReportElement( ReportElementHandle handle )
-	{
-		super( handle );
-		this.reportElementHandle = handle;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setCustomXml(java.lang.String)
+     */
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setCustomXml(java.lang.String)
-	 */
+    public void setCustomXml( String customXml ) throws ScriptException
+    {
+        try
+        {
+            ( (org.eclipse.birt.report.model.api.simpleapi.IReportElement) designElementImpl )
+                    .setCustomXml( customXml );
+        }
+        catch( SemanticException e )
+        {
+            throw new ScriptException( e.getLocalizedMessage() );
+        }
+    }
 
-	public void setCustomXml( String customXml ) throws ScriptException
-	{
-		try
-		{
-			reportElementHandle.setCustomXml( customXml );
-		} catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#getName()
-	 */
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#getName()
+     */
 
-	public String getName() {
-		return reportElementHandle.getName();
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setName(java.lang.String)
-	 */
+    public String getName()
+    {
+        return ( (org.eclipse.birt.report.model.api.simpleapi.IReportElement) designElementImpl )
+                .getName();
+    }
 
-	public void setName(String name) throws ScriptException {
-		try {
-			reportElementHandle.setName(name);
-		} catch (NameException e) {
-			throw new ScriptException(e.getLocalizedMessage());
-		}
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setName(java.lang.String)
+     */
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#getCustomXml()
-	 */
+    public void setName( String name ) throws ScriptException
+    {
+        try
+        {
+            ( (org.eclipse.birt.report.model.api.simpleapi.IReportElement) designElementImpl )
+                    .setName( name );
+        }
+        catch( SemanticException e )
+        {
+            throw new ScriptException( e.getLocalizedMessage() );
+        }
+    }
 
-	public String getCustomXml( )
-	{
-		return reportElementHandle.getCustomXml( );
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#getCustomXml()
+     */
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setComments(java.lang.String)
-	 */
+    public String getCustomXml()
+    {
+        return ( (org.eclipse.birt.report.model.api.simpleapi.IReportElement) designElementImpl )
+                .getCustomXml();
+    }
 
-	public void setComments( String theComments ) throws ScriptException
-	{
-		try
-		{
-			reportElementHandle.setComments( theComments );
-		} catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setComments(java.lang.String)
+     */
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#getComments()
-	 */
+    public void setComments( String theComments ) throws ScriptException
+    {
+        try
+        {
+            ( (org.eclipse.birt.report.model.api.simpleapi.IReportElement) designElementImpl )
+                    .setComments( theComments );
+        }
+        catch( SemanticException e )
+        {
+            throw new ScriptException( e.getLocalizedMessage() );
+        }
+    }
 
-	public String getComments( )
-	{
-		return reportElementHandle.getComments( );
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#getComments()
+     */
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setDisplayNameKey(java.lang.String)
-	 */
+    public String getComments()
+    {
+        return ( (org.eclipse.birt.report.model.api.simpleapi.IReportElement) designElementImpl )
+                .getComments();
+    }
 
-	public void setDisplayNameKey( String displayNameKey )
-			throws ScriptException
-	{
-		try
-		{
-			reportElementHandle.setDisplayNameKey( displayNameKey );
-		} catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setDisplayNameKey(java.lang.String)
+     */
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#getDisplayNameKey()
-	 */
+    public void setDisplayNameKey( String displayNameKey )
+            throws ScriptException
+    {
+        try
+        {
+            ( (org.eclipse.birt.report.model.api.simpleapi.IReportElement) designElementImpl )
+                    .setDisplayNameKey( displayNameKey );
+        }
+        catch( SemanticException e )
+        {
+            throw new ScriptException( e.getLocalizedMessage() );
+        }
+    }
 
-	public String getDisplayNameKey( )
-	{
-		return reportElementHandle.getDisplayNameKey( );
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#getDisplayNameKey()
+     */
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setDisplayName(java.lang.String)
-	 */
+    public String getDisplayNameKey()
+    {
+        return ( (org.eclipse.birt.report.model.api.simpleapi.IReportElement) designElementImpl )
+                .getDisplayNameKey();
+    }
 
-	public void setDisplayName( String displayName ) throws ScriptException
-	{
-		try
-		{
-			reportElementHandle.setDisplayName( displayName );
-		} catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setDisplayName(java.lang.String)
+     */
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#getDisplayName()
-	 */
+    public void setDisplayName( String displayName ) throws ScriptException
+    {
+        try
+        {
+            ( (org.eclipse.birt.report.model.api.simpleapi.IReportElement) designElementImpl )
+                    .setDisplayName( displayName );
+        }
+        catch( SemanticException e )
+        {
+            throw new ScriptException( e.getLocalizedMessage() );
+        }
+    }
 
-	public String getDisplayName( )
-	{
-		return reportElementHandle.getDisplayName( );
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#getDisplayName()
+     */
+
+    public String getDisplayName()
+    {
+        return ( (org.eclipse.birt.report.model.api.simpleapi.IReportElement) designElementImpl )
+                .getDisplayName();
+    }
 }

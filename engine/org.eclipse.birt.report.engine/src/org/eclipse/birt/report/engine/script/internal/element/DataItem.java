@@ -20,71 +20,84 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 public class DataItem extends ReportItem implements IDataItem
 {
 
-	public DataItem( DataItemHandle data )
-	{
-		super( data );
-	}
+    public DataItem( DataItemHandle data )
+    {
+        super( data );
+    }
+    
+    public DataItem( org.eclipse.birt.report.model.api.simpleapi.IDataItem dataItem )
+    {
+        super( null );
+        designElementImpl = dataItem;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IDataItem#getValueExpr()
-	 */
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.engine.api.script.element.IDataItem#getValueExpr()
+     */
 
-	public String getHelpText( )
-	{
-		return ( ( DataItemHandle ) handle ).getHelpText( );
-	}
+    public String getHelpText()
+    {
+        return ( (org.eclipse.birt.report.model.api.simpleapi.IDataItem) designElementImpl )
+                .getHelpText();
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IDataItem#setHelpText(java.lang.String)
-	 */
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.engine.api.script.element.IDataItem#setHelpText(java.lang.String)
+     */
 
-	public void setHelpText( String value ) throws ScriptException
-	{
-		try
-		{
-			( ( DataItemHandle ) handle ).setHelpText( value );
-		} catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
-	}
+    public void setHelpText( String value ) throws ScriptException
+    {
+        try
+        {
+            ( (org.eclipse.birt.report.model.api.simpleapi.IDataItem) designElementImpl )
+                    .setHelpText( value );
+        }
+        catch( SemanticException e )
+        {
+            throw new ScriptException( e.getLocalizedMessage() );
+        }
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IDataItem#getHelpTextKey()
-	 */
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.engine.api.script.element.IDataItem#getHelpTextKey()
+     */
 
-	public String getHelpTextKey( )
-	{
-		return ( ( DataItemHandle ) handle ).getHelpTextKey( );
-	}
+    public String getHelpTextKey()
+    {
+        return ( (org.eclipse.birt.report.model.api.simpleapi.IDataItem) designElementImpl )
+                .getHelpTextKey();
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IDataItem#setHelpTextKey(java.lang.String)
-	 */
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.engine.api.script.element.IDataItem#setHelpTextKey(java.lang.String)
+     */
 
-	public void setHelpTextKey( String value ) throws ScriptException
-	{
-		try
-		{
-			( ( DataItemHandle ) handle ).setHelpTextKey( value );
-		} catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
-	}
+    public void setHelpTextKey( String value ) throws ScriptException
+    {
+        try
+        {
+            ( (org.eclipse.birt.report.model.api.simpleapi.IDataItem) designElementImpl )
+                    .setHelpTextKey( value );
+        }
+        catch( SemanticException e )
+        {
+            throw new ScriptException( e.getLocalizedMessage() );
+        }
+    }
 
-	public IAction getAction( )
-	{
-		return new ActionImpl(
-				( ( DataItemHandle ) handle ).getActionHandle( ),
-				( DataItemHandle ) handle );
-	}
+    public IAction getAction()
+    {
+
+        return new ActionImpl(
+                ( (org.eclipse.birt.report.model.api.simpleapi.IDataItem) designElementImpl )
+                        .getAction() );
+    }
 }

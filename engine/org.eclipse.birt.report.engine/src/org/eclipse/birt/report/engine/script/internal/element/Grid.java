@@ -17,17 +17,26 @@ import org.eclipse.birt.report.model.api.GridHandle;
 public class Grid extends ReportItem implements IGrid
 {
 
-	public Grid( GridHandle grid )
-	{
-		super( grid );
-	}
+    public Grid( GridHandle grid )
+    {
+        super( grid );
+    }
+    
+    public Grid( org.eclipse.birt.report.model.api.simpleapi.IGrid gridImpl )
+    {
+        super( null );
+        designElementImpl = gridImpl;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api.script.element.IGrid#getColumnCount()
-	 */
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.engine.api.script.element.IGrid#getColumnCount()
+     */
 
-	public int getColumnCount( )
-	{
-		return ( ( GridHandle ) handle ).getColumnCount( );
-	}
+    public int getColumnCount()
+    {
+        return ( (org.eclipse.birt.report.model.api.simpleapi.IGrid) designElementImpl )
+                .getColumnCount();
+    }
 }

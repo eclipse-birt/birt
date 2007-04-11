@@ -14,127 +14,139 @@ package org.eclipse.birt.report.engine.script.internal.element;
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IColumn;
 import org.eclipse.birt.report.engine.api.script.element.ITable;
-import org.eclipse.birt.report.model.api.ColumnHandle;
-import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
 
 public class Table extends Listing implements ITable
 {
 
-	public Table( TableHandle table )
-	{
-		super( table );
-	}
+    public Table( TableHandle table )
+    {
+        super( table );
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#getColumnCount()
-	 */
+    public Table( org.eclipse.birt.report.model.api.simpleapi.ITable tabelImpl )
+    {
+        super( null );
+        designElementImpl = tabelImpl;
+    }
 
-	public int getColumnCount( )
-	{
-		return ( ( TableHandle ) handle ).getColumnCount( );
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.engine.api.script.element.ITable#getColumnCount()
+     */
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#repeatHeader()
-	 */
+    public int getColumnCount()
+    {
+        return ( (org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl )
+                .getColumnCount();
+    }
 
-	public boolean repeatHeader( )
-	{
-		return ( ( TableHandle ) handle ).repeatHeader( );
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.engine.api.script.element.ITable#repeatHeader()
+     */
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#setRepeatHeader(boolean)
-	 */
+    public boolean repeatHeader()
+    {
+        return ( (org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl )
+                .repeatHeader();
+    }
 
-	public void setRepeatHeader( boolean value ) throws ScriptException
-	{
-		try
-		{
-			( ( TableHandle ) handle ).setRepeatHeader( value );
-		} catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.engine.api.script.element.ITable#setRepeatHeader(boolean)
+     */
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#getCaption()
-	 */
+    public void setRepeatHeader( boolean value ) throws ScriptException
+    {
+        try
+        {
+            ( (org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl )
+                    .setRepeatHeader( value );
+        }
+        catch( SemanticException e )
+        {
+            throw new ScriptException( e.getLocalizedMessage() );
+        }
+    }
 
-	public String getCaption( )
-	{
-		return ( ( TableHandle ) handle ).getCaption( );
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.engine.api.script.element.ITable#getCaption()
+     */
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#setCaption(java.lang.String)
-	 */
+    public String getCaption()
+    {
+        return ( (org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl )
+                .getCaption();
+    }
 
-	public void setCaption( String caption ) throws ScriptException
-	{
-		try
-		{
-			( ( TableHandle ) handle ).setCaption( caption );
-		} catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.engine.api.script.element.ITable#setCaption(java.lang.String)
+     */
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#getCaptionKey()
-	 */
+    public void setCaption( String caption ) throws ScriptException
+    {
+        try
+        {
+            ( (org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl )
+                    .setCaption( caption );
+        }
+        catch( SemanticException e )
+        {
+            throw new ScriptException( e.getLocalizedMessage() );
+        }
+    }
 
-	public String getCaptionKey( )
-	{
-		return ( ( TableHandle ) handle ).getCaptionKey( );
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.engine.api.script.element.ITable#getCaptionKey()
+     */
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#setCaptionKey(java.lang.String)
-	 */
+    public String getCaptionKey()
+    {
+        return ( (org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl )
+                .getCaptionKey();
+    }
 
-	public void setCaptionKey( String captionKey ) throws ScriptException
-	{
-		try
-		{
-			( ( TableHandle ) handle ).setCaptionKey( captionKey );
-		} catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#getColumn(int)
-	 */
-	
-	public IColumn getColumn( int index )
-	{
-		SlotHandle slotHandle = handle.getSlot( ITableItemModel.COLUMN_SLOT );
-		ColumnHandle columnHandle = (ColumnHandle)slotHandle.get( index );
-		if( columnHandle == null )
-			return null;
-		IColumn column = new Column( columnHandle ) ;
-		return column;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.engine.api.script.element.ITable#setCaptionKey(java.lang.String)
+     */
+
+    public void setCaptionKey( String captionKey ) throws ScriptException
+    {
+        try
+        {
+            ( (org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl )
+                    .setCaptionKey( captionKey );
+        }
+        catch( SemanticException e )
+        {
+            throw new ScriptException( e.getLocalizedMessage() );
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.birt.report.engine.api.script.element.ITable#getColumn(int)
+     */
+
+    public IColumn getColumn( int index )
+    {
+        return new Column(
+                ( (org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl )
+                        .getColumn( index ) );
+    }
 
 }

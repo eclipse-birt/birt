@@ -13,14 +13,14 @@ package org.eclipse.birt.report.model.api.simpleapi;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
-
 /**
  * Script wrapper of ColumnHandle.
- *
+ * 
  */
 
-public interface IColumn
+public interface IColumn extends IDesignElement
 {
+
 	/**
 	 * Removes all hide rules that matches formatType.
 	 * 

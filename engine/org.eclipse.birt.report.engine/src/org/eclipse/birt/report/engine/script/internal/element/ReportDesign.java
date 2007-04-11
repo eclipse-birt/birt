@@ -14,7 +14,6 @@ import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IDataItem;
 import org.eclipse.birt.report.engine.api.script.element.IDataSet;
 import org.eclipse.birt.report.engine.api.script.element.IDataSource;
-import org.eclipse.birt.report.engine.api.script.element.IDesignElement;
 import org.eclipse.birt.report.engine.api.script.element.IDynamicText;
 import org.eclipse.birt.report.engine.api.script.element.IGrid;
 import org.eclipse.birt.report.engine.api.script.element.IImage;
@@ -24,142 +23,129 @@ import org.eclipse.birt.report.engine.api.script.element.IReportDesign;
 import org.eclipse.birt.report.engine.api.script.element.IReportElement;
 import org.eclipse.birt.report.engine.api.script.element.ITable;
 import org.eclipse.birt.report.engine.api.script.element.ITextItem;
-import org.eclipse.birt.report.engine.script.internal.ElementUtil;
-import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DataSourceHandle;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 public class ReportDesign extends DesignElement implements IReportDesign
 {
+    public ReportDesign( ReportDesignHandle report )
+    {
+        super( report );
+    }
 
-	private ReportDesignHandle report;
+    public IDataSet getDataSet( String name )
+    {
+        return new DataSet(
+                ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
+                        .getDataSet( name ) );
+    }
 
-	public ReportDesign( ReportDesignHandle report )
-	{
-		super( report );
-		this.report = report;
-	}
+    public IDataSource getDataSource( String name )
+    {
+        return new DataSource(
+                ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
+                        .getDataSource( name ) );
+    }
 
-	public IDataSet getDataSet( String name )
-	{
-		DataSetHandle dataSet = report.findDataSet( name );
-		if ( dataSet == null )
-			return null;
-		return new DataSet( dataSet );
-	}
+    public IReportElement getReportElement( String name )
+    {
+        return new ReportElement(
+                ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
+                        .getReportElement( name ) );
+    }
 
-	public IDataSource getDataSource( String name )
-	{
-		DataSourceHandle dataSource = report.findDataSource( name );
-		if ( dataSource == null )
-			return null;
-		return new DataSource( dataSource );
-	}
+    public IDataItem getDataItem( String name )
+    {
+        return new DataItem(
+                ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
+                        .getDataItem( name ) );
+    }
 
-	public IReportElement getReportElement( String name )
-	{
-		DesignElementHandle element = report.findElement( name );
-		IDesignElement elementDesign = ElementUtil.getElement( element );
-		return ( elementDesign instanceof IReportElement ? ( IReportElement ) elementDesign
-				: null );
-	}
+    public IGrid getGrid( String name )
+    {
+        return new Grid(
+                ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
+                        .getGrid( name ) );
+    }
 
-	public IDataItem getDataItem( String name )
-	{
-		IReportElement element = getReportElement( name );
-		if ( element != null && element instanceof IDataItem )
-			return ( IDataItem ) element;
-		return null;
-	}
+    public IImage getImage( String name )
+    {
+        return new Image(
+                ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
+                        .getImage( name ) );
+    }
 
-	public IGrid getGrid( String name )
-	{
-		IReportElement element = getReportElement( name );
-		if ( element != null && element instanceof IGrid )
-			return ( IGrid ) element;
-		return null;
-	}
+    public ILabel getLabel( String name )
+    {
+        return new Label(
+                ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
+                        .getLabel( name ) );
+    }
 
-	public IImage getImage( String name )
-	{
-		IReportElement element = getReportElement( name );
-		if ( element != null && element instanceof IImage )
-			return ( IImage ) element;
-		return null;
-	}
+    public IList getList( String name )
+    {
+        return new List(
+                ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
+                        .getList( name ) );
+    }
 
-	public ILabel getLabel( String name )
-	{
-		IReportElement element = getReportElement( name );
-		if ( element != null && element instanceof ILabel )
-			return ( ILabel ) element;
-		return null;
-	}
+    public ITable getTable( String name )
+    {
+        return new Table(
+                ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
+                        .getTable( name ) );
+    }
 
-	public IList getList( String name )
-	{
-		IReportElement element = getReportElement( name );
-		if ( element != null && element instanceof IList )
-			return ( IList ) element;
-		return null;
-	}
+    public IDynamicText getDynamicText( String name )
+    {
+        return new DynamicText(
+                ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
+                        .getDynamicText( name ) );
+    }
 
-	public ITable getTable( String name )
-	{
-		IReportElement element = getReportElement( name );
-		if ( element != null && element instanceof ITable )
-			return ( ITable ) element;
-		return null;
-	}
+    public ITextItem getTextItem( String name )
+    {
+        return new TextItem(
+                ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
+                        .getTextItem( name ) );
+    }
 
-	public IDynamicText getDynamicText( String name )
-	{
-		IReportElement element = getReportElement( name );
-		if ( element != null && element instanceof IDynamicText )
-			return ( IDynamicText ) element;
-		return null;
-	}
+    public void setDisplayNameKey( String displayNameKey )
+            throws ScriptException
+    {
+        try
+        {
+            ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
+                    .setDisplayNameKey( displayNameKey );
+        }
+        catch( SemanticException e )
+        {
+            throw new ScriptException( e.getLocalizedMessage() );
+        }
+    }
 
-	public ITextItem getTextItem( String name )
-	{
-		IReportElement element = getReportElement( name );
-		if ( element != null && element instanceof ITextItem )
-			return ( ITextItem ) element;
-		return null;
-	}
+    public String getDisplayNameKey()
+    {
+        return ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
+                .getDisplayNameKey();
+    }
 
-	public void setDisplayNameKey( String displayNameKey )
-			throws ScriptException
-	{
-		try
-		{
-			report.setDisplayNameKey( displayNameKey );
-		} catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
-	}
+    public void setDisplayName( String displayName ) throws ScriptException
+    {
+        try
+        {
+            ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
+                    .setDisplayName( displayName );
+        }
+        catch( SemanticException e )
+        {
+            throw new ScriptException( e.getLocalizedMessage() );
+        }
+    }
 
-	public String getDisplayNameKey( )
-	{
-		return report.getDisplayNameKey( );
-	}
-
-	public void setDisplayName( String displayName ) throws ScriptException
-	{
-		try
-		{
-			report.setDisplayName( displayName );
-		} catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
-		}
-	}
-
-	public String getDisplayName( )
-	{
-		return report.getDisplayName( );
-	}
+    public String getDisplayName()
+    {
+        return ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
+                .getDisplayName();
+    }
 }

@@ -15,121 +15,101 @@ import org.eclipse.birt.report.engine.api.script.element.IDataBinding;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
 
 /**
  * Implements of DataBinding.
- * 
  */
 
 public class DataBindingImpl implements IDataBinding
 {
 
-	private ComputedColumn column;
-	
-	/**
-	 * Constructor
-	 * 
-	 * @param columnHandle
-	 */
+    private org.eclipse.birt.report.model.api.simpleapi.IDataBinding dataBindingImpl;
 
-	public DataBindingImpl( )
+    /**
+     * Constructor
+     * 
+     * @param columnHandle
+     */
+
+    public DataBindingImpl()
+    {
+        dataBindingImpl = SimpleElementFactory.getInstance()
+                .createDataBinding();
+    }
+
+    /**
+     * Constructor
+     * 
+     * @param columnHandle
+     */
+
+    public DataBindingImpl( ComputedColumnHandle columnHandle )
 	{
-		column = createComputedColumn( );
+        dataBindingImpl = SimpleElementFactory.getInstance().createDataBinding( columnHandle );
 	}
 
-	/**
-	 * Constructor
-	 * 
-	 * @param columnHandle
-	 */
+    /**
+     * Constructor
+     * 
+     * @param column
+     */
 
-	public DataBindingImpl( ComputedColumnHandle columnHandle )
+    public DataBindingImpl( ComputedColumn column )
 	{
-		if ( columnHandle == null )
-		{
-			column = createComputedColumn( );
-		}
-		else
-		{
-			column = (ComputedColumn) columnHandle.getStructure( );
-		}
+        dataBindingImpl = SimpleElementFactory.getInstance().createDataBinding( column );
 	}
+    
+    public DataBindingImpl( org.eclipse.birt.report.model.api.simpleapi.IDataBinding columnBindingImpl )
+    {
+        dataBindingImpl = columnBindingImpl;
+    }
 
-	/**
-	 * Constructor
-	 * 
-	 * @param column
-	 */
+    public String getAggregateOn()
+    {
+        return dataBindingImpl.getAggregateOn();
+    }
 
-	public DataBindingImpl( ComputedColumn column )
-	{
-		if ( column == null )
-		{
-			column = createComputedColumn( );
-		}
-		else
-		{
+    public String getDataType()
+    {
+        return dataBindingImpl.getDataType();
+    }
 
-			this.column = column;
-		}
-	}
+    public String getExpression()
+    {
+        return dataBindingImpl.getExpression();
+    }
 
-	/**
-	 * Create computed column.
-	 * 
-	 * @return instance of <code>ComputedColumn</code>
-	 */
-	private ComputedColumn createComputedColumn( )
-	{
-		ComputedColumn c = new ComputedColumn( );
-		return c;
-	}
+    public String getName()
+    {
+        return dataBindingImpl.getName();
+    }
 
-	public String getAggregateOn( )
-	{
-		return column.getAggregateOn( );
-	}
+    public void setAggregateOn( String on )
+    {
+        dataBindingImpl.setAggregateOn( on );
+    }
 
-	public String getDataType( )
-	{
-		return column.getDataType( );
-	}
+    public void setDataType( String dataType )
+    {
+        dataBindingImpl.setDataType( dataType );
+    }
 
-	public String getExpression( )
-	{
-		return column.getExpression( );
-	}
+    public void setExpression( String expression )
+    {
+        // expression is required.
+        dataBindingImpl.setExpression( expression );
+    }
 
-	public String getName( )
-	{
-		return column.getName( );
-	}
+    public void setName( String name )
+    {
+        // name is required.
+        dataBindingImpl.setName( name );
+    }
 
-	public void setAggregateOn( String on )
-	{
-		column.setAggregateOn( on );
-	}
-
-	public void setDataType( String dataType )
-	{
-		column.setDataType( dataType );
-	}
-
-	public void setExpression( String expression )
-	{
-		// expression is required.
-		column.setExpression( expression );
-	}
-
-	public void setName( String name )
-	{
-		// name is required.
-		column.setName( name );
-	}
-
-	public IStructure getStructure( )
-	{
-		return column;
-	}
+    public IStructure getStructure()
+    {
+        return dataBindingImpl.getStructure();
+    }
 
 }

@@ -15,6 +15,7 @@ import org.eclipse.birt.report.engine.api.script.element.ISortCondition;
 import org.eclipse.birt.report.model.api.SortKeyHandle;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
+import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
 
 /**
  * Implements of Sort Condition 
@@ -23,7 +24,7 @@ import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 
 public class SortConditionImpl implements ISortCondition
 {
-	private SortKey sort;
+    private org.eclipse.birt.report.model.api.simpleapi.ISortCondition sortConditionImpl;
 	
 	/**
 	 * Constructor
@@ -32,7 +33,7 @@ public class SortConditionImpl implements ISortCondition
 	
 	public SortConditionImpl( )
 	{
-		sort = createSortCondition();
+        sortConditionImpl = SimpleElementFactory.getInstance().createSortCondition();
 	}
 	
 	/**
@@ -42,13 +43,7 @@ public class SortConditionImpl implements ISortCondition
 	
 	public SortConditionImpl( SortKeyHandle sortHandle )
 	{
-		if( sortHandle == null )
-		{
-			sort = createSortCondition();
-		}
-		else{
-			sort = (SortKey)sortHandle.getStructure( );
-		}
+        sortConditionImpl = SimpleElementFactory.getInstance().createSortCondition( sortHandle );
 	}
 	
 	/**
@@ -57,37 +52,34 @@ public class SortConditionImpl implements ISortCondition
 	 */
 	public SortConditionImpl( SortKey sort )
 	{
-		if( sort == null )
-		{
-			sort = createSortCondition();
-		}else{
-			this.sort = sort;
-		}
+        sortConditionImpl = SimpleElementFactory.getInstance().createSortCondition( sort );
 	}
-	
-	/**
-	 * Create instance of <code>HideRule</code>
-	 * @return instance
-	 */
-	private SortKey createSortCondition()
-	{
-		SortKey s = new SortKey();
-		return s;
-	}
+    
+    /**
+     * Constructor
+     * 
+     * @param columnHandle
+     */
+
+    public SortConditionImpl(
+            org.eclipse.birt.report.model.api.simpleapi.ISortCondition condition )
+    {
+        sortConditionImpl = condition;
+    }
 	
 	public String getDirection( )
 	{
-		return sort.getDirection( );
+		return sortConditionImpl.getDirection( );
 	}
 
 	public String getKey( )
 	{
-		return sort.getKey( );
+		return sortConditionImpl.getKey( );
 	}
 
 	public void setDirection( String direction )
 	{
-		sort.setDirection( direction );
+        sortConditionImpl.setDirection( direction );
 	}
 	
 
@@ -95,12 +87,12 @@ public class SortConditionImpl implements ISortCondition
 	{
 		//key is required
 		
-		sort.setKey( key );
+        sortConditionImpl.setKey( key );
 	}
 
 	public IStructure getStructure( )
 	{
-		return sort;
+		return sortConditionImpl.getStructure();
 	}
 
 }
