@@ -25,15 +25,31 @@
    </url>
 
    <includes
+         id="org.eclipse.birt"
+         version="0.0.0"/>
+         
+   <includes
+         id="org.eclipse.birt.doc"
+         version="0.0.0"/>
+         
+   <includes
+         id="org.eclipse.birt.doc.isv"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.birt.chart.doc.isv"
+         version="0.0.0"/>
+         
+   <includes
+         id="org.eclipse.birt.integration.wtp"
+         version="0.0.0"/>     
+             
+   <includes
          id="org.eclipse.birt.chart.source"
          version="0.0.0"/>
 
    <includes
          id="org.eclipse.birt.chart.runtime.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.birt.doc"
          version="0.0.0"/>
 
    <includes
@@ -45,25 +61,9 @@
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.birt"
-         version="0.0.0"/>
-
-   <includes
          id="org.eclipse.birt.source"
          version="0.0.0"/>
 
-   <includes
-         id="org.eclipse.birt.doc.isv"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.birt.chart.doc.isv"
-         version="0.0.0"/>
-         
-   <includes
-         id="org.eclipse.birt.integration.wtp"
-         version="0.0.0"/>
-         
    <includes
          id="org.eclipse.birt.integration.wtp.source"
          version="0.0.0"/>
