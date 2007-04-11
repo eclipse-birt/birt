@@ -24,6 +24,8 @@ import org.eclipse.swt.accessibility.AccessibleControlEvent;
 import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.accessibility.AccessibleTextAdapter;
 import org.eclipse.swt.accessibility.AccessibleTextEvent;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ModifyEvent;
@@ -45,7 +47,8 @@ import com.ibm.icu.text.NumberFormat;
  */
 public class LocalizedNumberEditorComposite extends Composite implements
 		ModifyListener,
-		KeyListener
+		KeyListener,
+		FocusListener
 {
 
 	public static final int TEXT_MODIFIED = TextEditorComposite.TEXT_MODIFIED;
@@ -95,6 +98,7 @@ public class LocalizedNumberEditorComposite extends Composite implements
 		txtValue = new Text( this, iStyle );
 		txtValue.setToolTipText( Messages.getString( "TextEditorComposite.Tooltip.EnterDecimalOrFractionValue" ) ); //$NON-NLS-1$
 		txtValue.addModifyListener( this );
+		txtValue.addFocusListener( this );
 		txtValue.addKeyListener( this );
 	}
 
@@ -172,6 +176,29 @@ public class LocalizedNumberEditorComposite extends Composite implements
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.swt.events.FocusListener#focusGained(org.eclipse.swt.events.FocusEvent)
+	 */
+	public void focusGained( FocusEvent e )
+	{
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.swt.events.FocusListener#focusLost(org.eclipse.swt.events.FocusEvent)
+	 */
+	public void focusLost( FocusEvent e )
+	{
+		if ( bTextModified )
+		{
+			bTextModified = false;
+			fireEvent( );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.swt.events.KeyListener#keyPressed(org.eclipse.swt.events.KeyEvent)
 	 */
 	public void keyPressed( KeyEvent e )
@@ -221,6 +248,7 @@ public class LocalizedNumberEditorComposite extends Composite implements
 		}
 		else
 		{
+
 			int iDelimiter = sText.indexOf( '/' );
 			if ( iDelimiter < 0 )
 			{
@@ -228,32 +256,38 @@ public class LocalizedNumberEditorComposite extends Composite implements
 			}
 			if ( iDelimiter > 0 )
 			{
-				// Handle the fraction conversion
-				isFractionConverted = true;
-				String numerator = sText.substring( 0, iDelimiter );
-				String denominator = sText.substring( iDelimiter + 1 );
-				try
+				if ( !( this.bTextModified && sText.endsWith( "/" ) ) ) //$NON-NLS-1$
 				{
-					Number nume = numberFormat.parse( numerator );
-					Number deno = numberFormat.parse( denominator );
-					dValue = nume.doubleValue( ) / deno.doubleValue( );
-					bValueIsSet = true;
-					sText = numberFormat.format( dValue );
-					this.txtValue.setText( sText );
-				}
-				catch ( ParseException e )
-				{
-					handleFormatError( sText );
+					// Handle the fraction conversion
+					isFractionConverted = true;
+					String numerator = sText.substring( 0, iDelimiter );
+					String denominator = sText.substring( iDelimiter + 1 );
+					try
+					{
+						Number nume = numberFormat.parse( numerator );
+						Number deno = numberFormat.parse( denominator );
+						dValue = nume.doubleValue( ) / deno.doubleValue( );
+						bValueIsSet = true;
+						sText = numberFormat.format( dValue );
+						this.txtValue.setText( sText );
+					}
+					catch ( ParseException e )
+					{
+						handleFormatError( sText );
+					}
 				}
 			}
 			else
 			{
 				try
 				{
-					Number num = numberFormat.parse( sText );
-					dValue = num.doubleValue( );
-					bValueIsSet = true;
-					sText = numberFormat.format( dValue );
+					if ( !( this.bTextModified && sText.equals( "-" ) ) ) //$NON-NLS-1$
+					{
+						Number num = numberFormat.parse( sText );
+						dValue = num.doubleValue( );
+						bValueIsSet = true;
+						sText = numberFormat.format( dValue );
+					}
 				}
 				catch ( ParseException e )
 				{
