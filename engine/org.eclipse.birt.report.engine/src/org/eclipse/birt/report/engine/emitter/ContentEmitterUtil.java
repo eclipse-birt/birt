@@ -1,3 +1,4 @@
+
 package org.eclipse.birt.report.engine.emitter;
 
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
@@ -20,23 +21,34 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 
-
 public class ContentEmitterUtil
 {
-	static IContentVisitor starter = new StartContentVisitor();
-	static IContentVisitor ender = new EndContentVisitor();
-	static public void startContent(IContent content, IContentEmitter emitter)
+
+	static IContentVisitor starter = new StartContentVisitor( );
+	static IContentVisitor ender = new EndContentVisitor( );
+
+	static public void startContent( IContent content, IContentEmitter emitter )
 	{
-		starter.visit( content, emitter);
+		if ( content.getStyle( ).getVisibleFormat( ).toLowerCase( ).indexOf(
+				emitter.getOutputFormat( ).toLowerCase( ) ) > 0 )
+		{
+			starter.visit( content, emitter );
+		}
 	}
-	
-	static public void endContent(IContent content, IContentEmitter emitter)
+
+	static public void endContent( IContent content, IContentEmitter emitter )
 	{
-		ender.visit( content, emitter );
+		if ( content.getStyle( ).getVisibleFormat( ).toLowerCase( ).indexOf(
+				emitter.getOutputFormat( ).toLowerCase( ) ) > 0 )
+		{
+			ender.visit( content, emitter );
+		}
+
 	}
-	
+
 	private static class StartContentVisitor implements IContentVisitor
 	{
+
 		public Object visit( IContent content, Object value )
 		{
 			return content.accept( this, value );
@@ -104,7 +116,7 @@ public class ContentEmitterUtil
 			emitter.startLabel( label );
 			return value;
 		}
-		
+
 		public Object visitAutoText( IAutoTextContent autoText, Object value )
 		{
 			IContentEmitter emitter = (IContentEmitter) value;
@@ -168,9 +180,10 @@ public class ContentEmitterUtil
 			return value;
 		}
 	}
-	
+
 	static private class EndContentVisitor implements IContentVisitor
 	{
+
 		public Object visit( IContent content, Object value )
 		{
 			return content.accept( this, value );
@@ -239,7 +252,7 @@ public class ContentEmitterUtil
 		{
 			return value;
 		}
-		
+
 		public Object visitData( IDataContent data, Object value )
 		{
 			return value;
