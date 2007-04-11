@@ -93,6 +93,21 @@ public class FactTable
 	 * 
 	 * @return
 	 */
+	public String[] getMeasureNames( )
+	{
+		String[] measureNames = new String[measureInfo.length];
+		for ( int i = 0; i < measureNames.length; i++ )
+		{
+			measureNames[i] = measureInfo[i].measureName;
+		}
+		return measureNames;
+	}
+	
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public int getSegmentCount( )
 	{
 		return segmentCount;

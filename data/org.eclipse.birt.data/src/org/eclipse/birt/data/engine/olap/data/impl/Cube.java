@@ -145,4 +145,13 @@ public class Cube implements ICube
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.api.cube.ICube#getAllMeasureNames()
+	 */
+	public String[] getAllMeasureNames( )
+	{
+		return factTable.getMeasureNames( );
+	}
+
 }
