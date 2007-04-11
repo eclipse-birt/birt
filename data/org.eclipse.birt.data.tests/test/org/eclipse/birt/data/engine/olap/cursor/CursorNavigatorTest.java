@@ -60,13 +60,13 @@ public class CursorNavigatorTest extends TestCase
 		cqd.createMeasure( "measure1" );
 		cqd.createMeasure( "measure2" );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
-		IDimensionDefinition timeDim = columnEdge.createDimension( "time" );
-		IHierarchyDefinition timeHier = timeDim.createHierarchy( "timeHierarchy" );
+		IDimensionDefinition timeDim = columnEdge.createDimension( "dimension2" );
+		IHierarchyDefinition timeHier = timeDim.createHierarchy( "dimension2" );
 		timeHier.createLevel( "level21" );
 
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
-		IDimensionDefinition geographyDim = rowEdge.createDimension( "geography" );
-		IHierarchyDefinition geographyHier = geographyDim.createHierarchy( "geographyHierarchy" );
+		IDimensionDefinition geographyDim = rowEdge.createDimension( "dimension1" );
+		IHierarchyDefinition geographyHier = geographyDim.createHierarchy( "dimension1" );
 		geographyHier.createLevel( "level11" );
 		geographyHier.createLevel( "level12" );
 		geographyHier.createLevel( "level13" );

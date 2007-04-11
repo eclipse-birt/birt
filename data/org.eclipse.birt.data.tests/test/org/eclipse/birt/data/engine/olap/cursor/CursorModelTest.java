@@ -65,13 +65,13 @@ public class CursorModelTest extends BaseTestCase
 		cqd.createMeasure( "measure1" );
 		cqd.createMeasure( "measure2" );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
-		IDimensionDefinition timeDim = columnEdge.createDimension( "time" );
-		IHierarchyDefinition timeHier = timeDim.createHierarchy( "timeHierarchy" );
+		IDimensionDefinition timeDim = columnEdge.createDimension( "dimension2" );
+		IHierarchyDefinition timeHier = timeDim.createHierarchy( "dimension2" );
 		timeHier.createLevel( "level21" );
 
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
-		IDimensionDefinition geographyDim = rowEdge.createDimension( "geography" );
-		IHierarchyDefinition geographyHier = geographyDim.createHierarchy( "geographyHierarchy" );
+		IDimensionDefinition geographyDim = rowEdge.createDimension( "dimension1" );
+		IHierarchyDefinition geographyHier = geographyDim.createHierarchy( "dimension1" );
 		geographyHier.createLevel( "level11" );
 		geographyHier.createLevel( "level12" );
 		geographyHier.createLevel( "level13" );
@@ -145,8 +145,8 @@ public class CursorModelTest extends BaseTestCase
 		cqd.createMeasure( "measure2" );
 
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
-		IDimensionDefinition geographyDim = columnEdge.createDimension( "geography" );
-		IHierarchyDefinition geographyHier = geographyDim.createHierarchy( "geographyHierarchy" );
+		IDimensionDefinition geographyDim = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition geographyHier = geographyDim.createHierarchy( "dimension1" );
 		geographyHier.createLevel( "level11" );
 		geographyHier.createLevel( "level12" );
 		geographyHier.createLevel( "level13" );
@@ -184,8 +184,8 @@ public class CursorModelTest extends BaseTestCase
 		cqd.createMeasure( "measure1" );
 		cqd.createMeasure( "measure2" );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
-		IDimensionDefinition timeDim = columnEdge.createDimension( "time" );
-		IHierarchyDefinition timeHier = timeDim.createHierarchy( "timeHierarchy" );
+		IDimensionDefinition timeDim = columnEdge.createDimension( "dimension2" );
+		IHierarchyDefinition timeHier = timeDim.createHierarchy( "dimension2" );
 		timeHier.createLevel( "level21" );
 
 		// Create cube view.
@@ -217,13 +217,13 @@ public class CursorModelTest extends BaseTestCase
 			cqd.createMeasure( "measure1" );
 			cqd.createMeasure( "measure2" );
 			IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
-			IDimensionDefinition timeDim = columnEdge.createDimension( "time" );
-			IHierarchyDefinition timeHier = timeDim.createHierarchy( "timeHierarchy" );
+			IDimensionDefinition timeDim = columnEdge.createDimension( "dimension2" );
+			IHierarchyDefinition timeHier = timeDim.createHierarchy( "dimension2" );
 			timeHier.createLevel( "level21" );
 
 			IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
-			IDimensionDefinition geographyDim = rowEdge.createDimension( "geography" );
-			IHierarchyDefinition geographyHier = geographyDim.createHierarchy( "geographyHierarchy" );
+			IDimensionDefinition geographyDim = rowEdge.createDimension( "dimension1" );
+			IHierarchyDefinition geographyHier = geographyDim.createHierarchy( "dimension1" );
 			geographyHier.createLevel( "level11" );
 			geographyHier.createLevel( "level12" );
 			geographyHier.createLevel( "level13" );
@@ -296,13 +296,13 @@ public class CursorModelTest extends BaseTestCase
 
 		cqd.createMeasure( "measure1" );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
-		IDimensionDefinition timeDim = columnEdge.createDimension( "time" );
-		IHierarchyDefinition timeHier = timeDim.createHierarchy( "timeHierarchy" );
+		IDimensionDefinition timeDim = columnEdge.createDimension( "dimension2" );
+		IHierarchyDefinition timeHier = timeDim.createHierarchy( "dimension2" );
 		timeHier.createLevel( "level21" );
 
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
-		IDimensionDefinition geographyDim = rowEdge.createDimension( "geography" );
-		IHierarchyDefinition geographyHier = geographyDim.createHierarchy( "geographyHierarchy" );
+		IDimensionDefinition geographyDim = rowEdge.createDimension( "dimension1" );
+		IHierarchyDefinition geographyHier = geographyDim.createHierarchy( "dimension1" );
 		geographyHier.createLevel( "level11" );
 		geographyHier.createLevel( "level12" );
 		geographyHier.createLevel( "level13" );
@@ -369,13 +369,13 @@ public class CursorModelTest extends BaseTestCase
 
 		cqd.createMeasure( "measure1" );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
-		IDimensionDefinition timeDim = columnEdge.createDimension( "time" );
-		IHierarchyDefinition timeHier = timeDim.createHierarchy( "timeHierarchy" );
+		IDimensionDefinition timeDim = columnEdge.createDimension( "dimension2" );
+		IHierarchyDefinition timeHier = timeDim.createHierarchy( "dimension2" );
 		timeHier.createLevel( "level21" );
 
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
-		IDimensionDefinition geographyDim = rowEdge.createDimension( "geography" );
-		IHierarchyDefinition geographyHier = geographyDim.createHierarchy( "geographyHierarchy" );
+		IDimensionDefinition geographyDim = rowEdge.createDimension( "dimension1" );
+		IHierarchyDefinition geographyHier = geographyDim.createHierarchy( "dimension1" );
 		geographyHier.createLevel( "level11" );
 		geographyHier.createLevel( "level12" );
 		geographyHier.createLevel( "level13" );
@@ -434,13 +434,13 @@ public class CursorModelTest extends BaseTestCase
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( CubeCreator.cubeName );
 
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
-		IDimensionDefinition timeDim = columnEdge.createDimension( "time" );
-		IHierarchyDefinition timeHier = timeDim.createHierarchy( "timeHierarchy" );
+		IDimensionDefinition timeDim = columnEdge.createDimension( "dimension2" );
+		IHierarchyDefinition timeHier = timeDim.createHierarchy( "dimension2" );
 		timeHier.createLevel( "level21" );
 
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
-		IDimensionDefinition geographyDim = rowEdge.createDimension( "geography" );
-		IHierarchyDefinition geographyHier = geographyDim.createHierarchy( "geographyHierarchy" );
+		IDimensionDefinition geographyDim = rowEdge.createDimension( "dimension1" );
+		IHierarchyDefinition geographyHier = geographyDim.createHierarchy( "dimension1" );
 		geographyHier.createLevel( "level11" );
 		geographyHier.createLevel( "level12" );
 		geographyHier.createLevel( "level13" );
@@ -488,13 +488,13 @@ public class CursorModelTest extends BaseTestCase
 
 		cqd.createMeasure( "measure1" );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
-		IDimensionDefinition timeDim = columnEdge.createDimension( "time" );
-		IHierarchyDefinition timeHier = timeDim.createHierarchy( "timeHierarchy" );
+		IDimensionDefinition timeDim = columnEdge.createDimension( "dimension2" );
+		IHierarchyDefinition timeHier = timeDim.createHierarchy( "dimension2" );
 		timeHier.createLevel( "level21" );
 
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
-		IDimensionDefinition geographyDim = rowEdge.createDimension( "geography" );
-		IHierarchyDefinition geographyHier = geographyDim.createHierarchy( "geographyHierarchy" );
+		IDimensionDefinition geographyDim = rowEdge.createDimension( "dimension1" );
+		IHierarchyDefinition geographyHier = geographyDim.createHierarchy( "dimension1" );
 		geographyHier.createLevel( "level11" );
 		geographyHier.createLevel( "level13" );
 

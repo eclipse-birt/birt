@@ -307,4 +307,5 @@ public class ResourceConstants
 	public final static String CURSOR_SEEK_ERROR = "data.olap.cursorSeekError";
 	public final static String CANNOT_GET_MEASURE_VALUE = "data.olap.CannotGetMeasureValue";
 	public final static String DOCUMENTOBJECT_NOT_EXIST = "data.olap.DocumentObjectNotExists";
+	public final static String CANNOT_FIND_LEVEL = "data.olap.CannotFindLevel";
 }

@@ -45,7 +45,6 @@ import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 public class QueryExecutor
 {
 
-
 	/**
 	 * 
 	 * @param view
@@ -57,12 +56,18 @@ public class QueryExecutor
 	public IResultSet execute( BirtCubeView view, CubeQueryExecutor executor,
 			MeasureNameManager manager ) throws IOException, BirtException
 	{
+		AggregationDefinition[] aggrDefns = prepareCube( executor.getCubeQueryDefinition( ),
+				manager.getCalculatedMembers( ) );
+		if ( aggrDefns == null || aggrDefns.length == 0 )
+			return null;
+
 		ICube cube = loadCube( executor );
-		AggregationDefinition[] aggrDefns = prepareCube( cube,
-				executor.getCubeQueryDefinition( ) );
+		CubeQueryValidator.validateCubeQueryDefinition( view,
+				cube,
+				manager.getCalculatedMembers( ) );
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( cube );
 		cubeQueryExcutorHelper.addJSFilter( executor.getDimensionFilterEvalHelpers( ) );
-		
+
 		IAggregationResultSet[] rs = cubeQueryExcutorHelper.execute( aggrDefns,
 				new StopSign( ) );
 		return new CubeResultSet( rs, view, manager );
@@ -118,9 +123,8 @@ public class QueryExecutor
 	 * @param query
 	 * @return
 	 */
-	private AggregationDefinition[] prepareCube( ICube cube, ICubeQueryDefinition query )
+	private AggregationDefinition[] prepareCube( ICubeQueryDefinition query, CalculatedMember[] calculatedMember )
 	{
-		CalculatedMember[] calculatedMember = CubeQueryDefinitionUtil.getCalculatedMembers( query );
 		IEdgeDefinition columnEdgeDefn = query.getEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		ILevelDefinition[] levelsOnColumn = CubeQueryDefinitionUtil.getLevelsOnEdge( columnEdgeDefn );
 		IEdgeDefinition rowEdgeDefn = query.getEdge( ICubeQueryDefinition.ROW_EDGE );
