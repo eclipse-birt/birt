@@ -97,6 +97,10 @@ public class ParameterDialog extends BaseDialog
 
 	private static final String CHOICE_NO_DEFAULT = Messages.getString( "ParameterDialog.Choice.NoDefault" ); //$NON-NLS-1$
 
+	private static final String CHOICE_NULL_VALUE = Messages.getString( "ParameterDialog.Choice.NullValue" );
+
+	private static final String CHOICE_BLANK_VALUE = Messages.getString( "ParameterDialog.Choice.BlankValue" );
+
 	private static final String GROUP_PROPERTIES = Messages.getString( "ParameterDialog.Group.Properties" ); //$NON-NLS-1$
 
 	private static final String GROUP_MORE_OPTION = Messages.getString( "ParameterDialog.Group.MoreOption" ); //$NON-NLS-1$
@@ -674,8 +678,6 @@ public class ParameterDialog extends BaseDialog
 		{
 			try
 			{
-				// defaultValue = convertToStandardFormat( DEUtil.convertToDate(
-				// defaultValue ) );
 				defaultValue = convertToStandardFormat( DataTypeUtil.toDate( defaultValue ) );
 			}
 			catch ( BirtException e )
@@ -728,17 +730,33 @@ public class ParameterDialog extends BaseDialog
 					}
 				}
 			}
-			else if ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) )
-					&& defaultValue != null )
+			else if ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) ) )
 			{
-				if ( defaultValue.equals( Boolean.toString( true ) )
-						|| defaultValue.equals( Boolean.toString( false ) ) )
+				if ( getSelectedDataType( ).equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
 				{
-					defaultValue = null;
+					if ( defaultValue == null )
+					{
+						defaultValueChooser.select( 0 );
+					}
+					else if ( defaultValue.equals( "" ) )
+					{
+						defaultValueChooser.select( 1 );
+					}
+					else
+					{
+						defaultValueChooser.setText( defaultValue );
+					}
 				}
-				else
+				else if ( defaultValue != null )
 				{
-					defaultValueEditor.setText( defaultValue );
+					if ( ( defaultValue.equals( Boolean.toString( true ) ) || defaultValue.equals( Boolean.toString( false ) ) ) )
+					{
+						defaultValue = null;
+					}
+					else
+					{
+						defaultValueChooser.setText( defaultValue );
+					}
 				}
 			}
 			refreshValueTable( );
@@ -761,9 +779,24 @@ public class ParameterDialog extends BaseDialog
 			{
 				displayTextChooser.setText( columnName );
 			}
-			if ( defaultValue != null )
+			if ( getSelectedDataType( ).equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
 			{
-				defaultValueEditor.setText( defaultValue );
+				if ( defaultValue == null )
+				{
+					defaultValueChooser.select( 0 );
+				}
+				else if ( defaultValue.equals( "" ) )
+				{
+					defaultValueChooser.select( 1 );
+				}
+				else
+				{
+					defaultValueChooser.setText( defaultValue );
+				}
+			}
+			else if ( defaultValue != null )
+			{
+				defaultValueChooser.setText( defaultValue );
 			}
 		}
 		updateMessageLine( );
@@ -926,10 +959,12 @@ public class ParameterDialog extends BaseDialog
 		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( column.getDataType( ) ) )
 		{
 			return type.equals( DesignChoiceConstants.PARAM_TYPE_INTEGER );
-		}else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( column.getDataType( ) ) )
+		}
+		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( column.getDataType( ) ) )
 		{
 			return type.equals( DesignChoiceConstants.PARAM_TYPE_DATE );
-		}else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME.equals( column.getDataType( ) ) )
+		}
+		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME.equals( column.getDataType( ) ) )
 		{
 			return type.equals( DesignChoiceConstants.PARAM_TYPE_TIME );
 		}
@@ -973,8 +1008,6 @@ public class ParameterDialog extends BaseDialog
 		else
 		{
 			IChoice choice = DATA_TYPE_CHOICE_SET.findChoiceByDisplayName( dataTypeChooser.getText( ) );
-			type = DATA_TYPE_CHOICE_SET.findChoiceByDisplayName( dataTypeChooser.getText( ) )
-					.getName( );
 			type = choice.getName( );
 		}
 		return type;
@@ -1014,6 +1047,15 @@ public class ParameterDialog extends BaseDialog
 			changeControlType( );
 		}
 		lastDataType = type;
+		if ( type.equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
+		{
+			clearDefaultValueChooser( isRequired.getSelection( ) );
+		}
+		else if ( !type.equals( DesignChoiceConstants.PARAM_TYPE_BOOLEAN ) )
+		{
+			clearDefaultValueText( );
+			clearDefaultValueChooserSelections( );
+		}
 		initFormatField( );
 		if ( isStatic( ) )
 		{
@@ -1444,23 +1486,91 @@ public class ParameterDialog extends BaseDialog
 		listLimit.setEditable( true );
 	}
 
+	private void clearDefaultValueText( )
+	{
+		if ( defaultValueChooser == null )
+			return;
+		String textValue = defaultValueChooser.getText( );
+		if ( textValue != null
+				&& textValue.equals( CHOICE_NULL_VALUE )
+				|| textValue.equals( CHOICE_BLANK_VALUE ) )
+		{
+			defaultValueChooser.setText( "" );
+		}
+	}
+
+	private void clearDefaultValueChooserSelections( )
+	{
+		if ( defaultValueChooser == null )
+			return;
+		if ( defaultValueChooser.getItemCount( ) > 0 )
+		{
+			defaultValueChooser.remove( 0,
+					defaultValueChooser.getItemCount( ) - 1 );
+		}
+	}
+
 	private void createDefaultEditor( )
 	{
 		createLabel( valueArea, LABEL_DEFAULT_VALUE );
-		defaultValueEditor = new Text( valueArea, SWT.BORDER );
-		defaultValueEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		defaultValueEditor.addModifyListener( new ModifyListener( ) {
+		defaultValueChooser = new Combo( valueArea, SWT.BORDER );
+		defaultValueChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		if ( getSelectedDataType( ).equals( DesignChoiceConstants.PARAM_TYPE_STRING )
+				&& !isRequired.getSelection( ) )
+		{
+			defaultValueChooser.add( CHOICE_NULL_VALUE );
+			defaultValueChooser.add( CHOICE_BLANK_VALUE );
+		}
+		defaultValueChooser.addSelectionListener( new SelectionAdapter( ) {
 
-			public void modifyText( ModifyEvent e )
+			public void widgetSelected( SelectionEvent e )
 			{
-				changeDefaultValue( UIUtil.convertToModelString( defaultValueEditor.getText( ),
-						false ) );
+				switch ( defaultValueChooser.getSelectionIndex( ) )
+				{
+					case 0 :
+						changeDefaultValue( null );
+						break;
+					case 1 :
+						changeDefaultValue( "" );
+						break;
+				}
 				if ( isStatic( ) )
 				{
 					refreshValueTable( );
 				}
 			}
 		} );
+		defaultValueChooser.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				String value = defaultValueChooser.getText( );
+				if ( value.equals( CHOICE_NULL_VALUE )
+						|| value.equals( CHOICE_BLANK_VALUE ) )
+					return;
+				changeDefaultValue( UIUtil.convertToModelString( value, false ) );
+				if ( isStatic( ) )
+				{
+					refreshValueTable( );
+				}
+			}
+		} );
+		// defaultValueEditor = new Text( valueArea, SWT.BORDER );
+		// defaultValueEditor.setLayoutData( new GridData(
+		// GridData.FILL_HORIZONTAL ) );
+		// defaultValueEditor.addModifyListener( new ModifyListener( ) {
+		//
+		// public void modifyText( ModifyEvent e )
+		// {
+		// changeDefaultValue( UIUtil.convertToModelString(
+		// defaultValueEditor.getText( ),
+		// false ) );
+		// if ( isStatic( ) )
+		// {
+		// refreshValueTable( );
+		// }
+		// }
+		// } );
 	}
 
 	private void createPromptLine( Composite parent )
@@ -1704,7 +1814,28 @@ public class ParameterDialog extends BaseDialog
 				makeUniqueAndValid( );
 				refreshValueTable( );
 			}
+			if ( getSelectedDataType( ).equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
+			{
+				clearDefaultValueChooser( checkBox.getSelection( ) );
+			}
 			updateMessageLine( );
+		}
+	}
+
+	private void clearDefaultValueChooser( boolean isChecked )
+	{
+		if ( isChecked )
+		{
+			clearDefaultValueText( );
+			clearDefaultValueChooserSelections( );
+		}
+		else
+		{
+			if ( defaultValueChooser == null
+					|| defaultValueChooser.getItemCount( ) > 0 )
+				return;
+			defaultValueChooser.add( CHOICE_NULL_VALUE );
+			defaultValueChooser.add( CHOICE_BLANK_VALUE );
 		}
 	}
 
@@ -1864,13 +1995,13 @@ public class ParameterDialog extends BaseDialog
 		}
 		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
 		{
-			if ( defaultValueEditor != null
-					&& ( !defaultValueEditor.isDisposed( ) )
-					&& defaultValueEditor.getText( ).length( ) != 0 )
+			if ( defaultValueChooser != null
+					&& ( !defaultValueChooser.isDisposed( ) )
+					&& defaultValueChooser.getText( ).length( ) != 0 )
 			{
 				try
 				{
-					getValue( defaultValueEditor.getText( ) );
+					getValue( defaultValueChooser.getText( ) );
 				}
 				catch ( BirtException e )
 				{

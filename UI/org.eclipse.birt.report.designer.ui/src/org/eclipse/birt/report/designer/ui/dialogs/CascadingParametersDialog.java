@@ -88,6 +88,10 @@ import com.ibm.icu.util.ULocale;
 public class CascadingParametersDialog extends BaseDialog
 {
 
+	private static final String CHOICE_NULL_VALUE = Messages.getString( "CascadingParametersDialog.Choice.NullValue" );
+
+	private static final String CHOICE_BLANK_VALUE = Messages.getString( "CascadingParametersDialog.Choice.BlankValue" );
+
 	private static final String LABEL_PARAMTER_PROMPT_TEXT = Messages.getString( "CascadingParametersDialog.Label.parameterPromptText" ); //$NON-NLS-1$
 
 	private static final String LABEL_VALUES = Messages.getString( "CascadingParametersDialog.Label.values" ); //$NON-NLS-1$
@@ -186,7 +190,8 @@ public class CascadingParametersDialog extends BaseDialog
 	private Text promptTextEditor;
 	private Text paramNameEditor;
 	private Text helpTextEditor;
-	private Text defaultValueEditor;
+	// private Text defaultValueEditor;
+	private Combo defaultValueChooser;
 	private Text formatField;
 
 	private Text listLimit;
@@ -220,6 +225,8 @@ public class CascadingParametersDialog extends BaseDialog
 	protected ScalarParameterHandle newParameter = null;
 
 	private String defaultValue;
+
+	// private String lastDataType;
 
 	private String formatPattern;
 
@@ -541,8 +548,9 @@ public class CascadingParametersDialog extends BaseDialog
 		} );
 
 		createLabel( propertiesGroup, LABEL_DEFAULT_VALUE, maxStrLengthProperty );
-		defaultValueEditor = new Text( propertiesGroup, SWT.BORDER );
-		defaultValueEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		// defaultValueEditor = new Text( propertiesGroup, SWT.BORDER );
+		defaultValueChooser = new Combo( propertiesGroup, SWT.BORDER );
+		defaultValueChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 	}
 
@@ -648,6 +656,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
+				isRequiredChange( isRequired.getSelection( ) );
 				if ( selectedParameter != null
 						&& selectedParameter != newParameter )
 				{
@@ -663,7 +672,31 @@ public class CascadingParametersDialog extends BaseDialog
 
 			}
 
-		} ); 
+		} );
+	}
+
+	private void isRequiredChange( boolean isRequired )
+	{
+		if ( getSelectedDataType( ).equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
+		{
+			clearDefaultValueChooser( isRequired );
+		}
+	}
+
+	private void clearDefaultValueChooser( boolean isChecked )
+	{
+		if ( isChecked )
+		{
+			clearDefaultValueText( );
+			clearDefaultValueChooserSelections( );
+		}
+		else
+		{
+			if ( defaultValueChooser.getItemCount( ) > 0 )
+				return;
+			defaultValueChooser.add( CHOICE_NULL_VALUE );
+			defaultValueChooser.add( CHOICE_BLANK_VALUE );
+		}
 	}
 
 	private void createLabel( Composite parent, String content, int width )
@@ -1337,13 +1370,31 @@ public class CascadingParametersDialog extends BaseDialog
 
 		defaultValue = selectedParameter.getDefaultValue( );
 
-		if ( defaultValue == null )
+		if ( getSelectedDataType( ).equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
 		{
-			defaultValueEditor.setText( "" ); //$NON-NLS-1$			
+			if ( defaultValue == null )
+			{
+				defaultValueChooser.setText( CHOICE_NULL_VALUE );
+			}
+			else if ( defaultValue.equals( "" ) )
+			{
+				defaultValueChooser.setText( CHOICE_BLANK_VALUE );
+			}
+			else
+			{
+				defaultValueChooser.setText( defaultValue );
+			}
 		}
 		else
 		{
-			defaultValueEditor.setText( defaultValue );
+			if ( defaultValue == null )
+			{
+				defaultValueChooser.setText( "" ); //$NON-NLS-1$			
+			}
+			else
+			{
+				defaultValueChooser.setText( defaultValue );
+			}
 		}
 
 		helpTextEditor.setText( UIUtil.convertToGUIString( selectedParameter.getHelpText( ) ) );
@@ -1372,7 +1423,7 @@ public class CascadingParametersDialog extends BaseDialog
 		promptText.setText( "" ); //$NON-NLS-1$
 		dataTypeChooser.select( -1 );
 		displayTypeChooser.select( -1 );
-		defaultValueEditor.setText( "" ); //$NON-NLS-1$
+		defaultValueChooser.setText( "" ); //$NON-NLS-1$
 		helpTextEditor.setText( "" ); //$NON-NLS-1$
 		formatField.setText( "" ); //$NON-NLS-1$
 		listLimit.setText( "" ); //$NON-NLS-1$
@@ -1388,7 +1439,7 @@ public class CascadingParametersDialog extends BaseDialog
 		promptText.setEnabled( enable );
 		dataTypeChooser.setEnabled( enable );
 		displayTypeChooser.setEnabled( enable );
-		defaultValueEditor.setEnabled( enable );
+		defaultValueChooser.setEnabled( enable );
 		helpTextEditor.setEnabled( enable );
 		formatField.setEnabled( enable );
 		listLimit.setEnabled( enable );
@@ -1397,9 +1448,45 @@ public class CascadingParametersDialog extends BaseDialog
 
 	private void changeDataType( String type )
 	{
+		// if ( type.equals( lastDataType ) )
+		// return;
+		if ( type.equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
+		{
+			clearDefaultValueChooser( isRequired.getSelection( ) );
+		}
+		else
+		{
+			clearDefaultValueText( );
+			clearDefaultValueChooserSelections( );
+		}
+		// lastDataType = type;
 		initFormatField( type );
 		refreshValueTable( );
 		updateButtons( );
+	}
+
+	private void clearDefaultValueText( )
+	{
+		if ( defaultValueChooser == null )
+			return;
+		String textValue = defaultValueChooser.getText( );
+		if ( textValue != null
+				&& textValue.equals( CHOICE_NULL_VALUE )
+				|| textValue.equals( CHOICE_BLANK_VALUE ) )
+		{
+			defaultValueChooser.setText( "" );
+		}
+	}
+
+	private void clearDefaultValueChooserSelections( )
+	{
+		if ( defaultValueChooser == null )
+			return;
+		if ( defaultValueChooser.getItemCount( ) > 0 )
+		{
+			defaultValueChooser.remove( 0,
+					defaultValueChooser.getItemCount( ) - 1 );
+		}
 	}
 
 	private void initFormatField( String selectedDataType )
@@ -1732,10 +1819,12 @@ public class CascadingParametersDialog extends BaseDialog
 		else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
 		{
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( columnHandle.getDataType( ) );
-		}else if (DesignChoiceConstants.PARAM_TYPE_DATE.equals(columnHandle.getDataType()))
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( columnHandle.getDataType( ) ) )
 		{
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( type );
-		}else if (DesignChoiceConstants.PARAM_TYPE_TIME.equals(columnHandle.getDataType()))
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( columnHandle.getDataType( ) ) )
 		{
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_TIME.equals( type );
 		}
@@ -1750,8 +1839,29 @@ public class CascadingParametersDialog extends BaseDialog
 					false ) );
 			selectedParameter.setHelpText( UIUtil.convertToModelString( helpTextEditor.getText( ),
 					true ) );
-			selectedParameter.setDefaultValue( UIUtil.convertToModelString( defaultValueEditor.getText( ),
-					true ) );
+			if ( selectedParameter.getDataType( )
+					.equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
+			{
+				if ( defaultValueChooser.getText( ).equals( CHOICE_NULL_VALUE ) )
+				{
+					selectedParameter.setDefaultValue( null );
+				}
+				else if ( defaultValueChooser.getText( )
+						.equals( CHOICE_BLANK_VALUE ) )
+				{
+					selectedParameter.setDefaultValue( "" );
+				}
+				else
+				{
+					selectedParameter.setDefaultValue( defaultValueChooser.getText( ) );
+				}
+			}
+			else
+			{
+				selectedParameter.setDefaultValue( UIUtil.convertToModelString( defaultValueChooser.getText( ),
+						true ) );
+			}
+
 			if ( StringUtil.isBlank( listLimit.getText( ) ) )
 			{
 				selectedParameter.setProperty( ScalarParameterHandle.LIST_LIMIT_PROP,
