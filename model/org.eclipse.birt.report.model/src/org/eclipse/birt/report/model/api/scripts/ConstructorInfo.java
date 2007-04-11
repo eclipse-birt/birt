@@ -131,7 +131,7 @@ public class ConstructorInfo implements IMethodInfo
 
 	public String getReturnType( )
 	{
-		return method.getDeclaringClass( ).getSimpleName( );
+		return method.getName( );
 	}
 
 	/*
