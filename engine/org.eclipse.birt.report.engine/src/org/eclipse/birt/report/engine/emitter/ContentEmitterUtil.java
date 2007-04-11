@@ -29,21 +29,42 @@ public class ContentEmitterUtil
 
 	static public void startContent( IContent content, IContentEmitter emitter )
 	{
-		if ( content.getStyle( ).getVisibleFormat( ).toLowerCase( ).indexOf(
-				emitter.getOutputFormat( ).toLowerCase( ) ) > 0 )
+		String vformat = content.getStyle( ).getVisibleFormat( );
+		
+		if ( vformat == null )
 		{
 			starter.visit( content, emitter );
+		}
+		else
+		{
+			if ( vformat.toLowerCase( ).indexOf(
+					emitter.getOutputFormat( ).toLowerCase( ) ) > 0
+					|| vformat.toLowerCase( ).indexOf( "all" ) > 0 )
+			{
+				starter.visit( content, emitter );
+			}
 		}
 	}
 
 	static public void endContent( IContent content, IContentEmitter emitter )
 	{
-		if ( content.getStyle( ).getVisibleFormat( ).toLowerCase( ).indexOf(
-				emitter.getOutputFormat( ).toLowerCase( ) ) > 0 )
+        String vformat = content.getStyle( ).getVisibleFormat( );
+		
+        String format = emitter.getOutputFormat( );
+		if ( vformat == null )
 		{
 			ender.visit( content, emitter );
 		}
-
+		else
+		{
+			if ( vformat.toLowerCase( ).indexOf(
+					emitter.getOutputFormat( ).toLowerCase( ) ) > 0
+					|| vformat.toLowerCase( ).indexOf( "all" ) > 0 )
+			{
+				ender.visit( content, emitter );
+			}
+		}
+		
 	}
 
 	private static class StartContentVisitor implements IContentVisitor
