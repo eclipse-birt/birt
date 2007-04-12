@@ -16,27 +16,20 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.RenameInputDialog;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.ListenerElementVisitor;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
-import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.LevelDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.LevelPropertyDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.MeasureDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeContentProvider;
-import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeExpressionProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeLabelProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.DataContentProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.VirtualField;
-import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
-import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
-import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
-import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -45,7 +38,6 @@ import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
@@ -78,27 +70,19 @@ import org.eclipse.swt.dnd.DropTargetAdapter;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 
 public class CubeGroupContent extends Composite implements Listener
@@ -441,16 +425,14 @@ public class CubeGroupContent extends Composite implements Listener
 							}
 
 							if ( dataField != null
-									&& dataField.getDataType( )
-											.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
+									&& isDateType( dataField.getDataType( ) ) )
 							{
 								event.detail = DND.DROP_NONE;
 								return;
 							}
 
 							String dataType = ( (LevelHandle) element ).getDataType( );
-							if ( dataType != null
-									&& dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
+							if ( dataType != null && isDateType( dataType ) )
 							{
 								event.detail = DND.DROP_NONE;
 								return;
@@ -479,8 +461,7 @@ public class CubeGroupContent extends Composite implements Listener
 							if ( hierarchy.getContentCount( IHierarchyModel.LEVELS_PROP ) > 0 )
 							{
 								if ( dataField != null
-										&& dataField.getDataType( )
-												.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
+										&& isDateType( dataField.getDataType( ) ) )
 								{
 									event.detail = DND.DROP_NONE;
 									return;
@@ -488,8 +469,7 @@ public class CubeGroupContent extends Composite implements Listener
 								LevelHandle level = (LevelHandle) hierarchy.getContent( IHierarchyModel.LEVELS_PROP,
 										0 );
 								String dataType = level.getDataType( );
-								if ( dataType != null
-										&& dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
+								if ( dataType != null && isDateType( dataType ) )
 								{
 									event.detail = DND.DROP_NONE;
 									return;
@@ -607,8 +587,7 @@ public class CubeGroupContent extends Composite implements Listener
 								}
 								else if ( element instanceof LevelHandle )
 								{
-									if ( dataField.getDataType( )
-											.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
+									if ( isDateType( dataField.getDataType( ) ) )
 									{
 										event.detail = DND.DROP_NONE;
 										return;
@@ -660,8 +639,7 @@ public class CubeGroupContent extends Composite implements Listener
 								}
 								else if ( element instanceof LevelHandle )
 								{
-									if ( dataField.getDataType( )
-											.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
+									if ( isDateType( dataField.getDataType( ) ) )
 									{
 										event.detail = DND.DROP_NONE;
 										return;
@@ -700,8 +678,7 @@ public class CubeGroupContent extends Composite implements Listener
 									{
 										hierarchy.setDataSet( dataset );
 									}
-									if ( dataField.getDataType( )
-											.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
+									if ( isDateType( dataField.getDataType( ) ) )
 									{
 										if ( hierarchy.getContentCount( IHierarchyModel.LEVELS_PROP ) > 0 )
 										{
@@ -1050,8 +1027,7 @@ public class CubeGroupContent extends Composite implements Listener
 					groupViewer.getTree( ).getSelection( )[0].setText( name );
 				}
 				String dataType = level.getDataType( );
-				if ( dataType != null
-						&& dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
+				if ( dataType != null && isDateType( dataType ) )
 				{
 					propBtn.setEnabled( false );
 					editBtn.setEnabled( false );
@@ -1231,7 +1207,7 @@ public class CubeGroupContent extends Composite implements Listener
 				}
 				refresh( );
 			}
-			
+
 			if ( obj instanceof PropertyHandle )
 			{
 				PropertyHandle model = (PropertyHandle) obj;
@@ -1274,6 +1250,13 @@ public class CubeGroupContent extends Composite implements Listener
 		}
 	}
 
+	private boolean isDateType( String dataType )
+	{
+		return dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME )
+				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE )
+				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME );
+	}
+
 	protected void handleDataAddEvent( )
 	{
 		TreeSelection dataFields = (TreeSelection) dataFieldsViewer.getSelection( );
@@ -1295,12 +1278,10 @@ public class CubeGroupContent extends Composite implements Listener
 				Object obj = iter.next( );
 				if ( obj instanceof TabularLevelHandle )
 				{
-					if ( dataField.getDataType( )
-							.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
+					if ( isDateType( dataField.getDataType( ) ) )
 						continue;
 					if ( ( (TabularLevelHandle) obj ).getDataType( ) != null
-							&& ( (TabularLevelHandle) obj ).getDataType( )
-									.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
+							&& isDateType( ( (TabularLevelHandle) obj ).getDataType( ) ) )
 						continue;
 
 					TabularHierarchyHandle hierarchy = ( (TabularHierarchyHandle) ( (TabularLevelHandle) obj ).getContainer( ) );
@@ -1357,16 +1338,14 @@ public class CubeGroupContent extends Composite implements Listener
 					if ( hierarchy.getContentCount( IHierarchyModel.LEVELS_PROP ) > 0 )
 					{
 						if ( dataField != null
-								&& dataField.getDataType( )
-										.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
+								&& isDateType( dataField.getDataType( ) ) )
 						{
 							continue;
 						}
 						LevelHandle level = (LevelHandle) hierarchy.getContent( IHierarchyModel.LEVELS_PROP,
 								0 );
 						String dataType = level.getDataType( );
-						if ( dataType != null
-								&& dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
+						if ( dataType != null && isDateType( dataType ) )
 						{
 							continue;
 						}
@@ -1394,8 +1373,7 @@ public class CubeGroupContent extends Composite implements Listener
 
 					try
 					{
-						if ( dataField.getDataType( )
-								.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
+						if ( isDateType( dataField.getDataType( ) ) )
 						{
 							if ( hierarchy.getContentCount( IHierarchyModel.LEVELS_PROP ) > 0 )
 							{
