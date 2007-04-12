@@ -462,13 +462,11 @@ public class DataProcessor
 					aggHelper.getDataDefinitionsForBaseGrouping( ) );
 		}
 
-		// apply all groupings
-		if ( !aggHelper.isEmpty( ) )
-		{
-			rsw.applyBaseSeriesSortingAndGrouping( sdBase,
+		// apply all sorting and groupings
+		rsw.applyBaseSeriesSortingAndGrouping( sdBase,
 					aggHelper.getAggregations( ),
 					aggHelper.getDataDefinitions( ) );
-		}
+		
 		aggHelper.dispose( );
 
 		return rsw;
