@@ -29,7 +29,7 @@ public class OlapUtil
 {
 
 	public static final String Level_Year = "Year";
-	public static final String Level_Qtr = "Quater";
+	public static final String Level_Qtr = "Quarter";
 	public static final String Level_Month = "Month";
 	public static final String Level_Week = "Week";
 	public static final String Level_Day = "Day";
@@ -48,7 +48,7 @@ public class OlapUtil
 			else if ( type.equals( Level_Qtr ) )
 			{
 				level = DesignElementFactory.getInstance( )
-						.newTabularLevel( "Quater" );
+						.newTabularLevel( "Quarter" );
 				level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
 			}
 			else if ( type.equals( Level_Month ) )
