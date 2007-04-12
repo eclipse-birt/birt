@@ -21,6 +21,7 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 
 /**
@@ -114,6 +115,8 @@ class RDSave implements IRDSave
 		this.closeSaveRowUtil( );
 
 		this.saveForIV( );
+		
+		this.streamManager.saveToReportDocument( );
 	}
 
 	/**
@@ -156,7 +159,6 @@ class RDSave implements IRDSave
 	public void saveResultIterator( IResultIterator odiResult, int groupLevel,
 			int[] subQueryInfo ) throws DataException
 	{
-		VersionManager.setVersion( context, VersionManager.VERSION_2_1 );
 		this.rdSaveUtil.saveResultIterator( odiResult, groupLevel, subQueryInfo );
 	}
 	
@@ -184,5 +186,4 @@ class RDSave implements IRDSave
 			this.rdSaveUtil.saveQueryDefn( );
 		
 	}
-	
 }

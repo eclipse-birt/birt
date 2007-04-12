@@ -12,12 +12,12 @@
 package org.eclipse.birt.data.engine.api;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Locale;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
+import org.eclipse.birt.core.archive.RAInputStream;
+import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -83,27 +83,58 @@ public class DataEngineContext
 	public final static int VERSION_INFO_STREAM = 11;
 	
 	public final static int DATASET_DATA_STREAM = 21;
+	
 	public final static int DATASET_META_STREAM = 22;
 	
 	public final static int EXPR_VALUE_STREAM = 31;
+	
+	/**
+	 *@deprecated
+	 */
 	public final static int EXPR_META_STREAM = 32;
+	
+	/**
+	 *@deprecated
+	 */
 	public final static int EXPR_ROWLEN_STREAM = 33;
 	
+	/**
+	 *@deprecated
+	 */
 	public final static int GROUP_INFO_STREAM = 41;
+	
 	public final static int SUBQUERY_INFO_STREAM = 42;
+	
 	// current query definition
+	/**
+	 *@deprecated
+	 */
 	public final static int QUERY_DEFN_STREAM = 43;
+	
 	// original query defintion
 	public final static int ORIGINAL_QUERY_DEFN_STREAM = 44;
 	
 	// row index to the base rd
+	/**
+	 *@deprecated
+	 */
 	public final static int ROW_INDEX_STREAM = 51;
 	
 	// manage query running on based rd
+	/**
+	 *@deprecated
+	 */
 	public final static int QUERYID_INFO_STREAM = 61;
 	
 	// parent index to the base subquery rd
+	/**
+	 *@deprecated
+	 */
 	public final static int SUBQUERY_PARENTINDEX_STREAM = 71;
+	
+	public final static int META_STREAM = 99;
+	
+	public final static int META_INDEX_STREAM = 100;
 	
 	/**
 	 * When mode is MODE_GENERATION, the writer stream of archive will be used.
@@ -227,7 +258,7 @@ public class DataEngineContext
 	 * @param streamType
 	 * @return output stream for specified streamID, subStreamID and streamType
 	 */
-	public OutputStream getOutputStream( String streamID, String subStreamID,
+	public RAOutputStream getOutputStream( String streamID, String subStreamID,
 			int streamType ) throws DataException
 	{
 		assert writer != null;
@@ -236,7 +267,7 @@ public class DataEngineContext
 		
 		try
 		{
-			OutputStream outputStream = writer.createRandomAccessStream( relativePath );
+			RAOutputStream outputStream = writer.openRandomAccessStream( relativePath );
 
 			if ( outputStream == null )
 				throw new DataException( ResourceConstants.RD_SAVE_STREAM_ERROR );
@@ -320,7 +351,7 @@ public class DataEngineContext
 	 * @param streamType
 	 * @return input stream for specified streamID, subStreamID and streamType
 	 */
-	public InputStream getInputStream( String streamID, String subStreamID,
+	public RAInputStream getInputStream( String streamID, String subStreamID,
 			int streamType ) throws DataException
 	{
 		assert reader != null;
@@ -329,10 +360,13 @@ public class DataEngineContext
 		
 		try
 		{
-			InputStream inputStream = reader.getStream( relativePath );
+			RAInputStream inputStream = reader.getStream( relativePath );
 			
 			if ( inputStream == null )
+			{
+				System.out.println( relativePath );
 				throw new DataException( ResourceConstants.RD_LOAD_STREAM_ERROR );
+			}
 			
 			return inputStream;
 		}
@@ -385,7 +419,7 @@ public class DataEngineContext
 	 * @return relative path, notice in reading data from file, directory can
 	 *         not be created.
 	 */
-	private static String getPath( String streamID, String subStreamID, int streamType )
+	public static String getPath( String streamID, String subStreamID, int streamType )
 	{
 		if ( streamType == VERSION_INFO_STREAM )
 			return "/DataEngine/VesionInfo";
@@ -405,6 +439,9 @@ public class DataEngineContext
 			case EXPR_ROWLEN_STREAM :
 				relativePath = "ExprRowLen";
 				break;
+			case ORIGINAL_QUERY_DEFN_STREAM :
+				relativePath = "OriginalQueryDefn";
+				break;
 			case EXPR_META_STREAM :
 				relativePath = "ExprMetaInfo";
 				break;
@@ -417,9 +454,6 @@ public class DataEngineContext
 			case QUERY_DEFN_STREAM :
 				relativePath = "QueryDefn";
 				break;
-			case ORIGINAL_QUERY_DEFN_STREAM:
-				relativePath = "OriginalQueryDefn";
-				break;
 			case ROW_INDEX_STREAM:
 				relativePath = "RowIndex";
 				break;
@@ -429,7 +463,12 @@ public class DataEngineContext
 			case SUBQUERY_PARENTINDEX_STREAM :
 				relativePath = "ParentIndex";
 				break;
-				
+			case META_STREAM :
+				relativePath = "Meta";
+				break;
+			case META_INDEX_STREAM :
+				relativePath = "MetaIndex";
+				break;
 			default :
 				assert false; // impossible
 		}

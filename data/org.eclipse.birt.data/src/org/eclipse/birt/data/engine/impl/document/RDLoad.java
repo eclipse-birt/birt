@@ -22,6 +22,10 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.ResultMetaData;
+import org.eclipse.birt.data.engine.impl.document.stream.StreamID;
+import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
+import org.eclipse.birt.data.engine.impl.document.stream.StreamReader;
+import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.impl.document.util.ExprDataResultSet1;
 import org.eclipse.birt.data.engine.impl.document.util.ExprDataResultSet2;
 import org.eclipse.birt.data.engine.impl.document.util.ExprResultSet;
@@ -67,7 +71,7 @@ public class RDLoad
 								? 0
 								: getSubQueryIndex( queryResultInfo.getIndex( ) ) ) );
 		
-		this.version = VersionManager.getVersion( context );
+		this.version = streamManager.getVersion( );
 	}
 	
 	/**
@@ -154,7 +158,8 @@ public class RDLoad
 			exprDataResultSet = new ExprDataResultSet1( streamManager.getInStream( DataEngineContext.EXPR_VALUE_STREAM,
 					StreamManager.ROOT_STREAM,
 					StreamManager.BASE_SCOPE ),
-					exprMetas );
+					exprMetas,
+					streamManager.getVersion( ));
 		else
 			exprDataResultSet = new ExprDataResultSet2( streamManager.getInStream( DataEngineContext.EXPR_VALUE_STREAM,
 					StreamManager.ROOT_STREAM,

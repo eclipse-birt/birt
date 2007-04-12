@@ -21,8 +21,8 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.CacheProvider;
 import org.eclipse.birt.data.engine.impl.document.RDGroupUtil;
 import org.eclipse.birt.data.engine.impl.document.RDLoadUtil;
-import org.eclipse.birt.data.engine.impl.document.StreamManager;
-import org.eclipse.birt.data.engine.impl.document.VersionManager;
+import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
+import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 
 /**
  * Read the data of expression and meantime provide the group related service.
@@ -76,7 +76,7 @@ public class ExprResultSet implements IExprResultSet
 			rowExprsRAIs = streamManager.getInStream( DataEngineContext.EXPR_VALUE_STREAM,
 					StreamManager.ROOT_STREAM,
 					StreamManager.SELF_SCOPE );
-			if ( version == VersionManager.VERSION_2_1 )
+			if ( version > VersionManager.VERSION_2_0 )
 			{
 				rowLenRAIs = streamManager.getInStream( DataEngineContext.EXPR_ROWLEN_STREAM,
 						StreamManager.ROOT_STREAM,

@@ -142,8 +142,8 @@ class SizeOfUtil
 		{
 			if ( !isfixedSize[i - 1] )
 			{
-				returnValue += sizeOf( resultObject.getResultClass( )
-						.getFieldValueClass( i ),
+				if ( resultObject.getFieldValue( i ) != null )
+					returnValue += sizeOf( resultObject.getFieldValue( i ).getClass( ),
 						resultObject.getFieldValue( i ) );
 			}
 			else

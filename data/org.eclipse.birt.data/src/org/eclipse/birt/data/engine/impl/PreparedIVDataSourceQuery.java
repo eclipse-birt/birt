@@ -35,7 +35,7 @@ import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
 import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
 import org.eclipse.birt.data.engine.impl.document.RDLoad;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
-import org.eclipse.birt.data.engine.impl.document.StreamManager;
+import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.impl.document.viewing.DataSetResultSet;
 import org.eclipse.birt.data.engine.impl.document.viewing.NewInstanceHelper;
 import org.eclipse.birt.data.engine.odi.IDataSource;
@@ -91,17 +91,20 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 				new QueryResultInfo( null, null, basedID, null, -1 ) );
 
 		streamManager.dropStream1( DataEngineContext.EXPR_VALUE_STREAM );
-		streamManager.dropStream1( DataEngineContext.EXPR_META_STREAM );
+		/*streamManager.dropStream1( DataEngineContext.EXPR_META_STREAM );
 		streamManager.dropStream1( DataEngineContext.EXPR_ROWLEN_STREAM );
-
+*/
 		// remove GROUP_INFO_STREAM, QUERY_DEFN_STREAM
-		streamManager.dropStream1( DataEngineContext.GROUP_INFO_STREAM );
-		streamManager.dropStream1( DataEngineContext.QUERY_DEFN_STREAM );
-
+		/* streamManager.dropStream1( DataEngineContext.GROUP_INFO_STREAM );
+		streamManager.dropStream1( DataEngineContext.QUERY_DEFN_STREAM );*/
+		
 		// TODO: enhance me, remove all sub query information
 		
 		// remove QUERYID_INFO_STREAM
 		QueryResultIDManager.cleanChildOfRoot( streamManager );
+		streamManager.dropStream1( DataEngineContext.META_STREAM );
+		streamManager.dropStream1( DataEngineContext.META_INDEX_STREAM );
+
 	}
 	
 	/*

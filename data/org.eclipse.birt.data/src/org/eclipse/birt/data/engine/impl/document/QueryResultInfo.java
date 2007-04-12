@@ -56,7 +56,7 @@ public class QueryResultInfo
 	/**
 	 * @return
 	 */
-	String getRootQueryResultID()
+	public String getRootQueryResultID()
 	{
 		return this.rootQueryResultID;
 	}
@@ -64,7 +64,7 @@ public class QueryResultInfo
 	/**
 	 * @return
 	 */
-	String getParentQueryResultID()
+	public String getParentQueryResultID()
 	{
 		return this.parentQueryResultID;
 	}
@@ -72,7 +72,7 @@ public class QueryResultInfo
 	/**
 	 * @return
 	 */
-	String getSelfQueryResultID( )
+	public String getSelfQueryResultID( )
 	{
 		return this.queryResultID;
 	}
@@ -80,7 +80,7 @@ public class QueryResultInfo
 	/**
 	 * @return
 	 */
-	String getSubQueryName( )
+	public String getSubQueryName( )
 	{
 		return this.subQueryName;
 	}
@@ -88,7 +88,7 @@ public class QueryResultInfo
 	/**
 	 * @return
 	 */
-	int getIndex( )
+	public int getIndex( )
 	{
 		return this.index;
 	}

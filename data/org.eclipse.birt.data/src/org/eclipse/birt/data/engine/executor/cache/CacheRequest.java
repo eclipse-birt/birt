@@ -34,6 +34,7 @@ public class CacheRequest
 	public CacheRequest( int maxRow, List fetchEvents, SortSpec sortSpec,
 			IEventHandler eventHandler )
 	{
+		assert eventHandler!= null;
 		this.maxRow = maxRow;
 		this.fetchEvents = fetchEvents;
 		this.sortSpec = sortSpec;

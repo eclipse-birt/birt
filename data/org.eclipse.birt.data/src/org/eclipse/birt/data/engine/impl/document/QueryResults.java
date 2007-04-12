@@ -18,6 +18,7 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 
 /**
  * This class be used in presentation to retrieve ResultIterator. It will have

@@ -16,6 +16,7 @@ import java.io.InputStream;
 
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 
 /**
  * 

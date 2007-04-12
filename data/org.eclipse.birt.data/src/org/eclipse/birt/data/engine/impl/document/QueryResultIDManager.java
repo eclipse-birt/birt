@@ -27,6 +27,7 @@ import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 
 /**
  * Manage the query result id
@@ -128,7 +129,7 @@ public class QueryResultIDManager
 			streamManager.dropStream2( _2partID );
 		}		
 
-		streamManager.dropStream1( DataEngineContext.QUERYID_INFO_STREAM );
+		//streamManager.dropStream1( DataEngineContext.QUERYID_INFO_STREAM );
 	}
 	
 	/**

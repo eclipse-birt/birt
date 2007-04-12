@@ -38,7 +38,7 @@ import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
 import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
 import org.eclipse.birt.data.engine.impl.document.RDLoad;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
-import org.eclipse.birt.data.engine.impl.document.StreamManager;
+import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 
 /**
  * Create concreate class of IPreparedQuery
@@ -352,10 +352,14 @@ class PreparedQueryUtil
 	 */
 	private static boolean isTwoExpressionEqual( IBaseExpression obj1, IBaseExpression obj2 )
 	{
-		if( obj1 == null || obj2!= null )
+		if( obj1 == null && obj2!= null )
 			return false;
-		if( obj1 != null || obj2 == null )
+		if( obj1 != null && obj2 == null )
 			return false;
+		
+		if ( obj1 == null && obj2 == null )
+			return true;
+			
 		if( !obj1.getClass( ).equals( obj2.getClass( ) ))
 			return false;
 		
