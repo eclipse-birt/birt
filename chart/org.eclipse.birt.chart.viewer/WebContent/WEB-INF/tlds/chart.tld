@@ -27,7 +27,7 @@
 
 		<attribute>
 			<name>model</name>
-			<required>false</required>
+			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 			<description>
 				The chart model as XML (relative path) or java instance
