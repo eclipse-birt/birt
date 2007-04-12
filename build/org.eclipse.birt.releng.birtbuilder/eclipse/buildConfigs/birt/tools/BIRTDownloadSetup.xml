@@ -92,6 +92,7 @@
 	<property name="birt.rcp.zip.name" value="birt-rcp-report-designer-${package.version}.zip" />
 	<property name="birt.source.zip.name" value="birt-source-${package.version}.zip" />	
 	<property name="sample.plugin.zip.name" value="birt-sample-plugins-${package.version}.zip" />
+	<property name="birt.dtp.integration.name" value="birt-dtp-integration-${package.version}.zip" />
 
 	<property name="nl.group1.zip.name.allinone" value="NLpack1-birt-report-designer-all-in-one-${package.version}.zip" />
 	<property name="nl.group1.zip.name.runtime"  value="NLpack1-birt-runtime-${package.version}.zip" />
@@ -237,6 +238,8 @@
 
 		<antcall target="createBirtRuntime" />
 
+		<antcall target="createDTPIntegration" />
+		
 		<!--antcall target="createTestSuite" /-->
 		
 		<antcall target="createSamplePlugin" />
@@ -287,12 +290,7 @@
 				<exclude name="org.eclipse.birt.rcp*/**"/>
 			</zipfileset>
 			<zipfileset dir="${all.in.one.file.dir}/eclipse/plugins" prefix="${ZipPrefix}">
-				<include name="org.eclipse.datatools*/**" />
-				<include name="org.eclipse.datatools*.jar" />
 				<patternset refid="orbit.include.jars" />
-			</zipfileset>
-			<zipfileset dir="${all.in.one.file.dir}/eclipse/features" prefix="${FeautrePrefix}">
-				<include name="org.eclipse.datatools*/*" />
 			</zipfileset>
 			<zipfileset dir="${template.dir}/legal" prefix="eclipse">
 				<include name="**/*" />
@@ -326,12 +324,7 @@
 				<exclude name="org.eclipse.birt.rcp*/**"/>
 			</zipfileset>
 			<zipfileset dir="${all.in.one.file.dir}/eclipse/plugins" prefix="${ZipPrefix}">
-				<include name="org.eclipse.datatools*/**" />
-				<include name="org.eclipse.datatools*.jar" />
 				<patternset refid="orbit.include.jars" />
-			</zipfileset>
-			<zipfileset dir="${all.in.one.file.dir}/eclipse/features" prefix="${FeautrePrefix}">
-				<include name="org.eclipse.datatools*/*" />
 			</zipfileset>
 			<zipfileset dir="${template.dir}/legal" prefix="eclipse">
 				<include name="**/*" />
@@ -526,6 +519,17 @@
 		<delete dir="${runtime.tmp}" />
 	</target>
 	
+	<target name="createDTPIntegration">
+		<zip destfile="${OutputDir}/${birt.dtp.integration.name}">
+			<zipfileset dir="${baseLocation}/plugins" prefix="plugins">
+				<include name="org.eclipse.datatools*/**" />
+			</zipfileset>
+			<zipfileset dir="${baseLocation}/features" prefix="features">
+				<include name="org.eclipse.datatools*/**" />
+			</zipfileset>
+		</zip>
+	</target>
+		
 	<target name="createBirtRuntime"  depends="createWAR,createChartViewer">
 		<!--   Zip Engine runtime file    -->
 		<copy todir="${runtime.tmp}/ChartEngine" flatten="true">

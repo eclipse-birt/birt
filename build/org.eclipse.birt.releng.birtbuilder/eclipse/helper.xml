@@ -570,8 +570,8 @@
 		<copy todir="${buildDirectory}/${buildId}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF/lib">
 			<fileset dir="${buildDirectory}/${buildId}/eclipse/plugins" >
 				<include name="org.eclipse.birt.chart.engine_.*.jar"/>
-				<mapper type="regexp"  from="org.eclipse.birt.chart.engine_.*.jar" to="chartengineapi.jar"/>
 			</fileset>
+			<mapper type="regexp"  from="org.eclipse.birt.chart.engine_.*.jar" to="chartengineapi.jar"/>
 		</copy>
 	</target>
 	
