@@ -615,5 +615,16 @@ public class DataRequestSessionImpl extends DataRequestSession
 	{
 		return this.dataEngine.prepare( query, null );
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#getCachedDataSetMetaData(org.eclipse.birt.data.engine.api.IBaseDataSourceDesign, org.eclipse.birt.data.engine.api.IBaseDataSetDesign)
+	 */
+	public IResultMetaData getCachedDataSetMetaData(
+			IBaseDataSourceDesign dataSource, IBaseDataSetDesign dataSet )
+			throws BirtException
+	{
+		return this.dataEngine.getCachedDataSetMetaData( dataSource, dataSet );
+	}
 	
 }

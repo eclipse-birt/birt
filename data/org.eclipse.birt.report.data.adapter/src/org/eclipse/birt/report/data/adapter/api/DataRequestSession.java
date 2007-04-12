@@ -363,6 +363,21 @@ public abstract class DataRequestSession
 			IBaseDataSetDesign dataSet ) throws BirtException;
 
 	/**
+	 * This method will return NULL if the named data set is not cached. Otherwise, it
+	 * will return an IResultMetaData instance which provides at least the ColumnName
+	 * and ColumnType information for all cached columns.
+	 * 
+	 * Please note that the ParameterHint information will usually essential to the result of data set design is
+	 * omitted for it has nothing to do with the metadata.
+	 * @param dataSource
+	 * @param dataSet
+	 * @return
+	 * @throws BirtException
+	 */
+	abstract public IResultMetaData getCachedDataSetMetaData( IBaseDataSourceDesign dataSource,
+                   IBaseDataSetDesign dataSet ) throws BirtException;
+	
+	/**
 	 * Shuts down this session, and releases all associated resources.
 	 */
 	public abstract void shutdown( );
