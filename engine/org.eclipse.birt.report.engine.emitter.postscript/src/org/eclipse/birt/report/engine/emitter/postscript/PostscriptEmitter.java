@@ -11,34 +11,15 @@
 
 package org.eclipse.birt.report.engine.emitter.postscript;
 
-import org.eclipse.birt.report.engine.api.RenderOption;
+import org.eclipse.birt.report.engine.emitter.IEmitterServices;
+import org.eclipse.birt.report.engine.layout.emitter.PageDeviceRender;
+import org.eclipse.birt.report.engine.layout.emitter.PageEmitter;
 
 
-public class PostscriptRenderOption extends RenderOption
+public class PostscriptEmitter extends PageEmitter
 {
-	public static final String PS_LEVEL = "psLevel";
-
-	/**
-	 * Sets postscript level.
-	 * 
-	 * @param level
-	 */
-	public void setPostscriptLevel( int level )
+	public PageDeviceRender createRender( IEmitterServices services )
 	{
-		options.put( PS_LEVEL, new Integer( level ) );
+		return new PostscriptRender( services );
 	}
-
-	/**
-	 * Gets postscript level.
-	 */
-	public int getPostscriptLevel( )
-	{
-		Object value = options.get( PS_LEVEL );
-		if ( value instanceof Integer )
-		{
-			return ( ( Integer )value ).intValue( );
-		}
-		return 1;
-	}
-
 }

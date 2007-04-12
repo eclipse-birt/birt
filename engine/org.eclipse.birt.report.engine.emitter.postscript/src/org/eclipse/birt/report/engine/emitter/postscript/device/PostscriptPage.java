@@ -12,20 +12,22 @@
 package org.eclipse.birt.report.engine.emitter.postscript.device;
 
 import java.awt.Color;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 
-import org.eclipse.birt.report.engine.emitter.postscript.PostScriptWriter;
-import org.eclipse.birt.report.engine.layout.IPage;
-import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
+import org.eclipse.birt.report.engine.emitter.postscript.PostscriptWriter;
+import org.eclipse.birt.report.engine.layout.TextStyle;
+import org.eclipse.birt.report.engine.layout.emitter.IPage;
 
 public class PostscriptPage implements IPage
 {
 
-	private PostScriptWriter writer;
+	private PostscriptWriter writer;
 	private boolean isDisposed;
 
-	public PostscriptPage( PostScriptWriter writer )
+	public PostscriptPage( PostscriptWriter writer )
 	{
 		this.writer = writer;
 		this.isDisposed = false;
@@ -54,24 +56,43 @@ public class PostscriptPage implements IPage
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.emitter.postscript.page.IPageDevice#drawText(java.lang.String, float, float, org.eclipse.birt.report.engine.layout.pdf.font.FontInfo, float, float, java.awt.Color, boolean, boolean, boolean)
 	 */
-	public void drawText( String text, float textX, float textY,
-			FontInfo fontInfo, float characterSpacing, float wordSpacing,
-			Color color, boolean linethrough, boolean overline,
-			boolean underline )
+	public void drawText( String text, float textX, float textY, float width,
+			float height, TextStyle fontStyle )
 	{
-		writer.drawString( text, textX, textY, fontInfo, characterSpacing,
-				wordSpacing, color, linethrough, overline, underline );
+		writer.drawString( text, textX, textY, fontStyle.getFontInfo( ),
+				fontStyle.getCharacterSpacing( ), fontStyle.getWordSpacing( ),
+				fontStyle.getColor( ), fontStyle.isLinethrough( ), fontStyle
+						.isOverline( ), fontStyle.isUnderline( ), fontStyle
+						.getAlign( ) );
 	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.emitter.postscript.page.IPageDevice#drawImage(java.io.InputStream, float, float, float, float)
 	 */
 	public void drawImage( InputStream input, float imageX, float imageY,
-			float height, float width ) throws Exception
+			float height, float width, String helpText ) throws Exception
 	{
 		writer.drawImage( input, imageX, imageY, width, height );
 	}
 
+	public void drawImage( byte[] imageData, float imageX, float imageY,
+			float height, float width, String helpText ) throws Exception
+	{
+		InputStream input = new ByteArrayInputStream( imageData );
+		drawImage( input, imageX, imageY, height, width, helpText );
+	}
+
+	public void drawImage( String uri, float imageX, float imageY,
+			float height, float width, String helpText ) throws Exception
+	{
+		if ( uri == null )
+		{
+			return;
+		}
+		drawImage( new URL( uri ).openStream( ), imageX, imageY, height, width,
+				helpText );
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.emitter.postscript.page.IPageDevice#drawLine(float, float, float, float, float, java.awt.Color, java.lang.String)
 	 */

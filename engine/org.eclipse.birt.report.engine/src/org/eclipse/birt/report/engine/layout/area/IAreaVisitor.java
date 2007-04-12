@@ -10,29 +10,14 @@
  ***********************************************************************/
 package org.eclipse.birt.report.engine.layout.area;
 
-import org.eclipse.birt.report.engine.content.IReportContent;
-import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 
 public interface IAreaVisitor
 {
-	void start(IReportContent report);
-	
-	String getOutputFormat( );
-
-	void initialize(IEmitterServices service);
-	
 	void visitText(ITextArea textArea);
 	
 	void visitAutoText(ITemplateArea templateArea);
-	
-	void setTotalPage(ITextArea totalPage);
-	
+
 	void visitImage(IImageArea imageArea);
 	
-	void startContainer(IContainerArea containerArea);
-	
-	void endContainer(IContainerArea containerArea);
-	
-	void end(IReportContent report);
-			
+	void visitContainer(IContainerArea containerArea);
 }

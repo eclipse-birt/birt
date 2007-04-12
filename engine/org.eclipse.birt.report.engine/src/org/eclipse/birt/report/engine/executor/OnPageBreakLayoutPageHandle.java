@@ -15,10 +15,8 @@ import java.util.HashMap;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
-import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
-import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.area.IAreaVisitor;
@@ -135,19 +133,6 @@ public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler
 	private class PageBreakContentCollector implements IAreaVisitor
 	{
 
-		public void start( IReportContent report )
-		{
-		}
-
-		public String getOutputFormat( )
-		{
-			return null;
-		}
-
-		public void initialize( IEmitterServices service )
-		{
-		}
-
 		public void visitText( ITextArea textArea )
 		{
 			addContent( textArea.getContent( ) );
@@ -158,29 +143,15 @@ public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler
 			addContent( templateArea.getContent( ) );
 		}
 
-		public void setTotalPage( ITextArea totalPage )
-		{
-
-		}
-
 		public void visitImage( IImageArea imageArea )
 		{
 			addContent( imageArea.getContent( ) );
 		}
 
-		public void startContainer( IContainerArea containerArea )
+		public void visitContainer( IContainerArea containerArea )
 		{
 			addContent( containerArea.getContent( ) );
 		}
-
-		public void endContainer( IContainerArea containerArea )
-		{
-		}
-
-		public void end( IReportContent report )
-		{
-		}
-
 	}
 	
 	

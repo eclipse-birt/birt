@@ -61,15 +61,7 @@ public abstract class ContainerArea extends AbstractArea
 
 	public void accept( IAreaVisitor visitor )
 	{
-		visitor.startContainer( this );
-		Iterator iter = getChildren( );
-		while ( iter.hasNext( ) )
-		{
-			IArea child = (IArea) iter.next( );
-			child.accept( visitor );
-		}
-		visitor.endContainer( this );
-
+		visitor.visitContainer( this );
 	}
 
 	public int getChildrenCount( )

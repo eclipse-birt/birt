@@ -9,17 +9,31 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.birt.report.engine.emitter.pdf;
+package org.eclipse.birt.report.engine.layout.emitter;
 
-import org.eclipse.birt.report.engine.emitter.IEmitterServices;
-import org.eclipse.birt.report.engine.layout.emitter.PageDeviceRender;
-import org.eclipse.birt.report.engine.layout.emitter.PageEmitter;
+import java.awt.Color;
 
 
-public class PDFEmitter extends PageEmitter
+public interface IPageDevice
 {
-	public PageDeviceRender createRender( IEmitterServices services )
-	{
-		return new PDFRender( services );
-	}
+
+	/**
+	 * Creates a new page with specified width and height.
+	 * 
+	 * @param width
+	 *            page width.
+	 * @param height
+	 *            page height.
+	 * @param backgroundColor
+	 *            background color.
+	 * @return the new page.
+	 */
+	IPage newPage( float width, float height, Color backgroundColor );
+
+	/**
+	 * Closes this page device.
+	 * 
+	 * @throws Exception
+	 */
+	void close( ) throws Exception;
 }

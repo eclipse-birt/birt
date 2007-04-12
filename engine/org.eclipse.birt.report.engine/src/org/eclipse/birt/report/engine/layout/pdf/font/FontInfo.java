@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.font;
 
-import org.eclipse.birt.report.engine.layout.PDFConstants;
-
 import com.lowagie.text.pdf.BaseFont;
 
 public class FontInfo
@@ -94,31 +92,31 @@ public class FontInfo
 		return this.lineWidth;
 	}
 	
-	public int getOverlinePosition()
+	public float getOverlinePosition()
 	{
 		//float awtAscent = bf.getFontDescriptor(BaseFont.AWT_ASCENT, fontSize);
 		//float ascent = bf.getFontDescriptor(BaseFont.ASCENT, fontSize);
-		return (int)((fontPadding/2f-lineWidth/2f)*PDFConstants.LAYOUT_TO_PDF_RATIO);
+		return fontPadding/2f-lineWidth/2f;
 	}
 	
-	public int getUnderlinePosition()
+	public float getUnderlinePosition()
 	{
 		float awtAscent = bf.getFontDescriptor(BaseFont.AWT_ASCENT, fontSize);
 		float awtDescent = -bf.getFontDescriptor(BaseFont.AWT_DESCENT, fontSize);
-		return (int)((awtAscent + awtDescent + lineWidth/2f)*PDFConstants.LAYOUT_TO_PDF_RATIO);
+		return awtAscent + awtDescent + lineWidth/2f;
 	}
 	
-	public int getLineThroughPosition()
+	public float getLineThroughPosition()
 	{
 		float awtAscent = bf.getFontDescriptor(BaseFont.AWT_ASCENT, fontSize);
 		float ascent = bf.getFontDescriptor(BaseFont.ASCENT, fontSize);
 		float descent = -bf.getFontDescriptor(BaseFont.DESCENT, fontSize);
-		return (int)((awtAscent+ fontPadding/2f - ascent + (ascent + descent)/2.0f)*PDFConstants.LAYOUT_TO_PDF_RATIO);
+		return awtAscent+ fontPadding/2f - ascent + (ascent + descent)/2.0f;
 	}
 	
-	public int getBaseline()
+	public float getBaseline()
 	{
-		return (int)((bf.getFontDescriptor(BaseFont.AWT_ASCENT, fontSize)+fontPadding/2f) * PDFConstants.LAYOUT_TO_PDF_RATIO);
+		return bf.getFontDescriptor(BaseFont.AWT_ASCENT, fontSize)+fontPadding/2f;
 	}
 	
 	/**

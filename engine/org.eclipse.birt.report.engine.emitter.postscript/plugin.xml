@@ -7,7 +7,7 @@
 	 	name = "Engine PostScript Emitters">
 
         <emitter
-              class="org.eclipse.birt.report.engine.emitter.postscript.PostScriptEmitter"
+              class="org.eclipse.birt.report.engine.emitter.postscript.PostscriptEmitter"
               format="postscript"
               pagination="paper-size-pagination"
               id="org.eclipse.birt.report.engine.emitter.postscript"
