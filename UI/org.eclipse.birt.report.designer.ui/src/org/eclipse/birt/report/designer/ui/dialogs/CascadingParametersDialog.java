@@ -13,14 +13,25 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
+import org.eclipse.birt.data.engine.api.DataEngine;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IPreparedQuery;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
+import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
+import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -55,6 +66,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
@@ -71,6 +83,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
@@ -91,6 +104,8 @@ public class CascadingParametersDialog extends BaseDialog
 	private static final String CHOICE_NULL_VALUE = Messages.getString( "CascadingParametersDialog.Choice.NullValue" );
 
 	private static final String CHOICE_BLANK_VALUE = Messages.getString( "CascadingParametersDialog.Choice.BlankValue" );
+	
+	private static final String CHOICE_SELECT_VALUE = Messages.getString( "CascadingParametersDialog.Choice.SelectValue" );
 
 	private static final String LABEL_PARAMTER_PROMPT_TEXT = Messages.getString( "CascadingParametersDialog.Label.parameterPromptText" ); //$NON-NLS-1$
 
@@ -176,6 +191,8 @@ public class CascadingParametersDialog extends BaseDialog
 	private static final double DEFAULT_PREVIEW_NUMBER = Double.parseDouble( "1234.56" ); //$NON-NLS-1$
 
 	private static final int DEFAULT_PREVIEW_INTEGER_NUMBER = 123456;
+	
+	private static final String STANDARD_DATE_TIME_PATTERN = "MM/dd/yyyy hh:mm:ss a"; //$NON-NLS-1$
 
 	private static final String DEFAULT_PREVIEW_STRING = Messages.getString( "CascadingParametersDialog.default.preview.string" ); //$NON-NLS-1$
 
@@ -551,7 +568,129 @@ public class CascadingParametersDialog extends BaseDialog
 		// defaultValueEditor = new Text( propertiesGroup, SWT.BORDER );
 		defaultValueChooser = new Combo( propertiesGroup, SWT.BORDER );
 		defaultValueChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		defaultValueChooser.add( CHOICE_SELECT_VALUE );
+		defaultValueChooser.addSelectionListener( new SelectionAdapter( ) {
 
+			public void widgetSelected( SelectionEvent e )
+			{
+				if ( defaultValueChooser.getSelectionIndex( ) == -1 )
+					return;
+				String selection = defaultValueChooser.getItem( defaultValueChooser.getSelectionIndex( ) );
+				if ( selection.equals( CHOICE_SELECT_VALUE ) )
+				{
+					defaultValueChooser.setText( "" );
+					if ( getColumnValueList( ).isEmpty( ) )
+						return;
+					SelectParameterDefaultValueDialog dialog = new SelectParameterDefaultValueDialog( Display.getCurrent( )
+							.getActiveShell( ),
+							Messages.getString( "SelectParameterDefaultValueDialog.Title" ) );
+					dialog.setColumnValueList( getColumnValueList( ) );
+					int status = dialog.open( );
+					if ( status == Window.OK )
+					{
+						String selectedValue = dialog.getSelectedValue( );
+						if ( selectedValue != null )
+							defaultValueChooser.setText( selectedValue );
+					}
+					else if ( status == Window.CANCEL )
+					{
+						defaultValueChooser.setText( "" );
+					}
+				}
+				
+			}
+		} );
+
+	}
+	
+	private List getColumnList()
+	{
+		List columnList = new ArrayList();
+		DataSetHandle dataSetHandle = getDataSet( selectedParameter );
+		try
+		{
+			columnList = DataUtil.getColumnList( dataSetHandle );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+		return ( columnList.isEmpty( ) )? Collections.EMPTY_LIST : columnList;
+	}
+	
+	private List getColumnValueList( )
+	{
+		ArrayList valueList = new ArrayList( );
+		DataEngine engine;
+		DataSetHandle dataSet = getDataSet( selectedParameter );
+		try
+		{
+			String queryExpr = null;
+			engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+					null,
+					null,
+					null ) );
+			BaseQueryDefinition query = (BaseQueryDefinition) DataUtil.getPreparedQuery( engine,
+					dataSet )
+					.getReportQueryDefn( );
+			
+			for ( Iterator iter = getColumnList( ).iterator( ); iter.hasNext( ); )
+			{
+				ResultSetColumnHandle column = (ResultSetColumnHandle) iter.next( );
+				String columnName = column.getColumnName( );
+				if ( DEUtil.getColumnExpression( columnName )
+						.equalsIgnoreCase( selectedParameter.getValueExpr( ) ) )
+				{
+					queryExpr = DEUtil.getResultSetColumnExpression( columnName );
+					break;
+				}
+			}
+			if ( queryExpr == null || queryExpr.equals( "" ) )
+			{
+				return Collections.EMPTY_LIST;
+			}
+			ScriptExpression expression = new ScriptExpression( queryExpr );
+			String columnBindingName = "_$_COLUMNBINDINGNAME_$_";
+			query.addResultSetExpression( columnBindingName, expression );
+			// query.addExpression( expression, BaseTransform.ON_EACH_ROW );
+
+			IPreparedQuery preparedQuery = engine.prepare( (IQueryDefinition) query );
+			IQueryResults results = preparedQuery.execute( null );
+			if ( results != null )
+			{
+				IResultIterator iter = results.getResultIterator( );
+				if ( iter != null )
+				{
+					DateFormatter formatter = new DateFormatter( STANDARD_DATE_TIME_PATTERN,
+							ULocale.US );
+					while ( iter.next( ) )
+					{
+						String result = null;
+						if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( selectedParameter.getDataType( ) ) )
+						{
+
+							result = formatter.format( iter.getDate( columnBindingName ) );
+						}
+						else
+						{
+							result = iter.getString( columnBindingName );
+						}
+						if ( !StringUtil.isBlank( result )
+								&& !valueList.contains( result ) )
+						{
+							valueList.add( result );
+						}
+					}
+				}
+				results.close( );
+			}
+		}
+		catch ( Exception e )
+		{
+			ExceptionHandler.handle( e );
+			return Collections.EMPTY_LIST;
+		}
+		return valueList;
 	}
 
 	private void createOptionsPart( Composite parent )
@@ -1482,9 +1621,9 @@ public class CascadingParametersDialog extends BaseDialog
 	{
 		if ( defaultValueChooser == null )
 			return;
-		if ( defaultValueChooser.getItemCount( ) > 0 )
+		if ( defaultValueChooser.getItemCount( ) > 1 )
 		{
-			defaultValueChooser.remove( 0,
+			defaultValueChooser.remove( 1,
 					defaultValueChooser.getItemCount( ) - 1 );
 		}
 	}

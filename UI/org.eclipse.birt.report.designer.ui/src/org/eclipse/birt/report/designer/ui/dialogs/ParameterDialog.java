@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -25,6 +26,14 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
+import org.eclipse.birt.data.engine.api.DataEngine;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IPreparedQuery;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
+import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ImportValueDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.SelectionChoiceDialog;
@@ -63,6 +72,7 @@ import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.ModifyEvent;
@@ -78,6 +88,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
@@ -98,6 +109,8 @@ public class ParameterDialog extends BaseDialog
 	private static final String CHOICE_NO_DEFAULT = Messages.getString( "ParameterDialog.Choice.NoDefault" ); //$NON-NLS-1$
 
 	private static final String CHOICE_NULL_VALUE = Messages.getString( "ParameterDialog.Choice.NullValue" );
+
+	private static final String CHOICE_SELECT_VALUE = Messages.getString( "ParameterDialog.Choice.SelectValue" );
 
 	private static final String CHOICE_BLANK_VALUE = Messages.getString( "ParameterDialog.Choice.BlankValue" );
 
@@ -218,7 +231,7 @@ public class ParameterDialog extends BaseDialog
 
 	private static final Image ERROR_ICON = ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
 
-	private static final String STANDARD_DATE_TIME_PATTERN = "MM/dd/yyyy hh:mm:ss a"; //$NON-NLS-1$	
+	private static final String STANDARD_DATE_TIME_PATTERN = "MM/dd/yyyy hh:mm:ss a"; //$NON-NLS-1$
 
 	private HashMap dirtyProperties = new HashMap( 5 );
 
@@ -783,11 +796,11 @@ public class ParameterDialog extends BaseDialog
 			{
 				if ( defaultValue == null )
 				{
-					defaultValueChooser.select( 0 );
+					defaultValueChooser.select( 1 );
 				}
 				else if ( defaultValue.equals( "" ) )
 				{
-					defaultValueChooser.select( 1 );
+					defaultValueChooser.select( 2 );
 				}
 				else
 				{
@@ -851,6 +864,83 @@ public class ParameterDialog extends BaseDialog
 		updateFormatField( );
 	}
 
+	private List getColumnValueList( )
+	{
+		ArrayList valueList = new ArrayList( );
+		DataEngine engine;
+		ResultSetColumnHandle selectedColumn = null;
+		try
+		{
+			String queryExpr = columnChooser.getText( );
+			if ( queryExpr == null || queryExpr.equals( "" ) )
+			{
+				return Collections.EMPTY_LIST;
+			}
+			engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+					null,
+					null,
+					null ) );
+			BaseQueryDefinition query = (BaseQueryDefinition) DataUtil.getPreparedQuery( engine,
+					getDataSetHandle( ) )
+					.getReportQueryDefn( );
+
+			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
+			{
+				ResultSetColumnHandle column = (ResultSetColumnHandle) iter.next( );
+				if ( column.getColumnName( ).equals( columnChooser.getText( ) ) )
+				{
+					queryExpr = DEUtil.getResultSetColumnExpression( column.getColumnName( ) );
+					selectedColumn = column;
+					break;
+				}
+			}
+
+			ScriptExpression expression = new ScriptExpression( queryExpr );
+			String columnBindingName = "_$_COLUMNBINDINGNAME_$_";
+			query.addResultSetExpression( columnBindingName, expression );
+			// query.addExpression( expression, BaseTransform.ON_EACH_ROW );
+
+			IPreparedQuery preparedQuery = engine.prepare( (IQueryDefinition) query );
+			IQueryResults results = preparedQuery.execute( null );
+			if ( results != null )
+			{
+				IResultIterator iter = results.getResultIterator( );
+				if ( iter != null )
+				{
+					DateFormatter formatter = new DateFormatter( STANDARD_DATE_TIME_PATTERN,
+							ULocale.US );
+					while ( iter.next( ) )
+					{
+						String result = null;
+						if ( selectedColumn != null
+								&& DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( selectedColumn.getDataType( ) ) )
+						{
+
+							result = formatter.format( iter.getDate( columnBindingName ) );
+						}
+						else
+						{
+							result = iter.getString( columnBindingName );
+						}
+						if ( !StringUtil.isBlank( result )
+								&& !valueList.contains( result ) )
+						{
+							valueList.add( result );
+						}
+					}
+				}
+
+				results.close( );
+			}
+		}
+		catch ( Exception e )
+		{
+			ExceptionHandler.handle( e );
+			return Collections.EMPTY_LIST;
+		}
+		return valueList;
+	}
+
 	private void refreshDataSets( )
 	{
 		String selectedDataSetName = dataSetChooser.getText( );
@@ -886,6 +976,12 @@ public class ParameterDialog extends BaseDialog
 		}
 	}
 
+	private DataSetHandle getDataSetHandle( )
+	{
+		return inputParameter.getModuleHandle( )
+				.findDataSet( dataSetChooser.getText( ) );
+	}
+
 	private void refreshColumns( boolean onlyFilter )
 	{
 		if ( columnChooser == null )
@@ -894,8 +990,7 @@ public class ParameterDialog extends BaseDialog
 		}
 		if ( !onlyFilter )
 		{
-			DataSetHandle dataSetHandle = inputParameter.getModuleHandle( )
-					.findDataSet( dataSetChooser.getText( ) );
+			DataSetHandle dataSetHandle = getDataSetHandle( );
 
 			try
 			{
@@ -1398,7 +1493,7 @@ public class ParameterDialog extends BaseDialog
 		dataSetChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		dataSetChooser.addSelectionListener( new SelectionAdapter( ) {
 
-			public void widgetSelected( SelectionEvent e )
+			public void widgetDefaultSelected( SelectionEvent e )
 			{
 				refreshColumns( false );
 			}
@@ -1424,7 +1519,7 @@ public class ParameterDialog extends BaseDialog
 		columnChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		columnChooser.addSelectionListener( new SelectionAdapter( ) {
 
-			public void widgetDefaultSelected( SelectionEvent e )
+			public void widgetSelected( SelectionEvent e )
 			{
 				updateButtons( );
 			}
@@ -1479,7 +1574,6 @@ public class ParameterDialog extends BaseDialog
 			}
 		} );
 
-		// createLabel( composite, null );
 		createDefaultEditor( );
 		createLabel( valueArea, null );
 		createPromptLine( valueArea );
@@ -1503,10 +1597,10 @@ public class ParameterDialog extends BaseDialog
 	{
 		if ( defaultValueChooser == null )
 			return;
-		if ( defaultValueChooser.getItemCount( ) > 0 )
+		if ( defaultValueChooser.getItemCount( ) > 1 )
 		{
-			defaultValueChooser.remove( 0,
-					defaultValueChooser.getItemCount( ) - 1 );
+			defaultValueChooser.remove( CHOICE_NULL_VALUE );
+			defaultValueChooser.remove( CHOICE_BLANK_VALUE );
 		}
 	}
 
@@ -1515,6 +1609,10 @@ public class ParameterDialog extends BaseDialog
 		createLabel( valueArea, LABEL_DEFAULT_VALUE );
 		defaultValueChooser = new Combo( valueArea, SWT.BORDER );
 		defaultValueChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		if ( !isStatic( ) )
+		{
+			defaultValueChooser.add( CHOICE_SELECT_VALUE );
+		}
 		if ( getSelectedDataType( ).equals( DesignChoiceConstants.PARAM_TYPE_STRING )
 				&& !isRequired.getSelection( ) )
 		{
@@ -1525,18 +1623,44 @@ public class ParameterDialog extends BaseDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				switch ( defaultValueChooser.getSelectionIndex( ) )
+				if ( defaultValueChooser.getSelectionIndex( ) == -1 )
+					return;
+				String selection = defaultValueChooser.getItem( defaultValueChooser.getSelectionIndex( ) );
+				if ( selection.equals( CHOICE_SELECT_VALUE ) )
 				{
-					case 0 :
-						changeDefaultValue( null );
-						break;
-					case 1 :
-						changeDefaultValue( "" );
-						break;
+					defaultValueChooser.setText( "" );
+					if ( getColumnValueList( ).isEmpty( ) )
+						return;
+					SelectParameterDefaultValueDialog dialog = new SelectParameterDefaultValueDialog( Display.getCurrent( )
+							.getActiveShell( ),
+							Messages.getString( "SelectParameterDefaultValueDialog.Title" ) );
+					dialog.setColumnValueList( getColumnValueList( ) );
+					int status = dialog.open( );
+					if ( status == Window.OK )
+					{
+						String selectedValue = dialog.getSelectedValue( );
+						if ( selectedValue != null )
+							defaultValueChooser.setText( selectedValue );
+					}
+					else if ( status == Window.CANCEL )
+					{
+						defaultValueChooser.setText( "" );
+					}
 				}
-				if ( isStatic( ) )
+				else
 				{
-					refreshValueTable( );
+					if ( selection.equals( CHOICE_NULL_VALUE ) )
+					{
+						changeDefaultValue( null );
+					}
+					else if ( selection.equals( CHOICE_BLANK_VALUE ) )
+					{
+						changeDefaultValue( "" );
+					}
+					if ( isStatic( ) )
+					{
+						refreshValueTable( );
+					}
 				}
 			}
 		} );
@@ -1555,22 +1679,6 @@ public class ParameterDialog extends BaseDialog
 				}
 			}
 		} );
-		// defaultValueEditor = new Text( valueArea, SWT.BORDER );
-		// defaultValueEditor.setLayoutData( new GridData(
-		// GridData.FILL_HORIZONTAL ) );
-		// defaultValueEditor.addModifyListener( new ModifyListener( ) {
-		//
-		// public void modifyText( ModifyEvent e )
-		// {
-		// changeDefaultValue( UIUtil.convertToModelString(
-		// defaultValueEditor.getText( ),
-		// false ) );
-		// if ( isStatic( ) )
-		// {
-		// refreshValueTable( );
-		// }
-		// }
-		// } );
 	}
 
 	private void createPromptLine( Composite parent )
@@ -1832,7 +1940,7 @@ public class ParameterDialog extends BaseDialog
 		else
 		{
 			if ( defaultValueChooser == null
-					|| defaultValueChooser.getItemCount( ) > 0 )
+					|| defaultValueChooser.getItemCount( ) > 1 )
 				return;
 			defaultValueChooser.add( CHOICE_NULL_VALUE );
 			defaultValueChooser.add( CHOICE_BLANK_VALUE );
