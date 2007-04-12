@@ -565,6 +565,13 @@ Choices.paramSortValues.label=표시 텍스트
 Choices.reportLayoutPreference.fixedLayout=고정된 레이아웃
 Choices.reportLayoutPreference.autoLayout=자동 레이아웃
 
+#75. dateTimeLevelType
+Choices.dateTimeLevelType.year=연
+Choices.dateTimeLevelType.month=월
+Choices.dateTimeLevelType.quarter=분기
+Choices.dateTimeLevelType.week=주
+Choices.dateTimeLevelType.day=일
+
 
 ###########################################################
 # Classes
@@ -2957,6 +2964,7 @@ Element.Hierarchy.accessControls=액세스 컨트롤
 
 #48. Level ( prefix Element.Level )
 Element.Level.dataType=데이터 형식
+Element.Level.dateTimeLevelType=Date Time Level Type
 Element.Level.Interval=간격
 Element.Level.intervalBase=간격 기준
 Element.Level.interval=간격

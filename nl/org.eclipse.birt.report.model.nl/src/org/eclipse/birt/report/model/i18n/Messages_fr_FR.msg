@@ -565,6 +565,13 @@ Choices.paramSortValues.label=Texte d'affichage
 Choices.reportLayoutPreference.fixedLayout=Mise en page fixe
 Choices.reportLayoutPreference.autoLayout=Mise en page automatique
 
+#75. dateTimeLevelType
+Choices.dateTimeLevelType.year=Année
+Choices.dateTimeLevelType.month=Mois
+Choices.dateTimeLevelType.quarter=Trimestre
+Choices.dateTimeLevelType.week=Semaine
+Choices.dateTimeLevelType.day=Jour
+
 
 ###########################################################
 # Classes
@@ -2957,6 +2964,7 @@ Element.Hierarchy.accessControls=Contrôles d'accès
 
 #48. Level ( prefix Element.Level )
 Element.Level.dataType=Type de données
+Element.Level.dateTimeLevelType=Date Time Level Type
 Element.Level.Interval=Intervalle
 Element.Level.intervalBase=Base d'intervalle
 Element.Level.interval=Intervalle

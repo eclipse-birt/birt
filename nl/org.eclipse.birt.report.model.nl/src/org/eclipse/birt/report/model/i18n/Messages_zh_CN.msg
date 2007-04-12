@@ -565,6 +565,13 @@ Choices.paramSortValues.label=显示文本
 Choices.reportLayoutPreference.fixedLayout=混合布局
 Choices.reportLayoutPreference.autoLayout=自动布局
 
+#75. dateTimeLevelType
+Choices.dateTimeLevelType.year=年
+Choices.dateTimeLevelType.month=月
+Choices.dateTimeLevelType.quarter=季
+Choices.dateTimeLevelType.week=周
+Choices.dateTimeLevelType.day=日
+
 
 ###########################################################
 # Classes
@@ -2957,6 +2964,7 @@ Element.Hierarchy.accessControls=访问控制
 
 #48. Level ( prefix Element.Level )
 Element.Level.dataType=数据类型
+Element.Level.dateTimeLevelType=Date Time Level Type
 Element.Level.Interval=间隔
 Element.Level.intervalBase=间隔基数
 Element.Level.interval=间隔

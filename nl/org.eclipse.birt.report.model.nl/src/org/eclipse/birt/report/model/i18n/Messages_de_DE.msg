@@ -565,6 +565,13 @@ Choices.paramSortValues.label=Text anzeigen
 Choices.reportLayoutPreference.fixedLayout=Festes Layout
 Choices.reportLayoutPreference.autoLayout=Automatisches Layout
 
+#75. dateTimeLevelType
+Choices.dateTimeLevelType.year=Jahr
+Choices.dateTimeLevelType.month=Monat
+Choices.dateTimeLevelType.quarter=Quartal
+Choices.dateTimeLevelType.week=Woche
+Choices.dateTimeLevelType.day=Tag
+
 
 ###########################################################
 # Classes
@@ -2957,6 +2964,7 @@ Element.Hierarchy.accessControls=Zugriffssteuerungen
 
 #48. Level ( prefix Element.Level )
 Element.Level.dataType=Datentyp
+Element.Level.dateTimeLevelType=Date Time Level Type
 Element.Level.Interval=Intervall
 Element.Level.intervalBase=Intervallbasis
 Element.Level.interval=Intervall

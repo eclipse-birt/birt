@@ -565,6 +565,13 @@ Choices.paramSortValues.label=表示テキスト
 Choices.reportLayoutPreference.fixedLayout=修正したレイアウト
 Choices.reportLayoutPreference.autoLayout=自動レイアウト
 
+#75. dateTimeLevelType
+Choices.dateTimeLevelType.year=年
+Choices.dateTimeLevelType.month=月
+Choices.dateTimeLevelType.quarter=四半期
+Choices.dateTimeLevelType.week=週
+Choices.dateTimeLevelType.day=日
+
 
 ###########################################################
 # Classes
@@ -2957,6 +2964,7 @@ Element.Hierarchy.accessControls=アクセスコントロール
 
 #48. Level ( prefix Element.Level )
 Element.Level.dataType=データ型
+Element.Level.dateTimeLevelType=Date Time Level Type
 Element.Level.Interval=間隔
 Element.Level.intervalBase=間隔の基準
 Element.Level.interval=間隔
