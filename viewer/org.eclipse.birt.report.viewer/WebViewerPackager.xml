@@ -382,6 +382,14 @@
 			<include name="org.eclipse.osgi_*.jar" />
 			<include name="org.eclipse.osgi.services_*.jar"/>
 			<include name="org.eclipse.update.configurator_*.jar" />
+			<!-- DTP bundles -->
+			<include name="org.eclipse.datatools.connectivity_*.jar" />
+			<include name="org.eclipse.datatools.connectivity.oda.consumer_*.jar" />
+			<include name="org.eclipse.datatools.connectivity.oda.flatfile_*.jar" />
+			<include name="org.eclipse.datatools.connectivity.oda.profile_*.jar" />
+			<include name="org.eclipse.datatools.connectivity.oda.design_*.jar" />
+			<include name="org.eclipse.datatools.connectivity.oda_*.jar" />
+			<include name="org.eclipse.datatools.enablement.oda.xml_*.jar" />
 			<!-- orbit project -->
 			<include name="org.apache.xerces_*.jar"/>
 			<include name="org.w3c.dom_*.jar"/>
@@ -390,6 +398,7 @@
 			<include name="org.w3c.dom.svg_*.jar"/>
 			<include name="org.w3c.dom.smil_*.jar"/>
 			<include name="org.w3c.css.sac_*.jar"/>
+			<include name="org.wsdl4j_*/**"/>
 		</fileset>
 		<fileset dir="${baseLocation.emf}/plugins">
 			<include name="org.eclipse.emf.common_*.jar" />
@@ -399,76 +408,16 @@
 		</fileset>
 	</copy>
 
-	<!-- other plugins provided by the 3rd party -->
-
-	<!-- com.lowagie.itext -->
-	<copy todir="${export.dir}/plugins/com.lowagie.itext">
-		<fileset dir="../com.lowagie.itext">
-			<include name="META-INF/MANIFEST.MF" />
-			<exclude name="lib/*.jar" />
-			<include name="about.html" />
-			<include name="about_files/**" />
-			<include name="plugin.*" />
-		</fileset>
-	</copy>
-	
-	<!-- org.apache.commons.codec -->
-	<copy todir="${export.dir}/plugins/org.apache.commons.codec">
-		<fileset dir="../org.apache.commons.codec">
-			<include name="META-INF/MANIFEST.MF" />
-			<include name="lib/*.jar" />
-			<include name="about.html" />
-			<include name="about_files/**" />
-			<include name="plugin.*" />
-		</fileset>
-	</copy>
-
-	<!-- org.apache.batik.pdf -->
-	<copy todir="${export.dir}/plugins/org.apache.batik.pdf">
-		<fileset dir="../org.apache.batik.pdf">
-			<include name="META-INF/MANIFEST.MF" />
-			<include name="lib/*.jar" />
-			<include name="about.html" />
-			<include name="about_files/**" />
-			<include name="plugin.*" />
-		</fileset>
-	</copy>
-
-	<!-- org.mozilla.rhino_1.0.0 -->
-	<copy todir="${export.dir}/plugins/org.mozilla.rhino">
-		<fileset dir="../org.mozilla.rhino">
-			<include name="META-INF/MANIFEST.MF" />
-			<include name="lib/*.jar" />
-			<include name="about.html" />
-			<include name="about_files/**" />
-			<include name="plugin.*" />
-		</fileset>
-	</copy>
-
-	<!-- org.w3c.sac_1.0.0 -->
-	<copy todir="${export.dir}/plugins/org.w3c.sac">
-		<fileset dir="../org.w3c.sac">
-			<include name="META-INF/MANIFEST.MF" />
-			<include name="lib/*.jar" />
-			<include name="about.html" />
-			<include name="about_files/**" />
-			<include name="plugin.*" />
-		</fileset>
-	</copy>
-
-	<!-- org.apache.derby.core -->
-	<copy todir="${export.dir}/plugins/org.apache.derby.core">
-		<fileset dir="../org.apache.derby.core">
-			<include name="META-INF/MANIFEST.MF" />
-			<include name="*.jar" />
-			<include name="about.html" />
-			<include name="about_files/**" />
-			<include name="plugin.*" />
-		</fileset>
-	</copy>
-
 	<copy todir="${export.dir}/plugins">
 		<fileset dir="${integrate.dir}/plugins">
+			<!-- 3rd party bundles -->
+			<include name="org.apache.derby.core_*/**" />
+			<include name="org.w3c.sac_*/**" />
+			<include name="org.mozilla.rhino_*/**" />
+			<include name="org.apache.batik.pdf_*/**" />
+			<include name="org.apache.commons.codec_*/**" />
+			<include name="com.lowagie.itext_*/**" />
+			<!-- birt bundles -->
 			<include name="org.eclipse.birt.chart.device.extension_*.jar" />
 			<include name="org.eclipse.birt.chart.device.svg_*.jar" />
 			<include name="org.eclipse.birt.chart.engine_*.jar" />
@@ -490,22 +439,9 @@
 			<include name="org.eclipse.birt.report.engine.fonts_*/**" />
 			<include name="org.eclipse.birt.report.model_*.jar" />
 			<include name="org.eclipse.birt.report.model.adapter.oda_*.jar" />
-			<!-- crosstab plugins-->
-			<include name="org.eclipse.birt.report.item.crosstab.core_*.jar"/>
-		</fileset>
-	</copy>
-
-	<!-- DTP　plugins -->
-	<!-- org.eclipse.datatools.connectivity_0.7.0.200602241 -->
-	<copy todir="${export.dir}/plugins">
-		<fileset dir="${baseLocation}/plugins">
-			<include name="org.eclipse.datatools.connectivity_*.jar" />
-			<include name="org.eclipse.datatools.connectivity.oda.consumer_*.jar" />
-			<include name="org.eclipse.datatools.connectivity.oda.flatfile_*.jar" />
-			<include name="org.eclipse.datatools.connectivity.oda.profile_*.jar" />
-			<include name="org.eclipse.datatools.connectivity.oda.design_*.jar" />
-			<include name="org.eclipse.datatools.connectivity.oda_*.jar" />
-			<include name="org.eclipse.datatools.enablement.oda.xml_*.jar" />
+			<include name="org.eclipse.birt.report.item.crosstab.core_*.jar" />
+			<!-- temp plugin in BIRT, which will move to DTP in later RC0 -->
+			<include name="org.eclipse.datatools.enablement.oda.ws_*.jar" />
 		</fileset>
 	</copy>
 
