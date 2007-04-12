@@ -454,8 +454,9 @@ public class ReportTemplateTransferDropTargetListener extends
 					{
 						// enable DataSetHandle,ParameterHandle to drag in lib
 						// explorer view.
-						if ( dragObj instanceof DataSetHandle
-								|| dragObj instanceof ParameterHandle )
+						// 180426 disabled drop to library editor
+						if ( (dragObj instanceof DataSetHandle
+								|| dragObj instanceof ParameterHandle ) && getTargetEditPart( )==null)
 							return true;
 						if ( !DNDUtil.handleValidateTargetCanContain( targetEditPart.getModel( ),
 								dragObj )
