@@ -1679,7 +1679,7 @@ public abstract class ModuleWriter extends ElementVisitor
 						break;
 				}
 			}
-			
+
 			// write overridden properties
 			writeOverridenPropertyValues( obj );
 		}
@@ -1960,7 +1960,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, ICellModel.ON_PREPARE_METHOD );
 		property( obj, ICellModel.ON_CREATE_METHOD );
 		property( obj, ICellModel.ON_RENDER_METHOD );
-		
+
 		writeUserPropertyDefns( obj );
 		writeUserPropertyValues( obj );
 
@@ -3392,6 +3392,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	{
 		super.visitLevel( obj );
 		property( obj, ILevelModel.DATA_TYPE_PROP );
+		property( obj, ILevelModel.DATE_TIME_LEVEL_TYPE );
 		property( obj, ILevelModel.INTERVAL_BASE_PROP );
 		property( obj, ILevelModel.INTERVAL_PROP );
 		property( obj, ILevelModel.INTERVAL_RANGE_PROP );

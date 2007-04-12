@@ -299,4 +299,48 @@ public abstract class LevelHandle extends ReportElementHandle
 		return propHandle.getContents( ).iterator( );
 	}
 
+	/**
+	 * Returns the date-time type of this level. The possible values are defined
+	 * in
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are:
+	 * <ul>
+	 * <li>DATE_TIME_LEVEL_TYPE_YEAR
+	 * <li>DATE_TIME_LEVEL_TYPE_MONTH
+	 * <li>DATE_TIME_LEVEL_TYPE_QUARTER
+	 * <li>DATE_TIME_LEVEL_TYPE_WEEK
+	 * <li>DATE_TIME_LEVEL_TYPE_DAY
+	 * </ul>
+	 * 
+	 * @return the date-time type of this level.
+	 */
+
+	public String getDateTimeLevelType( )
+	{
+		return getStringProperty( DATE_TIME_LEVEL_TYPE );
+	}
+
+	/**
+	 * Sets the date-time type of this level. The allowed values are defined in
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
+	 * and they are:
+	 * <ul>
+	 *  <li>DATE_TIME_LEVEL_TYPE_YEAR
+	 * <li>DATE_TIME_LEVEL_TYPE_MONTH
+	 * <li>DATE_TIME_LEVEL_TYPE_QUARTER
+	 * <li>DATE_TIME_LEVEL_TYPE_WEEK
+	 * <li>DATE_TIME_LEVEL_TYPE_DAY
+	 * </ul>
+	 * 
+	 * @param dateTimeType
+	 *            the date-time type to set
+	 * @throws SemanticException
+	 *             if the dateTimeType is not in the choice list.
+	 */
+
+	public void setDateTimeLevelType( String dateTimeType ) throws SemanticException
+	{
+		setStringProperty( DATE_TIME_LEVEL_TYPE, dateTimeType );
+	}
+
 }

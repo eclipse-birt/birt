@@ -39,6 +39,7 @@
                             <property name="levels">
                                 <tabular-level name="newtestLevel" id="10">
                                     <property name="dataType">string</property>
+                                    <property name="dateTimeLevelType">quarter</property>
                                     <property name="intervalBase">updated Jan</property>
                                     <property name="interval">month</property>
                                     <property name="intervalRange">5.0</property>

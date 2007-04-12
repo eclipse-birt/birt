@@ -57,10 +57,16 @@ public interface ILevelModel
 	 * Name of the property that gives the data type of this level.
 	 */
 	String DATA_TYPE_PROP = "dataType"; //$NON-NLS-1$
-	
+
 	/**
 	 * Name of the property that specifies a list of privilige of users.
 	 */
 
 	String VALUE_ACCESS_CONTROLS_PROP = "valueAccessControls"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property that defines the type of a date-time level, such as
+	 * year, quater, month, week, day.
+	 */
+	String DATE_TIME_LEVEL_TYPE = "dateTimeLevelType"; //$NON-NLS-1$
 }

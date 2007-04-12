@@ -489,9 +489,9 @@ public interface DesignChoiceConstants
 	public static final String COLUMN_DATA_TYPE_DECIMAL = "decimal"; //$NON-NLS-1$
 	public static final String COLUMN_DATA_TYPE_FLOAT = "float"; //$NON-NLS-1$
 	public static final String COLUMN_DATA_TYPE_BOOLEAN = "boolean"; //$NON-NLS-1$
-	public static final String COLUMN_DATA_TYPE_DATE= "date";//$NON-NLS-1$
-	public static final String COLUMN_DATA_TYPE_TIME= "time";//$NON-NLS-1$
-	
+	public static final String COLUMN_DATA_TYPE_DATE = "date";//$NON-NLS-1$
+	public static final String COLUMN_DATA_TYPE_TIME = "time";//$NON-NLS-1$
+
 	/**
 	 * searchType -- The search type for column hint The first constant is the
 	 * name of searchType choice. The followed constants are valid choice values
@@ -736,44 +736,54 @@ public interface DesignChoiceConstants
 	public static final String VIEW_ACTION_CHANGED = "Changed"; //$NON-NLS-1$
 	public static final String VIEW_ACTION_ADDED = "Added"; //$NON-NLS-1$
 	public static final String VIEW_ACTION_DELETED = "Deleted"; //$NON-NLS-1$
-	
+
 	/**
 	 * measure Function -- measure function type.
 	 */
-	
+
 	public static final String CHOICE_MEASURE_FUNCTION = "measureFunction"; //$NON-NLS-1$
 	public static final String MEASURE_FUNCTION_SUM = "sum"; //$NON-NLS-1$
 	public static final String MEASURE_FUNCTION_COUNT = "count"; //$NON-NLS-1$
 	public static final String MEASURE_FUNCTION_MIN = "min"; //$NON-NLS-1$
 	public static final String MEASURE_FUNCTION_MAX = "max"; //$NON-NLS-1$
-	
+
 	/**
 	 * Level type constants.
 	 */
 	String CHOICE_LEVEL_TYPE = "levelType"; //$NON-NLS-1$
 	String LEVEL_TYPE_DYNAMIC = "dynamic"; //$NON-NLS-1$
 	String LEVEL_TYPE_MIRRORED = "mirrored"; //$NON-NLS-1$
-	
+
 	/**
 	 * measure Function -- measure function type.
 	 */
-	
+
 	public static final String CHOICE_ACCESS_PERMISSION = "accessPermission"; //$NON-NLS-1$
 	public static final String ACCESS_PERMISSION_ALLOW = "allow"; //$NON-NLS-1$
 	public static final String ACCESS_PERMISSION_DISALLOW = "disallow"; //$NON-NLS-1$
-		
+
 	/**
 	 * Parameter sort values -- can be value or display text.
 	 */
-	
+
 	public static final String CHOICE_PARAM_SORT_VALUES = "paramSortValues"; //$NON-NLS-1$
 	public static final String PARAM_SORT_VALUES_VALUE = "value"; //$NON-NLS-1$
 	public static final String PARAM_SORT_VALUES_LABEL = "label"; //$NON-NLS-1$
-	
+
 	/**
 	 * Report layout preference -- layout type for report design.
 	 */
 	public static final String CHOICE_REPORT_LAYOUT_PREFERENCE = "reportLayoutPreference"; //$NON-NLS-1$
 	public static final String REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT = "fixed layout"; //$NON-NLS-1$
 	public static final String REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT = "auto layout"; //$NON-NLS-1$
+
+	/**
+	 * Date time level type -- type for date-time cube level.
+	 */
+	public static final String CHOICE_DATE_TIME_LEVEL_TYPE = "dateTimeLevlType"; //$NON-NLS-1$
+	public static final String DATE_TIME_LEVEL_TYPE_YEAR = "year"; //$NON-NLS-1$
+	public static final String DATE_TIME_LEVEL_TYPE_MONTH = "month"; //$NON-NLS-1$
+	public static final String DATE_TIME_LEVEL_TYPE_QUARTER = "quarter"; //$NON-NLS-1$
+	public static final String DATE_TIME_LEVEL_TYPE_WEEK = "week"; //$NON-NLS-1$
+	public static final String DATE_TIME_LEVEL_TYPE_DAY = "day"; //$NON-NLS-1$
 };

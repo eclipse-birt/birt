@@ -508,6 +508,13 @@
   	<Choice displayNameID="Choices.reportLayoutPreference.fixedLayout" name="fixed layout"/>
   	<Choice displayNameID="Choices.reportLayoutPreference.autoLayout" name="auto layout"/>
   </ChoiceType>
+  <ChoiceType name="dateTimeLevelType">
+	<Choice displayNameID="Choices.dateTimeLevelType.year" name="year"/>
+	<Choice displayNameID="Choices.dateTimeLevelType.month" name="month"/>
+	<Choice displayNameID="Choices.dateTimeLevelType.quarter" name="quarter"/>
+	<Choice displayNameID="Choices.dateTimeLevelType.week" name="week"/>
+	<Choice displayNameID="Choices.dateTimeLevelType.day" name="day"/>
+  </ChoiceType>
   <Class displayNameID="Class.String" name="String" native="true" toolTipID="Class.String.toolTip">
     <Constructor displayNameID="Class.String.String" name="String" returnType="String" toolTipID="Class.String.String.toolTip">
       <Argument name="object" tagID="Class.String.String.object" type="Object"/>
@@ -3707,6 +3714,7 @@
   </Element>    	 
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.Level" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.Level" name="Level" nameSpace="cube" since="2.2" xmlName="level">
   	<Property detailType="columnDataType" displayNameID="Element.Level.dataType" name="dataType" runtimeSettable="false" since="2.2" type="choice"/>
+  	<Property detailType="dateTimeLevelType" displayNameID="Element.Level.dateTimeLevelType" name="dateTimeLevelType" runtimeSettable="false" since="2.2" type="choice"/>
   	<PropertyGroup displayNameID="Element.Level.Interval">
 		<Property displayNameID="Element.Level.intervalBase" name="intervalBase" runtimeSettable="false" since="2.2" type="string" />
    		<Property detailType="interval" displayNameID="Element.Level.interval" name="interval" runtimeSettable="false" since="2.2" type="choice">

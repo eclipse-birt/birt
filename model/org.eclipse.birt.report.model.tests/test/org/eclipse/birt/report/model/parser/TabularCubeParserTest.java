@@ -193,6 +193,8 @@ public class TabularCubeParserTest extends BaseTestCase
 		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER, level
 				.getDataType( ) );
 		assertEquals( "week", level.getInterval( ) ); //$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH, level
+				.getDateTimeLevelType( ) );
 		assertEquals( 3.0, level.getIntervalRange( ), 0.00 );
 		assertEquals( "Jan", level.getIntervalBase( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.LEVEL_TYPE_DYNAMIC, level
@@ -284,12 +286,13 @@ public class TabularCubeParserTest extends BaseTestCase
 				.getPropertyHandle( TabularCubeHandle.DIMENSION_CONDITIONS_PROP );
 		propHandle.removeItem( 1 );
 		DimensionCondition condition = new DimensionCondition( );
-		DimensionConditionHandle structHandle = cube.addDimensionCondition( condition );
-		DimensionJoinConditionHandle joinConditionHandle = structHandle.addJoinCondition( new DimensionJoinCondition( ) );
+		DimensionConditionHandle structHandle = cube
+				.addDimensionCondition( condition );
+		DimensionJoinConditionHandle joinConditionHandle = structHandle
+				.addJoinCondition( new DimensionJoinCondition( ) );
 		joinConditionHandle.setCubeKey( "addCubeKey" ); //$NON-NLS-1$
 		joinConditionHandle.setHierarchyKey( "addHierarchyKey" ); //$NON-NLS-1$
-		structHandle = (DimensionConditionHandle) propHandle
-				.get( 0 );
+		structHandle = (DimensionConditionHandle) propHandle.get( 0 );
 		MemberHandle memberHandle = structHandle
 				.getMember( DimensionCondition.HIERARCHY_MEMBER );
 		memberHandle.setValue( valuePrix + "hierarchy" ); //$NON-NLS-1$
@@ -369,6 +372,8 @@ public class TabularCubeParserTest extends BaseTestCase
 		level.setName( namePrix + level.getName( ) );
 		level.setColumnName( valuePrix + level.getColumnName( ) );
 		level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING );
+		level
+				.setDateTimeLevelType( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER );
 		level.setInterval( DesignChoiceConstants.INTERVAL_MONTH );
 		level.setIntervalRange( 5 );
 		level.setIntervalBase( valuePrix + level.getIntervalBase( ) );
@@ -432,7 +437,7 @@ public class TabularCubeParserTest extends BaseTestCase
 		measure.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN );
 
 		save( );
-		
+
 		assertTrue( compareFile( "CubeParserTest_golden.xml" ) ); //$NON-NLS-1$
 	}
 
@@ -466,7 +471,6 @@ public class TabularCubeParserTest extends BaseTestCase
 
 		// save
 		save( );
-		System.out.println(os );
 		assertTrue( compareFile( "CubeParserTest_golden_1.xml" ) ); //$NON-NLS-1$		
 	}
 

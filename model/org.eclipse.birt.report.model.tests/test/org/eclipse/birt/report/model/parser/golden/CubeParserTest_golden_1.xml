@@ -39,6 +39,7 @@
                             <property name="levels">
                                 <tabular-level name="testLevel" id="10">
                                     <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">month</property>
                                     <property name="intervalBase">Jan</property>
                                     <property name="interval">week</property>
                                     <property name="intervalRange">3.0</property>
@@ -188,6 +189,7 @@
                             <property name="levels">
                                 <tabular-level name="testLevel1" id="19">
                                     <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">month</property>
                                     <property name="intervalBase">Jan</property>
                                     <property name="interval">week</property>
                                     <property name="intervalRange">3.0</property>
