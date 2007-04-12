@@ -155,8 +155,15 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 				{
 					afterObj = null;
 				}
-				return new ChangeAreaCommand(parentAdapter.getDesignElementHandle( ), 
-						childAdapter.getDesignElementHandle( ),(DesignElementHandle) DNDUtil.unwrapToModel( afterObj ) );
+				if (childAdapter.getCrosstabCellHandle( ).getCrosstab( ) == parentAdapter.getCrosstabCellHandle( ).getCrosstab( ))
+				{
+					return new ChangeAreaCommand(parentAdapter.getDesignElementHandle( ), 
+							childAdapter.getDesignElementHandle( ),(DesignElementHandle) DNDUtil.unwrapToModel( afterObj ) );
+				}
+				else
+				{
+					return UnexecutableCommand.INSTANCE;
+				}
 			}
 			else if (isFirstDataItem( childAdapter, child.getModel( ), ICrosstabCellAdapterFactory.CELL_MEASURE )
 					&& ICrosstabCellAdapterFactory.CELL_MEASURE.equals( parentAdapter.getPositionType( ) ))
@@ -165,8 +172,16 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 					{
 						afterObj = null;
 					}
-					return new ChangeMeasureOrderCommand(parentAdapter.getDesignElementHandle( ), 
-							childAdapter.getDesignElementHandle( ),(DesignElementHandle) DNDUtil.unwrapToModel( afterObj ) );
+					if (childAdapter.getCrosstabCellHandle( ).getCrosstab( ) == parentAdapter.getCrosstabCellHandle( ).getCrosstab( ))
+					{
+						return new ChangeMeasureOrderCommand(parentAdapter.getDesignElementHandle( ), 
+								childAdapter.getDesignElementHandle( ),(DesignElementHandle) DNDUtil.unwrapToModel( afterObj ) );
+					}
+					else
+					{
+						return UnexecutableCommand.INSTANCE;
+					}
+					
 				}
 		}
 		if (childParent instanceof CrosstabCellAdapter)

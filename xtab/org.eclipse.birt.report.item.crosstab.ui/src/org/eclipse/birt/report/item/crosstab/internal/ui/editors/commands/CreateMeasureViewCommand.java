@@ -76,6 +76,10 @@ public class CreateMeasureViewCommand extends AbstractCrosstabCommand
 
 		try
 		{
+			if ( reportHandle.getCube( ) == null )
+			{
+				reportHandle.setCube( CrosstabAdaptUtil.getCubeHandle( measureHandle ) );
+			}
 			MeasureViewHandle measureViewHandle = reportHandle.insertMeasure( measureHandle,
 					0 );
 			measureViewHandle.addHeader( );

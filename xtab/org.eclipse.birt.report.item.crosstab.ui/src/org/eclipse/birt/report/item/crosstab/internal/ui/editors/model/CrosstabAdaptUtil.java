@@ -173,7 +173,7 @@ public class CrosstabAdaptUtil
 		return null;
 	}
 	
-	public static CubeHandle getCubeHandle(DimensionHandle levelHandle)
+	public static CubeHandle getCubeHandle(DesignElementHandle levelHandle)
 	{
 		DesignElementHandle parent = levelHandle;
 		while ( parent != null )

@@ -106,11 +106,18 @@ public class VirtualCrosstabCellFlowLayoutEditPolicy extends ReportFlowLayoutEdi
 				{
 					afterObj = null;
 				}
+				if (parent.getParent( ) == child.getParent( ).getParent( ))
+				{
 				ChangeAreaCommand command = new ChangeAreaCommand(parentAdapter.getDesignElementHandle( ), 
 						childAdapter.getDesignElementHandle( ),(DesignElementHandle) DNDUtil.unwrapToModel( afterObj ) );
 				
 				command.setType( parentAdapter.getType( ) );
 				return command;
+				}
+				else
+				{
+					return UnexecutableCommand.INSTANCE;
+				}
 			}
 		}
 		return UnexecutableCommand.INSTANCE;
