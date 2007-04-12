@@ -58,6 +58,7 @@ import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.core.runtime.IAdaptable;
@@ -567,7 +568,8 @@ public class DNDUtil
 				|| selection instanceof EmbeddedImageHandle
 				|| selection instanceof TemplateElementHandle
 				|| selection instanceof DataSetItemModel
-				|| selection instanceof ResultSetColumnHandle;
+				|| selection instanceof ResultSetColumnHandle
+				|| selection instanceof CubeHandle;
 //				|| selection instanceof DimensionHandle
 //				|| selection instanceof MeasureHandle;
 	}
