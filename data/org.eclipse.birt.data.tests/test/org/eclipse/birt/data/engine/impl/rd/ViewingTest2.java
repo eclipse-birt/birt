@@ -1644,6 +1644,7 @@ public class ViewingTest2 extends RDTestCase
 			this.testPrintln( abc );
 		}
 		
+		ri.close( );
 		this.closeArchiveReader( );
 		this.closeArchiveWriter( );
 
@@ -1667,7 +1668,7 @@ public class ViewingTest2 extends RDTestCase
 			abc += ri.getValue( "def" ) + "  ";
 			this.testPrintln( abc );
 		}
-		
+		ri.close( );
 		this.checkOutputFile( );
 	}
 
@@ -1700,6 +1701,7 @@ public class ViewingTest2 extends RDTestCase
 				abc += subRi.getValue( "abc1" );
 				this.testPrintln( abc );
 			}
+			subRi.close( );
 			
 		}
 		
@@ -1743,8 +1745,9 @@ public class ViewingTest2 extends RDTestCase
 				abc += subRi.getValue( "def1" );
 				this.testPrintln( abc );
 			}
+			subRi.close( );
 		}
-		
+		ri.close( );
 		this.closeArchiveReader( );
 		this.closeArchiveWriter( );
 
@@ -1780,8 +1783,9 @@ public class ViewingTest2 extends RDTestCase
 				abc += subRi.getValue( "def1" );
 				this.testPrintln( abc );
 			}
+			subRi.close( );
 		}
-		
+		ri.close( );
 		this.checkOutputFile( );
 	}
 	
@@ -1814,6 +1818,7 @@ public class ViewingTest2 extends RDTestCase
 				abc += subRi.getValue( "abc1" );
 				this.testPrintln( abc );
 			}
+			subRi.close( );
 			
 		}
 		
@@ -1857,8 +1862,9 @@ public class ViewingTest2 extends RDTestCase
 				
 				this.testPrintln( abc );
 			}
+			subRi.close( );
 		}
-		
+		ri.close( );
 		this.closeArchiveReader( );
 		this.closeArchiveWriter( );
 
@@ -1894,8 +1900,9 @@ public class ViewingTest2 extends RDTestCase
 				
 				this.testPrintln( abc );
 			}
+			subRi.close( );
 		}
-		
+		ri.close( );
 		this.checkOutputFile( );
 	}
 	
@@ -1928,7 +1935,7 @@ public class ViewingTest2 extends RDTestCase
 				abc += subRi.getValue( "abc1" );
 				this.testPrintln( abc );
 			}
-			
+			subRi.close( );
 		}
 		
 		ri.close( );
@@ -1971,8 +1978,9 @@ public class ViewingTest2 extends RDTestCase
 				abc += subRi.getValue( "def1" );
 				this.testPrintln( abc );
 			}
+			subRi.close( );
 		}
-		
+		ri.close( );
 		this.closeArchiveReader( );
 		this.closeArchiveWriter( );
 
@@ -2008,8 +2016,9 @@ public class ViewingTest2 extends RDTestCase
 				abc += subRi.getValue( "def1" );
 				this.testPrintln( abc );
 			}
+			subRi.close( );
 		}
-		
+		ri.close( );
 		this.checkOutputFile( );
 	}
 	
@@ -2042,7 +2051,7 @@ public class ViewingTest2 extends RDTestCase
 				abc += subRi.getValue( "abc1" );
 				this.testPrintln( abc );
 			}
-			
+			subRi.close( );
 		}
 		
 		ri.close( );
@@ -2085,8 +2094,9 @@ public class ViewingTest2 extends RDTestCase
 				abc += subRi.getValue( "def1" );
 				this.testPrintln( abc );
 			}
+			subRi.close( );
 		}
-		
+		ri.close( );
 		this.closeArchiveReader( );
 		this.closeArchiveWriter( );
 
@@ -2127,8 +2137,9 @@ public class ViewingTest2 extends RDTestCase
 				abc += subRi.getValue( "ghi1" );
 				this.testPrintln( abc );
 			}
+			subRi.close( );
 		}
-		
+		ri.close( );
 		this.closeArchiveReader( );
 		this.closeArchiveWriter( );
 		
@@ -2166,8 +2177,9 @@ public class ViewingTest2 extends RDTestCase
 				abc += subRi.getValue( "ghi1" );
 				this.testPrintln( abc );
 			}
+			subRi.close( );
 		}
-		
+		ri.close( );
 		this.checkOutputFile( );
 	}
 	/**

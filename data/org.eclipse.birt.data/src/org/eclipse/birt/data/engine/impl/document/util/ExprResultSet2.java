@@ -17,7 +17,7 @@ import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.document.RDLoadUtil;
-import org.eclipse.birt.data.engine.impl.document.StreamManager;
+import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 
 /**
  * Used for reading subquery result which is generated from existing report

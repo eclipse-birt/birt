@@ -23,7 +23,7 @@ import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.RowSaveUtil;
-import org.eclipse.birt.data.engine.impl.document.VersionManager;
+import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 
 /**
  * Read the raw expression data from report document. This instance only read

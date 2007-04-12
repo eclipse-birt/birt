@@ -16,6 +16,7 @@ import java.util.Map;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 
 /**
@@ -65,6 +66,8 @@ class RDSave2 implements IRDSave
 	public void saveFinish( int currIndex ) throws DataException
 	{
 		this.saveUtilHelper.saveChildQueryID( );
+		this.streamManager.saveToReportDocument( );
+		
 	}
 
 	/*

@@ -115,8 +115,11 @@ public class ResultIterator implements IResultIterator
 
 		this.context = rService.getContext( );
 		
-		this.validateManualBindingExpressions ( this.resultService.getQueryDefn().getResultSetExpressions() );
-		
+		if ( this.resultService.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION
+				|| this.resultService.getContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
+			this.validateManualBindingExpressions( this.resultService.getQueryDefn( )
+					.getResultSetExpressions( ) );
+
 		this.start( );
 	}
 

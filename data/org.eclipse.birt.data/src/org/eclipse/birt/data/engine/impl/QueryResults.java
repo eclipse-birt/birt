@@ -451,6 +451,11 @@ public class QueryResults implements IQueryResults, IQueryService
 				 throw new DataException( e.getMessage() );
 			}
 		}
+		
+		public void close() throws BirtException
+		{
+			super.close( );
+		}
 	}
 		
 	/**
