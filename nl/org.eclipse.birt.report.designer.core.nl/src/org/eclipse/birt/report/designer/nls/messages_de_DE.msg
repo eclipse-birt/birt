@@ -283,6 +283,7 @@ CascadingParametersDialog.Radio.Single=Einfacher Datensatz
 CascadingParametersDialog.Radio.Mutli=Mehrfacher Datensatz
 CascadingParametersDialog.Choice.NullValue=Null-Wert
 CascadingParametersDialog.Choice.BlankValue=Blank Value
+CascadingParametersDialog.Choice.SelectValue=<Select Value...>
 
 ###########################################################
 #CategoryPageGenerator properties
@@ -2471,6 +2472,7 @@ ParameterDialog.CheckBox.Sort=&Bei Aufforderung alphabetisch sortieren
 ParameterDialog.Choice.NoDefault=Kein Standardwert
 ParameterDialog.Choice.NullValue=Null-Wert
 ParameterDialog.Choice.BlankValue=Blank Value
+ParameterDialog.Choice.SelectValue=<Select Value...>
 ParameterDialog.Column.Default=Standard
 ParameterDialog.Column.DisplayText=Angezeigter Text
 ParameterDialog.Column.Value=Wert
@@ -2516,6 +2518,10 @@ ParameterDialog.Label.Listlimit=L&istenbegrenzung:
 ParameterDialog.Radio.Dynamic=D&ynamisch
 ParameterDialog.Radio.Static=&Statisch
 ParameterDialog.toolTipText.OpenExprButton=Ausdruckserstellung öffnen
+
+###########################################################
+#SelectParameterDefaultValueDialog properties
+SelectParameterDefaultValueDialog.Title=Wert auswählen
 
 ###########################################################
 #ParameterDropListener properties
@@ -3826,22 +3832,25 @@ GroupsPage.Button.Property=&Eigenschaft
 GroupsPage.Label.DataField=Verfügbare Datenfelder:
 GroupsPage.Label.Group=Gruppen:
 GroupsPage.Button.Add=&Hinzufügen
-GroupsPage.Label.Name=&Name:
-GroupsPage.Label.Function=&Funktion:
 GroupsPage.VirtualField.Measure=(Feld hier ablegen, um ein Zusammenfassungsfeld zu erstellen)
 GroupsPage.VirtualField.Level=(Feld hier ablegen, um eine Gruppe zu erstellen)
-GroupsPage.Label.Expression=&Ausdruck:
 DatasetDialog.Title.Label=Datensätze hinzufügen
 DatasetDialog.Title.OKButton.Text=Hinzufügen
-CubeDialog.Title=Einfügen
-CubeDialog.Label.Select=Ausgewählte Daten für Kreuztabelle:
-CubeDialog.Button.Define=Daten für Kreuztabelle definieren
-LevelDialog.Title=Gruppenebene bearbeiten
+LevelDialog.Title=Eigenschaft
 LevelDialog.Label.Name=Name:
 LevelDialog.Label.Field=Feld wählen:
+LevelDialog.Label.DataType=Datentyp:
 LevelDialog.Label.Info=Ausgewählter Schlüssel:
-LevelDialog.Label.Add=Ebene hinzufügen
-LevelDialog.Label.Edit=Ebene bearbeiten
+LevelDialog.Label.Add=Add Group Level
+LevelDialog.Label.Edit=Gruppenebene bearbeiten
+MeasureDialog.Title=Eigenschaft
+MeasureDialog.Label.Name=Name:
+MeasureDialog.Label.Function=Function:
+MeasureDialog.Label.DataType=Datentyp:
+MeasureDialog.Label.Expression=Ausdruck:
+MeasureDialog.Label.Info=Ausgewählter Schlüssel:
+MeasureDialog.Label.Add=Add Summary Field
+MeasureDialog.Label.Edit=Edit Summary Field
 LevelPropertyDialog.Title=Eigenschaft der Gruppenebene
 LevelPropertyDialog.MSG.CreateNew=<Neuen Parameter erstellen>
 LevelPropertyDialog.Label.Name=Name:
@@ -3855,6 +3864,7 @@ LevelPropertyDialog.Label.Property=Ebeneneigenschaft
 LevelPropertyDialog.Label.Attribute=Attribut
 LevelPropertyDialog.Label.Name=Name:
 LevelPropertyDialog.Label.Expression=Ausdruck
+
 
 ###########################################################
 #Sample Reports View properties

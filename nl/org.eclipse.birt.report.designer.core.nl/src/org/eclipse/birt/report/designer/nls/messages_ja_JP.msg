@@ -283,6 +283,7 @@ CascadingParametersDialog.Radio.Single=1 つのデータセット
 CascadingParametersDialog.Radio.Mutli=複数のデータセット
 CascadingParametersDialog.Choice.NullValue=NULL 値
 CascadingParametersDialog.Choice.BlankValue=Blank Value
+CascadingParametersDialog.Choice.SelectValue=<Select Value...>
 
 ###########################################################
 #CategoryPageGenerator properties
@@ -2471,6 +2472,7 @@ ParameterDialog.CheckBox.Sort=確認時にアルファベット順にソートする(&R)
 ParameterDialog.Choice.NoDefault=デフォルト値がありません
 ParameterDialog.Choice.NullValue=NULL 値
 ParameterDialog.Choice.BlankValue=Blank Value
+ParameterDialog.Choice.SelectValue=<Select Value...>
 ParameterDialog.Column.Default=デフォルト
 ParameterDialog.Column.DisplayText=表示テキスト
 ParameterDialog.Column.Value=値
@@ -2516,6 +2518,10 @@ ParameterDialog.Label.Listlimit=一覧の制限(&I) :
 ParameterDialog.Radio.Dynamic=動的(&Y)
 ParameterDialog.Radio.Static=静的(&S)
 ParameterDialog.toolTipText.OpenExprButton=式ビルダを開く
+
+###########################################################
+#SelectParameterDefaultValueDialog properties
+SelectParameterDefaultValueDialog.Title=値の選択 
 
 ###########################################################
 #ParameterDropListener properties
@@ -3826,22 +3832,25 @@ GroupsPage.Button.Property=プロパティ(&P)
 GroupsPage.Label.DataField=使用可能なデータフィールド :
 GroupsPage.Label.Group=グループ :
 GroupsPage.Button.Add=追加(&A)
-GroupsPage.Label.Name=名前(&N) :
-GroupsPage.Label.Function=関数(&F) :
 GroupsPage.VirtualField.Measure=(サマリフィールドを作成するには、フィールドをここにドロップします)
 GroupsPage.VirtualField.Level=(グループを作成するには、フィールドをここにドロップします)
-GroupsPage.Label.Expression=式(&E) :
 DatasetDialog.Title.Label=データセットの追加
 DatasetDialog.Title.OKButton.Text=追加
-CubeDialog.Title=挿入
-CubeDialog.Label.Select=クロスタブの選択データ :
-CubeDialog.Button.Define=クロスタブのデータの定義
-LevelDialog.Title=グループレベルの編集
+LevelDialog.Title=プロパティ
 LevelDialog.Label.Name=名前 :
 LevelDialog.Label.Field=フィールドの選択 :
+LevelDialog.Label.DataType=データ型 :
 LevelDialog.Label.Info=選択済みのキー :
-LevelDialog.Label.Add=レベルの追加
-LevelDialog.Label.Edit=レベルの編集
+LevelDialog.Label.Add=Add Group Level
+LevelDialog.Label.Edit=グループレベルの編集
+MeasureDialog.Title=プロパティ
+MeasureDialog.Label.Name=名前 :
+MeasureDialog.Label.Function=Function:
+MeasureDialog.Label.DataType=データ型 :
+MeasureDialog.Label.Expression=式 :
+MeasureDialog.Label.Info=選択済みのキー :
+MeasureDialog.Label.Add=Add Summary Field
+MeasureDialog.Label.Edit=Edit Summary Field
 LevelPropertyDialog.Title=グループレベルのプロパティ
 LevelPropertyDialog.MSG.CreateNew=<パラメタの新規作成>
 LevelPropertyDialog.Label.Name=名前 :
@@ -3855,6 +3864,7 @@ LevelPropertyDialog.Label.Property=レベルのプロパティ
 LevelPropertyDialog.Label.Attribute=属性
 LevelPropertyDialog.Label.Name=名前 :
 LevelPropertyDialog.Label.Expression=式
+
 
 ###########################################################
 #Sample Reports View properties

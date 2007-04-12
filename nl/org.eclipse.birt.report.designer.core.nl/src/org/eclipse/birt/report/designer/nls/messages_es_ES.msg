@@ -283,6 +283,7 @@ CascadingParametersDialog.Radio.Single=Conjunto de datos único
 CascadingParametersDialog.Radio.Mutli=Conjunto de datos múltiple
 CascadingParametersDialog.Choice.NullValue=Valor nulo
 CascadingParametersDialog.Choice.BlankValue=Blank Value
+CascadingParametersDialog.Choice.SelectValue=<Select Value...>
 
 ###########################################################
 #CategoryPageGenerator properties
@@ -2471,6 +2472,7 @@ ParameterDialog.CheckBox.Sort=Ordenar al&fabéticamente al solicitar
 ParameterDialog.Choice.NoDefault=Ningún valor predeterminado
 ParameterDialog.Choice.NullValue=Valor nulo
 ParameterDialog.Choice.BlankValue=Blank Value
+ParameterDialog.Choice.SelectValue=<Select Value...>
 ParameterDialog.Column.Default=Predeterminado
 ParameterDialog.Column.DisplayText=Texto en pantalla
 ParameterDialog.Column.Value=Valor
@@ -2516,6 +2518,10 @@ ParameterDialog.Label.Listlimit=Límite de &lista:
 ParameterDialog.Radio.Dynamic=&Dinámico
 ParameterDialog.Radio.Static=&Estático
 ParameterDialog.toolTipText.OpenExprButton=Abrir el compilador de expresiones
+
+###########################################################
+#SelectParameterDefaultValueDialog properties
+SelectParameterDefaultValueDialog.Title=Seleccionar valores
 
 ###########################################################
 #ParameterDropListener properties
@@ -3826,22 +3832,25 @@ GroupsPage.Button.Property=&Propiedad
 GroupsPage.Label.DataField=Campos de datos disponibles:
 GroupsPage.Label.Group=Grupos:
 GroupsPage.Button.Add=&Añadir
-GroupsPage.Label.Name=&Nombre:
-GroupsPage.Label.Function=&Función:
 GroupsPage.VirtualField.Measure=(Suelte un campo aquí para crear un campo de resumen)
 GroupsPage.VirtualField.Level=(Suelte un campo aquí para crear un grupo)
-GroupsPage.Label.Expression=&Expresión:
 DatasetDialog.Title.Label=Añadir conjuntos de datos
 DatasetDialog.Title.OKButton.Text=Añadir
-CubeDialog.Title=Insertar
-CubeDialog.Label.Select=Datos seleccionados para tabla de referencias cruzadas:
-CubeDialog.Button.Define=Definir datos para tabla de referencias cruzadas
-LevelDialog.Title=Editar nivel de grupo
+LevelDialog.Title=Propiedad
 LevelDialog.Label.Name=Nombre:
 LevelDialog.Label.Field=Seleccionar campo:
+LevelDialog.Label.DataType=Tipo de datos:
 LevelDialog.Label.Info=Tecla seleccionada:
-LevelDialog.Label.Add=Añadir nivel
-LevelDialog.Label.Edit=Editar nivel
+LevelDialog.Label.Add=Add Group Level
+LevelDialog.Label.Edit=Editar nivel de grupo
+MeasureDialog.Title=Propiedad
+MeasureDialog.Label.Name=Nombre:
+MeasureDialog.Label.Function=Function:
+MeasureDialog.Label.DataType=Tipo de datos:
+MeasureDialog.Label.Expression=Expresión:
+MeasureDialog.Label.Info=Tecla seleccionada:
+MeasureDialog.Label.Add=Add Summary Field
+MeasureDialog.Label.Edit=Edit Summary Field
 LevelPropertyDialog.Title=Propiedad de nivel de grupo
 LevelPropertyDialog.MSG.CreateNew=<Crear nuevo parámetro>
 LevelPropertyDialog.Label.Name=Nombre:
@@ -3855,6 +3864,7 @@ LevelPropertyDialog.Label.Property=Propiedad de nivel
 LevelPropertyDialog.Label.Attribute=Atributo
 LevelPropertyDialog.Label.Name=Nombre:
 LevelPropertyDialog.Label.Expression=Expresión
+
 
 ###########################################################
 #Sample Reports View properties

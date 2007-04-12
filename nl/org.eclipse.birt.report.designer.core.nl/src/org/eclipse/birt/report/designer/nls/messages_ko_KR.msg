@@ -283,6 +283,7 @@ CascadingParametersDialog.Radio.Single=단일 데이터 집합
 CascadingParametersDialog.Radio.Mutli=다중 데이터 집합
 CascadingParametersDialog.Choice.NullValue=널(null) 값
 CascadingParametersDialog.Choice.BlankValue=Blank Value
+CascadingParametersDialog.Choice.SelectValue=<Select Value...>
 
 ###########################################################
 #CategoryPageGenerator properties
@@ -2471,6 +2472,7 @@ ParameterDialog.CheckBox.Sort=물을 경우 알파벳 순으로 정렬(&R)
 ParameterDialog.Choice.NoDefault=기본값 없음
 ParameterDialog.Choice.NullValue=널(null) 값
 ParameterDialog.Choice.BlankValue=Blank Value
+ParameterDialog.Choice.SelectValue=<Select Value...>
 ParameterDialog.Column.Default=기본값
 ParameterDialog.Column.DisplayText=표시 텍스트
 ParameterDialog.Column.Value=값
@@ -2516,6 +2518,10 @@ ParameterDialog.Label.Listlimit=목록 제한(&I):
 ParameterDialog.Radio.Dynamic=동적(&Y)
 ParameterDialog.Radio.Static=정적(&S)
 ParameterDialog.toolTipText.OpenExprButton=식 빌더 열기
+
+###########################################################
+#SelectParameterDefaultValueDialog properties
+SelectParameterDefaultValueDialog.Title=값 선택
 
 ###########################################################
 #ParameterDropListener properties
@@ -3826,22 +3832,25 @@ GroupsPage.Button.Property=속성(&P)
 GroupsPage.Label.DataField=사용 가능한 데이터 필드:
 GroupsPage.Label.Group=그룹:
 GroupsPage.Button.Add=추가(&A)
-GroupsPage.Label.Name=이름(&N):
-GroupsPage.Label.Function=함수(&F):
 GroupsPage.VirtualField.Measure=(요약 필드를 생성하려면 여기에 필드를 내려 놓으십시오)
 GroupsPage.VirtualField.Level=(그룹을 생성하려면 여기에 필드를 내려 놓으십시오)
-GroupsPage.Label.Expression=식(&E):
 DatasetDialog.Title.Label=데이터 집합 추가
 DatasetDialog.Title.OKButton.Text=추가
-CubeDialog.Title=삽입
-CubeDialog.Label.Select=크로스 탭을 위해 선택된 데이터:
-CubeDialog.Button.Define=크로스 탭을 위해 데이터 정의
-LevelDialog.Title=그룹 수준 편집
+LevelDialog.Title=속성
 LevelDialog.Label.Name=이름:
 LevelDialog.Label.Field=필드 선택:
+LevelDialog.Label.DataType=데이터 형식:
 LevelDialog.Label.Info=선택된 키:
-LevelDialog.Label.Add=수준 추가
-LevelDialog.Label.Edit=수준 편집
+LevelDialog.Label.Add=Add Group Level
+LevelDialog.Label.Edit=그룹 수준 편집
+MeasureDialog.Title=속성
+MeasureDialog.Label.Name=이름:
+MeasureDialog.Label.Function=Function:
+MeasureDialog.Label.DataType=데이터 형식:
+MeasureDialog.Label.Expression=식:
+MeasureDialog.Label.Info=선택된 키:
+MeasureDialog.Label.Add=Add Summary Field
+MeasureDialog.Label.Edit=Edit Summary Field
 LevelPropertyDialog.Title=그룹 수준 속성
 LevelPropertyDialog.MSG.CreateNew=<새 매개 변수 생성>
 LevelPropertyDialog.Label.Name=이름:
@@ -3855,6 +3864,7 @@ LevelPropertyDialog.Label.Property=수준 속성
 LevelPropertyDialog.Label.Attribute=특성
 LevelPropertyDialog.Label.Name=이름:
 LevelPropertyDialog.Label.Expression=식
+
 
 ###########################################################
 #Sample Reports View properties

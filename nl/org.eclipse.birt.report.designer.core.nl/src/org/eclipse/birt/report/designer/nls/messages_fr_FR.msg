@@ -283,6 +283,7 @@ CascadingParametersDialog.Radio.Single=Jeu de données unique
 CascadingParametersDialog.Radio.Mutli=Jeu de données multiple
 CascadingParametersDialog.Choice.NullValue=Valeur nulle
 CascadingParametersDialog.Choice.BlankValue=Blank Value
+CascadingParametersDialog.Choice.SelectValue=<Select Value...>
 
 ###########################################################
 #CategoryPageGenerator properties
@@ -2471,6 +2472,7 @@ ParameterDialog.CheckBox.Sort=T&rier par ordre alphabétique à l'invite
 ParameterDialog.Choice.NoDefault=Aucune valeur par défaut
 ParameterDialog.Choice.NullValue=Valeur nulle
 ParameterDialog.Choice.BlankValue=Blank Value
+ParameterDialog.Choice.SelectValue=<Select Value...>
 ParameterDialog.Column.Default=Par défaut
 ParameterDialog.Column.DisplayText=Texte d'affichage
 ParameterDialog.Column.Value=Valeur
@@ -2516,6 +2518,10 @@ ParameterDialog.Label.Listlimit=L&imite de liste :
 ParameterDialog.Radio.Dynamic=D&ynamique
 ParameterDialog.Radio.Static=&Statique
 ParameterDialog.toolTipText.OpenExprButton=Ouvrir le Générateur d'expression
+
+###########################################################
+#SelectParameterDefaultValueDialog properties
+SelectParameterDefaultValueDialog.Title=Sélectionner une valeur 
 
 ###########################################################
 #ParameterDropListener properties
@@ -3826,22 +3832,25 @@ GroupsPage.Button.Property=&Propriété
 GroupsPage.Label.DataField=Champs de données disponibles :
 GroupsPage.Label.Group=Groupes :
 GroupsPage.Button.Add=&Ajouter
-GroupsPage.Label.Name=&Nom :
-GroupsPage.Label.Function=&Fonction :
 GroupsPage.VirtualField.Measure=(Ignorez un champ ici pour créer un champ de récapitulation)
 GroupsPage.VirtualField.Level=(Ignorez un champ ici pour créer un groupe)
-GroupsPage.Label.Expression=&Expression :
 DatasetDialog.Title.Label=Ajouter des jeux de données
 DatasetDialog.Title.OKButton.Text=Ajouter
-CubeDialog.Title=Insérer
-CubeDialog.Label.Select=Données sélectionnées pour le tableau croisé :
-CubeDialog.Button.Define=Définir les données pour le tableau croisé
-LevelDialog.Title=Modifier niveau de groupe
+LevelDialog.Title=Propriété
 LevelDialog.Label.Name=Nom :
 LevelDialog.Label.Field=Sélection de champ :
+LevelDialog.Label.DataType=Type de données :
 LevelDialog.Label.Info=Clé sélectionnée :
-LevelDialog.Label.Add=Ajouter un niveau
-LevelDialog.Label.Edit=Modifier un niveau
+LevelDialog.Label.Add=Add Group Level
+LevelDialog.Label.Edit=Modifier niveau de groupe
+MeasureDialog.Title=Propriété
+MeasureDialog.Label.Name=Nom :
+MeasureDialog.Label.Function=Function:
+MeasureDialog.Label.DataType=Type de données :
+MeasureDialog.Label.Expression=Expression :
+MeasureDialog.Label.Info=Clé sélectionnée :
+MeasureDialog.Label.Add=Add Summary Field
+MeasureDialog.Label.Edit=Edit Summary Field
 LevelPropertyDialog.Title=Priorité de niveau de groupe
 LevelPropertyDialog.MSG.CreateNew=<Créer un paramètre>
 LevelPropertyDialog.Label.Name=Nom :
@@ -3855,6 +3864,7 @@ LevelPropertyDialog.Label.Property=Propriété de niveau
 LevelPropertyDialog.Label.Attribute=Attribut
 LevelPropertyDialog.Label.Name=Nom :
 LevelPropertyDialog.Label.Expression=Expression
+
 
 ###########################################################
 #Sample Reports View properties

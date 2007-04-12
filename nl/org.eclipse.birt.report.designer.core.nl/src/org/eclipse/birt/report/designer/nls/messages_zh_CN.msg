@@ -283,6 +283,7 @@ CascadingParametersDialog.Radio.Single=单个数据集
 CascadingParametersDialog.Radio.Mutli=多个数据集
 CascadingParametersDialog.Choice.NullValue=空值
 CascadingParametersDialog.Choice.BlankValue=Blank Value
+CascadingParametersDialog.Choice.SelectValue=<Select Value...>
 
 ###########################################################
 #CategoryPageGenerator properties
@@ -2471,6 +2472,7 @@ ParameterDialog.CheckBox.Sort=提示时按字母顺序排序(&B)
 ParameterDialog.Choice.NoDefault=无默认值
 ParameterDialog.Choice.NullValue=空值
 ParameterDialog.Choice.BlankValue=Blank Value
+ParameterDialog.Choice.SelectValue=<Select Value...>
 ParameterDialog.Column.Default=默认值
 ParameterDialog.Column.DisplayText=显示文本
 ParameterDialog.Column.Value=值
@@ -2516,6 +2518,10 @@ ParameterDialog.Label.Listlimit=列表限制(&I):
 ParameterDialog.Radio.Dynamic=动态(&Y)
 ParameterDialog.Radio.Static=静态(&S)
 ParameterDialog.toolTipText.OpenExprButton=打开表达式生成器
+
+###########################################################
+#SelectParameterDefaultValueDialog properties
+SelectParameterDefaultValueDialog.Title=选择值
 
 ###########################################################
 #ParameterDropListener properties
@@ -3826,22 +3832,25 @@ GroupsPage.Button.Property=属性(&P)
 GroupsPage.Label.DataField=可用数据字段:
 GroupsPage.Label.Group=组:
 GroupsPage.Button.Add=添加(&A)
-GroupsPage.Label.Name=名称(&N):
-GroupsPage.Label.Function=函数(&F):
 GroupsPage.VirtualField.Measure=（将字段拖至此处以创建摘要字段）
 GroupsPage.VirtualField.Level=（将字段拖至此处以创建组）
-GroupsPage.Label.Expression=表达式(&E):
 DatasetDialog.Title.Label=添加数据集
 DatasetDialog.Title.OKButton.Text=添加
-CubeDialog.Title=插入
-CubeDialog.Label.Select=为交叉表选择的数据:
-CubeDialog.Button.Define=为交叉表定义数据
-LevelDialog.Title=编辑组级别
+LevelDialog.Title=属性
 LevelDialog.Label.Name=名称:
 LevelDialog.Label.Field=选择字段:
+LevelDialog.Label.DataType=数据类型:
 LevelDialog.Label.Info=选择的关键字:
-LevelDialog.Label.Add=添加级别
-LevelDialog.Label.Edit=编辑级别
+LevelDialog.Label.Add=Add Group Level
+LevelDialog.Label.Edit=编辑组级别
+MeasureDialog.Title=属性
+MeasureDialog.Label.Name=名称:
+MeasureDialog.Label.Function=Function:
+MeasureDialog.Label.DataType=数据类型:
+MeasureDialog.Label.Expression=表达式:
+MeasureDialog.Label.Info=选择的关键字:
+MeasureDialog.Label.Add=Add Summary Field
+MeasureDialog.Label.Edit=Edit Summary Field
 LevelPropertyDialog.Title=组级别属性
 LevelPropertyDialog.MSG.CreateNew=<创建新参数>
 LevelPropertyDialog.Label.Name=名称:
@@ -3855,6 +3864,7 @@ LevelPropertyDialog.Label.Property=级别属性
 LevelPropertyDialog.Label.Attribute=属性
 LevelPropertyDialog.Label.Name=名称:
 LevelPropertyDialog.Label.Expression=表达式
+
 
 ###########################################################
 #Sample Reports View properties
