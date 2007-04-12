@@ -410,5 +410,24 @@ public class FolderArchiveTest extends TestCase
 
 		}
 	}
+	/**
+	 * test the open stream, get length etc.
+	 */
+	public void testOpenStream( ) throws Exception
+	{
+		FolderArchiveWriter writer = new FolderArchiveWriter( ARCHIVE_NAME );
+		writer.initialize( );
+		RAOutputStream ws = writer.createRandomAccessStream( STREAM_NAME );
+		ws.writeInt( 1 );
+		assertEquals( 4, ws.length( ) );
+		ws.flush( );
+		ws.writeLong( -1L );
+		assertEquals( 12, ws.length( ) );
+		ws.flush( );
+		ws.close( );
+		ws = writer.openRandomAccessStream( STREAM_NAME );
+		assertEquals( 12, ws.length( ) );
+		writer.finish( );
+	}
 
 }

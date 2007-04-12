@@ -47,6 +47,8 @@ public interface IDocArchiveWriter {
 	 */
 	public RAOutputStream createRandomAccessStream(String relativePath) throws IOException;
 	
+	public RAOutputStream openRandomAccessStream(String relativePath) throws IOException;
+
 	/**
 	 * Delete a stream from the archive. 
 	 * Note: Not all of the derived classes support this function. E.g. FileArchiveWriter doesn't support it.  

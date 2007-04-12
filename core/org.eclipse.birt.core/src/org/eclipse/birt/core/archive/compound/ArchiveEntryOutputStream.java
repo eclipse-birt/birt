@@ -154,4 +154,15 @@ public class ArchiveEntryOutputStream extends RAOutputStream
 			buffer_offset = 0;
 		}
 	}
+	
+	public long length( ) throws IOException
+	{
+		long length = entry.getLength( );
+		long offset = getOffset( );
+		if ( offset > length )
+		{
+			return offset;
+		}
+		return length;
+	}
 }

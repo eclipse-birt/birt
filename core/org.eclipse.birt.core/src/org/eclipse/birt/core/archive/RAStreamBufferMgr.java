@@ -27,6 +27,9 @@ public class RAStreamBufferMgr {
 	// The total number of buffer has been allocated. 
 	private int totalBuffer;
 	
+	//the lengh of the buffer
+	private long length;
+	
 	// An arraylist to keep the buffer in order.
 	// When MAX_NUMBER_OF_STREAM_BUFFER has been reached, we reuse the
 	// buffer from the beginning of the list. There is less chance they
@@ -42,6 +45,7 @@ public class RAStreamBufferMgr {
 	public RAStreamBufferMgr( RandomAccessFile randomFile ) throws IOException
 	{
 		this.randomFile = randomFile;
+		this.length = randomFile.length( );
 		this.totalBuffer = 0;
 		this.currentBuffer = getBuffer( 0 );
 	}
@@ -73,6 +77,11 @@ public class RAStreamBufferMgr {
 				currentBuffer.setBufCur( 0 );
 			}
 		}
+		long fp = getFilePointer( );
+		if ( fp > length )
+		{
+			length = fp;
+		}
 	}
 
 	public void seek( long localPos ) throws IOException
@@ -82,6 +91,15 @@ public class RAStreamBufferMgr {
 		if ( currentBuffer.getOffset() != offset )
 			currentBuffer = getBuffer( offset );
 		currentBuffer.setBufCur( (int)(localPos - offset) );
+		if ( localPos > length )
+		{
+			length = localPos;
+		}
+	}
+	
+	public long length() 
+	{
+		return length;
 	}
 
 	/*

@@ -27,18 +27,20 @@ public class RAFolderOutputStream extends RAOutputStream
 	
 	private RAStreamBufferMgr bufferMgr;
 	
-	public RAFolderOutputStream( FolderArchiveWriter archive, File file ) 
-	throws FileNotFoundException, IOException
+	public RAFolderOutputStream( FolderArchiveWriter archive, File file )
+			throws FileNotFoundException, IOException
+	{
+		this( archive, file, false );
+	}
+
+	public RAFolderOutputStream( FolderArchiveWriter archive, File file,
+			boolean append ) throws FileNotFoundException, IOException
 	{
 		this.archive = archive;
 		this.randomFile = new RandomAccessFile( file, "rw" ); //$NON-NLS-1$
-		try
+		if ( !append )
 		{
 			this.randomFile.setLength( 0 );
-		}
-		catch ( IOException e )
-		{
-			e.printStackTrace();
 		}
 		this.bufferMgr = new RAStreamBufferMgr( this.randomFile );
 	}
@@ -177,5 +179,9 @@ public class RAFolderOutputStream extends RAOutputStream
    		super.close();
    		archive.removeStream( this );
     }
-
+    
+    public long length( ) throws IOException
+	{
+		return bufferMgr.length( );
+	}
 }
