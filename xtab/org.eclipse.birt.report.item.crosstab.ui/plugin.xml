@@ -240,6 +240,12 @@
       <dropAdapter
             adapter="org.eclipse.birt.report.item.crosstab.internal.ui.dnd.DataColumnXTabDropAdapter">
       </dropAdapter>
+      <dragAdapter
+            adapter="org.eclipse.birt.report.item.crosstab.internal.ui.dnd.MeasureHandleDragAdapter">
+      </dragAdapter>
+      <dropAdapter
+            adapter="org.eclipse.birt.report.item.crosstab.internal.ui.dnd.MeasureHandleDropAdapter">
+      </dropAdapter>
 
       <dropAdapter adapter="org.eclipse.birt.report.item.crosstab.internal.ui.dnd.LevelHandleDropAdapter"/>
       <dragAdapter adapter="org.eclipse.birt.report.item.crosstab.internal.ui.dnd.LevelHandleDragAdapter"/>     
