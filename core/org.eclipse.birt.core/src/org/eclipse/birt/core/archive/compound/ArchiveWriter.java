@@ -55,6 +55,19 @@ public class ArchiveWriter implements IDocArchiveWriter
 		return stream;
 	}
 
+	public RAOutputStream openRandomAccessStream( String relativePath )
+			throws IOException
+	{
+		ArchiveEntry entry = archive.getEntry( relativePath );
+		if ( entry == null )
+		{
+			entry = archive.createEntry( relativePath );
+		}
+		RAOutputStream stream = new ArchiveEntryOutputStream( this, entry );
+		streams.add( stream );
+		return stream;
+	}
+	
 	public boolean dropStream( String relativePath )
 	{
 		try

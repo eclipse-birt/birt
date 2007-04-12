@@ -85,6 +85,22 @@ public class FolderArchive implements IDocArchiveWriter, IDocArchiveReader
 
 	/*
 	 * (non-Javadoc)
+	 * @see org.eclipse.birt.core.archive.IDocArchiveWriter#createRandomAccessStream(java.lang.String)
+	 */
+	public RAOutputStream openRandomAccessStream(String relativePath) throws IOException 
+	{
+		RAOutputStream raOutputStream = writer
+				.openRandomAccessStream( relativePath );
+		synchronized ( openStreams )
+		{
+			openStreams.add( raOutputStream );
+		}
+		return raOutputStream;
+	}
+
+	
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.birt.core.archive.IDocArchiveWriter#dropStream(java.lang.String)
 	 */
 	public boolean dropStream(String relativePath) 

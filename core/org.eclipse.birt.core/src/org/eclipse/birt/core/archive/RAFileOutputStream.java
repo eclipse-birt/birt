@@ -198,4 +198,8 @@ public class RAFileOutputStream extends RAOutputStream
 		parent.seek( localPosToGlobalPos(localPos) );
 	}
 	
+	public long length( ) throws IOException
+	{
+		return getStreamLength( );
+	}
 }

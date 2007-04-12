@@ -64,6 +64,21 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 		return out;
 	}
 
+	public RAOutputStream openRandomAccessStream( String relativePath ) throws IOException
+	{
+		String path = ArchiveUtil.generateFullPath(folderName, relativePath);
+		File fd = new File(path);
+
+		ArchiveUtil.createParentFolder(fd);
+
+		RAFolderOutputStream out = new RAFolderOutputStream(this, fd, true);
+		synchronized (openStreams) 
+		{
+			openStreams.add(out);
+		}
+		return out;
+	}
+	
 	/**
 	 * Delete a stream from the archive and make sure the stream has been
 	 * closed.
