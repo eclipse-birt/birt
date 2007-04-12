@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@ taglib uri="/WEB-INF/tlds/chart.tld" prefix="c"%>
+<%@ taglib uri="/chart.tld" prefix="chart"%>
 <%@page import="org.eclipse.birt.chart.viewer.sample.SampleHelper"%>
 <%@page import="com.ibm.icu.util.ULocale"%>
 <html>
@@ -12,26 +12,26 @@
 <body>
 Bar chart (PDF):
 <br>
-<c:renderChart width="400" height="300" output="pdf"
+<chart:renderChart width="400" height="300" output="pdf"
 	model="<%=SampleHelper.createSampleChart() %>">
-</c:renderChart>
+</chart:renderChart>
 <br>
 <br>
 Pie chart (SVG):
 <br>
-<c:renderChart width="400" height="300" output="svg"
+<chart:renderChart width="400" height="300" output="svg"
 	model="<%=session.getServletContext().getRealPath("SamplePie.chart")%>">
-</c:renderChart>
+</chart:renderChart>
 <br>
 <br>
 Bar chart with tooltips, data evaluator, style processor and runtime
 context (PNG):
 <br>
-<c:renderChart width="400" height="300"
+<chart:renderChart width="400" height="300"
 	model="<%=session.getServletContext().getRealPath("SampleBar.chart")%>"
 	data="<%=SampleHelper.createSampleEvaluator() %>"
 	styleProcessor="<%=SampleHelper.getSampleStyleProcessor() %>"
 	runtimeContext="<%=SampleHelper.createSampleRuntimeContext(ULocale.ENGLISH) %>">
-</c:renderChart>
+</chart:renderChart>
 </body>
 </html>

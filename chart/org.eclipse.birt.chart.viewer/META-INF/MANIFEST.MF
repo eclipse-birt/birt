@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: BIRT Chart viewer
+Bundle-SymbolicName: org.eclipse.birt.chart.viewer;singleton:=true
+Bundle-Version: 2.2.0.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: Eclipse.org
+Bundle-Localization: plugin
+Eclipse-LazyStart: true
+Require-Bundle: javax.servlet,
+ javax.servlet.jsp,
+ org.eclipse.birt.chart.engine

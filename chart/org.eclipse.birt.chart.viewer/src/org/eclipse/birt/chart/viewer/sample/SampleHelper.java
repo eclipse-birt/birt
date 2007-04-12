@@ -298,7 +298,6 @@ public class SampleHelper
 	{
 		RunTimeContext rtc = new RunTimeContext( );
 		rtc.setULocale( locale );
-		rtc.setRightToLeft( true );
 		return rtc;
 	}
 
