@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.report.model.adapter.oda.IODADesignFactory;
 import org.eclipse.birt.report.model.adapter.oda.IReportParameterAdapter;
 import org.eclipse.birt.report.model.adapter.oda.ODADesignFactory;
 import org.eclipse.birt.report.model.adapter.oda.util.ParameterValueUtil;
@@ -77,12 +78,18 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 	private static final String ALLOW_BLANK_PROP_NAME = IScalarParameterModel.ALLOW_BLANK_PROP;
 
 	/**
+	 * 
+	 */
+
+	private final IODADesignFactory designFactory;
+	
+	/**
 	 * Default constructor.
 	 */
 
 	public ReportParameterAdapter( )
 	{
-
+		designFactory = ODADesignFactory.getFactory( );
 	}
 
 	/**
@@ -162,10 +169,10 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 			}
 		}
 		else
-			tmpParamDefn = ODADesignFactory.getFactory( )
+			tmpParamDefn = designFactory
 					.createInputParameterAttributes( );
 
-		InputParameterAttributes tmpParamDefn1 = ODADesignFactory.getFactory( )
+		InputParameterAttributes tmpParamDefn1 = designFactory
 				.createInputParameterAttributes( );
 
 		updateInputElementAttrs( tmpParamDefn1, reportParam, null );
@@ -878,7 +885,7 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		DataElementAttributes retDataAttrs = dataAttrs;
 
 		if ( retDataAttrs == null )
-			retDataAttrs = ODADesignFactory.getFactory( )
+			retDataAttrs = designFactory
 					.createDataElementAttributes( );
 
 		// retDataAttrs.setNullability( DataSetParameterAdapter
@@ -888,7 +895,7 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 				.newElementNullability( getReportParamAllowMumble( paramHandle,
 						ALLOW_NULL_PROP_NAME ) ) );
 
-		DataElementUIHints uiHints = ODADesignFactory.getFactory( )
+		DataElementUIHints uiHints = designFactory
 				.createDataElementUIHints( );
 		uiHints.setDisplayName( paramHandle.getPromptText( ) );
 		uiHints.setDescription( paramHandle.getHelpText( ) );
@@ -917,13 +924,13 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		InputParameterAttributes retInputParamAttrs = inputParamAttrs;
 
 		if ( inputParamAttrs == null )
-			retInputParamAttrs = ODADesignFactory.getFactory( )
+			retInputParamAttrs = designFactory
 					.createInputParameterAttributes( );
 
 		InputElementAttributes inputAttrs = retInputParamAttrs
 				.getElementAttributes( );
 		if ( inputAttrs == null )
-			inputAttrs = ODADesignFactory.getFactory( ).createInputElementAttributes( );
+			inputAttrs = designFactory.createInputElementAttributes( );
 
 		inputAttrs.setDefaultScalarValue( paramHandle.getDefaultValue( ) );
 		// inputAttrs.setOptional( paramHandle.allowBlank( ) );
@@ -937,12 +944,12 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		while ( selectionList.hasNext( ) )
 		{
 			if ( staticChoices == null )
-				staticChoices = ODADesignFactory.getFactory( )
+				staticChoices = designFactory
 						.createScalarValueChoices( );
 			SelectionChoiceHandle choice = (SelectionChoiceHandle) selectionList
 					.next( );
 
-			ScalarValueDefinition valueDefn = ODADesignFactory.getFactory( )
+			ScalarValueDefinition valueDefn = designFactory
 					.createScalarValueDefinition( );
 			valueDefn.setValue( choice.getValue( ) );
 			valueDefn.setDisplayName( choice.getLabel( ) );
@@ -958,7 +965,7 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		if ( setHandle instanceof OdaDataSetHandle
 				&& ( valueExpr != null || labelExpr != null ) )
 		{
-			DynamicValuesQuery valueQuery = ODADesignFactory.getFactory( )
+			DynamicValuesQuery valueQuery = designFactory
 					.createDynamicValuesQuery( );
 			if ( dataSetDesign != null )
 			{
@@ -981,7 +988,7 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 			inputAttrs.setDynamicValueChoices( valueQuery );
 		}
 
-		InputElementUIHints uiHints = ODADesignFactory.getFactory( )
+		InputElementUIHints uiHints = designFactory
 				.createInputElementUIHints( );
 		uiHints.setPromptStyle( newPromptStyle( paramHandle.getControlType( ),
 				paramHandle.isMustMatch( ) ) );
@@ -992,7 +999,7 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 			ParameterGroupHandle groupHandle = (ParameterGroupHandle) paramHandle
 					.getContainer( );
 
-			InputParameterUIHints paramUiHints = ODADesignFactory.getFactory( )
+			InputParameterUIHints paramUiHints = designFactory
 					.createInputParameterUIHints( );
 			paramUiHints.setGroupPromptDisplayName( groupHandle
 					.getDisplayName( ) );

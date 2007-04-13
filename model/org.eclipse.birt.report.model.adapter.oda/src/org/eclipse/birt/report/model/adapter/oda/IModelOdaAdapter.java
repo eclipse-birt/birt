@@ -18,10 +18,11 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.datatools.connectivity.oda.design.DesignerState;
+import org.eclipse.datatools.connectivity.oda.design.OdaDesignSession;
 
 /**
  * 
- *
+ * 
  */
 
 public interface IModelOdaAdapter
@@ -226,5 +227,31 @@ public interface IModelOdaAdapter
 
 	boolean isEqualDataSourceDesign( DataSourceDesign designFromHandle,
 			DataSourceDesign design );
+
+	/**
+	 * Returns an design session with the specified the data set handle. It
+	 * creates an data set design and sets the data set design as the new quest.
+	 * DesignerState is also updated.
+	 * 
+	 * @param dataSetHandle
+	 *            the data set handle
+	 * @return the design session contains the new session request
+	 */
+
+	OdaDesignSession createOdaDesignSession( OdaDataSetHandle dataSetHandle );
+
+	/**
+	 * Updates the data set handle with the response in the completedSession.
+	 * DesignerState is also updated.
+	 * 
+	 * @param handle
+	 *            the data set handle
+	 * @param completedSession
+	 *            the session with the session response
+	 * @throws SemanticException
+	 */
+
+	void updateDataSetHandle( OdaDataSetHandle handle,
+			OdaDesignSession completedSession ) throws SemanticException;
 
 }
