@@ -23,7 +23,16 @@ import org.eclipse.birt.report.engine.content.IStyle;
 
 public class EmitterContext
 {
-
+	public void setLast(boolean isTable) 
+	{
+		this.lastTable = isTable;
+	}
+	
+	public boolean isLastTable()
+	{
+		return this.lastTable;
+	}
+	
 	public void startInline( )
 	{
 		inline = true;
@@ -131,6 +140,18 @@ public class EmitterContext
 
 		return w;
 	}
+	
+	private LinkedList tbls = new LinkedList( );
+
+	private boolean empty = false;
+
+	private LinkedList wlist = new LinkedList( );
+
+	private Stack cellind = new Stack( );
+
+	private boolean inline = false;
+	
+	private boolean lastTable = false;
 
 	class TableInfo
 	{
@@ -248,13 +269,5 @@ public class EmitterContext
 		IStyle style = null;
 	}
 
-	private LinkedList tbls = new LinkedList( );
-
-	boolean empty = false;
-
-	private LinkedList wlist = new LinkedList( );
-
-	Stack cellind = new Stack( );
-
-	boolean inline = false;
+	
 }
