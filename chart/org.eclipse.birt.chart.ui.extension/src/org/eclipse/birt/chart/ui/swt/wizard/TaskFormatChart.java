@@ -32,6 +32,7 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
+import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IRegisteredSheetEntry;
@@ -561,8 +562,6 @@ public class TaskFormatChart extends TreeCompoundTask
 	private void initialize( Chart chartModel, IUIManager uiManager )
 	{
 		// Register sheet collections
-		uiManager.registerSheetCollection( BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITH_AXES,
-				BASE_SERIES_SHEETS_FOR_CHARTS_WITH_AXES );
 		uiManager.registerSheetCollection( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITH_AXES,
 				ORTHOGONAL_SERIES_SHEETS_FOR_CHARTS_WITH_AXES );
 		uiManager.registerSheetCollection( BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES,
@@ -581,12 +580,9 @@ public class TaskFormatChart extends TreeCompoundTask
 			iBaseAxisCount = ( (ChartWithAxes) chartModel ).getAxes( ).size( );
 			iOrthogonalAxisCount = 0;
 			iAncillaryAxisCount = 0;
-			iBaseSeriesCount = 0;
 			iOrthogonalSeriesCount = 0;
 			for ( int i = 0; i < iBaseAxisCount; i++ )
 			{
-				iBaseSeriesCount += ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
-						.get( i ) ).getSeriesDefinitions( ).size( );
 				iOrthogonalAxisCount += ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
 						.get( i ) ).getAssociatedAxes( ).size( );
 				if ( chartModel.getDimension( ).getValue( ) == ChartDimension.THREE_DIMENSIONAL )
@@ -624,10 +620,6 @@ public class TaskFormatChart extends TreeCompoundTask
 			uiManager.removeCollectionInstance( BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
 			uiManager.removeCollectionInstance( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
 
-			for ( int iBS = 1; iBS < iBaseSeriesCount; iBS++ )
-			{
-				uiManager.addCollectionInstance( BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITH_AXES );
-			}
 			for ( int iOS = 1; iOS < iOrthogonalSeriesCount; iOS++ )
 			{
 				uiManager.addCollectionInstance( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITH_AXES );
@@ -653,14 +645,18 @@ public class TaskFormatChart extends TreeCompoundTask
 			uiManager.removeCollectionInstance( BASE_AXIS_SHEET_COLLECTION );
 			// Remove series sheets (for charts with axes) since they are not
 			// needed for Charts Without Axes
-			uiManager.removeCollectionInstance( BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITH_AXES );
 			uiManager.removeCollectionInstance( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITH_AXES );
-
-			for ( int iBS = 1; iBS < iBaseSeriesCount; iBS++ )
+			uiManager.removeCollectionInstance( BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
+			
+			if ( ( (SeriesDefinition) ( ( (SeriesDefinition) ( (ChartWithoutAxes) chartModel ).getSeriesDefinitions( )
+					.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ) ).getSeries( )
+					.get( 0 ) instanceof PieSeries )
 			{
-				uiManager.addCollectionInstance( BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
+				for ( int iBS = 0; iBS < iBaseSeriesCount; iBS++ )
+				{
+					uiManager.addCollectionInstance( BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
+				}
 			}
-
 			for ( int iOS = 1; iOS < iOrthogonalSeriesCount; iOS++ )
 			{
 				uiManager.addCollectionInstance( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );

@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
@@ -190,19 +191,19 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 		List seriesDefns = ChartUIUtil.getBaseSeriesDefinitions( getChart( ) );
 		int treeIndex = 0;
-		for ( int i = 0; i < seriesDefns.size( ); i++ )
+		
+		if ( getValueSeriesDefinition( )[0].getSeries( ).get( 0 ) instanceof PieSeries )
 		{
-			new SeriesOptionChoser( ( (SeriesDefinition) seriesDefns.get( i ) ),
-					getChart( ) instanceof ChartWithAxes ? Messages.getString( "SeriesSheetImpl.Label.CategoryXSeries" ) : Messages.getString( "SeriesSheetImpl.Label.CategoryBaseSeries" ), //$NON-NLS-1$ //$NON-NLS-2$
-					i,
-					treeIndex++ ).placeComponents( cmpList );
+			for ( int i = 0; i < seriesDefns.size( ); i++ )
+			{
+				new SeriesOptionChoser( ( (SeriesDefinition) seriesDefns.get( i ) ),
+						Messages.getString( "SeriesSheetImpl.Label.CategoryBaseSeries" ), //$NON-NLS-1$ 
+						i,
+						treeIndex++ ).placeComponents( cmpList );
+			}
 		}
 
 		seriesDefns = ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChart( ) );
-		if ( getChart( ) instanceof ChartWithAxes )
-		{
-			treeIndex = 0;
-		}
 		for ( int i = 0; i < seriesDefns.size( ); i++ )
 		{
 			String text = getChart( ) instanceof ChartWithAxes ? Messages.getString( "SeriesSheetImpl.Label.ValueYSeries" ) : Messages.getString( "SeriesSheetImpl.Label.ValueOrthogonalSeries" ); //$NON-NLS-1$ //$NON-NLS-2$		
@@ -299,20 +300,10 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		{
 			Series series = seriesDefn.getDesignTimeSeries( );
 
-			if ( seriesName.equals( Messages.getString( "SeriesSheetImpl.Label.CategoryXSeries" ) ) ) //$NON-NLS-1$
+			linkSeries = new Link( parent, SWT.NONE );
 			{
-				Label seriesLabel = new Label( parent, SWT.NONE );
-				{
-					seriesLabel.setText( seriesName );
-				}
-			}
-			else
-			{
-				linkSeries = new Link( parent, SWT.NONE );
-				{
-					linkSeries.setText( "<a>" + seriesName + "</a>" ); //$NON-NLS-1$//$NON-NLS-2$
-					linkSeries.addSelectionListener( this );
-				}
+				linkSeries.setText( "<a>" + seriesName + "</a>" ); //$NON-NLS-1$//$NON-NLS-2$
+				linkSeries.addSelectionListener( this );
 			}
 
 			List keys = null;
