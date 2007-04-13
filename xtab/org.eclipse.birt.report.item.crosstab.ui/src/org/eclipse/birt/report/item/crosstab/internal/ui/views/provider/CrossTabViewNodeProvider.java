@@ -19,6 +19,7 @@ import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.swt.graphics.Image;
@@ -90,11 +91,11 @@ public class CrossTabViewNodeProvider extends DefaultNodeProvider
 			CrosstabViewHandle crossTabViewHandle = (CrosstabViewHandle) handle.getReportItem( );
 			if ( crossTabViewHandle.getAxisType( ) == ICrosstabConstants.COLUMN_AXIS_TYPE )
 			{
-				return "Column Area";
+				return Messages.getString("CrossTabViewNodeProvider.ColumnArea"); //$NON-NLS-1$
 			}
 			if ( crossTabViewHandle.getAxisType( ) == ICrosstabConstants.ROW_AXIS_TYPE )
 			{
-				return "Row Area";
+				return Messages.getString("CrossTabViewNodeProvider.RowArea"); //$NON-NLS-1$
 			}
 		}
 		catch ( ExtendedElementException e )

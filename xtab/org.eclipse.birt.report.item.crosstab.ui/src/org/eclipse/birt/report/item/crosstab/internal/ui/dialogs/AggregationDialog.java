@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
@@ -37,7 +38,7 @@ import org.eclipse.swt.widgets.TableItem;
 public class AggregationDialog extends BaseDialog
 {
 
-	private static final String DIALOG_NAME = "Aggregation";
+	private static final String DIALOG_NAME = Messages.getString("AggregationDialog.Title"); //$NON-NLS-1$
 	private CheckboxTableViewer subTableViewer;
 	private List subList = new ArrayList( );
 	private List grandList = new ArrayList( );
@@ -106,7 +107,7 @@ public class AggregationDialog extends BaseDialog
 	private void createGrandTotalArea( Composite content )
 	{
 		Label grandTotalLabel = new Label( content, SWT.NONE );
-		grandTotalLabel.setText( "Grand Totals:" );
+		grandTotalLabel.setText( Messages.getString("AggregationDialog.Label.Grand") ); //$NON-NLS-1$
 
 		Table table = new Table( content, SWT.SINGLE
 				| SWT.BORDER
@@ -171,7 +172,7 @@ public class AggregationDialog extends BaseDialog
 	private void createSubTotalArea( Composite content )
 	{
 		Label subTotalLabel = new Label( content, SWT.NONE );
-		subTotalLabel.setText( "Sub Totals:" );
+		subTotalLabel.setText( Messages.getString("AggregationDialog.Label.Sub") ); //$NON-NLS-1$
 
 		Table table = new Table( content, SWT.SINGLE
 				| SWT.BORDER
@@ -240,7 +241,7 @@ public class AggregationDialog extends BaseDialog
 
 		private boolean aggregationOn = false;
 
-		private String function = "";
+		private String function = ""; //$NON-NLS-1$
 
 		public SubTotalInfo copy()
 		{
@@ -326,7 +327,7 @@ public class AggregationDialog extends BaseDialog
 
 		private boolean aggregationOn = false;
 
-		private String function = "";
+		private String function = ""; //$NON-NLS-1$
 
 		public GrandTotalInfo copy()
 		{

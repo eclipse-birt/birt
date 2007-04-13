@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeContentProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeLabelProvider;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IHierarchyModel;
@@ -39,7 +40,7 @@ public class LevelViewDialog extends BaseDialog
 
 	public LevelViewDialog( Shell shell )
 	{
-		super( "Show/Hide Group Levels" );
+		super( Messages.getString("LevelViewDialog.Title") ); //$NON-NLS-1$
 	}
 
 	private DimensionHandle dimension;
@@ -58,7 +59,7 @@ public class LevelViewDialog extends BaseDialog
 		Composite dialogArea = (Composite) super.createDialogArea( parent );
 
 		Label infoLabel = new Label( dialogArea, SWT.NONE );
-		infoLabel.setText( "Select levels to show on Crosstab:" );
+		infoLabel.setText( Messages.getString("LevelViewDialog.Label.Info") ); //$NON-NLS-1$
 
 		createLevelViewer( dialogArea );
 

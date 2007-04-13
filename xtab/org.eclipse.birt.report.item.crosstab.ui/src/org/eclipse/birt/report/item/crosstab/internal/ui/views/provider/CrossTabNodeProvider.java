@@ -15,16 +15,12 @@ import java.util.ArrayList;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.actions.EditAction;
-import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -36,20 +32,6 @@ import org.eclipse.swt.graphics.Image;
 public class CrossTabNodeProvider extends DefaultNodeProvider
 {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#createMenu(java.lang.Object,
-	 *      org.eclipse.jface.action.IMenuManager)
-	 */
-	public void createContextMenu( TreeViewer sourceViewer, Object object,
-			IMenuManager menu )
-	{
-		EditAction editAction = new EditAction( object,
-				Messages.getString( "CrossTabProvider.action.text" ) ); //$NON-NLS-1$
-		menu.add( editAction );
-		super.createContextMenu( sourceViewer, object, menu );
-	}
 
 	public Object getParent(Object model){
 		return super.getParent( model );

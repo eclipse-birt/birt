@@ -15,6 +15,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.item.crosstab.core.IMeasureViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -82,15 +83,15 @@ public class MeasureSubNodeProvider extends DefaultNodeProvider
 
 		if ( propertyName.equals( IMeasureViewConstants.HEADER_PROP ) )
 		{
-			return "Header";
+			return Messages.getString("MeasureSubNodeProvider.Header"); //$NON-NLS-1$
 		}
 		else if ( propertyName.equals( IMeasureViewConstants.DETAIL_PROP ) )
 		{
-			return "Detail";
+			return Messages.getString("MeasureSubNodeProvider.Detail"); //$NON-NLS-1$
 		}
 		else if ( propertyName.equals( IMeasureViewConstants.AGGREGATIONS_PROP ) )
 		{
-			return "Aggregation";
+			return Messages.getString("MeasureSubNodeProvider.Aggregation"); //$NON-NLS-1$
 		}
 		return super.getNodeDisplayName( element );
 	}

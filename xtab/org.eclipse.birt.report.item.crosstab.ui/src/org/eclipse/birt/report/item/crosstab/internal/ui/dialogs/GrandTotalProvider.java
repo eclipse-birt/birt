@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.ui.widget.ComboBoxCellEditor;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDialog.GrandTotalInfo;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -47,7 +48,7 @@ public class GrandTotalProvider extends TotalProvider implements
 
 	private CellEditor[] editors;
 	private String[] columnNames = new String[]{
-			"", "Data Field", "Function"
+			"", Messages.getString("GrandTotalProvider.Column.DataField"), Messages.getString("GrandTotalProvider.Column.Function") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	};
 
 	public CellEditor[] getEditors( Table table )
@@ -121,19 +122,19 @@ public class GrandTotalProvider extends TotalProvider implements
 		switch ( columnIndex )
 		{
 			case 0 :
-				return "";
+				return ""; //$NON-NLS-1$
 			case 1 :
-				return info.getMeasure( ) == null ? "" : info.getMeasure( )
+				return info.getMeasure( ) == null ? "" : info.getMeasure( ) //$NON-NLS-1$
 						.getName( );
 			case 2 :
 				if ( info.getFunction( ) == null
-						|| info.getFunction( ).trim( ).equals( "" ) )
+						|| info.getFunction( ).trim( ).equals( "" ) ) //$NON-NLS-1$
 					info.setFunction( getFunctionNames( )[0] );
 				return getFunctionDisplayName( info.getFunction( ) );
 			default :
 				break;
 		}
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 
 	public Object[] getElements( Object inputElement )

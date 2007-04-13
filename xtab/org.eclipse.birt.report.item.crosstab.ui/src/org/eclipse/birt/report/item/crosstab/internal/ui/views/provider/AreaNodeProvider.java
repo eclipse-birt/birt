@@ -15,8 +15,8 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
-import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.swt.graphics.Image;
 
@@ -56,11 +56,11 @@ public class AreaNodeProvider extends DefaultNodeProvider
 		String propertyName = handle.getPropertyDefn( ).getName( );
 
 		if ( propertyName.equals( ICrosstabReportItemConstants.COLUMNS_PROP ) )
-			return "Column Area";
+			return Messages.getString("AreaNodeProvider.ColumnArea"); //$NON-NLS-1$
 		if ( propertyName.equals( ICrosstabReportItemConstants.ROWS_PROP ) )
-			return "Row Area";
+			return Messages.getString("AreaNodeProvider.RowArea"); //$NON-NLS-1$
 		if ( propertyName.equals( ICrosstabReportItemConstants.MEASURES_PROP ) )
-			return "Detail Area";
+			return Messages.getString("AreaNodeProvider.DetailArea"); //$NON-NLS-1$
 
 		return null;
 	}

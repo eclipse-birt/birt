@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.ui.widget.ComboBoxCellEditor;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDialog.SubTotalInfo;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -47,7 +48,7 @@ public class SubTotalProvider extends TotalProvider implements
 
 	private CellEditor[] editors;
 	private String[] columnNames = new String[]{
-			"", "Data Field", "Function", "Aggregate on"
+			"", Messages.getString("SubTotalProvider.Column.DataField"), Messages.getString("SubTotalProvider.Column.Function"), Messages.getString("SubTotalProvider.Column.AggregateOn") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	};
 
 	public CellEditor[] getEditors( Table table )
@@ -119,13 +120,13 @@ public class SubTotalProvider extends TotalProvider implements
 		switch ( columnIndex )
 		{
 			case 0 :
-				return "";
+				return ""; //$NON-NLS-1$
 			case 1 :
-				return info.getAggregateOnMeasure( ) == null ? ""
+				return info.getAggregateOnMeasure( ) == null ? "" //$NON-NLS-1$
 						: info.getAggregateOnMeasure( ).getName( );
 			case 2 :
 				if ( info.getFunction( ) == null
-						|| info.getFunction( ).trim( ).equals( "" ) )
+						|| info.getFunction( ).trim( ).equals( "" ) ) //$NON-NLS-1$
 					info.setFunction( getFunctionNames( )[0] );
 				return getFunctionDisplayName( info.getFunction( ) );
 			case 3 :
@@ -134,7 +135,7 @@ public class SubTotalProvider extends TotalProvider implements
 			default :
 				break;
 		}
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 
 	public Object[] getElements( Object inputElement )

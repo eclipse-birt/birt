@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
@@ -40,7 +41,7 @@ public class ShowSummaryFieldDialog extends BaseDialog
 
 	public ShowSummaryFieldDialog( Shell parentShell )
 	{
-		super( parentShell, "Show/Hide Summary Fields" );
+		super( parentShell, Messages.getString("ShowSummaryFieldDialog.Title") ); //$NON-NLS-1$
 	}
 
 	protected Control createDialogArea( Composite parent )
@@ -48,7 +49,7 @@ public class ShowSummaryFieldDialog extends BaseDialog
 		Composite dialogArea = (Composite) super.createDialogArea( parent );
 
 		Label infoLabel = new Label( dialogArea, SWT.NONE );
-		infoLabel.setText( "Select levels to show on Crosstab:" );
+		infoLabel.setText( Messages.getString("ShowSummaryFieldDialog.Label.Info") ); //$NON-NLS-1$
 
 		createSummaryFiledViewer( dialogArea );
 
@@ -141,9 +142,9 @@ public class ShowSummaryFieldDialog extends BaseDialog
 		public String getColumnText( Object element, int columnIndex )
 		{
 			if ( element instanceof MeasureInfo )
-				return ( (MeasureInfo) element ).getMeasure( ) == null ? ""
+				return ( (MeasureInfo) element ).getMeasure( ) == null ? "" //$NON-NLS-1$
 						: ( (MeasureInfo) element ).getMeasure( ).getName( );
-			return "";
+			return ""; //$NON-NLS-1$
 		}
 
 		public Object[] getElements( Object inputElement )
