@@ -427,16 +427,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			htmlEmitter = new HTMLPerformanceOptimize( this,
 					writer,
-					isEmbeddable,
-					layoutPreference );
+					isEmbeddable );
 		}
 		else
 		{
 			// we will use HTMLVisionOptimize as the default emitter.
-			htmlEmitter = new HTMLVisionOptimize( this,
-					writer,
-					isEmbeddable,
-					layoutPreference );
+			htmlEmitter = new HTMLVisionOptimize( this, writer, isEmbeddable );
 		}
 	}
 
@@ -1061,7 +1057,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		setStyleName( table.getStyleClass( ) );
 
 		StringBuffer styleBuffer = new StringBuffer( );
-		htmlEmitter.buildTableStyle( table, styleBuffer );
+		htmlEmitter.buildTableStyle( table, styleBuffer, layoutPreference );
 		// output style
 		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 
