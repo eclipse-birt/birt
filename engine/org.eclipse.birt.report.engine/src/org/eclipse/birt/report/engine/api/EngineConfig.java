@@ -178,11 +178,25 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 	 * @param extensionID
 	 *            identifier for the emitter
 	 * @param extensionConfig
-	 *            configuration object for the emitter
+	 *            configuration object for the emitter, which must be an
+	 *            instance of HashMap or IRenderOption
 	 */
 	public void setEmitterConfiguration( String format, Object emitterConfig )
 	{
-		getEmitterConfigs( ).put( format, emitterConfig );
+		if ( emitterConfig instanceof HashMap )
+		{
+			getEmitterConfigs( ).put( format,
+					new RenderOption( (HashMap) emitterConfig ) );
+		}
+		else if ( emitterConfig instanceof IRenderOption )
+		{
+			getEmitterConfigs( ).put( format, emitterConfig );
+		}
+		else
+		{
+			throw new IllegalArgumentException(
+					"the agr1 must be an instance of HashMap or IRenderOption" );
+		}
 	}
 
 	/**
