@@ -137,7 +137,7 @@ public class StyleEngine implements IListVisitor
 		else
 		{
 			style2id.put( entry, new Integer( ID ) );
-			return ID++;
+			return ++ID;
 		}
 	}
 	
