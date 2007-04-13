@@ -63,8 +63,6 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
-import org.eclipse.birt.report.engine.css.dom.CellMergedStyle;
-import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
@@ -91,9 +89,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.css.CSSPrimitiveValue;
-import org.w3c.dom.css.CSSValue;
-
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -256,12 +251,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	protected IEmitterServices services;
 
 	/**
-	 * The <code>tagStack</code> that stores the tag names to be closed in
-	 * <code>endContainer()</code>.
-	 */
-	private Stack tagStack = new Stack( );
-
-	/**
 	 * display type of Block
 	 */
 	protected static final int DISPLAY_BLOCK = 1;
@@ -320,6 +309,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	private boolean cellFilled = false;
 	
 	private String layoutPreference;
+	private boolean enableAgentStyleEngine;
+	private HTMLEmitter htmlEmitter;
 	
 	/**
 	 * the constructor
@@ -430,6 +421,22 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			ouputInstanceIDs = htmlOption.getInstanceIDs( );
 			metadataEmitter = new MetadataEmitter( writer, htmlOption, idGenerator );
 			layoutPreference = htmlOption.getLayoutPreference( );
+			enableAgentStyleEngine = htmlOption.getEnableAgentStyleEngine( );
+		}
+		if ( enableAgentStyleEngine )
+		{
+			htmlEmitter = new HTMLPerformanceOptimize( this,
+					writer,
+					isEmbeddable,
+					layoutPreference );
+		}
+		else
+		{
+			// we will use HTMLVisionOptimize as the default emitter.
+			htmlEmitter = new HTMLVisionOptimize( this,
+					writer,
+					isEmbeddable,
+					layoutPreference );
 		}
 	}
 
@@ -947,7 +954,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				StringBuffer styleBuffer = new StringBuffer( );
 				if( !pageFooterFloatFlag )
 				{
-					AttributeBuilder.buildSize( styleBuffer,
+					htmlEmitter.buildSize( styleBuffer,
 							HTMLTags.ATTR_MIN_HEIGHT,
 							masterPage.getPageHeight( ) );
 				}
@@ -1054,29 +1061,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		setStyleName( table.getStyleClass( ) );
 
 		StringBuffer styleBuffer = new StringBuffer( );
-		addDefaultTableStyles( styleBuffer );
-		
-		// style string
-		DimensionType x = table.getX( );
-		DimensionType y = table.getY( );
-		int display = checkElementType( x, y, mergedStyle, styleBuffer );
-		setDisplayProperty( display, DISPLAY_INLINE, styleBuffer );
-
-		handleShrink( DISPLAY_BLOCK, mergedStyle, table.getHeight( ), table
-				.getWidth( ), styleBuffer );
-		
-		if ( HTMLRenderOption.LAYOUT_PREFERENCE_FIXED.equals( layoutPreference ) )
-		{
-			// shrink table will not output table-layout;
-			if ( ( null == mergedStyle )
-					|| !"true".equalsIgnoreCase( mergedStyle.getCanShrink( ) ) )
-			{
-				// build the table-layout
-				styleBuffer.append( " table-layout:fixed;" );
-			}
-		}
-
-		handleStyle( table, styleBuffer );
+		htmlEmitter.buildTableStyle( table, styleBuffer );
+		// output style
+		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 
 		// bookmark
 		String bookmark = table.getBookmark( );
@@ -1125,8 +1112,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 			// width
 			StringBuffer styleBuffer = new StringBuffer( );
-			AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_WIDTH,
-					column.getWidth( ) );
+			htmlEmitter.buildColumnStyle( column, styleBuffer );
 			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 			
 			if ( enableMetadata )
@@ -1318,11 +1304,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		HTMLEmitterUtil.setBookmark(  writer, null, row.getBookmark( ) );
 
 		StringBuffer styleBuffer = new StringBuffer( );
-
-		AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_HEIGHT, row
-				.getHeight( ) ); //$NON-NLS-1$
-		
-		handleStyle( row, styleBuffer );
+		htmlEmitter.buildRowStyle( row, styleBuffer );
+		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 	}
 	
 	protected void outputRowMetaData( IRowContent rowContent )
@@ -1460,20 +1443,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			writer.attribute( HTMLTags.ATTR_ROWSPAN, rowSpan );
 		}
 
-		// vertical align can only be used with tabelCell/Inline Element
 		StringBuffer styleBuffer = new StringBuffer( );
-
-		handleColumnRelatedStyle( cell, styleBuffer );
-		
-		// set font weight to be normal if the cell use "th" tag while it is in table header.
-		if ( isInTableHead )
-		{
-			handleCellFont( cell, styleBuffer );
-		}
-		
-		handleCellStyle( cell, styleBuffer );
-
-		handleCellAlign( cell );
+		htmlEmitter.buildCellStyle( cell, styleBuffer, isInTableHead );
+		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+		htmlEmitter.handleCellAlign( cell );
 
 		if ( !startedGroups.isEmpty( ) )
 		{
@@ -1490,13 +1463,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			metadataEmitter.startCell( cell );
 		}
-	}
-
-	private void handleColumnRelatedStyle( ICellContent cell,
-			StringBuffer styleBuffer )
-	{
-		IStyle style = new CellMergedStyle( cell );
-		AttributeBuilder.buildStyle( styleBuffer, style, this );
 	}
 
 	/*
@@ -1548,34 +1514,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		logger.log( Level.FINE, "[HTMLReportEmitter] Start container" ); //$NON-NLS-1$
 
-		String tagName;
-		StringBuffer styleBuffer = new StringBuffer( );
-		DimensionType x = container.getX( );
-		DimensionType y = container.getY( );
-		DimensionType width = container.getWidth( );
-		DimensionType height = container.getHeight( );
-
-		int display = checkElementType( x, y, width, height, mergedStyle,
-				styleBuffer );
-		
-		if( ((display & HTMLEmitterUtil.DISPLAY_INLINE ) > 0)
-				|| ((display & HTMLEmitterUtil.DISPLAY_INLINE_BLOCK ) > 0) )
-		{
-			writer.openTag( HTMLTags.TAG_TABLE );
-			writer.attribute( HTMLTags.ATTR_STYLE, " display:-moz-inline-box !important; display:inline;" );
-			writer.openTag( HTMLTags.TAG_TR );
-			writer.openTag( HTMLTags.TAG_TD );
-			
-			// this tag is pushed in Stack. The tag will be popped when close the container.
-			tagStack.push( "ImplementInlineBlock" );
-		}
-		else
-		{
-			// this tag is pushed in Stack. The tag will be popped when close the container.
-			tagStack.push( HTMLTags.TAG_DIV );
-		}
-		writer.openTag( HTMLTags.TAG_DIV );
-		tagName = HTMLTags.TAG_DIV;
+		htmlEmitter.openContainerTag( container );
 
 		// class
 		setStyleName( container.getStyleClass( ) );
@@ -1589,26 +1528,16 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			container.setBookmark( bookmark );
 		}
 
-		HTMLEmitterUtil.setBookmark(  writer, tagName, bookmark );
+		HTMLEmitterUtil.setBookmark(  writer, HTMLTags.TAG_DIV, bookmark );
 		
 		HTMLEmitterUtil
 				.setActiveIDTypeIID( writer, ouputInstanceIDs, container );
 
-		// output style
-		// if ( x == null && y == null )
-		// {
-		// styleBuffer.append( "position: relative;" ); //$NON-NLS-1$
-		// }
+		StringBuffer styleBuffer = new StringBuffer( );
+		htmlEmitter.buildContainerStyle( container, styleBuffer );
+		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 
-		setDisplayProperty( display, DISPLAY_INLINE_BLOCK, styleBuffer );
-
-		handleShrink( display, mergedStyle, height, width, styleBuffer );
-
-		handleStyle( container, styleBuffer );
-		
-		//handle the text-align for container, we use getStyle as the text-align is inherit in HTML for DIV.
-		writer.attribute( HTMLTags.ATTR_ALIGN, mergedStyle.getTextAlign( ) ); //$NON-NLS-1$
-		//we don't support vertial-align yet.
+		htmlEmitter.handleHorizontalAlign( mergedStyle );
 	}
 
 	/*
@@ -1623,18 +1552,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			return;
 		}
 
-		String tag = (String) tagStack.pop( );
-		if( tag.equals( "ImplementInlineBlock" ))
-		{
-			writer.closeTag( HTMLTags.TAG_DIV );
-			writer.closeTag( HTMLTags.TAG_TD );
-			writer.closeTag( HTMLTags.TAG_TR );
-			writer.closeTag( HTMLTags.TAG_TABLE );
-		}
-		else
-		{
-			writer.closeTag( tag );
-		}
+		htmlEmitter.closeContainerTag( );
 
 		logger.log( Level.FINE, "[HTMLContainerEmitter] End container" ); //$NON-NLS-1$
 	}
@@ -1657,7 +1575,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		//Resize if the text generated by TemplateDesign
 		//resizeTemplateElement( text);
 
-		StringBuffer styleBuffer = new StringBuffer( );
 		DimensionType x = text.getX( );
 		DimensionType y = text.getY( );
 		DimensionType width = text.getWidth( );
@@ -1672,12 +1589,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		// If the item is multi-line, we should check if it can be inline-block
 		if ( textValue != null && textValue.indexOf( '\n' ) >= 0 )
 		{
-			display = checkElementType( x, y, width, height, mergedStyle,
-					styleBuffer );
+			display = getElementType( x, y, width, height, mergedStyle );
 		}
 		else
 		{
-			display = checkElementType( x, y, mergedStyle, styleBuffer );
+			display = getElementType( x, y, null, null, mergedStyle );
 		}
 
 		// action
@@ -1694,10 +1610,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			}
 			tagName = HTMLTags.TAG_A;
 			outputAction( text.getHyperlinkAction( ), url );
-			setDisplayProperty( display, DISPLAY_BLOCK | DISPLAY_INLINE_BLOCK,
-					styleBuffer );
-			AttributeBuilder.checkHyperlinkTextDecoration( mergedStyle,
-					styleBuffer );
 		}
 		else
 		{
@@ -1707,7 +1619,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 						display, DISPLAY_FLAG_ALL ) );
 			}
 			tagName = openTagByType( display, DISPLAY_FLAG_ALL );
-			setDisplayProperty( display, DISPLAY_INLINE_BLOCK, styleBuffer );
 		}
 
 		setStyleName( text.getStyleClass( ) );
@@ -1720,60 +1631,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		
 		// title
 		writer.attribute( HTMLTags.ATTR_TITLE, text.getHelpText( ) ); //$NON-NLS-1$
-
-		/*if( isTalbeTemplateElement( text ) )
-		{
-			//set lines to dotted lines
-			mergedStyle.setProperty( IStyle.STYLE_BORDER_TOP_STYLE, IStyle.DOTTED_VALUE );
-			mergedStyle.setProperty( IStyle.STYLE_BORDER_BOTTOM_STYLE, IStyle.DOTTED_VALUE );
-			mergedStyle.setProperty( IStyle.STYLE_BORDER_LEFT_STYLE, IStyle.DOTTED_VALUE );
-			mergedStyle.setProperty( IStyle.STYLE_BORDER_RIGHT_STYLE, IStyle.DOTTED_VALUE );
-			mergedStyle.setProperty( IStyle.STYLE_FONT_FAMILY, IStyle.SANS_SERIF_VALUE );
-		}*/
 		
-		// check 'can-shrink' property
-		handleShrink( display, mergedStyle, height, width, styleBuffer );
-		// export the text-align
-		String textAlign = text.getComputedStyle( ).getTextAlign( );
-		if ( textAlign != null )
-		{
-			styleBuffer.append( " text-align:" );
-			styleBuffer.append( textAlign );
-			styleBuffer.append( ";" );
-		}
-		handleStyle( text, styleBuffer, false );
-
-		CSSValue vAlign = mergedStyle.getProperty(IStyle.STYLE_VERTICAL_ALIGN);
-		CSSValue canShrink = mergedStyle.getProperty(IStyle.STYLE_CAN_SHRINK);
-		if ( vAlign != null
-				&& vAlign != IStyle.BASELINE_VALUE && height != null
-				&& canShrink != IStyle.TRUE_VALUE )
-		{
-			// implement vertical align.
-			writer.openTag( HTMLTags.TAG_TABLE );
-			StringBuffer nestingTableStyleBuffer = new StringBuffer( );
-			nestingTableStyleBuffer.append( " width:100%; height:" );
-			nestingTableStyleBuffer.append( height.toString( ) );
-			writer.attribute( HTMLTags.ATTR_STYLE, nestingTableStyleBuffer );
-			writer.openTag( HTMLTags.TAG_TR );
-			writer.openTag( HTMLTags.TAG_TD );
-
-			StringBuffer textStyleBuffer = new StringBuffer( );
-			textStyleBuffer.append( " vertical-align:" );
-			textStyleBuffer.append( vAlign.getCssText() );
-			textStyleBuffer.append( ";" );
-			writer.attribute( HTMLTags.ATTR_STYLE, textStyleBuffer );
-
-			writer.text( textValue );
-
-			writer.closeTag( HTMLTags.TAG_TD );
-			writer.closeTag( HTMLTags.TAG_TR );
-			writer.closeTag( HTMLTags.TAG_TABLE );
-		}
-		else
-		{
-			writer.text( textValue );
-		}
+		StringBuffer styleBuffer = new StringBuffer( );
+		htmlEmitter.buildTextStyle( text, styleBuffer, display, url );
+		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+		
+		htmlEmitter.handleVerticalAlignBegine( text );
+		writer.text( textValue );
+		htmlEmitter.handleVerticalAlignEnd( text );
 		
 		writer.closeTag( tagName );
 		if ( enableMetadata )
@@ -1801,15 +1666,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		resizeTemplateElement( foreign);
 		
-		StringBuffer styleBuffer = new StringBuffer( );
 		DimensionType x = foreign.getX( );
 		DimensionType y = foreign.getY( );
 		DimensionType width = foreign.getWidth( );
 		DimensionType height = foreign.getHeight( );
 
 		int display;
-		display = checkElementType( x, y, width, height, mergedStyle,
-				styleBuffer );
+		display = getElementType( x, y, width, height, mergedStyle );
 
 		// create default bookmark if we need output metadata
 		if ( foreign.getGenerateBy( ) instanceof TemplateDesign )
@@ -1836,10 +1699,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			}
 			tagName = HTMLTags.TAG_A;
 			outputAction( foreign.getHyperlinkAction( ), url );
-			setDisplayProperty( display, DISPLAY_BLOCK | DISPLAY_INLINE_BLOCK,
-					styleBuffer );
-			AttributeBuilder.checkHyperlinkTextDecoration( mergedStyle,
-					styleBuffer );
 		}
 		else
 		{
@@ -1849,7 +1708,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 						display, DISPLAY_FLAG_ALL ) );
 			}
 			tagName = openTagByType( display, DISPLAY_FLAG_ALL );
-			setDisplayProperty( display, DISPLAY_INLINE_BLOCK, styleBuffer );
 		}
 
 		setStyleName( foreign.getStyleClass( ) );
@@ -1862,9 +1720,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		// title
 		writer.attribute( HTMLTags.ATTR_TITLE, foreign.getHelpText( ) );
-		
-		
-		
+
 		if( isTalbeTemplateElement( foreign ) )
 		{
 			//set lines to dotted lines
@@ -1874,53 +1730,19 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			mergedStyle.setProperty( IStyle.STYLE_BORDER_RIGHT_STYLE, IStyle.DOTTED_VALUE );
 			mergedStyle.setProperty( IStyle.STYLE_FONT_FAMILY, IStyle.SANS_SERIF_VALUE );
 		}
-		String textAlign = foreign.getComputedStyle( ).getTextAlign( );
-		if ( textAlign != null )
-		{
-			styleBuffer.append( " text-align:" );
-			styleBuffer.append( textAlign );
-			styleBuffer.append( ";" );
-		}
-		// check 'can-shrink' property
-		handleShrink( display, mergedStyle, height, width, styleBuffer );
-		handleStyle( foreign, styleBuffer, false );
+		
+		StringBuffer styleBuffer = new StringBuffer( );
+		htmlEmitter.buildForeignStyle( foreign, styleBuffer, display, url );
+		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 
 		String rawType = foreign.getRawType( );
 		boolean isHtml = IForeignContent.HTML_TYPE.equalsIgnoreCase( rawType );
-
 		if ( isHtml )
 		{
-			CSSValue vAlign = mergedStyle.getProperty(IStyle.STYLE_VERTICAL_ALIGN);
-			if (vAlign != null &&  vAlign != IStyle.BASELINE_VALUE && height != null )
-			{
-				// implement vertical align.
-				writer.openTag( HTMLTags.TAG_TABLE );
-				StringBuffer nestingTableStyleBuffer = new StringBuffer( );
-				nestingTableStyleBuffer.append( " width:100%; height:" );
-				nestingTableStyleBuffer.append( height.toString( ) );
-				writer.attribute( HTMLTags.ATTR_STYLE, nestingTableStyleBuffer );
-				writer.openTag( HTMLTags.TAG_TR );
-				writer.openTag( HTMLTags.TAG_TD );
-
-				StringBuffer textStyleBuffer = new StringBuffer( );
-				textStyleBuffer.append( " vertical-align:" );
-				textStyleBuffer.append( vAlign.getCssText() );
-				textStyleBuffer.append( ";" );
-				writer.attribute( HTMLTags.ATTR_STYLE, textStyleBuffer );
-
-				outputHtmlText(foreign);
-
-				writer.closeTag( HTMLTags.TAG_TD );
-				writer.closeTag( HTMLTags.TAG_TR );
-				writer.closeTag( HTMLTags.TAG_TABLE );
-			}
-			else
-			{
-				outputHtmlText( foreign);
-			}
+			htmlEmitter.handleVerticalAlignBegine( foreign );
+			outputHtmlText( foreign );
+			htmlEmitter.handleVerticalAlignEnd( foreign );
 		}
-
-		// writer.text( text, !isHtml, !isHtml );
 
 		writer.closeTag( tagName );
 		if ( enableMetadata )
@@ -2219,14 +2041,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			}
 			
 			setStyleName( image.getStyleClass( ) );
-			setDisplayProperty( display, 0, styleBuffer );
-			// build size
-			AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_WIDTH, image
-					.getWidth( ) ); //$NON-NLS-1$
-			AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_HEIGHT, image
-					.getHeight( ) ); //$NON-NLS-1$
-			// handle inline style
-			handleStyle( image, styleBuffer, false );
+			// build style
+			htmlEmitter.buildImageStyle( image, styleBuffer );
+			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 			writer.closeNoEndTag( );
 		}
 		else
@@ -2253,7 +2070,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 			writer.openTag( HTMLTags.TAG_IMAGE ); //$NON-NLS-1$
 			setStyleName( image.getStyleClass( ) );
-			setDisplayProperty( display, 0, styleBuffer );
 			
 			// bookmark
 			String bookmark = image.getBookmark( );				
@@ -2347,13 +2163,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			// help text
 			writer.attribute( HTMLTags.ATTR_TITLE, image.getHelpText( ) );
 
-			// image size
-			AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_WIDTH, image
-					.getWidth( ) ); //$NON-NLS-1$
-			AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_HEIGHT,
-					image.getHeight( ) ); //$NON-NLS-1$
-			// handle style
-			handleStyle( image, styleBuffer, false );
+			// build style
+			htmlEmitter.buildImageStyle( image, styleBuffer );
+			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 
 			if ( ".PNG".equalsIgnoreCase( ext ) && imageHandler != null ) //$NON-NLS-1$
 			{
@@ -2439,90 +2251,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 	}
 
-	/**
-	 * Checks the 'CanShrink' property and sets the width and height according
-	 * to the table below:
-	 * <p>
-	 * <table border=0 cellspacing=3 cellpadding=0 summary="Chart showing
-	 * symbol, location, localized, and meaning.">
-	 * <tr bgcolor="#ccccff">
-	 * <th align=left>CanShrink</th>
-	 * <th align=left>Element Type</th>
-	 * <th align=left>Width</th>
-	 * <th align=left>Height</th>
-	 * </tr>
-	 * <tr valign=middle>
-	 * <td rowspan="2"><code>true(by default)</code></td>
-	 * <td>in-line</td>
-	 * <td>ignor</td>
-	 * <td>set</td>
-	 * </tr>
-	 * <tr valign=top bgcolor="#eeeeff">
-	 * <td><code>block</code></td>
-	 * <td>set</td>
-	 * <td>ignor</td>
-	 * </tr>
-	 * <tr valign=middle>
-	 * <td rowspan="2" bgcolor="#eeeeff"><code>false</code></td>
-	 * <td>in-line</td>
-	 * <td>replaced by 'min-width' property</td>
-	 * <td>set</td>
-	 * </tr>
-	 * <tr valign=top bgcolor="#eeeeff">
-	 * <td><code>block</code></td>
-	 * <td>set</td>
-	 * <td>replaced by 'min-height' property</td>
-	 * </tr>
-	 * </table>
-	 * 
-	 * @param type
-	 *            The display type of the element.
-	 * @param style
-	 *            The style of an element.
-	 * @param height
-	 *            The height property.
-	 * @param width
-	 *            The width property.
-	 * @param styleBuffer
-	 *            The <code>StringBuffer</code> object that returns 'style'
-	 *            content.
-	 * @return A <code>boolean</code> value indicating 'Can-Shrink' property
-	 *         is set to <code>true</code> or not.
-	 */
-	protected boolean handleShrink( int type, IStyle style,
-			DimensionType height, DimensionType width, StringBuffer styleBuffer )
-	{
-		boolean canShrink = style != null
-				&& "true".equalsIgnoreCase( style.getCanShrink( ) ); //$NON-NLS-1$
-
-		if ( ( type & DISPLAY_BLOCK ) > 0 )
-		{
-			AttributeBuilder
-					.buildSize( styleBuffer, HTMLTags.ATTR_WIDTH, width );
-			if ( !canShrink )
-			{
-				AttributeBuilder.buildSize( styleBuffer,
-						HTMLTags.ATTR_MIN_HEIGHT, height );
-			}
-		}
-		else if ( ( type & DISPLAY_INLINE ) > 0 )
-		{
-			AttributeBuilder.buildSize( styleBuffer, HTMLTags.ATTR_HEIGHT,
-					height );
-			if ( !canShrink )
-			{
-				AttributeBuilder.buildSize( styleBuffer,
-						HTMLTags.ATTR_MIN_WIDTH, width );
-			}
-
-		}
-		else
-		{
-			assert false;
-		}
-		return canShrink;
-	}
-
 	protected void outputBookmark( IContent content, String tagName )
 	{
 		String bookmark = content.getBookmark( );
@@ -2577,33 +2305,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	public int getElementType( DimensionType x, DimensionType y,
 			DimensionType width, DimensionType height, IStyle style )
 	{
-		int type = 0;
-		String display = null;
-		if ( style != null )
-		{
-			display = style.getDisplay( );
-		}
-
-		if ( EngineIRConstants.DISPLAY_NONE.equalsIgnoreCase( display ) )
-		{
-			type |= DISPLAY_NONE;
-		}
-
-		if ( x != null || y != null )
-		{
-			return type | DISPLAY_BLOCK;
-		}
-		else if ( EngineIRConstants.DISPLAY_INLINE.equalsIgnoreCase( display ) )
-		{
-			type |= DISPLAY_INLINE;
-			if ( width != null || height != null )
-			{
-				type |= DISPLAY_INLINE_BLOCK;
-			}
-			return type;
-		}
-
-		return type | DISPLAY_BLOCK;
+		return htmlEmitter.getElementType( x, y, width, height, style );
 	}
 
 	/**
@@ -2640,42 +2342,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			writer.openTag( tag );
 		}
 		return tag;
-	}
-
-	/**
-	 * Set the display property to style.
-	 * 
-	 * @param display
-	 *            The display type.
-	 * @param mask
-	 *            The mask.
-	 * @param styleBuffer
-	 *            The <code>StringBuffer</code> object that returns 'style'
-	 *            content.
-	 */
-	protected void setDisplayProperty( int display, int mask,
-			StringBuffer styleBuffer )
-	{
-		int flag = display & mask;
-		if ( ( display & DISPLAY_NONE ) > 0 )
-		{
-			styleBuffer.append( "display: none;" ); //$NON-NLS-1$
-		}
-		else if ( flag > 0 )
-		{
-			if ( ( flag & DISPLAY_BLOCK ) > 0 )
-			{
-				styleBuffer.append( "display: block;" ); //$NON-NLS-1$
-			}
-			else if ( ( flag & DISPLAY_INLINE_BLOCK ) > 0 )
-			{
-				styleBuffer.append( "display: inline-block;" ); //$NON-NLS-1$
-			}
-			else if ( ( flag & DISPLAY_INLINE ) > 0 )
-			{
-				styleBuffer.append( "display: inline;" ); //$NON-NLS-1$
-			}
-		}
 	}
 
 	/**
@@ -2781,364 +2447,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			// imgUri = imgUri.replace( File.separatorChar, '/' );
 		}
 		return imgUri;
-	}
-
-	/**
-	 * Handles the style of the styled element content
-	 * 
-	 * @param element
-	 *            the styled element content
-	 * @param styleBuffer
-	 *            the StringBuffer instance
-	 */
-	protected void handleStyle( IContent element, StringBuffer styleBuffer,
-			boolean bContainer )
-	{
-		IStyle style;
-		if ( isEmbeddable )
-		{
-			style = element.getStyle( );
-		}
-		else
-		{
-			style = element.getInlineStyle( );
-		}
-		AttributeBuilder.buildStyle( styleBuffer, style, this );
-		if (!bContainer) {
-			AttributeBuilder.buildTextDecoration(styleBuffer, element
-					.getComputedStyle());
-		}
-
-		// output in-line style
-		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
-	}
-	
-	/**
-	 * Handles the style of a cell
-	 * @param cell: the cell content
-	 * @param styleBuffer: the buffer to store the tyle building result.
-	 */
-	protected void handleCellStyle( ICellContent cell, StringBuffer styleBuffer )
-	{
-		IStyle style = null;
-		if ( isEmbeddable )
-		{
-			style = cell.getStyle( );
-		}
-		else
-		{
-			style = cell.getInlineStyle( );
-		}
-		//	build the cell's style except border
-		AttributeBuilder.buildCellStyle( styleBuffer, style, this );
-		
-		//prepare build the cell's border
-		int columnCount = -1;
-		IStyle cellStyle = null, cellComputedStyle = null;
-		IStyle rowStyle = null, rowComputedStyle = null;
-		
-		cellStyle = cell.getStyle( );
-		cellComputedStyle = cell.getComputedStyle( );
-		IRowContent row = (IRowContent) cell.getParent( );
-		if( null != row )
-		{
-			rowStyle = row.getStyle( );
-			rowComputedStyle = row.getComputedStyle( );
-			ITableContent table = row.getTable( );
-			if( null != table )
-			{
-				columnCount = table.getColumnCount( );
-			}
-		}
-		
-		//build the cell's border
-		if( null == rowStyle || cell.getColumn( )< 0 || columnCount < 1 )
-		{
-			if( null != cellStyle )
-			{
-				buildCellRowBorder( styleBuffer, HTMLTags.ATTR_BORDER_TOP,
-						cellStyle.getBorderTopWidth( ), cellStyle.getBorderTopStyle( ),
-						cellStyle.getBorderTopColor( ), 0, null, null, null, 0 );
-
-				buildCellRowBorder( styleBuffer, HTMLTags.ATTR_BORDER_RIGHT,
-						cellStyle.getBorderRightWidth( ), cellStyle.getBorderRightStyle( ),
-						cellStyle.getBorderRightColor( ), 0, null, null, null, 0 );
-
-				buildCellRowBorder( styleBuffer, HTMLTags.ATTR_BORDER_BOTTOM,
-						cellStyle.getBorderBottomWidth( ), cellStyle.getBorderBottomStyle( ),
-						cellStyle.getBorderBottomColor( ), 0, null, null, null, 0 );
-
-				buildCellRowBorder( styleBuffer, HTMLTags.ATTR_BORDER_LEFT,
-						cellStyle.getBorderLeftWidth( ), cellStyle.getBorderLeftStyle( ),
-						cellStyle.getBorderLeftColor( ), 0, null, null, null, 0 );
-			}
-		}
-		else if( null == cellStyle )
-		{
-			buildCellRowBorder( styleBuffer, HTMLTags.ATTR_BORDER_TOP, null, null, null, 0,
-					rowStyle.getBorderTopWidth( ), rowStyle.getBorderTopStyle( ),
-					rowStyle.getBorderTopColor( ),  0 );
-
-			buildCellRowBorder( styleBuffer, HTMLTags.ATTR_BORDER_RIGHT, null, null, null, 0,
-					rowStyle.getBorderRightWidth( ), rowStyle.getBorderRightStyle( ),
-					rowStyle.getBorderRightColor( ), 0 );
-
-			buildCellRowBorder( styleBuffer, HTMLTags.ATTR_BORDER_BOTTOM, null, null, null, 0,
-					rowStyle.getBorderBottomWidth( ), rowStyle.getBorderBottomStyle( ),
-					rowStyle.getBorderBottomColor( ), 0 );
-
-			buildCellRowBorder( styleBuffer, HTMLTags.ATTR_BORDER_LEFT, null, null, null, 0,
-					rowStyle.getBorderLeftWidth( ), rowStyle.getBorderLeftStyle( ),
-					rowStyle.getBorderLeftColor( ), 0 );
-		}
-		else
-		{
-			//We have treat the column span. But we haven't treat the row span.
-			//It need to be solved in the future.
-			int cellWidthValue = getBorderWidthValue( cellComputedStyle, IStyle.STYLE_BORDER_TOP_WIDTH );
-			int rowWidthValue = getBorderWidthValue( rowComputedStyle, IStyle.STYLE_BORDER_TOP_WIDTH );
-			buildCellRowBorder( styleBuffer, HTMLTags.ATTR_BORDER_TOP,
-					cellStyle.getBorderTopWidth( ), cellStyle.getBorderTopStyle( ),
-					cellStyle.getBorderTopColor( ), cellWidthValue,
-					rowStyle.getBorderTopWidth( ), rowStyle.getBorderTopStyle( ),
-					rowStyle.getBorderTopColor( ), rowWidthValue );
-			
-			if( (cell.getColumn( ) +  cell.getColSpan( )) == columnCount )
-			{
-				cellWidthValue = getBorderWidthValue( cellComputedStyle, IStyle.STYLE_BORDER_RIGHT_WIDTH );
-				rowWidthValue = getBorderWidthValue( rowComputedStyle, IStyle.STYLE_BORDER_RIGHT_WIDTH );
-				buildCellRowBorder( styleBuffer, HTMLTags.ATTR_BORDER_RIGHT,
-						cellStyle.getBorderRightWidth( ), cellStyle.getBorderRightStyle( ),
-						cellStyle.getBorderRightColor( ), cellWidthValue,
-						rowStyle.getBorderRightWidth( ), rowStyle.getBorderRightStyle( ),
-						rowStyle.getBorderRightColor( ), rowWidthValue );
-			}
-			else
-			{
-				buildCellRowBorder( styleBuffer, HTMLTags.ATTR_BORDER_RIGHT,
-						cellStyle.getBorderRightWidth( ), cellStyle.getBorderRightStyle( ),
-						cellStyle.getBorderRightColor( ), 0, null, null, null, 0 );
-			}
-			
-			cellWidthValue = getBorderWidthValue( cellComputedStyle, IStyle.STYLE_BORDER_BOTTOM_WIDTH );
-			rowWidthValue = getBorderWidthValue( rowComputedStyle, IStyle.STYLE_BORDER_BOTTOM_WIDTH );
-			buildCellRowBorder( styleBuffer, HTMLTags.ATTR_BORDER_BOTTOM,
-					cellStyle.getBorderBottomWidth( ), cellStyle.getBorderBottomStyle( ),
-					cellStyle.getBorderBottomColor( ), cellWidthValue,
-					rowStyle.getBorderBottomWidth( ), rowStyle.getBorderBottomStyle( ),
-					rowStyle.getBorderBottomColor( ), rowWidthValue );
-			
-			if( cell.getColumn( ) == 0 )
-			{
-				cellWidthValue = getBorderWidthValue( cellComputedStyle, IStyle.STYLE_BORDER_LEFT_WIDTH );
-				rowWidthValue = getBorderWidthValue( rowComputedStyle, IStyle.STYLE_BORDER_LEFT_WIDTH );
-				buildCellRowBorder( styleBuffer, HTMLTags.ATTR_BORDER_LEFT,
-						cellStyle.getBorderLeftWidth( ), cellStyle.getBorderLeftStyle( ),
-						cellStyle.getBorderLeftColor( ), cellWidthValue,
-						rowStyle.getBorderLeftWidth( ), rowStyle.getBorderLeftStyle( ),
-						rowStyle.getBorderLeftColor( ), rowWidthValue );
-			}
-			else
-			{
-				buildCellRowBorder( styleBuffer, HTMLTags.ATTR_BORDER_LEFT,
-						cellStyle.getBorderLeftWidth( ), cellStyle.getBorderLeftStyle( ),
-						cellStyle.getBorderLeftColor( ), 0, null, null, null, 0 );
-			}
-			
-		}
-			
-		// output in-line style
-		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
-	}
-	
-	/**
-	 * Get the border width from a style. It don't support '%'.
-	 * @param style
-	 * @param borderNum
-	 * @return
-	 */
-	private int getBorderWidthValue( IStyle style, int borderNum )
-	{
-		if( null == style )
-		{
-			return 0;
-		}
-		if( IStyle.STYLE_BORDER_TOP_WIDTH != borderNum
-				&& IStyle.STYLE_BORDER_RIGHT_WIDTH != borderNum 
-				&& IStyle.STYLE_BORDER_BOTTOM_WIDTH != borderNum 
-				&& IStyle.STYLE_BORDER_LEFT_WIDTH != borderNum )
-		{
-			return 0;
-		}
-		CSSValue value = style.getProperty( borderNum );
-		if ( value != null && ( value instanceof FloatValue ) )
-		{
-			FloatValue fv = (FloatValue) value;
-			float v = fv.getFloatValue( );
-			switch ( fv.getPrimitiveType( ) )
-			{
-				case CSSPrimitiveValue.CSS_CM :
-					return (int) ( v * 72000 / 2.54 );
-
-				case CSSPrimitiveValue.CSS_IN :
-					return (int) ( v * 72000 );
-
-				case CSSPrimitiveValue.CSS_MM :
-					return (int) ( v * 7200 / 2.54 );
-
-				case CSSPrimitiveValue.CSS_PT :
-					return (int) ( v * 1000 );
-				case CSSPrimitiveValue.CSS_NUMBER :
-					return (int) v;
-			}
-		}
-		return 0;
-	}
-	
-	/**
-	 * Treat the conflict of cell border and row border
-	 * @param content
-	 * @param borderName
-	 * @param cellBorderWidth
-	 * @param cellBorderStyle
-	 * @param cellBorderColor
-	 * @param cellWidthValue
-	 * @param rowBorderWidth
-	 * @param rowBorderStyle
-	 * @param rowBorderColor
-	 * @param rowWidthValue
-	 */
-	private void buildCellRowBorder( StringBuffer content, String borderName,
-			String cellBorderWidth, String cellBorderStyle, String cellBorderColor, int cellWidthValue,
-			String rowBorderWidth, String rowBorderStyle, String rowBorderColor, int rowWidthValue)
-	{
-		boolean bUseCellBorder = true;//true means choose cell's border; false means choose row's border 
-		if( null == rowBorderStyle )
-		{
-		}
-		else if( null == cellBorderStyle )
-		{
-			bUseCellBorder = false;
-		}
-		else if( cellBorderStyle.matches( "hidden" ) )
-		{
-		}
-		else if( rowBorderStyle.matches( "hidden" ) )
-		{
-			bUseCellBorder = false;
-		}
-		else if( rowBorderStyle.matches( CSSConstants.CSS_NONE_VALUE ) )
-		{
-		}
-		else if( cellBorderStyle.matches( CSSConstants.CSS_NONE_VALUE ) )
-		{
-			bUseCellBorder = false;
-		}
-		else if( rowWidthValue < cellWidthValue )
-		{
-		}
-		else if( rowWidthValue > cellWidthValue )
-		{
-			bUseCellBorder = false;
-		}
-		else if( !cellBorderStyle.matches( rowBorderStyle ) )
-		{
-			Integer iCellBorderLevel = ( (Integer) borderStyleMap.get( cellBorderStyle ) );
-			Integer iRowBorderLevel = ( (Integer) borderStyleMap.get( rowBorderStyle ) );
-			if( null == iCellBorderLevel )
-			{
-				iCellBorderLevel = new Integer( -1 );
-			}
-			if( null == iRowBorderLevel )
-			{
-				iRowBorderLevel = new Integer( -1 );
-			}
-			
-			if( iRowBorderLevel.intValue( ) > iCellBorderLevel.intValue( ) )
-			{
-				bUseCellBorder = false;
-			}
-		}
-		
-		if( bUseCellBorder )
-		{
-			AttributeBuilder.buildBorder( content, borderName, cellBorderWidth, cellBorderStyle, cellBorderColor );
-		}
-		else
-		{
-			AttributeBuilder.buildBorder( content, borderName, rowBorderWidth, rowBorderStyle, rowBorderColor );
-		}
-	}
-
-	protected void handleStyle( IContent element, StringBuffer styleBuffer )
-	{
-		handleStyle(element, styleBuffer, false);
-	}
-	
-	/**
-	 * Handles the Vertical-Align property of the element content
-	 * 
-	 * @param element
-	 *            the styled element content
-	 */
-	protected void handleCellAlign( ICellContent element )
-	{
-		/* in fireforx, the text-align is used by text item, it defines the alignment
-		 * of the content in the text item instead of the text item in its container.
-		 * we can put a text item with a width into the cell to see the difference.
-		 * We must use computeStyle as the text-align is not inherited across the table.
-		 */
-		IStyle cellStyle = element.getComputedStyle( );
-		CSSValue vAlign = cellStyle.getProperty( IStyle.STYLE_VERTICAL_ALIGN );
-		if ( null == vAlign || IStyle.BASELINE_VALUE == vAlign )
-		{
-			vAlign = IStyle.TOP_VALUE;
-		}
-		writer.attribute( HTMLTags.ATTR_VALIGN, vAlign.getCssText( ) );
-		CSSValue hAlign = cellStyle.getProperty( IStyle.STYLE_TEXT_ALIGN );
-		if ( null != hAlign )
-		{
-			writer.attribute( HTMLTags.ATTR_ALIGN, hAlign.getCssText( ) );
-		}
-	}
-	
-	/**
-	 * Handles the font-weight property of the cell content
-	 * while the cell is in table header
-	 * 
-	 * @param element
-	 *            the styled element content
-	 * @param styleBuffer
-	 *            the StringBuffer instance
-	 */
-	protected void handleCellFont( ICellContent element,
-			StringBuffer styleBuffer )
-	{
-		IStyle style = element.getStyle( );
-		String fontWeight = style.getFontWeight( );
-		if ( fontWeight == null )
-		{
-			style = element.getComputedStyle( );
-			fontWeight = style.getFontWeight( );
-			if ( fontWeight == null )
-			{
-				fontWeight = "normal";
-			}
-			styleBuffer.append( "font-weight: " );
-			styleBuffer.append( fontWeight );
-			styleBuffer.append( ";" );
-		}
-	}
-	
-	/**
-	 * adds the default table styles
-	 * 
-	 * @param styleBuffer
-	 */
-	protected void addDefaultTableStyles( StringBuffer styleBuffer )
-	{
-			styleBuffer
-					.append( "border-collapse: collapse; empty-cells: show;" ); //$NON-NLS-1$
 	}
 
 	/**

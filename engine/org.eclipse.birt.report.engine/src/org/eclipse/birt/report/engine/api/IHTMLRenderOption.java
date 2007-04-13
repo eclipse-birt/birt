@@ -261,5 +261,14 @@ public interface IHTMLRenderOption extends IRenderOption
 	 * value is <code>Boolean.FALSE</code>
 	 */
 	public static final String HTML_LAYOUT_PREFERENCE = "layoutPreference"; //$NON-NLS-1$//false
-
+	
+	/**
+	 * Should the HTML emitter output the BIRT styles directly to the report. The default
+	 * value is <code>Boolean.FALSE</code>
+	 * True: means the HTML emitter will output the BIRT styles directly to the report 
+	 * 		 and depends on the browser to implement the style calculation.
+	 * False: means the HTML emitter will use BIRT style engine to calculate the styles
+	 * 		  and output the result to the report.
+	 */
+	public static final String HTML_ENABLE_AGENTSTYLE_ENGINE = "enableAgentStyleEngine"; //$NON-NLS-1$//false
 }

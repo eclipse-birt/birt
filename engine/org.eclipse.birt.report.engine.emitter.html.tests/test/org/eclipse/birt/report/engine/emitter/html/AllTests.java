@@ -34,6 +34,7 @@ public class AllTests
 		suite.addTestSuite( TableLayoutTest.class );
 		suite.addTestSuite( ScriptTest.class );
 		suite.addTestSuite( DrillThroughActionScriptTest.class );
+		suite.addTestSuite( HTMLEmitterOptimizeTest.class );
 		
 		//$JUnit-END$
 		return suite;
