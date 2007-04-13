@@ -11,9 +11,11 @@
 
 package org.eclipse.birt.chart.datafeed;
 
+import java.util.List;
 import java.util.Locale;
 
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.DataSet;
 
 import com.ibm.icu.util.ULocale;
@@ -123,4 +125,15 @@ public interface IDataSetProcessor
 	 * @since 2.1
 	 */
 	public ULocale getULocale( );
+	
+	/**
+	 * Provides a list of data definitions for grouping. The data after
+	 * evaluating will be aggregated by aggregation expression.
+	 * 
+	 * @param series
+	 *            series to get data definitions
+	 * @return a list of data definitions for grouping
+	 * @since 2.2
+	 */
+	public List getDataDefinitionsForGrouping( Series series );
 }

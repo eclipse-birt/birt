@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
 import org.eclipse.birt.chart.datafeed.IResultSetDataSet;
@@ -39,8 +40,6 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.TextDataSet;
 import org.eclipse.birt.chart.model.data.Trigger;
-import org.eclipse.birt.chart.model.type.BubbleSeries;
-import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.util.ChartUtil;
@@ -61,8 +60,7 @@ public class DataProcessor
 
 	/**
 	 * 
-	 * To collect aggregation expressions and queries of each series. Note that
-	 * some special cases, bubble/gantt series, are handled by hardcode.
+	 * To collect aggregation expressions and queries of each series. 
 	 * 
 	 */
 	class AggregationExpressionHelper
@@ -115,26 +113,16 @@ public class DataProcessor
 		 *            orthogonal series definitions list
 		 * @param lhmLookup
 		 */
-		public void addSeriesDefinitions( EList elSD, GroupingLookupHelper lhmLookup )
-		{
+		public void addSeriesDefinitions( EList elSD,
+				GroupingLookupHelper lhmLookup ) throws ChartException
+		{		
 			for ( int k = 0; k < elSD.size( ); k++ )
 			{
 				SeriesDefinition sdOrthogonal = (SeriesDefinition) elSD.get( k );
 				Series series = sdOrthogonal.getDesignTimeSeries( );
-				List qlist;
-
-				if ( series instanceof BubbleSeries )
-				{
-					qlist = getBubbleSeriesGroupingList( series );
-				}
-				else if ( series instanceof GanttSeries )
-				{
-					qlist = getGanttSeriesGroupingList( series );
-				}
-				else
-				{
-					qlist = getGeneralSeriesGroupingList( series );
-				}
+				List qlist = ChartEngine.instance( )
+						.getDataSetProcessor( series.getClass( ) )
+						.getDataDefinitionsForGrouping( series );
 
 				String strOrtAgg = lhmLookup.getOrthogonalAggregationExpression( sdOrthogonal );
 				if ( strOrtAgg != null )
@@ -150,55 +138,8 @@ public class DataProcessor
 			}
 		}
 		
-		private List getGeneralSeriesGroupingList( Series series )
-		{
-			ArrayList list = new ArrayList( 1 );
-			EList elDD = series.getDataDefinition( );
-			// FOR EACH QUERY
-			for ( int n = 0; n < elDD.size( ); n++ )
-			{
-				String sExpression = ( (Query) elDD.get( n ) ).getDefinition( );
-
-				if ( sExpression != null && sExpression.trim( ).length( ) > 0 )
-				{
-					// ADD NEW VALID EXPRESSION
-					list.add( sExpression );
-				}
-			}
-			return list;
-		}
 		
-		private List getBubbleSeriesGroupingList( Series series )
-		{
-			ArrayList list = new ArrayList( 1 );
-			String sExpression = ( (Query) series.getDataDefinition( )
-					.get( 1 ) ).getDefinition( );
 
-			// Only add size for grouping
-			if ( sExpression != null && sExpression.trim( ).length( ) > 0 )
-			{
-				list.add( sExpression );
-			}
-			return list;
-		}
-		
-		private List getGanttSeriesGroupingList( Series series )
-		{
-			ArrayList list = new ArrayList( 2 );
-			EList elDD = series.getDataDefinition( );
-			// Only add startDate and endDate for grouping
-			for ( int n = 0; n < elDD.size( ) && n < 2; n++ )
-			{
-				String sExpression = ( (Query) elDD.get( n ) ).getDefinition( );
-
-				if ( sExpression != null && sExpression.trim( ).length( ) > 0 )
-				{
-					// ADD NEW VALID EXPRESSION
-					list.add( sExpression );
-				}
-			}
-			return list;
-		}
 	}
 
 	/**

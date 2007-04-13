@@ -11,14 +11,19 @@
 
 package org.eclipse.birt.chart.datafeed;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.DataSet;
+import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
+import org.eclipse.emf.common.util.EList;
 
 import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.ULocale;
@@ -220,5 +225,23 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
 		if ( str == null )
 			return ""; //$NON-NLS-1$
 		return str.replaceAll( "\\,", "\\\\," ); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	public List getDataDefinitionsForGrouping( Series series )
+	{
+		ArrayList list = new ArrayList( 1 );
+		EList elDD = series.getDataDefinition( );
+		// FOR EACH QUERY
+		for ( int n = 0; n < elDD.size( ); n++ )
+		{
+			String sExpression = ( (Query) elDD.get( n ) ).getDefinition( );
+
+			if ( sExpression != null && sExpression.trim( ).length( ) > 0 )
+			{
+				// ADD NEW VALID EXPRESSION
+				list.add( sExpression );
+			}
+		}
+		return list;
 	}
 }
