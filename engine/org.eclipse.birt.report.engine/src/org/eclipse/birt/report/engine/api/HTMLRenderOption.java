@@ -316,4 +316,30 @@ public class HTMLRenderOption extends RenderOptionBase  implements IHTMLRenderOp
 		}
 		return null;
 	}
+	
+	/**
+	 * Sets the flag indicationg that agentStyleEngine is enabled or not.
+	 * @param enableAgentStyleEngine
+	 * 		True: means the HTML emitter will output the BIRT styles directly to the report 
+	 * 		 		and depends on the browser to implement the style calculation.
+	 * 		False: means the HTML emitter will use BIRT style engine to calculate the styles
+	 * 		  		and output the result to the report.
+	 */
+	public void setEnableAgentStyleEngine( boolean enableAgentStyleEngine )
+	{
+		options.put( HTML_ENABLE_AGENTSTYLE_ENGINE, new Boolean( enableAgentStyleEngine ) );
+	}
+
+	/**
+	 * @return the agentStyleEngine enabled flag value.
+	 */
+	public boolean getEnableAgentStyleEngine( )
+	{
+		Object value = options.get( HTML_ENABLE_AGENTSTYLE_ENGINE );
+		if ( value instanceof Boolean )
+		{
+			return ( (Boolean) value ).booleanValue( );
+		}
+		return false;
+	}
 }
