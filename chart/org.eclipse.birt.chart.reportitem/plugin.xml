@@ -33,6 +33,11 @@
                isList="false"
                name="action"
                type="structure"/>
+    	<property detailType="SortKey" 
+    		displayNameID="Element.ListingGroup.sort" 
+    		isList="true" 
+    		name="sort" 
+    		type="structure"/>
          <overrideProperty
                allowedChoices="in,cm,mm,pt,pc,em,ex,px"
                propertyName="width">
