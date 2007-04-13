@@ -1790,11 +1790,11 @@ Structure.MapRule.value1=値 1
 Structure.MapRule.value2=値 2
 Structure.MapRule.display=表示
 Structure.MapRule.displayID=displayID
-Structure.MapRule.isDesignTime=Is Design Time
+Structure.MapRule.isDesignTime=Is Design 時間
 
 #1.HighlightRule
 Structure.HighlightRule.operator=演算子
-Structure.HighlightRule.isDesignTime=Is Design Time
+Structure.HighlightRule.isDesignTime=Is Design 時間
 Structure.HighlightRule.value1=値 1
 Structure.HighlightRule.value2=値 2
 Structure.HighlightRule.testExpr = テスト式

@@ -1790,11 +1790,11 @@ Structure.MapRule.value1=值 1
 Structure.MapRule.value2=值 2
 Structure.MapRule.display=显示
 Structure.MapRule.displayID=显示 ID
-Structure.MapRule.isDesignTime=Is Design Time
+Structure.MapRule.isDesignTime=为设计时间
 
 #1.HighlightRule
 Structure.HighlightRule.operator=运算符
-Structure.HighlightRule.isDesignTime=Is Design Time
+Structure.HighlightRule.isDesignTime=为设计时间
 Structure.HighlightRule.value1=值 1
 Structure.HighlightRule.value2=值 2
 Structure.HighlightRule.testExpr = TestExpression
