@@ -137,13 +137,13 @@ birt.viewer.dialog.exportdata.addall=全部添加
 birt.viewer.dialog.exportdata.add=添加
 birt.viewer.dialog.exportdata.removeall=全部删除
 birt.viewer.dialog.exportdata.remove=删除
-birt.viewer.dialog.exportdata.separator=Separator:
+birt.viewer.dialog.exportdata.separator=分隔符:
 
-birt.viewer.sep.0=Comma ( , )
-birt.viewer.sep.1=Semicolon ( ; )
-birt.viewer.sep.2=Colon ( : )
-birt.viewer.sep.3=Vertical Line ( | )
-birt.viewer.sep.4=Tab ( \\t )
+birt.viewer.sep.0=逗号 ( , )
+birt.viewer.sep.1=分号 ( ; )
+birt.viewer.sep.2=冒号 ( : )
+birt.viewer.sep.3=垂直线 ( | )
+birt.viewer.sep.4=制表符 ( \\t )
 
 ###############################################################################
 # General exception

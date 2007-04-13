@@ -75,7 +75,7 @@ CrosstabSubTotalRowExecutor.error.retrieve.child.executor=Une erreur s'est produ
 
 TableColumnGenerator.error.process.visibility=Une erreur s'est produite lors du traitement de la visibilité des colonnes
 
-CrosstabReportItemHandle.error.locate.column.cell=Error locating relevant crosstab cell on columns
-CrosstabReportItemHandle.error.locate.row.cell=Error locating relevant crosstab cell on rows
-CrosstabReportItemHandle.error.set.column.width=Error setting crosstab column width
-CrosstabReportItemHandle.error.set.row.height=Error setting crosstab row height
+CrosstabReportItemHandle.error.locate.column.cell=Erreur lors de la localisation de la cellule de tableau croisé appropriée sur les colonnes
+CrosstabReportItemHandle.error.locate.row.cell=Erreur lors de la localisation de la cellule de tableau croisé appropriée sur les lignes
+CrosstabReportItemHandle.error.set.column.width=Erreur lors de la définition de la largeur des colonnes du tableau croisé
+CrosstabReportItemHandle.error.set.row.height=Erreur lors de la définition de la hauteur des lignes du tableau croisé

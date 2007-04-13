@@ -75,7 +75,7 @@ CrosstabSubTotalRowExecutor.error.retrieve.child.executor=子の実行ファイルの取得
 
 TableColumnGenerator.error.process.visibility=列の可視性の処理中にエラーが発生しました。
 
-CrosstabReportItemHandle.error.locate.column.cell=Error locating relevant crosstab cell on columns
-CrosstabReportItemHandle.error.locate.row.cell=Error locating relevant crosstab cell on rows
-CrosstabReportItemHandle.error.set.column.width=Error setting crosstab column width
-CrosstabReportItemHandle.error.set.row.height=Error setting crosstab row height
+CrosstabReportItemHandle.error.locate.column.cell=カラム上で関連するクロスタブセルを検出中にエラーが発生しました。
+CrosstabReportItemHandle.error.locate.row.cell=ロウ上で関連するクロスタブセルを検出中にエラーが発生しました。
+CrosstabReportItemHandle.error.set.column.width=クロスタブカラムの幅を設定中にエラーが発生しました。
+CrosstabReportItemHandle.error.set.row.height=クロスタブロウの高さを設定中にエラーが発生しました。

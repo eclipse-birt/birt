@@ -137,13 +137,13 @@ birt.viewer.dialog.exportdata.addall=Tout ajouter
 birt.viewer.dialog.exportdata.add=Ajouter
 birt.viewer.dialog.exportdata.removeall=Supprimer tout
 birt.viewer.dialog.exportdata.remove=Supprimer
-birt.viewer.dialog.exportdata.separator=Separator:
+birt.viewer.dialog.exportdata.separator=Séparateur :
 
-birt.viewer.sep.0=Comma ( , )
-birt.viewer.sep.1=Semicolon ( ; )
-birt.viewer.sep.2=Colon ( : )
-birt.viewer.sep.3=Vertical Line ( | )
-birt.viewer.sep.4=Tab ( \\t )
+birt.viewer.sep.0=Virgule ( , )
+birt.viewer.sep.1=Point-virgule ( ; )
+birt.viewer.sep.2=Deux points ( : )
+birt.viewer.sep.3=Ligne verticale ( | )
+birt.viewer.sep.4=Tabulation ( \\t )
 
 ###############################################################################
 # General exception

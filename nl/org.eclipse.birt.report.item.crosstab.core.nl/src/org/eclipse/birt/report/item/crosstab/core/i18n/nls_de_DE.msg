@@ -75,7 +75,7 @@ CrosstabSubTotalRowExecutor.error.retrieve.child.executor=Beim Abrufen des unter
 
 TableColumnGenerator.error.process.visibility=Beim Verarbeiten der Spaltensichtbarkeit ist ein Fehler aufgetreten.
 
-CrosstabReportItemHandle.error.locate.column.cell=Error locating relevant crosstab cell on columns
-CrosstabReportItemHandle.error.locate.row.cell=Error locating relevant crosstab cell on rows
-CrosstabReportItemHandle.error.set.column.width=Error setting crosstab column width
-CrosstabReportItemHandle.error.set.row.height=Error setting crosstab row height
+CrosstabReportItemHandle.error.locate.column.cell=Fehler beim Suchen der relevanten Kreuztabellenzelle in Spalten
+CrosstabReportItemHandle.error.locate.row.cell=Fehler beim Suchen der relevanten Kreuztabellenzelle in Zeilen
+CrosstabReportItemHandle.error.set.column.width=Fehler beim Festlegen der Spaltenbreite der Kreuztabelle
+CrosstabReportItemHandle.error.set.row.height=Fehler beim Festlegen der Zeilenhöhe der Kreuztabelle

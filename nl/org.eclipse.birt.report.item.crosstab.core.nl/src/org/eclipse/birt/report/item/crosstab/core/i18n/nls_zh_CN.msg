@@ -75,7 +75,7 @@ CrosstabSubTotalRowExecutor.error.retrieve.child.executor=检索子执行程序时出错。
 
 TableColumnGenerator.error.process.visibility=处理列可见性时出错。
 
-CrosstabReportItemHandle.error.locate.column.cell=Error locating relevant crosstab cell on columns
-CrosstabReportItemHandle.error.locate.row.cell=Error locating relevant crosstab cell on rows
-CrosstabReportItemHandle.error.set.column.width=Error setting crosstab column width
-CrosstabReportItemHandle.error.set.row.height=Error setting crosstab row height
+CrosstabReportItemHandle.error.locate.column.cell=在列中查找相关交叉表单元格时出错
+CrosstabReportItemHandle.error.locate.row.cell=在行中查找相关交叉表单元格时出错
+CrosstabReportItemHandle.error.set.column.width=设置交叉表列宽时出错
+CrosstabReportItemHandle.error.set.row.height=设置交叉表行高时出错

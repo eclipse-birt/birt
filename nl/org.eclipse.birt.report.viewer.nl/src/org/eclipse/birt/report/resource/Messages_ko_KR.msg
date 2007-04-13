@@ -137,13 +137,13 @@ birt.viewer.dialog.exportdata.addall=모두 추가
 birt.viewer.dialog.exportdata.add=추가
 birt.viewer.dialog.exportdata.removeall=모두 제거
 birt.viewer.dialog.exportdata.remove=제거
-birt.viewer.dialog.exportdata.separator=Separator:
+birt.viewer.dialog.exportdata.separator=구분 기호:
 
-birt.viewer.sep.0=Comma ( , )
-birt.viewer.sep.1=Semicolon ( ; )
-birt.viewer.sep.2=Colon ( : )
-birt.viewer.sep.3=Vertical Line ( | )
-birt.viewer.sep.4=Tab ( \\t )
+birt.viewer.sep.0=쉼표( , )
+birt.viewer.sep.1=세미콜론( ; )
+birt.viewer.sep.2=콜론( : )
+birt.viewer.sep.3=수직선( | )
+birt.viewer.sep.4=탭( \\t )
 
 ###############################################################################
 # General exception

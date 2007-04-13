@@ -137,13 +137,13 @@ birt.viewer.dialog.exportdata.addall=すべて追加
 birt.viewer.dialog.exportdata.add=追加
 birt.viewer.dialog.exportdata.removeall=すべて削除
 birt.viewer.dialog.exportdata.remove=削除
-birt.viewer.dialog.exportdata.separator=Separator:
+birt.viewer.dialog.exportdata.separator=区切り文字 :
 
-birt.viewer.sep.0=Comma ( , )
-birt.viewer.sep.1=Semicolon ( ; )
-birt.viewer.sep.2=Colon ( : )
-birt.viewer.sep.3=Vertical Line ( | )
-birt.viewer.sep.4=Tab ( \\t )
+birt.viewer.sep.0=コンマ (,)
+birt.viewer.sep.1=セミコロン (;)
+birt.viewer.sep.2=コロン (:)
+birt.viewer.sep.3=縦線 (|)
+birt.viewer.sep.4=タブ (\\t)
 
 ###############################################################################
 # General exception

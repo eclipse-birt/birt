@@ -75,7 +75,7 @@ CrosstabSubTotalRowExecutor.error.retrieve.child.executor=하위 실행기를 검색하는
 
 TableColumnGenerator.error.process.visibility=열 표시 유형을 처리하는 중에 오류가 발생했습니다.
 
-CrosstabReportItemHandle.error.locate.column.cell=Error locating relevant crosstab cell on columns
-CrosstabReportItemHandle.error.locate.row.cell=Error locating relevant crosstab cell on rows
-CrosstabReportItemHandle.error.set.column.width=Error setting crosstab column width
-CrosstabReportItemHandle.error.set.row.height=Error setting crosstab row height
+CrosstabReportItemHandle.error.locate.column.cell=관련 크로스 탭 셀을 열에서 찾는 중 오류 발생
+CrosstabReportItemHandle.error.locate.row.cell=관련 크로스 탭 셀을 행에서 찾는 중 오류 발생
+CrosstabReportItemHandle.error.set.column.width=크로스 탭 열 너비 설정 중 오류 발생
+CrosstabReportItemHandle.error.set.row.height=크로스 탭 행 높이 설정 중 오류 발생
