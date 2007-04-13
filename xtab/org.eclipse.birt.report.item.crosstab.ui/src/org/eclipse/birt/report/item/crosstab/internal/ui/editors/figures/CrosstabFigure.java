@@ -31,7 +31,7 @@ public class CrosstabFigure extends ReportElementFigure
 	{
 		super( );
 		SectionBorder border = new TableBorder( );
-		border.setIndicatorLabel( "crostab" );// name come from adapt set
+		//border.setIndicatorLabel( "crostab" );// name come from adapt set
 
 		// table name throught Adapt may be set icon
 		border.setIndicatorIcon( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_TABLE ) );

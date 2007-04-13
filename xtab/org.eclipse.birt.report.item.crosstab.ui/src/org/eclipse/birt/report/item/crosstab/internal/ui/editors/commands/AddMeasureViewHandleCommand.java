@@ -18,6 +18,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -39,8 +40,8 @@ public class AddMeasureViewHandleCommand extends AbstractCrosstabCommand
 	/**
 	 * trans name
 	 */
-	private static final String NAME = "Add MeasureView";
-
+	//private static final String NAME = "Add MeasureHandle";
+	private static final String NAME = Messages.getString( "AddMeasureViewHandleCommand.TransName" );//$NON-NLS-1$
 	/**
 	 * Constructor
 	 * 

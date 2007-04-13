@@ -55,7 +55,7 @@ public class VirtualCrosstabCellAdapter extends CrosstabCellAdapter implements I
 		super( null );
 		if ( handle != null )
 		{
-			throw new RuntimeException( "Don't need create the Virtual adapter" );
+			throw new RuntimeException( "Don't need create the Virtual adapter" );//$NON-NLS-1$
 		}
 
 		this.type = type;

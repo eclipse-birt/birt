@@ -74,13 +74,13 @@ public class VirtualCellEditPart extends CrosstabCellEditPart
 		switch (type)
 		{
 			case VirtualCrosstabCellAdapter.COLUMN_TYPE:
-				( (CellFigure) getFigure( ) ).setBlankString( "column" );
+				( (CellFigure) getFigure( ) ).setBlankString( "column" );//$NON-NLS-1$
 				break;
 			case VirtualCrosstabCellAdapter.ROW_TYPE:
-				( (CellFigure) getFigure( ) ).setBlankString( "row" );
+				( (CellFigure) getFigure( ) ).setBlankString( "row" );//$NON-NLS-1$
 				break;
 			case VirtualCrosstabCellAdapter.MEASURE_TYPE:
-				( (CellFigure) getFigure( ) ).setBlankString( "measure" );
+				( (CellFigure) getFigure( ) ).setBlankString( "measure" );//$NON-NLS-1$
 				break;
 			default:
 				( (CellFigure) getFigure( ) ).setBlankString( null );	

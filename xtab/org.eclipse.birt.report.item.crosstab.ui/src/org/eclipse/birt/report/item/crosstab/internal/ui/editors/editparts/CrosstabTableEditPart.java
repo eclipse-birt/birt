@@ -41,6 +41,7 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editpolicies.Cr
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabHandleAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -72,7 +73,8 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 {
 
 	public static final String CELL_HANDLE_LAYER = "Cell handles layer"; //$NON-NLS-1$
-	private static final String GUIDEHANDLE_TEXT = "Cross Tab";
+	//private static final String GUIDEHANDLE_TEXT = "Cross Tab";
+	private static final String GUIDEHANDLE_TEXT = Messages.getString( "CrosstabTableEditPart.GuideText");//$NON-NLS-1$
 
 	// LEFT RIGHT is define virtual editpart column size.
 	private static final double LEFT = 30.0;

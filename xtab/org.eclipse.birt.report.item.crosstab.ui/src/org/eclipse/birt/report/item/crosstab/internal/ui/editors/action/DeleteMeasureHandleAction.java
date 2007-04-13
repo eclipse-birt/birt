@@ -15,6 +15,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -31,7 +32,8 @@ public class DeleteMeasureHandleAction extends AbstractCrosstabAction
 	/**
 	 * Action displayname
 	 */
-	private static final String ACTION_MSG_MERGE = "Remove";
+	//private static final String ACTION_MSG_MERGE = "Remove";
+	private static final String ACTION_MSG_MERGE = Messages.getString( "DeleteMeasureHandleAction.DisplayName" );//$NON-NLS-1$
 
 	/** action ID */
 	public static final String ID = "org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.DeleteMeasureHandleAction"; //$NON-NLS-1$
@@ -39,7 +41,8 @@ public class DeleteMeasureHandleAction extends AbstractCrosstabAction
 	/**
 	 * Trans name
 	 */
-	private static final String NAME = "add grandtotal";
+	//private static final String NAME = "Delete MeasureViewHandle";
+	private static final String NAME = Messages.getString( "DeleteMeasureHandleAction.TransName" );//$NON-NLS-1$
 
 	/**
 	 * Constructor

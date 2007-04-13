@@ -18,6 +18,7 @@ import org.eclipse.birt.report.designer.ui.extensions.IMenuBuilder;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.jface.action.IMenuManager;
 
@@ -29,7 +30,8 @@ import org.eclipse.jface.action.IMenuManager;
 public class CrosstabMenuBuilder implements IMenuBuilder
 {
 
-	private static final String EDITCUBE_NAME = "Edit Data Cube";
+	//private static final String EDITCUBE_NAME = "Edit Data Cube";
+	private static final String EDITCUBE_NAME = Messages.getString( "CrosstabMenuBuilder.EditCubeAction.DisplayName" );//$NON-NLS-1$
 	/**
 	 * Constructor
 	 */

@@ -21,6 +21,7 @@ import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabHandleAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -48,7 +49,8 @@ public class CreateDimensionViewCommand extends AbstractCrosstabCommand
 	/**
 	 * trans name
 	 */
-	private static final String NAME = "Create DiminsionView";
+	//private static final String NAME = "Create DiminsionViewHandle";
+	private static final String NAME = Messages.getString( "CreateDimensionViewCommand.TransName" );//$NON-NLS-1$
 
 	/**Constructor
 	 * @param handleAdpter

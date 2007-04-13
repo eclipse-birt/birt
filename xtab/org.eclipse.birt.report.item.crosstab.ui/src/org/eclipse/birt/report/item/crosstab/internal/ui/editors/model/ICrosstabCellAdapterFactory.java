@@ -22,33 +22,33 @@ public interface ICrosstabCellAdapterFactory
 	// for the level handel to creat the cell handle adapter, maybe there are
 	// different cell adapter between
 	// the first level handle and other level handl
-	public static final String CELL_LEVEL_HANDLE = "level_handle";
+	public static final String CELL_LEVEL_HANDLE = "level_handle";//$NON-NLS-1$
 
-	public static final String CELL_FIRST_LEVEL_HANDLE = "first_level_handle";
+	public static final String CELL_FIRST_LEVEL_HANDLE = "first_level_handle";//$NON-NLS-1$
 
 	// for the sub total to create the cell handle adapter
-	public static final String CELL_SUB_TOTAL = "sub_total";
+	public static final String CELL_SUB_TOTAL = "sub_total";//$NON-NLS-1$
 
 	// for the grand total to create the cell handle adapter
-	public static final String CELL_GRAND_TOTAL = "grand_total";
+	public static final String CELL_GRAND_TOTAL = "grand_total";//$NON-NLS-1$
 
 	// for the mesure header to create the cell handle adapter, maybe some
 	// measure cell adapter
 	// share the one AbstractCrosstabItemHandle
-	public static final String CELL_MEASURE_HEADER = "measure_header";
+	public static final String CELL_MEASURE_HEADER = "measure_header";//$NON-NLS-1$
 
-	public static final String CELL_MEASURE = "cell_measure";
+	public static final String CELL_MEASURE = "cell_measure";//$NON-NLS-1$
 
-	public static final String CELL_MEASURE_AGGREGATION = "measure_aggregation";
+	public static final String CELL_MEASURE_AGGREGATION = "measure_aggregation";//$NON-NLS-1$
 
 	// If the AbstractCrosstabItemHandle is null, creat the virtual cell
 	// adapter. it has the different
 	// area ( see the VirtualCrosstabCellAdapter)
-	public static final String CELL_ROW_VIRTUAL = "row_virtual";
+	public static final String CELL_ROW_VIRTUAL = "row_virtual";//$NON-NLS-1$
 
-	public static final String CELL_COLUMN_VIRTUAL = "column_virtual";
+	public static final String CELL_COLUMN_VIRTUAL = "column_virtual";//$NON-NLS-1$
 
-	public static final String CELL_MEASURE_VIRTUAL = "measure_virtual";
+	public static final String CELL_MEASURE_VIRTUAL = "measure_virtual";//$NON-NLS-1$
 
 	/**
 	 * Create the CrosstabCellAdapter

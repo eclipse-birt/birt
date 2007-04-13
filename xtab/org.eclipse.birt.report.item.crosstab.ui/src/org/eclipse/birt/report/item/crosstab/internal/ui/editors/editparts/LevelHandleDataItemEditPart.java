@@ -11,12 +11,9 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts;
 
-import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DataEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
-import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.StackLayout;
 

@@ -14,6 +14,7 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.editors.action;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -29,9 +30,13 @@ public class DeleteDimensionViewHandleAction extends AbstractCrosstabAction
 
 	//LevelViewHandle viewHandle = null;
 	DimensionViewHandle dimensionHandle;
-	private static final String NAME = "delete test dimensionviewhandle";
-	private static final String ID = "delete_test_dimensionviewhandle";
-	private static final String TEXT = "Remove";
+//	private static final String NAME = "Delete Dimensionviewhandle";
+//	private static final String ID = "delete_test_dimensionviewhandle";
+//	private static final String TEXT = "Remove";
+	
+	private static final String NAME = Messages.getString( "DeleteDimensionViewHandleAction.TransName" );//$NON-NLS-1$
+	private static final String ID = "delete_test_dimensionviewhandle";//$NON-NLS-1$
+	private static final String TEXT = Messages.getString( "DeleteDimensionViewHandleAction.DisplayName" );//$NON-NLS-1$
 	
 	//private static final String DISPALY_NAME = "dimensionviewhandle";
 	

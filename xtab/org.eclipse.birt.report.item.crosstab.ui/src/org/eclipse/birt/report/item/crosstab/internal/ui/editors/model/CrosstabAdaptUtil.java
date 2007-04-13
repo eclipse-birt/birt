@@ -32,7 +32,6 @@ import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 /**
  * Util class 
  */
-//TODO form DimensionViewHandle you can get index
 public class CrosstabAdaptUtil
 {
 	/**Gets the row or column count  after the handel, now include the current handle 

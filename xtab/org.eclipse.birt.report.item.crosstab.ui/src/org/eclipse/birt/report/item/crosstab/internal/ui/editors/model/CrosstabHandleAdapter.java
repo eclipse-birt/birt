@@ -41,21 +41,16 @@ import org.eclipse.birt.report.model.api.metadata.DimensionValue;
  * The adapter for the crosstab.
  */
 
-// TODO:
-// This may be not a row and comumn,but maybe you can get row cells through the
-// row index.
-// TODO if the the last level handle has the sub total, must the fillter the
-// AggregationCell.
 public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 {
 
-	private static final String COLUMNAREA_COLUMN = "columnarea_column";
-	private static final String COLUMNAREA_ROW = "columnarea_row";
-	private static final String ROWAREA_COLUMN = "rowarea_column";
-	private static final String ROWAREA_ROW = "rowarea_row";
-	public static final String DEFAULT_WIDTH = "100.0"
+	private static final String COLUMNAREA_COLUMN = "columnarea_column";//$NON-NLS-1$
+	private static final String COLUMNAREA_ROW = "columnarea_row";//$NON-NLS-1$
+	private static final String ROWAREA_COLUMN = "rowarea_column";//$NON-NLS-1$
+	private static final String ROWAREA_ROW = "rowarea_row";//$NON-NLS-1$
+	public static final String DEFAULT_WIDTH = "100.0"//$NON-NLS-1$
 			+ DesignChoiceConstants.UNITS_PERCENTAGE;
-	public static final String LEFT_CONNER = "left_conner";
+	public static final String LEFT_CONNER = "left_conner";//$NON-NLS-1$
 	private ICrosstabCellAdapterFactory factory = createCrosstabCellAdapterFactory( );
 	private int columnAndMeasureColumnNumber = -1;
 

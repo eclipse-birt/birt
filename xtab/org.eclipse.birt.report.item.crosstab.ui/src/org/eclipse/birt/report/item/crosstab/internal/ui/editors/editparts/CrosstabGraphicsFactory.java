@@ -85,6 +85,6 @@ public class CrosstabGraphicsFactory implements EditPartFactory
 		{
 			return new MeasureCrosstabPopMenuProvider(viewer);
 		}
-		throw new RuntimeException("Don't support this position");
+		throw new RuntimeException("Don't support this position");//$NON-NLS-1$
 	}
 }

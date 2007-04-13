@@ -46,7 +46,6 @@ import org.eclipse.gef.requests.GroupRequest;
  * Crosstab cell element editpart, the model is CrosstabCellAdapter
  */
 
-// TODO outlne drag the dimensionHandle
 public class CrosstabCellEditPart extends AbstractCellEditPart
 {
 

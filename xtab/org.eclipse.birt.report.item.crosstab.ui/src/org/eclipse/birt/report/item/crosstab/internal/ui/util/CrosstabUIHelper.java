@@ -30,18 +30,18 @@ import org.eclipse.swt.widgets.Display;
 public class CrosstabUIHelper
 {
 
-	public static String CROSSTAB_IMAGE = "icons/pal/crosstab.gif";
-	public static String MEASURE_IMAGE = "icons/pal/data.gif";
-	public static String COLUMNS_AREA_IMAGE = "icons/pal/column-area.gif";
-	public static String ROWS_AREA_IMAGE = "icons/pal/row-area.gif";
-	public static String DETAIL_AREA_IMAGE = "icons/pal/detail-area.gif";
-	public static String LEVEL_IMAGE = "icons/pal/level.gif";
-	public static String CELL_IMAGE = "icons/pal/cell.gif";
-	public static String DETAIL_IMAGE = "icons/pal/details.gif";
-	public static String HEADER_IMAGE = "icons/pal/header.gif";
-	public static String AGGREGATION_IMAGE = "icons/pal/aggregation.gif";
-	public static String LEVEL_AGGREGATION = "icons/pal/cell-level-aggregation.gif";
-	public static String SHOW_HIDE_LECEL = "icons/pal/show-hide-level.gif";
+	public static String CROSSTAB_IMAGE = "icons/pal/crosstab.gif";//$NON-NLS-1$
+	public static String MEASURE_IMAGE = "icons/pal/data.gif";//$NON-NLS-1$
+	public static String COLUMNS_AREA_IMAGE = "icons/pal/column-area.gif";//$NON-NLS-1$
+	public static String ROWS_AREA_IMAGE = "icons/pal/row-area.gif";//$NON-NLS-1$
+	public static String DETAIL_AREA_IMAGE = "icons/pal/detail-area.gif";//$NON-NLS-1$
+	public static String LEVEL_IMAGE = "icons/pal/level.gif";//$NON-NLS-1$
+	public static String CELL_IMAGE = "icons/pal/cell.gif";//$NON-NLS-1$
+	public static String DETAIL_IMAGE = "icons/pal/details.gif";//$NON-NLS-1$
+	public static String HEADER_IMAGE = "icons/pal/header.gif";//$NON-NLS-1$
+	public static String AGGREGATION_IMAGE = "icons/pal/aggregation.gif";//$NON-NLS-1$
+	public static String LEVEL_AGGREGATION = "icons/pal/cell-level-aggregation.gif";//$NON-NLS-1$
+	public static String SHOW_HIDE_LECEL = "icons/pal/show-hide-level.gif";//$NON-NLS-1$
 	private static Image createImage( String sPluginRelativePath )
 	{
 		Image img = null;

@@ -28,6 +28,7 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDial
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDialog.SubTotalInfo;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
@@ -41,22 +42,25 @@ import org.eclipse.swt.graphics.Image;
 /**
  * Add the sub total to the level handle.
  */
-//NOTE maybe this is a temp class because the SPEC
-//TODO i18n the string
-//TODO binding the data 
 public class AddSubTotalAction extends AbstractCrosstabAction
 {
 
-	private static final String LABEL_NAME = "Grand Total";
+//	private static final String LABEL_NAME = "Grand Total";
+//	private static final String NAME = "add subtotal";
+//	private static final String ID = "add_subtotal";//$NON-NLS-1$
+//	private static final String TEXT = "Aggregation";
+	
+	private static final String LABEL_NAME = Messages.getString( "AddSubTotalAction.LabelName" );//$NON-NLS-1$
 	LevelViewHandle levelHandle = null;
-	private static final String NAME = "add subtotal";
-	private static final String ID = "add_subtotal";
-	private static final String TEXT = "Aggregation";
+	private static final String NAME = Messages.getString( "AddSubTotalAction.TransName" );//$NON-NLS-1$
+	private static final String ID = "add_subtotal";//$NON-NLS-1$
+	private static final String TEXT = Messages.getString( "AddSubTotalAction.DisplayName" );//$NON-NLS-1$
+	private static final String DISPALY_NAME = Messages.getString( "AddSubTotalAction.TotalName" );//$NON-NLS-1$
 	
 	/**
 	 * The name of the label into the sub total cell.
 	 */
-	private static final String DISPALY_NAME = "TOTAL";
+	//private static final String DISPALY_NAME = "TOTAL";
 
 	/**Constructor
 	 * @param handle

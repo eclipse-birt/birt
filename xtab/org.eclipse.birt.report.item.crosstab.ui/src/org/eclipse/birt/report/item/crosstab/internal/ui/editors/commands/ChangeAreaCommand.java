@@ -15,6 +15,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
@@ -35,7 +36,8 @@ public class ChangeAreaCommand extends AbstractCrosstabCommand
 	/**
 	 * Trans name
 	 */
-	private static final String NAME = "Drop dimension handle";
+	//private static final String NAME = "Drop dimension handle";
+	private static final String NAME = Messages.getString( "ChangeAreaCommand.TransName" );//$NON-NLS-1$
 	
 	public ChangeAreaCommand(DesignElementHandle parent, DesignElementHandle child, Object after)
 	{

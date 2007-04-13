@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DataEditPart;
-import org.eclipse.birt.report.model.api.DataItemHandle;
 
 /**
  * The data item in the measureHandle editpart.
