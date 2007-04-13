@@ -19,9 +19,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.dialogs.SortkeyBuilder;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
-import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.SortKeyHandle;
@@ -44,13 +42,13 @@ public class SortingModelProvider
 	/**
 	 * The list of allowed SortKey.DIRECTION_MEMBER
 	 */
-	private final IChoiceSet choiceSetDirection = ChoiceSetFactory.getStructChoiceSet( SortKey.SORT_STRUCT,
+	protected final IChoiceSet choiceSetDirection = ChoiceSetFactory.getStructChoiceSet( SortKey.SORT_STRUCT,
 			SortKey.DIRECTION_MEMBER );
 
 	/**
 	 * Constant, represents empty String array.
 	 */
-	private static final String[] EMPTY = new String[0];
+	protected static final String[] EMPTY = new String[0];
 
 	private List columnList;
 

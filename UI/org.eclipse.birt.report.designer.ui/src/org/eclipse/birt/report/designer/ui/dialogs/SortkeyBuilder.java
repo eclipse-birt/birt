@@ -71,13 +71,13 @@ public class SortkeyBuilder extends BaseDialog
 	public static final String DLG_TITLE_NEW = Messages.getString( "SortkeyBuilder.DialogTitle.New" ); //$NON-NLS-1$
 	public static final String DLG_TITLE_EDIT = Messages.getString( "SortkeyBuilder.DialogTitle.Edit" ); //$NON-NLS-1$
 
-	private SortKeyHandle input;
+	protected SortKeyHandle input;
 
-	private DesignElementHandle handle;
+	protected DesignElementHandle handle;
 
-	private IChoiceSet choiceSet;
+	protected IChoiceSet choiceSet;
 
-	private Combo comboDirection;
+	protected Combo comboDirection;
 	private Combo comboKey;
 
 	private List columnList;
@@ -150,7 +150,7 @@ public class SortkeyBuilder extends BaseDialog
 		return composite;
 	}
 
-	private Composite createInputContents( Composite parent )
+	protected Composite createInputContents( Composite parent )
 	{
 		Label lb = new Label( parent, SWT.NONE );
 		lb.setText( Messages.getString( "SortkeyBuilder.DialogTitle.Label.Prompt" ) );
@@ -221,7 +221,7 @@ public class SortkeyBuilder extends BaseDialog
 		return content;
 	}
 
-	private Listener ComboKeyModify = new Listener( ) {
+	protected Listener ComboKeyModify = new Listener( ) {
 
 		public void handleEvent( Event e )
 		{
@@ -253,7 +253,7 @@ public class SortkeyBuilder extends BaseDialog
 		return null;
 	}
 
-	private Composite createTitleArea( Composite parent )
+	protected Composite createTitleArea( Composite parent )
 	{
 		int heightMargins = 3;
 		int widthMargins = 8;
@@ -328,7 +328,7 @@ public class SortkeyBuilder extends BaseDialog
 		return true;
 	}
 
-	private String[] getDataSetColumns( )
+	protected String[] getDataSetColumns( )
 	{
 		if ( columnList.isEmpty( ) )
 		{
@@ -432,12 +432,12 @@ public class SortkeyBuilder extends BaseDialog
 	 * Refreshes the OK button state.
 	 * 
 	 */
-	private void updateButtons( )
+	protected void updateButtons( )
 	{
 		getOkButton( ).setEnabled( isConditionOK( ) );
 	}
 
-	private boolean isConditionOK( )
+	protected boolean isConditionOK( )
 	{
 		if ( comboKey.getText( ).trim( ).length( ) == 0 )
 		{

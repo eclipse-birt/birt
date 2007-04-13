@@ -20,12 +20,12 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.Previe
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.HighlightDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.MapDescriptorProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.SortingHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormPropertyDescriptor;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.HighlightPropertyDescriptor;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.MapPropertyDescriptor;
-import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.AbstractPageGenerator;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.CrosstabSortingHandleProvider;
 import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.SWT;
@@ -97,8 +97,8 @@ public class CrosstabPageGenerator extends AbstractPageGenerator {
 				case 6:
 					// sorting;
 					sortingPage = new FormPage(
-							FormPropertyDescriptor.FULL_FUNCTION,
-							new SortingHandleProvider( ),
+							FormPropertyDescriptor.NO_UP_DOWN,
+							new CrosstabSortingHandleProvider( ),
 							true,
 							true );
 					setPageInput( sortingPage );

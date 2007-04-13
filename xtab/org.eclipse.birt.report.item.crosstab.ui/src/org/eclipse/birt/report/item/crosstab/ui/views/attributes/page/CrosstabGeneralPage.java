@@ -20,9 +20,9 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.Li
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SeperatorSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextSection;
-import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.CrosstabSimpleComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.LayoutMeasuresProvider;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.section.ContainerSection;
@@ -166,10 +166,10 @@ public class CrosstabGeneralPage extends AttributePage
 			librarySection.setHidden( true );
 			seperatorSection.setHidden( true );
 		}
-		if ( grandTotalColumnProvider != null )
-		{
-			grandTotalColumnProvider.setInput( input );
-		}
+//		if ( grandTotalColumnProvider != null )
+//		{
+//			grandTotalColumnProvider.setInput( input );
+//		}
 
 		// if (grandTotalRowProvider != null) {
 		// grandTotalRowProvider.setInput(input);
