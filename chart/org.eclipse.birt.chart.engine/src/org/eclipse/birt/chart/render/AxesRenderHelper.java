@@ -1738,8 +1738,7 @@ public final class AxesRenderHelper
 									cbo.getTop( )
 											+ cbo.getHeight( )
 											- Math.min( bb.getHeight( ),
-													bb.getWidth( ) )
-											- 30,
+													bb.getWidth( ) ),
 									bb.getWidth( ),
 									bb.getHeight( ) ) );
 						}
@@ -1754,9 +1753,7 @@ public final class AxesRenderHelper
 									cbo.getTop( )
 											+ cbo.getHeight( )
 											- Math.min( bb.getHeight( ),
-													bb.getWidth( ) )
-											- 30
-											* 2,
+													bb.getWidth( ) ),
 									bb.getWidth( ),
 									bb.getHeight( ) ) );
 						}
