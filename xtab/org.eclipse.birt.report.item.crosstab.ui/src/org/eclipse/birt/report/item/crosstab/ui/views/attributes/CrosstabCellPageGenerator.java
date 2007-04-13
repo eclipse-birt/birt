@@ -20,8 +20,8 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.Hi
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.MapDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.HighlightPropertyDescriptor;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.MapPropertyDescriptor;
-import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.AbstractPageGenerator;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.SWT;
