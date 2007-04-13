@@ -34,21 +34,19 @@ public abstract class HTMLEmitter
 	protected HTMLReportEmitter parentEmitter;
 	protected HTMLWriter writer;
 	protected boolean isEmbeddable;
-	protected String layoutPreference;
 
 	public HTMLEmitter( HTMLReportEmitter parentEmitter, HTMLWriter writer,
-			boolean isEmbeddable, String layoutPreference )
+			boolean isEmbeddable )
 	{
 		this.parentEmitter = parentEmitter;
 		this.writer = writer;
 		this.isEmbeddable = isEmbeddable;
-		this.layoutPreference = layoutPreference;
 	}
 	
 	public abstract void buildStyle( IContent element, StringBuffer styleBuffer );
 
 	public abstract void buildTableStyle( ITableContent table,
-			StringBuffer styleBuffer );
+			StringBuffer styleBuffer, String layoutPreference );
 	
 	public abstract void buildColumnStyle( IColumn column,
 			StringBuffer styleBuffer );

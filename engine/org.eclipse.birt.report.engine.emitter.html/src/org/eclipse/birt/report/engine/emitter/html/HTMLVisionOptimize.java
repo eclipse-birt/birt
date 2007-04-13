@@ -34,15 +34,16 @@ import org.w3c.dom.css.CSSValue;
 public class HTMLVisionOptimize extends HTMLEmitter
 {
 	public HTMLVisionOptimize( HTMLReportEmitter parentEmitter,
-			HTMLWriter writer, boolean isEmbeddable, String layoutPreference )
+			HTMLWriter writer, boolean isEmbeddable )
 	{
-		super( parentEmitter, writer, isEmbeddable, layoutPreference );
+		super( parentEmitter, writer, isEmbeddable );
 	}
 	
 	/**
 	 * Build the style of table content.
 	 */
-	public void buildTableStyle( ITableContent table, StringBuffer styleBuffer )
+	public void buildTableStyle( ITableContent table, StringBuffer styleBuffer,
+			String layoutPreference )
 	{
 		IStyle style = table.getStyle( );
 
