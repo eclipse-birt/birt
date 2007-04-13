@@ -331,7 +331,6 @@ PieChart.Txt.HelpText=Kreisdiagramme stellen Datenwerte für eine Datenreihe oder
 
 SeriesUIProvider.Lbl.OrthogonalPrefix=Wert 
 SeriesUIProvider.Lbl.SeriesDefinition=Datenreihendefinition
-SeriesSheetImpl.Label.CategoryXSeries=Kategorien-Datenreihe (X-Achse)
 SeriesSheetImpl.Label.CategoryBaseSeries=Kategorie-Datenreihe
 SeriesUIProvider.Lbl.BasePrefix=Kategorie 
 SeriesSheetImpl.Label.Title=Titel

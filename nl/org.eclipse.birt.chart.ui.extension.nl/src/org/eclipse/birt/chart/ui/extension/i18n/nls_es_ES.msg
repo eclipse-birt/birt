@@ -331,7 +331,6 @@ PieChart.Txt.HelpText=Los diagramas circulares muestran los valores de los datos
 
 SeriesUIProvider.Lbl.OrthogonalPrefix=Valor 
 SeriesUIProvider.Lbl.SeriesDefinition=Definición de series
-SeriesSheetImpl.Label.CategoryXSeries=Serie (X) de categoría
 SeriesSheetImpl.Label.CategoryBaseSeries=Serie de categoría
 SeriesUIProvider.Lbl.BasePrefix=Categoría 
 SeriesSheetImpl.Label.Title=Título

@@ -331,7 +331,6 @@ PieChart.Txt.HelpText=원형 차트는 계열 또는 범주의 데이터 값을 전체 원형의 조각 
 
 SeriesUIProvider.Lbl.OrthogonalPrefix=값 
 SeriesUIProvider.Lbl.SeriesDefinition=계열 정의
-SeriesSheetImpl.Label.CategoryXSeries=범주 (X) 계열
 SeriesSheetImpl.Label.CategoryBaseSeries=범주 계열
 SeriesUIProvider.Lbl.BasePrefix=범주 
 SeriesSheetImpl.Label.Title=제목

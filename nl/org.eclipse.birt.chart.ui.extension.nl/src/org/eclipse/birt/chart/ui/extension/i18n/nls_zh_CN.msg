@@ -331,7 +331,6 @@ PieChart.Txt.HelpText=饼图将某一系列或类别的数据值显示为整个饼图的扇面百分比。多
 
 SeriesUIProvider.Lbl.OrthogonalPrefix=值 
 SeriesUIProvider.Lbl.SeriesDefinition=系列定义
-SeriesSheetImpl.Label.CategoryXSeries=类别 (X) 系列
 SeriesSheetImpl.Label.CategoryBaseSeries=类别系列
 SeriesUIProvider.Lbl.BasePrefix=类别 
 SeriesSheetImpl.Label.Title=标题

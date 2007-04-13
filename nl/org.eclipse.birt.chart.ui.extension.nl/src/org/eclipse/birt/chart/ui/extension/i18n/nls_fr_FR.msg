@@ -331,7 +331,6 @@ PieChart.Txt.HelpText=Les graphiques à secteurs affichent des valeurs de données
 
 SeriesUIProvider.Lbl.OrthogonalPrefix=Valeur 
 SeriesUIProvider.Lbl.SeriesDefinition=Définition de la série
-SeriesSheetImpl.Label.CategoryXSeries=Série horizontale de catégories
 SeriesSheetImpl.Label.CategoryBaseSeries=Série de catégories
 SeriesUIProvider.Lbl.BasePrefix=Catégorie 
 SeriesSheetImpl.Label.Title=Titre

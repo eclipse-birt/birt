@@ -331,7 +331,6 @@ PieChart.Txt.HelpText=パイグラフは、系列またはカテゴリのデータ値を全体に占める割
 
 SeriesUIProvider.Lbl.OrthogonalPrefix=値 
 SeriesUIProvider.Lbl.SeriesDefinition=系列の定義
-SeriesSheetImpl.Label.CategoryXSeries=カテゴリ系列 (X)
 SeriesSheetImpl.Label.CategoryBaseSeries=カテゴリ系列
 SeriesUIProvider.Lbl.BasePrefix=カテゴリ 
 SeriesSheetImpl.Label.Title=タイトル
