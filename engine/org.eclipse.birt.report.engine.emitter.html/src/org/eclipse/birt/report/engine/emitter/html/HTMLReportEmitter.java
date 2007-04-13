@@ -843,13 +843,16 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				StringBuffer styleBuffer = new StringBuffer( );
 				// build the background
 				AttributeBuilder.buildBackgroundStyle( styleBuffer, classStyle, this );
-				// build the width
-				DimensionType width = page.getPageWidth();
-				if (width != null)
+				if ( HTMLRenderOption.LAYOUT_PREFERENCE_FIXED.equals( layoutPreference ) )
 				{
-					styleBuffer.append( " width:" );
-					styleBuffer.append( width.toString( ) );
-					styleBuffer.append(";");
+					// build the width
+					DimensionType width = page.getPageWidth();
+					if (width != null)
+					{
+						styleBuffer.append( " width:" );
+						styleBuffer.append( width.toString( ) );
+						styleBuffer.append(";");
+					}
 				}
 				writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 		}
