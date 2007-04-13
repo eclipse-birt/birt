@@ -176,6 +176,7 @@ data.engine.wrongVersion=Non pris en charge dans les versions antérieures à la v
 data.engine.unsupportOperationException=Opération non prise en charge.
 data.engine.possibleMixedDataTypeInColumn=An error happen during population of data. This might be caused by including data of mixed type in a column of "ANY" type.
 data.engine.invalidMemBufferSize=The memory buffer size "{0}" is invalid. The memory buffer size must be an integer greater than zero. 
+data.engine.document.error.cannotLoadStream=The document stream "{0}" is invalid.
 
 # oda consumer error
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Le nom de colonne ne peut être ni vide ni nul.
