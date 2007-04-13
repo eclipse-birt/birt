@@ -61,13 +61,13 @@ class ODAFactory implements IODAFactory
 			return null;
 
 		int odaDataTypeCode = typeMapping.getOdaScalarDataTypeCode( );
-		if ( isCompatible( romDataType, odaDataTypeCode ) )
+		if ( isCompatible( choiceName, romDataType, odaDataTypeCode ) )
 			return romDataType;
 
 		int[] odaDataTypeCodes = typeMapping.getAlternativeOdaDataTypeCodes( );
 		for ( int i = 0; i < odaDataTypeCodes.length; i++ )
 		{
-			if ( isCompatible( romDataType, odaDataTypeCodes[i] ) )
+			if ( isCompatible( choiceName, romDataType, odaDataTypeCodes[i] ) )
 				return romDataType;
 		}
 
@@ -87,9 +87,9 @@ class ODAFactory implements IODAFactory
 				return DesignChoiceConstants.COLUMN_DATA_TYPE_STRING;
 			case DataType.DATE_TYPE :
 				return DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME;
-			case DataType.SQL_DATE_TYPE:
+			case DataType.SQL_DATE_TYPE :
 				return DesignChoiceConstants.COLUMN_DATA_TYPE_DATE;
-			case DataType.SQL_TIME_TYPE:
+			case DataType.SQL_TIME_TYPE :
 				return DesignChoiceConstants.COLUMN_DATA_TYPE_TIME;
 			case DataType.DECIMAL_TYPE :
 				return DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL;
@@ -114,9 +114,9 @@ class ODAFactory implements IODAFactory
 				return DesignChoiceConstants.PARAM_TYPE_STRING;
 			case DataType.DATE_TYPE :
 				return DesignChoiceConstants.PARAM_TYPE_DATETIME;
-			case DataType.SQL_DATE_TYPE:
+			case DataType.SQL_DATE_TYPE :
 				return DesignChoiceConstants.PARAM_TYPE_DATE;
-			case DataType.SQL_TIME_TYPE:
+			case DataType.SQL_TIME_TYPE :
 				return DesignChoiceConstants.PARAM_TYPE_TIME;
 			case DataType.DECIMAL_TYPE :
 				return DesignChoiceConstants.PARAM_TYPE_DECIMAL;
@@ -172,14 +172,25 @@ class ODAFactory implements IODAFactory
 	 * @throws BirtException
 	 */
 
-	private static boolean isCompatible( String romDataType, int odaDataTypeCode )
-			throws BirtException
+	private static boolean isCompatible( String choiceName, String romDataType,
+			int odaDataTypeCode ) throws BirtException
 	{
 		int apiDataType = DataTypeUtil.toApiDataType( odaDataTypeCode );
 		if ( DataType.UNKNOWN_TYPE == apiDataType )
 			return true;
 
-		String convertedType = convertApiTypeToROMParameterType( apiDataType );
+		String convertedType = null;
+		if ( DesignChoiceConstants.CHOICE_COLUMN_DATA_TYPE
+				.equalsIgnoreCase( choiceName ) )
+		{
+			convertedType = convertApiTypeToROMColumnType( apiDataType );
+		}
+		else if ( DesignChoiceConstants.CHOICE_PARAM_TYPE
+				.equalsIgnoreCase( choiceName ) )
+		{
+			convertedType = convertApiTypeToROMParameterType( apiDataType );
+		}
+
 		if ( convertedType != null
 				&& convertedType.equalsIgnoreCase( romDataType ) )
 			return true;
