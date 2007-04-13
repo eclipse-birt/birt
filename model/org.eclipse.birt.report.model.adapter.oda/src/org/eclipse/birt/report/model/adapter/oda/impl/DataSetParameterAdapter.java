@@ -527,7 +527,7 @@ class DataSetParameterAdapter
 				if ( paramHandle != null )
 					new ReportParameterAdapter( ).updateLinkedReportParameter(
 							paramHandle, odaParamDefn, cachedParamDefn,
-							dataType );
+							dataType, setHandle );
 			}
 		}
 	}
@@ -1320,15 +1320,15 @@ class DataSetParameterAdapter
 	 * exist in DesignerValue, it must be user-defined one. Keep it in
 	 * user-defined-param-list.
 	 * 
-	 * @param designerValues
+	 * @param parameters 
 	 * 
 	 * @throws SemanticException
 	 */
 
-	void updateUserDefinedParameter( DesignValues designerValues )
+	void updateUserDefinedParameter( DataSetParameters parameters )
 	{
 		List tmpParams = new ArrayList( );
-		if ( designerValues == null )
+		if ( parameters == null )
 		{
 			for ( int i = 0; i < setDefinedParams.size( ); i++ )
 			{
@@ -1341,7 +1341,7 @@ class DataSetParameterAdapter
 
 		else
 		{
-			List posList = getPositions( designerValues.getDataSetParameters( ) );
+			List posList = getPositions( parameters );
 
 			for ( int i = 0; i < setDefinedParams.size( ); i++ )
 			{

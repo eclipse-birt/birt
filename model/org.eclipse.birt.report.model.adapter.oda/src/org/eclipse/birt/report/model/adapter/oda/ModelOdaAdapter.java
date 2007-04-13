@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.datatools.connectivity.oda.design.DesignerState;
+import org.eclipse.datatools.connectivity.oda.design.OdaDesignSession;
 
 /**
  * An adapter class that converts between ROM OdaDataSourceHandle and ODA
@@ -74,7 +75,13 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	public DataSourceDesign createDataSourceDesign(
 			OdaDataSourceHandle sourceHandle )
 	{
-		return adapter.createDataSourceDesign( sourceHandle );
+		if ( sourceHandle == null )
+			return null;
+
+		DataSourceDesign sourceDesign = ODADesignFactory.getFactory( )
+				.createDataSourceDesign( );
+		updateDataSourceDesign( sourceHandle, sourceDesign );
+		return sourceDesign;
 	}
 
 	/*
@@ -230,5 +237,42 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 			OdaDataSourceHandle sourceHandle ) throws SemanticException
 	{
 		adapter.updateROMDesignerState( designerState, sourceHandle );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#isEqualDataSourceDesign(org.eclipse.datatools.connectivity.oda.design.DataSourceDesign,
+	 *      org.eclipse.datatools.connectivity.oda.design.DataSourceDesign)
+	 */
+
+	public boolean isEqualDataSourceDesign( DataSourceDesign designFromHandle,
+			DataSourceDesign design )
+	{
+		return adapter.isEqualDataSourceDesign( designFromHandle, design );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#createOdaDesignSession(org.eclipse.birt.report.model.api.OdaDataSetHandle)
+	 */
+	public OdaDesignSession createOdaDesignSession(
+			OdaDataSetHandle dataSetHandle )
+	{
+		return adapter.createOdaDesignSession( dataSetHandle );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#updateDataSetHandle(org.eclipse.birt.report.model.api.OdaDataSetHandle,
+	 *      org.eclipse.datatools.connectivity.oda.design.OdaDesignSession)
+	 */
+	
+	public void updateDataSetHandle( OdaDataSetHandle handle,
+			OdaDesignSession completedSession ) throws SemanticException
+	{
+		adapter.updateDataSetHandle( handle, completedSession );
 	}
 }

@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.adapter.oda;
 
@@ -8,6 +18,12 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.datatools.connectivity.oda.design.DesignerState;
+import org.eclipse.datatools.connectivity.oda.design.OdaDesignSession;
+
+/**
+ * 
+ * 
+ */
 
 public interface IModelOdaAdapter
 {
@@ -197,5 +213,45 @@ public interface IModelOdaAdapter
 
 	void updateROMDesignerState( DesignerState designerState,
 			OdaDataSourceHandle sourceHandle ) throws SemanticException;
+
+	/**
+	 * Check whether two data source design is equal.
+	 * 
+	 * @param designFromHandle
+	 *            the data source design created from data source handle
+	 * @param design
+	 *            the data source design
+	 * @return <code>true</code> if two data source designs are equal.
+	 *         Otherwise <code>false</code>.
+	 */
+
+	boolean isEqualDataSourceDesign( DataSourceDesign designFromHandle,
+			DataSourceDesign design );
+
+	/**
+	 * Returns an design session with the specified the data set handle. It
+	 * creates an data set design and sets the data set design as the new quest.
+	 * DesignerState is also updated.
+	 * 
+	 * @param dataSetHandle
+	 *            the data set handle
+	 * @return the design session contains the new session request
+	 */
+
+	OdaDesignSession createOdaDesignSession( OdaDataSetHandle dataSetHandle );
+
+	/**
+	 * Updates the data set handle with the response in the completedSession.
+	 * DesignerState is also updated.
+	 * 
+	 * @param handle
+	 *            the data set handle
+	 * @param completedSession
+	 *            the session with the session response
+	 * @throws SemanticException
+	 */
+
+	void updateDataSetHandle( OdaDataSetHandle handle,
+			OdaDesignSession completedSession ) throws SemanticException;
 
 }

@@ -16,11 +16,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.report.model.adapter.oda.IODADesignFactory;
 import org.eclipse.birt.report.model.adapter.oda.IReportParameterAdapter;
 import org.eclipse.birt.report.model.adapter.oda.ODADesignFactory;
 import org.eclipse.birt.report.model.adapter.oda.util.ParameterValueUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
@@ -33,6 +35,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
 import org.eclipse.datatools.connectivity.oda.design.DataElementUIHints;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
@@ -59,12 +62,34 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 {
 
 	/**
+	 * Deprecated allowNull property.
+	 * 
+	 * @deprecated
+	 */
+
+	private static final String ALLOW_NULL_PROP_NAME = IScalarParameterModel.ALLOW_NULL_PROP;
+
+	/**
+	 * Deprecated allowBlank property.
+	 * 
+	 * @deprecated
+	 */
+
+	private static final String ALLOW_BLANK_PROP_NAME = IScalarParameterModel.ALLOW_BLANK_PROP;
+
+	/**
+	 * 
+	 */
+
+	private final IODADesignFactory designFactory;
+	
+	/**
 	 * Default constructor.
 	 */
 
 	public ReportParameterAdapter( )
 	{
-
+		designFactory = ODADesignFactory.getFactory( );
 	}
 
 	/**
@@ -76,10 +101,11 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 	 * 
 	 * @param reportParam
 	 *            the report parameter
-	 * @param param
-	 *            the ROM data set parameter
-	 * @param dataSetDesign
-	 *            the data set design
+	 * @param odaParam
+	 *            the ODA parameter definition
+	 * @param newDataType
+	 *            the data type
+	 * 
 	 * @return <code>true</code> if the report paramter is updated or has no
 	 *         parameter definition in the data set design. Otherwise
 	 *         <code>false</code>.
@@ -92,8 +118,10 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 			return true;
 
 		DataElementAttributes dataAttrs = odaParam.getAttributes( );
-		boolean allowNull = reportParam.allowNull( );
 		Boolean odaAllowNull = getROMNullability( dataAttrs.getNullability( ) );
+		boolean allowNull = getReportParamAllowMumble( reportParam,
+				ALLOW_NULL_PROP_NAME );
+
 		if ( odaAllowNull != null && allowNull != odaAllowNull.booleanValue( ) )
 			return false;
 
@@ -119,7 +147,7 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 
 		InputParameterAttributes paramAttrs = odaParam.getInputAttributes( );
 		InputParameterAttributes tmpParamDefn = null;
-		String tmpDataSetName = null;
+		DataSetDesign tmpDataSet = null;
 
 		if ( paramAttrs != null )
 		{
@@ -131,7 +159,7 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 
 			if ( tmpDynamicQuery != null )
 			{
-				tmpDataSetName = tmpDynamicQuery.getDataSetDesign( ).getName( );
+				tmpDataSet = tmpDynamicQuery.getDataSetDesign( );
 				tmpDynamicQuery.setDataSetDesign( null );
 			}
 
@@ -141,10 +169,10 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 			}
 		}
 		else
-			tmpParamDefn = ODADesignFactory.getFactory()
+			tmpParamDefn = designFactory
 					.createInputParameterAttributes( );
 
-		InputParameterAttributes tmpParamDefn1 = ODADesignFactory.getFactory()
+		InputParameterAttributes tmpParamDefn1 = designFactory
 				.createInputParameterAttributes( );
 
 		updateInputElementAttrs( tmpParamDefn1, reportParam, null );
@@ -154,14 +182,14 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		}
 		DynamicValuesQuery tmpDynamicQuery1 = tmpParamDefn1
 				.getElementAttributes( ).getDynamicValueChoices( );
-		String tmpDataSetName1 = null;
+		DataSetDesign tmpDataSet1 = null;
 		if ( tmpDynamicQuery1 != null )
 		{
-			tmpDataSetName1 = tmpDynamicQuery1.getDataSetDesign( ).getName( );
+			tmpDataSet1 = tmpDynamicQuery1.getDataSetDesign( );
 			tmpDynamicQuery1.setDataSetDesign( null );
 		}
 
-		if ( !isEquals( tmpDataSetName, tmpDataSetName1 ) )
+		if ( !EcoreUtil.equals( tmpDataSet, tmpDataSet1 ) )
 			return false;
 
 		return EcoreUtil.equals( tmpParamDefn, tmpParamDefn1 );
@@ -193,6 +221,8 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 	 *            the data set parameter definition.
 	 * @param nullability
 	 *            the ODA object indicates nullability.
+	 * @return <code>true</code> if is nullable. <code>false</code> if not
+	 *         nullable.
 	 */
 
 	static Boolean getROMNullability( ElementNullability nullability )
@@ -213,24 +243,8 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		return null;
 	}
 
-	/**
-	 * Refreshes property values of the given report parameter by the given data
-	 * set design. This method first copies values from ROM data set parameter
-	 * to report parameter, then copies values from DataSetDesign to the report
-	 * parameter.
-	 * <p>
-	 * When copies values from DataSetDesign, cached value in
-	 * OdaDataSetHandle.designerValues are also considerred.
-	 * 
-	 * 
-	 * @param reportParam
-	 *            the report parameter
-	 * @param dataSetParam
-	 *            the data set parameter
-	 * @param dataSetDesign
-	 *            the data set design
-	 * @throws SemanticException
-	 *             if value in the data set design is invalid
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.adapter.oda.IReportParameterAdapter#updateLinkedReportParameter(org.eclipse.birt.report.model.api.ScalarParameterHandle, org.eclipse.birt.report.model.api.OdaDataSetParameterHandle, org.eclipse.datatools.connectivity.oda.design.DataSetDesign)
 	 */
 
 	public void updateLinkedReportParameter( ScalarParameterHandle reportParam,
@@ -264,13 +278,13 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		cmdStack.startTrans( null );
 		try
 		{
+			if ( matchedParam != null )
+				updateLinkedReportParameter( reportParam, matchedParam, null,
+						dataType, (OdaDataSetHandle) dataSetParam
+								.getElementHandle( ) );
 
 			updateLinkedReportParameterFromROMParameter( reportParam,
 					dataSetParam );
-
-			if ( matchedParam != null )
-				updateLinkedReportParameter( reportParam, matchedParam, null,
-						dataType );
 		}
 		catch ( SemanticException e )
 		{
@@ -306,8 +320,19 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 
 		String dataType = dataSetParam.getParameterDataType( );
 		if ( !StringUtil.isBlank( dataType ) )
-			reportParam.setDataType( dataType );
+		{
 
+			if ( !DesignChoiceConstants.PARAM_TYPE_ANY
+					.equalsIgnoreCase( dataType ) )
+			{
+				reportParam.setDataType( dataType );
+			}
+			else
+			{
+				reportParam
+						.setDataType( DesignChoiceConstants.PARAM_TYPE_STRING );
+			}
+		}
 		String defaultValue = dataSetParam.getDefaultValue( );
 		String paramName = dataSetParam.getParamName( );
 
@@ -355,13 +380,15 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 
 		if ( DataSetParameterAdapter.needsQuoteDelimiters( setParam
 				.getDataType( ) ) )
-		{			
+		{
 			if ( ParameterValueUtil.isQuoted( value ) )
-			{			
-				literalValue = ParameterValueUtil.toLiteralValue( value );				
+			{
+				literalValue = ParameterValueUtil.toLiteralValue( value );
 			}
+			else
+				return;
 		}
-		
+
 		setParam.setDefaultValue( literalValue );
 	}
 
@@ -374,15 +401,22 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 	 * 
 	 * @param reportParam
 	 *            the report parameter
-	 * @param dataSetDesign
-	 *            the data set design
+	 * @param paramDefn
+	 *            the ODA parameter definition
+	 * @param cachedParamDefn
+	 *            the cached ODA parameter definition in designerValues
+	 * @param dataType
+	 *            the updated data type
+	 * @param setHandle
+	 *            the ROM data set that has the corresponding data set parameter
 	 * @throws SemanticException
 	 *             if value in the data set design is invalid
 	 */
 
 	void updateLinkedReportParameter( ScalarParameterHandle reportParam,
 			ParameterDefinition paramDefn, ParameterDefinition cachedParamDefn,
-			String dataType ) throws SemanticException
+			String dataType, OdaDataSetHandle setHandle )
+			throws SemanticException
 	{
 		if ( paramDefn == null )
 			return;
@@ -399,10 +433,19 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 
 			// any type is not support in report parameter data type.
 
-			if ( dataType == null
-					|| !DesignChoiceConstants.PARAM_TYPE_ANY
-							.equalsIgnoreCase( dataType ) )
-				reportParam.setDataType( dataType );
+			if ( dataType == null )
+			{
+				if ( !DesignChoiceConstants.PARAM_TYPE_ANY
+						.equalsIgnoreCase( dataType ) )
+				{
+					reportParam.setDataType( dataType );
+				}
+				else
+				{
+					reportParam
+							.setDataType( DesignChoiceConstants.PARAM_TYPE_STRING );
+				}
+			}
 
 			updateDataElementAttrsToReportParam( paramDefn.getAttributes( ),
 					cachedParamDefn == null ? null : cachedParamDefn
@@ -411,7 +454,8 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 			updateInputParameterAttrsToReportParam( paramDefn
 					.getInputAttributes( ), cachedParamDefn == null
 					? null
-					: cachedParamDefn.getInputAttributes( ), reportParam );
+					: cachedParamDefn.getInputAttributes( ), reportParam,
+					setHandle );
 
 		}
 		catch ( SemanticException e )
@@ -423,16 +467,8 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		cmdStack.commit( );
 	}
 
-	/**
-	 * Refreshes property values of the given ROM ODA data set parameter.
-	 * 
-	 * 
-	 * @param reportParam
-	 *            the report parameter
-	 * @param dataSetParam
-	 *            the Oda data set parameter
-	 * @throws SemanticException
-	 *             if value in the data set design is invalid
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.adapter.oda.IReportParameterAdapter#updateLinkedReportParameter(org.eclipse.birt.report.model.api.ScalarParameterHandle, org.eclipse.birt.report.model.api.OdaDataSetParameterHandle)
 	 */
 
 	public void updateLinkedReportParameter( ScalarParameterHandle reportParam,
@@ -494,7 +530,10 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		boolean allowsNull = dataAttrs.allowsNull( );
 		if ( cachedDataAttrs == null
 				|| cachedDataAttrs.allowsNull( ) != allowsNull )
-			reportParam.setAllowNull( dataAttrs.allowsNull( ) );
+			setReportParamIsRequired( reportParam, ALLOW_NULL_PROP_NAME,
+					dataAttrs.allowsNull( ) );
+
+		// reportParam.setAllowNull( dataAttrs.allowsNull( ) );
 
 		DataElementUIHints dataUiHints = dataAttrs.getUiHints( );
 		DataElementUIHints cachedDataUiHints = ( cachedDataAttrs == null
@@ -530,13 +569,16 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 	 *            the cached input parameter attributes
 	 * @param reportParam
 	 *            the report parameter
+	 * @param setHandle
+	 *            the ROM data set that has the corresponding data set parameter
 	 * @throws SemanticException
 	 */
 
 	private void updateInputParameterAttrsToReportParam(
 			InputParameterAttributes inputParamAttrs,
 			InputParameterAttributes cachedInputParamAttrs,
-			ScalarParameterHandle reportParam ) throws SemanticException
+			ScalarParameterHandle reportParam, OdaDataSetHandle setHandle )
+			throws SemanticException
 	{
 		if ( inputParamAttrs == null )
 			return;
@@ -569,7 +611,8 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		updateInputElementAttrsToReportParam( inputParamAttrs
 				.getElementAttributes( ), cachedInputParamAttrs == null
 				? null
-				: cachedInputParamAttrs.getElementAttributes( ), reportParam );
+				: cachedInputParamAttrs.getElementAttributes( ), reportParam,
+				setHandle );
 	}
 
 	/**
@@ -581,13 +624,16 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 	 *            the cached input element attributes
 	 * @param reportParam
 	 *            the report parameter
+	 * @param setHandle
+	 *            the ROM data set that has the corresponding data set parameter
 	 * @throws SemanticException
 	 */
 
 	private void updateInputElementAttrsToReportParam(
 			InputElementAttributes elementAttrs,
 			InputElementAttributes cachedElementAttrs,
-			ScalarParameterHandle reportParam ) throws SemanticException
+			ScalarParameterHandle reportParam, OdaDataSetHandle setHandle )
+			throws SemanticException
 	{
 		if ( elementAttrs == null )
 			return;
@@ -613,7 +659,10 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		Boolean cachedIsOptional = cachedElementAttrs == null ? null : Boolean
 				.valueOf( cachedElementAttrs.isOptional( ) );
 		if ( cachedIsOptional == null || !cachedIsOptional.equals( isOptional ) )
-			reportParam.setAllowBlank( isOptional.booleanValue( ) );
+			setReportParamIsRequired( reportParam, ALLOW_BLANK_PROP_NAME,
+					isOptional.booleanValue( ) );
+
+		// reportParam.setAllowBlank( isOptional.booleanValue( ) );
 
 		// update conceal value
 
@@ -630,7 +679,7 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 
 		updateROMDyanmicList( elementAttrs.getDynamicValueChoices( ),
 				cachedElementAttrs == null ? null : cachedElementAttrs
-						.getDynamicValueChoices( ), reportParam );
+						.getDynamicValueChoices( ), reportParam, setHandle );
 
 		InputElementUIHints uiHints = elementAttrs.getUiHints( );
 		if ( uiHints != null )
@@ -746,7 +795,8 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 
 	private void updateROMDyanmicList( DynamicValuesQuery valueQuery,
 			DynamicValuesQuery cachedValueQuery,
-			ScalarParameterHandle reportParam ) throws SemanticException
+			ScalarParameterHandle reportParam, OdaDataSetHandle setHandle )
+			throws SemanticException
 	{
 		if ( valueQuery == null )
 			return;
@@ -755,7 +805,29 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		String cachedValue = cachedValueQuery == null ? null : cachedValueQuery
 				.getDataSetDesign( ).getName( );
 		if ( cachedValue == null || !cachedValue.equals( value ) )
+		{
+
 			reportParam.setDataSetName( value );
+
+			// update the data set instance. To avoid recursivly convert,
+			// compare set handle instances.
+
+			ModuleHandle module = setHandle.getModuleHandle( );
+			DataSetHandle target = module.findDataSet( value );
+			if ( target instanceof OdaDataSetHandle && target != setHandle )
+				new ModelOdaAdapter( ).updateDataSetHandle( valueQuery
+						.getDataSetDesign( ), (OdaDataSetHandle) target, false );
+
+			// if there is no corresponding data set, creates a new one.
+
+			if ( target == null )
+			{
+				OdaDataSetHandle nestedDataSet = new ModelOdaAdapter( )
+						.createDataSetHandle( valueQuery.getDataSetDesign( ),
+								module );
+				module.getDataSets( ).add( nestedDataSet );
+			}
+		}
 
 		value = valueQuery.getValueColumn( );
 		cachedValue = cachedValueQuery == null ? null : cachedValueQuery
@@ -775,6 +847,10 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 	 * 
 	 * @param paramDefn
 	 *            the ROM report parameter.
+	 * @param paramHandle
+	 *            the report parameter
+	 * @param dataSetDesign
+	 *            the data set design
 	 * @return the created ParameterDefinition
 	 */
 
@@ -806,20 +882,27 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 	private DataElementAttributes updateDataElementAttrs(
 			DataElementAttributes dataAttrs, ScalarParameterHandle paramHandle )
 	{
-		if ( dataAttrs == null )
-			dataAttrs = ODADesignFactory.getFactory().createDataElementAttributes( );
+		DataElementAttributes retDataAttrs = dataAttrs;
 
-		dataAttrs.setNullability( DataSetParameterAdapter
-				.newElementNullability( paramHandle.allowNull( ) ) );
+		if ( retDataAttrs == null )
+			retDataAttrs = designFactory
+					.createDataElementAttributes( );
 
-		DataElementUIHints uiHints = ODADesignFactory.getFactory()
+		// retDataAttrs.setNullability( DataSetParameterAdapter
+		// .newElementNullability( paramHandle.allowNll( ) ) );
+
+		retDataAttrs.setNullability( DataSetParameterAdapter
+				.newElementNullability( getReportParamAllowMumble( paramHandle,
+						ALLOW_NULL_PROP_NAME ) ) );
+
+		DataElementUIHints uiHints = designFactory
 				.createDataElementUIHints( );
 		uiHints.setDisplayName( paramHandle.getPromptText( ) );
 		uiHints.setDescription( paramHandle.getHelpText( ) );
 
-		dataAttrs.setUiHints( uiHints );
+		retDataAttrs.setUiHints( uiHints );
 
-		return dataAttrs;
+		return retDataAttrs;
 
 	}
 
@@ -827,7 +910,7 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 	 * Creates a ODA InputParameterAttributes with the given ROM report
 	 * parameter.
 	 * 
-	 * @param paramDefn
+	 * @param paramHandle
 	 *            the ROM report parameter.
 	 * @param dataSetDesign
 	 * 
@@ -836,32 +919,37 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 
 	private InputParameterAttributes updateInputElementAttrs(
 			InputParameterAttributes inputParamAttrs,
-			ScalarParameterHandle paramDefn, DataSetDesign dataSetDesign )
+			ScalarParameterHandle paramHandle, DataSetDesign dataSetDesign )
 	{
+		InputParameterAttributes retInputParamAttrs = inputParamAttrs;
+
 		if ( inputParamAttrs == null )
-			inputParamAttrs = ODADesignFactory.getFactory()
+			retInputParamAttrs = designFactory
 					.createInputParameterAttributes( );
 
-		InputElementAttributes inputAttrs = inputParamAttrs
+		InputElementAttributes inputAttrs = retInputParamAttrs
 				.getElementAttributes( );
 		if ( inputAttrs == null )
-			inputAttrs = ODADesignFactory.getFactory().createInputElementAttributes( );
+			inputAttrs = designFactory.createInputElementAttributes( );
 
-		inputAttrs.setDefaultScalarValue( paramDefn.getDefaultValue( ) );
-		inputAttrs.setOptional( paramDefn.allowBlank( ) );
-		inputAttrs.setMasksValue( paramDefn.isConcealValue( ) );
+		inputAttrs.setDefaultScalarValue( paramHandle.getDefaultValue( ) );
+		// inputAttrs.setOptional( paramHandle.allowBlank( ) );
+		inputAttrs.setOptional( getReportParamAllowMumble( paramHandle,
+				ALLOW_BLANK_PROP_NAME ) );
+
+		inputAttrs.setMasksValue( paramHandle.isConcealValue( ) );
 
 		ScalarValueChoices staticChoices = null;
-		Iterator selectionList = paramDefn.choiceIterator( );
+		Iterator selectionList = paramHandle.choiceIterator( );
 		while ( selectionList.hasNext( ) )
 		{
 			if ( staticChoices == null )
-				staticChoices = ODADesignFactory.getFactory()
+				staticChoices = designFactory
 						.createScalarValueChoices( );
 			SelectionChoiceHandle choice = (SelectionChoiceHandle) selectionList
 					.next( );
 
-			ScalarValueDefinition valueDefn = ODADesignFactory.getFactory()
+			ScalarValueDefinition valueDefn = designFactory
 					.createScalarValueDefinition( );
 			valueDefn.setValue( choice.getValue( ) );
 			valueDefn.setDisplayName( choice.getLabel( ) );
@@ -870,14 +958,14 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		}
 		inputAttrs.setStaticValueChoices( staticChoices );
 
-		DataSetHandle setHandle = paramDefn.getDataSet( );
-		String valueExpr = paramDefn.getValueExpr( );
-		String labelExpr = paramDefn.getLabelExpr( );
+		DataSetHandle setHandle = paramHandle.getDataSet( );
+		String valueExpr = paramHandle.getValueExpr( );
+		String labelExpr = paramHandle.getLabelExpr( );
 
 		if ( setHandle instanceof OdaDataSetHandle
 				&& ( valueExpr != null || labelExpr != null ) )
 		{
-			DynamicValuesQuery valueQuery = ODADesignFactory.getFactory()
+			DynamicValuesQuery valueQuery = designFactory
 					.createDynamicValuesQuery( );
 			if ( dataSetDesign != null )
 			{
@@ -900,27 +988,27 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 			inputAttrs.setDynamicValueChoices( valueQuery );
 		}
 
-		InputElementUIHints uiHints = ODADesignFactory.getFactory()
+		InputElementUIHints uiHints = designFactory
 				.createInputElementUIHints( );
-		uiHints.setPromptStyle( newPromptStyle( paramDefn.getControlType( ),
-				paramDefn.isMustMatch( ) ) );
+		uiHints.setPromptStyle( newPromptStyle( paramHandle.getControlType( ),
+				paramHandle.isMustMatch( ) ) );
 		inputAttrs.setUiHints( uiHints );
 
-		if ( paramDefn.getContainer( ) instanceof ParameterGroupHandle )
+		if ( paramHandle.getContainer( ) instanceof ParameterGroupHandle )
 		{
-			ParameterGroupHandle groupHandle = (ParameterGroupHandle) paramDefn
+			ParameterGroupHandle groupHandle = (ParameterGroupHandle) paramHandle
 					.getContainer( );
 
-			InputParameterUIHints paramUiHints = ODADesignFactory.getFactory()
+			InputParameterUIHints paramUiHints = designFactory
 					.createInputParameterUIHints( );
 			paramUiHints.setGroupPromptDisplayName( groupHandle
 					.getDisplayName( ) );
 
-			inputParamAttrs.setUiHints( paramUiHints );
+			retInputParamAttrs.setUiHints( paramUiHints );
 		}
 
-		inputParamAttrs.setElementAttributes( inputAttrs );
-		return inputParamAttrs;
+		retInputParamAttrs.setElementAttributes( inputAttrs );
+		return retInputParamAttrs;
 	}
 
 	/**
@@ -960,5 +1048,60 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 			type = InputPromptControlStyle.TEXT_FIELD;
 
 		return InputPromptControlStyle.get( type );
+	}
+
+	/**
+	 * Returns the boolean value of allowMumble properties. Only support
+	 * "allowNull" and "allowBlank" properties.
+	 * <p>
+	 * "allowMumble" properties has been removed ROM. However, to do conversion,
+	 * still need to know their values.
+	 * 
+	 * @param param
+	 *            the parameter
+	 * @param propName
+	 *            either "allowNull" or "allowBlank".
+	 * @return <code>true</code> if the parameter allows the value. Otherwise
+	 *         <code>false</code>.
+	 */
+
+	private boolean getReportParamAllowMumble( ScalarParameterHandle param,
+			String propName )
+	{
+		if ( ALLOW_NULL_PROP_NAME.equalsIgnoreCase( propName ) )
+			return param.allowNull( );
+		else if ( ALLOW_BLANK_PROP_NAME.equalsIgnoreCase( propName ) )
+			return param.allowBlank( );
+		else
+		{
+			assert false;
+			return false;
+		}
+	}
+
+	/**
+	 * Returns the boolean value of allowMumble properties. Only support
+	 * "allowNull" and "allowBlank" properties.
+	 * <p>
+	 * "allowMumble" properties has been removed ROM. However, to do conversion,
+	 * still need to know their values.
+	 * 
+	 * @param param
+	 *            the parameter
+	 * @param obsoletePropName
+	 *            either "allowNull" or "allowBlank".
+	 */
+
+	private void setReportParamIsRequired( ScalarParameterHandle param,
+			String obsoletePropName, boolean value ) throws SemanticException
+	{
+		if ( ALLOW_NULL_PROP_NAME.equalsIgnoreCase( obsoletePropName ) )
+			param.setAllowNull( value );
+		else if ( ALLOW_BLANK_PROP_NAME.equalsIgnoreCase( obsoletePropName ) )
+			param.setAllowBlank( value );
+		else
+		{
+			assert false;
+		}
 	}
 }
