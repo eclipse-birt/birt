@@ -2137,7 +2137,7 @@ MapPreferencePage.toolTipText.Down=Mover regla de asignación hacia abajo
 
 MapRuleBuilder.DialogTitle.New=Nueva regla de asignación
 MapRuleBuilder.DialogTitle.Edit=Editar regla de asignación
-MapRuleBuilder.Button.ResourceKey=Resource Key:
+MapRuleBuilder.Button.ResourceKey=Clave de recursos:
 MapRuleBuilder.Button.Reset=Restablecer
 
 

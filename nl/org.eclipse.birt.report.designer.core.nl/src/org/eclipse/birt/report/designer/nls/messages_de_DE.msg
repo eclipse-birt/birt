@@ -2137,8 +2137,8 @@ MapPreferencePage.toolTipText.Down=Zuordnungsregel nach unten verschieben
 
 MapRuleBuilder.DialogTitle.New=Neue Zuordnungsregel
 MapRuleBuilder.DialogTitle.Edit=Zuordnungsregel bearbeiten
-MapRuleBuilder.Button.ResourceKey=Resource Key:
-MapRuleBuilder.Button.Reset=Zurücksetzen
+MapRuleBuilder.Button.ResourceKey=Ressourcenschlüssel:
+MapRuleBuilder.Button.Reset=Zeit
 
 
 MapRuleBuilderDialog.text.Between=ist zwischen

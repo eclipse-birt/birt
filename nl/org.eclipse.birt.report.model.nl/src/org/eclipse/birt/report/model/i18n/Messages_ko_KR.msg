@@ -1823,11 +1823,11 @@ Structure.MapRule.value1=value1
 Structure.MapRule.value2=value2
 Structure.MapRule.display=표시
 Structure.MapRule.displayID=displayID
-Structure.MapRule.isDesignTime=Is Design Time
+Structure.MapRule.isDesignTime=디자인 시간 여부
   
 #1.HighlightRule
 Structure.HighlightRule.operator=연산자
-Structure.HighlightRule.isDesignTime=Is Design Time
+Structure.HighlightRule.isDesignTime=디자인 시간 여부
 Structure.HighlightRule.value1=값 1
 Structure.HighlightRule.value2=값 2
 Structure.HighlightRule.testExpr = TestExpression

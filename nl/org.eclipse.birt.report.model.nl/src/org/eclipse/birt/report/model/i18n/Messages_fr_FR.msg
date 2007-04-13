@@ -1823,11 +1823,11 @@ Structure.MapRule.value1=value1
 Structure.MapRule.value2=value2
 Structure.MapRule.display=afficher
 Structure.MapRule.displayID=displayID
-Structure.MapRule.isDesignTime=Is Design Time
+Structure.MapRule.isDesignTime=Est l'heure de conception
   
 #1.HighlightRule
 Structure.HighlightRule.operator=Opérateur
-Structure.HighlightRule.isDesignTime=Is Design Time
+Structure.HighlightRule.isDesignTime=Est l'heure de conception
 Structure.HighlightRule.value1=Valeur 1
 Structure.HighlightRule.value2=Valeur 2
 Structure.HighlightRule.testExpr = TestExpression
