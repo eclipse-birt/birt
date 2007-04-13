@@ -2102,33 +2102,6 @@ ListPageGenerator.TabItem.map=Mappage
 ListPageGenerator.TabItem.Sorting=Tri
 
 
-###########################################################
-#GrossTabPageGenerator properties
-CrosstabPageGenerator.List.General=Général
-CrosstabPageGenerator.List.Margin=Marge
-CrosstabPageGenerator.List.Font=Police
-CrosstabPageGenerator.List.Borders=Bordure
-CrosstabPageGenerator.List.Section=Saut de page
-CrosstabPageGenerator.List.Visibility=Visibilité
-CrosstabPageGenerator.List.TOC=Table des matières
-CrosstabPageGenerator.List.Bookmark=Signet
-CrosstabPageGenerator.List.NamedExpressions=Expressions nommées
-CrosstabPageGenerator.List.UserProperties=Propriétés de l'utilisateur
-CrosstabPageGenerator.List.AdvancedProperty=Avancé
-
-CrosstabPageGenerator.TabItem.Binding=Liaison
-CrosstabPageGenerator.TabItem.RowArea=Zone de ligne
-CrosstabPageGenerator.TabItem.ColumnArea=Zone de colonne
-CrosstabPageGenerator.TabItem.DetailArea=Zone de détails
-CrosstabPageGenerator.TabItem.Filters=Filtres
-CrosstabPageGenerator.TabItem.Highlights=Surbrillances
-CrosstabPageGenerator.TabItem.map=Mappage
-CrosstabPageGenerator.TabItem.Sorting=Tri en cours
-
-CrosstabGeneraPage.ForEmptyCell=For empty cells, show:
-CrosstabGeneraPage.FormatOption=Format options:
-LayoutMeasuresProvider.DisplayName=Layout data fields in detail area vertically
-
 
 ###########################################################
 #MapPage properties
@@ -3881,3 +3854,17 @@ SampleReportsView.Action.openSampleReport.toolTipText.ide=Créer un projet d'état
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=Exporter directement l'exemple d'état sélectionné dans le dossier de l'espace de travail RCP
 
 UseCssStyleAction.text=Utiliser un fichier CSS...
+
+###########################################################
+#GrossTabPageGenerator properties
+CrosstabPageGenerator.List.General=Général
+CrosstabPageGenerator.List.Margin=Marge
+CrosstabPageGenerator.List.Font=Police
+CrosstabPageGenerator.List.Borders=Bordure
+CrosstabPageGenerator.List.Section=Saut de page
+CrosstabPageGenerator.List.Visibility=Visibilité
+CrosstabPageGenerator.List.TOC=Table des matières
+CrosstabPageGenerator.List.Bookmark=Signet
+CrosstabPageGenerator.List.NamedExpressions=Expressions nommées
+CrosstabPageGenerator.List.UserProperties=Propriétés de l'utilisateur
+CrosstabPageGenerator.List.AdvancedProperty=Avancé

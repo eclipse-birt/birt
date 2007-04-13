@@ -2102,33 +2102,6 @@ ListPageGenerator.TabItem.map=Zuordnung
 ListPageGenerator.TabItem.Sorting=Sortierung
 
 
-###########################################################
-#GrossTabPageGenerator properties
-CrosstabPageGenerator.List.General=Allgemein
-CrosstabPageGenerator.List.Margin=Rand
-CrosstabPageGenerator.List.Font=Schriftart
-CrosstabPageGenerator.List.Borders=Rahmen
-CrosstabPageGenerator.List.Section=Seitenumbruch
-CrosstabPageGenerator.List.Visibility=Sichtbarkeit
-CrosstabPageGenerator.List.TOC=Inhaltsverzeichnis
-CrosstabPageGenerator.List.Bookmark=Lesezeichen
-CrosstabPageGenerator.List.NamedExpressions=Benannte Ausdrücke
-CrosstabPageGenerator.List.UserProperties=Benutzereigenschaften
-CrosstabPageGenerator.List.AdvancedProperty=Erweitert
-
-CrosstabPageGenerator.TabItem.Binding=Bindung
-CrosstabPageGenerator.TabItem.RowArea=Zeilenbereich
-CrosstabPageGenerator.TabItem.ColumnArea=Spaltenbereich
-CrosstabPageGenerator.TabItem.DetailArea=Detailbereich
-CrosstabPageGenerator.TabItem.Filters=Filter
-CrosstabPageGenerator.TabItem.Highlights=Kennzeichnungen
-CrosstabPageGenerator.TabItem.map=Zuordnung
-CrosstabPageGenerator.TabItem.Sorting=Sortierung
-
-CrosstabGeneraPage.ForEmptyCell=For empty cells, show:
-CrosstabGeneraPage.FormatOption=Format options:
-LayoutMeasuresProvider.DisplayName=Layout data fields in detail area vertically
-
 
 ###########################################################
 #MapPage properties
@@ -3881,3 +3854,17 @@ SampleReportsView.Action.openSampleReport.toolTipText.ide=Berichtprojekt erstell
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=Ausgewählten Beispielbericht direkt in den Ordner des RCP-Arbeitsbereichs exportieren
 
 UseCssStyleAction.text=CSS-Datei verwenden...
+
+###########################################################
+#GrossTabPageGenerator properties
+CrosstabPageGenerator.List.General=Allgemein
+CrosstabPageGenerator.List.Margin=Rand
+CrosstabPageGenerator.List.Font=Schriftart
+CrosstabPageGenerator.List.Borders=Rahmen
+CrosstabPageGenerator.List.Section=Seitenumbruch
+CrosstabPageGenerator.List.Visibility=Sichtbarkeit
+CrosstabPageGenerator.List.TOC=Inhaltsverzeichnis
+CrosstabPageGenerator.List.Bookmark=Lesezeichen
+CrosstabPageGenerator.List.NamedExpressions=Benannte Ausdrücke
+CrosstabPageGenerator.List.UserProperties=Benutzereigenschaften
+CrosstabPageGenerator.List.AdvancedProperty=Erweitert

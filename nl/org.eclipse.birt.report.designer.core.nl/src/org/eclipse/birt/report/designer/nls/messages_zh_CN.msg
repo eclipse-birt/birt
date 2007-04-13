@@ -2102,33 +2102,6 @@ ListPageGenerator.TabItem.map=映射
 ListPageGenerator.TabItem.Sorting=排序
 
 
-###########################################################
-#GrossTabPageGenerator properties
-CrosstabPageGenerator.List.General=常规
-CrosstabPageGenerator.List.Margin=边距
-CrosstabPageGenerator.List.Font=字体
-CrosstabPageGenerator.List.Borders=边框
-CrosstabPageGenerator.List.Section=分页符
-CrosstabPageGenerator.List.Visibility=可见性
-CrosstabPageGenerator.List.TOC=目录
-CrosstabPageGenerator.List.Bookmark=书签
-CrosstabPageGenerator.List.NamedExpressions=命名表达式
-CrosstabPageGenerator.List.UserProperties=用户属性
-CrosstabPageGenerator.List.AdvancedProperty=高级
-
-CrosstabPageGenerator.TabItem.Binding=绑定
-CrosstabPageGenerator.TabItem.RowArea=行区域
-CrosstabPageGenerator.TabItem.ColumnArea=列区域
-CrosstabPageGenerator.TabItem.DetailArea=详细信息区域
-CrosstabPageGenerator.TabItem.Filters=筛选器
-CrosstabPageGenerator.TabItem.Highlights=突出显示
-CrosstabPageGenerator.TabItem.map=映射
-CrosstabPageGenerator.TabItem.Sorting=排序
-
-CrosstabGeneraPage.ForEmptyCell=For empty cells, show:
-CrosstabGeneraPage.FormatOption=Format options:
-LayoutMeasuresProvider.DisplayName=Layout data fields in detail area vertically
-
 
 ###########################################################
 #MapPage properties
@@ -3881,3 +3854,17 @@ SampleReportsView.Action.openSampleReport.toolTipText.ide=创建报表项目并将报表放
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=将选择的示例报表直接导出到 RCP 工作区文件夹
 
 UseCssStyleAction.text=使用 CSS 文件...
+
+###########################################################
+#GrossTabPageGenerator properties
+CrosstabPageGenerator.List.General=常规
+CrosstabPageGenerator.List.Margin=边距
+CrosstabPageGenerator.List.Font=字体
+CrosstabPageGenerator.List.Borders=边框
+CrosstabPageGenerator.List.Section=分页符
+CrosstabPageGenerator.List.Visibility=可见性
+CrosstabPageGenerator.List.TOC=目录
+CrosstabPageGenerator.List.Bookmark=书签
+CrosstabPageGenerator.List.NamedExpressions=命名表达式
+CrosstabPageGenerator.List.UserProperties=用户属性
+CrosstabPageGenerator.List.AdvancedProperty=高级

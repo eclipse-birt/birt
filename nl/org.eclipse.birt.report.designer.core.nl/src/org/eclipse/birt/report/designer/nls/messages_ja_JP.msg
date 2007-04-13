@@ -2102,33 +2102,6 @@ ListPageGenerator.TabItem.map=マップ
 ListPageGenerator.TabItem.Sorting=ソート
 
 
-###########################################################
-#GrossTabPageGenerator properties
-CrosstabPageGenerator.List.General=全般
-CrosstabPageGenerator.List.Margin=余白
-CrosstabPageGenerator.List.Font=フォント
-CrosstabPageGenerator.List.Borders=罫線
-CrosstabPageGenerator.List.Section=ページ区切り
-CrosstabPageGenerator.List.Visibility=表示/非表示
-CrosstabPageGenerator.List.TOC=目次
-CrosstabPageGenerator.List.Bookmark=ブックマーク
-CrosstabPageGenerator.List.NamedExpressions=名前付き式
-CrosstabPageGenerator.List.UserProperties=ユーザのプロパティ
-CrosstabPageGenerator.List.AdvancedProperty=詳細設定
-
-CrosstabPageGenerator.TabItem.Binding=バインド
-CrosstabPageGenerator.TabItem.RowArea=行の領域
-CrosstabPageGenerator.TabItem.ColumnArea=列の領域
-CrosstabPageGenerator.TabItem.DetailArea=詳細の領域
-CrosstabPageGenerator.TabItem.Filters=フィルタ
-CrosstabPageGenerator.TabItem.Highlights=ハイライト
-CrosstabPageGenerator.TabItem.map=マップ
-CrosstabPageGenerator.TabItem.Sorting=ソート
-
-CrosstabGeneraPage.ForEmptyCell=For empty cells, show:
-CrosstabGeneraPage.FormatOption=Format options:
-LayoutMeasuresProvider.DisplayName=Layout data fields in detail area vertically
-
 
 ###########################################################
 #MapPage properties
@@ -3881,3 +3854,17 @@ SampleReportsView.Action.openSampleReport.toolTipText.ide=レポートプロジェクトを
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=選択したサンプルレポートを RCP 作業フォルダに直接エクスポートします
 
 UseCssStyleAction.text=CSS ファイルを使用...
+
+###########################################################
+#GrossTabPageGenerator properties
+CrosstabPageGenerator.List.General=全般
+CrosstabPageGenerator.List.Margin=余白
+CrosstabPageGenerator.List.Font=フォント
+CrosstabPageGenerator.List.Borders=罫線
+CrosstabPageGenerator.List.Section=ページ区切り
+CrosstabPageGenerator.List.Visibility=表示/非表示
+CrosstabPageGenerator.List.TOC=目次
+CrosstabPageGenerator.List.Bookmark=ブックマーク
+CrosstabPageGenerator.List.NamedExpressions=名前付き式
+CrosstabPageGenerator.List.UserProperties=ユーザのプロパティ
+CrosstabPageGenerator.List.AdvancedProperty=詳細設定

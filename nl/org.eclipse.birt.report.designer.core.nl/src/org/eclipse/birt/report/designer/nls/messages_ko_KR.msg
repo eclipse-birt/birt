@@ -2102,33 +2102,6 @@ ListPageGenerator.TabItem.map=맵
 ListPageGenerator.TabItem.Sorting=정렬
 
 
-###########################################################
-#GrossTabPageGenerator properties
-CrosstabPageGenerator.List.General=일반
-CrosstabPageGenerator.List.Margin=여백
-CrosstabPageGenerator.List.Font=글꼴
-CrosstabPageGenerator.List.Borders=테두리
-CrosstabPageGenerator.List.Section=페이지 나누기
-CrosstabPageGenerator.List.Visibility=표시 유형
-CrosstabPageGenerator.List.TOC=목차
-CrosstabPageGenerator.List.Bookmark=책갈피
-CrosstabPageGenerator.List.NamedExpressions=명명된 식
-CrosstabPageGenerator.List.UserProperties=사용자 속성
-CrosstabPageGenerator.List.AdvancedProperty=고급
-
-CrosstabPageGenerator.TabItem.Binding=바인딩
-CrosstabPageGenerator.TabItem.RowArea=행 영역
-CrosstabPageGenerator.TabItem.ColumnArea=열 영역
-CrosstabPageGenerator.TabItem.DetailArea=세부 영역
-CrosstabPageGenerator.TabItem.Filters=필터
-CrosstabPageGenerator.TabItem.Highlights=강조
-CrosstabPageGenerator.TabItem.map=맵
-CrosstabPageGenerator.TabItem.Sorting=정렬
-
-CrosstabGeneraPage.ForEmptyCell=For empty cells, show:
-CrosstabGeneraPage.FormatOption=Format options:
-LayoutMeasuresProvider.DisplayName=Layout data fields in detail area vertically
-
 
 ###########################################################
 #MapPage properties
@@ -3881,3 +3854,17 @@ SampleReportsView.Action.openSampleReport.toolTipText.ide=보고서 프로젝트를 생성
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=선택된 샘플 보고서를 작업 영역 폴더에 직접 내보내기
 
 UseCssStyleAction.text=CSS 파일 사용...
+
+###########################################################
+#GrossTabPageGenerator properties
+CrosstabPageGenerator.List.General=일반
+CrosstabPageGenerator.List.Margin=여백
+CrosstabPageGenerator.List.Font=글꼴
+CrosstabPageGenerator.List.Borders=테두리
+CrosstabPageGenerator.List.Section=페이지 나누기
+CrosstabPageGenerator.List.Visibility=표시 유형
+CrosstabPageGenerator.List.TOC=목차
+CrosstabPageGenerator.List.Bookmark=책갈피
+CrosstabPageGenerator.List.NamedExpressions=명명된 식
+CrosstabPageGenerator.List.UserProperties=사용자 속성
+CrosstabPageGenerator.List.AdvancedProperty=고급
