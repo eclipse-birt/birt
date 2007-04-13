@@ -87,6 +87,10 @@ class ODAFactory implements IODAFactory
 				return DesignChoiceConstants.COLUMN_DATA_TYPE_STRING;
 			case DataType.DATE_TYPE :
 				return DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME;
+			case DataType.SQL_DATE_TYPE:
+				return DesignChoiceConstants.COLUMN_DATA_TYPE_DATE;
+			case DataType.SQL_TIME_TYPE:
+				return DesignChoiceConstants.COLUMN_DATA_TYPE_TIME;
 			case DataType.DECIMAL_TYPE :
 				return DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL;
 			case DataType.DOUBLE_TYPE :
@@ -110,6 +114,10 @@ class ODAFactory implements IODAFactory
 				return DesignChoiceConstants.PARAM_TYPE_STRING;
 			case DataType.DATE_TYPE :
 				return DesignChoiceConstants.PARAM_TYPE_DATETIME;
+			case DataType.SQL_DATE_TYPE:
+				return DesignChoiceConstants.PARAM_TYPE_DATE;
+			case DataType.SQL_TIME_TYPE:
+				return DesignChoiceConstants.PARAM_TYPE_TIME;
 			case DataType.DECIMAL_TYPE :
 				return DesignChoiceConstants.PARAM_TYPE_DECIMAL;
 			case DataType.DOUBLE_TYPE :
