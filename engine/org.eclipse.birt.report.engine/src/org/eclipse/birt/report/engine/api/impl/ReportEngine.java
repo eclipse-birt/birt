@@ -81,11 +81,12 @@ public class ReportEngine implements IReportEngine
 	 */
 	public ReportEngine( EngineConfig config )
 	{
+		this.config = config;
+		
 		logger = intializeLogger( );
 
 		logger.log( Level.FINE, "ReportEngine created. EngineConfig: {0} ",
 				config );
-		this.config = config;
 		this.helper = new ReportEngineHelper( this );
 
 		setupScriptScope( );
