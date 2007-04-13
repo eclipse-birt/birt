@@ -26,11 +26,12 @@ public class HTMLRowLM extends HTMLInlineStackingLM
 
 	public boolean layout( )
 	{
+		boolean hasNext =  super.layout( );
 		if ( !context.getSkipPageHint( ) )
 		{
 			context.setPageEmpty( false );
 		}
-		return super.layout( );
+		return hasNext;
 	}
 	
 	protected boolean handleVisibility( )

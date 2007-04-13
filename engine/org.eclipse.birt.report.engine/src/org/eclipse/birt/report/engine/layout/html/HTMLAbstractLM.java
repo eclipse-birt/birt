@@ -153,7 +153,7 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 				}
 				// we need put it in the new page or there is no
 				// space for the content.
-				if ( isPageBreakBefore( ) )
+				if ( isPageBreakBefore( ) && !context.isPageEmpty( ) )
 				{
 					status = STATUS_START;
 					context.endContentWithPageBreak( null );
