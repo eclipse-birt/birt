@@ -9,7 +9,7 @@
             name="%newwizard.name"
             class="org.eclipse.datatools.connectivity.oda.design.ui.wizards.NewDataSourceWizard"
             description="%newwizard.description"
-            icon="icons/fieldlist.ico"
+            icon="icons/new_oda_dswiz.ico"
             profile="%oda.data.source.id"/>
    </extension>
 
