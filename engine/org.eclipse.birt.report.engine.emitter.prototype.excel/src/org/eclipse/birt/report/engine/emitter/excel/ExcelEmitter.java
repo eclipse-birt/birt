@@ -53,6 +53,7 @@ import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.emitter.excel.chart.ChartConverter;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
+import org.eclipse.birt.report.engine.ir.DynamicTextItemDesign;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.TableGroupDesign;
@@ -400,8 +401,7 @@ public class ExcelEmitter implements IContentEmitter
 
 		String url = parseHyperLink( label );
 
-		addData( design, label.getComputedStyle( ), url, label.getText( ) );
-		engine.calculateTopStyles( );
+		addData( design, label.getComputedStyle( ), url, label.getText( ) );		
 	}
 
 	public void startList( IListContent list )
@@ -501,6 +501,8 @@ public class ExcelEmitter implements IContentEmitter
 	private void addData( Object design, IStyle style, String url, String txt )
 	{
 		Span span = (Span) design2ExcelSpan.get( design );
+		
+		
 
 		if ( span == null )
 		{
@@ -535,6 +537,11 @@ public class ExcelEmitter implements IContentEmitter
 						.getListSize( span.getCol( ) ) );
 			}
 		}
+		
+		if(design instanceof DynamicTextItemDesign)
+		{
+			engine.calculateTopStyles( );
+		}	
 	}
 
 	private int getMaxLenght( int from, int to )
