@@ -129,15 +129,17 @@ public class StyleEngine implements IListVisitor
 	}
 
 	public int getStyleID( StyleEntry entry )
-	{
+	{		
 		if ( style2id.get( entry ) != null )
 		{
 			return ( (Integer) style2id.get( entry ) ).intValue( );
 		}
 		else
 		{
-			style2id.put( entry, new Integer( ID ) );
-			return ++ID;
+			int styleId = ID;
+			style2id.put( entry, new Integer( styleId ) );
+			ID++;
+			return styleId;
 		}
 	}
 	
@@ -202,6 +204,7 @@ public class StyleEngine implements IListVisitor
 		styles.clear( );
 		pos.clear( );
 		spans.clear( );
+		style2id.clear( );
 	}
 
 	private void setDataMap( ListBuffer dataMap )

@@ -334,7 +334,7 @@ public class ExcelEmitter implements IContentEmitter
 	{
 		String url = parseHyperLink( data );
 		addData( data.getGenerateBy( ), data.getComputedStyle( ), url, data
-				.getText( ) );
+				.getText( ) );		
 	}
 
 	public void startForeign( IForeignContent foreign )
@@ -344,13 +344,12 @@ public class ExcelEmitter implements IContentEmitter
 			HTML2Content convert = new HTML2Content( foreign.getReportContent( )
 					.getDesign( ).getReportDesign( ) );
 			convert.html2Content( foreign );
+			startCase( foreign );			
 			ContentEmitterVisitor contentVisitor = new ContentEmitterVisitor(
 					this );
 			contentVisitor.visitChildren( foreign, null );
-
-			startCase( foreign );
+			endCase();
 		}
-
 	}
 
 	public void startGroup( IGroupContent group )
@@ -402,6 +401,7 @@ public class ExcelEmitter implements IContentEmitter
 		String url = parseHyperLink( label );
 
 		addData( design, label.getComputedStyle( ), url, label.getText( ) );
+		engine.calculateTopStyles( );
 	}
 
 	public void startList( IListContent list )
