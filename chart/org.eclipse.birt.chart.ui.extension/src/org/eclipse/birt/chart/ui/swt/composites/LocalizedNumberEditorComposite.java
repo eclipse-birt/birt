@@ -248,7 +248,6 @@ public class LocalizedNumberEditorComposite extends Composite implements
 		}
 		else
 		{
-
 			int iDelimiter = sText.indexOf( '/' );
 			if ( iDelimiter < 0 )
 			{
@@ -256,22 +255,22 @@ public class LocalizedNumberEditorComposite extends Composite implements
 			}
 			if ( iDelimiter > 0 )
 			{
-				if ( !( this.bTextModified && sText.endsWith( "/" ) ) ) //$NON-NLS-1$
+				// Handle the fraction conversion
+				isFractionConverted = true;
+				String numerator = sText.substring( 0, iDelimiter );
+				String denominator = sText.substring( iDelimiter + 1 );
+				try
 				{
-					// Handle the fraction conversion
-					isFractionConverted = true;
-					String numerator = sText.substring( 0, iDelimiter );
-					String denominator = sText.substring( iDelimiter + 1 );
-					try
-					{
-						Number nume = numberFormat.parse( numerator );
-						Number deno = numberFormat.parse( denominator );
-						dValue = nume.doubleValue( ) / deno.doubleValue( );
-						bValueIsSet = true;
-						sText = numberFormat.format( dValue );
-						this.txtValue.setText( sText );
-					}
-					catch ( ParseException e )
+					Number nume = numberFormat.parse( numerator );
+					Number deno = numberFormat.parse( denominator );
+					dValue = nume.doubleValue( ) / deno.doubleValue( );
+					bValueIsSet = true;
+					sText = numberFormat.format( dValue );
+					this.txtValue.setText( sText );
+				}
+				catch ( ParseException e )
+				{
+					if ( !this.bTextModified )
 					{
 						handleFormatError( sText );
 					}
@@ -281,17 +280,17 @@ public class LocalizedNumberEditorComposite extends Composite implements
 			{
 				try
 				{
-					if ( !( this.bTextModified && sText.equals( "-" ) ) ) //$NON-NLS-1$
-					{
-						Number num = numberFormat.parse( sText );
-						dValue = num.doubleValue( );
-						bValueIsSet = true;
-						sText = numberFormat.format( dValue );
-					}
+					Number num = numberFormat.parse( sText );
+					dValue = num.doubleValue( );
+					bValueIsSet = true;
+					sText = numberFormat.format( dValue );
 				}
 				catch ( ParseException e )
 				{
-					handleFormatError( sText );
+					if ( !this.bTextModified )
+					{
+						handleFormatError( sText );
+					}
 				}
 			}
 		}
