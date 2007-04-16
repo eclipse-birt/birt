@@ -48,31 +48,31 @@ public class StyleBuilder
 				convertBorderWeight( style.getBorderBottomWidth( ) ) );
 
 		entry.setProperty( StyleConstant.BORDER_TOP_COLOR_PROP,
-				convertColor( style.getBorderBottomColor( ) ) );
+				convertColor( style.getBorderTopColor( ) ) );
 
 		entry.setProperty( StyleConstant.BORDER_TOP_STYLE_PROP,
-				convertBorderStyle( style.getBorderBottomStyle( ) ) );
+				convertBorderStyle( style.getBorderTopStyle( ) ) );
 
 		entry.setProperty( StyleConstant.BORDER_TOP_WIDTH_PROP,
-				convertBorderWeight( style.getBorderBottomWidth( ) ) );
+				convertBorderWeight( style.getBorderTopWidth( ) ) );
 
 		entry.setProperty( StyleConstant.BORDER_LEFT_COLOR_PROP,
-				convertColor( style.getBorderBottomColor( ) ) );
+				convertColor( style.getBorderLeftColor( ) ) );
 
 		entry.setProperty( StyleConstant.BORDER_LEFT_STYLE_PROP,
-				convertBorderStyle( style.getBorderBottomStyle( ) ) );
+				convertBorderStyle( style.getBorderLeftStyle( ) ) );
 
 		entry.setProperty( StyleConstant.BORDER_LEFT_WIDTH_PROP,
-				convertBorderWeight( style.getBorderBottomWidth( ) ) );
+				convertBorderWeight( style.getBorderLeftWidth( ) ) );
 
 		entry.setProperty( StyleConstant.BORDER_RIGHT_COLOR_PROP,
-				convertColor( style.getBorderBottomColor( ) ) );
+				convertColor( style.getBorderRightColor( ) ) );
 
 		entry.setProperty( StyleConstant.BORDER_RIGHT_STYLE_PROP,
-				convertBorderStyle( style.getBorderBottomStyle( ) ) );
+				convertBorderStyle( style.getBorderRightStyle( ) ) );
 
 		entry.setProperty( StyleConstant.BORDER_RIGHT_WIDTH_PROP,
-				convertBorderWeight( style.getBorderBottomWidth( ) ) );
+				convertBorderWeight( style.getBorderRightWidth( ) ) );
 
 		entry.setProperty( StyleConstant.COLOR_PROP, convertColor( style
 				.getColor( ) ) );
@@ -200,31 +200,29 @@ public class StyleBuilder
 
 	public static String convertBorderStyle( String style )
 	{
-		String s = StyleConstant.NULL;
+		String bs = ExcelUtil.getValue( style );
 
-		if ( style != null && !"none".equalsIgnoreCase( style ) )
+		if ( bs != StyleConstant.NULL  )
 		{
-			style = ExcelUtil.getValue( style );
-
-			if ( "dotted".equalsIgnoreCase( style ) )
+			if ( "dotted".equalsIgnoreCase( bs ) )
 			{
-				s = "Dot";
+				bs = "Dot";
 			}
-			else if ( "dashed".equalsIgnoreCase( style ) )
+			else if ( "dashed".equalsIgnoreCase( bs ) )
 			{
-				s = "DashDot";
+				bs = "DashDot";
 			}
-			else if ( "double".equalsIgnoreCase( style ) )
+			else if ( "double".equalsIgnoreCase( bs ) )
 			{
-				s = "Double";
+				bs = "Double";
 			}
 			else
 			{
-				s = "Continuous";
+				bs = "Continuous";
 			}
 		}
 
-		return s;
+		return bs;
 	}
 
 	public static String convertHAlign( String align )

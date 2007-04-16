@@ -63,6 +63,7 @@ public class StyleEngine implements IListVisitor
 		spans.push( span );
 		styles.push( entry );
 		pos.push( new Integer( start ) );
+		istop = true;
 	}
 
 	public void calculateTopStyles( )
@@ -112,8 +113,8 @@ public class StyleEngine implements IListVisitor
 		{
 			StyleBuilder.applyBottomBorder( entry, ( (Data) dataMap.get( i
 					+ col, cp ) ).style );
-		}
-
+		}		
+		
 		istop = true;
 	}
 
