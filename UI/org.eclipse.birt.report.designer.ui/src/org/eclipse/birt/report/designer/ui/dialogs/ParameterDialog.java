@@ -110,11 +110,17 @@ public class ParameterDialog extends BaseDialog
 
 	private static final String CHOICE_NULL_VALUE = Messages.getString( "ParameterDialog.Choice.NullValue" );
 
+	private static final String CHOICE_DISPLAY_TEXT = Messages.getString( "ParameterDialog.Choice.DisplayText" );
+
+	private static final String CHOICE_VALUE_COLUMN = Messages.getString( "ParameterDialog.Choice.ValueColumn" );
+
+	private static final String CHOICE_ASCENDING = Messages.getString( "ParameterDialog.Choice.ASCENDING" );
+
+	private static final String CHOICE_DESCENDING = Messages.getString( "ParameterDialog.Choice.DESCENDING" );
+
 	private static final String CHOICE_SELECT_VALUE = Messages.getString( "ParameterDialog.Choice.SelectValue" );
 
 	private static final String CHOICE_BLANK_VALUE = Messages.getString( "ParameterDialog.Choice.BlankValue" );
-
-	private static final String GROUP_PROPERTIES = Messages.getString( "ParameterDialog.Group.Properties" ); //$NON-NLS-1$
 
 	private static final String GROUP_MORE_OPTION = Messages.getString( "ParameterDialog.Group.MoreOption" ); //$NON-NLS-1$
 
@@ -153,11 +159,9 @@ public class ParameterDialog extends BaseDialog
 
 	private static final String LABEL_PREVIEW = Messages.getString( "ParameterDialog.Label.Preview" ); //$NON-NLS-1$
 
-	// private static final String CHECKBOX_ALLOW_NULL = Messages.getString(
-	// "ParameterDialog.CheckBox.AllowNull" ); //$NON-NLS-1$
+	private static final String LABEL_SORT_KEY = Messages.getString( "ParameterDialog.Label.SortKey" );
 
-	// private static final String CHECKBOX_ALLOW_BLANK = Messages.getString(
-	// "ParameterDialog.CheckBox.AllowBlank" ); //$NON-NLS-1$
+	private static final String LABEL_SORT_DIRECTION = Messages.getString( "ParameterDialog.Label.SortDirection" );
 
 	private static final String CHECKBOX_ISREQUIRED = Messages.getString( "ParameterDialog.CheckBox.IsRequired" ); //$NON-NLS-1$
 
@@ -166,6 +170,8 @@ public class ParameterDialog extends BaseDialog
 	private static final String CHECKBOX_SORT = Messages.getString( "ParameterDialog.CheckBox.Sort" ); //$NON-NLS-1$
 
 	private static final String CHECKBOX_HIDDEN = Messages.getString( "ParameterDialog.CheckBox.Hidden" ); //$NON-NLS-1$
+
+	private static final String CHECKBOX_DISTINCT = Messages.getString( "ParameterDialog.CheckBox.Distinct" );
 
 	private static final String BUTTON_LABEL_CHANGE_FORMAT = Messages.getString( "ParameterDialog.Button.ChangeFormat" ); //$NON-NLS-1$
 
@@ -249,8 +255,7 @@ public class ParameterDialog extends BaseDialog
 
 	private boolean loading = true;
 
-	private Text nameEditor, promptTextEditor, defaultValueEditor,
-			helpTextEditor, formatField;
+	private Text nameEditor, promptTextEditor, helpTextEditor, formatField;
 
 	// Prompt message line
 	private Label promptMessageLine;
@@ -259,7 +264,7 @@ public class ParameterDialog extends BaseDialog
 	private CLabel errorMessageLine;
 
 	// Check boxes
-	private Button isRequired, doNotEcho, isHidden, needSort;
+	private Button isRequired, doNotEcho, isHidden, needSort, distinct;
 
 	// Push buttons
 	private Button importValue, changeDefault, changeFormat, createDataSet;
@@ -271,7 +276,8 @@ public class ParameterDialog extends BaseDialog
 	private Combo dataTypeChooser, controlTypeChooser, defaultValueChooser;
 
 	// Combo chooser for dynamic
-	private Combo dataSetChooser, columnChooser, displayTextChooser;
+	private Combo dataSetChooser, columnChooser, displayTextChooser,
+			sortKeyChooser, sortDirectionChooser;
 
 	// Label
 	private Label previewLabel;
@@ -465,19 +471,27 @@ public class ParameterDialog extends BaseDialog
 
 	protected Control createDialogArea( Composite parent )
 	{
-		Composite composite = (Composite) super.createDialogArea( parent );
-		createPropertiesSection( composite );
-		createMoreOptionSection( composite );
+		Composite parentComposite = (Composite) super.createDialogArea( parent );
+
+		Composite topComposite = new Composite( parentComposite, SWT.NONE );
+		topComposite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		topComposite.setLayout( new GridLayout( 2, false ) );
+
+		createPropertiesSection( topComposite );
+		createDisplayOptionsSection( topComposite );
+		createValuesDefineSection( parentComposite );
 		UIUtil.bindHelp( parent, IHelpContextIds.PARAMETER_DIALOG_ID );
-		return composite;
+		return parentComposite;
 	}
 
 	private void createPropertiesSection( Composite composite )
 	{
-		Group propertiesSection = new Group( composite, SWT.NONE );
-		propertiesSection.setText( GROUP_PROPERTIES );
-		propertiesSection.setLayout( new GridLayout( 2, false ) );
-		propertiesSection.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
+		Composite propertiesSection = new Composite( composite, SWT.NONE );
+		propertiesSection.setLayout( new GridLayout( ) );
+		GridData gd = new GridData( );
+		gd.widthHint = 200;
+		propertiesSection.setLayoutData( gd );
 
 		createLabel( propertiesSection, LABEL_NAME );
 		nameEditor = new Text( propertiesSection, SWT.BORDER );
@@ -516,55 +530,21 @@ public class ParameterDialog extends BaseDialog
 				changeControlType( );
 			}
 		} );
-		createLabel( propertiesSection, LABEL_LIST_OF_VALUE );
-		Composite choiceArea = new Composite( propertiesSection, SWT.NONE );
-		choiceArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		choiceArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, true ) );
-		staticRadio = new Button( choiceArea, SWT.RADIO );
-		staticRadio.setText( RADIO_STATIC );
-		staticRadio.addSelectionListener( new SelectionAdapter( ) {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				switchParamterType( );
-			}
-
-		} );
-		dynamicRadio = new Button( choiceArea, SWT.RADIO );
-		dynamicRadio.setText( RADIO_DYNAMIC );
-		dynamicRadio.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				switchParamterType( );
-			}
-
-		} );
-
-		valueArea = new Composite( propertiesSection, SWT.NONE );
-		valueArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
-		GridData gd = new GridData( GridData.FILL_BOTH );
-		gd.heightHint = 150;
-		gd.widthHint = 550;
-		gd.horizontalSpan = 2;
-		valueArea.setLayoutData( gd );
-		createLabel( propertiesSection, null );
-		errorMessageLine = new CLabel( propertiesSection, SWT.NONE );
-		errorMessageLine.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 	}
 
-	private void createMoreOptionSection( Composite composite )
+	private void createDisplayOptionsSection( Composite composite )
 	{
-		Group moreOptionSection = new Group( composite, SWT.NONE );
-		moreOptionSection.setText( GROUP_MORE_OPTION );
-		moreOptionSection.setLayout( new GridLayout( 2, false ) );
-		moreOptionSection.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		createLabel( moreOptionSection, LABEL_HELP_TEXT );
-		helpTextEditor = new Text( moreOptionSection, SWT.BORDER );
+		Group displayOptionSection = new Group( composite, SWT.NONE );
+		displayOptionSection.setText( GROUP_MORE_OPTION );
+		displayOptionSection.setLayout( new GridLayout( 2, false ) );
+		displayOptionSection.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		createLabel( displayOptionSection, LABEL_HELP_TEXT );
+		helpTextEditor = new Text( displayOptionSection, SWT.BORDER );
 		helpTextEditor.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		createLabel( moreOptionSection, LABEL_FORMAT );
-		Composite formatSection = new Composite( moreOptionSection, SWT.NONE );
+		createLabel( displayOptionSection, LABEL_FORMAT );
+		Composite formatSection = new Composite( displayOptionSection, SWT.NONE );
 		formatSection.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
 		formatSection.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		formatField = new Text( formatSection, SWT.BORDER
@@ -582,8 +562,8 @@ public class ParameterDialog extends BaseDialog
 			}
 
 		} );
-		createLabel( moreOptionSection, null );
-		Group previewArea = new Group( moreOptionSection, SWT.NONE );
+		createLabel( displayOptionSection, null );
+		Group previewArea = new Group( displayOptionSection, SWT.NONE );
 		previewArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		previewArea.setLayout( UIUtil.createGridLayoutWithoutMargin( ) );
 		previewArea.setText( LABEL_PREVIEW );
@@ -592,9 +572,9 @@ public class ParameterDialog extends BaseDialog
 		previewLabel.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		// start create list limitation area
-		createLabel( moreOptionSection, LABEL_LIST_LIMIT ); //$NON-NLS-1$
+		createLabel( displayOptionSection, LABEL_LIST_LIMIT ); //$NON-NLS-1$
 
-		Composite limitArea = new Composite( moreOptionSection, SWT.NULL );
+		Composite limitArea = new Composite( displayOptionSection, SWT.NULL );
 		GridLayout layout = new GridLayout( 2, false );
 		layout.marginWidth = 0;
 		layout.marginHeight = 0;
@@ -619,21 +599,14 @@ public class ParameterDialog extends BaseDialog
 		values.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		// end
 
-		createLabel( moreOptionSection, null ); // Dummy
-		Composite checkBoxArea = new Composite( moreOptionSection, SWT.NONE );
+		createLabel( displayOptionSection, null ); // Dummy
+		Composite checkBoxArea = new Composite( displayOptionSection, SWT.NONE );
 		checkBoxArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
 		checkBoxArea.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
 		isRequired = new Button( checkBoxArea, SWT.CHECK );
 		isRequired.setText( CHECKBOX_ISREQUIRED );
 		addCheckBoxListener( isRequired, CHECKBOX_ISREQUIRED );
-
-		// allowNull = new Button( checkBoxArea, SWT.CHECK );
-		// allowNull.setText( CHECKBOX_ALLOW_NULL );
-		// addCheckBoxListener( allowNull, CHECKBOX_ALLOW_NULL );
-		// allowBlank = new Button( checkBoxArea, SWT.CHECK );
-		// allowBlank.setText( CHECKBOX_ALLOW_BLANK );
-		// addCheckBoxListener( allowBlank, CHECKBOX_ALLOW_BLANK );
 
 		doNotEcho = new Button( checkBoxArea, SWT.CHECK );
 		doNotEcho.setText( CHECKBOX_DO_NOT_ECHO );
@@ -645,7 +618,52 @@ public class ParameterDialog extends BaseDialog
 		needSort = new Button( checkBoxArea, SWT.CHECK );
 		needSort.setText( CHECKBOX_SORT );
 		addCheckBoxListener( needSort, CHECKBOX_SORT );
+	}
 
+	private void createValuesDefineSection( Composite composite )
+	{
+		Group valuesDefineSection = new Group( composite, SWT.NONE );
+		valuesDefineSection.setText( LABEL_LIST_OF_VALUE );
+		valuesDefineSection.setLayout( new GridLayout( 2, false ) );
+		valuesDefineSection.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
+		Composite choiceArea = new Composite( valuesDefineSection, SWT.NONE );
+		choiceArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		choiceArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, true ) );
+		staticRadio = new Button( choiceArea, SWT.RADIO );
+		staticRadio.setText( RADIO_STATIC );
+		staticRadio.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				switchParamterType( );
+			}
+
+		} );
+		dynamicRadio = new Button( choiceArea, SWT.RADIO );
+		dynamicRadio.setText( RADIO_DYNAMIC );
+		dynamicRadio.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				switchParamterType( );
+			}
+
+		} );
+
+		valueArea = new Composite( valuesDefineSection, SWT.NONE );
+		valueArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
+		GridData gd = new GridData( GridData.FILL_BOTH );
+		gd.heightHint = 200;
+		gd.widthHint = 550;
+		gd.horizontalSpan = 2;
+		valueArea.setLayoutData( gd );
+
+		createLabel( valuesDefineSection, null );
+		errorMessageLine = new CLabel( valuesDefineSection, SWT.NONE );
+		GridData msgLineGridData = new GridData( GridData.FILL_HORIZONTAL );
+		msgLineGridData.horizontalSpan = 2;
+		errorMessageLine.setLayoutData( msgLineGridData );
 	}
 
 	/**
@@ -811,6 +829,29 @@ public class ParameterDialog extends BaseDialog
 			{
 				defaultValueChooser.setText( defaultValue );
 			}
+			distinct.setSelection( !inputParameter.distinct( ) );
+			String sortKey = inputParameter.getSortBy( );
+			if ( sortKey == null
+					|| sortKey.equals( DesignChoiceConstants.PARAM_SORT_VALUES_LABEL ) )
+			{
+				sortKeyChooser.setText( CHOICE_DISPLAY_TEXT );
+			}
+			else
+			{
+				sortKeyChooser.setText( CHOICE_VALUE_COLUMN );
+			}
+			if ( inputParameter.getSortDirection( ) == null )
+			{
+				sortDirectionChooser.setText( NONE_DISPLAY_TEXT );
+			}
+			else if ( inputParameter.getSortDirection( ).equals( DesignChoiceConstants.SORT_DIRECTION_ASC ) )
+			{
+				sortDirectionChooser.setText( CHOICE_ASCENDING );
+			}
+			else
+			{
+				sortDirectionChooser.setText( CHOICE_DESCENDING );
+			}
 		}
 		updateMessageLine( );
 	}
@@ -868,10 +909,9 @@ public class ParameterDialog extends BaseDialog
 	{
 		ArrayList valueList = new ArrayList( );
 		DataEngine engine;
-		ResultSetColumnHandle selectedColumn = null;
 		try
 		{
-			String queryExpr = columnChooser.getText( );
+			String queryExpr = getExpression( columnChooser.getText( ) );
 			if ( queryExpr == null || queryExpr.equals( "" ) )
 			{
 				return Collections.EMPTY_LIST;
@@ -883,17 +923,6 @@ public class ParameterDialog extends BaseDialog
 			BaseQueryDefinition query = (BaseQueryDefinition) DataUtil.getPreparedQuery( engine,
 					getDataSetHandle( ) )
 					.getReportQueryDefn( );
-
-			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
-			{
-				ResultSetColumnHandle column = (ResultSetColumnHandle) iter.next( );
-				if ( column.getColumnName( ).equals( columnChooser.getText( ) ) )
-				{
-					queryExpr = DEUtil.getResultSetColumnExpression( column.getColumnName( ) );
-					selectedColumn = column;
-					break;
-				}
-			}
 
 			ScriptExpression expression = new ScriptExpression( queryExpr );
 			String columnBindingName = "_$_COLUMNBINDINGNAME_$_";
@@ -912,8 +941,7 @@ public class ParameterDialog extends BaseDialog
 					while ( iter.next( ) )
 					{
 						String result = null;
-						if ( selectedColumn != null
-								&& DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( selectedColumn.getDataType( ) ) )
+						if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
 						{
 
 							result = formatter.format( iter.getDate( columnBindingName ) );
@@ -1575,6 +1603,33 @@ public class ParameterDialog extends BaseDialog
 		} );
 
 		createDefaultEditor( );
+
+		// Sorting condition here
+		Composite sorttingArea = new Composite( valueArea, SWT.NONE );
+		GridData sorttingAreaGridData = new GridData( GridData.FILL_HORIZONTAL );
+		sorttingAreaGridData.horizontalSpan = 2;
+		sorttingArea.setLayoutData( sorttingAreaGridData );
+		sorttingArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 5, false ) );
+
+		createLabel( sorttingArea, LABEL_SORT_KEY );
+		sortKeyChooser = new Combo( sorttingArea, SWT.BORDER );
+		sortKeyChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		sortKeyChooser.add( CHOICE_DISPLAY_TEXT );
+		sortKeyChooser.add( CHOICE_VALUE_COLUMN );
+		sortKeyChooser.setText( CHOICE_DISPLAY_TEXT );
+
+		createLabel( sorttingArea, LABEL_SORT_DIRECTION );
+		sortDirectionChooser = new Combo( sorttingArea, SWT.BORDER );
+		sortDirectionChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		sortDirectionChooser.add( NONE_DISPLAY_TEXT );
+		sortDirectionChooser.add( CHOICE_ASCENDING );
+		sortDirectionChooser.add( CHOICE_DESCENDING );
+		sortDirectionChooser.setText( LABEL_NULL );
+
+		distinct = new Button( sorttingArea, SWT.CHECK );
+		distinct.setText( CHECKBOX_DISTINCT );
+		addCheckBoxListener( distinct, CHECKBOX_DISTINCT );
+
 		createLabel( valueArea, null );
 		createPromptLine( valueArea );
 		listLimit.setEditable( true );
@@ -1760,9 +1815,8 @@ public class ParameterDialog extends BaseDialog
 				inputParameter.setValueType( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC );
 				inputParameter.setDataSetName( dataSetChooser.getText( ) );
 				inputParameter.setValueExpr( getExpression( columnChooser.getText( ) ) );
-				// inputParameter.setLabelExpr( getExpression(
-				// displayTextChooser.getText( ) ) );
-				if ( displayTextChooser.getText( ).equals( "<None>" ) )
+
+				if ( displayTextChooser.getText( ).equals( LABEL_NULL ) )
 				{
 					inputParameter.setLabelExpr( "" );
 				}
@@ -1770,6 +1824,35 @@ public class ParameterDialog extends BaseDialog
 				{
 					inputParameter.setLabelExpr( getExpression( displayTextChooser.getText( ) ) );
 				}
+
+				if ( dirtyProperties.containsKey( CHECKBOX_DISTINCT ) )
+				{
+					inputParameter.setDistinct( !getProperty( CHECKBOX_DISTINCT ) );
+				}
+
+				if ( sortKeyChooser.getText( ).equals( CHOICE_DISPLAY_TEXT ) )
+				{
+					inputParameter.setSortBy( DesignChoiceConstants.PARAM_SORT_VALUES_LABEL );
+				}
+				else if ( sortKeyChooser.getText( )
+						.equals( CHOICE_VALUE_COLUMN ) )
+				{
+					inputParameter.setSortBy( DesignChoiceConstants.PARAM_SORT_VALUES_VALUE );
+				}
+
+				if ( sortDirectionChooser.getText( ).equals( NONE_DISPLAY_TEXT ) )
+				{
+					inputParameter.setSortDirection( null );
+				}
+				else if ( sortKeyChooser.getText( ).equals( CHOICE_ASCENDING ) )
+				{
+					inputParameter.setSortDirection( DesignChoiceConstants.SORT_DIRECTION_ASC );
+				}
+				else
+				{
+					inputParameter.setSortDirection( DesignChoiceConstants.SORT_DIRECTION_DESC );
+				}
+
 			}
 
 			// Save help text
@@ -1792,26 +1875,6 @@ public class ParameterDialog extends BaseDialog
 			{
 				inputParameter.setHidden( getProperty( CHECKBOX_HIDDEN ) );
 			}
-			// if ( dirtyProperties.containsKey( CHECKBOX_ALLOW_NULL ) )
-			// {
-			// inputParameter.setAllowNull( getProperty( CHECKBOX_ALLOW_NULL )
-			// );
-			// }
-			//
-			// if ( allowBlank.isEnabled( ) )
-			// {
-			// if ( dirtyProperties.containsKey( CHECKBOX_ALLOW_BLANK ) )
-			// {
-			// inputParameter.setAllowBlank( getProperty( CHECKBOX_ALLOW_BLANK )
-			// );
-			// }
-			// }
-			// else
-			// {
-			// inputParameter.setProperty(
-			// ScalarParameterHandle.ALLOW_BLANK_PROP,
-			// null );
-			// }
 
 			if ( dirtyProperties.containsKey( CHECKBOX_ISREQUIRED ) )
 			{
@@ -2005,20 +2068,6 @@ public class ParameterDialog extends BaseDialog
 
 	private void updateCheckBoxArea( )
 	{
-		// Allow blank check
-		// if ( ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals(
-		// getSelectedControlType( ) )
-		// || PARAM_CONTROL_LIST.equals( getSelectedControlType( ) ) ||
-		// PARAM_CONTROL_COMBO.equals( getSelectedControlType( ) ) )
-		// && DesignChoiceConstants.PARAM_TYPE_STRING.equals(
-		// getSelectedDataType( ) ) )
-		// {
-		// allowBlank.setEnabled( true );
-		// }
-		// else
-		// {
-		// allowBlank.setEnabled( false );
-		// }
 
 		// Do not echo check
 		if ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) ) )
@@ -2032,7 +2081,8 @@ public class ParameterDialog extends BaseDialog
 
 		// Fix order check
 		if ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) )
-				|| DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals( getSelectedControlType( ) ) )
+				|| DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals( getSelectedControlType( ) )
+				|| !isStatic( ) )
 		{
 			needSort.setEnabled( false );
 		}
