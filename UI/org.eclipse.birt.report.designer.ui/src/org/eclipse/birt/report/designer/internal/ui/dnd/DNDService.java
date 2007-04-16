@@ -34,9 +34,9 @@ import org.eclipse.draw2d.geometry.Point;
 public class DNDService implements IRegistryChangeListener
 {
 
-	public static int LOGIC_TRUE = 0;
-	public static int LOGIC_FALSE = 1;
-	public static int LOGIC_UNKNOW = 2;
+	public static int LOGIC_TRUE = 1;
+	public static int LOGIC_FALSE = -1;
+	public static int LOGIC_UNKNOW = 0;
 
 	private List adapterList = new ArrayList( );
 	private Map adapterPriorityMap = new HashMap( );

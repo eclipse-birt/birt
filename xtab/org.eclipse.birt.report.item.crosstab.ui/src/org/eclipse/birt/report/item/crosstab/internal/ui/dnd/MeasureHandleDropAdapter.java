@@ -41,7 +41,7 @@ public class MeasureHandleDropAdapter implements IDropAdapter
 					return DNDService.LOGIC_FALSE;
 			}
 		}
-		return 0;
+		return DNDService.LOGIC_UNKNOW;
 	}
 
 	public boolean performDrop( Object transfer, Object target, int operation,
