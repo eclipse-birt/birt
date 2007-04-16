@@ -122,7 +122,7 @@ public class TestEngine extends TestCase implements ICrosstabConstants
 			return;
 		}
 
-		//format = PDF_FORMAT;
+		// format = PDF_FORMAT;
 
 		IRunAndRenderTask task = getEngine( ).createRunAndRenderTask( report );
 		HTMLRenderOption options = new HTMLRenderOption( );
@@ -438,61 +438,6 @@ public class TestEngine extends TestCase implements ICrosstabConstants
 	private void syncAggregationCells( ModuleHandle module,
 			CrosstabReportItemHandle crosstabItem ) throws SemanticException
 	{
-		// int cdCount = crosstabItem.getDimensionCount( COLUMN_AXIS_TYPE );
-		// int rdCount = crosstabItem.getDimensionCount( ROW_AXIS_TYPE );
-		// int mCount = crosstabItem.getMeasureCount( );
-		//
-		// for ( int i = 0; i < cdCount; i++ )
-		// {
-		// DimensionViewHandle dv = crosstabItem.getDimension( COLUMN_AXIS_TYPE,
-		// i );
-		//
-		// for ( int j = 0; j < dv.getLevelCount( ); j++ )
-		// {
-		// LevelViewHandle lv = dv.getLevel( j );
-		//
-		// if ( i < cdCount - 1
-		// || ( i == cdCount - 1 && j < dv.getLevelCount( ) - 1 ) )
-		// {
-		// // for not innerest level
-		// }
-		//
-		// for ( int m = 0; m < rdCount; m++ )
-		// {
-		// DimensionViewHandle rdv = crosstabItem.getDimension( ROW_AXIS_TYPE,
-		// m );
-		//
-		// for ( int n = 0; n < rdv.getLevelCount( ); n++ )
-		// {
-		// LevelViewHandle rlv = rdv.getLevel( n );
-		//
-		// if ( rlv.getAggregationHeader( ) != null )
-		// {
-		// for ( int k = 0; k < mCount; k++ )
-		// {
-		// MeasureViewHandle mv = crosstabItem.getMeasure( k );
-		//
-		// AggregationCellHandle handle = mv.addAggregation(
-		// rdv.getCubeDimensionName( ),
-		// rlv.getCubeLevelName( ),
-		// dv.getCubeDimensionName( ),
-		// lv.getCubeLevelName( ) );
-		//								
-		// if (handle.getContents( ).size( ) == 0)
-		// {
-		// handle.addContent( createLabelHandle( module, "Aggr" ) );
-		// }
-		//
-		// applyBorder( handle, "green" );
-		// applyTextAlign( handle, "center" );
-		// applyVerticalAlign( handle, "middle" );
-		// }
-		// }
-		// }
-		// }
-		// }
-		// }
-
 		for ( int k = 0; k < crosstabItem.getMeasureCount( ); k++ )
 		{
 			MeasureViewHandle mv = crosstabItem.getMeasure( k );
@@ -505,7 +450,7 @@ public class TestEngine extends TestCase implements ICrosstabConstants
 
 			applyBorder( handle, "green" );
 			applyTextAlign( handle, "center" );
-			//applyVerticalAlign( handle, "middle" );
+			// applyVerticalAlign( handle, "middle" );
 		}
 	}
 

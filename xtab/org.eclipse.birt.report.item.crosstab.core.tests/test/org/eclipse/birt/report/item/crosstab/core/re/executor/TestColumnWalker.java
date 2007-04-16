@@ -107,7 +107,7 @@ public class TestColumnWalker extends TestCase implements ICrosstabConstants
 		baseTestColumnWalker( CrosstabSamples.createCrosstab5( module ) );
 	}
 
-	private CubeCursor createSimpleCubeCursor( )
+	protected CubeCursor createSimpleCubeCursor( )
 	{
 		DummyDimensionCursor ddc1 = new DummyDimensionCursor( 2 );
 		DummyDimensionCursor ddc2 = new DummyDimensionCursor( 2 );

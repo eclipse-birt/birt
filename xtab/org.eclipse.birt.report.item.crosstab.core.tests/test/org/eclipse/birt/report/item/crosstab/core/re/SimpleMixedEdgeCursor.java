@@ -115,43 +115,43 @@ public class SimpleMixedEdgeCursor extends DummyCursorSupport implements
 			case 1 :
 				d1.setPosition( 1 );
 				d1.setEdgeStart( 1 );
-				d1.setEdgeEnd( 4 );
+				d1.setEdgeEnd( 1 );
 				d2.switchMode( true );
 				d3.switchMode( true );
 				break;
 			case 2 :
 				d1.setPosition( 2 );
-				d1.setEdgeStart( 1 );
+				d1.setEdgeStart( 2 );
 				d1.setEdgeEnd( 4 );
 				d2.switchMode( false );
 				d2.setPosition( 1 );
 				d2.setEdgeStart( 2 );
-				d2.setEdgeEnd( 4 );
+				d2.setEdgeEnd( 3 );
 				d3.switchMode( false );
 				d3.setPosition( 1 );
 				d3.setEdgeStart( 2 );
-				d3.setEdgeEnd( 3 );
+				d3.setEdgeEnd( 2 );
 				break;
 			case 3 :
 				d1.setPosition( 2 );
-				d1.setEdgeStart( 1 );
+				d1.setEdgeStart( 2 );
 				d1.setEdgeEnd( 4 );
 				d2.switchMode( false );
 				d2.setPosition( 1 );
 				d2.setEdgeStart( 2 );
-				d2.setEdgeEnd( 4 );
+				d2.setEdgeEnd( 3 );
 				d3.switchMode( false );
 				d3.setPosition( 2 );
-				d3.setEdgeStart( 2 );
+				d3.setEdgeStart( 3 );
 				d3.setEdgeEnd( 3 );
 				break;
 			case 4 :
 				d1.setPosition( 2 );
-				d1.setEdgeStart( 1 );
+				d1.setEdgeStart( 2 );
 				d1.setEdgeEnd( 4 );
 				d2.switchMode( false );
 				d2.setPosition( 2 );
-				d2.setEdgeStart( 2 );
+				d2.setEdgeStart( 4 );
 				d2.setEdgeEnd( 4 );
 				d3.switchMode( true );
 				break;

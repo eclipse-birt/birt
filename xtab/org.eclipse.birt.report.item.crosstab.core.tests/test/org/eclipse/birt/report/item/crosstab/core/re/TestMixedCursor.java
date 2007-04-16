@@ -29,23 +29,8 @@ public class TestMixedCursor
 	{
 		try
 		{
-			// DummyDimensionCursor ddc1 = new DummyDimensionCursor( 2 );
-			// DummyDimensionCursor ddc2 = new DummyDimensionCursor( 2 );
-			// DummyDimensionCursor ddc3 = new DummyDimensionCursor( 2 );
-			//
-			// MixedEdgeCursor dec = new MixedEdgeCursor( 5 );
-			// dec.addDimensionCursor( ddc1 );
-			// dec.addDimensionCursor( ddc2 );
-			// dec.addSegmentDimensionCursor( ddc3, 3, 4);
-			//
-			// DummyCubeCursor dcc = new DummyCubeCursor( );
-			// dcc.addOrdinateEdgeCursor( dec );
-
-			// ===========test================
-
-			// EdgeCursor ec = (EdgeCursor) dcc.getOrdinateEdge( ).get( 0 );
 			EdgeCursor ec = new SimpleMixedEdgeCursor( );
-			
+
 			List dcs = ec.getDimensionCursor( );
 
 			ec.beforeFirst( );
@@ -54,12 +39,12 @@ public class TestMixedCursor
 				for ( Iterator itr = dcs.iterator( ); itr.hasNext( ); )
 				{
 					DimensionCursor dc = (DimensionCursor) itr.next( );
-					System.out.print( "=== " + dc.getPosition( ) );
-					System.out.print( ", === " + dc.getEdgeStart( ) );
-					System.out.println( ", === " + dc.getEdgeEnd( ) );
+					System.out.print( "=== " + dc.getPosition( ) ); //$NON-NLS-1$
+					System.out.print( ", === " + dc.getEdgeStart( ) ); //$NON-NLS-1$
+					System.out.println( ", === " + dc.getEdgeEnd( ) ); //$NON-NLS-1$
 				}
 
-				System.out.println( "========" );
+				System.out.println( "=============" ); //$NON-NLS-1$
 			}
 		}
 		catch ( OLAPException e )
