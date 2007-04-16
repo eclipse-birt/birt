@@ -71,9 +71,9 @@ public final class PlotWith2DAxes extends PlotWithAxes
 	 * unused.
 	 */
 	private StackedSeriesLookup ssl = null;
-	
+
 	private int iMarginPercent = 0;
-	
+
 	private Bounds boPlotWithMargin = BoundsImpl.create( 0, 0, 100, 100 );
 
 	/**
@@ -851,7 +851,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		{
 			boPlotBackground.delta( dSeriesThickness, -dSeriesThickness, 0, 0 );
 		}
-		
+
 		boPlotWithMargin = BoundsImpl.copyInstance( boPlotBackground );
 		if ( iMarginPercent > 0 )
 		{
@@ -871,12 +871,12 @@ public final class PlotWith2DAxes extends PlotWithAxes
 								* ( asDouble( scale.getMinimum( ) ).doubleValue( ) - asDouble( scale.getMinWithMargin( ) ).doubleValue( ) ) );
 					}
 					boPlotWithMargin.setWidth( factor
-							* ( asDouble( scale.getMaxWithMargin( ) == null
-									? scale.getMaximum( )
-									: scale.getMaxWithMargin( ) ).doubleValue( ) - asDouble( scale.getMinWithMargin( ) == null
-									? scale.getMinimum( )
+							* ( asDouble( scale.getMaxWithMargin( ) == null ? scale.getMaximum( )
+									: scale.getMaxWithMargin( ) ).doubleValue( ) - asDouble( scale.getMinWithMargin( ) == null ? scale.getMinimum( )
 									: scale.getMinWithMargin( ) ).doubleValue( ) )
-							+ insCA.getLeft( ) + insCA.getRight( ) + 1 );
+							+ insCA.getLeft( )
+							+ insCA.getRight( )
+							+ 1 );
 				}
 			}
 
@@ -895,17 +895,17 @@ public final class PlotWith2DAxes extends PlotWithAxes
 								* ( asDouble( scale.getMaxWithMargin( ) ).doubleValue( ) - asDouble( scale.getMaximum( ) ).doubleValue( ) ) );
 					}
 					boPlotWithMargin.setHeight( factor
-							* ( asDouble( scale.getMaxWithMargin( ) == null
-									? scale.getMaximum( )
-									: scale.getMaxWithMargin( ) ).doubleValue( ) - asDouble( scale.getMinWithMargin( ) == null
-									? scale.getMinimum( )
+							* ( asDouble( scale.getMaxWithMargin( ) == null ? scale.getMaximum( )
+									: scale.getMaxWithMargin( ) ).doubleValue( ) - asDouble( scale.getMinWithMargin( ) == null ? scale.getMinimum( )
 									: scale.getMinWithMargin( ) ).doubleValue( ) )
-							+ insCA.getTop( ) + insCA.getBottom( ) + 1 );
+							+ insCA.getTop( )
+							+ insCA.getBottom( )
+							+ 1 );
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 * Returns the plot bounds with margin area. Only valid when margin percent
 	 * is set, otherwise will return plot bounds.
@@ -1928,7 +1928,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					}
 				}
 				lo = LocationImpl.create( dX, dY );
-				
+
 				// Compute the offset between two ticks
 				double dLength = 0;
 				for ( int j = 0; j < iTickCount - 1; j++ )
@@ -1936,8 +1936,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					if ( aax.areAxesSwapped( ) )
 					{
 						// Coordinates array is ordered by descending
-						if ( dY >= daTickCoordinates[j + 1]
-								&& dY <= daTickCoordinates[j] )
+						if ( ( dY <= daTickCoordinates[j] && dY >= daTickCoordinates[j + 1] )
+								|| ( dY <= daTickCoordinates[j + 1] && dY >= daTickCoordinates[j] ) )
 						{
 							// Keep the negative value
 							dLength = daTickCoordinates[j + 1]
@@ -1947,8 +1947,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					}
 					else
 					{
-						if ( dX <= daTickCoordinates[j + 1]
-								&& dX >= daTickCoordinates[j] )
+						if ( ( dX <= daTickCoordinates[j + 1] && dX >= daTickCoordinates[j] )
+								|| ( dX <= daTickCoordinates[j] && dX >= daTickCoordinates[j + 1] ) )
 						{
 							dLength = daTickCoordinates[j + 1]
 									- daTickCoordinates[j];
@@ -2016,7 +2016,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 	{
 		return ssl;
 	}
-	
+
 	public void addMargin( int percent )
 	{
 		if ( percent > 0 )
