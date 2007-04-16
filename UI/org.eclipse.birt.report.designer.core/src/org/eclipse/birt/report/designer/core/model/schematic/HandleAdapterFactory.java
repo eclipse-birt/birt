@@ -542,10 +542,25 @@ public class HandleAdapterFactory
 	 * @param obj
 	 *            Key to find the adapter
 	 */
+	public void remove( Object obj, IModelAdapterHelper mark )
+	{
+		DesignElementHandleAdapter adapter = (DesignElementHandleAdapter) map.get( obj );
+		if (adapter != null && (mark == null || adapter.getModelAdaptHelper() == mark))
+		{
+			map.remove( obj );
+		}	
+		removeRelated(obj);
+	}
+	
+	/**
+	 * Remove cached adapter
+	 * 
+	 * @param obj
+	 *            Key to find the adapter
+	 */
 	public void remove( Object obj )
 	{
-		removeRelated(obj);
-		map.remove( obj );
+		remove( obj, null );
 	}
 
 	/**

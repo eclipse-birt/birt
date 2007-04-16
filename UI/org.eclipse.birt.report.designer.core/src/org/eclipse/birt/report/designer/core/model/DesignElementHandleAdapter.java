@@ -136,7 +136,7 @@ public abstract class DesignElementHandleAdapter
 	/**
 	 * @return
 	 */
-	protected IModelAdapterHelper getModelAdaptHelper( )
+	public IModelAdapterHelper getModelAdaptHelper( )
 	{
 		return helper;
 	}
