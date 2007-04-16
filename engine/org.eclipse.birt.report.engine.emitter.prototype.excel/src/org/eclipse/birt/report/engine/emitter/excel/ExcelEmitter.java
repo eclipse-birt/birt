@@ -18,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -100,7 +101,9 @@ public class ExcelEmitter implements IContentEmitter
 	private List charts = new ArrayList( );
 
 	private ChartConverter chartConverter = new ChartConverter( );
-
+    
+	private Hashtable bookmarkList = new Hashtable( );
+	
 	public void end( IReportContent report )
 	{
 		try
@@ -306,7 +309,7 @@ public class ExcelEmitter implements IContentEmitter
 
 	public void startAutoText( IAutoTextContent autoText )
 	{
-		String url = parseHyperLink( autoText );
+		HyperlinkDef url = parseHyperLink( autoText );
 		addData( autoText.getGenerateBy( ), autoText.getComputedStyle( ), url,
 				autoText.getText( ) );
 	}
@@ -317,7 +320,8 @@ public class ExcelEmitter implements IContentEmitter
 
 		if ( design.getContentCount( ) == 0 )
 		{
-			addData( design, cell.getComputedStyle( ), null, EMPTY );
+			HyperlinkDef url = parseHyperLink( cell );
+			addData( design, cell.getComputedStyle( ), url, EMPTY );
 		}
 	}
 
@@ -333,7 +337,7 @@ public class ExcelEmitter implements IContentEmitter
 
 	public void startData( IDataContent data )
 	{
-		String url = parseHyperLink( data );
+		HyperlinkDef url = parseHyperLink( data );
 		addData( data.getGenerateBy( ), data.getComputedStyle( ), url, data
 				.getText( ) );		
 	}
@@ -399,7 +403,7 @@ public class ExcelEmitter implements IContentEmitter
 			design = ( (IContent) container ).getGenerateBy( );
 		}
 
-		String url = parseHyperLink( label );
+		HyperlinkDef url = parseHyperLink( label );
 
 		addData( design, label.getComputedStyle( ), url, label.getText( ) );		
 	}
@@ -498,7 +502,7 @@ public class ExcelEmitter implements IContentEmitter
 	 *            element's value
 	 */
 
-	private void addData( Object design, IStyle style, String url, String txt )
+	private void addData( Object design, IStyle style, HyperlinkDef url, String txt )
 	{
 		Span span = (Span) design2ExcelSpan.get( design );
 		
@@ -517,6 +521,15 @@ public class ExcelEmitter implements IContentEmitter
 		for ( int col = span.getCol( ); col < span.getCol( )
 				+ span.getColSpan( ) + 1; col++ )
 		{
+			if ( url != null && url.getBookmark( ) != null )
+			{
+				String cellID = convertCharacter( col )
+						+ ( lb.getListSize( col ) + 1 );
+				if ( bookmarkList.get( url.getBookmark( ) ) == null )
+				{
+					bookmarkList.put( url.getBookmark( ), cellID );
+				}
+			}
 			lb.add( col, data );
 		}
 
@@ -543,7 +556,15 @@ public class ExcelEmitter implements IContentEmitter
 			engine.calculateTopStyles( );
 		}	
 	}
+	
+	private String convertCharacter( int num )
+	{
 
+		char base = (char) ( num + 64 );
+		Character cha = new Character( base );
+		return cha.toString( );
+	}
+	
 	private int getMaxLenght( int from, int to )
 	{
 		int max = lb.getListSize( from );
@@ -559,18 +580,23 @@ public class ExcelEmitter implements IContentEmitter
 		return max;
 	}
 
-	private String parseHyperLink( IContent content )
+	private HyperlinkDef parseHyperLink( IContent content )
 	{
 		IHyperlinkAction linkaction = content.getHyperlinkAction( );
+
 		if ( linkaction != null )
 		{
 			if ( linkaction.getType( ) == IHyperlinkAction.ACTION_BOOKMARK )
 			{
-				return linkaction.getBookmark( ).replaceAll( " ", "_" );
+				return new HyperlinkDef( linkaction.getBookmark( ).replaceAll(
+						" ", "_" ), IHyperlinkAction.ACTION_BOOKMARK, null );
+
 			}
 			else if ( linkaction.getType( ) == IHyperlinkAction.ACTION_HYPERLINK )
 			{
-				return linkaction.getHyperlink( );
+
+				return new HyperlinkDef( linkaction.getHyperlink( ),
+						IHyperlinkAction.ACTION_HYPERLINK, null );
 			}
 			else if ( linkaction.getType( ) == IHyperlinkAction.ACTION_DRILLTHROUGH )
 			{
@@ -583,15 +609,38 @@ public class ExcelEmitter implements IContentEmitter
 				{
 					actionHandler = (IHTMLActionHandler) ac;
 					actionHandler.getURL( act, null );
-					return actionHandler.getURL( act, eservice
-							.getReportContext( ) );
-
+					return new HyperlinkDef( actionHandler.getURL( act,
+							eservice.getReportContext( ) ),
+							IHyperlinkAction.ACTION_DRILLTHROUGH, null );
 				}
 			}
 		}
+		else if ( getBookMark( content ) != null )
+		{
+			return getBookMark( content );
+		}
+
 		return null;
 	}
+	
+	public HyperlinkDef getBookMark( IContent content )
+	{
+		if ( content.getBookmark( ) != null
+				&& !( content.getBookmark( ).startsWith( "__TOC" ) ) )
+		{
+			return new HyperlinkDef( null, -1, content.getBookmark( ) );
+		}
+		else
+		{
+			if ( content.getParent( ) == null )
+			{
+				return null;
+			}
 
+			return getBookMark( (IContent) content.getParent( ) );
+		}
+	}
+	
 	/**
 	 *  synchronize to make all columns's size is same.  
 	 * 
@@ -615,16 +664,26 @@ public class ExcelEmitter implements IContentEmitter
 			}
 		}
 	}
+	
+	private String getUrlAddr( String bookmark )
+	{
+		if ( bookmarkList.get( bookmark ) == null )
+		{
+			return null;
+		}
+		else
+		{
+			return (String) bookmarkList.get( bookmark );
+		}
 
+	}
+	
 	private void writeDatas( ExcelWriter writer )
 	{
 		try
 		{
 			Object[] os;
 			lb.open( );
-
-			writer.startRow( );
-			writer.endRow( );
 
 			while ( lb.more( ) )
 			{
@@ -634,7 +693,14 @@ public class ExcelEmitter implements IContentEmitter
 				for ( int i = 0; i < os.length; i++ )
 				{
 					Data d = (Data) os[i];
-
+					
+					HyperlinkDef def = d.getHyperlinkDef( );
+					if ( def != null
+							&& def.getType( ) == IHyperlinkAction.ACTION_BOOKMARK )
+					{
+						def.setUrl( (String) bookmarkList.get( def.getUrl( ) ) );
+					}
+					
 					Object o = formulaDatas.get( d );
 					if ( o != null )
 					{
