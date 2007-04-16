@@ -147,6 +147,7 @@ ColumnBindingDialog.Label.DataSet=Conjunto de datos:
 ColumnBindingDialog.Column.Expression=Expresión
 ColumnBindingDialog.DialogTitle=Seleccionar enlace de datos
 ColumnBindingDialog.Column.Name=Nombre
+ColumnBindingDialog.Column.displayName=Display Name
 ColumnBindingDialog.InputPrompt=<Introduzca el nuevo valor aquí...>
 ColumnBindingDialog.Button.Generate=Generar enlaces de columna
 ColumnBindingDialog.Column.DataType=Tipo de datos
@@ -208,15 +209,8 @@ ButtonPaneComposite.tooltip.Ruler=Regla
 ###########################################################
 #CachePreferencePage properties
 
-CachePreferencePage.button.clear=&Borrar caché
-CachePreferencePage.checkBox.text=Los datos de la cac&hé establecen los datos para la vista previa del informe
-CachePreferencePage.description=Definir tamaño de caché:
-CachePreferencePage.Filter.Tooltip=Utilizar caché en o fuera del conjunto de datos
-CachePreferencePage.label.text=filas
-CachePreferencePage.messageBox.info=Se ha borrado la caché
-CachePreferencePage.messageBox.title=Caché borrada
-CachePreferencePage.radioBox.entireNumText=Guardar en caché &todo el conjunto de datos
-CachePreferencePage.radioBox.numText=Guardar en caché y &usar primero
+SettingsPage.label.text=Please input the number of rows fetched from database:
+dataset.editor.settingsPage=Settings
 
 ###########################################################
 #CascadingParametersDialog properties
@@ -389,8 +383,8 @@ DataPageGenerator.TabItem.map=Asignar
 #dataset properties
 
 dataset.edit=Editar conjunto de datos - {0}
-dataset.editor.cachePreference.errorNumberFormat=Introduzca un número mayor que cero para el tamaño de la fila de caché
-dataset.editor.cachePreference=Preferencia de caché
+dataset.editor.settings.errorNumberFormat=Introduzca un número mayor que cero para el tamaño de la fila de caché
+dataset.editor.settings=Preferencia de caché
 dataset.editor.computedColumns=Columnas procesadas
 dataset.editor.dataSource.Tooltip=Ver/cambiar fuente de datos
 dataset.editor.dataSource=Fuente de datos
@@ -3495,6 +3489,7 @@ IDEFileReportProvider.ReadOnlyEncounter.Message=El archivo ''{0}'' es de sólo le
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=Nombre
+DataSetColumnBindingsFormHandleProvider.Column.displayName=Display Name
 DataSetColumnBindingsFormHandleProvider.TableTitle=Enlace de columna de datos:
 DataSetColumnBindingsFormHandleProvider.NewBinding=Nuevo enlace  
 DataSetColumnBindingsFormHandleProvider.Column.DataType=Tipo de datos
@@ -3575,6 +3570,7 @@ AddJarResourceFileFolderSelectionDialog.ErrorMessage.ExtError=El nombre de archi
 #DataItemBindingDialog properties
 
 DataItemBindingDialog.text.Name=Nombre:
+DataItemBindingDialog.text.displayName=DisplayName:
 DataItemBindingDialog.text.DataType=Tipo de datos:
 DataItemBindingDialog.text.Expression=Expresión:
 DataItemBindingDialog.text.AggregateOn=Agregar en:

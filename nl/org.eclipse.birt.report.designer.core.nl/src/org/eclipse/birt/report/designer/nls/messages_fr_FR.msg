@@ -147,6 +147,7 @@ ColumnBindingDialog.Label.DataSet=Jeu de données :
 ColumnBindingDialog.Column.Expression=Expression
 ColumnBindingDialog.DialogTitle=Sélectionner la liaison de données
 ColumnBindingDialog.Column.Name=Nom
+ColumnBindingDialog.Column.displayName=Display Name
 ColumnBindingDialog.InputPrompt=<Entrer la nouvelle valeur ici...>
 ColumnBindingDialog.Button.Generate=Générer des liaisons de colonne
 ColumnBindingDialog.Column.DataType=Type de données
@@ -208,15 +209,8 @@ ButtonPaneComposite.tooltip.Ruler=Règle
 ###########################################################
 #CachePreferencePage properties
 
-CachePreferencePage.button.clear=Vider le &cache
-CachePreferencePage.checkBox.text=Mettre en cac&he les données des jeux de données pour la prévisualisation de l'état
-CachePreferencePage.description=Définir la taille du cache :
-CachePreferencePage.Filter.Tooltip=Inclure ou exclure le cache de votre jeu de données
-CachePreferencePage.label.text=lignes
-CachePreferencePage.messageBox.info=Le cache a été vidé.
-CachePreferencePage.messageBox.title=Cache vide
-CachePreferencePage.radioBox.entireNumText=M&ettre en cache l'ensemble du jeu de données
-CachePreferencePage.radioBox.numText=Mettre en cache et &utiliser en premier
+SettingsPage.label.text=Please input the number of rows fetched from database:
+dataset.editor.settingsPage=Settings
 
 ###########################################################
 #CascadingParametersDialog properties
@@ -389,8 +383,8 @@ DataPageGenerator.TabItem.map=Mappage
 #dataset properties
 
 dataset.edit=Modifier le jeu de données - {0}
-dataset.editor.cachePreference.errorNumberFormat=Entrez un nombre supérieur à zéro pour la taille des lignes en cache
-dataset.editor.cachePreference=Préférences de cache
+dataset.editor.settings.errorNumberFormat=Entrez un nombre supérieur à zéro pour la taille des lignes en cache
+dataset.editor.settings=Préférences de cache
 dataset.editor.computedColumns=Colonnes de calcul
 dataset.editor.dataSource.Tooltip=Afficher/modifier la source de données
 dataset.editor.dataSource=Source de données
@@ -3495,6 +3489,7 @@ IDEFileReportProvider.ReadOnlyEncounter.Message=Le fichier ''{0}'' est en lectur
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=Nom
+DataSetColumnBindingsFormHandleProvider.Column.displayName=Display Name
 DataSetColumnBindingsFormHandleProvider.TableTitle=Liaison de colonne de données :
 DataSetColumnBindingsFormHandleProvider.NewBinding=Nouvelle liaison  
 DataSetColumnBindingsFormHandleProvider.Column.DataType=Type de données
@@ -3575,6 +3570,7 @@ AddJarResourceFileFolderSelectionDialog.ErrorMessage.ExtError=Le nom de fichier 
 #DataItemBindingDialog properties
 
 DataItemBindingDialog.text.Name=Nom :
+DataItemBindingDialog.text.displayName=DisplayName:
 DataItemBindingDialog.text.DataType=Type de données :
 DataItemBindingDialog.text.Expression=Expression :
 DataItemBindingDialog.text.AggregateOn=Regrouper par :

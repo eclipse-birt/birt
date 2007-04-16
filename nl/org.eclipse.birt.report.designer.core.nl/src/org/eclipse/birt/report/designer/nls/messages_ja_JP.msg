@@ -147,6 +147,7 @@ ColumnBindingDialog.Label.DataSet=ƒf[ƒ^ƒZƒbƒg :
 ColumnBindingDialog.Column.Expression=®
 ColumnBindingDialog.DialogTitle=ƒf[ƒ^ƒoƒCƒ“ƒh‚Ì‘I‘ğ
 ColumnBindingDialog.Column.Name=–¼‘O
+ColumnBindingDialog.Column.displayName=Display Name
 ColumnBindingDialog.InputPrompt=<‚±‚±‚ÉV‚µ‚¢’l‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢...>
 ColumnBindingDialog.Button.Generate=ƒJƒ‰ƒ€ƒoƒCƒ“ƒh‚Ì¶¬
 ColumnBindingDialog.Column.DataType=ƒf[ƒ^Œ^
@@ -208,15 +209,8 @@ ButtonPaneComposite.tooltip.Ruler=ƒ‹[ƒ‰
 ###########################################################
 #CachePreferencePage properties
 
-CachePreferencePage.button.clear=ƒLƒƒƒbƒVƒ…‚ÌƒNƒŠƒA(&C)
-CachePreferencePage.checkBox.text=ƒŒƒ|[ƒg‚ğƒvƒŒƒrƒ…[‚·‚é‚½‚ß‚Éƒf[ƒ^ƒZƒbƒg‚Ìƒf[ƒ^‚ğƒLƒƒƒbƒVƒ…‚·‚é(&H)
-CachePreferencePage.description=ƒLƒƒƒbƒVƒ…ƒTƒCƒY‚Ì’è‹` :
-CachePreferencePage.Filter.Tooltip=ƒf[ƒ^ƒZƒbƒg‚ÌƒLƒƒƒbƒVƒ…‚ğg—p‚µ‚Ü‚·B
-CachePreferencePage.label.text=s
-CachePreferencePage.messageBox.info=ƒLƒƒƒbƒVƒ…‚ªƒNƒŠƒA‚³‚ê‚Ü‚µ‚½B
-CachePreferencePage.messageBox.title=ƒLƒƒƒbƒVƒ…‚ÌƒNƒŠƒA
-CachePreferencePage.radioBox.entireNumText=ƒf[ƒ^ƒZƒbƒg‘S‘Ì‚ğƒLƒƒƒbƒVƒ…‚·‚é(&E)
-CachePreferencePage.radioBox.numText=ƒLƒƒƒbƒVƒ…‚µ‚ÄÅ‰‚Ég—p‚·‚é(&U)
+SettingsPage.label.text=Please input the number of rows fetched from database:
+dataset.editor.settingsPage=Settings
 
 ###########################################################
 #CascadingParametersDialog properties
@@ -389,8 +383,8 @@ DataPageGenerator.TabItem.map=ƒ}ƒbƒv
 #dataset properties
 
 dataset.edit=ƒf[ƒ^ƒZƒbƒg‚Ì•ÒW - {0}
-dataset.editor.cachePreference.errorNumberFormat=ƒLƒƒƒbƒVƒ…‚ÌsƒTƒCƒY‚É‚ÍA0 ‚æ‚è‚à‘å‚«‚¢”’l‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
-dataset.editor.cachePreference=ƒLƒƒƒbƒVƒ…‚Ìİ’è
+dataset.editor.settings.errorNumberFormat=ƒLƒƒƒbƒVƒ…‚ÌsƒTƒCƒY‚É‚ÍA0 ‚æ‚è‚à‘å‚«‚¢”’l‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
+dataset.editor.settings=ƒLƒƒƒbƒVƒ…‚Ìİ’è
 dataset.editor.computedColumns=ŒvZ—ñ
 dataset.editor.dataSource.Tooltip=ƒf[ƒ^ƒ\[ƒX‚Ì•\¦‚Æ•ÏX
 dataset.editor.dataSource=ƒf[ƒ^ƒ\[ƒX
@@ -3495,6 +3489,7 @@ IDEFileReportProvider.ReadOnlyEncounter.Message=ƒtƒ@ƒCƒ‹ ''{0}'' ‚Í“Ç‚İæ‚èê—p‚
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=–¼‘O
+DataSetColumnBindingsFormHandleProvider.Column.displayName=Display Name
 DataSetColumnBindingsFormHandleProvider.TableTitle=ƒf[ƒ^ƒJƒ‰ƒ€‚ÌƒoƒCƒ“ƒh :
 DataSetColumnBindingsFormHandleProvider.NewBinding=V‹KƒoƒCƒ“ƒh  
 DataSetColumnBindingsFormHandleProvider.Column.DataType=ƒf[ƒ^Œ^
@@ -3575,6 +3570,7 @@ AddJarResourceFileFolderSelectionDialog.ErrorMessage.ExtError=ƒtƒ@ƒCƒ‹–¼‚ÌŠg’£q
 #DataItemBindingDialog properties
 
 DataItemBindingDialog.text.Name=–¼‘O :
+DataItemBindingDialog.text.displayName=DisplayName:
 DataItemBindingDialog.text.DataType=ƒf[ƒ^Œ^ :
 DataItemBindingDialog.text.Expression=® :
 DataItemBindingDialog.text.AggregateOn=WŒvğŒ :

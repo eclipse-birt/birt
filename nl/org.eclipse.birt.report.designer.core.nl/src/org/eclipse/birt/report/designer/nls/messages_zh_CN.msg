@@ -147,6 +147,7 @@ ColumnBindingDialog.Label.DataSet=Êı¾İ¼¯:
 ColumnBindingDialog.Column.Expression=±í´ïÊ½
 ColumnBindingDialog.DialogTitle=Ñ¡ÔñÊı¾İ°ó¶¨
 ColumnBindingDialog.Column.Name=Ãû³Æ
+ColumnBindingDialog.Column.displayName=Display Name
 ColumnBindingDialog.InputPrompt=<ÔÚ´Ë´¦ÊäÈëĞÂÖµ...>
 ColumnBindingDialog.Button.Generate=Éú³ÉÁĞ°ó¶¨
 ColumnBindingDialog.Column.DataType=Êı¾İÀàĞÍ
@@ -208,15 +209,8 @@ ButtonPaneComposite.tooltip.Ruler=±ê³ß
 ###########################################################
 #CachePreferencePage properties
 
-CachePreferencePage.button.clear=Çå³ı»º´æ(&C)
-CachePreferencePage.checkBox.text=»º´æÊı¾İ¼¯Êı¾İÒÔ±ã½øĞĞ±¨±íÔ¤ÀÀ(&H)
-CachePreferencePage.description=¶¨Òå»º´æ´óĞ¡:
-CachePreferencePage.Filter.Tooltip=Ê¹ÓÃ»º´æ½«Êı¾İ´«Èë»ò´«³öÊı¾İ¼¯
-CachePreferencePage.label.text=ĞĞ
-CachePreferencePage.messageBox.info=»º´æÒÑ±»Çå³ı
-CachePreferencePage.messageBox.title=»º´æÇå³ı
-CachePreferencePage.radioBox.entireNumText=»º´æÕû¸öÊı¾İ¼¯(&E)
-CachePreferencePage.radioBox.numText=»º´æºÍÊ¹ÓÃµÚÒ»¸ö(&U)
+SettingsPage.label.text=Please input the number of rows fetched from database:
+dataset.editor.settingsPage=Settings
 
 ###########################################################
 #CascadingParametersDialog properties
@@ -389,8 +383,8 @@ DataPageGenerator.TabItem.map=Ó³Éä
 #dataset properties
 
 dataset.edit=±à¼­Êı¾İ¼¯ - {0}
-dataset.editor.cachePreference.errorNumberFormat=ÇëÎª»º´æĞĞ´óĞ¡ÊäÈëÒ»¸ö´óÓÚÁãµÄÊı¡£
-dataset.editor.cachePreference=»º´æÊ×Ñ¡Ïî
+dataset.editor.settings.errorNumberFormat=ÇëÎª»º´æĞĞ´óĞ¡ÊäÈëÒ»¸ö´óÓÚÁãµÄÊı¡£
+dataset.editor.settings=»º´æÊ×Ñ¡Ïî
 dataset.editor.computedColumns=¼ÆËãÁĞ
 dataset.editor.dataSource.Tooltip=²é¿´/¸ü¸ÄÊı¾İÔ´
 dataset.editor.dataSource=Êı¾İÔ´
@@ -3495,6 +3489,7 @@ IDEFileReportProvider.ReadOnlyEncounter.Message=ÎÄ¼ş¡°{0}¡±ÎªÖ»¶Á£¬ÇëÊ×ÏÈÈ·±£Ëü¿
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=Ãû³Æ
+DataSetColumnBindingsFormHandleProvider.Column.displayName=Display Name
 DataSetColumnBindingsFormHandleProvider.TableTitle=Êı¾İÁĞ°ó¶¨:
 DataSetColumnBindingsFormHandleProvider.NewBinding=ĞÂ°ó¶¨  
 DataSetColumnBindingsFormHandleProvider.Column.DataType=Êı¾İÀàĞÍ
@@ -3575,6 +3570,7 @@ AddJarResourceFileFolderSelectionDialog.ErrorMessage.ExtError=ÎÄ¼şÃû±ØĞëÒÔ .jar 
 #DataItemBindingDialog properties
 
 DataItemBindingDialog.text.Name=Ãû³Æ:
+DataItemBindingDialog.text.displayName=DisplayName:
 DataItemBindingDialog.text.DataType=Êı¾İÀàĞÍ:
 DataItemBindingDialog.text.Expression=±í´ïÊ½:
 DataItemBindingDialog.text.AggregateOn=¾ÛºÏÌõ¼ş:

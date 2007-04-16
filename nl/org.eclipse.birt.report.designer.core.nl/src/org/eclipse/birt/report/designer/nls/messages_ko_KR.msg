@@ -147,6 +147,7 @@ ColumnBindingDialog.Label.DataSet=데이터 집합:
 ColumnBindingDialog.Column.Expression=식
 ColumnBindingDialog.DialogTitle=데이터 바인딩 선택
 ColumnBindingDialog.Column.Name=이름
+ColumnBindingDialog.Column.displayName=Display Name
 ColumnBindingDialog.InputPrompt=<여기에 새 값 입력...>
 ColumnBindingDialog.Button.Generate=열 바인딩 생성
 ColumnBindingDialog.Column.DataType=데이터 형식
@@ -208,15 +209,8 @@ ButtonPaneComposite.tooltip.Ruler=눈금자
 ###########################################################
 #CachePreferencePage properties
 
-CachePreferencePage.button.clear=캐시 지우기(&C)
-CachePreferencePage.checkBox.text=보고서 미리 보기용 데이터 집합 데이터 캐시(&H)
-CachePreferencePage.description=캐시 크기 정의:
-CachePreferencePage.Filter.Tooltip=데이터 집합 안이나 밖에서 캐시 사용
-CachePreferencePage.label.text=행
-CachePreferencePage.messageBox.info=캐시가 지워졌습니다.
-CachePreferencePage.messageBox.title=캐시 지우기
-CachePreferencePage.radioBox.entireNumText=전체 데이터 집합 캐시(&E)
-CachePreferencePage.radioBox.numText=먼저 캐시 후 사용(&U)
+SettingsPage.label.text=Please input the number of rows fetched from database:
+dataset.editor.settingsPage=Settings
 
 ###########################################################
 #CascadingParametersDialog properties
@@ -389,8 +383,8 @@ DataPageGenerator.TabItem.map=맵
 #dataset properties
 
 dataset.edit=데이터 집합 편집 - {0}
-dataset.editor.cachePreference.errorNumberFormat=캐시 행 크기에 0보다 큰 숫자를 입력하십시오.
-dataset.editor.cachePreference=캐시 기본 설정
+dataset.editor.settings.errorNumberFormat=캐시 행 크기에 0보다 큰 숫자를 입력하십시오.
+dataset.editor.settings=캐시 기본 설정
 dataset.editor.computedColumns=계산 열
 dataset.editor.dataSource.Tooltip=데이터 원본 보기/변경
 dataset.editor.dataSource=데이터 원본
@@ -3495,6 +3489,7 @@ IDEFileReportProvider.ReadOnlyEncounter.Message=''{0}'' 파일은 읽기 전용입니다. 
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=이름
+DataSetColumnBindingsFormHandleProvider.Column.displayName=Display Name
 DataSetColumnBindingsFormHandleProvider.TableTitle=데이터 열 바인딩:
 DataSetColumnBindingsFormHandleProvider.NewBinding=새 바인딩  
 DataSetColumnBindingsFormHandleProvider.Column.DataType=데이터 형식
@@ -3575,6 +3570,7 @@ AddJarResourceFileFolderSelectionDialog.ErrorMessage.ExtError=파일 이름은 .jar로
 #DataItemBindingDialog properties
 
 DataItemBindingDialog.text.Name=이름:
+DataItemBindingDialog.text.displayName=DisplayName:
 DataItemBindingDialog.text.DataType=데이터 형식:
 DataItemBindingDialog.text.Expression=식:
 DataItemBindingDialog.text.AggregateOn=집계 대상:

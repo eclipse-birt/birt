@@ -147,6 +147,7 @@ ColumnBindingDialog.Label.DataSet=Datensatz:
 ColumnBindingDialog.Column.Expression=Ausdruck
 ColumnBindingDialog.DialogTitle=Datenbindung auswählen
 ColumnBindingDialog.Column.Name=Name
+ColumnBindingDialog.Column.displayName=Display Name
 ColumnBindingDialog.InputPrompt=<Hier den neuen Wert eingeben...>
 ColumnBindingDialog.Button.Generate=Spaltenbindungen generieren
 ColumnBindingDialog.Column.DataType=Datentyp
@@ -208,15 +209,8 @@ ButtonPaneComposite.tooltip.Ruler=Regler
 ###########################################################
 #CachePreferencePage properties
 
-CachePreferencePage.button.clear=&Cache löschen
-CachePreferencePage.checkBox.text=&Daten aus Datensatz für Berichtvorschau zwischenspeichern
-CachePreferencePage.description=Cache-Größe festlegen:
-CachePreferencePage.Filter.Tooltip=Cache in Datensatz importieren oder daraus exportieren
-CachePreferencePage.label.text=Zeilen verwenden
-CachePreferencePage.messageBox.info=Der Cache wurde gelöscht
-CachePreferencePage.messageBox.title=Cache gelöscht
-CachePreferencePage.radioBox.entireNumText=&Kompletten Datensatz zwischenspeichern
-CachePreferencePage.radioBox.numText=&Zwischenspeichern und zuerst verwenden
+SettingsPage.label.text=Please input the number of rows fetched from database:
+dataset.editor.settingsPage=Settings
 
 ###########################################################
 #CascadingParametersDialog properties
@@ -389,8 +383,8 @@ DataPageGenerator.TabItem.map=Zuordnung
 #dataset properties
 
 dataset.edit=Datensatz bearbeiten - {0}
-dataset.editor.cachePreference.errorNumberFormat=Geben Sie für die Zeilengröße des Caches eine Zahl ein, die größer als Null ist.
-dataset.editor.cachePreference=Voreinstellungen für Cache
+dataset.editor.settings.errorNumberFormat=Geben Sie für die Zeilengröße des Caches eine Zahl ein, die größer als Null ist.
+dataset.editor.settings=Voreinstellungen für Cache
 dataset.editor.computedColumns=Berechnete Spalten
 dataset.editor.dataSource.Tooltip=Datenquelle anzeigen/ändern
 dataset.editor.dataSource=Datenquelle
@@ -3495,6 +3489,7 @@ IDEFileReportProvider.ReadOnlyEncounter.Message=Datei ''{0}'' ist schreibgeschüt
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=Name
+DataSetColumnBindingsFormHandleProvider.Column.displayName=Display Name
 DataSetColumnBindingsFormHandleProvider.TableTitle=Datenspaltenbindung:
 DataSetColumnBindingsFormHandleProvider.NewBinding=Neue Bindung  
 DataSetColumnBindingsFormHandleProvider.Column.DataType=Datentyp
@@ -3575,6 +3570,7 @@ AddJarResourceFileFolderSelectionDialog.ErrorMessage.ExtError=Dateiname muss auf
 #DataItemBindingDialog properties
 
 DataItemBindingDialog.text.Name=Name:
+DataItemBindingDialog.text.displayName=DisplayName:
 DataItemBindingDialog.text.DataType=Datentyp:
 DataItemBindingDialog.text.Expression=Ausdruck:
 DataItemBindingDialog.text.AggregateOn=Aggregat ein:
