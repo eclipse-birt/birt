@@ -135,6 +135,7 @@ public class PDFPage implements IPage
 			float height, String repeat, String imageUrl, float absPosX,
 			float absPosY ) throws IOException
 	{
+		y = transformY( y );
 		cbUnder.saveState( );
 		Image img = null;
 		try
@@ -474,11 +475,12 @@ public class PDFPage implements IPage
 	public void drawTotalPage( String text, float textX, float textY, float width,
 			float height, TextStyle textInfo )
 	{
-		drawText( text, textX, textY, width, height, textInfo.getFontInfo( ),
-				textInfo.getCharacterSpacing( ), textInfo.getWordSpacing( ),
-				textInfo.getColor( ), textInfo.isLinethrough( ), textInfo
-						.isOverline( ), textInfo.isUnderline( ), textInfo
-						.getAlign( ), true );
+		if ( totalPageTemplate != null )
+			drawText( text, textX, textY, width, height,
+					textInfo.getFontInfo( ), textInfo.getCharacterSpacing( ),
+					textInfo.getWordSpacing( ), textInfo.getColor( ), textInfo
+							.isLinethrough( ), textInfo.isOverline( ), textInfo
+							.isUnderline( ), textInfo.getAlign( ), true );
 	}
 
 	public void createBookmark( String bookmark, float x, float y, float width,

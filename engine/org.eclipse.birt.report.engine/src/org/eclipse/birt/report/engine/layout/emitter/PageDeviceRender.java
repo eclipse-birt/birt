@@ -17,6 +17,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Stack;
 import java.util.logging.Level;
@@ -62,13 +63,13 @@ public abstract class PageDeviceRender implements IAreaVisitor
 
 	public static final float LAYOUT_TO_POINT_RATIO = 1 / 1000f;
 
-	public static final int H_TEXT_SPACE = 70;
+	public static final int H_TEXT_SPACE = 30;
 
 	public static final int V_TEXT_SPACE = 100;
 
 	protected float scale;
 
-	protected int hTextSpace = 70;
+	protected int hTextSpace = 30;
 
 	protected int vTextSpace = 100;
 
@@ -79,7 +80,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	float pageWidth;
 
 	protected IReportRunnable reportRunnable;
-	
+
 	protected ReportDesignHandle reportDesign;
 
 	protected IReportContext context;
@@ -97,6 +98,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 
 	protected class ContainerPosition
 	{
+
 		public float x;
 		public float y;
 
@@ -112,8 +114,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	 */
 	public abstract String getOutputFormat( );
 
-	public abstract IPageDevice createPageDevice( String title, IReportContext context, IReportContent report )
-			throws Exception;
+	public abstract IPageDevice createPageDevice( String title,
+			IReportContext context, IReportContent report ) throws Exception;
 
 	/**
 	 * Creates a document and create a PdfWriter
@@ -190,7 +192,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		}
 		endContainer( container );
 	}
-	
+
 	/**
 	 * If the container is a PageArea, this method creates a pdf page. If the
 	 * container is the other containerAreas, such as TableArea, or just the
@@ -426,59 +428,76 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			// the width of each border
 			float borderTopWidth = getPointValue( style
 					.getProperty( StyleConstants.STYLE_BORDER_TOP_WIDTH ) );
-			if ( borderTopWidth > 0 )
-			{
-				Color borderTopColor = PropertyUtil.getColor( style
-						.getProperty( StyleConstants.STYLE_BORDER_TOP_COLOR ) );
-				drawBorder( new BorderInfo( layoutX, layoutY + borderTopWidth
-						/ 2, layoutX + getWidth( container ), layoutY
-						+ borderTopWidth / 2, borderTopWidth, borderTopColor,
-						style.getProperty( IStyle.STYLE_BORDER_TOP_STYLE ),
-						BorderInfo.TOP_BORDER ) );
-			}
 			float borderLeftWidth = getPointValue( style
 					.getProperty( StyleConstants.STYLE_BORDER_LEFT_WIDTH ) );
-			if ( borderLeftWidth > 0 )
-			{
-				Color borderLeftColor = PropertyUtil.getColor( style
-						.getProperty( StyleConstants.STYLE_BORDER_LEFT_COLOR ) );
-				drawBorder( new BorderInfo( layoutX + borderLeftWidth / 2,
-						layoutY, layoutX + borderLeftWidth / 2, layoutY
-								+ getHeight( container ), borderLeftWidth,
-						borderLeftColor, style
-								.getProperty( IStyle.STYLE_BORDER_LEFT_STYLE ),
-						BorderInfo.LEFT_BORDER ) );
-
-			}
 			float borderBottomWidth = getPointValue( style
 					.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ) );
-			if ( borderBottomWidth > 0 )
-			{
-				Color borderBottomColor = PropertyUtil
-						.getColor( style
-								.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_COLOR ) );
-				drawBorder( new BorderInfo( layoutX, layoutY
-						+ getHeight( container ) - borderBottomWidth / 2,
-						layoutX + getWidth( container ), layoutY
-								+ getHeight( container ) - borderBottomWidth
-								/ 2, borderBottomWidth, borderBottomColor,
-						style.getProperty( IStyle.STYLE_BORDER_BOTTOM_STYLE ),
-						BorderInfo.BOTTOM_BORDER ) );
-			}
 			float borderRightWidth = getPointValue( style
 					.getProperty( StyleConstants.STYLE_BORDER_RIGHT_WIDTH ) );
-			if ( borderRightWidth > 0 )
+
+			if ( borderTopWidth > 0 || borderLeftWidth > 0
+					|| borderBottomWidth > 0 || borderRightWidth > 0 )
 			{
+				// the color of each border
+				Color borderTopColor = PropertyUtil.getColor( style
+						.getProperty( StyleConstants.STYLE_BORDER_TOP_COLOR ) );
 				Color borderRightColor = PropertyUtil
 						.getColor( style
 								.getProperty( StyleConstants.STYLE_BORDER_RIGHT_COLOR ) );
-				drawBorder( new BorderInfo( layoutX + getWidth( container )
-						- borderRightWidth / 2, layoutY, layoutX
-						+ getWidth( container ) - borderRightWidth / 2, layoutY
-						+ getHeight( container ), borderRightWidth,
+				Color borderBottomColor = PropertyUtil
+						.getColor( style
+								.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_COLOR ) );
+				Color borderLeftColor = PropertyUtil.getColor( style
+						.getProperty( StyleConstants.STYLE_BORDER_LEFT_COLOR ) );
+
+				// Caches the border info
+				BorderInfo[] borders = new BorderInfo[4];
+				borders[BorderInfo.TOP_BORDER] = new BorderInfo(
+						layoutX,
+						layoutY + borderTopWidth / 2,
+						layoutX + getWidth( container ),
+						layoutY + borderTopWidth / 2,
+						borderTopWidth,
+						borderTopColor,
+						style
+								.getProperty( StyleConstants.STYLE_BORDER_TOP_STYLE ),
+						BorderInfo.TOP_BORDER );
+				borders[BorderInfo.RIGHT_BORDER] = new BorderInfo(
+						layoutX + getWidth( container ) - borderRightWidth / 2,
+						layoutY,
+						layoutX + getWidth( container ) - borderRightWidth / 2,
+						layoutY + getHeight( container ),
+						borderRightWidth,
 						borderRightColor,
-						style.getProperty( IStyle.STYLE_BORDER_RIGHT_STYLE ),
-						BorderInfo.RIGHT_BORDER ) );
+						style
+								.getProperty( StyleConstants.STYLE_BORDER_RIGHT_STYLE ),
+						BorderInfo.RIGHT_BORDER );
+				borders[BorderInfo.BOTTOM_BORDER] = new BorderInfo(
+						layoutX,
+						layoutY + getHeight( container ) - borderBottomWidth
+								/ 2,
+						layoutX + getWidth( container ),
+						layoutY + getHeight( container ) - borderBottomWidth
+								/ 2,
+						borderBottomWidth,
+						borderBottomColor,
+						style
+								.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_STYLE ),
+						BorderInfo.BOTTOM_BORDER );
+				borders[BorderInfo.LEFT_BORDER] = new BorderInfo(
+						layoutX + borderLeftWidth / 2,
+						layoutY,
+						layoutX + borderLeftWidth / 2,
+						layoutY + getHeight( container ),
+						borderLeftWidth,
+						borderLeftColor,
+						style
+								.getProperty( StyleConstants.STYLE_BORDER_LEFT_STYLE ),
+						BorderInfo.LEFT_BORDER );
+
+				// Draws the four borders of the container if there are any.
+				// Each border is showed as a line.
+				drawBorder( borders );
 			}
 		}
 	}
@@ -543,8 +562,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	protected void drawTextAt( ITextArea text, float x, float y, float width,
 			float height, TextStyle textStyle )
 	{
-		pageGraphic.drawText( text.getText( ), x, y, width, height,
-					textStyle );
+		pageGraphic.drawText( text.getText( ), x, y, width, height, textStyle );
 	}
 
 	/**
@@ -599,13 +617,15 @@ public abstract class PageDeviceRender implements IAreaVisitor
 					in = new ByteArrayInputStream( data );
 					isSvg = ( ( imageContent.getMIMEType( ) != null ) && imageContent
 							.getMIMEType( ).equalsIgnoreCase( "image/svg+xml" ) ) //$NON-NLS-1$
-							|| ( ( uri != null ) && uri.toLowerCase( ).endsWith( ".svg" ) ) //$NON-NLS-1$
+							|| ( ( uri != null ) && uri.toLowerCase( )
+									.endsWith( ".svg" ) ) //$NON-NLS-1$
 							|| ( ( imageContent.getExtension( ) != null ) && imageContent
 									.getExtension( ).toLowerCase( ).endsWith(
 											".svg" ) ); //$NON-NLS-1$
-					if ( isSvg ) data = transSvgToArray( in );
-					pageGraphic.drawImage( data, imageX, imageY, height,
-							width, helpText );
+					if ( isSvg )
+						data = transSvgToArray( in );
+					pageGraphic.drawImage( data, imageX, imageY, height, width,
+							helpText );
 					break;
 			}
 			if ( in == null )
@@ -632,7 +652,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		}
 	}
 
-	private byte[] transSvgToArray( String uri ) throws	IOException
+	private byte[] transSvgToArray( String uri ) throws IOException
 	{
 		InputStream in = null;
 		in = new URL( uri ).openStream( );
@@ -670,87 +690,148 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	 * @param borders
 	 *            the border info
 	 */
-	private void drawBorder( BorderInfo border )
+	private void drawBorder( BorderInfo[] borders )
 	{
-		if ( IStyle.DOTTED_VALUE.equals( border.borderStyle ) )
-		{
-			pageGraphic.drawLine( border.startX, border.startY, border.endX,
-					border.endY, border.borderWidth, border.borderColor,
-					"dotted" ); //$NON-NLS-1$
-			return;
-		}
-		if ( IStyle.DASHED_VALUE.equals( border.borderStyle ) )
-		{
-			pageGraphic.drawLine( border.startX, border.startY, border.endX,
-					border.endY, border.borderWidth, border.borderColor,
-					"dashed" ); //$NON-NLS-1$
-			return;
-		}
-		if ( IStyle.DOUBLE_VALUE.equals( border.borderStyle ) )
-		{
-			float outerBorderWidth = border.borderWidth / 3;
-			float innerBorderWidth = border.borderWidth / 3;
+		// double>solid>dashed>dotted>none
+		ArrayList dbl = null;
+		ArrayList solid = null;
+		ArrayList dashed = null;
+		ArrayList dotted = null;
 
-			switch ( border.borderType )
+		for ( int i = 0; i < borders.length; i++ )
+		{
+			if ( IStyle.DOUBLE_VALUE.equals( borders[i].borderStyle ) )
 			{
-				case BorderInfo.TOP_BORDER :
-					pageGraphic.drawLine( border.startX, border.startY
-							- border.borderWidth / 2 + outerBorderWidth / 2,
-							border.endX, border.endY - border.borderWidth / 2
-									+ outerBorderWidth / 2, outerBorderWidth,
-							border.borderColor, "solid" ); //$NON-NLS-1$
-					pageGraphic.drawLine( border.startX + 2
-							* border.borderWidth / 3, border.startY
-							+ border.borderWidth / 2 - innerBorderWidth / 2,
-							border.endX - 2 * border.borderWidth / 3,
-							border.endY + border.borderWidth / 2
-									- innerBorderWidth / 2, innerBorderWidth,
-							border.borderColor, "solid" ); //$NON-NLS-1$
-					return;
-				case BorderInfo.RIGHT_BORDER :
-					pageGraphic.drawLine( border.startX + border.borderWidth
-							/ 2 - outerBorderWidth / 2, border.startY,
-							border.endX + border.borderWidth / 2
-									- outerBorderWidth / 2, border.endY,
-							outerBorderWidth, border.borderColor, "solid" ); //$NON-NLS-1$
-					pageGraphic.drawLine( border.startX - border.borderWidth
-							/ 2 + innerBorderWidth / 2, border.startY + 2
-							* border.borderWidth / 3, border.endX
-							- border.borderWidth / 2 + innerBorderWidth / 2,
-							border.endY - 2 * border.borderWidth / 3,
-							innerBorderWidth, border.borderColor, "solid" ); //$NON-NLS-1$
-					return;
-				case BorderInfo.BOTTOM_BORDER :
-					pageGraphic.drawLine( border.startX, border.startY
-							+ border.borderWidth / 2 - outerBorderWidth / 2,
-							border.endX, border.endY + border.borderWidth / 2
-									- outerBorderWidth / 2, outerBorderWidth,
-							border.borderColor, "solid" ); //$NON-NLS-1$
-					pageGraphic.drawLine( border.startX + 2
-							* border.borderWidth / 3, border.startY
-							- border.borderWidth / 2 + innerBorderWidth / 2,
-							border.endX - 2 * border.borderWidth / 3,
-							border.endY - border.borderWidth / 2
-									+ innerBorderWidth / 2, innerBorderWidth,
-							border.borderColor, "solid" ); //$NON-NLS-1$
-					return;
-				case BorderInfo.LEFT_BORDER :
-					pageGraphic.drawLine( border.startX - border.borderWidth
-							/ 2 + outerBorderWidth / 2, border.startY,
-							border.endX - border.borderWidth / 2
-									+ outerBorderWidth / 2, border.endY,
-							outerBorderWidth, border.borderColor, "solid" ); //$NON-NLS-1$
-					pageGraphic.drawLine( border.startX + border.borderWidth
-							/ 2 - innerBorderWidth / 2, border.startY + 2
-							* border.borderWidth / 3, border.endX
-							+ border.borderWidth / 2 - innerBorderWidth / 2,
-							border.endY - 2 * border.borderWidth / 3,
-							innerBorderWidth, border.borderColor, "solid" ); //$NON-NLS-1$
-					return;
+				if ( null == dbl )
+				{
+					dbl = new ArrayList( );
+				}
+				dbl.add( borders[i] );
+			}
+			else if ( IStyle.DASHED_VALUE.equals( borders[i].borderStyle ) )
+			{
+				if ( null == dashed )
+				{
+					dashed = new ArrayList( );
+				}
+				dashed.add( borders[i] );
+			}
+			else if ( IStyle.DOTTED_VALUE.equals( borders[i].borderStyle ) )
+			{
+				if ( null == dotted )
+				{
+					dotted = new ArrayList( );
+				}
+				dotted.add( borders[i] );
+			}
+			// Uses the solid style as default style.
+			else
+			{
+				if ( null == solid )
+				{
+					solid = new ArrayList( );
+				}
+				solid.add( borders[i] );
 			}
 		}
-		pageGraphic.drawLine( border.startX, border.startY, border.endX,
-				border.endY, border.borderWidth, border.borderColor, "solid" ); //$NON-NLS-1$
+		if ( null != dotted )
+		{
+			for ( Iterator it = dotted.iterator( ); it.hasNext( ); )
+			{
+				BorderInfo bi = (BorderInfo) it.next( );
+				pageGraphic.drawLine( bi.startX, bi.startY, bi.endX, bi.endY,
+						bi.borderWidth, bi.borderColor, "dotted" ); //$NON-NLS-1$
+			}
+		}
+		if ( null != dashed )
+		{
+			for ( Iterator it = dashed.iterator( ); it.hasNext( ); )
+			{
+				BorderInfo bi = (BorderInfo) it.next( );
+				pageGraphic.drawLine( bi.startX, bi.startY, bi.endX, bi.endY,
+						bi.borderWidth, bi.borderColor, "dashed" ); //$NON-NLS-1$
+			}
+		}
+		if ( null != solid )
+		{
+			for ( Iterator it = solid.iterator( ); it.hasNext( ); )
+			{
+				BorderInfo bi = (BorderInfo) it.next( );
+				pageGraphic.drawLine( bi.startX, bi.startY, bi.endX, bi.endY,
+						bi.borderWidth, bi.borderColor, "solid" ); //$NON-NLS-1$
+			}
+		}
+		if ( null != dbl )
+		{
+			for ( Iterator it = dbl.iterator( ); it.hasNext( ); )
+			{
+				BorderInfo bi = (BorderInfo) it.next( );
+				float borderWidth = bi.borderWidth;
+				float outerBorderWidth = borderWidth / 4;
+				float innerBorderWidth = borderWidth / 4;
+
+				float startX = bi.startX;
+				float startY = bi.startY;
+				float endX = bi.endX;
+				float endY = bi.endY;
+				Color borderColor = bi.borderColor;
+				switch ( bi.borderType )
+				{
+					case BorderInfo.TOP_BORDER :
+						pageGraphic.drawLine( startX, startY - borderWidth / 2
+								+ outerBorderWidth / 2, endX, endY
+								- borderWidth / 2 + outerBorderWidth / 2,
+								outerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$
+						pageGraphic.drawLine( startX + 3
+								* borders[BorderInfo.LEFT_BORDER].borderWidth
+								/ 4, startY + borderWidth / 2
+								- innerBorderWidth / 2, endX - 3
+								* borders[BorderInfo.RIGHT_BORDER].borderWidth
+								/ 4, endY + borderWidth / 2 - innerBorderWidth
+								/ 2, innerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$
+						break;
+					case BorderInfo.RIGHT_BORDER :
+						pageGraphic.drawLine( startX + borderWidth / 2
+								- outerBorderWidth / 2, startY, endX
+								+ borderWidth / 2 - outerBorderWidth / 2, endY,
+								outerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$
+						pageGraphic.drawLine( startX - borderWidth / 2
+								+ innerBorderWidth / 2, startY + 3
+								* borders[BorderInfo.TOP_BORDER].borderWidth
+								/ 4, endX - borderWidth / 2 + innerBorderWidth
+								/ 2, endY - 3
+								* borders[BorderInfo.BOTTOM_BORDER].borderWidth
+								/ 4, innerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$
+						break;
+					case BorderInfo.BOTTOM_BORDER :
+						pageGraphic.drawLine( startX, startY + borderWidth / 2
+								- outerBorderWidth / 2, endX, endY
+								+ borderWidth / 2 - outerBorderWidth / 2,
+								outerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$
+						pageGraphic.drawLine( startX + 3
+								* borders[BorderInfo.LEFT_BORDER].borderWidth
+								/ 4, startY - borderWidth / 2
+								+ innerBorderWidth / 2, endX - 3
+								* borders[BorderInfo.RIGHT_BORDER].borderWidth
+								/ 4, endY - borderWidth / 2 + innerBorderWidth
+								/ 2, innerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$
+						break;
+					case BorderInfo.LEFT_BORDER :
+						pageGraphic.drawLine( startX - borderWidth / 2
+								+ outerBorderWidth / 2, startY, endX
+								- borderWidth / 2 + outerBorderWidth / 2, endY,
+								outerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$
+						pageGraphic.drawLine( startX + borderWidth / 2
+								- innerBorderWidth / 2, startY + 3
+								* borders[BorderInfo.TOP_BORDER].borderWidth
+								/ 4, endX + borderWidth / 2 - innerBorderWidth
+								/ 2, endY - 3
+								* borders[BorderInfo.BOTTOM_BORDER].borderWidth
+								/ 4, innerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$
+						break;
+				}
+			}
+		}
 	}
 
 	/**
