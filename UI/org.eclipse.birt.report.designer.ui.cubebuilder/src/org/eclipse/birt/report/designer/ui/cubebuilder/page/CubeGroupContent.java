@@ -574,7 +574,7 @@ public class CubeGroupContent extends Composite implements Listener
 									TabularMeasureHandle measure = DesignElementFactory.getInstance( )
 											.newTabularMeasure( dataField.getColumnName( ) );
 									measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
-									measure.setDataType( dataField.getDataType( ) );
+									if(!dataField.getDataType( ).equals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY))measure.setDataType( dataField.getDataType( ) );
 									( (MeasureHandle) element ).getContainer( )
 											.add( IMeasureGroupModel.MEASURES_PROP,
 													measure );
@@ -614,7 +614,7 @@ public class CubeGroupContent extends Composite implements Listener
 									TabularMeasureHandle measure = DesignElementFactory.getInstance( )
 											.newTabularMeasure( dataField.getColumnName( ) );
 									measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
-									measure.setDataType( dataField.getDataType( ) );
+									if(!dataField.getDataType( ).equals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY))measure.setDataType( dataField.getDataType( ) );
 									( (MeasureHandle) element ).getContainer( )
 											.add( IMeasureGroupModel.MEASURES_PROP,
 													measure );
@@ -631,7 +631,7 @@ public class CubeGroupContent extends Composite implements Listener
 									TabularMeasureHandle measure = DesignElementFactory.getInstance( )
 											.newTabularMeasure( dataField.getColumnName( ) );
 									measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
-									measure.setDataType( dataField.getDataType( ) );
+									if(!dataField.getDataType( ).equals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY))measure.setDataType( dataField.getDataType( ) );
 									measureGroup.add( IMeasureGroupModel.MEASURES_PROP,
 											measure );
 								}
@@ -1465,7 +1465,7 @@ public class CubeGroupContent extends Composite implements Listener
 						try
 						{
 							measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
-							measure.setDataType( dataField.getDataType( ) );
+							if(!dataField.getDataType( ).equals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY))measure.setDataType( dataField.getDataType( ) );
 							measureGroup.add( IMeasureGroupModel.MEASURES_PROP,
 									measure );
 						}
@@ -1483,7 +1483,7 @@ public class CubeGroupContent extends Composite implements Listener
 						try
 						{
 							measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
-							measure.setDataType( dataField.getDataType( ) );
+							if(!dataField.getDataType( ).equals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY))measure.setDataType( dataField.getDataType( ) );
 							( (MeasureHandle) obj ).getContainer( )
 									.add( IMeasureGroupModel.MEASURES_PROP,
 											measure );
