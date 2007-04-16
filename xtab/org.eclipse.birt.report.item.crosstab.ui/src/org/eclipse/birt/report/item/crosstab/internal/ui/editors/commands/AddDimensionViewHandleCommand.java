@@ -169,7 +169,7 @@ public class AddDimensionViewHandleCommand extends AbstractCrosstabCommand
 			ComputedColumn bindingColumn = CrosstabAdaptUtil.createComputedColumn( (ExtendedItemHandle)reportHandle.getModelHandle( ), levelHandle );
 			ComputedColumnHandle bindingHandle = ((ExtendedItemHandle)reportHandle.getModelHandle( )).addColumnBinding( bindingColumn, false );
 						
-			LevelViewHandle levelViewHandle = CrosstabUtil.insertLevel( viewHandle, levelHandle, 0 );
+			LevelViewHandle levelViewHandle = viewHandle.insertLevel( levelHandle, 0 );
 
 			CrosstabCellHandle cellHandle = levelViewHandle.getCell( );
 

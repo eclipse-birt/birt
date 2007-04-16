@@ -12,11 +12,12 @@
 package org.eclipse.birt.report.item.crosstab.core.de;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ILevelViewConstants;
-import org.eclipse.birt.report.item.crosstab.core.de.util.CrosstabModelUtil;
+import org.eclipse.birt.report.item.crosstab.core.de.internal.LevelViewTask;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
@@ -252,7 +253,10 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 	}
 
 	/**
-	 * Adds a aggregation header to the level if it is empty.
+	 * Adds a aggregation header to the level if it is empty. This method only
+	 * adds the aggreation header cell in this level. It does not adjust any
+	 * measure aggreations automatically. User himself needs to add measure
+	 * aggregations manually.
 	 * 
 	 */
 	public void addAggregationHeader( )
@@ -280,14 +284,6 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 			getAggregationHeaderProperty( ).add(
 					CrosstabExtendedItemFactory
 							.createCrosstabCell( moduleHandle ) );
-
-			// adjust the measure aggregations
-			CrosstabReportItemHandle crosstab = getCrosstab( );
-			if ( crosstab != null )
-			{
-				CrosstabModelUtil.adjustMeasureAggregations( crosstab, this,
-						true );
-			}
 		}
 		catch ( SemanticException e )
 		{
@@ -300,38 +296,50 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 
 	/**
 	 * Removes the aggregation header cell if it is not empty, otherwise do
-	 * nothing.
+	 * nothing. This method will not adjust the measure aggregations
+	 * automatically. Use needs to remove all the related aggregations manually.
 	 */
 	public void removeAggregationHeader( )
 	{
 		if ( getAggregationHeaderProperty( ).getContentCount( ) > 0 )
 		{
-			CommandStack stack = getCommandStack( );
-			stack.startTrans( null );
-
 			try
 			{
-				// adjust the aggregations in measure elements first, then
-				// remove the aggregation; for the adjustment actions should
-				// depend on the aggregation information set in this level view
-				CrosstabReportItemHandle crosstab = getCrosstab( );
-				if ( crosstab != null )
-				{
-					CrosstabModelUtil.adjustMeasureAggregations( crosstab,
-							this, false );
-				}
-
 				getAggregationHeaderProperty( ).drop( 0 );
-
 			}
 			catch ( SemanticException e )
 			{
 				logger.log( Level.WARNING, e.getMessage( ), e );
-				stack.rollback( );
 			}
-
-			stack.commit( );
 		}
+	}
+
+	/**
+	 * Adds a sub-total for this level. This method will add a aggregation
+	 * header cell in this level and adjust the measure aggregations to ensure
+	 * the validation of the whole crosstab.
+	 * 
+	 * @param measureList
+	 * @param functionList
+	 * @return
+	 * @throws SemanticException
+	 */
+	public CrosstabCellHandle addSubTotal( List measureList, List functionList )
+			throws SemanticException
+	{
+		return new LevelViewTask( this )
+				.addSubTotal( measureList, functionList );
+	}
+
+	/**
+	 * Removes the aggregation header cell if it is not empty, otherwise do
+	 * nothing. This method will add a aggregation header cell in this level and
+	 * adjust the measure aggregations to ensure the validation of the whole
+	 * crosstab.
+	 */
+	public void removeSubTotal( )
+	{
+		new LevelViewTask( this ).removeSubTotal( );
 	}
 
 	/**
@@ -391,5 +399,45 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 		return dimensionView == null ? NO_AXIS_TYPE : dimensionView
 				.getAxisType( );
 
+	}
+
+	/**
+	 * Gets the aggregation function of this level view applying on the
+	 * specified measure view.
+	 * 
+	 * @param measureView
+	 * @return
+	 */
+	public String getAggregationFunction( MeasureViewHandle measureView )
+	{
+		return new LevelViewTask( this ).getAggregationFunction( measureView );
+	}
+
+	/**
+	 * Gets the measure view list that define aggregations for the given level
+	 * view. Each item in the list is instance of <code>MeasureViewHandle</code>.
+	 * 
+	 * @param levelView
+	 * @return
+	 */
+	public List getAggregationMeasures( )
+	{
+		return new LevelViewTask( this ).getAggregationMeasures( );
+	}
+
+	/**
+	 * Gets the aggregation function for the level view sub-total. If the level
+	 * view is null or not define any sub-total, return null.
+	 * 
+	 * @param measureView
+	 * @param function
+	 * @return
+	 * @throws SemanticException
+	 */
+	public void setAggregationFunction( MeasureViewHandle measureView,
+			String function ) throws SemanticException
+	{
+		new LevelViewTask( this )
+				.setAggregationFunction( measureView, function );
 	}
 }

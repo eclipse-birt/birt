@@ -190,7 +190,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 //					CrosstabUtil.setAggregationFunction( findLevelViewHandle( newOperation.getLevelHandle( ) ), 
 //							findMeasureViewHandle( (MeasureHandle)newOperation.getMeasures( ).get( i )), 
 //							(String)newOperation.getFunctions( ).get( i ) );
-					CrosstabUtil.setAggregationFunction( levelHandle.getCrosstab( ), getDimensionViewHandle( ).getAxisType( ),
+					levelHandle.getCrosstab( ).setAggregationFunction( getDimensionViewHandle( ).getAxisType( ),
 							findMeasureViewHandle( (MeasureHandle)newOperation.getMeasures( ).get( i )), 
 							(String)newOperation.getFunctions( ).get( i ) );
 				}
@@ -268,7 +268,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 			{
 				if (!oriOperation.getFunctions( ).get( i ) .equals(newOperation.getFunctions( ).get( i )))
 				{
-					CrosstabUtil.setAggregationFunction( findLevelViewHandle( newOperation.getLevelHandle( ) ), 
+					findLevelViewHandle( newOperation.getLevelHandle( ) ).setAggregationFunction( 
 							findMeasureViewHandle( (MeasureHandle)newOperation.getMeasures( ).get( i )), 
 							(String)newOperation.getFunctions( ).get( i ) );
 				}
@@ -280,7 +280,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 			CrosstabReportItemHandle crosstab, int axisType, List functions,
 			List measures ) throws SemanticException
 	{
-		CrosstabCellHandle cellHandle = CrosstabUtil.addGrandTotal( crosstab, axisType , functions, measures );
+		CrosstabCellHandle cellHandle = crosstab.addGrandTotal( axisType , measures, functions );
 		if (cellHandle == null)
 		{
 			return;
@@ -295,7 +295,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 	
 	private void addAggregationHeader(LevelViewHandle levelView, List functions, List measures)throws SemanticException
 	{
-		CrosstabCellHandle cellHandle = CrosstabUtil.addAggregationHeader( levelView, functions, measures );
+		CrosstabCellHandle cellHandle = levelView.addSubTotal( measures, functions );
 		if (cellHandle == null)
 		{
 			return;
@@ -433,7 +433,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 		{
 			LevelViewHandle tempViewHandle = viewHandle.getLevel( i );
 			LevelHandle tempHandle = tempViewHandle.getCubeLevel( );
-			List measures = CrosstabUtil.getAggregationMeasures( tempViewHandle );
+			List measures = tempViewHandle.getAggregationMeasures(  );
 			
 			for (int j=0; j<measures.size( ); j++)
 			{
@@ -441,7 +441,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 				AggregationDialog.SubTotalInfo info = new AggregationDialog.SubTotalInfo();
 				info.setLevel( tempHandle );
 				info.setAggregateOnMeasure( tempMeasureHandle);
-				info.setFunction( CrosstabUtil.getAggregationFunction(tempViewHandle,(MeasureViewHandle)measures.get( j )  ) );
+				info.setFunction( tempViewHandle.getAggregationFunction((MeasureViewHandle)measures.get( j )  ) );
 				//info.setFunction( DesignChoiceConstants.MEASURE_FUNCTION_SUM);
 				replaceInfo( info, retValue );
 			}
@@ -477,13 +477,13 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 			retValue.add( info );
 		}
 		
-		List measures = CrosstabUtil.getAggregationMeasures( reportHandle, viewHandle.getAxisType( ) );
+		List measures = reportHandle.getAggregationMeasures( viewHandle.getAxisType( ) );
 		for (int i=0; i<measures.size( ); i++)
 		{
 			AggregationDialog.GrandTotalInfo info = new AggregationDialog.GrandTotalInfo();
 			MeasureViewHandle measureViewHandle = (MeasureViewHandle)measures.get( i );
 			info.setMeasure( measureViewHandle.getCubeMeasure( ) );
-			info.setFunction( CrosstabUtil.getAggregationFunction( reportHandle, viewHandle.getAxisType( ), measureViewHandle ) );
+			info.setFunction( reportHandle.getAggregationFunction( viewHandle.getAxisType( ), measureViewHandle ) );
 			replaceInfo( info, retValue );
 		}
 		

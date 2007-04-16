@@ -11,18 +11,11 @@
 
 package org.eclipse.birt.report.item.crosstab.core.de;
 
-import java.util.logging.Level;
-
-import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.IDimensionViewConstants;
-import org.eclipse.birt.report.item.crosstab.core.de.util.CrosstabModelUtil;
-import org.eclipse.birt.report.item.crosstab.core.i18n.MessageConstants;
-import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
+import org.eclipse.birt.report.item.crosstab.core.de.internal.DimensionViewTask;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
-import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
@@ -31,9 +24,10 @@ import org.eclipse.birt.report.model.api.olap.LevelHandle;
 /**
  * DimensionViewHandle.
  */
-public class DimensionViewHandle extends AbstractCrosstabItemHandle implements
-		IDimensionViewConstants,
-		ICrosstabConstants
+public class DimensionViewHandle extends AbstractCrosstabItemHandle
+		implements
+			IDimensionViewConstants,
+			ICrosstabConstants
 {
 
 	/**
@@ -141,71 +135,7 @@ public class DimensionViewHandle extends AbstractCrosstabItemHandle implements
 	public LevelViewHandle insertLevel( LevelHandle levelHandle, int index )
 			throws SemanticException
 	{
-		ExtendedItemHandle extendedItemHandle = CrosstabExtendedItemFactory.createLevelView( moduleHandle,
-				levelHandle );
-		if ( extendedItemHandle == null )
-			return null;
-
-		if ( levelHandle != null )
-		{
-			// if cube dimension container of this cube level element is not
-			// what is referred by this dimension view, then the insertion is
-			// forbidden
-			if ( !levelHandle.getContainer( )
-					.getContainer( )
-					.getQualifiedName( )
-					.equals( getCubeDimensionName( ) ) )
-			{
-				// TODO: throw exception
-				logger.log( Level.WARNING, "" ); //$NON-NLS-1$
-				return null;
-			}
-
-			// if this level handle has referred by an existing level view,
-			// then log error and do nothing
-			if ( getLevel( levelHandle.getQualifiedName( ) ) != null )
-			{
-				logger.log( Level.SEVERE,
-						MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_LEVEL,
-						levelHandle.getQualifiedName( ) );
-				throw new CrosstabException( handle.getElement( ),
-						new String[]{
-								levelHandle.getQualifiedName( ),
-								handle.getElement( ).getIdentifier( )
-						},
-						MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_LEVEL );
-			}
-		}
-
-		CommandStack stack = getCommandStack( );
-		stack.startTrans( null );
-
-		LevelViewHandle levelView = null;
-		try
-		{
-			getLevelsProperty( ).add( extendedItemHandle, index );
-
-			levelView = (LevelViewHandle) CrosstabUtil.getReportItem( extendedItemHandle,
-					LEVEL_VIEW_EXTENSION_NAME );
-
-			// if level handle is specified, then adjust aggregations
-			if ( levelHandle != null )
-			{
-				CrosstabReportItemHandle crosstab = getCrosstab( );
-				if ( levelView != null && crosstab != null )
-				{
-					CrosstabModelUtil.adjustForLevelView( this, levelView, true );
-				}
-			}
-		}
-		catch ( SemanticException e )
-		{
-			stack.rollback( );
-			throw e;
-		}
-		stack.commit( );
-
-		return levelView;
+		return new DimensionViewTask( this ).insertLevel( levelHandle, index );
 	}
 
 	/**
@@ -218,34 +148,7 @@ public class DimensionViewHandle extends AbstractCrosstabItemHandle implements
 	 */
 	public void removeLevel( String name ) throws SemanticException
 	{
-		LevelViewHandle levelView = getLevel( name );
-		if ( levelView != null )
-		{
-			CommandStack stack = getCommandStack( );
-			stack.startTrans( null );
-
-			try
-			{
-				// adjust measure aggregations and then remove level view from
-				// the design tree, the order can not reversed
-				CrosstabReportItemHandle crosstab = getCrosstab( );
-				if ( crosstab != null )
-				{
-					CrosstabModelUtil.adjustForLevelView( this,
-							levelView,
-							false );
-				}
-
-				levelView.handle.drop( );
-			}
-			catch ( SemanticException e )
-			{
-				stack.rollback( );
-				throw e;
-			}
-
-			stack.commit( );
-		}
+		new DimensionViewTask( this ).removeLevel( name );
 	}
 
 	/**
@@ -258,34 +161,7 @@ public class DimensionViewHandle extends AbstractCrosstabItemHandle implements
 	 */
 	public void removeLevel( int index ) throws SemanticException
 	{
-		LevelViewHandle levelView = getLevel( index );
-		if ( levelView != null )
-		{
-			CommandStack stack = getCommandStack( );
-			stack.startTrans( null );
-
-			try
-			{
-				// adjust measure aggregations and then remove level view from
-				// the design tree, the order can not reversed
-				CrosstabReportItemHandle crosstab = getCrosstab( );
-				if ( crosstab != null )
-				{
-					CrosstabModelUtil.adjustForLevelView( this,
-							levelView,
-							false );
-				}
-
-				levelView.handle.drop( );
-			}
-			catch ( SemanticException e )
-			{
-				stack.rollback( );
-				throw e;
-			}
-
-			stack.commit( );
-		}
+		new DimensionViewTask( this ).removeLevel( index );
 	}
 
 	/**
@@ -313,9 +189,22 @@ public class DimensionViewHandle extends AbstractCrosstabItemHandle implements
 	 */
 	public int getAxisType( )
 	{
-		CrosstabViewHandle crosstabView = (CrosstabViewHandle) CrosstabUtil.getReportItem( handle.getContainer( ),
-				CROSSTAB_VIEW_EXTENSION_NAME );
+		CrosstabViewHandle crosstabView = (CrosstabViewHandle) CrosstabUtil
+				.getReportItem( handle.getContainer( ),
+						CROSSTAB_VIEW_EXTENSION_NAME );
 		return crosstabView == null ? NO_AXIS_TYPE : crosstabView.getAxisType( );
 
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isInnerMost( )
+	{
+		CrosstabViewHandle crosstabView = (CrosstabViewHandle) getContainer( );
+		if ( crosstabView == null )
+			return false;
+		return getIndex( ) == crosstabView.getDimensionCount( ) - 1;
 	}
 }

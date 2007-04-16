@@ -240,8 +240,7 @@ public class DimensionHandleDropAdapter implements IDropAdapter
 			ComputedColumnHandle bindingHandle = ( (ExtendedItemHandle) xtabHandle.getModelHandle( ) ).addColumnBinding( bindingColumn,
 					false );
 
-			LevelViewHandle levelViewHandle = CrosstabUtil.insertLevel( viewHandle,
-					levelHandle,
+			LevelViewHandle levelViewHandle = viewHandle.insertLevel(levelHandle,
 					0 );
 
 			CrosstabCellHandle cellHandle = levelViewHandle.getCell( );

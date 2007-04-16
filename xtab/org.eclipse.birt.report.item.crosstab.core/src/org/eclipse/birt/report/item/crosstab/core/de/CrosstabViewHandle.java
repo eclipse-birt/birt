@@ -11,13 +11,14 @@
 
 package org.eclipse.birt.report.item.crosstab.core.de;
 
+import java.util.List;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabViewConstants;
-import org.eclipse.birt.report.item.crosstab.core.de.util.CrosstabModelUtil;
+import org.eclipse.birt.report.item.crosstab.core.de.internal.CrosstabViewTask;
 import org.eclipse.birt.report.item.crosstab.core.i18n.MessageConstants;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
@@ -162,45 +163,7 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 	 */
 	public void removeDimension( String name ) throws SemanticException
 	{
-		DimensionViewHandle dimensionView = getDimension( name );
-		if ( dimensionView == null )
-		{
-			logger.log( Level.SEVERE,
-					MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND,
-					name );
-			throw new CrosstabException( handle.getElement( ), new String[]{
-					name, handle.getElement( ).getIdentifier( )},
-					MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND );
-		}
-
-		CommandStack stack = getCommandStack( );
-		stack.startTrans( null );
-
-		try
-		{
-			// adjust measure aggregations and then remove dimension view from
-			// the design tree, the order can not reversed
-			CrosstabReportItemHandle crosstab = getCrosstab( );
-			if ( crosstab != null )
-			{
-				for ( int i = 0; i < dimensionView.getLevelCount( ); i++ )
-				{
-					LevelViewHandle levelView = dimensionView.getLevel( i );
-					CrosstabModelUtil.adjustForLevelView( dimensionView,
-							levelView, false );
-				}
-			}
-
-			dimensionView.handle.drop( );
-		}
-		catch ( SemanticException e )
-		{
-			stack.rollback( );
-			throw e;
-		}
-
-		stack.commit( );
-
+		new CrosstabViewTask( this ).removeDimension( name );
 	}
 
 	/**
@@ -212,42 +175,7 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 	 */
 	public void removeDimension( int index ) throws SemanticException
 	{
-		DimensionViewHandle dimensionView = getDimension( index );
-		if ( dimensionView == null )
-		{
-			logger.log( Level.SEVERE,
-					MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND,
-					String.valueOf( index ) );
-			return;
-		}
-
-		CommandStack stack = getCommandStack( );
-		stack.startTrans( null );
-
-		try
-		{
-			// adjust measure aggregations and then remove dimension view from
-			// the design tree, the order can not reversed
-			CrosstabReportItemHandle crosstab = getCrosstab( );
-			if ( crosstab != null )
-			{
-				for ( int i = 0; i < dimensionView.getLevelCount( ); i++ )
-				{
-					LevelViewHandle levelView = dimensionView.getLevel( i );
-					CrosstabModelUtil.adjustForLevelView( dimensionView,
-							levelView, false );
-				}
-			}
-
-			dimensionView.handle.drop( );
-		}
-		catch ( SemanticException e )
-		{
-			stack.rollback( );
-			throw e;
-		}
-
-		stack.commit( );
+		new CrosstabViewTask( this ).removeDimension( index );
 	}
 
 	/**
@@ -267,7 +195,10 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 	/**
 	 * Adds a row/column grand total to the crosstab if it is empty. The axis
 	 * type can be either <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
-	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>.
+	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>.This method only adds
+	 * a grand-total cell in this view and does not adjust measure aggregations
+	 * automatically. Caller should take responsibility to adjust aggregations
+	 * manually.
 	 * 
 	 * @param axisType
 	 *            row/column axis type
@@ -290,14 +221,6 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 					.createCrosstabCell( moduleHandle );
 			propHandle.add( grandTotal );
 
-			// adjust the measure aggregations
-			CrosstabReportItemHandle crosstab = getCrosstab( );
-			if ( crosstab != null )
-			{
-				CrosstabModelUtil.adjustMeasureAggregations( crosstab,
-						getAxisType( ), true );
-			}
-
 			stack.commit( );
 			return (CrosstabCellHandle) CrosstabUtil.getReportItem( grandTotal );
 		}
@@ -310,39 +233,27 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 	}
 
 	/**
+	 * Adds grand-total for this crosstab view.
+	 * 
+	 * @param measureList
+	 * @param functionList
+	 * @return
+	 * @throws SemanticException
+	 */
+	public CrosstabCellHandle addGrandTotal( List measureList, List functionList )
+			throws SemanticException
+	{
+		return new CrosstabViewTask( this ).addGrandTotal( measureList,
+				functionList );
+	}
+
+	/**
 	 * Removes grand total from crosstab if it is not empty, otherwise do
 	 * nothing.
 	 */
 	public void removeGrandTotal( )
 	{
-		PropertyHandle propHandle = getGrandTotalProperty( );
-
-		if ( propHandle.getContentCount( ) > 0 )
-		{
-			CommandStack stack = getCommandStack( );
-			stack.startTrans( null );
-			try
-			{
-				// adjust the measure aggregations before remove the grand-total
-				// cell, for some adjustment action should depend on the
-				// grand-total information
-				CrosstabReportItemHandle crosstab = getCrosstab( );
-				if ( crosstab != null )
-				{
-					CrosstabModelUtil.adjustMeasureAggregations( crosstab,
-							getAxisType( ), false );
-				}
-
-				propHandle.drop( 0 );
-			}
-			catch ( SemanticException e )
-			{
-				logger.log( Level.INFO, e.getMessage( ), e );
-				stack.rollback( );
-			}
-
-			stack.commit( );
-		}
+		new CrosstabViewTask( this ).removeGrandTotal( );
 	}
 
 	/**
