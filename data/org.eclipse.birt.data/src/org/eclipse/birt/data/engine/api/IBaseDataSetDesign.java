@@ -41,6 +41,12 @@ public interface IBaseDataSetDesign
     public abstract int getCacheRowCount( );
     
     /**
+     * When max rows is set, we fetch given number of rows from database.
+     * @return
+     */
+    public abstract int getMaxRows( );
+    
+    /**
 	 * When user wants to retrieve the distinct row, this flag needs to be set
 	 * as true. The distinct row means there is no two rows which will have the
 	 * same value on all columns.

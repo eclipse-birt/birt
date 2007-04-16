@@ -514,7 +514,7 @@ public class ModelDteApiAdapter
 			dteDataSet.setBeforeCloseScript( modelDataSet.getBeforeClose( ) );
 			dteDataSet.setAfterCloseScript( modelDataSet.getAfterClose( ) );
 			//cache row count
-			dteDataSet.setCacheRowCount( modelDataSet.getCachedRowCount( ) );
+			dteDataSet.setMaxRows( modelDataSet.getDataSetRowLimit( ));
 
 		}
 		populateParameter( modelDataSet, dteDataSet );

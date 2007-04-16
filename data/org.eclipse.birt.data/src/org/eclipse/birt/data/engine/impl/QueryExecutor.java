@@ -284,7 +284,8 @@ public abstract class QueryExecutor implements IQueryExecutor
 			populateFetchEvent( cx );
 
 			// specify max rows the query should fetch
-			odiQuery.setMaxRows( this.baseQueryDefn.getMaxRows( ) );
+			odiQuery.setMaxRows( this.getMaxRowNumber( this.baseQueryDefn.getMaxRows( ),
+					this.dataSet.getMaxRows( ) ) );
 			
 			prepareCacheQuery( );
 		}
@@ -294,6 +295,32 @@ public abstract class QueryExecutor implements IQueryExecutor
 		}
 	}
 
+	/**
+	 * 
+	 * @param fromQuery
+	 * @param fromDataSet
+	 * @return
+	 */
+	private int getMaxRowNumber( int fromQuery, int fromDataSet )
+	{
+		if ( fromQuery == 0 && fromDataSet!= 0)
+		{
+			return fromDataSet;
+		}
+		
+		if ( fromQuery != 0 && fromDataSet == 0 )
+		{
+			return fromQuery;
+		}
+		
+		if ( fromQuery > fromDataSet )
+		{
+			return fromDataSet;
+		}
+		
+		return fromQuery;
+	}
+	
 	/**
 	 * TODO: enhance me, this is only a temp logic
 	 * Set temporary computed columns to DataSourceQuery where cache is used

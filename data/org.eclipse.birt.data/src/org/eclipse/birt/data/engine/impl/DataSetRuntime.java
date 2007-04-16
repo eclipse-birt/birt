@@ -283,6 +283,16 @@ public class DataSetRuntime implements IDataSetInstanceHandle
     }
     
     /**
+     * 
+     * @return
+     */
+    public int getMaxRows( )
+    {
+    	if ( dataSetDesign != null )
+    		return dataSetDesign.getMaxRows( );
+    	return 0;
+    }
+    /**
 	 * @return
 	 */
 	public boolean needDistinctValue( )

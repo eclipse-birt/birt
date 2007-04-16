@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
@@ -309,12 +310,28 @@ public final class DataSetProvider
 	 * @param dataSet
 	 * @param queryDefn
 	 * @param useColumnHints
+	 * @param useFilters
+	 * @return
+	 * @throws BirtException
+	 */
+	public IQueryResults execute(  DataSetHandle dataSet,
+			QueryDefinition queryDefn, boolean useColumnHints,
+			boolean useFilters ) throws BirtException
+	{
+		return this.execute( dataSet, queryDefn, useColumnHints, useFilters, null );
+	}	
+	
+	/**
+	 * 
+	 * @param dataSet
+	 * @param queryDefn
+	 * @param useColumnHints
 	 * @return
 	 * @throws BirtException
 	 */
 	public IQueryResults execute( DataSetHandle dataSet,
 			QueryDefinition queryDefn, boolean useColumnHints,
-			boolean useFilters ) throws BirtException
+			boolean useFilters, Map appContext ) throws BirtException
 	{
 
 		this.populateAllOutputColumns( dataSet );
@@ -322,6 +339,8 @@ public final class DataSetProvider
 
 		DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
 				dataSet.getModuleHandle( ) );
+		context.setAppContext( appContext );
+		
 		DataRequestSession session = DataRequestSession.newSession( context );
 
 		IBaseDataSetDesign dataSetDesign = session.getModelAdaptor( )

@@ -419,6 +419,9 @@ public class DataSourceAndDataSet
 						dataSetDesign2.getAfterCloseScript( ) ) == false )
 			return false;
 
+		if ( dataSetDesign.getMaxRows( )!= dataSetDesign2.getMaxRows( ))
+			return false;
+		
 		if ( isEqualComputedColumns( dataSetDesign.getComputedColumns( ),
 				dataSetDesign2.getComputedColumns( ) ) == false
 				|| isEqualFilters( dataSetDesign.getFilters( ),

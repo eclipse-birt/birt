@@ -80,8 +80,8 @@ class DataAdapterUtil
 			dteDataSet.setBeforeCloseScript( modelDataSet.getBeforeClose( ) );
 			dteDataSet.setAfterCloseScript( modelDataSet.getAfterClose( ) );
 			
-			// cache row count
-			dteDataSet.setCacheRowCount( modelDataSet.getCachedRowCount( ) );
+			// Number of Max rows.
+			dteDataSet.setMaxRows( modelDataSet.getDataSetRowLimit( ) );
 
 		}
 		populateParameter( modelDataSet, dteDataSet );

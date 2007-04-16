@@ -113,7 +113,7 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	 */
 	public void setMaxRows( int maxRows ) 
 	{
-	    maxRowCount = maxRows;
+	    maxRowCount = maxRows < 0 ? 0 : maxRows;
 	}
 	
 	

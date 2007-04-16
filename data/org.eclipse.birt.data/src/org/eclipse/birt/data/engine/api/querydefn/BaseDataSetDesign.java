@@ -50,6 +50,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	
 	private int cacheRowCount;
     private boolean distinctValue;
+	private int maxRows = 0;
     
 	/**
 	 * Instantiates a data set with given name.
@@ -326,6 +327,24 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	public void setEventHandler( IBaseDataSetEventHandler handler )
 	{
 		this.eventHandler = handler;
+	}
+
+	/**
+	 * 
+	 * @param value
+	 */
+	public void setMaxRows( int value )
+	{
+		this.maxRows  = value;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getMaxRows()
+	 */
+	public int getMaxRows( )
+	{
+		return this.maxRows;
 	}
     
 }

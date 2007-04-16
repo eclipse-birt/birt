@@ -369,6 +369,12 @@ public class NewInstanceHelper
 		{
 			return false;
 		}
+
+		public int getMaxRows( )
+		{
+			// TODO Auto-generated method stub
+			return 0;
+		}
 	};
 
 	/**
