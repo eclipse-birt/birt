@@ -14,22 +14,27 @@
  *
  *  Build.xml
  *
- *  Build script for project org.eclipse.birt.report.data.oda.xml.ui
+ *  Created on 11/11/2005
+ *  Build script for project org.eclipse.birt.report.data.oda.XML
  *
  * 
  * The following are public targets callable by external users. 
  * 
  * "Clean" - Clean all objects created by this script. Individual project build script can not call this target; 
- * "Jar" - Compile source code and generate jars for this project.
+ * "Jar" - Compile source code and generate jar for this project.
  *          The compile dependency on other projects should be defined explicitly.
  *         eclipse.home should be passed in when Individual project build script  call this target; 
  *          the property of "failonerror" should be set true(default) when compiling source code
+ * "UnitTest" - Run unit tests. This task must be called after calling Jar task, 
+ *              so it needn't depend on Jar explicitly
  * "Export" - Export the project, for instance, jar files are copied to a designated folder. 
  *            this task must be called after calling Jar task, so it needn't depend on Jar explicitly
+ * "JavaDoc" - generate java documents
  *
  * Usage:
  *    ant [any one or more of the public targets] 
  *        -Declipse.home=<your eclipse home> 
+ *		  -Ddtp.home=<your DTP plugins source home>  [optional]
  *
  * Default target is "Jar".
  *
@@ -44,57 +49,70 @@
  *
  * Change History:
  *
- *    1. 04/15/2005: initial version
+ *    1. 11/11/2005: initial version
  *
 -->
 
-<project name="XML DataSource UI" default="Jar" basedir=".">
-	<description>BIRT XML DataSource UI Plugin</description>
+<project name="BIRT Data Engine ODA-XML Project" default="Jar" basedir=".">
+	<description>BIRT Data Engine ODA-XML UI Project.</description>
 	<!-- set global properties for this build -->
 	<!-- Public properties, used by public targets, top level build script
 		     will pass on the value at runtime. Properties will have there default
 		     value.
 
 		     eclipse.home
+		     dtp.home
 		     utest.report.dir
 		     javadoc.dir
 		     plugin.version 
 	-->
-	<property file="build.properties" />
-	<property file="../birt-build.properties" />
-	<property name="dtp.home" location=".." />
 
 	<!-- ===== Default value for public properties ============= -->
+	<property name="utest.report.dir" location="utestreports" />
+	<property name="javadoc.dir" location="docs/api" />
+	<property name="export.dir" location="export" />
+	<property name="eclipse.home" location=".." />
+	<property name="dtp.home" location=".." />
+	<property name="dir.utest" value="utest" />
+	<property name="dir.src" value="src" />
+
 	<property name="module.name" value="org.eclipse.birt.report.data.oda.xml.ui"/>
+	<property name="dtp.oda.dir" location="${dtp.home}/org.eclipse.datatools.connectivity.oda" />
+	<property name="dtp.oda.jar" value="oda.jar" />
+	<property name="dtp.oda.xml.jar" value="oda-xmlui.jar" />
 
 	<path id="class.path">
 		<pathelement path="${dir.bin}" />
-		<fileset dir="${oda.xml.dir}">
-			<include name="${oda.xml.jar}"/>
+
+<!--  <fileset dir="${core.dir}">
+			<include name="core.jar"/>
 		</fileset>
-<!--	<fileset dir="${birt.core.dir}">
-			<include name="${birt.core.jar}"/>
-		</fileset>	
-        <fileset dir="${oda.designer.ui.dir}">
-			<include name="${oda.designer.ui.jar}"/>
+       <fileset dir="${core.dir}/lib">
+			<include name="*.jar"/>
 		</fileset>
-		<fileset dir="${oda.connectivity.ui.dir}">
-			<include name="${oda.connectivity.ui.jar}" />
+        <fileset dir="${dtp.oda.dir}">
+			<include name="${dtp.oda.jar}"/>
 		</fileset>
-		<fileset dir="${oda.designer.dir}">
-			<include name="${oda.designer.jar}" />
+		<fileset dir="${core.dir}">
+			<include name="lib/*.jar"/>
 		</fileset>
--->		<!-- dependend on eclipse due to Plugin class -->
+-->		
+
+		<!-- dependend on eclipse due to Plugin class
+		<fileset dir="lib">
+			<include name="resolver.jar"/>
+			<include name="xercesImpl.jar"/>
+			<include name="xml-apis.jar"/>
+		</fileset>
+ -->
+		<!-- dependend on eclipse due to Plugin class -->
 		<fileset dir="${eclipse.home}/plugins">
+			<include name="org.junit_*/*.jar"/>
+			<include name="com.ibm.icu_*.jar"/>
 			<include name="org.eclipse.core.runtime*.jar"/>
-			<include name="org.eclipse.osgi*.jar"/>
-			<include name="org.eclipse.equinox*.jar"/>
-			<include name="org.eclipse.emf*.jar"/>
-			<include name="org.eclipse.ui*.jar"/>
-			<include name="org.eclipse.jface_*.jar"/>
-			<include name="org.eclipse.swt*.jar" />
 			<include name="org.eclipse.datatools.connectivity*.jar"/>
             <include name="org.eclipse.datatools.connectivity*/*.jar"/>
+			<include name="org.eclipse.datatools.enablement.oda.xml*.jar"/>
 		</fileset>
 
 	</path>
@@ -103,18 +121,10 @@
 	<!-- Compile source code and generate jar for this project.
 		 Input parameters:
 		 	eclipse.home
-
+		 	dtp.home
 	-->
 	<target name="Jar" depends="compileSource">
-		<jar destfile="${plugin.jar}">
-			<fileset dir="${dir.bin}">
-				<include name="**/*.class" />
-				<include name="**/*.txt" />
-				<include name="**/*.xml" />
-				<include name="**/*.def" />
-				<include name="**/*.properties" />
-				<exclude name="**/*Test.class" />
-			</fileset>
+		<jar destfile="oda-xml.jar">
 		</jar>
 	</target>
 
@@ -129,56 +139,16 @@
 		<property file="META-INF/MANIFEST.MF" />
 		<xmlproperty file="plugin.xml" collapseAttributes="true" />
 		<jar destfile="${export.dir}/${module.name}_${Bundle-Version}.jar" manifest="META-INF/MANIFEST.MF">
-			<fileset dir="${dir.bin}">
-				<include name="**/*.class" />
-				<include name="**/*.txt" />
-				<include name="**/*.xml" />
-				<include name="**/*.def" />
-				<include name="**/*.properties" />
-				<exclude name="**/*Test.class" />
-			</fileset>
 			<fileset dir=".">
 				<include name="plugin.xml" />
 				<include name="plugin*.properties" />
 				<include name="about.html" />
 				<include name=".options" />
 				<include name="META-INF/MANIFEST.MF" />
-				<include name="icons/*.*" />
+				<include name="lib/*.jar" />
+				<include name="about_files/*.*"/>
 			</fileset>
 		</jar>
-	</target>
-
-	<target name="i18n">
-		<native2ascii
-			encoding="Cp1252"
-			src="."
-			dest="."
-			includes="plugin_de_DE.msg" ext=".properties"/>
-		<native2ascii
-			encoding="Cp1252"
-			src="."
-			dest="."
-			includes="plugin_es_ES.msg" ext=".properties"/>
-		<native2ascii
-			encoding="Cp1252"
-			src="."
-			dest="."
-			includes="plugin_fr_FR.msg" ext=".properties"/>
-		<native2ascii
-			encoding="GBK"
-			src="."
-			dest="."
-			includes="plugin_zh_CN.msg" ext=".properties"/>
-		<native2ascii
-			encoding="SJIS"
-			src="."
-			dest="."
-			includes="plugin_ja_JP.msg" ext=".properties"/>
-		<native2ascii
-			encoding="MS949"
-			src="."
-			dest="."
-			includes="plugin_ko_KR.msg" ext=".properties"/>
 	</target>
 
 	<!-- public task UnitTest will not explicitly depend on complie, Top level script should call compile before calling UnitTest -->
@@ -186,60 +156,55 @@
 			 Parameters:
 			 		- ${utest.report.dir} target directory to put the unit test report
 	-->
-	<target name="UnitTest" description="run all the unit tests" />
+	<target name="UnitTest" depends="compileTest" description="run all the unit tests">
+
+		
+	</target>
 
 	<!-- Clean all objects created by this script -->
 	<target name="Clean" description="clean up">
-		<!-- Delete the ${dir.bin} and ${dir.utest} directory trees -->
-		<delete dir="${dir.bin}" />
-		<delete dir="${dir.utest}" />
-		<delete>
-			<fileset dir="." includes="*junit*" />
-		</delete>
 		<!-- Delete the target jar file -->
-		<delete file="${plugin.jar}" />
+		<delete file="oda-xmlui.jar" />
 	</target>
 
-	<target name="Javadoc" />
-	<target name="apiJavaDoc" />
 
-	<target name="buildDependency">
-		<echo message="start call Jar task in ${oda.xml.dir}"/>
-		<ant dir="${oda.xml.dir}" antfile="buildXML.xml" target="Jar" inheritAll="false">
-			<property name="eclipse.home" value="${eclipse.home}" />
-		</ant>
-		<echo message="end call Jar task in ${oda.xml.dir}"/>
+	<!-- Generate the JavaDoc.
+		 Parameters:
+		 		- ${javadoc.dir} target directory to put the java document
+	 -->
 
-<!--	<echo message="start call Jar task in ${oda.designer.ui.dir}"/>
-		<ant dir="${oda.designer.ui.dir}" antfile="build.xml" target="build.jars" inheritAll="false">
-			<property name="dtp.home" value="${dtp.home}"/>
-		</ant>
-		<echo message="end call Jar task in ${oda.designer.ui.dir}"/>
+	<target name="Javadoc">
 
-		<echo message="start call Jar task in ${oda.designer.dir}"/>
-		<ant dir="${oda.designer.dir}" antfile="build.xml" target="build.jars" inheritAll="false">
-			<property name="dtp.home" value="${dtp.home}"/>
-		</ant>
-		<echo message="end call Jar task in ${oda.designer.dir}"/>
--->	</target>
+</target>
 
-	<target name="compileSource" depends="buildDependency" description="compile the source ">
-		<mkdir dir="${dir.bin}" />
-		<copy todir="${dir.bin}">
-			<fileset dir="${dir.src}">
-				<include name="**/messages*.properties"/>
-			</fileset>
-		</copy>
+<!-- Generate the ApiJavaDoc.
+		 -->
+<target name="apiJavaDoc" />
 
-		<!-- Compile the java code from ${dir.src} into ${dir.bin} -->
-		<javac srcdir="${dir.src}" 
-			   destdir="${dir.bin}" 
-			   encoding="utf-8" 
-			   source="1.4" 
-			   debug="true">
-			<classpath refid="class.path" />
-		</javac>
-	</target>
+<target name="buildDependency">
 
+<!--<echo message="start call Jar task in ${core.dir}"/>
+	<ant dir="${core.dir}" antfile="BuildCore.xml" target="Jar" inheritall="false">
+		<property name="eclipse.home" value="${eclipse.home}" />
+	</ant>
+	<echo message="end call Jar task in ${core.dir}"/>
+    <echo message="start call Jar task in ${dtp.oda.dir}"/>
+	<ant dir="${dtp.oda.dir}" antfile="build.xml" target="build.jars" inheritall="false">
+		<property name="eclipse.home" value="${eclipse.home}" />
+	</ant>
+	<echo message="end call Jar task in ${dtp.oda.dir}"/>
+--></target>
+
+<target name="compileSource" depends="buildDependency" description="compile the source ">
+	
+</target>
+
+
+<!-- Compile Oda Test Files 
+			 javac.failonerror should be true.
+	-->
+<target name="compileTest" depends = "compileSource" description="compile the test ">
+
+</target>
 </project>
 
