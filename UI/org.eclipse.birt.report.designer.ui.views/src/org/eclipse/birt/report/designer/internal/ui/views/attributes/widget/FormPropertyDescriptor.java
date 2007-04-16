@@ -81,6 +81,12 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 	public final static int FULL_FUNCTION_HORIZONTAL = 4;
 
 	/**
+	 * The full function UI type with editing operations, and the buttons are
+	 * horizontal
+	 */
+	public final static int NO_UP_DOWN = 5;
+
+	/**
 	 * The UI type.
 	 */
 	private int style;
@@ -154,7 +160,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 		if ( tableViewer != null )
 		{
 			table.setEnabled( enabled );
-			if ( style != SIMPLE_FUNCTION )
+			if ( style != SIMPLE_FUNCTION  && style != NO_UP_DOWN)
 			{
 				btnUp.setEnabled( enabled );
 				btnDown.setEnabled( enabled );
@@ -303,7 +309,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 			}
 		} );
 
-		if ( style == FULL_FUNCTION || style == FULL_FUNCTION_HORIZONTAL )
+		if ( style == FULL_FUNCTION || style == FULL_FUNCTION_HORIZONTAL || style == NO_UP_DOWN)
 		{
 			if ( isFormStyle( ) )
 				btnEdit = FormWidgetFactory.getInstance( )
@@ -328,7 +334,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 			} );
 		}
 
-		if ( style != SIMPLE_FUNCTION )
+		if ( style != SIMPLE_FUNCTION && style != NO_UP_DOWN )
 		{
 			if ( isFormStyle( ) )
 				btnUp = FormWidgetFactory.getInstance( )
@@ -374,6 +380,11 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 			case FULL_FUNCTION_HORIZONTAL :
 				fullLayoutHorizontal( );
 				break;
+			case NO_UP_DOWN :
+				noUpDownLayout( );
+				break;
+			default :
+				break;
 		}
 		return formPanel;
 	}
@@ -407,18 +418,24 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 		// {
 		// max--;
 		// }
-		if ( selectIndex <= 0 )
-			btnUp.setEnabled( false );
-		else
-			btnUp.setEnabled( true );
-		if ( selectIndex >= max || ( selectIndex == -1 ) )
+
+		if ( style != NO_UP_DOWN )
 		{
-			btnDown.setEnabled( false );
-			if ( selectIndex > max )
+
+			if ( selectIndex <= 0 )
 				btnUp.setEnabled( false );
+			else
+				btnUp.setEnabled( true );
+			if ( selectIndex >= max || ( selectIndex == -1 ) )
+			{
+				btnDown.setEnabled( false );
+				if ( selectIndex > max )
+					btnUp.setEnabled( false );
+			}
+			else
+				btnDown.setEnabled( true );
 		}
-		else
-			btnDown.setEnabled( true );
+
 		if ( ( min <= selectIndex ) && ( selectIndex <= max ) )
 		{
 			btnDel.setEnabled( true );
@@ -660,6 +677,47 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 
 	int btnWidth = 60;
 
+	protected void noUpDownLayout( )
+	{
+		FormLayout layout = new FormLayout( );
+		layout.marginBottom = WidgetUtil.SPACING;
+		layout.marginTop = 1;
+		layout.marginWidth = WidgetUtil.SPACING;
+		layout.spacing = WidgetUtil.SPACING;
+		formPanel.setLayout( layout );
+
+		FormData data = new FormData( );
+		data.right = new FormAttachment( 90 );
+		data.top = new FormAttachment( 0, 0 );
+		data.width = Math.max( btnWidth, btnAdd.computeSize( SWT.DEFAULT,
+				SWT.DEFAULT,
+				true ).x );
+		btnAdd.setLayoutData( data );
+
+		data = new FormData( );
+		data.top = new FormAttachment( btnAdd, 0, SWT.BOTTOM );
+		data.left = new FormAttachment( btnAdd, 0, SWT.LEFT );
+		data.width = Math.max( btnWidth, btnEdit.computeSize( SWT.DEFAULT,
+				SWT.DEFAULT,
+				true ).x );
+		btnEdit.setLayoutData( data );
+
+		data = new FormData( );
+		data.top = new FormAttachment( btnEdit, 0, SWT.BOTTOM );
+		data.left = new FormAttachment( btnEdit, 0, SWT.LEFT );
+		data.width = Math.max( btnWidth, btnDel.computeSize( SWT.DEFAULT,
+				SWT.DEFAULT,
+				true ).x );
+		btnDel.setLayoutData( data );
+		
+		data = new FormData( );
+		data.top = new FormAttachment( btnAdd, 0, SWT.TOP );
+		data.bottom = new FormAttachment( 100 );
+		data.left = new FormAttachment( 0, 0 );
+		data.right = new FormAttachment( btnAdd, 0, SWT.LEFT );
+		table.setLayoutData( data );
+	}
+
 	protected void fullLayout( )
 	{
 		FormLayout layout = new FormLayout( );
@@ -872,7 +930,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 
 	protected void handleTableMouseDoubleClickEvent( )
 	{
-		if ( style == FULL_FUNCTION || style == FULL_FUNCTION_HORIZONTAL )
+		if ( style == FULL_FUNCTION || style == FULL_FUNCTION_HORIZONTAL || style == NO_UP_DOWN)
 		{
 			edit( );
 		}
