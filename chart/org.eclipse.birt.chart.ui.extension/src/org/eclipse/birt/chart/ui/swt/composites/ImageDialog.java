@@ -202,7 +202,6 @@ public class ImageDialog extends TrayDialog
 						{
 							imageData = null;
 							fullPath = new StringBuffer( "file:///" ).append( fullPath ).toString( ); //$NON-NLS-1$
-							preview( fullPath );
 							uriEditor.setText( fullPath );
 						}
 					}
