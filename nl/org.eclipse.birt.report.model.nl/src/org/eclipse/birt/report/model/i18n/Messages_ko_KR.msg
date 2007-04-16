@@ -1892,6 +1892,7 @@ Structure.ResultSetColumn.nativeDataType=고유 데이터 형식 코드
 
 #15. ComputedColumn
 Structure.ComputedColumn.name=열 이름
+Structure.ComputedColumn.displayName=Column Display Name
 Structure.ComputedColumn.expression=식
 Structure.ComputedColumn.dataType=데이터 형식
 Structure.ComputedColumn.aggregateOn=AggregateOn 식
@@ -2198,6 +2199,7 @@ Element.SimpleDataSet.afterClose.reportContext=보고서 컨텍스트
 Element.SimpleDataSet.paramBindings=매개 변수 바인딩
 Element.SimpleDataSet.refTemplateParameter=참조 템플릿 매개 변수 정의
 Element.SimpleDataSet.cachedRowCount=캐시된 행 수
+Element.SimpleDataSet.dataSetRowLimit=Data set row limit
  
 #5. JdbcSelectDataSet  ( prefix  Element.JdbcSelectDataSet )
 Element.JdbcSelectDataSet.statement=문

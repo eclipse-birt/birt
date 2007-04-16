@@ -1892,6 +1892,7 @@ Structure.ResultSetColumn.nativeDataType=Code de type de données natives
 
 #15. ComputedColumn
 Structure.ComputedColumn.name=Nom de colonne
+Structure.ComputedColumn.displayName=Column Display Name
 Structure.ComputedColumn.expression=Expression
 Structure.ComputedColumn.dataType=Type de données
 Structure.ComputedColumn.aggregateOn=Expression AggregateOn
@@ -2198,6 +2199,7 @@ Element.SimpleDataSet.afterClose.reportContext=Contexte d'état
 Element.SimpleDataSet.paramBindings=Liaisons de paramètres
 Element.SimpleDataSet.refTemplateParameter=Définition de paramètre de modèle référencé
 Element.SimpleDataSet.cachedRowCount=Nombre de lignes en cache
+Element.SimpleDataSet.dataSetRowLimit=Data set row limit
 
 #5. JdbcSelectDataSet  ( prefix  Element.JdbcSelectDataSet )
 Element.JdbcSelectDataSet.statement=Instruction

@@ -1892,6 +1892,7 @@ Structure.ResultSetColumn.nativeDataType=本地数据类型代码
 
 #15. ComputedColumn
 Structure.ComputedColumn.name=列名
+Structure.ComputedColumn.displayName=Column Display Name
 Structure.ComputedColumn.expression=表达式
 Structure.ComputedColumn.dataType=数据类型
 Structure.ComputedColumn.aggregateOn=AggregateOn 表达式
@@ -2198,6 +2199,7 @@ Element.SimpleDataSet.afterClose.reportContext=报表上下文
 Element.SimpleDataSet.paramBindings=参数绑定
 Element.SimpleDataSet.refTemplateParameter=参考模板参数定义
 Element.SimpleDataSet.cachedRowCount=缓存行计数
+Element.SimpleDataSet.dataSetRowLimit=Data set row limit
  
 #5. JdbcSelectDataSet  ( prefix  Element.JdbcSelectDataSet )
 Element.JdbcSelectDataSet.statement=语句

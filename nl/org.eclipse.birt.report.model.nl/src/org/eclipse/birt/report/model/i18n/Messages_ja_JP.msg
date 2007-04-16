@@ -1892,6 +1892,7 @@ Structure.ResultSetColumn.nativeDataType=ネイティブのデータ型コード
 
 #15. ComputedColumn
 Structure.ComputedColumn.name=列名
+Structure.ComputedColumn.displayName=Column Display Name
 Structure.ComputedColumn.expression=式
 Structure.ComputedColumn.dataType=データ型
 Structure.ComputedColumn.aggregateOn=AggregateOn 式
@@ -2198,6 +2199,7 @@ Element.SimpleDataSet.afterClose.reportContext=レポートのコンテキスト
 Element.SimpleDataSet.paramBindings=パラメタバインド
 Element.SimpleDataSet.refTemplateParameter=参照先テンプレートのパラメタの定義
 Element.SimpleDataSet.cachedRowCount=キャッシュ済みの行数
+Element.SimpleDataSet.dataSetRowLimit=Data set row limit
   
 #5. JdbcSelectDataSet  ( prefix  Element.JdbcSelectDataSet )
 Element.JdbcSelectDataSet.statement=文
