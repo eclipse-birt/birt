@@ -18,13 +18,7 @@
 	<!-- ===================================================================== -->
 	<target name="pre.build.jars">
 	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do after the target build.jars                               -->
-	<!-- Available parameters :                                                -->
-	<!--   build.result.folder - folder to contain the build results           -->
-	<!-- ===================================================================== -->
-	<target name="post.build.jars">
+	<target name="post.compile.viewer.jar">
 		<property name="basedir" location="." />
 		<property name="birt.dir" value="birt" />
 		<property name="build.result.folder" value="${basedir}" />
@@ -97,6 +91,13 @@
 
 		<delete file="${birt.dir}/WEB-INF/generated_web.xml" />
 		<delete dir="${birt.temp.folder}" />
+	</target>
+	<!-- ===================================================================== -->
+	<!-- Steps to do after the target build.jars                               -->
+	<!-- Available parameters :                                                -->
+	<!--   build.result.folder - folder to contain the build results           -->
+	<!-- ===================================================================== -->
+	<target name="post.build.jars">
 	</target>
 
 	<!-- ===================================================================== -->
