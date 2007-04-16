@@ -37,6 +37,11 @@ public class WordUtil
 	
 	public static int convertTo ( DimensionType value, int prefValue )
 	{
+		if(value == null)
+		{
+			return 0;
+		}	
+		
 		if (DimensionType.UNITS_PERCENTAGE
 				.equalsIgnoreCase ( value.getUnits ( ) ))
 		{
