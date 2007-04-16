@@ -601,7 +601,7 @@ public class CDateTime extends GregorianCalendar
 		}
 
 		// if all no difference, return year as default unit.
-		return Calendar.YEAR;
+		return Calendar.DATE;
 	}
 
 	/**
