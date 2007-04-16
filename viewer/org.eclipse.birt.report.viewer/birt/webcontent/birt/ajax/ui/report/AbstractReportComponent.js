@@ -48,7 +48,8 @@ AbstractReportComponent.prototype =
 		}		
 				
 		var container = document.createElement( "div" );
-		container.style.position = "relative";
+		// For Bugzilla Bug 179472, change "relative" to "absolute"
+		container.style.position = "absolute";
 		container.style.padding = "15px";
 		container.innerHTML = content;
 		oDiv.appendChild( container );		
