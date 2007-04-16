@@ -247,11 +247,6 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 					crosstab.getModelHandle( ).getElement( ).getIdentifier( )},
 					MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND );
 		}
-		if ( crosstab.getCrosstabView( targetAxisType ) == null )
-		{
-			// TODO: throws exception
-			return;
-		}
 		moveDimension( dimensionView, targetAxisType, targetIndex );
 	}
 
@@ -274,7 +269,6 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 			int targetAxisType, int targetIndex ) throws SemanticException
 	{
 		assert dimensionView != null;
-		assert crosstab.getCrosstabView( targetAxisType ) != null;
 
 		Map functionListMap = new HashMap( );
 		Map measureListMap = new HashMap( );
@@ -316,7 +310,13 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 					.getContainer( );
 			new CrosstabViewTask( crosstabView )
 					.removeDimension( dimensionView );
-			crosstabView = crosstab.getCrosstabView( targetIndex );
+
+			// if target crosstab view is null, generate it
+			crosstabView = crosstab.getCrosstabView( targetAxisType );
+			if ( crosstabView == null )
+			{
+				crosstabView = crosstab.addCrosstabView( targetAxisType );
+			}
 			crosstabView.getViewsProperty( ).add(
 					clonedDimensionView.getModelHandle( ), targetIndex );
 
