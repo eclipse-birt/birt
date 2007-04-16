@@ -29,6 +29,7 @@ import org.eclipse.birt.chart.tests.engine.model.attribute.LegendItemTypeTest;
 import org.eclipse.birt.chart.tests.engine.model.attribute.LineStyleTest;
 import org.eclipse.birt.chart.tests.engine.model.attribute.MarkerTypeTest;
 import org.eclipse.birt.chart.tests.engine.model.attribute.OrientationTest;
+import org.eclipse.birt.chart.tests.engine.model.attribute.PaletteTest;
 import org.eclipse.birt.chart.tests.engine.model.attribute.PositionTest;
 import org.eclipse.birt.chart.tests.engine.model.attribute.RiserTypeTest;
 import org.eclipse.birt.chart.tests.engine.model.attribute.RuleTypeTest;
@@ -80,6 +81,7 @@ public class ModelAttributeTest {
 		suite.addTestSuite(TriggerConditionTest.class);
 		suite.addTestSuite(UnitsOfMeasurementTest.class);
 		suite.addTestSuite(VerticalAlignmentTest.class);
+		suite.addTestSuite(PaletteTest.class);
 		
 		//$JUnit-END$
 		return suite;

@@ -128,7 +128,7 @@ public class BarStickStock
 		seBase.setDataSet( dsDateValues );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getSeriesPalette( ).update( -1 );
+		sdX.getSeriesPalette( ).shift( -1 );
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seBase );
 

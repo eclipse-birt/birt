@@ -105,7 +105,7 @@ public class AxisTitleFormat
 		seCategory.setDataSet( categoryValues );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getSeriesPalette( ).update( -2 );
+		sdX.getSeriesPalette( ).shift( -2 );
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seCategory );
 

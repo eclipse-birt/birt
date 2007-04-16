@@ -211,7 +211,7 @@ public class DataCharts
 		ls1.getLabel( ).setVisible( true );
 
 		SeriesDefinition sdY1 = SeriesDefinitionImpl.create( );
-		sdY1.getSeriesPalette( ).update( -2 );
+		sdY1.getSeriesPalette( ).shift( -2 );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY1 );
 		sdY1.getSeries( ).add( ls1 );
 
@@ -228,7 +228,7 @@ public class DataCharts
 		ls2.getLabel( ).setVisible( true );
 
 		SeriesDefinition sdY2 = SeriesDefinitionImpl.create( );
-		sdY2.getSeriesPalette( ).update( -3 );
+		sdY2.getSeriesPalette( ).shift( -3 );
 		yAxis.getSeriesDefinitions( ).add( sdY2 );
 		sdY2.getSeries( ).add( ls2 );
 
@@ -306,7 +306,7 @@ public class DataCharts
 		bs.setLabelPosition( Position.INSIDE_LITERAL );
 
 		SeriesDefinition sdY1 = SeriesDefinitionImpl.create( );
-		sdY1.getSeriesPalette( ).update( -2 );
+		sdY1.getSeriesPalette( ).shift( -2 );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY1 );
 		sdY1.getSeries( ).add( bs );
 
@@ -319,7 +319,7 @@ public class DataCharts
 		bs2.setLabelPosition( Position.INSIDE_LITERAL );
 
 		SeriesDefinition sdY2 = SeriesDefinitionImpl.create( );
-		sdY2.getSeriesPalette( ).update( -3 );
+		sdY2.getSeriesPalette( ).shift( -3 );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY2 );
 		sdY2.getSeries( ).add( bs2 );
 

@@ -585,7 +585,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 					//Update color palette of base series
 					SeriesDefinition[] osds = getValueSeriesDefinition( );
 					SeriesDefinition bsd = getCategorySeriesDefinition( );
-					bsd.getSeriesPalette( ).update( 0 );
+					bsd.getSeriesPalette( ).shift( 0 );
 					for ( int i = 0; i < osds.length; i++ )
 					{
 						bsd.getSeriesPalette( )

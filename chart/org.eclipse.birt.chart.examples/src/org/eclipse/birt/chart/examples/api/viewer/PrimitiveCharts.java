@@ -245,7 +245,7 @@ public final class PrimitiveCharts
 		seCategory.setDataSet( categoryValues );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getSeriesPalette( ).update( 0 );
+		sdX.getSeriesPalette( ).shift( 0 );
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seCategory );
 
@@ -342,7 +342,7 @@ public final class PrimitiveCharts
 		bs2.setLabelPosition( Position.INSIDE_LITERAL );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		sdY.getSeriesPalette( ).update( 1 );
+		sdY.getSeriesPalette( ).shift( -1 );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
 		sdY.getSeries( ).add( bs1 );
 		sdY.getSeries( ).add( bs2 );
@@ -410,7 +410,7 @@ public final class PrimitiveCharts
 		ls.getLabel( ).setVisible( true );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		sdY.getSeriesPalette( ).update( -2 );
+		sdY.getSeriesPalette( ).shift( -2 );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
 		sdY.getSeries( ).add( ls );
 
@@ -482,7 +482,7 @@ public final class PrimitiveCharts
 		ls.setCurve( true );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		sdY.getSeriesPalette( ).update( -2 );
+		sdY.getSeriesPalette( ).shift( -2 );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
 		MultipleFill fill = MultipleFillImpl.create( );
 		fill.getFills( ).add( ColorDefinitionImpl.CYAN( ) );
@@ -535,7 +535,7 @@ public final class PrimitiveCharts
 
 		SeriesDefinition sd = SeriesDefinitionImpl.create( );
 		cwoaPie.getSeriesDefinitions( ).add( sd );
-		sd.getSeriesPalette( ).update( 0 );
+		sd.getSeriesPalette( ).shift( 0 );
 		sd.getSeries( ).add( seCategory );
 
 		// Orthogonal Series
@@ -606,7 +606,7 @@ public final class PrimitiveCharts
 
 		SeriesDefinition sd = SeriesDefinitionImpl.create( );
 		cwoaPie.getSeriesDefinitions( ).add( sd );
-		sd.getSeriesPalette( ).update( 1 );
+		sd.getSeriesPalette( ).shift( -1 );
 		sd.getSeries( ).add( seCategory );
 
 		// Orthogonal Series
@@ -851,11 +851,11 @@ public final class PrimitiveCharts
 		ls1.getLabel( ).setVisible( true );
 
 		SeriesDefinition sdY1 = SeriesDefinitionImpl.create( );
-		sdY1.getSeriesPalette( ).update( 0 );
+		sdY1.getSeriesPalette( ).shift( 0 );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY1 );
 
 		SeriesDefinition sdY2 = SeriesDefinitionImpl.create( );
-		sdY2.getSeriesPalette( ).update( 1 );
+		sdY2.getSeriesPalette( ).shift( -1 );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY2 );
 
 		SeriesDefinition sdY3 = SeriesDefinitionImpl.create( );
@@ -1281,7 +1281,7 @@ public final class PrimitiveCharts
 		seBase.setDataSet( dsDateValues );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getSeriesPalette( ).update( 1 );
+		sdX.getSeriesPalette( ).shift( -1 );
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seBase );
 
@@ -1384,7 +1384,7 @@ public final class PrimitiveCharts
 		seCategory.setDataSet( categoryValues );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getSeriesPalette( ).update( 0 );
+		sdX.getSeriesPalette( ).shift( 0 );
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seCategory );
 
@@ -1404,7 +1404,7 @@ public final class PrimitiveCharts
 		as2.getLabel( ).setVisible( true );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		sdY.getSeriesPalette( ).update( 1 );
+		sdY.getSeriesPalette( ).shift( -1 );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
 		sdY.getSeries( ).add( as1 );
 		sdY.getSeries( ).add( as2 );
@@ -2193,7 +2193,7 @@ public final class PrimitiveCharts
 		seCategory.setDataSet( categoryValues );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getSeriesPalette( ).update( 0 );
+		sdX.getSeriesPalette( ).shift( 0 );
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seCategory );
 
@@ -2273,7 +2273,7 @@ public final class PrimitiveCharts
 		ls.setCurve( true );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		sdY.getSeriesPalette( ).update( -2 );
+		sdY.getSeriesPalette( ).shift( -2 );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
 		sdY.getSeries( ).add( ls );
 
@@ -2402,7 +2402,7 @@ public final class PrimitiveCharts
 		seBase.setDataSet( dsDateValues );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getSeriesPalette( ).update( 1 );
+		sdX.getSeriesPalette( ).shift( -1 );
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seBase );
 
@@ -2494,7 +2494,7 @@ public final class PrimitiveCharts
 		seCategory.setDataSet( categoryValues );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getSeriesPalette( ).update( 0 );
+		sdX.getSeriesPalette( ).shift( 0 );
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seCategory );
 
@@ -2508,7 +2508,7 @@ public final class PrimitiveCharts
 		as.setCurve( true );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		sdY.getSeriesPalette( ).update( 1 );
+		sdY.getSeriesPalette( ).shift( -1 );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
 		sdY.getSeries( ).add( as );
 
@@ -2572,7 +2572,7 @@ public final class PrimitiveCharts
 		seCategory.setDataSet( categoryValues );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getSeriesPalette( ).update( 0 );
+		sdX.getSeriesPalette( ).shift( 0 );
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seCategory );
 
@@ -2663,7 +2663,7 @@ public final class PrimitiveCharts
 		ls.getLabel( ).setVisible( true );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		sdY.getSeriesPalette( ).update( -2 );
+		sdY.getSeriesPalette( ).shift( -2 );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
 		sdY.getSeries( ).add( ls );
 
@@ -2752,7 +2752,7 @@ public final class PrimitiveCharts
 		seCategory.setDataSet( categoryValues );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getSeriesPalette( ).update( 0 );
+		sdX.getSeriesPalette( ).shift( 0 );
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seCategory );
 
@@ -2764,7 +2764,7 @@ public final class PrimitiveCharts
 		as1.getLabel( ).setVisible( true );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		sdY.getSeriesPalette( ).update( 1 );
+		sdY.getSeriesPalette( ).shift( -1 );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
 		sdY.getSeries( ).add( as1 );
 

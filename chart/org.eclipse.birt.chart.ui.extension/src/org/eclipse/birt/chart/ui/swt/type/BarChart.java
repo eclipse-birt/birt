@@ -260,7 +260,7 @@ public class BarChart extends DefaultChartTypeImpl
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
 		Series categorySeries = SeriesImpl.create( );
 		sdX.getSeries( ).add( categorySeries );
-		sdX.getSeriesPalette( ).update( 0 );
+		sdX.getSeriesPalette( ).shift( 0 );
 		( (Axis) newChart.getAxes( ).get( 0 ) ).getSeriesDefinitions( )
 				.add( sdX );
 
@@ -276,7 +276,7 @@ public class BarChart extends DefaultChartTypeImpl
 					.get( 0 ) ).setType( AxisType.LINEAR_LITERAL );
 
 			SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-			sdY.getSeriesPalette( ).update( 0 );
+			sdY.getSeriesPalette( ).shift( 0 );
 			Series valueSeries = BarSeriesImpl.create( );
 			valueSeries.setStacked( true );
 			sdY.getSeries( ).add( valueSeries );
@@ -293,7 +293,7 @@ public class BarChart extends DefaultChartTypeImpl
 					.get( 0 ) ).setPercent( true );
 
 			SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-			sdY.getSeriesPalette( ).update( 0 );
+			sdY.getSeriesPalette( ).shift( 0 );
 			Series valueSeries = BarSeriesImpl.create( );
 			valueSeries.setStacked( true );
 			( (BarSeries) valueSeries ).setStacked( true );
@@ -309,7 +309,7 @@ public class BarChart extends DefaultChartTypeImpl
 					.get( 0 ) ).setType( AxisType.LINEAR_LITERAL );
 
 			SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-			sdY.getSeriesPalette( ).update( 0 );
+			sdY.getSeriesPalette( ).shift( 0 );
 			Series valueSeries = BarSeriesImpl.create( );
 			( (BarSeries) valueSeries ).setStacked( false );
 			sdY.getSeries( ).add( valueSeries );
@@ -349,7 +349,7 @@ public class BarChart extends DefaultChartTypeImpl
 					.setRotation( 0 );
 
 			SeriesDefinition sdZ = SeriesDefinitionImpl.create( );
-			sdZ.getSeriesPalette( ).update( 0 );
+			sdZ.getSeriesPalette( ).shift( 0 );
 			sdZ.getSeries( ).add( SeriesImpl.create( ) );
 			zAxisAncillary.getSeriesDefinitions( ).add( sdZ );
 		}
@@ -653,7 +653,7 @@ public class BarChart extends DefaultChartTypeImpl
 					.add( zAxisAncillary );
 
 			SeriesDefinition sdZ = SeriesDefinitionImpl.create( );
-			sdZ.getSeriesPalette( ).update( 0 );
+			sdZ.getSeriesPalette( ).shift( 0 );
 			sdZ.getSeries( ).add( SeriesImpl.create( ) );
 			zAxisAncillary.getSeriesDefinitions( ).add( sdZ );
 

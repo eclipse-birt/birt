@@ -176,7 +176,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
 		Series baseSeries = SeriesImpl.create( );
 		sdX.getSeries( ).add( baseSeries );
-		sdX.getSeriesPalette( ).update( 0 );
+		sdX.getSeriesPalette( ).shift( 0 );
 		( (Axis) newChart.getAxes( ).get( 0 ) ).getSeriesDefinitions( )
 				.add( sdX );
 
@@ -188,7 +188,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 				.get( 0 ) ).setType( AxisType.LINEAR_LITERAL );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		sdY.getSeriesPalette( ).update( 0 );
+		sdY.getSeriesPalette( ).shift( 0 );
 		Series orthogonalSeries = ScatterSeriesImpl.create( );
 		( (ScatterSeries) orthogonalSeries ).setStacked( false );
 		sdY.getSeries( ).add( orthogonalSeries );

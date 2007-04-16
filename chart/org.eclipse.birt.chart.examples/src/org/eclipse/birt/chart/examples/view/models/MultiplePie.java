@@ -67,12 +67,12 @@ public class MultiplePie
 		} );
 
 		// Base Sereis
-		Series seCategory = (Series) SeriesImpl.create( );
+		Series seCategory = SeriesImpl.create( );
 		seCategory.setDataSet( categoryValues );
 
 		SeriesDefinition sd = SeriesDefinitionImpl.create( );
 		cwoaPie.getSeriesDefinitions( ).add( sd );
-		sd.getSeriesPalette( ).update( -1 );
+		sd.getSeriesPalette( ).shift( -1 );
 		sd.getSeries( ).add( seCategory );
 
 		// Orthogonal Series

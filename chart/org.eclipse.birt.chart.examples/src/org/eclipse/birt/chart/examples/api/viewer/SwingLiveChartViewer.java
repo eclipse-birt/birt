@@ -343,7 +343,7 @@ public final class SwingLiveChartViewer extends JPanel
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
-		sdY.getSeriesPalette( ).update( 1 );
+		sdY.getSeriesPalette( ).shift( -1 );
 		sdY.getSeries( ).add( bs1 );
 		sdY.getSeries( ).add( ls1 );
 

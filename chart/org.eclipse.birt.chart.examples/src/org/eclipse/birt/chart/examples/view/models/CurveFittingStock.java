@@ -119,7 +119,7 @@ public class CurveFittingStock
 		ss.setCurveFitting( CurveFittingImpl.create( ) );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		sdY.getSeriesPalette( ).update( -1 );
+		sdY.getSeriesPalette( ).shift( -1 );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
 		sdY.getSeries( ).add( ss );
 

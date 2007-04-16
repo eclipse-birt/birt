@@ -96,7 +96,7 @@ public class CurveFittingBar
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
-		sdY.getSeriesPalette( ).update( -1 );
+		sdY.getSeriesPalette( ).shift( -1 );
 		sdY.getSeries( ).add( bs );
 
 		return cwaBar;

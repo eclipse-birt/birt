@@ -82,7 +82,7 @@ public class ColoredByValueSeries
 		Series seCategory = SeriesImpl.create( );
 		seCategory.setDataSet( categoryValues );
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getSeriesPalette( ).update( 0 );
+		sdX.getSeriesPalette( ).shift( 0 );
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seCategory );
 
@@ -93,7 +93,7 @@ public class ColoredByValueSeries
 		bs.getLabel( ).setVisible( true );
 		bs.setLabelPosition( Position.INSIDE_LITERAL );
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		sdY.getSeriesPalette( ).update( -1 );
+		sdY.getSeriesPalette( ).shift( -1 );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
 		sdY.getSeries( ).add( bs );
 

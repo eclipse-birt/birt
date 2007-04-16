@@ -174,7 +174,7 @@ public class BubbleChart extends DefaultChartTypeImpl
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
 		Series baseSeries = SeriesImpl.create( );
 		sdX.getSeries( ).add( baseSeries );
-		sdX.getSeriesPalette( ).update( 0 );
+		sdX.getSeriesPalette( ).shift( 0 );
 		( (Axis) newChart.getAxes( ).get( 0 ) ).getSeriesDefinitions( )
 				.add( sdX );
 
@@ -187,7 +187,7 @@ public class BubbleChart extends DefaultChartTypeImpl
 
 		
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		sdY.getSeriesPalette( ).update( 0 );
+		sdY.getSeriesPalette( ).shift( 0 );
 		Series orthogonalSeries = BubbleSeriesImpl.create( );
 		( (BubbleSeries) orthogonalSeries ).setStacked( false );
 		sdY.getSeries( ).add( orthogonalSeries );

@@ -235,7 +235,7 @@ public class MeterChartExample
 		SeriesDefinition seGroup = SeriesDefinitionImpl.create( );
 		Query query3 = QueryImpl.create( "row[\"Month\"]" );//$NON-NLS-1$
 		seGroup.setQuery( query3 );
-		seGroup.getSeriesPalette( ).update( -2 );
+		seGroup.getSeriesPalette( ).shift( -2 );
 		series.getSeriesDefinitions( ).add( seGroup );
 		seGroup.getSeries( ).add( seDial );
 

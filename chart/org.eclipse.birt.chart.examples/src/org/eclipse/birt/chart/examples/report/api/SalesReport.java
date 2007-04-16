@@ -485,7 +485,7 @@ public class SalesReport
 		SeriesDefinition seGroup = SeriesDefinitionImpl.create( );
 		Query query1 = QueryImpl.create( "row[\"Month\"]" );//$NON-NLS-1$
 		seGroup.setQuery( query1 );
-		series.getSeriesPalette( ).update( -2 );
+		series.getSeriesPalette( ).shift( -2 );
 		series.getSeriesDefinitions( ).add( seGroup );
 		seGroup.getSeries( ).add( ps );
 

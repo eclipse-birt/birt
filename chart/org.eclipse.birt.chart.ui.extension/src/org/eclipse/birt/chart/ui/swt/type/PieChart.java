@@ -181,7 +181,7 @@ public class PieChart extends DefaultChartTypeImpl
 		}
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getSeriesPalette( ).update( 0 );
+		sdX.getSeriesPalette( ).shift( 0 );
 		Series categorySeries = SeriesImpl.create( );
 		sdX.getSeries( ).add( categorySeries );
 		sdX.getQuery( ).setDefinition( "Base Series" ); //$NON-NLS-1$
@@ -189,7 +189,7 @@ public class PieChart extends DefaultChartTypeImpl
 		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		sdY.getSeriesPalette( ).update( 0 );
+		sdY.getSeriesPalette( ).shift( 0 );
 		Series valueSeries = PieSeriesImpl.create( );
 		valueSeries.getLabel( ).setVisible( true );
 		valueSeries.setSeriesIdentifier( "valueSeriesIdentifier" ); //$NON-NLS-1$

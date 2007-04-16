@@ -98,7 +98,7 @@ public class MultipleYSeries
 		bs.setLabelPosition( Position.INSIDE_LITERAL );
 
 		SeriesDefinition sdY1 = SeriesDefinitionImpl.create( );
-		sdY1.getSeriesPalette( ).update( -2 );
+		sdY1.getSeriesPalette( ).shift( -2 );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY1 );
 		sdY1.getSeries( ).add( bs );
 
@@ -110,7 +110,7 @@ public class MultipleYSeries
 		bs2.setLabelPosition( Position.INSIDE_LITERAL );
 
 		SeriesDefinition sdY2 = SeriesDefinitionImpl.create( );
-		sdY2.getSeriesPalette( ).update( -3 );
+		sdY2.getSeriesPalette( ).shift( -3 );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY2 );
 		sdY2.getSeries( ).add( bs2 );
 

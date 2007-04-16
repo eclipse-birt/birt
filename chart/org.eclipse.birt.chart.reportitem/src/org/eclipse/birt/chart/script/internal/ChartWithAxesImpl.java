@@ -151,7 +151,7 @@ public class ChartWithAxesImpl extends ChartImpl implements IChartWithAxes
 				.setRotation( 0 );
 
 		SeriesDefinition sdZ = SeriesDefinitionImpl.create( );
-		sdZ.getSeriesPalette( ).update( 0 );
+		sdZ.getSeriesPalette( ).shift( 0 );
 		sdZ.getSeries( ).add( SeriesImpl.create( ) );
 		zAxisAncillary.getSeriesDefinitions( ).add( sdZ );
 

@@ -82,8 +82,29 @@ public interface Palette extends EObject
 	EList getEntries( );
 
 	/**
-	 * Updates the content of a palette with a library
-	 * of colors and rotation with the steps.
+	 * This convenience method updates the content of a palette with a library
+	 * of colors
+	 * 
+	 * NOTE: Manually written
+	 * 
+	 * @param iIndex
+	 * @deprecated to use {@link #init(int)} and {@link #shift(int)}
+	 * @see #init(int)
+	 * @see #shift(int)
+	 */
+	void update( int iIndex );
+
+	/**
+	 * This convenience method updates the content of a palette with a single color
+	 * 
+	 * NOTE: Manually written
+	 * 
+	 * @param f
+	 */
+	void update( Fill f );
+	
+	/**
+	 * Shifts the colors in palette with the steps.
 	 * 
 	 * NOTE: Manually written
 	 * 
@@ -92,17 +113,25 @@ public interface Palette extends EObject
 	 *            absolute value is greater than the size of list, do nothing.
 	 *            Negative value means moving to the left side, and positive
 	 *            value is to the right side.
+	 * @since 2.2
 	 */
-	void update( int iStep );
+	void shift( int iStep );
 
 	/**
-	 * Updates the content of a palette by cleaning all and adding a single
-	 * color
+	 * Re-creates the palette colors with specified size and shifts the colors
+	 * in palette with the steps.
 	 * 
 	 * NOTE: Manually written
 	 * 
-	 * @param f
-	 *            color to replace
+	 * @param iStep
+	 *            moving steps to rotate the color. If the step is zero or the
+	 *            absolute value is greater than the size of list, do nothing.
+	 *            Negative value means moving to the left side, and positive
+	 *            value is to the right side.
+	 * @param iSize
+	 *            the size of color library to create
+	 * @since 2.2
 	 */
-	void update( Fill f );
+	void shift( int iStep, int iSize );
+
 } // Palette

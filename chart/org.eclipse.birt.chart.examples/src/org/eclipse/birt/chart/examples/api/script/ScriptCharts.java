@@ -274,12 +274,12 @@ public class ScriptCharts
 		} );
 
 		// Base Series
-		Series seCategory = (Series) SeriesImpl.create( );
+		Series seCategory = SeriesImpl.create( );
 		seCategory.setDataSet( categoryValues );
 
 		SeriesDefinition sd = SeriesDefinitionImpl.create( );
 		cwoaPie.getSeriesDefinitions( ).add( sd );
-		sd.getSeriesPalette( ).update( 0 );
+		sd.getSeriesPalette( ).shift( 0 );
 		sd.getSeries( ).add( seCategory );
 
 		// Orthogonal Series
@@ -593,12 +593,12 @@ public class ScriptCharts
 		} );
 
 		// Base Series
-		Series seCategory = (Series) SeriesImpl.create( );
+		Series seCategory = SeriesImpl.create( );
 		seCategory.setDataSet( categoryValues );
 
 		SeriesDefinition sd = SeriesDefinitionImpl.create( );
 		cwoaPie.getSeriesDefinitions( ).add( sd );
-		sd.getSeriesPalette( ).update( 0 );
+		sd.getSeriesPalette( ).shift( 0 );
 		sd.getSeries( ).add( seCategory );
 
 		// Orthogonal Series

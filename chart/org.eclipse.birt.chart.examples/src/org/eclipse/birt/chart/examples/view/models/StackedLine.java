@@ -107,7 +107,7 @@ public class StackedLine
 		ls2.getLabel( ).setVisible( true );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		sdY.getSeriesPalette( ).update( -2 );
+		sdY.getSeriesPalette( ).shift( -2 );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
 		sdY.getSeries( ).add( ls1 );
 		sdY.getSeries( ).add( ls2 );

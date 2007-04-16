@@ -29,7 +29,6 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
-import org.eclipse.birt.chart.ui.swt.interfaces.IChangeWithoutNotification;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
@@ -399,7 +398,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 			if ( i != removedIndex )
 			{
 				( (SeriesDefinition) seriesDefns.get( i ) ).getSeriesPalette( )
-						.update( -j++ );
+						.shift( -j++ );
 			}
 		}
 	}
@@ -492,23 +491,18 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent
 			if ( cmbAxisSelect.getSelectionIndex( ) == cmbAxisSelect.getItemCount( ) - 1 )
 			{
 				// Update dimension if it doesn't support multiple axes
-				ChartAdapter.changeChartWithoutNotification( new IChangeWithoutNotification( ) {
-
-					public Object run( )
-					{
-						String currentDimension = ChartUIUtil.getDimensionString( getChart( ).getDimension( ) );
-						boolean isDimensionSupported = wizardContext.getChartType( )
-								.isDimensionSupported( currentDimension,
-										cmbAxisSelect.getItemCount( ),
-										0 );
-						if ( !isDimensionSupported )
-						{
-							getChart( ).setDimension( ChartUIUtil.getDimensionType( wizardContext.getChartType( )
-									.getDefaultDimension( ) ) );
-						}
-						return null;
-					}
-				} );
+				String currentDimension = ChartUIUtil.getDimensionString( getChart( ).getDimension( ) );
+				boolean isDimensionSupported = wizardContext.getChartType( )
+						.isDimensionSupported( currentDimension,
+								cmbAxisSelect.getItemCount( ),
+								0 );
+				if ( !isDimensionSupported )
+				{
+					ChartAdapter.beginIgnoreNotifications( );
+					getChart( ).setDimension( ChartUIUtil.getDimensionType( wizardContext.getChartType( )
+							.getDefaultDimension( ) ) );
+					ChartAdapter.endIgnoreNotifications( );
+				}				
 
 				// Update model
 				ChartUIUtil.addAxis( (ChartWithAxes) getChart( ) );

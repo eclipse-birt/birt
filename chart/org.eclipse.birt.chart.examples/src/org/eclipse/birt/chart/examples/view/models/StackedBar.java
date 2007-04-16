@@ -104,7 +104,7 @@ public class StackedBar
 		bs2.setLabelPosition( Position.INSIDE_LITERAL );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		sdY.getSeriesPalette( ).update( 0 );
+		sdY.getSeriesPalette( ).shift( 0 );
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
 		sdY.getSeries( ).add( bs1 );
 		sdY.getSeries( ).add( bs2 );

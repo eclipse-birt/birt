@@ -116,7 +116,7 @@ public class InteractivityCharts
 		seCategory.setDataSet( categoryValues );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getSeriesPalette( ).update( 0 );
+		sdX.getSeriesPalette( ).shift( 0 );
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seCategory );
 
@@ -317,11 +317,11 @@ public class InteractivityCharts
 		}
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getSeriesPalette( ).update( 0 ); // SET THE COLOR IN THE PALETTE
+		sdX.getSeriesPalette( ).shift( 0 ); // SET THE COLOR IN THE PALETTE
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		sdY.getSeriesPalette( ).update( 1 ); // SET THE COLOR IN THE PALETTE
+		sdY.getSeriesPalette( ).shift( -1 ); // SET THE COLOR IN THE PALETTE
 		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
 
 		sdX.getSeries( ).add( seCategory );
@@ -366,7 +366,7 @@ public class InteractivityCharts
 
 		SeriesDefinition sd = SeriesDefinitionImpl.create( );
 		cwoaPie.getSeriesDefinitions( ).add( sd );
-		sd.getSeriesPalette( ).update( 0 );
+		sd.getSeriesPalette( ).shift( 0 );
 		sd.getSeries( ).add( seCategory );
 
 		// Orthogonal Series
@@ -433,7 +433,7 @@ public class InteractivityCharts
 		seCategory.setDataSet( categoryValues );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getSeriesPalette( ).update( 0 );
+		sdX.getSeriesPalette( ).shift( 0 );
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seCategory );
 

@@ -87,7 +87,7 @@ public class SeriesValueFormat
 		seCategory.setDataSet( categoryValues );
 
 		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getSeriesPalette( ).update( -1 );
+		sdX.getSeriesPalette( ).shift( -1 );
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seCategory );
 		sdX.setFormatSpecifier( JavaDateFormatSpecifierImpl.create( "MM/dd/yyyy" ) );//$NON-NLS-1$
