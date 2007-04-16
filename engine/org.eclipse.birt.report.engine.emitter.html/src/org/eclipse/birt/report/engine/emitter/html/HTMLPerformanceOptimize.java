@@ -128,7 +128,7 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 	 */
 	public void closeContainerTag( )
 	{
-		writer.openTag( HTMLTags.TAG_DIV );
+		writer.closeTag( HTMLTags.TAG_DIV );
 	}
 
 	/**

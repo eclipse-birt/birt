@@ -191,7 +191,7 @@ public class HTMLVisionOptimize extends HTMLEmitter
 	 */
 	public void closeContainerTag( )
 	{
-		writer.openTag( HTMLTags.TAG_DIV );
+		writer.closeTag( HTMLTags.TAG_DIV );
 		int display = ( (Integer) cellDisplayStack.pop( ) ).intValue( );
 		if ( ( ( display & HTMLEmitterUtil.DISPLAY_INLINE ) > 0 )
 				|| ( ( display & HTMLEmitterUtil.DISPLAY_INLINE_BLOCK ) > 0 ) )
