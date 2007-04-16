@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.outline.providers;
 
+import java.util.Arrays;
+
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.IRequestConstants;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportCSSStyleAction;
@@ -20,6 +22,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.actions.UseCssStyleAct
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
+import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
@@ -124,7 +127,7 @@ public class ThemeNodeProvider extends DefaultNodeProvider
 			{
 				obj[styleCount + i] = (CssStyleSheetHandle)theme.getAllCssStyleSheets( ).get( i );
 			}
-
+			Arrays.sort( obj, new AlphabeticallyComparator( ) );
 			return obj;
 			
 		}
