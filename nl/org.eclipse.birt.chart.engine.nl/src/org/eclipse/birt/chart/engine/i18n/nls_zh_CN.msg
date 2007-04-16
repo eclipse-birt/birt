@@ -82,6 +82,7 @@ info.eclenv.creating.device=（日蚀式环境）将设备 {0} 创建为 {1}
 info.stdenv.creating.device=（独立环境）将设备 {0} 创建为 {1}
 info.eclenv.creating.display=（日蚀式环境）将显示服务器 {0} 创建为 {1}
 info.stdenv.creating.display=（独立环境）将显示服务器 {0} 创建为 {1}
+exception.data.max.row.count=Unable to render a chart that binds over {0} rows of data.
 exception.percent.stacked.non.numerical=无法计算包含非数值数据的百分比/堆积轴
 exception.text.data.numerical.datetime.axis=无法使用文本数据绘制数值/日期时间轴。
 exception.numerical.data.datetime.axis=无法使用非日期时间数据绘制日期时间轴。

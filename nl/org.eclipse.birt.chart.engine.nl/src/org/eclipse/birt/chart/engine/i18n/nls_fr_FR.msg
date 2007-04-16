@@ -82,6 +82,7 @@ info.eclenv.creating.device=(ENV-ECLIPSE) Création du périphérique {0} en tant q
 info.stdenv.creating.device=(ENV-AUTONOME) Création du périphérique {0} en tant que {1}
 info.eclenv.creating.display=(ENV-ECLIPSE) Création du serveur d''affichage {0} en tant que {1}
 info.stdenv.creating.display=(ENV-AUTONOME) Création du serveur d''affichage {0} en tant que {1}
+exception.data.max.row.count=Unable to render a chart that binds over {0} rows of data.
 exception.percent.stacked.non.numerical=Impossible de calculer un axe pourcentage/empilé contenant des données non numériques
 exception.text.data.numerical.datetime.axis=Impossible d'utiliser des données de texte pour obtenir un axe date-heure/numérique.
 exception.numerical.data.datetime.axis=Impossible d'utiliser des données autres que date-heure pour obtenir un axe date-heure.

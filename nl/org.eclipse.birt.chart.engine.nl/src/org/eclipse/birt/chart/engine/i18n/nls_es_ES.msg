@@ -82,6 +82,7 @@ info.eclenv.creating.device=(ECLIPSE-ENV) Creando dispositivo {0} como {1}
 info.stdenv.creating.device=(STANDALONE-ENV) Creando dispositivo {0} como {1}
 info.eclenv.creating.display=(ECLIPSE-ENV) Creando servidor de visualización {0} como {1}
 info.stdenv.creating.display=(STANDALONE-ENV) Creando servidor de visualización {0} como {1}
+exception.data.max.row.count=Unable to render a chart that binds over {0} rows of data.
 exception.percent.stacked.non.numerical=No es posible procesar un eje de porcentaje/apilado que contenga datos no numéricos
 exception.text.data.numerical.datetime.axis=No es posible utilizar los datos de texto para procesar un eje numérico o de fecha/hora.
 exception.numerical.data.datetime.axis=No es posible utilizar los datos que no sean de fecha/hora para procesar un eje de fecha/hora.
