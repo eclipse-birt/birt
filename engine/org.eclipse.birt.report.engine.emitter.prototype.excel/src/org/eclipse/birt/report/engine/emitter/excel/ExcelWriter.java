@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.emitter.XMLWriter;
 
 public class ExcelWriter
@@ -71,14 +72,21 @@ public class ExcelWriter
 	}
 
 	public void startCell( int index, int colSpan, int rowSpan, int id,
-			String hyperLink )
+			HyperlinkDef hyperLink )
 	{
 		writer.openTag( "Cell" );
 		writer.attribute( "ss:Index", index );
 		writer.attribute( "ss:StyleID", id );
+		
 		if ( hyperLink != null )
 		{
-			writer.attribute( "ss:HRef", hyperLink );
+			if(hyperLink.getType( ) == IHyperlinkAction.ACTION_BOOKMARK) {
+				
+				writer.attribute( "ss:HRef", "#Sheet1!" + hyperLink.getUrl( ));
+			}
+			else{
+			   writer.attribute( "ss:HRef", hyperLink.getUrl( ) );
+			}
 		}
 
 		writer.attribute( "ss:MergeAcross", colSpan );

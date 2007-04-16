@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 class Data implements Serializable, Cloneable
 {
-	
+
 	public final static int INVALID = -1;
 
 	private static final long serialVersionUID = -316995334044186083L;
@@ -20,12 +20,12 @@ class Data implements Serializable, Cloneable
 
 	Span span;
 
-	final String url;
+	HyperlinkDef url;
 
 	boolean isTxtData = true;
 
 	Data( final String txt, final int styleId, final Span span,
-			final String url, final StyleEntry s )
+			final HyperlinkDef url, final StyleEntry s )
 	{
 		this.txt = txt;
 		this.span = span;
@@ -77,4 +77,13 @@ class Data implements Serializable, Cloneable
 		}
 		return false;
 	}
+ 
+	protected HyperlinkDef getHyperlinkDef( ) {
+	   return url;
+	}
+	
+	protected void setHyperlinkDef( HyperlinkDef def ) {
+	   this.url = def;
+	}
+    	
 }
