@@ -156,7 +156,8 @@ public class GroupCalculatorFactory
 	 */
 	private static boolean isDate( int dataType )
 	{
-		return ( dataType == DataType.DATE_TYPE );
+		return (dataType == DataType.DATE_TYPE
+				|| dataType == DataType.SQL_DATE_TYPE || dataType == DataType.SQL_TIME_TYPE);
 	}
 
 	/**
