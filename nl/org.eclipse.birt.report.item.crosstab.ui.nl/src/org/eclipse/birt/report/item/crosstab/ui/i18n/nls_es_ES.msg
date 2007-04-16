@@ -1,0 +1,104 @@
+###########################################################
+# Crosstab Action mame and trans name
+AddLevelHandleAction_Displayname=Show/Hide Group Levels
+AddLevelHandleAction_TransName=Show/Hide Group Levels
+AddMesureViewHandleAction.DisplayName=Show/Hide Measures
+AddMesureViewHandleAction.TransName=Show/Hide Measures
+AddSubTotalAction.LabelName=Grand Total
+AddSubTotalAction.TransName=Aggregation
+AddSubTotalAction.DisplayName=Aggregation
+AddSubTotalAction.TotalName=TOTAL
+CrosstabMenuBuilder.EditCubeAction.DisplayName=Edit Data Cube
+DeleteDimensionViewHandleAction.TransName=Delete Dimensionviewhandle
+DeleteDimensionViewHandleAction.DisplayName=Remove
+DeleteMeasureHandleAction.DisplayName=Remove
+DeleteMeasureHandleAction.TransName=Delete MeasureViewHandle
+###########################################################
+# Crosstab Command trans name
+AddDimensionViewHandleCommand.TransName=Add DiminsionHandle
+AddMeasureViewHandleCommand.TransName=Add MeasureHandle
+ChangeAreaCommand.TransName=Drop dimension handle
+ChangeMeasureOrderCommand.TransName=Change the measue order
+CreateDimensionViewCommand.TransName=Create DiminsionViewHandle
+CreateMeasureViewCommand.TransName=Create MeasureViewHandle
+###########################################################
+# Crosstab EditPart
+###########################################################
+# Crosstab Command trans name
+CrosstabTableEditPart.GuideText=Cross Tab
+###########################################################
+# Crosstab Dialog trans name
+GrandTotalProvider.Column.DataField=Data Field
+GrandTotalProvider.Column.Function=Function
+SubTotalProvider.Column.DataField=Data Field
+SubTotalProvider.Column.Function=Function
+SubTotalProvider.Column.AggregateOn=Aggregate on
+LevelViewDialog.Title=Show/Hide Group Levels
+LevelViewDialog.Label.Info=Select levels to show on Crosstab:
+AggregationDialog.Title=Aggregation
+AggregationDialog.Label.Grand=Grand Totals:
+AggregationDialog.Label.Sub=Sub Totals:
+ShowSummaryFieldDialog.Title=Show/Hide Summary Fields
+ShowSummaryFieldDialog.Label.Info=Select levels to show on Crosstab:
+###########################################################
+# Crosstab Outline Node
+AreaNodeProvider.ColumnArea=Column Area
+AreaNodeProvider.RowArea=Row Area
+AreaNodeProvider.DetailArea=Detail Area
+CrossTabViewNodeProvider.ColumnArea=Column Area
+CrossTabViewNodeProvider.RowArea=Row Area
+CrosstTabCellNodeProvider.Cell=Cell
+CrosstTabLevelNodeProvider.Level=Level - 
+CrosstTabMeasureNodeProvider.Detail=Detail - 
+MeasureSubNodeProvider.Header=Header
+MeasureSubNodeProvider.Detail=Detail
+MeasureSubNodeProvider.Aggregation=Aggregation
+
+SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=Error
+SortkeyBuilder.DialogTitle.Label.Key=Key:
+CrosstabSortingModelProvider.ColumnName.GroupLevel=Group Level
+CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel=Group Level:
+SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=Click to invoke the Expression Builder
+SortkeyBuilder.DialogTitle.Label.Direction=Direction:
+
+###########################################################
+#GrossTabPageGenerator properties
+CrosstabPageGenerator.List.General=General
+CrosstabPageGenerator.List.Margin=Margin
+CrosstabPageGenerator.List.Font=Font
+CrosstabPageGenerator.List.Borders=Border
+CrosstabPageGenerator.List.Section=Page Break
+CrosstabPageGenerator.List.Visibility=Visibility
+CrosstabPageGenerator.List.TOC=Table of Contents
+CrosstabPageGenerator.List.Bookmark=Bookmark
+CrosstabPageGenerator.List.NamedExpressions=Named Expressions
+CrosstabPageGenerator.List.UserProperties=User Properties
+CrosstabPageGenerator.List.AdvancedProperty=Advanced
+
+CrosstabPageGenerator.TabItem.Binding=Binding
+CrosstabPageGenerator.TabItem.RowArea=Row Area
+CrosstabPageGenerator.TabItem.ColumnArea=Column Area
+CrosstabPageGenerator.TabItem.DetailArea=Detail Area
+CrosstabPageGenerator.TabItem.Filters=Filters
+CrosstabPageGenerator.TabItem.Highlights=Highlights
+CrosstabPageGenerator.TabItem.map=Map
+CrosstabPageGenerator.TabItem.Sorting=Sorting
+
+CrosstabGeneraPage.ForEmptyCell=For empty cells, show:
+CrosstabGeneraPage.FormatOption=Format options:
+LayoutMeasuresProvider.DisplayName=Layout data fields in detail area vertically
+
+
+parameterBinding.title=Dataset Parameter Binding...
+
+###########################################################
+#SortingHandleProvider properties
+SortingHandleProvider.Label.SortOn=Sort on:
+Element.ReportItem.dataSet=Data Set:
+Element.ReportElement.Cube=&Data:
+BindingPage.None=None
+
+###########################################################
+#CategoryPageGenerator properties
+
+CategoryPageGenerator.TabItem.Attributes=Properties
