@@ -298,11 +298,14 @@ public class GetParameterDefinitionTask extends EngineTask
 
 		// using the current setting to evaluate the parameter values.
 		String expr = parameter.getDefaultValue( );
-		if ( expr == null || expr.length( ) == 0 )
+		String dataType = parameter.getDataType( );
+		if ( expr == null
+				|| ( expr.length( ) == 0 && !DesignChoiceConstants.PARAM_TYPE_STRING
+						.equals( dataType ) ) )
 		{
 			return null;
 		}
-		return convertToType( expr, parameter.getDataType( ) );
+		return convertToType( expr, dataType );
 	}
 
 	/*
