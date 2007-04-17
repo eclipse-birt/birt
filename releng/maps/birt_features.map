@@ -20,7 +20,7 @@ plugin@org.eclipse.birt.chart.runtime=v20070227,:pserver:anonymous@dev.eclipse.o
 feature@org.eclipse.birt.chart=v20070406,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.feature
 plugin@org.eclipse.birt.chart=v20070227,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart
 
-feature@org.eclipse.birt.report.designer=v20070412,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.feature
+feature@org.eclipse.birt.report.designer=v20070417,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.feature
 plugin@org.eclipse.birt.report.designer=v20070227,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer
 
 feature@org.eclipse.birt.report.runtime=v20070412,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.runtime.feature
@@ -38,7 +38,7 @@ feature@org.eclipse.birt.rcp=v20070314,:pserver:anonymous@dev.eclipse.org:/cvsro
 !*************** Third Party Features  ***********
 feature@org.eclipse.birt.thirdparty=v20070405,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.thirdparty.feature
 plugin@org.eclipse.birt.thirdparty=v20061120-1200,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.thirdparty
-feature@org.eclipse.birt.nl=v20070330,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.nl.feature
+feature@org.eclipse.birt.nl=v20070417,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.nl.feature
 
 
 plugin@org.apache.batik.pdf=v20060613-1220,:pserver:anonymous@dev.eclipse.org:/cvsroot/modeling,,org.eclipse.gmf/plugins/org.apache.batik.pdf 
