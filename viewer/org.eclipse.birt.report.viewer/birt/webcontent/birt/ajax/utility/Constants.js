@@ -51,6 +51,7 @@ var Constants = {
 	PARAM_PAGERANGE : '__pagerange',
 	PARAM_EXPORT_ENCODING : '__exportEncoding',
 	PARAM_SEP : '__sep',
+	PARAM_ISNULL : '__isnull',
 	
 	PARAM_PRINTER_NAME : '__printer',
 	PARAM_PRINTER_COPIES : '__printer_copies',

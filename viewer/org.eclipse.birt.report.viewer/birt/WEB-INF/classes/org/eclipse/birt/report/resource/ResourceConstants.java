@@ -60,11 +60,10 @@ public interface ResourceConstants
 	public static final String EXCEPTION_DIALOG_HIDE_STACK_TRACE = "birt.viewer.exceptionDialog.hideStackTrace"; //$NON-NLS-1$
 	
 	// viewer taglib excepton
-	public static final String TAGLIB_NO_VIEWER_ID = "birt.viewer.taglib.NO_VIEWER_ID"; //$NON-NLS-1$
-	public static final String TAGLIB_INVALID_VIEWER_ID = "birt.viewer.taglib.INVALID_VIEWER_ID"; //$NON-NLS-1$
-	public static final String TAGLIB_VIEWER_ID_DUPLICATE = "birt.viewer.taglib.VIEWER_ID_DUPLICATE"; //$NON-NLS-1$
+	public static final String TAGLIB_NO_ATTR_ID = "birt.viewer.taglib.NO_ATTR_ID"; //$NON-NLS-1$
+	public static final String TAGLIB_INVALID_ATTR_ID = "birt.viewer.taglib.INVALID_ATTR_ID"; //$NON-NLS-1$
+	public static final String TAGLIB_ATTR_ID_DUPLICATE = "birt.viewer.taglib.ATTR_ID_DUPLICATE"; //$NON-NLS-1$
 	public static final String TAGLIB_NO_REPORT_SOURCE = "birt.viewer.taglib.NO_REPORT_SOURCE"; //$NON-NLS-1$
 	public static final String TAGLIB_NO_REPORT_DOCUMENT = "birt.viewer.taglib.NO_REPORT_DOCUMENT"; //$NON-NLS-1$
 	public static final String TAGLIB_NO_REQUESTER_NAME = "birt.viewer.taglib.NO_REQUESTER_NAME"; //$NON-NLS-1$
-
 }

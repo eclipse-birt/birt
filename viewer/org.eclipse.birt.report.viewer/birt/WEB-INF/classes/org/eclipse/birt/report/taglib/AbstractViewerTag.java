@@ -81,20 +81,20 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 		if ( viewer.getId( ) == null || viewer.getId( ).length( ) <= 0 )
 		{
 			throw new JspTagException( BirtResources
-					.getMessage( ResourceConstants.TAGLIB_NO_VIEWER_ID ) );
+					.getMessage( ResourceConstants.TAGLIB_NO_ATTR_ID ) );
 		}
 
 		if ( !__validateViewerId( ) )
 		{
 			throw new JspTagException( BirtResources
-					.getMessage( ResourceConstants.TAGLIB_INVALID_VIEWER_ID ) );
+					.getMessage( ResourceConstants.TAGLIB_INVALID_ATTR_ID ) );
 		}
 
 		// validate the viewer id if unique
 		if ( pageContext.findAttribute( viewer.getId( ) ) != null )
 		{
 			throw new JspTagException( BirtResources
-					.getMessage( ResourceConstants.TAGLIB_VIEWER_ID_DUPLICATE ) );
+					.getMessage( ResourceConstants.TAGLIB_ATTR_ID_DUPLICATE ) );
 		}
 
 		// Report design or document should be specified

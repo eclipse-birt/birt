@@ -11,7 +11,11 @@
 
 package org.eclipse.birt.report.taglib;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
@@ -35,6 +39,23 @@ public class RequesterTag extends AbstractBaseTag
 	 * Serial Version UID
 	 */
 	private static final long serialVersionUID = -4360776653926113953L;
+
+	/**
+	 * Cache the parameter values defined in paramDef tag
+	 */
+	private Map parameters;
+
+	/**
+	 * Then entry to initialize tag
+	 * 
+	 * @throws Exception
+	 */
+	public void __init( )
+	{
+		super.__init( );
+
+		parameters = new HashMap( );
+	}
 
 	/**
 	 * When reach the start tag, fire this operation If set isCustom as true,
@@ -87,6 +108,26 @@ public class RequesterTag extends AbstractBaseTag
 		// Set locale information
 		BirtResources.setLocale( locale );
 
+		// Validate requester id
+		if ( viewer.getId( ) == null || viewer.getId( ).length( ) <= 0 )
+		{
+			throw new JspTagException( BirtResources
+					.getMessage( ResourceConstants.TAGLIB_NO_ATTR_ID ) );
+		}
+
+		if ( !__validateRequesterId( ) )
+		{
+			throw new JspTagException( BirtResources
+					.getMessage( ResourceConstants.TAGLIB_INVALID_ATTR_ID ) );
+		}
+
+		// validate the viewer id if unique
+		if ( pageContext.findAttribute( viewer.getId( ) ) != null )
+		{
+			throw new JspTagException( BirtResources
+					.getMessage( ResourceConstants.TAGLIB_ATTR_ID_DUPLICATE ) );
+		}
+
 		// Validate requester name
 		// if isCustom is true, the requester name should be required.
 		if ( viewer.isCustom( )
@@ -116,11 +157,25 @@ public class RequesterTag extends AbstractBaseTag
 	}
 
 	/**
+	 * Validate the requester id. Requester id only can include number, letter
+	 * and underline
+	 * 
+	 * @return
+	 */
+	protected boolean __validateRequesterId( )
+	{
+		Pattern p = Pattern.compile( "^\\w+$" ); //$NON-NLS-1$
+		Matcher m = p.matcher( viewer.getId( ) );
+		return m.find( );
+	}
+
+	/**
 	 * Handle event before doEndTag
 	 */
 	protected void __beforeEndTag( )
 	{
-		// do nothing
+		// Save requester id
+		pageContext.setAttribute( viewer.getId( ), viewer.getId( ) );
 	}
 
 	/**
@@ -517,5 +572,24 @@ public class RequesterTag extends AbstractBaseTag
 	{
 		viewer.setShowNavigationBar( BirtTagUtil
 				.convertBooleanValue( showNavigationBar ) );
+	}
+
+	/**
+	 * Add parameter value
+	 * 
+	 * @param name
+	 * @param value
+	 */
+	public void addParameter( String name, Object value )
+	{
+		parameters.put( name, value );
+	}
+
+	/**
+	 * @return the parameters
+	 */
+	public Map getParameters( )
+	{
+		return parameters;
 	}
 }

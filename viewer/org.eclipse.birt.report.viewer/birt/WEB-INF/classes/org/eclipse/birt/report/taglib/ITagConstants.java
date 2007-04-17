@@ -39,4 +39,9 @@ public interface ITagConstants
 	 */
 	public static final String CONTAINER_IFRAME = "iframe"; //$NON-NLS-1$
 	public static final String CONTAINER_DIV = "div"; //$NON-NLS-1$
+	
+	/**
+	 * Null Value
+	 */
+	public static final String NULL_VALUE = "Null Value"; //$NON-NLS-1$
 }
