@@ -552,8 +552,9 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		{
 			if ( iType == DATE_TIME )
 			{
-				oMin = new CDateTime( 1, 1, 2005 );
-				oMax = new CDateTime( 1, 1, 2006 );
+				int year = Calendar.getInstance( ).get( Calendar.YEAR );
+				oMin = new CDateTime( year, 1, 1 );
+				oMax = new CDateTime( year, 12, 31 );
 			}
 			else if ( ( iType & NUMERICAL ) == NUMERICAL )
 			{
