@@ -87,6 +87,7 @@ import org.eclipse.birt.report.model.elements.TemplateReportItem;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.Translation;
+import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.extension.oda.ODAProvider;
 import org.eclipse.birt.report.model.extension.oda.OdaDummyProvider;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -2495,6 +2496,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 			// end of writing meta-data information.
 		}
+		property( obj, IDataSetModel.ROW_FETCH_LIMIT_PROP );
 	}
 
 	/*

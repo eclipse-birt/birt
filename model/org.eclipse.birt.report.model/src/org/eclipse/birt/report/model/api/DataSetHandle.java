@@ -461,6 +461,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 	 * 
 	 * @param count
 	 * @throws SemanticException
+	 * @deprecated duplicate with setRowFetchLimit() 
 	 */
 
 	public void setDataSetRowLimit( int count ) throws SemanticException
@@ -472,6 +473,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 	 * Returns value of data set row limit property.
 	 * 
 	 * @return
+	 * @deprecated duplicate with getRowFetchLimit() 
 	 */
 
 	public int getDataSetRowLimit( )
@@ -968,6 +970,31 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 		}
 
+	}
+	
+	/**
+	 * Sets the max number of rows from data set property value.
+	 * 
+	 * @param count
+	 *            the row number to fetch from result set
+	 * 
+	 * @throws SemanticException
+	 */
+
+	public void setRowFetchLimit( int count ) throws SemanticException
+	{
+		setIntProperty( ROW_FETCH_LIMIT_PROP, count );
+	}
+
+	/**
+	 * Returns the max number of rows from data set property value.
+	 * 
+	 * @return the max number of rows that can be fetched from data set.
+	 */
+
+	public int getRowFetchLimit( )
+	{
+		return getIntProperty( ROW_FETCH_LIMIT_PROP );
 	}
 
 }
