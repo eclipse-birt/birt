@@ -11,11 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors;
 
-import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CreatePlaceHolderPartAction;
@@ -46,22 +43,10 @@ import org.eclipse.birt.report.designer.ui.actions.NoneAction;
 import org.eclipse.birt.report.designer.ui.actions.ToggleMarginVisibilityAction;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
-import org.eclipse.core.commands.Command;
-import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.commands.IParameter;
-import org.eclipse.core.commands.IParameterValues;
-import org.eclipse.core.commands.NotEnabledException;
-import org.eclipse.core.commands.NotHandledException;
-import org.eclipse.core.commands.ParameterValueConversionException;
-import org.eclipse.core.commands.ParameterValuesException;
-import org.eclipse.core.commands.Parameterization;
-import org.eclipse.core.commands.ParameterizedCommand;
-import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.ui.actions.DeleteRetargetAction;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.RedoRetargetAction;
-import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.gef.ui.actions.UndoRetargetAction;
 import org.eclipse.gef.ui.actions.UpdateAction;
 import org.eclipse.gef.ui.actions.ZoomComboContributionItem;
@@ -79,8 +64,7 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.RetargetAction;
-import org.eclipse.ui.commands.ICommandService;
-import org.eclipse.ui.handlers.IHandlerService;
+import org.eclipse.ui.menus.IMenuService;
 
 /**
  * Toolbar and menu contributor for designer
@@ -527,6 +511,9 @@ public class DesignerActionBarContributor extends
 
 		dataMenu.add( editGroupMenu );
 
+		IMenuService menuService = (IMenuService) PlatformUI.getWorkbench( )
+				.getService( IMenuService.class );
+		menuService.populateContributionManager( dataMenu, "menu:birtData" );
 		menubar.insertAfter( M_ELEMENT, dataMenu );
 
 		menubar.update( );

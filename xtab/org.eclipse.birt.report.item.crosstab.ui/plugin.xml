@@ -20,7 +20,7 @@
                description="%Crosstab desc"
                icon="icons/pal/crosstab.gif"
                itemName="Crosstab"
-               label="Cross Tab"
+               label="%crosstab.label"
                largeIcon="icons/pal/crosstab.gif">
          </paletteEntry></reportItemEditPart>
    </extension>
@@ -37,6 +37,11 @@
             defaultHandler="org.eclipse.birt.report.item.crosstab.internal.ui.CreateCrosstabHandler"
             id="org.eclipse.birt.report.item.crosstab.ui.createCrosstab"
             name="Create Crosstab">
+      </command>
+      <command
+            defaultHandler="org.eclipse.birt.report.item.crosstab.internal.ui.CreateCubeHandler"
+            id="org.eclipse.birt.report.item.crosstab.ui.createCube"
+            name="Create Cube">
       </command>
    </extension>
    <extension
@@ -248,7 +253,19 @@
       </dropAdapter>
 
       <dropAdapter adapter="org.eclipse.birt.report.item.crosstab.internal.ui.dnd.LevelHandleDropAdapter"/>
-      <dragAdapter adapter="org.eclipse.birt.report.item.crosstab.internal.ui.dnd.LevelHandleDragAdapter"/>     
+      <dragAdapter adapter="org.eclipse.birt.report.item.crosstab.internal.ui.dnd.LevelHandleDragAdapter"/>
 
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:birtData">
+            <command
+                  commandId="org.eclipse.birt.report.item.crosstab.ui.createCube"
+                  label="New Data Cube"
+                  mnemonic="C"
+                  style="push">
+            </command>
+      </menuContribution>
    </extension>
 </plugin>
