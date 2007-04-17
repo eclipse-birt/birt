@@ -13,9 +13,8 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.provider;
 
 import java.util.ArrayList;
 
-import org.eclipse.birt.report.designer.internal.ui.views.outline.providers.ReportDesignNodeProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.outline.providers.LibraryNodeProvider;
 import org.eclipse.birt.report.model.api.LibraryHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.TreeViewer;
 
@@ -25,7 +24,7 @@ import org.eclipse.jface.viewers.TreeViewer;
  * 
  * 
  */
-public class LibraryCubesNodeProvider extends ReportDesignNodeProvider
+public class LibraryCubesNodeProvider extends LibraryNodeProvider
 {
 
 	/**
