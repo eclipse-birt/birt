@@ -176,7 +176,8 @@ public class DeleteCommand extends Command
 			}
 			else
 			{
-				handle.drop( );
+				// handle.drop( );
+				handle.dropAndClear( );
 			}
 		}
 	}
@@ -208,23 +209,23 @@ public class DeleteCommand extends Command
 		}
 		DesignElementHandle containerHandle = cssStyleHandle.getContainerHandle( );
 
-		if(containerHandle instanceof ReportDesignHandle)
+		if ( containerHandle instanceof ReportDesignHandle )
 		{
-			ReportDesignHandle report = (ReportDesignHandle)containerHandle;
-			if(report.canDropCssStyleSheet( cssStyleHandle ))
+			ReportDesignHandle report = (ReportDesignHandle) containerHandle;
+			if ( report.canDropCssStyleSheet( cssStyleHandle ) )
 			{
 				report.dropCss( cssStyleHandle );
 			}
-		}else
-		if(containerHandle instanceof ThemeHandle)
+		}
+		else if ( containerHandle instanceof ThemeHandle )
 		{
-			ThemeHandle theme = (ThemeHandle)containerHandle;
-			if(theme.canDropCssStyleSheet( cssStyleHandle ))
+			ThemeHandle theme = (ThemeHandle) containerHandle;
+			if ( theme.canDropCssStyleSheet( cssStyleHandle ) )
 			{
 				theme.dropCss( cssStyleHandle );
 			}
 		}
-		
+
 	}
 
 	/*
@@ -313,19 +314,20 @@ public class DeleteCommand extends Command
 		}
 		else if ( source instanceof CssStyleSheetHandle )
 		{
-			DesignElementHandle elementHandle = ((CssStyleSheetHandle)source).getContainerHandle( );
-			if(elementHandle instanceof ReportDesignHandle)
+			DesignElementHandle elementHandle = ( (CssStyleSheetHandle) source ).getContainerHandle( );
+			if ( elementHandle instanceof ReportDesignHandle )
 			{
-				return ((ReportDesignHandle)elementHandle).canDropCssStyleSheet( (CssStyleSheetHandle )source);
-			}else
-			if(elementHandle instanceof ThemeHandle)
+				return ( (ReportDesignHandle) elementHandle ).canDropCssStyleSheet( (CssStyleSheetHandle) source );
+			}
+			else if ( elementHandle instanceof ThemeHandle )
 			{
-				return ((ThemeHandle)elementHandle).canDropCssStyleSheet( (CssStyleSheetHandle )source);
-			}else
+				return ( (ThemeHandle) elementHandle ).canDropCssStyleSheet( (CssStyleSheetHandle) source );
+			}
+			else
 			{
 				return false;
 			}
-			
+
 		}
 		else
 			return false;
