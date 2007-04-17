@@ -17,7 +17,6 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BaseAt
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BindingPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.PreviewPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.HighlightDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.MapDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormPropertyDescriptor;
@@ -25,6 +24,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.High
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.MapPropertyDescriptor;
 import org.eclipse.birt.report.designer.ui.views.attributes.AbstractPageGenerator;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.CrosstabFilterHandleProvider;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.CrosstabSortingHandleProvider;
 import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.Platform;
@@ -71,6 +71,7 @@ public class CrosstabPageGenerator extends AbstractPageGenerator {
 			{
 				case 1 :
 					bindingPage = new BindingPage( );
+//					bindingPage.setDataSetSectionVisible(false);
 					setPageInput( bindingPage );
 					refresh(tabFolder,bindingPage, true);
 					item.setControl( bindingPage.getControl( ) );
@@ -85,8 +86,8 @@ public class CrosstabPageGenerator extends AbstractPageGenerator {
 				case 5:
 					// filter;
 					filterPage = new FormPage(
-							FormPropertyDescriptor.FULL_FUNCTION,
-							new FilterHandleProvider( ),
+							FormPropertyDescriptor.NO_UP_DOWN,
+							new CrosstabFilterHandleProvider( ),
 							true,
 							true );
 					setPageInput( filterPage );

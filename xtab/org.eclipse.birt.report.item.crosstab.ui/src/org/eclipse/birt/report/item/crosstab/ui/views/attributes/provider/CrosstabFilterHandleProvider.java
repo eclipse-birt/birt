@@ -19,23 +19,24 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.Ab
 import org.eclipse.birt.report.item.crosstab.core.ILevelViewConstants;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.ListingHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
-import org.eclipse.birt.report.model.api.elements.structures.SortKey;
+import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.widgets.Table;
 
+
 /**
  * 
  */
 
-public class CrosstabSortingHandleProvider extends AbstractFormHandleProvider
+public class CrosstabFilterHandleProvider extends AbstractFormHandleProvider
 {
-
 	/**
 	 * The current selections in outline or Editor.
 	 */
@@ -46,21 +47,23 @@ public class CrosstabSortingHandleProvider extends AbstractFormHandleProvider
 	 */
 	private String[] columnKeys = new String[]{
 			ILevelViewConstants.LEVEL_PROP,
-			SortKey.KEY_MEMBER,
-			SortKey.DIRECTION_MEMBER
+			FilterCondition.EXPR_MEMBER,
+			FilterCondition.OPERATOR_MEMBER,
+			FilterCondition.VALUE1_MEMBER,
+			FilterCondition.VALUE2_MEMBER
 	};
 
 	/**
 	 * Column widths.
 	 */
 	private static int[] columnWidth = new int[]{
-			250, 250, 250
+			220,170, 120, 170, 170
 	};
 
 	/**
-	 * Model processor, provide data process of Sorting model.
+	 * Model processor, provide data process of Filter model.
 	 */
-	private CrosstabSortingModelProvider modelAdapter = new CrosstabSortingModelProvider( );
+	private CrosstabFilterModelProvider modelAdapter = new CrosstabFilterModelProvider( );
 
 	/**
 	 * The display name of columns.
@@ -68,9 +71,12 @@ public class CrosstabSortingHandleProvider extends AbstractFormHandleProvider
 	private String[] columnNames;
 
 	/**
-	 * Column editors for the Sorting form.
+	 * Column editors for the Filter form.
 	 */
 	private CellEditor[] editors;
+
+
+
 
 	/*
 	 * (non-Javadoc)
@@ -93,7 +99,7 @@ public class CrosstabSortingHandleProvider extends AbstractFormHandleProvider
 	 */
 	public String getDisplayName( )
 	{
-		return Messages.getString( "SortingHandleProvider.Label.SortOn" ); //$NON-NLS-1$
+		return Messages.getString( "FilterHandleProvider.Label.Filterby" ); //$NON-NLS-1$
 	}
 
 	/*
@@ -101,7 +107,7 @@ public class CrosstabSortingHandleProvider extends AbstractFormHandleProvider
 	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getEditors(org.eclipse.swt.widgets.Table)
 	 */
-	public CellEditor[] getEditors( Table table )
+	public CellEditor[] getEditors( final Table table )
 	{
 		if ( editors == null )
 		{
@@ -109,7 +115,10 @@ public class CrosstabSortingHandleProvider extends AbstractFormHandleProvider
 			editors[0] = new TextCellEditor( table );
 			editors[1] = new TextCellEditor( table );
 			editors[2] = new TextCellEditor( table );
+			editors[3] = new TextCellEditor( table );
+			editors[4] = new TextCellEditor( table );
 		}
+
 		return editors;
 	}
 
@@ -122,8 +131,7 @@ public class CrosstabSortingHandleProvider extends AbstractFormHandleProvider
 	public boolean doMoveItem( int oldPos, int newPos )
 			throws PropertyValueException
 	{
-		// return modelAdapter.moveItem( input.get( 0 ), oldPos, newPos );
-		// According Model's advice: Can not move up or down
+		// can not move
 		return false;
 	}
 
@@ -196,6 +204,7 @@ public class CrosstabSortingHandleProvider extends AbstractFormHandleProvider
 			input = new ArrayList( );
 			input.add( inputElement );
 		}
+//		getDataSetColumns( input.get( 0 ) );
 		Object[] elements = modelAdapter.getElements( input );
 		return elements;
 	}
@@ -208,7 +217,6 @@ public class CrosstabSortingHandleProvider extends AbstractFormHandleProvider
 	 */
 	public boolean canModify( Object element, String property )
 	{
-		// Can not modify
 		return false;
 	}
 
@@ -235,9 +243,12 @@ public class CrosstabSortingHandleProvider extends AbstractFormHandleProvider
 	public boolean modify( Object data, String property, Object value )
 			throws NameException, SemanticException
 	{
-		// Can not modify
+	
 		return false;
+
 	}
+
+
 
 	/*
 	 * (non-Javadoc)
@@ -259,11 +270,44 @@ public class CrosstabSortingHandleProvider extends AbstractFormHandleProvider
 		if ( event instanceof PropertyEvent )
 		{
 			String propertyName = ( (PropertyEvent) event ).getPropertyName( );
-			if ( ListingHandle.SORT_PROP.equals( propertyName )
-					|| ILevelViewConstants.SORT_PROP.equals( propertyName ) )
+//			if ( ReportItemHandle.BOUND_DATA_COLUMNS_PROP.equals( propertyName ) )
+//			{
+//				getDataSetColumns( input.get( 0 ) );
+//			}
+			if ( ListingHandle.FILTER_PROP.equals( propertyName ) )
+			{
 				return true;
+			}
+			if ( ReportItemHandle.PARAM_BINDINGS_PROP.equals( propertyName ) )
+			{
+				return true;
+			}
+			
+			if(ILevelViewConstants.LEVEL_PROP.equals( propertyName ))
+			{
+				return true;
+			}
 		}
 		return false;
 	}
 
+
+//	public void updateBindingParameters( )
+//	{
+//		ParamBindingHandle[] bindingParams = null;
+//
+//		if ( DEUtil.getInputFirstElement( input ) instanceof ReportItemHandle )
+//		{
+//			ReportItemHandle inputHandle = (ReportItemHandle) DEUtil.getInputFirstElement( input );
+//			List list = new ArrayList( );
+//			for ( Iterator iterator = inputHandle.paramBindingsIterator( ); iterator.hasNext( ); )
+//			{
+//				ParamBindingHandle handle = (ParamBindingHandle) iterator.next( );
+//				list.add( handle );
+//			}
+//			bindingParams = new ParamBindingHandle[list.size( )];
+//			list.toArray( bindingParams );
+//		}
+////		setBindingParams( bindingParams );
+//	}
 }
