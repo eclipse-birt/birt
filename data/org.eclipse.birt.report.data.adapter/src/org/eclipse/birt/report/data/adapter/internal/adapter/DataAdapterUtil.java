@@ -79,11 +79,8 @@ class DataAdapterUtil
 			dteDataSet.setOnFetchScript( modelDataSet.getOnFetch( ) );
 			dteDataSet.setBeforeCloseScript( modelDataSet.getBeforeClose( ) );
 			dteDataSet.setAfterCloseScript( modelDataSet.getAfterClose( ) );
-			
-			// cache row count
-			dteDataSet.setCacheRowCount( modelDataSet.getCachedRowCount( ) );
-
 		}
+		
 		populateParameter( modelDataSet, dteDataSet );
 		
 		populateComputedColumn( modelDataSet, dteDataSet );
