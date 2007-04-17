@@ -98,7 +98,21 @@ Element.ReportItem.dataSet=Data Set:
 Element.ReportElement.Cube=&Data:
 BindingPage.None=None
 
+
+FilterHandleProvider.Label.Filterby=Filter by:
+
 ###########################################################
 #CategoryPageGenerator properties
 
 CategoryPageGenerator.TabItem.Attributes=Properties
+
+
+###########################################################
+#FilterConditionBuilder dialog properties
+FilterConditionBuilder.DialogTitle.New=New Filter Condition
+FilterConditionBuilder.DialogTitle.Edit=Edit Filter Condition
+FilterConditionBuilder.choice.ValueOfThisDataItem=Value of this data item
+FilterConditionBuilder.tooltip.ExpBuilder=Click to invoke the Expression Builder.
+FilterConditionBuilder.text.AND=AND
+FilterConditionBuilder.text.Condition=Enter a filter condition:
+FilterConditionBuilder.text.GroupLevel=Group Level:
