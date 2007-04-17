@@ -844,7 +844,8 @@ public class ParameterDialog extends BaseDialog
 			{
 				sortDirectionChooser.setText( NONE_DISPLAY_TEXT );
 			}
-			else if ( inputParameter.getSortDirection( ).equals( DesignChoiceConstants.SORT_DIRECTION_ASC ) )
+			else if ( inputParameter.getSortDirection( )
+					.equals( DesignChoiceConstants.SORT_DIRECTION_ASC ) )
 			{
 				sortDirectionChooser.setText( CHOICE_ASCENDING );
 			}
@@ -1637,8 +1638,6 @@ public class ParameterDialog extends BaseDialog
 
 	private void clearDefaultValueText( )
 	{
-		if ( defaultValueChooser == null )
-			return;
 		String textValue = defaultValueChooser.getText( );
 		if ( textValue != null
 				&& textValue.equals( CHOICE_NULL_VALUE )
@@ -1650,8 +1649,6 @@ public class ParameterDialog extends BaseDialog
 
 	private void clearDefaultValueChooserSelections( )
 	{
-		if ( defaultValueChooser == null )
-			return;
 		if ( defaultValueChooser.getItemCount( ) > 1 )
 		{
 			defaultValueChooser.remove( CHOICE_NULL_VALUE );
@@ -1995,6 +1992,8 @@ public class ParameterDialog extends BaseDialog
 
 	private void clearDefaultValueChooser( boolean isChecked )
 	{
+		if ( defaultValueChooser == null || defaultValueChooser.isDisposed( ) )
+			return;
 		if ( isChecked )
 		{
 			clearDefaultValueText( );
@@ -2097,22 +2096,31 @@ public class ParameterDialog extends BaseDialog
 		String errorMessage = validateName( );
 		if ( errorMessage == null )
 		{
+			// 1. No available column error
 			if ( !isStatic( )
 					&& columnChooser != null
 					&& columnChooser.getItemCount( ) == 0 )
 			{
 				errorMessage = ERROR_MSG_NO_AVAILABLE_COLUMN;
 			}
-			else if ( defaultValue == null
+
+			// 2. No default value error
+			if ( defaultValue == null
 					&& ( PARAM_CONTROL_COMBO.equals( getSelectedControlType( ) ) || DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals( getSelectedControlType( ) ) ) )
 			{
-				// Now combo and radio must specify an default value
-				if ( !canBeNull( ) || !containValue( null, null, COLUMN_VALUE ) )
-				{// Filter
-					// null
-					// choice
-					errorMessage = ERROR_MSG_NO_DEFAULT_VALUE;
-				}
+				// if ( isStatic( ) )
+				// {
+				// errorMessage = ( !canBeNull( ) || !containValue( null,
+				// null,
+				// COLUMN_VALUE ) ) ? ERROR_MSG_NO_DEFAULT_VALUE
+				// : null;
+				// }
+				// else
+				// {
+				// errorMessage = canBeNull( ) ? null
+				// : ERROR_MSG_NO_DEFAULT_VALUE;
+				// }
+				errorMessage = canBeNull( ) ? null : ERROR_MSG_NO_DEFAULT_VALUE;
 			}
 		}
 		if ( errorMessage != null )

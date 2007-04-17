@@ -104,7 +104,7 @@ public class CascadingParametersDialog extends BaseDialog
 	private static final String CHOICE_NULL_VALUE = Messages.getString( "CascadingParametersDialog.Choice.NullValue" );
 
 	private static final String CHOICE_BLANK_VALUE = Messages.getString( "CascadingParametersDialog.Choice.BlankValue" );
-	
+
 	private static final String CHOICE_SELECT_VALUE = Messages.getString( "CascadingParametersDialog.Choice.SelectValue" );
 
 	private static final String LABEL_PARAMTER_PROMPT_TEXT = Messages.getString( "CascadingParametersDialog.Label.parameterPromptText" ); //$NON-NLS-1$
@@ -191,7 +191,7 @@ public class CascadingParametersDialog extends BaseDialog
 	private static final double DEFAULT_PREVIEW_NUMBER = Double.parseDouble( "1234.56" ); //$NON-NLS-1$
 
 	private static final int DEFAULT_PREVIEW_INTEGER_NUMBER = 123456;
-	
+
 	private static final String STANDARD_DATE_TIME_PATTERN = "MM/dd/yyyy hh:mm:ss a"; //$NON-NLS-1$
 
 	private static final String DEFAULT_PREVIEW_STRING = Messages.getString( "CascadingParametersDialog.default.preview.string" ); //$NON-NLS-1$
@@ -597,15 +597,15 @@ public class CascadingParametersDialog extends BaseDialog
 						defaultValueChooser.setText( "" );
 					}
 				}
-				
+
 			}
 		} );
 
 	}
-	
-	private List getColumnList()
+
+	private List getColumnList( )
 	{
-		List columnList = new ArrayList();
+		List columnList = new ArrayList( );
 		DataSetHandle dataSetHandle = getDataSet( selectedParameter );
 		try
 		{
@@ -615,9 +615,9 @@ public class CascadingParametersDialog extends BaseDialog
 		{
 			ExceptionHandler.handle( e );
 		}
-		return ( columnList.isEmpty( ) )? Collections.EMPTY_LIST : columnList;
+		return ( columnList.isEmpty( ) ) ? Collections.EMPTY_LIST : columnList;
 	}
-	
+
 	private List getColumnValueList( )
 	{
 		ArrayList valueList = new ArrayList( );
@@ -633,7 +633,7 @@ public class CascadingParametersDialog extends BaseDialog
 			BaseQueryDefinition query = (BaseQueryDefinition) DataUtil.getPreparedQuery( engine,
 					dataSet )
 					.getReportQueryDefn( );
-			
+
 			for ( Iterator iter = getColumnList( ).iterator( ); iter.hasNext( ); )
 			{
 				ResultSetColumnHandle column = (ResultSetColumnHandle) iter.next( );
@@ -824,6 +824,8 @@ public class CascadingParametersDialog extends BaseDialog
 
 	private void clearDefaultValueChooser( boolean isChecked )
 	{
+		if ( defaultValueChooser == null || defaultValueChooser.isDisposed( ) )
+			return;
 		if ( isChecked )
 		{
 			clearDefaultValueText( );
@@ -1606,8 +1608,6 @@ public class CascadingParametersDialog extends BaseDialog
 
 	private void clearDefaultValueText( )
 	{
-		if ( defaultValueChooser == null )
-			return;
 		String textValue = defaultValueChooser.getText( );
 		if ( textValue != null
 				&& textValue.equals( CHOICE_NULL_VALUE )
@@ -1619,8 +1619,6 @@ public class CascadingParametersDialog extends BaseDialog
 
 	private void clearDefaultValueChooserSelections( )
 	{
-		if ( defaultValueChooser == null )
-			return;
 		if ( defaultValueChooser.getItemCount( ) > 1 )
 		{
 			defaultValueChooser.remove( 1,
