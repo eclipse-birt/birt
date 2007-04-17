@@ -1638,10 +1638,11 @@ public class ParameterDialog extends BaseDialog
 
 	private void clearDefaultValueText( )
 	{
+		if ( defaultValueChooser == null || defaultValueChooser.isDisposed( ) )
+			return;
 		String textValue = defaultValueChooser.getText( );
 		if ( textValue != null
-				&& textValue.equals( CHOICE_NULL_VALUE )
-				|| textValue.equals( CHOICE_BLANK_VALUE ) )
+				&& ( textValue.equals( CHOICE_NULL_VALUE ) || textValue.equals( CHOICE_BLANK_VALUE ) ) )
 		{
 			defaultValueChooser.setText( "" );
 		}
@@ -1649,6 +1650,8 @@ public class ParameterDialog extends BaseDialog
 
 	private void clearDefaultValueChooserSelections( )
 	{
+		if ( defaultValueChooser == null || defaultValueChooser.isDisposed( ) )
+			return;
 		if ( defaultValueChooser.getItemCount( ) > 1 )
 		{
 			defaultValueChooser.remove( CHOICE_NULL_VALUE );
@@ -1992,8 +1995,6 @@ public class ParameterDialog extends BaseDialog
 
 	private void clearDefaultValueChooser( boolean isChecked )
 	{
-		if ( defaultValueChooser == null || defaultValueChooser.isDisposed( ) )
-			return;
 		if ( isChecked )
 		{
 			clearDefaultValueText( );
@@ -2002,6 +2003,7 @@ public class ParameterDialog extends BaseDialog
 		else
 		{
 			if ( defaultValueChooser == null
+					|| defaultValueChooser.isDisposed( )
 					|| defaultValueChooser.getItemCount( ) > 1 )
 				return;
 			defaultValueChooser.add( CHOICE_NULL_VALUE );

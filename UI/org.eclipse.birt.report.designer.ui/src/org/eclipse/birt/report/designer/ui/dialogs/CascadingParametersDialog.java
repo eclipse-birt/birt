@@ -824,8 +824,6 @@ public class CascadingParametersDialog extends BaseDialog
 
 	private void clearDefaultValueChooser( boolean isChecked )
 	{
-		if ( defaultValueChooser == null || defaultValueChooser.isDisposed( ) )
-			return;
 		if ( isChecked )
 		{
 			clearDefaultValueText( );
@@ -833,7 +831,9 @@ public class CascadingParametersDialog extends BaseDialog
 		}
 		else
 		{
-			if ( defaultValueChooser.getItemCount( ) > 0 )
+			if ( defaultValueChooser == null
+					|| defaultValueChooser.isDisposed( )
+					|| defaultValueChooser.getItemCount( ) > 0 )
 				return;
 			defaultValueChooser.add( CHOICE_NULL_VALUE );
 			defaultValueChooser.add( CHOICE_BLANK_VALUE );
@@ -1608,10 +1608,11 @@ public class CascadingParametersDialog extends BaseDialog
 
 	private void clearDefaultValueText( )
 	{
+		if ( defaultValueChooser == null || defaultValueChooser.isDisposed( ) )
+			return;
 		String textValue = defaultValueChooser.getText( );
 		if ( textValue != null
-				&& textValue.equals( CHOICE_NULL_VALUE )
-				|| textValue.equals( CHOICE_BLANK_VALUE ) )
+				&& ( textValue.equals( CHOICE_NULL_VALUE ) || textValue.equals( CHOICE_BLANK_VALUE ) ) )
 		{
 			defaultValueChooser.setText( "" );
 		}
@@ -1619,6 +1620,8 @@ public class CascadingParametersDialog extends BaseDialog
 
 	private void clearDefaultValueChooserSelections( )
 	{
+		if ( defaultValueChooser == null || defaultValueChooser.isDisposed( ) )
+			return;
 		if ( defaultValueChooser.getItemCount( ) > 1 )
 		{
 			defaultValueChooser.remove( 1,
