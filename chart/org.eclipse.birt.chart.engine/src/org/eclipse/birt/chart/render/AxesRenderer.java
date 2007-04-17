@@ -3207,10 +3207,11 @@ public abstract class AxesRenderer extends BaseRenderer
 						dpha[i].getOrthogonalValue( ) );
 			}
 
-			// Check base value
-			if ( iOutside == 0 )
+			// Check base value(only for non-category)
+			final OneAxis axisBase = getInternalBaseAxis( );
+			if ( iOutside == 0 && !axisBase.isCategoryScale( ) )
 			{
-				iOutside = checkEntryByType( getInternalBaseAxis( ).getScale( ),
+				iOutside = checkEntryByType( axisBase.getScale( ),
 						dpha[i].getBaseValue( ) );
 			}
 
