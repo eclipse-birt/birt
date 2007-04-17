@@ -27,9 +27,9 @@ import org.eclipse.datatools.connectivity.oda.design.*;
  * <ol>
  * <li>new a datasource and dataset
  * <li> go to the Patameters page of the dataset editor
- * <li>click "New..." button new a Parameter Name:a Type:String Direction:
+ * <li> click "New..." button new a Parameter Name:a Type:String Direction:
  * Input Default Value: aaa
- * <li>click ok to finish the dataset editor
+ * <li> click ok to finish the dataset editor
  * <li> reopen the dataset editor and go to the parameter page
  * </ol>
  * <b>Actual result:</b>
