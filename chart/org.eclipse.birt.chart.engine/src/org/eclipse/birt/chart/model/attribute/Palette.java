@@ -88,8 +88,7 @@ public interface Palette extends EObject
 	 * NOTE: Manually written
 	 * 
 	 * @param iIndex
-	 * @deprecated to use {@link #init(int)} and {@link #shift(int)}
-	 * @see #init(int)
+	 * @deprecated to use {@link #shift(int)}
 	 * @see #shift(int)
 	 */
 	void update( int iIndex );
