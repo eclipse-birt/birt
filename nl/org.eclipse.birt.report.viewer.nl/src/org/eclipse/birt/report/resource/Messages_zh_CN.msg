@@ -192,9 +192,9 @@ birt.viewer.exceptionDialog.hideStackTrace=隐藏例外堆栈跟踪
 ###############################################################################
 # Birt Viewer JSP Taglib
 ###############################################################################
-birt.viewer.taglib.NO_VIEWER_ID=必须指定属性 ID。
-birt.viewer.taglib.INVALID_VIEWER_ID=属性 ID 包含无效字符。
-birt.viewer.taglib.VIEWER_ID_DUPLICATE=属性 ID 必须唯一。
+birt.viewer.taglib.NO_ATTR_ID=必须指定属性 ID。
+birt.viewer.taglib.INVALID_ATTR_ID=属性 ID 包含无效字符。
+birt.viewer.taglib.ATTR_ID_DUPLICATE=属性 ID 必须唯一。
 birt.viewer.taglib.NO_REPORT_SOURCE=应指定报表设计或文档文件。
 birt.viewer.taglib.NO_REPORT_DOCUMENT=reportlet 需要报表文档文件。
 birt.viewer.taglib.NO_REQUESTER_NAME=必须指定请求者名称。

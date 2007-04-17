@@ -192,9 +192,9 @@ birt.viewer.exceptionDialog.hideStackTrace=Ausnahme für Ablaufverfolgungsstapel 
 ###############################################################################
 # Birt Viewer JSP Taglib
 ###############################################################################
-birt.viewer.taglib.NO_VIEWER_ID=Attribut-ID muss angegeben werden.
-birt.viewer.taglib.INVALID_VIEWER_ID=Attribut-ID enthält ungültige Zeichen.
-birt.viewer.taglib.VIEWER_ID_DUPLICATE=Attribut-ID muss eindeutig sein.
+birt.viewer.taglib.NO_ATTR_ID=Attribut-ID muss angegeben werden.
+birt.viewer.taglib.INVALID_ATTR_ID=Attribut-ID enthält ungültige Zeichen.
+birt.viewer.taglib.ATTR_ID_DUPLICATE=Attribut-ID muss eindeutig sein.
 birt.viewer.taglib.NO_REPORT_SOURCE=Berichtdesign oder Dokumentdatei muss angegeben werden.
 birt.viewer.taglib.NO_REPORT_DOCUMENT=Reportlet benötigt Berichtsdokument.
 birt.viewer.taglib.NO_REQUESTER_NAME=Requester-Name muss angegeben werden..
