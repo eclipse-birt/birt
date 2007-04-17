@@ -544,6 +544,36 @@ public class ComputedColumn extends Structure
 	{
 		return (List) getProperty( null, AGGREGATEON_MEMBER );
 	}
+	
+	/**
+	 * Adds an arguments to list.
+	 * 
+	 * @param argument
+	 *            the aggregate function argument
+	 */
+
+	public void addArgument( String argument ) 
+	{
+		if ( arguments == null )
+			arguments = new ArrayList( );
+
+		arguments.add( argument );
+	}
+	
+	/**
+	 * Removes an arguments from list.
+	 * 
+	 * @param argument
+	 *            the aggregate function argument
+	 */
+
+	public void removeArgument( String argument ) 
+	{
+		if ( arguments == null )
+			return;
+
+		arguments.remove( argument );
+	}
 
 	/**
 	 * Returns the expression used to define this computed column.
