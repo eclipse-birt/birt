@@ -20,7 +20,7 @@
                description="%Crosstab desc"
                icon="icons/pal/crosstab.gif"
                itemName="Crosstab"
-               label="%crosstab.label"
+               label="Cross Tab"
                largeIcon="icons/pal/crosstab.gif">
          </paletteEntry></reportItemEditPart>
    </extension>
