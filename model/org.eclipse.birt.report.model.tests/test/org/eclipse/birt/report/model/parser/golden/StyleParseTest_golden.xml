@@ -43,6 +43,14 @@
                 <property name="category">Short Date</property>
                 <property name="pattern">yyyy/mm/dd</property>
             </structure>
+            <structure name="dateFormat">
+                <property name="category">Short Date</property>
+                <property name="pattern">yyyy/mm/dd</property>
+            </structure>
+            <structure name="timeFormat">
+                <property name="category">Short Time</property>
+                <property name="pattern">hh/mm</property>
+            </structure>
             <structure name="numberFormat">
                 <property name="category">Currency</property>
                 <property name="pattern">Scientific</property>

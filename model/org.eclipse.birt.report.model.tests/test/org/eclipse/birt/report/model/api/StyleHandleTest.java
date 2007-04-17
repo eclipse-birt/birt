@@ -586,6 +586,19 @@ public class StyleHandleTest extends BaseTestCase
 
 		assertEquals( "****", factoryHandle.getStringValue( ) ); //$NON-NLS-1$
 
+		style1
+				.setDateFormatCategory( DesignChoiceConstants.DATE_FORMAT_TYPE_SHORT_DATE );
+		style1.setDateFormat( "MM/DD/YYYY" ); //$NON-NLS-1$
+		assertEquals( "MM/DD/YYYY", style1.getDateFormat( ) ); //$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.DATE_FORMAT_TYPE_SHORT_DATE, style1
+				.getDateFormatCategory( ) );
+
+		style1
+				.setTimeFormatCategory( DesignChoiceConstants.TIME_FORMAT_TYPE_SHORT_TIME );
+		style1.setTimeFormat( "hh/mm" ); //$NON-NLS-1$
+		assertEquals( "hh/mm", style1.getTimeFormat( ) ); //$NON-NLS-1$	
+		assertEquals( DesignChoiceConstants.TIME_FORMAT_TYPE_SHORT_TIME, style1
+				.getTimeFormatCategory( ) );
 	}
 
 	/**

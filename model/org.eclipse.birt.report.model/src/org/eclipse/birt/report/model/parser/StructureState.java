@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
+import org.eclipse.birt.report.model.api.elements.structures.DateFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
@@ -53,6 +54,7 @@ import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
+import org.eclipse.birt.report.model.api.elements.structures.TimeFormatValue;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Structure;
@@ -476,6 +478,12 @@ public class StructureState extends AbstractPropertyState
 		structDict.put( NumberFormatValue.FORMAT_VALUE_STRUCT.toLowerCase( ),
 				NumberFormatValue.class );
 
+		structDict.put( TimeFormatValue.FORMAT_VALUE_STRUCT.toLowerCase( ),
+				TimeFormatValue.class );
+
+		structDict.put( DateFormatValue.FORMAT_VALUE_STRUCT.toLowerCase( ),
+				DateFormatValue.class );
+		
 		structDict.put( DateTimeFormatValue.FORMAT_VALUE_STRUCT.toLowerCase( ),
 				DateTimeFormatValue.class );
 

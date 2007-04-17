@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.api.core.IStructure;
+import org.eclipse.birt.report.model.api.elements.structures.DateFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
@@ -19,6 +20,7 @@ import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
+import org.eclipse.birt.report.model.api.elements.structures.TimeFormatValue;
 import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -397,6 +399,8 @@ public class AbstractPropertyState extends AbstractParseState
 				// DateTimeFormatValue.CATEGORY_MEMBER
 				// NumberFormatValue.CATEGORY_MEMBER
 				// StringFormatValue.CATEGORY_MEMBER
+				// DateFormatValue.CATEGORY_MEMBER
+				// TimeFormatValue.CATEGORY_MEMBER
 
 				String structureName = objDefn.getName( );
 				if ( DateTimeFormatValue.FORMAT_VALUE_STRUCT
@@ -404,6 +408,10 @@ public class AbstractPropertyState extends AbstractParseState
 						|| NumberFormatValue.FORMAT_VALUE_STRUCT
 								.equals( structureName )
 						|| StringFormatValue.FORMAT_VALUE_STRUCT
+								.equals( structureName )
+						|| TimeFormatValue.FORMAT_VALUE_STRUCT
+								.equals( structureName )
+						|| DateFormatValue.FORMAT_VALUE_STRUCT
 								.equals( structureName ) )
 				{
 					if ( FormatValue.CATEGORY_MEMBER.equalsIgnoreCase( propDefn

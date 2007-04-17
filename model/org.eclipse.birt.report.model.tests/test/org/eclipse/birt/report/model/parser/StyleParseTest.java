@@ -24,8 +24,10 @@ import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.elements.structures.DateFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
+import org.eclipse.birt.report.model.api.elements.structures.TimeFormatValue;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
@@ -255,6 +257,16 @@ public class StyleParseTest extends BaseTestCase
 		openDesign( fileName );
 		StyleElement style = design.findStyle( "My Style" ); //$NON-NLS-1$
 
+		DateFormatValue dateFormatValue = (DateFormatValue) style.getProperty(
+				design, Style.DATE_FORMAT_PROP );
+		assertEquals( "yyyy/mm/dd" , dateFormatValue.getPattern( ) );//$NON-NLS-1$
+		assertEquals( "Short Date" , dateFormatValue.getCategory( ) );//$NON-NLS-1$
+		
+		TimeFormatValue timeFormatValue = (TimeFormatValue) style.getProperty(
+				design, Style.TIME_FORMAT_PROP );
+		assertEquals( "hh/mm" , timeFormatValue.getPattern( ) );//$NON-NLS-1$
+		assertEquals( "Short Time" , timeFormatValue.getCategory( ) );//$NON-NLS-1$
+		
 		assertEquals(
 				"fantasy", style.getStringProperty( design, Style.FONT_FAMILY_PROP ) ); //$NON-NLS-1$
 		assertEquals( "red", style.getStringProperty( design, Style.COLOR_PROP ) ); //$NON-NLS-1$

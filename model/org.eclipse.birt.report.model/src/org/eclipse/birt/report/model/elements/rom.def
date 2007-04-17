@@ -415,6 +415,21 @@
     <Choice displayNameID="Choices.dateTimeFormat.shortTime" name="Short Time"/>			
 	<Choice displayNameID="Choices.dateTimeFormat.custom" name="Custom"/>    
   </ChoiceType>
+  <ChoiceType name="dateFormat">
+    <Choice displayNameID="Choices.dateFormat.unformatted" name="Unformatted"/>        
+	<Choice displayNameID="Choices.dateFormat.generalDate" name="General Date"/>
+    <Choice displayNameID="Choices.dateFormat.longDate" name="Long Date"/>
+    <Choice displayNameID="Choices.dateFormat.mediumDate" name="Medium Date"/>
+    <Choice displayNameID="Choices.dateFormat.shortDate" name="Short Date"/>		
+	<Choice displayNameID="Choices.dateFormat.custom" name="Custom"/>    
+  </ChoiceType>
+  <ChoiceType name="timeFormat">
+    <Choice displayNameID="Choices.timeFormat.unformatted" name="Unformatted"/>        
+	<Choice displayNameID="Choices.timeFormat.longTime" name="Long Time"/>
+    <Choice displayNameID="Choices.timeFormat.mediumTime" name="Medium Time"/>
+    <Choice displayNameID="Choices.timeFormat.shortTime" name="Short Time"/>			
+	<Choice displayNameID="Choices.timeFormat.custom" name="Custom"/>    
+  </ChoiceType>
   <ChoiceType name="numberFormat">
     <Choice displayNameID="Choices.numberFormat.unformatted" name="Unformatted"/>      
 	<Choice displayNameID="Choices.numberFormat.generalNumber" name="General Number"/>
@@ -1657,7 +1672,15 @@
   <Structure displayNameID="Structure.DateTimeFormatValue" name="DateTimeFormatValue" since="1.0">
     <Member detailType="dateTimeFormat" displayNameID="Structure.DateTimeFormatValue.category" isIntrinsic="true" name="category" since="1.0" type="choice"/>
     <Member displayNameID="Structure.DateTimeFormatValue.pattern" isIntrinsic="true" name="pattern" since="1.0" type="string"/>		
-  </Structure>     
+  </Structure> 
+  <Structure displayNameID="Structure.DateFormatValue" name="DateFormatValue" since="2.2">
+    <Member detailType="dateFormat" displayNameID="Structure.DateFormatValue.category" isIntrinsic="true" name="category" since="2.2" type="choice"/>
+    <Member displayNameID="Structure.DateFormatValue.pattern" isIntrinsic="true" name="pattern" since="2.2" type="string"/>		
+  </Structure>   
+  <Structure displayNameID="Structure.TimeFormatValue" name="TimeFormatValue" since="2.2">
+    <Member detailType="timeFormat" displayNameID="Structure.TimeFormatValue.category" isIntrinsic="true" name="category" since="2.2" type="choice"/>
+    <Member displayNameID="Structure.TimeFormatValue.pattern" isIntrinsic="true" name="pattern" since="2.2" type="string"/>		
+  </Structure>       
   <Structure displayNameID="Structure.ParameterFormatValue" name="ParameterFormatValue" since="2.1">
     <Member displayNameID="Structure.ParameterFormatValue.category" isIntrinsic="true" name="category" since="2.1" type="string"/>
     <Member displayNameID="Structure.ParameterFormatValue.pattern" isIntrinsic="true" name="pattern" since="2.1" type="string"/>		
@@ -2558,6 +2581,8 @@
     </PropertyGroup>
     <PropertyGroup displayNameID="Element.Style.format">
       <Property detailType="DateTimeFormatValue" displayNameID="Element.Style.format.dateTime" isStyleProperty="true" name="dateTimeFormat" since="1.0" type="structure"/>
+      <Property detailType="DateFormatValue" displayNameID="Element.Style.format.date" isStyleProperty="true" name="dateFormat" since="2.2" type="structure"/>
+      <Property detailType="TimeFormatValue" displayNameID="Element.Style.format.time" isStyleProperty="true" name="timeFormat" since="2.2" type="structure"/>
       <Property detailType="NumberFormatValue" displayNameID="Element.Style.format.number" isStyleProperty="true" name="numberFormat" since="1.0" type="structure"/>
       <Property detailType="textAlign" displayNameID="Element.Style.format.number.align" isStyleProperty="true" name="numberAlign" since="1.0" type="choice">
       </Property>

@@ -62,6 +62,8 @@ paddingLeft
 paddingBottom
 paddingRight
 dateTimeFormat
+dateFormat
+timeFormat
 numberFormat
 numberAlign
 stringFormat

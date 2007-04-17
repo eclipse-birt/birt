@@ -2310,6 +2310,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IStyleModel.NUMBER_ALIGN_PROP );
 
 		writeStructure( obj, IStyleModel.DATE_TIME_FORMAT_PROP );
+		writeStructure( obj, IStyleModel.DATE_FORMAT_PROP );
+		writeStructure( obj, IStyleModel.TIME_FORMAT_PROP );
 		writeStructure( obj, IStyleModel.NUMBER_FORMAT_PROP );
 		writeStructure( obj, IStyleModel.STRING_FORMAT_PROP );
 

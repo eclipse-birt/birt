@@ -15,10 +15,12 @@ import java.util.Collections;
 import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.DateFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.TimeFormatValue;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
@@ -551,6 +553,74 @@ public abstract class StyleHandle extends ReportElementHandle
 		setFormatValue( IStyleModel.NUMBER_FORMAT_PROP, FormatValue.CATEGORY_MEMBER,
 				category );
 	}
+	
+	/**
+	 * Returns the pattern of the date-format.
+	 * 
+	 * @return the pattern of the date-format
+	 */
+
+	public String getDateFormat( )
+	{
+		Object value = getProperty( IStyleModel.DATE_FORMAT_PROP );
+		if ( value == null )
+			return null;
+
+		assert value instanceof DateFormatValue;
+
+		return ( (DateFormatValue) value ).getPattern( );
+	}
+
+	/**
+	 * Returns the category of the date-format.
+	 * 
+	 * @return the category of the date-format
+	 */
+
+	public String getDateFormatCategory( )
+	{
+		Object value = getProperty( IStyleModel.DATE_FORMAT_PROP );
+		if ( value == null )
+			return null;
+
+		assert value instanceof DateFormatValue;
+
+		return ( (DateFormatValue) value ).getCategory( );
+	}
+	
+	/**
+	 * Returns the pattern of the time-format.
+	 * 
+	 * @return the pattern of the time-format
+	 */
+
+	public String getTimeFormat( )
+	{
+		Object value = getProperty( IStyleModel.TIME_FORMAT_PROP );
+		if ( value == null )
+			return null;
+
+		assert value instanceof TimeFormatValue;
+
+		return ( (TimeFormatValue) value ).getPattern( );
+	}
+
+	/**
+	 * Returns the category of the time-format.
+	 * 
+	 * @return the category of the time-format
+	 */
+
+	public String getTimeFormatCategory( )
+	{
+		Object value = getProperty( IStyleModel.TIME_FORMAT_PROP );
+		if ( value == null )
+			return null;
+
+		assert value instanceof TimeFormatValue;
+
+		return ( (TimeFormatValue) value ).getCategory( );
+	}
 
 	/**
 	 * Returns the pattern of the date-time-format.
@@ -629,6 +699,87 @@ public abstract class StyleHandle extends ReportElementHandle
 		setFormatValue( IStyleModel.DATE_TIME_FORMAT_PROP,
 				FormatValue.CATEGORY_MEMBER, pattern );
 	}
+	
+	/**
+	 * Sets the pattern of a date time format for a highlight rule.
+	 * 
+	 * @param pattern
+	 *            the pattern of a date time format
+	 * @throws SemanticException
+	 *             if the property is locked
+	 */
+
+	public void setDateFormat( String pattern ) throws SemanticException
+	{
+		setFormatValue( IStyleModel.DATE_FORMAT_PROP,
+				FormatValue.PATTERN_MEMBER, pattern );
+	}
+
+	/**
+	 * Sets the category of a number format. The <code>pattern</code> can be
+	 * one of:
+	 * 
+	 * <ul>
+	 * <li><code>DesignChoiceConstants.DATE_FORMAT_TYPE_UNFORMATTED</code>
+	 * <li><code>DesignChoiceConstants.DATE_FORMAT_TYPE_GENERAL_DATE</code>
+	 * <li><code>DesignChoiceConstants.DATE_FORMAT_TYPE_LONG_DATE</code>
+	 * <li><code>DesignChoiceConstants.DATE_FORMAT_TYPE_MUDIUM_DATE</code>
+	 * <li><code>DesignChoiceConstants.DATE_FORMAT_TYPE_SHORT_DATE</code>
+	 * <li><code>DesignChoiceConstants.DATE_FORMAT_TYPE_CUSTOM</code>
+	 * </ul>
+	 * 
+	 * @param pattern
+	 *            the category of a date-time format
+	 * @throws SemanticException
+	 *             if <code>pattern</code> is not one of the above values.
+	 */
+
+	public void setDateFormatCategory( String pattern )
+			throws SemanticException
+	{
+		setFormatValue( IStyleModel.DATE_FORMAT_PROP,
+				FormatValue.CATEGORY_MEMBER, pattern );
+	}
+	
+	/**
+	 * Sets the pattern of a date time format for a highlight rule.
+	 * 
+	 * @param pattern
+	 *            the pattern of a date time format
+	 * @throws SemanticException
+	 *             if the property is locked
+	 */
+
+	public void setTimeFormat( String pattern ) throws SemanticException
+	{
+		setFormatValue( IStyleModel.TIME_FORMAT_PROP,
+				FormatValue.PATTERN_MEMBER, pattern );
+	}
+
+	/**
+	 * Sets the category of a number format. The <code>pattern</code> can be
+	 * one of:
+	 * 
+	 * <ul>
+	 * <li><code>DesignChoiceConstants.TIME_FORMAT_TYPE_UNFORMATTED</code>
+	 * <li><code>DesignChoiceConstants.TIME_FORMAT_TYPE_LONG_TIME</code>
+	 * <li><code>DesignChoiceConstants.TIME_FORMAT_TYPE_MEDIUM_TIME</code>
+	 * <li><code>DesignChoiceConstants.TIME_FORMAT_TYPE_SHORT_TIME</code>
+	 * <li><code>DesignChoiceConstants.TIME_FORMAT_TYPE_CUSTOM</code>
+	 * </ul>
+	 * 
+	 * @param pattern
+	 *            the category of a date-time format
+	 * @throws SemanticException
+	 *             if <code>pattern</code> is not one of the above values.
+	 */
+
+	public void setTimeFormatCategory( String pattern )
+			throws SemanticException
+	{
+		setFormatValue( IStyleModel.TIME_FORMAT_PROP,
+				FormatValue.CATEGORY_MEMBER, pattern );
+	}
 
 	/**
 	 * Sets the category/pattern value for a string/number/date-time format.
@@ -659,6 +810,10 @@ public abstract class StyleHandle extends ReportElementHandle
 				formatValueToSet = new NumberFormatValue( );
 			else if ( IStyleModel.STRING_FORMAT_PROP.equalsIgnoreCase( propName ) )
 				formatValueToSet = new StringFormatValue( );
+			else if( IStyleModel.DATE_FORMAT_PROP.equalsIgnoreCase( propName ))
+				formatValueToSet = new DateFormatValue();
+			else if( IStyleModel.TIME_FORMAT_PROP.equalsIgnoreCase( propName ))
+				formatValueToSet = new TimeFormatValue();
 			else
 				assert false;
 

@@ -615,6 +615,28 @@ public interface DesignChoiceConstants
 	public static final String DATETIEM_FORMAT_TYPE_MEDIUM_TIME = "Medium Time"; //$NON-NLS-1$
 	public static final String DATETIEM_FORMAT_TYPE_SHORT_TIME = "Short Time"; //$NON-NLS-1$
 	public static final String DATETIEM_FORMAT_TYPE_CUSTOM = "Custom"; //$NON-NLS-1$
+	
+	/**
+	 * dateFormat choice.
+	 */
+	
+	public static final String CHOICE_DATE_FORMAT_TYPE = "dateFormat"; //$NON-NLS-1$
+	public static final String DATE_FORMAT_TYPE_UNFORMATTED = "Unformatted"; //$NON-NLS-1$
+	public static final String DATE_FORMAT_TYPE_GENERAL_DATE = "General Date"; //$NON-NLS-1$
+	public static final String DATE_FORMAT_TYPE_LONG_DATE = "Long Date"; //$NON-NLS-1$
+	public static final String DATE_FORMAT_TYPE_MUDIUM_DATE = "Medium Date"; //$NON-NLS-1$
+	public static final String DATE_FORMAT_TYPE_SHORT_DATE = "Short Date"; //$NON-NLS-1$
+	public static final String DATE_FORMAT_TYPE_CUSTOM = "Custom"; //$NON-NLS-1$
+	
+	/**
+	 * timeFormat choice
+	 */
+	
+	public static final String CHOICE_TIME_FORMAT_TYPE = "timeFormat"; //$NON-NLS-1$
+	public static final String TIME_FORMAT_TYPE_LONG_TIME = "Long Time"; //$NON-NLS-1$
+	public static final String TIME_FORMAT_TYPE_MEDIUM_TIME = "Medium Time"; //$NON-NLS-1$
+	public static final String TIME_FORMAT_TYPE_SHORT_TIME = "Short Time"; //$NON-NLS-1$
+	public static final String TIME_FORMAT_TYPE_CUSTOM = "Custom"; //$NON-NLS-1$
 
 	/**
 	 * stringFormat -- the string format The first constant is the name of

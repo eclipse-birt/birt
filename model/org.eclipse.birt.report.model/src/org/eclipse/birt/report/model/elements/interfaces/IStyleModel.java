@@ -48,6 +48,8 @@ public interface IStyleModel
 	public static final String CAN_SHRINK_PROP = "canShrink"; //$NON-NLS-1$
 	public static final String COLOR_PROP = "color"; //$NON-NLS-1$
 	public static final String DATE_TIME_FORMAT_PROP = "dateTimeFormat"; //$NON-NLS-1$
+	public static final String DATE_FORMAT_PROP = "dateFormat"; //$NON-NLS-1$
+	public static final String TIME_FORMAT_PROP = "timeFormat"; //$NON-NLS-1$
 	public static final String FONT_FAMILY_PROP = "fontFamily"; //$NON-NLS-1$
 	public static final String FONT_SIZE_PROP = "fontSize"; //$NON-NLS-1$
 	public static final String FONT_STYLE_PROP = "fontStyle"; //$NON-NLS-1$
