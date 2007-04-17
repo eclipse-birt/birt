@@ -453,6 +453,21 @@ Choices.dateTimeFormat.longTime=Lange Uhrzeit
 Choices.dateTimeFormat.mediumTime=Mittlere Uhrzeit
 Choices.dateTimeFormat.shortTime=Kurze Uhrzeit
 Choices.dateTimeFormat.custom=Benutzerdefiniert
+
+#59. dateFormat
+Choices.dateFormat.unformatted=Unformatiert
+Choices.dateFormat.generalDate=Allgemeines Datum
+Choices.dateFormat.longDate=Langes Datum
+Choices.dateFormat.mediumDate=Mittleres Datum
+Choices.dateFormat.shortDate=Kurzes Datum
+Choices.dateFormat.custom=Benutzerdefiniert
+
+#59. timeFormat
+Choices.timeFormat.unformatted=Unformatiert
+Choices.timeFormat.longTime=Lange Uhrzeit
+Choices.timeFormat.mediumTime=Mittlere Uhrzeit
+Choices.timeFormat.shortTime=Kurze Uhrzeit
+Choices.timeFormat.custom=Benutzerdefiniert
     
 #60. numberFormat
 Choices.numberFormat.unformatted=Unformatiert
@@ -1807,6 +1822,8 @@ Structure.CachedMetaData=Zwischengespeicherte Metadaten
 Structure.NumberFormatValue=Wert für Zahlenformat
 Structure.StringFormatValue=Wert für Zeichenfolgenformat
 Structure.DateTimeFormatValue=Wert für Datums-/Uhrzeitformat
+Structure.DateFormatValue = Date Format Value
+Structure.TimeFormatValue = Time Format Value
 Structure.UserMethod=Benutzermethode
 Structure.PropertyBinding=Eigenschaftenbindung
 Structure.JoinCondition=Verknüpfungsbedingung
@@ -2004,6 +2021,14 @@ Structure.StringFormatValue.pattern=Zusammengesetzter Ausdruck
 #21. DateTimeFormatValue
 Structure.DateTimeFormatValue.category=Kategorie
 Structure.DateTimeFormatValue.pattern=Zusammengesetzter Ausdruck
+
+#21. DateFormatValue
+Structure.DateFormatValue.category=Kategorie
+Structure.DateFormatValue.pattern=Zusammengesetzter Ausdruck
+
+#21. TimeFormatValue
+Structure.TimeFormatValue.category=Kategorie
+Structure.TimeFormatValue.pattern=Zusammengesetzter Ausdruck
 
 #22. UserMethod
 Structure.UserMethod.name=Name
@@ -2433,6 +2458,8 @@ Element.Style.font.variant=Schriftartvariante
 Element.Style.font.weight=Schriftschnitt
 Element.Style.format=Format
 Element.Style.format.dateTime=Datum-/Uhrzeitformat
+Element.Style.format.date=Date format
+Element.Style.format.time=Time format
 Element.Style.format.number=Zahlenformat
 Element.Style.format.number.align=Zahlenausrichtung
 Element.Style.format.string=Zeichenfolgenformat

@@ -453,6 +453,21 @@ Choices.dateTimeFormat.longTime=時刻 (L)
 Choices.dateTimeFormat.mediumTime=時刻 (M)
 Choices.dateTimeFormat.shortTime=時刻 (S)
 Choices.dateTimeFormat.custom=カスタム
+
+#59. dateFormat
+Choices.dateFormat.unformatted=書式未設定
+Choices.dateFormat.generalDate=日付 (標準)
+Choices.dateFormat.longDate=日付 (L)
+Choices.dateFormat.mediumDate=日付 (M)
+Choices.dateFormat.shortDate=日付 (S)
+Choices.dateFormat.custom=カスタム
+
+#59. timeFormat
+Choices.timeFormat.unformatted=書式未設定
+Choices.timeFormat.longTime=時刻 (L)
+Choices.timeFormat.mediumTime=時刻 (M)
+Choices.timeFormat.shortTime=時刻 (S)
+Choices.timeFormat.custom=カスタム
     
 #60. numberFormat
 Choices.numberFormat.unformatted=書式未設定
@@ -1807,6 +1822,8 @@ Structure.CachedMetaData=キャッシュされたメタデータ
 Structure.NumberFormatValue=数値の書式の値
 Structure.StringFormatValue=数値の書式の文字列
 Structure.DateTimeFormatValue=日付/時間の書式の値
+Structure.DateFormatValue = Date Format Value
+Structure.TimeFormatValue = Time Format Value
 Structure.UserMethod=ユーザメソッド
 Structure.PropertyBinding=プロパティのバインド
 Structure.JoinCondition=ジョインの条件
@@ -2004,6 +2021,14 @@ Structure.StringFormatValue.pattern=パターン
 #21. DateTimeFormatValue
 Structure.DateTimeFormatValue.category=カテゴリ
 Structure.DateTimeFormatValue.pattern=パターン
+
+#21. DateFormatValue
+Structure.DateFormatValue.category=カテゴリ
+Structure.DateFormatValue.pattern=パターン
+
+#21. TimeFormatValue
+Structure.TimeFormatValue.category=カテゴリ
+Structure.TimeFormatValue.pattern=パターン
 
 #22. UserMethod
 Structure.UserMethod.name=名前
@@ -2433,6 +2458,8 @@ Element.Style.font.variant=バリエーション
 Element.Style.font.weight=太さ
 Element.Style.format=書式
 Element.Style.format.dateTime=日付/時間の書式
+Element.Style.format.date=Date format
+Element.Style.format.time=Time format
 Element.Style.format.number=数値の書式
 Element.Style.format.number.align=数値の配置
 Element.Style.format.string=文字列の書式

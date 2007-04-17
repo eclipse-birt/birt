@@ -453,6 +453,21 @@ Choices.dateTimeFormat.longTime=긴 시간
 Choices.dateTimeFormat.mediumTime=중간 시간
 Choices.dateTimeFormat.shortTime=짧은 시간
 Choices.dateTimeFormat.custom=사용자 지정
+
+#59. dateFormat
+Choices.dateFormat.unformatted=형식 없음
+Choices.dateFormat.generalDate=일반 날짜
+Choices.dateFormat.longDate=긴 날짜
+Choices.dateFormat.mediumDate=중간 날짜
+Choices.dateFormat.shortDate=짧은 날짜
+Choices.dateFormat.custom=사용자 지정
+
+#59. timeFormat
+Choices.timeFormat.unformatted=형식 없음
+Choices.timeFormat.longTime=긴 시간
+Choices.timeFormat.mediumTime=중간 시간
+Choices.timeFormat.shortTime=짧은 시간
+Choices.timeFormat.custom=사용자 지정
     
 #60. numberFormat
 Choices.numberFormat.unformatted=형식 없음
@@ -1807,6 +1822,8 @@ Structure.CachedMetaData=캐시된 메타데이터
 Structure.NumberFormatValue=숫자 형식 값
 Structure.StringFormatValue=문자열 형식 값
 Structure.DateTimeFormatValue=날짜/시간 형식 값
+Structure.DateFormatValue = Date Format Value
+Structure.TimeFormatValue = Time Format Value
 Structure.UserMethod=사용자 메서드
 Structure.PropertyBinding=속성 바인딩
 Structure.JoinCondition=조인 조건
@@ -2004,6 +2021,14 @@ Structure.StringFormatValue.pattern=패턴
 #21. DateTimeFormatValue
 Structure.DateTimeFormatValue.category=범주
 Structure.DateTimeFormatValue.pattern=패턴
+
+#21. DateFormatValue
+Structure.DateFormatValue.category=범주
+Structure.DateFormatValue.pattern=패턴
+
+#21. TimeFormatValue
+Structure.TimeFormatValue.category=범주
+Structure.TimeFormatValue.pattern=패턴
 
 #22. UserMethod
 Structure.UserMethod.name=이름
@@ -2433,6 +2458,8 @@ Element.Style.font.variant=글꼴 변형
 Element.Style.font.weight=글꼴 두께
 Element.Style.format=서식
 Element.Style.format.dateTime=날짜/시간 형식
+Element.Style.format.date=Date format
+Element.Style.format.time=Time format
 Element.Style.format.number=숫자 형식
 Element.Style.format.number.align=숫자 맞춤
 Element.Style.format.string=문자열 형식

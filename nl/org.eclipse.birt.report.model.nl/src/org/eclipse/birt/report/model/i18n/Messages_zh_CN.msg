@@ -453,6 +453,21 @@ Choices.dateTimeFormat.longTime=长时间
 Choices.dateTimeFormat.mediumTime=中时间
 Choices.dateTimeFormat.shortTime=短时间
 Choices.dateTimeFormat.custom=自定义
+
+#59. dateFormat
+Choices.dateFormat.unformatted=无格式
+Choices.dateFormat.generalDate=常规日期
+Choices.dateFormat.longDate=长日期
+Choices.dateFormat.mediumDate=中日期
+Choices.dateFormat.shortDate=短日期
+Choices.dateFormat.custom=自定义
+
+#59. timeFormat
+Choices.timeFormat.unformatted=无格式
+Choices.timeFormat.longTime=长时间
+Choices.timeFormat.mediumTime=中时间
+Choices.timeFormat.shortTime=短时间
+Choices.timeFormat.custom=自定义
     
 #60. numberFormat
 Choices.numberFormat.unformatted=无格式
@@ -1807,6 +1822,8 @@ Structure.CachedMetaData=缓存元数据
 Structure.NumberFormatValue=数字格式值
 Structure.StringFormatValue=字符串格式值
 Structure.DateTimeFormatValue=日期/时间格式值
+Structure.DateFormatValue = Date Format Value
+Structure.TimeFormatValue = Time Format Value
 Structure.UserMethod=用户方法
 Structure.PropertyBinding=属性绑定
 Structure.JoinCondition=联接条件
@@ -2004,6 +2021,14 @@ Structure.StringFormatValue.pattern=模式
 #21. DateTimeFormatValue
 Structure.DateTimeFormatValue.category=类别
 Structure.DateTimeFormatValue.pattern=模式
+
+#21. DateFormatValue
+Structure.DateFormatValue.category=类别
+Structure.DateFormatValue.pattern=模式
+
+#21. TimeFormatValue
+Structure.TimeFormatValue.category=类别
+Structure.TimeFormatValue.pattern=模式
 
 #22. UserMethod
 Structure.UserMethod.name=名称
@@ -2433,6 +2458,8 @@ Element.Style.font.variant=字体变体
 Element.Style.font.weight=字体粗细
 Element.Style.format=格式
 Element.Style.format.dateTime=日期/时间格式
+Element.Style.format.date=Date format
+Element.Style.format.time=Time format
 Element.Style.format.number=数值格式
 Element.Style.format.number.align=数值对齐
 Element.Style.format.string=字符串格式

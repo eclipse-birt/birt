@@ -453,6 +453,21 @@ Choices.dateTimeFormat.longTime=Heure longue
 Choices.dateTimeFormat.mediumTime=Heure réduite
 Choices.dateTimeFormat.shortTime=Heure courte
 Choices.dateTimeFormat.custom=Personnaliser
+
+#59. dateFormat
+Choices.dateFormat.unformatted=Non formaté
+Choices.dateFormat.generalDate=Date générale
+Choices.dateFormat.longDate=Date longue
+Choices.dateFormat.mediumDate=Date réduite
+Choices.dateFormat.shortDate=Date courte
+Choices.dateFormat.custom=Personnalisée
+
+#59. timeFormat
+Choices.timeFormat.unformatted=Non formaté
+Choices.timeFormat.longTime=Heure longue
+Choices.timeFormat.mediumTime=Heure réduite
+Choices.timeFormat.shortTime=Heure courte
+Choices.timeFormat.custom=Personnalisée
     
 #60. numberFormat
 Choices.numberFormat.unformatted=Non formaté
@@ -1807,6 +1822,8 @@ Structure.CachedMetaData=Métadonnées en cache
 Structure.NumberFormatValue=Valeur du format des nombres
 Structure.StringFormatValue=Valeur du format de chaîne
 Structure.DateTimeFormatValue=Valeur du format Date/Heure
+Structure.DateFormatValue = Date Format Value
+Structure.TimeFormatValue = Time Format Value
 Structure.UserMethod=Méthode utilisateur
 Structure.PropertyBinding=Liaison de propriété
 Structure.JoinCondition=Condition de jointure
@@ -2004,6 +2021,14 @@ Structure.StringFormatValue.pattern=Correspondance
 #21. DateTimeFormatValue
 Structure.DateTimeFormatValue.category=Catégorie
 Structure.DateTimeFormatValue.pattern=Correspondance
+
+#21. DateFormatValue
+Structure.DateFormatValue.category=Catégorie
+Structure.DateFormatValue.pattern=Correspondance
+
+#21. TimeFormatValue
+Structure.TimeFormatValue.category=Catégorie
+Structure.TimeFormatValue.pattern=Correspondance
 
 #22. UserMethod
 Structure.UserMethod.name=Nom
@@ -2433,6 +2458,8 @@ Element.Style.font.variant=Variante de police
 Element.Style.font.weight=Epaisseur de police
 Element.Style.format=Format
 Element.Style.format.dateTime=Format Date/Heure
+Element.Style.format.date=Date format
+Element.Style.format.time=Time format
 Element.Style.format.number=Format des nombres
 Element.Style.format.number.align=Alignement des nombres
 Element.Style.format.string=Format de chaîne
