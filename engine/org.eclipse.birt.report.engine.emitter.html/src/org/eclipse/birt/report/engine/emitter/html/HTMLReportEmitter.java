@@ -687,6 +687,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			if ( reportStyleName != null )
 			{
 				writer.attribute( HTMLTags.ATTR_CLASS, reportStyleName );
+				// remove the default margin of body
+				writer.attribute( HTMLTags.ATTR_STYLE, " margin:0px;" );
 			}
 		}
 	}
@@ -2038,7 +2040,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			
 			setStyleName( image.getStyleClass( ) );
 			// build style
-			htmlEmitter.buildImageStyle( image, styleBuffer );
+			htmlEmitter.buildImageStyle( image, styleBuffer, display );
 			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 			writer.closeNoEndTag( );
 		}
@@ -2160,7 +2162,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			writer.attribute( HTMLTags.ATTR_TITLE, image.getHelpText( ) );
 
 			// build style
-			htmlEmitter.buildImageStyle( image, styleBuffer );
+			htmlEmitter.buildImageStyle( image, styleBuffer, display );
 			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 
 			if ( ".PNG".equalsIgnoreCase( ext ) && imageHandler != null ) //$NON-NLS-1$

@@ -299,11 +299,14 @@ public class HTMLVisionOptimize extends HTMLEmitter
 	/**
 	 * Build the style of image content.
 	 */
-	public void buildImageStyle( IImageContent image, StringBuffer styleBuffer )
+	public void buildImageStyle( IImageContent image, StringBuffer styleBuffer,
+			int display )
 	{
 		// image size
 		buildSize( styleBuffer, HTMLTags.ATTR_WIDTH, image.getWidth( ) ); //$NON-NLS-1$
 		buildSize( styleBuffer, HTMLTags.ATTR_HEIGHT, image.getHeight( ) ); //$NON-NLS-1$
+		// build the none value of display
+		setDisplayProperty( display, 0, styleBuffer );
 		buildStyle( image, styleBuffer );
 	}
 

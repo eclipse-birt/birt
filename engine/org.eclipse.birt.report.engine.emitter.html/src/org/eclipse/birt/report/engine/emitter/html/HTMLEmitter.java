@@ -74,7 +74,7 @@ public abstract class HTMLEmitter
 			StringBuffer styleBuffer, int display, String url );
 
 	public abstract void buildImageStyle( IImageContent image,
-			StringBuffer styleBuffer );
+			StringBuffer styleBuffer, int display );
 
 	public abstract void handleVerticalAlign( IStyle style );
 

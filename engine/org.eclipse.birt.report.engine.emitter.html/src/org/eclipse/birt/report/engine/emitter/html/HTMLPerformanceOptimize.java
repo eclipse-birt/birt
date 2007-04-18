@@ -182,7 +182,8 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 	/**
 	 * Build the style of image content.
 	 */
-	public void buildImageStyle( IImageContent image, StringBuffer styleBuffer )
+	public void buildImageStyle( IImageContent image, StringBuffer styleBuffer,
+			int display )
 	{
 		// image size
 		buildSize( styleBuffer, HTMLTags.ATTR_WIDTH, image.getWidth( ) ); //$NON-NLS-1$
