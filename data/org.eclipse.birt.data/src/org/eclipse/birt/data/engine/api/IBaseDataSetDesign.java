@@ -40,11 +40,22 @@ public interface IBaseDataSetDesign
 	 */
     public abstract int getCacheRowCount( );
     
-    /**
-     * When max rows is set, we fetch given number of rows from database.
-     * @return
-     */
-    public abstract int getMaxRows( );
+
+	/**
+	 * Set up the max number of rows that the data set represent by this
+	 * IBaseDataSetDesign instance can fetch from data source. If the input 
+	 * number is non-positive then unlimited number of rows will be fetched.
+	 * 
+	 * @param max
+	 */
+	public void setRowFetchLimit( int max );
+	
+	/**
+	 * Return the max number of rows that the data set represent by this 
+	 * IBaseDataSetDesign intance can fetch from data source.
+	 * @return
+	 */
+	public int getRowFetchLimit( );
     
     /**
 	 * When user wants to retrieve the distinct row, this flag needs to be set
@@ -146,6 +157,6 @@ public interface IBaseDataSetDesign
 	/**
 	 * Returns the event handler for the data set
 	 */ 
-	public abstract IBaseDataSetEventHandler getEventHandler( );
+	public abstract IBaseDataSetEventHandler getEventHandler( ); 
 
 }

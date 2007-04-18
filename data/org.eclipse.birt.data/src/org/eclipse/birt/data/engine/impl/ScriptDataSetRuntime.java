@@ -33,7 +33,8 @@ public class ScriptDataSetRuntime extends DataSetRuntime
 	implements IScriptDataSetMetaDataDefinition
 {
 	private IScriptDataSetEventHandler scriptEventHandler;
-
+	private int rowIndex = 0;
+	
 	/** Columns defined by the describe event handler. 
 	 * A list of ResultFieldMetadata objects*/
 	private List describedColumns;
@@ -75,17 +76,23 @@ public class ScriptDataSetRuntime extends DataSetRuntime
 	}
 
 	/** Executes the fetch script; returns the result */
-	public boolean fetch() throws DataException
+	public boolean fetch( ) throws DataException
 	{
-		if ( scriptEventHandler != null )
+		if ( this.getDesign( ).getRowFetchLimit( ) <= 0
+				|| this.rowIndex < this.getDesign( ).getRowFetchLimit( ) )
 		{
-			try
+			if ( scriptEventHandler != null )
 			{
-				return scriptEventHandler.handleFetch( this, this.getDataRow() );
-			}
-			catch ( Exception e)
-			{
-				throw new DataException(e.getLocalizedMessage( ));
+				try
+				{
+					this.rowIndex++;
+					return scriptEventHandler.handleFetch( this,
+							this.getDataRow( ) );
+				}
+				catch ( Exception e )
+				{
+					throw new DataException( e.getLocalizedMessage( ) );
+				}
 			}
 		}
 		return false;

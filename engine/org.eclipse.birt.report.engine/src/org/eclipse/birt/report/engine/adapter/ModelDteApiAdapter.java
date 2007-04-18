@@ -513,8 +513,6 @@ public class ModelDteApiAdapter
 			dteDataSet.setOnFetchScript( modelDataSet.getOnFetch( ) );
 			dteDataSet.setBeforeCloseScript( modelDataSet.getBeforeClose( ) );
 			dteDataSet.setAfterCloseScript( modelDataSet.getAfterClose( ) );
-			//cache row count
-			dteDataSet.setMaxRows( modelDataSet.getDataSetRowLimit( ));
 
 		}
 		populateParameter( modelDataSet, dteDataSet );
@@ -524,6 +522,8 @@ public class ModelDteApiAdapter
 		populateFilter( modelDataSet, dteDataSet );
 
 		mergeHints( modelDataSet, dteDataSet );
+		
+		dteDataSet.setRowFetchLimit( modelDataSet.getRowFetchLimit( ) );
 
 	}
 

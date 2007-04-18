@@ -318,7 +318,7 @@ public final class DataSetProvider
 			QueryDefinition queryDefn, boolean useColumnHints,
 			boolean useFilters ) throws BirtException
 	{
-		return this.execute( dataSet, queryDefn, useColumnHints, useFilters, null );
+		return this.execute( dataSet, queryDefn, useColumnHints, useFilters, null, false );
 	}	
 	
 	/**
@@ -331,7 +331,7 @@ public final class DataSetProvider
 	 */
 	public IQueryResults execute( DataSetHandle dataSet,
 			QueryDefinition queryDefn, boolean useColumnHints,
-			boolean useFilters, Map appContext ) throws BirtException
+			boolean useFilters, Map appContext, boolean clearCache ) throws BirtException
 	{
 
 		this.populateAllOutputColumns( dataSet );
@@ -345,7 +345,12 @@ public final class DataSetProvider
 
 		IBaseDataSetDesign dataSetDesign = session.getModelAdaptor( )
 				.adaptDataSet( dataSet );
-
+		if ( clearCache )
+		{
+			IBaseDataSourceDesign dataSourceDesign = session.getModelAdaptor( )
+					.adaptDataSource( dataSet.getDataSource( ) );
+			session.clearCache( dataSourceDesign, dataSetDesign );
+		}
 		if ( !useColumnHints )
 		{
 			dataSetDesign.getResultSetHints( ).clear( );

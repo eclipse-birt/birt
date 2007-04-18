@@ -61,6 +61,10 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator
 	private boolean beSecondaryUsed = false;
 
 	private DataEngineSession session;
+	
+	private int rowFetchLimit;
+	
+	private int rowCount;
 	/**
 	 * Constructor.
 	 * 
@@ -75,7 +79,8 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator
 	public BaseJointDataSetPopulator( IResultIterator left,
 			IResultIterator right, JointResultMetadata meta,
 			IJoinConditionMatcher jcm, int joinType,
-			IMatchResultObjectSeeker seeker, DataEngineSession session ) throws DataException
+			IMatchResultObjectSeeker seeker, DataEngineSession session,
+			int rowFetchLimit ) throws DataException
 	{
 		this.meta = meta;
 		this.joinType = joinType;
@@ -93,6 +98,9 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator
 		}
 
 		beInitialized = false;
+		
+		this.rowFetchLimit = rowFetchLimit;
+		this.rowCount = 0;
 
 	}
 
@@ -121,10 +129,27 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.data.engine.impl.jointdataset.IJointDataSetPopulator#next()
+	 * @see org.eclipse.birt.data.engine.odi.IDataSetPopulator#next()
 	 */
-	public IResultObject next( ) throws DataException
+	public IResultObject next() throws DataException
+	{
+		if( this.rowFetchLimit <= 0 || this.rowCount < this.rowFetchLimit )
+		{
+			IResultObject result = doNext();
+			if( result != null )
+				this.rowCount ++;
+			return result;
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @throws DataException
+	 */
+	private IResultObject doNext( ) throws DataException
 	{
 		if ( !beInitialized )
 		{
@@ -170,7 +195,7 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator
 		{
 			fetchPrimaryObject( );
 			curComparedResult = getCompartorResult( );
-			return next( );
+			return doNext( );
 		}
 	}
 
@@ -205,7 +230,7 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator
 		}
 		else
 		{
-			return next( );
+			return doNext( );
 		}
 
 	}
@@ -235,7 +260,7 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator
 		fetchSecondaryObjects( );
 		curComparedResult = getCompartorResult( );
 		
-		return next( );
+		return doNext( );
 	}
 
 	/**

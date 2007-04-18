@@ -79,9 +79,6 @@ class DataAdapterUtil
 			dteDataSet.setOnFetchScript( modelDataSet.getOnFetch( ) );
 			dteDataSet.setBeforeCloseScript( modelDataSet.getBeforeClose( ) );
 			dteDataSet.setAfterCloseScript( modelDataSet.getAfterClose( ) );
-			
-			// Number of Max rows.
-			dteDataSet.setMaxRows( modelDataSet.getDataSetRowLimit( ) );
 
 		}
 		populateParameter( modelDataSet, dteDataSet );
@@ -92,6 +89,8 @@ class DataAdapterUtil
 
 		mergeHints( modelDataSet, dteDataSet );
 
+		dteDataSet.setRowFetchLimit( modelDataSet.getRowFetchLimit() );
+	
 	}
 
 	/**

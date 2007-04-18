@@ -330,19 +330,23 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	}
 
 	/**
+	 * Set up the max number of rows that the data set represent by this
+	 * IBaseDataSetDesign instance can fetch from data source. If the input 
+	 * number is non-positive then unlimited number of rows will be fetched.
 	 * 
-	 * @param value
+	 * @param max
 	 */
-	public void setMaxRows( int value )
+	public void setRowFetchLimit( int max )
 	{
-		this.maxRows  = value;
+		this.maxRows = max <= 0 ? 0 : max;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#getMaxRows()
+	/**
+	 * Return the max number of rows that the data set represent by this 
+	 * IBaseDataSetDesign intance can fetch from data source.
+	 * @return
 	 */
-	public int getMaxRows( )
+	public int getRowFetchLimit( )
 	{
 		return this.maxRows;
 	}

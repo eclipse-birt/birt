@@ -209,6 +209,17 @@ public abstract class QueryExecutor implements IQueryExecutor
 		odiQuery = createOdiQuery( );
 		odiQuery.setDistinctValueFlag( dataSet.needDistinctValue( ) );
 		odiQuery.setExprProcessor( new ExpressionProcessor( dataSet ) );
+		
+		//		Set the row fetch limit for the IQuery instance.The row fetch limit
+		//is the number of rows that a data set can fetch from data source.
+		if( dataSet.getDesign( ) != null )
+		{
+			//When it is not a subquery, the property "row fetch limit" should be applied
+			//to the query.
+			odiQuery.setRowFetchLimit( dataSet.getDesign( ).getRowFetchLimit( ) );
+		}
+		
+		
 		populateOdiQuery( );
 		prepareOdiQuery( );
 		isPrepared = true;
@@ -284,8 +295,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 			populateFetchEvent( cx );
 
 			// specify max rows the query should fetch
-			odiQuery.setMaxRows( this.getMaxRowNumber( this.baseQueryDefn.getMaxRows( ),
-					this.dataSet.getMaxRows( ) ) );
+			odiQuery.setMaxRows( this.baseQueryDefn.getMaxRows( ) );
 			
 			prepareCacheQuery( );
 		}
@@ -293,32 +303,6 @@ public abstract class QueryExecutor implements IQueryExecutor
 		{
 			Context.exit( );
 		}
-	}
-
-	/**
-	 * 
-	 * @param fromQuery
-	 * @param fromDataSet
-	 * @return
-	 */
-	private int getMaxRowNumber( int fromQuery, int fromDataSet )
-	{
-		if ( fromQuery == 0 && fromDataSet!= 0)
-		{
-			return fromDataSet;
-		}
-		
-		if ( fromQuery != 0 && fromDataSet == 0 )
-		{
-			return fromQuery;
-		}
-		
-		if ( fromQuery > fromDataSet )
-		{
-			return fromDataSet;
-		}
-		
-		return fromQuery;
 	}
 	
 	/**

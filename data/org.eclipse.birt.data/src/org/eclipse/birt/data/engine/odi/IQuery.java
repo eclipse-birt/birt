@@ -73,6 +73,15 @@ public interface IQuery
     public void setMaxRows( int maxRows );
     
     /**
+	 * Set up the max number of rows that the data set represent by this
+	 * IBaseDataSetDesign instance can fetch from data source. If the input 
+	 * number is non-positive then unlimited number of rows will be fetched.
+	 * 
+	 * @param limit
+	 */
+    public void setRowFetchLimit( int limit );
+    
+    /**
      * Define a custom event object, which is called after the query retrieves a result object
      * and before any processing is done. Multiple events can be added using this method. 
      * These event objects are called in the order that they are added.
