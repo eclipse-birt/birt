@@ -59,7 +59,7 @@ public class DataSetIterator implements IDatasetIterator
 	{
 		Calendar c = Calendar.getInstance( );
 		c.clear( );
-		c.set( 0, 0, 1, 0, 0, 1 );
+		c.set( 0, 0, 1, 0, 0, 0 );
 		nullTime = c.getTimeInMillis( );
 		
 	}
