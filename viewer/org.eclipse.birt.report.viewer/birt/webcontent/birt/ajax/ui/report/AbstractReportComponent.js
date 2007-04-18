@@ -48,8 +48,9 @@ AbstractReportComponent.prototype =
 		}		
 				
 		var container = document.createElement( "div" );
-		container.style.position = "relative";
-		container.style.padding = "15px";
+		container.style.position = "absolute";
+		container.style.padding = "0px";
+		container.style.width = "100%";
 		container.innerHTML = content;
 		oDiv.appendChild( container );		
 		
