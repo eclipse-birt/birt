@@ -416,8 +416,8 @@ public class ParamDefTag extends BodyTagSupport
 		// isLocale hidden object
 		String isLocaleId = encParamId + "_islocale"; //$NON-NLS-1$
 		writer
-				.write( "<input type=\"hidden\" id=\"" + isLocaleId + "\" name=\"" //$NON-NLS-1$ //$NON-NLS-2$
-						+ ParameterAccessor.PARAM_ISLOCALE + "\" >\n" ); //$NON-NLS-1$
+				.write( "<input type=\"hidden\" id=\"" + isLocaleId + "\" value=\"" //$NON-NLS-1$ //$NON-NLS-2$
+						+ encParamName + "\" >\n" ); //$NON-NLS-1$
 
 		// set parameter pattern format
 		if ( param.getPattern( ) != null )
@@ -428,13 +428,24 @@ public class ParamDefTag extends BodyTagSupport
 					.write( " value=\"" + ParameterAccessor.htmlEncode( param.getPattern( ) ) + "\">\n" ); //$NON-NLS-1$//$NON-NLS-2$
 		}
 
-		String valCtl = "document.getElementById('" + valueId + "')"; //$NON-NLS-1$ //$NON-NLS-2$
-		String inputCtl = "document.getElementById('" + encParamId + "')"; //$NON-NLS-1$ //$NON-NLS-2$
-		String displayCtl = "document.getElementById('" + displayTextId + "')"; //$NON-NLS-1$ //$NON-NLS-2$
-		String localeCtl = "document.getElementById('" + isLocaleId + "')"; //$NON-NLS-1$ //$NON-NLS-2$
-		String onChange = displayCtl + ".value = " + inputCtl + ".value;" //$NON-NLS-1$//$NON-NLS-2$
-				+ valCtl + ".value=" + inputCtl + ".value;" //$NON-NLS-1$//$NON-NLS-2$
-				+ localeCtl + ".value='" + encParamName + "';"; //$NON-NLS-1$ //$NON-NLS-2$
+		// onchange script
+		writer.write( "\n<script language=\"JavaScript\">\n" ); //$NON-NLS-1$
+		writer.write( "function handleParam" + encParamId + "( )\n" ); //$NON-NLS-1$ //$NON-NLS-2$
+		writer.write( "{\n" ); //$NON-NLS-1$
+		writer.write( "var inputCtl = document.getElementById(\"" + encParamId //$NON-NLS-1$
+				+ "\");\n" ); //$NON-NLS-1$
+		writer.write( "var valCtl = document.getElementById(\"" + valueId //$NON-NLS-1$
+				+ "\");\n" ); //$NON-NLS-1$
+		writer.write( "var displayCtl = document.getElementById(\"" //$NON-NLS-1$
+				+ displayTextId + "\");\n" ); //$NON-NLS-1$
+		writer.write( "var localeCtl = document.getElementById(\"" //$NON-NLS-1$
+				+ isLocaleId + "\");\n" ); //$NON-NLS-1$
+		writer.write( "displayCtl.value=inputCtl.value;\n" ); //$NON-NLS-1$
+		writer.write( "valCtl.value=inputCtl.value;\n" ); //$NON-NLS-1$
+		writer
+				.write( "localeCtl.name='" + ParameterAccessor.PARAM_ISLOCALE + "';\n" ); //$NON-NLS-1$ //$NON-NLS-2$
+		writer.write( "}\n" ); //$NON-NLS-1$
+		writer.write( "</script>\n" ); //$NON-NLS-1$
 
 		if ( paramDef.isRequired( ) )
 		{
@@ -443,8 +454,8 @@ public class ParamDefTag extends BodyTagSupport
 			__handleGeneralDefinition( );
 			writer
 					.write( " value=\"" + ParameterAccessor.htmlEncode( this.displayTextString ) + "\" " ); //$NON-NLS-1$ //$NON-NLS-2$ 
-			writer.write( " onchange=\"" + onChange + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
-			writer.write( " >\n" ); //$NON-NLS-1$
+			writer.write( " onchange=\"handleParam" + encParamId + "( )\"" ); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write( " >\n" ); //$NON-NLS-1$			
 		}
 		else
 		{
@@ -452,27 +463,55 @@ public class ParamDefTag extends BodyTagSupport
 			String radioTextValueId = encParamId + "_radio_input"; //$NON-NLS-1$
 			String radioNullValueId = encParamId + "_radio_null"; //$NON-NLS-1$
 
+			// onclick script
+			writer.write( "\n<script language=\"JavaScript\">\n" ); //$NON-NLS-1$
+			writer.write( "function switchParam" + encParamId + "( flag )\n" ); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write( "{\n" ); //$NON-NLS-1$
+			writer
+					.write( "var inputCtl = document.getElementById(\"" + encParamId //$NON-NLS-1$
+							+ "\");\n" ); //$NON-NLS-1$
+			writer.write( "var displayCtl = document.getElementById(\"" //$NON-NLS-1$
+					+ displayTextId + "\");\n" ); //$NON-NLS-1$
+			writer
+					.write( "var nullCtl = document.getElementById(\"" + nullValueId //$NON-NLS-1$
+							+ "\");\n" ); //$NON-NLS-1$
+			writer
+					.write( "var radioTextCtl = document.getElementById(\"" + radioTextValueId //$NON-NLS-1$
+							+ "\");\n" ); //$NON-NLS-1$
+			writer
+					.write( "var radioNullCtl = document.getElementById(\"" + radioNullValueId //$NON-NLS-1$
+							+ "\");\n" ); //$NON-NLS-1$
+			writer.write( "if( flag ) \n" ); //$NON-NLS-1$
+			writer.write( "{\n" ); //$NON-NLS-1$
+			writer.write( "	radioTextCtl.checked=true;\n" ); //$NON-NLS-1$
+			writer.write( "	radioNullCtl.checked=false;\n" ); //$NON-NLS-1$
+			writer.write( "	inputCtl.disabled=false;\n" ); //$NON-NLS-1$		
+			writer.write( "	nullCtl.name='';\n" ); //$NON-NLS-1$
+			writer.write( "	displayCtl.name='" + displayTextName + "';\n" ); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write( "}\n" ); //$NON-NLS-1$
+			writer.write( "else\n" ); //$NON-NLS-1$
+			writer.write( "{\n" ); //$NON-NLS-1$
+			writer.write( "	radioTextCtl.checked=false;\n" ); //$NON-NLS-1$
+			writer.write( "	radioNullCtl.checked=true;\n" ); //$NON-NLS-1$
+			writer.write( "	inputCtl.disabled=true;\n" ); //$NON-NLS-1$		
+			writer
+					.write( "	nullCtl.name='" + ParameterAccessor.PARAM_ISNULL + "';\n" ); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write( "	displayCtl.name='';\n" ); //$NON-NLS-1$
+			writer.write( "}\n" ); //$NON-NLS-1$			
+			writer.write( "}\n" ); //$NON-NLS-1$
+			writer.write( "</script>\n" ); //$NON-NLS-1$
+
 			// Null Value hidden object
-			writer.write( "<input type=\"hidden\" name=\"" //$NON-NLS-1$
-					+ ParameterAccessor.PARAM_ISNULL
-					+ "\" id=\"" + nullValueId + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write( "<input type=\"hidden\" value=\"" //$NON-NLS-1$
+					+ encParamName + "\" id=\"" + nullValueId + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
 			if ( isNullValue )
-				writer.write( " value=\"" //$NON-NLS-1$
-						+ encParamName + "\"" ); //$NON-NLS-1$
+				writer.write( " name=\"" //$NON-NLS-1$
+						+ ParameterAccessor.PARAM_ISNULL + "\"" ); //$NON-NLS-1$
 			writer.write( " >\n" ); //$NON-NLS-1$
 
-			String nullCtl = "document.getElementById('" + nullValueId + "')"; //$NON-NLS-1$ //$NON-NLS-2$
-			String radioTextCtl = "document.getElementById('" + radioTextValueId + "')"; //$NON-NLS-1$ //$NON-NLS-2$
-			String radioNullCtl = "document.getElementById('" + radioNullValueId + "')"; //$NON-NLS-1$ //$NON-NLS-2$
-
-			String onClick = radioTextCtl + ".checked=true;" //$NON-NLS-1$
-					+ radioNullCtl + ".checked=false;" //$NON-NLS-1$
-					+ inputCtl + ".disabled=false;" //$NON-NLS-1$
-					+ displayCtl + ".name='" + displayTextName + "';" //$NON-NLS-1$ //$NON-NLS-2$
-					+ nullCtl + ".value='';"; //$NON-NLS-1$
 			writer
 					.write( "<input type=\"radio\" id=\"" + radioTextValueId + "\" " ); //$NON-NLS-1$//$NON-NLS-2$
-			writer.write( " onclick=\"" + onClick + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write( " onclick=\"switchParam" + encParamId + "( true )\"" ); //$NON-NLS-1$ //$NON-NLS-2$
 			if ( !isNullValue )
 				writer.write( " checked " ); //$NON-NLS-1$
 			writer.write( " >\n" ); //$NON-NLS-1$
@@ -482,20 +521,15 @@ public class ParamDefTag extends BodyTagSupport
 			__handleGeneralDefinition( );
 			writer
 					.write( " value=\"" + ParameterAccessor.htmlEncode( this.displayTextString ) + "\" " ); //$NON-NLS-1$ //$NON-NLS-2$ 
-			writer.write( " onchange=\"" + onChange + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write( " onchange=\"handleParam" + encParamId + "( )\"" ); //$NON-NLS-1$ //$NON-NLS-2$
 			if ( isNullValue )
 				writer.write( " disabled = 'true' " ); //$NON-NLS-1$
 			writer.write( " >\n" ); //$NON-NLS-1$
 
-			onClick = radioNullCtl + ".checked=true;" //$NON-NLS-1$
-					+ radioTextCtl + ".checked=false;" //$NON-NLS-1$
-					+ inputCtl + ".disabled=true;" //$NON-NLS-1$
-					+ displayCtl + ".name='';" //$NON-NLS-1$
-					+ nullCtl + ".value='" + encParamName + "';"; //$NON-NLS-1$ //$NON-NLS-2$
-
 			writer
 					.write( "<input type=\"radio\" id=\"" + radioNullValueId + "\" " ); //$NON-NLS-1$//$NON-NLS-2$
-			writer.write( " onclick=\"" + onClick + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
+			writer
+					.write( " onclick=\"switchParam" + encParamId + "( false )\"" ); //$NON-NLS-1$ //$NON-NLS-2$
 			if ( isNullValue )
 				writer.write( " checked " ); //$NON-NLS-1$
 			writer.write( " >" ); //$NON-NLS-1$
@@ -772,8 +806,9 @@ public class ParamDefTag extends BodyTagSupport
 			writer.write( "  {\n" ); //$NON-NLS-1$
 			writer
 					.write( "    var nullCtl = document.getElementById(\"" + nullValueId + "\");\n" ); //$NON-NLS-1$//$NON-NLS-2$
-			writer.write( "    if( nullCtl ) nullCtl.value=\"" + encParamName //$NON-NLS-1$
-					+ "\";\n" ); //$NON-NLS-1$
+			writer
+					.write( "    if( nullCtl ) nullCtl.name=\"" + ParameterAccessor.PARAM_ISNULL //$NON-NLS-1$
+							+ "\";\n" ); //$NON-NLS-1$
 			writer
 					.write( "    var valCtl = document.getElementById(\"" + valueId //$NON-NLS-1$
 							+ "\");\n" ); //$NON-NLS-1$
@@ -814,12 +849,12 @@ public class ParamDefTag extends BodyTagSupport
 
 			writer
 					.write( "var nullCtl = document.getElementById(\"" + nullValueId + "\");\n" ); //$NON-NLS-1$//$NON-NLS-2$
-			writer.write( "if( nullCtl ) nullCtl.value='';\n" ); //$NON-NLS-1$
+			writer.write( "if( nullCtl ) nullCtl.name='';\n" ); //$NON-NLS-1$
 
 			writer
 					.write( "var localeCtl = document.getElementById(\"" + isLocaleId + "\");\n" ); //$NON-NLS-1$//$NON-NLS-2$
 			writer
-					.write( "if( localeCtl ) localeCtl.value = \"" + encParamName + "\";\n" ); //$NON-NLS-1$ //$NON-NLS-2$
+					.write( "if( localeCtl ) localeCtl.name = \"" + ParameterAccessor.PARAM_ISLOCALE + "\";\n" ); //$NON-NLS-1$ //$NON-NLS-2$
 
 			writer.write( "}\n" ); //$NON-NLS-1$
 
@@ -842,8 +877,9 @@ public class ParamDefTag extends BodyTagSupport
 		writer.write( "var value = option.value;\n" ); //$NON-NLS-1$
 		writer.write( "if( label == \"" + ITagConstants.NULL_VALUE + "\")\n" ); //$NON-NLS-1$//$NON-NLS-2$
 		writer.write( "{\n" ); //$NON-NLS-1$
-		writer.write( "  if( nullCtl ) nullCtl.value=\"" + encParamName //$NON-NLS-1$
-				+ "\";\n" ); //$NON-NLS-1$
+		writer
+				.write( "  if( nullCtl ) nullCtl.name=\"" + ParameterAccessor.PARAM_ISNULL //$NON-NLS-1$
+						+ "\";\n" ); //$NON-NLS-1$
 		writer.write( "  if( valCtl ) valCtl.name = '';\n" ); //$NON-NLS-1$
 		writer.write( "  if( valCtl ) valCtl.value = '';\n" ); //$NON-NLS-1$
 		writer.write( "  if( displayCtl ) displayCtl.value = '';\n" ); //$NON-NLS-1$
@@ -851,7 +887,7 @@ public class ParamDefTag extends BodyTagSupport
 		writer.write( "}\n" ); //$NON-NLS-1$
 		writer.write( "else\n" ); //$NON-NLS-1$
 		writer.write( "{\n" ); //$NON-NLS-1$
-		writer.write( "  if( nullCtl ) nullCtl.value='';\n" ); //$NON-NLS-1$
+		writer.write( "  if( nullCtl ) nullCtl.name='';\n" ); //$NON-NLS-1$
 		writer
 				.write( "  if( valCtl ) valCtl.name = \"" + encParamName + "\";\n" ); //$NON-NLS-1$//$NON-NLS-2$
 		writer.write( "  if( valCtl ) valCtl.value = value;\n" ); //$NON-NLS-1$		
@@ -993,8 +1029,7 @@ public class ParamDefTag extends BodyTagSupport
 			// isLocale hidden object
 			writer.write( "<input type = 'hidden' " ); //$NON-NLS-1$
 			writer.write( " id=\"" + isLocaleId + "\" " ); //$NON-NLS-1$ //$NON-NLS-2$
-			writer
-					.write( " name=\"" + ParameterAccessor.PARAM_ISLOCALE + "\" " ); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write( " value=\"" + encParamName + "\" " ); //$NON-NLS-1$ //$NON-NLS-2$
 			writer.write( " >\n" ); //$NON-NLS-1$
 
 			// set parameter pattern format
@@ -1053,12 +1088,11 @@ public class ParamDefTag extends BodyTagSupport
 		// Null Value hidden object
 		if ( !paramDef.isRequired( ) )
 		{
-			writer.write( "<input type=\"hidden\" name=\"" //$NON-NLS-1$
-					+ ParameterAccessor.PARAM_ISNULL
-					+ "\" id=\"" + nullValueId + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write( "<input type=\"hidden\" value=\"" //$NON-NLS-1$
+					+ encParamName + "\" id=\"" + nullValueId + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
 			if ( isNullValue )
-				writer.write( " value=\"" //$NON-NLS-1$
-						+ encParamName + "\"" ); //$NON-NLS-1$
+				writer.write( " name=\"" //$NON-NLS-1$
+						+ ParameterAccessor.PARAM_ISNULL + "\"" ); //$NON-NLS-1$
 			writer.write( " >\n" ); //$NON-NLS-1$
 		}
 
@@ -1224,8 +1258,9 @@ public class ParamDefTag extends BodyTagSupport
 				.write( "var nullCtl = document.getElementById(\"" + nullValueId + "\");\n" ); //$NON-NLS-1$//$NON-NLS-2$
 		writer.write( "if( obj.id == \"" + radioNullValueId + "\")\n" ); //$NON-NLS-1$//$NON-NLS-2$
 		writer.write( "{\n" ); //$NON-NLS-1$
-		writer.write( "  if( nullCtl ) nullCtl.value=\"" + encParamName //$NON-NLS-1$
-				+ "\";\n" ); //$NON-NLS-1$
+		writer
+				.write( "  if( nullCtl ) nullCtl.name=\"" + ParameterAccessor.PARAM_ISNULL //$NON-NLS-1$
+						+ "\";\n" ); //$NON-NLS-1$
 		writer.write( "  valCtl.name = '';\n" ); //$NON-NLS-1$
 		writer.write( "  valCtl.value = '';\n" ); //$NON-NLS-1$
 		writer.write( "  displayCtl.value = '';\n" ); //$NON-NLS-1$
@@ -1233,7 +1268,7 @@ public class ParamDefTag extends BodyTagSupport
 		writer.write( "}\n" ); //$NON-NLS-1$
 		writer.write( "else\n" ); //$NON-NLS-1$
 		writer.write( "{\n" ); //$NON-NLS-1$
-		writer.write( "  if( nullCtl ) nullCtl.value='';\n" ); //$NON-NLS-1$
+		writer.write( "  if( nullCtl ) nullCtl.name='';\n" ); //$NON-NLS-1$
 		writer.write( "  valCtl.name = \"" + encParamName + "\";\n" ); //$NON-NLS-1$//$NON-NLS-2$
 		writer.write( "  valCtl.value = obj.value;\n" ); //$NON-NLS-1$
 		writer
@@ -1318,12 +1353,11 @@ public class ParamDefTag extends BodyTagSupport
 			boolean isNullValue = param.getValue( ) == null;
 
 			// Null Value hidden object
-			writer.write( "<input type=\"hidden\" name=\"" //$NON-NLS-1$
-					+ ParameterAccessor.PARAM_ISNULL
-					+ "\" id=\"" + nullValueId + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write( "<input type=\"hidden\" value=\"" //$NON-NLS-1$
+					+ encParamName + "\" id=\"" + nullValueId + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
 			if ( isNullValue )
-				writer.write( " value=\"" //$NON-NLS-1$
-						+ encParamName + "\"" ); //$NON-NLS-1$
+				writer.write( " name=\"" //$NON-NLS-1$
+						+ ParameterAccessor.PARAM_ISNULL + "\"" ); //$NON-NLS-1$
 			writer.write( " >\n" ); //$NON-NLS-1$
 
 			writer
