@@ -66,8 +66,9 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 	private static final String LABEL_FORMAT_CODE = Messages.getString( "FormatDateTimePage.label.format.code" ); //$NON-NLS-1$
 	private static final String LABEL_PREVIEW_GROUP = Messages.getString( "FormatDateTimePage.label.preview.group" ); //$NON-NLS-1$
 	private static final String LABEL_PREVIEW_LABEL = Messages.getString( "FormatDateTimePage.label.preview.label" ); //$NON-NLS-1$
-	private static final String LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_CODE = Messages.getString( "FormatDateTimePage.label.table.column.format.code" ); //$NON-NLS-1$
+	private static final String LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_NAME = Messages.getString( "FormatDateTimePage.label.table.column.format.name" ); //$NON-NLS-1$
 	private static final String LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_RESULT = Messages.getString( "FormatDateTimePage.label.table.column.format.result" ); //$NON-NLS-1$
+	private static final String LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_CODE = Messages.getString( "FormatDateTimePage.label.table.column.format.code" );
 
 	private static final String ENTER_DATE_TIME_GUIDE_TEXT = Messages.getString( "FormatDateTimePage.label.guide.text" ); //$NON-NLS-1$
 
@@ -81,7 +82,7 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 
 	private HashMap categoryPageMaps;
 
-	private static final int FORMAT_TYPE_INDEX = 0;
+	private static final int FORMAT_CODE_INDEX = 2;
 	private static final int DEFAULT_CATEGORY_CONTAINER_WIDTH = 220;
 
 	private int pageAlignment;
@@ -1029,13 +1030,13 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				formatCode.setText( provider.getPattern( ( (TableItem) e.item ).getText( FORMAT_TYPE_INDEX ) ) );
+				formatCode.setText( ( (TableItem) e.item ).getText( FORMAT_CODE_INDEX ) );
 				updatePreview( );
 				notifyFormatChange( );
 			}
 		} );
 		TableColumn tableColumValue = new TableColumn( table, SWT.NONE );
-		tableColumValue.setText( LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_CODE );
+		tableColumValue.setText( LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_NAME );
 		tableColumValue.setWidth( 120 );
 		tableColumValue.setResizable( true );
 
@@ -1043,6 +1044,11 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 		tableColumnDisplay.setText( LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_RESULT );
 		tableColumnDisplay.setWidth( 115 );
 		tableColumnDisplay.setResizable( true );
+		
+		TableColumn tableColumnFormatCode = new TableColumn( table, SWT.NONE );
+		tableColumnFormatCode.setText( LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_CODE );
+		tableColumnFormatCode.setWidth( 150 );
+		tableColumnFormatCode.setResizable( true );
 
 		String[][] items = provider.getTableItems( );
 		for ( int i = 0; i < items.length; i++ )

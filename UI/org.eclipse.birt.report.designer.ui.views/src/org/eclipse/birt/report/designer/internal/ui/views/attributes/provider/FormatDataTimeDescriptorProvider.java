@@ -126,31 +126,38 @@ public class FormatDataTimeDescriptorProvider implements IDescriptorProvider
 		String[][] items = new String[][]{
 				new String[]{
 						getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE ),
-						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE ) ).format( defaultDate )
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE ) ).format( defaultDate ),
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE ) ).getFormatCode( )
 				},
 				new String[]{
 						getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE ),
-						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE ) ).format( defaultDate )
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE ) ).format( defaultDate ),
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE ) ).getFormatCode( )
 				},
 				new String[]{
 						getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE ),
-						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE ) ).format( defaultDate )
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE ) ).format( defaultDate ),
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE ) ).getFormatCode( )
 				},
 				new String[]{
 						getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE ),
-						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE ) ).format( defaultDate )
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE ) ).format( defaultDate ),
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE ) ).getFormatCode( )
 				},
 				new String[]{
 						getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME ),
-						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME ) ).format( defaultDate )
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME ) ).format( defaultDate ),
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME ) ).getFormatCode( )
 				},
 				new String[]{
 						getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME ),
-						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME ) ).format( defaultDate )
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME ) ).format( defaultDate ),
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME ) ).getFormatCode( )
 				},
 				new String[]{
 						getDisplayName4Category( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME ),
-						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME ) ).format( defaultDate )
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME ) ).format( defaultDate ),
+						new DateFormatter( FormatDateTimePattern.getPatternForCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME ) ).getFormatCode( )
 				}
 		};
 		return items;
@@ -304,5 +311,4 @@ public class FormatDataTimeDescriptorProvider implements IDescriptorProvider
 	public String DATETIEM_FORMAT_TYPE_MEDIUM_TIME = DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME;
 	public String DATETIEM_FORMAT_TYPE_SHORT_TIME = DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME;
 
-	
 }

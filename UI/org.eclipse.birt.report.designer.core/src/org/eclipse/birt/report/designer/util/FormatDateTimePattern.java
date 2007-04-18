@@ -62,45 +62,4 @@ public class FormatDateTimePattern
 		}
 		return pattern;
 	}
-
-	/**
-	 * Returns format code according to given format type category
-	 * 
-	 * @param category
-	 *            Given format type category.
-	 * @return The corresponding format code string.
-	 */
-	public static String getFormatCodeForCategory( String category )
-	{
-		String formatCode = null;
-		if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE.equals( category ) )
-		{
-			formatCode = "MMMM dd, yyyy hh:mm:ss a z"; //$NON-NLS-1$
-		}
-		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_DATE.equals( category ) )
-		{
-			formatCode = "MMMM dd, yyyy"; //$NON-NLS-1$
-		}
-		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MUDIUM_DATE.equals( category ) )
-		{
-			formatCode = "MMM dd, yyyy"; //$NON-NLS-1$
-		}
-		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_DATE.equals( category ) )
-		{
-			formatCode = "M/dd/yyyy"; //$NON-NLS-1$
-		}
-		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_LONG_TIME.equals( category ) )
-		{
-			formatCode = "h:mm:ss a z"; //$NON-NLS-1$
-		}
-		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_MEDIUM_TIME.equals( category ) )
-		{
-			formatCode = "h:mm:ss a"; //$NON-NLS-1$
-		}
-		else if ( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME.equals( category ) )
-		{
-			formatCode = "HH:mm"; //$NON-NLS-1$
-		}
-		return formatCode;
-	}
 }

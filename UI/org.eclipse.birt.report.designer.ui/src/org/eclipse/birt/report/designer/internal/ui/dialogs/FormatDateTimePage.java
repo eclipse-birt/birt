@@ -98,7 +98,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 	private static String[][] choiceArray = null;
 	private static String[] formatTypes = null;
 
-	private static final int FORMAT_TYPE_INDEX = 0;
+	private static final int FORMAT_CODE_INDEX = 2;
 	private static final int DEFAULT_CATEGORY_CONTAINER_WIDTH = 220;
 
 	private int pageAlignment;
@@ -777,7 +777,6 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 			setPattern( pattern );
 
 		}
-
 		return;
 	}
 
@@ -1107,11 +1106,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				String displayName = ( (TableItem) e.item ).getText( FORMAT_TYPE_INDEX );
-				String category = ChoiceSetFactory.getStructPropValue( DateTimeFormatValue.FORMAT_VALUE_STRUCT,
-						DateTimeFormatValue.CATEGORY_MEMBER,
-						displayName );
-				formatCode.setText( FormatDateTimePattern.getFormatCodeForCategory( category ) );
+				formatCode.setText( ( (TableItem) e.item ).getText( FORMAT_CODE_INDEX ) );
 				updatePreview( );
 				notifyFormatChange( );
 			}
@@ -1136,7 +1131,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 			new TableItem( table, SWT.NONE ).setText( new String[]{
 					getDisplayName4Category( DATETIME_FORMAT_TYPES[i] ),
 					new DateFormatter( FormatDateTimePattern.getPatternForCategory( DATETIME_FORMAT_TYPES[i] ) ).format( defaultDate ),
-					FormatDateTimePattern.getFormatCodeForCategory( DATETIME_FORMAT_TYPES[i] )
+					new DateFormatter( FormatDateTimePattern.getPatternForCategory( DATETIME_FORMAT_TYPES[i] ) ).getFormatCode( )
 			} );
 		}
 	}
