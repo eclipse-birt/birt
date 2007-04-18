@@ -1424,6 +1424,8 @@ public class SVGGraphics2D extends Graphics2D
 		if (textDecorator != null)
 			elem.setAttribute( "text-decoration", textDecorator); //$NON-NLS-1$
 		
+		//for now just preserve space for text elements Bug 182159
+		elem.setAttribute( "xml:space", "preserve"); //$NON-NLS-1$ //$NON-NLS-2$
 		elem.setAttribute( "stroke", "none"); //$NON-NLS-1$ //$NON-NLS-2$
 		elem.setAttribute( "font-family", getFont().getFamily()); //$NON-NLS-1$
 		elem.setAttribute( "font-size", Integer.toString(getFont().getSize())); //$NON-NLS-1$
