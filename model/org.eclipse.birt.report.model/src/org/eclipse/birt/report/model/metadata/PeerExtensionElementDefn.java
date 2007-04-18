@@ -60,11 +60,11 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 	protected Map overrideAllowedUnits = new HashMap( );
 
 	/**
-	 * The factory to create scriptable classes. 
+	 * The factory to create scriptable classes.
 	 */
-	
+
 	private IScriptableObjectClassInfo scriptableFactory = null;
-	
+
 	/**
 	 * Constructs the peer extension element definition with the element
 	 * definition name and report item factory.
@@ -143,14 +143,19 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 					.getProperty( IExtendedItemModel.EXTENSION_NAME_PROP );
 			if ( getProperty( IExtendedItemModel.EXTENSION_NAME_PROP ) == null )
 			{
-				properties.put( extensionName.getName( ), extensionName );
-				cachedProperties.put( extensionName.getName( ), extensionName );
+				properties.put( IExtendedItemModel.EXTENSION_NAME_PROP,
+						extensionName );
+				cachedProperties.put( IExtendedItemModel.EXTENSION_NAME_PROP,
+						extensionName );
+
+				addPropertyVisibility( IExtendedItemModel.EXTENSION_NAME_PROP,
+						HIDDEN_IN_PROPERTY_SHEET );
 			}
 		}
 
 		// modify extended item's allowed unit.
 		// especially for 'height' and 'width' property in Chart.
-		
+
 		overrideProperty( );
 	}
 
@@ -332,14 +337,16 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 		overrideAllowedUnits.put( prop, allowedUnits );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.metadata.ElementDefn#isContainer()
 	 */
 	public boolean isContainer( )
 	{
 		return isContainer;
 	}
-	
+
 	/**
 	 * Returns the factory to create scriptable class for ROM defined elements.
 	 * 

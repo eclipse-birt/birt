@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.metadata.IColorConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.Cell;
@@ -27,6 +28,7 @@ import org.eclipse.birt.report.model.elements.Label;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -485,6 +487,11 @@ public class PropertyHandleTest extends BaseTestCase
 		assertTrue( propHandle.isVisible( ) );
 		assertFalse( propHandle.isReadOnly( ) );
 
+		CubeHandle cube = elemFactory.newTabularCube( "cube1" ); //$NON-NLS-1$
+		propHandle = cube.getPropertyHandle( ICubeModel.DIMENSIONS_PROP );
+		assertFalse( propHandle.isVisible( ) );
+		propHandle = cube.getPropertyHandle( ICubeModel.ACCESS_CONTROLS_PROP );
+		assertFalse( propHandle.isVisible( ) );
 	}
 
 	/**

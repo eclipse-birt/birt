@@ -60,6 +60,7 @@ import org.eclipse.birt.report.model.elements.FreeForm;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ArgumentInfoList;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
@@ -104,6 +105,8 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 	protected static final String TESTING_MATRIX_NAME = "TestingMatrix"; //$NON-NLS-1$
 	protected static final String TESTING_BOX_NAME = "TestingBox"; //$NON-NLS-1$
+
+	private static final String TESTING_TABLE_NAME = "TestingTable"; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
@@ -742,7 +745,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 				.getProperty( Style.COLOR_PROP ) );
 
 		save( );
-		assertTrue( compareFile( goldenFileName_3) );
+		assertTrue( compareFile( goldenFileName_3 ) );
 
 	}
 
@@ -1335,6 +1338,13 @@ public class ReportItemExtensionTest extends BaseTestCase
 		assertFalse( element.getExtDefn( ).isPropertyVisible( "test3" ) ); //$NON-NLS-1$
 		assertTrue( element.getExtDefn( ).isPropertyReadOnly(
 				ReportItem.DATA_SET_PROP ) );
+
+		itemHandle = insertExtendedItem( "testTable1", TESTING_TABLE_NAME ); //$NON-NLS-1$
+		assertNotNull( itemHandle
+				.getPropertyDefn( IExtendedItemModel.EXTENSION_NAME_PROP ) );
+		assertFalse( element.getExtDefn( ).isPropertyVisible(
+				IExtendedItemModel.EXTENSION_NAME_PROP ) );
+
 	}
 
 	/**

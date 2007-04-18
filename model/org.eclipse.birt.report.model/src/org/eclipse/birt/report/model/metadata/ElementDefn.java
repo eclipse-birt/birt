@@ -1616,6 +1616,9 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		if ( propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
 			return false;
 
+		if ( ( (PropertyDefn) propDefn ).isElementType( ) )
+			return false;
+
 		String visibility = getPropertyVisibility( propDefn.getName( ) );
 		if ( HIDDEN_IN_PROPERTY_SHEET.equals( visibility ) )
 			return false;
