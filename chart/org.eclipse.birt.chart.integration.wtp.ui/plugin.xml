@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+	<!--======================================================================================-->
+	<!--         BIRT Web Project Wizard                                                      -->
+	<!--======================================================================================-->
+	
+	<extension point="org.eclipse.ui.newWizards">	
+		<wizard name="%birt.web.project.name" 
+				class="org.eclipse.birt.chart.integration.wtp.ui.internal.wizards.BirtWebProjectWizard"
+				category="org.eclipse.birt.report.designer.ui.wizard.category"
+				id="org.eclipse.birt.chart.integration.wtp.ui.internal.wizards.BirtWebProjectCreationWizard"
+				finalPerspective="org.eclipse.jst.j2ee.J2EEPerspective"
+				project="true"
+				icon="icons/create_project_wizard.gif">
+			<description>
+				%birt.web.project.description
+			</description>			
+		</wizard>		
+	</extension>
+	
+	<extension point="org.eclipse.wst.common.ui.exampleProjectCreationWizard">
+		<wizard	id="org.eclipse.birt.chart.integration.wtp.ui.BirtExampleProjectCreationWizard">
+			<projectsetup>
+				<import	src="runtime/chart-viewer-sample.war" />
+			</projectsetup>
+		</wizard>
+	</extension>
+	
+   <extension point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="%birt.web.category.name"
+            description="%birt.web.actionsets.description"
+            visible="true"
+            id="org.eclipse.birt.chart.integration.wtp.ui.actionset">
+            <action
+               label="%create.birt.web.module"
+               icon="icons/create_project_wizard.gif"
+               tooltip="%create.birt.web.module"
+               toolbarPath="J2EEMain"
+               class="org.eclipse.birt.chart.integration.wtp.ui.internal.actions.NewBirtWebComponentAction"
+               id="org.eclipse.birt.chart.wtp.ui.internal.actions.NewBirtWebComponentAction">
+	        </action>
+
+      </actionSet>      
+	</extension> 
+	
+
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension targetID="org.eclipse.jst.j2ee.J2EEPerspective">
+		<actionSet id="org.eclipse.birt.chart.integration.wtp.ui.actionset"/> 		
+      </perspectiveExtension>
+   </extension>
+          			
+	<!-- Project Facets -->
+	
+	<extension point="org.eclipse.wst.common.project.facet.core.facets">
+		
+		<project-facet id="birt.chart.runtime">
+			<label>%BIRT_FACET_LABEL</label>
+			<description>%BIRT_FACET_DESCRIPTION</description>
+		</project-facet>
+		
+		<project-facet-version facet="birt.chart.runtime" version="2.2.0">
+			<constraint>
+				<and>
+					<requires facet="jst.web" version="[2.3"/>
+					<requires facet="jst.java" version="[1.4"/>
+					<conflicts group="group.birt.runtime"/>
+				</and>
+			</constraint>
+			<group-member id="group.birt.chart.runtime"/>
+		</project-facet-version>
+		
+		<action facet="birt.chart.runtime" version="2.2.0" type="INSTALL" id="birt.chart.runtime.install">
+			<delegate class="org.eclipse.birt.chart.integration.wtp.ui.project.facet.BirtFacetInstallDelegate"/>
+			<config-factory class="org.eclipse.birt.chart.integration.wtp.ui.project.facet.BirtFacetInstallDataModelProvider"/>
+		</action>
+		
+		<event-handler facet="birt.chart.runtime" version="2.2.0" type="RUNTIME_CHANGED">
+			<delegate class="org.eclipse.birt.chart.integration.wtp.ui.project.facet.BirtFacetRuntimeChangedDelegate"/>
+		</event-handler>
+		
+		<event-handler facet="birt.chart.runtime" version="2.2.0" type="POST_INSTALL">
+			<delegate class="org.eclipse.birt.chart.integration.wtp.ui.project.facet.BirtFacetPostInstallDelegate"/>
+		</event-handler>
+		
+		<preset id="preset.birt.chart.runtime">
+			<label>%BIRT_FACET_TEMPLATE_LABEL</label>
+			<facet id="birt.chart.runtime" version="2.2.0"/>
+			<facet id="jst.java" version="1.4"/>
+			<facet id="jst.web" version="2.3"/>
+		</preset>
+		
+		<template id="template.birt.chart.runtime">
+			<label>%BIRT_FACET_TEMPLATE_LABEL</label>
+			<fixed facet="birt.chart.runtime"/>
+			<fixed facet="jst.java"/>
+			<fixed facet="jst.web"/>
+		</template>
+		
+	</extension>
+	
+	<extension point="org.eclipse.wst.common.project.facet.core.runtimes">
+		<supported>
+			<facet id="birt.chart.runtime" version="2.2.0"/>
+			<runtime-component any="true"/>
+		</supported>
+	</extension>
+      	
+	<!--======================================================================================-->
+	<!--         Templates                                                                    -->
+	<!--======================================================================================-->
+	<extension point="org.eclipse.ui.editors.templates">
+
+		<contextType
+			name="%JSP_New_context_type_Extension_Element.name"
+			class="org.eclipse.jst.jsp.ui.internal.templates.TemplateContextTypeJSP"
+			id="jsp_new" />
+
+		<contextType
+			name="%JSP_Tag_context_type_Extension_Element.name"
+			class="org.eclipse.jst.jsp.ui.internal.templates.TemplateContextTypeJSP"
+			id="jsp_tag" />
+			
+		<include
+			file="templates/jspbirtchart-templates.xml"
+			translations="templates/jspbirtchart-templates.properties" />
+
+	</extension>
+	
+	<!--======================================================================================-->
+	<!--         Web Application Resources Settings                                           -->
+	<!--======================================================================================-->
+	
+
+	
+		
+</plugin>
