@@ -286,14 +286,9 @@ public class DataSetIterator implements IDatasetIterator
 			query.addResultSetExpression( level.getName( ),
 					new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( level.getColumnName( ) ) ) );
 			
-			//The leaf level should serve as one of composit primary key of fact table
-			if ( j == levels.size( ) - 1 )
-			{
-				GroupDefinition gd = new GroupDefinition( );
-				gd.setKeyExpression( ExpressionUtil.createJSRowExpression( level.getName( ) ) );
-				query.addGroup( gd );
-			}
-
+			GroupDefinition gd = new GroupDefinition( );
+			gd.setKeyExpression( ExpressionUtil.createJSRowExpression( level.getName( ) ) );
+			query.addGroup( gd );
 		}
 	}
 
