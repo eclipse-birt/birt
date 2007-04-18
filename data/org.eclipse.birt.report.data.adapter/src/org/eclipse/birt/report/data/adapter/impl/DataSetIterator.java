@@ -14,21 +14,22 @@
 
 package org.eclipse.birt.report.data.adapter.impl;
 
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IResultIterator;
-import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator;
+import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
@@ -52,6 +53,17 @@ public class DataSetIterator implements IDatasetIterator
 	private IResultIterator it;
 	private ResultMeta metadata;
 
+	private static long nullTime;
+	
+	static
+	{
+		Calendar c = Calendar.getInstance( );
+		c.clear( );
+		c.set( 0, 0, 1, 0, 0, 1 );
+		nullTime = c.getTimeInMillis( );
+		
+	}
+	
 	/**
 	 * Create DataSetIterator for a hierarchy.
 	 * 
@@ -67,16 +79,12 @@ public class DataSetIterator implements IDatasetIterator
 
 		query.setDataSetName( hierHandle.getDataSet( ).getQualifiedName( ) );
 
-		List resultMetaList = new ArrayList( );
-		Map levelNameColumnNamePair = new HashMap( );
-
+		List metaList = new ArrayList();
 		this.prepareLevels( query,
-				resultMetaList,
-				levelNameColumnNamePair,
-				hierHandle );
+				hierHandle, metaList );
 
 		this.it = session.prepare( query ).execute( null ).getResultIterator( );
-		this.populateMeta( levelNameColumnNamePair, resultMetaList );
+		this.metadata = new ResultMeta( metaList );
 	}
 
 	/**
@@ -95,8 +103,8 @@ public class DataSetIterator implements IDatasetIterator
 		query.setDataSetName( cubeHandle.getDataSet( ).getQualifiedName( ) );
 
 		List dimensions = cubeHandle.getContents( CubeHandle.DIMENSIONS_PROP );
-		List resultMetaList = new ArrayList( );
-		HashMap levelNameColumnNamePair = new HashMap( );
+
+		List metaList = new ArrayList();
 		if ( dimensions != null )
 		{
 			for ( int i = 0; i < dimensions.size( ); i++ )
@@ -115,9 +123,7 @@ public class DataSetIterator implements IDatasetIterator
 								.equals( cubeHandle.getDataSet( ).getQualifiedName( ) ) )
 				{
 					prepareLevels( query,
-							resultMetaList,
-							levelNameColumnNamePair,
-							hierHandle );
+							hierHandle, metaList );
 				}
 				else
 				{
@@ -135,11 +141,10 @@ public class DataSetIterator implements IDatasetIterator
 			}
 		}
 
-		prepareMeasure( cubeHandle, query, resultMetaList );
+		prepareMeasure( cubeHandle, query, metaList );
 
 		this.it = session.prepare( query ).execute( null ).getResultIterator( );
-
-		populateMeta( levelNameColumnNamePair, resultMetaList );
+		this.metadata = new ResultMeta( metaList );
 
 	}
 
@@ -150,7 +155,7 @@ public class DataSetIterator implements IDatasetIterator
 	 * @param resultMetaList
 	 */
 	private void prepareMeasure( TabularCubeHandle cubeHandle,
-			QueryDefinition query, List resultMetaList )
+			QueryDefinition query, List metaList )
 	{
 		List measureGroups = cubeHandle.getContents( CubeHandle.MEASURE_GROUPS_PROP );
 		for ( int i = 0; i < measureGroups.size( ); i++ )
@@ -175,11 +180,11 @@ public class DataSetIterator implements IDatasetIterator
 							new ScriptExpression( measure.getMeasureExpression( ) ) );
 				}
 
-				ColumnMeta meta = new ColumnMeta( measure.getName( ) );
+				ColumnMeta meta = new ColumnMeta( measure.getName( ), false );
 				//TODO after model finish support measure type, use data type defined in
 				//measure handle.
 				meta.setDataType( ModelAdapter.adaptModelDataType( measure.getDataType( )) );
-				resultMetaList.add( meta );
+				metaList.add( meta );
 			}
 		}
 	}
@@ -220,34 +225,8 @@ public class DataSetIterator implements IDatasetIterator
 					+ measure.getMeasureExpression( ) + ",null,"
 					+ query.getGroups( ).size( ) + ")" );
 		}
-		se.setDataType( DataType.DOUBLE_TYPE );
+		se.setDataType( ModelAdapter.adaptModelDataType( measure.getDataType( ) ) );
 		return se;
-	}
-
-	/**
-	 * 
-	 * @param levelNameColumnNamePair
-	 * @param resultMetaList
-	 * @throws BirtException
-	 */
-	private void populateMeta( Map levelNameColumnNamePair, List resultMetaList )
-			throws BirtException
-	{
-		IResultMetaData rm = this.it.getResultMetaData( );
-		Iterator levelIt = levelNameColumnNamePair.keySet( ).iterator( );
-		while ( levelIt.hasNext( ) )
-		{
-			String key = levelIt.next( ).toString( );
-			for ( int i = 0; i < rm.getColumnCount( ); i++ )
-			{
-				if ( key.equals( rm.getColumnName( i + 1 ) ) )
-				{
-					ColumnMeta value = (ColumnMeta) levelNameColumnNamePair.get( key );
-					value.setDataType( rm.getColumnType( i + 1 ) );
-				}
-			}
-		}
-		this.metadata = new ResultMeta( resultMetaList );
 	}
 
 	/**
@@ -257,8 +236,7 @@ public class DataSetIterator implements IDatasetIterator
 	 * @param levelNameColumnNamePair
 	 * @param hierHandle
 	 */
-	private void prepareLevels( QueryDefinition query, List resultMetaList,
-			Map levelNameColumnNamePair, TabularHierarchyHandle hierHandle )
+	private void prepareLevels( QueryDefinition query, TabularHierarchyHandle hierHandle, List metaList )
 	{
 		//Use same data set as cube fact table
 		List levels = hierHandle.getContents( TabularHierarchyHandle.LEVELS_PROP );
@@ -267,24 +245,29 @@ public class DataSetIterator implements IDatasetIterator
 		{
 
 			TabularLevelHandle level = (TabularLevelHandle) levels.get( j );
-			ColumnMeta temp = new ColumnMeta( level.getName( ) );
-			resultMetaList.add( temp );
-			levelNameColumnNamePair.put( level.getColumnName( ), temp );
+			ColumnMeta temp = new ColumnMeta( level.getName( ), true );
+			int type = ModelAdapter.adaptModelDataType(level.getDataType( ));
+			if ( isTimeType( type ))
+				temp.setDataType( DataType.INTEGER_TYPE );
+			temp.setDataType( type );
+			metaList.add( temp );
 			Iterator it = level.attributesIterator( );
 			while ( it.hasNext( ) )
 			{
 				LevelAttributeHandle levelAttr = (LevelAttributeHandle) it.next( );
-				ColumnMeta meta = new ColumnMeta( level.getName( )
-						+ "/" + levelAttr.getName( ) );
+				ColumnMeta meta = new ColumnMeta( OlapExpressionUtil.getAttributeColumnName( level.getName( ),
+						levelAttr.getName( )), false );
 
 				meta.setDataType( ModelAdapter.adaptModelDataType( levelAttr.getDataType( ) ) );
+				metaList.add( meta );
 				query.addResultSetExpression( meta.getName( ),
 						new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( levelAttr.getName( ) ) ) );
-				resultMetaList.add( meta );
 			}
 			
+			String exprString = populateLevelKeyExpression( level, type );
+			
 			query.addResultSetExpression( level.getName( ),
-					new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( level.getColumnName( ) ) ) );
+					new ScriptExpression( exprString ));
 			
 			GroupDefinition gd = new GroupDefinition( );
 			gd.setKeyExpression( ExpressionUtil.createJSRowExpression( level.getName( ) ) );
@@ -292,6 +275,51 @@ public class DataSetIterator implements IDatasetIterator
 		}
 	}
 
+	private String populateLevelKeyExpression( TabularLevelHandle level,
+			int type )
+	{
+		String exprString = ExpressionUtil.createJSDataSetRowExpression( level.getColumnName( ) );
+	/*	if ( isTimeType( type ))
+		{
+			String dateName = level.getDateTimeLevelType( );
+			if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY.equals( dateName ))
+			{
+				exprString = "BirtDateTime.day(" + exprString + ")";
+			}
+			else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK.equals( dateName ))
+			{
+				exprString = "BirtDateTime.week(" + exprString + ")";
+			}
+			if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH.equals( dateName ))
+			{
+				exprString = "BirtDateTime.month(" + exprString + ")";
+			}
+			if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER.equals( dateName ))
+			{
+				exprString = "BirtDateTime.quarter(" + exprString + ")";
+			}
+			if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR.equals( dateName ))
+			{
+				exprString = "BirtDateTime.year(" + exprString + ")";
+			}
+		}*/
+		return exprString;
+	}
+
+	/**
+	 * 
+	 * @param type
+	 * @return
+	 */
+	private boolean isTimeType( int type )
+	{
+		if ( type == DataType.DATE_TYPE 
+			 || type == DataType.SQL_DATE_TYPE	)
+		{
+			return true;
+		}	
+		return false;
+	}
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator#close()
@@ -326,10 +354,15 @@ public class DataSetIterator implements IDatasetIterator
 	 */
 	public Object getValue( int fieldIndex ) throws BirtException
 	{
-		return it.getValue( this.metadata == null ? it.getResultMetaData( )
-				.getColumnName( fieldIndex )
-				: this.metadata.getFieldName( fieldIndex ) );
+		Object value = it.getValue( this.metadata.getFieldName( fieldIndex ) );
+		if ( value == null )
+		{
+			return this.metadata.getNullValueReplacer( fieldIndex );
+		}
+		return value;
 	}
+
+
 
 	/*
 	 * (non-Javadoc)
@@ -368,7 +401,9 @@ public class DataSetIterator implements IDatasetIterator
 		//
 		private HashMap columnMetaMap;
 		private HashMap indexMap;
-
+		private Object[] nullValueReplacer;
+		
+		
 		/**
 		 * Constructor.
 		 * @param columnMetas
@@ -377,12 +412,17 @@ public class DataSetIterator implements IDatasetIterator
 		{
 			this.columnMetaMap = new HashMap( );
 			this.indexMap = new HashMap( );
+			this.nullValueReplacer = new Object[columnMetas.size( )];
 			for ( int i = 0; i < columnMetas.size( ); i++ )
 			{
 				ColumnMeta columnMeta = (ColumnMeta) columnMetas.get( i );
 				columnMeta.setIndex( i + 1 );
 				this.columnMetaMap.put( columnMeta.getName( ), columnMeta );
 				this.indexMap.put( new Integer( i + 1 ), columnMeta );
+				if ( columnMeta.isLevelKey( ))
+				{
+					this.nullValueReplacer[i] = createNullValueReplacer( columnMeta.getType( ));
+				}
 			}
 		}
 
@@ -415,6 +455,47 @@ public class DataSetIterator implements IDatasetIterator
 		{
 			return ( (ColumnMeta) this.indexMap.get( new Integer( index ) ) ).getName( );
 		}
+		
+		/**
+		 * 
+		 * @param index
+		 * @return
+		 */
+		public Object getNullValueReplacer( int index )
+		{
+			return this.nullValueReplacer[index - 1];
+		}
+		
+		/**
+		 * 
+		 * @param fieldType
+		 * @return
+		 */
+		private Object createNullValueReplacer( int fieldType )
+		{
+			
+			switch ( fieldType )
+			{
+				case DataType.DATE_TYPE :
+					return new java.util.Date( nullTime );
+				case DataType.SQL_DATE_TYPE :
+					return new java.sql.Date( nullTime );
+				case DataType.SQL_TIME_TYPE :
+					return new Time( nullTime );
+				case DataType.BOOLEAN_TYPE :
+					return new Boolean( false );
+				case DataType.DECIMAL_TYPE :
+					return new Double( 0 );
+				case DataType.DOUBLE_TYPE :
+					return new Double( 0 );
+				case DataType.INTEGER_TYPE :
+					return new Integer( 0 );
+				case DataType.STRING_TYPE :
+					return "";
+				default :
+					return "";
+			}
+		}
 	}
 
 	/**
@@ -427,14 +508,15 @@ public class DataSetIterator implements IDatasetIterator
 		private String name;
 		private int type;
 		private int index;
-
+		private boolean isLevelKey;
 		/**
 		 * 
 		 * @param name
 		 */
-		ColumnMeta( String name )
+		ColumnMeta( String name, boolean isLevelKey )
 		{
 			this.name = name;
+			this.isLevelKey = isLevelKey;
 		}
 
 		/**
@@ -480,6 +562,15 @@ public class DataSetIterator implements IDatasetIterator
 		public void setDataType( int type )
 		{
 			this.type = type;
+		}
+		
+		/**
+		 * 
+		 * @return
+		 */
+		public boolean isLevelKey( )
+		{
+			return this.isLevelKey;
 		}
 	}
 }
