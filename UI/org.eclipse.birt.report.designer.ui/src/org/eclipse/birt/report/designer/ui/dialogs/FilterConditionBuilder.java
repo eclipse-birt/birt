@@ -98,7 +98,7 @@ public class FilterConditionBuilder extends BaseDialog
 	/**
 	 * Usable operators for building map rule conditions.
 	 */
-	static final String[][] OPERATOR;
+	protected static final String[][] OPERATOR;
 
 	private transient String bindingName;
 
@@ -258,19 +258,19 @@ public class FilterConditionBuilder extends BaseDialog
 		return 0;
 	}
 
-	private FilterConditionHandle inputHandle;
+	protected FilterConditionHandle inputHandle;
 
-	private Combo expression, operator;
+	protected Combo expression, operator;
 
-	private Button valBuilder1, valBuilder2;
+	protected Button valBuilder1, valBuilder2;
 
-	private Text value1, value2;
+	protected Text value1, value2;
 
-	private Label andLable;
+	protected Label andLable;
 
-	private DesignElementHandle designHandle;
+	protected DesignElementHandle designHandle;
 
-	private static final String VALUE_OF_THIS_DATA_ITEM = Messages.getString( "FilterConditionBuilder.choice.ValueOfThisDataItem" ); //$NON-NLS-1$
+	protected static final String VALUE_OF_THIS_DATA_ITEM = Messages.getString( "FilterConditionBuilder.choice.ValueOfThisDataItem" ); //$NON-NLS-1$
 
 	/**
 	 * Default constructor.
@@ -331,16 +331,25 @@ public class FilterConditionBuilder extends BaseDialog
 		Composite innerParent = (Composite) createDialogArea( composite );
 		createButtonBar( composite );
 
+		createFilterConditionContent( innerParent );
+
+		updateButtons( );
+
+		return composite;
+	}
+
+	protected void createFilterConditionContent( Composite innerParent )
+	{
 		Label lb = new Label( innerParent, SWT.NONE );
 		lb.setText( Messages.getString( "FilterConditionBuilder.text.Condition" ) ); //$NON-NLS-1$
 
 		Composite condition = new Composite( innerParent, SWT.NONE );
 		condition.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		glayout = new GridLayout( 4, false );
+		GridLayout glayout = new GridLayout( 4, false );
 		condition.setLayout( glayout );
 
 		expression = new Combo( condition, SWT.NONE );
-		gdata = new GridData( );
+		GridData gdata = new GridData( );
 		gdata.widthHint = 100;
 		expression.setLayoutData( gdata );
 		expression.addListener( SWT.Selection, ComboModify );
@@ -370,12 +379,12 @@ public class FilterConditionBuilder extends BaseDialog
 		} );
 
 		Button expBuilder = new Button( condition, SWT.PUSH );
-//		expBuilder.setText( "..." ); //$NON-NLS-1$
+		// expBuilder.setText( "..." ); //$NON-NLS-1$
 		gdata = new GridData( );
 		gdata.heightHint = 20;
 		gdata.widthHint = 20;
 		expBuilder.setLayoutData( gdata );
-		setExpressionButtonImage(expBuilder);
+		setExpressionButtonImage( expBuilder );
 		expBuilder.setToolTipText( Messages.getString( "FilterConditionBuilder.tooltip.ExpBuilder" ) ); //$NON-NLS-1$
 		expBuilder.addSelectionListener( new SelectionAdapter( ) {
 
@@ -390,41 +399,7 @@ public class FilterConditionBuilder extends BaseDialog
 		{
 			operator.add( OPERATOR[i][0] );
 		}
-		operator.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				String value = getValueForOperator( operator.getText( ) );
-
-				int vv = determineValueVisible( value );
-
-				if ( vv == 0 )
-				{
-					value1.setVisible( false );
-					valBuilder1.setVisible( false );
-					value2.setVisible( false );
-					valBuilder2.setVisible( false );
-					andLable.setVisible( false );
-				}
-				else if ( vv == 1 )
-				{
-					value1.setVisible( true );
-					valBuilder1.setVisible( true );
-					value2.setVisible( false );
-					valBuilder2.setVisible( false );
-					andLable.setVisible( false );
-				}
-				else if ( vv == 2 )
-				{
-					value1.setVisible( true );
-					valBuilder1.setVisible( true );
-					value2.setVisible( true );
-					valBuilder2.setVisible( true );
-					andLable.setVisible( true );
-				}
-				updateButtons( );
-			}
-		} );
+		operator.addSelectionListener( OpoertorSelection );
 
 		ExpressionValue expressionValue1 = new ExpressionValue( condition,
 				SWT.NONE,
@@ -466,13 +441,52 @@ public class FilterConditionBuilder extends BaseDialog
 		{
 			syncViewProperties( );
 		}
-
-		updateButtons( );
-
-		return composite;
 	}
 
-	private Listener ComboModify = new Listener( ) {
+	protected SelectionListener OpoertorSelection = new SelectionListener( ) {
+
+		public void widgetSelected( SelectionEvent e )
+		{
+			// TODO Auto-generated method stub
+			String value = getValueForOperator( operator.getText( ) );
+
+			int vv = determineValueVisible( value );
+
+			if ( vv == 0 )
+			{
+				value1.setVisible( false );
+				valBuilder1.setVisible( false );
+				value2.setVisible( false );
+				valBuilder2.setVisible( false );
+				andLable.setVisible( false );
+			}
+			else if ( vv == 1 )
+			{
+				value1.setVisible( true );
+				valBuilder1.setVisible( true );
+				value2.setVisible( false );
+				valBuilder2.setVisible( false );
+				andLable.setVisible( false );
+			}
+			else if ( vv == 2 )
+			{
+				value1.setVisible( true );
+				valBuilder1.setVisible( true );
+				value2.setVisible( true );
+				valBuilder2.setVisible( true );
+				andLable.setVisible( true );
+			}
+			updateButtons( );
+		}
+
+		public void widgetDefaultSelected( SelectionEvent e )
+		{
+			// TODO Auto-generated method stub
+
+		}
+	};
+
+	protected Listener ComboModify = new Listener( ) {
 
 		public void handleEvent( Event e )
 		{
@@ -544,7 +558,7 @@ public class FilterConditionBuilder extends BaseDialog
 		return titleArea;
 	}
 
-	private Composite createDummy( Composite parent, int colSpan )
+	protected Composite createDummy( Composite parent, int colSpan )
 	{
 		Composite dummy = new Composite( parent, SWT.NONE );
 		GridData gdata = new GridData( );
@@ -600,13 +614,13 @@ public class FilterConditionBuilder extends BaseDialog
 	 * Refreshes the OK button state.
 	 * 
 	 */
-	private void updateButtons( )
+	protected void updateButtons( )
 	{
 		enableInput( isExpressionOK( ) );
 		getOkButton( ).setEnabled( isConditionOK( ) );
 	}
 
-	private void enableInput( boolean val )
+	protected void enableInput( boolean val )
 	{
 		operator.setEnabled( val );
 		value1.setEnabled( val );
@@ -637,7 +651,7 @@ public class FilterConditionBuilder extends BaseDialog
 	/**
 	 * Gets if the condition is available.
 	 */
-	private boolean isConditionOK( )
+	protected boolean isConditionOK( )
 	{
 		if ( expression == null )
 		{
@@ -681,7 +695,7 @@ public class FilterConditionBuilder extends BaseDialog
 	/**
 	 * SYNC the control value according to the handle.
 	 */
-	private void syncViewProperties( )
+	protected void syncViewProperties( )
 	{
 		// expression.setText( DEUtil.resolveNull( provider.getTestExpression( )
 		// ) );
@@ -775,7 +789,7 @@ public class FilterConditionBuilder extends BaseDialog
 		super.okPressed( );
 	}
 
-	private void editValue( Control control )
+	protected void editValue( Control control )
 	{
 		String initValue = null;
 		if ( control instanceof Text )
@@ -1047,28 +1061,29 @@ public class FilterConditionBuilder extends BaseDialog
 
 	}
 
-	protected void setExpressionButtonImage(Button button)
+	protected void setExpressionButtonImage( Button button )
 	{
 		String imageName;
-		if(button.isEnabled())
+		if ( button.isEnabled( ) )
 		{
 			imageName = IReportGraphicConstants.ICON_ENABLE_EXPRESSION_BUILDERS;
-		}else
+		}
+		else
 		{
 			imageName = IReportGraphicConstants.ICON_DISABLE_EXPRESSION_BUILDERS;
 		}
-		Image image = ReportPlatformUIImages.getImage(imageName );
-		
-		GridData gd = new GridData();
+		Image image = ReportPlatformUIImages.getImage( imageName );
+
+		GridData gd = new GridData( );
 		gd.widthHint = 20;
 		gd.heightHint = 20;
-		button.setLayoutData(gd);
-		
-		button.setImage(image);
-		if(button.getImage() != null)
+		button.setLayoutData( gd );
+
+		button.setImage( image );
+		if ( button.getImage( ) != null )
 		{
-			button.getImage().setBackground(button.getBackground());
+			button.getImage( ).setBackground( button.getBackground( ) );
 		}
-		
+
 	}
 }

@@ -41,7 +41,7 @@ public class FilterModelProvider
 	/**
 	 * The list of allowed FilterCondition.OPERATOR_MEMBER
 	 */
-	private static IChoiceSet choiceSet = ChoiceSetFactory.getStructChoiceSet( FilterCondition.FILTER_COND_STRUCT,
+	protected static IChoiceSet choiceSet = ChoiceSetFactory.getStructChoiceSet( FilterCondition.FILTER_COND_STRUCT,
 			FilterCondition.OPERATOR_MEMBER );
 
 	private List columnList;
