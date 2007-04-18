@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionDelta;
@@ -25,7 +26,6 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IRegistryChangeEvent;
 import org.eclipse.core.runtime.IRegistryChangeListener;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.draw2d.geometry.Point;
 
 /**
  * 1.register adapters with priority 2.look for capable adapter by priority
@@ -247,8 +247,11 @@ public class DNDService implements IRegistryChangeListener
 				{
 					IDragAdapter adapter = (IDragAdapter) configElements[i].createExecutableExtension( "adapter" );
 					dragAdapterList.add( adapter );
-					System.out.println( "[addRegistry]"
-							+ configElements[i].getAttribute( "adapter" ) );
+					if ( Policy.TRACING_DND )
+					{
+						System.out.println( "[add dragAdapter]"
+								+ configElements[i].getAttribute( "adapter" ) );
+					}
 				}
 				catch ( CoreException e )
 				{
@@ -262,8 +265,11 @@ public class DNDService implements IRegistryChangeListener
 				{
 					IDropAdapter adapter = (IDropAdapter) configElements[i].createExecutableExtension( "adapter" );
 					dropAdapterList.add( adapter );
-					System.out.println( "[addRegistry]"
-							+ configElements[i].getAttribute( "adapter" ) );
+					if ( Policy.TRACING_DND )
+					{
+						System.out.println( "[add dropAdapter]"
+								+ configElements[i].getAttribute( "adapter" ) );
+					}
 				}
 				catch ( CoreException e )
 				{
