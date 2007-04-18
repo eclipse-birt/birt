@@ -412,9 +412,10 @@ public class Hierarchy implements IHierarchy
 	 * @param keyDataType
 	 * @param attributesDataType
 	 * @throws IOException
+	 * @throws DataException 
 	 */
 	private void writeDimensionRow( DimensionRow dimensionMember, int[][] keyDataType, int[][] attributesDataType )
-			throws IOException
+			throws IOException, DataException
 	{
 		Member[] levelMembers = dimensionMember.members;
 		for ( int i = 0; i < levelMembers.length; i++ )
@@ -429,9 +430,10 @@ public class Hierarchy implements IHierarchy
 	 * @param keyDataType
 	 * @param attributesDataType
 	 * @throws IOException
+	 * @throws DataException 
 	 */
 	private void writeLevelMember( Member levelMember, int keyDataType[], int[] attributesDataType )
-			throws IOException
+			throws IOException, DataException
 	{
 		for ( int i = 0; i < levelMember.keyValues.length; i++ )
 		{

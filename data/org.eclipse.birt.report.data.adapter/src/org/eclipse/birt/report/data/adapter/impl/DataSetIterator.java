@@ -178,7 +178,7 @@ public class DataSetIterator implements IDatasetIterator
 				ColumnMeta meta = new ColumnMeta( measure.getName( ) );
 				//TODO after model finish support measure type, use data type defined in
 				//measure handle.
-				meta.setDataType( DataType.DOUBLE_TYPE );
+				meta.setDataType( ModelAdapter.adaptModelDataType( measure.getDataType( )) );
 				resultMetaList.add( meta );
 			}
 		}

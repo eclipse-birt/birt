@@ -12,9 +12,11 @@
 package org.eclipse.birt.data.engine.olap.data.document;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.Date;
 
+import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.data.util.Bytes;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 
@@ -30,8 +32,9 @@ public class DocumentObjectUtil
 	 * @param dataType
 	 * @param value
 	 * @throws IOException
+	 * @throws DataException 
 	 */
-	public static void writeValue( IDocumentObject documentObject, int[] dataType, Object[] value ) throws IOException
+	public static void writeValue( IDocumentObject documentObject, int[] dataType, Object[] value ) throws IOException, DataException
 	{
 		for( int i=0;i<dataType.length;i++)
 		{
@@ -44,9 +47,11 @@ public class DocumentObjectUtil
 	 * @param dataType
 	 * @param value
 	 * @throws IOException
+	 * @throws DataException 
 	 */
-	public static void writeValue( IDocumentObject documentObject, int dataType, Object value ) throws IOException
+	public static void writeValue( IDocumentObject documentObject, int dataType, Object value ) throws IOException, DataException
 	{
+		try{
 		if (value == null) 
 		{
 			documentObject.writeByte(0);
@@ -59,35 +64,39 @@ public class DocumentObjectUtil
 		switch ( dataType )
 		{
 			case DataType.BOOLEAN_TYPE :
-				documentObject.writeBoolean( ( (Boolean) value ).booleanValue( ) );
+				documentObject.writeBoolean( DataTypeUtil.toBoolean( value ).booleanValue( ) );
 				break;
 			case DataType.INTEGER_TYPE :
-				documentObject.writeInt( ( (Integer) value ).intValue( ) );
+				documentObject.writeInt( DataTypeUtil.toInteger( value ).intValue( ) );
 				break;
 			case DataType.DOUBLE_TYPE :
-				documentObject.writeDouble( ( (Double) value ).doubleValue( ) );
+				documentObject.writeDouble( DataTypeUtil.toDouble( value ).doubleValue( ) );
 				break;
 			case DataType.STRING_TYPE :
-				documentObject.writeString( ( (String) value ) );
+				documentObject.writeString( DataTypeUtil.toString( value ) );
 				break;
 			case DataType.DATE_TYPE :
-				documentObject.writeDate( ( (Date) value ) );
+				documentObject.writeDate( DataTypeUtil.toDate( value ) );
 				break;
 			case DataType.BIGDECIMAL_TYPE :
-				documentObject.writeBigDecimal( ( (BigDecimal) value ) );
+				documentObject.writeBigDecimal( DataTypeUtil.toBigDecimal( value ) );
 				break;
 			case DataType.BYTES_TYPE :
-				documentObject.writeBytes( ( (Bytes) value ) );
+				documentObject.writeBytes( (Bytes) value );
 				break;
 			case DataType.SQL_DATE_TYPE :
-				documentObject.writeDate( ( (java.sql.Date) value ) );
+				documentObject.writeDate( DataTypeUtil.toSqlDate( value ) );
 				break;
 			case DataType.SQL_TIME_TYPE :
-				documentObject.writeDate( ( (java.sql.Time) value ) );
+				documentObject.writeDate( DataTypeUtil.toSqlTime( value ) );
 				break;
 			default :
 				assert false;
 				break;
+		}
+		}catch ( BirtException e )
+		{
+			throw DataException.wrap( e );
 		}
 	}
 	

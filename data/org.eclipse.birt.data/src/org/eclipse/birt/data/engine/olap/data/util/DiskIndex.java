@@ -281,9 +281,10 @@ public class DiskIndex
 	 * @param interval
 	 * @return
 	 * @throws IOException
+	 * @throws DataException 
 	 */
 	private IDiskArray writeLeafNode( IDiskArray sortedKeyArray, int interval )
-			throws IOException
+			throws IOException, DataException
 	{
 		BufferedPrimitiveDiskArray offset = new BufferedPrimitiveDiskArray( Constants.LIST_BUFFER_SIZE );
 		for ( int i = 0; i < sortedKeyArray.size( ); i++ )
@@ -307,10 +308,11 @@ public class DiskIndex
 	 * @param sonLevelTotalNumber
 	 * @return
 	 * @throws IOException
+	 * @throws DataException 
 	 */
 	private IDiskArray writeNonLeafNode( IDiskArray sortedKeyArray,
 			IDiskArray startOffset, int level, int sonLevelTotalNumber )
-			throws IOException
+			throws IOException, DataException
 	{
 		int interval = pow( degree, level );
 		BufferedPrimitiveDiskArray sonStartOffset = new BufferedPrimitiveDiskArray( Math.min( Constants.LIST_BUFFER_SIZE,
@@ -376,8 +378,9 @@ public class DiskIndex
 	 * 
 	 * @param keyObject
 	 * @throws IOException
+	 * @throws DataException 
 	 */
-	private void writeKeyObject( IndexKey keyObject ) throws IOException
+	private void writeKeyObject( IndexKey keyObject ) throws IOException, DataException
 	{
 		documentObject.writeInt( keyObject.dimensionPos );
 		for ( int i = 0; i < keyDataType.length; i++ )
