@@ -24,7 +24,6 @@
       </win>
    </launcher>
 
-
    <vm>
    </vm>
 
@@ -48,7 +47,6 @@
       <plugin id="org.apache.batik.util.gui"/>
       <plugin id="org.apache.batik.xml"/>
       <plugin id="org.apache.commons.codec"/>
-      <plugin id="org.apache.commons.logging"/>
       <plugin id="org.apache.derby.core"/>
       <plugin id="org.apache.lucene"/>
       <plugin id="org.apache.lucene.analysis"/>
@@ -65,6 +63,7 @@
       <plugin id="org.eclipse.birt.chart.doc.isv"/>
       <plugin id="org.eclipse.birt.chart.engine"/>
       <plugin id="org.eclipse.birt.chart.engine.extension"/>
+      <plugin id="org.eclipse.birt.chart.examples"/>
       <plugin id="org.eclipse.birt.chart.reportitem"/>
       <plugin id="org.eclipse.birt.chart.reportitem.ui"/>
       <plugin id="org.eclipse.birt.chart.runtime"/>
@@ -118,6 +117,10 @@
       <plugin id="org.eclipse.core.expressions"/>
       <plugin id="org.eclipse.core.filebuffers"/>
       <plugin id="org.eclipse.core.filesystem"/>
+      <plugin id="org.eclipse.core.filesystem.linux.ppc" fragment="true"/>
+      <plugin id="org.eclipse.core.filesystem.linux.x86" fragment="true"/>
+      <plugin id="org.eclipse.core.filesystem.linux.x86_64" fragment="true"/>
+      <plugin id="org.eclipse.core.filesystem.macosx" fragment="true"/>
       <plugin id="org.eclipse.core.filesystem.win32.x86" fragment="true"/>
       <plugin id="org.eclipse.core.jobs"/>
       <plugin id="org.eclipse.core.resources"/>
@@ -137,7 +140,6 @@
       <plugin id="org.eclipse.datatools.connectivity.ui"/>
       <plugin id="org.eclipse.datatools.enablement.oda.xml"/>
       <plugin id="org.eclipse.datatools.enablement.oda.xml.ui"/>
-      <plugin id="org.eclipse.debug.core"/>
       <plugin id="org.eclipse.draw2d"/>
       <plugin id="org.eclipse.emf.common"/>
       <plugin id="org.eclipse.emf.ecore"/>
@@ -153,25 +155,25 @@
       <plugin id="org.eclipse.help.appserver"/>
       <plugin id="org.eclipse.help.base"/>
       <plugin id="org.eclipse.help.ui"/>
-      <plugin id="org.eclipse.jdt.compiler.apt" fragment="true"/>
-      <plugin id="org.eclipse.jdt.compiler.tool" fragment="true"/>
-      <plugin id="org.eclipse.jdt.core"/>
-      <plugin id="org.eclipse.jdt.debug"/>
-      <plugin id="org.eclipse.jdt.launching"/>
       <plugin id="org.eclipse.jface"/>
       <plugin id="org.eclipse.jface.databinding"/>
       <plugin id="org.eclipse.jface.text"/>
       <plugin id="org.eclipse.ltk.core.refactoring"/>
       <plugin id="org.eclipse.osgi"/>
       <plugin id="org.eclipse.osgi.services"/>
-      <plugin id="org.eclipse.pde.build"/>
-      <plugin id="org.eclipse.pde.core"/>
       <plugin id="org.eclipse.swt"/>
+      <plugin id="org.eclipse.swt.carbon.macosx" fragment="true"/>
+      <plugin id="org.eclipse.swt.gtk.linux.ppc" fragment="true"/>
+      <plugin id="org.eclipse.swt.gtk.linux.x86" fragment="true"/>
+      <plugin id="org.eclipse.swt.gtk.linux.x86_64" fragment="true"/>
+      <plugin id="org.eclipse.swt.gtk.solaris.sparc" fragment="true"/>
+      <plugin id="org.eclipse.swt.motif.aix.ppc" fragment="true"/>
       <plugin id="org.eclipse.swt.win32.win32.x86" fragment="true"/>
-      <plugin id="org.eclipse.team.core"/>
+      <plugin id="org.eclipse.swt.wpf.win32.x86" fragment="true"/>
       <plugin id="org.eclipse.text"/>
       <plugin id="org.eclipse.tomcat"/>
       <plugin id="org.eclipse.ui"/>
+      <plugin id="org.eclipse.ui.carbon" fragment="true"/>
       <plugin id="org.eclipse.ui.cheatsheets"/>
       <plugin id="org.eclipse.ui.editors"/>
       <plugin id="org.eclipse.ui.forms"/>
@@ -183,6 +185,7 @@
       <plugin id="org.eclipse.ui.workbench.texteditor"/>
       <plugin id="org.eclipse.update.configurator"/>
       <plugin id="org.eclipse.update.core"/>
+      <plugin id="org.eclipse.update.core.linux" fragment="true"/>
       <plugin id="org.eclipse.update.core.win32" fragment="true"/>
       <plugin id="org.eclipse.update.ui"/>
       <plugin id="org.junit"/>
