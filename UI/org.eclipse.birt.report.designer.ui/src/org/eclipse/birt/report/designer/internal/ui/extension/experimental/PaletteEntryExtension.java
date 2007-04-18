@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.extension.experimental;
 
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.jface.resource.ImageDescriptor;
 
 /**
@@ -31,6 +32,11 @@ public class PaletteEntryExtension
 
 	public String getLabel( )
 	{
+		if ( itemName != null
+				&& DEUtil.getMetaDataDictionary( ).getExtension( itemName ) != null )
+			return DEUtil.getMetaDataDictionary( )
+					.getExtension( itemName )
+					.getDisplayName( );
 		return label;
 	}
 
@@ -93,7 +99,7 @@ public class PaletteEntryExtension
 	{
 		if ( getCommand( ) != null )
 		{
-			return CommandUtils.executeCommand( getCommand( ));
+			return CommandUtils.executeCommand( getCommand( ) );
 		}
 		throw new Exception( "create command not specail." );
 	}
