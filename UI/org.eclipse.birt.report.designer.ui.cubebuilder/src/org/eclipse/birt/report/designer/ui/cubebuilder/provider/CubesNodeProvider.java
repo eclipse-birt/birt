@@ -13,13 +13,16 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.provider;
 
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.action.NewCubeAction;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.ISharedImages;
 
 
 public class CubesNodeProvider extends DefaultNodeProvider
@@ -64,6 +67,11 @@ public class CubesNodeProvider extends DefaultNodeProvider
 
 	public Image getNodeIcon( Object model )
 	{
+		if ( model instanceof DesignElementHandle
+				&& ( (DesignElementHandle) model ).getSemanticErrors( ).size( ) > 0 )
+		{
+			return ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
+		}
 		return UIHelper.getImage( BuilderConstancts.IMAGE_CUBES );
 	}
 }

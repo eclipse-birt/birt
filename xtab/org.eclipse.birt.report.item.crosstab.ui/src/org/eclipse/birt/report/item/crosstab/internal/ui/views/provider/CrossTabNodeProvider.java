@@ -15,13 +15,16 @@ import java.util.ArrayList;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.ISharedImages;
 
 /**
  * Group provider class - Populates the Group node menu items and associates to
@@ -70,6 +73,11 @@ public class CrossTabNodeProvider extends DefaultNodeProvider
 
 	public Image getNodeIcon( Object model )
 	{
+		if ( model instanceof DesignElementHandle
+				&& ( (DesignElementHandle) model ).getSemanticErrors( ).size( ) > 0 )
+		{
+			return ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
+		}
 		return CrosstabUIHelper.getImage( CrosstabUIHelper.CROSSTAB_IMAGE );
 	}
 }
