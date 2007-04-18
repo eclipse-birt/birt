@@ -855,21 +855,4 @@ public class BirtWizardUtil implements IBirtWizardConstants
 		}
 	}
 
-	/**
-	 * Get Log Level
-	 */
-	public static String[] getLogLevels( )
-	{
-		return new String[]{
-				BirtWTPMessages.BIRTConfiguration_loglevel_all,
-				BirtWTPMessages.BIRTConfiguration_loglevel_severe,
-				BirtWTPMessages.BIRTConfiguration_loglevel_warning,
-				BirtWTPMessages.BIRTConfiguration_loglevel_info,
-				BirtWTPMessages.BIRTConfiguration_loglevel_config,
-				BirtWTPMessages.BIRTConfiguration_loglevel_fine,
-				BirtWTPMessages.BIRTConfiguration_loglevel_finer,
-				BirtWTPMessages.BIRTConfiguration_loglevel_finest,
-				BirtWTPMessages.BIRTConfiguration_loglevel_off
-		};
-	}
 }

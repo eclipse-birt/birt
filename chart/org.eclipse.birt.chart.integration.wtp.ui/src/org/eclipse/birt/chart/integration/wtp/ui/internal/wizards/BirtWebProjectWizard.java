@@ -14,7 +14,6 @@ package org.eclipse.birt.chart.integration.wtp.ui.internal.wizards;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.birt.chart.integration.wtp.ui.ChartWTPUIPlugin;
 import org.eclipse.birt.chart.integration.wtp.ui.internal.exception.ChartIntegrationException;
 import org.eclipse.birt.chart.integration.wtp.ui.internal.i18n.BirtWTPMessages;
 import org.eclipse.birt.chart.integration.wtp.ui.internal.util.Logger;
@@ -25,7 +24,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jst.servlet.ui.project.facet.WebProjectWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
@@ -46,11 +44,6 @@ public class BirtWebProjectWizard extends WebProjectWizard
 	 * Configuration Element of birt wizard
 	 */
 	private IConfigurationElement wizardConfigElement;
-
-	/**
-	 * Birt Project Configuration Wizard Page
-	 */
-	private IWizardPage configPage = null;
 
 	/**
 	 * Birt Project Properties
@@ -116,34 +109,6 @@ public class BirtWebProjectWizard extends WebProjectWizard
 
 		// initialize webapp settings
 		BirtWizardUtil.initWebapp( this.properties );
-	}
-
-	/**
-	 * Returns next wizard page.
-	 * <p>
-	 * Append BIRT Configuration wizard page.
-	 * 
-	 * @see org.eclipse.wst.common.project.facet.ui.AddRemoveFacetsWizard#getNextPage(org.eclipse.jface.wizard.IWizardPage)
-	 */
-	public IWizardPage getNextPage( IWizardPage wizardPage )
-	{
-		if ( wizardPage == configPage )
-			return null;
-
-		IWizardPage nextPage = super.getNextPage( wizardPage );
-		if ( nextPage == null
-				&& BirtWizardUtil.isSelectedFacetInstalled( getDataModel( ),
-						ChartWTPUIPlugin.RUNTIME_FACET_ID ) )
-		{
-			if ( configPage == null )
-			{
-				// Create BIRT Configuration wizard page
-				configPage = new BirtWebProjectWizardConfigurationPage( (Map) properties.get( EXT_CONTEXT_PARAM ) );
-				addPage( configPage );
-			}
-			return configPage;
-		}
-		return nextPage;
 	}
 
 	/**

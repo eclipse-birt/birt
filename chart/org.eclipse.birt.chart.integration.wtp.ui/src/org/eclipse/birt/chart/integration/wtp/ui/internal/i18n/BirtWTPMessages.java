@@ -24,7 +24,7 @@ public class BirtWTPMessages extends NLS
 {
 
 	// Bundle Name
-	private static final String BUNDLE_NAME = "org.eclipse.birt.chart.integration.wtp.ui.internal.resource.Messages";//$NON-NLS-1$
+	private static final String BUNDLE_NAME = "org.eclipse.birt.chart.integration.wtp.ui.internal.i18n.Messages";//$NON-NLS-1$
 	private static ResourceBundle bundle;
 
 	static
@@ -69,59 +69,6 @@ public class BirtWTPMessages extends NLS
 
 	public static String BIRTProjectConfigurationPage_title;
 	public static String BIRTProjectConfigurationPage_desc;
-
-	/***************************************************************************
-	 * BIRT Configuration Dialog
-	 **************************************************************************/
-	public static String BIRTConfigurationDialog_title;
-
-	/***************************************************************************
-	 * BIRT Configuration Components
-	 **************************************************************************/
-	public static String BIRTConfiguration_group_paths;
-	public static String BIRTConfiguration_group_others;
-	public static String BIRTConfiguration_folder_button_text;
-
-	public static String BIRTConfiguration_resource_label;
-	public static String BIRTConfiguration_resource_dialog_title;
-	public static String BIRTConfiguration_resource_dialog_message;
-
-	public static String BIRTConfiguration_working_label;
-	public static String BIRTConfiguration_working_dialog_title;
-	public static String BIRTConfiguration_working_dialog_message;
-
-	public static String BIRTConfiguration_document_label;
-	public static String BIRTConfiguration_document_dialog_title;
-	public static String BIRTConfiguration_document_dialog_message;
-
-	public static String BIRTConfiguration_image_label;
-	public static String BIRTConfiguration_image_dialog_title;
-	public static String BIRTConfiguration_image_dialog_message;
-
-	public static String BIRTConfiguration_scriptlib_label;
-	public static String BIRTConfiguration_scriptlib_dialog_title;
-	public static String BIRTConfiguration_scriptlib_dialog_message;
-
-	public static String BIRTConfiguration_log_label;
-	public static String BIRTConfiguration_log_dialog_title;
-	public static String BIRTConfiguration_log_dialog_message;
-
-	public static String BIRTConfiguration_report_access_message;
-	public static String BIRTConfiguration_overwrite_message;
-
-	public static String BIRTConfiguration_maxrows_label;
-	public static String BIRTConfiguration_loglevel_label;
-	public static String BIRTConfiguration_loglevel_all;
-	public static String BIRTConfiguration_loglevel_severe;
-	public static String BIRTConfiguration_loglevel_warning;
-	public static String BIRTConfiguration_loglevel_info;
-	public static String BIRTConfiguration_loglevel_config;
-	public static String BIRTConfiguration_loglevel_fine;
-	public static String BIRTConfiguration_loglevel_finer;
-	public static String BIRTConfiguration_loglevel_finest;
-	public static String BIRTConfiguration_loglevel_off;
-
-	public static String BIRTConfiguration_import_clear_message;
 
 	/***************************************************************************
 	 * Overwrite Query Dialog
