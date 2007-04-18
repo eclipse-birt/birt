@@ -2173,6 +2173,7 @@ Element.DataSet.computedColumns=計算カラム
 Element.DataSet.filter=フィルタ
 Element.DataSet.columnHints=カラムのヒント
 Element.DataSet.cachedMetaData=キャッシュされたメタデータ
+Element.DataSet.rowFetchLimit=Max number of rows to fetch from data set
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.dataSource=データソース

@@ -2173,6 +2173,7 @@ Element.DataSet.computedColumns=Colonnes de calcul
 Element.DataSet.filter=Filtre
 Element.DataSet.columnHints=Astuces de colonne
 Element.DataSet.cachedMetaData=Métadonnées en cache
+Element.DataSet.rowFetchLimit=Max number of rows to fetch from data set
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.dataSource=Source de données

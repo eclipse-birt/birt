@@ -2173,6 +2173,7 @@ Element.DataSet.computedColumns=계산 열
 Element.DataSet.filter=필터
 Element.DataSet.columnHints=열 힌트
 Element.DataSet.cachedMetaData=캐시된 메타데이터
+Element.DataSet.rowFetchLimit=Max number of rows to fetch from data set
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.dataSource=데이터 원본
