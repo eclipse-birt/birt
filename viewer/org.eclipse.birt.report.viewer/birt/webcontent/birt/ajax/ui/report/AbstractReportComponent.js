@@ -50,7 +50,8 @@ AbstractReportComponent.prototype =
 		var container = document.createElement( "div" );
 		// For Bugzilla Bug 179472, change "relative" to "absolute"
 		container.style.position = "absolute";
-		container.style.padding = "15px";
+		container.style.padding = "0px";
+		container.style.width = "100%";
 		container.innerHTML = content;
 		oDiv.appendChild( container );		
 		
