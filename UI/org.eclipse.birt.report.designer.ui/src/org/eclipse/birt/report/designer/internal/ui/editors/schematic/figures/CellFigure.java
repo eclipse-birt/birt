@@ -70,7 +70,7 @@ public class CellFigure extends ReportElementFigure
 		int left = ( getClientArea( ).width - rc.width ) / 2;
 		int top = ( getClientArea( ).height - rc.height ) / 2;
 
-		g.drawString( s, getClientArea( ).x + left, getClientArea( ).y + top );
+		g.drawText( s, getClientArea( ).x + left, getClientArea( ).y + top );
 		tl.dispose();
 	}
 

@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolici
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.CellFigure;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editpolicies.VirtualCrosstabCellFlowLayoutEditPolicy;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.gef.EditPolicy;
 
 /**
@@ -74,13 +75,13 @@ public class VirtualCellEditPart extends CrosstabCellEditPart
 		switch (type)
 		{
 			case VirtualCrosstabCellAdapter.COLUMN_TYPE:
-				( (CellFigure) getFigure( ) ).setBlankString( "column" );//$NON-NLS-1$
+				( (CellFigure) getFigure( ) ).setBlankString( Messages.getString( "Blank.text.column" ) );//$NON-NLS-1$
 				break;
 			case VirtualCrosstabCellAdapter.ROW_TYPE:
-				( (CellFigure) getFigure( ) ).setBlankString( "row" );//$NON-NLS-1$
+				( (CellFigure) getFigure( ) ).setBlankString( Messages.getString( "Blank.text.row" ) );//$NON-NLS-1$
 				break;
 			case VirtualCrosstabCellAdapter.MEASURE_TYPE:
-				( (CellFigure) getFigure( ) ).setBlankString( "measure" );//$NON-NLS-1$
+				( (CellFigure) getFigure( ) ).setBlankString( Messages.getString( "Blank.text.measure" ) );//$NON-NLS-1$
 				break;
 			default:
 				( (CellFigure) getFigure( ) ).setBlankString( null );	

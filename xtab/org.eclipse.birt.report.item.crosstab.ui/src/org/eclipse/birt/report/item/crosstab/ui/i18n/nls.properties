@@ -116,3 +116,9 @@ FilterConditionBuilder.tooltip.ExpBuilder=Click to invoke the Expression Builder
 FilterConditionBuilder.text.AND=AND
 FilterConditionBuilder.text.Condition=Enter a filter condition:
 FilterConditionBuilder.text.GroupLevel=Group Level:
+
+###########################################################
+#VirtualCellEditPart.java
+Blank.text.column=Drop data field(s) to define columns here
+Blank.text.row=Drop data field(s)\nto define rows here
+Blank.text.measure=Drop data field(s) to be summarized here
