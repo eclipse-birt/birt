@@ -574,7 +574,9 @@ public class CubeGroupContent extends Composite implements Listener
 									TabularMeasureHandle measure = DesignElementFactory.getInstance( )
 											.newTabularMeasure( dataField.getColumnName( ) );
 									measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
-									if(!dataField.getDataType( ).equals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY))measure.setDataType( dataField.getDataType( ) );
+									if ( !dataField.getDataType( )
+											.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY ) )
+										measure.setDataType( dataField.getDataType( ) );
 									( (MeasureHandle) element ).getContainer( )
 											.add( IMeasureGroupModel.MEASURES_PROP,
 													measure );
@@ -614,7 +616,9 @@ public class CubeGroupContent extends Composite implements Listener
 									TabularMeasureHandle measure = DesignElementFactory.getInstance( )
 											.newTabularMeasure( dataField.getColumnName( ) );
 									measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
-									if(!dataField.getDataType( ).equals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY))measure.setDataType( dataField.getDataType( ) );
+									if ( !dataField.getDataType( )
+											.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY ) )
+										measure.setDataType( dataField.getDataType( ) );
 									( (MeasureHandle) element ).getContainer( )
 											.add( IMeasureGroupModel.MEASURES_PROP,
 													measure );
@@ -631,7 +635,9 @@ public class CubeGroupContent extends Composite implements Listener
 									TabularMeasureHandle measure = DesignElementFactory.getInstance( )
 											.newTabularMeasure( dataField.getColumnName( ) );
 									measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
-									if(!dataField.getDataType( ).equals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY))measure.setDataType( dataField.getDataType( ) );
+									if ( !dataField.getDataType( )
+											.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY ) )
+										measure.setDataType( dataField.getDataType( ) );
 									measureGroup.add( IMeasureGroupModel.MEASURES_PROP,
 											measure );
 								}
@@ -929,6 +935,7 @@ public class CubeGroupContent extends Composite implements Listener
 
 	protected void updateButtons( )
 	{
+		groupViewer.refresh( );
 		TreeSelection selections = (TreeSelection) groupViewer.getSelection( );
 		if ( selections.size( ) == 1 )
 		{
@@ -981,13 +988,19 @@ public class CubeGroupContent extends Composite implements Listener
 						addBtn.setEnabled( false );
 					else
 					{
-						if(dataField!=null && isDateType( dataField.getDataType( ) )){
-							if(dimenTemp.getDefaultHierarchy( ).getContentCount( IHierarchyModel.LEVELS_PROP )>0){
+						if ( dataField != null
+								&& isDateType( dataField.getDataType( ) ) )
+						{
+							if ( dimenTemp.getDefaultHierarchy( )
+									.getContentCount( IHierarchyModel.LEVELS_PROP ) > 0 )
+							{
 								addBtn.setEnabled( false );
 							}
-							else addBtn.setEnabled( true );
+							else
+								addBtn.setEnabled( true );
 						}
-						else addBtn.setEnabled( true );
+						else
+							addBtn.setEnabled( true );
 					}
 				}
 
@@ -1050,15 +1063,15 @@ public class CubeGroupContent extends Composite implements Listener
 						&& level.attributesIterator( ).hasNext( ) )
 				{
 					String name = level.getName( )
-							+ "("
+							+ " ("
 							+ level.getName( )
-							+ ":";
+							+ ": ";
 					Iterator attrIter = level.attributesIterator( );
 					while ( attrIter.hasNext( ) )
 					{
 						name += ( (LevelAttributeHandle) attrIter.next( ) ).getName( );
 						if ( attrIter.hasNext( ) )
-							name += ",";
+							name += ", ";
 					}
 					name += ")";
 					groupViewer.getTree( ).getSelection( )[0].setText( name );
@@ -1116,7 +1129,6 @@ public class CubeGroupContent extends Composite implements Listener
 				{
 					ExceptionHandler.handle( e1 );
 				}
-				refresh( );
 			}
 			else if ( obj instanceof LevelHandle )
 			{
@@ -1135,7 +1147,6 @@ public class CubeGroupContent extends Composite implements Listener
 				{
 					ExceptionHandler.handle( e1 );
 				}
-				refresh( );
 			}
 			else if ( obj instanceof MeasureGroupHandle )
 			{
@@ -1148,7 +1159,6 @@ public class CubeGroupContent extends Composite implements Listener
 				{
 					ExceptionHandler.handle( e1 );
 				}
-				refresh( );
 			}
 			else if ( obj instanceof MeasureHandle )
 			{
@@ -1161,7 +1171,6 @@ public class CubeGroupContent extends Composite implements Listener
 				{
 					ExceptionHandler.handle( e1 );
 				}
-				refresh( );
 			}
 
 		}
@@ -1465,7 +1474,9 @@ public class CubeGroupContent extends Composite implements Listener
 						try
 						{
 							measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
-							if(!dataField.getDataType( ).equals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY))measure.setDataType( dataField.getDataType( ) );
+							if ( !dataField.getDataType( )
+									.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY ) )
+								measure.setDataType( dataField.getDataType( ) );
 							measureGroup.add( IMeasureGroupModel.MEASURES_PROP,
 									measure );
 						}
@@ -1483,7 +1494,9 @@ public class CubeGroupContent extends Composite implements Listener
 						try
 						{
 							measure.setMeasureExpression( DEUtil.getExpression( dataField ) );
-							if(!dataField.getDataType( ).equals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY))measure.setDataType( dataField.getDataType( ) );
+							if ( !dataField.getDataType( )
+									.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY ) )
+								measure.setDataType( dataField.getDataType( ) );
 							( (MeasureHandle) obj ).getContainer( )
 									.add( IMeasureGroupModel.MEASURES_PROP,
 											measure );
@@ -1503,7 +1516,6 @@ public class CubeGroupContent extends Composite implements Listener
 
 	public void refresh( )
 	{
-		groupViewer.refresh( true );
 		updateButtons( );
 	}
 
