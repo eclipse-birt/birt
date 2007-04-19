@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+     <extension 
+	 	point="org.eclipse.birt.report.engine.emitters"
+	 	name = "Engine PPT Emitters">
+
+        <emitter
+              class="org.eclipse.birt.report.engine.emitter.ppt.PPTEmitter"
+              format="ppt"
+              pagination="paper-size-pagination"
+              id="org.eclipse.birt.report.engine.emitter.ppt"
+              mimeType="application/vnd.ms-powerpoint"/>
+  </extension>  
+</plugin>
