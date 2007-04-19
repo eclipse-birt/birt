@@ -336,7 +336,8 @@ public class ImageDialog extends TrayDialog
 		}
 
 		getButton( IDialogConstants.OK_ID ).setEnabled( false );
-
+		browseButton.setVisible( embedded.getSelection( ) );
+		
 		return true;
 	}
 
