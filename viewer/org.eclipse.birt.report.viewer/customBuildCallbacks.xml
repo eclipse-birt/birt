@@ -18,19 +18,13 @@
 	<!-- ===================================================================== -->
 	<target name="pre.build.jars">
 	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do after the target build.jars                               -->
-	<!-- Available parameters :                                                -->
-	<!--   build.result.folder - folder to contain the build results           -->
-	<!-- ===================================================================== -->
-	<target name="post.build.jars">
+	<target name="post.viewer.jar">
 		<property name="basedir" location="." />
 		<property name="birt.dir" value="birt" />
 		<property name="build.result.folder" value="${basedir}" />
 		<property name="birt.temp.folder" value="${basedir}/birt.temp.folder" />
 		<property name="plugin.tomcat" value="org.eclipse.tomcat" />
-
+		<property name="baseLocation" value="${user.dir}" />
 		<!-- plugins used -->
 		<property name="js.dir" location="../org.mozilla.rhino" />
 		<property name="core.dir" location="../org.eclipse.birt.core" />
@@ -65,13 +59,18 @@
 					<include name="com.ibm.icu_*.jar" />
 				</fileset>
 				<pathelement path="${viewer.model.dir}/@dot" />
+				<pathelement path="${viewer.model.dir}/bin" />
 				<pathelement path="${engine.dir}/@dot" />
+				<pathelement path="${engine.dir}/bin" />
 				<pathelement path="${data.dir}/@dot" />
+				<pathelement path="${data.dir}/bin" />
 				<pathelement path="${core.dir}/@dot" />
+				<pathelement path="${core.dir}/bin" />
 				<pathelement path="${birt.dir}/WEB-INF/lib/axis.jar" />
 				<pathelement path="${birt.dir}/WEB-INF/lib/jaxrpc.jar" />
 				<pathelement path="${js.dir}/lib/js.jar" />
 				<pathelement path="${data-adapter-api.dir}/@dot" />
+				<pathelement path="${data-adapter-api.dir}/bin" />
 			</classpath>
 			<src path="${birt.temp.folder}/${birt.dir}/WEB-INF/classes/" />
 		</javac>
@@ -92,6 +91,14 @@
 
 		<delete file="${birt.dir}/WEB-INF/generated_web.xml" />
 		<delete dir="${birt.temp.folder}" />
+	</target>
+	<!-- ===================================================================== -->
+	<!-- Steps to do after the target build.jars                               -->
+	<!-- Available parameters :                                                -->
+	<!--   build.result.folder - folder to contain the build results           -->
+	<!-- ===================================================================== -->
+	<target name="post.build.jars">
+
 	</target>
 
 	<!-- ===================================================================== -->
