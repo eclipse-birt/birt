@@ -47,7 +47,8 @@ public class CrosstabHeaderExecutor extends BaseCrosstabExecutor
 	private void prepareChildren( )
 	{
 		currentGroupIndex = 0;
-		hasMeasureHeader = hasMeasureHeader( COLUMN_AXIS_TYPE );
+		hasMeasureHeader = GroupUtil.hasMeasureHeader( crosstabItem,
+				COLUMN_AXIS_TYPE );
 	}
 
 	public IReportItemExecutor getNextChild( )

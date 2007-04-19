@@ -55,7 +55,8 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 	private boolean rowSubTotalStarted;
 	private boolean hasLast;
 
-	private int factor;
+	private int totalRowSpan;
+	private boolean isFirstTotalRow;
 	private boolean isSubTotalBefore;
 	private boolean isFirst;
 	private IReportItemExecutor nextExecutor;
@@ -123,9 +124,16 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 		isSubTotalBefore = lv.getAggregationHeader( ) != null
 				&& AGGREGATION_HEADER_LOCATION_BEFORE.equals( lv.getAggregationHeaderLocation( ) );
 
-		factor = hasMeasureHeader( ROW_AXIS_TYPE ) ? Math.max( totalMeasureCount,
-				1 )
-				: 1;
+		boolean isVerticalMeasure = MEASURE_DIRECTION_VERTICAL.equals( crosstabItem.getMeasureDirection( ) );
+
+		isFirstTotalRow = rowIndex == GroupUtil.getFirstTotalRowIndex( crosstabItem,
+				dimensionIndex,
+				levelIndex,
+				isVerticalMeasure );
+		totalRowSpan = GroupUtil.getTotalRowSpan( crosstabItem,
+				dimensionIndex,
+				levelIndex,
+				isVerticalMeasure );
 
 		hasLast = false;
 
@@ -311,8 +319,7 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 							ev.dimensionIndex,
 							ev.levelIndex,
 							getRowEdgeCursor( ),
-							isLayoutDownThenOver )
-							* factor;
+							isLayoutDownThenOver );
 					colSpan = 0;
 					lastDimensionIndex = ev.dimensionIndex;
 					lastLevelIndex = ev.levelIndex;
@@ -322,11 +329,11 @@ public class CrosstabSubTotalRowExecutor extends BaseCrosstabExecutor
 						&& ev.type == ColumnEvent.ROW_EDGE_CHANGE
 						&& ev.dimensionIndex == startTotalDimensionIndex
 						&& ev.levelIndex == startTotalLevelIndex
-						&& rowIndex == 0 )
+						&& isFirstTotalRow )
 				{
 					rowSubTotalStarted = true;
 
-					rowSpan = factor;
+					rowSpan = totalRowSpan;
 					colSpan = 0;
 					hasLast = true;
 				}

@@ -145,7 +145,8 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 	{
 		int measureCount = crosstabItem.getMeasureCount( );
 
-		if ( columnGroups.size( ) > 0 || hasMeasureHeader( COLUMN_AXIS_TYPE ) )
+		if ( columnGroups.size( ) > 0
+				|| GroupUtil.hasMeasureHeader( crosstabItem, COLUMN_AXIS_TYPE ) )
 		{
 			if ( children == null )
 			{
@@ -180,11 +181,8 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 				}
 				else
 				{
-					CrosstabGroupExecutor groupExecutor = new CrosstabGroupExecutor( this,
-							0,
-							null );
-					children.add( groupExecutor );
-
+					CrosstabMeasureExecutor measureExecutor = new CrosstabMeasureExecutor( this );
+					children.add( measureExecutor );
 				}
 			}
 			catch ( OLAPException e )
@@ -195,7 +193,8 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 			}
 		}
 
-		if ( crosstabItem.getGrandTotal( ROW_AXIS_TYPE ) != null
+		if ( rowGroups.size( ) > 0
+				&& crosstabItem.getGrandTotal( ROW_AXIS_TYPE ) != null
 				&& ( measureCount > 0 || !IColumnWalker.IGNORE_TOTAL_COLUMN_WITHOUT_MEASURE ) )
 		{
 			if ( children == null )

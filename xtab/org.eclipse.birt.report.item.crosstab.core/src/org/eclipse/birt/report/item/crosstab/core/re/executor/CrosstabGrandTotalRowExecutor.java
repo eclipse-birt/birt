@@ -44,6 +44,8 @@ public class CrosstabGrandTotalRowExecutor extends BaseCrosstabExecutor
 	private int lastLevelIndex;
 	private int totalMeasureCount;
 
+	private int totalRowSpan;
+	private boolean isFirstTotalRow;
 	private boolean hasLast;
 
 	public CrosstabGrandTotalRowExecutor( BaseCrosstabExecutor parent,
@@ -74,6 +76,16 @@ public class CrosstabGrandTotalRowExecutor extends BaseCrosstabExecutor
 		colSpan = 0;
 		lastMeasureIndex = -1;
 		totalMeasureCount = crosstabItem.getMeasureCount( );
+
+		boolean isVerticalMeasure = MEASURE_DIRECTION_VERTICAL.equals( crosstabItem.getMeasureDirection( ) );
+		isFirstTotalRow = rowIndex == GroupUtil.getFirstTotalRowIndex( crosstabItem,
+				-1,
+				-1,
+				isVerticalMeasure );
+		totalRowSpan = GroupUtil.getTotalRowSpan( crosstabItem,
+				-1,
+				-1,
+				isVerticalMeasure );
 
 		hasLast = false;
 
@@ -121,7 +133,7 @@ public class CrosstabGrandTotalRowExecutor extends BaseCrosstabExecutor
 					case ColumnEvent.ROW_EDGE_CHANGE :
 
 						if ( ev.type != ColumnEvent.ROW_EDGE_CHANGE
-								&& rowIndex == 0 )
+								&& isFirstTotalRow )
 						{
 							nextExecutor = new CrosstabCellExecutor( this,
 									crosstabItem.getGrandTotal( ROW_AXIS_TYPE ),
@@ -192,11 +204,9 @@ public class CrosstabGrandTotalRowExecutor extends BaseCrosstabExecutor
 					hasLast = true;
 				}
 				else if ( ev.type == ColumnEvent.ROW_EDGE_CHANGE
-						&& rowIndex == 0 )
+						&& isFirstTotalRow )
 				{
-					rowSpan = hasMeasureHeader( ROW_AXIS_TYPE ) ? Math.max( totalMeasureCount,
-							1 )
-							: 1;
+					rowSpan = totalRowSpan;
 
 					hasLast = true;
 				}
@@ -235,7 +245,7 @@ public class CrosstabGrandTotalRowExecutor extends BaseCrosstabExecutor
 			{
 				case ColumnEvent.ROW_EDGE_CHANGE :
 
-					if ( rowIndex == 0 )
+					if ( isFirstTotalRow )
 					{
 						nextExecutor = new CrosstabCellExecutor( this,
 								crosstabItem.getGrandTotal( ROW_AXIS_TYPE ),

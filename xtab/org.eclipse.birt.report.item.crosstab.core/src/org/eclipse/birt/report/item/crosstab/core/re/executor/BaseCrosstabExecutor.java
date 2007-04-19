@@ -283,43 +283,6 @@ public abstract class BaseCrosstabExecutor implements
 		return null;
 	}
 
-	protected boolean hasMeasureHeader( int axisType )
-	{
-		int mc = crosstabItem.getMeasureCount( );
-
-		if ( mc > 0 )
-		{
-			if ( axisType == COLUMN_AXIS_TYPE )
-			{
-				if ( MEASURE_DIRECTION_HORIZONTAL.equals( crosstabItem.getMeasureDirection( ) ) )
-				{
-					for ( int i = 0; i < mc; i++ )
-					{
-						if ( crosstabItem.getMeasure( i ).getHeader( ) != null )
-						{
-							return true;
-						}
-					}
-				}
-			}
-			else
-			{
-				if ( MEASURE_DIRECTION_VERTICAL.equals( crosstabItem.getMeasureDirection( ) ) )
-				{
-					for ( int i = 0; i < mc; i++ )
-					{
-						if ( crosstabItem.getMeasure( i ).getHeader( ) != null )
-						{
-							return true;
-						}
-					}
-				}
-			}
-		}
-
-		return false;
-	}
-
 	public void close( )
 	{
 		// TODO clean up

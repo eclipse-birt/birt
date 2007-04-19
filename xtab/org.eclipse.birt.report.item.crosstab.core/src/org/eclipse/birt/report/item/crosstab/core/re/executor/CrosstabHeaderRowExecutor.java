@@ -400,7 +400,8 @@ public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor
 							currentDimensionIndex,
 							currentLevelIndex ) + 1;
 
-					if ( hasMeasureHeader( COLUMN_AXIS_TYPE ) )
+					if ( GroupUtil.hasMeasureHeader( crosstabItem,
+							COLUMN_AXIS_TYPE ) )
 					{
 						rowSpan++;
 					}

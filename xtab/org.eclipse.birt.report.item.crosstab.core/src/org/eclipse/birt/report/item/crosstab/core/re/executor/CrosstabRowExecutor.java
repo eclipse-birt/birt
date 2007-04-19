@@ -52,7 +52,6 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 	private long currentEdgePosition;
 	private boolean isLayoutDownThenOver;
 
-	private int factor;
 	private boolean isFirst;
 	private IReportItemExecutor nextExecutor;
 
@@ -97,10 +96,6 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 		totalMeasureCount = crosstabItem.getMeasureCount( );
 
 		isLayoutDownThenOver = PAGE_LAYOUT_DOWN_THEN_OVER.equals( crosstabItem.getPageLayout( ) );
-
-		factor = hasMeasureHeader( ROW_AXIS_TYPE ) ? Math.max( totalMeasureCount,
-				1 )
-				: 1;
 
 		hasLast = false;
 
@@ -335,8 +330,7 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 							ev.dimensionIndex,
 							ev.levelIndex,
 							getRowEdgeCursor( ),
-							isLayoutDownThenOver )
-							* factor;
+							isLayoutDownThenOver );
 					colSpan = 0;
 					lastDimensionIndex = ev.dimensionIndex;
 					lastLevelIndex = ev.levelIndex;
