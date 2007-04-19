@@ -28,7 +28,6 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
-import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -389,12 +388,15 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 				}
 				measureCount = measuresHandles.size( );
 				position = measuresHandles.indexOf( measureHandle );
+				
 				if ( temp.intValue( ) <= count )
 				{
 					measureCount = count;
 					position = i;
 				}
-				int column = temp.intValue( ) - ( measureCount - position ) + 1;
+				int tempPosition = temp.intValue( ) >= measureCount? temp.intValue( ):measureCount;
+				int column = tempPosition - ( measureCount - position ) + 1;
+				//int column = temp.intValue( ) - ( measureCount - position ) + 1;
 
 				levelViewHandle = cell
 						.getLevelView( getWorkArea( ICrosstabConstants.ROW_AXIS_TYPE ) );
