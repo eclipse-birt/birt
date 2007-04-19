@@ -1002,16 +1002,16 @@ public class ParameterValidationUtil
 				.equalsIgnoreCase( dataType )
 				|| value instanceof String )
 		{
-			StringFormatter formatter = new StringFormatter( locale );
-			formatter.setTrim( false );
+			StringFormatter formatter = new StringFormatter( locale );			
 			formatter.applyPattern( format );
+			formatter.setTrim( false );
 			return formatter.format( (String) value );
 		}
 		else
 		{
-			StringFormatter formatter = new StringFormatter( locale );
-			formatter.setTrim( false );
+			StringFormatter formatter = new StringFormatter( locale );			
 			formatter.applyPattern( format );
+			formatter.setTrim( false );
 			return formatter.format( value.toString( ) );
 		}
 
