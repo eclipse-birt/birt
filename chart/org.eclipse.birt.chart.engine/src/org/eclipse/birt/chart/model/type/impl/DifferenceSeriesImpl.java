@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DifferenceSeriesImpl.java,v 1.1 2006/12/28 03:49:32 anonymous Exp $
+ * $Id$
  */
 
 package org.eclipse.birt.chart.model.type.impl;
@@ -293,6 +293,9 @@ public class DifferenceSeriesImpl extends AreaSeriesImpl implements
 	protected void initialize( )
 	{
 		super.initialize( );
+		
+		// Set curve line by default
+		setCurve( true );
 
 		final LineAttributes lia = LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
 				LineStyle.SOLID_LITERAL,
