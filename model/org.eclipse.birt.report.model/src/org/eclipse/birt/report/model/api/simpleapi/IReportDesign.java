@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.api.simpleapi;
 
+import java.io.IOException;
+
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 /**
@@ -153,4 +155,31 @@ public interface IReportDesign extends IDesignElement
 
 	String getDisplayName( );
 
+	/**
+	 * Saves the module to an existing file name. Call this only when the file
+	 * name has been set.
+	 * 
+	 * @throws IOException
+	 *             if the file cannot be saved on the storage. Or the file name
+	 *             is not valid.
+	 * 
+	 * @see #saveAs(String)
+	 */
+
+	void save( ) throws IOException;
+
+	/**
+	 * Saves the design to the file name provided. The file name is saved in the
+	 * design, and subsequent calls to <code>save( )</code> will save to this
+	 * new name.
+	 * 
+	 * @param newName
+	 *            the new file name
+	 * @throws IOException
+	 *             if the file cannot be saved. Or the file name is not valid.
+	 * 
+	 * @see #save()
+	 */
+
+	void saveAs( String newName ) throws IOException;
 }

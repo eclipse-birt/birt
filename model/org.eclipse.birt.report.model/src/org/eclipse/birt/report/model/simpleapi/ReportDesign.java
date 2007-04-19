@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.simpleapi;
 
+import java.io.IOException;
+
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -30,11 +32,22 @@ import org.eclipse.birt.report.model.api.simpleapi.IReportElement;
 import org.eclipse.birt.report.model.api.simpleapi.ITable;
 import org.eclipse.birt.report.model.api.simpleapi.ITextItem;
 
+/**
+ * 
+ * 
+ */
+
 public class ReportDesign extends DesignElement implements IReportDesign
 {
 
 	private ReportDesignHandle report;
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param report
+	 */
+	
 	public ReportDesign( ReportDesignHandle report )
 	{
 		super( report );
@@ -165,5 +178,27 @@ public class ReportDesign extends DesignElement implements IReportDesign
 	public String getDisplayName( )
 	{
 		return report.getDisplayName( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#save()
+	 */
+
+	public void save( ) throws IOException
+	{
+		report.save( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#saveAs(java.lang.String)
+	 */
+
+	public void saveAs( String newName ) throws IOException
+	{
+		report.saveAs( newName );
 	}
 }
