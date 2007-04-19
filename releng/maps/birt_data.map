@@ -1,17 +1,17 @@
 !**************** BIRT DATA ********************
-plugin@org.eclipse.birt.data=v20070412,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data
-plugin@org.eclipse.birt.report.data.adapter=v20070412,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.adapter
-plugin@org.eclipse.birt.report.data.oda.jdbc=v20070412,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc
-plugin@org.eclipse.birt.report.data.oda.jdbc.ui=v20070412,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.ui
-plugin@org.eclipse.birt.report.data.oda.sampledb=v20070412,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.sampledb
-plugin@org.eclipse.birt.report.data.oda.sampledb.ui=v20070412,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.sampledb.ui
-plugin@org.eclipse.birt.report.data.oda.xml=v20070412,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.xml
-plugin@org.eclipse.birt.report.data.oda.xml.ui=v20070412,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.xml.ui
+plugin@org.eclipse.birt.data=v20070419,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data
+plugin@org.eclipse.birt.report.data.adapter=v20070419,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.adapter
+plugin@org.eclipse.birt.report.data.oda.jdbc=v20070419,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc
+plugin@org.eclipse.birt.report.data.oda.jdbc.ui=v20070419,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.ui
+plugin@org.eclipse.birt.report.data.oda.sampledb=v20070419,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.sampledb
+plugin@org.eclipse.birt.report.data.oda.sampledb.ui=v20070419,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.sampledb.ui
+plugin@org.eclipse.birt.report.data.oda.xml=v20070419,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.xml
+plugin@org.eclipse.birt.report.data.oda.xml.ui=v20070419,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.xml.ui
 
 !**************** data test  *******************
-plugin@org.eclipse.birt.data.tests=v20070412,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data.tests
-plugin@org.eclipse.birt.report.data.oda.jdbc.tests=v20070412,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.tests
+plugin@org.eclipse.birt.data.tests=v20070419,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data.tests
+plugin@org.eclipse.birt.report.data.oda.jdbc.tests=v20070419,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.tests
 
 !**************** DTP plugins (temp use) ****************
-plugin@org.eclipse.datatools.enablement.oda.ws=v20070412,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.enablement/plugins/org.eclipse.datatools.enablement.oda.ws
-plugin@org.eclipse.datatools.enablement.oda.ws.ui=v20070412,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.enablement/plugins/org.eclipse.datatools.enablement.oda.ws.ui
+plugin@org.eclipse.datatools.enablement.oda.ws=v20070419,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.enablement/plugins/org.eclipse.datatools.enablement.oda.ws
+plugin@org.eclipse.datatools.enablement.oda.ws.ui=v20070419,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.enablement/plugins/org.eclipse.datatools.enablement.oda.ws.ui
