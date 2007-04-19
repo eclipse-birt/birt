@@ -231,8 +231,9 @@ public class LocalizedNumberEditorComposite extends Composite implements
 				new Object[]{
 					value
 				} ) );
-
 		mbox.open( );
+		
+		this.txtValue.setText( "" ); //$NON-NLS-1$
 	}
 
 	private void fireEvent( )
