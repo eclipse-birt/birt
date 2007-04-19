@@ -1651,6 +1651,11 @@ public class CascadingParametersDialog extends BaseDialog
 					formatCategroy = choiceSet.findChoice( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED )
 							.getName( );
 				}
+				else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( selectedDataType ) )
+				{
+					formatCategroy = choiceSet.findChoice( DesignChoiceConstants.DATE_FORMAT_TYPE_UNFORMATTED )
+							.getName( );
+				}
 				else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( selectedDataType )
 						|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( selectedDataType )
 						|| DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( selectedDataType ) )
@@ -1704,6 +1709,16 @@ public class CascadingParametersDialog extends BaseDialog
 		{
 			choiceSet = DEUtil.getMetaDataDictionary( )
 					.getChoiceSet( DesignChoiceConstants.CHOICE_DATETIME_FORMAT_TYPE );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( type ) )
+		{
+			choiceSet = DEUtil.getMetaDataDictionary( )
+					.getChoiceSet( DesignChoiceConstants.CHOICE_DATE_FORMAT_TYPE );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( type ) )
+		{
+			choiceSet = DEUtil.getMetaDataDictionary( )
+					.getChoiceSet( DesignChoiceConstants.CHOICE_TIME_FORMAT_TYPE );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type )
 				|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type )
@@ -1760,25 +1775,33 @@ public class CascadingParametersDialog extends BaseDialog
 
 	private void popupFormatBuilder( boolean refresh )
 	{
-		String type = getSelectedDataType( );
-		int style;
-		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( type ) )
+		String dataType = getSelectedDataType( );
+		int formatType;
+		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( dataType ) )
 		{
 			return;
 		}
-		if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
+		if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( dataType ) )
 		{
-			style = FormatBuilder.STRING;
+			formatType = FormatBuilder.STRING;
 		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
+		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( dataType ) )
 		{
-			style = FormatBuilder.DATETIME;
+			formatType = FormatBuilder.DATETIME;
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( dataType ) )
+		{
+			formatType = FormatBuilder.DATE;
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( dataType ) )
+		{
+			formatType = FormatBuilder.TIME;
 		}
 		else
 		{
-			style = FormatBuilder.NUMBER;
+			formatType = FormatBuilder.NUMBER;
 		}
-		FormatBuilder formatBuilder = new FormatBuilder( style );
+		FormatBuilder formatBuilder = new FormatBuilder( formatType );
 		formatBuilder.setInputFormat( formatCategroy, formatPattern );
 		// formatBuilder.setPreviewText( defaultValue );
 		if ( formatBuilder.open( ) == OK )
@@ -1822,7 +1845,9 @@ public class CascadingParametersDialog extends BaseDialog
 	{
 		if ( DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
 				|| DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
-				|| DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM.equals( formatCategroy ) )
+				|| DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
+				|| DesignChoiceConstants.DATE_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
+				|| DesignChoiceConstants.TIME_FORMAT_TYPE_CUSTOM.equals( formatCategroy ) )
 		{
 			return true;
 		}
@@ -1840,6 +1865,20 @@ public class CascadingParametersDialog extends BaseDialog
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
 		{
+			pattern = pattern.equals( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED ) ? DateFormatter.DATETIME_UNFORMATTED
+					: pattern;
+			formatStr = new DateFormatter( pattern ).format( new Date( ) );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( type ) )
+		{
+			pattern = pattern.equals( DesignChoiceConstants.DATE_FORMAT_TYPE_UNFORMATTED ) ? DateFormatter.DATE_UNFORMATTED
+					: pattern;
+			formatStr = new DateFormatter( pattern ).format( new Date( ) );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( type ) )
+		{
+			pattern = pattern.equals( "Unformatted" ) ? DateFormatter.TIME_UNFORMATTED
+					: pattern;
 			formatStr = new DateFormatter( pattern ).format( new Date( ) );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type )

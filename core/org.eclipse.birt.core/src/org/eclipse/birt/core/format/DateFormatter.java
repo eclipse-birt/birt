@@ -32,6 +32,11 @@ import java.util.logging.Logger;
 public class DateFormatter
 {
 
+	private static final String UNFORMATTED = "Unformatted";
+	public static final String DATETIME_UNFORMATTED = "DateTime" + UNFORMATTED;
+	public static final String DATE_UNFORMATTED = "Date" + UNFORMATTED;
+	public static final String TIME_UNFORMATTED = "Time" + UNFORMATTED;
+
 	/**
 	 * Comment for <code>formatPattern</code> record the string pattern
 	 */
@@ -142,7 +147,8 @@ public class DateFormatter
 			 * we can seperate these single name-based patterns form those
 			 * patterns with multinumber letters
 			 */
-			if ( formatString == null || "Unformatted".equals( formatString ) ) //$NON-NLS-1$
+			if ( formatString == null
+					|| formatString.equals( DATETIME_UNFORMATTED ) ) //$NON-NLS-1$
 			{
 				formatPattern = "";
 				dateFormat = com.ibm.icu.text.DateFormat.getDateTimeInstance( com.ibm.icu.text.DateFormat.MEDIUM,
@@ -151,6 +157,21 @@ public class DateFormatter
 				return;
 
 			}
+			else if ( formatString.equals( DATE_UNFORMATTED ) )
+			{
+				formatPattern = "";
+				dateFormat = com.ibm.icu.text.DateFormat.getDateInstance( com.ibm.icu.text.DateFormat.MEDIUM,
+						locale );
+				return;
+			}
+			else if ( formatString.equals( TIME_UNFORMATTED ) )
+			{
+				formatPattern = "";
+				dateFormat = com.ibm.icu.text.DateFormat.getTimeInstance( com.ibm.icu.text.DateFormat.SHORT,
+						locale );
+				return;
+			}
+
 			if ( formatString.length( ) == 1 )
 			{
 				char patternTemp = formatString.charAt( 0 );

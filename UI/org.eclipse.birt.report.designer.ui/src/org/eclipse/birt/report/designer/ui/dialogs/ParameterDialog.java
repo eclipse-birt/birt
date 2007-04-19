@@ -859,12 +859,13 @@ public class ParameterDialog extends BaseDialog
 
 	private void initFormatField( )
 	{
-		if ( ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( lastControlType ) && DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( getSelectedDataType( ) ) )
-				|| ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( lastControlType ) && DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( getSelectedDataType( ) ) ) )
+		String type = getSelectedDataType( );
+		if ( ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( lastControlType ) && DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type ) )
+				|| ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( lastControlType ) && DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type ) ) )
 		{
 			return;
 		}
-		IChoiceSet choiceSet = getFormatChoiceSet( getSelectedDataType( ) );
+		IChoiceSet choiceSet = getFormatChoiceSet( type );
 		if ( choiceSet == null )
 		{
 			formatCategroy = formatPattern = null;
@@ -874,19 +875,24 @@ public class ParameterDialog extends BaseDialog
 			if ( !loading
 					|| ( ( inputParameter.getCategory( ) == null && inputParameter.getPattern( ) == null ) ) )
 			{
-				if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( getSelectedDataType( ) ) )
+				if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
 				{
 					formatCategroy = choiceSet.findChoice( DesignChoiceConstants.STRING_FORMAT_TYPE_UNFORMATTED )
 							.getName( );
 				}
-				else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
+				else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
 				{
 					formatCategroy = choiceSet.findChoice( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED )
 							.getName( );
 				}
-				else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( getSelectedDataType( ) )
-						|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( getSelectedDataType( ) )
-						|| DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( getSelectedDataType( ) ) )
+				else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( type ) )
+				{
+					formatCategroy = choiceSet.findChoice( DesignChoiceConstants.DATE_FORMAT_TYPE_UNFORMATTED )
+							.getName( );
+				}
+				else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type )
+						|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type )
+						|| DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
 				{
 					formatCategroy = choiceSet.findChoice( DesignChoiceConstants.NUMBER_FORMAT_TYPE_UNFORMATTED )
 							.getName( );
@@ -2216,22 +2222,24 @@ public class ParameterDialog extends BaseDialog
 				}
 				pattern = formatCategroy;
 			}
-			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
+			String type = getSelectedDataType( );
+			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type )
+					|| DesignChoiceConstants.PARAM_TYPE_DATE.equals( type )
+					|| DesignChoiceConstants.PARAM_TYPE_TIME.equals( type ) )
 			{
 				Date date = DataTypeUtil.toDate( string, ULocale.US );
-				DateFormatter formatter = new DateFormatter( pattern );
-				string = formatter.format( date );
+				string = new DateFormatter( pattern ).format( date );
 			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( getSelectedDataType( ) ) )
+			else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type ) )
 			{
 				string = new NumberFormatter( pattern ).format( DataTypeUtil.toDouble( string )
 						.doubleValue( ) );
 			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( getSelectedDataType( ) ) )
+			else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type ) )
 			{
 				string = new NumberFormatter( pattern ).format( DataTypeUtil.toBigDecimal( string ) );
 			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( getSelectedDataType( ) ) )
+			else if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
 			{
 				string = new StringFormatter( pattern ).format( string );
 			}
@@ -2366,6 +2374,16 @@ public class ParameterDialog extends BaseDialog
 			choiceSet = DEUtil.getMetaDataDictionary( )
 					.getChoiceSet( DesignChoiceConstants.CHOICE_DATETIME_FORMAT_TYPE );
 		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( type ) )
+		{
+			choiceSet = DEUtil.getMetaDataDictionary( )
+					.getChoiceSet( DesignChoiceConstants.CHOICE_DATE_FORMAT_TYPE );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( type ) )
+		{
+			choiceSet = DEUtil.getMetaDataDictionary( )
+					.getChoiceSet( DesignChoiceConstants.CHOICE_TIME_FORMAT_TYPE );
+		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type )
 				|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type )
 				|| DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
@@ -2383,7 +2401,7 @@ public class ParameterDialog extends BaseDialog
 		String type = getSelectedDataType( );
 		IChoiceSet choiceSet = getFormatChoiceSet( type );
 		if ( choiceSet == null )
-		{// Boolean type;
+		{ // Boolean type;
 			displayFormat = DEUtil.getMetaDataDictionary( )
 					.getChoiceSet( DesignChoiceConstants.CHOICE_STRING_FORMAT_TYPE )
 					.findChoice( DesignChoiceConstants.STRING_FORMAT_TYPE_UNFORMATTED )
@@ -2407,7 +2425,22 @@ public class ParameterDialog extends BaseDialog
 				if ( type.equals( DesignChoiceConstants.PARAM_TYPE_DATETIME ) )
 				{
 					previewString = new DateFormatter( isCustom( ) ? formatPattern
-							: formatCategroy,
+							: ( formatCategroy.equals( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED ) ? DateFormatter.DATETIME_UNFORMATTED
+									: formatCategroy ),
+							ULocale.getDefault( ) ).format( new Date( ) );
+				}
+				else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_DATE ) )
+				{
+					previewString = new DateFormatter( isCustom( ) ? formatPattern
+							: ( formatCategroy.equals( DesignChoiceConstants.DATE_FORMAT_TYPE_UNFORMATTED ) ? DateFormatter.DATE_UNFORMATTED
+									: formatCategroy ),
+							ULocale.getDefault( ) ).format( new Date( ) );
+				}
+				else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_TIME ) )
+				{
+					previewString = new DateFormatter( isCustom( ) ? formatPattern
+							: ( formatCategroy.equals( "Unformatted" ) ? DateFormatter.TIME_UNFORMATTED
+									: formatCategroy ),
 							ULocale.getDefault( ) ).format( new Date( ) );
 				}
 				else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
@@ -2485,25 +2518,33 @@ public class ParameterDialog extends BaseDialog
 
 	private void popupFormatBuilder( boolean refresh )
 	{
-		String type = getSelectedDataType( );
-		int style;
-		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( type ) )
+		String dataType = getSelectedDataType( );
+		int formatType;
+		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( dataType ) )
 		{
 			return;
 		}
-		if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
+		if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( dataType ) )
 		{
-			style = FormatBuilder.STRING;
+			formatType = FormatBuilder.STRING;
 		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
+		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( dataType ) )
 		{
-			style = FormatBuilder.DATETIME;
+			formatType = FormatBuilder.DATETIME;
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( dataType ) )
+		{
+			formatType = FormatBuilder.DATE;
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( dataType ) )
+		{
+			formatType = FormatBuilder.TIME;
 		}
 		else
 		{
-			style = FormatBuilder.NUMBER;
+			formatType = FormatBuilder.NUMBER;
 		}
-		FormatBuilder formatBuilder = new FormatBuilder( style );
+		FormatBuilder formatBuilder = new FormatBuilder( formatType );
 		formatBuilder.setInputFormat( formatCategroy, formatPattern );
 		formatBuilder.setPreviewText( defaultValue );
 		if ( formatBuilder.open( ) == OK )
@@ -2678,7 +2719,9 @@ public class ParameterDialog extends BaseDialog
 	{
 		if ( DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
 				|| DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
-				|| DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM.equals( formatCategroy ) )
+				|| DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
+				|| DesignChoiceConstants.DATE_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
+				|| DesignChoiceConstants.TIME_FORMAT_TYPE_CUSTOM.equals( formatCategroy ) )
 		{
 			return true;
 		}

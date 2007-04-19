@@ -44,6 +44,10 @@ public class FormatBuilder extends BaseDialog
 	public static final int NUMBER = 2;
 	/** DateTime format constant */
 	public static final int DATETIME = 3;
+	/** DateTime format constant */
+	public static final int DATE = 4;
+	/** DateTime format constant */
+	public static final int TIME = 5;
 
 	private static final String DLG_TITLE = Messages.getString( "FormatBuilder.Title" ); //$NON-NLS-1$
 	private IFormatPage page;
@@ -51,7 +55,7 @@ public class FormatBuilder extends BaseDialog
 	private String formatPattern = null;
 	private String previewText = null;
 
-	private int style;
+	private int type;
 
 	/**
 	 * Constructs a new instance of the format builder
@@ -60,17 +64,21 @@ public class FormatBuilder extends BaseDialog
 	 *            the style of the format builder
 	 * 
 	 */
-	public FormatBuilder( int style )
+	public FormatBuilder( int type )
 	{
 		super( DLG_TITLE );
-		Assert.isLegal( style == STRING || style == NUMBER || style == DATETIME );
-		this.style = style;
+		Assert.isLegal( type == STRING
+				|| type == NUMBER
+				|| type == DATETIME
+				|| type == DATE
+				|| type == TIME );
+		this.type = type;
 	}
 
 	protected Control createDialogArea( Composite parent )
 	{
 		Composite composite = (Composite) super.createDialogArea( parent );
-		switch ( style )
+		switch ( type )
 		{
 			case STRING :
 				page = new FormatStringPage( composite,
@@ -83,14 +91,17 @@ public class FormatBuilder extends BaseDialog
 						IFormatPage.PAGE_ALIGN_VIRTICAL );
 				break;
 			case DATETIME :
+			case DATE:
+			case TIME:
 				page = new FormatDateTimePage( composite,
+						type,
 						SWT.NONE,
 						IFormatPage.PAGE_ALIGN_VIRTICAL );
 				break;
 		}
 		( (Composite) page ).setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		
-		UIUtil.bindHelp( composite,IHelpContextIds.FORMAT_BUILDER_ID );  
+
+		UIUtil.bindHelp( composite, IHelpContextIds.FORMAT_BUILDER_ID );
 		return composite;
 	}
 
@@ -101,7 +112,7 @@ public class FormatBuilder extends BaseDialog
 	{
 		this.previewText = previewText;
 	}
-    
+
 	/*
 	 * Set format categrory and patten
 	 */
