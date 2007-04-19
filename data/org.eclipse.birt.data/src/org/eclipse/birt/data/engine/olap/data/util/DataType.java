@@ -27,7 +27,7 @@ public class DataType
 	public static final int DOUBLE_TYPE = org.eclipse.birt.core.data.DataType.DOUBLE_TYPE;
 	public static final int STRING_TYPE = org.eclipse.birt.core.data.DataType.STRING_TYPE;
 	public static final int DATE_TYPE = org.eclipse.birt.core.data.DataType.DATE_TYPE;
-	public static final int BIGDECIMAL_TYPE = 101;
+	public static final int BIGDECIMAL_TYPE = org.eclipse.birt.core.data.DataType.DECIMAL_TYPE;
 	public static final int BYTES_TYPE = 102;
 	public static final int SQL_DATE_TYPE = org.eclipse.birt.core.data.DataType.SQL_DATE_TYPE;
 	public static final int SQL_TIME_TYPE = org.eclipse.birt.core.data.DataType.SQL_TIME_TYPE;
@@ -39,7 +39,7 @@ public class DataType
 			"Double",
 			"String",
 			"DateTime",
-			"BigDecimal",
+			"Decimal",
 			"Bytes",
 			"Date",
 			"Time"
