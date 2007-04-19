@@ -189,6 +189,7 @@ public class ImageManager
 			{
 				in = new ByteArrayInputStream( embeddedImage.getData( handle.getModule( ) ) );
 			}
+			image = new Image( null, in );
 		}
 		catch ( Exception e )
 		{
@@ -206,7 +207,6 @@ public class ImageManager
 				}
 			}
 		}
-		image = new Image( null, in );
 		if ( image != null )
 		{
 			getImageRegistry( ).put( key, image );
