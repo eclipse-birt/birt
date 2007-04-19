@@ -157,9 +157,9 @@ public class ResultSet
 			else if( dataType == BigDecimal.class )
 				colValue = getBigDecimal( driverPosition );
 			else if( dataType == java.sql.Date.class )
-				colValue = this.getDate( driverPosition );
+				colValue = getDate( driverPosition );
 			else if( dataType == Time.class )
-					colValue = getTime( driverPosition );
+				colValue = getTime( driverPosition );
 			else if( dataType == java.util.Date.class )
 				colValue = getTimestamp( driverPosition );  // use timestamp to preserve the time portion of java.util.Date
 			else if( dataType == Timestamp.class )
