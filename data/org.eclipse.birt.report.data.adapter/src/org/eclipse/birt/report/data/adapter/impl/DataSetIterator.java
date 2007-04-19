@@ -29,7 +29,6 @@ import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator;
-import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
@@ -255,8 +254,8 @@ public class DataSetIterator implements IDatasetIterator
 			while ( it.hasNext( ) )
 			{
 				LevelAttributeHandle levelAttr = (LevelAttributeHandle) it.next( );
-				ColumnMeta meta = new ColumnMeta( OlapExpressionUtil.getAttributeColumnName( level.getName( ),
-						levelAttr.getName( )), false );
+				ColumnMeta meta = new ColumnMeta( level.getName( ) + "/" +
+						levelAttr.getName( ), false );
 
 				meta.setDataType( ModelAdapter.adaptModelDataType( levelAttr.getDataType( ) ) );
 				metaList.add( meta );
