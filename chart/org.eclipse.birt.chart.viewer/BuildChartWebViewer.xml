@@ -109,6 +109,7 @@
 				<include name="org.eclipse.birt.chart.device.pdf_*.jar" />
 				<include name="org.mozilla.rhino_*/lib/*.jar" />
 				<include name="org.apache.batik.pdf_*/lib/*.jar" />
+				<include name="org.apache.commons.codec_*/lib/*.jar" />
 			</fileset>
 			<fileset dir="${baseLocation}/plugins">
 				<!-- orbit projects -->
