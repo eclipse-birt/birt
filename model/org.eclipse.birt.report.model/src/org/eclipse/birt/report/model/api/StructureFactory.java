@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.DataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
+import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
@@ -534,7 +535,18 @@ public class StructureFactory
 	{
 		return new DimensionCondition( );
 	}
+	
+	/**
+	 * Creates an empty dimension join condition structure.
+	 * 
+	 * @return an empty dimension join condition structure.
+	 */
 
+	public static DimensionJoinCondition createDimensionJoinCondition( )
+	{
+		return new DimensionJoinCondition( );
+	}
+	
 	/**
 	 * Creates a Rule structure.
 	 * 
