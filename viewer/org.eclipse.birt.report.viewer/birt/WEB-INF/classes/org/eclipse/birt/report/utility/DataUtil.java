@@ -153,8 +153,11 @@ public class DataUtil
 		}
 		else
 		{
+			if ( format == null )
+				format = defFormat;
+
 			// Convert string to object using default format/local
-			obj = ParameterValidationUtil.validate( dataType, defFormat, value );
+			obj = ParameterValidationUtil.validate( dataType, format, value );
 		}
 
 		return obj;
