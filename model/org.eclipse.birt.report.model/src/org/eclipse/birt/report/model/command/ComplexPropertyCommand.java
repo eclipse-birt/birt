@@ -144,6 +144,12 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 
 	public void addItem( MemberRef ref, Object item ) throws SemanticException
 	{
+		if ( item instanceof IStructure )
+		{
+			addItem( ref, (IStructure) item );
+			return;
+		}
+
 		assert ref != null;
 		checkAllowedOperation( );
 		if ( item == null )
@@ -364,14 +370,33 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 			throws PropertyValueException
 	{
 		assert ref != null;
-		checkAllowedOperation( );
 		PropertyDefn propDefn = ref.getPropDefn( );
+
+		if ( propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE )
+		{
+			removeItem( (ElementPropertyDefn) propDefn, posn );
+			return;
+		}
+
+		checkAllowedOperation( );
+
 		assert propDefn != null;
 		assertExtendedElement( module, element, propDefn );
 
-		checkListMemberRef( ref );
+		PropertyDefn memberDefn = ref.getMemberDefn( );
+		List list = null;
+		if ( memberDefn != null
+				&& memberDefn.getTypeCode( ) == IPropertyType.LIST_TYPE )
+		{
+			// do not need to do checkListProperty( memberDefn );
+			list = (List) ref.getValue( module, element );
+		}
+		else
+		{
+			checkListMemberRef( ref );
+			list = ref.getList( module, element );
+		}
 
-		List list = ref.getList( module, element );
 		if ( list == null )
 			throw new PropertyValueException( element, ref.getPropDefn( ),
 					null,
@@ -381,10 +406,9 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 			throw new IndexOutOfBoundsException(
 					"Posn: " + posn + ", List Size: " + list.size( ) ); //$NON-NLS-1$//$NON-NLS-2$
 
-		PropertyDefn memberDefn = ref.getMemberDefn( );
 		if ( memberDefn != null
 				&& memberDefn.getTypeCode( ) == IPropertyType.LIST_TYPE )
-			doRemoveItem( ref, posn );
+			doRemoveItem( ref, propDefn, posn );
 		else
 			doRemoveItem( new CachedMemberRef( ref, posn ) );
 	}
@@ -531,22 +555,10 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 	 *            reference to the item to remove
 	 */
 
-	private void doRemoveItem( MemberRef ref, int posn )
+	private void doRemoveItem( MemberRef ref, PropertyDefn propDefn, int posn )
 			throws PropertyValueException
 	{
 		assert ref != null;
-		ElementPropertyDefn prop = ref.getPropDefn( );
-		assertExtendedElement( module, element, prop );
-
-		checkListProperty( ref.getMemberDefn( ) );
-		List list = ref.getList( module, element );
-		if ( list == null )
-			throw new PropertyValueException( element, prop.getName( ), null,
-					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
-
-		if ( posn < 0 || posn >= list.size( ) )
-			throw new IndexOutOfBoundsException(
-					"Posn: " + posn + ", List Size: " + list.size( ) ); //$NON-NLS-1$//$NON-NLS-2$
 
 		String label = ModelMessages
 				.getMessage( MessageConstants.REMOVE_ITEM_MESSAGE );
@@ -555,13 +567,14 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 		stack.startTrans( label );
 
 		makeLocalCompositeValue( ref );
-		list = ref.getList( module, element );
+
+		List list = (List) ref.getValue( module, element );
 		assert list != null;
 
 		SimplePropertyListRecord record = new SimplePropertyListRecord(
-				element, prop, list, posn );
+				element, propDefn, list, posn );
 
-		record.setEventTarget( getEventTarget( prop ) );
+		record.setEventTarget( getEventTarget( propDefn ) );
 
 		stack.execute( record );
 
@@ -800,6 +813,24 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 	}
 
 	/**
+	 * Check to see whether the reference points to a list.
+	 * 
+	 * @param ref
+	 *            reference to the list into which to add the structure
+	 * @throws PropertyValueException
+	 *             if the <code>ref</code> doesn't refer a list property or
+	 *             member.
+	 */
+
+	protected void checkListMemberRef( MemberRef ref )
+			throws PropertyValueException
+	{
+		if ( !ref.isListRef( ) )
+			throw new PropertyValueException( element, ref.getPropDefn( ),
+					null, PropertyValueException.DESIGN_EXCEPTION_NOT_LIST_TYPE );
+	}
+
+	/**
 	 * Check operation is allowed or not. Now if element is css style instance ,
 	 * forbidden its operation.
 	 * 
@@ -809,7 +840,8 @@ public class ComplexPropertyCommand extends AbstractPropertyCommand
 	{
 		if ( element != null && element instanceof CssStyle )
 		{
-			throw new IllegalOperationException( CssException.DESIGN_EXCEPTION_READONLY );
+			throw new IllegalOperationException(
+					CssException.DESIGN_EXCEPTION_READONLY );
 		}
 	}
 

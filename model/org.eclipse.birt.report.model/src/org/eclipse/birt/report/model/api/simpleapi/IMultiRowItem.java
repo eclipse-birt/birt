@@ -7,9 +7,9 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 
 /**
- * @author Rick
  *
  */
+
 public interface IMultiRowItem extends IReportItem
 {
 

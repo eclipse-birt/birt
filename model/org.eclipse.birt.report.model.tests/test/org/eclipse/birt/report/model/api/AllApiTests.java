@@ -82,6 +82,7 @@ public class AllApiTests
 		test.addTestSuite( TableItemHandleTest.class );
 		test.addTestSuite( TranslationHandleTest.class );
 		test.addTestSuite( UserPropertyHandleTest.class );
+		test.addTestSuite( ComputedColumnHandleTest.class );
 
 		return test;
 	}

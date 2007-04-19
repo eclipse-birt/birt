@@ -542,7 +542,7 @@ public class ComputedColumn extends Structure
 
 	public List getArgumentList( )
 	{
-		return (List) getProperty( null, AGGREGATEON_MEMBER );
+		return (List) getProperty( null, ARGUMENTS_MEMBER );
 	}
 	
 	/**

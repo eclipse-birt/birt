@@ -26,7 +26,6 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.validators.StructureListValidator;
 import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
-import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
@@ -91,24 +90,6 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 				assert ( (ExtendedItem) element ).getExtendedElement( ) != null;
 			}
 		}
-	}
-
-	/**
-	 * Check to see whether the reference points to a list.
-	 * 
-	 * @param ref
-	 *            reference to the list into which to add the structure
-	 * @throws PropertyValueException
-	 *             if the <code>ref</code> doesn't refer a list property or
-	 *             member.
-	 */
-
-	protected void checkListMemberRef( MemberRef ref )
-			throws PropertyValueException
-	{
-		if ( !ref.isListRef( ) )
-			throw new PropertyValueException( element, ref.getPropDefn( ),
-					null, PropertyValueException.DESIGN_EXCEPTION_NOT_LIST_TYPE );
 	}
 
 	/**
