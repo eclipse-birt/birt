@@ -430,6 +430,18 @@
                name="content"
                visibility="hide">
          </propertyVisibility>
+         <propertyVisibility
+               name="drop"
+               visibility="hide">
+         </propertyVisibility>
+         <propertyVisibility
+               name="colSpan"
+               visibility="hide">
+         </propertyVisibility>
+         <propertyVisibility
+               name="rowSpan"
+               visibility="hide">
+         </propertyVisibility>
       </reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"

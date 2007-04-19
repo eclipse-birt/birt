@@ -69,7 +69,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 	 * element in the iterator is the corresponding <code>StructureHandle</code>
 	 * that deal with a <code>FilterCond</code> in the list.
 	 * 
-	 * @return the iterator for <code>FilterCond</code> structure list
+	 * @return the iterator for <code>FilterConditionHandle</code> structure list
 	 */
 
 	public Iterator filtersIterator( )
@@ -112,7 +112,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 	 * Returns the iterator for Sort list defined on this level. The element in
 	 * the iterator is the corresponding <code>StructureHandle</code>.
 	 * 
-	 * @return the iterator for <code>SortKey</code> structure list
+	 * @return the iterator for <code>SortKeyHandle</code> structure list
 	 */
 
 	public Iterator sortsIterator( )
