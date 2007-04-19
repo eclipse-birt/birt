@@ -52,6 +52,13 @@ public class BindingPage extends AttributePage
 
 	private Composite composite;
 
+	private boolean dataSetSectionVisible = true;
+
+	public void setDataSetSectionVisible( boolean bool )
+	{
+		dataSetSectionVisible = bool;
+	}
+
 	public void buildUI( Composite parent )
 	{
 		container = new ScrolledComposite( parent, SWT.H_SCROLL | SWT.V_SCROLL );
@@ -82,24 +89,28 @@ public class BindingPage extends AttributePage
 
 		composite.setLayout( WidgetUtil.createGridLayout( 6 ) );
 
-		dataSetProvider = new DataSetDescriptorProvider( );
-		dataSetSection = new ComboAndButtonSection( dataSetProvider.getDisplayName( ),
-				composite,
-				true );
-		dataSetSection.setProvider( dataSetProvider );
-		dataSetSection.addButtonSelectionListener( new SelectionAdapter( ) {
+		if ( dataSetSectionVisible )
+		{
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				dataSetProvider.bindingDialog( );
-			}
-		} );
-		dataSetSection.setWidth( 300 );
-		dataSetSection.setButtonText( BUTTON_BINDING );
-		dataSetSection.setGridPlaceholder( 2, true );
-		dataSetProvider.setComboAndButtonSection( dataSetSection );
-		addSection( PageSectionId.BINDING_DATASET, dataSetSection );
+			dataSetProvider = new DataSetDescriptorProvider( );
+			dataSetSection = new ComboAndButtonSection( dataSetProvider.getDisplayName( ),
+					composite,
+					true );
+			dataSetSection.setProvider( dataSetProvider );
+			dataSetSection.addButtonSelectionListener( new SelectionAdapter( ) {
 
+				public void widgetSelected( SelectionEvent e )
+				{
+					dataSetProvider.bindingDialog( );
+				}
+			} );
+			dataSetSection.setWidth( 300 );
+			dataSetSection.setButtonText( BUTTON_BINDING );
+			dataSetSection.setGridPlaceholder( 2, true );
+			dataSetProvider.setComboAndButtonSection( dataSetSection );
+			addSection( PageSectionId.BINDING_DATASET, dataSetSection );
+		}
+		
 		dataSetFormProvider = new DataSetColumnBindingsFormHandleProvider( );
 		dataSetFormSection = new FormSection( dataSetFormProvider.getDisplayName( ),
 				composite,
@@ -112,8 +123,12 @@ public class BindingPage extends AttributePage
 		dataSetFormSection.setFillForm( true );
 		dataSetFormSection.setGridPlaceholder( 1, true );
 		addSection( PageSectionId.BINDING_DATASET_FORM, dataSetFormSection );
-
-		dataSetProvider.setDependedProvider( dataSetFormProvider );
+		
+		if(dataSetProvider != null)
+		{
+			dataSetProvider.setDependedProvider( dataSetFormProvider );
+		}
+		
 
 		createSections( );
 		layoutSections( );

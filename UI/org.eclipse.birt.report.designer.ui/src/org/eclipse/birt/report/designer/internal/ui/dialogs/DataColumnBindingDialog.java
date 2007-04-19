@@ -50,7 +50,7 @@ public class DataColumnBindingDialog extends DataItemBindingDialog
 				// Add data set items.
 
 				setName( bindingColumn.getName( ) );
-				setDisplayName( bindingColumn.getDisplayName( ) );
+//				setDisplayName( bindingColumn.getDisplayName( ) );
 				setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice( bindingColumn.getDataType( ) )
 						.getDisplayName( ) );
 				setExpression( bindingColumn.getExpression( ) );

@@ -57,9 +57,9 @@ public class DataSetColumnBindingsFormHandleProvider extends
 
 	private String[] columnNames = new String[]{
 			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Name" ),
-			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.displayName" ),
 			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DataType" ),
 			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Expression" ),
+			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Filter" ),			
 			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.AggregateOn" )//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	};
 
@@ -277,11 +277,18 @@ public class DataSetColumnBindingsFormHandleProvider extends
 			case 0 :
 				return ( (ComputedColumnHandle) element ).getName( );
 			case 1 :
-				return ( (ComputedColumnHandle) element ).getDisplayName( );
-			case 2 :
 				return getDataTypeDisplayName( ( (ComputedColumnHandle) element ).getDataType( ) );
-			case 3 :
+			case 2 :
 				return ( (ComputedColumnHandle) element ).getExpression( );
+			case 3 :
+				String ExpValue = ( (ComputedColumnHandle) element ).getFilterExpression( );
+				if(ExpValue != null && ExpValue.length( ) > 0)
+				{
+					return ExpValue;
+				}else
+				{
+					return null;
+				}
 			case 4 :
 				String value = ( (ComputedColumnHandle) element ).getAggregrateOn( );
 				String groupType = DEUtil.getGroupControlType( bindingObject );

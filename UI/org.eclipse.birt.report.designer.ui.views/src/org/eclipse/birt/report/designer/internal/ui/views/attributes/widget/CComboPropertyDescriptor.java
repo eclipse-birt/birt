@@ -146,7 +146,7 @@ public class CComboPropertyDescriptor extends PropertyDescriptor
 		combo.setVisible( isVisible );
 	}
 
-	private String oldValue;
+	protected String oldValue;
 
 	public void load( )
 	{
