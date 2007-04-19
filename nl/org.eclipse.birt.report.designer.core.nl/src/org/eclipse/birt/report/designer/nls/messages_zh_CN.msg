@@ -3600,6 +3600,7 @@ DataSetColumnBindingsFormHandleProvider.NewBinding=新绑定
 DataSetColumnBindingsFormHandleProvider.Column.DataType=数据类型
 DataSetColumnBindingsFormHandleProvider.Column.Expression=表达式
 DataSetColumnBindingsFormHandleProvider.Column.AggregateOn=聚合条件
+DataSetColumnBindingsFormHandleProvider.Column.Filter=筛选器
 DataSetColumnBindingsFormHandleProvider.ALL=全部
 DataSetColumnBindingsFormHandleProvider.NONE=不适用
 
@@ -3718,6 +3719,12 @@ DataItemBindingDialog.text.All=全部
 DataItemBindingDialog.text.None=不适用
 DataItemBindingDialog.title.CreateNewItem=新建数据项绑定
 DataItemBindingDialog.title.EditDataItem=编辑数据项绑定
+DataItemBindingDialog.text.Function=Function:
+DataItemBindingDialog.text.Filter=筛选器:
+DataItemBindingDialog.text.ArgumentList=Argument:
+DataItemBindingDialog.Button.Add=添加
+DataItemBindingDialog.Button.Edit=编辑
+DataItemBindingDialog.Button.Delete=删除
 
 ###########################################################
 #DataColumBindingDialog properties

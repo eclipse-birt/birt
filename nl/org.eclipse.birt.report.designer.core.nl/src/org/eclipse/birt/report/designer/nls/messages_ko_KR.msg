@@ -3600,6 +3600,7 @@ DataSetColumnBindingsFormHandleProvider.NewBinding=새 바인딩
 DataSetColumnBindingsFormHandleProvider.Column.DataType=데이터 형식
 DataSetColumnBindingsFormHandleProvider.Column.Expression=식
 DataSetColumnBindingsFormHandleProvider.Column.AggregateOn=집계 대상
+DataSetColumnBindingsFormHandleProvider.Column.Filter=필터
 DataSetColumnBindingsFormHandleProvider.ALL=모두
 DataSetColumnBindingsFormHandleProvider.NONE=해당 없음
 
@@ -3718,6 +3719,12 @@ DataItemBindingDialog.text.All=모두
 DataItemBindingDialog.text.None=해당 없음
 DataItemBindingDialog.title.CreateNewItem=새 데이터 항목 바인딩
 DataItemBindingDialog.title.EditDataItem=데이터 항목 바인딩 편집
+DataItemBindingDialog.text.Function=Function:
+DataItemBindingDialog.text.Filter=필터:
+DataItemBindingDialog.text.ArgumentList=Argument:
+DataItemBindingDialog.Button.Add=추가
+DataItemBindingDialog.Button.Edit=편집
+DataItemBindingDialog.Button.Delete=삭제
 
 ###########################################################
 #DataColumBindingDialog properties

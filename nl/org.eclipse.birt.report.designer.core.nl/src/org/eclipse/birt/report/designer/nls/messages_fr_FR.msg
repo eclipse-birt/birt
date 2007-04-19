@@ -3600,6 +3600,7 @@ DataSetColumnBindingsFormHandleProvider.NewBinding=Nouvelle liaison
 DataSetColumnBindingsFormHandleProvider.Column.DataType=Type de données
 DataSetColumnBindingsFormHandleProvider.Column.Expression=Expression
 DataSetColumnBindingsFormHandleProvider.Column.AggregateOn=Regrouper par
+DataSetColumnBindingsFormHandleProvider.Column.Filter=Filtre
 DataSetColumnBindingsFormHandleProvider.ALL=Tous
 DataSetColumnBindingsFormHandleProvider.NONE=N/A
 
@@ -3718,6 +3719,12 @@ DataItemBindingDialog.text.All=Tous
 DataItemBindingDialog.text.None=N/A
 DataItemBindingDialog.title.CreateNewItem=Nouvelle liaison d'élément de données
 DataItemBindingDialog.title.EditDataItem=Modifier la liaison d'élément de données
+DataItemBindingDialog.text.Function=Function:
+DataItemBindingDialog.text.Filter=Filtre :
+DataItemBindingDialog.text.ArgumentList=Argument:
+DataItemBindingDialog.Button.Add=Ajouter
+DataItemBindingDialog.Button.Edit=Modifier
+DataItemBindingDialog.Button.Delete=Supprimer
 
 ###########################################################
 #DataColumBindingDialog properties

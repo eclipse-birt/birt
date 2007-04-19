@@ -3600,6 +3600,7 @@ DataSetColumnBindingsFormHandleProvider.NewBinding=Nuevo enlace
 DataSetColumnBindingsFormHandleProvider.Column.DataType=Tipo de datos
 DataSetColumnBindingsFormHandleProvider.Column.Expression=Expresión
 DataSetColumnBindingsFormHandleProvider.Column.AggregateOn=Agregar en
+DataSetColumnBindingsFormHandleProvider.Column.Filter=Filtro
 DataSetColumnBindingsFormHandleProvider.ALL=Todos
 DataSetColumnBindingsFormHandleProvider.NONE=N/A
 
@@ -3718,6 +3719,12 @@ DataItemBindingDialog.text.All=Todos
 DataItemBindingDialog.text.None=N/A
 DataItemBindingDialog.title.CreateNewItem=Nuevo enlace de elemento de datos
 DataItemBindingDialog.title.EditDataItem=Editar enlace de elemento de datos
+DataItemBindingDialog.text.Function=Function:
+DataItemBindingDialog.text.Filter=Filtrar:
+DataItemBindingDialog.text.ArgumentList=Argument:
+DataItemBindingDialog.Button.Add=Añadir
+DataItemBindingDialog.Button.Edit=Editar
+DataItemBindingDialog.Button.Delete=Eliminar
 
 ###########################################################
 #DataColumBindingDialog properties

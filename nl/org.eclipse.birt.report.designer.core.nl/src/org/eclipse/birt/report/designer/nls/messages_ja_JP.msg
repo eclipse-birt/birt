@@ -3600,6 +3600,7 @@ DataSetColumnBindingsFormHandleProvider.NewBinding=新規バインド
 DataSetColumnBindingsFormHandleProvider.Column.DataType=データ型
 DataSetColumnBindingsFormHandleProvider.Column.Expression=式
 DataSetColumnBindingsFormHandleProvider.Column.AggregateOn=集計条件
+DataSetColumnBindingsFormHandleProvider.Column.Filter=フィルタ
 DataSetColumnBindingsFormHandleProvider.ALL=すべて
 DataSetColumnBindingsFormHandleProvider.NONE=N/A
 
@@ -3718,6 +3719,12 @@ DataItemBindingDialog.text.All=すべて
 DataItemBindingDialog.text.None=N/A
 DataItemBindingDialog.title.CreateNewItem=データ項目バインドの新規作成
 DataItemBindingDialog.title.EditDataItem=データ項目バインドの編集
+DataItemBindingDialog.text.Function=Function:
+DataItemBindingDialog.text.Filter=フィルタ :
+DataItemBindingDialog.text.ArgumentList=Argument:
+DataItemBindingDialog.Button.Add=追加
+DataItemBindingDialog.Button.Edit=編集
+DataItemBindingDialog.Button.Delete=削除
 
 ###########################################################
 #DataColumBindingDialog properties

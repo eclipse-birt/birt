@@ -3600,6 +3600,7 @@ DataSetColumnBindingsFormHandleProvider.NewBinding=Neue Bindung
 DataSetColumnBindingsFormHandleProvider.Column.DataType=Datentyp
 DataSetColumnBindingsFormHandleProvider.Column.Expression=Ausdruck
 DataSetColumnBindingsFormHandleProvider.Column.AggregateOn=Aggregat ein
+DataSetColumnBindingsFormHandleProvider.Column.Filter=Filter
 DataSetColumnBindingsFormHandleProvider.ALL=Alles
 DataSetColumnBindingsFormHandleProvider.NONE=n.a.
 
@@ -3718,6 +3719,12 @@ DataItemBindingDialog.text.All=Alles
 DataItemBindingDialog.text.None=n.a.
 DataItemBindingDialog.title.CreateNewItem=Neue Datenelementbindung
 DataItemBindingDialog.title.EditDataItem=Datenelementbindung bearbeiten
+DataItemBindingDialog.text.Function=Function:
+DataItemBindingDialog.text.Filter=Filter:
+DataItemBindingDialog.text.ArgumentList=Argument:
+DataItemBindingDialog.Button.Add=Hinzufügen
+DataItemBindingDialog.Button.Edit=Bearbeiten
+DataItemBindingDialog.Button.Delete=Löschen
 
 ###########################################################
 #DataColumBindingDialog properties
