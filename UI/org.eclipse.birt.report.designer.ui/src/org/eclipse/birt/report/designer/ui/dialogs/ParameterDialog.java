@@ -2636,6 +2636,10 @@ public class ParameterDialog extends BaseDialog
 
 	private String getExpression( String columnName )
 	{
+		if ( columnName.equals( NONE_DISPLAY_TEXT ) )
+		{
+			return null;
+		}
 		for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 		{
 			ResultSetColumnHandle cachedColumn = (ResultSetColumnHandle) iter.next( );
