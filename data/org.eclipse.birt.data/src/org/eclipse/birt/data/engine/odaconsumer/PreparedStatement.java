@@ -2813,14 +2813,12 @@ public class PreparedStatement
 	// retry setting the parameter value by using an alternate setter method 
 	// using the runtime parameter metadata. Or if the runtime parameter metadata 
 	// is not available, then use the input parameter hints, if available.  
-	// It will default to calling setString() we can't get the info from 
+	// It will default to calling setString() if we can't get the info from 
 	// the runtime parameter metadata or the parameter hints.
 	private void retrySetParameterValue( String paramName, int paramIndex, 
 										 Object paramValue, 
 										 Exception lastException ) throws DataException
 	{
-		final String methodName = "retrySetParameterValue"; //$NON-NLS-1$
-		
 		int parameterType = Types.NULL;
 		
 		try
@@ -2840,9 +2838,10 @@ public class PreparedStatement
 		if( parameterType == Types.NULL )
 			parameterType = getOdaTypeFromParamHints( paramName, paramIndex );
 				
-		// the runtime parameter metadata or hint would lead us to call the same 
-		// set<type> method again, so the last exception that got returned could be info 
-		// regarding problems with the data, so throw that
+		// the following conditions of runtime parameter metadata or hint 
+		// would have led us to call the same set<type> method again; 
+		// thus the last exception that got thrown by underlying ODA driver
+		// could be info regarding problems with the data, so throw that
 		if( ( parameterType == Types.INTEGER && paramValue instanceof Integer ) ||
 			( parameterType == Types.DOUBLE && paramValue instanceof Double ) ||
 			( parameterType == Types.CHAR && paramValue instanceof String ) ||
@@ -2852,38 +2851,12 @@ public class PreparedStatement
             ( parameterType == Types.DATE && paramValue instanceof java.util.Date ) ||
             ( parameterType == Types.BOOLEAN && paramValue instanceof Boolean ) )
 		{
-			if( lastException instanceof RuntimeException )
-			{
-				sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-								"Cannot set input parameter.", lastException ); //$NON-NLS-1$
-				
-				throw (RuntimeException) lastException;
-			}
-			else if( lastException instanceof DataException )
-			{
-				sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-								"Cannot set input parameter.", lastException ); //$NON-NLS-1$
-				
-				throw (DataException) lastException;
-			}
-			else
-			{
-				String localizedMessage = 
-					DataResourceHandle.getInstance().getMessage( ResourceConstants.UNKNOWN_EXCEPTION_THROWN );
-				IllegalStateException ex = 
-					new IllegalStateException( localizedMessage );
-				ex.initCause( lastException );
-				
-				sm_logger.logp( Level.SEVERE, sm_className, methodName, 
-								"Cannot set input parameter.", lastException ); //$NON-NLS-1$
-				
-				throw ex;
-			}
+			throwSetParamValueLastException( lastException, "retrySetParameterValue" ); //$NON-NLS-1$
 		}
         
         if( paramValue == null )
         {
-            retrySetNullParamValue( paramName, paramIndex, parameterType );
+            retrySetNullParamValue( paramName, paramIndex, parameterType, lastException );
             return;
         }
 		
@@ -3361,7 +3334,8 @@ public class PreparedStatement
     }
 
     private void retrySetNullParamValue( String paramName, int paramIndex, 
-                                         int parameterType ) 
+                                         int parameterType,
+                                         Exception lastException ) 
         throws DataException
     {
         switch( parameterType )
@@ -3396,14 +3370,16 @@ public class PreparedStatement
             }
             
             default:
-                // primitive data types, cannot use their setters to assign a null value
+                // metadata indicates primitive data types or types not supported for input parameter, 
+                // cannot retry with a different ODA API setter to assign 
+                // a null input parameter value
                 
                 sm_logger.logp( Level.SEVERE, sm_className, "retrySetNullParamValue",  //$NON-NLS-1$
-                                "Input parameter value is null." ); //$NON-NLS-1$
+                                "Input parameter value is null; not able to retry, throws exception from underlying ODA driver." ); //$NON-NLS-1$
                 
-                String localizedMessage = 
-                    DataResourceHandle.getInstance().getMessage( ResourceConstants.PARAMETER_VALUE_IS_NULL );
-                throw new NullPointerException( localizedMessage );
+                // not able to retry, throw last exception thrown by 
+                // the underlying ODA driver
+                throwSetParamValueLastException( lastException, "retrySetNullParamValue" ); //$NON-NLS-1$
         }
     }
 
@@ -3433,6 +3409,46 @@ public class PreparedStatement
 						"Data type conversion error.", exception );		 //$NON-NLS-1$
 		throw exception;
 	}
+
+    /**
+     * Throws the specified exception last thrown by an underlying ODA driver
+     * during a call to set input parameter value.
+     */
+    private void throwSetParamValueLastException( Exception lastException,
+            final String methodName ) 
+        throws RuntimeException, DataException, IllegalStateException
+    {
+        assert( lastException != null );
+        
+        String logContextMsg = "Cannot set input parameter."; //$NON-NLS-1$
+        if( lastException instanceof RuntimeException )
+        {
+            sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+                            logContextMsg, lastException );
+            
+            throw (RuntimeException) lastException;
+        }
+        else if( lastException instanceof DataException )
+        {
+            sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+                            logContextMsg, lastException ); //$NON-NLS-1$
+            
+            throw (DataException) lastException;
+        }
+        else
+        {
+            String localizedMessage = 
+                DataResourceHandle.getInstance().getMessage( ResourceConstants.UNKNOWN_EXCEPTION_THROWN );
+            IllegalStateException ex = 
+                new IllegalStateException( localizedMessage );
+            ex.initCause( lastException );
+            
+            sm_logger.logp( Level.SEVERE, sm_className, methodName, 
+                            logContextMsg, lastException ); //$NON-NLS-1$
+            
+            throw ex;
+        }
+    }
 
 	private void setInt( String paramName, int paramIndex, int i ) throws DataException
 	{
