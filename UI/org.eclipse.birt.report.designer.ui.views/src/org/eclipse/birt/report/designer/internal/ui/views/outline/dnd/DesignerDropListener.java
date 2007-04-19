@@ -25,8 +25,6 @@ import org.eclipse.birt.report.designer.internal.ui.dnd.DesignElementDropAdapter
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
-import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
-import org.eclipse.birt.report.designer.ui.views.IElementDropAdapter;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
@@ -35,7 +33,6 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
-import org.eclipse.birt.report.model.api.command.LibraryException;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -321,8 +318,17 @@ public class DesignerDropListener extends DesignElementDropAdapter
 		int position = DNDUtil.calculateNextPosition( target, canContain );
 		if ( position > -1 )
 		{
-			this.newTarget = DNDUtil.getDesignElementHandle( target )
-					.getContainerSlotHandle( );
+			if ( DNDUtil.getDesignElementHandle( target )
+					.getContainerSlotHandle( ) != null )
+			{
+				this.newTarget = DNDUtil.getDesignElementHandle( target )
+						.getContainerSlotHandle( );
+			}
+			else
+			{
+				this.newTarget = DNDUtil.getDesignElementHandle( target )
+						.getContainerPropertyHandle( );
+			}
 			if ( getCurrentLocation( ) == LOCATION_BEFORE )
 			{
 				position--;

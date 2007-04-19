@@ -75,7 +75,13 @@ public class DimensionHandleDropAdapter implements IDropAdapter
 					|| ( (PropertyHandle) target ).getPropertyDefn( )
 							.getName( )
 							.equals( ICrosstabReportItemConstants.ROWS_PROP ) )
+			{
 				return DNDService.LOGIC_TRUE;
+			}
+			else
+			{
+				return DNDService.LOGIC_UNKNOW;
+			}
 		}
 		return DNDService.LOGIC_UNKNOW;
 	}
@@ -205,7 +211,9 @@ public class DimensionHandleDropAdapter implements IDropAdapter
 			{
 				axisType = ICrosstabConstants.ROW_AXIS_TYPE;
 			}
-			return createDimensionViewHandle( xtabHandle, dimensionHandle, axisType );
+			return createDimensionViewHandle( xtabHandle,
+					dimensionHandle,
+					axisType );
 		}
 		return false;
 	}
@@ -240,7 +248,7 @@ public class DimensionHandleDropAdapter implements IDropAdapter
 			ComputedColumnHandle bindingHandle = ( (ExtendedItemHandle) xtabHandle.getModelHandle( ) ).addColumnBinding( bindingColumn,
 					false );
 
-			LevelViewHandle levelViewHandle = viewHandle.insertLevel(levelHandle,
+			LevelViewHandle levelViewHandle = viewHandle.insertLevel( levelHandle,
 					0 );
 
 			CrosstabCellHandle cellHandle = levelViewHandle.getCell( );

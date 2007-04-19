@@ -17,6 +17,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
@@ -197,10 +198,12 @@ public class PasteCommand extends Command
 		if ( newContainer instanceof DesignElementHandle )
 		{
 			slotHandle = ( (DesignElementHandle) newContainer ).getSlot( slotID );
+			slotHandle.paste( newHandle, position );
 		}
 		else if ( newContainer instanceof SlotHandle )
 		{
 			slotHandle = (SlotHandle) newContainer;
+			slotHandle.paste( newHandle, position );
 		}
 //		else if ( newContainer instanceof ReportElementModel )
 //		{
@@ -208,7 +211,16 @@ public class PasteCommand extends Command
 //					.getSlot( slotID );
 //
 //		}
-		slotHandle.paste( newHandle, position );
+		else if(newContainer instanceof PropertyHandle ){
+			try
+			{
+				((PropertyHandle)newContainer).add( newHandle, position );
+			}
+			catch ( SemanticException e )
+			{
+				
+			}
+		}
 		if ( DesignerConstants.TRACING_COMMANDS )
 		{
 			System.out.println( "PasteCommand >>  Finished. Paste " //$NON-NLS-1$

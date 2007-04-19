@@ -41,6 +41,7 @@ import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
@@ -59,8 +60,6 @@ import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
-import org.eclipse.birt.report.model.api.olap.DimensionHandle;
-import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -361,7 +360,7 @@ public class DNDUtil
 			if ( // targetObj instanceof ReportElementModel
 			// ||
 			targetObj instanceof DesignElementHandle
-					|| targetObj instanceof SlotHandle )
+					|| targetObj instanceof SlotHandle || targetObj instanceof PropertyHandle )
 			{
 				commands.add( getNewCommand( commandType,
 						transferData,
@@ -844,9 +843,16 @@ public class DNDUtil
 			DesignElementHandle afterHandle = getDesignElementHandle( targetObj );
 			if ( afterHandle != null )
 			{
-				position = afterHandle.getContainerSlotHandle( )
-						.findPosn( afterHandle );
-				position++;
+				if ( afterHandle.getContainerSlotHandle( ) != null )
+				{
+					position = afterHandle.getContainerSlotHandle( )
+							.findPosn( afterHandle );
+					position++;
+				}
+				else if ( afterHandle.getContainerPropertyHandle( ) != null )
+				{
+					position = afterHandle.getContainerPropertyHandle( ).getContents( ).indexOf( afterHandle );
+				}
 			}
 		}
 		return position;
