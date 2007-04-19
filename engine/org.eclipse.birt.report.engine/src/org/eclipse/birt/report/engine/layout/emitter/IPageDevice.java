@@ -28,7 +28,7 @@ public interface IPageDevice
 	 *            background color.
 	 * @return the new page.
 	 */
-	IPage newPage( float width, float height, Color backgroundColor );
+	IPage newPage( int width, int height, Color backgroundColor );
 
 	/**
 	 * Closes this page device.

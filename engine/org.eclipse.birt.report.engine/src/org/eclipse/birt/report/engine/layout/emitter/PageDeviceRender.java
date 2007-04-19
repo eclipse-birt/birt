@@ -35,6 +35,7 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
+import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.TextStyle;
 import org.eclipse.birt.report.engine.layout.area.IArea;
 import org.eclipse.birt.report.engine.layout.area.IAreaVisitor;
@@ -61,8 +62,6 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	 */
 	public static final String IMAGE_FOLDER = "image"; //$NON-NLS-1$
 
-	public static final float LAYOUT_TO_POINT_RATIO = 1 / 1000f;
-
 	public static final int H_TEXT_SPACE = 30;
 
 	public static final int V_TEXT_SPACE = 100;
@@ -73,11 +72,9 @@ public abstract class PageDeviceRender implements IAreaVisitor
 
 	protected int vTextSpace = 100;
 
-	protected float actualRatio;
+	int pageHeight;
 
-	float pageHeight;
-
-	float pageWidth;
+	int pageWidth;
 
 	protected IReportRunnable reportRunnable;
 
@@ -99,10 +96,10 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	protected class ContainerPosition
 	{
 
-		public float x;
-		public float y;
+		public int x;
+		public int y;
 
-		public ContainerPosition( float x, float y )
+		public ContainerPosition( int x, int y )
 		{
 			this.x = x;
 			this.y = y;
@@ -167,8 +164,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	public void visitText( ITextArea textArea )
 	{
 		ContainerPosition curPos = getContainerPosition( );
-		float x = curPos.x + getX( textArea );
-		float y = curPos.y + getY( textArea );
+		int x = curPos.x + getX( textArea );
+		int y = curPos.y + getY( textArea );
 		drawTextAt( textArea, x, y );
 	}
 
@@ -207,7 +204,6 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		if ( container instanceof PageArea )
 		{
 			scale = container.getScale( );
-			actualRatio = LAYOUT_TO_POINT_RATIO * scale;
 			hTextSpace = (int) ( H_TEXT_SPACE * scale );
 			vTextSpace = (int) ( V_TEXT_SPACE * scale );
 			newPage( container );
@@ -295,8 +291,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	 * @param height
 	 *            container height
 	 */
-	private void drawBackgroundImage( IStyle containerStyle, float startX,
-			float startY, float width, float height )
+	private void drawBackgroundImage( IStyle containerStyle, int startX,
+			int startY, int width, int height )
 	{
 		String imageUri = PropertyUtil.getBackgroundImage( containerStyle
 				.getProperty( StyleConstants.STYLE_BACKGROUND_IMAGE ) );
@@ -336,7 +332,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		}
 		else
 		{
-			positionX = getPointValue( positionValX );
+			positionX = getScaledValue( positionValX );
 			xMode = false;
 		}
 		if ( positionValY.getPrimitiveType( ) == CSSPrimitiveValue.CSS_PERCENTAGE )
@@ -346,10 +342,9 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		}
 		else
 		{
-			positionY = getPointValue( positionValY );
+			positionY = getScaledValue( positionValY );
 			yMode = false;
 		}
-
 		drawBackgroundImage( imageUrl, startX, startY, width, height,
 				positionX, positionY, containerStyle.getBackgroundRepeat( ),
 				xMode, yMode );
@@ -362,14 +357,14 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		public static final int RIGHT_BORDER = 1;
 		public static final int BOTTOM_BORDER = 2;
 		public static final int LEFT_BORDER = 3;
-		public float startX, startY, endX, endY;
-		public float borderWidth;
+		public int startX, startY, endX, endY;
+		public int borderWidth;
 		public Color borderColor;
 		public CSSValue borderStyle;
 		public int borderType;
 
-		public BorderInfo( float startX, float startY, float endX, float endY,
-				float borderWidth, Color borderColor, CSSValue borderStyle,
+		public BorderInfo( int startX, int startY, int endX, int endY,
+				int borderWidth, Color borderColor, CSSValue borderStyle,
 				int borderType )
 		{
 			this.startX = startX;
@@ -404,16 +399,16 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		// content mapping, so it has no background/border etc.
 		if ( container.getContent( ) != null )
 		{
-			float layoutX = curPos.x + getX( container );
-			float layoutY = curPos.y + getY( container );
+			int layoutX = curPos.x + getX( container );
+			int layoutY = curPos.y + getY( container );
 			// the container's start position (the left top corner of the
 			// container)
-			float startX = layoutX;
-			float startY = layoutY;
+			int startX = layoutX;
+			int startY = layoutY;
 
 			// the dimension of the container
-			float width = getWidth( container );
-			float height = getHeight( container );
+			int width = getWidth( container );
+			int height = getHeight( container );
 
 			// Draws background color for the container, if the backgound
 			// color is NOT set, draw nothing.
@@ -426,13 +421,13 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			drawBackgroundImage( style, startX, startY, width, height );
 
 			// the width of each border
-			float borderTopWidth = getPointValue( style
+			int borderTopWidth = getScaledValue( style
 					.getProperty( StyleConstants.STYLE_BORDER_TOP_WIDTH ) );
-			float borderLeftWidth = getPointValue( style
+			int borderLeftWidth = getScaledValue( style
 					.getProperty( StyleConstants.STYLE_BORDER_LEFT_WIDTH ) );
-			float borderBottomWidth = getPointValue( style
+			int borderBottomWidth = getScaledValue( style
 					.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ) );
-			float borderRightWidth = getPointValue( style
+			int borderRightWidth = getScaledValue( style
 					.getProperty( StyleConstants.STYLE_BORDER_RIGHT_WIDTH ) );
 
 			if ( borderTopWidth > 0 || borderLeftWidth > 0
@@ -516,22 +511,21 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	 * @param contentByteHeight
 	 *            the height of the content byte.
 	 */
-	protected void drawTextAt( ITextArea text, float textX, float textY )
+	protected void drawTextAt( ITextArea text, int textX, int textY )
 	{
 		IStyle style = text.getStyle( );
 		assert style != null;
 
 		// style.getFontVariant(); small-caps or normal
-		float x = textX
-				+ convertToPoint( (int) ( text.getFontInfo( ).getFontSize( ) * hTextSpace ) );
-		float y = textY
-				+ convertToPoint( (int) ( text.getFontInfo( ).getFontSize( ) * vTextSpace ) );
+		float fontSize = text.getFontInfo( ).getFontSize( );
+		int x = textX + getScaledValue( (int) ( fontSize * hTextSpace ) );
+		int y = textY + getScaledValue( (int) ( fontSize * vTextSpace ) );
 		FontInfo fontInfo = new FontInfo( text.getFontInfo( ) );
 		fontInfo.setFontSize( fontInfo.getFontSize( ) * scale );
-		float characterSpacing = convertToPoint( PropertyUtil
+		int characterSpacing = getScaledValue( PropertyUtil
 				.getDimensionValue( style
 						.getProperty( StyleConstants.STYLE_LETTER_SPACING ) ) );
-		float wordSpacing = convertToPoint( PropertyUtil
+		int wordSpacing = getScaledValue( PropertyUtil
 				.getDimensionValue( style
 						.getProperty( StyleConstants.STYLE_WORD_SPACING ) ) );
 
@@ -549,8 +543,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				.getProperty( IStyle.STYLE_TEXT_OVERLINE ) );
 		boolean underline = IStyle.UNDERLINE_VALUE.equals( style
 				.getProperty( IStyle.STYLE_TEXT_UNDERLINE ) );
-		float width = convertToPoint( text.getWidth( ) );
-		float height = convertToPoint( text.getHeight( ) );
+		int width = getScaledValue( text.getWidth( ) );
+		int height = getScaledValue( text.getHeight( ) );
 		pageGraphic.clipSave( );
 		pageGraphic.clip( textX, textY, width, height );
 		TextStyle textStyle = new TextStyle( fontInfo, characterSpacing,
@@ -559,8 +553,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		pageGraphic.clipRestore( );
 	}
 
-	protected void drawTextAt( ITextArea text, float x, float y, float width,
-			float height, TextStyle textStyle )
+	protected void drawTextAt( ITextArea text, int x, int y, int width,
+			int height, TextStyle textStyle )
 	{
 		pageGraphic.drawText( text.getText( ), x, y, width, height, textStyle );
 	}
@@ -575,14 +569,14 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	{
 		// TODO: drawimage
 		ContainerPosition curPos = getContainerPosition( );
-		float imageX = curPos.x + getX( image );
-		float imageY = curPos.y + getY( image );
+		int imageX = curPos.x + getX( image );
+		int imageY = curPos.y + getY( image );
 		IImageContent imageContent = ( (IImageContent) image.getContent( ) );
 
 		InputStream in = null;
 		boolean isSvg = false;
-		float height = getHeight( image );
-		float width = getWidth( image );
+		int height = getHeight( image );
+		int width = getWidth( image );
 		String helpText = imageContent.getHelpText( );
 		try
 		{
@@ -766,14 +760,14 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			for ( Iterator it = dbl.iterator( ); it.hasNext( ); )
 			{
 				BorderInfo bi = (BorderInfo) it.next( );
-				float borderWidth = bi.borderWidth;
-				float outerBorderWidth = borderWidth / 4;
-				float innerBorderWidth = borderWidth / 4;
+				int borderWidth = bi.borderWidth;
+				int outerBorderWidth = borderWidth / 4;
+				int innerBorderWidth = borderWidth / 4;
 
-				float startX = bi.startX;
-				float startY = bi.startY;
-				float endX = bi.endX;
-				float endY = bi.endY;
+				int startX = bi.startX;
+				int startY = bi.startY;
+				int endX = bi.endX;
+				int endY = bi.endY;
 				Color borderColor = bi.borderColor;
 				switch ( bi.borderType )
 				{
@@ -861,9 +855,9 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	 * @param yMode
 	 *            whether the vertical position is a percentage value or not
 	 */
-	private void drawBackgroundImage( String imageURI, float x, float y,
-			float width, float height, float positionX, float positionY,
-			String repeat, boolean xMode, boolean yMode )
+	private void drawBackgroundImage( String imageURI, int x, int y, int width,
+			int height, float positionX, float positionY, String repeat,
+			boolean xMode, boolean yMode )
 	{
 		// the image URI is empty, ignore it.
 		if ( null == imageURI )
@@ -886,22 +880,24 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		try
 		{
 			img = Image.getInstance( imageUrl );
-			float absPosX, absPosY;
+			int absPosX, absPosY;
 			if ( xMode )
 			{
-				absPosX = ( width - img.scaledWidth( ) ) * positionX;
+				absPosX = (int) ( ( width - img.scaledWidth( )
+						* PDFConstants.LAYOUT_TO_PDF_RATIO ) * positionX );
 			}
 			else
 			{
-				absPosX = positionX;
+				absPosX = (int)positionX;
 			}
 			if ( yMode )
 			{
-				absPosY = ( height - img.scaledHeight( ) ) * positionY;
+				absPosY = (int) ( ( height - img.scaledHeight( )
+						* PDFConstants.LAYOUT_TO_PDF_RATIO ) * positionY );
 			}
 			else
 			{
-				absPosY = positionY;
+				absPosY = (int)positionY;
 			}
 			pageGraphic.drawBackgroundImage( x, y, width, height, repeat,
 					imageUrl, absPosX, absPosY );
@@ -927,33 +923,33 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		return imageUrl;
 	}
 
-	protected float getX( IArea area )
+	protected int getX( IArea area )
 	{
-		return convertToPoint( area.getX( ) );
+		return getScaledValue( area.getX( ) );
 	}
 
-	protected float getY( IArea area )
+	protected int getY( IArea area )
 	{
-		return convertToPoint( area.getY( ) );
+		return getScaledValue( area.getY( ) );
 	}
 
-	protected float getWidth( IArea area )
+	protected int getWidth( IArea area )
 	{
-		return convertToPoint( area.getWidth( ) );
+		return getScaledValue( area.getWidth( ) );
 	}
 
-	protected float getHeight( IArea area )
+	protected int getHeight( IArea area )
 	{
-		return convertToPoint( area.getHeight( ) );
+		return getScaledValue( area.getHeight( ) );
 	}
 
-	protected float convertToPoint( float value )
+	protected int getScaledValue( int value )
 	{
-		return value * actualRatio;
+		return (int) ( value * scale );
 	}
 
-	private float getPointValue( CSSValue cssValue )
+	private int getScaledValue( CSSValue cssValue )
 	{
-		return convertToPoint( PropertyUtil.getDimensionValue( cssValue ) );
+		return getScaledValue( PropertyUtil.getDimensionValue( cssValue ) );
 	}
 }

@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.TextStyle;
 import org.eclipse.birt.report.engine.layout.emitter.IPage;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
@@ -44,6 +45,7 @@ import com.lowagie.text.pdf.PdfWriter;
 
 public class PDFPage implements IPage
 {
+
 	/**
 	 * The Pdf Writer
 	 */
@@ -66,15 +68,17 @@ public class PDFPage implements IPage
 
 	private Logger logger = Logger.getLogger( PDFPage.class.getName( ) );
 
-	public PDFPage( float pageWidth, float pageHeight, Document document,
+	public PDFPage( int pageWidth, int pageHeight, Document document,
 			PdfWriter writer )
 	{
-		this.pageHeight = pageHeight;
+		float ratio = PDFConstants.LAYOUT_TO_PDF_RATIO;
+		this.pageHeight = pageHeight / ratio;
 		this.writer = writer;
 		// Creates a pdf page, get its contentByte and contentByteUnder
 		try
 		{
-			Rectangle pageSize = new Rectangle( pageWidth, pageHeight );
+			Rectangle pageSize = new Rectangle( pageWidth / ratio, pageHeight
+					/ ratio );
 			document.setPageSize( pageSize );
 			if ( !document.isOpen( ) )
 				document.open( );
@@ -93,8 +97,14 @@ public class PDFPage implements IPage
 	{
 		totalPageTemplate = null;
 	}
-	
-	public void clip( float startX, float startY, float width, float height )
+
+	public void clip( int startX, int startY, int width, int height )
+	{
+		clip( convertToPoint( startX ), convertToPoint( startY ),
+				convertToPoint( width ), convertToPoint( height ) );
+	}
+
+	private void clip( float startX, float startY, float width, float height )
 	{
 		startY = transformY( startY, height );
 		contentByte.clip( );
@@ -116,7 +126,14 @@ public class PDFPage implements IPage
 	{
 	}
 
-	public void drawBackgroundColor( Color color, float x, float y,
+	public void drawBackgroundColor( Color color, int x, int y, int width,
+			int height )
+	{
+		drawBackgroundColor( color, convertToPoint( x ), convertToPoint( y ),
+				convertToPoint( width ), convertToPoint( height ) );
+	}
+
+	private void drawBackgroundColor( Color color, float x, float y,
 			float width, float height )
 	{
 		if ( null == color )
@@ -129,6 +146,15 @@ public class PDFPage implements IPage
 		cbUnder.rectangle( x, y, width, height );
 		cbUnder.fill( );
 		cbUnder.restoreState( );
+	}
+
+	public void drawBackgroundImage( int x, int y, int width, int height,
+			String repeat, String imageUrl, int absPosX, int absPosY )
+			throws IOException
+	{
+		drawBackgroundImage( convertToPoint( x ), convertToPoint( y ),
+				convertToPoint( width ), convertToPoint( height ), repeat,
+				imageUrl, convertToPoint( absPosX ), convertToPoint( absPosY ) );
 	}
 
 	public void drawBackgroundImage( float x, float y, float width,
@@ -375,21 +401,31 @@ public class PDFPage implements IPage
 		cbUnder.restoreState( );
 	}
 
-	public void drawImage( byte[] imageData, float imageX, float imageY,
-			float height, float width, String helpText ) throws Exception
+	public void drawImage( byte[] imageData, int imageX, int imageY,
+			int height, int width, String helpText ) throws Exception
 	{
 		Image image = Image.getInstance( imageData );
-		drawImage( image, imageX, imageY, height, width, helpText );
+		drawImage( image, convertToPoint( imageX ), convertToPoint( imageY ),
+				convertToPoint( height ), convertToPoint( width ), helpText );
 	}
 
-	public void drawImage( String uri, float imageX, float imageY,
-			float height, float width, String helpText ) throws Exception
+	public void drawImage( String uri, int imageX, int imageY, int height,
+			int width, String helpText ) throws Exception
 	{
 		Image image = Image.getInstance( new URL( uri ) );
-		drawImage( image, imageX, imageY, height, width, helpText );
+		drawImage( image, convertToPoint( imageX ), convertToPoint( imageY ),
+				convertToPoint( height ), convertToPoint( width ), helpText );
 	}
 
-	public void drawLine( float startX, float startY, float endX, float endY,
+	public void drawLine( int startX, int startY, int endX, int endY,
+			int width, Color color, String lineStyle )
+	{
+		drawLine( convertToPoint( startX ), convertToPoint( startY ),
+				convertToPoint( endX ), convertToPoint( endY ),
+				convertToPoint( width ), color, lineStyle );
+	}
+
+	private void drawLine( float startX, float startY, float endX, float endY,
 			float width, Color color, String lineStyle )
 	{
 		// if the border does NOT have color or the linewidth of the border is
@@ -429,22 +465,23 @@ public class PDFPage implements IPage
 		contentByte.restoreState( );
 	}
 
-	public void drawText( String text, float textX, float textY, float width,
-			float height, TextStyle fontStyle )
+	public void drawText( String text, int textX, int textY, int width,
+			int height, TextStyle fontStyle )
 	{
-		drawText( text, textX, textY, width, height, fontStyle.getFontInfo( ),
-				fontStyle.getCharacterSpacing( ), fontStyle.getWordSpacing( ),
-				fontStyle.getColor( ), fontStyle.isLinethrough( ), fontStyle
-						.isOverline( ), fontStyle.isUnderline( ), fontStyle
-						.getAlign( ), false );
+		drawText( text, convertToPoint( textX ), convertToPoint( textY ),
+				convertToPoint( width ), convertToPoint( height ), fontStyle
+						.getFontInfo( ), convertToPoint( fontStyle.getLetterSpacing( ) ),
+						convertToPoint( fontStyle.getWordSpacing( ) ), fontStyle.getColor( ), fontStyle
+						.isLinethrough( ), fontStyle.isOverline( ), fontStyle
+						.isUnderline( ), fontStyle.getAlign( ), false );
 
 	}
 
 	private void drawText( String text, float textX, float textY, float width,
-			float height, FontInfo fontInfo,
-			float characterSpacing, float wordSpacing, Color color,
-			boolean linethrough, boolean overline, boolean underline,
-			CSSValue align, boolean isTotoalPage )
+			float height, FontInfo fontInfo, float characterSpacing,
+			float wordSpacing, Color color, boolean linethrough,
+			boolean overline, boolean underline, CSSValue align,
+			boolean isTotoalPage )
 	{
 		drawText( text, textX, textY, fontInfo, characterSpacing, wordSpacing,
 				color, align, isTotoalPage );
@@ -457,33 +494,40 @@ public class PDFPage implements IPage
 		float lineWidth = fontInfo.getLineWidth( );
 		if ( linethrough )
 		{
-			drawLine( textX, textY, width, lineWidth, fontInfo
-					.getLineThroughPosition( ), color, currentContentByte );
+			drawLine( textX, textY, width, lineWidth, convertToPoint( fontInfo
+					.getLineThroughPosition( ) ), color, currentContentByte );
 		}
 		if ( overline )
 		{
-			drawLine( textX, textY, width, lineWidth, fontInfo
-					.getOverlinePosition( ), color, currentContentByte );
+			drawLine( textX, textY, width, lineWidth, convertToPoint( fontInfo
+					.getOverlinePosition( ) ), color, currentContentByte );
 		}
 		if ( underline )
 		{
-			drawLine( textX, textY, width, lineWidth, fontInfo
-					.getUnderlinePosition( ), color, currentContentByte );
+			drawLine( textX, textY, width, lineWidth, convertToPoint( fontInfo
+					.getUnderlinePosition( ) ), color, currentContentByte );
 		}
 	}
-	
-	public void drawTotalPage( String text, float textX, float textY, float width,
-			float height, TextStyle textInfo )
+
+	public void drawTotalPage( String text, int textX, int textY, int width,
+			int height, TextStyle textInfo )
 	{
 		if ( totalPageTemplate != null )
 			drawText( text, textX, textY, width, height,
-					textInfo.getFontInfo( ), textInfo.getCharacterSpacing( ),
+					textInfo.getFontInfo( ), textInfo.getLetterSpacing( ),
 					textInfo.getWordSpacing( ), textInfo.getColor( ), textInfo
 							.isLinethrough( ), textInfo.isOverline( ), textInfo
 							.isUnderline( ), textInfo.getAlign( ), true );
 	}
 
-	public void createBookmark( String bookmark, float x, float y, float width,
+	public void createBookmark( String bookmark, int x, int y, int width,
+			int height )
+	{
+		createBookmark( bookmark, convertToPoint( x ), convertToPoint( y ),
+				convertToPoint( width ), convertToPoint( height ) );
+	}
+
+	private void createBookmark( String bookmark, float x, float y, float width,
 			float height )
 	{
 		contentByte.localDestination( bookmark, new PdfDestination(
@@ -491,6 +535,14 @@ public class PDFPage implements IPage
 	}
 
 	public void createHyperlink( String hyperlink, String bookmark,
+			String targetWindow, int type, int x, int y, int width, int height )
+	{
+		createHyperlink( hyperlink, bookmark, targetWindow, type,
+				convertToPoint( x ), convertToPoint( y ),
+				convertToPoint( width ), convertToPoint( height ) );
+	}
+
+	private void createHyperlink( String hyperlink, String bookmark,
 			String targetWindow, int type, float x, float y, float width,
 			float height )
 	{
@@ -500,7 +552,14 @@ public class PDFPage implements IPage
 				type ) ) );
 	}
 
-	public void createTotalPageTemplate( float x, float y, float width, float height )
+	public void createTotalPageTemplate( int x, int y, int width, int height )
+	{
+		createTotalPageTemplate( convertToPoint( x ), convertToPoint( y ),
+				convertToPoint( width ), convertToPoint( height ) );
+	}
+
+	private void createTotalPageTemplate( float x, float y, float width,
+			float height )
 	{
 		if ( totalPageTemplate == null )
 		{
@@ -515,16 +574,16 @@ public class PDFPage implements IPage
 	void createToc( TOCNode tocTree )
 	{
 		TOCHandler tocHandler = new TOCHandler( tocTree );
-		TOCNode tocRoot = tocHandler.getTOCRoot();
-		if (tocRoot == null || tocRoot.getChildren().isEmpty())
+		TOCNode tocRoot = tocHandler.getTOCRoot( );
+		if ( tocRoot == null || tocRoot.getChildren( ).isEmpty( ) )
 		{
-			writer.setViewerPreferences(PdfWriter.PageModeUseNone);
+			writer.setViewerPreferences( PdfWriter.PageModeUseNone );
 		}
 		else
 		{
-			writer.setViewerPreferences(PdfWriter.PageModeUseOutlines);
-			PdfOutline root = contentByte.getRootOutline();
-			tocHandler.createTOC(tocRoot, root);
+			writer.setViewerPreferences( PdfWriter.PageModeUseOutlines );
+			PdfOutline root = contentByte.getRootOutline( );
+			tocHandler.createTOC( tocRoot, root );
 		}
 	}
 
@@ -562,8 +621,8 @@ public class PDFPage implements IPage
 	}
 
 	private void drawText( String text, float textX, float textY,
-			FontInfo fontInfo, float characterSpacing,
-			float wordSpacing, Color color, CSSValue align, boolean isTotalPage )
+			FontInfo fontInfo, float characterSpacing, float wordSpacing,
+			Color color, CSSValue align, boolean isTotalPage )
 	{
 		PdfContentByte currentContentByte = isTotalPage
 				? totalPageTemplate
@@ -571,7 +630,7 @@ public class PDFPage implements IPage
 		float containerHeight = isTotalPage
 				? totalPageTemplate.getHeight( )
 				: pageHeight;
-		currentContentByte.saveState();
+		currentContentByte.saveState( );
 		// start drawing the text content
 		currentContentByte.beginText( );
 		if ( null != color )
@@ -584,8 +643,9 @@ public class PDFPage implements IPage
 		currentContentByte.setFontAndSize( font, fontSize );
 		currentContentByte.setCharacterSpacing( characterSpacing );
 		currentContentByte.setWordSpacing( wordSpacing );
-		placeText( currentContentByte, fontInfo, textX, transformY( textY,
-				fontInfo.getBaseline( ), containerHeight ) );
+		float baseline = convertToPoint( fontInfo.getBaseline( ) );
+		float transformedY = transformY( textY, baseline, containerHeight );
+		placeText( currentContentByte, fontInfo, textX, transformedY );
 		if ( ( font.getFontType( ) == BaseFont.FONT_TYPE_TTUNI )
 				&& IStyle.JUSTIFY_VALUE.equals( align ) && wordSpacing > 0 )
 		{
@@ -647,52 +707,64 @@ public class PDFPage implements IPage
 	 * Draws a line from the start position to the end position with the given
 	 * linewidth, color, and style at the given pdf layer.
 	 * 
-	 * @param startX			the start X coordinate of the line
-	 * @param startY 			the start Y coordinate of the line
-	 * @param endX 				the end X coordinate of the line
-	 * @param endY 				the end Y coordinate of the line
-	 * @param width 			the lineWidth
-	 * @param color 			the color of the line
-	 * @param lineStyle 		the given line style
-	 * @param contentByte 		the given pdf layer
+	 * @param startX
+	 *            the start X coordinate of the line
+	 * @param startY
+	 *            the start Y coordinate of the line
+	 * @param endX
+	 *            the end X coordinate of the line
+	 * @param endY
+	 *            the end Y coordinate of the line
+	 * @param width
+	 *            the lineWidth
+	 * @param color
+	 *            the color of the line
+	 * @param lineStyle
+	 *            the given line style
+	 * @param contentByte
+	 *            the given pdf layer
 	 */
-	private void drawLine(float startX, float startY, float endX, float endY, float width, 
-			Color color, String lineStyle, PdfContentByte contentByte )
+	private void drawLine( float startX, float startY, float endX, float endY,
+			float width, Color color, String lineStyle,
+			PdfContentByte contentByte )
 	{
-		//if the border does NOT have color or the linewidth of the border is zero 
-		//or the lineStyle is "none", just return.
-		if (null == color || 0f == width || "none".equalsIgnoreCase(lineStyle)) //$NON-NLS-1$
+		// if the border does NOT have color or the linewidth of the border is
+		// zero
+		// or the lineStyle is "none", just return.
+		if ( null == color || 0f == width
+				|| "none".equalsIgnoreCase( lineStyle ) ) //$NON-NLS-1$
 		{
 			return;
 		}
-		contentByte.saveState();
-		if ("solid".equalsIgnoreCase(lineStyle)) //$NON-NLS-1$
+		contentByte.saveState( );
+		if ( "solid".equalsIgnoreCase( lineStyle ) ) //$NON-NLS-1$
 		{
-			drawRawLine(startX, startY, endX, endY, width, color, contentByte);
+			drawRawLine( startX, startY, endX, endY, width, color, contentByte );
 		}
-		if ("dashed".equalsIgnoreCase(lineStyle)) //$NON-NLS-1$
+		if ( "dashed".equalsIgnoreCase( lineStyle ) ) //$NON-NLS-1$
 		{
-			contentByte.setLineDash(3*width, 2*width, 0f);
-			drawRawLine(startX, startY, endX, endY, width, color, contentByte);
+			contentByte.setLineDash( 3 * width, 2 * width, 0f );
+			drawRawLine( startX, startY, endX, endY, width, color, contentByte );
 		}
-		else if ("dotted".equalsIgnoreCase(lineStyle)) //$NON-NLS-1$
+		else if ( "dotted".equalsIgnoreCase( lineStyle ) ) //$NON-NLS-1$
 		{
-			contentByte.setLineDash(width, width, 0f);
-			drawRawLine(startX, startY, endX, endY, width, color, contentByte);
+			contentByte.setLineDash( width, width, 0f );
+			drawRawLine( startX, startY, endX, endY, width, color, contentByte );
 		}
-		else if ("double".equalsIgnoreCase(lineStyle)) //$NON-NLS-1$
+		else if ( "double".equalsIgnoreCase( lineStyle ) ) //$NON-NLS-1$
 		{
 			return;
 		}
-		//the other line styles, e.g. 'ridge', 'outset', 'groove', 'inset' is NOT supported now. 
-		//We look it as the default line style -- 'solid'
+		// the other line styles, e.g. 'ridge', 'outset', 'groove', 'inset' is
+		// NOT supported now.
+		// We look it as the default line style -- 'solid'
 		else
 		{
-			drawRawLine(startX, startY, endX, endY, width, color, contentByte);
+			drawRawLine( startX, startY, endX, endY, width, color, contentByte );
 		}
-		contentByte.restoreState();
+		contentByte.restoreState( );
 	}
-	
+
 	/**
 	 * Creates a PdfAction.
 	 * 
@@ -932,18 +1004,23 @@ public class PDFPage implements IPage
 		return new TplValueTriple( tplOrigin, tplSize, translation );
 
 	}
-	
+
 	private void drawImage( Image image, float imageX, float imageY,
 			float height, float width, String helpText )
 			throws DocumentException
 	{
 		imageY = transformY( imageY, height );
-		contentByte.saveState();
+		contentByte.saveState( );
 		contentByte.addImage( image, width, 0f, 0f, height, imageX, imageY );
 		if ( helpText != null )
 		{
 			showHelpText( imageX, imageY, width, height, helpText );
 		}
-		contentByte.restoreState();
+		contentByte.restoreState( );
+	}
+
+	private float convertToPoint( int value )
+	{
+		return value / PDFConstants.LAYOUT_TO_PDF_RATIO;
 	}
 }

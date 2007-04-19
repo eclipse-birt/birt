@@ -33,22 +33,25 @@ public interface IPage
 	 * @param height
 	 *            height of the area.
 	 */
-	void clip( float startX, float startY, float width, float height );
-	
+	void clip( int startX, int startY, int width, int height );
+
 	/**
 	 * Saves current clip state.
 	 */
-	void clipSave();
-	
+	void clipSave( );
+
 	/**
 	 * Restores last saved clip state.
 	 */
-	void clipRestore();
-	
+	void clipRestore( );
+
 	/**
 	 * Draws text at specified position with specified styles.
-	 * @param text the text.
-	 * @param textX p
+	 * 
+	 * @param text
+	 *            the text.
+	 * @param textX
+	 *            p
 	 * @param textY
 	 * @param fontInfo
 	 * @param characterSpacing
@@ -57,16 +60,17 @@ public interface IPage
 	 * @param linethrough
 	 * @param overline
 	 * @param underline
-	 * @param align align property of the text.
+	 * @param align
+	 *            align property of the text.
 	 */
-	void drawText( String text, float textX, float textY, float width,
-			float height, TextStyle textStyle );
+	void drawText( String text, int textX, int textY, int width, int height,
+			TextStyle textStyle );
 
-	void drawImage( byte[] imageData, float imageX, float imageY, float height,
-			float width, String helpText ) throws Exception;
+	void drawImage( byte[] imageData, int imageX, int imageY, int height,
+			int width, String helpText ) throws Exception;
 
-	void drawImage( String uri, float imageX, float imageY, float height,
-			float width, String helpText ) throws Exception;
+	void drawImage( String uri, int imageX, int imageY, int height, int width,
+			String helpText ) throws Exception;
 
 	/**
 	 * Draws a line from the start position to the end position with the given
@@ -89,8 +93,8 @@ public interface IPage
 	 * @param contentByte
 	 *            the given pdf layer
 	 */
-	void drawLine( float startX, float startY, float endX, float endY,
-			float width, Color color, String lineStyle );
+	void drawLine( int startX, int startY, int endX, int endY, int width,
+			Color color, String lineStyle );
 
 	/**
 	 * Draws the background color at the contentByteUnder of the pdf
@@ -106,10 +110,9 @@ public interface IPage
 	 * @param height
 	 *            the height of the background dimension
 	 */
-	void drawBackgroundColor( Color color, float x, float y, float width,
-			float height );
+	void drawBackgroundColor( Color color, int x, int y, int width, int height );
 
-	void drawBackgroundImage( float x, float y, float width, float height,
-			String repeat, String imageUrl, float absPosX, float absPosY )
+	void drawBackgroundImage( int x, int y, int width, int height,
+			String repeat, String imageUrl, int absPosX, int absPosY )
 			throws IOException;
 }

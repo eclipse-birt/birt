@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.executor;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
@@ -19,6 +20,7 @@ import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
+import org.eclipse.birt.report.engine.layout.area.IArea;
 import org.eclipse.birt.report.engine.layout.area.IAreaVisitor;
 import org.eclipse.birt.report.engine.layout.area.IContainerArea;
 import org.eclipse.birt.report.engine.layout.area.IImageArea;
@@ -148,9 +150,15 @@ public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler
 			addContent( imageArea.getContent( ) );
 		}
 
-		public void visitContainer( IContainerArea containerArea )
+		public void visitContainer( IContainerArea container )
 		{
-			addContent( containerArea.getContent( ) );
+			addContent( container.getContent( ) );
+			Iterator iter = container.getChildren( );
+			while ( iter.hasNext( ) )
+			{
+				IArea child = (IArea) iter.next( );
+				child.accept( this );
+			}
 		}
 	}
 	

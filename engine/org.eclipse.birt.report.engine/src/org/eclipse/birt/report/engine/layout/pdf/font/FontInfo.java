@@ -11,29 +11,33 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.font;
 
+import org.eclipse.birt.report.engine.layout.PDFConstants;
+
 import com.lowagie.text.pdf.BaseFont;
 
 public class FontInfo
 {
+
 	private BaseFont bf;
 
 	private float fontSize;
 
 	private int fontStyle;
-	
+
 	private float fontPadding;
-	
+
 	private float lineWidth;
 
 	private boolean simulation;
 
-	public FontInfo(BaseFont bf, float fontSize, int fontStyle, boolean simulation)
+	public FontInfo( BaseFont bf, float fontSize, int fontStyle,
+			boolean simulation )
 	{
 		this.bf = bf;
 		this.fontSize = fontSize;
 		this.fontStyle = fontStyle;
-		this.fontPadding = fontSize/5f;
-		this.lineWidth = fontSize/20f;
+		this.fontPadding = fontSize / 5f;
+		this.lineWidth = fontSize / 20f;
 		this.simulation = simulation;
 	}
 
@@ -42,108 +46,112 @@ public class FontInfo
 		this.bf = fontInfo.bf;
 		this.fontSize = fontInfo.fontSize;
 		this.fontStyle = fontInfo.fontStyle;
-		this.fontPadding = fontInfo.fontSize/5f;
-		this.lineWidth = fontInfo.fontSize/20f;
+		this.fontPadding = fontInfo.fontSize / 5f;
+		this.lineWidth = fontInfo.fontSize / 20f;
 		this.simulation = fontInfo.simulation;
 	}
-	
-	public void setBaseFont(BaseFont bf)
+
+	public void setBaseFont( BaseFont bf )
 	{
 		this.bf = bf;
 	}
 
-	public void setFontSize(float fontSize)
+	public void setFontSize( float fontSize )
 	{
 		this.fontSize = fontSize;
 	}
-	
-	public void setFontStyle(int fontStyle)
+
+	public void setFontStyle( int fontStyle )
 	{
 		this.fontStyle = fontStyle;
 	}
-	
-	public void setSimulation(boolean simulation)
+
+	public void setSimulation( boolean simulation )
 	{
 		this.simulation = simulation;
 	}
-	
-	public BaseFont getBaseFont()
+
+	public BaseFont getBaseFont( )
 	{
 		return this.bf;
 	}
 
-	public float getFontSize()
+	public float getFontSize( )
 	{
 		return this.fontSize;
 	}
-	
-	public int getFontStyle()
+
+	public int getFontStyle( )
 	{
 		return this.fontStyle;
 	}
-	
-	public boolean getSimulation()
+
+	public boolean getSimulation( )
 	{
 		return this.simulation;
 	}
-	
-	public float getLineWidth()
+
+	public float getLineWidth( )
 	{
 		return this.lineWidth;
 	}
-	
-	public float getOverlinePosition()
+
+	public int getOverlinePosition( )
 	{
-		//float awtAscent = bf.getFontDescriptor(BaseFont.AWT_ASCENT, fontSize);
-		//float ascent = bf.getFontDescriptor(BaseFont.ASCENT, fontSize);
-		return fontPadding/2f-lineWidth/2f;
+		// float awtAscent = bf.getFontDescriptor(BaseFont.AWT_ASCENT,
+		// fontSize);
+		// float ascent = bf.getFontDescriptor(BaseFont.ASCENT, fontSize);
+		return (int) ( ( fontPadding / 2f - lineWidth / 2f ) * PDFConstants.LAYOUT_TO_PDF_RATIO );
 	}
-	
-	public float getUnderlinePosition()
+
+	public int getUnderlinePosition( )
 	{
-		float awtAscent = bf.getFontDescriptor(BaseFont.AWT_ASCENT, fontSize);
-		float awtDescent = -bf.getFontDescriptor(BaseFont.AWT_DESCENT, fontSize);
-		return awtAscent + awtDescent + lineWidth/2f;
+		float awtAscent = bf.getFontDescriptor( BaseFont.AWT_ASCENT, fontSize );
+		float awtDescent = -bf.getFontDescriptor( BaseFont.AWT_DESCENT,
+				fontSize );
+		return (int) ( ( awtAscent + awtDescent + lineWidth / 2f ) * PDFConstants.LAYOUT_TO_PDF_RATIO );
 	}
-	
-	public float getLineThroughPosition()
+
+	public int getLineThroughPosition( )
 	{
-		float awtAscent = bf.getFontDescriptor(BaseFont.AWT_ASCENT, fontSize);
-		float ascent = bf.getFontDescriptor(BaseFont.ASCENT, fontSize);
-		float descent = -bf.getFontDescriptor(BaseFont.DESCENT, fontSize);
-		return awtAscent+ fontPadding/2f - ascent + (ascent + descent)/2.0f;
+		float awtAscent = bf.getFontDescriptor( BaseFont.AWT_ASCENT, fontSize );
+		float ascent = bf.getFontDescriptor( BaseFont.ASCENT, fontSize );
+		float descent = -bf.getFontDescriptor( BaseFont.DESCENT, fontSize );
+		return (int) ( ( awtAscent + fontPadding / 2f - ascent + ( ascent + descent ) / 2.0f ) * PDFConstants.LAYOUT_TO_PDF_RATIO );
 	}
-	
-	public float getBaseline()
+
+	public int getBaseline( )
 	{
-		return bf.getFontDescriptor(BaseFont.AWT_ASCENT, fontSize)+fontPadding/2f;
+		return (int) ( ( bf.getFontDescriptor( BaseFont.AWT_ASCENT, fontSize ) + fontPadding / 2f ) * PDFConstants.LAYOUT_TO_PDF_RATIO );
 	}
-	
+
 	/**
 	 * Gets the width of the specified word.
-	 * @param word				the word
-	 * @return					the points of the width
+	 * 
+	 * @param word
+	 *            the word
+	 * @return the points of the width
 	 */
-	public float getWordWidth( String word ) 
+	public float getWordWidth( String word )
 	{
-		if( bf == null)
+		if ( bf == null )
 			return 0;
-		return bf.getWidthPoint(word, fontSize);	
+		return bf.getWidthPoint( word, fontSize );
 	}
-	
+
 	/**
 	 * Gets the height of the specified word.
-	 * @return					the height of the font, it equals ascent+|descent|+leading
+	 * 
+	 * @return the height of the font, it equals ascent+|descent|+leading
 	 */
-	public float getWordHeight()
-	{ 
-		if(bf==null)
+	public float getWordHeight( )
+	{
+		if ( bf == null )
 			return fontSize;
-		return bf.getFontDescriptor(BaseFont.AWT_ASCENT, fontSize)
-				- bf.getFontDescriptor(BaseFont.AWT_DESCENT, fontSize)
-				+ bf.getFontDescriptor(BaseFont.AWT_LEADING, fontSize)
-				+ fontSize/4f;
+		return bf.getFontDescriptor( BaseFont.AWT_ASCENT, fontSize )
+				- bf.getFontDescriptor( BaseFont.AWT_DESCENT, fontSize )
+				+ bf.getFontDescriptor( BaseFont.AWT_LEADING, fontSize )
+				+ fontSize / 4f;
 	}
-	
-	
+
 }

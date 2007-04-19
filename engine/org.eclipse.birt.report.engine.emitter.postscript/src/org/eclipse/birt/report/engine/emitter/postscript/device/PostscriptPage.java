@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.net.URL;
 
 import org.eclipse.birt.report.engine.emitter.postscript.PostscriptWriter;
+import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.TextStyle;
 import org.eclipse.birt.report.engine.layout.emitter.IPage;
 
@@ -33,15 +34,21 @@ public class PostscriptPage implements IPage
 		this.isDisposed = false;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.emitter.postscript.page.IPageDevice#setPageSize(float, float)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.emitter.postscript.page.IPageDevice#setPageSize(float,
+	 *      float)
 	 */
-	void setPageSize( float pageWidth, float pageHeight )
+	void setPageSize( int pageWidth, int pageHeight )
 	{
-		writer.startPage( pageWidth, pageHeight );
+		writer.startPage( convertToPoint( pageWidth ),
+				convertToPoint( pageHeight ) );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.emitter.postscript.page.IPageDevice#dispose()
 	 */
 	public void dispose( )
@@ -53,37 +60,49 @@ public class PostscriptPage implements IPage
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.emitter.postscript.page.IPageDevice#drawText(java.lang.String, float, float, org.eclipse.birt.report.engine.layout.pdf.font.FontInfo, float, float, java.awt.Color, boolean, boolean, boolean)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.emitter.postscript.page.IPageDevice#drawText(java.lang.String,
+	 *      float, float,
+	 *      org.eclipse.birt.report.engine.layout.pdf.font.FontInfo, float,
+	 *      float, java.awt.Color, boolean, boolean, boolean)
 	 */
-	public void drawText( String text, float textX, float textY, float width,
-			float height, TextStyle fontStyle )
+	public void drawText( String text, int textX, int textY, int width,
+			int height, TextStyle fontStyle )
 	{
-		writer.drawString( text, textX, textY, fontStyle.getFontInfo( ),
-				fontStyle.getCharacterSpacing( ), fontStyle.getWordSpacing( ),
-				fontStyle.getColor( ), fontStyle.isLinethrough( ), fontStyle
+		writer.drawString( text, convertToPoint( textX ),
+				convertToPoint( textY ), fontStyle.getFontInfo( ),
+				convertToPoint( fontStyle.getLetterSpacing( ) ),
+				convertToPoint( fontStyle.getWordSpacing( ) ), fontStyle
+						.getColor( ), fontStyle.isLinethrough( ), fontStyle
 						.isOverline( ), fontStyle.isUnderline( ), fontStyle
 						.getAlign( ) );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.emitter.postscript.page.IPageDevice#drawImage(java.io.InputStream, float, float, float, float)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.emitter.postscript.page.IPageDevice#drawImage(java.io.InputStream,
+	 *      float, float, float, float)
 	 */
-	public void drawImage( InputStream input, float imageX, float imageY,
-			float height, float width, String helpText ) throws Exception
+	public void drawImage( InputStream input, int imageX, int imageY,
+			int height, int width, String helpText ) throws Exception
 	{
-		writer.drawImage( input, imageX, imageY, width, height );
+		writer.drawImage( input, convertToPoint( imageX ),
+				convertToPoint( imageY ), convertToPoint( width ),
+				convertToPoint( height ) );
 	}
 
-	public void drawImage( byte[] imageData, float imageX, float imageY,
-			float height, float width, String helpText ) throws Exception
+	public void drawImage( byte[] imageData, int imageX, int imageY,
+			int height, int width, String helpText ) throws Exception
 	{
 		InputStream input = new ByteArrayInputStream( imageData );
 		drawImage( input, imageX, imageY, height, width, helpText );
 	}
 
-	public void drawImage( String uri, float imageX, float imageY,
-			float height, float width, String helpText ) throws Exception
+	public void drawImage( String uri, int imageX, int imageY, int height,
+			int width, String helpText ) throws Exception
 	{
 		if ( uri == null )
 		{
@@ -92,29 +111,40 @@ public class PostscriptPage implements IPage
 		drawImage( new URL( uri ).openStream( ), imageX, imageY, height, width,
 				helpText );
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.emitter.postscript.page.IPageDevice#drawLine(float, float, float, float, float, java.awt.Color, java.lang.String)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.emitter.postscript.page.IPageDevice#drawLine(float,
+	 *      float, float, float, float, java.awt.Color, java.lang.String)
 	 */
-	public void drawLine( float startX, float startY, float endX, float endY,
-			float width, Color color, String lineStyle )
+	public void drawLine( int startX, int startY, int endX, int endY,
+			int width, Color color, String lineStyle )
 	{
-		writer.drawLine( startX, startY, endX, endY, width, color, lineStyle );
+		writer.drawLine( convertToPoint( startX ), convertToPoint( startY ),
+				convertToPoint( endX ), convertToPoint( endY ),
+				convertToPoint( width ), color, lineStyle );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.emitter.postscript.page.IPageDevice#drawBackgroundColor(java.awt.Color, float, float, float, float)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.emitter.postscript.page.IPageDevice#drawBackgroundColor(java.awt.Color,
+	 *      float, float, float, float)
 	 */
-	public void drawBackgroundColor( Color color, float x, float y,
-			float width, float height )
+	public void drawBackgroundColor( Color color, int x, int y, int width,
+			int height )
 	{
 		if ( color != null )
 		{
-			writer.fillRect( x, y, width, height, color );
+			writer.fillRect( convertToPoint( x ), convertToPoint( y ),
+					convertToPoint( width ), convertToPoint( height ), color );
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.emitter.postscript.page.IPageDevice#drawPageBackgroundColor(java.awt.Color)
 	 */
 	public void drawPageBackgroundColor( Color color )
@@ -122,20 +152,27 @@ public class PostscriptPage implements IPage
 		writer.fillPage( color );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.emitter.postscript.page.IPageDevice#drawBackgroundImage(float, float, float, float, java.lang.String, java.lang.String, float, float)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.emitter.postscript.page.IPageDevice#drawBackgroundImage(float,
+	 *      float, float, float, java.lang.String, java.lang.String, float,
+	 *      float)
 	 */
-	public void drawBackgroundImage( float x, float y, float width,
-			float height, String repeat, String imageUrl, float absPosX,
-			float absPosY ) throws IOException
+	public void drawBackgroundImage( int x, int y, int width, int height,
+			String repeat, String imageUrl, int absPosX, int absPosY )
+			throws IOException
 	{
-		writer.drawBackgroundImage( imageUrl, x, y, width, height, absPosX,
-				absPosY, repeat );
+		writer.drawBackgroundImage( imageUrl, convertToPoint( x ),
+				convertToPoint( y ), convertToPoint( width ),
+				convertToPoint( height ), convertToPoint( absPosX ),
+				convertToPoint( absPosY ), repeat );
 	}
 
-	public void clip( float startX, float startY, float width, float height )
+	public void clip( int startX, int startY, int width, int height )
 	{
-		writer.clipRect( startX, startY, width, height );
+		writer.clipRect( convertToPoint( startX ), convertToPoint( startY ),
+				convertToPoint( width ), convertToPoint( height ) );
 	}
 
 	public void clipSave( )
@@ -146,5 +183,10 @@ public class PostscriptPage implements IPage
 	public void clipRestore( )
 	{
 		writer.clipRestore( );
+	}
+
+	private float convertToPoint( int value )
+	{
+		return value / PDFConstants.LAYOUT_TO_PDF_RATIO;
 	}
 }

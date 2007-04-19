@@ -20,20 +20,19 @@ import org.w3c.dom.css.CSSValue;
 public class TextStyle
 {
 	private FontInfo fontInfo;
-	private float characterSpacing;
-	private float wordSpacing;
+	private int letterSpacing, wordSpacing;
 	private Color color;
 	private boolean linethrough;
 	private boolean overline;
 	private boolean underline;
 	private CSSValue align;
 	
-	public TextStyle(FontInfo fontInfo, float characterSpacing,
-			float wordSpacing, Color color, boolean linethrough,
+	public TextStyle(FontInfo fontInfo, int characterSpacing,
+			int wordSpacing, Color color, boolean linethrough,
 			boolean overline, boolean underline, CSSValue align)
 	{
 		this.fontInfo = fontInfo;
-		this.characterSpacing = characterSpacing;
+		this.letterSpacing = characterSpacing;
 		this.wordSpacing = wordSpacing;
 		this.color = color;
 		this.linethrough = linethrough;
@@ -55,25 +54,25 @@ public class TextStyle
 	}
 
 	
-	public float getCharacterSpacing( )
+	public int getLetterSpacing( )
 	{
-		return characterSpacing;
+		return letterSpacing;
 	}
 
 	
-	public void setCharacterSpacing( float characterSpacing )
+	public void setLetterSpacing( int letterSpacing )
 	{
-		this.characterSpacing = characterSpacing;
+		this.letterSpacing = letterSpacing;
 	}
 
 	
-	public float getWordSpacing( )
+	public int getWordSpacing( )
 	{
 		return wordSpacing;
 	}
 
 	
-	public void setWordSpacing( float wordSpacing )
+	public void setWordSpacing( int wordSpacing )
 	{
 		this.wordSpacing = wordSpacing;
 	}

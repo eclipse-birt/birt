@@ -94,7 +94,7 @@ public class PDFPageDevice implements IPageDevice
 		}
 	}
 
-	public IPage newPage( float width, float height, Color backgroundColor )
+	public IPage newPage( int width, int height, Color backgroundColor )
 	{
 		currentPage = new PDFPage( width, height, doc, writer );
 		currentPage.drawBackgroundColor( backgroundColor, 0, 0, width, height );

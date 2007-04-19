@@ -72,8 +72,8 @@ public class PDFRender extends PageDeviceRender
 	public void visitImage( IImageArea imageArea )
 	{
 		ContainerPosition curPos = getContainerPosition( );
-		float imageX = curPos.x + getX( imageArea );
-		float imageY = curPos.y + getY( imageArea );
+		int imageX = curPos.x + getX( imageArea );
+		int imageY = curPos.y + getY( imageArea );
 		super.visitImage( imageArea );
 		createBookmark( imageArea, imageX, imageY );
 		createHyperlink( imageArea, imageX, imageY );
@@ -83,8 +83,8 @@ public class PDFRender extends PageDeviceRender
 	{
 		super.visitText( textArea );
 		ContainerPosition curPos = getContainerPosition( );
-		float x = curPos.x + getX( textArea );
-		float y = curPos.y + getY( textArea );
+		int x = curPos.x + getX( textArea );
+		int y = curPos.y + getY( textArea );
 		createBookmark( textArea, x, y );
 		createHyperlink( textArea, x, y );
 	}
@@ -93,8 +93,8 @@ public class PDFRender extends PageDeviceRender
 	{
 		super.visitAutoText( templateArea );
 		ContainerPosition curPos = getContainerPosition( );
-		float x = curPos.x + getX( templateArea );
-		float y = curPos.y + getY( templateArea );
+		int x = curPos.x + getX( templateArea );
+		int y = curPos.y + getY( templateArea );
 		createTotalPageTemplate( x, y, getWidth( templateArea ),
 				getHeight( templateArea ) );
 	}
@@ -103,8 +103,8 @@ public class PDFRender extends PageDeviceRender
 	{
 		super.setTotalPage( totalPage );
 		ContainerPosition curPos = getContainerPosition( );
-		float x = curPos.x + getX( totalPage );
-		float y = curPos.y + getY( totalPage );
+		int x = curPos.x + getX( totalPage );
+		int y = curPos.y + getY( totalPage );
 		isTotalPage = true;
 		drawTextAt( totalPage, x, y );
 	}
@@ -113,8 +113,8 @@ public class PDFRender extends PageDeviceRender
 	{
 		super.drawContainer( container );
 		ContainerPosition curPos = getContainerPosition( );
-		float x = curPos.x + getX( container );
-		float y = curPos.y + getY( container );
+		int x = curPos.x + getX( container );
+		int y = curPos.y + getY( container );
 		createBookmark( container, x, y );
 		createHyperlink( container, x, y );
 	}
@@ -190,8 +190,8 @@ public class PDFRender extends PageDeviceRender
 		}
 	}
 
-	protected void drawTextAt( ITextArea text, float x, float y, float width,
-			float height, TextStyle textInfo )
+	protected void drawTextAt( ITextArea text, int x, int y, int width,
+			int height, TextStyle textInfo )
 	{
 		if ( isTotalPage )
 		{
@@ -205,7 +205,7 @@ public class PDFRender extends PageDeviceRender
 		}
 	}
 
-	private void createHyperlink( IArea area, float x, float y )
+	private void createHyperlink( IArea area, int x, int y )
 	{
 		IContent content = area.getContent( );
 		if ( null != content )
@@ -216,8 +216,8 @@ public class PDFRender extends PageDeviceRender
 			if ( null != hlAction )
 				try
 				{
-					float width = getWidth( area );
-					float height = getHeight( area );
+					int width = getWidth( area );
+					int height = getHeight( area );
 					String hyperlink = hlAction.getHyperlink( );
 					String bookmark = hlAction.getBookmark( );
 					String targetWindow = hlAction.getTargetWindow( );
@@ -258,10 +258,10 @@ public class PDFRender extends PageDeviceRender
 		}
 	}
 
-	private void createBookmark( IArea area, float x, float y )
+	private void createBookmark( IArea area, int x, int y )
 	{
-		float height = getHeight( area );
-		float width = getWidth( area );
+		int height = getHeight( area );
+		int width = getWidth( area );
 		IContent content = area.getContent( );
 		if ( null != content )
 		{
@@ -273,14 +273,14 @@ public class PDFRender extends PageDeviceRender
 		}
 	}
 
-	private void createTotalPageTemplate( float x, float y, float width,
-			float height )
+	private void createTotalPageTemplate( int x, int y, int width,
+			int height )
 	{
 		currentPage.createTotalPageTemplate( x, y, width, height );
 	}
 
-	protected void drawTotalPage( String text, float x, float y, float width,
-			float height, TextStyle textInfo )
+	protected void drawTotalPage( String text, int x, int y, int width,
+			int height, TextStyle textInfo )
 	{
 		currentPage.drawTotalPage( text, x, y, width, height, textInfo );
 	}

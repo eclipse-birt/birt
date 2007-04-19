@@ -54,7 +54,7 @@ public class PostscriptPageDevice implements IPageDevice
 	 * @see org.eclipse.birt.report.engine.emitter.postscript.page.IPagableDevice#newPage(float,
 	 *      float)
 	 */
-	public IPage newPage( float width, float height, Color backgroundColor )
+	public IPage newPage( int width, int height, Color backgroundColor )
 	{
 		if ( currentPage != null )
 		{

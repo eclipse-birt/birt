@@ -99,11 +99,11 @@ public class PostscriptWriter
 	/**
 	 * Default page height.
 	 */
-	final protected static float DEFAULT_PAGE_HEIGHT = 792;
+	final protected static int DEFAULT_PAGE_HEIGHT = 792;
 	/**
 	 * Default page width.
 	 */
-	final protected static float DEFAULT_PAGE_WIDTH = 612;
+	final protected static int DEFAULT_PAGE_WIDTH = 612;
 	/**
 	 * Table mapping decimal numbers to hexadecimal numbers.
 	 */
@@ -129,11 +129,11 @@ public class PostscriptWriter
 	/**
 	 * Height of current page.
 	 */
-	private float pageHeight = DEFAULT_PAGE_HEIGHT;
+	private int pageHeight = DEFAULT_PAGE_HEIGHT;
 	/**
 	 * Width of current page.
 	 */
-	private float pageWidth = DEFAULT_PAGE_WIDTH;
+	private int pageWidth = DEFAULT_PAGE_WIDTH;
 
 	private static Set intrinsicFonts = new HashSet( );
 
