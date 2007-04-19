@@ -329,7 +329,8 @@ public class DesignerDropListener extends DesignElementDropAdapter
 				this.newTarget = DNDUtil.getDesignElementHandle( target )
 						.getContainerPropertyHandle( );
 			}
-			if ( getCurrentLocation( ) == LOCATION_BEFORE )
+			if ( getCurrentLocation( ) == LOCATION_BEFORE
+					|| ( getCurrentLocation( ) == LOCATION_AFTER && target == getSelectedObject( ) ) )
 			{
 				position--;
 			}

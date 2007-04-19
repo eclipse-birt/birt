@@ -847,12 +847,12 @@ public class DNDUtil
 				{
 					position = afterHandle.getContainerSlotHandle( )
 							.findPosn( afterHandle );
-					position++;
 				}
 				else if ( afterHandle.getContainerPropertyHandle( ) != null )
 				{
 					position = afterHandle.getContainerPropertyHandle( ).getContents( ).indexOf( afterHandle );
 				}
+				position++;
 			}
 		}
 		return position;
