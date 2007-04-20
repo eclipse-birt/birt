@@ -348,7 +348,7 @@ public final class AutoScale extends Methods implements Cloneable
 						}
 					}
 					// To prevent endless loop if step is not changed
-					if ( dStep == oldStep )
+					if ( dStep == oldStep ) 
 					{
 						dStep /= 2;
 					}
@@ -979,20 +979,10 @@ public final class AutoScale extends Methods implements Cloneable
 				double dMax = asDouble( oMaximum ).doubleValue( );
 				double dMin = asDouble( oMinimum ).doubleValue( );
 				double dStep = asDouble( oStep ).doubleValue( );
-				nTicks = (int) Math.ceil( ( dMax - dMin ) / dStep - 0.5 ) + 1;
-
-				// !Remove artificial limit for tick count.
-				// // ARTIFICIAL LIMIT TO TICK COUNT
-				// if ( nTicks > 100 )
-				// {
-				// nTicks = 100;
-				// }
-
-				// at least 2 ticks
-				if ( nTicks < 2 )
-				{
-					nTicks = 2;
-				}
+				if ( dMax != dMin )
+					nTicks = (int) Math.ceil( ( dMax - dMin ) / dStep - 0.5 ) + 1;
+				else
+					nTicks = 5;
 			}
 			else if ( ( iType & LOGARITHMIC ) == LOGARITHMIC )
 			{
@@ -1005,10 +995,6 @@ public final class AutoScale extends Methods implements Cloneable
 				double dStepLog = ( Math.log( dStep ) / LOG_10 );
 
 				nTicks = (int) Math.ceil( ( dMaxLog - dMinLog ) / dStepLog ) + 1;
-				if ( nTicks < 2 )
-				{
-					nTicks = 2;
-				}
 			}
 		}
 		else if ( ( iType & DATE_TIME ) == DATE_TIME )
@@ -1018,10 +1004,7 @@ public final class AutoScale extends Methods implements Cloneable
 			nTicks = (int) ( Math.ceil( CDateTime.computeDifference( cdt2,
 					cdt1,
 					asInteger( oUnit ) ) ) / asInteger( oStep ) ) + 1;
-			if ( nTicks < 2 )
-			{
-				nTicks = 2;
-			}
+
 		}
 		else
 		{
@@ -1030,6 +1013,19 @@ public final class AutoScale extends Methods implements Cloneable
 					"exception.unknown.axis.type.tick.computations", //$NON-NLS-1$
 					Messages.getResourceBundle( rtc.getULocale( ) ) );
 		}
+		 // ARTIFICIAL LIMIT TO TICK COUNT
+		// More ticks will cause memory issues.
+		 if ( nTicks > 10000 )
+		 {
+			 nTicks = 10000;
+		 }
+
+		// at least 2 ticks
+		if ( nTicks < 2 )
+		{
+			nTicks = 2;
+		}
+		
 		return nTicks;
 	}
 
@@ -1958,24 +1954,26 @@ public final class AutoScale extends Methods implements Cloneable
 				dPrecision = getPrecision( dPrecision, dValue );
 			}
 
-			double dDelta = dMaxValue - dMinValue;
-			if ( dDelta == 0 ) // PREVENT INFINITE LOOP DUE TO LOG(dDelta) IN
-			// AUTO SCALING ALGORITHM
-			{
-				dDelta = 1;
-			}
 			final double dAbsMax = Math.abs( dMaxValue );
 			final double dAbsMin = Math.abs( dMinValue );
 			double dStep = Math.max( dAbsMax, dAbsMin );
-			dStep = Math.floor( Math.log( dDelta ) / LOG_10 );
-			dStep = Math.pow( 10, dStep );
-			// The automatic step should never be more precise than the data
-			// itself
-			if ( dStep < dPrecision )
+			
+			double dDelta = dMaxValue - dMinValue;
+			if ( dDelta == 0 ) // Min == Max
 			{
-				dStep = dPrecision;
+				dStep = dPrecision; 
 			}
-
+			else
+			{
+				dStep = Math.floor( Math.log( dDelta ) / LOG_10 );
+				dStep = Math.pow( 10, dStep );
+				// The automatic step should never be more precise than the data
+				// itself
+				if ( dStep < dPrecision )
+				{
+					dStep = dPrecision;
+				}
+			}
 			sc = new AutoScale( iType, new Double( 0 ), new Double( 0 ) );
 			sc.oStep = new Double( dStep );
 			sc.oStepNumber = oStepNumber;
@@ -2285,8 +2283,9 @@ public final class AutoScale extends Methods implements Cloneable
 	 * @param value
 	 * @return
 	 */
-	protected static double getPrecision( double precision, double value )
+	protected static double getPrecision( double precision, double pValue )
 	{
+		double value = Math.abs(  pValue  );
 		if ( value == 0 )
 		{
 			if ( precision < 0 )
@@ -2294,6 +2293,7 @@ public final class AutoScale extends Methods implements Cloneable
 			else if ( precision >= 0 )
 				return 1;
 		}
+		
 		if ( precision == 0 )
 		{
 			// precision not initialized yet

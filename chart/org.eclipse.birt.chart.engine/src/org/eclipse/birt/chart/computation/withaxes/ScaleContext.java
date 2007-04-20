@@ -207,7 +207,11 @@ public class ScaleContext extends Methods
 				if ( dMaxAxis == dAbsMax )
 				{
 					dMaxAxis += dStep;
-					if ( dMaxValue == 0 )
+					if ( dMaxValue < 0 )
+					{
+						dMaxAxis = - dMaxAxis;
+					}
+					else if ( dMaxValue == 0 )
 					{
 						dMaxAxis = 0;
 					}
