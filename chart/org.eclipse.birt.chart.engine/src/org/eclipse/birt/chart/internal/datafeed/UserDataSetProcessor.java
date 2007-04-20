@@ -11,13 +11,22 @@
 
 package org.eclipse.birt.chart.internal.datafeed;
 
+import java.util.ResourceBundle;
+
+import org.eclipse.birt.chart.computation.IConstants;
+import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.datafeed.IResultSetDataSet;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.data.DataSet;
+import org.eclipse.birt.chart.model.data.impl.DateTimeDataSetImpl;
+import org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.TextDataSetImpl;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.util.ChartUtil;
+
+import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.ULocale;
 
 /**
  * An internal processor which populates the user datasets.
@@ -51,40 +60,66 @@ public class UserDataSetProcessor
 
 			final int columnCount = rsds.getColumnCount( );
 			ds = new DataSet[columnCount];
+			// init dataset
+			for ( int k = 0; k < columnCount; k++ )
+			{
+				switch ( rsds.getDataType( k ) )
+				{
+					case IConstants.TEXT :
+						final String[] saDataSet = new String[(int) lRowCount];
+						ds[k] = TextDataSetImpl.create( saDataSet );
+						break;
 
-			// switch ( rsds.getDataType( ) )
-			// {
-			// case IConstants.TEXT :
-			//
+					case IConstants.DATE_TIME :
+						final Calendar[] caDataSet = new Calendar[(int) lRowCount];
+						ds[k] = DateTimeDataSetImpl.create( caDataSet );
+						break;
 
-			// !Only support text user data currently.
-			final String[][] saDataSet = new String[columnCount][(int) lRowCount];
+					case IConstants.NUMERICAL :
+						final Double[] doaDataSet = new Double[(int) lRowCount];
+						ds[k] = NumberDataSetImpl.create( doaDataSet );
+						break;
+
+					default :
+						throw new ChartException( ChartEnginePlugin.ID,
+								ChartException.DATA_SET,
+								"exception.unknown.trigger.datatype" ); //$NON-NLS-1$
+				}
+			}
+
 			int i = 0;
 			while ( rsds.hasNext( ) )
 			{
-				Object[] nextRow = rsds.next( );
+				
+				Object row[] = rsds.next( );
 				for ( int k = 0; k < columnCount; k++ )
 				{
-					saDataSet[k][i] = ChartUtil.stringValue( nextRow[k] );
+					Object value = null;
+					switch ( rsds.getDataType( k ) )
+					{
+						case IConstants.TEXT :
+							value = (String)row[k];
+							break;
+
+						case IConstants.DATE_TIME :
+							value = Methods.asDateTime( row[k] );
+							break;
+
+						case IConstants.NUMERICAL :
+							value = Methods.asDouble( row[k] );
+							break;
+
+						default :
+							throw new ChartException( ChartEnginePlugin.ID,
+									ChartException.DATA_SET,
+									"exception.unknown.trigger.datatype" ); //$NON-NLS-1$
+					}
+					((Object[])ds[k].getValues( ))[i] = value;
 				}
 				i++;
 			}
-
-			for ( int k = 0; k < columnCount; k++ )
-			{
-				ds[k] = TextDataSetImpl.create( saDataSet[k] );
-			}
-
-			// break;
-			//
-			// default :
-			// throw new ChartException( ChartEnginePlugin.ID,
-			// ChartException.DATA_SET,
-			// "exception.unknown.trigger.datatype",//$NON-NLS-1$
-			// ResourceBundle.getBundle( Messages.ENGINE,
-			// Locale.getDefault( ) ) );
-			// }
 		}
+
 		else
 		{
 			throw new ChartException( ChartEnginePlugin.ID,

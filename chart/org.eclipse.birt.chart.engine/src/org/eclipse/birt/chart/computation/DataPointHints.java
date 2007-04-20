@@ -29,6 +29,7 @@ import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.Size;
 import org.eclipse.birt.chart.model.attribute.impl.SizeImpl;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
+import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -445,8 +446,14 @@ public final class DataPointHints
 		{
 			return null;
 		}
-
-		return userValueMap.get( key );
+		Object value = userValueMap.get( key );
+		
+		// 
+		if ( value instanceof CDateTime )
+		{
+			return ((CDateTime)value).getTime( );
+		}
+		return value;
 	}
 
 	/**

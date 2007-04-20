@@ -33,7 +33,14 @@ public interface IResultSetDataSet
 	 * @return A data type associated with a single column resultset
 	 */
 	int getDataType( );
-
+	
+	/**
+	 * Returns the data type of a given column associated with a multi-column resultset subset.
+	 * 
+	 * @return A data type associated with a multi-column resultset
+	 */
+	int getDataType( int columnIndex );
+	
 	/**
 	 * Returns the number of rows associated with this resultset subset instance
 	 * 
