@@ -192,6 +192,10 @@ public class HTMLVisionOptimize extends HTMLEmitter
 			styleBuffer.append( ";" );
 		}
 		buildStyle( text, styleBuffer );
+		if ( !isEmbeddable )
+		{
+			AttributeBuilder.checkHyperlinkTextDecoration( style, styleBuffer );
+		}
 	}
 
 	/**
@@ -230,6 +234,10 @@ public class HTMLVisionOptimize extends HTMLEmitter
 			styleBuffer.append( ";" );
 		}
 		buildStyle( foreign, styleBuffer );
+		if ( !isEmbeddable )
+		{
+			AttributeBuilder.checkHyperlinkTextDecoration( style, styleBuffer );
+		}
 	}
 	
 	/**
