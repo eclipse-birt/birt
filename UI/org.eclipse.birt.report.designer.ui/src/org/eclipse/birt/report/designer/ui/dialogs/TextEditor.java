@@ -13,10 +13,10 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.text.Bidi;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
+
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -462,6 +462,15 @@ public class TextEditor extends BaseDialog
 
 		formatChoicer.addSelectionListener( new SelectionAdapter( ) {
 
+
+			private BidiSegmentListener listener = new BidiSegmentListener( ) {
+
+				public void lineGetSegments( BidiSegmentEvent event )
+				{
+					event.segments = UIUtil.getExpressionBidiSegments( event.lineText );
+				}
+			};
+			
 			public void widgetSelected( SelectionEvent e )
 			{
 				final int index = formatChoicer.getSelectionIndex( );
@@ -475,6 +484,12 @@ public class TextEditor extends BaseDialog
 				// choice selected.
 				createFormatTags( index, formatTagsBar );
 				textEditor.setFocus( );
+				
+				if(index == 4)
+					textViewer.getTextWidget( ).addBidiSegmentListener( listener );
+				else
+					textViewer.getTextWidget( ).removeBidiSegmentListener( listener );
+				textViewer.getTextWidget( ).redraw( );
 			}
 		} );
 	}
@@ -540,14 +555,6 @@ public class TextEditor extends BaseDialog
 			}
 
 		} );
-		textViewer.getTextWidget( )
-				.addBidiSegmentListener( new BidiSegmentListener( ) {
-
-					public void lineGetSegments( BidiSegmentEvent event )
-					{
-						event.segments = UIUtil.getExpressionBidiSegments( event.lineText );
-					}
-				} );
 
 		textViewer.configure( new SourceViewerConfiguration( ) );
 		textEditor.invokeAction( ST.TEXT_END );
