@@ -25,6 +25,7 @@ public class BidiSplitter implements ISplitter
 	
 	private Bidi bidi = null;
 	private int baseLevel;
+	private int lastRun = 0;
 	
 	private int currentRun = 0;
 	private int beginIndex = 0;
@@ -34,7 +35,14 @@ public class BidiSplitter implements ISplitter
 	{
 		this.chunkText = inputChunk.getText().toCharArray();
 		this.baseLevel = inputChunk.getBaseLevel();
-		this.bidi = createBidi( inputChunk.getText(), baseLevel);
+		this.bidi = createBidi( inputChunk.getText(), baseLevel );
+		
+		if ( baseLevel<0 )
+		{
+			baseLevel = bidi.getBaseLevel();
+			inputChunk.setBaseLevel( baseLevel );
+			lastRun = baseLevel;
+		}
 	}
 	
 	private Bidi createBidi(String text, int baseLevel)
@@ -47,7 +55,7 @@ public class BidiSplitter implements ISplitter
 		if(currentRun < bidi.getRunCount())
 		{
 			endIndex = bidi.getRunLimit(currentRun);
-			int level = bidi.getRunLevel(currentRun);
+			int level = getAbsRunLevel();
 			String text = null;
 			if ( level == Bidi.DIRECTION_RIGHT_TO_LEFT )
 			// current run is in RtL level.
@@ -106,7 +114,8 @@ public class BidiSplitter implements ISplitter
 			{
 				text = new String(chunkText, beginIndex, endIndex-beginIndex);
 			}
-			Chunk c = new Chunk(text, beginIndex, baseLevel, bidi.getRunLevel(currentRun));
+			
+			Chunk c = new Chunk(text, beginIndex, baseLevel, level);
 			beginIndex = endIndex;
 			currentRun++;
 			return c;
@@ -128,6 +137,32 @@ public class BidiSplitter implements ISplitter
 	{
 		int mirror = mirrorChars.get(c);
 		return  mirror != 0;
+	}
+	
+	private int getAbsRunLevel()
+	{	
+		int relativeRun = bidi.getRunLevel(currentRun);
+		
+		if ( relativeRun == 2 ) //mixed
+		{
+			if ( Bidi.DIRECTION_LEFT_TO_RIGHT == lastRun )
+			{
+				lastRun = Bidi.DIRECTION_RIGHT_TO_LEFT;
+			}
+			else
+			{
+				lastRun = Bidi.DIRECTION_LEFT_TO_RIGHT;
+			}
+			return lastRun;
+		}
+		if ( relativeRun >2 || relativeRun<0 )
+		{
+			// this should not happen
+			lastRun = Bidi.DIRECTION_LEFT_TO_RIGHT;
+			return Bidi.DIRECTION_LEFT_TO_RIGHT;
+		}
+		lastRun = relativeRun;
+		return relativeRun;
 	}
 	
 //	private String doArabicShapping(int start, int end)
