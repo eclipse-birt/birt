@@ -71,7 +71,7 @@ public class CrosstabPageGenerator extends AbstractPageGenerator {
 			{
 				case 1 :
 					bindingPage = new BindingPage( );
-//					bindingPage.setDataSetSectionVisible(false);
+					bindingPage.setDataSetSectionVisible(false);
 					setPageInput( bindingPage );
 					refresh(tabFolder,bindingPage, true);
 					item.setControl( bindingPage.getControl( ) );
