@@ -2520,8 +2520,9 @@ public final class AutoScale extends Methods implements Cloneable
 	 * @param value
 	 * @return
 	 */
-	protected static double getPrecision(double precision, double value)
+	protected static double getPrecision(double precision, double pValue)
 	{
+		double value = Math.abs( pValue );
 		if ( value == 0 )
 		{
 			if ( precision < 0 )
