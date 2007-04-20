@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2005, 2006 Actuate Corporation.
+ * Copyright (c) 2005, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,6 +20,7 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.util.Constants;
 import org.eclipse.birt.report.data.oda.sampledb.SampleDBConstants;
 import org.eclipse.birt.report.data.oda.sampledb.SampleDBJDBCConnectionFactory;
 import org.eclipse.birt.report.data.oda.sampledb.ui.i18n.Messages;
+import org.eclipse.datatools.connectivity.oda.util.manifest.ConnectionProfileProperty;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -96,6 +97,12 @@ public class SampleDbSelectionPageHelper
 		props.setProperty( Constants.ODAURL, getDriverUrl( ) );
 		props.setProperty( Constants.ODAUser, SAMPLE_DB_SCHEMA );
 		props.setProperty( Constants.ODAPassword, "" );
+		
+		// sampledb uses predined connection property values, and does not support
+		// external reference to a connection profile
+		props.setProperty( ConnectionProfileProperty.PROFILE_NAME_PROP_KEY, "" );
+        props.setProperty( ConnectionProfileProperty.PROFILE_STORE_FILE_PATH_PROP_KEY, "" );
+		
 		return props;
     }
     
