@@ -145,7 +145,12 @@
 			<property name="OutputDir" value="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}/runtime" />
 			<property name="deposit" value="${buildDirectory}/${buildId}" />
 		</ant>
-			
+		
+		<!-- copy chart runtim to ${buildDirectory}/${buildID}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}/runtime -->
+		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="createChartViewer">
+			<property name="runtime.tmp" value="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}/runtime" />
+		</ant>
+		
 		<!-- create AllInOne,AllInOne for Linux, RCP, FrameworkSDK,Framework,Chart,BIRTSample,TestSuite,Database -->
 		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="default">
 			<property name="OutputDir" value="${postingDirectory}/${buildId}" />
