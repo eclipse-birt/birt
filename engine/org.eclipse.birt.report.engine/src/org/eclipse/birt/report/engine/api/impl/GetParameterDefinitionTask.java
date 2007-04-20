@@ -539,10 +539,8 @@ public class GetParameterDefinitionTask extends EngineTask
 				ex.printStackTrace( );
 			}
 		}
-		if ( !fixedOrder )
-			Collections.sort( choices, new SelectionChoiceComparator(
-					sortByLabel, pattern, sortDirectionValue, ULocale
-							.forLocale( locale ) ) );
+		Collections.sort( choices, new SelectionChoiceComparator( sortByLabel,
+				pattern, sortDirectionValue, ULocale.forLocale( locale ) ) );
 		return choices;
 
 	}
