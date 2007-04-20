@@ -522,10 +522,10 @@
 	
 	<target name="createDTPIntegration">
 		<zip destfile="${OutputDir}/${birt.dtp.integration.name}">
-			<zipfileset dir="${baseLocation}/plugins" prefix="plugins">
+			<zipfileset dir="${baseLocation}/plugins" prefix="eclipse/plugins">
 				<include name="org.eclipse.datatools*/**" />
 			</zipfileset>
-			<zipfileset dir="${baseLocation}/features" prefix="features">
+			<zipfileset dir="${baseLocation}/features" prefix="eclipse/features">
 				<include name="org.eclipse.datatools*/**" />
 			</zipfileset>
 			<zipfileset dir="${template.dir}/legal" prefix="eclipse">
