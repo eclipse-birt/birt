@@ -1,6 +1,6 @@
 /*
  * ****************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation. All rights reserved. This
+ * Copyright (c) 2004, 2007 Actuate Corporation. All rights reserved. This
  * program and the accompanying materials are made available under the terms of
  * the Eclipse Public License v1.0 which accompanies this distribution, and is
  * available at http://www.eclipse.org/legal/epl-v10.html
@@ -30,8 +30,7 @@ public class PreparedStatementTest extends ConnectionTest
 		super.setUp( );
 
 		String command = "select * from \"testtable\" where \"intColumn\" > ?";
-		m_statement = getConnection( ).prepareStatement( command,
-				JDBCOdaDataSource.DATA_SET_TYPE );
+		reprepareStatement( command );
 	}
 
 	protected void tearDown( ) throws Exception
@@ -95,8 +94,7 @@ public class PreparedStatementTest extends ConnectionTest
 	public final void testSetParameterValueDoubleObject( ) throws DataException
 	{
 		String command = "select * from \"testtable\" where \"doubleColumn\" < ?";
-		m_statement = getConnection( ).prepareStatement( command,
-				JDBCOdaDataSource.DATA_SET_TYPE );
+		reprepareStatement( command );
 		m_statement.setParameterValue( 1, new Double( 12.3636 ) );
 		testParamExecute( 3 );
 	}
@@ -105,8 +103,7 @@ public class PreparedStatementTest extends ConnectionTest
 	{
 		String command = "select * from \"testtable\" where \"stringColumn\" "
 				+ "between ? and ?";
-		m_statement = getConnection( ).prepareStatement( command,
-				JDBCOdaDataSource.DATA_SET_TYPE );
+		reprepareStatement( command );
 		m_statement.setParameterValue( 1, "blah blah blah" );
 		m_statement.setParameterValue( 2, "seven zero six" );
 		testParamExecute( 4 );
@@ -115,8 +112,7 @@ public class PreparedStatementTest extends ConnectionTest
 	public final void testSetParameterValueDateObject( ) throws DataException
 	{
 		String command = "select * from \"testtable\" where \"dateColumn\" < ?";
-		m_statement = getConnection( ).prepareStatement( command,
-				JDBCOdaDataSource.DATA_SET_TYPE );
+		reprepareStatement( command );
 		m_statement.setParameterValue( 1, Date.valueOf( "1999-01-01" ) );
 		testParamExecute( 2 );
 	}
@@ -125,8 +121,7 @@ public class PreparedStatementTest extends ConnectionTest
 	{
 		String command = "select * from \"testtable\" where \"decimalColumn\" = ? OR "
 				+ "\"decimalColumn\" = ?";
-		m_statement = getConnection( ).prepareStatement( command,
-				JDBCOdaDataSource.DATA_SET_TYPE );
+		reprepareStatement( command );
 		m_statement.setParameterValue( 1, new BigDecimal( 10 ) );
 		m_statement.setParameterValue( 2, new BigDecimal( 10000 ) );
 		testParamExecute( 3 );
@@ -136,8 +131,7 @@ public class PreparedStatementTest extends ConnectionTest
     {
         String command = "select * from \"testtable\" where \"stringColumn\" "
             + "like ? ";
-        m_statement = getConnection( ).prepareStatement( command,
-                JDBCOdaDataSource.DATA_SET_TYPE );
+        reprepareStatement( command );
                 
         boolean hasError = false;
         try
@@ -145,7 +139,7 @@ public class PreparedStatementTest extends ConnectionTest
             m_statement.setParameterValue( 1, null );
             m_statement.execute( );
         }
-        catch( DataException e )
+        catch( Exception e )
         {
             hasError = true;
         }
@@ -154,21 +148,25 @@ public class PreparedStatementTest extends ConnectionTest
 
     public final void testSetParameterNullValueForPrimitiveType( ) throws DataException
     {
-        String command = "select * from \"testtable\" where \"doubleColumn\" < ?";
-        m_statement = getConnection( ).prepareStatement( command,
+        String command =  
+                "select * from \"testtable\" where \"doubleColumn\" < ?";
+        PreparedStatement myStmt = getConnection().prepareStatement( command,
                 JDBCOdaDataSource.DATA_SET_TYPE );
-        
+
         boolean hasError = false;
         try
         {
-            m_statement.setParameterValue( 1, null );
+            myStmt.setParameterValue( 1, null );
         }
-        catch( NullPointerException e )
+        catch( Exception e )
         {
         	// expects odaconsumer to not able to retry for a primitive type
             hasError = true;
         }
-        assertTrue( hasError );
+        
+        myStmt.close();
+        // derby jdbc driver supports setNull
+        assertFalse( hasError );
     }
 
 	private void testParamExecute( int rowsExpected ) throws DataException
@@ -226,11 +224,19 @@ public class PreparedStatementTest extends ConnectionTest
 	{
 		String command = "select * from \"testtable\" where \"decimalColumn\" = ? OR "
 				+ "\"decimalColumn\" = ?";
-		m_statement = getConnection( ).prepareStatement( command,
-				JDBCOdaDataSource.DATA_SET_TYPE );
+		reprepareStatement( command );
 		m_statement.setParameterValue( 1, new BigDecimal( 10 ) );
 		m_statement.setParameterValue( 2, new BigDecimal( 10000 ) );
 		testParamExecute( 3 );
 		m_statement.clearParameterValues( );
 	}
+
+    private void reprepareStatement( String queryText ) throws DataException
+    {
+        if( m_statement != null )
+            m_statement.close();
+        m_statement = getConnection( ).prepareStatement( queryText,
+                JDBCOdaDataSource.DATA_SET_TYPE );
+    }
+    
 }
