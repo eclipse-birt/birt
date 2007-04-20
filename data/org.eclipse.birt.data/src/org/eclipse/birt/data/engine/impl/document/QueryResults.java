@@ -17,6 +17,7 @@ import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
+import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 
@@ -28,7 +29,7 @@ public class QueryResults implements IQueryResults
 {	
 	// context and ID info
 	private DataEngineContext context;
-	private String queryResultID;
+	private String queryResultID, baseQueryResultID;
 	
 	// result data
 	private IResultIterator resultIterator;
@@ -46,7 +47,7 @@ public class QueryResults implements IQueryResults
 	 */
 	public QueryResults( DataEngineContext context, String queryResultID )
 	{
-		this( context, queryResultID, null, null, -1 );
+		this( context, null, queryResultID, null, null, -1 );
 	}
 	
 	/**
@@ -56,7 +57,7 @@ public class QueryResults implements IQueryResults
 	 * @param subQueryName
 	 * @param currParentIndex
 	 */
-	QueryResults( DataEngineContext context, String queryResultID,
+	QueryResults( DataEngineContext context, String baseResultID, String queryResultID,
 			IResultMetaData resultMetaData, String subQueryName,
 			int currParentIndex )
 	{
@@ -67,6 +68,7 @@ public class QueryResults implements IQueryResults
 		
 		this.context = context;
 		this.queryResultID = queryResultID;
+		this.baseQueryResultID = baseResultID;
 		
 		this.resultMetaData = resultMetaData;
 		this.subQueryName = subQueryName;
@@ -88,7 +90,7 @@ public class QueryResults implements IQueryResults
 	{		
 		if ( resultMetaData == null )
 		{
-			this.resultMetaData = getRDLoad( ).loadResultMetaData( );
+			this.resultMetaData = getRDLoad( subQueryName, queryResultID ).loadResultMetaData( );
 		}
 
 		return resultMetaData;
@@ -103,7 +105,7 @@ public class QueryResults implements IQueryResults
 		{
 			if ( subQueryName == null ) // not a sub query
 			{
-				IBaseQueryDefinition queryDefn = this.getRDLoad( )
+				IBaseQueryDefinition queryDefn = this.getRDLoad( null, queryResultID )
 						.loadQueryDefn( StreamManager.ROOT_STREAM,
 								StreamManager.SELF_SCOPE );
 				
@@ -119,11 +121,25 @@ public class QueryResults implements IQueryResults
 			}
 			else
 			{
-				resultIterator = new ResultIterator( context,
-						this,
-						queryResultID,
-						subQueryName,
-						currParentIndex );
+				ISubqueryDefinition subQuery = this.getRDLoad( null,
+						this.baseQueryResultID )
+						.loadSubQueryDefn( StreamManager.ROOT_STREAM,
+								StreamManager.SELF_SCOPE,
+								subQueryName );
+				if ( subQuery.usesDetails( ) == true )
+					resultIterator = new ResultIterator( context,
+							this,
+							queryResultID,
+							subQueryName,
+							currParentIndex );
+				else
+					resultIterator = new ResultIterator2( context,
+							this,
+							queryResultID,
+							subQueryName,
+							currParentIndex,
+							subQuery.getGroups( ).size( ) );
+
 			}
 		}
 
@@ -134,7 +150,7 @@ public class QueryResults implements IQueryResults
 	 * @return
 	 * @throws DataException
 	 */
-	private RDLoad getRDLoad( ) throws DataException
+	private RDLoad getRDLoad( String subQueryName, String queryResultID ) throws DataException
 	{
 		String baseID = QueryResultIDUtil.get1PartID( queryResultID );
 		if ( baseID == null )

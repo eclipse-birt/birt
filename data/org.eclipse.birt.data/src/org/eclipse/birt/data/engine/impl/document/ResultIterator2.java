@@ -42,6 +42,22 @@ public class ResultIterator2 extends ResultIterator
 		this.currRowIndex = -1;
 	}
 	
+	
+	public ResultIterator2( DataEngineContext context,
+			QueryResults queryResults, String queryResultID,
+			String subQueryName, int currParentIndex, int lowestGroupLevel )
+			throws DataException
+	{
+		super( context,
+				queryResults,
+				queryResultID,
+				subQueryName,
+				currParentIndex );
+		this.lowestGroupLevel = lowestGroupLevel;
+		this.currRowIndex = -1;
+	}
+
+
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.document.ResultIterator#next()
 	 */

@@ -14,10 +14,14 @@ package org.eclipse.birt.data.engine.impl.document;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IBaseTransform;
+import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -287,6 +291,86 @@ public class RDLoad
 			throws DataException
 	{
 		return loadQueryDefn( streamPos, streamScope ).getGroups( );
+	}
+	
+	/**
+	 * 
+	 * @param streamPos
+	 * @param streamScope
+	 * @param subQueryName
+	 * @return
+	 * @throws DataException
+	 */
+	public ISubqueryDefinition loadSubQueryDefn( int streamPos,
+			int streamScope, String subQueryName ) throws DataException
+	{
+		if ( subQueryName == null )
+			return null;
+		IBaseQueryDefinition baseQueryDefn = loadQueryDefn( streamPos,
+				streamScope );
+		return findSubQueryDefinition( subQueryName, baseQueryDefn );
+	}
+
+	/**
+	 * 
+	 * @param subQueryName
+	 * @return
+	 * @throws DataException
+	 */
+	private ISubqueryDefinition findSubQueryDefinition( String subQueryName,
+			IBaseQueryDefinition queryDefn ) throws DataException
+	{
+		if ( queryDefn == null )
+			return null;
+		Collection subQueries = queryDefn.getSubqueries( );
+		ISubqueryDefinition subQueryDefn = null;
+		// search from subQueries list
+		if ( subQueries != null && !subQueries.isEmpty( ) )
+		{
+			Iterator subQueriesIter = subQueries.iterator( );
+			while ( subQueriesIter.hasNext( ) )
+			{
+				ISubqueryDefinition qd = (ISubqueryDefinition) subQueriesIter.next( );
+				if ( qd.getName( ).equals( subQueryName ) )
+				{
+					return qd;
+				}
+				else
+				{
+					subQueryDefn = findSubQueryDefinition( subQueryName, qd );
+				}
+			}
+		}
+
+		// search from groups' subQueries list
+		if ( subQueryDefn == null && queryDefn.getGroups( ) != null )
+		{
+			List group = queryDefn.getGroups( );
+			for ( int i = 0; i < group.size( ); i++ )
+			{
+				Collection groupSubQueries = ( (IBaseTransform) group.get( i ) ).getSubqueries( );
+				if ( groupSubQueries != null && !groupSubQueries.isEmpty( ) )
+				{
+					Iterator subQueriesIter = groupSubQueries.iterator( );
+					while ( subQueriesIter.hasNext( ) )
+					{
+						ISubqueryDefinition qd = (ISubqueryDefinition) subQueriesIter.next( );
+						if ( qd.getName( ).equals( subQueryName ) )
+						{
+							return qd;
+						}
+						else
+						{
+							subQueryDefn = findSubQueryDefinition( subQueryName,
+									qd );
+							if ( subQueryDefn != null )
+								return subQueryDefn;
+						}
+					}
+				}
+			}
+		}
+		return subQueryDefn;
 	}
 	
 }
