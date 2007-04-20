@@ -672,6 +672,22 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				
 				styleBuffer.setLength( 0 );					
 				AttributeBuilder.buildStyle( styleBuffer, style, this );
+				// Build the vertical-align
+				String value = style.getVerticalAlign( );
+				if ( null != value )
+				{
+					styleBuffer.append( " vertical-align:" );
+					styleBuffer.append( value );
+					styleBuffer.append( ";" );
+				}
+				// Build the textAlign
+				value = style.getTextAlign( );
+				if ( null != value )
+				{
+					styleBuffer.append( " text-align:" );
+					styleBuffer.append( value );
+					styleBuffer.append( ";" );
+				}
 				writer.style( '.' + styleName, styleBuffer.toString( ) );
 			}
 		}
