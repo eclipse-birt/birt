@@ -34,6 +34,8 @@ public class DataSetViewData
 	private transient String helpText = null;
 
 	private transient boolean isComputedColumn = false;
+	
+	private transient String displayNameKey = null;
 
 	/**
 	 * @return the dataType.
@@ -243,6 +245,24 @@ public class DataSetViewData
 	public void setComputedColumn( boolean isComputedColumn )
 	{
 		this.isComputedColumn = isComputedColumn;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getDisplayNameKey( )
+	{
+		return displayNameKey;
+	}
+
+	/**
+	 * 
+	 * @param displayNameKey
+	 */
+	public void setDisplayNameKey( String displayNameKey )
+	{
+		this.displayNameKey = displayNameKey;
 	}
 
 }
