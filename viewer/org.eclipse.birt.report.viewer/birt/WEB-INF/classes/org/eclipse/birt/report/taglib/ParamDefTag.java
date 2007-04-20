@@ -447,9 +447,10 @@ public class ParamDefTag extends BodyTagSupport
 		writer.write( "}\n" ); //$NON-NLS-1$
 		writer.write( "</script>\n" ); //$NON-NLS-1$
 
+		String controlType = paramDef.concealValue( ) ? "PASSWORD" : "TEXT"; //$NON-NLS-1$ //$NON-NLS-2$
 		if ( paramDef.isRequired( ) )
 		{
-			writer.write( "<input type=\"text\" " ); //$NON-NLS-1$
+			writer.write( "<input type=\"" + controlType + "\" " ); //$NON-NLS-1$ //$NON-NLS-2$
 			writer.write( " id=\"" + encParamId + "\" " ); //$NON-NLS-1$//$NON-NLS-2$
 			__handleGeneralDefinition( );
 			writer
@@ -516,7 +517,7 @@ public class ParamDefTag extends BodyTagSupport
 				writer.write( " checked " ); //$NON-NLS-1$
 			writer.write( " >\n" ); //$NON-NLS-1$
 
-			writer.write( "<input type=\"text\" " ); //$NON-NLS-1$
+			writer.write( "<input type=\"" + controlType + "\" " ); //$NON-NLS-1$ //$NON-NLS-2$
 			writer.write( " id=\"" + encParamId + "\" " ); //$NON-NLS-1$//$NON-NLS-2$
 			__handleGeneralDefinition( );
 			writer
