@@ -175,8 +175,8 @@ data.engine.wrongVersion=In früheren Versionen als 2.1 nicht unterstützt.
 data.engine.unsupportOperationException=Nicht unterstützter Vorgang.
 data.engine.possibleMixedDataTypeInColumn=Beim Übernehmen der Daten ist ein Fehler aufgetreten. Mögliche Ursache: Verschiedene Datentypen in einer Spalte des Typs "BELIEBIG".
 data.engine.resultClassSaveError=Die folgenden Spaltenbezüge können nicht gefunden werden: {0}.
-data.engine.invalidMemBufferSize=The memory buffer size "{0}" is invalid. The memory buffer size must be an integer greater than zero.
-data.engine.document.error.cannotLoadStream=The document stream "{0}" is invalid.
+data.engine.invalidMemBufferSize=Die Speicher-Puffergröße "{0}" ist ungültig. Die Speicher-Puffergröße muss eine Ganzzahl größer Null sein.
+data.engine.document.error.cannotLoadStream=Der Dokumentenstrom "{0}" ist ungültig.
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Der Spaltenname darf nicht leer oder gleich Null sein.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.
@@ -312,4 +312,4 @@ data.olap.levelNameNotFound=Der Ebenenname "{0}" wurde nicht gefunden.
 data.olap.cursorPositionError=Der Cursor kann nicht zur Zielposition navigieren.
 data.olap.cursorSeekError=Der Cursor kann nicht zur Wunschposition navigieren.
 data.olap.CannotGetMeasureValue=Definition der Maßeinheit "{0}" in Quader nicht gefunden. Die Maßeinheit existiert nicht oder ist ungültig.
-data.olap.CannotFindLevel=Cannot find "{0}" level definition under hierarchy "{1}"in dimension "{2}".
+data.olap.CannotFindLevel=Ebenendefinition "{0}" kann nicht unter Hierarchie "{1}" in Dimension "{2}" gefunden werden.

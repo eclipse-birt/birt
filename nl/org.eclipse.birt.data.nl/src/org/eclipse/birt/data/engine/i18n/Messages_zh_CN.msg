@@ -175,8 +175,8 @@ data.engine.wrongVersion=在早于 2.1 的版本中不受支持。
 data.engine.unsupportOperationException=不支持的操作。
 data.engine.possibleMixedDataTypeInColumn=填充数据期间出错。原因可能是在 "ANY" 类型的列中包含混合类型的数据。
 data.engine.resultClassSaveError=找不到以下列引用: {0}。
-data.engine.invalidMemBufferSize=The memory buffer size "{0}" is invalid. The memory buffer size must be an integer greater than zero.
-data.engine.document.error.cannotLoadStream=The document stream "{0}" is invalid.
+data.engine.invalidMemBufferSize=内存缓冲区大小“{0}”无效。内存缓冲区大小必须为大于零的整数。
+data.engine.document.error.cannotLoadStream=文档流“{0}”无效。
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=列名称不能为空或 null。
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.
@@ -312,4 +312,4 @@ data.olap.levelNameNotFound=找不到级别名称“{0}”。
 data.olap.cursorPositionError=光标无法定位到目标位置。
 data.olap.cursorSeekError=光标无法定位到查找位置。
 data.olap.CannotGetMeasureValue=无法在多维数据集中找到度量“{0}”定义，该度量不存在或无效。
-data.olap.CannotFindLevel=Cannot find "{0}" level definition under hierarchy "{1}"in dimension "{2}".
+data.olap.CannotFindLevel=无法在维“{2}”中的层次结构“{1}”下找到“{0}”级别定义。

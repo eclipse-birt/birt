@@ -175,8 +175,8 @@ data.engine.wrongVersion=2.1 よりも古いバージョンではサポートされていません。
 data.engine.unsupportOperationException=この操作はサポートされていません。
 data.engine.possibleMixedDataTypeInColumn=データを収集中にエラーが発生しました。これは、"ANY" 型の列に複数の型のデータを混合させたことが原因と思われます。
 data.engine.resultClassSaveError=列の参照 {0} が見つかりません。
-data.engine.invalidMemBufferSize=The memory buffer size "{0}" is invalid. The memory buffer size must be an integer greater than zero.
-data.engine.document.error.cannotLoadStream=The document stream "{0}" is invalid.
+data.engine.invalidMemBufferSize=メモリバッファサイズ "{0}" が無効です。メモリバッファサイズには、1 以上の整数を指定してください。
+data.engine.document.error.cannotLoadStream=文書ストリーム "{0}" が無効です。
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=列名は空白または null にできません。
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.
@@ -312,4 +312,4 @@ data.olap.levelNameNotFound=レベル名 "{0}" が見つかりません。
 data.olap.cursorPositionError=カーソルでは目的の位置にナビゲートできません。
 data.olap.cursorSeekError=カーソルでは参照の位置にナビゲートできません。
 data.olap.CannotGetMeasureValue=キューブに計測 "{0}" の定義が見つかりません。この計測は存在しないか、無効です。
-data.olap.CannotFindLevel=Cannot find "{0}" level definition under hierarchy "{1}"in dimension "{2}".
+data.olap.CannotFindLevel=次元 "{2}" の階層 "{1}" に "{0}" レベルの定義が見つかりません。

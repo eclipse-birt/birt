@@ -175,8 +175,8 @@ data.engine.wrongVersion=Non pris en charge dans les versions antérieures à la v
 data.engine.unsupportOperationException=Opération non prise en charge.
 data.engine.possibleMixedDataTypeInColumn=Une erreur s'est produite pendant la définition des données. Cela peut être dû à la présence de données mixtes dans une colonne de type « TOUT ».
 data.engine.resultClassSaveError=Impossible de trouver les références des colonnes suivantes : {0}.
-data.engine.invalidMemBufferSize=The memory buffer size "{0}" is invalid. The memory buffer size must be an integer greater than zero.
-data.engine.document.error.cannotLoadStream=The document stream "{0}" is invalid.
+data.engine.invalidMemBufferSize=La taille du tampon de la mémoire "{0}" est incorrecte. La taille du tampon de la mémoire doit être un entier supérieur à zéro.
+data.engine.document.error.cannotLoadStream=Le flux de document "{0}" est incorrect.
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Le nom de colonne ne peut être ni vide ni nul.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.
@@ -312,4 +312,4 @@ data.olap.levelNameNotFound=Le nom de niveau "{0}" est introuvable.
 data.olap.cursorPositionError=Impossible de placer le curseur en position cible.
 data.olap.cursorSeekError=Impossible de placer le curseur en position de recherche.
 data.olap.CannotGetMeasureValue=Impossible de trouver la définition de mesure "{0}" dans le cube, la mesure n''existe pas ou est incorrecte.
-data.olap.CannotFindLevel=Cannot find "{0}" level definition under hierarchy "{1}"in dimension "{2}".
+data.olap.CannotFindLevel=Impossible de trouver la définition de niveau "{0}" sous la hiérarchie "{1}" dans la dimension "{2}".

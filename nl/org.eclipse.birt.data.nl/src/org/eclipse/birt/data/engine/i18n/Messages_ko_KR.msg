@@ -175,8 +175,8 @@ data.engine.wrongVersion=2.1 이전 버전에서는 지원되지 않습니다.
 data.engine.unsupportOperationException=지원되지 않는 연산
 data.engine.possibleMixedDataTypeInColumn=데이터 모집단 중에 오류가 발생했습니다. 이는 "모든" 형식 열에 혼합된 형식의 데이터가 포함되어 발생했을 수 있습니다.
 data.engine.resultClassSaveError=다음 열 참조를 찾을 수 없음: {0}.
-data.engine.invalidMemBufferSize=The memory buffer size "{0}" is invalid. The memory buffer size must be an integer greater than zero.
-data.engine.document.error.cannotLoadStream=The document stream "{0}" is invalid.
+data.engine.invalidMemBufferSize=메모리 버퍼 크기 "{0}"은(는) 잘못되었습니다. 메모리 버퍼 크기는 0보다 큰 정수여야 합니다.
+data.engine.document.error.cannotLoadStream=문서 스트림 "{0}"은(는) 잘못되었습니다.
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=열 이름은 비워 두거나 널(null)이 될 수 없습니다.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.
@@ -312,4 +312,4 @@ data.olap.levelNameNotFound=수준 이름 "{0}"을(를) 찾을 수 없습니다.
 data.olap.cursorPositionError=커서가 대상 위치로 이동하지 못합니다.
 data.olap.cursorSeekError=커서가 검색 위치로 이동하지 못합니다.
 data.olap.CannotGetMeasureValue=측정 "{0}"의 정의를 큐브에서 찾을 수 없습니다. 이 측정이 없거나 유효하지 않습니다.
-data.olap.CannotFindLevel=Cannot find "{0}" level definition under hierarchy "{1}"in dimension "{2}".
+data.olap.CannotFindLevel="{2}" 차원의 "{1}" 계층에 "{0}" 수준의 정의를 찾을 수 없습니다.
