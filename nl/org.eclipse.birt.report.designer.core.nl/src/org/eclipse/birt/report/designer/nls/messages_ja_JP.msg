@@ -246,7 +246,7 @@ SettingsPage.CachePreference.radioBox.numText=キャッシュして最初に使用する(&U)
 ###########################################################
 #CascadingParametersDialog properties
 
-CascadingParametersDialog.Button.isRequired=&Is Required 
+CascadingParametersDialog.Button.isRequired=必須にする(&I) 
 CascadingParametersDialog.default.preview.string=サンプル文字列
 CascadingParametersDialog.display.controlType.comboBox=コンボボックス
 CascadingParametersDialog.display.controlType.listBox=リストボックス
@@ -282,8 +282,8 @@ CascadingParametersDialog.Label.SelectDataSetMode=データセットモード :
 CascadingParametersDialog.Radio.Single=1 つのデータセット
 CascadingParametersDialog.Radio.Mutli=複数のデータセット
 CascadingParametersDialog.Choice.NullValue=NULL 値
-CascadingParametersDialog.Choice.BlankValue=Blank Value
-CascadingParametersDialog.Choice.SelectValue=<Select Value...>
+CascadingParametersDialog.Choice.BlankValue=空白値
+CascadingParametersDialog.Choice.SelectValue=<値の選択...>
 
 ###########################################################
 #CategoryPageGenerator properties
@@ -1034,7 +1034,7 @@ Element.ReportDesign.eventHandlerClass=イベントハンドラのクラス(&V) :
 Element.ReportDesign.iconFile=プレビューイメージ(&P) : 
 Element.ReportDesign.refreshRate=更新頻度 :
 Element.ReportElement.comments=コメント(&C) :
-Element.ReportElement.Cube=&Data:
+Element.ReportElement.Cube=データ(&D) :
 Element.ReportElement.customXml=カスタム XML :
 Element.ReportElement.displayName=表示名 :
 Element.ReportElement.displayNameID=表示名キー :
@@ -2446,12 +2446,12 @@ ParameterDialog.CheckBox.Sort=確認時にアルファベット順にソートする(&R)
 ParameterDialog.CheckBox.Distinct=Allow Duplicate Values
 ParameterDialog.Choice.NoDefault=デフォルト値がありません
 ParameterDialog.Choice.NullValue=NULL 値
-ParameterDialog.Choice.BlankValue=Blank Value
+ParameterDialog.Choice.BlankValue=空白値
 ParameterDialog.Choice.DisplayText=表示テキスト
 ParameterDialog.Choice.ValueColumn=Value Column
 ParameterDialog.Choice.ASCENDING=Ascending
 ParameterDialog.Choice.DESCENDING=Descending
-ParameterDialog.Choice.SelectValue=<Select Value...>
+ParameterDialog.Choice.SelectValue=<値の選択...>
 ParameterDialog.Column.Default=デフォルト
 ParameterDialog.Column.DisplayText=表示テキスト
 ParameterDialog.Column.Value=値
@@ -2465,7 +2465,7 @@ ParameterDialog.ErrorMessage.DuplicatedValue=この値はすでに存在します。
 ParameterDialog.ErrorMessage.EmptyName=名前が指定されていません。
 ParameterDialog.ErrorMessage.InvalidListLimit=制限値は、0 ～ {0} の範囲で指定してください。
 ParameterDialog.ErrorMessage.MismatchDataType=この値はデータ型に一致しません。
-ParameterDialog.ErrorMessage.NoAvailableColumn=There is no column available.
+ParameterDialog.ErrorMessage.NoAvailableColumn=使用できるカラムがありません。
 ParameterDialog.ErrorMessage.NoDefaultValue=デフォルト値を設定してください。
 ParameterDialog.ErrorTitle.InvalidListLimit=一覧の制限が無効です。
 ParameterDialog.Flag.Default=デフォルト
@@ -2502,7 +2502,7 @@ ParameterDialog.toolTipText.OpenExprButton=式ビルダを開く
 
 ###########################################################
 #SelectParameterDefaultValueDialog properties
-SelectParameterDefaultValueDialog.Title=値の選択 
+SelectParameterDefaultValueDialog.Title=値の選択
 
 ###########################################################
 #ParameterDropListener properties
@@ -3829,16 +3829,16 @@ LevelDialog.Label.Name=名前 :
 LevelDialog.Label.Field=フィールドの選択 :
 LevelDialog.Label.DataType=データ型 :
 LevelDialog.Label.Info=選択済みのキー :
-LevelDialog.Label.Add=Add Group Level
+LevelDialog.Label.Add=グループレベルの追加
 LevelDialog.Label.Edit=グループレベルの編集
 MeasureDialog.Title=プロパティ
 MeasureDialog.Label.Name=名前 :
-MeasureDialog.Label.Function=Function:
+MeasureDialog.Label.Function=関数 :
 MeasureDialog.Label.DataType=データ型 :
 MeasureDialog.Label.Expression=式 :
 MeasureDialog.Label.Info=選択済みのキー :
-MeasureDialog.Label.Add=Add Summary Field
-MeasureDialog.Label.Edit=Edit Summary Field
+MeasureDialog.Label.Add=サマリフィールドの追加
+MeasureDialog.Label.Edit=サマリフィールドの編集
 LevelPropertyDialog.Title=グループレベルのプロパティ
 LevelPropertyDialog.MSG.CreateNew=<パラメタの新規作成>
 LevelPropertyDialog.Label.Name=名前 :

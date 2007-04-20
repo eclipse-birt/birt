@@ -1831,7 +1831,7 @@ Structure.ParameterFormatValue=매개 변수 형식 값
 Structure.OdaDesignerState=Oda Designer State
 Structure.ScriptLib=스크립트 Lib
 Structure.IncludedCssStyleSheet=CSS 스타일시트 포함
-Structure.DimensionJoinCondition=Dimension Join Condition
+Structure.DimensionJoinCondition=차원 조인 조건
 
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression
@@ -1892,7 +1892,7 @@ Structure.SearchKey.expression=식
 #5.UserProperty
 Structure.UserProperty.name=이름
 Structure.UserProperty.type=형식
-Structure.UserProperty.isVisible=Is Visible
+Structure.UserProperty.isVisible=표시 여부
 Structure.UserProperty.displayNameID=표시 이름 키
 Structure.UserProperty.displayName=표시 이름
 
@@ -2116,7 +2116,7 @@ Structure.TOC.text.transform=텍스트 변환
 
 #29. DimensionCondition
 Structure.DimensionCondition=차원 조건
-Structure.DimensionCondition.joinConditions=Join Conditions
+Structure.DimensionCondition.joinConditions=조인 조건
 Structure.DimensionCondition.hierarchy=계층
 
 #30. Rule
@@ -2137,8 +2137,8 @@ Structure.OdaLevelAttribute.nativeName=고유 이름
 Structure.OdaLevelAttribute.nativeDataType=고유 데이터 형식 코드
 
 #33. DimensionJoinCondition
-Structure.DimensionJoinCondition.cubeKey=Cube Key
-Structure.DimensionJoinCondition.hierarchyKey=Hierarchy Key
+Structure.DimensionJoinCondition.cubeKey=큐브 키
+Structure.DimensionJoinCondition.hierarchyKey=계층 키
 
 ###########################################################
 # Element names
@@ -2991,7 +2991,7 @@ Element.Hierarchy.accessControls=액세스 컨트롤
 
 #48. Level ( prefix Element.Level )
 Element.Level.dataType=데이터 형식
-Element.Level.dateTimeLevelType=Date Time Level Type
+Element.Level.dateTimeLevelType=날짜 시간 수준 형식
 Element.Level.Interval=간격
 Element.Level.intervalBase=간격 기준
 Element.Level.interval=간격
@@ -3188,16 +3188,16 @@ Style.String=문자열
 Style.Text=텍스트
 Style.Grid=눈금
 
-Style.Toc=TOC Level0
-Style.Toc1=TOC Level1
-Style.Toc2=TOC Level2
-Style.Toc3=TOC Level3
-Style.Toc4=TOC Level4
-Style.Toc5=TOC Level5
-Style.Toc6=TOC Level6
-Style.Toc7=TOC Level7
-Style.Toc8=TOC Level8
-Style.Toc9=TOC Level9
+Style.Toc=TOC 수준0
+Style.Toc1=TOC 수준1
+Style.Toc2=TOC 수준2
+Style.Toc3=TOC 수준3
+Style.Toc4=TOC 수준4
+Style.Toc5=TOC 수준5
+Style.Toc6=TOC 수준6
+Style.Toc7=TOC 수준7
+Style.Toc8=TOC 수준8
+Style.Toc9=TOC 수준9
 
 Style.FreeForm=FreeForm
 Style.Line=꺽은선형

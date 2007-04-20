@@ -1831,7 +1831,7 @@ Structure.ParameterFormatValue=Valeur du paramètre du format
 Structure.OdaDesignerState=Oda Designer State
 Structure.ScriptLib=Bibliothèque de scripts
 Structure.IncludedCssStyleSheet=Feuille de style CSS comprise
-Structure.DimensionJoinCondition=Dimension Join Condition
+Structure.DimensionJoinCondition=Condition de jointure de dimension
 
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression
@@ -1892,7 +1892,7 @@ Structure.SearchKey.expression=Expression
 #5.UserProperty
 Structure.UserProperty.name=Nom
 Structure.UserProperty.type=Type
-Structure.UserProperty.isVisible=Is Visible
+Structure.UserProperty.isVisible=Visible
 Structure.UserProperty.displayNameID=Clé de nom d'affichage
 Structure.UserProperty.displayName=Nom d'affichage
 
@@ -2116,7 +2116,7 @@ Structure.TOC.text.transform=Transformation du texte
 
 #29. DimensionCondition
 Structure.DimensionCondition=Condition de dimension
-Structure.DimensionCondition.joinConditions=Join Conditions
+Structure.DimensionCondition.joinConditions=Conditions de jointure
 Structure.DimensionCondition.hierarchy=Hiérarchie
 
 #30. Rule
@@ -2137,8 +2137,8 @@ Structure.OdaLevelAttribute.nativeName=Nom natif
 Structure.OdaLevelAttribute.nativeDataType=Code de type de données natives
 
 #33. DimensionJoinCondition
-Structure.DimensionJoinCondition.cubeKey=Cube Key
-Structure.DimensionJoinCondition.hierarchyKey=Hierarchy Key
+Structure.DimensionJoinCondition.cubeKey=Clé de cube
+Structure.DimensionJoinCondition.hierarchyKey=Clé de hiérarchie
 
 ###########################################################
 # Element names
@@ -2991,7 +2991,7 @@ Element.Hierarchy.accessControls=Contrôles d'accès
 
 #48. Level ( prefix Element.Level )
 Element.Level.dataType=Type de données
-Element.Level.dateTimeLevelType=Date Time Level Type
+Element.Level.dateTimeLevelType=Type de niveau date heure
 Element.Level.Interval=Intervalle
 Element.Level.intervalBase=Base d'intervalle
 Element.Level.interval=Intervalle
@@ -3188,16 +3188,16 @@ Style.String=Chaîne
 Style.Text=Texte
 Style.Grid=Grille
 
-Style.Toc=TOC Level0
-Style.Toc1=TOC Level1
-Style.Toc2=TOC Level2
-Style.Toc3=TOC Level3
-Style.Toc4=TOC Level4
-Style.Toc5=TOC Level5
-Style.Toc6=TOC Level6
-Style.Toc7=TOC Level7
-Style.Toc8=TOC Level8
-Style.Toc9=TOC Level9
+Style.Toc=Niveau 0 de la table des matières
+Style.Toc1=Niveau 1 de la table des matières
+Style.Toc2=Niveau 2 de la table des matières
+Style.Toc3=Niveau 3 de la table des matières
+Style.Toc4=Niveau 4 de la table des matières
+Style.Toc5=Niveau 5 de la table des matières
+Style.Toc6=Niveau 6 de la table des matières
+Style.Toc7=Niveau 7 de la table des matières
+Style.Toc8=Niveau 8 de la table des matières
+Style.Toc9=Niveau 9 de la table des matières
 
 Style.FreeForm=FreeForm
 Style.Line=Ligne

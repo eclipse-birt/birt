@@ -1831,7 +1831,7 @@ Structure.ParameterFormatValue=参数格式值
 Structure.OdaDesignerState=Oda Designer State
 Structure.ScriptLib=脚本库
 Structure.IncludedCssStyleSheet=包括的 CSS 样式表
-Structure.DimensionJoinCondition=Dimension Join Condition
+Structure.DimensionJoinCondition=维联接条件
 
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression
@@ -1892,7 +1892,7 @@ Structure.SearchKey.expression=表达式
 #5.UserProperty
 Structure.UserProperty.name=名称
 Structure.UserProperty.type=类型
-Structure.UserProperty.isVisible=Is Visible
+Structure.UserProperty.isVisible=可见
 Structure.UserProperty.displayNameID=显示名称关键字
 Structure.UserProperty.displayName=显示名称
 
@@ -2116,7 +2116,7 @@ Structure.TOC.text.transform=文本转换
 
 #29. DimensionCondition
 Structure.DimensionCondition=维条件
-Structure.DimensionCondition.joinConditions=Join Conditions
+Structure.DimensionCondition.joinConditions=联接条件
 Structure.DimensionCondition.hierarchy=层次结构
 
 #30. Rule
@@ -2137,8 +2137,8 @@ Structure.OdaLevelAttribute.nativeName=本地名称
 Structure.OdaLevelAttribute.nativeDataType=本地数据类型代码
 
 #33. DimensionJoinCondition
-Structure.DimensionJoinCondition.cubeKey=Cube Key
-Structure.DimensionJoinCondition.hierarchyKey=Hierarchy Key
+Structure.DimensionJoinCondition.cubeKey=多维数据集关键字
+Structure.DimensionJoinCondition.hierarchyKey=层次结构关键字
 
 ###########################################################
 # Element names
@@ -2991,7 +2991,7 @@ Element.Hierarchy.accessControls=访问控制
 
 #48. Level ( prefix Element.Level )
 Element.Level.dataType=数据类型
-Element.Level.dateTimeLevelType=Date Time Level Type
+Element.Level.dateTimeLevelType=日期时间级别类型
 Element.Level.Interval=间隔
 Element.Level.intervalBase=间隔基数
 Element.Level.interval=间隔

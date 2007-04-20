@@ -1831,7 +1831,7 @@ Structure.ParameterFormatValue=Wert für Parameterformat
 Structure.OdaDesignerState=Oda Designer State
 Structure.ScriptLib=Skriptbibliothek
 Structure.IncludedCssStyleSheet=Enthaltene CSS-Stilvorlage
-Structure.DimensionJoinCondition=Dimension Join Condition
+Structure.DimensionJoinCondition=Dimensionsknotenpunkt-Bedingung
 
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression
@@ -1892,7 +1892,7 @@ Structure.SearchKey.expression=Ausdruck
 #5.UserProperty
 Structure.UserProperty.name=Name
 Structure.UserProperty.type=Typ
-Structure.UserProperty.isVisible=Is Visible
+Structure.UserProperty.isVisible=Ist sichtbar
 Structure.UserProperty.displayNameID=Namensschlüssel anzeigen
 Structure.UserProperty.displayName=Anzeigename
 
@@ -2116,7 +2116,7 @@ Structure.TOC.text.transform=Textumwandlung
 
 #29. DimensionCondition
 Structure.DimensionCondition=Dimensionsbedingung
-Structure.DimensionCondition.joinConditions=Join Conditions
+Structure.DimensionCondition.joinConditions=Knotenpunktbedingungen
 Structure.DimensionCondition.hierarchy=Hierarchie
 
 #30. Rule
@@ -2137,8 +2137,8 @@ Structure.OdaLevelAttribute.nativeName=Programmeigener Name
 Structure.OdaLevelAttribute.nativeDataType=Programmeigener Datentypcode
 
 #33. DimensionJoinCondition
-Structure.DimensionJoinCondition.cubeKey=Cube Key
-Structure.DimensionJoinCondition.hierarchyKey=Hierarchy Key
+Structure.DimensionJoinCondition.cubeKey=Quaderschlüssel
+Structure.DimensionJoinCondition.hierarchyKey=Hierarchieschlüssel
 
 ###########################################################
 # Element names
@@ -2991,7 +2991,7 @@ Element.Hierarchy.accessControls=Zugriffssteuerungen
 
 #48. Level ( prefix Element.Level )
 Element.Level.dataType=Datentyp
-Element.Level.dateTimeLevelType=Date Time Level Type
+Element.Level.dateTimeLevelType=Ebenentyp für Datum/Uhrzeit
 Element.Level.Interval=Intervall
 Element.Level.intervalBase=Intervallbasis
 Element.Level.interval=Intervall

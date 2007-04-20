@@ -246,7 +246,7 @@ SettingsPage.CachePreference.radioBox.numText=Mettre en cache et &utiliser en pr
 ###########################################################
 #CascadingParametersDialog properties
 
-CascadingParametersDialog.Button.isRequired=&Is Required 
+CascadingParametersDialog.Button.isRequired=&Est requis 
 CascadingParametersDialog.default.preview.string=Ma chaîne
 CascadingParametersDialog.display.controlType.comboBox=Zone déroulante
 CascadingParametersDialog.display.controlType.listBox=Liste déroulante
@@ -282,8 +282,8 @@ CascadingParametersDialog.Label.SelectDataSetMode=Mode de jeu de données :
 CascadingParametersDialog.Radio.Single=Jeu de données unique
 CascadingParametersDialog.Radio.Mutli=Jeu de données multiple
 CascadingParametersDialog.Choice.NullValue=Valeur nulle
-CascadingParametersDialog.Choice.BlankValue=Blank Value
-CascadingParametersDialog.Choice.SelectValue=<Select Value...>
+CascadingParametersDialog.Choice.BlankValue=Valeur vierge
+CascadingParametersDialog.Choice.SelectValue=<Sélectionner une valeur...>
 
 ###########################################################
 #CategoryPageGenerator properties
@@ -1034,7 +1034,7 @@ Element.ReportDesign.eventHandlerClass=Classe de gestionnaire d'é&vénements :
 Element.ReportDesign.iconFile=&Prévisualiser l'image : 
 Element.ReportDesign.refreshRate=Fréquence d'actualisation :
 Element.ReportElement.comments=&Commentaires :
-Element.ReportElement.Cube=&Data:
+Element.ReportElement.Cube=&Données :
 Element.ReportElement.customXml=XML personnalisé :
 Element.ReportElement.displayName=Nom d'affichage :
 Element.ReportElement.displayNameID=Clé de nom d'affichage :
@@ -2446,12 +2446,12 @@ ParameterDialog.CheckBox.Sort=T&rier par ordre alphabétique à l'invite
 ParameterDialog.CheckBox.Distinct=Allow Duplicate Values
 ParameterDialog.Choice.NoDefault=Aucune valeur par défaut
 ParameterDialog.Choice.NullValue=Valeur nulle
-ParameterDialog.Choice.BlankValue=Blank Value
+ParameterDialog.Choice.BlankValue=Valeur vierge
 ParameterDialog.Choice.DisplayText=Texte d'affichage
 ParameterDialog.Choice.ValueColumn=Value Column
 ParameterDialog.Choice.ASCENDING=Ascending
 ParameterDialog.Choice.DESCENDING=Descending
-ParameterDialog.Choice.SelectValue=<Select Value...>
+ParameterDialog.Choice.SelectValue=<Sélectionner une valeur...>
 ParameterDialog.Column.Default=Par défaut
 ParameterDialog.Column.DisplayText=Texte d'affichage
 ParameterDialog.Column.Value=Valeur
@@ -2465,7 +2465,7 @@ ParameterDialog.ErrorMessage.DuplicatedValue=Cette valeur existe déjà.
 ParameterDialog.ErrorMessage.EmptyName=Le nom n'est pas renseigné.
 ParameterDialog.ErrorMessage.InvalidListLimit=La valeur de limitation doit être comprise entre 0 et {0}
 ParameterDialog.ErrorMessage.MismatchDataType=La valeur ne correspond pas au type de données.
-ParameterDialog.ErrorMessage.NoAvailableColumn=There is no column available.
+ParameterDialog.ErrorMessage.NoAvailableColumn=Aucune colonne n'est disponible.
 ParameterDialog.ErrorMessage.NoDefaultValue=Vous devez définir une valeur par défaut.
 ParameterDialog.ErrorTitle.InvalidListLimit=Limite de liste incorrecte
 ParameterDialog.Flag.Default=Par défaut
@@ -2502,7 +2502,7 @@ ParameterDialog.toolTipText.OpenExprButton=Ouvrir le Générateur d'expression
 
 ###########################################################
 #SelectParameterDefaultValueDialog properties
-SelectParameterDefaultValueDialog.Title=Sélectionner une valeur 
+SelectParameterDefaultValueDialog.Title=Sélectionner une valeur
 
 ###########################################################
 #ParameterDropListener properties
@@ -3829,16 +3829,16 @@ LevelDialog.Label.Name=Nom :
 LevelDialog.Label.Field=Sélection de champ :
 LevelDialog.Label.DataType=Type de données :
 LevelDialog.Label.Info=Clé sélectionnée :
-LevelDialog.Label.Add=Add Group Level
+LevelDialog.Label.Add=Ajouter niveau de groupe
 LevelDialog.Label.Edit=Modifier niveau de groupe
 MeasureDialog.Title=Propriété
 MeasureDialog.Label.Name=Nom :
-MeasureDialog.Label.Function=Function:
+MeasureDialog.Label.Function=Fonction :
 MeasureDialog.Label.DataType=Type de données :
 MeasureDialog.Label.Expression=Expression :
 MeasureDialog.Label.Info=Clé sélectionnée :
-MeasureDialog.Label.Add=Add Summary Field
-MeasureDialog.Label.Edit=Edit Summary Field
+MeasureDialog.Label.Add=Ajouter champ de récapitulation
+MeasureDialog.Label.Edit=Modifier champ de récapitulation
 LevelPropertyDialog.Title=Priorité de niveau de groupe
 LevelPropertyDialog.MSG.CreateNew=<Créer un paramètre>
 LevelPropertyDialog.Label.Name=Nom :

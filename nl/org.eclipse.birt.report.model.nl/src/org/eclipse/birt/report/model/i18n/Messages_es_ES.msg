@@ -1831,7 +1831,7 @@ Structure.ParameterFormatValue=Valor del formato de parámetro
 Structure.OdaDesignerState=Oda Designer State
 Structure.ScriptLib=Librería de scripts
 Structure.IncludedCssStyleSheet=Hoja de estilos CSS incluida
-Structure.DimensionJoinCondition=Dimension Join Condition
+Structure.DimensionJoinCondition=Condición de combinación de dimensión
 
 #0.MapRule
 Structure.MapRule.testExpr=TestExpression
@@ -1892,7 +1892,7 @@ Structure.SearchKey.expression=Expresión
 #5.UserProperty
 Structure.UserProperty.name=Nombre
 Structure.UserProperty.type=Tipo
-Structure.UserProperty.isVisible=Is Visible
+Structure.UserProperty.isVisible=Es visible
 Structure.UserProperty.displayNameID=Clave de nombre en pantalla
 Structure.UserProperty.displayName=Nombre en pantalla
 
@@ -2116,7 +2116,7 @@ Structure.TOC.text.transform=transformación de texto
 
 #29. DimensionCondition
 Structure.DimensionCondition=Condición de dimensión
-Structure.DimensionCondition.joinConditions=Join Conditions
+Structure.DimensionCondition.joinConditions=Condiciones de combinación
 Structure.DimensionCondition.hierarchy=Jerarquía
 
 #30. Rule
@@ -2137,8 +2137,8 @@ Structure.OdaLevelAttribute.nativeName=Nombre nativo
 Structure.OdaLevelAttribute.nativeDataType=Código de tipo de datos nativo
 
 #33. DimensionJoinCondition
-Structure.DimensionJoinCondition.cubeKey=Cube Key
-Structure.DimensionJoinCondition.hierarchyKey=Hierarchy Key
+Structure.DimensionJoinCondition.cubeKey=Clave de cubo
+Structure.DimensionJoinCondition.hierarchyKey=Clave de jerarquía
 
 ###########################################################
 # Element names
@@ -2991,7 +2991,7 @@ Element.Hierarchy.accessControls=Controles de acceso
 
 #48. Level ( prefix Element.Level )
 Element.Level.dataType=Tipo de datos
-Element.Level.dateTimeLevelType=Date Time Level Type
+Element.Level.dateTimeLevelType=Tipo de nivel de fecha/hora
 Element.Level.Interval=Intervalo
 Element.Level.intervalBase=Base de intervalo
 Element.Level.interval=Intervalo
@@ -3188,16 +3188,16 @@ Style.String=String
 Style.Text=Texto
 Style.Grid=Cuadrícula
 
-Style.Toc=TOC Level0
-Style.Toc1=TOC Level1
-Style.Toc2=TOC Level2
-Style.Toc3=TOC Level3
-Style.Toc4=TOC Level4
-Style.Toc5=TOC Level5
-Style.Toc6=TOC Level6
-Style.Toc7=TOC Level7
-Style.Toc8=TOC Level8
-Style.Toc9=TOC Level9
+Style.Toc=TDC Nivel0
+Style.Toc1=TDC Nivel1
+Style.Toc2=TDC Nivel2
+Style.Toc3=TDC Nivel3
+Style.Toc4=TDC Nivel4
+Style.Toc5=TDC Nivel5
+Style.Toc6=TDC Nivel6
+Style.Toc7=TDC Nivel7
+Style.Toc8=TDC Nivel8
+Style.Toc9=TDC Nivel9
 
 Style.FreeForm=Formulario libre
 Style.Line=Línea
