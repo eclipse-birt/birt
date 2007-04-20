@@ -957,7 +957,8 @@ public abstract class PlotWithAxes extends Methods
 						iYTitleLocation,
 						laYAxisTitle,
 						0,
-						0 ).getWidth( );
+						0,
+						Math.abs( dEnd - dStart ) ).getWidth( );
 			}
 			catch ( IllegalArgumentException uiex )
 			{
@@ -1793,7 +1794,8 @@ public abstract class PlotWithAxes extends Methods
 						iXTitleLocation,
 						laXAxisTitle,
 						0,
-						0 ).getHeight( );
+						0,
+						Math.abs( scX.getEnd( ) - scX.getStart( ) ) ).getHeight( );
 			}
 			catch ( IllegalArgumentException uiex )
 			{

@@ -1359,7 +1359,8 @@ public final class AxesRenderHelper
 							ax.getTitlePosition( ),
 							la,
 							0,
-							0 );
+							0,
+							Math.abs( daEndPoints[1] - daEndPoints[0] ) );
 				}
 				catch ( IllegalArgumentException uiex )
 				{
@@ -1717,7 +1718,8 @@ public final class AxesRenderHelper
 							ax.getTitlePosition( ),
 							la,
 							0,
-							0 );
+							0,
+							Math.abs( daEndPoints[1] - daEndPoints[0] ) );
 				}
 				catch ( IllegalArgumentException uiex )
 				{

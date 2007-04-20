@@ -738,7 +738,7 @@ public class Methods implements IConstants
 
 		return loc;
 	}
-
+	
 	/**
 	 * 
 	 * @param xs
@@ -747,10 +747,29 @@ public class Methods implements IConstants
 	 * @param dX
 	 * @param dY
 	 * @return
-	 * @throws UnexpectedInputException
+	 * @throws IllegalArgumentException
 	 */
 	public static final BoundingBox computeBox( IDisplayServer xs,
 			int iLabelLocation, Label la, double dX, double dY )
+			throws IllegalArgumentException
+	{
+		return computeBox( xs, iLabelLocation, la, dX, dY, 0 );
+	}
+
+	/**
+	 * 
+	 * @param xs
+	 * @param iLabelLocation
+	 * @param la
+	 * @param dX
+	 * @param dY
+	 * @param dWrapping
+	 *            the max size for wrapping by pixels
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
+	public static final BoundingBox computeBox( IDisplayServer xs,
+			int iLabelLocation, Label la, double dX, double dY, double dWrapping )
 			throws IllegalArgumentException
 	{
 		double dAngleInDegrees = la.getCaption( ).getFont( ).getRotation( );
@@ -767,6 +786,10 @@ public class Methods implements IConstants
 		final double dCosTheta = Math.abs( Math.cos( dAngleInRadians ) );
 
 		final ITextMetrics itm = xs.getTextMetrics( la );
+		if ( dWrapping > 0 )
+		{
+			itm.reuse( la, dWrapping );
+		}
 		double dW = itm.getFullWidth( );
 		double dH = itm.getFullHeight( );
 

@@ -253,14 +253,24 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock
 	public final Size getPreferredSize( IDisplayServer xs, Chart cm,
 			RunTimeContext rtc ) throws ChartException
 	{
-		BoundingBox bb = null;
+		BoundingBox bb = computeBox( xs, rtc );
+
+		final Size sz = SizeImpl.create( bb.getWidth( ), bb.getHeight( ) );
+		sz.scale( 72d / xs.getDpiResolution( ) );
+		final Insets ins = getInsets( );
+		sz.setHeight( sz.getHeight( ) + ins.getTop( ) + ins.getBottom( ) );
+		sz.setWidth( sz.getWidth( ) + ins.getLeft( ) + ins.getRight( ) );		
+		return sz;
+	}
+	
+	protected BoundingBox computeBox( IDisplayServer xs,RunTimeContext rtc ) throws ChartException
+	{
 		final String sPreviousValue = getLabel( ).getCaption( ).getValue( );
 		getLabel( ).getCaption( )
 				.setValue( rtc.externalizedMessage( sPreviousValue ) );
-
 		try
 		{
-			bb = Methods.computeBox( xs, IConstants.TOP, getLabel( ), 0, 0 );
+			return Methods.computeBox( xs, IConstants.TOP, getLabel( ), 0, 0 );
 		}
 		catch ( IllegalArgumentException uiex )
 		{
@@ -272,12 +282,5 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock
 		{
 			getLabel( ).getCaption( ).setValue( sPreviousValue );
 		}
-
-		final Size sz = SizeImpl.create( bb.getWidth( ), bb.getHeight( ) );
-		sz.scale( 72d / xs.getDpiResolution( ) );
-		final Insets ins = getInsets( );
-		sz.setHeight( sz.getHeight( ) + ins.getTop( ) + ins.getBottom( ) );
-		sz.setWidth( sz.getWidth( ) + ins.getLeft( ) + ins.getRight( ) );		
-		return sz;
 	}
 } // LabelBlockImpl
