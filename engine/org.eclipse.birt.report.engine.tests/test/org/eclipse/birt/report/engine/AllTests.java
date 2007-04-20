@@ -57,6 +57,7 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.RunTaskTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.TOCNodeTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.TOCTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.api.TOCStyleTest.class );
 		
 		/* in package: org.eclipse.birt.report.engine.api.impl */
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.impl.DataExtractionTaskTest.class );
