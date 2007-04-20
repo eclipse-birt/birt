@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.item.crosstab.core.de;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -20,7 +21,6 @@ import org.eclipse.birt.report.item.crosstab.core.ILevelViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.internal.LevelViewTask;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
-import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -29,10 +29,9 @@ import org.eclipse.birt.report.model.api.olap.LevelHandle;
 /**
  * LevelViewHandle.
  */
-public class LevelViewHandle extends AbstractCrosstabItemHandle
-		implements
-			ILevelViewConstants,
-			ICrosstabConstants
+public class LevelViewHandle extends AbstractCrosstabItemHandle implements
+		ILevelViewConstants,
+		ICrosstabConstants
 {
 
 	/**
@@ -69,13 +68,17 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 	 * element in the iterator is the corresponding <code>StructureHandle</code>
 	 * that deal with a <code>FilterCond</code> in the list.
 	 * 
-	 * @return the iterator for <code>FilterConditionHandle</code> structure list
+	 * @return the iterator for <code>FilterConditionHandle</code> structure
+	 *         list
 	 */
 
 	public Iterator filtersIterator( )
 	{
 		PropertyHandle propHandle = handle.getPropertyHandle( FILTER_PROP );
-		assert propHandle != null;
+		if ( propHandle == null )
+		{
+			return Collections.EMPTY_LIST.iterator( );
+		}
 		return propHandle.iterator( );
 	}
 
@@ -118,7 +121,10 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 	public Iterator sortsIterator( )
 	{
 		PropertyHandle propHandle = handle.getPropertyHandle( SORT_PROP );
-		assert propHandle != null;
+		if ( propHandle == null )
+		{
+			return Collections.EMPTY_LIST.iterator( );
+		}
 		return propHandle.iterator( );
 	}
 
@@ -232,10 +238,9 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 	public CrosstabCellHandle getCell( )
 	{
 		PropertyHandle propHandle = getMemberProperty( );
-		return propHandle.getContentCount( ) == 0
-				? null
-				: (CrosstabCellHandle) CrosstabUtil.getReportItem( propHandle
-						.getContent( 0 ), CROSSTAB_CELL_EXTENSION_NAME );
+		return propHandle.getContentCount( ) == 0 ? null
+				: (CrosstabCellHandle) CrosstabUtil.getReportItem( propHandle.getContent( 0 ),
+						CROSSTAB_CELL_EXTENSION_NAME );
 	}
 
 	/**
@@ -246,10 +251,9 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 	public CrosstabCellHandle getAggregationHeader( )
 	{
 		PropertyHandle propHandle = getAggregationHeaderProperty( );
-		return propHandle.getContentCount( ) == 0
-				? null
-				: (CrosstabCellHandle) CrosstabUtil.getReportItem( propHandle
-						.getContent( 0 ), CROSSTAB_CELL_EXTENSION_NAME );
+		return propHandle.getContentCount( ) == 0 ? null
+				: (CrosstabCellHandle) CrosstabUtil.getReportItem( propHandle.getContent( 0 ),
+						CROSSTAB_CELL_EXTENSION_NAME );
 	}
 
 	/**
@@ -258,8 +262,9 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 	 * measure aggreations automatically. User himself needs to add measure
 	 * aggregations manually.
 	 * 
+	 * @deprecated For internal test only, user addSubTotal() instead
 	 */
-	public void addAggregationHeader( )
+	public void addAggregationHeader( ) throws SemanticException
 	{
 		if ( getAggregationHeaderProperty( ).getContentCount( ) != 0 )
 		{
@@ -270,47 +275,26 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 		// can not add aggregation if this level is innermost
 		if ( isInnerMost( ) )
 		{
-			logger
-					.log(
-							Level.WARNING,
-							"This level: [" + handle.getName( ) + "] can not add aggregation for it is innermost" ); //$NON-NLS-1$//$NON-NLS-2$
+			logger.log( Level.WARNING,
+					"This level: [" + handle.getName( ) + "] can not add aggregation for it is innermost" ); //$NON-NLS-1$//$NON-NLS-2$
 			return;
 		}
 
-		CommandStack stack = getCommandStack( );
-		stack.startTrans( null );
-		try
-		{
-			getAggregationHeaderProperty( ).add(
-					CrosstabExtendedItemFactory
-							.createCrosstabCell( moduleHandle ) );
-		}
-		catch ( SemanticException e )
-		{
-			logger.log( Level.WARNING, e.getMessage( ), e );
-			stack.rollback( );
-		}
-
-		stack.commit( );
+		getAggregationHeaderProperty( ).add( CrosstabExtendedItemFactory.createCrosstabCell( moduleHandle ) );
 	}
 
 	/**
 	 * Removes the aggregation header cell if it is not empty, otherwise do
 	 * nothing. This method will not adjust the measure aggregations
 	 * automatically. Use needs to remove all the related aggregations manually.
+	 * 
+	 * @deprecated For internal test only, user removeSubTotal() instead
 	 */
-	public void removeAggregationHeader( )
+	public void removeAggregationHeader( ) throws SemanticException
 	{
 		if ( getAggregationHeaderProperty( ).getContentCount( ) > 0 )
 		{
-			try
-			{
-				getAggregationHeaderProperty( ).drop( 0 );
-			}
-			catch ( SemanticException e )
-			{
-				logger.log( Level.WARNING, e.getMessage( ), e );
-			}
+			getAggregationHeaderProperty( ).drop( 0 );
 		}
 	}
 
@@ -327,8 +311,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 	public CrosstabCellHandle addSubTotal( List measureList, List functionList )
 			throws SemanticException
 	{
-		return new LevelViewTask( this )
-				.addSubTotal( measureList, functionList );
+		return new LevelViewTask( this ).addSubTotal( measureList, functionList );
 	}
 
 	/**
@@ -337,7 +320,7 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 	 * adjust the measure aggregations to ensure the validation of the whole
 	 * crosstab.
 	 */
-	public void removeSubTotal( )
+	public void removeSubTotal( ) throws SemanticException
 	{
 		new LevelViewTask( this ).removeSubTotal( );
 	}
@@ -370,11 +353,9 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 		// one in crosstab view
 		if ( dimensionView != null )
 		{
-			CrosstabViewHandle container = (CrosstabViewHandle) dimensionView
-					.getContainer( );
+			CrosstabViewHandle container = (CrosstabViewHandle) dimensionView.getContainer( );
 			if ( container != null
-					&& dimensionView.getIndex( ) == container
-							.getDimensionCount( ) - 1
+					&& dimensionView.getIndex( ) == container.getDimensionCount( ) - 1
 					&& getIndex( ) == dimensionView.getLevelCount( ) - 1 )
 				return true;
 		}
@@ -393,11 +374,10 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 	 */
 	public int getAxisType( )
 	{
-		DimensionViewHandle dimensionView = (DimensionViewHandle) CrosstabUtil
-				.getReportItem( handle.getContainer( ),
-						DIMENSION_VIEW_EXTENSION_NAME );
-		return dimensionView == null ? NO_AXIS_TYPE : dimensionView
-				.getAxisType( );
+		DimensionViewHandle dimensionView = (DimensionViewHandle) CrosstabUtil.getReportItem( handle.getContainer( ),
+				DIMENSION_VIEW_EXTENSION_NAME );
+		return dimensionView == null ? NO_AXIS_TYPE
+				: dimensionView.getAxisType( );
 
 	}
 
@@ -437,7 +417,6 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle
 	public void setAggregationFunction( MeasureViewHandle measureView,
 			String function ) throws SemanticException
 	{
-		new LevelViewTask( this )
-				.setAggregationFunction( measureView, function );
+		new LevelViewTask( this ).setAggregationFunction( measureView, function );
 	}
 }

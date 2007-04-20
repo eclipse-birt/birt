@@ -61,10 +61,8 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 		// can not add aggregation if this level is innermost
 		if ( focus.isInnerMost( ) )
 		{
-			focus
-					.getLogger( )
-					.log(
-							Level.WARNING,
+			focus.getLogger( )
+					.log( Level.WARNING,
 							"This level: [" + focus.getModelHandle( ).getName( ) + "] can not add aggregation for it is innermost" ); //$NON-NLS-1$//$NON-NLS-2$
 			return null;
 		}
@@ -75,13 +73,13 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 		}
 
 		CommandStack stack = focus.getCommandStack( );
-		stack.startTrans( null );
+		// TODO nls
+		stack.startTrans( "Add Subtotal" );
 		try
 		{
 			if ( focus.getAggregationHeader( ) == null )
-				focus.getAggregationHeaderProperty( ).add(
-						CrosstabExtendedItemFactory.createCrosstabCell( focus
-								.getModuleHandle( ) ) );
+				focus.getAggregationHeaderProperty( )
+						.add( CrosstabExtendedItemFactory.createCrosstabCell( focus.getModuleHandle( ) ) );
 
 			// adjust the measure aggregations
 			if ( crosstab != null && measureList != null )
@@ -105,12 +103,13 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 	 * 
 	 * @throws SemanticException
 	 */
-	public void removeSubTotal( )
+	public void removeSubTotal( ) throws SemanticException
 	{
 		if ( focus.getAggregationHeader( ) != null )
 		{
 			CommandStack stack = focus.getCommandStack( );
-			stack.startTrans( null );
+			// TODO nls
+			stack.startTrans( "Remove Subtotal" );
 
 			try
 			{
@@ -129,6 +128,7 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 			{
 				focus.getLogger( ).log( Level.WARNING, e.getMessage( ), e );
 				stack.rollback( );
+				throw e;
 			}
 
 			stack.commit( );
@@ -167,9 +167,7 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 			}
 
 			stack.commit( );
-
 		}
-
 	}
 
 	/**
@@ -210,8 +208,8 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 	private void doValidateAggregations( int axisType )
 			throws SemanticException
 	{
-		List aggregationLevelList = CrosstabModelUtil.getAllAggregationLevels(
-				crosstab, CrosstabModelUtil.getOppositeAxisType( axisType ) );
+		List aggregationLevelList = CrosstabModelUtil.getAllAggregationLevels( crosstab,
+				CrosstabModelUtil.getOppositeAxisType( axisType ) );
 		for ( int i = 0; i < crosstab.getMeasureCount( ); i++ )
 		{
 			MeasureViewHandle measureView = crosstab.getMeasure( i );
@@ -233,8 +231,10 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 		if ( focus == null )
 			return null;
 		String levelName = focus.getCubeLevelName( );
-		if ( focus.getAggregationHeader( ) == null || levelName == null
-				|| levelName.length( ) <= 0 || measureView == null )
+		if ( focus.getAggregationHeader( ) == null
+				|| levelName == null
+				|| levelName.length( ) <= 0
+				|| measureView == null )
 			return null;
 
 		// if crosstab is not found, or level and measure not reside in the same
@@ -249,11 +249,11 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 		for ( int j = 0; j < measureView.getAggregationCount( ); j++ )
 		{
 			AggregationCellHandle cell = measureView.getAggregationCell( j );
-			if ( levelName.equals( cell.getModelHandle( ).getStringProperty(
-					propName ) ) )
+			if ( levelName.equals( cell.getModelHandle( )
+					.getStringProperty( propName ) ) )
 			{
-				String function = CrosstabModelUtil.getAggregationFunction(
-						crosstab, cell );
+				String function = CrosstabModelUtil.getAggregationFunction( crosstab,
+						cell );
 				if ( function != null )
 					return function;
 			}
@@ -288,7 +288,8 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 			MeasureViewHandle measureView = crosstab.getMeasure( i );
 			if ( measures.contains( measureView ) )
 				continue;
-			if ( CrosstabModelUtil.isAggregationOn( measureView, levelName,
+			if ( CrosstabModelUtil.isAggregationOn( measureView,
+					levelName,
 					axisType ) )
 				measures.add( measureView );
 		}
@@ -340,7 +341,8 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 					// column binding, need we generate a new computed column
 					// rather thann write the old one, for the old one may be
 					// used by other elements
-					CrosstabModelUtil.setAggregationFunction( crosstab, cell,
+					CrosstabModelUtil.setAggregationFunction( crosstab,
+							cell,
 							function );
 				}
 			}

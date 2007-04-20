@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.item.crosstab.core.de;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -244,25 +245,17 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	 * 
 	 */
 	public CrosstabViewHandle addCrosstabView( int axisType )
+			throws SemanticException
 	{
 		PropertyHandle propHandle = getCrosstabViewProperty( axisType );
 		if ( propHandle == null || propHandle.getContentCount( ) > 0 )
 			return null;
 
 		// create a crosstab view and add it
-		try
-		{
-			ExtendedItemHandle extendedItem = CrosstabExtendedItemFactory.createCrosstabView( moduleHandle );
-			propHandle.add( extendedItem );
-			CrosstabViewHandle crosstabView = (CrosstabViewHandle) CrosstabUtil.getReportItem( extendedItem );
-			assert crosstabView != null;
-			return crosstabView;
-		}
-		catch ( SemanticException e )
-		{
-			logger.log( Level.WARNING, e.getMessage( ), e );
-			return null;
-		}
+		ExtendedItemHandle extendedItem = CrosstabExtendedItemFactory.createCrosstabView( moduleHandle );
+		propHandle.add( extendedItem );
+
+		return (CrosstabViewHandle) CrosstabUtil.getReportItem( extendedItem );
 	}
 
 	/**
@@ -569,12 +562,35 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 			}, MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_MEASURE );
 		}
 
-		ExtendedItemHandle extendedItemHandle = CrosstabExtendedItemFactory.createMeasureView( moduleHandle,
-				measureHandle );
-		if ( extendedItemHandle == null )
-			return null;
-		getMeasuresProperty( ).add( extendedItemHandle, index );
-		return (MeasureViewHandle) CrosstabUtil.getReportItem( extendedItemHandle );
+		CommandStack stack = getCommandStack( );
+		// TODO nls
+		stack.startTrans( "Insert Measure" );
+
+		MeasureViewHandle mv = null;
+
+		try
+		{
+			ExtendedItemHandle extendedItemHandle = CrosstabExtendedItemFactory.createMeasureView( moduleHandle,
+					measureHandle );
+
+			if ( extendedItemHandle != null )
+			{
+				getMeasuresProperty( ).add( extendedItemHandle, index );
+
+				// validate possible aggregation cells
+				new CrosstabReportItemTask( this ).validateCrosstab( );
+
+				mv = (MeasureViewHandle) CrosstabUtil.getReportItem( extendedItemHandle );
+			}
+		}
+		catch ( SemanticException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
+		stack.commit( );
+
+		return mv;
 	}
 
 	/**
@@ -627,6 +643,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 					name, handle.getElement( ).getIdentifier( )
 			}, MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND );
 		}
+
 		measureView.handle.drop( );
 	}
 
@@ -718,21 +735,20 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	 * 
 	 */
 	public CrosstabCellHandle addGrandTotal( int axisType )
+			throws SemanticException
 	{
-		CrosstabViewHandle crosstabView = getCrosstabView( axisType );
-		if ( crosstabView == null )
+		// this add grand total for all measures
+		List measures = new ArrayList( );
+		List functions = new ArrayList( );
+
+		for ( int i = 0; i < getMeasureCount( ); i++ )
 		{
-			CommandStack stack = getCommandStack( );
-			stack.startTrans( null );
-
-			crosstabView = addCrosstabView( axisType );
-			CrosstabCellHandle grandTotal = crosstabView.addGrandTotal( );
-
-			stack.commit( );
-
-			return grandTotal;
+			measures.add( getMeasure( i ) );
+			// TODO should be default function.
+			functions.add( null );
 		}
-		return crosstabView.addGrandTotal( );
+
+		return addGrandTotal( axisType, measures, functions );
 	}
 
 	/**
@@ -743,7 +759,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	 * 
 	 * @param axisType
 	 */
-	public void removeGrandTotal( int axisType )
+	public void removeGrandTotal( int axisType ) throws SemanticException
 	{
 		new CrosstabReportItemTask( this ).removeGrandTotal( axisType );
 	}

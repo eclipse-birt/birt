@@ -99,17 +99,14 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 	 * 
 	 * @param axisType
 	 */
-	public void removeGrandTotal( int axisType )
+	public void removeGrandTotal( int axisType ) throws SemanticException
 	{
 		CrosstabViewHandle crosstabView = crosstab.getCrosstabView( axisType );
-		if ( crosstabView == null || crosstabView.getGrandTotal( ) == null )
-		{
-			crosstab.getLogger( ).log( Level.INFO,
-					"row/column grand total is not set" ); //$NON-NLS-1$
-			return;
-		}
 
-		crosstabView.removeGrandTotal( );
+		if ( crosstabView != null )
+		{
+			crosstabView.removeGrandTotal( );
+		}
 	}
 
 	/**
@@ -196,7 +193,8 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 			return;
 
 		CommandStack stack = crosstab.getCommandStack( );
-		stack.startTrans( null );
+		// TODO nls
+		stack.startTrans( "Set aggregation function" );
 
 		try
 		{
@@ -302,7 +300,8 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 				.copy( )
 				.getHandle( dimensionView.getModelHandle( ).getModule( ) ) );
 		CommandStack stack = crosstab.getCommandStack( );
-		stack.startTrans( null );
+		//TODO nls
+		stack.startTrans( "Pivot Dimension" );
 
 		try
 		{
@@ -409,34 +408,36 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 			}, MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_DIMENSION );
 		}
 
-		CrosstabViewHandle crosstabView = crosstab.getCrosstabView( axisType );
+		DimensionViewHandle dimensionView = null;
 
-		if ( crosstabView == null )
+		CommandStack stack = crosstab.getCommandStack( );
+		// TODO nls
+		stack.startTrans( "Insert Dimension" );
+
+		try
 		{
-			// if the crosstab view is null, then create and add a crosstab view
-			// first, and then add the dimension to it second;
-			CommandStack stack = crosstab.getCommandStack( );
-			DimensionViewHandle dimensionView = null;
-			stack.startTrans( null );
+			CrosstabViewHandle crosstabView = crosstab.getCrosstabView( axisType );
 
-			try
+			if ( crosstabView == null )
 			{
+				// if the crosstab view is null, then create and add a crosstab
+				// view
+				// first, and then add the dimension to it second;
 				crosstabView = crosstab.addCrosstabView( axisType );
-				dimensionView = crosstabView.insertDimension( dimensionHandle,
-						index );
 			}
-			catch ( SemanticException e )
-			{
-				stack.rollback( );
-				throw e;
-			}
-			stack.commit( );
-			return dimensionView;
 
+			// add the dimension to crosstab view directly
+			dimensionView = crosstabView.insertDimension( dimensionHandle,
+					index );
 		}
+		catch ( SemanticException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
+		stack.commit( );
 
-		// add the dimension to crosstab view directly
-		return crosstabView.insertDimension( dimensionHandle, index );
+		return dimensionView;
 	}
 
 	/**
@@ -461,6 +462,7 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 					crosstab.getModelHandle( ).getElement( ).getIdentifier( )
 			}, MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND );
 		}
+		
 		removeDimension( dimensionView.getAxisType( ), dimensionView.getIndex( ) );
 	}
 

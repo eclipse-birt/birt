@@ -27,9 +27,8 @@ import org.eclipse.birt.report.model.api.extension.ReportItem;
  * Abstract report item class for all crosstab items.
  */
 
-public class AbstractCrosstabItemHandle extends ReportItem
-		implements
-			ICrosstabConstants
+public class AbstractCrosstabItemHandle extends ReportItem implements
+		ICrosstabConstants
 {
 
 	/**
@@ -45,8 +44,7 @@ public class AbstractCrosstabItemHandle extends ReportItem
 	/**
 	 * Log instance.
 	 */
-	protected static Logger logger = Logger
-			.getLogger( AbstractCrosstabItemHandle.class.getName( ) );
+	protected static Logger logger = Logger.getLogger( AbstractCrosstabItemHandle.class.getName( ) );
 
 	/**
 	 * 
@@ -55,8 +53,7 @@ public class AbstractCrosstabItemHandle extends ReportItem
 	protected AbstractCrosstabItemHandle( DesignElementHandle element )
 	{
 		if ( !( element instanceof ExtendedItemHandle ) )
-			throw new IllegalArgumentException(
-					"the element is not valid ExtendedItemHandle!" ); //$NON-NLS-1$
+			throw new IllegalArgumentException( "the element is not valid ExtendedItemHandle!" ); //$NON-NLS-1$
 		this.handle = (ExtendedItemHandle) element;
 		this.moduleHandle = element.getModuleHandle( );
 	}
@@ -83,8 +80,7 @@ public class AbstractCrosstabItemHandle extends ReportItem
 	protected IReportItem findExtendedItem( String name, String extensionName )
 	{
 		if ( extensionName == null )
-			throw new IllegalArgumentException(
-					"extension name can not be null" ); //$NON-NLS-1$
+			throw new IllegalArgumentException( "extension name can not be null" ); //$NON-NLS-1$
 		DesignElementHandle element = moduleHandle.findElement( name );
 		return CrosstabUtil.getReportItem( element, extensionName );
 	}
@@ -109,9 +105,7 @@ public class AbstractCrosstabItemHandle extends ReportItem
 		DesignElementHandle e = handle;
 		while ( e != null )
 		{
-			if ( ICrosstabConstants.CROSSTAB_EXTENSION_NAME
-					.equals( e
-							.getStringProperty( ExtendedItemHandle.EXTENSION_NAME_PROP ) ) )
+			if ( ICrosstabConstants.CROSSTAB_EXTENSION_NAME.equals( e.getStringProperty( ExtendedItemHandle.EXTENSION_NAME_PROP ) ) )
 				return e;
 			e = e.getContainer( );
 		}
@@ -125,8 +119,7 @@ public class AbstractCrosstabItemHandle extends ReportItem
 	 */
 	public CrosstabReportItemHandle getCrosstab( )
 	{
-		return (CrosstabReportItemHandle) CrosstabUtil
-				.getReportItem( getCrosstabHandle( ) );
+		return (CrosstabReportItemHandle) CrosstabUtil.getReportItem( getCrosstabHandle( ) );
 	}
 
 	/**
@@ -145,8 +138,7 @@ public class AbstractCrosstabItemHandle extends ReportItem
 				return null;
 			}
 
-			String exName = deh
-					.getStringProperty( ExtendedItemHandle.EXTENSION_NAME_PROP );
+			String exName = deh.getStringProperty( ExtendedItemHandle.EXTENSION_NAME_PROP );
 
 			if ( CROSSTAB_EXTENSION_NAME.equals( exName )
 					|| CROSSTAB_VIEW_EXTENSION_NAME.equals( exName )
@@ -156,8 +148,7 @@ public class AbstractCrosstabItemHandle extends ReportItem
 			{
 				try
 				{
-					return (AbstractCrosstabItemHandle) ( (ExtendedItemHandle) deh )
-							.getReportItem( );
+					return (AbstractCrosstabItemHandle) ( (ExtendedItemHandle) deh ).getReportItem( );
 				}
 				catch ( ExtendedElementException e )
 				{
@@ -176,6 +167,7 @@ public class AbstractCrosstabItemHandle extends ReportItem
 	 */
 	public IReportItem copy( )
 	{
+		//TODO return a copy
 		return null;
 	}
 

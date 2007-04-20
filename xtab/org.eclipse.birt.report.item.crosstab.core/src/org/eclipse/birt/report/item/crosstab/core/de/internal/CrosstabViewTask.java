@@ -66,10 +66,13 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 		PropertyHandle propHandle = crosstabView.getGrandTotalProperty( );
 
 		CommandStack stack = crosstabView.getCommandStack( );
+		// TODO nls
+		stack.startTrans( "Add Grand Total" );
+
+		CrosstabCellHandle totalCell = null;
+
 		try
 		{
-			stack.startTrans( null );
-
 			ExtendedItemHandle grandTotal = null;
 			if ( propHandle.getContentCount( ) <= 0 )
 			{
@@ -87,8 +90,7 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 						false );
 			}
 
-			stack.commit( );
-			return (CrosstabCellHandle) CrosstabUtil.getReportItem( grandTotal );
+			totalCell = (CrosstabCellHandle) CrosstabUtil.getReportItem( grandTotal );
 		}
 		catch ( SemanticException e )
 		{
@@ -96,20 +98,26 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 			stack.rollback( );
 			throw e;
 		}
+
+		stack.commit( );
+
+		return totalCell;
 	}
 
 	/**
 	 * Removes grand total from crosstab if it is not empty, otherwise do
 	 * nothing.
 	 */
-	public void removeGrandTotal( )
+	public void removeGrandTotal( ) throws SemanticException
 	{
 		PropertyHandle propHandle = crosstabView.getGrandTotalProperty( );
 
 		if ( propHandle.getContentCount( ) > 0 )
 		{
 			CommandStack stack = crosstabView.getCommandStack( );
-			stack.startTrans( null );
+			// TODO nls
+			stack.startTrans( "Remove Grand Total" );
+
 			try
 			{
 				// adjust the measure aggregations before remove the grand-total
@@ -129,6 +137,7 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 			{
 				crosstabView.getLogger( ).log( Level.INFO, e.getMessage( ), e );
 				stack.rollback( );
+				throw e;
 			}
 
 			stack.commit( );
@@ -146,6 +155,7 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 	public void removeDimension( String name ) throws SemanticException
 	{
 		DimensionViewHandle dimensionView = crosstabView.getDimension( name );
+
 		if ( dimensionView == null )
 		{
 			crosstabView.getLogger( ).log( Level.SEVERE,
@@ -195,10 +205,13 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 		if ( dimensionView == null
 				|| dimensionView.getContainer( ) != crosstabView )
 			return;
+
 		CommandStack stack = crosstabView.getCommandStack( );
-		stack.startTrans( null );
+		// TODO nls
+		stack.startTrans( "Remove Dimension" );
 
 		int count = dimensionView.getLevelCount( );
+
 		try
 		{
 			// adjust measure aggregations and then remove dimension view from

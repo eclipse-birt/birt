@@ -21,10 +21,9 @@ import org.eclipse.birt.report.model.api.olap.LevelHandle;
 /**
  * AggregationCellHandle.
  */
-public class AggregationCellHandle extends CrosstabCellHandle
-		implements
-			IAggregationCellConstants,
-			ICrosstabConstants
+public class AggregationCellHandle extends CrosstabCellHandle implements
+		IAggregationCellConstants,
+		ICrosstabConstants
 {
 
 	/**
@@ -43,8 +42,7 @@ public class AggregationCellHandle extends CrosstabCellHandle
 	 */
 	public LevelHandle getAggregationOnRow( )
 	{
-		return (LevelHandle) handle
-				.getElementProperty( AGGREGATION_ON_ROW_PROP );
+		return (LevelHandle) handle.getElementProperty( AGGREGATION_ON_ROW_PROP );
 	}
 
 	/**
@@ -54,8 +52,7 @@ public class AggregationCellHandle extends CrosstabCellHandle
 	 */
 	public LevelHandle getAggregationOnColumn( )
 	{
-		return (LevelHandle) handle
-				.getElementProperty( AGGREGATION_ON_COLUMN_PROP );
+		return (LevelHandle) handle.getElementProperty( AGGREGATION_ON_COLUMN_PROP );
 	}
 
 	/**
@@ -95,8 +92,8 @@ public class AggregationCellHandle extends CrosstabCellHandle
 		if ( cubeLevel == null )
 			return null;
 		DesignElementHandle hierarchy = cubeLevel.getContainer( );
-		DesignElementHandle dimension = hierarchy == null ? null : hierarchy
-				.getContainer( );
+		DesignElementHandle dimension = hierarchy == null ? null
+				: hierarchy.getContainer( );
 		return dimension == null ? null : dimension.getQualifiedName( );
 
 	}
@@ -156,12 +153,10 @@ public class AggregationCellHandle extends CrosstabCellHandle
 		ExtendedItemHandle crosstab = (ExtendedItemHandle) getCrosstabHandle( );
 		if ( crosstab == null )
 			return null;
-		CrosstabReportItemHandle crosstabItem = (CrosstabReportItemHandle) CrosstabUtil
-				.getReportItem( crosstab );
+		CrosstabReportItemHandle crosstabItem = (CrosstabReportItemHandle) CrosstabUtil.getReportItem( crosstab );
 		if ( crosstabItem == null )
 			return null;
-		DimensionViewHandle dimensionView = crosstabItem
-				.getDimension( getDimensionName( axisType ) );
+		DimensionViewHandle dimensionView = crosstabItem.getDimension( getDimensionName( axisType ) );
 		return dimensionView;
 	}
 
@@ -182,8 +177,7 @@ public class AggregationCellHandle extends CrosstabCellHandle
 		DimensionViewHandle dimensionView = getDimensionView( axisType );
 		if ( dimensionView == null )
 			return -1;
-		LevelViewHandle levelView = dimensionView
-				.getLevel( getLevelName( axisType ) );
+		LevelViewHandle levelView = dimensionView.getLevel( getLevelName( axisType ) );
 		return levelView == null ? -1 : levelView.getIndex( );
 	}
 

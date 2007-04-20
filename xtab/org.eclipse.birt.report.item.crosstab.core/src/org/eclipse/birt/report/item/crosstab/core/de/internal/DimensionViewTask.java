@@ -59,19 +59,15 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 	public LevelViewHandle insertLevel( LevelHandle levelHandle, int index )
 			throws SemanticException
 	{
-		ExtendedItemHandle extendedItemHandle = CrosstabExtendedItemFactory
-				.createLevelView( dimensionView.getModuleHandle( ), levelHandle );
-		if ( extendedItemHandle == null )
-			return null;
-
 		if ( levelHandle != null )
 		{
 			// if cube dimension container of this cube level element is not
 			// what is referred by this dimension view, then the insertion is
 			// forbidden
-			if ( !levelHandle.getContainer( ).getContainer( )
-					.getQualifiedName( ).equals(
-							dimensionView.getCubeDimensionName( ) ) )
+			if ( !levelHandle.getContainer( )
+					.getContainer( )
+					.getQualifiedName( )
+					.equals( dimensionView.getCubeDimensionName( ) ) )
 			{
 				// TODO: throw exception
 				dimensionView.getLogger( ).log( Level.WARNING, "" ); //$NON-NLS-1$
@@ -88,9 +84,10 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 				throw new CrosstabException( dimensionView.getModelHandle( )
 						.getElement( ), new String[]{
 						levelHandle.getQualifiedName( ),
-						dimensionView.getModelHandle( ).getElement( )
-								.getIdentifier( )},
-						MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_LEVEL );
+						dimensionView.getModelHandle( )
+								.getElement( )
+								.getIdentifier( )
+				}, MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_LEVEL );
 			}
 		}
 
@@ -100,19 +97,25 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 		LevelViewHandle levelView = null;
 		try
 		{
-			dimensionView.getLevelsProperty( ).add( extendedItemHandle, index );
-
-			// if level handle is specified, then adjust aggregations
-			if ( levelHandle != null )
+			ExtendedItemHandle extendedItemHandle = CrosstabExtendedItemFactory.createLevelView( dimensionView.getModuleHandle( ),
+					levelHandle );
+			if ( extendedItemHandle != null )
 			{
-				levelView = (LevelViewHandle) CrosstabUtil.getReportItem(
-						extendedItemHandle, LEVEL_VIEW_EXTENSION_NAME );
+				dimensionView.getLevelsProperty( ).add( extendedItemHandle,
+						index );
 
-				// if this level is innermost, then we should do some
-				// adjustments, otherwise we need do nothing
-				if ( crosstab != null )
+				levelView = (LevelViewHandle) CrosstabUtil.getReportItem( extendedItemHandle,
+						LEVEL_VIEW_EXTENSION_NAME );
+
+				// if level handle is specified, then adjust aggregations
+				if ( levelHandle != null )
 				{
-					doPostInsert( levelView );
+					// if this level is innermost, then we should do some
+					// adjustments, otherwise we need do nothing
+					if ( crosstab != null )
+					{
+						doPostInsert( levelView );
+					}
 				}
 			}
 		}
@@ -146,8 +149,9 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 				// axis type levels except the innermost one
 				addAggregationForLevel( levelView, axisType );
 				if ( crosstab.getGrandTotal( axisType ) == null )
+				{
 					removeMeasureAggregations( axisType );
-
+				}
 			}
 			else
 			{
@@ -159,42 +163,36 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 				// before this level is added and the innermost
 				// level in the counter axis if the orginal
 				// innermost has aggregation header
-				LevelViewHandle precedingLevel = CrosstabModelUtil
-						.getPrecedingLevel( levelView );
-				int counterAxisType = CrosstabModelUtil
-						.getOppositeAxisType( axisType );
+				LevelViewHandle precedingLevel = CrosstabModelUtil.getPrecedingLevel( levelView );
+				int counterAxisType = CrosstabModelUtil.getOppositeAxisType( axisType );
 				assert precedingLevel != null;
-				LevelViewHandle innerMostLevelView = CrosstabModelUtil
-						.getInnerMostLevel( crosstab, counterAxisType );
+				LevelViewHandle innerMostLevelView = CrosstabModelUtil.getInnerMostLevel( crosstab,
+						counterAxisType );
 				if ( precedingLevel.getAggregationHeader( ) != null )
 				{
 					if ( innerMostLevelView != null )
 					{
-						String dimensionName = ( (DimensionViewHandle) innerMostLevelView
-								.getContainer( ) ).getCubeDimensionName( );
+						String dimensionName = ( (DimensionViewHandle) innerMostLevelView.getContainer( ) ).getCubeDimensionName( );
 
-						String levelName = innerMostLevelView
-								.getCubeLevelName( );
-						List measureList = precedingLevel
-								.getAggregationMeasures( );
+						String levelName = innerMostLevelView.getCubeLevelName( );
+						List measureList = precedingLevel.getAggregationMeasures( );
 						List functionList = new ArrayList( );
 						for ( int i = 0; i < measureList.size( ); i++ )
 						{
-							MeasureViewHandle measureView = (MeasureViewHandle) measureList
-									.get( i );
-							String function = precedingLevel
-									.getAggregationFunction( measureView );
+							MeasureViewHandle measureView = (MeasureViewHandle) measureList.get( i );
+							String function = precedingLevel.getAggregationFunction( measureView );
 							functionList.add( function );
 						}
 
 						// add the data-item
 						CrosstabModelUtil.addMeasureAggregations( crosstab,
-								dimensionName, levelName, counterAxisType,
-								( (DimensionViewHandle) precedingLevel
-										.getContainer( ) )
-										.getCubeDimensionName( ),
+								dimensionName,
+								levelName,
+								counterAxisType,
+								( (DimensionViewHandle) precedingLevel.getContainer( ) ).getCubeDimensionName( ),
 								precedingLevel.getCubeLevelName( ),
-								measureList, functionList );
+								measureList,
+								functionList );
 					}
 				}
 				else
@@ -219,7 +217,6 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 				// add aggregations for this level and all counter
 				// axis type levels except the innermost one
 				addAggregationForLevel( levelView, axisType );
-
 			}
 		}
 	}
@@ -316,15 +313,13 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 
 		// first add all aggregation for the added level view, for it is
 		// innermost
-		for ( int dimension = 0; dimension < crosstab
-				.getDimensionCount( counterAxisType ); dimension++ )
+		for ( int dimension = 0; dimension < crosstab.getDimensionCount( counterAxisType ); dimension++ )
 		{
-			DimensionViewHandle tempDimensionView = crosstab.getDimension(
-					counterAxisType, dimension );
+			DimensionViewHandle tempDimensionView = crosstab.getDimension( counterAxisType,
+					dimension );
 			for ( int level = 0; level < tempDimensionView.getLevelCount( ); level++ )
 			{
-				LevelViewHandle tempLevelView = tempDimensionView
-						.getLevel( level );
+				LevelViewHandle tempLevelView = tempDimensionView.getLevel( level );
 
 				// if level view is not null, that is not grand-total
 				if ( levelView != null )
@@ -341,13 +336,14 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 						tempLevelView );
 				for ( int i = 0; i < measureList.size( ); i++ )
 				{
-					MeasureViewHandle measureView = (MeasureViewHandle) measureList
-							.get( i );
-					String function = tempLevelView
-							.getAggregationFunction( measureView );
-					CrosstabModelUtil.addDataItem( crosstab, measureView,
-							function, infor.getRowDimension( ), infor
-									.getRowLevel( ), infor.getColDimension( ),
+					MeasureViewHandle measureView = (MeasureViewHandle) measureList.get( i );
+					String function = tempLevelView.getAggregationFunction( measureView );
+					CrosstabModelUtil.addDataItem( crosstab,
+							measureView,
+							function,
+							infor.getRowDimension( ),
+							infor.getRowLevel( ),
+							infor.getColDimension( ),
 							infor.getColLevel( ) );
 				}
 			}
@@ -358,18 +354,20 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 				|| CrosstabModelUtil.getAllLevelCount( crosstab,
 						counterAxisType ) == 0 )
 		{
-			List measureList = crosstab
-					.getAggregationMeasures( counterAxisType );
+			List measureList = crosstab.getAggregationMeasures( counterAxisType );
 			AggregationInfo infor = getAggregationInfo( levelView, null );
 			for ( int i = 0; i < measureList.size( ); i++ )
 			{
-				MeasureViewHandle measureView = (MeasureViewHandle) measureList
-						.get( i );
-				String function = crosstab.getAggregationFunction(
-						counterAxisType, measureView );
-				CrosstabModelUtil.addDataItem( crosstab, measureView, function,
-						infor.getRowDimension( ), infor.getRowLevel( ), infor
-								.getColDimension( ), infor.getColLevel( ) );
+				MeasureViewHandle measureView = (MeasureViewHandle) measureList.get( i );
+				String function = crosstab.getAggregationFunction( counterAxisType,
+						measureView );
+				CrosstabModelUtil.addDataItem( crosstab,
+						measureView,
+						function,
+						infor.getRowDimension( ),
+						infor.getRowLevel( ),
+						infor.getColDimension( ),
+						infor.getColLevel( ) );
 			}
 		}
 
@@ -402,7 +400,8 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 	{
 		assert levelView != null;
 		CommandStack stack = dimensionView.getCommandStack( );
-		stack.startTrans( null );
+		//TODO nls
+		stack.startTrans( "Remove Level" );
 
 		try
 		{
@@ -521,16 +520,14 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 				// before this level is removed and the innermost
 				// level in the counter axis if the orginal
 				// innermost has aggregation header
-				LevelViewHandle precedingLevel = CrosstabModelUtil
-						.getPrecedingLevel( levelView );
+				LevelViewHandle precedingLevel = CrosstabModelUtil.getPrecedingLevel( levelView );
 
 				assert precedingLevel != null;
 				if ( precedingLevel.getAggregationHeader( ) != null )
 				{
-					int counterAxisType = CrosstabModelUtil
-							.getOppositeAxisType( axisType );
-					LevelViewHandle innerMostLevelView = CrosstabModelUtil
-							.getInnerMostLevel( crosstab, counterAxisType );
+					int counterAxisType = CrosstabModelUtil.getOppositeAxisType( axisType );
+					LevelViewHandle innerMostLevelView = CrosstabModelUtil.getInnerMostLevel( crosstab,
+							counterAxisType );
 					if ( innerMostLevelView != null )
 					{
 						removeMeasureAggregation( precedingLevel,
@@ -544,7 +541,7 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 					// even if it has no sub-total
 					addAggregationForLevel( precedingLevel, axisType );
 				}
-				
+
 				// add aggregations for this level and all counter
 				// axis type levels except the innermost one
 				removeMeasureAggregations( levelView );

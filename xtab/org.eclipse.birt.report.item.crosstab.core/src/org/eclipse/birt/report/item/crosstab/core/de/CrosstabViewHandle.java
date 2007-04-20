@@ -22,7 +22,6 @@ import org.eclipse.birt.report.item.crosstab.core.de.internal.CrosstabViewTask;
 import org.eclipse.birt.report.item.crosstab.core.i18n.MessageConstants;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
-import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -32,10 +31,9 @@ import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 /**
  * CrosstabViewHandle.
  */
-public class CrosstabViewHandle extends AbstractCrosstabItemHandle
-		implements
-			ICrosstabViewConstants,
-			ICrosstabConstants
+public class CrosstabViewHandle extends AbstractCrosstabItemHandle implements
+		ICrosstabViewConstants,
+		ICrosstabConstants
 {
 
 	/**
@@ -83,8 +81,7 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 			if ( dimensionView != null )
 			{
 				String cubeDimensionName = dimensionView.getCubeDimensionName( );
-				if ( ( cubeDimensionName != null && cubeDimensionName
-						.equals( name ) )
+				if ( ( cubeDimensionName != null && cubeDimensionName.equals( name ) )
 						|| ( cubeDimensionName == null && name == null ) )
 					return dimensionView;
 			}
@@ -132,8 +129,8 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 			DimensionHandle dimensionHandle, int index )
 			throws SemanticException
 	{
-		ExtendedItemHandle extendedItem = CrosstabExtendedItemFactory
-				.createDimensionView( moduleHandle, dimensionHandle );
+		ExtendedItemHandle extendedItem = CrosstabExtendedItemFactory.createDimensionView( moduleHandle,
+				dimensionHandle );
 		if ( extendedItem == null )
 			return null;
 		// if this dimension handle has referred by an existing dimension view,
@@ -146,8 +143,8 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 					dimensionHandle.getQualifiedName( ) );
 			throw new CrosstabException( handle.getElement( ), new String[]{
 					dimensionHandle.getQualifiedName( ),
-					handle.getElement( ).getIdentifier( )},
-					MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_DIMENSION );
+					handle.getElement( ).getIdentifier( )
+			}, MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_DIMENSION );
 		}
 		getViewsProperty( ).add( extendedItem, index );
 		return (DimensionViewHandle) CrosstabUtil.getReportItem( extendedItem );
@@ -186,50 +183,9 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 	public CrosstabCellHandle getGrandTotal( )
 	{
 		PropertyHandle propHandle = getGrandTotalProperty( );
-		return propHandle.getContentCount( ) == 0
-				? null
-				: (CrosstabCellHandle) CrosstabUtil.getReportItem( propHandle
-						.getContent( 0 ), CROSSTAB_CELL_EXTENSION_NAME );
-	}
-
-	/**
-	 * Adds a row/column grand total to the crosstab if it is empty. The axis
-	 * type can be either <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
-	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>.This method only adds
-	 * a grand-total cell in this view and does not adjust measure aggregations
-	 * automatically. Caller should take responsibility to adjust aggregations
-	 * manually.
-	 * 
-	 * @param axisType
-	 *            row/column axis type
-	 * @return the grand total of this crosstab view
-	 * 
-	 */
-	public CrosstabCellHandle addGrandTotal( )
-	{
-		PropertyHandle propHandle = getGrandTotalProperty( );
-
-		if ( propHandle.getContentCount( ) > 0 )
-			return getGrandTotal( );
-
-		CommandStack stack = getCommandStack( );
-		try
-		{
-			stack.startTrans( null );
-
-			ExtendedItemHandle grandTotal = CrosstabExtendedItemFactory
-					.createCrosstabCell( moduleHandle );
-			propHandle.add( grandTotal );
-
-			stack.commit( );
-			return (CrosstabCellHandle) CrosstabUtil.getReportItem( grandTotal );
-		}
-		catch ( SemanticException e )
-		{
-			logger.log( Level.INFO, e.getMessage( ), e );
-			stack.rollback( );
-			return null;
-		}
+		return propHandle.getContentCount( ) == 0 ? null
+				: (CrosstabCellHandle) CrosstabUtil.getReportItem( propHandle.getContent( 0 ),
+						CROSSTAB_CELL_EXTENSION_NAME );
 	}
 
 	/**
@@ -251,7 +207,7 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle
 	 * Removes grand total from crosstab if it is not empty, otherwise do
 	 * nothing.
 	 */
-	public void removeGrandTotal( )
+	public void removeGrandTotal( ) throws SemanticException
 	{
 		new CrosstabViewTask( this ).removeGrandTotal( );
 	}

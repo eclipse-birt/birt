@@ -27,10 +27,9 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 /**
  * DimensionViewHandle.
  */
-public class CrosstabCellHandle extends AbstractCrosstabItemHandle
-		implements
-			ICrosstabCellConstants,
-			ICrosstabConstants
+public class CrosstabCellHandle extends AbstractCrosstabItemHandle implements
+		ICrosstabCellConstants,
+		ICrosstabConstants
 {
 
 	/**
@@ -59,8 +58,7 @@ public class CrosstabCellHandle extends AbstractCrosstabItemHandle
 	 */
 	public List getContents( )
 	{
-		return Collections.unmodifiableList( getContentProperty( )
-				.getContents( ) );
+		return Collections.unmodifiableList( getContentProperty( ).getContents( ) );
 	}
 
 	/**
@@ -134,11 +132,11 @@ public class CrosstabCellHandle extends AbstractCrosstabItemHandle
 		{
 			// only cells in measure detail and aggregations are looked as
 			// "x-tab-detail-cell"
-			String propName = handle.getContainerPropertyHandle( ).getDefn( )
+			String propName = handle.getContainerPropertyHandle( )
+					.getDefn( )
 					.getName( );
 			if ( IMeasureViewConstants.DETAIL_PROP.equals( propName )
-					|| IMeasureViewConstants.AGGREGATIONS_PROP
-							.equals( propName ) )
+					|| IMeasureViewConstants.AGGREGATIONS_PROP.equals( propName ) )
 				styles.add( CROSSTAB_DETAIL_SELECTOR );
 			else
 			{

@@ -24,10 +24,9 @@ import org.eclipse.birt.report.model.api.olap.LevelHandle;
 /**
  * DimensionViewHandle.
  */
-public class DimensionViewHandle extends AbstractCrosstabItemHandle
-		implements
-			IDimensionViewConstants,
-			ICrosstabConstants
+public class DimensionViewHandle extends AbstractCrosstabItemHandle implements
+		IDimensionViewConstants,
+		ICrosstabConstants
 {
 
 	/**
@@ -189,22 +188,10 @@ public class DimensionViewHandle extends AbstractCrosstabItemHandle
 	 */
 	public int getAxisType( )
 	{
-		CrosstabViewHandle crosstabView = (CrosstabViewHandle) CrosstabUtil
-				.getReportItem( handle.getContainer( ),
-						CROSSTAB_VIEW_EXTENSION_NAME );
+		CrosstabViewHandle crosstabView = (CrosstabViewHandle) CrosstabUtil.getReportItem( handle.getContainer( ),
+				CROSSTAB_VIEW_EXTENSION_NAME );
 		return crosstabView == null ? NO_AXIS_TYPE : crosstabView.getAxisType( );
 
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean isInnerMost( )
-	{
-		CrosstabViewHandle crosstabView = (CrosstabViewHandle) getContainer( );
-		if ( crosstabView == null )
-			return false;
-		return getIndex( ) == crosstabView.getDimensionCount( ) - 1;
-	}
 }

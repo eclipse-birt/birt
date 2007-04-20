@@ -606,12 +606,32 @@ public class CrosstabModelUtil implements ICrosstabConstants
 						rowLevel = rowLevelHandle.getCubeLevelName( );
 					}
 
-					// use selected aggregation cell on first measure
-					return crosstabItem.getMeasure( 0 )
-							.getAggregationCell( rowDimension,
-									rowLevel,
-									colDimension,
-									colLevel );
+					if ( isMeasureHorizontal )
+					{
+						// user first available aggregation cell
+						for ( int i = 0; i < crosstabItem.getMeasureCount( ); i++ )
+						{
+							CrosstabCellHandle aggCell = crosstabItem.getMeasure( i )
+									.getAggregationCell( rowDimension,
+											rowLevel,
+											colDimension,
+											colLevel );
+
+							if ( aggCell != null )
+							{
+								return aggCell;
+							}
+						}
+					}
+					else
+					{
+						// use selected aggregation cell on first measure
+						return crosstabItem.getMeasure( 0 )
+								.getAggregationCell( rowDimension,
+										rowLevel,
+										colDimension,
+										colLevel );
+					}
 				}
 				// user first measure detail cell
 				return crosstabItem.getMeasure( 0 ).getCell( );
@@ -655,8 +675,32 @@ public class CrosstabModelUtil implements ICrosstabConstants
 					rowLevel = rowLevelHandle.getCubeLevelName( );
 				}
 
-				return crosstabItem.getMeasure( 0 )
-						.getAggregationCell( rowDimension, rowLevel, null, null );
+				if ( isMeasureHorizontal )
+				{
+					// user first available aggregation cell
+					for ( int i = 0; i < crosstabItem.getMeasureCount( ); i++ )
+					{
+						CrosstabCellHandle aggCell = crosstabItem.getMeasure( i )
+								.getAggregationCell( rowDimension,
+										rowLevel,
+										null,
+										null );
+
+						if ( aggCell != null )
+						{
+							return aggCell;
+						}
+					}
+				}
+				else
+				{
+					// use selected aggregation cell on first measure
+					return crosstabItem.getMeasure( 0 )
+							.getAggregationCell( rowDimension,
+									rowLevel,
+									null,
+									null );
+				}
 			}
 		}
 
@@ -818,12 +862,32 @@ public class CrosstabModelUtil implements ICrosstabConstants
 						colLevel = colLevelHandle.getCubeLevelName( );
 					}
 
-					// use selected aggregation cell on first measure
-					return crosstabItem.getMeasure( 0 )
-							.getAggregationCell( rowDimension,
-									rowLevel,
-									colDimension,
-									colLevel );
+					if ( isMeasureHorizontal )
+					{
+						// use selected aggregation cell on first measure
+						return crosstabItem.getMeasure( 0 )
+								.getAggregationCell( rowDimension,
+										rowLevel,
+										colDimension,
+										colLevel );
+					}
+					else
+					{
+						// user first available aggregation cell
+						for ( int i = 0; i < crosstabItem.getMeasureCount( ); i++ )
+						{
+							CrosstabCellHandle aggCell = crosstabItem.getMeasure( i )
+									.getAggregationCell( rowDimension,
+											rowLevel,
+											colDimension,
+											colLevel );
+
+							if ( aggCell != null )
+							{
+								return aggCell;
+							}
+						}
+					}
 				}
 				// user first measure detail cell
 				return crosstabItem.getMeasure( 0 ).getCell( );
@@ -866,11 +930,32 @@ public class CrosstabModelUtil implements ICrosstabConstants
 					colLevel = colLevelHandle.getCubeLevelName( );
 				}
 
-				return crosstabItem.getMeasure( 0 ).getAggregationCell( null,
-						null,
-						colDimension,
-						colLevel );
+				if ( isMeasureHorizontal )
+				{
+					// use selected aggregation cell on first measure
+					return crosstabItem.getMeasure( 0 )
+							.getAggregationCell( null,
+									null,
+									colDimension,
+									colLevel );
+				}
+				else
+				{
+					// user first available aggregation cell
+					for ( int i = 0; i < crosstabItem.getMeasureCount( ); i++ )
+					{
+						CrosstabCellHandle aggCell = crosstabItem.getMeasure( i )
+								.getAggregationCell( null,
+										null,
+										colDimension,
+										colLevel );
 
+						if ( aggCell != null )
+						{
+							return aggCell;
+						}
+					}
+				}
 			}
 		}
 
