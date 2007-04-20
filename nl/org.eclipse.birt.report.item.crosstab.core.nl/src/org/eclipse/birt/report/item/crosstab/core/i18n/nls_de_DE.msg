@@ -5,19 +5,19 @@ Element.CrosstabCell=Kreuztabellenzelle
 Element.CrosstabAggregationCell=Aggregationszelle der Kreuztabelle
 Element.AggregationOnRow=Aggregation in Zeile
 Element.AggregationOnColumn=Aggregation in Spalte
-Element.AggregationHeaderLocation=Aggregation Header Location
+Element.AggregationHeaderLocation=Position der Aggregat-Kopfzeile
 Element.MeasureView=Maßeinheitsansicht
-Element.PageBreakBefore=Page Break Before
-Element.PageBreakAfter=Page Break After
-Element.SortDirection=Sort Direction
-Element.SortType=Sort Type
+Element.PageBreakBefore=Seitenumbruch vor
+Element.PageBreakAfter=Seitenumbruch nach
+Element.SortDirection=Sortierreihenfolge
+Element.SortType=Sortiertyp
 Element.LevelView=Ebenenansicht
 Element.DimensionView=Dimensionsansicht
 Element.CrosstabView=Kreuztabellenansicht
 Element.Cube=Quader
 Element.Dimension=Dimension
-Element.Level=Level
-Element.Measure=Measure
+Element.Level=Ebene
+Element.Measure=Maßeinheit
 Element.Caption=Beschriftung
 Element.CaptionID=Beschriftungsschlüssel
 Element.MeasureDirection=Maßeinheitrichtung
@@ -35,9 +35,9 @@ Error.CrosstabException.DUPLICATE_LEVEL=
 CrosstabReportItemQuery.error.crosstab.loading=Laden des Kreuztabellenelements aus erweitertem Element fehlgeschlagen.
 CrosstabReportItemQuery.error.query.building=Ungültiges Kreuztabellenmodell zum Erstellen der Abfrage.
 
-CrosstabQueryHelper.error.invalid.measure=The associated measure for crosstab is inavlid.
-CrosstabQueryHelper.error.invalid.dimension=The associated dimension for crosstab is inavlid.
-CrosstabQueryHelper.error.invalid.level=The associated level for crosstab is inavlid.
+CrosstabQueryHelper.error.invalid.measure=Die verknüpfte Maßeinheit für die Kreuztabelle ist ungültig.
+CrosstabQueryHelper.error.invalid.dimension=Die verknüpfte Dimension für die Kreuztabelle ist ungültig.
+CrosstabQueryHelper.error.invalid.level=Die verknüpfte Ebene für die Kreuztabelle ist ungültig.
 
 BaseCrosstabExecutor.error.process.visibility=Beim Verarbeiten der Sichtbarkeit ist ein Fehler aufgetreten.
 BaseCrosstabExecutor.error.process.bookmark=Beim Verarbeiten des Lesezeichens ist ein Fehler aufgetreten.
@@ -62,9 +62,9 @@ CrosstabMeasureRowExecutor.error.generate.child.executor=Beim Generieren des unt
 CrosstabMeasureRowExecutor.error.check.child.executor=Beim Überprüfen des Status des untergeordneten ausführenden Programms ist ein Fehler aufgetreten.
 
 CrosstabReportItemExecutor.error.crosstab.loading=Laden des Kreuztabellenelements aus erweitertem Element fehlgeschlagen.
-CrosstabReportItemExecutor.error.generate.columns=Error happend when generate columns for crosstab.
-CrosstabReportItemExecutor.error.prepare.children=Error happend when prepare child executor for crosstab.
-CrosstabReportItemExecutor.error.invalid.cube.result=The cube result for crosstab is invalid(=null).
+CrosstabReportItemExecutor.error.generate.columns=Beim Erstellen der Spalten für die Kreuztabelle ist ein Fehler aufgetreten.
+CrosstabReportItemExecutor.error.prepare.children=Beim Vorbereiten des untergeordneten ausführenden Programms für die Kreuztabelle ist ein Fehler aufgetreten.
+CrosstabReportItemExecutor.error.invalid.cube.result=Das Quaderergebnis für die Kreuztabelle ist ungültig (=Null).
 
 CrosstabRowExecutor.error.check.force.empty=Beim Überprüfen des Status "Leer erzwingen" der aktuellen Zelle ist ein Fehler aufgetreten.
 CrosstabRowExecutor.error.check.edge.start=Beim Überprüfen des Status "Randstart" der aktuellen Zelle ist ein Fehler aufgetreten.

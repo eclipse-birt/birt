@@ -5,19 +5,19 @@ Element.CrosstabCell=ƒNƒƒXƒ^ƒuƒZƒ‹
 Element.CrosstabAggregationCell=ƒNƒƒXƒ^ƒu‘ŒvƒZƒ‹
 Element.AggregationOnRow=s‚²‚Æ‚Ì‘Œv
 Element.AggregationOnColumn=—ñ‚²‚Æ‚Ì‘Œv
-Element.AggregationHeaderLocation=Aggregation Header Location
+Element.AggregationHeaderLocation=‘Œvƒwƒbƒ_‚ÌˆÊ’u
 Element.MeasureView=Œv‘ªƒrƒ…[
-Element.PageBreakBefore=Page Break Before
-Element.PageBreakAfter=Page Break After
-Element.SortDirection=Sort Direction
-Element.SortType=Sort Type
+Element.PageBreakBefore=Ÿ‚Ì‘O‚Å‰üƒy[ƒW
+Element.PageBreakAfter=Ÿ‚ÌŒã‚Å‰üƒy[ƒW
+Element.SortDirection=ƒ\[ƒg‚Ì•ûŒü
+Element.SortType=ƒ\[ƒgŠî€
 Element.LevelView=ƒŒƒxƒ‹ƒrƒ…[
 Element.DimensionView=ŸŒ³ƒrƒ…[
 Element.CrosstabView=ƒNƒƒXƒ^ƒuƒrƒ…[
 Element.Cube=ƒLƒ…[ƒu
-Element.Dimension=Dimension
-Element.Level=Level
-Element.Measure=Measure
+Element.Dimension=ŸŒ³
+Element.Level=ƒŒƒxƒ‹
+Element.Measure=Œv‘ª
 Element.Caption=ƒLƒƒƒvƒVƒ‡ƒ“
 Element.CaptionID=ƒLƒƒƒvƒVƒ‡ƒ“ƒL[
 Element.MeasureDirection=Œv‘ª‚Ì•ûŒü
@@ -35,9 +35,9 @@ Error.CrosstabException.DUPLICATE_LEVEL=
 CrosstabReportItemQuery.error.crosstab.loading=Šg’£€–Ú‚©‚çƒNƒƒXƒ^ƒu€–Ú‚ğ“Ç‚İ‚ß‚Ü‚¹‚ñ‚Å‚µ‚½B
 CrosstabReportItemQuery.error.query.building=ƒNƒGƒŠ\’z‚ÌƒNƒƒXƒ^ƒuƒ‚ƒfƒ‹‚ª–³Œø‚Å‚·B
 
-CrosstabQueryHelper.error.invalid.measure=The associated measure for crosstab is inavlid.
-CrosstabQueryHelper.error.invalid.dimension=The associated dimension for crosstab is inavlid.
-CrosstabQueryHelper.error.invalid.level=The associated level for crosstab is inavlid.
+CrosstabQueryHelper.error.invalid.measure=ƒNƒƒXƒ^ƒu‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éŒv‘ª‚ª–³Œø‚Å‚·B
+CrosstabQueryHelper.error.invalid.dimension=ƒNƒƒXƒ^ƒu‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éŸŒ³‚ª–³Œø‚Å‚·B
+CrosstabQueryHelper.error.invalid.level=ƒNƒƒXƒ^ƒu‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éƒŒƒxƒ‹‚ª–³Œø‚Å‚·B
 
 BaseCrosstabExecutor.error.process.visibility=‰Â‹«‚Ìˆ—’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B
 BaseCrosstabExecutor.error.process.bookmark=ƒuƒbƒNƒ}[ƒN‚Ìˆ—’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B
@@ -62,9 +62,9 @@ CrosstabMeasureRowExecutor.error.generate.child.executor=q‚ÌÀsƒtƒ@ƒCƒ‹‚Ì¶¬’
 CrosstabMeasureRowExecutor.error.check.child.executor=q‚ÌÀsƒtƒ@ƒCƒ‹‚ÌƒXƒe[ƒ^ƒX‚ğŠm”F’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B
 
 CrosstabReportItemExecutor.error.crosstab.loading=Šg’£€–Ú‚©‚çƒNƒƒXƒ^ƒu€–Ú‚ğ“Ç‚İ‚ß‚Ü‚¹‚ñ‚Å‚µ‚½B
-CrosstabReportItemExecutor.error.generate.columns=Error happend when generate columns for crosstab.
-CrosstabReportItemExecutor.error.prepare.children=Error happend when prepare child executor for crosstab.
-CrosstabReportItemExecutor.error.invalid.cube.result=The cube result for crosstab is invalid(=null).
+CrosstabReportItemExecutor.error.generate.columns=ƒNƒƒXƒ^ƒu‚Ì—ñ‚Ì¶¬’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B
+CrosstabReportItemExecutor.error.prepare.children=ƒNƒƒXƒ^ƒu‚Ìq‚ÌÀsƒtƒ@ƒCƒ‹‚Ì€”õ’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B
+CrosstabReportItemExecutor.error.invalid.cube.result=ƒNƒƒXƒ^ƒu‚ÌƒLƒ…[ƒu‚ÌŒ‹‰Ê‚ª–³Œø‚Å‚· (NULL)B
 
 CrosstabRowExecutor.error.check.force.empty=Œ»İ‚ÌƒZƒ‹‚Ì‹­§‹óƒXƒe[ƒ^ƒX‚ÌŠm”F’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B
 CrosstabRowExecutor.error.check.edge.start=Œ»İ‚ÌƒZƒ‹‚ÌƒGƒbƒWŠJn‚ÌƒXƒe[ƒ^ƒX‚ÌŠm”F’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B

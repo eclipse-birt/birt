@@ -5,19 +5,19 @@ Element.CrosstabCell=크로스 탭 셀
 Element.CrosstabAggregationCell=크로스 탭 집계 셀
 Element.AggregationOnRow=행에서 집계
 Element.AggregationOnColumn=열에서 집계
-Element.AggregationHeaderLocation=Aggregation Header Location
+Element.AggregationHeaderLocation=집계 머리글 위치
 Element.MeasureView=측정 보기
-Element.PageBreakBefore=Page Break Before
-Element.PageBreakAfter=Page Break After
-Element.SortDirection=Sort Direction
-Element.SortType=Sort Type
+Element.PageBreakBefore=앞에 페이지 나누기
+Element.PageBreakAfter=뒤에 페이지 나누기
+Element.SortDirection=정렬 방향
+Element.SortType=정렬화 형식
 Element.LevelView=수준 보기
 Element.DimensionView=차원 보기
 Element.CrosstabView=크로스 탭 보기
 Element.Cube=큐브
-Element.Dimension=Dimension
-Element.Level=Level
-Element.Measure=Measure
+Element.Dimension=차원
+Element.Level=수준
+Element.Measure=측정
 Element.Caption=캡션
 Element.CaptionID=캡션 키
 Element.MeasureDirection=측정 방향
@@ -35,9 +35,9 @@ Error.CrosstabException.DUPLICATE_LEVEL=
 CrosstabReportItemQuery.error.crosstab.loading=확장 항목을 크로스 탭 항목에 로드하지 못했습니다.
 CrosstabReportItemQuery.error.query.building=쿼리 생성에 맞지 않는 크로스 탭 모델입니다.
 
-CrosstabQueryHelper.error.invalid.measure=The associated measure for crosstab is inavlid.
-CrosstabQueryHelper.error.invalid.dimension=The associated dimension for crosstab is inavlid.
-CrosstabQueryHelper.error.invalid.level=The associated level for crosstab is inavlid.
+CrosstabQueryHelper.error.invalid.measure=크로스 탭에 연결된 측정이 올바르지 않습니다.
+CrosstabQueryHelper.error.invalid.dimension=크로스 탭에 연결된 차원이 올바르지 않습니다.
+CrosstabQueryHelper.error.invalid.level=크로스 탭에 연결된 수준이 올바르지 않습니다.
 
 BaseCrosstabExecutor.error.process.visibility=표시 유형을 처리하는 중에 오류가 발생했습니다.
 BaseCrosstabExecutor.error.process.bookmark=책갈피를 처리하는 중에 오류가 발생했습니다.
@@ -62,9 +62,9 @@ CrosstabMeasureRowExecutor.error.generate.child.executor=하위 실행기를 생성하는 
 CrosstabMeasureRowExecutor.error.check.child.executor=하위 실행기의 상태를 확인하는 중에 오류가 발생했습니다.
 
 CrosstabReportItemExecutor.error.crosstab.loading=확장 항목을 크로스 탭 항목에 로드하지 못했습니다.
-CrosstabReportItemExecutor.error.generate.columns=Error happend when generate columns for crosstab.
-CrosstabReportItemExecutor.error.prepare.children=Error happend when prepare child executor for crosstab.
-CrosstabReportItemExecutor.error.invalid.cube.result=The cube result for crosstab is invalid(=null).
+CrosstabReportItemExecutor.error.generate.columns=크로스 탭의 열을 생성하는 중에 오류가 발생했습니다.
+CrosstabReportItemExecutor.error.prepare.children=크로스 탭의 하위 실행기를 준비하는 중에 오류가 발생했습니다.
+CrosstabReportItemExecutor.error.invalid.cube.result=크로스 탭의 큐브 결과가 올바르지 않습니다(=널).
 
 CrosstabRowExecutor.error.check.force.empty=현재 셀의 강제 비움 상태를 확인하는 중에 오류가 발생했습니다.
 CrosstabRowExecutor.error.check.edge.start=현재 셀의 모서리 시작 상태를 확인하는 중에 오류가 발생했습니다.

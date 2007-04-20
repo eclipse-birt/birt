@@ -5,19 +5,19 @@ Element.CrosstabCell=交叉表单元格
 Element.CrosstabAggregationCell=交叉表聚合单元格
 Element.AggregationOnRow=遇到行时聚合
 Element.AggregationOnColumn=遇到列时聚合
-Element.AggregationHeaderLocation=Aggregation Header Location
+Element.AggregationHeaderLocation=聚合标题位置
 Element.MeasureView=度量视图
-Element.PageBreakBefore=Page Break Before
-Element.PageBreakAfter=Page Break After
-Element.SortDirection=Sort Direction
-Element.SortType=Sort Type
+Element.PageBreakBefore=段前分页
+Element.PageBreakAfter=段后分页
+Element.SortDirection=排序方向
+Element.SortType=排序类型
 Element.LevelView=级别视图
 Element.DimensionView=维视图
 Element.CrosstabView=交叉表视图
 Element.Cube=多维数据集
-Element.Dimension=Dimension
-Element.Level=Level
-Element.Measure=Measure
+Element.Dimension=维
+Element.Level=级别
+Element.Measure=度量
 Element.Caption=标题
 Element.CaptionID=标题关键字
 Element.MeasureDirection=度量方向
@@ -35,9 +35,9 @@ Error.CrosstabException.DUPLICATE_LEVEL=
 CrosstabReportItemQuery.error.crosstab.loading=从扩展项加载交叉表项失败。
 CrosstabReportItemQuery.error.query.building=用于查询生成的交叉表模型无效。
 
-CrosstabQueryHelper.error.invalid.measure=The associated measure for crosstab is inavlid.
-CrosstabQueryHelper.error.invalid.dimension=The associated dimension for crosstab is inavlid.
-CrosstabQueryHelper.error.invalid.level=The associated level for crosstab is inavlid.
+CrosstabQueryHelper.error.invalid.measure=交叉表的关联度量无效。
+CrosstabQueryHelper.error.invalid.dimension=交叉表的关联维无效。
+CrosstabQueryHelper.error.invalid.level=交叉表的关联级别无效。
 
 BaseCrosstabExecutor.error.process.visibility=处理可见性时出错。
 BaseCrosstabExecutor.error.process.bookmark=处理书签时出错。
@@ -62,9 +62,9 @@ CrosstabMeasureRowExecutor.error.generate.child.executor=生成子执行程序时出错。
 CrosstabMeasureRowExecutor.error.check.child.executor=检查子执行程序的状态时出错。
 
 CrosstabReportItemExecutor.error.crosstab.loading=从扩展项加载交叉表项失败。
-CrosstabReportItemExecutor.error.generate.columns=Error happend when generate columns for crosstab.
-CrosstabReportItemExecutor.error.prepare.children=Error happend when prepare child executor for crosstab.
-CrosstabReportItemExecutor.error.invalid.cube.result=The cube result for crosstab is invalid(=null).
+CrosstabReportItemExecutor.error.generate.columns=为交叉表生成列时出错。
+CrosstabReportItemExecutor.error.prepare.children=为交叉表准备子执行程序时出错。
+CrosstabReportItemExecutor.error.invalid.cube.result=交叉表的多维数据集结果无效 (=null)。
 
 CrosstabRowExecutor.error.check.force.empty=检查当前单元格的强制清空状态时出错。
 CrosstabRowExecutor.error.check.edge.start=检查当前单元格的边缘开始状态时出错。

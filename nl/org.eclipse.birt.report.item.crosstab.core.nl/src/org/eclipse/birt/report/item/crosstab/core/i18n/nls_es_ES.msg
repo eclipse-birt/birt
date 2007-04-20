@@ -5,19 +5,19 @@ Element.CrosstabCell=Celda de tabla de referencias cruzadas
 Element.CrosstabAggregationCell=Celda de agregación de tabla de referencias cruzadas
 Element.AggregationOnRow=Agregación en fila
 Element.AggregationOnColumn=Agregación en columna
-Element.AggregationHeaderLocation=Aggregation Header Location
+Element.AggregationHeaderLocation=Ubicación de encabezado de agregación
 Element.MeasureView=Visualización de medidas
-Element.PageBreakBefore=Page Break Before
-Element.PageBreakAfter=Page Break After
-Element.SortDirection=Sort Direction
-Element.SortType=Sort Type
+Element.PageBreakBefore=Salto de página antes
+Element.PageBreakAfter=Salto de página después
+Element.SortDirection=Dirección de orden
+Element.SortType=Clase de clasificación
 Element.LevelView=Visualización de niveles
 Element.DimensionView=Visualización de dimensiones
 Element.CrosstabView=Visualización de tablas de referencias cruzadas
 Element.Cube=Cubo
-Element.Dimension=Dimension
-Element.Level=Level
-Element.Measure=Measure
+Element.Dimension=Dimensión
+Element.Level=Nivel
+Element.Measure=Medida
 Element.Caption=Título
 Element.CaptionID=Clave de título
 Element.MeasureDirection=Dirección de medidas
@@ -35,9 +35,9 @@ Error.CrosstabException.DUPLICATE_LEVEL=
 CrosstabReportItemQuery.error.crosstab.loading=Error al cargar elemento de tabla de referencias cruzadas desde elemento ampliado.
 CrosstabReportItemQuery.error.query.building=Modelo de tabla de referencias cruzadas no válido para compilar consultas.
 
-CrosstabQueryHelper.error.invalid.measure=The associated measure for crosstab is inavlid.
-CrosstabQueryHelper.error.invalid.dimension=The associated dimension for crosstab is inavlid.
-CrosstabQueryHelper.error.invalid.level=The associated level for crosstab is inavlid.
+CrosstabQueryHelper.error.invalid.measure=La medida asociada para la tabla de referencias cruzadas no es válida.
+CrosstabQueryHelper.error.invalid.dimension=La dimensión asociada para la tabla de referencias cruzadas no es válida.
+CrosstabQueryHelper.error.invalid.level=El nivel asociado para la tabla de referencias cruzadas no es válido.
 
 BaseCrosstabExecutor.error.process.visibility=Se ha producido un error al procesar visibilidad.
 BaseCrosstabExecutor.error.process.bookmark=Se ha producido un error al procesar marcador.
@@ -62,9 +62,9 @@ CrosstabMeasureRowExecutor.error.generate.child.executor=Se ha producido un erro
 CrosstabMeasureRowExecutor.error.check.child.executor=Se ha producido un error al comprobar estado del ejecutor secundario.
 
 CrosstabReportItemExecutor.error.crosstab.loading=Error al cargar elemento de tabla de referencias cruzadas desde elemento ampliado.
-CrosstabReportItemExecutor.error.generate.columns=Error happend when generate columns for crosstab.
-CrosstabReportItemExecutor.error.prepare.children=Error happend when prepare child executor for crosstab.
-CrosstabReportItemExecutor.error.invalid.cube.result=The cube result for crosstab is invalid(=null).
+CrosstabReportItemExecutor.error.generate.columns=Se ha producido un error al generar las columnas para la tabla de referencias cruzadas.
+CrosstabReportItemExecutor.error.prepare.children=Se ha producido un error al preparar el ejecutor secundario para la tabla de referencias cruzadas.
+CrosstabReportItemExecutor.error.invalid.cube.result=El resultado de cubo para la tabla de referencias cruzadas no es válido(=nulo).
 
 CrosstabRowExecutor.error.check.force.empty=Se ha producido un error al comprobar estado vacío de fuerza de celda actual.
 CrosstabRowExecutor.error.check.edge.start=Se ha producido un error al comprobar estado inicial de extremo de celda actual.
