@@ -2,34 +2,44 @@
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.9" id="1">
     <styles>
     	<style name="TOC-level-0">
-            <property name="fontSize">xx-large</property>
+    		<property name="fontFamily">"Arial"</property>
+            <property name="fontSize">"12pt"</property>
         </style>
         <style name="TOC-level-1">
-            <property name="fontSize">x-large</property>
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">"12pt"</property>
         </style>
         <style name="TOC-level-2">
-            <property name="fontSize">large</property>
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">"12pt"</property>
         </style>
         <style name="TOC-level-3">
-            <property name="fontSize">medium</property>
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">"12pt"</property>
         </style>
         <style name="TOC-level-4">
-            <property name="fontSize">medium</property>
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">"12pt"</property>
         </style>
         <style name="TOC-level-5">
-            <property name="fontSize">small</property>
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">"12pt"</property>
         </style>
         <style name="TOC-level-6">
-            <property name="fontSize">x-small</property>
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">"12pt"</property>
         </style>
         <style name="TOC-level-7">
-            <property name="fontSize">xx-small</property>
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">"12pt"</property>
         </style>
         <style name="TOC-level-8">
-            <property name="fontSize">xx-small</property>
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">"12pt"</property>
         </style>
         <style name="TOC-level-9">
-            <property name="fontSize">xx-small</property>
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">"12pt"</property>
         </style>
     </styles>
 </report>
