@@ -637,8 +637,7 @@ public class ParamDefTag extends BodyTagSupport
 				pageContext.setAttribute( IMPORT_FILES_ATTR, Boolean.TRUE );
 			}
 
-			this.groupObjName = this.viewer.getId( ) + "_" //$NON-NLS-1$
-					+ paramDef.getGroup( ).getName( ) + "_group"; //$NON-NLS-1$
+			this.groupObjName = "group_" + this.viewer.getId( ) + "_" + paramDef.getGroup( ).getName( );//$NON-NLS-1$ //$NON-NLS-2$
 			if ( pageContext.findAttribute( this.groupObjName ) == null )
 			{
 				writer
