@@ -482,7 +482,14 @@ public class GroupDialog extends BaseDialog
 					}
 					if ( !tocEditor.getText( ).equals( tocExp ) )
 					{
-						tocEditor.setText( tocExp );
+						if ( tocExp == null )
+						{
+							tocEditor.setText( "" ); //$NON-NLS-1$
+						}
+						else
+						{
+							tocEditor.setText( tocExp );
+						}
 						return;
 					}
 				}
