@@ -82,7 +82,7 @@ public class ReportDocumentTest extends RDTestCase
 	{
 		return new DataSourceInfo( ConfigText.getString( "Api.TestData.TableName" ),
 				ConfigText.getString( "Api.TestData.TableSQL" ),
-				ConfigText.getString( "Api.TestData.TestDataFileName" ) );
+				ConfigText.getString( "Api.TestData.TestDataFileName1" ) );
 	}
 	
 	/*
@@ -1158,6 +1158,110 @@ public class ReportDocumentTest extends RDTestCase
 		myPreDataEngine.shutdown( );
 	}
 
+	/**
+	 * Basic sub query test for report document.
+	 * 
+	 * @throws BirtException
+	 */
+	public void testSubQuery4( ) throws BirtException
+	{
+		this.genSubQuery4( );
+		this.closeArchiveWriter( );
+		
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+				
+		this.preSubQuery4( );
+		this.closeArchiveReader( );
+	}
+	
+
+	/**
+	 * @throws BirtException
+	 */
+	private void genSubQuery4( ) throws BirtException
+	{
+		QueryDefinition queryDefn = newReportQuery( );
+		queryDefn.setUsesDetails( false );
+
+		// add sub query
+		GroupDefinition groupDefn = new GroupDefinition( );
+		groupDefn.setKeyColumn( "COUNTRY_1" );
+		queryDefn.addGroup( groupDefn );
+		//		 prepare
+	
+		rowExprName = new String[1];
+		rowExprName[0] = "COUNTRY_1";
+		IBaseExpression[] rowBeArray = new IBaseExpression[1];
+		rowBeArray[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
+		
+		prepareExprNameAndQuery( rowExprName, rowBeArray, new String[0], null,queryDefn );
+		
+		rowBeArray = getRowExpr( );
+		IBaseExpression[] totalBeArray = getAggrExpr( );
+		rowExprName = getRowExprName( );
+		totalExprName = getAggrExprName( );		
+		SubqueryDefinition subQueryDefn = new SubqueryDefinition( subQueryName,
+				queryDefn );
+		GroupDefinition subGroupDefn = new GroupDefinition( "group2" );
+		subGroupDefn.setKeyExpression( "row[\"CITY\"]" );
+		subQueryDefn.addGroup( subGroupDefn );
+		groupDefn.addSubquery( subQueryDefn );
+		subQueryDefn.setUsesDetails( false );
+		
+		prepareExprNameAndQuery( rowExprName, rowBeArray, totalExprName, totalBeArray, subQueryDefn );
+
+		// generation
+		IQueryResults qr = myGenDataEngine.prepare( queryDefn ).execute( scope );
+		
+		// important step
+		saveForPresentation( qr, rowBeArray, totalBeArray );
+		
+		IResultIterator ri = qr.getResultIterator( );		
+		
+		while ( ri.next( ) )
+		{
+			System.out.println( ri.getValue( "COUNTRY_1" ) );
+			IResultIterator ri2 = ri.getSecondaryIterator( subQueryName,
+					subScope );
+			while ( ri2.next( ) )
+			{
+				for ( int i = 0; i < rowBeArray.length; i++ )
+					expectedValue.add( ri2.getValue( rowExprName[i] ) );
+
+				for ( int i = 0; i < totalBeArray.length; i++ )
+					expectedValue.add( ri2.getValue( totalExprName[i] ) );
+			}
+			ri2.close( );
+		}
+		qr.close( );
+		myGenDataEngine.shutdown( );
+	}
+	
+	
+	/**
+	 * @throws BirtException
+	 */
+	private void preSubQuery4( ) throws BirtException
+	{
+		IQueryResults qr = myPreDataEngine.getQueryResults( queryResultID );
+		IResultIterator ri = qr.getResultIterator( );
+		Iterator it = expectedValue.iterator( );
+		
+		while ( ri.next( ) )
+		{
+			IResultIterator ri2 = ri.getSecondaryIterator( subQueryName,
+					subScope );
+			
+			checkResult1( it, ri2 );
+			ri2.close( );
+		}
+		
+		qr.close( );
+		myPreDataEngine.shutdown( );
+	}
+	
 	/**
 	 * Advanced sub query test. A sub query is retrieved from another sub query.
 	 * 
