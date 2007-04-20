@@ -440,6 +440,7 @@ dataset.editor.title.dataType=데이터 형식
 dataset.editor.title.defaultValue=기본값
 dataset.editor.title.direction=방향
 dataset.editor.title.displayName=표시 이름
+dataset.editor.title.displayNameKey=Display Name Key
 dataset.editor.title.expression=식
 dataset.editor.title.helpText=도움말 텍스트
 dataset.editor.title.isInput=입력입니다.

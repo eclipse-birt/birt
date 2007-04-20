@@ -440,6 +440,7 @@ dataset.editor.title.dataType=Datentyp
 dataset.editor.title.defaultValue=Standardwert
 dataset.editor.title.direction=Richtung
 dataset.editor.title.displayName=Angezeigter Name
+dataset.editor.title.displayNameKey=Display Name Key
 dataset.editor.title.expression=Ausdruck
 dataset.editor.title.helpText=Hilfetext
 dataset.editor.title.isInput=Ist Eingabe

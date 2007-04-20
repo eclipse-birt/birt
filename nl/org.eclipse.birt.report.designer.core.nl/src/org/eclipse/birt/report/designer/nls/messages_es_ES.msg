@@ -440,6 +440,7 @@ dataset.editor.title.dataType=Tipo de datos
 dataset.editor.title.defaultValue=Valor predeterminado
 dataset.editor.title.direction=Dirección
 dataset.editor.title.displayName=Nombre en pantalla
+dataset.editor.title.displayNameKey=Display Name Key
 dataset.editor.title.expression=Expresión
 dataset.editor.title.helpText=Texto de ayuda
 dataset.editor.title.isInput=Es de entrada

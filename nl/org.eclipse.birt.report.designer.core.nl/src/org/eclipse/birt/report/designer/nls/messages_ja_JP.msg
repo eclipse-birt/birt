@@ -440,6 +440,7 @@ dataset.editor.title.dataType=データ型
 dataset.editor.title.defaultValue=デフォルト値
 dataset.editor.title.direction=方向
 dataset.editor.title.displayName=表示名
+dataset.editor.title.displayNameKey=Display Name Key
 dataset.editor.title.expression=式
 dataset.editor.title.helpText=ヘルプテキスト
 dataset.editor.title.isInput=入力
