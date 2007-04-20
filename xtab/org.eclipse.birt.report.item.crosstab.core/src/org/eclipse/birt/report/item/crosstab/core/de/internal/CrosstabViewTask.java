@@ -58,6 +58,11 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 	{
 		if ( !isValidParameters( functionList, measureList ) )
 			return null;
+
+		verifyTotalMeasureFunctions( crosstabView.getAxisType( ),
+				functionList,
+				measureList );
+
 		PropertyHandle propHandle = crosstabView.getGrandTotalProperty( );
 
 		CommandStack stack = crosstabView.getCommandStack( );
@@ -68,8 +73,7 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 			ExtendedItemHandle grandTotal = null;
 			if ( propHandle.getContentCount( ) <= 0 )
 			{
-				grandTotal = CrosstabExtendedItemFactory
-						.createCrosstabCell( crosstabView.getModuleHandle( ) );
+				grandTotal = CrosstabExtendedItemFactory.createCrosstabCell( crosstabView.getModuleHandle( ) );
 				propHandle.add( grandTotal );
 			}
 
@@ -78,7 +82,9 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 			if ( crosstab != null && measureList != null )
 			{
 				addMeasureAggregations( crosstabView.getAxisType( ),
-						measureList, functionList, false );
+						measureList,
+						functionList,
+						false );
 			}
 
 			stack.commit( );
@@ -148,9 +154,10 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 			throw new CrosstabException( crosstabView.getModelHandle( )
 					.getElement( ), new String[]{
 					name,
-					crosstabView.getModelHandle( ).getElement( )
-							.getIdentifier( )},
-					MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND );
+					crosstabView.getModelHandle( )
+							.getElement( )
+							.getIdentifier( )
+			}, MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND );
 		}
 
 		removeDimension( dimensionView );

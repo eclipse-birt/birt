@@ -38,8 +38,7 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 	public AbstractCrosstabModelTask( AbstractCrosstabItemHandle focus )
 	{
 		if ( focus == null )
-			throw new IllegalArgumentException(
-					"The focus for the task can not be null" ); //$NON-NLS-1$
+			throw new IllegalArgumentException( "The focus for the task can not be null" ); //$NON-NLS-1$
 		this.crosstab = focus.getCrosstab( );
 	}
 
@@ -118,14 +117,12 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 				int axisType = rightLevelView.getAxisType( );
 				if ( axisType == COLUMN_AXIS_TYPE )
 				{
-					colDimension = ( (DimensionViewHandle) rightLevelView
-							.getContainer( ) ).getCubeDimensionName( );
+					colDimension = ( (DimensionViewHandle) rightLevelView.getContainer( ) ).getCubeDimensionName( );
 					colLevel = rightLevelView.getCubeLevelName( );
 				}
 				else
 				{
-					rowDimension = ( (DimensionViewHandle) rightLevelView
-							.getContainer( ) ).getCubeDimensionName( );
+					rowDimension = ( (DimensionViewHandle) rightLevelView.getContainer( ) ).getCubeDimensionName( );
 					rowLevel = rightLevelView.getCubeLevelName( );
 				}
 			}
@@ -141,14 +138,12 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 				int axisType = leftLevelView.getAxisType( );
 				if ( axisType == COLUMN_AXIS_TYPE )
 				{
-					colDimension = ( (DimensionViewHandle) leftLevelView
-							.getContainer( ) ).getCubeDimensionName( );
+					colDimension = ( (DimensionViewHandle) leftLevelView.getContainer( ) ).getCubeDimensionName( );
 					colLevel = leftLevelView.getCubeLevelName( );
 				}
 				else
 				{
-					rowDimension = ( (DimensionViewHandle) leftLevelView
-							.getContainer( ) ).getCubeDimensionName( );
+					rowDimension = ( (DimensionViewHandle) leftLevelView.getContainer( ) ).getCubeDimensionName( );
 					rowLevel = leftLevelView.getCubeLevelName( );
 				}
 			}
@@ -160,30 +155,27 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 					return null;
 
 				int axisType = leftLevelView.getAxisType( );
-				if ( rightLevelView.getAxisType( ) != CrosstabModelUtil
-						.getOppositeAxisType( axisType ) )
+				if ( rightLevelView.getAxisType( ) != CrosstabModelUtil.getOppositeAxisType( axisType ) )
 					return null;
 				if ( axisType == COLUMN_AXIS_TYPE )
 				{
-					colDimension = ( (DimensionViewHandle) leftLevelView
-							.getContainer( ) ).getCubeDimensionName( );
+					colDimension = ( (DimensionViewHandle) leftLevelView.getContainer( ) ).getCubeDimensionName( );
 					colLevel = leftLevelView.getCubeLevelName( );
-					rowDimension = ( (DimensionViewHandle) rightLevelView
-							.getContainer( ) ).getCubeDimensionName( );
+					rowDimension = ( (DimensionViewHandle) rightLevelView.getContainer( ) ).getCubeDimensionName( );
 					rowLevel = rightLevelView.getCubeLevelName( );
 				}
 				else
 				{
-					rowDimension = ( (DimensionViewHandle) leftLevelView
-							.getContainer( ) ).getCubeDimensionName( );
+					rowDimension = ( (DimensionViewHandle) leftLevelView.getContainer( ) ).getCubeDimensionName( );
 					rowLevel = leftLevelView.getCubeLevelName( );
-					colDimension = ( (DimensionViewHandle) rightLevelView
-							.getContainer( ) ).getCubeDimensionName( );
+					colDimension = ( (DimensionViewHandle) rightLevelView.getContainer( ) ).getCubeDimensionName( );
 					colLevel = rightLevelView.getCubeLevelName( );
 				}
 			}
 		}
-		return new AggregationInfo( rowDimension, rowLevel, colDimension,
+		return new AggregationInfo( rowDimension,
+				rowLevel,
+				colDimension,
 				colLevel );
 	}
 
@@ -195,10 +187,53 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 	 */
 	protected boolean isValidParameters( List functions, List measures )
 	{
-		if ( functions != null && measures != null
-				&& measures.size( ) != functions.size( ) )
+		if ( functions == null || measures == null )
+		{
 			return false;
+		}
+		if ( measures.size( ) == 0 || functions.size( ) == 0 )
+		{
+			return false;
+		}
+		if ( measures.size( ) != functions.size( ) )
+		{
+			return false;
+		}
 		return true;
+	}
+
+	protected void verifyTotalMeasureFunctions( int axisType, List functions,
+			List measures )
+	{
+		if ( functions == null
+				|| measures == null
+				|| functions.size( ) == 0
+				|| measures.size( ) == 0 )
+		{
+			return;
+		}
+
+		// use all measures if the total direction is oppsite to the measure
+		// direction to avoid hole
+		boolean isVerticalMeasure = MEASURE_DIRECTION_VERTICAL.equals( crosstab.getMeasureDirection( ) );
+
+		if ( ( isVerticalMeasure && axisType == COLUMN_AXIS_TYPE )
+				|| ( !isVerticalMeasure && axisType == ROW_AXIS_TYPE ) )
+		{
+			String defaultFunction = (String) functions.get( 0 );
+
+			for ( int i = 0; i < crosstab.getMeasureCount( ); i++ )
+			{
+				MeasureViewHandle mv = crosstab.getMeasure( i );
+
+				if ( !measures.contains( mv ) )
+				{
+					measures.add( mv );
+					functions.add( defaultFunction );
+				}
+			}
+
+		}
 	}
 
 	/**
@@ -219,12 +254,10 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 		if ( measureList == null || measureList.isEmpty( ) )
 			return;
 
-		int counterAxisType = CrosstabModelUtil
-				.getOppositeAxisType( theLevelView.getAxisType( ) );
+		int counterAxisType = CrosstabModelUtil.getOppositeAxisType( theLevelView.getAxisType( ) );
 
 		// if the level view not specifies a cube level, then do nothing
-		String dimensionName = ( (DimensionViewHandle) theLevelView
-				.getContainer( ) ).getCubeDimensionName( );
+		String dimensionName = ( (DimensionViewHandle) theLevelView.getContainer( ) ).getCubeDimensionName( );
 		String levelName = theLevelView.getCubeLevelName( );
 		if ( levelName == null || dimensionName == null )
 			return;
@@ -236,11 +269,10 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 		boolean isCounterAxisEmpty = true;
 
 		// add aggregations for all level views
-		for ( int dimension = 0; dimension < crosstab
-				.getDimensionCount( counterAxisType ); dimension++ )
+		for ( int dimension = 0; dimension < crosstab.getDimensionCount( counterAxisType ); dimension++ )
 		{
-			DimensionViewHandle dimensionView = crosstab.getDimension(
-					counterAxisType, dimension );
+			DimensionViewHandle dimensionView = crosstab.getDimension( counterAxisType,
+					dimension );
 			for ( int level = 0; level < dimensionView.getLevelCount( ); level++ )
 			{
 				// one level exists in this crosstab, then set
@@ -272,34 +304,32 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 				// axis; otherwise 'isLevelInnerMost' is false, then add
 				// aggregation for those is innermost or has aggregation
 				// levels in counter axis
-				if ( ( isInnerMost && !levelView.isInnerMost( ) && levelView
-						.getAggregationHeader( ) != null )
+				if ( ( isInnerMost && !levelView.isInnerMost( ) && levelView.getAggregationHeader( ) != null )
 						|| ( !isInnerMost
-								&& theLevelView.getAggregationHeader( ) != null && ( levelView
-								.isInnerMost( ) || levelView
-								.getAggregationHeader( ) != null ) ) )
+								&& theLevelView.getAggregationHeader( ) != null && ( levelView.isInnerMost( ) || levelView.getAggregationHeader( ) != null ) ) )
 				{
 					for ( int i = 0; i < measureList.size( ); i++ )
 					{
-						MeasureViewHandle measureView = (MeasureViewHandle) measureList
-								.get( i );
+						MeasureViewHandle measureView = (MeasureViewHandle) measureList.get( i );
 						if ( measureView.getCrosstab( ) != crosstab )
 							continue;
 
-						String function = functionList == null
-								? null
+						String function = functionList == null ? null
 								: (String) functionList.get( i );
 						// if checkCounterMeasureList is true, then we need to
 						// check the counter level view is aggregated on the
 						// measure, otherwise do nothing
 						if ( checkCounterAxis
-								&& !CrosstabModelUtil.isAggregationOn(
-										measureView, levelView
-												.getCubeLevelName( ),
+								&& !CrosstabModelUtil.isAggregationOn( measureView,
+										levelView.getCubeLevelName( ),
 										counterAxisType ) )
 							continue;
-						CrosstabModelUtil.addDataItem( crosstab, measureView,
-								function, rowDimension, rowLevel, colDimension,
+						CrosstabModelUtil.addDataItem( crosstab,
+								measureView,
+								function,
+								rowDimension,
+								rowLevel,
+								colDimension,
 								colLevel );
 					}
 				}
@@ -328,23 +358,27 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 
 			for ( int i = 0; i < measureList.size( ); i++ )
 			{
-				MeasureViewHandle measureView = (MeasureViewHandle) measureList
-						.get( i );
+				MeasureViewHandle measureView = (MeasureViewHandle) measureList.get( i );
 				if ( measureView.getCrosstab( ) != crosstab )
 					continue;
-				String function = functionList == null
-						? null
+				String function = functionList == null ? null
 						: (String) functionList.get( i );
 				// if checkCounterMeasureList is true, then we need to
 				// check the counter level view is aggregated on the
 				// measure, otherwise do nothing
 				if ( checkCounterAxis
 						&& !CrosstabModelUtil.isAggregationOn( measureView,
-								null, counterAxisType ) )
+								null,
+								counterAxisType ) )
 					continue;
 
-				CrosstabModelUtil.addDataItem( crosstab, measureView, function,
-						rowDimension, rowLevel, colDimension, colLevel );
+				CrosstabModelUtil.addDataItem( crosstab,
+						measureView,
+						function,
+						rowDimension,
+						rowLevel,
+						colDimension,
+						colLevel );
 
 			}
 		}
@@ -363,7 +397,9 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 			List functionList, boolean checkCounterAxis )
 			throws SemanticException
 	{
-		if ( crosstab == null || measureList == null || measureList.isEmpty( )
+		if ( crosstab == null
+				|| measureList == null
+				|| measureList.isEmpty( )
 				|| crosstab.getGrandTotal( axisType ) == null )
 			return;
 
@@ -375,11 +411,10 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 		boolean isCounterAxisEmpty = true;
 
 		// add aggregations for all level views
-		for ( int dimension = 0; dimension < crosstab
-				.getDimensionCount( counterAxisType ); dimension++ )
+		for ( int dimension = 0; dimension < crosstab.getDimensionCount( counterAxisType ); dimension++ )
 		{
-			DimensionViewHandle dimensionView = crosstab.getDimension(
-					counterAxisType, dimension );
+			DimensionViewHandle dimensionView = crosstab.getDimension( counterAxisType,
+					dimension );
 			for ( int level = 0; level < dimensionView.getLevelCount( ); level++ )
 			{
 				// one level exists in this crosstab, then set
@@ -416,26 +451,27 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 				{
 					for ( int i = 0; i < measureList.size( ); i++ )
 					{
-						MeasureViewHandle measureView = (MeasureViewHandle) measureList
-								.get( i );
+						MeasureViewHandle measureView = (MeasureViewHandle) measureList.get( i );
 						if ( measureView.getCrosstab( ) != crosstab )
 							continue;
 
-						String function = functionList == null
-								? null
+						String function = functionList == null ? null
 								: (String) functionList.get( i );
 						// if checkCounterMeasureList is true, then we
 						// need to check the counter level view is
 						// aggregated on
 						// the measure, otherwise do nothing
 						if ( checkCounterAxis
-								&& !CrosstabModelUtil.isAggregationOn(
-										measureView, levelView
-												.getCubeLevelName( ),
+								&& !CrosstabModelUtil.isAggregationOn( measureView,
+										levelView.getCubeLevelName( ),
 										counterAxisType ) )
 							continue;
-						CrosstabModelUtil.addDataItem( crosstab, measureView,
-								function, rowDimension, rowLevel, colDimension,
+						CrosstabModelUtil.addDataItem( crosstab,
+								measureView,
+								function,
+								rowDimension,
+								rowLevel,
+								colDimension,
 								colLevel );
 					}
 				}
@@ -454,24 +490,28 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 
 			for ( int i = 0; i < measureList.size( ); i++ )
 			{
-				MeasureViewHandle measureView = (MeasureViewHandle) measureList
-						.get( i );
+				MeasureViewHandle measureView = (MeasureViewHandle) measureList.get( i );
 				if ( measureView.getCrosstab( ) != crosstab )
 					continue;
 
-				String function = functionList == null
-						? null
+				String function = functionList == null ? null
 						: (String) functionList.get( i );
 				// if checkCounterMeasureList is true, then we need to
 				// check the counter level view is aggregated on the
 				// measure, otherwise do nothing
 				if ( checkCounterAxis
 						&& !CrosstabModelUtil.isAggregationOn( measureView,
-								null, counterAxisType ) )
+								null,
+								counterAxisType ) )
 					continue;
 
-				CrosstabModelUtil.addDataItem( crosstab, measureView, function,
-						rowDimension, rowLevel, colDimension, colLevel );
+				CrosstabModelUtil.addDataItem( crosstab,
+						measureView,
+						function,
+						rowDimension,
+						rowLevel,
+						colDimension,
+						colLevel );
 
 			}
 		}
@@ -487,13 +527,13 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 	{
 		if ( levelView == null || levelView.getCrosstab( ) != crosstab )
 			return;
-		String dimensionName = ( (DimensionViewHandle) levelView.getContainer( ) )
-				.getCubeDimensionName( );
+		String dimensionName = ( (DimensionViewHandle) levelView.getContainer( ) ).getCubeDimensionName( );
 		String levelName = levelView.getCubeLevelName( );
 		if ( dimensionName == null || levelName == null )
 			return;
-		removeMeasureAggregations( dimensionName, levelName, levelView
-				.getAxisType( ) );
+		removeMeasureAggregations( dimensionName,
+				levelName,
+				levelView.getAxisType( ) );
 	}
 
 	/**
@@ -527,10 +567,8 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 			MeasureViewHandle measureView = crosstab.getMeasure( i );
 			for ( int j = 0; j < measureView.getAggregationCount( ); j++ )
 			{
-				AggregationCellHandle aggregationCell = measureView
-						.getAggregationCell( 0 );
-				String propName = CrosstabModelUtil
-						.getAggregationOnPropName( axisType );
+				AggregationCellHandle aggregationCell = measureView.getAggregationCell( 0 );
+				String propName = CrosstabModelUtil.getAggregationOnPropName( axisType );
 				String value = aggregationCell.getModelHandle( )
 						.getStringProperty( propName );
 				if ( ( value == null && levelName == null )
@@ -555,8 +593,7 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 	{
 		if ( measureView == null
 				|| aggregationLevels == null
-				|| ( toValidateLevelView != null && measureView.getCrosstab( ) != toValidateLevelView
-						.getCrosstab( ) ) )
+				|| ( toValidateLevelView != null && measureView.getCrosstab( ) != toValidateLevelView.getCrosstab( ) ) )
 			return;
 		if ( toValidateLevelView != null
 				&& toValidateLevelView.getCubeLevelName( ) == null )
@@ -565,15 +602,13 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 				&& toValidateAxisType != toValidateLevelView.getAxisType( ) )
 			return;
 
-		boolean isInnerMost = toValidateLevelView == null
-				? false
+		boolean isInnerMost = toValidateLevelView == null ? false
 				: toValidateLevelView.isInnerMost( );
 		List unAggregationLevels = new ArrayList( );
 		int unAggregationCount = 0;
 		for ( int i = 0; i < aggregationLevels.size( ); i++ )
 		{
-			LevelViewHandle levelView = (LevelViewHandle) aggregationLevels
-					.get( i );
+			LevelViewHandle levelView = (LevelViewHandle) aggregationLevels.get( i );
 			if ( isInnerMost )
 			{
 				// if the toValidate is innermost, then no aggregation is
@@ -582,7 +617,8 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 				if ( !levelView.isInnerMost( ) )
 				{
 					assert levelView.getAggregationHeader( ) != null;
-					if ( getAggregation( measureView, toValidateLevelView,
+					if ( getAggregation( measureView,
+							toValidateLevelView,
 							levelView ) == null )
 					{
 						unAggregationLevels.add( levelView );
@@ -592,7 +628,8 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 			}
 			else
 			{
-				if ( getAggregation( measureView, toValidateLevelView,
+				if ( getAggregation( measureView,
+						toValidateLevelView,
 						levelView ) == null )
 				{
 					unAggregationLevels.add( levelView );
@@ -604,8 +641,7 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 		int maxAggregationCount = aggregationLevels.size( );
 		// if the counter axis has grand-total, then consider the aggregation
 		// with it
-		if ( crosstab.getGrandTotal( CrosstabModelUtil
-				.getOppositeAxisType( toValidateAxisType ) ) != null )
+		if ( crosstab.getGrandTotal( CrosstabModelUtil.getOppositeAxisType( toValidateAxisType ) ) != null )
 		{
 			if ( getAggregation( measureView, toValidateLevelView, null ) == null )
 			{
@@ -617,20 +653,26 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 		// then do checks about the unAggregationLevels the aggregation count is
 		// valid: 1) 0 or the max count -1 if toValidate is innermost; 2) 0 or
 		// max count if toValidate is not innermost
-		if ( ( isInnerMost && unAggregationCount != 0 && unAggregationCount != maxAggregationCount - 1 )
-				|| ( !isInnerMost && unAggregationCount != 0 && unAggregationCount != maxAggregationCount ) )
+		// if ( ( isInnerMost && unAggregationCount != 0 && unAggregationCount
+		// != maxAggregationCount - 1 )
+		// || ( !isInnerMost && unAggregationCount != 0 && unAggregationCount !=
+		// maxAggregationCount ) )
+
+		if ( unAggregationCount > 0 )
 		{
 			for ( int i = 0; i < unAggregationLevels.size( )
 					&& unAggregationCount > 0; i++ )
 			{
-				LevelViewHandle levelView = (LevelViewHandle) unAggregationLevels
-						.get( i );
+				LevelViewHandle levelView = (LevelViewHandle) unAggregationLevels.get( i );
 				String function = getAggregationFunction( measureView,
-						levelView, CrosstabModelUtil
-								.getOppositeAxisType( toValidateAxisType ),
-						toValidateLevelView, toValidateAxisType );
+						levelView,
+						CrosstabModelUtil.getOppositeAxisType( toValidateAxisType ),
+						toValidateLevelView,
+						toValidateAxisType );
 
-				addAggregation( measureView, toValidateLevelView, levelView,
+				addAggregation( measureView,
+						toValidateLevelView,
+						levelView,
 						function );
 				unAggregationCount--;
 			}
@@ -639,11 +681,14 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 			// is not validated, then handle this
 			if ( unAggregationCount != 0 )
 			{
-				String function = getAggregationFunction( measureView, null,
-						CrosstabModelUtil
-								.getOppositeAxisType( toValidateAxisType ),
-						toValidateLevelView, toValidateAxisType );
-				addAggregation( measureView, toValidateLevelView, null,
+				String function = getAggregationFunction( measureView,
+						null,
+						CrosstabModelUtil.getOppositeAxisType( toValidateAxisType ),
+						toValidateLevelView,
+						toValidateAxisType );
+				addAggregation( measureView,
+						toValidateLevelView,
+						null,
 						function );
 			}
 		}
@@ -670,10 +715,10 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 		if ( infor == null )
 			return null;
 
-		return measureView
-				.getAggregationCell( infor.getRowDimension( ), infor
-						.getRowLevel( ), infor.getColDimension( ), infor
-						.getColLevel( ) );
+		return measureView.getAggregationCell( infor.getRowDimension( ),
+				infor.getRowLevel( ),
+				infor.getColDimension( ),
+				infor.getColLevel( ) );
 	}
 
 	/**
@@ -695,9 +740,13 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 		if ( infor == null )
 			return;
 
-		CrosstabModelUtil.addDataItem( measureView.getCrosstab( ), measureView,
-				function, infor.getRowDimension( ), infor.getRowLevel( ), infor
-						.getColDimension( ), infor.getColLevel( ) );
+		CrosstabModelUtil.addDataItem( measureView.getCrosstab( ),
+				measureView,
+				function,
+				infor.getRowDimension( ),
+				infor.getRowLevel( ),
+				infor.getColDimension( ),
+				infor.getColLevel( ) );
 	}
 
 	/**
@@ -718,23 +767,25 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 		if ( !CrosstabModelUtil.isValidAxisType( leftAxisType )
 				|| !CrosstabModelUtil.isValidAxisType( rightAxisType ) )
 			return null;
-		if ( leftAxisType != CrosstabModelUtil
-				.getOppositeAxisType( rightAxisType ) )
+		if ( leftAxisType != CrosstabModelUtil.getOppositeAxisType( rightAxisType ) )
 			return null;
 
 		// search the column first, then the row
 		if ( COLUMN_AXIS_TYPE == leftAxisType )
 		{
 			String function = null;
-			function = getAggregationFunction( measureView, leftLevelView,
+			function = getAggregationFunction( measureView,
+					leftLevelView,
 					leftAxisType );
 			if ( function != null )
 				return function;
-			return getAggregationFunction( measureView, rightLevelView,
+			return getAggregationFunction( measureView,
+					rightLevelView,
 					rightAxisType );
 		}
 		String function = null;
-		function = getAggregationFunction( measureView, rightLevelView,
+		function = getAggregationFunction( measureView,
+				rightLevelView,
 				rightAxisType );
 		if ( function != null )
 			return function;
@@ -774,9 +825,10 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 		for ( int i = 0; i < crosstab.getMeasureCount( ); i++ )
 		{
 			MeasureViewHandle measureView = crosstab.getMeasure( i );
-			measureView.removeAggregation( infor.getRowDimension( ), infor
-					.getRowLevel( ), infor.getColDimension( ), infor
-					.getColLevel( ) );
+			measureView.removeAggregation( infor.getRowDimension( ),
+					infor.getRowLevel( ),
+					infor.getColDimension( ),
+					infor.getColLevel( ) );
 		}
 	}
 }
