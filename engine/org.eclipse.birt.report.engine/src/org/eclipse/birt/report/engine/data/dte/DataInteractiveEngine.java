@@ -140,9 +140,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		if ( null != dos )
 		{
 			try
-			{
-				IOUtil.writeString( dos, VERSION_1 );
-				
+			{				
 				IOUtil.writeString( dos, pRsetId );
 				
 				// top query in master page then set the page number as row id
