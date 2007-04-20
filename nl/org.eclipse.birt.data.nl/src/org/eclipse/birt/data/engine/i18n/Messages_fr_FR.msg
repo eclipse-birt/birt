@@ -90,7 +90,7 @@ data.engine.InvalidBoundColumnName=Nom de colonne liée incorrecte : {0}.
 data.engine.InvalidGroupKey=La clé de groupe "{0}" du groupe {1} ne peut pas dépendre des liaisons de colonne du groupe inférieur. 
 data.engine.ColumnBindingNotExist=La liaison de colonne "{0}" n'existe pas.
 data.engine.ColumnBindingCycle=La liaison de colonne "{0}" possède un cycle de dépendance.
-data.engine.ColumnBindingReferToInexistColumn=Column binding "{0}" has referred to a data set column "{1}" which is not exist.
+data.engine.ColumnBindingReferToInexistColumn=La liaison de colonne "{0}" a renvoyé vers une colonne de jeu de données "{1}" qui n''existe pas.
 
 #computed column value
 data.engine.BadCompColExpr=L''expression de la colonne de calcul "{0}" est incorrecte.
@@ -175,8 +175,8 @@ data.engine.wrongStatus=Etat incorrect.
 data.engine.wrongVersion=Non pris en charge dans les versions antérieures à la version 2.1.
 data.engine.unsupportOperationException=Opération non prise en charge.
 data.engine.possibleMixedDataTypeInColumn=An error happen during population of data. This might be caused by including data of mixed type in a column of "ANY" type.
-data.engine.invalidMemBufferSize=The memory buffer size "{0}" is invalid. The memory buffer size must be an integer greater than zero. 
-data.engine.document.error.cannotLoadStream=The document stream "{0}" is invalid.
+data.engine.invalidMemBufferSize=La taille du tampon de la mémoire "{0}" est incorrecte. La taille du tampon de la mémoire doit être un entier supérieur à zéro. 
+data.engine.document.error.cannotLoadStream=Le flux de document "{0}" est incorrect.
 
 # oda consumer error
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Le nom de colonne ne peut être ni vide ni nul.

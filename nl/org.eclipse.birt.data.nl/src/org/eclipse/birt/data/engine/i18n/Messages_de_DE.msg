@@ -90,7 +90,7 @@ data.engine.InvalidBoundColumnName=Ungültiger Name für gebundene Spalte: {0}.
 data.engine.InvalidGroupKey=Gruppenschlüssel "{0}" in Gruppe {1} darf nicht von Spaltenbindungen abhängen, die in einer geringeren Gruppe als der eigenen Gruppe definiert wurden. 
 data.engine.ColumnBindingNotExist=Die Spaltenbindung "{0}" existiert nicht.
 data.engine.ColumnBindingCycle=Die Spaltenbindung "{0}" hat einen Abhängigkeitszyklus.
-data.engine.ColumnBindingReferToInexistColumn=Column binding "{0}" has referred to a data set column "{1}" which is not exist.
+data.engine.ColumnBindingReferToInexistColumn=Spaltenbindung "{0}" hat auf eine Datensatzspalte "{1}" verwiesen, die nicht existiert.
 
 #computed column value
 data.engine.BadCompColExpr=Der Ausdruck für die berechnete Spalte "{0}" ist ungültig.
@@ -175,8 +175,8 @@ data.engine.wrongStatus=Falscher Status.
 data.engine.wrongVersion=In früheren Versionen als 2.1 nicht unterstützt.
 data.engine.unsupportOperationException=Nicht unterstützter Vorgang.
 data.engine.possibleMixedDataTypeInColumn=An error happen during population of data. This might be caused by including data of mixed type in a column of "ANY" type.
-data.engine.invalidMemBufferSize=The memory buffer size "{0}" is invalid. The memory buffer size must be an integer greater than zero. 
-data.engine.document.error.cannotLoadStream=The document stream "{0}" is invalid.
+data.engine.invalidMemBufferSize=Die Speicher-Puffergröße "{0}" ist ungültig. Die Speicher-Puffergröße muss eine Ganzzahl größer Null sein. 
+data.engine.document.error.cannotLoadStream=Der Dokumentenstrom "{0}" ist ungültig.
 
 # oda consumer error
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Der Spaltenname darf nicht leer oder gleich Null sein.

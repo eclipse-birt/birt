@@ -90,7 +90,7 @@ data.engine.InvalidBoundColumnName=バインドされたカラムの名前が無効です : {0}
 data.engine.InvalidGroupKey=グループ {1} のグループキー "{0}" は、それより下位のグループで定義されているカラムバインドに依存させることはできません。 
 data.engine.ColumnBindingNotExist=列バインド "{0}" は存在しません。
 data.engine.ColumnBindingCycle=カラムバインド "{0}" の依存関係が循環参照になっています。
-data.engine.ColumnBindingReferToInexistColumn=Column binding "{0}" has referred to a data set column "{1}" which is not exist.
+data.engine.ColumnBindingReferToInexistColumn=列バインド "{0}" は、存在しないデータセット列 "{1}" を参照しています。
 
 #computed column value
 data.engine.BadCompColExpr=計算列 "{0}" の式が無効です。
@@ -175,8 +175,8 @@ data.engine.wrongStatus=ステータスが正しくありません。
 data.engine.wrongVersion=2.1 よりも古いバージョンではサポートされていません。
 data.engine.unsupportOperationException=この操作はサポートされていません。
 data.engine.possibleMixedDataTypeInColumn=An error happen during population of data. This might be caused by including data of mixed type in a column of "ANY" type.
-data.engine.invalidMemBufferSize=The memory buffer size "{0}" is invalid. The memory buffer size must be an integer greater than zero. 
-data.engine.document.error.cannotLoadStream=The document stream "{0}" is invalid.
+data.engine.invalidMemBufferSize=メモリバッファサイズ "{0}" が無効です。メモリバッファサイズには、1 以上の整数を指定してください。 
+data.engine.document.error.cannotLoadStream=文書ストリーム "{0}" が無効です。
 
 # oda consumer error
 odaconsumer.ColumnNameCannotBeEmptyOrNull=列名は空白または null にできません。

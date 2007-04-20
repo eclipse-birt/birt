@@ -90,7 +90,7 @@ data.engine.InvalidBoundColumnName=无效的绑定列名称: {0}。
 data.engine.InvalidGroupKey=组 {1} 中的组关键字“{0}”不能依赖于在低于自身的组中定义的列绑定。 
 data.engine.ColumnBindingNotExist=列绑定“{0}”不存在。
 data.engine.ColumnBindingCycle=列绑定“{0}”具有相关性循环。
-data.engine.ColumnBindingReferToInexistColumn=Column binding "{0}" has referred to a data set column "{1}" which is not exist.
+data.engine.ColumnBindingReferToInexistColumn=列绑定“{0}”引用了一个不存在的数据集列“{1}”。
 
 #computed column value
 data.engine.BadCompColExpr=计算列 "{0}" 的表达式无效。
@@ -175,8 +175,8 @@ data.engine.wrongStatus=错误状态。
 data.engine.wrongVersion=在早于 2.1 的版本中不受支持。
 data.engine.unsupportOperationException=不支持的操作。
 data.engine.possibleMixedDataTypeInColumn=An error happen during population of data. This might be caused by including data of mixed type in a column of "ANY" type.
-data.engine.invalidMemBufferSize=The memory buffer size "{0}" is invalid. The memory buffer size must be an integer greater than zero. 
-data.engine.document.error.cannotLoadStream=The document stream "{0}" is invalid.
+data.engine.invalidMemBufferSize=内存缓冲区大小“{0}”无效。内存缓冲区大小必须为大于零的整数。 
+data.engine.document.error.cannotLoadStream=文档流“{0}”无效。
 
 # oda consumer error
 odaconsumer.ColumnNameCannotBeEmptyOrNull=列名称不能为空或 null。
