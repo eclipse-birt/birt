@@ -11,12 +11,9 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.data.providers;
 
-import java.util.Iterator;
-
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
-import org.eclipse.birt.report.model.api.ColumnHintHandle;
-import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 
 /**
@@ -55,23 +52,7 @@ public class ResultSetColumnProvider extends DefaultNodeProvider
 	 */
 	public String getNodeDisplayName( Object model )
 	{
-		return getDisplayName( ( (ResultSetColumnHandle) model ) );
+		return UIUtil.getColumnDisplayName( ( (ResultSetColumnHandle) model ) );
 	}
 
-	public static String getDisplayName( ResultSetColumnHandle column )
-	{
-		DataSetHandle dataset = (DataSetHandle) column.getElementHandle( );
-		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
-				.iterator( ); iter.hasNext( ); )
-		{
-			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
-			if ( element.getColumnName( ).equals( column.getColumnName( ) )
-					|| column.getColumnName( ).equals( element.getAlias( ) ) )
-			{
-				return element.getDisplayName( ) == null
-						? column.getColumnName( ) : element.getDisplayName( );
-			}
-		}
-		return column.getColumnName( );
-	}
 }

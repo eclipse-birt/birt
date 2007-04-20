@@ -24,6 +24,7 @@ import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
@@ -692,7 +693,7 @@ public class InsertInLayoutUtil
 			// .newLabel( null );
 			LabelHandle label = DesignElementFactory.getInstance( )
 					.newLabel( null );
-			label.setText( getDisplayName( model ) );
+			label.setText( UIUtil.getColumnDisplayName( model ) );
 			rule.insert( label );
 		}
 
@@ -1176,10 +1177,15 @@ public class InsertInLayoutUtil
 						// LabelHandle labelItemHandle =
 						// DesignElementFactory.getInstance( )
 						// .newLabel( null );
-						String labelText = getDisplayName( columns[j] );
+						String labelText = UIUtil.getColumnDisplayName( columns[j] );
 						if ( labelText != null )
 						{
 							labelItemHandle.setText( labelText );
+						}
+						String displayKey = getDisplayKey( columns[j] );
+						if ( displayKey != null )
+						{
+							labelItemHandle.setTextKey( displayKey );
 						}
 						cell.addElement( labelItemHandle, cells.getSlotID( ) );
 					}
@@ -1210,6 +1216,22 @@ public class InsertInLayoutUtil
 				}
 			}
 		}
+	}
+
+	private static String getDisplayKey( ResultSetColumnHandle column )
+	{
+		DataSetHandle dataset = (DataSetHandle) column.getElementHandle( );
+		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
+				.iterator( ); iter.hasNext( ); )
+		{
+			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
+			if ( element.getColumnName( ).equals( column.getColumnName( ) )
+					|| column.getColumnName( ).equals( element.getAlias( ) ) )
+			{
+				return element.getDisplayNameKey( );
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -1316,22 +1338,5 @@ public class InsertInLayoutUtil
 			}
 		}
 		return new StructuredSelection( resultList );
-	}
-	
-	private static String getDisplayName( ResultSetColumnHandle column )
-	{
-		DataSetHandle dataset = (DataSetHandle) column.getElementHandle( );
-		for ( Iterator iter = dataset.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP )
-				.iterator( ); iter.hasNext( ); )
-		{
-			ColumnHintHandle element = (ColumnHintHandle) iter.next( );
-			if ( element.getColumnName( ).equals( column.getColumnName( ) )
-					|| column.getColumnName( ).equals( element.getAlias( ) ) )
-			{
-				return element.getDisplayName( ) == null
-						? column.getColumnName( ) : element.getDisplayName( );
-			}
-		}
-		return column.getColumnName( );
 	}
 }
