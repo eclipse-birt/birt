@@ -74,6 +74,10 @@
 		<condition property="forceContextQualifier" value="${buildId}">
 			<equals arg1="${buildType}" arg2="N" />
 		</condition>
+		<condition property="generateFeatureVersionSuffix" value="false">
+			<equals arg1="${buildType}" arg2="N" />
+		</condition>
+		
 		<!--compiler args-->
 		<property name="compilerArg" value="-enableJavadoc -encoding utf-8 -warn:-discouraged,forbidden" />
 		<property name="javacSource" value="1.4" />
