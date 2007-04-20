@@ -238,6 +238,7 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 				addToRoot(aArea);
 			}
 		}
+		keepWith = keepWithNext;
 		return true;
 	}
 

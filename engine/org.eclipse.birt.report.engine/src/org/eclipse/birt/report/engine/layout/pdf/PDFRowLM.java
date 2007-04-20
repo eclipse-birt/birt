@@ -115,6 +115,18 @@ public class PDFRowLM extends PDFInlineStackingLM
 			tbl.updateRow( (RowArea) root, specifiedHeight, !hasNext );
 		}
 	}
+	
+	protected boolean submitRoot( )
+	{
+		RowArea row = (RowArea)root;
+		boolean ret = super.submitRoot( );
+		if(ret)
+		{
+			tbl.addRow( row, !hasNext, false );
+		}
+		return ret;
+		
+	}
 
 	protected boolean isHidden( )
 	{

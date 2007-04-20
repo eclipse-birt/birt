@@ -282,7 +282,9 @@ public class BorderConflictResolver
 					}
 				}
 			}
-			usedStyle.setBorder( borderStyles[maxStyleIndex], borderWidths[maxStyleIndex], styles[maxStyleIndex].getBorderColor( ) );
+			usedStyle.setBorder( borderStyles[maxStyleIndex], 
+					borderWidths[maxStyleIndex]!=null ? borderWidths[maxStyleIndex] : IStyle.NUMBER_0, 
+							styles[maxStyleIndex].getBorderColor( ) );
 		}
 	}
 

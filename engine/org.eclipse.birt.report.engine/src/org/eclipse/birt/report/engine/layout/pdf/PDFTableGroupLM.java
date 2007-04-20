@@ -93,19 +93,11 @@ public class PDFTableGroupLM extends PDFGroupLM
 
 			}
 		}
-		PDFReportLayoutEngine engine = context.getLayoutEngine( );
-		PDFLayoutEngineContext con = new PDFLayoutEngineContext( engine );
-		con.setFactory( new PDFLayoutManagerFactory( con ) );
-		con.setFormat( context.getFormat( ) );
-		con.setReport( context.getReport( ) );
-		con.setMaxHeight( context.getMaxHeight( ) );
-		con.setMaxWidth( context.getMaxWidth( ) );
-		con.setAllowPageBreak( false );
 		IReportItemExecutor headerExecutor = new DOMReportItemExecutor( header );
 		headerExecutor.execute( );
-		PDFTableRegionLM regionLM = new PDFTableRegionLM( con, tableLM
-				.getContent( ), tableLM.getLayoutInfo( ) );
-		regionLM.initialize( header, null );// tableLM.lastRowArea);
+		PDFTableRegionLM regionLM = tableLM.getTableRegionLayout( );
+		regionLM.initialize( header );
+		regionLM.setGroupLevel( getGroupLevel() );
 		regionLM.layout( );
 		TableArea tableRegion = (TableArea) tableLM.getContent( ).getExtension(
 				IContent.LAYOUT_EXTENSION );
@@ -121,7 +113,7 @@ public class PDFTableGroupLM extends PDFGroupLM
 				row = (RowArea) iter.next( );
 				// FIXME should add to the first line of this group
 				addArea( row, false, true );
-				tableLM.addRow( row, true );
+				tableLM.addRow( row, true, false );
 				count++;
 			}
 
@@ -130,6 +122,16 @@ public class PDFTableGroupLM extends PDFGroupLM
 		tableLM.getContent( ).setExtension( IContent.LAYOUT_EXTENSION, null );
 		needRepeat = false;
 	}
+	
+	protected int getGroupLevel()
+	{
+		if(content!=null && content instanceof IGroupContent)
+		{
+			return ((IGroupContent)content).getGroupLevel( );
+		}
+		return 0;
+	}
+	
 
 	protected void repeatHeader( )
 	{

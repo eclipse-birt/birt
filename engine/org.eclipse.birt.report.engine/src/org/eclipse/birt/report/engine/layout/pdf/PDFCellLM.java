@@ -78,7 +78,7 @@ public class PDFCellLM extends PDFBlockStackingLM
 				areaStyle.setProperty( IStyle.STYLE_MARGIN_TOP, IStyle.NUMBER_0 );
 			}
 		}
-		tableLM.resolveBorderConflict( (CellArea)root );
+		tableLM.resolveBorderConflict( (CellArea)root, isFirst);
 		root.setWidth( columnWidth );
 	}
 
@@ -93,10 +93,6 @@ public class PDFCellLM extends PDFBlockStackingLM
 			validateBoxProperty( root.getStyle( ), columnWidth, context.getMaxHeight( ) );
 			setOffsetX( root.getContentX( ) );
 			setOffsetY(root.getContentY( ));
-			if ( isFirst )
-			{
-				isFirst = false;
-			}
 			setCurrentBP( 0 );
 			setCurrentIP( 0 );
 		}

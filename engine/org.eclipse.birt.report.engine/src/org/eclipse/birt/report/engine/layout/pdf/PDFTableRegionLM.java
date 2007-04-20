@@ -16,33 +16,45 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
-import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
+import org.eclipse.birt.report.engine.layout.pdf.cache.TableAreaLayout;
+import org.eclipse.birt.report.engine.layout.pdf.cache.TableAreaLayout.Row;
 
 public class PDFTableRegionLM extends PDFTableLM
 		implements
 			IBlockStackingLayoutManager
 
 {
-	protected RowArea lastRow;
+	protected int groupLevel = 0;
 	
 	public PDFTableRegionLM( PDFLayoutEngineContext context, IContent content,
-			TableLayoutInfo layoutInfo )
+			TableLayoutInfo layoutInfo, TableAreaLayout regionLayout )
 	{
 		super( context, null, content, null );
 		this.layoutInfo = layoutInfo;
+		this.layout = regionLayout;
+	}
+	
+	protected int getGroupLevel()
+	{
+		return groupLevel;
 	}
 
-	public void initialize( ITableBandContent content,  RowArea lastRowArea )
+	public void setGroupLevel(int groupLevel)
+	{
+		this.groupLevel = groupLevel;
+	}
+	
+	public void initialize( ITableBandContent content )
 	{
 		this.executor = new DOMReportItemExecutor( content );
 		this.executor.execute( );
-		this.lastRow = lastRowArea;
+		status = STATUS_START;
 	}
 	
 	protected void initialize()
 	{
 		super.initialize( );
-		//this.lastRowArea = lastRow;
+		//this.layout.setUnresolvedRow( lastRow );
 	}
 	protected int getAvaHeight( )
 	{
@@ -51,6 +63,18 @@ public class PDFTableRegionLM extends PDFTableLM
 
 	protected void buildTableLayoutInfo( )
 	{
+
+	}
+	
+	protected void closeLayout( )
+	{
+		// FIXME
+		if ( root == null )
+		{
+			return;
+		}
+
+		root.setHeight( getCurrentBP( ) + getOffsetY( ) );
 
 	}
 

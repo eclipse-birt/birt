@@ -71,8 +71,6 @@ public class PDFTableLM extends PDFBlockStackingLM
 
 	protected TableLayoutInfo layoutInfo = null;
 
-	protected PDFTableRegionLM regionLM = null;
-
 	protected ITableBandContent currentBand = null;
 
 	protected int repeatRowCount = 0;
@@ -86,6 +84,8 @@ public class PDFTableLM extends PDFBlockStackingLM
 	protected boolean isNewArea = true;
 
 	protected TableAreaLayout layout;
+	
+	protected TableAreaLayout regionLayout = null;;
 
 	public PDFTableLM( PDFLayoutEngineContext context, PDFStackingLM parent,
 			IContent content, IReportItemExecutor executor )
@@ -107,6 +107,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 		skipCachedRow( );
 		return super.traverseChildren( );
 	}
+	
 
 	public boolean isCellVisible( ICellContent cell )
 	{
@@ -135,7 +136,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 		groupStack.pop( );
 	}
 
-	private int getGroupLevel( )
+	protected int getGroupLevel( )
 	{
 		if ( !groupStack.isEmpty( ) )
 		{
@@ -180,8 +181,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 
 	protected void createRoot( )
 	{
-		root = (ContainerArea) AreaFactory
-				.createTableArea( (ITableContent) content );
+		root = AreaFactory.createTableArea( (ITableContent) content );
 		root.setWidth( tableWidth );
 		if ( !isFirst )
 		{
@@ -239,6 +239,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 
 	protected void closeLayout( )
 	{
+		regionLayout = null;
 		// FIXME
 		if ( root == null )
 		{
@@ -270,11 +271,11 @@ public class PDFTableLM extends PDFBlockStackingLM
 	 * 
 	 * @param cellArea
 	 */
-	public void resolveBorderConflict( CellArea cellArea )
+	public void resolveBorderConflict( CellArea cellArea, boolean isFirst )
 	{
 		if ( layout != null )
 		{
-			layout.resolveBorderConflict( cellArea );
+			layout.resolveBorderConflict( cellArea, isFirst );
 		}
 	}
 
@@ -438,7 +439,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 			//handle visibility
 			for(int i=0; i<columnNumber; i++)
 			{
-				IColumn column = (IColumn) table.getColumn( i );
+				IColumn column = table.getColumn( i );
 				DimensionType w = column.getWidth();
 				if(PDFTableLM.this.isColumnHidden(column))
 				{
@@ -483,7 +484,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 
 			for ( int j = 0; j < table.getColumnCount( ); j++ )
 			{
-				IColumn column = (IColumn) table.getColumn( j );
+				IColumn column = table.getColumn( j );
 				int columnWidth = getDimensionValue( column.getWidth( ),
 						tableWidth );
 				if ( columnWidth > 0 )
@@ -768,11 +769,11 @@ public class PDFTableLM extends PDFBlockStackingLM
 		}
 	}
 
-	public void addRow( RowArea row, boolean finished )
+	public void addRow( RowArea row, boolean finished, boolean repeated )
 	{
 		if ( layout != null )
 		{
-			layout.addRow( row, finished );
+			layout.addRow( row, finished, repeated );
 		}
 	}
 
@@ -792,6 +793,25 @@ public class PDFTableLM extends PDFBlockStackingLM
 			return layoutInfo.getCellWidth( startColumn, endColumn );
 		}
 		return 0;
+	}
+	
+	public PDFTableRegionLM getTableRegionLayout()
+	{
+		PDFReportLayoutEngine engine = context.getLayoutEngine( );
+		PDFLayoutEngineContext con = new PDFLayoutEngineContext( engine );
+		con.setFactory( new PDFLayoutManagerFactory( con ) );
+		con.setFormat( context.getFormat( ) );
+		con.setReport( context.getReport( ) );
+		con.setMaxHeight( context.getMaxHeight( ) );
+		con.setMaxWidth( context.getMaxWidth( ) );
+		con.setAllowPageBreak( false );
+		if(regionLayout==null)
+		{
+			regionLayout = new TableAreaLayout( tableContent, layoutInfo, 0,
+					columnNumber );
+		}
+		return new PDFTableRegionLM( con, tableContent, layoutInfo, regionLayout );
+		
 	}
 
 	protected void repeatHeader( )
@@ -821,19 +841,10 @@ public class PDFTableLM extends PDFBlockStackingLM
 
 			}
 		}
-		PDFReportLayoutEngine engine = context.getLayoutEngine( );
-		PDFLayoutEngineContext con = new PDFLayoutEngineContext( engine );
-		con.setFactory( new PDFLayoutManagerFactory( con ) );
-		con.setFormat( context.getFormat( ) );
-		con.setReport( context.getReport( ) );
-		con.setMaxHeight( context.getMaxHeight( ) );
-		con.setMaxWidth( context.getMaxWidth( ) );
-		con.setAllowPageBreak( false );
 		IReportItemExecutor headerExecutor = new DOMReportItemExecutor( header );
 		headerExecutor.execute( );
-		PDFTableRegionLM regionLM = new PDFTableRegionLM( con, tableContent,
-				layoutInfo );
-		regionLM.initialize( header, null );
+		PDFTableRegionLM regionLM = getTableRegionLayout( );
+		regionLM.initialize( header );
 		regionLM.layout( );
 		TableArea tableRegion = (TableArea) tableContent
 				.getExtension( IContent.LAYOUT_EXTENSION );
@@ -847,7 +858,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 			{
 				row = (RowArea) iter.next( );
 				addArea( row, false, pageBreakAvoid );
-				addRow( row, true );
+				addRow( row, true, true );
 				repeatRowCount++;
 			}
 			if ( row != null )
@@ -882,15 +893,8 @@ public class PDFTableLM extends PDFBlockStackingLM
 		band.getChildren( ).add( row );
 		row.setParent( band );
 		band.setParent( tableContent );
-		PDFLayoutEngineContext con = new PDFLayoutEngineContext( context
-				.getLayoutEngine( ) );
-		con.setFactory( context.getFactory( ) );
-		con.setFormat( context.getFormat( ) );
-		con.setMaxHeight( context.getMaxHeight( ) );
-		con.setAllowPageBreak( false );
-		PDFTableRegionLM regionLM = new PDFTableRegionLM( con, content,
-				layoutInfo );
-		regionLM.initialize( band, null );
+		PDFTableRegionLM regionLM = getTableRegionLayout();
+		regionLM.initialize( band );
 		regionLM.layout( );
 		TableArea tableRegion = (TableArea) content
 				.getExtension( IContent.LAYOUT_EXTENSION );
