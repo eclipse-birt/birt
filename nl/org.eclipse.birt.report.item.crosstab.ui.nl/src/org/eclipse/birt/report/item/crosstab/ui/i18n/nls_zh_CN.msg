@@ -1,102 +1,102 @@
 ###########################################################
 # Crosstab Action mame and trans name
-AddLevelHandleAction_Displayname=Show/Hide Group Levels
-AddLevelHandleAction_TransName=Show/Hide Group Levels
-AddMesureViewHandleAction.DisplayName=Show/Hide Measures
-AddMesureViewHandleAction.TransName=Show/Hide Measures
-AddSubTotalAction.LabelName=Grand Total
-AddSubTotalAction.TransName=Aggregation
-AddSubTotalAction.DisplayName=Aggregation
-AddSubTotalAction.TotalName=TOTAL
-CrosstabMenuBuilder.EditCubeAction.DisplayName=Edit Data Cube
-DeleteDimensionViewHandleAction.TransName=Delete Dimensionviewhandle
-DeleteDimensionViewHandleAction.DisplayName=Remove
-DeleteMeasureHandleAction.DisplayName=Remove
-DeleteMeasureHandleAction.TransName=Delete MeasureViewHandle
+AddLevelHandleAction_Displayname=显示/隐藏组级别
+AddLevelHandleAction_TransName=显示/隐藏组级别
+AddMesureViewHandleAction.DisplayName=显示/隐藏度量
+AddMesureViewHandleAction.TransName=显示/隐藏度量
+AddSubTotalAction.LabelName=总计
+AddSubTotalAction.TransName=聚合
+AddSubTotalAction.DisplayName=聚合
+AddSubTotalAction.TotalName=合计
+CrosstabMenuBuilder.EditCubeAction.DisplayName=编辑多维数据集
+DeleteDimensionViewHandleAction.TransName=删除维视图句柄
+DeleteDimensionViewHandleAction.DisplayName=删除
+DeleteMeasureHandleAction.DisplayName=删除
+DeleteMeasureHandleAction.TransName=删除度量视图句柄
 ###########################################################
 # Crosstab Command trans name
-AddDimensionViewHandleCommand.TransName=Add DiminsionHandle
-AddMeasureViewHandleCommand.TransName=Add MeasureHandle
-ChangeAreaCommand.TransName=Drop dimension handle
-ChangeMeasureOrderCommand.TransName=Change the measue order
-CreateDimensionViewCommand.TransName=Create DiminsionViewHandle
-CreateMeasureViewCommand.TransName=Create MeasureViewHandle
+AddDimensionViewHandleCommand.TransName=添加维句柄
+AddMeasureViewHandleCommand.TransName=添加度量句柄
+ChangeAreaCommand.TransName=删除维句柄
+ChangeMeasureOrderCommand.TransName=更改度量顺序
+CreateDimensionViewCommand.TransName=创建维视图句柄
+CreateMeasureViewCommand.TransName=创建度量视图句柄
 ###########################################################
 # Crosstab EditPart
 ###########################################################
 # Crosstab Command trans name
-CrosstabTableEditPart.GuideText=Cross Tab
+CrosstabTableEditPart.GuideText=交叉表
 ###########################################################
 # Crosstab Dialog trans name
-GrandTotalProvider.Column.DataField=Data Field
-GrandTotalProvider.Column.Function=Function
-SubTotalProvider.Column.DataField=Data Field
-SubTotalProvider.Column.Function=Function
-SubTotalProvider.Column.AggregateOn=Aggregate on
-LevelViewDialog.Title=Show/Hide Group Levels
-LevelViewDialog.Label.Info=Select levels to show on Crosstab:
-AggregationDialog.Title=Aggregation
-AggregationDialog.Label.Grand=Grand Totals:
-AggregationDialog.Label.Sub=Sub Totals:
-ShowSummaryFieldDialog.Title=Show/Hide Summary Fields
-ShowSummaryFieldDialog.Label.Info=Select levels to show on Crosstab:
+GrandTotalProvider.Column.DataField=数据字段
+GrandTotalProvider.Column.Function=函数
+SubTotalProvider.Column.DataField=数据字段
+SubTotalProvider.Column.Function=函数
+SubTotalProvider.Column.AggregateOn=聚合条件
+LevelViewDialog.Title=显示/隐藏组级别
+LevelViewDialog.Label.Info=选择要在交叉表上显示的级别:
+AggregationDialog.Title=聚合
+AggregationDialog.Label.Grand=总计:
+AggregationDialog.Label.Sub=小计:
+ShowSummaryFieldDialog.Title=显示/隐藏摘要字段
+ShowSummaryFieldDialog.Label.Info=选择要在交叉表上显示的级别:
 ###########################################################
 # Crosstab Outline Node
-AreaNodeProvider.ColumnArea=Column Area
-AreaNodeProvider.RowArea=Row Area
-AreaNodeProvider.DetailArea=Detail Area
-CrossTabViewNodeProvider.ColumnArea=Column Area
-CrossTabViewNodeProvider.RowArea=Row Area
-CrosstTabCellNodeProvider.Cell=Cell
-CrosstTabLevelNodeProvider.Level=Level - 
-CrosstTabMeasureNodeProvider.Detail=Detail - 
-MeasureSubNodeProvider.Header=Header
-MeasureSubNodeProvider.Detail=Detail
-MeasureSubNodeProvider.Aggregation=Aggregation
+AreaNodeProvider.ColumnArea=列区域
+AreaNodeProvider.RowArea=行区域
+AreaNodeProvider.DetailArea=详细信息区域
+CrossTabViewNodeProvider.ColumnArea=列区域
+CrossTabViewNodeProvider.RowArea=行区域
+CrosstTabCellNodeProvider.Cell=单元格
+CrosstTabLevelNodeProvider.Level=级别 - 
+CrosstTabMeasureNodeProvider.Detail=详细资料 - 
+MeasureSubNodeProvider.Header=页眉
+MeasureSubNodeProvider.Detail=详细资料
+MeasureSubNodeProvider.Aggregation=聚合
 
-SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=Error
-SortkeyBuilder.DialogTitle.Label.Key=Key:
-CrosstabSortingModelProvider.ColumnName.GroupLevel=Group Level
-CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel=Group Level:
-SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=Click to invoke the Expression Builder
-SortkeyBuilder.DialogTitle.Label.Direction=Direction:
+SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=错误
+SortkeyBuilder.DialogTitle.Label.Key=关键字:
+CrosstabSortingModelProvider.ColumnName.GroupLevel=组级别
+CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel=组级别:
+SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=单击以调用表达式生成器
+SortkeyBuilder.DialogTitle.Label.Direction=方向:
 
 ###########################################################
 #GrossTabPageGenerator properties
-CrosstabPageGenerator.List.General=General
-CrosstabPageGenerator.List.Margin=Margin
-CrosstabPageGenerator.List.Font=Font
-CrosstabPageGenerator.List.Borders=Border
-CrosstabPageGenerator.List.Section=Page Break
-CrosstabPageGenerator.List.Visibility=Visibility
-CrosstabPageGenerator.List.TOC=Table of Contents
-CrosstabPageGenerator.List.Bookmark=Bookmark
-CrosstabPageGenerator.List.NamedExpressions=Named Expressions
-CrosstabPageGenerator.List.UserProperties=User Properties
-CrosstabPageGenerator.List.AdvancedProperty=Advanced
+CrosstabPageGenerator.List.General=常规
+CrosstabPageGenerator.List.Margin=边距
+CrosstabPageGenerator.List.Font=字体
+CrosstabPageGenerator.List.Borders=边框
+CrosstabPageGenerator.List.Section=分页符
+CrosstabPageGenerator.List.Visibility=可见性
+CrosstabPageGenerator.List.TOC=目录
+CrosstabPageGenerator.List.Bookmark=书签
+CrosstabPageGenerator.List.NamedExpressions=命名表达式
+CrosstabPageGenerator.List.UserProperties=用户属性
+CrosstabPageGenerator.List.AdvancedProperty=高级
 
-CrosstabPageGenerator.TabItem.Binding=Binding
-CrosstabPageGenerator.TabItem.RowArea=Row Area
-CrosstabPageGenerator.TabItem.ColumnArea=Column Area
-CrosstabPageGenerator.TabItem.DetailArea=Detail Area
-CrosstabPageGenerator.TabItem.Filters=Filters
-CrosstabPageGenerator.TabItem.Highlights=Highlights
-CrosstabPageGenerator.TabItem.map=Map
-CrosstabPageGenerator.TabItem.Sorting=Sorting
+CrosstabPageGenerator.TabItem.Binding=绑定
+CrosstabPageGenerator.TabItem.RowArea=行区域
+CrosstabPageGenerator.TabItem.ColumnArea=列区域
+CrosstabPageGenerator.TabItem.DetailArea=详细信息区域
+CrosstabPageGenerator.TabItem.Filters=筛选器
+CrosstabPageGenerator.TabItem.Highlights=突出显示
+CrosstabPageGenerator.TabItem.map=映射
+CrosstabPageGenerator.TabItem.Sorting=排序
 
-CrosstabGeneraPage.ForEmptyCell=For empty cells, show:
-CrosstabGeneraPage.FormatOption=Format options:
-LayoutMeasuresProvider.DisplayName=Layout data fields in detail area vertically
+CrosstabGeneraPage.ForEmptyCell=对于空单元格，显示:
+CrosstabGeneraPage.FormatOption=格式选项:
+LayoutMeasuresProvider.DisplayName=在详细信息区域中垂直布局数据字段
 
 
-parameterBinding.title=Dataset Parameter Binding...
+parameterBinding.title=数据集参数绑定...
 
 ###########################################################
 #SortingHandleProvider properties
-SortingHandleProvider.Label.SortOn=Sort on:
-Element.ReportItem.dataSet=Data Set:
-Element.ReportElement.Cube=&Data:
-BindingPage.None=None
+SortingHandleProvider.Label.SortOn=排序时间:
+Element.ReportItem.dataSet=数据集:
+Element.ReportElement.Cube=数据(&D):
+BindingPage.None=无
 
 
 FilterHandleProvider.Label.Filterby=Filter by:
@@ -104,7 +104,7 @@ FilterHandleProvider.Label.Filterby=Filter by:
 ###########################################################
 #CategoryPageGenerator properties
 
-CategoryPageGenerator.TabItem.Attributes=Properties
+CategoryPageGenerator.TabItem.Attributes=属性
 
 
 ###########################################################

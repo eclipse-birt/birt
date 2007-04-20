@@ -1,102 +1,102 @@
 ###########################################################
 # Crosstab Action mame and trans name
-AddLevelHandleAction_Displayname=Show/Hide Group Levels
-AddLevelHandleAction_TransName=Show/Hide Group Levels
-AddMesureViewHandleAction.DisplayName=Show/Hide Measures
-AddMesureViewHandleAction.TransName=Show/Hide Measures
-AddSubTotalAction.LabelName=Grand Total
-AddSubTotalAction.TransName=Aggregation
-AddSubTotalAction.DisplayName=Aggregation
-AddSubTotalAction.TotalName=TOTAL
-CrosstabMenuBuilder.EditCubeAction.DisplayName=Edit Data Cube
-DeleteDimensionViewHandleAction.TransName=Delete Dimensionviewhandle
-DeleteDimensionViewHandleAction.DisplayName=Remove
-DeleteMeasureHandleAction.DisplayName=Remove
-DeleteMeasureHandleAction.TransName=Delete MeasureViewHandle
+AddLevelHandleAction_Displayname=グループレベルの表示/非表示
+AddLevelHandleAction_TransName=グループレベルの表示/非表示
+AddMesureViewHandleAction.DisplayName=計測の表示/非表示
+AddMesureViewHandleAction.TransName=計測の表示/非表示
+AddSubTotalAction.LabelName=総計
+AddSubTotalAction.TransName=総計
+AddSubTotalAction.DisplayName=総計
+AddSubTotalAction.TotalName=合計
+CrosstabMenuBuilder.EditCubeAction.DisplayName=データキューブの編集
+DeleteDimensionViewHandleAction.TransName=DimensionViewHandle の削除
+DeleteDimensionViewHandleAction.DisplayName=削除
+DeleteMeasureHandleAction.DisplayName=削除
+DeleteMeasureHandleAction.TransName=MeasureViewHandle の削除
 ###########################################################
 # Crosstab Command trans name
-AddDimensionViewHandleCommand.TransName=Add DiminsionHandle
-AddMeasureViewHandleCommand.TransName=Add MeasureHandle
-ChangeAreaCommand.TransName=Drop dimension handle
-ChangeMeasureOrderCommand.TransName=Change the measue order
-CreateDimensionViewCommand.TransName=Create DiminsionViewHandle
-CreateMeasureViewCommand.TransName=Create MeasureViewHandle
+AddDimensionViewHandleCommand.TransName=DimensionHandle の追加
+AddMeasureViewHandleCommand.TransName=MeasureHandle の追加
+ChangeAreaCommand.TransName=DimensionHandle の削除
+ChangeMeasureOrderCommand.TransName=計測順の変更
+CreateDimensionViewCommand.TransName=DimensionViewHandle の作成
+CreateMeasureViewCommand.TransName=MeasureViewHandle の作成
 ###########################################################
 # Crosstab EditPart
 ###########################################################
 # Crosstab Command trans name
-CrosstabTableEditPart.GuideText=Cross Tab
+CrosstabTableEditPart.GuideText=クロスタブ
 ###########################################################
 # Crosstab Dialog trans name
-GrandTotalProvider.Column.DataField=Data Field
-GrandTotalProvider.Column.Function=Function
-SubTotalProvider.Column.DataField=Data Field
-SubTotalProvider.Column.Function=Function
-SubTotalProvider.Column.AggregateOn=Aggregate on
-LevelViewDialog.Title=Show/Hide Group Levels
-LevelViewDialog.Label.Info=Select levels to show on Crosstab:
-AggregationDialog.Title=Aggregation
-AggregationDialog.Label.Grand=Grand Totals:
-AggregationDialog.Label.Sub=Sub Totals:
-ShowSummaryFieldDialog.Title=Show/Hide Summary Fields
-ShowSummaryFieldDialog.Label.Info=Select levels to show on Crosstab:
+GrandTotalProvider.Column.DataField=データフィールド
+GrandTotalProvider.Column.Function=関数
+SubTotalProvider.Column.DataField=データフィールド
+SubTotalProvider.Column.Function=関数
+SubTotalProvider.Column.AggregateOn=総計条件
+LevelViewDialog.Title=グループレベルの表示/非表示
+LevelViewDialog.Label.Info=クロスタブに表示するレベルの選択 :
+AggregationDialog.Title=総計
+AggregationDialog.Label.Grand=総計 :
+AggregationDialog.Label.Sub=小計 :
+ShowSummaryFieldDialog.Title=サマリフィールドの表示/非表示
+ShowSummaryFieldDialog.Label.Info=クロスタブに表示するレベルの選択 :
 ###########################################################
 # Crosstab Outline Node
-AreaNodeProvider.ColumnArea=Column Area
-AreaNodeProvider.RowArea=Row Area
-AreaNodeProvider.DetailArea=Detail Area
-CrossTabViewNodeProvider.ColumnArea=Column Area
-CrossTabViewNodeProvider.RowArea=Row Area
-CrosstTabCellNodeProvider.Cell=Cell
-CrosstTabLevelNodeProvider.Level=Level - 
-CrosstTabMeasureNodeProvider.Detail=Detail - 
-MeasureSubNodeProvider.Header=Header
-MeasureSubNodeProvider.Detail=Detail
-MeasureSubNodeProvider.Aggregation=Aggregation
+AreaNodeProvider.ColumnArea=列の領域
+AreaNodeProvider.RowArea=行の領域
+AreaNodeProvider.DetailArea=詳細の領域
+CrossTabViewNodeProvider.ColumnArea=列の領域
+CrossTabViewNodeProvider.RowArea=行の領域
+CrosstTabCellNodeProvider.Cell=セル
+CrosstTabLevelNodeProvider.Level=レベル - 
+CrosstTabMeasureNodeProvider.Detail=詳細 - 
+MeasureSubNodeProvider.Header=ヘッダ
+MeasureSubNodeProvider.Detail=詳細
+MeasureSubNodeProvider.Aggregation=総計
 
-SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=Error
-SortkeyBuilder.DialogTitle.Label.Key=Key:
-CrosstabSortingModelProvider.ColumnName.GroupLevel=Group Level
-CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel=Group Level:
-SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=Click to invoke the Expression Builder
-SortkeyBuilder.DialogTitle.Label.Direction=Direction:
+SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=エラー
+SortkeyBuilder.DialogTitle.Label.Key=キー :
+CrosstabSortingModelProvider.ColumnName.GroupLevel=グループレベル
+CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel=グループレベル :
+SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=式ビルダを起動するには、ここをクリックしてしてください
+SortkeyBuilder.DialogTitle.Label.Direction=方向 :
 
 ###########################################################
 #GrossTabPageGenerator properties
-CrosstabPageGenerator.List.General=General
-CrosstabPageGenerator.List.Margin=Margin
-CrosstabPageGenerator.List.Font=Font
-CrosstabPageGenerator.List.Borders=Border
-CrosstabPageGenerator.List.Section=Page Break
-CrosstabPageGenerator.List.Visibility=Visibility
-CrosstabPageGenerator.List.TOC=Table of Contents
-CrosstabPageGenerator.List.Bookmark=Bookmark
-CrosstabPageGenerator.List.NamedExpressions=Named Expressions
-CrosstabPageGenerator.List.UserProperties=User Properties
-CrosstabPageGenerator.List.AdvancedProperty=Advanced
+CrosstabPageGenerator.List.General=全般
+CrosstabPageGenerator.List.Margin=余白
+CrosstabPageGenerator.List.Font=フォント
+CrosstabPageGenerator.List.Borders=罫線
+CrosstabPageGenerator.List.Section=ページ区切り
+CrosstabPageGenerator.List.Visibility=表示/非表示
+CrosstabPageGenerator.List.TOC=目次
+CrosstabPageGenerator.List.Bookmark=ブックマーク
+CrosstabPageGenerator.List.NamedExpressions=名前付き式
+CrosstabPageGenerator.List.UserProperties=ユーザのプロパティ
+CrosstabPageGenerator.List.AdvancedProperty=詳細設定
 
-CrosstabPageGenerator.TabItem.Binding=Binding
-CrosstabPageGenerator.TabItem.RowArea=Row Area
-CrosstabPageGenerator.TabItem.ColumnArea=Column Area
-CrosstabPageGenerator.TabItem.DetailArea=Detail Area
-CrosstabPageGenerator.TabItem.Filters=Filters
-CrosstabPageGenerator.TabItem.Highlights=Highlights
-CrosstabPageGenerator.TabItem.map=Map
-CrosstabPageGenerator.TabItem.Sorting=Sorting
+CrosstabPageGenerator.TabItem.Binding=バインド
+CrosstabPageGenerator.TabItem.RowArea=行の領域
+CrosstabPageGenerator.TabItem.ColumnArea=列の領域
+CrosstabPageGenerator.TabItem.DetailArea=詳細の領域
+CrosstabPageGenerator.TabItem.Filters=フィルタ
+CrosstabPageGenerator.TabItem.Highlights=ハイライト
+CrosstabPageGenerator.TabItem.map=マップ
+CrosstabPageGenerator.TabItem.Sorting=ソート
 
-CrosstabGeneraPage.ForEmptyCell=For empty cells, show:
-CrosstabGeneraPage.FormatOption=Format options:
-LayoutMeasuresProvider.DisplayName=Layout data fields in detail area vertically
+CrosstabGeneraPage.ForEmptyCell=空のセルに次を表示 :
+CrosstabGeneraPage.FormatOption=書式設定オプション :
+LayoutMeasuresProvider.DisplayName=詳細の領域にデータフィールドを垂直方向に表示
 
 
-parameterBinding.title=Dataset Parameter Binding...
+parameterBinding.title=データセットパラメタのバインド...
 
 ###########################################################
 #SortingHandleProvider properties
-SortingHandleProvider.Label.SortOn=Sort on:
-Element.ReportItem.dataSet=Data Set:
-Element.ReportElement.Cube=&Data:
-BindingPage.None=None
+SortingHandleProvider.Label.SortOn=ソート :
+Element.ReportItem.dataSet=データセット :
+Element.ReportElement.Cube=データ(&D) :
+BindingPage.None=なし
 
 
 FilterHandleProvider.Label.Filterby=Filter by:
@@ -104,7 +104,7 @@ FilterHandleProvider.Label.Filterby=Filter by:
 ###########################################################
 #CategoryPageGenerator properties
 
-CategoryPageGenerator.TabItem.Attributes=Properties
+CategoryPageGenerator.TabItem.Attributes=プロパティ
 
 
 ###########################################################

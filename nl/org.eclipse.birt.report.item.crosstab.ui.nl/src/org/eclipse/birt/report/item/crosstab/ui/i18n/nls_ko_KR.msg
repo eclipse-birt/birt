@@ -1,102 +1,102 @@
 ###########################################################
 # Crosstab Action mame and trans name
-AddLevelHandleAction_Displayname=Show/Hide Group Levels
-AddLevelHandleAction_TransName=Show/Hide Group Levels
-AddMesureViewHandleAction.DisplayName=Show/Hide Measures
-AddMesureViewHandleAction.TransName=Show/Hide Measures
-AddSubTotalAction.LabelName=Grand Total
-AddSubTotalAction.TransName=Aggregation
-AddSubTotalAction.DisplayName=Aggregation
-AddSubTotalAction.TotalName=TOTAL
-CrosstabMenuBuilder.EditCubeAction.DisplayName=Edit Data Cube
-DeleteDimensionViewHandleAction.TransName=Delete Dimensionviewhandle
-DeleteDimensionViewHandleAction.DisplayName=Remove
-DeleteMeasureHandleAction.DisplayName=Remove
-DeleteMeasureHandleAction.TransName=Delete MeasureViewHandle
+AddLevelHandleAction_Displayname=그룹 수준 표시/숨기기
+AddLevelHandleAction_TransName=그룹 수준 표시/숨기기
+AddMesureViewHandleAction.DisplayName=측정 표시/숨기기
+AddMesureViewHandleAction.TransName=측정 표시/숨기기
+AddSubTotalAction.LabelName=총합계
+AddSubTotalAction.TransName=집계
+AddSubTotalAction.DisplayName=집계
+AddSubTotalAction.TotalName=합계
+CrosstabMenuBuilder.EditCubeAction.DisplayName=데이터 큐브 편집
+DeleteDimensionViewHandleAction.TransName=Dimensionviewhandle 삭제
+DeleteDimensionViewHandleAction.DisplayName=제거
+DeleteMeasureHandleAction.DisplayName=제거
+DeleteMeasureHandleAction.TransName=MeasureViewHandle 삭제
 ###########################################################
 # Crosstab Command trans name
-AddDimensionViewHandleCommand.TransName=Add DiminsionHandle
-AddMeasureViewHandleCommand.TransName=Add MeasureHandle
-ChangeAreaCommand.TransName=Drop dimension handle
-ChangeMeasureOrderCommand.TransName=Change the measue order
-CreateDimensionViewCommand.TransName=Create DiminsionViewHandle
-CreateMeasureViewCommand.TransName=Create MeasureViewHandle
+AddDimensionViewHandleCommand.TransName=DiminsionHandle 추가
+AddMeasureViewHandleCommand.TransName=MeasureHandle 추가
+ChangeAreaCommand.TransName=차원 핸들 삭제
+ChangeMeasureOrderCommand.TransName=측정 순서 변경
+CreateDimensionViewCommand.TransName=DiminsionViewHandle 생성
+CreateMeasureViewCommand.TransName=MeasureViewHandle 생성
 ###########################################################
 # Crosstab EditPart
 ###########################################################
 # Crosstab Command trans name
-CrosstabTableEditPart.GuideText=Cross Tab
+CrosstabTableEditPart.GuideText=크로스 탭
 ###########################################################
 # Crosstab Dialog trans name
-GrandTotalProvider.Column.DataField=Data Field
-GrandTotalProvider.Column.Function=Function
-SubTotalProvider.Column.DataField=Data Field
-SubTotalProvider.Column.Function=Function
-SubTotalProvider.Column.AggregateOn=Aggregate on
-LevelViewDialog.Title=Show/Hide Group Levels
-LevelViewDialog.Label.Info=Select levels to show on Crosstab:
-AggregationDialog.Title=Aggregation
-AggregationDialog.Label.Grand=Grand Totals:
-AggregationDialog.Label.Sub=Sub Totals:
-ShowSummaryFieldDialog.Title=Show/Hide Summary Fields
-ShowSummaryFieldDialog.Label.Info=Select levels to show on Crosstab:
+GrandTotalProvider.Column.DataField=데이터 필드
+GrandTotalProvider.Column.Function=함수
+SubTotalProvider.Column.DataField=데이터 필드
+SubTotalProvider.Column.Function=함수
+SubTotalProvider.Column.AggregateOn=집계 대상:
+LevelViewDialog.Title=그룹 수준 표시/숨기기
+LevelViewDialog.Label.Info=크로스 탭에 표시할 수준 선택:
+AggregationDialog.Title=집계
+AggregationDialog.Label.Grand=총합계:
+AggregationDialog.Label.Sub=부분합:
+ShowSummaryFieldDialog.Title=요약 필드 표시/숨기기
+ShowSummaryFieldDialog.Label.Info=크로스 탭에 표시할 수준 선택:
 ###########################################################
 # Crosstab Outline Node
-AreaNodeProvider.ColumnArea=Column Area
-AreaNodeProvider.RowArea=Row Area
-AreaNodeProvider.DetailArea=Detail Area
-CrossTabViewNodeProvider.ColumnArea=Column Area
-CrossTabViewNodeProvider.RowArea=Row Area
-CrosstTabCellNodeProvider.Cell=Cell
-CrosstTabLevelNodeProvider.Level=Level - 
-CrosstTabMeasureNodeProvider.Detail=Detail - 
-MeasureSubNodeProvider.Header=Header
-MeasureSubNodeProvider.Detail=Detail
-MeasureSubNodeProvider.Aggregation=Aggregation
+AreaNodeProvider.ColumnArea=열 영역
+AreaNodeProvider.RowArea=행 영역
+AreaNodeProvider.DetailArea=세부 영역
+CrossTabViewNodeProvider.ColumnArea=열 영역
+CrossTabViewNodeProvider.RowArea=행 영역
+CrosstTabCellNodeProvider.Cell=셀
+CrosstTabLevelNodeProvider.Level=수준 - 
+CrosstTabMeasureNodeProvider.Detail=상세 정보 - 
+MeasureSubNodeProvider.Header=머리글
+MeasureSubNodeProvider.Detail=상세 정보
+MeasureSubNodeProvider.Aggregation=집계
 
-SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=Error
-SortkeyBuilder.DialogTitle.Label.Key=Key:
-CrosstabSortingModelProvider.ColumnName.GroupLevel=Group Level
-CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel=Group Level:
-SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=Click to invoke the Expression Builder
-SortkeyBuilder.DialogTitle.Label.Direction=Direction:
+SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=오류
+SortkeyBuilder.DialogTitle.Label.Key=키:
+CrosstabSortingModelProvider.ColumnName.GroupLevel=그룹 수준
+CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel=그룹 수준:
+SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=식 빌더를 호출하려면 누릅니다.
+SortkeyBuilder.DialogTitle.Label.Direction=방향:
 
 ###########################################################
 #GrossTabPageGenerator properties
-CrosstabPageGenerator.List.General=General
-CrosstabPageGenerator.List.Margin=Margin
-CrosstabPageGenerator.List.Font=Font
-CrosstabPageGenerator.List.Borders=Border
-CrosstabPageGenerator.List.Section=Page Break
-CrosstabPageGenerator.List.Visibility=Visibility
-CrosstabPageGenerator.List.TOC=Table of Contents
-CrosstabPageGenerator.List.Bookmark=Bookmark
-CrosstabPageGenerator.List.NamedExpressions=Named Expressions
-CrosstabPageGenerator.List.UserProperties=User Properties
-CrosstabPageGenerator.List.AdvancedProperty=Advanced
+CrosstabPageGenerator.List.General=일반
+CrosstabPageGenerator.List.Margin=여백
+CrosstabPageGenerator.List.Font=글꼴
+CrosstabPageGenerator.List.Borders=테두리
+CrosstabPageGenerator.List.Section=페이지 나누기
+CrosstabPageGenerator.List.Visibility=표시 유형
+CrosstabPageGenerator.List.TOC=목차
+CrosstabPageGenerator.List.Bookmark=책갈피
+CrosstabPageGenerator.List.NamedExpressions=명명된 식
+CrosstabPageGenerator.List.UserProperties=사용자 속성
+CrosstabPageGenerator.List.AdvancedProperty=고급
 
-CrosstabPageGenerator.TabItem.Binding=Binding
-CrosstabPageGenerator.TabItem.RowArea=Row Area
-CrosstabPageGenerator.TabItem.ColumnArea=Column Area
-CrosstabPageGenerator.TabItem.DetailArea=Detail Area
-CrosstabPageGenerator.TabItem.Filters=Filters
-CrosstabPageGenerator.TabItem.Highlights=Highlights
-CrosstabPageGenerator.TabItem.map=Map
-CrosstabPageGenerator.TabItem.Sorting=Sorting
+CrosstabPageGenerator.TabItem.Binding=바인딩
+CrosstabPageGenerator.TabItem.RowArea=행 영역
+CrosstabPageGenerator.TabItem.ColumnArea=열 영역
+CrosstabPageGenerator.TabItem.DetailArea=세부 영역
+CrosstabPageGenerator.TabItem.Filters=필터
+CrosstabPageGenerator.TabItem.Highlights=강조
+CrosstabPageGenerator.TabItem.map=맵
+CrosstabPageGenerator.TabItem.Sorting=정렬
 
-CrosstabGeneraPage.ForEmptyCell=For empty cells, show:
-CrosstabGeneraPage.FormatOption=Format options:
-LayoutMeasuresProvider.DisplayName=Layout data fields in detail area vertically
+CrosstabGeneraPage.ForEmptyCell=빈 셀 표시 기호:
+CrosstabGeneraPage.FormatOption=서식 옵션:
+LayoutMeasuresProvider.DisplayName=데이터 필드를 세부 영역에 세로로 배치
 
 
-parameterBinding.title=Dataset Parameter Binding...
+parameterBinding.title=데이터 집합 매개 변수 바인딩...
 
 ###########################################################
 #SortingHandleProvider properties
-SortingHandleProvider.Label.SortOn=Sort on:
-Element.ReportItem.dataSet=Data Set:
-Element.ReportElement.Cube=&Data:
-BindingPage.None=None
+SortingHandleProvider.Label.SortOn=정렬 방법:
+Element.ReportItem.dataSet=데이터 집합:
+Element.ReportElement.Cube=데이터(&D):
+BindingPage.None=없음
 
 
 FilterHandleProvider.Label.Filterby=Filter by:
@@ -104,7 +104,7 @@ FilterHandleProvider.Label.Filterby=Filter by:
 ###########################################################
 #CategoryPageGenerator properties
 
-CategoryPageGenerator.TabItem.Attributes=Properties
+CategoryPageGenerator.TabItem.Attributes=속성
 
 
 ###########################################################

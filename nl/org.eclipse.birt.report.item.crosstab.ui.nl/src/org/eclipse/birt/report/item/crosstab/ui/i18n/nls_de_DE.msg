@@ -1,102 +1,102 @@
 ###########################################################
 # Crosstab Action mame and trans name
-AddLevelHandleAction_Displayname=Show/Hide Group Levels
-AddLevelHandleAction_TransName=Show/Hide Group Levels
-AddMesureViewHandleAction.DisplayName=Show/Hide Measures
-AddMesureViewHandleAction.TransName=Show/Hide Measures
-AddSubTotalAction.LabelName=Grand Total
-AddSubTotalAction.TransName=Aggregation
-AddSubTotalAction.DisplayName=Aggregation
-AddSubTotalAction.TotalName=TOTAL
-CrosstabMenuBuilder.EditCubeAction.DisplayName=Edit Data Cube
-DeleteDimensionViewHandleAction.TransName=Delete Dimensionviewhandle
-DeleteDimensionViewHandleAction.DisplayName=Remove
-DeleteMeasureHandleAction.DisplayName=Remove
-DeleteMeasureHandleAction.TransName=Delete MeasureViewHandle
+AddLevelHandleAction_Displayname=Gruppenebenen einblenden/ausblenden
+AddLevelHandleAction_TransName=Gruppenebenen einblenden/ausblenden
+AddMesureViewHandleAction.DisplayName=Maßeinheiten einblenden/ausblenden
+AddMesureViewHandleAction.TransName=Maßeinheiten einblenden/ausblenden
+AddSubTotalAction.LabelName=Gesamtsumme
+AddSubTotalAction.TransName=Aggregat
+AddSubTotalAction.DisplayName=Aggregat
+AddSubTotalAction.TotalName=GESAMT
+CrosstabMenuBuilder.EditCubeAction.DisplayName=Datenquader bearbeiten
+DeleteDimensionViewHandleAction.TransName=Dimensionviewhandle löschen
+DeleteDimensionViewHandleAction.DisplayName=Entfernen
+DeleteMeasureHandleAction.DisplayName=Entfernen
+DeleteMeasureHandleAction.TransName=MeasureViewHandle löschen
 ###########################################################
 # Crosstab Command trans name
-AddDimensionViewHandleCommand.TransName=Add DiminsionHandle
-AddMeasureViewHandleCommand.TransName=Add MeasureHandle
-ChangeAreaCommand.TransName=Drop dimension handle
-ChangeMeasureOrderCommand.TransName=Change the measue order
-CreateDimensionViewCommand.TransName=Create DiminsionViewHandle
-CreateMeasureViewCommand.TransName=Create MeasureViewHandle
+AddDimensionViewHandleCommand.TransName=DimensionHandle hinzufügen
+AddMeasureViewHandleCommand.TransName=MeasureHandle hinzufügen
+ChangeAreaCommand.TransName=DimensionHandle verwerfen
+ChangeMeasureOrderCommand.TransName=Reihenfolge der Maßeinheiten ändern
+CreateDimensionViewCommand.TransName=DimensionHandle erstellen
+CreateMeasureViewCommand.TransName=MeasureViewHandle erstellen
 ###########################################################
 # Crosstab EditPart
 ###########################################################
 # Crosstab Command trans name
-CrosstabTableEditPart.GuideText=Cross Tab
+CrosstabTableEditPart.GuideText=Kreuztabelle
 ###########################################################
 # Crosstab Dialog trans name
-GrandTotalProvider.Column.DataField=Data Field
-GrandTotalProvider.Column.Function=Function
-SubTotalProvider.Column.DataField=Data Field
-SubTotalProvider.Column.Function=Function
-SubTotalProvider.Column.AggregateOn=Aggregate on
-LevelViewDialog.Title=Show/Hide Group Levels
-LevelViewDialog.Label.Info=Select levels to show on Crosstab:
-AggregationDialog.Title=Aggregation
-AggregationDialog.Label.Grand=Grand Totals:
-AggregationDialog.Label.Sub=Sub Totals:
-ShowSummaryFieldDialog.Title=Show/Hide Summary Fields
-ShowSummaryFieldDialog.Label.Info=Select levels to show on Crosstab:
+GrandTotalProvider.Column.DataField=Datenfeld
+GrandTotalProvider.Column.Function=Funktion
+SubTotalProvider.Column.DataField=Datenfeld
+SubTotalProvider.Column.Function=Funktion
+SubTotalProvider.Column.AggregateOn=Aggregat ein
+LevelViewDialog.Title=Gruppenebenen einblenden/ausblenden
+LevelViewDialog.Label.Info=Ebenen zum Anzeigen in Kreuztabelle auswählen:
+AggregationDialog.Title=Aggregat
+AggregationDialog.Label.Grand=Gesamtsummen:
+AggregationDialog.Label.Sub=Zwischensumme:
+ShowSummaryFieldDialog.Title=Zusammenfassungsfelder einblenden/ausblenden
+ShowSummaryFieldDialog.Label.Info=Ebenen zum Anzeigen in Kreuztabelle auswählen:
 ###########################################################
 # Crosstab Outline Node
-AreaNodeProvider.ColumnArea=Column Area
-AreaNodeProvider.RowArea=Row Area
-AreaNodeProvider.DetailArea=Detail Area
-CrossTabViewNodeProvider.ColumnArea=Column Area
-CrossTabViewNodeProvider.RowArea=Row Area
-CrosstTabCellNodeProvider.Cell=Cell
-CrosstTabLevelNodeProvider.Level=Level - 
+AreaNodeProvider.ColumnArea=Spaltenbereich
+AreaNodeProvider.RowArea=Zeilenbereich
+AreaNodeProvider.DetailArea=Detailbereich
+CrossTabViewNodeProvider.ColumnArea=Spaltenbereich
+CrossTabViewNodeProvider.RowArea=Zeilenbereich
+CrosstTabCellNodeProvider.Cell=Zelle
+CrosstTabLevelNodeProvider.Level=Ebene - 
 CrosstTabMeasureNodeProvider.Detail=Detail - 
-MeasureSubNodeProvider.Header=Header
+MeasureSubNodeProvider.Header=Kopfzeile
 MeasureSubNodeProvider.Detail=Detail
-MeasureSubNodeProvider.Aggregation=Aggregation
+MeasureSubNodeProvider.Aggregation=Aggregat
 
-SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=Error
-SortkeyBuilder.DialogTitle.Label.Key=Key:
-CrosstabSortingModelProvider.ColumnName.GroupLevel=Group Level
-CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel=Group Level:
-SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=Click to invoke the Expression Builder
-SortkeyBuilder.DialogTitle.Label.Direction=Direction:
+SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=Fehler
+SortkeyBuilder.DialogTitle.Label.Key=Schlüssel:
+CrosstabSortingModelProvider.ColumnName.GroupLevel=Gruppenebene
+CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel=Gruppenebene:
+SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=Zum Öffnen der Ausdruckserstellung hier klicken
+SortkeyBuilder.DialogTitle.Label.Direction=Richtung:
 
 ###########################################################
 #GrossTabPageGenerator properties
-CrosstabPageGenerator.List.General=General
-CrosstabPageGenerator.List.Margin=Margin
-CrosstabPageGenerator.List.Font=Font
-CrosstabPageGenerator.List.Borders=Border
-CrosstabPageGenerator.List.Section=Page Break
-CrosstabPageGenerator.List.Visibility=Visibility
-CrosstabPageGenerator.List.TOC=Table of Contents
-CrosstabPageGenerator.List.Bookmark=Bookmark
-CrosstabPageGenerator.List.NamedExpressions=Named Expressions
-CrosstabPageGenerator.List.UserProperties=User Properties
-CrosstabPageGenerator.List.AdvancedProperty=Advanced
+CrosstabPageGenerator.List.General=Allgemein
+CrosstabPageGenerator.List.Margin=Rand
+CrosstabPageGenerator.List.Font=Schriftart
+CrosstabPageGenerator.List.Borders=Rahmen
+CrosstabPageGenerator.List.Section=Seitenumbruch
+CrosstabPageGenerator.List.Visibility=Sichtbarkeit
+CrosstabPageGenerator.List.TOC=Inhaltsverzeichnis
+CrosstabPageGenerator.List.Bookmark=Lesezeichen
+CrosstabPageGenerator.List.NamedExpressions=Benannte Ausdrücke
+CrosstabPageGenerator.List.UserProperties=Benutzereigenschaften
+CrosstabPageGenerator.List.AdvancedProperty=Erweitert
 
-CrosstabPageGenerator.TabItem.Binding=Binding
-CrosstabPageGenerator.TabItem.RowArea=Row Area
-CrosstabPageGenerator.TabItem.ColumnArea=Column Area
-CrosstabPageGenerator.TabItem.DetailArea=Detail Area
-CrosstabPageGenerator.TabItem.Filters=Filters
-CrosstabPageGenerator.TabItem.Highlights=Highlights
-CrosstabPageGenerator.TabItem.map=Map
-CrosstabPageGenerator.TabItem.Sorting=Sorting
+CrosstabPageGenerator.TabItem.Binding=Bindung
+CrosstabPageGenerator.TabItem.RowArea=Zeilenbereich
+CrosstabPageGenerator.TabItem.ColumnArea=Spaltenbereich
+CrosstabPageGenerator.TabItem.DetailArea=Detailbereich
+CrosstabPageGenerator.TabItem.Filters=Filter
+CrosstabPageGenerator.TabItem.Highlights=Kennzeichnungen
+CrosstabPageGenerator.TabItem.map=Zuordnung
+CrosstabPageGenerator.TabItem.Sorting=Sortierung
 
-CrosstabGeneraPage.ForEmptyCell=For empty cells, show:
-CrosstabGeneraPage.FormatOption=Format options:
-LayoutMeasuresProvider.DisplayName=Layout data fields in detail area vertically
+CrosstabGeneraPage.ForEmptyCell=Leere Zellen anzeigen als:
+CrosstabGeneraPage.FormatOption=Formatierungsoptionen:
+LayoutMeasuresProvider.DisplayName=Datenfelder im Detailbereich vertikal darstellen
 
 
-parameterBinding.title=Dataset Parameter Binding...
+parameterBinding.title=Parameterbindung für Datensatz...
 
 ###########################################################
 #SortingHandleProvider properties
-SortingHandleProvider.Label.SortOn=Sort on:
-Element.ReportItem.dataSet=Data Set:
-Element.ReportElement.Cube=&Data:
-BindingPage.None=None
+SortingHandleProvider.Label.SortOn=Sortieren nach:
+Element.ReportItem.dataSet=Datensatz:
+Element.ReportElement.Cube=&Daten:
+BindingPage.None=Ohne
 
 
 FilterHandleProvider.Label.Filterby=Filter by:
@@ -104,7 +104,7 @@ FilterHandleProvider.Label.Filterby=Filter by:
 ###########################################################
 #CategoryPageGenerator properties
 
-CategoryPageGenerator.TabItem.Attributes=Properties
+CategoryPageGenerator.TabItem.Attributes=Eigenschaften
 
 
 ###########################################################
