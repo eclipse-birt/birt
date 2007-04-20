@@ -12,21 +12,26 @@
 package org.eclipse.birt.report.designer.ui.editors.pages;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.IMediatorState;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.ModelEventManager;
 import org.eclipse.birt.report.designer.internal.ui.editors.script.JSEditor;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedEditPart;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;
 import org.eclipse.birt.report.designer.ui.editors.IPageStaleType;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -38,15 +43,22 @@ import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.views.palette.PalettePage;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
-public class ReportScriptFormPage extends ReportFormPage
+public class ReportScriptFormPage extends ReportFormPage implements IColleague
 {
 
 	private ModelEventManager manager = getModelEventManager( );
@@ -61,6 +73,9 @@ public class ReportScriptFormPage extends ReportFormPage
 	private ModuleHandle model;
 
 	private IReportEditorPage previouPage;
+	private PageBook pageBook;
+	private Label testLabel;
+	private ISelectionListener selectionListener;
 
 	/*
 	 * (non-Javadoc)
@@ -80,31 +95,34 @@ public class ReportScriptFormPage extends ReportFormPage
 		catch ( Exception e )
 		{
 		}
+
+		SessionHandleAdapter.getInstance( ).getMediator( ).addColleague( this );
 	}
 
-	
-	protected void hookModelEventManager(Object model)
-	{	
-		getModelEventManager( ).hookRoot( model);
-		
+	protected void hookModelEventManager( Object model )
+	{
+		getModelEventManager( ).hookRoot( model );
+
 		getModelEventManager( ).hookCommandStack( new WrapperCommandStack( ) );
 	}
-	
-	protected void unhookModelEventManager(Object model)
-	{	
-		getModelEventManager( ).unhookRoot( model);
+
+	protected void unhookModelEventManager( Object model )
+	{
+		getModelEventManager( ).unhookRoot( model );
 	}
+
 	/**
 	 * @return
 	 */
-	protected ModelEventManager getModelEventManager()
+	protected ModelEventManager getModelEventManager( )
 	{
-		if (manager == null)
+		if ( manager == null )
 		{
-			manager = new ModelEventManager();
+			manager = new ModelEventManager( );
 		}
 		return manager;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -118,19 +136,21 @@ public class ReportScriptFormPage extends ReportFormPage
 			setInput( prePage.getEditorInput( ) );
 		}
 		previouPage = prePage;
-//		if ( prePage != null && jsEditor != null )
-//		{
-//			jsEditor.setIsModified( prePage.isDirty( ) );
-//		}
+		//		if ( prePage != null && jsEditor != null )
+		//		{
+		//			jsEditor.setIsModified( prePage.isDirty( ) );
+		//		}
 
-//		ISelection selection = new StructuredSelection( SessionHandleAdapter.getInstance( )
-//				.getMediator( )
-//				.getCurrentState( )
-//				.getSelectionObject( ) );
-		IMediatorState state = SessionHandleAdapter.getInstance( ).getMediator( ).getCurrentState( );
-		ReportRequest request = new ReportRequest( state.getSource( ));
+		//		ISelection selection = new StructuredSelection( SessionHandleAdapter.getInstance( )
+		//				.getMediator( )
+		//				.getCurrentState( )
+		//				.getSelectionObject( ) );
+		IMediatorState state = SessionHandleAdapter.getInstance( )
+				.getMediator( )
+				.getCurrentState( );
+		ReportRequest request = new ReportRequest( state.getSource( ) );
 		List list = state.getSelectionObject( );
-		
+
 		request.setSelectionObject( list );
 		request.setType( ReportRequest.SELECTION );
 
@@ -138,7 +158,7 @@ public class ReportScriptFormPage extends ReportFormPage
 		SessionHandleAdapter.getInstance( )
 				.getMediator( )
 				.notifyRequest( request );
-		
+
 		//jsEditor.handleSelectionChanged( selection );
 
 		return true;
@@ -171,7 +191,7 @@ public class ReportScriptFormPage extends ReportFormPage
 	 */
 	public Control getPartControl( )
 	{
-		return this.control;
+		return this.pageBook;
 	}
 
 	/*
@@ -191,10 +211,11 @@ public class ReportScriptFormPage extends ReportFormPage
 	 */
 	public void createPartControl( Composite parent )
 	{
+		pageBook = new PageBook( parent, SWT.NONE );
 		try
 		{
-			jsEditor.createPartControl( parent );
-			Control[] children = parent.getChildren( );
+			jsEditor.createPartControl( pageBook );
+			Control[] children = pageBook.getChildren( );
 			control = children[children.length - 1];
 			//
 			if ( previouPage != null )
@@ -207,6 +228,33 @@ public class ReportScriptFormPage extends ReportFormPage
 		{
 			e.printStackTrace( );
 		}
+		pageBook.showPage( control );
+
+		testLabel = new Label( pageBook, SWT.NONE );
+		testLabel.setText( "test script page" );
+		selectionListener = new ISelectionListener( ) {
+
+			public void selectionChanged( IWorkbenchPart part,
+					ISelection selection )
+			{
+//				if ( selection instanceof StructuredSelection )
+//				{
+//					Object selectObject = ( (StructuredSelection) selection ).getFirstElement( );
+//					if ( selectObject != null )
+//					{
+//						if ( selectObject instanceof ExtendedItemHandle || selectObject instanceof ExtendedEditPart )
+//						{
+//							pageBook.showPage( testLabel );
+//						}
+//						else
+//						{
+//							pageBook.showPage( control );
+//						}
+//					}
+//				}
+			}
+		};
+		getSite( ).getPage( ).addSelectionListener( selectionListener );
 	}
 
 	/*
@@ -369,11 +417,15 @@ public class ReportScriptFormPage extends ReportFormPage
 	 */
 	public void dispose( )
 	{
+		if ( selectionListener != null )
+			getSite( ).getPage( )
+					.removeSelectionListener( this.selectionListener );
 		unhookModelEventManager( getModel( ) );
 		super.dispose( );
-		
+
 		jsEditor.dispose( );
 		jsEditor = null;
+		SessionHandleAdapter.getInstance( ).getMediator( ).removeColleague( this );
 	}
 
 	/*
@@ -426,7 +478,7 @@ public class ReportScriptFormPage extends ReportFormPage
 	{
 		if ( isDirty( ) )
 		{
-			getEditor().doSave( null );
+			getEditor( ).doSave( null );
 		}
 		return super.canLeaveThePage( );
 	}
@@ -435,12 +487,34 @@ public class ReportScriptFormPage extends ReportFormPage
 	{
 		return (IReportProvider) getEditor( ).getAdapter( IReportProvider.class );
 	}
+
 	protected void finalize( ) throws Throwable
 	{
-		if(Policy.TRACING_PAGE_CLOSE)
+		if ( Policy.TRACING_PAGE_CLOSE )
 		{
-			System.out.println("Report script page finalized" ); //$NON-NLS-1$
+			System.out.println( "Report script page finalized" ); //$NON-NLS-1$
 		}
 		super.finalize( );
+	}
+
+	public void performRequest( ReportRequest request )
+	{
+//		if ( ReportRequest.SELECTION.equals( request.getType( ) ) )
+//		{
+//			List selectList  = request.getSelectionModelList( );
+//			for ( Iterator iterator = selectList.iterator( ); iterator.hasNext( ); )
+//			{
+//				Object obj = (Object) iterator.next( );
+//				if ( obj instanceof ExtendedItemHandle || obj instanceof ExtendedEditPart )
+//				{
+//					pageBook.showPage( testLabel );
+//				}
+//				else
+//				{
+//					pageBook.showPage( control );
+//				}
+//			}
+//		}
+		
 	}
 }

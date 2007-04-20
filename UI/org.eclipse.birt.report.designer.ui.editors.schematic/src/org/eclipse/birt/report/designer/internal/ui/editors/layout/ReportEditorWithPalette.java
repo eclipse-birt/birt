@@ -585,7 +585,7 @@ abstract public class ReportEditorWithPalette extends
 		WrapperCommandStack commandStack = new WrapperCommandStack( );
 
 		viewer.getEditDomain( ).setCommandStack( commandStack );
-
+		getSite( ).registerContextMenu( "birtgefeditor", provider, getSite( ).getSelectionProvider( ) );
 	}
 
 	/**

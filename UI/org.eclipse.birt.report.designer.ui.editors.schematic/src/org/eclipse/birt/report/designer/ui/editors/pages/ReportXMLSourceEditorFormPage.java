@@ -32,17 +32,13 @@ import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
-import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.source.Annotation;
-import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -50,9 +46,6 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPathEditorInput;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
-import org.eclipse.ui.texteditor.AbstractMarkerAnnotationModel;
-import org.eclipse.ui.texteditor.AbstractTextEditor;
-import org.eclipse.ui.texteditor.MarkerUtilities;
 
 /**
  * XML editor for report source file.
@@ -388,62 +381,62 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 	 */
 	public boolean selectReveal( Object marker )
 	{
-		int start = MarkerUtilities.getCharStart( (IMarker) marker );
-		int end = MarkerUtilities.getCharEnd( (IMarker) marker );
-
-		boolean selectLine = start < 0 || end < 0;
-
-		// look up the current range of the marker when the document has been
-		// edited
-		IAnnotationModel model = getDocumentProvider( ).getAnnotationModel( getEditorInput( ) );
-		if ( model instanceof AbstractMarkerAnnotationModel )
-		{
-			AbstractMarkerAnnotationModel markerModel = (AbstractMarkerAnnotationModel) model;
-			Position pos = markerModel.getMarkerPosition( (IMarker) marker );
-			if ( pos != null )
-			{
-				if ( !pos.isDeleted( ) )
-				{
-					// use position instead of marker values
-					start = pos.getOffset( );
-					end = pos.getOffset( ) + pos.getLength( );
-				}
-				else
-				{
-					return false;
-				}
-			}
-		}
-
-		IDocument document = getDocumentProvider( ).getDocument( getEditorInput( ) );
-		if ( selectLine )
-		{
-			int line;
-			try
-			{
-				if ( start >= 0 )
-					line = document.getLineOfOffset( start );
-				else
-				{
-					line = MarkerUtilities.getLineNumber( (IMarker) marker );
-					// Marker line numbers are 1-based
-					if ( line >= 1 )
-					{
-						line--;
-					}
-					start = document.getLineOffset( line );
-				}
-				end = start + document.getLineLength( line ) - 1;
-			}
-			catch ( BadLocationException e )
-			{
-				return false;
-			}
-		}
-
-		int length = document.getLength( );
-		if ( end - 1 < length && start < length )
-			selectAndReveal( start, end - start );
+//		int start = MarkerUtilities.getCharStart( (IMarker) marker );
+//		int end = MarkerUtilities.getCharEnd( (IMarker) marker );
+//
+//		boolean selectLine = start < 0 || end < 0;
+//
+//		// look up the current range of the marker when the document has been
+//		// edited
+//		IAnnotationModel model = getDocumentProvider( ).getAnnotationModel( getEditorInput( ) );
+//		if ( model instanceof AbstractMarkerAnnotationModel )
+//		{
+//			AbstractMarkerAnnotationModel markerModel = (AbstractMarkerAnnotationModel) model;
+//			Position pos = markerModel.getMarkerPosition( (IMarker) marker );
+//			if ( pos != null )
+//			{
+//				if ( !pos.isDeleted( ) )
+//				{
+//					// use position instead of marker values
+//					start = pos.getOffset( );
+//					end = pos.getOffset( ) + pos.getLength( );
+//				}
+//				else
+//				{
+//					return false;
+//				}
+//			}
+//		}
+//
+//		IDocument document = getDocumentProvider( ).getDocument( getEditorInput( ) );
+//		if ( selectLine )
+//		{
+//			int line;
+//			try
+//			{
+//				if ( start >= 0 )
+//					line = document.getLineOfOffset( start );
+//				else
+//				{
+//					line = MarkerUtilities.getLineNumber( (IMarker) marker );
+//					// Marker line numbers are 1-based
+//					if ( line >= 1 )
+//					{
+//						line--;
+//					}
+//					start = document.getLineOffset( line );
+//				}
+//				end = start + document.getLineLength( line ) - 1;
+//			}
+//			catch ( BadLocationException e )
+//			{
+//				return false;
+//			}
+//		}
+//
+//		int length = document.getLength( );
+//		if ( end - 1 < length && start < length )
+//			selectAndReveal( start, end - start );
 		return true;
 	}
 

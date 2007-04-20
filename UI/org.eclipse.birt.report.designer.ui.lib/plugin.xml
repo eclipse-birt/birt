@@ -37,6 +37,7 @@
             relative="org.eclipse.birt.report.designer.ui.editors.library.layout"
             visible="true"/>
       <formPage
+            actionBarContributor="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             class="org.eclipse.birt.report.designer.ui.editors.pages.ReportScriptFormPage"
             displayName="%library.script"
             id="org.eclipse.birt.report.designer.ui.editors.script"
@@ -44,7 +45,7 @@
             relative="org.eclipse.birt.report.designer.ui.lib.editors.design.masterpage"
             visible="true"/>
       <formPage
-            actionBarContributor="org.eclipse.ui.editors.text.TextEditorActionContributor"
+            actionBarContributor="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             class="org.eclipse.birt.report.designer.ui.editors.pages.ReportXMLSourceEditorFormPage"
             displayName="%library.xmlsource"
             id="org.eclipse.birt.report.designer.ui.editors.xmlsource"
