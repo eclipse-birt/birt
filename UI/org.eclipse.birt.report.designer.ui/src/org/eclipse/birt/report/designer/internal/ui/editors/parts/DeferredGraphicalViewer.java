@@ -55,7 +55,8 @@ import org.eclipse.jface.viewers.StructuredSelection;
  */
 public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 {
-
+//	private Object oldValue = new Boolean(true);
+//	private Object oldMarginValue = new Boolean(true);
 	private DomainEventDispatcher eventDispatcher;
 	private OriginStepData stepData = new OriginStepData( );
 	/**
@@ -64,6 +65,8 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 	public static final String LAYOUT_SIZE = "Layout Size"; //$NON-NLS-1$
 
 	public static final String REPORT_SIZE = "Report Size"; //$NON-NLS-1$
+	
+	public static final String RULER_SIZE = "Ruler Size"; //$NON-NLS-1$
 
 	public static final String PROPERTY_MARGIN_VISIBILITY = "Property Margin Visibility"; //$NON-NLS-1$
 
@@ -429,4 +432,54 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 		}
 
 	}
+	
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.ui.parts.AbstractEditPartViewer#setProperty(java.lang.String, java.lang.Object)
+	 */
+	public void setProperty(String key, Object value)
+	{
+//		if (RulerProvider.PROPERTY_RULER_VISIBILITY.equals(key))
+//		{
+//			if (DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT.equals(getProperty(IReportGraphicConstants.REPORT_LAYOUT_PROPERTY)))
+//			{
+//				oldValue = value;
+//				return;
+//			}
+//		}
+//		if (DeferredGraphicalViewer.PROPERTY_MARGIN_VISIBILITY.equals(key))
+//		{
+//			if (DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT.equals(getProperty(IReportGraphicConstants.REPORT_LAYOUT_PROPERTY)))
+//			{
+//				oldMarginValue = value;
+//				return;
+//			}
+//		}
+//		if (IReportGraphicConstants.REPORT_LAYOUT_PROPERTY.equals(key))
+//		{
+//			if (DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT.equals(value))
+//			{
+//				oldValue = getProperty(RulerProvider.PROPERTY_RULER_VISIBILITY)==null? new Boolean(true):
+//					getProperty(RulerProvider.PROPERTY_RULER_VISIBILITY);
+//				oldMarginValue = getProperty(DeferredGraphicalViewer.PROPERTY_MARGIN_VISIBILITY)==null? new Boolean(true): 
+//					getProperty(DeferredGraphicalViewer.PROPERTY_MARGIN_VISIBILITY);;
+//
+//				
+//				setProperty(RulerProvider.PROPERTY_RULER_VISIBILITY, new Boolean(false));
+//				setProperty( DeferredGraphicalViewer.PROPERTY_MARGIN_VISIBILITY, new Boolean(false));
+//			}
+//			else if (DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals(value))
+//			{
+//				super.setProperty(key, value);
+//				setProperty(RulerProvider.PROPERTY_RULER_VISIBILITY, oldValue);
+//				
+//				setProperty( DeferredGraphicalViewer.PROPERTY_MARGIN_VISIBILITY, oldMarginValue);
+//				return;
+//			}
+//		}
+		
+		super.setProperty(key, value);
+
+	}
+	
 }

@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IFastCon
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
+import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 
 /**
@@ -156,8 +157,21 @@ public class GraphicsViewModelEventProcessor extends AbstractModelEventProcessor
 				}
 				default :
 				{
-					return new ModelEventInfo(focus, ev);
+					return new GraphicsViewModelEventInfo(focus, ev);
 				}
+			}
+		}
+	}
+	private static class GraphicsViewModelEventInfo extends ModelEventInfo
+	{
+
+		public GraphicsViewModelEventInfo( DesignElementHandle focus, NotificationEvent ev )
+		{
+			super( focus, ev );
+			if (ev instanceof PropertyEvent)
+			{
+				PropertyEvent proEvent = (PropertyEvent)ev;
+				getOtherInfo( ).put(proEvent.getPropertyName( ), focus);
 			}
 		}
 	}

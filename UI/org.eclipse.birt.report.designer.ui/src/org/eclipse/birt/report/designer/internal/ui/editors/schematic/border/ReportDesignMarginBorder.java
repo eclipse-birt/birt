@@ -100,4 +100,14 @@ public class ReportDesignMarginBorder extends MarginBorder
 			}
 		}
 	}
+	public void setBackgroundColor( int value )
+	{
+		backgroundColor = value;
+	}
+	
+	public int getBackgroundColor()
+	{
+		return backgroundColor;
+	}
+	
 }

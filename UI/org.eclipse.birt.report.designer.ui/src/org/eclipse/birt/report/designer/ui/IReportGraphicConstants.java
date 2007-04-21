@@ -362,4 +362,6 @@ public interface IReportGraphicConstants
 	};
 
 	public static final String REPORT_KEY_WORD = "report";
+
+	public static final String REPORT_LAYOUT_PROPERTY = "layout";
 }
