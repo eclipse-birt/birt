@@ -420,10 +420,11 @@ public class ParamDefTag extends BodyTagSupport
 						+ encParamName + "\" >\n" ); //$NON-NLS-1$
 
 		// set parameter pattern format
+		String patternId = encParamId + "_pattern"; //$NON-NLS-1$
+		String patternName = encParamName + "_format"; //$NON-NLS-1$
 		if ( param.getPattern( ) != null )
 		{
-			writer
-					.write( "<input type = 'hidden' name=\"" + encParamName + "_format\" \n" ); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write( "<input type = 'hidden' id=\"" + patternId + "\" \n" ); //$NON-NLS-1$ //$NON-NLS-2$
 			writer
 					.write( " value=\"" + ParameterAccessor.htmlEncode( param.getPattern( ) ) + "\">\n" ); //$NON-NLS-1$//$NON-NLS-2$
 		}
@@ -440,10 +441,14 @@ public class ParamDefTag extends BodyTagSupport
 				+ displayTextId + "\");\n" ); //$NON-NLS-1$
 		writer.write( "var localeCtl = document.getElementById(\"" //$NON-NLS-1$
 				+ isLocaleId + "\");\n" ); //$NON-NLS-1$
+		writer.write( "var patternCtl = document.getElementById(\"" //$NON-NLS-1$
+				+ patternId + "\");\n" ); //$NON-NLS-1$
 		writer.write( "displayCtl.value=inputCtl.value;\n" ); //$NON-NLS-1$
 		writer.write( "valCtl.value=inputCtl.value;\n" ); //$NON-NLS-1$
 		writer
 				.write( "localeCtl.name='" + ParameterAccessor.PARAM_ISLOCALE + "';\n" ); //$NON-NLS-1$ //$NON-NLS-2$
+		writer
+				.write( "if( patternCtl ) patternCtl.name=\"" + patternName + "\";\n" ); //$NON-NLS-1$ //$NON-NLS-2$		
 		writer.write( "}\n" ); //$NON-NLS-1$
 		writer.write( "</script>\n" ); //$NON-NLS-1$
 
@@ -785,18 +790,6 @@ public class ParamDefTag extends BodyTagSupport
 					+ ParameterAccessor.PARAM_ISLOCALE + "\";\n" ); //$NON-NLS-1$
 			writer.write( "}\n" ); //$NON-NLS-1$
 
-			// If input parameter in text field,enable pattern control
-			writer
-					.write( "var patternCtl = document.getElementById(\"" + patternId + "\");\n" ); //$NON-NLS-1$//$NON-NLS-2$
-			writer.write( "if( patternCtl )\n" ); //$NON-NLS-1$
-			writer.write( "{\n" ); //$NON-NLS-1$
-			writer.write( "  if( flag )\n" ); //$NON-NLS-1$
-			writer.write( "    patternCtl.name = '';\n" ); //$NON-NLS-1$
-			writer.write( "  else\n" ); //$NON-NLS-1$
-			writer.write( "    patternCtl.name = \"" //$NON-NLS-1$
-					+ patternName + "\";\n" ); //$NON-NLS-1$
-			writer.write( "}\n" ); //$NON-NLS-1$
-
 			writer.write( "if( flag )\n" ); //$NON-NLS-1$
 			writer.write( "{\n" ); //$NON-NLS-1$
 			writer.write( "  if( selectCtl.selectedIndex >= 0 )\n" ); //$NON-NLS-1$
@@ -858,6 +851,14 @@ public class ParamDefTag extends BodyTagSupport
 
 			writer.write( "}\n" ); //$NON-NLS-1$
 
+			writer.write( "function changeTextParam" + encParamId + "( )\n" ); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write( "{\n" ); //$NON-NLS-1$
+			writer
+					.write( "var patternCtl = document.getElementById(\"" + patternId + "\");\n" ); //$NON-NLS-1$//$NON-NLS-2$
+			writer
+					.write( "if( patternCtl ) patternCtl.name = \"" + patternName + "\";\n" ); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write( "  handleTextParam" + encParamId + "( );\n" ); //$NON-NLS-1$ //$NON-NLS-2$		
+			writer.write( "}\n" ); //$NON-NLS-1$
 			writer.write( "</script>\n" ); //$NON-NLS-1$
 		}
 
@@ -1035,8 +1036,8 @@ public class ParamDefTag extends BodyTagSupport
 			// set parameter pattern format
 			if ( param.getPattern( ) != null )
 			{
-				writer.write( "<input type = 'hidden' " ); //$NON-NLS-1$
-				writer.write( " name=\"" + patternName + "\" " ); //$NON-NLS-1$ //$NON-NLS-2$
+				writer
+						.write( "<input type = 'hidden' id=\"" + patternId + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
 				writer
 						.write( " value=\"" + ParameterAccessor.htmlEncode( param.getPattern( ) ) + "\">\n" ); //$NON-NLS-1$//$NON-NLS-2$
 			}
@@ -1054,7 +1055,7 @@ public class ParamDefTag extends BodyTagSupport
 				writer
 						.write( " value=\"" + ParameterAccessor.htmlEncode( this.displayTextString ) + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
 			}
-			writer.write( " onchange=\"handleTextParam" + encParamId + "( )\"" ); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write( " onchange=\"changeTextParam" + encParamId + "( )\"" ); //$NON-NLS-1$ //$NON-NLS-2$
 			writer.write( " >\n" ); //$NON-NLS-1$
 
 			// initialize controls
