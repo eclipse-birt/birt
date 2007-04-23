@@ -26,7 +26,7 @@ public class DimensionRow implements IComparableStructure
 {
 	private static IStructureCreator creator = null;
 	
-	public Member[] members;
+	private Member[] members;
 
 	public DimensionRow( Member[] members )
 	{
@@ -78,13 +78,31 @@ public class DimensionRow implements IComparableStructure
 		DimensionRow other = (DimensionRow) o;
 		for ( int i = 0; i < members.length; i++ )
 		{
-			result = CompareUtil.compare( members[i].keyValues, other.members[i].keyValues );
+			result = CompareUtil.compare( members[i].getKeyValues(), other.members[i].getKeyValues() );
 			if ( result != 0 )
 			{
 				return result;
 			}
 		}
 		return 0;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public Member[] getMembers( )
+	{
+		return members;
+	}
+
+	/**
+	 * 
+	 * @param members
+	 */
+	public void setMembers( Member[] members )
+	{
+		this.members = members;
 	}
 
 }

@@ -23,8 +23,8 @@ import org.eclipse.birt.data.engine.olap.data.util.ObjectArrayUtil;
 
 public class AggregationResultRow implements IComparableStructure
 {
-	Member[] levelMembers = null;
-	Object[] aggregationValues = null;
+	private Member[] levelMembers = null;
+	private Object[] aggregationValues = null;
 
 	/*
 	 * (non-Javadoc)
@@ -32,20 +32,20 @@ public class AggregationResultRow implements IComparableStructure
 	 */
 	public Object[] getFieldValues( )
 	{
-		Object[][] objectArrays = new Object[levelMembers.length + 1][];
-		for ( int i = 0; i < levelMembers.length; i++ )
+		Object[][] objectArrays = new Object[getLevelMembers().length + 1][];
+		for ( int i = 0; i < getLevelMembers().length; i++ )
 		{
-			objectArrays[i] = levelMembers[i].getFieldValues( );
+			objectArrays[i] = getLevelMembers()[i].getFieldValues( );
 		}
-		if ( aggregationValues != null )
+		if ( getAggregationValues() != null )
 		{
-			objectArrays[objectArrays.length - 1] = new Object[aggregationValues.length + 1];
+			objectArrays[objectArrays.length - 1] = new Object[getAggregationValues().length + 1];
 			objectArrays[objectArrays.length - 1][0] = new Integer(1);
-			System.arraycopy( aggregationValues,
+			System.arraycopy( getAggregationValues(),
 					0,
 					objectArrays[objectArrays.length - 1],
 					1,
-					aggregationValues.length );
+					getAggregationValues().length );
 		}
 		else
 		{
@@ -71,9 +71,9 @@ public class AggregationResultRow implements IComparableStructure
 	public int compareTo( Object o )
 	{
 		AggregationResultRow other = (AggregationResultRow) o;
-		for ( int i = 0; i < levelMembers.length; i++ )
+		for ( int i = 0; i < getLevelMembers().length; i++ )
 		{
-			int result = ( levelMembers[i] ).compareTo( other.levelMembers[i] );
+			int result = ( getLevelMembers()[i] ).compareTo( other.getLevelMembers()[i] );
 			if ( result < 0 )
 			{
 				return result;
@@ -84,6 +84,26 @@ public class AggregationResultRow implements IComparableStructure
 			}
 		}
 		return 0;
+	}
+
+	void setLevelMembers( Member[] levelMembers )
+	{
+		this.levelMembers = levelMembers;
+	}
+
+	Member[] getLevelMembers( )
+	{
+		return levelMembers;
+	}
+
+	void setAggregationValues( Object[] aggregationValues )
+	{
+		this.aggregationValues = aggregationValues;
+	}
+
+	Object[] getAggregationValues( )
+	{
+		return aggregationValues;
 	}
 }
 
@@ -105,19 +125,19 @@ class AggregationResultObjectCreator implements IStructureCreator
 		AggregationResultRow result = new AggregationResultRow( );
 		Object[][] objectArrays = ObjectArrayUtil.convert( fields );
 		
-		result.levelMembers = new Member[objectArrays.length - 1];
-		for ( int i = 0; i < result.levelMembers.length; i++ )
+		result.setLevelMembers( new Member[objectArrays.length - 1] );
+		for ( int i = 0; i < result.getLevelMembers().length; i++ )
 		{
-			result.levelMembers[i] = (Member) levelMemberCreator.createInstance( objectArrays[i] );
+			result.getLevelMembers()[i] = (Member) levelMemberCreator.createInstance( objectArrays[i] );
 		}
 		if ( objectArrays[objectArrays.length - 1][0].equals( new Integer( 1 ) ) )
 		{
-			result.aggregationValues = new Object[objectArrays[objectArrays.length - 1].length-1];
+			result.setAggregationValues( new Object[objectArrays[objectArrays.length - 1].length-1] );
 			System.arraycopy( objectArrays[objectArrays.length - 1],
 					1,
-					result.aggregationValues,
+					result.getAggregationValues(),
 					1,
-					result.aggregationValues.length );
+					result.getAggregationValues().length );
 		}
 		
 		return result;

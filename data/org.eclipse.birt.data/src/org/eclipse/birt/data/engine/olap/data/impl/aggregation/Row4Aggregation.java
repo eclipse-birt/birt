@@ -22,8 +22,8 @@ import org.eclipse.birt.data.engine.olap.data.util.ObjectArrayUtil;
 
 public class Row4Aggregation implements IStructure
 {
-	Member[] levelMembers;
-	Object[] measures;
+	private Member[] levelMembers;
+	private Object[] measures;
 	
 	/*
 	 * (non-Javadoc)
@@ -31,12 +31,12 @@ public class Row4Aggregation implements IStructure
 	 */
 	public Object[] getFieldValues( )
 	{
-		Object[][] objectArrays = new Object[levelMembers.length+1][];
-		for ( int i = 0; i < levelMembers.length; i++ )
+		Object[][] objectArrays = new Object[getLevelMembers().length+1][];
+		for ( int i = 0; i < getLevelMembers().length; i++ )
 		{
-			objectArrays[i] = levelMembers[i].getFieldValues( );
+			objectArrays[i] = getLevelMembers()[i].getFieldValues( );
 		}
-		objectArrays[objectArrays.length-1] = measures;
+		objectArrays[objectArrays.length-1] = getMeasures();
 		return ObjectArrayUtil.convert( objectArrays );
 	}
 	
@@ -46,6 +46,26 @@ public class Row4Aggregation implements IStructure
 	public static IStructureCreator getCreator()
 	{
 		return new Row4AggregationCreator( );
+	}
+
+	void setLevelMembers( Member[] levelMembers )
+	{
+		this.levelMembers = levelMembers;
+	}
+
+	Member[] getLevelMembers( )
+	{
+		return levelMembers;
+	}
+
+	void setMeasures( Object[] measures )
+	{
+		this.measures = measures;
+	}
+
+	Object[] getMeasures( )
+	{
+		return measures;
 	}
 }
 
@@ -67,12 +87,12 @@ class Row4AggregationCreator implements IStructureCreator
 		Object[][] objectArrays = ObjectArrayUtil.convert( fields );
 		Row4Aggregation result = new Row4Aggregation( );
 		
-		result.levelMembers = new Member[objectArrays.length - 1];
-		for ( int i = 0; i < result.levelMembers.length; i++ )
+		result.setLevelMembers( new Member[objectArrays.length - 1] );
+		for ( int i = 0; i < result.getLevelMembers().length; i++ )
 		{
-			result.levelMembers[i] = (Member) levelMemberCreator.createInstance( objectArrays[i] );
+			result.getLevelMembers()[i] = (Member) levelMemberCreator.createInstance( objectArrays[i] );
 		}
-		result.measures = objectArrays[objectArrays.length-1];
+		result.setMeasures( objectArrays[objectArrays.length-1] );
 		
 		return result;
 	}

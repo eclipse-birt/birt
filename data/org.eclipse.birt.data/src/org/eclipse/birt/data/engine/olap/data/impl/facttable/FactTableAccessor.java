@@ -113,7 +113,7 @@ public class FactTableAccessor
 			}
 			for ( int i = 0; i < dimensionPosition.length; i++ )
 			{
-				dimensionPosition[i] = dimensionSeekers[i].find( currentRow.dimensionKeys[i] );
+				dimensionPosition[i] = dimensionSeekers[i].find( currentRow.getDimensionKeys()[i] );
 				if ( dimensionPosition[i] < 0 )
 				{
 					String[] args = new String[2];
@@ -137,7 +137,7 @@ public class FactTableAccessor
 			{
 				DocumentObjectUtil.writeValue( documentObject,
 						measureInfo[i].dataType,
-						currentRow.measures[i] );
+						currentRow.getMeasures()[i] );
 			}
 			popObject = sortedFactTableRows.pop( );
 			lastRow = currentRow;
@@ -165,14 +165,14 @@ public class FactTableAccessor
 		BufferedStructureArray resultArray = new BufferedStructureArray( DimensionKey.getCreator( ),
 				Constants.LIST_BUFFER_SIZE );
 		DimensionRow dimRow = (DimensionRow)dimRowArray.get( 0 );
-		int lowestLevelIndex = dimRow.members.length-1;
+		int lowestLevelIndex = dimRow.getMembers().length-1;
 		int keyCount = 1;
 		for ( int i = 0; i < dimRowArray.size( ); i++ )
 		{
 			dimRow = (DimensionRow)dimRowArray.get( i );
 			DimensionKey key = new DimensionKey( keyCount );
-			key.keyValues = dimRow.members[lowestLevelIndex].keyValues ;
-			key.dimensionPos = i;
+			key.setKeyValues( dimRow.getMembers()[lowestLevelIndex].getKeyValues() );
+			key.setDimensionPos( i );
 			resultArray.add( key );
 		}
 		return resultArray;
@@ -319,23 +319,23 @@ public class FactTableAccessor
 		while ( iterator.next( ) && !stopSign.isStopped( ) )
 		{
 			FactTableRow factTableRow = new FactTableRow( );
-			factTableRow.dimensionKeys = new DimensionKey[levelKeyColumnIndex.length];
+			factTableRow.setDimensionKeys( new DimensionKey[levelKeyColumnIndex.length] );
 			for ( int i = 0; i < levelKeyColumnIndex.length; i++ )
 			{
-				factTableRow.dimensionKeys[i] = 
+				factTableRow.getDimensionKeys()[i] = 
 					new DimensionKey( levelKeyColumnIndex[i].length );
 				for( int j=0;j<levelKeyColumnIndex[i].length;j++)
 				{
 					if ( levelKeyColumnIndex[i][j] >= 0 )
-						factTableRow.dimensionKeys[i].keyValues[j] =
+						factTableRow.getDimensionKeys()[i].getKeyValues()[j] =
 								iterator.getValue( levelKeyColumnIndex[i][j] );
 				}
 			}
-			factTableRow.measures = new Object[measureColumnIndex.length];
+			factTableRow.setMeasures( new Object[measureColumnIndex.length] );
 			for ( int i = 0; i < measureColumnIndex.length; i++ )
 			{
-				factTableRow.measures[i] = iterator.getValue( measureColumnIndex[i] );
-				if(factTableRow.measures[i]==null)
+				factTableRow.getMeasures()[i] = iterator.getValue( measureColumnIndex[i] );
+				if(factTableRow.getMeasures()[i]==null)
 				{
 					throw new DataException( ResourceConstants.FACTTABLE_NULL_MEASURE_VALUE,
 							factTableRow.toString( ) );
@@ -707,7 +707,7 @@ class DimensionPositionSeeker
 		int result = Arrays.binarySearch( memberArray, key );
 		if( result >= 0 )
 		{
-			return memberArray[result].dimensionPos;
+			return memberArray[result].getDimensionPos();
 		}
 		return -1;
 //		for (int i = 0; i < memberArray.length; i++) 
@@ -733,7 +733,7 @@ class DimensionPositionSeeker
 			if ( ( (DimensionKey) diskMemberArray.get( i ) ).compareTo( key ) == 0 )
 			{
 				position = i;
-				return ((DimensionKey) diskMemberArray.get( i )).dimensionPos;
+				return ((DimensionKey) diskMemberArray.get( i )).getDimensionPos();
 			}
 		}
 		for ( int i = diskPostion; i < position; i++ )
@@ -741,7 +741,7 @@ class DimensionPositionSeeker
 			if ( ( (DimensionKey) diskMemberArray.get( i ) ).compareTo( key ) == 0 )
 			{
 				position = i;
-				return ((DimensionKey) diskMemberArray.get( i )).dimensionPos;
+				return ((DimensionKey) diskMemberArray.get( i )).getDimensionPos();
 			}
 		}
 		return -1;
@@ -778,7 +778,7 @@ class CombinedPositionContructor
 		dimensionBitLength = new int[dimensionDivision.length];
 		for ( int i = 0; i < dimensionDivision.length; i++ )
 		{
-			IntRange[] ranges = dimensionDivision[i].ranges;
+			IntRange[] ranges = dimensionDivision[i].getRanges();
 			maxRange = 0;
 			for ( int j = 0; j < ranges.length; j++ )
 			{
@@ -819,7 +819,7 @@ class CombinedPositionContructor
 	public BigInteger calculateCombinedPosition( int[] subdimensionIndex, int[] dimensionPosition )
 	{
 		long l = dimensionPosition[0]
-				- subDimensions[0].ranges[subdimensionIndex[0]].start;
+				- subDimensions[0].getRanges()[subdimensionIndex[0]].start;
 		int bitLength = dimensionBitLength[0];
 		int i;
 		for ( i = 1; i < dimensionPosition.length; i++ )
@@ -830,7 +830,7 @@ class CombinedPositionContructor
 			}
 			l <<= dimensionBitLength[i];
 			l |= dimensionPosition[i]
-					- subDimensions[i].ranges[subdimensionIndex[i]].start;
+					- subDimensions[i].getRanges()[subdimensionIndex[i]].start;
 			bitLength += dimensionBitLength[i];
 		}
 
@@ -839,7 +839,7 @@ class CombinedPositionContructor
 		{
 			bigInteger = bigInteger.shiftLeft( dimensionBitLength[i] );
 			bigInteger = bigInteger.or( BigInteger.valueOf( dimensionPosition[i]
-					- subDimensions[i].ranges[subdimensionIndex[i]].start ) );
+					- subDimensions[i].getRanges()[subdimensionIndex[i]].start ) );
 		}
 
 		return bigInteger;
@@ -860,7 +860,7 @@ class CombinedPositionContructor
 			long l = bigInteger.longValue( );
 			for ( int i = dimensionBitLength.length - 1; i >= 0; i-- )
 			{
-				dimensionPosition[i] = subDimensions[i].ranges[subdimensionIndex[i]].start
+				dimensionPosition[i] = subDimensions[i].getRanges()[subdimensionIndex[i]].start
 						+ (int) ( l & ( 0x7fffffff >> ( 31 - dimensionBitLength[i] ) ) );
 				l >>= dimensionBitLength[i];
 			}
@@ -868,7 +868,7 @@ class CombinedPositionContructor
 		}
 		for ( int i = dimensionBitLength.length - 1; i >= 0; i-- )
 		{
-			dimensionPosition[i] = subDimensions[i].ranges[subdimensionIndex[i]].start
+			dimensionPosition[i] = subDimensions[i].getRanges()[subdimensionIndex[i]].start
 					+ (int) ( bigInteger.and( BigInteger.valueOf( 0x7fffffff >> ( 31 - dimensionBitLength[i] ) ) ).longValue( ) );
 			bigInteger = bigInteger.shiftRight( dimensionBitLength[i] );
 		}

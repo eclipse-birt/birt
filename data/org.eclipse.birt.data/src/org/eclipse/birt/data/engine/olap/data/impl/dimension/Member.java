@@ -23,14 +23,14 @@ import org.eclipse.birt.data.engine.olap.data.util.ObjectArrayUtil;
 public class Member implements IComparableStructure
 {
 	private static IStructureCreator creator = null;
-	public Object[] keyValues;
-	public Object[] attributes;
+	private Object[] keyValues;
+	private Object[] attributes;
 
 	public Object[] getFieldValues( )
 	{
 		Object[][] objects = new Object[2][];
-		objects[0] = keyValues;
-		objects[1] = attributes;
+		objects[0] = getKeyValues();
+		objects[1] = getAttributes();
 		return ObjectArrayUtil.convert( objects );
 		
 	}
@@ -42,9 +42,9 @@ public class Member implements IComparableStructure
 	public int compareTo( Object o )
 	{
 		Member other = (Member) o;
-		for ( int i = 0; i < keyValues.length; i++ )
+		for ( int i = 0; i < getKeyValues().length; i++ )
 		{
-			int result = ( (Comparable) keyValues[i] ).compareTo( other.keyValues[i] );
+			int result = ( (Comparable) getKeyValues()[i] ).compareTo( other.getKeyValues()[i] );
 			if ( result != 0 )
 			{
 				return result;
@@ -60,9 +60,9 @@ public class Member implements IComparableStructure
 	public boolean equals(Object o)
 	{
 		Member other = (Member) o;
-		for ( int i = 0; i < keyValues.length; i++ )
+		for ( int i = 0; i < getKeyValues().length; i++ )
 		{
-			if ( !keyValues[i].equals( other.keyValues[i] ) )
+			if ( !getKeyValues()[i].equals( other.getKeyValues()[i] ) )
 			{
 				return false;
 			}
@@ -78,6 +78,42 @@ public class Member implements IComparableStructure
 		}
 		return creator;
 	}
+
+	/**
+	 * 
+	 * @param keyValues
+	 */
+	public void setKeyValues( Object[] keyValues )
+	{
+		this.keyValues = keyValues;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public Object[] getKeyValues( )
+	{
+		return keyValues;
+	}
+
+	/**
+	 * 
+	 * @param attributes
+	 */
+	public void setAttributes( Object[] attributes )
+	{
+		this.attributes = attributes;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public Object[] getAttributes( )
+	{
+		return attributes;
+	}
 }
 
 class LevelMemberCreator implements IStructureCreator
@@ -88,8 +124,8 @@ class LevelMemberCreator implements IStructureCreator
 		Member result = new Member( );
 		Object[][] objects = ObjectArrayUtil.convert( fields );
 		
-		result.keyValues = objects[0];
-		result.attributes = objects[1];
+		result.setKeyValues( objects[0] );
+		result.setAttributes( objects[1] );
 		return result;
 	}
 }

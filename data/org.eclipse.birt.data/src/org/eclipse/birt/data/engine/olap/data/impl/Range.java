@@ -29,6 +29,26 @@ public class Range
 		this.start = start;
 		this.end = end;
 	}
-	public Object start;
-	public Object end;
+	private Object start;
+	private Object end;
+	
+	public Object getStart( )
+	{
+		return start;
+	}
+	
+	public void setStart( Object start )
+	{
+		this.start = start;
+	}
+	
+	public Object getEnd( )
+	{
+		return end;
+	}
+	
+	public void setEnd( Object end )
+	{
+		this.end = end;
+	}
 }

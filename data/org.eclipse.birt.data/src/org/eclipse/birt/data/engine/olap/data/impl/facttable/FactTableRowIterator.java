@@ -103,12 +103,12 @@ public class FactTableRowIterator implements IFactTableRowIterator
 		for ( int i = 0; i < selectedSubDim.length; i++ )
 		{
 			int pointer = 0;
-			for ( int j = 0; j < dimensionDivisions[i].ranges.length; j++ )
+			for ( int j = 0; j < dimensionDivisions[i].getRanges().length; j++ )
 			{
 				if ( dimensionIndex[i] > -1 )
 				{
 					while ( pointer < selectedPos[dimensionIndex[i]].size( )
-							&& ( (Integer) selectedPos[dimensionIndex[i]].get( pointer ) ).intValue( ) < dimensionDivisions[i].ranges[j].start )
+							&& ( (Integer) selectedPos[dimensionIndex[i]].get( pointer ) ).intValue( ) < dimensionDivisions[i].getRanges()[j].start )
 					{
 						pointer++;
 					}
@@ -116,7 +116,7 @@ public class FactTableRowIterator implements IFactTableRowIterator
 					{
 						break;
 					}
-					if ( ( (Integer) selectedPos[dimensionIndex[i]].get( pointer ) ).intValue( ) > dimensionDivisions[i].ranges[j].end )
+					if ( ( (Integer) selectedPos[dimensionIndex[i]].get( pointer ) ).intValue( ) > dimensionDivisions[i].getRanges()[j].end )
 					{
 						continue;
 					}
@@ -124,7 +124,7 @@ public class FactTableRowIterator implements IFactTableRowIterator
 					selectedSubDimension.subDimensionIndex = j;
 					selectedSubDimension.start = pointer;
 					while ( pointer < selectedPos[dimensionIndex[i]].size( )
-							&& ( (Integer) selectedPos[dimensionIndex[i]].get( pointer ) ).intValue( ) <= dimensionDivisions[i].ranges[j].end )
+							&& ( (Integer) selectedPos[dimensionIndex[i]].get( pointer ) ).intValue( ) <= dimensionDivisions[i].getRanges()[j].end )
 					{
 						pointer++;
 					}

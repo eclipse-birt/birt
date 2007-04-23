@@ -27,12 +27,12 @@ public class DimensionKey implements IComparableStructure
 {
 
 	private static IStructureCreator creator = new DimensionKeyCreator( );
-	public Object[] keyValues = null;
-	public int dimensionPos = 0;
+	private Object[] keyValues = null;
+	private int dimensionPos = 0;
 
 	public DimensionKey( int keylCount )
 	{
-		keyValues = new Object[keylCount];
+		setKeyValues( new Object[keylCount] );
 	}
 
 	/**
@@ -41,7 +41,7 @@ public class DimensionKey implements IComparableStructure
 	 */
 	public int getKeyFieldsCount( )
 	{
-		return keyValues.length;
+		return getKeyValues().length;
 	}
 
 	/*
@@ -52,17 +52,17 @@ public class DimensionKey implements IComparableStructure
 	{
 		List result = new ArrayList( );
 		int nullIndicator = 0;
-		for ( int i = 0; i < keyValues.length; i++ )
+		for ( int i = 0; i < getKeyValues().length; i++ )
 		{
-			if ( keyValues[i] != null )
+			if ( getKeyValues()[i] != null )
 			{
 				nullIndicator |= 1 << i;
-				result.add( keyValues[i] );
+				result.add( getKeyValues()[i] );
 			}
 		}
-		result.add( new Integer( keyValues.length ) );
+		result.add( new Integer( getKeyValues().length ) );
 		result.add( new Integer( nullIndicator ) );
-		result.add( new Integer( dimensionPos ) );
+		result.add( new Integer( getDimensionPos() ) );
 		
 		return result.toArray( );
 	}
@@ -75,7 +75,7 @@ public class DimensionKey implements IComparableStructure
 	{
 		DimensionKey other = (DimensionKey) o;
 		
-		return  CompareUtil.compare( keyValues, other.keyValues );
+		return  CompareUtil.compare( getKeyValues(), other.getKeyValues() );
 	}
 	
 	/*
@@ -87,16 +87,16 @@ public class DimensionKey implements IComparableStructure
 		boolean result;
 		DimensionKey other = (DimensionKey) o;
 		
-		for ( int i = 0; i < keyValues.length; i++ )
+		for ( int i = 0; i < getKeyValues().length; i++ )
 		{
-			if ( ( keyValues[i] != null && other.keyValues[i] == null )
-					|| ( keyValues[i] == null && other.keyValues[i] != null ) )
+			if ( ( getKeyValues()[i] != null && other.getKeyValues()[i] == null )
+					|| ( getKeyValues()[i] == null && other.getKeyValues()[i] != null ) )
 			{
 				return false;
 			}
-			else if ( keyValues[i] != null && other.keyValues[i] != null )
+			else if ( getKeyValues()[i] != null && other.getKeyValues()[i] != null )
 			{
-				result = keyValues[i].equals( other.keyValues[i] );
+				result = getKeyValues()[i].equals( other.getKeyValues()[i] );
 				if ( !result )
 				{
 					return result;
@@ -113,9 +113,9 @@ public class DimensionKey implements IComparableStructure
 	public String toString()
 	{
 		StringBuffer buffer = new StringBuffer();
-		for(int i=0;i<keyValues.length;i++)
+		for(int i=0;i<getKeyValues().length;i++)
 		{
-			buffer.append( keyValues[i] );
+			buffer.append( getKeyValues()[i] );
 			buffer.append( ' ' );
 		}
 		return buffer.toString( );
@@ -124,6 +124,42 @@ public class DimensionKey implements IComparableStructure
 	public static IStructureCreator getCreator( )
 	{
 		return creator;
+	}
+
+	/**
+	 * 
+	 * @param keyValues
+	 */
+	public void setKeyValues( Object[] keyValues )
+	{
+		this.keyValues = keyValues;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public Object[] getKeyValues( )
+	{
+		return keyValues;
+	}
+
+	/**
+	 * 
+	 * @param dimensionPos
+	 */	
+	public void setDimensionPos( int dimensionPos )
+	{
+		this.dimensionPos = dimensionPos;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getDimensionPos( )
+	{
+		return dimensionPos;
 	}
 }
 
@@ -144,14 +180,14 @@ class DimensionKeyCreator implements IStructureCreator
 		int levelCount = ( (Integer) fields[fields.length - 3] ).intValue( );
 		DimensionKey obj = new DimensionKey( levelCount );
 		int nullIndicator = ( (Integer) fields[fields.length - 2] ).intValue( );
-		obj.dimensionPos = ( (Integer) fields[fields.length - 1] ).intValue( );
+		obj.setDimensionPos( ( (Integer) fields[fields.length - 1] ).intValue( ) );
 		int pointer = 0;
 		for ( int i = 0; i < levelCount; i++ )
 		{
 			if ( ( nullIndicator & ( 1 << i ) ) != 0 )
 			{
 				assert pointer < fields.length - 2;
-				obj.keyValues[i] = fields[pointer];
+				obj.getKeyValues()[i] = fields[pointer];
 				pointer++;
 			}
 		}

@@ -82,11 +82,11 @@ public class FactTableRowTest extends TestCase
 			FactTableRow factTableRow2 )
 	{
 		assertEquals( factTableRow1, factTableRow2 );
-		assertEquals( factTableRow1.measures.length,
-				factTableRow2.measures.length );
-		for ( int i = 0; i < factTableRow2.measures.length; i++ )
+		assertEquals( factTableRow1.getMeasures().length,
+				factTableRow2.getMeasures().length );
+		for ( int i = 0; i < factTableRow2.getMeasures().length; i++ )
 		{
-			assertEquals( factTableRow1.measures[i], factTableRow2.measures[i] );
+			assertEquals( factTableRow1.getMeasures()[i], factTableRow2.getMeasures()[i] );
 		}
 	}
 	
@@ -95,20 +95,20 @@ public class FactTableRowTest extends TestCase
 		final int dimensionLen = 3;
 		final int measureLen = 3;
 		FactTableRow factTableRow = new FactTableRow( );
-		factTableRow.dimensionKeys = new DimensionKey[dimensionLen];
+		factTableRow.setDimensionKeys( new DimensionKey[dimensionLen] );
 		for ( int i = 0; i < dimensionLen; i++ )
 		{
-			factTableRow.dimensionKeys[i] = 
+			factTableRow.getDimensionKeys()[i] = 
 				new DimensionKey( i );
 			for( int j=0;j<i;j++)
 			{
-				factTableRow.dimensionKeys[i].keyValues[j] = new Integer(iValue+j);
+				factTableRow.getDimensionKeys()[i].getKeyValues()[j] = new Integer(iValue+j);
 			}
 		}
-		factTableRow.measures = new Object[measureLen];
+		factTableRow.setMeasures( new Object[measureLen] );
 		for ( int i = 0; i < measureLen; i++ )
 		{
-			factTableRow.measures[i] = new Integer(iValue+i);
+			factTableRow.getMeasures()[i] = new Integer(iValue+i);
 		}
 		return factTableRow;
 	}
@@ -118,22 +118,22 @@ public class FactTableRowTest extends TestCase
 		final int dimensionLen = 3;
 		final int measureLen = 3;
 		FactTableRow factTableRow = new FactTableRow( );
-		factTableRow.dimensionKeys = new DimensionKey[dimensionLen];
+		factTableRow.setDimensionKeys( new DimensionKey[dimensionLen] );
 		for ( int i = 0; i < dimensionLen; i++ )
 		{
-			factTableRow.dimensionKeys[i] = 
+			factTableRow.getDimensionKeys()[i] = 
 				new DimensionKey( i );
 			for ( int j = 0; j < i; j++ )
 			{
 				if ( j != 1 )
-					factTableRow.dimensionKeys[i].keyValues[j] =
+					factTableRow.getDimensionKeys()[i].getKeyValues()[j] =
 							new Integer( iValue + j );
 			}
 		}
-		factTableRow.measures = new Object[measureLen];
+		factTableRow.setMeasures( new Object[measureLen] );
 		for ( int i = 0; i < measureLen; i++ )
 		{
-			factTableRow.measures[i] = new Integer( iValue + i );
+			factTableRow.getMeasures()[i] = new Integer( iValue + i );
 		}
 		return factTableRow;
 	}

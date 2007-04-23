@@ -125,14 +125,14 @@ public class AggregationExecutor
 		Row4Aggregation result = new Row4Aggregation( );
 		if ( levelCount > 0 )
 		{
-			result.levelMembers = new Member[levelCount];
-			System.arraycopy( row.levelMembers,
+			result.setLevelMembers( new Member[levelCount] );
+			System.arraycopy( row.getLevelMembers(),
 					0,
-					result.levelMembers,
+					result.getLevelMembers(),
 					0,
 					levelCount );
 		}
-		result.measures = row.measures;
+		result.setMeasures( row.getMeasures() );
 		return result;
 	}
 
@@ -196,15 +196,15 @@ public class AggregationExecutor
 				int[] levelIndex = diskSortedStackWrapper.levelIndex;
 
 				Row4Aggregation aggregationRow = new Row4Aggregation( );
-				aggregationRow.levelMembers = aggregationRowPopulator.getLevelMembers( levelIndex );
-				if ( aggregationRow.levelMembers == null )
+				aggregationRow.setLevelMembers( aggregationRowPopulator.getLevelMembers( levelIndex ) );
+				if ( aggregationRow.getLevelMembers() == null )
 				{
 					continue;
 				}
-				aggregationRow.measures = new Object[measureCount];
+				aggregationRow.setMeasures( new Object[measureCount] );
 				for ( int j = 0; j < measureCount; j++ )
 				{
-					aggregationRow.measures[j] = facttableRowIterator.getMeasure( j );
+					aggregationRow.getMeasures()[j] = facttableRowIterator.getMeasure( j );
 				}
 				diskSortedStackWrapper.diskSortedStack.push( aggregationRow );
 			}
@@ -459,31 +459,31 @@ class Row4AggregationComparator implements Comparator
 		Row4Aggregation row1 = (Row4Aggregation) o1;
 		Row4Aggregation row2 = (Row4Aggregation) o2;
 
-		assert row1.levelMembers.length == row2.levelMembers.length;
+		assert row1.getLevelMembers().length == row2.getLevelMembers().length;
 
-		for ( int i = 0; i < row1.levelMembers.length; i++ )
+		for ( int i = 0; i < row1.getLevelMembers().length; i++ )
 		{
 			if ( sortType == null
 					|| sortType.length <= i
 					|| sortType[i] == IDimensionSortDefn.SORT_UNDEFINED
 					|| sortType[i] == IDimensionSortDefn.SORT_ASC )
 			{
-				if ( row1.levelMembers[i].compareTo( row2.levelMembers[i] ) < 0 )
+				if ( row1.getLevelMembers()[i].compareTo( row2.getLevelMembers()[i] ) < 0 )
 				{
 					return -1;
 				}
-				else if ( row1.levelMembers[i].compareTo( row2.levelMembers[i] ) > 0 )
+				else if ( row1.getLevelMembers()[i].compareTo( row2.getLevelMembers()[i] ) > 0 )
 				{
 					return 1;
 				}
 			}
 			else
 			{
-				if ( row1.levelMembers[i].compareTo( row2.levelMembers[i] ) < 0 )
+				if ( row1.getLevelMembers()[i].compareTo( row2.getLevelMembers()[i] ) < 0 )
 				{
 					return 1;
 				}
-				else if ( row1.levelMembers[i].compareTo( row2.levelMembers[i] ) > 0 )
+				else if ( row1.getLevelMembers()[i].compareTo( row2.getLevelMembers()[i] ) > 0 )
 				{
 					return -1;
 				}

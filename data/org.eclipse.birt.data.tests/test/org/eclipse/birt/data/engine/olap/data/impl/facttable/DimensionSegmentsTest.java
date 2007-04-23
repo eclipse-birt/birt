@@ -51,58 +51,58 @@ public class DimensionSegmentsTest extends TestCase
 	public void testDimensionSegments( ) throws IOException, BirtException
 	{
 		DimensionDivision dimSegments = new DimensionDivision( 2, 1 );
-		assertEquals( dimSegments.ranges.length, 1 );
-		assertEquals( dimSegments.ranges[0].start, 0 );
-		assertEquals( dimSegments.ranges[0].end, 1 );
+		assertEquals( dimSegments.getRanges().length, 1 );
+		assertEquals( dimSegments.getRanges()[0].start, 0 );
+		assertEquals( dimSegments.getRanges()[0].end, 1 );
 		
 		dimSegments = new DimensionDivision( 1, 1 );
-		assertEquals( dimSegments.ranges.length, 1 );
-		assertEquals( dimSegments.ranges[0].start, 0 );
-		assertEquals( dimSegments.ranges[0].end, 0 );
+		assertEquals( dimSegments.getRanges().length, 1 );
+		assertEquals( dimSegments.getRanges()[0].start, 0 );
+		assertEquals( dimSegments.getRanges()[0].end, 0 );
 		
 		dimSegments = new DimensionDivision( 3, 3 );
-		assertEquals( dimSegments.ranges.length, 3 );
-		assertEquals( dimSegments.ranges[0].start, 0 );
-		assertEquals( dimSegments.ranges[0].end, 0 );
-		assertEquals( dimSegments.ranges[1].start, 1 );
-		assertEquals( dimSegments.ranges[1].end, 1 );
-		assertEquals( dimSegments.ranges[2].start, 2 );
-		assertEquals( dimSegments.ranges[2].end, 2 );
+		assertEquals( dimSegments.getRanges().length, 3 );
+		assertEquals( dimSegments.getRanges()[0].start, 0 );
+		assertEquals( dimSegments.getRanges()[0].end, 0 );
+		assertEquals( dimSegments.getRanges()[1].start, 1 );
+		assertEquals( dimSegments.getRanges()[1].end, 1 );
+		assertEquals( dimSegments.getRanges()[2].start, 2 );
+		assertEquals( dimSegments.getRanges()[2].end, 2 );
 		
 		dimSegments = new DimensionDivision( 3, 4 );
-		assertEquals( dimSegments.ranges.length, 3 );
-		assertEquals( dimSegments.ranges[0].start, 0 );
-		assertEquals( dimSegments.ranges[0].end, 0 );
-		assertEquals( dimSegments.ranges[1].start, 1 );
-		assertEquals( dimSegments.ranges[1].end, 1 );
-		assertEquals( dimSegments.ranges[2].start, 2 );
-		assertEquals( dimSegments.ranges[2].end, 2 );
+		assertEquals( dimSegments.getRanges().length, 3 );
+		assertEquals( dimSegments.getRanges()[0].start, 0 );
+		assertEquals( dimSegments.getRanges()[0].end, 0 );
+		assertEquals( dimSegments.getRanges()[1].start, 1 );
+		assertEquals( dimSegments.getRanges()[1].end, 1 );
+		assertEquals( dimSegments.getRanges()[2].start, 2 );
+		assertEquals( dimSegments.getRanges()[2].end, 2 );
 		
 		dimSegments = new DimensionDivision( 10, 3 );
-		assertEquals( dimSegments.ranges.length, 3 );
-		assertEquals( dimSegments.ranges[0].start, 0 );
-		assertEquals( dimSegments.ranges[0].end, 3 );
-		assertEquals( dimSegments.ranges[1].start, 4 );
-		assertEquals( dimSegments.ranges[1].end, 6 );
-		assertEquals( dimSegments.ranges[2].start, 7 );
-		assertEquals( dimSegments.ranges[2].end, 9 );
+		assertEquals( dimSegments.getRanges().length, 3 );
+		assertEquals( dimSegments.getRanges()[0].start, 0 );
+		assertEquals( dimSegments.getRanges()[0].end, 3 );
+		assertEquals( dimSegments.getRanges()[1].start, 4 );
+		assertEquals( dimSegments.getRanges()[1].end, 6 );
+		assertEquals( dimSegments.getRanges()[2].start, 7 );
+		assertEquals( dimSegments.getRanges()[2].end, 9 );
 		
 		dimSegments = new DimensionDivision( 11, 3 );
-		assertEquals( dimSegments.ranges.length, 3 );
-		assertEquals( dimSegments.ranges[0].start, 0 );
-		assertEquals( dimSegments.ranges[0].end, 3 );
-		assertEquals( dimSegments.ranges[1].start, 4 );
-		assertEquals( dimSegments.ranges[1].end, 7 );
-		assertEquals( dimSegments.ranges[2].start, 8 );
-		assertEquals( dimSegments.ranges[2].end, 10 );
+		assertEquals( dimSegments.getRanges().length, 3 );
+		assertEquals( dimSegments.getRanges()[0].start, 0 );
+		assertEquals( dimSegments.getRanges()[0].end, 3 );
+		assertEquals( dimSegments.getRanges()[1].start, 4 );
+		assertEquals( dimSegments.getRanges()[1].end, 7 );
+		assertEquals( dimSegments.getRanges()[2].start, 8 );
+		assertEquals( dimSegments.getRanges()[2].end, 10 );
 		
 		dimSegments = new DimensionDivision( 12, 3 );
-		assertEquals( dimSegments.ranges.length, 3 );
-		assertEquals( dimSegments.ranges[0].start, 0 );
-		assertEquals( dimSegments.ranges[0].end, 3 );
-		assertEquals( dimSegments.ranges[1].start, 4 );
-		assertEquals( dimSegments.ranges[1].end, 7 );
-		assertEquals( dimSegments.ranges[2].start, 8 );
-		assertEquals( dimSegments.ranges[2].end, 11 );
+		assertEquals( dimSegments.getRanges().length, 3 );
+		assertEquals( dimSegments.getRanges()[0].start, 0 );
+		assertEquals( dimSegments.getRanges()[0].end, 3 );
+		assertEquals( dimSegments.getRanges()[1].start, 4 );
+		assertEquals( dimSegments.getRanges()[1].end, 7 );
+		assertEquals( dimSegments.getRanges()[2].start, 8 );
+		assertEquals( dimSegments.getRanges()[2].end, 11 );
 	}
 }

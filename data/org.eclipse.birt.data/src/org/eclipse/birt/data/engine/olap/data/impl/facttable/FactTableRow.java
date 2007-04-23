@@ -26,8 +26,8 @@ import org.eclipse.birt.data.engine.olap.data.util.IStructureCreator;
 public class FactTableRow implements IComparableStructure
 {
 	private static IStructureCreator creator = null;
-	DimensionKey[] dimensionKeys;
-	Object[] measures;
+	private DimensionKey[] dimensionKeys;
+	private Object[] measures;
 
 	/*
 	 * (non-Javadoc)
@@ -35,14 +35,14 @@ public class FactTableRow implements IComparableStructure
 	 */
 	public Object[] getFieldValues( )
 	{
-		assert dimensionKeys != null && measures != null;
-		assert dimensionKeys.length > 0  && measures.length > 0;
+		assert getDimensionKeys() != null && getMeasures() != null;
+		assert getDimensionKeys().length > 0  && getMeasures().length > 0;
 		
 		List result = new ArrayList( );
-		result.add( new Integer( dimensionKeys.length ) );
-		for ( int i = 0; i < dimensionKeys.length; i++ )
+		result.add( new Integer( getDimensionKeys().length ) );
+		for ( int i = 0; i < getDimensionKeys().length; i++ )
 		{
-			Object[] dimensionFields = dimensionKeys[i].getFieldValues( );
+			Object[] dimensionFields = getDimensionKeys()[i].getFieldValues( );
 			result.add( new Integer( dimensionFields.length ) );
 			for ( int j = 0; j < dimensionFields.length; j++ )
 			{
@@ -50,11 +50,11 @@ public class FactTableRow implements IComparableStructure
 			}
 		}
 		
-		result.add( new Integer( measures.length ) );
+		result.add( new Integer( getMeasures().length ) );
 		
-		for ( int i = 0; i < measures.length; i++ )
+		for ( int i = 0; i < getMeasures().length; i++ )
 		{
-			result.add( measures[i] );
+			result.add( getMeasures()[i] );
 		}
 		return result.toArray( );
 	}
@@ -67,11 +67,11 @@ public class FactTableRow implements IComparableStructure
 	{
 		FactTableRow other = (FactTableRow) o;
 
-		assert other.dimensionKeys.length == this.dimensionKeys.length;
+		assert other.getDimensionKeys().length == this.getDimensionKeys().length;
 
-		for ( int i = 0; i < dimensionKeys.length; i++ )
+		for ( int i = 0; i < getDimensionKeys().length; i++ )
 		{
-			int result = ( dimensionKeys[i] ).compareTo( other.dimensionKeys[i] );
+			int result = ( getDimensionKeys()[i] ).compareTo( other.getDimensionKeys()[i] );
 			if ( result != 0 )
 			{
 				return result;
@@ -88,14 +88,14 @@ public class FactTableRow implements IComparableStructure
 	{
 		FactTableRow other = (FactTableRow) o;
 
-		if( other.dimensionKeys.length != this.dimensionKeys.length)
+		if( other.getDimensionKeys().length != this.getDimensionKeys().length)
 		{
 			return false;
 		}
 		
-		for ( int i = 0; i < dimensionKeys.length; i++ )
+		for ( int i = 0; i < getDimensionKeys().length; i++ )
 		{
-			if ( !dimensionKeys[i].equals( other.dimensionKeys[i] ) )
+			if ( !getDimensionKeys()[i].equals( other.getDimensionKeys()[i] ) )
 			{
 				return false;
 			}
@@ -110,16 +110,16 @@ public class FactTableRow implements IComparableStructure
 	public String toString( )
 	{
 		StringBuffer buffer = new StringBuffer();
-		for(int i=0;i<dimensionKeys.length;i++)
+		for(int i=0;i<getDimensionKeys().length;i++)
 		{
-			buffer.append( dimensionKeys[i] );
+			buffer.append( getDimensionKeys()[i] );
 		}
-		for(int i=0;i<measures.length;i++)
+		for(int i=0;i<getMeasures().length;i++)
 		{
-			if ( measures[i] == null )
+			if ( getMeasures()[i] == null )
 				buffer.append( "null" );
 			else
-				buffer.append( measures[i] );
+				buffer.append( getMeasures()[i] );
 			buffer.append( ' ' );
 		}
 		return buffer.toString( );
@@ -132,6 +132,26 @@ public class FactTableRow implements IComparableStructure
 			creator = new FactTableRowCreator( );
 		}
 		return creator;
+	}
+
+	void setDimensionKeys( DimensionKey[] dimensionKeys )
+	{
+		this.dimensionKeys = dimensionKeys;
+	}
+
+	DimensionKey[] getDimensionKeys( )
+	{
+		return dimensionKeys;
+	}
+
+	void setMeasures( Object[] measures )
+	{
+		this.measures = measures;
+	}
+
+	Object[] getMeasures( )
+	{
+		return measures;
 	}
 }
 
@@ -155,7 +175,7 @@ class FactTableRowCreator implements IStructureCreator
 		int pointer = 0;
 		int dimensionCount = ((Integer)fields[pointer]).intValue( );
 		pointer++;
-		result.dimensionKeys = new DimensionKey[dimensionCount];
+		result.setDimensionKeys( new DimensionKey[dimensionCount] );
 		
 		for( int i=0;i<dimensionCount;i++ )
 		{
@@ -163,13 +183,13 @@ class FactTableRowCreator implements IStructureCreator
 			pointer++;
 			System.arraycopy( fields, pointer, dimensionFields, 0, dimensionFields.length );
 			pointer+=dimensionFields.length;
-			result.dimensionKeys[i] = 
+			result.getDimensionKeys()[i] = 
 				(DimensionKey)dimensionCreator.createInstance( dimensionFields );
 		}
 		
-		result.measures = new Object[((Integer)fields[pointer]).intValue( )];
+		result.setMeasures( new Object[((Integer)fields[pointer]).intValue( )] );
 		pointer++;
-		System.arraycopy( fields, pointer, result.measures, 0, result.measures.length );
+		System.arraycopy( fields, pointer, result.getMeasures(), 0, result.getMeasures().length );
 		return result;
 	}
 }

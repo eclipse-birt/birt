@@ -89,15 +89,15 @@ public class AggregationCalculator
 		}
 		else
 		{
-			if ( currentResultObj.levelMembers == null
-					|| compare( row.levelMembers, currentResultObj.levelMembers ) == 0 )
+			if ( currentResultObj.getLevelMembers() == null
+					|| compare( row.getLevelMembers(), currentResultObj.getLevelMembers() ) == 0 )
 			{
 				if ( accumulators != null )
 				{
 					for ( int i = 0; i < accumulators.length; i++ )
 					{
 						accumulators[i].onRow( new Object[]{
-							row.measures[measureIndex[i]]
+							row.getMeasures()[measureIndex[i]]
 						} );
 					}
 				}
@@ -106,11 +106,11 @@ public class AggregationCalculator
 			{
 				if ( accumulators != null )
 				{
-					currentResultObj.aggregationValues = new Object[accumulators.length];
+					currentResultObj.setAggregationValues( new Object[accumulators.length] );
 					for ( int i = 0; i < accumulators.length; i++ )
 					{
 						accumulators[i].finish( );
-						currentResultObj.aggregationValues[i] = accumulators[i].getValue( );
+						currentResultObj.getAggregationValues()[i] = accumulators[i].getValue( );
 						accumulators[i].start( );
 					}
 				}
@@ -130,11 +130,11 @@ public class AggregationCalculator
 	{
 		if ( currentResultObj != null && accumulators != null )
 		{
-			currentResultObj.aggregationValues = new Object[accumulators.length];
+			currentResultObj.setAggregationValues( new Object[accumulators.length] );
 			for ( int i = 0; i < accumulators.length; i++ )
 			{
 				accumulators[i].finish( );
-				currentResultObj.aggregationValues[i] = accumulators[i].getValue( );
+				currentResultObj.getAggregationValues()[i] = accumulators[i].getValue( );
 				accumulators[i].start( );
 			}
 		}
@@ -152,19 +152,19 @@ public class AggregationCalculator
 		currentResultObj = new AggregationResultRow( );
 		if ( levelCount > 0 )
 		{
-			currentResultObj.levelMembers = new Member[levelCount];
-			System.arraycopy( row.levelMembers,
+			currentResultObj.setLevelMembers( new Member[levelCount] );
+			System.arraycopy( row.getLevelMembers(),
 					0,
-					currentResultObj.levelMembers,
+					currentResultObj.getLevelMembers(),
 					0,
-					currentResultObj.levelMembers.length );
+					currentResultObj.getLevelMembers().length );
 		}
 		if ( accumulators != null )
 		{
 			for ( int i = 0; i < accumulators.length; i++ )
 			{
 				accumulators[i].onRow( new Object[]{
-					row.measures[measureIndex[i]]
+					row.getMeasures()[measureIndex[i]]
 				} );
 			}
 		}

@@ -52,39 +52,39 @@ public class AggregationResultSet implements IAggregationResultSet
 		this.keyNames = keyNames;
 		this.attributeNames = attributeNames;
 		this.resultObject = (AggregationResultRow) aggregationResultRow.get( 0 );
-		if ( resultObject.levelMembers != null )
+		if ( resultObject.getLevelMembers() != null )
 		{
-			keyDataTypes = new int[resultObject.levelMembers.length][];
-			attributeDataTypes = new int[resultObject.levelMembers.length][];
+			keyDataTypes = new int[resultObject.getLevelMembers().length][];
+			attributeDataTypes = new int[resultObject.getLevelMembers().length][];
 
-			for ( int i = 0; i < resultObject.levelMembers.length; i++ )
+			for ( int i = 0; i < resultObject.getLevelMembers().length; i++ )
 			{
-				keyDataTypes[i] = new int[resultObject.levelMembers[i].keyValues.length];
-				for ( int j = 0; j < resultObject.levelMembers[i].keyValues.length; j++ )
+				keyDataTypes[i] = new int[resultObject.getLevelMembers()[i].getKeyValues().length];
+				for ( int j = 0; j < resultObject.getLevelMembers()[i].getKeyValues().length; j++ )
 				{
 					keyDataTypes[i][j] = DataType.getDataType( 
-							resultObject.levelMembers[i].keyValues[j].getClass( ) );
+							resultObject.getLevelMembers()[i].getKeyValues()[j].getClass( ) );
 				}
-				if ( resultObject.levelMembers[i].attributes != null )
+				if ( resultObject.getLevelMembers()[i].getAttributes() != null )
 				{
-					attributeDataTypes[i] = new int[resultObject.levelMembers[i].attributes.length];
+					attributeDataTypes[i] = new int[resultObject.getLevelMembers()[i].getAttributes().length];
 
 					for ( int j = 0; j < attributeDataTypes[i].length; j++ )
 					{
-						if ( resultObject.levelMembers[i].attributes[j]!= null )
+						if ( resultObject.getLevelMembers()[i].getAttributes()[j]!= null )
 						attributeDataTypes[i][j] = DataType.getDataType(
-							resultObject.levelMembers[i].attributes[j].getClass( ) );
+							resultObject.getLevelMembers()[i].getAttributes()[j].getClass( ) );
 					}
 				}
 			}
 		}
-		if ( resultObject.aggregationValues != null )
+		if ( resultObject.getAggregationValues() != null )
 		{
-			aggregationDataType = new int[resultObject.aggregationValues.length];
-			for ( int i = 0; i < resultObject.aggregationValues.length; i++ )
+			aggregationDataType = new int[resultObject.getAggregationValues().length];
+			for ( int i = 0; i < resultObject.getAggregationValues().length; i++ )
 			{
 				aggregationDataType[i] = DataType.getDataType(
-						resultObject.aggregationValues[i].getClass( ) );
+						resultObject.getAggregationValues()[i].getClass( ) );
 			}
 		}
 	}
@@ -108,9 +108,9 @@ public class AggregationResultSet implements IAggregationResultSet
 	public Object getAggregationValue( int aggregationIndex )
 			throws IOException
 	{
-		if ( resultObject.aggregationValues == null || aggregationIndex < 0 )
+		if ( resultObject.getAggregationValues() == null || aggregationIndex < 0 )
 			return null;
-		return resultObject.aggregationValues[aggregationIndex];
+		return resultObject.getAggregationValues()[aggregationIndex];
 	}
 
 	/*
@@ -119,12 +119,12 @@ public class AggregationResultSet implements IAggregationResultSet
 	 */
 	public Object getLevelAttribute( int levelIndex, int attributeIndex )
 	{
-		if ( resultObject.levelMembers == null || levelIndex < 0
-				|| resultObject.levelMembers[levelIndex].attributes == null )
+		if ( resultObject.getLevelMembers() == null || levelIndex < 0
+				|| resultObject.getLevelMembers()[levelIndex].getAttributes() == null )
 		{
 			return null;
 		}
-		return resultObject.levelMembers[levelIndex].attributes[attributeIndex];
+		return resultObject.getLevelMembers()[levelIndex].getAttributes()[attributeIndex];
 	}
 
 	/*
@@ -222,11 +222,11 @@ public class AggregationResultSet implements IAggregationResultSet
 	 */
 	public Object[] getLevelKeyValue( int levelIndex )
 	{
-		if ( resultObject.levelMembers == null || levelIndex < 0 )
+		if ( resultObject.getLevelMembers() == null || levelIndex < 0 )
 		{
 			return null;
 		}
-		return resultObject.levelMembers[levelIndex].keyValues;
+		return resultObject.getLevelMembers()[levelIndex].getKeyValues();
 	}
 
 	/*

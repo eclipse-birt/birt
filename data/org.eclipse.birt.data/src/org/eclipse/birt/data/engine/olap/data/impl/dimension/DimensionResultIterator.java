@@ -92,7 +92,7 @@ public class DimensionResultIterator implements IDimensionResultIterator
 	public Object getLevelAttribute( int levelIndex, int attributeIndex ) throws IOException
 	{
 		return ((DimensionRow)dimensionRows.get( currentPosition )).
-			members[levelIndex].attributes[attributeIndex];
+			getMembers()[levelIndex].getAttributes()[attributeIndex];
 	}
 
 	/*
@@ -164,7 +164,7 @@ public class DimensionResultIterator implements IDimensionResultIterator
 	public Object[] getLevelKeyValue( int levelIndex ) throws IOException
 	{
 		return ((DimensionRow)dimensionRows.get( currentPosition )).
-			members[levelIndex].keyValues;
+			getMembers()[levelIndex].getKeyValues();
 	}
 
 	/*
@@ -211,7 +211,7 @@ public class DimensionResultIterator implements IDimensionResultIterator
 	public Member getLevelMember( int levelIndex ) throws IOException
 	{
 		return ((DimensionRow)dimensionRows.get( currentPosition )).
-			members[levelIndex];
+			getMembers()[levelIndex];
 	}
 	
 	public DimensionRow getDimensionRow( ) throws IOException

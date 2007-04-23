@@ -452,20 +452,20 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	private static Object[] getAllFields( DimensionRow dimRow )
 	{
 		List fields = new ArrayList( );
-		for ( int i = 0; i < dimRow.members.length; i++ )
+		for ( int i = 0; i < dimRow.getMembers().length; i++ )
 		{
-			if ( dimRow.members[i].keyValues != null )
+			if ( dimRow.getMembers()[i].getKeyValues() != null )
 			{
-				for ( int j = 0; j < dimRow.members[i].keyValues.length; j++ )
+				for ( int j = 0; j < dimRow.getMembers()[i].getKeyValues().length; j++ )
 				{
-					fields.add( dimRow.members[i].keyValues[j] );
+					fields.add( dimRow.getMembers()[i].getKeyValues()[j] );
 				}
 			}
-			if ( dimRow.members[i].attributes != null )
+			if ( dimRow.getMembers()[i].getAttributes() != null )
 			{
-				for ( int j = 0; j < dimRow.members[i].attributes.length; j++ )
+				for ( int j = 0; j < dimRow.getMembers()[i].getAttributes().length; j++ )
 				{
-					fields.add( dimRow.members[i].attributes[j] );
+					fields.add( dimRow.getMembers()[i].getAttributes()[j] );
 				}
 			}
 		}

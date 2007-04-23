@@ -57,18 +57,18 @@ public class LevelMemberTest extends TestCase
 			Member member1 = (Member)bufferedStructureArray.get( i );
 			Member member2 = create(i);
 			assertEquals( member1.compareTo( member2 ) , 0 );
-			assertEquals( member1.attributes[0], member2.attributes[0] );
-			assertEquals( member1.attributes[1], member2.attributes[1] );
+			assertEquals( member1.getAttributes()[0], member2.getAttributes()[0] );
+			assertEquals( member1.getAttributes()[1], member2.getAttributes()[1] );
 		}
 	}
 	
 	private Member create( int i )
 	{
 		Member key = new Member( );
-		key.keyValues = new Object[]{new Integer( i )};
-		key.attributes = new Object[2];
-		key.attributes[0] = String.valueOf( i + 1 );
-		key.attributes[1] = new Date( i + 2 );
+		key.setKeyValues( new Object[]{new Integer( i )} );
+		key.setAttributes( new Object[2] );
+		key.getAttributes()[0] = String.valueOf( i + 1 );
+		key.getAttributes()[1] = new Date( i + 2 );
 		return key;
 	}
 }

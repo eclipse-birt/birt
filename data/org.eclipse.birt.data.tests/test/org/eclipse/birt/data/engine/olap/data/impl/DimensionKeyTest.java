@@ -61,9 +61,9 @@ public class DimensionKeyTest extends TestCase
 	private DimensionKey create( int i )
 	{
 		DimensionKey key = new DimensionKey( 3 );
-		key.keyValues[0] = new Integer( i ) ;
-		key.keyValues[1] = String.valueOf( i + 1 );
-		key.keyValues[2] = new Date( i + 2 );
+		key.getKeyValues()[0] = new Integer( i ) ;
+		key.getKeyValues()[1] = String.valueOf( i + 1 );
+		key.getKeyValues()[2] = new Date( i + 2 );
 		return key;
 	}
 }

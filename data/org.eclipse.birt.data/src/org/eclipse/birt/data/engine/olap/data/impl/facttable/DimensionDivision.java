@@ -20,7 +20,7 @@ package org.eclipse.birt.data.engine.olap.data.impl.facttable;
 
 public class DimensionDivision
 {
-	IntRange[] ranges = null;
+	private IntRange[] ranges = null;
 	
 	/**
 	 * 
@@ -31,10 +31,10 @@ public class DimensionDivision
 	{
 		if ( dimensionMemberCount <= subDimensionCount )
 		{
-			ranges = new IntRange[dimensionMemberCount];
+			setRanges( new IntRange[dimensionMemberCount] );
 			for ( int i = 0; i < dimensionMemberCount; i++ )
 			{
-				ranges[i] = new IntRange( i, i);
+				getRanges()[i] = new IntRange( i, i);
 			}
 			return;
 		}
@@ -48,30 +48,40 @@ public class DimensionDivision
 		{
 			subDimensionMemberCount[i] = baseSize;
 		}
-		ranges = new IntRange[subDimensionCount];
-		ranges[0] = new IntRange(0, subDimensionMemberCount[0] - 1);
+		setRanges( new IntRange[subDimensionCount] );
+		getRanges()[0] = new IntRange(0, subDimensionMemberCount[0] - 1);
 		
-		for ( int i = 1; i < ranges.length; i++ )
+		for ( int i = 1; i < getRanges().length; i++ )
 		{
-			ranges[i] = new IntRange(  );
-			ranges[i].start = ranges[i - 1].end + 1;
-			ranges[i].end = ranges[i].start + subDimensionMemberCount[i] - 1;
+			getRanges()[i] = new IntRange(  );
+			getRanges()[i].start = getRanges()[i - 1].end + 1;
+			getRanges()[i].end = getRanges()[i].start + subDimensionMemberCount[i] - 1;
 		}
 		
-		assert ranges[ranges.length].end == dimensionMemberCount - 1;
+		assert getRanges()[getRanges().length].end == dimensionMemberCount - 1;
 	}
 	
 	int getSubDimensionIndex( int dimensionIndex )
 	{
-		for ( int i = 0; i < ranges.length; i++ )
+		for ( int i = 0; i < getRanges().length; i++ )
 		{
-			if ( ranges[i].contains( dimensionIndex ) )
+			if ( getRanges()[i].contains( dimensionIndex ) )
 			{
 				return i;
 			}
 		}
 
 		return -1;
+	}
+
+	void setRanges( IntRange[] ranges )
+	{
+		this.ranges = ranges;
+	}
+
+	IntRange[] getRanges( )
+	{
+		return ranges;
 	}
 
 }

@@ -84,11 +84,11 @@ public class DimensionTest2 extends TestCase
 			indexKey = (IndexKey) indexKeys.get( i );
 			assertEquals( indexKey.key[0], new Integer( 1 ) );
 			assertEquals( indexKey.dimensionPos, i );
-			levelMember = dimension.getRowByPosition( indexKey.dimensionPos ).members[0];
-			assertEquals( levelMember.keyValues[0], new Integer( 1 ) );
+			levelMember = dimension.getRowByPosition( indexKey.dimensionPos ).getMembers()[0];
+			assertEquals( levelMember.getKeyValues()[0], new Integer( 1 ) );
 
-			levelMember = dimension.getDimensionRowByOffset( indexKey.offset ).members[0];
-			assertEquals( levelMember.keyValues[0], new Integer( 1 ) );
+			levelMember = dimension.getDimensionRowByOffset( indexKey.offset ).getMembers()[0];
+			assertEquals( levelMember.getKeyValues()[0], new Integer( 1 ) );
 		}
 		
 		// test load dimension from disk
@@ -103,32 +103,32 @@ public class DimensionTest2 extends TestCase
 		assertEquals( indexKey.dimensionPos, 0 );
 
 		levelMember = dimension.getDimensionRowByOffset(
-				indexKey.offset ).members[1];
-		assertEquals( levelMember.keyValues[0], new Integer( 1 ) );
+				indexKey.offset ).getMembers()[1];
+		assertEquals( levelMember.getKeyValues()[0], new Integer( 1 ) );
 		
 		indexKey = (IndexKey)indexKeys.get( 1 );
 		assertEquals( indexKey.key[0], new Integer( 1 ) );
 		assertEquals( indexKey.dimensionPos, 1 );
 
 		levelMember = dimension.getDimensionRowByOffset(
-				indexKey.offset ).members[1];
-		assertEquals( levelMember.keyValues[0], new Integer( 1 ) );
+				indexKey.offset ).getMembers()[1];
+		assertEquals( levelMember.getKeyValues()[0], new Integer( 1 ) );
 		
 		indexKey = (IndexKey)indexKeys.get( 2 );
 		assertEquals( indexKey.key[0], new Integer( 1 ) );
 		assertEquals( indexKey.dimensionPos, 4 );
 
 		levelMember = dimension.getDimensionRowByOffset(
-				indexKey.offset ).members[1];
-		assertEquals( levelMember.keyValues[0], new Integer( 1 ) );
+				indexKey.offset ).getMembers()[1];
+		assertEquals( levelMember.getKeyValues()[0], new Integer( 1 ) );
 		
 		indexKey = (IndexKey)indexKeys.get( 3 );
 		assertEquals( indexKey.key[0], new Integer( 1 ) );
 		assertEquals( indexKey.dimensionPos, 5 );
 
 		levelMember = dimension.getDimensionRowByOffset(
-				indexKey.offset ).members[1];
-		assertEquals( levelMember.keyValues[0], new Integer( 1 ) );
+				indexKey.offset ).getMembers()[1];
+		assertEquals( levelMember.getKeyValues()[0], new Integer( 1 ) );
 	}
 	
 	private void testDimensionCreateAndFind2( IDocumentManager documentManager ) throws IOException, BirtException, DataException
@@ -146,11 +146,11 @@ public class DimensionTest2 extends TestCase
 			indexKey = (IndexKey) indexKeys.get( i );
 			assertEquals( indexKey.key[0], new Integer( 1 ) );
 			assertEquals( indexKey.dimensionPos, i );
-			levelMember = dimension.getRowByPosition( indexKey.dimensionPos ).members[0];
-			assertEquals( levelMember.keyValues[0], new Integer( 1 ) );
+			levelMember = dimension.getRowByPosition( indexKey.dimensionPos ).getMembers()[0];
+			assertEquals( levelMember.getKeyValues()[0], new Integer( 1 ) );
 
-			levelMember = dimension.getDimensionRowByOffset( indexKey.offset ).members[0];
-			assertEquals( levelMember.keyValues[0], new Integer( 1 ) );
+			levelMember = dimension.getDimensionRowByOffset( indexKey.offset ).getMembers()[0];
+			assertEquals( levelMember.getKeyValues()[0], new Integer( 1 ) );
 			
 		}
 		
@@ -166,35 +166,35 @@ public class DimensionTest2 extends TestCase
 		assertEquals( indexKey.dimensionPos, 0 );
 
 		levelMember = dimension.getDimensionRowByOffset(
-				indexKey.offset ).members[1];
-		assertEquals( levelMember.keyValues[0], new java.sql.Date( 1 ) );
+				indexKey.offset ).getMembers()[1];
+		assertEquals( levelMember.getKeyValues()[0], new java.sql.Date( 1 ) );
 		
 		indexKey = (IndexKey)indexKeys.get( 1 );
 		assertEquals( indexKey.key[0], new java.sql.Date( 1 ) );
 		assertEquals( indexKey.dimensionPos, 1 );
 
 		levelMember = dimension.getDimensionRowByOffset(
-				indexKey.offset ).members[1];
-		assertEquals( levelMember.keyValues[0], new java.sql.Date( 1 ) );
+				indexKey.offset ).getMembers()[1];
+		assertEquals( levelMember.getKeyValues()[0], new java.sql.Date( 1 ) );
 		
 		indexKey = (IndexKey)indexKeys.get( 2 );
 		assertEquals( indexKey.key[0], new java.sql.Date( 1 ) );
 		assertEquals( indexKey.dimensionPos, 4 );
 
 		levelMember = dimension.getDimensionRowByOffset(
-				indexKey.offset ).members[1];
-		assertEquals( levelMember.keyValues[0], new java.sql.Date( 1 ) );
+				indexKey.offset ).getMembers()[1];
+		assertEquals( levelMember.getKeyValues()[0], new java.sql.Date( 1 ) );
 		
 		indexKey = (IndexKey)indexKeys.get( 3 );
 		assertEquals( indexKey.key[0], new java.sql.Date( 1 ) );
 		assertEquals( indexKey.dimensionPos, 5 );
 
 		levelMember = dimension.getDimensionRowByOffset(
-				indexKey.offset ).members[1];
-		assertEquals( levelMember.keyValues[0], new java.sql.Date( 1 ) );
+				indexKey.offset ).getMembers()[1];
+		assertEquals( levelMember.getKeyValues()[0], new java.sql.Date( 1 ) );
 		levelMember = dimension.getDimensionRowByOffset(
-				indexKey.offset ).members[2];
-		assertEquals( levelMember.keyValues[0], new java.sql.Time( 6 ) );
+				indexKey.offset ).getMembers()[2];
+		assertEquals( levelMember.getKeyValues()[0], new java.sql.Time( 6 ) );
 	}
 	
 	/**
