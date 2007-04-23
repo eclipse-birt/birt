@@ -140,7 +140,7 @@ public class TemplateExecutor implements TextTemplate.Visitor
 
 	protected String encodeHtmlText( String text )
 	{
-		return text.replaceAll( "<", "&gt;" );
+		return text.replaceAll( "<", "&lt;" );
 	}
 
 	public Object visitImage( TextTemplate.ImageNode node, Object value )
