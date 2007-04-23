@@ -238,7 +238,6 @@ public class HTMLVisionOptimize extends HTMLEmitter
 		{
 			setDisplayProperty( display, HTMLEmitterUtil.DISPLAY_BLOCK
 					| HTMLEmitterUtil.DISPLAY_INLINE_BLOCK, styleBuffer );
-			AttributeBuilder.checkHyperlinkTextDecoration( style, styleBuffer );
 		}
 		else
 		{
@@ -256,10 +255,8 @@ public class HTMLVisionOptimize extends HTMLEmitter
 			styleBuffer.append( ";" );
 		}
 		buildStyle( text, styleBuffer );
-		if ( !isEmbeddable )
-		{
-			AttributeBuilder.checkHyperlinkTextDecoration( style, styleBuffer );
-		}
+		AttributeBuilder.checkHyperlinkTextDecoration( text.getComputedStyle( ),
+				styleBuffer );
 	}
 
 	/**
@@ -280,7 +277,6 @@ public class HTMLVisionOptimize extends HTMLEmitter
 		{
 			setDisplayProperty( display, HTMLEmitterUtil.DISPLAY_BLOCK
 					| HTMLEmitterUtil.DISPLAY_INLINE_BLOCK, styleBuffer );
-			AttributeBuilder.checkHyperlinkTextDecoration( style, styleBuffer );
 		}
 		else
 		{
@@ -298,10 +294,8 @@ public class HTMLVisionOptimize extends HTMLEmitter
 			styleBuffer.append( ";" );
 		}
 		buildStyle( foreign, styleBuffer );
-		if ( !isEmbeddable )
-		{
-			AttributeBuilder.checkHyperlinkTextDecoration( style, styleBuffer );
-		}
+		AttributeBuilder.checkHyperlinkTextDecoration( foreign.getComputedStyle( ),
+				styleBuffer );
 	}
 
 	/**
@@ -469,8 +463,7 @@ public class HTMLVisionOptimize extends HTMLEmitter
 			style = element.getInlineStyle( );
 		}
 		AttributeBuilder.buildStyle( styleBuffer, style, parentEmitter );
-
-		AttributeBuilder.checkHyperlinkTextDecoration( style, styleBuffer );
+		AttributeBuilder.checkHyperlinkTextDecoration( element.getComputedStyle(), styleBuffer );
 	}
 
 	/**
