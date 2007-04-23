@@ -34,6 +34,7 @@ Error.CrosstabException.DUPLICATE_LEVEL=
 # Crosstab executor runtime error message
 CrosstabReportItemQuery.error.crosstab.loading=확장 항목을 크로스 탭 항목에 로드하지 못했습니다.
 CrosstabReportItemQuery.error.query.building=쿼리 생성에 맞지 않는 크로스 탭 모델입니다.
+CrosstabReportItemQuery.error.register.empty.cell.value=Error on registering empty cell value.
 
 CrosstabQueryHelper.error.invalid.measure=크로스 탭에 연결된 측정이 올바르지 않습니다.
 CrosstabQueryHelper.error.invalid.dimension=크로스 탭에 연결된 차원이 올바르지 않습니다.
@@ -79,3 +80,22 @@ CrosstabReportItemHandle.error.locate.column.cell=관련 크로스 탭 셀을 열에서 찾�
 CrosstabReportItemHandle.error.locate.row.cell=관련 크로스 탭 셀을 행에서 찾는 중 오류 발생
 CrosstabReportItemHandle.error.set.column.width=크로스 탭 열 너비 설정 중 오류 발생
 CrosstabReportItemHandle.error.set.row.height=크로스 탭 행 높이 설정 중 오류 발생
+CrosstabReportItemHandle.msg.change.measure.direction=Change Measure Direction
+CrosstabReportItemHandle.msg.insert.measure=Insert Measure
+
+MeasureViewHandle.info.aggregation.already.exist=The requested aggregation is already existed.
+MeasureViewHandle.msg.add.aggregation=Add Aggregation
+
+LevelViewTask.msg.remove.subtotal=Remove Subtotal
+LevelViewTask.msg.add.subtotal=Add Subtotal
+
+DimensionViewTask.msg.remove.level=Remove Level
+
+CrosstabViewTask.msg.remove.dimension=Remove Dimension
+CrosstabViewTask.msg.remove.grandtotal=Remove Grand Total
+CrosstabViewTask.msg.add.grandtotal=Add Grand Total
+
+CrosstabReportItemTask.msg.add.grandtotal=Add Grand Total
+CrosstabReportItemTask.msg.set.aggregate.function=Set Aggregate Function
+CrosstabReportItemTask.msg.pivot.dimension=Pivot Dimension
+CrosstabReportItemTask.msg.insert.dimension=Insert Dimension

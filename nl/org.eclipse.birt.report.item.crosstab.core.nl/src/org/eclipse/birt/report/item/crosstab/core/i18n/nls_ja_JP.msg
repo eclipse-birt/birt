@@ -34,6 +34,7 @@ Error.CrosstabException.DUPLICATE_LEVEL=
 # Crosstab executor runtime error message
 CrosstabReportItemQuery.error.crosstab.loading=拡張項目からクロスタブ項目を読み込めませんでした。
 CrosstabReportItemQuery.error.query.building=クエリ構築のクロスタブモデルが無効です。
+CrosstabReportItemQuery.error.register.empty.cell.value=Error on registering empty cell value.
 
 CrosstabQueryHelper.error.invalid.measure=クロスタブに関連付けられている計測が無効です。
 CrosstabQueryHelper.error.invalid.dimension=クロスタブに関連付けられている次元が無効です。
@@ -79,3 +80,22 @@ CrosstabReportItemHandle.error.locate.column.cell=カラム上で関連するクロスタブセ
 CrosstabReportItemHandle.error.locate.row.cell=ロウ上で関連するクロスタブセルを検出中にエラーが発生しました。
 CrosstabReportItemHandle.error.set.column.width=クロスタブカラムの幅を設定中にエラーが発生しました。
 CrosstabReportItemHandle.error.set.row.height=クロスタブロウの高さを設定中にエラーが発生しました。
+CrosstabReportItemHandle.msg.change.measure.direction=Change Measure Direction
+CrosstabReportItemHandle.msg.insert.measure=Insert Measure
+
+MeasureViewHandle.info.aggregation.already.exist=The requested aggregation is already existed.
+MeasureViewHandle.msg.add.aggregation=Add Aggregation
+
+LevelViewTask.msg.remove.subtotal=Remove Subtotal
+LevelViewTask.msg.add.subtotal=Add Subtotal
+
+DimensionViewTask.msg.remove.level=Remove Level
+
+CrosstabViewTask.msg.remove.dimension=Remove Dimension
+CrosstabViewTask.msg.remove.grandtotal=Remove Grand Total
+CrosstabViewTask.msg.add.grandtotal=Add Grand Total
+
+CrosstabReportItemTask.msg.add.grandtotal=Add Grand Total
+CrosstabReportItemTask.msg.set.aggregate.function=Set Aggregate Function
+CrosstabReportItemTask.msg.pivot.dimension=Pivot Dimension
+CrosstabReportItemTask.msg.insert.dimension=Insert Dimension

@@ -34,6 +34,7 @@ Error.CrosstabException.DUPLICATE_LEVEL=
 # Crosstab executor runtime error message
 CrosstabReportItemQuery.error.crosstab.loading=Echec du chargement de l'élément de tableau croisé à partir de l'élément étendu.
 CrosstabReportItemQuery.error.query.building=Modèle de tableau croisé non valide pour la génération de requête.
+CrosstabReportItemQuery.error.register.empty.cell.value=Error on registering empty cell value.
 
 CrosstabQueryHelper.error.invalid.measure=La mesure associée pour le tableau croisé est incorrecte.
 CrosstabQueryHelper.error.invalid.dimension=La dimension associée pour le tableau croisé est incorrecte.
@@ -79,3 +80,22 @@ CrosstabReportItemHandle.error.locate.column.cell=Erreur lors de la localisation
 CrosstabReportItemHandle.error.locate.row.cell=Erreur lors de la localisation de la cellule de tableau croisé appropriée sur les lignes
 CrosstabReportItemHandle.error.set.column.width=Erreur lors de la définition de la largeur des colonnes du tableau croisé
 CrosstabReportItemHandle.error.set.row.height=Erreur lors de la définition de la hauteur des lignes du tableau croisé
+CrosstabReportItemHandle.msg.change.measure.direction=Change Measure Direction
+CrosstabReportItemHandle.msg.insert.measure=Insert Measure
+
+MeasureViewHandle.info.aggregation.already.exist=The requested aggregation is already existed.
+MeasureViewHandle.msg.add.aggregation=Add Aggregation
+
+LevelViewTask.msg.remove.subtotal=Remove Subtotal
+LevelViewTask.msg.add.subtotal=Add Subtotal
+
+DimensionViewTask.msg.remove.level=Remove Level
+
+CrosstabViewTask.msg.remove.dimension=Remove Dimension
+CrosstabViewTask.msg.remove.grandtotal=Remove Grand Total
+CrosstabViewTask.msg.add.grandtotal=Add Grand Total
+
+CrosstabReportItemTask.msg.add.grandtotal=Add Grand Total
+CrosstabReportItemTask.msg.set.aggregate.function=Set Aggregate Function
+CrosstabReportItemTask.msg.pivot.dimension=Pivot Dimension
+CrosstabReportItemTask.msg.insert.dimension=Insert Dimension

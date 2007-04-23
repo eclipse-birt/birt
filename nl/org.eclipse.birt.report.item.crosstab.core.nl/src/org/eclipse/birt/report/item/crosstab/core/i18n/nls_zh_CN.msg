@@ -34,6 +34,7 @@ Error.CrosstabException.DUPLICATE_LEVEL=
 # Crosstab executor runtime error message
 CrosstabReportItemQuery.error.crosstab.loading=从扩展项加载交叉表项失败。
 CrosstabReportItemQuery.error.query.building=用于查询生成的交叉表模型无效。
+CrosstabReportItemQuery.error.register.empty.cell.value=Error on registering empty cell value.
 
 CrosstabQueryHelper.error.invalid.measure=交叉表的关联度量无效。
 CrosstabQueryHelper.error.invalid.dimension=交叉表的关联维无效。
@@ -79,3 +80,22 @@ CrosstabReportItemHandle.error.locate.column.cell=在列中查找相关交叉表单元格时出
 CrosstabReportItemHandle.error.locate.row.cell=在行中查找相关交叉表单元格时出错
 CrosstabReportItemHandle.error.set.column.width=设置交叉表列宽时出错
 CrosstabReportItemHandle.error.set.row.height=设置交叉表行高时出错
+CrosstabReportItemHandle.msg.change.measure.direction=Change Measure Direction
+CrosstabReportItemHandle.msg.insert.measure=Insert Measure
+
+MeasureViewHandle.info.aggregation.already.exist=The requested aggregation is already existed.
+MeasureViewHandle.msg.add.aggregation=Add Aggregation
+
+LevelViewTask.msg.remove.subtotal=Remove Subtotal
+LevelViewTask.msg.add.subtotal=Add Subtotal
+
+DimensionViewTask.msg.remove.level=Remove Level
+
+CrosstabViewTask.msg.remove.dimension=Remove Dimension
+CrosstabViewTask.msg.remove.grandtotal=Remove Grand Total
+CrosstabViewTask.msg.add.grandtotal=Add Grand Total
+
+CrosstabReportItemTask.msg.add.grandtotal=Add Grand Total
+CrosstabReportItemTask.msg.set.aggregate.function=Set Aggregate Function
+CrosstabReportItemTask.msg.pivot.dimension=Pivot Dimension
+CrosstabReportItemTask.msg.insert.dimension=Insert Dimension
