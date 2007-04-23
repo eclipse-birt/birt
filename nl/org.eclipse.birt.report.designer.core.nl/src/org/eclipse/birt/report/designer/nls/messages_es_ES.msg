@@ -978,6 +978,7 @@ Element.ParameterGroup.helpTextID=Clave de texto de ayuda
 Element.ParameterGroup.slot.parameters=Parámetros:
 Element.ParameterGroup.startExpanded=Iniciar expandido:
 Element.ReportDesign.afterCloseDoc.toolTip=Llamado justo después de cerrar el documento de informe en la fase de generación.
+Element.ReportDesign.layoutPreference=Layout Preference:
 Element.ReportDesign.afterCloseDoc=Después de cerrar documento:
 Element.ReportDesign.afterFactory.toolTip=Llamado al final de la fase de generación, después de cerrar el documento de informes (si existe). Éste es el último método llamado en la fase de generación.
 Element.ReportDesign.afterFactory=Después de fábrica:

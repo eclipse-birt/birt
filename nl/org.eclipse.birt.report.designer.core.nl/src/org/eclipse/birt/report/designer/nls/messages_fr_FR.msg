@@ -978,6 +978,7 @@ Element.ParameterGroup.helpTextID=Clé du texte d'aide
 Element.ParameterGroup.slot.parameters=Paramètres :
 Element.ParameterGroup.startExpanded=Lancement développé :
 Element.ReportDesign.afterCloseDoc.toolTip=Commande appelée juste après la fermeture de l'état pendant le processus de génération.
+Element.ReportDesign.layoutPreference=Layout Preference:
 Element.ReportDesign.afterCloseDoc=Après fermeture du document :
 Element.ReportDesign.afterFactory.toolTip=Commande appelée à la fin du processus de génération, après fermeture de l'état (le cas échéant). Il s'agit de la dernière méthode appelée au cours du processus de génération.
 Element.ReportDesign.afterFactory=Après génération :
