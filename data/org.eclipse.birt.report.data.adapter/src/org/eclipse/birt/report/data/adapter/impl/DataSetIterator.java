@@ -29,8 +29,10 @@ import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.olap.api.cube.IDatasetIterator;
+import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
@@ -254,8 +256,8 @@ public class DataSetIterator implements IDatasetIterator
 			while ( it.hasNext( ) )
 			{
 				LevelAttributeHandle levelAttr = (LevelAttributeHandle) it.next( );
-				ColumnMeta meta = new ColumnMeta( level.getName( ) + "/" +
-						levelAttr.getName( ), false );
+				ColumnMeta meta = new ColumnMeta( OlapExpressionUtil.getAttributeColumnName( level.getName( ),
+						levelAttr.getName( )), false );
 
 				meta.setDataType( ModelAdapter.adaptModelDataType( levelAttr.getDataType( ) ) );
 				metaList.add( meta );
@@ -278,7 +280,7 @@ public class DataSetIterator implements IDatasetIterator
 			int type )
 	{
 		String exprString = ExpressionUtil.createJSDataSetRowExpression( level.getColumnName( ) );
-	/*	if ( isTimeType( type ))
+		if ( isTimeType( type ))
 		{
 			String dateName = level.getDateTimeLevelType( );
 			if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY.equals( dateName ))
@@ -301,7 +303,7 @@ public class DataSetIterator implements IDatasetIterator
 			{
 				exprString = "BirtDateTime.year(" + exprString + ")";
 			}
-		}*/
+		}
 		return exprString;
 	}
 

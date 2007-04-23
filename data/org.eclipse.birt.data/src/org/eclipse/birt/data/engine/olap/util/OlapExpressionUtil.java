@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.core.DataException;
 
 /**
  * 
@@ -68,13 +69,25 @@ public class OlapExpressionUtil
 	}
 
 	/**
+	 * 
+	 * @param level
+	 * @param attribute
+	 * @return
+	 */
+	public static String getAttributeColumnName( String level, String attribute )
+	{
+		return level + "/" + attribute;
+	}
+	
+	/**
 	 * This method returns a list of ICubeAggrDefn instances which describes the
 	 * aggregations that need to be calcualted in cube query.
 	 * 
 	 * @param bindings
 	 * @return
+	 * @throws DataException 
 	 */
-	public static ICubeAggrDefn[] getAggrDefns( List bindings )
+	public static ICubeAggrDefn[] getAggrDefns( List bindings ) throws DataException
 	{
 		if ( bindings == null || bindings.size( ) == 0 )
 			return new ICubeAggrDefn[0];

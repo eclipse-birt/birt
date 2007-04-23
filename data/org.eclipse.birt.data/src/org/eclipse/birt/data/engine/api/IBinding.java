@@ -13,35 +13,37 @@ package org.eclipse.birt.data.engine.api;
 
 import java.util.List;
 
+import org.eclipse.birt.data.engine.core.DataException;
+
 /**
  * 
  */
 public interface IBinding
 {
-	public String getBindingName();
+	public String getBindingName() throws DataException;
 	
-	public int getDataType( );
+	public int getDataType( ) throws DataException;
 
-	public void setDataType( int type );
+	public void setDataType( int type ) throws DataException;
 
-	public IBaseExpression getExpression( );
+	public IBaseExpression getExpression( ) throws DataException;
 
-	public void setExpression( IBaseExpression expr );
+	public void setExpression( IBaseExpression expr ) throws DataException;
 
-	public List getAggregatOns( );
+	public List getAggregatOns( ) throws DataException;
 
-	public void addAggregateOn( String levelName );
+	public void addAggregateOn( String levelName ) throws DataException;
 
-	public List getArguments( );
+	public List getArguments( ) throws DataException;
 
-	public void addArgument( IBaseExpression expr );
+	public void addArgument( IBaseExpression expr ) throws DataException;
 
-	public void setFilter( IBaseExpression expr );
+	public void setFilter( IBaseExpression expr ) throws DataException;
 
-	public IBaseExpression getFilter( );
+	public IBaseExpression getFilter( ) throws DataException;
 
-	public String getAggrFunction( );
+	public String getAggrFunction( ) throws DataException;
 
-	public void setAggrFunction( String functionName );
+	public void setAggrFunction( String functionName ) throws DataException;
 
 }

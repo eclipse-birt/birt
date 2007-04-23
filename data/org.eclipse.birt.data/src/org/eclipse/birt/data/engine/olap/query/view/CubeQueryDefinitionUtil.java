@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.aggregation.BuiltInAggregationFactory;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
@@ -43,9 +44,10 @@ class CubeQueryDefinitionUtil
 	 * 
 	 * @param queryDefn
 	 * @return
+	 * @throws DataException 
 	 */
 	static CalculatedMember[] getCalculatedMembers(
-			ICubeQueryDefinition queryDefn )
+			ICubeQueryDefinition queryDefn ) throws DataException
 	{
 		List measureList = queryDefn.getMeasures( );
 		ICubeAggrDefn[] cubeAggrs = OlapExpressionUtil.getAggrDefns( queryDefn.getBindings( ) );
@@ -187,8 +189,9 @@ class CubeQueryDefinitionUtil
 	 * 
 	 * @param queryDefn
 	 * @return
+	 * @throws DataException 
 	 */
-	public static Map getRelationWithMeasure( ICubeQueryDefinition queryDefn )
+	public static Map getRelationWithMeasure( ICubeQueryDefinition queryDefn ) throws DataException
 	{
 		Map measureRelationMap = new HashMap( );
 		List rowLevelList = new ArrayList( );

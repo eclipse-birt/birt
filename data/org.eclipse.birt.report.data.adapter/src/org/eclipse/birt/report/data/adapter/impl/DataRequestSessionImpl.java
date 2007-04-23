@@ -480,7 +480,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 		{
 			throw new DataException( e.getLocalizedMessage( ) );
 		}
-		assert false;
 	}
 
 	/**

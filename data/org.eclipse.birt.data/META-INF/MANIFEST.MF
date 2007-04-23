@@ -42,7 +42,7 @@ Export-Package: javax.olap,
  org.eclipse.birt.data.engine.olap.data.impl.facttable;x-friends:="org.eclipse.birt.data.tests",
  org.eclipse.birt.data.engine.olap.data.util;x-friends:="org.eclipse.birt.data.tests",
  org.eclipse.birt.data.engine.olap.query.view;x-friends:="org.eclipse.birt.data.tests",
- org.eclipse.birt.data.engine.olap.util;x-friends:="org.eclipse.birt.data.tests",
+ org.eclipse.birt.data.engine.olap.util;x-friends:="org.eclipse.birt.data.tests,org.eclipse.birt.report.data.adapter",
  org.eclipse.birt.data.engine.olap.util.filter,
  org.eclipse.birt.data.engine.plugin,
  org.eclipse.birt.data.engine.script

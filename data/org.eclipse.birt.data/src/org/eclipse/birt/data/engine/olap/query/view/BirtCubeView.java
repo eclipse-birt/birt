@@ -20,6 +20,7 @@ import javax.olap.OLAPException;
 import javax.olap.cursor.CubeCursor;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.impl.CubeQueryExecutor;
@@ -48,8 +49,9 @@ public class BirtCubeView
 	 * Constructor: construct the row/column/measure EdgeView.
 	 * 
 	 * @param queryExecutor
+	 * @throws DataException 
 	 */
-	public BirtCubeView( CubeQueryExecutor queryExecutor )
+	public BirtCubeView( CubeQueryExecutor queryExecutor ) throws DataException
 	{
 		this.queryDefn = queryExecutor.getCubeQueryDefinition( );
 		columnEdgeView = createBirtEdgeView( this.queryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE ) );
@@ -77,8 +79,9 @@ public class BirtCubeView
 	 * Get cubeCursor for current cubeView.
 	 * @return CubeCursor
 	 * @throws OLAPException
+	 * @throws DataException 
 	 */
-	public CubeCursor getCubeCursor( ) throws OLAPException
+	public CubeCursor getCubeCursor( ) throws OLAPException, DataException
 	{
 		Map relationMap = CubeQueryDefinitionUtil.getRelationWithMeasure( queryDefn );
 		IResultSet result;

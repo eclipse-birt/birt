@@ -588,19 +588,19 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addBinding( binding8 );
 		
 		IBinding binding9 = new Binding( "row_rowGrandTotal");
-		binding9.setExpression( new ScriptExpression("row[\"rowGrandTotal\"]*10") );
+		binding9.setExpression( new ScriptExpression("data[\"rowGrandTotal\"]*10") );
 		cqd.addBinding( binding9 );
 		
 		IBinding binding10 = new Binding( "row_columnGrandTotal");
-		binding10.setExpression( new ScriptExpression("row[\"columnGrandTotal\"]*10") );
+		binding10.setExpression( new ScriptExpression("data[\"columnGrandTotal\"]*10") );
 		cqd.addBinding( binding10 );
 		
 		IBinding binding11 = new Binding( "row_grandTotal");
-		binding11.setExpression( new ScriptExpression("row[\"grandTotal\"]*10") );
+		binding11.setExpression( new ScriptExpression("data[\"grandTotal\"]*10") );
 		cqd.addBinding( binding11 );
 	
 		IBinding binding12 = new Binding( "row_measure1" );
-		binding12.setExpression( new ScriptExpression("row[\"measure1\"]*10") );
+		binding12.setExpression( new ScriptExpression("data[\"measure1\"]*10") );
 		cqd.addBinding( binding12 );
 				
 		//sort on year

@@ -16,6 +16,8 @@ import java.util.List;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
  * 
@@ -42,8 +44,13 @@ public class Binding implements IBinding
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.api.IBinding#addAggregateOn(java.lang.String)
 	 */
-	public void addAggregateOn( String levelName )
+	public void addAggregateOn( String levelName ) throws DataException
 	{
+		if ( this.aggregateOn.contains( levelName ))
+			throw new DataException( ResourceConstants.TRY_TO_ADD_IDENTICAL_AGGR_GROUP,
+					new Object[]{
+							levelName, this.name
+					} );
 		this.aggregateOn.add( levelName );
 	}
 

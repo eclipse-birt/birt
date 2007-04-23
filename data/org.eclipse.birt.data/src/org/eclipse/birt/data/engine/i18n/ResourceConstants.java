@@ -297,6 +297,7 @@ public class ResourceConstants
 	public final static String MUST_SPECIFY_COLUMN_NAME = "odaconsumer.MustSpecifyColumnName";
 	public final static String CANNOT_FIND_LOG_DIRECTORY = "odaconsumer.CannotFindLogDirectory";
 	
+	//OLAP errors
 	public final static String OLAPDIR_CREATE_FAIL = "data.olap.OlapDirCreateFail";
 	public final static String OLAPFILE_CREATE_FAIL = "data.olap.OlapFileCreateFail";
 	public final static String OLAPFILE_NOT_FOUND = "data.olap.OlapFileNotFound";
@@ -316,4 +317,5 @@ public class ResourceConstants
 	public final static String CANNOT_GET_MEASURE_VALUE = "data.olap.CannotGetMeasureValue";
 	public final static String DOCUMENTOBJECT_NOT_EXIST = "data.olap.DocumentObjectNotExists";
 	public final static String CANNOT_FIND_LEVEL = "data.olap.CannotFindLevel";
+	public final static String TRY_TO_ADD_IDENTICAL_AGGR_GROUP = "data.olap.tryToAddIdenticalAggrGroup";
 }
