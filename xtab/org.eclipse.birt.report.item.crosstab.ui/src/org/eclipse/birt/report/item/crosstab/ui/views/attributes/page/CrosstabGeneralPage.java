@@ -88,16 +88,6 @@ public class CrosstabGeneralPage extends AttributePage
 		formatOptionSection.setGridPlaceholder( 2, true );
 		addSection( CrosstabPageSectionId.FORMAT_OPTION, formatOptionSection );
 
-		// grandTotalColumnProvider = new GrandTotalProvider(
-		// ICrosstabConstants.COLUMN_AXIS_TYPE);
-		// InnerCheckSection grandTotalColumnSection = new InnerCheckSection(
-		// formatOptionSection, true);
-		// grandTotalColumnSection.setProvider(grandTotalColumnProvider);
-		// grandTotalColumnSection.setLayoutNum(3);
-		// grandTotalColumnSection.setGridPlaceholder(1, false);
-		// addSection(CrosstabPageSectionId.BRANDTOTALS_COLUMN,
-		// grandTotalColumnSection);
-
 		layoutMeasuresProvider = new LayoutMeasuresProvider( );
 		InnerCheckSection layoutMeasuresSection = new InnerCheckSection( formatOptionSection,
 				true );
@@ -106,28 +96,6 @@ public class CrosstabGeneralPage extends AttributePage
 		// layoutMeasuresSection.setGridPlaceholder(2, false);
 		addSection( CrosstabPageSectionId.LAYOUT_MEASURES,
 				layoutMeasuresSection );
-
-		// PageLayoutPropertyDescriptorProvider pageLayoutProvider = new
-		// PageLayoutPropertyDescriptorProvider(
-		// ICrosstabReportItemConstants.PAGE_LAYOUT_PROP,
-		// ReportDesignConstants.EXTENDED_ITEM);
-		// PageLayoutComboSection pageLayoutComboSection = new
-		// PageLayoutComboSection(
-		// pageLayoutProvider.getDisplayName(), formatOptionSection, true);
-		// pageLayoutComboSection.setProvider(pageLayoutProvider);
-		// pageLayoutComboSection.setLayoutNum(2);
-		// addSection(CrosstabPageSectionId.PAGE_LAYOUT,
-		// pageLayoutComboSection);
-
-		// grandTotalRowProvider = new GrandTotalProvider(
-		// ICrosstabConstants.ROW_AXIS_TYPE);
-		// InnerCheckSection grandTotalRowSection = new InnerCheckSection(
-		// formatOptionSection, true);
-		// grandTotalRowSection.setProvider(grandTotalRowProvider);
-		// grandTotalRowSection.setLayoutNum(3);
-		// grandTotalRowSection.setGridPlaceholder(1, false);
-		// addSection(CrosstabPageSectionId.BRANDTOTALS_ROW,
-		// grandTotalRowSection);
 
 		TextPropertyDescriptorProvider emptyCellValueProvider = new TextPropertyDescriptorProvider( ICrosstabReportItemConstants.EMPTY_CELL_VALUE_PROP,
 				ReportDesignConstants.EXTENDED_ITEM );
@@ -166,17 +134,6 @@ public class CrosstabGeneralPage extends AttributePage
 			librarySection.setHidden( true );
 			seperatorSection.setHidden( true );
 		}
-//		if ( grandTotalColumnProvider != null )
-//		{
-//			grandTotalColumnProvider.setInput( input );
-//		}
-
-		// if (grandTotalRowProvider != null) {
-		// grandTotalRowProvider.setInput(input);
-		// }
-		// if (layoutMeasuresProvider != null) {
-		// layoutMeasuresProvider.setInput(input);
-		// }
 
 		container.layout( true );
 		container.redraw( );

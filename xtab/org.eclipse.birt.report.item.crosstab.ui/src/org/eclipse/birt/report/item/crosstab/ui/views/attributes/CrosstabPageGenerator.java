@@ -41,9 +41,9 @@ public class CrosstabPageGenerator extends AbstractPageGenerator {
 	
 	protected BindingPage bindingPage;
 	
-//	protected RowAreaPage rowAreaPage;
+	protected BaseAttributePage RowAreaPage;
 	
-//	protected ColumnAreaPage columnAreaPage;
+	protected BaseAttributePage ColumnAreaPage;
 
 //	protected DetailAreaPage detailAreaPage;
 	
@@ -184,9 +184,10 @@ public class CrosstabPageGenerator extends AbstractPageGenerator {
 		addSelectionListener( this );
 		basicPage.refresh( );
 		createTabItem( 1, Messages.getString( "CrosstabPageGenerator.TabItem.Binding" ) );
-		createTabItem( 2, Messages.getString( "CrosstabPageGenerator.TabItem.RowArea" ) );
-		createTabItem( 3, Messages.getString( "CrosstabPageGenerator.TabItem.ColumnArea" ) );
-//		createTabItem( 4, Messages.getString( "CrosstabPageGenerator.TabItem.DetailArea" ) );
+		createRowArea();
+		createColumnArea();
+//		createTabItem( 2, Messages.getString( "CrosstabPageGenerator.TabItem.RowArea" ) );
+//		createTabItem( 3, Messages.getString( "CrosstabPageGenerator.TabItem.ColumnArea" ) );
 		createTabItem( 4, Messages.getString( "CrosstabPageGenerator.TabItem.Filters" ) );
 		createTabItem( 5, Messages.getString( "CrosstabPageGenerator.TabItem.Sorting" ) );
 		createTabItem( 6, Messages.getString( "CrosstabPageGenerator.TabItem.map" ) );
@@ -194,6 +195,40 @@ public class CrosstabPageGenerator extends AbstractPageGenerator {
 		
 		if ( tabFolder.getSelection( ) != null )
 			buildItemContent( tabFolder.getSelection( ) );
+	}
+
+	protected void createRowArea()
+	{
+		if ( RowAreaPage == null || RowAreaPage.getControl( ).isDisposed( ))
+		{
+			tabFolder.setLayout( new FillLayout( ) );
+			RowAreaPage = new BaseAttributePage( );
+			RowAreaPage.buildUI( tabFolder  );
+			CTabItem tabItem = new CTabItem( tabFolder, SWT.NONE );
+			tabItem.setText( Messages.getString( "CrosstabPageGenerator.TabItem.RowArea" ) ); //$NON-NLS-1$
+			tabItem.setControl( RowAreaPage.getControl( ) );
+
+			RowAreaPage.setCategoryProvider( RowAreaCategoryProviderFactory.getInstance( ).getCategoryProvider( input ) );
+		}
+		RowAreaPage.setInput( input );
+		RowAreaPage.refresh( );
+	}
+	
+	protected void createColumnArea()
+	{
+		if ( ColumnAreaPage == null || ColumnAreaPage.getControl( ).isDisposed( ))
+		{
+			tabFolder.setLayout( new FillLayout( ) );
+			ColumnAreaPage = new BaseAttributePage( );
+			ColumnAreaPage.buildUI( tabFolder  );
+			CTabItem tabItem = new CTabItem( tabFolder, SWT.NONE );
+			tabItem.setText( Messages.getString( "CrosstabPageGenerator.TabItem.ColumnArea" ) ); //$NON-NLS-1$
+			tabItem.setControl( ColumnAreaPage.getControl( ) );
+
+			ColumnAreaPage.setCategoryProvider( RowAreaCategoryProviderFactory.getInstance( ).getCategoryProvider( input ) );
+		}
+		ColumnAreaPage.setInput( input );
+		ColumnAreaPage.refresh( );
 	}
 	
 }
