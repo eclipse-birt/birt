@@ -611,6 +611,18 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 				checkLevelName = levelView.getCubeLevelName( );
 			}
 
+			// if ( checkDimensionName == null && checkLevelName == null )
+			// {
+			// // this is grand total
+			// int totalDims = crosstab.getDimensionCount( axisType );
+			//
+			// // no dimension on axis, ignore grand total checks
+			// if ( totalDims == 0 )
+			// {
+			// return false;
+			// }
+			// }
+
 			boolean isInnerMost = levelView != null ? levelView.isInnerMost( )
 					: false;
 
@@ -621,12 +633,12 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 
 			if ( axisType == ROW_AXIS_TYPE )
 			{
-				int totalRowDimensions = crosstab.getDimensionCount( COLUMN_AXIS_TYPE );
+				int totalColDimensions = crosstab.getDimensionCount( COLUMN_AXIS_TYPE );
 
-				if ( totalRowDimensions > 0 )
+				if ( totalColDimensions > 0 )
 				{
 					// check subtotal
-					for ( int i = 0; i < totalRowDimensions; i++ )
+					for ( int i = 0; i < totalColDimensions; i++ )
 					{
 						DimensionViewHandle dv = crosstab.getDimension( COLUMN_AXIS_TYPE,
 								i );
@@ -637,7 +649,7 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 						{
 							LevelViewHandle lv = dv.getLevel( j );
 
-							if ( ( i == totalRowDimensions - 1 && j == totalLevels - 1 )
+							if ( ( i == totalColDimensions - 1 && j == totalLevels - 1 )
 									|| lv.getAggregationHeader( ) != null )
 							{
 								AggregationCellHandle cell = measureView.getAggregationCell( checkDimensionName,
@@ -656,7 +668,7 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 				}
 
 				// check grandtotal
-				if ( totalRowDimensions == 0
+				if ( totalColDimensions == 0
 						|| crosstab.getGrandTotal( COLUMN_AXIS_TYPE ) != null )
 				{
 					AggregationCellHandle cell = measureView.getAggregationCell( checkDimensionName,

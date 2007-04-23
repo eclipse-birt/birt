@@ -327,6 +327,7 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 				levelView.addSubTotal( measureList, functionList );
 			}
 			
+			validateCrosstab( );
 		}
 		catch ( SemanticException e )
 		{

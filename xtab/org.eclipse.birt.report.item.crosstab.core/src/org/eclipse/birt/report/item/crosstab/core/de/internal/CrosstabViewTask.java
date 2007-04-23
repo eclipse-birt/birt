@@ -125,9 +125,9 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 				// cell, for some adjustment action should depend on the
 				// grand-total information; if there is no level in this axis,
 				// then we need do nothing about the aggregations
-				if ( crosstab != null
-						&& CrosstabModelUtil.getAllLevelCount( crosstab,
-								crosstabView.getAxisType( ) ) > 0 )
+				if ( crosstab != null )
+				// && CrosstabModelUtil.getAllLevelCount( crosstab,
+				// crosstabView.getAxisType( ) ) > 0 )
 				{
 					removeMeasureAggregations( crosstabView.getAxisType( ) );
 				}
@@ -225,6 +225,13 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 			}
 
 			dimensionView.getModelHandle( ).drop( );
+
+			// check if all dimensions are removed, we need remove grand total
+			// on the axis
+			if ( crosstabView.getDimensionCount( ) == 0 )
+			{
+				crosstabView.removeGrandTotal( );
+			}
 		}
 		catch ( SemanticException e )
 		{
