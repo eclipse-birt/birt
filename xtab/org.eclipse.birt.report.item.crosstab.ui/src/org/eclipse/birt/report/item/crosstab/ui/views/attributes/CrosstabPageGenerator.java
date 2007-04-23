@@ -80,10 +80,9 @@ public class CrosstabPageGenerator extends AbstractPageGenerator {
 					
 				case 2:
 				case 3:
-				case 4:
-					// RowArea, ColumnArea, DetailArea
+					// RowArea, ColumnArea
 					break;
-				case 5:
+				case 4:
 					// filter;
 					filterPage = new FormPage(
 							FormPropertyDescriptor.NO_UP_DOWN,
@@ -95,7 +94,7 @@ public class CrosstabPageGenerator extends AbstractPageGenerator {
 					item.setControl( filterPage.getControl( ) );
 					itemMap.put( item, filterPage );
 					break;
-				case 6:
+				case 5:
 					// sorting;
 					sortingPage = new FormPage(
 							FormPropertyDescriptor.NO_UP_DOWN,
@@ -107,7 +106,7 @@ public class CrosstabPageGenerator extends AbstractPageGenerator {
 					item.setControl( sortingPage.getControl( ) );
 					itemMap.put( item, sortingPage );
 					break;
-				case 7 :
+				case 6 :
 					mapPage = new PreviewPage( true );
 					mapPage.setPreview( new MapPropertyDescriptor( true ) );
 					mapPage.setProvider( new MapDescriptorProvider( ) );
@@ -116,7 +115,7 @@ public class CrosstabPageGenerator extends AbstractPageGenerator {
 					item.setControl( mapPage.getControl( ) );
 					itemMap.put( item, mapPage );
 					break;
-				case 8 :
+				case 7 :
 					highlightsPage = new PreviewPage( true );
 					highlightsPage.setPreview( new HighlightPropertyDescriptor( true ) );
 					highlightsPage.setProvider( new HighlightDescriptorProvider( ) );
@@ -187,11 +186,11 @@ public class CrosstabPageGenerator extends AbstractPageGenerator {
 		createTabItem( 1, Messages.getString( "CrosstabPageGenerator.TabItem.Binding" ) );
 		createTabItem( 2, Messages.getString( "CrosstabPageGenerator.TabItem.RowArea" ) );
 		createTabItem( 3, Messages.getString( "CrosstabPageGenerator.TabItem.ColumnArea" ) );
-		createTabItem( 4, Messages.getString( "CrosstabPageGenerator.TabItem.DetailArea" ) );
-		createTabItem( 5, Messages.getString( "CrosstabPageGenerator.TabItem.Filters" ) );
-		createTabItem( 6, Messages.getString( "CrosstabPageGenerator.TabItem.Sorting" ) );
-		createTabItem( 7, Messages.getString( "CrosstabPageGenerator.TabItem.map" ) );
-		createTabItem( 8, Messages.getString( "CrosstabPageGenerator.TabItem.Highlights" ) );
+//		createTabItem( 4, Messages.getString( "CrosstabPageGenerator.TabItem.DetailArea" ) );
+		createTabItem( 4, Messages.getString( "CrosstabPageGenerator.TabItem.Filters" ) );
+		createTabItem( 5, Messages.getString( "CrosstabPageGenerator.TabItem.Sorting" ) );
+		createTabItem( 6, Messages.getString( "CrosstabPageGenerator.TabItem.map" ) );
+		createTabItem( 7, Messages.getString( "CrosstabPageGenerator.TabItem.Highlights" ) );
 		
 		if ( tabFolder.getSelection( ) != null )
 			buildItemContent( tabFolder.getSelection( ) );
