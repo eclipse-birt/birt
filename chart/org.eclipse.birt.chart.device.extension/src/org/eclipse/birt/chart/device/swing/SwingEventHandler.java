@@ -13,7 +13,9 @@ package org.eclipse.birt.chart.device.swing;
 
 import java.awt.Cursor;
 import java.awt.Point;
-import java.awt.event.InputEvent;
+import java.awt.event.ComponentEvent;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -59,10 +61,12 @@ import com.ibm.icu.util.ULocale;
  * Provides a reference implementation into handling events generated on a SWING
  * JComponent with a rendered chart.
  */
-public final class SwingEventHandler implements
-		MouseListener,
-		MouseMotionListener,
-		KeyListener
+public final class SwingEventHandler
+		implements
+			MouseListener,
+			MouseMotionListener,
+			KeyListener,
+			FocusListener
 {
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.extension/swing" ); //$NON-NLS-1$
@@ -126,13 +130,13 @@ public final class SwingEventHandler implements
 	}
 
 	private void handleAction( TriggerCondition[] tg,
-			InputEvent event )
+			ComponentEvent event )
 	{
 		handleAction( tg, event, true );
 	}
 
 	private synchronized void handleAction( TriggerCondition[] tg,
-			InputEvent event, boolean cleanState )
+			ComponentEvent event, boolean cleanState )
 	{
 		if ( tg == null || event == null )
 		{
@@ -560,6 +564,10 @@ public final class SwingEventHandler implements
 	 */
 	public void mouseExited( MouseEvent e )
 	{
+		// FILTER OUT ALL TRIGGERS FOR MOUSE OUT ONLY
+		handleAction( new TriggerCondition[]{
+			TriggerCondition.ONMOUSEOUT_LITERAL
+		}, e );
 	}
 
 	/*
@@ -637,6 +645,20 @@ public final class SwingEventHandler implements
 				TriggerCondition.ONMOUSEMOVE_LITERAL,
 				TriggerCondition.ONMOUSEOVER_LITERAL
 		} , e, false );
+	}
+	
+	public void focusGained( FocusEvent e )
+	{
+		handleAction( new TriggerCondition[]{
+			TriggerCondition.ONFOCUS_LITERAL
+		}, e );
+	}
+
+	public void focusLost( FocusEvent e )
+	{
+		handleAction( new TriggerCondition[]{
+			TriggerCondition.ONBLUR_LITERAL
+		}, e );
 	}
 
 	/*

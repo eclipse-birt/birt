@@ -1790,6 +1790,7 @@ public class SwtRendererImpl extends DeviceAdapter
 						jc.removeMouseMoveListener( _eh );
 						jc.removeMouseTrackListener( _eh );
 						jc.removeKeyListener( _eh );
+						jc.removeFocusListener( _eh );
 					}
 
 					_eh.dispose( );
@@ -1828,6 +1829,7 @@ public class SwtRendererImpl extends DeviceAdapter
 					jc.removeMouseMoveListener( _eh );
 					jc.removeMouseTrackListener( _eh );
 					jc.removeKeyListener( _eh );
+					jc.removeFocusListener( _eh );
 
 					_eh.dispose( );
 				}
@@ -1838,6 +1840,7 @@ public class SwtRendererImpl extends DeviceAdapter
 				jc.addMouseMoveListener( _eh );
 				jc.addMouseTrackListener( _eh );
 				jc.addKeyListener( _eh );
+				jc.addFocusListener( _eh );
 			}
 		}
 		else if ( sProperty.equals( IDeviceRenderer.GRAPHICS_CONTEXT ) )

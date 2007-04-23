@@ -42,6 +42,8 @@ import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseEvent;
@@ -59,11 +61,13 @@ import com.ibm.icu.util.ULocale;
 /**
  * SwtEventHandler
  */
-class SwtEventHandler implements
-		MouseListener,
-		MouseMoveListener,
-		MouseTrackListener,
-		KeyListener
+class SwtEventHandler
+		implements
+			MouseListener,
+			MouseMoveListener,
+			MouseTrackListener,
+			KeyListener,
+			FocusListener
 {
 
 	private static final ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.extension/swt" ); //$NON-NLS-1$
@@ -682,10 +686,16 @@ class SwtEventHandler implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.MouseTrackListener#mouseExit(org.eclipse.swt.events.MouseEvent)
+	 * @see org.eclipse.swt.events.MouseTrackListener#mouseExit(org.eclipsse.swt.events.MouseEvent)
 	 */
 	public void mouseExit( MouseEvent e )
 	{
+		// FILTER OUT ALL TRIGGERS FOR MOUSE OUT ONLY
+		List al = getActionsForConditions( new TriggerCondition[]{
+			TriggerCondition.ONMOUSEOUT_LITERAL
+		} );
+
+		handleAction( al, e );
 	}
 
 	/*
@@ -695,6 +705,22 @@ class SwtEventHandler implements
 	 */
 	public void mouseHover( MouseEvent e )
 	{
+	}
+	
+	public void focusGained( FocusEvent e )
+	{
+		// FILTER OUT ALL TRIGGERS FOR FOCUS IN ONLY
+		handleAction( getActionsForConditions( new TriggerCondition[]{
+			TriggerCondition.ONFOCUS_LITERAL
+		} ), e );
+	}
+
+	public void focusLost( FocusEvent e )
+	{
+		// FILTER OUT ALL TRIGGERS FOR FOCUS OUT ONLY
+		handleAction( getActionsForConditions( new TriggerCondition[]{
+			TriggerCondition.ONBLUR_LITERAL
+		} ), e );
 	}
 
 	private final void toggleHighlight( RegionAction ra )

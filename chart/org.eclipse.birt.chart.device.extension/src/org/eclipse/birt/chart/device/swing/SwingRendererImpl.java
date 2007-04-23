@@ -21,9 +21,6 @@ import java.awt.Polygon;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.Stroke;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
@@ -150,6 +147,7 @@ public class SwingRendererImpl extends DeviceAdapter
 					jc.removeMouseListener( _eh );
 					jc.removeMouseMotionListener( _eh );
 					jc.removeKeyListener( _eh );
+					jc.removeFocusListener( _eh );
 
 					_eh = null;
 				}
@@ -175,31 +173,16 @@ public class SwingRendererImpl extends DeviceAdapter
 			{
 				JComponent jc = (JComponent) obj;
 
-				MouseListener[] mla = jc.getMouseListeners( );
-				for ( int i = 0; i < mla.length; i++ )
+				if ( _eh != null )
 				{
-					if ( mla[i] instanceof SwingEventHandler )
-					{
-						jc.removeMouseListener( mla[i] );
-					}
-				}
+					// We can't promise to remove all the old swtEventHandler
+					// due to SWT limitation here, so be sure to just attach the
+					// update_notifier only to one renderer.
 
-				MouseMotionListener[] mmla = jc.getMouseMotionListeners( );
-				for ( int i = 0; i < mmla.length; i++ )
-				{
-					if ( mmla[i] instanceof SwingEventHandler )
-					{
-						jc.removeMouseMotionListener( mmla[i] );
-					}
-				}
-
-				KeyListener[] kla = jc.getKeyListeners( );
-				for ( int i = 0; i < kla.length; i++ )
-				{
-					if ( kla[i] instanceof SwingEventHandler )
-					{
-						jc.removeKeyListener( kla[i] );
-					}
+					jc.removeMouseListener( _eh );
+					jc.removeMouseMotionListener( _eh );
+					jc.removeKeyListener( _eh );
+					jc.removeFocusListener( _eh );
 				}
 
 				_eh = new SwingEventHandler( _lhmAllTriggers,
@@ -208,6 +191,7 @@ public class SwingRendererImpl extends DeviceAdapter
 				jc.addMouseListener( _eh );
 				jc.addMouseMotionListener( _eh );
 				jc.addKeyListener( _eh );
+				jc.addFocusListener( _eh );
 			}
 		}
 		else if ( sProperty.equals( IDeviceRenderer.GRAPHICS_CONTEXT ) )
