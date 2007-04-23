@@ -438,6 +438,7 @@ public class ReportQueryBuilder
 				catch ( BirtException ex )
 				{
 					logger.log( Level.WARNING, ex.getMessage( ), ex );
+					context.addException( ex );
 				}
 				if ( queries != null )
 				{					
