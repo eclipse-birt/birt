@@ -2492,10 +2492,10 @@ public final class AutoScale extends Methods implements Cloneable
 		else if ( ( iType & IConstants.NUMERICAL ) == IConstants.NUMERICAL )
 		{
 			DecimalFormat df = null;
-			if ( fs == null ) // ONLY COMPUTE INTERNALLY IF FORMAT SPECIFIER
-			// ISN'T DEFINED
+			// ONLY COMPUTE INTERNALLY IF FORMAT SPECIFIER ISN'T DEFINED
+			if ( fs == null )
 			{
-				df = new DecimalFormat( getNumericPattern( ) );
+				df = new DecimalFormat( getNumericPattern( ( (Number) oValue ).doubleValue( ) ) );
 			}
 			try
 			{
