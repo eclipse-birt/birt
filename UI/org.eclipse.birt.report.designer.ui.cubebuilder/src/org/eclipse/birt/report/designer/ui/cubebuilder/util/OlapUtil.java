@@ -44,30 +44,35 @@ public class OlapUtil
 				level = DesignElementFactory.getInstance( )
 						.newTabularLevel( "Year" );
 				level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
+				level.setDateTimeLevelType( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR );
 			}
 			else if ( type.equals( Level_Qtr ) )
 			{
 				level = DesignElementFactory.getInstance( )
 						.newTabularLevel( "Quarter" );
 				level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
+				level.setDateTimeLevelType( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_QUARTER );
 			}
 			else if ( type.equals( Level_Month ) )
 			{
 				level = DesignElementFactory.getInstance( )
 						.newTabularLevel( "Month" );
 				level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
+				level.setDateTimeLevelType( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH );
 			}
 			else if ( type.equals( Level_Week ) )
 			{
 				level = DesignElementFactory.getInstance( )
 						.newTabularLevel( "Week" );
 				level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
+				level.setDateTimeLevelType( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK );
 			}
 			else if ( type.equals( Level_Day ) )
 			{
 				level = DesignElementFactory.getInstance( )
 						.newTabularLevel( "Day" );
 				level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
+				level.setDateTimeLevelType( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY );
 			}
 			level.setColumnName( column.getColumnName( ) );
 		}
