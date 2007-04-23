@@ -12,8 +12,6 @@
 package org.eclipse.birt.report.designer.ui.cubebuilder.provider;
 
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.actions.RefreshAction;
-import org.eclipse.birt.report.designer.ui.actions.ShowPropertyAction;
 import org.eclipse.birt.report.designer.ui.cubebuilder.action.EditCubeAction;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
@@ -22,10 +20,8 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.IWorkbenchActionConstants;
 
 public class CubeSubFolderNodeProvider extends DefaultNodeProvider
 {
@@ -107,24 +103,24 @@ public class CubeSubFolderNodeProvider extends DefaultNodeProvider
 		if ( name.equals( ICubeModel.DIMENSIONS_PROP ) )
 		{
 			action = new EditCubeAction( property,
-					Messages.getString( "CubeModel.group.new" ) );//$NON-NLS-1$
+					Messages.getString( "CubeModel.group.edit" ) );//$NON-NLS-1$
 
 		}
 		else if ( name.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
 		{
 			action = new EditCubeAction( property,
-					Messages.getString( "CubeModel.summaryfield.new" ) );//$NON-NLS-1$
+					Messages.getString( "CubeModel.summaryfield.edit" ) );//$NON-NLS-1$
 		}
 
 		if ( action != null )
 			menu.add( action );
 		super.createContextMenu( sourceViewer, object, menu );
 
-		menu.insertBefore( IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", //$NON-NLS-1$
-				new ShowPropertyAction( object ) );
-
-		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", new Separator( ) ); //$NON-NLS-1$
-		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", new RefreshAction( sourceViewer ) ); //$NON-NLS-1$
+//		menu.insertBefore( IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", //$NON-NLS-1$
+//				new ShowPropertyAction( object ) );
+//
+//		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", new Separator( ) ); //$NON-NLS-1$
+//		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", new RefreshAction( sourceViewer ) ); //$NON-NLS-1$
 	}
 
 }
