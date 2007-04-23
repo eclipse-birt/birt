@@ -24,7 +24,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 /**
- * 
+ * AbstractCrosstabModelTask
  */
 public class AbstractCrosstabModelTask implements ICrosstabConstants
 {
@@ -562,21 +562,169 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 		if ( crosstab == null || !CrosstabModelUtil.isValidAxisType( axisType ) )
 			return;
 
+		List dropList = new ArrayList( );
+
 		for ( int i = 0; i < crosstab.getMeasureCount( ); i++ )
 		{
 			MeasureViewHandle measureView = crosstab.getMeasure( i );
 			for ( int j = 0; j < measureView.getAggregationCount( ); j++ )
 			{
-				AggregationCellHandle aggregationCell = measureView.getAggregationCell( 0 );
+				AggregationCellHandle aggregationCell = measureView.getAggregationCell( j );
 				String propName = CrosstabModelUtil.getAggregationOnPropName( axisType );
 				String value = aggregationCell.getModelHandle( )
 						.getStringProperty( propName );
 				if ( ( value == null && levelName == null )
 						|| ( value != null && value.equals( levelName ) ) )
-					aggregationCell.getModelHandle( ).drop( );
+				{
+					dropList.add( aggregationCell );
+				}
 			}
 		}
 
+		// batch remove all un-used cells
+		for ( int i = 0; i < dropList.size( ); i++ )
+		{
+			( (AggregationCellHandle) dropList.get( i ) ).getModelHandle( )
+					.drop( );
+		}
+	}
+
+	/**
+	 * Returns if aggregation is defined on given level on specific axis
+	 * 
+	 * @param measureView
+	 * @param levelView
+	 * @param axisType
+	 * @return
+	 */
+	protected boolean isAggregationDefined( MeasureViewHandle measureView,
+			LevelViewHandle levelView, int axisType )
+	{
+		if ( measureView != null )
+		{
+			String checkDimensionName = null;
+			String checkLevelName = null;
+
+			if ( levelView != null )
+			{
+				checkDimensionName = ( (DimensionViewHandle) levelView.getContainer( ) ).getCubeDimensionName( );
+				checkLevelName = levelView.getCubeLevelName( );
+			}
+
+			boolean isInnerMost = levelView != null ? levelView.isInnerMost( )
+					: false;
+
+			if ( isInnerMost )
+			{
+				return true;
+			}
+
+			if ( axisType == ROW_AXIS_TYPE )
+			{
+				int totalRowDimensions = crosstab.getDimensionCount( COLUMN_AXIS_TYPE );
+
+				if ( totalRowDimensions > 0 )
+				{
+					// check subtotal
+					for ( int i = 0; i < totalRowDimensions; i++ )
+					{
+						DimensionViewHandle dv = crosstab.getDimension( COLUMN_AXIS_TYPE,
+								i );
+
+						int totalLevels = dv.getLevelCount( );
+
+						for ( int j = 0; j < totalLevels; j++ )
+						{
+							LevelViewHandle lv = dv.getLevel( j );
+
+							if ( ( i == totalRowDimensions - 1 && j == totalLevels - 1 )
+									|| lv.getAggregationHeader( ) != null )
+							{
+								AggregationCellHandle cell = measureView.getAggregationCell( checkDimensionName,
+										checkLevelName,
+										dv.getCubeDimensionName( ),
+										lv.getCubeLevelName( ) );
+
+								if ( cell != null )
+								{
+									return true;
+								}
+							}
+
+						}
+					}
+				}
+
+				// check grandtotal
+				if ( totalRowDimensions == 0
+						|| crosstab.getGrandTotal( COLUMN_AXIS_TYPE ) != null )
+				{
+					AggregationCellHandle cell = measureView.getAggregationCell( checkDimensionName,
+							checkLevelName,
+							null,
+							null );
+
+					if ( cell != null )
+					{
+						return true;
+					}
+				}
+
+			}
+			else if ( axisType == COLUMN_AXIS_TYPE )
+			{
+				int totalRowDimensions = crosstab.getDimensionCount( ROW_AXIS_TYPE );
+
+				if ( totalRowDimensions > 0 )
+				{
+					// check subtotal
+					for ( int i = 0; i < totalRowDimensions; i++ )
+					{
+						DimensionViewHandle dv = crosstab.getDimension( ROW_AXIS_TYPE,
+								i );
+
+						int totalLevels = dv.getLevelCount( );
+
+						for ( int j = 0; j < totalLevels; j++ )
+						{
+							LevelViewHandle lv = dv.getLevel( j );
+
+							if ( ( i == totalRowDimensions - 1 && j == totalLevels - 1 )
+									|| lv.getAggregationHeader( ) != null )
+							{
+								AggregationCellHandle cell = measureView.getAggregationCell( dv.getCubeDimensionName( ),
+										lv.getCubeLevelName( ),
+										checkDimensionName,
+										checkLevelName );
+
+								if ( cell != null )
+								{
+									return true;
+								}
+							}
+
+						}
+					}
+				}
+
+				// check grandtotal
+				if ( totalRowDimensions == 0
+						|| crosstab.getGrandTotal( ROW_AXIS_TYPE ) != null )
+				{
+					AggregationCellHandle cell = measureView.getAggregationCell( null,
+							null,
+							checkDimensionName,
+							checkLevelName );
+
+					if ( cell != null )
+					{
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -606,17 +754,36 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 				: toValidateLevelView.isInnerMost( );
 		List unAggregationLevels = new ArrayList( );
 		int unAggregationCount = 0;
-		for ( int i = 0; i < aggregationLevels.size( ); i++ )
+
+		boolean hasOldAggregation = isAggregationDefined( measureView,
+				toValidateLevelView,
+				toValidateAxisType );
+
+		if ( aggregationLevels.size( ) > 0 && hasOldAggregation )
 		{
-			LevelViewHandle levelView = (LevelViewHandle) aggregationLevels.get( i );
-			if ( isInnerMost )
+			for ( int i = 0; i < aggregationLevels.size( ); i++ )
 			{
-				// if the toValidate is innermost, then no aggregation is
-				// generated with this and counter innermost one in the couter
-				// axis
-				if ( !levelView.isInnerMost( ) )
+				LevelViewHandle levelView = (LevelViewHandle) aggregationLevels.get( i );
+				if ( isInnerMost )
 				{
-					assert levelView.getAggregationHeader( ) != null;
+					// if the toValidate is innermost, then no aggregation is
+					// generated with this and counter innermost one in the
+					// couter
+					// axis
+					if ( !levelView.isInnerMost( ) )
+					{
+						assert levelView.getAggregationHeader( ) != null;
+						if ( getAggregation( measureView,
+								toValidateLevelView,
+								levelView ) == null )
+						{
+							unAggregationLevels.add( levelView );
+							unAggregationCount++;
+						}
+					}
+				}
+				else
+				{
 					if ( getAggregation( measureView,
 							toValidateLevelView,
 							levelView ) == null )
@@ -626,22 +793,13 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 					}
 				}
 			}
-			else
-			{
-				if ( getAggregation( measureView,
-						toValidateLevelView,
-						levelView ) == null )
-				{
-					unAggregationLevels.add( levelView );
-					unAggregationCount++;
-				}
-			}
 		}
 
 		int maxAggregationCount = aggregationLevels.size( );
 		// if the counter axis has grand-total, then consider the aggregation
 		// with it
-		if ( crosstab.getGrandTotal( CrosstabModelUtil.getOppositeAxisType( toValidateAxisType ) ) != null )
+		if ( hasOldAggregation
+				&& ( maxAggregationCount == 0 || crosstab.getGrandTotal( CrosstabModelUtil.getOppositeAxisType( toValidateAxisType ) ) != null ) )
 		{
 			if ( getAggregation( measureView, toValidateLevelView, null ) == null )
 			{
@@ -829,6 +987,76 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 					infor.getRowLevel( ),
 					infor.getColDimension( ),
 					infor.getColLevel( ) );
+		}
+	}
+
+	/**
+	 * Locates the cell which controls the column with for given cell
+	 * 
+	 * @param crosstab
+	 * @throws SemanticException
+	 */
+	public void validateCrosstab( ) throws SemanticException
+	{
+		if ( crosstab == null )
+			return;
+
+		String measureDirection = crosstab.getMeasureDirection( );
+		int axisType = COLUMN_AXIS_TYPE;
+		if ( MEASURE_DIRECTION_HORIZONTAL.equals( measureDirection ) )
+		{
+			// if measure is hotizontal, then do the validation according to the
+			// column levels and grand-total
+			axisType = COLUMN_AXIS_TYPE;
+		}
+		else
+		{
+			// if measure is vertical, then do the validtion according to the
+			// row levels and grand-total
+			axisType = ROW_AXIS_TYPE;
+		}
+
+		int counterAxisType = CrosstabModelUtil.getOppositeAxisType( axisType );
+		// all the levels that may need add cells to be aggregated on, each in
+		// the list may be an innermost in the axis type or has sub-total
+		List counterAxisAggregationLevels = CrosstabModelUtil.getAllAggregationLevels( crosstab,
+				counterAxisType );
+		List toValidateLevelViews = CrosstabModelUtil.getAllAggregationLevels( crosstab,
+				axisType );
+
+		// validate the aggregations for sub-total
+		int count = toValidateLevelViews.size( );
+		for ( int i = 0; i < count; i++ )
+		{
+			LevelViewHandle levelView = (LevelViewHandle) toValidateLevelViews.get( i );
+
+			// if the level is innermost or has sub-total, we should validate
+			// the aggregations for it, otherwise need do nothing
+			assert levelView.isInnerMost( )
+					|| levelView.getAggregationHeader( ) != null;
+
+			for ( int j = 0; j < crosstab.getMeasureCount( ); j++ )
+			{
+				MeasureViewHandle measureView = crosstab.getMeasure( j );
+				validateMeasure( measureView,
+						levelView,
+						axisType,
+						counterAxisAggregationLevels );
+			}
+		}
+
+		// validate aggregations for grand-total
+		if ( crosstab.getGrandTotal( axisType ) != null )
+		{
+			for ( int j = 0; j < crosstab.getMeasureCount( ); j++ )
+			{
+				MeasureViewHandle measureView = crosstab.getMeasure( j );
+				validateMeasure( measureView,
+						null,
+						axisType,
+						counterAxisAggregationLevels );
+			}
+
 		}
 	}
 }

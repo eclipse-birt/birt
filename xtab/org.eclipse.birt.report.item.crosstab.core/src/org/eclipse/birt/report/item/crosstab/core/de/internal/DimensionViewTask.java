@@ -21,6 +21,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.i18n.MessageConstants;
+import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
@@ -29,7 +30,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 
 /**
- * 
+ * DimensionViewTask
  */
 public class DimensionViewTask extends AbstractCrosstabModelTask
 {
@@ -400,8 +401,7 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 	{
 		assert levelView != null;
 		CommandStack stack = dimensionView.getCommandStack( );
-		//TODO nls
-		stack.startTrans( "Remove Level" );
+		stack.startTrans( Messages.getString( "DimensionViewTask.msg.remove.level" ) ); //$NON-NLS-1$
 
 		try
 		{

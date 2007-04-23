@@ -21,12 +21,13 @@ import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 /**
- * 
+ * LevelViewTask
  */
 public class LevelViewTask extends AbstractCrosstabModelTask
 {
@@ -73,8 +74,7 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 		}
 
 		CommandStack stack = focus.getCommandStack( );
-		// TODO nls
-		stack.startTrans( "Add Subtotal" );
+		stack.startTrans( Messages.getString( "LevelViewTask.msg.add.subtotal" ) ); //$NON-NLS-1$
 		try
 		{
 			if ( focus.getAggregationHeader( ) == null )
@@ -86,6 +86,8 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 			{
 				addMeasureAggregations( focus, measureList, functionList, false );
 			}
+
+			validateCrosstab( );
 		}
 		catch ( SemanticException e )
 		{
@@ -108,8 +110,7 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 		if ( focus.getAggregationHeader( ) != null )
 		{
 			CommandStack stack = focus.getCommandStack( );
-			// TODO nls
-			stack.startTrans( "Remove Subtotal" );
+			stack.startTrans( Messages.getString( "LevelViewTask.msg.remove.subtotal" ) ); //$NON-NLS-1$
 
 			try
 			{

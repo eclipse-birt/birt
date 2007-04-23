@@ -314,8 +314,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 			throws SemanticException
 	{
 		CommandStack stack = getCommandStack( );
-		// TODO nls
-		stack.startTrans( "Change Measure Direction" );
+		stack.startTrans( Messages.getString( "CrosstabReportItemHandle.msg.change.measure.direction" ) ); //$NON-NLS-1$
 
 		try
 		{
@@ -563,8 +562,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 		}
 
 		CommandStack stack = getCommandStack( );
-		// TODO nls
-		stack.startTrans( "Insert Measure" );
+		stack.startTrans( Messages.getString( "CrosstabReportItemHandle.msg.insert.measure" ) ); //$NON-NLS-1$
 
 		MeasureViewHandle mv = null;
 
@@ -744,7 +742,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 		for ( int i = 0; i < getMeasureCount( ); i++ )
 		{
 			measures.add( getMeasure( i ) );
-			// TODO should be default function.
+			// TODO should use default function.
 			functions.add( null );
 		}
 

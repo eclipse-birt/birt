@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import org.eclipse.birt.report.item.crosstab.core.IAggregationCellConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.IMeasureViewConstants;
+import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
@@ -130,16 +131,16 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements
 				colLevel );
 		if ( aggregation != null )
 		{
-			// TODO: add a message for this
-			logger.log( Level.INFO, "aggregation" ); //$NON-NLS-1$
+			logger.log( Level.INFO,
+					Messages.getString( "MeasureViewHandle.info.aggregation.already.exist" ) ); //$NON-NLS-1$
 			return aggregation;
 		}
 		ExtendedItemHandle aggregationCell = CrosstabExtendedItemFactory.createAggregationCell( moduleHandle );
 		if ( aggregationCell != null )
 		{
 			CommandStack stack = getCommandStack( );
-			// TODO nls
-			stack.startTrans( "Add aggregation cell" );
+			stack.startTrans( Messages.getString( "MeasureViewHandle.msg.add.aggregation" ) ); //$NON-NLS-1$
+
 			try
 			{
 				aggregationCell.setProperty( IAggregationCellConstants.AGGREGATION_ON_ROW_PROP,

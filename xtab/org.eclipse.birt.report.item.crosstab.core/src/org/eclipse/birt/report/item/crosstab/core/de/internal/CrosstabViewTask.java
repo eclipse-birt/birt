@@ -21,6 +21,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.i18n.MessageConstants;
+import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
@@ -29,7 +30,7 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 /**
- * 
+ * CrosstabViewTask
  */
 public class CrosstabViewTask extends AbstractCrosstabModelTask
 {
@@ -66,8 +67,7 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 		PropertyHandle propHandle = crosstabView.getGrandTotalProperty( );
 
 		CommandStack stack = crosstabView.getCommandStack( );
-		// TODO nls
-		stack.startTrans( "Add Grand Total" );
+		stack.startTrans( Messages.getString( "CrosstabViewTask.msg.add.grandtotal" ) ); //$NON-NLS-1$
 
 		CrosstabCellHandle totalCell = null;
 
@@ -89,6 +89,8 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 						functionList,
 						false );
 			}
+
+			validateCrosstab( );
 
 			totalCell = (CrosstabCellHandle) CrosstabUtil.getReportItem( grandTotal );
 		}
@@ -115,8 +117,7 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 		if ( propHandle.getContentCount( ) > 0 )
 		{
 			CommandStack stack = crosstabView.getCommandStack( );
-			// TODO nls
-			stack.startTrans( "Remove Grand Total" );
+			stack.startTrans( Messages.getString( "CrosstabViewTask.msg.remove.grandtotal" ) ); //$NON-NLS-1$
 
 			try
 			{
@@ -207,8 +208,7 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 			return;
 
 		CommandStack stack = crosstabView.getCommandStack( );
-		// TODO nls
-		stack.startTrans( "Remove Dimension" );
+		stack.startTrans( Messages.getString( "CrosstabViewTask.msg.remove.dimension" ) ); //$NON-NLS-1$
 
 		int count = dimensionView.getLevelCount( );
 
