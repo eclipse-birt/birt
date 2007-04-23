@@ -1452,7 +1452,7 @@ final class SVGTextRenderer implements IConstants
 				g2d.fill( new Rectangle2D.Double( dX + shadowness,
 						( dY - dFH ) + shadowness,
 						dFW,
-						dFH ) );
+						dFH ), false );
 			}
 			else
 			{

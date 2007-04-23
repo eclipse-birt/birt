@@ -884,7 +884,7 @@ public class SVGGraphics2D extends Graphics2D
 		else
 		{
 			if ( paint instanceof SVGGradientPaint )
-				element.setAttribute( "style", style + "fill:url(#" + ( (SVGGradientPaint) paint ).getId( ) + ");stroke:none;" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				element.setAttribute( "style", style + "fill:url(#" + ( (SVGGradientPaint) paint ).getId( ) + ");stroke:none;fill-opacity:1.0" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 		if (styleClass != null)
 			element.setAttribute("class", styleClass); //$NON-NLS-1$
