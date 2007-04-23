@@ -218,34 +218,40 @@ public class PDFRender extends PageDeviceRender
 				{
 					int width = getWidth( area );
 					int height = getHeight( area );
-					String hyperlink = hlAction.getHyperlink( );
 					String bookmark = hlAction.getBookmark( );
 					String targetWindow = hlAction.getTargetWindow( );
 					int type = hlAction.getType( );
+					Action act = new Action( systemId, hlAction );
+					String link = null;
+					IHTMLActionHandler actionHandler = null;
+					Object ac = services
+							.getOption( RenderOption.ACTION_HANDLER );
+					if ( ac != null && ac instanceof IHTMLActionHandler )
+					{
+						actionHandler = (IHTMLActionHandler) ac;
+					}
+					if(actionHandler!=null)
+					{
+						link = actionHandler.getURL( act, context );
+					}
+					else
+					{
+						link = hlAction.getHyperlink( );
+					}
+
 					switch ( type )
 					{
 						case IHyperlinkAction.ACTION_BOOKMARK :
-							currentPage.createHyperlink( hyperlink, bookmark,
+							currentPage.createHyperlink( link, bookmark,
 									targetWindow, type, x, y, width, height );
 							break;
 
 						case IHyperlinkAction.ACTION_HYPERLINK :
-							currentPage.createHyperlink( hyperlink, null,
+							currentPage.createHyperlink( link, null,
 									targetWindow, type, x, y, width, height );
 							break;
 
 						case IHyperlinkAction.ACTION_DRILLTHROUGH :
-							Action act = new Action( systemId, hlAction );
-
-							IHTMLActionHandler actionHandler = null;
-							Object ac = services
-									.getOption( RenderOption.ACTION_HANDLER );
-							if ( ac != null && ac instanceof IHTMLActionHandler )
-							{
-								actionHandler = (IHTMLActionHandler) ac;
-							}
-
-							String link = actionHandler.getURL( act, context );
 							currentPage.createHyperlink( link, null,
 									targetWindow, type, x, y, width, height );
 							break;
