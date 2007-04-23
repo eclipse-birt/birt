@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 
 import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionPropertyPage;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.JointDatasetsDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -20,6 +21,7 @@ import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -117,12 +119,12 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				// DataFilterDialog dialog = new DataFilterDialog( "Filter" );
-				// dialog.setInput( input.getDataFilter( ) );
-				// if ( dialog.open( ) == Window.OK )
-				// {
-				// input.setDataFilter((DatasetFilter)dialog.getResult( ));
-				// }
+				JointDatasetsDialog dialog = new JointDatasetsDialog( );
+				dialog.setInput( (TabularCubeHandle)input );
+				if ( dialog.open( ) == Window.OK )
+				{
+					// input.setDataFilter((DatasetFilter)dialog.getResult( ));
+				}
 			}
 
 		} );
@@ -155,7 +157,7 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 
 		} );
 
-		filterButton.setEnabled( false );
+		filterButton.setEnabled( true );
 		addButton.setEnabled( false );
 		return container;
 	}
