@@ -10,6 +10,7 @@ package org.eclipse.birt.chart.device.svg;
  * IBM Corporation - initial API and implementation
  ***********************************************************************/
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
 import java.util.Map;
@@ -50,6 +51,12 @@ public class SVGTextLayout {
 	 */
 	public void draw(Graphics2D g2d, float x, float y){
 		SVGGraphics2D SVGg2d = (SVGGraphics2D)g2d;
+		if ( frc.isAntiAliased( ) )
+			SVGg2d.setRenderingHint( RenderingHints.KEY_TEXT_ANTIALIASING,
+					RenderingHints.VALUE_TEXT_ANTIALIAS_ON );
+		else
+			SVGg2d.setRenderingHint( RenderingHints.KEY_TEXT_ANTIALIASING,
+					RenderingHints.VALUE_TEXT_ANTIALIAS_OFF );
 		SVGg2d.drawString(value, x, y);
 	}
 }

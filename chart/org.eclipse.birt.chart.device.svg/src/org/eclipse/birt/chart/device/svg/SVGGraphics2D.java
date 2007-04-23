@@ -1451,7 +1451,14 @@ public class SVGGraphics2D extends Graphics2D
 		Object value = renderingHints.get(key);
 		if (key.equals(RenderingHints.KEY_TEXT_ANTIALIASING)){
 			if (value.equals(RenderingHints.VALUE_TEXT_ANTIALIAS_OFF))
-				return "text-rendering:optimizeSpeed;";//$NON-NLS-1$ 
+			{
+				// Adobe SVG viewer 3 bug. Rotated text with optimizelegibility disappears. Replace
+				// with optimizespeed for rotated text.
+				if ( transforms.getType( ) != AffineTransform.TYPE_IDENTITY )
+					return "text-rendering:optimizeSpeed;";//$NON-NLS-1$ 
+				else
+					return "text-rendering:optimizeLegibility;";//$NON-NLS-1$ 
+			}
 			else
 				//SVG always turns on antialias
 				return "";  //$NON-NLS-1$ 
