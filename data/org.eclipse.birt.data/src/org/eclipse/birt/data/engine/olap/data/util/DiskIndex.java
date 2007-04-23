@@ -173,10 +173,10 @@ public class DiskIndex
 	{
 		createDocumentObject( );
 		IndexKey indexKey = (IndexKey) keyList.get( 0 );
-		keyDataType = new int[indexKey.key.length];
-		for ( int i = 0; i < indexKey.key.length; i++ )
+		keyDataType = new int[indexKey.getKey().length];
+		for ( int i = 0; i < indexKey.getKey().length; i++ )
 		{
-			keyDataType[i] = DataType.getDataType( ( (IndexKey) keyList.get( 0 ) ).key[i].getClass( ) );
+			keyDataType[i] = DataType.getDataType( ( (IndexKey) keyList.get( 0 ) ).getKey()[i].getClass( ) );
 		}
 		keyCount = keyList.size( );
 		int rootOffsetPos = saveIndexHeader( ) - 6;
@@ -330,12 +330,12 @@ public class DiskIndex
 				// min child key object of the node
 				DocumentObjectUtil.writeValue( documentObject,
 							keyDataType,
-							( (IndexKey) sortedKeyArray.get( i * interval ) ).key );
+							( (IndexKey) sortedKeyArray.get( i * interval ) ).getKey() );
 				// max child key object of the node
 				DocumentObjectUtil.writeValue( documentObject,
 							keyDataType,
 							( (IndexKey) sortedKeyArray.get( ( i + 1 )
-									* interval - 1 ) ).key );
+									* interval - 1 ) ).getKey() );
 			}
 			else
 			{
@@ -344,11 +344,11 @@ public class DiskIndex
 				// min son key object of the node
 				DocumentObjectUtil.writeValue( documentObject,
 						keyDataType,
-						( (IndexKey) sortedKeyArray.get( i * interval ) ).key );
+						( (IndexKey) sortedKeyArray.get( i * interval ) ).getKey() );
 				// max son key object of the node
 				DocumentObjectUtil.writeValue( documentObject,
 						keyDataType,
-						( (IndexKey) sortedKeyArray.get( sortedKeyArray.size( ) - 1 ) ).key );
+						( (IndexKey) sortedKeyArray.get( sortedKeyArray.size( ) - 1 ) ).getKey() );
 			}
 			documentObject.writeInt( ( (Integer) startOffset.get( i ) ).intValue( ) );
 		}
@@ -382,14 +382,14 @@ public class DiskIndex
 	 */
 	private void writeKeyObject( IndexKey keyObject ) throws IOException, DataException
 	{
-		documentObject.writeInt( keyObject.dimensionPos );
+		documentObject.writeInt( keyObject.getDimensionPos() );
 		for ( int i = 0; i < keyDataType.length; i++ )
 		{
 			DocumentObjectUtil.writeValue( documentObject,
 					keyDataType[i],
-					keyObject.key[i] );
+					keyObject.getKey()[i] );
 		}
-		documentObject.writeInt( keyObject.offset );
+		documentObject.writeInt( keyObject.getOffset() );
 	}
 
 	/**
@@ -417,11 +417,11 @@ public class DiskIndex
 	private IndexKey readKeyObject( ) throws IOException
 	{
 		IndexKey keyObject = new IndexKey( );
-		keyObject.dimensionPos = documentObject.readInt( );
+		keyObject.setDimensionPos( documentObject.readInt( ) );
 		
-		keyObject.key = DocumentObjectUtil.readValue( documentObject,
-				keyDataType );
-		keyObject.offset = documentObject.readInt( );
+		keyObject.setKey( DocumentObjectUtil.readValue( documentObject,
+				keyDataType ) );
+		keyObject.setOffset( documentObject.readInt( ) );
 		
 		return keyObject;
 	}
@@ -539,7 +539,7 @@ public class DiskIndex
 		for ( int i = 0; i < currentNode.numberOfSon; i++ )
 		{
 			IndexKey indexKey = readKeyObject( );
-			if ( CompareUtil.compare( indexKey.key, key ) == 0 )
+			if ( CompareUtil.compare( indexKey.getKey(), key ) == 0 )
 			{
 				return indexKey;
 			}
@@ -637,7 +637,7 @@ public class DiskIndex
 				{
 					if ( selectionMark[k] )
 					{
-						if ( selections[k].isSelected( indexKey.key ) )
+						if ( selections[k].isSelected( indexKey.getKey() ) )
 						{
 							resultList.add( indexKey );
 							break;

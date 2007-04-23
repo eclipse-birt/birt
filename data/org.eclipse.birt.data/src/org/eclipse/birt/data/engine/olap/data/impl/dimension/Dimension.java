@@ -127,12 +127,12 @@ public class Dimension implements IDimension
 
 	public IDiskArray find( Level level, Object[] keyValue ) throws IOException, DataException
 	{
-		return level.diskIndex.find( keyValue );
+		return level.getDiskIndex().find( keyValue );
 	}
 	
 	public IndexKey findFirst( Level level, Object[] keyValue ) throws IOException, DataException
 	{
-		return level.diskIndex.findFirst( keyValue );
+		return level.getDiskIndex().findFirst( keyValue );
 	}
 	
 

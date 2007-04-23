@@ -20,9 +20,9 @@ import java.util.Comparator;
 public class IndexKey implements IComparableStructure
 {
 
-	public Object[] key;
-	public int offset;
-	public int dimensionPos;
+	private Object[] key;
+	private int offset;
+	private int dimensionPos;
 
 	public IndexKey( )
 	{
@@ -32,10 +32,10 @@ public class IndexKey implements IComparableStructure
 	public Object[] getFieldValues( )
 	{
 		Object[] fields = null;
-		fields = new Object[key.length+2];
-		System.arraycopy( key, 0, fields, 0, key.length );
-		fields[fields.length-2] = new Integer( offset );
-		fields[fields.length-1] = new Integer( dimensionPos );
+		fields = new Object[getKey().length+2];
+		System.arraycopy( getKey(), 0, fields, 0, getKey().length );
+		fields[fields.length-2] = new Integer( getOffset() );
+		fields[fields.length-1] = new Integer( getDimensionPos() );
 		
 		return fields;
 	}
@@ -45,15 +45,15 @@ public class IndexKey implements IComparableStructure
 		assert o instanceof IndexKey;
 		IndexKey target = (IndexKey) o;
 		
-		for( int i=0;i<key.length;i++)
+		for( int i=0;i<getKey().length;i++)
 		{
-			if ( key[i] == null && target.key[i] != null )
+			if ( getKey()[i] == null && target.getKey()[i] != null )
 				return -1;
-			if ( key[i] == null && target.key[i] == null )
+			if ( getKey()[i] == null && target.getKey()[i] == null )
 				return 0;
-			if ( key[i] != null && target.key[i] == null )
+			if ( getKey()[i] != null && target.getKey()[i] == null )
 				return 1;
-			int result = ( (Comparable) key[i] ).compareTo( target.key[i] );
+			int result = ( (Comparable) getKey()[i] ).compareTo( target.getKey()[i] );
 			if( result != 0 )
 			{
 				return result;
@@ -79,8 +79,8 @@ public class IndexKey implements IComparableStructure
 
 			public int compare( Object obj1, Object obj2 )
 			{
-				int index1 = ( (IndexKey) obj1 ).dimensionPos;
-				int index2 = ( (IndexKey) obj2 ).dimensionPos;
+				int index1 = ( (IndexKey) obj1 ).getDimensionPos();
+				int index2 = ( (IndexKey) obj2 ).getDimensionPos();
 				if ( index1 < index2 )
 				{
 					return -1;
@@ -99,6 +99,54 @@ public class IndexKey implements IComparableStructure
 		return new IndexKeyObjectCreator( );
 	}
 
+	/**
+	 * @param key the key to set
+	 */
+	public void setKey( Object[] key )
+	{
+		this.key = key;
+	}
+
+	/**
+	 * @return the key
+	 */
+	public Object[] getKey( )
+	{
+		return key;
+	}
+
+	/**
+	 * @param offset the offset to set
+	 */
+	public void setOffset( int offset )
+	{
+		this.offset = offset;
+	}
+
+	/**
+	 * @return the offset
+	 */
+	public int getOffset( )
+	{
+		return offset;
+	}
+
+	/**
+	 * @param dimensionPos the dimensionPos to set
+	 */
+	public void setDimensionPos( int dimensionPos )
+	{
+		this.dimensionPos = dimensionPos;
+	}
+
+	/**
+	 * @return the dimensionPos
+	 */
+	public int getDimensionPos( )
+	{
+		return dimensionPos;
+	}
+
 }
 
 class IndexKeyObjectCreator implements IStructureCreator
@@ -108,10 +156,10 @@ class IndexKeyObjectCreator implements IStructureCreator
 	{
 		assert fields.length > 3;
 		IndexKey obj = new IndexKey( );
-		obj.key = new Object[fields.length - 1];
-		System.arraycopy( fields, 0, obj.key, 0, obj.key.length );
-		obj.offset = ( (Integer) fields[fields.length-2] ).intValue( );
-		obj.dimensionPos = ( (Integer) fields[fields.length-1] ).intValue( );
+		obj.setKey( new Object[fields.length - 1] );
+		System.arraycopy( fields, 0, obj.getKey(), 0, obj.getKey().length );
+		obj.setOffset( ( (Integer) fields[fields.length-2] ).intValue( ) );
+		obj.setDimensionPos( ( (Integer) fields[fields.length-1] ).intValue( ) );
 		
 		return obj;
 	}

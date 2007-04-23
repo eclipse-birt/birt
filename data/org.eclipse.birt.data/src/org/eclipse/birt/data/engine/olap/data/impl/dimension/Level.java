@@ -26,14 +26,14 @@ import org.eclipse.birt.data.engine.olap.data.util.DiskIndex;
 
 public class Level implements ILevel
 {
-	String name;
-	int[] keyDataType;
-	String[] keyColNames;
-	int[] attributeDataTypes;
-	String[] attributeColNames;
-	int size;
+	private String name;
+	private int[] keyDataType;
+	private String[] keyColNames;
+	private int[] attributeDataTypes;
+	private String[] attributeColNames;
+	private int size;
 	
-	DiskIndex diskIndex = null;
+	private DiskIndex diskIndex = null;
 	
 	/**
 	 * 
@@ -49,12 +49,12 @@ public class Level implements ILevel
 			int[] attributeDataTypes, int size, DiskIndex diskIndex ) throws IOException, DataException
 	{
 		this.name = levelDef.getLevelName( );
-		this.keyDataType = keyDataType;
-		this.keyColNames = levelDef.getKeyColumns( );
-		this.attributeDataTypes = attributeDataTypes;
-		this.attributeColNames = levelDef.getAttributeColumns( );
-		this.size = size;
-		this.diskIndex = diskIndex;
+		this.setKeyDataType( keyDataType );
+		this.setKeyColNames( levelDef.getKeyColumns( ) );
+		this.setAttributeDataTypes( attributeDataTypes );
+		this.setAttributeColNames( levelDef.getAttributeColumns( ) );
+		this.setSize( size );
+		this.setDiskIndex( diskIndex );
 	}
 	
 	/*
@@ -63,11 +63,11 @@ public class Level implements ILevel
 	 */
 	public int getKeyDataType( String keyName )
 	{
-		for ( int i = 0; i < keyColNames.length; i++ )
+		for ( int i = 0; i < getKeyColNames().length; i++ )
 		{
-			if ( keyColNames[i].equals( keyName ) )
+			if ( getKeyColNames()[i].equals( keyName ) )
 			{
-				return this.keyDataType[i];
+				return this.getKeyDataType()[i];
 			}
 		}
 		return DataType.UNKNOWN_TYPE;
@@ -88,7 +88,7 @@ public class Level implements ILevel
 	 */
 	public int size( )
 	{
-		return size;
+		return getSize();
 	}
 	
 	
@@ -117,11 +117,11 @@ public class Level implements ILevel
 	 */
 	public int getAttributeDataType( String attributeName )
 	{
-		for ( int i = 0; i < attributeColNames.length; i++ )
+		for ( int i = 0; i < getAttributeColNames().length; i++ )
 		{
-			if ( attributeColNames[i].equals( attributeName ) )
+			if ( getAttributeColNames()[i].equals( attributeName ) )
 			{
-				return this.attributeDataTypes[i];
+				return this.getAttributeDataTypes()[i];
 			}
 		}
 		return DataType.UNKNOWN_TYPE;
@@ -133,7 +133,7 @@ public class Level implements ILevel
 	 */
 	public String[] getAttributeNames( )
 	{
-		return attributeColNames;
+		return getAttributeColNames();
 	}
 
 	/*
@@ -142,6 +142,102 @@ public class Level implements ILevel
 	 */
 	public String[] getKeyName( )
 	{
+		return getKeyColNames();
+	}
+
+	/**
+	 * @param keyDataType the keyDataType to set
+	 */
+	void setKeyDataType( int[] keyDataType )
+	{
+		this.keyDataType = keyDataType;
+	}
+
+	/**
+	 * @return the keyDataType
+	 */
+	int[] getKeyDataType( )
+	{
+		return keyDataType;
+	}
+
+	/**
+	 * @param keyColNames the keyColNames to set
+	 */
+	void setKeyColNames( String[] keyColNames )
+	{
+		this.keyColNames = keyColNames;
+	}
+
+	/**
+	 * @return the keyColNames
+	 */
+	String[] getKeyColNames( )
+	{
 		return keyColNames;
+	}
+
+	/**
+	 * @param attributeDataTypes the attributeDataTypes to set
+	 */
+	void setAttributeDataTypes( int[] attributeDataTypes )
+	{
+		this.attributeDataTypes = attributeDataTypes;
+	}
+
+	/**
+	 * @return the attributeDataTypes
+	 */
+	int[] getAttributeDataTypes( )
+	{
+		return attributeDataTypes;
+	}
+
+	/**
+	 * @param attributeColNames the attributeColNames to set
+	 */
+	void setAttributeColNames( String[] attributeColNames )
+	{
+		this.attributeColNames = attributeColNames;
+	}
+
+	/**
+	 * @return the attributeColNames
+	 */
+	String[] getAttributeColNames( )
+	{
+		return attributeColNames;
+	}
+
+	/**
+	 * @param size the size to set
+	 */
+	void setSize( int size )
+	{
+		this.size = size;
+	}
+
+	/**
+	 * @return the size
+	 */
+	int getSize( )
+	{
+		return size;
+	}
+
+	/**
+	 * @param diskIndex the diskIndex to set
+	 */
+	void setDiskIndex( DiskIndex diskIndex )
+	{
+		this.diskIndex = diskIndex;
+	}
+
+	/**
+	 * @return the diskIndex
+	 */
+	DiskIndex getDiskIndex( )
+	{
+		return diskIndex;
 	}
 }

@@ -340,9 +340,9 @@ public class Hierarchy implements IHierarchy
 			for ( int i = 0; i < indexKeyLists.length; i++ )
 			{
 				indexKey = new IndexKey( );
-				indexKey.key = levelMembers[i].getKeyValues();
-				indexKey.offset = (int) documentObj.getFilePointer( );
-				indexKey.dimensionPos = currentIndex;
+				indexKey.setKey( levelMembers[i].getKeyValues() );
+				indexKey.setOffset( (int) documentObj.getFilePointer( ) );
+				indexKey.setDimensionPos( currentIndex );
 				indexKeyLists[i].add( indexKey );
 			}
 			// write row offset
@@ -378,7 +378,7 @@ public class Hierarchy implements IHierarchy
 		}
 		for ( int i = 0; i < levels.length; i++ )
 		{
-			this.levelMap.put( levels[i].name, levels[i] );
+			this.levelMap.put( levels[i].getName( ), levels[i] );
 		}
 		return currentIndex;
 	}
@@ -478,19 +478,19 @@ public class Hierarchy implements IHierarchy
 			throws IOException
 	{
 		Member levelMember = new Member( );
-		levelMember.setKeyValues( new Object[level.keyColNames.length] );
-		for ( int i = 0; i < level.keyColNames.length; i++ )
+		levelMember.setKeyValues( new Object[level.getKeyColNames().length] );
+		for ( int i = 0; i < level.getKeyColNames().length; i++ )
 		{
 			levelMember.getKeyValues()[i] = DocumentObjectUtil.readValue( documentObj,
-					level.keyDataType[i] );
+					level.getKeyDataType()[i] );
 		}
-		if ( level.attributeDataTypes != null && level.attributeDataTypes.length>0)
+		if ( level.getAttributeDataTypes() != null && level.getAttributeDataTypes().length>0)
 		{
-			levelMember.setAttributes( new Object[level.attributeDataTypes.length] );
-			for ( int i = 0; i < level.attributeDataTypes.length; i++ )
+			levelMember.setAttributes( new Object[level.getAttributeDataTypes().length] );
+			for ( int i = 0; i < level.getAttributeDataTypes().length; i++ )
 			{
 				levelMember.getAttributes()[i] = DocumentObjectUtil.readValue( documentObj,
-						level.attributeDataTypes[i]);
+						level.getAttributeDataTypes()[i]);
 			}
 		}
 		return levelMember;
