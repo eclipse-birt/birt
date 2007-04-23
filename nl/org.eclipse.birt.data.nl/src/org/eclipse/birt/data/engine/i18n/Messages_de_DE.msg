@@ -110,6 +110,13 @@ data.engine.BadDestIndex=Der Wert {0} von destIndex ist ungültig. Er sollte zwis
 data.engine.WriteTempError=Ausnahmefehler beim Erstellen einer temporären Datei für großen Datensatz.
 data.engine.ReadTempError=Ausnahmefehler beim Lesen einer temporären Datei für großen Datensatz.
 
+#resultiterator cache exception
+data.engine.CreateCacheTempError=Exception in creating temporary file for caching result rows.
+data.engine.OpenCacheTempError=Exception in opening temporary file for caching result rows.
+data.engine.WriteCacheTempError=Exception in writing temporary file for caching result rows.
+data.engine.ReadCacheTempError=Exception in reading temporary file for caching result rows.
+data.engine.CloseCacheTempError=Exception in closing temporary file for caching result rows.
+
 #load data engine factory exception
 load.factory.error=Beim Laden der Factory der Datenengine tritt ein Fehler auf.
 
@@ -313,3 +320,4 @@ data.olap.cursorPositionError=Der Cursor kann nicht zur Zielposition navigieren.
 data.olap.cursorSeekError=Der Cursor kann nicht zur Wunschposition navigieren.
 data.olap.CannotGetMeasureValue=Definition der Maßeinheit "{0}" in Quader nicht gefunden. Die Maßeinheit existiert nicht oder ist ungültig.
 data.olap.CannotFindLevel=Ebenendefinition "{0}" kann nicht unter Hierarchie "{1}" in Dimension "{2}" gefunden werden.
+data.olap.tryToAddIdenticalAggrGroup=The value "{0}" already exists in aggregate on list of binding "{1}";

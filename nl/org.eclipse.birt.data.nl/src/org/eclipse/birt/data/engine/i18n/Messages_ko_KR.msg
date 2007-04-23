@@ -110,6 +110,13 @@ data.engine.BadDestIndex=destIndex의 값 {0}이(가) 잘못되었습니다. 0과 {1} 사이의
 data.engine.WriteTempError=큰 데이터 집합에 대해 임시 파일을 쓰는 중 예외가 발생했습니다.
 data.engine.ReadTempError=큰 데이터 집합에 대해 임시 파일을 읽는 중 예외가 발생했습니다.
 
+#resultiterator cache exception
+data.engine.CreateCacheTempError=Exception in creating temporary file for caching result rows.
+data.engine.OpenCacheTempError=Exception in opening temporary file for caching result rows.
+data.engine.WriteCacheTempError=Exception in writing temporary file for caching result rows.
+data.engine.ReadCacheTempError=Exception in reading temporary file for caching result rows.
+data.engine.CloseCacheTempError=Exception in closing temporary file for caching result rows.
+
 #load data engine factory exception
 load.factory.error=데이터 엔진 팩토리 로드 중 오류가 발생했습니다.
 
@@ -313,3 +320,4 @@ data.olap.cursorPositionError=커서가 대상 위치로 이동하지 못합니다.
 data.olap.cursorSeekError=커서가 검색 위치로 이동하지 못합니다.
 data.olap.CannotGetMeasureValue=측정 "{0}"의 정의를 큐브에서 찾을 수 없습니다. 이 측정이 없거나 유효하지 않습니다.
 data.olap.CannotFindLevel="{2}" 차원의 "{1}" 계층에 "{0}" 수준의 정의를 찾을 수 없습니다.
+data.olap.tryToAddIdenticalAggrGroup=The value "{0}" already exists in aggregate on list of binding "{1}";

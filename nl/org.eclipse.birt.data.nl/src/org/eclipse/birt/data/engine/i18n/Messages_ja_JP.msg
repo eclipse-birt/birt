@@ -110,6 +110,13 @@ data.engine.BadDestIndex=destIndex ‚Ì’l {0} ‚Í–³Œø‚Å‚·B0 ` {1} ‚Ü‚Å‚Ì”’l‚ğw’
 data.engine.WriteTempError=ˆêƒtƒ@ƒCƒ‹‚É‘å‚«‚Èƒf[ƒ^ƒZƒbƒg‚ğ‘‚«‚İ’†‚É—áŠO‚ª”­¶‚µ‚Ü‚µ‚½B
 data.engine.ReadTempError=ˆêƒtƒ@ƒCƒ‹‚©‚ç‘å‚«‚Èƒf[ƒ^ƒZƒbƒg‚ğ“Ç‚İ‚İ’†‚É—áŠO‚ª”­¶‚µ‚Ü‚µ‚½B
 
+#resultiterator cache exception
+data.engine.CreateCacheTempError=Exception in creating temporary file for caching result rows.
+data.engine.OpenCacheTempError=Exception in opening temporary file for caching result rows.
+data.engine.WriteCacheTempError=Exception in writing temporary file for caching result rows.
+data.engine.ReadCacheTempError=Exception in reading temporary file for caching result rows.
+data.engine.CloseCacheTempError=Exception in closing temporary file for caching result rows.
+
 #load data engine factory exception
 load.factory.error=ƒf[ƒ^ƒGƒ“ƒWƒ“‚Ìƒtƒ@ƒNƒgƒŠ‚ğ“Ç‚İ‚ß‚Ü‚¹‚ñB
 
@@ -313,3 +320,4 @@ data.olap.cursorPositionError=ƒJ[ƒ\ƒ‹‚Å‚Í–Ú“I‚ÌˆÊ’u‚ÉƒiƒrƒQ[ƒg‚Å‚«‚Ü‚¹‚ñB
 data.olap.cursorSeekError=ƒJ[ƒ\ƒ‹‚Å‚ÍQÆ‚ÌˆÊ’u‚ÉƒiƒrƒQ[ƒg‚Å‚«‚Ü‚¹‚ñB
 data.olap.CannotGetMeasureValue=ƒLƒ…[ƒu‚ÉŒv‘ª "{0}" ‚Ì’è‹`‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB‚±‚ÌŒv‘ª‚Í‘¶İ‚µ‚È‚¢‚©A–³Œø‚Å‚·B
 data.olap.CannotFindLevel=ŸŒ³ "{2}" ‚ÌŠK‘w "{1}" ‚É "{0}" ƒŒƒxƒ‹‚Ì’è‹`‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
+data.olap.tryToAddIdenticalAggrGroup=The value "{0}" already exists in aggregate on list of binding "{1}";

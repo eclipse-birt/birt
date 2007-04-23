@@ -110,6 +110,13 @@ data.engine.BadDestIndex=El valor {0} de destIndex no es válido. Debe estar entr
 data.engine.WriteTempError=Se ha encontrado una excepción al escribir en el archivo temporal de un conjunto de datos grande.
 data.engine.ReadTempError=Excepción al leer en el archivo temporal de un conjunto de datos grande.
 
+#resultiterator cache exception
+data.engine.CreateCacheTempError=Exception in creating temporary file for caching result rows.
+data.engine.OpenCacheTempError=Exception in opening temporary file for caching result rows.
+data.engine.WriteCacheTempError=Exception in writing temporary file for caching result rows.
+data.engine.ReadCacheTempError=Exception in reading temporary file for caching result rows.
+data.engine.CloseCacheTempError=Exception in closing temporary file for caching result rows.
+
 #load data engine factory exception
 load.factory.error=Hay un error al cargar la fábrica del motor de datos.
 
@@ -313,3 +320,4 @@ data.olap.cursorPositionError=El cursor no puede navegar a la posición objetivo.
 data.olap.cursorSeekError=El cursor no puede navegar a la posición de búsqueda.
 data.olap.CannotGetMeasureValue=No se puede encontrar la definición "{0}" de medida en el cubo, la medida no existe o no es válida.
 data.olap.CannotFindLevel=No se puede encontrar el nivel de definición "{0}" en la jerarquía "{1}" de la dimensión "{2}".
+data.olap.tryToAddIdenticalAggrGroup=The value "{0}" already exists in aggregate on list of binding "{1}";
