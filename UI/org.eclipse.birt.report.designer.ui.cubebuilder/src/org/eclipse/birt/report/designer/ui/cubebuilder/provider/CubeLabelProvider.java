@@ -11,9 +11,10 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.provider;
 
-import org.eclipse.birt.report.designer.nls.Messages;
+
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.model.api.DataSetHandle;

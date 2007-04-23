@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.util;
 
-import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
+
+
 
 public class VirtualField
 {

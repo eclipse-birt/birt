@@ -13,7 +13,7 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.action;
 
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction;
-import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.page.CubeBuilder;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
@@ -23,7 +23,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.2 $ $Date: 2007/03/21 06:59:35 $
+ * @version $Revision: 1.3 $ $Date: 2007/03/29 08:50:38 $
  */
 public class EditCubeAction extends AbstractElementAction
 {

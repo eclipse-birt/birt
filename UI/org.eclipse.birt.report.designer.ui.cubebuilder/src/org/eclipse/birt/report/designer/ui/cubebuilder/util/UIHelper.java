@@ -19,6 +19,17 @@ import java.net.URL;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.cubebuilder.BuilderPlugin;
+import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.UserPropertyDefnHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.UserPropertyException;
+import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
+import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
+import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.resource.JFaceResources;
@@ -31,7 +42,6 @@ import org.eclipse.swt.widgets.Display;
  */
 public final class UIHelper
 {
-
 
 	/**
 	 * This method returns an URL for a resource given its plugin relative path.
@@ -121,4 +131,77 @@ public final class UIHelper
 		}
 		return image;
 	}
+
+	public static boolean existIntProperty( ModuleHandle module, String id,
+			String key )
+	{
+		UserPropertyDefnHandle property = module.getUserPropertyDefnHandle( id
+				+ BuilderConstancts.PROPERTY_SEPARATOR
+				+ key );
+		if ( property == null )
+			return false;
+		else if ( property.getType( ) != PropertyType.INTEGER_TYPE )
+			return false;
+		else
+			return true;
+	}
+
+	public static int getIntProperty( ModuleHandle module, String id, String key )
+	{
+		if ( existIntProperty( module, id, key ) )
+		{
+			return module.getIntProperty( id
+					+ BuilderConstancts.PROPERTY_SEPARATOR
+					+ key );
+		}
+		return 0;
+	}
+
+	public static void createIntPropertyDefn( ModuleHandle module, String id,
+			String key ) throws UserPropertyException
+	{
+		UserPropertyDefnHandle property = module.getUserPropertyDefnHandle( id
+				+ BuilderConstancts.PROPERTY_SEPARATOR
+				+ key );
+		if ( property != null
+				&& property.getType( ) != PropertyType.INTEGER_TYPE )
+			module.dropUserPropertyDefn( property.getName( ) );
+
+		UserPropertyDefn propertyDefn = new UserPropertyDefn( );
+		propertyDefn.setName( id + BuilderConstancts.PROPERTY_SEPARATOR + key );
+		propertyDefn.setType( DEUtil.getMetaDataDictionary( )
+				.getPropertyType( PropertyType.INTEGER_TYPE ) );
+		module.addUserPropertyDefn( propertyDefn );
+	}
+
+	public static void setIntProperty( ModuleHandle module, String id,
+			String key, int value ) throws SemanticException
+	{
+		if ( !existIntProperty( module, id, key ) )
+		{
+			createIntPropertyDefn( module, id, key );
+		}
+		module.setIntProperty( id + BuilderConstancts.PROPERTY_SEPARATOR + key,
+				value );
+	}
+
+	public static String getId( Object model, TabularCubeHandle carrier )
+	{
+		if ( model instanceof DataSetHandle )
+		{
+			return carrier.getName( )
+					+ BuilderConstancts.PROPERTY_SEPARATOR
+					+ ( ( (DesignElementHandle) model ).getName( ) );
+		}
+		if ( model instanceof HierarchyHandle )
+		{
+			return carrier.getName( )
+					+ BuilderConstancts.PROPERTY_SEPARATOR
+					+ ( (HierarchyHandle) model ).getContainer( ).getName( )
+					+ BuilderConstancts.PROPERTY_SEPARATOR
+					+ ( ( (DesignElementHandle) model ).getName( ) );
+		}
+		return null;
+	}
+
 }

@@ -15,10 +15,10 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.RenameInputDialog;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.ListenerElementVisitor;
-import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.LevelDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.LevelPropertyDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.MeasureDialog;
+import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeContentProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeLabelProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.DataContentProvider;
@@ -1057,14 +1057,14 @@ public class CubeGroupContent extends Composite implements Listener
 			 */
 			if ( obj instanceof LevelHandle )
 			{
-				LevelHandle level = (LevelHandle) obj;
+				TabularLevelHandle level = (TabularLevelHandle) obj;
 				if ( level != null
 						&& level.attributesIterator( ) != null
 						&& level.attributesIterator( ).hasNext( ) )
 				{
 					String name = level.getName( )
 							+ " ("
-							+ level.getName( )
+							+ level.getColumnName( )
 							+ ": ";
 					Iterator attrIter = level.attributesIterator( );
 					while ( attrIter.hasNext( ) )
