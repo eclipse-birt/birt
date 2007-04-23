@@ -27,7 +27,11 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.AxisImpl;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
+import org.eclipse.birt.chart.model.data.BaseSampleData;
+import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
+import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
+import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.TextDataSet;
 import org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl;
@@ -92,6 +96,23 @@ public class MultipleYAxes
 		NumberDataSet orthoValues2 = NumberDataSetImpl.create( new double[]{
 				22.7, 23.6, 38.3, 43.2, 40.5
 		} );
+		
+		SampleData sd = DataFactory.eINSTANCE.createSampleData( );
+		BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData( );
+		sdBase.setDataSetRepresentation( "" );//$NON-NLS-1$
+		sd.getBaseSampleData( ).add( sdBase );
+
+		OrthogonalSampleData sdOrthogonal1 = DataFactory.eINSTANCE.createOrthogonalSampleData( );
+		sdOrthogonal1.setDataSetRepresentation( "" );//$NON-NLS-1$
+		sdOrthogonal1.setSeriesDefinitionIndex( 0 );
+		sd.getOrthogonalSampleData( ).add( sdOrthogonal1 );
+		
+		OrthogonalSampleData sdOrthogonal2 = DataFactory.eINSTANCE.createOrthogonalSampleData( );
+		sdOrthogonal2.setDataSetRepresentation( "" );//$NON-NLS-1$
+		sdOrthogonal2.setSeriesDefinitionIndex( 1 );
+		sd.getOrthogonalSampleData( ).add( sdOrthogonal2 );
+
+		cwaBar.setSampleData( sd );
 
 		// X-Series
 		Series seCategory = SeriesImpl.create( );

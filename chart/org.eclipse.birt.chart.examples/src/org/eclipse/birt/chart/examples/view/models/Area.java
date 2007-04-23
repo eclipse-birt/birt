@@ -31,7 +31,11 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.AxisImpl;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
+import org.eclipse.birt.chart.model.data.BaseSampleData;
+import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
+import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
+import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.TextDataSet;
 import org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl;
@@ -112,7 +116,24 @@ public class Area
 		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
 		sdX.getSeries( ).add( seCategory );
 
-		// Y-Series (2)
+		SampleData sd = DataFactory.eINSTANCE.createSampleData( );
+		BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData( );
+		sdBase.setDataSetRepresentation( "" );//$NON-NLS-1$
+		sd.getBaseSampleData( ).add( sdBase );
+
+		OrthogonalSampleData sdOrthogonal1 = DataFactory.eINSTANCE.createOrthogonalSampleData( );
+		sdOrthogonal1.setDataSetRepresentation( "" );//$NON-NLS-1$
+		sdOrthogonal1.setSeriesDefinitionIndex( 0 );
+		sd.getOrthogonalSampleData( ).add( sdOrthogonal1 );
+		
+		OrthogonalSampleData sdOrthogonal2 = DataFactory.eINSTANCE.createOrthogonalSampleData( );
+		sdOrthogonal2.setDataSetRepresentation( "" );//$NON-NLS-1$
+		sdOrthogonal2.setSeriesDefinitionIndex( 1 );
+		sd.getOrthogonalSampleData( ).add( sdOrthogonal2 );
+
+		cwa3DArea.setSampleData( sd );
+		
+		// Y-Series (1)
 		AreaSeries as1 = (AreaSeries) AreaSeriesImpl.create( );
 		as1.setSeriesIdentifier( "Series 1" );//$NON-NLS-1$
 		as1.setDataSet( orthoValues1 );;

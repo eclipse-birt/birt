@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.model.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -536,7 +537,19 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 			sd = (SeriesDefinition) elSDs.get( i );
 			if ( iLevel != iLevelToOmit )
 			{
-				sd.getSeries( ).removeAll( sd.getRunTimeSeries( ) );
+				if ( sd.getSeries( ).size( ) == sd.getRunTimeSeries( ).size( ) )
+				{
+					Iterator it = ( sd.getRunTimeSeries( ) ).iterator( );
+					while ( it.hasNext( ) )
+					{
+						Series se = (Series) it.next( );
+						se.getDataSets( ).clear( );
+					}
+				}
+				else
+				{
+					sd.getSeries( ).removeAll( sd.getRunTimeSeries( ) );
+				}
 			}
 			el = sd.getSeriesDefinitions( );
 			recursivelyRemoveRuntimeSeries( el, iLevel + 1, iLevelToOmit );

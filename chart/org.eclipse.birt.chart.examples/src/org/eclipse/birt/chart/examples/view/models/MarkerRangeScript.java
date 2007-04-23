@@ -22,7 +22,11 @@ import org.eclipse.birt.chart.model.component.MarkerRange;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.MarkerRangeImpl;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
+import org.eclipse.birt.chart.model.data.BaseSampleData;
+import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
+import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
+import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.TextDataSet;
 import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
@@ -68,6 +72,18 @@ public class MarkerRangeScript
 		NumberDataSet orthoValues = NumberDataSetImpl.create( new double[]{
 				8, 18, -15, -8, 10
 		} );
+		
+		SampleData sd = DataFactory.eINSTANCE.createSampleData( );
+		BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData( );
+		sdBase.setDataSetRepresentation( "" );//$NON-NLS-1$
+		sd.getBaseSampleData( ).add( sdBase );
+
+		OrthogonalSampleData sdOrthogonal = DataFactory.eINSTANCE.createOrthogonalSampleData( );
+		sdOrthogonal.setDataSetRepresentation( "" );//$NON-NLS-1$
+		sdOrthogonal.setSeriesDefinitionIndex( 0 );
+		sd.getOrthogonalSampleData( ).add( sdOrthogonal );
+		
+		cwaBar.setSampleData( sd );
 
 		// X-Series
 		Series seCategory = SeriesImpl.create( );

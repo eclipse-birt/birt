@@ -27,6 +27,10 @@ import org.eclipse.birt.chart.model.component.DialRegion;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.DialRegionImpl;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
+import org.eclipse.birt.chart.model.data.BaseSampleData;
+import org.eclipse.birt.chart.model.data.DataFactory;
+import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
+import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.TextDataSet;
 import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
@@ -79,6 +83,18 @@ public class SDialSRegionMeter
 		// Data Set
 		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{
 			"Speed"} );//$NON-NLS-1$
+		
+		SampleData sdata = DataFactory.eINSTANCE.createSampleData( );
+		BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData( );
+		sdBase.setDataSetRepresentation( "" );//$NON-NLS-1$
+		sdata.getBaseSampleData( ).add( sdBase );
+
+		OrthogonalSampleData sdOrthogonal = DataFactory.eINSTANCE.createOrthogonalSampleData( );
+		sdOrthogonal.setDataSetRepresentation( "" );//$NON-NLS-1$
+		sdOrthogonal.setSeriesDefinitionIndex( 0 );
+		sdata.getOrthogonalSampleData( ).add( sdOrthogonal );
+		
+		dChart.setSampleData( sdata );
 
 		SeriesDefinition sd = SeriesDefinitionImpl.create( );
 		dChart.getSeriesDefinitions( ).add( sd );

@@ -27,7 +27,11 @@ import org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
+import org.eclipse.birt.chart.model.data.BaseSampleData;
+import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
+import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
+import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
@@ -100,6 +104,18 @@ public class Scatter
 		NumberDataSet dsNumericValues2 = NumberDataSetImpl.create( new double[]{
 				352.95, -201.95, 299.95, -95.95, 65.95, 58.95
 		} );
+		
+		SampleData sd = DataFactory.eINSTANCE.createSampleData( );
+		BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData( );
+		sdBase.setDataSetRepresentation( "" );//$NON-NLS-1$
+		sd.getBaseSampleData( ).add( sdBase );
+
+		OrthogonalSampleData sdOrthogonal = DataFactory.eINSTANCE.createOrthogonalSampleData( );
+		sdOrthogonal.setDataSetRepresentation( "" );//$NON-NLS-1$
+		sdOrthogonal.setSeriesDefinitionIndex( 0 );
+		sd.getOrthogonalSampleData( ).add( sdOrthogonal );
+		
+		cwaScatter.setSampleData( sd );
 
 		// X-Series
 		Series seBase = SeriesImpl.create( );

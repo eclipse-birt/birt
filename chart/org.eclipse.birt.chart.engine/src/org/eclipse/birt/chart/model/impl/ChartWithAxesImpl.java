@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.model.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.engine.i18n.Messages;
@@ -973,7 +974,20 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 				for ( int j = 0; j < el.size( ); j++ )
 				{
 					sd = (SeriesDefinition) el.get( j );
-					sd.getSeries( ).removeAll( sd.getRunTimeSeries( ) );
+					if ( sd.getSeries( ).size( ) == sd.getRunTimeSeries( )
+							.size( ) )
+					{
+						Iterator it = ( sd.getRunTimeSeries( ) ).iterator( );
+						while ( it.hasNext( ) )
+						{
+							Series se = (Series) it.next( );
+							se.getDataSets( ).clear( );
+						}
+					}
+					else
+					{
+						sd.getSeries( ).removeAll( sd.getRunTimeSeries( ) );
+					}
 				}
 				axaOrthogonal = getOrthogonalAxes( axaBase[i], true );
 				for ( int j = 0; j < axaOrthogonal.length; j++ )
@@ -982,7 +996,20 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 					for ( int k = 0; k < el.size( ); k++ )
 					{
 						sd = (SeriesDefinition) el.get( k );
-						sd.getSeries( ).removeAll( sd.getRunTimeSeries( ) );
+						if ( sd.getSeries( ).size( ) == sd.getRunTimeSeries( )
+								.size( ) )
+						{
+							Iterator it = ( sd.getRunTimeSeries( ) ).iterator( );
+							while ( it.hasNext( ) )
+							{
+								Series se = (Series) it.next( );
+								se.getDataSets( ).clear( );
+							}
+						}
+						else
+						{
+							sd.getSeries( ).removeAll( sd.getRunTimeSeries( ) );
+						}
 					}
 				}
 
@@ -993,7 +1020,17 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 					for ( int k = 0; k < el.size( ); k++ )
 					{
 						sd = (SeriesDefinition) el.get( k );
-						sd.getSeries( ).removeAll( sd.getRunTimeSeries( ) );
+						if ( sd.getSeries( ).size( ) == sd.getRunTimeSeries( )
+								.size( ) )
+						{
+							// sd.getRunTimeSeries( )
+							// .removeAll( ( (Series) sd.getRunTimeSeries( )
+							// ).getDataSets( ) );
+						}
+						else
+						{
+							sd.getSeries( ).removeAll( sd.getRunTimeSeries( ) );
+						}
 					}
 				}
 			}

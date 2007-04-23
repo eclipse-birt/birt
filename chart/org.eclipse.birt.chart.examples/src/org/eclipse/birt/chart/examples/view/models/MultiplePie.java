@@ -16,7 +16,11 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
+import org.eclipse.birt.chart.model.data.BaseSampleData;
+import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
+import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
+import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.TextDataSet;
 import org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl;
@@ -65,6 +69,23 @@ public class MultiplePie
 		NumberDataSet seriesTwoValues = NumberDataSetImpl.create( new double[]{
 				15.65, 65, 25.95
 		} );
+		
+		SampleData sdata = DataFactory.eINSTANCE.createSampleData( );
+		BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData( );
+		sdBase.setDataSetRepresentation( "" );//$NON-NLS-1$
+		sdata.getBaseSampleData( ).add( sdBase );
+
+		OrthogonalSampleData sdOrthogonal1 = DataFactory.eINSTANCE.createOrthogonalSampleData( );
+		sdOrthogonal1.setDataSetRepresentation( "" );//$NON-NLS-1$
+		sdOrthogonal1.setSeriesDefinitionIndex( 0 );
+		sdata.getOrthogonalSampleData( ).add( sdOrthogonal1 );
+		
+		OrthogonalSampleData sdOrthogonal2 = DataFactory.eINSTANCE.createOrthogonalSampleData( );
+		sdOrthogonal2.setDataSetRepresentation( "" );//$NON-NLS-1$
+		sdOrthogonal2.setSeriesDefinitionIndex( 1 );
+		sdata.getOrthogonalSampleData( ).add( sdOrthogonal2 );
+
+		cwoaPie.setSampleData( sdata );
 
 		// Base Sereis
 		Series seCategory = SeriesImpl.create( );

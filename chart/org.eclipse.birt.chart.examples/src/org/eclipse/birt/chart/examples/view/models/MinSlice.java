@@ -20,7 +20,11 @@ import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.GradientImpl;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
+import org.eclipse.birt.chart.model.data.BaseSampleData;
+import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
+import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
+import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.TextDataSet;
 import org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl;
@@ -64,6 +68,18 @@ public class MinSlice
 		NumberDataSet seriesOneValues = NumberDataSetImpl.create( new double[]{
 				24, 9, 30, 36, 8, 51
 		} );
+		
+		SampleData sdata = DataFactory.eINSTANCE.createSampleData( );
+		BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData( );
+		sdBase.setDataSetRepresentation( "" );//$NON-NLS-1$
+		sdata.getBaseSampleData( ).add( sdBase );
+
+		OrthogonalSampleData sdOrthogonal = DataFactory.eINSTANCE.createOrthogonalSampleData( );
+		sdOrthogonal.setDataSetRepresentation( "" );//$NON-NLS-1$
+		sdOrthogonal.setSeriesDefinitionIndex( 0 );
+		sdata.getOrthogonalSampleData( ).add( sdOrthogonal );
+
+		cwoaPie.setSampleData( sdata );
 
 		// Base Series
 		SeriesDefinition sd = SeriesDefinitionImpl.create( );
