@@ -292,7 +292,7 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 					functionList.add( function );
 			}
 			functionListMap.put( name, functionList );
-			measureListMap.put( name, functionList );
+			measureListMap.put( name, measureList );
 		}
 
 		DimensionViewHandle clonedDimensionView = (DimensionViewHandle) CrosstabUtil.getReportItem( dimensionView.getModelHandle( )
@@ -326,6 +326,7 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 				List functionList = (List) functionListMap.get( levelName );
 				levelView.addSubTotal( measureList, functionList );
 			}
+			
 		}
 		catch ( SemanticException e )
 		{

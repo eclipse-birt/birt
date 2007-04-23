@@ -59,6 +59,10 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 		if ( focus == null || !isValidParameters( functionList, measureList ) )
 			return null;
 
+		verifyTotalMeasureFunctions( focus.getAxisType( ),
+				functionList,
+				measureList );
+
 		// can not add aggregation if this level is innermost
 		if ( focus.isInnerMost( ) )
 		{
