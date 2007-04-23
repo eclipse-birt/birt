@@ -256,8 +256,8 @@ public class ParamDefTag extends BodyTagSupport
 		if ( param.getValue( ) != null && param.getValue( ) instanceof String )
 		{
 			// convert parameter value to object
-			Object valueObj = DataUtil.validate( dataType, this.pattern,
-					(String) param.getValue( ), locale, isLocale );
+			Object valueObj = DataUtil.validateWithPattern( dataType,
+					this.pattern, (String) param.getValue( ), locale, isLocale );
 			param.setValue( valueObj );
 		}
 

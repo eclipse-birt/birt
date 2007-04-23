@@ -77,6 +77,34 @@ public class DataUtil
 	}
 
 	/**
+	 * Returns the default date/time format
+	 * 
+	 * @param dataType
+	 * @return
+	 */
+	private static String getDefaultDateFormat( String dataType )
+	{
+		String defFormat = null;
+		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
+				.equalsIgnoreCase( dataType ) )
+		{
+			defFormat = ParameterValidationUtil.DEFAULT_DATETIME_FORMAT;
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_DATE
+				.equalsIgnoreCase( dataType ) )
+		{
+			defFormat = ParameterValidationUtil.DEFAULT_DATE_FORMAT;
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_TIME
+				.equalsIgnoreCase( dataType ) )
+		{
+			defFormat = ParameterValidationUtil.DEFAULT_TIME_FORMAT;
+		}
+
+		return defFormat;
+	}
+
+	/**
 	 * 
 	 * Convert parameter to Object
 	 * 
@@ -97,67 +125,109 @@ public class DataUtil
 		if ( value == null )
 			return obj;
 
-		// Default format
-		String defFormat = null;
-		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
-				.equalsIgnoreCase( dataType ) )
+		// if parameter value equals display text, should use local/format to
+		// format parameter value first
+		if ( isLocale )
 		{
-			defFormat = ParameterValidationUtil.DEFAULT_DATETIME_FORMAT;
+			validateWithLocale( dataType, format, value, locale );
 		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_DATE
-				.equalsIgnoreCase( dataType ) )
+		else
 		{
-			defFormat = ParameterValidationUtil.DEFAULT_DATE_FORMAT;
+			// Convert string to object using default format/local
+			obj = ParameterValidationUtil.validate( dataType,
+					getDefaultDateFormat( dataType ), value );
 		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_TIME
-				.equalsIgnoreCase( dataType ) )
-		{
-			defFormat = ParameterValidationUtil.DEFAULT_TIME_FORMAT;
-		}
+
+		return obj;
+	}
+
+	/**
+	 * 
+	 * Convert parameter to Object with pattern
+	 * 
+	 * @param dataType
+	 * @param format
+	 * @param value
+	 * @param locale
+	 * @param isLocale
+	 *            indicate whether it is a locale string
+	 * @return Object
+	 * @throws ValidationValueException
+	 */
+	public static Object validateWithPattern( String dataType, String format,
+			String value, Locale locale, boolean isLocale )
+			throws ValidationValueException
+	{
+		Object obj = null;
+		if ( value == null )
+			return obj;
 
 		// if parameter value equals display text, should use local/format to
 		// format parameter value first
 		if ( isLocale )
 		{
-			try
-			{
-				if ( format == null )
-				{
-					if ( DesignChoiceConstants.PARAM_TYPE_DATE
-							.equalsIgnoreCase( dataType ) )
-					{
-						format = ParameterValidationUtil.DISPLAY_DATE_FORMAT;
-					}
-					else if ( DesignChoiceConstants.PARAM_TYPE_TIME
-							.equalsIgnoreCase( dataType ) )
-					{
-						format = ParameterValidationUtil.DISPLAY_TIME_FORMAT;
-					}
-					else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
-							.equalsIgnoreCase( dataType ) )
-					{
-						format = DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED;
-					}
-				}
-
-				// Convert locale string to object
-				obj = ParameterValidationUtil.validate( dataType, format,
-						value, locale );
-			}
-			catch ( Exception e )
-			{
-				// Convert string to object using default format/local
-				obj = ParameterValidationUtil.validate( dataType, defFormat,
-						value );
-			}
+			validateWithLocale( dataType, format, value, locale );
 		}
 		else
 		{
+			// Default format
 			if ( format == null )
-				format = defFormat;
+				format = getDefaultDateFormat( dataType );
 
-			// Convert string to object using default format/local
+			// Convert string to object using default locale
 			obj = ParameterValidationUtil.validate( dataType, format, value );
+		}
+
+		return obj;
+	}
+
+	/**
+	 * Convert parameter to Object with locale setting
+	 * 
+	 * @param dataType
+	 * @param format
+	 * @param value
+	 * @param locale
+	 * @return
+	 * @throws ValidationValueException
+	 */
+	public static Object validateWithLocale( String dataType, String format,
+			String value, Locale locale ) throws ValidationValueException
+	{
+		Object obj = null;
+		if ( value == null )
+			return obj;
+
+		try
+		{
+			if ( format == null )
+			{
+				if ( DesignChoiceConstants.PARAM_TYPE_DATE
+						.equalsIgnoreCase( dataType ) )
+				{
+					format = ParameterValidationUtil.DISPLAY_DATE_FORMAT;
+				}
+				else if ( DesignChoiceConstants.PARAM_TYPE_TIME
+						.equalsIgnoreCase( dataType ) )
+				{
+					format = ParameterValidationUtil.DISPLAY_TIME_FORMAT;
+				}
+				else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
+						.equalsIgnoreCase( dataType ) )
+				{
+					format = DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED;
+				}
+			}
+
+			// Convert locale string to object
+			obj = ParameterValidationUtil.validate( dataType, format, value,
+					locale );
+		}
+		catch ( Exception e )
+		{
+			// Convert string to object using default format/local
+			obj = ParameterValidationUtil.validate( dataType,
+					getDefaultDateFormat( dataType ), value );
 		}
 
 		return obj;
