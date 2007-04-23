@@ -45,6 +45,14 @@ public interface IBaseQueryDefinition extends IBaseTransform, IDataQueryDefiniti
 	public boolean usesDetails( );
 	
 	/**
+	 * Indicates if the query need cache the result rows . The query result
+	 * can be reload form the cache if the cache is used.
+	 * 
+	 * @return true if cache is needed.
+	 */
+	public boolean needCache( );
+	
+	/**
 	 * Returns the parent query. The parent query is the outer query which encloses
 	 * this query.
 	 */

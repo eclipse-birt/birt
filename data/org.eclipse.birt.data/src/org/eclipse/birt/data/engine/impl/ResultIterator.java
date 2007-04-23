@@ -14,8 +14,16 @@
 
 package org.eclipse.birt.data.engine.impl;
 
+import java.io.BufferedOutputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.sql.Blob;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,6 +37,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
@@ -39,12 +48,14 @@ import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.IDInfo;
 import org.eclipse.birt.data.engine.impl.document.IRDSave;
 import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
+import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
@@ -85,12 +96,18 @@ public class ResultIterator implements IResultIterator
 	private static final int ON_ROW = 2;
 	private static final int AFTER_LAST_ROW = 3;
 	private static final int CLOSED = -1;
+	private static final String CACHED_FILE_PREFIX = "cacheresultiterator";
+	private boolean isFirstRowPepared = true;
 	
-	private boolean isFirstRowPepared = false;
+	private OutputStream metaOutputStream = null;
+	private DataOutputStream rowOutputStream = null;
+	private IResultClass resultClass = null;
 	
 	// log instance
 	private static Logger logger = Logger.getLogger( ResultIterator.class.getName( ) );
 
+	private List columnList = null;
+	
 	/**
 	 * Constructor for report query (which produces a QueryResults)
 	 * 
@@ -111,6 +128,7 @@ public class ResultIterator implements IResultIterator
 
 		this.resultService = rService;
 		this.odiResult = odiResult;
+		this.resultClass = odiResult.getResultClass();
 		this.scope = scope;
 
 		this.context = rService.getContext( );
@@ -119,8 +137,124 @@ public class ResultIterator implements IResultIterator
 				|| this.resultService.getContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
 			this.validateManualBindingExpressions( this.resultService.getQueryDefn( )
 					.getResultSetExpressions( ) );
-
+		if( needCache() )
+		{
+			try 
+			{
+				createCacheOutputStream( );
+				saveMetaData( );
+				IOUtil.writeInt(this.rowOutputStream, this.odiResult.getRowCount());
+			} 
+			catch (IOException e) 
+			{
+				throw new DataException( ResourceConstants.CREATE_CACHE_TEMPFILE_ERROR );
+			}
+		}
 		this.start( );
+	}
+
+	/**
+	 * 
+	 * @throws FileNotFoundException
+	 */
+	private void createCacheOutputStream() throws FileNotFoundException 
+	{
+		metaOutputStream = new BufferedOutputStream(new FileOutputStream(
+				getMetaCacheFile()), 1024);
+		rowOutputStream = new DataOutputStream(
+				new BufferedOutputStream(new FileOutputStream(
+						getRowCacheFile()), 1024));
+		File file = getRowCacheFile( );
+		file.deleteOnExit();
+		file = getMetaCacheFile( );
+		file.deleteOnExit();
+	}
+	
+	/**
+	 * @throws DataException 
+	 * @throws IOException 
+	 * 
+	 */
+	private void closeCacheOutputStream( ) throws DataException
+	{
+		try
+		{
+			if(rowOutputStream!=null)
+			{
+				rowOutputStream.close( );
+				rowOutputStream = null;
+			}
+		}
+		catch (IOException e)
+		{
+			throw new DataException( ResourceConstants.CLOSE_CACHE_TEMPFILE_ERROR );
+		}
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	private boolean needCache( )
+	{
+		if( resultService == null || resultService.getQueryDefn( ) == null )
+			return false;
+		return resultService.getQueryDefn( ).needCache();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	private File getMetaCacheFile( )
+	{
+		File file = new File(context.getTmpdir() + File.separator
+				+ CACHED_FILE_PREFIX
+				+ resultService.getQueryResults().getID()+"meta");
+		return file;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	private File getRowCacheFile( )
+	{
+		File file = new File(context.getTmpdir() + File.separator
+				+ CACHED_FILE_PREFIX
+				+ resultService.getQueryResults().getID()+"row");
+		return file;
+	}
+	
+	/**
+	 * 
+	 * @throws DataException
+	 * @throws IOException 
+	 */
+	private void saveMetaData( ) throws DataException, IOException
+	{
+		Map metaMap = new HashMap( );
+		populateDataSetRowMapping( metaMap, odiResult.getResultClass() );
+		( (ResultClass) (odiResult.getResultClass()) ).doSave( metaOutputStream, metaMap );
+		if(metaOutputStream!=null)
+		{
+			metaOutputStream.close( );
+			metaOutputStream = null;
+		}
+	}
+	
+	/**
+	 * Populate the new rsClass object instance
+	 * 
+	 * @param metaMap
+	 * @throws DataException
+	 */
+	private static void populateDataSetRowMapping( Map metaMap, IResultClass rsClass )
+			throws DataException
+	{
+		for ( int i = 0; i < rsClass.getFieldCount( ); i++ )
+			metaMap.put( rsClass.getFieldName( i + 1 ),
+					new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( rsClass.getFieldName( i + 1 ) ) ) );
 	}
 
 	/**
@@ -252,6 +386,39 @@ public class ResultIterator implements IResultIterator
 	}
 	
 	/**
+	 * @throws BirtException 
+	 * @throws IOException 
+	 * 
+	 */
+	private void saveCurrentRow( ) throws IOException, BirtException
+	{
+		if( isFirstRowPepared )
+		{
+			columnList = new ArrayList( );
+			Iterator keyIterator = boundColumnValueMap.keySet().iterator();
+			
+			while( keyIterator.hasNext() )
+			{
+				Object key = keyIterator.next();
+				columnList.add(key);
+			}
+			IOUtil.writeInt(rowOutputStream, columnList.size());
+			for( int i=0;i<columnList.size();i++)
+			{
+				IOUtil.writeObject(rowOutputStream, columnList.get(i));
+			}
+		}
+		IOUtil.writeInt(rowOutputStream, getRowIndex( ));
+		IOUtil.writeInt(rowOutputStream, getStartingGroupLevel( ));
+		IOUtil.writeInt(rowOutputStream, getEndingGroupLevel( ));
+		for (int i = 0; i < columnList.size(); i++)
+		{
+			IOUtil.writeObject(rowOutputStream, getValue((String) columnList
+					.get(i)));
+		}
+	}
+	
+	/**
 	 * @return
 	 * @throws DataException 
 	 */
@@ -369,7 +536,7 @@ public class ResultIterator implements IResultIterator
 		// before the first row. This should be revised for consistency.
 		// Another issue is even if there is no row in result set, total Value
 		// is also available.
-		if ( this.isFirstRowPepared == false )
+		if ( this.isFirstRowPepared )
 			this.prepareCurrentRow( );
 		
 		Object exprValue = boundColumnValueMap.get( exprName );
@@ -400,8 +567,25 @@ public class ResultIterator implements IResultIterator
 			
 			boundColumnValueMap = bindingColumnsEvalUtil.getColumnsValue( );
 			
-			this.isFirstRowPepared = true;
+			if ( needCache() )
+			{
+				try 
+				{
+					saveCurrentRow( );
+				} 
+				catch (IOException e) 
+				{
+					throw new DataException( ResourceConstants.WRITE_CACHE_TEMPFILE_ERROR );
+				} 
+				catch (BirtException e) 
+				{
+					throw DataException.wrap(e);
+				}
+			}
+			
+			this.isFirstRowPepared = false;
 		}
+		
 	}
 	
 	/*
@@ -583,6 +767,11 @@ public class ResultIterator implements IResultIterator
 			this.getRdSaveHelper( ).doSaveFinish( );
 		}
 
+		if ( needCache() )
+		{
+			while( this.next() ){}
+			closeCacheOutputStream( );
+		}
 		if ( odiResult != null )
 				odiResult.close( );
 

@@ -104,10 +104,18 @@ public class DataEngineImpl extends DataEngine
 	 */
 	public IQueryResults getQueryResults( String queryResultID ) throws DataException
 	{
-		if ( context.getMode( ) != DataEngineContext.MODE_PRESENTATION )
-			throw new DataException( ResourceConstants.WRONG_STATUS );
+		if ( context.getMode( ) == DataEngineContext.MODE_PRESENTATION )
+		{
+			return new QueryResults( this.context, queryResultID );
+		}
 
-		return new QueryResults( this.context, queryResultID );
+		if ( context.getMode( ) == DataEngineContext.MODE_GENERATION
+				|| context.getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
+		{
+			return new CachedQueryResults( this.context, queryResultID );
+		}
+
+		return null;
 	}
 	
 	/**

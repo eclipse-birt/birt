@@ -23,6 +23,7 @@ public class SubqueryDefinition extends BaseQueryDefinition implements ISubquery
 {
 	private String name;
 	private boolean onGroup;
+	private boolean needCache = false;
 
 	/**
 	 * Constructs a SubqueryDefn. A name must be provided that uniquely
@@ -78,6 +79,23 @@ public class SubqueryDefinition extends BaseQueryDefinition implements ISubquery
 	public void setApplyOnGroupFlag( boolean onGroup )
 	{
 		this.onGroup = onGroup;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IBaseQueryDefinition#needCache()
+	 */
+	public boolean needCache() 
+	{
+		return needCache;
+	}
+	
+	/*
+	 * 
+	 */
+	public void setNeedCache( boolean needCache )
+	{
+		this.needCache = needCache;
 	}
 	
 }

@@ -47,6 +47,7 @@ import org.eclipse.birt.data.engine.expression.ExpressionCompiler;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateRegistry;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
+import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -458,8 +459,7 @@ final class PreparedQuery
 		logger.finer( "Start to prepare the execution." );
 		executor.prepareExecution( outerResults, scope );
 		logger.finer( "Finish preparing the execution." );
-		
-	    return new QueryResults( new ServiceForQueryResults( this.dataEngineContext,
+		QueryResults result = new QueryResults( new ServiceForQueryResults( this.dataEngineContext,
 				executor.getQueryScope( ),
 				executor.getNestedLevel( ) + 1,
 				dataSourceQuery,
@@ -467,6 +467,11 @@ final class PreparedQuery
 				executor,
 				this.baseQueryDefn,
 				this.exprManager ) );
+		if( this.baseQueryDefn.needCache() )
+		{
+			result.setID( QueryResultIDUtil.nextID( ) );
+		}
+		return result;
 	}
 	
 	/**

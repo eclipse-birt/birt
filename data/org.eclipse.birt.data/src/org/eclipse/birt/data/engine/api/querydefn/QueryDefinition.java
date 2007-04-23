@@ -32,6 +32,7 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	protected String[]			projectedColumns;
 	
 	private   boolean           autoBinding = false;
+	private   boolean           needCache = false;
 	
 	/** Constructs an empty query definition */
 	public QueryDefinition( )
@@ -136,5 +137,22 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	public String[] getColumnProjection()
 	{
 	    return projectedColumns;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IBaseQueryDefinition#needCache()
+	 */
+	public boolean needCache() 
+	{
+		return needCache;
+	}
+	
+	/*
+	 * 
+	 */
+	public void setNeedCache( boolean needCache )
+	{
+		this.needCache = needCache ;
 	}
 }

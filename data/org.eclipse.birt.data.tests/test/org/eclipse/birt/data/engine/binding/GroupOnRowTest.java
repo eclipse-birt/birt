@@ -7,6 +7,8 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
+import org.eclipse.birt.data.engine.api.IPreparedQuery;
+import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
@@ -813,6 +815,18 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
+	public void testGroupOnMonthWithCache(  ) throws Exception
+	{
+		/*Calendar calendar = Calendar.getInstance( );*/
+		calendar.set( 2005, 0, 1 );
+		groupOnMonthWithCache( calendar.getTime( ) );
+	}
+	
+	/**
+	 * Test feature of group on month
+	 * 
+	 * @throws Exception
+	 */
 	public void testGroupOnMonth1(  ) throws Exception
 	{
 		groupOnMonth( null );
@@ -861,6 +875,64 @@ public class GroupOnRowTest extends APITestCase
 				bindingExprRow );
 
 		String outputStr = getOutputStrForGroupTest( 30,
+				qd,
+				groupDefn.length,
+				bindingNameRow,
+				columnStr );
+		testPrint( outputStr );
+
+		this.checkOutputFile( );
+	}
+	
+	/**
+	 * 
+	 * @param startValue
+	 * @throws Exception
+	 * @throws IOException
+	 */
+	private void groupOnMonthWithCache( Object startValue ) throws Exception, IOException
+	{
+		String[] bindingNameGroup = new String[1];
+		bindingNameGroup[0] = "GROUP_DATE";
+		IBaseExpression[] bindingExprGroup = new IBaseExpression[1];
+		bindingExprGroup[0] = new ScriptExpression( "dataSetRow.DATE_FOR_GROUP" );
+		GroupDefinition[] groupDefn = new GroupDefinition[]{
+			new GroupDefinition( "group1" )
+		};
+		groupDefn[0].setKeyExpression( "row.GROUP_DATE" );
+		groupDefn[0].setInterval( IGroupDefinition.MONTH_INTERVAL );
+		if(startValue != null)
+			groupDefn[0].setIntervalStart( startValue );
+		groupDefn[0].setIntervalRange( 1 );
+
+		String[] bindingNameRow = new String[4];
+		bindingNameRow[0] = "ROW_DATE_FOR_GROUP";
+		bindingNameRow[1] = "ROW_ID";
+		bindingNameRow[2] = "ROW_AMOUT1";
+		bindingNameRow[3] = "ROW_AMOUT2";
+		IBaseExpression[] bindingExprRow = new IBaseExpression[4];
+		bindingExprRow[0] = new ScriptExpression( "dataSetRow.DATE_FOR_GROUP" );
+		bindingExprRow[1] = new ScriptExpression( "dataSetRow.ID" );
+		bindingExprRow[2] = new ScriptExpression( "dataSetRow.AMOUNT1" );
+		bindingExprRow[3] = new ScriptExpression( "dataSetRow.AMOUNT2" );
+
+		String[] columnStr = new String[]{
+				"date_for_group", "id", "amount1", "amount2"
+		};
+
+		QueryDefinition qd = this.createQuery( bindingNameGroup,
+				bindingExprGroup,
+				groupDefn,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				bindingNameRow,
+				bindingExprRow );
+		qd.setNeedCache( true );
+		String outputStr = getOutputStrForGroupTestWithCache( 30,
 				qd,
 				groupDefn.length,
 				bindingNameRow,
@@ -940,6 +1012,82 @@ public class GroupOnRowTest extends APITestCase
 		testPrint( outputStr );
 
 		this.checkOutputFile( );
+	}
+	
+	/**
+	 * Return query result
+	 * @param expectedLen
+	 * @param qd
+	 * @param gdArray
+	 * @param beArray
+	 * @param columStr
+	 * @return query string output
+	 * @throws Exception
+	 */
+	private String getOutputStrForGroupTestWithCache( int expectedLen,
+			QueryDefinition qd, int groupDefCount , String[] beArray,
+			String[] columStr ) throws Exception
+	{
+		StringBuffer sBuffer = new StringBuffer( );
+
+		// execute query
+		IPreparedQuery preparedQuery = dataEngine.prepare( qd, this.getAppContext( ) );
+		IQueryResults queryResults = preparedQuery.execute( null );
+		IResultIterator ri = queryResults.getResultIterator( );
+		String queryResultID = queryResults.getID();
+		ri.close();
+		ri = dataEngine.getQueryResults(queryResultID).getResultIterator();
+		String metaData = "";
+		for ( int i = 0; i < columStr.length; i++ )
+		{
+			metaData += formatStr( columStr[i], expectedLen );
+		}
+		sBuffer.append( metaData );
+		sBuffer.append( "\n" );
+
+		int groupCount = groupDefCount;
+		while ( ri.next( ) )
+		{
+			String rowData = "";
+
+			int startLevel = ri.getStartingGroupLevel( );
+			if ( startLevel <= groupCount )
+			{
+				if ( startLevel == 0 )
+					startLevel = 1;
+
+				for ( int j = 0; j < startLevel - 1; j++ )
+				{
+					rowData += formatStr( "", expectedLen );
+				}
+				for ( int j = startLevel - 1; j < beArray.length; j++ )
+				{
+					String value;
+					if(ri.getValue( beArray[j] )!=null)
+						value = ri.getValue( beArray[j] ).toString( );
+					else
+						value = "null";
+					
+					rowData += formatStr( value, expectedLen );
+				}
+			}
+			else
+			{
+				for ( int j = 0; j < groupCount; j++ )
+				{
+					rowData += formatStr( "", expectedLen );;
+				}
+				for ( int j = groupCount; j < beArray.length; j++ )
+				{
+					String value = ri.getValue( beArray[j] ).toString( );
+					rowData += formatStr( value, expectedLen );
+				}
+			}
+			sBuffer.append( rowData );
+			sBuffer.append( "\n" );
+		}
+		ri.close();
+		return new String( sBuffer );
 	}
 	
 	/**
@@ -1035,6 +1183,16 @@ public class GroupOnRowTest extends APITestCase
 		groupOnDay( null );
 	}
 	
+	/**
+	 * Test feature of group on day
+	 * 
+	 * @throws Exception
+	 */
+	public void testGroupOnDayWithCache(  ) throws Exception
+	{
+		groupOnDayWithCache( null );
+	}
+	
 	private void groupOnDay( Object startValue ) throws Exception, IOException
 	{
 		String[] bindingNameGroup = new String[1];
@@ -1078,6 +1236,58 @@ public class GroupOnRowTest extends APITestCase
 				bindingExprRow );
 
 		String outputStr = getOutputStrForGroupTest( 30,
+				qd,
+				groupDefn.length,
+				bindingNameRow,
+				columnStr );
+		testPrint( outputStr );
+
+		this.checkOutputFile( );
+	}
+	
+	private void groupOnDayWithCache( Object startValue ) throws Exception, IOException
+	{
+		String[] bindingNameGroup = new String[1];
+		bindingNameGroup[0] = "GROUP_DATE";
+		IBaseExpression[] bindingExprGroup = new IBaseExpression[1];
+		bindingExprGroup[0] = new ScriptExpression( "dataSetRow.DATE_FOR_GROUP" );
+		GroupDefinition[] groupDefn = new GroupDefinition[]{
+			new GroupDefinition( "group1" )
+		};
+		groupDefn[0].setKeyExpression( "row.GROUP_DATE" );
+		groupDefn[0].setInterval( IGroupDefinition.DAY_INTERVAL );
+		if(startValue != null)
+			groupDefn[0].setIntervalStart( startValue );
+		groupDefn[0].setIntervalRange(3);
+
+		String[] bindingNameRow = new String[4];
+		bindingNameRow[0] = "ROW_DATE_FOR_GROUP";
+		bindingNameRow[1] = "ROW_ID";
+		bindingNameRow[2] = "ROW_AMOUT1";
+		bindingNameRow[3] = "ROW_AMOUT2";
+		IBaseExpression[] bindingExprRow = new IBaseExpression[4];
+		bindingExprRow[0] = new ScriptExpression( "dataSetRow.DATE_FOR_GROUP" );
+		bindingExprRow[1] = new ScriptExpression( "dataSetRow.ID" );
+		bindingExprRow[2] = new ScriptExpression( "dataSetRow.AMOUNT1" );
+		bindingExprRow[3] = new ScriptExpression( "dataSetRow.AMOUNT2" );
+
+		String[] columnStr = new String[]{
+				"date_for_group", "id", "amount1", "amount2"
+		};
+
+		QueryDefinition qd = this.createQuery( bindingNameGroup,
+				bindingExprGroup,
+				groupDefn,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				bindingNameRow,
+				bindingExprRow );
+		qd.setNeedCache( true );
+		String outputStr = getOutputStrForGroupTestWithCache( 30,
 				qd,
 				groupDefn.length,
 				bindingNameRow,

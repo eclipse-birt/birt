@@ -19,6 +19,7 @@ public class QueryResultIDUtil
 	private static int qursStart = 0;
 
 	private final static String QURE_ID_PREFIX = "QuRs";
+	private final static String CACHE_QUERY_RESULT_ID = "CacheQuRs";
 	private final static String QURE_ID_SEPARATOR = "_";
 	private final static String STREAM_ID_SEPARATOR = "/";
 	

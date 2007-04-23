@@ -123,6 +123,13 @@ public class ResourceConstants
 	public final static String WRITE_TEMPFILE_ERROR = "data.engine.WriteTempError";
 	public final static String READ_TEMPFILE_ERROR = "data.engine.ReadTempError";
 	
+	//resultiterator cache exception
+	public final static String CREATE_CACHE_TEMPFILE_ERROR = "data.engine.CreateCacheTempError";
+	public final static String OPEN_CACHE_TEMPFILE_ERROR = "data.engine.OpenCacheTempError";
+	public final static String WRITE_CACHE_TEMPFILE_ERROR = "data.engine.WriteCacheTempError";
+	public final static String READ_CACHE_TEMPFILE_ERROR = "data.engine.ReadCacheTempError";
+	public final static String CLOSE_CACHE_TEMPFILE_ERROR = "data.engine.CloseCacheTempError";
+	
 	// data engine factory exception
 	public final static String LOAD_FACTORY_ERROR = "load.factory.error";
 	

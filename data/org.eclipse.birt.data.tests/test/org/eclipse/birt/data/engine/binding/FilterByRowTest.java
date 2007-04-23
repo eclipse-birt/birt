@@ -71,8 +71,52 @@ public class FilterByRowTest extends APITestCase
 
 		IResultIterator resultIterator = getResultIterator( filterDefn,
 				bindingNameFilter,
-				bindingExprFilter );
+				bindingExprFilter,
+				false );
 
+		while ( resultIterator.next( ) )
+		{
+			Integer value0 = resultIterator.getInteger( getBindingExpressionName( )[0] );
+			Integer value1 = resultIterator.getInteger( getBindingExpressionName( )[1] );
+			Integer value2 = resultIterator.getInteger( getBindingExpressionName( )[2] );
+
+			assertTrue( value0.intValue( ) > 0 );
+			assertTrue( value1.intValue( ) > 1 );
+			assertTrue( value2.intValue( ) > 0 );
+		}
+
+		resultIterator.close( );
+	}
+	
+	/**
+	 * 
+	 * @throws Exception
+	 */
+	public void testAccept1WithCache( ) throws Exception
+	{
+
+		String[] bindingNameFilter = new String[3];
+		bindingNameFilter[0] = "FILTER_COL0";
+		bindingNameFilter[1] = "FILTER_COL1";
+		bindingNameFilter[2] = "FILTER_COL2";
+		IBaseExpression[] bindingExprFilter = new IBaseExpression[3];
+		bindingExprFilter[0] = new ScriptExpression( "dataSetRow.COL0" );
+		bindingExprFilter[1] = new ScriptExpression( "dataSetRow.COL1" );
+		bindingExprFilter[2] = new ScriptExpression( "dataSetRow.COL2" );
+		
+		FilterDefinition[] filterDefn = new FilterDefinition[]{
+			new FilterDefinition( new ScriptExpression( "row.FILTER_COL0 > 0" ) ),
+			new FilterDefinition( new ScriptExpression( "row.FILTER_COL1 > 1" ) ),
+			new FilterDefinition( new ScriptExpression( "row.FILTER_COL2 > 0" ) )
+		};
+
+		IResultIterator resultIterator = getResultIterator( filterDefn,
+				bindingNameFilter,
+				bindingExprFilter,
+				true );
+		String queryResultID = resultIterator.getQueryResults( ).getID( );
+		resultIterator.close();
+		resultIterator = dataEngine.getQueryResults( queryResultID ).getResultIterator( );
 		while ( resultIterator.next( ) )
 		{
 			Integer value0 = resultIterator.getInteger( getBindingExpressionName( )[0] );
@@ -97,8 +141,33 @@ public class FilterByRowTest extends APITestCase
 			new FilterDefinition( new ScriptExpression( "row.ROW_COL0 + row.ROW_COL1 > row.ROW_COL2" ) )
 		};
 		
-		IResultIterator resultIterator = getResultIterator( filterDefn, null , null );
+		IResultIterator resultIterator = getResultIterator( filterDefn, null , null, false );
 		
+		while ( resultIterator.next( ) )
+		{
+			Integer value0 = resultIterator.getInteger( getBindingExpressionName()[0] );
+			Integer value1 = resultIterator.getInteger( getBindingExpressionName()[1] );
+			Integer value2 = resultIterator.getInteger( getBindingExpressionName()[2] );
+			assertTrue( value0.intValue( ) + value1.intValue( ) > value2.intValue( ) );
+		}
+		
+		resultIterator.close();
+	}
+	
+	/**
+	 * 
+	 * @throws Exception
+	 */
+	public void testAccept2WithCache( ) throws Exception
+	{
+		FilterDefinition[] filterDefn = new FilterDefinition[]{
+			new FilterDefinition( new ScriptExpression( "row.ROW_COL0 + row.ROW_COL1 > row.ROW_COL2" ) )
+		};
+		
+		IResultIterator resultIterator = getResultIterator( filterDefn, null , null, true );
+		String queryResultID = resultIterator.getQueryResults( ).getID( );
+		resultIterator.close();
+		resultIterator = dataEngine.getQueryResults( queryResultID ).getResultIterator( );
 		while ( resultIterator.next( ) )
 		{
 			Integer value0 = resultIterator.getInteger( getBindingExpressionName()[0] );
@@ -122,8 +191,36 @@ public class FilterByRowTest extends APITestCase
 
 		IResultIterator resultIterator = getResultIterator( filterDefn,
 				null,
-				null );
+				null,
+				false);
+		while ( resultIterator.next( ) )
+		{
+			Integer value0 = resultIterator.getInteger( getBindingExpressionName( )[0] );
+			Integer value1 = resultIterator.getInteger( getBindingExpressionName( )[1] );
+			Integer value2 = resultIterator.getInteger( getBindingExpressionName( )[2] );
+			assertTrue( value0.intValue( ) * value1.intValue( ) > value2.intValue( ) );
+		}
+		
+		resultIterator.close();
+	}
+	
+	/**
+	 * Test FilterByRow#testAccept case 3
+	 * @throws Exception
+	 */
+	public void testAccept3WithCache( ) throws Exception
+	{
+		FilterDefinition[] filterDefn = new FilterDefinition[]{
+			new FilterDefinition( new ScriptExpression( "row.ROW_COL0 * row.ROW_COL1 > row.ROW_COL2" ) )
+		};
 
+		IResultIterator resultIterator = getResultIterator( filterDefn,
+				null,
+				null,
+				true);
+		String queryResultID = resultIterator.getQueryResults( ).getID( );
+		resultIterator.close();
+		resultIterator = dataEngine.getQueryResults( queryResultID ).getResultIterator( );
 		while ( resultIterator.next( ) )
 		{
 			Integer value0 = resultIterator.getInteger( getBindingExpressionName( )[0] );
@@ -148,8 +245,35 @@ public class FilterByRowTest extends APITestCase
 					"row.ROW_COL2" ) )
 		};
 		
-		IResultIterator resultIterator = getResultIterator( filterDefn, null, null );
+		IResultIterator resultIterator = getResultIterator( filterDefn, null, null, false );
 		
+		while ( resultIterator.next( ) )
+		{
+			Integer value0 = resultIterator.getInteger( getBindingExpressionName()[0] );
+			Integer value1 = resultIterator.getInteger( getBindingExpressionName()[1] );
+			Integer value2 = resultIterator.getInteger( getBindingExpressionName()[2] );
+			assertTrue( value0.intValue( ) * value1.intValue( ) > value2.intValue( ) );
+		}
+		
+		resultIterator.close();
+	}
+	
+	/**
+	 * Test FilterByRow#testAccept case 4
+	 * @throws Exception
+	 */
+	public void testAccept4WithCache( ) throws Exception
+	{
+	
+		FilterDefinition[] filterDefn = new FilterDefinition[]{
+			new FilterDefinition( new ConditionalExpression( "row.ROW_COL0 * row.ROW_COL1",
+					ConditionalExpression.OP_GT,
+					"row.ROW_COL2" ) )
+		};
+		IResultIterator resultIterator = getResultIterator( filterDefn, null, null, true );
+		String queryResultID = resultIterator.getQueryResults( ).getID( );
+		resultIterator.close();
+		resultIterator = dataEngine.getQueryResults( queryResultID ).getResultIterator( );
 		while ( resultIterator.next( ) )
 		{
 			Integer value0 = resultIterator.getInteger( getBindingExpressionName()[0] );
@@ -193,6 +317,44 @@ public class FilterByRowTest extends APITestCase
 
 		IResultIterator resultIt = executeQuery( queryDefn1 );
 
+		outputQueryResult( resultIt, bindingNameRow );
+		// assert
+		checkOutputFile( );
+	}
+	
+	/**
+	 * 
+	 * @throws Exception
+	 */
+	public void testJSFilterWithCache( ) throws Exception
+	{
+		String[] bindingNameRow = new String[4];
+		bindingNameRow[0] = "ROW_COL0";
+		bindingNameRow[1] = "ROW_COL1";
+		bindingNameRow[2] = "ROW_COL2";
+		bindingNameRow[3] = "ROW_COL3";
+		ScriptExpression[] bindingExprRow = new ScriptExpression[]{
+				new ScriptExpression( "dataSetRow.COL0" ),
+				new ScriptExpression( "dataSetRow.COL1" ),
+				new ScriptExpression( "dataSetRow.COL2" ),
+				new ScriptExpression( "dataSetRow.COL3" ),
+		};
+			
+		FilterDefinition[] filterDefn = new FilterDefinition[]{
+				new FilterDefinition( new ConditionalExpression( "Math.log( row[\"ROW_COL0\"])",
+						ConditionalExpression.OP_GE,
+						"Math.log(1)" ) ),
+				new FilterDefinition( new ConditionalExpression( " row[\"ROW_COL0\"].toString() ",
+						ConditionalExpression.OP_EQ,
+						"2" ) )
+		};
+				
+		QueryDefinition queryDefn1 = this.createQuery( null, null, null, null, null, null, null, null, filterDefn, bindingNameRow, bindingExprRow );
+		queryDefn1.setNeedCache( true );
+		IResultIterator resultIt = executeQuery( queryDefn1 );
+		String queryResultID = resultIt.getQueryResults( ).getID( );
+		resultIt.close();
+		resultIt = dataEngine.getQueryResults( queryResultID ).getResultIterator( );
 		outputQueryResult( resultIt, bindingNameRow );
 		// assert
 		checkOutputFile( );
@@ -434,10 +596,10 @@ public class FilterByRowTest extends APITestCase
 	 */
 	private IResultIterator getResultIterator(
 			FilterDefinition[] filterDefn, String[] bindingNameFilter,
-			IBaseExpression[] bindingExprFilter ) throws Exception
+			IBaseExpression[] bindingExprFilter, boolean needCache ) throws Exception
 	{
 		QueryDefinition queryDefn = (QueryDefinition) getDefaultQueryDefn( this.dataSet.getName( ) );
-		
+		queryDefn.setNeedCache(needCache);
 		if ( filterDefn != null )
 		{
 			if ( bindingNameFilter != null )
