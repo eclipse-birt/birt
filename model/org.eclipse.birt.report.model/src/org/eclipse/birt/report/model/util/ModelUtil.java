@@ -43,6 +43,7 @@ import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.table.LayoutUtil;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
@@ -64,6 +65,7 @@ import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.DataSet;
+import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.Library;
@@ -1164,10 +1166,28 @@ public class ModelUtil
 			for ( int i = 0; i < choices.length; i++ )
 			{
 				String name = choices[i].getName( );
-				IElementDefn defn = MetaDataDictionary.getInstance( )
-						.getElement( name );
-				if ( element.getDefn( ).isKindOf( defn ) )
-					return true;
+				MetaDataDictionary dd = MetaDataDictionary.getInstance( );
+
+				// if name is 'ExtendedItem', then all the extension from
+				// ReportItem is supported
+				if ( DesignChoiceConstants.TEMPLATE_ELEMENT_TYPE_EXTENDED_ITEM
+						.equals( name ) )
+				{
+					if ( element instanceof ExtendedItem
+							&& element
+									.getDefn( )
+									.isKindOf(
+											dd
+													.getElement( ReportDesignConstants.REPORT_ITEM ) ) )
+						return true;
+				}
+				else
+				{
+					IElementDefn defn = MetaDataDictionary.getInstance( )
+							.getElement( name );
+					if ( element.getDefn( ).isKindOf( defn ) )
+						return true;
+				}
 			}
 		}
 

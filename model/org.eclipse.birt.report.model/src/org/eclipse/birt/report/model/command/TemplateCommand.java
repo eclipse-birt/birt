@@ -171,7 +171,7 @@ public class TemplateCommand extends AbstractElementCommand
 		ElementDefn targetDefn = (ElementDefn) prop.getTargetElementType( );
 
 		DesignElement resolvedElement = module.resolveElement( name, targetDefn
-				.getNameSpaceID( ), (ElementPropertyDefn) prop );
+				.getNameSpaceID( ), prop );
 		return (TemplateParameterDefinition) resolvedElement;
 	}
 
@@ -239,24 +239,17 @@ public class TemplateCommand extends AbstractElementCommand
 								focus,
 								content,
 								ContentException.DESIGN_EXCEPTION_INVALID_TEMPLATE_ELEMENT );
-
-			// if content is a ReportItem, then look the definition in the
-			// report, if found and type is identical, then let it be; otherwise
-			// clear parameter definition
-			else
+			try
 			{
-				try
-				{
-					PropertyCommand cmd = new PropertyCommand( module, content );
-					cmd
-							.clearProperty( IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP );
-				}
-				catch ( SemanticException e )
-				{
-					assert false;
-				}
-				return;
+				PropertyCommand cmd = new PropertyCommand( module, content );
+				cmd
+						.clearProperty( IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP );
 			}
+			catch ( SemanticException e )
+			{
+				assert false;
+			}
+			return;
 		}
 		else if ( !( content instanceof TemplateElement ) )
 		{
@@ -483,7 +476,8 @@ public class TemplateCommand extends AbstractElementCommand
 					ITemplateParameterDefinitionModel.DEFAULT_SLOT ) );
 			contentCmd.add( defaultElement );
 
-			contentCmd = new ContentCommand( module, new ContainerContext( module,
+			contentCmd = new ContentCommand( module, new ContainerContext(
+					module,
 					IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT ) );
 			contentCmd.add( templateParam );
 

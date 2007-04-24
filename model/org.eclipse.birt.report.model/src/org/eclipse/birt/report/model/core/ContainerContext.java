@@ -203,21 +203,17 @@ public final class ContainerContext
 		if ( container.getRoot( ) == null )
 			return false;
 
-		// TODO: if ismanagedby namespace is supported by property, then return
-		// this return check
-		if ( !isSlot )
-			return true;
-
 		// check the slot
-
 		ContainerContext containerInfo = this;
 		while ( containerInfo != null )
 		{
-			SlotDefn slotInfo = (SlotDefn) containerInfo.container.getDefn( )
-					.getSlot( containerInfo.containerSlotID );
-			if ( slotInfo != null && !slotInfo.isManagedByNameSpace( ) )
-				return false;
-
+			if ( containerInfo.isSlot )
+			{
+				SlotDefn slotInfo = (SlotDefn) containerInfo.container
+						.getDefn( ).getSlot( containerInfo.containerSlotID );
+				if ( slotInfo != null && !slotInfo.isManagedByNameSpace( ) )
+					return false;
+			}
 			containerInfo = containerInfo.container.getContainerInfo( );
 		}
 		return true;
