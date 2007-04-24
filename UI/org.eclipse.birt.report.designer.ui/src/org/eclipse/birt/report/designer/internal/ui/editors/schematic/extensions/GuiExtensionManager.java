@@ -56,12 +56,13 @@ public class GuiExtensionManager
 	 */
 	public static Object doExtension( IExtension extension, Object object )
 	{
-		List list = ExtensionPointManager.getInstance( )
-				.getExtendedElementPoints( );
-		if ( list == null || list.size( ) == 0 )
-		{
-			return null;
-		}
+		//Bug 183605
+//		List list = ExtensionPointManager.getInstance( )
+//				.getExtendedElementPoints( );
+//		if ( list == null || list.size( ) == 0 )
+//		{
+//			return null;
+//		}
 		Object retValue = null;
 		if ( PALETTE_DESIGNER.equals( extension.getExtendsionIdentify( ) )
 				|| PALETTE_MASTERPAGE.equals( extension.getExtendsionIdentify( ) ) )
