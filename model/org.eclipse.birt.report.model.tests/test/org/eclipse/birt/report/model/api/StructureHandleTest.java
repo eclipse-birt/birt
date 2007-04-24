@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
+import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
@@ -28,6 +29,7 @@ import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyMask;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -488,6 +490,44 @@ public class StructureHandleTest extends BaseTestCase
 		assertEquals( 1, value.size( ) );
 		assertEquals( sHandle2.getStructure( ), value.get( 0 ) );
 
+		// problems in Structure list contains another structure lists.
+
+		createDesign( );
+
+		TabularCubeHandle cube = designHandle.getElementFactory( )
+				.newTabularCube( "cube1" ); //$NON-NLS-1$
+		designHandle.getCubes( ).add( cube );
+
+		DimensionConditionHandle condition = cube
+				.addDimensionCondition( StructureFactory
+						.createCubeJoinCondition( ) );
+
+		DimensionJoinCondition tmpJoin = StructureFactory
+				.createDimensionJoinCondition( );
+		tmpJoin.setCubeKey( "cube1 key" ); //$NON-NLS-1$
+		tmpJoin.setHierarchyKey( "hierarchy 1 key" ); //$NON-NLS-1$
+
+		DimensionJoinConditionHandle joinCondition1 = condition
+				.addJoinCondition( tmpJoin );
+
+		condition = cube.addDimensionCondition( StructureFactory
+				.createCubeJoinCondition( ) );
+
+		tmpJoin = StructureFactory.createDimensionJoinCondition( );
+		tmpJoin.setCubeKey( "cube1 key" ); //$NON-NLS-1$
+		tmpJoin.setHierarchyKey( "hierarchy 2 key" ); //$NON-NLS-1$
+
+		DimensionJoinConditionHandle joinCondition2 = condition
+				.addJoinCondition( tmpJoin );
+
+		joinCondition2.drop( );
+		condition.drop( );
+
+		condition = (DimensionConditionHandle) cube.joinConditionsIterator( )
+				.next( );
+
+		joinCondition1.drop( );
+		condition.drop( );
 	}
 
 	/**

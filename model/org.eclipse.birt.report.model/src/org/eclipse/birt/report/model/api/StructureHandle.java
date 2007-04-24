@@ -271,9 +271,7 @@ public class StructureHandle extends ValueHandle
 			}
 			else if ( ref.getDepth( ) == 2 )
 			{
-				listRef = new CachedMemberRef( propDefn );
-				listRef = new CachedMemberRef( listRef, ref.getIndex( ),
-						(StructPropertyDefn) ref.getMemberDefn( ) );
+				listRef = ref.getParentRef( );
 			}
 		}
 		else
