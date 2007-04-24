@@ -42,6 +42,7 @@ import org.eclipse.birt.report.engine.ir.VisibilityRuleDesign;
 import org.eclipse.birt.report.engine.script.internal.OnCreateScriptVisitor;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.engine.toc.TOCEntry;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 
 /**
  * Abstract class, Represents a report item executor. Report item executor
@@ -588,7 +589,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 				Object tocValue = content.getTOC( );
 				if ( tocValue != null )
 				{
-					long elementId = ((ReportElementDesign)content.getGenerateBy( )).getID( );
+					long elementId = getElementId(content);
 					String bookmark = content.getBookmark( );
 					tocEntry = tocBuilder.startEntry( parentTOCEntry, tocValue,
 							bookmark, hiddenFormats, elementId );
@@ -606,6 +607,24 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 				}
 			}
 		}
+	}
+	
+	protected long getElementId(IContent content)
+	{
+		Object generateBy = content.getGenerateBy( );
+		if(generateBy!=null && generateBy instanceof ReportElementDesign)
+		{
+			return ((ReportElementDesign)generateBy).getID( );
+		}
+		if(design!=null)
+		{
+			return design.getID( );
+		}
+		if(handle!=null && handle instanceof DesignElementHandle)
+		{
+			return ((DesignElementHandle)handle).getID();
+		}
+		return -1;
 	}
 
 	/**
@@ -634,7 +653,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		{
 			TOCEntry entry = getParentTOCEntry();
 			String hiddenFormats = group.getStyle( ).getVisibleFormat( );
-			long elementId = ((ReportElementDesign)group.getGenerateBy( )).getID( );
+			long elementId = getElementId(group);
 			tocEntry = tocBuilder.startGroupEntry( entry, group.getTOC( ),
 					group.getBookmark( ), hiddenFormats, elementId );
 			String tocId = tocEntry.getNode( ).getNodeID( );
