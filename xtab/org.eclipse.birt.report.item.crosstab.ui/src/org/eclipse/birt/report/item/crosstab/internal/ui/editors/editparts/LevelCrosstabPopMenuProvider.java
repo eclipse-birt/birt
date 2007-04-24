@@ -17,6 +17,7 @@ import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddLevelHandleAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddSubTotalAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.DeleteDimensionViewHandleAction;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
@@ -52,16 +53,25 @@ public class LevelCrosstabPopMenuProvider extends ContextMenuProvider
 			return;
 		}
 		Object firstSelectedElement = getFirstElement( );
-
+		DesignElementHandle element = null;
 		if ( firstSelectedElement instanceof DesignElementHandle )
 		{
-			IAction action = new AddLevelHandleAction( (DesignElementHandle) firstSelectedElement );
+			element = (DesignElementHandle)firstSelectedElement;
+		}
+		else if (firstSelectedElement instanceof CrosstabCellAdapter)
+		{
+			element = ((CrosstabCellAdapter)firstSelectedElement).getDesignElementHandle( );
+		}
+		//if ( firstSelectedElement instanceof DesignElementHandle )
+		if (element != null)
+		{
+			IAction action = new AddLevelHandleAction( (DesignElementHandle) element );
 			menu.add( action );
 
-			action = new AddSubTotalAction( (DesignElementHandle) firstSelectedElement );
+			action = new AddSubTotalAction( (DesignElementHandle) element );
 			menu.add( action );
 		
-			action = new DeleteDimensionViewHandleAction( (DesignElementHandle) firstSelectedElement);
+			action = new DeleteDimensionViewHandleAction( (DesignElementHandle) element);
 			menu.add( action );
 		}
 	}

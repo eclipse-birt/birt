@@ -39,6 +39,7 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.gef.requests.GroupRequest;
 
@@ -88,6 +89,11 @@ public class CrosstabCellEditPart extends AbstractCellEditPart
 					GroupRequest deleteRequest )
 			{
 				return UnexecutableCommand.INSTANCE;
+			}
+			protected Command getOrphanCommand() {
+				return new Command(){
+					
+				};
 			}
 		}
 		);

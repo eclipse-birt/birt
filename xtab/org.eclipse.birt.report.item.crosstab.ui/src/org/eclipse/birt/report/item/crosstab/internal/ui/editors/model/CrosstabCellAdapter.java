@@ -211,6 +211,20 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter
 		}
 		return null;
 	}
+	
+
+	/**
+	 * @return
+	 */
+	public Object getFirstElement( )
+	{
+		List list = getCrosstabCellHandle( ).getContents( );
+		if (!list.isEmpty( ))
+		{
+			return list.get( 0 );
+		}
+		return null;
+	}
 
 	public PropertyHandle getPropertyHandle( )
 	{

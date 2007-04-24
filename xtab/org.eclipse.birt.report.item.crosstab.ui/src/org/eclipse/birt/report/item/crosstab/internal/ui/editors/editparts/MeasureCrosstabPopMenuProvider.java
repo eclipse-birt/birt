@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddMesureViewHandleAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.DeleteMeasureHandleAction;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
@@ -52,13 +53,22 @@ public class MeasureCrosstabPopMenuProvider extends ContextMenuProvider
 			return;
 		}
 		Object firstSelectedElement = getFirstElement( );
-
+		DesignElementHandle element = null;
 		if ( firstSelectedElement instanceof DesignElementHandle )
+		{
+			element = (DesignElementHandle)firstSelectedElement;
+		}
+		else if (firstSelectedElement instanceof CrosstabCellAdapter)
+		{
+			element = ((CrosstabCellAdapter)firstSelectedElement).getDesignElementHandle( );
+		}
+		
+		if ( element instanceof DesignElementHandle )
 		{					
-			IAction action = new AddMesureViewHandleAction( (DesignElementHandle) firstSelectedElement);
+			IAction action = new AddMesureViewHandleAction( (DesignElementHandle) element);
 			menu.add( action );
 			
-			action = new DeleteMeasureHandleAction( (DesignElementHandle) firstSelectedElement);
+			action = new DeleteMeasureHandleAction( (DesignElementHandle) element);
 			menu.add( action );
 		}
 	}

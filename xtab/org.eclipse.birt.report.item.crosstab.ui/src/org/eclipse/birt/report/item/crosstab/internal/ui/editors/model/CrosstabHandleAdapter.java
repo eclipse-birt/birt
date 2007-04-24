@@ -104,7 +104,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 		CrosstabCellAdapter first = factory.createCrosstabCellAdapter(
 				LEFT_CONNER, null, 1, rowBase, 1, columnBase, false );
 		list.add( 0, first );
-		// debug("all", list);
+		//debug("all", list); 
 
 		Collections.sort( list, new ModelComparator( ) );
 

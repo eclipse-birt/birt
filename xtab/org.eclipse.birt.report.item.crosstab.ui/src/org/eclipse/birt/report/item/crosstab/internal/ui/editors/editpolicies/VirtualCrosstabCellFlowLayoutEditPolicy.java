@@ -90,7 +90,7 @@ public class VirtualCrosstabCellFlowLayoutEditPolicy extends ReportFlowLayoutEdi
 		Object parentObj = parent.getModel( );
 		//Object source = child.getModel( );
 		Object afterObj = after == null ? null : after.getModel( );
-		Object childParent = child.getParent( ).getModel( );
+		Object childParent = getOperator( child ).getModel( );
 		if (parentObj instanceof VirtualCrosstabCellAdapter && childParent instanceof CrosstabCellAdapter)
 		{
 			CrosstabCellAdapter childAdapter = (CrosstabCellAdapter)childParent;
@@ -106,7 +106,7 @@ public class VirtualCrosstabCellFlowLayoutEditPolicy extends ReportFlowLayoutEdi
 				{
 					afterObj = null;
 				}
-				if (parent.getParent( ) == child.getParent( ).getParent( ))
+				if (parent.getParent( ) ==  getOperator( child ).getParent( ))
 				{
 				ChangeAreaCommand command = new ChangeAreaCommand(parentAdapter.getDesignElementHandle( ), 
 						childAdapter.getDesignElementHandle( ),(DesignElementHandle) DNDUtil.unwrapToModel( afterObj ) );
@@ -121,5 +121,15 @@ public class VirtualCrosstabCellFlowLayoutEditPolicy extends ReportFlowLayoutEdi
 			}
 		}
 		return UnexecutableCommand.INSTANCE;
+	}
+	
+	private EditPart getOperator(EditPart child)
+	{
+//		if (child instanceof CrosstabCellEditPart)
+//		{
+//			return child;
+//		}
+//		return child.getParent( );
+		return child;
 	}
 }

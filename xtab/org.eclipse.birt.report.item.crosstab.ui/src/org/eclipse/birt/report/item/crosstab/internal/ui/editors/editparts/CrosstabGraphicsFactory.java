@@ -46,9 +46,10 @@ public class CrosstabGraphicsFactory implements EditPartFactory
 				if ( (ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE.equals( position ) 
 						|| ICrosstabCellAdapterFactory.CELL_MEASURE.equals( position )) && adapter.getFirstDataItem( ) == model)
 				{
-					FirstLevelHandleDataItemEditPart first = new FirstLevelHandleDataItemEditPart(model);
-					first.setManager( createMenuManager( position, context.getViewer( )));
-					return first;
+//					FirstLevelHandleDataItemEditPart first = new FirstLevelHandleDataItemEditPart(model);
+//					first.setManager( createMenuManager( position, context.getViewer( )));
+//					return first;
+					return new LevelHandleDataItemEditPart( model );
 				}
 				else if (ICrosstabCellAdapterFactory.CELL_LEVEL_HANDLE.equals( position )
 						)
@@ -70,6 +71,14 @@ public class CrosstabGraphicsFactory implements EditPartFactory
 		}
 		if ( model instanceof CrosstabCellAdapter )
 		{
+			if (ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE.equals( ((CrosstabCellAdapter)model).getPositionType( ))
+					|| ICrosstabCellAdapterFactory.CELL_MEASURE.equals( ((CrosstabCellAdapter)model).getPositionType( )))
+			{
+				
+				CrosstabFirstCellEditPart first = new CrosstabFirstCellEditPart(model);
+				first.setManager( createMenuManager( ((CrosstabCellAdapter)model).getPositionType( ), context.getViewer( )));
+				return first;
+			}
 			return new CrosstabCellEditPart( model );
 		}
 		return null;

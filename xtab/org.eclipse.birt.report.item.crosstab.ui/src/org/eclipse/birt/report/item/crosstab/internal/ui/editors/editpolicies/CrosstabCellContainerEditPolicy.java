@@ -11,17 +11,7 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.editpolicies;
 
-import java.util.List;
-
-import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportContainerEditPolicy;
-import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
-import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.ICrosstabCellAdapterFactory;
-import org.eclipse.gef.EditPart;
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.gef.commands.UnexecutableCommand;
-import org.eclipse.gef.requests.GroupRequest;
 
 /**
  * 
@@ -34,38 +24,38 @@ public class CrosstabCellContainerEditPolicy extends ReportContainerEditPolicy
 	 * 
 	 * @see org.eclipse.gef.editpolicies.ContainerEditPolicy#getOrphanChildrenCommand(org.eclipse.gef.requests.GroupRequest)
 	 */
-	public Command getOrphanChildrenCommand( GroupRequest request )
-	{
-		List parts = request.getEditParts( );
-		int size = parts.size( );
-		CompoundCommand result = new CompoundCommand( "Move in layout" );//$NON-NLS-1$
-		for ( int i = 0; i < size; i++ )
-		{
-			Object model = ( (EditPart) parts.get( i ) ).getModel( );
-			Object parent = ( (EditPart) parts.get( i ) ).getParent( )
-					.getModel( );
-			if ( parent instanceof CrosstabCellAdapter )
-			{
-				if ( ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE.equals( ( (CrosstabCellAdapter) parent ).getPositionType( ) )
-						|| ICrosstabCellAdapterFactory.CELL_MEASURE.equals( ( (CrosstabCellAdapter) parent ).getPositionType( ) ) )
-				{
-					if (model == ((CrosstabCellAdapter)parent).getFirstDataItem( ))
-					{
-						if (size == 1)
-						{
-							return new Command( ) {
-							};
-						}
-						else
-						{
-							return UnexecutableCommand.INSTANCE;
-						}
-					}
-					
-				}
-			}
-			result.add( new DeleteCommand( model ) );
-		}
-		return result.unwrap( );
-	}
+//	public Command getOrphanChildrenCommand( GroupRequest request )
+//	{
+//		List parts = request.getEditParts( );
+//		int size = parts.size( );
+//		CompoundCommand result = new CompoundCommand( "Move in layout" );//$NON-NLS-1$
+//		for ( int i = 0; i < size; i++ )
+//		{
+//			Object model = ( (EditPart) parts.get( i ) ).getModel( );
+//			Object parent = ( (EditPart) parts.get( i ) ).getParent( )
+//					.getModel( );
+//			if ( parent instanceof CrosstabCellAdapter )
+//			{
+//				if ( ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE.equals( ( (CrosstabCellAdapter) parent ).getPositionType( ) )
+//						|| ICrosstabCellAdapterFactory.CELL_MEASURE.equals( ( (CrosstabCellAdapter) parent ).getPositionType( ) ) )
+//				{
+//					if (model == ((CrosstabCellAdapter)parent).getFirstDataItem( ))
+//					{
+//						if (size == 1)
+//						{
+//							return new Command( ) {
+//							};
+//						}
+//						else
+//						{
+//							return UnexecutableCommand.INSTANCE;
+//						}
+//					}
+//					
+//				}
+//			}
+//			result.add( new DeleteCommand( model ) );
+//		}
+//		return result.unwrap( );
+//	}
 }

@@ -42,6 +42,7 @@ public class CrosstabUIHelper
 	public static String AGGREGATION_IMAGE = "icons/pal/aggregation.gif";//$NON-NLS-1$
 	public static String LEVEL_AGGREGATION = "icons/pal/cell-level-aggregation.gif";//$NON-NLS-1$
 	public static String SHOW_HIDE_LECEL = "icons/pal/show-hide-level.gif";//$NON-NLS-1$
+	public static String LEVEL_ARROW = "icons/pal/level-arrow.gif";//$NON-NLS-1$
 	private static Image createImage( String sPluginRelativePath )
 	{
 		Image img = null;
