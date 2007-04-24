@@ -111,6 +111,25 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 	}
 
 	/**
+	 * Removes row/column grand total from crosstab on particular measure,
+	 * otherwise do nothing. The axis type can be either
+	 * <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
+	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>.
+	 * 
+	 * @param axisType
+	 */
+	public void removeGrandTotal( int axisType, int measureIndex )
+			throws SemanticException
+	{
+		CrosstabViewHandle crosstabView = crosstab.getCrosstabView( axisType );
+
+		if ( crosstabView != null )
+		{
+			crosstabView.removeGrandTotal( measureIndex );
+		}
+	}
+
+	/**
 	 * Gets the measure view list that define aggregations for the row/column
 	 * grand total in the crosstab. Each item in the list is instance of
 	 * <code>MeasureViewHandle</code>.

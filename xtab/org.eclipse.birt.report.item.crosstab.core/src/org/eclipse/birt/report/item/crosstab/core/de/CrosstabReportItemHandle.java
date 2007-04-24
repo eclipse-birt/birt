@@ -784,6 +784,21 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	}
 
 	/**
+	 * Removes row/column grand total from crosstab on particular measure,
+	 * otherwise do nothing. The axis type can be either
+	 * <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
+	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>.
+	 * 
+	 * @param axisType
+	 */
+	public void removeGrandTotal( int axisType, int measureIndex )
+			throws SemanticException
+	{
+		new CrosstabReportItemTask( this ).removeGrandTotal( axisType,
+				measureIndex );
+	}
+
+	/**
 	 * Gets the dimension value handle for the crosstab width.
 	 * 
 	 * @return crosstab width dimension value handle

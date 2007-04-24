@@ -241,13 +241,16 @@ public class GroupUtil implements ICrosstabConstants
 							colLevelName = clv.getCubeLevelName( );
 						}
 
-						return hasAggregationCell( startMeasure,
+						if ( hasAggregationCell( startMeasure,
 								endMeasure,
 								crosstabItem,
 								rdv.getCubeDimensionName( ),
 								rlv.getCubeLevelName( ),
 								colDimName,
-								colLevelName );
+								colLevelName ) )
+						{
+							return true;
+						}
 					}
 				}
 			}
@@ -305,13 +308,16 @@ public class GroupUtil implements ICrosstabConstants
 							rowLevelName = rlv.getCubeLevelName( );
 						}
 
-						return hasAggregationCell( startMeasure,
+						if ( hasAggregationCell( startMeasure,
 								endMeasure,
 								crosstabItem,
 								rowDimName,
 								rowLevelName,
 								cdv.getCubeDimensionName( ),
-								clv.getCubeLevelName( ) );
+								clv.getCubeLevelName( ) ) )
+						{
+							return true;
+						}
 					}
 				}
 			}

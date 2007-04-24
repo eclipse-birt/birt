@@ -337,13 +337,24 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements
 
 	/**
 	 * Removes the aggregation header cell if it is not empty, otherwise do
-	 * nothing. This method will add a aggregation header cell in this level and
-	 * adjust the measure aggregations to ensure the validation of the whole
-	 * crosstab.
+	 * nothing. This method will remove the aggregation header cell in this
+	 * level and adjust the measure aggregations to ensure the validation of the
+	 * whole crosstab.
 	 */
 	public void removeSubTotal( ) throws SemanticException
 	{
 		new LevelViewTask( this ).removeSubTotal( );
+	}
+
+	/**
+	 * Removes the aggregation header cell if it is not empty on particular
+	 * measure, otherwise do nothing. This method will remove the aggregation
+	 * header cell in this level and adjust the measure aggregations to ensure
+	 * the validation of the whole crosstab.
+	 */
+	public void removeSubTotal( int measureIndex ) throws SemanticException
+	{
+		new LevelViewTask( this ).removeSubTotal( measureIndex );
 	}
 
 	/**

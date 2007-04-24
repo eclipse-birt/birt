@@ -135,6 +135,61 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 	}
 
 	/**
+	 * Remove grand total on particular measure
+	 */
+	public void removeGrandTotal( int measureIndex ) throws SemanticException
+	{
+		removeGrandTotal( measureIndex, true );
+	}
+
+	void removeGrandTotal( int measureIndex, boolean needTransaction )
+			throws SemanticException
+	{
+		PropertyHandle propHandle = crosstabView.getGrandTotalProperty( );
+
+		if ( propHandle.getContentCount( ) > 0 )
+		{
+			CommandStack stack = null;
+
+			if ( needTransaction )
+			{
+				stack = crosstabView.getCommandStack( );
+				stack.startTrans( Messages.getString( "CrosstabViewTask.msg.remove.grandtotal" ) ); //$NON-NLS-1$
+			}
+
+			try
+			{
+				removeMeasureAggregations( crosstabView.getAxisType( ),
+						measureIndex );
+
+				if ( new CrosstabReportItemTask( crosstab ).getAggregationMeasures( crosstabView.getAxisType( ) )
+						.size( ) == 0 )
+				{
+					// remove grandtotal header if no grandtotal aggregations on
+					// all measures
+					propHandle.drop( 0 );
+				}
+			}
+			catch ( SemanticException e )
+			{
+				crosstabView.getLogger( ).log( Level.INFO, e.getMessage( ), e );
+
+				if ( needTransaction )
+				{
+					stack.rollback( );
+				}
+
+				throw e;
+			}
+
+			if ( needTransaction )
+			{
+				stack.commit( );
+			}
+		}
+	}
+
+	/**
 	 * Removes grand total from crosstab if it is not empty, otherwise do
 	 * nothing.
 	 */

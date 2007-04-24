@@ -474,9 +474,39 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 		String levelName = levelView.getCubeLevelName( );
 		if ( dimensionName == null || levelName == null )
 			return;
-		removeMeasureAggregations( dimensionName,
-				levelName,
-				levelView.getAxisType( ) );
+
+		for ( int i = 0; i < crosstab.getMeasureCount( ); i++ )
+		{
+			removeMeasureAggregations( dimensionName,
+					levelName,
+					levelView.getAxisType( ),
+					i );
+		}
+	}
+
+	/**
+	 * Removes all the aggregations related with the level view on particular
+	 * measure.
+	 * 
+	 * @param levelView
+	 */
+	protected void removeMeasureAggregations( LevelViewHandle levelView,
+			int measureIndex ) throws SemanticException
+	{
+		if ( levelView == null || levelView.getCrosstab( ) != crosstab )
+			return;
+		String dimensionName = ( (DimensionViewHandle) levelView.getContainer( ) ).getCubeDimensionName( );
+		String levelName = levelView.getCubeLevelName( );
+		if ( dimensionName == null || levelName == null )
+			return;
+
+		if ( measureIndex >= 0 && measureIndex < crosstab.getMeasureCount( ) )
+		{
+			removeMeasureAggregations( dimensionName,
+					levelName,
+					levelView.getAxisType( ),
+					measureIndex );
+		}
 	}
 
 	/**
@@ -488,9 +518,25 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 	protected void removeMeasureAggregations( int axisType )
 			throws SemanticException
 	{
-		if ( !CrosstabModelUtil.isValidAxisType( axisType ) )
+		if ( crosstab == null || !CrosstabModelUtil.isValidAxisType( axisType ) )
 			return;
-		removeMeasureAggregations( null, null, axisType );
+
+		for ( int i = 0; i < crosstab.getMeasureCount( ); i++ )
+		{
+			removeMeasureAggregations( null, null, axisType, i );
+		}
+	}
+
+	protected void removeMeasureAggregations( int axisType, int measureIndex )
+			throws SemanticException
+	{
+		if ( crosstab == null || !CrosstabModelUtil.isValidAxisType( axisType ) )
+			return;
+
+		if ( measureIndex >= 0 && measureIndex < crosstab.getMeasureCount( ) )
+		{
+			removeMeasureAggregations( null, null, axisType, measureIndex );
+		}
 	}
 
 	/**
@@ -500,27 +546,23 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 	 * @param axisType
 	 */
 	private void removeMeasureAggregations( String dimensionName,
-			String levelName, int axisType ) throws SemanticException
+			String levelName, int axisType, int measureIndex )
+			throws SemanticException
 	{
-		if ( crosstab == null || !CrosstabModelUtil.isValidAxisType( axisType ) )
-			return;
-
 		List dropList = new ArrayList( );
 
-		for ( int i = 0; i < crosstab.getMeasureCount( ); i++ )
+		MeasureViewHandle measureView = crosstab.getMeasure( measureIndex );
+
+		for ( int j = 0; j < measureView.getAggregationCount( ); j++ )
 		{
-			MeasureViewHandle measureView = crosstab.getMeasure( i );
-			for ( int j = 0; j < measureView.getAggregationCount( ); j++ )
+			AggregationCellHandle aggregationCell = measureView.getAggregationCell( j );
+			String propName = CrosstabModelUtil.getAggregationOnPropName( axisType );
+			String value = aggregationCell.getModelHandle( )
+					.getStringProperty( propName );
+			if ( ( value == null && levelName == null )
+					|| ( value != null && value.equals( levelName ) ) )
 			{
-				AggregationCellHandle aggregationCell = measureView.getAggregationCell( j );
-				String propName = CrosstabModelUtil.getAggregationOnPropName( axisType );
-				String value = aggregationCell.getModelHandle( )
-						.getStringProperty( propName );
-				if ( ( value == null && levelName == null )
-						|| ( value != null && value.equals( levelName ) ) )
-				{
-					dropList.add( aggregationCell );
-				}
+				dropList.add( aggregationCell );
 			}
 		}
 

@@ -213,6 +213,14 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle implements
 	}
 
 	/**
+	 * Remove grand total on particular measure
+	 */
+	public void removeGrandTotal( int measureIndex ) throws SemanticException
+	{
+		new CrosstabViewTask( this ).removeGrandTotal( measureIndex );
+	}
+
+	/**
 	 * Gets the axis type of this crosstab view in the crosstab. If this view
 	 * lies in the design tree, the returned value is either
 	 * <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or

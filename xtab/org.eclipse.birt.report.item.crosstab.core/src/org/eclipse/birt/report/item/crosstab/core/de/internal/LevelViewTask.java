@@ -166,6 +166,46 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 	}
 
 	/**
+	 * Removes the sub-total on particular measure.
+	 * 
+	 * @throws SemanticException
+	 */
+	public void removeSubTotal( int measureIndex ) throws SemanticException
+	{
+		if ( focus.getAggregationHeader( ) != null )
+		{
+			CommandStack stack = focus.getCommandStack( );
+			stack.startTrans( Messages.getString( "LevelViewTask.msg.remove.subtotal" ) ); //$NON-NLS-1$
+
+			try
+			{
+				// adjust the aggregations in measure elements first, then
+				// remove the aggregation; for the adjustment actions should
+				// depend on the aggregation information set in this level view
+				if ( crosstab != null )
+				{
+					removeMeasureAggregations( focus, measureIndex );
+				}
+
+				if ( getAggregationMeasures( ).size( ) == 0 )
+				{
+					// remove subtotal header if no subtotal aggregations on
+					// all measures
+					focus.getAggregationHeaderProperty( ).drop( 0 );
+				}
+			}
+			catch ( SemanticException e )
+			{
+				focus.getLogger( ).log( Level.WARNING, e.getMessage( ), e );
+				stack.rollback( );
+				throw e;
+			}
+
+			stack.commit( );
+		}
+	}
+
+	/**
 	 * 
 	 * @param levelView
 	 * @throws SemanticException
