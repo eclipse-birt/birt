@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.computation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -465,6 +466,63 @@ public final class LegendBuilder implements IConstants
 		{
 			List legendItems = legendData.legendItems;
 			LegendItemHints[] liha = (LegendItemHints[]) legendItems.toArray( new LegendItemHints[legendItems.size( )] );
+
+			if ( liha.length > 1 )
+			{
+				// Check if the legend item needs inverting
+				boolean needInvert = false;
+				// invert when the chart is transposed
+				if ( cm instanceof ChartWithAxes )
+				{
+					needInvert = ( (ChartWithAxes) cm ).isTransposed( );
+				}
+				
+				boolean isStack = true;
+				boolean hasOptionalGrouping = false;
+				exitStackCheck: for ( int i = 0; i < seda.length; i++ )
+				{					
+					if ( !hasOptionalGrouping && seda[i].getQuery( ) != null )
+					{
+						//check if the chart has a optional grouping
+						String query = seda[i].getQuery( ).getDefinition( );
+						if ( query != null && query.trim( ).length( ) != 0 )
+						{
+							hasOptionalGrouping = true;
+						}
+					}
+					if ( isStack )
+					{
+						//check if the chart is stacked
+						//TODO the logic of series stack may be changed.
+						for ( Iterator iter = seda[i].getSeries( ).iterator( ); iter.hasNext( ); )
+						{
+							Series series = (Series) iter.next( );
+							if ( !series.isStacked( ) )
+							{
+								
+								isStack = false;
+								if ( hasOptionalGrouping )
+								{
+									break exitStackCheck;
+								}
+								break;
+							}
+						}
+					}
+				}
+				// invert when the chart is stacked and doesn't has optional
+				// grouping.
+				if ( !hasOptionalGrouping & isStack )
+				{
+					// prevent duplicated invert
+					needInvert = !needInvert;
+				}
+
+				if ( needInvert )
+				{
+					liha = invertLegendItems( liha );
+				}
+			}
 
 			// update context hints here.
 			LegendLayoutHints lilh = new LegendLayoutHints( SizeImpl.create( dWidth,
@@ -1292,7 +1350,7 @@ public final class LegendBuilder implements IConstants
 						obj = dsiBase.next( );
 
 						// Skip invalid data
-						while (!isValidValue( obj ) && dsiBase.hasNext( ) )
+						while ( !isValidValue( obj ) && dsiBase.hasNext( ) )
 						{
 							obj = dsiBase.next( );
 						}
@@ -1509,7 +1567,7 @@ public final class LegendBuilder implements IConstants
 			Object obj = dsiBase.next( );
 
 			// Skip invalid data
-			while (!isValidValue( obj ) && dsiBase.hasNext( ) )
+			while ( !isValidValue( obj ) && dsiBase.hasNext( ) )
 			{
 				obj = dsiBase.next( );
 			}
@@ -1790,7 +1848,7 @@ public final class LegendBuilder implements IConstants
 						obj = dsiBase.next( );
 
 						// Skip invalid data
-						while (!isValidValue( obj ) && dsiBase.hasNext( ) )
+						while ( !isValidValue( obj ) && dsiBase.hasNext( ) )
 						{
 							obj = dsiBase.next( );
 						}
@@ -2011,7 +2069,7 @@ public final class LegendBuilder implements IConstants
 						obj = dsiBase.next( );
 
 						// Skip invalid data
-						while (!isValidValue( obj ) && dsiBase.hasNext( ) )
+						while ( !isValidValue( obj ) && dsiBase.hasNext( ) )
 						{
 							obj = dsiBase.next( );
 						}
@@ -2275,5 +2333,27 @@ public final class LegendBuilder implements IConstants
 			return ( (String) obj ).length( ) != 0;
 		}
 		return true;
+	}
+
+	/**
+	 * Revert the legend items
+	 */
+	private LegendItemHints[] invertLegendItems( LegendItemHints[] liha )
+	{
+		List legendItem = new ArrayList( liha.length );
+		for ( int i = liha.length - 1; i >= 0; i-- )
+		{
+			LegendItemHints legendItem1 = liha[i];
+			LegendItemHints legendItem2 = liha[liha.length - i - 1];
+			legendItem.add( new LegendItemHints( legendItem2.getType( ),
+					legendItem1.getLocation( ),
+					legendItem2.getWidth( ),
+					legendItem2.getHeight( ),
+					legendItem2.getText( ),
+					legendItem2.getExtraHeight( ),
+					legendItem2.getExtraText( ),
+					legendItem2.getCategoryIndex( ) ) );
+		}
+		return (LegendItemHints[]) legendItem.toArray( new LegendItemHints[liha.length] );
 	}
 }
