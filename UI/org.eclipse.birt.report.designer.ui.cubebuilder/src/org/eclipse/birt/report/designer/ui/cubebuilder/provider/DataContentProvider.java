@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -35,16 +35,6 @@ public class DataContentProvider implements ITreeContentProvider
 		{
 			return (Object[]) parentElement;
 		}
-		// if ( parentElement instanceof DataMock )
-		// {
-		// return new Object[]{
-		// ( (DataMock) parentElement ).getSource( )
-		// };
-		// }
-		// if ( parentElement instanceof DataSource )
-		// {
-		// return ( (DataSource) parentElement ).getDatasets( );
-		// }
 		if ( parentElement instanceof DataSetHandle )
 		{
 			return OlapUtil.getDataFields( (DataSetHandle) parentElement );
@@ -73,14 +63,6 @@ public class DataContentProvider implements ITreeContentProvider
 		{
 			return ( (Object[]) element ).length > 0;
 		}
-		// if ( element instanceof DataMock )
-		// {
-		// return ( (DataMock) element ).getSource( )!=null;
-		// }
-		// if ( element instanceof DataSource )
-		// {
-		// return ( (DataSource) element ).getDatasets( ).length > 0;
-		// }
 		if ( element instanceof DataSetHandle )
 		{
 			return OlapUtil.getDataFields( (DataSetHandle) element ).length > 0;

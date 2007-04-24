@@ -8,8 +8,6 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
-
-
 package org.eclipse.birt.report.designer.ui.cubebuilder;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;

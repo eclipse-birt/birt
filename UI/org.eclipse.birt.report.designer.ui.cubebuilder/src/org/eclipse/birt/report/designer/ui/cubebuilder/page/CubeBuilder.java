@@ -57,21 +57,13 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 		this.showNodeId = nodeId;
 	}
 
-	private void dispose( )
-	{
-		datasetPage.dispose( );
-		groupsPage.dispose( );
-	}
-
 	public boolean performCancel( )
 	{
-		dispose( );
 		return true;
 	}
 
 	public boolean performOk( )
 	{
-		dispose( );
 		return true;
 	}
 

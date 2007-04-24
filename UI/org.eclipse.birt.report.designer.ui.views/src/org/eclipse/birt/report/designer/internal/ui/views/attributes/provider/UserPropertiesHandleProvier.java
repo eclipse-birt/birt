@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.UserPropertyBuilder;
@@ -112,8 +113,18 @@ public class UserPropertiesHandleProvier extends AbstractFormHandleProvider
 		if ( inputElement instanceof DesignElementHandle )
 		{
 			this.inputElement = (DesignElementHandle) inputElement;
-			return ( (DesignElementHandle) inputElement ).getUserProperties( )
-					.toArray( );
+			List userProperties = new ArrayList( );
+			userProperties.addAll( ( (DesignElementHandle) inputElement ).getUserProperties( ) );
+			for ( int i = 0; i < userProperties.size( ); i++ )
+			{
+				UserPropertyDefn defn = (UserPropertyDefn) userProperties.get( i );
+				if ( !defn.isVisible( ) )
+				{
+					userProperties.remove( i );
+					i--;
+				}
+			}
+			return userProperties.toArray( );
 		}
 		return null;
 	}

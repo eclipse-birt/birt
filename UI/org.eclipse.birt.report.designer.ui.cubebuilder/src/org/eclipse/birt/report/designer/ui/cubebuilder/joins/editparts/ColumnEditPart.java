@@ -13,12 +13,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editpolicies.ColumnSelectionEditPolicy;
+import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editpolicies.ConnectionCreationEditPolicy;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.ColumnFigure;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
 import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.draw2d.FlowLayout;
@@ -42,7 +45,7 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
  * for other methods defined here
  * 
  */
-public class ColumnEditPart extends NodeEditPartHelper
+public class ColumnEditPart extends NodeEditPartHelper implements Listener
 
 {
 
@@ -56,6 +59,24 @@ public class ColumnEditPart extends NodeEditPartHelper
 	{
 		setParent( parent );
 		setModel( column );
+		if ( getParent( ) instanceof DatasetNodeEditPart )
+		{
+			( (DatasetNodeEditPart) getParent( ) ).getCube( )
+					.addListener( this );
+			this.cube = ( (DatasetNodeEditPart) getParent( ) ).getCube( );
+		}
+		else if ( getParent( ) instanceof HierarchyNodeEditPart )
+		{
+			( (HierarchyNodeEditPart) getParent( ) ).getCube( ).addListener( this );
+			this.cube = ( (HierarchyNodeEditPart) getParent( ) ).getCube( );
+		}
+	}
+
+	private TabularCubeHandle cube;
+
+	public TabularCubeHandle getCube( )
+	{
+		return cube;
 	}
 
 	/*
@@ -100,42 +121,7 @@ public class ColumnEditPart extends NodeEditPartHelper
 			}
 		} );
 
-		this.addNodeListener( new NodeListener( ) {
-
-			public void removingSourceConnection(
-					ConnectionEditPart connection, int index )
-			{
-			}
-
-			public void removingTargetConnection(
-					ConnectionEditPart connection, int index )
-			{
-			}
-
-			public void sourceConnectionAdded( ConnectionEditPart connection,
-					int index )
-			{
-				// if ( connection.getSource( ).equals( ColumnEditPart.this )
-				// && getTableEditPart( ).getSourceConnections( )
-				// .contains( connection ) )
-				// {
-				// getTableEditPart( ).getSourceConnections( )
-				// .remove( connection );
-				// }
-			}
-
-			public void targetConnectionAdded( ConnectionEditPart connection,
-					int index )
-			{
-				// if ( connection.getTarget( ).equals( ColumnEditPart.this )
-				// && getTableEditPart( ).getTargetConnections( )
-				// .contains( connection ) )
-				// {
-				// getTableEditPart( ).getTargetConnections( )
-				// .remove( connection );
-				// }
-			}
-		} );
+	
 
 		return columnFigure;
 	}
@@ -185,16 +171,13 @@ public class ColumnEditPart extends NodeEditPartHelper
 	 */
 	public DragTracker getDragTracker( Request request )
 	{
-		if ( getParent( ) instanceof TableNodeEditPart )
+		if ( getParent( ) instanceof HierarchyNodeEditPart )
 		{
 			ConnectionCreation connection = new ConnectionCreation( this );
 			return connection;
 		}
 		return super.getDragTracker( request );
 	}
-
-
-
 
 	/*
 	 * (non-Javadoc)
@@ -206,18 +189,12 @@ public class ColumnEditPart extends NodeEditPartHelper
 		return ( (AbstractGraphicalEditPart) this.getParent( ) ).getFigure( );
 	}
 
-	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
-	{
-		// TODO Auto-generated method stub
-
-	}
-
 	protected List getModelSourceConnections( )
 	{
 		List sourcejoins = new ArrayList( );
-		if ( getParent( ) instanceof TableNodeEditPart )
+		if ( getParent( ) instanceof HierarchyNodeEditPart )
 		{
-			TableNodeEditPart hierarchyEditpart = (TableNodeEditPart) getParent( );
+			HierarchyNodeEditPart hierarchyEditpart = (HierarchyNodeEditPart) getParent( );
 			Iterator iter = hierarchyEditpart.getCube( )
 					.joinConditionsIterator( );
 			while ( iter.hasNext( ) )
@@ -231,12 +208,15 @@ public class ColumnEditPart extends NodeEditPartHelper
 					while ( conditionIter.hasNext( ) )
 					{
 						DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIter.next( );
-						sourcejoins.add( joinCondition );
+						if ( joinCondition.getHierarchyKey( )
+								.equalsIgnoreCase( ( (ResultSetColumnHandle) getModel( ) ).getColumnName( ) ) ){
+							sourcejoins.add( joinCondition );
+							System.out.println(sourcejoins.size( ));
+						}
 					}
 				}
 			}
 		}
-
 		return sourcejoins;
 	}
 
@@ -256,31 +236,35 @@ public class ColumnEditPart extends NodeEditPartHelper
 				while ( conditionIter.hasNext( ) )
 				{
 					DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIter.next( );
-					targetjoins.add( joinCondition );
+					if ( joinCondition.getCubeKey( )
+							.equalsIgnoreCase( ( (ResultSetColumnHandle) getModel( ) ).getColumnName( ) ) )
+						targetjoins.add( joinCondition );
 				}
 			}
 		}
-
 		return targetjoins;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.data.oda.jdbc.ui.model.activity.Listener#elementChanged(org.eclipse.birt.report.data.oda.jdbc.ui.model.DesignElement,
-	 *      org.eclipse.birt.report.data.oda.jdbc.ui.editors.graphical.command.NotificationEvent)
-	 */
-	// public void elementChanged( BaseDataSourceElement focus,
-	// NotificationEvent ev )
-	// {
-	//
-	// // Depending on the Notification Event type , decide what to do
-	//
-	// if ( ev instanceof JoinCreationEvent )
-	// {
-	// refreshVisuals( );
-	// refresh( );
-	// }
-	//
-	// }
+	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
+	{
+		if ( getRoot( ).getViewer( ).getControl( ) == null
+				|| getRoot( ).getViewer( ).getControl( ).isDisposed( ) )
+		{
+			if ( getParent( ) instanceof DatasetNodeEditPart )
+			{
+				( (DatasetNodeEditPart) getParent( ) ).getCube( )
+						.removeListener( this );
+			}
+			else if ( getParent( ) instanceof HierarchyNodeEditPart )
+			{
+				( (HierarchyNodeEditPart) getParent( ) ).getCube( )
+						.removeListener( this );
+			}
+		}
+		else
+		{
+			refreshSourceConnections( );
+			refreshTargetConnections( );
+		}
+	}
 }

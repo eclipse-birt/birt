@@ -1,0 +1,88 @@
+/*******************************************************************************
+ * Copyright (c) 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+package org.eclipse.birt.report.designer.ui.cubebuilder.joins.action;
+
+import java.util.Iterator;
+
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractViewAction;
+import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.ColumnEditPart;
+import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.JoinConditionEditPart;
+import org.eclipse.birt.report.model.api.DimensionConditionHandle;
+import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
+import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
+import org.eclipse.gef.ui.actions.DeleteAction;
+
+public class DeleteJoinAction extends AbstractViewAction
+{
+
+	JoinConditionEditPart editPart = null;
+	DeleteAction action = null;
+
+	/**
+	 * @param root:
+	 *            The Query model object
+	 * @param editPart:
+	 *            The edit part currently selected
+	 * @param selectedObject:
+	 *            The selected Object
+	 */
+	public DeleteJoinAction( JoinConditionEditPart editPart,
+			Object selectedObject )
+	{
+		super( selectedObject );
+		if ( editPart instanceof JoinConditionEditPart )
+		{
+			this.editPart = (JoinConditionEditPart) editPart;
+		}
+	}
+
+	public void run( )
+	{
+		if ( this.editPart == null )
+			return;
+		try
+		{
+			TabularCubeHandle cube = ( (ColumnEditPart) editPart.getTarget( ) ).getCube( );
+			Iterator iter = cube.joinConditionsIterator( );
+			while ( iter.hasNext( ) )
+			{
+				DimensionConditionHandle condition = (DimensionConditionHandle) iter.next( );
+
+				Iterator conditionIter = condition.getJoinConditions( )
+						.iterator( );
+				while ( conditionIter.hasNext( ) )
+				{
+					DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIter.next( );
+					if ( joinCondition.equals( editPart.getModel( ) ) )
+					{
+						condition.removeJoinCondition( (DimensionJoinCondition)joinCondition.getStructure( ) );
+					}
+				}
+				if ( !condition.getJoinConditions( ).iterator( ).hasNext( ) )
+					condition.drop( );
+			}
+			editPart.setFocus( false );
+			editPart.setSelected( 0 );
+			editPart.setSource( null );
+			editPart.setTarget( null );
+			editPart.refresh( );
+		}
+		catch ( Exception e )
+		{
+			ExceptionHandler.handle( e );
+			e.printStackTrace( );
+		}
+
+	}
+
+}

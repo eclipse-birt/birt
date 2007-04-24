@@ -1,11 +1,13 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
+ * Copyright (c) 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: Actuate Corporation - initial API and implementation
- ******************************************************************************/
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 
@@ -15,6 +17,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.RenameInputDialog;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.ListenerElementVisitor;
+import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.JointDatasetsDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.LevelDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.LevelPropertyDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.MeasureDialog;
@@ -206,7 +209,8 @@ public class CubeGroupContent extends Composite implements Listener
 				Messages.getString( "GroupsPage.Button.Add" ),
 				Messages.getString( "GroupsPage.Button.Edit" ),
 				Messages.getString( "GroupsPage.Button.Delete" ),
-				Messages.getString( "GroupsPage.Button.Property" )
+				Messages.getString( "GroupsPage.Button.Property" ),
+				Messages.getString( "GroupsPage.Button.Join" )
 		};
 		addBtn = new Button( operationField, SWT.PUSH );
 		addBtn.setText( btnTexts[0] );
@@ -299,6 +303,19 @@ public class CubeGroupContent extends Composite implements Listener
 
 		} );
 
+		Button joinBtn = new Button( operationField, SWT.PUSH );
+		joinBtn.setText( btnTexts[4] );
+		joinBtn.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				JointDatasetsDialog dialog = new JointDatasetsDialog( );
+				dialog.setInput( (TabularCubeHandle) input );
+				dialog.open( );
+			}
+
+		} );
+
 		int width = UIUtil.getMaxStringWidth( btnTexts, operationField );
 		if ( width < 60 )
 			width = 60;
@@ -306,6 +323,7 @@ public class CubeGroupContent extends Composite implements Listener
 		layoutButton( editBtn, width );
 		layoutButton( delBtn, width );
 		layoutButton( propBtn, width );
+		layoutButton( joinBtn, width );
 		addBtn.setEnabled( false );
 		editBtn.setEnabled( false );
 		delBtn.setEnabled( false );
@@ -315,7 +333,7 @@ public class CubeGroupContent extends Composite implements Listener
 		data.grabExcessVerticalSpace = true;
 		data.verticalAlignment = SWT.BOTTOM;
 
-		data = (GridData) propBtn.getLayoutData( );
+		data = (GridData) joinBtn.getLayoutData( );
 		data.grabExcessVerticalSpace = true;
 		data.verticalAlignment = SWT.TOP;
 
@@ -916,7 +934,7 @@ public class CubeGroupContent extends Composite implements Listener
 		{
 			if ( datasets[0] != null )
 				dataFieldsViewer.setInput( datasets );
-			// dataFieldsViewer.setInput( OlapUtil.getAvailableDatasets( ) );
+			else dataFieldsViewer.setInput( OlapUtil.getAvailableDatasets( ) );
 			groupViewer.setInput( input );
 			getListenerElementVisitor( ).addListener( input );
 		}

@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.InsertCubeDialog;
 import org.eclipse.birt.report.designer.ui.extensions.ReportItemBuilderUI;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -41,30 +40,30 @@ public class CrosstabBuilder extends ReportItemBuilderUI
 	 */
 	public int open( ExtendedItemHandle handle )
 	{
-		InsertCubeDialog insertCubeDialog = new InsertCubeDialog( );
-		if ( insertCubeDialog.open( ) == Window.OK )
-		{
-			if ( insertCubeDialog.getResult( ) != null )
-			{
-				try
-				{
-					handle.setProperty( ICrosstabReportItemConstants.CUBE_PROP,
-							insertCubeDialog.getResult( ) );
-				}
-				catch ( SemanticException e )
-				{
-					ExceptionHandler.handle( e );
-				}
-			}
-			else
-			{
-				return Window.CANCEL;
-			}
-		}
-		else
-		{
-			return Window.CANCEL;
-		}
+//		InsertCubeDialog insertCubeDialog = new InsertCubeDialog( );
+//		if ( insertCubeDialog.open( ) == Window.OK )
+//		{
+//			if ( insertCubeDialog.getResult( ) != null )
+//			{
+//				try
+//				{
+//					handle.setProperty( ICrosstabReportItemConstants.CUBE_PROP,
+//							insertCubeDialog.getResult( ) );
+//				}
+//				catch ( SemanticException e )
+//				{
+//					ExceptionHandler.handle( e );
+//				}
+//			}
+//			else
+//			{
+//				return Window.CANCEL;
+//			}
+//		}
+//		else
+//		{
+//			return Window.CANCEL;
+//		}
 		return super.open( handle );
 	}
 

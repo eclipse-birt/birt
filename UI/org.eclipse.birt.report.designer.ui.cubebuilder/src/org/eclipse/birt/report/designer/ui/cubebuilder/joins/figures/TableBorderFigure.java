@@ -1,11 +1,13 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation and others. All rights reserved. This
- * program and the accompanying materials are made available under the terms of
- * the Eclipse Public License v1.0 which accompanies this distribution, and is
- * available at http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: Actuate Corporation - Initial implementation.
- ******************************************************************************/
+ * Copyright (c) 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures;
 
@@ -18,10 +20,11 @@ import org.eclipse.draw2d.TitleBarBorder;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Display;
 
 /**
- *  The Border used by the TableNodeFigure for representing a Table object
+ * The Border used by the TableNodeFigure for representing a Table object
  * 
  */
 public class TableBorderFigure extends CompoundBorder implements LabeledBorder
@@ -39,6 +42,14 @@ public class TableBorderFigure extends CompoundBorder implements LabeledBorder
 					ColorConstants.buttonDarker,
 					ColorConstants.button
 			} );
+
+	static final FontData fontData = Display.getCurrent( )
+			.getSystemFont( )
+			.getFontData( )[0];
+	static final Font selectedFont = new Font( Display.getCurrent( ),
+			fontData.getName( ),
+			fontData.getHeight( ),
+			SWT.BOLD );
 
 	public TableBorderFigure( )
 	{
@@ -72,6 +83,7 @@ public class TableBorderFigure extends CompoundBorder implements LabeledBorder
 				.getSystemColor( SWT.COLOR_TITLE_BACKGROUND_GRADIENT ) );
 		titleBar.setTextColor( Display.getCurrent( )
 				.getSystemColor( SWT.COLOR_TITLE_FOREGROUND ) );
+		titleBar.setFont( selectedFont );
 	}
 
 	public void setDeselectedColors( )
@@ -80,6 +92,8 @@ public class TableBorderFigure extends CompoundBorder implements LabeledBorder
 				.getSystemColor( SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT ) );
 		titleBar.setTextColor( Display.getCurrent( )
 				.getSystemColor( SWT.COLOR_TITLE_INACTIVE_FOREGROUND ) );
+		titleBar.setFont( Display.getCurrent( )
+				.getSystemFont( ) );
 	}
 
 }

@@ -9,27 +9,28 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts;
 
+import org.eclipse.birt.report.designer.ui.cubebuilder.joins.action.DeleteJoinAction;
+import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editpolicies.JoinSelectionEditPolicy;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.ColumnConnection;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
-import org.eclipse.birt.report.model.api.activity.NotificationEvent;
-import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 
-public class JoinConditionEditPart extends AbstractConnectionEditPart implements
-		Listener
+public class JoinConditionEditPart extends AbstractConnectionEditPart
 {
 
-	final static String REMOVEJOINT = "Remove Join";
+	private static final String SELECTION_POLICY = "Selection Policy";
 
 	/**
+	 * @param context
 	 * @param join
 	 */
-	public JoinConditionEditPart( DimensionJoinConditionHandle join )
+	public JoinConditionEditPart( EditPart context,
+			DimensionJoinConditionHandle join )
 	{
 		setModel( join );
+		setParent( context );
 	}
 
 	protected IFigure createFigure( )
@@ -37,64 +38,17 @@ public class JoinConditionEditPart extends AbstractConnectionEditPart implements
 		return new ColumnConnection( );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
-	 */
-	protected void refreshVisuals( )
-	{
-		ColumnConnection connection = (ColumnConnection) this.getFigure( );
-		connection.revalidate( );
-	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
-	 */
 	protected void createEditPolicies( )
 	{
-
-		installEditPolicy( EditPolicy.CONTAINER_ROLE,
-				new JoinConnectionEditPolicy( ) );
-		installEditPolicy( "Selection Policy", new JoinSelectionEditPolicy( ) );
+		installEditPolicy( SELECTION_POLICY, new JoinSelectionEditPolicy( ) );
 	}
 
-	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
+
+	public DeleteJoinAction getRemoveAction( )
 	{
-		// TODO Auto-generated method stub
-		
+		DeleteJoinAction removeAction = new DeleteJoinAction( this, getModel( ) );
+		return removeAction;
 	}
 
-	/**
-	 * Returns a Action for Deleting a Join.
-	 * 
-	 * @return
-	 */
-//	public DeleteJoinAction getRemoveAction( )
-//	{
-//		Query queryElement = (Query) ( GraphicalViewerUtil.getQueryEditPart( this ) ).getModel( );
-//		DeleteJoinAction removeAction = new DeleteJoinAction( queryElement,
-//				this,
-//				getModel( ) );
-////		Object selection = this.getModel( );
-//		return removeAction;
-//	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.data.oda.jdbc.ui.model.activity.Listener#elementChanged(org.eclipse.birt.report.data.oda.jdbc.ui.model.DesignElement,
-	 *      org.eclipse.birt.report.data.oda.jdbc.ui.editors.graphical.command.NotificationEvent)
-	 */
-//	public void elementChanged( BaseDataSourceElement focus,
-//			NotificationEvent ev )
-//	{
-//		if ( ev instanceof JoinCreationEvent )
-//		{
-//			refreshVisuals( );
-//			refresh( );
-//		}
-//
-//	}
 }
-

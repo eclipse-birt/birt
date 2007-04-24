@@ -12,7 +12,7 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.joins.commands;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.ColumnEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.DatasetNodeEditPart;
-import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.TableNodeEditPart;
+import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.HierarchyNodeEditPart;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -20,7 +20,6 @@ import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
 
 /**
  * 
@@ -78,7 +77,7 @@ public class AddJoinConditionCommand extends Command
 		joinCondition.setCubeKey( target.getColumnName( ) );
 		joinCondition.setHierarchyKey( source.getColumnName( ) );
 
-		TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) ( (TableNodeEditPart) source.getParent( ) ).getModel( );
+		TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) ( (HierarchyNodeEditPart) source.getParent( ) ).getModel( );
 
 		try
 		{

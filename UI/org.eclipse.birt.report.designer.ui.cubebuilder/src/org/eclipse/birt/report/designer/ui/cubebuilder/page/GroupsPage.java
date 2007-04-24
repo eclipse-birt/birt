@@ -14,7 +14,6 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionPropertyPage;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
-import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -36,7 +35,7 @@ public class GroupsPage extends AbstractDescriptionPropertyPage
 
 	public Control createContents( Composite parent )
 	{
-		cubeGroup = new CubeGroupContent( builder,parent, SWT.NONE );
+		cubeGroup = new CubeGroupContent( builder, parent, SWT.NONE );
 		return cubeGroup;
 	}
 
@@ -54,14 +53,8 @@ public class GroupsPage extends AbstractDescriptionPropertyPage
 	{
 		if ( input != null )
 		{
-			cubeGroup.setInput( input,((TabularCubeHandle)input).getDataSet( ));
+			cubeGroup.setInput( input, null );
 			cubeGroup.load( );
 		};
 	}
-
-	public void dispose( )
-	{
-
-	}
-
 }

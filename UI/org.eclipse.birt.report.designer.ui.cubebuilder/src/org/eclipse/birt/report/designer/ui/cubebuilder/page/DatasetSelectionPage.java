@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 
 import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionPropertyPage;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.JointDatasetsDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -21,7 +20,6 @@ import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.dialogs.IMessageProvider;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -119,46 +117,12 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				JointDatasetsDialog dialog = new JointDatasetsDialog( );
-				dialog.setInput( (TabularCubeHandle)input );
-				if ( dialog.open( ) == Window.OK )
-				{
-					// input.setDataFilter((DatasetFilter)dialog.getResult( ));
-				}
-			}
-
-		} );
-
-		new Label( container, SWT.NONE );
-
-		Button addButton = new Button( container, SWT.PUSH );
-		addButton.setText( Messages.getString( "DatasetPage.Button.Joint" ) );
-		GridData gd = new GridData( );
-		gd.widthHint = Math.max( 90, addButton.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT ).x );
-		gd.horizontalSpan = 2;
-		addButton.setLayoutData( gd );
-
-		addButton.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				// JointDatasetsDialog dialog = new JointDatasetsDialog( "Joint
-				// Datasets" );
-				// dialog.setInput(
-				// DataMock.getInstance(),input.getAvailableDatasets( ) );
-				// if ( dialog.open( ) == Window.OK )
-				// {
-				// Dataset[] datasets = (Dataset[] )dialog.getResult( );
-				// input.addDatasets( datasets );
-				// }
 
 			}
 
 		} );
 
-		filterButton.setEnabled( true );
-		addButton.setEnabled( false );
+		filterButton.setEnabled( false );
 		return container;
 	}
 
@@ -193,12 +157,6 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 				nameText.setText( input.getName( ) );
 			refresh( );
 		}
-	}
-
-	public void dispose( )
-	{
-		// TODO Auto-generated method stub
-
 	}
 
 }
