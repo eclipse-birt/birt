@@ -37,6 +37,11 @@ class CubeQueryValidator
 	static void validateCubeQueryDefinition( BirtCubeView view, ICube cube,
 			CalculatedMember[] calculatedMember ) throws DataException
 	{
+		if ( view.getColumnEdgeView( ) == null
+				&& view.getRowEdgeView( ) == null )
+		{
+			throw new DataException( ResourceConstants.NO_EDGEDEFN_FOUND );
+		}
 		if ( view.getColumnEdgeView( ) != null )
 		{
 			validateOnEdgeDefinition( cube, view.getColumnEdgeView( ) );
