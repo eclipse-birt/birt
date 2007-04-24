@@ -105,20 +105,22 @@ public class ModelUtil
 
 	/**
 	 * Transfer Css Style to Customer Style.
+	 * 
 	 * @param module
 	 * @param cssStyleHandle
 	 * @return
 	 */
-	public static SharedStyleHandle TransferCssStyleToSharedStyle( Module module , SharedStyleHandle cssStyleHandle )
+	public static SharedStyleHandle TransferCssStyleToSharedStyle(
+			Module module, SharedStyleHandle cssStyleHandle )
 	{
-		if( cssStyleHandle == null )
+		if ( cssStyleHandle == null )
 			return null;
 		Style newStyle = new Style( cssStyleHandle.getName( ) );
 		SharedStyleHandle styleHandle = newStyle.handle( module );
-		duplicateProperties( cssStyleHandle , styleHandle , false );
+		duplicateProperties( cssStyleHandle, styleHandle, false );
 		return styleHandle;
 	}
-	
+
 	/**
 	 * Checks all style names in styles list exist in styleList or not
 	 * 
@@ -1020,6 +1022,40 @@ public class ModelUtil
 		// use static text.
 
 		return element.getStringProperty( element.getRoot( ), propName );
+	}
+
+	/**
+	 * Returns externalized value.
+	 * 
+	 * @param module
+	 *            module
+	 * @param structure
+	 *            structure.
+	 * @param propIDName
+	 *            ID of property
+	 * @param propName
+	 *            Name of property
+	 * @param locale
+	 *            the locale
+	 * @return externalized value.
+	 */
+
+	public static String getExternalizedStructValue( Module module,
+			IStructure structure, String propIDName, String propName,
+			ULocale locale )
+	{
+		if ( structure == null )
+			return null;
+
+		String textKey = (String) structure.getProperty( module, propIDName );
+		if ( !StringUtil.isBlank( textKey ) )
+		{
+			String externalizedText = module.getMessage( textKey, locale );
+			if ( !StringUtil.isBlank( externalizedText ) )
+				return externalizedText;
+		}
+
+		return (String) structure.getProperty( module, propName );
 	}
 
 	/**

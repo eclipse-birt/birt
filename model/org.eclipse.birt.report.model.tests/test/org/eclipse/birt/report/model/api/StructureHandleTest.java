@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
+import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyMask;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
@@ -33,7 +34,11 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
 import org.eclipse.birt.report.model.elements.SimpleDataSet;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
+import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.util.BaseTestCase;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Tests the all structure operation and demos. The structure operations include
@@ -483,6 +488,35 @@ public class StructureHandleTest extends BaseTestCase
 		assertEquals( 1, value.size( ) );
 		assertEquals( sHandle2.getStructure( ), value.get( 0 ) );
 
+	}
+
+	/**
+	 * Test getExternalizedValue method.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testGetExternalizedText( ) throws Exception
+	{
+		openDesign( "StructureHandleTest.xml" );//$NON-NLS-1$
+
+		TableHandle tableHandle = (TableHandle) designHandle.getBody( ).get( 0 );
+		PropertyHandle propHandle = tableHandle
+				.getPropertyHandle( IStyleModel.MAP_RULES_PROP );
+
+		ThreadResources.setLocale( new ULocale( "en" ) ); //$NON-NLS-1$
+
+		MapRuleHandle structHandle = (MapRuleHandle) propHandle.get( 0 );
+		String value = structHandle.getExternalizedValue(
+				MapRule.DISPLAY_ID_MEMBER, MapRule.DISPLAY_MEMBER );
+		assertEquals( "en", value ); //$NON-NLS-1$
+
+		ThreadResources.setLocale( new ULocale( "en_US" ) );//$NON-NLS-1$
+
+		structHandle = (MapRuleHandle) propHandle.get( 0 );
+		value = structHandle.getExternalizedValue( MapRule.DISPLAY_ID_MEMBER,
+				MapRule.DISPLAY_MEMBER );
+		assertEquals( "en_US", value ); //$NON-NLS-1$
 	}
 
 }
