@@ -85,6 +85,7 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
+import org.eclipse.birt.report.service.api.InputOptions;
 import org.eclipse.birt.report.soapengine.api.Column;
 import org.eclipse.birt.report.soapengine.api.ResultSet;
 import org.eclipse.birt.report.utility.BirtUtility;
@@ -357,6 +358,7 @@ public class ReportEngineService
 	 * createGetParameterDefinitionTask.
 	 * 
 	 * @param runnable
+	 * @deprecated
 	 * @return the get parameter definition task
 	 */
 	public IGetParameterDefinitionTask createGetParameterDefinitionTask(
@@ -367,6 +369,36 @@ public class ReportEngineService
 		try
 		{
 			task = engine.createGetParameterDefinitionTask( runnable );
+		}
+		catch ( Exception e )
+		{
+		}
+
+		return task;
+	}
+
+	/**
+	 * createGetParameterDefinitionTask.
+	 * 
+	 * @param runnable
+	 * @return the get parameter definition task
+	 */
+	public IGetParameterDefinitionTask createGetParameterDefinitionTask(
+			IReportRunnable runnable, InputOptions options )
+	{
+		IGetParameterDefinitionTask task = null;
+
+		try
+		{
+			HttpServletRequest request = (HttpServletRequest) options
+					.getOption( InputOptions.OPT_REQUEST );
+
+			task = engine.createGetParameterDefinitionTask( runnable );
+
+			// set app context
+			Map context = BirtUtility.getAppContext( request,
+					ReportEngineService.class.getClassLoader( ) );
+			task.setAppContext( context );
 		}
 		catch ( Exception e )
 		{
@@ -631,25 +663,9 @@ public class ReportEngineService
 			}
 		}
 
-		HashMap context = new HashMap( );
-
-		// context.put(DataEngine.DATASET_CACHE_OPTION, Boolean.TRUE )running in
-		// designer enviroment; if running in deployment, set it to false
-		Boolean isDesigner = Boolean.valueOf( ParameterAccessor
-				.isDesigner( request ) );
-		context.put( "org.eclipse.birt.data.engine.dataset.cache.option", //$NON-NLS-1$
-				isDesigner );
-		context.put( EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST,
-				request );
-		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
+		// set app context
+		Map context = BirtUtility.getAppContext( request,
 				ReportEngineService.class.getClassLoader( ) );
-
-		// Client DPI setting
-		context.put( EngineConstants.APPCONTEXT_CHART_RESOLUTION,
-				ParameterAccessor.getDpi( request ) );
-
-		// Push user-defined application context
-		ParameterAccessor.pushAppContext( context, request );
 		runAndRenderTask.setAppContext( context );
 
 		// Render options
@@ -660,7 +676,7 @@ public class ReportEngineService
 							.equalsIgnoreCase( format ) )
 			{
 				renderOption = createPDFRenderOption( servletPath, request,
-						isDesigner.booleanValue( ) );
+						ParameterAccessor.isDesigner( request ) );
 			}
 			else
 			{
@@ -816,22 +832,9 @@ public class ReportEngineService
 			}
 		}
 
-		HashMap context = new HashMap( );
-		// context.put(DataEngine.DATASET_CACHE_OPTION, Boolean.TRUE )running in
-		// designer enviroment; if running in deployment, set it to false
-		Boolean isDesigner = Boolean.valueOf( ParameterAccessor
-				.isDesigner( request ) );
-		context
-				.put(
-						"org.eclipse.birt.data.engine.dataset.cache.option", isDesigner ); //$NON-NLS-1$
-		context.put( EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST,
-				request );
-		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
+		// set app context
+		Map context = BirtUtility.getAppContext( request,
 				ReportEngineService.class.getClassLoader( ) );
-
-		// Push user-defined application context
-		ParameterAccessor.pushAppContext( context, request );
-
 		runTask.setAppContext( context );
 
 		// Run report.
@@ -987,18 +990,9 @@ public class ReportEngineService
 		// add task into session
 		BirtUtility.addTask( request, renderTask );
 
-		HashMap context = new HashMap( );
-		context.put( EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST,
-				request );
-		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
+		// set app context
+		Map context = BirtUtility.getAppContext( request,
 				ReportEngineService.class.getClassLoader( ) );
-
-		// Client DPI setting
-		context.put( EngineConstants.APPCONTEXT_CHART_RESOLUTION,
-				ParameterAccessor.getDpi( request ) );
-
-		// Push user-defined application context
-		ParameterAccessor.pushAppContext( context, request );
 		renderTask.setAppContext( context );
 
 		RenderOption renderOption = null;

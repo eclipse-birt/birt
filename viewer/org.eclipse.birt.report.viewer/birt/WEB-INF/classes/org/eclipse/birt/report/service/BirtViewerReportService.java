@@ -711,7 +711,7 @@ public class BirtViewerReportService implements IViewerReportService
 			IReportRunnable runnable = (IReportRunnable) design
 					.getDesignObject( );
 			task = ReportEngineService.getInstance( )
-					.createGetParameterDefinitionTask( runnable );
+					.createGetParameterDefinitionTask( runnable, options );
 		}
 		else
 		{
@@ -961,7 +961,8 @@ public class BirtViewerReportService implements IViewerReportService
 				.getInstance( )
 				.openReportDesign( reportDesignName, getModuleOptions( options ) );
 		IGetParameterDefinitionTask paramTask = ReportEngineService
-				.getInstance( ).createGetParameterDefinitionTask( runnable );
+				.getInstance( ).createGetParameterDefinitionTask( runnable,
+						options );
 		return paramTask;
 	}
 

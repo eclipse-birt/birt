@@ -38,6 +38,7 @@ import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.context.BaseTaskBean;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
+import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
@@ -858,5 +859,34 @@ public class BirtUtility
 		}
 
 		return style;
+	}
+
+	/**
+	 * Returns app context
+	 * 
+	 * @param request
+	 * @param loader
+	 * @return
+	 */
+	public static Map getAppContext( HttpServletRequest request,
+			ClassLoader loader )
+	{
+		HashMap context = new HashMap( );
+		Boolean isDesigner = Boolean.valueOf( ParameterAccessor
+				.isDesigner( request ) );
+		context.put( "org.eclipse.birt.data.engine.dataset.cache.option", //$NON-NLS-1$
+				isDesigner );
+		context.put( EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST,
+				request );
+		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY, loader );
+
+		// Client DPI setting
+		context.put( EngineConstants.APPCONTEXT_CHART_RESOLUTION,
+				ParameterAccessor.getDpi( request ) );
+
+		// Push user-defined application context
+		ParameterAccessor.pushAppContext( context, request );
+
+		return context;
 	}
 }
