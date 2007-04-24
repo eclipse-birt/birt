@@ -29,6 +29,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
@@ -763,7 +764,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 		{
 			measures.add( getMeasure( i ) );
 			// TODO should use default function.
-			functions.add( null );
+			functions.add( DesignChoiceConstants.MEASURE_FUNCTION_SUM );
 		}
 
 		return addGrandTotal( axisType, measures, functions );

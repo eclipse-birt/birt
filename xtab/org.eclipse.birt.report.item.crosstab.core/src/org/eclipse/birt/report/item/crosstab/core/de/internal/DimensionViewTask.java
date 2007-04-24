@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
-import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
@@ -41,10 +40,10 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 	 * 
 	 * @param focus
 	 */
-	public DimensionViewTask( AbstractCrosstabItemHandle focus )
+	public DimensionViewTask( DimensionViewHandle focus )
 	{
 		super( focus );
-		this.dimensionView = (DimensionViewHandle) focus;
+		this.dimensionView = focus;
 	}
 
 	/**
@@ -93,9 +92,10 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 		}
 
 		CommandStack stack = dimensionView.getCommandStack( );
-		stack.startTrans( null );
+		stack.startTrans( Messages.getString( "DimensionViewTask.msg.insert.level" ) ); //$NON-NLS-1$
 
 		LevelViewHandle levelView = null;
+
 		try
 		{
 			ExtendedItemHandle extendedItemHandle = CrosstabExtendedItemFactory.createLevelView( dimensionView.getModuleHandle( ),
@@ -108,15 +108,10 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 				levelView = (LevelViewHandle) CrosstabUtil.getReportItem( extendedItemHandle,
 						LEVEL_VIEW_EXTENSION_NAME );
 
-				// if level handle is specified, then adjust aggregations
-				if ( levelHandle != null )
+				// if level handle is specified, do some post work after adding
+				if ( levelHandle != null && crosstab != null )
 				{
-					// if this level is innermost, then we should do some
-					// adjustments, otherwise we need do nothing
-					if ( crosstab != null )
-					{
-						doPostInsert( levelView );
-					}
+					doPostInsert( levelView );
 				}
 			}
 		}
@@ -149,6 +144,7 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 				// add aggregations for this level and all counter
 				// axis type levels except the innermost one
 				addAggregationForLevel( levelView, axisType );
+
 				if ( crosstab.getGrandTotal( axisType ) == null )
 				{
 					removeMeasureAggregations( axisType );
@@ -194,6 +190,10 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 								precedingLevel.getCubeLevelName( ),
 								measureList,
 								functionList );
+					}
+					else
+					{
+						// TODO add dummy grandtotal???
 					}
 				}
 				else
@@ -387,7 +387,7 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 		LevelViewHandle levelView = dimensionView.getLevel( name );
 		if ( levelView != null )
 		{
-			removeLevel( levelView );
+			removeLevel( levelView, true );
 		}
 	}
 
@@ -396,12 +396,18 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 	 * @param levelView
 	 * @throws SemanticException
 	 */
-	private void removeLevel( LevelViewHandle levelView )
+	void removeLevel( LevelViewHandle levelView, boolean needTransaction )
 			throws SemanticException
 	{
 		assert levelView != null;
-		CommandStack stack = dimensionView.getCommandStack( );
-		stack.startTrans( Messages.getString( "DimensionViewTask.msg.remove.level" ) ); //$NON-NLS-1$
+
+		CommandStack stack = null;
+
+		if ( needTransaction )
+		{
+			stack = dimensionView.getCommandStack( );
+			stack.startTrans( Messages.getString( "DimensionViewTask.msg.remove.level" ) ); //$NON-NLS-1$
+		}
 
 		try
 		{
@@ -416,11 +422,18 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 		}
 		catch ( SemanticException e )
 		{
-			stack.rollback( );
+			if ( needTransaction )
+			{
+				stack.rollback( );
+			}
+
 			throw e;
 		}
 
-		stack.commit( );
+		if ( needTransaction )
+		{
+			stack.commit( );
+		}
 	}
 
 	/**
@@ -436,7 +449,7 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 		LevelViewHandle levelView = dimensionView.getLevel( index );
 		if ( levelView != null )
 		{
-			removeLevel( levelView );
+			removeLevel( levelView, true );
 		}
 	}
 
@@ -508,11 +521,12 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 				// grand-total, then we should add aggregations for the empty
 				// axis
 				if ( crosstab.getGrandTotal( axisType ) == null )
+				{
 					addAggregationForLevel( null, axisType );
+				}
 
 				// remove aggregations related with the level view
 				removeMeasureAggregations( levelView );
-
 			}
 			else
 			{
@@ -530,8 +544,20 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 							counterAxisType );
 					if ( innerMostLevelView != null )
 					{
+						// remove aggregation with innermost level on counter
+						// axis, since this will become the detail cell
 						removeMeasureAggregation( precedingLevel,
 								innerMostLevelView );
+
+						// remove the aggregation header cell since now it
+						// becomes innermost
+						precedingLevel.getAggregationHeaderProperty( ).drop( 0 );
+					}
+					else
+					{
+						// no levels on counter axis, we should remove subtotal
+						// for the new innermost level
+						precedingLevel.removeSubTotal( );
 					}
 				}
 				else
@@ -550,7 +576,7 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 		else
 		{
 			// if the added level view is not innermost and has
-			// aggregation header, then add aggregations for this
+			// aggregation header, then remove aggregations for this
 			// level view and all counterpart axis levels and grand
 			// total
 			if ( levelView.getAggregationHeader( ) != null )

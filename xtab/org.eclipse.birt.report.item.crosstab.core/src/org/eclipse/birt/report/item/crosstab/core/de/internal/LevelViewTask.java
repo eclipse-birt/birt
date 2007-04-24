@@ -16,7 +16,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 
-import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
@@ -39,10 +38,22 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 	 * @param theCrosstab
 	 * @param levelView
 	 */
-	public LevelViewTask( AbstractCrosstabItemHandle levelView )
+	public LevelViewTask( LevelViewHandle levelView )
 	{
 		super( levelView );
-		this.focus = (LevelViewHandle) levelView;
+		this.focus = levelView;
+	}
+
+	/**
+	 * @param measureList
+	 * @param functionList
+	 * @return
+	 * @throws SemanticException
+	 */
+	public CrosstabCellHandle addSubTotal( List measureList, List functionList )
+			throws SemanticException
+	{
+		return addSubTotal( measureList, functionList, true );
 	}
 
 	/**
@@ -53,8 +64,8 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 	 * @return
 	 * @throws SemanticException
 	 */
-	public CrosstabCellHandle addSubTotal( List measureList, List functionList )
-			throws SemanticException
+	CrosstabCellHandle addSubTotal( List measureList, List functionList,
+			boolean needTransaction ) throws SemanticException
 	{
 		if ( focus == null || !isValidParameters( functionList, measureList ) )
 			return null;
@@ -77,8 +88,13 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 					.log( Level.INFO, "the aggregation header is set" ); //$NON-NLS-1$
 		}
 
-		CommandStack stack = focus.getCommandStack( );
-		stack.startTrans( Messages.getString( "LevelViewTask.msg.add.subtotal" ) ); //$NON-NLS-1$
+		CommandStack stack = null;
+		if ( needTransaction )
+		{
+			stack = focus.getCommandStack( );
+			stack.startTrans( Messages.getString( "LevelViewTask.msg.add.subtotal" ) ); //$NON-NLS-1$
+		}
+
 		try
 		{
 			if ( focus.getAggregationHeader( ) == null )
@@ -96,11 +112,20 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 		catch ( SemanticException e )
 		{
 			focus.getLogger( ).log( Level.WARNING, e.getMessage( ), e );
-			stack.rollback( );
+
+			if ( needTransaction )
+			{
+				stack.rollback( );
+			}
+
 			throw e;
 		}
 
-		stack.commit( );
+		if ( needTransaction )
+		{
+			stack.commit( );
+		}
+
 		return focus.getAggregationHeader( );
 	}
 

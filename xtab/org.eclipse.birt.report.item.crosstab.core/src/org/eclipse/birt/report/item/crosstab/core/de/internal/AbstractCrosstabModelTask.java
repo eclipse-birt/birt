@@ -42,63 +42,6 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 		this.crosstab = focus.getCrosstab( );
 	}
 
-	class AggregationInfo
-	{
-
-		String rowDimension = null;
-		String rowLevel = null;
-		String colDimension = null;
-		String colLevel = null;
-
-		/**
-		 * 
-		 * @param rowDimension
-		 * @param rowLevel
-		 * @param colDimension
-		 * @param colLevel
-		 */
-		public AggregationInfo( String rowDimension, String rowLevel,
-				String colDimension, String colLevel )
-		{
-			this.rowDimension = rowDimension;
-			this.rowLevel = rowLevel;
-			this.colDimension = colDimension;
-			this.colLevel = colLevel;
-		}
-
-		/**
-		 * @return the rowDimension
-		 */
-		public String getRowDimension( )
-		{
-			return rowDimension;
-		}
-
-		/**
-		 * @return the rowLevel
-		 */
-		public String getRowLevel( )
-		{
-			return rowLevel;
-		}
-
-		/**
-		 * @return the colDimension
-		 */
-		public String getColDimension( )
-		{
-			return colDimension;
-		}
-
-		/**
-		 * @return the colLevel
-		 */
-		public String getColLevel( )
-		{
-			return colLevel;
-		}
-	}
-
 	protected AggregationInfo getAggregationInfo(
 			LevelViewHandle leftLevelView, LevelViewHandle rightLevelView )
 	{
@@ -623,13 +566,14 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 			// }
 			// }
 
-			boolean isInnerMost = levelView != null ? levelView.isInnerMost( )
-					: false;
-
-			if ( isInnerMost )
-			{
-				return true;
-			}
+			// boolean isInnerMost = levelView != null ? levelView.isInnerMost(
+			// )
+			// : false;
+			//
+			// if ( isInnerMost )
+			// {
+			// return true;
+			// }
 
 			if ( axisType == ROW_AXIS_TYPE )
 			{
@@ -1071,4 +1015,65 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 
 		}
 	}
+
+	/**
+	 * AggregationInfo
+	 */
+	class AggregationInfo
+	{
+
+		String rowDimension = null;
+		String rowLevel = null;
+		String colDimension = null;
+		String colLevel = null;
+
+		/**
+		 * 
+		 * @param rowDimension
+		 * @param rowLevel
+		 * @param colDimension
+		 * @param colLevel
+		 */
+		public AggregationInfo( String rowDimension, String rowLevel,
+				String colDimension, String colLevel )
+		{
+			this.rowDimension = rowDimension;
+			this.rowLevel = rowLevel;
+			this.colDimension = colDimension;
+			this.colLevel = colLevel;
+		}
+
+		/**
+		 * @return the rowDimension
+		 */
+		public String getRowDimension( )
+		{
+			return rowDimension;
+		}
+
+		/**
+		 * @return the rowLevel
+		 */
+		public String getRowLevel( )
+		{
+			return rowLevel;
+		}
+
+		/**
+		 * @return the colDimension
+		 */
+		public String getColDimension( )
+		{
+			return colDimension;
+		}
+
+		/**
+		 * @return the colLevel
+		 */
+		public String getColLevel( )
+		{
+			return colLevel;
+		}
+	}
+
 }

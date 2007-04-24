@@ -15,11 +15,11 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
-import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.i18n.MessageConstants;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
@@ -41,10 +41,10 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 	 * 
 	 * @param focus
 	 */
-	public CrosstabViewTask( AbstractCrosstabItemHandle focus )
+	public CrosstabViewTask( CrosstabViewHandle focus )
 	{
 		super( focus );
-		crosstabView = (CrosstabViewHandle) focus;
+		crosstabView = focus;
 	}
 
 	/**
@@ -57,6 +57,12 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 	public CrosstabCellHandle addGrandTotal( List measureList, List functionList )
 			throws SemanticException
 	{
+		return addGrandTotal( measureList, functionList, true );
+	}
+
+	CrosstabCellHandle addGrandTotal( List measureList, List functionList,
+			boolean needTransaction ) throws SemanticException
+	{
 		if ( !isValidParameters( functionList, measureList ) )
 			return null;
 
@@ -66,8 +72,13 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 
 		PropertyHandle propHandle = crosstabView.getGrandTotalProperty( );
 
-		CommandStack stack = crosstabView.getCommandStack( );
-		stack.startTrans( Messages.getString( "CrosstabViewTask.msg.add.grandtotal" ) ); //$NON-NLS-1$
+		CommandStack stack = null;
+
+		if ( needTransaction )
+		{
+			stack = crosstabView.getCommandStack( );
+			stack.startTrans( Messages.getString( "CrosstabViewTask.msg.add.grandtotal" ) ); //$NON-NLS-1$
+		}
 
 		CrosstabCellHandle totalCell = null;
 
@@ -97,11 +108,19 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 		catch ( SemanticException e )
 		{
 			crosstabView.getLogger( ).log( Level.INFO, e.getMessage( ), e );
-			stack.rollback( );
+
+			if ( needTransaction )
+			{
+				stack.rollback( );
+			}
+
 			throw e;
 		}
 
-		stack.commit( );
+		if ( needTransaction )
+		{
+			stack.commit( );
+		}
 
 		return totalCell;
 	}
@@ -112,12 +131,26 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 	 */
 	public void removeGrandTotal( ) throws SemanticException
 	{
+		removeGrandTotal( true );
+	}
+
+	/**
+	 * Removes grand total from crosstab if it is not empty, otherwise do
+	 * nothing.
+	 */
+	void removeGrandTotal( boolean needTransaction ) throws SemanticException
+	{
 		PropertyHandle propHandle = crosstabView.getGrandTotalProperty( );
 
 		if ( propHandle.getContentCount( ) > 0 )
 		{
-			CommandStack stack = crosstabView.getCommandStack( );
-			stack.startTrans( Messages.getString( "CrosstabViewTask.msg.remove.grandtotal" ) ); //$NON-NLS-1$
+			CommandStack stack = null;
+
+			if ( needTransaction )
+			{
+				stack = crosstabView.getCommandStack( );
+				stack.startTrans( Messages.getString( "CrosstabViewTask.msg.remove.grandtotal" ) ); //$NON-NLS-1$
+			}
 
 			try
 			{
@@ -137,11 +170,19 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 			catch ( SemanticException e )
 			{
 				crosstabView.getLogger( ).log( Level.INFO, e.getMessage( ), e );
-				stack.rollback( );
+
+				if ( needTransaction )
+				{
+					stack.rollback( );
+				}
+
 				throw e;
 			}
 
-			stack.commit( );
+			if ( needTransaction )
+			{
+				stack.commit( );
+			}
 		}
 	}
 
@@ -171,7 +212,7 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 			}, MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND );
 		}
 
-		removeDimension( dimensionView );
+		removeDimension( dimensionView, true );
 	}
 
 	/**
@@ -192,23 +233,29 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 			return;
 		}
 
-		removeDimension( dimensionView );
+		removeDimension( dimensionView, true );
 	}
 
-	/**
-	 * 
-	 * @param dimensionView
-	 * @throws SemanticException
-	 */
 	public void removeDimension( DimensionViewHandle dimensionView )
 			throws SemanticException
+	{
+		removeDimension( dimensionView, true );
+	}
+
+	void removeDimension( DimensionViewHandle dimensionView,
+			boolean needTransaction ) throws SemanticException
 	{
 		if ( dimensionView == null
 				|| dimensionView.getContainer( ) != crosstabView )
 			return;
 
-		CommandStack stack = crosstabView.getCommandStack( );
-		stack.startTrans( Messages.getString( "CrosstabViewTask.msg.remove.dimension" ) ); //$NON-NLS-1$
+		CommandStack stack = null;
+
+		if ( needTransaction )
+		{
+			stack = crosstabView.getCommandStack( );
+			stack.startTrans( Messages.getString( "CrosstabViewTask.msg.remove.dimension" ) ); //$NON-NLS-1$
+		}
 
 		int count = dimensionView.getLevelCount( );
 
@@ -218,27 +265,41 @@ public class CrosstabViewTask extends AbstractCrosstabModelTask
 			// the design tree, the order can not reversed
 			if ( crosstab != null )
 			{
+				DimensionViewTask dimTask = new DimensionViewTask( dimensionView );
+
 				for ( int i = 0; i < count; i++ )
 				{
-					dimensionView.removeLevel( 0 );
+					LevelViewHandle lv = dimensionView.getLevel( 0 );
+
+					if ( lv != null )
+					{
+						dimTask.removeLevel( lv, false );
+					}
 				}
 			}
 
 			dimensionView.getModelHandle( ).drop( );
 
-			// check if all dimensions are removed, we need remove grand total
-			// on the axis
+			// check if all dimensions are removed in current view, we need to
+			// remove grand total on this axis
 			if ( crosstabView.getDimensionCount( ) == 0 )
 			{
-				crosstabView.removeGrandTotal( );
+				removeGrandTotal( false );
 			}
 		}
 		catch ( SemanticException e )
 		{
-			stack.rollback( );
+			if ( needTransaction )
+			{
+				stack.rollback( );
+			}
+
 			throw e;
 		}
 
-		stack.commit( );
+		if ( needTransaction )
+		{
+			stack.commit( );
+		}
 	}
 }

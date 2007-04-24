@@ -19,7 +19,6 @@ import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
-import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
@@ -44,10 +43,10 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 	 * 
 	 * @param focus
 	 */
-	public CrosstabReportItemTask( AbstractCrosstabItemHandle focus )
+	public CrosstabReportItemTask( CrosstabReportItemHandle focus )
 	{
 		super( focus );
-		this.crosstab = (CrosstabReportItemHandle) focus;
+		this.crosstab = focus;
 	}
 
 	/**
@@ -78,7 +77,9 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 				crosstabView = crosstab.addCrosstabView( axisType );
 			}
 
-			grandTotal = crosstabView.addGrandTotal( measureList, functionList );
+			grandTotal = new CrosstabViewTask( crosstabView ).addGrandTotal( measureList,
+					functionList,
+					false );
 		}
 		catch ( SemanticException e )
 		{
@@ -271,6 +272,7 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 	{
 		assert dimensionView != null;
 
+		// record existing aggregation info from source dimension
 		Map functionListMap = new HashMap( );
 		Map measureListMap = new HashMap( );
 		for ( int i = 0; i < dimensionView.getLevelCount( ); i++ )
@@ -295,38 +297,151 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 			measureListMap.put( name, measureList );
 		}
 
+		// have a copy for source dimension
 		DimensionViewHandle clonedDimensionView = (DimensionViewHandle) CrosstabUtil.getReportItem( dimensionView.getModelHandle( )
 				.copy( )
 				.getHandle( dimensionView.getModelHandle( ).getModule( ) ) );
+
 		CommandStack stack = crosstab.getCommandStack( );
 		stack.startTrans( Messages.getString( "CrosstabReportItemTask.msg.pivot.dimension" ) ); //$NON-NLS-1$
 
 		try
 		{
-			CrosstabViewHandle crosstabView = (CrosstabViewHandle) dimensionView.getContainer( );
-			new CrosstabViewTask( crosstabView ).removeDimension( dimensionView );
+			CrosstabViewHandle srcCrosstabView = (CrosstabViewHandle) dimensionView.getContainer( );
+			new CrosstabViewTask( srcCrosstabView ).removeDimension( dimensionView,
+					false );
 
-			// if target crosstab view is null, generate it
-			crosstabView = crosstab.getCrosstabView( targetAxisType );
-			if ( crosstabView == null )
+			// if target crosstab view is null, add it first
+			CrosstabViewHandle targetCrosstabView = crosstab.getCrosstabView( targetAxisType );
+			if ( targetCrosstabView == null )
 			{
-				crosstabView = crosstab.addCrosstabView( targetAxisType );
+				targetCrosstabView = crosstab.addCrosstabView( targetAxisType );
 			}
-			crosstabView.getViewsProperty( )
+
+			List transferMeasureList = new ArrayList( );
+			List transferFunctionList = new ArrayList( );
+
+			// check if target view is empty and no grandtotal defined, then
+			// remove dummy grandtotal from original view
+			if ( targetCrosstabView.getDimensionCount( ) == 0
+					&& targetCrosstabView.getGrandTotal( ) == null )
+			{
+				// remove dummy grandtotal cells on remained subtotal from
+				// source view
+				for ( int i = 0; i < srcCrosstabView.getDimensionCount( ); i++ )
+				{
+					DimensionViewHandle dv = srcCrosstabView.getDimension( i );
+
+					for ( int j = 0; j < dv.getLevelCount( ); j++ )
+					{
+						LevelViewHandle lv = dv.getLevel( j );
+
+						if ( lv.getAggregationHeader( ) != null )
+						{
+							for ( int k = 0; k < crosstab.getMeasureCount( ); k++ )
+							{
+								MeasureViewHandle mv = crosstab.getMeasure( k );
+
+								String rowDimension = null;
+								String rowLevel = null;
+								String colDimension = dv.getCubeDimensionName( );
+								String colLevel = lv.getCubeLevelName( );
+
+								if ( srcCrosstabView.getAxisType( ) == ROW_AXIS_TYPE )
+								{
+									rowDimension = colDimension;
+									rowLevel = colLevel;
+									colDimension = null;
+									colLevel = null;
+								}
+
+								AggregationCellHandle aggCell = mv.getAggregationCell( rowDimension,
+										rowLevel,
+										colDimension,
+										colLevel );
+
+								if ( aggCell != null )
+								{
+									aggCell.getModelHandle( ).drop( );
+								}
+							}
+						}
+					}
+				}
+
+				// transfer dummy grandtotal cells on source grandtotal to
+				// target view
+				if ( srcCrosstabView.getGrandTotal( ) != null )
+				{
+
+					for ( int i = 0; i < crosstab.getMeasureCount( ); i++ )
+					{
+						MeasureViewHandle mv = crosstab.getMeasure( i );
+
+						AggregationCellHandle aggCell = mv.getAggregationCell( null,
+								null,
+								null,
+								null );
+
+						if ( aggCell != null )
+						{
+							String function = getAggregationFunction( srcCrosstabView.getAxisType( ),
+									mv );
+
+							aggCell.getModelHandle( ).drop( );
+
+							// record the grandtotal cell need to be transfered
+							transferMeasureList.add( mv );
+							transferFunctionList.add( function );
+						}
+					}
+				}
+			}
+
+			targetCrosstabView.getViewsProperty( )
 					.add( clonedDimensionView.getModelHandle( ), targetIndex );
 
-			// add all the aggregations
+			// transfer pervious recorded grandtotal for target view
+			if ( transferMeasureList.size( ) > 0
+					&& clonedDimensionView.getLevelCount( ) > 0 )
+			{
+				addMeasureAggregations( clonedDimensionView.getLevel( 0 ),
+						transferMeasureList,
+						transferFunctionList,
+						false );
+			}
+
+			// add all the level aggregations
 			for ( int i = 0; i < clonedDimensionView.getLevelCount( ); i++ )
 			{
 				LevelViewHandle levelView = clonedDimensionView.getLevel( i );
 				String levelName = levelView.getCubeLevelName( );
 				if ( levelName == null )
+				{
 					continue;
-				List measureList = (List) measureListMap.get( levelName );
-				List functionList = (List) functionListMap.get( levelName );
-				levelView.addSubTotal( measureList, functionList );
+				}
+
+				if ( levelView.isInnerMost( ) )
+				{
+					// remove aggregatio header on new innermost level if
+					// existed
+					if ( levelView.getAggregationHeaderProperty( )
+							.getContentCount( ) > 0 )
+					{
+						levelView.getAggregationHeaderProperty( ).drop( 0 );
+					}
+				}
+				else
+				{
+					// try restore original subtotal
+					List measureList = (List) measureListMap.get( levelName );
+					List functionList = (List) functionListMap.get( levelName );
+					new LevelViewTask( levelView ).addSubTotal( measureList,
+							functionList,
+							false );
+				}
 			}
-			
+
 			validateCrosstab( );
 		}
 		catch ( SemanticException e )
