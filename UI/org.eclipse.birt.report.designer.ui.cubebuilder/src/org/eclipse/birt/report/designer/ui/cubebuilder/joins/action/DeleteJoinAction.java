@@ -80,7 +80,6 @@ public class DeleteJoinAction extends AbstractViewAction
 		catch ( Exception e )
 		{
 			ExceptionHandler.handle( e );
-			e.printStackTrace( );
 		}
 
 	}
