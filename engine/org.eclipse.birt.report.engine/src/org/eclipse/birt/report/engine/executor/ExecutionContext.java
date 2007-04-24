@@ -44,6 +44,7 @@ import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
+import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -65,6 +66,8 @@ import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.data.DataEngineFactory;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.engine.extension.ICubeResultSet;
+import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -1662,7 +1665,7 @@ public class ExecutionContext
 		{
 			return;
 		}
-		rsets = new IBaseResultSet[]{rset};
+		setResultSets( new IBaseResultSet[]{rset} );
 	}
 
 	public IBaseResultSet[] getResultSets( )
@@ -1672,7 +1675,25 @@ public class ExecutionContext
 
 	public void setResultSets( IBaseResultSet[] rsets )
 	{
+		if ( this.rsets == rsets )
+		{
+			return;
+		}
 		this.rsets = rsets;
+		if ( rsets[0] instanceof IQueryResultSet )
+		{
+			IQueryResultSet qRset = (IQueryResultSet) rsets[0];
+			Scriptable scope = scriptContext.getRootScope( );
+			DataAdapterUtil
+					.registerJSObject( scope, qRset.getResultIterator( ) );
+
+		}
+		else if ( rsets[0] instanceof ICubeResultSet )
+		{
+			ICubeResultSet cRset = (ICubeResultSet) rsets[0];
+			Scriptable scope = scriptContext.getRootScope( );
+			DataAdapterUtil.registerJSObject( scope, cRset.getCubeCursor( ) );
+		}
 	}
 	
 

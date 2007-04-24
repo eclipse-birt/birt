@@ -44,7 +44,6 @@ import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
-import org.mozilla.javascript.Scriptable;
 
 public abstract class AbstractDataEngine implements IDataEngine
 {
@@ -73,6 +72,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 		this.context = context;
 		this.adapter = new ModelDteApiAdapter( context,
 				context.getSharedScope( ) );
+		/* Use DataAdapterUtil to register the scriptable. See ExecutionContext.setResultSets.
 		try
 		{
 			Scriptable scope = context.getScope( );
@@ -85,6 +85,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 			logger.log( Level.SEVERE, "can't register row object", ex );
 			ex.printStackTrace( );
 		}
+		*/
 	}
 
 	/*
