@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -34,8 +35,10 @@ import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
@@ -999,6 +1002,11 @@ public class ColumnBindingDialog extends BaseDialog
 				selectedColumnName = ( (DataItemHandle) inputElement ).getResultSetColumn( );
 				updateSelection( );
 			}
+			else if ( inputElement instanceof ImageHandle )
+			{
+				selectedColumnName = getColumnName( ( (ImageHandle) inputElement ).getValueExpression( ) );
+				updateSelection( );
+			}
 		}
 		/*
 		 * generateButton.setEnabled( inputElement.getDataSet( ) != null ||
@@ -1006,6 +1014,31 @@ public class ColumnBindingDialog extends BaseDialog
 		 */
 		updateButtons( );
 		return super.initDialog( );
+	}
+	
+	private String getColumnName( String expression )
+	{
+		DataSetHandle dataSetHandle = inputElement.getDataSet( );
+		List columnList = new ArrayList();
+		try
+		{
+			columnList = DataUtil.getColumnList( dataSetHandle );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+		
+		for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
+		{
+			ResultSetColumnHandle cachedColumn = (ResultSetColumnHandle) iter.next( );
+			String columnName = cachedColumn.getColumnName( ); 
+			if ( DEUtil.getColumnExpression( columnName ).equals( expression ) )
+			{
+				return columnName;
+			}
+		}
+		return null;
 	}
 
 	protected void okPressed( )
