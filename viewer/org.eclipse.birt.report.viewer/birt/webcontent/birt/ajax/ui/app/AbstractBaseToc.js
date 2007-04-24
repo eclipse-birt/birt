@@ -145,8 +145,12 @@ AbstractBaseToc.prototype = Object.extend( new AbstractUIComponent( ),
 			var cssText = "cursor:pointer;border:0px;font-family:Verdana;font-size:9pt;background-color:#FFFFFF;overflow:visible;";			
 			var styles = tmp.getElementsByTagName( 'Style' );
 			if( styles && styles.length > 0 )
-				spantmp.style.cssText = cssText + styles[0].firstChild.data;							
-							
+			{
+				if( styles[0].firstChild )
+					spantmp.style.cssText = cssText + styles[0].firstChild.data;
+				else
+					spantmp.style.cssText = cssText;							
+			}				
 			td1.appendChild( spantmp );
 			td1.noWrap = true;
 			
