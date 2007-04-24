@@ -513,11 +513,21 @@ public class PDFPage implements IPage
 			int height, TextStyle textInfo )
 	{
 		if ( totalPageTemplate != null )
-			drawText( text, textX, textY, width, height,
-					textInfo.getFontInfo( ), textInfo.getLetterSpacing( ),
-					textInfo.getWordSpacing( ), textInfo.getColor( ), textInfo
-							.isLinethrough( ), textInfo.isOverline( ), textInfo
-							.isUnderline( ), textInfo.getAlign( ), true );
+		{
+			drawTotalPage( text, convertToPoint( textX ),
+					convertToPoint( textY ), convertToPoint( width ),
+					convertToPoint( height ), textInfo );
+		}
+	}
+
+	private void drawTotalPage( String text, float textX, float textY,
+			float width, float height, TextStyle textInfo )
+	{
+		drawText( text, textX, textY, width, height, textInfo.getFontInfo( ),
+				textInfo.getLetterSpacing( ), textInfo.getWordSpacing( ),
+				textInfo.getColor( ), textInfo.isLinethrough( ), textInfo
+						.isOverline( ), textInfo.isUnderline( ), textInfo
+						.getAlign( ), true );
 	}
 
 	public void createBookmark( String bookmark, int x, int y, int width,
