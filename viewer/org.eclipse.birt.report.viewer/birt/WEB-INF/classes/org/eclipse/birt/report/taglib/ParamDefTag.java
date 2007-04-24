@@ -26,6 +26,7 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.TagSupport;
 
+import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.resource.BirtResources;
@@ -541,9 +542,9 @@ public class ParamDefTag extends BodyTagSupport
 			writer.write( " >" ); //$NON-NLS-1$
 			writer
 					.write( "<label id=\"" + ( radioNullValueId + "_label" ) + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			writer.write( " title=\"" + ITagConstants.NULL_VALUE + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write( " title=\"" + IBirtConstants.NULL_VALUE + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
 			writer.write( " for=\"" + radioNullValueId + "\">" ); //$NON-NLS-1$//$NON-NLS-2$
-			writer.write( ITagConstants.NULL_VALUE );
+			writer.write( IBirtConstants.NULL_VALUE );
 			writer.write( "</label>" ); //$NON-NLS-1$
 			writer.write( "</input>\n" ); //$NON-NLS-1$
 		}
@@ -876,7 +877,7 @@ public class ParamDefTag extends BodyTagSupport
 				.write( "var nullCtl = document.getElementById(\"" + nullValueId + "\");\n" ); //$NON-NLS-1$//$NON-NLS-2$
 		writer.write( "var label = option.text;\n" ); //$NON-NLS-1$
 		writer.write( "var value = option.value;\n" ); //$NON-NLS-1$
-		writer.write( "if( label == \"" + ITagConstants.NULL_VALUE + "\")\n" ); //$NON-NLS-1$//$NON-NLS-2$
+		writer.write( "if( label == \"" + IBirtConstants.NULL_VALUE + "\")\n" ); //$NON-NLS-1$//$NON-NLS-2$
 		writer.write( "{\n" ); //$NON-NLS-1$
 		writer
 				.write( "  if( nullCtl ) nullCtl.name=\"" + ParameterAccessor.PARAM_ISNULL //$NON-NLS-1$
@@ -918,7 +919,7 @@ public class ParamDefTag extends BodyTagSupport
 		writer.write( " >\n" ); //$NON-NLS-1$
 
 		// blank item
-		if ( paramDef.mustMatch( ) && !paramDef.isRequired( ) )
+		if ( !paramDef.isRequired( ) )
 		{
 			writer.write( "<option value='' " ); //$NON-NLS-1$
 			if ( param.getValue( ) != null
@@ -981,7 +982,7 @@ public class ParamDefTag extends BodyTagSupport
 		}
 
 		String defaultValueText = null;
-		if ( !isSelected && paramDef.mustMatch( ) )
+		if ( !isSelected )
 		{
 			Object defaultValue = BirtReportServiceFactory.getReportService( )
 					.getParameterDefaultValue( viewer.getReportDesignHandle( ),
@@ -994,22 +995,28 @@ public class ParamDefTag extends BodyTagSupport
 			{
 				isNullValue = false;
 				defaultValueText = DataUtil.getDisplayValue( defaultValue );
-				if ( defaultValueText != null )
-					this.valueString = defaultValueText;
+				if ( this.valueString.equalsIgnoreCase( defaultValueText )
+						|| paramDef.mustMatch( ) )
+				{
+					if ( defaultValueText != null )
+						this.valueString = defaultValueText;
 
-				String defaultDisplayText = ParameterValidationUtil
-						.getDisplayValue( null, this.pattern, defaultValue,
-								locale );
-				if ( defaultDisplayText != null )
-					this.displayTextString = defaultDisplayText;
+					String defaultDisplayText = ParameterValidationUtil
+							.getDisplayValue( null, this.pattern, defaultValue,
+									locale );
+					if ( defaultDisplayText != null )
+						this.displayTextString = defaultDisplayText;
 
-				writer.write( "<option " ); //$NON-NLS-1$
-				writer
-						.write( " value=\"" + ParameterAccessor.htmlEncode( this.valueString ) + "\" " ); //$NON-NLS-1$ //$NON-NLS-2$					
-				writer.write( " selected >" ); //$NON-NLS-1$
-				writer.write( ParameterAccessor
-						.htmlEncode( this.displayTextString )
-						+ "</option>\n" ); //$NON-NLS-1$
+					writer.write( "<option " ); //$NON-NLS-1$
+					writer
+							.write( " value=\"" + ParameterAccessor.htmlEncode( this.valueString ) + "\" " ); //$NON-NLS-1$ //$NON-NLS-2$					
+					writer.write( " selected >" ); //$NON-NLS-1$
+					writer.write( ParameterAccessor
+							.htmlEncode( this.displayTextString )
+							+ "</option>\n" ); //$NON-NLS-1$
+
+					isSelected = true;
+				}
 			}
 		}
 
@@ -1020,7 +1027,9 @@ public class ParamDefTag extends BodyTagSupport
 			if ( isNullValue )
 				writer.write( " selected" ); //$NON-NLS-1$					
 			writer.write( " >" ); //$NON-NLS-1$
-			writer.write( ITagConstants.NULL_VALUE + "</option>\n" ); //$NON-NLS-1$
+			writer.write( IBirtConstants.NULL_VALUE + "</option>\n" ); //$NON-NLS-1$
+
+			isSelected = true;
 		}
 
 		writer.write( "</select>\n" ); //$NON-NLS-1$
@@ -1060,7 +1069,7 @@ public class ParamDefTag extends BodyTagSupport
 
 			// initialize controls
 			writer
-					.write( "<script language=\"JavaScript\">updateParam" + encParamId + "(" + ( isNullValue || isSelected ) + ");</script>\n" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					.write( "<script language=\"JavaScript\">updateParam" + encParamId + "(" + isSelected + ");</script>\n" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 
 		// display text hidden object
@@ -1370,9 +1379,9 @@ public class ParamDefTag extends BodyTagSupport
 			writer.write( " >\n" ); //$NON-NLS-1$
 			writer
 					.write( "<label id=\"" + ( radioNullValueId + "_label" ) + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			writer.write( " title=\"" + ITagConstants.NULL_VALUE + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write( " title=\"" + IBirtConstants.NULL_VALUE + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
 			writer.write( " for=\"" + radioNullValueId + "\">" ); //$NON-NLS-1$//$NON-NLS-2$
-			writer.write( ITagConstants.NULL_VALUE );
+			writer.write( IBirtConstants.NULL_VALUE );
 			writer.write( "</label>" ); //$NON-NLS-1$
 			writer.write( "</input>" ); //$NON-NLS-1$
 		}

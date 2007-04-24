@@ -83,7 +83,7 @@
 <%
 	if ( parameterBean.getSelectionList( ) != null )
 	{
-		if( parameterBean.isCascade( ) || !parameterBean.isRequired( ) )
+		if( !parameterBean.isRequired( ) )
 		{
 %>
 		<OPTION></OPTION>

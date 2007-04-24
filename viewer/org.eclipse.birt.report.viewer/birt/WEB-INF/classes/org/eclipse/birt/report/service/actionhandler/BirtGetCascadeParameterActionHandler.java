@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
@@ -243,13 +244,89 @@ public class BirtGetCascadeParameterActionHandler
 		return ret;
 	}
 
+	/**
+	 * Add default value into list
+	 * 
+	 * @param paramName
+	 * @param attrBean
+	 * @return
+	 * @throws RemoteException
+	 * @throws ReportServiceException
+	 */
+	private List preHandleCascadeParameterSelectionList(
+			ParameterDefinition parameter, ViewerAttributeBean attrBean )
+			throws RemoteException, ReportServiceException
+	{
+		int index = 0;
+		List selectionList = new ArrayList( );
+		Object obj = attrBean.getDefaultValues( ).get( parameter.getName( ) );
+		String defaultValue = null;
+		String defaultLabel = null;
+		if ( obj != null )
+		{
+			defaultValue = DataUtil.getDisplayValue( obj );
+			defaultLabel = ParameterValidationUtil.getDisplayValue( null,
+					parameter.getPattern( ), obj, attrBean.getLocale( ) );
+		}
+
+		if ( defaultValue != null )
+		{
+			// add default value item
+			selectionList.add( index++, new SelectItemChoice( defaultValue,
+					defaultLabel ) );
+
+			if ( !parameter.isRequired( ) )
+			{
+				if ( defaultValue.length( ) > 0 )
+				{
+					// if default value isn't blank string, add blank value item
+					selectionList.add( index++, new SelectItemChoice( "", "" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+				}
+				// add null value item
+				selectionList.add( index++, new SelectItemChoice( "", //$NON-NLS-1$
+						IBirtConstants.NULL_VALUE ) );
+			}
+		}
+		else
+		{
+			if ( !parameter.isRequired( ) )
+			{
+				selectionList.add( index++, new SelectItemChoice( "", //$NON-NLS-1$
+						IBirtConstants.NULL_VALUE ) );
+				selectionList.add( index++, new SelectItemChoice( "", "" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+		}
+
+		return selectionList;
+	}
+
+	/**
+	 * Returns the cascading parameter selection list
+	 * 
+	 * @param paramName
+	 * @param design
+	 * @param groupName
+	 * @param groupKeys
+	 * @param options
+	 * @param attrBean
+	 * @return
+	 * @throws RemoteException
+	 * @throws ReportServiceException
+	 */
 	private List doQueryCascadeParameterSelectionList( String paramName,
 			IViewerReportDesignHandle design, String groupName,
 			Object[] groupKeys, InputOptions options,
 			ViewerAttributeBean attrBean ) throws RemoteException,
 			ReportServiceException
 	{
-		List selectionList = new ArrayList( );
+		// Get parameter definition object
+		ParameterDefinition parameter = attrBean
+				.findParameterDefinition( paramName );
+
+		// Add default value
+		List selectionList = preHandleCascadeParameterSelectionList( parameter,
+				attrBean );
+		int index = selectionList.size( );
 
 		Collection list = getReportService( )
 				.getSelectionListForCascadingGroup( design, groupName,
@@ -257,12 +334,7 @@ public class BirtGetCascadeParameterActionHandler
 
 		if ( list != null && list.size( ) > 0 )
 		{
-			// Get parameter definition object
-			ParameterDefinition parameter = attrBean
-					.findParameterDefinition( paramName );
-
 			Iterator iList = list.iterator( );
-			int index = 0;
 			while ( iList != null && iList.hasNext( ) )
 			{
 				ParameterSelectionChoice item = (ParameterSelectionChoice) iList

@@ -81,17 +81,17 @@ AbstractParameterDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 				
 				var append_selection = document.getElementById( param_name + "_selection" );
 				var len = append_selection.options.length;
-				
-				append_selection.value = "";
-				
+								
 				// Clear our selection list.
 				for( var i = 0, index = 0; i < len; i++ )
 				{
+					/*
 					if ( append_selection.options[index].value == "" )
 					{
 						index++;
 						continue;
 					}
+					*/
 					append_selection.remove( index );
 				}
 				
@@ -104,8 +104,17 @@ AbstractParameterDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 					}
 	
 					var oOption = document.createElement( "OPTION" );
-					oOption.text = selections[i].getElementsByTagName( 'Label' )[0].firstChild.data;
-					oOption.value = selections[i].getElementsByTagName( 'Value' )[0].firstChild.data;
+					var oLabel = selections[i].getElementsByTagName( 'Label' )[0].firstChild;
+					if( oLabel )
+						oOption.text = oLabel.data;
+					else
+						oOption.text = "";
+
+					var oValue = selections[i].getElementsByTagName( 'Value' )[0].firstChild;
+					if( oValue )
+						oOption.value = oValue.data;
+					else
+						oOption.value = "";
 					append_selection.options.add( oOption );
 				}
 			}

@@ -47,19 +47,7 @@ CascadingParameter.prototype =
 	* @return, void
 	*/
 	__initialize : function( )
-	{
-		var paramId = this.__parameter.getId( );
-		var selectCtl = $( paramId );
-		// if isRequired, append a blank item on the top
-		if( this.__parameter.isRequired( ) )
-		{
-			this.__insertOption( selectCtl, 0, "", "" );
-			selectCtl.value = "";
-			
-			$( paramId + "_value" ).name = "";
-			$( paramId + "_displayText" ).name = "";
-		}
-		
+	{		
 		var oDiv = $( this.__requesterId );
 		if( !oDiv ) return;
 		

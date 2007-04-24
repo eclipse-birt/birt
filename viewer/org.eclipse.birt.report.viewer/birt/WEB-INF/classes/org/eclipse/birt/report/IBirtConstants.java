@@ -115,4 +115,7 @@ public interface IBirtConstants
 	// Flag
 	public static final String VAR_ON = "ON"; //$NON-NLS-1$
 	public static final String VAR_OFF = "OFF"; //$NON-NLS-1$
+	
+	// Null Value
+	public static final String NULL_VALUE = "Null Value"; //$NON-NLS-1$
 }
