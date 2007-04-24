@@ -154,6 +154,14 @@ public interface IAggregationResultSet
 	
 	/**
 	 * 
+	 * @param name
+	 * @return
+	 * @throws IOException
+	 */
+	public int getAggregationIndex( String name ) throws IOException;
+	
+	/**
+	 * 
 	 * @param aggregationIndex
 	 * @return
 	 * @throws IOException 

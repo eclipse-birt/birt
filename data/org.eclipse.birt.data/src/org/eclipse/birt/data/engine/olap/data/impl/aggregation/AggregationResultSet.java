@@ -12,9 +12,12 @@
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
+import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 
@@ -26,6 +29,7 @@ public class AggregationResultSet implements IAggregationResultSet
 {
 
 	private AggregationDefinition aggregation;
+	private Map aggregationResultNameMap = null;
 	private IDiskArray aggregationResultRow;
 	private int currentPosition;
 	private String[][] keyNames;
@@ -49,6 +53,7 @@ public class AggregationResultSet implements IAggregationResultSet
 	{
 		this.aggregation = aggregation;
 		this.aggregationResultRow = aggregationResultRow;
+		produceaggregationNameMap( );
 		this.keyNames = keyNames;
 		this.attributeNames = attributeNames;
 		this.resultObject = (AggregationResultRow) aggregationResultRow.get( 0 );
@@ -89,6 +94,23 @@ public class AggregationResultSet implements IAggregationResultSet
 		}
 	}
 
+	/**
+	 * 
+	 */
+	void produceaggregationNameMap( )
+	{
+		AggregationFunctionDefinition[] functions = aggregation.getAggregationFunctions( );
+		aggregationResultNameMap = new HashMap( );
+		for ( int i = 0; i < functions.length; i++ )
+		{
+			if(functions[i].getName( )!=null)
+			{
+				aggregationResultNameMap.put( functions[i].getName( ),
+					new Integer( i ) );
+			}
+		}
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getAggregationDataType(int)
@@ -375,6 +397,15 @@ public class AggregationResultSet implements IAggregationResultSet
 		if ( keyNames == null )
 			return 0;
 		return keyNames.length;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet#getAggregationIndex(java.lang.String)
+	 */
+	public int getAggregationIndex( String name ) throws IOException
+	{
+		return ((Integer)aggregationResultNameMap.get( name )).intValue( );
 	}
 
 }

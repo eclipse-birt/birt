@@ -17,6 +17,7 @@ package org.eclipse.birt.data.engine.olap.data.impl;
 
 public class AggregationFunctionDefinition
 {
+	private String name;
 	private String measureName;
 	private String functionName;
 	
@@ -45,5 +46,11 @@ public class AggregationFunctionDefinition
 	public String getMeasureName()
 	{
 		return measureName;
+	}
+
+	
+	public String getName( )
+	{
+		return name;
 	}
 }
