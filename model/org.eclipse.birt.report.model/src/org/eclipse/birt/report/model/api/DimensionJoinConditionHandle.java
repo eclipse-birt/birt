@@ -80,4 +80,39 @@ public class DimensionJoinConditionHandle extends StructureHandle
 		setPropertySilently( DimensionJoinCondition.HIERARCHY_KEY_MEMBER,
 				hierarchyKey );
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	public boolean equals( Object obj )
+	{
+		if ( obj == this )
+			return true;
+		if ( !( obj instanceof DimensionJoinConditionHandle ) )
+			return false;
+
+		DimensionJoinConditionHandle temp = (DimensionJoinConditionHandle) obj;
+
+		return ( temp.structRef.equals( this.structRef )
+				&& temp.elementHandle.equals( this.elementHandle ) && temp.structRef
+				.getIndex( ) == this.structRef.getIndex( ) );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+
+	public int hashCode( )
+	{
+		int hash = 17;
+
+		hash = 37 * hash + this.elementHandle.hashCode( );
+		hash = 37 * hash + this.structRef.hashCode( );
+		hash = 37 * hash + this.structRef.getIndex( );
+		return hash;
+	}
 }

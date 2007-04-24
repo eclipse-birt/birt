@@ -1030,4 +1030,134 @@ public class MemberRef
 			return null;
 		return (Structure) list.get( index[level] );
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+
+	public boolean equals( Object obj )
+	{
+		if ( obj == this )
+			return true;
+		if ( !( obj instanceof MemberRef ) )
+			return false;
+
+		MemberRef temp = (MemberRef) obj;
+
+		return ( temp.depth == this.depth && temp.refType == this.refType
+				&& temp.propDefn.equals( this.propDefn )
+				&& equalsIntArray( temp.index, this.index ) && equalArray(
+				temp.member, this.member ) );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+
+	public int hashCode( )
+	{
+		int hash = 17;
+
+		hash = 37 * hash + depth;
+		hash = 37 * hash + refType;
+		hash = 37 * hash + propDefn.hashCode( );
+		hash = addIntArrayHashCode( hash, index );
+		hash = addObjectArrayHashCode( hash, member );
+		return hash;
+	}
+
+	/**
+	 * Compare two int arary value.
+	 * 
+	 * @param arrayOne
+	 * @param arrayTwo
+	 * @return
+	 */
+	protected boolean equalsIntArray( int[] arrayOne, int[] arrayTwo )
+	{
+		if ( ( arrayOne == null && arrayTwo != null )
+				|| ( arrayOne != null && arrayTwo == null ) )
+			return false;
+		if ( arrayOne == null && arrayTwo == null )
+			return true;
+		if ( arrayOne.length != arrayTwo.length )
+			return false;
+		for ( int i = 0; i < arrayOne.length; ++i )
+		{
+			int one = arrayOne[i];
+			int two = arrayTwo[i];
+			if ( one != two )
+				return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Compare two object array value.
+	 * 
+	 * @param arrayOne
+	 * @param arrayTwo
+	 * @return
+	 */
+	protected boolean equalArray( Object[] arrayOne, Object[] arrayTwo )
+	{
+		if ( ( arrayOne == null && arrayTwo != null )
+				|| ( arrayOne != null && arrayTwo == null ) )
+			return false;
+		if ( arrayOne == null && arrayTwo == null )
+			return true;
+		if ( arrayOne.length != arrayTwo.length )
+			return false;
+		for ( int i = 0; i < arrayOne.length; ++i )
+		{
+			Object one = arrayOne[i];
+			Object two = arrayTwo[i];
+			if ( ( one != null && !one.equals( two ) )
+					|| ( two != null && !two.equals( one ) ) )
+				return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Add int array's hash code.
+	 * 
+	 * @param hash
+	 * @param array
+	 * @return
+	 */
+	protected int addIntArrayHashCode( int hash, int[] array )
+	{
+		assert array != null;
+		hash = 37 * hash;
+		for ( int i = 0; i < array.length; ++i )
+		{
+			hash += array[i];
+		}
+		return hash;
+	}
+
+	/**
+	 * Add object array's hash code
+	 * 
+	 * @param hash
+	 * @param array
+	 * @return
+	 */
+	protected int addObjectArrayHashCode( int hash, Object[] array )
+	{
+		assert array != null;
+		hash = 37 * hash;
+		for ( int i = 0; i < array.length; ++i )
+		{
+			hash += array[i].hashCode( );
+		}
+		return hash;
+	}
+
+	
 }
