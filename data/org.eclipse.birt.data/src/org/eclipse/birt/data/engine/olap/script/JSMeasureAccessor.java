@@ -14,7 +14,6 @@ package org.eclipse.birt.data.engine.olap.script;
 import javax.olap.OLAPException;
 import javax.olap.cursor.CubeCursor;
 
-import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -27,7 +26,7 @@ public class JSMeasureAccessor extends ScriptableObject
 
 	private CubeCursor cursor;
 
-	public JSMeasureAccessor( ICubeQueryDefinition defn, CubeCursor cursor )
+	public JSMeasureAccessor( CubeCursor cursor )
 			throws OLAPException
 	{
 		this.cursor = cursor;
