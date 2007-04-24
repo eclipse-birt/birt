@@ -677,6 +677,13 @@ public class SeriesLabelSheet extends AbstractPopupSheet implements
 	{
 		btnFormatSpecifier.setEnabled( lstComponents.getSelectionIndex( ) != -1 );
 		btnRemoveComponent.setEnabled( lstComponents.getSelectionIndex( ) != -1 );
+		
+		// Disable format specifier for Value Series Name due to #179426
+		if ( btnFormatSpecifier.isEnabled( ) )
+		{
+			DataPointComponentType dpct = DataPointComponentType.getByName( LiteralHelper.dataPointComponentTypeSet.getNameByDisplayName( lstComponents.getItem( lstComponents.getSelectionIndex( ) ) ) );
+			btnFormatSpecifier.setEnabled( dpct != DataPointComponentType.SERIES_VALUE_LITERAL );
+		}
 	}
 
 	private void addDataPointComponent( int iComponentIndex )
