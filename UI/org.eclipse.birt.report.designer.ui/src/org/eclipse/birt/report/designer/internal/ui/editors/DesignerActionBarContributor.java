@@ -294,15 +294,15 @@ public class DesignerActionBarContributor extends
 			//experimental
 			PaletteEntryExtension[] entries = EditpartExtensionManager.getPaletteEntries( );
 			//end experimental
+			insertElementActions = new RegisterActions[insertActions.length
+					+ extensionPoints.size( )
+					+ entries.length];
+			for ( int i = 0; i < insertActions.length; i++ )
+			{
+				insertElementActions[i] = insertActions[i];
+			}
 			if ( !extensionPoints.isEmpty( ) )
 			{
-				insertElementActions = new RegisterActions[insertActions.length
-						+ extensionPoints.size( )
-						+ entries.length];
-				for ( int i = 0; i < insertActions.length; i++ )
-				{
-					insertElementActions[i] = insertActions[i];
-				}
 				for ( int k = 0; k < extensionPoints.size( ); k++ )
 				{
 					ExtendedElementUIPoint point = (ExtendedElementUIPoint) extensionPoints.get( k );
