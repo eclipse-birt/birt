@@ -178,6 +178,8 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 					break;
 				}
 			}
+			polygonList.clear( );
+			childList.clear( );
 			if ( !contain )
 				r = new Rectangle( setPosX( x ), setPosY( y ), width, height );
 			else
