@@ -23,6 +23,9 @@ Element.CaptionID=Ä¸¼Ç Å°
 Element.MeasureDirection=ÃøÁ¤ ¹æÇâ
 Element.PageLayout=ÆäÀÌÁö ·¹ÀÌ¾Æ¿ô
 Element.EmptyCellValue=ºó ¼¿ °ª
+Element.RepeatRowHeader=Repeat Row Header
+Element.RepeatColumnHeader=Repeat Column Header
+Element.Mirrored=Mirrored
 
 ###########################################################
 # Crosstab exception
@@ -90,6 +93,7 @@ LevelViewTask.msg.remove.subtotal=Remove Subtotal
 LevelViewTask.msg.add.subtotal=Add Subtotal
 
 DimensionViewTask.msg.remove.level=Remove Level
+DimensionViewTask.msg.insert.level=Insert Level
 
 CrosstabViewTask.msg.remove.dimension=Remove Dimension
 CrosstabViewTask.msg.remove.grandtotal=Remove Grand Total
