@@ -184,7 +184,7 @@ public class CrosstabReportItemQuery extends ReportItemQueryBase implements
 
 					MapRule rule = StructureFactory.createMapRule( );
 
-					rule.setTestExpression( ExpressionUtil.createJSRowExpression( dataHandle.getResultSetColumn( ) ) );
+					rule.setTestExpression( ExpressionUtil.createJSDataExpression( dataHandle.getResultSetColumn( ) ) );
 					rule.setOperator( DesignChoiceConstants.MAP_OPERATOR_NULL );
 					rule.setDisplay( emptyVlaue );
 
