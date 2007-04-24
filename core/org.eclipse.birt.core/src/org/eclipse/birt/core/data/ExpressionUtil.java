@@ -41,6 +41,9 @@ public final class ExpressionUtil
 	/** prefix for dimension */
 	public static final String DIMENSION_INDICATOR = "dimension";
 	
+	/** prefix for column bindings in Cube */
+	public static final String DATA_INDICATOR = "data";
+	
 	private static String PREFIX = "COLUMN_";
 	
 	private static int suffix = 0;
@@ -91,6 +94,16 @@ public final class ExpressionUtil
 		return MEASURE_INDICATOR + createJSExprComponent( measureName );
 	}
 
+	/**
+	 * Return a JS data expression text according to given data name.
+	 * @param dataName
+	 * @return
+	 */
+	public static String createJSDataExpression( String dataName )
+	{
+		return DATA_INDICATOR + createJSExprComponent( dataName );
+	}
+	
 	/**
 	 * Return a JS dimension expression text according to given dimension and
 	 * measure name.By default it is reference to "ID" attribute of that level.
