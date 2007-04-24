@@ -108,11 +108,11 @@ public class DimensionJoinConditionHandle extends StructureHandle
 
 	public int hashCode( )
 	{
-		int hash = 17;
+		int hash = 1;
 
-		hash = 37 * hash + this.elementHandle.hashCode( );
-		hash = 37 * hash + this.structRef.hashCode( );
-		hash = 37 * hash + this.structRef.getIndex( );
+		hash = 7 * hash + this.structRef.getIndex( );
+		hash = 7 * hash + this.structRef.hashCode( );
+		hash = 7 * hash + this.elementHandle.hashCode( );
 		return hash;
 	}
 }

@@ -1060,11 +1060,11 @@ public class MemberRef
 
 	public int hashCode( )
 	{
-		int hash = 17;
+		int hash = 1;
 
-		hash = 37 * hash + depth;
-		hash = 37 * hash + refType;
-		hash = 37 * hash + propDefn.hashCode( );
+		hash = 7 * hash + depth;
+		hash = 7 * hash + refType;
+		hash = 7 * hash + propDefn.hashCode( );
 		hash = addIntArrayHashCode( hash, index );
 		hash = addObjectArrayHashCode( hash, member );
 		return hash;
@@ -1133,7 +1133,7 @@ public class MemberRef
 	protected int addIntArrayHashCode( int hash, int[] array )
 	{
 		assert array != null;
-		hash = 37 * hash;
+		hash = 7 * hash;
 		for ( int i = 0; i < array.length; ++i )
 		{
 			hash += array[i];
@@ -1151,9 +1151,11 @@ public class MemberRef
 	protected int addObjectArrayHashCode( int hash, Object[] array )
 	{
 		assert array != null;
-		hash = 37 * hash;
+		hash = 7 * hash;
 		for ( int i = 0; i < array.length; ++i )
 		{
+			if( array[i] == null )
+				continue;
 			hash += array[i].hashCode( );
 		}
 		return hash;
