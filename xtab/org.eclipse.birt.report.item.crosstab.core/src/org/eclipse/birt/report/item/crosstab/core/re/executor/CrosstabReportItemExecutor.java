@@ -102,8 +102,8 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 		content.setCaption( crosstabItem.getCaption( ) );
 		content.setCaptionKey( crosstabItem.getCaptionKey( ) );
 
-		// always repeate header
-		content.setHeaderRepeat( true );
+		// check repeate header
+		content.setHeaderRepeat( crosstabItem.isRepeatRowHeader( ) );
 
 		if ( getCubeCursor( ) != null )
 		{

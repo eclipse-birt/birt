@@ -132,6 +132,32 @@
          <style
                name="crosstab-detail">
          </style>
+         <property
+               canInherit="true"
+               defaultValue="true"
+               displayNameID="Element.RepeatRowHeader"
+               hasOwnModel="true"
+               isEncryptable="false"
+               isList="false"
+               name="repeatRowHeader"
+               subType="string"
+               type="boolean">
+         </property>
+         <property
+               canInherit="true"
+               defaultValue="true"
+               displayNameID="Element.RepeatColumnHeader"
+               hasOwnModel="true"
+               isEncryptable="false"
+               isList="false"
+               name="repeatColumnHeader"
+               subType="string"
+               type="boolean">
+         </property>
+         <propertyVisibility
+               name="repeatColumnHeader"
+               visibility="hide">
+         </propertyVisibility>
       </reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"
@@ -320,6 +346,17 @@
                name="aggregationHeader"
                visibility="hide">
          </propertyVisibility>
+         <property
+               canInherit="true"
+               defaultValue="false"
+               displayNameID="Element.Mirrored"
+               hasOwnModel="true"
+               isEncryptable="false"
+               isList="false"
+               name="mirrored"
+               subType="string"
+               type="boolean">
+         </property>
       </reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"

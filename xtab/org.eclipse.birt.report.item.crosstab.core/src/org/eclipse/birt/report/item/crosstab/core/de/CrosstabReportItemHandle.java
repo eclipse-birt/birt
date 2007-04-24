@@ -349,6 +349,26 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	}
 
 	/**
+	 * Returns if repeat crosstab row header for each page
+	 * 
+	 * @return
+	 */
+	public boolean isRepeatRowHeader( )
+	{
+		return handle.getBooleanProperty( REPEAT_ROW_HEADER_PROP );
+	}
+
+	/**
+	 * Returns if repeat crosstab column header for each page
+	 * 
+	 * @return
+	 */
+	public boolean isRepeatColumnHeader( )
+	{
+		return handle.getBooleanProperty( REPEAT_COLUMN_HEADER_PROP );
+	}
+
+	/**
 	 * Gets the empty cell value of this crosstab.
 	 * 
 	 * @return the empty cell value

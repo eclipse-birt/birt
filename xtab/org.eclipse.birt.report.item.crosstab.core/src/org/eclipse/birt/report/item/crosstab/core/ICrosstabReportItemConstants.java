@@ -47,6 +47,18 @@ public interface ICrosstabReportItemConstants
 	String PAGE_LAYOUT_PROP = "pageLayout"; //$NON-NLS-1$
 
 	/**
+	 * Name of the property that specifies if repeat the row header for each
+	 * page.
+	 */
+	String REPEAT_ROW_HEADER_PROP = "repeatRowHeader"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property that specifies if repeat the column header for each
+	 * page.
+	 */
+	String REPEAT_COLUMN_HEADER_PROP = "repeatColumnHeader"; //$NON-NLS-1$
+
+	/**
 	 * Name of the property that gives the value shown when the cell is empty in
 	 * the crosstab.
 	 */

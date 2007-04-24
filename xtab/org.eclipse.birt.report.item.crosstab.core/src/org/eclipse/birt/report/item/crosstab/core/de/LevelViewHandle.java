@@ -211,6 +211,27 @@ public class LevelViewHandle extends AbstractCrosstabItemHandle implements
 	}
 
 	/**
+	 * Returns if current level is mirrored
+	 * 
+	 * @return
+	 */
+	public boolean isMirrored( )
+	{
+		return handle.getBooleanProperty( MIRRORED_PROP );
+	}
+
+	/**
+	 * Sets mirrrored property for current level.
+	 * 
+	 * @param value
+	 * @throws SemanticException
+	 */
+	public void setMirrored( boolean value ) throws SemanticException
+	{
+		handle.setProperty( MIRRORED_PROP, Boolean.valueOf( value ) );
+	}
+
+	/**
 	 * Gets the member property handle of this level view.
 	 * 
 	 * @return the member property handle
