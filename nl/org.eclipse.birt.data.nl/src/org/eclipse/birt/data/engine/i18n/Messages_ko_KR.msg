@@ -321,3 +321,4 @@ data.olap.cursorSeekError=커서가 검색 위치로 이동하지 못합니다.
 data.olap.CannotGetMeasureValue=측정 "{0}"의 정의를 큐브에서 찾을 수 없습니다. 이 측정이 없거나 유효하지 않습니다.
 data.olap.CannotFindLevel="{2}" 차원의 "{1}" 계층에 "{0}" 수준의 정의를 찾을 수 없습니다.
 data.olap.tryToAddIdenticalAggrGroup=The value "{0}" already exists in aggregate on list of binding "{1}";
+data.olap.NoEdgeDefinitionFound=Query execution fails since it contains neither row edge nor column edge. It is requested at least one edge defined. 

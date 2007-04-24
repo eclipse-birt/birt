@@ -321,3 +321,4 @@ data.olap.cursorSeekError=カーソルでは参照の位置にナビゲートできません。
 data.olap.CannotGetMeasureValue=キューブに計測 "{0}" の定義が見つかりません。この計測は存在しないか、無効です。
 data.olap.CannotFindLevel=次元 "{2}" の階層 "{1}" に "{0}" レベルの定義が見つかりません。
 data.olap.tryToAddIdenticalAggrGroup=The value "{0}" already exists in aggregate on list of binding "{1}";
+data.olap.NoEdgeDefinitionFound=Query execution fails since it contains neither row edge nor column edge. It is requested at least one edge defined. 

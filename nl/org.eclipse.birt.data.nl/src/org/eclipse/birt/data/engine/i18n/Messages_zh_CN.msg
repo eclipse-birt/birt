@@ -321,3 +321,4 @@ data.olap.cursorSeekError=光标无法定位到查找位置。
 data.olap.CannotGetMeasureValue=无法在多维数据集中找到度量“{0}”定义，该度量不存在或无效。
 data.olap.CannotFindLevel=无法在维“{2}”中的层次结构“{1}”下找到“{0}”级别定义。
 data.olap.tryToAddIdenticalAggrGroup=The value "{0}" already exists in aggregate on list of binding "{1}";
+data.olap.NoEdgeDefinitionFound=Query execution fails since it contains neither row edge nor column edge. It is requested at least one edge defined. 
