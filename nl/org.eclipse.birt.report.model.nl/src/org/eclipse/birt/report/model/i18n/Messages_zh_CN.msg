@@ -2506,6 +2506,7 @@ Element.ReportItem.paramBindings=参数绑定
 Element.ReportItem.refTemplateParameter=参考模板参数定义
 Element.ReportItem.boundDataColumns=绑定的数据列
 Element.ReportItem.zIndex=Z 索引
+Element.ReportItem.dataBindingRef=Data binding reference
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=内容

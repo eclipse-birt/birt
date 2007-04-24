@@ -2506,6 +2506,7 @@ Element.ReportItem.paramBindings=Parameterbindungen
 Element.ReportItem.refTemplateParameter=Parameterdefinition für Referenzvorlage
 Element.ReportItem.boundDataColumns=Gebundene Datenspalten
 Element.ReportItem.zIndex=Z-Index
+Element.ReportItem.dataBindingRef=Data binding reference
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=Inhalt
