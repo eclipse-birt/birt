@@ -129,7 +129,7 @@ public class DataUtil
 		// format parameter value first
 		if ( isLocale )
 		{
-			validateWithLocale( dataType, format, value, locale );
+			obj = validateWithLocale( dataType, format, value, locale );
 		}
 		else
 		{
@@ -166,7 +166,7 @@ public class DataUtil
 		// format parameter value first
 		if ( isLocale )
 		{
-			validateWithLocale( dataType, format, value, locale );
+			obj = validateWithLocale( dataType, format, value, locale );
 		}
 		else
 		{
