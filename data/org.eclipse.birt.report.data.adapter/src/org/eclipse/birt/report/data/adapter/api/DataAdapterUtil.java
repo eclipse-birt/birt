@@ -11,10 +11,9 @@
 
 package org.eclipse.birt.report.data.adapter.api;
 
-import javax.olap.OLAPException;
-import javax.olap.cursor.CubeCursor;
-
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -39,53 +38,44 @@ public class DataAdapterUtil
 	{
 		if ( source instanceof IResultIterator )
 		{
-			Scriptable scope = ( (IResultIterator) source ).getScope( );
-			targetScope.put( "row", targetScope, scope.get( "row", scope ) );
+			targetScope.put( "row",
+					targetScope,
+					new JSResultIteratorObject( (IResultIterator) source ) );
 
 		}
-		else if ( source instanceof CubeCursor )
+		else if ( source instanceof ICubeCursor )
 		{
-			targetScope.put( "row", targetScope, new JSCubeBindingObject( (CubeCursor)source ) );
+			Scriptable scope = ((ICubeCursor)source).getScope( );
+			targetScope.put( "data", targetScope, scope.get( "data", scope ) );
+			targetScope.put( "dimension", targetScope, scope.get( "dimension", scope ) );
+			targetScope.put( "measure", targetScope, scope.get( "measure", scope ) );
 		}
 	}
 	
-	/**
-	 * The scriptable object which bound with key word "row" in cube query.
-	 */
-
-	private static class JSCubeBindingObject extends ScriptableObject
+	private static class JSResultIteratorObject extends ScriptableObject
 	{
-		private CubeCursor cursor;
-		
-		public JSCubeBindingObject( CubeCursor cursor )
+		private IResultIterator it;
+
+		JSResultIteratorObject( IResultIterator it )
 		{
-			this.cursor = cursor;
+			this.it = it;
+		}
+		public String getClassName( )
+		{
+			return "JSResultIteratorObject";
 		}
 		
-		/*
-		 * (non-Javadoc)
-		 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String, org.mozilla.javascript.Scriptable)
-		 */
 		public Object get( String arg0, Scriptable scope )
 		{
 			try
 			{
-				return cursor.getObject( arg0 );
+				return it.getValue( arg0 );
 			}
-			catch ( OLAPException e )
+			catch ( BirtException e )
 			{
 				return null;
 			}
 		}
 		
-		/*
-		 * (non-Javadoc)
-		 * @see org.mozilla.javascript.ScriptableObject#getClassName()
-		 */
-		public String getClassName( )
-		{
-			return "JSCubeBindingObject";
-		}
-
 	}
 }
