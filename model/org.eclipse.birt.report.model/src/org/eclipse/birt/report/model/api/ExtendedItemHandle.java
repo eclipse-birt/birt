@@ -14,13 +14,17 @@ package org.eclipse.birt.report.model.api;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.IReportItemMethodContext;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -46,6 +50,13 @@ public class ExtendedItemHandle extends ReportItemHandle
 			IExtendedItemModel,
 			IReportItemMethodContext
 {
+
+	/**
+	 * Logger instance.
+	 */
+
+	private static Logger logger = Logger.getLogger( ExtendedItemHandle.class
+			.getName( ) );
 
 	/**
 	 * Constructs the handle with the report design and the element it holds.
@@ -137,6 +148,8 @@ public class ExtendedItemHandle extends ReportItemHandle
 	 * methods defined within the extension model property inside.
 	 * 
 	 * @return the list of methods
+	 * 
+	 * @deprecated by {@link #getMethods(String)}
 	 */
 
 	public List getMethods( )
@@ -266,16 +279,69 @@ public class ExtendedItemHandle extends ReportItemHandle
 			return Collections.EMPTY_LIST;
 
 		List methods = elementDefn.getMethods( );
-		List retList = new ArrayList( );
+
+		Map retMap = new LinkedHashMap( );
 		for ( int i = 0; i < methods.size( ); i++ )
 		{
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) methods
 					.get( i );
 			String tmpContext = propDefn.getContext( );
 			if ( context.equalsIgnoreCase( tmpContext ) )
-				retList.add( propDefn.getMethodInfo( ) );
+			{
+				IMethodInfo info = propDefn.getMethodInfo( );
+				retMap.put( info.getName( ), propDefn.getMethodInfo( ) );
+			}
 		}
 
+		IReportItem extension = null;
+
+		try
+		{
+			extension = getReportItem( );
+		}
+		catch ( ExtendedElementException e )
+		{
+			List retList = new ArrayList( );
+			retList.addAll( retMap.values( ) );
+			return retList;
+		}
+
+		if ( extension == null )
+		{
+			List retList = new ArrayList( );
+			retList.addAll( retMap.values( ) );
+			return retList;
+		}
+
+		IMethodInfo[] info = extension.getMethods( context );
+		if ( info == null || info.length == 0 )
+		{
+			List retList = new ArrayList( );
+			retList.addAll( retMap.values( ) );
+			return retList;
+		}
+
+		for ( int i = 0; i < info.length; i++ )
+		{
+			IMethodInfo tmpInfo = info[i];
+			if ( tmpInfo == null )
+			{
+				logger.warning( "The method info " + i //$NON-NLS-1$
+						+ " in the methods are null." ); //$NON-NLS-1$
+				continue;
+			}
+			String tmpContext = tmpInfo.getName( );
+			if ( StringUtil.isBlank( tmpContext ) )
+			{
+				logger.warning( "The name of the method info " + i //$NON-NLS-1$
+						+ " is empty or null." ); //$NON-NLS-1$
+				continue;
+			}
+			retMap.put( tmpContext, tmpInfo );
+		}
+
+		List retList = new ArrayList( );
+		retList.addAll( retMap.values( ) );
 		return retList;
 	}
 }

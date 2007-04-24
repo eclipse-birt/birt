@@ -669,7 +669,7 @@ public class PeerExtensionTest extends BaseTestCase
 		assertEquals( cube.getElement( ), value.getTargetElement( ) );
 		assertTrue( value.isResolved( ) );
 	}
-	
+
 	/**
 	 * Tests IReportItem :: getFunctions.
 	 * 
@@ -685,7 +685,10 @@ public class PeerExtensionTest extends BaseTestCase
 		assertNotNull( extendedItem );
 
 		List retList = extendedItem.getMethods( "onRender" ); //$NON-NLS-1$
-		assertTrue( retList.isEmpty( ) );
+		assertFalse( retList.isEmpty( ) );
+		IMethodInfo method = (IMethodInfo) retList.get( 0 );
+		assertEquals( "getMethod1", method.getName( ) ); //$NON-NLS-1$
+		assertEquals( "java.lang.String", method.getReturnType( ) ); //$NON-NLS-1$
 
 		retList = extendedItem.getMethods( "onPrepare" ); //$NON-NLS-1$
 		assertTrue( retList.isEmpty( ) );
@@ -693,7 +696,7 @@ public class PeerExtensionTest extends BaseTestCase
 		retList = extendedItem.getMethods( "onCreate" ); //$NON-NLS-1$
 		assertFalse( retList.isEmpty( ) );
 
-		IMethodInfo method = (IMethodInfo) retList.get( 0 );
+		method = (IMethodInfo) retList.get( 0 );
 		assertEquals( "afterOnCreate", method.getName( ) ); //$NON-NLS-1$
 		assertEquals(
 				"javadoc for <code>afterOnCreate</code>", method.getJavaDoc( ) ); //$NON-NLS-1$
@@ -734,6 +737,19 @@ public class PeerExtensionTest extends BaseTestCase
 		boxMethod = (IMethodInfo) boxMethods.get( 0 );
 		assertEquals( "getMethod1", boxMethod.getName( ) ); //$NON-NLS-1$
 		assertEquals( "java.lang.String", boxMethod.getReturnType( ) ); //$NON-NLS-1$
+
+		// IReportItem.getMethods() overrides that defined in plugin.xml.
+		
+		method = (IMethodInfo) retList.get( 2 );
+		assertEquals( "performOnCreate", method.getName( ) ); //$NON-NLS-1$
+		assertEquals( "java.lang.String", method.getReturnType( ) ); //$NON-NLS-1$
+
+		arguList = method.argumentListIterator( );
+		argus = (IArgumentInfoList) arguList.next( );
+		argu = (IArgumentInfo) argus.argumentsIterator( ).next( );
+
+		clazz = argu.getClassType( );
+		assertEquals( "java.lang.Boolean", clazz.getName( ) ); //$NON-NLS-1$
 	}
 
 	/**

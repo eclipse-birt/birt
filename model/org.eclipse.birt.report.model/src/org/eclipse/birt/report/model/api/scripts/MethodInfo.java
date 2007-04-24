@@ -38,9 +38,16 @@ public class MethodInfo implements IMethodInfo
 
 	private final Method method;
 
-	MethodInfo( Method methods )
+	/**
+	 * @param method
+	 */
+
+	protected MethodInfo( Method method )
 	{
-		this.method = methods;
+		this.method = method;
+		
+
+		addArgumentList( method.getParameterTypes( ) );
 	}
 
 	/**

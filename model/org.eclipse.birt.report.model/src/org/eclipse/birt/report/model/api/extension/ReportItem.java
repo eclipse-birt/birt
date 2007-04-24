@@ -16,6 +16,8 @@ import java.io.ByteArrayOutputStream;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
+
 /**
  * Extension adapter class for the IReportItem. By default, the report item will
  * have no model. Therefore, it has no model properties and all the related
@@ -174,6 +176,17 @@ public class ReportItem implements IReportItem, Cloneable
 	public List getPredefinedStyles( )
 	{
 		return Collections.EMPTY_LIST;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.extension.IReportItem#getMethods(java.lang.String)
+	 */
+
+	public IMethodInfo[] getMethods( String methodName )
+	{
+		return null;
 	}
 
 }

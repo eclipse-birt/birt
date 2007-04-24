@@ -45,10 +45,11 @@ public class ConstructorInfo implements IMethodInfo
 	 *            the method of java class
 	 */
 
-	ConstructorInfo( Constructor method )
+	protected ConstructorInfo( Constructor method )
 	{
 		this.method = method;
 
+		addArgumentList( method.getParameterTypes( ) );
 	}
 
 	/**

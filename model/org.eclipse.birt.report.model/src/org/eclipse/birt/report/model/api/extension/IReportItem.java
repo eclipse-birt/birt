@@ -16,6 +16,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 
 /**
  * Represents an instance of a extended report element. There is a one-to-one
@@ -174,6 +175,8 @@ public interface IReportItem
 	 * the list is instance of {@link IElementPropertyDefn}.
 	 * 
 	 * @return the method definition list.
+	 * 
+	 * @deprecated by {@link #getMethods(String)}
 	 */
 
 	public IPropertyDefinition[] getMethods( );
@@ -193,8 +196,7 @@ public interface IReportItem
 	 * 
 	 * <ui>
 	 * <li><code>String</code>
-	 * <li><code>IStyleDeclaration</code>
-	 * </ui>
+	 * <li><code>IStyleDeclaration</code> </ui>
 	 * 
 	 * @return
 	 */
@@ -210,4 +212,17 @@ public interface IReportItem
 	 */
 
 	public org.eclipse.birt.report.model.api.simpleapi.IReportItem getSimpleElement( );
+
+	/**
+	 * Returns the method info list of extension elements. Each object in the
+	 * list is instance of {@link IMethodInfo}.
+	 * 
+	 * @param methodName
+	 *            the method name
+	 * 
+	 * @return the method definition list.
+	 */
+
+	public IMethodInfo[] getMethods( String methodName );
+
 }

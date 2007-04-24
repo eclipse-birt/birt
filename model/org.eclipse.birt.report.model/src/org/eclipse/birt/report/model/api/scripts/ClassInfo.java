@@ -54,6 +54,10 @@ public class ClassInfo implements IClassInfo
 
 	private IMethodInfo constructor;
 
+	/**
+	 * @param clazz
+	 */
+	
 	public ClassInfo( Class clazz )
 	{
 		this.clazz = clazz;
@@ -77,9 +81,6 @@ public class ClassInfo implements IClassInfo
 				method = new MethodInfo( classMethod );
 				methods.put( methodName, method );
 			}
-
-			( (MethodInfo) method ).addArgumentList( classMethod
-					.getParameterTypes( ) );
 		}
 
 		Constructor[] classConstructors = clazz.getConstructors( );
@@ -88,9 +89,6 @@ public class ClassInfo implements IClassInfo
 			Constructor classMethod = classConstructors[i];
 			if ( constructor == null )
 				constructor = new ConstructorInfo( classMethod );
-
-			( (ConstructorInfo) constructor ).addArgumentList( classMethod
-					.getParameterTypes( ) );
 		}
 
 		Field[] fields = clazz.getFields( );
