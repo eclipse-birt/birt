@@ -12,10 +12,14 @@
 package org.eclipse.birt.report.model.elements.strategy;
 
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.PropertySearchStrategy;
 import org.eclipse.birt.report.model.elements.Cell;
+import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 /**
  * Provides the specific property searching route for <code>ReportItem</code>,
@@ -46,7 +50,7 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 	{
 		return instance;
 	}
-	
+
 	/**
 	 * Tests if the property of a cell is inheritable in the context.
 	 * <p>
@@ -56,8 +60,9 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#isInheritableProperty(org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
-	
-	protected boolean isInheritableProperty( DesignElement element, ElementPropertyDefn prop )
+
+	protected boolean isInheritableProperty( DesignElement element,
+			ElementPropertyDefn prop )
 	{
 		assert prop != null;
 
@@ -66,5 +71,57 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 			return true;
 
 		return super.isInheritableProperty( element, prop );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.PropertySearchStrategy#getPropertyFromSelf(org.eclipse.birt.report.model.core.Module,
+	 *      org.eclipse.birt.report.model.core.DesignElement,
+	 *      org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 */
+
+	protected Object getPropertyFromSelf( Module module, DesignElement element,
+			ElementPropertyDefn prop )
+	{
+		if ( !isDataBindingProperty( prop.getName( ) ) )
+			return super.getPropertyFromSelf( module, element, prop );
+
+		// the data binding reference property has high priority than local
+		// properties.
+		
+		ElementRefValue refValue = (ElementRefValue) element.getLocalProperty(
+				module, IReportItemModel.DATA_BINDING_REF_PROP );
+		if ( refValue == null || !refValue.isResolved( ) )
+			return super.getPropertyFromSelf( module, element, prop );
+
+		return refValue.getElement( ).getProperty( module, prop );
+	}
+
+	/**
+	 * Checks whether the property belongs to referecable data binding
+	 * properties.
+	 * 
+	 * @param propName
+	 *            the property name
+	 * @return <code>true</code> if it is. Otherwise <code>false</code>.
+	 */
+
+	private boolean isDataBindingProperty( String propName )
+	{
+		if ( IReportItemModel.PARAM_BINDINGS_PROP.equalsIgnoreCase( propName ) )
+			return true;
+
+		if ( IReportItemModel.BOUND_DATA_COLUMNS_PROP
+				.equalsIgnoreCase( propName ) )
+			return true;
+
+		if ( IListingElementModel.FILTER_PROP.equalsIgnoreCase( propName ) )
+			return true;
+
+		if ( IListingElementModel.SORT_PROP.equalsIgnoreCase( propName ) )
+			return true;
+
+		return false;
 	}
 }

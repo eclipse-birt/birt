@@ -33,6 +33,7 @@ import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.IReferencableElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.elements.GroupElement;
@@ -157,7 +158,7 @@ public class ContentCommand extends AbstractContentCommand
 		{
 			addRecord = new ContentRecord( module, focus, content, newPos );
 		}
-		
+
 		ActivityStack stack = getActivityStack( );
 		stack.startTrans( addRecord.getLabel( ) );
 
@@ -453,7 +454,7 @@ public class ContentCommand extends AbstractContentCommand
 	 * @see #adjustReferredClients(DesignElement)
 	 */
 
-	private void adjustReferenceClients( ReferenceableElement referred )
+	private void adjustReferenceClients( IReferencableElement referred )
 			throws SemanticException
 	{
 		List clients = new ArrayList( referred.getClientList( ) );
@@ -472,7 +473,7 @@ public class ContentCommand extends AbstractContentCommand
 			}
 			else
 			{
-				if ( referred.isStyle( ) )
+				if ( ( (DesignElement) referred ).isStyle( ) )
 				{
 					StyleCommand clientCmd = new StyleCommand( module, client );
 					clientCmd.setStyleElement( (DesignElement) null );
@@ -904,7 +905,7 @@ public class ContentCommand extends AbstractContentCommand
 
 		dropUserProperties( content );
 		if ( content.hasReferences( ) )
-			adjustReferenceClients( (ReferenceableElement) content );
+			adjustReferenceClients( (IReferencableElement) content );
 		adjustReferredClients( content );
 		adjustDerived( content );
 

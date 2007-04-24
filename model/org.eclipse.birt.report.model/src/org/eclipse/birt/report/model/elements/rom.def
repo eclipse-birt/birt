@@ -2729,6 +2729,7 @@
     <Property detailType="ParamBinding" displayNameID="Element.ReportItem.paramBindings" isList="true" name="paramBindings" since="1.0" type="structure"/>
 	<Property canInherit="false" detailType="TemplateParameterDefinition" displayNameID="Element.ReportItem.refTemplateParameter" name="refTemplateParameter" runtimeSettable="false" since="2.0" type="elementRef"/>
     <Property detailType="ComputedColumn" displayNameID="Element.ReportItem.boundDataColumns" name="boundDataColumns" since="2.1" isList="true" type="structure"/>
+	<Property detailType="ReportItem" displayNameID="Element.ReportItem.dataBindingRef" name="dataBindingRef" since="2.2" type="elementRef"/>    
     <Property displayNameID="Element.ReportItem.zIndex" name="zIndex" since="2.2" type="integer" validator="NonNegativeValueValidator">    
     	<Default>0</Default>
     </Property>
@@ -2829,6 +2830,7 @@
     </Method>
     <Property detailType="Action" displayNameID="Element.Label.action" isList="false" name="action" runtimeSettable="false" since="1.0" type="structure"/>
     <PropertyVisibility name="dataSet" visibility="hide"/>
+    <PropertyVisibility name="dataBindingRef" visibility="hide"/>
     <StyleProperty name="backgroundColor"/>
     <StyleProperty name="backgroundImage"/>
     <StyleProperty name="backgroundRepeat"/>

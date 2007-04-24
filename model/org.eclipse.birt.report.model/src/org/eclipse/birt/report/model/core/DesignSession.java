@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.core;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -76,13 +75,6 @@ import com.ibm.icu.util.ULocale;
 
 public class DesignSession
 {
-
-	/**
-	 * templates file folder.
-	 */
-
-	private static final String TEMPLATES_FOLDER_PATH = "templates";//$NON-NLS-1$
-
 	/**
 	 * list each item is <code>Style</code>
 	 */

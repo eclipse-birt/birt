@@ -21,9 +21,9 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.IReferencableElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
-import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Theme;
@@ -107,7 +107,8 @@ abstract class AbstractLibraryRecord extends SimpleRecord
 
 		// update clients of embedded images
 
-		List images = library.getListProperty( library, IModuleModel.IMAGES_PROP );
+		List images = library.getListProperty( library,
+				IModuleModel.IMAGES_PROP );
 		if ( images == null || images.isEmpty( ) )
 			return;
 		boolean sendEvent = false;
@@ -150,7 +151,8 @@ abstract class AbstractLibraryRecord extends SimpleRecord
 		// send the property event to current module
 
 		if ( sendEvent )
-			module.broadcast( new PropertyEvent( module, IModuleModel.IMAGES_PROP ) );
+			module.broadcast( new PropertyEvent( module,
+					IModuleModel.IMAGES_PROP ) );
 	}
 
 	/**
@@ -169,9 +171,9 @@ abstract class AbstractLibraryRecord extends SimpleRecord
 		while ( iter.hasNext( ) )
 		{
 			DesignElement element = (DesignElement) iter.next( );
-			assert element instanceof ReferenceableElement;
+			assert element instanceof IReferencableElement;
 
-			ReferenceableElement referenceableElement = (ReferenceableElement) element;
+			IReferencableElement referenceableElement = (IReferencableElement) element;
 
 			// first unresolve theme itself first
 
@@ -180,7 +182,8 @@ abstract class AbstractLibraryRecord extends SimpleRecord
 			// removes references of styles in the theme
 
 			if ( referenceableElement instanceof Theme )
-				updateReferenceableClients( referenceableElement,
+				updateReferenceableClients(
+						(DesignElement) referenceableElement,
 						IThemeModel.STYLES_SLOT );
 		}
 	}

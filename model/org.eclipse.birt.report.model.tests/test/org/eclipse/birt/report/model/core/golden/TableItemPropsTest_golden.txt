@@ -79,6 +79,7 @@ visibility
 paramBindings
 refTemplateParameter
 boundDataColumns
+dataBindingRef
 zIndex
 style
 name

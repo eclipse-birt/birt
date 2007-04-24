@@ -14,9 +14,9 @@ package org.eclipse.birt.report.model.command;
 import java.util.List;
 
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.IReferencableElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
@@ -33,7 +33,7 @@ public class ElementBackRefRecord extends BackRefRecord
 	 * The element is referred by <code>reference</code>.
 	 */
 
-	protected ReferenceableElement referred = null;
+	protected IReferencableElement referred = null;
 
 	/**
 	 * The element is referred by the structure member.
@@ -57,7 +57,7 @@ public class ElementBackRefRecord extends BackRefRecord
 	 *            <code>DesignElement.STYLE_PROP</code>
 	 */
 
-	public ElementBackRefRecord( Module module, ReferenceableElement referred,
+	public ElementBackRefRecord( Module module, IReferencableElement referred,
 			DesignElement reference, String propName )
 	{
 		super( module, reference, propName );
@@ -84,7 +84,7 @@ public class ElementBackRefRecord extends BackRefRecord
 	 *            the member reference that refers to a structure member
 	 */
 
-	public ElementBackRefRecord( Module module, ReferenceableElement referred,
+	public ElementBackRefRecord( Module module, IReferencableElement referred,
 			DesignElement reference, String propName, MemberRef memberRef )
 	{
 		this( module, referred, reference, propName );

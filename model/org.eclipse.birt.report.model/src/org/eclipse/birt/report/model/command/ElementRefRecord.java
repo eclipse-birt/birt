@@ -16,8 +16,13 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.command.StyleEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.ReferenceableElement;
+import org.eclipse.birt.report.model.core.IReferencableElement;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
+
+/**
+ * The record to break/setup element back reference.
+ * 
+ */
 
 public class ElementRefRecord extends SimpleRecord
 {
@@ -29,12 +34,26 @@ public class ElementRefRecord extends SimpleRecord
 
 	private DesignElement reference = null;
 
-	private ReferenceableElement referred = null;
-	
+	private IReferencableElement referred = null;
+
 	private boolean isAdd = true;
 
-	public ElementRefRecord( DesignElement reference, ReferenceableElement referred,
-			String propName, boolean isAdd )
+	/**
+	 * The constructor.
+	 * 
+	 * @param reference
+	 *            the element
+	 * @param referred
+	 *            the referred element
+	 * @param propName
+	 *            the property name
+	 * @param isAdd
+	 *            <code>true</code> is to add back reference. Otherwise
+	 *            <code>false</code>.
+	 */
+
+	public ElementRefRecord( DesignElement reference,
+			IReferencableElement referred, String propName, boolean isAdd )
 	{
 		this.reference = reference;
 		this.referred = referred;
@@ -42,25 +61,29 @@ public class ElementRefRecord extends SimpleRecord
 		this.propName = propName;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.activity.SimpleRecord#perform(boolean)
 	 */
 	protected void perform( boolean undo )
 	{
-		if ( isAdd && !undo || !isAdd && undo  )
+		if ( isAdd && !undo || !isAdd && undo )
 		{
 			referred.addClient( reference, propName );
 		}
 		else
-		{			
+		{
 			referred.dropClient( reference );
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
 	 */
-	
+
 	public NotificationEvent getEvent( )
 	{
 		if ( IStyledElementModel.STYLE_PROP.equals( propName ) )
@@ -68,14 +91,15 @@ public class ElementRefRecord extends SimpleRecord
 		return new PropertyEvent( reference, propName );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
 	 */
-	
+
 	public DesignElement getTarget( )
 	{
-		return referred;
+		return (DesignElement) referred;
 	}
-
 
 }

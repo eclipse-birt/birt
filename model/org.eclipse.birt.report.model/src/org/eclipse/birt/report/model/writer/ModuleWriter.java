@@ -2868,6 +2868,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IReportItemModel.WIDTH_PROP );
 		property( obj, IReportItemModel.DATA_SET_PROP );
 		property( obj, IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP );
+		property( obj, IReportItemModel.DATA_BINDING_REF_PROP );
 
 		writeStructureList( obj, IReportItemModel.VISIBILITY_PROP );
 		writeStructureList( obj, IReportItemModel.PARAM_BINDINGS_PROP );

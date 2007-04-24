@@ -14,9 +14,9 @@ package org.eclipse.birt.report.model.util;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.IReferencableElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
-import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -308,7 +308,7 @@ public class ReferenceValueUtil
 		if ( oldRef instanceof ElementRefValue
 				|| newRef instanceof ElementRefValue )
 		{
-			ReferenceableElement target;
+			IReferencableElement target;
 			// Drop the old reference. Clear the back pointer from the
 			// referenced
 			// element to this element.

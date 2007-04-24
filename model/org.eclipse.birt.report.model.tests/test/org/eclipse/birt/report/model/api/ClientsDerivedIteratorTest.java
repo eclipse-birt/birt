@@ -121,6 +121,5 @@ public class ClientsDerivedIteratorTest extends BaseTestCase
 		DesignElement text = design.findElement( "My Text" ); //$NON-NLS-1$
 		iter = text.getHandle( design ).clientsIterator( );
 		assertFalse( iter.hasNext( ) );
-		assertNull( iter.next( ) );
 	}
 }

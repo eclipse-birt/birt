@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
+import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.util.BoundDataColumnUtil;
 import org.eclipse.birt.report.model.util.UnusedBoundColumnsMgr;
 
@@ -46,7 +47,8 @@ import org.eclipse.birt.report.model.util.UnusedBoundColumnsMgr;
 public abstract class ReportItemHandle extends ReportElementHandle
 		implements
 			IReportItemModel,
-			IStyledElementModel, IReportItemMethodContext
+			IStyledElementModel,
+			IReportItemMethodContext
 {
 
 	/**
@@ -716,7 +718,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	{
 		setIntProperty( IReportItemModel.Z_INDEX_PROP, zIndex );
 	}
-	
+
 	/**
 	 * Returns functions that can be called in the given method.
 	 * 
@@ -727,7 +729,51 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 */
 
 	public List getMethods( String methodName )
-	{		
+	{
 		return Collections.EMPTY_LIST;
+	}
+
+	/**
+	 * Sets the report item of which data binding are referred by.
+	 * 
+	 * @param item
+	 *            the report item
+	 * @throws SemanticException
+	 *             if the element reference makes a circle
+	 */
+
+	public void setDataBindingReference( ReportItemHandle item )
+			throws SemanticException
+	{
+		setProperty( DATA_BINDING_REF_PROP, item );
+	}
+
+	/**
+	 * Returns the name of the report item of which data binding are referred
+	 * by.
+	 * 
+	 * @return the report item name
+	 */
+
+	public String getDataBindingReferenceName( )
+	{
+		return (String) getProperty( DATA_BINDING_REF_PROP );
+	}
+
+	/**
+	 * Returns the report item of which data binding are referred by.
+	 * 
+	 * @return the report item
+	 */
+
+	public ReportItemHandle getDataBindingReference( )
+	{
+		ElementRefValue refValue = (ElementRefValue) getElement( ).getProperty(
+				module, DATA_BINDING_REF_PROP );
+		if ( refValue == null || !refValue.isResolved( ) )
+			return null;
+
+		DesignElement tmpElement = refValue.getElement( );
+		return (ReportItemHandle) tmpElement.getHandle( tmpElement.getRoot( ) );
 	}
 }

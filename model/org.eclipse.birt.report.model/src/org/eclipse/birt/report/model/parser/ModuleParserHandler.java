@@ -22,8 +22,8 @@ import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.VersionUtil;
@@ -101,7 +101,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	 * Lists of those extended-item whose name is not allocated.
 	 */
 
-	private List unNameExtendedItems = new ArrayList( );
+	private List unnamedReportItems = new ArrayList( );
 
 	/**
 	 * Constructs the module parser handler with the design session.
@@ -256,9 +256,9 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 		}
 
 		// add un-named extended items to name-space
-		if ( !unNameExtendedItems.isEmpty( )
-				&& versionNumber < VersionUtil.VERSION_3_2_8 )
-			handleUnnamedExtendedItems( );
+		if ( !unnamedReportItems.isEmpty( )
+				&& versionNumber <= VersionUtil.VERSION_3_2_12 )
+			handleUnnamedReportItems( );
 
 		// build the line number information of design elements if needed.
 
@@ -327,11 +327,11 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	 * 
 	 */
 
-	private void handleUnnamedExtendedItems( )
+	private void handleUnnamedReportItems( )
 	{
-		for ( int i = 0; i < unNameExtendedItems.size( ); i++ )
+		for ( int i = 0; i < unnamedReportItems.size( ); i++ )
 		{
-			DesignElement element = (DesignElement) unNameExtendedItems.get( i );
+			DesignElement element = (DesignElement) unnamedReportItems.get( i );
 			ModelUtil.addElement2NameSpace( module, element );
 		}
 	}
@@ -364,10 +364,12 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	 *            the element to add
 	 */
 
-	final void addUnnamedExtendedItem( ExtendedItem element )
+	final void addUnnamedReportItem( DesignElement element )
 	{
-		if ( !unNameExtendedItems.contains( element ) )
-			unNameExtendedItems.add( element );
+		assert element instanceof ReportItem;
+		
+		if ( !unnamedReportItems.contains( element ) )
+			unnamedReportItems.add( element );
 	}
 
 	static class ModuleLexicalHandler implements LexicalHandler

@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.model.metadata;
 
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.ReferenceableElement;
+import org.eclipse.birt.report.model.core.IReferencableElement;
 
 /**
  * Represents a representation to an element. This class is the reference
@@ -102,7 +102,7 @@ public class ElementRefValue extends ReferenceValue
 
 		assert element instanceof DesignElement;
 		name = null;
-		resolved = (DesignElement) element;
+		resolved = element;
 	}
 
 	/**
@@ -124,9 +124,9 @@ public class ElementRefValue extends ReferenceValue
 	 * @return the target element as a referencable element
 	 */
 
-	public ReferenceableElement getTargetElement( )
+	public IReferencableElement getTargetElement( )
 	{
-		return (ReferenceableElement) resolved;
+		return (IReferencableElement) resolved;
 	}
 
 	/*

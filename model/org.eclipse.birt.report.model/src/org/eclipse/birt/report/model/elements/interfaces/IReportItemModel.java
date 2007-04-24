@@ -104,16 +104,23 @@ public interface IReportItemModel
 	public static final String ON_PAGE_BREAK_METHOD = "onPageBreak"; //$NON-NLS-1$
 
 	/**
-	 * The property name of the bound columns that bind the report element
-	 * with the data set columns.
+	 * The property name of the bound columns that bind the report element with
+	 * the data set columns.
 	 */
 
 	public static final String BOUND_DATA_COLUMNS_PROP = "boundDataColumns"; //$NON-NLS-1$
+
+	/**
+	 * The property name of the reference of bound columns that bind the report
+	 * element with the data set columns of another report item.
+	 */
+
+	public static final String DATA_BINDING_REF_PROP = "dataBindingRef"; //$NON-NLS-1$
 
 	/**
 	 * Name of the z-depth property.
 	 */
 
 	public static final String Z_INDEX_PROP = "zIndex"; //$NON-NLS-1$
-	
+
 }

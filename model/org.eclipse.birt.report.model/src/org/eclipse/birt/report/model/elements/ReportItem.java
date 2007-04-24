@@ -17,7 +17,7 @@ import org.eclipse.birt.report.model.api.validators.ElementReferenceValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.PropertySearchStrategy;
-import org.eclipse.birt.report.model.core.StyledElement;
+import org.eclipse.birt.report.model.core.ReferencableStyledElement;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrategy;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
@@ -29,7 +29,7 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
  * 
  */
 
-public abstract class ReportItem extends StyledElement
+public abstract class ReportItem extends ReferencableStyledElement
 		implements
 			IReportItemModel
 {

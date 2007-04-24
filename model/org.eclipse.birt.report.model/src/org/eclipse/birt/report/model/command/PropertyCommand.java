@@ -127,7 +127,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 			throws SemanticException
 	{
 		checkAllowedOperation( );
-		
+
 		// Backward for TOC expression.
 
 		String propName = prop.getName( );
@@ -201,6 +201,12 @@ public class PropertyCommand extends AbstractPropertyCommand
 		}
 
 		value = validateValue( prop, value );
+
+		if ( value instanceof ElementRefValue
+				&& prop.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
+		{
+			checkRecursiveElementReference( prop, (ElementRefValue) value );
+		}
 
 		if ( element instanceof GroupElement
 				&& IGroupElementModel.GROUP_NAME_PROP.equals( prop.getName( ) ) )
@@ -575,19 +581,19 @@ public class PropertyCommand extends AbstractPropertyCommand
 		stack.commit( );
 
 	}
-	
+
 	/**
 	 * Check operation is allowed or not. Now if element is css style instance ,
 	 * forbidden its operation.
 	 * 
 	 */
-	
+
 	private void checkAllowedOperation( )
 	{
-		//	read-only for css style.
-		
-		if( element != null && element instanceof CssStyle )
-			throw new IllegalOperationException( CssException.DESIGN_EXCEPTION_READONLY );
+		// read-only for css style.
+
+		if ( element != null && element instanceof CssStyle )
+			throw new IllegalOperationException(
+					CssException.DESIGN_EXCEPTION_READONLY );
 	}
 }
-

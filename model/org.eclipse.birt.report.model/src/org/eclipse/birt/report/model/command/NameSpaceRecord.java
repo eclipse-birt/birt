@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.NameEvent;
 import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.IReferencableElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
@@ -108,9 +109,9 @@ public class NameSpaceRecord extends SimpleRecord
 		NameSpace ns = root.getNameSpace( nameSpaceID );
 		if ( add && !undo || !add && undo )
 		{
-			if ( element instanceof ReferenceableElement )
+			if ( element instanceof IReferencableElement )
 			{
-				ReferenceableElement originalElement = (ReferenceableElement) root
+				IReferencableElement originalElement = (IReferencableElement) root
 						.resolveElement(
 								element.getName( ),
 								nameSpaceID,
@@ -142,7 +143,7 @@ public class NameSpaceRecord extends SimpleRecord
 		}
 	}
 
-	private void updateAllElementReferences( ReferenceableElement referred )
+	private void updateAllElementReferences( IReferencableElement referred )
 	{
 		List clients = referred.getClientList( );
 		Iterator iter = clients.iterator( );

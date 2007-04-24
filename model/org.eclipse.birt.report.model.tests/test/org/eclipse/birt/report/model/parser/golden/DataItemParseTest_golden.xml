@@ -74,9 +74,13 @@
                 <expression name="uri">http://localhost:80/</expression>
             </structure>
         </data>
+        <data name="Body Data1" id="9">
+            <property name="dataBindingRef">Body Data</property>
+            <property name="resultSetColumn">column1</property>
+        </data>
     </body>
     <scratch-pad>
-        <data name="scratchpadData" id="9">
+        <data name="scratchpadData" id="10">
             <list-property name="boundDataColumns">
                 <structure>
                     <property name="name">Scratch pad data value</property>

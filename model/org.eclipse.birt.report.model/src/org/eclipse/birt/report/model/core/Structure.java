@@ -353,7 +353,7 @@ public abstract class Structure implements IStructure
 	private void doUpdateReference( ElementRefValue oldRef,
 			ElementRefValue newRef, PropertyDefn prop )
 	{
-		ReferenceableElement target;
+		IReferencableElement target;
 
 		DesignElement me = getContextElement( );;
 		String propName = getContextPropertyName( );

@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
@@ -101,9 +102,6 @@ public class ReportItemHandleTest extends BaseTestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
-
-		openDesign( "ReportItemHandleTest.xml" ); //$NON-NLS-1$ 
-
 	}
 
 	/**
@@ -135,11 +133,13 @@ public class ReportItemHandleTest extends BaseTestCase
 	 * <li>null</li>
 	 * </ul>
 	 * 
-	 * @throws SemanticException
+	 * @throws Exception
 	 */
 
-	public void testDataSet( ) throws SemanticException
+	public void testDataSet( ) throws Exception
 	{
+		openDesign( "ReportItemHandleTest.xml" ); //$NON-NLS-1$ 
+
 		// the data set is not null referenced by name
 		element = design.findElement( "free form" ); //$NON-NLS-1$
 		assertNotNull( element );
@@ -173,45 +173,55 @@ public class ReportItemHandleTest extends BaseTestCase
 
 	public void testTOC( ) throws Exception
 	{
-		LabelHandle labelHandle = (LabelHandle)designHandle.findElement( "bodyLabel" );//$NON-NLS-1$
-		
+		openDesign( "ReportItemHandleTest.xml" ); //$NON-NLS-1$ 
+
+		LabelHandle labelHandle = (LabelHandle) designHandle
+				.findElement( "bodyLabel" );//$NON-NLS-1$
+
 		TOC toc = StructureFactory.createTOC( "toc" ); //$NON-NLS-1$
 		TOCHandle tocHandle = labelHandle.addTOC( toc );
 		assertNotNull( tocHandle );
-		assertEquals( "toc" , tocHandle.getExpression( ) );//$NON-NLS-1$
-		
-		//private style
-		
-		tocHandle.setProperty( DesignChoiceConstants.CHOICE_FONT_WEIGHT , DesignChoiceConstants.FONT_WEIGHT_BOLD );
-		
-		//shared style
-		
-		StyleHandle style = designHandle.getElementFactory( ).newStyle( "style" );//$NON-NLS-1$	
+		assertEquals( "toc", tocHandle.getExpression( ) );//$NON-NLS-1$
+
+		// private style
+
+		tocHandle.setProperty( DesignChoiceConstants.CHOICE_FONT_WEIGHT,
+				DesignChoiceConstants.FONT_WEIGHT_BOLD );
+
+		// shared style
+
+		StyleHandle style = designHandle.getElementFactory( )
+				.newStyle( "style" );//$NON-NLS-1$	
 		style.setCanShrink( true );
 		style.setFontWeight( DesignChoiceConstants.FONT_WEIGHT_NORMAL );
 		designHandle.getStyles( ).add( style );
-		
-		//check shared style
-		
-		assertEquals( "toc",labelHandle.getStringProperty( ReportItem.TOC_PROP ));//$NON-NLS-1$	
+
+		// check shared style
+
+		assertEquals(
+				"toc", labelHandle.getStringProperty( ReportItem.TOC_PROP ) );//$NON-NLS-1$	
 		tocHandle.setStyleName( style.getName( ) );
-		
-		assertEquals( "style" , tocHandle.getStyleName( ));//$NON-NLS-1$	
-	
+
+		assertEquals( "style", tocHandle.getStyleName( ) );//$NON-NLS-1$	
+
 	}
-	
+
 	/**
 	 * Tests 'setStringProperty' method.
 	 * 
 	 * @throws Exception
 	 */
-	
-	public void testSetTOCProperty() throws Exception
+
+	public void testSetTOCProperty( ) throws Exception
 	{
-		LabelHandle labelHandle = (LabelHandle)designHandle.findElement( "bodyLabel" );//$NON-NLS-1$
-		labelHandle.setStringProperty( IReportItemModel.TOC_PROP , "toc" );//$NON-NLS-1$
-		
-		assertEquals( "toc" , labelHandle.getStringProperty( IReportItemModel.TOC_PROP ));//$NON-NLS-1$
+		openDesign( "ReportItemHandleTest.xml" ); //$NON-NLS-1$ 
+
+		LabelHandle labelHandle = (LabelHandle) designHandle
+				.findElement( "bodyLabel" );//$NON-NLS-1$
+		labelHandle.setStringProperty( IReportItemModel.TOC_PROP, "toc" );//$NON-NLS-1$
+
+		assertEquals(
+				"toc", labelHandle.getStringProperty( IReportItemModel.TOC_PROP ) );//$NON-NLS-1$
 	}
 
 	/**
@@ -337,42 +347,51 @@ public class ReportItemHandleTest extends BaseTestCase
 
 		newCol.setName( "Number" );//$NON-NLS-1$
 		propertyHandle.replaceItem( col, newCol );
-		
-		//clear all bound column.
-		
+
+		// clear all bound column.
+
 		tableHandle.clearProperty( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
-		assertNull( tableHandle.getListProperty( IReportItemModel.BOUND_DATA_COLUMNS_PROP ) );
-		
-		//add group bound column with group name aggregateOn.
-		
-		GroupHandle groupHandle = designHandle.getElementFactory( ).newTableGroup( );
+		assertNull( tableHandle
+				.getListProperty( IReportItemModel.BOUND_DATA_COLUMNS_PROP ) );
+
+		// add group bound column with group name aggregateOn.
+
+		GroupHandle groupHandle = designHandle.getElementFactory( )
+				.newTableGroup( );
 		groupHandle.setName( "NewGroup" );//$NON-NLS-1$
-		tableHandle.getGroups( ).add(  groupHandle );
+		tableHandle.getGroups( ).add( groupHandle );
 
 		ComputedColumn groupCol = StructureFactory.createComputedColumn( );
 		groupCol.setName( "data item1" );//$NON-NLS-1$
-		groupCol.setExpression( "Total.sum(row[\"CUSTOMERNUMBER\"] , null , null )" ); //$NON-NLS-1$
+		groupCol
+				.setExpression( "Total.sum(row[\"CUSTOMERNUMBER\"] , null , null )" ); //$NON-NLS-1$
 		groupCol.setAggregateOn( "NewGroup" );//$NON-NLS-1$
 		groupCol.setDataType( DesignChoiceConstants.PARAM_TYPE_STRING );
-		
-		//add bound column with all aggregateOn.
-		
+
+		// add bound column with all aggregateOn.
+
 		tableHandle.addColumnBinding( groupCol, false );
-		
+
 		ComputedColumn tableCol = StructureFactory.createComputedColumn( );
 		tableCol.setName( "data item2" );//$NON-NLS-1$
-		tableCol.setExpression( "Total.sum(row[\"CUSTOMERNUMBER\"] , null , null )" ); //$NON-NLS-1$
+		tableCol
+				.setExpression( "Total.sum(row[\"CUSTOMERNUMBER\"] , null , null )" ); //$NON-NLS-1$
 		tableCol.setAggregateOn( "All" );//$NON-NLS-1$
 		tableCol.setDataType( DesignChoiceConstants.PARAM_TYPE_STRING );
-		
+
 		tableHandle.addColumnBinding( tableCol, false );
-		
-		List boundList = tableHandle.getListProperty( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
+
+		List boundList = tableHandle
+				.getListProperty( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
 		assertEquals( 2, boundList.size( ) );
-		assertEquals( "data item1" , ((ComputedColumn)boundList.get( 0 )).getName( ));//$NON-NLS-1$
-		assertEquals( "NewGroup" , ((ComputedColumn)boundList.get( 0 )).getAggregateOn( ));//$NON-NLS-1$
-		assertEquals( "data item2" , ((ComputedColumn)boundList.get( 1 )).getName( ));//$NON-NLS-1$
-		assertEquals( "All" , ((ComputedColumn)boundList.get( 1 )).getAggregateOn( ));//$NON-NLS-1$
+		assertEquals(
+				"data item1", ( (ComputedColumn) boundList.get( 0 ) ).getName( ) );//$NON-NLS-1$
+		assertEquals(
+				"NewGroup", ( (ComputedColumn) boundList.get( 0 ) ).getAggregateOn( ) );//$NON-NLS-1$
+		assertEquals(
+				"data item2", ( (ComputedColumn) boundList.get( 1 ) ).getName( ) );//$NON-NLS-1$
+		assertEquals(
+				"All", ( (ComputedColumn) boundList.get( 1 ) ).getAggregateOn( ) );//$NON-NLS-1$
 	}
 
 	/**
@@ -518,11 +537,13 @@ public class ReportItemHandleTest extends BaseTestCase
 	 * Tests common properties on a report item.
 	 * 
 	 * 
-	 * @throws SemanticException
+	 * @throws Exception
 	 */
 
-	public void testProperties( ) throws SemanticException
+	public void testProperties( ) throws Exception
 	{
+		openDesign( "ReportItemHandleTest.xml" ); //$NON-NLS-1$ 
+
 		LabelHandle labelHandle = (LabelHandle) designHandle
 				.findElement( "bodyLabel" ); //$NON-NLS-1$
 
@@ -560,6 +581,8 @@ public class ReportItemHandleTest extends BaseTestCase
 
 	public void testUndoInvalidStyle( ) throws Exception
 	{
+		openDesign( "ReportItemHandleTest.xml" ); //$NON-NLS-1$ 
+
 		TextItemHandle textHandle = (TextItemHandle) designHandle
 				.findElement( "myText" ); //$NON-NLS-1$
 		textHandle.setStyleName( "My Style" ); //$NON-NLS-1$
@@ -582,6 +605,8 @@ public class ReportItemHandleTest extends BaseTestCase
 
 	public void testUndoInvalidDataSet( ) throws Exception
 	{
+		openDesign( "ReportItemHandleTest.xml" ); //$NON-NLS-1$ 
+
 		TextItemHandle textHandle = (TextItemHandle) designHandle
 				.findElement( "myText" ); //$NON-NLS-1$
 		textHandle.setProperty( ReportItem.DATA_SET_PROP, "myDataSet" ); //$NON-NLS-1$
@@ -604,6 +629,8 @@ public class ReportItemHandleTest extends BaseTestCase
 
 	public void testCssProperties( ) throws Exception
 	{
+		openDesign( "ReportItemHandleTest.xml" ); //$NON-NLS-1$ 
+
 		// vertical-align defined on the rows.
 
 		LabelHandle label = (LabelHandle) designHandle
@@ -623,11 +650,14 @@ public class ReportItemHandleTest extends BaseTestCase
 	/**
 	 * Tests the function for adding bound data columns.
 	 * 
-	 * @throws SemanticException
+	 * @throws Exception
 	 */
 
-	public void testBoundDataColumns( ) throws SemanticException
+	public void testBoundDataColumns( ) throws Exception
 	{
+
+		openDesign( "ReportItemHandleTest.xml" ); //$NON-NLS-1$ 
+
 		TextItemHandle textHandle = (TextItemHandle) designHandle
 				.findElement( "myText" ); //$NON-NLS-1$
 
@@ -725,5 +755,89 @@ public class ReportItemHandleTest extends BaseTestCase
 		columnHandle2.setName( "table1.column3" ); //$NON-NLS-1$
 		assertEquals( "table1.column3", columnHandle2.getName( ) ); //$NON-NLS-1$
 
+	}
+
+	/**
+	 * Tests the function for adding bound data columns.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testDataBindingRef( ) throws Exception
+	{
+		openDesign( "ReportItemHandleTest_2.xml" ); //$NON-NLS-1$ 
+
+		DataItemHandle data1 = (DataItemHandle) designHandle
+				.findElement( "myData1" ); //$NON-NLS-1$
+
+		Iterator columns = data1.columnBindingsIterator( );
+		ComputedColumnHandle column = (ComputedColumnHandle) columns.next( );
+		verifyColumnValues( column );
+
+		DataItemHandle data2 = (DataItemHandle) designHandle
+				.findElement( "myData2" ); //$NON-NLS-1$
+		columns = data2.columnBindingsIterator( );
+		column = (ComputedColumnHandle) columns.next( );
+		verifyColumnValues( column );
+
+		assertEquals( "myData1", data2.getDataBindingReferenceName( ) ); //$NON-NLS-1$
+
+		DataItemHandle newData = (DataItemHandle) designHandle
+				.findElement( "myData3" ); //$NON-NLS-1$
+		newData.setDataBindingReference( data2 );
+
+		columns = newData.columnBindingsIterator( );
+		column = (ComputedColumnHandle) columns.next( );
+		verifyColumnValues( column );
+
+		try
+		{
+			newData.setDataBindingReference( newData );
+			fail( );
+		}
+		catch ( SemanticException e )
+		{
+			assertEquals(
+					SemanticError.DESIGN_EXCEPTION_CIRCULAR_ELEMENT_REFERNECE,
+					e.getErrorCode( ) );
+		}
+
+		try
+		{
+			data1.setDataBindingReference( data2 );
+			fail( );
+		}
+		catch ( SemanticException e )
+		{
+			assertEquals(
+					SemanticError.DESIGN_EXCEPTION_CIRCULAR_ELEMENT_REFERNECE,
+					e.getErrorCode( ) );
+		}
+
+		// parameter biding in both data and table, should get value from the
+		// table
+
+		Iterator paramBindings = data2.paramBindingsIterator( );
+		ParamBindingHandle paramBinding = (ParamBindingHandle) paramBindings
+				.next( );
+		assertEquals( "table value1", paramBinding.getExpression( ) ); //$NON-NLS-1$
+
+		TableHandle table2 = (TableHandle) designHandle
+				.findElement( "myTable2" ); //$NON-NLS-1$
+		Iterator filters = table2.filtersIterator( );
+		FilterConditionHandle filter = (FilterConditionHandle) filters.next( );
+		assertEquals( "table 1 filter expression", filter.getExpr( ) ); //$NON-NLS-1$
+		
+		Iterator sorts = table2.sortsIterator( );
+		SortKeyHandle sort = (SortKeyHandle) sorts.next( );
+		assertEquals( "table 1 name", sort.getKey( )); //$NON-NLS-1$
+	}
+
+	private void verifyColumnValues( ComputedColumnHandle column )
+	{
+		assertEquals( "CUSTOMERNUMBER", column.getName( ) ); //$NON-NLS-1$
+		assertEquals( "dataSetRow[\"CUSTOMERNUMBER\"]", column.getExpression( ) ); //$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER, column
+				.getDataType( ) );
 	}
 }

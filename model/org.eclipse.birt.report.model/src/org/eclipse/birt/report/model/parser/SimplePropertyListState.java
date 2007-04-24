@@ -18,7 +18,7 @@ import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.ReferenceableElement;
+import org.eclipse.birt.report.model.core.IReferencableElement;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
@@ -217,7 +217,7 @@ public class SimplePropertyListState extends AbstractPropertyState
 								ElementRefValue refValue = (ElementRefValue) obj;
 								if ( refValue.isResolved( ) )
 								{
-									ReferenceableElement referred = refValue
+									IReferencableElement referred = refValue
 											.getTargetElement( );
 									referred.addClient( element, name );
 								}

@@ -79,6 +79,10 @@
 				</structure>
 			</list-property>
         </data>
+        <data name="Body Data1">
+            <property name="dataBindingRef">Body Data</property>
+			<property name="resultSetColumn">column1</property>
+        </data>
     </body>
     <scratch-pad>
         <data name="scratchpadData">

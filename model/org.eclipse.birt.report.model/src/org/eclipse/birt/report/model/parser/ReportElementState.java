@@ -312,10 +312,12 @@ public abstract class ReportElementState extends DesignParseState
 			{
 				// if version<3.2.8, add it to the list and allocate a name in
 				// end-document
-				if ( element instanceof ExtendedItem
-						&& handler.versionNumber < VersionUtil.VERSION_3_2_8 )
+
+				// if the version < 3.2.12, add it to the list.
+
+				if ( handler.versionNumber <= VersionUtil.VERSION_3_2_12 )
 				{
-					handler.addUnnamedExtendedItem( (ExtendedItem) element );
+					handler.addUnnamedReportItem( element );
 				}
 				else
 					handler
@@ -687,7 +689,8 @@ public abstract class ReportElementState extends DesignParseState
 		if ( DesignSchemaConstants.OVERRIDDEN_VALUES_TAG
 				.equalsIgnoreCase( tagName ) )
 		{
-			if ( ( defn.getSlotCount( ) > 0 || defn.getContents().size()> 0 ) && defn.canExtend( )  )
+			if ( ( defn.getSlotCount( ) > 0 || defn.getContents( ).size( ) > 0 )
+					&& defn.canExtend( ) )
 			{
 				return new OverriddenValuesState(
 						(ModuleParserHandler) getHandler( ), getElement( ) );

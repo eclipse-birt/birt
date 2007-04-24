@@ -367,8 +367,7 @@ public class NameCommandTest extends BaseTestCase
 
 		myStyle.getHandle( design ).setName( "hello" ); //$NON-NLS-1$
 		assertTrue( nameListener.nameChanged );
-		// assertEquals( MyNameSpaceListener.RENAMED, nameSpaceListener.action
-		// );
+
 
 		myStyle.removeListener( nameListener );
 

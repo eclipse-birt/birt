@@ -31,7 +31,6 @@ import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
-import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.elements.Cell;
@@ -533,7 +532,7 @@ public class ReportDesignSerializer extends ElementVisitor
 
 	public void visitDataSet( DataSet obj )
 	{
-		visitReferenceableElement( obj );
+		visitDesignElement( obj );
 	}
 
 	/*
@@ -544,7 +543,7 @@ public class ReportDesignSerializer extends ElementVisitor
 
 	public void visitDataSource( DataSource obj )
 	{
-		visitReferenceableElement( obj );
+		visitDesignElement( obj );
 	}
 
 	/*
@@ -555,18 +554,6 @@ public class ReportDesignSerializer extends ElementVisitor
 
 	public void visitTemplateParameterDefinition(
 			TemplateParameterDefinition obj )
-	{
-		visitReferenceableElement( obj );
-	}
-
-	/**
-	 * Visits the referenceable element.
-	 * 
-	 * @param obj
-	 *            the element to traverse
-	 */
-
-	void visitReferenceableElement( ReferenceableElement obj )
 	{
 		visitDesignElement( obj );
 	}

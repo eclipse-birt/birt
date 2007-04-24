@@ -1021,8 +1021,10 @@ public abstract class DesignElement
 		{
 			case IPropertyType.ELEMENT_REF_TYPE :
 				resolveElementReference( module, prop );
+				break;
 			case IPropertyType.STRUCT_REF_TYPE :
 				resolveStructReference( module, prop );
+				break;
 			case IPropertyType.LIST_TYPE :
 				if ( prop.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 					return resolveElementReferenceList( module, prop );

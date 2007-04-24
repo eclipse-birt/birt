@@ -59,6 +59,7 @@ import org.eclipse.birt.report.model.command.EventTarget;
 import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.IReferencableElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
@@ -1387,12 +1388,14 @@ public class ModelUtil
 	{
 		if ( module == null || element == null || element.getRoot( ) != module )
 			return;
+		
 		module.makeUniqueName( element );
 		int ns = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
 		if ( element.getName( ) != null
 				&& ns != MetaDataConstants.NO_NAME_SPACE
 				&& element.getContainerInfo( ).isManagedByNameSpace( ) )
 			module.getNameSpace( ns ).insert( element );
+
 	}
 
 	/**
@@ -1407,7 +1410,7 @@ public class ModelUtil
 	 */
 
 	public static boolean isRecursiveReference( DesignElement reference,
-			ReferenceableElement referred )
+			IReferencableElement referred )
 	{
 		if ( reference == referred )
 			return true;

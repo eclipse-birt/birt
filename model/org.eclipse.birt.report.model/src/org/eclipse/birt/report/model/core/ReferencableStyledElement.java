@@ -17,13 +17,13 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
 
 /**
- * Represents an element that can be referenced using an element reference. This
- * element maintains a cached set of back-references to the "clients" so that
- * changes can be automatically propagated.
+ * Represents a styled element that can be referenced using an element
+ * reference. This element maintains a cached set of back-references to the
+ * "clients" so that changes can be automatically propagated.
  * 
  */
 
-public abstract class ReferenceableElement extends DesignElement
+public abstract class ReferencableStyledElement extends StyledElement
 		implements
 			IReferencable,
 			IReferencableElement
@@ -35,7 +35,7 @@ public abstract class ReferenceableElement extends DesignElement
 	 * Default constructor.
 	 */
 
-	public ReferenceableElement( )
+	public ReferencableStyledElement( )
 	{
 		adapter = new ReferenceableElementAdapter( this );
 	}
@@ -47,7 +47,7 @@ public abstract class ReferenceableElement extends DesignElement
 	 *            the element name
 	 */
 
-	public ReferenceableElement( String theName )
+	public ReferencableStyledElement( String theName )
 	{
 		super( theName );
 		adapter = new ReferenceableElementAdapter( this );
@@ -62,7 +62,7 @@ public abstract class ReferenceableElement extends DesignElement
 	public Object doClone( CopyPolicy policy )
 			throws CloneNotSupportedException
 	{
-		ReferenceableElement element = (ReferenceableElement) super
+		ReferencableStyledElement element = (ReferencableStyledElement) super
 				.doClone( policy );
 		element.adapter = (IReferencableElement) ( (ReferenceableElementAdapter) adapter )
 				.clone( );
@@ -144,7 +144,7 @@ public abstract class ReferenceableElement extends DesignElement
 		super.broadcast( ev, module );
 		broadcastToClients( ev, module );
 	}
-
+	
 	/**
 	 * Broadcasts the event to clients.
 	 * 

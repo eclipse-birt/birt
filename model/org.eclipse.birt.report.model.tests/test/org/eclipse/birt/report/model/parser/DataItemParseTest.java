@@ -155,6 +155,20 @@ public class DataItemParseTest extends BaseTestCase
 		assertNull( dataHandle.getValueExpr( ) );
 		assertEquals( "Graphic master page data value", dataHandle //$NON-NLS-1$
 				.getResultSetExpression( ) );
+
+		// test sharing column bindings.
+
+		dataHandle = (DataItemHandle) designHandle.findElement( "Body Data1" ); //$NON-NLS-1$
+		columnBindings = dataHandle.columnBindingsIterator( );
+		column = (ComputedColumnHandle) columnBindings.next( );
+		assertEquals( "column1", column.getName( ) ); //$NON-NLS-1$
+		assertEquals( "column1 expr", column.getExpression( ) ); //$NON-NLS-1$
+		assertEquals( "Display data value", column.getDisplayName( ) );//$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER, column
+				.getDataType( ) );
+		assertEquals( "column1 aggre1", column.getAggregateOn( ) ); //$NON-NLS-1$
+		assertEquals( "column1 aggre1, column1 aggre2", //$NON-NLS-1$
+				serializeStringList( column.getAggregateOnList( ) ) );
 	}
 
 	/**
@@ -190,8 +204,8 @@ public class DataItemParseTest extends BaseTestCase
 		column
 				.setAggregateFunction( DesignChoiceConstants.MEASURE_FUNCTION_COUNT );
 		save( );
+		
 		assertTrue( compareFile( goldenFileName ) );
-
 	}
 
 	/**

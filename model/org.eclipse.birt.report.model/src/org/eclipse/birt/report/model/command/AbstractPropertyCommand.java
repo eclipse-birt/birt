@@ -27,10 +27,10 @@ import org.eclipse.birt.report.model.api.validators.StructureListValidator;
 import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.IReferencableElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
-import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -226,11 +226,11 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 	{
 		assert refValue != null;
 
-		if ( refValue.isResolved( ) && element instanceof ReferenceableElement )
+		if ( refValue.isResolved( ) && element instanceof IReferencableElement )
 		{
 			DesignElement reference = refValue.getElement( );
 			if ( ModelUtil.isRecursiveReference( reference,
-					(ReferenceableElement) element ) )
+					(IReferencableElement) element ) )
 
 				throw new SemanticError(
 						element,
@@ -315,7 +315,7 @@ abstract public class AbstractPropertyCommand extends AbstractElementCommand
 			if ( refValue == null || !refValue.isResolved( ) )
 				continue;
 
-			ReferenceableElement client = (ReferenceableElement) ( (ElementRefValue) refValue )
+			IReferencableElement client = (IReferencableElement) ( (ElementRefValue) refValue )
 					.getElement( );
 
 			DesignElement referenceElement = referred.getContextElement( );
