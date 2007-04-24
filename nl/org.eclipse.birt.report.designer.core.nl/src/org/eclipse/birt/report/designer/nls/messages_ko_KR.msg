@@ -1743,12 +1743,6 @@ I18nPage.text.Note=참고: 현지화를 설정하려면 속성 편집기의 리소스 탭에서 보고서�
 ###########################################################
 #ImageBuilder properties
 
-ImageBuilder.Button.Dynamic=동적 이미지(&D)
-ImageBuilder.Button.Import=이미지 추가(&A)...
-ImageBuilder.Button.Insert=삽입(&S)
-ImageBuilder.Button.Preview=미리 보기(&P)
-ImageBuilder.Button.Remove=제거
-ImageBuilder.ButtonBrowser=찾아보기...
 ImageBuilder.Chooser.Title=이미지 파일 열기
 ImageBuilder.DialogTitle.Edit=이미지 항목 편집
 ImageBuilder.DialogTitle.ImportFailed=가져오기 실패
@@ -1760,15 +1754,22 @@ ImageBuilder.BrowserResourceDialog.Title=이미지 파일 찾아보기
 ImageBuilder.BrowserResourceDialog.Message=리소스 경로 폴더에서 이미지 파일 선택
 ImageBuilder.ErrorMessage.OutOfMemory=이미지가 너무 커서 메모리에 맞지 않습니다.
 ImageBuilder.FileDialog.FilterMessage=지원되지 않는 이미지 파일
-ImageBuilder.Label.Binding=바인딩(&B)
-ImageBuilder.Label.EmbededImage=내장된 이미지(&E)
+ImageBuilder.Button.Browser=찾아보기...
+ImageBuilder.Button.Import=이미지 추가(&A)...
+ImageBuilder.Button.SelectImageData=Select Image Data...
+ImageBuilder.Button.Insert=삽입(&S)
+ImageBuilder.Label.SelectFrom=Select Image from:
+ImageBuilder.Label.EnterURI=Enter URI:
+ImageBuilder.Label.EnterResourceFile=Enter resource file:
 ImageBuilder.Label.EnterExpr=동적 이미지 식 입력(&N):
-ImageBuilder.Label.EnterUri=URI 입력(&N):
-ImageBuilder.Label.Open=식 빌더(&X)...
-ImageBuilder.Label.SelectFrom=다음에서 사진 선택:
-ImageBuilder.ResourceFileType=리소스 폴더의 이미지 파일
-ImageBuilder.Label.URI=URI(&U)
-ImageBuilder.Label.EnterResourceFile=리소스 파일 입력(&N):
+ImageBuilder.Type.URI=URI(&U)
+ImageBuilder.Type.ResourceFile=Image file in shared resources 
+ImageBuilder.Type.EmbededImage=내장된 이미지(&E)
+ImageBuilder.Type.DynamicImage=동적 이미지(&D)
+ImageBuilder.Description.URI=Link to image on web
+ImageBuilder.Description.ResourceFile=Link to image in shared resources
+ImageBuilder.Description.Embedded=Embed image into the report
+ImageBuilder.Description.Dynamic=Retrieve image from data set (databases)
 
 ###########################################################
 #ImageEditPart properties

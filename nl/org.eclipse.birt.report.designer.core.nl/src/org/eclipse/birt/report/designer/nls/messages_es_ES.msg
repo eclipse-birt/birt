@@ -1743,12 +1743,6 @@ I18nPage.text.Note=Nota: Para establecer la localización, seleccione el informe 
 ###########################################################
 #ImageBuilder properties
 
-ImageBuilder.Button.Dynamic=&Imagen dinámica
-ImageBuilder.Button.Import=&Añadir imagen...
-ImageBuilder.Button.Insert=Insertar
-ImageBuilder.Button.Preview=&Vista previa
-ImageBuilder.Button.Remove=Quitar
-ImageBuilder.ButtonBrowser=Examinar...
 ImageBuilder.Chooser.Title=Abrir archivo de imagen
 ImageBuilder.DialogTitle.Edit=Editar elemento de imagen
 ImageBuilder.DialogTitle.ImportFailed=Error al importar
@@ -1760,15 +1754,22 @@ ImageBuilder.BrowserResourceDialog.Title=Buscar archivos de imagen
 ImageBuilder.BrowserResourceDialog.Message=Seleccione los archivos de imagen de la carpeta de ruta de recursos
 ImageBuilder.ErrorMessage.OutOfMemory=La imagen no se puede guardar en la memoria.
 ImageBuilder.FileDialog.FilterMessage=Archivo de imagen admitido
-ImageBuilder.Label.Binding=&Enlace
-ImageBuilder.Label.EmbededImage=&Imagen incrustada
+ImageBuilder.Button.Browser=Examinar...
+ImageBuilder.Button.Import=&Añadir imagen...
+ImageBuilder.Button.SelectImageData=Select Image Data...
+ImageBuilder.Button.Insert=Insertar
+ImageBuilder.Label.SelectFrom=Select Image from:
+ImageBuilder.Label.EnterURI=Enter URI:
+ImageBuilder.Label.EnterResourceFile=Enter resource file:
 ImageBuilder.Label.EnterExpr=Introduci&r expresión de imagen dinámica:
-ImageBuilder.Label.EnterUri=Introducir &URI:
-ImageBuilder.Label.Open=Compilador de ex&presiones...
-ImageBuilder.Label.SelectFrom=Seleccionar imagen de:
-ImageBuilder.ResourceFileType=Archivo de imagen en carpeta de recursos
-ImageBuilder.Label.URI=U&RI
-ImageBuilder.Label.EnterResourceFile=&Introducir archivo de recursos:
+ImageBuilder.Type.URI=U&RI
+ImageBuilder.Type.ResourceFile=Image file in shared resources 
+ImageBuilder.Type.EmbededImage=&Imagen incrustada
+ImageBuilder.Type.DynamicImage=&Imagen dinámica
+ImageBuilder.Description.URI=Link to image on web
+ImageBuilder.Description.ResourceFile=Link to image in shared resources
+ImageBuilder.Description.Embedded=Embed image into the report
+ImageBuilder.Description.Dynamic=Retrieve image from data set (databases)
 
 ###########################################################
 #ImageEditPart properties
