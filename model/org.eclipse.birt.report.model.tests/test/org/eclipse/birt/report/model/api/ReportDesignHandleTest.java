@@ -1106,13 +1106,13 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 		SharedStyleHandle styleHandle = labelHandle.getModuleHandle( )
 				.findStyle( TOCHandle.defaultTOCPrefixName + "2" );//$NON-NLS-1$
-		assertEquals( "large", styleHandle.getFontSize( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals( "12pt", styleHandle.getFontSize( ).getStringValue( ) );//$NON-NLS-1$
 
 		labelHandle.setStyleName( TOCHandle.defaultTOCPrefixName + "1" );//$NON-NLS-1$
 
 		styleHandle = labelHandle.getStyle( );
 		assertNotNull( styleHandle );
-		assertEquals( "x-large", styleHandle.getFontSize( ).getStringValue( ) );//$NON-NLS-1$
+		assertEquals( "\"Arial\"", styleHandle.getFontFamilyHandle( ).getStringValue( ) );//$NON-NLS-1$
 
 	}
 

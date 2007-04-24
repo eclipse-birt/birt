@@ -1175,8 +1175,7 @@ public class DesignSession
 	{
 		defaultTOCStyleList = new ArrayList( );
 		URL url = new DefaultResourceLocator( ).findResource( null,
-				TEMPLATES_FOLDER_PATH + File.separator + TOC_DEFAULT_VALUE,
-				IResourceLocator.OTHERS );
+				TOC_DEFAULT_VALUE, IResourceLocator.OTHERS );
 		if ( url == null )
 			return;
 

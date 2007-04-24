@@ -947,9 +947,7 @@ public class SessionHandleTest extends BaseTestCase
 
 		assertNotNull( styleHandle );
 
-		DimensionHandle dimension = styleHandle.getFontSize( );
-		assertNotNull( dimension );
-		assertEquals( "xx-large", dimension.getValue( ) ); //$NON-NLS-1$
+		assertEquals( "12pt", styleHandle.getFontSize( ).getStringValue( ) ); //$NON-NLS-1$
 
 		try
 		{
