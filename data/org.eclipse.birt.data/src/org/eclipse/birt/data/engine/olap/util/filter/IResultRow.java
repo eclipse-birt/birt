@@ -19,5 +19,18 @@ import org.eclipse.birt.data.engine.core.DataException;
 
 public interface IResultRow
 {
-	public Object getValue( String attrName ) throws DataException;
+	/**
+	 * get the level value according to the specified level name.
+	 * @param name
+	 * @return
+	 * @throws DataException
+	 */
+	public Object getLevelValue( String name ) throws DataException;
+	/**
+	 * get the aggregation values according to teh specified aggregation name.
+	 * @param aggrName
+	 * @return
+	 * @throws DataException
+	 */
+	public Object getAggrValue( String aggrName ) throws DataException;
 }
