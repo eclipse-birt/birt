@@ -20,6 +20,7 @@ import org.eclipse.birt.data.engine.olap.data.document.DocumentObjectUtil;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentObject;
 import org.eclipse.birt.data.engine.olap.data.impl.Constants;
+import org.eclipse.birt.data.engine.olap.data.impl.OneKeySelection;
 
 /**
  * A disk based index. The index is n-tree which can be used to find element
@@ -911,33 +912,3 @@ class NodeSelectionCreator implements IStructureCreator
 		return nodeSelection;
 	}
 }
-
-
-class OneKeySelection implements ISelection
-{
-	Object[] keyValue = null;
-	OneKeySelection( Object[] keyValue )
-	{
-		this.keyValue = keyValue;
-	}
-	
-	public Object[] getMax( )
-	{
-		return keyValue;
-	}
-
-	public Object[] getMin( )
-	{
-		return keyValue;
-	}
-
-	public boolean isSelected( Object[] obj )
-	{
-		if ( CompareUtil.compare( keyValue, obj ) == 0 )
-			return true;
-		else
-			return false;
-	}
-	
-}
-

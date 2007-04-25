@@ -19,6 +19,19 @@ import org.eclipse.birt.data.engine.olap.data.api.ISelection;
 
 public class SelectionFactory
 {
+	private SelectionFactory( )
+	{
+	}
+	
+	/**
+	 * create an OneKeySelection instance.
+	 * @param key
+	 * @return
+	 */
+	public static ISelection createOneKeySelection( Object[] key )
+	{
+		return new OneKeySelection( key );
+	}
 
 	/**
 	 * 
