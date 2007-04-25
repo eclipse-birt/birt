@@ -33,7 +33,7 @@ import org.mozilla.javascript.ScriptableObject;
 /**
  * This is a helper class which provide script evaluation services for dimension filter.
  */
-public class DimensionFilterEvalHelper
+public class DimensionFilterEvalHelper implements IJsFilter
 {
 
 	//
@@ -132,13 +132,8 @@ public class DimensionFilterEvalHelper
 		this.scope.setParentScope( null );
 	}
 
-	/**
-	 * This method is used to evaluate the filter expression.
-	 *  
-	 * @param expr
-	 * @param resultRow
-	 * @return
-	 * @throws DataException
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJsFilter#evaluateFilter(org.eclipse.birt.data.engine.olap.util.filter.IResultRow)
 	 */
 	public boolean evaluateFilter( IResultRow resultRow )
 			throws DataException
@@ -287,7 +282,7 @@ public class DimensionFilterEvalHelper
 		{
 			try
 			{
-				return resultRow.getValue( this.key );
+				return resultRow.getLevelValue( this.key );
 			}
 			catch ( DataException e )
 			{
@@ -304,7 +299,7 @@ public class DimensionFilterEvalHelper
 		{
 			try
 			{
-				return resultRow.getValue( value );
+				return resultRow.getLevelValue( value );
 			}
 			catch ( DataException e )
 			{

@@ -28,6 +28,7 @@ import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.util.filter.DimensionFilterEvalHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.IJsFilter;
 import org.eclipse.birt.data.engine.olap.util.filter.IResultRow;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
@@ -102,7 +103,7 @@ public class DimensionFilterProcessorTest extends TestCase
 	public void testBasicFilter1() throws DataException
 	{
 		IBaseExpression expr = new ScriptExpression( "dimension[\"dim1\"][\"level1\"][\"attr1\"] * 2 + 2 == 6");
-		DimensionFilterEvalHelper helper = new DimensionFilterEvalHelper( this.baseScope, this.cubeQuery, expr );
+		IJsFilter helper = new DimensionFilterEvalHelper( this.baseScope, this.cubeQuery, expr );
 		List levelNames = new ArrayList();
 		levelNames.add( "level1" );
 		
@@ -117,7 +118,7 @@ public class DimensionFilterProcessorTest extends TestCase
 	public void testBasicFilter3( ) throws DataException
 	{
 		IBaseExpression expr = new ScriptExpression( "dimension[\"dim1\"][\"level2\"][\"attr1\"] * 2 + 2 == 6" );
-		DimensionFilterEvalHelper helper = new DimensionFilterEvalHelper( this.baseScope, this.cubeQuery, expr );
+		IJsFilter helper = new DimensionFilterEvalHelper( this.baseScope, this.cubeQuery, expr );
 		List levelNames = new ArrayList( );
 		levelNames.add( "level1" );
 		List resultRows = this.getResultRows1( );
@@ -179,9 +180,15 @@ public class DimensionFilterProcessorTest extends TestCase
 			this.nameValuePair = nameValuePair;
 		}
 		
-		public Object getValue( String attrName ) throws DataException
+		public Object getLevelValue( String attrName ) throws DataException
 		{
 			return this.nameValuePair.get( attrName );
+		}
+
+		public Object getAggrValue( String aggrName ) throws DataException
+		{
+			// TODO Auto-generated method stub
+			return null;
 		}
 		
 	}
