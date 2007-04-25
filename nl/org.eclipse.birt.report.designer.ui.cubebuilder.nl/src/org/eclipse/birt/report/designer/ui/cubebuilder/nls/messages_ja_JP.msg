@@ -14,7 +14,7 @@ cube.measure.new=New Cube Measure
 cube.measure.edit=Edit Cube Measure
 CubeMeasureNodeProvider.menu.text=Edit
 cube.measuregroup.new=New Cube Measure Group
-cube.measure.edit=Edit Cube Measure Group
+cube.measure.edit=Edit Cube Measure
 CubeMeasureGroupNodeProvider.menu.text=Edit
 CubeModel.group.edit=Edit Group
 CubeModel.summaryfield.edit=Edit Summary Field
@@ -48,7 +48,7 @@ GroupsPage.Button.Property=&Property
 GroupsPage.Button.Join=&Joint Data Set
 GroupsPage.Label.DataField=Available data fields:
 GroupsPage.Label.Group=Groups:
-GroupsPage.Button.Add=Add
+GroupsPage.Button.Add=&Add
 GroupsPage.VirtualField.Measure=(Drop a field here to create a summary field)
 GroupsPage.VirtualField.Level=(Drop a field here to create a group)
 LevelDialog.Title=Property
@@ -77,10 +77,13 @@ LevelPropertyDialog.Button.Dynamic=Dynamic
 LevelPropertyDialog.Button.Static=Static
 LevelPropertyDialog.Label.Property=Level Property
 LevelPropertyDialog.Label.Attribute=Attribute
-LevelPropertyDialog.Label.Name=Name
+LevelPropertyDialog.Label.Name=Name:
 LevelPropertyDialog.Label.Expression=Expression
 
 ###########################################################
 #RenameInputDialog properties
 RenameInputDialog.DialogTitle=Rename Input
 RenameInputDialog.DialogMessage=Please input the new name
+############################################################
+#ExpressionBuilder properties
+ExpressionProvider.Category.DataSets=Available Data Sets
