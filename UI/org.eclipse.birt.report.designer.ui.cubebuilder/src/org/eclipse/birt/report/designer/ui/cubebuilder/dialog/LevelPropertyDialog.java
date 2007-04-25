@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
+import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeExpressionProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.widget.ExpressionCellEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -135,7 +136,10 @@ public class LevelPropertyDialog extends BaseDialog
 	private void initLevelDialog( )
 	{
 		if ( input != null )
+		{
 			infoLabel.setText( infoLabel.getText( ) + input.getColumnName( ) );
+			expressionEditor.setExpressionProvider( new CubeExpressionProvider( input ) );
+		}
 
 		Iterator valuesIter = input.staticValuesIterator( );
 		if ( ( valuesIter == null || !valuesIter.hasNext( ) )
@@ -1016,6 +1020,7 @@ public class LevelPropertyDialog extends BaseDialog
 	private static final String Prop_Name = "Name";
 	private static final String prop_Expression = "Expression";
 	private Table dynamicTable;
+	private ExpressionCellEditor expressionEditor;
 
 	protected Composite createStaticArea( Composite parent )
 	{
@@ -1084,9 +1089,11 @@ public class LevelPropertyDialog extends BaseDialog
 		}
 
 		staticViewer.setColumnProperties( columns );
+
+		expressionEditor = new ExpressionCellEditor( staticTable );
 		CellEditor[] cellEditors = new CellEditor[]{
-				new TextCellEditor( staticTable ),
-				new ExpressionCellEditor( staticTable )
+				new TextCellEditor( staticTable ), expressionEditor
+
 		};
 		staticViewer.setCellEditors( cellEditors );
 

@@ -27,6 +27,8 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
+import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
+import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 
 public class CubeExpressionProvider extends ExpressionProvider
 {
@@ -39,6 +41,12 @@ public class CubeExpressionProvider extends ExpressionProvider
 	{
 		super( handle );
 		dataSetHandle = handle.getDataSet( );
+	}
+
+	public CubeExpressionProvider( TabularLevelHandle handle )
+	{
+		super( handle );
+		dataSetHandle = ( (TabularHierarchyHandle) handle.getContainer( ) ).getDataSet( );
 	}
 
 	protected List getCategoryList( )
