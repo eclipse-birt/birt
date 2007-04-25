@@ -80,6 +80,8 @@ public class DataItemBindingDialog extends BaseDialog
 	protected static final String ALL = Messages.getString( "DataItemBindingDialog.text.All" );
 
 	protected static final String NONE = Messages.getString( "DataItemBindingDialog.text.None" );
+	
+	protected static final String NULL = Messages.getString( "DataItemBindingDialog.text.Null" );
 
 	protected static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
 			.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
@@ -599,6 +601,7 @@ public class DataItemBindingDialog extends BaseDialog
 	private void initFunction( )
 	{
 		itemFunction.setItems( getFunctionDisplayNames( ) );
+		itemFunction.add( NULL, 0 );
 		if ( bindingColumn == null )
 		{
 			return;
@@ -606,21 +609,8 @@ public class DataItemBindingDialog extends BaseDialog
 		String functionString = bindingColumn.getAggregateFunction( );
 		int itemIndex = getItemIndex( getFunctionDisplayNames( ),
 				getFunctionDisplayName( functionString ) );
+		itemFunction.select( itemIndex + 1 );
 
-		if ( functionString != null
-				&& functionString.length( ) > 0
-				&& itemIndex != -1 )
-		{
-
-			if ( functionString != null )
-				itemFunction.select( itemIndex );
-			else
-				itemFunction.select( 0 );
-		}
-		else
-		{
-			itemFunction.select( 0 );
-		}
 	}
 
 	private void initFilter( )
@@ -805,8 +795,11 @@ public class DataItemBindingDialog extends BaseDialog
 				}
 				else
 					newBinding.setAggregateOn( null );
-				newBinding.setAggregateFunction( getFunctionNames( )[getItemIndex( getFunctionDisplayNames( ),
-						itemFunction.getText( ) )] );
+				if ( itemFunction.getText( ).equals( NULL ) )
+					newBinding.setAggregateFunction( null );
+				else
+					newBinding.setAggregateFunction( getFunctionNames( )[getItemIndex( getFunctionDisplayNames( ),
+							itemFunction.getText( ) )] );
 
 				if ( filterBtn.getSelection( )
 						&& filterText.getText( ).length( ) != 0 )
@@ -874,8 +867,9 @@ public class DataItemBindingDialog extends BaseDialog
 				}
 				else
 					bindingColumn.setAggregateOn( null );
-
-				bindingColumn.setAggregateFunction( getFunctionNames( )[getItemIndex( getFunctionDisplayNames( ),
+				if ( itemFunction.getText( ).equals( NULL ) )
+					bindingColumn.setAggregateFunction( null );
+				else bindingColumn.setAggregateFunction( getFunctionNames( )[getItemIndex( getFunctionDisplayNames( ),
 						itemFunction.getText( ) )] );
 
 				if ( filterBtn.getSelection( )
