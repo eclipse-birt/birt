@@ -39,6 +39,7 @@ public class DimensionFilterEvalHelper implements IJsFilter
 	//
 	private Scriptable scope;
 	private DummyJSLevels dimObj;
+	private DummyJSDataAccessor dataObj;
 	private IBaseExpression expr;
 	private String dimName;
 	private ICubeQueryDefinition defn;
@@ -57,6 +58,7 @@ public class DimensionFilterEvalHelper implements IJsFilter
 			this.scope.setParentScope( parentScope );
 			this.defn = defn;
 			this.dimObj = new DummyJSLevels( );
+			this.dataObj = new DummyJSDataAccessor();
 			this.dimName = OlapExpressionCompiler.getReferencedDimensionName( expr );
 			this.expr = expr;
 			
@@ -66,7 +68,7 @@ public class DimensionFilterEvalHelper implements IJsFilter
 			this.scope.put( "dimension",
 					this.scope,
 					new DummyJSDimensionAccessor( this.dimName, dimObj ) );
-			
+			this.scope.put( "data", this.scope, this.dataObj );
 			OLAPExpressionCompiler.compile( cx, this.expr );
 		}
 		finally
@@ -330,5 +332,36 @@ public class DimensionFilterEvalHelper implements IJsFilter
 	private class InMatchDimensionIndicator extends RuntimeException
 	{
 
+	}
+	
+	/**
+	 * Wrapper for "data" script object.
+	 *
+	 */
+	private class DummyJSDataAccessor extends ScriptableObject
+	{
+		private IResultRow resultRow;
+		
+		public String getClassName( )
+		{
+			return "DummyJSDataAccessor";
+		}
+		
+		public void setResultRow( IResultRow resultRow )
+		{
+			this.resultRow = resultRow;
+		}
+		
+		public Object get( String aggrName, Scriptable scope )
+		{
+			try
+			{
+				return this.resultRow.getAggrValue( aggrName );
+			}
+			catch ( DataException e )
+			{
+				return null;
+			}
+		}
 	}
 }
