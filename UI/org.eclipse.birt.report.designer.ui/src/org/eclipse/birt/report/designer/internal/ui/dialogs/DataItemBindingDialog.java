@@ -51,7 +51,8 @@ public class DataItemBindingDialog extends BaseDialog
 
 	protected static final String NAME = Messages.getString( "DataItemBindingDialog.text.Name" );
 
-//	protected static final String DISPLAY_NAME = Messages.getString( "DataItemBindingDialog.text.displayName" );
+	// protected static final String DISPLAY_NAME = Messages.getString(
+	// "DataItemBindingDialog.text.displayName" );
 
 	protected static final String DATA_TYPE = Messages.getString( "DataItemBindingDialog.text.DataType" );
 
@@ -73,7 +74,7 @@ public class DataItemBindingDialog extends BaseDialog
 	protected static final String FORCE_BINDING_TEXT = Messages.getString( "DataItemBindingDialog.text.ForceBinding" );
 
 	protected static final String DEFAULT_ITEM_NAME = "data item";
-	
+
 	protected static final String EMPTY_STRING = "";
 
 	protected static final String ALL = Messages.getString( "DataItemBindingDialog.text.All" );
@@ -85,10 +86,52 @@ public class DataItemBindingDialog extends BaseDialog
 			.getMember( ComputedColumn.DATA_TYPE_MEMBER )
 			.getAllowedChoices( );
 
-	protected static final IChoiceSet FUNCTION_LIST_CHOICE_SET = DEUtil.getMetaDataDictionary( )
-			.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
-			.getMember( ComputedColumn.AGGREGATEON_FUNCTION_MEMBER )
-			.getAllowedChoices( );
+	private String[] getFunctionDisplayNames( )
+	{
+		IChoice[] choices = getFunctions( );
+		if ( choices == null )
+			return new String[0];
+
+		String[] displayNames = new String[choices.length];
+		for ( int i = 0; i < choices.length; i++ )
+		{
+			displayNames[i] = choices[i].getDisplayName( );
+		}
+		return displayNames;
+
+	}
+
+	private String[] getFunctionNames( )
+	{
+		IChoice[] choices = getFunctions( );
+		if ( choices == null )
+			return new String[0];
+
+		String[] displayNames = new String[choices.length];
+		for ( int i = 0; i < choices.length; i++ )
+		{
+			displayNames[i] = choices[i].getName( );
+		}
+		return displayNames;
+	}
+
+	private String getFunctionDisplayName( String name )
+	{
+		return ChoiceSetFactory.getDisplayNameFromChoiceSet( name,
+				DEUtil.getMetaDataDictionary( )
+						.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
+						.getMember( ComputedColumn.AGGREGATEON_FUNCTION_MEMBER )
+						.getAllowedChoices( ) );
+	}
+
+	private IChoice[] getFunctions( )
+	{
+		return DEUtil.getMetaDataDictionary( )
+				.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
+				.getMember( ComputedColumn.AGGREGATEON_FUNCTION_MEMBER )
+				.getAllowedChoices( )
+				.getChoices( );
+	}
 
 	protected static final IChoice[] DATA_TYPE_CHOICES = DATA_TYPE_CHOICE_SET.getChoices( null );
 
@@ -112,7 +155,7 @@ public class DataItemBindingDialog extends BaseDialog
 
 	private Text itemName;
 
-//	private Text itemDisplayName;
+	// private Text itemDisplayName;
 
 	private Combo itemAggregateOn;
 
@@ -199,11 +242,11 @@ public class DataItemBindingDialog extends BaseDialog
 
 		} );
 
-//		new Label( composite, SWT.NONE ).setText( DISPLAY_NAME );
-//		itemDisplayName = new Text( composite, SWT.BORDER );
-//		itemDisplayName.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-//				| GridData.GRAB_HORIZONTAL ) );
-//		WidgetUtil.createGridPlaceholder( composite, 1, false );
+		// new Label( composite, SWT.NONE ).setText( DISPLAY_NAME );
+		// itemDisplayName = new Text( composite, SWT.BORDER );
+		// itemDisplayName.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
+		// | GridData.GRAB_HORIZONTAL ) );
+		// WidgetUtil.createGridPlaceholder( composite, 1, false );
 
 		new Label( composite, SWT.NONE ).setText( DATA_TYPE );
 		itemType = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
@@ -260,19 +303,21 @@ public class DataItemBindingDialog extends BaseDialog
 						setAggregateOnSelect( NONE );
 					}
 				}
-//				if ( ExpressionUtil.hasAggregation( itemExpression.getText( ) ) )
-//				{
-//					aggregateOnBtn.setEnabled( true );
-					// aggregateOnBtn.setSelection( true );
-//					itemAggregateOn.setEnabled( true );
-					// hiddenLabel.setVisible( true );
-//				}
-//				else if ( !ExpressionUtil.hasAggregation( itemExpression.getText( ) ) )
-//				{
-					// aggregateOnBtn.setEnabled( false );
-					// aggregateOnBtn.setSelection( false );
-//					itemAggregateOn.setEnabled( false );
-//				}
+				// if ( ExpressionUtil.hasAggregation( itemExpression.getText( )
+				// ) )
+				// {
+				// aggregateOnBtn.setEnabled( true );
+				// aggregateOnBtn.setSelection( true );
+				// itemAggregateOn.setEnabled( true );
+				// hiddenLabel.setVisible( true );
+				// }
+				// else if ( !ExpressionUtil.hasAggregation(
+				// itemExpression.getText( ) ) )
+				// {
+				// aggregateOnBtn.setEnabled( false );
+				// aggregateOnBtn.setSelection( false );
+				// itemAggregateOn.setEnabled( false );
+				// }
 				if ( itemExpression.getText( ) == null
 						|| itemExpression.getText( ).trim( ).equals( "" ) )
 				{
@@ -372,12 +417,14 @@ public class DataItemBindingDialog extends BaseDialog
 		argumentBtn.setLayoutData( gd );
 
 		argumentList = new org.eclipse.swt.widgets.List( parent, SWT.BORDER
-				| SWT.READ_ONLY | SWT.V_SCROLL);
+				| SWT.READ_ONLY
+				| SWT.V_SCROLL );
 		gd = new GridData( GridData.HORIZONTAL_ALIGN_FILL );
 		gd.heightHint = 80;
 		gd.verticalSpan = 3;
 		argumentList.setLayoutData( gd );
-		argumentList.addSelectionListener( new SelectionAdapter(){
+		argumentList.addSelectionListener( new SelectionAdapter( ) {
+
 			public void widgetSelected( SelectionEvent e )
 			{
 				if ( argumentList.getSelectionIndex( ) != -1 )
@@ -437,7 +484,7 @@ public class DataItemBindingDialog extends BaseDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				ExpressionBuilder expression = new ExpressionBuilder( (String)argumentList.getItem( argumentList.getSelectionIndex( ) ) );
+				ExpressionBuilder expression = new ExpressionBuilder( (String) argumentList.getItem( argumentList.getSelectionIndex( ) ) );
 				if ( expressionProvider == null )
 					expressionProvider = new BindingExpressionProvider( input );
 				expression.setExpressionProvier( expressionProvider );
@@ -541,7 +588,7 @@ public class DataItemBindingDialog extends BaseDialog
 	{
 		initDataTypes( );
 		initName( );
-//		initDisplayName( );
+		// initDisplayName( );
 		initAggregateOns( );
 		initExpression( );
 		initFunction( );
@@ -551,14 +598,14 @@ public class DataItemBindingDialog extends BaseDialog
 
 	private void initFunction( )
 	{
-		String functionArray[] = ChoiceSetFactory.getDisplayNamefromChoiceSet( FUNCTION_LIST_CHOICE_SET );
-		itemFunction.setItems( functionArray );
-		if(bindingColumn == null)
+		itemFunction.setItems( getFunctionDisplayNames( ) );
+		if ( bindingColumn == null )
 		{
 			return;
 		}
 		String functionString = bindingColumn.getAggregateFunction( );
-		int itemIndex = getItemIndex(ChoiceSetFactory.getNamefromChoiceSet( FUNCTION_LIST_CHOICE_SET ),functionString);
+		int itemIndex = getItemIndex( getFunctionDisplayNames( ),
+				getFunctionDisplayName( functionString ) );
 
 		if ( functionString != null
 				&& functionString.length( ) > 0
@@ -582,16 +629,17 @@ public class DataItemBindingDialog extends BaseDialog
 		{
 			filterBtn.setSelection( false );
 			setFilterSelect( false );
-		}else
+		}
+		else
 		{
 			String filterString = bindingColumn.getFilterExpression( );
-			if(filterString != null && filterString.length( ) > 0)
+			if ( filterString != null && filterString.length( ) > 0 )
 			{
 				filterBtn.setSelection( true );
 				setFilterSelect( true );
-				filterText.setText(filterString );
+				filterText.setText( filterString );
 			}
-			
+
 		}
 
 	}
@@ -603,55 +651,56 @@ public class DataItemBindingDialog extends BaseDialog
 			argumentBtn.setSelection( false );
 			return;
 		}
-		
+
 		List list = bindingColumn.getArgumentList( );
 		if ( list != null && list.size( ) != 0 )
 		{
 			argumentBtn.setSelection( true );
-			for(int i = 0; i < list.size( ); i ++)
+			for ( int i = 0; i < list.size( ); i++ )
 			{
-				argumentList.add( (String)list.get( i ) );
+				argumentList.add( (String) list.get( i ) );
 			}
-			
-			updateArgumentListEnabled();
+
+			updateArgumentListEnabled( );
 		}
 		else
 		{
 			argumentBtn.setSelection( false );
 		}
-		
 
 	}
 
-	private void updateArgumentListEnabled()
+	private void updateArgumentListEnabled( )
 	{
 		boolean add = true;
 		boolean edit = true;
 		boolean del = true;
 		boolean list = true;
-		if(argumentBtn.isEnabled( ) == false || argumentBtn.getSelection( ) == false)
+		if ( argumentBtn.isEnabled( ) == false
+				|| argumentBtn.getSelection( ) == false )
 		{
 			add = false;
 			edit = false;
 			del = false;
 			list = false;
-		}else
-		if(argumentList.getItemCount( ) <= 0 || argumentList.getSelectionIndex( ) < 0)
+		}
+		else if ( argumentList.getItemCount( ) <= 0
+				|| argumentList.getSelectionIndex( ) < 0 )
 		{
 			edit = false;
-			del = false;		
+			del = false;
 		}
-		
+
 		addBtn.setEnabled( add );
 		editBtn.setEnabled( edit );
 		deleteBtn.setEnabled( del );
 		argumentList.setEnabled( list );
 	}
-	
+
 	private void initAggregateOns( )
 	{
 		if ( aggregateOns != null && itemAggregateOn != null )
-		{			
+		{
 			itemAggregateOn.setItems( aggregateOns );
 			if ( aggregateOnSelect != null )
 			{
@@ -711,15 +760,15 @@ public class DataItemBindingDialog extends BaseDialog
 			itemName.setText( name );
 	}
 
-//	private String displayName;
-//
-//	private void initDisplayName( )
-//	{
-//		if ( displayName != null && itemDisplayName != null )
-//		{
-//			itemDisplayName.setText( displayName );
-//		}
-//	}
+	// private String displayName;
+	//
+	// private void initDisplayName( )
+	// {
+	// if ( displayName != null && itemDisplayName != null )
+	// {
+	// itemDisplayName.setText( displayName );
+	// }
+	// }
 
 	protected void save( ) throws SemanticException
 	{
@@ -735,7 +784,7 @@ public class DataItemBindingDialog extends BaseDialog
 					return;
 				}
 				newBinding.setName( itemName.getText( ) );
-//				newBinding.setDisplayName( itemDisplayName.getText( ) );
+				// newBinding.setDisplayName( itemDisplayName.getText( ) );
 				for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 				{
 					if ( DATA_TYPE_CHOICES[i].getDisplayName( )
@@ -747,7 +796,8 @@ public class DataItemBindingDialog extends BaseDialog
 				}
 				newBinding.setExpression( itemExpression.getText( ) );
 
-				if ( aggregateOnBtn.isEnabled( ) && aggregateOnBtn.getSelection( )
+				if ( aggregateOnBtn.isEnabled( )
+						&& aggregateOnBtn.getSelection( )
 						&& !( itemAggregateOn.getText( ).equals( ALL ) || itemAggregateOn.getText( )
 								.equals( NONE ) ) )
 				{
@@ -755,31 +805,24 @@ public class DataItemBindingDialog extends BaseDialog
 				}
 				else
 					newBinding.setAggregateOn( null );
-				
-				// set function
-				for ( int i = 0; i < FUNCTION_LIST_CHOICE_SET.getChoices( null ).length; i++ )
-				{
-					if ( FUNCTION_LIST_CHOICE_SET.getChoices( null )[i].getDisplayName( )
-							.endsWith( itemFunction.getText( ) ) )
-					{
-						newBinding.setAggregateFunction( FUNCTION_LIST_CHOICE_SET.getChoices( null )[i].getName( ) );
-						break;
-					}
-				}				
-				
-				if(filterBtn.getSelection( )&& filterText.getText( ).length( ) != 0)
+				newBinding.setAggregateFunction( getFunctionNames( )[getItemIndex( getFunctionDisplayNames( ),
+						itemFunction.getText( ) )] );
+
+				if ( filterBtn.getSelection( )
+						&& filterText.getText( ).length( ) != 0 )
 				{
 					newBinding.setFilterExpression( filterText.getText( ) );
 				}
-				
-				if(argumentBtn.getSelection( ) && argumentList.getItems( ).length > 0)
+
+				if ( argumentBtn.getSelection( )
+						&& argumentList.getItems( ).length > 0 )
 				{
-					for(int i = 0; i < argumentList.getItemCount( ); i ++)
+					for ( int i = 0; i < argumentList.getItemCount( ); i++ )
 					{
-						newBinding.addArgument(  argumentList.getItems( )[i] );
+						newBinding.addArgument( argumentList.getItems( )[i] );
 					}
 				}
-				
+
 				bindingColumn = DEUtil.addColumn( getBindingObject( ),
 						newBinding,
 						isForceBinding( ) );
@@ -805,9 +848,10 @@ public class DataItemBindingDialog extends BaseDialog
 						.equals( itemName.getText( ).trim( ) ) ) )
 					bindingColumn.setName( itemName.getText( ) );
 
-//				if ( !( bindingColumn.getDisplayName( ) != null && bindingColumn.getDisplayName( )
-//						.equals( itemDisplayName.getText( ).trim( ) ) ) )
-//					bindingColumn.setDisplayName( itemDisplayName.getText( ) );
+				// if ( !( bindingColumn.getDisplayName( ) != null &&
+				// bindingColumn.getDisplayName( )
+				// .equals( itemDisplayName.getText( ).trim( ) ) ) )
+				// bindingColumn.setDisplayName( itemDisplayName.getText( ) );
 
 				for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 				{
@@ -821,7 +865,8 @@ public class DataItemBindingDialog extends BaseDialog
 
 				bindingColumn.setExpression( itemExpression.getText( ) );
 
-				if ( aggregateOnBtn.isEnabled( ) && aggregateOnBtn.getSelection( )
+				if ( aggregateOnBtn.isEnabled( )
+						&& aggregateOnBtn.getSelection( )
 						&& !( itemAggregateOn.getText( ).equals( ALL ) || itemAggregateOn.getText( )
 								.equals( NONE ) ) )
 				{
@@ -830,44 +875,38 @@ public class DataItemBindingDialog extends BaseDialog
 				else
 					bindingColumn.setAggregateOn( null );
 
-				// set function
-				for ( int i = 0; i < FUNCTION_LIST_CHOICE_SET.getChoices( null ).length; i++ )
-				{
-					if ( FUNCTION_LIST_CHOICE_SET.getChoices( null )[i].getDisplayName( )
-							.endsWith( itemFunction.getText( ) ) )
-					{
-						bindingColumn.setAggregateFunction( FUNCTION_LIST_CHOICE_SET.getChoices( null )[i].getName( ) );
-						break;
-					}
-				}				
-				
-				if(filterBtn.getSelection( )&& filterText.getText( ).length( ) != 0)
+				bindingColumn.setAggregateFunction( getFunctionNames( )[getItemIndex( getFunctionDisplayNames( ),
+						itemFunction.getText( ) )] );
+
+				if ( filterBtn.getSelection( )
+						&& filterText.getText( ).length( ) != 0 )
 				{
 					bindingColumn.setFilterExpression( filterText.getText( ) );
-				}else
+				}
+				else
 				{
 					bindingColumn.setFilterExpression( null );
 				}
-				
-//				 Remove the old arguments and add the new argument list.
-				List oldArgumentList = bindingColumn.getArgumentList( );				
-				if(oldArgumentList != null && oldArgumentList.size( ) > 0 )
+
+				// Remove the old arguments and add the new argument list.
+				List oldArgumentList = bindingColumn.getArgumentList( );
+				if ( oldArgumentList != null && oldArgumentList.size( ) > 0 )
 				{
-					List tmpList = new ArrayList(oldArgumentList);
-					for(int i = 0; i < tmpList.size( ); i ++)
+					List tmpList = new ArrayList( oldArgumentList );
+					for ( int i = 0; i < tmpList.size( ); i++ )
 					{
-						bindingColumn.removeArgument((String) tmpList.get( i ) );
+						bindingColumn.removeArgument( (String) tmpList.get( i ) );
 					}
 				}
 
-				
-				if(argumentBtn.getSelection( ) && argumentList.getItems( ).length > 0)
+				if ( argumentBtn.getSelection( )
+						&& argumentList.getItems( ).length > 0 )
 				{
-					for(int i = 0; i < argumentList.getItemCount( ); i ++)
+					for ( int i = 0; i < argumentList.getItemCount( ); i++ )
 					{
-						bindingColumn.addArgument(  argumentList.getItems( )[i] );
+						bindingColumn.addArgument( argumentList.getItems( )[i] );
 					}
-				}				
+				}
 
 			}
 		}
@@ -972,11 +1011,11 @@ public class DataItemBindingDialog extends BaseDialog
 		initName( );
 	}
 
-//	public void setDisplayName( String displayName )
-//	{
-//		this.displayName = displayName;
-//		initDisplayName( );
-//	}
+	// public void setDisplayName( String displayName )
+	// {
+	// this.displayName = displayName;
+	// initDisplayName( );
+	// }
 
 	private ComputedColumn newBinding;
 
@@ -1008,7 +1047,7 @@ public class DataItemBindingDialog extends BaseDialog
 				if ( bindingColumn != null )
 				{
 					setName( bindingColumn.getName( ) );
-//					setDisplayName( bindingColumn.getDisplayName( ) );
+					// setDisplayName( bindingColumn.getDisplayName( ) );
 					setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice( bindingColumn.getDataType( ) )
 							.getDisplayName( ) );
 					setExpression( bindingColumn.getExpression( ) );
