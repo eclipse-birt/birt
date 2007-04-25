@@ -23,15 +23,30 @@ public class AggregationFunctionDefinition
 	
 	/**
 	 * 
+	 * @param name
 	 * @param measurename
 	 * @param functionName
 	 */
-	public AggregationFunctionDefinition( String	measurename, String functionName )
+	public AggregationFunctionDefinition( String name, String measurename,
+			String functionName )
 	{
+		this.name = name;
 		this.measureName = measurename;
 		this.functionName = functionName;
 	}
 	
+	/**
+	 * 
+	 * @param measurename
+	 * @param functionName
+	 */
+	public AggregationFunctionDefinition( String measurename,
+			String functionName )
+	{
+		this.measureName = measurename;
+		this.functionName = functionName;
+	}
+		
 	/**
 	 * @return the functionName
 	 */

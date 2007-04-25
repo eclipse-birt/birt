@@ -184,7 +184,8 @@ public class QueryExecutor
 				AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[list.size( )];
 				for ( int index = 0; index < list.size( ); index++ )
 				{
-					funcitons[index] = new AggregationFunctionDefinition( ( (CalculatedMember) list.get( index ) ).getMeasureName( ),
+					funcitons[index] = new AggregationFunctionDefinition( ( (CalculatedMember) list.get( index ) ).getName( ),
+							( (CalculatedMember) list.get( index ) ).getMeasureName( ),
 							( (CalculatedMember) list.get( index ) ).getAggrFunction( ) );
 				}
 
