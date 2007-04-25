@@ -228,9 +228,8 @@ MeterSeriesAttributeSheetImpl.Lbl.Needle=Indicador
 MeterSeriesAttributeComposite.Lbl.DialTicks=&Marcas
 MeterSeriesAttributeComposite.Lbl.DialScale=Es&cala
 BarSeriesAttributeComposite.Exception.IllegalArgument=La serie de tipo {0} no es un argumento válido para BarSeriesAttributeComposite.
-BarSeriesAttributeComposite.Lbl.RiserType=&Tipo de ascendente:
 BarSeriesUIProvider.Lbl.SeriesDefinition=Definición de series
-BarSeriesAttributeComposite.Lbl.RiserOutline=Contorno de ascendente:
+BarSeriesAttributeComposite.Lbl.SeriesOutline=Series Outline:
 BarBottomAreaComponent.Label.CategoryXSeries=Serie (X) de categoría:
 
 StockSeriesAttributeComposite.Exception.IllegalArgument=La serie de tipo {0} no es un argumento válido para StockSeriesAttributeComposite.
@@ -299,6 +298,36 @@ BarChart.Txt.StackedDescription=Los diagramas de barras apiladas muestran las ba
 BarChart.Txt.PercentStackedDescription=Los diagramas de barras apiladas de porcentaje muestran barras apiladas una sobre la otra de forma\nque la altura total sea 100, midiendo desde el punto más bajo hasta el más alto de cada unidad.
 BarChart.Txt.HelpText=Los diagramas de barras se crean para comparar clases o grupos de datos. Los valores de los datos de las diferentes series de una misma categoría aparecen en una sucesión de columnas independientes o apiladas como secciones en una sola columna (según el subtipo seleccionado).
 BarChart.Txt.SideBySideDescription=Los diagramas de barras laterales muestran barras de cada serie una junto a la otra. \nEstas barras se organizan para que tengan el mismo ancho. \nEl ancho de las barras dependerá del número de series que se vaya a procesar.
+
+TubeChart.Txt.DefaultTubeChartTitle=Tube Chart Title
+TubeChart.Txt.DisplayName=Tube
+TubeChart.SubType.Stacked=Apilado
+TubeChart.SubType.PercentStacked=Porcentaje apilado
+TubeChart.SubType.Side=Lateral
+TubeChart.Txt.StackedDescription=Stacked Tube charts show tubes stacked one above the other. \nThe positive and negative values are stacked separately above and below the origin.
+TubeChart.Txt.PercentStackedDescription=Percent Stacked Tube charts show tubes stacked one over the other in such a way \nthat the total height of the stacked tube (from its lowest point to its highest) is 100.
+TubeChart.Txt.HelpText=Tube charts are created for comparing classes or groups of data. Data values for different series in the same category appear adjacent to each other in separate columns or stacked as sections in a single column (depending on the sub type chosen).
+TubeChart.Txt.SideBySideDescription=Side-by-side Tube charts show tubes from each series one beside the other. \nThese tubes are arranged so that they each have the same width. \nThe width of the tubes depends on the number of series being plotted.
+
+ConeChart.Txt.DefaultConeChartTitle=Cone Chart Title
+ConeChart.Txt.DisplayName=Cone
+ConeChart.SubType.Stacked=Apilado
+ConeChart.SubType.PercentStacked=Porcentaje apilado
+ConeChart.SubType.Side=Lateral
+ConeChart.Txt.StackedDescription=Stacked Cone charts show cones stacked one above the other. \nThe positive and negative values are stacked separately above and below the origin.
+ConeChart.Txt.PercentStackedDescription=Percent Stacked Cone charts show cones stacked one over the other in such a way \nthat the total height of the stacked cone (from its lowest point to its highest) is 100.
+ConeChart.Txt.HelpText=Cone charts are created for comparing classes or groups of data. Data values for different series in the same category appear adjacent to each other in separate columns or stacked as sections in a single column (depending on the sub type chosen).
+ConeChart.Txt.SideBySideDescription=Side-by-side Cone charts show cones from each series one beside the other. \nThese cones are arranged so that they each have the same width. \nThe width of the cones depends on the number of series being plotted.
+
+PyramidChart.Txt.DefaultPyramidChartTitle=Pyramid Chart Title
+PyramidChart.Txt.DisplayName=Pyramid
+PyramidChart.SubType.Stacked=Apilado
+PyramidChart.SubType.PercentStacked=Porcentaje apilado
+PyramidChart.SubType.Side=Lateral
+PyramidChart.Txt.StackedDescription=Stacked Pyramid charts show pyramids stacked one above the other. \nThe positive and negative values are stacked separately above and below the origin.
+PyramidChart.Txt.PercentStackedDescription=Percent Stacked Pyramid charts show pyramids stacked one over the other in such a way \nthat the total height of the stacked pyramid (from its lowest point to its highest) is 100.
+PyramidChart.Txt.HelpText=Pyramid charts are created for comparing classes or groups of data. Data values for different series in the same category appear adjacent to each other in separate columns or stacked as sections in a single column (depending on the sub type chosen).
+PyramidChart.Txt.SideBySideDescription=Side-by-side Pyramid charts show pyramids from each series one beside the other. \nThese pyramids are arranged so that they each have the same width. \nThe width of the pyramids depends on the number of series being plotted.
 
 PieChart.Txt.DefaultPieChartTitle=Título del diagrama circular
 PieChart.Txt.DisplayName=Circular

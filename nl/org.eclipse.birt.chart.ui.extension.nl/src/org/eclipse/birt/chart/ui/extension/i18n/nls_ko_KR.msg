@@ -228,9 +228,8 @@ MeterSeriesAttributeSheetImpl.Lbl.Needle=바늘
 MeterSeriesAttributeComposite.Lbl.DialTicks=틱(&T)
 MeterSeriesAttributeComposite.Lbl.DialScale=배율(&C)
 BarSeriesAttributeComposite.Exception.IllegalArgument=형식 {0}의 계열은 BarSeriesAttributeComposite에 대한 잘못된 인수입니다.
-BarSeriesAttributeComposite.Lbl.RiserType=계단 형식(&R):
 BarSeriesUIProvider.Lbl.SeriesDefinition=계열 정의
-BarSeriesAttributeComposite.Lbl.RiserOutline=계단 윤곽선:
+BarSeriesAttributeComposite.Lbl.SeriesOutline=Series Outline:
 BarBottomAreaComponent.Label.CategoryXSeries=범주 (X) 계열:
 
 StockSeriesAttributeComposite.Exception.IllegalArgument=형식 {0}의 계열은 StockSeriesAttributeComposite에 대한 잘못된 인수입니다.
@@ -299,6 +298,36 @@ BarChart.Txt.StackedDescription=누적 막대형 차트에는 서로 누적된 막대가 표시됩니
 BarChart.Txt.PercentStackedDescription=백분율 누적 막대형 차트에는 누적된 막대(가장 낮은 점에서부터 가장 높은 점까지)의 \n총 높이가 100이 되도록 막대가 서로 누적되어 표시됩니다.
 BarChart.Txt.HelpText=막대형 차트는 데이터 클래스 또는 그룹을 비교하기 위해 만든 것입니다. 같은 범주 내 서로 다른 계열의 데이터 값이 분리된 열로 서로 인접하여 나타나거나 단일 열 안의 섹션으로 누적되어 나타납니다. 이는 선택한 하위 형식에 의해 결정됩니다.
 BarChart.Txt.SideBySideDescription=연속 막대형 차트에는 각 계열의 막대가 나란히 표시됩니다. \n이 막대는 동일한 너비로 정렬됩니다. \n막대의 너비는 그려지는 계열 수에 따라 달라집니다.
+
+TubeChart.Txt.DefaultTubeChartTitle=Tube Chart Title
+TubeChart.Txt.DisplayName=Tube
+TubeChart.SubType.Stacked=누적
+TubeChart.SubType.PercentStacked=누적 백분율
+TubeChart.SubType.Side=연속
+TubeChart.Txt.StackedDescription=Stacked Tube charts show tubes stacked one above the other. \nThe positive and negative values are stacked separately above and below the origin.
+TubeChart.Txt.PercentStackedDescription=Percent Stacked Tube charts show tubes stacked one over the other in such a way \nthat the total height of the stacked tube (from its lowest point to its highest) is 100.
+TubeChart.Txt.HelpText=Tube charts are created for comparing classes or groups of data. Data values for different series in the same category appear adjacent to each other in separate columns or stacked as sections in a single column (depending on the sub type chosen).
+TubeChart.Txt.SideBySideDescription=Side-by-side Tube charts show tubes from each series one beside the other. \nThese tubes are arranged so that they each have the same width. \nThe width of the tubes depends on the number of series being plotted.
+
+ConeChart.Txt.DefaultConeChartTitle=Cone Chart Title
+ConeChart.Txt.DisplayName=Cone
+ConeChart.SubType.Stacked=누적
+ConeChart.SubType.PercentStacked=누적 백분율
+ConeChart.SubType.Side=연속
+ConeChart.Txt.StackedDescription=Stacked Cone charts show cones stacked one above the other. \nThe positive and negative values are stacked separately above and below the origin.
+ConeChart.Txt.PercentStackedDescription=Percent Stacked Cone charts show cones stacked one over the other in such a way \nthat the total height of the stacked cone (from its lowest point to its highest) is 100.
+ConeChart.Txt.HelpText=Cone charts are created for comparing classes or groups of data. Data values for different series in the same category appear adjacent to each other in separate columns or stacked as sections in a single column (depending on the sub type chosen).
+ConeChart.Txt.SideBySideDescription=Side-by-side Cone charts show cones from each series one beside the other. \nThese cones are arranged so that they each have the same width. \nThe width of the cones depends on the number of series being plotted.
+
+PyramidChart.Txt.DefaultPyramidChartTitle=Pyramid Chart Title
+PyramidChart.Txt.DisplayName=Pyramid
+PyramidChart.SubType.Stacked=누적
+PyramidChart.SubType.PercentStacked=누적 백분율
+PyramidChart.SubType.Side=연속
+PyramidChart.Txt.StackedDescription=Stacked Pyramid charts show pyramids stacked one above the other. \nThe positive and negative values are stacked separately above and below the origin.
+PyramidChart.Txt.PercentStackedDescription=Percent Stacked Pyramid charts show pyramids stacked one over the other in such a way \nthat the total height of the stacked pyramid (from its lowest point to its highest) is 100.
+PyramidChart.Txt.HelpText=Pyramid charts are created for comparing classes or groups of data. Data values for different series in the same category appear adjacent to each other in separate columns or stacked as sections in a single column (depending on the sub type chosen).
+PyramidChart.Txt.SideBySideDescription=Side-by-side Pyramid charts show pyramids from each series one beside the other. \nThese pyramids are arranged so that they each have the same width. \nThe width of the pyramids depends on the number of series being plotted.
 
 PieChart.Txt.DefaultPieChartTitle=원형 차트 제목
 PieChart.Txt.DisplayName=원형
