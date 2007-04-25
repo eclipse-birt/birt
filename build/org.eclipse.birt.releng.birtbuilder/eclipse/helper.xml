@@ -375,7 +375,7 @@
                     force="true" />
 
         <copy todir="${p4.home}/iText"  overwrite="true" failonerror="true">
-                <fileset dir="${p4.workspace}/Development/JRP/3rdParty/iText/itext_1_3_0"/>
+                <fileset dir="${p4.workspace}/Development/JRP/3rdParty/iText/itext_1_5_1"/>
         </copy>
         <copy todir="${p4.home}/reportTestsLib"  overwrite="true" failonerror="true">
                 <fileset dir="${p4.workspace}/Development/JRP/Dev/build/AutomationLib"/>
