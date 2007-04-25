@@ -405,7 +405,12 @@ public class AggregationResultSet implements IAggregationResultSet
 	 */
 	public int getAggregationIndex( String name ) throws IOException
 	{
-		return ((Integer)aggregationResultNameMap.get( name )).intValue( );
+		Object index = aggregationResultNameMap.get( name );
+		if( index == null )
+		{
+			return -1;
+		}
+		return ((Integer)index).intValue( );
 	}
 
 }
