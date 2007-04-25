@@ -142,6 +142,7 @@ public class DimensionFilterEvalHelper implements IJsFilter
 	{
 
 		this.dimObj.setResultRow( resultRow );
+		this.dataObj.setResultRow( resultRow );
 		Context cx = Context.enter( );
 		try
 		{
