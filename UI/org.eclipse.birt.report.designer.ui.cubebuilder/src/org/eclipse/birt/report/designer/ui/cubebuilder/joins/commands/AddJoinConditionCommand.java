@@ -82,10 +82,14 @@ public class AddJoinConditionCommand extends Command
 		try
 		{
 			DimensionCondition dimensionCondition = StructureFactory.createCubeJoinCondition( );
-			DimensionConditionHandle conditionHandle = ( (DatasetNodeEditPart) target.getParent( ) ).getCube( )
-					.addDimensionCondition( dimensionCondition );
-			conditionHandle.setHierarchy( hierarchy );
-			conditionHandle.addJoinCondition( joinCondition );
+			if ( target.getParent( ) != null
+					&& target.getParent( ) instanceof DatasetNodeEditPart )
+			{
+				DimensionConditionHandle conditionHandle = ( (DatasetNodeEditPart) target.getParent( ) ).getCube( )
+						.addDimensionCondition( dimensionCondition );
+				conditionHandle.setHierarchy( hierarchy );
+				conditionHandle.addJoinCondition( joinCondition );
+			}
 		}
 		catch ( SemanticException e )
 		{

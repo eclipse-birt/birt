@@ -26,6 +26,7 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeContentProvi
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.CubeLabelProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.provider.DataContentProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.VirtualField;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -1141,6 +1142,7 @@ public class CubeGroupContent extends Composite implements Listener
 				DimensionHandle dimension = (DimensionHandle) obj;
 				try
 				{
+					UIHelper.dropDimensionProperties( dimension );
 					dimension.dropAndClear( );
 				}
 				catch ( Exception e1 )

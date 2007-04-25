@@ -23,12 +23,15 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.UserPropertyDefnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.UserPropertyException;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
+import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageRegistry;
@@ -148,13 +151,9 @@ public final class UIHelper
 
 	public static int getIntProperty( ModuleHandle module, String id, String key )
 	{
-		if ( existIntProperty( module, id, key ) )
-		{
-			return module.getIntProperty( id
-					+ BuilderConstancts.PROPERTY_SEPARATOR
-					+ key );
-		}
-		return 0;
+		return module.getIntProperty( id
+				+ BuilderConstancts.PROPERTY_SEPARATOR
+				+ key );
 	}
 
 	public static void createIntPropertyDefn( ModuleHandle module, String id,
@@ -205,4 +204,44 @@ public final class UIHelper
 		return null;
 	}
 
+	public static void dropDimensionProperties( DimensionHandle dimension )
+	{
+		TabularCubeHandle cube = (TabularCubeHandle) dimension.getContainer( );
+		HierarchyHandle hierarcy = dimension.getDefaultHierarchy( );
+
+		try
+		{
+			dropProperty( cube, hierarcy, BuilderConstancts.POSITION_X );
+			dropProperty( cube, hierarcy, BuilderConstancts.POSITION_Y );
+			dropProperty( cube, hierarcy, BuilderConstancts.SIZE_WIDTH );
+			dropProperty( cube, hierarcy, BuilderConstancts.SIZE_HEIGHT );
+		}
+		catch ( Exception e )
+		{
+			ExceptionHandler.handle( e );
+		}
+	}
+
+	private static void dropProperty( TabularCubeHandle cube,
+			HierarchyHandle hierarcy, String type ) throws Exception
+	{
+		ModuleHandle module = cube.getModuleHandle( );
+		if ( UIHelper.existIntProperty( hierarcy.getModuleHandle( ),
+				UIHelper.getId( hierarcy, cube ),
+				type ) )
+		{
+
+			if ( module.getProperty( getId( hierarcy, cube )
+					+ BuilderConstancts.PROPERTY_SEPARATOR
+					+ type ) != null )
+				module.clearProperty( getId( hierarcy, cube )
+						+ BuilderConstancts.PROPERTY_SEPARATOR
+						+ type );
+
+			module.dropUserPropertyDefn( getId( hierarcy, cube )
+					+ BuilderConstancts.PROPERTY_SEPARATOR
+					+ type );
+
+		}
+	}
 }
