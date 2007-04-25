@@ -1036,7 +1036,11 @@ public class GroupOnRowTest extends APITestCase
 		IResultIterator ri = queryResults.getResultIterator( );
 		String queryResultID = queryResults.getID();
 		ri.close();
-		ri = dataEngine.getQueryResults(queryResultID).getResultIterator();
+		qd.setQueryResultsID( queryResultID );
+		preparedQuery = dataEngine.prepare( qd, this.getAppContext( ) );
+		
+		queryResults = preparedQuery.execute( null );
+		ri = queryResults.getResultIterator( );
 		String metaData = "";
 		for ( int i = 0; i < columStr.length; i++ )
 		{

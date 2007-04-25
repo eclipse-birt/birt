@@ -16,6 +16,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
@@ -26,6 +28,7 @@ import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
+import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -39,6 +42,7 @@ import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
 import org.eclipse.birt.data.engine.impl.document.RDLoad;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
+import org.mozilla.javascript.Scriptable;
 
 /**
  * Create concreate class of IPreparedQuery
@@ -64,7 +68,14 @@ class PreparedQueryUtil
 		assert queryDefn != null;
 
 		if ( queryDefn.getQueryResultsID( ) != null )
+		{
+			if ( dataEngine.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION
+				|| dataEngine.getContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
+			{
+				return new DummyPreparedQuery( queryDefn, dataEngine.getContext( ));
+			}
 			return newIVInstance( dataEngine, queryDefn );
+		}
 
 		IBaseDataSetDesign dset = dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) );
 		if ( dset == null )
@@ -493,5 +504,66 @@ class PreparedQueryUtil
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * Used for Result Set Sharing.
+	 *
+	 */
+	private static class DummyPreparedQuery implements IPreparedQuery
+	{
+		private IQueryDefinition queryDefn;
+		private DataEngineContext context;
+		
+		/**
+		 * 
+		 * @param queryDefn
+		 * @param context
+		 */
+		public DummyPreparedQuery( IQueryDefinition queryDefn, DataEngineContext context )
+		{
+			this.queryDefn = queryDefn;
+			this.context = context;
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#execute(org.mozilla.javascript.Scriptable)
+		 */
+		public IQueryResults execute( Scriptable queryScope )
+				throws BirtException
+		{
+			return new CachedQueryResults( this.context,
+					this.queryDefn.getQueryResultsID( ) );
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#execute(org.eclipse.birt.data.engine.api.IQueryResults, org.mozilla.javascript.Scriptable)
+		 */
+		public IQueryResults execute( IQueryResults outerResults,
+				Scriptable queryScope ) throws BirtException
+		{
+			throw new UnsupportedOperationException();
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#getParameterMetaData()
+		 */
+		public Collection getParameterMetaData( ) throws BirtException
+		{
+			return null;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#getReportQueryDefn()
+		 */
+		public IQueryDefinition getReportQueryDefn( )
+		{
+			return this.queryDefn;
+		}
+		
 	}
 }

@@ -33,6 +33,14 @@ public interface ICubeQueryDefinition extends INamedObject, IDataQueryDefinition
 	public static final int COLUMN_EDGE = 2;
 
 	/**
+	 * When this value is not null, the data set name will not be used, since it
+	 * indicates query is running on the data of report document or local caching of QueryResults.
+	 * 
+	 * @return associated queryResultID in query on report document/local caching
+	 */
+	public String getQueryResultsID( );
+	
+	/**
 	 * Create an edge of the cube. At initial stage we only support two types of
 	 * edges: row edge and column edge. The edge created will automatically be
 	 * linked to the cube.

@@ -116,7 +116,10 @@ public class FilterByRowTest extends APITestCase
 				true );
 		String queryResultID = resultIterator.getQueryResults( ).getID( );
 		resultIterator.close();
-		resultIterator = dataEngine.getQueryResults( queryResultID ).getResultIterator( );
+		resultIterator = getResultIterator( filterDefn,
+				bindingNameFilter,
+				bindingExprFilter,
+				true, queryResultID );
 		while ( resultIterator.next( ) )
 		{
 			Integer value0 = resultIterator.getInteger( getBindingExpressionName( )[0] );
@@ -128,6 +131,7 @@ public class FilterByRowTest extends APITestCase
 			assertTrue( value2.intValue( ) > 0 );
 		}
 
+		
 		resultIterator.close( );
 	}
 	
@@ -167,7 +171,10 @@ public class FilterByRowTest extends APITestCase
 		IResultIterator resultIterator = getResultIterator( filterDefn, null , null, true );
 		String queryResultID = resultIterator.getQueryResults( ).getID( );
 		resultIterator.close();
-		resultIterator = dataEngine.getQueryResults( queryResultID ).getResultIterator( );
+		resultIterator = getResultIterator( filterDefn,
+				null,
+				null,
+				true, queryResultID );
 		while ( resultIterator.next( ) )
 		{
 			Integer value0 = resultIterator.getInteger( getBindingExpressionName()[0] );
@@ -220,7 +227,10 @@ public class FilterByRowTest extends APITestCase
 				true);
 		String queryResultID = resultIterator.getQueryResults( ).getID( );
 		resultIterator.close();
-		resultIterator = dataEngine.getQueryResults( queryResultID ).getResultIterator( );
+		resultIterator = getResultIterator( filterDefn,
+				null,
+				null,
+				true, queryResultID );	
 		while ( resultIterator.next( ) )
 		{
 			Integer value0 = resultIterator.getInteger( getBindingExpressionName( )[0] );
@@ -273,7 +283,10 @@ public class FilterByRowTest extends APITestCase
 		IResultIterator resultIterator = getResultIterator( filterDefn, null, null, true );
 		String queryResultID = resultIterator.getQueryResults( ).getID( );
 		resultIterator.close();
-		resultIterator = dataEngine.getQueryResults( queryResultID ).getResultIterator( );
+		resultIterator = getResultIterator( filterDefn,
+				null,
+				null,
+				true, queryResultID );
 		while ( resultIterator.next( ) )
 		{
 			Integer value0 = resultIterator.getInteger( getBindingExpressionName()[0] );
@@ -354,8 +367,10 @@ public class FilterByRowTest extends APITestCase
 		IResultIterator resultIt = executeQuery( queryDefn1 );
 		String queryResultID = resultIt.getQueryResults( ).getID( );
 		resultIt.close();
-		resultIt = dataEngine.getQueryResults( queryResultID ).getResultIterator( );
-		outputQueryResult( resultIt, bindingNameRow );
+		resultIt = getResultIterator( filterDefn,
+				null,
+				null,
+				true, queryResultID );outputQueryResult( resultIt, bindingNameRow );
 		// assert
 		checkOutputFile( );
 	}
@@ -588,18 +603,13 @@ public class FilterByRowTest extends APITestCase
 		}
 	}
 	
-	/**
-	 * Execute Query
-	 * 
-	 * @return IResultIterator
-	 * @throws Exception
-	 */
 	private IResultIterator getResultIterator(
 			FilterDefinition[] filterDefn, String[] bindingNameFilter,
-			IBaseExpression[] bindingExprFilter, boolean needCache ) throws Exception
+			IBaseExpression[] bindingExprFilter, boolean needCache, String queryResultID ) throws Exception
 	{
 		QueryDefinition queryDefn = (QueryDefinition) getDefaultQueryDefn( this.dataSet.getName( ) );
 		queryDefn.setNeedCache(needCache);
+		queryDefn.setQueryResultsID( queryResultID );
 		if ( filterDefn != null )
 		{
 			if ( bindingNameFilter != null )
@@ -610,6 +620,23 @@ public class FilterByRowTest extends APITestCase
 				queryDefn.addFilter( filterDefn[i] );
 		}
 		return executeQuery( queryDefn );
+	}
+
+	/**
+	 * Execute Query
+	 * 
+	 * @return IResultIterator
+	 * @throws Exception
+	 */
+	private IResultIterator getResultIterator(
+			FilterDefinition[] filterDefn, String[] bindingNameFilter,
+			IBaseExpression[] bindingExprFilter, boolean needCache ) throws Exception
+	{
+		return this.getResultIterator( filterDefn,
+				bindingNameFilter,
+				bindingExprFilter,
+				needCache,
+				null );
 	}
 	
 	/*

@@ -35,9 +35,9 @@ public interface IQueryDefinition extends IBaseQueryDefinition
 	
 	/**
 	 * When this value is not null, the data set name will not be used, since it
-	 * indicates query is running on the data of report document.
+	 * indicates query is running on the data of report document or local caching of QueryResults.
 	 * 
-	 * @return associated queryResultID in query on report document
+	 * @return associated queryResultID in query on report document/local caching
 	 */
 	public String getQueryResultsID( );
 	
