@@ -1026,8 +1026,10 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 			}
 		}
 
-		// validate aggregations for grand-total
-		if ( crosstab.getGrandTotal( axisType ) != null )
+		// validate aggregations for grand-total, if target area is blank, we
+		// still need to verify grand total
+		if ( crosstab.getGrandTotal( axisType ) != null
+				|| crosstab.getDimensionCount( axisType ) == 0 )
 		{
 			for ( int j = 0; j < crosstab.getMeasureCount( ); j++ )
 			{
