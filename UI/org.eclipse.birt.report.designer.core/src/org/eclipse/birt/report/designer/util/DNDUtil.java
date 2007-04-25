@@ -148,6 +148,7 @@ public class DNDUtil
 	 */
 	public static boolean copyHandles( Object transferData, Object targetObj )
 	{
+		targetObj = unwrapToModel( targetObj );
 		if ( getColumnHandle( transferData ) != null )
 		{
 			return copyColumn( getColumnHandle( transferData ),
@@ -160,7 +161,13 @@ public class DNDUtil
 		int position = calculateNextPosition( targetObj, canContain );
 		if ( position > -1 )
 		{
+			Object temp = targetObj;
 			targetObj = getDesignElementHandle( targetObj ).getContainerSlotHandle( );
+			//add for support the property handel
+			if (targetObj == null)
+			{
+				targetObj = getDesignElementHandle( temp ).getContainer( );
+			}
 		}
 		return copyHandles( transferData, targetObj, position );
 	}
@@ -843,15 +850,9 @@ public class DNDUtil
 			DesignElementHandle afterHandle = getDesignElementHandle( targetObj );
 			if ( afterHandle != null )
 			{
-				if ( afterHandle.getContainerSlotHandle( ) != null )
-				{
-					position = afterHandle.getContainerSlotHandle( )
-							.findPosn( afterHandle );
-				}
-				else if ( afterHandle.getContainerPropertyHandle( ) != null )
-				{
-					position = afterHandle.getContainerPropertyHandle( ).getContents( ).indexOf( afterHandle );
-				}
+//				position = afterHandle.getContainerSlotHandle( )
+//						.findPosn( afterHandle );
+				position = afterHandle.getIndex( );
 				position++;
 			}
 		}
@@ -1216,11 +1217,19 @@ public class DNDUtil
 				return CONTAIN_PARENT;
 			}
 			
-			if( targetHandle.getContainerSlotHandle( ) == null )return  CONTAIN_NO;
-			else return targetHandle.getContainer( )
+			if( targetHandle.getContainerSlotHandle( ) != null )
+			{
+				return targetHandle.getContainer( )
 					.canContain( targetHandle.getContainerSlotHandle( )
 							.getSlotID( ),
 							childHandle ) ? CONTAIN_PARENT : CONTAIN_NO;
+			}
+			else if (targetHandle.getContainerPropertyHandle( ) != null)
+			{
+				return targetHandle.getContainer( )
+				.canContain( targetHandle.getContainerPropertyHandle( ).getPropertyDefn( ).getName( ),
+						childHandle ) ? CONTAIN_PARENT : CONTAIN_NO;
+			}
 		}
 		return CONTAIN_NO;
 	}

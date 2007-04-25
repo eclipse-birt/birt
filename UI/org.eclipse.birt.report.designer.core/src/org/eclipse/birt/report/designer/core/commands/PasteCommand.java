@@ -46,6 +46,7 @@ public class PasteCommand extends Command
 	private boolean isCut = false;
 
 	private int slotID = -1;
+	private String contentString = null;
 
 	private int position = -1;
 
@@ -191,19 +192,17 @@ public class PasteCommand extends Command
 	 *  	The design element to add
 	 */
 	private void addHandleToReport( DesignElementHandle newHandle )
-			throws ContentException, NameException
+			throws ContentException, NameException, SemanticException
 	{
 
 		SlotHandle slotHandle = null;
 		if ( newContainer instanceof DesignElementHandle )
 		{
 			slotHandle = ( (DesignElementHandle) newContainer ).getSlot( slotID );
-			slotHandle.paste( newHandle, position );
 		}
 		else if ( newContainer instanceof SlotHandle )
 		{
 			slotHandle = (SlotHandle) newContainer;
-			slotHandle.paste( newHandle, position );
 		}
 //		else if ( newContainer instanceof ReportElementModel )
 //		{
@@ -211,16 +210,20 @@ public class PasteCommand extends Command
 //					.getSlot( slotID );
 //
 //		}
-		else if(newContainer instanceof PropertyHandle ){
-			try
-			{
-				((PropertyHandle)newContainer).add( newHandle, position );
-			}
-			catch ( SemanticException e )
-			{
-				
-			}
+		if (slotHandle != null)
+		{
+			slotHandle.paste( newHandle, position );
 		}
+		else if(newContainer instanceof PropertyHandle )
+		{
+			((PropertyHandle)newContainer).paste( newHandle, position );
+		}
+		else if(newContainer instanceof DesignElementHandle )
+		{
+			((DesignElementHandle) newContainer ).getPropertyHandle( contentString ).paste( newHandle, position );
+		}
+		
+		
 		if ( DesignerConstants.TRACING_COMMANDS )
 		{
 			System.out.println( "PasteCommand >>  Finished. Paste " //$NON-NLS-1$
@@ -243,6 +246,10 @@ public class PasteCommand extends Command
 		if ( newContainer instanceof DesignElementHandle )
 		{
 			slotID = DEUtil.getDefaultSlotID( newContainer );
+			if (slotID == -1)
+			{
+				contentString = DEUtil.getDefaultContentName( newContainer );
+			}
 			container = (DesignElementHandle) newContainer;
 		}
 		else if ( newContainer instanceof SlotHandle )
