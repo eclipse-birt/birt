@@ -291,7 +291,7 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 	{
 		assert dimensionView != null;
 
-		// record existing aggregation info from source dimension
+		// record existing subtotal aggregation info from source dimension
 		Map functionListMap = new HashMap( );
 		Map measureListMap = new HashMap( );
 		for ( int i = 0; i < dimensionView.getLevelCount( ); i++ )
@@ -314,6 +314,26 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 			}
 			functionListMap.put( name, functionList );
 			measureListMap.put( name, measureList );
+		}
+
+		// record existing grandtotal aggregation info on target view, we need
+		// to keep the grandtotal, but when remove dimension on source view, it
+		// could be removed
+		List grandMeasureList = getAggregationMeasures( targetAxisType );
+		List grandFunctionList = new ArrayList( );
+		for ( int j = 0; j < grandMeasureList.size( ); j++ )
+		{
+			MeasureViewHandle measureView = (MeasureViewHandle) grandMeasureList.get( j );
+			String function = getAggregationFunction( targetAxisType,
+					measureView );
+			if ( function == null )
+			{
+				grandFunctionList.add( "" ); //$NON-NLS-1$
+			}
+			else
+			{
+				grandFunctionList.add( function );
+			}
 		}
 
 		// have a copy for source dimension
@@ -459,6 +479,15 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 							functionList,
 							false );
 				}
+			}
+
+			// restore all grandtotal aggregations on target view
+			if ( grandMeasureList.size( ) > 0 )
+			{
+				addMeasureAggregations( targetAxisType,
+						grandMeasureList,
+						grandFunctionList,
+						false );
 			}
 
 			validateCrosstab( );
