@@ -48,6 +48,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
@@ -144,7 +145,7 @@ public class NewReportWizard extends Wizard implements
 
 		cheatSheetIdFromPage = templateChoicePage.getTemplate( )
 				.getCheatSheet( );
-		if(cheatSheetIdFromPage == null)
+		if ( cheatSheetIdFromPage == null )
 		{
 			cheatSheetIdFromPage = "";
 		}
@@ -501,7 +502,7 @@ public class NewReportWizard extends Wizard implements
 		{
 			container = (IContainer) resource;
 		}
-		
+
 		final IFile file = container.getFile( new Path( fileName ) );
 		final String cheatId = cheatSheetId;
 		final boolean showCheat = showCheatSheet;
@@ -516,7 +517,7 @@ public class NewReportWizard extends Wizard implements
 				handle.setStringProperty( ModuleHandle.COMMENTS_PROP,
 						ReportPlugin.getDefault( ).getCommentPreference( ) );
 			}
-			
+
 			if ( isPredifinedTemplate( sourceFileName ) )
 			{
 				String displayName = handle.getDisplayName( );
@@ -560,10 +561,12 @@ public class NewReportWizard extends Wizard implements
 					BasicNewProjectResourceWizard.updatePerspective( configElement );
 					if ( showCheat && !cheatId.equals( "" ) ) //$NON-NLS-1$
 					{
-						OpenCheatSheetAction action = null;
-						action = new OpenCheatSheetAction( cheatId );
-
-						action.run( );
+						Display.getCurrent( ).getActiveShell( ).setData( page );
+						new OpenCheatSheetAction( cheatId ).run( );
+						// OpenCheatSheetAction action = null;
+						// action = new OpenCheatSheetAction( cheatId );
+						//
+						// action.run( );
 					}
 				}
 				catch ( Exception e )
@@ -656,11 +659,11 @@ public class NewReportWizard extends Wizard implements
 
 	protected boolean isPredifinedTemplate( String sourceFileName )
 	{
-		if(sourceFileName == null || sourceFileName.trim( ).length( ) == 0)
+		if ( sourceFileName == null || sourceFileName.trim( ).length( ) == 0 )
 		{
 			return false;
 		}
-		
+
 		String predifinedDir = UIUtil.getFragmentDirectory( );
 		Assert.isNotNull( predifinedDir );
 		File predifinedFile = new File( predifinedDir );

@@ -42,6 +42,7 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
@@ -200,7 +201,7 @@ public class NewReportWizard extends Wizard implements
 		final String templateFileName = selTemplate.getFileName( );
 
 		cheatSheetIdFromPage = selTemplate.getCheatSheet( );
-		if(cheatSheetIdFromPage == null)
+		if ( cheatSheetIdFromPage == null )
 		{
 			cheatSheetIdFromPage = "";
 		}
@@ -332,8 +333,11 @@ public class NewReportWizard extends Wizard implements
 
 					if ( showCheatSheet && !cheatSheetId.equals( "" ) ) //$NON-NLS-1$
 					{
-						OpenCheatSheetAction action = new OpenCheatSheetAction( cheatSheetId );
-						action.run( );
+						Display.getCurrent( ).getActiveShell( ).setData( page );
+						new OpenCheatSheetAction( cheatSheetId ).run( );
+						// OpenCheatSheetAction action = new
+						// OpenCheatSheetAction( cheatSheetId );
+						// action.run( );
 					}
 				}
 				catch ( Exception e )
@@ -369,16 +373,17 @@ public class NewReportWizard extends Wizard implements
 		// TODO Auto-generated method stub
 
 	}
-	
-	private boolean isPredifinedTemplate(String sourceFileName)
+
+	private boolean isPredifinedTemplate( String sourceFileName )
 	{
 		String predifinedDir = UIUtil.getFragmentDirectory( );
-		File predifinedFile = new File(predifinedDir);
-		File sourceFile = new File(sourceFileName);
-		if(sourceFile.getAbsolutePath( ).startsWith( predifinedFile.getAbsolutePath( ) ))
+		File predifinedFile = new File( predifinedDir );
+		File sourceFile = new File( sourceFileName );
+		if ( sourceFile.getAbsolutePath( )
+				.startsWith( predifinedFile.getAbsolutePath( ) ) )
 		{
 			return true;
-		}		
+		}
 		return false;
 	}
 }
