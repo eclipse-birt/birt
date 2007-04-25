@@ -182,10 +182,7 @@ public class Statement implements IQuery
 		{
 			// unsupported query properties
 			OdaException e = new OdaException( "Unsupported query property: " + name );
-			logger.logp( java.util.logging.Level.FINE,
-					Statement.class.getName( ),
-					"setProperty",
-					"Unsupported property", e);
+			addLog ( "setProperty", e );
 			throw e;
 		}
 	}
@@ -395,11 +392,7 @@ public class Statement implements IQuery
 	{
 		/* not supported */
 		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
-		logger.logp( java.util.logging.Level.FINE,
-				Statement.class.getName( ),
-				"setInt",
-				"No named Parameter supported.",
-				e );
+		addLog ( "setInt", e );
 		throw e;
 	}
 
@@ -413,6 +406,7 @@ public class Statement implements IQuery
 		{
 			/* redirect the call to JDBC preparedStatement.setInt(int,int) */
 			this.preStat.setInt( parameterId, value );
+			addLog( "setInt", parameterId, String.valueOf( value ) );
 		}
 		catch ( SQLException e )
 		{
@@ -434,11 +428,7 @@ public class Statement implements IQuery
 	{
 		/* not supported */
 		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
-		logger.logp( java.util.logging.Level.FINE,
-				Statement.class.getName( ),
-				"setDouble",
-				"No named Parameter supported.",
-				e );
+		addLog ( "setDouble", e );
 		throw e;
 	}
 
@@ -452,6 +442,7 @@ public class Statement implements IQuery
 		{
 			/* redirect the call to JDBC preparedStatement.setDouble(int,double) */
 			this.preStat.setDouble( parameterId, value );
+			addLog( "setDouble", parameterId, String.valueOf(value));
 		}
 		catch ( SQLException e )
 		{
@@ -473,11 +464,7 @@ public class Statement implements IQuery
 	{
 		/* not supported */
 		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
-		logger.logp( java.util.logging.Level.FINE,
-				Statement.class.getName( ),
-				"setBigDecimal",
-				"No named Parameter supported.",
-				e );
+		addLog ( "setBigDecimal", e );
 		throw e;
 	}
 
@@ -496,6 +483,7 @@ public class Statement implements IQuery
 			 * preparedStatement.setBigDecimal(int,BigDecimal)
 			 */
 			this.preStat.setBigDecimal( parameterId, value );
+			addLog( "setBigDecimal", parameterId, String.valueOf(value));
 		}
 		catch ( SQLException e )
 		{
@@ -517,11 +505,7 @@ public class Statement implements IQuery
 	{
 		/* not supported */
 		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
-		logger.logp( java.util.logging.Level.FINE,
-				Statement.class.getName( ),
-				"setString",
-				"No named Parameter supported.",
-				e );
+		addLog ( "setString", e );
 		throw e;
 	}
 
@@ -536,6 +520,7 @@ public class Statement implements IQuery
 		{
 			/* redirect the call to JDBC preparedStatement.setString(int,String) */
 			this.preStat.setString( parameterId, value );
+			addLog( "setString", parameterId, value);
 		}
 		catch ( SQLException e )
 		{
@@ -556,11 +541,7 @@ public class Statement implements IQuery
 	{
 		/* not supported */
 		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
-		logger.logp( java.util.logging.Level.FINE,
-				Statement.class.getName( ),
-				"setDate",
-				"No named Parameter supported.",
-				e );
+		addLog ( "setDate", e );
 		throw e;
 	}
 
@@ -574,6 +555,7 @@ public class Statement implements IQuery
 		{
 			/* redirect the call to JDBC preparedStatement.setDate(int,Date) */
 			this.preStat.setDate( parameterId, value );
+			addLog( "setDate", parameterId, value.toString( ));
 		}
 		catch ( SQLException e )
 		{
@@ -595,11 +577,7 @@ public class Statement implements IQuery
 	{
 		/* not supported */
 		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
-		logger.logp( java.util.logging.Level.FINE,
-				Statement.class.getName( ),
-				"setBoolean",
-				"No named Parameter supported.",
-				e );
+		addLog ( "setBoolean", e );
 		throw e;
 	}
 
@@ -614,6 +592,7 @@ public class Statement implements IQuery
 		{
 			/* redirect the call to JDBC preparedStatement.setDate(int,boolean) */
 			this.preStat.setBoolean( parameterId, value );
+			addLog( "setBoolean", parameterId, String.valueOf( value ));
 		}
 		catch ( SQLException e )
 		{
@@ -635,11 +614,7 @@ public class Statement implements IQuery
 	{
 		/* not supported */
 		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
-		logger.logp( java.util.logging.Level.FINE,
-				Statement.class.getName( ),
-				"setTime",
-				"No named Parameter supported.",
-				e );
+		addLog ( "setTime", e );
 		throw e;
 	}
 
@@ -653,6 +628,7 @@ public class Statement implements IQuery
 		{
 			/* redirect the call to JDBC preparedStatement.setTime(int,Time) */
 			this.preStat.setTime( parameterId, value );
+			addLog( "setTime", parameterId, value.toString( ));
 		}
 		catch ( SQLException e )
 		{
@@ -674,11 +650,7 @@ public class Statement implements IQuery
 	{
 		/* not supported */
 		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
-		logger.logp( java.util.logging.Level.FINE,
-				Statement.class.getName( ),
-				"setTimestamp",
-				"No named Parameter supported.",
-				e );
+		addLog ( "setTimestamp", e );
 		throw e;
 	}
 
@@ -697,6 +669,7 @@ public class Statement implements IQuery
 			 * preparedStatement.setTimestamp(int,Timestamp)
 			 */
 			this.preStat.setTimestamp( parameterId, value );
+			addLog( "setTimestamp", parameterId, String.valueOf( value ) );
 		}
 		catch ( SQLException e )
 		{
@@ -716,11 +689,7 @@ public class Statement implements IQuery
 	{
 		/* not supported */
 		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
-		logger.logp( java.util.logging.Level.FINE,
-				Statement.class.getName( ),
-				"setNull",
-				"No named Parameter supported.",
-				e );
+		addLog ( "setNull", e );
 		throw e;
 		
 	}
@@ -737,6 +706,7 @@ public class Statement implements IQuery
 			if ( pm == null )
 			{
 				this.preStat.setNull( parameterId, java.sql.Types.OTHER );
+				addLog( "setNull", parameterId, "null" );
 			}
 			else
 			{
@@ -758,11 +728,7 @@ public class Statement implements IQuery
 	{
 		/* not supported */
 		UnsupportedOperationException e = new UnsupportedOperationException( "No named Parameter supported." );
-		logger.logp( java.util.logging.Level.FINE,
-				Statement.class.getName( ),
-				"findInParameter",
-				"No named Parameter supported.",
-				e );
+		addLog ( "findInParameter", e );
 		throw e;
 	}
 
@@ -797,11 +763,7 @@ public class Statement implements IQuery
 	{
 		/* not supported */
 		UnsupportedOperationException e = new UnsupportedOperationException( "setSortSpec is not supported." );
-		logger.logp( java.util.logging.Level.FINE,
-				Statement.class.getName( ),
-				"setSortSpec",
-				"setSortSpec is not supported.",
-				e );
+		addLog ( "setSortSpec", e );
 		throw e;
 	}
 
@@ -850,5 +812,22 @@ public class Statement implements IQuery
 				odaException );
 		throw odaException;
 	}
+	
+	private void addLog ( String methodName, int parameterId, String value ){
+		if ( logger.isLoggable( Level.FINE ) )
+			logger.logp( Level.FINE,
+					Statement.class.getName( ),
+					methodName,
+					"parameter " + parameterId + " = " + value );
+		
+	}
+	
+	private void addLog ( String methodName, Exception e ){
+		logger.logp( java.util.logging.Level.FINE,
+				Statement.class.getName( ),
+				methodName,
+				"No named Parameter supported.",
+				e );
+	}	
 
 }
