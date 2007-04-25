@@ -131,6 +131,7 @@ public class DimensionFilterEvalHelper implements IJsFilter
 	public void close( )
 	{
 		this.scope.delete( "dimension" );
+		this.scope.delete( "data" );
 		this.scope.setParentScope( null );
 	}
 
