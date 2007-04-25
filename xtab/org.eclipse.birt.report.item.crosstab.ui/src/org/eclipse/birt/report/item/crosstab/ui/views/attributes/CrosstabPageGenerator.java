@@ -26,8 +26,6 @@ import org.eclipse.birt.report.designer.ui.views.attributes.AbstractPageGenerato
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.CrosstabFilterHandleProvider;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.CrosstabSortingHandleProvider;
-import org.eclipse.core.runtime.ISafeRunnable;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.layout.FillLayout;
@@ -57,11 +55,6 @@ public class CrosstabPageGenerator extends AbstractPageGenerator {
 
 
 
-	public void createControl( Composite parent, Object input )
-	{
-		super.createControl( parent, input );
-		createTabItems( (List)input );
-	}
 	
 	protected void buildItemContent( CTabItem item )
 	{
@@ -78,11 +71,11 @@ public class CrosstabPageGenerator extends AbstractPageGenerator {
 					itemMap.put( item, bindingPage );
 					break;
 					
-				case 2:
-				case 3:
+//				case 2:
+//				case 3:
 					// RowArea, ColumnArea
-					break;
-				case 4:
+//					break;
+				case 2:
 					// filter;
 					filterPage = new FormPage(
 							FormPropertyDescriptor.NO_UP_DOWN,
@@ -94,7 +87,7 @@ public class CrosstabPageGenerator extends AbstractPageGenerator {
 					item.setControl( filterPage.getControl( ) );
 					itemMap.put( item, filterPage );
 					break;
-				case 5:
+				case 3:
 					// sorting;
 					sortingPage = new FormPage(
 							FormPropertyDescriptor.NO_UP_DOWN,
@@ -106,7 +99,7 @@ public class CrosstabPageGenerator extends AbstractPageGenerator {
 					item.setControl( sortingPage.getControl( ) );
 					itemMap.put( item, sortingPage );
 					break;
-				case 6 :
+				case 4 :
 					mapPage = new PreviewPage( true );
 					mapPage.setPreview( new MapPropertyDescriptor( true ) );
 					mapPage.setProvider( new MapDescriptorProvider( ) );
@@ -115,7 +108,7 @@ public class CrosstabPageGenerator extends AbstractPageGenerator {
 					item.setControl( mapPage.getControl( ) );
 					itemMap.put( item, mapPage );
 					break;
-				case 7 :
+				case 5 :
 					highlightsPage = new PreviewPage( true );
 					highlightsPage.setPreview( new HighlightPropertyDescriptor( true ) );
 					highlightsPage.setProvider( new HighlightDescriptorProvider( ) );
@@ -137,61 +130,62 @@ public class CrosstabPageGenerator extends AbstractPageGenerator {
 	
 	public void createTabItems( List input )
 	{
-		if ( basicPage == null || basicPage.getControl( ).isDisposed( ))
-		{
-			ISafeRunnable runnable = new ISafeRunnable( ) {
-
-				public void run( ) throws Exception
-				{
-					CTabItem[] oldPages = tabFolder.getItems( );
-					int index = tabFolder.getSelectionIndex( );
-					for ( int i = 0; i < oldPages.length; i++ )
-					{
-						if ( oldPages[i].isDisposed( ) )
-							continue;
-						if ( index == i )
-							continue;
-						if ( oldPages[i].getControl( ) != null )
-						{
-							oldPages[i].getControl( ).dispose( );
-						}
-						oldPages[i].dispose( );
-					}
-					if ( index > -1 && !oldPages[index].isDisposed( ) )
-					{
-						oldPages[index].getControl( ).dispose( );
-						oldPages[index].dispose( );
-					}
-				}
-
-				public void handleException( Throwable exception )
-				{
-					/* not used */
-				}
-			};
-			Platform.run( runnable );
-			tabFolder.setLayout( new FillLayout( ) );
-			basicPage = new BaseAttributePage( );
-			basicPage.buildUI( tabFolder  );
-			CTabItem tabItem = new CTabItem( tabFolder, SWT.NONE );
-			tabItem.setText( Messages.getString( "CategoryPageGenerator.TabItem.Attributes" ) ); //$NON-NLS-1$
-			tabItem.setControl( basicPage.getControl( ) );
-
-			basicPage.setCategoryProvider( CrosstabCategoryProviderFactory.getInstance( ).getCategoryProvider( input ) );
-		}
+//		if ( basicPage == null || basicPage.getControl( ).isDisposed( ))
+//		{
+//			ISafeRunnable runnable = new ISafeRunnable( ) {
+//
+//				public void run( ) throws Exception
+//				{
+//					CTabItem[] oldPages = tabFolder.getItems( );
+//					int index = tabFolder.getSelectionIndex( );
+//					for ( int i = 0; i < oldPages.length; i++ )
+//					{
+//						if ( oldPages[i].isDisposed( ) )
+//							continue;
+//						if ( index == i )
+//							continue;
+//						if ( oldPages[i].getControl( ) != null )
+//						{
+//							oldPages[i].getControl( ).dispose( );
+//						}
+//						oldPages[i].dispose( );
+//					}
+//					if ( index > -1 && !oldPages[index].isDisposed( ) )
+//					{
+//						oldPages[index].getControl( ).dispose( );
+//						oldPages[index].dispose( );
+//					}
+//				}
+//
+//				public void handleException( Throwable exception )
+//				{
+//					/* not used */
+//				}
+//			};
+//			Platform.run( runnable );
+//			tabFolder.setLayout( new FillLayout( ) );
+//			basicPage = new BaseAttributePage( );
+//			basicPage.buildUI( tabFolder  );
+//			CTabItem tabItem = new CTabItem( tabFolder, SWT.NONE );
+//			tabItem.setText( Messages.getString( "CategoryPageGenerator.TabItem.Attributes" ) ); //$NON-NLS-1$
+//			tabItem.setControl( basicPage.getControl( ) );
+//
+//			basicPage.setCategoryProvider( CrosstabCategoryProviderFactory.getInstance( ).getCategoryProvider( input ) );
+//		}
+		super.createTabItems( input );
 		this.input = input;
 		basicPage.setInput( input );
 		addSelectionListener( this );
 		basicPage.refresh( );
 		createTabItem( 1, Messages.getString( "CrosstabPageGenerator.TabItem.Binding" ) );
-		createRowArea();
-		createColumnArea();
+//		createRowArea();
+//		createColumnArea();
 //		createTabItem( 2, Messages.getString( "CrosstabPageGenerator.TabItem.RowArea" ) );
 //		createTabItem( 3, Messages.getString( "CrosstabPageGenerator.TabItem.ColumnArea" ) );
-		createTabItem( 4, Messages.getString( "CrosstabPageGenerator.TabItem.Filters" ) );
-		createTabItem( 5, Messages.getString( "CrosstabPageGenerator.TabItem.Sorting" ) );
-		createTabItem( 6, Messages.getString( "CrosstabPageGenerator.TabItem.map" ) );
-		createTabItem( 7, Messages.getString( "CrosstabPageGenerator.TabItem.Highlights" ) );
+		createTabItem( 2, Messages.getString( "CrosstabPageGenerator.TabItem.Filters" ) );
+		createTabItem( 3, Messages.getString( "CrosstabPageGenerator.TabItem.Sorting" ) );
+		createTabItem( 4, Messages.getString( "CrosstabPageGenerator.TabItem.map" ) );
+		createTabItem( 5, Messages.getString( "CrosstabPageGenerator.TabItem.Highlights" ) );
 		
 		if ( tabFolder.getSelection( ) != null )
 			buildItemContent( tabFolder.getSelection( ) );
@@ -229,6 +223,13 @@ public class CrosstabPageGenerator extends AbstractPageGenerator {
 		}
 		ColumnAreaPage.setInput( input );
 		ColumnAreaPage.refresh( );
+	}
+	
+	public void createControl( Composite parent, Object input )
+	{
+		setCategoryProvider( CrosstabCategoryProviderFactory.getInstance( ).getCategoryProvider( input )  );
+		super.createControl( parent, input );
+		createTabItems( (List)input );
 	}
 	
 }

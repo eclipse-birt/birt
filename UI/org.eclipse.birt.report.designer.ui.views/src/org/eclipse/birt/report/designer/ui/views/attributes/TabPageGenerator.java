@@ -184,4 +184,10 @@ public class TabPageGenerator implements IPageGenerator
 			}
 		}
 	}
+
+	public Object getInput( )
+	{
+		// TODO Auto-generated method stub
+		return input;
+	}
 }

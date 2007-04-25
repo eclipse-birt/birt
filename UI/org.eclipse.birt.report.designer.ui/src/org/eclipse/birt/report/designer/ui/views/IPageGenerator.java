@@ -25,4 +25,5 @@ public interface IPageGenerator
 	
 	Control getControl();
 	
+	Object getInput();
 }

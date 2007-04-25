@@ -141,6 +141,9 @@ public interface IHelpContextIds
 	public static final String INSERT_EDIT_FILTER_CONDITION_DIALOG_ID = PREFIX
 	+ "AddEditFilterCondition_ID";
 	
+	public static final String INSERT_EDIT_GRAND_TOTAL_DIALOG_ID = PREFIX
+	+ "AddEditGrandTotal_ID";
+	
 	public static final String INSERT_EDIT_SORTKEY_DIALOG_ID = PREFIX
 	+ "AddEditSortkey_ID";
 

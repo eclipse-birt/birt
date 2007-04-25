@@ -57,8 +57,10 @@
       <adaptable
             class="org.eclipse.birt.report.model.api.ExtendedItemHandle">
          <adapter
-               class="org.eclipse.birt.report.item.crosstab.ui.views.attributes.CrosstabPageGenerator"
+               factory="org.eclipse.birt.report.item.crosstab.ui.views.attributes.page.CrosstabGeneratorFactory"
                id="ReportDesign.AttributeView.CrosstabPageGenerator"
+               priority="1"
+               singleton="false"
                type="org.eclipse.birt.report.designer.ui.views.IPageGenerator">
             <enablement>
                <test
@@ -218,8 +220,10 @@
  <adaptable
        class="org.eclipse.birt.report.model.api.ExtendedItemHandle">
     <adapter
-          class="org.eclipse.birt.report.item.crosstab.ui.views.attributes.CrosstabCellPageGenerator"
+          factory="org.eclipse.birt.report.item.crosstab.ui.views.attributes.page.CrosstabGeneratorFactory"
           id="ReportDesign.AttributeView.CrosstabCellPageGenerator"
+          priority="1"
+          singleton="false"
           type="org.eclipse.birt.report.designer.ui.views.IPageGenerator">
        <enablement>
           <test

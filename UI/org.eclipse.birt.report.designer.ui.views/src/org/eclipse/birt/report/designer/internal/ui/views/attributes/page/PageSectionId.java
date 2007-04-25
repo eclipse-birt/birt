@@ -205,4 +205,9 @@ public class PageSectionId
 	public final static String VISIBILITY_OUTPUT = "VISIBILITY_OUTPUT";
 	
 	public final static String HANDLER_EVENT = "HANDLER_EVENT";
+	
+	public final static String GRAND_TOTALS = "GRAND_TOTALS";
+
+	public final static String SUB_TOTALS = "SUB_TOTALS";
+	
 }

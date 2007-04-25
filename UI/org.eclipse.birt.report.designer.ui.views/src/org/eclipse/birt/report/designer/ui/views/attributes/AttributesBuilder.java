@@ -94,8 +94,34 @@ public class AttributesBuilder
 					typeInfo = Messages.getFormattedString( "AttributesBuilder.Label.Generic", new String[]{GuiExtensionManager.getExtensionDisplayName( selection.get( 0 ) )} ); //$NON-NLS-1$
 					IPageGenerator ng = (IPageGenerator) adapter;
 
-					if ( pageGenerator == null
-							|| ( ng != null && pageGenerator.getClass( ) != ng.getClass( ) ) )
+					boolean change = false;
+					if( pageGenerator == null || ( ng != null && pageGenerator.getClass( ) != ng.getClass( ) ))
+					{
+						change = true;
+					}else
+					if(pageGenerator != null)
+					{
+						Object input = pageGenerator.getInput( );
+						if(input != null && input instanceof List)
+						{
+							input = ((List)input).get( 0 );
+						}
+						
+						if(input == null)
+						{
+							change = true;
+						}else
+						if(element instanceof ExtendedItemHandle &&  input instanceof ExtendedItemHandle)
+						{
+							if(!((ExtendedItemHandle)element).getExtensionName( ).equals( ((ExtendedItemHandle)input).getExtensionName( ) ))
+							{
+								change = true;
+							}
+						}
+					}
+					
+					
+					if (change)
 					{
 						if ( pageGenerator != null
 								&& pageGenerator.getControl( ) != null
@@ -291,12 +317,35 @@ public class AttributesBuilder
 			return false;
 		}
 
-		Class classObj = selection.get( 0 ).getClass( );
-		for ( int i = 1; i < selection.size( ); i++ )
+		if(selection.get( 0 ) instanceof ExtendedItemHandle)
 		{
-			if ( selection.get( i ).getClass( ) != classObj )
-				return false;
+			String extName = ((ExtendedItemHandle)selection.get( 0 )).getExtensionName( );
+			for ( int i = 1; i < selection.size( ); i++ )
+			{
+				if(!(selection.get( i ) instanceof ExtendedItemHandle))
+				{
+					return false;
+				}
+				String extName2 = ((ExtendedItemHandle)selection.get( i )).getExtensionName( );
+				if(!extName.equals( extName2 ))
+				{
+					return false;
+				}
+			}
+		}else
+		{
+			Class classObj = selection.get( 0 ).getClass( );
+			for ( int i = 1; i < selection.size( ); i++ )
+			{
+				if ( selection.get( i ).getClass( ) != classObj )
+				{
+					return false;
+				}
+					
+			}
 		}
+		
+
 		return true;
 	}
 }
