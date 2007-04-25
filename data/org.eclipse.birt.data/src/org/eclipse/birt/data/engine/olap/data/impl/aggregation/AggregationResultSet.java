@@ -97,10 +97,14 @@ public class AggregationResultSet implements IAggregationResultSet
 	/**
 	 * 
 	 */
-	void produceaggregationNameMap( )
+	private void produceaggregationNameMap( )
 	{
 		AggregationFunctionDefinition[] functions = aggregation.getAggregationFunctions( );
 		aggregationResultNameMap = new HashMap( );
+		if ( functions == null )
+		{
+			return;
+		}
 		for ( int i = 0; i < functions.length; i++ )
 		{
 			if(functions[i].getName( )!=null)
