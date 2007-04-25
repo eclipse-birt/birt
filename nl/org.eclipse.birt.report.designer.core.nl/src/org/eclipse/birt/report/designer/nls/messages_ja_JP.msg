@@ -1743,6 +1743,12 @@ I18nPage.text.Note=’ : ƒ[ƒJƒ‰ƒCƒY‚ğİ’è‚·‚é‚É‚ÍAƒŒƒ|[ƒg‚ğ‘I‘ğ‚µA[ƒvƒƒpƒeƒ
 ###########################################################
 #ImageBuilder properties
 
+ImageBuilder.Button.Dynamic=“®“I‚ÈƒCƒ[ƒW(&D)
+ImageBuilder.Button.Import=ƒCƒ[ƒW‚Ì’Ç‰Á(&A)...
+ImageBuilder.Button.Insert=‘}“ü(&S)
+ImageBuilder.Button.Preview=ƒvƒŒƒrƒ…[(&P)
+ImageBuilder.Button.Remove=íœ
+ImageBuilder.ButtonBrowser=QÆ...
 ImageBuilder.Chooser.Title=ƒCƒ[ƒWƒtƒ@ƒCƒ‹‚ğŠJ‚­
 ImageBuilder.DialogTitle.Edit=ƒCƒ[ƒW€–Ú‚Ì•ÒW
 ImageBuilder.DialogTitle.ImportFailed=ƒCƒ“ƒ|?[ƒgƒGƒ‰?[
@@ -1754,22 +1760,15 @@ ImageBuilder.BrowserResourceDialog.Title=ƒCƒ[ƒWƒtƒ@ƒCƒ‹‚ÌQÆ
 ImageBuilder.BrowserResourceDialog.Message=ƒŠƒ\[ƒXƒpƒX‚ÌƒtƒHƒ‹ƒ_‚©‚çƒCƒ[ƒWƒtƒ@ƒCƒ‹‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
 ImageBuilder.ErrorMessage.OutOfMemory=ƒCƒ[ƒW‚ª‘å‚«‚·‚¬‚é‚½‚ßAƒƒ‚ƒŠ‚É“ü‚è‚«‚è‚Ü‚¹‚ñB
 ImageBuilder.FileDialog.FilterMessage=ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éƒCƒ[ƒWƒtƒ@ƒCƒ‹
-ImageBuilder.Button.Browser=QÆ...
-ImageBuilder.Button.Import=ƒCƒ[ƒW‚Ì’Ç‰Á(&A)...
-ImageBuilder.Button.SelectImageData=Select Image Data...
-ImageBuilder.Button.Insert=‘}“ü(&S)
-ImageBuilder.Label.SelectFrom=Select Image from:
-ImageBuilder.Label.EnterURI=Enter URI:
-ImageBuilder.Label.EnterResourceFile=Enter resource file:
+ImageBuilder.Label.Binding=&Binding
+ImageBuilder.Label.EmbededImage=–„‚ß‚Ü‚ê‚½ƒCƒ[ƒW(&E)
 ImageBuilder.Label.EnterExpr=“®“I‚ÈƒCƒ[ƒW‚Ì®‚ğ“ü—Í(&N) :
-ImageBuilder.Type.URI=URI(&U)
-ImageBuilder.Type.ResourceFile=Image file in shared resources 
-ImageBuilder.Type.EmbededImage=–„‚ß‚Ü‚ê‚½ƒCƒ[ƒW(&E)
-ImageBuilder.Type.DynamicImage=“®“I‚ÈƒCƒ[ƒW(&D)
-ImageBuilder.Description.URI=Link to image on web
-ImageBuilder.Description.ResourceFile=Link to image in shared resources
-ImageBuilder.Description.Embedded=Embed image into the report
-ImageBuilder.Description.Dynamic=Retrieve image from data set (databases)
+ImageBuilder.Label.EnterUri=E&nter URI:
+ImageBuilder.Label.Open=ŒvZ®ƒrƒ‹ƒ_(&X)...
+ImageBuilder.Label.SelectFrom=Select picture from:
+ImageBuilder.ResourceFileType=Image file in resource folder
+ImageBuilder.Label.URI=URI(&U)
+ImageBuilder.Label.EnterResourceFile=E&nter resource file:
 
 ###########################################################
 #ImageEditPart properties
@@ -3719,6 +3718,7 @@ DataItemBindingDialog.text.AggregateOn=WŒvğŒ :
 DataItemBindingDialog.text.ForceBinding=“¯‚¶®‚ÅV‚µ‚¢ƒoƒCƒ“ƒh‚ğì¬‚µ‚Ü‚·B
 DataItemBindingDialog.text.All=‚·‚×‚Ä
 DataItemBindingDialog.text.None=N/A
+DataItemBindingDialog.text.Null=‚È‚µ
 DataItemBindingDialog.title.CreateNewItem=ƒf[ƒ^€–ÚƒoƒCƒ“ƒh‚ÌV‹Kì¬
 DataItemBindingDialog.title.EditDataItem=ƒf[ƒ^€–ÚƒoƒCƒ“ƒh‚Ì•ÒW
 DataItemBindingDialog.text.Function=Function:
@@ -3801,7 +3801,3 @@ CrosstabPageGenerator.List.Bookmark=ƒuƒbƒNƒ}[ƒN
 CrosstabPageGenerator.List.NamedExpressions=–¼‘O•t‚«®
 CrosstabPageGenerator.List.UserProperties=ƒ†[ƒU‚ÌƒvƒƒpƒeƒB
 CrosstabPageGenerator.List.AdvancedProperty=Ú×İ’è
-
-CrosstabPageGenerator.List.SubTotals=Sub Totals
-CrosstabPageGenerator.List.GrandTotals=Grand Totals
-CrosstabPageGenerator.List.PageBreak=ƒy[ƒW‹æØ‚è

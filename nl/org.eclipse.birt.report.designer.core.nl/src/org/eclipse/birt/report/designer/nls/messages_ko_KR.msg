@@ -1743,6 +1743,12 @@ I18nPage.text.Note=참고: 현지화를 설정하려면 속성 편집기의 리소스 탭에서 보고서�
 ###########################################################
 #ImageBuilder properties
 
+ImageBuilder.Button.Dynamic=동적 이미지(&D)
+ImageBuilder.Button.Import=이미지 추가(&A)...
+ImageBuilder.Button.Insert=삽입(&S)
+ImageBuilder.Button.Preview=미리 보기(&P)
+ImageBuilder.Button.Remove=제거
+ImageBuilder.ButtonBrowser=찾아보기...
 ImageBuilder.Chooser.Title=이미지 파일 열기
 ImageBuilder.DialogTitle.Edit=이미지 항목 편집
 ImageBuilder.DialogTitle.ImportFailed=가져오기 실패
@@ -1754,22 +1760,15 @@ ImageBuilder.BrowserResourceDialog.Title=이미지 파일 찾아보기
 ImageBuilder.BrowserResourceDialog.Message=리소스 경로 폴더에서 이미지 파일 선택
 ImageBuilder.ErrorMessage.OutOfMemory=이미지가 너무 커서 메모리에 맞지 않습니다.
 ImageBuilder.FileDialog.FilterMessage=지원되지 않는 이미지 파일
-ImageBuilder.Button.Browser=찾아보기...
-ImageBuilder.Button.Import=이미지 추가(&A)...
-ImageBuilder.Button.SelectImageData=Select Image Data...
-ImageBuilder.Button.Insert=삽입(&S)
-ImageBuilder.Label.SelectFrom=Select Image from:
-ImageBuilder.Label.EnterURI=Enter URI:
-ImageBuilder.Label.EnterResourceFile=Enter resource file:
+ImageBuilder.Label.Binding=&Binding
+ImageBuilder.Label.EmbededImage=내장된 이미지(&E)
 ImageBuilder.Label.EnterExpr=동적 이미지 식 입력(&N):
-ImageBuilder.Type.URI=URI(&U)
-ImageBuilder.Type.ResourceFile=Image file in shared resources 
-ImageBuilder.Type.EmbededImage=내장된 이미지(&E)
-ImageBuilder.Type.DynamicImage=동적 이미지(&D)
-ImageBuilder.Description.URI=Link to image on web
-ImageBuilder.Description.ResourceFile=Link to image in shared resources
-ImageBuilder.Description.Embedded=Embed image into the report
-ImageBuilder.Description.Dynamic=Retrieve image from data set (databases)
+ImageBuilder.Label.EnterUri=E&nter URI:
+ImageBuilder.Label.Open=식 빌더(&X)...
+ImageBuilder.Label.SelectFrom=Select picture from:
+ImageBuilder.ResourceFileType=Image file in resource folder
+ImageBuilder.Label.URI=URI(&U)
+ImageBuilder.Label.EnterResourceFile=E&nter resource file:
 
 ###########################################################
 #ImageEditPart properties
@@ -3719,6 +3718,7 @@ DataItemBindingDialog.text.AggregateOn=집계 대상:
 DataItemBindingDialog.text.ForceBinding=동일한 식으로 새 바인딩을 생성합니다.
 DataItemBindingDialog.text.All=모두
 DataItemBindingDialog.text.None=해당 없음
+DataItemBindingDialog.text.Null=없음
 DataItemBindingDialog.title.CreateNewItem=새 데이터 항목 바인딩
 DataItemBindingDialog.title.EditDataItem=데이터 항목 바인딩 편집
 DataItemBindingDialog.text.Function=Function:
@@ -3801,7 +3801,3 @@ CrosstabPageGenerator.List.Bookmark=책갈피
 CrosstabPageGenerator.List.NamedExpressions=명명된 식
 CrosstabPageGenerator.List.UserProperties=사용자 속성
 CrosstabPageGenerator.List.AdvancedProperty=고급
-
-CrosstabPageGenerator.List.SubTotals=Sub Totals
-CrosstabPageGenerator.List.GrandTotals=Grand Totals
-CrosstabPageGenerator.List.PageBreak=페이지 나누기

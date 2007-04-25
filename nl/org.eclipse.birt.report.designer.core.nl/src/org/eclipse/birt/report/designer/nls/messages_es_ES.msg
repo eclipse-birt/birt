@@ -1743,6 +1743,12 @@ I18nPage.text.Note=Nota: Para establecer la localización, seleccione el informe 
 ###########################################################
 #ImageBuilder properties
 
+ImageBuilder.Button.Dynamic=&Imagen dinámica
+ImageBuilder.Button.Import=&Añadir imagen...
+ImageBuilder.Button.Insert=Insertar
+ImageBuilder.Button.Preview=&Vista previa
+ImageBuilder.Button.Remove=Quitar
+ImageBuilder.ButtonBrowser=Examinar...
 ImageBuilder.Chooser.Title=Abrir archivo de imagen
 ImageBuilder.DialogTitle.Edit=Editar elemento de imagen
 ImageBuilder.DialogTitle.ImportFailed=Error al importar
@@ -1754,22 +1760,15 @@ ImageBuilder.BrowserResourceDialog.Title=Buscar archivos de imagen
 ImageBuilder.BrowserResourceDialog.Message=Seleccione los archivos de imagen de la carpeta de ruta de recursos
 ImageBuilder.ErrorMessage.OutOfMemory=La imagen no se puede guardar en la memoria.
 ImageBuilder.FileDialog.FilterMessage=Archivo de imagen admitido
-ImageBuilder.Button.Browser=Examinar...
-ImageBuilder.Button.Import=&Añadir imagen...
-ImageBuilder.Button.SelectImageData=Select Image Data...
-ImageBuilder.Button.Insert=Insertar
-ImageBuilder.Label.SelectFrom=Select Image from:
-ImageBuilder.Label.EnterURI=Enter URI:
-ImageBuilder.Label.EnterResourceFile=Enter resource file:
+ImageBuilder.Label.Binding=&Binding
+ImageBuilder.Label.EmbededImage=&Imagen incrustada
 ImageBuilder.Label.EnterExpr=Introduci&r expresión de imagen dinámica:
-ImageBuilder.Type.URI=U&RI
-ImageBuilder.Type.ResourceFile=Image file in shared resources 
-ImageBuilder.Type.EmbededImage=&Imagen incrustada
-ImageBuilder.Type.DynamicImage=&Imagen dinámica
-ImageBuilder.Description.URI=Link to image on web
-ImageBuilder.Description.ResourceFile=Link to image in shared resources
-ImageBuilder.Description.Embedded=Embed image into the report
-ImageBuilder.Description.Dynamic=Retrieve image from data set (databases)
+ImageBuilder.Label.EnterUri=E&nter URI:
+ImageBuilder.Label.Open=Compilador de ex&presiones...
+ImageBuilder.Label.SelectFrom=Select picture from:
+ImageBuilder.ResourceFileType=Image file in resource folder
+ImageBuilder.Label.URI=U&RI
+ImageBuilder.Label.EnterResourceFile=E&nter resource file:
 
 ###########################################################
 #ImageEditPart properties
@@ -3719,6 +3718,7 @@ DataItemBindingDialog.text.AggregateOn=Agregar en:
 DataItemBindingDialog.text.ForceBinding=Crea un nuevo enlace con la misma expresión
 DataItemBindingDialog.text.All=Todos
 DataItemBindingDialog.text.None=N/A
+DataItemBindingDialog.text.Null=Ninguno
 DataItemBindingDialog.title.CreateNewItem=Nuevo enlace de elemento de datos
 DataItemBindingDialog.title.EditDataItem=Editar enlace de elemento de datos
 DataItemBindingDialog.text.Function=Function:
@@ -3801,7 +3801,3 @@ CrosstabPageGenerator.List.Bookmark=Marcador
 CrosstabPageGenerator.List.NamedExpressions=Expresiones con nombre
 CrosstabPageGenerator.List.UserProperties=Propiedades de usuario
 CrosstabPageGenerator.List.AdvancedProperty=Avanzada
-
-CrosstabPageGenerator.List.SubTotals=Sub Totals
-CrosstabPageGenerator.List.GrandTotals=Grand Totals
-CrosstabPageGenerator.List.PageBreak=Salto de página
