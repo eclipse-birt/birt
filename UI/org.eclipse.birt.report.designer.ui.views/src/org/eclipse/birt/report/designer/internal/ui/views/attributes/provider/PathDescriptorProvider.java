@@ -6,11 +6,14 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.osgi.util.TextProcessor;
 
 public class PathDescriptorProvider implements ITextDescriptorProvider
 {
 
 	private Object input;
+	
+	private static String PATH_DELIMETER = "/\\:."; //$NON-NLS-1$
 
 	public boolean isReadOnly( )
 	{
@@ -28,7 +31,7 @@ public class PathDescriptorProvider implements ITextDescriptorProvider
 			return "";
 		DesignElementHandle handle = (DesignElementHandle) DEUtil.getInputFirstElement( input );
 		if ( handle != null )
-			return ( (ModuleHandle) handle ).getFileName( );
+			return TextProcessor.process( ( (ModuleHandle) handle ).getFileName( ), PATH_DELIMETER );
 		return "";
 	}
 
