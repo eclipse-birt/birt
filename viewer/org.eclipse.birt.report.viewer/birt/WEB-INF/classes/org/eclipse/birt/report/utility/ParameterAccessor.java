@@ -253,6 +253,11 @@ public class ParameterAccessor
 	public static final String PARAM_DPI = "__dpi"; //$NON-NLS-1$
 
 	/**
+	 * URL parameter name to indicate whether clean session files.
+	 */
+	public static final String PARAM_CLEAN_SESSION = "__clean"; //$NON-NLS-1$
+
+	/**
 	 * Custom request headers to identify the request is a normal HTTP request
 	 * or a soap request by AJAX.
 	 */
@@ -483,6 +488,11 @@ public class ParameterAccessor
 	 * Flag that indicated if support print on the server side.
 	 */
 	public static boolean isSupportedPrintOnServer = true;
+
+	/**
+	 * Flag that indicated if clean session files.
+	 */
+	public static boolean isCleanSessionFiles = true;
 
 	/**
 	 * Get bookmark. If page exists, ignore bookmark.
@@ -2517,5 +2527,19 @@ public class ParameterAccessor
 			return DEFAULT_SEP;
 
 		return sep.charAt( 0 );
+	}
+
+	/**
+	 * Set isCleanSessionFiles
+	 * 
+	 * @param request
+	 */
+	public static void setClean( HttpServletRequest request )
+	{
+		String isClean = getParameter( request, PARAM_CLEAN_SESSION );
+		if ( "false".equalsIgnoreCase( isClean ) ) //$NON-NLS-1$
+			isCleanSessionFiles = false;
+		else if ( "true".equalsIgnoreCase( isClean ) ) //$NON-NLS-1$
+			isCleanSessionFiles = true;
 	}
 }

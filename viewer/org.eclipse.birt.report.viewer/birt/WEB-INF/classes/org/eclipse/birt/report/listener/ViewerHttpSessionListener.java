@@ -47,8 +47,11 @@ public class ViewerHttpSessionListener implements HttpSessionListener
 	 */
 	public void sessionDestroyed( HttpSessionEvent event )
 	{
-		String sessionId = event.getSession( ).getId( );
-		ParameterAccessor.clearSessionFiles( sessionId );
+		if ( ParameterAccessor.isCleanSessionFiles )
+		{
+			String sessionId = event.getSession( ).getId( );
+			ParameterAccessor.clearSessionFiles( sessionId );
+		}
 	}
 
 }

@@ -207,6 +207,9 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		if ( this.reportDesignHandle == null )
 			return;
 
+		// set clean flag
+		ParameterAccessor.setClean( request );
+
 		// Initialize report parameters.
 		__initParameters( request );
 	}
