@@ -209,7 +209,6 @@ public class ColumnEditPart extends NodeEditPartHelper implements Listener
 						if ( joinCondition.getHierarchyKey( )
 								.equalsIgnoreCase( ( (ResultSetColumnHandle) getModel( ) ).getColumnName( ) ) ){
 							sourcejoins.add( joinCondition );
-							System.out.println(sourcejoins.size( ));
 						}
 					}
 				}
