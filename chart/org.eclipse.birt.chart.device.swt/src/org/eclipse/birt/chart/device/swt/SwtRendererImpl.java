@@ -785,6 +785,8 @@ public class SwtRendererImpl extends DeviceAdapter
 				(int) Math.ceil( bo.getWidth( ) * dScale ),
 				(int) Math.ceil( bo.getHeight( ) * dScale ) );
 		
+		Path pt = new Path( ( (SwtDisplayServer) _ids ).getDevice( ) );
+		
 		if ( are.getInnerRadius( ) >= 0
 				&& ( are.getOuterRadius( ) > 0 && are.getInnerRadius( ) < are.getOuterRadius( ) )
 				|| ( are.getInnerRadius( ) > 0 && are.getOuterRadius( ) <= 0 ) )
@@ -835,7 +837,6 @@ public class SwtRendererImpl extends DeviceAdapter
 			double yeInner = ( rctInner.getTop( ) + ( Math.sin( stopAngle ) * 0.5 + 0.5 )
 					* rctInner.getHeight( ) );
 
-			Path pt = new Path( ( (SwtDisplayServer) _ids ).getDevice( ) );
 			pt.addArc( (float) rctOuter.getLeft( ),
 					(float) rctOuter.getTop( ),
 					(float) rctOuter.getWidth( ),
@@ -853,118 +854,48 @@ public class SwtRendererImpl extends DeviceAdapter
 					(float) -are.getAngleExtent( ) );
 
 			pt.lineTo( (float) xsOuter, (float) ysOuter );
-
-			try
-			{
-				if ( flBackground instanceof ColorDefinition )
-				{
-					fillPathColor( pt, (ColorDefinition) flBackground );
-				}
-				else if ( flBackground instanceof Gradient )
-				{
-					fillPathGradient( pt, (Gradient) flBackground, r );
-				}
-				else if ( flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
-				{
-					fillPathImage( pt,
-							(org.eclipse.birt.chart.model.attribute.Image) flBackground );
-				}
-			}
-			finally
-			{
-				pt.dispose( );
-			}
 		}
 		else
 		{
 			if ( are.getStyle( ) == ArcRenderEvent.SECTOR
 					|| ( are.getStyle( ) == ArcRenderEvent.CLOSED && Math.abs( are.getAngleExtent( ) ) >= 360 ) )
 			{
-				if ( flBackground instanceof ColorDefinition )
+				double xc = ( ( are.getTopLeft( ).getX( ) + dTranslateX + are.getWidth( ) / 2d ) * dScale );
+				double yc = ( ( are.getTopLeft( ).getY( ) + dTranslateY + are.getHeight( ) / 2d ) * dScale );
+
+				double xs = 0, ys = 0;
+				double angle = Math.toRadians( -are.getStartAngle( ) );
+
+				xs = ( ( are.getTopLeft( ).getX( ) + dTranslateX + ( Math.cos( angle ) * 0.5 + 0.5 )
+						* are.getWidth( ) ) * dScale );
+				ys = ( ( are.getTopLeft( ).getY( ) + dTranslateY + ( Math.sin( angle ) * 0.5 + 0.5 )
+						* are.getHeight( ) ) * dScale );
+
+				if ( are.getStyle( ) == ArcRenderEvent.CLOSED )
 				{
-					final ColorDefinition cd = (ColorDefinition) flBackground;
-
-					// skip full transparency for optimization.
-					if ( !( cd.isSetTransparency( ) && cd.getTransparency( ) == 0 ) )
-					{
-						final Color cBG = (Color) _ids.getColor( cd );
-						final Color cPreviousBG = _gc.getBackground( );
-						_gc.setBackground( cBG );
-
-						R31Enhance.setAlpha( _gc, cd );
-
-						_gc.fillArc( (int) ( ( are.getTopLeft( ).getX( ) + dTranslateX ) * dScale ),
-								(int) ( ( are.getTopLeft( ).getY( ) + dTranslateY ) * dScale ),
-								(int) ( are.getWidth( ) * dScale ),
-								(int) ( are.getHeight( ) * dScale ),
-								(int) are.getStartAngle( ),
-								(int) are.getAngleExtent( ) );
-
-						cBG.dispose( );
-						_gc.setBackground( cPreviousBG );
-					}
+					pt.addArc( (float) ( ( are.getTopLeft( ).getX( ) + dTranslateX ) * dScale ),
+							(float) ( ( are.getTopLeft( ).getY( ) + dTranslateY ) * dScale ),
+							(float) ( are.getWidth( ) * dScale ),
+							(float) ( are.getHeight( ) * dScale ),
+							(float) are.getStartAngle( ),
+							(float) are.getAngleExtent( ) );
+					pt.lineTo( (float) xs, (float) ys );
 				}
-				else if ( flBackground instanceof Gradient
-						|| flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
+				else if ( are.getStyle( ) == ArcRenderEvent.SECTOR )
 				{
-					double xc = ( ( are.getTopLeft( ).getX( ) + dTranslateX + are.getWidth( ) / 2d ) * dScale );
-					double yc = ( ( are.getTopLeft( ).getY( ) + dTranslateY + are.getHeight( ) / 2d ) * dScale );
-
-					double xs = 0, ys = 0;
-					double angle = Math.toRadians( -are.getStartAngle( ) );
-
-					xs = ( ( are.getTopLeft( ).getX( ) + dTranslateX + ( Math.cos( angle ) * 0.5 + 0.5 )
-							* are.getWidth( ) ) * dScale );
-					ys = ( ( are.getTopLeft( ).getY( ) + dTranslateY + ( Math.sin( angle ) * 0.5 + 0.5 )
-							* are.getHeight( ) ) * dScale );
-
-					Path pt = new Path( ( (SwtDisplayServer) _ids ).getDevice( ) );
-
-					if ( are.getStyle( ) == ArcRenderEvent.CLOSED )
-					{
-						pt.addArc( (float) ( ( are.getTopLeft( ).getX( ) + dTranslateX ) * dScale ),
-								(float) ( ( are.getTopLeft( ).getY( ) + dTranslateY ) * dScale ),
-								(float) ( are.getWidth( ) * dScale ),
-								(float) ( are.getHeight( ) * dScale ),
-								(float) are.getStartAngle( ),
-								(float) are.getAngleExtent( ) );
-						pt.lineTo( (float) xs, (float) ys );
-					}
-					else if ( are.getStyle( ) == ArcRenderEvent.SECTOR )
-					{
-						pt.addArc( (float) ( ( are.getTopLeft( ).getX( ) + dTranslateX ) * dScale ),
-								(float) ( ( are.getTopLeft( ).getY( ) + dTranslateY ) * dScale ),
-								(float) ( are.getWidth( ) * dScale ),
-								(float) ( are.getHeight( ) * dScale ),
-								(float) are.getStartAngle( ),
-								(float) are.getAngleExtent( ) );
-						pt.lineTo( (float) xc, (float) yc );
-						pt.lineTo( (float) xs, (float) ys );
-					}
-					
-					try
-					{
-						if ( flBackground instanceof Gradient )
-						{
-							fillPathGradient( pt, (Gradient) flBackground, r );
-						}
-						else if ( flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
-						{
-							fillPathImage( pt,
-									(org.eclipse.birt.chart.model.attribute.Image) flBackground );
-						}
-					}
-					finally
-					{
-						pt.dispose( );
-					}
+					pt.addArc( (float) ( ( are.getTopLeft( ).getX( ) + dTranslateX ) * dScale ),
+							(float) ( ( are.getTopLeft( ).getY( ) + dTranslateY ) * dScale ),
+							(float) ( are.getWidth( ) * dScale ),
+							(float) ( are.getHeight( ) * dScale ),
+							(float) are.getStartAngle( ),
+							(float) are.getAngleExtent( ) );
+					pt.lineTo( (float) xc, (float) yc );
+					pt.lineTo( (float) xs, (float) ys );
 				}
-
-				return;
 			}
 
 			// Extra fix due to SWT arc rendering limitation.
-			if ( are.getStyle( ) == ArcRenderEvent.OPEN
+			else if ( are.getStyle( ) == ArcRenderEvent.OPEN
 					|| are.getStyle( ) == ArcRenderEvent.CLOSED )
 			{
 				double angle = Math.toRadians( -are.getStartAngle( ) );
@@ -974,7 +905,6 @@ public class SwtRendererImpl extends DeviceAdapter
 				double ys = ( ( are.getTopLeft( ).getY( ) + dTranslateY + ( Math.sin( angle ) * 0.5 + 0.5 )
 						* are.getHeight( ) ) * dScale );
 
-				Path pt = new Path( ( (SwtDisplayServer) _ids ).getDevice( ) );
 				pt.addArc( (float) ( ( are.getTopLeft( ).getX( ) + dTranslateX ) * dScale ),
 						(float) ( ( are.getTopLeft( ).getY( ) + dTranslateY ) * dScale ),
 						(float) ( are.getWidth( ) * dScale ),
@@ -983,28 +913,28 @@ public class SwtRendererImpl extends DeviceAdapter
 						(float) are.getAngleExtent( ) );
 
 				pt.lineTo( (float) xs, (float) ys );
-
-				try
-				{
-					if ( flBackground instanceof ColorDefinition )
-					{
-						fillPathColor( pt, (ColorDefinition) flBackground );
-					}
-					else if ( flBackground instanceof Gradient )
-					{
-						fillPathGradient( pt, (Gradient) flBackground, r );
-					}
-					else if ( flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
-					{
-						fillPathImage( pt,
-								(org.eclipse.birt.chart.model.attribute.Image) flBackground );
-					}
-				}
-				finally
-				{
-					pt.dispose( );
-				}
 			}
+		}
+		
+		try
+		{
+			if ( flBackground instanceof ColorDefinition )
+			{
+				fillPathColor( pt, (ColorDefinition) flBackground );
+			}
+			else if ( flBackground instanceof Gradient )
+			{
+				fillPathGradient( pt, (Gradient) flBackground, r );
+			}
+			else if ( flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
+			{
+				fillPathImage( pt,
+						(org.eclipse.birt.chart.model.attribute.Image) flBackground );
+			}
+		}
+		finally
+		{
+			pt.dispose( );
 		}
 	}
 	
