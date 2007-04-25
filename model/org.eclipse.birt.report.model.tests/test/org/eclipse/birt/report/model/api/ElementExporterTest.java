@@ -533,7 +533,7 @@ public class ElementExporterTest extends BaseTestCase
 		File file = new File( libraryDir );
 		if ( !file.exists( ) )
 			file.mkdirs( );
-		
+
 		String libraryFile = libraryDir + outputFile;
 		file = new File( libraryFile );
 		if ( file.exists( ) )
@@ -573,7 +573,7 @@ public class ElementExporterTest extends BaseTestCase
 	public void testExportingExtendItemWithSignificativeName( )
 			throws Exception
 	{
-		//new PeerExtensionLoader( ).load( );
+		// new PeerExtensionLoader( ).load( );
 
 		testExportDesignToNewLibraryFile( "ElementExporterTest_4.xml", //$NON-NLS-1$
 				"ElementExporterTestLibrary_out_13.xml" ); //$NON-NLS-1$
@@ -685,6 +685,57 @@ public class ElementExporterTest extends BaseTestCase
 		assertEquals( 1, itemHandle
 				.getListProperty( "boundDataColumns" ).size( ) );//$NON-NLS-1$
 		itemHandle = (DataItemHandle) libraryHandle.findElement( "NewData" );//$NON-NLS-1$
+
+	}
+
+	/**
+	 * 
+	 * test to export the element type property correctly. The value of the
+	 * element type property is an elemnet.
+	 * 
+	 * @throws Exception
+	 * 
+	 */
+
+	public void testExportXtabFromLibrary( ) throws Exception
+	{
+
+		openDesign( "ExportXtab.xml" ); //$NON-NLS-1$
+		openLibrary( "Library_5.xml" ); //$NON-NLS-1$
+
+		ElementExportUtil
+				.exportDesign( designHandle, libraryHandle, true, true );
+
+		DataItemHandle dataItem = (DataItemHandle) libraryHandle
+				.findElement( "QUANTITYORDERED1" ); //$NON-NLS-1$
+		assertNotNull( dataItem );
+
+		assertEquals( "QUANTITYORDERED", dataItem.getResultSetColumn( ) ); //$NON-NLS-1$
+
+		dataItem = (DataItemHandle) libraryHandle.findElement( "OrderYear1" ); //$NON-NLS-1$
+		assertNotNull( dataItem );
+
+		assertEquals( "OrderYear", dataItem.getResultSetColumn( ) ); //$NON-NLS-1$
+
+		dataItem = (DataItemHandle) libraryHandle.findElement( "COUNTRY1" ); //$NON-NLS-1$
+		assertNotNull( dataItem );
+
+		assertEquals( "COUNTRY", dataItem.getResultSetColumn( ) ); //$NON-NLS-1$
+
+		dataItem = (DataItemHandle) libraryHandle.findElement( "STATE1" ); //$NON-NLS-1$
+		assertNotNull( dataItem );
+
+		assertEquals( "STATE", dataItem.getResultSetColumn( ) ); //$NON-NLS-1$
+
+		dataItem = (DataItemHandle) libraryHandle.findElement( "CITY1" );//$NON-NLS-1$
+		assertNotNull( dataItem );
+
+		assertEquals( "CITY", dataItem.getResultSetColumn( ) ); //$NON-NLS-1$
+
+		save( libraryHandle );
+		
+		saveOutputFile( "ElementExporterTestLibrary_out_15.xml" );
+		compareFile( "ElementExporterTestLibrary_golden_15.xml" ); //$NON-NLS-1$
 
 	}
 }

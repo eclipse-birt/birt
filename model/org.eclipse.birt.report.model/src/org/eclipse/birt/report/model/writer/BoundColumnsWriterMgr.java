@@ -327,6 +327,9 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 			// do nothing
 		}
 
+		if ( newExprs == null || newExprs.size( ) == 0 )
+			return;
+
 		DesignElement target = BoundDataColumnUtil.findTargetOfBoundColumns(
 				obj, module );
 

@@ -31,6 +31,8 @@ import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
@@ -569,6 +571,42 @@ class ElementExporter
 						contentHandle, true );
 
 				addToSlot( destinationSlotHandle, newContentHandle );
+			}
+		}
+
+		Iterator props = source.getElement( ).getPropertyDefns( ).iterator( );
+		while ( props.hasNext( ) )
+		{
+
+			IPropertyDefn propDefn = (IPropertyDefn) props.next( );
+
+			if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_TYPE )
+				continue;
+
+			String propName = propDefn.getName( );
+			Object value = source.getProperty( propName );
+
+			if ( value == null )
+				continue;
+
+			if ( propDefn.isList( ) )
+			{
+				for ( int j = 0; j < ( (List) value ).size( ); j++ )
+				{
+					DesignElementHandle contentHandle = (DesignElementHandle) ( (ArrayList) value )
+							.get( j );
+
+					DesignElementHandle newContentHandle = duplicateElement(
+							contentHandle, false );
+
+					destination.add( propName, newContentHandle );
+				}
+			}
+			else
+			{
+				DesignElementHandle newContentHandle = duplicateElement(
+						( (DesignElementHandle) value ), false );
+				destination.add( propName, newContentHandle );
 			}
 		}
 	}

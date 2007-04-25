@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.12" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.0.qualifier Build &lt;@BUILD@></property>
+    <property name="units">in</property>
+    <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
+    <html-property name="description">Creates a blank report with no predefined content.</html-property>
+    <text-property name="displayName">Blank Report</text-property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <list-property name="libraries">
+        <structure>
+            <property name="fileName">ExportXtabLib.xml</property>
+            <property name="namespace">new_library_4</property>
+        </structure>
+    </list-property>
+    <styles>
+        <style name="crosstab" id="78">
+            <property name="backgroundColor">#00FFFF</property>
+        </style>
+        <style name="crosstab-cell" id="108">
+            <property name="borderBottomColor">#008000</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#008000</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#008000</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#008000</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <label name="NewLabel1" id="115" extends="new_library_4.NewLabel1"/>
+        <extended-item extensionName="Crosstab" name="NewCross Table" extends="new_library_4.NewCross Table"
+ id="116">
+            <overridden-values>
+                <ref-entry baseId="73" name="NewMeasure View1" id="117">
+                    <property name="measure">new_library_4.QUANTITYORDERED</property>
+                </ref-entry>
+                <ref-entry baseId="74" id="74"/>
+                <ref-entry baseId="76" name="QUANTITYORDERED1" id="76"/>
+                <ref-entry baseId="75" id="75"/>
+                <ref-entry baseId="77" name="NewLabel2" id="77"/>
+                <ref-entry baseId="68" name="NewCrosstab View11" id="118"/>
+                <ref-entry baseId="69" name="NewDimension View11" id="69">
+                    <property name="dimension">new_library_4.Year</property>
+                </ref-entry>
+                <ref-entry baseId="70" name="NewLevel View11" id="70">
+                    <property name="level">new_library_4.OrderYear</property>
+                </ref-entry>
+                <ref-entry baseId="71" id="71"/>
+                <ref-entry baseId="72" name="OrderYear1" id="72"/>
+                <ref-entry baseId="63" name="NewCrosstab View2" id="119"/>
+                <ref-entry baseId="64" name="NewDimension View2" id="64">
+                    <property name="dimension">new_library_4.Location</property>
+                </ref-entry>
+                <ref-entry baseId="65" name="NewLevel View4" id="65">
+                    <property name="level">new_library_4.COUNTRY</property>
+                </ref-entry>
+                <ref-entry baseId="66" id="66"/>
+                <ref-entry baseId="67" name="COUNTRY1" id="67"/>
+                <ref-entry baseId="102" name="NewLevel View21" id="102">
+                    <property name="level">new_library_4.STATE</property>
+                </ref-entry>
+                <ref-entry baseId="103" id="103"/>
+                <ref-entry baseId="104" name="STATE1" id="104"/>
+                <ref-entry baseId="105" name="NewLevel View31" id="105">
+                    <property name="level">new_library_4.CITY</property>
+                </ref-entry>
+                <ref-entry baseId="106" id="106"/>
+                <ref-entry baseId="107" name="CITY1" id="107"/>
+            </overridden-values>
+        </extended-item>
+    </body>
+</report>

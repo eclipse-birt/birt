@@ -219,6 +219,8 @@ public class ModelUtil
 	 * <li>Inherited from style or element's selector style
 	 * <li>Inherited from parent
 	 * </ul>
+	 * <p>
+	 * This method is <strong>ONLY</strong> for exporting properties.
 	 * 
 	 * @param source
 	 *            handle of the source element
@@ -295,7 +297,8 @@ public class ModelUtil
 			ElementPropertyDefn propDefn = destination.getElement( )
 					.getPropertyDefn( propName );
 
-			if ( propDefn == null )
+			if ( propDefn == null
+					|| propDefn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
 				continue;
 
 			Object value = null;
@@ -1388,7 +1391,7 @@ public class ModelUtil
 	{
 		if ( module == null || element == null || element.getRoot( ) != module )
 			return;
-		
+
 		module.makeUniqueName( element );
 		int ns = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
 		if ( element.getName( ) != null

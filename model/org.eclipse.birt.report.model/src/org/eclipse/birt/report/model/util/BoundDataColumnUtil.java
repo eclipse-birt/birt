@@ -44,6 +44,7 @@ import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITextItemModel;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 /**
@@ -301,7 +302,14 @@ public class BoundDataColumnUtil
 
 		String propName = null;
 		if ( target instanceof ReportItem )
+		{
 			propName = IReportItemModel.BOUND_DATA_COLUMNS_PROP;
+			ElementPropertyDefn prop = (ElementPropertyDefn) target.getDefn( )
+					.getProperty( propName );
+			if ( prop == null )
+				return null;
+		}
+
 		if ( target instanceof ScalarParameter )
 			propName = IScalarParameterModel.BOUND_DATA_COLUMNS_PROP;
 
@@ -384,6 +392,15 @@ public class BoundDataColumnUtil
 			{
 				tmpElement = tmpElement.getContainer( );
 				continue;
+			}
+
+			if ( tmpElement instanceof ReportItem )
+			{
+				String propName = IReportItemModel.BOUND_DATA_COLUMNS_PROP;
+				ElementPropertyDefn prop = (ElementPropertyDefn) tmpElement
+						.getDefn( ).getProperty( propName );
+				if ( prop == null )
+					continue;
 			}
 
 			if ( retElement == null )
@@ -593,7 +610,7 @@ public class BoundDataColumnUtil
 			}
 			catch ( BirtException e )
 			{
-				
+
 			}
 
 			if ( newExprs == null || newExprs.isEmpty( ) )
@@ -661,7 +678,7 @@ public class BoundDataColumnUtil
 			}
 			catch ( BirtException e )
 			{
-				
+
 			}
 
 			if ( newExprs == null || newExprs.isEmpty( ) )
