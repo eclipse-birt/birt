@@ -16,7 +16,9 @@ import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.commands.CreateCommand;
+import org.eclipse.birt.report.designer.core.model.LibraryHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -98,6 +100,11 @@ public class CreateCrosstabHandler extends AbstractHandler
 						.getCommandStack( )
 						.rollback( );
 			}
+			//if parent is library, select new object
+			HandleAdapterFactory.getInstance( )
+				.getLibraryHandleAdapter( )
+				.setCurrentEditorModel( handle,
+						LibraryHandleAdapter.CREATE_ELEMENT );
 //		}
 //		else
 //		{
