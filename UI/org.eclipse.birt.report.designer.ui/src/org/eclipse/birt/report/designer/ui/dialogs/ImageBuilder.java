@@ -356,7 +356,7 @@ public class ImageBuilder extends BaseDialog
 		uriEditorLabel.setLayoutData( labelGd );
 		uriEditorLabel.setText( (String) uriEditorLabelMap.get( new Integer( type ) ) );
 
-		uriEditor = new Text( inputArea, SWT.SINGLE | SWT.BORDER );
+		uriEditor = new Text( inputArea, SWT.SINGLE | SWT.BORDER | SWT.READ_ONLY );
 		GridData textGd = new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING );
 		textGd.widthHint = 308;
 		if ( type == BLOB_TYPE )
