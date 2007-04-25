@@ -116,7 +116,7 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 
 	private Date defaultDate = new Date( );
 
-	private String defaultDateTime = new DateFormatter( "Unformatted" ).format( defaultDate ); //$NON-NLS-1$
+	private String defaultDateTime = new DateFormatter( DateFormatter.DATETIME_UNFORMATTED ).format( defaultDate ); //$NON-NLS-1$
 	private Composite content;
 
 	/**
@@ -941,7 +941,7 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 		else
 			previewTextBox = FormWidgetFactory.getInstance( )
 					.createText( group, "", SWT.SINGLE );
-		previewTextBox.setText( defaultDateTime );
+		previewTextBox.setText( defaultDateTime==null?"":defaultDateTime );
 		GridData data = new GridData( GridData.FILL_HORIZONTAL );
 		if ( pageAlignment == PAGE_ALIGN_HORIZONTAL )
 		{
