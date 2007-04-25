@@ -252,7 +252,7 @@ public class TaskSelectType extends SimpleTask implements
 	{
 		cmpRight = new Composite( cmpType, SWT.NONE );
 		cmpRight.setLayout( new GridLayout(  ) );
-		cmpRight.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		cmpRight.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		createComposite( new Vector( ) );
 		createMiscArea( );
 	}
@@ -261,7 +261,7 @@ public class TaskSelectType extends SimpleTask implements
 	{
 		cmpMisc = new Composite( cmpRight, SWT.NONE );
 		cmpMisc.setLayout( new GridLayout( 4, false ) );
-		cmpMisc.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		cmpMisc.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
 		GridData gridData = null;
 
