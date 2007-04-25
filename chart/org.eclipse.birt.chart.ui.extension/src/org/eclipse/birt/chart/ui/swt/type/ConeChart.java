@@ -1,11 +1,13 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: Actuate Corporation - initial API and implementation
- ******************************************************************************/
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.chart.ui.swt.type;
 
@@ -59,15 +61,16 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.graphics.Image;
 
 /**
- * BarChart
+ * 
  */
-public class BarChart extends DefaultChartTypeImpl
+
+public class ConeChart extends DefaultChartTypeImpl
 {
 
 	/**
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
-	public static final String TYPE_LITERAL = "Bar Chart"; //$NON-NLS-1$
+	public static final String TYPE_LITERAL = "Cone Chart"; //$NON-NLS-1$
 
 	private static final String STACKED_SUBTYPE_LITERAL = "Stacked"; //$NON-NLS-1$
 
@@ -75,13 +78,13 @@ public class BarChart extends DefaultChartTypeImpl
 
 	private static final String SIDE_SUBTYPE_LITERAL = "Side-by-side"; //$NON-NLS-1$
 
-	public static final String CHART_TITLE = Messages.getString( "BarChart.Txt.DefaultBarChartTitle" ); //$NON-NLS-1$
+	public static final String CHART_TITLE = Messages.getString( "ConeChart.Txt.DefaultConeChartTitle" ); //$NON-NLS-1$
 
-	private static final String sStackedDescription = Messages.getString( "BarChart.Txt.StackedDescription" ); //$NON-NLS-1$
+	private static final String sStackedDescription = Messages.getString( "ConeChart.Txt.StackedDescription" ); //$NON-NLS-1$
 
-	private static final String sPercentStackedDescription = Messages.getString( "BarChart.Txt.PercentStackedDescription" ); //$NON-NLS-1$
+	private static final String sPercentStackedDescription = Messages.getString( "ConeChart.Txt.PercentStackedDescription" ); //$NON-NLS-1$
 
-	private static final String sSideBySideDescription = Messages.getString( "BarChart.Txt.SideBySideDescription" ); //$NON-NLS-1$
+	private static final String sSideBySideDescription = Messages.getString( "ConeChart.Txt.SideBySideDescription" ); //$NON-NLS-1$
 
 	private transient Image imgIcon = null;
 
@@ -105,9 +108,9 @@ public class BarChart extends DefaultChartTypeImpl
 			THREE_DIMENSION_TYPE
 	};
 
-	public BarChart( )
+	public ConeChart( )
 	{
-		imgIcon = UIHelper.getImage( "icons/obj16/barcharticon.gif" ); //$NON-NLS-1$
+		imgIcon = UIHelper.getImage( "icons/obj16/conecharticon.gif" ); //$NON-NLS-1$
 	}
 
 	/*
@@ -138,7 +141,7 @@ public class BarChart extends DefaultChartTypeImpl
 	public IHelpContent getHelp( )
 	{
 		return new HelpContentImpl( TYPE_LITERAL,
-				Messages.getString( "BarChart.Txt.HelpText" ) ); //$NON-NLS-1$
+				Messages.getString( "ConeChart.Txt.HelpText" ) ); //$NON-NLS-1$
 	}
 
 	/*
@@ -155,73 +158,73 @@ public class BarChart extends DefaultChartTypeImpl
 		{
 			if ( orientation.equals( Orientation.VERTICAL_LITERAL ) )
 			{
-				imgStacked = UIHelper.getImage( "icons/wizban/stackedbarchartimage.gif" ); //$NON-NLS-1$
-				imgPercentStacked = UIHelper.getImage( "icons/wizban/percentstackedbarchartimage.gif" ); //$NON-NLS-1$
-				imgSideBySide = UIHelper.getImage( "icons/wizban/sidebysidebarchartimage.gif" ); //$NON-NLS-1$
+				imgStacked = UIHelper.getImage( "icons/wizban/stackedconechartimage.gif" ); //$NON-NLS-1$
+				imgPercentStacked = UIHelper.getImage( "icons/wizban/percentstackedconechartimage.gif" ); //$NON-NLS-1$
+				imgSideBySide = UIHelper.getImage( "icons/wizban/sidebysideconechartimage.gif" ); //$NON-NLS-1$
 			}
 			else
 			{
-				imgStacked = UIHelper.getImage( "icons/wizban/horizontalstackedbarchartimage.gif" ); //$NON-NLS-1$
-				imgPercentStacked = UIHelper.getImage( "icons/wizban/horizontalpercentstackedbarchartimage.gif" ); //$NON-NLS-1$
-				imgSideBySide = UIHelper.getImage( "icons/wizban/horizontalsidebysidebarchartimage.gif" ); //$NON-NLS-1$
+				imgStacked = UIHelper.getImage( "icons/wizban/horizontalstackedconechartimage.gif" ); //$NON-NLS-1$
+				imgPercentStacked = UIHelper.getImage( "icons/wizban/horizontalpercentstackedconechartimage.gif" ); //$NON-NLS-1$
+				imgSideBySide = UIHelper.getImage( "icons/wizban/horizontalsidebysideconechartimage.gif" ); //$NON-NLS-1$
 			}
 
 			vSubTypes.add( new DefaultChartSubTypeImpl( SIDE_SUBTYPE_LITERAL,
 					imgSideBySide,
 					sSideBySideDescription,
-					Messages.getString( "BarChart.SubType.Side" ) ) ); //$NON-NLS-1$
+					Messages.getString( "ConeChart.SubType.Side" ) ) ); //$NON-NLS-1$
 			vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL,
 					imgStacked,
 					sStackedDescription,
-					Messages.getString( "BarChart.SubType.Stacked" ) ) ); //$NON-NLS-1$
+					Messages.getString( "ConeChart.SubType.Stacked" ) ) ); //$NON-NLS-1$
 			vSubTypes.add( new DefaultChartSubTypeImpl( PERCENTSTACKED_SUBTYPE_LITERAL,
 					imgPercentStacked,
 					sPercentStackedDescription,
-					Messages.getString( "BarChart.SubType.PercentStacked" ) ) ); //$NON-NLS-1$
+					Messages.getString( "ConeChart.SubType.PercentStacked" ) ) ); //$NON-NLS-1$
 		}
 		else if ( sDimension.equals( TWO_DIMENSION_WITH_DEPTH_TYPE )
 				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL.getName( ) ) )
 		{
 			if ( orientation.equals( Orientation.VERTICAL_LITERAL ) )
 			{
-				imgStackedWithDepth = UIHelper.getImage( "icons/wizban/stackedbarchartwithdepthimage.gif" ); //$NON-NLS-1$
-				imgPercentStackedWithDepth = UIHelper.getImage( "icons/wizban/percentstackedbarchartwithdepthimage.gif" ); //$NON-NLS-1$
-				imgSideBySideWithDepth = UIHelper.getImage( "icons/wizban/sidebysidebarchartwithdepthimage.gif" ); //$NON-NLS-1$
+				imgStackedWithDepth = UIHelper.getImage( "icons/wizban/stackedconechartwithdepthimage.gif" ); //$NON-NLS-1$
+				imgPercentStackedWithDepth = UIHelper.getImage( "icons/wizban/percentstackedconechartwithdepthimage.gif" ); //$NON-NLS-1$
+				imgSideBySideWithDepth = UIHelper.getImage( "icons/wizban/sidebysideconechartwithdepthimage.gif" ); //$NON-NLS-1$
 			}
 			else
 			{
-				imgStackedWithDepth = UIHelper.getImage( "icons/wizban/horizontalstackedbarchartwithdepthimage.gif" ); //$NON-NLS-1$
-				imgPercentStackedWithDepth = UIHelper.getImage( "icons/wizban/horizontalpercentstackedbarchartwithdepthimage.gif" ); //$NON-NLS-1$
-				imgSideBySideWithDepth = UIHelper.getImage( "icons/wizban/horizontalsidebysidebarchartwithdepthimage.gif" ); //$NON-NLS-1$
+				imgStackedWithDepth = UIHelper.getImage( "icons/wizban/horizontalstackedconechartwithdepthimage.gif" ); //$NON-NLS-1$
+				imgPercentStackedWithDepth = UIHelper.getImage( "icons/wizban/horizontalpercentstackedconechartwithdepthimage.gif" ); //$NON-NLS-1$
+				imgSideBySideWithDepth = UIHelper.getImage( "icons/wizban/horizontalsidebysideconechartwithdepthimage.gif" ); //$NON-NLS-1$
 			}
 			vSubTypes.add( new DefaultChartSubTypeImpl( SIDE_SUBTYPE_LITERAL,
 					imgSideBySideWithDepth,
 					sSideBySideDescription,
-					Messages.getString( "BarChart.SubType.Side" ) ) ); //$NON-NLS-1$
+					Messages.getString( "ConeChart.SubType.Side" ) ) ); //$NON-NLS-1$
 			vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL,
 					imgStackedWithDepth,
 					sStackedDescription,
-					Messages.getString( "BarChart.SubType.Stacked" ) ) ); //$NON-NLS-1$
+					Messages.getString( "ConeChart.SubType.Stacked" ) ) ); //$NON-NLS-1$
 			vSubTypes.add( new DefaultChartSubTypeImpl( PERCENTSTACKED_SUBTYPE_LITERAL,
 					imgPercentStackedWithDepth,
 					sPercentStackedDescription,
-					Messages.getString( "BarChart.SubType.PercentStacked" ) ) ); //$NON-NLS-1$
+					Messages.getString( "ConeChart.SubType.PercentStacked" ) ) ); //$NON-NLS-1$
 		}
 		else if ( sDimension.equals( THREE_DIMENSION_TYPE )
 				|| sDimension.equals( ChartDimension.THREE_DIMENSIONAL_LITERAL.getName( ) ) )
 		{
 			if ( orientation.equals( Orientation.VERTICAL_LITERAL ) )
 			{
-				imgSideBySide3D = UIHelper.getImage( "icons/wizban/sidebysidebarchart3dimage.gif" ); //$NON-NLS-1$
+				imgSideBySide3D = UIHelper.getImage( "icons/wizban/sidebysideconechart3dimage.gif" ); //$NON-NLS-1$
 			}
 			else
 			{
-				imgSideBySide3D = UIHelper.getImage( "icons/wizban/horizontalsidebysidebarchart3dimage.gif" ); //$NON-NLS-1$
+				imgSideBySide3D = UIHelper.getImage( "icons/wizban/horizontalsidebysideconechart3dimage.gif" ); //$NON-NLS-1$
 			}
 			vSubTypes.add( new DefaultChartSubTypeImpl( SIDE_SUBTYPE_LITERAL,
 					imgSideBySide3D,
 					sSideBySideDescription,
-					Messages.getString( "BarChart.SubType.Side" ) ) ); //$NON-NLS-1$
+					Messages.getString( "ConeChart.SubType.Side" ) ) ); //$NON-NLS-1$
 		}
 		return vSubTypes;
 	}
@@ -279,7 +282,7 @@ public class BarChart extends DefaultChartTypeImpl
 			SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 			sdY.getSeriesPalette( ).shift( 0 );
 			Series valueSeries = BarSeriesImpl.create( );
-			( (BarSeries) valueSeries ).setRiser( RiserType.RECTANGLE_LITERAL );
+			( (BarSeries) valueSeries ).setRiser( RiserType.CONE_LITERAL );
 			valueSeries.setStacked( true );
 			sdY.getSeries( ).add( valueSeries );
 			( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
@@ -297,7 +300,7 @@ public class BarChart extends DefaultChartTypeImpl
 			SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 			sdY.getSeriesPalette( ).shift( 0 );
 			Series valueSeries = BarSeriesImpl.create( );
-			( (BarSeries) valueSeries ).setRiser( RiserType.RECTANGLE_LITERAL );
+			( (BarSeries) valueSeries ).setRiser( RiserType.CONE_LITERAL );
 			valueSeries.setStacked( true );
 			( (BarSeries) valueSeries ).setStacked( true );
 			sdY.getSeries( ).add( valueSeries );
@@ -314,7 +317,7 @@ public class BarChart extends DefaultChartTypeImpl
 			SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 			sdY.getSeriesPalette( ).shift( 0 );
 			Series valueSeries = BarSeriesImpl.create( );
-			( (BarSeries) valueSeries ).setRiser( RiserType.RECTANGLE_LITERAL );
+			( (BarSeries) valueSeries ).setRiser( RiserType.CONE_LITERAL );
 			( (BarSeries) valueSeries ).setStacked( false );
 			sdY.getSeries( ).add( valueSeries );
 			( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
@@ -496,7 +499,7 @@ public class BarChart extends DefaultChartTypeImpl
 					for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 					{
 						Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
-						( (BarSeries) series ).setRiser( RiserType.RECTANGLE_LITERAL );
+						( (BarSeries) series ).setRiser( RiserType.CONE_LITERAL );
 						if ( !currentChart.getSubType( ).equals( sNewSubType ) )
 						{
 							if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
@@ -688,7 +691,7 @@ public class BarChart extends DefaultChartTypeImpl
 			for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 			{
 				Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
-				( (BarSeries) series ).setRiser( RiserType.RECTANGLE_LITERAL );
+				( (BarSeries) series ).setRiser( RiserType.CONE_LITERAL );
 				series.setStacked( false );// Stacked is unsupported in 3D
 				if ( ( series instanceof BarSeries )
 						&& ( series.getLabelPosition( ) != Position.OUTSIDE_LITERAL ) )
@@ -724,7 +727,7 @@ public class BarChart extends DefaultChartTypeImpl
 
 		// Copy generic series properties
 		ChartUIUtil.copyGeneralSeriesAttributes( series, barseries );
-		barseries.setRiser( RiserType.RECTANGLE_LITERAL );
+		barseries.setRiser( RiserType.CONE_LITERAL );
 
 		return barseries;
 	}
@@ -852,6 +855,6 @@ public class BarChart extends DefaultChartTypeImpl
 	 */
 	public String getDisplayName( )
 	{
-		return Messages.getString( "BarChart.Txt.DisplayName" ); //$NON-NLS-1$
+		return Messages.getString( "ConeChart.Txt.DisplayName" ); //$NON-NLS-1$
 	}
 }

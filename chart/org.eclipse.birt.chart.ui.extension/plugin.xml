@@ -39,6 +39,15 @@
       <chartType
             classDefinition="org.eclipse.birt.chart.ui.swt.type.GanttChart"
             name="Gantt Chart"/>
+      <chartType
+            classDefinition="org.eclipse.birt.chart.ui.swt.type.TubeChart"
+            name="Tube Chart"/>
+      <chartType
+            classDefinition="org.eclipse.birt.chart.ui.swt.type.ConeChart"
+            name="Cone Chart"/>
+      <chartType
+            classDefinition="org.eclipse.birt.chart.ui.swt.type.PyramidChart"
+            name="Pyramid Chart"/>
    </extension>
    <extension
          point="org.eclipse.birt.chart.ui.uisheets">

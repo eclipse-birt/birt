@@ -112,6 +112,8 @@ public class TaskSelectType extends SimpleTask implements
 	private transient String sSubType = null;
 
 	private transient String sType = null;
+	
+	private transient String sOldType = null;
 
 	// Stored in IChartType
 	private transient String sDimension = null;
@@ -148,13 +150,14 @@ public class TaskSelectType extends SimpleTask implements
 
 		if ( chartModel != null )
 		{
-			this.sType = chartModel.getType( );
-			this.sSubType = chartModel.getSubType( );
-			this.sDimension = translateDimensionString( chartModel.getDimension( )
+			sType = chartModel.getType( );
+			sOldType = sType;
+			sSubType = chartModel.getSubType( );
+			sDimension = translateDimensionString( chartModel.getDimension( )
 					.getName( ) );
 			if ( chartModel instanceof ChartWithAxes )
 			{
-				this.orientation = ( (ChartWithAxes) chartModel ).getOrientation( );
+				orientation = ( (ChartWithAxes) chartModel ).getOrientation( );
 			}
 		}
 		htTypes = new LinkedHashMap( );
@@ -172,7 +175,7 @@ public class TaskSelectType extends SimpleTask implements
 					| GridData.GRAB_VERTICAL ) );
 			if ( context != null )
 			{
-				this.chartModel = ( (ChartWizardContext) context ).getModel( );
+				chartModel = ( (ChartWizardContext) context ).getModel( );
 			}
 			placeComponents( );
 			updateAdapters( );
@@ -183,7 +186,7 @@ public class TaskSelectType extends SimpleTask implements
 		if ( ( (ChartWizardContext) getContext( ) ).isMoreAxesSupported( ) )
 		{
 			updateDimensionCombo( sType );
-			createAndDisplayTypesSheet( this.sType );
+			createAndDisplayTypesSheet( sType );
 			setDefaultSubtypeSelection( );
 			cmpMisc.layout( );
 		}
@@ -351,7 +354,7 @@ public class TaskSelectType extends SimpleTask implements
 		
 		table = new Table( cmpLeft, SWT.BORDER );
 		GridData gdTable = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
-		gdTable.heightHint = 165;
+		gdTable.heightHint = 205;
 		table.setLayoutData( gdTable );
 		table.setToolTipText( Messages.getString( "TaskSelectType.Label.ChartTypes" ) ); //$NON-NLS-1$
 		table.addSelectionListener( this );
@@ -584,11 +587,11 @@ public class TaskSelectType extends SimpleTask implements
 			{
 				if ( cbOrientation.getSelection( ) )
 				{
-					this.orientation = Orientation.HORIZONTAL_LITERAL;
+					orientation = Orientation.HORIZONTAL_LITERAL;
 				}
 				else
 				{
-					this.orientation = Orientation.VERTICAL_LITERAL;
+					orientation = Orientation.VERTICAL_LITERAL;
 				}
 				createAndDisplayTypesSheet( sType );
 				setDefaultSubtypeSelection( );
@@ -631,8 +634,9 @@ public class TaskSelectType extends SimpleTask implements
 		else if ( oSelected.getClass( ).equals( Table.class ) )
 		{
 			sType = ( (String) ( (TableItem) e.item ).getData( ) ).trim( );
-			if ( !chartModel.getType( ).equals( sType ) )
+			if ( !sOldType.equals( sType ) )
 			{
+				sOldType = sType;
 				// Get the cached orientation
 				this.orientation = ChartCacheManager.getInstance( )
 						.findOrientation( sType );
@@ -688,7 +692,7 @@ public class TaskSelectType extends SimpleTask implements
 			// Update dimension combo and related sub-types
 			if ( updateDimensionCombo( sType ) )
 			{
-				createAndDisplayTypesSheet( this.sType );
+				createAndDisplayTypesSheet( sType );
 				setDefaultSubtypeSelection( );
 			}
 
@@ -701,7 +705,7 @@ public class TaskSelectType extends SimpleTask implements
 			if ( !newDimension.equals( sDimension ) )
 			{
 				sDimension = newDimension;
-				createAndDisplayTypesSheet( this.sType );
+				createAndDisplayTypesSheet( sType );
 				setDefaultSubtypeSelection( );
 
 				needUpdateModel = true;
@@ -1081,6 +1085,7 @@ public class TaskSelectType extends SimpleTask implements
 					}
 				}
 			}
+			sOldType = sType;
 			createAndDisplayTypesSheet( sType );
 			setDefaultSubtypeSelection( );
 		}
@@ -1219,7 +1224,7 @@ public class TaskSelectType extends SimpleTask implements
 		this.chartModel = ( (ChartWizardContext) context ).getModel( );
 		if ( chartModel != null )
 		{
-			this.sType = chartModel.getType( );
+			this.sType = ( (ChartWizardContext) context ).getChartType( ).getName( );
 			this.sSubType = chartModel.getSubType( );
 			this.sDimension = translateDimensionString( chartModel.getDimension( )
 					.getName( ) );
