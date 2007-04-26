@@ -363,7 +363,7 @@ public class FilterByRowTest extends APITestCase
 		};
 				
 		QueryDefinition queryDefn1 = this.createQuery( null, null, null, null, null, null, null, null, filterDefn, bindingNameRow, bindingExprRow );
-		queryDefn1.setNeedCache( true );
+		queryDefn1.setCacheQueryResults( true );
 		IResultIterator resultIt = executeQuery( queryDefn1 );
 		String queryResultID = resultIt.getQueryResults( ).getID( );
 		resultIt.close();
@@ -608,7 +608,7 @@ public class FilterByRowTest extends APITestCase
 			IBaseExpression[] bindingExprFilter, boolean needCache, String queryResultID ) throws Exception
 	{
 		QueryDefinition queryDefn = (QueryDefinition) getDefaultQueryDefn( this.dataSet.getName( ) );
-		queryDefn.setNeedCache(needCache);
+		queryDefn.setCacheQueryResults(needCache);
 		queryDefn.setQueryResultsID( queryResultID );
 		if ( filterDefn != null )
 		{

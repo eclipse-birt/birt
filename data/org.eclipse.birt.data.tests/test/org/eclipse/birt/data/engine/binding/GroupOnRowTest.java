@@ -931,7 +931,7 @@ public class GroupOnRowTest extends APITestCase
 				null,
 				bindingNameRow,
 				bindingExprRow );
-		qd.setNeedCache( true );
+		qd.setCacheQueryResults( true );
 		String outputStr = getOutputStrForGroupTestWithCache( 30,
 				qd,
 				groupDefn.length,
@@ -1290,7 +1290,7 @@ public class GroupOnRowTest extends APITestCase
 				null,
 				bindingNameRow,
 				bindingExprRow );
-		qd.setNeedCache( true );
+		qd.setCacheQueryResults( true );
 		String outputStr = getOutputStrForGroupTestWithCache( 30,
 				qd,
 				groupDefn.length,

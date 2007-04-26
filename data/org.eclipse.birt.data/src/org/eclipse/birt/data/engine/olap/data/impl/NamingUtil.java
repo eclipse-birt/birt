@@ -25,6 +25,7 @@ public class NamingUtil
 	private static final String HIERARCHY_OFFSET = OLAP_PREFIX + "hierarchy_offset_";
 	private static final String FACT_TABLE = OLAP_PREFIX + "fact_table_";
 	private static final String FTSU_LIST = OLAP_PREFIX + "ftsu_list_";
+	private static final String AGGREGATION_RS_DOC = OLAP_PREFIX + "rs_doc_";
 
 	/**
 	 * 
@@ -86,9 +87,23 @@ public class NamingUtil
 		return FACT_TABLE + factTableName;
 	}
 	
-	
+	/**
+	 * 
+	 * @param factTableName
+	 * @return
+	 */
 	public static String getFTSUListName( String factTableName )
 	{
 		return FTSU_LIST + factTableName;
+	}
+	
+	/**
+	 * 
+	 * @param ID
+	 * @return
+	 */
+	public static String getAggregationRSDocName( String ID )
+	{
+		return AGGREGATION_RS_DOC + ID;
 	}
 }

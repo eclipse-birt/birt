@@ -126,6 +126,15 @@ public class AggregationResultSet implements IAggregationResultSet
 			return DataType.UNKNOWN_TYPE;
 		return aggregationDataType[aggregationIndex];
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public int[] getAggregationDataType( )
+	{
+		return aggregationDataType;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -248,7 +257,9 @@ public class AggregationResultSet implements IAggregationResultSet
 	 */
 	public Object[] getLevelKeyValue( int levelIndex )
 	{
-		if ( resultObject.getLevelMembers() == null || levelIndex < 0 )
+		if ( resultObject.getLevelMembers( ) == null
+				|| levelIndex < 0
+				|| levelIndex > resultObject.getLevelMembers( ).length - 1 )
 		{
 			return null;
 		}
@@ -270,12 +281,26 @@ public class AggregationResultSet implements IAggregationResultSet
 	 */
 	public void seek( int index ) throws IOException
 	{
+		if ( index >= aggregationResultRow.size( ) )
+		{
+			return;
+		}
 		currentPosition = index;
 		resultObject = (AggregationResultRow) aggregationResultRow.get( index );
 	}
 
-	/*
+	/**
 	 * 
+	 * @return
+	 */
+	public AggregationResultRow getCurrentRow( )
+	{
+		return this.resultObject;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet#getPosition()
 	 */
 	public int getPosition( )
 	{
@@ -293,6 +318,15 @@ public class AggregationResultSet implements IAggregationResultSet
 			return -100;
 		}
 		return aggregation.getSortTypes( )[levelIndex];
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public int[] getSortType( )
+	{
+		return aggregation.getSortTypes( );
 	}
 
 	/*
@@ -392,6 +426,42 @@ public class AggregationResultSet implements IAggregationResultSet
 		return keyNames[levelIndex].length;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	public String[][] getLevelKeys( )
+	{
+		return keyNames;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public int[][] getLevelKeyDataType( )
+	{
+		return keyDataTypes;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String[][] getLevelAttributes( )
+	{
+		return attributeNames;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public int[][] getLevelAttributeDataType( )
+	{
+		return this.attributeDataTypes;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.olap.data.api.IAggregationResultSet#getLevelCount()
@@ -415,6 +485,24 @@ public class AggregationResultSet implements IAggregationResultSet
 			return -1;
 		}
 		return ((Integer)index).intValue( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet#getAllLevels()
+	 */
+	public String[] getAllLevels( )
+	{
+		return aggregation.getLevelNames( );
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public AggregationDefinition getAggregationDef( )
+	{
+		return aggregation;
 	}
 
 }

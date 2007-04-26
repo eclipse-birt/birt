@@ -28,6 +28,12 @@ public interface IAggregationResultSet
 	
 	/**
 	 * 
+	 * @return
+	 */
+	public String[] getAllLevels( );
+	
+	/**
+	 * 
 	 * @param levelName
 	 * @return
 	 */
@@ -174,4 +180,10 @@ public interface IAggregationResultSet
 	 * @return
 	 */
 	public int getSortType( int levelIndex );
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public int getPosition( );
 }

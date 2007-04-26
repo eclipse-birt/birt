@@ -32,10 +32,14 @@ public class AggregationResultRow implements IComparableStructure
 	 */
 	public Object[] getFieldValues( )
 	{
-		Object[][] objectArrays = new Object[getLevelMembers().length + 1][];
-		for ( int i = 0; i < getLevelMembers().length; i++ )
+		int memberLength = 0;
+		if(levelMembers!=null)
+			memberLength = levelMembers.length;
+		
+		Object[][] objectArrays = new Object[memberLength + 1][];
+		for ( int i = 0; i < memberLength; i++ )
 		{
-			objectArrays[i] = getLevelMembers()[i].getFieldValues( );
+			objectArrays[i] = levelMembers[i].getFieldValues( );
 		}
 		if ( getAggregationValues() != null )
 		{
@@ -71,9 +75,9 @@ public class AggregationResultRow implements IComparableStructure
 	public int compareTo( Object o )
 	{
 		AggregationResultRow other = (AggregationResultRow) o;
-		for ( int i = 0; i < getLevelMembers().length; i++ )
+		for ( int i = 0; i < levelMembers.length; i++ )
 		{
-			int result = ( getLevelMembers()[i] ).compareTo( other.getLevelMembers()[i] );
+			int result = ( levelMembers[i] ).compareTo( other.levelMembers[i] );
 			if ( result < 0 )
 			{
 				return result;
@@ -86,22 +90,22 @@ public class AggregationResultRow implements IComparableStructure
 		return 0;
 	}
 
-	void setLevelMembers( Member[] levelMembers )
+	public void setLevelMembers( Member[] levelMembers )
 	{
 		this.levelMembers = levelMembers;
 	}
 
-	Member[] getLevelMembers( )
+	public Member[] getLevelMembers( )
 	{
 		return levelMembers;
 	}
 
-	void setAggregationValues( Object[] aggregationValues )
+	public void setAggregationValues( Object[] aggregationValues )
 	{
 		this.aggregationValues = aggregationValues;
 	}
 
-	Object[] getAggregationValues( )
+	public Object[] getAggregationValues( )
 	{
 		return aggregationValues;
 	}
@@ -136,7 +140,7 @@ class AggregationResultObjectCreator implements IStructureCreator
 			System.arraycopy( objectArrays[objectArrays.length - 1],
 					1,
 					result.getAggregationValues(),
-					1,
+					0,
 					result.getAggregationValues().length );
 		}
 		

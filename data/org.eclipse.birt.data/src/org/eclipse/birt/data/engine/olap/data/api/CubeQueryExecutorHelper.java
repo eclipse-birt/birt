@@ -19,6 +19,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.archive.FileArchiveReader;
+import org.eclipse.birt.core.archive.FileArchiveWriter;
+import org.eclipse.birt.core.archive.IDocArchiveReader;
+import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -28,6 +32,7 @@ import org.eclipse.birt.data.engine.olap.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
+import org.eclipse.birt.data.engine.olap.data.impl.AggregationResultSetSaveUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.Constants;
 import org.eclipse.birt.data.engine.olap.data.impl.Cube;
 import org.eclipse.birt.data.engine.olap.data.impl.SelectionFactory;
@@ -79,6 +84,60 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		Cube cube = new Cube( cubeName, documentManager );
 		cube.load( stopSign );
 		return cube;
+	}
+	
+	/**
+	 * 
+	 * @param name
+	 * @param resultSets
+	 * @param writer
+	 * @throws IOException
+	 */
+	public static void saveAggregationResultSet( IDocArchiveWriter writer, String name, IAggregationResultSet[] resultSets ) throws IOException
+	{
+		AggregationResultSetSaveUtil.save( name, resultSets, writer );
+	}
+	
+	/**
+	 * 
+	 * @param name
+	 * @param resultSets
+	 * @throws IOException
+	 */
+	public static void saveAggregationResultSet( String pathName ,String name, IAggregationResultSet[] resultSets ) throws IOException
+	{
+		IDocArchiveWriter writer = new FileArchiveWriter( pathName );
+		AggregationResultSetSaveUtil.save( name, resultSets, writer );
+		writer.flush( );
+		writer.finish( );
+	}
+	
+	
+	/**
+	 * 
+	 * @param name
+	 * @param reader
+	 * @return
+	 * @throws IOException
+	 */
+	public static IAggregationResultSet[] loadAggregationResultSet( IDocArchiveReader reader, String name ) throws IOException
+	{
+		return AggregationResultSetSaveUtil.load( name, reader );
+	}
+	
+	/**
+	 * 
+	 * @param pathName
+	 * @param name
+	 * @return
+	 * @throws IOException
+	 */
+	public static IAggregationResultSet[] loadAggregationResultSet( String pathName, String name ) throws IOException
+	{
+		IDocArchiveReader reader = new FileArchiveReader( pathName );
+		IAggregationResultSet[] result = AggregationResultSetSaveUtil.load( name, reader );
+		reader.close( );
+		return result;
 	}
 	
 	/*

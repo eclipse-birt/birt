@@ -50,7 +50,7 @@ import org.eclipse.birt.data.engine.olap.data.util.DataType;
 
 public class CubeAggregationTest extends TestCase
 {
-
+	static String pathName = System.getProperty( "java.io.tmpdir" ) + File.separator+ "docForTest";
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -110,7 +110,6 @@ public class CubeAggregationTest extends TestCase
 
 	private static IDocumentManager createRADocumentManager( ) throws IOException, DataException
 	{
-		String pathName = System.getProperty( "java.io.tmpdir" ) + File.separator+ "docForTest";
 		ArchiveFile archiveFile = new ArchiveFile( pathName, "rw+" );
 		ArchiveReader reader = new ArchiveReader( archiveFile );
 		IDocumentManager documentManager = DocumentManagerFactory.createRADocumentManager( reader );
@@ -119,7 +118,6 @@ public class CubeAggregationTest extends TestCase
 	
 	private static IDocArchiveWriter createRAWriter( ) throws IOException
 	{
-		String pathName = System.getProperty( "java.io.tmpdir" ) + File.separator+ "docForTest";
 		ArchiveFile archiveFile = new ArchiveFile( pathName, "rw+" );
 		ArchiveWriter writer = new ArchiveWriter( archiveFile );
 		return writer;
@@ -232,6 +230,8 @@ public class CubeAggregationTest extends TestCase
 		
 		IAggregationResultSet[] resultSet = cubeQueryExcutorHelper.execute( aggregations,
 				new StopSign( ) );
+		CubeQueryExecutorHelper.saveAggregationResultSet( pathName, "test1", resultSet );
+		resultSet = CubeQueryExecutorHelper.loadAggregationResultSet( pathName, "test1" );
 		//result set for aggregation 0
 		assertEquals( resultSet[0].length( ), 2 );
 		assertEquals( resultSet[0].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
@@ -406,6 +406,9 @@ public class CubeAggregationTest extends TestCase
 		
 		IAggregationResultSet[] resultSet = cubeQueryExcutorHelper.execute( aggregations,
 				new StopSign( ) );
+		CubeQueryExecutorHelper.saveAggregationResultSet( pathName, "test1", resultSet );
+		resultSet = CubeQueryExecutorHelper.loadAggregationResultSet( pathName, "test1" );
+		
 		//result set for aggregation 0
 		assertEquals( resultSet[0].length( ), 2 );
 		
