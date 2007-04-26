@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
@@ -218,14 +219,25 @@ public final class CurveRenderer
 		}
 	}
 
-	private static Location[] filterNull( Location[] ll )
+	/**
+	 * Fixes null values with the coordinates in baseline.
+	 * 
+	 * @param ll
+	 * @param boClientArea
+	 * @return
+	 */
+	private static Location[] fixNull( Location[] ll, Bounds boClientArea )
 	{
-		ArrayList al = new ArrayList( );
+		List al = new ArrayList( );
 		for ( int i = 0; i < ll.length; i++ )
 		{
-			if ( Double.isNaN( ll[i].getX( ) ) || Double.isNaN( ll[i].getY( ) ) )
+			if ( Double.isNaN( ll[i].getX( ) ) )
 			{
-				continue;
+				ll[i].setX( boClientArea.getLeft( ) );
+			}
+			if ( Double.isNaN( ll[i].getY( ) ) )
+			{
+				ll[i].setY( boClientArea.getTop( ) + boClientArea.getHeight( ) );
 			}
 
 			al.add( ll[i] );
@@ -337,10 +349,10 @@ public final class CurveRenderer
 				}
 				else
 				{
-					// X-CORDINATES
+					// X-COORDINATES
 					spX = new Spline( faX ); // X-SPLINE
 
-					// Y-CORDINATES
+					// Y-COORDINATES
 					spY = new Spline( faY ); // Y-SPLINE
 
 					fa = new double[iNumberOfPoints];
@@ -355,7 +367,8 @@ public final class CurveRenderer
 		}
 		else
 		{
-			tempPoints = filterNull( loPoints );
+			// Fix null values
+			tempPoints = fixNull( loPoints, this.iRender.getPlotBounds( ) );
 			faX = LocationImpl.getXArray( tempPoints );
 			faY = LocationImpl.getYArray( tempPoints );
 			if ( bRendering3D )
@@ -373,10 +386,10 @@ public final class CurveRenderer
 				return;
 			}
 
-			// X-CORDINATES
+			// X-COORDINATES
 			spX = new Spline( faX ); // X-SPLINE
 
-			// Y-CORDINATES
+			// Y-COORDINATES
 			spY = new Spline( faY ); // Y-SPLINE
 
 			fa = new double[iNumberOfPoints];
@@ -1180,7 +1193,7 @@ public final class CurveRenderer
 	 * @param fYOffset
 	 * @return points list in the form of double array
 	 */
-	public static List generateCurvePoints( Location[] loPoints,
+	public static List generateCurvePoints( BaseRenderer _render, Location[] loPoints,
 			boolean connectMissingValue, double fXOffset, double fYOffset )
 	{
 		final double[] faKnotXY1 = new double[2];
@@ -1246,7 +1259,8 @@ public final class CurveRenderer
 		}
 		else
 		{
-			tempPoints = filterNull( loPoints );
+			// Fix null values
+			tempPoints = fixNull( loPoints, _render.getPlotBounds( ) );
 			faX = LocationImpl.getXArray( tempPoints );
 			faY = LocationImpl.getYArray( tempPoints );
 
