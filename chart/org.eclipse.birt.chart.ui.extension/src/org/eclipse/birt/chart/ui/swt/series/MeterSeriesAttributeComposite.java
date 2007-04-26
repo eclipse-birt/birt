@@ -14,13 +14,16 @@ package org.eclipse.birt.chart.ui.swt.series;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
+import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.LineDecorator;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.DialSeries;
+import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.impl.DialSeriesImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
+import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.composites.HeadStyleAttributeComposite;
 import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
 import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
@@ -46,9 +49,6 @@ public class MeterSeriesAttributeComposite extends Composite implements
 		Listener,
 		ModifyListener
 {
-
-	private transient Composite cmpContent = null;
-
 	private transient LocalizedNumberEditorComposite txtRadius = null;
 
 	private transient IntegerSpinControl iscStartAngle = null;
@@ -56,12 +56,8 @@ public class MeterSeriesAttributeComposite extends Composite implements
 	private transient IntegerSpinControl iscStopAngle = null;
 
 	private transient DialSeries series = null;
-
-	private transient Group grpNeedle = null;
-
-	private transient LineAttributesComposite liacNeedle = null;
-
-	private transient HeadStyleAttributeComposite cmbHeadStyle = null;
+	
+	private transient FillChooserComposite fcc = null;
 
 	private transient ChartWizardContext wizardContext;
 
@@ -116,17 +112,17 @@ public class MeterSeriesAttributeComposite extends Composite implements
 		this.setLayout( glContent );
 
 		// Composite for Content
-		cmpContent = new Composite( this, SWT.NONE );
-		GridData gdCMPContent = new GridData( GridData.FILL_HORIZONTAL );
-		cmpContent.setLayoutData( gdCMPContent );
-		cmpContent.setLayout( new GridLayout( 2, false ) );
+		Composite cmpLeft = new Composite( this, SWT.NONE );
+		GridData gdLeft = new GridData( GridData.FILL_HORIZONTAL );
+		cmpLeft.setLayoutData( gdLeft );
+		cmpLeft.setLayout( new GridLayout( 2, false ) );
 
-		Label lblRadius = new Label( cmpContent, SWT.NONE );
+		Label lblRadius = new Label( cmpLeft, SWT.NONE );
 		GridData gdLBLRadius = new GridData( GridData.HORIZONTAL_ALIGN_END );
 		lblRadius.setLayoutData( gdLBLRadius );
 		lblRadius.setText( Messages.getString( "MeterSeriesAttributeComposite.Lbl.Radius" ) ); //$NON-NLS-1$
 
-		txtRadius = new LocalizedNumberEditorComposite( cmpContent, SWT.BORDER
+		txtRadius = new LocalizedNumberEditorComposite( cmpLeft, SWT.BORDER
 				| SWT.SINGLE );
 		GridData gdTXTRadius = new GridData( GridData.FILL_HORIZONTAL );
 		if ( series.getDial( ).isSetRadius( ) )
@@ -135,13 +131,32 @@ public class MeterSeriesAttributeComposite extends Composite implements
 		}
 		txtRadius.setLayoutData( gdTXTRadius );
 		txtRadius.addModifyListener( this );
+		
+		Label lblFill = new Label( cmpLeft, SWT.NONE );
+		GridData gdFill = new GridData( GridData.HORIZONTAL_ALIGN_END );
+		lblFill.setLayoutData( gdFill );
+		lblFill.setText( Messages.getString( "MeterSeriesAttributeSheetImpl.Lbl.Fill" ) ); //$NON-NLS-1$
 
-		Label lblStartAngle = new Label( cmpContent, SWT.NONE );
+		fcc = new FillChooserComposite( cmpLeft,
+				SWT.NONE,
+				wizardContext,
+				( (DialSeries) series ).getDial( ).getFill( ),
+				false,
+				false );
+		fcc.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		fcc.addListener( this );
+
+		Composite cmpRight = new Composite( this, SWT.NONE );
+		GridData gdRight = new GridData( GridData.FILL_HORIZONTAL );
+		cmpRight.setLayoutData( gdRight );
+		cmpRight.setLayout( new GridLayout( 2, false ) );
+		
+		Label lblStartAngle = new Label( cmpRight, SWT.NONE );
 		GridData gdLBLStartAngle = new GridData( GridData.HORIZONTAL_ALIGN_END );
 		lblStartAngle.setLayoutData( gdLBLStartAngle );
 		lblStartAngle.setText( Messages.getString( "MeterSeriesAttributeComposite.Lbl.StartAngle" ) ); //$NON-NLS-1$
 
-		iscStartAngle = new IntegerSpinControl( cmpContent,
+		iscStartAngle = new IntegerSpinControl( cmpRight,
 				SWT.NONE,
 				(int) series.getDial( ).getStartAngle( ) );
 		GridData gdISCStartAngle = new GridData( GridData.FILL_HORIZONTAL );
@@ -151,12 +166,12 @@ public class MeterSeriesAttributeComposite extends Composite implements
 		iscStartAngle.setMaximum( 360 );
 		iscStartAngle.addListener( this );
 
-		Label lblStopAngle = new Label( cmpContent, SWT.NONE );
+		Label lblStopAngle = new Label( cmpRight, SWT.NONE );
 		GridData gdLBLStopAngle = new GridData( GridData.HORIZONTAL_ALIGN_END );
 		lblStopAngle.setLayoutData( gdLBLStopAngle );
 		lblStopAngle.setText( Messages.getString( "MeterSeriesAttributeComposite.Lbl.StopAngle" ) ); //$NON-NLS-1$
 
-		iscStopAngle = new IntegerSpinControl( cmpContent,
+		iscStopAngle = new IntegerSpinControl( cmpRight,
 				SWT.NONE,
 				(int) series.getDial( ).getStopAngle( ) );
 		GridData gdISCStopAngle = new GridData( GridData.FILL_HORIZONTAL );
@@ -165,41 +180,6 @@ public class MeterSeriesAttributeComposite extends Composite implements
 		iscStopAngle.setMinimum( -360 );
 		iscStopAngle.setMaximum( 360 );
 		iscStopAngle.addListener( this );
-
-		// Layout for the Needle group
-		GridLayout glNeedle = new GridLayout( 1, true );
-		glNeedle.verticalSpacing = 0;
-		glNeedle.marginWidth = 10;
-		glNeedle.marginHeight = 0;
-
-		// Needle
-		grpNeedle = new Group( this, SWT.NONE );
-		GridData gdGRPNeedle = new GridData( GridData.FILL_HORIZONTAL
-				| GridData.VERTICAL_ALIGN_BEGINNING );
-		gdGRPNeedle.heightHint = 93;
-		grpNeedle.setLayoutData( gdGRPNeedle );
-		grpNeedle.setText( Messages.getString( "MeterSeriesAttributeSheetImpl.Lbl.Needle" ) );//$NON-NLS-1$
-		grpNeedle.setLayout( glNeedle );
-
-		liacNeedle = new LineAttributesComposite( grpNeedle,
-				SWT.NONE,
-				wizardContext,
-				series.getNeedle( ).getLineAttributes( ),
-				true,
-				true,
-				false,
-				false );
-		GridData gdLIACNeedle = new GridData( GridData.FILL_HORIZONTAL );
-		gdLIACNeedle.horizontalIndent = 24;
-		liacNeedle.setLayoutData( gdLIACNeedle );
-		liacNeedle.addListener( this );
-
-		cmbHeadStyle = new HeadStyleAttributeComposite( grpNeedle,
-				SWT.NONE,
-				series.getNeedle( ).getDecorator( ) );
-		GridData gdCMBHeadStyle = new GridData( GridData.FILL_HORIZONTAL );
-		cmbHeadStyle.setLayoutData( gdCMBHeadStyle );
-		cmbHeadStyle.addListener( this );
 	}
 
 	/*
@@ -239,27 +219,9 @@ public class MeterSeriesAttributeComposite extends Composite implements
 			series.getDial( )
 					.setStopAngle( ( (Integer) event.data ).intValue( ) );
 		}
-		else if ( event.widget.equals( liacNeedle ) )
+		else if ( event.widget.equals( fcc ) )
 		{
-			if ( event.type == LineAttributesComposite.STYLE_CHANGED_EVENT )
-			{
-				series.getNeedle( )
-						.getLineAttributes( )
-						.setStyle( (LineStyle) event.data );
-			}
-			else if ( event.type == LineAttributesComposite.WIDTH_CHANGED_EVENT )
-			{
-				series.getNeedle( )
-						.getLineAttributes( )
-						.setThickness( ( (Integer) event.data ).intValue( ) );
-			}
-		}
-		else if ( event.widget.equals( cmbHeadStyle ) )
-		{
-			if ( event.type == HeadStyleAttributeComposite.STYLE_CHANGED_EVENT )
-			{
-				series.getNeedle( ).setDecorator( (LineDecorator) event.data );
-			}
+			( (DialSeries) series ).getDial( ).setFill( (ColorDefinition) event.data );
 		}
 	}
 

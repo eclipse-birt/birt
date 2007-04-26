@@ -20,6 +20,7 @@ import java.util.Vector;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.Interactivity;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
@@ -58,10 +59,9 @@ import org.eclipse.swt.widgets.Label;
  * 
  */
 
-public class TaskFormatChart extends TreeCompoundTask
-		implements
-			IUIManager,
-			ITaskChangeListener
+public class TaskFormatChart extends TreeCompoundTask implements
+		IUIManager,
+		ITaskChangeListener
 {
 
 	private transient ChartPreviewPainter previewPainter = null;
@@ -603,6 +603,7 @@ public class TaskFormatChart extends TreeCompoundTask
 			{
 				uiManager.addCollectionInstance( BASE_AXIS_SHEET_COLLECTION );
 			}
+
 			for ( int iOA = 1; iOA < iOrthogonalAxisCount; iOA++ )
 			{
 				uiManager.addCollectionInstance( ORTHOGONAL_AXIS_SHEET_COLLECTION );
@@ -647,7 +648,7 @@ public class TaskFormatChart extends TreeCompoundTask
 			// needed for Charts Without Axes
 			uiManager.removeCollectionInstance( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITH_AXES );
 			uiManager.removeCollectionInstance( BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
-			
+
 			if ( ( (SeriesDefinition) ( ( (SeriesDefinition) ( (ChartWithoutAxes) chartModel ).getSeriesDefinitions( )
 					.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ) ).getSeries( )
 					.get( 0 ) instanceof PieSeries )
@@ -657,9 +658,13 @@ public class TaskFormatChart extends TreeCompoundTask
 					uiManager.addCollectionInstance( BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
 				}
 			}
-			for ( int iOS = 1; iOS < iOrthogonalSeriesCount; iOS++ )
+
+			if ( !( chartModel instanceof DialChart && ( (DialChart) chartModel ).isDialSuperimposition( ) ) )
 			{
-				uiManager.addCollectionInstance( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
+				for ( int iOS = 1; iOS < iOrthogonalSeriesCount; iOS++ )
+				{
+					uiManager.addCollectionInstance( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
+				}
 			}
 		}
 	}
@@ -714,5 +719,5 @@ public class TaskFormatChart extends TreeCompoundTask
 	{
 		return UIHelper.getImage( "icons/obj16/selectformat.gif" ); //$NON-NLS-1$
 	}
-	
+
 }

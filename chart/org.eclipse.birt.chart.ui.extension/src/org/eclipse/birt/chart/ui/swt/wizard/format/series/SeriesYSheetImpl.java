@@ -15,6 +15,7 @@ import java.util.Iterator;
 
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.CurveFitting;
@@ -37,6 +38,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.DialLabelSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.DialScaleSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.DialTickSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.LineSeriesMarkerSheet;
+import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.NeedleSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.PieTitleSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesLabelSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesRegionSheet;
@@ -167,6 +169,19 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 					popup );
 			btnDialLabel.addSelectionListener( this );
 			btnDialLabel.setEnabled( cbVisible.getSelection( ) );
+
+			if ( getChart( ) instanceof DialChart )
+			{
+				// Needles
+				popup = new NeedleSheet( Messages.getString( "SeriesYSheetImpl.Label.Needles" ), //$NON-NLS-1$
+						getContext( ),
+						(DialChart) getChart( ),
+						getIndex( ) );
+				Button btnNeedles = createToggleButton( cmp,
+						Messages.getString( "SeriesYSheetImpl.Label.Needles&" ), //$NON-NLS-1$
+						popup );
+				btnNeedles.addSelectionListener( this );
+			}
 
 			// Region
 			popup = new SeriesRegionSheet( Messages.getString( "SeriesYSheetImpl.Label.Region" ), //$NON-NLS-1$
