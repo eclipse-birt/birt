@@ -41,6 +41,14 @@ public interface ICubeQueryDefinition extends INamedObject, IDataQueryDefinition
 	public String getQueryResultsID( );
 	
 	/**
+	 * Indicates if the query need cache the QueryResults . The query result
+	 * can be reload form the cache if the cache is used.
+	 * 
+	 * @return true if cache is needed.
+	 */
+	public boolean cacheQueryResults( );
+	
+	/**
 	 * Create an edge of the cube. At initial stage we only support two types of
 	 * edges: row edge and column edge. The edge created will automatically be
 	 * linked to the cube.
