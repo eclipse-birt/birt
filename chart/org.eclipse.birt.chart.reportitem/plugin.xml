@@ -71,5 +71,12 @@
             name="Chart">
       </reportItem>
    </extension>
+   <extension
+         point="org.eclipse.birt.report.model.IScriptableObjectClassInfo">
+      <scriptableClassInfo
+            class="org.eclipse.birt.chart.reportitem.ChartScriptableClassInfo"
+            extensionName="org.eclipse.birt.chart.reportitem">
+      </scriptableClassInfo>
+   </extension>
    
 </plugin>

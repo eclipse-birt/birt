@@ -34,6 +34,7 @@ import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.impl.SerializerImpl;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
+import org.eclipse.birt.chart.script.IChartEventHandler;
 import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.script.internal.ChartWithAxesImpl;
 import org.eclipse.birt.chart.script.internal.ChartWithoutAxesImpl;
@@ -46,7 +47,10 @@ import org.eclipse.birt.report.model.api.extension.IElementCommand;
 import org.eclipse.birt.report.model.api.extension.IPropertyDefinition;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.extension.ReportItem;
+import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.api.scripts.ClassInfo;
+import org.eclipse.birt.report.model.api.scripts.MethodInfo;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.RhinoException;
@@ -332,6 +336,17 @@ public final class ChartReportItemImpl extends ReportItem implements
 		};
 	}
 
+	public IMethodInfo[] getMethods( String scriptName )
+	{
+		if ( scriptName != null && scriptName.equals( "onRender" ) ) //$NON-NLS-1$
+		{
+			ClassInfo info = new ClassInfo( IChartEventHandler.class ) ;
+			List list = info.getMethods( );
+			return  (IMethodInfo[])list.toArray( new IMethodInfo[list.size( )] );
+			
+		}
+		else return null;
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -371,7 +386,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 			return new Boolean( ( cm instanceof ChartWithAxes ) ? ( (ChartWithAxes) cm ).isTransposed( )
 					: false );
 		}
-		else if ( propName.equals( "script" ) ) //$NON-NLS-1$
+		else if ( propName.equals( "script" ) || propName.equals(  "onRender" ) ) //$NON-NLS-1$ //$NON-NLS-2$
 		{
 			String script = cm.getScript( );
 
