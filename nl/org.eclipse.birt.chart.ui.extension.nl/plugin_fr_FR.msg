@@ -1,5 +1,4 @@
 Series=Série
-CategoryXSeries=Série horizontale de catégories
 ValueYSeries=Série verticale de valeurs
 CategorySeries=Série de catégories
 ValueSeries=Série de valeurs

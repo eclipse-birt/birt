@@ -321,4 +321,5 @@ data.olap.cursorSeekError=Impossible de placer le curseur en position de recherc
 data.olap.CannotGetMeasureValue=Impossible de trouver la définition de mesure "{0}" dans le cube, la mesure n''existe pas ou est incorrecte.
 data.olap.CannotFindLevel=Impossible de trouver la définition de niveau "{0}" sous la hiérarchie "{1}" dans la dimension "{2}".
 data.olap.tryToAddIdenticalAggrGroup=The value "{0}" already exists in aggregate on list of binding "{1}";
-data.olap.NoEdgeDefinitionFound=Query execution fails since it contains neither row edge nor column edge. It is requested at least one edge defined. 
+data.olap.NoEdgeDefinitionFound=Query execution fails since it contains neither row edge nor column edge. It is requested at least one edge defined.
+data.olap.invalidSortDefinition=The sort definition is invalid. 

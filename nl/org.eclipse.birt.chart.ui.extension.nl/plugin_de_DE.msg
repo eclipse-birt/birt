@@ -1,5 +1,4 @@
 Series=Datenreihe
-CategoryXSeries=Kategorien-Datenreihe (X-Achse)
 ValueYSeries=Wert-Datenreihe (Y-Achse)
 CategorySeries=Kategorie-Datenreihe
 ValueSeries=Wert-Datenreihe

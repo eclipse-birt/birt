@@ -1,5 +1,4 @@
 Series=Œn—ñ
-CategoryXSeries=ƒJƒeƒSƒŠŒn—ñ (X)
 ValueYSeries=’lŒn—ñ (Y)
 CategorySeries=ƒJƒeƒSƒŠŒn—ñ
 ValueSeries=’lŒn—ñ
