@@ -122,7 +122,6 @@ public class CubeGroupContent extends Composite implements Listener
 			{
 				if ( viewer == dataFieldsViewer )
 				{
-					event.doit = true;
 					dragSourceItems[0] = selection[0];
 				}
 				else if ( viewer == groupViewer
@@ -131,6 +130,7 @@ public class CubeGroupContent extends Composite implements Listener
 				{
 					dragSourceItems[0] = selection[0];
 				}
+				else event.doit = false;
 			}
 			else
 			{
