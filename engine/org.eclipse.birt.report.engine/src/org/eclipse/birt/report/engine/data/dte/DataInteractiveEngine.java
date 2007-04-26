@@ -33,6 +33,7 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.impl.CubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -68,7 +69,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 	 * ParentResultId.rowId.queryName to access the result set id.
 	 */
 	protected HashMap rsetRelations = new HashMap( );
-
+	
 	public DataInteractiveEngine( ExecutionContext context,
 			IDocArchiveReader reader, IDocArchiveWriter writer )
 	{
@@ -261,26 +262,30 @@ public class DataInteractiveEngine extends AbstractDataEngine
 
 	protected void doPrepareQuery( Report report, Map appContext )
 	{
+		this.appContext = appContext;
 		// prepare report queries
 		queryIDMap.putAll( report.getQueryIDs( ) );
 		loadDteMetaInfo( );
 	}
 	
-	protected IBaseResultSet doExecuteQuery( IBaseResultSet resultSet, IDataQueryDefinition query )
+	protected IBaseResultSet doExecuteQuery( IBaseResultSet resultSet,
+			IDataQueryDefinition query, boolean useCache )
 	{
 		if ( query instanceof IQueryDefinition )
 		{
-			return doExecuteQuery( resultSet, (IQueryDefinition) query );
+			return doExecuteQuery( resultSet, (IQueryDefinition) query,
+					useCache );
 		}
 		else if ( query instanceof ICubeQueryDefinition )
 		{
-			return doExecuteCube( resultSet, (ICubeQueryDefinition) query );
+			return doExecuteCube( resultSet, (ICubeQueryDefinition) query,
+					useCache );
 		}
 		return null;
 	}
 	
 	protected IBaseResultSet doExecuteQuery( IBaseResultSet parentResult,
-			IQueryDefinition query )
+			IQueryDefinition query, boolean useCache )
 	{
 		String queryID = (String) queryIDMap.get( query );
 		try
@@ -306,13 +311,24 @@ public class DataInteractiveEngine extends AbstractDataEngine
 
 			String pRsetId = null; // id of the parent query restuls
 			String rowId = "-1"; // row id of the parent query results
-			IBaseQueryResults dteResults; // the dteResults of this query
+			IBaseQueryResults dteResults = null; // the dteResults of this query
 			QueryResultSet resultSet = null;
 			
 			if ( parentQueryResults == null )
 			{
 				// this is the root query
-				dteResults = dteSession.execute( pQuery, null, scope );
+				if ( useCache )
+				{
+					dteResults = getCachedQueryResult( query );
+				}
+				if ( dteResults == null )
+				{
+					dteResults = dteSession.execute( pQuery, null, scope );
+					if ( query.cacheQueryResults( ) )
+					{
+						cachedQueryIdMap.put( query, dteResults.getID( ) );
+					}					
+				}
 				resultSet = new QueryResultSet( this, context,
 							query,
 							(IQueryResults) dteResults );
@@ -324,7 +340,18 @@ public class DataInteractiveEngine extends AbstractDataEngine
 				
 				// this is the nest query, execute the query in the
 				// parent results
-				dteResults = dteSession.execute( pQuery, parentQueryResults, scope );
+				if ( useCache )
+				{
+					dteResults = getCachedQueryResult( query );
+				}
+				if ( dteResults == null )
+				{
+					dteResults = dteSession.execute( pQuery, parentQueryResults, scope );
+					if ( query.cacheQueryResults( ) )
+					{
+						cachedQueryIdMap.put( query, dteResults.getID( ) );
+					}
+				}
 				resultSet = new QueryResultSet( this, context, parentResult,
 							(IQueryDefinition) query,
 							(IQueryResults) dteResults );
@@ -334,7 +361,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			resultSet.setBaseRSetID( resultSetID );
 			
 			storeDteMetaInfo( pRsetId, rowId, queryID, dteResults.getID( ) );
-			
+
 			return resultSet;
 		}
 		catch ( BirtException be )
@@ -346,7 +373,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 	}
 	
 	protected IBaseResultSet doExecuteCube( IBaseResultSet parentResult,
-			ICubeQueryDefinition query )
+			ICubeQueryDefinition query, boolean useCache )
 	{
 		String queryID = (String) queryIDMap.get( query );
 		try
@@ -363,10 +390,20 @@ public class DataInteractiveEngine extends AbstractDataEngine
 				logger.log( Level.SEVERE, "Can't load the report query" );
 				return null;
 			}
-
+			
+			if ( useCache )
+			{
+				String rsetId = String.valueOf( cachedQueryIdMap.get( query ) );
+				( (CubeQueryDefinition)query ).setQueryResultsID( rsetId );
+			}
+			else
+			{
+				( (CubeQueryDefinition)query ).setQueryResultsID( null );
+			}
+			
 			// Interactive do not support CUBE?
-			((QueryDefinition)query).setQueryResultsID( resultSetID );
-			IBasePreparedQuery pQuery = dteSession.prepare( query, null );
+			( (QueryDefinition) query ).setQueryResultsID( resultSetID );
+			IBasePreparedQuery pQuery = dteSession.prepare( query, appContext );
 			
 			Scriptable scope = context.getSharedScope( );
 
@@ -398,6 +435,12 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			// resultSet.setBaseRSetID( resultSetID );
 			
 			storeDteMetaInfo( pRsetId, rowId, queryID, dteResults.getID( ) );
+			
+			// persist the queryResults witch need cached. 
+			if ( query.cacheQueryResults( ) )
+			{
+				cachedQueryIdMap.put( query, dteResults.getID( ) );
+			}
 			
 			return resultSet;
 		}

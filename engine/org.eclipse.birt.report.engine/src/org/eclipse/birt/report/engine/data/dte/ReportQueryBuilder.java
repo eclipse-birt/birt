@@ -38,6 +38,7 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.impl.CubeQueryDefinition;
 import org.eclipse.birt.report.engine.adapter.ExpressionUtil;
 import org.eclipse.birt.report.engine.adapter.IColumnBinding;
 import org.eclipse.birt.report.engine.adapter.ITotalExprBindings;
@@ -235,9 +236,7 @@ public class ReportQueryBuilder
 	public IDataQueryDefinition[] build( IDataQueryDefinition parentQuery, ReportItemDesign design )
 	{
 		synchronized ( report )
-		{
-			//new QueryBuilderVisitor( ).buildQuery( parent, design, report, context );
-			
+		{			
 			Object result = design.accept( queryBuilder, parentQuery );
 			
 			if ( result == null )
@@ -341,7 +340,7 @@ public class ReportQueryBuilder
 			for ( int i = 0; i < container.getItemCount( ); i++ )
 				build( query, container.getItem( i ) );
 
-			finishVisit( container, query );
+			transformExpressions( container, query );
 			return getResultQuery( query, value );
 		}
 
@@ -359,7 +358,7 @@ public class ReportQueryBuilder
 				build( query, grid.getRow( i ) );
 			}
 			
-			finishVisit( grid, query );	
+			transformExpressions( grid, query );	
 			return getResultQuery( query, value );
 		}
 
@@ -389,7 +388,7 @@ public class ReportQueryBuilder
 				image.setImageFile( newImageUri );
 			}
 
-			finishVisit( image, query );
+			transformExpressions( image, query );
 			return getResultQuery( query, value );
 		}
 
@@ -401,7 +400,7 @@ public class ReportQueryBuilder
 		public Object visitLabelItem( LabelItemDesign label, Object value )
 		{
 			BaseQueryDefinition query = createQuery( label, value );
-			finishVisit( label, query );
+			transformExpressions( label, query );
 			return getResultQuery( query, value );
 		}
 
@@ -414,6 +413,45 @@ public class ReportQueryBuilder
 		{
 			// create user-defined generation-time helper object
 			ExtendedItemHandle handle = (ExtendedItemHandle) item.getHandle( );
+			
+			ReportItemHandle referenceHandle = handle.getDataBindingReference( );
+			if ( referenceHandle != null )
+			{
+				IDataQueryDefinition[] queries = report
+						.getQueryByReportHandle( referenceHandle );
+				if ( queries != null && queries.length > 0 )
+				{
+					registerQueryToHandle( item, queries );
+					for ( int i = 0; i < queries.length; i++ )
+					{
+						IDataQueryDefinition referenceQuery = queries[i];
+						if ( referenceQuery instanceof BaseQueryDefinition )
+						{
+							( (BaseQueryDefinition) referenceQuery )
+									.setCacheQueryResults( true );
+						}
+						else if ( referenceQuery instanceof CubeQueryDefinition )
+						{
+							( (CubeQueryDefinition) referenceQuery )
+									.setCacheQueryResults( true );
+						}
+					}
+					IDataQueryDefinition query = queries[0];
+					if ( query instanceof IBaseQueryDefinition )
+					{
+						transformExpressions( item,	(IBaseQueryDefinition) query );
+					}
+					return null;
+				}
+				else
+				{
+					// FIXME: Maybe the query has not been created now. So need
+					// process.
+					throw new IllegalStateException(
+							"forward reference dataset" );
+				}
+			}
+			
 			String tagName = handle.getExtensionName( );
 
 			// TODO: check in plugin registry whetherthe needQuery property is
@@ -425,7 +463,6 @@ public class ReportQueryBuilder
 			IDataQueryDefinition[] queries = null;
 			IDataQueryDefinition parentQuery = (IDataQueryDefinition) value;
 			
-			//IBaseTransform parentTrans = getTransform( );
 			if ( itemQuery != null )
 			{
 				try
@@ -433,7 +470,6 @@ public class ReportQueryBuilder
 					itemQuery.setModelObject( handle );
 					itemQuery.setQueryContext( queryContext );
 					queries = itemQuery.createReportQueries( parentQuery );
-
 				}
 				catch ( BirtException ex )
 				{
@@ -454,7 +490,7 @@ public class ReportQueryBuilder
 				}
 			}
 			BaseQueryDefinition query = createQuery( item, parentQuery );
-			finishVisit( item, query );
+			transformExpressions( item, query );
 			return getResultQuery( query, value );
 		}
 
@@ -495,7 +531,7 @@ public class ReportQueryBuilder
 				handleListingBand( list.getFooter( ), query, true, null );
 				
 			}
-			finishVisit( list, query );
+			transformExpressions( list, query );
 			return getResultQuery( query, value );
 		}
 
@@ -520,7 +556,7 @@ public class ReportQueryBuilder
 				}				
 			}
 
-			finishVisit( text, query );
+			transformExpressions( text, query );
 			return getResultQuery( query, value );
 		}
 
@@ -577,7 +613,7 @@ public class ReportQueryBuilder
 
 				handleListingBand( table.getFooter( ), query, true, null );
 			}
-			finishVisit( table, query );
+			transformExpressions( table, query );
 			return getResultQuery( query, value );
 		}		
 
@@ -592,7 +628,7 @@ public class ReportQueryBuilder
 			BaseQueryDefinition query = createQuery( dynamicText, value );
 			String newContent = transformExpression( dynamicText.getContent( ), query, null );
 			dynamicText.setContent( newContent );
-			finishVisit( dynamicText, query );
+			transformExpressions( dynamicText, query );
 			return getResultQuery( query, value );
 		}
 
@@ -605,7 +641,7 @@ public class ReportQueryBuilder
 		{
 			BaseQueryDefinition query = createQuery( data, value );
 
-			finishVisit( data, query );
+			transformExpressions( data, query );
 			return getResultQuery( query, value );
 		}	
 		
@@ -720,7 +756,7 @@ public class ReportQueryBuilder
 				CellDesign cell = row.getCell( i );
 				build( query, cell );
 			}
-			finishVisit( row, query );
+			transformExpressions( row, query );
 			return getResultQuery( query, value );
 		}
 
@@ -734,14 +770,14 @@ public class ReportQueryBuilder
 			{
 				build( query, cell.getContent( i ) );
 			}
-			finishVisit( cell, query );
+			transformExpressions( cell, query );
 			return getResultQuery( query, value );
 		}
 		
 		private IBaseQueryDefinition[] getResultQuery(
 				IBaseQueryDefinition query, Object parent )
 		{
-			if ( query != null && query != parent )
+			if ( query != null && query != parent && !query.cacheQueryResults( ) )
 			{
 				return new IBaseQueryDefinition[]{query};
 			}
@@ -769,12 +805,49 @@ public class ReportQueryBuilder
 		 */
 		protected BaseQueryDefinition createQuery( ReportItemDesign item, Object value )
 		{
+
+			DesignElementHandle handle = item.getHandle( );
+			if ( handle instanceof ReportItemHandle )
+			{
+				ReportItemHandle itemHandle = (ReportItemHandle) handle;
+				ReportItemHandle referenceHandle = itemHandle
+						.getDataBindingReference( );
+				if ( referenceHandle != null )
+				{
+					IDataQueryDefinition[] queries = report
+							.getQueryByReportHandle( referenceHandle );
+					if ( queries != null && queries.length > 0 )
+					{
+						registerQueryToHandle( item, queries );
+						for ( int i = 0; i < queries.length; i++ )
+						{
+							IDataQueryDefinition referenceQuery = queries[i];
+							if ( referenceQuery instanceof BaseQueryDefinition )
+							{
+								( (BaseQueryDefinition) referenceQuery )
+										.setCacheQueryResults( true );
+							}
+						}
+						if ( (BaseQueryDefinition) queries[0] instanceof BaseQueryDefinition )
+						{
+							return (BaseQueryDefinition) queries[0];
+						}
+					}
+					else
+					{
+						// FIXME: Maybe the query has been not created now. So
+						// need process.
+						throw new IllegalStateException(
+								"forward reference dataset" );
+					}
+				}
+			}
+			
 			BaseQueryDefinition parentQuery = null;
 			if ( value instanceof BaseQueryDefinition )
 			{
 				parentQuery = (BaseQueryDefinition)value;
 			}
-			DesignElementHandle handle = item.getHandle( );
 			if ( ! ( handle instanceof ReportItemHandle ) )
 			{
 				if ( !needQuery( item, parentQuery ) )
@@ -1566,9 +1639,12 @@ public class ReportQueryBuilder
 		 * @param item
 		 * @param query
 		 */
-		private void finishVisit( ReportItemDesign item, IBaseQueryDefinition query )
-		{			
-			if( query != null )
+		private void transformExpressions( ReportItemDesign item,
+				IBaseQueryDefinition query )
+		{
+			// we can't change the paramter-binding, sorting, filtering
+			// for shared result set, but we can add column bindings to it.
+			if ( query != null )
 			{
 				transformExpressions( item, query, null );
 			}

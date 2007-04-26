@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
@@ -53,8 +54,10 @@ public abstract class AbstractDataEngine implements IDataEngine
 	protected ExecutionContext context;
 
 	protected HashMap queryIDMap = new HashMap( );
+	
+	protected HashMap cachedQueryIdMap = new HashMap( );
 
-	// protected LinkedList rsets = new LinkedList( );
+	protected Map appContext;
 
 	protected String reportArchName = null;
 
@@ -161,7 +164,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 	 */
 	public IBaseResultSet execute( IDataQueryDefinition query )
 	{
-		return execute( null, query );
+		return execute( null, query, false );
 	}
 
 	/*
@@ -169,7 +172,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 	 *      org.eclipse.birt.data.engine.api.IBaseQueryDefinition)
 	 */
 	public IBaseResultSet execute( IBaseResultSet parent,
-			IDataQueryDefinition query )
+			IDataQueryDefinition query, boolean useCache )
 	{
 		if ( query instanceof ISubqueryDefinition )
 		{
@@ -187,14 +190,14 @@ public abstract class AbstractDataEngine implements IDataEngine
 		else if ( query instanceof IQueryDefinition
 				|| query instanceof ICubeQueryDefinition )
 		{
-			return doExecuteQuery( parent, query );
+			return doExecuteQuery( parent, query, useCache );
 		}
 
 		return null;
 	}
 
 	abstract protected IBaseResultSet doExecuteQuery( IBaseResultSet parent,
-			IDataQueryDefinition query );
+			IDataQueryDefinition query, boolean useCache );
 
 	/**
 	 * get the sub query result from the current query.
@@ -356,6 +359,13 @@ public abstract class AbstractDataEngine implements IDataEngine
 			logger.log( Level.SEVERE, ioe.getMessage( ), ioe );
 		}
 		return result;
+	}
+	
+	protected IBaseQueryResults getCachedQueryResult( IDataQueryDefinition query )
+			throws BirtException
+	{
+		String rsetId = String.valueOf( cachedQueryIdMap.get( query ) );
+		return dteSession.getQueryResults( rsetId );
 	}
 
 }

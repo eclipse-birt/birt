@@ -7,6 +7,8 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 
 abstract public class QueryItemExecutor extends StyledItemExecutor
 {
@@ -56,7 +58,23 @@ abstract public class QueryItemExecutor extends StyledItemExecutor
 	protected void executeQuery( )
 	{
 		rset = null;
+		boolean useCache = false;
 		IDataQueryDefinition query = design.getQuery( );
+		if ( query == null )
+		{
+			DesignElementHandle elementHandle = design.getHandle( );
+			if ( elementHandle instanceof ReportElementHandle )
+			{
+				IDataQueryDefinition[] queries = report.getDesign( )
+						.getQueryByReportHandle(
+								(ReportElementHandle) elementHandle );
+				if ( queries != null && queries.length > 0 )
+				{
+					query = queries[0];
+					useCache = true;
+				}
+			}
+		}
 		IBaseResultSet parentRset = getParentResultSet( );
 		context.setResultSet( parentRset );
 		if ( query != null )
@@ -64,7 +82,7 @@ abstract public class QueryItemExecutor extends StyledItemExecutor
 			try
 			{
 				rset = (IQueryResultSet) context.executeQuery( parentRset,
-						query );
+						query, useCache );
 				context.setResultSet( rset );
 				if ( rset != null )
 				{

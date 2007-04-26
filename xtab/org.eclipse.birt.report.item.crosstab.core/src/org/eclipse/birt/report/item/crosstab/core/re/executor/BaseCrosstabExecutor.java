@@ -31,6 +31,7 @@ import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 
 /**
  * the base class for all crosstab element executor
@@ -83,10 +84,12 @@ public abstract class BaseCrosstabExecutor implements
 
 	protected void executeQuery( AbstractCrosstabItemHandle handle )
 	{
-		IDataQueryDefinition query = context.getQueries( crosstabItem.getModelHandle( ) )[0];
+		DesignElementHandle elementHandle = crosstabItem.getModelHandle( );
+		
+		IDataQueryDefinition query = context.getQueries( elementHandle )[0];
 
 		IBaseResultSet rset = context.executeQuery( getParentResultSet( ),
-				query );
+				query, elementHandle );
 
 		if ( rset instanceof ICubeResultSet )
 		{

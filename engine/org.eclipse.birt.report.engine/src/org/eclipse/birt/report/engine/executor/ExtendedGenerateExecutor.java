@@ -32,7 +32,9 @@ import org.eclipse.birt.report.engine.extension.internal.RowSet;
 import org.eclipse.birt.report.engine.extension.internal.SingleRowSet;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 
 public class ExtendedGenerateExecutor extends QueryItemExecutor
 {
@@ -184,13 +186,25 @@ public class ExtendedGenerateExecutor extends QueryItemExecutor
 		IDataEngine dataEngine = context.getDataEngine( );
 		IBaseResultSet parent = getParentResultSet( );
 
+		boolean useCache = false;
+		
 		IDataQueryDefinition[] queries = extItem.getQueries( );
+		if ( queries == null )
+		{
+			DesignElementHandle elementHandle = design.getHandle( );
+			if ( elementHandle instanceof ReportElementHandle )
+			{
+				queries = report.getDesign( ).getQueryByReportHandle(
+						(ReportElementHandle) elementHandle );
+				useCache = true;
+			}
+		}
 		if ( queries != null )
 		{
 			rsets = new IBaseResultSet[queries.length];
 			for ( int i = 0; i < rsets.length; i++ )
 			{
-				rsets[i] = dataEngine.execute( parent, queries[i] );
+				rsets[i] = dataEngine.execute( parent, queries[i], useCache );
 			}
 			context.setResultSets( rsets );
 		}

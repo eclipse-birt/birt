@@ -60,6 +60,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.w3c.dom.css.CSSValue;
 
 import com.ibm.icu.util.ULocale;
@@ -638,7 +639,17 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 			}
 
 			IRowSet[] rowSets = null;
-			IBaseResultSet[] rsets = context.getResultSets();			
+			IBaseResultSet[] rsets = context.getResultSets();	
+			if ( queries == null )
+			{
+				DesignElementHandle elementHandle = design.getHandle( );
+				if ( elementHandle instanceof ReportElementHandle )
+				{
+					queries = (IBaseQueryDefinition[]) context.getRunnable( )
+							.getReportIR( ).getQueryByReportHandle(
+									(ReportElementHandle) elementHandle );
+				}
+			}
 			if ( queries != null )
 			{
 				if ( rsets != null )

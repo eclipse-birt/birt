@@ -42,6 +42,12 @@ public interface IExecutorContext extends IReportContext
 			IDataQueryDefinition query );
 
 	/**
+	 * execute query
+	 */
+	IBaseResultSet executeQuery( IBaseResultSet parent,
+			IDataQueryDefinition query, Object handle );
+
+	/**
 	 * get the queries of the handle
 	 * 
 	 * @param handle

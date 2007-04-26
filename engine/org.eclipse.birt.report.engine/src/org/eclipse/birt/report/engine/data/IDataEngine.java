@@ -77,7 +77,8 @@ public interface IDataEngine
 	 * @param query query to be executed
 	 * @return result.
 	 */
-	IBaseResultSet execute (IBaseResultSet parent, IDataQueryDefinition query);
+	IBaseResultSet execute( IBaseResultSet parent, IDataQueryDefinition query,
+			boolean useCache );
 
 	/**
 	 * close the IResultSet of the last executing operator

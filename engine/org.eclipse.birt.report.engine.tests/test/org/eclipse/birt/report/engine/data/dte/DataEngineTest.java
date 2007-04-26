@@ -242,7 +242,7 @@ public class DataEngineTest extends TestCase
 				resultStr += parentRSet.getString( nextPar );
 			}
 			childRSet = (IQueryResultSet) dataEngine
-					.execute( parentRSet, childQuery );
+					.execute( parentRSet, childQuery, false );
 			while ( childRSet.next( ) )
 			{
 				Map childMap = childQuery.getResultSetExpressions( );
@@ -291,7 +291,7 @@ public class DataEngineTest extends TestCase
 				resultStr += parentRSet.getString( nextPar );
 			}
 			childRSet = (IQueryResultSet) dataEngine
-					.execute( parentRSet, childQuery );
+					.execute( parentRSet, childQuery, false );
 			while ( childRSet.next( ) )
 			{
 				Map childMap = childQuery.getResultSetExpressions( );
@@ -340,7 +340,7 @@ public class DataEngineTest extends TestCase
 					IBaseQueryDefinition subQuery = (IBaseQueryDefinition) subQueryIter
 							.next( );
 					IQueryResultSet subResultSet = (IQueryResultSet)dataEngine.execute( resultSet,
-							subQuery );
+							subQuery, false );
 					Map map = subQuery.getResultSetExpressions( );
 					resultStr += getResultSet( subResultSet, map.keySet( ) );
 					subResultSet.close( );
@@ -400,7 +400,7 @@ public class DataEngineTest extends TestCase
 					IBaseQueryDefinition subQuery = (IBaseQueryDefinition) subQueryIter
 							.next( );
 					IQueryResultSet subResultSet = (IQueryResultSet)dataEngine.execute( resultSet,
-							subQuery );
+							subQuery, false );
 					Map map = subQuery.getResultSetExpressions( );
 					resultStr += getResultSet( subResultSet, map.keySet( ) );
 					subResultSet.close( );

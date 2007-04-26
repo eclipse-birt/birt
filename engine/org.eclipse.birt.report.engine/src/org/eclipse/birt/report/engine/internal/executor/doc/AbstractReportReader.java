@@ -51,7 +51,9 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
 import org.eclipse.birt.report.engine.toc.DocumentTOCTree;
 import org.eclipse.birt.report.engine.toc.TOCTree;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 
 public abstract class AbstractReportReader implements IReportExecutor
 {
@@ -183,6 +185,15 @@ public abstract class AbstractReportReader implements IReportExecutor
 		{
 			ReportItemDesign design = (ReportItemDesign) generateBy;
 			IDataQueryDefinition[] queries = design.getQueries( );
+			if ( queries == null )
+			{
+				DesignElementHandle itemHandle = design.getHandle( );
+				if ( itemHandle instanceof ReportElementHandle )
+				{
+					queries = report
+							.getQueryByReportHandle( (ReportElementHandle) itemHandle );
+				}
+			}
 			if ( queries != null && queries.length > 0 )
 			{
 				InstanceID iid = content.getInstanceID( );
@@ -240,7 +251,7 @@ public abstract class AbstractReportReader implements IReportExecutor
 					// execute query
 					try
 					{
-						rsets[i] = context.executeQuery( rset, queries[i] );
+						rsets[i] = context.executeQuery( rset, queries[i], false );
 					}
 					catch ( BirtException ex )
 					{

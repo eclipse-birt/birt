@@ -196,7 +196,8 @@ public class DataPresentationEngine extends AbstractDataEngine
 		return rsetId;
 	}
 	
-	protected IBaseResultSet doExecuteQuery( IBaseResultSet resultSet, IDataQueryDefinition query )
+	protected IBaseResultSet doExecuteQuery( IBaseResultSet resultSet,
+			IDataQueryDefinition query, boolean useCache )
 	{
 		if ( query instanceof IQueryDefinition )
 		{
