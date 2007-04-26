@@ -369,7 +369,7 @@ public class MetadataEmitter
 		}
 		//The data item should not have query of itself.
 		DataItemDesign data = ( DataItemDesign )generateBy;
-		if ( data.getQuery( ) != null )
+		if ( data!=null && data.getQuery( ) != null )
 		{
 			aggregatables.put(generateBy, Boolean.FALSE);
 			return false;
@@ -383,7 +383,7 @@ public class MetadataEmitter
 			{
 				IContent content = (IContent)parent;
 				ReportItemDesign design = ( ReportItemDesign )content.getGenerateBy( );
-				if ( design.getQuery( ) != null )
+				if ( design!=null && design.getQuery( ) != null )
 				{
 					aggregatables.put(generateBy, Boolean.FALSE);
 					return false;
