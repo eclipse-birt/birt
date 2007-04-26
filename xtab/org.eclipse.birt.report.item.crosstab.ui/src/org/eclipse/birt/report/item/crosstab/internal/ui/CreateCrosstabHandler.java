@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactor
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -44,75 +45,78 @@ public class CreateCrosstabHandler extends AbstractHandler
 				.getCommandStack( )
 				.startTrans( "Create " + itemName ); //$NON-NLS-1$
 		ExtendedItemHandle handle = null;
-//		InsertCubeDialog insertCubeDialog = new InsertCubeDialog( );
-//		if ( insertCubeDialog.open( ) == Window.OK )
-//		{
-			handle = DesignElementFactory.getInstance( ).newExtendedItem( null,
-					itemName );
-//			if ( insertCubeDialog.getResult( ) != null )
-//				try
-//				{
-//					handle.setProperty( ICrosstabReportItemConstants.CUBE_PROP,
-//							insertCubeDialog.getResult( ) );
-//				}
-//				catch ( SemanticException e )
-//				{
-//					// TODO Auto-generated catch block
-//					e.printStackTrace( );
-//				}
-			//		List list = new ArrayList( );
-			//
-			//		list.add( handle );
-			//		ReportRequest r = new ReportRequest( );
-			//		r.setType( ReportRequest.CREATE_ELEMENT );
-			Map map = new HashMap( );
-			map.put( DesignerConstants.KEY_NEWOBJECT, handle );
-			CreateCommand command = new CreateCommand( map );
-			//		SessionHandleAdapter.getInstance( )
-			//				.getReportDesignHandle( )
-			//				.getCommandStack( )
-			//				.execute( command );
+		//		InsertCubeDialog insertCubeDialog = new InsertCubeDialog( );
+		//		if ( insertCubeDialog.open( ) == Window.OK )
+		//		{
+		handle = DesignElementFactory.getInstance( ).newExtendedItem( null,
+				itemName );
+		//			if ( insertCubeDialog.getResult( ) != null )
+		//				try
+		//				{
+		//					handle.setProperty( ICrosstabReportItemConstants.CUBE_PROP,
+		//							insertCubeDialog.getResult( ) );
+		//				}
+		//				catch ( SemanticException e )
+		//				{
+		//					// TODO Auto-generated catch block
+		//					e.printStackTrace( );
+		//				}
+		//		List list = new ArrayList( );
+		//
+		//		list.add( handle );
+		//		ReportRequest r = new ReportRequest( );
+		//		r.setType( ReportRequest.CREATE_ELEMENT );
+		Map map = new HashMap( );
+		map.put( DesignerConstants.KEY_NEWOBJECT, handle );
+		CreateCommand command = new CreateCommand( map );
+		//		SessionHandleAdapter.getInstance( )
+		//				.getReportDesignHandle( )
+		//				.getCommandStack( )
+		//				.execute( command );
 
-			IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
-			EditPart targetEditPart = (EditPart) context.getVariable( "targetEditPart" );
+		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
+		EditPart targetEditPart = (EditPart) context.getVariable( "targetEditPart" );
 
-			if ( targetEditPart != null )
-			{
-				command.setParent( targetEditPart.getModel( ) );
-			}
-			else
-			{
-				command.setParent( UIUtil.getCurrentEditPart( ).getModel( ) );
-			}
+		if ( targetEditPart != null )
+		{
+			command.setParent( targetEditPart.getModel( ) );
+		}
+		else
+		{
+			command.setParent( UIUtil.getCurrentEditPart( ).getModel( ) );
+		}
 
-			try
-			{
-				command.execute( );
-				SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.getCommandStack( )
-						.commit( );
-			}
-			catch ( Exception e )
-			{
-				SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.getCommandStack( )
-						.rollback( );
-			}
-			//if parent is library, select new object
+		try
+		{
+			command.execute( );
+			SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( )
+					.getCommandStack( )
+					.commit( );
+		}
+		catch ( Exception e )
+		{
+			SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( )
+					.getCommandStack( )
+					.rollback( );
+		}
+		//if parent is library, select new object
+		if ( command.getParent( ) instanceof LibraryHandle )
+		{
 			HandleAdapterFactory.getInstance( )
-				.getLibraryHandleAdapter( )
-				.setCurrentEditorModel( handle,
-						LibraryHandleAdapter.CREATE_ELEMENT );
-//		}
-//		else
-//		{
-//			SessionHandleAdapter.getInstance( )
-//					.getReportDesignHandle( )
-//					.getCommandStack( )
-//					.rollback( );
-//		}
+					.getLibraryHandleAdapter( )
+					.setCurrentEditorModel( handle,
+							LibraryHandleAdapter.CREATE_ELEMENT );
+		}
+		//		}
+		//		else
+		//		{
+		//			SessionHandleAdapter.getInstance( )
+		//					.getReportDesignHandle( )
+		//					.getCommandStack( )
+		//					.rollback( );
+		//		}
 		return handle;
 	}
 
