@@ -18,6 +18,7 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.preference.IPreferencePageContainer;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.graphics.Point;
@@ -34,7 +35,7 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 	public static final String GROUPPAGE = "org.eclipse.birt.datasource.editor.cubebuilder.grouppage";
 	public static final String DATASETSELECTIONPAGE = "org.eclipse.birt.datasource.editor.cubebuilder.datasetselectionpage";
 
-	public CubeBuilder( Shell parentShell, CubeHandle input )
+	public CubeBuilder( Shell parentShell, TabularCubeHandle input )
 	{
 		super( parentShell, input );
 		addCommonPage( input );
@@ -44,7 +45,7 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 	// private DimensionPage dimensionPage = null;
 	private GroupsPage groupsPage = null;
 
-	private void addCommonPage( CubeHandle model )
+	private void addCommonPage( TabularCubeHandle model )
 	{
 		addPageTo( "/", DATASETSELECTIONPAGE, Messages.getString( "DatasetPage.Title" ), null, datasetPage = new DatasetSelectionPage( this, model ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		addPageTo( "/", GROUPPAGE, Messages.getString( "GroupsPage.Title" ), null, groupsPage = new GroupsPage( this, model ) );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$

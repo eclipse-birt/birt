@@ -15,15 +15,15 @@ import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.page.CubeBuilder;
-import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.ui.PlatformUI;
 
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.3 $ $Date: 2007/03/29 08:50:38 $
+ * @version $Revision: 1.4 $ $Date: 2007/04/23 03:30:22 $
  */
 public class EditCubeDimensionAction extends AbstractElementAction
 {
@@ -63,7 +63,7 @@ public class EditCubeDimensionAction extends AbstractElementAction
 		DimensionHandle dimension = (DimensionHandle) getSelection( );
 		CubeBuilder dialog = new CubeBuilder( PlatformUI.getWorkbench( )
 				.getDisplay( )
-				.getActiveShell( ), (CubeHandle) dimension.getContainer( ) );
+				.getActiveShell( ), (TabularCubeHandle) dimension.getContainer( ) );
 
 		dialog.showPage( CubeBuilder.GROUPPAGE );
 

@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionPropertyPage;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -23,13 +24,13 @@ public class GroupsPage extends AbstractDescriptionPropertyPage
 {
 
 	public static final String GROUPPAGE_MESSAGE = Messages.getString( "GroupsPage.Title.Message" );
-	private CubeHandle input;
+	private TabularCubeHandle input;
 	private CubeGroupContent cubeGroup;
 	private CubeBuilder builder;
 
-	public GroupsPage( CubeBuilder builder, CubeHandle model )
+	public GroupsPage( CubeBuilder builder, TabularCubeHandle model )
 	{
-		input = (CubeHandle) model;
+		input = model;
 		this.builder = builder;
 	}
 

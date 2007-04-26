@@ -15,15 +15,15 @@ import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.page.CubeBuilder;
-import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.ui.PlatformUI;
 
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.2 $ $Date: 2007/03/21 06:59:35 $
+ * @version $Revision: 1.3 $ $Date: 2007/04/23 03:30:22 $
  */
 public class EditCubeMeasureAction extends AbstractElementAction
 {
@@ -63,7 +63,7 @@ public class EditCubeMeasureAction extends AbstractElementAction
 		MeasureHandle measureHandle = (MeasureHandle) getSelection( );
 		CubeBuilder dialog = new CubeBuilder( PlatformUI.getWorkbench( )
 				.getDisplay( )
-				.getActiveShell( ), (CubeHandle) measureHandle.getContainer( )
+				.getActiveShell( ), (TabularCubeHandle) measureHandle.getContainer( )
 				.getContainer( ) );
 		dialog.showPage( CubeBuilder.GROUPPAGE );
 		return ( dialog.open( ) == IDialogConstants.OK_ID );

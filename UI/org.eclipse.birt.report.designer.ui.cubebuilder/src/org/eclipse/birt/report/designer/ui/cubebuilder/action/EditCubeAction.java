@@ -17,13 +17,14 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.page.CubeBuilder;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.ui.PlatformUI;
 
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.3 $ $Date: 2007/03/29 08:50:38 $
+ * @version $Revision: 1.4 $ $Date: 2007/04/23 03:30:22 $
  */
 public class EditCubeAction extends AbstractElementAction
 {
@@ -60,11 +61,11 @@ public class EditCubeAction extends AbstractElementAction
 		{
 			System.out.println( "Edit cube action >> Runs ..." ); //$NON-NLS-1$
 		}
-		CubeHandle cubeHandle = null;
-		if ( getSelection( ) instanceof CubeHandle )
-			cubeHandle = (CubeHandle) getSelection( );
+		TabularCubeHandle cubeHandle = null;
+		if ( getSelection( ) instanceof TabularCubeHandle )
+			cubeHandle = (TabularCubeHandle) getSelection( );
 		else if ( getSelection( ) instanceof PropertyHandle )
-			cubeHandle = (CubeHandle)( (PropertyHandle) getSelection( ) ).getElementHandle( );
+			cubeHandle = (TabularCubeHandle)( (PropertyHandle) getSelection( ) ).getElementHandle( );
 		CubeBuilder dialog = new CubeBuilder( PlatformUI.getWorkbench( )
 				.getDisplay( )
 				.getActiveShell( ), cubeHandle );

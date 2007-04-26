@@ -40,7 +40,7 @@ public class SimpleCubeBuilder extends TitleAreaDialog
 		super( parentShell );
 	}
 
-	private CubeHandle cube;
+	private TabularCubeHandle cube;
 	private DataSetHandle dataset;
 	private Text nameText;
 	private CubeGroupContent group;

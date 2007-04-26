@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.page.CubeBuilder;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -86,7 +87,7 @@ public class NewCubeAction extends Action
 		CommandStack stack = getActionStack( );
 		stack.startTrans( "Create a cube for binding the crossTab" ); //$NON-NLS-1$
 
-		CubeHandle newCube = DesignElementFactory.getInstance( )
+		TabularCubeHandle newCube = DesignElementFactory.getInstance( )
 				.newTabularCube( "Customer Cube" );
 
 		boolean isFailed = false;

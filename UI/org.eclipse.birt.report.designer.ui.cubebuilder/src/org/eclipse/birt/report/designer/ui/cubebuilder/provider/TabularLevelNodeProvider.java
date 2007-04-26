@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
@@ -128,7 +129,7 @@ public class TabularLevelNodeProvider extends DefaultNodeProvider
 		TabularLevelHandle level = (TabularLevelHandle) handle;
 		CubeBuilder dialog = new CubeBuilder( PlatformUI.getWorkbench( )
 				.getDisplay( )
-				.getActiveShell( ), (CubeHandle) level.getContainer( ).getContainer( ).getContainer( ) );
+				.getActiveShell( ), (TabularCubeHandle) level.getContainer( ).getContainer( ).getContainer( ) );
 
 		dialog.showPage( CubeBuilder.GROUPPAGE );
 

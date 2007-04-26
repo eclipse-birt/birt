@@ -24,6 +24,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
@@ -112,7 +113,7 @@ public class TabularCubeNodeProvider extends DefaultNodeProvider
 	 */
 	protected boolean performEdit( ReportElementHandle handle )
 	{
-		CubeHandle cubeHandle = (CubeHandle) handle;
+		TabularCubeHandle cubeHandle = (TabularCubeHandle) handle;
 		CubeBuilder dialog = new CubeBuilder( PlatformUI.getWorkbench( )
 				.getDisplay( )
 				.getActiveShell( ), cubeHandle );

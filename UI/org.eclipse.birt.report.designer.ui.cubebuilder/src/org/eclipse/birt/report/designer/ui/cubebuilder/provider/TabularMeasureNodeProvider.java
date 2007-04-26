@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.Dialog;
@@ -100,7 +101,7 @@ public class TabularMeasureNodeProvider extends DefaultNodeProvider
 		MeasureHandle measureHandle = (MeasureHandle) handle;
 		CubeBuilder dialog = new CubeBuilder( PlatformUI.getWorkbench( )
 				.getDisplay( )
-				.getActiveShell( ), (CubeHandle) measureHandle.getContainer( )
+				.getActiveShell( ), (TabularCubeHandle) measureHandle.getContainer( )
 				.getContainer( ) );
 		dialog.showPage( CubeBuilder.GROUPPAGE );
 		return dialog.open( ) == Dialog.OK;
