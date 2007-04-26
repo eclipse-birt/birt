@@ -148,8 +148,8 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	/*
 	 * 
 	 */
-	public void setNeedCache( boolean needCache )
+	public void setCacheQueryResults( boolean cacheQueryResults )
 	{
-		this.cacheQueryResults = needCache ;
+		this.cacheQueryResults = cacheQueryResults ;
 	}
 }
