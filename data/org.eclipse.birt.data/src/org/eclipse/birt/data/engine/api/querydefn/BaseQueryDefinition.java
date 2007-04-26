@@ -35,7 +35,7 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	protected IBaseQueryDefinition 	parentQuery;
 	protected int				maxRowCount = 0;
 	
-	private   boolean           needCache = false;
+	private   boolean           cacheQueryResults = false;
 	
 	//	 order might be sensitive, use LinkedHashMap instead of HashMap
 	private 	Map resultExprsMap = new LinkedHashMap( );
@@ -140,9 +140,9 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.api.IBaseQueryDefinition#needCache()
 	 */
-	public boolean needCache() 
+	public boolean cacheQueryResults() 
 	{
-		return needCache;
+		return cacheQueryResults;
 	}
 	
 	/*
@@ -150,6 +150,6 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	 */
 	public void setNeedCache( boolean needCache )
 	{
-		this.needCache = needCache ;
+		this.cacheQueryResults = needCache ;
 	}
 }

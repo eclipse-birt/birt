@@ -50,7 +50,7 @@ public interface IBaseQueryDefinition extends IBaseTransform, IDataQueryDefiniti
 	 * 
 	 * @return true if cache is needed.
 	 */
-	public boolean needCache( );
+	public boolean cacheQueryResults( );
 	
 	/**
 	 * Returns the parent query. The parent query is the outer query which encloses

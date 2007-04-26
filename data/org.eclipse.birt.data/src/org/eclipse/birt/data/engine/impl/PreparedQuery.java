@@ -467,7 +467,7 @@ final class PreparedQuery
 				executor,
 				this.baseQueryDefn,
 				this.exprManager ) );
-		if( this.baseQueryDefn.needCache() )
+		if( this.baseQueryDefn.cacheQueryResults() )
 		{
 			result.setID( QueryResultIDUtil.nextID( ) );
 		}

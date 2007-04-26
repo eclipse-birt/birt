@@ -199,7 +199,7 @@ public class ResultIterator implements IResultIterator
 	{
 		if( resultService == null || resultService.getQueryDefn( ) == null )
 			return false;
-		return resultService.getQueryDefn( ).needCache();
+		return resultService.getQueryDefn( ).cacheQueryResults();
 	}
 	
 	/**
