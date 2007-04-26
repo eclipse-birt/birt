@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.elements;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Creates a new template element from a report item or a data set.
@@ -39,13 +40,14 @@ public class TemplateFactory
 			DesignElement defaultElement, String name )
 	{
 		assert defaultElement != null;
+		if ( !ModelUtil.isTemplateSupported( defaultElement ) )
+			return null;
 
 		if ( defaultElement instanceof ReportItem )
 		{
 			if ( StringUtil.isBlank( name ) )
 				return new TemplateReportItem( );
-			else
-				return new TemplateReportItem( name );
+			return new TemplateReportItem( name );
 
 		}
 		else if ( defaultElement instanceof SimpleDataSet )
@@ -55,9 +57,7 @@ public class TemplateFactory
 			module.makeUniqueName( template );
 			return template;
 		}
-		else
-		{
-			return null;
-		}
+
+		return null;
 	}
 }

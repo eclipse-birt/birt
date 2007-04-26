@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.command.TemplateException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.ContainerContext;
@@ -328,8 +329,18 @@ public class TemplateCommand extends AbstractElementCommand
 		if ( templateParam != null )
 		{
 			String type = templateParam.getAllowedType( module );
-			IElementDefn allowedDefn = MetaDataDictionary.getInstance( )
-					.getElement( type );
+			IElementDefn allowedDefn = null;
+			if ( DesignChoiceConstants.TEMPLATE_ELEMENT_TYPE_EXTENDED_ITEM
+					.equals( type ) )
+			{
+				allowedDefn = MetaDataDictionary.getInstance( ).getElement(
+						ReportDesignConstants.REPORT_ITEM );
+			}
+			else
+			{
+				allowedDefn = MetaDataDictionary.getInstance( ).getElement(
+						type );
+			}
 			if ( content.getDefn( ).isKindOf( allowedDefn ) )
 				return false;
 		}

@@ -774,6 +774,7 @@ public class ContentCommand extends AbstractContentCommand
 	private void doReplace( DesignElement oldElement, DesignElement newElement,
 			boolean unresolveReference ) throws SemanticException
 	{
+		this.unresolveReference = unresolveReference;
 		assert newElement.getContainer( ) == null;
 
 		// Ensure that the new element can be put into the container.
