@@ -22,7 +22,6 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
-import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDialog;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDialog.GrandTotalInfo;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDialog.SubTotalInfo;
@@ -43,13 +42,7 @@ import org.eclipse.swt.graphics.Image;
  * Add the sub total to the level handle.
  */
 public class AddSubTotalAction extends AbstractCrosstabAction
-{
-
-//	private static final String LABEL_NAME = "Grand Total";
-//	private static final String NAME = "add subtotal";
-//	private static final String ID = "add_subtotal";//$NON-NLS-1$
-//	private static final String TEXT = "Aggregation";
-	
+{	
 	private static final String LABEL_NAME = Messages.getString( "AddSubTotalAction.LabelName" );//$NON-NLS-1$
 	LevelViewHandle levelHandle = null;
 	private static final String NAME = Messages.getString( "AddSubTotalAction.TransName" );//$NON-NLS-1$
@@ -116,6 +109,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 		}
 		return retValue;
 	}
+	
 	private List copyGrandTotal(List list)
 	{
 		List retValue = new ArrayList();
@@ -241,7 +235,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 		}
 		else if (oriOperation.getMeasures( ).size( ) != 0 && newOperation.getMeasures( ).size( ) == 0)
 		{
-			findLevelViewHandle( oriOperation.getLevelHandle( )).removeAggregationHeader( );
+			findLevelViewHandle( oriOperation.getLevelHandle( )).removeSubTotal( );
 		}
 		else 
 		{
@@ -249,7 +243,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 			int newSize = newOperation.getMeasures( ).size( );
 			if (oriSize != newSize)
 			{
-				findLevelViewHandle( oriOperation.getLevelHandle( )).removeAggregationHeader( );
+				findLevelViewHandle( oriOperation.getLevelHandle( )).removeSubTotal( );
 				addAggregationHeader( findLevelViewHandle( newOperation.getLevelHandle( ) ), newOperation.getFunctions( ), 
 						findMeasureViewHandleList(newOperation.getMeasures( )));
 				return;
@@ -258,7 +252,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 			{
 				if (oriOperation.getMeasures( ).get( i ) != newOperation.getMeasures( ).get( i ))
 				{
-					findLevelViewHandle( oriOperation.getLevelHandle( )).removeAggregationHeader( );
+					findLevelViewHandle( oriOperation.getLevelHandle( )).removeSubTotal( );
 					addAggregationHeader( findLevelViewHandle( newOperation.getLevelHandle( ) ), newOperation.getFunctions( ), 
 							findMeasureViewHandleList(newOperation.getMeasures( )));
 					return;

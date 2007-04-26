@@ -18,7 +18,6 @@ import org.eclipse.jface.action.Action;
 /**
  * Abstract class for the cross tab action.
  */
-// NOTE Maybe this class is a temp class.
 public abstract class AbstractCrosstabAction extends Action
 {
 

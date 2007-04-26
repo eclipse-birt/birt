@@ -17,7 +17,6 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
-import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
@@ -150,14 +149,6 @@ public class AddDimensionViewHandleCommand extends AbstractCrosstabCommand
 			DimensionViewHandle viewHandle = reportHandle.insertDimension( getDimensionHandle( ),
 					getType( ),
 					position );
-//			HierarchyHandle hierarchyHandle = getDimensionHandle( ).getDefaultHierarchy( );
-//			int count = hierarchyHandle.getLevelCount( );
-//			if ( count == 0 )
-//			{
-//				rollBack( );
-//				return;
-//			}
-//			LevelHandle levelHandle = hierarchyHandle.getLevel( 0 );
 			
 			LevelHandle levelHandle = getLevelHandle( );
 			if ( levelHandle == null )

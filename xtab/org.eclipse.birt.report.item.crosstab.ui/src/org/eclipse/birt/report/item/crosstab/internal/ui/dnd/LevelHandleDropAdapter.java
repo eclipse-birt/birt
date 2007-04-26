@@ -22,12 +22,15 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
 
 /**
- * 
+ * Support drag the levelhandle to the crosstab.Gets the command from the editpart to execute.
  */
 
 public class LevelHandleDropAdapter implements IDropAdapter
 {
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter#canDrop(java.lang.Object, java.lang.Object, int, org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation)
+	 */
 	public int canDrop( Object transfer, Object target, int operation,
 			DNDLocation location )
 	{
@@ -55,6 +58,9 @@ public class LevelHandleDropAdapter implements IDropAdapter
 		return transfer instanceof LevelHandle;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter#performDrop(java.lang.Object, java.lang.Object, int, org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation)
+	 */
 	public boolean performDrop( Object transfer, Object target, int operation,
 			DNDLocation location )
 	{

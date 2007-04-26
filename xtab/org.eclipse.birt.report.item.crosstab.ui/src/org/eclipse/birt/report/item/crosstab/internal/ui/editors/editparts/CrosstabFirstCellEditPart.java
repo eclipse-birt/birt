@@ -73,12 +73,18 @@ public class CrosstabFirstCellEditPart extends  CrosstabCellEditPart
 		return figure;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabCellEditPart#refreshFigure()
+	 */
 	public void refreshFigure( )
 	{
 		super.refreshFigure( );
 		setLayoutConstraint( this, controlFigure, controlFigure.getConstraint() );
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getContentPane()
+	 */
 	public IFigure getContentPane( )
 	{
 		return contentPane;
@@ -160,11 +166,6 @@ public class CrosstabFirstCellEditPart extends  CrosstabCellEditPart
 		{
 			return new Insets(1,1,1,1);
 		}
-//		public void paint( Graphics graphics )
-//		{
-//			super.paint( graphics );
-//			graphics.fillRectangle( getBounds( ) );
-//		}
 		
 		public Rectangle getConstraint()
 		{

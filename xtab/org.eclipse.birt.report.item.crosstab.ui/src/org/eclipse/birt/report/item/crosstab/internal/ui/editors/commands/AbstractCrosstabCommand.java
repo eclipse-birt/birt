@@ -17,7 +17,6 @@ import org.eclipse.gef.commands.Command;
 /**
  * The abstract command for all the cross tab command.
  */
-// NOTE maybe this is a temp class for refactor code
 public class AbstractCrosstabCommand extends Command
 {
 

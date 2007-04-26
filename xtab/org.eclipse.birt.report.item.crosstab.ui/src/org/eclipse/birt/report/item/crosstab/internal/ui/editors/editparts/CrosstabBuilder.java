@@ -11,12 +11,8 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.extensions.ReportItemBuilderUI;
-import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.jface.window.Window;
 
 /**
  * The builder for crate the x-tab to binding a cube handle

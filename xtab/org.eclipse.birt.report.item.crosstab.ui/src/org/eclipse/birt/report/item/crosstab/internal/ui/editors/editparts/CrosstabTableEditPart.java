@@ -66,9 +66,7 @@ import org.eclipse.swt.graphics.Image;
 /**
  * Crosstab item editpart.The modle is extended handle.
  */
-// TODO add a element to the empty croass table item
-// TODO don't support the table border padding
-// TODO Draw the virtual cell figure back fround text half done
+
 public class CrosstabTableEditPart extends AbstractTableEditPart implements PropertyChangeListener
 {
 

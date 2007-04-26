@@ -25,8 +25,7 @@ import org.eclipse.gef.commands.Command;
 /**
  * Paster the count to the crosscell handle
  */
-// FIXME There are a issue , the lagic of the designer ui is rafferty,
-// so this class don't ensure work at all condition.
+
 public class CrosstabPasterCommand extends Command
 {
 

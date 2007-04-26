@@ -25,8 +25,6 @@ import org.eclipse.jface.action.IMenuManager;
 /**
  * Creata the Cross tab menu
  */
-// TODO In the SchematicContextMenuProvider class, cover the adapter to the
-// ExtendedItemHandle
 public class CrosstabMenuBuilder implements IMenuBuilder
 {
 
@@ -37,7 +35,6 @@ public class CrosstabMenuBuilder implements IMenuBuilder
 	 */
 	public CrosstabMenuBuilder( )
 	{
-
 	}
 
 	/*

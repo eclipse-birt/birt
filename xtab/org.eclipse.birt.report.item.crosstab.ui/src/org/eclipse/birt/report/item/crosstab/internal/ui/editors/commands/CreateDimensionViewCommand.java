@@ -125,14 +125,6 @@ public class CreateDimensionViewCommand extends AbstractCrosstabCommand
 			DimensionViewHandle viewHandle = reportHandle.insertDimension( getDimensionHandle( ),
 					getType( ),
 					0 );
-//			HierarchyHandle hierarchyHandle = getDimensionHandle( ).getDefaultHierarchy( );
-//			int count = hierarchyHandle.getLevelCount( );
-//			if ( count == 0 )
-//			{
-//				rollBack( );
-//				return;
-//			}
-//			LevelHandle levelHandle = hierarchyHandle.getLevel( 0 );
 			
 			LevelHandle levelHandle = getLevelHandle( );
 			if ( levelHandle == null )
