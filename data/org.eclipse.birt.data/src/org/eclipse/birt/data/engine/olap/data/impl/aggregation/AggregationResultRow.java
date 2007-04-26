@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation;
 
+import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.util.IComparableStructure;
 import org.eclipse.birt.data.engine.olap.data.util.IStructure;
@@ -21,7 +22,7 @@ import org.eclipse.birt.data.engine.olap.data.util.ObjectArrayUtil;
  * Describes a aggregation result row.
  */
 
-public class AggregationResultRow implements IComparableStructure
+public class AggregationResultRow implements IComparableStructure, IAggregationResultRow
 {
 	private Member[] levelMembers = null;
 	private Object[] aggregationValues = null;
@@ -74,10 +75,10 @@ public class AggregationResultRow implements IComparableStructure
 	 */
 	public int compareTo( Object o )
 	{
-		AggregationResultRow other = (AggregationResultRow) o;
-		for ( int i = 0; i < levelMembers.length; i++ )
+		IAggregationResultRow other = (IAggregationResultRow) o;
+		for ( int i = 0; i < getLevelMembers().length; i++ )
 		{
-			int result = ( levelMembers[i] ).compareTo( other.levelMembers[i] );
+			int result = ( getLevelMembers()[i] ).compareTo( other.getLevelMembers()[i] );
 			if ( result < 0 )
 			{
 				return result;
@@ -90,21 +91,33 @@ public class AggregationResultRow implements IComparableStructure
 		return 0;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.impl.aggregation.IAggregationResultRow#setLevelMembers(org.eclipse.birt.data.engine.olap.data.impl.dimension.Member[])
+	 */
 	public void setLevelMembers( Member[] levelMembers )
 	{
 		this.levelMembers = levelMembers;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.impl.aggregation.IAggregationResultRow#getLevelMembers()
+	 */
 	public Member[] getLevelMembers( )
 	{
 		return levelMembers;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.impl.aggregation.IAggregationResultRow#setAggregationValues(java.lang.Object[])
+	 */
 	public void setAggregationValues( Object[] aggregationValues )
 	{
 		this.aggregationValues = aggregationValues;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.impl.aggregation.IAggregationResultRow#getAggregationValues()
+	 */
 	public Object[] getAggregationValues( )
 	{
 		return aggregationValues;

@@ -17,6 +17,7 @@ import org.eclipse.birt.data.engine.aggregation.BuiltInAggregationFactory;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.Constants;
@@ -37,7 +38,7 @@ public class AggregationCalculator
 	private int levelCount;
 	private int[] measureIndex;
 	private IDiskArray result = null;
-	private AggregationResultRow currentResultObj = null;
+	private IAggregationResultRow currentResultObj = null;
 	
 	/**
 	 * 

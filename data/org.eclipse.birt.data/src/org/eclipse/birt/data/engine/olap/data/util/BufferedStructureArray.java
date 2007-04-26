@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.olap.data.util;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * 
@@ -137,6 +138,7 @@ public class BufferedStructureArray implements IDiskArray
 	public void clear( ) throws IOException
 	{
 		bufferPos = 0;
+		Arrays.fill( buffer, null );
 		if ( diskList != null )
 			diskList.clear( );
 	}

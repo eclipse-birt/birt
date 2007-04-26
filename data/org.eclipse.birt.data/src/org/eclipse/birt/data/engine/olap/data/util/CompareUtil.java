@@ -11,6 +11,10 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.util;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Comparator;
+
 /**
  * 
  */
@@ -19,22 +23,55 @@ public class CompareUtil
 {
 	public static int compare( Object[] objs1, Object[] objs2 )
 	{
+		boolean[] asc = new boolean[objs1.length];
+		Arrays.fill( asc, true );
+		return compare( objs1, objs2, asc);
+	}
+	
+	public static int compare( Object[] objs1, Object[] objs2, boolean[] asc )
+	{
+		int result = 0;
 		for ( int i = 0; i < objs1.length; i++ )
 		{
-			int result = 0;
-			if ( objs1[i] != null && objs2[i] != null )
-			{
-				result = ( (Comparable) objs1[i] ).compareTo( objs2[i] );
-				if ( result != 0 )
-				{
-					return result;
-				}
-			}
-			else if ( objs1[i] != null && objs2[i] == null )
-				return 1;
-			else if ( objs1[i] == null && objs2[i] != null )
-				return -1;
+			Object temp1 = objs1[i];
+			Object temp2 = objs2[i];
+			
+			
+			result = compare( temp1, temp2 )*(asc[i]?1:-1);
+			if( result!= 0 )
+				break;
 		}
-		return 0;
+		return result;
+	}
+
+	public static int compare( Object temp1, Object temp2 )
+	{
+		int result = 0;
+		if ( temp1 != null && temp2 != null )
+		{
+			result = ( (Comparable) temp1 ).compareTo( temp2 );
+		}
+		else if ( temp1 != null && temp2 == null )
+			result = 1;
+		else if ( temp1 == null && temp2 != null )
+			result = -1;
+		
+		return result;
+	}
+	
+	public static void sort( IDiskArray array, Comparator comparator, IStructureCreator creator) throws IOException
+	{
+		DiskSortedStack ss = new DiskSortedStack( 4096, false, comparator, creator );
+		for( int i = 0; i < array.size( ); i++ )
+		{
+			ss.push( array.get( i ) );
+		}
+		
+		array.clear( );
+		
+		for ( int i = 0; i < ss.size( ); i++ )
+		{
+			array.add( ss.pop( ));
+		}
 	}
 }

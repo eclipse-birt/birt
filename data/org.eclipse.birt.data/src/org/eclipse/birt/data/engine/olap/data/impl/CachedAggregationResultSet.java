@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
@@ -41,7 +42,7 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 	private IDiskArray aggregationResultRow;
 	private AggregationResultRow resultObject;
 	private int[] sortType;
-	
+
 	CachedAggregationResultSet( DataInputStream inputStream,
 			int length,
 			String[] levelNames, int[] sortTypes, String[][] keyNames, String[][] attributeNames,
@@ -386,6 +387,37 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 	public int getPosition( )
 	{
 		return currentPosition;
+	}
+
+	public String[][] getAggributeNames( )
+	{
+		return this.attributeNames;
+	}
+
+	public IAggregationResultRow getCurrentRow( ) throws IOException
+	{
+		return this.resultObject;
+	}
+
+	public String[][] getKeyNames( )
+	{
+		return this.keyNames;
+	}
+
+	public String getLevelKeyName( int levelIndex, int keyIndex )
+	{
+		return this.keyNames[levelIndex][keyIndex];
+	}
+
+	public String getLevelName( int levelIndex )
+	{
+		return this.levelNames[levelIndex];
+	}
+
+	public AggregationDefinition getAggregationDefinition( )
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

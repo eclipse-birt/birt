@@ -19,11 +19,13 @@ import java.util.Set;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeSortDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.impl.CubeQueryExecutor;
@@ -34,13 +36,14 @@ import org.eclipse.birt.data.engine.olap.data.document.DocumentManagerFactory;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortDefinition;
 import org.eclipse.birt.data.engine.olap.driver.CubeResultSet;
 import org.eclipse.birt.data.engine.olap.driver.IResultSet;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 
 /**
- *  
- *
+ * 
+ * 
  */
 public class QueryExecutor
 {
@@ -67,7 +70,8 @@ public class QueryExecutor
 				manager.getCalculatedMembers( ) );
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( cube );
 		cubeQueryExcutorHelper.addJSFilter( executor.getDimensionFilterEvalHelpers( ) );
-
+		populateAggregationSort( executor, cubeQueryExcutorHelper, true );
+		populateAggregationSort( executor, cubeQueryExcutorHelper, false );
 		IAggregationResultSet[] rs = cubeQueryExcutorHelper.execute( aggrDefns,
 				new StopSign( ) );
 		return new CubeResultSet( rs, view, manager );
@@ -75,26 +79,86 @@ public class QueryExecutor
 
 	/**
 	 * 
+	 * @param cubeQueryDefinition
+	 * @param cubeQueryExcutorHelper
+	 * @throws DataException
+	 */
+	private void populateAggregationSort( CubeQueryExecutor executor,
+			CubeQueryExecutorHelper cubeQueryExcutorHelper, boolean isRow )
+			throws DataException
+	{
+		List columnSort = isRow ? executor.getRowEdgeSort( )
+				: executor.getColumnEdgeSort( );
+		for ( int i = 0; i < columnSort.size( ); i++ )
+		{
+			ICubeSortDefinition cubeSort = (ICubeSortDefinition) columnSort.get( i );
+			String bindingName = OlapExpressionUtil.getBindingName( cubeSort.getExpression( )
+					.getText( ) );
+			if ( bindingName == null )
+				continue;
+			List bindings = executor.getCubeQueryDefinition( ).getBindings( );
+			List aggrOns = null;
+			for ( int j = 0; j < bindings.size( ); j++ )
+			{
+				IBinding binding = (IBinding) bindings.get( j );
+				if ( binding.getBindingName( ).equals( bindingName ) )
+				{
+					aggrOns = binding.getAggregatOns( );
+					break;
+				}
+			}
+
+			if ( aggrOns == null )
+				throw new DataException( "Invalid" );
+			String[] aggrOnNames = new String[aggrOns.size( )];
+			for ( int j = 0; j < aggrOnNames.length; j++ )
+			{
+				aggrOnNames[j] = aggrOns.get( j ).toString( );
+			}
+			
+			String[] levelNames = new String[cubeSort.getAxisQualifierLevel( ).length];
+			for( int k = 0; k < levelNames.length; k++ )
+			{
+				levelNames[k] = cubeSort.getAxisQualifierLevel( )[k].getName( );
+			}
+			AggrSortDefinition sort = new AggrSortDefinition( aggrOnNames,
+					bindingName,
+					levelNames,
+					cubeSort.getAxisQualifierValue( ),
+					cubeSort.getTargetLevel( ).getName( ),
+					cubeSort.getSortDirection( ) == 1 ? false : true );
+			if ( isRow )
+				cubeQueryExcutorHelper.addRowSort( sort );
+			else
+				cubeQueryExcutorHelper.addColumnSort( sort );
+		}
+	}
+
+	/**
+	 * 
 	 * @param cubeName
 	 * @return
-	 * @throws IOException 
-	 * @throws DataException 
+	 * @throws IOException
+	 * @throws DataException
 	 */
-	private ICube loadCube( CubeQueryExecutor executor ) throws DataException, IOException 
+	private ICube loadCube( CubeQueryExecutor executor ) throws DataException,
+			IOException
 	{
 		ICube cube = null;
 		IDocumentManager documentManager;
 		documentManager = getDocumentManager( executor );
 
-		cube = CubeQueryExecutorHelper.loadCube( executor.getCubeQueryDefinition( ).getName( ),
+		cube = CubeQueryExecutorHelper.loadCube( executor.getCubeQueryDefinition( )
+				.getName( ),
 				documentManager,
 				new StopSign( ) );
 
 		return cube;
 	}
-	
+
 	/**
 	 * Get the document manager.
+	 * 
 	 * @param executor
 	 * @return
 	 * @throws DataException
@@ -116,32 +180,33 @@ public class QueryExecutor
 					.getDocReader( ) );
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param cube
 	 * @param query
 	 * @return
 	 */
-	private AggregationDefinition[] prepareCube( ICubeQueryDefinition query, CalculatedMember[] calculatedMember )
+	private AggregationDefinition[] prepareCube( ICubeQueryDefinition query,
+			CalculatedMember[] calculatedMember )
 	{
 		IEdgeDefinition columnEdgeDefn = query.getEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		ILevelDefinition[] levelsOnColumn = CubeQueryDefinitionUtil.getLevelsOnEdge( columnEdgeDefn );
 		IEdgeDefinition rowEdgeDefn = query.getEdge( ICubeQueryDefinition.ROW_EDGE );
 		ILevelDefinition[] levelsOnRow = CubeQueryDefinitionUtil.getLevelsOnEdge( rowEdgeDefn );
-		
+
 		int aggregationCount = getDistinctCalculatedMemberCount( calculatedMember );
-		
+
 		AggregationDefinition[] aggregations;
 		if ( columnEdgeDefn == null && rowEdgeDefn == null )
 			aggregations = new AggregationDefinition[aggregationCount];
 		else if ( columnEdgeDefn == null || rowEdgeDefn == null )
 			aggregations = new AggregationDefinition[aggregationCount + 1];
 		else
-			aggregations = new AggregationDefinition[aggregationCount + 2];			
-	
+			aggregations = new AggregationDefinition[aggregationCount + 2];
+
 		int aggrIndex = 0;
-	
+
 		int[] sortType;
 		if ( columnEdgeDefn != null )
 		{
@@ -150,7 +215,8 @@ public class QueryExecutor
 			for ( int i = 0; i < levelsOnColumn.length; i++ )
 			{
 				levelNamesForFilter[i] = levelsOnColumn[i].getName( );
-				sortType[i] = getSortDirection( levelsOnColumn[i].getName( ), query );
+				sortType[i] = getSortDirection( levelsOnColumn[i].getName( ),
+						query );
 			}
 			aggregations[aggrIndex] = new AggregationDefinition( levelNamesForFilter,
 					sortType,
@@ -164,7 +230,8 @@ public class QueryExecutor
 			for ( int i = 0; i < levelsOnRow.length; i++ )
 			{
 				levelNamesForFilter[i] = levelsOnRow[i].getName( );
-				sortType[i] = getSortDirection( levelsOnRow[i].getName( ), query );
+				sortType[i] = getSortDirection( levelsOnRow[i].getName( ),
+						query );
 			}
 			aggregations[aggrIndex] = new AggregationDefinition( levelNamesForFilter,
 					sortType,
@@ -211,7 +278,7 @@ public class QueryExecutor
 		}
 		return aggregations;
 	}
-	
+
 	/**
 	 * 
 	 * @param calMember
@@ -232,7 +299,7 @@ public class QueryExecutor
 		}
 		return list;
 	}
-	
+
 	/**
 	 * 
 	 * @param calMember
@@ -249,17 +316,16 @@ public class QueryExecutor
 		}
 		return rsIDSet.size( );
 	}
-	
+
 	/**
 	 * 
 	 * @param levelDefn
 	 * @param query
 	 * @return
 	 */
-	private int getSortDirection( String levelName,
-			ICubeQueryDefinition query )
+	private int getSortDirection( String levelName, ICubeQueryDefinition query )
 	{
-		//TODO add dimension name specification
+		// TODO add dimension name specification
 		if ( query.getSorts( ) != null && !query.getSorts( ).isEmpty( ) )
 		{
 			for ( int i = 0; i < query.getSorts( ).size( ); i++ )
@@ -268,7 +334,7 @@ public class QueryExecutor
 						.get( i ) );
 				String[] info = OlapExpressionUtil.getTargetLevel( sortDfn.getExpression( )
 						.getText( ) );
-				if ( info.length == 2 )
+				if ( info != null && info.length == 2 )
 				{
 					if ( levelName.equals( info[1] ) )
 					{

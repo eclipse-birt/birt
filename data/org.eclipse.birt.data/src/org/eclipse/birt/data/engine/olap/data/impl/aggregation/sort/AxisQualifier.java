@@ -9,25 +9,38 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
-package org.eclipse.birt.data.engine.olap.api.query;
+package org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort;
 
 /**
- * ILevelDefinition defines Levels that are used in hierarchy.
+ * 
  */
-
-public interface ILevelDefinition extends INamedObject
+public class AxisQualifier
 {
-	/**
-	 * Return the hierarchy this level belongs to.
-	 * @return
-	 */
-	public IHierarchyDefinition getHierarchy();
+	private int[] levelIndex;
+	private Object[] value;
+	
+	//
+	public AxisQualifier( int[] levelIndex, Object[] value )
+	{
+		this.levelIndex = levelIndex;
+		this.value = value;
+	}
 	
 	/**
-	 * Return whether this level is mirrored.In the edge a mirrored level will always
-	 * display all its members w/o considering whether that member's combination with
-	 * other members of other levels have accompany entry in facttable. 
+	 * 
 	 * @return
 	 */
-	public boolean isMirrored();
+	public int[] getLevelIndex()
+	{
+		return this.levelIndex;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Object[] getLevelValue()
+	{
+		return this.value;
+	}
 }

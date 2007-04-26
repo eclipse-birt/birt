@@ -55,7 +55,7 @@ class CubeQueryDefinitionUtil
 		List cubeAggrBindingList = new ArrayList();
 		for( int i=0; i< cubeAggrs.length; i++ )
 		{
-			if( cubeAggrs[i].aggrName( ) != null )
+			if( cubeAggrs[i].getAggrName( ) != null )
 				cubeAggrBindingList.add( cubeAggrs[i] );
 		}
 		
@@ -112,7 +112,7 @@ class CubeQueryDefinitionUtil
 					calculatedMember[index] = new CalculatedMember( ( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getName( ),
 							( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getMeasure( ),
 							( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getAggrLevels( ),
-							( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).aggrName( ),
+							( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getAggrName( ),
 							rsID );
 					calculatedMemberList.add( calculatedMember[index] );
 					rsID++;
@@ -122,7 +122,7 @@ class CubeQueryDefinitionUtil
 					calculatedMember[index] = new CalculatedMember( ( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getName( ),
 							( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getMeasure( ),
 							( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getAggrLevels( ),
-							( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).aggrName( ),
+							( (ICubeAggrDefn) cubeAggrBindingList.get( i ) ).getAggrName( ),
 							id );
 				}
 				index++;
@@ -232,7 +232,7 @@ class CubeQueryDefinitionUtil
 		{
 			for ( int i = 0; i < cubeAggrs.length; i++ )
 			{
-				if ( cubeAggrs[i].aggrName( ) == null )
+				if ( cubeAggrs[i].getAggrName( ) == null )
 					continue;
 				List aggrOns = cubeAggrs[i].getAggrLevels( );
 				List usedLevelOnRow = new ArrayList( );

@@ -13,6 +13,9 @@ package org.eclipse.birt.data.engine.olap.data.api;
 
 import java.io.IOException;
 
+import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
+
+
 /**
  * The interface used to access a set of data rows retrieved by a cube
  * aggregation.
@@ -180,6 +183,17 @@ public interface IAggregationResultSet
 	 * @return
 	 */
 	public int getSortType( int levelIndex );
+	
+	public IAggregationResultRow getCurrentRow() throws IOException;
+	
+	public String getLevelName( int levelIndex );
+	public String getLevelKeyName( int levelIndex, int keyIndex );
+	
+	public AggregationDefinition getAggregationDefinition();
+	
+	public String[][] getAggributeNames();
+	
+	public String[][] getKeyNames();
 	
 	/**
 	 * 

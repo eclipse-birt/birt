@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
@@ -37,7 +38,7 @@ public class AggregationResultSet implements IAggregationResultSet
 	private int[][] keyDataTypes;
 	private int[][] attributeDataTypes;
 	private int[] aggregationDataType;
-	private AggregationResultRow resultObject;
+	private IAggregationResultRow resultObject;
 
 	/**
 	 * 
@@ -47,7 +48,7 @@ public class AggregationResultSet implements IAggregationResultSet
 	 * @param attributeNames
 	 * @throws IOException
 	 */
-	AggregationResultSet( AggregationDefinition aggregation,
+	public AggregationResultSet( AggregationDefinition aggregation,
 			IDiskArray aggregationResultRow, String[][] keyNames,
 			String[][] attributeNames ) throws IOException
 	{
@@ -56,7 +57,7 @@ public class AggregationResultSet implements IAggregationResultSet
 		produceaggregationNameMap( );
 		this.keyNames = keyNames;
 		this.attributeNames = attributeNames;
-		this.resultObject = (AggregationResultRow) aggregationResultRow.get( 0 );
+		this.resultObject = (IAggregationResultRow) aggregationResultRow.get( 0 );
 		if ( resultObject.getLevelMembers() != null )
 		{
 			keyDataTypes = new int[resultObject.getLevelMembers().length][];
@@ -286,14 +287,14 @@ public class AggregationResultSet implements IAggregationResultSet
 			return;
 		}
 		currentPosition = index;
-		resultObject = (AggregationResultRow) aggregationResultRow.get( index );
+		resultObject = (IAggregationResultRow) aggregationResultRow.get( index );
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	public AggregationResultRow getCurrentRow( )
+	public IAggregationResultRow getCurrentRow( )
 	{
 		return this.resultObject;
 	}
@@ -473,6 +474,26 @@ public class AggregationResultSet implements IAggregationResultSet
 		return keyNames.length;
 	}
 
+	public String getLevelKeyName( int levelIndex, int keyIndex )
+	{
+		return keyNames[levelIndex][keyIndex];
+	}
+
+	public String getLevelName( int levelIndex )
+	{
+		return aggregation.getLevelNames( )[levelIndex];
+	}
+	
+	public String[][] getAggributeNames()
+	{
+		return this.attributeNames;
+	}
+	
+	public String[][] getKeyNames()
+	{
+		return this.keyNames;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet#getAggregationIndex(java.lang.String)
@@ -495,14 +516,13 @@ public class AggregationResultSet implements IAggregationResultSet
 	{
 		return aggregation.getLevelNames( );
 	}
-	
+
 	/**
 	 * 
-	 * @return
 	 */
-	public AggregationDefinition getAggregationDef( )
+	public AggregationDefinition getAggregationDefinition( )
 	{
-		return aggregation;
+		return this.aggregation;
 	}
 
 }

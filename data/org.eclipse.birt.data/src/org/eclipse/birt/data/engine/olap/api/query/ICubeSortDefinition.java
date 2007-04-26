@@ -11,23 +11,30 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.api.query;
 
-/**
- * ILevelDefinition defines Levels that are used in hierarchy.
- */
+import org.eclipse.birt.data.engine.api.ISortDefinition;
 
-public interface ILevelDefinition extends INamedObject
+
+
+/**
+ * The sort definition for cube query to define a sort against aggregations.  
+ */
+public interface ICubeSortDefinition extends ISortDefinition
 {
 	/**
-	 * Return the hierarchy this level belongs to.
+	 * The targeting level that this sort definition will act against.
 	 * @return
 	 */
-	public IHierarchyDefinition getHierarchy();
+	public ILevelDefinition getTargetLevel( );
 	
 	/**
-	 * Return whether this level is mirrored.In the edge a mirrored level will always
-	 * display all its members w/o considering whether that member's combination with
-	 * other members of other levels have accompany entry in facttable. 
+	 * Return the Axis qualifier level.
 	 * @return
 	 */
-	public boolean isMirrored();
+	public ILevelDefinition[] getAxisQualifierLevel( );
+	
+	/**
+	 * Return the Axis qualifier value
+	 * @return
+	 */
+	public Object[] getAxisQualifierValue( );
 }

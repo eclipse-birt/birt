@@ -173,7 +173,7 @@ public class AggregationResultSetSaveUtil
 		for( int i=0;i<resultSet.length( );i++)
 		{
 			resultSet.seek( i );
-			saveAggregationRow( outputStream, resultSet.getCurrentRow( ) );
+			saveAggregationRow( outputStream, (AggregationResultRow)resultSet.getCurrentRow( ) );
 			
 		}
 	}
@@ -226,7 +226,7 @@ public class AggregationResultSetSaveUtil
 		writeIntArray( outputStream, resultSet.getSortType( ) );
 		
 		//write aggregation
-		AggregationFunctionDefinition[] functions = resultSet.getAggregationDef( )
+		AggregationFunctionDefinition[] functions = resultSet.getAggregationDefinition( )
 				.getAggregationFunctions( );
 		String[] aggregationNames = null;
 		if ( functions != null )

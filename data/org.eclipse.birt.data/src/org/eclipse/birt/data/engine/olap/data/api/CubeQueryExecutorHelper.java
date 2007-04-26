@@ -37,6 +37,8 @@ import org.eclipse.birt.data.engine.olap.data.impl.Constants;
 import org.eclipse.birt.data.engine.olap.data.impl.Cube;
 import org.eclipse.birt.data.engine.olap.data.impl.SelectionFactory;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationExecutor;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortDefinition;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortHelper;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionResultIterator;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionRow;
@@ -59,6 +61,9 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	private Map dimJSFilterMap = null;
 	private Map dimRowForFilterMap = null;
 	
+	private List rowSort = null;
+	private List columnSort = null;
+	
 	/**
 	 * 
 	 * @param cube
@@ -70,6 +75,9 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		this.aggrFilters = new ArrayList( );
 		this.dimJSFilterMap = new HashMap( );
 		this.dimRowForFilterMap = new HashMap( );
+		
+		this.rowSort = new ArrayList();
+		this.columnSort = new ArrayList();
 	}
 	
 	/**
@@ -138,6 +146,23 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		IAggregationResultSet[] result = AggregationResultSetSaveUtil.load( name, reader );
 		reader.close( );
 		return result;
+	}
+	/**
+	 * 
+	 * @param sort
+	 */
+	public void addRowSort( AggrSortDefinition sort )
+	{
+		this.rowSort.add( sort );
+	}
+	
+	/**
+	 * 
+	 * @param sort
+	 */
+	public void addColumnSort( AggrSortDefinition sort )
+	{
+		this.columnSort.add( sort );
 	}
 	
 	/*
@@ -219,9 +244,34 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			resultSet = onePassExecute( aggregation, stopSign );
 			filters = oldFilters;//restore to original filter list to avoid conflict
 		}
+		
+		if ( !this.columnSort.isEmpty( ) )
+		{
+			IAggregationResultSet column = AggrSortHelper.sort( this.columnSort,
+					resultSet );
+			resultSet[findMatchedResultSetIndex( resultSet, column )] = column;
+		}
+		if ( !this.rowSort.isEmpty( ) )
+		{
+			IAggregationResultSet row = AggrSortHelper.sort( this.rowSort,
+					resultSet );
+			resultSet[findMatchedResultSetIndex( resultSet, row )] = row;
+		}
 		return resultSet;
 	}
 
+	private int findMatchedResultSetIndex( IAggregationResultSet[] rSets, IAggregationResultSet source ) throws DataException
+	{
+		for( int i = 0; i < rSets.length; i++ )
+		{
+			if( AggrSortHelper.isEdgeResultSet( rSets[i] ))
+			{
+				if( source.getLevelName( 0 ).equals( rSets[i].getLevelName( 0 ) ))
+					return i;
+			}
+		}
+		throw new DataException("Invalid");
+	}
 	/**
 	 * This method is responsible for computing the aggregation result according to the specified aggregation definitions.
 	 * @param aggregation

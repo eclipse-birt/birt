@@ -67,6 +67,22 @@ public class OlapExpressionUtil
 				.replaceFirst( "\\Q\"]\\E", "" );
 
 	}
+	
+	/**
+	 * Return the binding name of data["binding"]
+	 * @param expr
+	 * @return
+	 */
+	public static String getBindingName( String expr )
+	{
+		if ( expr == null )
+			return null;
+		if ( !expr.matches( "\\Qdata[\"\\E.*\\Q\"]\\E" ) )
+			return null;
+		return expr.replaceFirst( "\\Qdata[\"\\E", "" )
+				.replaceFirst( "\\Q\"]\\E", "" );
+	
+	}
 
 	/**
 	 * 
@@ -177,7 +193,7 @@ public class OlapExpressionUtil
 		 * 
 		 * @see org.eclipse.birt.data.engine.olap.util.ICubeAggrDefn#aggrName()
 		 */
-		public String aggrName( )
+		public String getAggrName( )
 		{
 			return this.aggrName;
 		}
