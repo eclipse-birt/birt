@@ -1,5 +1,7 @@
 package org.eclipse.birt.report.engine.layout.content;
 
+import java.util.Collection;
+
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IGroupContent;
@@ -129,7 +131,7 @@ public class ListContainerExecutor extends BlockStackingExecutor
 						next.close( );
 						next = new DOMReportItemExecutor(nextContent);
 						next.execute( );
-						nextContent.getParent( ).getChildren( ).add( nextContent );
+						add( nextContent.getParent( ).getChildren( ), nextContent );
 					}
 					if(next.hasNextChild( ))
 					{
@@ -164,7 +166,7 @@ public class ListContainerExecutor extends BlockStackingExecutor
 				if(childExecutor!=null)
 				{
 					IContent childContent = childExecutor.execute( );
-					content.getChildren( ).add( childContent );
+					add( content.getChildren( ), childContent );
 					execute(childExecutor, childContent);
 					childExecutor.close( );
 				}
@@ -180,7 +182,7 @@ public class ListContainerExecutor extends BlockStackingExecutor
 				{
 					IContent childContent = childExecutor.execute( );
 					removePageBreak(childContent);
-					content.getChildren( ).add( childContent );
+					add(content.getChildren( ), childContent );
 					execute(childExecutor, childContent);
 					childExecutor.close( );
 				}
@@ -196,7 +198,13 @@ public class ListContainerExecutor extends BlockStackingExecutor
 				style.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE, IStyle.AUTO_VALUE );
 			}
 		}
-		
-		
+	}
+	
+	private void add(Collection collection, IContent content )
+	{
+		if ( !collection.contains( content ) )
+		{
+			collection.add( content );
+		}
 	}
 }
