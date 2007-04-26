@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.ide.propertyeditor;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AdvancePropertyPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AlterPage;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AutoTextPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BookMarkExpressionPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BordersPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.CellPaddingPage;
@@ -632,7 +633,7 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 					"ReportPageGenerator.List.EventHandler", //$NON-NLS-1$
 					"ReportPageGenerator.List.AdvancedProperty",
 			}, new Class[]{
-					LabelPage.class,
+					AutoTextPage.class,
 					CellPaddingPage.class,
 					BordersPage.class,
 					ItemMarginPage.class,

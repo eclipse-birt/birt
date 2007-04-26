@@ -198,7 +198,7 @@ public abstract class Section
 
 	public void setGridPlaceholder( int hSpan, boolean grabSpace )
 	{
-		placeholder += hSpan;
+		placeholder = hSpan;
 		holderGrabSpace = grabSpace;
 	}
 

@@ -215,6 +215,8 @@ public class PageSectionId
 
 	public final static String SUB_TOTALS = "SUB_TOTALS";
 
+	public static final String AUTOTEXT_STYLE = "AUTOTEXT_STYLE";
+
 
 
 

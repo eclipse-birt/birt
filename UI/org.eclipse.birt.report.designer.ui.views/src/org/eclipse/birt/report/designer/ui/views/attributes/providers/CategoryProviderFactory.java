@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AdvancePropertyPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AlterPage;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AutoTextPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BookMarkExpressionPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BordersPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.CellPaddingPage;
@@ -672,7 +673,7 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 					"ReportPageGenerator.List.NamedExpressions", //$NON-NLS-1$
 					"ReportPageGenerator.List.AdvancedProperty",
 			}, new Class[]{
-					LabelPage.class,
+					AutoTextPage.class,
 					CellPaddingPage.class,
 					BordersPage.class,
 					ItemMarginPage.class,
