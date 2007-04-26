@@ -308,9 +308,13 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 				MeasureViewHandle measureView = (MeasureViewHandle) measureList.get( j );
 				String function = levelView.getAggregationFunction( measureView );
 				if ( function == null )
-					functionList.add( "" ); //$NON-NLS-1$
+				{
+					functionList.add( DEFAULT_MEASURE_FUNCTION );
+				}
 				else
+				{
 					functionList.add( function );
+				}
 			}
 			functionListMap.put( name, functionList );
 			measureListMap.put( name, measureList );
@@ -328,7 +332,7 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 					measureView );
 			if ( function == null )
 			{
-				grandFunctionList.add( "" ); //$NON-NLS-1$
+				grandFunctionList.add( DEFAULT_MEASURE_FUNCTION );
 			}
 			else
 			{

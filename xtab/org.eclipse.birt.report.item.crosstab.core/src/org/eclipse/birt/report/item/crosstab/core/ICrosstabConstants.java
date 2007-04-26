@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.item.crosstab.core;
 
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+
 /**
  * ICrosstabConstants
  */
@@ -60,7 +62,6 @@ public interface ICrosstabConstants
 	 * Extension name of header cell.
 	 */
 	// String HEADER_CELL_EXTENSION_NAME = "HeaderCell"; //$NON-NLS-1$
-	
 	/**
 	 * Constants of row axis type.
 	 */
@@ -70,7 +71,7 @@ public interface ICrosstabConstants
 	 * Constants of column axis type.
 	 */
 	int COLUMN_AXIS_TYPE = 1;
-	
+
 	/**
 	 * Constants of not effective axis type.
 	 */
@@ -93,9 +94,11 @@ public interface ICrosstabConstants
 	 */
 	String AGGREGATION_HEADER_LOCATION_BEFORE = "before"; //$NON-NLS-1$
 	String AGGREGATION_HEADER_LOCATION_AFTER = "after"; //$NON-NLS-1$
-	
+
 	String CROSSTAB_SELECTOR = "crosstab"; //$NON-NLS-1$
 	String CROSSTAB_CELL_SELECTOR = "crosstab-cell"; //$NON-NLS-1$
 	String CROSSTAB_HEADER_SELECTOR = "crosstab-header"; //$NON-NLS-1$
 	String CROSSTAB_DETAIL_SELECTOR = "crosstab-detail"; //$NON-NLS-1$
+
+	String DEFAULT_MEASURE_FUNCTION = DesignChoiceConstants.MEASURE_FUNCTION_SUM;
 }

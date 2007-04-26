@@ -257,7 +257,7 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 						if ( measureView.getCrosstab( ) != crosstab )
 							continue;
 
-						String function = functionList == null ? null
+						String function = functionList == null ? DEFAULT_MEASURE_FUNCTION
 								: (String) functionList.get( i );
 						// if checkCounterMeasureList is true, then we need to
 						// check the counter level view is aggregated on the
@@ -304,7 +304,7 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 				MeasureViewHandle measureView = (MeasureViewHandle) measureList.get( i );
 				if ( measureView.getCrosstab( ) != crosstab )
 					continue;
-				String function = functionList == null ? null
+				String function = functionList == null ? DEFAULT_MEASURE_FUNCTION
 						: (String) functionList.get( i );
 				// if checkCounterMeasureList is true, then we need to
 				// check the counter level view is aggregated on the
@@ -398,7 +398,7 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 						if ( measureView.getCrosstab( ) != crosstab )
 							continue;
 
-						String function = functionList == null ? null
+						String function = functionList == null ? DEFAULT_MEASURE_FUNCTION
 								: (String) functionList.get( i );
 						// if checkCounterMeasureList is true, then we
 						// need to check the counter level view is
@@ -437,7 +437,7 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 				if ( measureView.getCrosstab( ) != crosstab )
 					continue;
 
-				String function = functionList == null ? null
+				String function = functionList == null ? DEFAULT_MEASURE_FUNCTION
 						: (String) functionList.get( i );
 				// if checkCounterMeasureList is true, then we need to
 				// check the counter level view is aggregated on the
@@ -740,6 +740,8 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 				toValidateAxisType,
 				aggregationLevels );
 
+		int toValidataDimCount = crosstab.getDimensionCount( toValidateAxisType );
+
 		if ( aggregationLevels.size( ) > 0 && hasOldAggregation )
 		{
 			for ( int i = 0; i < aggregationLevels.size( ); i++ )
@@ -765,12 +767,17 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 				}
 				else
 				{
-					if ( getAggregation( measureView,
-							toValidateLevelView,
-							levelView ) == null )
+					// if the validate axis is blank, we should skip the measure
+					// detail areas.
+					if ( toValidataDimCount > 0 || !levelView.isInnerMost( ) )
 					{
-						unAggregationLevels.add( levelView );
-						unAggregationCount++;
+						if ( getAggregation( measureView,
+								toValidateLevelView,
+								levelView ) == null )
+						{
+							unAggregationLevels.add( levelView );
+							unAggregationCount++;
+						}
 					}
 				}
 			}
