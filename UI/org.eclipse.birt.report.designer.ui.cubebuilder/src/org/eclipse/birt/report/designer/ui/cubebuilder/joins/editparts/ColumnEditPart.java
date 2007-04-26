@@ -93,31 +93,31 @@ public class ColumnEditPart extends NodeEditPartHelper implements Listener
 		label = new Label( name );
 		columnFigure.add( label );
 
-		// add ColumnEditPart state change listener
-		addEditPartListener( new org.eclipse.gef.EditPartListener.Stub( ) {
-
-			public void selectedStateChanged( org.eclipse.gef.EditPart editpart )
-			{
-				// get self parent MapEditpart
-				NodeEditPartHelper tableEditPart = (NodeEditPartHelper) editpart.getParent( );
-				if ( editpart.hasFocus( ) )
-				{
-				}
-				else
-				{
-					// set the MapEditPart selected state based on the
-					// ColumnEditPart selected state
-					if ( editpart.getSelected( ) == org.eclipse.gef.EditPart.SELECTED_NONE )
-					{
-						tableEditPart.setSelected( org.eclipse.gef.EditPart.SELECTED_NONE );
-					}
-					else if ( editpart.getSelected( ) == org.eclipse.gef.EditPart.SELECTED_PRIMARY )
-					{
-						tableEditPart.setSelected( org.eclipse.gef.EditPart.SELECTED_PRIMARY );
-					}
-				}
-			}
-		} );
+//		// add ColumnEditPart state change listener
+//		addEditPartListener( new org.eclipse.gef.EditPartListener.Stub( ) {
+//
+//			public void selectedStateChanged( org.eclipse.gef.EditPart editpart )
+//			{
+//				// get self parent MapEditpart
+//				NodeEditPartHelper tableEditPart = (NodeEditPartHelper) editpart.getParent( );
+//				if ( editpart.hasFocus( ) )
+//				{
+//				}
+//				else
+//				{
+//					// set the MapEditPart selected state based on the
+//					// ColumnEditPart selected state
+//					if ( editpart.getSelected( ) == org.eclipse.gef.EditPart.SELECTED_NONE )
+//					{
+//						tableEditPart.setSelected( org.eclipse.gef.EditPart.SELECTED_NONE );
+//					}
+//					else if ( editpart.getSelected( ) == org.eclipse.gef.EditPart.SELECTED_PRIMARY )
+//					{
+//						tableEditPart.setSelected( org.eclipse.gef.EditPart.SELECTED_PRIMARY );
+//					}
+//				}
+//			}
+//		} );
 
 	
 
