@@ -11,11 +11,17 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
+import java.util.List;
+
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.LibraryDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SeperatorSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextSection;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -24,10 +30,25 @@ import org.eclipse.swt.widgets.Composite;
 
 public class ScalarParameterPage extends AttributePage
 {
-	public void buildUI( Composite parent  )
+
+	private SeperatorSection seperatorSection;
+	private TextSection librarySection;
+
+	public void buildUI( Composite parent )
 	{
 		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 3 ,15) );
+		container.setLayout( WidgetUtil.createGridLayout( 3, 15 ) );
+
+		LibraryDescriptorProvider provider = new LibraryDescriptorProvider( );
+		librarySection = new TextSection( provider.getDisplayName( ),
+				container,
+				true );
+		librarySection.setProvider( provider );
+		librarySection.setGridPlaceholder( 1, true );
+		addSection( PageSectionId.SCALAR_PARAMETER_LIBRARY, librarySection );
+
+		seperatorSection = new SeperatorSection( container, SWT.HORIZONTAL );
+		addSection( PageSectionId.SCALAR_PARAMETER_SEPERATOR, seperatorSection );
 
 		// Defines providers.
 
@@ -86,5 +107,25 @@ public class ScalarParameterPage extends AttributePage
 
 		createSections( );
 		layoutSections( );
+	}
+
+	public void refresh( )
+	{
+		if ( input instanceof List
+				&& DEUtil.getMultiSelectionHandle( (List) input )
+						.isExtendedElements( ) )
+		{
+			librarySection.setHidden( false );
+			seperatorSection.setHidden( false );
+			librarySection.load( );
+		}
+		else
+		{
+			librarySection.setHidden( true );
+			seperatorSection.setHidden( true );
+		}
+		container.layout( true );
+		container.redraw( );
+		super.refresh( );
 	}
 }
