@@ -49,6 +49,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionPropertyDefn;
@@ -671,6 +672,30 @@ public class PeerExtensionTest extends BaseTestCase
 	}
 
 	/**
+	 * Test client reference in extended item.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testBackRef( ) throws Exception
+	{
+		openDesign( "PeerExtensionTest_8.xml" );//$NON-NLS-1$
+		DesignElementHandle extendedItem = designHandle
+				.findElement( "testTable" );//$NON-NLS-1$
+
+		DesignElementHandle cubeHandle = (DesignElementHandle) designHandle
+				.getCubes( ).get( 0 );
+		
+		extendedItem.setProperty( "cube" , "Customer Cube" );//$NON-NLS-1$//$NON-NLS-2$
+
+		Iterator iterator = cubeHandle.clientsIterator( );
+		assertTrue( iterator.hasNext( ) );
+		DesignElementHandle client = (DesignElementHandle) iterator.next( );
+		assertEquals( "testTable", client.getName( ) );//$NON-NLS-1$
+		assertFalse( iterator.hasNext( ) );
+	}
+
+	/**
 	 * Tests IReportItem :: getFunctions.
 	 * 
 	 * @throws Exception
@@ -739,7 +764,7 @@ public class PeerExtensionTest extends BaseTestCase
 		assertEquals( "java.lang.String", boxMethod.getReturnType( ) ); //$NON-NLS-1$
 
 		// IReportItem.getMethods() overrides that defined in plugin.xml.
-		
+
 		method = (IMethodInfo) retList.get( 2 );
 		assertEquals( "performOnCreate", method.getName( ) ); //$NON-NLS-1$
 		assertEquals( "java.lang.String", method.getReturnType( ) ); //$NON-NLS-1$
