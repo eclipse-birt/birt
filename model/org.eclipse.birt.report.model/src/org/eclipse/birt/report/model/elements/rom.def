@@ -506,6 +506,22 @@
     <Choice displayNameID="Choices.measureFunction.count" name="count"/>
     <Choice displayNameID="Choices.measureFunction.min" name="min"/>
     <Choice displayNameID="Choices.measureFunction.max" name="max"/>
+    <Choice displayNameID="Choices.measureFunction.average" name="average"/>
+    <Choice displayNameID="Choices.measureFunction.weighted-avg" name="weighted-avg"/>
+    <Choice displayNameID="Choices.measureFunction.stddev" name="stddev"/>
+    <Choice displayNameID="Choices.measureFunction.first" name="first"/>
+    <Choice displayNameID="Choices.measureFunction.last" name="last"/>
+    <Choice displayNameID="Choices.measureFunction.mode" name="mode"/>
+    <Choice displayNameID="Choices.measureFunction.moving-ave" name="moving-ave"/>
+    <Choice displayNameID="Choices.measureFunction.median" name="median"/>
+    <Choice displayNameID="Choices.measureFunction.variance" name="variance"/>
+    <Choice displayNameID="Choices.measureFunction.running-sum" name="running-sum"/>
+    <Choice displayNameID="Choices.measureFunction.irr" name="irr"/>
+    <Choice displayNameID="Choices.measureFunction.mirr" name="mirr"/>
+    <Choice displayNameID="Choices.measureFunction.npv" name="npv"/>
+    <Choice displayNameID="Choices.measureFunction.running-npv" name="running-npv"/>
+    <Choice displayNameID="Choices.measureFunction.count-distinct" name="count-distinct"/>
+    <Choice displayNameID="Choices.measureFunction.running-count" name="running-count"/>
   </ChoiceType>
   <ChoiceType name="levelType">
     <Choice displayNameID="Choices.levelType.dynamic" name="dynamic"/>

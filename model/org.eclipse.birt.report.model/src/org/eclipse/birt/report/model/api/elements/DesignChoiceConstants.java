@@ -768,6 +768,22 @@ public interface DesignChoiceConstants
 	public static final String MEASURE_FUNCTION_COUNT = "count"; //$NON-NLS-1$
 	public static final String MEASURE_FUNCTION_MIN = "min"; //$NON-NLS-1$
 	public static final String MEASURE_FUNCTION_MAX = "max"; //$NON-NLS-1$
+	public static final String MEASURE_FUNCTION_AVERAGE = "average"; //$NON-NLS-1$
+	public static final String MEASURE_FUNCTION_WEIGHTEDAVG = "weighted-avg"; //$NON-NLS-1$
+	public static final String MEASURE_FUNCTION_STDDEV = "stddev"; //$NON-NLS-1$
+	public static final String MEASURE_FUNCTION_FIRST = "first"; //$NON-NLS-1$
+	public static final String MEASURE_FUNCTION_LAST = "last"; //$NON-NLS-1$
+	public static final String MEASURE_FUNCTION_MODE = "mode"; //$NON-NLS-1$
+	public static final String MEASURE_FUNCTION_MOVINGAVE = "moving-ave"; //$NON-NLS-1$
+	public static final String MEASURE_FUNCTION_MEDIAN = "median"; //$NON-NLS-1$
+	public static final String MEASURE_FUNCTION_VARIANCE = "variance"; //$NON-NLS-1$
+	public static final String MEASURE_FUNCTION_RUNNINGSUM = "running-sum"; //$NON-NLS-1$
+	public static final String MEASURE_FUNCTION_IRR = "irr"; //$NON-NLS-1$
+	public static final String MEASURE_FUNCTION_MIRR = "mirr"; //$NON-NLS-1$
+	public static final String MEASURE_FUNCTION_NPV = "npv"; //$NON-NLS-1$
+	public static final String MEASURE_FUNCTION_RUNNINGNPV = "running-npv"; //$NON-NLS-1$
+	public static final String MEASURE_FUNCTION_COUNTDISTINCT = "count-distinct"; //$NON-NLS-1$
+	public static final String MEASURE_FUNCTION_RUNNINGCOUNT = "running-count"; //$NON-NLS-1$
 
 	/**
 	 * Level type constants.
