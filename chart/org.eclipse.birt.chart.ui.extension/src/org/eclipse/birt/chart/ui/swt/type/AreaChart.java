@@ -397,7 +397,8 @@ public class AreaChart extends DefaultChartTypeImpl
 					{
 						if ( sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) )
 						{
-							if ( !ChartPreviewPainter.isLivePreviewActive( ) && !isNumbericAxis( (Axis) axes.get( i ) ) )
+							if ( !ChartPreviewPainter.isLivePreviewActive( )
+									&& !isNumbericAxis( (Axis) axes.get( i ) ) )
 							{
 								( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
 							}
@@ -413,7 +414,8 @@ public class AreaChart extends DefaultChartTypeImpl
 							Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
 							if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
 							{
-								if ( !ChartPreviewPainter.isLivePreviewActive( ) && !isNumbericAxis( (Axis) axes.get( i ) ) )
+								if ( !ChartPreviewPainter.isLivePreviewActive( )
+										&& !isNumbericAxis( (Axis) axes.get( i ) ) )
 								{
 									( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
 								}
@@ -428,6 +430,10 @@ public class AreaChart extends DefaultChartTypeImpl
 				}
 			}
 			else if ( currentChart.getType( ).equals( BarChart.TYPE_LITERAL )
+					|| currentChart.getType( ).equals( TubeChart.TYPE_LITERAL )
+					|| currentChart.getType( ).equals( ConeChart.TYPE_LITERAL )
+					|| currentChart.getType( )
+							.equals( PyramidChart.TYPE_LITERAL )
 					|| currentChart.getType( ).equals( LineChart.TYPE_LITERAL )
 					|| currentChart.getType( ).equals( StockChart.TYPE_LITERAL )
 					|| currentChart.getType( )
@@ -452,7 +458,8 @@ public class AreaChart extends DefaultChartTypeImpl
 				{
 					if ( sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) )
 					{
-						if ( !ChartPreviewPainter.isLivePreviewActive( ) && !isNumbericAxis( (Axis) axes.get( i ) ) )
+						if ( !ChartPreviewPainter.isLivePreviewActive( )
+								&& !isNumbericAxis( (Axis) axes.get( i ) ) )
 						{
 							( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
 						}
@@ -469,7 +476,8 @@ public class AreaChart extends DefaultChartTypeImpl
 						series = getConvertedSeries( series, seriesIndex++ );
 						if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
 						{
-							if ( !ChartPreviewPainter.isLivePreviewActive( ) && !isNumbericAxis( (Axis) axes.get( i ) ) )
+							if ( !ChartPreviewPainter.isLivePreviewActive( )
+									&& !isNumbericAxis( (Axis) axes.get( i ) ) )
 							{
 								( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
 							}
@@ -671,7 +679,7 @@ public class AreaChart extends DefaultChartTypeImpl
 
 		return currentChart;
 	}
-	
+
 	private boolean isNumbericAxis( Axis axis )
 	{
 		return ( axis.getType( ).getValue( ) == AxisType.LINEAR )

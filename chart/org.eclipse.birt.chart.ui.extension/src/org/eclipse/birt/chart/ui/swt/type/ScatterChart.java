@@ -259,6 +259,10 @@ public class ScatterChart extends DefaultChartTypeImpl
 				}
 			}
 			else if ( currentChart.getType( ).equals( BarChart.TYPE_LITERAL )
+					|| currentChart.getType( ).equals( TubeChart.TYPE_LITERAL )
+					|| currentChart.getType( ).equals( ConeChart.TYPE_LITERAL )
+					|| currentChart.getType( )
+							.equals( PyramidChart.TYPE_LITERAL )
 					|| currentChart.getType( ).equals( StockChart.TYPE_LITERAL )
 					|| currentChart.getType( ).equals( AreaChart.TYPE_LITERAL )
 					|| currentChart.getType( ).equals( LineChart.TYPE_LITERAL )
