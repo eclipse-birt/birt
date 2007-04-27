@@ -12,13 +12,14 @@
 package org.eclipse.birt.core.format;
 
 import java.text.ParseException;
-import com.ibm.icu.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import com.ibm.icu.util.ULocale;
-import com.ibm.icu.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.ibm.icu.text.SimpleDateFormat;
+import com.ibm.icu.util.TimeZone;
+import com.ibm.icu.util.ULocale;
 
 /**
  * DateFormatter.
@@ -167,7 +168,7 @@ public class DateFormatter
 			else if ( formatString.equals( TIME_UNFORMATTED ) )
 			{
 				formatPattern = "";
-				dateFormat = com.ibm.icu.text.DateFormat.getTimeInstance( com.ibm.icu.text.DateFormat.SHORT,
+				dateFormat = com.ibm.icu.text.DateFormat.getTimeInstance( com.ibm.icu.text.DateFormat.MEDIUM,
 						locale );
 				return;
 			}
@@ -367,6 +368,21 @@ public class DateFormatter
 	{
 		try
 		{
+			if ( formatPattern == null || formatPattern.length( ) == 0)
+			{
+				if ( date instanceof java.sql.Date )
+				{
+					dateFormat = com.ibm.icu.text.DateFormat.getDateInstance(
+							com.ibm.icu.text.DateFormat.MEDIUM, locale );
+					return dateFormat.format( date );
+				}
+				else if ( date instanceof java.sql.Time )
+				{
+					dateFormat = com.ibm.icu.text.DateFormat.getTimeInstance(
+							com.ibm.icu.text.DateFormat.MEDIUM, locale );
+					return dateFormat.format( date );
+				}
+			}
 			return dateFormat.format( date );
 		}
 		catch ( Exception e )
