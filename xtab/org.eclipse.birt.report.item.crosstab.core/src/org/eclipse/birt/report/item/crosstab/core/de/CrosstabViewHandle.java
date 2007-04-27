@@ -46,6 +46,27 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle implements
 	}
 
 	/**
+	 * Returns if current level is mirrored
+	 * 
+	 * @return
+	 */
+	public boolean isMirrored( )
+	{
+		return handle.getBooleanProperty( MIRRORED_PROP );
+	}
+
+	/**
+	 * Sets mirrrored property for current level.
+	 * 
+	 * @param value
+	 * @throws SemanticException
+	 */
+	public void setMirrored( boolean value ) throws SemanticException
+	{
+		handle.setProperty( MIRRORED_PROP, Boolean.valueOf( value ) );
+	}
+
+	/**
 	 * Gets the property handle for grand total.
 	 * 
 	 * @return grand total property handle

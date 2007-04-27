@@ -22,12 +22,10 @@ import javax.olap.cursor.EdgeCursor;
 
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 /**
  * CrosstabGroupExecutor
@@ -50,7 +48,7 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 	private boolean endGroup;
 	private boolean hasGroup;
 
-	private boolean notifyNextGroupPageBreak;
+	boolean notifyNextGroupPageBreak;
 
 	public CrosstabGroupExecutor( BaseCrosstabExecutor parent, int groupIndex,
 			EdgeCursor rowCursor )
@@ -68,7 +66,7 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 		{
 			try
 			{
-				handleGroupPageBreakAfter( );
+				handleGroupPageBreakAfter( lastLevel, rowCursor );
 			}
 			catch ( OLAPException e )
 			{
@@ -83,6 +81,7 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 		groupCursors = null;
 		lastLevel = null;
 		elements = null;
+		rowCursor = null;
 	}
 
 	public IContent execute( )
@@ -109,8 +108,6 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 
 				groupCursors = rowCursor.getDimensionCursor( );
 
-				handleGroupPageBreakBefore( );
-
 				if ( currentGroupIndex > 0 )
 				{
 					EdgeGroup lastGroup = (EdgeGroup) rowGroups.get( currentGroupIndex - 1 );
@@ -124,6 +121,8 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 								lastDimensionIndex ).getLevel( lastLevelIndex );
 					}
 				}
+
+				handleGroupPageBreakBefore( lastLevel, rowCursor );
 
 				collectExecutable( );
 			}
@@ -153,81 +152,6 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 		}
 
 		return false;
-	}
-
-	private void handleGroupPageBreakBefore( ) throws OLAPException
-	{
-		EdgeGroup currentGroup = (EdgeGroup) rowGroups.get( currentGroupIndex );
-		LevelViewHandle currentLevel = crosstabItem.getDimension( ROW_AXIS_TYPE,
-				currentGroup.dimensionIndex )
-				.getLevel( currentGroup.levelIndex );
-
-		String pageBreakBefore = currentLevel.getPageBreakBefore( );
-		if ( DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS.equals( pageBreakBefore )
-				|| ( DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS_EXCLUDING_FIRST.equals( pageBreakBefore ) && !rowCursor.isFirst( ) ) )
-		{
-			( (ITableGroupContent) getContent( ) ).getStyle( )
-					.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
-							IStyle.ALWAYS_VALUE );
-		}
-
-		String pageBreakAfter = currentLevel.getPageBreakAfter( );
-		if ( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS.equals( pageBreakAfter ) )
-		{
-			( (ITableGroupContent) getContent( ) ).getStyle( )
-					.setProperty( IStyle.STYLE_PAGE_BREAK_AFTER,
-							IStyle.ALWAYS_VALUE );
-		}
-
-		// handle special logic for page_break_after_excluding_last
-		// TODO confirm the correct behavior
-		boolean hasPageBreak = false;
-		IReportItemExecutor parentExecutor = getParent( );
-
-		while ( parentExecutor instanceof CrosstabGroupExecutor )
-		{
-			if ( ( (CrosstabGroupExecutor) parentExecutor ).notifyNextGroupPageBreak )
-			{
-				( (CrosstabGroupExecutor) parentExecutor ).notifyNextGroupPageBreak = false;
-
-				hasPageBreak = true;
-			}
-
-			parentExecutor = parentExecutor.getParent( );
-		}
-
-		if ( hasPageBreak )
-		{
-			( (ITableGroupContent) getContent( ) ).getStyle( )
-					.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
-							IStyle.ALWAYS_VALUE );
-		}
-	}
-
-	private void handleGroupPageBreakAfter( ) throws OLAPException
-	{
-		EdgeGroup currentGroup = (EdgeGroup) rowGroups.get( currentGroupIndex );
-		LevelViewHandle currentLevel = crosstabItem.getDimension( ROW_AXIS_TYPE,
-				currentGroup.dimensionIndex )
-				.getLevel( currentGroup.levelIndex );
-
-		// handle page_break_after_excluding_last
-		String pageBreakAfter = currentLevel.getPageBreakAfter( );
-		IReportItemExecutor parentExecutor = getParent( );
-
-		if ( parentExecutor instanceof CrosstabGroupExecutor
-				&& DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS_EXCLUDING_LAST.equals( pageBreakAfter )
-				&& !rowCursor.isLast( ) )
-		{
-
-			// TODO confirm the correct behavior
-			while ( parentExecutor instanceof CrosstabGroupExecutor )
-			{
-				( (CrosstabGroupExecutor) parentExecutor ).notifyNextGroupPageBreak = true;
-
-				parentExecutor = parentExecutor.getParent( );
-			}
-		}
 	}
 
 	private int getStartingGroupLevel( ) throws OLAPException
@@ -288,6 +212,8 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 
 		int startingGroupIndex = getStartingGroupLevel( );
 
+		// check group start on previous group, to show header on
+		// previous group
 		if ( startingGroupIndex <= currentGroupIndex )
 		{
 			if ( totalMeasureCount > 0
@@ -330,6 +256,8 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 
 		int endingGroupIndex = getEndingGroupLevel( );
 
+		// check group end on previous group, to show footer on
+		// previous group
 		if ( endingGroupIndex <= currentGroupIndex )
 		{
 			if ( totalMeasureCount > 0
@@ -384,6 +312,8 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 				{
 					int endingGroupIndex = getEndingGroupLevel( );
 
+					// check group end on previous group, to show footer on
+					// previous group
 					if ( endingGroupIndex <= currentGroupIndex )
 					{
 						currentElement = 0;

@@ -23,6 +23,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IExecutorContext;
@@ -30,8 +31,10 @@ import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 /**
  * the base class for all crosstab element executor
@@ -85,11 +88,12 @@ public abstract class BaseCrosstabExecutor implements
 	protected void executeQuery( AbstractCrosstabItemHandle handle )
 	{
 		DesignElementHandle elementHandle = crosstabItem.getModelHandle( );
-		
+
 		IDataQueryDefinition query = context.getQueries( elementHandle )[0];
 
 		IBaseResultSet rset = context.executeQuery( getParentResultSet( ),
-				query, elementHandle );
+				query,
+				elementHandle );
 
 		if ( rset instanceof ICubeResultSet )
 		{
@@ -284,6 +288,79 @@ public abstract class BaseCrosstabExecutor implements
 			}
 		}
 		return null;
+	}
+
+	protected void handleGroupPageBreakBefore( LevelViewHandle level,
+			EdgeCursor rowCursor ) throws OLAPException
+	{
+		if ( level != null )
+		{
+			String pageBreakBefore = level.getPageBreakBefore( );
+			if ( DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS.equals( pageBreakBefore )
+					|| ( DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS_EXCLUDING_FIRST.equals( pageBreakBefore ) && !rowCursor.isFirst( ) ) )
+			{
+				getContent( ).getStyle( )
+						.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
+								IStyle.ALWAYS_VALUE );
+			}
+
+			String pageBreakAfter = level.getPageBreakAfter( );
+			if ( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS.equals( pageBreakAfter ) )
+			{
+				getContent( ).getStyle( )
+						.setProperty( IStyle.STYLE_PAGE_BREAK_AFTER,
+								IStyle.ALWAYS_VALUE );
+			}
+		}
+
+		// handle special logic for page_break_after_excluding_last
+		// TODO confirm the correct behavior
+		boolean hasPageBreak = false;
+		IReportItemExecutor parentExecutor = getParent( );
+
+		while ( parentExecutor instanceof CrosstabGroupExecutor )
+		{
+			if ( ( (CrosstabGroupExecutor) parentExecutor ).notifyNextGroupPageBreak )
+			{
+				( (CrosstabGroupExecutor) parentExecutor ).notifyNextGroupPageBreak = false;
+
+				hasPageBreak = true;
+			}
+
+			parentExecutor = parentExecutor.getParent( );
+		}
+
+		if ( hasPageBreak )
+		{
+			getContent( ).getStyle( )
+					.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
+							IStyle.ALWAYS_VALUE );
+		}
+	}
+
+	protected void handleGroupPageBreakAfter( LevelViewHandle level,
+			EdgeCursor rowCursor ) throws OLAPException
+	{
+		if ( level != null )
+		{
+			// handle page_break_after_excluding_last
+			String pageBreakAfter = level.getPageBreakAfter( );
+			IReportItemExecutor parentExecutor = getParent( );
+
+			if ( parentExecutor instanceof CrosstabGroupExecutor
+					&& DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS_EXCLUDING_LAST.equals( pageBreakAfter )
+					&& !rowCursor.isLast( ) )
+			{
+
+				// TODO confirm the correct behavior
+				while ( parentExecutor instanceof CrosstabGroupExecutor )
+				{
+					( (CrosstabGroupExecutor) parentExecutor ).notifyNextGroupPageBreak = true;
+
+					parentExecutor = parentExecutor.getParent( );
+				}
+			}
+		}
 	}
 
 	public void close( )

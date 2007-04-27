@@ -32,4 +32,10 @@ public interface ICrosstabViewConstants
 	 * Name of the property that defines a list of CrosstabMemberValue.
 	 */
 	String MEMBERS_PROP = "members"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property that specifies if the view is mirrored.
+	 */
+	String MIRRORED_PROP = "mirrored"; //$NON-NLS-1$
+
 }

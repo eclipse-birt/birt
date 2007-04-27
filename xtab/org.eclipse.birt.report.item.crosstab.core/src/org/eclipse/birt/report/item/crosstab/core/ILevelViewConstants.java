@@ -73,9 +73,4 @@ public interface ILevelViewConstants
 	 */
 	String AGGREGATION_HEADER_PROP = "aggregationHeader"; //$NON-NLS-1$
 
-	/**
-	 * Name of the property that specifies if the level is mirrored.
-	 */
-	String MIRRORED_PROP = "mirrored"; //$NON-NLS-1$
-
 }

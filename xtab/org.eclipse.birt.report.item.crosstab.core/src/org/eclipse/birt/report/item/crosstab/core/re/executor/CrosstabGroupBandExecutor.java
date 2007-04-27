@@ -11,10 +11,18 @@
 
 package org.eclipse.birt.report.item.crosstab.core.re.executor;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.olap.OLAPException;
+import javax.olap.cursor.EdgeCursor;
+
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
+import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 
 /**
  * CrosstabGroupBandExecutor
@@ -22,11 +30,15 @@ import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 public class CrosstabGroupBandExecutor extends BaseCrosstabExecutor
 {
 
+	private static final Logger logger = Logger.getLogger( CrosstabGroupBandExecutor.class.getName( ) );
+
 	private int bandType;
 	private int dimensionIndex, levelIndex;
 
 	private int currentRow;
 	private int totalRow;
+	private LevelViewHandle lastLevel;
+	private EdgeCursor rowCursor;
 
 	public CrosstabGroupBandExecutor( BaseCrosstabExecutor parent,
 			int dimensionIndex, int levelIndex, int bandType )
@@ -36,6 +48,28 @@ public class CrosstabGroupBandExecutor extends BaseCrosstabExecutor
 		this.bandType = bandType;
 		this.dimensionIndex = dimensionIndex;
 		this.levelIndex = levelIndex;
+	}
+
+	public void close( )
+	{
+		if ( bandType == IBandContent.BAND_DETAIL )
+		{
+			try
+			{
+				handleGroupPageBreakAfter( lastLevel, rowCursor );
+			}
+			catch ( OLAPException e )
+			{
+				logger.log( Level.SEVERE,
+						Messages.getString( "CrosstabGroupExecutor.error.prepare.group" ), //$NON-NLS-1$
+						e );
+			}
+		}
+
+		super.close( );
+
+		lastLevel = null;
+		rowCursor = null;
 	}
 
 	public IContent execute( )
@@ -54,6 +88,25 @@ public class CrosstabGroupBandExecutor extends BaseCrosstabExecutor
 	private void prepareChildren( )
 	{
 		currentRow = 0;
+
+		if ( bandType == IBandContent.BAND_DETAIL )
+		{
+			try
+			{
+				rowCursor = getRowEdgeCursor( );
+
+				lastLevel = crosstabItem.getDimension( ROW_AXIS_TYPE,
+						dimensionIndex ).getLevel( levelIndex );
+
+				handleGroupPageBreakBefore( lastLevel, rowCursor );
+			}
+			catch ( OLAPException e )
+			{
+				logger.log( Level.SEVERE,
+						Messages.getString( "CrosstabGroupExecutor.error.prepare.group" ), //$NON-NLS-1$
+						e );
+			}
+		}
 
 		int count = crosstabItem.getMeasureCount( );
 		totalRow = ( count > 1 && MEASURE_DIRECTION_VERTICAL.equals( crosstabItem.getMeasureDirection( ) ) ) ? count

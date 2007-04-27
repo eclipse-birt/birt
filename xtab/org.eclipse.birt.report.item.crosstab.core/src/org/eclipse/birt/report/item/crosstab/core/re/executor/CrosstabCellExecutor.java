@@ -24,7 +24,6 @@ import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
-import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 
@@ -79,8 +78,7 @@ public class CrosstabCellExecutor extends BaseCrosstabExecutor
 		content.setColumn( colIndex );
 
 		// user crosstab style for blank cells
-		processStyle( ( cellHandle == null ) ? (AbstractCrosstabItemHandle) crosstabItem
-				: (AbstractCrosstabItemHandle) cellHandle );
+		processStyle( cellHandle );
 		processVisibility( cellHandle );
 		processBookmark( cellHandle );
 		processAction( cellHandle );
