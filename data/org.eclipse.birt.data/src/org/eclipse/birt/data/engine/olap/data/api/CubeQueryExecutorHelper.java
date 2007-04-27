@@ -49,6 +49,7 @@ import org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.util.filter.DimensionFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.IJsFilter;
+import org.eclipse.birt.data.engine.olap.util.filter.IResultRow;
 
 /**
  * 
@@ -859,12 +860,95 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 
 /**
  * 
- * @author Administrator
- *
  */
 class LevelFilter
 {
 	String dimensionName;
 	String levelName;
 	ISelection[] selections;
+}
+
+/**
+ * 
+ */
+class RowForFilter implements IResultRow
+{
+
+	private HashMap levelMap = new HashMap( );
+	private HashMap aggrMap = new HashMap( );
+	private Object[] levelValues;
+	private Object[] aggrValues;
+
+	/**
+	 * 
+	 * @param levelNames
+	 */
+	RowForFilter( String[] levelNames )
+	{
+		for ( int i = 0; i < levelNames.length; i++ )
+		{
+			levelMap.put( levelNames[i], new Integer( i ) );
+		}
+	}
+
+	/**
+	 * 
+	 * @param levelNames
+	 * @param aggrNames
+	 */
+	RowForFilter( String[] levelNames, String[] aggrNames )
+	{
+		this( levelNames );
+		for ( int i = 0; i < aggrNames.length; i++ )
+		{
+			aggrMap.put( aggrNames[i], new Integer( i ) );
+		}
+	}
+
+	/**
+	 * 
+	 * @param levelValues
+	 */
+	void setLevelValues( Object[] levelValues )
+	{
+		this.levelValues = levelValues;
+	}
+
+	/**
+	 * @param dataValues
+	 */
+	void setAggrValues( Object[] dataValues )
+	{
+		this.aggrValues = dataValues;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.olap.util.filter.IResultRow#getLevelValue(java.lang.String)
+	 */
+	public Object getLevelValue( String attrName ) throws DataException
+	{
+		Object index = levelMap.get( attrName );
+		if ( index == null )
+		{
+			return null;
+		}
+		return levelValues[( (Integer) index ).intValue( )];
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.olap.util.filter.IResultRow#getDataValue(java.lang.String)
+	 */
+	public Object getAggrValue( String aggrName ) throws DataException
+	{
+		Object index = aggrMap.get( aggrName );
+		if ( index == null )
+		{
+			return null;
+		}
+		return aggrValues[( (Integer) index ).intValue( )];
+	}
 }
