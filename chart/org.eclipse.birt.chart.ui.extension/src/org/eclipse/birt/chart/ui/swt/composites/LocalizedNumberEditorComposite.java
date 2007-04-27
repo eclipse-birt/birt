@@ -66,6 +66,8 @@ public class LocalizedNumberEditorComposite extends Composite implements
 	private transient boolean bTextModified = false;
 
 	private transient boolean bValueIsSet = false;
+	
+	private transient boolean bOriginalValueIsSet = false;
 
 	private transient boolean bEnabled = true;
 
@@ -131,12 +133,12 @@ public class LocalizedNumberEditorComposite extends Composite implements
 	public void unsetValue( )
 	{
 		bValueIsSet = false;
-		dValue = 0;
 		txtValue.setText( "" ); //$NON-NLS-1$
 	}
 
 	public void setValue( double value )
 	{
+		bOriginalValueIsSet = true;
 		bValueIsSet = true;
 		dValue = value;
 		txtValue.setText( numberFormat.format( value ) );
@@ -233,7 +235,14 @@ public class LocalizedNumberEditorComposite extends Composite implements
 				} ) );
 		mbox.open( );
 		
-		this.txtValue.setText( "" ); //$NON-NLS-1$
+		if ( bOriginalValueIsSet )
+		{
+			txtValue.setText( String.valueOf( (int) dValue ) );
+		}
+		else
+		{
+			txtValue.setText(""); //$NON-NLS-1$
+		}
 	}
 
 	private void fireEvent( )
@@ -245,7 +254,6 @@ public class LocalizedNumberEditorComposite extends Composite implements
 		if ( sText == null || sText.trim( ).length( ) == 0 )
 		{
 			bValueIsSet = false;
-			dValue = 0;
 		}
 		else
 		{
