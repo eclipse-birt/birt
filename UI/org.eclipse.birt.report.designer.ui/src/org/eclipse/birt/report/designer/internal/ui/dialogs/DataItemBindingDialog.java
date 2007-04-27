@@ -604,6 +604,7 @@ public class DataItemBindingDialog extends BaseDialog
 		itemFunction.add( NULL, 0 );
 		if ( bindingColumn == null )
 		{
+			itemFunction.select( 0 );
 			return;
 		}
 		String functionString = bindingColumn.getAggregateFunction( );
