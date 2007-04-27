@@ -70,7 +70,7 @@ public class CubeAggregationTest extends TestCase
 	
 	public CubeAggregationTest( )
 	{
-		pathName = System.getProperty( "java.io.tmpdir" ) + File.separator+ "docForTest";
+		pathName = System.getProperty( "java.io.tmpdir" );
 		try
 		{
 			documentManager = DocumentManagerFactory.createFileDocumentManager( );
@@ -132,7 +132,7 @@ public class CubeAggregationTest extends TestCase
 
 	private IDocumentManager createRADocumentManager( ) throws IOException, DataException
 	{
-		ArchiveFile archiveFile = new ArchiveFile( pathName, "rw+" );
+		ArchiveFile archiveFile = new ArchiveFile( pathName + File.separator+ "docForTest", "rw+" );
 		ArchiveReader reader = new ArchiveReader( archiveFile );
 		IDocumentManager documentManager = DocumentManagerFactory.createRADocumentManager( reader );
 		return documentManager;
@@ -140,7 +140,7 @@ public class CubeAggregationTest extends TestCase
 	
 	private IDocArchiveWriter createRAWriter( ) throws IOException
 	{
-		ArchiveFile archiveFile = new ArchiveFile( pathName, "rw+" );
+		ArchiveFile archiveFile = new ArchiveFile( pathName + File.separator+ "docForTest", "rw+" );
 		ArchiveWriter writer = new ArchiveWriter( archiveFile );
 		return writer;
 	}

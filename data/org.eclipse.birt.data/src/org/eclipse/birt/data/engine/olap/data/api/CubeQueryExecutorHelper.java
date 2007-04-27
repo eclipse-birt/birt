@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.api;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -116,7 +117,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 */
 	public static void saveAggregationResultSet( String pathName ,String name, IAggregationResultSet[] resultSets ) throws IOException
 	{
-		IDocArchiveWriter writer = new FileArchiveWriter( pathName );
+		IDocArchiveWriter writer = new FileArchiveWriter( getTmpFileName( pathName, name ) );
 		AggregationResultSetSaveUtil.save( name, resultSets, writer );
 		writer.flush( );
 		writer.finish( );
@@ -144,11 +145,23 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 */
 	public static IAggregationResultSet[] loadAggregationResultSet( String pathName, String name ) throws IOException
 	{
-		IDocArchiveReader reader = new FileArchiveReader( pathName );
+		IDocArchiveReader reader = new FileArchiveReader( getTmpFileName( pathName, name ) );
 		IAggregationResultSet[] result = AggregationResultSetSaveUtil.load( name, reader );
 		reader.close( );
 		return result;
 	}
+	
+	/**
+	 * 
+	 * @param pathName
+	 * @param name
+	 * @return
+	 */
+	private static String getTmpFileName( String pathName, String name )
+	{
+		return pathName + File.separator + "cubequeryresult" +name;
+	}
+	
 	/**
 	 * 
 	 * @param sort
