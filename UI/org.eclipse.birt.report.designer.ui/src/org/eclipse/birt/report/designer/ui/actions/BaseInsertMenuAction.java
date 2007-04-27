@@ -11,10 +11,13 @@
 
 package org.eclipse.birt.report.designer.ui.actions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
@@ -39,7 +42,6 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.ui.actions.SelectionAction;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
@@ -198,6 +200,20 @@ public abstract class BaseInsertMenuAction extends SelectionAction
 						// {
 						// ( (ExtendedEditPart) cpart ).performDirectEdit( );
 						// }
+						
+						// bugzilla#173221
+						else
+						{
+							List list = new ArrayList( );
+							list.add( element );
+							ReportRequest r = new ReportRequest( );
+							r.setType( ReportRequest.CREATE_ELEMENT );
+
+							r.setSelectionObject( list );
+							SessionHandleAdapter.getInstance( )
+									.getMediator( )
+									.notifyRequest( r );
+						}
 					}
 				}
 			}
