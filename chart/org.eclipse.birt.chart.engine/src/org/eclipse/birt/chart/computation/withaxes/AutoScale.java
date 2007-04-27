@@ -29,6 +29,7 @@ import org.eclipse.birt.chart.internal.factory.IDateFormatWrapper;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
+import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Scale;
 import org.eclipse.birt.chart.model.data.DataElement;
@@ -42,6 +43,7 @@ import org.eclipse.birt.chart.util.ChartUtil;
 import com.ibm.icu.text.DecimalFormat;
 import com.ibm.icu.text.DecimalFormatSymbols;
 import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.ULocale;
 
 /**
  * Encapsulates the auto scaling algorithms used by the rendering and chart
@@ -1951,7 +1953,7 @@ public final class AutoScale extends Methods implements Cloneable
 					dMinValue = dValue;
 				if ( dValue > dMaxValue )
 					dMaxValue = dValue;
-				dPrecision = getPrecision( dPrecision, dValue );
+				dPrecision = getPrecision( dPrecision, dValue, fs, rtc.getULocale( ) );
 			}
 
 			final double dAbsMax = Math.abs( dMaxValue );
@@ -1973,6 +1975,7 @@ public final class AutoScale extends Methods implements Cloneable
 				{
 					dStep = dPrecision;
 				}
+				
 			}
 			sc = new AutoScale( iType, new Double( 0 ), new Double( 0 ) );
 			sc.oStep = new Double( dStep );
@@ -2283,7 +2286,7 @@ public final class AutoScale extends Methods implements Cloneable
 	 * @param value
 	 * @return
 	 */
-	protected static double getPrecision( double precision, double pValue )
+	protected static double getPrecision( double precision, double pValue, FormatSpecifier fs, ULocale locale )
 	{
 		double value = Math.abs(  pValue  );
 		if ( value == 0 )
@@ -2293,7 +2296,7 @@ public final class AutoScale extends Methods implements Cloneable
 			else if ( precision >= 0 )
 				return 1;
 		}
-		
+
 		if ( precision == 0 )
 		{
 			// precision not initialized yet
@@ -2317,6 +2320,29 @@ public final class AutoScale extends Methods implements Cloneable
 		if ( loopCounter == 20 )
 			logger.log( ILogger.WARNING,
 					"Autoscale precision not found for " + value );//$NON-NLS-1$
+		
+		if ( fs != null )
+		{
+
+			if ( fs instanceof NumberFormatSpecifier )
+			{
+				NumberFormatSpecifier ns = (NumberFormatSpecifier)fs;
+				if ( ns.isSetFractionDigits( ) )
+				{
+					double multiplier = ns.isSetMultiplier( ) ? ns.getMultiplier() : 1;
+					if ( multiplier != 0 )
+					{
+						double formatPrecision = Math.pow( 10, - ns.getFractionDigits( ) ) / multiplier  ;
+					
+						if ( precision == 0 )
+							precision = formatPrecision;
+						else
+							precision = Math.max( precision, formatPrecision );
+					}
+				}
+			}
+			
+		}
 		return precision;
 	}
 
