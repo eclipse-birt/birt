@@ -22,12 +22,4 @@ public interface ILevelDefinition extends INamedObject
 	 * @return
 	 */
 	public IHierarchyDefinition getHierarchy();
-	
-	/**
-	 * Return whether this level is mirrored.In the edge a mirrored level will always
-	 * display all its members w/o considering whether that member's combination with
-	 * other members of other levels have accompany entry in facttable. 
-	 * @return
-	 */
-	public boolean isMirrored();
 }

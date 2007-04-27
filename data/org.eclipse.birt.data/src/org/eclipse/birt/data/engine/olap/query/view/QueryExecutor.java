@@ -17,11 +17,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.birt.core.archive.FileArchiveReader;
+import org.eclipse.birt.core.archive.FileArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
 import org.eclipse.birt.data.engine.olap.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -36,6 +39,7 @@ import org.eclipse.birt.data.engine.olap.data.document.DocumentManagerFactory;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
+import org.eclipse.birt.data.engine.olap.data.impl.AggregationResultSetSaveUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortDefinition;
 import org.eclipse.birt.data.engine.olap.driver.CubeResultSet;
 import org.eclipse.birt.data.engine.olap.driver.IResultSet;
@@ -72,9 +76,94 @@ public class QueryExecutor
 		cubeQueryExcutorHelper.addJSFilter( executor.getDimensionFilterEvalHelpers( ) );
 		populateAggregationSort( executor, cubeQueryExcutorHelper, true );
 		populateAggregationSort( executor, cubeQueryExcutorHelper, false );
-		IAggregationResultSet[] rs = cubeQueryExcutorHelper.execute( aggrDefns,
-				new StopSign( ) );
+		IAggregationResultSet[] rs = null;
+		
+		if ( executor.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION )
+		{
+			rs = populateRs( executor, aggrDefns, cubeQueryExcutorHelper, true );
+		}
+		else if ( executor.getContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
+		{
+			rs = populateRs( executor, aggrDefns, cubeQueryExcutorHelper, false );
+		}
+		else if ( executor.getContext( ).getMode( ) == DataEngineContext.MODE_PRESENTATION )
+		{
+			assert executor.getCubeQueryDefinition( ).getQueryResultsID( ) != null;
+			//In presentation mode, we need to load aggregation result set from report document.
+			rs = AggregationResultSetSaveUtil.load( executor.getCubeQueryDefinition( )
+					.getQueryResultsID( ),
+					executor.getContext( ).getDocReader( ) );
+		}
+		else
+		{
+			//In Interactive viewing mode, we always re-execute the query.
+			rs = cubeQueryExcutorHelper.execute( aggrDefns, new StopSign( ) );
+		}
 		return new CubeResultSet( rs, view, manager );
+	}
+
+	/**
+	 * Populate the Result Set, either by re-execution ( If it has not been executed yet ) or 
+	 * get it from local time folder.
+	 * @param executor
+	 * @param aggrDefns
+	 * @param cubeQueryExcutorHelper
+	 * @return
+	 * @throws IOException
+	 * @throws BirtException
+	 */
+	private IAggregationResultSet[] populateRs( CubeQueryExecutor executor,
+			AggregationDefinition[] aggrDefns,
+			CubeQueryExecutorHelper cubeQueryExcutorHelper, boolean saveToRD )
+			throws IOException, BirtException
+	{
+		IAggregationResultSet[] rs;
+		String id = null;
+		//If not load from local dir
+		if ( executor.getCubeQueryDefinition( ).getQueryResultsID( ) == null )
+		{
+			rs = cubeQueryExcutorHelper.execute( aggrDefns, new StopSign( ) );
+
+			//If need save to local dir
+			if ( executor.getCubeQueryDefinition( ).cacheQueryResults( ) )
+			{
+				id = QueryResultIDUtil.nextID( );
+				FileArchiveWriter writer = new FileArchiveWriter( executor.getContext( )
+						.getTmpdir( ) + "Cache");
+				AggregationResultSetSaveUtil.save( id,
+						rs,
+						writer );
+				writer.finish( );
+			}		
+			
+			if ( saveToRD)
+			{
+				//Save to RD using same id.
+				if ( id != null )
+				{
+					AggregationResultSetSaveUtil.save( id, rs, executor.getContext( )
+						.getDocWriter( ) );
+				}else
+				{
+					id = QueryResultIDUtil.nextID( );
+					AggregationResultSetSaveUtil.save( id, rs, executor.getContext( )
+							.getDocWriter( ) );
+				}
+				
+			}	
+		}
+		else
+		{
+			//If query definition has query result id, that means a document has been save.
+			id = executor.getCubeQueryDefinition( ).getQueryResultsID( );
+			rs = AggregationResultSetSaveUtil.load( id,
+					new FileArchiveReader( executor.getContext( )
+							.getTmpdir( ) + "Cache" ) );
+		}
+		
+		executor.setQueryResultsId( id );
+		
+		return rs;
 	}
 
 	/**

@@ -56,4 +56,19 @@ public interface IEdgeDefinition extends INamedObject
 	 * @return
 	 */
 	public List getDrillingUpDefinition();
+	
+	/**
+	 * Return whether this Edge is mirrored.In the edge a mirrored level will always
+	 * display all its members w/o considering whether that member's combination with
+	 * other members of other levels have accompany entry in facttable. 
+	 * @return
+	 */
+	public boolean isMirrored();
+	
+	/**
+	 * Set whether the level is mirrored.
+	 * @param isMirrored
+	 * @return
+	 */
+	public void setMirrored( boolean isMirrored );
 }

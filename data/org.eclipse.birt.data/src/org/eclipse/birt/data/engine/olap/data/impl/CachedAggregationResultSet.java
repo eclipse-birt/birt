@@ -68,6 +68,8 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 			}
 		}
 		aggregationResultRow =  new BufferedStructureArray( AggregationResultRow.getCreator( ), Constants.LIST_BUFFER_SIZE );
+		
+		//TODO make me lazy.
 		for( int i=0;i<length;i++)
 		{
 			aggregationResultRow.add( AggregationResultSetSaveUtil.loadAggregationRow( inputStream ) );

@@ -41,12 +41,25 @@ public interface ICubeQueryDefinition extends INamedObject, IDataQueryDefinition
 	public String getQueryResultsID( );
 	
 	/**
+	 * Set the query results id to cube query.
+	 * @param id
+	 */
+	public void setQueryResultsID( String id );
+	
+	/**
 	 * Indicates if the query need cache the QueryResults . The query result
 	 * can be reload form the cache if the cache is used.
 	 * 
 	 * @return true if cache is needed.
 	 */
 	public boolean cacheQueryResults( );
+	
+	/**
+	 * Indicates if the query need cache the QueryResults.
+	 * 
+	 * @return true if cache is needed.
+	 */
+	public void setCacheQueryResults( boolean b );
 	
 	/**
 	 * Create an edge of the cube. At initial stage we only support two types of
