@@ -48,7 +48,7 @@ public class SubTotalProvider extends TotalProvider implements
 
 	private CellEditor[] editors;
 	private String[] columnNames = new String[]{
-			"", Messages.getString("SubTotalProvider.Column.DataField"), Messages.getString("SubTotalProvider.Column.Function"), Messages.getString("SubTotalProvider.Column.AggregateOn") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			"", Messages.getString("SubTotalProvider.Column.AggregateOn"),Messages.getString("SubTotalProvider.Column.DataField"), Messages.getString("SubTotalProvider.Column.Function") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	};
 
 	public CellEditor[] getEditors( Table table )
@@ -57,11 +57,11 @@ public class SubTotalProvider extends TotalProvider implements
 		{
 			editors = new CellEditor[columnNames.length];
 
-			editors[2] = new ComboBoxCellEditor( table,
+			editors[3] = new ComboBoxCellEditor( table,
 					new String[0],
 					SWT.READ_ONLY );
 			String[] items = getFunctionDisplayNames( );
-			( (ComboBoxCellEditor) editors[2] ).setItems( items );
+			( (ComboBoxCellEditor) editors[3] ).setItems( items );
 
 		}
 		return editors;
@@ -70,7 +70,7 @@ public class SubTotalProvider extends TotalProvider implements
 	public boolean canModify( Object element, String property )
 	{
 		int index = Arrays.asList( columnNames ).indexOf( property );
-		if ( index == 2 )
+		if ( index == 3 )
 			return true;
 		else
 			return false;
@@ -86,7 +86,7 @@ public class SubTotalProvider extends TotalProvider implements
 	public void modify( Object element, String property, Object value )
 	{
 		int index = Arrays.asList( columnNames ).indexOf( property );
-		if ( index == 2 )
+		if ( index == 3 )
 		{
 			if ( element instanceof TableItem )
 			{
@@ -122,16 +122,15 @@ public class SubTotalProvider extends TotalProvider implements
 			case 0 :
 				return ""; //$NON-NLS-1$
 			case 1 :
+				return info.getLevel( ).getName( );
+			case 2 :
 				return info.getAggregateOnMeasure( ) == null ? "" //$NON-NLS-1$
 						: info.getAggregateOnMeasure( ).getName( );
-			case 2 :
+			case 3 :
 				if ( info.getFunction( ) == null
 						|| info.getFunction( ).trim( ).equals( "" ) ) //$NON-NLS-1$
 					info.setFunction( getFunctionNames( )[0] );
 				return getFunctionDisplayName( info.getFunction( ) );
-			case 3 :
-				return info.getLevel( ).getName( );
-
 			default :
 				break;
 		}
