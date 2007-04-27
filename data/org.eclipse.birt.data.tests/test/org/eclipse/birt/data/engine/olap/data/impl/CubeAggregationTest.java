@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -64,18 +63,123 @@ import org.mozilla.javascript.ImporterTopLevel;
 
 public class CubeAggregationTest extends TestCase
 {
-	static String pathName = System.getProperty( "java.io.tmpdir" ) + File.separator+ "docForTest";
+	String pathName;
 	private ImporterTopLevel baseScope;
 	private ICubeQueryDefinition cubeQuery;
+	IDocumentManager documentManager;
+	
+	public CubeAggregationTest( )
+	{
+		pathName = System.getProperty( "java.io.tmpdir" ) + File.separator+ "docForTest";
+		try
+		{
+			documentManager = DocumentManagerFactory.createFileDocumentManager( );
+		}
+		catch ( DataException e )
+		{
+			e.printStackTrace();
+		}
+		catch ( IOException e )
+		{
+			e.printStackTrace();
+		}
+	}
 	/*
 	 * (non-Javadoc)
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	public void setUp()
+	public void setUp() throws Exception
 	{
+		super.setUp( );
 	}
 	
-	private ICubeQueryDefinition createCubeQueryDefinition() throws DataException
+	/*
+	 * @see TestCase#tearDown()
+	 */
+	protected void tearDown( ) throws Exception
+	{
+		super.tearDown( );
+	}
+	
+	
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#finalize()
+	 */
+	protected void finalize( ) throws Throwable
+	{
+		documentManager.close( );
+		documentManager = null;
+		super.finalize( );
+	}
+	/**
+	 * 
+	 * @throws IOException
+	 * @throws BirtException
+	 */
+	public void testRAAggregation1( ) throws IOException, BirtException
+	{
+		CubeMaterializer materializer = new CubeMaterializer();
+		IDocumentManager localDocManager = materializer.getDocumentManager( );
+		testCube1Create( localDocManager );
+		testCube1Aggregation( localDocManager );
+		IDocArchiveWriter writer = createRAWriter( );
+		materializer.saveCubeToReportDocument( "cube1", writer , new StopSign( ) );
+		writer.flush( );
+		writer.finish( );
+		testCube1Aggregation( createRADocumentManager( ) );
+	}
+
+	private IDocumentManager createRADocumentManager( ) throws IOException, DataException
+	{
+		ArchiveFile archiveFile = new ArchiveFile( pathName, "rw+" );
+		ArchiveReader reader = new ArchiveReader( archiveFile );
+		IDocumentManager documentManager = DocumentManagerFactory.createRADocumentManager( reader );
+		return documentManager;
+	}
+	
+	private IDocArchiveWriter createRAWriter( ) throws IOException
+	{
+		ArchiveFile archiveFile = new ArchiveFile( pathName, "rw+" );
+		ArchiveWriter writer = new ArchiveWriter( archiveFile );
+		return writer;
+	}
+	
+	/**
+	 * 
+	 * @throws IOException
+	 * @throws BirtException
+	 */
+	public void testAggregation1( ) throws IOException, BirtException
+	{
+		testCube1Create( documentManager );
+		testCube1Aggregation( documentManager );
+		
+		Context.enter( );
+		this.baseScope = new ImporterTopLevel( );
+		this.cubeQuery = createCube1QueryDefn( );
+		testCube1AggrFilter1( documentManager );
+		testCube1AggrFilter2( documentManager );
+		Context.exit( );
+	}
+	
+	/**
+	 * 
+	 * @throws IOException
+	 * @throws BirtException
+	 */
+	public void testAggregation2( ) throws IOException, BirtException
+	{
+		testCube2Create( documentManager );
+		testCube2Aggregation( documentManager );
+	}
+	
+	/**
+	 * create cube query definition for aggregation filtering.
+	 * @return
+	 * @throws DataException
+	 */
+	private ICubeQueryDefinition createCube1QueryDefn() throws DataException
 	{
 		ICubeQueryDefinition cubeQuery = CubeElementFactory.createCubeQuery( "cube1" );
 		IEdgeDefinition rowEdge = cubeQuery.createEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -127,16 +231,11 @@ public class CubeAggregationTest extends TestCase
 		cubeQuery.addBinding( level21_sum );
 		return cubeQuery;
 	}
-	
-
-	/*
-	 * @see TestCase#tearDown()
+	/**
+	 * get distincted string array, in which any object is unique.
+	 * @param iValues
+	 * @return
 	 */
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
-	
 	private static String[] distinct( String[] iValues )
 	{
 		Arrays.sort( iValues );
@@ -156,62 +255,12 @@ public class CubeAggregationTest extends TestCase
 		}
 		return result;
 	}
-	
-	
-	/**
-	 * 
-	 * @throws IOException
-	 * @throws BirtException
-	 */
-	public void testRAAggregation1( ) throws IOException, BirtException
-	{
-		CubeMaterializer materializer = new CubeMaterializer();
-		IDocumentManager documentManager = materializer.getDocumentManager( );
-		testCubeCreate1( documentManager );
-		testCubeAggregation1( documentManager );
-		IDocArchiveWriter writer = createRAWriter( );
-		materializer.saveCubeToReportDocument( "cube", writer , new StopSign( ) );
-		writer.flush( );
-		writer.finish( );
-		testCubeAggregation1( createRADocumentManager( ) );
-	}
 
-	private static IDocumentManager createRADocumentManager( ) throws IOException, DataException
-	{
-		ArchiveFile archiveFile = new ArchiveFile( pathName, "rw+" );
-		ArchiveReader reader = new ArchiveReader( archiveFile );
-		IDocumentManager documentManager = DocumentManagerFactory.createRADocumentManager( reader );
-		return documentManager;
-	}
-	
-	private static IDocArchiveWriter createRAWriter( ) throws IOException
-	{
-		ArchiveFile archiveFile = new ArchiveFile( pathName, "rw+" );
-		ArchiveWriter writer = new ArchiveWriter( archiveFile );
-		return writer;
-	}
-	
-	public void testAggregation1( ) throws IOException, BirtException
-	{
-		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
-		testCubeCreate1( documentManager );
-//		testCubeAggregation1( documentManager );
-		try{
-			Context.enter();
-			this.baseScope = new ImporterTopLevel();
-			this.cubeQuery = createCubeQueryDefinition();
-			testCubeAggregationWithAggrFilter( documentManager );
-		}finally
-		{
-			Context.exit( );
-		}
-	}
-
-	private void testCubeCreate1( IDocumentManager documentManager ) throws IOException, BirtException, DataException
+	private void testCube1Create( IDocumentManager documentManager ) throws IOException, BirtException, DataException
 	{
 		Dimension[] dimensions = new Dimension[3];
 		
-		// dimension0
+		// dimension1
 		String[] colNames = new String[3];
 		colNames[0] = "col11";
 		colNames[1] = "col12";
@@ -230,7 +279,7 @@ public class CubeAggregationTest extends TestCase
 		assertEquals( hierarchy.getName( ), "dimension1" );
 		assertEquals( dimensions[0].length( ), TestFactTable.L1Col.length );
 		
-		//dimension1
+		//dimension2
 		colNames = new String[1];
 		colNames[0] = "col21";
 		iterator = new DimensionForTest( colNames );
@@ -243,7 +292,7 @@ public class CubeAggregationTest extends TestCase
 		assertEquals( hierarchy.getName( ), "dimension2" );
 		assertEquals( dimensions[1].length( ), 3 );
 		
-		// dimension2
+		// dimension3
 		colNames = new String[1];
 		colNames[0] = "col31";
 		
@@ -266,54 +315,18 @@ public class CubeAggregationTest extends TestCase
 		String[] measureColumnName = new String[2];
 		measureColumnName[0] = "measure1";
 		measureColumnName[1] = "measure2";
-		Cube cube = new Cube( "cube", documentManager );
+		Cube cube = new Cube( "cube1", documentManager );
 		
-		printFacttable( factTable2, new String[]{
-				"col11", "col12", "col13", "col21", "col31"
-		}, measureColumnName );
-		
-		factTable2.beforeFirst();
 		cube.create( dimensions, factTable2, measureColumnName, new StopSign( ) );
 		documentManager.flush( );
 	}
 
-	private void printFacttable( IDatasetIterator dataset,
-			String[] dimensions, String[] measures ) throws BirtException
-	{
-		System.out.println( "-------------fact table begine----------------" );
-		List fields = new ArrayList();
-		for ( int i = 0; i < dimensions.length; i++ )
-		{
-			fields.add( dimensions[i] );
-			System.out.print(dimensions[i]+"\t");
-		}
-		for ( int i = 0; i < measures.length; i++ )
-		{
-			fields.add( measures[i] );
-			System.out.print(measures[i]+"\t");
-		}
-		System.out.println();
-		while ( dataset.next( ) )
-		{
-			for ( Iterator i = fields.iterator( ); i.hasNext( ); )
-			{
-				String field = (String) i.next( );
-				int index = dataset.getFieldIndex( field );
-				Object obj = dataset.getValue( index );
-				if ( obj == null )
-					System.out.print( "\t" );
-				else
-					System.out.print( obj.toString( ) + "\t" );
-			}
-			System.out.println();
-		}
-		System.out.println( "-------------fact table end-------------------" );
-	}
-	private void testCubeAggregation1( IDocumentManager documentManager ) throws IOException, DataException, BirtException
+	
+	private void testCube1Aggregation( IDocumentManager documentManager ) throws IOException, DataException, BirtException
 	{
 		//query
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
-				CubeQueryExecutorHelper.loadCube( "cube", documentManager, new StopSign( ) ) );
+				CubeQueryExecutorHelper.loadCube( "cube1", documentManager, new StopSign( ) ) );
 		ISelection[][] filter = new ISelection[1][1];
 		filter[0][0] = SelectionFactory.createRangeSelection(  new Object[]{"1"},
 				 new Object[]{"3"},
@@ -420,11 +433,11 @@ public class CubeAggregationTest extends TestCase
 	}
 	
 	
-	private void testCubeAggregationWithAggrFilter( IDocumentManager documentManager ) throws IOException, DataException, BirtException
+	private void testCube1AggrFilter1( IDocumentManager documentManager ) throws IOException, DataException, BirtException
 	{
 		//query
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
-				CubeQueryExecutorHelper.loadCube( "cube", documentManager, new StopSign( ) ) );
+				CubeQueryExecutorHelper.loadCube( "cube1", documentManager, new StopSign( ) ) );
 		
 		AggrFilter aggrFilter = new AggrFilter( );
 		aggrFilter.setAggrLevels( new String[]{
@@ -457,23 +470,73 @@ public class CubeAggregationTest extends TestCase
 		assertEquals( resultSet[0].getLevelKeyValue( 0 )[0], "3" );
 		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(38) );//
 	}
-	/**
-	 * 
-	 * @throws IOException
-	 * @throws BirtException
-	 */
-	public void testAggregation2( ) throws IOException, BirtException
+	
+	private void testCube1AggrFilter2( IDocumentManager documentManager ) throws IOException, DataException, BirtException
 	{
-		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
+		//query
+		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
+				CubeQueryExecutorHelper.loadCube( "cube1", documentManager, new StopSign( ) ) );
 		
-		testCubeCreate2( documentManager );
+		AggrFilter aggrFilter = new AggrFilter( );
+		aggrFilter.setAggrLevels( new String[]{
+				"level21","level31"
+		} );
+		IBaseExpression expr = new ScriptExpression("data[\"level21_sum\"]>30");
+		DimensionFilterEvalHelper dimfilter = new DimensionFilterEvalHelper(baseScope, cubeQuery, expr);
+		aggrFilter.setTargetLevel( "level21" );
+		aggrFilter.setAggrFilter( dimfilter );
+		cubeQueryExcutorHelper.addAggrFilter( aggrFilter );
+		
+		AggregationDefinition[] aggregations = new AggregationDefinition[1];
+		int[] sortType = new int[]{
+				IDimensionSortDefn.SORT_ASC, IDimensionSortDefn.SORT_ASC
+		};
+		String[] levelNamesForFilter = new String[]{
+				"level21", "level31"
+		};
+		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
+		funcitons[0] = new AggregationFunctionDefinition( "level21_sum", "measure1", BuiltInAggregationFactory.TOTAL_SUM_FUNC );
+		aggregations[0] = new AggregationDefinition( levelNamesForFilter, sortType, funcitons );
+		
+		
+		IAggregationResultSet[] resultSet = cubeQueryExcutorHelper.execute( aggregations,
+				new StopSign( ) );
+		//result set for aggregation 0
+		assertEquals( resultSet[0].length( ), 12 );
+		assertEquals( resultSet[0].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
+		assertEquals( resultSet[0].getLevelIndex( "level21" ), 0 );
+		assertEquals( resultSet[0].getLevelIndex( "level31" ), 1 );
+		assertEquals( resultSet[0].getLevelKeyDataType( "level21", "col21" ), DataType.STRING_TYPE );
+		/*aggregation result table
+		 *index	level21	level31	sum(measure1)
+		 *0		1		1		0	
+		 *1		1		2		1	
+		 *2		1		3		2	
+		 *3		1		4		3	
+		 *4		2		5		4	
+		 *5		2		6		5	
+		 *6		2		7		6	
+		 *7		2		8		7	
+		 *8		3		9		8	
+	     *9		3		10		9
+	     *10	3		11		10
+	     *11	3		12		11 
+		 */
+		for ( int i = 0; i < 12; i++ )
+		{
+			resultSet[0].seek( i );
+			assertEquals( resultSet[0].getLevelKeyValue( 0 )[0], String.valueOf(i/4+1) );
+			assertEquals( resultSet[0].getLevelKeyValue( 1 )[0], new Integer( i+1 ) );
+			assertEquals( resultSet[0].getAggregationValue( 0 ), new Double( i ) );//
+		}		
 	}
 	
-	private void testCubeCreate2( IDocumentManager documentManager ) throws IOException, BirtException
+	
+	private void testCube2Create( IDocumentManager documentManager ) throws IOException, BirtException
 	{
 		Dimension[] dimensions = new Dimension[2];
 		
-		// dimension0
+		// dimension1
 		String[] ColNames = new String[3];
 		ColNames[0] = "col11";
 		ColNames[1] = "col12";
@@ -492,7 +555,7 @@ public class CubeAggregationTest extends TestCase
 		assertEquals( hierarchy.getName( ), "dimension1" );
 		assertEquals( dimensions[0].length( ), TestFactTable.L1Col.length );
 		
-		//dimension1
+		//dimension2
 		ColNames = new String[1];
 		ColNames[0] = "col21";
 		iterator = new DimensionForTest( ColNames );
@@ -509,10 +572,17 @@ public class CubeAggregationTest extends TestCase
 		String[] measureColumnName = new String[2];
 		measureColumnName[0] = "measure1";
 		measureColumnName[1] = "measure2";
-		Cube cube = new Cube( "cube", documentManager );
+		Cube cube = new Cube( "cube2", documentManager );
 		
 		cube.create( dimensions, factTable2, measureColumnName, new StopSign( ) );
-		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( cube );
+		documentManager.flush( );
+	}
+	
+	private void testCube2Aggregation(IDocumentManager documentManager ) throws IOException, BirtException
+	{
+		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( CubeQueryExecutorHelper.loadCube( "cube2",
+				documentManager,
+				new StopSign( ) ) );
 		ISelection[][] filter = new ISelection[1][1];
 		filter[0][0] = SelectionFactory.createRangeSelection(  new Object[]{"1"},
 				 new Object[]{"3"},
@@ -627,6 +697,22 @@ public class CubeAggregationTest extends TestCase
 	}
 }
 
+/*
+	col11	col12	col13	col21	col31	measure1	measure2
+	String	Unknown	Integer	String	Integer	Integer		Double	
+	1				1		1		1		0			0.0	
+	1				2		1		2		1			1.0	
+	1				3		1		3		2			2.0	
+	1				4		1		4		3			3.0	
+	2				5		2		5		4			4.0	
+	2				6		2		6		5			5.0	
+	2				7		2		7		6			6.0	
+	2				8		2		8		7			7.0	
+	3				9		3		9		8			8.0	
+	3				10		3		10		9			9.0	
+	3				11		3		11		10			10.0	
+	3				12		3		12		11			11.0
+*/
 class TestFactTable implements IDatasetIterator
 {
 
