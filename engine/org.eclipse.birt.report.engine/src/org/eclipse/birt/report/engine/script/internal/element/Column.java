@@ -39,8 +39,7 @@ public class Column extends DesignElement implements IColumn
     public Column(
             org.eclipse.birt.report.model.api.simpleapi.IColumn columnImpl )
     {
-        super( null );
-        designElementImpl = columnImpl;
+    	super(columnImpl);
     }
 
     /*

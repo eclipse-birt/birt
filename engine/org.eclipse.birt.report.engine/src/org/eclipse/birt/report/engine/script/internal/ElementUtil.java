@@ -30,6 +30,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.script.internal.element.DataItem;
+import org.eclipse.birt.report.engine.script.internal.element.DesignElement;
 import org.eclipse.birt.report.engine.script.internal.element.DynamicText;
 import org.eclipse.birt.report.engine.script.internal.element.Grid;
 import org.eclipse.birt.report.engine.script.internal.element.Image;
@@ -67,7 +68,6 @@ import org.eclipse.birt.report.model.api.simpleapi.IImage;
 import org.eclipse.birt.report.model.api.simpleapi.ILabel;
 import org.eclipse.birt.report.model.api.simpleapi.IList;
 import org.eclipse.birt.report.model.api.simpleapi.IReportDesign;
-import org.eclipse.birt.report.model.api.simpleapi.IReportElement;
 import org.eclipse.birt.report.model.api.simpleapi.ITable;
 import org.eclipse.birt.report.model.api.simpleapi.ITextItem;
 
@@ -205,7 +205,8 @@ public class ElementUtil
 
 	}
 
-	public static IDesignElement getElement( IReportElement element )
+	public static IDesignElement getElement(
+			org.eclipse.birt.report.model.api.simpleapi.IDesignElement element )
 	{
 		if ( element == null )
 			return null;
@@ -237,7 +238,7 @@ public class ElementUtil
 		if ( element instanceof ITextItem )
 			return new TextItem( (ITextItem) element );
 
-		return new ReportElement( element );
+		return new DesignElement( element );
 
 	}
 

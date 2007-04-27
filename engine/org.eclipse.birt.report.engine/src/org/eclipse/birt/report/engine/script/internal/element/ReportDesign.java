@@ -34,8 +34,7 @@ public class ReportDesign extends DesignElement implements IReportDesign
 	public ReportDesign(
 			org.eclipse.birt.report.model.api.simpleapi.IReportDesign reportElementImpl )
 	{
-		super( null );
-		designElementImpl = reportElementImpl;
+		super( reportElementImpl );
 	}
 
 	public ReportDesign( ReportDesignHandle report )

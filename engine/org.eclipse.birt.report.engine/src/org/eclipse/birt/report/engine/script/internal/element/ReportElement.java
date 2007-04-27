@@ -26,8 +26,7 @@ public class ReportElement extends DesignElement implements IReportElement
     public ReportElement(
             org.eclipse.birt.report.model.api.simpleapi.IReportElement reportElementImpl )
     {
-        super( null );
-        designElementImpl = reportElementImpl;
+        super( reportElementImpl );
     }
 
     /*
